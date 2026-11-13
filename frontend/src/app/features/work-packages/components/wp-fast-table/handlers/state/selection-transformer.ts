@@ -33,7 +33,7 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { WorkPackageTable } from '../../wp-fast-table';
-import { selectionGesture, TableSelectionFeedback } from './selection-feedback';
+import { selectionGesture } from './selection-feedback';
 import { registerWorkPackageDeselectAll } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/wp-selection-keyboard';
 
 export class SelectionTransformer {
@@ -47,8 +47,7 @@ export class SelectionTransformer {
     public readonly table:WorkPackageTable) {
     const destroyRef = table.destroyRef;
 
-    const selectionFeedback = new TableSelectionFeedback(this.wpTableSelection, destroyRef);
-    table.selectionFeedback = selectionFeedback;
+    const { selectionFeedback } = table;
 
     this.querySpace.tableRendered.values$()
       .pipe(

@@ -27,8 +27,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# The interval a sprint's reports cover, in three registers: what it was planned for, what
-# holds now, and how far it has actually got.
+# The interval a sprint's reports cover, in two registers: what it was planned for and what
+# holds now.
 #
 # A sprint that was started or completed reports from those moments rather than from the
 # dates it was planned with, and one still running reports up to now once it has overrun.
@@ -74,14 +74,6 @@ module Sprints
       return planned_finish unless sprint.started_at?
 
       [planned_finish, now].max
-    end
-
-    # The point in time the sprint has reached, which is never in the future, or nil for one that
-    # has reached nothing at all.
-    def measured_until
-      return nil if now < effective_start
-
-      [now, effective_finish].min
     end
 
     private

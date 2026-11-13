@@ -325,9 +325,8 @@ RSpec.describe "Automations", :js, with_ee: %i[custom_actions] do
     wp_page.expect_automation_order("Unassign", "Close", "Escalate", "Move project")
 
     within(".custom-actions") do
-      # When hovering over the button, the description is displayed
       expect(page)
-        .to have_button("Unassign", title: "Removes the assignee")
+        .to have_button("Unassign", accessible_description: "Removes the assignee")
     end
 
     wp_page.click_automation("Unassign")

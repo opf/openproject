@@ -130,5 +130,5 @@ get:
     - Query Filter Instance Schema
   description: Returns the list of QueryFilterInstanceSchemas defined for a query
     of the specified workspace.
-  operationId: List_Query_Filter_Instance_Schemas_for_Workspace
+  operationId: list_query_filter_instance_schemas_for_workspace
   summary: List Query Filter Instance Schemas for Workspace

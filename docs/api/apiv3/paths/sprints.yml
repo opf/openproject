@@ -45,5 +45,5 @@ get:
     - Sprints
   description: |-
     List sprints visible to the user. This endpoint supports pagination and filtering.
-  operationId: List_sprints
+  operationId: list_sprints
   summary: List sprints

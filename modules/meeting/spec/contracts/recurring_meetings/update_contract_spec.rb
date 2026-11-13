@@ -53,39 +53,19 @@ RSpec.describe RecurringMeetings::UpdateContract do
 
   context "when moving to another project" do
     let(:target_project) { create(:project) }
+    let(:user) do
+      create(:user,
+             member_with_permissions: {
+               project => [:edit_meetings],
+               target_project => [:edit_meetings]
+             })
+    end
 
     before do
       meeting.project_id = target_project.id
-      meeting.title = "Moved Recurring Meeting Title"
     end
 
-    context "when only authorized in target project" do
-      let(:user) do
-        create(:user, member_with_permissions: { target_project => [:edit_meetings] })
-      end
-
-      it_behaves_like "contract is invalid", base: :error_unauthorized
-    end
-
-    context "when only authorized in source project" do
-      let(:user) do
-        create(:user, member_with_permissions: { project => [:edit_meetings] })
-      end
-
-      it_behaves_like "contract is invalid", base: :error_unauthorized
-    end
-
-    context "when authorized in both projects" do
-      let(:user) do
-        create(:user,
-               member_with_permissions: {
-                 project => [:edit_meetings],
-                 target_project => [:edit_meetings]
-               })
-      end
-
-      it_behaves_like "contract is valid"
-    end
+    it_behaves_like "contract is invalid", project_id: :error_readonly
   end
 
   include_examples "contract reuses the model errors" do

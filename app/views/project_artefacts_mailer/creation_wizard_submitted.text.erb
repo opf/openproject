@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= @project.name %>
 <%= project_url(@project) %>
 
-<%= strip_tags(@notification_text) %>
+<%= CGI.unescapeHTML(strip_tags(@notification_text)) %>
 
 <% if @work_package&.visible? %>
   <p>

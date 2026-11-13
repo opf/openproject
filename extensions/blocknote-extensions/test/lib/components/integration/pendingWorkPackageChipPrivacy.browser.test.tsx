@@ -7,7 +7,7 @@ import { renderEditor } from '../../../helpers/renderEditor';
 // Regression coverage for real-time collaboration privacy: a pending work
 // package chip/block is only "resolvable" (shows a search dialog) on the
 // client that inserted it. That gate lives entirely in a local, in-memory
-// registry (`callbacks.ts`'s Map, `pendingBlockRegistry`'s Set) that is
+// registry (`pendingWorkPackages`, `pendingBlockRegistry`) that is
 // never synced — only the node's own props (wpid/size/displayId, or an
 // empty block) travel over Yjs. These tests simulate what another
 // collaborator's browser renders: the exact synced prop shape, but with no

@@ -498,7 +498,7 @@ da:
     oauth_grant_nudge_modal:
       cancel_button_label: Det gør jeg senere
       heading: Login på %{provider_type} er påkrævet
-      login_button_aria_label: Log ind på %{storage}
+      login_button_accessible_name: "%{provider_type} log in to %{storage}"
       login_button_label: Log ind på %{provider_type}
       project_settings:
         description: Du skal logge ind på %{storage} for at få adgang til projektmappen.

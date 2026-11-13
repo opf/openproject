@@ -70,9 +70,10 @@ module WorkPackageTypes
       end
 
       def error_message
-        return if record.errors.empty?
+        base_errors = record.errors.full_messages_for(:base)
+        return if base_errors.empty?
 
-        record.errors.full_messages.to_sentence
+        base_errors.to_sentence
       end
     end
   end

@@ -47,10 +47,6 @@ module Settings
         format: :string,
         default: nil
       },
-      ai_text_transform_actions_enabled: {
-        description: "Enable AI text transform actions in the rich text editor",
-        default: false
-      },
       ai_text_transform_run_retention_seconds: {
         description: "How long AI text transform runs and their events are kept before a cron job removes them. " \
                      "Applies to finished runs from their finish time and to unfinished runs from their creation time.",
@@ -343,6 +339,20 @@ module Settings
       },
       database_cipher_key: {
         description: "Encryption key for repository credentials",
+        format: :string,
+        default: nil,
+        writable: false,
+        secret: true
+      },
+      database_encryption_key: {
+        description: "Secret for data that OpenProject encrypts in the database. Defaults to SECRET_KEY_BASE. The encryption key is derived from this value",
+        format: :string,
+        default: nil,
+        writable: false,
+        secret: true
+      },
+      database_encryption_previous_key: {
+        description: "Old value of SECRET_KEY_BASE or of the database encryption key, used to decrypt data while you rotate that key",
         format: :string,
         default: nil,
         writable: false,

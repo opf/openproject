@@ -183,6 +183,18 @@ project_custom_field_sections:
     name: Project attributes
     position: 1
 
+labels:
+  - reference: :label__website
+    t_name: Website
+  - reference: :label__marketing
+    t_name: Marketing
+  - reference: :label__speakers
+    t_name: Speakers
+  - reference: :label__security
+    t_name: Security
+  - reference: :label__ux
+    t_name: UX
+
 projects:
   demo-project:
     t_name: Demo project
@@ -410,6 +422,8 @@ projects:
             children:
               - start: 0
                 t_subject: Send invitation to speakers
+                labels:
+                  - :label__speakers
                 assigned_to: :user__marko_marketing
                 description: ""
                 status: :default_status_in_progress
@@ -430,6 +444,8 @@ projects:
                 done_ratio: 0
               - start: 0
                 t_subject: Create sponsorship brochure and hand-outs
+                labels:
+                  - :label__marketing
                 assigned_to: :user__marko_marketing
                 description: ""
                 status: :default_status_new
@@ -440,6 +456,8 @@ projects:
                 done_ratio: 0
           - start: 4
             t_subject: Invite attendees to conference
+            labels:
+              - :label__marketing
             reference: :invite_attendees_to_conference
             assigned_to: :user__evan_events
             description: ""
@@ -455,6 +473,8 @@ projects:
                 type: follows
           - start: 4
             t_subject: Setup conference website
+            labels:
+              - :label__website
             reference: :setup_conference_website
             assigned_to: :user__wanda_web
             description: ""
@@ -470,6 +490,8 @@ projects:
                 type: follows
       - start: 15
         t_subject: Test and quality-check the conference website
+        labels:
+          - :label__website
         assigned_to: :user__tessa_tester
         description: ""
         status: :default_status_new
@@ -504,6 +526,9 @@ projects:
         children:
           - start: 21
             t_subject: Upload presentations to website
+            labels:
+              - :label__website
+              - :label__speakers
             reference: :upload_presentations_to_website
             assigned_to: :user__wanda_web
             description: ""
@@ -748,6 +773,9 @@ projects:
             queryId: "##query.id:scrum_project__query__project_plan"
     work_packages:
       - t_subject: New login screen
+        labels:
+          - :label__security
+          - :label__ux
         reference: :new_login_screen
         status: :default_status_in_specification
         type: :default_type_user_story
@@ -755,6 +783,8 @@ projects:
           - :scrum_project__version__1_1
         position: 3
       - t_subject: Password reset does not send email
+        labels:
+          - :label__security
         status: :default_status_confirmed
         type: :default_type_bug
         target_versions:
@@ -763,6 +793,8 @@ projects:
           - :scrum_project__version__1_0
         position: 1
       - t_subject: New website
+        labels:
+          - :label__website
         reference: :new_website
         status: :default_status_specified
         type: :default_type_epic
@@ -771,6 +803,9 @@ projects:
         schedule_manually: false
         children:
           - t_subject: Newsletter registration form
+            labels:
+              - :label__website
+              - :label__marketing
             status: :default_status_in_progress
             type: :default_type_user_story
             target_versions:
@@ -794,6 +829,8 @@ projects:
             schedule_manually: false
             children:
               - t_subject: Create wireframes for new landing page
+                labels:
+                  - :label__ux
                 status: :default_status_in_progress
                 type: :default_type_task
                 target_versions:
@@ -810,6 +847,8 @@ projects:
         duration: 1
         story_points: 1
       - t_subject: Feature carousel
+        labels:
+          - :label__marketing
         status: :default_status_specified
         type: :default_type_user_story
         target_versions:
@@ -824,6 +863,8 @@ projects:
             target_versions:
               - :scrum_project__version__1_0
       - t_subject: Wrong hover color
+        labels:
+          - :label__ux
         reference: :wrong_hover_color
         status: :default_status_rejected
         type: :default_type_bug
@@ -835,6 +876,8 @@ projects:
         start: 21
         duration: 1
       - t_subject: SSL certificate
+        labels:
+          - :label__security
         reference: :ssl_certificate
         status: :default_status_specified
         type: :default_type_user_story
@@ -871,6 +914,8 @@ projects:
         schedule_manually: false
         children:
           - t_subject: Set up navigation concept for website.
+            labels:
+              - :label__ux
             status: :default_status_in_specification
             type: :default_type_task
             target_versions:

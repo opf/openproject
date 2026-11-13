@@ -55,7 +55,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
     dialog.expect_open
 
     dialog.within_async_content(close_after_yield: true) do
-      expect(page).to have_content(text_project_custom_field.name)
+      expect(page).to have_text(text_project_custom_field.name)
     end
   end
 

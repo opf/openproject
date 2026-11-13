@@ -71,7 +71,7 @@ da:
           name: Personale- og projektadministrator
         item_1:
           name: Global standardrolle
-      ai_text_transform_actions:
+      ai_text_actions:
         item_0:
           label: Ret grammatik
         item_1:
@@ -117,6 +117,17 @@ da:
           name: Økonomi og administration
         item_6:
           name: Kvalitetssikring
+      labels:
+        item_0:
+          name: Websted
+        item_1:
+          name: Marketing
+        item_2:
+          name: Talere
+        item_3:
+          name: Sikkerhed
+        item_4:
+          name: UX
       projects:
         demo-project:
           name: Demoprojekt

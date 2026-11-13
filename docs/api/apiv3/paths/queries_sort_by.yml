@@ -66,5 +66,5 @@ get:
   tags:
     - Query Sort Bys
   description: Retrieve an individual QuerySortBy as identified by the id parameter.
-  operationId: View_Query_Sort_By
+  operationId: get_query_sort_by
   summary: View Query Sort By

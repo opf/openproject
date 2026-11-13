@@ -73,6 +73,7 @@ RSpec.describe "Primerized work package relations tab syncing with other element
   let(:tabs) { Components::WorkPackages::PrimerizedTabs.new }
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:timeline_menu) { Components::WorkPackages::ContextMenu.new }
 
   let!(:query_tl) do
     query = build(:query_with_view_gantt, user:, project:)
@@ -110,8 +111,9 @@ RSpec.describe "Primerized work package relations tab syncing with other element
 
     # Create relation in Gantt
     retry_block do
+      timeline_menu.close_if_open
       find(".wp-row-#{work_package_a.id}-timeline").right_click
-      find(".menu-item", text: "Add successor").click
+      timeline_menu.choose "Add successor"
 
       # Dismiss the flash for visibility
       expect(page).to have_text "Click on any highlighted work package to create the relation"

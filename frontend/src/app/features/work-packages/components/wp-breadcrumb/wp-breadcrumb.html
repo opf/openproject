@@ -11,9 +11,12 @@
         @for (ancestor of workPackage.getAncestors(); track ancestor.href; let first = $first; let last = $last) {
           @if (!last) {
             <li
+              #crumb
               class="op-wp-breadcrumb--ellipsed"
               [ngClass]="{ 'icon4 icon-small icon-arrow-right5': !first }">
-              <a [attr.title]="ancestor.name"
+              <a opTooltip
+                 [label]="ancestor.name"
+                 [tooltipWhenTruncated]="crumb"
                  [textContent]="ancestor.name"
                  data-test-selector="op-wp-breadcrumb--hierarchy-element"
                  [href]="ancestorPath(ancestor)"

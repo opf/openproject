@@ -106,6 +106,6 @@ get:
     Note that due to sharing this might be more than the versions *defined* by that project.
 
     This endpoint is deprecated and replaced by [`/api/v3/workspaces/{id}/versions`](https://www.openproject.org/docs/api/endpoints/versions/#list-versions-available-in-a-workspace)
-  operationId: List_versions_available_in_a_project
+  operationId: list_versions_available_in_a_project
   summary: List versions available in a project
   deprecated: true

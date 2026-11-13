@@ -61,6 +61,15 @@ RSpec.describe ITSM::Adapters::ImapConnection do
       expect(Socket).to have_received(:tcp).twice
     end
 
+    it "logs the address it could not reach" do
+      warnings = []
+      allow(Rails.logger).to receive(:warn) { |&message| warnings << message.call }
+
+      connection
+
+      expect(warnings).to eq(["Connecting to 2001:db8::1 failed (Errno::ENETUNREACH), trying the next address"])
+    end
+
     it "limits only the wait for the greeting" do
       connection
 

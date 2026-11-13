@@ -34,6 +34,9 @@ get:
                     method: post
                   attachments:
                     href: "/api/v3/documents/1/attachments"
+                  createCollaborationToken:
+                    href: "/api/v3/documents/1/collaboration_token"
+                    method: post
                   project:
                     href: "/api/v3/projects/19"
                     title: Some project
@@ -81,7 +84,7 @@ get:
   tags:
     - Documents
   description: ''
-  operationId: View_document
+  operationId: get_document
   summary: View document
 
 patch:
@@ -139,6 +142,9 @@ patch:
                     method: post
                   attachments:
                     href: "/api/v3/documents/1/attachments"
+                  createCollaborationToken:
+                    href: "/api/v3/documents/1/collaboration_token"
+                    method: post
                   project:
                     href: "/api/v3/projects/19"
                     title: Some project
@@ -222,5 +228,5 @@ patch:
   tags:
     - Documents
   description: Updates a document's attributes.
-  operationId: Update_document
+  operationId: update_document
   summary: Update document

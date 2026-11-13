@@ -26,15 +26,18 @@
 //++
 
 import { Directive } from '@angular/core';
+import { AutocompleterDropdownContext } from 'core-app/shared/components/autocompleter/op-autocompleter/typings';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[op-autocompleter-footer-tmp]',
   standalone: false,
 })
-// A Directive to be used on the option template of
-//  ng-select (what will be shown in each row of drop down)
-// it is used when you want to inject a different template
 export class OpAutocompleterFooterTemplateDirective {
-
+  static ngTemplateContextGuard(
+    _directive:OpAutocompleterFooterTemplateDirective,
+    _context:unknown,
+  ):_context is AutocompleterDropdownContext {
+    return true;
+  }
 }

@@ -83,7 +83,7 @@ da:
         dependencies: Afhængigheder
   activerecord:
     attributes:
-      ai/text_transform_action:
+      ai/text_action:
         active: Aktiv
         injects_type_template: Indsæt skabelon for arbejdspakketypen
         label: Betegnelse
@@ -413,6 +413,7 @@ da:
       type:
         allow_project_variants: Tillad projektspecifikke varianter
         color: Farve
+        description: Description
         is_in_roadmap: Vises som standard i køreplanen
         is_milestone: Er milepæl
         project_types: Projekter
@@ -422,6 +423,7 @@ da:
       type_variant:
         attribute_groups: Formular
         default_work_package_description: Standardtekst til beskrivelsen
+        description: Description
         enabled_in_new_projects: Aktiv i nye projekter
         linked_aspects: Nedarvet konfiguration
         patterns: Mønstre
@@ -702,6 +704,7 @@ da:
               format: "%{message}"
               invalid: Formlen er ugyldig.
               invalid_tokens: Kun talværdier, operatorer, funktioner, nøgleord og projektattributter af typen heltal, decimaltal, beregnet værdi og vægtet liste er tilladt.
+              multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: 'Attributten %{custom_fields} kan ikke bruges, fordi den fører til en cirkulær reference: Den ene attribut afhænger af den anden.'
             project_specific_value_restriction:
               not_supported: er kun tilgængelig for brugerdefinerede felter til arbejdspakker af formaterne liste, hierarki og vægtet liste.
@@ -814,7 +817,7 @@ da:
           attributes:
             base:
               archive_permission_missing_on_subprojects: Du har ikke de tilladelser, der skal til for at arkivere alle underprojekter. Kontakt en administrator.
-              project_initiation_request_disabled: Project initiation request is disabled. It must be enabled to create the artefact work package.
+              project_initiation_request_disabled: Anmodning om projektinitiering er deaktiveret. Den skal være aktiveret, før arbejdspakken til anmodningen kan oprettes.
             enabled_modules:
               dependency_missing: Modulet '%{dependency}' skal også være aktiveret, fordi modulet '%{module}' afhænger af det.
               format: "%{message}"
@@ -828,7 +831,7 @@ da:
               switch_target_blank: Vælg den variant, der skal skiftes til
               switch_target_identical: Måltypen skal være en anden end den type, projektet bruger nu
               switch_target_not_in_family: Der kan kun skiftes til en anden type i samme familie
-          cannot_be_assigned_to_artefact_work_package: The chosen user is not allowed to be assigned to work packages.
+          cannot_be_assigned_to_artefact_work_package: Den valgte bruger må ikke få tildelt arbejdspakker.
           foreign_wps_reference_version: Arbejdspakker i ikke-efterkommerprojekter refererer til versioner af projektet eller dets efterkommere.
         project/phase:
           attributes:
@@ -1084,9 +1087,9 @@ da:
       action:
         one: Handling
         other: Handlinger
-      ai/text_transform_action:
-        one: Handling til tekstomskrivning
-        other: Handlinger til tekstomskrivning
+      ai/text_action:
+        one: Teksthandling
+        other: Teksthandlinger
       ai/text_transform_run:
         one: Kørsel af tekstomskrivning
         other: Kørsler af tekstomskrivning
@@ -1471,6 +1474,7 @@ da:
       phase_and_both_gates: "%{phase_message}. %{start_gate_message} og %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}. %{gate_message}"
       removed_date: dato slettet %{date}
+      status_changed: phase changed from %{from} to %{to}
   admin:
     banners:
       environment_configured_readonly: Værdierne er konfigureret med miljøvariabler og kan ikke redigeres her.
@@ -1640,9 +1644,9 @@ da:
         button_save: Gem konfiguration
         button_test_connection: Test forbindelse
         credential_requirements:
-          administrator: The user must be a Jira administrator.
-          project_member: The user must be a member of every Jira project you want to migrate.
-          title: Requirements for the Jira user behind the credentials
+          administrator: Brugeren skal være Jira-administrator.
+          project_member: Brugeren skal være medlem af alle de Jira-projekter, du vil migrere.
+          title: Krav til Jira-brugeren bag legitimationsoplysningerne
         delete_basic_auth_password_confirm: Er du sikker på, at du vil slette adgangskoden til basic auth? Forbindelsen til Jira bliver slået fra.
         delete_personal_access_token_confirm: Er du sikker på, at du vil slette det personlige adgangstoken (PAT)? Forbindelsen til Jira bliver slået fra.
         exclude_resolution_fields_caption: Du kan udelade felterne for løsning og løsningsdato fra importen for denne konfiguration.
@@ -1654,7 +1658,7 @@ da:
           personal_access_token: Personligt adgangstoken (PAT)
           url: URL til Jira Server/Data Center
         label_testing: Tester konfigurationen …
-        personal_access_token_caption: The token must belong to a Jira administrator.
+        personal_access_token_caption: Tokenet skal tilhøre en Jira-administrator.
       personal_access_token_deleted: Det personlige adgangstoken (PAT) er slettet.
       run:
         actions:
@@ -1689,7 +1693,7 @@ da:
           JiraCreateUsersJob:
             title: Opret brugere
           JiraDownloadProjectWorkPackageAttachmentsJob:
-            title: Download work package attachments for '%{jira_project_name}'
+            title: Hent vedhæftede filer til arbejdspakker for '%{jira_project_name}'
           JiraFetchCustomFieldJob:
             title: Hent brugerdefinerede felter
           JiraFetchIssueTypesJob:
@@ -1713,8 +1717,8 @@ da:
           JiraRevertImportJob:
             title: Tilbagefører denne importkørsel fra Jira
         not_administrator_error:
-          basic: Jira configuration uses a basic auth user without administrator permissions. Migration needs a Jira administrator to run successfully. Please edit configuration with an administrator's credentials and try again.
-          bearer: Jira configuration uses a user Personal Access Token. Migration needs an admin Personal Access Token to run successfully. Please edit configuration with an admin token and try again.
+          basic: Jira-konfigurationen bruger en basic auth-bruger uden administratortilladelser. Migreringen kræver en Jira-administrator for at kunne gennemføres. Rediger konfigurationen med en administrators legitimationsoplysninger, og prøv igen.
+          bearer: Jira-konfigurationen bruger en almindelig brugers personlige adgangstoken. Migreringen kræver et personligt adgangstoken fra en administrator for at kunne gennemføres. Rediger konfigurationen med et administratortoken, og prøv igen.
         project_identifier_taken: 'Du forsøger at importere et projekt med et id, der allerede er i brug: %{taken_identifier}. Ret projektets id i Jira, og klik så på Prøv igen.'
         remove_error: En importkørsel fra Jira kan ikke fjernes, mens den kører
         side_panel:
@@ -1777,8 +1781,8 @@ da:
               one: "%{count} projekt"
               other: "%{count} projekter"
             resolutions:
-              one: "%{count} resolution"
-              other: "%{count} resolutions"
+              one: "%{count} løsning"
+              other: "%{count} løsninger"
             statuses:
               one: "%{count} status"
               other: "%{count} statusser"
@@ -1808,7 +1812,7 @@ da:
               label_available_data: Data, der importeres
               label_import_data: Importeres nu
               label_progress: Importen er i gang …
-              label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
+              label_resolution_statuses_explanation: Ekstra statusser, der kombinerer status og løsning (fx "Done - Fixed")
               label_users_import_explanation: Brugere, der er involveret i de valgte projekter (inklusive gruppemedlemskaber)
               title: Importér data
             fetch_data:
@@ -1936,8 +1940,8 @@ da:
         failed: 'Forbindelsen mislykkedes: Serveroplysningerne kunne ikke hentes'
         invalid_url: Angiv en gyldig URL
         not_administrator:
-          basic: Basic auth user must be a Jira administrator.
-          bearer: Personal Access Token must be an admin token.
+          basic: Basic auth-brugeren skal være Jira-administrator.
+          bearer: Det personlige adgangstoken skal være et administratortoken.
         parse_error: Svaret fra serveren kunne ikke fortolkes. Serveren er måske ikke en gyldig Jira-installation.
         personal_access_token_invalid: Ugyldigt personligt adgangstoken (PAT). Kontrollér legitimationsoplysningerne i konfigurationen.
         success: Forbundet til %{server} (version %{version})
@@ -2190,11 +2194,11 @@ da:
         page_header:
           description: Vælg mellem klassiske numeriske id'er for arbejdspakker eller semantiske, projektspecifikke id'er, hvor projektets id sættes foran arbejdspakkens id.
         success_banner: Formatet for arbejdspakkers id'er er opdateret.
-    text_transform_actions:
+    text_actions:
       delete_dialog_component:
         description: Brugerne kan ikke længere køre handlingen i editoren til formateret tekst.
         heading: Er du sikker på, at du vil slette handlingen "%{label}"?
-        title: Slet handling til tekstomskrivning
+        title: Slet handling
       form:
         injects_type_template_caption: Når feltet er markeret, føjes arbejdspakketypens skabelon for beskrivelsen automatisk til prompten. Prompten bør indeholde instruktioner om, hvad der skal ske med skabelonen.
         label_caption: Det er det navn, som brugerne ser i editoren.
@@ -2202,19 +2206,20 @@ da:
         types_caption: Tilføj de arbejdspakketyper, som handlingen skal være tilgængelig for. Alle tilgængelige varianter medtages automatisk.
         usage_scope_caption: 'Du kan begrænse, hvor handlingen er synlig: overalt (også i kommentarer, wikier og brugerdefinerede felter), for alle arbejdspakketyper eller for bestemte arbejdspakketyper.'
       index:
-        description: Handlinger til tekstomskrivning giver brugerne LLM-baserede handlinger til at skrive, ordne og gennemse tekst overalt, hvor editoren til formateret tekst bruges, fx i beskrivelser af arbejdspakker, kommentarer og wiki-sider. Du opretter nye handlinger med dine egne prompts og instruktioner.
+        description: Tekstassistenten giver brugerne LLM-baserede handlinger, der hjælper dem med at skrive, ordne og gennemse beskrivelsen af deres arbejdspakker. Her kan du oprette nye handlinger med dine egne prompter og instruktioner.
         label_add_action: Handling
-        label_aria_add_action: Tilføj handling til tekstomskrivning
+        label_aria_add_action: Tilføj handling
+        section_title: Handlinger
       index_component:
         blank_slate:
           description: Tilføj en handling for at se den her
-          title: Der er endnu ikke konfigureret nogen handlinger til tekstomskrivning
-        disabled_warning: Handlinger til tekstomskrivning er deaktiveret. Følgende handlinger er ikke tilgængelige nogen steder.
+          title: Der er endnu ikke konfigureret nogen handlinger
+        disabled_warning: Alle teksthandlinger er deaktiveret. Editoren viser slet ikke mulighederne for teksthandlinger.
         label_disable_all: Deaktiver alle
         label_enable_all: Aktivér alle
-        title: Handlinger
+        title: Handling
       new:
-        title: Ny handling til tekstomskrivning
+        title: Ny teksthandling
       row_component:
         label_actions: Handlingsmenu
         label_toggle: Slå %{label} til eller fra
@@ -2278,7 +2283,7 @@ da:
       errors:
         connection_failed: AI-tjenesten kunne ikke nås.
         context_too_long: Teksten er for lang til AI-modellen. Forkort den, og prøv igen.
-        not_available: AI-assistenten er ikke tilgængelig.
+        not_available: Tekstassistenten er ikke tilgængelig.
         rate_limited: AI-tjenesten er optaget. Prøv igen om et øjeblik.
         timeout: AI-tjenesten svarede ikke i tide.
         upstream_error: AI-tjenesten returnerede en fejl.
@@ -2290,7 +2295,9 @@ da:
         editor_gone: Editoren er ikke længere åben, så teksten kan ikke erstattes. Du kan stadig kopiere den.
         failed_title: Genereringen mislykkedes
         generating: Genererer …
+        mentions_converted: Nye omtaler i AI-forslaget er gjort til almindelig tekst, så ingen får besked ved en fejl. Når du har valgt Erstat, kan du omtale dem igen i editoren.
         replace: Erstat
+        request_failed: Anmodningen mislykkedes. Luk resultatet, og prøv igen.
         selection_gone: Den markerede tekst findes ikke længere, så den kan ikke erstattes. Du kan stadig kopiere den.
         stopped_description: Svaret blev blokeret, før det var færdigt, så den delvise tekst er kasseret.
         stopped_title: Genereringen stoppede
@@ -2322,6 +2329,8 @@ da:
         emoji_reactions_activity_type_not_supported: Denne aktivitetstype understøtter ikke emoji-reaktioner.
         invalid_link: Linket under nøglen '%{key}' er ugyldigt.
         links_not_an_object: _links skal være et JSON-objekt.
+        pdf_export_no_template_enabled: Der er ingen skabelon til PDF-eksport aktiveret for arbejdspakkens type.
+        pdf_export_template_not_enabled: Skabelonen til PDF-eksport '%{template}' er ikke aktiveret for arbejdspakkens type.
       code_400: 'Ugyldig forespørgsel: %{message}'
       code_401: Du skal være logget ind for at få adgang til denne ressource.
       code_401_wrong_credentials: Du har ikke givet korrekte loginoplysninger.
@@ -2669,23 +2678,24 @@ da:
       disabled_value: Attributten "%{custom_field_name}" er påkrævet af den beregnede værdi, men er deaktiveret for projektet.
       mathematical: Den matematiske formel giver en fejl. Gennemse projektets beregningsattribut, og prøv igen.
       missing_value: Attributten "%{custom_field_name}" er påkrævet af den beregnede værdi, men er tom.
+      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
       unknown: Der opstod en ukendt fejl. Gennemse formlen for den beregnede værdi.
   colors:
     contrast:
-      background: Background
-      caption: Based on the WCAG AA minimum contrast ratio of 4.5:1 for normal text.
-      dark: Dark mode
-      description: These colors highlight information such as work package types and statuses in tables and backlogs. The previews show how your color looks when used as text or as a background in the standard light and dark themes.
-      fail: Fail
-      foreground: Foreground
-      light: Light mode
-      pass: Pass
-      ratio: Contrast ratio
-      sample: Sample text
-      text: Text
-      title: Contrast preview
-      used_as_background: Used as background
-      used_as_foreground: Used as foreground
+      background: Baggrund
+      caption: Baseret på WCAG AA's mindstekrav til kontrastforhold på 4,5:1 for normal tekst.
+      dark: Mørk tilstand
+      description: Farverne fremhæver oplysninger som arbejdspakketyper og statusser i tabeller og backlogs. Forhåndsvisningerne viser, hvordan din farve ser ud, når den bruges som tekst eller som baggrund i standardtemaerne lys og mørk.
+      fail: Ikke bestået
+      foreground: Forgrund
+      light: Lys tilstand
+      pass: Bestået
+      ratio: Kontrastforhold
+      sample: Eksempeltekst
+      text: Tekst
+      title: Forhåndsvisning af kontrast
+      used_as_background: Brugt som baggrund
+      used_as_foreground: Brugt som forgrund
       wcag_rule: WCAG 1.4.3
     edit:
       label_edit_color: Rediger farve
@@ -2852,7 +2862,7 @@ da:
       editable:
         all: Lad brugerne selv redigere feltet.
       formula:
-        project: Tilføj talværdier, eller skriv / for at søge efter en attribut, operator, funktion eller et andet element.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
         project: Lader brugeren tilføje en kommentar til projektattributten, når værdien vælges i projektoversigten.
       is_filter:
@@ -3187,6 +3197,7 @@ da:
       scim_api: SCIM-server-API
       sso_auth_providers: Single sign-on
       team_planner_view: Teamplanlægger
+      text_assistant: Tekstassistent
       virus_scanning: Antivirusscanning
       weighted_item_lists: Vægtede lister
       work_package_query_relation_columns: Relationskolonner i visninger af arbejdspakker
@@ -3299,6 +3310,9 @@ da:
       sso_auth_providers:
         description: Lad brugerne logge ind via eksterne SSO-udbydere med SAML eller OpenID Connect, så de får nem adgang, og løsningen spiller sammen med eksisterende identitetssystemer.
         title: Single sign-on (SSO)
+      text_actions:
+        description: Korrekturlæs, omskriv og strukturér tekst med AI, lige dér hvor du skriver. Brug de indbyggede handlinger, eller tilføj dine egne.
+        title: Tekstassistent
       title: Enterprise-tilføjelse
       trial_text: Funktionen er med i din aktive Enterprise-prøveperiode.
       unlimited: Ubegrænset
@@ -3555,6 +3569,7 @@ da:
         caption: Den nye formular begynder med en kopi af den valgte formulars attributgrupper.
         label: Kopiér fra
         placeholder: Vælg en formular …
+      copy_title: Kopiér formularen %{name}
       description:
         caption: Tilføj en kort beskrivelse af, hvor og hvordan formularen skal bruges.
         label: Beskrivelse
@@ -3562,7 +3577,7 @@ da:
       name:
         caption: Vælg et navn, så du senere kan genkende formularen andre steder.
         label: Formularens navn
-      new_title: Opret formular
+      save_title: Gem formular
     index:
       actions:
         edit: Rediger formular
@@ -3859,8 +3874,8 @@ da:
         migrated: fra Jira
         set_with_diff: "%{field} angivet (%{link})"
       label_deleted:
-        one: "%{label_names} was deleted"
-        other: "%{label_names} were deleted"
+        one: "%{label_names} er slettet"
+        other: "%{label_names} er slettet"
       meeting_cancelled: "(aflyst)"
       meeting_deleted: "(slettet)"
       meeting_series_backlog_html: backlog for mødeserien %{link}
@@ -3904,10 +3919,10 @@ da:
       comment_retracted: Kommentaren er trukket tilbage
       dates_changed: Datoer ændret
       default_attribute_written: Skrivebeskyttede attributter skrevet
-      email_html: "<strong>Via email</strong> from %{sender}"
+      email_html: "<strong>Via e-mail</strong> fra %{sender}"
       forum_message_html: "<strong>Oprettet ud fra meddelelse i forum</strong> %{message_information}"
       import: Importeret
-      label_deleted: 'Label removed:'
+      label_deleted: 'Mærkat fjernet:'
       meeting_agenda_item_added_html: "<strong>Tilføjet til mødet</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Tilføjet til</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: "<strong>Drøftet på mødet</strong> %{meeting_title_information}"
@@ -3958,6 +3973,7 @@ da:
   label_additional_workflow_transitions_for_author: Yderligere overgange tilladt når brugeren er forfatteren
   label_administration: Administration
   label_age: Alder
+  label_aggregate_function_plural: Aggregate functions
   label_ago: dage siden
   label_all: alle
   label_all_open_wps: Alle åbne
@@ -5047,7 +5063,7 @@ da:
       mail_notification: E-mail-notifikationer
       mails_and_notifications: E-mails og notifikationer
       mcp_configurations: Model Context Protocol (MCP)
-      text_transform_actions: Handlinger til tekstomskrivning
+      text_actions: Tekstassistent
     quick_add:
       label: Tilføj …
   more_actions: Flere funktioner
@@ -5605,10 +5621,19 @@ da:
       toc:
         caption: Tilføj en side med en indholdsfortegnelse over afsnittenes overskrifter.
         label: Indholdsfortegnelse
+      wiki_pages:
+        add: Tilføj wiki-sider
+        caption: Du kan tilføje en eller flere wiki-sider, som kommer med sidst i den eksporterede PDF.
+        dialog_subtitle: Vælg den wiki-side, du vil tilføje
+        dialog_title: Tilføj eksisterende wiki-side
+        manage_label: Administrer wiki-sider, og skift deres rækkefølge
+        placeholder: Vælg en wiki-side
+        unavailable: Utilgængelig wiki-side (%{reference})
+        visibility_warning: Når du tilføjer en wiki-side, kan alle, der kan eksportere artefaktet, se dens indhold, også selvom de ikke har adgang til selve wiki-siden.
     page_nr_footer: Side %{page} af %{total}
     template_artefact:
-      caption: Work package details rendered as a PMflex Artefact.
-      label: PMflex Artefact
+      caption: Arbejdspakkens detaljer vist som et PMflex-artefakt.
+      label: PMflex-artefakt
     template_attributes:
       caption: Alle attributter i den aktuelle formular med standardskabelonen.
       label: Attributter og beskrivelse
@@ -5896,6 +5921,15 @@ da:
       new:
         placeholder: Ny projektliste
       shared: Delte projektlister
+    phase_status:
+      description:
+        completed: Marking a phase as complete will complete all previous phases.
+        in_progress: Marking a phase as complete will complete all previous phases.
+        open: Re-opening a phase will also open all future phases.
+      title:
+        completed: Completed
+        in_progress: In progress
+        open: Open
     settings:
       actions:
         label_disable_all: Deaktiver alle
@@ -5921,11 +5955,11 @@ da:
           no_status_when_submitted: Anmodning om projektinitiering kunne ikke aktiveres, fordi arbejdspakketypen %{type} skal have mindst én tilknyttet status. Aktivér mindst én statusarbejdsgang for arbejdspakketypen.
           no_work_package_type: Anmodning om projektinitiering kunne ikke aktiveres, fordi den kræver mindst én aktiv arbejdspakketype, og projektet har ingen. Føj mindst én arbejdspakketype til projektet.
         export:
-          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
-          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: Det dannede artefakt gemmes som en vedhæftet PDF på artefaktets arbejdspakke.
+          description_file_link_export: Artefaktets arbejdspakke får et fil-link til en PDF i et eksternt fillager. Det kræver et fungerende fillager med automatisk administrerede projektmapper til dette projekt. I øjeblikket understøttes kun Nextcloud-fillagre.
           description_file_storage_selection: Vælg, hvilket af de konfigurerede eksterne fillagre der skal bruges.
           external_file_storage: Eksternt fillager
-          label_artefact_export: Artefact export
+          label_artefact_export: Eksport af artefakt
           label_attachment_export: Gem som vedhæftet fil på arbejdspakken
           label_file_link_export: Overfør filen til eksternt fillager, og tilføj et fil-link til arbejdspakken
           pdf_file_storage: Fillager til PDF
@@ -6031,10 +6065,12 @@ da:
         switch:
           apply: Anvend
           impact:
-            hidden_heading: Felter, der ikke længere vises
-            missing_statuses_description: Den arbejdsgang, som du skifter til, har ingen overgange ud af disse statusser, så ingen kan flytte arbejdspakkerne videre.
-            missing_statuses_heading: Arbejdspakker, der går i stå
-            new_heading: Felter, der bliver tilgængelige
+            hidden_description: Den valgte variant indeholder ikke disse felter. Eventuelle værdier, som felterne havde, vises ikke længere.
+            hidden_heading: Felter, der fjernes
+            missing_statuses_description: Den valgte arbejdsgang har ingen overgange ud af følgende statusser. Brugerne kan ikke skifte til en ny status.
+            missing_statuses_heading: Arbejdspakker uden overgange
+            new_description: Den valgte variant har disse ekstra felter. De tilføjes til alle relevante arbejdspakker med en tom værdi.
+            new_heading: Felter, der tilføjes
             nothing_affected: Ingen felter eller statusser påvirkes.
             status_count:
               one: "%{count} arbejdspakke"
@@ -6064,14 +6100,14 @@ da:
     status:
       button_edit: Rediger status
     wizard:
-      create_artefact_storage_error: Failed to store artefact in file storage
-      create_artefact_work_package_error: Failed to create artefact work package
+      create_artefact_storage_error: Artefaktet kunne ikke gemmes i fillageret
+      create_artefact_work_package_error: Artefaktets arbejdspakke kunne ikke oprettes
       no_custom_fields_html: Projektet har ingen projektattributter aktiveret til guiden. Aktivér mindst én i <a href="%{link}">projektindstillingerne</a>.
       no_help_text: Der er ikke defineret nogen hjælpetekst til attributten.
       progress_label: "%{current} af %{total}"
       sections: Afsnit
       sidebar_content_title: Indhold
-      success: Project attributes saved and artefact work package created successfully.
+      success: Projektattributterne er gemt, og artefaktets arbejdspakke er oprettet.
       title: Anmodning om projektinitiering
   pwa:
     offline:
@@ -6097,6 +6133,22 @@ da:
         automatic:
           description: Sortér %{plural} efter et eller flere sorteringskriterier. Den tidligere sortering går tabt.
           heading: Automatisk
+    filter_summary:
+      between: "%{field} %{operator} %{lower} og %{upper}"
+      current_work_package: den aktuelle arbejdspakke
+      from: "%{field} er den %{date} eller senere"
+      relative:
+        ago: "%{field} er %{duration} siden"
+        in: "%{field} er om %{duration}"
+        in_less_than: "%{field} er om mindre end %{duration}"
+        in_more_than: "%{field} er om mere end %{duration}"
+        less_than_ago: "%{field} er mindre end %{duration} siden"
+        more_than_ago: "%{field} er mere end %{duration} siden"
+      unavailable_filter: Utilgængeligt filter
+      unavailable_value: Utilgængelig værdi
+      until: "%{field} er den %{date} eller tidligere"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -6295,7 +6347,6 @@ da:
   setting_after_login_default_redirect_url_example_html: 'Angiv en standardsti, som brugerne omdirigeres til efter login, hvis der ikke er angivet et link tilbage. Er den ikke angivet, omdirigeres de til startsiden. <br/> Eksempel: %{example_code}
 
     '
-  setting_ai_text_transform_actions_enabled: Aktivér handlinger til tekstomskrivning
   setting_allowed_link_protocols: Tilladte link-protokoller
   setting_allowed_link_protocols_text_html: Tillad, at disse protokoller vises som links i arbejdspakkers beskrivelser, lange tekstfelter og kommentarer. Fx %{tel_code} eller %{element_code}. Angiv én protokol pr. linje. <br/> Protokollerne %{http_code}, %{https_code} og %{mailto_code} er altid tilladt.
   setting_antivirus_scan_action: Handling ved inficeret fil
@@ -6649,12 +6700,12 @@ da:
         confirmation_message: Guiden til anmodning om projektinitiering vil ikke længere være tilgængelig for nye projekter, der bygger på denne skabelon. Projektledere og projektejere skal selv konfigurere og udfylde de relevante oplysninger i projektoversigten.
         heading: Vil du deaktivere denne anmodning om projektinitiering?
         title: Deaktiver anmodning om projektinitiering
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
+      header_description: 'OpenProject kan danne en trinvis guide, der hjælper projektledere med at udfylde en anmodning om projektinitiering. Du kan vælge, hvilke projektattributter der skal med, og få dannet et PDF-artefakt som resultat.
 
         '
       name:
-        artefact_name: Artefact name
-        artefact_name_caption: Choose the name for this artefact that your project management framework recommends.
+        artefact_name: Artefaktets navn
+        artefact_name_caption: Vælg det navn for artefaktet, som jeres projektmodel anbefaler.
         options:
           project_creation_wizard: Guide til oprettelse af projekt
           project_initiation_request: Anmodning om projektinitiering
@@ -6674,8 +6725,8 @@ da:
           Du har indsendt en anmodning om projektinitiering for **%{project_name}**. Den afventer nu gennemsyn.
           Klik på linket nedenfor for at gå til arbejdspakken med din anmodning.
         confirmation_email_text: Tekst i e-mailen med bekræftelse
-        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: Når en bruger indsender en anmodning om projektinitiering, oprettes en ny arbejdspakke med anmodningens artefakt vedhæftet som PDF-fil. Indstillingerne nedenfor bestemmer type, status og tildelt for den nye arbejdspakke.
+        description_template: "**Arbejdspakken blev oprettet automatisk, da arbejdsgangen %{wizard_name} blev fuldført.** Der er dannet et PDF-artefakt med alle indsendte oplysninger, og det er vedhæftet arbejdspakken til reference og revision. Hvis du har brug for at opdatere eller gennemgå initieringstrinene igen, kan du altid åbne guiden igen via linket nedenfor:\n"
         send_confirmation_email: Send en e-mail med bekræftelse til den bruger, der indsendte anmodningen om projektinitiering
         status_when_submitted: Status ved indsendelse
         status_when_submitted_caption: Den status, som den dannede arbejdspakke skifter til, når anmodningen er indsendt.
@@ -6683,7 +6734,7 @@ da:
         work_package_comment_caption: Den tildelte, der er valgt ovenfor, bliver automatisk @omtalt i kommentaren.
         work_package_comment_default: En anmodning om projektinitiering for **%{project_name}** er indsendt og afventer gennemsyn.
         work_package_type: Arbejdspakketype
-        work_package_type_caption: The work package type that should be used to store the completed artefact.
+        work_package_type_caption: Den arbejdspakketype, der skal bruges til at gemme det færdige artefakt.
       wizard_status_button:
         project_creation_wizard: Åbn guiden til oprettelse af projekt
         project_initiation_request: Åbn anmodning om projektinitiering
@@ -7039,6 +7090,9 @@ da:
       short: "%e. %b %H:%M"
       time: "%H:%M"
     pm: eftermiddag
+    relative_ago: "%{time} siden"
+    relative_at: "%{relative} kl. %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: til
     show: Vis tidsramme
@@ -7202,6 +7256,7 @@ da:
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
         allow_project_variants_caption: Projektadministratorer med tilladelse til at administrere varianter kan udvide eller ændre denne type i et projekt.
+        description_caption: Add context or hints. Shown to administrators in the types and variants list.
         inherited_from_type_html: Nedarvet fra typen <b>%{type}</b>.
         tab: Detaljer
         type_color_text: Den valgte farve adskiller typerne fra hinanden i Gantt-diagrammer og tabeller over arbejdspakker. Vælg derfor en kraftig farve.
@@ -7214,13 +7269,13 @@ da:
           file_link:
             caption: Den dannede PDF overføres til projektets automatisk administrerede Nextcloud-lager og linkes fra arbejdspakken. Arbejdspakker i projekter uden et sådant lager springes over.
             label: Overfør filen til eksternt fillager, og tilføj et fil-link til arbejdspakken
-          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
-          invalid_mode: Invalid artefact export mode.
-          label: Automatic artefact export
+          intro: Dan automatisk et PDF-artefakt af arbejdspakker af denne type, hver gang deres status ændres.
+          invalid_mode: Ugyldig tilstand for automatisk eksport af artefakter.
+          label: Automatisk eksport af artefakter
           off_mode:
             caption: Der dannes ingen PDF automatisk.
             label: Fra
-          section_title: Automatic artefact export
+          section_title: Automatisk eksport af artefakter
           unavailable: ikke tilgængelig, fordi der ikke er konfigureret noget automatisk administreret Nextcloud-lager
         pdf_export_templates:
           actions:
@@ -7232,7 +7287,6 @@ da:
         tab: Generér PDF
         templates:
           readonly_error: Kan ikke ændres, så længe den er knyttet til en kildetype.
-          section_title: Skabeloner til PDF-eksport
           settings:
             edit_link: Rediger indstillinger
             reset_to_default: Nulstil til standard
@@ -7254,7 +7308,6 @@ da:
         empty_group_hint: Træk attributter hertil
         exclusions:
           attribute_label: Nedarv %{attribute}
-          excluded: Skjult
           section_label: Nedarv afsnittet %{section}
         filter_inactive: Filtrér attributter
         group_actions: Handlinger for afsnit
@@ -7267,6 +7320,11 @@ da:
         no_inactive_attributes: Ingen inaktive attributter
         not_found: Det ønskede formularelement blev ikke fundet.
         query_group_label: Tabel med relaterede arbejdspakker
+        query_summary:
+          baseline:
+            between: Ændringer mellem %{from} og %{to}
+            since: Ændringer siden %{time}
+          unavailable: Konfigurationen er ikke tilgængelig
         remove_attribute: Fjern fra afsnit
         rename_group: Omdøb afsnit
         required:
@@ -7308,7 +7366,6 @@ da:
           manual:
             description: Når du [opretter projektattributter](administration_url), vises de her og kan føjes til en type.
             title: Ingen tilgængelige projektattributter
-        disabled: Deaktiveret
         exclusions:
           attribute_label: Nedarv %{attribute}
         filter: Søg efter afsnit eller navn
@@ -7328,8 +7385,6 @@ da:
           no_results: Ingen projekter matcher.
           title: Bruges endnu ikke i noget projekt
         enable_all: Aktivér for alle projekter
-        select_projects: Vælg projekter
-        select_projects_description: Vælg de projekter, hvor du vil bruge typen.
         switch_dialog:
           description: Følgende projekter bruger allerede andre varianter af %{type}. Er du sikker på, at du vil erstatte dem med "%{variant}"? Det påvirker formularer og arbejdsgange i alle disse projekter.
           title: Erstat varianter?
@@ -7388,14 +7443,14 @@ da:
           mode_label: Konfigurer siden manuelt
           modes:
             copy:
-              caption: Start med en kopi af de indstillinger, som konfigurationen nedarver nu. Kopien tages én gang.
-              label: Kopiér nedarvede indstillinger
+              caption: Start med en kopi af den overordnede types indstillinger. Kopien tages én gang.
+              label: Kopiér eksisterende indstillinger
             default:
               caption: Brug standardindstillingerne for nye typer.
               label: Standardindstillinger
             empty:
               caption: Opsæt det hele fra bunden med en tom konfiguration.
-              label: Tom
+              label: Start fra bunden
           success: Konfigurationstilstanden er skiftet.
           title: Manuel konfiguration
         parent_suffix: " (overordnet)"
@@ -7446,7 +7501,7 @@ da:
           one: 'Typen fjernes fra %{count} projekt:'
           other: 'Typen fjernes fra %{count} projekter:'
         title: Slet type
-      description: 'Hvert konfigurationsområde i typer og varianter kan konfigureres uafhængigt, nedarves fra en anden type med enkelte dele udeladt eller knyttes helt til en kilde.
+      description: 'Opret og konfigurer forskellige arbejdspakketyper. Hver type har sin egen standardskabelon og et sæt brugerdefinerede felter, en arbejdsgang og andre indstillinger. Har du brug for projektspecifikke konfigurationer, kan du også oprette lidt forskellige varianter af hver type efter det enkelte projekts behov.
 
         '
       duplicate_name: Kopi af %{name}
@@ -8143,8 +8198,6 @@ da:
           notice:
             one: Arbejdsgangen er kopieret til rollen '%{role_name}'.
             other: Arbejdsgangen er kopieret til %{count} roller.
-      new:
-        dialog_title: Kopiér arbejdsgangen fra "%{source}"
     delete:
       body_in_use:
         one: Arbejdsgangen bruges i øjeblikket af %{count} type eller variant. Vælg en ny arbejdsgang, der skal erstatte den.
@@ -8162,6 +8215,7 @@ da:
         caption: Den nye arbejdsgang begynder med en kopi af den valgte arbejdsgangs statusovergange.
         label: Kopiér fra
         placeholder: Vælg en arbejdsgang …
+      copy_title: Kopiér arbejdsgangen %{name}
       description:
         caption: Tilføj en kort beskrivelse af, hvor og hvordan arbejdsgangen skal bruges.
         label: Beskrivelse
@@ -8177,7 +8231,7 @@ da:
       name:
         caption: Vælg et navn, så du senere kan genkende arbejdsgangen andre steder.
         label: Arbejdsgangens navn
-      new_title: Opret arbejdsgang
+      save_title: Gem arbejdsgang
     index:
       actions:
         create: Arbejdsgang

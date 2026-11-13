@@ -48,7 +48,7 @@ module OpPrimer
       @button_arguments = button_arguments
     end
 
-    def default_button_title
+    def default_button_description
       raise SubclassResponsibilityError
     end
 
@@ -64,25 +64,34 @@ module OpPrimer
       @readonly
     end
 
-    def button_content(button)
-      button.with_leading_visual_icon(icon: @current_status.icon) if @current_status.icon
-      button.with_trailing_action_icon(icon: "triangle-down") if !readonly? && @items.any?
+    def interactive?
+      !readonly? && !disabled? && @items.any?
+    end
 
-      @current_status.name
+    def button_content(button)
+      if !@button_arguments[:icon_only]
+        button.with_tooltip(text: button_description) if interactive?
+        button.with_leading_visual_icon(icon: @current_status.icon) if @current_status.icon
+        button.with_trailing_action_icon(icon: "triangle-down") if !readonly? && @items.any?
+
+        @current_status.name
+      end
+    end
+
+    def button_description
+      @button_arguments.fetch(:description) { default_button_description }
     end
 
     def button_arguments
-      title = @button_arguments.fetch(:title) { default_button_title }
       style = @button_arguments.fetch(:style) { default_button_style }
 
       {
-        title:,
         classes: class_names(@button_arguments[:classes], highlight_class_name(@current_status, style)),
         disabled: disabled?,
         aria: {
-          label: title
+          disabled: readonly?
         }
-      }.compact.deep_merge(@button_arguments)
+      }.compact.deep_merge(@button_arguments.except(:classes, :description, :icon_only, :style))
     end
 
     def highlight_class_name(status, style)

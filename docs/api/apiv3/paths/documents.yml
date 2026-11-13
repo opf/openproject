@@ -148,5 +148,5 @@ get:
     - Documents
   description: The documents returned depend on the provided parameters and also on
     the requesting user's permissions.
-  operationId: List_Documents
+  operationId: list_documents
   summary: List Documents

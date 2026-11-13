@@ -57,7 +57,7 @@ get:
   tags:
     - Views
   description: ''
-  operationId: View_view
+  operationId: get_view
   summary: View view
 
 post:
@@ -157,5 +157,5 @@ post:
       /api/v3/views/schemas
     ```
     endpoint.
-  operationId: Create_views
+  operationId: create_views
   summary: Create view

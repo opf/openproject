@@ -37,7 +37,7 @@ class Workflows::CopiesController < ApplicationController
   before_action :set_source_role
   before_action :set_all_roles
 
-  helper_method :copy_source_name, :copy_submit_path
+  helper_method :copy_submit_path
 
   def new; end
 
@@ -51,10 +51,6 @@ class Workflows::CopiesController < ApplicationController
 
   def workflow
     @workflow ||= standalone? ? Workflow.find(params.expect(:workflow_id)) : @source_variant.workflow
-  end
-
-  def copy_source_name
-    standalone? ? workflow.name : @source_variant.composite_name
   end
 
   def copy_submit_path

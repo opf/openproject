@@ -1,30 +1,32 @@
 <div class="op-draggable-autocomplete">
-  <div class="FormControl-spacingWrapper mb-3">
-    <div class="FormControl width-full op-draggable-autocomplete-container" [id]="formControlId">
-      <label class="FormControl-label"
-        [textContent]="inputLabel"
-        [attr.for]="id">
-      </label>
+  @if (!inputHidden) {
+    <div class="FormControl-spacingWrapper mb-3">
+      <div class="FormControl width-full op-draggable-autocomplete-container" [id]="formControlId">
+        <label class="FormControl-label"
+          [textContent]="inputLabel"
+          [attr.for]="id">
+        </label>
 
-      <ng-select #ngSelectComponent
-        [items]="availableOptions"
-        ngClass="op-draggable-autocomplete--input ng-select--primerized"
-        bindLabel="name"
-        [multiple]="false"
-        [virtualScroll]="true"
-        [placeholder]="inputPlaceholder"
-        [clearSearchOnAdd]="true"
-        [closeOnSelect]="true"
-        [searchFn]="searchFunction"
-        [appendTo]="appendTo"
-        (open)="opened()"
-        (change)="select($event)"
-       />
-      @if (inputCaption) {
-        <span class="FormControl-caption" [textContent]="inputCaption"></span>
-      }
+        <ng-select #ngSelectComponent
+          [items]="availableOptions"
+          ngClass="op-draggable-autocomplete--input ng-select--primerized"
+          bindLabel="name"
+          [multiple]="false"
+          [virtualScroll]="true"
+          [placeholder]="inputPlaceholder"
+          [clearSearchOnAdd]="true"
+          [closeOnSelect]="true"
+          [searchFn]="searchFunction"
+          [appendTo]="appendTo"
+          (open)="opened()"
+          (change)="select($event)"
+         />
+        @if (inputCaption) {
+          <span class="FormControl-caption" [textContent]="inputCaption"></span>
+        }
+      </div>
     </div>
-  </div>
+  }
 
   <div class="FormControl-spacingWrapper">
     <div class="FormControl width-full">

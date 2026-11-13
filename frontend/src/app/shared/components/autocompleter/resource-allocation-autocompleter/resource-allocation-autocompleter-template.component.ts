@@ -39,6 +39,7 @@ import {
   IAutocompleterTemplateComponent,
   OpAutocompleterComponent,
 } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
+import { AutocompleterSearchContext } from 'core-app/shared/components/autocompleter/op-autocompleter/typings';
 
 @Component({
   templateUrl: './resource-allocation-autocompleter-template.component.html',
@@ -50,7 +51,7 @@ export class ResourceAllocationAutocompleterTemplateComponent implements IAutoco
 
   @Input() public createPlaceholderUser:(name:string) => void = () => undefined;
 
-  @ViewChild('notFoundTemplate') notFoundTemplate:TemplateRef<Element>;
+  @ViewChild('notFoundTemplate') notFoundTemplate:TemplateRef<AutocompleterSearchContext>;
 
   readonly I18n = inject(I18nService);
   readonly autocompleter = inject(OpAutocompleterComponent);

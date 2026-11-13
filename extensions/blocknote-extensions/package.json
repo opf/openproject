@@ -1,6 +1,6 @@
 {
-  "name": "@openproject/op-blocknote-extensions",
-  "version": "0.3.3",
+  "name": "@openproject/blocknote-extensions",
+  "version": "0.3.4",
   "description": "Extensions for BlockNote for integrating with OpenProject",
   "license": "GPL-3.0-only",
   "repository": {
@@ -16,19 +16,19 @@
     "provenance": true
   },
   "type": "module",
-  "module": "./dist/op-blocknote-extensions.es.js",
+  "module": "./dist/blocknote-extensions.es.js",
   "types": "./dist/index.d.ts",
-  "main": "./dist/op-blocknote-extensions.cjs.js",
+  "main": "./dist/blocknote-extensions.cjs.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/op-blocknote-extensions.es.js",
-      "require": "./dist/op-blocknote-extensions.cjs.js"
+      "import": "./dist/blocknote-extensions.es.js",
+      "require": "./dist/blocknote-extensions.cjs.js"
     },
     "./server": {
       "types": "./dist/server.d.ts",
-      "import": "./dist/op-blocknote-extensions-server.es.js",
-      "require": "./dist/op-blocknote-extensions-server.cjs.js"
+      "import": "./dist/blocknote-extensions-server.es.js",
+      "require": "./dist/blocknote-extensions-server.cjs.js"
     }
   },
   "files": [
@@ -43,7 +43,9 @@
     "yjs",
     "use-sync-external-store",
     "prosemirror-model",
-    "prosemirror-state"
+    "prosemirror-state",
+    "flatpickr",
+    "luxon"
   ],
   "scripts": {
     "dev": "vite",
@@ -64,6 +66,7 @@
     "@stylistic/eslint-plugin": "^5.10.0",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.7",
+    "@types/luxon": "^3.7.6",
     "@types/node": "^26.6.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
@@ -102,7 +105,9 @@
   },
   "dependencies": {
     "@primer/octicons-react": "^19.38.0",
+    "flatpickr": "^4.6.13",
     "i18next": "^26.4.2",
+    "luxon": "^3.7.2",
     "react-i18next": "^17.0.15",
     "styled-components": "^6.5.3",
     "use-sync-external-store": "^1.7.0"

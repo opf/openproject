@@ -210,7 +210,7 @@ RSpec.describe "Subproject action board",
       board_page.expect_no_list(subproject2.name)
 
       expect(page)
-        .to have_no_content invisible_work_package.subject
+        .to have_no_text invisible_work_package.subject
     end
   end
 

@@ -25,7 +25,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-/***** Global loading indicator *****
+/***** Global loading indicator *****/
 #global-loading-indicator
   top: 50%
   left: 50%
+
+body:has(#global-loading-indicator:not([hidden])) #content-body
+  opacity: 0.4
+  pointer-events: none

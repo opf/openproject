@@ -157,5 +157,5 @@ patch:
   tags:
     - Queries
   description: ''
-  operationId: Unstar_query
+  operationId: unstar_query
   summary: Unstar query

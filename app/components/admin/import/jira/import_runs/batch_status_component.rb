@@ -44,8 +44,9 @@ module Admin::Import::Jira::ImportRuns
       { number: 7, icon: :versions },
       { number: 8, icon: :"op-work-packages" },
       { number: 9, icon: :"arrow-both" },
-      { number: 10, icon: :clock },
-      { number: 11, icon: :paperclip }
+      { number: 10, icon: :link },
+      { number: 11, icon: :clock },
+      { number: 12, icon: :paperclip }
     ].freeze
 
     def initialize(batch:)
@@ -204,7 +205,8 @@ module Admin::Import::Jira::ImportRuns
               end
               if stage_in_progress
                 sorted_stage_jobs = stage_jobs.sort_by { |job| JOB_PRIORITY_FOR_IN_PROGRESS_STAGE[job.status] }
-                sorted_stage_jobs.first(4).each do |job|
+                shown_jobs = sorted_stage_jobs.first(4)
+                shown_jobs.each do |job|
                   box.with_row do
                     render(Admin::Import::Jira::ImportRuns::JobStatusComponent.new(job:))
                   end
@@ -218,7 +220,7 @@ module Admin::Import::Jira::ImportRuns
                     box.with_row do
                       render(Primer::Beta::Text.new(color: :muted)) do
                         I18n.t(:"admin.jira.run.wizard.stages.#{stage[:number]}.rest_line_text",
-                               projects_number: stage_jobs_count - 4)
+                               projects_number: remaining_projects_count(stage_jobs, shown_jobs))
                       end
                     end
                   end
@@ -228,6 +230,17 @@ module Admin::Import::Jira::ImportRuns
           end
         end
       end
+    end
+
+    # A stage runs several jobs per project, so the projects left over are those without a row.
+    def remaining_projects_count(stage_jobs, shown_jobs)
+      (jira_project_ids(stage_jobs) - jira_project_ids(shown_jobs)).size
+    end
+
+    private
+
+    def jira_project_ids(jobs)
+      jobs.filter_map { |job| job.serialized_params.dig("arguments", 1) }.to_set
     end
   end
 end

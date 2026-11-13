@@ -227,7 +227,7 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
 
     it "carries page context into the lazy menus" do
       expect(rendered_component)
-        .to have_element(:"include-fragment", src: menu_type_path(expanded, page: 2, per_page: 2, expand: expanded.id))
+        .to have_element(:"action-menu", src: menu_type_path(expanded, page: 2, per_page: 2, expand: expanded.id))
     end
   end
 
@@ -245,6 +245,29 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
       expect(rendered_component)
         .to have_element(role: "listitem", "data-sortable-lists--item-mobility-value": "fixed", count: 1)
       expect(rendered_component).to have_no_button(accessible_name: "Drag to reorder")
+    end
+  end
+
+  describe "the type description" do
+    let(:root_type) { create(:type, name: "Task", description: "Context for the task type") }
+
+    subject(:rendered_component) do
+      with_request_url "/types" do
+        render_inline(described_class.new(types: Type.where(id: root_type.id).page(1).per_page(10)))
+      end
+    end
+
+    it "renders it below the title, outside the bold heading", :aggregate_failures do
+      expect(rendered_component).to have_text("Context for the task type")
+      expect(rendered_component).to have_no_css("h4.Box-title", text: "Context for the task type")
+    end
+
+    context "when the type has no description" do
+      let(:root_type) { create(:type, name: "Task", description: nil) }
+
+      it "renders nothing truncated" do
+        expect(rendered_component).to have_no_css("[data-controller~='expandable-text']")
+      end
     end
   end
 end

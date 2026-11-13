@@ -529,6 +529,23 @@ module OpenProject
       end
     end
 
+    describe "#format_time_of_day" do
+      # Kathmandu has a +05:45 offset, so a converted clock would read 08:45
+      current_user { build_stubbed(:user, preferences: { time_zone: "Kathmandu" }) }
+
+      let(:time) { Time.new(2026, 10, 2, 23, 0, 0, "-04:00") }
+
+      it "formats the clock time as given without converting its zone" do
+        expect(format_time_of_day(time, format: "%H:%M"))
+          .to eql "23:00"
+      end
+
+      it "falls back to the locale time format when the format is blank" do
+        expect(format_time_of_day(time, format: ""))
+          .to eql "11:00 PM"
+      end
+    end
+
     describe "#formatted_time_zone_offset" do
       current_user { build_stubbed(:user, preferences: { time_zone: user_time_zone }) }
       let(:user_time_zone) { "" }

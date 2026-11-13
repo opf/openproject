@@ -34,8 +34,7 @@ module Llm
   # stays here, for two reasons. RubyLLM's model parsing discards max_model_len
   # and root, which are the only trustworthy statement of a self-hosted
   # deployment's real context window, and it substitutes OpenAI's capability
-  # heuristics for arbitrary model ids. And this path runs on OpenProject.httpx,
-  # so it is covered by the SSRF filter that RubyLLM's own Faraday stack bypasses.
+  # heuristics for arbitrary model ids.
   #
   # The configured base URL is expected to already contain the API version segment
   # (for example +https://example.com/v1+), matching what every provider documents

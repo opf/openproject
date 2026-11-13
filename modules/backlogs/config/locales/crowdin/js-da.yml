@@ -23,10 +23,15 @@
 da:
   js:
     backlogs:
+      action_menu:
+        menu_label:
+          one: Work package actions
+          other: Actions for %{count} selected work packages
       announcements:
         batch_too_large: "%{count} arbejdspakker kan ikke flyttes på én gang. Vælg højst %{max}."
         fallback_item_label: Arbejdspakke
         fallback_list_name: en anden liste
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving work packages.
         move_failed_check_position: Flytningen mislykkedes. Tjek arbejdspakkens nuværende placering.
         move_failed_check_positions_batch:
           other: Flytningen mislykkedes. Tjek arbejdspakkernes nuværende placeringer.
@@ -55,6 +60,12 @@ da:
       chart_day: 'Dag %{day}: %{values}'
       chart_label: Burndown-diagram
       chart_summary: 'Data i burndown-diagrammet: %{days}.'
+      chart_value: "%{label}: %{value}"
+      story_points: Story points
+    burnup_chart:
+      chart_day: 'Dag %{day}: %{values}'
+      chart_label: Burnup-diagram
+      chart_summary: 'Data i burnup-diagrammet: %{days}.'
       chart_value: "%{label}: %{value}"
       story_points: Story points
     created_resolved_chart:

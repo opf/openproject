@@ -41,9 +41,10 @@ import { shareModalUpdated } from 'core-app/features/work-packages/components/wp
 import { tableRefreshRequest } from 'core-app/features/work-packages/routing/wp-view-base/work-packages-view.actions';
 import { usePlatform } from 'core-common/testing/platform';
 import { States } from 'core-app/core/states/states.service';
-import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { OpActionMenuService } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.service';
 import { WorkPackageTableConfigurationObject } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import { TableUiWork } from './table-ui-work';
+import { navigableCells } from './handlers/state/keyboard/roving-tabindex';
 import { buildDom, buildTable, TableHarness, TableHarnessOptions } from './testing/table-harness';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -105,6 +106,16 @@ describe('WorkPackageTable lifecycle', () => {
     vi.restoreAllMocks();
   });
 
+  it('runs no change once the table is destroyed', async () => {
+    const harness = await mount({ workPackages: [{ id: '1' }] });
+    const change = vi.fn();
+    harness.table.destroy();
+
+    harness.table.mutate('all', change);
+
+    expect(change).not.toHaveBeenCalled();
+  });
+
 
   it('keeps a second table ownership and focus intact when an editor table is destroyed', async () => {
     const options:TableHarnessOptions = {
@@ -127,7 +138,8 @@ describe('WorkPackageTable lifecycle', () => {
     const secondOwner = second.table.editing.ownerId;
     const secondRoving = second.row('1');
     secondRoving.focus();
-    const removeListener = vi.spyOn(document, 'removeEventListener');
+    const firstRow = first.row('1');
+    const firstCell = navigableCells(firstRow)[0];
 
     first.table.destroy();
 
@@ -136,8 +148,9 @@ describe('WorkPackageTable lifecycle', () => {
     expect(secondOverlay.dataset.wpTableEditor).toBe(secondOwner);
     expect(secondRoving).toHaveAttribute('tabindex', '0');
     expect(secondRoving).toHaveFocus();
-    expect(removeListener).toHaveBeenCalledWith('focusin', expect.any(Function));
-    expect(removeListener).toHaveBeenCalledWith('keydown', expect.any(Function));
+    firstCell.focus();
+    expect(firstCell).toHaveAttribute('tabindex', '-1');
+    expect(firstRow).toHaveAttribute('tabindex', '0');
     firstOverlay.remove();
     secondOverlay.remove();
   });
@@ -546,7 +559,7 @@ describe('WorkPackageTable lifecycle', () => {
         const harness = await mount({ workPackages: [{ id: '1' }] });
         const frames = harness.holdFrames();
         const exits:boolean[] = [];
-        vi.spyOn(harness.table.keyboardNavigation!, 'rowsChanged').mockImplementation(({ rendered }) => { exits.push(rendered); });
+        vi.spyOn(harness.table.keyboardNavigation, 'rowsChanged').mockImplementation(({ rendered }) => { exits.push(rendered); });
         const paint = vi.spyOn(harness.table.painter, 'paint');
         const subscription = harness.querySpace.tableRendered.values$().pipe(skip(1))
           .subscribe(() => harness.table.mutate('positions', () => undefined));
@@ -1039,7 +1052,7 @@ describe('WorkPackageTable lifecycle', () => {
 
     it('opens the table menu with the default configuration', async () => {
       const harness = await mountConfigured();
-      const opened = vi.spyOn(harness.injector.get(OPContextMenuService), 'show');
+      const opened = vi.spyOn(harness.injector.get(OpActionMenuService), 'show').mockImplementation(() => undefined);
 
       expect(fireEvent.contextMenu(harness.row('1'))).toBe(false);
       expect(opened).toHaveBeenCalledTimes(1);
@@ -1052,7 +1065,7 @@ describe('WorkPackageTable lifecycle', () => {
       });
       const macro = runInInjectionContext(host, () => new EmbeddedTablesMacroComponent());
       const harness = await mountConfigured(macro.configuration);
-      const opened = vi.spyOn(harness.injector.get(OPContextMenuService), 'show');
+      const opened = vi.spyOn(harness.injector.get(OpActionMenuService), 'show').mockImplementation(() => undefined);
 
       expect(fireEvent.contextMenu(harness.row('1'))).toBe(true);
       expect(fireEvent.keyDown(harness.row('1'), { key: 'F10', shiftKey: true, altKey: true })).toBe(true);
@@ -1064,7 +1077,7 @@ describe('WorkPackageTable lifecycle', () => {
 
   it('removes context-menu callbacks on direct table disposal', async () => {
     const harness = await mount({ workPackages: [{ id: '1' }], configuration: { contextMenuEnabled: true } });
-    const opened = vi.spyOn(harness.injector.get(OPContextMenuService), 'show');
+    const opened = vi.spyOn(harness.injector.get(OpActionMenuService), 'show').mockImplementation(() => undefined);
     harness.table.destroy();
     expect(fireEvent.contextMenu(harness.row('1'))).toBe(true);
     expect(fireEvent.keyDown(harness.row('1'), { key: 'F10', shiftKey: true, altKey: true })).toBe(true);
@@ -1077,14 +1090,14 @@ describe('WorkPackageTable lifecycle', () => {
     const first = await mount(options);
     const clicked = vi.fn();
     first.outputs.itemClicked.subscribe(clicked);
-    const firstMenu = vi.spyOn(first.injector.get(OPContextMenuService), 'show');
+    const firstMenu = vi.spyOn(first.injector.get(OpActionMenuService), 'show').mockImplementation(() => undefined);
     const firstSelect = vi.spyOn(first.selection, 'selectAll');
     const firstReset = vi.spyOn(first.selection, 'reset');
     first.table.destroy();
     const second = await mount(options);
     const secondClicked = vi.fn();
     second.outputs.itemClicked.subscribe(secondClicked);
-    const secondMenu = vi.spyOn(second.injector.get(OPContextMenuService), 'show');
+    const secondMenu = vi.spyOn(second.injector.get(OpActionMenuService), 'show').mockImplementation(() => undefined);
     try {
       expect(second.injector).not.toBe(first.injector);
       second.click('2');
@@ -1169,7 +1182,7 @@ describe('WorkPackageTable lifecycle', () => {
     await harness.render([{ id: '2' }, { id: '1' }]);
     const clicked:string[] = [];
     harness.outputs.itemClicked.subscribe(({ workPackageId }) => clicked.push(workPackageId));
-    const opened = vi.spyOn(harness.injector.get(OPContextMenuService), 'show');
+    const opened = vi.spyOn(harness.injector.get(OpActionMenuService), 'show').mockImplementation(() => undefined);
 
     harness.click('1');
     fireEvent.contextMenu(harness.row('2'));

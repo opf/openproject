@@ -47,7 +47,7 @@ RSpec.describe "BCF list keyboard navigation", :js, with_config: { edition: "bim
   let(:context_menu) { Components::WorkPackages::ContextMenu.new }
   let(:entry_control) do
     if view_name == "Table"
-      -> { find(:button, "More actions") }
+      -> { find(:button, accessible_name: "More actions") }
     else
       -> { find_link("Use this link to upload and manage your IFC models") }
     end

@@ -80,7 +80,7 @@ delete:
     Deletes the project permanently. As this is a lengthy process, the actual deletion is carried out asynchronously.
     So the project might exist well after the request has returned successfully. To prevent unwanted changes to
     the project scheduled for deletion, it is archived at once.
-  operationId: Delete_Project
+  operationId: delete_project
   summary: Delete Project
 get:
   parameters:
@@ -125,7 +125,7 @@ get:
   tags:
     - Projects
   description: ''
-  operationId: View_project
+  operationId: get_project
   summary: View project
 patch:
   parameters:
@@ -220,5 +220,5 @@ patch:
     - Projects
   description: Updates the given project by applying the attributes provided in the
     body.
-  operationId: Update_Project
+  operationId: update_project
   summary: Update Project

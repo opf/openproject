@@ -78,9 +78,11 @@ es:
               invalid: debe ser un usuario o un usuario comodín.
         time_entry:
           attributes:
+            base:
+              cannot_edit_time_entry: You don't have permissions to edit this time entry.
+              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
             entity:
               blank: "«Registrado para» no puede estar en blanco."
-              cannot_log_for_this_work_package: No tiene permisos para registrar el tiempo dedicado a este paquete de trabajo.
               format: "%{message}"
             hours:
               exceeds_user_working_hours: Las horas registradas no pueden superar el límite de %{limit} horas disponibles en la jornada laboral del usuario.
@@ -94,6 +96,9 @@ es:
             start_time:
               format: "%{message}"
               invalid_time: Hora no válida. La hora debe estar entre las 00:00 y las 23:59.
+            user_id:
+              format: "%{message}"
+              no_access_to_entity: The selected user doesn't have access to this work package.
           duplicate_ongoing: Ya hay otro temporizador en marcha. Solo puede haber un temporizador activo a la vez.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Paquete de trabajo #%{id} no es un objetivo válido para reasignar las entradas de costo.'

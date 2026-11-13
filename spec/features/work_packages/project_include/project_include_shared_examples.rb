@@ -30,6 +30,8 @@
 require "spec_helper"
 
 RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
+  include_context "with axe on Cuprite"
+
   let(:dropdown) { Components::ProjectIncludeComponent.new }
 
   shared_let(:portfolio) do
@@ -247,6 +249,11 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
     dropdown.click_button "Apply"
     dropdown.expect_closed
     dropdown.expect_count 2
+  end
+
+  it "names the toggle button" do
+    expect(page).to have_button(accessible_name: "Include projects 1", exact: true)
+    expect(page).to be_axe_clean.within("[data-test-selector='project-include-button']")
   end
 
   it "can clear the selection" do

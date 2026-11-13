@@ -38,7 +38,6 @@ import { WorkPackageViewFocusService } from 'core-app/features/work-packages/rou
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { AutofocusDirective } from 'core-app/shared/directives/focus/autofocus.directive';
 import { WorkPackageCreateService } from '../wp-new/wp-create.service';
-import { WorkPackageTable } from '../wp-fast-table/wp-fast-table';
 import { runMutation } from '../wp-fast-table/testing/table-harness';
 import { inlineCreateCancelClassName } from './inline-create-row-builder';
 import { WorkPackageInlineCreateComponent } from './wp-inline-create.component';
@@ -78,8 +77,8 @@ describe('WorkPackageInlineCreateComponent', () => {
     });
 
     const fixture = TestBed.createComponent(WorkPackageInlineCreateComponent);
-    fixture.componentInstance.table = { configuration: {}, mutate: runMutation } as unknown as WorkPackageTable;
-    fixture.componentInstance.colspan = 3;
+    fixture.componentRef.setInput('table', { configuration: {}, mutate: runMutation });
+    fixture.componentRef.setInput('colspan', 3);
     fixture.detectChanges();
     return fixture;
   };

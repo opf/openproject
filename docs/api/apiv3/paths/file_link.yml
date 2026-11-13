@@ -2,7 +2,7 @@
 ---
 get:
   summary: Gets a file link.
-  operationId: view_file_link
+  operationId: get_file_link
   tags:
     - File links
   description: |-

@@ -51,7 +51,7 @@ delete:
     Removes the project from the current user's favorites.
 
     This endpoint is deprecated and replaced by [`/api/v3/workspaces/{id}/favorite`](https://www.openproject.org/docs/api/endpoints/workspaces/#unfavorite-workspace)
-  operationId: Unfavorite_Project
+  operationId: unfavorite_project
   summary: Unfavorite Project
   deprecated: true
 post:
@@ -105,6 +105,6 @@ post:
     Adds the project to the current user's favorites.
 
     This endpoint is deprecated and replaced by [`/api/v3/workspaces/{id}/favorite`](https://www.openproject.org/docs/api/endpoints/workspaces/#favorite-workspace)
-  operationId: Favorite_Project
+  operationId: favorite_project
   summary: Favorite Project
   deprecated: true

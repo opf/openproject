@@ -128,7 +128,7 @@ RSpec.describe OpPrimer::BorderBoxListComponentPreview, :component_preview, :js 
 
     expect(page).to have_heading("Linked delivery plan", level: 4)
     expect(page).to have_link("Linked delivery plan")
-    expect(page).to have_button(accessible_name: "Add delivery item")
+    expect(page).to have_button(accessible_name: "Add item")
     expect(page).to have_text("Add item")
     expect(page).to have_no_css("tool-tip[data-type='label']", text: I18n.t(:label_actions))
   end

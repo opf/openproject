@@ -510,7 +510,7 @@ uk:
     oauth_grant_nudge_modal:
       cancel_button_label: Я зроблю це пізніше
       heading: Потрібно ввійти в %{provider_type}
-      login_button_aria_label: Увійти в %{storage}
+      login_button_accessible_name: "%{provider_type} log in to %{storage}"
       login_button_label: Увійти в %{provider_type}
       project_settings:
         description: Щоб отримати доступ до папки проєкту, потрібно ввійти в %{storage}.

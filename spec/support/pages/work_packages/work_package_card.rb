@@ -64,7 +64,7 @@ module Pages
 
     def open_details_view
       card_element.hover
-      card_element.find('[data-test-selector="op-wp-single-card--details-button"]').click
+      card_element.find(:button, accessible_name: I18n.t("js.button_open_details")).click
 
       Pages::PrimerizedSplitWorkPackage.new work_package
     end

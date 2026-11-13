@@ -216,15 +216,19 @@ describe('TreegridSemantics', () => {
     expect(within(harness.row('17')).getByRole('rowheader', { name: 'Alpha' })).toHaveClass('subject');
   });
 
-  it('hides the totals row while none of its cells is navigable', async () => {
+  it('hides the totals row and its section while none of its cells is navigable', async () => {
     mount({ productionMarkup: true });
     await harness.render();
+    const section = harness.totalsRow().parentElement!;
     expect(harness.totalsRow()).not.toHaveAttribute('aria-hidden');
+    expect(section).toHaveAttribute('role', 'rowgroup');
+    expect(section).not.toHaveAttribute('aria-hidden');
 
     harness.totalsRow().replaceChildren(document.createElement('td'));
     harness.table.painter.paint('positions');
 
     expect(harness.totalsRow()).toHaveAttribute('aria-hidden', 'true');
+    expect(section).toHaveAttribute('aria-hidden', 'true');
   });
 
   it('names only work package cells after repeated paints', async () => {

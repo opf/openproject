@@ -69,10 +69,10 @@ RSpec.describe "Search work packages keyboard navigation", :js, with_settings: {
     wp_table.expect_focus_on_column_header("Subject")
 
     wp_table.press_keys(:enter)
-    expect(page).to have_selector(:menuitem, focused: true)
+    expect(page).to have_css("[role^='menuitem']", focused: true)
 
     wp_table.press_keys(:escape)
-    expect(page).to have_no_css("#column-context-menu")
+    expect(page).to have_no_menu
     wp_table.expect_focus_on_column_header("Subject")
   end
 

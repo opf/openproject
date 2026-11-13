@@ -72,7 +72,7 @@ export class GridAreaService {
 
   public gridAreas:GridArea[];
 
-  public gridGaps:GridArea[];
+  public gridGaps:GridGap[];
 
   public widgetAreas:GridWidgetArea[];
 
@@ -269,7 +269,7 @@ export class GridAreaService {
   }
 
   private buildGridGaps() {
-    const cells:GridArea[] = [];
+    const cells:GridGap[] = [];
 
     // special case where we want no gaps
     if (this.isSingleCell) {

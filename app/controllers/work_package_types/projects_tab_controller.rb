@@ -30,20 +30,15 @@
 module WorkPackageTypes
   class ProjectsTabController < BaseTabController
     include OpTurbo::ComponentStream
-    include PaginationHelper
+    include ProjectsTab::TableRefresh
     include TypeDeactivationErrorMessage
 
-    VARIANT_FILTER_KEY = ::Queries::Projects::Filters::TypeVariantFilter.key.to_s
-    NAME_FILTER_KEY = ::Queries::Projects::Filters::NameAndIdentifierFilter.key.to_s
-
-    before_action :load_query, only: %i[edit update link unlink switch enable_all_projects]
+    before_action :load_query, only: %i[edit link unlink switch enable_all_projects]
     before_action :load_linked_project, only: %i[unlink new_switch switch]
 
-    current_menu_item [:edit, :update] do
+    current_menu_item :edit do
       :types
     end
-
-    helper_method :projects_table_component, :sub_header_component
 
     def edit
       respond_to do |format|
@@ -55,19 +50,8 @@ module WorkPackageTypes
       end
     end
 
-    def update
-      result = sync_projects(desired_project_ids)
-
-      if result.success?
-        redirect_to edit_variant_projects_path(@variant), notice: I18n.t(:notice_successful_update)
-      else
-        flash.now[:error] = aggregate_refusal_message(result)
-        render :edit, status: :unprocessable_entity
-      end
-    end
-
     def new_link
-      respond_with_dialog ProjectsTab::AddDialogComponent.new(variant: @variant)
+      respond_with_dialog ProjectsTab::AddDialogComponent.new(variant: @variant, wizard: listing_in_wizard?)
     end
 
     def tree
@@ -84,7 +68,7 @@ module WorkPackageTypes
 
       switching = switching_project_types(projects)
       if unconfirmed_switch?(switching)
-        return ask_to_switch(switching, url: link_variant_projects_path(@variant), project_ids: projects.ids)
+        return ask_to_switch(switching, url: link_variant_projects_path(@variant, **wizard_params), project_ids: projects.ids)
       end
 
       result = apply_to(projects)
@@ -133,51 +117,6 @@ module WorkPackageTypes
 
     private
 
-    def load_query
-      @query = ProjectQuery.new(name: "work-package-type-variant-projects-#{@variant.id}") do |query|
-        query.where(:type_variant_id, "=", filtered_variant_ids)
-        query.where(:name_and_identifier, "~", [project_name_term]) if project_name_term.present?
-        query.order("lft" => "asc")
-      end
-    end
-
-    # The text input and the variant panel both write the one `filters` param, which is what lets
-    # them narrow the table together rather than overwriting each other.
-
-    def project_name_term
-      @project_name_term ||= values_for(NAME_FILTER_KEY).first.to_s.strip
-    end
-
-    def filtered_variant_ids
-      (requested_variant_ids & own_variant_ids).presence || default_variant_ids
-    end
-
-    def default_variant_ids
-      params[:variant_id].present? ? [@variant.id.to_s] : own_variant_ids
-    end
-
-    def own_variant_ids
-      @own_variant_ids ||= @type.variants.pluck(:id).map(&:to_s)
-    end
-
-    def requested_variant_ids = values_for(VARIANT_FILTER_KEY)
-
-    def values_for(filter_key)
-      requested_filters
-        .select { |filter| filter[:attribute].to_s == filter_key }
-        .flat_map { |filter| Array(filter[:values]).map(&:to_s) }
-    end
-
-    # Parsed by the app's own parser rather than by hand: the filter form writes
-    # `name ~ "term"` by default and only switches to JSON when told to, and both reach here.
-    def requested_filters
-      return @requested_filters if defined?(@requested_filters)
-
-      @requested_filters = params[:filters].blank? ? [] : Array(::Queries::ParamsParser.parse(params)[:filters])
-    rescue StandardError
-      @requested_filters = []
-    end
-
     def load_linked_project
       @linked_project = ::Project.find(params.expect(:project_id))
     end
@@ -187,16 +126,7 @@ module WorkPackageTypes
     end
 
     def switch_path
-      switch_variant_projects_path(@variant, project_id: @linked_project.id)
-    end
-
-    def sync_projects(desired)
-      applying = @variant.projects.pluck(:id)
-
-      new_aggregate.tap do |aggregated|
-        apply_to(::Project.where(id: desired - applying), into: aggregated)
-        remove_from(::Project.where(id: applying - desired), into: aggregated)
-      end
+      switch_variant_projects_path(@variant, project_id: @linked_project.id, **wizard_params)
     end
 
     def apply_to(projects, into: new_aggregate)
@@ -258,30 +188,11 @@ module WorkPackageTypes
       )
     end
 
-    def refresh_projects
-      update_via_turbo_stream(component: projects_table_component)
-      replace_via_turbo_stream(component: sub_header_component)
-    end
-
-    # Built in one place so the first render and every stream that replaces it cannot drift.
-    def sub_header_component
-      ProjectsTab::SubHeaderComponent.new(type: @type, variant: @variant, query: @query)
-    end
-
-    def projects_table_component
-      ProjectsTab::TableComponent.new(rows: paginated_projects, variant: @variant, filtered: requested_filters.any?)
-    end
-
-    def paginated_projects
-      @query.results
-            .includes(project_types: :variant)
-            .paginate(page: page_param, per_page: per_page_param)
-    end
-
     def refuse_empty_selection
       update_via_turbo_stream(
         component: ProjectsTab::AddFormComponent.new(
           variant: @variant,
+          wizard: listing_in_wizard?,
           validation_message: I18n.t("types.edit.projects.add_dialog.no_projects_selected")
         ),
         status: :bad_request
@@ -317,7 +228,7 @@ module WorkPackageTypes
       projects = ::Project.where.not(id: @variant.projects.select(:id))
       switching = switching_project_types(projects)
       if unconfirmed_switch?(switching)
-        return ask_to_switch(switching, url: enable_all_variant_projects_path(@variant, value: "1"))
+        return ask_to_switch(switching, url: enable_all_variant_projects_path(@variant, value: "1", **wizard_params))
       end
 
       respond_to_bulk_change(apply_to(projects))
@@ -363,13 +274,6 @@ module WorkPackageTypes
 
     def with_descendants(project_ids)
       ::Project.where(id: project_ids).flat_map { |project| project.self_and_descendants.ids }.uniq
-    end
-
-    # TODO: once the input is correctly delivered, read params.expect(type: [:project_ids])
-    # directly instead of parsing it out of a JSON string.
-    def desired_project_ids
-      @desired_project_ids ||=
-        Array(JSON.parse(params.expect(type: [:project_ids])[:project_ids])).compact_blank.map(&:to_i)
     end
 
     def aggregate_refusal_message(result)

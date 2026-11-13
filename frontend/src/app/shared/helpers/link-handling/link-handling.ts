@@ -25,9 +25,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-export function isClickedWithModifier(event:MouseEvent) {
+export function isClickedWithModifier(event:MouseEvent|KeyboardEvent) {
   const modifier = event.ctrlKey || event.shiftKey || event.metaKey;
-  const middleButton = event.button === 1;
+  const middleButton = 'button' in event && event.button === 1;
 
   return modifier || middleButton;
 }

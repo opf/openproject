@@ -37,7 +37,6 @@ import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing
 import {
   WorkPackageViewColumnsService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
-import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { EditingPortalService } from 'core-app/shared/components/fields/edit/editing-portal/editing-portal-service';
 import {
   CellBuilder,
@@ -51,7 +50,7 @@ import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorato
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { editFieldContainerClass } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
-import { FocusPosition } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/focus-position';
+import { FocusPosition, samePosition } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/focus-position';
 import { insideGrid, insideGridContent } from '../wp-fast-table/handlers/state/keyboard/roving-tabindex';
 import { inlineCreateRowKey } from '../wp-fast-table/row-keys';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
@@ -65,8 +64,6 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
   @LazyInject() public apiV3Service!:ApiV3Service;
 
   @LazyInject() public states:States;
-
-  @LazyInject() public FocusHelper:FocusHelperService;
 
   @LazyInject() public editingPortalService:EditingPortalService;
 
@@ -203,7 +200,7 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
       });
 
       if (focus || userEnded) {
-        this.returnFocusFrom(cell, fieldName, focus, closing);
+        this.returnFocusFrom(fieldName, closing);
       }
     }
 
@@ -220,7 +217,7 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
 
   public override async submit(fieldName?:string):Promise<WorkPackageResource> {
     const origin = fieldName ? this.originFor(fieldName) : null;
-    this.submittedPosition = this.table.keyboardNavigation?.position ?? null;
+    this.submittedPosition = this.table.keyboardNavigation.position;
     const resource = await super.submit(fieldName);
     this.submittedOrigin = origin;
     return resource;
@@ -230,7 +227,7 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
     const origin = this.submittedOrigin;
     this.submittedOrigin = null;
     if (origin && !this.table.destroyed && !this.hasActiveFields()) {
-      this.table.keyboardNavigation?.returnFocus(origin);
+      this.table.keyboardNavigation.returnFocus(origin);
     }
   }
 
@@ -256,28 +253,23 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
     }
 
     if (!this.validationMayFocus()) {
-      this.table.keyboardNavigation?.repaintCurrentPosition();
+      this.table.keyboardNavigation.repaintCurrentPosition();
       return;
     }
 
     const navigation = this.table.keyboardNavigation;
-    this.engageOrigin(handler.fieldName);
-    if (navigation) {
-      navigation.focusEditor(handler);
-      navigation.repaintCurrentPosition();
-    } else {
-      handler.focus();
-    }
+    navigation.focusEditor(handler);
+    navigation.repaintCurrentPosition();
   }
 
   private validationMayFocus():boolean {
-    const current = this.table.keyboardNavigation?.position ?? null;
+    const current = this.table.keyboardNavigation.position;
     const submitted = this.submittedPosition;
-    if (submitted && current && (current.key !== submitted.key || current.cell !== submitted.cell)) return false;
+    if (submitted && current && !samePosition(current, submitted)) return false;
 
     const active = document.activeElement;
     const resting = !active || active === document.body;
-    return (resting && this.table.keyboardNavigation?.retainsFocus !== false)
+    return (resting && this.table.keyboardNavigation.retainsFocus)
       || insideGridContent(this.table.scrollContainer, active)
       || Object.values(this.activeFields).some((field) => field.owns(active));
   }
@@ -332,7 +324,7 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
   private originOf(fieldName:string):FocusPosition|null {
     const navigation = this.table.keyboardNavigation;
     const td = this.findCell(fieldName);
-    if (!td || !navigation) {
+    if (!td) {
       return null;
     }
 
@@ -344,13 +336,10 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
     return origin;
   }
 
-  private returnFocusFrom(container:HTMLElement, fieldName:string, focus:boolean|undefined, closing?:EditFieldHandler):void {
-    const navigation = this.table.keyboardNavigation;
+  private returnFocusFrom(fieldName:string, closing?:EditFieldHandler):void {
     const origin = this.originFor(fieldName);
-    if (!navigation) {
-      if (focus) this.FocusHelper.focus(container);
-    } else if (origin) {
-      navigation.returnFocus(origin, closing);
+    if (origin) {
+      this.table.keyboardNavigation.returnFocus(origin, closing);
     }
   }
 

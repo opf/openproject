@@ -39,6 +39,7 @@ import { CurrentUserService } from 'core-app/core/current-user/current-user.serv
 import {
   LabelsAutocompleterTemplateComponent,
 } from 'core-app/shared/components/autocompleter/labels-autocompleter/labels-autocompleter-template.component';
+import { isRecord } from 'core-app/shared/helpers/type-guards';
 
 export const labelsAutocompleterSelector = 'op-labels-autocompleter';
 
@@ -134,7 +135,10 @@ export class LabelsAutocompleterComponent extends OpAutocompleterComponent<ILabe
     };
   }
 
-  protected defaultTrackByFunction():(item:{ href:unknown, name:unknown }) => unknown {
-    return (item) => item.href ?? item.name;
+  protected defaultTrackByFunction():(item:unknown) => unknown {
+    return (item) => {
+      if (!isRecord(item)) return undefined;
+      return item.href ?? item.name;
+    };
   }
 }

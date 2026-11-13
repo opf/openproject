@@ -33,6 +33,7 @@ module Backlogs
     module Widgets
       class WorkPackageTable < Grids::WidgetComponent
         include Backlogs::CommonHelper
+        include Backlogs::SprintsHelper
 
         param :sprint
         param :project
@@ -55,7 +56,7 @@ module Backlogs
         def query_props
           {
             filters: filters.to_json,
-            "columns[]": %w[id subject type status assigned_to story_points],
+            "columns[]": %w[id subject type status assigned_to] + Array(estimation_column),
             sortBy: [%w[position asc]].to_json,
             showHierarchies: false,
             includeSubprojects: false,

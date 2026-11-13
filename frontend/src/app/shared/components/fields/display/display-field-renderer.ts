@@ -26,7 +26,6 @@
 //++
 
 import { removeTabStops } from 'core-app/shared/helpers/dom/remove-tab-stops';
-import { escape } from 'lodash-es';
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
@@ -119,7 +118,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     if (title && !span.getAttribute('title')) {
       span.setAttribute('title', title);
     }
-    span.setAttribute('aria-label', this.getAriaLabel(field, schema));
+    span.setAttribute('aria-label', this.getAriaLabel(field, schema, span));
 
     return [field, span];
   }
@@ -195,33 +194,24 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     return schema.isAttributeEditable(fieldName);
   }
 
-  private getAriaLabel(field:DisplayField, schema:ISchemaProxy):string {
-    let titleContent;
-    const labelContent = this.getLabelContent(field);
-
-    if (field.isFormattable && !field.isEmpty()) {
-      try {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(labelContent, 'text/html');
-        titleContent = escape(doc.body.textContent ?? '');
-      } catch {
-        console.error('Failed to parse formattable labelContent');
-        titleContent = `Label for ${field.displayName}`;
-      }
-    } else {
-      titleContent = labelContent;
-    }
+  private getAriaLabel(field:DisplayField, schema:ISchemaProxy, span:HTMLElement):string {
+    const attribute = `${field.displayName} ${this.getLabelContent(field, span)}`;
 
     if (field.writable && !!schema.isAttributeEditable(field.name)) {
-      return this.I18n.t('js.inplace.button_edit', { attribute: `${field.displayName} ${titleContent}` });
+      return this.I18n.t('js.inplace.button_edit', { attribute });
     }
-    return `${field.displayName} ${titleContent}`;
+    return attribute;
   }
 
-  private getLabelContent(field:DisplayField):string {
+  private getLabelContent(field:DisplayField, span:HTMLElement):string {
     if (field.isEmpty()) {
       return this.I18n.t('js.inplace.null_value_label');
     }
+
+    if (field.isFormattable || !field.valueString) {
+      return span.textContent?.trim() ?? '';
+    }
+
     return field.valueString;
   }
 

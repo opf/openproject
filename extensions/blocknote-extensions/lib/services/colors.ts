@@ -1,12 +1,14 @@
 import { type WorkPackage, type OpColorMode } from '../openProjectTypes';
-import { fetchTypes, fetchStatuses } from './openProjectApi';
+import { fetchTypes, fetchStatuses, fetchPriorities } from './openProjectApi';
 import { useEffect, useState } from 'react';
 
 const FALLBACK_TYPE_COLOR = '#3f3f3f';
 const FALLBACK_STATUS_COLOR = '#D2DAE4';
+const FALLBACK_PRIORITY_COLOR = FALLBACK_STATUS_COLOR;
 
 const statusColors:Record<string, string> = {};
 const typeColors:Record<string, string> = {};
+const priorityColors:Record<string, string> = {};
 let colorsPromise:Promise<void> | null = null;
 
 // Load colors only once (called when OpenProjectWorkPackageBlock is initialized).
@@ -39,30 +41,30 @@ export function cacheColors():Promise<void> {
     return colorsPromise;
   }
 
-  colorsPromise = Promise.all([
-    (async () => {
-      if (Object.keys(typeColors).length > 0) return;
-      const data = await fetchTypes();
-      data._embedded?.elements?.forEach(element => {
-        if (element.color) {
-          typeColors[element.id] = element.color;
-        }
-      });
-    })(),
-    (async () => {
-      if (Object.keys(statusColors).length > 0) return;
-      const data = await fetchStatuses();
-      data._embedded?.elements?.forEach(element => {
-        if (element.color) {
-          statusColors[element.id] = element.color;
-        }
-      });
-    })(),
-  ]).then(() => undefined).catch((error) => {
-    console.error('[colors] Failed to load colors from OpenProject:', error);
+  colorsPromise = Promise.allSettled([
+    cacheColorsOf(typeColors, fetchTypes),
+    cacheColorsOf(statusColors, fetchStatuses),
+    cacheColorsOf(priorityColors, fetchPriorities),
+  ]).then((results) => {
+    results.forEach((result) => {
+      if (result.status === 'rejected') console.error('[colors] Failed to load colors from OpenProject:', result.reason);
+    });
   });
 
   return colorsPromise;
+}
+
+async function cacheColorsOf(
+  cache:Record<string, string>,
+  fetchAll:() => Promise<{ _embedded?:{ elements?:{ id:string; color?:string | null }[] } }>,
+) {
+  if (Object.keys(cache).length > 0) return;
+  const data = await fetchAll();
+  data._embedded?.elements?.forEach(element => {
+    if (element.color) {
+      cache[element.id] = element.color;
+    }
+  });
 }
 
 export function colorOfType(typeHref:string | undefined) {
@@ -80,6 +82,12 @@ export function statusColor(workPackage:WorkPackage) {
   }
   const statusId = idFromHref(workPackage._links.status.href) ?? '';
   return statusColors[statusId] || FALLBACK_STATUS_COLOR;
+}
+
+export function priorityColor(workPackage:WorkPackage) {
+  const priorityHref = workPackage._links?.priority?.href;
+  const priorityId = priorityHref ? idFromHref(priorityHref) : undefined;
+  return priorityColors[priorityId ?? ''] || FALLBACK_PRIORITY_COLOR;
 }
 
 export function defaultColorStyles(hexColor:string) {

@@ -160,7 +160,7 @@ RSpec.describe OpPrimer::CheckAllComponent, type: :component do
     end
 
     it "renders custom separator" do
-      expect(rendered_component).to have_content "♾️"
+      expect(rendered_component).to have_text "♾️"
     end
   end
 end

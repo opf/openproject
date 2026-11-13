@@ -510,7 +510,7 @@ lt:
     oauth_grant_nudge_modal:
       cancel_button_label: Aš tai padarysiu vėliau
       heading: Login to %{provider_type} required
-      login_button_aria_label: Prisijungti prie %{storage}
+      login_button_accessible_name: "%{provider_type} log in to %{storage}"
       login_button_label: "%{provider_type} log in"
       project_settings:
         description: Kad gautumėte prieigą prie projekto aplanko, jums reikia prisijungti prie %{storage}.

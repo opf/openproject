@@ -45,9 +45,7 @@ module OpenProject::TextFormatting
       SKIPPED_BLOCKS = %w(pre code kbd a).to_set
 
       def self.protocols
-        Setting
-          .allowed_link_protocols
-          .map { |protocol| Regexp.escape(protocol) }
+        Setting::AllowedLinkProtocols.custom.map { |protocol| Regexp.escape(protocol) }
       end
 
       # Match custom schemes and ignore trailing punctuation
@@ -56,7 +54,7 @@ module OpenProject::TextFormatting
       end
 
       def call
-        return doc if Setting.allowed_link_protocols.empty?
+        return doc if self.class.protocols.empty?
 
         autolink_context = default_autolink_options.merge context.fetch(:autolink, {})
         return doc if autolink_context[:enabled] == false

@@ -58,5 +58,5 @@ post:
     Validates a user update payload.
 
     For self password changes, provide both `password` and `currentPassword`.
-  operationId: User_update_form
+  operationId: validate_user_update_form
   summary: User update form

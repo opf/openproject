@@ -91,7 +91,7 @@ RSpec.describe "Project description widget", :js do
 
       tested_page.visit!
       wait_for_network_idle
-      expect(page).to have_content("This is a test project description with markdown formatting.")
+      expect(page).to have_text("This is a test project description with markdown formatting.")
 
       portfolio.reload
       expect(portfolio.description).to include("This is a **test** project description")

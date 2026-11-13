@@ -69,11 +69,25 @@ export function toHex(color:RGBA):string {
 export function computedColor(value:string):RGBA {
   const srgb = /^color\(srgb\s+([^)]+)\)$/.exec(value);
   const rgb = /^rgba?\(([^)]+)\)$/.exec(value);
-  const match = srgb ?? rgb;
+  const hsl = /^hsla?\(([^)]+)\)$/.exec(value);
+  const match = srgb ?? rgb ?? hsl;
   if (!match) throw new Error(`Unsupported computed color: ${value}`);
 
-  const values = match[1].trim().split(/[\s,/]+/).map(Number);
+  const components = hsl ? match[1].replace(/\bnone\b/g, '0').replace(/%/g, '') : match[1];
+  const values = components.trim().split(/[\s,/]+/).map(Number);
   if (values.some(Number.isNaN)) throw new Error(`Invalid computed color: ${value}`);
+
+  if (hsl) {
+    const [hue, saturationPercent, lightnessPercent] = values;
+    const lightness = lightnessPercent / 100;
+    const amplitude = saturationPercent / 100 * Math.min(lightness, 1 - lightness);
+    const channels = [0, 8, 4].map((offset) => {
+      const position = (offset + hue / 30) % 12;
+      const channel = 255 * (lightness - amplitude * Math.max(-1, Math.min(position - 3, 9 - position, 1)));
+      return Math.max(0, Math.min(255, channel));
+    });
+    return [...channels, values[3] ?? 1] as RGBA;
+  }
 
   const channels = values.slice(0, 3).map((channel) => Math.max(0, Math.min(255, channel * (srgb ? 255 : 1))));
   return [...channels, values[3] ?? 1] as RGBA;

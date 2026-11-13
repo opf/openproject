@@ -2,7 +2,7 @@
 ---
 get:
   summary: View default query
-  operationId: View_default_query
+  operationId: get_default_query
   tags:
     - Queries
   description: Same as [viewing an existing, persisted Query](https://www.openproject.org/docs/api/endpoints/queries/#list-queries)

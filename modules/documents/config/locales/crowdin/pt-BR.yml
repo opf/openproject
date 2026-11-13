@@ -81,6 +81,12 @@ pt-BR:
         primary_action: Habilitar colaboração em tempo real
         success: A colaboração em tempo real foi habilitada.
     button_add_type: Tipo
+    collaboration_token:
+      errors:
+        collaboration_disabled: Real-time collaboration is not enabled.
+        collaboration_token_not_allowed: Requests authenticated with a collaboration token cannot request collaboration tokens.
+        invalid_previous_token: The previous collaboration token is invalid, already revoked, or does not belong to this document and user.
+        not_collaborative: The document does not support real-time collaboration.
     delete_dialog:
       confirmation_message_html: Isso excluirá permanentemente este documento e todos os anexos. Tem certeza de que deseja fazer isso?
       heading: Excluir este documento?

@@ -56,5 +56,5 @@ get:
   tags:
     - Categories
   description: ''
-  operationId: View_Category
+  operationId: get_category
   summary: View Category

@@ -131,8 +131,8 @@ ca:
     button_confirm: Confirmar
     button_continue: Continua
     button_copy: Copiar
-    button_copy_link_to_clipboard: Copy link to clipboard
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Copiar al porta-retalls
     button_copy_to_other_project: Duplicate in another project
     button_create: Crear
@@ -150,6 +150,7 @@ ca:
     button_log_time: Registrar temps
     button_more: Més
     button_more_actions: Més accions
+    button_move: Move
     button_open_details: Obrir vista detallada
     button_open_fullscreen: Obrir vista en pantalla completa
     button_quote: Citar
@@ -207,6 +208,7 @@ ca:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: S'ha produït un error amb el CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'No s''ha pogut guardar el document per culpa del següent error: %{error}'
@@ -438,7 +440,6 @@ ca:
     label_assignee: Assignat a
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Fitxers adjunts
-    label_author: 'Autor: %{user}'
     label_avatar: Avatar
     label_between: entre
     label_board: Taulell
@@ -567,7 +568,9 @@ ca:
     label_show_in_menu: Mostrar vista al menú
     label_sort_by: Ordena per
     label_sort_higher: Mou amunt
+    label_sort_highest: Move to top
     label_sort_lower: Mou avall
+    label_sort_lowest: Move to bottom
     label_sorted_by: ordenat per
     label_sorting: Ordenació
     label_spent_time: Temps utilitzat
@@ -819,6 +822,7 @@ ca:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.
@@ -1124,7 +1128,6 @@ ca:
         default_mode: Llista plana
         display_settings: Configuració de visualització
         display_sums_hint: Mostra les sumes totals dels atributs que es poden sumar en una fila a sota de la taula de resultats.
-        embedded_tab_disabled: Aquesta pestanya de configuració no està disponible per a la vista incrustada que estàs editant.
         hierarchy_hint: A tots els resultats filtrats de la taula se'ls afegirà els seus antecessors. Les jerarquies es poden expandir i col·lapsar.
         hierarchy_mode: Jerarquia
         highlighting: Ressaltar

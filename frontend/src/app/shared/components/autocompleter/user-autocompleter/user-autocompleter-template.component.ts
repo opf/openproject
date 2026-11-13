@@ -32,6 +32,7 @@ import {
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { PrincipalLike } from 'core-app/shared/components/principal/principal-types';
 import { hrefFromPrincipal, typeFromHref } from 'core-app/shared/components/principal/principal-helper';
+import { AutocompleterOptionContext, AutocompleterDropdownContext } from 'core-app/shared/components/autocompleter/op-autocompleter/typings';
 
 @Component({
   templateUrl: './user-autocompleter-template.component.html',
@@ -46,8 +47,8 @@ export class UserAutocompleterTemplateComponent implements IAutocompleterTemplat
   @Input() public isOpenedInModal = false;
   @Input() public hoverCards = true;
 
-  @ViewChild('optionTemplate') optionTemplate:TemplateRef<Element>;
-  @ViewChild('footerTemplate') footerTemplate?:TemplateRef<Element>;
+  @ViewChild('optionTemplate') optionTemplate:TemplateRef<AutocompleterOptionContext>;
+  @ViewChild('footerTemplate') footerTemplate?:TemplateRef<AutocompleterDropdownContext>;
 
   public getHoverCardUrl(principal:PrincipalLike) {
     if (!this.hoverCards || !principal.id) { return ''; }

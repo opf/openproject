@@ -34,7 +34,7 @@ import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
-import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
+import { lazyInject } from 'core-app/shared/helpers/angular/lazy-inject';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { registerWorkPackageMouseHandler } from './wp-timeline-cell-mouse-handler';
 import { TimelineMilestoneCellRenderer } from './timeline-milestone-cell-renderer';
@@ -44,17 +44,17 @@ import { RenderInfo } from '../wp-timeline';
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
 
 export class WorkPackageTimelineCell {
-  @LazyInject() halEditing:HalResourceEditingService;
+  readonly halEditing = lazyInject(HalResourceEditingService, { injector: () => this.injector });
 
-  @LazyInject() halEvents:HalEventsService;
+  readonly halEvents = lazyInject(HalEventsService, { injector: () => this.injector });
 
-  @LazyInject() notificationService:WorkPackageNotificationService;
+  readonly notificationService = lazyInject(WorkPackageNotificationService, { injector: () => this.injector });
 
-  @LazyInject() states:States;
+  readonly states = lazyInject(States, { injector: () => this.injector });
 
-  @LazyInject() loadingIndicator:LoadingIndicatorService;
+  readonly loadingIndicator = lazyInject(LoadingIndicatorService, { injector: () => this.injector });
 
-  @LazyInject() schemaCache:SchemaCacheService;
+  readonly schemaCache = lazyInject(SchemaCacheService, { injector: () => this.injector });
 
   private unregisterMouseHandler:() => void = () => undefined;
 
@@ -94,7 +94,7 @@ export class WorkPackageTimelineCell {
 
   canConnectRelations():boolean {
     const wp = this.latestRenderInfo.workPackage;
-    if (this.schemaCache.of(wp).isMilestone) {
+    if (this.schemaCache().of(wp).isMilestone) {
       return wp.date != null;
     }
 
@@ -158,10 +158,10 @@ export class WorkPackageTimelineCell {
         this.injector,
         () => this.latestRenderInfo,
         this.workPackageTimeline,
-        this.halEditing,
-        this.halEvents,
-        this.notificationService,
-        this.loadingIndicator,
+        this.halEditing(),
+        this.halEvents(),
+        this.notificationService(),
+        this.loadingIndicator(),
         cell,
         this.wpElement,
         this.labels,
@@ -174,7 +174,7 @@ export class WorkPackageTimelineCell {
   }
 
   private cellRenderer(workPackage:WorkPackageResource):TimelineCellRenderer {
-    if (this.schemaCache.of(workPackage).isMilestone) {
+    if (this.schemaCache().of(workPackage).isMilestone) {
       return this.renderers.milestone;
     }
 

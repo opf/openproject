@@ -56,6 +56,14 @@ module WorkPackage::Exports
 
       DISABLED_PROJECT_RICH_TEXT_FIELDS = %i[description status_explanation status_description].freeze
       DISABLED_WORK_PACKAGE_RICH_TEXT_FIELDS = %i[description].freeze
+      PROJECT_ATTRIBUTES = %w[
+        active description identifier name parent public status status_code status_explanation
+      ].freeze
+      WORK_PACKAGE_ATTRIBUTES = %w[
+        assigned_to author category created_at description done_ratio due_date estimated_hours parent priority
+        project project_phase remaining_hours responsible spent_hours start_date status subject target_versions
+        type updated_at
+      ].freeze
       LAYOUTS = OpenProject::TextFormatting::Matchers::AttributeMacros::LAYOUTS
 
       def self.regexp
@@ -170,18 +178,19 @@ module WorkPackage::Exports
       end
 
       def self.resolve_value_project(project, attribute, layout: nil)
-        resolve_value(project, attribute, DISABLED_PROJECT_RICH_TEXT_FIELDS, layout:)
+        resolve_value(project, attribute, PROJECT_ATTRIBUTES, DISABLED_PROJECT_RICH_TEXT_FIELDS, layout:)
       end
 
       def self.resolve_value_work_package(work_package, attribute, layout: nil)
-        resolve_value(work_package, attribute, DISABLED_WORK_PACKAGE_RICH_TEXT_FIELDS, layout:)
+        resolve_value(work_package, attribute, WORK_PACKAGE_ATTRIBUTES, DISABLED_WORK_PACKAGE_RICH_TEXT_FIELDS, layout:)
       end
 
-      def self.resolve_value(obj, attribute, disabled_rich_text_fields, layout: nil)
+      def self.resolve_value(obj, attribute, allowed_attributes, disabled_rich_text_fields, layout: nil)
         custom_field = find_custom_field(obj, attribute)
 
         attribute_name = convert_to_attribute_name(custom_field, attribute, obj)
         attribute_name = map_legacy_version(attribute_name, obj)
+        return " " unless custom_field || allowed_attributes.include?(attribute_name)
         return " " unless can_view_attribute?(custom_field, obj, attribute_name)
 
         is_rich_text = custom_field&.formattable? || disabled_rich_text_fields.include?(attribute_name.to_sym)

@@ -33,6 +33,10 @@ pre-commit:
       files: git diff --name-only --staged
       glob: "*.erb"
       run: erb_lint {files}
+    herb_lint:
+      files: git diff --name-only --staged
+      glob: "*.erb"
+      run: npm run herb:lint -- {files}
     primer-view-components-version-is-the-same-everyhwere:
       files: git diff --name-only --staged
       glob: "{Gemfile.lock,frontend/package.json}"
@@ -92,6 +96,10 @@ fix:
       files: git diff --name-only --staged
       glob: "*.erb"
       run: erb_lint --autocorrect {files}
+    herb_lint:
+      files: git diff --name-only --staged
+      glob: "*.erb"
+      run: npm run herb:lint -- --fix {files}
     order_yaml:
       files: git diff --name-only --staged
       glob:

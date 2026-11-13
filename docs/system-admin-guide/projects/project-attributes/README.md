@@ -122,7 +122,7 @@ There are multiple format options for project attributes in OpenProject. You can
 - **Long text** - creates a project attribute for cases where longer text needs to be entered.
 - **User** - creates a project attribute, which allows selecting users that are allowed to access the entity containing the project attribute.
 - **Version** - creates a project attribute, which allows selecting one or multiple versions. Versions are created on the project level in _Backlogs_ module.
-- **Weighted item list (Enterprise add-on)** - creates a project attribute similar to the _Hierarchy_ type, but with underlying numerical values used for project evaluation (e.g., **calculated values project attributes**. Please keep in mind that **weighted item lists** custom fields can't be used as multi-select.
+- **Weighted item list (Enterprise add-on)** - creates a project attribute similar to the _Hierarchy_ type, which allows selecting one or multiple items, but with underlying numerical values used for project evaluation (e.g., **calculated values project attributes**).
 
 ### Hierarchy project attribute (Enterprise add-on)
 
@@ -144,6 +144,8 @@ In contrast to Hierarchy, items in a weighted item list do not include a Short v
 
 This numeric value is required and can be used in calculations — for example, within a project attribute of type Calculated value
 
+Check _Allow multi-select_ to let users select multiple items. In a calculated value, a multi-select weighted item list provides the weights of all selected items, which can be combined using [aggregate functions](#aggregate-functions) such as `SUM` or `AVG`.
+
 ### Calculated value project attribute (Enterprise add-on)
 
 [feature: calculated_values ]
@@ -158,7 +160,7 @@ In the example below, a project attribute called **Initiative score (calculated)
 
 #### Formula syntax reference
 
-Formulas support the literals, operators, functions and keywords listed below, and can reference other project attributes — integer, float, boolean, weighted item list scores and other calculated values.
+Formulas support the literals, operators, functions and keywords listed below, and can reference other project attributes — integer, float, boolean, weighted item list scores and other calculated values. Multi-select weighted item lists can only be used within [aggregate functions](#aggregate-functions) such as `AVG`, `COUNT` or `SUM`. Using them with other functions or operators that require a single value as an input, e.g. `Reasons * 2` fails to calculate.
 
 ##### Literals
 
@@ -187,15 +189,25 @@ Operators with higher precedence evaluate before those with lower. Operators wit
 ##### Numeric functions
 
 | Name        | Description                                     | Examples                                                                                  |
-|-------------|-------------------------------------------------|-------------------------------------------------------------------------------------------|
+|-------------|-------------------------------------------------|------------------------------------------------------------------------------------------ |
 | `ABS`       | Absolute value                                  | `ABS(-5)` => `5`<br>`ABS(5)` => `5`                                                       |
-| `AVG`       | Arithmetic mean of arguments                    | `AVG(1, 2)` => `1.5`                                                                      |
-| `MAX`       | Largest argument                                | `MAX(3, 1, 2)` => `3`                                                                     |
-| `MIN`       | Smallest argument                               | `MIN(3, 1, 2)` => `1`                                                                     |
 | `ROUND`     | Round to 0 or specified number of decimals      | `ROUND(1.5)` => `2`<br>`ROUND(-1.5)` => `-2`<br>`ROUND(3.14159, 3)` => `3.142`            |
 | `ROUNDDOWN` | Round down to 0 or specified number of decimals | `ROUNDDOWN(1.5)` => `1`<br>`ROUNDDOWN(-1.5)` => `-2`<br>`ROUNDDOWN(0.9999, 3)` => `0.999` |
 | `ROUNDUP`   | Round up to 0 or specified number of decimals   | `ROUNDUP(1.5)` => `2`<br>`ROUNDUP(-1.5)` => `-1`<br>`ROUNDUP(1.0001, 3)` => `1.001`       |
-| `SUM`       | Sum of arguments                                | `SUM(1, 2, 3)` => `6`                                                                     |
+
+##### Aggregate functions
+
+| Name        | Description                                     | Examples                                                                                                                     |
+|-------------|-------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------- |
+| `AVG`       | Arithmetic mean of arguments                    | `AVG(1, 2)` => `1.5`<br>`AVG(Reasons)` => average selected item weight                                                       |
+| `COUNT`     | Number of arguments                             | `COUNT(1, 2, 3)` => `3`<br>`COUNT(Reasons)` => number of selected items                                                      |
+| `MAX`       | Largest argument                                | `MAX(3, 1, 2)` => `3`<br>`MAX(Reasons)` => maximum selected item weight                                                      |
+| `MIN`       | Smallest argument                               | `MIN(3, 1, 2)` => `1`<br>`MIN(Reasons)` => minimum selected item weight                                                      |
+| `MUL`       | Product of arguments                            | `MUL(2, 3, 4)` => `24`<br>`MUL(Reasons)` => product of selected items' weights                                               |
+| `SUM`       | Sum of arguments                                | `SUM(1, 2, 3)` => `6`<br>`SUM(Reasons)` => sum of selected items' weights<br>`SUM(Reasons, 2)` => sum of weights and numbers |
+
+Aggregate functions also accept multi-select weighted item lists as arguments, using the weights of all selected items,
+(e.g. `SUM(Reasons)`, `SUM(Reasons, 42, OtherReasons)`).
 
 ##### Comparison operators
 

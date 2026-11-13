@@ -94,7 +94,7 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
     end
 
     it "paints the window in the default header color" do
-      expect(manifest).to include("theme_color" => "#1A67A3")
+      expect(manifest).to include("theme_color" => "#0F41B5")
     end
 
     it "holds the page background until first paint" do
@@ -135,7 +135,7 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
     end
 
     it "keeps the default without an enterprise token" do
-      expect(manifest).to include("theme_color" => "#1A67A3")
+      expect(manifest).to include("theme_color" => "#0F41B5")
     end
   end
 
@@ -186,7 +186,7 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
     it "paints the title bar in the header color for a light preference" do
       sign_in_with_theme("light")
 
-      expect(page).to have_css(%(#{tags}[content="#1A67A3"]), count: 1, visible: :all)
+      expect(page).to have_css(%(#{tags}[content="#0F41B5"]), count: 1, visible: :all)
       expect(page).to have_no_css("#{tags}[media]", visible: :all)
     end
 
@@ -207,7 +207,7 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
 
       expect(rendered_tags).to eq([
                                     ["(prefers-color-scheme: light) and (prefers-contrast: more)", "#eff2f5"],
-                                    ["(prefers-color-scheme: light)", "#1A67A3"],
+                                    ["(prefers-color-scheme: light)", "#0F41B5"],
                                     ["(prefers-color-scheme: dark)", "#010409"]
                                   ])
     end

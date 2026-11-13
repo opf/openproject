@@ -29,7 +29,8 @@
 
 module OpenProject
   module RateLimiting
-    # Per-account HTTP-layer brute-force protection for POST /login.
+    # Per-account HTTP-layer brute-force protection for POST /login and
+    # POST /account/change_password, sharing one limit per username.
     #
     # Uses Rack::Attack::Allow2Ban: the first BURST_LIMIT attempts within
     # BURST_PERIOD are allowed through; once the limit is exceeded a ban flag
@@ -53,9 +54,7 @@ module OpenProject
 
       def apply!
         Rack::Attack.blocklist(rule_name) do |req|
-          next false unless req.post? && req.path == "/login"
-
-          username = req.env.dig("rack.request.form_hash", "username").to_s.downcase.presence
+          username = submitted_username(req)
           next false unless username
 
           Rack::Attack::Allow2Ban.filter(
@@ -74,6 +73,20 @@ module OpenProject
       end
 
       protected
+
+      def submitted_username(req)
+        return unless req.post?
+
+        param_name =
+          if req.path.end_with?("/login")
+            "username"
+          elsif req.path.end_with?("/account/change_password")
+            "password_change_user"
+          end
+        return unless param_name
+
+        ActionDispatch::Request.new(req.env).params[param_name].to_s.downcase.presence
+      end
 
       def burst_limit
         settings[:burst_limit].presence&.to_i || BURST_LIMIT

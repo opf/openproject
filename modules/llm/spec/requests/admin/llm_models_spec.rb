@@ -69,6 +69,15 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
     context "when logged in as admin" do
       before { login_as admin }
 
+      it "shows the shared header description whether or not models were fetched" do
+        create(:llm_connection, :with_models, base_url:)
+
+        get llm_models_path
+
+        expect(response.body).to include(I18n.t("admin.llm_connections.header_description"))
+        expect(response.body).not_to include("Reported by the server on")
+      end
+
       # The controller reads turboStreamRequest; with the old name the value was
       # ignored, live updates stayed off and typing sent no request at all.
       # Nothing caught it because the request spec calls /search directly.
@@ -647,7 +656,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(LlmModel.where(id: llm_model.id)).to be_empty
       end
 
-      # cascade_rename! keeps the defaults pointing at the model; deleting one has
+      # A rename keeps the defaults pointing at the model; deleting one has
       # to let go of it, or the connection keeps a default no model answers to.
       it "lets go of a connection default that named the deleted model" do
         llm_model = create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
@@ -762,13 +771,20 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(response.body).not_to include("stop working until another model is selected")
       end
 
+      it "labels the confirm button Remove model rather than Delete" do
+        get delete_dialog_llm_model_path(llm_model), headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+        expect(response.body).to include('<span class="Button-label">Remove model</span>')
+        expect(response.body).not_to include('<span class="Button-label">Delete</span>')
+      end
+
       it "offers a confirmation naming the features that would break" do
         create(:llm_feature_binding, llm_connection: connection, feature_key: "description_assistant", model_id: "hand-typed")
 
         get delete_dialog_llm_model_path(llm_model), headers: { "Accept" => "text/vnd.turbo-stream.html" }
 
         expect(response).to have_http_status(:ok)
-        expect(response.body).to include("Description assistant")
+        expect(response.body).to include("Text assistant")
       end
     end
 
@@ -834,6 +850,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
         patch llm_model_path(discovered), params: { llm_model: { external_id: "renamed" } }
 
+        expect(response).to have_http_status(:unprocessable_entity)
         expect(discovered.reload.external_id).to eq("server-named")
       end
     end

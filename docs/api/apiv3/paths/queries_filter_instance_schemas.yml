@@ -122,5 +122,5 @@ get:
     - Query Filter Instance Schema
   description: Returns the list of QueryFilterInstanceSchemas defined for a global
     query. That is a query not assigned to a project.
-  operationId: List_Query_Filter_Instance_Schemas
+  operationId: list_query_filter_instance_schemas
   summary: List Query Filter Instance Schemas

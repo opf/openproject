@@ -34,7 +34,7 @@ import {
   isItemFromRoot,
   isSortableItemIdentity,
   sortableListData,
-  type RootAwareChild,
+  type RegisteredRootAwareChild,
   type SortableListData,
   type SortableListDropPosition,
   type SortableListsRoot,
@@ -44,7 +44,7 @@ type CleanupFn = () => void;
 
 const dropPositions = new Set<string>(['start', 'end']);
 
-export default class ListController extends Controller<HTMLElement> implements RootAwareChild {
+export default class ListController extends Controller<HTMLElement> implements RegisteredRootAwareChild {
   static values = {
     type: String,
     id: String,

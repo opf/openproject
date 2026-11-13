@@ -36,6 +36,7 @@ module AI
 
       delegate :work_package, :project, to: :context
       delegate :ids, to: :context, prefix: true
+      delegate :mentions_converted?, to: :applicable
 
       def self.rejected(message:, label:, scope:, request_id:, context: Context.none)
         new(run: nil, scope:, request_id:, label:, context:, rejection: message)
@@ -66,6 +67,10 @@ module AI
         @text ||= completed_event ? completed_event.payload["text"].to_s : streamed_text
       end
 
+      def applicable_text
+        applicable.call
+      end
+
       def error_message
         rejection.presence ||
           error_event&.payload&.dig("message").presence ||
@@ -85,6 +90,10 @@ module AI
 
       def events
         @events ||= run ? run.events.sort_by(&:seq) : []
+      end
+
+      def applicable
+        @applicable ||= ApplicableText.new(text, input: run&.input)
       end
 
       def run_state

@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% if menu? %>
   <%= flex_layout(align_items: :center, justify_content: :space_between) do |row| %>
-    <% row.with_column(flex: 1) do %>
+    <% row.with_column(flex: 1, classes: "op-border-box-list-item--content") do %>
       <%= content %>
     <% end %>
     <% row.with_column do %>

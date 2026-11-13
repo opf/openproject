@@ -78,9 +78,11 @@ pt-PT:
               invalid: tem de ser um utilizador ou um utilizador de marcador de posição.
         time_entry:
           attributes:
+            base:
+              cannot_edit_time_entry: You don't have permissions to edit this time entry.
+              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
             entity:
               blank: O campo "Registado para" não pode ficar em branco.
-              cannot_log_for_this_work_package: Não tem autorizações para registar o tempo neste pacote de trabalho.
               format: "%{message}"
             hours:
               exceeds_user_working_hours: As horas registadas não podem exceder o limite de %{limit} horas disponíveis no dia de trabalho do utilizador.
@@ -94,6 +96,9 @@ pt-PT:
             start_time:
               format: "%{message}"
               invalid_time: Hora inválida. A hora deve estar compreendida entre as 00:00 e as 23:59.
+            user_id:
+              format: "%{message}"
+              no_access_to_entity: The selected user doesn't have access to this work package.
           duplicate_ongoing: Já existe outro temporizador em funcionamento. Apenas um temporizador pode estar ativo de cada vez.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Pacote de trabalho #%{id} não é um destino válido para reatribuir os registos de custo.'

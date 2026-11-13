@@ -13,7 +13,7 @@ fa:
         icon: آیکون سفارشی
         identifier: شناسه
         idp_cert: گواهی عمومی ارائه‌دهندهٔ هویت
-        idp_cert_fingerprint: Identity provider certificate fingerprint
+        idp_cert_fingerprint: اثر انگشت گواهی ارائه‌دهنده هویت
         idp_entity_id: شناسهٔ موجودیت Entity ID ارائه‌دهندهٔ هویت
         idp_slo_service_url: نقطهٔ پایانی خروج ارائه‌دهندهٔ هویت
         idp_sso_service_url: نقطهٔ پایانی ورود ارائه‌دهندهٔ هویت
@@ -154,8 +154,8 @@ fa:
       success: ارتقای تنظیمات بوسیله فراداده سرویس احراز هویت با موفقیت انجام شد.
     providers:
       apply_metadata:
-        expired: This metadata preview has expired or is invalid. Refresh the metadata again to review the latest configuration.
-        provider_changed: The provider configuration has changed since this preview. Refresh the metadata again to review the latest configuration.
+        expired: پیش‌نمایش این فراداده منقضی شده یا نامعتبر است. فراداده را دوباره دریافت کنید تا جدیدترین پیکربندی را بررسی کنید.
+        provider_changed: پیکربندی ارائه‌دهنده از زمان این پیش‌نمایش تغییر کرده است. فراداده را دوباره دریافت کنید تا جدیدترین پیکربندی را بررسی کنید.
       attribute_mapping: نگاشت ویژگی‌ها
       attribute_mapping_text: 'فیلدهای زیر کنترل می کنند که کدام ویژگی های ارائه شده توسط ارائه دهنده هویت SAML برای ارائه ویژگی های کاربر در OpenProject استفاده می شود
 
@@ -177,17 +177,17 @@ fa:
         dialog: 'این نشانی اینترنتی است که فراداده SAML OpenProject در آن موجود است. به صورت اختیاری از آن برای پیکربندی ارائه دهنده هویت خود استفاده کنید:'
       metadata_changes:
         table_component:
-          current_value: Current value
-          mobile_title: Metadata changes
-          new_value: New value
+          current_value: مقدار فعلی
+          mobile_title: تغییرات فراداده
+          new_value: مقدار جدید
       no_results_table: هیچ ارائه دهنده سخت‌افزار احراز هویتی تعریف نشده است.
       notice_created: ارائه‌دهندهٔ هویت SAML جدید با موفقیت ایجاد شد.
       plural: ارائه دهنده های سخت‌افزار احراز هویت
       refresh_metadata:
-        apply: Apply changes
-        description: Review the configuration fetched from your identity provider. Changes are saved only when you apply them.
-        no_changes: The metadata matches the current configuration.
-        title: Review metadata changes
+        apply: اعمال تغییرات
+        description: پیکربندی دریافت‌شده از ارائه‌دهنده هویت را بررسی کنید. تغییرات فقط پس از اعمال، ذخیره می‌شوند.
+        no_changes: فراداده با پیکربندی فعلی مطابقت دارد.
+        title: بازبینی تغییرات فراداده
       request_attributes:
         format: قالب ویژگی
         legend: 'این ویژگی‌ها به فراداده SAML XML اضافه می‌شوند تا به ارائه‌دهنده شناسایی مشخص کنند که OpenProject به کدام ویژگی‌ها نیاز دارد. ممکن است همچنان نیاز باشد که ارائه دهنده هویت خود را برای ارسال این ویژگی ها به صراحت پیکربندی کنید. لطفاً به اسناد IdP خود مراجعه کنید.
@@ -213,8 +213,8 @@ fa:
       seeded_from_env: این ارائه دهنده از پیکربندی محیط استخراج شده است. قابل ویرایش نیست.
       side_panel:
         refresh_metadata_component:
-          button: Refresh metadata
-          description: You can check if the configuration fetched from your identity provider has changed.
+          button: به‌روزرسانی فراداده
+          description: می‌توانید بررسی کنید که آیا پیکربندی دریافت‌شده از ارائه‌دهنده هویت تغییر کرده است یا نه.
       singular: ارائه دهنده سخت‌افزار احراز هویت
       upsell:
         description: اتصال اوپن‌پروجکت به ارائه‌دهندهٔ هویت SAML

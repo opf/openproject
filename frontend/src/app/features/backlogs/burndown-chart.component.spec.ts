@@ -65,11 +65,11 @@ describe('BurndownChartComponent', () => {
   };
 
   // The window is the server's, not the series' extent, so it is stated rather than derived.
-  const chartData = (series:unknown[], step:'day'|'hour' = 'hour') => JSON.stringify({
+  const chartData = (series:unknown[], step:'day'|'hour' = 'hour', nonWorkingIntervals:unknown[] = []) => JSON.stringify({
     step,
     range: { from: '2026-10-12T00:00:00.000Z', to: '2026-10-23T23:59:59.999Z' },
     series,
-    nonWorkingIntervals: [],
+    nonWorkingIntervals,
   });
 
   const point = (x:string, y:number) => ({ x, y });
@@ -90,8 +90,8 @@ describe('BurndownChartComponent', () => {
     element = fixture.nativeElement as HTMLElement;
   });
 
-  const renderWith = (series:unknown[], step:'day'|'hour' = 'hour') => {
-    fixture.componentRef.setInput('chartData', chartData(series, step));
+  const renderWith = (series:unknown[], step:'day'|'hour' = 'hour', nonWorkingIntervals:unknown[] = []) => {
+    fixture.componentRef.setInput('chartData', chartData(series, step, nonWorkingIntervals));
     fixture.detectChanges();
   };
 
@@ -230,6 +230,21 @@ describe('BurndownChartComponent', () => {
 
     expect(fixture.componentInstance.lineChartData().datasets.map((dataset) => dataset.fill))
       .toEqual([true, false]);
+  });
+
+  it('adds a point-less series so the non-working days get a legend entry that toggles them', () => {
+    renderWith(seriesWithAPointAt('2026-10-12T09:00:00.000Z'), 'hour', [{ from: '2026-10-17', to: '2026-10-18' }]);
+
+    const standIn = fixture.componentInstance.lineChartData().datasets[1];
+
+    expect(standIn.data).toEqual([]);
+    expect(standIn.label).toEqual('js.sprint_charts.non_working_day');
+  });
+
+  it('leaves the non-working stand-in out when there are no bands to paint', () => {
+    renderWith(seriesWithAPointAt('2026-10-12T09:00:00.000Z'));
+
+    expect(fixture.componentInstance.lineChartData().datasets).toHaveLength(1);
   });
 
   it('uses a unique description ID for each chart', () => {

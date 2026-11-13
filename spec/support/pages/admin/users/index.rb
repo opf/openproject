@@ -160,7 +160,7 @@ module Pages
         end
 
         def filter_panel_open?
-          page.has_select?("add_filter_select", visible: true, wait: 0)
+          page.has_select?("add_filter_select", visible: :visible, wait: 0)
         end
 
         def within_filter(name, &)

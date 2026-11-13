@@ -33,7 +33,7 @@ get:
   tags:
     - Labels
   description: Returns a paginated collection of labels, sorted by name.
-  operationId: List_all_Labels
+  operationId: list_all_labels
   summary: List all Labels
   parameters:
     - name: filters

@@ -103,7 +103,7 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
         query_props = {
           f: [{ n: "sprintId", o: "=", v: ["123"] }],
           t: "position:asc",
-          c: %w[id subject sprint],
+          c: %w[id subject sprint story_points],
           is: false
         }.to_json
 

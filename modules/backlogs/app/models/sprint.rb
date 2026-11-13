@@ -29,6 +29,7 @@
 
 class Sprint < ApplicationRecord
   include ::Scopes::Scoped
+  include Sprints::Origin
 
   belongs_to :project
   has_many :work_packages, inverse_of: :sprint, dependent: :nullify
@@ -57,6 +58,7 @@ class Sprint < ApplicationRecord
          :not_completed,
          :order_by_activity,
          :order_by_date,
+         :preceding,
          :receiving_projects,
          :visible,
          :native_to_sprint_source

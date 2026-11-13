@@ -47,7 +47,7 @@ describe('table harness production markup', () => {
     expect(harness.headerCells().map((th) => th.textContent?.trim())).toEqual(['id', 'subject', '']);
     expect(harness.headerRow().closest('thead')).toHaveClass('-sticky');
     expect(harness.totalsRow()).toHaveClass('wp-table--sums-row');
-    expect(harness.headerCells()[0].querySelector('a[href]')).not.toBeNull();
+    expect(harness.headerCells()[0].querySelector('button.wp-table--column-menu-button')).not.toBeNull();
     expect(harness.headerCells()[2].querySelector('button.wp-table--columns-selection')).not.toBeNull();
   });
 
@@ -57,6 +57,22 @@ describe('table harness production markup', () => {
 
     expect(harness.headerCells()).toHaveLength(2);
     expect(harness.totalsRow().cells).toHaveLength(2);
+  });
+
+  it('mutes hierarchy ancestors that are outside the query results', async () => {
+    harness = buildTable({
+      workPackages: [{ id: '2', ancestors: [{ id: '1' }] }],
+      showHierarchies: true,
+    });
+    harness.container.style.setProperty('--fgColor-muted', '#777777');
+    harness.container.style.setProperty('--body-font-color', '#111111');
+    harness.container.style.color = 'var(--body-font-color)';
+    await harness.render();
+
+    const ancestor = harness.row('1');
+    expect(getComputedStyle(ancestor).color).toBe('rgb(119, 119, 119)');
+    expect(getComputedStyle(ancestor.querySelector('.wp-table--hierarchy-indicator-icon')!).color).toBe('rgb(119, 119, 119)');
+    expect(getComputedStyle(harness.row('2')).color).toBe('rgb(17, 17, 17)');
   });
 
   it('keeps the baseline inactive and the translator returning keys by default', () => {

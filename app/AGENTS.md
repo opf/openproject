@@ -24,7 +24,7 @@
 ### Templates
 - Use ERB for server-rendered views
 - Use ViewComponents for reusable UI (with Lookbook previews)
-- Lint with erb_lint before committing
+- Lint with erb_lint and `npm run herb:lint -- path/to/template.html.erb` before committing
 
 ## Translations
 

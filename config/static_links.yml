@@ -10,6 +10,8 @@ blog:
 blog_article_progress_changes:
   href: https://www.openproject.org/blog/updates-to-progress-tracking-in-14-4-based-on-user-feedback/
   label: Significant changes to progress and work estimates
+calculated_value_formula_docs:
+  href: https://www.openproject.org/docs/system-admin-guide/projects/project-attributes/#formula-syntax-reference
 chargebee:
   href: https://js.chargebee.com/v2/chargebee.js
 client_credentials_code_flow:

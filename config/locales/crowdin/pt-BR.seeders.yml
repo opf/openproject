@@ -71,15 +71,15 @@ pt-BR:
           name: Gerente de equipe e projetos
         item_1:
           name: Função global padrão
-      ai_text_transform_actions:
+      ai_text_actions:
         item_0:
-          label: Corrigir gramática
+          label: Fix grammar
         item_1:
-          label: Resumir
+          label: Make concise
         item_2:
-          label: Traduzir para o inglês
+          label: Translate to English
         item_3:
-          label: Classificar no modelo
+          label: Sort into template
     standard:
       project_phases:
         item_0:
@@ -117,6 +117,17 @@ pt-BR:
           name: Finanças e administração
         item_6:
           name: Garantia de qualidade
+      labels:
+        item_0:
+          name: Website
+        item_1:
+          name: Marketing
+        item_2:
+          name: Speakers
+        item_3:
+          name: Security
+        item_4:
+          name: UX
       projects:
         demo-project:
           name: Projeto de demonstração

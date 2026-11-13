@@ -86,7 +86,7 @@ export class WorkPackageTableEditingContext {
 
   public markOverlay(overlay:HTMLElement):void {
     overlay.dataset.wpTableEditor = this.ownerId;
-    this.table.keyboardNavigation?.adoptOverlay(overlay);
+    this.table.keyboardNavigation.adoptOverlay(overlay);
   }
 
   public reset() {
@@ -103,17 +103,6 @@ export class WorkPackageTableEditingContext {
 
   public change(workPackage:WorkPackageResource):WorkPackageChangeset|undefined {
     return this.halEditing.typedState<WorkPackageResource, WorkPackageChangeset>(workPackage).value;
-  }
-
-  // TODO
-  public stopEditing(workPackage:WorkPackageResource) {
-    this.halEditing.stopEditing(workPackage);
-
-    const existing = this.forms[workPackage.id!];
-    if (existing) {
-      existing.destroy();
-      delete this.forms[workPackage.id!];
-    }
   }
 
   public startEditing(workPackage:WorkPackageResource, classIdentifier:string):TableEditForm {

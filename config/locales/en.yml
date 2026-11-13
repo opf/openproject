@@ -93,7 +93,7 @@ en:
 
   activerecord:
     attributes:
-      ai/text_transform_action:
+      ai/text_action:
         active: "Active"
         injects_type_template: "Insert work package type template"
         label: "Label"
@@ -423,6 +423,7 @@ en:
       type:
         allow_project_variants: "Allow project-specific variants"
         color: "Color"
+        description: "Description"
         is_in_roadmap: "Displayed in roadmap by default"
         is_milestone: "Is milestone"
         project_types: "Projects"
@@ -432,6 +433,7 @@ en:
       type_variant:
         attribute_groups: "Form"
         default_work_package_description: "Default text for description"
+        description: "Description"
         enabled_in_new_projects: "Active in new projects"
         linked_aspects: "Inherited configuration"
         patterns: "Patterns"
@@ -554,6 +556,11 @@ en:
         labels: "Labels"
         notify: "Notify" # used in custom actions
         observed_in_versions: "Observed in versions"
+        origin: "Origin"
+        origin_host: "Origin host"
+        origin_id: "Origin ID"
+        origin_source: "Origin source"
+        origin_url: "Origin URL"
         parent: "Parent"
         parent_issue: "Parent"
         parent_work_package: "Parent"
@@ -711,6 +718,7 @@ en:
               format: "%{message}"
               invalid: "Formula is invalid."
               invalid_tokens: "Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed."
+              multi_value_list_not_aggregated: "Multi-select attributes (%{custom_fields}) can only be used within aggregate functions."
               not_allowed_custom_fields_referenced: "The attribute %{custom_fields} cannot be used because it leads to a circular reference; one attribute depends on the other."
             project_specific_value_restriction:
               not_supported: "is only available for work package custom fields of the formats list, hierarchy and weighted item list."
@@ -1097,9 +1105,9 @@ en:
       action:
         one: "Action"
         other: "Actions"
-      ai/text_transform_action:
-        one: "Text transform action"
-        other: "Text transform actions"
+      ai/text_action:
+        one: "Text action"
+        other: "Text actions"
       ai/text_transform_run:
         one: "Text transform run"
         other: "Text transform runs"
@@ -1486,6 +1494,7 @@ en:
       phase_and_both_gates: "%{phase_message}. %{start_gate_message}, and %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}. %{gate_message}"
       removed_date: "date deleted %{date}"
+      status_changed: "phase changed from %{from} to %{to}"
 
   admin:
     banners:
@@ -1519,7 +1528,7 @@ en:
             name: "High contrast mode logo"
         touch_icon:
           field: "Touch icon"
-          field_description: "The image should be 180x180px in PNG format and colour background to avoid contrast problems."
+          field_description: "The image should be 180x180px in PNG format and color background to avoid contrast problems."
           title: "Custom touch icon"
           title_description: "This is the icon that appears when bookmark in the tablets or mobiles home. By default the OpenProject touch icon is used, but if you upload a new touch icon the theme will automatically be changed to Custom theme."
       color_groups:
@@ -1709,6 +1718,10 @@ en:
             title: "Create versions for '%{jira_project_name}'"
           JiraCreateProjectWorkPackagesJob:
             title: "Create work packages for '%{jira_project_name}'"
+          JiraCreateRelationsJob:
+            title: "Create relations for '%{jira_project_name}'"
+          JiraCreateSprintsJob:
+            title: "Create sprints"
           JiraCreateUsersJob:
             title: "Create users"
           JiraDownloadProjectWorkPackageAttachmentsJob:
@@ -1719,12 +1732,16 @@ en:
             title: "Fetch issue types"
           JiraFetchPrioritiesJob:
             title: "Fetch priorities"
+          JiraFetchProjectBoardsJob:
+            title: "Fetch boards for project '%{jira_project_name}'"
           JiraFetchProjectIssuesJob:
             title: "Fetch issues for project '%{jira_project_name}'"
           JiraFetchProjectVersionsJob:
             title: "Fetch versions for project '%{jira_project_name}'"
           JiraFetchProjectsJob:
             title: "Fetch projects"
+          JiraFetchSprintsJob:
+            title: "Fetch sprints"
           JiraFetchStatusesJob:
             title: "Fetch statuses"
           JiraFetchUsersJob:
@@ -1865,10 +1882,16 @@ en:
                 projects:
                   label: "Projects"
                   subtitle: "Selected as scope"
+                sprints:
+                  label: "Sprints"
+                  subtitle: "With goals and work package assignments"
                 title: "Data imported"
                 users_and_groups:
                   label: "Users & groups"
-                  subtitle: "Involved in imported projects "
+                  subtitle: "Involved in imported projects"
+                versions:
+                  label: "Versions"
+                  subtitle: "Of the imported projects"
                 work_packages:
                   label: "Work packages"
                   subtitle: "With attachments and logged time"
@@ -1885,17 +1908,15 @@ en:
               description: "Select what data you want to import from the available data fetched from the host Jira instance."
               elements:
                 custom_fields: "A subset of custom fields"
-                issue_details: "Issue description, history, comments and attachments"
-                issue_ids: "Issue identifiers"
+                issue_details: "Issue identifiers, description, history, comments and attachments"
                 issues: "Issues"
                 logged_time: "Logged time"
                 permissions: "Permissions"
-                project_ids: "Project identifiers"
-                project_versions: "Project versions"
+                project_details: "Project identifiers, description and versions"
                 projects: "Projects"
                 relations: "Relations between issues"
                 schemes: "Schemas"
-                sprints: "Sprint assignments"
+                sprints: "Sprints and sprint assignments"
                 users: "Involved users and groups"
                 workflows: "Project-level workflows"
               label_coming_later: "Coming later"
@@ -1922,17 +1943,20 @@ en:
               rest_line_text: ""
               title: "Fetch Jira configuration"
             "10":
+              rest_line_text: "Creating relations for %{projects_number} more projects"
+              title: "Create relations"
+            "11":
               rest_line_text: "Creating time entries for %{projects_number} more projects"
               title: "Create time entries"
-            "11":
+            "12":
               rest_line_text: "Downloading attachments for %{projects_number} more projects"
               title: "Download attachments"
             "2":
-              rest_line_text: "Fetching issues and versions for %{projects_number} more projects"
-              title: "Fetch project issues and versions"
+              rest_line_text: "Fetching issues, boards and versions for %{projects_number} more projects"
+              title: "Fetch project issues, boards and versions"
             "3":
               rest_line_text: ""
-              title: "Fetch users and custom fields"
+              title: "Fetch users, sprints and custom fields"
             "4":
               rest_line_text: ""
               title: "Create users, groups and memberships"
@@ -1943,8 +1967,8 @@ en:
               rest_line_text: "Creating %{projects_number} more projects"
               title: "Create projects"
             "7":
-              rest_line_text: "Creating versions for %{projects_number} more projects"
-              title: "Create project versions"
+              rest_line_text: "Creating versions and sprints for %{projects_number} more projects"
+              title: "Create project versions and sprints"
             "8":
               rest_line_text: "Creating work packages for %{projects_number} more projects"
               title: "Create work packages"
@@ -2220,11 +2244,11 @@ en:
         page_header:
           description: Choose between classic numerical work package IDs or semantic project-specific ones that prepend the project identifier to the work package ID.
         success_banner: Successfully updated work package identifier format.
-    text_transform_actions:
+    text_actions:
       delete_dialog_component:
         description: "Users will no longer be able to run this action in the rich text editor."
         heading: 'Are you sure you want to delete the action "%{label}"?'
-        title: "Delete text transform action"
+        title: "Delete action"
       form:
         injects_type_template_caption: "If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template."
         label_caption: "This is the name that will be visible to users in the editor."
@@ -2232,19 +2256,20 @@ en:
         types_caption: "Add work package types for which this action should be available. All available variants will automatically be included."
         usage_scope_caption: "You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types."
       index:
-        description: "Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions."
+        description: "The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions."
         label_add_action: "Action"
-        label_aria_add_action: "Add text transform action"
+        label_aria_add_action: "Add action"
+        section_title: "Actions"
       index_component:
         blank_slate:
           description: "Add an action to see it here"
-          title: "No text transform actions configured yet"
-        disabled_warning: "Text transform actions are disabled. The following actions will not be available anywhere."
+          title: "No actions configured yet"
+        disabled_warning: "All text actions are disabled. The text editor will not show the text action options at all."
         label_disable_all: "Disable all"
         label_enable_all: "Enable all"
-        title: "Actions"
+        title: "Action"
       new:
-        title: "New text transform action"
+        title: "New text action"
       row_component:
         label_actions: "Action menu"
         label_toggle: "Toggle %{label}"
@@ -2259,6 +2284,8 @@ en:
       blankslate:
         description: "Add statuses to start configuring workflows for this role"
         linked_description: "This type reuses the workflows of its linked source type, which has no status transitions configured"
+        readonly_description: "Select other roles to view configured transitions"
+        readonly_title: "No status transitions configured for the selected roles"
         title: "No status transitions configured"
       leave_confirmation:
         description: "You are about to leave this page but you have unsaved changes. Would you like to save them before continuing?"
@@ -2309,7 +2336,7 @@ en:
       errors:
         connection_failed: "The AI service could not be reached."
         context_too_long: "The text is too long for the AI model. Shorten it and try again."
-        not_available: "The AI assistant is not available."
+        not_available: "The text assistant is not available."
         rate_limited: "The AI service is busy. Try again in a moment."
         timeout: "The AI service did not respond in time."
         upstream_error: "The AI service returned an error."
@@ -2321,7 +2348,11 @@ en:
         editor_gone: "The editor is no longer open, so the text cannot be replaced. You can still copy it."
         failed_title: "Generation failed"
         generating: "Generating…"
+        mentions_converted: >-
+          New mentions in the AI suggestion were turned into plain text so no one is notified unintentionally.
+          After Replace, you can mention them again in the editor.
         replace: "Replace"
+        request_failed: "The request failed. Close the result and try again."
         selection_gone: "The selected text is no longer there, so it cannot be replaced. You can still copy it."
         stopped_description: "The response was blocked before it finished, so the partial text was discarded."
         stopped_title: "Generation stopped"
@@ -2358,6 +2389,8 @@ en:
         emoji_reactions_activity_type_not_supported: "This activity type does not support emoji reactions."
         invalid_link: "The link under key '%{key}' is not valid."
         links_not_an_object: "_links must be a JSON object."
+        pdf_export_no_template_enabled: "No PDF export template is enabled for the type of this work package."
+        pdf_export_template_not_enabled: "The PDF export template '%{template}' is not enabled for the type of this work package."
       code_400: "Bad request: %{message}"
       code_401: "You need to be authenticated to access this resource."
       code_401_wrong_credentials: "You did not provide the correct credentials."
@@ -2719,6 +2752,7 @@ en:
       disabled_value: The attribute "%{custom_field_name}" is required by this Calculated value, but is disabled for the project.
       mathematical: "The mathematical formula leads to an error. Please review the project calculation attribute and try again."
       missing_value: The attribute "%{custom_field_name}" is required by this Calculated value, but is empty.
+      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
       unknown: "An unknown error occurred. Please review the formula for this Calculated value."
 
   colors:
@@ -2768,7 +2802,7 @@ en:
     failure_message: Consent failed, cannot proceed.
     not_yet_consented: The user has not yet given their consent to your [configured consent information text](consent_settings). They will be reminded the next time they log in.
     text_update_consent_time: Check this box to force users to consent again. Enable when you have changed the legal aspect of the consent information above.
-    title: User Consent
+    title: User consent
     update_consent_last_time: "Last update of consent: %{update_time}"
     user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
 
@@ -2903,7 +2937,7 @@ en:
         warning: Depending on the role selected below, the user assigned to this project attribute might gain significantly more permissions than they previously had, including the ability to add new members and elevate their role.
     calculated_field_not_editable: "Non-editable attribute. This value is calculated automatically."
     confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
-    contained_in_type: "Contained in type"
+    contained_in: "Contained in"
     enabled_in_project: "Enabled in project"
     instructions:
       admin_only:
@@ -2912,7 +2946,8 @@ en:
       editable:
         all: "Allow the field to be editable by users themselves."
       formula:
-        project: "Add numeric values or type / to search for an attribute, operator, function or other token."
+        project: "Add numeric values or type / to search for an attribute, operator, function or other token. See the
+        [formula syntax documentation](docs_url) for reference."
       has_comment:
         project: "Allows the user to add a comment related to the project attribute when selecting the value in the project overview."
       is_filter:
@@ -3263,6 +3298,7 @@ en:
       scim_api: SCIM server API
       sso_auth_providers: Single Sign-On
       team_planner_view: Team Planner View
+      text_assistant: Text assistant
       virus_scanning: Antivirus Scanning
       weighted_item_lists: Weighted item lists
       work_package_query_relation_columns: Work Package Query Relation Columns
@@ -3373,6 +3409,9 @@ en:
       sso_auth_providers:
         description: "Enable users to log in via external SSO providers using SAML or OpenID Connect for seamless access and integration with existing identity systems."
         title: "Single Sign-On (SSO)"
+      text_actions:
+        description: "Proofread, rewrite and structure text with AI, right where you write. Use the built-in actions or add your own."
+        title: "Text assistant"
       title: "Enterprise add-on"
       trial_text: "This feature is included in your active Enterprise trial."
       unlimited: "Unlimited"
@@ -3638,6 +3677,7 @@ en:
         caption: "The new form starts with a copy of that form's attribute groups."
         label: "Copy from"
         placeholder: "Select a form…"
+      copy_title: "Copy form %{name}"
       description:
         caption: "Add a short description about where and how will this form be used."
         label: "Description"
@@ -3645,7 +3685,7 @@ en:
       name:
         caption: "Pick a name that will let you identify this form later in other places."
         label: "Form name"
-      new_title: "Create form"
+      save_title: "Save form"
     index:
       actions:
         edit: "Edit form"
@@ -4051,7 +4091,7 @@ en:
   label_active_in_new_projects: "Active in new projects"
   label_activity: "Activity"
   label_add_another_file: "Add another file"
-  label_add_column: "Add column"
+  label_add_column: "Add columns"
   label_add_columns: "Add selected columns"
   label_add_edit_translations: "Add and edit translations"
   label_add_note: "Add a note"
@@ -4066,6 +4106,7 @@ en:
   label_additional_workflow_transitions_for_author: "Additional transitions allowed when the user is the author"
   label_administration: "Administration"
   label_age: "Age"
+  label_aggregate_function_plural: "Aggregate functions"
   label_ago: "days ago"
   label_all: "all"
   label_all_open_wps: "All open"
@@ -4155,7 +4196,7 @@ en:
   label_completed: Completed
   label_configuration: configuration
   label_confirmation: "Confirmation"
-  label_consent_settings: "User Consent"
+  label_consent_settings: "User consent"
   label_constant_plural: "Constants"
   label_contains: "contains"
   label_content: "Content"
@@ -4186,7 +4227,7 @@ en:
   label_custom_export_footer: "Footer image"
   label_custom_export_logo: "Logo"
   label_custom_favicon: "Custom favicon"
-  label_custom_field_add_no_type: "Add this field to a work package type"
+  label_custom_field_add_no_form: "Add this field to a form"
   label_custom_field_default_type: "Empty type"
   label_custom_field_new: "New custom field"
   label_custom_field_plural: "Custom fields"
@@ -4281,7 +4322,7 @@ en:
   label_filter: "Filters"
   label_filter_add: "Add filter"
   label_filter_any_name_attribute: "Name attributes"
-  label_filter_by: "Filter by"
+  label_filter_by_column: "Filter by %{column}"
   label_filter_plural: "Filters"
   label_filters_toggle: "Show/hide filters"
   label_float: "Float"
@@ -4804,6 +4845,9 @@ en:
     one: "%{count} file"
     other: "%{count} files"
     zero: "no files"
+  label_x_forms:
+    one: "%{count} form"
+    other: "%{count} forms"
   label_x_items:
     one: "%{count} item"
     other: "%{count} items"
@@ -5167,7 +5211,7 @@ en:
       mail_notification: "Email notifications"
       mails_and_notifications: "Emails and notifications"
       mcp_configurations: "Model Context Protocol (MCP)"
-      text_transform_actions: "Text transform actions"
+      text_actions: "Text assistant"
     quick_add:
       label: "Add…"
 
@@ -5743,6 +5787,15 @@ en:
       toc:
         caption: Add a table of contents page indexing the section headers.
         label: Table of contents
+      wiki_pages:
+        add: Add wiki pages
+        caption: You can add one or more wiki pages that will be included at the end of the exported PDF.
+        dialog_subtitle: Select the wiki page you would like to add
+        dialog_title: Add existing wiki page
+        manage_label: Manage and reorder wiki pages
+        placeholder: Select a wiki page
+        unavailable: "Unavailable wiki page (%{reference})"
+        visibility_warning: Adding a wiki page makes its content visible to everyone who can export this artefact, even if they cannot access the wiki page itself.
     page_nr_footer: "Page %{page} of %{total}"
     template_artefact:
       caption: Work package details rendered as a PMflex Artefact.
@@ -5994,7 +6047,7 @@ en:
   project_module_activity: "Activity"
   project_module_forums: "Forums"
   project_module_news: "News"
-  project_module_repository: "Repository"
+  project_module_repository: "SVN/Git Repository (deprecated)"
   project_module_wiki: "Wiki"
   project_module_work_package_tracking: "Work packages"
 
@@ -6040,6 +6093,15 @@ en:
       new:
         placeholder: "New project list"
       shared: "Shared project lists"
+    phase_status:
+      description:
+        completed: 'Marking a phase as complete will complete all previous phases.'
+        in_progress: 'Marking a phase as complete will complete all previous phases.'
+        open: 'Re-opening a phase will also open all future phases.'
+      title:
+        completed: 'Completed'
+        in_progress: 'In progress'
+        open: 'Open'
     settings:
       actions:
         label_disable_all: "Disable all"
@@ -6179,10 +6241,12 @@ en:
         switch:
           apply: "Apply"
           impact:
-            hidden_heading: "Fields that will no longer be shown"
-            missing_statuses_description: "The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on."
-            missing_statuses_heading: "Work packages that get stuck"
-            new_heading: "Fields that become available"
+            hidden_description: "The variant you have selected does not include these fields. Any values these fields previously had will no longer be visible."
+            hidden_heading: "Fields that will be removed"
+            missing_statuses_description: "The workflow you have selected has no transitions out of the following statuses. Users will not be able to transition to a new status."
+            missing_statuses_heading: "Work packages without transitions"
+            new_description: "The variant you have selected has these additional fields. They will be added to all relevant work packages with an empty value."
+            new_heading: "Fields that will be added"
             nothing_affected: "No fields or statuses are affected."
             status_count:
               one: "%{count} work package"
@@ -6246,6 +6310,22 @@ en:
         automatic:
           description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
           heading: "Automatic"
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: "current work package"
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: "Unavailable filter"
+      unavailable_value: "Unavailable value"
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
 
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
@@ -6460,7 +6540,6 @@ en:
     <br/>
     Example: %{example_code}
 
-  setting_ai_text_transform_actions_enabled: "Enable text transform actions"
   setting_allowed_link_protocols: "Allowed link protocols"
   setting_allowed_link_protocols_text_html: >-
     Allow these protocols to be rendered as links in work package descriptions, long text fields and comments.
@@ -7261,6 +7340,9 @@ en:
       short: "%d %b %H:%M"
       time: "%I:%M %p"
     pm: "pm"
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} at %{time}"
+    with_utc_offset: "%{time} (UTC%{offset})"
 
   timeframe:
     end: "to"
@@ -7436,6 +7518,7 @@ en:
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
         allow_project_variants_caption: "For project administrators with the permission to manage variants, this type can be extended or modified within a project."
+        description_caption: "Add context or hints. Shown to administrators in the types and variants list."
         inherited_from_type_html: "Inherited from type <b>%{type}</b>."
         tab: "Details"
         type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
@@ -7466,7 +7549,6 @@ en:
         tab: "Generate PDF"
         templates:
           readonly_error: "Cannot be changed while linked to a source type."
-          section_title: "PDF export templates"
           settings:
             edit_link: "Edit settings"
             reset_to_default: "Reset to default"
@@ -7488,7 +7570,6 @@ en:
         empty_group_hint: "Drag attributes here"
         exclusions:
           attribute_label: "Inherit %{attribute}"
-          excluded: "Hidden"
           section_label: "Inherit section %{section}"
         filter_inactive: "Filter attributes"
         group_actions: "Section actions"
@@ -7501,6 +7582,11 @@ en:
         no_inactive_attributes: "No inactive attributes"
         not_found: "The requested form item could not be found."
         query_group_label: "Related work packages table"
+        query_summary:
+          baseline:
+            between: "Changes between %{from} and %{to}"
+            since: "Changes since %{time}"
+          unavailable: "Configuration unavailable"
         remove_attribute: "Remove from section"
         rename_group: "Rename section"
         required:
@@ -7541,7 +7627,6 @@ en:
           manual:
             description: "Once you [create project attributes](administration_url), they will be visible here and can be added to a type."
             title: "No project attributes available"
-        disabled: "Disabled"
         exclusions:
           attribute_label: "Inherit %{attribute}"
         filter: "Search by section or name"
@@ -7551,7 +7636,7 @@ en:
         actions:
           confirm_remove: "Remove the type %{type} from %{project}?"
           remove_from_project: "Remove from project"
-          switch_variant: "Change variant"
+          switch_variant: "Switch variant"
         add_dialog:
           no_projects_selected: "Please select at least one project."
           search_placeholder: "Search projects"
@@ -7561,8 +7646,6 @@ en:
           no_results: No matching projects.
           title: Not used in any project yet
         enable_all: Enable for all projects
-        select_projects: Select projects
-        select_projects_description: Select the projects in which you would like to use this type.
         switch_dialog:
           description: 'The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.'
           title: "Replace variants?"
@@ -7621,14 +7704,14 @@ en:
           mode_label: "Configure this page manually"
           modes:
             copy:
-              caption: "Start with a one-time copy of the settings that this configuration inherits now."
-              label: "Copy inherited settings"
+              caption: "Start with a one-time copy of the settings of the parent type."
+              label: "Copy existing settings"
             default:
               caption: "Use the default settings for new types."
               label: "Default settings"
             empty:
               caption: "Set everything up from scratch, beginning from a blank configuration."
-              label: "Empty"
+              label: "Start from scratch"
           success: "The configuration mode was switched."
           title: "Manual configuration"
         parent_suffix: " (parent)"
@@ -7681,8 +7764,9 @@ en:
           other: "The type will be removed from %{count} projects:"
         title: "Delete type"
       description: >
-        Each configuration area inside types and variants can be independently configured, limited
-        from another type, or fully linked to a source.
+        Create and configure different work package types. Each type has its own default template and a set of
+        custom fields, a workflow and other settings. If you need project-specific configurations, you can also
+        create slightly different variants for each type according to the needs of each project.
       duplicate_name: "Copy of %{name}"
       duplicate_notice: "%{name} was duplicated."
       enabled_in_new_projects: "Active in new projects"
@@ -8441,8 +8525,6 @@ en:
           notice:
             one: "Successfully copied workflow to '%{role_name}' role."
             other: "Successfully copied workflow to %{count} roles."
-      new:
-        dialog_title: 'Copy workflow of "%{source}"'
     delete:
       body_in_use:
         one: "This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with."
@@ -8460,6 +8542,7 @@ en:
         caption: "The new workflow starts with a copy of that workflow's status transitions."
         label: "Copy from"
         placeholder: "Select a workflow…"
+      copy_title: "Copy workflow %{name}"
       description:
         caption: "Add a short description about where and how will this workflow be used."
         label: "Description"
@@ -8475,7 +8558,7 @@ en:
       name:
         caption: "Pick a name that will let you identify this workflow later in other places."
         label: "Workflow name"
-      new_title: "Create workflow"
+      save_title: "Save workflow"
     index:
       actions:
         create: "Workflow"

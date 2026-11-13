@@ -32,7 +32,6 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   host: { class: 'op-icon--wrapper' },
   template: `
       <i [ngClass]="iconClasses"
-        [attr.title]="iconTitle || undefined"
       aria-hidden="true"></i>
       @if (iconTitle) {
         <span

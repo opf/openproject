@@ -54,7 +54,7 @@ post:
   tags:
     - Time Entries
   description: ''
-  operationId: Time_entry_update_form
+  operationId: validate_time_entry_update_form
   requestBody:
     content:
       application/json:

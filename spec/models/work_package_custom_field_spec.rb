@@ -68,4 +68,39 @@ RSpec.describe WorkPackageCustomField do
         .to match(project.id => contain_exactly(feature.id, epic.id), other_project.id => [feature.id])
     end
   end
+
+  describe ".form_counts" do
+    let(:feature) { create(:type) }
+    let(:epic) { create(:type) }
+
+    it "returns an empty hash when no field is contained in a form" do
+      create(:list_wp_custom_field)
+
+      expect(described_class.form_counts).to eq({})
+    end
+
+    it "counts the forms each field is contained in and keys them independently by field id" do
+      in_two_forms = create(:list_wp_custom_field, types: [feature, epic])
+      in_one_form = create(:list_wp_custom_field, types: [feature])
+      orphan_field = create(:list_wp_custom_field)
+
+      counts = described_class.form_counts
+
+      expect(counts).to eq(in_two_forms.id => 2, in_one_form.id => 1)
+      expect(counts).not_to have_key(orphan_field.id)
+    end
+
+    it "ignores built-in attributes rather than bucketing them under a nil key" do
+      create(:list_wp_custom_field, types: [feature])
+
+      expect(described_class.form_counts.keys).not_to include(nil)
+    end
+
+    it "does not count a form where the field sits in an inactive, ungrouped membership" do
+      field = create(:list_wp_custom_field, types: [feature])
+      create(:form_configuration_attribute, custom_field: field, form_configuration: create(:form_configuration))
+
+      expect(described_class.form_counts).to eq(field.id => 1)
+    end
+  end
 end

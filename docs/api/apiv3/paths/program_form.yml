@@ -49,5 +49,5 @@ post:
   tags:
     - Programs
   description: ''
-  operationId: Program_update_form
+  operationId: validate_program_update_form
   summary: Program update form

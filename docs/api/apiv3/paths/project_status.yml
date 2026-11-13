@@ -42,5 +42,5 @@ get:
   tags:
     - Projects
   description: ''
-  operationId: View_project_status
+  operationId: get_project_status
   summary: View project status

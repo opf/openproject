@@ -79,7 +79,7 @@ describe('Inline chip size transitions (user-visible content)', () => {
     await expect.element(page.getByText('In Progress')).not.toBeInTheDocument();
   });
 
-  it('switching from XS to S reveals the status badge', async () => {
+  it('switching from XS to S reveals the status label', async () => {
     render(<ChipWrapper initialSize="xs" />);
     await waitForResolvedChip();
 

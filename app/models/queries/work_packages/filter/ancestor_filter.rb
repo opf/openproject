@@ -33,9 +33,9 @@ class Queries::WorkPackages::Filter::AncestorFilter <
 
   def where
     descendant_ids = WorkPackageHierarchy
-                       .where(ancestor_id: no_templated_values)
+                       .where(ancestor_id: work_package_ids)
                        # exclude the selected ancestors:
-                       .where.not(descendant_id: no_templated_values)
+                       .where.not(descendant_id: work_package_ids)
                        .pluck(:descendant_id)
 
     operator_strategy.sql_for_field(descendant_ids, self.class.model.table_name, :id)

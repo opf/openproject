@@ -87,7 +87,7 @@ export class WorkDisplayField extends DisplayField {
     this.renderActual(element, displayText);
 
     const derived = this.derivedValue;
-    if (derived && this.hasChildren()) {
+    if (derived && (this.context.options.historic || this.hasChildren())) {
       this.renderSeparator(element);
       this.renderDerived(element, this.derivedValueString);
     }
@@ -120,14 +120,18 @@ export class WorkDisplayField extends DisplayField {
   }
 
   public renderDerived(element:HTMLElement, displayText:string):void {
-    const link = document.createElement('a');
+    const createLink = !this.context.options.historic;
+    const derivedElement = document.createElement(createLink ? 'a' : 'span');
 
-    link.textContent = `Σ ${displayText}`;
-    link.classList.add('-derived-value', uiStateLinkClass);
+    derivedElement.textContent = `Σ ${displayText}`;
+    derivedElement.classList.add('-derived-value');
 
-    this.hierarchyQueryLinkHelper.addHref(link, this.resource);
+    if (derivedElement instanceof HTMLAnchorElement) {
+      derivedElement.classList.add(uiStateLinkClass);
+      this.hierarchyQueryLinkHelper.addHref(derivedElement, this.resource);
+    }
 
-    element.appendChild(withTooltip(link, this.derivedText, 'description'));
+    element.appendChild(withTooltip(derivedElement, this.derivedText, 'description'));
   }
 
   public override get title():string|null {

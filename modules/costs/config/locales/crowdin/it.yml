@@ -78,9 +78,11 @@ it:
               invalid: deve essere un utente o un utente segnaposto.
         time_entry:
           attributes:
+            base:
+              cannot_edit_time_entry: You don't have permissions to edit this time entry.
+              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
             entity:
               blank: Il campo Registrato per non può essere vuoto.
-              cannot_log_for_this_work_package: Non disponi delle autorizzazioni necessarie per registrare tempo per questa macro-attività.
               format: "%{message}"
             hours:
               exceeds_user_working_hours: Le ore registrate non possono superare il limite di %{limit} ore disponibili nella giornata lavorativa dell'utente.
@@ -94,6 +96,9 @@ it:
             start_time:
               format: "%{message}"
               invalid_time: Orario non valido. L'orario deve essere compreso tra 00:00 e 23:59.
+            user_id:
+              format: "%{message}"
+              no_access_to_entity: The selected user doesn't have access to this work package.
           duplicate_ongoing: È già in esecuzione un altro timer. Può essere attivo un solo timer alla volta.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'La macro-attività (work package) #%{id} non è una destinazione valida per riassegnare le entrate del costo.'

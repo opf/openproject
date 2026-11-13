@@ -30,10 +30,16 @@
 en:
   js:
     backlogs:
+      action_menu:
+        # `one` names a single card's menu, never a selection of one.
+        menu_label:
+          one: "Work package actions"
+          other: "Actions for %{count} selected work packages"
       announcements:
         batch_too_large: "Cannot move %{count} work packages at once. Select no more than %{max}."
         fallback_item_label: "Work package"
         fallback_list_name: "another list"
+        menu_scope_changed: "The menu selection has changed. Reopen the menu before moving work packages."
         move_failed_check_position: "Move failed. Check the work package's current position."
         # The batch keys are plural hashes so translators can add the plural
         # categories their locale needs; the one: branch is unreachable (a
@@ -65,6 +71,12 @@ en:
       chart_day: "Day %{day}: %{values}"
       chart_label: "Burndown chart"
       chart_summary: "Burndown chart data: %{days}."
+      chart_value: "%{label}: %{value}"
+      story_points: "Story points"
+    burnup_chart:
+      chart_day: "Day %{day}: %{values}"
+      chart_label: "Burnup chart"
+      chart_summary: "Burnup chart data: %{days}."
       chart_value: "%{label}: %{value}"
       story_points: "Story points"
     created_resolved_chart:

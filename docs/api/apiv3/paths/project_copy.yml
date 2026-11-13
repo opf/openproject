@@ -59,5 +59,5 @@ post:
   tags:
     - Projects
   description: ''
-  operationId: Create_project_copy
+  operationId: create_project_copy
   summary: Create project copy

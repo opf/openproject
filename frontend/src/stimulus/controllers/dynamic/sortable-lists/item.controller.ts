@@ -48,7 +48,7 @@ import {
   isItemFromRoot,
   sortableDragSourceData,
   sortableItemIdentity,
-  type RootAwareChild,
+  type RegisteredRootAwareChild,
   type SortableDragSourceData,
   type SortableListsRoot,
 } from './drag-and-drop';
@@ -59,15 +59,22 @@ import {
   resolveItemExternalUrl,
   resolveItemLabel,
   sortableItemSelector,
+  sortableLockedAttribute,
+  sortableScopeCountAttribute,
   type DestinationIdentity,
 } from './list-dom';
 import { webLinkHref } from './external-data';
+import { primaryMenuOf } from './menu-dom';
 import { renderDragPreview } from './preview';
 
 type CleanupFn = () => void;
 
-export default class ItemController extends Controller<HTMLElement> implements RootAwareChild {
-  static targets = ['handle', 'preview', 'moveItem', 'moveMenu', 'moveDivider', 'focus'];
+// The server marks a move item locked when it renders it disabled for a
+// reason direction gating cannot see, such as a scope above the batch cap.
+const isLocked = (item:HTMLElement):boolean => item.hasAttribute(sortableLockedAttribute);
+
+export default class ItemController extends Controller<HTMLElement> implements RegisteredRootAwareChild {
+  static targets = ['handle', 'preview', 'moveItem', 'moveMenu', 'moveDivider', 'moveUnavailable', 'focus'];
   static elements = { menu: 'action-menu' };
 
   static values = {
@@ -96,6 +103,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
   declare readonly moveMenuTarget:HTMLElement;
   declare readonly hasMoveMenuTarget:boolean;
   declare readonly moveDividerTarget:HTMLElement;
+  declare readonly moveUnavailableTargets:HTMLElement[];
   declare readonly hasMoveDividerTarget:boolean;
   declare readonly focusTarget:HTMLElement;
   declare readonly hasFocusTarget:boolean;
@@ -109,14 +117,18 @@ export default class ItemController extends Controller<HTMLElement> implements R
   private cleanupFn?:CleanupFn;
   private dropIndicatorElement?:HTMLElement;
   private root?:SortableListsRoot;
+  private moveRefreshScheduled = false;
 
   private readonly onMenuToggle = (event:Event):void => {
-    // The toggle event does not bubble, so listen in capture phase; recompute
-    // availability whenever the card menu opens, since a reorder can have
-    // shifted siblings meanwhile. Read newState by duck typing rather than
+    // An optimistic in-list drag leaves the server-rendered direction
+    // availability stale, so it is recomputed when the card's own menu opens.
+    // The toggle event does not bubble, so listen in capture phase, and only
+    // for the menu's primary overlay. Read newState by duck typing rather than
     // `instanceof ToggleEvent` so a browser without the ToggleEvent global
     // cannot throw.
-    if ((event as ToggleEvent).newState === 'open') {
+    if ('newState' in event && event.newState === 'open'
+      && this.hasMenuElement
+      && primaryMenuOf(event.target) === this.menuElement) {
       this.refreshMoveMenuAvailability();
     }
   };
@@ -138,31 +150,46 @@ export default class ItemController extends Controller<HTMLElement> implements R
     this.disconnectRoot();
   }
 
-  // A move item entering the DOM (inline or via a deferred fragment) triggers
-  // an availability refresh here, but `this.root` is usually still unset at
-  // this point (the outlet's connectRoot callback runs later), so this call
-  // typically no-ops. The menu-open toggle handler is what actually
-  // establishes correct availability, refreshing on every open once the root
-  // is connected and after any reorder has shifted siblings. No
-  // include-fragment knowledge, so both hooks work for any menu.
+  // Gates move items that arrive in a deferred menu fragment, after the
+  // open toggle has already refreshed availability. The callback fires for
+  // every item of the fragment, so the refresh waits for the last one.
   moveItemTargetConnected():void {
-    this.refreshMoveMenuAvailability();
+    if (this.moveRefreshScheduled) {
+      return;
+    }
+
+    this.moveRefreshScheduled = true;
+    queueMicrotask(() => {
+      this.moveRefreshScheduled = false;
+      this.refreshMoveMenuAvailability();
+    });
   }
 
   move(event:ActionEvent):void {
-    const item = event.currentTarget;
-    if (!isOrderableItem(this.element) || !this.hasMenuElement || !(item instanceof HTMLElement)) {
-      return;
-    }
-
-    if (this.menuElement.isItemDisabled(item) || this.menuElement.isItemHidden(item)) {
-      return;
-    }
+    const item = this.activatableMenuItem(event);
+    if (!item || !isOrderableItem(this.element)) return;
 
     const { direction } = event.params;
     if (isMoveDirection(direction)) {
-      this.root?.moveInDirection(this.element, direction);
+      const scopeOwner = item.closest(`[${sortableScopeCountAttribute}]`);
+      this.root?.moveInDirection(this.element, direction, scopeOwner instanceof HTMLElement ? scopeOwner : null);
     }
+  }
+
+  moveToDestination(event:ActionEvent):void {
+    const item = this.activatableMenuItem(event);
+    const form = item?.querySelector('form');
+    if (form) {
+      this.root?.moveToDestination(form);
+    }
+  }
+
+  private activatableMenuItem(event:ActionEvent):HTMLElement|null {
+    const item = event.currentTarget;
+    if (!this.hasMenuElement || !(item instanceof HTMLElement)) return null;
+    if (this.menuElement.isItemDisabled(item) || this.menuElement.isItemHidden(item)) return null;
+
+    return item;
   }
 
   // The focus host is the consumer's business: Backlogs puts the tab stop on
@@ -510,20 +537,54 @@ export default class ItemController extends Controller<HTMLElement> implements R
     }
 
     if (this.hasMoveMenuTarget) {
-      this.setAvailability(this.moveMenuTarget, available > 0);
+      this.refreshMoveMenu(root, available > 0);
     }
 
     this.refreshMoveDivider();
+  }
+
+  private refreshMoveMenu(root:SortableListsRoot, available:boolean):void {
+    const moveMenu = this.moveMenuTarget;
+    if (isLocked(moveMenu)) {
+      return;
+    }
+
+    const blocked = !available && root.actionScopeFor(this.element).items.length > 1;
+    if (blocked) {
+      this.moveUnavailableTargets.forEach((item) => this.menuElement.showItem(item));
+      this.hideMenuItem(moveMenu);
+      return;
+    }
+
+    if (!this.hideUnavailableValue && this.menuElement.isItemHidden(moveMenu)) {
+      this.menuElement.showItem(moveMenu);
+    }
+
+    this.setAvailability(moveMenu, available);
+    this.moveUnavailableTargets.forEach((item) => this.hideMenuItem(item));
+  }
+
+  // Focus left on a hidden item drops to the body and Primer light-dismisses
+  // the menu, so it moves to a visible item of the same menu first. Primer
+  // focuses the first item as the list loads, which can be the one to hide.
+  private hideMenuItem(item:HTMLElement):void {
+    if (item.contains(document.activeElement)) {
+      const list = item.closest('[role="menu"]');
+      const visible = Array.from(list?.querySelectorAll<HTMLElement>('[role="menuitem"]') ?? [])
+        .find((other) => !item.contains(other) && other.closest('[role="menu"]') === list && !other.closest('[hidden]'));
+      visible?.focus();
+    }
+
+    this.menuElement.hideItem(item);
   }
 
   // The divider that opens the move group is rendered server-side from a
   // permission check alone, so hiding the last entry below it would otherwise
   // leave a separator with nothing to separate. It never goes through
   // setAvailability: `disableItem` writes to the item's `.ActionListContent`,
-  // which a divider does not have — and in that mode the group stays visible
-  // anyway, only disabled.
+  // which a divider does not have.
   private refreshMoveDivider():void {
-    if (!this.hasMoveDividerTarget || !this.hideUnavailableValue) {
+    if (!this.hasMoveDividerTarget) {
       return;
     }
 
@@ -531,7 +592,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
     let sibling = divider.nextElementSibling;
 
     while (sibling) {
-      if (!sibling.hasAttribute('hidden')) {
+      if (sibling.matches('li.ActionListItem:not([hidden])')) {
         divider.removeAttribute('hidden');
         return;
       }
@@ -548,6 +609,9 @@ export default class ItemController extends Controller<HTMLElement> implements R
   // in the nested move submenu. Default is hide; hideUnavailable=false switches to disable.
   private setAvailability(item:HTMLElement, available:boolean):void {
     const menu = this.menuElement;
+    if (isLocked(item)) {
+      return;
+    }
 
     if (this.hideUnavailableValue) {
       if (available) {

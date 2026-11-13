@@ -143,7 +143,7 @@ RSpec.describe "Login" do
 
       expect(page).to have_current_path signin_path
       expect(page)
-        .to have_content "Invalid user or password"
+        .to have_text "Invalid user or password"
     end
 
     it "forwards to the deep linked page after login" do

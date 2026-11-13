@@ -88,7 +88,7 @@ RSpec.describe "Work package with relation query group", :js, :selenium do
       embedded_table.expect_work_package_count 1
 
       # Create new work package within embedded table
-      embedded_table.table_container.find("button", text: I18n.t("js.relation_buttons.add_new_child")).click
+      embedded_table.table_container.click_button(I18n.t("js.relation_buttons.add_new_child"))
       subject_field = embedded_table.edit_field(nil, :subject)
       subject_field.expect_active!
       subject_field.set_value("Fresh WP\n")
@@ -199,7 +199,7 @@ RSpec.describe "Work package with relation query group", :js, :selenium do
     end
 
     it "creates and removes across all tables" do
-      embedded_table.table_container.find("button", text: I18n.t("js.relation_buttons.create_new")).click
+      embedded_table.table_container.click_button(I18n.t("js.relation_buttons.create_new"))
       subject_field = embedded_table.edit_field(nil, :subject)
 
       subject_field.expect_active!

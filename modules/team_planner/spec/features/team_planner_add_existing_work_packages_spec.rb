@@ -116,6 +116,15 @@ RSpec.describe "Team planner add existing work packages",
       end
     end
 
+    it "names the toolbar buttons" do
+      expect(page).to have_button(accessible_name: "Add existing",
+                                  exact: true,
+                                  accessible_description: "Add existing work packages")
+      expect(page).to have_button(accessible_name: "Work week", exact: true)
+      expect(page).to be_axe_clean.within(".op-team-planner--add-existing-toggle",
+                                          ".op-team-planner--view-select-dropdown")
+    end
+
     it "allows to click cards to open split view when open" do
       # Search for a work package
       add_existing_pane.search "Task"

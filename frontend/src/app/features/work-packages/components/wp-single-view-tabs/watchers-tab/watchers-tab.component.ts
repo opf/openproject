@@ -41,7 +41,7 @@ import {
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
-import { IUserAutocompleteItem } from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter.component';
+import { isRecord } from 'core-app/shared/helpers/type-guards';
 
 @Component({
   templateUrl: './watchers-tab.html',
@@ -134,7 +134,8 @@ export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin impleme
     this.loadingIndicator.wpDetails.promise = promise;
   }
 
-  public addWatcher(user:IUserAutocompleteItem) {
+  public addWatcher(user:unknown) {
+    if (!isRecord(user) || typeof user.href !== 'string') { return; }
     this.loadingPromise = this.workPackage.addWatcher.$link.$fetch({ user: { href: user.href } })
       .then(() => {
         // Forcefully reload the resource to update the watch/unwatch links

@@ -29,10 +29,9 @@
 
 module ITSM
   module Mailboxes
-    class FetchService < ::BaseServices::BaseCallable
+    class FetchService < BaseService
       include Dry::Monads[:result]
       include Dry::Monads::Do.for(:process_all)
-      include ServiceFailure
 
       BATCH_SIZE = 50
 
@@ -59,17 +58,17 @@ module ITSM
 
       def fetch_exclusively
         OpenProject::Mutex.with_advisory_lock(IncomingMailbox, "itsm_mailbox_fetch_#{mailbox.id}", timeout_seconds: 0) do
-          Rails.logger.tagged("ITSM", "mailbox #{mailbox.id}") do
-            fetch_emails.either(method(:fetch_succeeded), method(:fetch_failed))
-          end
+          Rails.logger.tagged("ITSM", "mailbox #{mailbox.id}") { fetch_emails }
         end
       end
 
       def fetch_emails
-        Adapters::ImapSession.open(mail_server: mailbox.mail_server, auth_strategy:) do |session|
+        result = Adapters::ImapSession.open(mail_server: mailbox.mail_server, auth_strategy:) do |session|
           Adapters::Queries::UnseenUids.call(session:, limit: BATCH_SIZE)
             .bind { |uids| process_all(session, uids) }
         end
+
+        result.success? ? fetch_succeeded(result.value!) : fetch_failed(result.failure)
       end
 
       def auth_strategy = Adapters::AuthenticationStrategies::BasicAuth.new(mailbox.credentials)
@@ -83,7 +82,8 @@ module ITSM
         result = ProcessEmailService.new(mailbox:, session:).call(uid:)
         return Success() if result.success?
 
-        Failure(SimpleError.new(source: ProcessEmailService, code: result.errors.symbols_for(:base).first))
+        result.errors.details[:base].first => { error: code, **details }
+        Failure(SimpleError.new(source: ProcessEmailService, code:, payload: details[:server_message]))
       end
 
       def fetch_succeeded(uids)
@@ -98,7 +98,7 @@ module ITSM
       def fetch_failed(error)
         Rails.logger.warn { ["Fetching from #{server_address} failed (#{error.code})", error.payload].compact.join(": ") }
         mailbox.fetch_failed!(error.code)
-        service_failure(error.code, result: mailbox)
+        service_failure(error.code, result: mailbox, server_message: error.payload)
       end
     end
   end

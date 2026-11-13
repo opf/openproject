@@ -41,7 +41,7 @@ import { map } from 'rxjs/operators';
 export class BoardSubprojectActionService extends CachedBoardActionService {
   filterName = 'onlySubproject';
 
-  resourceName = 'subproject';
+  resourceName = 'subproject' as const;
 
   text = this.I18n.t('js.boards.board_type.board_type_title.subproject');
 
@@ -57,6 +57,10 @@ export class BoardSubprojectActionService extends CachedBoardActionService {
 
   headerComponent() {
     return SubprojectBoardHeaderComponent;
+  }
+
+  override affectsOtherCards(workPackage:WorkPackageResource, cards:WorkPackageResource[]):boolean {
+    return cards.some((card) => card.ancestorIds.includes(workPackage.id!));
   }
 
   canMove(workPackage:WorkPackageResource):boolean {

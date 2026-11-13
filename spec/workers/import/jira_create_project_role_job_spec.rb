@@ -44,7 +44,9 @@ RSpec.describe Import::JiraCreateProjectRoleJob do
                                           :add_work_package_comments,
                                           :add_work_package_attachments,
                                           :work_package_assigned,
-                                          :view_time_entries)
+                                          :view_time_entries,
+                                          :view_sprints,
+                                          :show_board_views)
     end
 
     it "creates a reference for the new role" do

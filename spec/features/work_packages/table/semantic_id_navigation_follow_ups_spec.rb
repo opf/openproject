@@ -90,7 +90,7 @@ RSpec.describe "Work package table navigation follow-ups use displayId",
     end
   end
 
-  describe "right-click context menu 'Copy link to clipboard' item" do
+  describe "right-click context menu 'Copy link' item" do
     it "copies a URL containing the semantic identifier" do
       semantic_id = work_package.reload.identifier
 
@@ -119,13 +119,12 @@ RSpec.describe "Work package table navigation follow-ups use displayId",
     end
   end
 
-  describe "right-click context menu 'Copy numeric ID to clipboard' item" do
-    it "copies the numeric id and does not navigate away (regression: used to 404)" do
-      numeric_id = work_package.id.to_s
+  describe "right-click context menu 'Copy ID' item" do
+    it "copies the semantic id and does not navigate away" do
       semantic_id = work_package.reload.identifier
 
       # Spy directly on navigator.clipboard.writeText (see the sibling
-      # 'Copy link to clipboard' example for why the flash matcher won't do).
+      # 'Copy link' example for why the flash matcher won't do).
       page.execute_script(<<~JS)
         window.__lastCopiedText = null;
         navigator.clipboard.writeText = function(text) {
@@ -135,7 +134,7 @@ RSpec.describe "Work package table navigation follow-ups use displayId",
       JS
 
       context_menu.open_for(work_package)
-      context_menu.choose("Copy numeric ID to clipboard")
+      context_menu.choose("Copy work package ID")
 
       copied = nil
       retry_block do
@@ -143,11 +142,8 @@ RSpec.describe "Work package table navigation follow-ups use displayId",
         raise "clipboard write not yet observed" if copied.nil?
       end
 
-      expect(copied).to eq(numeric_id)
-      expect(copied).not_to eq(semantic_id)
+      expect(copied).to eq(semantic_id)
 
-      # The action used to fall through to `window.location.href = undefined`,
-      # navigating to a non-existent URL. It must stay on the table instead.
       wp_table.expect_work_package_listed(work_package, other_wp)
     end
   end
@@ -157,10 +153,26 @@ RSpec.describe "Work package table navigation follow-ups use displayId",
     # format, so the uppercase semantic identifier used above is invalid here.
     let(:project) { create(:project, identifier: "navfollow") }
 
-    describe "right-click context menu 'Copy numeric ID to clipboard' item" do
-      it "is not offered (the displayed id is already the numeric id)" do
+    describe "right-click context menu 'Copy ID' item" do
+      it "copies the numeric id" do
+        page.execute_script(<<~JS)
+          window.__lastCopiedText = null;
+          navigator.clipboard.writeText = function(text) {
+            window.__lastCopiedText = text;
+            return Promise.resolve();
+          };
+        JS
+
         context_menu.open_for(work_package)
-        context_menu.expect_no_options("Copy numeric ID to clipboard")
+        context_menu.choose("Copy work package ID")
+
+        copied = nil
+        retry_block do
+          copied = page.evaluate_script("window.__lastCopiedText")
+          raise "clipboard write not yet observed" if copied.nil?
+        end
+
+        expect(copied).to eq(work_package.id.to_s)
       end
     end
   end

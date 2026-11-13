@@ -28,12 +28,14 @@
 import type { WorkPackageTable } from '../../../wp-fast-table';
 import type { KeyboardNavigation } from './keyboard-navigation-transformer';
 import { FocusPosition } from './focus-position';
+import type { FocusCursor } from './focus-cursor';
 import { displayClassName, displayTriggerLink, editableClassName } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { activeFieldContainerClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { activateTableField } from '../../cell/edit-cell-handler';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
 import { navigableCells } from './roving-tabindex';
-import { headerRowKey } from './navigable-rows';
+import { type ActivationKey, walkIntent } from './key-intent';
+import { headerRowKey } from '../../../row-keys';
 import type { ActiveTableField } from '../../../wp-table-editing';
 import { destructiveControlAttribute } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
 
@@ -63,17 +65,18 @@ export function rowControls(row:HTMLTableRowElement, table?:WorkPackageTable):HT
 }
 
 export class CellInteraction {
-  private tabWalkOrigin:FocusPosition|null = null;
-
   private readonly parked = new WeakSet<EditFieldHandler>();
 
-  constructor(private readonly table:WorkPackageTable) {}
+  constructor(
+    private readonly table:WorkPackageTable,
+    private readonly cursor:FocusCursor,
+  ) {}
 
   private get navigation():KeyboardNavigation {
-    return this.table.keyboardNavigation!;
+    return this.table.keyboardNavigation;
   }
 
-  public enter(position:FocusPosition, key:'Enter'|'F2'):boolean {
+  public enter(position:FocusPosition, key:ActivationKey):boolean {
     const cell = this.navigation.elementAt(position);
     if (!cell) return false;
 
@@ -95,7 +98,7 @@ export class CellInteraction {
     }
 
     if (targets.length > 0) {
-      this.tabWalkOrigin = position;
+      this.cursor.startWalk(position);
       targets[0].focus({ preventScroll: true });
       return true;
     }
@@ -151,7 +154,8 @@ export class CellInteraction {
   }
 
   public handleInnerKeydown(event:KeyboardEvent):boolean {
-    if (this.isRepeatedEnterOnDestructiveControl(event)) {
+    const intent = walkIntent(event);
+    if (intent.type === 'destructiveRepeat') {
       event.preventDefault();
       return true;
     }
@@ -162,11 +166,11 @@ export class CellInteraction {
       return this.handleEditorTab(event, active.handler, active.form);
     }
 
-    if (event.key !== 'Tab' && event.key !== 'Escape' && !this.isNavigationKey(event)) return false;
+    if (intent.type === 'none') return false;
     const target = event.target as HTMLElement;
-    const origin = event.key === 'Tab'
-      ? this.tabWalkOrigin ?? this.navigation.positionOfCell(target)
-      : this.tabWalkOrigin;
+    const origin = intent.type === 'tab'
+      ? this.cursor.walkOrigin ?? this.navigation.positionOfCell(target)
+      : this.cursor.walkOrigin;
     if (!origin) return false;
 
     this.navigation.repaintCurrentPosition();
@@ -174,20 +178,20 @@ export class CellInteraction {
     const index = targets.indexOf(target);
     if (index === -1) return false;
 
-    if (event.key === 'Escape') {
+    if (intent.type === 'escape') {
       event.preventDefault();
       this.navigation.focusPosition(origin);
       return true;
     }
 
-    if (this.isNavigationKey(event)) {
+    if (intent.type === 'leave') {
       event.preventDefault();
       this.navigation.focusPosition(origin);
-      this.navigation.navigateFrom(origin, event);
+      if (intent.command) this.navigation.navigateFrom(origin, intent.command);
       return true;
     }
 
-    this.tabWalkOrigin = origin;
+    this.cursor.startWalk(origin);
     if (event.shiftKey) {
       event.preventDefault();
       const previous = index > 0 ? targets[index - 1] : this.navigation.elementAt(origin);
@@ -215,7 +219,7 @@ export class CellInteraction {
     if (!boundary) return false;
 
     const origin = form.originFor(handler.fieldName)
-      ?? this.navigation.positionOfCell(handler.element!)
+      ?? this.navigation.positionOfCell(container)
       ?? this.navigation.position;
     if (!origin) return false;
 
@@ -268,7 +272,7 @@ export class CellInteraction {
     if (targets.length === 0) return;
 
     event.preventDefault();
-    this.tabWalkOrigin = origin;
+    this.cursor.startWalk(origin);
     targets[0].focus({ preventScroll: true });
     this.navigation.scrollControlIntoView(targets[0]);
   }
@@ -282,32 +286,18 @@ export class CellInteraction {
     return navigableCells(row).slice(origin.cell).flatMap((cell) => cellTargets(cell, this.table));
   }
 
-  private isRepeatedEnterOnDestructiveControl(event:KeyboardEvent):boolean {
-    return event.key === 'Enter'
-      && event.repeat
-      && !!(event.target as HTMLElement).closest?.(`[${destructiveControlAttribute}]`);
-  }
-
-  private isNavigationKey(event:KeyboardEvent):boolean {
-    return !event.shiftKey && !event.altKey && ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'PageUp', 'PageDown'].includes(event.key);
-  }
-
   public originForControl(control:HTMLElement):FocusPosition|null {
-    const origin = this.tabWalkOrigin;
+    const origin = this.cursor.walkOrigin;
     if (origin && this.walkFrom(origin).includes(control)) return origin;
 
     return this.navigation.positionOfCell(control);
   }
 
-  public clearWalk():void {
-    this.tabWalkOrigin = null;
-  }
-
   /** Keeps the walk while focus rests on one of its controls; clears it otherwise. */
   public reconcileWalk():void {
-    const origin = this.tabWalkOrigin;
+    const origin = this.cursor.walkOrigin;
     if (origin && this.walkFrom(origin).includes(document.activeElement as HTMLElement)) return;
 
-    this.clearWalk();
+    this.cursor.clearWalk();
   }
 }

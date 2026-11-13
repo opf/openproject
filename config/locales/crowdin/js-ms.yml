@@ -131,8 +131,8 @@ ms:
     button_confirm: Sahkan
     button_continue: Teruskan
     button_copy: Salin
-    button_copy_link_to_clipboard: Salin pautan ke papan klip
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_id: Copy ID ("%{id}")
+    button_copy_link_to_clipboard: Copy link
     button_copy_to_clipboard: Salin ke papan klip
     button_copy_to_other_project: Salin dalam projek lain
     button_create: Cipta
@@ -150,6 +150,7 @@ ms:
     button_log_time: Masa log
     button_more: Lagi
     button_more_actions: Tindakan lebih lanjut
+    button_move: Move
     button_open_details: Buka paparan butiran
     button_open_fullscreen: Buka paparan skrin penuh
     button_quote: Petikan
@@ -207,6 +208,7 @@ ms:
     editor:
       ai_actions:
         caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Ralat berlaku dalam CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Penyimpanan dokumen gagal dengan ralat yang berikut: %{error}'
@@ -438,7 +440,6 @@ ms:
     label_assignee: Penerima tugasan
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Lampiran
-    label_author: 'Pengarang: %{user}'
     label_avatar: Avatar
     label_between: antara
     label_board: Board
@@ -567,7 +568,9 @@ ms:
     label_show_in_menu: Paparkan paparan dalam menu
     label_sort_by: Susun mengikut
     label_sort_higher: Alihkan ke atas
+    label_sort_highest: Move to top
     label_sort_lower: Alih ke bawah
+    label_sort_lowest: Move to bottom
     label_sorted_by: disusun mengikut
     label_sorting: Susunan
     label_spent_time: Masa yang dihabiskan
@@ -818,6 +821,7 @@ ms:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.
@@ -1116,7 +1120,6 @@ ms:
         default_mode: Senarai datar
         display_settings: Tetapan paparan
         display_sums_hint: Paparkan jumlah semua atribut yang boleh dijumlahkan dalam baris di bawah hasil jadual.
-        embedded_tab_disabled: Tab konfigurasi ini tidak tersedia untuk paparan tersemat yang anda sedang edit.
         hierarchy_hint: Semua hasil jadual tersaring akan ditambah bersama leluhur mereka. Hierarki boleh dikembang dan ditutup.
         hierarchy_mode: Hierarki
         highlighting: Menyorotkan

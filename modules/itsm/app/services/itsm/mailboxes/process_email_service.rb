@@ -29,9 +29,8 @@
 
 module ITSM
   module Mailboxes
-    class ProcessEmailService < ::BaseServices::BaseCallable
+    class ProcessEmailService < BaseService
       include Dry::Monads[:result]
-      include ServiceFailure
 
       MAX_EMAIL_SIZE = 50.megabytes
       DATABASE_ERRORS = [
@@ -52,7 +51,7 @@ module ITSM
         @uid = params[:uid]
 
         fetch_and_process.either(->(_) { ServiceResult.success(result: mailbox) },
-                                 ->(error) { service_failure(error.code, result: mailbox) })
+                                 ->(error) { service_failure(error.code, result: mailbox, server_message: error.payload) })
       end
 
       private

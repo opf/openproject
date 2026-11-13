@@ -58,6 +58,7 @@ class AccountController < ApplicationController
   before_action :disable_api
   before_action :check_auth_source_sso_failure, only: :auth_source_sso_failed
   before_action :check_internal_login_enabled, only: :internal_login
+  before_action :clear_site_data, only: :logout
 
   layout "no_menu"
 
@@ -118,7 +119,7 @@ class AccountController < ApplicationController
 
     unless actual_user
       # user not found in db
-      Rails.logger.error "Lost password unknown email input: #{mail}"
+      Rails.logger.error "Lost password unknown email input: #{mail.inspect}"
       redirect_to action: :lost_password, status: :see_other
       return
     end
@@ -209,15 +210,17 @@ class AccountController < ApplicationController
   # to change the password.
   # When making changes here, also check MyController.change_password
   def change_password
-    # Retrieve user login name from session
-    @user = User.find_by!(login: params[:password_change_user])
+    return render_404 if Users::PasswordLogin.none?
 
-    change_password_flow(user: @user, params:, show_user_name: true) do
-      password_authentication(@user.login, params[:new_password])
+    @user = User.find_by(login: params[:password_change_user])
+
+    if password_change_required?(@user)
+      change_password_flow(user: @user, params:, show_user_name: true) do
+        password_authentication(@user.login, params[:new_password])
+      end
+    else
+      reject_password_change(@user)
     end
-  rescue ActiveRecord::RecordNotFound
-    Rails.logger.error "Failed to find user for change_password request: #{flash[:_password_change_user]}"
-    render_404
   end
 
   def auth_source_sso_failed
@@ -234,6 +237,15 @@ class AccountController < ApplicationController
   end
 
   private
+
+  def password_change_required?(user)
+    user.present? && (user.force_password_change || user.password_expired?)
+  end
+
+  def reject_password_change(user)
+    user&.log_failed_login
+    invalid_password_change_response(user || User.new(login: params[:password_change_user]), show_user_name: true)
+  end
 
   def handle_expired_token(token)
     send_activation_email! token.user
@@ -501,6 +513,20 @@ class AccountController < ApplicationController
 
   def check_internal_login_enabled
     render_404 unless omniauth_direct_login? || Users::PasswordLogin.internal_login_available?
+  end
+
+  # Actively expire our local storage when logging out actively
+  # We cannot use all features of the header:
+  # - "cache": This freezes Chrome until the cache is cleared, possibly for minutes in my testing
+  # (https://crbug.com/40233601).
+  #
+  # - "cookies": The browser removes the cookies of the full main domain that we may have no control over.
+  #
+  # In a relative URL root, we would also clean related paths when clearing "storage", so we can't even do that there.
+  def clear_site_data
+    return if OpenProject::Configuration.rails_relative_url_root.present?
+
+    response.headers["Clear-Site-Data"] = '"storage"'
   end
 
   def auth_source_sso_failure_user(failure)

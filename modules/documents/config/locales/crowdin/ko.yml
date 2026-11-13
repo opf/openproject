@@ -78,6 +78,12 @@ ko:
         primary_action: 실시간 공동 작업 활성화
         success: 실시간 공동 작업이 활성화되었습니다.
     button_add_type: 유형
+    collaboration_token:
+      errors:
+        collaboration_disabled: Real-time collaboration is not enabled.
+        collaboration_token_not_allowed: Requests authenticated with a collaboration token cannot request collaboration tokens.
+        invalid_previous_token: The previous collaboration token is invalid, already revoked, or does not belong to this document and user.
+        not_collaborative: The document does not support real-time collaboration.
     delete_dialog:
       confirmation_message_html: 이렇게 하면 이 문서와 모든 첨부 파일이 영구적으로 삭제됩니다. 계속하시겠습니까?
       heading: 이 문서를 삭제하시겠습니까?

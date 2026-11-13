@@ -34,7 +34,8 @@ class CalculatedValueError < ApplicationRecord
   VALID_ERROR_CODES = %w[ERROR_MATHEMATICAL
                          ERROR_UNKNOWN
                          ERROR_MISSING_VALUE
-                         ERROR_DISABLED_VALUE].freeze
+                         ERROR_DISABLED_VALUE
+                         ERROR_MULTI_VALUE_LIST].freeze
 
   validates :customized, presence: true
   validates :custom_field, presence: true

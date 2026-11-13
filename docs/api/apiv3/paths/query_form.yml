@@ -2,7 +2,7 @@
 ---
 post:
   summary: Query Update Form
-  operationId: Query_Update_Form
+  operationId: validate_query_update_form
   tags:
     - Queries
   description: ''

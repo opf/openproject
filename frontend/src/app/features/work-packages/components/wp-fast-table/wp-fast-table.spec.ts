@@ -32,11 +32,71 @@ import { Highlighting } from './builders/highlighting/highlighting.functions';
 import { effect } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { wpOccurrenceKey } from './rendered-occurrence-ledger';
+import { WorkPackageTable } from './wp-fast-table';
+import { TableSelectionFeedback } from './handlers/state/selection-feedback';
 
 describe('WorkPackageTable', () => {
   let harness:TableHarness;
 
   afterEach(() => harness?.destroy());
+
+  const unattachedTable = () => {
+    const source = harness.table;
+    return new WorkPackageTable(
+      harness.injector, source.tableAndTimelineContainer, source.scrollContainer,
+      source.tbody, source.timelineBody, source.timelineController, source.configuration,
+    );
+  };
+
+  it('owns selection feedback without a registry', () => {
+    harness = buildTable({ workPackages: [{ id: '1' }] });
+    const table = unattachedTable();
+
+    expect(table.selectionFeedback).toBeInstanceOf(TableSelectionFeedback);
+    table.destroy();
+  });
+
+  it('throws when keyboard navigation is read before attaching', () => {
+    harness = buildTable({ workPackages: [{ id: '1' }] });
+    const table = unattachedTable();
+
+    expect(() => table.keyboardNavigation).toThrow('Keyboard navigation is not attached to this table');
+    table.destroy();
+  });
+
+  it('runs mutations without keyboard navigation', () => {
+    harness = buildTable({ workPackages: [{ id: '1' }] });
+    const table = unattachedTable();
+
+    expect(() => table.mutate('all', () => undefined)).not.toThrow();
+    table.destroy();
+  });
+
+  it('keeps the attached navigation after destroy', async () => {
+    harness = buildTable({ workPackages: [{ id: '1' }] });
+    await harness.render();
+    const navigation = harness.table.keyboardNavigation;
+
+    harness.table.destroy();
+
+    expect(harness.table.keyboardNavigation).toBe(navigation);
+  });
+
+  it('keeps a previous table\'s group rows untouched when collapse state arrives before its first render', async () => {
+    const newStatus = { href: '/api/v3/statuses/1' };
+    harness = buildTable({
+      workPackages: [{ id: '1', attributes: { status: newStatus } }, { id: '2', attributes: { status: newStatus } }],
+      groups: [{ value: 'New', href: newStatus.href, count: 2 }],
+    });
+    await harness.render();
+    const previousHeader = harness.groupHeader(0);
+    harness.table.destroy();
+    const table = unattachedTable();
+
+    expect(() => table.setGroupsCollapseState({ [previousHeader.dataset.groupIdentifier!]: true })).not.toThrow();
+    expect(previousHeader).toBeInTheDocument();
+    table.destroy();
+  });
 
   it('renders one row per work package in result order', async () => {
     harness = buildTable({ workPackages: [{ id: '3' }, { id: '1' }, { id: '2' }] });
@@ -201,6 +261,44 @@ describe('WorkPackageTable', () => {
 
       expect(subjectOf('wp:1')).toBe('Renamed');
       expect(harness.table.ledger.byElement(harness.row('1'))?.key).toBe('wp:1');
+    });
+  });
+
+  describe('whenRendered', () => {
+    const rows = [{ id: '1' }, { id: '2' }];
+
+    it('resolves after the pending render commits', async () => {
+      harness = buildTable({ workPackages: rows });
+      const frames = harness.holdFrames();
+      const resolved = vi.fn();
+      harness.table.initialSetup(rows.map(buildWorkPackage));
+
+      void harness.table.whenRendered().then(resolved);
+      await Promise.resolve();
+      expect(resolved).not.toHaveBeenCalled();
+
+      frames.commit();
+      await Promise.resolve();
+      expect(resolved).toHaveBeenCalledOnce();
+      frames.release();
+    });
+
+    it('resolves at once without a pending render', async () => {
+      harness = buildTable({ workPackages: rows });
+
+      await expect(harness.table.whenRendered()).resolves.toBeUndefined();
+    });
+
+    it('resolves when the table is destroyed', async () => {
+      harness = buildTable({ workPackages: rows });
+      const frames = harness.holdFrames();
+      harness.table.initialSetup(rows.map(buildWorkPackage));
+      const waiting = harness.table.whenRendered();
+
+      harness.table.destroy();
+
+      await expect(waiting).resolves.toBeUndefined();
+      frames.release();
     });
   });
 

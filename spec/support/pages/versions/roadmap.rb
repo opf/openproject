@@ -69,7 +69,7 @@ module Pages
       def expect_versions_listed(*versions)
         within "#roadmap" do
           versions.each do |version|
-            expect(page).to have_content version.name
+            expect(page).to have_text version.name
           end
         end
       end
@@ -77,7 +77,7 @@ module Pages
       def expect_versions_not_listed(*versions)
         within "#roadmap" do
           versions.each do |version|
-            expect(page).to have_no_content version.name
+            expect(page).to have_no_text version.name
           end
         end
       end

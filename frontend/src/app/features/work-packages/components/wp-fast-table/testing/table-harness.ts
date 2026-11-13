@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element.js';
 import { fireEvent } from '@testing-library/dom';
 import {
   createEnvironmentInjector, DestroyRef, EnvironmentInjector, EventEmitter, Injector, Provider, Type,
@@ -43,9 +44,11 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { States } from 'core-app/core/states/states.service';
-import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
 import { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import {
+  QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC, QuerySortByResource, type QuerySortDirection,
+} from 'core-app/features/hal/resources/query-sort-by-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
@@ -62,7 +65,7 @@ import {
 } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import { WorkPackageTimelineTableController } from 'core-app/features/work-packages/components/wp-table/timeline/container/wp-timeline-container.directive';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { WorkPackageViewOutputs } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
+import { WorkPackageStateLinkEvent, WorkPackageViewOutputs } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 import { WorkPackageViewBaseService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-base.service';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
@@ -78,6 +81,7 @@ import { WorkPackageViewSortByService } from 'core-app/features/work-packages/ro
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { OpActionMenuService } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.service';
 import { OpTableActionsService } from 'core-app/features/work-packages/components/wp-table/table-actions/table-actions.service';
 import { OpContextMenuTableAction } from 'core-app/features/work-packages/components/wp-table/table-actions/actions/context-menu-table-action';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
@@ -85,6 +89,7 @@ import { DragAndDropService, DragMember } from 'core-app/shared/helpers/drag-and
 import { WorkPackageContextMenuHelperService } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 import type { Edge } from 'core-common/drag-and-drop/reorder';
 import { rowGroupClassName } from '../builders/modes/grouped/grouped-classes.constants';
+import { groupedRowClassName } from '../builders/modes/grouped/grouped-rows-helpers';
 import { TableHandlerRegistry } from '../handlers/table-handler-registry';
 import { locatePredecessorBySelector } from '../helpers/wp-table-row-helpers';
 import type { MutationExit, PaintScope } from '../row-mutations';
@@ -137,6 +142,12 @@ export interface TableHarnessOptions {
   groups?:GroupFixture[];
   groupBy?:string;
   showHierarchies?:boolean;
+  /** Sorts the built query manually. */
+  manualSort?:boolean;
+  /** The manual sort's direction; defaults to ascending. */
+  manualSortDirection?:QuerySortDirection;
+  /** Builds a persisted query that can (default) or cannot update its ordered work packages. */
+  canReorder?:boolean;
   configuration?:WorkPackageTableConfigurationObject;
   /** Keeps production defaults for every setting but the extra columns the harness cannot build. */
   productionDefaults?:boolean;
@@ -220,6 +231,8 @@ export interface TableHarness {
   groupHeaderOf(row:HTMLElement):HTMLTableRowElement|null;
   /** Fresh lookup; group headers are replaced on every collapse toggle. */
   groupHeader(index:number):HTMLTableRowElement;
+  /** The sums row of the group at `index`; groups render one when the query shows sums. */
+  groupSums(index:number):HTMLTableRowElement;
   /** Selects the given columns as the column configuration does, redrawing the table without reloading results. */
   setColumns(columnIds:string[]):void;
   rowIds():string[];
@@ -319,6 +332,18 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     options.timelineVisible ?? false,
     options.highlightingMode,
   );
+  if (options.manualSort) {
+    const direction = options.manualSortDirection ?? QUERY_SORT_BY_ASC;
+    query.sortBy = [{
+      href: `/api/v3/queries/sort_bys/manualSorting-${direction === QUERY_SORT_BY_DESC ? 'desc' : 'asc'}`,
+      column: { href: '/api/v3/queries/columns/manualSorting' },
+      direction: { href: direction },
+    } as unknown as QuerySortByResource];
+  }
+  if (options.canReorder !== undefined) {
+    query.id = '1';
+    query.updateOrderedWorkPackages = options.canReorder ? vi.fn() : undefined;
+  }
   querySpace.query.putValue(query);
   const configuration = new WorkPackageTableConfiguration(
     { ...(options.productionDefaults ? unbuildableColumns : harnessConfiguration), ...options.configuration },
@@ -341,7 +366,7 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
 
   const outputs:WorkPackageViewOutputs = {
     itemClicked: new EventEmitter<{ workPackageId:string, double:boolean }>(),
-    stateLinkClicked: new EventEmitter<{ workPackageId:string, requestedState:string }>(),
+    stateLinkClicked: new EventEmitter<WorkPackageStateLinkEvent>(),
   };
   options.beforeAttach?.(injector);
   new TableHandlerRegistry(injector).attachTo({ workPackageTable: table, ...outputs });
@@ -393,7 +418,7 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     nextRender,
     nextMutation() {
       return new Promise<MutationExit>((resolve) => {
-        const navigation = table.keyboardNavigation!;
+        const navigation = table.keyboardNavigation;
         const original = navigation.rowsChanged.bind(navigation);
         const spy = vi.spyOn(navigation, 'rowsChanged').mockImplementation((exit) => {
           spy.mockRestore();
@@ -482,6 +507,14 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
         throw new Error(`No rendered group header ${index}`);
       }
       return header;
+    },
+
+    groupSums(index) {
+      const sums = dom.tbody.querySelector<HTMLTableRowElement>(`tr.wp-table--sums-row.${groupedRowClassName(index)}`);
+      if (!sums) {
+        throw new Error(`No rendered sums row for group ${index}`);
+      }
+      return sums;
     },
 
     setColumns(columnIds) {
@@ -626,7 +659,12 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
     WorkPackageViewHighlightingService,
     WorkPackageViewRelationColumnsService,
     WorkPackageViewOrderService,
-    { provide: WorkPackagesListService, useValue: {} },
+    {
+      provide: WorkPackagesListService,
+      useValue: {
+        conditionallyLoadForm: () => new Promise<never>(() => undefined),
+      } satisfies Partial<WorkPackagesListService>,
+    },
     {
       provide: ApiV3Service,
       useFactory: (states:States) => ({
@@ -678,6 +716,7 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
     { provide: WorkPackageRelationsService, useValue: relationsStub(options.relations ?? []) },
     { provide: WorkPackageContextMenuHelperService, useValue: { getPermittedActions: () => [] } },
     { provide: OPContextMenuService, useValue: { close: () => undefined, show: () => undefined } },
+    OpActionMenuService,
     {
       provide: ConfigurationService,
       useValue: { requireDoubleClickForInlineEdit: () => !!options.requireDoubleClickForInlineEdit },
@@ -692,7 +731,6 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
     },
     { provide: BannersService, useValue: { eeShowBanners: false } },
     { provide: PathHelperService, useValue: { genericWorkPackagePath: () => '/work_packages/1' } },
-    { provide: CausedUpdatesService, useValue: { add: () => undefined } },
     { provide: UrlParamsService, useValue: { currentDetailsRouteParams: () => null, basePathWithoutDetails: () => '' } },
     { provide: KeepTabService, useValue: { currentDetailsTab: 'overview', currentShowTab: 'activity' } },
     { provide: FocusHelperService, useValue: { focus: () => undefined } },
@@ -754,7 +792,7 @@ function fillProductionMarkup(wrapper:HTMLElement, query:QueryResource, configur
   const headerCells = columns.map(({ id, name, sortable }) => `
     <th class="wp-table--table-header${navigable}">
       <div class="generic-table--sort-header-outer">
-        <span class="generic-table--sort-header">${sortable === false ? `<a${tabindex}>${name}</a>` : `<a href="#" id="${id}"${tabindex}>${name}</a>`}</span>
+        <span class="generic-table--sort-header"><button type="button" id="${id}" class="wp-table--column-menu-button"${tabindex}${sortable === false ? ' data-sortable="false"' : ''}>${name}</button></span>
       </div>
     </th>`).join('');
   const hasConfigurationCell = configuration.columnMenuEnabled || configuration.actionsColumnEnabled;

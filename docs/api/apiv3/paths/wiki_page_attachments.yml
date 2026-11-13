@@ -79,7 +79,7 @@ get:
   tags:
     - Attachments
   description: ''
-  operationId: List_attachments_by_wiki_page
+  operationId: list_attachments_by_wiki_page
   summary: List attachments by wiki page
 post:
   parameters:
@@ -256,5 +256,5 @@ post:
   description: |-
     Adds an attachment with the wiki page as its container.
 
-  operationId: Add_attachment_to_wiki_page
+  operationId: add_attachment_to_wiki_page
   summary: Add attachment to wiki page
