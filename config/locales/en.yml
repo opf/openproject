@@ -6234,9 +6234,13 @@ en:
           Starting with version 18.0, custom fields are no longer enabled or disabled for each
           project. They are part of forms, which types and variants use. The list below shows the
           custom fields on the work packages of this project, and the variants that include them.
+        column_format: "Format"
         column_name: "Custom field"
         column_variants: "Variants"
         no_results_title_text: There are currently no custom fields available.
+        project_specific_values_count:
+          one: "1 project-specific value"
+          other: "%{count} project-specific values"
       forums:
         no_results_content_text: Create a new forum
         no_results_title_text: There are currently no forums for the project.
