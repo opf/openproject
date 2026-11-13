@@ -34,7 +34,9 @@ RSpec.describe "Jira instance configuration", :js do
 
   current_user { admin }
 
-  describe "new form" do
+  describe "new form", :webmock do
+    include_context "with Jira connection stubs"
+
     before { visit new_admin_import_jira_path }
 
     it "explains the credential requirements and offers a Test Connection button" do
@@ -55,7 +57,7 @@ RSpec.describe "Jira instance configuration", :js do
       expect(page).to have_unchecked_field("Exclude resolution fields for this configuration")
 
       fill_in "Name", with: "My Jira"
-      fill_in "Jira Server/Data Center URL", with: "https://jira.example.com"
+      fill_in "Jira Server/Data Center URL", with: url
       fill_in "Personal access token (PAT)", with: "secret_token"
       check "Exclude resolution fields for this configuration"
 
@@ -69,9 +71,7 @@ RSpec.describe "Jira instance configuration", :js do
       expect(page).to have_field("Name", with: "")
       expect(page).to have_field("Jira Server/Data Center URL", with: "")
       expect(page).to have_field("Personal access token (PAT)", with: "")
-
-      # The checkbox is restored
-      expect(page).to have_checked_field("Exclude resolution fields for this configuration")
+      expect(page).to have_unchecked_field("Exclude resolution fields for this configuration")
     end
 
     it "has extra configuration options" do
@@ -119,11 +119,12 @@ RSpec.describe "Jira instance configuration", :js do
       expect(page).to have_css(".FormControl-caption", text: "The token must belong to a Jira administrator.")
     end
 
-    it "deletes the token and shows the token input field" do
+    it "deletes the token, confirms the deletion and shows the token input field" do
       accept_confirm do
         find("[href='/admin/import/jira/9/clear_credential?field=personal_access_token']").click
       end
 
+      expect_flash(message: "Personal access token (PAT) was successfully deleted.")
       expect(page).to have_field("Personal access token (PAT)", type: "text", disabled: false)
       expect(jira.reload.personal_access_token).to be_nil
     end
@@ -149,43 +150,6 @@ RSpec.describe "Jira instance configuration", :js do
   describe "connection check", :webmock do
     include_context "with Jira connection stubs"
 
-    before { stub_request(:get, "#{url}/rest/api/2/mypermissions").to_return(status: 401) }
-
-    it "checks the form values in the side panel without saving them" do
-      visit new_admin_import_jira_path
-
-      expect(page).to have_text("Not checked yet.")
-
-      fill_in "Jira Server/Data Center URL", with: url
-      fill_in "Personal access token (PAT)", with: "wrong_token"
-      click_on "Test Connection"
-
-      expect(page).to have_text("Checked the values in the form. They are not saved yet.")
-      expect(page).to have_text("ERR_CREDENTIALS_REJECTED")
-      expect(page).to have_button("Test Connection", disabled: false)
-      expect(Import::Jira.count).to eq(0)
-    end
-
-    it "shows the latest stored check on the edit form" do
-      jira = create(:jira, name: "My Jira", url:)
-      Import::Jiras::CheckConnectionService.new(jira).call
-
-      visit edit_admin_import_jira_path(jira)
-
-      expect(page).to have_text("Last check:")
-      expect(page).to have_text("ERR_CREDENTIALS_REJECTED")
-    end
-
-    it "checks the stored configuration from the edit form" do
-      jira = create(:jira, name: "My Jira", url:)
-
-      visit edit_admin_import_jira_path(jira)
-      click_on "Test Connection"
-
-      expect(page).to have_text("Checked the values in the form. They are not saved yet.")
-      expect(page).to have_text("ERR_CREDENTIALS_REJECTED")
-    end
-
     it "saves the configuration when pressing Enter in a field" do
       visit new_admin_import_jira_path
 
@@ -196,6 +160,97 @@ RSpec.describe "Jira instance configuration", :js do
 
       expect(page).to have_text(I18n.t(:notice_successful_create))
       expect(Import::Jira.pluck(:name)).to eq(["My Jira"])
+    end
+
+    it "saves without checking the connection when only the name changes" do
+      jira = create(:jira, name: "My Jira", url:)
+
+      visit edit_admin_import_jira_path(jira)
+      fill_in "Name", with: "Renamed"
+      click_on "Save configuration"
+
+      expect(page).to have_text(I18n.t(:notice_successful_update))
+      expect(server_info_request).not_to have_been_requested
+    end
+
+    context "when Jira rejects the credentials" do
+      before { stub_request(:get, "#{url}/rest/api/2/mypermissions").to_return(status: 401) }
+
+      it "checks the form values in the side panel without saving them" do
+        visit new_admin_import_jira_path
+
+        expect(page).to have_text("Not checked yet.")
+
+        fill_in "Jira Server/Data Center URL", with: url
+        fill_in "Personal access token (PAT)", with: "wrong_token"
+        click_on "Test Connection"
+
+        expect(page).to have_text("Checked the values in the form. They are not saved yet.")
+        expect(page).to have_text("ERR_CREDENTIALS_REJECTED")
+        expect(page).to have_button("Test Connection", disabled: false)
+        expect(Import::Jira.count).to eq(0)
+      end
+
+      it "shows the latest stored check on the edit form" do
+        jira = create(:jira, name: "My Jira", url:)
+        Import::Jiras::CheckConnectionService.new(jira).call
+
+        visit edit_admin_import_jira_path(jira)
+
+        expect(page).to have_text("Last check:")
+        expect(page).to have_text("ERR_CREDENTIALS_REJECTED")
+      end
+
+      it "checks the stored configuration from the edit form" do
+        jira = create(:jira, name: "My Jira", url:)
+
+        visit edit_admin_import_jira_path(jira)
+        click_on "Test Connection"
+
+        expect(page).to have_text("Checked the values in the form. They are not saved yet.")
+        expect(page).to have_text("ERR_CREDENTIALS_REJECTED")
+      end
+
+      it "saves a new configuration and shows the failed check on its edit form" do
+        visit new_admin_import_jira_path
+
+        fill_in "Name", with: "My Jira"
+        fill_in "Jira Server/Data Center URL", with: url
+        fill_in "Personal access token (PAT)", with: "wrong_token"
+        click_on "Add configuration"
+
+        within_modal "Connection check failed" do
+          expect(page).to have_text("The configuration is saved, but the check Credentials accepted failed.")
+        end
+        expect(page).to have_current_path(edit_admin_import_jira_path(Import::Jira.sole))
+        expect(page).to have_text("Last check:")
+        expect(page).to have_text("ERR_CREDENTIALS_REJECTED")
+      end
+
+      context "when saving a changed URL" do
+        let(:jira) { create(:jira, name: "My Jira", url: "https://old.example.com") }
+
+        before do
+          visit edit_admin_import_jira_path(jira)
+          fill_in "Jira Server/Data Center URL", with: url
+          click_on "Save configuration"
+        end
+
+        it "keeps the form and the report when choosing to fix the configuration" do
+          within_modal("Connection check failed") { click_on "Fix configuration" }
+
+          expect(page).to have_no_modal "Connection check failed"
+          expect(page).to have_current_path(edit_admin_import_jira_path(jira))
+          expect(page).to have_text("ERR_CREDENTIALS_REJECTED")
+        end
+
+        it "goes to the configuration page when continuing anyway" do
+          within_modal("Connection check failed") { click_on "Continue anyway" }
+
+          expect(page).to have_current_path(admin_import_jira_path(jira))
+          expect(jira.reload.url).to eq(url)
+        end
+      end
     end
   end
 end

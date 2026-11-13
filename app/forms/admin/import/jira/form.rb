@@ -139,7 +139,10 @@ module Admin::Import::Jira
           name: :submit,
           label: model.persisted? ? I18n.t("admin.jira.form.button_save") : I18n.t("admin.jira.form.button_add"),
           scheme: :primary,
-          data: { "admin--jira-configuration-form-target": "button" }
+          data: {
+            "admin--jira-configuration-form-target": "button",
+            turbo_submits_with: I18n.t("admin.jira.form.label_testing")
+          }
         )
 
         button_group.button(
