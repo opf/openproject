@@ -82,7 +82,18 @@ Rails.application.configure do
         }.transform_values(&:to_s)
       )
 
-      c.use_all
+      c.use_all(
+        "OpenTelemetry::Instrumentation::PG" => {
+          # SQL statements are included, but are obfuscated. If the query exceeds 2000 characters
+          # by default, it will be completely omitted. We're hitting the limit quite often, so let's
+          # increase it slightly so we get a bit more visibility.
+          obfuscation_limit: 4000,
+
+          # If available in PG::Result, include number of rows returned/affected.
+          db_response_returned_rows: true,
+          db_response_affected_rows: true,
+        }
+      )
     end
 
     OpenProject::OpenTelemetry::ExconHashQuery.apply!
