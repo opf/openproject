@@ -4,18 +4,18 @@ sidebar_navigation:
   title: Automations
   priority: 100
 description: Intelligent workflows with automated actions.
-keywords: automations, automations, automated workflow
+keywords: custom actions, automations, automated workflow
 ---
 
 # Work package automations (Enterprise add-on)
 
-Automated workflows with automations support you to easily update several work package attributes at once with a single click on one button.
+Automations let you update multiple work package attributes with a single click. Administrators configure the conditions under which an automation is available and the changes it applies.
 
 You can use automations to standardize your workflows, avoid errors and reduce manual work for updates.
 
 [feature: custom_actions ]
 
-Watch the following video to see how you can configure your automations:
+Watch the following video to see how to configure an automation (recorded when the feature was called Custom actions):
 
 ![Video](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Custom-Actions.mp4)
 
@@ -43,12 +43,12 @@ If a work package is then in the defined condition, the button will appear on to
 
 ## Update, sort or delete automations
 
-1. Click on the name of a automation or on the pencil icon in order to update the attributes.
-2. Click the arrow icons in order to sort the order of the automation button on the work packages.
-3. Delete a automation.
+1. Click an automation's name or pencil icon to edit it.
+2. Use the arrow icons to change the order in which automation buttons appear on work packages.
+3. Delete an automation when it is no longer needed.
 
 ![Update or delete automations in OpenProject administration](openproject_system_guide_work_packages_custom_actions_edit_delete.png)
 
 > [!TIP]
 >
-> Read this [blog article](https://www.openproject.org/blog/custom-action-self-assign/) for an example of automations used within OpenProject team to quickly self-assign a work package.
+> Read this [blog article](https://www.openproject.org/blog/custom-action-self-assign/) for an example of an automation used within the OpenProject team to quickly self-assign a work package.
