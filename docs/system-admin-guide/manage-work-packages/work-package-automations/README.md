@@ -4,7 +4,7 @@ sidebar_navigation:
   title: Automations
   priority: 100
 description: Intelligent workflows with automated actions.
-keywords: custom actions, automations, automated worfklow
+keywords: custom actions, automations, automated workflow
 ---
 
 # Work package automations (Enterprise add-on)
