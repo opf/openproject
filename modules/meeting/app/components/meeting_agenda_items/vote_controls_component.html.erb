@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
       end
 
       if @voting_enabled
-        score.with_column(ml: 1, classes: "op-meeting-agenda-item-vote-score--actions hide-when-print") do
+        score.with_column(ml: 3, classes: "op-meeting-agenda-item-vote-score--actions hide-when-print") do
           flex_layout do |actions|
             MeetingAgendaItem.allowed_emoji_reactions.each do |reaction|
               actions.with_column(mr: 1) do
