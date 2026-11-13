@@ -1639,7 +1639,7 @@ en:
       banner:
         contribution_callout: >
           Please, help us improve the Jira Migrator with your feedback and private data donations. You can [join the development community](link) of the Jira Migrator.
-        description: "This Jira Migrator is currently in beta. We currently only support Jira Server/Data Center versions 10.x and 11.x. Cloud instances are not supported at this time."
+        description: "This Jira Migrator is currently in beta. We currently support Jira Server and Data Center versions 8.14 to 11.x. Jira 8 requires basic auth. Cloud instances are not supported at this time."
         title: "Beta - Try it out!"
       basic_auth_password_deleted: "Basic auth password was successfully deleted."
       blank:
@@ -1683,9 +1683,13 @@ en:
           failure:
             description_html: "The configuration is saved, but the check <strong>%{check}</strong> failed. You can continue, but fetching data will fail until this is fixed."
             title: "Connection check failed"
+          warning:
+            description_html: "The configuration is saved, but the check <strong>%{check}</strong> reported a warning. The import might not work as expected. Proceed at your own risk."
+            title: "Connection check warning"
         errors:
           api_error: "Jira answered with HTTP status %{status}. Check the URL and that Jira is running."
           basic_auth_password_missing: "No password is entered for basic auth."
+          basic_auth_required: "The Jira Migrator needs basic auth for Jira %{version}. Select basic auth and enter the username and password of a Jira administrator."
           basic_auth_username_missing: "No username is entered for basic auth."
           credentials_rejected: "Jira rejected the credentials. Check that they are correct and have not expired."
           invalid_response: "The server at this URL did not answer with JSON. Check the URL."
@@ -1701,14 +1705,18 @@ en:
             and restart OpenProject.
           timeout: "Jira did not answer in time. Check the URL and that OpenProject can reach the Jira server."
           unexpected_error: "Jira answered in a way OpenProject did not expect. Check that the URL points to Jira."
+          unknown_version: "OpenProject could not determine the Jira version. The import might not work as expected. Proceed at your own risk."
           unreachable: "Jira could not be reached. Check the URL and that OpenProject can reach the Jira server."
+          unsupported_version: "Jira %{version} is not a supported version. The import might not work as expected. Proceed at your own risk."
         form_values_checked: "Checked the values in the form. They are not saved yet."
         last_check: "Last check: %{datetime}"
         not_checked: "Not checked yet."
         server:
+          auth_method_supported: "Authentication method"
           header: "Jira server"
           reachable: "Server reachable"
           responds_as_jira: "Responds as Jira"
+          version_supported: "Supported version"
         title: "Connection check"
       description: "Use this tool to import data from your Jira instance. You can configure multiple Jira hosts and choose what to import in each import run."
       errors:

@@ -66,10 +66,26 @@ RSpec.describe Import::JiraInstanceMetaDataJob do
       expect(jira_import.available).to include("total_issues" => 5, "total_users" => 2, "server_info" => server_info)
     end
 
-    it "stores the passed connection check" do
+    it "stores the passed connection check and records it on the run" do
       perform_job
 
-      expect(jira.latest_health_report).to be_healthy
+      report = jira.latest_health_report
+      expect(report).to be_healthy
+      expect(jira_import.reload.last_transition.metadata).to include("health_report_id" => report.id)
+    end
+  end
+
+  context "when the Jira version is not supported" do
+    let(:administrator) { true }
+    let(:server_info) { { "serverTitle" => "Jira", "version" => "12.0.0" } }
+
+    it "fetches the instance meta data anyway and records the warning on the run" do
+      perform_job
+
+      report = jira.latest_health_report
+      expect(report.group("server")["version_supported"]).to be_warning
+      expect(jira_import.reload.current_state).to eq("instance_meta_done")
+      expect(jira_import.connection_check_report).to eq(report)
     end
   end
 

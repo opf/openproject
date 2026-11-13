@@ -101,7 +101,7 @@ RSpec.describe Import::JiraImport do
     end
   end
 
-  describe "#failed_connection_check" do
+  describe "#connection_check_report" do
     let(:report) do
       failure = HealthReport::Result.failure(:administrator, :not_administrator, nil)
       jira.health_reports.create!(results: [HealthReport::ResultGroup.new(key: :authorization, results: [failure])])
@@ -115,20 +115,27 @@ RSpec.describe Import::JiraImport do
     it "is the report of the connection check that stopped the run" do
       jira_import.transition_to!(:instance_meta_error, error: "failed", health_report_id: report.id)
 
-      expect(jira_import.failed_connection_check).to eq(report)
+      expect(jira_import.connection_check_report).to eq(report)
+    end
+
+    it "is the report of the connection check before the fetched data, for the rest of the run" do
+      jira_import.transition_to!(:instance_meta_done, health_report_id: report.id)
+      jira_import.transition_to!(:configuring)
+
+      expect(jira_import.connection_check_report).to eq(report)
     end
 
     it "is nil when the run failed for another reason" do
       jira_import.transition_to!(:instance_meta_error, error: "failed")
 
-      expect(jira_import.failed_connection_check).to be_nil
+      expect(jira_import.connection_check_report).to be_nil
     end
 
-    it "is nil once the run moved on" do
+    it "is nil while the data is fetched again" do
       jira_import.transition_to!(:instance_meta_error, error: "failed", health_report_id: report.id)
       jira_import.transition_to!(:instance_meta_fetching)
 
-      expect(jira_import.failed_connection_check).to be_nil
+      expect(jira_import.connection_check_report).to be_nil
     end
   end
 

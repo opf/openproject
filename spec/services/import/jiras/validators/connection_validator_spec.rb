@@ -65,6 +65,15 @@ RSpec.describe Import::Jiras::Validators::ConnectionValidator, :webmock do
     end
   end
 
+  context "when the Jira version is not supported" do
+    let(:server_info) { { "version" => "12.0.0" } }
+
+    it "warns and still checks the authorization" do
+      expect(report.results.map(&:key)).to eq(%i[configuration server authorization])
+      expect(report).to have_attributes(warning?: true, unhealthy?: false)
+    end
+  end
+
   context "when Jira rejects the credentials on both requests, like Jira 10" do
     before do
       stub_request(:get, "#{url}/rest/api/2/serverInfo").to_return(status: 401)

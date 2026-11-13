@@ -55,7 +55,7 @@ module Import
 
         @client = jira.client
         jira_import.update!(available: collect_metadata)
-        jira_import.transition_to!(:instance_meta_done)
+        jira_import.transition_to!(:instance_meta_done, health_report_id: connection_check.result.id)
         Rails.logger.info "Fetching instance meta data finished"
       end
     rescue StandardError => e

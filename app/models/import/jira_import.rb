@@ -107,8 +107,8 @@ module Import
       (projects || []).pluck("id")
     end
 
-    def failed_connection_check
-      report_id = last_transition&.metadata&.dig("health_report_id")
+    def connection_check_report
+      report_id = last_instance_meta_transition&.metadata&.dig("health_report_id")
       HealthReport.find_by(id: report_id) if report_id
     end
 
@@ -145,6 +145,17 @@ module Import
         .where("arguments = ?::jsonb",
                active_job.serialize["arguments"].to_json)
         .pick(:cursor)
+    end
+
+    private
+
+    def last_instance_meta_transition
+      transitions
+        .where(to_state: [Import::JiraImportStateMachine::INSTANCE_META_FETCHING,
+                          Import::JiraImportStateMachine::INSTANCE_META_DONE,
+                          Import::JiraImportStateMachine::INSTANCE_META_ERROR])
+        .order(:sort_key)
+        .last
     end
   end
 end
