@@ -44,24 +44,31 @@ describe('isTextEditable', () => {
     expect(isTextEditable(inputOfType(type))).toBe(false);
   });
 
-  it('accepts a textarea and a contenteditable element', () => {
+  it('accepts a textarea', () => {
+    expect(isTextEditable(document.createElement('textarea'))).toBe(true);
+  });
+
+  it('accepts a contenteditable element', () => {
     const editable = document.createElement('div');
     editable.contentEditable = 'true';
     document.body.appendChild(editable);
 
-    expect(isTextEditable(document.createElement('textarea'))).toBe(true);
     expect(isTextEditable(editable)).toBe(true);
 
     editable.remove();
   });
 
-  it('rejects a disabled text input and a disabled textarea', () => {
+  it('rejects a disabled text input', () => {
     const input = inputOfType('text');
     input.disabled = true;
+
+    expect(isTextEditable(input)).toBe(false);
+  });
+
+  it('rejects a disabled textarea', () => {
     const textarea = document.createElement('textarea');
     textarea.disabled = true;
 
-    expect(isTextEditable(input)).toBe(false);
     expect(isTextEditable(textarea)).toBe(false);
   });
 
