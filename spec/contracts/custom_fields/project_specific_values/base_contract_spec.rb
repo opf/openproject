@@ -35,9 +35,13 @@ RSpec.describe CustomFields::ProjectSpecificValues::BaseContract do
   include_context "ModelContract shared context"
 
   let(:current_user) { build_stubbed(:admin) }
-  let(:custom_field) { build(:list_wp_custom_field, :project_specific_allowlist) }
+  let(:project) { build_stubbed(:project) }
+  let(:project_level_value_management) { true }
+  let(:custom_field) do
+    build(:list_wp_custom_field, :project_specific_allowlist, project_level_value_management:)
+  end
 
-  subject(:contract) { described_class.new(custom_field, current_user) }
+  subject(:contract) { described_class.new(custom_field, current_user, options: { project: }) }
 
   context "with an enterprise plan including project-specific values", with_ee: %i[project_specific_list_values] do
     it_behaves_like "contract is valid for active admins and invalid for regular users"
@@ -46,6 +50,30 @@ RSpec.describe CustomFields::ProjectSpecificValues::BaseContract do
       let(:custom_field) { build(:list_wp_custom_field) }
 
       it_behaves_like "contract is invalid", project_specific_value_restriction: :blank
+    end
+
+    context "as a user allowed to manage custom field values in the project" do
+      let(:current_user) { build_stubbed(:user) }
+
+      before do
+        mock_permissions_for(current_user) do |mock|
+          mock.allow_in_project :manage_work_package_custom_field_values, project:
+        end
+      end
+
+      it_behaves_like "contract is valid"
+
+      context "when project admins may not manage the values of the custom field" do
+        let(:project_level_value_management) { false }
+
+        it_behaves_like "contract user is unauthorized"
+      end
+
+      context "for another project" do
+        subject(:contract) { described_class.new(custom_field, current_user, options: { project: build_stubbed(:project) }) }
+
+        it_behaves_like "contract user is unauthorized"
+      end
     end
   end
 

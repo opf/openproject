@@ -1,0 +1,81 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
+
+RSpec.describe CustomOptions::UpdateContract do
+  include_context "ModelContract shared context"
+
+  current_user { build_stubbed(:admin) }
+
+  let(:allow_additional_project_values) { true }
+  let(:custom_field) do
+    create(:list_wp_custom_field, possible_values: %w[Berlin], allow_additional_project_values:)
+  end
+  let(:project) { create(:project) }
+  let(:option_project) { project }
+  let(:custom_option) do
+    custom_field.custom_options.create!(value: "Hamburg", project: option_project).tap { it.value = "Bremen" }
+  end
+
+  subject(:contract) { described_class.new(custom_option, current_user) }
+
+  it_behaves_like "contract is valid for active admins and invalid for regular users"
+
+  context "as a user allowed to manage custom field values in the project" do
+    let(:current_user) { build_stubbed(:user) }
+
+    before do
+      mock_permissions_for(current_user) do |mock|
+        mock.allow_in_project :manage_work_package_custom_field_values, project:
+      end
+    end
+
+    it_behaves_like "contract is valid"
+
+    context "when the custom field does not allow additional project values" do
+      let(:allow_additional_project_values) { false }
+
+      it_behaves_like "contract user is unauthorized"
+    end
+
+    context "with a value of another project" do
+      let(:option_project) { create(:project) }
+
+      it_behaves_like "contract user is unauthorized"
+    end
+
+    context "with a global value" do
+      let(:option_project) { nil }
+
+      it_behaves_like "contract user is unauthorized"
+    end
+  end
+end

@@ -41,6 +41,12 @@ module CustomFields
 
       private
 
+      def before_perform(service_call)
+        self.contract_options = { project: }
+
+        service_call
+      end
+
       def usable_value_ids
         raise SubclassResponsibilityError
       end
