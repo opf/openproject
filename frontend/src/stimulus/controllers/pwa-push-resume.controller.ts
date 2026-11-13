@@ -34,19 +34,6 @@ const ATTEMPTED_STORAGE_KEY = 'push-resume-attempted';
 const ATTEMPTED_SESSIONS_LIMIT = 5;
 const REQUEST_TIMEOUT_MS = 15000;
 
-/**
- * Re-registers this browser's push subscription with the server after a new
- * sign-in, once per session. A session is remembered once the server gave a
- * definitive answer, such as ok or gone (nothing to resume); a transient
- * failure (network error, timeout, 408, 429 or 5xx) is tried again on the next
- * page load.
- *
- * It does not run on Turbo previews, restored history snapshots or pages
- * served from the back/forward cache, because they can carry a stale CSRF token
- * and a CSRF failure resets the session. The page is checked again right before
- * posting, since a snapshot can replace it while the subscription lookup is
- * pending. The Browser notifications tab handles its own page.
- */
 export default class PwaPushResumeController extends Controller {
   static values = {
     url: String,
@@ -71,6 +58,7 @@ export default class PwaPushResumeController extends Controller {
   private async resume():Promise<void> {
     try {
       const subscription = await currentPushSubscription();
+      // A snapshot can replace the page while the subscription lookup is pending.
       if (!subscription || !this.pageIsFresh()) return;
 
       const response = await post(this.urlValue, {
@@ -91,6 +79,8 @@ export default class PwaPushResumeController extends Controller {
     return status < 500 && status !== 408 && status !== 429;
   }
 
+  // Previews, restored snapshots and back/forward-cache pages can carry a stale
+  // CSRF token, and a CSRF failure resets the session.
   private pageIsFresh():boolean {
     return this.element.isConnected
       && !document.documentElement.hasAttribute('data-turbo-preview')
