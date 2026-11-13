@@ -17,7 +17,7 @@ Manage work package settings, types, statuses, workflows and other work package 
 | [Settings](work-package-settings)                           | Configure general work package settings and defaults, such as display options and more. |
 | [Types](work-package-types)                                 | Create and manage work package types and their configuration. |
 | [Automatic subjects](work-package-types/automatic-subjects) | Define automatic work package subjects (Enterprise add-on).  |
-| [Form configuration](work-package-forms)                    | Configure the work package form for a work package type.     |
+| [Form configuration](work-package-types/form-configuration)                    | Configure the work package form for a work package type.     |
 | [Workflows](work-package-workflows)                         | Configure status transitions and workflows for a work package type. |
 | [Project attributes](work-package-types/project-attributes) | Configure which project attributes are displayed in work packages of a specific type. |
 | [Projects](work-package-types/projects)                     | Configure for which projects a work package type is activated. |
