@@ -50,9 +50,7 @@ module ITSM
         user.persisted? ? ServiceResult.success : ServiceResult.failure(errors: user.errors)
       end
 
-      def new_role
-        ProjectRole.new(name: translated(:label_helpdesk_role), permissions: PERMISSIONS, builtin: Role::BUILTIN_HELPDESK)
-      end
+      def new_role = HelpdeskRole.new(name: translated(:label_helpdesk_role), permissions: PERMISSIONS)
 
       def new_user(role)
         ServiceAccount.new(name: translated(:label_helpdesk_user),

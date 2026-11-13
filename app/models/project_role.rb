@@ -52,10 +52,6 @@ class ProjectRole < Role
       .where(type: "ProjectRole")
   end
 
-  def member?
-    super || builtin == BUILTIN_HELPDESK
-  end
-
   # Roles eligible to be granted to a non-admin user upon project creation.
   # Restricted to givable roles that include all PERMISSIONS_FOR_PROJECT_CREATOR.
   def self.assignable_to_project_creator

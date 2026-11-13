@@ -36,7 +36,7 @@ RSpec.describe ITSM do
 
     it "finds the help desk user and role" do
       expect(described_class.helpdesk_user).to be_a(ServiceAccount).and have_attributes(name: "Help desk")
-      expect(described_class.helpdesk_role).to be_a(ProjectRole).and have_attributes(name: "Help desk")
+      expect(described_class.helpdesk_role).to be_a(ITSM::HelpdeskRole).and have_attributes(name: "Help desk")
     end
   end
 

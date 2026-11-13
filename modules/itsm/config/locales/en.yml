@@ -43,6 +43,9 @@ en:
       itsm/email_thread:
         one: Email thread
         other: Email threads
+      itsm/helpdesk_role:
+        one: Help desk role
+        other: Help desk roles
       itsm/incoming_mailbox:
         one: Incoming mailbox
         other: Incoming mailboxes

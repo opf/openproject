@@ -55,10 +55,10 @@ RSpec.describe ITSM::HelpdeskUsers::SetUpService do
     expect(user.service).to eq(role)
   end
 
-  it "creates a built-in role that cannot be deleted or given to other members" do
+  it "creates a role of its own type that cannot be deleted or given to other members" do
     result
 
-    expect(role).to be_builtin
+    expect(role).to be_a(ITSM::HelpdeskRole)
     expect(role).not_to be_deletable
     expect(ProjectRole.givable).not_to include(role)
   end
@@ -76,7 +76,7 @@ RSpec.describe ITSM::HelpdeskUsers::SetUpService do
     it "keeps the existing account without creating anything" do
       expect { result }.not_to change(Principal, :count)
       expect(user).to eq(existing_user)
-      expect(ProjectRole.where(name: "Help desk").count).to eq(1)
+      expect(ITSM::HelpdeskRole.count).to eq(1)
     end
 
     it "does not take the lock" do
@@ -99,7 +99,7 @@ RSpec.describe ITSM::HelpdeskUsers::SetUpService do
 
       expect(outer_result).to be_failure
       expect(outer_result.errors.symbols_for(:name)).to eq([:blank])
-      expect(ProjectRole.where(name: "Help desk")).not_to exist
+      expect(ITSM::HelpdeskRole).not_to exist
     end
   end
 
@@ -109,7 +109,7 @@ RSpec.describe ITSM::HelpdeskUsers::SetUpService do
     before { existing_user.destroy }
 
     it "creates a new one and keeps the role" do
-      expect { result }.not_to change(ProjectRole, :count)
+      expect { result }.not_to change(Role, :count)
       expect(user).to be_persisted
       expect(user).not_to eq(existing_user)
     end
