@@ -30,6 +30,7 @@ import { isTextEditable } from 'core-common/interactive-element-helper';
 // Firefox does not let the mouse select text in a field that has a
 // draggable ancestor, even when the drag itself is refused.
 // https://community.openproject.org/wp/OP-20124
+// https://bugzilla.mozilla.org/show_bug.cgi?id=1853069
 export function suspendDraggableWhileEditing(element:HTMLElement):() => void {
   const listeners = new AbortController();
   const { signal } = listeners;
