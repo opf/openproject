@@ -32,7 +32,7 @@ import {
   ChartType,
   Plugin,
 } from 'chart.js';
-import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
+import { createPatternFill, lineDashFor } from './plugin.primer-patterns';
 
 export interface PrimerColorsPluginOptions {
   enabled?:boolean;
@@ -68,68 +68,78 @@ const PRIMER_COLORS = [
   'lime',   // (subdued green, good closing color)
 ];
 
-function getEmphasisColors() {
-  return PRIMER_COLORS.map((color) => getCSSVariable(`--display-${color}-scale-6`));
+interface PrimerPalette {
+  emphasis:string[];
+  muted:string[];
 }
 
-function getMutedColors() {
-  return PRIMER_COLORS.map((color) => getCSSVariable(`--display-${color}-scale-2`));
+function resolvePalette():PrimerPalette {
+  const styles = getComputedStyle(document.body);
+  return {
+    emphasis: PRIMER_COLORS.map((color) => styles.getPropertyValue(`--display-${color}-scale-6`).trim()),
+    muted: PRIMER_COLORS.map((color) => styles.getPropertyValue(`--display-${color}-scale-2`).trim()),
+  };
 }
 
-function getEmphasisColor(i:number) {
-  return getEmphasisColors()[i % PRIMER_COLORS.length];
+function colorAt(colors:string[], index:number):string {
+  return colors[index % colors.length];
 }
 
-function getMutedColor(i:number) {
-  return getMutedColors()[i % PRIMER_COLORS.length];
-}
-
-function colorizeDefaultDataset(dataset:ChartDataset, i:number) {
-  return assignColorsForDataset(dataset, i);
-}
-
-function assignColorsForDataset(dataset:ChartDataset, i:number):number {
-  const backgroundColors:string[] = [];
-  const borderColors:string[] = [];
-
-  for (const _ of dataset.data) {
-    backgroundColors.push(getMutedColor(i));
-    borderColors.push(getEmphasisColor(i));
-    i+=1;
-  }
-
-  dataset.backgroundColor = backgroundColors;
-  dataset.borderColor = borderColors;
+function colorizePoints(
+  dataset:ChartDataset,
+  colorIndexes:number[],
+  palette:PrimerPalette,
+  patternContext?:CanvasRenderingContext2D,
+  devicePixelRatio?:number,
+):void {
+  dataset.backgroundColor = dataset.data.map((_, index) => {
+    const colorIndex = colorIndexes[index];
+    const mutedColor = colorAt(palette.muted, colorIndex);
+    const emphasisColor = colorAt(palette.emphasis, colorIndex);
+    return patternContext
+      ? createPatternFill(
+        patternContext,
+        mutedColor,
+        emphasisColor,
+        colorIndex,
+        devicePixelRatio,
+      )
+      : mutedColor;
+  });
+  dataset.borderColor = dataset.data.map((_, index) => colorAt(palette.emphasis, colorIndexes[index]));
   dataset.borderWidth = 1;
-
-  return i;
 }
 
-function colorizeMultiDataset(dataset:ChartDataset, i:number) {
-  const backgroundColors:string[] = [];
-  const borderColors:string[] = [];
+function colorizeDataset(
+  dataset:ChartDataset,
+  colorIndex:number,
+  styleIndex:number,
+  palette:PrimerPalette,
+  context:CanvasRenderingContext2D,
+  lineChart:boolean,
+  devicePixelRatio:number,
+):void {
+  const mutedColor = colorAt(palette.muted, colorIndex);
+  const emphasisColor = colorAt(palette.emphasis, colorIndex);
+  const backgroundColor = lineChart
+    ? mutedColor
+    : createPatternFill(
+      context,
+      mutedColor,
+      emphasisColor,
+      styleIndex,
+      devicePixelRatio,
+    );
 
   // Instead of directly counting the index up, all elements of that dataset will get the same color
   // Only at the end, we increase so that the next dataset is in a different color
   // See https://community.openproject.org/wp/68364
-  for (const _ of dataset.data) {
-    backgroundColors.push(getMutedColor(i));
-    borderColors.push(getEmphasisColor(i));
-  }
-
-  dataset.backgroundColor = backgroundColors;
-  dataset.borderColor = borderColors;
+  dataset.backgroundColor = dataset.data.map(() => backgroundColor);
+  dataset.borderColor = dataset.data.map(() => emphasisColor);
   dataset.borderWidth = 1;
-
-  return i+1;
-}
-
-function getColorizer() {
-  let i = 0;
-
-  return (dataset:ChartDataset) => {
-    i = colorizeDefaultDataset(dataset, i);
-  };
+  if (lineChart) {
+    (dataset as ChartDataset<'line'>).borderDash = lineDashFor(styleIndex);
+  }
 }
 
 // djb2-style XOR hash → stable uint32 for a given label string
@@ -171,11 +181,16 @@ function buildLabelColorMap(labels:string[]):Map<string, number> {
 }
 
 // Assign colors to a single-dataset chart where each data point has its own label
-function assignColorsByLabel(dataset:ChartDataset, labels:string[]):void {
+function assignColorsByLabel(
+  dataset:ChartDataset,
+  labels:string[],
+  palette:PrimerPalette,
+  patternContext:CanvasRenderingContext2D,
+  devicePixelRatio:number,
+):void {
   const colorMap = buildLabelColorMap(labels);
-  dataset.backgroundColor = dataset.data.map((_, i) => getMutedColor(colorMap.get(labels[i] ?? '') ?? 0));
-  dataset.borderColor = dataset.data.map((_, i) => getEmphasisColor(colorMap.get(labels[i] ?? '') ?? 0));
-  dataset.borderWidth = 1;
+  const colorIndexes = dataset.data.map((_, index) => colorMap.get(labels[index] ?? '') ?? 0);
+  colorizePoints(dataset, colorIndexes, palette, patternContext, devicePixelRatio);
 }
 
 const plugin:Plugin<ChartType, PrimerColorsPluginOptions> = {
@@ -188,20 +203,54 @@ const plugin:Plugin<ChartType, PrimerColorsPluginOptions> = {
     }
 
     const { data: { datasets } } = chart.config;
+    const chartType = 'type' in chart.config ? chart.config.type : undefined;
+    const palette = resolvePalette();
+
     if (options.datasetLabelBased || (options.labelBased && datasets.length !== 1)) {
       const labels = datasets.map((d) => d.label ?? '');
       const colorMap = buildLabelColorMap(labels);
       datasets.forEach((dataset:ChartDataset) => {
-        colorizeMultiDataset(dataset, colorMap.get(dataset.label ?? '') ?? 0);
+        const colorIndex = colorMap.get(dataset.label ?? '') ?? 0;
+        colorizeDataset(
+          dataset,
+          colorIndex,
+          colorIndex,
+          palette,
+          chart.ctx,
+          (dataset.type ?? chartType) === 'line',
+          chart.currentDevicePixelRatio,
+        );
       });
     } else if (options.labelBased && datasets.length === 1) {
-      assignColorsByLabel(datasets[0], (chart.data.labels ?? []) as string[]);
+      assignColorsByLabel(
+        datasets[0],
+        (chart.data.labels ?? []) as string[],
+        palette,
+        chart.ctx,
+        chart.currentDevicePixelRatio,
+      );
     } else if (datasets.length === 1) {
-      const colorizer = getColorizer();
-      datasets.forEach(colorizer);
+      const colorIndexes = datasets[0].data.map((_, index) => index);
+      const datasetType = datasets[0].type ?? chartType;
+      const pointPatterns = datasetType === 'pie' || datasetType === 'doughnut' || datasetType === 'polarArea';
+      colorizePoints(
+        datasets[0],
+        colorIndexes,
+        palette,
+        pointPatterns ? chart.ctx : undefined,
+        chart.currentDevicePixelRatio,
+      );
     } else {
-      datasets.forEach((dataset:ChartDataset, index = 0) => {
-        colorizeMultiDataset(dataset, index);
+      datasets.forEach((dataset:ChartDataset, index) => {
+        colorizeDataset(
+          dataset,
+          index,
+          index,
+          palette,
+          chart.ctx,
+          (dataset.type ?? chartType) === 'line',
+          chart.currentDevicePixelRatio,
+        );
       });
     }
   },
