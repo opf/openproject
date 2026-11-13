@@ -42,6 +42,29 @@ RSpec.describe PushSubscription do
     expect(described_class.active).to be_empty
   end
 
+  describe ".deliverable" do
+    def age_session(subscription, age)
+      Sessions::UserSession.where(id: subscription.session_id).update_all(updated_at: age.ago)
+    end
+
+    let!(:stale) { create(:push_subscription, user:).tap { age_session(it, 2.hours) } }
+
+    it "keeps every active subscription without a session TTL", with_settings: { session_ttl_enabled: false } do
+      expect(described_class.deliverable).to contain_exactly(subscription, stale)
+    end
+
+    it "excludes subscriptions whose session is idle beyond the TTL",
+       with_settings: { session_ttl_enabled: true, session_ttl: 60 } do
+      expect(described_class.deliverable).to contain_exactly(subscription)
+    end
+
+    it "never includes dormant subscriptions", with_settings: { session_ttl_enabled: true, session_ttl: 60 } do
+      subscription.update_columns(session_id: nil)
+
+      expect(described_class.deliverable).to be_empty
+    end
+  end
+
   it "is removed when its user is destroyed" do
     expect { user.destroy }
       .to change { described_class.exists?(subscription.id) }.from(true).to(false)

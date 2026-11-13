@@ -124,6 +124,16 @@ RSpec.describe PushSubscriptions::NotifyJob,
       expect(OpenProject::SsrfProtection).to have_received(:post).once
     end
 
+    context "with a session TTL", with_settings: { session_ttl_enabled: true, session_ttl: 60 } do
+      it "wakes only devices whose session is still within the TTL" do
+        Sessions::UserSession.where(id: subscriptions.first.session_id).update_all(updated_at: 2.hours.ago)
+
+        perform
+
+        expect(OpenProject::SsrfProtection).to have_received(:post).once
+      end
+    end
+
     it "sends the time-to-live header" do
       sent = []
       allow(OpenProject::SsrfProtection).to receive(:post) do |_endpoint, headers:, **|

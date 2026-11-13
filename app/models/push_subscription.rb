@@ -31,6 +31,8 @@
 class PushSubscription < ApplicationRecord
   MAX_PER_USER = 10
 
+  extend OpenProject::Authentication::SessionExpiration
+
   self.filter_attributes += [:endpoint]
 
   belongs_to :user
@@ -40,6 +42,13 @@ class PushSubscription < ApplicationRecord
 
   scope :active, -> { where.not(session_id: nil) }
   scope :dormant, -> { where(session_id: nil) }
+  # sessions.updated_at is written by every session save, so it is never older
+  # than the session[:updated_at] that API v3 checks against the TTL.
+  scope :deliverable, -> do
+    next active unless session_ttl_enabled?
+
+    active.joins(:session).where("sessions.updated_at >= ?", session_ttl_minutes.ago)
+  end
   scope :for_session, ->(session_id) { where(session_id:) }
   scope :except_endpoint, ->(endpoint) { where.not(endpoint:) }
 

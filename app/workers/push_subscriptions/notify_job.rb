@@ -85,7 +85,7 @@ class PushSubscriptions::NotifyJob < ApplicationJob
   ].freeze
 
   def self.schedule_for(user_id)
-    return unless OpenProject::WebPush.enabled? && PushSubscription.active.exists?(user_id:)
+    return unless OpenProject::WebPush.enabled? && PushSubscription.deliverable.exists?(user_id:)
 
     set(wait: DEBOUNCE).perform_later(user_id)
   end
@@ -118,7 +118,7 @@ class PushSubscriptions::NotifyJob < ApplicationJob
   end
 
   def active_subscriptions(user, subscription_ids)
-    subscriptions = user.push_subscriptions.active.order(:id)
+    subscriptions = user.push_subscriptions.deliverable.order(:id)
     subscription_ids ? subscriptions.where(id: subscription_ids) : subscriptions
   end
 
