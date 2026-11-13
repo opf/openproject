@@ -35,6 +35,16 @@ module Exports::PDF::Common::Macro
   UNSUPPORTED_NESTED_REGEX = [/^\s>/].freeze
   MARKDOWN_EXTENSIONS = %i[autolink strikethrough table tagfilter tasklist].freeze
 
+  class << self
+    def register_macro(macro)
+      macros << macro
+    end
+
+    def macros
+      @macros ||= []
+    end
+  end
+
   def apply_markdown_field_macros(markdown, context)
     return markdown if markdown.blank?
 
@@ -42,17 +52,13 @@ module Exports::PDF::Common::Macro
   end
 
   def macros
-    [
-      WorkPackage::Exports::Macros::Links,
-      WorkPackage::Exports::Macros::WikiLinks,
-      WorkPackage::Exports::Macros::Attributes
-    ]
+    Exports::PDF::Common::Macro.macros
   end
 
   private
 
   def apply_macros(markdown, context)
-    return markdown unless macros.any? { |macro| macro.applicable?(markdown) }
+    return markdown unless applicable?(markdown)
 
     document = Markly.parse(markdown, extensions: MARKDOWN_EXTENSIONS)
     document.walk { |node| apply_macros_node(node, context) }

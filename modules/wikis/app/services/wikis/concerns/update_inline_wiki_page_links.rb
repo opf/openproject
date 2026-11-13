@@ -48,7 +48,7 @@ module Wikis::Concerns
 
       # The text is markdown that escapes literal [ and ] characters. We unescape them first.
       text = text.gsub("\\[", "[").gsub("\\]", "]")
-      text.scan(Wikis::TextFormatting::WikiLinkMatcher.regexp)
+      text.scan(Wikis::TextFormatting::HtmlWikiLinkMatcher.regexp)
     end
   end
 end
