@@ -37,9 +37,7 @@ module Queries
 
           def self.sql_for_field(values, db_table, db_field)
             items = CustomField::Hierarchy::Item.find(values)
-            service = ::CustomFields::Hierarchy::HierarchicalItemService.new
-
-            actual_values = items.map { |item| service.get_descendants(item:).value! }.flatten.map(&:id).uniq
+            actual_values = items.flat_map(&:self_and_descendant_ids).uniq
 
             Equals.sql_for_field(actual_values, db_table, db_field)
           end

@@ -30,36 +30,21 @@ module API
     module CustomFields
       module Hierarchy
         class ItemsAPI < ::API::OpenProjectAPI
-          include Dry::Monads[:result]
-
           helpers ::API::V3::CustomFields::ProjectSpecificValuesHelper
 
           helpers do
             def item_list(query)
               hierarchy_root = get_hierarchy_root(query)
-
-              validation = GetItemsParameterContract.new(hierarchy_root:).call(params)
-              handle_validation_errors(validation) if validation.failure?
-
-              start_item = ::CustomField::Hierarchy::Item.find_by(id: validation[:parent]) || hierarchy_root
-              depth = validation[:depth] || -1
+              start_item = params[:parent] ? hierarchy_root.self_and_descendants.find(params[:parent]) : hierarchy_root
               visible_ids = visible_value_ids(@custom_field)
               raise ::API::Errors::NotFound if !start_item.root? && hidden_value?(start_item, visible_ids)
 
-              flat_tree(start_item, depth, visible_ids)
+              flat_tree(start_item, params[:depth], visible_ids)
             end
 
             def flat_tree(item, depth, visible_ids)
-              ::CustomFields::Hierarchy::HierarchicalItemService
-                .new
-                .hashed_subtree(item:, depth:)
-                .either(
-                  ->(value) { ::CustomFields::Hierarchy::HierarchicalItemAggregator.flatten_tree_hash(value, visible_ids:) },
-                  ->(error) do
-                    msg = "#{I18n.t('api_v3.errors.code_500')} #{error}"
-                    raise ::API::Errors::SafeInternalError.new(msg)
-                  end
-                )
+              limit_depth = depth + 1 if depth
+              HierarchicalItemAggregate.from_tree(item.hash_tree(limit_depth:), visible_ids:)
             end
 
             def get_hierarchy_root(query)
@@ -71,18 +56,14 @@ module API
 
               items.first
             end
-
-            def handle_validation_errors(validation)
-              message = ""
-              validation.errors(full: true).to_h.each_value do |value|
-                message += "#{value.join(', ')}\n"
-              end
-
-              raise ::API::Errors::InvalidQuery.new(message.chomp)
-            end
           end
 
           resource :items do
+            params do
+              optional :parent, type: Integer
+              optional :depth, type: Integer, values: ->(depth) { depth >= 0 }
+            end
+
             after_validation do
               unless @custom_field.hierarchical_list?
                 message = "Hierarchy items not available for custom fields of type #{@custom_field.field_format}."

@@ -27,43 +27,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module CustomFields
-      module Hierarchy
-        class GetItemsParameterContract < DryApplicationContract
-          option :hierarchy_root
+# Primer's TreeView submits every checked node as a JSON payload of the form {"path": [...], "value": "..."}.
+module TreeViewFormValues
+  extend ActiveSupport::Concern
 
-          params do
-            optional(:parent).filled(:integer)
-            optional(:depth).filled(:integer)
-          end
+  private
 
-          rule(:parent) do
-            next unless key?
+  def selected_tree_view_value(input)
+    return if input.blank?
 
-            parent_item = ::CustomField::Hierarchy::Item.find_by(id: value)
-
-            if parent_item.nil?
-              key.failure(:not_found)
-            elsif persistence_service.descendant_of?(item: parent_item, parent: hierarchy_root).failure?
-              key.failure(:not_descendant)
-            end
-          end
-
-          rule(:depth) do
-            next unless key?
-
-            key.failure(:greater_or_equal_zero) if value < 0
-          end
-
-          private
-
-          def persistence_service
-            @persistence_service ||= ::CustomFields::Hierarchy::HierarchicalItemService.new
-          end
-        end
-      end
-    end
+    MultiJSON.load(Array(input).first, symbolize_keys: true)[:value].presence
   end
 end

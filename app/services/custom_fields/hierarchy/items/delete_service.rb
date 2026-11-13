@@ -29,37 +29,25 @@
 
 module CustomFields
   module Hierarchy
-    class UpdateListItemContract < DryApplicationContract
-      params do
-        required(:item).filled(type?: CustomField::Hierarchy::Item)
-        required(:label).filled(:string)
-        required(:short).maybe(:string)
-      end
+    module Items
+      class DeleteService < ::BaseServices::Delete
+        protected
 
-      rule(:item) do
-        key.failure(:not_persisted) if value.new_record?
-        key.failure(:root_item) if value.root?
-      end
+        def before_perform(service_result)
+          @deleted_item_ids = model.self_and_descendant_ids
+          @custom_field = model.root.custom_field
 
-      rule(:label) do
-        next if schema_error?(:item)
+          super
+        end
 
-        key.failure(:not_unique) if conflicting_siblings(values[:item]).with_label_ignoring_case(value).exists?
-      end
+        def after_perform(service_result)
+          service_result.merge!(
+            RecalculateValuesService.new(user:, model: @custom_field).call(item_ids: @deleted_item_ids)
+          )
+          CustomValue.where(custom_field: @custom_field, value: @deleted_item_ids).delete_all
 
-      rule(:short) do
-        next if schema_error?(:item)
-        next if value.nil?
-
-        key.failure(:not_unique) if conflicting_siblings(values[:item]).with_short_ignoring_case(value).exists?
-      end
-
-      private
-
-      def conflicting_siblings(item)
-        return item.siblings if item.project_id.nil?
-
-        item.siblings.where(project_id: [nil, item.project_id])
+          service_result
+        end
       end
     end
   end

@@ -29,30 +29,39 @@
 
 module CustomFields
   module Hierarchy
-    class UpdateWeightedItemContract < DryApplicationContract
-      params do
-        required(:item).filled(type?: CustomField::Hierarchy::Item)
-        required(:label).filled(:string)
-        required(:weight).filled(:decimal)
-      end
+    module Items
+      class UpdateService < ::BaseServices::Update
+        protected
 
-      rule(:item) do
-        key.failure(:not_persisted) if value.new_record?
-        key.failure(:root_item) if value.root?
-      end
+        def persist(service_result)
+          item = service_result.result
+          return super unless item.parent_id_changed? || item.sort_order_changed?
 
-      rule(:label) do
-        next if schema_error?(:item)
+          item.place_under(item.parent, before: requested_position(item))
 
-        key.failure(:not_unique) if conflicting_siblings(values[:item]).with_label_ignoring_case(value).exists?
-      end
+          if item.errors.any?
+            service_result.success = false
+            service_result.errors = item.errors
+            return service_result
+          end
 
-      private
+          service_result.merge!(RebuildPositionCacheService.new(user:, model: item).call)
+        end
 
-      def conflicting_siblings(item)
-        return item.siblings if item.project_id.nil?
+        def after_perform(service_result)
+          item = service_result.result
+          return service_result unless item.weight_previously_changed?
 
-        item.siblings.where(project_id: [nil, item.project_id])
+          service_result.merge!(
+            RecalculateValuesService.new(user:, model: item.root.custom_field).call(item_ids: [item.id])
+          )
+        end
+
+        private
+
+        def requested_position(item)
+          item.sort_order unless item.parent_id_changed?
+        end
       end
     end
   end

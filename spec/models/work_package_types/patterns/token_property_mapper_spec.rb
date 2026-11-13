@@ -315,10 +315,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
     describe "hierarchy custom fields", with_ee: %i[custom_field_hierarchies] do
       let!(:hierarchy_custom_field) do
         create(:hierarchy_wp_custom_field).tap do |custom_field|
-          service = CustomFields::Hierarchy::HierarchicalItemService.new
-          contract_class = CustomFields::Hierarchy::InsertListItemContract
-          item = service.insert_item(contract_class:, parent: custom_field.hierarchy_root, label: "Item Value",
-                                     short: "IV").value!
+          item = create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Item Value", short: "IV")
 
           work_package.type.default_variant.custom_field_ids |= [custom_field.id]
 
@@ -350,9 +347,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
     describe "weighted item list custom fields", with_ee: %i[weighted_item_lists] do
       let!(:wil_custom_field) do
         create(:weighted_item_list_wp_custom_field).tap do |custom_field|
-          service = CustomFields::Hierarchy::HierarchicalItemService.new
-          contract_class = CustomFields::Hierarchy::InsertWeightedItemContract
-          item = service.insert_item(contract_class:, parent: custom_field.hierarchy_root, label: "Item Value", weight: 42).value!
+          item = create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Item Value", weight: 42)
 
           work_package.type.default_variant.custom_field_ids |= [custom_field.id]
 

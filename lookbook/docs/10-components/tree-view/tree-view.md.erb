@@ -49,6 +49,30 @@ There is a special component called `FileTreeView` which is a pre-configured `Tr
 
 <%= embed OpenProject::Common::TreeViewPreview, :file_tree, panels: %i[params source] %>
 
+### Submitting selections in a form
+
+Passing `form_arguments: { builder:, name: }` wires the selection into a Rails form. For every checked node, the component submits a value for the field `name` (as an array, scoped like any other field of the builder) that is a JSON string:
+
+```json
+{ "path": ["Parent", "Child"], "nodeId": "42", "value": "42" }
+```
+
+- `value` is the node's `value:` and is only present if one was set
+- `nodeId` is the node's `data-node-id` and is only present if one was set
+- The params are always an array, even with `select_variant: :single`
+
+Controllers read the selection with `TreeViewFormValues#selected_tree_view_value`, which returns the `value` of the first submitted node:
+
+```ruby
+class MyController < ApplicationController
+  include TreeViewFormValues
+
+  def update
+    parent_id = selected_tree_view_value(params[:new_parent_id])
+  end
+end
+```
+
 ## Best practices
 
 **Do**

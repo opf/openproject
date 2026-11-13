@@ -37,16 +37,14 @@ RSpec.describe "API v3 custom field hierarchy items", :webmock, content_type: :j
     shared_let(:project) { create(:project, types: [type]) }
 
     let(:custom_field) do
-      create(:wp_custom_field, field_format: "hierarchy", hierarchy_root: nil, types: [type])
+      create(:wp_custom_field, :hierarchy, types: [type])
     end
-    let!(:root) { service.generate_root(custom_field).value! }
-    let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
-    let!(:luke) { service.insert_item(contract_class:, parent: root, label: "Luke", short: "LS").value! }
-    let!(:r2d2) { service.insert_item(contract_class:, parent: luke, label: "R2-D2", short: "R2").value! }
-    let!(:mouse) { service.insert_item(contract_class:, parent: r2d2, label: "Mouse Droid", short: "MD").value! }
-    let!(:c3po) { service.insert_item(contract_class:, parent: luke, label: "C-3PO", short: "3PO").value! }
-    let!(:mara) { service.insert_item(contract_class:, parent: root, label: "Mara", short: "MJ").value! }
-    let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
+    let!(:root) { custom_field.hierarchy_root }
+    let!(:luke) { create(:hierarchy_item, parent: root, label: "Luke", short: "LS") }
+    let!(:r2d2) { create(:hierarchy_item, parent: luke, label: "R2-D2", short: "R2") }
+    let!(:mouse) { create(:hierarchy_item, parent: r2d2, label: "Mouse Droid", short: "MD") }
+    let!(:c3po) { create(:hierarchy_item, parent: luke, label: "C-3PO", short: "3PO") }
+    let!(:mara) { create(:hierarchy_item, parent: root, label: "Mara", short: "MJ") }
 
     let(:path) { api_v3_paths.custom_field_items(custom_field.id) }
 
@@ -69,6 +67,11 @@ RSpec.describe "API v3 custom field hierarchy items", :webmock, content_type: :j
         let(:elements) { [root, luke, r2d2, mouse, c3po, mara] }
       end
 
+      it "renders the depth of each item below the root" do
+        depths = JSON.parse(last_response.body).dig("_embedded", "elements").pluck("depth")
+        expect(depths).to eq([nil, 0, 1, 2, 1, 0])
+      end
+
       context "if custom field does not exist" do
         let(:path) { api_v3_paths.custom_field_items(not_existing_id(CustomField)) }
 
@@ -89,18 +92,42 @@ RSpec.describe "API v3 custom field hierarchy items", :webmock, content_type: :j
         it_behaves_like "API V3 collection response", 3, 3, "HierarchyItem", "Collection" do
           let(:elements) { [luke, r2d2, c3po] }
         end
+
+        it "renders the depth relative to the parent" do
+          depths = JSON.parse(last_response.body).dig("_embedded", "elements").pluck("depth")
+          expect(depths).to eq([nil, 0, 0])
+        end
       end
 
       context "if parent is set to an undefined value" do
         let(:path) { api_v3_paths.custom_field_items(custom_field.id, "wrong item") }
 
-        it_behaves_like "error response", 400, "InvalidQuery", "Parent must be an integer."
+        it_behaves_like "param validation error"
+      end
+
+      context "if parent does not exist" do
+        let(:path) { api_v3_paths.custom_field_items(custom_field.id, not_existing_id(CustomField::Hierarchy::Item)) }
+
+        it_behaves_like "not found"
+      end
+
+      context "if parent belongs to another hierarchy" do
+        let(:other_custom_field) { create(:wp_custom_field, :hierarchy, types: [type]) }
+        let(:path) { api_v3_paths.custom_field_items(custom_field.id, other_custom_field.hierarchy_root.id) }
+
+        it_behaves_like "not found"
       end
 
       context "if depth is negative" do
         let(:path) { api_v3_paths.custom_field_items(custom_field.id, nil, -1) }
 
-        it_behaves_like "error response", 400, "InvalidQuery", "Depth must be greater or equal to 0."
+        it "results in a validation error" do
+          expect(last_response).to have_http_status(:bad_request)
+          expect(JSON.parse(last_response.body)).to include(
+            "errorIdentifier" => "urn:openproject-org:api:v3:errors:BadRequest",
+            "message" => "Bad request: depth does not have a valid value"
+          )
+        end
       end
     end
   end

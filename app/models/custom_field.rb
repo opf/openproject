@@ -273,12 +273,9 @@ class CustomField < ApplicationRecord
   def custom_field_hierarchy_items
     return [] if hierarchy_root.nil?
 
-    items = CustomFields::Hierarchy::HierarchicalItemService
-              .new
-              .get_descendants(item: hierarchy_root, include_self: false)
-              .fmap { |items| items.map { |item| [item.ancestry_path(include_shorts_and_weights: true), item.id] } }
-
-    items.value_or([])
+    hierarchy_root.descendants_preordered.map do |item|
+      [item.ancestry_path(include_shorts_and_weights: true), item.id]
+    end
   end
 
   def cast_value(value) # rubocop:disable Metrics/AbcSize

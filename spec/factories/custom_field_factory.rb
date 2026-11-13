@@ -201,10 +201,7 @@ FactoryBot.define do
 
     trait :hierarchy do
       field_format { "hierarchy" }
-      hierarchy_root do
-        service = CustomFields::Hierarchy::HierarchicalItemService.new
-        service.generate_root(instance).value!
-      end
+      hierarchy_root { CustomField::Hierarchy::Item.create!(custom_field: instance) }
     end
 
     trait :multi_hierarchy do
@@ -214,10 +211,7 @@ FactoryBot.define do
 
     trait :weighted_item_list do
       field_format { "weighted_item_list" }
-      hierarchy_root do
-        service = CustomFields::Hierarchy::HierarchicalItemService.new
-        service.generate_root(instance).value!
-      end
+      hierarchy_root { CustomField::Hierarchy::Item.create!(custom_field: instance) }
     end
 
     trait :project_specific_allowlist do

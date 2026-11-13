@@ -30,22 +30,44 @@
 require "spec_helper"
 
 RSpec.describe CustomField::Hierarchy::Item, :model, with_ee: [:custom_field_hierarchies] do
-  let(:custom_field) { create(:custom_field, field_format: "hierarchy", hierarchy_root: nil) }
-  let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
-
-  let(:root) { service.generate_root(custom_field).value! }
+  let(:custom_field) { create(:custom_field, :hierarchy) }
+  let(:root) { custom_field.hierarchy_root }
 
   context "when custom field is deleted" do
-    let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
-    let!(:luke) { service.insert_item(contract_class:, parent: root, label: "luke").value! }
-    let!(:mara) { service.insert_item(contract_class:, parent: luke, label: "mara").value! }
-    let!(:leia) { service.insert_item(contract_class:, parent: root, label: "leia").value! }
-    let!(:kylo) { service.insert_item(contract_class:, parent: leia, label: "kylo").value! }
+    let!(:luke) { create(:hierarchy_item, parent: root, label: "luke") }
+    let!(:mara) { create(:hierarchy_item, parent: luke, label: "mara") }
+    let!(:leia) { create(:hierarchy_item, parent: root, label: "leia") }
+    let!(:kylo) { create(:hierarchy_item, parent: leia, label: "kylo") }
 
     before { custom_field.reload }
 
     it "removes the entire hierarchy tree" do
       expect { custom_field.destroy }.to change(described_class, :count).to(0)
+    end
+  end
+
+  describe "#short" do
+    it "stores a blank short as nil" do
+      expect(described_class.new(short: "")).to have_attributes(short: nil)
+    end
+  end
+
+  describe "#descendants_preordered" do
+    let!(:luke) { create(:hierarchy_item, parent: root, label: "luke") }
+    let!(:mara) { create(:hierarchy_item, parent: luke, label: "mara") }
+    let!(:leia) { create(:hierarchy_item, parent: root, label: "leia") }
+    let!(:kylo) { create(:hierarchy_item, parent: leia, label: "kylo") }
+
+    it "returns all descendants depth-first in sort order without the item itself" do
+      expect(root.descendants_preordered).to eq([luke, mara, leia, kylo])
+    end
+
+    it "returns only the descendants of the item" do
+      expect(leia.descendants_preordered).to eq([kylo])
+    end
+
+    it "returns nothing for a leaf" do
+      expect(mara.descendants_preordered).to be_empty
     end
   end
 end

@@ -27,18 +27,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module CustomFields
-  module Hierarchy
-    class GenerateRootContract < DryApplicationContract
-      params do
-        required(:custom_field).filled(type?: CustomField)
-      end
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
-      rule(:custom_field) do
-        field_format = value.field_format
-        key.failure(:format_not_supported, field_format:) if %w[hierarchy weighted_item_list].exclude?(field_format)
-        key.failure(:defined) if value.hierarchy_root.present?
-      end
-    end
+RSpec.describe CustomFields::Hierarchy::Items::DeleteContract,
+               :check_errors_i18n,
+               with_ee: %i[custom_field_hierarchies] do
+  include_context "ModelContract shared context"
+
+  let(:current_user) { build_stubbed(:admin) }
+  let(:custom_field) { create(:hierarchy_wp_custom_field) }
+  let(:root) { custom_field.hierarchy_root }
+  let(:item) { create(:hierarchy_item, parent: root, label: "Luke") }
+
+  subject(:contract) { described_class.new(item, current_user) }
+
+  it_behaves_like "contract is valid for active admins and invalid for regular users"
+
+  context "for the root" do
+    let(:item) { root }
+
+    it_behaves_like "contract is invalid", base: :root_item
   end
 end

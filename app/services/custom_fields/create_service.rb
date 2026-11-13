@@ -60,7 +60,8 @@ module CustomFields
       end
 
       if cf.hierarchical_list?
-        CustomFields::Hierarchy::HierarchicalItemService.new.generate_root(cf)
+        root = CustomField::Hierarchy::Item.create!(custom_field: cf)
+        CustomFields::Hierarchy::Items::RebuildPositionCacheService.new(user:, model: root).call
       end
 
       call
