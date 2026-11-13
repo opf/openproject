@@ -330,8 +330,7 @@ module ApplicationHelper
   end
 
   def pwa_push_resume?
-    OpenProject::FeatureDecisions.progressive_web_app_active? &&
-      Setting.web_push_enabled? &&
+    OpenProject::WebPush.enabled? &&
       User.current.logged? &&
       session.id.present?
   end
