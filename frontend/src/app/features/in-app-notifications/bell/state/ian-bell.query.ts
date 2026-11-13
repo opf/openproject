@@ -46,6 +46,11 @@ export class IanBellQuery extends Query<IanBellState> {
     distinctUntilChanged(),
   );
 
+  loadedUnreadUpdates$ = this.select().pipe(
+    filter(({ loaded }) => loaded),
+    map(({ totalUnread }) => totalUnread),
+  );
+
   unreadCountChanged$ = this.unread$.pipe(
     pairwise(),
     filter(([last, curr]) => curr !== last),

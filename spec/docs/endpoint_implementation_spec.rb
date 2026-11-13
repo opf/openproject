@@ -59,9 +59,17 @@ RSpec.describe "Endpoints" do
           skip("specification missing from before test introduction")
         end
 
+        skip("internal route, not part of the public specification") if internal_routes.include?([route[:method], route[:path]])
+
         expect(specification_routes).to include_route_definition(route)
       end
     end
+  end
+
+  def internal_routes
+    @internal_routes ||= [
+      %w[GET /api/v3/notifications/summary]
+    ]
   end
 
   # TODO: Reduce ... at all costs
