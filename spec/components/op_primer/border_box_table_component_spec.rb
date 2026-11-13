@@ -318,6 +318,47 @@ RSpec.describe OpPrimer::BorderBoxTableComponent, :aggregate_failures, type: :co
     end
   end
 
+  context "with default padding" do
+    let(:rows) { build_stubbed_list(:project, 2) }
+
+    it "renders the box without a padding modifier" do
+      expect(rendered_component).to have_no_css(".Box--condensed, .Box--spacious")
+    end
+  end
+
+  context "with condensed padding" do
+    let(:rows) { build_stubbed_list(:project, 2) }
+
+    before do
+      table_class.define_method(:padding) { :condensed }
+    end
+
+    it "renders the condensed box" do
+      expect(rendered_component).to have_css(".Box.Box--condensed")
+    end
+  end
+
+  context "with default row alignment" do
+    let(:rows) { build_stubbed_list(:project, 2) }
+
+    it "renders no row with the centered modifier" do
+      expect(rendered_component).to have_no_css(".op-border-box-grid--centered")
+    end
+  end
+
+  context "with centered rows" do
+    let(:rows) { build_stubbed_list(:project, 2) }
+
+    before do
+      table_class.define_method(:centered_rows?) { true }
+    end
+
+    it "centers the data rows but not the header" do
+      expect(rendered_component).to have_css(".Box-row.op-border-box-grid--centered", count: 2)
+      expect(rendered_component).to have_no_css(".Box-header .op-border-box-grid--centered")
+    end
+  end
+
   context "with a page of a paginated collection" do
     let(:rows) do
       WillPaginate::Collection.create(2, 3, 10) do |pager|

@@ -32,6 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
     OpPrimer::BorderBoxTableComponent::InternalBoxComponent.new(
       id: container_id,
       classes: container_classes,
+      padding:,
       role: :table,
       aria: { label: mobile_title, colcount: column_count, rowcount: row_count },
       data: container_data,
@@ -120,7 +121,12 @@ See COPYRIGHT and LICENSE files for more details.
           scheme: row_instance.scheme,
           tag: :div,
           id: row_instance.row_css_id,
-          classes: class_names(grid_class, actions_grid_class, row_instance.row_css_class),
+          classes: class_names(
+            grid_class,
+            actions_grid_class,
+            { "#{grid_class}--centered": centered_rows? },
+            row_instance.row_css_class
+          ),
           data: row_instance.row_data,
           role: :row,
           aria: { rowindex: row_index(index) }

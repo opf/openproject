@@ -43,6 +43,7 @@ module Admin
             test_selector: "label-name",
             classes: "ellipsis",
             w: :fit,
+            vertical_align: :middle,
             title: label.name
           )
         ) { label.name }
