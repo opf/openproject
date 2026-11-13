@@ -70,6 +70,8 @@ RSpec.describe "My account browser notifications",
   end
 
   it "announces through the live region in a browser without push support", :js do
+    page.driver.browser.evaluate_on_new_document("delete window.PushManager")
+
     visit my_notifications_path(tab: "push")
 
     Components::LiveRegion.new.expect_announcement(I18n.t("my_account.push_notifications.status.unsupported"))
