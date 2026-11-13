@@ -24,12 +24,17 @@ const Reference = ({ workPackage }:{ workPackage:WorkPackage }) => (
   <WorkPackageReference>
     <WorkPackageId as="span" $compact>{formatWorkPackageId(workPackage.displayId)}</WorkPackageId>
     {workPackage._links?.type?.title && (
-      <WorkPackageType as="span" $compact $color={typeColor(workPackage)}>
+      <WorkPackageType as="span" $compact $color={typeColor(workPackage)} title={workPackage._links.type.title}>
         {workPackage._links.type.title}
       </WorkPackageType>
     )}
   </WorkPackageReference>
 );
+
+const referenceTitle = (workPackage:WorkPackage):string =>
+  [formatWorkPackageId(workPackage.displayId), workPackage._links?.type?.title, workPackage.subject]
+    .filter(Boolean)
+    .join(' · ');
 
 interface WorkPackagePickerProps {
   id:string;
@@ -135,6 +140,7 @@ export const WorkPackagePicker = ({ id, label, selected, autoFocus, onPick, onDe
         autoComplete="off"
         spellCheck={false}
         aria-describedby={showsSelected ? selectedId : undefined}
+        title={showsSelected ? referenceTitle(selected) : undefined}
         placeholder={showsSelected ? undefined : t('search.placeholder')}
         value={editing ? searchQuery : ''}
         onFocus={() => {

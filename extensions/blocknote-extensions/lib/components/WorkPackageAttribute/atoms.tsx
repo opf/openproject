@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { CHIP_STYLES } from '../WorkPackage/tokens';
 import { colorDotStyles, defaultWpVariables, nonSelectableStyles, WorkPackageId, WorkPackageType } from '../WorkPackage/atoms';
-import { FieldLabel, PickerControl, roomForActions } from '../Shared/atoms';
+import { FieldLabel, PickerControl, roomForActions, truncateStyles } from '../Shared/atoms';
 
 // Drawn inward, so that it adds nothing to the height.
 const ATTRIBUTE_BORDER = 'inset 0 0 0 1px var(--borderColor-default, #d1d9e0)';
@@ -144,13 +144,17 @@ export const WorkPackageReference = styled.span`
   align-items: baseline;
   gap: var(--spacer-m);
   flex-shrink: 0;
+  max-width: 40%;
   white-space: nowrap;
 
   ${WorkPackageId} {
+    flex-shrink: 0;
     font-size: inherit;
   }
 
   ${WorkPackageType} {
+    ${truncateStyles}
+    min-width: 0;
     font-size: 0.8em;
   }
 `;
@@ -185,10 +189,8 @@ export const SelectedText = styled.span<{ $marked:boolean }>`
 `;
 
 export const SelectedSubject = styled.span`
+  ${truncateStyles}
   min-width: 0;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 `;
 
 export const AttributeBlockFrame = styled.div.attrs({
