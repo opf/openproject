@@ -1492,7 +1492,7 @@ GEM
     securerandom (0.4.1)
     selenium-devtools (0.155.0)
       selenium-webdriver (~> 4.2)
-    selenium-webdriver (4.51.0)
+    selenium-webdriver (4.52.0)
       base64 (~> 0.2)
       logger (~> 1.4)
       rubyzip (>= 1.2.2, < 4.0)
@@ -1846,7 +1846,7 @@ DEPENDENCIES
   sanitize (~> 7.0.2)
   scimitar (~> 2.13)
   selenium-devtools
-  selenium-webdriver (~> 4.51)
+  selenium-webdriver (~> 4.52)
   shoulda-matchers (~> 8.0)
   simplecov (~> 1.3.2)
   spring
@@ -2368,7 +2368,7 @@ CHECKSUMS
   scimitar (2.15.0) sha256=700901afab9303b705a8f37644cd733ee3c3819b168d24a14a48dec060b16d63
   securerandom (0.4.1) sha256=cc5193d414a4341b6e225f0cb4446aceca8e50d5e1888743fac16987638ea0b1
   selenium-devtools (0.155.0) sha256=c8d9844ff6fc759ce0afbb473a6f95240b7650285f1760080441f84427c6b950
-  selenium-webdriver (4.51.0) sha256=09edf1b7fc360e0570bac609676f804ed527fe0b2f285e03233561e29b0ec105
+  selenium-webdriver (4.52.0) sha256=5d45ba100ea8b57f5a8c25979a636d48b4c60c39973478930d78e884bdeecd2d
   shoulda-matchers (8.0.1) sha256=5dbb46e5765b9da225111b085e0819e8c8a121ff94bba430a153eb1ea2c60288
   signet (0.22.1) sha256=6e73e9f2bdc2f038a5fdc8a89d248792b1b55e9ca50ee1ba458d8f1d9f0a2151
   simplecov (1.3.2) sha256=2a22ec1759f1b8db60881a2e038758956fc69ef93ed669be0bde0678de6d0e85
