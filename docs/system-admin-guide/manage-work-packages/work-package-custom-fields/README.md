@@ -7,4 +7,4 @@ keywords: work package custom field, custom field
 ---
 # Work package custom fields
 
-to be updated
+For information on creating and managing work package custom fields, see [Custom fields administration](../../custom-fields/).
