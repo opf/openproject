@@ -64,32 +64,29 @@ module ITSM
         Adapters::Queries::EmailSize.call(session:, uid:).bind do |size|
           next mark_seen("Not processed (too large)", level: :warn) if size.to_i > MAX_EMAIL_SIZE
 
-          Adapters::Queries::RawEmail.call(session:, uid:).bind { |raw| raw.nil? ? Success() : process(raw) }
+          Adapters::Queries::RawEmail.call(session:, uid:).bind { |raw| raw.nil? ? Success() : parse_and_route(raw) }
         end
       end
 
-      def process(raw)
+      def parse_and_route(raw)
         email = InboundEmail.new(raw)
 
-        Rails.logger.tagged("email #{email.headers.message_id}") { handle(email) }
+        Rails.logger.tagged("email #{email.headers.message_id}") do
+          route(email)
+        end
       rescue *DATABASE_ERRORS => e
-        report(e, "not processed")
+        log("Not processed (#{e.class.name})", level: :error, exception: e)
         failure(:processing_failed)
       rescue StandardError => e
-        report(e, "failed")
-        Adapters::Commands::MarkEmailSeen.call(session:, uid:)
+        mark_seen("Failed (#{e.class.name})", level: :error, exception: e)
       end
 
-      def report(error, outcome)
-        OpenProject.logger.error("Email #{uid} #{outcome} (#{error.class.name})", exception: error)
-      end
+      def route(email)
+        ignore_reason = InboundEmails::IgnoreRules.new(email).reason
+        return remove("Ignored (#{ignore_reason})") if ignore_reason
+        return mark_seen("Not processed (reply)", level: :info) if reply?(email)
 
-      def handle(email)
-        case InboundEmails::IgnoreRules.new(email).reason
-        in Symbol => reason then remove("Ignored (#{reason})")
-        in nil if reply?(email) then mark_seen("Not processed (reply)")
-        in nil then create_work_package(email)
-        end
+        create_work_package(email)
       end
 
       def reply?(email)
@@ -98,12 +95,14 @@ module ITSM
 
       def create_work_package(email)
         case InboundEmails::CreateWorkPackageService.new(user: User.system).call(mailbox:, email:)
-        in { success: true, result: thread } if thread.previously_new_record?
-          remove("Added to work package ##{thread.work_package_id}")
         in { success: true, result: thread }
-          remove("Already in work package ##{thread.work_package_id}")
+          if thread.previously_new_record?
+            remove("Added to work package ##{thread.work_package_id}")
+          else
+            remove("Already in work package ##{thread.work_package_id}")
+          end
         in { failure: true, result:, errors: } if project_setup_prevents?(result, errors)
-          Rails.logger.warn { "Work package not created (#{error_codes(errors)})" }
+          log("Work package not created (#{error_codes(errors)})", level: :warn)
           failure(:work_package_not_created)
         in { failure: true, errors: }
           mark_seen("Not processed (#{error_codes(errors)})", level: :warn)
@@ -115,13 +114,19 @@ module ITSM
       end
 
       def remove(outcome)
-        Rails.logger.info { outcome }
+        log(outcome, level: :info)
         Adapters::Commands::RemoveEmail.call(session:, uid:)
       end
 
-      def mark_seen(outcome, level: :info)
-        Rails.logger.public_send(level) { outcome }
+      def mark_seen(outcome, level:, **)
+        log(outcome, level:, **)
         Adapters::Commands::MarkEmailSeen.call(session:, uid:)
+      end
+
+      def log(outcome, level:, exception: nil)
+        return Rails.logger.public_send(level) { outcome } if exception.nil?
+
+        OpenProject.logger.public_send(level, "Email #{uid}: #{outcome}", exception:)
       end
 
       def error_codes(errors)

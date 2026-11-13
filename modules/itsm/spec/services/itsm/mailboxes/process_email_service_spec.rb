@@ -60,7 +60,7 @@ RSpec.describe ITSM::Mailboxes::ProcessEmailService do
   it "creates a work package as the system user and removes the email from the server" do
     expect { result }.to change { WorkPackage.where(project:, author: User.system).count }.by(1)
     expect(result).to be_success
-    expect(imap).to have_received(:uid_store).with(7, "+FLAGS", [:Deleted])
+    expect(imap).to have_received(:uid_store).with(7, "+FLAGS", %i[Seen Deleted])
     expect(imap).to have_received(:uid_expunge).with(7)
   end
 
@@ -176,7 +176,7 @@ RSpec.describe ITSM::Mailboxes::ProcessEmailService do
       expect(result).to be_success
       expect(imap).to have_received(:uid_store).with(7, "+FLAGS", [:Seen])
       expect(OpenProject.logger).to have_received(:error)
-        .with("Email 7 failed (ActiveRecord::StatementInvalid)", exception: instance_of(ActiveRecord::StatementInvalid))
+        .with("Email 7: Failed (ActiveRecord::StatementInvalid)", exception: instance_of(ActiveRecord::StatementInvalid))
     end
   end
 
@@ -190,7 +190,7 @@ RSpec.describe ITSM::Mailboxes::ProcessEmailService do
       expect(result.errors.symbols_for(:base)).to eq([:processing_failed])
       expect(imap).not_to have_received(:uid_store)
       expect(OpenProject.logger).to have_received(:error)
-        .with("Email 7 not processed (ActiveRecord::ConnectionNotEstablished)",
+        .with("Email 7: Not processed (ActiveRecord::ConnectionNotEstablished)",
               exception: instance_of(ActiveRecord::ConnectionNotEstablished))
     end
   end
