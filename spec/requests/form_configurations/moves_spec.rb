@@ -60,20 +60,19 @@ RSpec.describe "Moving form configuration groups and attributes", :skip_csrf, ty
       expect(group_order).to eq(%w[Other Details])
     end
 
-    {
-      "a wrong list type" => { list_type: "attribute", prev_id: "" },
-      "a list id" => { list_type: "group", list_id: "1", prev_id: "" },
-      "no anchor key" => { list_type: "group" },
-      "a collection anchor" => { list_type: "group", prev_id: ["1"] },
-      "an unknown anchor" => { list_type: "group", prev_id: "999999" }
-    }.each do |description, params|
-      it "answers 422 for #{description} and moves nothing", :aggregate_failures do
-        move_group(other, params)
+    it "explains a rejected move" do
+      move_group(other, list_type: "group", prev_id: "999999")
 
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.body).to include(I18n.t(:error_invalid_list_move_anchor))
-        expect(group_order).to eq(%w[Details Other])
-      end
+      expect(response.body).to include(I18n.t(:error_invalid_list_move_anchor))
+    end
+
+    it_behaves_like "a sortable list drop endpoint", list_id_scoped: false do
+      let(:dragged_id) { other.id }
+      let(:valid_drop_params) { { list_type: "group", list_id: "", prev_id: details.id.to_s } }
+
+      def send_drop(params) = move_group(other, params)
+
+      def expect_unmoved = expect(group_order).to eq(%w[Details Other])
     end
 
     it "answers 404 for an unknown group" do
