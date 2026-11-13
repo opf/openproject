@@ -32,6 +32,7 @@ module Admin
     module Hierarchy
       class ItemsBaseController < ApplicationController
         include OpTurbo::ComponentStream
+        include TreeViewFormValues
 
         layout :admin_or_frame_layout
 
@@ -154,11 +155,7 @@ module Admin
         end
 
         def find_new_parent
-          new_parent_input = params.require(:custom_field_hierarchy_forms_new_parent_form_model).require(:new_parent)
-          return unless new_parent_input in [new_parent_json]
-
-          new_parent_id = MultiJSON.load(new_parent_json, symbolize_keys: true)[:value]
-          @custom_field.hierarchy_root.self_and_descendants.find_by(id: new_parent_id)
+          @custom_field.hierarchy_root.self_and_descendants.find_by(id: selected_tree_view_value(params[:new_parent_id]))
         end
 
         def find_custom_field

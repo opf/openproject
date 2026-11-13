@@ -50,7 +50,6 @@ module Admin
           {
             id: form_id,
             url:,
-            model: form_model,
             method: :post
           }
         end
@@ -60,10 +59,6 @@ module Admin
         end
 
         private
-
-        def form_model
-          CustomField::Hierarchy::Forms::NewParentFormModel.new(new_parent: [])
-        end
 
         def url
           if @custom_field.is_a?(ProjectCustomField)

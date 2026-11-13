@@ -38,7 +38,7 @@ See COPYRIGHT and LICENSE files for more details.
       primer_form_with(**form_arguments) do |form|
         render(
           Primer::OpenProject::FilterableTreeView.new(
-            form_arguments: { builder: form, name: :new_parent },
+            form_arguments: { builder: form, name: :new_parent_id },
             include_sub_items_check_box_arguments: { hidden: true },
             filter_mode_control_arguments: { hidden: true }
           )

@@ -27,12 +27,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class CustomField::Hierarchy::Forms::NewParentFormModel
-  extend ActiveModel::Naming
+# Primer's TreeView submits every checked node as a JSON payload of the form {"path": [...], "value": "..."}.
+module TreeViewFormValues
+  extend ActiveSupport::Concern
 
-  attr_reader :new_parent
+  private
 
-  def initialize(new_parent:)
-    @new_parent = new_parent
+  def selected_tree_view_value(input)
+    return if input.blank?
+
+    MultiJSON.load(Array(input).first, symbolize_keys: true)[:value].presence
   end
 end

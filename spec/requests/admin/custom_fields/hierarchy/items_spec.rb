@@ -87,8 +87,7 @@ RSpec.describe "Hierarchy item management", :skip_csrf, type: :rails_request do
       end
 
       it "forbids changing the parent of an item" do
-        post "#{items_path}/#{han.id}/change_parent",
-             params: { custom_field_hierarchy_forms_new_parent_form_model: { new_parent: [{ value: luke.id }.to_json] } }
+        post "#{items_path}/#{han.id}/change_parent", params: { new_parent_id: [{ value: luke.id }.to_json] }
 
         expect(response).to have_http_status(:forbidden)
         expect(han.reload.parent).to eq(root)
@@ -484,7 +483,7 @@ RSpec.describe "Hierarchy item management", :skip_csrf, type: :rails_request do
 
         subject(:change_parent_request) do
           post "#{items_path}/#{moved_item.id}/change_parent",
-               params: { custom_field_hierarchy_forms_new_parent_form_model: { new_parent: new_parent_input } },
+               params: { new_parent_id: new_parent_input },
                headers: turbo_stream_headers
         end
 
@@ -594,11 +593,10 @@ RSpec.describe "Hierarchy item management", :skip_csrf, type: :rails_request do
         context "with more than one parent" do
           let(:new_parent_input) { [{ value: luke.id }.to_json, { value: leia.id }.to_json] }
 
-          it "keeps the item in place and shows an error" do
+          it "uses the first parent" do
             change_parent_request
 
-            expect(han.reload.parent).to eq(root)
-            expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+            expect(han.reload.parent).to eq(luke)
           end
         end
 
@@ -607,11 +605,11 @@ RSpec.describe "Hierarchy item management", :skip_csrf, type: :rails_request do
             post "#{items_path}/#{moved_item.id}/change_parent", headers: turbo_stream_headers
           end
 
-          it "responds with bad request" do
+          it "keeps the item in place and shows an error" do
             change_parent_request
 
-            expect(response).to have_http_status(:bad_request)
             expect(han.reload.parent).to eq(root)
+            expect(response.body).to include(I18n.t(:notice_parent_item_not_found))
           end
         end
 
@@ -773,8 +771,7 @@ RSpec.describe "Hierarchy item management", :skip_csrf, type: :rails_request do
         end
 
         it "does not change the parent of the item" do
-          post "#{items_path}/#{foreign_item.id}/change_parent",
-               params: { custom_field_hierarchy_forms_new_parent_form_model: { new_parent: [{ value: luke.id }.to_json] } }
+          post "#{items_path}/#{foreign_item.id}/change_parent", params: { new_parent_id: [{ value: luke.id }.to_json] }
 
           expect(response).to have_http_status(:not_found)
           expect(foreign_item.reload.parent).to eq(other_custom_field.hierarchy_root)
