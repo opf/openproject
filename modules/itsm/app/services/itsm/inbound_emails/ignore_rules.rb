@@ -30,6 +30,8 @@
 module ITSM
   module InboundEmails
     class IgnoreRules
+      # Auto-Submitted and Precedence: https://www.rfc-editor.org/rfc/rfc3834 (sections 5 and 3.1.8),
+      # List-Unsubscribe: https://www.rfc-editor.org/rfc/rfc2369. The X- headers are not standardized.
       AUTOMATIC_HEADERS = %w[Auto-Submitted X-Autoreply X-Autorespond List-Unsubscribe].freeze
       PRECEDENCE_HEADERS = %w[Precedence X-Precedence].freeze
       BULK_PRECEDENCES = %w[auto_reply bulk junk list].freeze
