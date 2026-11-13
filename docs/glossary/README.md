@@ -147,8 +147,8 @@ A custom action in OpenProject is defined as customizable buttons which trigger 
 
 **More information on custom actions in OpenProject**
 
-- [Watch a short video how custom actions work](../system-admin-guide/manage-work-packages/custom-actions/#automated-workflows-with-custom-actions-enterprise-add-on).
-- [Read this guide on how to create custom actions](../system-admin-guide/manage-work-packages/custom-actions/#create-custom-actions).
+- [Watch a short video how custom actions work](../system-admin-guide/manage-work-packages/work-package-automations/).
+- [Read this guide on how to create custom actions](../system-admin-guide/manage-work-packages/work-package-automations/#create-custom-actions).
 - [Read this blog article on how to create an intelligent workflow with custom action - explained with an example](https://www.openproject.org/blog/customize-workflows/).
 
 ### Custom field
@@ -282,7 +282,7 @@ Macros in OpenProject are dynamic shortcuts that help automate repetitive tasks.
 
 ### MCP Server
 
-The OpenProject MCP Server is an [Enterprise add-on](#enterprise-add-on) that enables the integration of [artificial intelligence (AI)](#artificial-intelligence-ai) with OpenProject. AI assistants and similar tools can connect to OpenProject using the Model Context Protocol (MCP), an open standard that enables AI applications to connect to external systems and access their data and functionality. Through the MCP Server, connected tools can access project information and perform supported actions in OpenProject while respecting existing permissions and business rules. [Read more about the MCP Server in OpenProject](../system-admin-guide/integrations/mcp-server/).
+The OpenProject MCP Server is an [Enterprise add-on](#enterprise-add-on) that enables the integration of [artificial intelligence (AI)](#artificial-intelligence-ai) with OpenProject. AI assistants and similar tools can connect to OpenProject using the Model Context Protocol (MCP), an open standard that enables AI applications to connect to external systems and access their data and functionality. Through the MCP Server, connected tools can access project information and perform supported actions in OpenProject while respecting existing permissions and business rules. [Read more about the MCP Server in OpenProject](../system-admin-guide/ai/mcp-server/).
 
 ### Meetings
 
