@@ -158,8 +158,8 @@ class NotificationPlan {
       }
     }
 
-    // Refreshing the newest group when it is already on screen is deliberate: Safari drops every
-    // subscription of the site after three pushes that did not call showNotification.
+    // Safari drops every subscription of the site after three pushes that did not call
+    // showNotification, so the newest group is refreshed even when it is already on screen.
     if (show.length === 0) {
       show.push(openTags.includes(groups[0].tag) ? { kind: "refresh", group: groups[0] } : { kind: "nothingNew" });
     }
