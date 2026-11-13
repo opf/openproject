@@ -26,7 +26,7 @@ On the work package types overview page, click the **(...)** menu in the upper-r
 
 ![Workflow summary option on the work package types overview page](openproject_system_guide_work_package_types_workflow_summary.png)
 
-For more information, see [Configure workflows](workflows/#workflow-summary).
+For more information, see [Configure workflows](../work-package-workflows/#workflow-summary).
 
 ## Create new work package type
 
@@ -90,7 +90,7 @@ A workflow defines the status transitions that are available for a work package 
 
 To configure the workflow for a type, open the **Workflows** tab.
 
-For detailed instructions, including default transitions, transitions when the user is the author or assignee, and the workflow summary, see [Configure workflows](workflows).
+For detailed instructions, including default transitions, transitions when the user is the author or assignee, and the workflow summary, see [Configure workflows](../work-package-workflows/).
 
 ### Project attributes
 
