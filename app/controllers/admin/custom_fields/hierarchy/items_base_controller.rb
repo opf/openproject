@@ -37,7 +37,8 @@ module Admin
 
         before_action :require_admin
         before_action :find_custom_field
-        before_action :find_active_item
+        before_action :find_active_item, except: %i[edit update move change_parent destroy]
+        before_action :find_non_root_item, only: %i[edit update move change_parent destroy]
 
         # See https://github.com/hotwired/turbo-rails?tab=readme-ov-file#a-note-on-custom-layouts
         def admin_or_frame_layout
@@ -166,6 +167,10 @@ module Admin
                          else
                            @custom_field.hierarchy_root
                          end
+        end
+
+        def find_non_root_item
+          @active_item = @custom_field.hierarchy_root.descendants.including_children.find(params.expect(:id))
         end
       end
     end

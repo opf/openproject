@@ -144,6 +144,12 @@ RSpec.describe "Hierarchy item management", :skip_csrf, type: :rails_request do
           expect(response).to have_http_status(:ok)
           expect(response.body).to include("Luke")
         end
+
+        it "responds with not found for the root item" do
+          get "#{items_path}/#{root.id}/edit"
+
+          expect(response).to have_http_status(:not_found)
+        end
       end
 
       describe "GET item_actions" do
@@ -351,9 +357,10 @@ RSpec.describe "Hierarchy item management", :skip_csrf, type: :rails_request do
         context "for the root item" do
           subject(:update_request) { patch "#{items_path}/#{root.id}", params: update_params, headers: turbo_stream_headers }
 
-          it "keeps the root unchanged", pending: "rendering the error form fails on the missing parent of the root" do
+          it "responds with not found" do
             update_request
 
+            expect(response).to have_http_status(:not_found)
             expect(root.reload.label).to be_nil
           end
         end
@@ -377,6 +384,17 @@ RSpec.describe "Hierarchy item management", :skip_csrf, type: :rails_request do
           move_request
 
           expect(labels_by_position).to eq(%w[Han Luke Mara Leia])
+        end
+
+        context "for the root item" do
+          let(:moved_item) { root }
+
+          it "responds with not found" do
+            move_request
+
+            expect(response).to have_http_status(:not_found)
+            expect(root.reload.children.pluck(:label)).to eq(%w[Luke Leia Han])
+          end
         end
 
         context "when moving down" do
@@ -470,6 +488,17 @@ RSpec.describe "Hierarchy item management", :skip_csrf, type: :rails_request do
           change_parent_request
 
           expect(labels_by_position).to eq(%w[Luke Mara Han Leia])
+        end
+
+        context "for the root item" do
+          let(:moved_item) { root }
+
+          it "responds with not found" do
+            change_parent_request
+
+            expect(response).to have_http_status(:not_found)
+            expect(root.reload.parent).to be_nil
+          end
         end
 
         context "when moving an item with descendants" do
@@ -675,8 +704,10 @@ RSpec.describe "Hierarchy item management", :skip_csrf, type: :rails_request do
         context "for the root item" do
           let(:deleted_item) { root }
 
-          it "keeps the tree" do
+          it "responds with not found" do
             expect { destroy_request }.not_to change(CustomField::Hierarchy::Item, :count)
+
+            expect(response).to have_http_status(:not_found)
           end
         end
 
