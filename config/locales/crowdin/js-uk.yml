@@ -131,10 +131,10 @@ uk:
     button_confirm: Підтвердити
     button_continue: Продовжити
     button_copy: Копіювати
-    button_copy_id: Copy ID ("%{id}")
-    button_copy_link_to_clipboard: Copy link
+    button_copy_link_to_clipboard: Копіювати посилання в буфер обміну
     button_copy_to_clipboard: Копіювати в буфер обміну
     button_copy_to_other_project: Копіювати в інший проєкт
+    button_copy_work_package_id: Скопіювати ідентифікатор пакета робіт
     button_create: Створити
     button_custom-fields: Індивідуальні поля
     button_delete: Видалити
@@ -150,6 +150,7 @@ uk:
     button_log_time: Записування часу
     button_more: Більше
     button_more_actions: Інші дії
+    button_move_to_position: Перемістити в позицію
     button_open_details: Відкрити докладне подання
     button_open_fullscreen: Відкрити на весь екран
     button_quote: Цитата
@@ -349,6 +350,8 @@ uk:
       direct_hit_available: Знайдено пакет робіт із точним ідентифікатором. Натисніть Enter, щоб відкрити його.
       items_available: 'Доступно стільки елементів: %{count}'
       recently_viewed: Нещодавно переглянуті
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Шукайте пакети робіт за темою, проєктом, типом, статусом або ідентифікатором
       title:
         all_projects: всі проекти
@@ -502,6 +505,7 @@ uk:
     label_in: в
     label_in_less_than: менш ніж
     label_in_more_than: більше ніж
+    label_in_progress_work_packages: В процесі
     label_incoming_emails: Вхідні повідомлення
     label_infinity: Нескінченність
     label_information_plural: Інформація
@@ -534,6 +538,10 @@ uk:
     label_open_context_menu: Відкрийте контекстне меню
     label_open_menu: Відкрити меню
     label_open_work_packages: відкрито
+    label_origin: Джерело
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Джерело
     label_password: Пароль
     label_per_page: 'К-сть на сторінку:'
     label_please_wait: Будь ласка, зачекайте
@@ -558,8 +566,8 @@ uk:
     label_reset: Скинути
     label_resize_project_menu: Змінити розмір меню проєкту
     label_save_as: Зберегти як
-    label_scroll_left: Scroll left
-    label_scroll_right: Scroll right
+    label_scroll_left: Гортати вліво
+    label_scroll_right: Гортати вправо
     label_search_columns: Пошук стовпця
     label_select_watcher: Виберіть спостерігача...
     label_selected_filter_list: Вибрані фільтри
@@ -567,7 +575,9 @@ uk:
     label_show_in_menu: Показати вигляд у меню
     label_sort_by: Сортувати за
     label_sort_higher: Перемістити вгору
+    label_sort_highest: Перемістити на верх
     label_sort_lower: Перемістити вниз
+    label_sort_lowest: Перемістити в кінець
     label_sorted_by: відсортовано за
     label_sorting: Сортування
     label_spent_time: Витрачений час
@@ -578,6 +588,7 @@ uk:
     label_sum_for: Сума для
     label_this_week: цього тижня
     label_time_entry_plural: Витрачений час
+    label_to_do_work_packages: to-do
     label_today: Сьогодні
     label_total_amount: 'Всього: %{amount}'
     label_total_progress: "%{percent}% загального прогресу"
@@ -633,9 +644,9 @@ uk:
       center:
         and_more_users:
           one: and %{count} other
-          few: and %{count} others
-          many: and %{count} others
-          other: and %{count} others
+          few: і ще %{count}
+          many: і ще %{count}
+          other: і ще %{count}
         empty_state:
           no_notification: Схоже, ви все переглянули.
           no_notification_for_filter: Схоже, ви переглянули всі сповіщення за цим фільтром.
@@ -821,6 +832,7 @@ uk:
         batch_too_large: Неможливо перемістити всі елементи (%{count}) одночасно. Максимальна кількість — %{max}.
         fallback_item_label: Об’єкт
         fallback_list_name: інший список
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Не вдалося перемістити. Перегляньте поточну позицію об’єкта.
         move_failed_check_positions_batch:
           other: Не вдалося перемістити. Перегляньте поточні позиції елементів.
@@ -839,15 +851,15 @@ uk:
         range_blocked: Вибір залишився незмінним. Діапазон містить елемент, що не впливає на порядок у цьому списку.
         range_restarted:
           one: Could not extend the range. %{count} item selected.
-          few: Could not extend the range. %{count} items selected.
-          many: Could not extend the range. %{count} items selected.
-          other: Could not extend the range. %{count} items selected.
+          few: Не вдалося розширити діапазон. Вибрано %{count} елементи.
+          many: Не вдалося розширити діапазон. Вибрано %{count} елементів.
+          other: Не вдалося розширити діапазон. Вибрано %{count} елемента.
         range_unavailable: Вибір залишився незмінним. Щоб вибрати потрібний діапазон, розгорніть цей список.
         selected:
           one: "%{count} item selected."
-          few: "%{count} items selected."
-          many: "%{count} items selected."
-          other: "%{count} items selected."
+          few: Вибрано %{count} елементи.
+          many: Вибрано %{count} елементів.
+          other: Вибрано %{count} елемента.
     spot:
       drop_modal:
         close: Закрити модальне вікно
@@ -897,23 +909,23 @@ uk:
     units:
       child_work_packages:
         one: "%{count} child work package"
-        few: "%{count} work package children"
-        many: "%{count} work package children"
-        other: "%{count} work package children"
+        few: "%{count} робочий пакет дітей"
+        many: "%{count} робочий пакет дітей"
+        other: "%{count} робочий пакет дітей"
       day:
         one: "%{count} day"
         other: "%{count} д."
         zero: 0 днів
       hour:
-        one: "%{count} h"
+        one: "%{count} год"
         other: "%{count} год"
         zero: 0 год
       hour_string: "%{hours} год"
       word:
         one: "%{count} word"
-        few: "%{count} words"
-        many: "%{count} words"
-        other: "%{count} words"
+        few: "%{count} слова"
+        many: "%{count} слів"
+        other: "%{count} слів"
       workPackage:
         one: Робочий пакет
         few: робочі пакети.
@@ -974,6 +986,7 @@ uk:
         all_open: Усі відкриті
         assigned_to_me: Призначено мені
         created_by_me: Створений мною
+        in_progress: Виконання
         latest_activity: Остання активність
         manually_sorted: Новий, відсортований уручну запит
         overdue: Прострочені
@@ -981,6 +994,7 @@ uk:
         shared_with_me: Доступ надано мені
         shared_with_users: Надано доступ користувачам
         summary: Резюме
+        to_do: To-do
       description_enter_text: Введіть текст
       description_filter: Фільтр
       description_options_hide: Сховати опції
@@ -1068,6 +1082,7 @@ uk:
         other: Інше
         people: Люди
       query:
+        add_columns: Додати стовпці
         click_to_edit_query_name: Натисніть, щоб змінити заголовок цього перегляду.
         column_names: Стовпці
         confirm_edit_cancel: Дійсно скасувати редагування імені цього перегляду? Заголовок повернеться до попереднього значення.
@@ -1077,17 +1092,16 @@ uk:
           not_found: Такого погляду немає
           unretrievable_query: Неможливо отримати перегляд з URL-адреси
         filters: Фільтри
-        group: Групувати за
         group_by: 'Групування результатів:'
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: У режимі ієрархії угруповання відключена.
-        hide_column: Приховати стовпчик
         hierarchy_disabled_by_group_by: Режим ієрархії вимкнено через групування результатів %{column}.
-        insert_columns: Вставити стовпці
         move_column_left: Перемістити стовпець ліворуч
         move_column_right: Перемістити стовпець праворуч
         public_text: 'Опублікуйте це подання, надавши доступ до нього. Користувачі з дозволом «Керування загальнодоступними поданнями» можуть змінювати або вилучати загальнодоступні запити. Це не впливає на видимість результатів пакетів робіт у цьому поданні, і залежно від дозволів користувачі можуть бачити різні результати.
 
           '
+        remove_column: Вилучити стовпець
         rename_query_placeholder: Назва цього перегляду
         sort_ascending: Сортувати за зростанням
         sort_descending: Сортувати за спаданням
@@ -1114,18 +1128,18 @@ uk:
           few: All %{count} work packages on this page selected.
           many: All %{count} work packages on this page selected.
           other: All %{count} work packages on this page selected.
-        cleared: Selection cleared.
+        cleared: Вибір скасовано.
         selected:
           one: "%{count} work package selected."
-          few: "%{count} work packages selected."
-          many: "%{count} work packages selected."
-          other: "%{count} work packages selected."
+          few: Вибрано %{count} пакети робіт.
+          many: Вибрано %{count} пакетів робіт.
+          other: Вибрано %{count} пакета робіт.
       sharing:
         show_all_users: Показувати всіх користувачів, яким надано доступ до пакета робіт
         title: Надати доступ до пакета робіт
       table:
         configure_button: Налаштуйте таблицю робочих пакетів
-        grid_actions_header: Actions
+        grid_actions_header: Дії
         grid_baseline_header: Comparison status
         relations_button: Relations in %{column} for %{work_package}
         sort_criterion_ascending: "%{column} ascending"

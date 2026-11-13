@@ -7,6 +7,8 @@ export interface WorkPackageAttribute {
   label:string;
   type:string;
   customField:boolean;
+  // Long text renders as a block, which an inline element cannot hold.
+  block:boolean;
 }
 
 interface FieldSchema {
@@ -33,19 +35,23 @@ const HIDDEN_KEYS = new Set([
   'version',
 ]);
 
-// Long text renders as a block, which an inline chip cannot hold.
-const HIDDEN_TYPES = new Set(['Formattable']);
-
 export function listAttributes(schema:WorkPackageSchema):WorkPackageAttribute[] {
   const attributes:WorkPackageAttribute[] = [];
   for (const [key, field] of Object.entries(schema)) {
     if (key.startsWith('_') || HIDDEN_KEYS.has(key)) continue;
     if (!field || typeof field !== 'object') continue;
     const { type, name } = field as FieldSchema;
-    if (typeof type !== 'string' || typeof name !== 'string' || HIDDEN_TYPES.has(type)) continue;
+    if (typeof type !== 'string' || typeof name !== 'string') continue;
 
     const customField = CUSTOM_FIELD_KEY.test(key);
-    attributes.push({ key, reference: customField ? name : key, label: name, type, customField });
+    attributes.push({
+      key,
+      reference: customField ? name : key,
+      label: name,
+      type,
+      customField,
+      block: type === 'Formattable',
+    });
   }
 
   return attributes;
@@ -78,10 +84,14 @@ export interface FormatOptions {
 }
 
 interface LinkValue { title?:string | null; href?:string | null }
+type TitledLink = LinkValue & { title:string };
 
-function linkTitles(link:LinkValue | LinkValue[] | null | undefined):string[] {
-  const links = Array.isArray(link) ? link : link ? [link] : [];
-  return links.flatMap((entry) => (entry.title ? [entry.title] : []));
+/** The links an attribute holds, or undefined when it is no link at all. */
+function linksOf(workPackage:WorkPackage, attribute:WorkPackageAttribute):TitledLink[] | undefined {
+  const links = workPackage._links as Record<string, LinkValue | LinkValue[] | null | undefined> | null | undefined;
+  if (!links || !(attribute.key in links)) return undefined;
+  const link = links[attribute.key];
+  return (Array.isArray(link) ? link : link ? [link] : []).filter((entry):entry is TitledLink => Boolean(entry.title));
 }
 
 const ISO_DURATION = /^P(?:(\d+(?:\.\d+)?)D)?(?:T(?:(\d+(?:\.\d+)?)H)?(?:(\d+(?:\.\d+)?)M)?(?:(\d+(?:\.\d+)?)S)?)?$/;
@@ -142,11 +152,8 @@ export function formatAttributeValue(
   attribute:WorkPackageAttribute,
   options:FormatOptions,
 ):string {
-  const links = workPackage._links as Record<string, LinkValue | LinkValue[] | null | undefined> | null | undefined;
-  if (links && attribute.key in links) {
-    const titles = linkTitles(links[attribute.key]);
-    return titles.length > 0 ? titles.join(', ') : EMPTY_VALUE;
-  }
+  const links = linksOf(workPackage, attribute);
+  if (links) return links.length > 0 ? links.map((link) => link.title).join(', ') : EMPTY_VALUE;
 
   const value = (workPackage as unknown as Record<string, unknown>)[attribute.key];
   if (value === null || value === undefined || value === '') return EMPTY_VALUE;
@@ -157,4 +164,30 @@ export function formatAttributeValue(
   }
 
   return formatScalar(attribute, value, options);
+}
+
+export type AttributeValueKind = 'type' | 'status' | 'priority' | 'principal' | 'plain';
+
+const PRINCIPAL_TYPES = new Set(['User', '[]User']);
+
+export function valueKindOf(attribute:WorkPackageAttribute):AttributeValueKind {
+  if (attribute.key === 'type' || attribute.key === 'status' || attribute.key === 'priority') return attribute.key;
+  return PRINCIPAL_TYPES.has(attribute.type) ? 'principal' : 'plain';
+}
+
+export interface Principal {
+  name:string;
+  href?:string;
+}
+
+export function principalsOf(workPackage:WorkPackage, attribute:WorkPackageAttribute):Principal[] {
+  return (linksOf(workPackage, attribute) ?? []).map((link) => ({ name: link.title, href: link.href ?? undefined }));
+}
+
+/** The long text of a block attribute, as OpenProject rendered it. */
+export function formattedHtmlOf(workPackage:WorkPackage, attribute:WorkPackageAttribute):string {
+  const value = (workPackage as unknown as Record<string, unknown>)[attribute.key];
+  if (!value || typeof value !== 'object') return '';
+  const { html } = value as { html?:unknown };
+  return typeof html === 'string' ? html : '';
 }

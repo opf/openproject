@@ -12,7 +12,12 @@ export const en = {
         'work package': "пакет робіт",
         'wp': "пр",
         'link': "посилання",
-        'create': "створити"
+        'create': "створити",
+        'attribute': "атрибут"
+      },
+      'attribute': {
+        'title': 'Work package attribute',
+        'subtext': 'Insert a live attribute or custom field'
       }
     },
     'formattingToolbar': {
@@ -121,6 +126,35 @@ export const en = {
     },
     'spinner': {
       'ariaLabel': "Завантаження…"
+    },
+    'workPackageAttribute': {
+      'missing': '{{attribute}} unavailable',
+      'yes': "Так",
+      'no': "Ні",
+      'days_one': '{{count}} day',
+      'days_other': '{{count}} days',
+      'display': {
+        'label': "Мітка",
+        'value': "Значення",
+        'both': 'Label + value'
+      },
+      'dialog': {
+        'title': 'Insert work package attribute',
+        'workPackage': "Робочий пакет",
+        'attribute': "Атрибут",
+        'attributePlaceholder': 'Select an attribute…',
+        'attributeDisabled': 'Select a work package first',
+        'attributeLoading': 'Loading attributes…',
+        'attributeUnavailable': 'Attributes unavailable',
+        'loadFailed': 'The attributes of {{id}} could not be loaded.',
+        'retry': "Спробуйте знову",
+        'prefilled': 'Prefilled with your last selection',
+        'notAvailable': '"{{attribute}}" is not available on {{id}}. Choose another attribute.',
+        'show': "Показати",
+        'preview': "Переглянути знову",
+        'previewEmpty': 'Choose a work package and an attribute',
+        'insert': "Вставити"
+      }
     }
   }
 };

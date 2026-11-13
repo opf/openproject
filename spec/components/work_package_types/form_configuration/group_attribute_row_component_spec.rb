@@ -88,6 +88,26 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
         expect(page).to have_css(".color-fg-muted.text-small", text: attribute[:field_format_label])
         expect(page).to have_test_selector("type-form-configuration-toggle-required-custom_field_5", visible: :all)
       end
+
+      it "disables the required toggle while the field is switched off, saying why", :aggregate_failures do
+        exclude_configuration_elements(variant, aspect: TypeVariant::FORM_CONFIGURATION,
+                                                elements: %w[custom_field_5])
+
+        render_row
+
+        action = page.find(:test_id, "type-form-configuration-toggle-required-custom_field_5", visible: :all)
+        expect(action[:"aria-disabled"]).to eq("true")
+        expect(page).to have_css("tool-tip[for='#{action[:id]}']",
+                                 visible: :all, text: "Switch this custom field on before requiring it for this type.")
+      end
+
+      it "offers, disabled, to stop requiring a field required for all types", :aggregate_failures do
+        render_row(attribute: attribute.merge(required_globally: true))
+
+        action = page.find(:test_id, "type-form-configuration-toggle-required-custom_field_5", visible: :all)
+        expect(action).to have_text("Do not require for this type")
+        expect(action[:"aria-disabled"]).to eq("true")
+      end
     end
   end
 
@@ -109,6 +129,44 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
         toggle = page.find("[data-test-selector='toggle-form-config-exclusion-assignee'] > button")
         expect(toggle["aria-label"]).to eq("Inherit Assignee")
         expect(toggle["aria-pressed"]).to eq("true")
+      end
+
+      describe "for a custom field" do
+        let(:custom_field_toggle) do
+          page.find("[data-test-selector='toggle-form-config-exclusion-custom_field_5'] > button")
+        end
+
+        def render_custom_field_row(**flags)
+          render_row(attribute: { id: 2, key: "custom_field_5", is_cf: true, required_globally: false,
+                                  required_for_variant: false, translation: "Alt description", **flags })
+        end
+
+        it "can be switched off while optional" do
+          render_custom_field_row
+
+          expect(custom_field_toggle).not_to be_disabled
+        end
+
+        it "cannot be switched off while required for all types" do
+          render_custom_field_row(required_globally: true)
+
+          expect(custom_field_toggle).to be_disabled
+        end
+
+        it "cannot be switched off while required for this type" do
+          render_custom_field_row(required_for_variant: true)
+
+          expect(custom_field_toggle).to be_disabled
+        end
+
+        it "can be switched back on once off, even when required for all types" do
+          exclude_configuration_elements(variant, aspect: TypeVariant::FORM_CONFIGURATION,
+                                                  elements: %w[custom_field_5])
+
+          render_custom_field_row(required_globally: true)
+
+          expect(custom_field_toggle).not_to be_disabled
+        end
       end
     end
   end

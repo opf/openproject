@@ -117,7 +117,7 @@
     "@ng-select/ng-select": "^24.2.1",
     "@ngneat/content-loader": "^7.0.0",
     "@openproject/octicons-angular": "^19.38.0",
-    "@openproject/blocknote-extensions": "^0.3.3",
+    "@openproject/blocknote-extensions": "^0.3.4",
     "@openproject/primer-view-components": "^0.96.0",
     "@openproject/reactivestates": "^3.0.1",
     "@openproject/stimulus-elements": "^0.2.0",
@@ -209,8 +209,8 @@
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
     "typecheck": "npm run typecheck:app && npm run typecheck:spec",
-    "typecheck:app": "tsc -d --noEmit -p tsconfig.app.json",
-    "typecheck:spec": "tsc --noEmit -p tsconfig.spec.json",
+    "typecheck:app": "ngc -p tsconfig.app.json --noEmit",
+    "typecheck:spec": "ngc -p tsconfig.spec.json --noEmit",
     "postinstall": "patch-package"
   },
   "overrides": {

@@ -209,7 +209,7 @@ RSpec.describe "Relation query group keyboard navigation", :js do
     wp_table.press_keys(:right)
 
     wp_table.expect_focus_on_cell(rows.first, :id)
-    expect(wp_table.table_container).to have_no_css(".hierarchy-header--icon")
+    expect(wp_table.table_container).to have_no_octicon("op-hierarchy")
     expect(wp_table.treegrid).to have_no_selector(:element, "tr", "aria-expanded": /./, visible: :all)
     wp_table.ensure_work_package_not_listed!(grandchild)
   end

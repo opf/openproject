@@ -2,7 +2,9 @@
 // is the same attribute macro OpenProject renders for work package
 // attributes inserted with CKEditor.
 
-export type AttributeDisplay = 'label' | 'value' | 'both';
+import { isPendingWpid } from '../../utils/pending';
+import { BLOCK_WP_ATTRIBUTE_TYPE, INLINE_WP_ATTRIBUTE_TYPE } from '../../utils/nodeTypes';
+import { normalizeDisplay, type AttributeDisplay } from './display';
 
 export interface WorkPackageAttributeProps {
   wpid?:string;
@@ -11,19 +13,20 @@ export interface WorkPackageAttributeProps {
   display?:string;
 }
 
-export interface WorkPackageAttributeExternalData {
-  attrs:{
-    'data-inline-content-type':'openProjectWorkPackageAttributeInline';
-    'data-wpid':string;
-    'data-display-id':string;
-    'data-attribute':string;
-    'data-display':AttributeDisplay;
-  };
-  text:string;
-}
+// Long text attributes are blocks, everything else sits inline. A block wraps
+// its macro in a paragraph, so the markdown export keeps it apart from its
+// neighbors while the paragraph parser leaves the block itself alone.
+export type AttributeNodeKind = 'inline' | 'block';
 
-export function normalizeDisplay(display:string | undefined):AttributeDisplay {
-  return display === 'label' || display === 'both' ? display : 'value';
+const NODES = {
+  inline: { tag: 'span', marker: 'data-inline-content-type', type: INLINE_WP_ATTRIBUTE_TYPE },
+  block: { tag: 'div', marker: 'data-block-content-type', type: BLOCK_WP_ATTRIBUTE_TYPE },
+} as const;
+
+export interface WorkPackageAttributeExternalData {
+  tag:'span' | 'div';
+  attrs:Record<string, string>;
+  text:string;
 }
 
 // The macro syntax only accepts these characters inside quotes.
@@ -41,18 +44,21 @@ export function attributeMacro(
 
 export function computeWorkPackageAttributeExternalData(
   props:WorkPackageAttributeProps,
+  kind:AttributeNodeKind = 'inline',
 ):WorkPackageAttributeExternalData | null {
   const { wpid, attribute } = props;
-  if (!wpid || wpid.startsWith('pending:') || !attribute) return null;
+  if (!wpid || isPendingWpid(wpid) || !attribute) return null;
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const displayId = props.displayId || wpid;
   const display = normalizeDisplay(props.display);
   const label = attributeMacro('Label', displayId, attribute);
   const value = attributeMacro('Value', displayId, attribute);
   const text = display === 'label' ? label : display === 'value' ? value : `${label}: ${value}`;
+  const node = NODES[kind];
   return {
+    tag: node.tag,
     attrs: {
-      'data-inline-content-type': 'openProjectWorkPackageAttributeInline',
+      [node.marker]: node.type,
       'data-wpid': wpid,
       'data-display-id': displayId,
       'data-attribute': attribute,
@@ -66,20 +72,24 @@ export function buildWorkPackageAttributeExternalDOM(
   data:WorkPackageAttributeExternalData,
   doc:Document,
 ):HTMLElement {
-  const element = doc.createElement('span');
+  const element = doc.createElement(data.tag);
   for (const [name, value] of Object.entries(data.attrs)) {
     element.setAttribute(name, value);
   }
-  element.textContent = data.text;
+  if (data.tag === 'div') {
+    element.appendChild(doc.createElement('p')).textContent = data.text;
+  } else {
+    element.textContent = data.text;
+  }
   return element;
 }
 
 export function parseWorkPackageAttributeExternalHTML(
   element:HTMLElement,
-):WorkPackageAttributeProps | undefined {
-  if (element.getAttribute('data-inline-content-type') !== 'openProjectWorkPackageAttributeInline') {
-    return undefined;
-  }
+  kind:AttributeNodeKind = 'inline',
+):(WorkPackageAttributeProps & { display:AttributeDisplay }) | undefined {
+  const node = NODES[kind];
+  if (element.getAttribute(node.marker) !== node.type) return undefined;
   return {
     wpid: element.getAttribute('data-wpid') ?? '',
     displayId: element.getAttribute('data-display-id') ?? '',

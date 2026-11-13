@@ -59,8 +59,9 @@ RSpec.describe Backlogs::SprintReports::Widgets::AddedTable,
     let(:start_date) { nil }
     let(:finish_date) { nil }
 
-    include_examples "renders a blankslate",
-                     description: "Sprint start and finish dates are necessary to show added work packages."
+    it "renders nothing" do
+      expect(rendered_component.to_s).to be_empty
+    end
   end
 
   context "when the sprint has not started" do

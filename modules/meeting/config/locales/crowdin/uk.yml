@@ -32,9 +32,9 @@ uk:
         notify: Надсилання сповіщень
         participant:
           one: "%{count} Participant"
-          few: "%{count} Participants"
-          many: "%{count} Participants"
-          other: "%{count} Participants"
+          few: "%{count} учасники"
+          many: "%{count} учасників"
+          other: "%{count} учасника"
         participants: Учасники
         participants_added: 'Учасників додано:'
         participants_attended: Учасники
@@ -187,8 +187,8 @@ uk:
   label_agenda_backlog_clear_title: Очистити чергу завдань порядку денного?
   label_agenda_item_actions: Дії з пунктами порядку денного
   label_agenda_item_add: Додати пункт порядку денного
-  label_agenda_item_add_above: Add item above
-  label_agenda_item_add_below: Add item below
+  label_agenda_item_add_above: Додати елемент вище
+  label_agenda_item_add_below: Додати елемент нижче
   label_agenda_item_add_notes: Додати примітки
   label_agenda_item_add_outcome: Додати результат
   label_agenda_item_convert_to_work_package: Перетворити в пакет робіт
@@ -261,9 +261,9 @@ uk:
   label_meeting_minutes: Хвилини
   label_meeting_more:
     one: There is %{count} more meeting.
-    few: There are %{count} more meetings.
-    many: There are %{count} more meetings.
-    other: There are %{count} more meetings.
+    few: Є ще %{count} наради.
+    many: Є ще %{count} нарад.
+    other: Є ще %{count} нарад.
   label_meeting_new: Нова зустріч
   label_meeting_new_dynamic: Нова одноразова нарада
   label_meeting_new_recurring: Нова повторювана нарада
@@ -308,15 +308,15 @@ uk:
   label_recurring_meeting_delete: Видалити повторення
   label_recurring_meeting_duplicate: Дублювати як одноразову зустріч
   label_recurring_meeting_more:
-    one: There is %{count} more scheduled meeting (%{schedule}).
-    few: There are %{count} more scheduled meetings (%{schedule}).
-    many: There are %{count} more scheduled meetings (%{schedule}).
-    other: There are %{count} more scheduled meetings (%{schedule}).
+    one: Є ще %{count} запланована нарада (%{schedule}).
+    few: Є інші (%{count}) заплановані наради (%{schedule}).
+    many: Є інші (%{count}) заплановані наради (%{schedule}).
+    other: Є інші (%{count}) заплановані наради (%{schedule}).
   label_recurring_meeting_more_past:
-    one: There is %{count} more past meeting.
-    few: There are %{count} more past meetings.
-    many: There are %{count} more past meetings.
-    other: There are %{count} more past meetings.
+    one: Є ще %{count} завершена нарада.
+    few: Є інші (%{count}) завершені наради.
+    many: Є інші (%{count}) завершені наради.
+    other: Є інші (%{count}) завершені наради.
   label_recurring_meeting_new: Нова повторювана нарада
   label_recurring_meeting_next_occurrence: Наступна нарада серії
   label_recurring_meeting_no_end_date: Є інші заплановані наради (%{schedule}).
@@ -350,7 +350,7 @@ uk:
       change: Change sorting mode
       current_mode: Currently in %{mode} mode
       invalid_reaction: Only upvotes and downvotes are allowed on agenda items.
-      manual: Manual
+      manual: Вручну
       manual_description: You can manually arrange agenda items in any order you like by dragging and dropping them up or down.
       manual_order_disabled: Agenda items are ordered by votes. Switch to manual sorting to reorder them.
       remove_thumbs_down: Remove downvote
@@ -621,9 +621,9 @@ uk:
       ends_on: Як результат, серія закінчиться %{date}
       occurrences:
         one: This results in %{count} upcoming occurrence
-        few: This results in %{count} upcoming occurrences
-        many: This results in %{count} upcoming occurrences
-        other: This results in %{count} upcoming occurrences
+        few: Як результат, буде %{count} майбутні наради
+        many: Як результат, буде %{count} майбутніх нарад
+        other: Як результат, буде %{count} майбутньої наради
       occurrences_capped: Як результат, кількість майбутніх нарад перевищує %{count}
     day_of_month_skipping_info: Місяці з меншою кількістю днів, ніж %{monthly_day}, буде пропущено
     delete_dialog:

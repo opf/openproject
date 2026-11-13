@@ -73,8 +73,10 @@ You will then see the form to change and save the new project identifier.
 
 You can duplicate an existing project by navigating to the _Project settings → Project information_. Click the **More (three dots)** icon in the upper right corner and select **Duplicate** from the dropdown menu.
 
-> [!NOTE]
-> Users who duplicate a project are assigned a **New role for users that create projects** in the duplicated project. Depending on your configuration, this role may grant additional permissions compared to their role in the source project.
+> [!IMPORTANT]
+> The **Copy projects** permission allows copying all selected project data, including content and attachments the user cannot view in the source project. This includes work packages, wiki pages, their attachments, and project membership details when selected for copying.
+>
+> Users who are not instance administrators are assigned the configured **New role for users that create projects** in the duplicated project. This role can grant access to all copied data, even if the user's role in the source project did not allow them to view it. Administrators should review both the **Copy projects** permission and the [role assigned to project creators](../../../../system-admin-guide/projects/new-project/) when deciding who may copy a project.
 
 > [!NOTE]
 > To access the **Duplicate** action from **Project settings**, users must be able to open the project settings (typically through the **Edit project** permission). Alternatively, users can create a new project from a project template if template creation is available to them.
@@ -144,4 +146,4 @@ If you want to delete a project, navigate to the [Project settings](../../projec
 You can also delete a project via the [projects overview list](../../project-lists/).
 
 > [!NOTE]
-> Deleting projects is only available for System administrators.
+> Deleting projects is only available for instance administrators.

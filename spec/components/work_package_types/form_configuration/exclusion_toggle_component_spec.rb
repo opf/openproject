@@ -39,8 +39,8 @@ RSpec.describe WorkPackageTypes::FormConfiguration::ExclusionToggleComponent, ty
     WorkPackageTypes::ExclusionState.new(variant:, excluded: effective)
   end
 
-  def component(exclusions: exclusion_state, element_key: "assignee", label: "Inherit Assignee")
-    described_class.new(exclusions:, element_key:, label:)
+  def component(exclusions: exclusion_state, element_key: "assignee", label: "Inherit Assignee", enabled: true)
+    described_class.new(exclusions:, element_key:, label:, enabled:)
   end
 
   describe "#render?" do
@@ -68,6 +68,12 @@ RSpec.describe WorkPackageTypes::FormConfiguration::ExclusionToggleComponent, ty
       expect(toggle["src"]).to eq(
         "/types/#{type.id}/variants/#{variant.id}/exclusions/form_configuration/toggle?element=assignee"
       )
+    end
+
+    it "is disabled when asked to" do
+      render_inline(component(enabled: false))
+
+      expect(toggle.find("button")).to be_disabled
     end
 
     it "is off when the element is excluded" do

@@ -2,8 +2,11 @@ import { describe, it, expect } from 'vitest';
 import {
   EMPTY_VALUE,
   findAttribute,
+  formattedHtmlOf,
   formatAttributeValue,
   listAttributes,
+  principalsOf,
+  valueKindOf,
 } from '../../../../lib/components/WorkPackageAttribute/attributes';
 import type { WorkPackage } from '../../../../lib/openProjectTypes';
 import { mockAttributeSchema, mockAttributeWorkPackage, mockMilestoneSchema } from '../../../mocks/workPackageAttributes';
@@ -25,15 +28,20 @@ describe('listAttributes', () => {
 
   it('lists what the schema offers, in schema order', () => {
     expect(attributes.map((attribute) => attribute.key)).toEqual([
-      'subject', 'duration', 'startDate', 'dueDate', 'estimatedTime', 'percentageDone', 'createdAt',
+      'subject', 'description', 'duration', 'startDate', 'dueDate', 'estimatedTime', 'percentageDone', 'createdAt',
       'assignee', 'responsible', 'type', 'status', 'priority', 'targetVersions',
-      'customField1', 'customField2', 'customField3', 'customField5',
+      'customField1', 'customField2', 'customField3', 'customField4', 'customField5',
     ]);
   });
 
-  it('leaves out long text, bookkeeping and derived fields', () => {
+  it('marks long text as a block', () => {
+    const blocks = attributes.filter((attribute) => attribute.block).map((attribute) => attribute.key);
+    expect(blocks).toEqual(['description', 'customField4']);
+  });
+
+  it('leaves out bookkeeping and derived fields', () => {
     const keys = attributes.map((attribute) => attribute.key);
-    for (const hidden of ['description', 'customField4', 'lockVersion', 'id', 'scheduleManually', 'derivedStartDate', 'version']) {
+    for (const hidden of ['lockVersion', 'id', 'scheduleManually', 'derivedStartDate', 'version']) {
       expect(keys).not.toContain(hidden);
     }
   });
@@ -81,7 +89,19 @@ describe('findAttribute', () => {
 
   it('finds nothing the schema does not offer', () => {
     expect(findAttribute(mockAttributeSchema, 'Designer')).toBeUndefined();
-    expect(findAttribute(mockAttributeSchema, 'description')).toBeUndefined();
+    expect(findAttribute(mockAttributeSchema, 'lockVersion')).toBeUndefined();
+  });
+});
+
+describe('formattedHtmlOf', () => {
+  it('gives the long text as OpenProject rendered it', () => {
+    expect(formattedHtmlOf(workPackage, findAttribute(mockAttributeSchema, 'description')!))
+      .toBe('<p>Kick-off <strong>notes</strong></p>');
+  });
+
+  it('gives nothing for an empty long text or another attribute', () => {
+    expect(formattedHtmlOf(workPackage, findAttribute(mockAttributeSchema, 'Notes')!)).toBe('');
+    expect(formattedHtmlOf(workPackage, findAttribute(mockAttributeSchema, 'subject')!)).toBe('');
   });
 });
 
@@ -133,5 +153,40 @@ describe('formatAttributeValue', () => {
   it('formats in the given locale', () => {
     const attribute = findAttribute(mockAttributeSchema, 'startDate')!;
     expect(formatAttributeValue(workPackage, attribute, { ...options, locale: 'de' })).toBe('14.09.2026');
+  });
+});
+
+describe('valueKindOf', () => {
+  const kindOf = (reference:string) => valueKindOf(findAttribute(mockAttributeSchema, reference)!);
+
+  it('tells type, status and priority apart, as each is shown in its own way', () => {
+    expect(kindOf('type')).toBe('type');
+    expect(kindOf('status')).toBe('status');
+    expect(kindOf('priority')).toBe('priority');
+  });
+
+  it('takes every attribute holding users for people, custom fields too', () => {
+    expect(kindOf('assignee')).toBe('principal');
+    expect(kindOf('Content owner')).toBe('principal');
+  });
+
+  it('leaves everything else plain', () => {
+    expect(kindOf('targetVersions')).toBe('plain');
+    expect(kindOf('Department')).toBe('plain');
+  });
+});
+
+describe('principalsOf', () => {
+  const principals = (reference:string) => principalsOf(workPackage, findAttribute(mockAttributeSchema, reference)!);
+
+  it('lists everyone an attribute holds, with where to find them', () => {
+    expect(principals('Content owner')).toEqual([
+      { name: 'Jean Cérien', href: '/api/v3/users/4' },
+      { name: 'Hugo Martins', href: '/api/v3/users/5' },
+    ]);
+  });
+
+  it('lists nobody for an empty attribute', () => {
+    expect(principals('responsible')).toEqual([]);
   });
 });

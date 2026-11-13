@@ -76,3 +76,18 @@ describe('external HTML round trip', () => {
     expect(parseWorkPackageAttributeExternalHTML(element)).toBeUndefined();
   });
 });
+
+describe('external HTML of a long text block', () => {
+  it('carries the same macro in a block element and parses back', () => {
+    const props = { wpid: '57', displayId: 'PROJ-57', attribute: 'description', display: 'both' };
+    const data = computeWorkPackageAttributeExternalData(props, 'block')!;
+    const element = buildWorkPackageAttributeExternalDOM(data, document);
+
+    expect(element.tagName).toBe('DIV');
+    expect(element.firstElementChild?.tagName).toBe('P');
+    expect(element.getAttribute('data-block-content-type')).toBe('openProjectWorkPackageAttributeBlock');
+    expect(element.textContent).toBe('workPackageLabel:PROJ-57:"description": workPackageValue:PROJ-57:"description"');
+    expect(parseWorkPackageAttributeExternalHTML(element, 'block')).toEqual(props);
+    expect(parseWorkPackageAttributeExternalHTML(element)).toBeUndefined();
+  });
+});

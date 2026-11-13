@@ -63,7 +63,7 @@ zh-CN:
         single: 选择“%{name}”
       remove: 删除%{name}
     autocompleter:
-      create_label: Create label
+      create_label: 创建标签
       notFoundText: 没有找到条目
       placeholder: 键入内容进行搜索
       project:
@@ -131,10 +131,10 @@ zh-CN:
     button_confirm: 确认
     button_continue: 继续
     button_copy: 复制
-    button_copy_id: Copy ID ("%{id}")
-    button_copy_link_to_clipboard: Copy link
+    button_copy_link_to_clipboard: 将链接复制到剪贴板
     button_copy_to_clipboard: 复制到剪贴板
     button_copy_to_other_project: 复制到其他项目
+    button_copy_work_package_id: 复制工作包 ID
     button_create: 创建
     button_custom-fields: 自定义字段
     button_delete: 删除
@@ -150,6 +150,7 @@ zh-CN:
     button_log_time: 记录时间
     button_more: 更多
     button_more_actions: 更多操作
+    button_move_to_position: 移至指定位置
     button_open_details: 打开详情视图
     button_open_fullscreen: 打开全屏视图
     button_quote: 引用
@@ -349,6 +350,8 @@ zh-CN:
       direct_hit_available: 找到与 ID 完全匹配的工作包。按 Enter 可打开。
       items_available: "%{count} 个可用条目"
       recently_viewed: 最近浏览
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: 按主题、项目、类型、状态或 ID 搜索工作包
       title:
         all_projects: 所有项目
@@ -502,6 +505,7 @@ zh-CN:
     label_in: 在
     label_in_less_than: 在小于
     label_in_more_than: 在多于
+    label_in_progress_work_packages: 进行中
     label_incoming_emails: 传入电子邮件
     label_infinity: 无穷大
     label_information_plural: 信息
@@ -534,6 +538,10 @@ zh-CN:
     label_open_context_menu: 打开菜单目录
     label_open_menu: 打开菜单
     label_open_work_packages: 打开
+    label_origin: 来源
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: 源
     label_password: 密码
     label_per_page: 每页：
     label_please_wait: 请稍等
@@ -558,8 +566,8 @@ zh-CN:
     label_reset: 重置
     label_resize_project_menu: 调整项目菜单大小
     label_save_as: 另存为
-    label_scroll_left: Scroll left
-    label_scroll_right: Scroll right
+    label_scroll_left: 向左滚动
+    label_scroll_right: 向右滚动
     label_search_columns: 搜索列
     label_select_watcher: 选择一个关注者...
     label_selected_filter_list: 已选筛选器
@@ -567,7 +575,9 @@ zh-CN:
     label_show_in_menu: 在菜单中显示视图
     label_sort_by: 排序按
     label_sort_higher: 向上移动
+    label_sort_highest: 移至顶部
     label_sort_lower: 向下移动
+    label_sort_lowest: 移至底部
     label_sorted_by: 排序按
     label_sorting: 排序
     label_spent_time: 已耗工时
@@ -578,6 +588,7 @@ zh-CN:
     label_sum_for: 总和
     label_this_week: 这一周
     label_time_entry_plural: 已耗工时
+    label_to_do_work_packages: to-do
     label_today: 今天
     label_total_amount: '总计: %{amount}'
     label_total_progress: "%{percent} %总进度"
@@ -632,7 +643,7 @@ zh-CN:
     notifications:
       center:
         and_more_users:
-          other: and %{count} others
+          other: 和 %{count} 个其他
         empty_state:
           no_notification: 看起来您已查看所有通知。
           no_notification_for_filter: 看起来你已经处理完了这个筛选器的所有内容。
@@ -818,6 +829,7 @@ zh-CN:
         batch_too_large: 无法一次性移动 %{count} 个条目。选择的条目数量不得超过 %{max} 个。
         fallback_item_label: 条目
         fallback_list_name: 另一个列表
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: 移动失败。请检查该条目的当前位置。
         move_failed_check_positions_batch:
           other: 移动失败。请检查条目的当前位置。
@@ -835,10 +847,10 @@ zh-CN:
         not_selectable: 选择未更改。此条目不参与此列表的排序。
         range_blocked: 选择未更改。该范围包含不参与此列表排序的条目。
         range_restarted:
-          other: Could not extend the range. %{count} items selected.
+          other: 无法扩展范围。已选择 %{count} 个条目。
         range_unavailable: 选择未更改。扩展此列表，以选择该范围。
         selected:
-          other: "%{count} items selected."
+          other: 已选择 %{count} 个条目。
     spot:
       drop_modal:
         close: 关闭模式
@@ -887,18 +899,18 @@ zh-CN:
       label_two_factor_authentication: 双因子认证
     units:
       child_work_packages:
-        other: "%{count} work package children"
+        other: "%{count} 子工作包"
       day:
         one: "%{count} day"
         other: "%{count} 天"
         zero: 0 天
       hour:
-        one: "%{count} h"
+        one: "%{count} 小时"
         other: "%{count} 小时"
         zero: 0 小时
       hour_string: "%{hours} 小时"
       word:
-        other: "%{count} words"
+        other: " %{count} 个单词"
       workPackage:
         other: 工作包
     upsell:
@@ -956,6 +968,7 @@ zh-CN:
         all_open: 全部打开
         assigned_to_me: 分配给我
         created_by_me: 我创建的
+        in_progress: 进行中
         latest_activity: 最新活动
         manually_sorted: 新的手动排序查询
         overdue: 逾期
@@ -963,6 +976,7 @@ zh-CN:
         shared_with_me: 与我分享
         shared_with_users: 与用户共享
         summary: 摘要
+        to_do: To-do
       description_enter_text: 输入文本
       description_filter: 筛选器
       description_options_hide: 隐藏选项
@@ -1050,6 +1064,7 @@ zh-CN:
         other: 其他
         people: 人员
       query:
+        add_columns: 添加列
         click_to_edit_query_name: 单击可以编辑此视图的标题。
         column_names: 列
         confirm_edit_cancel: 确定要取消编辑此视图的名称吗？标题将重置为上一个值。
@@ -1059,17 +1074,16 @@ zh-CN:
           not_found: 无此视图
           unretrievable_query: 无法从 URL 检索视图
         filters: 筛选器
-        group: 分组按照
         group_by: 汇总结果根据
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: 分组依据已禁用，因为层次结构模式处于有效状态。
-        hide_column: 隐藏列
         hierarchy_disabled_by_group_by: 层次结构模式已禁用，因为结果依据 %{column} 分组。
-        insert_columns: 插入列
         move_column_left: 左移列
         move_column_right: 右移列
         public_text: '发布此视图，以允许其他用户访问您的视图。具有“管理公共视图”权限的用户可以修改或移除公共查询。这不会影响工作包结果在该视图中的可见性，并且用户可能会看到不同的结果，具体取决于他们的权限。
 
           '
+        remove_column: 移除列
         rename_query_placeholder: 此视图的名称
         sort_ascending: 升序排序
         sort_descending: 降序排序
@@ -1093,15 +1107,15 @@ zh-CN:
       selection:
         all_selected:
           other: All %{count} work packages on this page selected.
-        cleared: Selection cleared.
+        cleared: 选择已清除。
         selected:
-          other: "%{count} work packages selected."
+          other: 已选择 %{count} 个工作包。
       sharing:
         show_all_users: 显示与之共享工作包的所有用户
         title: 共享工作包
       table:
         configure_button: 配置工作包表
-        grid_actions_header: Actions
+        grid_actions_header: 操作
         grid_baseline_header: Comparison status
         relations_button: Relations in %{column} for %{work_package}
         sort_criterion_ascending: "%{column} ascending"

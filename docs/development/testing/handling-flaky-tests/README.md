@@ -1,3 +1,10 @@
+---
+sidebar_navigation:
+  title: Handling flaky tests
+description: How to identify, debug, and fix tests that intermittently pass or fail
+keywords: testing, flaky tests, rspec, capybara
+---
+
 # Handling flaky tests
 
 ## What is a flaky spec?
@@ -124,7 +131,7 @@ Some tests may leak state after being run, leading to subsequent tests behaving 
 - OpenProject code uses memoization and caching for performance, and cache is not cleared after test, making next test start with polluted cache.
 - Some tests monkey-patch OpenProject code, but don't restore behavior correctly.
 
-As the tests are split randomly between the parallel processes, it's important to run with the exact same files.
+As the spec files are split between the parallel processes based on their recorded run times, it's important to run with the exact same files.
 
 As the order of tests is different for each run, it's important to run the failing test with the same seed.
 

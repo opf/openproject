@@ -31,7 +31,7 @@ zh-CN:
         notes: 备注
         notify: 发送通知
         participant:
-          other: "%{count} Participants"
+          other: "%{count}位参与者"
         participants: 参加者
         participants_added: 参会人已添加：
         participants_attended: 与会者
@@ -160,8 +160,8 @@ zh-CN:
   label_agenda_backlog_clear_title: 清除议程待办事项？
   label_agenda_item_actions: 议程项目行动
   label_agenda_item_add: 添加议程项
-  label_agenda_item_add_above: Add item above
-  label_agenda_item_add_below: Add item below
+  label_agenda_item_add_above: 在上方添加条目
+  label_agenda_item_add_below: 在下方添加条目
   label_agenda_item_add_notes: 添加备注
   label_agenda_item_add_outcome: 添加成果
   label_agenda_item_convert_to_work_package: 转换为工作包
@@ -233,7 +233,7 @@ zh-CN:
   label_meeting_last_updated: 最后更新
   label_meeting_minutes: 会议记录
   label_meeting_more:
-    other: There are %{count} more meetings.
+    other: 还有至少 %{count} 个会议。
   label_meeting_new: 新增会议
   label_meeting_new_dynamic: 新的动态会议
   label_meeting_new_recurring: 新的定期会议
@@ -278,9 +278,9 @@ zh-CN:
   label_recurring_meeting_delete: 删除事件
   label_recurring_meeting_duplicate: 作为一次性会议复制
   label_recurring_meeting_more:
-    other: There are %{count} more scheduled meetings (%{schedule}).
+    other: 还有 %{count} 个已安排的会议 (%{schedule}）。
   label_recurring_meeting_more_past:
-    other: There are %{count} more past meetings.
+    other: 还有 %{count} 次过往会议。
   label_recurring_meeting_new: 新的定期会议
   label_recurring_meeting_next_occurrence: 下一个事件
   label_recurring_meeting_no_end_date: 还有更多预定会议 (%{schedule})。
@@ -314,7 +314,7 @@ zh-CN:
       change: Change sorting mode
       current_mode: Currently in %{mode} mode
       invalid_reaction: Only upvotes and downvotes are allowed on agenda items.
-      manual: Manual
+      manual: 手动
       manual_description: You can manually arrange agenda items in any order you like by dragging and dropping them up or down.
       manual_order_disabled: Agenda items are ordered by votes. Switch to manual sorting to reorder them.
       remove_thumbs_down: Remove downvote
@@ -584,7 +584,7 @@ zh-CN:
     caption:
       ends_on: 这将导致一个在 %{date}结束的系列
       occurrences:
-        other: This results in %{count} upcoming occurrences
+        other: 这将导致 %{count} 个即将发生的事件
       occurrences_capped: 这将导致超过 %{count} 个即将发生的事件
     day_of_month_skipping_info: 将跳过天数少于 %{monthly_day} 天的月份
     delete_dialog:

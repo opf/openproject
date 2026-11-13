@@ -4,7 +4,7 @@ export const en = {
       'title': "Lien vers un lot de travaux existant",
       'subtext': "Ajouter un lien dynamique à un lot de travaux unique",
       'create': {
-        'title': 'Create new work package',
+        'title': "Créer un nouveau lot de travaux",
         'subtext': 'Create a work package and link it here'
       },
       'aliases': {
@@ -12,31 +12,36 @@ export const en = {
         'work package': "lot de travaux",
         'wp': "lt",
         'link': "lien",
-        'create': 'create'
+        'create': "créer",
+        'attribute': "attribut"
+      },
+      'attribute': {
+        'title': 'Work package attribute',
+        'subtext': 'Insert a live attribute or custom field'
       }
     },
     'formattingToolbar': {
-      'createWorkPackage': 'Create work package'
+      'createWorkPackage': "Créer un lot de travaux"
     },
     'createWorkPackage': {
-      'title': 'Create new work package',
-      'close': 'Close',
-      'cancel': 'Cancel',
-      'create': 'Create',
+      'title': "Créer un nouveau lot de travaux",
+      'close': "Fermer",
+      'cancel': "Annuler",
+      'create': "Créer",
       'creating': 'Creating…',
       'selectPlaceholder': 'Please select…',
       'searchPlaceholder': 'Type to search…',
-      'loading': 'Loading…',
-      'noResults': 'No results',
+      'loading': "Chargement...",
+      'noResults': "Aucun résultat",
       'filterBy': 'Filter the list',
-      'allValues': 'All',
-      'favorites': 'Favorites',
-      'clear': 'Clear',
+      'allValues': "Tous",
+      'favorites': "Favoris",
+      'clear': "Effacer",
       'deselect': 'Remove selection',
       'removeValue': 'Remove {{value}}',
-      'openOptions': 'Show options',
-      'closeOptions': 'Hide options',
-      'subjectPlaceholder': 'Enter subject here',
+      'openOptions': "Afficher les options",
+      'closeOptions': "Masquer les options",
+      'subjectPlaceholder': "Saisir l'objet ici",
       'subjectClipped': 'The selected text was too long and has been shortened to the first {{limit}} characters.',
       'projectPlaceholder': 'Select a project…',
       'loadFailed': 'The work package form could not be loaded: {{message}}',
@@ -53,9 +58,9 @@ export const en = {
       'label': "Lien vers un lot de travaux existant",
       'placeholder': "Rechercher l'ID ou le sujet du lot de travaux",
       'dropdownAriaLabel': "Résultats de la recherche de lots de travaux",
-      'noResults': 'No results',
+      'noResults': "Aucun résultat",
       'error': 'Error. Unable to load content.',
-      'createWorkPackage': 'Create new work package'
+      'createWorkPackage': "Créer un nouveau lot de travaux"
     },
     'unavailableWorkPackage': {
       'loading': {
@@ -75,13 +80,13 @@ export const en = {
     },
     'options': {
       'openInNewTab': 'Open in new tab',
-      'open': 'Open',
+      'open': "Ouverte",
       'changeSize': 'Change size',
       'changeSizeAriaLabel': 'Change size: {{size}}',
       'menuAriaLabel': 'Options for work package {{id}}',
       'selectedAnnouncement': '{{description}}. Press Enter to open its options.',
-      'remove': 'Remove',
-      'removeAriaLabel': 'Remove work package',
+      'remove': "Retirer",
+      'removeAriaLabel': "Retirer le lot de travaux",
       'openAriaLabel': 'Open work package {{id}} in new tab',
       'inlineSizeLabel': 'Inline size',
       'blockSizeLabel': 'Block size',
@@ -93,14 +98,14 @@ export const en = {
     'sizes': {
       'xxs': {
         'label': 'Tiny',
-        'desc': 'Identifier'
+        'desc': "Identifiant"
       },
       'xs': {
         'label': 'Compact',
         'desc': 'Type, Identifier, Subject'
       },
       's': {
-        'label': 'Regular',
+        'label': "Normale",
         'desc': 'Status, Type, Identifier, Subject'
       },
       'm': {
@@ -121,6 +126,35 @@ export const en = {
     },
     'spinner': {
       'ariaLabel': "Сhargement"
+    },
+    'workPackageAttribute': {
+      'missing': '{{attribute}} unavailable',
+      'yes': "Oui",
+      'no': "Non",
+      'days_one': '{{count}} day',
+      'days_other': '{{count}} days',
+      'display': {
+        'label': "Libellé",
+        'value': "Valeur",
+        'both': 'Label + value'
+      },
+      'dialog': {
+        'title': 'Insert work package attribute',
+        'workPackage': "Lot de travaux",
+        'attribute': "Attribut",
+        'attributePlaceholder': 'Select an attribute…',
+        'attributeDisabled': 'Select a work package first',
+        'attributeLoading': 'Loading attributes…',
+        'attributeUnavailable': 'Attributes unavailable',
+        'loadFailed': 'The attributes of {{id}} could not be loaded.',
+        'retry': "Réessayer",
+        'prefilled': 'Prefilled with your last selection',
+        'notAvailable': '"{{attribute}}" is not available on {{id}}. Choose another attribute.',
+        'show': "Afficher",
+        'preview': "Aperçu",
+        'previewEmpty': 'Choose a work package and an attribute',
+        'insert': "Insérer"
+      }
     }
   }
 };

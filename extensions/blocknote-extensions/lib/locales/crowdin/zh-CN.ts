@@ -4,39 +4,44 @@ export const en = {
       'title': 'Link existing work package',
       'subtext': 'Add a dynamic link to a single work package',
       'create': {
-        'title': 'Create new work package',
+        'title': "创建新工作包",
         'subtext': 'Create a work package and link it here'
       },
       'aliases': {
         'workpackage': 'workpackage',
-        'work package': 'work package',
+        'work package': "工作包",
         'wp': 'wp',
-        'link': 'link',
-        'create': 'create'
+        'link': "链接",
+        'create': "创建",
+        'attribute': "属性"
+      },
+      'attribute': {
+        'title': 'Work package attribute',
+        'subtext': 'Insert a live attribute or custom field'
       }
     },
     'formattingToolbar': {
-      'createWorkPackage': 'Create work package'
+      'createWorkPackage': "创建工作包"
     },
     'createWorkPackage': {
-      'title': 'Create new work package',
-      'close': 'Close',
-      'cancel': 'Cancel',
-      'create': 'Create',
+      'title': "创建新工作包",
+      'close': "已关闭",
+      'cancel': "取消",
+      'create': "创建",
       'creating': 'Creating…',
       'selectPlaceholder': 'Please select…',
       'searchPlaceholder': 'Type to search…',
-      'loading': 'Loading…',
-      'noResults': 'No results',
+      'loading': "正在加载…",
+      'noResults': "无结果",
       'filterBy': 'Filter the list',
-      'allValues': 'All',
-      'favorites': 'Favorites',
-      'clear': 'Clear',
+      'allValues': "所有",
+      'favorites': "收藏",
+      'clear': "清除",
       'deselect': 'Remove selection',
       'removeValue': 'Remove {{value}}',
-      'openOptions': 'Show options',
-      'closeOptions': 'Hide options',
-      'subjectPlaceholder': 'Enter subject here',
+      'openOptions': "显示选项",
+      'closeOptions': "隐藏选项",
+      'subjectPlaceholder': "在此处输入标题",
       'subjectClipped': 'The selected text was too long and has been shortened to the first {{limit}} characters.',
       'projectPlaceholder': 'Select a project…',
       'loadFailed': 'The work package form could not be loaded: {{message}}',
@@ -53,14 +58,14 @@ export const en = {
       'label': 'Link existing work package',
       'placeholder': 'Search by work package ID or subject',
       'dropdownAriaLabel': 'Work package search results',
-      'noResults': 'No results',
+      'noResults': "无结果",
       'error': 'Error. Unable to load content.',
-      'createWorkPackage': 'Create new work package'
+      'createWorkPackage': "创建新工作包"
     },
     'unavailableWorkPackage': {
       'loading': {
         'header': 'Loading',
-        'message': 'Please wait'
+        'message': "请稍等"
       },
       'unauthorized': {
         'header': 'Linked work package unavailable',
@@ -68,20 +73,20 @@ export const en = {
         'short_message': 'Work package unavailable: no permission'
       },
       'error': {
-        'header': 'Error',
+        'header': "错误",
         'message': 'Could not load work package',
         'short_message': 'Unavailable: error'
       }
     },
     'options': {
       'openInNewTab': 'Open in new tab',
-      'open': 'Open',
+      'open': "打开",
       'changeSize': 'Change size',
       'changeSizeAriaLabel': 'Change size: {{size}}',
       'menuAriaLabel': 'Options for work package {{id}}',
       'selectedAnnouncement': '{{description}}. Press Enter to open its options.',
-      'remove': 'Remove',
-      'removeAriaLabel': 'Remove work package',
+      'remove': "移除",
+      'removeAriaLabel': "移除工作包",
       'openAriaLabel': 'Open work package {{id}} in new tab',
       'inlineSizeLabel': 'Inline size',
       'blockSizeLabel': 'Block size',
@@ -93,14 +98,14 @@ export const en = {
     'sizes': {
       'xxs': {
         'label': 'Tiny',
-        'desc': 'Identifier'
+        'desc': "标识符"
       },
       'xs': {
         'label': 'Compact',
         'desc': 'Type, Identifier, Subject'
       },
       's': {
-        'label': 'Regular',
+        'label': "常规",
         'desc': 'Status, Type, Identifier, Subject'
       },
       'm': {
@@ -121,6 +126,35 @@ export const en = {
     },
     'spinner': {
       'ariaLabel': 'Loading'
+    },
+    'workPackageAttribute': {
+      'missing': '{{attribute}} unavailable',
+      'yes': "是",
+      'no': "否",
+      'days_one': '{{count}} day',
+      'days_other': '{{count}} days',
+      'display': {
+        'label': "标签",
+        'value': "值",
+        'both': 'Label + value'
+      },
+      'dialog': {
+        'title': 'Insert work package attribute',
+        'workPackage': "工作包",
+        'attribute': "属性",
+        'attributePlaceholder': 'Select an attribute…',
+        'attributeDisabled': 'Select a work package first',
+        'attributeLoading': 'Loading attributes…',
+        'attributeUnavailable': 'Attributes unavailable',
+        'loadFailed': 'The attributes of {{id}} could not be loaded.',
+        'retry': "重试",
+        'prefilled': 'Prefilled with your last selection',
+        'notAvailable': '"{{attribute}}" is not available on {{id}}. Choose another attribute.',
+        'show': "显示",
+        'preview': "预览",
+        'previewEmpty': 'Choose a work package and an attribute',
+        'insert': "插入"
+      }
     }
   }
 };

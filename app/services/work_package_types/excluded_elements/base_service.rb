@@ -44,6 +44,9 @@ module WorkPackageTypes
         return unknown_aspect_result(aspect) unless TypeVariant::EXCLUDABLE_ASPECTS.include?(aspect)
         return not_linked_result unless variant.excludable?(aspect)
 
+        error = rejection_reason(aspect)
+        return failure_with_message(error) if error
+
         narrow(aspect)
       end
 
@@ -54,6 +57,8 @@ module WorkPackageTypes
       def updated_elements(_current, _requested)
         raise SubclassResponsibilityError
       end
+
+      def rejection_reason(_aspect) = nil
 
       private
 
@@ -85,13 +90,15 @@ module WorkPackageTypes
       end
 
       def not_linked_result
-        variant.errors.add(:base, I18n.t("types.edit.reuse_mode.exclusions.not_inherited"))
-
-        ServiceResult.failure(result: variant, errors: variant.errors)
+        failure_with_message(I18n.t("types.edit.reuse_mode.exclusions.not_inherited"))
       end
 
       def unknown_aspect_result(aspect)
-        variant.errors.add(:base, I18n.t("types.edit.reuse_mode.exclusions.unknown_aspect", aspect:))
+        failure_with_message(I18n.t("types.edit.reuse_mode.exclusions.unknown_aspect", aspect:))
+      end
+
+      def failure_with_message(message)
+        variant.errors.add(:base, message)
 
         ServiceResult.failure(result: variant, errors: variant.errors)
       end

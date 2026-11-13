@@ -23,10 +23,15 @@
 it:
   js:
     backlogs:
+      action_menu:
+        menu_label:
+          one: Azioni sulla macro-attività
+          other: Actions for %{count} selected work packages
       announcements:
         batch_too_large: Non è possibile spostare %{count} macro-attività alla volta. Selezionane al massimo %{max}.
         fallback_item_label: Macro-attività
         fallback_list_name: un'altra lista
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving work packages.
         move_failed_check_position: Spostamento non riuscito. Controlla la posizione attuale della macro-attività.
         move_failed_check_positions_batch:
           other: Spostamento non riuscito. Controlla le posizioni attuali delle macro-attività.
@@ -46,27 +51,28 @@ it:
         range_blocked: Selezione invariata. L'intervallo contiene una macro-attività che non partecipa all'ordinamento di questo elenco.
         range_restarted:
           one: Could not extend the range. %{count} work package selected.
-          other: Could not extend the range. %{count} work packages selected.
+          other: Non è stato possibile estendere l'intervallo. %{count} macro-attività selezionate.
         range_unavailable: Selezione invariata. Espandi questo elenco per selezionare l'intervallo.
         selected:
           one: "%{count} work package selected."
-          other: "%{count} work packages selected."
+          other: "%{count} macro-attività selezionate."
     burndown_chart:
       chart_day: 'Day %{day}: %{values}'
-      chart_label: Burndown chart
+      chart_label: Grafico Burndown
       chart_summary: 'Burndown chart data: %{days}.'
       chart_value: "%{label}: %{value}"
-      story_points: Story points
     burnup_chart:
       chart_day: 'Day %{day}: %{values}'
       chart_label: Burnup chart
       chart_summary: 'Burnup chart data: %{days}.'
       chart_value: "%{label}: %{value}"
-      story_points: Story points
     created_resolved_chart:
-      work_packages: Work packages
+      work_packages: Macro-attività
     sprint_charts:
-      non_working_day: Non-working day
+      non_working_day: Giorno non lavorativo
+      y_axis_title:
+        story_points: Punti story
+        time: Tempo stimato
     work_packages:
       properties:
         storyPoints: Punti della storia

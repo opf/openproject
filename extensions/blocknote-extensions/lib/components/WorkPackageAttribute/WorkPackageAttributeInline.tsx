@@ -1,79 +1,117 @@
-import styled from 'styled-components';
-import { useTranslation } from 'react-i18next';
-import { CHIP_STYLES } from '../WorkPackage/tokens';
-import { defaultWpVariables, nonSelectableStyles } from '../WorkPackage/atoms';
-import { formatWorkPackageId } from '../../utils/id';
-import { normalizeDisplay } from './externalHtml';
-import { useWorkPackageAttribute, type ResolvedAttribute } from './useWorkPackageAttribute';
-
-const Chip = styled.span.attrs({
-  className: 'op-bn-wp-attribute',
-  contentEditable: false,
-})`
-  ${defaultWpVariables}
-  ${nonSelectableStyles}
-  display: inline;
-  padding: ${CHIP_STYLES.padding.s};
-  border-radius: ${CHIP_STYLES.radius};
-  background: ${CHIP_STYLES.bg};
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
-  cursor: pointer;
-`;
-
-const Label = styled.span<{ $muted:boolean }>`
-  color: ${({ $muted }) => ($muted ? 'var(--op-wp-meta-color)' : 'var(--bn-colors-highlights-blue-text)')};
-`;
-
-const Value = styled.span`
-  color: var(--bn-colors-highlights-blue-text);
-  font-weight: 500;
-`;
-
-const Muted = styled.span`
-  color: var(--op-wp-meta-color);
-`;
+import { useState } from 'react';
+import type { BlockNoteEditor } from '@blocknote/core';
+import { isPendingWpid } from '../../utils/pending';
+import { BLOCK_WP_ATTRIBUTE_TYPE, INLINE_WP_ATTRIBUTE_TYPE } from '../../utils/nodeTypes';
+import { findInlineChipAtDOM, removeInlineChipAt, selectInlineChipAtDOM } from '../../utils/inlineChipActions';
+import { useColors } from '../../services/colors';
+import { useIsNodeInSelection } from '../../hooks/useIsNodeInSelection';
+import type { AttributeDisplay } from './display';
+import { useWorkPackageAttribute } from './useWorkPackageAttribute';
+import { pendingAttributes } from './pending';
+import { lastChoice, rememberChoice } from './lastChoice';
+import { InsertAttributeModal } from './InsertAttributeModal';
+import { AttributeOptionsPopover } from './AttributeOptionsPopover';
+import { AttributeInline } from './atoms';
+import { attributeTitle, WorkPackageAttributeView } from './WorkPackageAttributeView';
+import { useAttributeOptions } from './useAttributeOptions';
+import type { AttributeProps } from './types';
 
 interface WorkPackageAttributeInlineProps {
-  wpid:string;
-  displayId:string;
-  attribute:string;
-  display:string;
+  content:AttributeProps;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  editor?:BlockNoteEditor<any, any, any>;
+  contentRef?:(node:HTMLElement | null) => void;
+  onDisplayChange?:(display:AttributeDisplay) => void;
 }
 
-export function WorkPackageAttributeView({ resolved, display, reference }:{
-  resolved:ResolvedAttribute,
-  display:string,
-  reference:string,
-}) {
-  const { t } = useTranslation();
+function ResolvedAttributeInline({ content, editor, contentRef, onDisplayChange }:WorkPackageAttributeInlineProps) {
+  const { wpid, displayId, attribute, display } = content;
+  const resolved = useWorkPackageAttribute(wpid, attribute);
+  useColors();
+  const { elementRef, setElementRef, options, active, pick, toggleProps } = useAttributeOptions({
+    editor,
+    content,
+    resolved,
+    onDisplayChange,
+    onActivate: () => selectAttributeNode(),
+  });
 
-  if (resolved.state !== 'ready') {
-    if (resolved.state === 'loading') return <Muted>{reference}…</Muted>;
-    if (resolved.state === 'missing') return <Muted>{t('workPackageAttribute.missing', { attribute: reference })}</Muted>;
-    return <Muted>{t(`unavailableWorkPackage.${resolved.state}.short_message`)}</Muted>;
+  const inSelection = useIsNodeInSelection(elementRef, editor);
+
+  function selectAttributeNode() {
+    if (editor && elementRef.current) selectInlineChipAtDOM(editor, elementRef.current, INLINE_WP_ATTRIBUTE_TYPE);
   }
 
-  const shown = normalizeDisplay(display);
-  if (shown === 'label') return <Label $muted={false}>{resolved.attribute.label}</Label>;
-  if (shown === 'value') return <Value>{resolved.value}</Value>;
+  function removeAttributeNode() {
+    if (!editor || !elementRef.current) return;
+    const node = findInlineChipAtDOM(editor, elementRef.current, INLINE_WP_ATTRIBUTE_TYPE);
+    if (node) removeInlineChipAt(editor, node.position, INLINE_WP_ATTRIBUTE_TYPE);
+  }
+
   return (
-    <>
-      <Label $muted>{resolved.attribute.label}: </Label>
-      <Value>{resolved.value}</Value>
-    </>
+    <AttributeInline
+      ref={(node:HTMLElement | null) => {
+        setElementRef(node);
+        contentRef?.(node);
+      }}
+      title={attributeTitle(resolved, displayId)}
+      role="button"
+      aria-haspopup="menu"
+      aria-expanded={options.isOpen}
+      $selected={options.isOpen || inSelection}
+      data-drag-handle
+      {...toggleProps}
+    >
+      <WorkPackageAttributeView resolved={resolved} display={display} reference={attribute} />
+      {options.isOpen && (
+        <AttributeOptionsPopover
+          resolved={resolved}
+          displayId={displayId}
+          reference={attribute}
+          active={active}
+          // eslint-disable-next-line react-hooks/refs
+          anchorEl={elementRef.current}
+          autoFocus={options.takesFocus}
+          onClose={options.close}
+          onRestoreFocus={() => editor?.focus()}
+          onPick={pick}
+          onRemove={removeAttributeNode}
+        />
+      )}
+    </AttributeInline>
   );
 }
 
-export function WorkPackageAttributeInline({ wpid, displayId, attribute, display }:WorkPackageAttributeInlineProps) {
-  const resolved = useWorkPackageAttribute(wpid, attribute);
-  const title = resolved.state === 'ready'
-    ? `${formatWorkPackageId(resolved.workPackage.displayId)} · ${resolved.workPackage.subject}`
-    : formatWorkPackageId(displayId);
+export function WorkPackageAttributeInline({ content, editor, contentRef, onDisplayChange }:WorkPackageAttributeInlineProps) {
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const pending = pendingAttributes.get(content.wpid);
 
-  return (
-    <Chip title={title} data-drag-handle>
-      <WorkPackageAttributeView resolved={resolved} display={display} reference={attribute} />
-    </Chip>
-  );
+  if (pending) {
+    return (
+      <AttributeInline
+        ref={(node:HTMLElement | null) => {
+          setAnchorEl(node);
+          contentRef?.(node);
+        }}
+      >
+        {anchorEl && (
+          <InsertAttributeModal
+            anchorEl={anchorEl}
+            prefill={lastChoice()}
+            offersLongText={BLOCK_WP_ATTRIBUTE_TYPE in ((editor?.schema.blockSchema ?? {}) as Record<string, unknown>)}
+            onInsert={(choice, kind) => {
+              rememberChoice(choice);
+              pending.onResolve({ choice, kind });
+            }}
+            onCancel={pending.onCancel}
+          />
+        )}
+      </AttributeInline>
+    );
+  }
+
+  // Another collaborator's dialog is still open on it.
+  if (isPendingWpid(content.wpid)) return <span ref={contentRef} />;
+
+  return <ResolvedAttributeInline content={content} editor={editor} contentRef={contentRef} onDisplayChange={onDisplayChange} />;
 }

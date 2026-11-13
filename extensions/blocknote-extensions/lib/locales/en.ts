@@ -12,7 +12,12 @@ export const en = {
         'work package': 'work package',
         'wp': 'wp',
         'link': 'link',
-        'create': 'create'
+        'create': 'create',
+        'attribute': 'attribute'
+      },
+      'attribute': {
+        'title': 'Work package attribute',
+        'subtext': 'Insert a live attribute or custom field'
       }
     },
     'formattingToolbar': {
@@ -75,7 +80,7 @@ export const en = {
     },
     'options': {
       'openInNewTab': 'Open in new tab',
-      'open': 'Open',
+      'openWorkPackage': 'Open {{id}}',
       'changeSize': 'Change size',
       'changeSizeAriaLabel': 'Change size: {{size}}',
       'menuAriaLabel': 'Options for work package {{id}}',
@@ -109,7 +114,34 @@ export const en = {
       'yes': 'Yes',
       'no': 'No',
       'days_one': '{{count}} day',
-      'days_other': '{{count}} days'
+      'days_other': '{{count}} days',
+      'display': {
+        'label': 'Label',
+        'value': 'Value',
+        'both': 'Label + value'
+      },
+      'options': {
+        'menuAriaLabel': 'Options for {{attribute}} of work package {{id}}',
+        'removeAriaLabel': 'Remove work package attribute',
+        'selectedDescription': '{{attribute}} of work package {{id}}'
+      },
+      'dialog': {
+        'title': 'Insert work package attribute',
+        'workPackage': 'Work package',
+        'attribute': 'Attribute',
+        'attributePlaceholder': 'Select an attribute…',
+        'attributeDisabled': 'Select a work package first',
+        'attributeLoading': 'Loading attributes…',
+        'attributeUnavailable': 'Attributes unavailable',
+        'loadFailed': 'The attributes of {{id}} could not be loaded.',
+        'retry': 'Try again',
+        'prefilled': 'Prefilled with your last selection',
+        'notAvailable': '"{{attribute}}" is not available on {{id}}. Choose another attribute.',
+        'show': 'Show',
+        'preview': 'Preview',
+        'previewEmpty': 'Choose a work package and an attribute',
+        'insert': 'Insert'
+      }
     },
   }
 };

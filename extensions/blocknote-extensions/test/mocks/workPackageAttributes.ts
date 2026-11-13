@@ -39,7 +39,8 @@ export const mockAttributeWorkPackage = {
   id: 321,
   displayId: 'PROJ-321',
   subject: 'Redesign onboarding flow',
-  description: { raw: 'Long text' },
+  description: { format: 'markdown', raw: 'Kick-off **notes**', html: '<p>Kick-off <strong>notes</strong></p>' },
+  customField4: { format: 'markdown', raw: '', html: '' },
   duration: 'P5D',
   scheduleManually: false,
   startDate: '2026-09-14',
@@ -71,4 +72,18 @@ export const mockMilestoneSchema = {
   date: field('Date', 'Date'),
   status: field('Status', 'Status', '_links'),
   _links: { self: { href: MILESTONE_SCHEMA_HREF } },
+};
+
+export const mockMilestoneWorkPackage = {
+  _type: 'WorkPackage',
+  id: 654,
+  displayId: 'PROJ-654',
+  subject: 'Public beta',
+  date: '2026-10-30',
+  _links: {
+    self: { href: '/api/v3/work_packages/654' },
+    schema: { href: MILESTONE_SCHEMA_HREF },
+    type: { title: 'Milestone', href: '/api/v3/types/3' },
+    status: { title: 'Scheduled', href: '/api/v3/statuses/3' },
+  },
 };

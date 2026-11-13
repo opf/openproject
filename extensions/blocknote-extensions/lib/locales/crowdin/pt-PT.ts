@@ -4,7 +4,7 @@ export const en = {
       'title': "Ligue o pacote de trabalho existente",
       'subtext': "Adicione uma ligação dinâmica a um único pacote de trabalho",
       'create': {
-        'title': 'Create new work package',
+        'title': "Criar novo pacote de trabalho",
         'subtext': 'Create a work package and link it here'
       },
       'aliases': {
@@ -12,31 +12,36 @@ export const en = {
         'work package': "pacote de trabalho",
         'wp': 'wp',
         'link': 'link',
-        'create': 'create'
+        'create': "criar",
+        'attribute': "atributo"
+      },
+      'attribute': {
+        'title': 'Work package attribute',
+        'subtext': 'Insert a live attribute or custom field'
       }
     },
     'formattingToolbar': {
-      'createWorkPackage': 'Create work package'
+      'createWorkPackage': "Criar pacote de trabalho"
     },
     'createWorkPackage': {
-      'title': 'Create new work package',
-      'close': 'Close',
-      'cancel': 'Cancel',
-      'create': 'Create',
+      'title': "Criar novo pacote de trabalho",
+      'close': "Fechar",
+      'cancel': "Cancelar",
+      'create': "Criar",
       'creating': 'Creating…',
       'selectPlaceholder': 'Please select…',
       'searchPlaceholder': 'Type to search…',
-      'loading': 'Loading…',
-      'noResults': 'No results',
+      'loading': "A carregar…",
+      'noResults': "Sem resultados",
       'filterBy': 'Filter the list',
-      'allValues': 'All',
-      'favorites': 'Favorites',
-      'clear': 'Clear',
+      'allValues': "Tudo",
+      'favorites': "Favoritos",
+      'clear': "Limpar",
       'deselect': 'Remove selection',
       'removeValue': 'Remove {{value}}',
-      'openOptions': 'Show options',
-      'closeOptions': 'Hide options',
-      'subjectPlaceholder': 'Enter subject here',
+      'openOptions': "Mostrar opções",
+      'closeOptions': "Ocultar opções",
+      'subjectPlaceholder': "Introduza aqui o assunto",
       'subjectClipped': 'The selected text was too long and has been shortened to the first {{limit}} characters.',
       'projectPlaceholder': 'Select a project…',
       'loadFailed': 'The work package form could not be loaded: {{message}}',
@@ -53,9 +58,9 @@ export const en = {
       'label': "Ligue o pacote de trabalho existente",
       'placeholder': "Pesquise por ID do pacote de trabalho ou assunto",
       'dropdownAriaLabel': "Resultados da pesquisa de pacotes de trabalho",
-      'noResults': 'No results',
+      'noResults': "Sem resultados",
       'error': 'Error. Unable to load content.',
-      'createWorkPackage': 'Create new work package'
+      'createWorkPackage': "Criar novo pacote de trabalho"
     },
     'unavailableWorkPackage': {
       'loading': {
@@ -75,13 +80,13 @@ export const en = {
     },
     'options': {
       'openInNewTab': 'Open in new tab',
-      'open': 'Open',
+      'open': "Aberta",
       'changeSize': 'Change size',
       'changeSizeAriaLabel': 'Change size: {{size}}',
       'menuAriaLabel': 'Options for work package {{id}}',
       'selectedAnnouncement': '{{description}}. Press Enter to open its options.',
-      'remove': 'Remove',
-      'removeAriaLabel': 'Remove work package',
+      'remove': "Remover",
+      'removeAriaLabel': "Remover pacote de trabalho",
       'openAriaLabel': 'Open work package {{id}} in new tab',
       'inlineSizeLabel': 'Inline size',
       'blockSizeLabel': 'Block size',
@@ -93,14 +98,14 @@ export const en = {
     'sizes': {
       'xxs': {
         'label': 'Tiny',
-        'desc': 'Identifier'
+        'desc': "Identificador"
       },
       'xs': {
         'label': 'Compact',
         'desc': 'Type, Identifier, Subject'
       },
       's': {
-        'label': 'Regular',
+        'label': "Normal",
         'desc': 'Status, Type, Identifier, Subject'
       },
       'm': {
@@ -121,6 +126,35 @@ export const en = {
     },
     'spinner': {
       'ariaLabel': "A carregar"
+    },
+    'workPackageAttribute': {
+      'missing': '{{attribute}} unavailable',
+      'yes': "Sim",
+      'no': "Não",
+      'days_one': '{{count}} day',
+      'days_other': '{{count}} days',
+      'display': {
+        'label': "Etiqueta",
+        'value': "Valor",
+        'both': 'Label + value'
+      },
+      'dialog': {
+        'title': 'Insert work package attribute',
+        'workPackage': "Pacote de trabalho",
+        'attribute': "Atributo",
+        'attributePlaceholder': 'Select an attribute…',
+        'attributeDisabled': 'Select a work package first',
+        'attributeLoading': 'Loading attributes…',
+        'attributeUnavailable': 'Attributes unavailable',
+        'loadFailed': 'The attributes of {{id}} could not be loaded.',
+        'retry': "Tentar novamente",
+        'prefilled': 'Prefilled with your last selection',
+        'notAvailable': '"{{attribute}}" is not available on {{id}}. Choose another attribute.',
+        'show': "Mostrar",
+        'preview': "Pré-visualização",
+        'previewEmpty': 'Choose a work package and an attribute',
+        'insert': "Inserir"
+      }
     }
   }
 };

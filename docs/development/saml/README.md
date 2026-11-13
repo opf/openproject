@@ -88,29 +88,24 @@ kristophjunge/test-saml-idp
 
 ## Configure OpenProject for SAML
 
-On the OpenProject side, you'll have to configure SAML to connect to the just started idP service:
+On the OpenProject side, you'll have to configure SAML to connect to the just started idP service. SAML providers are stored in the database. You can create one in the administration under _Administration > Authentication > SAML providers_, as described in the [SAML configuration guide](../../system-admin-guide/authentication/saml/).
 
-Here's a minimal configuration that you can put into `config/configuration.yml`
+Alternatively, seed a provider through `OPENPROJECT_SAML_*` environment variables (see [SAML configuration as environment variables](../../system-admin-guide/authentication/saml/#saml-configuration-as-environment-variables)). Here's a minimal configuration, e.g. for your `.env` file:
 
-```yaml
-default:
-  saml:
-    name: "saml"
-    display_name: "simplesaml-docker"
-    # Use the default SAML icon
-    icon: "auth_provider-saml.png"
-    # omniauth-saml config
-    assertion_consumer_service_url: "http://localhost:3000/auth/saml/callback"
-    issuer: "http://localhost:3000"
-    idp_cert_fingerprint: "119b9e027959cdb7c662cfd075d9e2ef384e445f"
-    idp_sso_target_url: "http://localhost:8080/simplesaml/saml2/idp/SSOService.php"
-    idp_slo_target_url: "http://localhost:8080/simplesaml/saml2/idp/SingleLogoutService.php"
-    attribute_statements:
-      email: ['email']
-      login: ['uid']
-      first_name: ['givenName']
-      last_name: ['sn']
+```shell
+OPENPROJECT_SAML_SAML_NAME="saml"
+OPENPROJECT_SAML_SAML_DISPLAY__NAME="simplesaml-docker"
+OPENPROJECT_SAML_SAML_ISSUER="http://localhost:3000"
+OPENPROJECT_SAML_SAML_IDP__CERT__FINGERPRINT="119b9e027959cdb7c662cfd075d9e2ef384e445f"
+OPENPROJECT_SAML_SAML_IDP__SSO__SERVICE__URL="http://localhost:8080/simplesaml/saml2/idp/SSOService.php"
+OPENPROJECT_SAML_SAML_IDP__SLO__SERVICE__URL="http://localhost:8080/simplesaml/saml2/idp/SingleLogoutService.php"
+OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_EMAIL="[email]"
+OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_LOGIN="[uid]"
+OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_FIRST__NAME="[givenName]"
+OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_LAST__NAME="[sn]"
 ```
+
+The provider is created or updated when seeding, so run `bin/rails db:seed` after setting the variables.
 
 Here, again you  will have to change the hostname `localhost:3000` with the hostname of your OpenProject installation, and the iDP host name if you're not running both locally. I'd recommend to run both locally though for simplicity.
 

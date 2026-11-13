@@ -134,7 +134,7 @@ Add the following contents:
   # change this to your actual domain
   GssapiCredStore keytab:/etc/apache2/openproject.keytab
   # You can also try to set the explicit name instead of the keytab,
-  # this will lookup the keytab from its default location /etc/kr5b.keytab
+  # this will lookup the keytab from its default location /etc/krb5.keytab
   #GssapiCredStore HTTP/openproject.local@TEST.LOCAL
   # Disable SSL
   GssapiSSLonly           Off

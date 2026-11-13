@@ -492,7 +492,7 @@ vi:
     oauth_grant_nudge_modal:
       cancel_button_label: tôi sẽ làm nó sau
       heading: Yêu cầu đăng nhập vào %{provider_type}
-      login_button_aria_label: Đăng nhập vào %{storage}
+      login_button_accessible_name: "%{provider_type} log in to %{storage}"
       login_button_label: "%{provider_type} đăng nhập"
       project_settings:
         description: Để có quyền truy cập vào thư mục dự án, bạn cần đăng nhập vào %{storage}.

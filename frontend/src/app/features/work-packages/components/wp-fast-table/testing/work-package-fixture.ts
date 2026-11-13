@@ -44,7 +44,7 @@ export interface WorkPackageFixture {
   /** Child work packages a `children: true` column expands into child relation rows. */
   children?:WorkPackageFixture[];
   /** The change a baseline comparison reports for this work package; read by `getBaselineState`. */
-  baseline?:'added'|'removed'|'updated';
+  baseline?:'added'|'removed'|'updated'|'unchanged';
 }
 
 /** A relation `from` → `to` of `type`; seen from `to` it reads as `reverseType` (default `type`). */

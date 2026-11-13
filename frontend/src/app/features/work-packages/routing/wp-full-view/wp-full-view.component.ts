@@ -60,7 +60,7 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
 
   public displayReminderButton$:Observable<boolean> = of(false);
 
-  public displayShareButton$:false|Observable<boolean> = false;
+  public displayShareButton$:Observable<boolean> = of(false);
 
   public displayTimerButton = false;
 

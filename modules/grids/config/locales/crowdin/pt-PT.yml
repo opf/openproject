@@ -32,7 +32,7 @@ pt-PT:
         view_all_members: Ver todos os membros
         x_more:
           one: and %{count} more member.
-          other: and %{count} more members.
+          other: e mais %{count} membros.
       news:
         no_results: Não há novidades a reportar.
       not_available: Este widget não está disponível.

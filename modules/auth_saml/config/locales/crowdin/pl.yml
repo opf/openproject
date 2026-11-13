@@ -186,7 +186,7 @@ pl:
       notice_created: Nowy dostawca tożsamości SAML został utworzony.
       plural: Dostawcy tożsamości SAML
       refresh_metadata:
-        apply: Apply changes
+        apply: Zastosuj zmiany
         description: Review the configuration fetched from your identity provider. Changes are saved only when you apply them.
         no_changes: The metadata matches the current configuration.
         title: Review metadata changes

@@ -29,7 +29,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, NgModule, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
-import { config, EMPTY, of } from 'rxjs';
+import { config, EMPTY, of, Subject } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { userEvent } from 'vitest/browser';
@@ -53,6 +53,7 @@ import { OpProjectIncludeComponent } from './project-include.component';
 import { SpotDropModalComponent } from 'core-app/spot/components/drop-modal/drop-modal.component';
 import { OpLoadingProjectListComponent } from 'core-app/shared/components/searchable-project-list/loading-project-list.component';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { WorkPackageViewIncludeSubprojectsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-include-subprojects.service';
@@ -94,7 +95,7 @@ describe('project inclusion interaction', () => {
     fixtures = [];
     TestBed.overrideModule(ProjectIncludeTestModule, {
       set: {
-        imports: [CommonModule, FormsModule, IconModule],
+        imports: [CommonModule, FormsModule, IconModule, OpTooltipDirective],
         declarations: [ProjectIncludeHostComponent, OpProjectIncludeComponent, OpProjectIncludeListComponent,
           OpSearchHighlightDirective, OpLoadingProjectListComponent, SpotCheckboxComponent, SpotTooltipComponent,
           SpotTextFieldComponent, SpotToggleComponent, SpotDropModalComponent],
@@ -265,5 +266,25 @@ describe('project inclusion interaction', () => {
     expect(fixture.componentInstance.selected()).toEqual([]);
     expect(input).not.toBeChecked();
     expect(updates).toHaveBeenCalledExactlyOnceWith([]);
+  });
+
+  it('passes false for unresolved subproject inclusion and follows boolean emissions', () => {
+    const fixture = TestBed.createComponent(OpProjectIncludeComponent);
+    const includeSubprojects$ = new Subject<boolean>();
+    Object.defineProperty(fixture.componentInstance, 'includeSubprojects$', { value: includeSubprojects$ });
+    fixture.componentInstance.projects$ = of([project('parent', [project('child')])]);
+    fixture.componentInstance.selectedProjects = ['/api/v3/projects/parent'];
+    fixture.detectChanges();
+    const list = fixture.debugElement.query(By.directive(OpProjectIncludeListComponent)).componentInstance as OpProjectIncludeListComponent;
+    expect(list.includeSubprojects).toBe(false);
+    includeSubprojects$.next(true);
+    fixture.detectChanges();
+    expect(list.includeSubprojects).toBe(true);
+    expect(within(fixture.nativeElement as HTMLElement).getByRole('checkbox', { name: 'child' })).toBeChecked();
+    includeSubprojects$.next(false);
+    fixture.detectChanges();
+    expect(list.includeSubprojects).toBe(false);
+    expect(within(fixture.nativeElement as HTMLElement).getByRole('checkbox', { name: 'child' })).not.toBeChecked();
+    fixture.destroy();
   });
 });

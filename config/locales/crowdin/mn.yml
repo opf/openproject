@@ -391,10 +391,14 @@ mn:
         authentication_method: Authentication method
         jwt_sub: Subject claim
       status:
+        category: Category
         default_done_ratio: "% Complete"
         excluded_from_totals: Exclude from calculation of totals in hierarchy
-        is_closed: Work package closed
         is_readonly: Work package read-only
+      status/category:
+        closed: Closed
+        in_progress: In progress
+        to_do: To-do
       subproject_template_assignment:
         workspace_type: Workspace type
       time_entry:
@@ -413,6 +417,7 @@ mn:
       type:
         allow_project_variants: Allow project-specific variants
         color: Color
+        description: Description
         is_in_roadmap: Displayed in roadmap by default
         is_milestone: Is milestone
         project_types: Projects
@@ -422,6 +427,7 @@ mn:
       type_variant:
         attribute_groups: Form
         default_work_package_description: Default text for description
+        description: Description
         enabled_in_new_projects: Active in new projects
         linked_aspects: Inherited configuration
         patterns: Patterns
@@ -544,6 +550,11 @@ mn:
         labels: Labels
         notify: Notify
         observed_in_versions: Observed in versions
+        origin: Origin
+        origin_host: Origin host
+        origin_id: Origin ID
+        origin_source: Origin source
+        origin_url: Origin URL
         parent: Parent
         parent_issue: Parent
         parent_work_package: Parent
@@ -702,6 +713,7 @@ mn:
               format: "%{message}"
               invalid: Formula is invalid.
               invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
+              multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: The attribute %{custom_fields} cannot be used because it leads to a circular reference; one attribute depends on the other.
             project_specific_value_restriction:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
@@ -1471,6 +1483,7 @@ mn:
       phase_and_both_gates: "%{phase_message}. %{start_gate_message}, and %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}. %{gate_message}"
       removed_date: date deleted %{date}
+      status_changed: phase changed from %{from} to %{to}
   admin:
     banners:
       environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
@@ -1503,7 +1516,7 @@ mn:
             name: High contrast mode logo
         touch_icon:
           field: Touch icon
-          field_description: The image should be 180x180px in PNG format and colour background to avoid contrast problems.
+          field_description: The image should be 180x180px in PNG format and color background to avoid contrast problems.
           title: Custom touch icon
           title_description: This is the icon that appears when bookmark in the tablets or mobiles home. By default the OpenProject touch icon is used, but if you upload a new touch icon the theme will automatically be changed to Custom theme.
       color_groups:
@@ -1686,6 +1699,10 @@ mn:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
+          JiraCreateRelationsJob:
+            title: Create relations for '%{jira_project_name}'
+          JiraCreateSprintsJob:
+            title: Create sprints
           JiraCreateUsersJob:
             title: Create users
           JiraDownloadProjectWorkPackageAttachmentsJob:
@@ -1696,12 +1713,16 @@ mn:
             title: Fetch issue types
           JiraFetchPrioritiesJob:
             title: Fetch priorities
+          JiraFetchProjectBoardsJob:
+            title: Fetch boards for project '%{jira_project_name}'
           JiraFetchProjectIssuesJob:
             title: Fetch issues for project '%{jira_project_name}'
           JiraFetchProjectVersionsJob:
             title: Fetch versions for project '%{jira_project_name}'
           JiraFetchProjectsJob:
             title: Fetch projects
+          JiraFetchSprintsJob:
+            title: Fetch sprints
           JiraFetchStatusesJob:
             title: Fetch statuses
           JiraFetchUsersJob:
@@ -1841,10 +1862,16 @@ mn:
                 projects:
                   label: Projects
                   subtitle: Selected as scope
+                sprints:
+                  label: Sprints
+                  subtitle: With goals and work package assignments
                 title: Data imported
                 users_and_groups:
                   label: Users & groups
-                  subtitle: 'Involved in imported projects '
+                  subtitle: Involved in imported projects
+                versions:
+                  label: Versions
+                  subtitle: Of the imported projects
                 work_packages:
                   label: Work packages
                   subtitle: With attachments and logged time
@@ -1861,17 +1888,15 @@ mn:
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               elements:
                 custom_fields: A subset of custom fields
-                issue_details: Issue description, history, comments and attachments
-                issue_ids: Issue identifiers
+                issue_details: Issue identifiers, description, history, comments and attachments
                 issues: Issues
                 logged_time: Logged time
                 permissions: Permissions
-                project_ids: Project identifiers
-                project_versions: Project versions
+                project_details: Project identifiers, description and versions
                 projects: Projects
                 relations: Relations between issues
                 schemes: Schemas
-                sprints: Sprint assignments
+                sprints: Sprints and sprint assignments
                 users: Involved users and groups
                 workflows: Project-level workflows
               label_coming_later: Coming later
@@ -1898,17 +1923,20 @@ mn:
               rest_line_text: ''
               title: Fetch Jira configuration
             '10':
+              rest_line_text: Creating relations for %{projects_number} more projects
+              title: Create relations
+            '11':
               rest_line_text: Creating time entries for %{projects_number} more projects
               title: Create time entries
-            '11':
+            '12':
               rest_line_text: Downloading attachments for %{projects_number} more projects
               title: Download attachments
             '2':
-              rest_line_text: Fetching issues and versions for %{projects_number} more projects
-              title: Fetch project issues and versions
+              rest_line_text: Fetching issues, boards and versions for %{projects_number} more projects
+              title: Fetch project issues, boards and versions
             '3':
               rest_line_text: ''
-              title: Fetch users and custom fields
+              title: Fetch users, sprints and custom fields
             '4':
               rest_line_text: ''
               title: Create users, groups and memberships
@@ -1919,8 +1947,8 @@ mn:
               rest_line_text: Creating %{projects_number} more projects
               title: Create projects
             '7':
-              rest_line_text: Creating versions for %{projects_number} more projects
-              title: Create project versions
+              rest_line_text: Creating versions and sprints for %{projects_number} more projects
+              title: Create project versions and sprints
             '8':
               rest_line_text: Creating work packages for %{projects_number} more projects
               title: Create work packages
@@ -2111,10 +2139,6 @@ mn:
       user_custom_field_sections:
         destroy:
           error: The section could not be deleted.
-        drop:
-          error: The section could not be reordered.
-        move:
-          error: The section could not be reordered.
       versions_and_categories:
         banner:
           button_more_information: More information
@@ -2230,6 +2254,8 @@ mn:
       blankslate:
         description: Add statuses to start configuring workflows for this role
         linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
+        readonly_description: Select other roles to view configured transitions
+        readonly_title: No status transitions configured for the selected roles
         title: No status transitions configured
       leave_confirmation:
         description: You are about to leave this page but you have unsaved changes. Would you like to save them before continuing?
@@ -2674,6 +2700,7 @@ mn:
       disabled_value: The attribute "%{custom_field_name}" is required by this Calculated value, but is disabled for the project.
       mathematical: The mathematical formula leads to an error. Please review the project calculation attribute and try again.
       missing_value: The attribute "%{custom_field_name}" is required by this Calculated value, but is empty.
+      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
       unknown: An unknown error occurred. Please review the formula for this Calculated value.
   colors:
     contrast:
@@ -2848,7 +2875,7 @@ mn:
         warning: Depending on the role selected below, the user assigned to this project attribute might gain significantly more permissions than they previously had, including the ability to add new members and elevate their role.
     calculated_field_not_editable: Non-editable attribute. This value is calculated automatically.
     confirm_destroy_option: Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?
-    contained_in_type: Contained in type
+    contained_in: Contained in
     enabled_in_project: Enabled in project
     instructions:
       admin_only:
@@ -2857,7 +2884,7 @@ mn:
       editable:
         all: Allow the field to be editable by users themselves.
       formula:
-        project: Add numeric values or type / to search for an attribute, operator, function or other token.
+        project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
         project: Allows the user to add a comment related to the project attribute when selecting the value in the project overview.
       is_filter:
@@ -3179,7 +3206,6 @@ mn:
       gantt_pdf_export: Gantt PDF Export
       internal_comments: Internal Comments
       ldap_groups: LDAP users and group sync
-      mcp_server: Model Context Protocol (MCP)
       meeting_templates: Reusable meeting templates
       nextcloud_sso: Single Sign-On for Nextcloud Storage
       one_drive_sharepoint_file_storage: OneDrive/SharePoint File Storage
@@ -3273,8 +3299,6 @@ mn:
       internal_comments_inline:
         description: " "
         title: Write internal comments only a small group can see
-      mcp_server:
-        description: Bring OpenProject into your AI workflows with a secure MCP server.
       meeting_templates:
         description: Define meeting templates with a set agenda structure and save time by reusing them when creating new meetings.
       nextcloud_sso:
@@ -3953,7 +3977,7 @@ mn:
   label_active_in_new_projects: Active in new projects
   label_activity: Activity
   label_add_another_file: Add another file
-  label_add_column: Add column
+  label_add_column: Add columns
   label_add_columns: Add selected columns
   label_add_edit_translations: Add and edit translations
   label_add_note: Add a note
@@ -3968,6 +3992,7 @@ mn:
   label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
   label_administration: Administration
   label_age: Age
+  label_aggregate_function_plural: Aggregate functions
   label_ago: days ago
   label_all: all
   label_all_open_wps: All open
@@ -4088,7 +4113,7 @@ mn:
   label_custom_export_footer: Footer image
   label_custom_export_logo: Logo
   label_custom_favicon: Custom favicon
-  label_custom_field_add_no_type: Add this field to a work package type
+  label_custom_field_add_no_form: Add this field to a form
   label_custom_field_default_type: Empty type
   label_custom_field_new: New custom field
   label_custom_field_plural: Custom fields
@@ -4182,7 +4207,7 @@ mn:
   label_filter: Filters
   label_filter_add: Add filter
   label_filter_any_name_attribute: Name attributes
-  label_filter_by: Filter by
+  label_filter_by_column: Filter by %{column}
   label_filter_plural: Filters
   label_filters_toggle: Show/hide filters
   label_float: Float
@@ -4233,6 +4258,7 @@ mn:
   label_in: in
   label_in_less_than: in less than
   label_in_more_than: in more than
+  label_in_progress_work_packages: in progress
   label_inactive: Inactive
   label_include_sub_projects: Include sub-projects
   label_includes: includes
@@ -4384,7 +4410,7 @@ mn:
   label_on: 'on'
   label_open: open
   label_open_menu: Open menu
-  label_open_work_packages: open
+  label_open_work_packages: open (to-do + in progress)
   label_open_work_packages_plural: open
   label_openproject_website: OpenProject website
   label_operator_all: is not empty
@@ -4591,6 +4617,7 @@ mn:
   label_time_entry_plural: Spent time
   label_timer_since: Started at %{time}
   label_title: Title
+  label_to_do_work_packages: to-do
   label_today: today
   label_today_as_date: Select today as date.
   label_today_as_due_date: Select today as finish date.
@@ -4704,6 +4731,13 @@ mn:
     one: "%{count} file"
     other: "%{count} files"
     zero: no files
+  label_x_in_progress_work_packages_abbr:
+    one: 1 in progress
+    other: "%{count} in progress"
+    zero: 0 in progress
+  label_x_forms:
+    one: "%{count} form"
+    other: "%{count} forms"
   label_x_items:
     one: "%{count} item"
     other: "%{count} items"
@@ -4719,6 +4753,10 @@ mn:
     one: "%{count} project"
     other: "%{count} projects"
     zero: no projects
+  label_x_to_do_work_packages_abbr:
+    one: 1 to-do
+    other: "%{count} to-do"
+    zero: 0 to-do
   label_x_work_packages:
     one: "%{count} work package"
     other: "%{count} work packages"
@@ -5656,7 +5694,7 @@ mn:
   permission_comment_news: Comment news
   permission_commit_access: Read/write access to repository (commit)
   permission_copy_projects: Duplicate projects
-  permission_copy_projects_explanation: In template projects, this permission has a secondary function, it allows the creation of new projects derived from the template.
+  permission_copy_projects_explanation: Allows copying all project data, including content and attachments the user cannot view in the source project. The role can effectively grant access to all copied data depending on the role in the new project. It also allows creating projects from templates.
   permission_copy_work_packages: Duplicate work packages
   permission_create_backup: Нөөцлөлт үүсгэх
   permission_create_user: Create users
@@ -5874,7 +5912,7 @@ mn:
   project_module_activity: Activity
   project_module_forums: Forums
   project_module_news: News
-  project_module_repository: Repository
+  project_module_repository: SVN/Git Repository (deprecated)
   project_module_wiki: Wiki
   project_module_work_package_tracking: Work packages
   projects:
@@ -5918,6 +5956,15 @@ mn:
       new:
         placeholder: New project list
       shared: Shared project lists
+    phase_status:
+      description:
+        completed: Marking a phase as complete will complete all previous phases.
+        in_progress: Marking a phase as complete will complete all previous phases.
+        open: Re-opening a phase will also open all future phases.
+      title:
+        completed: Completed
+        in_progress: In progress
+        open: Open
     settings:
       actions:
         label_disable_all: Disable all
@@ -6769,6 +6816,7 @@ mn:
         label_built_in_attribute_actions: Built-in attribute actions
       custom_field_row_component:
         label_user_custom_field_actions: User attribute actions
+      label_move_to_section: Move to %{name}
       show_component:
         label_add_attribute: Add a user attribute
         label_edit_section: Edit title
@@ -6881,6 +6929,11 @@ mn:
   status_registered: registered
   statuses:
     edit:
+      captions:
+        category:
+          closed: Work that has been completed.
+          in_progress: Work that is actively being worked on.
+          to_do: Work that has not yet started.
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
@@ -7252,6 +7305,7 @@ mn:
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
         allow_project_variants_caption: For project administrators with the permission to manage variants, this type can be extended or modified within a project.
+        description_caption: Add context or hints. Shown to administrators in the types and variants list.
         inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Details
         type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
@@ -7370,7 +7424,7 @@ mn:
         actions:
           confirm_remove: Remove the type %{type} from %{project}?
           remove_from_project: Remove from project
-          switch_variant: Change variant
+          switch_variant: Switch variant
         add_dialog:
           no_projects_selected: Please select at least one project.
           search_placeholder: Search projects
@@ -7463,6 +7517,10 @@ mn:
         delete:
           description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
           title: Delete %{name}
+          unused:
+            description: The variant will be deleted permanently. This action cannot be undone.
+            heading: Delete variant '%{name}'?
+            title: Delete variant
         filter: Filter by text
         filter_no_results: No variants match this filter
         global_section:

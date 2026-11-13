@@ -165,7 +165,7 @@ export class InAppNotificationEntryComponent extends UntilDestroyedMixin impleme
     event.stopPropagation();
   }
 
-  markAsRead(event:MouseEvent, notifications:INotification[]):void {
+  markAsRead(event:Event, notifications:INotification[]):void {
     event.stopPropagation();
     this.storeService.markAsRead(notifications.map((el) => el.id));
   }

@@ -1,2 +1,3 @@
 export { openProjectWorkPackageAttributeInlineSpec } from './spec';
-export type { AttributeDisplay } from './externalHtml';
+export { openProjectWorkPackageAttributeBlockSpec } from './blockSpec';
+export type { AttributeDisplay } from './display';

@@ -27,6 +27,7 @@
               role="menuitem"
               [ngClass]="item.class"
               [class.inactive]="item.disabled"
+              [class.-danger]="item.scheme === 'danger'"
               [attr.href]="item.href"
               data-turbo="false"
               [attr.aria-disabled]="item.disabled"
@@ -50,6 +51,7 @@
               role="menuitem"
               [ngClass]="item.class"
               [class.inactive]="item.disabled"
+              [class.-danger]="item.scheme === 'danger'"
               [attr.aria-disabled]="item.disabled"
               [attr.aria-label]="item.ariaLabel || item.linkText"
               opTooltip

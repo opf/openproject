@@ -28,18 +28,48 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(Settings::ProjectWorkPackages::HeaderComponent.new(@project)) %>
 
-<% if User.current.allowed_in_project?(:manage_types, @project) %>
-  <%= render(Primer::OpenProject::SubHeader.new) do |subheader| %>
-    <% subheader.with_action_button(
-         scheme: :primary,
-         leading_icon: :plus,
-         label: t("projects.settings.types.add_type"),
-         tag: :a,
-         href: new_project_settings_work_packages_type_path(@project),
-         data: { controller: "async-dialog" },
-         test_selector: "project-types-add-button"
-       ) { t("activerecord.attributes.work_package.type") } %>
+<% may_manage_types = User.current.allowed_in_project?(:manage_types, @project) %>
+
+<% if may_manage_types || @migrated_variants_exist %>
+  <%= form_tag(
+        project_settings_work_packages_types_path(@project),
+        method: :get,
+        data: { controller: "auto-submit",
+                turbo_frame: Projects::Settings::WorkPackages::Types::ListComponent::FRAME_ID,
+                turbo_action: "replace" }
+      ) do %>
+    <%= render(Primer::OpenProject::SubHeader.new) do |subheader| %>
+      <% if @migrated_variants_exist %>
+        <% subheader.with_quick_filter(data: WorkPackageTypes::MigrationFilterComponent::QUICK_FILTER_DATA) do %>
+          <%= render(
+                WorkPackageTypes::MigrationFilterComponent.new(
+                  migrated: @created_by_migration,
+                  test_selector: "project-types-migration-filter"
+                )
+              ) %>
+        <% end %>
+      <% end %>
+
+      <% if may_manage_types %>
+        <% subheader.with_action_button(
+             scheme: :primary,
+             leading_icon: :plus,
+             label: t("projects.settings.types.add_type"),
+             tag: :a,
+             href: new_project_settings_work_packages_type_path(@project),
+             data: { controller: "async-dialog" },
+             test_selector: "project-types-add-button"
+           ) { t("activerecord.attributes.work_package.type") } %>
+      <% end %>
+    <% end %>
   <% end %>
 <% end %>
 
-<%= render(Projects::Settings::WorkPackages::Types::ListComponent.new(project: @project)) %>
+<%= turbo_frame_tag(Projects::Settings::WorkPackages::Types::ListComponent::FRAME_ID, target: "_top") do %>
+  <%= render(
+        Projects::Settings::WorkPackages::Types::ListComponent.new(
+          project: @project,
+          created_by_migration: @created_by_migration
+        )
+      ) %>
+<% end %>

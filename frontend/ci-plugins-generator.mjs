@@ -69,7 +69,8 @@ const plugins = new Map([
   ['openproject-documents', path.join(pluginDir, 'documents')],
   ['openproject-github_integration', path.join(pluginDir, 'github_integration')],
   ['openproject-gitlab_integration', path.join(pluginDir, 'gitlab_integration')],
-  ['openproject-meeting', path.join(pluginDir, 'meeting')]
+  ['openproject-meeting', path.join(pluginDir, 'meeting')],
+  ['openproject-squashtm_integration', path.join(pluginDir, 'squashtm_integration')]
 ]);
 
 console.log(`Cleaning linked target directory ${targetDir}`);

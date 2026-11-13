@@ -131,10 +131,10 @@ da:
     button_confirm: Bekræft
     button_continue: Fortsæt
     button_copy: Kopiér
-    button_copy_id: Copy ID ("%{id}")
-    button_copy_link_to_clipboard: Copy link
+    button_copy_link_to_clipboard: Kopiér link til udklipsholderen
     button_copy_to_clipboard: Kopiér til udklipsholderen
     button_copy_to_other_project: Dupliker i et andet projekt
+    button_copy_work_package_id: Kopiér arbejdspakkens id
     button_create: Opret
     button_custom-fields: Brugerdefinerede felter
     button_delete: Slet
@@ -150,6 +150,7 @@ da:
     button_log_time: Registrer tid
     button_more: Mere
     button_more_actions: Flere handlinger
+    button_move_to_position: Flyt til placering
     button_open_details: Åbn detaljevisning
     button_open_fullscreen: Åbn fuldskærmsvisning
     button_quote: Citer
@@ -207,7 +208,7 @@ da:
     editor:
       ai_actions:
         caption: Assistent
-        start_failed: The Assistant could not start. Please try again.
+        start_failed: Assistenten kunne ikke starte. Prøv igen.
       ckeditor_error: Der opstod en fejl i CKEditor
       ckeditor_error_reload: Editoren holdt op med at virke. Din tekst er her stadig, men du kan ikke ændre den. Kopiér den tekst, som du vil beholde, og genindlæs derefter siden.
       error_saving_failed: 'Dokumentet kunne ikke gemmes på grund af følgende fejl: %{error}'
@@ -349,6 +350,8 @@ da:
       direct_hit_available: Der blev fundet en arbejdspakke med præcis dette id. Tryk på Enter for at åbne den.
       items_available: "%{count} elementer tilgængelige"
       recently_viewed: Senest vist
+      search_by_meaning: Søg ud fra betydning
+      search_mode: Søgetilstand
       search_placeholder_expanded: Søg efter arbejdspakker på emne, projekt, type, status eller id
       title:
         all_projects: alle projekter
@@ -502,6 +505,7 @@ da:
     label_in: i
     label_in_less_than: om mindre end
     label_in_more_than: om mere end
+    label_in_progress_work_packages: i gang
     label_incoming_emails: Indkommende e-mails
     label_infinity: Uendelig
     label_information_plural: Information
@@ -534,6 +538,10 @@ da:
     label_open_context_menu: Åbn genvejsmenu
     label_open_menu: Åbn menuen
     label_open_work_packages: åbne
+    label_origin: Kilde
+    label_origin_id: Id
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Kildesystem
     label_password: Adgangskode
     label_per_page: 'Pr. side:'
     label_please_wait: Vent et øjeblik
@@ -567,7 +575,9 @@ da:
     label_show_in_menu: Vis visningen i menuen
     label_sort_by: Sortér efter
     label_sort_higher: Flyt op
+    label_sort_highest: Flyt til toppen
     label_sort_lower: Flyt ned
+    label_sort_lowest: Flyt til bunden
     label_sorted_by: sorteret efter
     label_sorting: Sortering
     label_spent_time: Anvendt tid
@@ -578,6 +588,7 @@ da:
     label_sum_for: Sum for
     label_this_week: denne uge
     label_time_entry_plural: Anvendt tid
+    label_to_do_work_packages: ikke startet
     label_today: I dag
     label_total_amount: 'I alt: %{amount}'
     label_total_progress: 'Samlet fremdrift: %{percent} %'
@@ -819,6 +830,7 @@ da:
         batch_too_large: "%{count} elementer kan ikke flyttes på én gang. Vælg højst %{max}."
         fallback_item_label: Element
         fallback_list_name: en anden liste
+        menu_scope_changed: Markeringen i menuen er ændret. Åbn menuen igen, før du flytter elementer.
         move_failed_check_position: Flytningen mislykkedes. Tjek elementets aktuelle placering.
         move_failed_check_positions_batch:
           other: Flytningen mislykkedes. Tjek elementernes aktuelle placeringer.
@@ -962,6 +974,7 @@ da:
         all_open: Alle åbne
         assigned_to_me: Tildelt til mig
         created_by_me: Oprettet af mig
+        in_progress: I gang
         latest_activity: Seneste aktivitet
         manually_sorted: Ny manuelt sorteret visning
         overdue: Forfaldne
@@ -969,6 +982,7 @@ da:
         shared_with_me: Delt med mig
         shared_with_users: Delt med brugere
         summary: Opsummering
+        to_do: Ikke startet
       description_enter_text: Indtast tekst
       description_filter: Filter
       description_options_hide: Skjul muligheder
@@ -1056,6 +1070,7 @@ da:
         other: Andet
         people: Personer
       query:
+        add_columns: Tilføj kolonner
         click_to_edit_query_name: Klik for at redigere visningens titel.
         column_names: Kolonner
         confirm_edit_cancel: Er du sikker på, at du vil annullere redigeringen af visningens navn? Titlen nulstilles til den tidligere værdi.
@@ -1065,17 +1080,16 @@ da:
           not_found: Visningen findes ikke
           unretrievable_query: Visningen kunne ikke hentes fra URL'en
         filters: Filtre
-        group: Gruppér efter
         group_by: Gruppér resultater efter
+        group_by_column: Gruppér efter %{column}
         group_by_disabled_by_hierarchy: Gruppering er slået fra, fordi hierarkitilstand er aktiv.
-        hide_column: Skjul kolonne
         hierarchy_disabled_by_group_by: Hierarkitilstand er slået fra, fordi resultaterne er grupperet efter %{column}.
-        insert_columns: Indsæt kolonner
         move_column_left: Flyt kolonne til venstre
         move_column_right: Flyt kolonne til højre
         public_text: 'Offentliggør visningen, så andre brugere kan få adgang til den. Brugere med tilladelsen ''Administrer offentlige visninger'' kan ændre eller fjerne offentlige visninger. Det påvirker ikke, hvilke arbejdspakker der kan ses i visningen, og afhængigt af deres tilladelser kan brugerne se forskellige resultater.
 
           '
+        remove_column: Fjern kolonne
         rename_query_placeholder: Navn på visningen
         sort_ascending: Sortér stigende
         sort_descending: Sortér faldende

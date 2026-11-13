@@ -151,8 +151,29 @@ RSpec.describe "Forms index", :js do
       click_link_or_button I18n.t(:button_save)
     end
 
-    expect(page).to have_css(".PageHeader-title", text: "Phase layout")
+    expect(page).to have_current_path(form_configurations_path)
+    expect(page).to have_no_css("dialog")
+    expect(row_for("Phase layout")).to be_present
     expect(phase.default_variant.form_configuration.reload.name).to eq("Phase layout")
+  end
+
+  it "reports a field error only under the field, not also in a top banner" do
+    visit form_configurations_path
+
+    within(row_for("Phase form")) do
+      click_button accessible_name: I18n.t("form_configurations.index.actions.menu", name: "Phase form")
+    end
+    find_test_selector("form_configuration-rename-action").click
+
+    within_dialog I18n.t("form_configurations.form.edit_title") do
+      fill_in I18n.t("form_configurations.form.description.label"), with: "a" * 256
+      wait_for_turbo_stream { click_link_or_button I18n.t(:button_save) }
+
+      expect(page).to have_text("Description is too long (maximum is 255 characters).", count: 1)
+      expect(page).to have_no_css(".Banner-title")
+    end
+
+    expect(phase.default_variant.form_configuration.reload.description).to be_blank
   end
 
   describe "the default form" do

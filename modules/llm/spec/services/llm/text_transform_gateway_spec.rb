@@ -38,14 +38,21 @@ RSpec.describe Llm::TextTransformGateway, :llm_server_helpers, :webmock,
   let(:base_url) { "https://example.com/v1" }
   let(:completions) { "#{base_url}/chat/completions" }
 
-  def stub_stream(*chunks)
+  def stream_response(*chunks)
     events = chunks.map do |content|
       { id: "chatcmpl-1", object: "chat.completion.chunk", model: "qwen3.6-27b",
         choices: [{ index: 0, delta: { content: }, finish_reason: nil }] }
     end
     body = "#{events.map { |event| "data: #{event.to_json}\n\n" }.join}data: [DONE]\n\n"
-    stub_request(:post, completions)
-      .to_return(status: 200, headers: { "Content-Type" => "text/event-stream" }, body:)
+    { status: 200, headers: { "Content-Type" => "text/event-stream" }, body: }
+  end
+
+  def stub_stream(*chunks)
+    stub_request(:post, completions).to_return(stream_response(*chunks))
+  end
+
+  def bad_request(message)
+    { status: 400, body: { error: { message:, type: "invalid_request_error" } }.to_json }
   end
 
   def stream(&)
@@ -137,6 +144,65 @@ RSpec.describe Llm::TextTransformGateway, :llm_server_helpers, :webmock,
       end)
     end
 
+    it "asks the model not to reason before answering" do
+      stub_stream("ok")
+
+      stream { nil }
+
+      expect(WebMock).to(have_requested(:post, completions).with do |request|
+        JSON.parse(request.body)["reasoning_effort"] == "none"
+      end)
+    end
+
+    ["Unsupported parameter: 'reasoning_effort' is not supported with this model.",
+     "Argument not supported on this model: reasoningEffort"].each do |message|
+      it "retries once without the reasoning setting when the server answers #{message.inspect}" do
+        stub_request(:post, completions)
+          .to_return(bad_request(message))
+          .then.to_return(stream_response("Hello"))
+
+        expect(stream { nil }).to eq("Hello")
+
+        expect(WebMock).to have_requested(:post, completions).twice
+        expect(WebMock).to(have_requested(:post, completions).once.with do |request|
+          !JSON.parse(request.body).key?("reasoning_effort")
+        end)
+      end
+    end
+
+    it "reports an upstream error when the retry is rejected as well" do
+      stub_request(:post, completions).to_return(bad_request("Unsupported parameter: 'reasoning_effort'"))
+
+      expect { stream { nil } }.to raise_error(AI::TextTransforms::Errors::Upstream)
+      expect(WebMock).to have_requested(:post, completions).twice
+    end
+
+    it "does not retry a bad request unrelated to reasoning" do
+      stub_request(:post, completions).to_return(bad_request("Invalid value for 'temperature'."))
+
+      expect { stream { nil } }.to raise_error(AI::TextTransforms::Errors::Upstream)
+      expect(WebMock).to have_requested(:post, completions).once
+    end
+
+    it "does not retry once text has been streamed" do
+      stub_request(:post, completions)
+        .to_return(bad_request("Unsupported parameter: 'reasoning_effort'"))
+        .then.to_return(stream_response("Hello"))
+      allow(RubyLLM::Chat).to receive(:new).and_wrap_original do |new, *args, **kwargs|
+        new.call(*args, **kwargs).tap do |chat|
+          allow(chat).to receive(:ask).and_wrap_original do |ask, user, &block|
+            block.call(RubyLLM::Chunk.new(role: :assistant, content: "Hel"))
+            ask.call(user, &block)
+          end
+        end
+      end
+      deltas = []
+
+      expect { stream { |delta| deltas << delta } }.to raise_error(AI::TextTransforms::Errors::Upstream)
+      expect(deltas).to eq(["Hel"])
+      expect(WebMock).to have_requested(:post, completions).once
+    end
+
     it "lets a cancellation raised by the consumer through untranslated" do
       stub_stream("Hello", " world")
 
@@ -191,6 +257,7 @@ RSpec.describe Llm::TextTransformGateway, :llm_server_helpers, :webmock,
         .to_return(status: 400, body: '{"error":{"message":"This model\'s maximum context length is 8192 tokens."}}')
 
       expect { stream { nil } }.to raise_error(AI::TextTransforms::Errors::ContextTooLong)
+      expect(WebMock).to have_requested(:post, completions).once
     end
 
     it "reports a rejected API key as an upstream error" do

@@ -1,0 +1,176 @@
+---
+rw:
+  activerecord:
+    attributes:
+      squashtm_integration/project_link:
+        project: Project
+        squashtm_project: SquashTM project
+      squashtm_integration/server:
+        api_token: API token
+        base_url: SquashTM URL
+      squashtm_integration/work_package_link:
+        squashtm_requirement: SquashTM requirement
+        work_package: Work package
+    errors:
+      models:
+        squashtm_integration/project_link:
+          attributes:
+            base:
+              project_already_linked: The project is already linked to a SquashTM project.
+              squashtm_project_not_found: The SquashTM project %{squashtm_project_id} does not exist or is not visible to the SquashTM account used by OpenProject.
+              squashtm_project_unavailable: The SquashTM project %{squashtm_project_id} could not be verified because the SquashTM server is not reachable. Please try again later.
+              squashtm_server_not_configured: No SquashTM server is configured. Please contact your instance administrator.
+              work_packages_linked:
+                one: 1 work package is still linked to a SquashTM requirement. Remove its link to unlink the project.
+                other: "%{count} work packages are still linked to SquashTM requirements. Remove their links to unlink the project."
+        squashtm_integration/server:
+          attributes:
+            base:
+              api_token_rejected: The SquashTM server rejected the API token.
+              base_url_cannot_be_connected_to: The SquashTM server at %{url} could not be reached. Please ensure it is running and reachable from OpenProject.
+              base_url_invalid: The SquashTM URL %{url} is not a valid URL.
+              base_url_not_squashtm: The server at %{url} did not answer like a SquashTM server. Please check that the URL includes the SquashTM context path (for example https://squashtm.example.com/squash).
+              base_url_request_timed_out: The SquashTM server at %{url} did not respond in time. Please ensure it is reachable and not overloaded.
+              base_url_server_error: The SquashTM server at %{url} responded with an error (HTTP %{status}). Please ensure it is running and healthy.
+              base_url_ssl_error: The SquashTM server at %{url} could not be reached over a secure connection. Please check its TLS certificate.
+              base_url_ssrf_filtered: The SquashTM URL %{url} resolves to a blocked address. If the server runs on an internal network, allow its IP via the %{env_name} environment variable.
+              singleton: Only one SquashTM server can be configured.
+              squashtm_version_unsupported: The SquashTM server runs version %{version}, but version %{minimum} or newer is required.
+        squashtm_integration/work_package_link:
+          attributes:
+            base:
+              squashtm_project_not_linked: This project is not linked to a SquashTM project.
+              squashtm_requirement_not_found: The SquashTM requirement %{squashtm_requirement_id} does not exist or is not visible to the SquashTM account used by OpenProject.
+              squashtm_requirement_not_in_linked_project: The SquashTM requirement %{squashtm_requirement_id} does not belong to the SquashTM project linked to this project.
+              squashtm_requirement_unavailable: The SquashTM requirement %{squashtm_requirement_id} could not be verified because the SquashTM server is not reachable. Please try again later.
+              squashtm_server_not_configured: No SquashTM server is configured. Please contact your instance administrator.
+              work_package_already_linked: The work package is already linked to a SquashTM requirement.
+  journals:
+    cause_descriptions:
+      squashtm_requirement: "%{name}"
+      squashtm_requirement_id_only: ID %{id}
+      squashtm_requirement_with_reference: "%{reference} – %{name}"
+    caused_changes:
+      squashtm_requirement_linked: 'SquashTM requirement linked:'
+      squashtm_requirement_unlinked: 'SquashTM requirement unlinked:'
+  permission_manage_squashtm_integration: Manage SquashTM integration
+  permission_manage_squashtm_requirements: Manage SquashTM requirements
+  permission_view_squashtm: View SquashTM
+  project_module_squashtm: SquashTM
+  squashtm_integration:
+    admin:
+      delete_server_dialog_component:
+        description: Work packages will no longer show SquashTM test results until a server is configured again.
+        heading: Delete the SquashTM server configuration?
+        title: Delete SquashTM server
+      server_form:
+        api_token_caption: A personal API token of the SquashTM account OpenProject uses. Everything this account can read in SquashTM can be shown in OpenProject.
+        api_token_caption_stored: A token is stored. Leave this field empty to keep it, or enter a new token to replace it.
+        base_url_caption: The address of the SquashTM server, including its context path.
+      servers:
+        show:
+          description: Connect OpenProject to a SquashTM server to show test cases, executions and results on work packages.
+          linked_html: OpenProject is linked to the SquashTM server at %{url}.
+          test_connection: Test connection
+          testing_connection: Testing connection...
+          title: SquashTM
+          unlink: Unlink
+        test_connection:
+          failure: 'The connection to SquashTM failed: %{reason}'
+          success: The connection to SquashTM was successful.
+        update:
+          connection_warning: 'The settings were saved, but the connection to SquashTM failed: %{reason}'
+    execution_statuses:
+      blocked: Blocked
+      cancelled: Cancelled
+      error: Error
+      failure: Failed
+      not_executed: Not executed
+      not_found: Not found
+      not_run: Not run
+      ready: Ready
+      running: Running
+      settled: Settled
+      skipped: Skipped
+      success: Passed
+      untestable: Untestable
+      warning: Warning
+    project_settings:
+      delete_project_link_dialog_component:
+        confirm: Unlink
+        description: Work packages of this project will no longer show SquashTM test results.
+        heading: Unlink the SquashTM project %{name}?
+        no_work_packages_linked: No work package is currently linked to a SquashTM requirement.
+        title: Unlink SquashTM project
+        unlink_work_packages:
+          one: Remove the SquashTM requirement link and unlink project
+          other: Remove all %{count} SquashTM requirement links and unlink project
+      linked_project_component:
+        linked_to_html: This project is linked to the SquashTM project %{name}.
+        unlink: Unlink
+      linked_work_packages_component:
+        linked:
+          one: '1 work package is still linked to a SquashTM requirement:'
+          other: "%{count} work packages are still linked to SquashTM requirements:"
+        more:
+          one: and 1 more work package
+          other: and %{count} more work packages
+      project_link_form:
+        squashtm_project_caption: Only projects visible to the SquashTM account used by OpenProject are listed.
+        squashtm_project_prompt: Select a SquashTM project
+      project_links:
+        destroy:
+          success: The SquashTM project was unlinked.
+        show:
+          description: Link this project to a SquashTM project to show its test cases, executions and results on work packages.
+          not_linked: This project is not linked to a SquashTM project.
+      status_banner_component:
+        linked_project_missing: The linked SquashTM project %{name} is no longer visible in SquashTM. It may have been deleted, or the SquashTM account used by OpenProject may have lost access to it.
+        projects_unavailable: The SquashTM projects could not be loaded because the SquashTM server is not reachable. Please try again later or contact your instance administrator.
+        server_not_configured: No SquashTM server is configured for this OpenProject instance. Please contact your instance administrator to set up the SquashTM integration.
+    requirement_statuses:
+      approved: Approved
+      obsolete: Obsolete
+      under_review: Under review
+      work_in_progress: Work in progress
+    work_package_tab:
+      delete_requirement_link_dialog_component:
+        confirm: Unlink
+        description: The test cases of this requirement will no longer be shown on this work package.
+        heading: Unlink the SquashTM requirement %{name}?
+        title: Unlink SquashTM requirement
+      lazy_frame_component:
+        loading: Loading from SquashTM…
+      linked_requirement_component:
+        no_test_cases:
+          description: No test case in SquashTM verifies this requirement yet.
+          title: No test cases
+        requirement: Requirement
+        requirement_missing: The linked SquashTM requirement is no longer visible in SquashTM. It may have been deleted, or the SquashTM account used by OpenProject may have lost access to it.
+        test_cases: Test cases
+        unavailable: The test cases could not be loaded because the SquashTM server is not reachable. Please try again later.
+      no_server_component:
+        admin_description: No SquashTM server is configured for this OpenProject instance. Configure one in the administration to show SquashTM test results here.
+        configure: Configure SquashTM
+        description: No SquashTM server is configured for this OpenProject instance. Please contact your instance administrator to set up the SquashTM integration.
+        heading: SquashTM is not available
+      not_linked_component:
+        blankslate:
+          description: Link a SquashTM requirement to see its test cases and their latest results here.
+          heading: No SquashTM requirement linked
+        requirement: Requirement
+      project_not_linked_component:
+        configure: Link SquashTM project
+        description: This project is not linked to a SquashTM project yet. Please contact a project administrator to set up the link.
+        heading: No SquashTM project linked
+        manager_description: Link this project to a SquashTM project to link its requirements to work packages.
+      requirement_component:
+        unlink: Unlink
+      requirement_link_form:
+        prompt: Select a SquashTM requirement
+        submit: Link requirement
+      requirement_link_form_component:
+        requirements_unavailable: The SquashTM requirements could not be loaded because the SquashTM server is not reachable. Please try again later.
+      test_case_component:
+        last_execution: Last executed by %{user} on %{date_time}
+        not_executed: Not executed yet

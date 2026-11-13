@@ -1,6 +1,6 @@
 export { openProjectWorkPackageBlockSpec } from './BlockWorkPackage';
 export { openProjectWorkPackageInlineSpec } from './InlineWorkPackage';
-export { openProjectWorkPackageAttributeInlineSpec } from './WorkPackageAttribute';
+export { openProjectWorkPackageAttributeInlineSpec, openProjectWorkPackageAttributeBlockSpec } from './WorkPackageAttribute';
 export type { AttributeDisplay } from './WorkPackageAttribute';
 export { getOpenProjectSlashMenuItems } from './SlashMenu';
 export { ShadowDomWrapper } from './ShadowDomWrapper';

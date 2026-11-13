@@ -48,7 +48,7 @@ module WorkPackageTypes
       delegate :columns, :sections, :type, to: :comparison
 
       def grid_style
-        "grid-template-columns: #{LABEL_WIDTH}px repeat(#{columns.size}, minmax(#{COLUMN_WIDTH}px, 1fr))"
+        "grid-template-columns: #{LABEL_WIDTH}px repeat(#{columns.size}, #{COLUMN_WIDTH}px)"
       end
 
       def section_label(section) = t("types.comparison.sections.#{section}")

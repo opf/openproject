@@ -272,7 +272,7 @@ RSpec.describe "multi select custom values", :js do
           wp_table.expect_work_package_order work_package2, work_package
 
           # Reverse sort
-          sort_by.sort_via_header cf_frontend, descending: true, selector: cf_frontend
+          sort_by.sort_via_header custom_field.name, descending: true
 
           wp_table.expect_work_package_listed(work_package)
           wp_table.expect_work_package_listed(work_package2)
@@ -296,7 +296,7 @@ RSpec.describe "multi select custom values", :js do
           wp_table.expect_work_package_order work_package2, work_package
 
           # Reverse sort
-          sort_by.sort_via_header cf_frontend, descending: true, selector: cf_frontend
+          sort_by.sort_via_header custom_field.name, descending: true
 
           wp_table.expect_work_package_listed(work_package)
           wp_table.expect_work_package_listed(work_package2)

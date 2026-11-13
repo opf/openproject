@@ -30,6 +30,8 @@
 require "rails_helper"
 
 RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
+  include Rails.application.routes.url_helpers
+
   shared_let(:type_feature) { create(:type_feature) }
   shared_let(:type_task) { create(:type_task) }
   shared_let(:default_status) { create(:default_status) }
@@ -41,6 +43,8 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
   let(:project) { create(:project, types: [type_feature, type_task]) }
   let(:sprint) { create(:sprint, project:, name: "Sprint 1", start_date: Date.yesterday, finish_date: Date.tomorrow) }
   let(:bucket) { nil }
+  let!(:other_sprint) { create(:sprint, project:, name: "Sprint 2") }
+  let!(:other_bucket) { create(:backlog_bucket, project:, name: "Other bucket") }
   let!(:first_story) { create_story(position: 1) }
   let!(:second_story) { create_story(position: 2) }
   let!(:third_story) { create_story(position: 3) }
@@ -71,14 +75,34 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
            backlog_bucket: bucket)
   end
 
-  def render_component(work_package: self.work_package, open_sprints_exist: true, other_buckets_exist: true)
+  def render_component(work_package: self.work_package, work_packages: [work_package], **arguments)
     render_inline(described_class.new(
-                    work_package:,
                     project:,
-                    open_sprints_exist:,
-                    other_buckets_exist:,
-                    current_user: user
+                    invoker: work_package,
+                    work_packages:,
+                    destinations: Backlogs::WorkPackages::DestinationAvailability.new(project:, user:, work_packages:),
+                    current_user: user,
+                    **arguments
                   ))
+  end
+
+  describe "a stale scope" do
+    before { stub_const("Backlogs::WorkPackages::BatchUpdateService::MAX_BATCH_SIZE", 2) }
+
+    it "renders only invoker navigation, copy actions and the stale explanation", :aggregate_failures do
+      render_component(work_packages: [first_story, work_package, third_story], stale_scope: true)
+
+      expect(page).to have_css("[role='menuitem']", count: 5)
+      expect(page).to have_element(:a, id: "work_package_#{work_package.id}_menu_open_details")
+      expect(page).to have_element(:a, id: "work_package_#{work_package.id}_menu_open_fullscreen")
+      expect(page).to have_css("clipboard-copy", count: 2)
+      expect(page).to have_selector(:menuitem,
+                                    text: "The selection has changed. Refresh it before moving work packages.",
+                                    disabled: true)
+      expect(page).to have_css("[data-sortable-lists-scope-count='1']")
+      expect(page).to have_no_css("form, [data-sortable-lists--item-target]", visible: :all)
+      expect(page).to have_no_css(".ActionList-sectionDivider")
+    end
   end
 
   describe "standard items" do
@@ -107,7 +131,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       render_component
 
       expect(page).to have_text(I18n.t(:"js.button_open_fullscreen"))
-      expect(page).to have_octicon(:"screen-full")
+      expect(page).to have_octicon(:"op-view-fullscreen")
       expect(page).to have_css(
         "a[data-turbo-frame='_top']",
         text: I18n.t(:"js.button_open_fullscreen")
@@ -216,7 +240,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
     end
 
     it "always renders the four move items as client targets", :aggregate_failures do
-      render_inline(described_class.new(work_package:, project:, open_sprints_exist: false, other_buckets_exist: false))
+      render_component
 
       # The target, direction, and action live on the item <li>, not the content button.
       %w[top up down bottom].each do |direction|
@@ -226,7 +250,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
           "[data-action='click->sortable-lists--item#move']"
         )
       end
-      expect(page).to have_css("li[data-sortable-lists--item-target='moveMenu']")
+      expect(page).to have_css("li[data-sortable-lists--item-target='moveMenu']", count: 1)
       expect(page).to have_no_field("direction", type: :hidden)
       expect(page).to have_no_field("prev_id", type: :hidden)
     end
@@ -263,7 +287,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
         end
 
         it "still shows the Move to position submenu (permission-gated only)" do
-          render_component(open_sprints_exist: false, other_buckets_exist: false)
+          render_component
 
           expect(page).to have_selector(:menuitem, text: "Move to position")
         end
@@ -274,9 +298,9 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
   describe "Move to sprint item" do
     context "when work package is in a sprint" do
       it "is shown with zap icon" do
-        render_component(open_sprints_exist: true)
+        render_component
 
-        expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
+        expect(page).to have_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
         expect(page).to have_octicon(:zap)
         expect(page).to have_text(I18n.t(:"backlogs.work_package_card_menu_component.action_menu.move_to_sprint"))
       end
@@ -287,9 +311,9 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       let(:bucket) { create(:backlog_bucket, project:) }
 
       it "is shown" do
-        render_component(open_sprints_exist: true)
+        render_component
 
-        expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
+        expect(page).to have_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
       end
     end
 
@@ -297,16 +321,20 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       let(:sprint) { nil }
 
       it "is shown" do
-        render_component(open_sprints_exist: true)
+        render_component
 
-        expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
+        expect(page).to have_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
       end
     end
 
-    it "is hidden when open_sprints_exist is false" do
-      render_component(open_sprints_exist: false)
+    context "without another open sprint" do
+      let!(:other_sprint) { nil }
 
-      expect(page).to have_no_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
+      it "is hidden" do
+        render_component
+
+        expect(page).to have_no_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
+      end
     end
   end
 
@@ -347,9 +375,9 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
   describe "Move to backlog bucket item" do
     context "when work package is in a sprint" do
       it "is shown with package icon" do
-        render_component(other_buckets_exist: true)
+        render_component
 
-        expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_backlog_bucket\z/)
+        expect(page).to have_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_backlog_bucket\z/)
         expect(page).to have_octicon(:package)
         expect(page).to have_text(I18n.t(:"backlogs.work_package_card_menu_component.action_menu.move_to_backlog_bucket"))
       end
@@ -360,9 +388,9 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       let(:bucket) { create(:backlog_bucket, project:) }
 
       it "is shown" do
-        render_component(other_buckets_exist: true)
+        render_component
 
-        expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_backlog_bucket\z/)
+        expect(page).to have_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_backlog_bucket\z/)
       end
     end
 
@@ -370,16 +398,234 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       let(:sprint) { nil }
 
       it "is shown" do
-        render_component(other_buckets_exist: true)
+        render_component
 
-        expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_backlog_bucket\z/)
+        expect(page).to have_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_backlog_bucket\z/)
       end
     end
 
-    it "is hidden when other_buckets_exist is false" do
-      render_component(other_buckets_exist: false)
+    context "without another backlog bucket" do
+      let!(:other_bucket) { nil }
 
-      expect(page).to have_no_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_backlog_bucket\z/)
+      it "is hidden" do
+        render_component
+
+        expect(page).to have_no_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_backlog_bucket\z/)
+      end
+    end
+  end
+
+  describe "menu name" do
+    let(:inbox_story) { create(:work_package, project:, type: type_feature, status: default_status) }
+
+    def menu_list_scoped_to(scope_count)
+      have_element(:ul,
+                   id: "work_package_#{work_package.id}_menu-list",
+                   "data-sortable-lists--menu-source-target": "menu",
+                   "data-sortable-lists-scope-count": scope_count.to_s)
+    end
+
+    it "names the menu of one card in the singular" do
+      render_component
+
+      expect(page).to menu_list_scoped_to(1)
+    end
+
+    it "names the batch menu with the size of the scope" do
+      render_component(work_packages: [work_package, inbox_story])
+
+      expect(page).to menu_list_scoped_to(2)
+    end
+
+    it "binds the primary list to the effective ordered scope ids" do
+      render_component(work_packages: [third_story, work_package, first_story])
+
+      list = page.find("[data-sortable-lists-scope-count]")
+      expect(JSON.parse(list["data-sortable-lists-scope-ids"]))
+        .to eq [third_story.id.to_s, work_package.id.to_s, first_story.id.to_s]
+    end
+
+    it "binds a stale scope to the invoker alone" do
+      render_component(work_packages: [first_story, work_package, third_story], stale_scope: true)
+
+      list = page.find("[data-sortable-lists-scope-count]")
+      expect(JSON.parse(list["data-sortable-lists-scope-ids"])).to eq [work_package.id.to_s]
+    end
+
+    context "with a scope above the batch cap" do
+      before { stub_const("Backlogs::WorkPackages::BatchUpdateService::MAX_BATCH_SIZE", 2) }
+
+      it "names the batch menu with the real size of the scope" do
+        render_component(work_packages: [work_package, first_story, third_story])
+
+        expect(page).to menu_list_scoped_to(3)
+      end
+    end
+
+    it "names a singular menu exactly as the card's own tooltip does" do
+      expect(I18n.t("js.backlogs.action_menu.menu_label", count: 1))
+        .to eq(I18n.t(:"op_primer.work_package_card_component.menu.label_actions"))
+    end
+  end
+
+  describe "a selection of several work packages" do
+    let(:inbox_story) { create(:work_package, project:, type: type_feature, status: default_status) }
+
+    it "names the batch menu after the invoker and leaves out its singular actions", :aggregate_failures do
+      render_component(work_packages: [work_package, inbox_story])
+
+      expect(page).to have_element(:ul, id: "work_package_#{work_package.id}_menu-list")
+      expect(page).to have_no_element(:a, id: "work_package_#{work_package.id}_menu_open_details")
+      expect(page).to have_no_element(:"clipboard-copy", id: "work_package_#{work_package.id}_menu_copy_work_package_id")
+    end
+
+    it "opens the batch menu with its first action, without a divider" do
+      render_component(work_packages: [work_package, inbox_story])
+
+      expect(page).to have_no_css(".ActionList-sectionDivider")
+    end
+
+    context "when no action applies to the batch", with_ee: %i[readonly_work_packages] do
+      let(:work_package) { readonly_story }
+      let(:explanation) { "No actions available for the selected work packages." }
+
+      def readonly_story_in(sprint)
+        create(:work_package, project:, type: type_feature, status: readonly_status, sprint:)
+      end
+
+      it "renders a batch menu that only explains itself when the members sit in different lists",
+         :aggregate_failures do
+        render_component(work_packages: [readonly_story, readonly_story_in(other_sprint)])
+
+        expect(page).to have_selector(:menuitem, text: explanation, disabled: true, count: 1)
+        expect(page).to have_no_element(:a, id: "work_package_#{work_package.id}_menu_open_details")
+        expect(page).to have_css("[data-sortable-lists-scope-count='2']")
+        expect(page).to have_no_css("[data-sortable-lists--item-target]", visible: :all)
+      end
+
+      it "sends the explanation hidden for the client to reveal when Move to position is the only action",
+         :aggregate_failures do
+        render_component(work_packages: [readonly_story, readonly_story_in(sprint)])
+
+        expect(page).to have_selector(:menuitem, text: "Move to position")
+        expect(page).to have_css("li[hidden][data-sortable-lists--item-target='moveUnavailable']", visible: :all)
+        expect(page).to have_no_element(:a, id: "work_package_#{work_package.id}_menu_open_details")
+      end
+    end
+
+    context "with a scope above the batch cap" do
+      before { stub_const("Backlogs::WorkPackages::BatchUpdateService::MAX_BATCH_SIZE", 2) }
+
+      let(:work_packages) { [work_package, first_story, third_story] }
+
+      it "explains the cap once, as a disabled item", :aggregate_failures do
+        render_component(work_packages:)
+
+        explanation = "Cannot move 3 work packages at once. Select no more than 2."
+        expect(page).to have_text(explanation, count: 1)
+        expect(page).to have_selector(:menuitem, text: explanation, disabled: true)
+      end
+
+      it "renders the destinations disabled and without their move wiring", :aggregate_failures do
+        render_component(work_packages:)
+
+        %i[move_to_inbox move_to_sprint move_to_backlog_bucket].each do |item|
+          expect(page).to have_element(:button, id: "work_package_#{work_package.id}_menu_#{item}", "aria-disabled": "true")
+        end
+        expect(page).to have_no_css("form")
+        expect(page).to have_no_css("[data-controller='async-dialog']")
+        expect(page).to have_no_css("[data-action*='moveToDestination']")
+      end
+
+      it "locks Move to position and its items against client gating", :aggregate_failures do
+        render_component(work_packages:)
+
+        expect(page).to have_css("li[data-sortable-lists--item-target='moveMenu'][data-sortable-lists-locked]")
+        expect(page).to have_css("li[data-sortable-lists--item-target='moveItem'][data-sortable-lists-locked]", count: 4)
+        expect(page).to have_selector(:menuitem, text: "Move to position", disabled: true)
+      end
+
+      context "when the scope spans two lists" do
+        let(:work_packages) { [work_package, first_story, inbox_story] }
+
+        it "explains the cap without offering Move to position", :aggregate_failures do
+          render_component(work_packages:)
+
+          expect(page).to have_selector(:menuitem,
+                                        text: "Cannot move 3 work packages at once. Select no more than 2.",
+                                        disabled: true)
+          expect(page).to have_no_text("Move to position")
+        end
+      end
+
+      context "when Move to position is the only batch action", with_ee: %i[readonly_work_packages] do
+        let(:work_package) { readonly_story }
+        let(:work_packages) do
+          [readonly_story] + Array.new(2) do
+            create(:work_package, project:, type: type_feature, status: readonly_status, sprint:)
+          end
+        end
+
+        it "explains only the cap for the locked menu", :aggregate_failures do
+          render_component(work_packages:)
+
+          expect(page).to have_selector(:menuitem, text: "Move to position", disabled: true)
+          expect(page).to have_no_css("[data-sortable-lists--item-target='moveUnavailable']", visible: :all)
+        end
+      end
+    end
+
+    def destination_form(item)
+      page.find(:xpath, "//form[.//*[@id='work_package_#{work_package.id}_menu_#{item}']]")
+    end
+
+    def submitted_ids(form)
+      form.all("input[name='ids[]']", visible: :all).map(&:value)
+    end
+
+    it "renders the batch ids on destination items in order", :aggregate_failures do
+      render_component(work_packages: [work_package, inbox_story, first_story])
+
+      ids = [work_package, inbox_story, first_story].map { it.id.to_s }
+      %i[move_to_inbox move_to_sprint move_to_backlog_bucket].each do |item|
+        expect(submitted_ids(destination_form(item))).to eq(ids)
+      end
+    end
+
+    it "posts the batch to the destination dialogs in the request body", :aggregate_failures do
+      render_component(work_packages: [work_package, inbox_story])
+
+      {
+        move_to_sprint: move_to_sprint_dialog_project_backlogs_work_packages_path(project),
+        move_to_backlog_bucket: move_to_bucket_dialog_project_backlogs_work_packages_path(project)
+      }.each do |item, path|
+        form = destination_form(item)
+        expect(form[:action]).to eq(path)
+        expect(form[:method]).to eq("post")
+        expect(form).to have_element(:button, id: "work_package_#{work_package.id}_menu_#{item}",
+                                              "data-controller": "async-dialog")
+      end
+    end
+
+    it "moves the batch to the inbox through the root's collection move", :aggregate_failures do
+      render_component(work_packages: [work_package, inbox_story])
+
+      form = destination_form(:move_to_inbox)
+      expect(form[:action]).to eq(move_project_backlogs_work_packages_path(project))
+      expect(form[:method]).to eq("post")
+      expect(form).to have_field("_method", type: :hidden, with: "put")
+      expect(form).to have_field("list_type", type: :hidden, with: Backlogs::Target::InboxId.list_type)
+      expect(form).to have_no_field("prev_id", type: :hidden)
+      expect(page).to have_css(
+        "li[data-action='click->sortable-lists--item#moveToDestination:prevent'] " \
+        "#work_package_#{work_package.id}_menu_move_to_inbox"
+      )
+    end
+
+    it "offers the inbox to an invoker already there when another member is not" do
+      render_component(work_package: inbox_story, work_packages: [inbox_story, work_package])
+
+      expect(page).to have_element(:button, id: "work_package_#{inbox_story.id}_menu_move_to_inbox")
     end
   end
 
@@ -394,8 +640,8 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       it "offers no move to another container", :aggregate_failures do
         render_component
 
-        expect(page).to have_no_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
-        expect(page).to have_no_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_backlog_bucket\z/)
+        expect(page).to have_no_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
+        expect(page).to have_no_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_backlog_bucket\z/)
         expect(page).to have_no_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_inbox\z/)
       end
 
@@ -434,7 +680,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
         render_component
 
         expect(page).to have_selector(:menuitem, text: "Move to position")
-        expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
+        expect(page).to have_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
       end
     end
   end
