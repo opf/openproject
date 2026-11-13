@@ -123,6 +123,21 @@ describe('PrimerColorsPlugin', () => {
     expect(datasets[2].backgroundColor).toEqual([patterns[1]]);
   });
 
+  it('uses patterns to distinguish multiple radar datasets', () => {
+    const datasets:ChartDataset[] = [
+      { label: 'Open', data: [3, 2] },
+      { label: 'Closed', data: [1, 4] },
+    ];
+
+    applyPlugin('radar', datasets);
+
+    expect(datasets[0].backgroundColor).toEqual([
+      '--display-teal-scale-2',
+      '--display-teal-scale-2',
+    ]);
+    expect(datasets[1].backgroundColor).toEqual([patterns[0], patterns[0]]);
+  });
+
   it('uses a different pattern for every labelled pie segment', () => {
     const datasets:ChartDataset[] = [{ label: 'Costs', data: [5, 3, 1] }];
 

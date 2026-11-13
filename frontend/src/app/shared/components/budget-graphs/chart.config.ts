@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { BarElement, ChartOptions, TooltipModel } from 'chart.js';
+import { BarElement, ChartOptions, TooltipLabelStyle, TooltipModel } from 'chart.js';
 import { html, render } from 'lit-html';
 import type { TemplateResult } from 'lit-html';
 import type AnchoredPositionElement from '@openproject/primer-view-components/app/components/primer/anchored_position';
@@ -152,6 +152,12 @@ function renderColorDot(color:string) {
   return html`<span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: ${color}; vertical-align: baseline; margin-right: 4px"></span>`;
 }
 
+function tooltipMarkerColor(colors:TooltipLabelStyle|undefined):string {
+  if (typeof colors?.backgroundColor === 'string') return colors.backgroundColor;
+  if (typeof colors?.borderColor === 'string') return colors.borderColor;
+  return 'transparent';
+}
+
 function renderTooltipItem(color:string, label:string, formattedValue:string, dateStr?:string):TemplateResult {
   const header = dateStr
     ? html`<div><strong style="margin-right: 8px">${dateStr}</strong>${renderColorDot(color)}<strong>${label}</strong></div>`
@@ -171,7 +177,7 @@ export function createBarTooltipRenderer(host:HTMLElement, formatCurrency:Format
       const dateStr = timestamp != null
         ? new Date(timestamp).toLocaleDateString(undefined, { month: 'short', year: 'numeric' })
         : undefined;
-      const color = context.tooltip.labelColors[i]?.backgroundColor as string;
+      const color = tooltipMarkerColor(context.tooltip.labelColors[i]);
       return renderTooltipItem(color, dp.dataset.label ?? '', formatCurrency(dp.parsed.y ?? 0), dateStr);
     });
     tooltip.update(context, items, barBox(context));
@@ -183,7 +189,7 @@ export function createPieTooltipRenderer(host:HTMLElement, formatCurrency:Format
   const tooltip = new ChartTooltip(host);
   const renderer = (context:TooltipContext<'pie'>) => {
     const items = context.tooltip.dataPoints.map((dp, i) => {
-      const color = context.tooltip.labelColors[i]?.backgroundColor as string;
+      const color = tooltipMarkerColor(context.tooltip.labelColors[i]);
       return renderTooltipItem(color, dp.label ?? '', formatCurrency(dp.parsed));
     });
     tooltip.update(context, items);

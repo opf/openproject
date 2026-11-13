@@ -93,6 +93,18 @@ describe('chart tooltip renderer', () => {
     expect(message().style.getPropertyValue('--op-anchored-popover-caret-offset')).not.toBe('');
   });
 
+  it('uses the border colour for a patterned tooltip marker', () => {
+    const patternedContext = context(1);
+    patternedContext.tooltip.labelColors = [{
+      backgroundColor: {} as CanvasPattern,
+      borderColor: '#654321',
+    }];
+
+    createRenderer((v) => `${v}`)(patternedContext);
+
+    expect(host.querySelector('li span')).toHaveStyle({ backgroundColor: '#654321' });
+  });
+
   // Chart.js drives the tooltip from its own animation frame, so the frame
   // anchored-position schedules on reopen only runs after the next paint.
   it('reopens beside the new point before anchored-position gets its frame', async () => {
