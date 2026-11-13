@@ -226,5 +226,112 @@ describe('TokenRefreshService', () => {
       expect(onFailure).not.toHaveBeenCalled();
       expect(fetchSpy).toHaveBeenCalledTimes(1);
     });
+
+    describe('acquireToken', () => {
+      const failures = (count:number):void => {
+        for (let i = 0; i < count; i += 1) {
+          fetchSpy.mockResolvedValueOnce(fakeResponse(503));
+        }
+      };
+
+      it('retries transient failures with doubling delays capped at 30 seconds, then resolves', async () => {
+        failures(7);
+        fetchSpy.mockResolvedValue(fakeResponse(200));
+
+        const token = service.acquireToken();
+        await vi.advanceTimersByTimeAsync(0);
+        expect(fetchSpy).toHaveBeenCalledTimes(1);
+
+        const delays = [1000, 2000, 4000, 8000, 16000, 30000, 30000];
+        let expectedCalls = 1;
+        for (const delay of delays) {
+          await vi.advanceTimersByTimeAsync(delay - 1);
+          expect(fetchSpy).toHaveBeenCalledTimes(expectedCalls);
+
+          await vi.advanceTimersByTimeAsync(1);
+          expectedCalls += 1;
+          expect(fetchSpy).toHaveBeenCalledTimes(expectedCalls);
+        }
+
+        await expect(token).resolves.toEqual(TOKEN);
+      });
+
+      it.each([
+        [401, true],
+        [422, false],
+      ])('rejects at once without retrying on %i', async (status, isAccessDenied) => {
+        fetchSpy.mockResolvedValue(fakeResponse(status));
+
+        const outcome = service.acquireToken().catch((error:RefreshError) => error);
+        await vi.advanceTimersByTimeAsync(120000);
+
+        const error = await outcome;
+        expect(error).toBeInstanceOf(RefreshError);
+        expect((error as RefreshError).isAccessDenied).toBe(isAccessDenied);
+        expect(fetchSpy).toHaveBeenCalledTimes(1);
+      });
+
+      it('stops retrying when destroyed during the wait', async () => {
+        fetchSpy.mockResolvedValue(fakeResponse(503));
+
+        const outcome = service.acquireToken().catch((error:RefreshError) => error);
+        await vi.advanceTimersByTimeAsync(0);
+        expect(fetchSpy).toHaveBeenCalledTimes(1);
+
+        service.destroy();
+        await vi.advanceTimersByTimeAsync(120000);
+
+        const error = await outcome as RefreshError;
+        expect(error.message).toBe('Token service destroyed');
+        expect(error.isAccessDenied).toBe(false);
+        expect(fetchSpy).toHaveBeenCalledTimes(1);
+      });
+
+      it.each([401, 200])('reports a destroyed service, not the outcome, when the pending fetch answers %i', async (status) => {
+        let answer:() => void = () => {};
+        fetchSpy.mockReturnValue(new Promise<Response>((resolve) => {
+          answer = () => resolve(fakeResponse(status));
+        }));
+
+        const outcome = service.acquireToken().catch((error:RefreshError) => error);
+        await vi.advanceTimersByTimeAsync(0);
+
+        service.destroy();
+        answer();
+        await vi.advanceTimersByTimeAsync(120000);
+
+        const error = await outcome as RefreshError;
+        expect(error.message).toBe('Token service destroyed');
+        expect(error.isAccessDenied).toBe(false);
+        expect(fetchSpy).toHaveBeenCalledTimes(1);
+      });
+
+      it('shares one fetch between concurrent callers and starts a new one after it settles', async () => {
+        fetchSpy.mockResolvedValue(fakeResponse(200));
+
+        const [first, second] = await Promise.all([service.acquireToken(), service.acquireToken()]);
+        expect(first).toBe(second);
+        expect(fetchSpy).toHaveBeenCalledTimes(1);
+
+        fetchSpy.mockResolvedValue(fakeResponse(401));
+        await expect(service.acquireToken()).rejects.toBeInstanceOf(RefreshError);
+        expect(fetchSpy).toHaveBeenCalledTimes(2);
+
+        fetchSpy.mockResolvedValue(fakeResponse(200));
+        await expect(service.acquireToken()).resolves.toEqual(TOKEN);
+        expect(fetchSpy).toHaveBeenCalledTimes(3);
+      });
+
+      it('resumes the periodic refresh after success', async () => {
+        fetchSpy.mockResolvedValue(fakeResponse(200));
+
+        await service.acquireToken();
+        expect(fetchSpy).toHaveBeenCalledTimes(1);
+
+        await vi.advanceTimersByTimeAsync(80001);
+        expect(fetchSpy).toHaveBeenCalledTimes(2);
+        expect(onToken).toHaveBeenCalledWith('fresh');
+      });
+    });
   });
 });

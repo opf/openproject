@@ -58,6 +58,10 @@ const REFRESH_THRESHOLD = 0.8; // 80% of the token lifetime
 const RETRY_DELAY_MS = 5000;
 const MAX_RETRIES = 3;
 const MIN_REFRESH_DELAY_MS = 1000;
+const ACQUIRE_INITIAL_DELAY_MS = 1000;
+const ACQUIRE_MAX_DELAY_MS = 30000;
+
+const destroyedError = ():RefreshError => new RefreshError('unavailable', 'Token service destroyed');
 
 export type ProviderAuthErrorKind = 'token_refresh' | 'authentication' | 'access_denied';
 export const PROVIDER_AUTH_ERROR_EVENT = 'op:provider-auth-error';
@@ -89,6 +93,8 @@ export class TokenRefreshService {
   private refreshTimer:ReturnType<typeof setTimeout> | null = null;
   private destroyed = false;
   private retryCount = 0;
+  private pendingAcquire:Promise<TokenResponse> | null = null;
+  private cancelBackoff:(() => void) | null = null;
 
   constructor(
     private readonly provider:HocuspocusProvider,
@@ -104,6 +110,20 @@ export class TokenRefreshService {
       Math.floor(expiresInSeconds * REFRESH_THRESHOLD * 1000),
     );
     this.scheduleRefreshAfter(delayMs);
+  }
+
+  /**
+   * Fetches a token for a reconnecting provider. Transient failures are retried until the web
+   * server responds, so the provider only ever sees a rejection for a real problem.
+   */
+  acquireToken():Promise<TokenResponse> {
+    if (this.pendingAcquire) return this.pendingAcquire;
+
+    this.pendingAcquire = this.fetchWithBackoff().finally(() => {
+      this.pendingAcquire = null;
+    });
+
+    return this.pendingAcquire;
   }
 
   static async fetchToken(refreshUrl:string):Promise<TokenResponse> {
@@ -181,6 +201,44 @@ export class TokenRefreshService {
   destroy():void {
     this.destroyed = true;
     this.clearTimer();
+    this.cancelBackoff?.();
+  }
+
+  private async fetchWithBackoff():Promise<TokenResponse> {
+    let delayMs = ACQUIRE_INITIAL_DELAY_MS;
+
+    while (true) {
+      try {
+        if (this.destroyed) throw destroyedError();
+
+        const data = await TokenRefreshService.fetchToken(this.refreshUrl);
+        if (this.destroyed) throw destroyedError();
+
+        this.scheduleRefresh(data.expires_in_seconds);
+        return data;
+      } catch (error) {
+        if (this.destroyed) throw destroyedError();
+        if (!(error instanceof RefreshError) || !error.isRetryable) throw error;
+
+        await this.waitForBackoff(delayMs);
+        delayMs = Math.min(delayMs * 2, ACQUIRE_MAX_DELAY_MS);
+      }
+    }
+  }
+
+  private waitForBackoff(delayMs:number):Promise<void> {
+    return new Promise((resolve, reject) => {
+      const timer = setTimeout(() => {
+        this.cancelBackoff = null;
+        resolve();
+      }, delayMs);
+
+      this.cancelBackoff = () => {
+        clearTimeout(timer);
+        this.cancelBackoff = null;
+        reject(destroyedError());
+      };
+    });
   }
 
   private scheduleRetry():void {
