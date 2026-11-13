@@ -31,9 +31,9 @@ module ITSM
   module Adapters
     module Queries
       class EmailSize < BaseQuery
-        def call(session:, uid:)
-          request(session) { |imap| imap.uid_fetch(uid, "RFC822.SIZE")&.first&.rfc822_size }
-        end
+        private
+
+        def request(imap, uid:) = imap.uid_fetch(uid, "RFC822.SIZE")&.first&.rfc822_size
       end
     end
   end

@@ -31,9 +31,9 @@ module ITSM
   module Adapters
     module Commands
       class MarkEmailSeen < BaseCommand
-        def call(session:, uid:)
-          request(session) { |imap| imap.uid_store(uid, "+FLAGS", [:Seen]) }
-        end
+        private
+
+        def request(imap, uid:) = imap.uid_store(uid, "+FLAGS", [:Seen])
       end
     end
   end

@@ -33,12 +33,14 @@ module ITSM
       def self.call(**) = new.call(**)
 
       def call(session:, **)
-        raise SubclassResponsibilityError
+        session.request(source: self.class) { |imap| request(imap, **) }
       end
 
       private
 
-      def request(session, &) = session.request(source: self.class, &)
+      def request(imap, **)
+        raise SubclassResponsibilityError
+      end
     end
   end
 end

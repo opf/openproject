@@ -31,14 +31,12 @@ module ITSM
   module Adapters
     module Commands
       class RemoveEmail < BaseCommand
-        def call(session:, uid:)
-          request(session) do |imap|
-            imap.uid_store(uid, "+FLAGS", [:Deleted])
-            imap.uid_expunge(uid) if expunge_by_uid?(imap)
-          end
-        end
-
         private
+
+        def request(imap, uid:)
+          imap.uid_store(uid, "+FLAGS", [:Deleted])
+          imap.uid_expunge(uid) if expunge_by_uid?(imap)
+        end
 
         # Plain EXPUNGE would also remove emails other clients flagged as deleted.
         def expunge_by_uid?(imap) = imap.capable?("UIDPLUS") || imap.capable?("IMAP4rev2")
