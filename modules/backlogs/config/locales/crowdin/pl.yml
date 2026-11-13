@@ -26,7 +26,7 @@ pl:
       project:
         allow_multiple_active_sprints: Zezwalaj na wiele aktywnych sprintów
         backlog_excluded_types: Wykluczone typy pakietów roboczych
-        estimation_unit: Unit
+        estimation_unit: Jednostka
         sprint_sharing: Udostępnianie sprintu
         statuses_considered_closed: Statusy uznane za zamknięte
       sprint:
@@ -34,7 +34,7 @@ pl:
         finish_date: Data zakończenia
         goal: Cel sprintu
         name: Nazwa sprintu
-        origin: Origin
+        origin: Pochodzenie
         origin_host: Origin host
         origin_id: Origin ID
         origin_source: Origin source
@@ -78,10 +78,10 @@ pl:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                one: There is %{count} work package that was not completed in this sprint.
-                few: There are %{count} work packages that were not completed in this sprint.
-                many: There are %{count} work packages that were not completed in this sprint.
-                other: There are %{count} work packages that were not completed in this sprint.
+                one: "%{count} pakietu roboczego nie ukończono w tym sprincie."
+                few: "%{count} pakietów roboczych nie ukończono w tym sprincie."
+                many: "%{count} pakietu roboczego nie ukończono w tym sprincie."
+                other: "%{count} pakietu roboczego nie ukończono w tym sprincie."
             status:
               not_active: jest nieaktywny, więc nie można go zamknąć.
         sprint_goal:
@@ -151,7 +151,7 @@ pl:
       series:
         created: Created
         resolved: Resolved
-    estimation_unit: Units
+    estimation_unit: Jednostki
     excluded_work_package_types_caption: 'Wybierz typy pakietów roboczych do ukrycia w backlogu. Elementy wybranych typów nie pojawią się automatycznie w backlogu, dzięki czemu bcklog skupiać się będzie się na pracy, która ma znaczenie dla Twojego zespołu. Na przykład typy takie jak Wydarzenia lub Kamienie milowe, zarządzane na wyższym poziomie, mogą być ukryte w celu utrzymania koncentracji backlogu na pozycjach umożliwiających działanie.
 
       '
@@ -175,9 +175,9 @@ pl:
       label_actions: Działania skrzynki odbiorczej
       show_more:
         one: Show %{count} more item
-        few: Show %{count} more items
-        many: Show %{count} more items
-        other: Show %{count} more items
+        few: Pokaż jeszcze %{count} elementy
+        many: Pokaż jeszcze %{count} elementów
+        other: Pokaż jeszcze %{count} elementu
       title: Skrzynka odbiorcza
     index_subheader_component:
       label_search_by_subject: Wyszukaj pakiety robocze według tematu
@@ -236,8 +236,8 @@ pl:
         description: Sprint start and finish dates are necessary for the report to show.
         heading: Missing sprint dates
       navigation_component:
-        next: Next
-        previous: Previous
+        next: Dalej
+        previous: Wstecz
       page_header_component:
         breadcrumb: Raport
         title: Raport dotyczący %{sprint}
@@ -337,7 +337,7 @@ pl:
             other: 'Average of previous %{count} sprints:'
           average_legend: Average
           committed: Committed
-          completed: Completed
+          completed: Ukończony
           story_points: "%{value} SP"
           summary:
             story_points:
@@ -354,8 +354,8 @@ pl:
           title: Velocity chart
           velocity: "%{sprint}:"
           y_axis_title:
-            story_points: Story points
-            time: Estimated time
+            story_points: Punkty historii
+            time: Szacowany czas
         work_package_graph:
           blankslate:
             no_work:
@@ -406,7 +406,7 @@ pl:
                 description: Added work packages will appear here after the sprint starts.
             title: Scope increase after sprint start
           blankslate:
-            heading: No work packages to display
+            heading: Brak pakietów roboczych do wyświetlenia
           completed:
             blankslate:
               empty:
@@ -491,9 +491,9 @@ pl:
         member_failed: "%{work_package}: %{reason}"
         moved_announcement:
           one: "%{count} work package moved to %{list}, position %{first} of %{total}"
-          few: "%{count} work packages moved to %{list}, positions %{first} through %{last} of %{total}"
-          many: "%{count} work packages moved to %{list}, positions %{first} through %{last} of %{total}"
-          other: "%{count} work packages moved to %{list}, positions %{first} through %{last} of %{total}"
+          few: Pakiety robocze (%{count}) przeniesiono do %{list}, pozycje od %{first} do %{last} z %{total}
+          many: Pakiety robocze (%{count}) przeniesiono do %{list}, pozycje od %{first} do %{last} z %{total}
+          other: Pakiety robocze (%{count}) przeniesiono do %{list}, pozycje od %{first} do %{last} z %{total}
         too_many_work_packages: Jednorazowo można przenieść nie więcej pakietów roboczych niż %{max}.
         work_packages_not_found: W tym projekcie nie udało się znaleźć co najmniej jednego pakietu roboczego.
       update_service:
@@ -557,14 +557,14 @@ pl:
       sprints: Sprinty
     settings:
       backlog_estimation_unit:
-        estimation_unit: Unit
+        estimation_unit: Jednostka
         options:
           none:
             caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
-            label: None
+            label: Brak
           story_points:
             caption: The cards and charts will display story points.
-            label: Story points
+            label: Punkty historii
           time:
             caption: The cards and charts will display work time estimates.
             label: Work time estimate

@@ -3,39 +3,39 @@ uk:
   activerecord:
     attributes:
       itsm/email_message:
-        direction: Direction
-        from_address: From
+        direction: Напрямок
+        from_address: Від
         message_id: Message ID
-        status: Status
-        subject: Subject
+        status: Стан
+        subject: Заголовок
       itsm/email_thread:
         recipients: Recipients
         requester_email: Requester email
         requester_name: Requester name
-        work_package: Work package
+        work_package: Робочий пакет
       itsm/incoming_mailbox:
-        active: Active
+        active: Триває
         aliases: Known email addresses
-        email: Email address
+        email: Адреса електронної пошти
         mail_server: IMAP server
-        password: Password
-        project: Project
-        username: Username
+        password: Пароль
+        project: Проєкт
+        username: Ім’я користувача
       itsm/mail_server:
         encryption: Encryption
         host: Server name
         incoming_mailboxes: Incoming mailboxes
-        name: Name
+        name: Назва
         outgoing_mailboxes: Outgoing mailboxes
-        port: Port
-        protocol: Protocol
+        port: Порт
+        protocol: Протокол
       itsm/outgoing_mailbox:
-        mail_server: SMTP server
-        password: Password
-        project: Project
+        mail_server: Сервер SMTP
+        password: Пароль
+        project: Проєкт
         sender_email: Sender email
         sender_name: Sender name
-        username: Username
+        username: Ім’я користувача
     models:
       itsm/email_message:
         one: Email message

@@ -81,7 +81,7 @@ pt-PT:
         item_3:
           label: Friendly
         item_4:
-          label: Professional
+          label: Profissional
         item_5:
           label: Concise
         item_6:
@@ -89,9 +89,9 @@ pt-PT:
         item_7:
           label: Key points
         item_8:
-          label: List
+          label: Lista
         item_9:
-          label: Table
+          label: Tabela
         item_10:
           label: Suggest subject
     standard:
@@ -133,13 +133,13 @@ pt-PT:
           name: Controlo de Qualidade
       labels:
         item_0:
-          name: Website
+          name: Site
         item_1:
           name: Marketing
         item_2:
           name: Speakers
         item_3:
-          name: Security
+          name: Segurança
         item_4:
           name: UX
       projects:

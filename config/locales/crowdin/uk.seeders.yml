@@ -81,7 +81,7 @@ uk:
         item_3:
           label: Friendly
         item_4:
-          label: Professional
+          label: Професійна
         item_5:
           label: Concise
         item_6:
@@ -89,9 +89,9 @@ uk:
         item_7:
           label: Key points
         item_8:
-          label: List
+          label: Список
         item_9:
-          label: Table
+          label: Таблиця
         item_10:
           label: Suggest subject
     standard:
@@ -139,7 +139,7 @@ uk:
         item_2:
           name: Speakers
         item_3:
-          name: Security
+          name: Безпека
         item_4:
           name: UX
       projects:

@@ -3,14 +3,14 @@ ko:
   activerecord:
     attributes:
       squashtm_integration/project_link:
-        project: Project
+        project: 프로젝트
         squashtm_project: SquashTM project
       squashtm_integration/server:
-        api_token: API token
+        api_token: API 토큰
         base_url: SquashTM URL
       squashtm_integration/work_package_link:
         squashtm_requirement: SquashTM requirement
-        work_package: Work package
+        work_package: 작업 패키지
     errors:
       models:
         squashtm_integration/project_link:
@@ -80,20 +80,20 @@ ko:
         update:
           connection_warning: 'The settings were saved, but the connection to SquashTM failed: %{reason}'
     execution_statuses:
-      blocked: Blocked
-      cancelled: Cancelled
-      error: Error
-      failure: Failed
+      blocked: 차단됨
+      cancelled: 취소됨
+      error: 오류
+      failure: 실패
       not_executed: Not executed
       not_found: Not found
       not_run: Not run
       ready: Ready
-      running: Running
+      running: 실행 중
       settled: Settled
-      skipped: Skipped
-      success: Passed
+      skipped: 건너뜀
+      success: 통과함
       untestable: Untestable
-      warning: Warning
+      warning: 경고
     project_settings:
       delete_project_link_dialog_component:
         confirm: Unlink

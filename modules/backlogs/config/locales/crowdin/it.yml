@@ -26,7 +26,7 @@ it:
       project:
         allow_multiple_active_sprints: Consenti la presenza di più sprint attivi
         backlog_excluded_types: Tipi di macro-attività esclusi
-        estimation_unit: Unit
+        estimation_unit: Unità
         sprint_sharing: Condivisione dello sprint
         statuses_considered_closed: Stati considerati chiusi
       sprint:
@@ -34,7 +34,7 @@ it:
         finish_date: Data di fine
         goal: Obiettivo dello sprint
         name: Nome dello sprint
-        origin: Origin
+        origin: Origine
         origin_host: Origin host
         origin_id: Origin ID
         origin_source: Origin source
@@ -78,8 +78,8 @@ it:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                one: There is %{count} work package that was not completed in this sprint.
-                other: There are %{count} work packages that were not completed in this sprint.
+                one: C'è %{count} macro-attività che non è stata completata in questo sprint.
+                other: Ci sono %{count} macro-attività che non sono state completate in questo sprint.
             status:
               not_active: non è attivo, quindi non può essere chiuso.
         sprint_goal:
@@ -143,7 +143,7 @@ it:
       series:
         created: Created
         resolved: Resolved
-    estimation_unit: Units
+    estimation_unit: Unità
     excluded_work_package_types_caption: 'Scegli quali tipi di macro-attività nascondere dal backlog. Gli elementi dei tipi selezionati non compariranno automaticamente nel backlog, mantenendolo concentrato sulle attività rilevanti per il tuo team. Ad esempio, tipi come Epic o Traguardo, gestiti a un livello superiore, possono essere nascosti per mantenere il backlog focalizzato sugli elementi operativi.
 
       '
@@ -167,7 +167,7 @@ it:
       label_actions: Azioni nella Posta in arrivo
       show_more:
         one: Show %{count} more item
-        other: Show %{count} more items
+        other: Mostra altri %{count} elementi
       title: Posta in arrivo
     index_subheader_component:
       label_search_by_subject: Cerca macro-attività per oggetto
@@ -222,8 +222,8 @@ it:
         description: Sprint start and finish dates are necessary for the report to show.
         heading: Missing sprint dates
       navigation_component:
-        next: Next
-        previous: Previous
+        next: Successiva
+        previous: Precedente
       page_header_component:
         breadcrumb: Report
         title: Report %{sprint}
@@ -313,7 +313,7 @@ it:
             other: 'Average of previous %{count} sprints:'
           average_legend: Average
           committed: Committed
-          completed: Completed
+          completed: Completate
           story_points: "%{value} SP"
           summary:
             story_points:
@@ -326,8 +326,8 @@ it:
           title: Velocity chart
           velocity: "%{sprint}:"
           y_axis_title:
-            story_points: Story points
-            time: Estimated time
+            story_points: Punti story
+            time: Tempo stimato
         work_package_graph:
           blankslate:
             no_work:
@@ -374,7 +374,7 @@ it:
                 description: Added work packages will appear here after the sprint starts.
             title: Scope increase after sprint start
           blankslate:
-            heading: No work packages to display
+            heading: Nessuna macro-attività da visualizzare
           completed:
             blankslate:
               empty:
@@ -457,7 +457,7 @@ it:
         member_failed: "%{work_package}: %{reason}"
         moved_announcement:
           one: "%{count} work package moved to %{list}, position %{first} of %{total}"
-          other: "%{count} work packages moved to %{list}, positions %{first} through %{last} of %{total}"
+          other: "%{count} macro-attività spostate in %{list}, nelle posizioni da %{first} a %{last} di %{total}"
         too_many_work_packages: Non è possibile spostare più di %{max} macro-attività alla volta.
         work_packages_not_found: Almeno una macro-attività non è stata trovata in questo progetto.
       update_service:
@@ -519,14 +519,14 @@ it:
       sprints: Sprint
     settings:
       backlog_estimation_unit:
-        estimation_unit: Unit
+        estimation_unit: Unità
         options:
           none:
             caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
-            label: None
+            label: Nessuno
           story_points:
             caption: The cards and charts will display story points.
-            label: Story points
+            label: Punti story
           time:
             caption: The cards and charts will display work time estimates.
             label: Work time estimate

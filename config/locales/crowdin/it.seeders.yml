@@ -89,9 +89,9 @@ it:
         item_7:
           label: Key points
         item_8:
-          label: List
+          label: Elenca
         item_9:
-          label: Table
+          label: Tabella
         item_10:
           label: Suggest subject
     standard:
@@ -139,7 +139,7 @@ it:
         item_2:
           name: Speakers
         item_3:
-          name: Security
+          name: Sicurezza
         item_4:
           name: UX
       projects:

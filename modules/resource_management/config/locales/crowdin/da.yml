@@ -80,9 +80,9 @@ da:
         title: Ressourcestyring
   label_resource_management: Ressourcestyring
   permission_allocate_user_resources: Fordel brugerressourcer
-  permission_allocate_user_resources_explanation: Allows users to create, update, and delete resource allocations within a resource planner. This includes allocating users or placeholder users to work packages and adjusting the allocated time and date range.
-  permission_assign_users_to_generic_allocations: Assign users to placeholder user allocations
-  permission_assign_users_to_generic_allocations_explanation: Allows users to use the Staffing view to assign users to resource allocations that were made for a placeholder user. It does not allow creating or editing allocations.
+  permission_allocate_user_resources_explanation: Giver mulighed for at oprette, opdatere og slette ressourcefordelinger i en ressourceplanlægger. Det omfatter at fordele brugere eller pladsholder-brugere til arbejdspakker og at justere den fordelte tid og datointervallet.
+  permission_assign_users_to_generic_allocations: Tildel brugere til pladsholder-brugeres fordelinger
+  permission_assign_users_to_generic_allocations_explanation: Giver mulighed for at bruge visningen Bemanding til at tildele brugere til ressourcefordelinger, der er lavet til en pladsholder-bruger. Det giver ikke mulighed for at oprette eller redigere fordelinger.
   permission_manage_public_global_resource_planners: Administrer offentlige globale ressourceplanlæggere
   permission_manage_public_global_resource_planners_explanation: Giver mulighed for at offentliggøre egne globale ressourceplanlæggere og administrere globale ressourceplanlæggere, som andre brugere har delt offentligt. Det giver ikke adgang til at se globale ressourceplanlæggere, der ikke er delt offentligt.
   permission_manage_public_resource_planners: Administrer offentlige ressourceplanlæggere
@@ -133,9 +133,9 @@ da:
     assignment_dialog:
       available: "%{hours} til rådighed"
       confirm_overtime: Tildel alligevel
-      filter_criteria: Criteria
+      filter_criteria: Kriterier
       no_candidates:
-        description: No project member matches the criteria of this placeholder user.
+        description: Intet projektmedlem matcher kriterierne for denne pladsholder-bruger.
         title: Ingen medlemmer matcher
       no_schedule: Brugeren har ingen arbejdsplan, så vi kan ikke afgøre, om fordelingen passer.
       overbooked_detail: Brugeren har %{available} til rådighed i perioden, og arbejdspakken kræver %{requested}.
@@ -186,7 +186,7 @@ da:
     staffing:
       assign: Tildel bruger
       blank:
-        description: All placeholder user allocations in this project have a user assigned.
+        description: Alle pladsholder-brugeres fordelinger i projektet har fået tildelt en bruger.
         title: Intet at bemande
       columns:
         dates: Datoer
@@ -329,8 +329,8 @@ da:
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          one: "%{count} member of this project matches the criteria of the placeholder user."
-          other: "%{count} members of this project match the criteria of the placeholder user."
+          one: "%{count} medlem af projektet matcher pladsholder-brugerens kriterier."
+          other: "%{count} medlemmer af projektet matcher pladsholder-brugerens kriterier."
       blank:
         add_work_package: Tilføj arbejdspakke
         configure_view: Konfigurer visning

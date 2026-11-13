@@ -36,9 +36,9 @@ pl:
         view_all_members: Zobacz wszystkich członków
         x_more:
           one: and %{count} more member.
-          few: and %{count} more members.
-          many: and %{count} more members.
-          other: and %{count} more members.
+          few: i jeszcze %{count} członków.
+          many: i jeszcze %{count} członka.
+          other: i jeszcze %{count} członka.
       news:
         no_results: Utwórz nowy raport.
       not_available: Ten widżet jest niedostępny.

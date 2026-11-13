@@ -73,27 +73,27 @@ da:
           name: Global standardrolle
       ai_text_actions:
         item_0:
-          label: Structure
+          label: Strukturér
         item_1:
-          label: Proofread
+          label: Korrekturlæs
         item_2:
-          label: Rewrite
+          label: Omskriv
         item_3:
-          label: Friendly
+          label: Venlig
         item_4:
-          label: Professional
+          label: Professionel
         item_5:
-          label: Concise
+          label: Kortfattet
         item_6:
-          label: Summarize
+          label: Opsummer
         item_7:
-          label: Key points
+          label: Hovedpunkter
         item_8:
-          label: List
+          label: Liste
         item_9:
-          label: Table
+          label: Tabel
         item_10:
-          label: Suggest subject
+          label: Foreslå emne
     standard:
       project_phases:
         item_0:

@@ -3,20 +3,20 @@ pl:
   activerecord:
     attributes:
       llm_capability_verdict:
-        capability: Capability
+        capability: Funkcja
         model_id: Model
-        state: State
+        state: Stan
       llm_connection:
         api_format: API format
-        api_key: API key
-        base_url: Host URL
+        api_key: Klucz API
+        base_url: Adres URL hosta
         default_chat_model: Default chat model
         default_embedding_model: Default embedding model
         env_fingerprint: Applied environment configuration
         env_provisioned_at: Applied from the environment
         llm_features_enabled: Enable LLMs for this instance
       llm_feature_binding:
-        feature_key: Feature
+        feature_key: Cecha/Funkcja
         model: Model
         semantic_index: Semantic Index
       llm_model:
@@ -25,18 +25,18 @@ pl:
         capability_reasoning: Reasoning
         capability_structured_output: Structured output
         capability_vision: Vision
-        display_name: Display name
+        display_name: Nazwa wyświetlana
         manual: Entered by hand
         raw_metadata: Metadata
         external: Model name
       semantic_index:
         context_token_length: Context length
-        description: Description
+        description: Opis
         embedding_vector_dimensions: Dimensions
         llm_feature_bindings: Feature configuration
         model: Model
         state: Status
-        title: Display name
+        title: Nazwa wyświetlana
     errors:
       messages:
         semantic_search_unavailable: is currently unavailable.
@@ -93,11 +93,11 @@ pl:
       activate:
         body_html: Semantic search will use <b>%{title}</b> immediately.
         body_switch_html: Semantic search switches from <b>%{current}</b> to <b>%{title}</b> immediately. %{current} stays ready and can be reactivated.
-        button: Activate
-        confirm: Activate
+        button: Aktywuj
+        confirm: Aktywuj
         success: '"%{title}" is now the active semantic index.'
         title: Activate "%{title}"?
-      active: Active
+      active: Aktywny
       box:
         empty_description: Create a new semantic index to make work packages findable by meaning.
         empty_title: No semantic index yet
@@ -128,7 +128,7 @@ pl:
           pgvector_missing: The pgvector extension is not installed. Install it and run the migrations again to start indexing.
         progress: "%{percentage}% done"
       menu:
-        delete: Delete
+        delete: Usuń
         locked_while_active: Cannot be deleted while it is active.
         locked_while_indexing: Cannot be deleted while indexing.
       start_indexing:
@@ -139,12 +139,12 @@ pl:
         not_indexable: This semantic index is already being indexed.
         started: Indexing of "%{title}" has started.
       states:
-        failed: Failed
+        failed: Niepowodzenie
         indexing: Indexing
         not_indexed: Not indexed
         ready: Ready
       stop_indexing:
-        button: Stop
+        button: Zatrzymaj
         not_indexing: This semantic index is not being indexed.
         stopped: Indexing of "%{title}" was stopped.
     llm_connections:
@@ -212,7 +212,7 @@ pl:
         run_checks: Run checks
         running: Running checks...
         summary: "%{passed} passed, %{warnings} warnings, %{failures} failed."
-        title: Health status
+        title: Status połączenia
     llm_models:
       configured_from_env: The environment configures this model as a default, so it cannot be removed or renamed here.
       create:
@@ -254,12 +254,12 @@ pl:
         context_window: Context window
         filter_label: Filter models
         identifier: Model
-        kind: Type
+        kind: Rodzaj
         refresh: Refresh models
-        source: Source
+        source: Źródło
         source_discovered: Server
         source_discovered_description: Reported by the server
-        source_manual: Manual
+        source_manual: Ręczny
         source_manual_description: Added manually by an administrator
         source_withdrawn: Withdrawn
         source_withdrawn_description: No longer reported by the server
@@ -319,7 +319,7 @@ pl:
         credentials_present: API key is stored
         enabled: Connection is switched on
         feature_flag: AI features are switched on
-        header: Configuration
+        header: Konfiguracja
       errors:
         api_key_missing: No API key is stored. This is only correct if the LLM server requires no authentication.
         catalogue_never_fetched: The model list has never been retrieved from the server.
@@ -375,7 +375,7 @@ pl:
       admin_check: Database extension pgvector enabled (optional)
       unavailable: Semantic search is unavailable because the pgvector extension is not set up in the database. Install pgvector for PostgreSQL and run the database migrations again. [Learn more](docs_url)
     verdict_states:
-      supported: supported
+      supported: obsługiwany
       unknown: not verified
       unsupported: not supported
   llm_connections:
@@ -383,10 +383,10 @@ pl:
       health_status_component:
         last_check: Last checked %{datetime}.
         never_checked: This connection has not been checked yet.
-        open_report: Open full health report
-        run_checks: Run checks now
+        open_report: Otwórz pełny raport o stanie
+        run_checks: Uruchom sprawdzanie teraz
         running: Running checks...
-        title: Health status
+        title: Status połączenia
   menus:
     admin:
       llm_connection: LLM settings

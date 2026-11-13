@@ -34,9 +34,9 @@ fr:
         description: Description
         embedding_vector_dimensions: Dimensions
         llm_feature_bindings: Feature configuration
-        model: Model
-        state: Status
-        title: Display name
+        model: Modèle
+        state: Statut
+        title: Nom d'affichage
     errors:
       messages:
         semantic_search_unavailable: is currently unavailable.
@@ -55,9 +55,9 @@ fr:
               not_openai_compatible: n'a pas retourné de liste de modèles valide. Veuillez vous assurer que les points d'URL d'un point de terminaison compatible avec OpenAI-API, y compris le segment de version de l'API (par exemple https://example.com/v1).
               request_timed_out: n'a pas répondu à temps. Veuillez vous assurer que le serveur LLM est accessible et qu'il n'est pas surchargé.
               ssl_error: n'a pas pu être atteint par une connexion sécurisée. Veuillez vérifier le certificat TLS du serveur LLM, ou utiliser une URL http:// si le serveur n'offre pas TLS.
-              ssrf_filtered: resolves to a blocked address. If the LLM server runs on an internal network, allow its IP via the %{env_name} environment variable.
+              ssrf_filtered: abouti sur une adresse bloquée. Si le serveur LLM fonctionne sur un réseau interne, autorisez son IP via la variable d'environnement %{env_name}.
             custom_headers:
-              invalid: must map header names to plain text values.
+              invalid: doit associer les noms des en-têtes à des valeurs en texte brut.
             default_chat_model_id:
               cannot_chat: is an embedding model, according to the LLM server, and cannot be used for chat.
               not_available: is not offered by the configured LLM server.
@@ -65,7 +65,7 @@ fr:
               cannot_embed: is known not to create embeddings, according to the LLM server.
               not_available: is not offered by the configured LLM server.
             llm_features_enabled:
-              requires_connection: cannot be turned on before a connection has been configured.
+              requires_connection: ne peut pas être activé avant qu'une connexion ait été configurée.
         llm_feature_binding:
           attributes:
             feature_key:
@@ -93,11 +93,11 @@ fr:
       activate:
         body_html: Semantic search will use <b>%{title}</b> immediately.
         body_switch_html: Semantic search switches from <b>%{current}</b> to <b>%{title}</b> immediately. %{current} stays ready and can be reactivated.
-        button: Activate
-        confirm: Activate
+        button: Activer
+        confirm: Activer
         success: '"%{title}" is now the active semantic index.'
         title: Activate "%{title}"?
-      active: Active
+      active: Actif
       box:
         empty_description: Create a new semantic index to make work packages findable by meaning.
         empty_title: No semantic index yet
@@ -126,7 +126,7 @@ fr:
           pgvector_missing: The pgvector extension is not installed. Install it and run the migrations again to start indexing.
         progress: "%{percentage}% done"
       menu:
-        delete: Delete
+        delete: Supprimer
         locked_while_active: Cannot be deleted while it is active.
         locked_while_indexing: Cannot be deleted while indexing.
       start_indexing:
@@ -137,23 +137,23 @@ fr:
         not_indexable: This semantic index is already being indexed.
         started: Indexing of "%{title}" has started.
       states:
-        failed: Failed
+        failed: Échoué
         indexing: Indexing
         not_indexed: Not indexed
         ready: Ready
       stop_indexing:
-        button: Stop
+        button: Arrêter
         not_indexing: This semantic index is not being indexed.
         stopped: Indexing of "%{title}" was stopped.
     llm_connections:
       header_description: Connect OpenProject to an LLM server and review the models it offers.
       delete_api_key:
         configured_from_env: This connection is configured through the environment and cannot be changed here.
-        description: OpenProject will stop sending an API key with its requests. Features will keep working only if the server requires no authentication. You can enter a new key at any time.
-        heading: Remove the stored API key?
-        menu_label: Remove API key
-        success: The API key has been removed.
-        title: Remove API key
+        description: OpenProject cessera d'envoyer une clé API avec ses requêtes. Les fonctionnalités continueront de fonctionner uniquement si le serveur ne nécessite aucune authentification. Vous pouvez saisir une nouvelle clé à tout moment.
+        heading: Supprimer la clé API enregistrée ?
+        menu_label: Supprime la clé API
+        success: La clé API a été supprimée.
+        title: Supprime la clé API
       disabled_notice: LLM features are switched off for this instance. Switch them on here first.
       disconnect:
         configured_from_env: This connection is configured through the environment and cannot be changed here.
@@ -162,27 +162,27 @@ fr:
         keeps_bindings: 'The model chosen for each feature is kept: %{features}.'
         keeps_models: The model list, including any models you added manually, is kept.
         keeps_settings: The endpoint and API format are kept. Only the stored API key is removed.
-        menu_label: Disconnect
-        success: OpenProject has disconnected from the LLM server.
-        title: Disconnect
+        menu_label: Déconnecter
+        success: OpenProject s'est déconnecté du serveur LLM.
+        title: Déconnecter
       form:
         api_format_caption: Which API the server speaks. Choose OpenAI for most gateways and self-hosted servers.
         api_key_caption: The key OpenProject authenticates with. Leave blank if the server requires no authentication.
         api_key_caption_discarded: The key you entered was not saved and is not shown again. Enter it once more to save it, or leave blank to keep the stored key.
         api_key_caption_env: The key comes from the environment.
-        api_key_remove: Remove key
+        api_key_remove: Supprimer la clé
         base_url_caption: The base URL of the server, for example https://example.com/v1.
         env_applied: Applied from the environment on %{time}. Changed variables take effect the next time the database is seeded.
         env_changed: The environment variables have changed since they were applied on %{time}. The values below stay in use until the database is seeded again.
         env_pending: Environment variables configure this connection but have not been applied yet. The next database seed replaces the values below and locks this page.
         label_connecting: Contacting the LLM server…
-        llm_features_enabled_caption: When turned off, all LLM-backed AI features stop working. The connection settings are kept.
-        server_description: Connect OpenProject to a server that speaks the %{api_format} API, so AI features can use it. The host URL below decides which server that is.
-        server_group: Server
+        llm_features_enabled_caption: Une fois désactivées, toutes les fonctionnalités d'IA basées sur le LLM cessent de fonctionner. Les paramètres de connexion sont conservés.
+        server_description: Connectez OpenProject à un serveur prenant en charge l'API « %{api_format} », afin que les fonctionnalités d'IA puissent l'utiliser. L'URL de l'hôte ci-dessous permet de déterminer de quel serveur il s'agit.
+        server_group: Serveur
       tabs:
-        connection: Connection
+        connection: Connexion
         features: Feature configuration
-        models: Models
+        models: Modèles
       update:
         disabled: Saved. LLM features are switched off for this instance.
         no_models: Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the Models tab.
@@ -210,7 +210,7 @@ fr:
         run_checks: Run checks
         running: Running checks...
         summary: "%{passed} passed, %{warnings} warnings, %{failures} failed."
-        title: Health status
+        title: État de santé
     llm_models:
       configured_from_env: The environment configures this model as a default, so it cannot be removed or renamed here.
       create:
@@ -232,7 +232,7 @@ fr:
       edit:
         description: Edit how OpenProject uses this model.
       form:
-        context_window: Context window
+        context_window: Fenêtre de contexte
         context_window_caption: How many tokens this model accepts. Leave blank if you do not know.
         context_window_known: Leave blank to use %{value}, %{source}.
         display_name_caption: An optional friendly name shown instead of the model id.
@@ -246,30 +246,30 @@ fr:
         state_supported: Supported
         state_unsupported: Not supported
       index:
-        add_model: Model
+        add_model: Modèle
         blank_description: The server reported no models. Refresh the list once the server is reachable, or add one by hand.
         blank_title: No models available
-        context_window: Context window
+        context_window: Fenêtre de contexte
         filter_label: Filter models
-        identifier: Model
+        identifier: Modèle
         kind: Type
-        refresh: Refresh models
+        refresh: Actualiser les modèles
         source: Source
-        source_discovered: Server
-        source_discovered_description: Reported by the server
-        source_manual: Manual
-        source_manual_description: Added manually by an administrator
-        source_withdrawn: Withdrawn
-        source_withdrawn_description: No longer reported by the server
-        stale_warning: The connection settings changed after the model list was last refreshed, so the list may be out of date. Refresh the models to be sure.
+        source_discovered: Serveur
+        source_discovered_description: Signalé par le serveur
+        source_manual: Manuel
+        source_manual_description: Ajouté manuellement par un administrateur
+        source_withdrawn: Retiré
+        source_withdrawn_description: N'est plus signalé par le serveur
+        stale_warning: Les paramètres de connexion ont été modifiés depuis la dernière actualisation de la liste des modèles ; il se peut donc que celle-ci ne soit plus à jour. Veuillez actualiser la liste des modèles pour vous en assurer.
       new:
-        description: Name a model this server can use but does not advertise, and describe what it can do.
-        title: Add a model
+        description: Citez un modèle que ce serveur peut utiliser mais qu'il ne diffuse pas, et décrivez ce qu'il permet de faire.
+        title: Ajouter un modèle
       refresh:
-        failure: The model list could not be refreshed. Please check that the LLM server is still reachable.
-        success: The model list has been refreshed.
+        failure: La liste des modèles n'a pas pu être actualisée. Veuillez vérifier que le serveur LLM est toujours accessible.
+        success: La liste des modèles a été mise à jour.
       update:
-        success: "%{model} has been updated."
+        success: "%{model} a été mis à jour."
   attributes:
     semantic_similarity: Similarity
   label_search_by_meaning: Search by meaning
@@ -290,38 +290,38 @@ fr:
       xai: xAI
     capabilities:
       embeddings:
-        label: Embeddings
+        label: Intégrations
       function_calling:
         label: Tool calling
       reasoning:
-        label: Reasoning
+        label: Raisonnement en cours
       structured_output:
-        label: Structured output
+        label: Sortie structurée
       vision:
         label: Vision
     context_window_sources:
       registry: the figure published for this model
-      server: reported by the server
+      server: rapporté par le serveur
     features:
       description_assistant:
         caption: Runs the text actions users apply to work package descriptions, such as proofreading, rewriting and structuring.
         caption_with_link: Runs the [text actions](text_actions_url) users apply to work package descriptions, such as proofreading, rewriting and structuring.
         label: Text assistant
       semantic_search:
-        caption: Indexes work packages so they can be found by meaning rather than by keyword.
-        label: Semantic search
+        caption: Indexe les lots de travaux pour qu'ils puissent être trouvés par sens plutôt que par mot-clé.
+        label: Recherche sémantique
     health_checks:
       configuration:
-        api_format_supported: Endpoint format is usable
-        base_url_present: Endpoint is configured
-        credentials_present: API key is stored
+        api_format_supported: Le format du point de terminaison est utilisable
+        base_url_present: Le point de terminaison est configuré
+        credentials_present: La clé API est enregistrée
         enabled: Connection is switched on
-        feature_flag: AI features are switched on
+        feature_flag: Les fonctionnalités IA sont activées
         header: Configuration
       errors:
-        api_key_missing: No API key is stored. This is only correct if the LLM server requires no authentication.
-        catalogue_never_fetched: The model list has never been retrieved from the server.
-        catalogue_stale: The model list was last retrieved on %{fetched_at} and may no longer match what the server offers.
+        api_key_missing: Aucune clé API n'est enregistrée. Cela n'est valable que si le serveur LLM ne nécessite aucune authentification.
+        catalogue_never_fetched: La liste des modèles n'a jamais été récupérée depuis le serveur.
+        catalogue_stale: La liste des modèles a été consultée pour la dernière fois sur %{fetched_at} et peut ne plus correspondre à l'offre actuelle du serveur.
         catalogue_stale_settings: The connection settings changed after the model list was last refreshed. Refresh the models on the Models tab.
         chat_failed: The server refused a request for %{model} with status %{status}.
         connection_disabled: The connection is configured but switched off, so no feature will use it.
@@ -356,24 +356,24 @@ fr:
       models:
         catalogue_fresh: Model list is up to date
         catalogue_present: Models are available
-        default_chat_model: Default chat model
-        default_embedding_model: Default embedding model
-        header: Models
+        default_chat_model: Modèle de chat par défaut
+        default_embedding_model: Modèle d'intégration par défaut
+        header: Modèles
       server:
         credentials_accepted: The server accepts the API key
-        header: Server
+        header: Serveur
         reachable: The server can be reached
     health_report_kinds:
       full: Full check, including an inference request.
       without_inference: Checked without an inference request, as the scheduled check does. Run the checks to include one.
     model_kinds:
-      chat: Chat
+      chat: Messagerie
       embedding: Embedding
     pgvector:
       admin_check: Database extension pgvector enabled (optional)
       unavailable: Semantic search is unavailable because the pgvector extension is not set up in the database. Install pgvector for PostgreSQL and run the database migrations again. [Learn more](docs_url)
     verdict_states:
-      supported: supported
+      supported: supporté
       unknown: not verified
       unsupported: not supported
   llm_connections:
@@ -381,10 +381,10 @@ fr:
       health_status_component:
         last_check: Last checked %{datetime}.
         never_checked: This connection has not been checked yet.
-        open_report: Open full health report
-        run_checks: Run checks now
+        open_report: Ouvrir le bilan de santé complet
+        run_checks: Lancer les vérifications maintenant
         running: Running checks...
-        title: Health status
+        title: État de santé
   menus:
     admin:
       llm_connection: LLM settings

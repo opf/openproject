@@ -32,7 +32,7 @@ es:
         notify: Enviar notificaciones
         participant:
           one: "%{count} Participant"
-          other: "%{count} Participants"
+          other: "%{count} Participantes"
         participants: Participantes
         participants_added: 'Participantes añadidos:'
         participants_attended: Asistentes
@@ -169,8 +169,8 @@ es:
   label_agenda_backlog_clear_title: "¿Borrar backlog de agenda?"
   label_agenda_item_actions: Acciones de elementos de la agenda
   label_agenda_item_add: Añadir punto a la agenda
-  label_agenda_item_add_above: Add item above
-  label_agenda_item_add_below: Add item below
+  label_agenda_item_add_above: Añadir elemento arriba
+  label_agenda_item_add_below: Añadir elemento debajo
   label_agenda_item_add_notes: Añadir notas
   label_agenda_item_add_outcome: Añadir resultado
   label_agenda_item_convert_to_work_package: Convertir a paquete de trabajo
@@ -243,7 +243,7 @@ es:
   label_meeting_minutes: Minutas
   label_meeting_more:
     one: There is %{count} more meeting.
-    other: There are %{count} more meetings.
+    other: Hay %{count} reuniones más.
   label_meeting_new: Nueva reunión
   label_meeting_new_dynamic: Nueva reunión única
   label_meeting_new_recurring: Nueva reunión periódica
@@ -288,11 +288,11 @@ es:
   label_recurring_meeting_delete: Eliminar repetición
   label_recurring_meeting_duplicate: Duplicar como una reunión única
   label_recurring_meeting_more:
-    one: There is %{count} more scheduled meeting (%{schedule}).
-    other: There are %{count} more scheduled meetings (%{schedule}).
+    one: Hay %{count} reuniones más programadas (%{schedule}).
+    other: Hay %{count} reuniones más programadas (%{schedule}).
   label_recurring_meeting_more_past:
-    one: There is %{count} more past meeting.
-    other: There are %{count} more past meetings.
+    one: Hay %{count} reuniones más pasadas.
+    other: Hay %{count} reuniones más pasadas.
   label_recurring_meeting_new: Nueva reunión periódica
   label_recurring_meeting_next_occurrence: Siguiente repetición
   label_recurring_meeting_no_end_date: Hay más reuniones programadas (%{schedule}).
@@ -597,7 +597,7 @@ es:
       ends_on: Esto da lugar a una serie que finaliza el %{date}
       occurrences:
         one: This results in %{count} upcoming occurrence
-        other: This results in %{count} upcoming occurrences
+        other: Esto da como resultado %{count} repeticiones próximas
       occurrences_capped: Esto da como resultado más de %{count} repeticiones próximas
     day_of_month_skipping_info: Se omitirán los meses con menos de %{monthly_day} días
     delete_dialog:

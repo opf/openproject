@@ -137,7 +137,7 @@ da:
         commented: Kommenterede
       custom_field:
         admin_only: Kun for administratorer
-        allow_additional_project_values: Project admins can add project-specific values
+        allow_additional_project_values: Projektadministratorer kan tilføje projektspecifikke værdier
         allow_non_open_versions: Tillad versioner, der ikke er åbne
         content_right_to_left: Indhold fra højre mod venstre
         default_value: Forhåndsvalgt værdi
@@ -153,7 +153,7 @@ da:
         min_value: Mindste værdi
         multi_value: Tillad flere valg
         possible_values: Mulige værdier
-        project_level_value_management: Project admins can manage values at a project level
+        project_level_value_management: Projektadministratorer kan administrere værdier på projektniveau
         project_specific_value_restriction: Projektspecifikke værdier
         regexp: Regulært udtryk
         searchable: Søgbar
@@ -397,14 +397,14 @@ da:
         authentication_method: Godkendelsesmetode
         jwt_sub: Subject-claim
       status:
-        category: Category
+        category: Kategori
         default_done_ratio: "% færdigt"
         excluded_from_totals: Udelad fra beregning af totaler i hierarkiet
         is_readonly: Arbejdspakke skrivebeskyttet
       status/category:
-        closed: Closed
-        in_progress: In progress
-        to_do: To-do
+        closed: Lukket
+        in_progress: I gang
+        to_do: Ikke startet
       subproject_template_assignment:
         workspace_type: Type af arbejdsområde
       time_entry:
@@ -556,11 +556,11 @@ da:
         labels: Mærkater
         notify: Giv besked
         observed_in_versions: Observeret i versioner
-        origin: Origin
-        origin_host: Origin host
-        origin_id: Origin ID
-        origin_source: Origin source
-        origin_url: Origin URL
+        origin: Kilde
+        origin_host: Kildens vært
+        origin_id: Id i kilden
+        origin_source: Kildesystem
+        origin_url: URL i kilden
         parent: Overordnet
         parent_issue: Overordnet
         parent_work_package: Overordnet
@@ -722,9 +722,9 @@ da:
               multi_value_list_not_aggregated: Attributter med flere valg (%{custom_fields}) kan kun bruges i aggregeringsfunktioner.
               not_allowed_custom_fields_referenced: 'Attributten %{custom_fields} kan ikke bruges, fordi den fører til en cirkulær reference: Den ene attribut afhænger af den anden.'
             project_level_value_management:
-              not_available_for_all_values: is only available when values are restricted per project.
+              not_available_for_all_values: er kun tilgængelig, når værdierne er begrænset pr. projekt.
             project_specific_value_restriction:
-              not_supported: er kun tilgængelig for brugerdefinerede felter til arbejdspakker af formaterne liste, hierarki og vægtet liste.
+              not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted list.
             required:
               cannot_be_true: kan ikke slås til.
           previous_custom_field_recalculation_unprocessed: Genberegningen af tidligere ændringer i dette brugerdefinerede felt er endnu ikke anvendt. Prøv igen om et par minutter.
@@ -738,7 +738,7 @@ da:
         custom_option:
           attributes:
             project_id:
-              additional_values_not_allowed: cannot add values to this custom field.
+              additional_values_not_allowed: kan ikke tilføje værdier til dette brugerdefinerede felt.
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -1173,8 +1173,8 @@ da:
         one: Brugerdefineret felt
         other: Brugerdefinerede felter
       custom_field/hierarchy/item:
-        one: Hierarkielement
-        other: Hierarkielementer
+        one: Hierarchy value
+        other: Hierarchy values
       custom_field_section:
         one: Afsnit med brugerdefinerede felter
         other: Afsnit med brugerdefinerede felter
@@ -1716,9 +1716,9 @@ da:
           JiraCreateProjectWorkPackagesJob:
             title: Opret arbejdspakker for '%{jira_project_name}'
           JiraCreateRelationsJob:
-            title: Create relations for '%{jira_project_name}'
+            title: Opret relationer for '%{jira_project_name}'
           JiraCreateSprintsJob:
-            title: Create sprints
+            title: Opret sprints
           JiraCreateUsersJob:
             title: Opret brugere
           JiraDownloadProjectWorkPackageAttachmentsJob:
@@ -1730,7 +1730,7 @@ da:
           JiraFetchPrioritiesJob:
             title: Hent prioriteter
           JiraFetchProjectBoardsJob:
-            title: Fetch boards for project '%{jira_project_name}'
+            title: Hent tavler for projektet '%{jira_project_name}'
           JiraFetchProjectIssuesJob:
             title: Hent sager for projektet '%{jira_project_name}'
           JiraFetchProjectVersionsJob:
@@ -1738,7 +1738,7 @@ da:
           JiraFetchProjectsJob:
             title: Hent projekter
           JiraFetchSprintsJob:
-            title: Fetch sprints
+            title: Hent sprints
           JiraFetchStatusesJob:
             title: Hent statusser
           JiraFetchUsersJob:
@@ -1880,14 +1880,14 @@ da:
                   subtitle: Valgt som omfang
                 sprints:
                   label: Sprints
-                  subtitle: With goals and work package assignments
+                  subtitle: Med mål og tildelte arbejdspakker
                 title: Importerede data
                 users_and_groups:
                   label: Brugere og grupper
-                  subtitle: Involved in imported projects
+                  subtitle: Involveret i importerede projekter
                 versions:
-                  label: Versions
-                  subtitle: Of the imported projects
+                  label: Versioner
+                  subtitle: Fra de importerede projekter
                 work_packages:
                   label: Arbejdspakker
                   subtitle: Med vedhæftede filer og registreret tid
@@ -1904,15 +1904,15 @@ da:
               description: Vælg, hvilke af de data, der er hentet fra Jira-installationen, du vil importere.
               elements:
                 custom_fields: Et udvalg af brugerdefinerede felter
-                issue_details: Issue identifiers, description, history, comments and attachments
+                issue_details: Id'er, beskrivelse, historik, kommentarer og vedhæftede filer for sager
                 issues: Sager
                 logged_time: Registreret tid
                 permissions: Tilladelser
-                project_details: Project identifiers, description and versions
+                project_details: Id'er, beskrivelse og versioner for projekter
                 projects: Projekter
                 relations: Relationer mellem sager
                 schemes: Skemaer
-                sprints: Sprints and sprint assignments
+                sprints: Sprints og tildelinger til sprints
                 users: Involverede brugere og grupper
                 workflows: Arbejdsgange på projektniveau
               label_coming_later: Kommer senere
@@ -1939,20 +1939,20 @@ da:
               rest_line_text: ''
               title: Hent Jira-konfiguration
             '10':
-              rest_line_text: Creating relations for %{projects_number} more projects
-              title: Create relations
+              rest_line_text: Opretter relationer for %{projects_number} projekter mere
+              title: Opret relationer
             '11':
-              rest_line_text: Creating time entries for %{projects_number} more projects
-              title: Create time entries
+              rest_line_text: Opretter tidsregistreringer for %{projects_number} projekter mere
+              title: Opret tidsregistreringer
             '12':
-              rest_line_text: Downloading attachments for %{projects_number} more projects
-              title: Download attachments
+              rest_line_text: Henter vedhæftede filer for %{projects_number} projekter mere
+              title: Hent vedhæftede filer
             '2':
-              rest_line_text: Fetching issues, boards and versions for %{projects_number} more projects
-              title: Fetch project issues, boards and versions
+              rest_line_text: Henter sager, tavler og versioner for %{projects_number} projekter mere
+              title: Hent projekternes sager, tavler og versioner
             '3':
               rest_line_text: ''
-              title: Fetch users, sprints and custom fields
+              title: Hent brugere, sprints og brugerdefinerede felter
             '4':
               rest_line_text: ''
               title: Opret brugere, grupper og medlemskaber
@@ -1963,8 +1963,8 @@ da:
               rest_line_text: Opretter %{projects_number} projekter mere
               title: Opret projekter
             '7':
-              rest_line_text: Creating versions and sprints for %{projects_number} more projects
-              title: Create project versions and sprints
+              rest_line_text: Opretter versioner og sprints for %{projects_number} projekter mere
+              title: Opret projektversioner og sprints
             '8':
               rest_line_text: Opretter arbejdspakker for %{projects_number} projekter mere
               title: Opret arbejdspakker
@@ -2301,8 +2301,8 @@ da:
       blankslate:
         description: Tilføj statusser for at begynde at konfigurere arbejdsgange for rollen
         linked_description: Typen genbruger arbejdsgangene fra sin tilknyttede kildetype, som ikke har nogen statusovergange konfigureret
-        readonly_description: Select other roles to view configured transitions
-        readonly_title: No status transitions configured for the selected roles
+        readonly_description: Vælg andre roller for at se de konfigurerede overgange
+        readonly_title: Der er ikke konfigureret nogen statusovergange for de valgte roller
         title: Ingen statusovergange konfigureret
       leave_confirmation:
         description: Du er ved at forlade siden, men du har ændringer, der ikke er gemt. Vil du gemme dem, før du fortsætter?
@@ -2641,12 +2641,13 @@ da:
   button_actions: Handlinger
   button_add: Tilføj
   button_add_comment: Tilføj kommentar
-  button_add_item_above: Tilføj element ovenfor
-  button_add_item_below: Tilføj element nedenfor
+  button_add_item_above: Add value above
+  button_add_item_below: Add value below
   button_add_member: Tilføj medlem
   button_add_menu_entry: Tilføj menupunkt
   button_add_non_working_time: Fravær
   button_add_sub_item: Tilføj underelement
+  button_add_sub_value: Add sub-value
   button_add_watcher: Tilføj følger
   button_all_filters: Alle filtre
   button_annotate: Anmærke
@@ -2851,30 +2852,30 @@ da:
     admin:
       hierarchy:
         subitems:
-          one: "%{count} underelement"
-          other: "%{count} underelementer"
-          zero: ingen underelementer
+          one: "%{count} sub-value"
+          other: "%{count} sub-values"
+          zero: no sub-values
       items:
-        actions: Handlinger for element
+        actions: Value actions
         blankslate:
           item:
-            description: Tilføj elementer til listen for at oprette underelementer i et andet element
-            title: Elementet har ikke noget hierarkiniveau under sig
+            description: Add values to this list to create sub-values inside another one
+            title: This value doesn't have any hierarchy level below
           project_item:
-            description: This value belongs to the project %{project}. It cannot have global sub-items. Sub-items can only be added in the [project administration](project_administration).
+            description: This value belongs to the project %{project}. It cannot have global sub-values. Sub-values can only be added in the [project administration](project_administration).
           root:
-            description: Begynd med at tilføje elementer til hierarkiet. Hvert element kan have sine egne underelementer. Klik på et element for at åbne det og tilføje underelementer.
-            title: Din liste over elementer er tom
+            description: Start by adding values to the custom field of type hierarchy. Each value can be used to create a hierarchy below it. To navigate and create sub-values inside a hierarchy click on the created value.
+            title: Your list of values is empty
         delete_dialog:
-          description: Handlingen fjerner elementet og alle dets underelementer, og det kan ikke fortrydes. Alle tildelte værdier slettes permanent. Hvis feltet er påkrævet, kan det gøre eksisterende arbejdspakker ugyldige at fjerne elementer.
-          heading: Vil du slette elementet i det brugerdefinerede felt?
-          title: Slet element i brugerdefineret felt
+          description: This action will irreversibly remove the value and all its sub-values. Any assigned values will be permanently deleted. If this field is required, removing values may cause existing work packages to become invalid.
+          heading: Delete custom field value?
+          title: Delete custom field value
         placeholder:
-          label: Elementets betegnelse
+          label: Value label
           short: Kort navn
           weight: Vægt
       notice:
-        remember_items_and_projects: Husk at angive elementer for det brugerdefinerede felt og at sørge for, at det bruges i mindst ét projekt.
+        remember_items_and_projects: Remember to set values for this custom field, and to make sure it is used in at least one project.
       projects:
         changes_heading: Vigtige ændringer
         changes_text: 'Fra version 18.0 bliver brugerdefinerede felter ikke længere aktiveret eller deaktiveret på projektniveau. De indgår i formularer, som derefter bruges i forskellige typer og varianter. Listen nedenfor viser projekter, der bruger typer eller varianter med formularer, som indeholder dette brugerdefinerede felt.
@@ -2924,7 +2925,7 @@ da:
         warning: Afhængigt af den rolle, der vælges nedenfor, kan den bruger, der er tildelt denne projektattribut, få væsentligt flere tilladelser end før, herunder mulighed for at tilføje nye medlemmer og give sig selv en højere rolle.
     calculated_field_not_editable: Attributten kan ikke redigeres. Værdien beregnes automatisk.
     confirm_destroy_option: Sletning af en indstilling vil slette alle dens forekomster (f.eks. i arbejdspakker). Er du sikker på, at du vil slette den?
-    contained_in: Contained in
+    contained_in: Indeholdt i
     enabled_in_project: Aktiveret i projektet
     instructions:
       admin_only:
@@ -2982,11 +2983,11 @@ da:
       block:
         caption: Som standard er alle værdier tilgængelige for alle projekter, men du kan manuelt deaktivere bestemte værdier for enkelte projekter.
         label: 'Blokeringsfilter: Vælg manuelt, hvilke værdier der skal deaktiveres for hvert projekt'
-      label: Project-specific
-      label_with_project: 'Project-specific: %{project}'
+      label: Projektspecifik
+      label_with_project: 'Projektspecifik: %{project}'
       project_admins:
-        additional_values_caption: Added values are only available in the project they were created in. You can make them available to all projects later.
-        value_management_caption: Project admins can enable or disable certain values for their project. All global values will be visible to them.
+        additional_values_caption: Tilføjede værdier er kun tilgængelige i det projekt, de er oprettet i. Du kan senere gøre dem tilgængelige for alle projekter.
+        value_management_caption: Projektadministratorer kan slå bestemte værdier til eller fra for deres projekt. De kan se alle globale værdier.
       switch_warning:
         all: Alle værdier bliver tilgængelige i alle projekter.
         allow: Ingen værdier bliver tilgængelige for noget projekt, medmindre du aktiverer dem manuelt i hvert enkelt projekt.
@@ -3274,7 +3275,7 @@ da:
       team_planner_view: Teamplanlægger
       text_assistant: Tekstassistent
       virus_scanning: Antivirusscanning
-      weighted_item_lists: Vægtede lister
+      weighted_item_lists: Weighted lists
       work_package_query_relation_columns: Relationskolonner i visninger af arbejdspakker
       work_package_sharing: Del arbejdspakker med eksterne brugere
       work_package_subject_generation: Automatisk dannede emner for arbejdspakker
@@ -3392,7 +3393,7 @@ da:
       virus_scanning:
         description: Sørg for, at filer, der overføres til OpenProject, scannes for virus, før andre brugere får adgang til dem.
       weighted_item_lists:
-        description: Med vægtede lister kan du oprette en liste, hvor hvert element har en tilknyttet talværdi.
+        description: Weighted lists allow you to create a list with underlying numeric values associated.
       work_package_sharing:
         description: Del arbejdspakker med brugere, der ikke er medlemmer af projektet.
       work_package_subject_generation:
@@ -4031,7 +4032,7 @@ da:
   label_active_in_new_projects: Aktiv i nye projekter
   label_activity: Aktivitet
   label_add_another_file: Tilføj en anden fil
-  label_add_column: Add columns
+  label_add_column: Tilføj kolonner
   label_add_columns: Tilføj valgte kolonner
   label_add_edit_translations: Tilføje og redigere oversættelser
   label_add_note: Tilføj en note
@@ -4167,7 +4168,7 @@ da:
   label_custom_export_footer: Billede i sidefoden
   label_custom_export_logo: Logo
   label_custom_favicon: Brugerdefineret favicon
-  label_custom_field_add_no_form: Add this field to a form
+  label_custom_field_add_no_form: Føj feltet til en formular
   label_custom_field_default_type: Tom typebetegnelse
   label_custom_field_new: Nyt brugerdefineret felt
   label_custom_field_plural: Brugerdefinerede felter
@@ -4194,7 +4195,7 @@ da:
   label_delete_user: Slet bruger
   label_deleted: slettet
   label_deleted_custom_field: "(slettet brugerdefineret felt)"
-  label_deleted_custom_item: "(slettet element)"
+  label_deleted_custom_item: "(deleted value)"
   label_deleted_custom_option: "(slettet valgmulighed)"
   label_deleted_label: "(slettet mærkat)"
   label_deleted_version: "(slettet version)"
@@ -4261,7 +4262,7 @@ da:
   label_filter: Filtre
   label_filter_add: Tilføj filter
   label_filter_any_name_attribute: Navneattributter
-  label_filter_by_column: Filter by %{column}
+  label_filter_by_column: Filtrer efter %{column}
   label_filter_plural: Filtre
   label_filters_toggle: Vis/skjul filtre
   label_float: Flyd
@@ -4312,7 +4313,7 @@ da:
   label_in: i
   label_in_less_than: på mindre end
   label_in_more_than: på mere end
-  label_in_progress_work_packages: in progress
+  label_in_progress_work_packages: i gang
   label_inactive: Inaktiv
   label_include_sub_projects: Medtag underprojekter
   label_includes: omfatter
@@ -4333,8 +4334,6 @@ da:
   label_invalid_file_type: Filtypen understøttes ikke.
   label_invitation: Invitation
   label_invite_user: Invitér bruger
-  label_item: Element
-  label_item_plural: Elementer
   label_jira_import: Jira-migrering
   label_journal: Journal
   label_journal_diff: Sammenligning af beskrivelser
@@ -4464,7 +4463,7 @@ da:
   label_on: på
   label_open: åben
   label_open_menu: Åbn menuen
-  label_open_work_packages: open (to-do + in progress)
+  label_open_work_packages: åbne (ikke startet + i gang)
   label_open_work_packages_plural: åbne
   label_openproject_website: OpenProjects websted
   label_operator_all: er ikke tom
@@ -4671,7 +4670,7 @@ da:
   label_time_entry_plural: Anvendt tid
   label_timer_since: Startet %{time}
   label_title: Titel
-  label_to_do_work_packages: to-do
+  label_to_do_work_packages: ikke startet
   label_today: i dag
   label_today_as_date: Vælg dags dato.
   label_today_as_due_date: Vælg dags dato som slutdato.
@@ -4707,6 +4706,7 @@ da:
   label_user_settings: Brugerindstillinger
   label_users_settings: Indstillinger for brugere
   label_value: Værdi
+  label_value_plural: Values
   label_value_x: 'Værdi: %{x}'
   label_version_custom_field_plural: Brugerdefinerede felter for versioner
   label_version_edit: Rediger version
@@ -4726,7 +4726,7 @@ da:
   label_view_x: 'Vis: %{x}'
   label_watched_work_packages: Arbejdspakker, der er tilset
   label_week: Uge
-  label_weighted_item_list: Vægtet liste
+  label_weighted_item_list: Weighted list
   label_what_is_this: Hvad er det?
   label_widget_new: Ny widget
   label_wiki_content_added: Wiki-side tilføjet
@@ -4785,13 +4785,13 @@ da:
     one: "%{count} fil"
     other: "%{count} filer"
     zero: ingen filer
-  label_x_in_progress_work_packages_abbr:
-    one: 1 in progress
-    other: "%{count} in progress"
-    zero: 0 in progress
   label_x_forms:
-    one: "%{count} form"
-    other: "%{count} forms"
+    one: "%{count} formular"
+    other: "%{count} formularer"
+  label_x_in_progress_work_packages_abbr:
+    one: 1 i gang
+    other: "%{count} i gang"
+    zero: 0 i gang
   label_x_items:
     one: "%{count} element"
     other: "%{count} elementer"
@@ -4808,9 +4808,9 @@ da:
     other: "%{count} projekter"
     zero: ingen projekter
   label_x_to_do_work_packages_abbr:
-    one: 1 to-do
-    other: "%{count} to-do"
-    zero: 0 to-do
+    one: 1 ikke startet
+    other: "%{count} ikke startet"
+    zero: 0 ikke startet
   label_x_work_packages:
     one: "%{count} arbejdspakke"
     other: "%{count} arbejdspakker"
@@ -5405,7 +5405,7 @@ da:
   notice_no_principals_found: Ingen resultater fundet.
   notice_not_authorized: Du har ikke tilladelser til at gå til denne side.
   notice_not_authorized_archived_project: Det projekt du forsøger at tilgå er blevet arkiveret.
-  notice_parent_item_not_found: Det overordnede element blev ikke fundet.
+  notice_parent_item_not_found: Parent value not found.
   notice_password_confirmation_failed: Den indtastede adgangskode er forkert.
   notice_principals_found_multiple: "Der blev fundet %{number} resultater. \n Tryk på Tab for at gå til det første resultat."
   notice_principals_found_single: "Der er ét resultat. \n Tryk på Tab for at gå til det."
@@ -5623,15 +5623,15 @@ da:
         custom_field:
           format_not_supported: formatet '%{field_format}' understøttes ikke.
         item:
-          not_persisted: skal være et eksisterende element.
-          root_item: kan ikke være et rodelement.
+          not_persisted: must be an already existing value.
+          root_item: cannot be a root value.
         label:
           not_unique: skal være entydig på samme niveau i hierarkiet.
         parent:
           not_descendant: skal ligge under hierarkiets rod.
-          other_project: must be a global value or belong to the same project.
+          other_project: skal være en global værdi eller høre til samme projekt.
         project:
-          additional_values_not_allowed: cannot add values to this custom field.
+          additional_values_not_allowed: kan ikke tilføje værdier til dette brugerdefinerede felt.
         short:
           not_unique: skal være entydig på samme niveau i hierarkiet.
       str?: skal være en streng.
@@ -5645,7 +5645,7 @@ da:
       blueprint: Skabelon for mønster
       depth: Dybde
       enabled: Aktiveret
-      item: Element
+      item: Value
       label: Betegnelse
       parent: Overordnet
       short: Kort navn
@@ -5967,7 +5967,7 @@ da:
   project_module_activity: Aktivitet
   project_module_forums: Fora
   project_module_news: Nyheder
-  project_module_repository: SVN/Git Repository (deprecated)
+  project_module_repository: SVN/Git-projektarkiv (forældet)
   project_module_wiki: Wiki
   project_module_work_package_tracking: Arbejdspakker
   projects:
@@ -6871,7 +6871,7 @@ da:
         label_built_in_attribute_actions: Handlinger for indbygget attribut
       custom_field_row_component:
         label_user_custom_field_actions: Handlinger for brugerattribut
-      label_move_to_section: Move to %{name}
+      label_move_to_section: Flyt til %{name}
       show_component:
         label_add_attribute: Tilføj en brugerattribut
         label_edit_section: Rediger titel
@@ -6986,9 +6986,9 @@ da:
     edit:
       captions:
         category:
-          closed: Work that has been completed.
-          in_progress: Work that is actively being worked on.
-          to_do: Work that has not yet started.
+          closed: Arbejde, der er afsluttet.
+          in_progress: Arbejde, der er i gang.
+          to_do: Arbejde, der endnu ikke er startet.
       status_color_text: |
         Klik for at tildele eller ændre statussens farve.
         Den vises på statusknappen og kan bruges til at fremhæve arbejdspakker i tabellen.
@@ -7477,7 +7477,7 @@ da:
         actions:
           confirm_remove: Vil du fjerne typen %{type} fra %{project}?
           remove_from_project: Fjern fra projekt
-          switch_variant: Switch variant
+          switch_variant: Skift variant
         add_dialog:
           no_projects_selected: Vælg mindst ét projekt.
           search_placeholder: Søg efter projekter

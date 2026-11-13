@@ -724,7 +724,7 @@ ru:
             project_level_value_management:
               not_available_for_all_values: is only available when values are restricted per project.
             project_specific_value_restriction:
-              not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
+              not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted list.
             required:
               cannot_be_true: не может быть установлено в true.
           previous_custom_field_recalculation_unprocessed: Пересчет предыдущих изменений для этого пользовательского поля еще не был применен, пожалуйста, повторите попытку через несколько минут.
@@ -1221,10 +1221,10 @@ ru:
         many: Custom fields
         other: Пользовательские поля
       custom_field/hierarchy/item:
-        one: Элемент иерархии
-        few: Hierarchy items
-        many: Hierarchy items
-        other: Элементы иерархии
+        one: Hierarchy value
+        few: Hierarchy values
+        many: Hierarchy values
+        other: Hierarchy values
       custom_field_section:
         one: Раздел пользовательских полей
         few: Custom field sections
@@ -2893,12 +2893,13 @@ ru:
   button_actions: Действия
   button_add: Добавить
   button_add_comment: Добавить комментарий
-  button_add_item_above: Добавить элемент выше
-  button_add_item_below: Добавить элемент ниже
+  button_add_item_above: Add value above
+  button_add_item_below: Add value below
   button_add_member: Добавить участника
   button_add_menu_entry: Добавление пункта меню
   button_add_non_working_time: Время отдыха
   button_add_sub_item: Добавить подпроект
+  button_add_sub_value: Add sub-value
   button_add_watcher: Добавить наблюдателя
   button_all_filters: Все фильтры
   button_annotate: Комментировать
@@ -3103,30 +3104,30 @@ ru:
     admin:
       hierarchy:
         subitems:
-          one: "%{count} sub-item"
-          other: "%{count} подпунктов"
-          zero: нет подпунктов
+          one: "%{count} sub-value"
+          other: "%{count} sub-values"
+          zero: no sub-values
       items:
-        actions: Действия с элементом
+        actions: Value actions
         blankslate:
           item:
-            description: Добавьте элементы в этот список, чтобы создать подпункты внутри другого списка
-            title: Этот элемент не имеет уровня иерархии ниже
+            description: Add values to this list to create sub-values inside another one
+            title: This value doesn't have any hierarchy level below
           project_item:
-            description: This value belongs to the project %{project}. It cannot have global sub-items. Sub-items can only be added in the [project administration](project_administration).
+            description: This value belongs to the project %{project}. It cannot have global sub-values. Sub-values can only be added in the [project administration](project_administration).
           root:
-            description: Начните с добавления элементов в настраиваемое поле иерархии. Каждый элемент может быть использован для создания иерархии ниже его. Чтобы переместить и создать подпункты внутри иерархии, нажмите на созданный элемент.
-            title: Ваш список элементов пуст
+            description: Start by adding values to the custom field of type hierarchy. Each value can be used to create a hierarchy below it. To navigate and create sub-values inside a hierarchy click on the created value.
+            title: Your list of values is empty
         delete_dialog:
-          description: Это действие необратимо удалит элемент и все его подпункты. Все присвоенные значения будут удалены навсегда. Если это поле является обязательным, удаление элементов может привести к тому, что существующие рабочие пакеты работ станут недействительными.
-          heading: Удалить элемент пользовательского поля?
-          title: Удалить элемент пользовательского поля
+          description: This action will irreversibly remove the value and all its sub-values. Any assigned values will be permanently deleted. If this field is required, removing values may cause existing work packages to become invalid.
+          heading: Delete custom field value?
+          title: Delete custom field value
         placeholder:
-          label: Название элемента
+          label: Value label
           short: Короткое имя
           weight: Вес
       notice:
-        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
+        remember_items_and_projects: Remember to set values for this custom field, and to make sure it is used in at least one project.
       projects:
         changes_heading: Important changes
         changes_text: 'Starting version 18.0, custom fields are no longer enabled or disabled at a project level. They are included in forms, which are then used in different types and variants. The following list shows projects that use types or variants using forms including this custom field.
@@ -3566,7 +3567,7 @@ ru:
       team_planner_view: Просмотр командных планировщиков
       text_assistant: Text assistant
       virus_scanning: Антивирусное сканирование
-      weighted_item_lists: Списки взвешенных элементов
+      weighted_item_lists: Weighted lists
       work_package_query_relation_columns: Колонки запросов пакета работ
       work_package_sharing: Поделиться пакетами работ с внешними пользователями
       work_package_subject_generation: Создание темы пакета работ
@@ -3686,7 +3687,7 @@ ru:
       virus_scanning:
         description: Будьте уверены в том, что загруженные в OpenProject файлы проверены на наличие вирусов, прежде чем они станут доступны другим пользователям.
       weighted_item_lists:
-        description: Списки взвешенных элементов позволяют создать список с соответствующими числовыми значениями.
+        description: Weighted lists allow you to create a list with underlying numeric values associated.
       work_package_sharing:
         description: Поделиться пакетом работ с пользователями, которые не являются участниками проекта.
       work_package_subject_generation:
@@ -4512,7 +4513,7 @@ ru:
   label_delete_user: Удалить пользователя
   label_deleted: "\uFEFFУдалено"
   label_deleted_custom_field: "(удалено настраиваемое поле)"
-  label_deleted_custom_item: "(удалено)"
+  label_deleted_custom_item: "(deleted value)"
   label_deleted_custom_option: "(удалённая опция)"
   label_deleted_label: "(deleted label)"
   label_deleted_version: "(удаленная версия)"
@@ -4651,8 +4652,6 @@ ru:
   label_invalid_file_type: This file type is not supported.
   label_invitation: Приглашение
   label_invite_user: Пригласить пользователя
-  label_item: Элемент
-  label_item_plural: Элементы
   label_jira_import: Мигратор Jira
   label_journal: Журнал
   label_journal_diff: Описание сравнения
@@ -5025,6 +5024,7 @@ ru:
   label_user_settings: Настройки пользователя
   label_users_settings: Настройки пользователей
   label_value: Value
+  label_value_plural: Values
   label_value_x: 'Значение: %{x}'
   label_version_custom_field_plural: Version custom fields
   label_version_edit: Изменить версию
@@ -5044,7 +5044,7 @@ ru:
   label_view_x: 'Вид: %{x}'
   label_watched_work_packages: Наблюдаемые пакеты работ
   label_week: Неделя
-  label_weighted_item_list: Список взвешенных элементов
+  label_weighted_item_list: Weighted list
   label_what_is_this: Что это?
   label_widget_new: Новый виджет
   label_wiki_content_added: Wiki-страница добавлена
@@ -5105,15 +5105,15 @@ ru:
     one: "%{count} file"
     other: "%{count} файлов"
     zero: нет файлов
-  label_x_in_progress_work_packages_abbr:
-    one: 1 in progress
-    other: "%{count} in progress"
-    zero: 0 in progress
   label_x_forms:
     one: "%{count} form"
     few: "%{count} forms"
     many: "%{count} forms"
     other: "%{count} forms"
+  label_x_in_progress_work_packages_abbr:
+    one: 1 in progress
+    other: "%{count} in progress"
+    zero: 0 in progress
   label_x_items:
     one: "%{count} item"
     other: "%{count} элементов"
@@ -5747,7 +5747,7 @@ ru:
   notice_no_principals_found: Ничего не найдено.
   notice_not_authorized: Вы не авторизованы для доступа к этой странице.
   notice_not_authorized_archived_project: Проект, к которому Вы пытаетесь получить доступ, заархивирован.
-  notice_parent_item_not_found: Родительский элемент не найден.
+  notice_parent_item_not_found: Parent value not found.
   notice_password_confirmation_failed: Введенный пароль неверен.
   notice_principals_found_multiple: Найдено %{number} результатов. Нажмите <TAB> для перехода к первому.
   notice_principals_found_single: Найден один результат. Нажмите <TAB> для перехода к нему.
@@ -5969,8 +5969,8 @@ ru:
         custom_field:
           format_not_supported: формат '%{field_format}' не поддерживается.
         item:
-          not_persisted: должно быть уже существующим элементом.
-          root_item: не может быть корневым элементом.
+          not_persisted: must be an already existing value.
+          root_item: cannot be a root value.
         label:
           not_unique: должно быть уникальным в пределах одного уровня иерархии.
         parent:
@@ -5991,7 +5991,7 @@ ru:
       blueprint: Шаблон чертежа
       depth: Глубина
       enabled: Включено
-      item: Элемент
+      item: Value
       label: Метка
       parent: Родитель
       short: Короткое имя

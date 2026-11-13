@@ -724,7 +724,7 @@ zh-TW:
             project_level_value_management:
               not_available_for_all_values: is only available when values are restricted per project.
             project_specific_value_restriction:
-              not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
+              not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted list.
             required:
               cannot_be_true: 不能設定為 true。
           previous_custom_field_recalculation_unprocessed: 尚未套用此自訂欄位先前變更的重新計算，請過幾分鐘再試一次。
@@ -1149,7 +1149,7 @@ zh-TW:
       custom_field:
         other: Custom fields
       custom_field/hierarchy/item:
-        other: Hierarchy items
+        other: Hierarchy values
       custom_field_section:
         other: Custom field sections
       custom_option:
@@ -2520,12 +2520,13 @@ zh-TW:
   button_actions: 動作
   button_add: 增加
   button_add_comment: 新增留言
-  button_add_item_above: 新增上述項目
-  button_add_item_below: 新增以下項目
+  button_add_item_above: Add value above
+  button_add_item_below: Add value below
   button_add_member: 新增成員
   button_add_menu_entry: 新增選單項目
   button_add_non_working_time: Time off
   button_add_sub_item: 新增子項目
+  button_add_sub_value: Add sub-value
   button_add_watcher: 新增監看者
   button_all_filters: All filters
   button_annotate: 注釋
@@ -2730,30 +2731,30 @@ zh-TW:
     admin:
       hierarchy:
         subitems:
-          one: "%{count} sub-item"
-          other: "%{count} 子項目"
-          zero: 無子項目
+          one: "%{count} sub-value"
+          other: "%{count} sub-values"
+          zero: no sub-values
       items:
-        actions: 自訂動作
+        actions: Value actions
         blankslate:
           item:
-            description: 將項目加入此清單以在另一個清單中建立子項目
-            title: 此項目下方沒有任何階層
+            description: Add values to this list to create sub-values inside another one
+            title: This value doesn't have any hierarchy level below
           project_item:
-            description: This value belongs to the project %{project}. It cannot have global sub-items. Sub-items can only be added in the [project administration](project_administration).
+            description: This value belongs to the project %{project}. It cannot have global sub-values. Sub-values can only be added in the [project administration](project_administration).
           root:
-            description: 首先將項目新增至階層結構的客製欄位。每個項目都可用於在其下方建立一個階層結構。若要在階層結構內導覽和建立子項目，請按一下已建立的項目。
-            title: 您的欄位清單是空的
+            description: Start by adding values to the custom field of type hierarchy. Each value can be used to create a hierarchy below it. To navigate and create sub-values inside a hierarchy click on the created value.
+            title: Your list of values is empty
         delete_dialog:
-          description: 此動作將不可逆轉地移除項目及其所有子項目。任何指定的值都會被永久刪除。如果此欄位是必填欄位，移除項目可能會導致現有工作套件失效。
-          heading: 刪除自訂欄位？
-          title: 刪除自訂欄位
+          description: This action will irreversibly remove the value and all its sub-values. Any assigned values will be permanently deleted. If this field is required, removing values may cause existing work packages to become invalid.
+          heading: Delete custom field value?
+          title: Delete custom field value
         placeholder:
-          label: 項目標籤
+          label: Value label
           short: 簡稱
           weight: 權重
       notice:
-        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
+        remember_items_and_projects: Remember to set values for this custom field, and to make sure it is used in at least one project.
       projects:
         changes_heading: Important changes
         changes_text: 'Starting version 18.0, custom fields are no longer enabled or disabled at a project level. They are included in forms, which are then used in different types and variants. The following list shows projects that use types or variants using forms including this custom field.
@@ -3133,7 +3134,7 @@ zh-TW:
       team_planner_view: 團隊規劃檢視
       text_assistant: Text assistant
       virus_scanning: 掃描病毒
-      weighted_item_lists: 加權項目清單
+      weighted_item_lists: Weighted lists
       work_package_query_relation_columns: 工作套件查詢關聯列
       work_package_sharing: 與外部使用者共用工作套件
       work_package_subject_generation: 工作套件標題產生
@@ -3248,7 +3249,7 @@ zh-TW:
       virus_scanning:
         description: 確保在其他使用者存取 OpenProject 中上傳的檔案前，對其進行病毒掃描。
       weighted_item_lists:
-        description: 加權項目清單可讓您建立一個與基本數值相關的清單。
+        description: Weighted lists allow you to create a list with underlying numeric values associated.
       work_package_sharing:
         description: 與不是專案成員的使用者共同參與工作套件。
       work_package_subject_generation:
@@ -4037,7 +4038,7 @@ zh-TW:
   label_delete_user: 刪除使用者
   label_deleted: 刪除線
   label_deleted_custom_field: "(已刪除的客製欄位)"
-  label_deleted_custom_item: "(刪除項目)"
+  label_deleted_custom_item: "(deleted value)"
   label_deleted_custom_option: "(刪除的選項)"
   label_deleted_label: "(deleted label)"
   label_deleted_version: "(deleted version)"
@@ -4176,8 +4177,6 @@ zh-TW:
   label_invalid_file_type: This file type is not supported.
   label_invitation: 邀請
   label_invite_user: 邀請使用者
-  label_item: 欄位
-  label_item_plural: 欄位
   label_jira_import: Jira Migrator
   label_journal: 日誌
   label_journal_diff: 內容對比
@@ -4550,6 +4549,7 @@ zh-TW:
   label_user_settings: 使用者設定
   label_users_settings: 使用者設定
   label_value: Value
+  label_value_plural: Values
   label_value_x: '值: %{x}'
   label_version_custom_field_plural: Version custom fields
   label_version_edit: 編輯版本
@@ -4569,7 +4569,7 @@ zh-TW:
   label_view_x: 'View: %{x}'
   label_watched_work_packages: 監看的工作套件
   label_week: 週
-  label_weighted_item_list: 加權項目清單
+  label_weighted_item_list: Weighted list
   label_what_is_this: 這是什麼？
   label_widget_new: 新增小工具
   label_wiki_content_added: 新增維基頁面
@@ -4627,12 +4627,12 @@ zh-TW:
     one: "%{count} file"
     other: "%{count} 檔案"
     zero: 沒有檔案
+  label_x_forms:
+    other: "%{count} forms"
   label_x_in_progress_work_packages_abbr:
     one: 1 in progress
     other: "%{count} in progress"
     zero: 0 in progress
-  label_x_forms:
-    other: "%{count} forms"
   label_x_items:
     one: "%{count} item"
     other: "%{count} items"
@@ -5236,7 +5236,7 @@ zh-TW:
   notice_no_principals_found: 沒有找到結果
   notice_not_authorized: 你沒有存取此頁面的權限
   notice_not_authorized_archived_project: 你欲存取的專案已被封存
-  notice_parent_item_not_found: 未找到父項目。
+  notice_parent_item_not_found: Parent value not found.
   notice_password_confirmation_failed: 輸入的密碼不正確。
   notice_principals_found_multiple: |-
     找到 %{number} 條結果。
@@ -5454,8 +5454,8 @@ zh-TW:
         custom_field:
           format_not_supported: 格式 '%{field_format}' 不支援。
         item:
-          not_persisted: 必須是已存在的項目。
-          root_item: 不能為根項目。
+          not_persisted: must be an already existing value.
+          root_item: cannot be a root value.
         label:
           not_unique: 在相同的階層層級內必須是唯一的。
         parent:
@@ -5476,7 +5476,7 @@ zh-TW:
       blueprint: 樣式藍圖
       depth: 深度
       enabled: 啟用
-      item: 項目
+      item: Value
       label: 標籤
       parent: 上層
       short: 簡稱

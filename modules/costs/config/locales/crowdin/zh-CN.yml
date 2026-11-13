@@ -80,7 +80,7 @@ zh-CN:
           attributes:
             base:
               cannot_edit_time_entry: You don't have permissions to edit this time entry.
-              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
+              cannot_log_for_this_work_package: 您没有为此工作包记录时间的权限。
             entity:
               blank: 因不能为空而记录。
               format: "%{message}"
@@ -178,7 +178,7 @@ zh-CN:
         none_active: 此项目中目前没有有效成本类型。
       time_and_costs: 时间和成本
       time_entry_activities:
-        heading: Time tracking
+        heading: 时间跟踪
         hint: Select which time tracking activities are displayed in your project when members log their time.
   costs:
     widgets:
@@ -242,7 +242,7 @@ zh-CN:
   label_status_finished: 已完成
   label_time: 时间
   label_time_entry_activity_form_description: 对该时间条目活动的更改将反映的所有启用的项目中。
-  label_time_entry_custom_field_plural: Time entry custom fields
+  label_time_entry_custom_field_plural: 时间条目自定义字段
   label_time_entry_restrictions: 限值
   label_today_capitalized: 今天
   label_units: 成本单位

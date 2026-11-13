@@ -26,12 +26,12 @@ it:
         select: Seleziona file
         select_all: Seleziona tutto
         selection:
-          none: Select files to link
+          none: Seleziona i files da collegare
           one: Link %{count} file
-          other: Link %{count} files
+          other: Collega %{count} file
         success_create:
           one: Successfully created %{count} file link.
-          other: Successfully created %{count} file links.
+          other: "%{count} link di file creati correttamente."
         tooltip:
           not_found: Impossibile trovare questo file.
           not_logged_in: Effettua il login nella memoria per accedere a questo file.
