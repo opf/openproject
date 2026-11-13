@@ -264,6 +264,12 @@ export const RequiredMark = styled.span`
   color: ${textColor};
 `;
 
+export const truncateStyles = css`
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`;
+
 /*  Doubled: OpenProject styles inputs by their type ("input[type=text]"), which
     outweighs a single class.  */
 export const controlStyles = css`
@@ -388,9 +394,7 @@ export const Token = styled.span`
 `;
 
 export const TokenLabel = styled.span`
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  ${truncateStyles}
 `;
 
 export const TokenRemove = styled.button`
@@ -486,9 +490,7 @@ export const SuggestionItem = styled.div<{ $focused:boolean; $selected?:boolean 
 `;
 
 export const SuggestionLabel = styled.span`
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  ${truncateStyles}
 `;
 
 /*  Pushed to the right end of the row, where OpenProject puts it too.  */

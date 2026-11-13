@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Give work package attributes the same options menu as work package links, including keyboard access ([BNE-183](https://community.openproject.org/wp/BNE-183))
 - Keep the insert work package attribute dialog open on an outside click or Escape once values are filled in ([BNE-191](https://community.openproject.org/wp/BNE-191))
+- Show cut off picker options and the chosen work package in full on hover, and keep long types from overflowing the work package picker ([BNE-190](https://community.openproject.org/wp/BNE-190))
 
 ## [0.3.4]
 
