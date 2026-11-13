@@ -33,6 +33,7 @@ import { BrowserNotificationSyncService } from 'core-app/features/in-app-notific
 
 describe('BrowserNotificationSyncService', () => {
   let loadedUnread$:Subject<number>;
+  let unreadFetched$:Subject<number>;
   let postMessage:ReturnType<typeof vi.fn>;
   let meta:HTMLMetaElement;
 
@@ -46,7 +47,7 @@ describe('BrowserNotificationSyncService', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        { provide: IanBellService, useValue: { loadedUnread$ } },
+        { provide: IanBellService, useValue: { loadedUnread$, unreadFetched$ } },
         { provide: ConfigurationService, useValue: { activeFeatureFlags: flags } },
       ],
     });
@@ -58,6 +59,7 @@ describe('BrowserNotificationSyncService', () => {
 
   beforeEach(() => {
     loadedUnread$ = new Subject<number>();
+    unreadFetched$ = new Subject<number>();
     postMessage = vi.fn();
     meta = document.createElement('meta');
     meta.name = 'current_user';
@@ -110,6 +112,16 @@ describe('BrowserNotificationSyncService', () => {
 
     loadedUnread$.next(3);
     loadedUnread$.next(2);
+    await flush();
+
+    expect(postMessage.mock.calls.filter(([message]) => message.type === 'reconcile')).toHaveLength(2);
+  });
+
+  it('asks the worker to reconcile after a successful load even when the count is unchanged', async () => {
+    setup().initialize();
+
+    unreadFetched$.next(3);
+    unreadFetched$.next(3);
     await flush();
 
     expect(postMessage.mock.calls.filter(([message]) => message.type === 'reconcile')).toHaveLength(2);

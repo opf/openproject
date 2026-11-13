@@ -26,7 +26,7 @@
 //++
 
 import { Injectable, inject } from '@angular/core';
-import { filter } from 'rxjs';
+import { filter, merge } from 'rxjs';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { getMetaValue } from 'core-app/core/setup/globals/global-helpers';
 import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
@@ -53,7 +53,7 @@ export class BrowserNotificationSyncService {
       void this.post({ type: 'account', userId }).catch(() => undefined);
     }
 
-    this.ianBell.loadedUnread$
+    merge(this.ianBell.loadedUnread$, this.ianBell.unreadFetched$)
       .pipe(filter((count) => count >= 0))
       .subscribe(() => this.requestReconcile());
   }
