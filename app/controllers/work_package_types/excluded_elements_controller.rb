@@ -29,6 +29,10 @@
 
 module WorkPackageTypes
   class ExcludedElementsController < BaseTabController
+    include TypesHelper
+    include OpTurbo::ComponentStream
+    include WorkPackageTypes::FormConfigurationComponentStreams
+
     before_action :require_valid_aspect
 
     current_menu_item do
@@ -41,7 +45,12 @@ module WorkPackageTypes
         .new(user: current_user, variant: @variant)
         .call(aspect:, elements: [element])
 
-      render json: {}, status: call.success? ? :ok : :unprocessable_entity
+      if call.success? && aspect == TypeVariant::FORM_CONFIGURATION && request.format.turbo_stream?
+        update_form_configuration_via_turbo_stream(method: :morph)
+        respond_with_turbo_streams
+      else
+        render json: {}, status: call.success? ? :ok : :unprocessable_entity
+      end
     end
 
     private
