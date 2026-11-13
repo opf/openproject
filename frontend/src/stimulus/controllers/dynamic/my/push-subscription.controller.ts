@@ -35,7 +35,6 @@ interface KnownSubscription {
   endpointDigest:string;
   revokeUrl:string;
   current?:boolean;
-  dormant?:boolean;
 }
 
 type State = 'unsupported'|'blocked'|'enabled'|'disabled'|'error'|'prompting'|'subscribing'|'timeout';
