@@ -54,7 +54,7 @@ module Components
 
         def expect_open
           modal.expect_open
-          expect(page).to have_css(".op-tab-row--link_selected", text: "FILTERS")
+          expect(page).to have_css("[role=tab][aria-selected=true]", text: "Filters")
         end
 
         delegate :expect_closed, to: :modal

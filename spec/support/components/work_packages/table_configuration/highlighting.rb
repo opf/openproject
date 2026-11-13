@@ -83,8 +83,8 @@ module Components
         ::Components::WorkPackages::SettingsMenu.new.open_and_choose "Configure view"
 
         retry_block do
-          find(".op-tab-row--link", text: "HIGHLIGHTING", wait: 10).click
-          expect(page).to have_css(".op-tab-row--link_selected", text: "HIGHLIGHTING", wait: 10)
+          find("[role=tab]", text: "Highlighting", wait: 10).click
+          expect(page).to have_css("[role=tab][aria-selected=true]", text: "Highlighting", wait: 10)
         end
       end
 

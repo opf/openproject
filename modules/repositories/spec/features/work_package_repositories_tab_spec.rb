@@ -56,7 +56,7 @@ RSpec.describe "Open the Repositories tab", :js do
   let(:work_package) { create(:work_package, project:, subject: "A test work_package") }
 
   let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
-  let(:repositories_tab_element) { find(".op-tab-row--link_selected", text: "CODE") }
+  let(:repositories_tab_element) { find("[role=tab][aria-selected=true]", text: "Code") }
   let(:repositories_tab) { Pages::RepositoriesTab.new(work_package.id) }
 
   let(:provider) { create(:repository_provider) }
