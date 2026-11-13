@@ -76,7 +76,7 @@ RSpec.describe "Work package type projects tab", :js do
   end
 
   def choose_menu_item(label)
-    find("[role='menuitem']", text: label, visible: :visible).click
+    find(:menuitem, text: label, visible: :visible).click
   end
 
   def expect_listed(*projects)
@@ -336,15 +336,15 @@ RSpec.describe "Work package type projects tab", :js do
       toggle(on_hardware)
       within(row(on_hardware)) { click_button accessible_name: "Project actions" }
 
-      expect(page).to have_css("[role='menuitem']", text: "Remove type from these projects", visible: :visible)
+      expect(page).to have_selector(:menuitem, text: "Remove type from these projects", visible: :visible)
       expect(row(on_hardware))
         .to have_css("tool-tip", visible: :all) { it.text(:all) == "Actions for 2 selected projects" }
 
       row(on_base).click(x: 6, y: 6, offset: :position)
       within(row(on_hardware)) { click_button accessible_name: "Project actions" }
 
-      expect(page).to have_css("[role='menuitem']", text: "Remove type from this project", visible: :visible)
-      expect(page).to have_no_css("[role='menuitem']", text: "Remove type from these projects", visible: :visible)
+      expect(page).to have_selector(:menuitem, text: "Remove type from this project", visible: :visible)
+      expect(page).to have_no_selector(:menuitem, text: "Remove type from these projects", visible: :visible)
     end
 
     it "switches the selected projects to another variant" do
@@ -354,7 +354,7 @@ RSpec.describe "Work package type projects tab", :js do
       toggle(on_hardware)
       open_menu_of(on_hardware)
 
-      expect(page).to have_css("[role='menuitem']", text: "Remove type from these projects", visible: :visible)
+      expect(page).to have_selector(:menuitem, text: "Remove type from these projects", visible: :visible)
       choose_menu_item("Switch variant")
 
       within "#type-projects-bulk-switch-dialog" do

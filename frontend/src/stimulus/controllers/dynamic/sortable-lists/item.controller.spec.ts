@@ -2101,13 +2101,13 @@ describe('Sortable lists item controller', () => {
     it('does not register a draggable when its root disables dragging', async () => {
       const item = await renderItem({ mobility: 'free', rootDragEnabled: false });
 
-      expect(item.hasAttribute('draggable')).toBe(false);
+      expect(item).not.toHaveAttribute('draggable');
     });
 
     it('registers a draggable when its root keeps dragging enabled', async () => {
       const item = await renderItem({ mobility: 'free', rootDragEnabled: true });
 
-      expect(item.hasAttribute('draggable')).toBe(true);
+      expect(item).toHaveAttribute('draggable');
     });
 
     it('treats a missing mobility attribute as free', async () => {
