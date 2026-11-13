@@ -103,6 +103,14 @@
               "define": { "process.env.NODE_ENV": "'production'" }
             },
             "development": {
+              "assets": [
+                "src/assets",
+                {
+                  "glob": "service-worker.js",
+                  "input": "tmp/service-worker",
+                  "output": "."
+                }
+              ],
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,

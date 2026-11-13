@@ -46,6 +46,7 @@ docker network create gateway 2>/dev/null || true
 
 docker compose run --rm backend setup
 docker compose run --rm frontend npm install
+docker compose run --rm --workdir /home/dev/openproject/packages/service-worker frontend npm install
 docker compose up -d backend
 ```
 
@@ -151,6 +152,7 @@ docker compose run --rm backend setup
 
 # This will install the web dependencies
 docker compose run --rm frontend npm install
+docker compose run --rm --workdir /home/dev/openproject/packages/service-worker frontend npm install
 ```
 
 ### 5) Start the stack
@@ -533,8 +535,9 @@ docker compose logs frontend`
 Sometimes compilation errors can occur due to broken node_modules state(for example after switching branches or partial installations). It can be resolved by removing node_modules and installing from scratch:
 
 ```shell
-rm -rf frontend/node_modules/
+rm -rf frontend/node_modules/ packages/service-worker/node_modules/
 docker compose run --rm frontend npm install
+docker compose run --rm --workdir /home/dev/openproject/packages/service-worker frontend npm install
 ```
 
 Then restart both the frontend service:

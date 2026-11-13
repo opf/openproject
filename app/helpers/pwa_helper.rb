@@ -47,6 +47,23 @@ module PwaHelper
     "#{pwa_cache_prefix}#{Digest::SHA256.hexdigest(version).first(16)}"
   end
 
+  def pwa_service_worker_config
+    {
+      cache: { name: pwa_cache_name, prefix: pwa_cache_prefix, state: "#{pwa_cache_prefix}push-state" },
+      urls: {
+        offline: pwa_offline_path,
+        home: root_path,
+        signOut: signout_path,
+        push: api_v3_paths.notification_summary
+      },
+      push: {
+        fallbackTitle: I18n.t("pwa.push.fallback_title", locale: Setting.default_language),
+        allReadTitle: I18n.t("pwa.push.all_read_title", locale: Setting.default_language),
+        icon: image_path("pwa/icon-192.png")
+      }
+    }
+  end
+
   def pwa_offline_wordmark_data_uri = OFFLINE_WORDMARK_DATA_URI
 
   def pwa_theme_color_tags

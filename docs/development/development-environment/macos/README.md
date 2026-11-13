@@ -297,6 +297,14 @@ should you be working on the TypeScript / Angular frontend part.
 You can then access the application either through `localhost:3000` (Rails server) or through the frontend
 proxied `http://localhost:4200`, which will provide hot reloading for changed frontend code.
 
+#### Service worker
+
+```shell
+npm -C packages/service-worker run serve
+```
+
+This will rebuild the service worker bundle whenever its sources change.
+
 #### Delayed Job background worker
 
 ```shell
