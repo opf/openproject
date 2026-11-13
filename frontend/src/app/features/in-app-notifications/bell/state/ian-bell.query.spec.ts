@@ -72,4 +72,24 @@ describe('IanBellQuery', () => {
       expect(emitted).toEqual([5, 6]);
     });
   });
+
+  describe('loadedUnreadUpdates$', () => {
+    it('emits on every update of a loaded state, even when the count is unchanged', () => {
+      const updates:number[] = [];
+      query.loadedUnreadUpdates$.subscribe((count) => updates.push(count));
+      store.update({ totalUnread: 5, loaded: true });
+      store.update({ totalUnread: 5 });
+      store.update({ totalUnread: 6 });
+
+      expect(updates).toEqual([5, 5, 6]);
+    });
+
+    it('emits nothing while the count has not been loaded', () => {
+      const updates:number[] = [];
+      query.loadedUnreadUpdates$.subscribe((count) => updates.push(count));
+      store.update({ totalUnread: 5 });
+
+      expect(updates).toEqual([]);
+    });
+  });
 });

@@ -32,7 +32,7 @@ import {
   skip,
   tap,
 } from 'rxjs/operators';
-import { EMPTY, Observable, Subject } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 
 import {
   InAppNotificationsResourceService,
@@ -69,9 +69,7 @@ export class IanBellService {
 
   loadedUnread$ = this.query.loadedUnread$;
 
-  private readonly unreadFetchedSubject = new Subject<number>();
-
-  readonly unreadFetched$ = this.unreadFetchedSubject.asObservable();
+  loadedUnreadUpdates$ = this.query.loadedUnreadUpdates$;
 
   constructor() {
     this.query.unreadCountChanged$.subscribe((count) => {
@@ -94,7 +92,6 @@ export class IanBellService {
         tap({
           next: (count) => {
             this.store.update({ totalUnread: count, loaded: true });
-            this.unreadFetchedSubject.next(count);
           },
           error: (error) => {
             console.error('Failed to load notifications: %O', error);
