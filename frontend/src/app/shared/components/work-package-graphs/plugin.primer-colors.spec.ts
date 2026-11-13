@@ -83,7 +83,7 @@ describe('PrimerColorsPlugin', () => {
     expect(createPattern).toHaveBeenCalledOnce();
   });
 
-  it('keeps the existing colour fills for a single bar dataset', () => {
+  it('keeps the existing color fills for a single bar dataset', () => {
     const datasets:ChartDataset[] = [{ label: 'Open', data: [3, 2] }];
 
     applyPlugin('bar', datasets);
@@ -159,7 +159,7 @@ describe('PrimerColorsPlugin', () => {
     expect(datasets[1].backgroundColor).toEqual([patterns[0], patterns[0]]);
   });
 
-  it('uses distinct fills for labelled pie segments', () => {
+  it('uses distinct fills for labeled pie segments', () => {
     const datasets:ChartDataset[] = [{ label: 'Costs', data: [5, 3, 1] }];
 
     applyPlugin('pie', datasets, ['Labor', 'Material A', 'Material B'], { labelBased: true });
@@ -216,7 +216,7 @@ describe('PrimerColorsPlugin', () => {
     });
   });
 
-  it('uses patterns for pie segments without label-based colours', () => {
+  it('uses patterns for pie segments without label-based colors', () => {
     const datasets:ChartDataset[] = [{ data: [5, 3, 1] }];
 
     applyPlugin('pie', datasets);

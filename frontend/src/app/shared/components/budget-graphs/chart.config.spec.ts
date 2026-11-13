@@ -93,7 +93,7 @@ describe('chart tooltip renderer', () => {
     expect(message().style.getPropertyValue('--op-anchored-popover-caret-offset')).not.toBe('');
   });
 
-  it('uses the border colour for a patterned tooltip marker', () => {
+  it('uses the border color for a patterned tooltip marker', () => {
     const patternedContext = context(1);
     patternedContext.tooltip.labelColors = [{
       backgroundColor: {} as CanvasPattern,
