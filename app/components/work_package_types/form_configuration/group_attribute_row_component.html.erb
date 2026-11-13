@@ -16,11 +16,9 @@
       left.with_column do
         render(Primer::Beta::Text.new) { @attribute[:translation] }
       end
-      if @attribute[:field_format_label].present?
+      if @attribute[:field_format_label].present? && @attribute[:is_cf]
         left.with_column(ml: 2) do
-          if @attribute[:is_cf]
-            render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { @attribute[:field_format_label] }
-          end
+          render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { @attribute[:field_format_label] }
         end
       end
       if required_label.present?
@@ -34,39 +32,77 @@
       end
     end
 
-    if show_required_action?
-      row.with_column(mr: 2, classes: "hide-when-print") do
-        render(Primer::Beta::Button.new(**toggle_required_button_arguments)) do |button|
-          button.with_leading_visual_icon(icon: toggle_required_icon)
-          button.with_tooltip(text: toggle_required_hint) if required_action_disabled?
-          toggle_required_label
-        end
-      end
-    end
-
     if exclusion_toggle.render?
       row.with_column(py: 1, mr: 2) { render(exclusion_toggle) }
     end
 
-    unless readonly?
+    if render_actions_menu?
       row.with_column(classes: "hide-when-print type-form-configuration-page--actions") do
         render(Primer::Alpha::ActionMenu.new) do |menu|
           menu.with_show_button(**actions_button_arguments)
 
-          if sortable? && multiple_attributes?
-            with_move_items(menu)
-            menu.with_divider
+          if exclusion_toggle.render?
+            menu.with_item(
+              label: enable_disable_label,
+              tag: :a,
+              href: exclusion_toggle_path,
+              test_selector: enable_disable_test_selector,
+              content_arguments: { data: { turbo_method: :post, turbo_stream: true } }
+            ) do |item|
+              item.with_leading_visual_icon(icon: enable_disable_icon)
+            end
           end
 
-          menu.with_item(
-            label: t("button_delete"),
-            test_selector: "type-form-configuration-delete-attribute-#{@attribute[:key]}",
-            scheme: :danger,
-            tag: :a,
-            href: row_destroy_path,
-            content_arguments: { data: { turbo_method: :delete, turbo_stream: true } }
-          ) do |item|
-            item.with_leading_visual_icon(icon: :trash)
+          if show_edit_custom_field?
+            menu.with_item(
+              label: t("types.edit.form_configuration.edit_custom_field"),
+              tag: :a,
+              href: edit_custom_field_path,
+              test_selector: edit_custom_field_test_selector
+            ) do |item|
+              item.with_leading_visual_icon(icon: :pencil)
+            end
+          end
+
+          if show_required_action?
+            if required_action_disabled?
+              menu.with_item(
+                label: toggle_required_label,
+                disabled: true,
+                test_selector: toggle_required_button_id
+              ) do |item|
+                item.with_leading_visual_icon(icon: toggle_required_icon)
+                item.with_description { toggle_required_hint }
+              end
+            else
+              menu.with_item(
+                label: toggle_required_label,
+                tag: :a,
+                href: row_toggle_required_path,
+                test_selector: toggle_required_button_id,
+                content_arguments: { data: { turbo_method: :put, turbo_stream: true } }
+              ) do |item|
+                item.with_leading_visual_icon(icon: toggle_required_icon)
+              end
+            end
+          end
+
+          unless readonly?
+            if sortable? && multiple_attributes?
+              with_move_items(menu)
+              menu.with_divider
+            end
+
+            menu.with_item(
+              label: t("button_delete"),
+              test_selector: "type-form-configuration-delete-attribute-#{@attribute[:key]}",
+              scheme: :danger,
+              tag: :a,
+              href: row_destroy_path,
+              content_arguments: { data: { turbo_method: :delete, turbo_stream: true } }
+            ) do |item|
+              item.with_leading_visual_icon(icon: :trash)
+            end
           end
         end
       end
