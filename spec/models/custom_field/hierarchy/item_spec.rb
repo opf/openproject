@@ -30,17 +30,14 @@
 require "spec_helper"
 
 RSpec.describe CustomField::Hierarchy::Item, :model, with_ee: [:custom_field_hierarchies] do
-  let(:custom_field) { create(:custom_field, field_format: "hierarchy", hierarchy_root: nil) }
-  let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
-
-  let(:root) { service.generate_root(custom_field).value! }
+  let(:custom_field) { create(:custom_field, :hierarchy) }
+  let(:root) { custom_field.hierarchy_root }
 
   context "when custom field is deleted" do
-    let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
-    let!(:luke) { service.insert_item(contract_class:, parent: root, label: "luke").value! }
-    let!(:mara) { service.insert_item(contract_class:, parent: luke, label: "mara").value! }
-    let!(:leia) { service.insert_item(contract_class:, parent: root, label: "leia").value! }
-    let!(:kylo) { service.insert_item(contract_class:, parent: leia, label: "kylo").value! }
+    let!(:luke) { create(:hierarchy_item, parent: root, label: "luke") }
+    let!(:mara) { create(:hierarchy_item, parent: luke, label: "mara") }
+    let!(:leia) { create(:hierarchy_item, parent: root, label: "leia") }
+    let!(:kylo) { create(:hierarchy_item, parent: leia, label: "kylo") }
 
     before { custom_field.reload }
 

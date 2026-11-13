@@ -30,5 +30,9 @@
 FactoryBot.define do
   factory :hierarchy_item, class: "CustomField::Hierarchy::Item" do
     sequence(:label) { |n| "Item #{n}" }
+
+    after(:create) do |item|
+      CustomFields::Hierarchy::Items::RebuildPositionCacheService.new(user: User.system, model: item).call
+    end
   end
 end

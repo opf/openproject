@@ -690,13 +690,11 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
 
       before do
         root = hierarchy_cf.hierarchy_root
-        service = CustomFields::Hierarchy::HierarchicalItemService.new
-        contract = CustomFields::Hierarchy::InsertListItemContract
-        critical = service.insert_item(contract_class: contract, parent: root, label: "Critical").value!
-        service.insert_item(contract_class: contract, parent: critical, label: "Security")
-        service.insert_item(contract_class: contract, parent: critical, label: "Performance")
-        major = service.insert_item(contract_class: contract, parent: root, label: "Major").value!
-        service.insert_item(contract_class: contract, parent: major, label: "Data Loss")
+        critical = create(:hierarchy_item, parent: root, label: "Critical")
+        create(:hierarchy_item, parent: critical, label: "Security")
+        create(:hierarchy_item, parent: critical, label: "Performance")
+        major = create(:hierarchy_item, parent: root, label: "Major")
+        create(:hierarchy_item, parent: major, label: "Data Loss")
       end
 
       it "returns the child item ID when parent + child are selected" do
@@ -812,12 +810,7 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
                      context_groups: [context_group])
     end
     let(:builder) { described_class.new(jira_field, context_group:) }
-    let!(:hierarchy_cf) do
-      create(:custom_field, field_format: "hierarchy", hierarchy_root: nil).tap do |cf|
-        CustomFields::Hierarchy::HierarchicalItemService.new.generate_root(cf)
-        cf.reload
-      end
-    end
+    let!(:hierarchy_cf) { create(:custom_field, :hierarchy) }
 
     before { builder.custom_field_post_processing(hierarchy_cf) }
 
