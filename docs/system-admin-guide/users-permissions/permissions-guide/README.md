@@ -172,10 +172,6 @@ Most permissions are self-explanatory. This guide explains the purpose of each p
 
 - **Show GitHub content** – Allows users to view GitHub integration content.
 
-## GitLab permissions
-
-- **Show GitLab content** – Allows users to view GitLab integration content.
-
 ## Meetings permissions
 
 - **View meetings** – Allows users to view meetings.
@@ -190,6 +186,10 @@ Most permissions are self-explanatory. This guide explains the purpose of each p
 
 - **Manage news** – Allows users to create, edit, and delete news posts.
 - **Comment news** – Allows users to comment on news.
+
+## Repositories permissions
+
+- **Show repository content** – Allows users to view the issues, merge requests, branches and commits shown in the **Code** tab of work packages, for example from the [GitLab integration](../../integrations/gitlab-integration/).
 
 ## Team planner permissions
 
