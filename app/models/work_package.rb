@@ -203,7 +203,7 @@ class WorkPackage < ApplicationRecord
   include WorkPackage::Journalized
   prepend Journable::Timestamps
 
-  self.column_names_from_current_record += %w[identifier sequence_number]
+  historic_columns_from_current_record :identifier, :sequence_number
 
   def self.status_based_mode?
     Setting.work_package_done_ratio == "status"

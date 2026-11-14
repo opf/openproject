@@ -160,7 +160,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   end
 
   def current_record_selects
-    model.column_names_from_current_record.map { |c| "#{model.table_name}.#{c}" }
+    model.column_names_from_current_record.map { "#{model.table_name}.#{it}" }
   end
 
   def journal_data_selects
@@ -168,11 +168,11 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
 
     model.journal_class.column_names
          .reject { it == "id" }
-         .map { |c| "#{journal_data_table}.#{c}" }
+         .map { "#{journal_data_table}.#{it}" }
   end
 
   def missing_column_selects
-    model.column_names_missing_in_journal.map { |c| "null as #{c}" }
+    model.column_names_missing_in_journal.map { "null as #{it}" }
   end
 
   # Additional table joins can appear in the where clause, such as the custom_values table join.

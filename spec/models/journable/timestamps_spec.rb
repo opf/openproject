@@ -606,10 +606,9 @@ RSpec.describe Journable::Timestamps do
         describe "for the semantic identifier", with_settings: { work_packages_identifier: "semantic" } do
           before { work_package.update_columns(identifier: "PROJ-7", sequence_number: 7) }
 
-          it "has the identifier of the journable" do
-            expect(subject.identifier).to eq "PROJ-7"
-            expect(subject.sequence_number).to eq 7
+          it "exposes the current semantic identifier", :aggregate_failures do
             expect(subject.display_id).to eq "PROJ-7"
+            expect(subject.to_param).to eq "PROJ-7"
           end
         end
 
