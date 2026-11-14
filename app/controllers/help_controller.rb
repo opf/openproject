@@ -28,7 +28,21 @@
 #++
 
 class HelpController < ApplicationController
-  no_authorization_required! :keyboard_shortcuts, :text_formatting
+  no_authorization_required! :keyboard_shortcuts, :text_formatting, :documentation, :documentation_asset
+
+  def documentation
+    render Help::DocumentationArticleComponent.new(article_id: params[:article_id], context: params[:context] || "life_cycle"),
+           layout: false
+  rescue KeyError
+    render_404
+  end
+
+  def documentation_asset
+    article = Help::DocumentationArticle.new(params[:article_id])
+    send_file article.asset_path(params[:filename]), disposition: "inline"
+  rescue KeyError
+    render_404
+  end
 
   def keyboard_shortcuts
     redirect_to OpenProject::Static::Links.url_for(:shortcuts), allow_other_host: true

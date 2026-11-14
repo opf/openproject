@@ -22,6 +22,13 @@ browserslist
 !/docs/api/apiv3/paths
 !/docs/api/apiv3/tags
 !/docs/api/apiv3/components
+!/docs/user-guide/projects/project-home/project-life-cycle/**
+!/docs/user-guide/projects/project-settings/project-life-cycle/**
+!/docs/system-admin-guide/projects/project-life-cycle/**
+!/docs/use-cases/project-management-pm2-pmflex/**
+!/docs/project-management-guide/3-overview-pm2/**
+!/docs/user-guide/projects/project-initiation-request/**
+!/docs/project-management-guide/5-initiating-phase/**
 
 # Ignore spec/** folders
 spec/**

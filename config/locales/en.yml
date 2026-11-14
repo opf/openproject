@@ -2854,6 +2854,35 @@ en:
     update_consent_last_time: "Last update of consent: %{update_time}"
     user_has_consented: The user gave their consent to your [configured consent information text](consent_settings).
 
+  contextual_help:
+    articles:
+      initiating-phase: "From initiation request to project charter"
+      initiation-request: "Create and submit an initiation request"
+      initiation-settings: "Configure initiation requests"
+      life-cycle-administration: "Configure phases and gates"
+      life-cycle-settings: "Choose phases for a project"
+      pm2-methodology: "Understand the project life cycle"
+      pmflex-mapping: "PM² and PMflex in OpenProject"
+      project-life-cycle: "Schedule project phases and gates"
+    back: "Back"
+    collapse: "Reduce"
+    contents: "On this page"
+    enterprise_notice: "Some features described in this article require an Enterprise add-on."
+    expand: "Expand"
+    full_documentation: "Open full documentation (opens in a new tab)"
+    initiation:
+      open: "Learn more about project initiation requests"
+      title: "Project initiation requests"
+    introduction: "Explore the methodology and the practical steps for your current task."
+    life_cycle:
+      open: "Learn more about phases and phase gates"
+      title: "Project life cycle"
+    loading: "Loading help…"
+    navigation: "Help navigation"
+    related: "Related articles"
+    source: "OpenProject documentation · English"
+    title: "Help & guidance"
+
   copy_project:
     copy_options:
       dependencies_label: "Copy from project"
