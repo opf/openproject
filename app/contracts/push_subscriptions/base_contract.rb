@@ -35,7 +35,11 @@ module PushSubscriptions
 
     attribute :user_id
     attribute :session_id
+    attribute :suspended_at
     attribute :endpoint
+    attribute :browser_name
+    attribute :browser_version
+    attribute :platform
 
     validate :validate_owner
     validate :validate_session

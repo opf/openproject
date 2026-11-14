@@ -29,6 +29,7 @@ import { Controller } from '@hotwired/stimulus';
 import { announce } from '@primer/live-region-element';
 import { LIVE_REGION_ANNOUNCEMENT_DELAY } from '../../flash.controller';
 import { destroy, post } from '@rails/request.js';
+import { boundToKey, currentPushSubscription, decodeBase64Url, pushSupported } from 'core-stimulus/helpers/push-subscription-helpers';
 
 interface KnownSubscription {
   endpointDigest:string;
@@ -56,12 +57,6 @@ const SCHEME_BY_STATE:Record<State, Scheme> = {
 const REGISTRATION_TIMEOUT_MS = 5000;
 const SUBSCRIBE_TIMEOUT_MS = 30000;
 
-function decodeBase64Url(value:string):Uint8Array<ArrayBuffer> {
-  // The key is base64url without padding; atob only accepts standard base64.
-  const base64 = value.replace(/-/g, '+').replace(/_/g, '/').padEnd(Math.ceil(value.length / 4) * 4, '=');
-  return Uint8Array.from(atob(base64), (char) => char.charCodeAt(0));
-}
-
 async function sha256Hex(value:string):Promise<string> {
   const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(value));
   return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, '0')).join('');
@@ -73,9 +68,12 @@ type ServerAnswer =
   | { kind:'rejected'; errors:string[] }
   | { kind:'failed'; status:number };
 
-async function answerOf(response:{ ok:boolean; statusCode:number; json:Promise<unknown> }):Promise<ServerAnswer> {
+async function answerOf(
+  response:{ ok:boolean; statusCode:number; json:Promise<unknown> },
+  goneStatus = 404,
+):Promise<ServerAnswer> {
   if (response.ok) return { kind: 'ok' };
-  if (response.statusCode === 404) return { kind: 'gone' };
+  if (response.statusCode === goneStatus) return { kind: 'gone' };
 
   if (response.statusCode === 422) {
     const body = await response.json.catch(() => undefined) as { errors?:unknown }|undefined;
@@ -91,7 +89,9 @@ async function answerOf(response:{ ok:boolean; statusCode:number; json:Promise<u
  * list, or one bound to another VAPID key, was invalidated by a revoke, a logout
  * or a key rotation, so it is dropped. A server row for this device without a
  * browser subscription is revoked: the browser deactivates the subscription
- * when notification permission is withdrawn.
+ * when notification permission is withdrawn. A listed row that is not bound to
+ * this session is resumed; a gone answer means it was revoked elsewhere, so the
+ * browser subscription is dropped.
  *
  * A run counter keeps a reconcile that is still in flight from overwriting the
  * result of a later click.
@@ -192,8 +192,7 @@ export default class PushSubscriptionController extends Controller {
     this.setBusy(true);
 
     try {
-      const registration = await navigator.serviceWorker.getRegistration();
-      const subscription = await registration?.pushManager.getSubscription();
+      const subscription = await currentPushSubscription();
       if (!isLatestRun()) return;
 
       const known = subscription ? await this.knownToServer(subscription) : undefined;
@@ -252,7 +251,11 @@ export default class PushSubscriptionController extends Controller {
     if (!isLatestRun()) return;
 
     if (subscription && known && this.boundToCurrentKey(subscription)) {
-      this.render('enabled');
+      if (known.current) {
+        this.render('enabled');
+      } else {
+        await this.resumeWithServer(subscription, isLatestRun);
+      }
       return;
     }
 
@@ -337,6 +340,31 @@ export default class PushSubscriptionController extends Controller {
     return answerOf(response);
   }
 
+  private async resumeWithServer(subscription:PushSubscription, isLatestRun:() => boolean):Promise<void> {
+    const response = await post(this.createUrlValue, {
+      body: JSON.stringify({ push_endpoint: subscription.endpoint, resume: true }),
+      contentType: 'application/json',
+      responseKind: 'turbo-stream',
+    });
+    const answer = await answerOf(response, 410);
+    if (!isLatestRun()) return;
+
+    switch (answer.kind) {
+      case 'ok':
+        this.render('enabled');
+        break;
+      case 'gone':
+        await this.forget(subscription);
+        if (isLatestRun()) this.render('disabled');
+        break;
+      case 'rejected':
+        this.render('error', answer.errors.join(' '));
+        break;
+      default:
+        throw new Error('Resuming the subscription failed');
+    }
+  }
+
   private async revokeOnServer(known:KnownSubscription, { silent = false } = {}):Promise<void> {
     const query = silent ? { silent: 'true' } : undefined;
     const response = await destroy(known.revokeUrl, { responseKind: 'turbo-stream', query });
@@ -354,12 +382,7 @@ export default class PushSubscriptionController extends Controller {
   }
 
   private boundToCurrentKey(subscription:PushSubscription):boolean {
-    const bound = subscription.options.applicationServerKey;
-    if (!bound) return true;
-
-    const current = decodeBase64Url(this.vapidPublicKeyValue);
-    const boundBytes = new Uint8Array(bound);
-    return boundBytes.length === current.length && boundBytes.every((byte, index) => byte === current[index]);
+    return boundToKey(subscription, this.vapidPublicKeyValue);
   }
 
   private permissionBlocked():boolean {
@@ -367,10 +390,7 @@ export default class PushSubscriptionController extends Controller {
   }
 
   private supported():boolean {
-    return window.isSecureContext
-      && 'PushManager' in window
-      && 'serviceWorker' in navigator
-      && 'Notification' in window;
+    return pushSupported();
   }
 
   private setBusy(busy:boolean):void {

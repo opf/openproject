@@ -38,6 +38,15 @@ module Sessions
           .or(sessions.where(user_id: nil, updated_at: ...anonymous_days_ago.days.ago))
           .in_batches
           .delete_all
+
+        forget_dormant_push_subscriptions(days_ago)
+      end
+
+      private
+
+      def forget_dormant_push_subscriptions(days_ago)
+        PushSubscription.dormant.where(suspended_at: nil).update_all(suspended_at: Time.current)
+        PushSubscription.dormant.where(suspended_at: ...days_ago.days.ago).delete_all
       end
     end
   end

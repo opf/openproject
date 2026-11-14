@@ -36,15 +36,17 @@ module My
     before_action :require_web_push
     no_authorization_required! :create, :destroy
 
-    SUBSCRIBE_ATTEMPTS = 2
-
     def create
-      result = subscribe(params[:push_endpoint].to_s)
+      result = subscribe_service.call(endpoint: params[:push_endpoint].to_s, resume: resume?)
 
-      if result.success?
-        render_devices
-      else
+      if result.errors.of_kind?(:endpoint, :not_found)
+        head :gone
+      elsif result.failure?
         render json: { errors: result.errors.full_messages }, status: :unprocessable_entity
+      elsif background_resume?
+        head :no_content
+      else
+        render_devices
       end
     end
 
@@ -63,49 +65,20 @@ module My
       PushSubscription.where(user: current_user).find(params.expect(:id))
     end
 
-    def subscribe(endpoint)
-      (1..SUBSCRIBE_ATTEMPTS).each do |attempt|
-        result = register_endpoint(endpoint)
-        return result unless endpoint_taken?(result) && attempt < SUBSCRIBE_ATTEMPTS
-      rescue ActiveRecord::RecordNotUnique
-        raise if attempt == SUBSCRIBE_ATTEMPTS
-      end
+    def subscribe_service
+      ::PushSubscriptions::SubscribeService.new(user: current_user, session_id: current_session_row_id, device:)
     end
 
-    def register_endpoint(endpoint)
-      subscription = PushSubscription.find_or_initialize_by(endpoint:)
-      return takeover_refused_result(subscription) if held_by_another_user?(subscription)
-
-      replace_session_subscription(subscription)
+    def device
+      { browser_name: session[:browser], browser_version: session[:browser_version], platform: session[:platform] }
     end
 
-    def endpoint_taken?(result)
-      result.failure? && result.errors.of_kind?(:endpoint, :taken)
+    def resume?
+      ActiveModel::Type::Boolean.new.cast(params[:resume])
     end
 
-    def replace_session_subscription(subscription)
-      session_id = current_session_row_id
-      result = nil
-
-      PushSubscription.transaction do
-        PushSubscription.where(session_id:).where.not(endpoint: subscription.endpoint).delete_all
-        result = ::PushSubscriptions::CreateService
-          .new(user: current_user, model: subscription)
-          .call(user: current_user, session_id:)
-        raise ActiveRecord::Rollback if result.failure?
-      end
-
-      result
-    end
-
-    def held_by_another_user?(subscription)
-      subscription.persisted? && subscription.user_id != current_user.id
-    end
-
-    def takeover_refused_result(subscription)
-      ServiceResult.failure(result: subscription).tap do |result|
-        result.errors.add(:endpoint, :taken)
-      end
+    def background_resume?
+      resume? && !request.format.turbo_stream?
     end
 
     def render_devices

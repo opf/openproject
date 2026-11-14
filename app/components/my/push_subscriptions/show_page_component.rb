@@ -112,7 +112,7 @@ module My
       end
 
       def bound_to_current_session?(subscription)
-        subscription.session.current?(current_session)
+        subscription.session&.current?(current_session)
       end
     end
   end
