@@ -568,6 +568,14 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
+    describe "reporter" do
+      it_behaves_like "has a titled link" do
+        let(:link) { "reporter" }
+        let(:href) { "/api/v3/users/#{work_package.reporter.id}" }
+        let(:title) { work_package.reporter.name }
+      end
+    end
+
     describe "assignee" do
       context "as a user" do
         let(:assignee) { build_stubbed(:user) }

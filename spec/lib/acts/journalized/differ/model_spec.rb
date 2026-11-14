@@ -58,6 +58,7 @@ RSpec.describe Acts::Journalized::Differ::Model do
           .to eq(
             "subject" => [original.subject, changed.subject],
             "author_id" => [original.author_id, changed.author_id],
+            "reporter_id" => [original.reporter_id, changed.reporter_id],
             "status_id" => [original.status_id, changed.status_id],
             "schedule_manually" => [false, nil],
             "ignore_non_working_days" => [true, false],

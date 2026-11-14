@@ -52,9 +52,7 @@ RSpec.describe WorkPackage do
     current_user { user }
 
     context "on creation" do
-      let(:journable) do
-        described_class.new(author: user)
-      end
+      let(:journable) { described_class.new(author: user, reporter: user) }
 
       include_examples "journaled values for",
                        new_values_set: {

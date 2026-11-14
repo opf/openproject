@@ -52,6 +52,7 @@ RSpec.describe WorkPackage do
       w.attributes = { project_id: project.id,
                        type_id: type.id,
                        author_id: user.id,
+                       reporter_id: user.id,
                        status_id: status.id,
                        priority:,
                        subject: "test_create",
@@ -67,6 +68,7 @@ RSpec.describe WorkPackage do
     it { is_expected.to belong_to(:type) }
     it { is_expected.to belong_to(:status) }
     it { is_expected.to belong_to(:author) }
+    it { is_expected.to belong_to(:reporter) }
     it { is_expected.to belong_to(:assigned_to).class_name("Principal").optional }
     it { is_expected.to belong_to(:responsible).class_name("Principal").optional }
     it { is_expected.to belong_to(:project_phase_definition).class_name("Project::PhaseDefinition").optional }
@@ -135,6 +137,7 @@ RSpec.describe WorkPackage do
           w.attributes = { project_id: project.id,
                            type_id: type.id,
                            author_id: user.id,
+                           reporter_id: user.id,
                            status_id: status.id,
                            priority:,
                            subject: "test_create" }

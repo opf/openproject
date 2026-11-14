@@ -747,6 +747,17 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
+    describe "reporter" do
+      it_behaves_like "has basic schema properties" do
+        let(:path) { "reporter" }
+        let(:type) { "User" }
+        let(:name) { I18n.t("attributes.reporter") }
+        let(:required) { false }
+        let(:writable) { false }
+        let(:location) { "_links" }
+      end
+    end
+
     describe "project" do
       context "if having the move_work_packages permission" do
         let(:permissions) { [:move_work_packages] }

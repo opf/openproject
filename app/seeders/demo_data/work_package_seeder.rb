@@ -110,6 +110,7 @@ module DemoData
       {
         project:,
         author: admin_user,
+        reporter: admin_user,
         assigned_to: find_principal(attributes["assigned_to"]),
         subject: attributes["subject"],
         description: attributes["description"],

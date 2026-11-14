@@ -253,59 +253,27 @@ RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
           status_id: status.id,
           priority_id: priority.id,
           author_id: author.id,
+          reporter_id: author.id,
           subject: "'abc'",
           done_ratio: 0
         }
       end
 
-      it_behaves_like "rewritten record",
-                      WorkPackage,
-                      :author_id
+      it_behaves_like "rewritten record", WorkPackage, :author_id
+      it_behaves_like "rewritten record", WorkPackage, :assigned_to_id
+      it_behaves_like "rewritten record", WorkPackage, :responsible_id
+      it_behaves_like "rewritten record", WorkPackage, :reporter_id
 
-      it_behaves_like "rewritten record",
-                      WorkPackage,
-                      :assigned_to_id
-
-      it_behaves_like "rewritten record",
-                      WorkPackage,
-                      :responsible_id
-
-      it_behaves_like "rewritten record",
-                      Journal::WorkPackageJournal,
-                      :assigned_to_id do
-        let(:attributes) do
-          {
-            # This part is not related to the test but the columns are non nullable.
-            ignore_non_working_days: false,
-            subject: "'abc'",
-            done_ratio: 5,
-            # End non relevant.
-            project_id: project.id,
-            type_id: type.id,
-            status_id: status.id,
-            priority_id: priority.id,
-            author_id: author.id
-          }
-        end
+      it_behaves_like "rewritten record", Journal::WorkPackageJournal, :assigned_to_id do
+        let(:attributes) { super().merge(ignore_non_working_days: false) }
       end
 
-      it_behaves_like "rewritten record",
-                      Journal::WorkPackageJournal,
-                      :responsible_id do
-        let(:attributes) do
-          {
-            # This part is not related to the test but the columns are non nullable.
-            ignore_non_working_days: false,
-            subject: "'abc'",
-            done_ratio: 5,
-            # End non relevant.
-            project_id: project.id,
-            type_id: type.id,
-            status_id: status.id,
-            priority_id: priority.id,
-            author_id: author.id
-          }
-        end
+      it_behaves_like "rewritten record", Journal::WorkPackageJournal, :responsible_id do
+        let(:attributes) { super().merge(ignore_non_working_days: false) }
+      end
+
+      it_behaves_like "rewritten record", Journal::WorkPackageJournal, :reporter_id do
+        let(:attributes) { super().merge(ignore_non_working_days: false) }
       end
     end
 

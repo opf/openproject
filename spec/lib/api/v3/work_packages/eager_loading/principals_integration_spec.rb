@@ -34,20 +34,22 @@ RSpec.describe API::V3::WorkPackages::EagerLoading::Principals do
   shared_let(:author) { create(:user, firstname: "Arthur", lastname: "Author") }
 
   describe ".apply" do
-    def create_and_unload_associations(*args)
-      create(*args).reload
+    def create_and_unload_associations(...)
+      create(...).reload
     end
 
     def user_associations(work_package)
-      %i[author assigned_to responsible].map { |association| work_package.association(association) }
+      %i[author reporter assigned_to responsible].map { |association| work_package.association(association) }
     end
 
     context "when work package references users" do
       shared_let(:astor) { create(:user, firstname: "Astor", lastname: "Assigned to") }
       shared_let(:robert) { create(:user, firstname: "Robert", lastname: "Responsible") }
+      shared_let(:romi) { create(:user, firstname: "Romi", lastname: "Reporter") }
 
       let(:work_package) do
         create_and_unload_associations(:work_package, author:,
+                                                      reporter: romi,
                                                       assigned_to: astor,
                                                       responsible: robert)
       end
@@ -56,10 +58,11 @@ RSpec.describe API::V3::WorkPackages::EagerLoading::Principals do
         expect do
           EagerLoadingMockWrapper.wrap(described_class, [work_package])
         end.to change { user_associations(work_package).map(&:loaded?) }
-          .from([false, false, false])
-          .to([true, true, true])
+          .from([false, false, false, false])
+          .to([true, true, true, true])
 
         expect(work_package.author).to eq author
+        expect(work_package.reporter).to eq romi
         expect(work_package.assigned_to).to eq astor
         expect(work_package.responsible).to eq robert
       end
@@ -79,10 +82,11 @@ RSpec.describe API::V3::WorkPackages::EagerLoading::Principals do
         expect do
           EagerLoadingMockWrapper.wrap(described_class, [work_package])
         end.to change { user_associations(work_package).map(&:loaded?) }
-          .from([false, false, false])
-          .to([true, true, true])
+          .from([false, false, false, false])
+          .to([true, true, true, true])
 
         expect(work_package.author).to eq author
+        expect(work_package.reporter).to eq author
         expect(work_package.assigned_to).to eq group1
         expect(work_package.responsible).to eq group2
       end
@@ -102,10 +106,11 @@ RSpec.describe API::V3::WorkPackages::EagerLoading::Principals do
         expect do
           EagerLoadingMockWrapper.wrap(described_class, [work_package])
         end.to change { user_associations(work_package).map(&:loaded?) }
-          .from([false, false, false])
-          .to([true, true, true])
+          .from([false, false, false, false])
+          .to([true, true, true, true])
 
         expect(work_package.author).to eq author
+        expect(work_package.reporter).to eq author
         expect(work_package.assigned_to).to eq placeholder_user1
         expect(work_package.responsible).to eq placeholder_user2
       end

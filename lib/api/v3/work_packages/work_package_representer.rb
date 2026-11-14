@@ -564,6 +564,10 @@ module API
                             v3_path: :user,
                             representer: ::API::V3::Users::UserRepresenter
 
+        associated_resource :reporter,
+                            v3_path: :user,
+                            representer: ::API::V3::Users::UserRepresenter
+
         associated_resource :responsible,
                             getter: ::API::V3::Principals::PrincipalRepresenterFactory
                               .create_getter_lambda(:responsible),
