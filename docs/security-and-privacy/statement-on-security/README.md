@@ -192,6 +192,10 @@ The header only reaches the browser that sends the logout request. Data stays in
 - The user logs out in another application that shares a single sign-on session, such as openDesk, and OpenProject receives a back-channel logout.
 - The user closes the browser without logging out.
 
+Collaborative documents add one more kind of site storage. When a logged-in user opens a collaborative document, the browser keeps an offline copy of it in IndexedDB so that the user can keep editing through connection interruptions. Anonymous visitors get no copy. The copy contains the document content, including edits that have not yet reached the real-time collaboration server, is stored separately for each user account, is not encrypted and has no expiry date.
+
+The browser removes the offline copy on logout through the storage clearing described above, with the same limits. While the document is open, the browser also removes it when OpenProject refuses to renew the collaboration access token, because the session has ended (for example, the user ended it from another device) or because the document is no longer available to the user. The browser asks for a new token about every four minutes, so the copy is normally removed within that time. A browser tab in the background, a sleeping device or an interrupted connection delays the removal until the browser is active and connected again. Edits that had not reached the server at that point are lost. If the session ends or access is removed while the document is not open in a browser tab, the copy stays in the browser until the next logout or until the user clears the site data.
+
 On shared or unmanaged devices, configure the browser to delete cached files and site data when it closes. On managed devices, use these browser policies:
 
 - Google Chrome: set [`ClearBrowsingDataOnExitList`](https://support.google.com/chrome/a/answer/10686330) to include `cached_images_and_files` and `cookies_and_other_site_data`. This policy requires that Chrome Sync is turned off with `SyncDisabled`.
