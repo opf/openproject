@@ -309,6 +309,14 @@ export const PickerControl = styled(TextControl)<{ $namesPick?:boolean }>`
   `}
 `;
 
+// Tripled to outweigh the doubled rules the control shares with the form.
+export const SelectControl = styled(PickerControl).attrs({ readOnly: true, $namesPick: true })`
+  &&& {
+    cursor: pointer;
+    caret-color: transparent;
+  }
+`;
+
 export const OptionColorDot = styled.span.attrs({
   className: 'op-bn-create-wp-option-color',
   'data-testid': 'create-wp-option-color',

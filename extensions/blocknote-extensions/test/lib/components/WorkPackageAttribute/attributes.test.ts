@@ -6,6 +6,7 @@ import {
   formatAttributeValue,
   listAttributes,
   principalsOf,
+  sortByLabel,
   valueKindOf,
 } from '../../../../lib/components/WorkPackageAttribute/attributes';
 import type { WorkPackage } from '../../../../lib/openProjectTypes';
@@ -22,6 +23,33 @@ const options = {
 function valueOf(reference:string) {
   return formatAttributeValue(workPackage, findAttribute(mockAttributeSchema, reference)!, options);
 }
+
+describe('sortByLabel', () => {
+  const labeled = (...labels:string[]) => labels.map((label) => ({ ...findAttribute(mockAttributeSchema, 'subject')!, label }));
+  const sorted = (locale:string, ...labels:string[]) => sortByLabel(labeled(...labels), locale).map(({ label }) => label);
+
+  it('orders by label, whatever the case', () => {
+    expect(sorted('en', 'Work', 'assignee', 'Status', '% Complete')).toEqual(['% Complete', 'assignee', 'Status', 'Work']);
+  });
+
+  it('orders the way the locale does', () => {
+    expect(sorted('de', 'Zeit', 'Ärger', 'Status')).toEqual(['Ärger', 'Status', 'Zeit']);
+    expect(sorted('sv', 'Zeit', 'Ärger', 'Status')).toEqual(['Status', 'Zeit', 'Ärger']);
+  });
+
+  it('orders numbers by their value', () => {
+    expect(sorted('en', 'Field 10', 'Field 2')).toEqual(['Field 2', 'Field 10']);
+  });
+
+  it('leaves the given list as it was', () => {
+    const attributes = listAttributes(mockAttributeSchema);
+    const keys = attributes.map((attribute) => attribute.key);
+
+    sortByLabel(attributes, 'en');
+
+    expect(attributes.map((attribute) => attribute.key)).toEqual(keys);
+  });
+});
 
 describe('listAttributes', () => {
   const attributes = listAttributes(mockAttributeSchema);
