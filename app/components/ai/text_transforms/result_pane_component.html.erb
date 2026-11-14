@@ -48,7 +48,7 @@ See COPYRIGHT and LICENSE files for more details.
               flex_layout(align_items: :center, justify_content: :space_between) do |header|
                 header.with_column { render(Title.new(pane:)) }
                 header.with_column do
-                  render(Primer::Beta::CloseButton.new("aria-label": label(:close), data: action(close: :click)))
+                  render(Primer::Beta::CloseButton.new(mr: -2, classes: "Overlay-closeButton", "aria-label": label(:close), data: action(close: :click)))
                 end
               end
             end
