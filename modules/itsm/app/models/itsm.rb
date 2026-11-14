@@ -31,4 +31,8 @@ module ITSM
   def self.table_name_prefix
     "itsm_"
   end
+
+  def self.helpdesk_user = ServiceAccountAssociation.find_by(service: helpdesk_role)&.service_account
+
+  def self.helpdesk_role = HelpdeskRole.first
 end

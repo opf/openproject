@@ -76,5 +76,18 @@ module OpenProject::ITSM
     end
 
     include_module "Projects::HelpdeskMailboxes", into: "Project"
+
+    initializer "openproject_itsm.event_subscriptions" do
+      Rails.application.config.after_initialize do
+        OpenProject::Notifications.subscribe(OpenProject::Events::MODULE_ENABLED) do |payload|
+          enabled_module = payload[:enabled_module]
+          next unless enabled_module.name == "helpdesk" && enabled_module.project
+
+          ITSM::HelpdeskUsers::AddToProjectService.new(project: enabled_module.project).call.on_failure do |result|
+            OpenProject.logger.error("Help desk user not added to project #{enabled_module.project.id}: #{result.message}")
+          end
+        end
+      end
+    end
   end
 end
