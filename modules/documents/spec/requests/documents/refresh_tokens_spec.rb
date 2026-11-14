@@ -30,84 +30,117 @@
 require "spec_helper"
 
 RSpec.describe "Document token refresh",
-               :skip_csrf,
                type: :rails_request,
                with_settings: { real_time_text_collaboration_enabled: true } do
+  let(:password) { "adminADMIN!" }
   let(:project) { create(:project, public: false) }
   let(:document) { create(:document, project:) }
   let(:role) { create(:project_role, permissions: %i[view_project view_documents]) }
-  let(:user) { create(:user, member_with_roles: { project => role }) }
+  let!(:user) do
+    create(:user, password:, password_confirmation: password, member_with_roles: { project => role })
+  end
   let(:path) { "/projects/#{project.id}/documents/#{document.id}/refresh_token" }
 
-  def request_token
-    post path, headers: { "CONTENT_TYPE" => "application/json" }
+  before do
+    # The login flow would otherwise stop at a second-factor prompt.
+    allow(OpenProject::TwoFactorAuthentication::TokenStrategyManager).to receive(:enabled?).and_return(false)
+    allow(Setting)
+      .to receive(:collaborative_editing_hocuspocus_secret)
+      .and_return("test_secret_for_encryption")
   end
 
-  context "when logged out and login is required", with_settings: { login_required: true } do
-    it "responds with 401" do
-      request_token
+  def page_csrf_token
+    response.parsed_body.at_css("meta[name=csrf-token]")["content"]
+  end
 
-      expect(response).to have_http_status(:unauthorized)
+  def sign_in_through_login_form
+    get "/login"
+    form_token = response.parsed_body.at_css("input[name=authenticity_token]")["value"]
+    post "/login", params: { username: user.login, password:, authenticity_token: form_token }
+    get "/projects/#{project.id}"
+    page_csrf_token
+  end
+
+  def request_token(csrf_token:)
+    headers = { "ACCEPT" => "application/json", "CONTENT_TYPE" => "application/json" }
+    headers["X-CSRF-Token"] = csrf_token if csrf_token
+    post path, headers:
+  end
+
+  def end_session_on_server
+    Sessions::UserSession.for_user(user).delete_all
+  end
+
+  context "with a valid session and access" do
+    it "responds with 200 and an encrypted token with its lifetime" do
+      request_token(csrf_token: sign_in_through_login_form)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body).to include("encrypted_token", "expires_in_seconds")
     end
   end
 
-  context "when logged out, login is not required and the project is private", with_settings: { login_required: false } do
+  context "when the user is no longer a member of the private project" do
     it "responds with 404" do
-      request_token
+      csrf_token = sign_in_through_login_form
+      Member.where(user_id: user.id).destroy_all
+
+      request_token(csrf_token:)
 
       expect(response).to have_http_status(:not_found)
     end
   end
 
-  context "when logged in as a non-member" do
-    let(:user) { create(:user) }
-
-    before { login_as(user) }
-
-    it "responds with 404" do
-      request_token
-
-      expect(response).to have_http_status(:not_found)
-    end
-  end
-
-  context "when logged in as a member without view_documents" do
+  context "when the member's role lacks view_documents" do
     let(:role) { create(:project_role, permissions: %i[view_project]) }
 
-    before { login_as(user) }
-
     it "responds with 403" do
-      request_token
+      request_token(csrf_token: sign_in_through_login_form)
 
       expect(response).to have_http_status(:forbidden)
     end
   end
 
-  context "when logged in with access and the document does not exist" do
+  context "when the document does not exist" do
     let(:path) { "/projects/#{project.id}/documents/999999/refresh_token" }
 
-    before { login_as(user) }
-
     it "responds with 404" do
-      request_token
+      request_token(csrf_token: sign_in_through_login_form)
 
       expect(response).to have_http_status(:not_found)
     end
   end
 
-  context "when logged in with view_documents" do
-    before do
-      login_as(user)
-      allow(Setting)
-        .to receive(:collaborative_editing_hocuspocus_secret)
-        .and_return("test_secret_for_encryption")
+  context "when the session was ended on the server and login is required", with_settings: { login_required: true } do
+    it "fails authentication with 401 rather than failing validation with 422" do
+      csrf_token = sign_in_through_login_form
+      end_session_on_server
+
+      request_token(csrf_token:)
+
+      expect(response).to have_http_status(:unauthorized)
     end
+  end
 
-    it "responds with 200 and an encrypted token" do
-      request_token
+  context "when the session was ended on the server, login is not required and the project is private",
+          with_settings: { login_required: false } do
+    it "responds with 404 rather than failing validation with 422" do
+      csrf_token = sign_in_through_login_form
+      end_session_on_server
 
-      expect(response).to have_http_status(:ok)
-      expect(response.parsed_body).to have_key("encrypted_token")
+      request_token(csrf_token:)
+
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
+  context "when the request carries no valid CSRF token" do
+    it "fails authentication with 401 rather than failing validation with 422" do
+      sign_in_through_login_form
+
+      request_token(csrf_token: nil)
+
+      expect(response).to have_http_status(:unauthorized)
     end
   end
 end
