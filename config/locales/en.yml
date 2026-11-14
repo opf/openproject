@@ -5979,6 +5979,9 @@ en:
   permission_manage_user: "Edit users"
   permission_manage_versions: "Manage versions"
   permission_manage_wiki: "Manage wiki"
+  permission_manage_work_package_custom_field_values: "Manage work package custom field values"
+  permission_manage_work_package_custom_field_values_explanation: >
+    Select which values of work package custom fields are available in the project and, if the custom field allows it, add values that are only available to that project.
   permission_manage_work_package_relations: "Manage work package relations"
   permission_manage_working_times: "Manage working times for all users"
   permission_manage_working_times_explanation: >

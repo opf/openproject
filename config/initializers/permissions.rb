@@ -455,6 +455,11 @@ Rails.application.reloader.to_prepare do
                      permissible_on: :project,
                      require: :member
 
+      wpt.permission :manage_work_package_custom_field_values,
+                     {},
+                     permissible_on: :project,
+                     require: :member
+
       wpt.permission :export_work_packages,
                      {
                        work_packages: %i[index export_dialog all]
