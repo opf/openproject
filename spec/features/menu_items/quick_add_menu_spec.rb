@@ -136,7 +136,8 @@ RSpec.describe "Quick-add menu", :js do
       quick_add.toggle
       quick_add.expect_meeting
 
-      quick_add.click_link "Meeting"
+      quick_add.open_meeting_submenu
+      quick_add.click_link "One-time"
       expect(page).to have_css("#new-meeting-dialog")
 
       visit home_path
@@ -145,7 +146,8 @@ RSpec.describe "Quick-add menu", :js do
       quick_add.toggle
       quick_add.expect_meeting
 
-      quick_add.click_link "Meeting"
+      quick_add.open_meeting_submenu
+      quick_add.click_link "One-time"
       expect(page).to have_css("#new-meeting-dialog")
     end
   end
