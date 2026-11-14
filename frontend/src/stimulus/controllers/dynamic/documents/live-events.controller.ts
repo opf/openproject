@@ -42,6 +42,8 @@ export default class extends ApplicationController {
   private provider:HocuspocusProvider|null = null;
   private readyCallback:((provider:HocuspocusProvider) => void) | null = null;
   private currentUsers = new Map<number, LiveUser>();
+  private avatarsRequest:AbortController|null = null;
+  private avatarsOutdated = false;
 
   connect() {
     this.readyCallback = (provider:HocuspocusProvider) => {
@@ -62,6 +64,9 @@ export default class extends ApplicationController {
     }
 
     this.currentUsers.clear();
+    this.avatarsRequest?.abort();
+    this.avatarsRequest = null;
+    this.avatarsOutdated = false;
 
     this.provider?.off('awarenessUpdate', this.onAwarenessUpdate);
     this.provider?.off('stateless', this.onStateless);
@@ -89,14 +94,14 @@ export default class extends ApplicationController {
     if (awarenessStates.length === 0) return;
 
     const changed = this.updateUsers(awarenessStates);
-    if (changed) {
+    if (changed || this.avatarsOutdated) {
       this.triggerUpdateUsersUI();
     }
   };
 
   private onStateless = (data:onStatelessParameters) => {
     if (data.payload == 'storeEvent') {
-      this.fetchTemplate(`${window.location.pathname}/render_last_saved_at`);
+      this.fetchTemplate(`${window.location.pathname}/render_last_saved_at`).catch(() => undefined);
     }
   };
 
@@ -126,15 +131,26 @@ export default class extends ApplicationController {
       params.append('user_ids[]', user.id);
     }
 
-    this.fetchTemplate(`${window.location.pathname}/render_avatars?${params}`);
+    this.avatarsRequest?.abort();
+    const request = new AbortController();
+    this.avatarsRequest = request;
+    this.avatarsOutdated = false;
+
+    this.fetchTemplate(`${window.location.pathname}/render_avatars?${params}`, request.signal)
+      .catch(() => {
+        if (!request.signal.aborted) {
+          this.avatarsOutdated = true;
+        }
+      });
   }
 
-  private fetchTemplate(url:string) {
-    void fetch(url, {
+  private fetchTemplate(url:string, signal?:AbortSignal):Promise<void> {
+    return fetch(url, {
       method: 'GET',
       headers: {
         Accept: 'text/vnd.turbo-stream.html',
       },
+      signal,
     })
       .then((response:Response) => {
         if (response.ok) {
@@ -142,8 +158,17 @@ export default class extends ApplicationController {
         }
         return Promise.reject(new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`));
       })
-      .then((html:string) => Turbo.renderStreamMessage(html))
-      .catch((error:Error) => console.error('Error:', error));
+      .then((html:string) => {
+        if (!signal?.aborted) {
+          Turbo.renderStreamMessage(html);
+        }
+      })
+      .catch((error:Error) => {
+        if (!signal?.aborted) {
+          console.error('Error:', error);
+        }
+        throw error;
+      });
   }
 }
 
