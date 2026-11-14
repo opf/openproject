@@ -49,7 +49,7 @@ RSpec.describe "Open the GitHub tab", :js do
   let(:check_run) { create(:github_check_run, github_pull_request: pull_request, name: "a check run name") }
 
   let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
-  let(:github_tab_element) { find(".op-tab-row--link_selected", text: "GITHUB") }
+  let(:github_tab_element) { find("[role=tab][aria-selected=true]", text: "GitHub") }
 
   shared_examples_for "a github tab" do
     before do

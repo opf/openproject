@@ -25,9 +25,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, EventEmitter, Injector, Input, OnInit, Output, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Injector, Input, OnInit, Output, computed, inject, signal, viewChild } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
+import { TabPanelSource } from 'core-app/shared/components/tabs/tab-panel-source';
+import { ScrollableTabsComponent } from 'core-app/shared/components/tabs/scrollable-tabs/scrollable-tabs.component';
+import { generateId } from 'core-app/shared/helpers/dom-helpers';
 import {
   WorkPackageTabsService,
 } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service';
@@ -43,7 +46,7 @@ import { WpTabDefinition } from 'core-app/features/work-packages/components/wp-t
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class WpTabsComponent implements OnInit {
+export class WpTabsComponent implements OnInit, TabPanelSource {
   readonly wpTabsService = inject(WorkPackageTabsService);
   readonly I18n = inject(I18nService);
   readonly injector = inject(Injector);
@@ -61,6 +64,16 @@ export class WpTabsComponent implements OnInit {
   public tabs:TabDefinition[];
 
   public canViewWatchers = false;
+
+  readonly panelId = signal(generateId('wp-tab-panel'));
+
+  readonly text = {
+    label: this.I18n.t('js.work_packages.tabs.label'),
+  };
+
+  private readonly scrollableTabs = viewChild(ScrollableTabsComponent);
+
+  readonly selectedTabElementId = computed(() => this.scrollableTabs()?.selectedTabElementId() ?? null);
 
   ngOnInit():void {
     this.canViewWatchers = !!this.workPackage?.watchers;

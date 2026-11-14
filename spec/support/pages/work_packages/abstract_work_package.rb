@@ -65,18 +65,22 @@ module Pages
 
     def switch_to_tab(tab:)
       page.document.synchronize(20) do
-        link = find(".op-tab-row--link", text: tab.upcase, wait: 0)
-        link.click unless link.matches_css?(".op-tab-row--link_selected", wait: 0)
-        find(".op-tab-row--link_selected", text: tab.upcase, wait: 0)
+        link = find("[role=tab]", text: tab_name(tab), wait: 0)
+        link.click unless link.matches_css?("[aria-selected=true]", wait: 0)
+        find("[role=tab][aria-selected=true]", text: tab_name(tab), wait: 0)
       end
     end
 
     def expect_tab(tab)
-      expect(page).to have_css(".op-tab-row--link_selected", text: tab.to_s.upcase)
+      expect(page).to have_css("[role=tab][aria-selected=true]", text: tab_name(tab))
     end
 
     def expect_no_tab(tab)
-      expect(page).to have_no_css(".op-tab-row--link", text: tab.to_s.upcase)
+      expect(page).to have_no_css("[role=tab]", text: tab_name(tab))
+    end
+
+    def tab_name(tab)
+      /\A#{Regexp.escape(tab.to_s)}/i
     end
 
     def within_active_tab(&)

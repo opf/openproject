@@ -52,7 +52,7 @@ module Pages
       if @primerized
         Components::WorkPackages::PrimerizedTabs.new.expect_tab("meetings")
       else
-        expect(page).to have_css(".op-tab-row--link", text: "MEETINGS")
+        expect(page).to have_css("[role=tab]", text: "Meetings")
       end
     end
 
@@ -60,7 +60,9 @@ module Pages
       if @primerized
         Components::WorkPackages::PrimerizedTabs.new.expect_counter("meetings", count)
       else
-        expect(page).to have_css(".op-tab-row--link", text: "MEETINGS (#{count})", wait: 10)
+        expect(page).to have_css("[role=tab]", text: "Meetings", wait: 10) do |tab|
+          tab.has_css?(".Counter", text: count.to_s, wait: 0)
+        end
       end
     end
 
@@ -68,7 +70,7 @@ module Pages
       if @primerized
         Components::WorkPackages::PrimerizedTabs.new.expect_no_tab("meetings")
       else
-        expect(page).to have_no_css(".op-tab-row--link", text: "MEETINGS")
+        expect(page).to have_no_css("[role=tab]", text: "Meetings")
       end
     end
 

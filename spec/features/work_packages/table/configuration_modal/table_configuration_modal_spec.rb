@@ -61,6 +61,6 @@ RSpec.describe "Work Package table configuration modal", :js do
     within(:menu, "Subject") { find(:menuitem, "Add columns").click }
 
     # Expect active tab is columns
-    expect(page).to have_css(".op-tab-row--link_selected", text: "COLUMNS")
+    expect(page).to have_css("[role=tab][aria-selected=true]", text: "Columns")
   end
 end

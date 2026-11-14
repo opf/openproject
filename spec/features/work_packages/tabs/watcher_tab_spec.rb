@@ -51,7 +51,7 @@ RSpec.describe "Watcher tab", :js do
   let!(:user) { create(:user, member_with_roles: { project => role }) }
   let!(:other_user) { create(:user, firstname: "Other", member_with_roles: { project => role }) }
 
-  let(:watchers_tab) { find(".op-tab-row--link_selected", text: "WATCHERS") }
+  let(:watchers_tab) { find("[role=tab][aria-selected=true]", text: "Watchers") }
 
   def toggle_watching(watched:)
     current_button = watched ? "#watch-button" : "#unwatch-button"
@@ -221,7 +221,7 @@ RSpec.describe "Watcher tab", :js do
 
     it "shows the number of watchers [#33685]" do
       wp_table.open_full_screen_by_doubleclick(work_package)
-      expect(page).to have_test_selector("tab-count", text: "(1)")
+      expect(page).to have_test_selector("tab-counter-Watchers", text: "1")
     end
   end
 

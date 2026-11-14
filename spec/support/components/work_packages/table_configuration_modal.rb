@@ -108,18 +108,18 @@ module Components
       end
 
       def expect_no_tab(name)
-        expect(page).to have_no_css("#{selector} .op-tab-row--link", text: name.upcase)
+        expect(page).to have_no_css("#{selector} [role=tab]", text: /\A#{Regexp.escape(name)}/i)
       end
 
       def selected_tab(name)
-        page.find("#{selector} .op-tab-row--link_selected", text: name.upcase)
+        page.find("#{selector} [role=tab][aria-selected=true]", text: /\A#{Regexp.escape(name)}/i)
         page.find("#{selector} .tab-content[data-tab-name='#{name}']")
       end
 
       def switch_to(target)
         SeleniumHubWaiter.wait unless using_cuprite?
 
-        find("#{selector} .op-tab-row--link", text: target.upcase, wait: 10).click
+        find("#{selector} [role=tab]", text: /\A#{Regexp.escape(target)}/i, wait: 10).click
         selected_tab(target)
       end
 

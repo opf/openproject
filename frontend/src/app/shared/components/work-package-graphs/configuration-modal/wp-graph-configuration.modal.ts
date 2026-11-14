@@ -25,7 +25,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ApplicationRef, ChangeDetectionStrategy, Component, ElementRef, InjectionToken, Injector, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { ApplicationRef, ChangeDetectionStrategy, Component, ElementRef, InjectionToken, Injector, OnDestroy, OnInit, ViewChild, inject, viewChild } from '@angular/core';
+import { ScrollableTabsComponent } from 'core-app/shared/components/tabs/scrollable-tabs/scrollable-tabs.component';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import {
@@ -71,6 +72,8 @@ export class WpGraphConfigurationModalComponent extends OpModalComponent impleme
 
   // Get the view child we'll use as the portal host
   @ViewChild('tabContentOutlet', { static: true }) tabContentOutlet:ElementRef<HTMLElement>;
+
+  readonly scrollableTabs = viewChild(ScrollableTabsComponent);
 
   // And a reference to the actual portal host interface
   public tabPortalHost:TabPortalOutlet;

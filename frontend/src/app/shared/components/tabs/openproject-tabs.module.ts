@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FocusModule } from 'core-app/shared/directives/focus/focus.module';
 import { AttributeHelpTextModule } from 'core-app/shared/components/attribute-help-texts/attribute-help-text.module';
@@ -33,6 +33,9 @@ import { ScrollableTabsComponent } from 'core-app/shared/components/tabs/scrolla
 import { TabCountComponent } from 'core-app/shared/components/tabs/tab-badges/tab-count.component';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
+import { PrimerCounterComponent } from 'core-app/shared/components/primer/counter.component';
+import { PrimerIconButtonComponent } from 'core-app/shared/components/primer/icon-button.component';
+import { TabPanelDirective } from 'core-app/shared/components/tabs/tab-panel.directive';
 
 @NgModule({
   imports: [
@@ -41,14 +44,19 @@ import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.di
     IconModule,
     AttributeHelpTextModule,
     OpTooltipDirective,
+    PrimerCounterComponent,
+    PrimerIconButtonComponent,
+    TabPanelDirective,
   ],
   exports: [
     ScrollableTabsComponent,
+    TabPanelDirective,
   ],
   declarations: [
     ScrollableTabsComponent,
     TabCountComponent,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class OpenprojectTabsModule {
 }

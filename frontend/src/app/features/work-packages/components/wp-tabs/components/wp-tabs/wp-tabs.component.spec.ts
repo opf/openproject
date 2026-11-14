@@ -93,4 +93,13 @@ describe('WpTabsComponent', () => {
 
     expect(tabLink.textContent).toContain('Displayable TestTab');
   });
+
+  it('points its tabs at its panel and exposes the selected tab for it', () => {
+    fixture.componentRef.setInput('currentTabId', 'displayable-test-tab');
+    fixture.detectChanges();
+
+    const tab:HTMLElement = fixture.nativeElement.querySelector('[role="tab"]');
+    expect(tab).toHaveAttribute('aria-controls', component.panelId());
+    expect(component.selectedTabElementId()).toBe(tab.id);
+  });
 });
