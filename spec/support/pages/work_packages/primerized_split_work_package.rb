@@ -32,7 +32,7 @@ require_relative "split_work_package"
 module Pages
   class PrimerizedSplitWorkPackage < Pages::SplitWorkPackage
     def in_split_view(&)
-      page.within("#work-package-details-#{work_package.id}", &)
+      page.within("#work-package-details-#{work_package.display_id}", &)
     end
 
     def switch_to_tab(tab:)
@@ -52,7 +52,7 @@ module Pages
       expect_angular_frontend_initialized
       wait_for_network_idle
       page.find_test_selector("wp-details-tab-component--close").click
-      expect(page).to have_no_css("#work-package-details-#{work_package.id}", wait: 20)
+      expect(page).to have_no_css("#work-package-details-#{work_package.display_id}", wait: 20)
     end
 
     def expect_tab(tab)
