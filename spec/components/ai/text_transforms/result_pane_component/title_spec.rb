@@ -43,4 +43,9 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent::Title, type: :component 
     expect(subject).to have_css(".octicon-sparkle")
     expect(subject).to have_css("h2", text: "Fix grammar")
   end
+
+  it "shows a grip in front of the AI icon" do
+    expect(subject).to have_css(".op-ai-result-pane--grip .octicon-grabber")
+    expect(subject).to have_css(".op-ai-result-pane--grip + * .octicon-sparkle")
+  end
 end

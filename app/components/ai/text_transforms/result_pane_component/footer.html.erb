@@ -33,9 +33,6 @@ See COPYRIGHT and LICENSE files for more details.
   <%= pane_form(id: RETRY_FORM_ID, url: ai_text_transform_panes_path, method: :post, fields: { **form_params, retry_of: pane.uuid }) if pane.retryable? %>
   <%=
     flex_layout(align_items: :center, classes: "op-ai-result-pane--footer") do |bar|
-      bar.with_column(mr: 2, classes: "op-ai-result-pane--grip", data: action(beginDrag: :pointerdown)) do
-        render(Primer::Beta::Octicon.new(icon: :grabber, color: :muted))
-      end
       bar.with_column(flex: 1) do
         case state
         when "generating"
