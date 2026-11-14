@@ -724,7 +724,7 @@ da:
             project_level_value_management:
               not_available_for_all_values: er kun tilgængelig, når værdierne er begrænset pr. projekt.
             project_specific_value_restriction:
-              not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted list.
+              not_supported: er kun tilgængelig for brugerdefinerede felter til arbejdspakker af formaterne liste, hierarki og vægtet liste.
             required:
               cannot_be_true: kan ikke slås til.
           previous_custom_field_recalculation_unprocessed: Genberegningen af tidligere ændringer i dette brugerdefinerede felt er endnu ikke anvendt. Prøv igen om et par minutter.
@@ -1173,8 +1173,8 @@ da:
         one: Brugerdefineret felt
         other: Brugerdefinerede felter
       custom_field/hierarchy/item:
-        one: Hierarchy value
-        other: Hierarchy values
+        one: Hierarkiværdi
+        other: Hierarkiværdier
       custom_field_section:
         one: Afsnit med brugerdefinerede felter
         other: Afsnit med brugerdefinerede felter
@@ -2641,13 +2641,13 @@ da:
   button_actions: Handlinger
   button_add: Tilføj
   button_add_comment: Tilføj kommentar
-  button_add_item_above: Add value above
-  button_add_item_below: Add value below
+  button_add_item_above: Tilføj værdi ovenfor
+  button_add_item_below: Tilføj værdi nedenfor
   button_add_member: Tilføj medlem
   button_add_menu_entry: Tilføj menupunkt
   button_add_non_working_time: Fravær
   button_add_sub_item: Tilføj underelement
-  button_add_sub_value: Add sub-value
+  button_add_sub_value: Tilføj underværdi
   button_add_watcher: Tilføj følger
   button_all_filters: Alle filtre
   button_annotate: Anmærke
@@ -2852,30 +2852,30 @@ da:
     admin:
       hierarchy:
         subitems:
-          one: "%{count} sub-value"
-          other: "%{count} sub-values"
-          zero: no sub-values
+          one: "%{count} underværdi"
+          other: "%{count} underværdier"
+          zero: ingen underværdier
       items:
-        actions: Value actions
+        actions: Handlinger for værdi
         blankslate:
           item:
-            description: Add values to this list to create sub-values inside another one
-            title: This value doesn't have any hierarchy level below
+            description: Tilføj værdier til listen for at oprette underværdier i en anden værdi
+            title: Værdien har ikke noget hierarkiniveau under sig
           project_item:
-            description: This value belongs to the project %{project}. It cannot have global sub-values. Sub-values can only be added in the [project administration](project_administration).
+            description: Værdien hører til projektet %{project}. Den kan ikke have globale underværdier. Underværdier kan kun tilføjes i [projektadministrationen](project_administration).
           root:
-            description: Start by adding values to the custom field of type hierarchy. Each value can be used to create a hierarchy below it. To navigate and create sub-values inside a hierarchy click on the created value.
-            title: Your list of values is empty
+            description: Begynd med at tilføje værdier til hierarkiet. Hver værdi kan have sine egne underværdier. Klik på en værdi for at åbne den og tilføje underværdier.
+            title: Din liste over værdier er tom
         delete_dialog:
-          description: This action will irreversibly remove the value and all its sub-values. Any assigned values will be permanently deleted. If this field is required, removing values may cause existing work packages to become invalid.
-          heading: Delete custom field value?
-          title: Delete custom field value
+          description: Handlingen fjerner værdien og alle dens underværdier, og det kan ikke fortrydes. Alle tildelte værdier slettes permanent. Hvis feltet er obligatorisk, kan det gøre eksisterende arbejdspakker ugyldige at fjerne værdier.
+          heading: Vil du slette værdien i det brugerdefinerede felt?
+          title: Slet værdi i brugerdefineret felt
         placeholder:
-          label: Value label
+          label: Værdiens betegnelse
           short: Kort navn
           weight: Vægt
       notice:
-        remember_items_and_projects: Remember to set values for this custom field, and to make sure it is used in at least one project.
+        remember_items_and_projects: Husk at angive værdier for det brugerdefinerede felt og at sørge for, at det bruges i mindst ét projekt.
       projects:
         changes_heading: Vigtige ændringer
         changes_text: 'Fra version 18.0 bliver brugerdefinerede felter ikke længere aktiveret eller deaktiveret på projektniveau. De indgår i formularer, som derefter bruges i forskellige typer og varianter. Listen nedenfor viser projekter, der bruger typer eller varianter med formularer, som indeholder dette brugerdefinerede felt.
@@ -3275,7 +3275,7 @@ da:
       team_planner_view: Teamplanlægger
       text_assistant: Tekstassistent
       virus_scanning: Antivirusscanning
-      weighted_item_lists: Weighted lists
+      weighted_item_lists: Vægtede lister
       work_package_query_relation_columns: Relationskolonner i visninger af arbejdspakker
       work_package_sharing: Del arbejdspakker med eksterne brugere
       work_package_subject_generation: Automatisk dannede emner for arbejdspakker
@@ -3393,7 +3393,7 @@ da:
       virus_scanning:
         description: Sørg for, at filer, der overføres til OpenProject, scannes for virus, før andre brugere får adgang til dem.
       weighted_item_lists:
-        description: Weighted lists allow you to create a list with underlying numeric values associated.
+        description: Med vægtede lister kan du oprette en liste, hvor hver værdi har en tilknyttet talværdi.
       work_package_sharing:
         description: Del arbejdspakker med brugere, der ikke er medlemmer af projektet.
       work_package_subject_generation:
@@ -4195,7 +4195,7 @@ da:
   label_delete_user: Slet bruger
   label_deleted: slettet
   label_deleted_custom_field: "(slettet brugerdefineret felt)"
-  label_deleted_custom_item: "(deleted value)"
+  label_deleted_custom_item: "(slettet værdi)"
   label_deleted_custom_option: "(slettet valgmulighed)"
   label_deleted_label: "(slettet mærkat)"
   label_deleted_version: "(slettet version)"
@@ -4706,7 +4706,7 @@ da:
   label_user_settings: Brugerindstillinger
   label_users_settings: Indstillinger for brugere
   label_value: Værdi
-  label_value_plural: Values
+  label_value_plural: Værdier
   label_value_x: 'Værdi: %{x}'
   label_version_custom_field_plural: Brugerdefinerede felter for versioner
   label_version_edit: Rediger version
@@ -4726,7 +4726,7 @@ da:
   label_view_x: 'Vis: %{x}'
   label_watched_work_packages: Arbejdspakker, der er tilset
   label_week: Uge
-  label_weighted_item_list: Weighted list
+  label_weighted_item_list: Vægtet liste
   label_what_is_this: Hvad er det?
   label_widget_new: Ny widget
   label_wiki_content_added: Wiki-side tilføjet
@@ -5405,7 +5405,7 @@ da:
   notice_no_principals_found: Ingen resultater fundet.
   notice_not_authorized: Du har ikke tilladelser til at gå til denne side.
   notice_not_authorized_archived_project: Det projekt du forsøger at tilgå er blevet arkiveret.
-  notice_parent_item_not_found: Parent value not found.
+  notice_parent_item_not_found: Den overordnede værdi blev ikke fundet.
   notice_password_confirmation_failed: Den indtastede adgangskode er forkert.
   notice_principals_found_multiple: "Der blev fundet %{number} resultater. \n Tryk på Tab for at gå til det første resultat."
   notice_principals_found_single: "Der er ét resultat. \n Tryk på Tab for at gå til det."
@@ -5623,8 +5623,8 @@ da:
         custom_field:
           format_not_supported: formatet '%{field_format}' understøttes ikke.
         item:
-          not_persisted: must be an already existing value.
-          root_item: cannot be a root value.
+          not_persisted: skal være en eksisterende værdi.
+          root_item: kan ikke være en rodværdi.
         label:
           not_unique: skal være entydig på samme niveau i hierarkiet.
         parent:
@@ -5645,7 +5645,7 @@ da:
       blueprint: Skabelon for mønster
       depth: Dybde
       enabled: Aktiveret
-      item: Value
+      item: Værdi
       label: Betegnelse
       parent: Overordnet
       short: Kort navn
@@ -5749,7 +5749,7 @@ da:
   permission_comment_news: Kommenter nyheder
   permission_commit_access: Læse- og skriveadgang til repository (commit)
   permission_copy_projects: Dupliker projekter
-  permission_copy_projects_explanation: 'I skabelonprojekter har tilladelsen en ekstra funktion: Den giver mulighed for at oprette nye projekter ud fra skabelonen.'
+  permission_copy_projects_explanation: Giver mulighed for at kopiere alle projektdata, herunder indhold og vedhæftede filer, som brugeren ikke kan se i kildeprojektet. Afhængigt af rollen i det nye projekt kan rollen i praksis give adgang til alle de kopierede data. Den giver også mulighed for at oprette projekter ud fra skabeloner.
   permission_copy_work_packages: Dupliker arbejdspakker
   permission_create_backup: Opret sikkerhedskopier
   permission_create_user: Opret brugere
@@ -7570,6 +7570,10 @@ da:
         delete:
           description: Projekter, der bruger varianten, skiftes til den variant, som du vælger nedenfor, før varianten slettes.
           title: Slet %{name}
+          unused:
+            description: Varianten slettes permanent. Handlingen kan ikke fortrydes.
+            heading: Vil du slette varianten '%{name}'?
+            title: Slet variant
         filter: Filtrér efter tekst
         filter_no_results: Ingen varianter matcher filteret
         global_section:

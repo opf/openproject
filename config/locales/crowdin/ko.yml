@@ -5594,7 +5594,7 @@ ko:
   permission_comment_news: 뉴스에 코멘트 달기
   permission_commit_access: 리포지토리(커밋)에 대한 읽기/쓰기 액세스
   permission_copy_projects: Duplicate projects
-  permission_copy_projects_explanation: 템플릿 프로젝트의 이 권한에는 템플릿에서 파생된 새 프로젝트를 만들 수 있는 부차적인 기능이 있습니다.
+  permission_copy_projects_explanation: Allows copying all project data, including content and attachments the user cannot view in the source project. The role can effectively grant access to all copied data depending on the role in the new project. It also allows creating projects from templates.
   permission_copy_work_packages: 작업 패키지 복제
   permission_create_backup: 백업 만들기
   permission_create_user: 사용자 만들기
@@ -7398,6 +7398,10 @@ ko:
         delete:
           description: 이 변형을 사용하는 프로젝트는 해당 변형이 삭제되기 전에 아래에서 사용자가 선택하는 변형으로 전환됩니다.
           title: "%{name} 삭제"
+          unused:
+            description: The variant will be deleted permanently. This action cannot be undone.
+            heading: Delete variant '%{name}'?
+            title: Delete variant
         filter: 텍스트로 필터링
         filter_no_results: 이 필터에 해당하는 변형이 없습니다.
         global_section:

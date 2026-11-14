@@ -5751,7 +5751,7 @@ it:
   permission_comment_news: Commentare le novità
   permission_commit_access: Accesso in lettura/scrittura all'archivio (commit)
   permission_copy_projects: Duplicate projects
-  permission_copy_projects_explanation: 'Nei progetti modello, questa autorizzazione ha una funzione secondaria: consente la creazione di nuovi progetti derivati dal modello.'
+  permission_copy_projects_explanation: Allows copying all project data, including content and attachments the user cannot view in the source project. The role can effectively grant access to all copied data depending on the role in the new project. It also allows creating projects from templates.
   permission_copy_work_packages: Duplica macro-attività
   permission_create_backup: Crea backup
   permission_create_user: Crea utenti
@@ -7573,6 +7573,10 @@ it:
         delete:
           description: Prima di eliminare questa variante, i progetti che la utilizzano passeranno alla variante scelta di seguito.
           title: Elimina %{name}
+          unused:
+            description: The variant will be deleted permanently. This action cannot be undone.
+            heading: Delete variant '%{name}'?
+            title: Delete variant
         filter: Filtra per testo
         filter_no_results: Nessuna variante corrisponde a questo filtro
         global_section:

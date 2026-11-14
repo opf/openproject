@@ -5746,7 +5746,7 @@ fa:
   permission_comment_news: دیدگاه روی اخبار
   permission_commit_access: دسترسی خواندن/نوشتن به مخزن (Commit)
   permission_copy_projects: تکثیر پروژه‌ها
-  permission_copy_projects_explanation: در پروژه‌های الگو، این مجوز یک کارکرد ثانویه دارد و اجازه ایجاد پروژه‌های جدید براساس الگو را می‌دهد.
+  permission_copy_projects_explanation: Allows copying all project data, including content and attachments the user cannot view in the source project. The role can effectively grant access to all copied data depending on the role in the new project. It also allows creating projects from templates.
   permission_copy_work_packages: تکثیر بسته‌های کاری
   permission_create_backup: ایجاد نسخه‌های پشتیبان
   permission_create_user: ایجاد کاربران
@@ -7575,6 +7575,10 @@ fa:
         delete:
           description: پروژه‌هایی که از این گونه استفاده می‌کنند، پیش از حذف آن به گونه‌ای که در زیر انتخاب می‌کنید منتقل خواهند شد.
           title: حذف %{name}
+          unused:
+            description: The variant will be deleted permanently. This action cannot be undone.
+            heading: Delete variant '%{name}'?
+            title: Delete variant
         filter: فیلتر بر اساس متن
         filter_no_results: هیچ گونه‌ای با این فیلتر مطابقت ندارد
         global_section:

@@ -5751,7 +5751,7 @@ pt-BR:
   permission_comment_news: Comentar notícias
   permission_commit_access: Acesso de leitura/gravação para o repositório (commit)
   permission_copy_projects: Duplicate projects
-  permission_copy_projects_explanation: 'Em projetos modelo, essa permissão possui uma função secundária: permite a criação de novos projetos derivados do modelo.'
+  permission_copy_projects_explanation: Allows copying all project data, including content and attachments the user cannot view in the source project. The role can effectively grant access to all copied data depending on the role in the new project. It also allows creating projects from templates.
   permission_copy_work_packages: Duplicar pacotes de trabalho
   permission_create_backup: Criar backups
   permission_create_user: Criar usuários
@@ -7563,6 +7563,10 @@ pt-BR:
         delete:
           description: Os projetos que usam esta variante serão alterados para a variante escolhida abaixo antes que esta variante seja excluída.
           title: Excluir %{name}
+          unused:
+            description: The variant will be deleted permanently. This action cannot be undone.
+            heading: Delete variant '%{name}'?
+            title: Delete variant
         filter: Filtrar por texto
         filter_no_results: Nenhuma variante corresponde a este filtro
         global_section:

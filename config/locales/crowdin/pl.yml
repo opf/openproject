@@ -6095,7 +6095,7 @@ pl:
   permission_comment_news: Komentowanie Nowości
   permission_commit_access: Dostęp odczytu i zapisu do repozytorium (wykonanie)
   permission_copy_projects: Duplicate projects
-  permission_copy_projects_explanation: W projektach szablonowych to uprawnienie ma dodatkową funkcję, umożliwia tworzenie nowych projektów opartych na szablonie.
+  permission_copy_projects_explanation: Allows copying all project data, including content and attachments the user cannot view in the source project. The role can effectively grant access to all copied data depending on the role in the new project. It also allows creating projects from templates.
   permission_copy_work_packages: Zduplikuj pakiety robocze
   permission_create_backup: Utwórz kopie zapasowe
   permission_create_user: Utwórz użytkowników
@@ -6380,7 +6380,7 @@ pl:
       categories:
         no_results_content_text: Utwórz nową kategorię zadania
         no_results_title_text: Nie ma jeszcze żadnej kategorii zadania.
-      change_identifier: Identyfikator zmiany
+      change_identifier: Zmień identyfikator
       change_identifier_dialog_title: Zmień identyfikator projektu
       change_identifier_format_hint_legacy: Tylko małe litery (a–z), cyfry, myślniki lub znaki podkreślenia.
       change_identifier_format_hint_semantic: Tylko wielkie litery (A–Z), cyfry lub znaki podkreślenia. Maksymalnie 10 znaków. Musi zaczynać się od litery.
@@ -7938,6 +7938,10 @@ pl:
         delete:
           description: Projekty korzystające z tego wariantu zostaną przełączone na wariant, który wybierzesz poniżej, zanim ten wariant zostanie usunięty.
           title: Usuń %{name}
+          unused:
+            description: The variant will be deleted permanently. This action cannot be undone.
+            heading: Delete variant '%{name}'?
+            title: Delete variant
         filter: Filtruj według tekstu
         filter_no_results: Żadne warianty nie spełniają kryteriów tego filtru
         global_section:
