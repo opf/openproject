@@ -13,18 +13,367 @@ Release date: 2026-11-02
 We released [OpenProject 18.0.0](https://community.openproject.org/versions/2250).
 The release contains several bug fixes and we recommend updating to the newest version.
 In these Release Notes, we will give an overview of important feature changes. At the end, you will find a complete list of all changes and bug fixes.
+
+Take a look at our release video showing the most important features introduced in OpenProject 18.0:
+
+![Release video of OpenProject 18.0](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject_18_0_release.mp4)
+
 ## Important feature changes
 
-<!-- Inform about the major features in this section -->
+OpenProject 18.0 is a particularly feature-rich release, introducing substantial improvements across project management, agile planning, resource management, collaboration, and administration. To make it easier to find the changes most relevant to you, we have organized the release notes into feature areas rather than presenting every improvement individually.
+
+>  [!TIP]
+>  **How to navigate these release notes:** The overview below introduces the ten main feature areas and provides direct links to individual improvements. Select a feature area to jump to its detailed description, or follow the links to a specific feature. Each detailed section explains what has changed and, where relevant, provides links to the updated OpenProject documentation.
+>
+>  The overview focuses on the most important new capabilities and user-facing changes. Additional technical changes, smaller improvements, and bug fixes are covered in the corresponding sections further down the release notes.
+>
+>  **Upgrading from an earlier version?** Review the [important updates and breaking changes](#important-updates-and-breaking-changes) before upgrading.
+
+### Overview of important feature changes
+
+**1. [Customize work package types, workflows, and forms](#customize-work-package-types-workflows-and-forms)**
+
+OpenProject 18.0 introduces more flexibility in configuring work package types, workflows, and forms to match the needs of different teams and projects. New type variants and reusable configurations make it easier to standardize processes while allowing teams to work with project-specific settings.
+
+This includes:
+
+- [Work package type variants](#work-package-type-variants)
+- [Reusable workflows and configuration](#reusable-workflows-and-configuration)
+- [Custom fields and form improvements](#custom-fields-and-form-improvements)
+
+**2. [Agile planning and reporting](#agile-planning-and-reporting)**
+
+New agile reporting capabilities make it easier to track sprint progress, evaluate team performance, and understand changes in scope. Sprint reports are available in the Community edition, while additional charts, including Created vs. Resolved and Epic progress, provide deeper insights in the Professional plan. Improvements to backlog and sprint planning complement these reporting features.
+
+This includes:
+
+- [Sprint reports and progress charts](#sprint-reports-and-progress-charts)
+- [Created vs. Resolved and Epic progress charts](#created-vs-resolved-and-epic-progress-charts)
+- [Backlog and sprint planning improvements](#backlog-and-sprint-planning-improvements)
+
+**3. [AI Text Assistant](#ai-text-assistant)**
+
+The new AI Text Assistant helps users proofread, rewrite, and structure text directly in OpenProject. Available in the Professional plan, it supports more efficient content creation and editing without switching between applications. Administrators can configure the AI capabilities for their OpenProject environment.
+
+This includes:
+
+- [AI-assisted writing and editing](#ai-assisted-writing-and-editing)
+- [AI configuration and administration](#ai-configuration-and-administration)
+
+**4. [Labels for work packages](#labels-for-work-packages)**
+
+Labels provide a new way to categorize and organize work packages across projects. They help users identify related work, add context beyond existing work package attributes, and find relevant items more easily through filtering.
+
+This includes:
+
+- Creating and managing labels
+- Assigning labels to work packages
+- Displaying and filtering work packages by labels
+
+**5. [Resource management and personal planning](#resource-management-and-personal-planning)**
+
+OpenProject 18.0 introduces new capabilities for planning resources across multiple projects and making allocations more visible. Global resource planners support cross-project planning, resource allocations can be reviewed directly in work packages, and personal schedules help users understand their planned workload in My Time. These capabilities are available in the Professional plan.
+
+This includes:
+
+- [Global resource planners](#global-resource-planners)
+- [Resource allocations in work packages](#resource-allocations-in-work-packages)
+- [Personal allocation planning in My Time](#personal-allocation-planning-in-my-time)
+
+**6. [Accessibility improvements](#accessibility-improvements)**
+
+This release improves accessibility across OpenProject, with a particular focus on keyboard navigation and screen reader support. Enhanced interactions in work package tables and other interface elements make it easier to navigate and work with project information using assistive technologies.
+
+This includes:
+
+- [Keyboard navigation in work package tables](#keyboard-navigation-in-work-package-tables)
+- [Screen reader support and other accessibility improvements](#screen-reader-support-and-other-accessibility-improvements)
+
+**7. [MCP Server available in Community](#mcp-server-available-in-community)**
+
+The OpenProject MCP Server is now available in the Community edition, enabling users to connect external AI assistants to OpenProject through the Model Context Protocol. The release also extends the available MCP tools and supported project information, providing additional possibilities for AI-assisted workflows.
+
+This includes:
+
+- [MCP availability and capabilities](#mcp-availability-and-capabilities)
+- [Additional MCP tools and supported data](#additional-mcp-tools-and-supported-data)
+
+**8. [Meetings module improvements](#meetings-module-improvements)**
+
+OpenProject 18.0 includes several improvements to meeting preparation and agenda management. New and refined interactions make it easier to create, organize, and move agenda items, while other changes improve navigation and connections between meetings and work packages.
+
+This includes:
+
+- [Meeting agenda management](#meeting-agenda-management)
+- [Meeting navigation and related work packages](#meeting-navigation-and-related-work-packages)
+
+**9. [Integrations and migration](#integrations-and-migration)**
+
+Several improvements help teams connect OpenProject with their existing development and testing tools or migrate project data from other platforms. This includes expanded GitLab functionality, the SquashTM integration, and additional Jira Migrator capabilities.
+
+This includes:
+
+- [GitLab integration](#gitlab-integration)
+- [SquashTM integration](#squashtm-integration)
+- [Jira migration improvements](#jira-migration-improvements)
+
+**10. [More improvements across OpenProject](#more-improvements-across-openproject)**
+
+Beyond the major feature areas, OpenProject 18.0 introduces a wide range of improvements to everyday project work and administration. These include enhancements to work package management, collaboration tools, time tracking, costs, project settings, and the overall user interface.
+
+This includes:
+
+- [Work package management and imports](#work-package-management-and-imports)
+- [Documents, wiki, and forums](#documents-wiki-and-forums)
+- [Time tracking, costs, and budgets](#time-tracking-costs-and-budgets)
+- [Project administration and navigation](#project-administration-and-navigation)
+- [Additional interface improvements](#additional-interface-improvements)
+
+### Customize work package types, workflows, and forms
+
+> **PLACEHOLDER — H3 section introduction (to be expanded):** Add 2–3 substantial paragraphs introducing this feature area, its main user benefits, how the related changes fit together, and relevant edition or plan availability. Explain what changed in 18.0 and provide context for the H4 sections below. Add screenshots or examples where useful.
+
+*Read more:* [Blog: Type variants, workflows and forms](https://www.openproject.org/blog/type-variants-workflows-forms/)
+
+#### Work package type variants
+
+> **PLACEHOLDER — H4 detailed feature description (to be expanded):** full explanation of the feature, including use case, benefits, screenshots and links
+
+*Read more:* [Blog: Type variants, workflows and forms](https://www.openproject.org/blog/type-variants-workflows-forms/)
+
+#### Reusable workflows and configuration
+
+> **PLACEHOLDER — H4 detailed feature description (to be expanded):** full explanation of the feature, including use case, benefits, screenshots and links
+
+*Read more:* [Blog: Reusable workflows and forms](https://www.openproject.org/blog/type-variants-workflows-forms/)
+
+#### Custom fields and form improvements
+
+> **PLACEHOLDER — H4 detailed feature description (to be expanded):** full explanation of the feature, including use case, benefits, screenshots and links
+
+*Read more:* [Blog: Form field configuration](https://www.openproject.org/blog/type-variants-workflows-forms/)
+
+### Agile planning and reporting
+
+> **PLACEHOLDER — H3 section introduction (to be expanded):** Add 2–3 substantial paragraphs introducing this feature area, its main user benefits, how the related changes fit together, and relevant edition or plan availability. Explain what changed in 18.0 and provide context for the H4 sections below. Add screenshots or examples where useful.
+
+*Read more:* [Documentation: Backlogs and sprints](https://www.openproject.org/docs/user-guide/backlogs-scrum/)
+
+#### Sprint reports and progress charts
+
+> **PLACEHOLDER — H4 detailed feature description (to be expanded):** full explanation of the feature, including use case, benefits, screenshots and links
+
+*Read more:* [Documentation: Backlogs and sprints](https://www.openproject.org/docs/user-guide/backlogs-scrum/)
+
+#### Created vs. Resolved and Epic progress charts
+
+> **PLACEHOLDER — H4 detailed feature description (to be expanded):** full explanation of the feature, including use case, benefits, screenshots and links
+
+*Read more:* [Documentation: Backlogs and sprints](https://www.openproject.org/docs/user-guide/backlogs-scrum/)
+
+#### Backlog and sprint planning improvements
+
+> **PLACEHOLDER — H4 detailed feature description (to be expanded):** full explanation of the feature, including use case, benefits, screenshots and links
+
+*Read more:* [Documentation: Backlogs and sprints](https://www.openproject.org/docs/user-guide/backlogs-scrum/)
+
+### AI Text Assistant
+
+> **PLACEHOLDER — H3 section introduction (to be expanded):** Add 2–3 substantial paragraphs introducing this feature area, its main user benefits, how the related changes fit together, and relevant edition or plan availability. Explain what changed in 18.0 and provide context for the H4 sections below. Add screenshots or examples where useful.
+
+*Read more:* [AI at OpenProject](https://www.openproject.org/ai/)
+
+#### AI-assisted writing and editing
+
+> **PLACEHOLDER — H4 detailed feature description (to be expanded):** full explanation of the feature, including use case, benefits, screenshots and links
+
+*Read more:* [AI at OpenProject](https://www.openproject.org/ai/)
+
+#### AI configuration and administration
+
+> **PLACEHOLDER — H4 detailed feature description (to be expanded):** full explanation of the feature, including use case, benefits, screenshots and links
+
+*Read more:* [AI at OpenProject](https://www.openproject.org/ai/)
+
+### Labels for work packages
+
+> **PLACEHOLDER — H3 section introduction (to be expanded):** Add 2–3 substantial paragraphs introducing this feature area, its main user benefits, how the related changes fit together, and relevant edition or plan availability. Explain what changed in 18.0 and provide context for the H4 sections below. Add screenshots or examples where useful.
+
+*Read more:* [Blog: Introducing labels](https://www.openproject.org/blog/labels-work-packages/)
+
+### Resource management and personal planning
+
+> **PLACEHOLDER — H3 section introduction (to be expanded):** Add 2–3 substantial paragraphs introducing this feature area, its main user benefits, how the related changes fit together, and relevant edition or plan availability. Explain what changed in 18.0 and provide context for the H4 sections below. Add screenshots or examples where useful.
+
+*Read more:* [Documentation: Resource management](https://www.openproject.org/docs/use-cases/resource-management/)
+[Blog: Resource management](https://www.openproject.org/blog/resource-management-capacity-planning/)
+
+#### Global resource planners
+
+> **PLACEHOLDER — H4 detailed feature description (to be expanded):** full explanation of the feature, including use case, benefits, screenshots and links
+
+*Read more:* [Documentation: Resource management](https://www.openproject.org/docs/use-cases/resource-management/)
+
+#### Resource allocations in work packages
+
+> **PLACEHOLDER — H4 detailed feature description (to be expanded):** full explanation of the feature, including use case, benefits, screenshots and links
+
+*Read more:* [Documentation: Resource management](https://www.openproject.org/docs/use-cases/resource-management/)
+
+#### Personal allocation planning in My Time
+
+> **PLACEHOLDER — H4 detailed feature description (to be expanded):** full explanation of the feature, including use case, benefits, screenshots and links
+
+*Read more:* [Documentation: Resource management](https://www.openproject.org/docs/use-cases/resource-management/)
+
+### Accessibility improvements
+
+> **PLACEHOLDER — H3 section introduction (to be expanded):** Add 2–3 substantial paragraphs introducing this feature area, its main user benefits, how the related changes fit together, and relevant edition or plan availability. Explain what changed in 18.0 and provide context for the H4 sections below. Add screenshots or examples where useful.
+
+*Read more:* [Blog: Accessibility in 18.0](https://www.openproject.org/blog/accessibility-18-0/)
+
+#### Keyboard navigation in work package tables
+
+> **PLACEHOLDER — H4 detailed feature description (to be expanded):** full explanation of the feature, including use case, benefits, screenshots and links
+
+*Read more:* [Blog: Accessibility in 18.0](https://www.openproject.org/blog/accessibility-18-0/)
+
+#### Screen reader support and other accessibility improvements
+
+> **PLACEHOLDER — H4 detailed feature description (to be expanded):** full explanation of the feature, including use case, benefits, screenshots and links
+
+*Read more:* [Blog: Accessibility in 18.0](https://www.openproject.org/blog/accessibility-18-0/)
+
+### MCP Server available in Community
+
+> **PLACEHOLDER — H3 section introduction (to be expanded):** Add 2–3 substantial paragraphs introducing this feature area, its main user benefits, how the related changes fit together, and relevant edition or plan availability. Explain what changed in 18.0 and provide context for the H4 sections below. Add screenshots or examples where useful.
+
+*Read more:* [Documentation: MCP Server](https://www.openproject.org/docs/system-admin-guide/integrations/mcp-server/)
+
+#### MCP availability and capabilities
+
+> **PLACEHOLDER — H4 detailed feature description (to be expanded):** full explanation of the feature, including use case, benefits, screenshots and links
+
+*Read more:* [Documentation: MCP Server](https://www.openproject.org/docs/system-admin-guide/integrations/mcp-server/)
+
+#### Additional MCP tools and supported data
+
+> **PLACEHOLDER — H4 detailed feature description (to be expanded):** full explanation of the feature, including use case, benefits, screenshots and links
+
+*Read more:* [Documentation: MCP Server](https://www.openproject.org/docs/system-admin-guide/integrations/mcp-server/)
+
+### Meetings module improvements
+
+> **PLACEHOLDER — H3 section introduction (to be expanded):** Add 2–3 substantial paragraphs introducing this feature area, its main user benefits, how the related changes fit together, and relevant edition or plan availability. Explain what changed in 18.0 and provide context for the H4 sections below. Add screenshots or examples where useful.
+
+*Read more:* [Documentation: Meetings](https://www.openproject.org/docs/user-guide/meetings/)
+[Blog: Agenda voting](https://www.openproject.org/blog/voting-agenda-items/)
+
+#### Meeting agenda management
+
+> **PLACEHOLDER — H4 detailed feature description (to be expanded):** full explanation of the feature, including use case, benefits, screenshots and links
+
+*Read more:* [Documentation: Meetings](https://www.openproject.org/docs/user-guide/meetings/)
+[Blog: Agenda voting](https://www.openproject.org/blog/voting-agenda-items/)
+
+#### Meeting navigation and related work packages
+
+> **PLACEHOLDER — H4 detailed feature description (to be expanded):** full explanation of the feature, including use case, benefits, screenshots and links
+
+*Read more:* [Documentation: Meetings](https://www.openproject.org/docs/user-guide/meetings/)
+
+### Integrations and migration
+
+> **PLACEHOLDER — H3 section introduction (to be expanded):** Add 2–3 substantial paragraphs introducing this feature area, its main user benefits, how the related changes fit together, and relevant edition or plan availability. Explain what changed in 18.0 and provide context for the H4 sections below. Add screenshots or examples where useful.
+
+*Read more:* [Documentation: User guide](https://www.openproject.org/docs/user-guide/)
+
+#### GitLab integration
+
+> **PLACEHOLDER — H4 detailed feature description (to be expanded):** full explanation of the feature, including use case, benefits, screenshots and links
+
+*Read more:* [Documentation: User guide (GitLab)](https://www.openproject.org/docs/user-guide/)
+
+#### SquashTM integration
+
+> **PLACEHOLDER — H4 detailed feature description (to be expanded):** full explanation of the feature, including use case, benefits, screenshots and links
+
+*Read more:* [Documentation: User guide](https://www.openproject.org/docs/user-guide/)
+
+#### Jira migration improvements
+
+> **PLACEHOLDER — H4 detailed feature description (to be expanded):** full explanation of the feature, including use case, benefits, screenshots and links
+
+*Read more:* [Blog: OpenProject vs. Jira](https://www.openproject.org/blog/)
+
+### More improvements across OpenProject
+
+> **PLACEHOLDER — H3 section introduction (to be expanded):** Add 2–3 substantial paragraphs introducing this feature area, its main user benefits, how the related changes fit together, and relevant edition or plan availability. Explain what changed in 18.0 and provide context for the H4 sections below. Add screenshots or examples where useful.
+
+*Read more:* [Documentation: User guide](https://www.openproject.org/docs/user-guide/)
+
+#### Work package management and imports
+
+> **PLACEHOLDER — H4 detailed feature description (to be expanded):** full explanation of the feature, including use case, benefits, screenshots and links
+
+*Read more:* [Documentation: Work packages (user guide)](https://www.openproject.org/docs/user-guide/)
+
+#### Documents, wiki, and forums
+
+> **PLACEHOLDER — H4 detailed feature description (to be expanded):** full explanation of the feature, including use case, benefits, screenshots and links
+
+*Read more:* [Documentation: User guide](https://www.openproject.org/docs/user-guide/)
+[Blog: Next-level Forums](https://www.openproject.org/blog/passion-project-forums-module/)
+
+#### Time tracking, costs, and budgets
+
+> **PLACEHOLDER — H4 detailed feature description (to be expanded):** full explanation of the feature, including use case, benefits, screenshots and links
+
+*Read more:* [Documentation: Time and costs](https://www.openproject.org/docs/user-guide/time-and-costs/)
+
+#### Project administration and navigation
+
+> **PLACEHOLDER — H4 detailed feature description (to be expanded):** full explanation of the feature, including use case, benefits, screenshots and links
+
+*Read more:* [Documentation: User guide](https://www.openproject.org/docs/user-guide/)
+[Blog: What’s new menu](https://www.openproject.org/blog/passion-project-whats-new-release/)
+
+#### Additional interface improvements
+
+> **PLACEHOLDER — H4 detailed feature description (to be expanded):** full explanation of the feature, including use case, benefits, screenshots and links
+
+*Read more:* [Blog: What’s new menu](https://www.openproject.org/blog/passion-project-whats-new-release/)
 
 ## Important updates and breaking changes
 
-<!-- Remove this section if empty, add to it in pull requests linking to tickets and provide information -->
+## Important updates and breaking changes
+
+OpenProject 18.0 introduces changes to existing configuration options, administration terminology, and certain technical interfaces. While many improvements are available immediately after upgrading, some changes may require administrators to review their configurations or update existing integrations.
+
+We recommend reviewing the following information before upgrading, particularly if your organization uses project-specific work package configurations, custom plugins, or integrations with OpenProject.
+
+### Migration of project-specific work package configurations to type variants
+
+With the introduction of work package type variants, OpenProject 18.0 changes how project-specific work package configurations are managed. During the upgrade, OpenProject automatically creates variants where necessary to preserve existing project-specific custom field configurations. These variants are identified as migrated variants in the administration interface. Administrators should review these variants after upgrading to ensure that their work package types and configurations are organized as intended.
+
+**Read more:** [Work package administration](https://www.openproject.org/docs/system-admin-guide/manage-work-packages/)
+
+### Changes to administration terminology and workflows
+
+Several existing administration concepts have been renamed or reorganized in OpenProject 18.0:
+
+- **Custom Actions** are now called **Automations**. Existing custom actions remain available, without additional automation functionality in this release.
+- **Form configuration** is now called **Form** in work package type administration.
+- The **Copy to other types** workflow action has been removed. Administrators can use the new configuration reuse functionality instead.
+- **My time tracking** module is now called **My time** module.
+
 
 <!-- BEGIN SECURITY FIXES AUTOMATED SECTION -->
 
 <!-- END SECURITY FIXES AUTOMATED SECTION -->
 <!--more-->
+
+
 
 ## Bug fixes and changes
 
