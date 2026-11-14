@@ -53,7 +53,7 @@ module DevelopmentData
       private
 
       def find_project(project_data)
-        Project.find_by(identifier: project_data.lookup("identifier"))
+        Project.find_by(identifier: ::DemoData::ProjectSeeder.identifier(project_data))
       end
     end
   end
