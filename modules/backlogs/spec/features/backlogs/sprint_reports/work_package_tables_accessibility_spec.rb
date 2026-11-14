@@ -176,7 +176,7 @@ RSpec.describe(
     it "exposes the ID link with no extra description" do
       tables.each do |title, work_package|
         expect(report_table(title).row(work_package))
-          .to have_selector(:link, accessible_name: work_package.id.to_s, accessible_description: "", exact: true)
+          .to have_selector(:link, accessible_name: work_package.display_id.to_s, accessible_description: "", exact: true)
       end
     end
 
@@ -217,7 +217,7 @@ RSpec.describe(
 
       completed.press_keys(:tab)
       expect(completed.row(added_and_completed))
-        .to have_selector(:link, accessible_name: added_and_completed.id.to_s, focused: true, exact: true)
+        .to have_selector(:link, accessible_name: added_and_completed.display_id.to_s, focused: true, exact: true)
       completed.press_keys(:tab)
       unfinished.expect_focus_on_row(kept)
       completed.expect_focus_outside_table
@@ -226,10 +226,10 @@ RSpec.describe(
     it "opens the work package from its ID link without activating an editor" do
       table = report_table("Completed work")
       row = table.row(added_and_completed)
-      row.find(:link, accessible_name: added_and_completed.id.to_s, exact: true).click
+      row.find(:link, accessible_name: added_and_completed.display_id.to_s, exact: true).click
 
       Pages::FullWorkPackage.new(added_and_completed, project).ensure_loaded
-      expect(page).to have_current_path(%r{/work_packages/#{added_and_completed.id}(?:/|$)}, ignore_query: true)
+      expect(page).to have_current_path(%r{/work_packages/#{added_and_completed.to_param}(?:/|$)}, ignore_query: true)
     end
   end
 
