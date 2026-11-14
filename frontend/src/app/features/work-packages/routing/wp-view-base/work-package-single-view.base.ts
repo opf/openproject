@@ -176,9 +176,9 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
   // setFirstPart is not idempotent, and a semantic route param makes the
   // work package arrive from both its semantic and its numeric cache slot.
-  private applyTitle():void {
+  protected applyTitle(force = false):void {
     const title = this.workPackage.subjectWithType(-1);
-    if (title !== this.appliedTitle) {
+    if (force || title !== this.appliedTitle) {
       this.appliedTitle = title;
       this.titleService.setFirstPart(title);
     }
