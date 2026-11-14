@@ -31,6 +31,7 @@ import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 import { WorkPackageSchemaProxy } from 'core-app/features/hal/schemas/work-package-schema-proxy';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { HalSource } from 'core-app/features/hal/interfaces';
 
 export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource> {
   public setValue(key:string, val:unknown) {
@@ -75,22 +76,19 @@ export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource>
       }
     }
 
-    return this.applyLabelLinks(super.applyChanges(payload));
+    return super.applyChanges(payload);
   }
 
-  private applyLabelLinks(payload:ChangesetPayload):ChangesetPayload {
-    const labels = this.changeset.getValue('labels');
-
-    if (!Array.isArray(labels) || !this.schema.isAttributeEditable('labels')) {
-      return payload;
+  protected applyChange(payload:ChangesetPayload, reference:HalSource, key:string, value:unknown):void {
+    if (key === 'labels' && Array.isArray(value)) {
+      delete payload.labels;
+      payload._links.labels = (value as HalResource[])
+        .filter((label) => Boolean(label.href) || Boolean(label.name))
+        .map((label) => (label.href ? { href: label.href } : { href: null, title: label.name }));
+      return;
     }
 
-    delete payload.labels;
-    payload._links.labels = (labels as HalResource[])
-      .filter((label) => Boolean(label.href) || Boolean(label.name))
-      .map((label) => (label.href ? { href: label.href } : { href: null, title: label.name }));
-
-    return payload;
+    super.applyChange(payload, reference, key, value);
   }
 
   protected setNewDefaultFor(key:string, val:unknown) {
