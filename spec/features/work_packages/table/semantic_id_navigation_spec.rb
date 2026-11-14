@@ -67,4 +67,25 @@ RSpec.describe "Work package table semantic ID navigation",
     wp_table.expect_work_package_listed(work_package)
     expect(page).to have_css("#{wp_table.row_selector(work_package)}.-checked")
   end
+
+  context "with a hierarchy query that matches only the child" do
+    let(:parent) { create(:work_package, project:, subject: "Semantic nav parent") }
+    let!(:child) { create(:work_package, project:, parent:, subject: "Semantic nav child") }
+
+    let!(:query) do
+      query = build(:query, user:, project:)
+      query.filters.clear
+      query.add_filter("id", "=", [child.id])
+      query.show_hierarchies = true
+      query.save!
+      query
+    end
+
+    it "selects the ancestor row of a split view opened by the parent's semantic ID URL" do
+      visit details_project_work_packages_path(project, parent.reload.identifier, query_id: query.id)
+
+      wp_table.expect_work_package_listed(parent, child)
+      expect(page).to have_css("#{wp_table.row_selector(parent)}.-checked")
+    end
+  end
 end
