@@ -326,7 +326,7 @@ pt-BR:
   meeting:
     agenda_sorting:
       change: Change sorting mode
-      current_mode: Currently in %{mode} mode.
+      current_mode: Currently in %{mode} mode
       invalid_reaction: Only upvotes and downvotes are allowed on agenda items.
       manual: Manual
       manual_description: You can manually arrange agenda items in any order you like by dragging and dropping them up or down.

@@ -55,26 +55,13 @@ da:
   itsm:
     admin:
       description: Gør det muligt at oprette arbejdspakker ved at sende e-mails via en IMAP-server og at besvare dem via en SMTP-server.
-      enable_helpdesk: Enable help desk in this instance
+      enable_helpdesk: Slå helpdesk til i denne installation
       helpdesk_set_by_environment: Helpdesk-funktionen er angivet med en miljøvariabel og kan ikke ændres her.
       imap_server_configuration_component:
         description: Konfigurer IMAP-serveren til at omdanne indgående e-mails til arbejdspakker.
         edit: Rediger konfigurationen af IMAP-serveren
         title: Konfiguration af IMAP-server
       mail_servers: Mailservere
-      port: Port
-      server_configuration_form:
-        encryption: Encryption
-        imap:
-          instruction: 'Configure the IMAP server to transform incoming emails to work packages. Note that OpenProject has no mechanism to stop email spoofing, please, ensure that the configured mail server performs SPF, DKIM, and DMARC checks, and quarantines emails that fail them.
-
-            '
-          title: IMAP server configuration
-        name: Server name
-        port: Server port
-        smtp:
-          instruction: Configure the SMTP server to reply emails directly from the work packages activity.
-          title: SMTP server configuration
       smtp_server_configuration_component:
         description: Konfigurer SMTP-serveren til at besvare e-mails direkte fra arbejdspakkens aktivitet.
         edit: Rediger konfigurationen af SMTP-serveren

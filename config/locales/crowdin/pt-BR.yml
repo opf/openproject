@@ -137,10 +137,10 @@ pt-BR:
         commented: Comentado
       custom_field:
         admin_only: Apenas administrador
+        allow_additional_project_values: Project admins can add project-specific values
         allow_non_open_versions: Permitir versões não abertas
         content_right_to_left: Conteúdo da direita para a esquerda
         default_value: Valor padrão
-        editable: Editável
         field_format: Formato
         formula: Fórmula
         has_comment: Adicionar um campo de texto para comentário
@@ -153,10 +153,12 @@ pt-BR:
         min_value: Valor mínimo
         multi_value: Permitir seleção múltipla
         possible_values: Valores possíveis
+        project_level_value_management: Project admins can manage values at a project level
         project_specific_value_restriction: Project-specific values
         regexp: Expressão regular
         searchable: Pesquisável
         semantic_key: Significado semântico
+        user_self_editable: Editável
         visible_on_user_card: Exibir no cartão do usuário
       custom_field/project_specific_value_restriction:
         restriction: Restriction
@@ -342,6 +344,10 @@ pt-BR:
         custom_field_section: Seção
       project_type:
         variant: Variante
+      push_subscription:
+        created_at: Adicionado
+        endpoint: Endpoint
+        session_id: Sessão
       query:
         child_work_packages: Pacotes de trabalho filhos
         column_names: Colunas
@@ -715,8 +721,10 @@ pt-BR:
               invalid_tokens: Somente valores numéricos, operadores, funções, palavras-chave e atributos de projeto dos tipos inteiro, ponto flutuante, valor calculado e lista ponderada são permitidos.
               multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: O atributo %{custom_fields} não pode ser usado, pois gera uma referência circular; um atributo depende do outro.
+            project_level_value_management:
+              not_available_for_all_values: is only available when values are restricted per project.
             project_specific_value_restriction:
-              not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
+              not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted list.
             required:
               cannot_be_true: não pode ser definido como verdadeiro.
           previous_custom_field_recalculation_unprocessed: A recalculação das alterações anteriores deste campo personalizado ainda não foi aplicada. Tente novamente em alguns minutos.
@@ -727,6 +735,10 @@ pt-BR:
           attributes:
             project_ids:
               blank: Selecione um projeto.
+        custom_option:
+          attributes:
+            project_id:
+              additional_values_not_allowed: cannot add values to this custom field.
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -859,6 +871,10 @@ pt-BR:
             variant:
               must_be_owned_by_the_project: não deve ser uma variante pertencente a outro projeto.
               must_belong_to_the_type: deve ser uma variante do tipo que o projeto utiliza.
+        push_subscription:
+          attributes:
+            base:
+              too_many_push_subscriptions: Only %{count} devices can receive browser push notifications at the same time.
         queries/filters/base:
           attributes:
             values:
@@ -1157,8 +1173,8 @@ pt-BR:
         one: Campo personalizado
         other: Campos personalizados
       custom_field/hierarchy/item:
-        one: Item de hierarquia
-        other: Itens de hierarquia
+        one: Hierarchy value
+        other: Hierarchy values
       custom_field_section:
         one: Seção de campo personalizado
         other: Seções de campo personalizado
@@ -2136,6 +2152,37 @@ pt-BR:
           error: Não foi possível reordenar a seção.
         move:
           error: Não foi possível reordenar a seção.
+      push_notifications:
+        checking: Checking…
+        description: Users can choose to install a progressive web app (PWA) version of OpenProject on modern web browsers. If they do so, they are also able to receive native OS-level notifications for activity in OpenProject.
+        hosts_intro: 'OpenProject sends pushes to whichever push service each user''s browser subscribes through. The check below contacts the push services of the major browsers and every service an existing subscription uses:'
+        http_status: HTTP %{code}
+        key_managed_by_environment: The push signing key is supplied through the OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY environment variable. To renew it, change the variable.
+        key_renewed: The push signing key was renewed. Every device has to turn browser notifications on again.
+        key_unreadable: The push signing key could not be read. Renew it to restore browser notifications; every device then has to turn browser notifications on again.
+        reachable: Reachable
+        reasons:
+          connection: The connection failed
+          filtered: The request was blocked by SSRF protection
+          invalid_host: The host name is not valid
+          private_address: The host resolved to a private address
+          sample_unresolved: Sample host could not be resolved; result inconclusive
+          timeout: No response within %{seconds} seconds
+          tls: The TLS handshake failed
+          unresolved: The host name could not be resolved
+        renew_key: Renew keys
+        renew_key_dialog:
+          confirm_button: Renew key
+          confirmation: I understand that every device has to turn browser notifications on again.
+          description:
+            one: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: the one existing subscription is deleted, and every user has to turn browser notifications on again on each device.'
+            other: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: %{count} subscriptions are deleted, and every user has to turn browser notifications on again on each device.'
+            zero: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: no subscriptions exist yet, but every user has to turn browser notifications on again on each device.'
+          heading: Renew the push signing key?
+          title: Renew keys
+        unreachable: Unreachable
+        verify_reachability: Verify reachability
+        verify_reachability_description: To check for notifications, OpenProject sends a content-free wake-up push. The installed PWA then fetches the unread count over the user's session. The following push services see the subscription endpoint, this instance's address and public key and the time of each push.
       user_custom_field_sections:
         destroy:
           error: Não foi possível excluir a seção.
@@ -2594,12 +2641,13 @@ pt-BR:
   button_actions: Ações
   button_add: Adicionar
   button_add_comment: Adicionar comentário
-  button_add_item_above: Adicionar item acima
-  button_add_item_below: Adicionar item abaixo
+  button_add_item_above: Add value above
+  button_add_item_below: Add value below
   button_add_member: Adicionar membro
   button_add_menu_entry: Adicionar item de menu
   button_add_non_working_time: Folga
   button_add_sub_item: Adicionar subitem
+  button_add_sub_value: Add sub-value
   button_add_watcher: Adicionar observador
   button_all_filters: Todos os filtros
   button_annotate: Anotar
@@ -2804,28 +2852,30 @@ pt-BR:
     admin:
       hierarchy:
         subitems:
-          one: "%{count} sub-item"
-          other: "%{count} subitens"
-          zero: sem subitens
+          one: "%{count} sub-value"
+          other: "%{count} sub-values"
+          zero: no sub-values
       items:
-        actions: Ações do item
+        actions: Value actions
         blankslate:
           item:
-            description: Adicione itens a esta lista para criar subitens dentro de outro item
-            title: Este item não possui nenhum nível de hierarquia abaixo
+            description: Add values to this list to create sub-values inside another one
+            title: This value doesn't have any hierarchy level below
+          project_item:
+            description: This value belongs to the project %{project}. It cannot have global sub-values. Sub-values can only be added in the [project administration](project_administration).
           root:
-            description: Comece adicionando itens ao campo personalizado do tipo hierarquia. Cada item pode ser usado para criar uma hierarquia abaixo dele. Para navegar e criar subitens, clique no item criado.
-            title: Sua lista de itens está vazia
+            description: Start by adding values to the custom field of type hierarchy. Each value can be used to create a hierarchy below it. To navigate and create sub-values inside a hierarchy click on the created value.
+            title: Your list of values is empty
         delete_dialog:
-          description: Esta ação removerá o item e todos os seus subitens de forma permanente. Todos os valores atribuídos serão excluídos. Se este campo for obrigatório, a remoção pode invalidar pacotes de trabalho existentes.
-          heading: Excluir item de campo personalizado?
-          title: Excluir item de campo personalizado
+          description: This action will irreversibly remove the value and all its sub-values. Any assigned values will be permanently deleted. If this field is required, removing values may cause existing work packages to become invalid.
+          heading: Delete custom field value?
+          title: Delete custom field value
         placeholder:
-          label: Rótulo do item
+          label: Value label
           short: Nome abreviado
           weight: Peso
       notice:
-        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
+        remember_items_and_projects: Remember to set values for this custom field, and to make sure it is used in at least one project.
       projects:
         changes_heading: Important changes
         changes_text: 'Starting version 18.0, custom fields are no longer enabled or disabled at a project level. They are included in forms, which are then used in different types and variants. The following list shows projects that use types or variants using forms including this custom field.
@@ -2881,8 +2931,6 @@ pt-BR:
       admin_only:
         all: Marque para tornar este campo personalizado visível apenas para administradores. Usuários sem permissões de administrador não poderão visualizá-lo nem editá-lo.
         project: Marque para tornar este atributo visível apenas para administradores. Usuários sem permissões de administrador não poderão visualizá-lo nem editá-lo.
-      editable:
-        all: Permitir que o campo seja editável pelos próprios usuários.
       formula:
         project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
@@ -2912,6 +2960,8 @@ pt-BR:
       searchable:
         all: Incluir os valores do campo ao utilizar a funcionalidade de pesquisa global.
         project: Marque para tornar este atributo disponível como filtro nas listas de projetos.
+      user_self_editable:
+        all: Permitir que o campo seja editável pelos próprios usuários.
       visible_on_user_card:
         all: Quando marcado, o valor deste campo é exibido no cartão de informações do usuário ao passar o mouse sobre o usuário em toda a aplicação.
     is_enabled_globally: Está habilitado globalmente
@@ -2933,6 +2983,11 @@ pt-BR:
       block:
         caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
         label: 'Block filter: Manually choose which values to deactivate for each project'
+      label: Project-specific
+      label_with_project: 'Project-specific: %{project}'
+      project_admins:
+        additional_values_caption: Added values are only available in the project they were created in. You can make them available to all projects later.
+        value_management_caption: Project admins can enable or disable certain values for their project. All global values will be visible to them.
       switch_warning:
         all: All values will be available in all projects.
         allow: No values will be available to any project unless you manually activate them in each project individually.
@@ -3220,11 +3275,10 @@ pt-BR:
       team_planner_view: Planejador de Equipes
       text_assistant: Text assistant
       virus_scanning: Verificação de antivírus
-      weighted_item_lists: Listas de itens ponderados
+      weighted_item_lists: Weighted lists
       work_package_query_relation_columns: Colunas de relação de consulta do pacote de trabalho
       work_package_sharing: Compartilhar pacotes de trabalho com pessoas de fora da organização
       work_package_subject_generation: Geração de assunto do pacote de trabalho
-      xwiki_integration: XWiki Integration
     teaser:
       description_html: Você possui acesso a todos os recursos do %{trial_plan}.
       title:
@@ -3339,7 +3393,7 @@ pt-BR:
       virus_scanning:
         description: Garantir que os arquivos carregados no OpenProject sejam verificados quanto à presença de vírus antes de serem acessados por outros usuários.
       weighted_item_lists:
-        description: Listas de itens ponderados permitem criar uma lista com valores numéricos associados.
+        description: Weighted lists allow you to create a list with underlying numeric values associated.
       work_package_sharing:
         description: Compartilhe pacotes de trabalho com usuários que não são membros do projeto.
       work_package_subject_generation:
@@ -4141,7 +4195,7 @@ pt-BR:
   label_delete_user: Excluir usuário
   label_deleted: excluído
   label_deleted_custom_field: "(campo personalizado excluído)"
-  label_deleted_custom_item: "(item excluído)"
+  label_deleted_custom_item: "(deleted value)"
   label_deleted_custom_option: "(opção excluída)"
   label_deleted_label: "(deleted label)"
   label_deleted_version: "(deleted version)"
@@ -4280,8 +4334,6 @@ pt-BR:
   label_invalid_file_type: This file type is not supported.
   label_invitation: Convite
   label_invite_user: Convidar usuário
-  label_item: Item
-  label_item_plural: Itens
   label_jira_import: Migrador do Jira
   label_journal: Diário
   label_journal_diff: Comparação de Descrição
@@ -4654,6 +4706,7 @@ pt-BR:
   label_user_settings: Configurações do usuário
   label_users_settings: Configurações de usuário
   label_value: Valor
+  label_value_plural: Values
   label_value_x: 'Valor: %{x}'
   label_version_custom_field_plural: Campos personalizados da versão
   label_version_edit: Editar versão
@@ -4673,7 +4726,7 @@ pt-BR:
   label_view_x: 'Visualizar: %{x}'
   label_watched_work_packages: Pacotes de trabalho observados
   label_week: Semana
-  label_weighted_item_list: Lista de itens ponderados
+  label_weighted_item_list: Weighted list
   label_what_is_this: O que é isto?
   label_widget_new: Novo widget
   label_wiki_content_added: Página wiki adicionada
@@ -4732,13 +4785,13 @@ pt-BR:
     one: "%{count} file"
     other: "%{count} arquivos"
     zero: nenhum arquivo
+  label_x_forms:
+    one: "%{count} form"
+    other: "%{count} forms"
   label_x_in_progress_work_packages_abbr:
     one: 1 in progress
     other: "%{count} in progress"
     zero: 0 in progress
-  label_x_forms:
-    one: "%{count} form"
-    other: "%{count} forms"
   label_x_items:
     one: "%{count} item"
     other: "%{count} itens"
@@ -5096,6 +5149,7 @@ pt-BR:
       mail_notification: Notificações por e-mail
       mails_and_notifications: E-mails e notificações
       mcp_configurations: Protocolo de Contexto de Modelo (MCP)
+      push_notifications: Browser notifications
       text_actions: Text assistant
     quick_add:
       label: Adicionar…
@@ -5351,7 +5405,7 @@ pt-BR:
   notice_no_principals_found: Nenhum resultado encontrado.
   notice_not_authorized: Você não está autorizado a acessar esta página.
   notice_not_authorized_archived_project: O projeto que você está tentando acessar foi arquivado.
-  notice_parent_item_not_found: Item pai não encontrado.
+  notice_parent_item_not_found: Parent value not found.
   notice_password_confirmation_failed: A senha informada está incorreta.
   notice_principals_found_multiple: |-
     Existe(m) %{number} resultado(s) encontrado(s).
@@ -5571,12 +5625,15 @@ pt-BR:
         custom_field:
           format_not_supported: o formato "%{field_format}" não é compatível.
         item:
-          not_persisted: deve ser um item já existente.
-          root_item: não pode ser um item raiz.
+          not_persisted: must be an already existing value.
+          root_item: cannot be a root value.
         label:
           not_unique: deve ser único dentro do mesmo nível hierárquico.
         parent:
           not_descendant: deve ser um descendente da raiz da hierarquia.
+          other_project: must be a global value or belong to the same project.
+        project:
+          additional_values_not_allowed: cannot add values to this custom field.
         short:
           not_unique: deve ser único dentro do mesmo nível hierárquico.
       str?: deve ser uma cadeia de caracteres.
@@ -5590,7 +5647,7 @@ pt-BR:
       blueprint: Esquema de padrão
       depth: Profundidade
       enabled: Habilitado
-      item: Item
+      item: Value
       label: Rótulo
       parent: Pai
       short: Nome abreviado
@@ -6590,6 +6647,12 @@ pt-BR:
   setting_user_format: Formato do nome de usuário
   setting_users_deletable_by_admins: Contas de usuário podem ser excluídas pelos administradores
   setting_users_deletable_by_self: Usuários podem excluir suas contas
+  setting_web_push_enabled: Browser notifications
+  setting_web_push_enabled_caption: Lets users who installed OpenProject as a progressive web app receive operating system notifications when they have unread notifications in OpenProject.
+  setting_web_push_enabled_false: Do not allow browser notifications
+  setting_web_push_enabled_false_caption: Users are not able to enable browser notifications in their account settings even if they have the PWA installed
+  setting_web_push_enabled_true: Allow browser notifications
+  setting_web_push_enabled_true_caption: Users can enable browser notifications in their account settings if they have the PWA installed
   setting_welcome_on_homescreen: Exibir bloco de boas-vindas na tela inicial
   setting_welcome_text: Texto do bloco de boas-vindas
   setting_welcome_title: Título do bloco de boas-vindas
@@ -7361,7 +7424,6 @@ pt-BR:
         rename_group: Renomear seção
         required:
           already_required_globally: Este campo personalizado é obrigatório para todos os tipos.
-          excluded: Switch this custom field on before requiring it for this type.
           for_variant: Required for this type
           globally: Obrigatório
           globally_hint: Altere isso no campo personalizado
@@ -7439,7 +7501,6 @@ pt-BR:
           success: A configuração foi copiada.
         exclusions:
           not_inherited: Esta configuração não é herdada, portanto não há nada a excluir. Edite a configuração diretamente.
-          required: A required custom field cannot be switched off.
           unknown_aspect: Seção de configuração desconhecida "%{aspect}".
         inherited:
           configure_manually: Configurar manualmente

@@ -324,7 +324,7 @@ da:
   meeting:
     agenda_sorting:
       change: Skift sortering
-      current_mode: Currently in %{mode} mode.
+      current_mode: 'Sortering lige nu: %{mode}'
       invalid_reaction: Kun stemmer op og ned er tilladt på dagsordenspunkter.
       manual: Manuel
       manual_description: Du kan selv placere dagsordenspunkterne i den rækkefølge, du vil, ved at trække dem op eller ned.

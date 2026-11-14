@@ -55,26 +55,13 @@ fi:
   itsm:
     admin:
       description: Enables the functionality to create work packages by sending emails using an IMAP server and reply to those using an SMTP server.
-      enable_helpdesk: Enable help desk in this instance
+      enable_helpdesk: Enable Helpdesk in this instance
       helpdesk_set_by_environment: The help desk feature is set by an environment variable and not changeable here.
       imap_server_configuration_component:
         description: Configure the IMAP server to transform incoming emails to work packages.
         edit: Edit IMAP server configuration
         title: IMAP server configuration
       mail_servers: Mail servers
-      port: Port
-      server_configuration_form:
-        encryption: Encryption
-        imap:
-          instruction: 'Configure the IMAP server to transform incoming emails to work packages. Note that OpenProject has no mechanism to stop email spoofing, please, ensure that the configured mail server performs SPF, DKIM, and DMARC checks, and quarantines emails that fail them.
-
-            '
-          title: IMAP server configuration
-        name: Server name
-        port: Server port
-        smtp:
-          instruction: Configure the SMTP server to reply emails directly from the work packages activity.
-          title: SMTP server configuration
       smtp_server_configuration_component:
         description: Configure the SMTP server to reply emails directly from the work packages activity.
         edit: Edit SMTP server configuration
