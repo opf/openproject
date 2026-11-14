@@ -55,6 +55,21 @@ module API
             get do
               StatusRepresenter.new(work_package_status, current_user:)
             end
+
+            patch do
+              authorize_admin
+
+              status = Status.find(params[:id])
+              status.name = params[:name] if params[:name].present?
+              status.is_closed = params[:isClosed] unless params[:isClosed].nil?
+              status.is_readonly = params[:isReadonly] unless params[:isReadonly].nil?
+
+              if status.save
+                StatusRepresenter.new(status, current_user:)
+              else
+                fail ::API::Errors::Validation.new(status)
+              end
+            end
           end
         end
       end

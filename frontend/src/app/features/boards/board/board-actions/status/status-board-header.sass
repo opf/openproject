@@ -1,6 +1,16 @@
 @import 'helpers'
 
 .op-status-board-header
+  width: 100%
 
-    .editable-toolbar-title--fixed
-        @include board-header-editable-toolbar-title
+  small
+    display: block
+    font-size: var(--font-size-small)
+    color: var(--fgColor-muted)
+
+  .editable-toolbar-title--fixed
+    @include board-header-editable-toolbar-title
+
+  editable-toolbar-title
+    display: block
+    width: 100%

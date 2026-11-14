@@ -1,9 +1,17 @@
 @if (status) {
   <div class="op-status-board-header">
-    <h2 class="editable-toolbar-title--fixed">
-      <small [textContent]="text.status"></small>
-      <br/>
-      {{ status.name }}
-    </h2>
+    <small [textContent]="text.status"></small>
+    @if (canRename) {
+      <editable-toolbar-title [title]="status.name"
+        [smallHeader]="true"
+        [inFlight]="inFlight"
+        (onSave)="renameStatus($event)"
+        [editable]="true"
+        class="-small" />
+    } @else {
+      <h2 class="editable-toolbar-title--fixed">
+        {{ status.name }}
+      </h2>
+    }
   </div>
 }

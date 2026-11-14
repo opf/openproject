@@ -25,8 +25,16 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  inject,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 
 @Component({
@@ -41,11 +49,42 @@ import { StatusResource } from 'core-app/features/hal/resources/status-resource'
 })
 export class StatusBoardHeaderComponent {
   readonly I18n = inject(I18nService);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly toastService = inject(ToastService);
+  readonly cdRef = inject(ChangeDetectorRef);
 
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('resource') public status:StatusResource;
 
+  public inFlight = false;
+
   text = {
     status: this.I18n.t('js.work_packages.properties.status'),
   };
+
+  public get canRename():boolean {
+    return !!this.status && (!!this.status.updateImmediately || !!this.status.$links?.updateImmediately);
+  }
+
+  public renameStatus(newName:string):void {
+    if (!this.status?.id || !newName || newName.trim() === '' || newName.trim() === this.status.name) {
+      return;
+    }
+
+    this.inFlight = true;
+    this.apiV3Service.statuses.id(this.status.id).patch({ name: newName.trim() })
+      .subscribe({
+        next: (updatedStatus:StatusResource) => {
+          this.status.name = updatedStatus.name;
+          this.inFlight = false;
+          this.toastService.addSuccess(this.I18n.t('js.notice_successful_update'));
+          this.cdRef.detectChanges();
+        },
+        error: (error:any) => {
+          this.inFlight = false;
+          this.toastService.addError(error);
+          this.cdRef.detectChanges();
+        },
+      });
+  }
 }
