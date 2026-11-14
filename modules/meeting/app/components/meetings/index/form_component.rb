@@ -128,6 +128,14 @@ module Meetings
       end
     end
 
+    # Participants handed to a new one-time meeting by the caller, beyond the creator added by default.
+    def prefilled_participants
+      return [] unless @meeting.new_record? && @meeting.instance_of?(Meeting)
+
+      users = @meeting.participants.filter_map(&:user)
+      users.many? ? users : []
+    end
+
     def use_refresh_on_form_changes?
       creating_onetime_meeting? && no_preselection? && @project.nil?
     end

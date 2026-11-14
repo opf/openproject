@@ -82,6 +82,9 @@
                 },
                 "pause_reminders": {
                   "$ref": "#/definitions/PauseReminders"
+                },
+                "planner_project_id": {
+                  "type": ["integer", "null"]
                 }
             },
             "title": "UserPreferences"

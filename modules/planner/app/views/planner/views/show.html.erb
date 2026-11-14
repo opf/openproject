@@ -1,0 +1,65 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% html_title(@view.title, t("label_planner")) -%>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { @view.title }
+    header.with_description { t("planner.description") }
+    header.with_breadcrumbs([{ href: planner_path, text: t("label_planner") }, @view.title])
+  end
+%>
+
+<% if @component.add_todo_defaults || @view.filterable? %>
+  <%=
+    render(Primer::OpenProject::SubHeader.new) do |subheader|
+      if @view.filterable?
+        subheader.with_quick_filter do
+          render(Planner::FilterMenuComponent.new(view: @view, filter: @component.filter))
+        end
+      end
+
+      if @component.add_todo_defaults
+        subheader.with_action_button(
+          scheme: :primary,
+          leading_icon: :plus,
+          label: t("planner.add_todo"),
+          tag: :a,
+          href: new_dialog_planner_tasks_path(view: @view.name, **@component.add_todo_defaults),
+          data: { controller: "async-dialog" }
+        ) do
+          t("planner.add_todo")
+        end
+      end
+    end
+  %>
+<% end %>
+
+<%= render(@component) %>

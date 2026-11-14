@@ -1,0 +1,117 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+---
+en:
+  label_planner: "My planner"
+  planner:
+    add_to_planner: "Add to My planner"
+    add_todo: "Add to-do"
+    added_to: "Added to %{day_part} in My planner."
+    added_to_date: "Added to %{day_part} on %{date} in My planner."
+    already_planned: "This work package is already planned for that day."
+    completed:
+      description: "Tasks you completed in the last 7 days show up here."
+      empty: "Nothing completed in the last 7 days."
+      yesterday: "Yesterday"
+    create_meeting: "Create meeting"
+    day_part:
+      afternoon: "Afternoon"
+      evening: "Evening"
+      morning: "Morning"
+      name: "Day part"
+    description: "Add your personal tasks as to-dos to your planner. Meetings you take part in are added to the view automatically."
+    errors:
+      cannot_close: "The workflow doesn't allow closing this task."
+      cannot_reopen: "The workflow doesn't allow reopening this task."
+      unavailable: "My planner is not available for you."
+      unknown_target: "This task can't be moved there."
+      work_package_not_found: "Pick a work package you can see."
+    filter:
+      all: "All entries"
+      meetings: "Meetings only"
+      todos: "To-dos only"
+    form_name: "My work"
+    mark_done: "Mark as done"
+    mark_open: "Mark as not done"
+    meeting: "Meeting"
+    meeting_actions: "Meeting actions"
+    meeting_one_time: "One-time meeting"
+    meeting_recurring: "Recurring meeting"
+    meeting_with: "Meeting with %{names}"
+    meetings:
+      one: "1 meeting"
+      other: "%{count} meetings"
+    move_to:
+      afternoon: "To Afternoon"
+      evening: "To Evening"
+      morning: "To Morning"
+      remove: "Unschedule"
+      today: "To Today"
+      tomorrow: "To Tomorrow"
+    no_entries: "No entries"
+    open_meeting: "Open meeting"
+    overdue:
+      description: "Tasks left over from earlier days and tasks without a date show up here."
+      empty: "Nothing overdue. Nice."
+    planned_for: "Planned for %{date}"
+    project_name: "My work"
+    quick_add:
+      label: "New to-do"
+      submit: "Add"
+    remove_from_planner: "Remove from My planner"
+    remove_from_planner_confirmation: "Remove this work package from My planner? It stays in its project."
+    role_name: "My planner owner"
+    task_actions: "To-do actions"
+    task_form:
+      date: "Date"
+      day_part: "Day time"
+      description: "Notes"
+      note_caption: "Leave it empty to plan the work package itself."
+      note_placeholder: "For example: Write Maya about the docs"
+      placeholder: "Add a text description or use # to link work packages"
+      subject: "To-do"
+      work_package: "Work package"
+      work_package_caption: "Optional. The to-do links to it, or stands for it when the to-do is left empty."
+    time_range:
+      afternoon: "%{afternoon} to %{evening}"
+      evening: "After %{evening}"
+      morning: "Until %{afternoon}"
+    today: "Today"
+    todos:
+      one: "1 to-do"
+      other: "%{count} to-dos"
+    upcoming:
+      non_working_day: "Non-working day"
+      tomorrow: "Tomorrow"
+    variant_name: "My work"
+    views:
+      completed: "Completed"
+      overdue: "Overdue"
+      today: "Today"
+      upcoming: "Upcoming"
