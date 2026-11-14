@@ -32,11 +32,26 @@ module ITSM
     include Mailbox
 
     PROTOCOL = "smtp"
+    SMTP_TIMEOUT = 10
 
     belongs_to :mail_server, class_name: "ITSM::MailServer", inverse_of: :outgoing_mailboxes, optional: false
 
     normalizes :sender_email, with: EmailAddress::NORMALIZE
 
     validates :sender_email, presence: true
+
+    def smtp_settings(address)
+      {
+        address:,
+        tls_hostname: mail_server.host,
+        port: mail_server.port,
+        user_name: username,
+        password:,
+        authentication: :plain,
+        open_timeout: SMTP_TIMEOUT,
+        read_timeout: SMTP_TIMEOUT,
+        **(mail_server.tls? ? { tls: true } : { enable_starttls: :always })
+      }
+    end
   end
 end
