@@ -28,7 +28,7 @@
 #++
 
 class Repository < ApplicationRecord
-  include Redmine::Ciphering
+  encrypts :password
   include OpenProject::SCM::ManageableRepository
 
   belongs_to :project
@@ -65,14 +65,6 @@ class Repository < ApplicationRecord
   # Removes leading and trailing whitespace
   def root_url=(arg)
     write_attribute(:root_url, arg ? arg.to_s.strip : nil)
-  end
-
-  def password
-    read_ciphered_attribute(:password)
-  end
-
-  def password=(arg)
-    write_ciphered_attribute(:password, arg)
   end
 
   def scm_adapter

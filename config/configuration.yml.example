@@ -336,18 +336,28 @@ default:
   #       - :existing
   #     manages: /opt/repositories/svn
 
-  # Key used to encrypt sensitive data in the database (SCM and LDAP passwords).
-  # If you don't want to enable data encryption, just leave it blank.
-  # WARNING: losing/changing this key will make encrypted data unreadable.
+  # SCM and LDAP passwords are always encrypted in the database (AES-256-GCM).
+  # By default, the encryption key is derived from SECRET_KEY_BASE.
+  # WARNING: if SECRET_KEY_BASE is lost or changed without the rotation steps
+  # below, these passwords cannot be decrypted and must be entered again.
+  # This also applies when you move an installation between servers, or between
+  # OpenProject cloud and on-premises.
   #
-  # If you want to encrypt existing passwords in your database:
-  # * set the cipher key here in your configuration file
-  # * encrypt data using 'rake db:encrypt RAILS_ENV=production'
+  # To use a separate key, set database_encryption_key. Generate it, for example
+  # with 'openssl rand -hex 32'. Do not use a passphrase. Every web and worker
+  # process must use the same value.
+  # database_encryption_key:
   #
-  # If you have encrypted data and want to change this key, you have to:
-  # * decrypt data using 'rake db:decrypt RAILS_ENV=production' first
-  # * change the cipher key here in your configuration file
-  # * encrypt data using 'rake db:encrypt RAILS_ENV=production'
+  # To change SECRET_KEY_BASE or database_encryption_key:
+  # 1. Set the old value as database_encryption_previous_key.
+  # 2. Set the new value and restart OpenProject.
+  # 3. Re-encrypt the passwords using 'rake db:encrypt RAILS_ENV=production'.
+  # 4. Remove database_encryption_previous_key and restart again.
+  # database_encryption_previous_key:
+  #
+  # Legacy key from OpenProject versions before this change. When you upgrade,
+  # keep the current value set until the database migration has run. The
+  # migration re-encrypts existing passwords. After that, you can remove it.
   # database_cipher_key:
   #
   # Omniauth direct login:
