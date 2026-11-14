@@ -66,7 +66,7 @@ For anything on this list your teams actually rely on, decide now how you'll han
 
 ## OpenProject-side prerequisites
 
-- [ ] Confirm your Jira instance is reachable from OpenProject by using [the connection test](../#test-configuration).
+- [ ] Confirm your Jira instance is reachable from OpenProject by using [the connection check](../#connection-check).
 - [ ] If you're on an OpenProject Enterprise plan, check your available user seats against the number of currently-active Jira users you're about to migrate. Not relevant if you're on the free Community edition. Increase your seat count before the migration.
 - [ ] **Enable project-based semantic identifiers** in OpenProject.
 - [ ] **Disable "Use current date as start date for new work packages" setting** in OpenProject. This is currently needed due to a [known issue](https://community.openproject.org/projects/JIM/work_packages/JIM-155/activity) in the importer.

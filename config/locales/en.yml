@@ -793,8 +793,6 @@ en:
             name:
               blank: "is mandatory. Please select a name."
               not_unique: "is already in use. Please select another name."
-        jira:
-          invalid_protocol: "Please provide a valid protocol (http or https)"
         label:
           attributes:
             name:
@@ -1655,7 +1653,6 @@ en:
         connection_timeout: "Connection to Jira server timed out: %{message}"
         parse_error: "Failed to parse Jira API response: %{message}"
         ssl_error: "SSL error connecting to Jira server: %{message}"
-        ssrf_block_doc_link: "Please see our [documentation](docs_url)."
         ssrf_blocked: >-
           Connection blocked: the Jira host resolves to a private IP address. If your Jira instance
           runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST
@@ -1671,6 +1668,42 @@ en:
       configuration:
         new: "New configuration"
         title: "Jira configuration"
+      connection_check:
+        authorization:
+          administrator: "Jira administrator"
+          credentials_accepted: "Credentials accepted"
+          header: "Authorization"
+        configuration:
+          credentials_present: "Credentials"
+          header: "Configuration"
+          url_valid: "Jira URL"
+        errors:
+          api_error: "Jira answered with HTTP status %{status}. Check the URL and that Jira is running."
+          basic_auth_password_missing: "No password is entered for basic auth."
+          basic_auth_username_missing: "No username is entered for basic auth."
+          credentials_rejected: "Jira rejected the credentials. Check that they are correct and have not expired."
+          invalid_response: "The server at this URL did not answer with JSON. Check the URL."
+          invalid_url: "Enter a valid URL that starts with http:// or https://."
+          not_administrator: "The Jira user behind these credentials is not a Jira administrator. Use the credentials of a Jira administrator."
+          not_found: "The server at this URL has no Jira API. Check the URL."
+          not_jira: "The server at this URL did not answer like Jira. Check the URL."
+          personal_access_token_missing: "No personal access token is entered."
+          ssl_error: "The secure connection to Jira failed. Check that the Jira certificate is valid and trusted by OpenProject."
+          ssrf_blocked: >-
+            The Jira host resolves to a private IP address, which OpenProject blocks. If Jira runs on an internal
+            network, add its IP address to the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable
+            and restart OpenProject.
+          timeout: "Jira did not answer in time. Check the URL and that OpenProject can reach the Jira server."
+          unexpected_error: "Jira answered in a way OpenProject did not expect. Check that the URL points to Jira."
+          unreachable: "Jira could not be reached. Check the URL and that OpenProject can reach the Jira server."
+        form_values_checked: "Checked the values in the form. They are not saved yet."
+        last_check: "Last check: %{datetime}"
+        not_checked: "Not checked yet."
+        server:
+          header: "Jira server"
+          reachable: "Server reachable"
+          responds_as_jira: "Responds as Jira"
+        title: "Connection check"
       description: "Use this tool to import data from your Jira instance. You can configure multiple Jira hosts and choose what to import in each import run."
       errors:
         cannot_delete_with_imports: "Cannot delete Jira host with existing imports"
@@ -1715,6 +1748,7 @@ en:
         blank:
           description: "Create an import run to start importing information from this Jira instance"
           title: "No import runs set up yet"
+        connection_check_error: "The connection check failed, so no data was fetched. The side panel shows what failed."
         history: "History"
         import_blocked_error: "Another Jira import run is currently in progress or awaiting review. Please complete or revert it before starting a new import."
         index:
@@ -1772,9 +1806,6 @@ en:
             title: "Fetching meta data about selected projects"
           JiraRevertImportJob:
             title: "Reverting this Jira import run"
-        not_administrator_error:
-          basic: "Jira configuration uses a basic auth user without administrator permissions. Migration needs a Jira administrator to run successfully. Please edit configuration with an administrator's credentials and try again."
-          bearer: "Jira configuration uses a user Personal Access Token. Migration needs an admin Personal Access Token to run successfully. Please edit configuration with an admin token and try again."
         project_identifier_taken: "You are trying to import a project with an already used identifier: %{taken_identifier}. Please update the project identifier in Jira then click on Retry."
         remove_error: "A Jira import run cannot be removed while it is running"
         side_panel:
@@ -1996,19 +2027,9 @@ en:
               rest_line_text: "Creating parent-child relations from subtasks for %{projects_number} more projects"
               title: "Create parent-child relations from subtasks"
       test:
-        api_error: "Jira API returned error status %{status}. Please check your Jira instance URL and credentials."
         basic_auth_password_invalid: "Invalid basic auth password. Please check your credentials in the configuration."
         basic_auth_username_invalid: "Invalid basic auth username. Please check your credentials in the configuration."
-        connection_error: "Connection error: %{message}"
-        error: "An unexpected error occurred while testing the connection"
-        failed: "Connection failed: Unable to retrieve server information"
-        invalid_url: "Please provide a valid URL"
-        not_administrator:
-          basic: "Basic auth user must be a Jira administrator."
-          bearer: "Personal Access Token must be an admin token."
-        parse_error: "Failed to parse the response from the server. The server may not be a valid Jira instance."
         personal_access_token_invalid: "Invalid personal access token (PAT). Please check your credentials in the configuration."
-        success: "Successfully connected to %{server} (version %{version})"
       title: "Jira Migrator"
       user:
         unknown_name: "Unknown"

@@ -82,36 +82,8 @@ module Admin::Import
       redirect_to(edit_admin_import_jira_path(@jira), status: :see_other)
     end
 
-    # rubocop:disable-next Metrics/AbcSize
     def test_connection
-      url = params["url"]
-
-      unless valid_url?(url)
-        return render_error_flash_message_via_turbo_stream(message: t(:"admin.jira.test.invalid_url"))
-      end
-
-      existing_jira_configuration = Import::Jira.find(params.expect(:jira_id)) if params[:jira_id].present?
-      basic_auth_username = params["basic_auth_username"]
-      basic_auth_password = params["basic_auth_password"].presence || existing_jira_configuration&.basic_auth_password
-      personal_access_token = params["personal_access_token"].presence || existing_jira_configuration&.personal_access_token
-      jira_client = Import::JiraClient.new(url:,
-                                           auth_method: params["auth_method"],
-                                           personal_access_token:,
-                                           basic_auth_username:,
-                                           basic_auth_password:)
-
-      server_info = jira_client.server_info
-
-      unless jira_client.administrator?
-        return render_error_flash_message_via_turbo_stream(
-          message: t(:"admin.jira.test.not_administrator.#{params['auth_method']}")
-        )
-      end
-
-      render_test_result(server_info)
-    rescue StandardError => e
-      handle_test_error(e)
-    ensure
+      stream_connection_check(jira_with_form_values)
       respond_with_turbo_streams
     end
 
@@ -119,6 +91,20 @@ module Admin::Import
 
     def set_jira
       @jira = Import::Jira.find(params.expect(:id))
+    end
+
+    def stream_connection_check(jira)
+      report = Import::Jiras::Validators::ConnectionValidator.new(jira).call
+      update_via_turbo_stream(component: Admin::Import::Jira::ConnectionCheckComponent.new(jira, report:))
+    rescue StandardError => e
+      OpenProject.logger.error("Testing the Jira connection failed", exception: e)
+      render_error_flash_message_via_turbo_stream(message: I18n.t("js.error.internal"))
+    end
+
+    def jira_with_form_values
+      jira = params[:id] ? set_jira : Import::Jira.new
+      jira.assign_attributes(jira_params)
+      jira
     end
 
     def jira_params
@@ -131,10 +117,8 @@ module Admin::Import
                         basic_auth_username
                         basic_auth_password]
       )
-      if action_name == "update"
-        %i[personal_access_token basic_auth_password].each do |credential|
-          permitted.delete(credential) if permitted[credential].blank?
-        end
+      %i[personal_access_token basic_auth_password].each do |credential|
+        permitted.delete(credential) if permitted[credential].blank?
       end
       permitted
     end
@@ -152,42 +136,6 @@ module Admin::Import
     def stream_form_component(&)
       update_via_turbo_stream(component: Admin::Import::Jira::FormComponent.new(@jira))
       respond_with_turbo_streams(&)
-    end
-
-    def valid_url?(url)
-      uri = URI.parse(url)
-      uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
-    end
-
-    def handle_test_error(error)
-      message = case error
-                when Import::JiraClient::SsrfError
-                  link_translate("admin.jira.client.ssrf_block_doc_link",
-                                 links: { docs_url: %i[sysadmin_docs ssrf_protection] }).prepend("#{error.message} ")
-                when Import::JiraClient::ConnectionError then t(:"admin.jira.test.connection_error", message: error.message)
-                when Import::JiraClient::ParseError then t(:"admin.jira.test.parse_error")
-                when Import::JiraClient::ApiError then t(:"admin.jira.test.api_error", status: error.status)
-                when Import::JiraClient::Error then error.message
-                else
-                  handle_unexpected_test_error(error)
-                end
-      render_error_flash_message_via_turbo_stream(message:)
-    end
-
-    def handle_unexpected_test_error(error)
-      Rails.logger.error("Unexpected error testing Jira configuration: #{error.class} - #{error.message}\n" \
-                         "#{error.backtrace.join("\n")}")
-      "#{t(:"admin.jira.test.error")}: #{error.message}"
-    end
-
-    def render_test_result(response)
-      if response.is_a?(Hash)
-        server = response["serverTitle"] || Import::Jira.model_name
-        version = response["version"] || "?"
-        render_success_flash_message_via_turbo_stream(message: t(:"admin.jira.test.success", server:, version:))
-      else
-        render_error_flash_message_via_turbo_stream(message: t(:"admin.jira.test.failed"))
-      end
     end
   end
 end

@@ -93,17 +93,51 @@ Provide the following details:
 
 Optionally, select **Exclude resolution fields for this configuration** if you do not want to import Jira's resolution and resolution date. See [Field mapping](field-mapping/) for how these fields are imported otherwise.
 
-### Test configuration
+### Connection check
 
-Click **Test configuration** to verify the connection.
+Click **Test Connection** in the _Connection check_ panel next to the form to check the values in the form before you save them. Nothing is saved by this check.
 
 ![Define new Jira import in OpenProject administration](openproject_admin_import_jira_import_new_config.png)
-If the connection is successful, a confirmation banner will appear.
+
+The panel shows the result as a report with three groups of checks:
+
+| Group         | Check                | What it verifies                                                          |
+|---------------|----------------------|---------------------------------------------------------------------------|
+| Configuration | Jira URL             | The URL starts with `http://` or `https://`.                              |
+| Configuration | Credentials          | The credentials of the chosen authentication method are filled in.        |
+| Jira server   | Server reachable     | OpenProject can reach a server at the URL.                                |
+| Jira server   | Responds as Jira     | The server answers with Jira's server information.                        |
+| Authorization | Credentials accepted | Jira accepts the credentials.                                             |
+| Authorization | Jira administrator   | The Jira user behind the credentials is a Jira administrator.             |
+
+The checks after a failed check are skipped, and the groups after a failed group do not run. When Jira only answers to accepted credentials, _Responds as Jira_ is skipped and the _Authorization_ group reports the credentials.
+
+When an import run checks the available data, it runs the same checks first. The result is stored, and the edit form of the configuration shows it with the time of the last check. If a check fails, no data is fetched and the side panel of the import run shows the report under _Run status_. Click **Retry** to run the checks again.
+
+A failed check shows one of these error codes:
+
+| Error code                          | What to do                                                                                     |
+|-------------------------------------|------------------------------------------------------------------------------------------------|
+| `ERR_INVALID_URL`                   | Enter a URL that starts with `http://` or `https://`.                                          |
+| `ERR_PERSONAL_ACCESS_TOKEN_MISSING` | Enter a personal access token.                                                                 |
+| `ERR_BASIC_AUTH_USERNAME_MISSING`   | Enter the username for basic auth.                                                             |
+| `ERR_BASIC_AUTH_PASSWORD_MISSING`   | Enter the password for basic auth.                                                             |
+| `ERR_SSRF_BLOCKED`                  | The Jira host resolves to a private IP address. See the note below.                            |
+| `ERR_SSL_ERROR`                     | Check that the Jira certificate is valid and trusted by OpenProject.                           |
+| `ERR_TIMEOUT`                       | Jira did not answer in time. Check the URL, and that OpenProject can reach the Jira server.    |
+| `ERR_UNREACHABLE`                   | Jira could not be reached. Check the URL, and that OpenProject can reach the Jira server.      |
+| `ERR_NOT_FOUND`                     | The server at the URL has no Jira API. Check the URL.                                          |
+| `ERR_INVALID_RESPONSE`              | The server at the URL did not answer with JSON. Check the URL.                                 |
+| `ERR_NOT_JIRA`                      | The server at the URL did not answer like Jira. Check the URL.                                 |
+| `ERR_API_ERROR`                     | Jira answered with an unexpected HTTP status. Check the URL and that Jira is running.          |
+| `ERR_CREDENTIALS_REJECTED`          | Check that the credentials are correct and have not expired.                                   |
+| `ERR_NOT_ADMINISTRATOR`             | Use the credentials of a Jira administrator.                                                   |
+| `ERR_UNEXPECTED_ERROR`              | Jira answered in a way OpenProject did not expect. Check that the URL points to Jira.          |
 
 > [!IMPORTANT]
-> If your Jira instance is hosted on a private or internal network (e.g., a corporate intranet), the connection test may fail because OpenProject blocks outbound requests to non-public IP addresses by default. This is a security measure to prevent SSRF attacks. To allow connections to internal IP addresses, configure the `OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST` environment variable. See [SSRF protection](../configuration/ssrf-protection/) for details.
+> If your Jira instance is hosted on a private or internal network (e.g., a corporate intranet), the connection check fails with `ERR_SSRF_BLOCKED`, because OpenProject blocks outbound requests to non-public IP addresses by default. This is a security measure to prevent SSRF attacks. To allow connections to internal IP addresses, configure the `OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST` environment variable and restart OpenProject. See [SSRF protection](../configuration/ssrf-protection/) for details.
 
-![Successful connection message for Jira import](openproject_admin_import_jira_import_new_config_test.png)
+![Connection check report for a Jira configuration](openproject_admin_import_jira_import_new_config_test.png)
 
 Click **Add configuration** to proceed to the import runs overview. Initially, no import runs will be listed.
 

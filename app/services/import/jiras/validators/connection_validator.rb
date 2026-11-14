@@ -27,22 +27,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Admin::Import::Jira::ImportRuns
-  class StreamableStatusLabelComponent < ApplicationComponent
-    include OpTurbo::Streamable
+module Import
+  module Jiras
+    module Validators
+      class ConnectionValidator < HealthReports::Validator
+        NOTHING_FAILED_SO_FAR = ->(_jira, report) { !report.unhealthy? }
 
-    def initialize(jira_import, **system_arguments)
-      super
-
-      @jira_import = jira_import
-      @system_arguments = system_arguments
-    end
-
-    def last_changed_date
-      if @jira_import.last_transition
-        @jira_import.last_transition.created_at
-      else
-        @jira_import.updated_at
+        register_group ConfigurationValidator
+        register_group ServerValidator, precondition: NOTHING_FAILED_SO_FAR
+        register_group AuthorizationValidator, precondition: NOTHING_FAILED_SO_FAR
       end
     end
   end

@@ -1158,6 +1158,7 @@ Rails.application.routes.draw do
           post :test_connection
         end
         member do
+          patch :test_connection
           delete :clear_credential
         end
         resources :run, controller: "/admin/import/jira/import_runs", module: :jiras, except: %i[new index] do

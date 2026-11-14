@@ -471,302 +471,96 @@ RSpec.describe Admin::Import::JiraController do
     end
   end
 
-  describe "POST #test_connection" do
-    let(:jira_client) { instance_double(Import::JiraClient) }
-    let(:administrator) { true }
+  describe "#test_connection", :webmock do
+    include_context "with Jira connection stubs"
 
-    before do
-      allow(Import::JiraClient).to receive(:new).and_return(jira_client)
-      allow(jira_client).to receive(:administrator?).and_return(administrator)
+    let(:form_values) { { url:, auth_method: "bearer", personal_access_token: "token" } }
+
+    def test_connection(values = form_values, jira: nil)
+      if jira
+        patch :test_connection, params: { id: jira.id, import_jira: values }, format: :turbo_stream
+      else
+        post :test_connection, params: { import_jira: values }, format: :turbo_stream
+      end
     end
 
-    context "with bearer auth" do
-      let(:server_info) do
-        {
-          "serverTitle" => "My Jira Server",
-          "version" => "9.0.0"
-        }
-      end
+    it "streams the connection check of the form values" do
+      test_connection
 
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include(Admin::Import::Jira::ConnectionCheckComponent.wrapper_key)
+      expect(response.body).to include(I18n.t("admin.jira.connection_check.form_values_checked"))
+      expect(response.body).to include(I18n.t("health_reports.common.checks.success"))
+    end
+
+    it "does not store the report" do
+      expect { test_connection }.not_to change(HealthReport, :count)
+    end
+
+    context "when the Jira user is not an administrator" do
+      let(:administrator) { false }
+
+      it "reports the failed check" do
+        test_connection
+
+        expect(response.body).to include("ERR_NOT_ADMINISTRATOR")
+        expect(response.body).to include(I18n.t("admin.jira.connection_check.errors.not_administrator"))
+      end
+    end
+
+    context "when the check fails unexpectedly" do
       before do
-        allow(jira_client).to receive(:server_info).and_return(server_info)
+        allow(OpenProject.logger).to receive(:error)
+        stub_request(:get, "#{url}/rest/api/2/serverInfo").to_raise(RuntimeError.new("unexpected"))
       end
 
-      it "returns a success message" do
-        post :test_connection,
-             params: { url: "https://jira.example.com", auth_method: "bearer", personal_access_token: "token" },
-             format: :turbo_stream
+      it "reports the error and shows a generic message instead of failing the request" do
+        test_connection
+
         expect(response).to have_http_status(:ok)
-        expect(response.body).to include(I18n.t(:"admin.jira.test.success", server: "My Jira Server", version: "9.0.0"))
-      end
-
-      it "creates Import::JiraClient with bearer credentials" do
-        post :test_connection,
-             params: { url: "https://jira.example.com", auth_method: "bearer", personal_access_token: "token" },
-             format: :turbo_stream
-        expect(Import::JiraClient).to have_received(:new).with(
-          url: "https://jira.example.com",
-          auth_method: "bearer",
-          personal_access_token: "token",
-          basic_auth_username: nil,
-          basic_auth_password: nil
-        )
-      end
-
-      context "when the token does not belong to a Jira administrator" do
-        let(:administrator) { false }
-
-        it "asks for an admin token" do
-          post :test_connection,
-               params: { url: "https://jira.example.com", auth_method: "bearer", personal_access_token: "token" },
-               format: :turbo_stream
-          expect(response.body).to include(I18n.t(:"admin.jira.test.not_administrator.bearer"))
-          expect(response.body).not_to include(I18n.t(:"admin.jira.test.success", server: "My Jira Server", version: "9.0.0"))
-        end
+        expect(response.body).to include(I18n.t("js.error.internal"))
+        expect(OpenProject.logger).to have_received(:error)
+          .with("Testing the Jira connection failed", exception: an_instance_of(RuntimeError))
       end
     end
 
-    context "with basic auth" do
-      let(:server_info) do
-        {
-          "serverTitle" => "My Jira Server",
-          "version" => "9.0.0"
-        }
-      end
+    context "when the URL is invalid" do
+      it "reports the failed check without asking Jira" do
+        test_connection(form_values.merge(url: "ftp://jira.example.com"))
 
-      before do
-        allow(jira_client).to receive(:server_info).and_return(server_info)
+        expect(response.body).to include("ERR_INVALID_URL")
+        expect(server_info_request).not_to have_been_requested
       end
+    end
 
-      it "returns a success message" do
-        post :test_connection,
-             params: {
-               url: "https://jira.example.com",
-               auth_method: "basic",
-               basic_auth_username: "user",
-               basic_auth_password: "pass"
-             },
-             format: :turbo_stream
+    context "with an existing configuration" do
+      let(:jira) { create(:jira, name: "My Jira", url:, personal_access_token: "stored_token") }
+
+      it "uses the stored token when the token field is blank" do
+        test_connection(form_values.merge(personal_access_token: ""), jira:)
+
         expect(response).to have_http_status(:ok)
-        expect(response.body).to include(I18n.t(:"admin.jira.test.success", server: "My Jira Server", version: "9.0.0"))
+        expect(WebMock).to have_requested(:get, "#{url}/rest/api/2/serverInfo")
+          .with(headers: { "Authorization" => "Bearer stored_token" })
       end
 
-      it "creates Import::JiraClient with basic auth credentials" do
-        post :test_connection,
-             params: {
-               url: "https://jira.example.com",
-               auth_method: "basic",
-               basic_auth_username: "user",
-               basic_auth_password: "pass"
-             },
-             format: :turbo_stream
-        expect(Import::JiraClient).to have_received(:new).with(
-          url: "https://jira.example.com",
-          auth_method: "basic",
-          personal_access_token: nil,
-          basic_auth_username: "user",
-          basic_auth_password: "pass"
-        )
-      end
+      it "does not save the form values" do
+        test_connection(form_values.merge(name: "Renamed"), jira:)
 
-      context "when the user is not a Jira administrator" do
-        let(:administrator) { false }
-
-        it "asks for a Jira administrator" do
-          post :test_connection,
-               params: {
-                 url: "https://jira.example.com",
-                 auth_method: "basic",
-                 basic_auth_username: "user",
-                 basic_auth_password: "pass"
-               },
-               format: :turbo_stream
-          expect(response.body).to include(I18n.t(:"admin.jira.test.not_administrator.basic"))
-        end
+        expect(jira.reload.name).to eq("My Jira")
       end
     end
 
-    context "when using stored credentials from existing jira" do
-      let(:jira_with_token) { create(:jira, personal_access_token: "stored_token") }
-      let(:jira_with_basic) do
-        create(:jira, auth_method: "basic", personal_access_token: nil, basic_auth_username: "user",
-                      basic_auth_password: "stored_pass")
-      end
-      let(:server_info) { { "serverTitle" => "Jira", "version" => "9.0" } }
-
-      before do
-        allow(jira_client).to receive(:server_info).and_return(server_info)
+    context "with an existing basic auth configuration" do
+      let(:jira) do
+        create(:jira, :with_basic_auth, url:, basic_auth_username: "user", basic_auth_password: "stored_pass")
       end
 
-      it "uses the stored token when personal_access_token param is blank" do
-        post :test_connection,
-             params: {
-               jira_id: jira_with_token.id,
-               url: "https://jira.example.com",
-               auth_method: "bearer",
-               personal_access_token: ""
-             },
-             format: :turbo_stream
-        expect(Import::JiraClient).to have_received(:new).with(
-          url: "https://jira.example.com",
-          auth_method: "bearer",
-          personal_access_token: "stored_token",
-          basic_auth_username: nil,
-          basic_auth_password: nil
-        )
-      end
+      it "uses the stored password when the password field is blank" do
+        test_connection({ url:, auth_method: "basic", basic_auth_username: "user", basic_auth_password: "" }, jira:)
 
-      it "uses the stored basic auth password when param is blank" do
-        post :test_connection,
-             params: {
-               jira_id: jira_with_basic.id,
-               url: "https://jira.example.com",
-               auth_method: "basic",
-               basic_auth_username: "user",
-               basic_auth_password: ""
-             },
-             format: :turbo_stream
-        expect(Import::JiraClient).to have_received(:new).with(
-          url: "https://jira.example.com",
-          auth_method: "basic",
-          personal_access_token: nil,
-          basic_auth_username: "user",
-          basic_auth_password: "stored_pass"
-        )
-      end
-    end
-
-    context "when server_info response has missing fields" do
-      before do
-        allow(jira_client).to receive(:server_info).and_return({})
-      end
-
-      it "uses fallback values" do
-        post :test_connection,
-             params: {
-               url: "https://jira.example.com",
-               auth_method: "bearer",
-               personal_access_token: "token"
-             },
-             format: :turbo_stream
-        expect(response.body).to include(I18n.t(:"admin.jira.test.success", server: Import::Jira.model_name, version: "?"))
-      end
-    end
-
-    context "when server_info returns non-hash" do
-      before do
-        allow(jira_client).to receive(:server_info).and_return(nil)
-      end
-
-      it "returns a failed message" do
-        post :test_connection,
-             params: {
-               url: "https://jira.example.com",
-               auth_method: "bearer",
-               personal_access_token: "token"
-             },
-             format: :turbo_stream
-        expect(response.body).to include(I18n.t(:"admin.jira.test.failed"))
-      end
-    end
-
-    context "when URL is invalid" do
-      it "returns an invalid URL error" do
-        post :test_connection, params: { url: "not-a-valid-url", auth_method: "bearer", personal_access_token: "token" },
-                               format: :turbo_stream
-        expect(response.body).to include(I18n.t(:"admin.jira.test.invalid_url"))
-      end
-
-      it "rejects ftp URLs" do
-        post :test_connection, params: { url: "ftp://jira.example.com", auth_method: "bearer", personal_access_token: "token" },
-                               format: :turbo_stream
-        expect(response.body).to include(I18n.t(:"admin.jira.test.invalid_url"))
-      end
-    end
-
-    context "when Import::JiraClient raises ConnectionError" do
-      before do
-        allow(jira_client).to receive(:server_info).and_raise(Import::JiraClient::ConnectionError.new("Connection refused"))
-      end
-
-      it "returns a connection error message" do
-        post :test_connection,
-             params: {
-               url: "https://jira.example.com",
-               auth_method: "bearer",
-               personal_access_token: "token"
-             },
-             format: :turbo_stream
-        expect(response.body).to include(I18n.t(:"admin.jira.test.connection_error", message: "Connection refused"))
-      end
-    end
-
-    context "when Import::JiraClient raises ParseError" do
-      before do
-        allow(jira_client).to receive(:server_info).and_raise(Import::JiraClient::ParseError.new("Invalid JSON"))
-      end
-
-      it "returns a parse error message" do
-        post :test_connection,
-             params: {
-               url: "https://jira.example.com",
-               auth_method: "bearer",
-               personal_access_token: "token"
-             },
-             format: :turbo_stream
-        expect(response.body).to include(I18n.t(:"admin.jira.test.parse_error"))
-      end
-    end
-
-    context "when Import::JiraClient raises ApiError" do
-      before do
-        allow(jira_client).to receive(:server_info).and_raise(
-          Import::JiraClient::ApiError.new("Unauthorized", status: 401, response_body: "", response_headers: {})
-        )
-      end
-
-      it "returns an API error message" do
-        post :test_connection,
-             params: {
-               url: "https://jira.example.com",
-               auth_method: "bearer",
-               personal_access_token: "token"
-             },
-             format: :turbo_stream
-        expect(response.body).to include(I18n.t(:"admin.jira.test.api_error", status: 401))
-      end
-    end
-
-    context "when Import::JiraClient raises Error" do
-      before do
-        allow(Import::JiraClient).to receive(:new).and_raise(Import::JiraClient::Error.new("Missing credentials"))
-      end
-
-      it "returns the error message" do
-        post :test_connection, params: { url: "https://jira.example.com", auth_method: "bearer", personal_access_token: "" },
-                               format: :turbo_stream
-        expect(response.body).to include("Missing credentials")
-      end
-    end
-
-    context "when an unexpected error occurs" do
-      before do
-        allow(jira_client).to receive(:server_info).and_raise(StandardError.new("Unexpected"))
-        allow(Rails.logger).to receive(:error)
-      end
-
-      it "returns a generic error message" do
-        post :test_connection,
-             params: { url: "https://jira.example.com", auth_method: "bearer", personal_access_token: "token" },
-             format: :turbo_stream
-        expect(response.body).to include(I18n.t(:"admin.jira.test.error"))
-      end
-
-      it "logs the error" do
-        post :test_connection,
-             params: { url: "https://jira.example.com", auth_method: "bearer", personal_access_token: "token" },
-             format: :turbo_stream
-        expect(Rails.logger).to have_received(:error).with(/Unexpected error testing Jira configuration/)
+        expect(WebMock).to have_requested(:get, "#{url}/rest/api/2/serverInfo")
+          .with(basic_auth: %w[user stored_pass])
       end
     end
   end
