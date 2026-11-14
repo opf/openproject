@@ -83,7 +83,7 @@ RSpec.describe IncomingEmails::Handlers::WorkPackage do
 
     before do
       allow(WorkPackages::CreateService).to receive(:new).and_return(service_instance)
-      allow(Project).to receive(:find_by).with(identifier: "foobar").and_return(project)
+      allow(Project).to receive(:find_by).with("LOWER(identifier) = ?", "foobar").and_return(project)
     end
 
     it "creates a work package" do
