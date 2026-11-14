@@ -264,7 +264,7 @@ RSpec.describe OpenProject::TextFormatting::Filters::MentionFilter do
     end
 
     describe "principal mention preload" do
-      let(:project) { create(:project, identifier: "macroproj") }
+      let(:project) { create(:project) }
 
       def user_mention_tag(user)
         %(<mention class="mention" data-id="#{user.id}" data-type="user" data-text="@#{user.name}">@#{user.name}</mention>)

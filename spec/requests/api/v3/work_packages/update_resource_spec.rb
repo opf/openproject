@@ -38,7 +38,7 @@ RSpec.describe "API v3 Work package resource",
 
   shared_let(:closed_status) { create(:closed_status) }
   shared_let(:project) do
-    create(:project, identifier: "test_project", public: false)
+    create(:project, public: false)
   end
 
   let(:work_package) do

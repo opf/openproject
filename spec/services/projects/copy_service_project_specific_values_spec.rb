@@ -39,7 +39,8 @@ RSpec.describe Projects::CopyService, "with project-specific custom field values
 
   subject(:service_call) do
     described_class.new(source:, user: admin)
-                   .call(target_project_params: { name: "Copy", identifier: "copy" }, only: %w[work_packages])
+                   .call(target_project_params: { name: "Copy", identifier: attributes_for(:project)[:identifier] },
+                         only: %w[work_packages])
   end
 
   context "for a list custom field" do
