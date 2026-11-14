@@ -1,0 +1,403 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { Controller } from '@hotwired/stimulus';
+import { announce } from '@primer/live-region-element';
+import { LIVE_REGION_ANNOUNCEMENT_DELAY } from '../../flash.controller';
+import { destroy, post } from '@rails/request.js';
+
+interface KnownSubscription {
+  endpointDigest:string;
+  revokeUrl:string;
+  current?:boolean;
+}
+
+type State = 'unsupported'|'blocked'|'enabled'|'disabled'|'error'|'prompting'|'subscribing'|'timeout';
+
+type Attempt = 'enable'|'disable'|'sync';
+
+type Scheme = 'default'|'warning'|'success'|'danger';
+
+const SCHEME_BY_STATE:Record<State, Scheme> = {
+  unsupported: 'default',
+  blocked: 'warning',
+  disabled: 'warning',
+  prompting: 'warning',
+  subscribing: 'warning',
+  enabled: 'success',
+  error: 'danger',
+  timeout: 'danger',
+};
+
+const REGISTRATION_TIMEOUT_MS = 5000;
+const SUBSCRIBE_TIMEOUT_MS = 30000;
+
+function decodeBase64Url(value:string):Uint8Array<ArrayBuffer> {
+  // The key is base64url without padding; atob only accepts standard base64.
+  const base64 = value.replace(/-/g, '+').replace(/_/g, '/').padEnd(Math.ceil(value.length / 4) * 4, '=');
+  return Uint8Array.from(atob(base64), (char) => char.charCodeAt(0));
+}
+
+async function sha256Hex(value:string):Promise<string> {
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(value));
+  return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, '0')).join('');
+}
+
+type ServerAnswer =
+  | { kind:'ok' }
+  | { kind:'gone' }
+  | { kind:'rejected'; errors:string[] }
+  | { kind:'failed'; status:number };
+
+async function answerOf(response:{ ok:boolean; statusCode:number; json:Promise<unknown> }):Promise<ServerAnswer> {
+  if (response.ok) return { kind: 'ok' };
+  if (response.statusCode === 404) return { kind: 'gone' };
+
+  if (response.statusCode === 422) {
+    const body = await response.json.catch(() => undefined) as { errors?:unknown }|undefined;
+    const errors = Array.isArray(body?.errors) ? body.errors.filter((error) => typeof error === 'string') : [];
+    if (errors.length > 0) return { kind: 'rejected', errors };
+  }
+
+  return { kind: 'failed', status: response.statusCode };
+}
+
+/**
+ * The server is the source of truth. A browser push subscription it does not
+ * list, or one bound to another VAPID key, was invalidated by a revoke, a logout
+ * or a key rotation, so it is dropped. A server row for this device without a
+ * browser subscription is revoked: the browser deactivates the subscription
+ * when notification permission is withdrawn.
+ *
+ * A run counter keeps a reconcile that is still in flight from overwriting the
+ * result of a later click.
+ */
+export default class PushSubscriptionController extends Controller {
+  static values = {
+    vapidPublicKey: String,
+    createUrl: String,
+    subscriptions: Array,
+    messages: Object,
+  };
+
+  static targets = ['banner', 'message', 'action'];
+
+  declare readonly vapidPublicKeyValue:string;
+  declare readonly createUrlValue:string;
+  declare readonly subscriptionsValue:KnownSubscription[];
+  declare readonly messagesValue:Record<State, string>;
+  declare readonly bannerTargets:HTMLElement[];
+  declare readonly messageTargets:HTMLElement[];
+  declare readonly actionTargets:HTMLButtonElement[];
+
+  private generation = 0;
+  private lastAttempt:Attempt = 'sync';
+  private announced = '';
+
+  connect():void {
+    this.announced = this.messageTargets.find((target) => target.textContent)?.textContent ?? '';
+    this.setBusy(true);
+    void this.sync();
+  }
+
+  disconnect():void {
+    this.generation += 1;
+  }
+
+  retry():Promise<void> {
+    this.announced = '';
+
+    switch (this.lastAttempt) {
+      case 'enable':
+        return this.enable();
+      case 'disable':
+        return this.disable();
+      default:
+        this.setBusy(true);
+        return this.sync();
+    }
+  }
+
+  async enable():Promise<void> {
+    this.lastAttempt = 'enable';
+    const isLatestRun = this.startRun();
+    const generation = this.generation;
+    this.setBusy(true);
+    let subscription:PushSubscription|undefined;
+
+    try {
+      const permission = await this.requestPermission();
+      if (permission !== 'granted') {
+        if (isLatestRun()) this.render(permission === 'denied' ? 'blocked' : 'disabled');
+        return;
+      }
+
+      const registration = await this.registration();
+      if (!registration) {
+        if (isLatestRun()) this.render('unsupported');
+        return;
+      }
+
+      if (isLatestRun()) this.render('subscribing');
+      subscription = await this.subscribeWithDeadline(registration, () => generation !== this.generation);
+      if (!subscription) {
+        if (isLatestRun()) this.render('timeout');
+        return;
+      }
+
+      const answer = await this.registerWithServer(subscription);
+      if (answer.kind === 'rejected') {
+        await this.forget(subscription);
+        if (isLatestRun()) this.render('error', answer.errors.join(' '));
+        return;
+      }
+      if (answer.kind !== 'ok') throw new Error('Registering the subscription failed');
+
+      if (isLatestRun()) this.render('enabled');
+    } catch {
+      await this.forget(subscription);
+      if (isLatestRun()) this.render(this.permissionBlocked() ? 'blocked' : 'error');
+    } finally {
+      if (isLatestRun()) this.setBusy(false);
+    }
+  }
+
+  async disable():Promise<void> {
+    this.lastAttempt = 'disable';
+    const isLatestRun = this.startRun();
+    this.setBusy(true);
+
+    try {
+      const registration = await navigator.serviceWorker.getRegistration();
+      const subscription = await registration?.pushManager.getSubscription();
+      if (!isLatestRun()) return;
+
+      const known = subscription ? await this.knownToServer(subscription) : undefined;
+      if (!isLatestRun()) return;
+
+      if (!subscription || !known) {
+        this.lastAttempt = 'sync';
+        this.render('error');
+        return;
+      }
+
+      await this.revokeOnServer(known);
+      await this.forget(subscription);
+      if (isLatestRun()) this.render('disabled');
+    } catch {
+      if (isLatestRun()) this.render('error');
+    } finally {
+      if (isLatestRun()) this.setBusy(false);
+    }
+  }
+
+  private async sync():Promise<void> {
+    const isLatestRun = this.startRun();
+
+    try {
+      if (!this.supported()) {
+        this.render('unsupported');
+        return;
+      }
+      if (this.permissionBlocked()) {
+        await this.revokeStaleRow(isLatestRun);
+        if (isLatestRun()) this.render('blocked');
+        return;
+      }
+
+      await this.reconcileWithServer(isLatestRun);
+    } catch {
+      if (isLatestRun()) this.render('error');
+    } finally {
+      if (isLatestRun()) this.setBusy(false);
+    }
+  }
+
+  private async reconcileWithServer(isLatestRun:() => boolean):Promise<void> {
+    const registration = await this.registration();
+    if (!isLatestRun()) return;
+    if (!registration) {
+      this.render('unsupported');
+      return;
+    }
+
+    const subscription = await registration.pushManager.getSubscription();
+    if (!isLatestRun()) return;
+
+    const known = subscription ? await this.knownToServer(subscription) : undefined;
+    if (!isLatestRun()) return;
+
+    if (subscription && known && this.boundToCurrentKey(subscription)) {
+      this.render('enabled');
+      return;
+    }
+
+    await this.revokeStaleRow(isLatestRun);
+    if (!isLatestRun()) return;
+
+    await this.forget(subscription);
+    if (isLatestRun()) this.render('disabled');
+  }
+
+  private async revokeStaleRow(isLatestRun:() => boolean):Promise<void> {
+    const staleRow = this.subscriptionsValue.find((entry) => entry.current);
+    if (!staleRow || !isLatestRun()) return;
+
+    await this.revokeOnServer(staleRow, { silent: true }).catch(() => undefined);
+  }
+
+  private startRun():() => boolean {
+    this.generation += 1;
+    const generation = this.generation;
+    return () => generation === this.generation && this.element.isConnected;
+  }
+
+  private async registration():Promise<ServiceWorkerRegistration|undefined> {
+    const existing = await navigator.serviceWorker.getRegistration();
+    if (existing?.active) return existing;
+
+    let timer:ReturnType<typeof setTimeout>|undefined;
+    const timeout = new Promise<undefined>((resolve) => {
+      timer = setTimeout(resolve, REGISTRATION_TIMEOUT_MS);
+    });
+
+    try {
+      return await Promise.race([navigator.serviceWorker.ready, timeout]);
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  private async requestPermission():Promise<NotificationPermission> {
+    if (Notification.permission !== 'default') return Notification.permission;
+
+    const pending = Notification.requestPermission();
+    this.render('prompting');
+
+    return (await pending) ?? Notification.permission;
+  }
+
+  private async subscribeWithDeadline(
+    registration:ServiceWorkerRegistration,
+    superseded:() => boolean,
+  ):Promise<PushSubscription|undefined> {
+    const pending = this.subscribeInBrowser(registration);
+    let timer:ReturnType<typeof setTimeout>|undefined;
+    const deadline = new Promise<undefined>((resolve) => {
+      timer = setTimeout(resolve, SUBSCRIBE_TIMEOUT_MS);
+    });
+
+    try {
+      const subscription = await Promise.race([pending, deadline]);
+      // A newer run may have claimed the same subscription; only an unclaimed late one is dropped.
+      if (!subscription) void pending.then((late) => (superseded() ? undefined : this.forget(late)), () => undefined);
+      return subscription;
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  private subscribeInBrowser(registration:ServiceWorkerRegistration):Promise<PushSubscription> {
+    return registration.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: decodeBase64Url(this.vapidPublicKeyValue),
+    });
+  }
+
+  private async registerWithServer(subscription:PushSubscription):Promise<ServerAnswer> {
+    const response = await post(this.createUrlValue, {
+      body: JSON.stringify({ push_endpoint: subscription.endpoint }),
+      contentType: 'application/json',
+      responseKind: 'turbo-stream',
+    });
+    return answerOf(response);
+  }
+
+  private async revokeOnServer(known:KnownSubscription, { silent = false } = {}):Promise<void> {
+    const query = silent ? { silent: 'true' } : undefined;
+    const response = await destroy(known.revokeUrl, { responseKind: 'turbo-stream', query });
+    const answer = await answerOf(response);
+    if (answer.kind !== 'ok' && answer.kind !== 'gone') throw new Error('Revoking the subscription failed');
+  }
+
+  private async forget(subscription:PushSubscription|null|undefined):Promise<void> {
+    await subscription?.unsubscribe().catch(() => false);
+  }
+
+  private async knownToServer(subscription:PushSubscription):Promise<KnownSubscription|undefined> {
+    const digest = await sha256Hex(subscription.endpoint);
+    return this.subscriptionsValue.find((entry) => entry.endpointDigest === digest);
+  }
+
+  private boundToCurrentKey(subscription:PushSubscription):boolean {
+    const bound = subscription.options.applicationServerKey;
+    if (!bound) return true;
+
+    const current = decodeBase64Url(this.vapidPublicKeyValue);
+    const boundBytes = new Uint8Array(bound);
+    return boundBytes.length === current.length && boundBytes.every((byte, index) => byte === current[index]);
+  }
+
+  private permissionBlocked():boolean {
+    return Notification.permission === 'denied';
+  }
+
+  private supported():boolean {
+    return window.isSecureContext
+      && 'PushManager' in window
+      && 'serviceWorker' in navigator
+      && 'Notification' in window;
+  }
+
+  private setBusy(busy:boolean):void {
+    this.actionTargets.forEach((action) => { action.disabled = busy; });
+  }
+
+  private announce(message:string):void {
+    if (document.documentElement.hasAttribute('data-turbo-preview')) return;
+
+    void announce(message, { politeness: 'polite', delayMs: LIVE_REGION_ANNOUNCEMENT_DELAY });
+  }
+
+  private render(state:State, message = this.messagesValue[state]):void {
+    if (!this.element.isConnected) return;
+
+    const scheme = SCHEME_BY_STATE[state];
+
+    this.bannerTargets.forEach((banner) => { banner.hidden = banner.dataset.scheme !== scheme; });
+    this.messageTargets.forEach((target) => {
+      target.textContent = target.dataset.scheme === scheme ? message : '';
+    });
+    if (message !== this.announced) {
+      this.announced = message;
+      this.announce(message);
+    }
+    this.actionTargets.forEach((action) => {
+      if (action.dataset.scheme === 'warning') action.hidden = state === 'blocked';
+    });
+  }
+}

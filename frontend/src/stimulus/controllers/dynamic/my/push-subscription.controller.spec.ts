@@ -1,0 +1,629 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { vi, type Mock, type MockInstance } from 'vitest';
+import { LiveRegionElement } from '@primer/live-region-element';
+import { setupStimulusTest, type StimulusTestContext } from '../../../test-helpers';
+import PushSubscriptionController from './push-subscription.controller';
+
+describe('PushSubscriptionController', () => {
+  let ctx:StimulusTestContext;
+  let announceSpy:MockInstance<typeof LiveRegionElement.prototype.announce>;
+  let fetchMock:Mock<typeof fetch>;
+  let unsubscribe:Mock<PushSubscription['unsubscribe']>;
+  let subscribe:Mock<PushManager['subscribe']>;
+  let getSubscription:ReturnType<typeof vi.fn>;
+  let getRegistration:ReturnType<typeof vi.fn>;
+  let requestPermission:Mock<typeof Notification.requestPermission>;
+  let serviceWorker:{ getRegistration:ReturnType<typeof vi.fn>; ready:Promise<unknown> };
+  let registration:{ active?:object; pushManager:{ getSubscription:ReturnType<typeof vi.fn>; subscribe:typeof subscribe } };
+
+  const MESSAGES = {
+    unsupported: 'Unsupported message',
+    blocked: 'Blocked message',
+    enabled: 'Enabled message',
+    disabled: 'Disabled message',
+    error: 'Error message',
+    prompting: 'Prompting message',
+    subscribing: 'Subscribing message',
+    timeout: 'Timeout message',
+  };
+  const currentKey = { applicationServerKey: new Uint8Array([0xfb, 0xff]) };
+  const knownEndpoint = 'https://push.example/known';
+  const known = {
+    endpointDigest: '2a1143e85659150e2dcda3d20b3bdb847b14b345f3626e0bdd1fc061105fafb0',
+    revokeUrl: '/my/push_subscriptions/1',
+  };
+  const mine = {
+    endpointDigest: '98b94751a384272cceb4f1fbe35870ea6fd8b81dd7a32b773903d585772f369f',
+    revokeUrl: '/my/push_subscriptions/2',
+    current: true,
+  };
+
+  const visibleBanners = () => Array.from(
+    document.querySelectorAll<HTMLElement>('[data-my--push-subscription-target="banner"]:not([hidden])'),
+  );
+  const status = () => document
+    .querySelector('[data-my--push-subscription-target="banner"]:not([hidden]) [data-my--push-subscription-target="message"]')!
+    .textContent;
+  const expectOnlyBanner = (scheme:string) => {
+    expect(visibleBanners().map((banner) => banner.dataset.scheme)).toEqual([scheme]);
+  };
+  const button = (name:string) => ctx.screen.getByRole<HTMLButtonElement>('button', { name, hidden: true });
+  const enableButton = () => button('enable');
+  const disableButton = () => button('disable');
+  const retryButton = () => button('retry');
+  const settled = () => vi.waitFor(() => {
+    ctx.screen.getAllByRole<HTMLButtonElement>('button', { hidden: true })
+      .forEach((action) => expect(action.disabled).toBe(false));
+  });
+  async function mount({ settle = true, subscriptions = [known] }:{ settle?:boolean; subscriptions?:object[] } = {}) {
+    ctx = await setupStimulusTest({ controllers: { 'my--push-subscription': PushSubscriptionController } });
+    const initialScheme = subscriptions.some((entry) => (entry as { current?:boolean }).current) ? 'success' : 'warning';
+    const initialMessage = MESSAGES[initialScheme === 'success' ? 'enabled' : 'disabled'];
+    const banner = (scheme:string, action?:{ id:string; handler:string }) => `
+        <div data-my--push-subscription-target="banner" data-scheme="${scheme}"${scheme === initialScheme ? '' : ' hidden'}>
+          <span data-my--push-subscription-target="message" data-scheme="${scheme}">${scheme === initialScheme ? initialMessage : ''}</span>
+          ${action ? `<button id="${action.id}" disabled data-my--push-subscription-target="action" data-scheme="${scheme}"
+                  data-action="my--push-subscription#${action.handler}">${action.id}</button>` : ''}
+        </div>`;
+    await ctx.mount(`
+      <div data-controller="my--push-subscription"
+           data-my--push-subscription-vapid-public-key-value="-_8"
+           data-my--push-subscription-create-url-value="/my/push_subscriptions"
+           data-my--push-subscription-subscriptions-value='${JSON.stringify(subscriptions)}'
+           data-my--push-subscription-messages-value='${JSON.stringify(MESSAGES)}'>
+        ${banner('default')}
+        ${banner('warning', { id: 'enable', handler: 'enable' })}
+        ${banner('success', { id: 'disable', handler: 'disable' })}
+        ${banner('danger', { id: 'retry', handler: 'retry' })}
+      </div>
+    `);
+    if (settle) await settled();
+  }
+
+  const pushSubscription = (endpoint:string, unsubscribeFn = unsubscribe) => (
+    { endpoint, unsubscribe: unsubscribeFn } as unknown as PushSubscription
+  );
+
+  const deferred = <T>() => {
+    let resolve!:(value:T) => void;
+    const promise = new Promise<T>((res) => { resolve = res; });
+    return { promise, resolve };
+  };
+
+  beforeEach(() => {
+    document.body.appendChild(document.createElement('live-region'));
+    announceSpy = vi.spyOn(LiveRegionElement.prototype, 'announce');
+    unsubscribe = vi.fn<PushSubscription['unsubscribe']>().mockResolvedValue(true);
+    subscribe = vi.fn<PushManager['subscribe']>().mockResolvedValue(pushSubscription('https://push.example/new'));
+    requestPermission = vi.fn<typeof Notification.requestPermission>().mockResolvedValue('granted');
+    getSubscription = vi.fn().mockResolvedValue(null);
+    registration = { active: {}, pushManager: { getSubscription, subscribe } };
+    getRegistration = vi.fn().mockResolvedValue(registration);
+    serviceWorker = { getRegistration, ready: Promise.resolve(registration) };
+    fetchMock = vi.fn<typeof fetch>(() => Promise.resolve(new Response('', { status: 200 })));
+
+    vi.stubGlobal('isSecureContext', true);
+    vi.stubGlobal('PushManager', class {});
+    vi.stubGlobal('Notification', { permission: 'default', requestPermission });
+    vi.stubGlobal('fetch', fetchMock);
+    Object.defineProperty(navigator, 'serviceWorker', {
+      value: serviceWorker,
+      configurable: true,
+    });
+  });
+
+  afterEach(() => {
+    ctx.dispose();
+    document.body.querySelector('live-region')?.remove();
+    vi.useRealTimers();
+    vi.unstubAllGlobals();
+    delete (navigator as { serviceWorker?:unknown }).serviceWorker;
+  });
+
+  it('reports an unsupported environment and hides all actions', async () => {
+    vi.stubGlobal('PushManager', undefined);
+    delete (window as { PushManager?:unknown }).PushManager;
+    await mount();
+
+    expect(status()).toBe(MESSAGES.unsupported);
+    expectOnlyBanner('default');
+  });
+
+  it('reports unsupported when no service worker becomes ready in time', async () => {
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+    getRegistration.mockResolvedValue(undefined);
+    serviceWorker.ready = new Promise(() => undefined);
+    await mount({ settle: false });
+    await vi.advanceTimersByTimeAsync(5001);
+    await settled();
+
+    expect(status()).toBe(MESSAGES.unsupported);
+    expectOnlyBanner('default');
+  });
+
+  it('waits for a registration that is still installing and shows its subscription', async () => {
+    getRegistration.mockResolvedValue(undefined);
+    getSubscription.mockResolvedValue({ endpoint: knownEndpoint, unsubscribe, options: currentKey });
+    await mount();
+
+    expect(status()).toBe(MESSAGES.enabled);
+    expectOnlyBanner('success');
+    expect(disableButton().hidden).toBe(false);
+  });
+
+  it('waits for the worker to become active before subscribing on enable', async () => {
+    await mount();
+    const pending = deferred<unknown>();
+    getRegistration.mockResolvedValue({ pushManager: registration.pushManager });
+    serviceWorker.ready = pending.promise;
+    enableButton().click();
+    await ctx.nextFrame();
+
+    expect(subscribe).not.toHaveBeenCalled();
+
+    pending.resolve(registration);
+    await vi.waitFor(() => expect(subscribe).toHaveBeenCalledTimes(1));
+  });
+
+  it('reports blocked notifications when permission is denied', async () => {
+    vi.stubGlobal('Notification', { permission: 'denied' });
+    await mount();
+
+    expect(status()).toBe(MESSAGES.blocked);
+    expectOnlyBanner('warning');
+    expect(ctx.screen.queryByRole('button', { name: 'enable' })).toBeNull();
+  });
+
+  it('shows an error when reading the current subscription fails and recovers on try again', async () => {
+    getSubscription.mockRejectedValue(new Error('boom'));
+    await mount();
+
+    expect(status()).toBe(MESSAGES.error);
+    expectOnlyBanner('danger');
+    expect(retryButton().hidden).toBe(false);
+
+    getSubscription.mockResolvedValue(null);
+    retryButton().click();
+    await vi.waitFor(() => expect(status()).toBe(MESSAGES.disabled));
+    await settled();
+
+    expectOnlyBanner('warning');
+    expect(subscribe).not.toHaveBeenCalled();
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('keeps all actions disabled until the initial sync finishes', async () => {
+    const pending = deferred<null>();
+    getSubscription.mockReturnValue(pending.promise);
+    await mount({ settle: false });
+
+    expect(enableButton().disabled).toBe(true);
+    expect(disableButton().disabled).toBe(true);
+
+    pending.resolve(null);
+    await settled();
+    expect(status()).toBe(MESSAGES.disabled);
+  });
+
+  it('shows the enabled state for a subscription known to the server', async () => {
+    getSubscription.mockResolvedValue({ endpoint: knownEndpoint, unsubscribe, options: currentKey });
+    await mount();
+
+    expect(status()).toBe(MESSAGES.enabled);
+    expectOnlyBanner('success');
+    expect(disableButton().hidden).toBe(false);
+    expect(unsubscribe).not.toHaveBeenCalled();
+  });
+
+  it('drops a browser subscription the server does not know and shows the disabled state', async () => {
+    getSubscription.mockResolvedValue({ endpoint: 'https://push.example/stale', unsubscribe });
+    await mount();
+
+    expect(unsubscribe).toHaveBeenCalled();
+    expect(status()).toBe(MESSAGES.disabled);
+    expectOnlyBanner('warning');
+    expect(enableButton().hidden).toBe(false);
+  });
+
+  it('drops a subscription bound to a previous VAPID key and shows the disabled state', async () => {
+    const previousKey = { applicationServerKey: new Uint8Array([0x01, 0x02]) };
+    getSubscription.mockResolvedValue({ endpoint: knownEndpoint, unsubscribe, options: previousKey });
+    await mount();
+
+    expect(unsubscribe).toHaveBeenCalled();
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(status()).toBe(MESSAGES.disabled);
+    expectOnlyBanner('warning');
+    expect(enableButton().hidden).toBe(false);
+  });
+
+  it('keeps a subscription whose key is unavailable', async () => {
+    getSubscription.mockResolvedValue({ endpoint: knownEndpoint, unsubscribe, options: { applicationServerKey: null } });
+    await mount();
+
+    expect(unsubscribe).not.toHaveBeenCalled();
+    expect(status()).toBe(MESSAGES.enabled);
+  });
+
+  it('revokes the server row for this device when the browser lost its subscription', async () => {
+    getSubscription.mockResolvedValue(null);
+    await mount({ subscriptions: [known, mine] });
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const [url, init] = fetchMock.mock.calls[0];
+    expect(url).toBe(`${mine.revokeUrl}?silent=true`);
+    expect(init?.method?.toLowerCase()).toBe('delete');
+    expect(status()).toBe(MESSAGES.disabled);
+    expectOnlyBanner('warning');
+    expect(enableButton().hidden).toBe(false);
+  });
+
+  it('revokes the server row for this device when notifications are blocked', async () => {
+    vi.stubGlobal('Notification', { permission: 'denied' });
+    await mount({ subscriptions: [mine] });
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const [url, init] = fetchMock.mock.calls[0];
+    expect(url).toBe(`${mine.revokeUrl}?silent=true`);
+    expect(init?.method?.toLowerCase()).toBe('delete');
+    expect(status()).toBe(MESSAGES.blocked);
+  });
+
+  it('sends no DELETE when no row belongs to this device', async () => {
+    getSubscription.mockResolvedValue(null);
+    await mount({ subscriptions: [{ ...known, current: false }] });
+
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(status()).toBe(MESSAGES.disabled);
+  });
+
+  it('shows the disabled state without a subscription', async () => {
+    await mount();
+
+    expect(status()).toBe(MESSAGES.disabled);
+    expectOnlyBanner('warning');
+    expect(enableButton().hidden).toBe(false);
+  });
+
+  it('subscribes with the decoded key and posts the endpoint to the server on enable', async () => {
+    await mount();
+    enableButton().click();
+    await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
+
+    const options = subscribe.mock.calls[0][0];
+    expect(options?.userVisibleOnly).toBe(true);
+    expect(options?.applicationServerKey).toBeInstanceOf(Uint8Array);
+    expect(Array.from(options?.applicationServerKey as Uint8Array)).toEqual([0xfb, 0xff]);
+
+    const [url, init] = fetchMock.mock.calls[0];
+    expect(url).toBe('/my/push_subscriptions');
+    expect(init?.method?.toLowerCase()).toBe('post');
+    expect(JSON.parse(init?.body as string)).toEqual({ push_endpoint: 'https://push.example/new' });
+    expect(new Headers(init?.headers).get('Accept')).toContain('text/vnd.turbo-stream.html');
+  });
+
+  it('shows the enabled state locally after a successful enable', async () => {
+    await mount();
+    enableButton().click();
+
+    await vi.waitFor(() => expect(status()).toBe(MESSAGES.enabled));
+    expectOnlyBanner('success');
+    expect(disableButton().hidden).toBe(false);
+  });
+
+  it('subscribes and posts only once on a double click', async () => {
+    await mount();
+    enableButton().click();
+    enableButton().click();
+    await settled();
+
+    expect(subscribe).toHaveBeenCalledTimes(1);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('disables both buttons while a request is in flight', async () => {
+    const pending = deferred<PushSubscription>();
+    subscribe.mockReturnValue(pending.promise);
+    await mount();
+    enableButton().click();
+
+    expect(enableButton().disabled).toBe(true);
+    expect(disableButton().disabled).toBe(true);
+    expect(retryButton().disabled).toBe(true);
+
+    pending.resolve(pushSubscription('https://push.example/new'));
+    await settled();
+  });
+
+  it('does not let a slow initial sync unsubscribe a subscription created by enable', async () => {
+    const pending = deferred<PushSubscription>();
+    getSubscription.mockReturnValue(pending.promise);
+    await mount({ settle: false });
+
+    enableButton().disabled = false;
+    enableButton().click();
+    await vi.waitFor(() => expect(status()).toBe(MESSAGES.enabled));
+
+    pending.resolve(pushSubscription('https://push.example/new'));
+    await ctx.nextFrame();
+
+    expect(unsubscribe).not.toHaveBeenCalled();
+    expect(status()).toBe(MESSAGES.enabled);
+    expectOnlyBanner('success');
+    expect(disableButton().hidden).toBe(false);
+  });
+
+  it('shows an error and does not post when subscribing fails', async () => {
+    subscribe.mockRejectedValue(new Error('failed'));
+    await mount();
+    enableButton().click();
+
+    await vi.waitFor(() => expect(status()).toBe(MESSAGES.error));
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('shows the blocked state when subscribing fails because permission was denied', async () => {
+    subscribe.mockImplementation(() => {
+      vi.stubGlobal('Notification', { permission: 'denied' });
+      return Promise.reject(new Error('denied'));
+    });
+    await mount();
+    enableButton().click();
+
+    await vi.waitFor(() => expect(status()).toBe(MESSAGES.blocked));
+    expect(fetchMock).not.toHaveBeenCalled();
+    expectOnlyBanner('warning');
+    expect(ctx.screen.queryByRole('button', { name: 'enable' })).toBeNull();
+  });
+
+  it('shows and announces the server message and unsubscribes when the server rejects the subscription', async () => {
+    const rejection = 'Only 5 devices can receive browser notifications at the same time.';
+    fetchMock.mockImplementation(() => Promise.resolve(new Response(
+      JSON.stringify({ errors: [rejection, 'Second reason.'] }),
+      { status: 422, headers: { 'Content-Type': 'application/json' } },
+    )));
+    await mount();
+    enableButton().click();
+
+    await vi.waitFor(() => expect(status()).toBe(`${rejection} Second reason.`));
+    expectOnlyBanner('danger');
+    expect(unsubscribe).toHaveBeenCalled();
+    expect(announceSpy).toHaveBeenCalledWith(`${rejection} Second reason.`, expect.objectContaining({ politeness: 'polite' }));
+  });
+
+  it('shows the generic error and unsubscribes when creating the subscription fails on the server', async () => {
+    fetchMock.mockImplementation(() => Promise.resolve(new Response('', { status: 500 })));
+    await mount();
+    enableButton().click();
+
+    await vi.waitFor(() => expect(status()).toBe(MESSAGES.error));
+    expect(unsubscribe).toHaveBeenCalled();
+  });
+
+  it('asks for permission before subscribing when it has not been decided', async () => {
+    const answer = deferred<NotificationPermission>();
+    requestPermission.mockReturnValue(answer.promise);
+    await mount();
+    enableButton().click();
+
+    expect(requestPermission).toHaveBeenCalledTimes(1);
+    expect(status()).toBe(MESSAGES.prompting);
+    expect(enableButton().disabled).toBe(true);
+    expect(subscribe).not.toHaveBeenCalled();
+
+    answer.resolve('granted');
+    await vi.waitFor(() => expect(subscribe).toHaveBeenCalledTimes(1));
+  });
+
+  it('shows the blocked state and does not subscribe when the permission prompt is denied', async () => {
+    requestPermission.mockResolvedValue('denied');
+    await mount();
+    enableButton().click();
+
+    await vi.waitFor(() => expect(status()).toBe(MESSAGES.blocked));
+    expect(subscribe).not.toHaveBeenCalled();
+    expectOnlyBanner('warning');
+    expect(ctx.screen.queryByRole('button', { name: 'enable' })).toBeNull();
+  });
+
+  it('skips the permission prompt when permission is already granted', async () => {
+    vi.stubGlobal('Notification', { permission: 'granted', requestPermission });
+    await mount();
+    enableButton().click();
+
+    await vi.waitFor(() => expect(status()).toBe(MESSAGES.enabled));
+    expect(requestPermission).not.toHaveBeenCalled();
+  });
+
+  it('shows a timeout and unsubscribes a late subscription when the browser takes too long to subscribe', async () => {
+    const pending = deferred<PushSubscription>();
+    subscribe.mockReturnValue(pending.promise);
+    await mount();
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+    enableButton().click();
+    await vi.advanceTimersByTimeAsync(0);
+
+    expect(status()).toBe(MESSAGES.subscribing);
+
+    await vi.advanceTimersByTimeAsync(30001);
+    await settled();
+
+    expect(status()).toBe(MESSAGES.timeout);
+    expectOnlyBanner('danger');
+    expect(retryButton().hidden).toBe(false);
+    expect(fetchMock).not.toHaveBeenCalled();
+
+    pending.resolve(pushSubscription('https://push.example/late'));
+    await vi.waitFor(() => expect(unsubscribe).toHaveBeenCalled());
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('keeps a late subscription that a second enable has registered in the meantime', async () => {
+    const lateUnsubscribe = vi.fn<PushSubscription['unsubscribe']>().mockResolvedValue(true);
+    const pending = deferred<PushSubscription>();
+    subscribe.mockReturnValueOnce(pending.promise);
+    await mount();
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+    enableButton().click();
+    await vi.advanceTimersByTimeAsync(30001);
+    await settled();
+    expect(status()).toBe(MESSAGES.timeout);
+
+    enableButton().click();
+    await vi.waitFor(() => expect(status()).toBe(MESSAGES.enabled));
+
+    pending.resolve(pushSubscription('https://push.example/new', lateUnsubscribe));
+    await vi.advanceTimersByTimeAsync(0);
+    expect(lateUnsubscribe).not.toHaveBeenCalled();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('sends a DELETE to the revoke url of the current subscription on disable', async () => {
+    getSubscription.mockResolvedValue({ endpoint: knownEndpoint, unsubscribe, options: currentKey });
+    await mount();
+    disableButton().click();
+    await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
+
+    const [url, init] = fetchMock.mock.calls[0];
+    expect(url).toBe(known.revokeUrl);
+    expect(init?.method?.toLowerCase()).toBe('delete');
+    expect(new Headers(init?.headers).get('Accept')).toContain('text/vnd.turbo-stream.html');
+  });
+
+  it('unsubscribes the browser and shows the disabled state after a successful disable', async () => {
+    getSubscription.mockResolvedValue({ endpoint: knownEndpoint, unsubscribe, options: currentKey });
+    await mount();
+    disableButton().click();
+
+    await vi.waitFor(() => expect(status()).toBe(MESSAGES.disabled));
+    expect(unsubscribe).toHaveBeenCalled();
+    expectOnlyBanner('warning');
+    expect(enableButton().hidden).toBe(false);
+  });
+
+  it('shows the error banner when the DELETE fails', async () => {
+    getSubscription.mockResolvedValue({ endpoint: knownEndpoint, unsubscribe, options: currentKey });
+    fetchMock.mockImplementation(() => Promise.resolve(new Response('', { status: 500 })));
+    await mount();
+    disableButton().click();
+
+    await vi.waitFor(() => expect(status()).toBe(MESSAGES.error));
+    expectOnlyBanner('danger');
+    expect(retryButton().hidden).toBe(false);
+    expect(unsubscribe).not.toHaveBeenCalled();
+  });
+
+  it('unsubscribes and shows the disabled state when the row was already revoked elsewhere', async () => {
+    getSubscription.mockResolvedValue({ endpoint: knownEndpoint, unsubscribe, options: currentKey });
+    fetchMock.mockImplementation(() => Promise.resolve(new Response('', { status: 404 })));
+    await mount();
+    disableButton().click();
+
+    await vi.waitFor(() => expect(status()).toBe(MESSAGES.disabled));
+    expect(unsubscribe).toHaveBeenCalled();
+    expectOnlyBanner('warning');
+  });
+
+  it('sends no request when the current subscription has no known revoke url', async () => {
+    getSubscription.mockResolvedValue({ endpoint: knownEndpoint, unsubscribe, options: currentKey });
+    await mount();
+    getSubscription.mockResolvedValue({ endpoint: 'https://push.example/other', unsubscribe });
+    disableButton().click();
+
+    await vi.waitFor(() => expect(status()).toBe(MESSAGES.error));
+    expect(fetchMock).not.toHaveBeenCalled();
+    expectOnlyBanner('danger');
+    expect(retryButton().hidden).toBe(false);
+  });
+
+  it('clears the message of hidden banners and announces a state change politely', async () => {
+    await mount();
+    enableButton().click();
+    await vi.waitFor(() => expect(announceSpy).toHaveBeenCalledWith(MESSAGES.enabled, expect.objectContaining({ politeness: 'polite' })));
+
+    const warningMessage = document.querySelector('[data-my--push-subscription-target="message"][data-scheme="warning"]')!;
+    expect(warningMessage.textContent).toBe('');
+  });
+
+  it('stays silent when the first sync lands on the server-rendered state', async () => {
+    await mount();
+
+    expect(status()).toBe(MESSAGES.disabled);
+    expect(announceSpy).not.toHaveBeenCalled();
+  });
+
+  it('announces the same error again after a retry fails the same way', async () => {
+    getSubscription.mockResolvedValue({ endpoint: knownEndpoint, unsubscribe, options: currentKey });
+    fetchMock.mockImplementation(() => Promise.resolve(new Response('', { status: 500 })));
+    await mount();
+    disableButton().click();
+    await vi.waitFor(() => expect(status()).toBe(MESSAGES.error));
+    await settled();
+    announceSpy.mockClear();
+
+    retryButton().click();
+
+    await vi.waitFor(() => expect(announceSpy).toHaveBeenCalledTimes(1));
+    expect(announceSpy).toHaveBeenCalledWith(MESSAGES.error, expect.objectContaining({ politeness: 'polite' }));
+  });
+
+  it('retries the disable when a disable failed', async () => {
+    getSubscription.mockResolvedValue({ endpoint: knownEndpoint, unsubscribe, options: currentKey });
+    fetchMock
+      .mockResolvedValueOnce(new Response('', { status: 500 }))
+      .mockResolvedValueOnce(new Response('', { status: 200 }));
+    await mount();
+    disableButton().click();
+    await vi.waitFor(() => expect(status()).toBe(MESSAGES.error));
+
+    retryButton().click();
+    await vi.waitFor(() => expect(status()).toBe(MESSAGES.disabled));
+    await settled();
+
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    const [, init] = fetchMock.mock.calls[1];
+    expect(init?.method?.toLowerCase()).toBe('delete');
+    expect(subscribe).not.toHaveBeenCalled();
+    expect(unsubscribe).toHaveBeenCalledTimes(1);
+    expectOnlyBanner('warning');
+  });
+
+  it('runs the enable flow from the try again action of the error banner', async () => {
+    subscribe.mockRejectedValueOnce(new Error('failed'));
+    await mount();
+    enableButton().click();
+    await vi.waitFor(() => expect(status()).toBe(MESSAGES.error));
+
+    retryButton().click();
+
+    await vi.waitFor(() => expect(status()).toBe(MESSAGES.enabled));
+    expect(subscribe).toHaveBeenCalledTimes(2);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+});
