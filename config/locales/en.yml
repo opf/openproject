@@ -737,6 +737,7 @@ en:
             required:
               cannot_be_true: "cannot be set to true."
             value:
+              parent_only_in_project: "cannot be made available to all projects, as its parent is only available in this project."
               required_by_project_values: "cannot be disabled, as the project added values below it."
           previous_custom_field_recalculation_unprocessed: "The recalculation of previous changes for this custom field have not been applied yet, please try again in a few minutes."
           referenced_in_other_fields_html:
@@ -2946,7 +2947,12 @@ en:
           They are included in forms, which are then used in different types and variants. The
           following list shows projects that use types or variants using forms including this custom field.
         configure: "Configure project-specific values for %{project}"
+        delete_value_dialog:
+          description: "This action will irreversibly remove the value from %{project}. Any assigned values will be permanently deleted."
+          heading: "Delete project-specific value?"
+          title: "Delete project-specific value"
         disable_all: "Disable all"
+        edit_value: "Edit value"
         editing_values_notice: "You are currently editing the list of values visible for this custom field in the project [%{project}](project_url)."
         empty_state:
           description: "Add this custom field to the form of a type that is used in a project."
@@ -2960,10 +2966,22 @@ en:
         filter_no_results:
           description: "Change the filters to see more projects."
           title: "No projects match this filter"
+        make_available_to_all_projects: "Make available to all projects"
+        make_available_to_all_projects_confirm: "Make “%{value}” available to all projects?"
+        new_value: "Value"
         quick_filter:
           all: "All projects"
           with_project_specific_values: "With project-specific values"
         types_column: "Displayed in type"
+        value_actions: "Value actions"
+        value_dialog:
+          edit_title: "Edit value"
+          name: "Name"
+          name_caption: "Only available in %{project}."
+          parent: "Add to parent"
+          title: "Add project-specific value"
+          title_with_parent: "Add project-specific value to “%{parent}”"
+          top_level: "Top level"
         values_empty_state:
           description: "Add values to this custom field to choose which of them are available in this project."
           title: "This custom field has no values yet"

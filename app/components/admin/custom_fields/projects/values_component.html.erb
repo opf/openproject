@@ -46,7 +46,7 @@ See COPYRIGHT and LICENSE files for more details.
           render(Primer::Beta::Text.new(font_weight: :bold)) { custom_field.name }
         end
 
-        if manageable? && rows.any?
+        if restricted? && manageable? && rows.any?
           header.with_column do
             safe_join(
               [
@@ -98,22 +98,91 @@ See COPYRIGHT and LICENSE files for more details.
             safe_join(
               [
                 render(Primer::Beta::Text.new) { row.label },
+                if row.project_specific?
+                  render(Primer::Beta::Label.new(scheme: :accent, ml: 2)) do
+                    t("custom_fields.project_specific_values.label")
+                  end
+                end,
                 (render(Primer::Beta::Text.new(color: :muted, font_size: :small, ml: 2)) { row.caption } if row.caption)
               ]
             )
           end
 
           line.with_column do
-            render(
-              Primer::Alpha::ToggleSwitch.new(
-                src: toggle_path(row),
-                csrf_token: helpers.form_authenticity_token,
-                checked: row.enabled,
-                enabled: manageable?,
-                size: :small,
-                aria: { label: row.label }
-              )
-            )
+            flex_layout(align_items: :center) do |actions|
+              if restricted? && !row.project_specific?
+                actions.with_column do
+                  render(
+                    Primer::Alpha::ToggleSwitch.new(
+                      src: toggle_path(row),
+                      csrf_token: helpers.form_authenticity_token,
+                      checked: row.enabled,
+                      enabled: manageable? && !row.required?,
+                      size: :small,
+                      aria: { label: row.label }
+                    )
+                  )
+                end
+              end
+
+              if value_menu?(row)
+                actions.with_column(ml: 2) do
+                  render(
+                    Primer::Alpha::ActionMenu.new(
+                      menu_id: "custom-field-project-value-menu-#{row.id}",
+                      test_selector: "custom-field-project-value-menu"
+                    )
+                  ) do |menu|
+                    menu.with_show_button(
+                      icon: "kebab-horizontal",
+                      scheme: :invisible,
+                      "aria-label": t("custom_fields.admin.projects.value_actions")
+                    )
+
+                    if row.project_specific?
+                      menu.with_item(
+                        label: t("custom_fields.admin.projects.edit_value"),
+                        tag: :a,
+                        href: edit_path(row),
+                        content_arguments: { data: { controller: "async-dialog" } }
+                      )
+                    end
+                    if custom_field.hierarchical_list?
+                      menu.with_item(
+                        label: t(:button_add_sub_value),
+                        tag: :a,
+                        href: new_sub_value_path(row),
+                        content_arguments: { data: { controller: "async-dialog" } }
+                      )
+                    end
+                    if row.project_specific?
+                      menu.with_item(
+                        label: t("custom_fields.admin.projects.make_available_to_all_projects"),
+                        tag: :a,
+                        href: make_global_path(row),
+                        disabled: row.parent_project_specific?,
+                        content_arguments: {
+                          data: {
+                            turbo_method: :post,
+                            turbo_confirm: t(
+                              "custom_fields.admin.projects.make_available_to_all_projects_confirm",
+                              value: row.label
+                            )
+                          }
+                        }
+                      )
+                      menu.with_item(
+                        label: t(:button_delete),
+                        tag: :a,
+                        href: deletion_dialog_path(row),
+                        scheme: :danger,
+                        content_arguments: { data: { controller: "async-dialog" } }
+                      )
+                    end
+                  end
+                end
+              end
+            end
           end
         end
       end

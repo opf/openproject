@@ -34,7 +34,8 @@ module Admin
       class ValuesComponent < ApplicationComponent
         include OpPrimer::ComponentHelpers
 
-        Row = Data.define(:id, :label, :depth, :caption, :enabled)
+        Row = Data.define(:id, :label, :depth, :caption, :enabled, :project_specific?, :required?,
+                          :parent_project_specific?)
 
         MAX_INDENTATION = 12
 
@@ -54,37 +55,42 @@ module Admin
         end
 
         def option_rows
-          custom_field.custom_options.map do |option|
-            Row.new(id: option.id, label: option.value, depth: 0, caption: nil, enabled: enabled?(option))
+          custom_field.custom_options.where(project_id: [nil, project.id]).map do |option|
+            Row.new(id: option.id, label: option.value, depth: 0, caption: nil, enabled: enabled?(option),
+                    project_specific?: option.project_id.present?, required?: false, parent_project_specific?: false)
           end
         end
 
-        # The items come in pre-order, so every parent's depth is known before its children.
+        # The items come in pre-order, so every parent's row is known before its children.
         def item_rows
-          depths = { custom_field.hierarchy_root.id => -1 }
+          rows = { custom_field.hierarchy_root.id => nil }
 
           hierarchy_items.map do |item|
-            depths[item.id] = depths.fetch(item.parent_id) + 1
-            item_row(item, depths[item.id])
+            rows[item.id] = item_row(item, rows.fetch(item.parent_id))
           end
         end
 
-        def item_row(item, depth)
-          Row.new(id: item.id, label: item.label, depth:, caption: item_caption(item), enabled: enabled?(item))
+        def item_row(item, parent_row)
+          Row.new(id: item.id, label: item.label, depth: parent_row ? parent_row.depth + 1 : 0,
+                  caption: item_caption(item), enabled: enabled?(item),
+                  project_specific?: item.project_id.present?, required?: required_item_ids.include?(item.id),
+                  parent_project_specific?: parent_row&.project_specific? || false)
+        end
+
+        def required_item_ids
+          @required_item_ids ||= custom_field.required_value_ids_in(project).to_set
         end
 
         def hierarchy_items
           ::CustomFields::Hierarchy::HierarchicalItemService
             .new
             .get_descendants(item: custom_field.hierarchy_root, include_self: false)
+            .fmap { it.where(project_id: [nil, project.id]) }
             .value_or([])
         end
 
         def item_caption(item)
-          parts = []
-          parts << NumberFormatHelper.number_with_limit(item.weight) if custom_field.field_format_weighted_item_list?
-          parts << I18n.t("custom_fields.admin.hierarchy.subitems", count: item.children_count) if item.children_count.positive?
-          parts.join(" · ").presence
+          NumberFormatHelper.number_with_limit(item.weight) if custom_field.field_format_weighted_item_list?
         end
 
         def enabled?(value)
@@ -93,6 +99,14 @@ module Admin
 
         def manageable?
           EnterpriseToken.allows_to?(:project_specific_list_values)
+        end
+
+        def restricted?
+          custom_field.project_specific_value_restriction.present?
+        end
+
+        def value_menu?(row)
+          custom_field.allow_additional_project_values? && (row.project_specific? || custom_field.hierarchical_list?)
         end
 
         def indentation(row)
@@ -112,19 +126,35 @@ module Admin
         end
 
         def values_path
-          project_values_admin_settings_work_package_custom_field_path(custom_field, project)
+          admin_settings_work_package_custom_field_project_specific_values_path(custom_field, project)
         end
 
         def toggle_path(row)
-          toggle_project_value_admin_settings_work_package_custom_field_path(custom_field, project, row.id)
+          toggle_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, row.id)
+        end
+
+        def new_sub_value_path(row)
+          new_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, parent_id: row.id)
+        end
+
+        def edit_path(row)
+          edit_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, row.id)
+        end
+
+        def make_global_path(row)
+          make_global_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, row.id)
+        end
+
+        def deletion_dialog_path(row)
+          deletion_dialog_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, row.id)
         end
 
         def enable_all_path
-          enable_all_project_values_admin_settings_work_package_custom_field_path(custom_field, project)
+          enable_all_admin_settings_work_package_custom_field_project_specific_values_path(custom_field, project)
         end
 
         def disable_all_path
-          disable_all_project_values_admin_settings_work_package_custom_field_path(custom_field, project)
+          disable_all_admin_settings_work_package_custom_field_project_specific_values_path(custom_field, project)
         end
       end
     end
