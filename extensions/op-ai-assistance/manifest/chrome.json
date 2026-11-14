@@ -1,0 +1,15 @@
+{
+  "background": {
+    "service_worker": "background.js"
+  },
+  "minimum_chrome_version": "120",
+  "icons": {
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "action": {
+    "default_title": "OpenProject AI Assistance",
+    "default_popup": "popup.html",
+    "default_icon": "icons/icon-48.png"
+  }
+}

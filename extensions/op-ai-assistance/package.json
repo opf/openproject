@@ -1,0 +1,44 @@
+{
+  "name": "@openproject/op-ai-assistance",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Browser extension (Firefox and Chrome) that adds AI Assistance to work packages of an OpenProject instance",
+  "license": "GPL-3.0-only",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/opf/openproject.git",
+    "directory": "extensions/op-ai-assistance"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run",
+    "lint:firefox": "web-ext lint --source-dir dist/firefox --self-hosted",
+    "run:firefox": "web-ext run --source-dir dist/firefox",
+    "package:firefox": "web-ext build --source-dir dist/firefox --artifacts-dir artifacts --overwrite-dest",
+    "test:smoke": "playwright test"
+  },
+  "dependencies": {
+    "webextension-polyfill": "^0.12.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.63.0",
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "@types/node": "^26.6.2",
+    "@types/webextension-polyfill": "^0.12.3",
+    "eslint": "^10.11.0",
+    "globals": "^17.12.0",
+    "jsdom": "^30.1.1",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.71.0",
+    "vite": "^8.3.1",
+    "vitest": "^5.0.5",
+    "web-ext": "^9.2.0"
+  }
+}

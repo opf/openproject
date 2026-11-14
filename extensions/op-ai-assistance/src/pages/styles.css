@@ -1,0 +1,88 @@
+:root {
+  color-scheme: light dark;
+  --bg: #ffffff;
+  --bg-muted: #f6f8fa;
+  --fg: #1f2328;
+  --fg-muted: #59636e;
+  --border: #d1d9e0;
+  --accent: #1a67a3;
+  --accent-fg: #ffffff;
+  --danger: #d1242f;
+  --success: #1a7f37;
+  --warning: #9a6700;
+  --radius: 6px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1117;
+    --bg-muted: #151b23;
+    --fg: #f0f6fc;
+    --fg-muted: #9198a1;
+    --border: #3d444d;
+    --accent: #4493f8;
+    --accent-fg: #0d1117;
+    --danger: #f85149;
+    --success: #3fb950;
+    --warning: #d29922;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+h1, h2, h3, h4 { margin: 0 0 8px; line-height: 1.25; }
+h1 { font-size: 20px; }
+h2 { font-size: 16px; }
+h4 { font-size: 14px; }
+p { margin: 0 0 8px; }
+
+button, select, input, textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  border: 1px solid var(--border);
+  background: var(--bg-muted);
+  border-radius: var(--radius);
+  padding: 4px 12px;
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) { border-color: var(--fg-muted); }
+button:disabled { opacity: 0.5; cursor: default; }
+button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); }
+button.danger { color: var(--danger); }
+button.link { border: 0; background: none; padding: 0; color: var(--accent); }
+
+input[type="text"], input[type="password"], input[type="url"], select, textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  padding: 5px 8px;
+}
+
+textarea { resize: vertical; min-height: 80px; }
+
+.muted { color: var(--fg-muted); }
+.small { font-size: 12px; }
+.error { color: var(--danger); }
+.success { color: var(--success); }
+.row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.stack { display: flex; flex-direction: column; gap: 8px; }
+.spacer { flex: 1; }
+
+.markdown p:last-child { margin-bottom: 0; }
+.markdown ul, .markdown ol { margin: 0 0 8px; padding-left: 20px; }
+code { background: var(--bg-muted); border-radius: 4px; padding: 0 4px; font-size: 12px; }
+pre { white-space: pre-wrap; word-break: break-word; background: var(--bg-muted); padding: 8px; border-radius: var(--radius); font-size: 12px; max-height: 240px; overflow: auto; }

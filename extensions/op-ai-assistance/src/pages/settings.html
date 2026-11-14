@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AI Assistance settings</title>
+    <link rel="stylesheet" href="./styles.css">
+    <style>
+      body { padding: 16px 24px; max-width: 880px; }
+      section { border-top: 1px solid var(--border); padding: 16px 0; display: flex; flex-direction: column; gap: 12px; }
+      label.field { display: grid; grid-template-columns: 160px 1fr; gap: 12px; align-items: start; }
+      label.field > span:first-child { padding-top: 5px; font-weight: 600; }
+      .skill-row { display: flex; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }
+      .skill-row:last-child { border-bottom: 0; }
+      .editor { border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; display: flex; flex-direction: column; gap: 12px; }
+      .sticky { position: sticky; bottom: 0; background: var(--bg); padding: 12px 0; border-top: 1px solid var(--border); }
+      @media (max-width: 600px) { label.field { grid-template-columns: 1fr; gap: 4px; } }
+    </style>
+  </head>
+  <body>
+    <main id="app"></main>
+    <script type="module" src="./settings.ts"></script>
+  </body>
+</html>
