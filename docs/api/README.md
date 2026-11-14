@@ -86,7 +86,7 @@ OpenProject allows administrators to manage users and groups using System for Cr
 
 A growing number of tools and resources is offered through the Model Context Protocol API of OpenProject. This API is primarily targeted at AI agents and similar tools, as it supports auto-discovery of supported operations.
 
-➔ [Read more on configuration instructions](../system-admin-guide/integrations/mcp-server/)
+➔ [Read more on configuration instructions](../system-admin-guide/ai/mcp-server/)
 
 ## BCF v2.1
 
