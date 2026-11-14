@@ -140,7 +140,7 @@ RSpec.describe AI::AssistantChats::Reply, with_flag: { ai_assistance: true } do
   describe "findings with the area none" do
     let(:answer) do
       { answer: "Zwei Befunde.", proposals: [
-        { severity: "medium", area: "none", text: "Der Betreff passt nicht mehr.",
+        { severity: "medium", area: "none", text: "The subject is outdated.",
           evidence: ["Public note"], changes: [{ field: "subject", value: "New subject" }] },
         { severity: "low", area: "none", text: "Unklar.", evidence: ["Public note"], changes: [] },
         { severity: "low", area: "content", text: "Ohne Beleg.", evidence: [], changes: [] },
@@ -361,7 +361,7 @@ RSpec.describe AI::AssistantChats::Reply, with_flag: { ai_assistance: true } do
     end
 
     it "sends the project as context, asks for no proposals and stores none" do
-      message = ask("Was bleibt offen?")
+      message = ask("What is still open?")
 
       expect(message).to be_done
       expect(message.content).to eq("Drei offene Arbeitspakete.")
