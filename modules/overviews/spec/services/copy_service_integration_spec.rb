@@ -42,7 +42,7 @@ RSpec.describe Projects::CopyService, "integration", type: :model do
   end
   let(:only_args) { nil }
   let(:target_project_params) do
-    { name: "Some name", identifier: "some-identifier" }
+    { name: "Some name", identifier: attributes_for(:project)[:identifier] }
   end
   let(:params) do
     { target_project_params:, only: only_args }
