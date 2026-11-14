@@ -3,7 +3,7 @@
 import { describe, it, expect, beforeEach, afterAll, vi } from 'vitest';
 import { CodeSquareIcon } from '@primer/octicons-react';
 import { getOpenProjectSlashMenuItems } from '../../../lib/components/SlashMenu';
-import { probeCreateWorkPackagePermission } from '../../../lib/services/openProjectApi';
+import { probeCreateWorkPackagePermission } from '../../../lib/services/openProjectApi/workPackageCreation';
 import i18n from '../../../lib/services/i18n';
 
 const setLang = async (lang:string) => i18n.changeLanguage(lang);

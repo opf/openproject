@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { WorkPackage, WorkPackageForm, WorkPackagePayload } from '../../openProjectTypes';
-import { createWorkPackage, fetchWorkPackageCreateForm, OpenProjectApiError } from '../../services/openProjectApi';
+import { createWorkPackage, fetchWorkPackageCreateForm } from '../../services/openProjectApi/workPackageCreation';
+import { OpenProjectApiError } from '../../services/openProjectApi/errors';
 import {
   applyLabel,
   applyValue,

@@ -6,7 +6,7 @@ import { insertPendingInlineWorkPackage } from './InlineWorkPackage/pending';
 import { insertPendingAttribute } from './WorkPackageAttribute/pending';
 import { pendingBlockRegistry } from './BlockWorkPackage/pendingBlockRegistry';
 import { canBlockWorkPackageReplaceCurrentBlock } from '../utils/blockContent.ts';
-import { canCreateWorkPackages } from '../services/openProjectApi.ts';
+import { canCreateWorkPackages } from '../services/openProjectApi/workPackageCreation.ts';
 import type { AnyEditor } from '../editorTypes';
 import type { PendingMode } from './WorkPackage/types';
 

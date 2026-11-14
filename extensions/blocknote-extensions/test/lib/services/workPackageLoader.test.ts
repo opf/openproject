@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { WorkPackage } from '../../../lib/openProjectTypes';
-import * as openProjectApi from '../../../lib/services/openProjectApi';
-import { OpenProjectApiError } from '../../../lib/services/openProjectApi';
+import * as workPackagesApi from '../../../lib/services/openProjectApi/workPackages';
+import { OpenProjectApiError } from '../../../lib/services/openProjectApi/errors';
 import {
   cachedWorkPackage,
   cachedWorkPackageSchema,
@@ -25,11 +25,11 @@ const batchOf = (ids:readonly number[]) => ({
 });
 
 describe('workPackageLoader', () => {
-  let fetchWorkPackages:ReturnType<typeof vi.spyOn<typeof openProjectApi, 'fetchWorkPackages'>>;
+  let fetchWorkPackages:ReturnType<typeof vi.spyOn<typeof workPackagesApi, 'fetchWorkPackages'>>;
 
   beforeEach(() => {
     clearWorkPackageCache();
-    fetchWorkPackages = vi.spyOn(openProjectApi, 'fetchWorkPackages')
+    fetchWorkPackages = vi.spyOn(workPackagesApi, 'fetchWorkPackages')
       .mockImplementation(async (ids) => batchOf(ids));
   });
 

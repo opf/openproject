@@ -6,7 +6,7 @@ import {
   loadNonWorkingDays,
 } from '../../../../lib/components/CreateWorkPackage/datePickerSettings';
 import { initLanguage } from '../../../../lib/services/i18n';
-import { initOpenProjectApi } from '../../../../lib/services/openProjectApi';
+import { initOpenProjectApi } from '../../../../lib/services/openProjectApi/client';
 
 const configuration = {
   dateFormat: 'DD.MM.YYYY',

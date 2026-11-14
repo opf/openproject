@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { avatarUrlOf } from '../../services/openProjectApi';
+import { avatarUrlOf } from '../../services/openProjectApi/resources';
 import type { Principal } from './attributes';
 import { avatarColorOf, initialsOf } from './avatars';
 import { Avatar, AvatarPicture, AvatarSlot } from './atoms';

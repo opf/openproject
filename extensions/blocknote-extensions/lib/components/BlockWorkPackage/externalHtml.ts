@@ -11,7 +11,7 @@
 // byte-for-byte.
 
 import { buildExternalDOM, hashPrefixForSize } from '../WorkPackage/externalHtml';
-import { linkToWorkPackage } from '../../services/openProjectApi';
+import { linkToWorkPackage } from '../../services/openProjectApi/workPackages';
 
 export interface WorkPackageBlockProps {
   wpid?:number | string;

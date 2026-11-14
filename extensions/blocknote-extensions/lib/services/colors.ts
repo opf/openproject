@@ -1,5 +1,5 @@
 import { type WorkPackage, type OpColorMode } from '../openProjectTypes';
-import { fetchTypes, fetchStatuses, fetchPriorities } from './openProjectApi';
+import { fetchTypes, fetchStatuses, fetchPriorities } from './openProjectApi/resources';
 import { useEffect, useState } from 'react';
 
 const FALLBACK_TYPE_COLOR = '#3f3f3f';

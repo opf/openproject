@@ -1,5 +1,6 @@
 import type { HalLink, WorkPackage, WorkPackageSchema } from '../openProjectTypes';
-import { fetchWorkPackages, OpenProjectApiError, type WorkPackageBatch } from './openProjectApi';
+import { OpenProjectApiError } from './openProjectApi/errors';
+import { fetchWorkPackages, type WorkPackageBatch } from './openProjectApi/workPackages';
 
 interface LoadedBatch {
   workPackages:Map<number, WorkPackage>;
