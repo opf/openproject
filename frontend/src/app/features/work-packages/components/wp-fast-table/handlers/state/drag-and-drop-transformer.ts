@@ -503,6 +503,7 @@ export class DragAndDropTransformer implements RowMover {
         };
         if (preparedQuery && manualSort) {
           originalQuery.setSortBy([manualSort]);
+          if (ownsQuery()) sortService.update([manualSort]);
           await preparedQuery.persist();
         }
         complete(true);

@@ -30,7 +30,7 @@ Included in this release are administrative UI support for configuring the MCP S
 
 ![Model context protocol settings in OpenProject administration](openproject_system_guide_new_mcp.png)
 
-See the [**MCP Server documentation**](../../system-admin-guide/integrations/mcp-server/) for setup and examples.  
+See the [**MCP Server documentation**](../../system-admin-guide/ai/mcp-server/) for setup and examples.  
 
 ### Reusable meeting templates (Enterprise add-on)
 
