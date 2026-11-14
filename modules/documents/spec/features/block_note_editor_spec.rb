@@ -70,6 +70,14 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
     expect(find("op-block-note", visible: :all)["project-id"]).to eq(document.project_id.to_s)
   end
 
+  it "loads the BlockNote styles into the page for the mobile formatting toolbar rendered outside the editor" do
+    visit document_path(document)
+    expect(page).to have_test_selector("blocknote-document-description")
+
+    blocknote_stylesheet_url = find("op-block-note", visible: :all)["blocknote-stylesheet-url"]
+    expect(page).to have_css("head link[rel='stylesheet'][href='#{blocknote_stylesheet_url}']", visible: :all, count: 1)
+  end
+
   it "formats tables with header rows, cell colors and merged cells" do
     visit document_path(document)
     expect(page).to have_test_selector("blocknote-document-description")
