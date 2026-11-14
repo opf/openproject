@@ -1,0 +1,61 @@
+services:
+  traefik:
+    profiles:
+      - traefik
+    image: traefik:latest
+    depends_on:
+      step:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:80:80"
+      - "127.0.0.1:443:443"
+      - "[::1]:80:80"
+      - "[::1]:443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - acme:/acme
+      - step:/step:ro
+    restart: unless-stopped
+    environment:
+      TRAEFIK_LOG_LEVEL: INFO
+      TRAEFIK_API_DISABLEDASHBOARDAD: true
+      TRAEFIK_PROVIDERS_DOCKER_EXPOSEDBYDEFAULT: false
+      TRAEFIK_ENTRYPOINTS_WEB_ADDRESS: ":80"
+      TRAEFIK_ENTRYPOINTS_WEB_HTTP_REDIRECTIONS_ENTRYPOINT_TO: websecure
+      TRAEFIK_ENTRYPOINTS_WEBSECURE_ADDRESS: ":443"
+      TRAEFIK_ENTRYPOINTS_WEBSECURE_HTTP_TLS_CERTRESOLVER: step
+      TRAEFIK_CERTIFICATESRESOLVERS_STEP_ACME_CASERVER: https://step:9000/acme/acme/directory
+      TRAEFIK_CERTIFICATESRESOLVERS_STEP_ACME_TLSCHALLENGE: true
+      TRAEFIK_CERTIFICATESRESOLVERS_STEP_ACME_EMAIL: root@localhost
+      TRAEFIK_CERTIFICATESRESOLVERS_STEP_ACME_STORAGE: /acme/acme.json
+      TRAEFIK_CERTIFICATESRESOLVERS_LETSENCRYPT_ACME_HTTPCHALLENGE_ENTRYPOINT: web
+      TRAEFIK_ENTRYPOINTS_PING_ADDRESS: ":8080"
+      TRAEFIK_PING: "true"
+      TRAEFIK_PING_ENTRYPOINT: "ping"
+      LEGO_CA_CERTIFICATES: /step/certs/root_ca.crt
+    healthcheck:
+      test:
+        - "CMD"
+        - "traefik"
+        - "healthcheck"
+        - "--ping"
+        - "--entrypoints.ping.address=:8080"
+        - "--ping.entrypoint=ping"
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      openproject:
+        ipv4_address: 172.30.0.10
+        aliases:
+          - traefik.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}
+          - openproject.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}
+          - keycloak.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}
+          - hocuspocus.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}
+          - squashtm.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}
+    labels:
+      - "traefik.http.routers.traefik.rule=Host(`traefik.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}`)"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
+

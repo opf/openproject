@@ -1,0 +1,43 @@
+volumes:
+  step:
+  acme:
+  cacert:
+
+services:
+  step:
+    image: smallstep/step-ca:latest
+    restart: unless-stopped
+    networks:
+      openproject:
+        ipv4_address: 172.30.0.11
+    environment:
+      - TZ=UTC
+      - DOCKER_STEPCA_INIT_NAME=OpenProject Development
+      - DOCKER_STEPCA_INIT_DNS_NAMES=step,localhost
+      - DOCKER_STEPCA_INIT_PROVISIONER_NAME=openproject
+      - DOCKER_STEPCA_INIT_PASSWORD=openproject
+      - DOCKER_STEPCA_INIT_ACME=true
+    volumes:
+      - step:/home/step
+    healthcheck:
+      test:
+        - "CMD-SHELL"
+        - "step ca health 2>/dev/null | grep -q '^ok'"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+  ca-bundle:
+    image: alpine
+    networks:
+      openproject:
+        ipv4_address: 172.30.0.12
+    depends_on:
+      step:
+        condition: service_healthy
+    volumes:
+      - step:/step:ro
+      - cacert:/cacert
+      - ./create-ca-bundle.sh:/create-ca-bundle.sh
+    command:
+      - /create-ca-bundle.sh
