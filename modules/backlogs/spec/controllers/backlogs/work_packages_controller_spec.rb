@@ -1139,7 +1139,7 @@ RSpec.describe Backlogs::WorkPackagesController do
 
     context "with an id from another project" do
       let(:foreign_project) do
-        create(:project, name: "Foreign dialog project", identifier: "foreign-dialog-project")
+        create(:project, name: "Foreign dialog project")
       end
       let(:foreign_work_package) do
         create(:work_package, project: foreign_project, author: user, status:, type: type_feature)
@@ -1156,7 +1156,7 @@ RSpec.describe Backlogs::WorkPackagesController do
                })
       end
       let(:invisible_project) do
-        create(:project, public: false, name: "Invisible dialog project", identifier: "invisible-dialog-project")
+        create(:project, public: false, name: "Invisible dialog project")
       end
       let(:invisible_work_package) do
         create(:work_package, project: invisible_project, author: user, status:, type: type_feature)

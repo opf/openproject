@@ -39,7 +39,7 @@ RSpec.describe "Linking SquashTM requirements to work packages",
   let(:user) { create(:user, member_with_permissions: { project => permissions }) }
   let(:client) { SquashTMIntegration::Client.new(base_url: "https://squashtm.example.com/squash", api_token: "token") }
   let(:link_path) { "/projects/#{project.id}/work_packages/#{work_package.id}/squashtm_requirement_link" }
-  let(:tab_path) { "/projects/#{project.identifier}/work_packages/#{work_package.id}/squashtm/tab" }
+  let(:tab_path) { "/projects/#{project.identifier}/work_packages/#{work_package.to_param}/squashtm/tab" }
   let(:turbo_stream) { { "Accept" => "text/vnd.turbo-stream.html" } }
 
   before do
