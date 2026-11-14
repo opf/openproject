@@ -1,0 +1,23 @@
+<% html_title(t("test_management.cases.heading")) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t("test_management.cases.heading") }
+    header.with_breadcrumbs(
+      [
+        { href: project_overview_path(@project.id), text: @project.name },
+        { href: project_test_management_test_cases_path(@project), text: t(:project_module_test_management) },
+        t("test_management.menu.cases")
+      ]
+    )
+    tm_render_horizontal_section_nav(header, project: @project)
+  end
+%>
+
+<%=
+  render(Primer::Beta::Blankslate.new(test_selector: "tm-cases-empty")) do |component|
+    component.with_visual_icon(icon: :checklist)
+    component.with_heading(tag: :h2).with_content(t("test_management.cases.empty"))
+    component.with_description { t("test_management.cases.empty_hint") }
+  end
+%>

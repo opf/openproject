@@ -1,0 +1,53 @@
+<% html_title(t("test_management.project_settings.heading")) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t("test_management.project_settings.heading") }
+    header.with_breadcrumbs(
+      [
+        { href: project_overview_path(@project.id), text: @project.name },
+        t(:label_project_settings),
+        t("test_management.project_settings.heading")
+      ]
+    )
+  end
+%>
+
+<%= form_with model: @setting,
+              scope: :project_setting,
+              url: project_test_management_project_settings_path(@project),
+              method: :patch,
+              local: true,
+              data: { test_selector: "tm-project-settings-form" } do |f| %>
+  <fieldset class="form--fieldset">
+    <legend><%= t("test_management.project_settings.general") %></legend>
+
+    <div class="form--field">
+      <%= f.label :display_prefix, t("activerecord.attributes.test_management/project_setting.display_prefix") %>
+      <div class="form--field-container">
+        <%= f.text_field :display_prefix, class: "form--text-field" %>
+      </div>
+      <div class="form--field-instructions">
+        <%= t("test_management.project_settings.display_prefix_hint") %>
+      </div>
+    </div>
+
+    <div class="form--field">
+      <%= f.label :navigation_layout, t("activerecord.attributes.test_management/project_setting.navigation_layout") %>
+      <div class="form--field-container">
+        <%= f.select :navigation_layout,
+                     TestManagement::ProjectSetting::NAVIGATION_LAYOUTS.map { |layout|
+                       [t("test_management.project_settings.layouts.#{layout}"), layout]
+                     },
+                     {},
+                     class: "form--select",
+                     data: { test_selector: "tm-navigation-layout" } %>
+      </div>
+      <div class="form--field-instructions">
+        <%= t("test_management.project_settings.navigation_layout_hint") %>
+      </div>
+    </div>
+  </fieldset>
+
+  <%= f.submit t(:button_save), class: "button -primary", data: { test_selector: "tm-project-settings-save" } %>
+<% end %>

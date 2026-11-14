@@ -1,0 +1,26 @@
+<% html_title(t("test_management.admin.heading")) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t("test_management.admin.heading") }
+    header.with_breadcrumbs([t(:label_administration), t("test_management.admin.heading")])
+  end
+%>
+
+<%= form_with url: test_management_admin_settings_path, method: :patch, local: true do %>
+  <fieldset class="form--fieldset">
+    <legend><%= t("test_management.admin.general") %></legend>
+    <div class="form--field">
+      <label for="default_display_prefix"><%= t("test_management.admin.default_display_prefix") %></label>
+      <div class="form--field-container">
+        <%= text_field_tag :default_display_prefix,
+                           @settings[:default_display_prefix],
+                           class: "form--text-field",
+                           autocomplete: "off",
+                           maxlength: TestManagement::ProjectSetting::DISPLAY_PREFIX_MAX_LENGTH %>
+      </div>
+    </div>
+  </fieldset>
+
+  <%= submit_tag t(:button_save), class: "button -primary" %>
+<% end %>
