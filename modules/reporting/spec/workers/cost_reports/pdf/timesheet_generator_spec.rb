@@ -132,7 +132,7 @@ RSpec.describe CostReports::PDF::TimesheetGenerator do
   def expected_entry_columns(t_entry, with_times_column)
     time_column = generator.format_spent_on_time(t_entry)
     [
-      "##{t_entry.entity.id} ",
+      "#{t_entry.entity.formatted_id} ",
       t_entry.entity&.subject || "",
       with_times_column && time_column.present? ? time_column : nil,
       generator.format_hours(t_entry.hours),

@@ -207,12 +207,13 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
 
         wait_for { editor.search_popover_open? }.to be(false) # search dialog is closed
         expect(editor.element).to have_no_text("Loading")
-        expect(editor.element.text).to match(/LIFE GOALS\s*##{work_package.display_id}\s*Open\s*pet a tiger/)
+        expect(editor.element.text).to match(/LIFE GOALS\s*#{work_package.formatted_id}\s*Open\s*pet a tiger/)
 
         # Capybara's have_link seems not to work in a shadow dom, so it's tested via the property
-        expect(editor.element.find_link(text: "pet a tiger").native.property("href")).to end_with("/wp/#{work_package.id}")
+        expect(editor.element.find_link(text: "pet a tiger").native.property("href"))
+          .to end_with("/wp/#{work_package.display_id}")
 
-        editor.wait_for_autosave { document.reload.description&.include?("[####{work_package.id}](https://openproject.local/wp/#{work_package.id})") }
+        editor.wait_for_autosave { document.reload.description&.include?("[####{work_package.display_id}](https://openproject.local/wp/#{work_package.id})") }
       end
 
       it "inserts an xxs inline link via # notation" do
@@ -225,10 +226,10 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
         expect(editor.element).to have_no_text("#tiger") # wait for work package to load
 
         expect(editor.element).to have_no_text("…") # inline chip loading state
-        expect(editor.element.text).to match(/##{work_package.display_id}/)
+        expect(editor.element.text).to match(/#{work_package.formatted_id}/)
         # xxs chip shows only the ID — no title link
 
-        editor.wait_for_autosave { document.reload.description&.include?("[##{work_package.id}](https://openproject.local/wp/#{work_package.id})") }
+        editor.wait_for_autosave { document.reload.description&.include?("[##{work_package.display_id}](https://openproject.local/wp/#{work_package.id})") }
       end
 
       it "inserts an xs inline link via ## notation" do
@@ -241,12 +242,12 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
         expect(editor.element).to have_no_text("##tiger") # wait for work package to load
 
         expect(editor.element).to have_no_text("…")
-        expect(editor.element.text).to match(/##{work_package.display_id}LIFE GOALSpet a tiger/)
+        expect(editor.element.text).to match(/#{work_package.formatted_id}LIFE GOALSpet a tiger/)
         # Capybara's have_link seems not to work in a shadow dom, so it's tested via the property
         expect(editor.element.find_link(text: "pet a tiger").native.property("href"))
-          .to end_with("/wp/#{work_package.id}")
+          .to end_with("/wp/#{work_package.display_id}")
 
-        editor.wait_for_autosave { document.reload.description&.include?("[###{work_package.id}](https://openproject.local/wp/#{work_package.id})") }
+        editor.wait_for_autosave { document.reload.description&.include?("[###{work_package.display_id}](https://openproject.local/wp/#{work_package.id})") }
       end
 
       it "inserts an s inline link via ### notation" do
@@ -259,12 +260,12 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
         expect(editor.element).to have_no_text("###tiger") # wait for work package to load
 
         expect(editor.element).to have_no_text("…")
-        expect(editor.element.text).to match(/##{work_package.display_id}LIFE GOALSOpenpet a tiger/)
+        expect(editor.element.text).to match(/#{work_package.formatted_id}LIFE GOALSOpenpet a tiger/)
         # Capybara's have_link seems not to work in a shadow dom, so it's tested via the property
         expect(editor.element.find_link(text: "pet a tiger").native.property("href"))
-          .to end_with("/wp/#{work_package.id}")
+          .to end_with("/wp/#{work_package.display_id}")
 
-        editor.wait_for_autosave { document.reload.description&.include?("####{work_package.id}") }
+        editor.wait_for_autosave { document.reload.description&.include?("####{work_package.display_id}") }
       end
 
       it "inserts a block card via #### notation" do
@@ -312,7 +313,7 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
         send_keys(:enter)
         expect(editor.element).to have_no_text("#tiger")
         expect(editor.element).to have_no_text("…")
-        expect(editor.element).to have_text(/##{work_package.display_id}/)
+        expect(editor.element).to have_text(/#{work_package.formatted_id}/)
 
         # Type right after the chip and delete it again with Backspace. Do NOT click / move the caret
         # first — the bug only manifested when typing immediately after insertion (moving the caret
@@ -323,7 +324,7 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
         send_keys(:backspace, :backspace, :backspace)
 
         expect(editor.element).to have_no_text("abc")
-        expect(editor.element).to have_text(/##{work_package.display_id}/)
+        expect(editor.element).to have_text(/#{work_package.formatted_id}/)
       end
 
       describe "CTRL-Z undo behavior" do
@@ -349,11 +350,11 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
           expect(editor.element).to have_no_text("#tiger") # chip replaced autocomplete text
 
           expect(editor.element).to have_no_text("…") # chip finished loading
-          expect(editor.element).to have_text(/##{work_package.display_id}/)
+          expect(editor.element).to have_text(/#{work_package.formatted_id}/)
 
           editor.undo
 
-          expect(editor.element).to have_no_text(/##{work_package.display_id}/)
+          expect(editor.element).to have_no_text(/#{work_package.formatted_id}/)
         end
       end
     end
@@ -481,7 +482,7 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
         expect(work_package.project).to eq(project)
 
         expect(editor.element.find_link(text: "Write the release notes").native.property("href"))
-          .to end_with("/wp/#{work_package.id}")
+          .to end_with("/wp/#{work_package.display_id}")
       end
     end
   end

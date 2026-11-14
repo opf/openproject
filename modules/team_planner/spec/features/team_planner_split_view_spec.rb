@@ -67,18 +67,18 @@ RSpec.describe "Team planner split view navigation",
 
     # Expect clicking on a work package does not open the details
     page.find_test_selector("op-wp-single-card--content-subject", text: work_package1.subject).click
-    expect(page).to have_no_current_path /team_planners\/new\/details\/#{work_package1.id}/
+    expect(page).to have_no_current_path /team_planners\/new\/details\/#{work_package1.display_id}/
 
     # Open split view through info icon
     split_view = team_planner.open_split_view_by_info_icon work_package1
-    expect(page).to have_current_path /team_planners\/new\/details\/#{work_package1.id}/
+    expect(page).to have_current_path /team_planners\/new\/details\/#{work_package1.display_id}/
 
     card1 = Pages::WorkPackageCard.new work_package1
     card1.expect_selected
 
     # now clicking on another card switches
     page.find_test_selector("op-wp-single-card--content-subject", text: work_package2.subject).click
-    expect(page).to have_current_path /team_planners\/new\/details\/#{work_package2.id}/
+    expect(page).to have_current_path /team_planners\/new\/details\/#{work_package2.display_id}/
 
     card2 = Pages::WorkPackageCard.new work_package2
     card2.expect_selected

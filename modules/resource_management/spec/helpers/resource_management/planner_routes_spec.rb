@@ -79,7 +79,7 @@ RSpec.describe ResourceManagement::PlannerRoutes do
   subject(:routes) { Class.new { include ResourceManagement::PlannerRoutes }.new }
 
   shared_let(:project) do
-    create(:project, identifier: "planner-routes", enabled_module_names: %w[resource_management work_package_tracking])
+    create(:project, enabled_module_names: %w[resource_management work_package_tracking])
   end
   shared_let(:user) { create(:user) }
   shared_let(:work_package) { create(:work_package, project:) }
@@ -114,7 +114,7 @@ RSpec.describe ResourceManagement::PlannerRoutes do
       it "names the project of a project planner" do
         path = call(helper, PlannerRoutesCases::PLANNER_FIRST[helper].call(project_planner, project_view))
 
-        expect(path).to start_with("/projects/planner-routes/resource_planners/#{project_planner.id}")
+        expect(path).to start_with("/projects/#{project.identifier}/resource_planners/#{project_planner.id}")
       end
     end
   end
@@ -130,7 +130,7 @@ RSpec.describe ResourceManagement::PlannerRoutes do
       it "names the project when there is one" do
         path = call(helper, PlannerRoutesCases::PROJECT_FIRST[helper].call(project, fixtures))
 
-        expect(path).to start_with("/projects/planner-routes/")
+        expect(path).to start_with("/projects/#{project.identifier}/")
       end
     end
   end

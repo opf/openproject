@@ -352,7 +352,7 @@ RSpec.describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
     context "with a user in a group thats not in ldap" do
       let(:group_foo) { create(:group, lastname: "foo_internal", members: [user_cc414, user_aa729]) }
       let(:manager) { create(:project_role, name: "Manager") }
-      let(:project) { create(:project, name: "Project 1", identifier: "project1", members: { group_foo => [manager] }) }
+      let(:project) { create(:project, name: "Project 1", members: { group_foo => [manager] }) }
 
       before do
         project

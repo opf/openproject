@@ -32,7 +32,7 @@ RSpec.describe WorkPackagesController do
     login_as current_user
   end
 
-  let(:stub_project) { build_stubbed(:project, identifier: "test_project", public: false) }
+  let(:stub_project) { build_stubbed(:project, public: false) }
   let(:current_user) { build_stubbed(:user) }
   let(:work_packages) { [build_stubbed(:work_package)] }
 

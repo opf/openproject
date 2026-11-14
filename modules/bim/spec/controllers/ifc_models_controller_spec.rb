@@ -32,13 +32,11 @@ require "spec_helper"
 RSpec.describe Bim::IfcModels::IfcModelsController do
   let(:project) do
     create(:project,
-           enabled_module_names: %w[bim],
-           identifier: "project-a")
+           enabled_module_names: %w[bim])
   end
   let(:other_project) do
     create(:project,
-           enabled_module_names: %w[bim],
-           identifier: "project-b")
+           enabled_module_names: %w[bim])
   end
   let(:user) do
     create(:user,

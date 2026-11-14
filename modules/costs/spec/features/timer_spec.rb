@@ -64,8 +64,8 @@ RSpec.describe "Work Package timer", :js do
 
       user_menu.open
       expect(page).to have_css(".op-timer-account-menu", wait: 10)
-      expect(page).to have_css(".op-timer-account-menu--wp-details", text: "##{work_package_a.id}: WP A")
-      expect(page).to have_css(".op-timer-account-menu--wp-details[href='/work_packages/#{work_package_a.id}']")
+      expect(page).to have_css(".op-timer-account-menu--wp-details", text: "#{work_package_a.formatted_id}: WP A")
+      expect(page).to have_css(".op-timer-account-menu--wp-details[href='/work_packages/#{work_package_a.display_id}']")
       page.find_test_selector("op-timer-account-menu-stop").click
 
       time_logging_modal.is_visible true
@@ -101,7 +101,7 @@ RSpec.describe "Work Package timer", :js do
       expect(page).to have_css(".op-timer-stop-modal")
       expect(page).to have_text("Tracking time:")
       expect(page).to have_css(".op-timer-stop-modal a[href='/work_packages/#{work_package_a.id}']",
-                               text: "##{work_package_a.id}: WP A")
+                               text: "#{work_package_a.formatted_id}: WP A")
 
       active_time_entries = TimeEntry.where(ongoing: true, user:)
       expect(active_time_entries.count).to eq 1
@@ -164,9 +164,9 @@ RSpec.describe "Work Package timer", :js do
         timer_button.start
 
         expect(page).to have_css(".op-timer-stop-modal")
-        click_link "##{work_package_a.id}: WP A"
+        click_link "#{work_package_a.formatted_id}: WP A"
 
-        expect(page).to have_current_path(%r{/work_packages/#{work_package_a.id}(/|\?|$)})
+        expect(page).to have_current_path(%r{/work_packages/#{work_package_a.display_id}(/|\?|$)})
       end
     end
 

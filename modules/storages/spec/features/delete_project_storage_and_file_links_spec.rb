@@ -38,7 +38,6 @@ RSpec.describe "Delete ProjectStorage with FileLinks", :js, :webmock do
   let(:project) do
     create(:project,
            name: "Project 1",
-           identifier: "demo-project",
            members: { user => role },
            enabled_module_names: %i[storages work_package_tracking])
   end
