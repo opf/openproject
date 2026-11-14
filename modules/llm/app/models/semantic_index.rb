@@ -47,6 +47,7 @@ class SemanticIndex < ApplicationRecord
             numericality: { only_integer: true, greater_than: 0,
                             less_than_or_equal_to: WorkPackageEmbedding::DIMENSIONS }
   validates :context_token_length, numericality: { only_integer: true, greater_than: 0 }
+  validates :batch_size, numericality: { only_integer: true, greater_than: 0 }
 
   def self.semantic_search_binding
     semantic_search_bindings.first_or_initialize

@@ -80,6 +80,16 @@ module SemanticIndexes
         disabled: locked,
         input_width: :small
       )
+
+      f.text_field(
+        name: :batch_size,
+        type: :number,
+        min: 1,
+        label: SemanticIndex.human_attribute_name(:batch_size),
+        caption: I18n.t("admin.semantic_indexes.form.batch_size_caption"),
+        required: true,
+        input_width: :small
+      )
     end
 
     private

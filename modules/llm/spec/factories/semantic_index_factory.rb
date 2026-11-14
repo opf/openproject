@@ -34,5 +34,6 @@ FactoryBot.define do
     model_id { "bge-m3" }
     embedding_vector_dimensions { 1024 }
     context_token_length { 8192 }
+    batch_size { 100 }
   end
 end

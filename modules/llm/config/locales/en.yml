@@ -34,6 +34,7 @@ en:
         # human_attribute_name strips the _id suffix, so the key omits it.
         external: "Model name"
       semantic_index:
+        batch_size: "Batch size"
         context_token_length: "Context length"
         description: "Description"
         embedding_vector_dimensions: "Dimensions"
@@ -116,6 +117,7 @@ en:
         edit_title: "Edit \"%{title}\""
         new_title: "New semantic index"
       form:
+        batch_size_caption: "Number of work packages sent to the embedding API per request."
         context_token_length_caption: "Maximum number of tokens embedded per work package."
         embedding_vector_dimensions_caption: "Must match the selected model."
         immutable: "Model, context length and dimensions can't be changed after creation. Create a new semantic index to use different parameters."

@@ -40,7 +40,7 @@ RSpec.describe "Admin semantic indexes", :skip_csrf,
   let(:turbo_headers) { { "Accept" => "text/vnd.turbo-stream.html" } }
   let(:valid_params) do
     { semantic_index: { title: "Nomic small", description: "Trial", model_id: "bge-m3",
-                        embedding_vector_dimensions: 768, context_token_length: 2048 } }
+                        embedding_vector_dimensions: 768, context_token_length: 2048, batch_size: 50 } }
   end
 
   before { login_as admin }
@@ -164,7 +164,8 @@ RSpec.describe "Admin semantic indexes", :skip_csrf,
       expect(response).to redirect_to(llm_feature_bindings_path)
       expect(SemanticIndex.sole).to have_attributes(title: "Nomic small", model_id: "bge-m3",
                                                     embedding_vector_dimensions: 768,
-                                                    context_token_length: 2048, state: "not_indexed")
+                                                    context_token_length: 2048, batch_size: 50,
+                                                    state: "not_indexed")
     end
 
     it "re-renders the form with errors" do
@@ -200,6 +201,14 @@ RSpec.describe "Admin semantic indexes", :skip_csrf,
 
       expect(response).to redirect_to(llm_feature_bindings_path)
       expect(semantic_index.reload).to have_attributes(title: "Qwen3 production", description: "Production index")
+    end
+
+    it "updates the embedding batch size" do
+      patch semantic_index_path(semantic_index),
+            params: { semantic_index: { batch_size: 10 } }
+
+      expect(response).to redirect_to(llm_feature_bindings_path)
+      expect(semantic_index.reload.batch_size).to eq(10)
     end
 
     it "refuses to change the parameters" do
