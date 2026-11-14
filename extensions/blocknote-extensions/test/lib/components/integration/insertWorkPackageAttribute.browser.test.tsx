@@ -501,6 +501,22 @@ describe('Insert work package attribute', () => {
       expect(blocks()[1].type).toBe('openProjectWorkPackageAttributeBlock');
     });
 
+    it('splits the line it is inserted in the middle of', async () => {
+      await openEditorAndType('Before after');
+      await expect.element(page.getByText('Before after')).toBeVisible();
+      await userEvent.keyboard('{ArrowLeft>5/}');
+      await userEvent.keyboard('/attribute');
+      await userEvent.click(page.getByText('Work package attribute').first());
+      await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+      await pickAttribute('Description');
+      await userEvent.click(insertButton());
+
+      await expect.element(dialog()).not.toBeInTheDocument();
+      expect(blocks().map(({ type }) => type)).toEqual(['paragraph', 'openProjectWorkPackageAttributeBlock', 'paragraph']);
+      expect(editor.document[0].content).toEqual([{ type: 'text', text: 'Before ', styles: {} }]);
+      expect(editor.document[2].content).toEqual([{ type: 'text', text: 'after', styles: {} }]);
+    });
+
     function selectionMarks() {
       const frame = document.querySelector('.op-bn-wp-attribute-block')!;
       const marked = Array.from(document.querySelectorAll('.ProseMirror-selectednode'))

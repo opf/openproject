@@ -1,10 +1,11 @@
 import { Plugin, PluginKey, type Transaction } from 'prosemirror-state';
-import type { Fragment, Node } from 'prosemirror-model';
+import type { Node } from 'prosemirror-model';
 import type { AnyEditor } from '../editorTypes';
 import { findAttributeMacros, type AttributeMacro } from '../components/WorkPackageAttribute/macros';
 import { referenceKey, resolveReference, type ResolvedReference } from '../components/WorkPackageAttribute/resolveMacro';
 import type { AttributeChoice } from '../components/WorkPackageAttribute/types';
 import { BLOCK_WP_ATTRIBUTE_TYPE, INLINE_WP_ATTRIBUTE_TYPE } from '../utils/nodeTypes';
+import { placeBlockInLine } from '../utils/blockInLine';
 
 export interface PastedRange { from:number; to:number }
 
@@ -132,7 +133,7 @@ async function convertMacros(editor:AnyEditor, hostKeys:Set<string>):Promise<voi
       const { kind, ...props } = reference;
       const choice:AttributeChoice = { ...props, display: macro.display };
       if (kind === 'inline') replaceWithInline(tr, from, to, choice);
-      else if (canHoldBlock(tr, from)) replaceWithBlock(tr, from, to, choice);
+      else if (canHoldBlock(tr, from)) placeBlockInLine(editor, { from, to }, { type: BLOCK_WP_ATTRIBUTE_TYPE, props: { ...choice } });
     }
   });
 }
@@ -144,32 +145,4 @@ function replaceWithInline(tr:Transaction, from:number, to:number, choice:Attrib
 
 function canHoldBlock(tr:Transaction, position:number):boolean {
   return blockIdOf(tr.doc.resolve(position).node(-1)) !== undefined;
-}
-
-// A long text cannot sit inside a line, so the line is split around it.
-function replaceWithBlock(tr:Transaction, from:number, to:number, choice:AttributeChoice):void {
-  const $from = tr.doc.resolve(from);
-  const line = $from.parent;
-  const container = $from.node(-1);
-  const typesAfter = [
-    { type: container.type, attrs: { ...container.attrs, id: null } },
-    { type: line.type, attrs: line.attrs },
-  ];
-
-  if (!isBlank(line.content.cut($from.parentOffset + to - from))) tr.split(to, 2, typesAfter);
-
-  let start = from;
-  if (!isBlank(line.content.cut(0, $from.parentOffset))) {
-    const stepsBefore = tr.steps.length;
-    tr.split(from, 2, typesAfter);
-    start = tr.mapping.slice(stepsBefore).map(from);
-  }
-
-  const $start = tr.doc.resolve(start);
-  tr.replaceWith($start.before(), $start.after(), tr.doc.type.schema.nodes[BLOCK_WP_ATTRIBUTE_TYPE].create(choice));
-}
-
-// Inline nodes count as content, through their object replacement character.
-function isBlank(fragment:Fragment):boolean {
-  return fragment.textBetween(0, fragment.size, '', '\ufffc').trim() === '';
 }

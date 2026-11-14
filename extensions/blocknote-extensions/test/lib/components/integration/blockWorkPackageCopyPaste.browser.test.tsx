@@ -90,7 +90,7 @@ describe('Block card - copy/paste independence', () => {
 
     await expect.element(page.getByTestId('block-card').nth(0)).toBeVisible();
     await expect.element(page.getByTestId('block-card').nth(1)).not.toBeInTheDocument();
-    await expect.element(page.getByText('Fix login bug')).toBeVisible();
+    await expect.element(page.getByTestId('block-card').getByText('Fix login bug')).toBeVisible();
   });
 
   it('removing the original does not remove the pasted copy', async () => {
@@ -109,7 +109,7 @@ describe('Block card - copy/paste independence', () => {
 
     await expect.element(page.getByTestId('block-card').nth(0)).toBeVisible();
     await expect.element(page.getByTestId('block-card').nth(1)).not.toBeInTheDocument();
-    await expect.element(page.getByText('Fix login bug')).toBeVisible();
+    await expect.element(page.getByTestId('block-card').getByText('Fix login bug')).toBeVisible();
   });
 
   it('resizing the original does not affect the pasted copy', async () => {
@@ -129,8 +129,8 @@ describe('Block card - copy/paste independence', () => {
     await userEvent.click(page.getByRole('menuitemradio', { name: 'Tiny', exact: true }));
 
     // The pasted copy still shows the status
-    await expect.element(page.getByText('In Progress').nth(0)).toBeVisible();
-    await expect.element(page.getByText('In Progress').nth(1)).not.toBeInTheDocument();
+    await expect.element(page.getByTestId('block-card').getByText('In Progress').nth(0)).toBeVisible();
+    await expect.element(page.getByTestId('block-card').getByText('In Progress').nth(1)).not.toBeInTheDocument();
   });
 
   it('resizing the pasted copy does not affect the original', async () => {
@@ -150,7 +150,7 @@ describe('Block card - copy/paste independence', () => {
     await userEvent.click(page.getByRole('menuitemradio', { name: 'Tiny', exact: true }));
 
     // The original still shows the status
-    await expect.element(page.getByText('In Progress').nth(0)).toBeVisible();
-    await expect.element(page.getByText('In Progress').nth(1)).not.toBeInTheDocument();
+    await expect.element(page.getByTestId('block-card').getByText('In Progress').nth(0)).toBeVisible();
+    await expect.element(page.getByTestId('block-card').getByText('In Progress').nth(1)).not.toBeInTheDocument();
   });
 });
