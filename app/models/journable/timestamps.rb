@@ -106,16 +106,6 @@ module Journable::Timestamps
     historic?
   end
 
-  # Rollback a journable record to a historic state of that record.
-  #
-  #     WorkPackage.find(2).at_timestamp(1.year.ago).rollback!
-  #
-  def rollback!
-    raise ActiveRecord::RecordNotSaved, "This is no historic data. You can only revert to historic data." unless historic?
-
-    self.class.find(id).update! attributes.except("id", "timestamp", "journal_id", "created_at", "updated_at")
-  end
-
   private
 
   def historic_attributes(journal, timestamp)
