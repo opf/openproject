@@ -35,12 +35,6 @@ RSpec.describe Projects::DemoProject do
       expect(described_class.identifier).to eq("demo-project")
     end
 
-    it "returns the classic identifier of a seeded demo project" do
-      create(:project, identifier: "demo-project")
-
-      expect(described_class.identifier).to eq("demo-project")
-    end
-
     context "with semantic identifiers", with_settings: { work_packages_identifier: "semantic" } do
       it "returns the semantic identifier of a seeded demo project" do
         create(:project, identifier: "DEMO")
@@ -55,17 +49,25 @@ RSpec.describe Projects::DemoProject do
       end
     end
 
-    context "with an unrelated project identified 'demo'" do
-      before { create(:project, identifier: "demo") }
-
-      it "does not mistake it for the demo project" do
-        expect(described_class.identifier).to eq("demo-project")
-      end
-
-      it "prefers the seeded demo project" do
+    context "with classic identifiers", with_settings: { work_packages_identifier: "classic" } do
+      it "returns the classic identifier of a seeded demo project" do
         create(:project, identifier: "demo-project")
 
         expect(described_class.identifier).to eq("demo-project")
+      end
+
+      context "with an unrelated project identified 'demo'" do
+        before { create(:project, identifier: "demo") }
+
+        it "does not mistake it for the demo project" do
+          expect(described_class.identifier).to eq("demo-project")
+        end
+
+        it "prefers the seeded demo project" do
+          create(:project, identifier: "demo-project")
+
+          expect(described_class.identifier).to eq("demo-project")
+        end
       end
     end
   end
