@@ -510,7 +510,7 @@ RSpec.describe ProjectsController do
   end
 
   describe "with an existing project" do
-    let(:project) { create(:project, identifier: "blog") }
+    let(:project) { create(:project) }
 
     it "gets destroy info" do
       get :destroy_info, params: { id: project.id }, format: :turbo_stream
@@ -522,7 +522,7 @@ RSpec.describe ProjectsController do
   end
 
   describe "#copy_form" do
-    let(:project) { create(:project, identifier: "blog") }
+    let(:project) { create(:project) }
 
     shared_examples_for "successful request" do
       it "renders 'copy_form'", :aggregate_failures do
@@ -558,7 +558,7 @@ RSpec.describe ProjectsController do
   end
 
   describe "#copy" do
-    let(:project) { create(:project, identifier: "blog") }
+    let(:project) { create(:project) }
 
     before do
       copy_service = instance_double(Projects::EnqueueCopyService)

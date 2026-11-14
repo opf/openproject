@@ -30,7 +30,7 @@
 require "spec_helper"
 
 RSpec.describe MailFormattingHelper do
-  shared_let(:project) { create(:project, identifier: "macroproj") }
+  shared_let(:project) { create(:project) }
   shared_let(:work_package) { create(:work_package, project:, subject: "test task") }
   shared_let(:admin) { create(:admin) }
 

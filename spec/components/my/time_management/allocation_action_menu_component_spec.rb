@@ -51,7 +51,8 @@ RSpec.describe My::TimeManagement::AllocationActionMenuComponent, type: :compone
   subject(:rendered_component) { render_inline(described_class.new(allocation:, navigation:)) }
 
   it "offers to assign the work package" do
-    expect(rendered_component).to have_link("Assign work package to me", href: "/work_packages/#{work_package.id}/assign_to_me")
+    expect(rendered_component)
+      .to have_link("Assign work package to me", href: "/work_packages/#{work_package.to_param}/assign_to_me")
   end
 
   it "offers to log what is left of the allocation" do
@@ -94,7 +95,7 @@ RSpec.describe My::TimeManagement::AllocationActionMenuComponent, type: :compone
     let(:navigation) { true }
 
     it "links to the work package and its project" do
-      expect(rendered_component).to have_link("Open work package", href: "/work_packages/#{work_package.id}")
+      expect(rendered_component).to have_link("Open work package", href: "/work_packages/#{work_package.to_param}")
       expect(rendered_component).to have_link("Open project", href: "/projects/#{project.identifier}")
     end
   end

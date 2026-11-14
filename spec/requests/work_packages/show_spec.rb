@@ -52,13 +52,13 @@ RSpec.describe "GET work package show", type: :rails_request do
   end
 
   context "when accessed via the project-scoped URL" do
-    before { get "/projects/#{project.id}/work_packages/#{work_package.id}/activity" }
+    before { get "/projects/#{project.id}/work_packages/#{work_package.to_param}/activity" }
 
     include_examples "includes canonical link tag"
   end
 
   context "when accessed via the project-scoped URL on the relations tab" do
-    before { get "/projects/#{project.id}/work_packages/#{work_package.id}/relations" }
+    before { get "/projects/#{project.id}/work_packages/#{work_package.to_param}/relations" }
 
     include_examples "includes canonical link tag", tab: "relations"
   end

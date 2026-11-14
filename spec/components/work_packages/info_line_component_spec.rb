@@ -52,7 +52,7 @@ RSpec.describe WorkPackages::InfoLineComponent, type: :component do
   it "renders a link to the work package" do
     subject
 
-    expect(page).to have_link(href: /work_packages\/#{work_package.id}/)
+    expect(page).to have_link(href: /work_packages\/#{work_package.to_param}/)
   end
 
   describe "formatted identifier display" do

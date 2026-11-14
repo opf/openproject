@@ -42,7 +42,7 @@ RSpec.describe "API v3 Work package resource",
            description: "lorem ipsum")
   end
   let(:project) do
-    create(:project, identifier: "test_project", public: false)
+    create(:project, public: false)
   end
   let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }

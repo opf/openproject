@@ -34,7 +34,7 @@ RSpec.describe WorkPackagesController do
     login_as current_user
   end
 
-  let(:project) { create(:project, identifier: "test_project", public: false) }
+  let(:project) { create(:project, public: false) }
   let(:other_project) { build_stubbed(:project) }
   let(:type) { create(:type) }
   let(:work_package) { create(:work_package, type:, project:) }
@@ -259,7 +259,7 @@ RSpec.describe WorkPackagesController do
       it "redirects to the full url" do
         call_action
 
-        expect(response).to redirect_to("/projects/test_project/work_packages/#{work_package.id}/activity")
+        expect(response).to redirect_to("/projects/#{project.identifier}/work_packages/#{work_package.to_param}/activity")
       end
     end
   end
@@ -358,7 +358,7 @@ RSpec.describe WorkPackagesController do
 
       let(:admin) { create(:admin) }
       let(:project) do
-        create(:project, identifier: "test_project", public: false, enabled_internal_comments: true)
+        create(:project, public: false, enabled_internal_comments: true)
       end
 
       before do

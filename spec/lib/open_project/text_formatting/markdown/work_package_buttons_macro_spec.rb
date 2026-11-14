@@ -37,7 +37,7 @@ RSpec.describe OpenProject::TextFormatting,
 
   let(:type) { create(:type, name: "MyTaskName") }
   let(:options) { { project: } }
-  let(:project) { create(:valid_project, identifier: "my-project", name: "My project name", types: [type]) }
+  let(:project) { create(:valid_project, name: "My project name", types: [type]) }
 
   before do
     login_as admin
@@ -75,7 +75,7 @@ RSpec.describe OpenProject::TextFormatting,
       let(:expected) do
         <<~EXPECTED
           <p class="op-uc-p">
-            <a class="op-uc-link" target="_top" href="/projects/my-project/work_packages/new">New work package</a>
+            <a class="op-uc-link" target="_top" href="/projects/#{project.identifier}/work_packages/new">New work package</a>
           </p>
         EXPECTED
       end
@@ -107,7 +107,7 @@ RSpec.describe OpenProject::TextFormatting,
       let(:expected) do
         <<~EXPECTED
           <p class="op-uc-p">
-            <a class="op-uc-link" target="_top" href="/projects/my-project/work_packages/new?type=#{type.id}">+ MyTaskName</a>
+            <a class="op-uc-link" target="_top" href="/projects/#{project.identifier}/work_packages/new?type=#{type.id}">+ MyTaskName</a>
           </p>
         EXPECTED
       end
@@ -124,7 +124,7 @@ RSpec.describe OpenProject::TextFormatting,
         let(:expected) do
           <<~EXPECTED
             <p class="op-uc-p">
-              <a class="button op-uc-link" target="_top" href="/projects/my-project/work_packages/new?type=#{type.id}">+ MyTaskName</a>
+              <a class="button op-uc-link" target="_top" href="/projects/#{project.identifier}/work_packages/new?type=#{type.id}">+ MyTaskName</a>
             </p>
           EXPECTED
         end

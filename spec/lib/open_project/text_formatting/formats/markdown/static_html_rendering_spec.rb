@@ -42,7 +42,7 @@ RSpec.describe "Markdown static-HTML rendering" do # rubocop:disable RSpec/Descr
 
   let(:context) { { only_path: false } }
 
-  shared_let(:project) { create(:project, identifier: "demo") }
+  shared_let(:project) { create(:project) }
   shared_let(:type) { create(:type, name: "Task") }
   shared_let(:status) { create(:status, name: "New") }
   shared_let(:work_package) do
@@ -120,7 +120,7 @@ RSpec.describe "Markdown static-HTML rendering" do # rubocop:disable RSpec/Descr
   end
 
   describe "inaccessible work package" do
-    shared_let(:other_project) { create(:project, identifier: "secret") }
+    shared_let(:other_project) { create(:project) }
     shared_let(:reader_role) { create(:project_role, permissions: %i[view_work_packages]) }
     shared_let(:reader) { create(:user, member_with_roles: { project => reader_role }) }
     shared_let(:hidden_wp) do
@@ -187,7 +187,7 @@ RSpec.describe "Markdown static-HTML rendering" do # rubocop:disable RSpec/Descr
   # collapse to its current `formatted_id` as plain text — no anchor, no
   # subject leak.
   describe "anonymous current_user" do
-    shared_let(:private_project) { create(:project, identifier: "private", public: false) }
+    shared_let(:private_project) { create(:project, public: false) }
     shared_let(:private_wp) do
       create(:work_package, project: private_project, type:, status:, subject: "Top Secret")
     end

@@ -53,7 +53,7 @@ RSpec.describe WorkPackageRelationsTab::IndexComponent, type: :component do
     render_component
 
     expect(page).to have_link "Create new child",
-                              href: "/work_packages/#{work_package.id}/children/new"
+                              href: "/work_packages/#{work_package.to_param}/children/new"
   end
 
   context "with parent relation" do
