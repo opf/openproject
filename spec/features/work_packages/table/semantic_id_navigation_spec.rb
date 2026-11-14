@@ -42,12 +42,12 @@ RSpec.describe "Work package table semantic ID navigation",
   before do
     work_package
     login_as(user)
-    wp_table.visit!
-    wp_table.expect_work_package_listed(work_package)
   end
 
   it "navigates to the semantic ID URL when clicking the ID link" do
     semantic_id = work_package.reload.identifier
+    wp_table.visit!
+    wp_table.expect_work_package_listed(work_package)
 
     # The ID column should show the semantic identifier
     expect(page).to have_link(semantic_id)

@@ -219,9 +219,9 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     }
   }
 
-  // Matched against the loaded results rather than the work package cache, which a deep
-  // link cannot resolve a semantic id against, and which would miss the ancestor rows
-  // that hierarchy mode renders for work packages the query itself does not match.
+  // The work package cache is keyed by numeric id, so a semantic id from a deep link can
+  // only be matched against the loaded results. Their ancestors count too: hierarchy mode
+  // renders a row for them even though the query itself does not match them.
   private selectSplitViewRow(routingId:string):void {
     this
       .querySpace
@@ -229,8 +229,8 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
       .values$()
       .pipe(take(1), this.untilDestroyed())
       .subscribe((results) => {
-        const rows = results.elements.flatMap((element) => [element, ...element.getAncestors()]);
-        const id = rows.find((row) => matchesRoutingId(row, routingId))?.id;
+        const candidates = results.elements.flatMap((element) => [element, ...element.getAncestors()]);
+        const id = candidates.find((candidate) => matchesRoutingId(candidate, routingId))?.id;
 
         if (id) {
           this.wpTableSelection.initializeSelection([id]);
