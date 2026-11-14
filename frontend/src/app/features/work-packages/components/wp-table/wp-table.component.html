@@ -81,7 +81,7 @@
               }
             </tr>
           </thead>
-          @if (!isEmbedded && view.query && view.results.count === 0) {
+          @if (!isEmbedded && view.query && view.results.count === 0 && !inlineCreateRowOpen) {
             <tbody class="work-package--empty-tbody">
               <tr id="empty-row-notification">
                 <td class="-no-ellipsis" [attr.colspan]="view.numTableColumns">
