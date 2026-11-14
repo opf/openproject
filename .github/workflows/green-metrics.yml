@@ -1,0 +1,135 @@
+name: Green Metrics – Eco CI Energy Estimation
+
+on:
+  schedule:
+    - cron: "0 2 * * 0" # Every Sunday at 02:00 UTC
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "Dockerfile*"
+      - "docker/**"
+      - "docker-compose*.yml"
+      - ".github/workflows/green-metrics.yml"
+      - "usage_scenario.yml"
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: green-metrics-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  energy-measurement:
+    name: Measure energy consumption
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── Eco CI: initialize ──────────────────────────────────────
+      - name: Initialize Eco CI
+        uses: green-coding-solutions/eco-ci-energy-estimation@v5
+        with:
+          task: start-measurement
+        continue-on-error: true
+
+      # ── Segment 1: Build AIO image ─────────────────────────────
+      - name: Build AIO image
+        run: |
+          docker build -f docker/prod/Dockerfile --target all-in-one -t openproject-aio:local .
+
+      - name: Record – image build
+        uses: green-coding-solutions/eco-ci-energy-estimation@v5
+        with:
+          task: get-measurement
+          label: "image-build"
+        continue-on-error: true
+
+      # ── Segment 2: Start container & wait for health ────────────
+      - name: Start AIO container
+        run: |
+          docker run -d --name openproject \
+            -p 8080:80 \
+            -e SECRET_KEY_BASE=green-metrics-ci-static-key-do-not-use-in-production \
+            -e OPENPROJECT_HTTPS=false \
+            -e OPENPROJECT_HOST__NAME=localhost:8080 \
+            -e OPENPROJECT_LOGIN__REQUIRED=false \
+            openproject-aio:local
+
+      - name: Wait for health
+        run: |
+          echo "Waiting for OpenProject to become healthy…"
+          for i in $(seq 1 60); do
+            if curl -sf http://localhost:8080/health_checks/all > /dev/null 2>&1; then
+              echo "Health check passed on attempt $i"
+              break
+            fi
+            echo "Attempt $i/60 – not ready yet…"
+            sleep 5
+          done
+
+          # Final check
+          curl -sf http://localhost:8080/health_checks/all || {
+            echo "::error::OpenProject did not become healthy within timeout"
+            docker logs openproject
+            exit 1
+          }
+
+      - name: Record – startup & seed
+        uses: green-coding-solutions/eco-ci-energy-estimation@v5
+        with:
+          task: get-measurement
+          label: "startup-seed"
+        continue-on-error: true
+
+      # ── Segment 3: Smoke tests ──────────────────────────────────
+      - name: Smoke test – homepage
+        run: |
+          curl -sf -o /dev/null -w "HTTP %{http_code} – %{time_total}s\n" http://localhost:8080/
+
+      - name: Smoke test – API v3 root
+        run: |
+          curl -sf -o /dev/null -w "HTTP %{http_code} – %{time_total}s\n" http://localhost:8080/api/v3
+
+      - name: Smoke test – API v3 projects
+        run: |
+          curl -sf -o /dev/null -w "HTTP %{http_code} – %{time_total}s\n" http://localhost:8080/api/v3/projects
+
+      - name: Record – smoke tests
+        uses: green-coding-solutions/eco-ci-energy-estimation@v5
+        with:
+          task: get-measurement
+          label: "smoke-tests"
+        continue-on-error: true
+
+      # ── Segment 4: Teardown ─────────────────────────────────────
+      - name: Tear down container
+        run: |
+          docker rm -f openproject
+
+      - name: Record – teardown
+        uses: green-coding-solutions/eco-ci-energy-estimation@v5
+        with:
+          task: get-measurement
+          label: "teardown"
+        continue-on-error: true
+
+      # ── Eco CI: finalize & publish ──────────────────────────────
+      - name: Publish Eco CI results
+        uses: green-coding-solutions/eco-ci-energy-estimation@v5
+        with:
+          task: display-results
+          send-data: true
+        continue-on-error: true
+
+      - name: Post energy results as PR comment
+        if: github.event_name == 'pull_request'
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          filePath: eco-ci-output.txt
+          comment-tag: eco-ci-energy
+        continue-on-error: true
