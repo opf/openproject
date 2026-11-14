@@ -38,7 +38,7 @@ flowchart LR
   AU --> WP["Work package<br/>+ journal cause"]
 ```
 
-1. The work package toolbars have an "AI Assistance" dropdown: a labelled button in the full view, and an icon button in the split view. The Angular component `op-wp-ai-assistance-slot` loads `AIAssistance::MenusController#show` for the work package into a turbo frame. A user without the permission gets an empty frame, and so does a work package that the user cannot see. After a proposal changed the work package, the component reloads it, so the next inline edit does not conflict.
+1. The work package toolbars have an "AI Assistance" dropdown: a labeled button in the full view, and an icon button in the split view. The Angular component `op-wp-ai-assistance-slot` loads `AIAssistance::MenusController#show` for the work package into a turbo frame. A user without the permission gets an empty frame, and so does a work package that the user cannot see. After a proposal changed the work package, the component reloads it, so the next inline edit does not conflict.
 2. The menu frame renders one flat item for each skill that is ready (`AI::AssistantSkill#ready?`) of each active assistant, and a "History" item at the end.
 3. A skill that answers at once posts to `ChatsController#start`: a new chat that starts with a start message (role `start`). `#rerun` adds another start to the same chat. Any other skill opens `ChatsController#show`, an empty chat for the user's own question.
 4. `AI::AssistantChats::SendMessageService` stores the question or the start and a pending answer, and `ReplyJob` answers as the user. The dialog polls `#poll` until the answer is done or failed.
@@ -204,7 +204,7 @@ This change comes as one pull request so that it can be tried end to end. Each c
 | 12 | Add the AI Assistance chat on work packages | Chat tables and models, reply job, chat skill type, chat dialog, `Journal::CausedByAssistantChat` | 10, 11 |
 | 13 | Add custom prompt presets, a comment-only scope and a copy button | Custom prompt skill type, `ChatsController#start`, `proposal_scope`, copy button | 12 |
 | 14 | Use "AI review" in the interface | Wording | 9 |
-| 15 | Rename the AI judgement to AI review, and move shared proposal classes to AI::Assistance | Renames only | 14 |
+| 15 | Rename the AI judgment to AI review, and move shared proposal classes to AI::Assistance | Renames only | 14 |
 | 16 | Clean up AI Assistance after review | Shared LLM call, event log and locale helpers, dead code, seeded prompts, this document | 15 |
 | 17 | Add personal AI assistants in My account | Owner column, `manage_own_ai_assistants`, My account pages, shared admin and My controller logic | 11 |
 | 18 | Let a group own an AI assistant | `principal_id` owner, group choice in admin, menu for group members | 17 |

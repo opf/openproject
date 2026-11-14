@@ -45,7 +45,7 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
   current_user { user }
 
   describe "GET show" do
-    it "renders the labelled menu button in the frame" do
+    it "renders the labeled menu button in the frame" do
       get "/ai_assistance/menu", params: { work_package_id: work_package.id }
 
       expect(response).to have_http_status(:ok)

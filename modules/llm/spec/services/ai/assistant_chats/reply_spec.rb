@@ -140,7 +140,7 @@ RSpec.describe AI::AssistantChats::Reply, with_flag: { ai_assistance: true } do
   describe "findings with the area none" do
     let(:answer) do
       { answer: "Zwei Befunde.", proposals: [
-        { severity: "medium", area: "none", text: "Der Betreff ist veraltet.",
+        { severity: "medium", area: "none", text: "Der Betreff passt nicht mehr.",
           evidence: ["Public note"], changes: [{ field: "subject", value: "New subject" }] },
         { severity: "low", area: "none", text: "Unklar.", evidence: ["Public note"], changes: [] },
         { severity: "low", area: "content", text: "Ohne Beleg.", evidence: [], changes: [] },
@@ -190,11 +190,11 @@ RSpec.describe AI::AssistantChats::Reply, with_flag: { ai_assistance: true } do
 
   describe "an answer that loses all its proposals" do
     let(:lost) do
-      { answer: "Ein Befund.", proposals: [{ severity: "high", area: "status", text: "Ohne Beleg.", evidence: [], changes: [] }] }
+      { answer: "Befund.", proposals: [{ severity: "high", area: "status", text: "Ohne Beleg.", evidence: [], changes: [] }] }
     end
     let(:fixed) do
-      { answer: "Ein Befund.", proposals: [{ severity: "high", area: "status", text: "Mit Beleg.",
-                                             evidence: ["Public note"], changes: [] }] }
+      { answer: "Befund.", proposals: [{ severity: "high", area: "status", text: "Mit Beleg.",
+                                         evidence: ["Public note"], changes: [] }] }
     end
     let(:answers) { [lost, fixed] }
 
@@ -361,7 +361,7 @@ RSpec.describe AI::AssistantChats::Reply, with_flag: { ai_assistance: true } do
     end
 
     it "sends the project as context, asks for no proposals and stores none" do
-      message = ask("Was ist offen?")
+      message = ask("Was bleibt offen?")
 
       expect(message).to be_done
       expect(message.content).to eq("Drei offene Arbeitspakete.")

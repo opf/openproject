@@ -95,6 +95,15 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
 
   def cause_description
     case cause["type"]
+    when "assistant_skill", "assistant_chat"
+      assistant_message
+    else
+      system_cause_description
+    end
+  end
+
+  def system_cause_description
+    case cause["type"]
     when "system_update"
       system_update_message
     when "working_days_changed"
@@ -113,8 +122,6 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
       label_deleted_message
     when "work_package_parent_deleted"
       I18n.t("journals.cause_descriptions.work_package_parent_deleted")
-    when "assistant_skill", "assistant_chat"
-      assistant_message
     else
       related_work_package_changed_message
     end
