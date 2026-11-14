@@ -3224,6 +3224,7 @@ da:
       work_package_query_relation_columns: Relationskolonner i visninger af arbejdspakker
       work_package_sharing: Del arbejdspakker med eksterne brugere
       work_package_subject_generation: Automatisk dannede emner for arbejdspakker
+      xwiki_integration: XWiki Integration
     teaser:
       description_html: Du har adgang til alle funktioner i %{trial_plan}.
       title:
@@ -5691,7 +5692,7 @@ da:
   permission_comment_news: Kommenter nyheder
   permission_commit_access: Læse- og skriveadgang til repository (commit)
   permission_copy_projects: Dupliker projekter
-  permission_copy_projects_explanation: Allows copying all project data, including content and attachments the user cannot view in the source project. The role can effectively grant access to all copied data depending on the role in the new project. It also allows creating projects from templates.
+  permission_copy_projects_explanation: Giver mulighed for at kopiere alle projektdata, herunder indhold og vedhæftede filer, som brugeren ikke kan se i kildeprojektet. Afhængigt af rollen i det nye projekt kan rollen i praksis give adgang til alle de kopierede data. Den giver også mulighed for at oprette projekter ud fra skabeloner.
   permission_copy_work_packages: Dupliker arbejdspakker
   permission_create_backup: Opret sikkerhedskopier
   permission_create_user: Opret brugere
@@ -7367,6 +7368,7 @@ da:
         rename_group: Omdøb afsnit
         required:
           already_required_globally: Det brugerdefinerede felt er påkrævet for alle typer.
+          excluded: Switch this custom field on before requiring it for this type.
           for_variant: Påkrævet for denne type
           globally: Påkrævet
           globally_hint: Det ændres på det brugerdefinerede felt
@@ -7444,6 +7446,7 @@ da:
           success: Konfigurationen er kopieret.
         exclusions:
           not_inherited: Konfigurationen er ikke nedarvet, så der er intet at udelade. Rediger i stedet konfigurationen direkte.
+          required: A required custom field cannot be switched off.
           unknown_aspect: Ukendt konfigurationsafsnit "%{aspect}".
         inherited:
           configure_manually: Konfigurer manuelt
@@ -7507,9 +7510,9 @@ da:
           description: Projekter, der bruger varianten, skiftes til den variant, som du vælger nedenfor, før varianten slettes.
           title: Slet %{name}
           unused:
-            description: The variant will be deleted permanently. This action cannot be undone.
-            heading: Delete variant '%{name}'?
-            title: Delete variant
+            description: Varianten slettes permanent. Handlingen kan ikke fortrydes.
+            heading: Vil du slette varianten '%{name}'?
+            title: Slet variant
         filter: Filtrér efter tekst
         filter_no_results: Ingen varianter matcher filteret
         global_section:

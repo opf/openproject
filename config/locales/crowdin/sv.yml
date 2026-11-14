@@ -3222,6 +3222,7 @@ sv:
       work_package_query_relation_columns: Relationskolumner för arbetspaketsfrågor
       work_package_sharing: Dela arbetspaket med externa användare
       work_package_subject_generation: Generering av arbetspaketsrubriker
+      xwiki_integration: XWiki Integration
     teaser:
       description_html: Du har tillgång till alla funktioner i %{trial_plan}.
       title:
@@ -7356,6 +7357,7 @@ sv:
         rename_group: Döp om sektion
         required:
           already_required_globally: Det här anpassade fältet är obligatoriskt för alla typer.
+          excluded: Switch this custom field on before requiring it for this type.
           for_variant: Required for this type
           globally: Krävs
           globally_hint: Ändra detta i det anpassade fältet
@@ -7433,6 +7435,7 @@ sv:
           success: Konfigurationen har kopierats.
         exclusions:
           not_inherited: Den här konfigurationen ärvs inte, så det finns inget att undanta. Redigera konfigurationen direkt i stället.
+          required: A required custom field cannot be switched off.
           unknown_aspect: Okänt konfigurationsavsnitt "%{aspect}".
         inherited:
           configure_manually: Konfigurera manuellt

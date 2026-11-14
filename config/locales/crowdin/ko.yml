@@ -3095,6 +3095,7 @@ ko:
       work_package_query_relation_columns: 작업 패키지 쿼리 관계 열
       work_package_sharing: 외부 사용자와 작업 패키지 공유
       work_package_subject_generation: 작업 패키지 제목 생성
+      xwiki_integration: XWiki Integration
     teaser:
       description_html: 모든 %{trial_plan} 기능에 액세스할 수 있습니다.
       title:
@@ -7195,6 +7196,7 @@ ko:
         rename_group: 섹션 이름 바꾸기
         required:
           already_required_globally: 이 사용자 지정 필드는 모든 유형에서 필수입니다.
+          excluded: Switch this custom field on before requiring it for this type.
           for_variant: Required for this type
           globally: 필수
           globally_hint: 사용자 지정 필드에서 이 항목을 변경하세요
@@ -7272,6 +7274,7 @@ ko:
           success: 구성이 복사되었습니다.
         exclusions:
           not_inherited: 이 구성은 상속되지 않으므로, 제외할 항목이 없습니다. 대신 구성을 직접 편집하세요.
+          required: A required custom field cannot be switched off.
           unknown_aspect: 알 수 없는 구성 섹션 "%{aspect}"입니다.
         inherited:
           configure_manually: 수동으로 구성

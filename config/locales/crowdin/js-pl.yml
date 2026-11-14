@@ -200,7 +200,7 @@ pl:
     custom_actions:
       date:
         current_date: Bieżąca data
-        specific: wł
+        specific: w dniu
     description_available_columns: Dostępne kolumny
     description_current_position: 'Jesteś tutaj: '
     description_select_work_package: 'Zaznacz zestaw Zadań #%{id}'

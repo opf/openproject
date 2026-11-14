@@ -3224,6 +3224,7 @@ li:
       work_package_query_relation_columns: Work Package Query Relation Columns
       work_package_sharing: Share work packages with external users
       work_package_subject_generation: Work Package Subject Generation
+      xwiki_integration: XWiki Integration
     teaser:
       description_html: You have access to all %{trial_plan} features.
       title:
@@ -7378,6 +7379,7 @@ li:
         rename_group: Rename section
         required:
           already_required_globally: This custom field is required for all types.
+          excluded: Switch this custom field on before requiring it for this type.
           for_variant: Required for this type
           globally: Required
           globally_hint: Change this on the custom field
@@ -7455,6 +7457,7 @@ li:
           success: The configuration was copied.
         exclusions:
           not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
+          required: A required custom field cannot be switched off.
           unknown_aspect: Unknown configuration section "%{aspect}".
         inherited:
           configure_manually: Configure manually

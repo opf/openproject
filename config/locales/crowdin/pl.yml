@@ -3512,6 +3512,7 @@ pl:
       work_package_query_relation_columns: Kolumny relacji zapytań dotyczących pakietów roboczych
       work_package_sharing: Udostępnij pakiety robocze użytkownikom zewnętrznym
       work_package_subject_generation: Generowanie tematu pakietu roboczego
+      xwiki_integration: XWiki Integration
     teaser:
       description_html: Masz dostęp do wszystkich funkcji %{trial_plan}.
       title:
@@ -6322,7 +6323,7 @@ pl:
       categories:
         no_results_content_text: Utwórz nową kategorię zadania
         no_results_title_text: Nie ma jeszcze żadnej kategorii zadania.
-      change_identifier: Identyfikator zmiany
+      change_identifier: Zmień identyfikator
       change_identifier_dialog_title: Zmień identyfikator projektu
       change_identifier_format_hint_legacy: Tylko małe litery (a–z), cyfry, myślniki lub znaki podkreślenia.
       change_identifier_format_hint_semantic: Tylko wielkie litery (A–Z), cyfry lub znaki podkreślenia. Maksymalnie 10 znaków. Musi zaczynać się od litery.
@@ -7735,6 +7736,7 @@ pl:
         rename_group: Zmień nazwę sekcji
         required:
           already_required_globally: To pole niestandardowe jest wymagane dla wszystkich typów.
+          excluded: Switch this custom field on before requiring it for this type.
           for_variant: Required for this type
           globally: Wymagane
           globally_hint: Zmień to w polu niestandardowym
@@ -7812,6 +7814,7 @@ pl:
           success: Konfiguracja została skopiowana.
         exclusions:
           not_inherited: Ta konfiguracja nie jest dziedziczona, więc nie ma czego wykluczać. Zamiast tego edytuj konfigurację bezpośrednio.
+          required: A required custom field cannot be switched off.
           unknown_aspect: Nieznana sekcja konfiguracji „%{aspect}”.
         inherited:
           configure_manually: Skonfiguruj ręcznie
