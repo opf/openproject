@@ -39,7 +39,7 @@ module CustomFields
       private
 
       def before_perform(service_call)
-        self.contract_options = { value: }
+        self.contract_options = { value:, project:, enabled: params[:enabled] }
 
         service_call
       end
