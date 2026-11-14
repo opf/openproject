@@ -58,7 +58,7 @@ In the template that opens, enter and save a title. Define the agenda structure 
 
 ![Name and define a new meeting template in OpenProject](openproject_userguide_meetings_templates_name_save.png)
 
-You can edit, delete, or view the history through the **More (three dots)** menu in the top right corner and selecting the respective option.
+You can change the sorting mode, edit, delete, or view the history through the **More (three dots)** menu in the top right corner and selecting the respective option.
 
 ![Edit, delete or view a meeting template history](openproject_userguide_meetings_templates_edit_delete_history.png)
 
@@ -87,7 +87,7 @@ If you choose the **one-time** option, enter your meeting's title, location, sta
 
 If you are creating a meeting from a global module you will first need to select a project to which the meeting is attributed. 
 
-If you are using (reusable meeting templates)(#meeting-templates-enterprise-add-on), you can also select a template. 
+If you are using [reusable meeting templates](#meeting-templates-enterprise-add-on), you can also select a template. 
 
 ![Create a new one-time meeting in OpenProject](openproject_userguide_meetings_new_onetime_meeting_form.png)
 
@@ -114,6 +114,8 @@ In draft mode, the meeting status indicator does not have drop-down options. No 
 After creating a meeting, you can set up a **meeting agenda** in draft mode. You can also edit the agenda at any time after opening the meeting.
 
 ![A newly created meeting in draft mode in OpenProject, highlighting draft status and banner](openproject_userguide_meetings_draft_mode_banner.png)
+
+![Additional image of a newly created meeting in draft mode in OpenProject, highlighting draft status and banner](openproject_userguide_meetings_draft_mode_banner_continued.png)
 
 Once you are done editing the draft, click the **Open meeting** button in the top right corner. 
 
@@ -210,11 +212,10 @@ You can also include work packages into the description section of other agenda 
 
 #### Edit a meeting agenda
 
-After you have finalized the agenda, you can still edit agenda items, add notes or delete items. Clicking on the **More** (three dots) menu icon on the right edge of each agenda item will display a menu of available options, including editing, adding a new item directly above or below it, copying a link to the clipboard, moving the agenda item to another section or to the backlog, or deleting it. In manual sorting mode, you can also move an item up or down.
+After you have finalized the agenda, you can still edit agenda items, add notes or delete items. Clicking on the **More** (three dots) menu icon on the right edge of each agenda item will display a menu of available options, including editing, adding a new item directly above or below it, copying a link to the clipboard, moving the agenda item to another section or to the backlog, or deleting it. 
 
 ![Edit, copy, move or delete an agenda item in OpenProject meetings module](openproject_userguide_meetings_agenda_item_more_icon_opened.png)
-UPDATE SCREENSHOT
-In manual sorting mode, you may also re-order agenda items by clicking on the drag handle (the icon with six dots) on the left edge of each agenda item and dragging that item above or below. To prioritize items through voting instead, use [vote-based sorting](#sort-agenda-items-and-vote).
+You may also re-order agenda items by clicking on the drag handle (the icon with six dots) on the left edge of each agenda item and dragging that item above or below.
 
 ![Drag handle next to an agenda item in OpenProject meetings](openproject_userguide_meetings_agenda_item_drag_handle.png)
 
@@ -229,10 +230,16 @@ Choose **Manual** sorting to arrange the agenda yourself, or **Vote-based** sort
 #### Change the sorting mode
 
 1. Click **Change sorting mode** in the sidebar, or open the meeting's **More** (three dots) menu and select **Sorting mode**.
-2. In the dialog, select **Manual** or **Vote-based**.
-3. Save your selection.
 
-Changing the sorting mode requires the **Edit meetings** permission in the project and is only available while the meeting is editable. Users with **View meetings** permission can see the current mode, even if they cannot change it.
+> [!NOTE]
+> Changing the sorting mode requires the **Edit meetings** permission in the project and is only available while the meeting is editable. Users with **View meetings** permission can see the current mode, even if they cannot change it.
+
+![Change sorting mode of agenda items in OpenProject](openproject_userguide_meetings_sorting_mode.png)
+
+2. In the dialog form that opens, select **Manual** or **Vote-based**.
+3. Click **Apply** to save your selection. 
+
+![Dialog form to select a sorting mode for meeting agenda items in OpenProject](openproject_userguide_meetings_change_sorting_mode.png)
 
 With vote-based sorting:
 
@@ -242,7 +249,9 @@ With vote-based sorting:
 - Drag-and-drop and actions to move agenda items up or down are disabled. You can still move an item to another section through its **More** menu.
 - Backlogs remain manually sorted and do not support voting.
 
-Switching back to **Manual** restores the manual item order and hides the vote counts and voting controls. Existing votes are retained and used again if you switch back to **Vote-based**.
+> [!NOTE]
+>
+> Switching back to **Manual** restores the manual item order and hides the vote counts and voting controls. Existing votes are retained and used again if you switch back to **Vote-based**.
 
 #### Vote on agenda items
 
@@ -252,10 +261,12 @@ Click 👍 to upvote or 👎 to downvote. Alternatively, open the item's **More*
 
 Each user can have one vote per item. Clicking your selected vote again removes it; selecting the opposite vote replaces your previous vote. The count and agenda order update after voting. Counts can be positive, zero or negative, for example **Votes: 13** or **Votes: -2**.
 
+![Vote-based mode for sorting meeting agenda items in OpenProject ](openproject_userguide_meetings_vote_based_sorting_mode.png)
+
 > [!NOTE]
 > Voting requires the **View meetings** permission in the project; you do not need permission to edit the agenda or be listed as a meeting participant. Voting is available in draft, open and in-progress meetings, but not in closed or cancelled meetings, meeting templates or backlogs.
-
-Votes stay with an item when it is moved between sections of the same meeting. Moving an item to another meeting resets its votes.
+>
+> Votes stay with an item when it is moved between sections of the same meeting. Moving an item to another meeting resets its votes.
 
 ### Agenda backlogs
 
@@ -432,7 +443,7 @@ You can use the search bar to search for a work package name or ID.
 
 Once added, the work package will appear as an outcome under the agenda item. Work package outcomes can be removed again if needed. From the **More** (three dots) menu, you can copy the work package URL or remove the outcome.
 
-![Copy link or remove a work package outcome from an OpenProject meeting](openproject_userguide_meetings_agenda_outcome_existing_wp_edit.png)
+![Copy link or remove a work package outcome from an OpenProject meeting](openproject_userguide_meetings_agenda_outcome_existing_wp_more_menu.png)
 
 #### New work package
 
@@ -490,7 +501,7 @@ You can change the status of a meeting depending on whether you are preparing it
 
 [**Draft mode**](#meeting-draft-mode) is used while preparing a meeting before it is opened. In this mode you can outline the agenda, add or adjust items, work on the content, and adjust participants without running the meeting yet. Draft mode is intended for internal preparation and does not represent the start of the meeting.
 
-Once the preparation stage is finalized, meetings in OpenProject transition to an active phase and can have three different statuses: Open, In Progress, and Closed. Depending on the meeting status, different options are available, such as editing the agenda, adding outcomes, or finalizing the meeting. You can transition between these statuses using the meeting status button  with a drop-down menu under the meeting name or in the right-hand pane.
+Once the preparation stage is finalized, meetings in OpenProject transition to an active phase and can have three different statuses: **Open**, **In Progress**, and **Closed**. Depending on the meeting status, different options are available, such as editing the agenda, adding outcomes, or finalizing the meeting. You can transition between these statuses using the meeting status button  with a drop-down menu under the meeting name or in the right-hand pane.
 
 ![Meeting status in OpenProject](openproject_userguide_meetings_meeting_status.png)
 
@@ -510,7 +521,7 @@ When a meeting is _Open_, you can prepare the agenda by adding or removing agend
 >
 > In an open meeting state in addition to the status menu, you will directly see the **Start a meeting** link on the right.
 
-![Link to start a meeting in OpenProject](openproject_userguide_meetings_meeting_mark_in_progress.png)
+![Link to start a meeting in OpenProject](openproject_userguide_meetings_meeting_marked_open.png)
 
 ### Mark meeting in progress
 
@@ -537,7 +548,7 @@ When a meeting is closed, you can still copy a link to a specific agenda item or
 
 ### Re-open a meeting
 
-Once a meeting has been closed, it can no longer be edited. Project  members with the permission to edit and close meetings will, however,  see a **Re-open meeting** option. Clicking on this re-opens a meeting and allows further editing.
+Once a meeting has been closed, it can no longer be edited. Project  members with the permission to edit and close meetings will, however,  see a **Reopen meeting** option. Clicking on this re-opens a meeting and allows further editing.
 
 ![Re-open a meeting in OpenProject](openproject_userguide_meetings_reopen_meeting.png)
 
@@ -568,6 +579,8 @@ Presentation mode will be activated. It will show the following:
 You can navigate through the meeting presentation by either clicking the _Previous/Next_ navigation buttons, or by using arrow keys of your keyboard.
 
 Meeting changes made during the presentation are updated automatically unless an item is actively being edited.
+
+For recurring meetings, the **More** (...) menu option beside the presenter's name allows you to move an agenda item to the backlog or to the next meeting.
 
 To exit the presentation mode click the Exit presentation button in the header. 
 
@@ -631,6 +644,10 @@ If you copy a closed meeting, the new meeting status will automatically be set t
 
 ## Delete a meeting
 
-You can delete a meeting. To do so, click on the three dots in the top right corner, select **Delete meeting** and confirm your choice.
+You can delete a meeting. To do so, click on the three dots in the top right corner, select **Delete meeting**.
 
 ![Deleting a meeting in OpenProject](openproject_userguide_meetings_delete_meeting.png)
+
+In the dialog form that appears on your screen, you may add a reason for cancellation before clicking **Delete**. When email notifications are enabled, participants will also be notified of the reason for cancellation.
+
+![Add reason for deleting a meeting in OpenProject](openproject_userguide_meetings_delete_meeting_reason.png)

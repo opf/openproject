@@ -51,6 +51,8 @@ Meetings will be grouped based on the meeting start time into the following grou
 
 ![Meetings overview in openproject global modules](openproject_userguide_meetings_overview.png)
 
+![](openproject_userguide_meetings_overview_continued.png)
+
 ### Meetings filters
 
 The menu on the left will allow you to filter meetings based on following:
@@ -58,8 +60,9 @@ The menu on the left will allow you to filter meetings based on following:
 - **My meetings** lists all meetings you participate in
 - **Recurring meetings** lists all recurring meetings visible to you
 - **All meetings** lists all meetings visible to you
+- **Templates** lists all meeting templates in projects visible to you
 - **Meeting series** lists meeting occurrences that are part of recurring meetings
-- **Invitations** lists all meetings you are invited to
+- **Involvement** lists all meetings you are invited to
 - **Attended** lists all meetings in which you were marked as having attended
 - **Created by me** lists all meetings created by you
 
@@ -75,9 +78,15 @@ You can also use the meetings filters to refine the list of meetings based on th
 
 - **Invited user** - shows meetings that a specific user was invited to
 
+- **Meeting status** - shows meetings that are in draft mode, Open, In progress or Closed
+
 - **Part of a meeting series** - shows meetings that are part of specific meeting series
 
 - **Project** - shows meetings for a specific project (this will only be displayed in the global module view, i.e. not within a specific project)
+
+- **Start time** - shows meetings that are upcoming or past
+
+- **Title** - shows meetings that contain or do not contain certain letters or keywords
 
   ![Filter the list of dynamic meetings in OpenProject](openproject_userguide_meetings_filters.png)
 
