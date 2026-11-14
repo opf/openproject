@@ -61,9 +61,14 @@ RSpec.describe TimeEntries::CreateContract do
       let(:permissions) { [] }
 
       it "is invalid" do
-        expect_valid(false,
-                     entity: %i(cannot_log_for_this_work_package),
-                     base: %i(error_unauthorized))
+        expect_valid(false, base: %i(error_unauthorized))
+      end
+
+      it "explains that time cannot be logged for the work package" do
+        contract.validate
+
+        expect(contract.errors.full_messages_for(:base))
+          .to contain_exactly("You don't have permissions to log time for this work package.")
       end
     end
 
@@ -88,9 +93,7 @@ RSpec.describe TimeEntries::CreateContract do
         let(:changed_by_system) { {} }
 
         it "is invalid" do
-          expect_valid(false,
-                       entity: %i(cannot_log_for_this_work_package),
-                       base: %i(error_unauthorized))
+          expect_valid(false, base: %i(error_unauthorized))
         end
       end
     end
@@ -107,9 +110,7 @@ RSpec.describe TimeEntries::CreateContract do
       end
 
       it "is invalid" do
-        expect_valid(false,
-                     entity: %i(cannot_log_for_this_work_package),
-                     base: %i(error_unauthorized))
+        expect_valid(false, base: %i(error_unauthorized))
       end
     end
 
@@ -134,9 +135,7 @@ RSpec.describe TimeEntries::CreateContract do
       end
 
       it "is invalid" do
-        expect_valid(false,
-                     entity: %i(cannot_log_for_this_work_package),
-                     base: %i(error_unauthorized))
+        expect_valid(false, base: %i(error_unauthorized))
       end
     end
 
@@ -148,16 +147,43 @@ RSpec.describe TimeEntries::CreateContract do
       end
     end
 
-    context "if logging for another user who is not a project member" do
+    context "if logging for another user who cannot see the work package" do
       let(:time_entry_user) { other_user }
 
       before do
-        allow(other_user).to receive(:member_of?).with(time_entry_project).and_return(false)
+        allow(time_entry_entity).to receive(:visible?).with(other_user).and_return(false)
       end
 
       it "is invalid" do
-        expect_valid(false, base: %i(error_unauthorized))
+        expect_valid(false, user_id: %i(no_access_to_entity))
       end
+    end
+  end
+
+  context "when the work package is shared with a user who is not a project member" do
+    subject(:contract) { described_class.new(time_entry, user) }
+
+    let(:project) { create(:project, public: false) }
+    let(:work_package) { create(:work_package, project:) }
+    let(:user) { create(:user) }
+    let(:work_package_role) { create(:work_package_role, permissions: %i[view_work_packages log_own_time]) }
+    let(:activity) { create(:time_entry_activity) }
+    let(:time_entry) do
+      TimeEntry.new(project:, entity: work_package, activity:, spent_on: Time.zone.today, hours: 1).tap do |t|
+        t.extend(OpenProject::ChangedBySystem)
+        t.change_by_system do
+          t.user = user
+          t.logged_by = user
+        end
+      end
+    end
+
+    before do
+      create(:work_package_member, entity: work_package, user:, roles: [work_package_role])
+    end
+
+    it "is valid" do
+      expect(contract.validate).to be(true), contract.errors.details.inspect
     end
   end
 end

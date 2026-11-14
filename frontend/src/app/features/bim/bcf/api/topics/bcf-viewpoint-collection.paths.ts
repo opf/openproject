@@ -42,7 +42,7 @@ export class BcfTopicCollectionPath extends BcfResourceCollectionPath<BcfTopicPa
     super(injector, basePath, segment, BcfTopicPaths);
   }
 
-  get(params:HTTPClientParamMap = {}, headers:HTTPClientHeaders = {}) {
+  get(_params:HTTPClientParamMap = {}, _headers:HTTPClientHeaders = {}) {
     throw new Error('Not implemented');
   }
 

@@ -31,18 +31,20 @@ module Backlogs
   module SprintReports
     module Widgets
       class BurndownChart < Grids::WidgetComponent
+        include BurnChartBlankslate
+
         param :sprint
         param :project
 
-        def title
-          t("backlogs.show_burndown_chart")
-        end
+        def title = t(".title")
 
         # Timestamps go out as UTC; the chart renders them in the viewer's zone. They sit at
         # period ends, so the chart needs the step to label them the way a reader expects.
         def chart_data
           {
+            unit:,
             step: burndown.step,
+            range: charted_range,
             series: series,
             nonWorkingIntervals: non_working_intervals
           }.to_json
@@ -52,11 +54,17 @@ module Backlogs
           { full_width: true }
         end
 
+        def render?
+          sprint.date_range_set? && !project.estimation_unit_none?
+        end
+
         private
 
-        def burndown
-          return nil unless sprint.date_range_set?
+        def unit = project.estimation_unit_time? ? :time : :story_points
 
+        delegate :too_long_to_chart?, :anything_to_chart?, to: :burndown, private: true
+
+        def burndown
           @burndown ||= ::Sprints::Burndown.new(sprint:, project:)
         end
 
@@ -65,14 +73,25 @@ module Backlogs
             guideline: burndown.guideline,
             projection: burndown.projection }
             .reject { |_, points| points.empty? }
-            .map { |id, points| { id:, label: t("backlogs.burndown_chart.series.#{id}"), data: points_for(points) } }
+            .map { |id, points| { id:, label: series_label(id), data: points_for(points) } }
+        end
+
+        def series_label(id)
+          t(id == :guideline ? ".series.#{id}" : ".series.#{id}.#{unit}")
         end
 
         # Both coordinates are cut to what the chart can read: milliseconds, and a thousandth of a
-        # story point. The guideline and the projection divide a sum across the working days left,
+        # unit. The guideline and the projection divide a sum across the working days left,
         # so without the rounding they would go out carrying every digit that division produced into the JSON.
         def points_for(points)
           points.map { { x: it.at.utc.iso8601(3), y: it.value.round(3) } }
+        end
+
+        # Not the span the data covers: the guideline reaches the planned finish while the
+        # measured series stop at the present moment.
+        def charted_range
+          { from: burndown.charted_range.first.utc.iso8601(3),
+            to: burndown.charted_range.last.utc.iso8601(3) }
         end
 
         def non_working_intervals

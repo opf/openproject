@@ -1,0 +1,21 @@
+---
+description: |-
+  Repository resources are issues, merge requests, branches and commits of external code hosting
+  providers (e.g. GitLab) that were linked to work packages. They are synchronized into OpenProject
+  by the provider integration and can only be read through the API.
+
+  A repository resource is visible to a user if it is linked to at least one work package for which the
+  user has the permission to show repository content.
+
+  ## Resource types
+
+  | Type                   | Description                                       | Linked to work packages |
+  | :--------------------: | ------------------------------------------------- | ----------------------- |
+  | RepositoryIssue        | An issue of a repository                          | any number              |
+  | RepositoryMergeRequest | A merge (or pull) request                         | any number              |
+  | RepositoryPipeline     | A CI pipeline run for a merge request             | via its merge request   |
+  | RepositoryBranch       | A branch of a repository                          | exactly one             |
+  | RepositoryCommit       | A commit of a repository                          | any number              |
+
+  Authors are embedded as plain objects. They are not resources of their own.
+name: Repositories

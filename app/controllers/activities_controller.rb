@@ -106,7 +106,7 @@ class ActivitiesController < ApplicationController
   end
 
   def determine_author
-    @author = params[:user_id].blank? ? nil : User.active.find(params[:user_id])
+    @author = params[:user_id].blank? ? nil : User.active.visible.find(params[:user_id])
   end
 
   def respond_html

@@ -45,7 +45,7 @@ export abstract class RowsBuilder {
   /**
    * Determine if this builder applies to the current view mode.
    */
-  public isApplicable(table:WorkPackageTable) {
+  public isApplicable(_table:WorkPackageTable) {
     return true;
   }
 }

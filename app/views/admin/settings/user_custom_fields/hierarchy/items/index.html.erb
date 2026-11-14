@@ -26,7 +26,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), t("settings.user_custom_fields.heading"), @custom_field.name, t(:label_item_plural) %>
+<% html_title t(:label_administration), t("settings.user_custom_fields.heading"), @custom_field.name, t(:label_value_plural) %>
 
 <%= render(Settings::UserCustomFields::EditFormHeaderComponent.new(custom_field: @custom_field, selected: :items)) %>
 

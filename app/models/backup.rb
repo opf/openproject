@@ -49,6 +49,7 @@ class Backup < Export
     def attachments_query
       Attachment
         .not_pending_direct_upload
+        .not_incomplete_import
         .where.not(container_type: nil)
         .where.not(container_type: Export.name)
     end

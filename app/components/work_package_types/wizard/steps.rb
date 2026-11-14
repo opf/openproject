@@ -32,7 +32,7 @@ module WorkPackageTypes
     # The steps of the variant creation wizard, in order. Every step submits its form
     # through the wizard controller, which persists it and advances.
     module Steps
-      ALL = %i[start details defaults form_configuration project_attributes workflows projects pdf].freeze
+      ALL = %i[start details defaults form_configuration workflows project_attributes projects pdf].freeze
 
       FIRST_EDITABLE = :details
 

@@ -63,7 +63,7 @@ RSpec.describe Exports::Formatters::CustomField, "with a datetime custom field",
   end
 
   context "for PDF exports" do
-    subject(:formatter) { Exports::Formatters::CustomFieldPdf.new("cf_#{custom_field.id}") }
+    subject(:formatter) { Exports::Formatters::PDF::CustomField.new("cf_#{custom_field.id}") }
 
     it_behaves_like "formats the value in the user's time zone"
   end

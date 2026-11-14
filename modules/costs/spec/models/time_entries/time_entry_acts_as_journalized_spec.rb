@@ -35,7 +35,7 @@ RSpec.describe TimeEntry do
     shared_let(:work_package) { create(:work_package, project:) }
     shared_let(:user) { create(:user) }
     shared_let(:other_user) { create(:user) }
-    shared_let(:rate) { create(:hourly_rate, user:, project:, valid_from: Date.new(2026, 1, 8), rate: 1) }
+    shared_let(:rate) { create(:hourly_rate, principal: user, project:, valid_from: Date.new(2026, 1, 8), rate: 1) }
     shared_let(:activity) { create(:time_entry_activity) }
 
     current_user { user }

@@ -49,6 +49,12 @@ describe('isSelectAllShortcut', () => {
     },
   );
 
+  it('rejects Shift (Ctrl/Cmd+Shift+A is not select all)', () => {
+    expect(isSelectAllShortcut(new KeyboardEvent('keydown', { key: 'A', code: 'KeyA', ctrlKey: true, shiftKey: true }), false)).toBe(false);
+    expect(isSelectAllShortcut(new KeyboardEvent('keydown', { key: 'A', code: 'KeyA', metaKey: true, shiftKey: true }), true)).toBe(false);
+    expect(isSelectAllShortcut(new KeyboardEvent('keydown', { key: 'Ф', code: 'KeyA', ctrlKey: true, shiftKey: true }), false)).toBe(false);
+  });
+
   it('rejects AltGraph', () => {
     const event = new KeyboardEvent('keydown', { key: 'a', ctrlKey: true });
     vi.spyOn(event, 'getModifierState').mockImplementation((key) => key === 'AltGraph');

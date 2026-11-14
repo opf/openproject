@@ -30,7 +30,7 @@
 require "spec_helper"
 require "features/work_packages/work_packages_page"
 
-RSpec.describe "work package export", :js, :selenium do
+RSpec.describe "work package export", :js do
   let(:project) { create(:project_with_types, types: [type_a, type_b]) }
   let(:export_type) { "CSV" }
   let(:current_user) { create(:admin) }
@@ -117,9 +117,8 @@ RSpec.describe "work package export", :js, :selenium do
 
   def show_export_dialog!
     settings_menu.open_and_choose I18n.t("js.toolbar.settings.export")
-    expect(page).to have_css("#op-work-packages-export-dialog", wait: 5)
+    wait_for_size_animation_completion(find_by_id("op-work-packages-export-dialog", wait: 5))
     click_on export_type
-    sleep 0.1
   end
 
   def open_export_dialog!(query_target = :query)
@@ -207,6 +206,7 @@ RSpec.describe "work package export", :js, :selenium do
     end
 
     it "opens the dialog and exports without leaving the split view" do
+      expect(page).to have_css("#work-package-details-#{wp1.id}")
       show_export_dialog!
       export!
     end

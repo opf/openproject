@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
     settings_primer_form_with(model: target_project, url: copy_project_path(source_project), method: :post) do |f|
       flex_layout do |container|
         container.with_row(mb: 3) do
-          render(OpPrimer::InsetBoxComponent.new) do
+          render(Primer::OpenProject::InsetBox.new) do
             render(Projects::CopyForm.new(f, copy_options:))
           end
         end

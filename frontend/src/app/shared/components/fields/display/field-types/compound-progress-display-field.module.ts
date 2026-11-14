@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { withTooltip } from 'core-app/shared/helpers/tooltip-helper';
 import { upperFirst } from 'lodash-es';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
@@ -52,7 +53,6 @@ export class CompoundProgressDisplayField extends DisplayField {
 
   public render(element:HTMLElement, displayText:string):void {
     element.classList.add('split-time-field');
-    element.setAttribute('title', displayText);
 
     this.renderActual(element, displayText);
 
@@ -78,12 +78,11 @@ export class CompoundProgressDisplayField extends DisplayField {
     const link = document.createElement('a');
 
     link.textContent = `Σ ${displayText}`;
-    link.title = `${displayText} ${this.derivedText}`;
     link.classList.add('-derived-value', uiStateLinkClass);
 
     this.hierarchyQueryLinkHelper.addHref(link, this.resource);
 
-    element.appendChild(link);
+    element.appendChild(withTooltip(link, this.derivedText, 'description'));
   }
 
   public renderSeparator(element:HTMLElement):void {
@@ -94,6 +93,10 @@ export class CompoundProgressDisplayField extends DisplayField {
     span.ariaHidden = 'true';
 
     element.appendChild(span);
+  }
+
+  public override get title():string|null {
+    return null;
   }
 
   public isEmpty():boolean {

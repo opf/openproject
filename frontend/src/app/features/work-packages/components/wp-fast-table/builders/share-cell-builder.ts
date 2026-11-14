@@ -29,6 +29,8 @@ import { Injector } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { QueryColumn } from '../../wp-query/query-column';
 import { tdClassName } from './cell-builder';
+import { navigableCellClassName } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
+import { removeTabStops } from 'core-app/shared/helpers/dom/remove-tab-stops';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { PrincipalRendererService } from 'core-app/shared/components/principal/principal-renderer.service';
@@ -49,6 +51,8 @@ export class ShareCellbuilder {
     td.classList.add(tdClassName, column.id);
     td.dataset.columnId = column.id;
 
+    td.classList.add(navigableCellClassName);
+
     const relevantShares = this
       .isolatedQuerySpace
       .workPackageSharesCache
@@ -67,6 +71,8 @@ export class ShareCellbuilder {
 
       td.setAttribute('title', this.I18n.t('js.work_packages.sharing.show_all_users'));
     }
+
+    removeTabStops(td);
 
     return td;
   }

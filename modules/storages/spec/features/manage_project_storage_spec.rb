@@ -44,6 +44,8 @@ RSpec.describe("Activation of storages in projects",
                with_settings: { notifications_polling_interval: 1_000 }) do
   include Flash::Expectations
 
+  include_context "with axe on Cuprite"
+
   def open_delete_dialog
     delete_selector = "a.icon-delete[title='#{I18n.t(:button_delete)}']"
     delete_link = wait_for_stimulus_controller(delete_selector, "async-dialog", wait: 20)
@@ -133,6 +135,10 @@ RSpec.describe("Activation of storages in projects",
       location_picker.enter_folder("Folder1")
       location_picker.wait_for_folder_loaded
     end
+    page.within(location_picker.container) do
+      expect(page).to have_button(accessible_name: storage.name, exact: true)
+    end
+    expect(page).to be_axe_clean.within("spot-breadcrumbs")
     location_picker.confirm
 
     # Add storage
@@ -215,7 +221,8 @@ RSpec.describe("Activation of storages in projects",
       it "automatic option is not available" do
         visit edit_project_settings_project_storage_path(project_id: project, id: project_storage)
 
-        expect(page).to have_no_content("New folder with automatically managed permissions")
+        expect(page).to have_text("Edit the file storage to this project")
+        expect(page).to have_no_text("New folder with automatically managed permissions")
       end
     end
 
@@ -227,7 +234,7 @@ RSpec.describe("Activation of storages in projects",
       it "automatic option is available" do
         visit edit_project_settings_project_storage_path(project_id: project, id: project_storage)
 
-        expect(page).to have_content("New folder with automatically managed permissions")
+        expect(page).to have_text("New folder with automatically managed permissions")
       end
     end
   end
@@ -242,7 +249,7 @@ RSpec.describe("Activation of storages in projects",
         it "shows the option for manually managed permissions" do
           visit edit_project_settings_project_storage_path(project_id: project, id: project_storage)
 
-          expect(page).to have_content("Existing folder with manually managed permissions")
+          expect(page).to have_text("Existing folder with manually managed permissions")
         end
       end
 
@@ -258,7 +265,8 @@ RSpec.describe("Activation of storages in projects",
         it "shows no option for manually managed permissions" do
           visit edit_project_settings_project_storage_path(project_id: project, id: project_storage)
 
-          expect(page).to have_no_content("Existing folder with manually managed permissions")
+          expect(page).to have_text("Edit the file storage to this project")
+          expect(page).to have_no_text("Existing folder with manually managed permissions")
         end
       end
     end

@@ -44,7 +44,7 @@
     @if (workPackage) {
       <div class="work-packages--details-toolbar-container">
         <wp-details-toolbar [workPackage]="workPackage"
-          [displayNotificationsButton]="(displayNotificationsButton$ | async)"
+          [displayNotificationsButton]="(displayNotificationsButton$ | async) ?? false"
          />
       </div>
     }

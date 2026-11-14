@@ -473,11 +473,11 @@ RSpec.describe Admin::Import::JiraController do
 
   describe "POST #test_connection" do
     let(:jira_client) { instance_double(Import::JiraClient) }
-    let(:mypermissions_response) { { "permissions" => { "ADMINISTER" => { "havePermission" => true } } } }
+    let(:administrator) { true }
 
     before do
       allow(Import::JiraClient).to receive(:new).and_return(jira_client)
-      allow(jira_client).to receive(:mypermissions).and_return(mypermissions_response)
+      allow(jira_client).to receive(:administrator?).and_return(administrator)
     end
 
     context "with bearer auth" do
@@ -511,6 +511,18 @@ RSpec.describe Admin::Import::JiraController do
           basic_auth_username: nil,
           basic_auth_password: nil
         )
+      end
+
+      context "when the token does not belong to a Jira administrator" do
+        let(:administrator) { false }
+
+        it "asks for an admin token" do
+          post :test_connection,
+               params: { url: "https://jira.example.com", auth_method: "bearer", personal_access_token: "token" },
+               format: :turbo_stream
+          expect(response.body).to include(I18n.t(:"admin.jira.test.not_administrator.bearer"))
+          expect(response.body).not_to include(I18n.t(:"admin.jira.test.success", server: "My Jira Server", version: "9.0.0"))
+        end
       end
     end
 
@@ -555,6 +567,22 @@ RSpec.describe Admin::Import::JiraController do
           basic_auth_username: "user",
           basic_auth_password: "pass"
         )
+      end
+
+      context "when the user is not a Jira administrator" do
+        let(:administrator) { false }
+
+        it "asks for a Jira administrator" do
+          post :test_connection,
+               params: {
+                 url: "https://jira.example.com",
+                 auth_method: "basic",
+                 basic_auth_username: "user",
+                 basic_auth_password: "pass"
+               },
+               format: :turbo_stream
+          expect(response.body).to include(I18n.t(:"admin.jira.test.not_administrator.basic"))
+        end
       end
     end
 

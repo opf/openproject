@@ -77,8 +77,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements Aft
   readonly turboRequests = inject(TurboRequestsService);
   readonly I18n = inject(I18nService);
 
-  // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('opSettingsContextMenu-query') public query:QueryResource;
+  public query:QueryResource;
 
   @Input() public hideTableOptions:boolean;
 
@@ -191,7 +190,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements Aft
         linkText: this.I18n.t('js.toolbar.settings.configure_view'),
         hidden: this.hideTableOptions,
         icon: 'icon-settings',
-        onClick: (event:MouseEvent) => {
+        onClick: (_event:MouseEvent) => {
           this.opContextMenu.close();
           this.opModalService.show(WpTableConfigurationModalComponent, this.injector);
 
@@ -200,7 +199,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements Aft
       },
       {
         // Insert columns
-        linkText: this.I18n.t('js.work_packages.query.insert_columns'),
+        linkText: this.I18n.t('js.work_packages.query.add_columns'),
         hidden: this.hideTableOptions,
         icon: 'icon-columns',
         class: 'hidden-for-mobile',

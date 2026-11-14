@@ -279,10 +279,10 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
     end
 
     context "with a sprint container" do
-      it "uses the work package menu source" do
+      it "points the deferred menu at the collection endpoint with its own id" do
         expect(rendered_card).to have_element(
-          "include-fragment",
-          src: menu_project_backlogs_work_package_path(project, work_package)
+          "action-menu",
+          src: menu_project_backlogs_work_packages_path(project, ids: [work_package.id], invoker_id: work_package.id)
         )
       end
     end
@@ -292,8 +292,8 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
 
       it "uses the work package menu source" do
         expect(rendered_card).to have_element(
-          "include-fragment",
-          src: menu_project_backlogs_work_package_path(project, work_package)
+          "action-menu",
+          src: menu_project_backlogs_work_packages_path(project, ids: [work_package.id], invoker_id: work_package.id)
         )
       end
     end
@@ -303,8 +303,8 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
 
       it "uses the work package menu source" do
         expect(rendered_card).to have_element(
-          "include-fragment",
-          src: menu_project_backlogs_work_package_path(project, work_package)
+          "action-menu",
+          src: menu_project_backlogs_work_packages_path(project, ids: [work_package.id], invoker_id: work_package.id)
         )
       end
     end

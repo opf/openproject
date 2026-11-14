@@ -34,13 +34,16 @@ module WorkPackageTypes
       main_column :name, :variant
       mobile_labels :variant
 
+      WIZARD_PAGINATION_PARAMS = %w[filters step back_url started_form_configuration_id].freeze
+
       attr_reader :variant
 
-      def initialize(rows:, variant:, filtered:)
+      def initialize(rows:, variant:, filtered:, wizard: false)
         super(rows:)
 
         @variant = variant
         @filtered = filtered
+        @wizard = wizard
       end
 
       def container_id = "project-table"
@@ -61,7 +64,16 @@ module WorkPackageTypes
 
       def mobile_title = I18n.t("types.edit.projects.tab")
 
-      def pagination_params = { params: { action: "edit" }, turbo_action: "advance" }
+      def wizard? = @wizard
+
+      def pagination_params
+        if wizard?
+          { params: { controller: "/work_package_types/creation_wizard", action: "show" },
+            allowed_params: WIZARD_PAGINATION_PARAMS, turbo_action: "advance" }
+        else
+          { params: { controller: "/work_package_types/projects_tab", action: "edit" }, turbo_action: "advance" }
+        end
+      end
 
       # Inviting the admin to add a project reads as a lie when they have just searched for one:
       # the table is empty because of the filter, not because the variant has no projects.

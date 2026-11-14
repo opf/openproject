@@ -35,6 +35,9 @@ module WorkPackages
           include OpPrimer::ComponentHelpers
           include HyphenationOptions
 
+          # Fields submitted as arrays; the rest are permitted as scalars.
+          def self.array_fields = []
+
           attr_reader :settings, :disabled, :show_default_hint
 
           def initialize(settings: {}, disabled: false, show_default_hint: false)

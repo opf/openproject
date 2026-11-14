@@ -28,7 +28,7 @@ describe('Block card - #### trigger', () => {
 
     await insertBlockWorkPackageViaHash();
 
-    await expect.element(page.getByRole('textbox')).not.toHaveTextContent('###');
+    await expect.element(page.getByRole('textbox')).not.toMatchTextContent('###');
   });
 
   it('moves the card onto its own line when invoked after text', async () => {
@@ -76,7 +76,7 @@ describe('Block card - #### trigger', () => {
     await userEvent.keyboard('Fix');
 
     await expect.element(page.getByTestId('hash-menu')).not.toBeInTheDocument();
-    await expect.element(page.getByRole('textbox')).toHaveTextContent('#####Fix');
+    await expect.element(page.getByRole('textbox')).toMatchTextContent('#####Fix');
     expect(inlineChip()).toBeNull();
     expect(document.querySelector('[data-testid="block-card"]')).toBeNull();
   });

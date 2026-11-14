@@ -179,7 +179,7 @@ We want to thank Community member [@cheezzz](https://github.com/cheezzz) for con
 - Bugfix: Documents can be created with zero width characters, making deletion hard \[[#72352](https://community.openproject.org/wp/72352)\]
 - Bugfix: Logo disappears pretty early in certain layouts \[[#72369](https://community.openproject.org/wp/72369)\]
 - Bugfix: Insufficient space between action buttons on Invite user screen \[[#72548](https://community.openproject.org/wp/72548)\]
-- Bugfix: PDF artifact / initiation request is not updated \[[#72550](https://community.openproject.org/wp/72550)\]
+- Bugfix: PDF artefact / initiation request is not updated \[[#72550](https://community.openproject.org/wp/72550)\]
 - Bugfix: User can input anything in the default cost field \[[#72684](https://community.openproject.org/wp/72684)\]
 - Bugfix: User can input anything in WP unit costs \[[#72685](https://community.openproject.org/wp/72685)\]
 - Bugfix: New sprint creation dialog looks weird on mobile \[[#72784](https://community.openproject.org/wp/72784)\]

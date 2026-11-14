@@ -68,4 +68,25 @@ RSpec.describe Storages::Storages::CreateService, type: :model do
       expect(subject.result.oauth_application.plaintext_secret).to be_present
     end
   end
+
+  context "with a provider type that is not a storage provider" do
+    let!(:user) { create(:admin) }
+
+    subject(:service_call) do
+      described_class.new(user:).call(name: "My storage", host: "https://example.org", provider_type: "User")
+    end
+
+    it "does not instantiate the given class" do
+      allow(User).to receive(:new).and_call_original
+
+      service_call
+
+      expect(User).not_to have_received(:new)
+    end
+
+    it "fails with a provider type error" do
+      expect(service_call).to be_failure
+      expect(service_call.errors.details[:provider_type]).to include(a_hash_including(error: :inclusion))
+    end
+  end
 end

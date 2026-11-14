@@ -30,12 +30,12 @@ require "spec_helper"
 require_relative "../support/pages/ifc_models/show"
 require_relative "../support/pages/ifc_models/show_default"
 
-RSpec.describe "BIM filter spec", :js, :selenium, with_config: { edition: "bim" } do
+RSpec.describe "BIM filter spec", :js, with_config: { edition: "bim" } do
   let(:project) { create(:project, enabled_module_names: %w(bim work_package_tracking)) }
-  let(:open_status) { create(:status, is_closed: false) }
-  let(:closed_status) { create(:status, is_closed: true) }
+  let(:to_do_status) { create(:status, category: "to_do") }
+  let(:closed_status) { create(:status, category: "closed") }
 
-  let(:wp1) { create(:work_package, project:, status: open_status) }
+  let(:wp1) { create(:work_package, project:, status: to_do_status) }
   let(:wp2) { create(:work_package, project:, status: closed_status) }
 
   let(:admin) { create(:admin) }
@@ -65,7 +65,7 @@ RSpec.describe "BIM filter spec", :js, :selenium, with_config: { edition: "bim" 
       filters.expect_loaded
       filters.expect_filter_count 1
       filters.open
-      filters.expect_filter_by("Status", "open", nil)
+      filters.expect_filter_by("Status", "open (to-do + in progress)", nil)
 
       card_view.expect_work_package_listed wp1
       card_view.expect_work_package_not_listed wp2
@@ -98,7 +98,7 @@ RSpec.describe "BIM filter spec", :js, :selenium, with_config: { edition: "bim" 
       filters.expect_loaded
       filters.expect_filter_count 1
       filters.open
-      filters.expect_filter_by("Status", "open", nil)
+      filters.expect_filter_by("Status", "open (to-do + in progress)", nil)
 
       card_view.expect_work_package_listed wp1
       card_view.expect_work_package_not_listed wp2
@@ -113,7 +113,7 @@ RSpec.describe "BIM filter spec", :js, :selenium, with_config: { edition: "bim" 
       card_view.expect_work_package_not_listed wp1
 
       # Reload and the filter is still correctly applied
-      page.driver.browser.navigate.refresh
+      page.refresh
 
       filters.expect_loaded
       filters.expect_filter_count 1

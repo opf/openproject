@@ -1,0 +1,71 @@
+---
+fa:
+  activerecord:
+    attributes:
+      itsm/email_message:
+        direction: جهت
+        from_address: فرستنده
+        message_id: شناسه پیام
+        status: وضعیت
+        subject: موضوع
+      itsm/email_thread:
+        recipients: گیرندگان
+        requester_email: ایمیل درخواست‌کننده
+        requester_name: نام درخواست‌کننده
+        work_package: بسته کاری
+      itsm/incoming_mailbox:
+        active: فعال
+        aliases: نشانی‌های ایمیل شناخته‌شده
+        email: نشانی ایمیل
+        mail_server: سرور IMAP
+        password: گذرواژه
+        project: پروژه
+        username: نام کاربری
+      itsm/mail_server:
+        encryption: رمزگذاری
+        host: نام سرور
+        incoming_mailboxes: صندوق‌های ورودی
+        name: نام
+        outgoing_mailboxes: صندوق‌های خروجی
+        port: درگاه
+        protocol: پروتکل
+      itsm/outgoing_mailbox:
+        mail_server: سرور SMTP
+        password: گذرواژه
+        project: پروژه
+        sender_email: ایمیل فرستنده
+        sender_name: نام فرستنده
+        username: نام کاربری
+    models:
+      itsm/email_message:
+        one: پیام ایمیل
+        other: پیام‌های ایمیل
+      itsm/email_thread:
+        one: رشته گفتگوهای ایمیلی
+        other: رشته گفتگوهای ایمیلی
+      itsm/incoming_mailbox:
+        one: صندوق ورودی
+        other: صندوق‌های ورودی
+      itsm/mail_server:
+        one: سرور ایمیل
+        other: سرورهای ایمیل
+      itsm/outgoing_mailbox:
+        one: صندوق خروجی
+        other: صندوق‌های خروجی
+  itsm:
+    admin:
+      description: امکان ایجاد بسته‌های کاری از طریق ایمیل‌های دریافتی با سرور IMAP و پاسخ‌دادن به آن‌ها از طریق سرور SMTP را فعال می‌کند.
+      enable_helpdesk: فعال‌کردن میز پشتیبانی در این سامانه
+      helpdesk_set_by_environment: قابلیت میز پشتیبانی از طریق متغیر محیطی تنظیم شده و در اینجا قابل تغییر نیست.
+      imap_server_configuration_component:
+        description: سرور IMAP را برای تبدیل ایمیل‌های دریافتی به بسته‌های کاری تنظیم کنید.
+        edit: ویرایش پیکربندی سرور IMAP
+        title: پیکربندی سرور IMAP
+      mail_servers: سرورهای ایمیل
+      smtp_server_configuration_component:
+        description: سرور SMTP را برای پاسخ مستقیم به ایمیل‌ها از بخش فعالیت بسته‌های کاری تنظیم کنید.
+        edit: ویرایش پیکربندی سرور SMTP
+        title: پیکربندی سرور SMTP
+  label_helpdesk: میز پشتیبانی
+  permission_manage_helpdesk: مدیریت میز پشتیبانی
+  project_module_helpdesk: میز پشتیبانی

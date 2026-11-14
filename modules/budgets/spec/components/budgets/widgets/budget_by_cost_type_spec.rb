@@ -50,7 +50,7 @@ RSpec.describe Budgets::Widgets::BudgetByCostType, type: :component do
     let!(:labor_item) do
       create(:labor_budget_item,
              budget: budget,
-             user: current_user,
+             principal: current_user,
              hours: 100,
              amount: BigDecimal("5000"))
     end
@@ -138,7 +138,7 @@ RSpec.describe Budgets::Widgets::BudgetByCostType, type: :component do
     let!(:labor_item) do
       create(:labor_budget_item,
              budget: budget,
-             user: current_user,
+             principal: current_user,
              hours: 100,
              amount: BigDecimal("5000"))
     end
@@ -161,7 +161,7 @@ RSpec.describe Budgets::Widgets::BudgetByCostType, type: :component do
     let!(:labor_item) do
       create(:labor_budget_item,
              budget: budget,
-             user: current_user,
+             principal: current_user,
              hours: 100,
              amount: BigDecimal("5000"))
     end
@@ -178,7 +178,7 @@ RSpec.describe Budgets::Widgets::BudgetByCostType, type: :component do
     let!(:labor_item) do
       create(:labor_budget_item,
              budget: budget,
-             user: current_user,
+             principal: current_user,
              hours: 100,
              amount: BigDecimal("5000"))
     end

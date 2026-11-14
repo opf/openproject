@@ -78,7 +78,7 @@ RSpec.describe "Portfolios",
       expect_and_dismiss_flash type: :success, message: "Successful creation."
 
       expect(page).to have_current_path /\/projects\/foo-bar\/?/
-      expect(page).to have_content "Foo bar"
+      expect(page).to have_text "Foo bar"
 
       portfolio = Project.last
       expect(portfolio.workspace_type).to eq "portfolio"
@@ -101,7 +101,7 @@ RSpec.describe "Portfolios",
       it "cannot create the portfolio" do
         visit new_portfolio_path
 
-        expect(page).to have_content "[Error 403] You are not authorized to access this page."
+        expect(page).to have_text "[Error 403] You are not authorized to access this page."
       end
     end
   end

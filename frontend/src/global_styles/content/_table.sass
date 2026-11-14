@@ -126,20 +126,10 @@ table.generic-table
         .generic-table--sort-header
           max-width: none
 
-    .sort
-      &.asc:after
-        @include icon-font-common
-        @include icon-mixin-sort-ascending
-        margin-left: 5px
-        font-size: 1.2em
-        vertical-align: text-bottom
-
-      &.desc:after
-        @include icon-font-common
-        @include icon-mixin-sort-descending
-        margin-left: 5px
-        font-size: 1.2em
-        vertical-align: text-bottom
+    .generic-table--sort-indicator
+      flex: 0 0 auto
+      margin-inline-start: var(--base-size-12)
+      vertical-align: text-bottom
 
   tfoot
     td
@@ -270,6 +260,19 @@ thead.-sticky th
   position: sticky
   top: 0
   background: var(--body-background)
+
+// Sticky cells paint over their row's outline, so they draw the row's focus ring
+thead.-sticky tr:focus-visible > th
+  --row-focus-ring: var(--focus-outlineColor, #0969da)
+  box-shadow: inset var(--row-focus-left, 0) 0 0 var(--row-focus-ring), inset var(--row-focus-right, 0) 0 0 var(--row-focus-ring), inset 0 2px 0 var(--row-focus-ring), inset 0 -2px 0 var(--row-focus-ring)
+
+  &:first-child:dir(ltr),
+  &:last-child:dir(rtl)
+    --row-focus-left: 2px
+
+  &:last-child:dir(ltr),
+  &:first-child:dir(rtl)
+    --row-focus-right: -2px
 
 
 .generic-table--footer-outer

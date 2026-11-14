@@ -55,7 +55,7 @@ module Import
         WorkPackageCustomField.find(id) if id
       end
 
-      def collect_custom_field_attributes(custom_field_registry, jira_issue)
+      def collect_custom_field_attributes(custom_field_registry, jira_issue, attachment_paths_by_name:)
         custom_field_registry.each_with_object({}) do |entry, attrs|
           field_key = entry[:jira_field].origin_id
           raw_value = jira_issue.payload["fields"][field_key]
@@ -65,7 +65,8 @@ module Import
           next unless context
 
           custom_field = context[:custom_field]
-          attrs[custom_field.attribute_getter] = context[:builder].convert_value(raw_value, custom_field)
+          attrs[custom_field.attribute_getter] =
+            context[:builder].convert_value(raw_value, custom_field, attachment_paths_by_name:)
         end
       end
 
@@ -371,11 +372,7 @@ module Import
         Rails.logger.tagged("jira_object_type:customField", "jira_object_id_or_name:#{custom_field.name}") do
           Rails.logger.debug "Reusing custom field"
         end
-        unless Import::JiraOpenProjectReference.exists?(op_entity_id: custom_field.id,
-                                                        op_entity_class: custom_field.class.to_s,
-                                                        jira_import_id: @jira_import.id)
-          create_reference!(op_leg: custom_field, jira_leg: jira_field, jira_import: @jira_import, uses_existing: true)
-        end
+        create_reference!(op_leg: custom_field, jira_leg: jira_field, jira_import: @jira_import, uses_existing: true)
         custom_field
       end
 
@@ -407,7 +404,8 @@ module Import
       end
 
       def find_or_create_system_field_custom_field(field, name:, field_format:)
-        existing_cf = CustomFieldNames.candidates(name).find { it.field_format == field_format }
+        compatible = CustomFieldNames.candidates(name).select { it.field_format == field_format }
+        existing_cf = CustomFieldNames.best_match(compatible, name)
         custom_field = existing_cf ? reuse_custom_field(existing_cf, nil) : create_system_field_custom_field(name:, field_format:)
         @jira_import.update!(
           system_field_custom_fields: @jira_import.system_field_custom_fields.merge(field => custom_field.id)

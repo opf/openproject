@@ -27,7 +27,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-RSpec.shared_examples "a sortable-lists root" do |wrapper_id:, move_url_template:|
+# `move_url_template` stays nil for roots that address several list types
+# through the plural `move-url-templates` map instead.
+RSpec.shared_examples "a sortable-lists root" do |wrapper_id:, move_url_template: nil|
   it "wires ##{wrapper_id} as the sortable-lists root" do
     expect(rendered_component).to have_css("##{wrapper_id}") do |root|
       expect(root["data-controller"]).to eq("sortable-lists")
@@ -93,5 +95,21 @@ RSpec.shared_examples "no legacy drag-and-drop wiring" do
     expect(rendered_component).to have_no_css("[data-controller~='generic-drag-and-drop']")
     expect(rendered_component).to have_no_css("[data-generic-drag-and-drop-target]")
     expect(rendered_component).to have_no_css("[data-drop-url]")
+  end
+end
+
+# The four directions, their order, icons and action wiring are the move menu's
+# own contract (spec/components/sortable_lists/move_menu_spec.rb). Consumers
+# prove only that they include the items, and withhold them for a sole item.
+RSpec.shared_examples "offers the shared move items" do
+  it "offers the four move items to the item controller" do
+    expect(rendered_component)
+      .to have_css("[data-sortable-lists--item-target='moveItem']", count: 4, visible: :all)
+  end
+end
+
+RSpec.shared_examples "offers no move items" do
+  it "offers no move items" do
+    expect(rendered_component).to have_no_css("[data-sortable-lists--item-target='moveItem']", visible: :all)
   end
 end

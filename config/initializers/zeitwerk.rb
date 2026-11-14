@@ -93,6 +93,7 @@ OpenProject::Inflector.inflection(
   "csv" => "CSV",
   "csv_formula_sanitization" => "CSVFormulaSanitization",
   "pdf" => "PDF",
+  "xls" => "XLS",
   "scm" => "SCM",
   "imap" => "IMAP",
   "pop3" => "POP3",

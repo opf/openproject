@@ -1,0 +1,163 @@
+---
+zh-CN:
+  activerecord:
+    attributes:
+      repositories/gitlab_provider:
+        gitlab_user: Webhook user
+        url: GitLab URL
+        webhook_secret: 网络钩子密钥
+      repositories/provider:
+        created_at: 创建时间
+        name: 姓名
+    errors:
+      models: {}
+    models:
+      repositories/gitlab_provider:
+        other: GitLab providers
+      repositories/provider:
+        other: Repository providers
+  permission_show_repository_content: Show repository content
+  project_module_repositories: 存储库
+  repositories:
+    admin:
+      buttons:
+        save_and_continue: 保存并继续
+      destroy_confirmation_dialog_component:
+        delete_result:
+          branches_and_commits: All branches and commits received from this provider and their links to work packages.
+          issues: All issues received from this provider and their links to work packages.
+          merge_requests: All merge requests and pipelines received from this provider and their links to work packages.
+        description_html: 'The repository provider %{provider} will be deleted together with all data OpenProject received from it. This includes:'
+        heading: Permanently delete this repository provider?
+        title: Delete repository provider
+      gitlab_integration:
+        go_to_repositories: Go to Repositories
+        moved_notice: GitLab is now configured as a repository provider in the new Repositories section of the administration.
+      index_description: Connect repository providers to show issues, merge requests, branches and commits in the work packages they reference.
+      label_add_new: Add new repository provider
+      label_new_provider: New %{provider_type} provider
+      label_provider: Repository provider
+      menu: 存储库
+      open_provider: 打开
+      regenerate_webhook_secret_dialog_component:
+        confirm_button: Regenerate secret
+        description: The current webhook secret will stop working immediately. You have to enter the new secret in all webhooks of this provider.
+        heading: Regenerate the webhook secret?
+        title: Regenerate webhook secret
+      sections:
+        general_information: 常规信息
+        webhook: Webhook
+      steps:
+        general_information:
+          edit: Edit provider configuration
+          name_caption: Give the provider a name so that users can tell multiple providers apart.
+          title: Provider configuration
+          url_caption: The address of your GitLab instance, including the https://. Webhooks are accepted for all projects below this address.
+        webhook:
+          description_configured: The webhook secret is configured.
+          description_pending: No webhook secret is configured. Requests to the webhook are accepted without verification, which may allow unauthorized actors to forge events.
+          edit: Show webhook configuration
+          form_description: Create a webhook in your GitLab projects or groups with the following URL and secret token.
+          regenerate_secret: Regenerate secret
+          secret: Secret token
+          secret_caption: Copy this value into the "Secret token" field of the GitLab webhook.
+          title: Webhook configuration
+          url: URL
+          url_caption: Replace %{placeholder} with an API key of the webhook user.
+        webhook_user:
+          caption: When set, webhook requests authenticated with any other user's API key are rejected.
+          description_any_user: Webhooks may be sent with the API key of any user.
+          description_pending: No webhook user has been chosen yet.
+          description_user: Webhooks have to be sent with an API key of %{name}.
+          edit: Edit webhook user
+          form_description: The OpenProject user whose API key authenticates webhook requests. This user also posts automated comments on work packages and needs permission to view and comment on them.
+          title: Webhook user
+      table:
+        blank_description: Add a repository provider to see its activity in work packages.
+        blank_title: No repository providers configured yet
+        provider_type: 提供商
+    branch_component:
+      copy_name: Copy branch name
+      create_merge_request: Create merge request
+      updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
+    commit_component:
+      authored_at: Authored on %{date_time}.
+      copy_sha: Copy SHA to clipboard
+      created_by: Created by %{name}.
+      empty_message: "<empty commit message>"
+    git_snippets_dialog_component:
+      branch_name: 分支名称
+      commit_message: 提交消息
+      copy_branch_name: Copy branch name
+      copy_commit_message: Copy commit message
+      copy_create_branch_command: Copy command to create a branch with empty commit
+      create_branch_with_empty_commit: 使用空提交创建分支
+      title: Git quick snippets
+    gitlab:
+      issue_closed_referenced_comment: "**问题已关闭**：[%{repository}](%{repository_url}) 的问题 %{issue_number} [%{issue_title}](%{issue_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 关闭。\n"
+      issue_opened_referenced_comment: "**问题已打开**：[%{repository}](%{repository_url}) 的问题 %{issue_number} [%{issue_title}](%{issue_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 打开。\n"
+      issue_reopened_referenced_comment: "**问题已重新打开**：[%{repository}](%{repository_url}) 的问题 %{issue_number} [%{issue_title}](%{issue_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 重新打开。\n"
+      merge_request_closed_comment: "**合并请求已关闭**：[%{repository}](%{repository_url}) 的合并请求 %{mr_number} [%{mr_title}](%{mr_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 关闭。\n"
+      merge_request_merged_comment: "**合并请求已合并**：[%{repository}](%{repository_url}) 的合并请求 %{mr_number} [%{mr_title}](%{mr_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 合并。\n"
+      merge_request_opened_comment: "**合并请求已打开**：[%{repository}](%{repository_url}) 的合并请求 %{mr_number} [%{mr_title}](%{mr_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 打开。\n"
+      merge_request_reopened_comment: "**合并请求已重新打开**：[%{repository}](%{repository_url}) 的合并请求 %{mr_number} [%{mr_title}](%{mr_url}) 已由 [%{gitlab_user}](%{gitlab_user_url}) 重新打开。\n"
+      note_commit_referenced_comment: "**在提交中引用**：[%{gitlab_user}](%{gitlab_user_url}) 在 [%{repository}](%{repository_url}) 上的提交备注 [%{commit_id}](%{commit_url}) 中引用了此工作包： %{commit_note}\n"
+      note_issue_commented_comment: "**在问题中添加评论**：[%{gitlab_user}](%{gitlab_user_url}) 在 [%{repository}](%{repository_url}) 上的问题 %{issue_number} [%{issue_title}](%{issue_url}) 中对此工作包添加了评论：%{issue_note}\n"
+      note_issue_referenced_comment: "**在问题中引用**：[%{gitlab_user}](%{gitlab_user_url}) 在 [%{repository}](%{repository_url}) 上的问题 %{issue_number} [%{issue_title}](%{issue_url}) 中引用了此工作包：%{issue_note}\n"
+      note_mr_commented_comment: "**在合并请求中添加评论**：[%{gitlab_user}](%{gitlab_user_url}) 在 [%{repository}](%{repository_url}) 上的合并请求 %{mr_number} [%{mr_title}](%{mr_url}) 中对此工作包添加了评论：%{mr_note}\n"
+      note_mr_referenced_comment: "**在合并请求中引用**：[%{gitlab_user}](%{gitlab_user_url}) 在 [%{repository}](%{repository_url}) 上的合并请求 %{mr_number} [%{mr_title}](%{mr_url}) 中引用了此工作包： %{mr_note}\n"
+      note_snippet_referenced_comment: "**Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note} %{commit_note} %{commit_note}\n"
+      push_single_commit_comment_with_ref: "**在 %{reference} 中推送:** [%{gitlab_user}](%{gitlab_user_url}) 推送 [%{commit_number}](%{commit_url}) 到 [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}\n"
+    issue_component:
+      states:
+        closed: 已关闭
+        opened: 打开
+      updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
+    merge_request_component:
+      pipeline_statuses:
+        canceled: Canceled
+        canceling: Canceling
+        created: 创建时间
+        failed: 失败
+        manual: 手动
+        pending: 待处理
+        preparing: Preparing
+        running: 运行中
+        scheduled: 已加入日程
+        skipped: 跳过
+        success: Success
+        waiting_for_callback: Waiting for callback
+        waiting_for_resource: Waiting for resource
+      states:
+        closed: 已关闭
+        locked: 已锁定
+        merged: Merged
+        opened: 打开
+      updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
+    provider_types:
+      gitlab:
+        name: GitLab
+    work_package_tab_component:
+      blank_slates:
+        branches:
+          description_html: Link a branch by naming the branch, so that it starts with %{code} or only %{identifier}.
+          title: No branches
+        commits:
+          description_html: Link a commit by adding the code %{code} or the URL %{url} to the commit message.
+          title: No commits
+        issues:
+          description_html: Link an issue by adding the code %{code} to the title or description.
+          title: No issues
+        merge_requests:
+          description_html: Link a merge request by adding the code %{code} to the title or description.
+          title: No merge requests
+      branches: Branches
+      commits: 提交
+      description_html: Link an existing GitLab element by adding the code %{code} to the title or description.
+      git_snippets: Git 代码段
+      issues: 问题
+      merge_requests: 合并请求
+      snippets_button_label: Git 代码段

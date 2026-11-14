@@ -29,8 +29,7 @@ require "spec_helper"
 require_relative "shared_context"
 
 RSpec.describe "Team planner index",
-               :js,
-               :selenium do
+               :js do
   include_context "with team planner full access"
 
   let(:current_user) { user }

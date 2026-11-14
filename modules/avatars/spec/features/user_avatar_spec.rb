@@ -105,7 +105,7 @@ RSpec.describe "User avatar management", :js do
                   UploadedFile.load_from(File.join(image_base_path, "invalid.txt")).path,
                   make_visible: true)
 
-      expect(page).to have_css(".avatars--error-pane", text: "Allowed formats are jpg, png, gif")
+      expect(page).to have_css(".InlineMessage", text: "Allowed formats are jpg, png, gif")
     end
 
     it "deletes an existing custom avatar" do
@@ -113,6 +113,7 @@ RSpec.describe "User avatar management", :js do
 
       visit avatar_management_path
       open_avatar_dialog
+      find(:button, accessible_name: I18n.t(:button_actions)).click
 
       accept_alert do
         find_test_selector("avatar-delete-link").click

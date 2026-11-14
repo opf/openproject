@@ -49,11 +49,11 @@ module Components
       alias_method :enable_via_menu, :enable_hierarchy
 
       def enable_via_header
-        page.find(".wp-table--table-header .icon-no-hierarchy").click
+        toggle_via_subject_menu(checked: false)
       end
 
       def disable_via_header
-        page.find(".wp-table--table-header .icon-hierarchy").click
+        toggle_via_subject_menu(checked: true)
       end
 
       def disable_hierarchy
@@ -67,12 +67,33 @@ module Components
       end
 
       def expect_mode_enabled
-        expect(page).to have_css(".wp-table--table-header .icon-hierarchy", wait: 20)
+        expect(page).to have_selector(:columnheader, subject_column_name, wait: 20) do |header|
+          header.has_selector?(:octicon, "op-hierarchy")
+        end
       end
 
       def expect_mode_disabled
-        expect(page).to have_css(".wp-table--table-header .icon-no-hierarchy", wait: 20)
+        expect(page).to have_selector(:columnheader, subject_column_name, wait: 20) do |header|
+          header.has_no_selector?(:octicon, "op-hierarchy")
+        end
       end
+
+      private
+
+      def subject_column_name
+        I18n.t("js.work_packages.properties.subject")
+      end
+
+      def toggle_via_subject_menu(checked:)
+        page.find(:columnheader, subject_column_name).click_button(subject_column_name)
+        page.within(:menu, subject_column_name) do
+          page.find(:role, "menuitemcheckbox",
+                    text: I18n.t("js.toolbar.settings.display_hierarchy"),
+                    aria: { checked: checked.to_s }).click
+        end
+      end
+
+      public
 
       def expect_indent(work_package, indent: true, outdent: true, card_view: false)
         context_menu.open_for(work_package, card_view:)

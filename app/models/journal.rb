@@ -65,6 +65,7 @@ class Journal < ApplicationRecord
   register_journal_formatter OpenProject::JournalFormatter::ProjectPhaseActive
   register_journal_formatter OpenProject::JournalFormatter::ProjectPhaseDates
   register_journal_formatter OpenProject::JournalFormatter::ProjectPhaseDefinition
+  register_journal_formatter OpenProject::JournalFormatter::ProjectPhaseStatus
   register_journal_formatter OpenProject::JournalFormatter::ProjectStatusCode
   register_journal_formatter OpenProject::JournalFormatter::PublicNamedAssociation
   register_journal_formatter OpenProject::JournalFormatter::ScheduleManually
@@ -89,6 +90,8 @@ class Journal < ApplicationRecord
                    status_name
                    status_id
                    status_changes
+                   label_ids
+                   label_names
                    meeting_id
                    source_meeting_id
                    source
@@ -99,6 +102,7 @@ class Journal < ApplicationRecord
                    chat_id
                    message_id
                    proposal_id
+                   sender_address
                  ],
                  prefix: true
 
@@ -110,24 +114,33 @@ class Journal < ApplicationRecord
     meeting_outcome_recorded
   ].freeze
 
+  SQUASHTM_CAUSE_TYPES = %w[
+    squashtm_requirement_linked
+    squashtm_requirement_unlinked
+  ].freeze
+
   VALID_CAUSE_TYPES = (%w[
     assistant_chat
     assistant_skill
+    comment_retracted
     default_attribute_written
+    email
     forum_message
     import
+    label_deleted
     progress_mode_changed_to_status_based
     status_changed
     system_update
     total_percent_complete_mode_changed_to_work_weighted_average
     work_package_children_changed_times
+    work_package_children_changed_values
     work_package_parent_changed_times
     work_package_parent_deleted
     work_package_predecessor_changed_times
     work_package_related_changed_times
     work_package_duplicate_closed
     working_days_changed
-  ] + MEETING_CAUSE_TYPES).freeze
+  ] + MEETING_CAUSE_TYPES + SQUASHTM_CAUSE_TYPES).freeze
 
   # Make sure each journaled model instance only has unique version ids
   validates :version, uniqueness: { scope: %i[journable_id journable_type] }
@@ -249,6 +262,9 @@ class Journal < ApplicationRecord
                      .first
   end
 
+  # A noop journal comes from changes reverted within the aggregation window, or from a comment
+  # emptied before Journal::CausedByCommentRetraction existed. Such old comments cannot be told
+  # apart from reverted changes, so they were not migrated and still render as "changes retracted".
   def noop?
     (!notes || notes&.empty?) && get_changes.empty?
   end

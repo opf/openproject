@@ -88,6 +88,9 @@ import { registerCustomElement } from 'core-app/shared/helpers/angular/custom-el
 import {
   EmbeddedTablesMacroComponent,
 } from 'core-app/features/work-packages/components/wp-table/embedded/embedded-tables-macro.component';
+import {
+  WorkPackageEmbeddedTableEntryComponent,
+} from 'core-app/features/work-packages/components/wp-table/embedded/wp-embedded-table-entry.component';
 import { OpPrincipalComponent } from 'core-app/shared/components/principal/principal.component';
 import {
   OpBasicSingleDatePickerComponent,
@@ -172,7 +175,6 @@ import {
 import {
   WorkPackageOverviewGraphComponent,
 } from 'core-app/shared/components/work-package-graphs/overview/wp-overview-graph.component';
-import { NoResultsComponent } from 'core-app/shared/components/no-results/no-results.component';
 import {
   OpNonWorkingDaysListComponent,
 } from 'core-app/shared/components/op-non-working-days-list/op-non-working-days-list.component';
@@ -207,7 +209,10 @@ import { WorkPackageViewPageEntryComponent } from 'core-app/features/work-packag
 import { MyPageComponent } from './features/my-page/my-page.component';
 import { DashboardComponent } from './features/overview/dashboard.component';
 import { BurndownChartComponent } from './features/backlogs/burndown-chart.component';
+import { BurnupChartComponent } from './features/backlogs/burnup-chart.component';
 import { CreatedResolvedComponent } from './features/backlogs/created-resolved-chart.component';
+import { VelocityChartComponent } from './features/backlogs/velocity-chart.component';
+import { SprintWorkPackageGraphComponent } from './features/backlogs/sprint-work-package-graph.component';
 import { BudgetByCostTypeComponent } from './shared/components/budget-graphs/overview/budget-by-cost-type.component';
 import { ActualCostsComponent } from './shared/components/budget-graphs/overview/actual-costs.component';
 import { ProjectTimelineGraphComponent } from './shared/components/project-timeline-graph/project-timeline-graph.component';
@@ -362,6 +367,7 @@ export class OpenProjectModule implements DoBootstrap {
 
   private registerCustomElements(injector:Injector) {
     registerCustomElement('opce-macro-embedded-table', EmbeddedTablesMacroComponent, { injector });
+    registerCustomElement('opce-embedded-work-package-table', WorkPackageEmbeddedTableEntryComponent, { injector });
     registerCustomElement('opce-principal', OpPrincipalComponent, { injector });
     registerCustomElement('opce-basic-single-date-picker', OpBasicSingleDatePickerComponent, { injector });
     registerCustomElement('opce-basic-single-datetime-picker', OpBasicSingleDatetimePickerComponent, { injector });
@@ -406,7 +412,6 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-editable-query-props', EditableQueryPropsComponent, { injector });
     registerCustomElement('opce-time-entry-trigger-actions', TriggerActionsEntryComponent, { injector });
     registerCustomElement('opce-wp-overview-graph', WorkPackageOverviewGraphComponent, { injector });
-    registerCustomElement('opce-no-results', NoResultsComponent, { injector });
     registerCustomElement('opce-non-working-days-list', OpNonWorkingDaysListComponent, { injector });
     registerCustomElement('opce-main-menu-resizer', MainMenuResizerComponent, { injector });
     registerCustomElement('opce-persistent-toggle', PersistentToggleComponent, { injector });
@@ -419,7 +424,10 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-my-page', MyPageComponent, { injector });
     registerCustomElement('opce-dashboard', DashboardComponent, { injector });
     registerCustomElement('opce-burndown-chart', BurndownChartComponent, { injector });
+    registerCustomElement('opce-burnup-chart', BurnupChartComponent, { injector });
     registerCustomElement('opce-created-resolved-chart', CreatedResolvedComponent, { injector });
+    registerCustomElement('opce-velocity-chart', VelocityChartComponent, { injector });
+    registerCustomElement('opce-sprint-work-package-graph', SprintWorkPackageGraphComponent, { injector });
     registerCustomElement('opce-budget-by-cost-type', BudgetByCostTypeComponent, { injector });
     registerCustomElement('opce-actual-costs', ActualCostsComponent, { injector });
     registerCustomElement('opce-project-timeline-graph', ProjectTimelineGraphComponent, { injector });

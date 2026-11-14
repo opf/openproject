@@ -1,0 +1,66 @@
+---
+ko:
+  activerecord:
+    attributes:
+      itsm/email_message:
+        direction: 방향
+        from_address: 시작
+        message_id: Message ID
+        status: 상태
+        subject: 제목
+      itsm/email_thread:
+        recipients: Recipients
+        requester_email: Requester email
+        requester_name: Requester name
+        work_package: 작업 패키지
+      itsm/incoming_mailbox:
+        active: 활성
+        aliases: Known email addresses
+        email: 이메일 주소
+        mail_server: IMAP server
+        password: 암호
+        project: 프로젝트
+        username: 사용자 이름
+      itsm/mail_server:
+        encryption: Encryption
+        host: Server name
+        incoming_mailboxes: Incoming mailboxes
+        name: 이름
+        outgoing_mailboxes: Outgoing mailboxes
+        port: 포트
+        protocol: 프로토콜
+      itsm/outgoing_mailbox:
+        mail_server: SMTP 서버
+        password: 암호
+        project: 프로젝트
+        sender_email: Sender email
+        sender_name: Sender name
+        username: 사용자 이름
+    models:
+      itsm/email_message:
+        other: Email messages
+      itsm/email_thread:
+        other: Email threads
+      itsm/incoming_mailbox:
+        other: Incoming mailboxes
+      itsm/mail_server:
+        other: Mail servers
+      itsm/outgoing_mailbox:
+        other: Outgoing mailboxes
+  itsm:
+    admin:
+      description: Enables the functionality to create work packages by sending emails using an IMAP server and reply to those using an SMTP server.
+      enable_helpdesk: Enable Helpdesk in this instance
+      helpdesk_set_by_environment: The help desk feature is set by an environment variable and not changeable here.
+      imap_server_configuration_component:
+        description: Configure the IMAP server to transform incoming emails to work packages.
+        edit: Edit IMAP server configuration
+        title: IMAP server configuration
+      mail_servers: Mail servers
+      smtp_server_configuration_component:
+        description: Configure the SMTP server to reply emails directly from the work packages activity.
+        edit: Edit SMTP server configuration
+        title: SMTP server configuration
+  label_helpdesk: Help desk
+  permission_manage_helpdesk: Manage help desk
+  project_module_helpdesk: Help desk

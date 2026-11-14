@@ -62,5 +62,13 @@ FactoryBot.define do
       status { "prepared" }
       created_at { DateTime.now - 2.weeks }
     end
+
+    trait :pending_import do
+      status { "import_prepared" }
+    end
+
+    trait :failed_import do
+      status { "import_failed" }
+    end
   end
 end

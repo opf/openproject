@@ -73,7 +73,7 @@ module Workflows
                                                  .call(**workflow_params)
 
       if service_call.success?
-        redirect_to edit_workflow_path(@workflow), status: :see_other
+        redirect_back_or_to edit_workflow_path(@workflow), status: :see_other
       else
         render_form_errors(service_call.result)
       end
@@ -126,7 +126,7 @@ module Workflows
     def start_dialog(error: nil)
       WorkPackageTypes::NamedReferences::StartDialogComponent.new(model_class:,
                                                                   url: configure_workflows_path,
-                                                                  candidates: Workflow.global.in_display_order.to_a,
+                                                                  candidates: Workflow.in_display_order.to_a,
                                                                   error:)
     end
 

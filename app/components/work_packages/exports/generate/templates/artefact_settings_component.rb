@@ -35,7 +35,21 @@ module WorkPackages
           TEMPLATE_ID = "artefact"
 
           def self.fields
-            %w[toc include_lifecycle include_budget hyphenation hyphenation_language]
+            %w[toc include_lifecycle include_budget hyphenation hyphenation_language wiki_pages]
+          end
+
+          def self.array_fields = %w[wiki_pages]
+
+          attr_reader :context
+
+          def initialize(context: :configuration, **)
+            super(**)
+
+            @context = context
+          end
+
+          def wiki_page_refs
+            WorkPackage::PDFExport::WikiPageRef.parse_all(settings[:wiki_pages])
           end
 
           def toc

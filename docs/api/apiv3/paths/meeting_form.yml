@@ -2,7 +2,7 @@
 ---
 post:
   summary: Meeting update form
-  operationId: meeting_update_form
+  operationId: validate_meeting_update_form
   tags:
     - Meetings
   description: ''

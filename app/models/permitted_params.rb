@@ -143,18 +143,6 @@ class PermittedParams
     params.require(:member).permit(*self.class.permitted_attributes[:member])
   end
 
-  def oauth_application
-    params.require(:application).permit(*self.class.permitted_attributes[:oauth_application]).tap do |app_params|
-      scopes = app_params[:scopes]
-
-      if scopes.present?
-        app_params[:scopes] = scopes.compact_blank.join(" ")
-      end
-
-      app_params
-    end
-  end
-
   def query
     # there is a weird bug in strong_parameters gem which makes the permit call
     # on the sort_criteria pattern return the sort_criteria-hash contents AND
@@ -501,7 +489,6 @@ class PermittedParams
           { triggers_attributes: [:id, :type, :position, { options: {} }, :_destroy] }
         ],
         custom_field: [
-          :editable,
           :field_format,
           :formula,
           :is_filter,
@@ -523,8 +510,11 @@ class PermittedParams
           :custom_field_section_id,
           :allow_non_open_versions,
           :has_comment,
+          :user_self_editable,
           :visible_on_user_card,
           :project_specific_value_restriction,
+          :allow_additional_project_values,
+          :project_level_value_management,
           { custom_options_attributes: %i(id value default_value position) },
           { type_ids: [] }
         ],
@@ -596,14 +586,6 @@ class PermittedParams
           { label_ids: [] },
           :priority_id
         ],
-        oauth_application: [
-          :name,
-          :redirect_uri,
-          :confidential,
-          :enabled,
-          :client_credentials_user_id,
-          { scopes: [] }
-        ],
         placeholder_user: %i(
           name
           description
@@ -637,13 +619,14 @@ class PermittedParams
           scope
           filter
           submit
+          search_mode
         ),
         status: %i(
           name
           color_id
           default_done_ratio
           excluded_from_totals
-          is_closed
+          category
           is_default
           is_readonly
           move_to

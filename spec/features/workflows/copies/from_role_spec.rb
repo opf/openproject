@@ -39,8 +39,16 @@ RSpec.describe "Workflow copy from role", :js do
   current_user { admin }
 
   shared_examples "a copy-to-other-roles dialog" do |host:|
+    it "does not offer the currently edited role as a target" do
+      target_roles_autocompleter.open_options
+
+      target_roles_autocompleter.expect_option(roles.second.name)
+      target_roles_autocompleter.expect_option(roles.third.name)
+      target_roles_autocompleter.expect_no_option(roles.first.name)
+    end
+
     it "permits to select target roles" do
-      target_roles_autocompleter.select_option roles.first.name, roles.second.name
+      target_roles_autocompleter.select_option roles.second.name, roles.third.name
       target_roles_autocompleter.close_autocompleter
 
       click_button "Copy"
@@ -57,21 +65,60 @@ RSpec.describe "Workflow copy from role", :js do
     end
   end
 
+  shared_examples "copying from the author tab" do
+    it "shows the copied role on the author tab" do
+      target_roles_autocompleter.select_option roles.second.name
+      target_roles_autocompleter.close_autocompleter
+
+      click_button "Copy"
+
+      expect(page).to have_css(".flash-success", text: "Successfully copied workflow to '#{roles.second.name}' role.")
+      expect(page.find_test_selector("workflow-transitions-menu")).to have_text("User is author")
+      expect(page).to have_button("Role: #{roles.second.name}")
+    end
+  end
+
   describe "from the workflow page" do
+    let(:tab) { nil }
+
     before do
-      visit edit_workflow_path(type.default_variant.workflow)
+      visit edit_workflow_path(type.default_variant.workflow, tab:)
       within("#workflow-table") { click_link I18n.t(:label_copy_workflow_from_role) }
     end
 
     it_behaves_like "a copy-to-other-roles dialog", host: :page
+
+    context "on the author tab" do
+      let(:tab) { "author" }
+
+      it_behaves_like "copying from the author tab"
+    end
   end
 
   describe "from the creation wizard" do
+    let(:tab) { nil }
+
     before do
-      visit type_creation_wizard_path(type_id: type, step: :workflows)
+      visit type_creation_wizard_path(type_id: type, step: :workflows, tab:)
       within("#workflow-table") { click_link I18n.t(:label_copy_workflow_from_role) }
     end
 
     it_behaves_like "a copy-to-other-roles dialog", host: :wizard
+
+    context "on the author tab" do
+      let(:tab) { "author" }
+
+      it_behaves_like "copying from the author tab"
+
+      it "keeps the matrix editable" do
+        target_roles_autocompleter.select_option roles.second.name
+        target_roles_autocompleter.close_autocompleter
+
+        click_button "Copy"
+
+        expect(page).to have_css(".flash-success")
+        within("#workflow-table") { expect(page).to have_link I18n.t(:label_copy_workflow_from_role) }
+      end
+    end
   end
 end

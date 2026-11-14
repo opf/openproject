@@ -1,42 +1,47 @@
 export const en = {
   translation: {
     'slashMenu': {
-      'title': 'Link existing work package',
-      'subtext': 'Add a dynamic link to a single work package',
+      'title': "Lien vers un lot de travaux existant",
+      'subtext': "Ajouter un lien dynamique à un lot de travaux unique",
       'create': {
-        'title': 'Create new work package',
+        'title': "Créer un nouveau lot de travaux",
         'subtext': 'Create a work package and link it here'
       },
       'aliases': {
-        'workpackage': 'workpackage',
-        'work package': 'work package',
-        'wp': 'wp',
-        'link': 'link',
-        'create': 'create'
+        'workpackage': "lotdetravaux",
+        'work package': "lot de travaux",
+        'wp': "lt",
+        'link': "lien",
+        'create': "créer",
+        'attribute': "attribut"
+      },
+      'attribute': {
+        'title': 'Work package attribute',
+        'subtext': 'Insert a live attribute or custom field'
       }
     },
     'formattingToolbar': {
-      'createWorkPackage': 'Create work package'
+      'createWorkPackage': "Créer un lot de travaux"
     },
     'createWorkPackage': {
-      'title': 'Create new work package',
-      'close': 'Close',
-      'cancel': 'Cancel',
-      'create': 'Create',
+      'title': "Créer un nouveau lot de travaux",
+      'close': "Fermer",
+      'cancel': "Annuler",
+      'create': "Créer",
       'creating': 'Creating…',
       'selectPlaceholder': 'Please select…',
       'searchPlaceholder': 'Type to search…',
-      'loading': 'Loading…',
-      'noResults': 'No results',
+      'loading': "Chargement...",
+      'noResults': "Aucun résultat",
       'filterBy': 'Filter the list',
-      'allValues': 'All',
-      'favorites': 'Favorites',
-      'clear': 'Clear',
+      'allValues': "Tous",
+      'favorites': "Favoris",
+      'clear': "Effacer",
       'deselect': 'Remove selection',
       'removeValue': 'Remove {{value}}',
-      'openOptions': 'Show options',
-      'closeOptions': 'Hide options',
-      'subjectPlaceholder': 'Enter subject here',
+      'openOptions': "Afficher les options",
+      'closeOptions': "Masquer les options",
+      'subjectPlaceholder': "Saisir l'objet ici",
       'subjectClipped': 'The selected text was too long and has been shortened to the first {{limit}} characters.',
       'projectPlaceholder': 'Select a project…',
       'loadFailed': 'The work package form could not be loaded: {{message}}',
@@ -50,35 +55,38 @@ export const en = {
       'createInOpenProject': 'Create it in OpenProject'
     },
     'search': {
-      'label': 'Link existing work package',
-      'placeholder': 'Search by work package ID or subject',
-      'dropdownAriaLabel': 'Work package search results',
-      'noResults': 'No results',
+      'label': "Lien vers un lot de travaux existant",
+      'placeholder': "Rechercher l'ID ou le sujet du lot de travaux",
+      'dropdownAriaLabel': "Résultats de la recherche de lots de travaux",
+      'noResults': "Aucun résultat",
       'error': 'Error. Unable to load content.',
-      'createWorkPackage': 'Create new work package'
+      'createWorkPackage': "Créer un nouveau lot de travaux"
     },
     'unavailableWorkPackage': {
       'loading': {
-        'header': 'Loading',
-        'message': 'Please wait'
+        'header': "Сhargement",
+        'message': "Veuillez patienter"
       },
       'unauthorized': {
-        'header': 'Linked work package unavailable',
-        'message': 'You do not have permission to see this',
+        'header': "Le lot de travaux lié n'est pas disponible",
+        'message': "Vous n'avez pas l'autorisation de voir ce contenu",
         'short_message': 'Work package unavailable: no permission'
       },
       'error': {
-        'header': 'Error',
-        'message': 'Could not load work package',
+        'header': "Erreur",
+        'message': "Impossible de charger le lot de travaux",
         'short_message': 'Unavailable: error'
       }
     },
     'options': {
       'openInNewTab': 'Open in new tab',
-      'open': 'Open',
+      'open': "Ouverte",
       'changeSize': 'Change size',
-      'remove': 'Remove',
-      'removeAriaLabel': 'Remove work package',
+      'changeSizeAriaLabel': 'Change size: {{size}}',
+      'menuAriaLabel': 'Options for work package {{id}}',
+      'selectedAnnouncement': '{{description}}. Press Enter to open its options.',
+      'remove': "Retirer",
+      'removeAriaLabel': "Retirer le lot de travaux",
       'openAriaLabel': 'Open work package {{id}} in new tab',
       'inlineSizeLabel': 'Inline size',
       'blockSizeLabel': 'Block size',
@@ -90,14 +98,14 @@ export const en = {
     'sizes': {
       'xxs': {
         'label': 'Tiny',
-        'desc': 'Identifier'
+        'desc': "Identifiant"
       },
       'xs': {
         'label': 'Compact',
         'desc': 'Type, Identifier, Subject'
       },
       's': {
-        'label': 'Regular',
+        'label': "Normale",
         'desc': 'Status, Type, Identifier, Subject'
       },
       'm': {
@@ -117,7 +125,36 @@ export const en = {
       'typeToSearch': 'Type to search work packages…'
     },
     'spinner': {
-      'ariaLabel': 'Loading'
+      'ariaLabel': "Сhargement"
+    },
+    'workPackageAttribute': {
+      'missing': '{{attribute}} unavailable',
+      'yes': "Oui",
+      'no': "Non",
+      'days_one': '{{count}} day',
+      'days_other': '{{count}} days',
+      'display': {
+        'label': "Libellé",
+        'value': "Valeur",
+        'both': 'Label + value'
+      },
+      'dialog': {
+        'title': 'Insert work package attribute',
+        'workPackage': "Lot de travaux",
+        'attribute': "Attribut",
+        'attributePlaceholder': 'Select an attribute…',
+        'attributeDisabled': 'Select a work package first',
+        'attributeLoading': 'Loading attributes…',
+        'attributeUnavailable': 'Attributes unavailable',
+        'loadFailed': 'The attributes of {{id}} could not be loaded.',
+        'retry': "Réessayer",
+        'prefilled': 'Prefilled with your last selection',
+        'notAvailable': '"{{attribute}}" is not available on {{id}}. Choose another attribute.',
+        'show': "Afficher",
+        'preview': "Aperçu",
+        'previewEmpty': 'Choose a work package and an attribute',
+        'insert': "Insérer"
+      }
     }
   }
 };

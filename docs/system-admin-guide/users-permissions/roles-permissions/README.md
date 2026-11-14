@@ -95,8 +95,10 @@ Administrators can add new roles with custom permissions or configure existing o
 
 The **Duplicate projects** permission allows users to create a new project by duplicating an existing one.
 
-> [!NOTE]
-> A user copying a project is assigned the configured **New role for users that create projects** in the new project. This role may grant additional permissions compared to the user's role in the source project.
+> [!IMPORTANT]
+> All selected project data is copied, including content and attachments the user cannot view in the source project. Users who are not instance administrators receive the configured **New role for users that create projects** in the copied project. This role can grant access to all copied data, independently of their permissions in the source project.
+>
+> Grant **Copy projects** only to users who are authorized to access all data that can be copied from the source project. Review the [role assigned to project creators](../../projects/new-project/) alongside this permission.
 
 To access the **Duplicate** action from a project's settings, users must also be able to open the project settings (typically by having the **Edit project** permission). Alternatively, users can create a new project from a project template, if available.
 
@@ -166,11 +168,15 @@ The form shows the available global permissions which can be assigned to the new
 - [Create, edit, and delete placeholder users](../placeholder-users/)
 
 > [!NOTE]
-> Users with this global permission cannot automatically see and edit all placeholder user in all projects. It is restricted to the placeholder users in projects in which the user has the respective permission to see or edit project member.
+> Users with this global permission cannot automatically see and edit all placeholder users in all projects. It is restricted to the placeholder users in projects in which the user has the respective permission to see or edit project members.
+>
+> Independently of this permission, users with the **Allocate user resources** permission in at least one project can see all placeholder users with criteria, including their criteria, when they [allocate work to a placeholder user](../../../user-guide/resource-management/#allocate-to-a-placeholder-user). They cannot edit them.
 
 - View all users' mail addresses
 - Edit attribute help texts
 - Manage public project lists
+- [View global resource planners](../../../user-guide/resource-management/#global-resource-planners)
+- [Manage public global resource planners](../../../user-guide/resource-management/#global-resource-planners)
 
 ### Edit and delete roles
 

@@ -26,12 +26,12 @@ fr:
         select: Sélectionner les fichiers
         select_all: Tout sélectionner
         selection:
-          none: Select files to link
+          none: Sélectionner les fichiers à lier
           one: Link %{count} file
-          other: Link %{count} files
+          other: Lier %{count} fichiers
         success_create:
           one: Successfully created %{count} file link.
-          other: Successfully created %{count} file links.
+          other: "%{count} liens de fichier ont été créés avec succès."
         tooltip:
           not_found: Impossible de trouver ce fichier.
           not_logged_in: Veuillez vous connecter au stockage pour accéder à ce fichier.

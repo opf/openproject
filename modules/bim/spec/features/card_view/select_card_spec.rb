@@ -30,7 +30,6 @@ require_relative "../../support/pages/ifc_models/show_default"
 
 RSpec.describe "Selecting cards in the card view (regression #31962)",
                :js,
-               :selenium,
                with_config: { edition: "bim" } do
   let(:user) { create(:admin) }
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
@@ -110,7 +109,7 @@ RSpec.describe "Selecting cards in the card view (regression #31962)",
   describe "opening" do
     it "the full screen view via double click" do
       cards.open_full_screen_by_doubleclick(work_package1)
-      expect(page).to have_heading(work_package1.subject, level: 2, exact_text: true)
+      expect(page).to have_heading(work_package1.subject, level: 2, exact: true)
     end
 
     it "the split screen of the selected WP" do

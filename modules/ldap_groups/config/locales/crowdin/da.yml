@@ -4,7 +4,7 @@ da:
     attributes:
       ldap_groups/synchronized_filter:
         auth_source: Godkendelseskilde
-        base_dn: Søg i base DN
+        base_dn: Base-DN for søgning
         filter_string: LDAP-filter
         group_name_attribute: Attribut for gruppenavn
         ldap_auth_source: LDAP-forbindelse
@@ -18,7 +18,7 @@ da:
     errors:
       models:
         ldap_groups/synchronized_filter:
-          must_contain_base_dn: Filterbase DN skal være indeholdt i LDAP-forbindelsens base DN
+          must_contain_base_dn: Filterets base-DN skal ligge inden for LDAP-forbindelsens base-DN
     models:
       ldap_groups/synchronized_filter:
         one: Filter til synkronisering af LDAP-grupper
@@ -47,7 +47,7 @@ da:
         title: Fjern det synkroniserede filter %{name}
         verification_html: Skriv filterets navn %{name} for at bekræfte sletningen.
       form:
-        base_dn_text: 'Indtast søgefasen DN for at bruge dette filter. Det skal være under basen DN for den valgte LDAP- forbindelse. Lad denne mulighed være tom for at genbruge basen DN for forbindelsen
+        base_dn_text: 'Angiv den base-DN, som filteret skal søge fra. Den skal ligge under base-DN for den valgte LDAP-forbindelse. Lad feltet stå tomt for at genbruge forbindelsens base-DN
 
           '
         filter_string_text: Angiv det LDAP-filter efter RFC 4515, der returnerer de grupper i dit LDAP, som skal synkroniseres med OpenProject.

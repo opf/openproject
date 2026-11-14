@@ -41,10 +41,15 @@ import * as Turbo from '@hotwired/turbo';
  * ships in a release we depend on, drop this patch in favor of it.
  *
  * This is a verbatim fork of `FrameController.proposeVisitIfNavigatedWithAction`
- * with a single divergence: the history snapshot is built from the live
- * document (`frame.ownerDocument.documentElement.outerHTML`) instead of the
- * fetch response (`await fetchResponse.responseHTML`), so the restored snapshot
- * reflects the fully rendered page rather than the bare frame fragment.
+ * with two divergences:
+ * - The history snapshot is built from the live document
+ *   (`frame.ownerDocument.documentElement.outerHTML`) instead of the fetch
+ *   response (`await fetchResponse.responseHTML`), so the restored snapshot
+ *   reflects the fully rendered page rather than the bare frame fragment.
+ * - A visit that supersedes one which has not rendered yet reuses that visit's
+ *   snapshot. Cloning again would capture the frame mid-request (`busy`, the
+ *   superseded `src`, no `complete`), so going back would reload the
+ *   superseded URL instead of restoring the page.
  *
  * Pinned to @hotwired/turbo 8.0.x. `turbo-navigation-patch.spec.ts` is a
  * tripwire: it fails if Turbo renames the patched method or stops sourcing the
@@ -56,13 +61,16 @@ export function applyTurboNavigationPatch() {
     this.action = action;
 
     if (this.action) {
-      const pageSnapshot = Turbo.PageSnapshot.fromElement(frame).clone();
+      this.pendingPageSnapshot ??= Turbo.PageSnapshot.fromElement(frame).clone();
+      const pageSnapshot = this.pendingPageSnapshot;
       const { visitCachedSnapshot } = frame.delegate;
 
       // Kept `async` to mirror upstream's method shape even though the body no
       // longer awaits -- the divergence below sources the snapshot synchronously
       // from the live document instead of `await fetchResponse.responseHTML`.
       frame.delegate.fetchResponseLoaded = async (fetchResponse) => {
+        delete this.pendingPageSnapshot;
+
         if (frame.src) {
           const { statusCode, redirected } = fetchResponse;
           // Divergence from upstream: capture the live, fully rendered page

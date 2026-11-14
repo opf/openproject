@@ -35,19 +35,19 @@ RSpec.describe Admin::Settings::UsersSettings::UserConsentForm, type: :forms do
   let(:form_arguments) { { url: "/foo", scope: :settings } }
 
   it "renders", :aggregate_failures do
-    expect(page).to have_field "Consent required", type: :checkbox, fieldset: "User Consent" do |field|
+    expect(page).to have_field "Consent required", type: :checkbox, fieldset: "User consent" do |field|
       expect(field["name"]).to eq "settings[consent_required]"
     end
 
-    expect(page).to have_select "Consent information text", fieldset: "User Consent", selected: "English" do |field|
+    expect(page).to have_select "Consent information text", fieldset: "User consent", selected: "English" do |field|
       expect(field["name"]).to eq "settings[consent_info_lang]"
     end
 
-    expect(page).to have_field "Consent time", type: :checkbox, fieldset: "User Consent"
+    expect(page).to have_field "Consent time", type: :checkbox, fieldset: "User consent"
 
     expect(page).to have_field "Consent contact mail address",
                                type: :email,
-                               fieldset: "User Consent",
+                               fieldset: "User consent",
                                accessible_description: I18n.t("consent.contact_mail_instructions") do |field|
       expect(field["name"]).to eq "settings[consent_decline_mail]"
     end

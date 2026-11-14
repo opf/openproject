@@ -45,7 +45,7 @@ RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component do
     {
       form_configuration: WorkPackageTypes::Wizard::FormConfigurationStepComponent,
       project_attributes: WorkPackageTypes::Wizard::ProjectAttributesStepComponent,
-      projects: WorkPackageTypes::ProjectsComponent,
+      projects: WorkPackageTypes::Wizard::ProjectsStepComponent,
       pdf: WorkPackageTypes::Wizard::PdfStepComponent
     }.each do |step, component|
       it "renders #{component} on the #{step} step" do
@@ -79,6 +79,28 @@ RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component do
 
       expect(find_test_selector("wizard-step-start"))
         .to have_no_css(".octicon-check-circle-fill, .octicon-issue-draft, .octicon-circle")
+    end
+  end
+
+  describe "sidebar navigation" do
+    it "renders no clickable step before the record exists", :aggregate_failures do
+      render_inline(described_class.new(type: build(:type), current_step: :start))
+
+      expect(page).to have_css(".op-work-package-types-wizard--sidebar-static")
+      %i[start details defaults].each do |step|
+        expect(find_test_selector("wizard-step-#{step}").tag_name).to eq("div")
+      end
+    end
+
+    it "links each step once the record exists", :aggregate_failures do
+      variant = create(:type_variant, type:)
+
+      render_inline(described_class.new(type:, current_step: :details, variant:))
+
+      expect(page).to have_no_css(".op-work-package-types-wizard--sidebar-static")
+      node = find_test_selector("wizard-step-defaults")
+      expect(node.tag_name).to eq("a")
+      expect(node[:href]).to be_present
     end
   end
 

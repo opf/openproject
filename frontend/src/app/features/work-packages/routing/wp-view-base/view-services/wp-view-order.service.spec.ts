@@ -39,7 +39,6 @@ import { States } from 'core-app/core/states/states.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackageViewOrderService } from './wp-view-order.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
 import { WorkPackageViewSortByService } from './wp-view-sort-by.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
@@ -68,10 +67,6 @@ describe('WorkPackageViewOrderService', () => {
     new DragDropHandleRenderPass(TestBed.inject(Injector), table, pass).render();
   }
 
-  class CausedUpdatesServiceStub {
-    add = vi.fn();
-  }
-
   class WorkPackageViewSortByServiceStub {
     get isManualSortingMode() { return manual; }
   }
@@ -80,14 +75,14 @@ describe('WorkPackageViewOrderService', () => {
   }
 
   beforeEach(async () => {
-    mockUpdateFn = vi.fn().mockResolvedValue(new Date());
+    mockUpdateFn = vi.fn().mockResolvedValue({ t: 'after' });
 
     manual = false;
     reportError.mockReset();
     queryA = { id: '123', orderedWorkPackages: { '1': 100, '2': 200 } } as unknown as QueryResource;
     queryB = { id: '456', orderedWorkPackages: { '8': 800 } } as unknown as QueryResource;
     endpointA = { order: { update: mockUpdateFn, get: vi.fn().mockResolvedValue({ '1': 100, '2': 200 }) } };
-    endpointB = { order: { update: vi.fn().mockResolvedValue(new Date()), get: vi.fn().mockResolvedValue({ '8': 800 }) } };
+    endpointB = { order: { update: vi.fn().mockResolvedValue({ t: 'after' }), get: vi.fn().mockResolvedValue({ '8': 800 }) } };
     const apiV3ServiceStub = {
       queries: { id: (query:QueryResource) => query === queryA ? endpointA : endpointB },
     };
@@ -99,7 +94,6 @@ describe('WorkPackageViewOrderService', () => {
         { provide: WorkPackageNotificationService, useValue: { handleRawError: reportError } },
         IsolatedQuerySpace,
         { provide: ApiV3Service, useValue: apiV3ServiceStub },
-        { provide: CausedUpdatesService, useClass: CausedUpdatesServiceStub },
         { provide: WorkPackageViewSortByService, useClass: WorkPackageViewSortByServiceStub },
         { provide: PathHelperService, useClass: PathHelperServiceStub },
         WorkPackageViewOrderService,
@@ -205,7 +199,65 @@ describe('WorkPackageViewOrderService', () => {
   });
 
 
+  it('acknowledges consecutive local writes only from the last known revision', async () => {
+    queryA.updatedAt = 'initial';
+    mockUpdateFn.mockResolvedValueOnce({ previousUpdatedAt: 'initial', t: 'local-1' });
+    await service.update({ '1': 1 });
+    expect(queryA.updatedAt).toBe('local-1');
+
+    mockUpdateFn.mockResolvedValueOnce({ previousUpdatedAt: 'external', t: 'local-2' });
+    await service.update({ '2': 2 });
+    mockUpdateFn.mockResolvedValueOnce({ previousUpdatedAt: 'local-2', t: 'local-3' });
+    await service.update({ '2': 3 });
+    expect(queryA.updatedAt).toBe('local-1');
+  });
+
+  describe('stale cached positions', () => {
+    const cache = async (positions:QueryOrder) => {
+      endpointA.order.get.mockResolvedValueOnce(positions);
+      await service.positionsFor(queryA);
+    };
+
+    it('does not re-create a work package the server already dropped from the order', async () => {
+      await cache({ '1': 0, '2': 0, '3': 0 });
+      endpointA.order.get.mockResolvedValue({ '2': 0, '3': 0 });
+
+      const prepared = await service.prepareMove(queryA, ['2', '3'], '3', 0, () => true);
+      await prepared.persist();
+
+      expect(endpointA.order.update).toHaveBeenCalledOnce();
+      expect(endpointA.order.update.mock.calls[0][0]).not.toHaveProperty('1');
+    });
+
+    it('keeps the cached positions when the move only ranks the displayed rows', async () => {
+      await cache({ '2': 0, '3': 16384 });
+
+      await service.prepareMove(queryA, ['2', '3'], '3', 0, () => true);
+
+      expect(endpointA.order.get).toHaveBeenCalledOnce();
+    });
+
+    it('persists nothing when refreshing the positions fails', async () => {
+      await cache({ '1': 0, '2': 0, '3': 0 });
+      endpointA.order.get.mockRejectedValue(new Error('offline'));
+
+      await expect(service.prepareMove(queryA, ['2', '3'], '3', 0, () => true)).rejects.toThrow('offline');
+      expect(endpointA.order.update).not.toHaveBeenCalled();
+    });
+  });
+
   describe('captured persistence', () => {
+    it('persists a non-contiguous selection in one delta and leaves unrelated positions alone', async () => {
+      endpointA.order.get.mockResolvedValue({ '1': 10, '2': 20, '3': 30, '4': 40, '9': 90 });
+
+      const prepared = await service.prepareBlockMove(queryA, ['1', '2', '3', '4'], ['4', '2'], 0, () => true);
+      expect(prepared.order).toEqual(['2', '4', '1', '3']);
+      await prepared.persist();
+
+      expect(endpointA.order.update).toHaveBeenCalledExactlyOnceWith({ '2': 10, '4': 20, '1': 30, '3': 40 });
+      expect(queryA.orderedWorkPackages).toMatchObject({ '9': 90 });
+    });
+
     it('prepares without writing and persists A after navigation during its read', async () => {
       const read = deferred<QueryOrder>();
       endpointA.order.get.mockReturnValue(read.promise);
@@ -245,11 +297,12 @@ describe('WorkPackageViewOrderService', () => {
     });
 
     it('publishes saved movement and unsaved insertion for live owners', async () => {
-      const caused = vi.spyOn(TestBed.inject(CausedUpdatesService), 'add');
+      queryA.updatedAt = 'before';
+      mockUpdateFn.mockResolvedValueOnce({ previousUpdatedAt: 'before', t: 'after' });
       const moved = await service.prepareMove(queryA, ['1', '2'], '1', 1, () => true);
       await moved.persist();
       expect(queryA.orderedWorkPackages).toEqual({ '1': 200, '2': 100 });
-      expect(caused).toHaveBeenCalledWith(queryA);
+      expect(queryA.updatedAt).toBe('after');
       queryA.id = 'new';
       const added = await service.prepareAdd(queryA, ['2', '1'], '3', () => true, 0);
       await added.persist();
@@ -310,6 +363,31 @@ describe('WorkPackageViewOrderService', () => {
       copied['1'] = 999;
       expect(await service.positionsFor(queryA)).toEqual({ '1': 100 });
       expect(endpointA.order.get).toHaveBeenCalledTimes(1);
+    });
+
+    it('loads new positions when the same query is fetched again after an external reorder', async () => {
+      await service.positionsFor(queryA);
+      const refreshed = { ...queryA } as QueryResource;
+      querySpace.query.putValue(refreshed);
+      endpointB.order.get.mockResolvedValue({ '1': 200, '2': 100 });
+      expect(await service.positionsFor(refreshed)).toEqual({ '1': 200, '2': 100 });
+    });
+
+    it('does not acknowledge a replacement query while reading positions for a drag', async () => {
+      queryA.updatedAt = 'initial';
+      const read = deferred<QueryOrder>();
+      endpointA.order.get.mockReturnValue(read.promise);
+      mockUpdateFn.mockResolvedValue({ previousUpdatedAt: 'external', t: 'local' });
+      const moving = service.move(['1', '2'], '1', 1);
+      const refreshed = { ...queryA, updatedAt: 'external' } as QueryResource;
+      querySpace.query.putValue(refreshed);
+      read.resolve({ '1': 100, '2': 200 });
+      await moving;
+
+      expect(querySpace.query.value).toBe(refreshed);
+      expect(refreshed.updatedAt).toBe('external');
+      expect(endpointA.order.update).toHaveBeenCalledOnce();
+      expect(endpointB.order.update).not.toHaveBeenCalled();
     });
 
     it('reloads empty and stale cache values', async () => {

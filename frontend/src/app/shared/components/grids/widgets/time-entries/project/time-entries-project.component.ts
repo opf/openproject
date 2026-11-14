@@ -33,6 +33,7 @@ import { HalResourceEditingService } from 'core-app/shared/components/fields/edi
 
 @Component({
   templateUrl: '../list/time-entries-list.component.html',
+  styleUrls: ['../list/time-entries-list.component.sass'],
   providers: [
     HalResourceEditingService,
   ],

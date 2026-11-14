@@ -130,8 +130,8 @@ RSpec.describe Exports::PDF::Common::Attachments do
     end
 
     it "runs ImageMagick with the project policy applied" do
-      expect(MiniMagick.cli_env["MAGICK_CONFIGURE_PATH"])
-        .to eq(Rails.root.join("config/imagemagick").to_s)
+      expect(MiniMagick.cli_env["MAGICK_CONFIGURE_PATH"].split(File::PATH_SEPARATOR))
+        .to include(Rails.root.join("config/imagemagick").to_s)
     end
   end
 
@@ -176,14 +176,6 @@ RSpec.describe Exports::PDF::Common::Attachments do
 
     it "writes a file with image/png MIME type" do
       result = helper.convert_webp_to_png(webp_fixture)
-      expect(Marcel::MimeType.for(Pathname.new(result))).to eq("image/png")
-    end
-
-    it "falls back to the source file when extract_first_webp_frame returns nil" do
-      allow(helper).to receive(:extract_first_webp_frame).and_return(nil)
-      result = helper.convert_webp_to_png(webp_fixture)
-      expect(result).to end_with(".png")
-      expect(File.exist?(result)).to be true
       expect(Marcel::MimeType.for(Pathname.new(result))).to eq("image/png")
     end
   end
@@ -241,7 +233,9 @@ RSpec.describe Exports::PDF::Common::Attachments do
     end
 
     context "when src matches a valid attachment path" do
-      let(:attachment) { instance_double(Attachment, id: 7) }
+      let(:attachment) do
+        instance_double(Attachment, id: 7, status_scanned?: false, status_uploaded?: true, pending_virus_scan?: false)
+      end
 
       before { allow(Attachment).to receive(:find_by).with(id: 7).and_return(attachment) }
 
@@ -256,6 +250,14 @@ RSpec.describe Exports::PDF::Common::Attachments do
         it "returns the attachment for the drag-and-drop path format" do
           result = helper.attachment_by_api_content_src("/attachments/7/filename.ext")
           expect(result).to eq(attachment)
+        end
+
+        context "when the upload is not completed" do
+          before { allow(attachment).to receive(:status_uploaded?).and_return(false) }
+
+          it "returns nil" do
+            expect(helper.attachment_by_api_content_src("/api/v3/attachments/7/content")).to be_nil
+          end
         end
       end
 
@@ -303,11 +305,24 @@ RSpec.describe Exports::PDF::Common::Attachments do
       allow(helper).to receive(:attachment_by_api_content_src).with(src).and_return(attachment)
       allow(helper).to receive(:pdf_embeddable?).with("image/jpeg").and_return(true)
       allow(helper).to receive(:attachment_image_local_file).with(attachment).and_return(local_file)
+      allow(OpenProject::ContentTypeDetector).to receive(:detect).with("/tmp/image.jpg").and_return("image/jpeg")
       allow(helper).to receive(:resize_image).with("/tmp/image.jpg").and_return("/tmp/resized.jpg")
     end
 
     it "returns a resized image path for a jpeg" do
       expect(helper.attachment_image_filepath(src)).to eq("/tmp/resized.jpg")
+    end
+
+    context "when the file content does not match the stored type" do
+      before do
+        allow(OpenProject::ContentTypeDetector).to receive(:detect).with("/tmp/image.jpg").and_return("application/x-bzip2")
+        allow(helper).to receive(:pdf_embeddable?).with("application/x-bzip2").and_return(false)
+      end
+
+      it "returns nil without resizing" do
+        expect(helper.attachment_image_filepath(src)).to be_nil
+        expect(helper).not_to have_received(:resize_image)
+      end
     end
 
     context "when attachment is nil" do
@@ -342,6 +357,7 @@ RSpec.describe Exports::PDF::Common::Attachments do
         allow(helper).to receive(:attachment_by_api_content_src).with(src).and_return(attachment)
         allow(helper).to receive(:pdf_embeddable?).with("image/gif").and_return(true)
         allow(helper).to receive(:attachment_image_local_file).with(attachment).and_return(local_file)
+        allow(OpenProject::ContentTypeDetector).to receive(:detect).with("/tmp/image.gif").and_return("image/gif")
         allow(helper).to receive(:convert_gif_to_png).with("/tmp/image.gif").and_return("/tmp/converted.png")
         allow(helper).to receive(:resize_image).with("/tmp/converted.png").and_return("/tmp/resized.png")
       end
@@ -361,6 +377,7 @@ RSpec.describe Exports::PDF::Common::Attachments do
         allow(helper).to receive(:attachment_by_api_content_src).with(src).and_return(attachment)
         allow(helper).to receive(:pdf_embeddable?).with("image/webp").and_return(true)
         allow(helper).to receive(:attachment_image_local_file).with(attachment).and_return(local_file)
+        allow(OpenProject::ContentTypeDetector).to receive(:detect).with("/tmp/image.webp").and_return("image/webp")
         allow(helper).to receive(:convert_webp_to_png).with("/tmp/image.webp").and_return("/tmp/converted.png")
         allow(helper).to receive(:resize_image).with("/tmp/converted.png").and_return("/tmp/resized.png")
       end
@@ -380,75 +397,12 @@ RSpec.describe Exports::PDF::Common::Attachments do
         allow(helper).to receive(:attachment_by_api_content_src).with(src).and_return(attachment)
         allow(helper).to receive(:pdf_embeddable?).with("image/gif").and_return(true)
         allow(helper).to receive(:attachment_image_local_file).with(attachment).and_return(local_file)
+        allow(OpenProject::ContentTypeDetector).to receive(:detect).with("/tmp/image.gif").and_return("image/gif")
         allow(helper).to receive(:convert_gif_to_png).with("/tmp/image.gif").and_return(nil)
       end
 
       it "returns nil" do
         expect(helper.attachment_image_filepath(src)).to be_nil
-      end
-    end
-  end
-
-  describe "#extract_first_webp_frame" do
-    let(:animated_webp) { Rails.root.join("spec/fixtures/files/animated.webp").to_s }
-    let(:static_webp)   { Rails.root.join("spec/fixtures/files/image.webp").to_s }
-    let(:non_webp)      { Rails.root.join("spec/fixtures/files/image.png").to_s }
-
-    after { helper.delete_all_resized_images }
-
-    context "with an animated WebP" do
-      it "returns a non-nil path" do
-        expect(helper.extract_first_webp_frame(animated_webp)).not_to be_nil
-      end
-
-      it "returns a path to an existing file" do
-        result = helper.extract_first_webp_frame(animated_webp)
-        expect(File.exist?(result)).to be true
-      end
-
-      it "returns a file with image/webp MIME type" do
-        result = helper.extract_first_webp_frame(animated_webp)
-        expect(Marcel::MimeType.for(Pathname.new(result))).to eq("image/webp")
-      end
-
-      it "returns a single-frame WebP" do
-        result = helper.extract_first_webp_frame(animated_webp)
-        expect(MiniMagick::Image.open(result).frames.count).to eq(1)
-      end
-
-      it "returns a file with a valid RIFF/WEBP container header" do
-        result = helper.extract_first_webp_frame(animated_webp)
-        data = File.binread(result)
-        expect(data[0, 4]).to eq("RIFF".b)
-        expect(data[8, 4]).to eq("WEBP".b)
-      end
-    end
-
-    context "with a static (non-animated) WebP" do
-      it "returns nil" do
-        expect(helper.extract_first_webp_frame(static_webp)).to be_nil
-      end
-    end
-
-    context "with a non-WebP file" do
-      it "returns nil" do
-        expect(helper.extract_first_webp_frame(non_webp)).to be_nil
-      end
-    end
-
-    context "when an error is raised while reading the file" do
-      before do
-        allow(File).to receive(:binread).and_raise(StandardError, "read error")
-        allow(Rails.logger).to receive(:error)
-      end
-
-      it "returns nil" do
-        expect(helper.extract_first_webp_frame(animated_webp)).to be_nil
-      end
-
-      it "logs the error" do
-        helper.extract_first_webp_frame(animated_webp)
-        expect(Rails.logger).to have_received(:error).with(/read error/)
       end
     end
   end

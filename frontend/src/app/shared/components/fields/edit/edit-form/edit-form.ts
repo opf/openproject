@@ -49,6 +49,10 @@ export const activeFieldContainerClassName = 'inline-edit--active-field';
 export const activeFieldClassName = 'inline-edit--field';
 
 export abstract class EditForm<T extends HalResource = HalResource> {
+  public allowsFieldAutofocus(_fieldName:string):boolean {
+    return true;
+  }
+
   // Injections
   @LazyInject() states:States;
 
@@ -86,16 +90,21 @@ export abstract class EditForm<T extends HalResource = HalResource> {
   /**
    * Reset the field and re-render the current resource's value
    */
-  abstract reset(fieldName:string, focus?:boolean):void;
+  abstract reset(fieldName:string, focus?:boolean, userEnded?:boolean, closing?:EditFieldHandler):void;
 
   /**
    * Optional callback when the form is being saved
    */
-  protected onSaved(commit:ResourceChangesetCommit):void {
+  protected onSaved(_commit:ResourceChangesetCommit<T>):void {
     // Does nothing by default
   }
 
   protected abstract focusOnFirstError():void;
+
+  /** Runs after a user submit has saved or closed its fields. */
+  public onSubmitComplete():void {
+    // Forms override this hook.
+  }
 
   // eslint-disable-next-line @typescript-eslint/class-literal-property-style -- Forms override this lifetime check.
   protected get activationCancelled():boolean {
@@ -186,7 +195,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
    * Save the active changeset.
    * @return {any}
    */
-  public async submit():Promise<T> {
+  public async submit(_submittedField?:string):Promise<T> {
     const change = this.change;
     const resource = this.resource;
     if (change.isEmpty() && !isNewResource(resource)) {

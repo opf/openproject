@@ -104,6 +104,22 @@ RSpec.describe Label do
     end
   end
 
+  describe ".named_any" do
+    it "finds labels regardless of casing and surrounding whitespace" do
+      alpha = create(:label, name: "Alpha")
+      bravo = create(:label, name: "Bravo")
+      create(:label, name: "Charlie")
+
+      expect(described_class.named_any(["  alpha ", "BRAVO", "Missing"])).to contain_exactly(alpha, bravo)
+    end
+
+    it "finds nothing for empty input" do
+      create(:label, name: "Alpha")
+
+      expect(described_class.named_any([])).to be_empty
+    end
+  end
+
   describe ".page_of" do
     let!(:alpha) { create(:label, name: "Alpha") }
     let!(:bravo) { create(:label, name: "bravo") }

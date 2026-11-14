@@ -27,8 +27,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "semantic"
-
 module OpenProject
   # This module provides some information about the currently used database
   # adapter. It can be used to write code specific to certain database

@@ -1,0 +1,32 @@
+/.github/ @opf/devops
+
+/lib/open_project/version.rb @opf/devops
+/packaging/ @opf/devops
+/.pkgr.yml @opf/devops
+/docker/prod/ @opf/devops
+/script/ci/ @opf/devops
+
+/config/initializers/content_security_policy.rb @opf/security
+/config/initializers/session_store.rb @opf/security
+/config/initializers/cookies_serializer.rb @opf/security
+/config/initializers/rack-attack.rb @opf/security
+/config/initializers/rack-cors.rb @opf/security
+/config/initializers/doorkeeper.rb @opf/security
+/config/initializers/omniauth.rb @opf/security
+/config/initializers/warden.rb @opf/security
+/config/initializers/active_record_encryption.rb @opf/security
+/config/initializers/bcrypt.rb @opf/security
+/config/initializers/filter_parameter_logging.rb @opf/security
+/config/brakeman.ignore @opf/security
+/SECURITY.md @opf/security
+/lib_static/open_project/authentication.rb @opf/security
+/lib_static/open_project/authentication/ @opf/security
+/app/services/authentication/ @opf/security
+/app/services/authorization.rb @opf/security
+/app/services/authorization/ @opf/security
+/lib/open_project/access_control.rb @opf/security
+/lib/open_project/access_control/ @opf/security
+/lib/open_project/passwords.rb @opf/security
+/app/models/user_password.rb @opf/security
+/app/models/user_password/ @opf/security
+/app/models/token/ @opf/security

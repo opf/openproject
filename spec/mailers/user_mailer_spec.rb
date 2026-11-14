@@ -295,7 +295,7 @@ RSpec.describe UserMailer do
     it_behaves_like "mail is sent" do
       it "includes the password" do
         expect(html_body)
-          .to have_content(pwd)
+          .to have_text(pwd)
       end
     end
   end
@@ -428,6 +428,16 @@ RSpec.describe UserMailer do
         expect(html_body)
           .to have_link(url,
                         href: url)
+      end
+    end
+
+    context "with a translation containing quotes",
+            with_settings: { available_languages: %w[en fr] } do
+      let(:token) { build_stubbed(:invitation_token, user: build_stubbed(:invited_user, language: "fr")) }
+
+      it "keeps them as plain text in the text part" do
+        expect(deliveries.first.text_part.body.decoded)
+          .to include("N'hésitez pas")
       end
     end
   end

@@ -29,7 +29,23 @@
 #++
 
 class OpenProject::JournalFormatter::Labels < OpenProject::JournalFormatter::JoinedAssociation
+  def render(key, values, options = { html: true })
+    return if only_deleted_labels_removed?(values)
+
+    super
+  end
+
   private
+
+  def only_deleted_labels_removed?(values)
+    return false unless @journal.cause_type == "label_deleted"
+
+    old_ids, new_ids = values.map { |value| value.to_s.split(",").map(&:to_i) }
+    added = new_ids - old_ids
+    removed = old_ids - new_ids
+    deleted_ids = Array(@journal.cause_label_ids).map(&:to_i)
+    added.empty? && removed.any? && (removed - deleted_ids).empty?
+  end
 
   def name_or_placeholder(object)
     return I18n.t(:label_deleted_label) if object.nil?

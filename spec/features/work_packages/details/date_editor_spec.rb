@@ -34,7 +34,7 @@ require "features/work_packages/shared_contexts"
 require "support/edit_fields/edit_field"
 require "features/work_packages/work_packages_page"
 
-RSpec.describe "date inplace editor", :js, :selenium, with_settings: { date_format: "%Y-%m-%d" } do
+RSpec.describe "date inplace editor", :js, with_settings: { date_format: "%Y-%m-%d" } do
   shared_let(:project) { create(:project_with_types, public: true) }
   shared_let(:user) { create(:admin) }
   shared_let(:type) { project.enabled_types.first }

@@ -135,7 +135,7 @@ export abstract class AbstractFieldService<T extends Field, C extends IFieldType
    */
   protected register(fieldClass:C, fields:string[] = []) {
     const type = fieldClass.fieldType;
-    fields.forEach((field:string) => this.fields[field] = type);
+    fields.forEach((field:string) => { this.fields[field] = type; });
     this.classes[type] = fieldClass;
   }
 }

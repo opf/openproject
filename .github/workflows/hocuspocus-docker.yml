@@ -48,7 +48,7 @@ jobs:
           elif [ "$REF_NAME" = "dev" ]; then
             DEPLOY="edge"
           # NOTE: keep this in sync with the current release branch (devkit-managed in core).
-          elif [ "$REF_NAME" = "release/17.9" ]; then
+          elif [ "$REF_NAME" = "release/18.0" ]; then
             DEPLOY="stage"
           else
             DEPLOY=""

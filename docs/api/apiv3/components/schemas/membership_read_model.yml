@@ -70,7 +70,7 @@ properties:
               The endpoint for updating the membership.
 
               # Conditions
-              
+
               **Permission**: manage_members
       updateImmediately:
         allOf:
@@ -79,7 +79,7 @@ properties:
               The endpoint for updating the membership without form validation.
 
               # Conditions
-              
+
               **Permission**: manage_members
       project:
         allOf:
@@ -102,5 +102,5 @@ properties:
             - $ref: './link.yml'
             - description: |-
                 A role the principal has.
-  
+
                 **Resource**: Role

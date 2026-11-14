@@ -99,7 +99,7 @@ See COPYRIGHT and LICENSE files for more details.
   text_color_instruction = I18n.t(instruction_key) if I18n.exists?(instruction_key, :en)
 %>
 
-<%= render(OpenProject::Common::BorderBoxListComponent.new(container: "export-cover-text-color", mb: 3)) do |list| %>
+<%= render(OpPrimer::BorderBoxListComponent.new(container: "export-cover-text-color", mb: 3)) do |list| %>
   <% list.with_header(title: I18n.t(:label_custom_export_font_colors)) %>
 
   <% list.with_item do %>

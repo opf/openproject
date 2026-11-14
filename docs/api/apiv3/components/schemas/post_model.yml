@@ -2,7 +2,7 @@
 ---
 type: object
 required:
-- subject
+  - subject
 properties:
   id:
     type: integer
@@ -17,39 +17,39 @@ properties:
     properties:
       addAttachment:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            Attach a file to the post
+          - $ref: "./link.yml"
+          - description: |-
+              Attach a file to the post
 
-            # Conditions
+              # Conditions
 
-            **Permission**: edit messages
-          readOnly: true
+              **Permission**: edit messages
+            readOnly: true
       topic:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            The post that opens the topic: the post itself, or the post it replies to
+          - $ref: "./link.yml"
+          - description: |-
+              The post that opens the topic: the post itself, or the post it replies to
 
-            **Resource**: Post
-          readOnly: true
-example:
-  _type: Post
-  id: 1
-  subject: A post with a subject
-  _embedded:
-    project:
-      _type: Project...
-  _links:
-    self:
-      href: "/api/v3/posts/1"
-    attachments:
-      href: "/api/v3/posts/1/attachments"
-    addAttachment:
-      href: "/api/v3/posts/1/attachments"
-      method: post
-    topic:
-      href: "/api/v3/posts/1"
-    project:
-      href: "/api/v3/projects/1"
-      title: A project with a title
+              **Resource**: Post
+            readOnly: true
+examples:
+  - _type: Post
+    id: 1
+    subject: A post with a subject
+    _embedded:
+      project:
+        _type: Project...
+    _links:
+      self:
+        href: "/api/v3/posts/1"
+      attachments:
+        href: "/api/v3/posts/1/attachments"
+      addAttachment:
+        href: "/api/v3/posts/1/attachments"
+        method: post
+      topic:
+        href: "/api/v3/posts/1"
+      project:
+        href: "/api/v3/projects/1"
+        title: A project with a title

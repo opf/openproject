@@ -70,7 +70,7 @@ RSpec.describe "Password change with OTP", :js, with_settings: {
     end
 
     if requires_otp
-      expect(page).to have_css("input#otp")
+      expect(page).to have_field("otp")
       SeleniumHubWaiter.wait
       fill_in "otp", with: sms_token
       click_button I18n.t(:button_login), type: "submit"

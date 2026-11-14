@@ -54,11 +54,20 @@ import { attachClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/clos
 import type { draggable as draggableFn, dropTargetForElements as dropTargetForElementsFn } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import type { setCustomNativeDragPreview as setCustomNativeDragPreviewFn } from '@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview';
 import type { preventUnhandled as preventUnhandledType } from '@atlaskit/pragmatic-drag-and-drop/prevent-unhandled';
+import { fireEvent, within } from '@testing-library/dom';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type { ActionEvent } from '@hotwired/stimulus';
 import type ItemControllerType from './item.controller';
 import type { SortableListsRoot } from './drag-and-drop';
+import type { ActionScope } from './selection-orchestrator';
 import type { DestinationIdentity } from './list-dom';
+import { type SelectionItem } from 'core-common/batch-selection';
+import { DragSession, type DragSessionHost } from './drag-session';
+import { type Mock } from 'vitest';
+
+// The method is a mock property rather than a method signature, so tests
+// may read the spy without binding it.
+type FakeRoot = Omit<SortableListsRoot, 'beginDrag'> & { beginDrag:Mock<(itemElement:HTMLElement) => DragSession> };
 
 describe('Sortable lists item controller', () => {
   let draggable:typeof draggableFn;
@@ -66,7 +75,7 @@ describe('Sortable lists item controller', () => {
   let preventUnhandled:typeof preventUnhandledType;
   let setCustomNativeDragPreview:typeof setCustomNativeDragPreviewFn;
   let ItemController:typeof ItemControllerType;
-  let sortableItemData:typeof import('./drag-and-drop').sortableItemData;
+  let sortableDragSourceData:typeof import('./drag-and-drop').sortableDragSourceData;
   let sortableItemIdentity:typeof import('./drag-and-drop').sortableItemIdentity;
 
   interface TestItemController {
@@ -80,7 +89,7 @@ describe('Sortable lists item controller', () => {
     ({ preventUnhandled } = await import('@atlaskit/pragmatic-drag-and-drop/prevent-unhandled'));
     ({ setCustomNativeDragPreview } = await import('@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview'));
     ({ default: ItemController } = await import('./item.controller'));
-    ({ sortableItemData, sortableItemIdentity } = await import('./drag-and-drop'));
+    ({ sortableDragSourceData, sortableItemIdentity } = await import('./drag-and-drop'));
   });
 
   function controllerFor(element:HTMLElement) {
@@ -94,33 +103,74 @@ describe('Sortable lists item controller', () => {
   }
 
   function fakeRoot(
-    element = document.createElement('div'),
-    { busy = false, ownerDestination = null, ownerRowsContainer = () => null }:{
+    element:HTMLElement = document.createElement('div'),
+    {
+      busy = false,
+      ownerDestination = null,
+      ownerRowsContainer = () => null,
+      maxBatchSize = 0,
+      prospectiveMembers = (item:HTMLElement) => [item],
+      frozenMembers = ():SelectionItem[]|null => null,
+      // Two owned lists by default: with one, a confined member would permit
+      // every list and read as unrestricted.
+      ownedDestinations = [ownerDestination, { type: 'item', id: 'elsewhere' }]
+        .filter((destination):destination is DestinationIdentity => destination !== null),
+    }:{
       busy?:boolean;
       ownerDestination?:DestinationIdentity|null;
       ownerRowsContainer?:(itemElement:HTMLElement) => HTMLElement|null;
+      maxBatchSize?:number;
+      prospectiveMembers?:(itemElement:HTMLElement) => HTMLElement[];
+      frozenMembers?:(itemElement:HTMLElement) => SelectionItem[]|null;
+      ownedDestinations?:DestinationIdentity[];
     } = {},
-  ):SortableListsRoot {
+  ):FakeRoot {
     Object.defineProperty(element, 'isConnected', { value: true, configurable: true });
+    const host:DragSessionHost = {
+      rootElement: element,
+      maxBatchSize,
+      prospectiveMembers,
+      frozenMembers,
+      ownedDestinations: () => ownedDestinations,
+      liveOwnerDestinationOf: () => ownerDestination,
+    };
+
+    // Mirrors the real root: one session at a time, a refused one not kept.
+    let dragSession:DragSession|null = null;
+    const beginDrag = vi.fn((itemElement:HTMLElement) => {
+      dragSession?.end();
+      const session = new DragSession(host, itemElement);
+      dragSession = session.refused ? null : session;
+      return session;
+    });
+
     return {
       element,
       busy,
+      actionScopeFor: vi.fn(():ActionScope => ({ kind: 'refused', items: [] })),
+      selectForAction: vi.fn(():ActionScope => ({ kind: 'refused', items: [] })),
+      moveToDestination: vi.fn(),
       moveInDirection: vi.fn(),
       moveAvailability: vi.fn(() => null),
       ownerRowsContainer: vi.fn(ownerRowsContainer),
-      freezeDragBatch: vi.fn(() => 1),
-      markDragBatch: vi.fn(),
       ownerDestinationOf: vi.fn(() => ownerDestination),
-      // Mirrors the real root's fallback for a batchless drag: the item's own
-      // mobility attribute is the whole answer.
-      dragPermittedDestinations: vi.fn((itemElement:HTMLElement) => (
-        itemElement.getAttribute('data-sortable-lists--item-mobility-value') === 'confined'
-          ? [ownerDestination].filter((destination):destination is DestinationIdentity => destination !== null)
-          : null
-      )),
-      dragRefused: vi.fn(() => false),
-      externalDragItems: vi.fn((item:HTMLElement) => [item]),
+      beginDrag,
+      get dragSession():DragSession|null {
+        return dragSession;
+      },
     };
+  }
+
+  // Pragmatic asks canDrag before it builds payloads, renders the preview or
+  // starts the drag; the item begins its session there. The pointer lands on
+  // nothing, so the point check passes.
+  function permitDrag(element:HTMLElement, root:FakeRoot):DragSession {
+    vi.spyOn(document, 'elementFromPoint').mockReturnValue(null);
+    expect(vi.mocked(draggable).mock.lastCall?.[0].canDrag?.({
+      element, dragHandle: null, input: { clientX: 10, clientY: 10 } as never,
+    })).toBe(true);
+
+    return root.beginDrag.mock.results.at(-1)!.value as DragSession;
   }
 
   function connectedControllerFor(
@@ -503,7 +553,7 @@ describe('Sortable lists item controller', () => {
       element: targetElement,
       input: {} as never,
       source: {
-        data: sortableItemData({ type: 'item', itemId: '456', rootElement: root }),
+        data: sortableDragSourceData({ type: 'item', itemId: '456', rootElement: root }),
         element: document.createElement('article'),
       } as never,
     })).toBe(false);
@@ -519,7 +569,7 @@ describe('Sortable lists item controller', () => {
       element,
       input: {} as never,
       source: {
-        data: sortableItemData({ type: 'item', itemId: '123', rootElement: root }),
+        data: sortableDragSourceData({ type: 'item', itemId: '123', rootElement: root }),
         element: document.createElement('article'),
       } as never,
     })).toBe(false);
@@ -536,7 +586,7 @@ describe('Sortable lists item controller', () => {
       element: targetElement,
       input: {} as never,
       source: {
-        data: sortableItemData({ type: 'item', itemId: '456', rootElement: foreignRoot }),
+        data: sortableDragSourceData({ type: 'item', itemId: '456', rootElement: foreignRoot }),
         element: document.createElement('article'),
       } as never,
     })).toBe(false);
@@ -552,7 +602,7 @@ describe('Sortable lists item controller', () => {
       element: targetElement,
       input: {} as never,
       source: {
-        data: sortableItemData({ type: 'meeting_agenda_item', itemId: '456', rootElement: root }),
+        data: sortableDragSourceData({ type: 'meeting_agenda_item', itemId: '456', rootElement: root }),
         element: document.createElement('article'),
       } as never,
     })).toBe(false);
@@ -568,7 +618,7 @@ describe('Sortable lists item controller', () => {
       element: targetElement,
       input: {} as never,
       source: {
-        data: sortableItemData({ type: 'item', itemId: '456', rootElement: root }),
+        data: sortableDragSourceData({ type: 'item', itemId: '456', rootElement: root }),
         element: document.createElement('article'),
       } as never,
     })).toBe(true);
@@ -586,7 +636,7 @@ describe('Sortable lists item controller', () => {
         element: targetElement,
         input: {} as never,
         source: {
-          data: sortableItemData({
+          data: sortableDragSourceData({
             type: 'item',
             itemId: '456',
             rootElement: root,
@@ -654,7 +704,7 @@ describe('Sortable lists item controller', () => {
       element: targetElement,
       input: {} as never,
       source: {
-        data: sortableItemData({
+        data: sortableDragSourceData({
           type: 'item',
           itemId: '456',
           rootElement: root,
@@ -674,7 +724,7 @@ describe('Sortable lists item controller', () => {
       element: targetElement,
       input: {} as never,
       source: {
-        data: sortableItemData({ type: 'item', itemId: '456', rootElement: root }),
+        data: sortableDragSourceData({ type: 'item', itemId: '456', rootElement: root }),
         element: document.createElement('article'),
       } as never,
     })).toBe(false);
@@ -771,11 +821,13 @@ describe('Sortable lists item controller', () => {
     element.setAttribute('data-sortable-lists--item-external-url-value', 'http://example.org/work_packages/123');
     element.setAttribute('data-sortable-lists--item-label-value', 'Card');
 
+    const root = fakeRoot(undefined, { prospectiveMembers: () => [element, mate] });
     connectedControllerFor(element, {
       externalUrl: 'http://example.org/work_packages/123',
       label: 'Card',
-      root: { ...fakeRoot(), externalDragItems: vi.fn(() => [element, mate]) },
+      root,
     });
+    permitDrag(element, root);
 
     const externalData = vi.mocked(draggable).mock.lastCall?.[0].getInitialDataForExternal?.(draggableArgs(element));
 
@@ -868,13 +920,33 @@ describe('Sortable lists item controller', () => {
     element.appendChild(text);
     vi.spyOn(document, 'elementFromPoint').mockReturnValue(text);
 
-    const root = fakeRoot();
-    root.dragRefused = vi.fn(() => true);
+    const root = fakeRoot(undefined, {
+      maxBatchSize: 1,
+      prospectiveMembers: (item) => [item, document.createElement('article')],
+    });
     connectedControllerFor(element, { root });
 
     expect(vi.mocked(draggable).mock.lastCall?.[0].canDrag?.({
       element, dragHandle: null, input: { clientX: 10, clientY: 10 } as never,
     })).toBe(false);
+  });
+
+  it('does not begin a session when the pointer is on an interactive descendant', () => {
+    const element = document.createElement('article');
+    const button = document.createElement('button');
+    element.appendChild(button);
+    vi.spyOn(document, 'elementFromPoint').mockReturnValue(button);
+
+    const root = fakeRoot(undefined, {
+      maxBatchSize: 1,
+      prospectiveMembers: (item) => [item, document.createElement('article')],
+    });
+    connectedControllerFor(element, { root });
+
+    expect(vi.mocked(draggable).mock.lastCall?.[0].canDrag?.({
+      element, dragHandle: null, input: { clientX: 10, clientY: 10 } as never,
+    })).toBe(false);
+    expect(root.beginDrag).not.toHaveBeenCalled();
   });
 
   it('refuses to drag before the root reference is connected', () => {
@@ -900,12 +972,11 @@ describe('Sortable lists item controller', () => {
   });
 
   it('includes the root-resolved permitted destinations in the payload', () => {
-    const root = document.createElement('div');
+    const rootElement = document.createElement('div');
     const element = document.createElement('article');
-    connectedControllerFor(element, {
-      root: fakeRoot(root, { ownerDestination: { type: 'sprint', id: '7' } }),
-      mobility: 'confined',
-    });
+    const root = fakeRoot(rootElement, { ownerDestination: { type: 'sprint', id: '7' } });
+    connectedControllerFor(element, { root, mobility: 'confined' });
+    permitDrag(element, root);
 
     expect(vi.mocked(draggable).mock.lastCall?.[0].getInitialData?.(draggableArgs(element)))
       .toEqual(expect.objectContaining({ permittedDestinations: [{ type: 'sprint', id: '7' }] }));
@@ -914,12 +985,15 @@ describe('Sortable lists item controller', () => {
   // A confined item still defers to the root: the batch it would carry may
   // reach every list, and the item's own mobility must not narrow that.
   it('preserves an unrestricted permitted-destinations answer from the root', () => {
-    const root = document.createElement('div');
+    const rootElement = document.createElement('div');
     const element = document.createElement('article');
-    connectedControllerFor(element, {
-      root: { ...fakeRoot(root), dragPermittedDestinations: vi.fn(() => null) },
-      mobility: 'confined',
+    // The one owned list is the item's own, so its confinement restricts nothing.
+    const root = fakeRoot(rootElement, {
+      ownerDestination: { type: 'sprint', id: '7' },
+      ownedDestinations: [{ type: 'sprint', id: '7' }],
     });
+    connectedControllerFor(element, { root, mobility: 'confined' });
+    permitDrag(element, root);
 
     expect(vi.mocked(draggable).mock.lastCall?.[0].getInitialData?.(draggableArgs(element)))
       .toEqual(expect.objectContaining({ permittedDestinations: null }));
@@ -939,13 +1013,17 @@ describe('Sortable lists item controller', () => {
   // item's own mobility: a free card dragging a confined batch-mate is pinned
   // to the mate's list, which need not be its own.
   it('carries the batch-aware permitted destinations of the root in the payload', () => {
-    const root = document.createElement('div');
+    const rootElement = document.createElement('div');
     const element = document.createElement('article');
+    const mate = document.createElement('article');
+    mate.setAttribute('data-sortable-lists--item-mobility-value', 'confined');
     const mateDestination = { type: 'sprint', id: '9' };
-    connectedControllerFor(element, {
-      root: { ...fakeRoot(root), dragPermittedDestinations: vi.fn(() => [mateDestination]) },
-      mobility: 'free',
+    const root = fakeRoot(rootElement, {
+      ownerDestination: mateDestination,
+      prospectiveMembers: () => [element, mate],
     });
+    connectedControllerFor(element, { root, mobility: 'free' });
+    permitDrag(element, root);
 
     expect(vi.mocked(draggable).mock.lastCall?.[0].getInitialData?.(draggableArgs(element)))
       .toEqual(expect.objectContaining({ permittedDestinations: [mateDestination] }));
@@ -1147,19 +1225,11 @@ describe('Sortable lists item controller', () => {
       await ctx.nextFrame();
 
       const controller = ctx.getController<InstanceType<typeof ItemControllerType>>('sortable-lists--item', row);
-      controller.connectRoot({
-        element: row,
-        busy: false,
-        moveInDirection: vi.fn(),
-        moveAvailability: vi.fn(() => null),
-        ownerRowsContainer: vi.fn(() => null),
-        freezeDragBatch: vi.fn(() => 3),
-        markDragBatch: vi.fn(),
-        dragPermittedDestinations: vi.fn(() => null),
-        ownerDestinationOf: vi.fn(() => null),
-        dragRefused: vi.fn(() => false),
-        externalDragItems: vi.fn((element:HTMLElement) => [element]),
+      const root = fakeRoot(row, {
+        frozenMembers: () => ['1', '2', '3'].map((id) => ({ type: 'work_package', id })),
       });
+      controller.connectRoot(root);
+      permitDrag(row, root);
 
       vi.mocked(draggable).mock.lastCall?.[0].onGenerateDragPreview?.({
         ...dragEventPayload(article),
@@ -1240,19 +1310,11 @@ describe('Sortable lists item controller', () => {
       await ctx.nextFrame();
 
       const controller = ctx.getController<InstanceType<typeof ItemControllerType>>('sortable-lists--item', row);
-      controller.connectRoot({
-        element: row,
-        busy: false,
-        moveInDirection: vi.fn(),
-        moveAvailability: vi.fn(() => null),
-        ownerRowsContainer: vi.fn(() => null),
-        freezeDragBatch: vi.fn(() => 3),
-        markDragBatch: vi.fn(),
-        dragPermittedDestinations: vi.fn(() => null),
-        ownerDestinationOf: vi.fn(() => null),
-        dragRefused: vi.fn(() => false),
-        externalDragItems: vi.fn((element:HTMLElement) => [element]),
+      const root = fakeRoot(row, {
+        frozenMembers: () => ['1', '2', '3'].map((id) => ({ type: 'work_package', id })),
       });
+      controller.connectRoot(root);
+      permitDrag(row, root);
 
       vi.mocked(draggable).mock.lastCall?.[0].onGenerateDragPreview?.({
         ...dragEventPayload(article),
@@ -1369,6 +1431,12 @@ describe('Sortable lists item controller', () => {
       isItemHidden:ReturnType<typeof vi.fn>;
     }
 
+    // The refresh is coalesced into one microtask per menu fragment.
+    async function refreshMoveItems(controller:{ moveItemTargetConnected():void }):Promise<void> {
+      controller.moveItemTargetConnected();
+      await Promise.resolve();
+    }
+
     function renderItemWithMenu(idNumber:number, withDivider = false):{ el:HTMLElement; menu:FakeActionMenu } {
       const el = document.createElement('div');
       el.dataset.controller = 'sortable-lists--item';
@@ -1380,10 +1448,11 @@ describe('Sortable lists item controller', () => {
       // decides whether it still separates anything.
       menuElement.innerHTML = (withDivider ? '<li data-sortable-lists--item-target="moveDivider"></li>' : '')
         + ['top', 'up', 'down', 'bottom'].map((direction) => (
-          `<li data-sortable-lists--item-target="moveItem" data-sortable-lists--item-direction-param="${direction}"`
+          `<li class="ActionListItem" data-sortable-lists--item-target="moveItem" data-sortable-lists--item-direction-param="${direction}"`
           + ' data-action="click->sortable-lists--item#move"><button></button></li>'
         )).join('');
       const parent = document.createElement('li');
+      parent.classList.add('ActionListItem');
       parent.setAttribute('data-sortable-lists--item-target', 'moveMenu');
       menuElement.appendChild(parent);
       el.appendChild(menuElement);
@@ -1418,8 +1487,13 @@ describe('Sortable lists item controller', () => {
       position:{ isFirst:boolean; isLast:boolean },
       moveInDirection = vi.fn(),
       availability = availabilityFromPosition(position),
+      scope:HTMLElement[] = [el],
     ) => ({
-      element: el, busy: false, moveAvailability: () => availability, moveInDirection,
+      element: el,
+      busy: false,
+      moveAvailability: () => availability,
+      actionScopeFor: ():ActionScope => ({ kind: 'batch', items: scope }),
+      moveInDirection,
     } as unknown as SortableListsRoot);
 
     it('hides up/top for a first item and shows the rest', async () => {
@@ -1427,7 +1501,7 @@ describe('Sortable lists item controller', () => {
       document.body.appendChild(el);
       const controller = await mountItemController(el);
       controller.connectRoot(stubRoot(el, { isFirst: true, isLast: false }));
-      controller.moveItemTargetConnected();
+      await refreshMoveItems(controller);
 
       expect(menu.hideItem).toHaveBeenCalledWith(liFor(el, 'top'));
       expect(menu.hideItem).toHaveBeenCalledWith(liFor(el, 'up'));
@@ -1443,7 +1517,7 @@ describe('Sortable lists item controller', () => {
       // unavailable because it would cross a hidden block.
       const gappedAvailability = { top: true, up: true, down: false, bottom: true };
       controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), gappedAvailability));
-      controller.moveItemTargetConnected();
+      await refreshMoveItems(controller);
 
       expect(menu.hideItem).toHaveBeenCalledWith(liFor(el, 'down'));
       expect(menu.showItem).toHaveBeenCalledWith(liFor(el, 'up'));
@@ -1455,7 +1529,7 @@ describe('Sortable lists item controller', () => {
       document.body.appendChild(el);
       const controller = await mountItemController(el);
       controller.connectRoot(stubRoot(el, { isFirst: true, isLast: false }));
-      controller.moveItemTargetConnected();
+      await refreshMoveItems(controller);
 
       expect(menu.disableItem).toHaveBeenCalledWith(liFor(el, 'top'));
       expect(menu.disableItem).toHaveBeenCalledWith(liFor(el, 'up'));
@@ -1470,7 +1544,7 @@ describe('Sortable lists item controller', () => {
       document.body.appendChild(el);
       const controller = await mountItemController(el);
       controller.connectRoot(stubRoot(el, { isFirst: true, isLast: true }));
-      controller.moveItemTargetConnected();
+      await refreshMoveItems(controller);
 
       const parent = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveMenu"]')!;
       expect(menu.hideItem).toHaveBeenCalledWith(parent);
@@ -1484,10 +1558,72 @@ describe('Sortable lists item controller', () => {
       document.body.appendChild(el);
       const controller = await mountItemController(el);
       controller.connectRoot(stubRoot(el, { isFirst: true, isLast: true }));
-      controller.moveItemTargetConnected();
+      await refreshMoveItems(controller);
 
       const divider = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveDivider"]')!;
       expect(divider.hasAttribute('hidden')).toBe(true);
+    });
+
+    it('hides the singular divider with a trailing submenu overlay but no visible ActionList item', async () => {
+      const { el } = renderItemWithMenu(1, true);
+      const menu = el.querySelector('action-menu')!;
+      const list = document.createElement('ul');
+      list.setAttribute('role', 'menu');
+      list.append(...menu.children);
+      list.append(document.createElement('anchored-position'));
+      menu.append(list);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      controller.connectRoot(stubRoot(el, { isFirst: true, isLast: true }));
+      await refreshMoveItems(controller);
+
+      expect(el.querySelector('[data-sortable-lists--item-target="moveDivider"]')).toHaveAttribute('hidden');
+    });
+
+    it('refreshes only when its primary overlay opens, not for tooltip or submenu toggles', async () => {
+      const { el } = renderItemWithMenu(2);
+      const menu = el.querySelector('action-menu')!;
+      const primary = document.createElement('anchored-position');
+      primary.append(...menu.children);
+      menu.append(primary);
+      Object.defineProperty(menu, 'popoverElement', { value: primary });
+      const submenu = document.createElement('anchored-position');
+      primary.append(submenu);
+      const tooltip = document.createElement('tool-tip');
+      menu.append(tooltip);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      const root = stubRoot(el, { isFirst: false, isLast: false });
+      const availability = vi.spyOn(root, 'moveAvailability');
+      controller.connectRoot(root);
+      availability.mockClear();
+      const open = () => Object.assign(new Event('toggle'), { newState: 'open' });
+
+      tooltip.dispatchEvent(open());
+      submenu.dispatchEvent(open());
+      expect(availability).not.toHaveBeenCalled();
+      primary.dispatchEvent(open());
+      expect(availability).toHaveBeenCalledOnce();
+      primary.dispatchEvent(Object.assign(new Event('toggle'), { newState: 'closed' }));
+      expect(availability).toHaveBeenCalledOnce();
+    });
+
+    it('refreshes move availability once when a deferred menu brings four move items', async () => {
+      const { el } = renderItemWithMenu(1);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      const root = stubRoot(el, { isFirst: false, isLast: false });
+      controller.connectRoot(root);
+      await Promise.resolve();
+      const availability = vi.spyOn(root, 'moveAvailability');
+
+      controller.moveItemTargetConnected();
+      controller.moveItemTargetConnected();
+      controller.moveItemTargetConnected();
+      controller.moveItemTargetConnected();
+      await Promise.resolve();
+
+      expect(availability).toHaveBeenCalledOnce();
     });
 
     it('keeps the divider while something below it is still visible', async () => {
@@ -1495,7 +1631,7 @@ describe('Sortable lists item controller', () => {
       document.body.appendChild(el);
       const controller = await mountItemController(el);
       controller.connectRoot(stubRoot(el, { isFirst: true, isLast: false }));
-      controller.moveItemTargetConnected();
+      await refreshMoveItems(controller);
 
       const divider = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveDivider"]')!;
       expect(divider.hasAttribute('hidden')).toBe(false);
@@ -1510,10 +1646,250 @@ describe('Sortable lists item controller', () => {
       document.body.appendChild(el);
       const controller = await mountItemController(el);
       controller.connectRoot(stubRoot(el, { isFirst: true, isLast: true }));
-      controller.moveItemTargetConnected();
+      await refreshMoveItems(controller);
 
       const divider = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveDivider"]')!;
       expect(divider.hasAttribute('hidden')).toBe(false);
+    });
+
+    describe('for a multi-card block', () => {
+      const unavailable = {
+        top: false, up: false, down: false, bottom: false,
+      };
+      const moveMenuOf = (el:HTMLElement) => el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveMenu"]')!;
+      const dividerOf = (el:HTMLElement) => el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveDivider"]')!;
+
+      // Primer renders the directions inside the submenu, so the submenu is
+      // the divider's only sibling once no destination is offered.
+      function nestDirectionsInSubmenu(el:HTMLElement):void {
+        const submenu = document.createElement('ul');
+        submenu.append(...el.querySelectorAll('li[data-sortable-lists--item-target="moveItem"]'));
+        moveMenuOf(el).appendChild(submenu);
+      }
+
+      async function mountDisabling(el:HTMLElement) {
+        el.setAttribute('data-sortable-lists--item-hide-unavailable-value', 'false');
+        document.body.appendChild(el);
+        return mountItemController(el);
+      }
+
+      it('hides Move to position for a blocked same-list batch', async () => {
+        const { el, menu } = renderItemWithMenu(1, true);
+        nestDirectionsInSubmenu(el);
+        const controller = await mountDisabling(el);
+        const other = document.createElement('li');
+        controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), unavailable, [el, other]));
+        await refreshMoveItems(controller);
+
+        expect(moveMenuOf(el)).toHaveAttribute('hidden');
+        expect(menu.disableItem).not.toHaveBeenCalledWith(moveMenuOf(el));
+        expect(dividerOf(el)).toHaveAttribute('hidden');
+      });
+
+      it('shows Move to position again once the block can move', async () => {
+        const { el, menu } = renderItemWithMenu(1, true);
+        nestDirectionsInSubmenu(el);
+        const controller = await mountDisabling(el);
+        const availability = { ...unavailable };
+        controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), availability, [el, document.createElement('li')]));
+        await refreshMoveItems(controller);
+
+        Object.assign(availability, { up: true });
+        await refreshMoveItems(controller);
+
+        expect(moveMenuOf(el)).not.toHaveAttribute('hidden');
+        expect(menu.enableItem).toHaveBeenCalledWith(moveMenuOf(el));
+        expect(menu.enableItem).toHaveBeenCalledWith(liFor(el, 'up'));
+        expect(menu.disableItem).toHaveBeenCalledWith(liFor(el, 'down'));
+        expect(dividerOf(el)).not.toHaveAttribute('hidden');
+      });
+
+      it('keeps single-card availability unchanged', async () => {
+        const { el, menu } = renderItemWithMenu(1, true);
+        nestDirectionsInSubmenu(el);
+        const controller = await mountDisabling(el);
+        controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), unavailable));
+        await refreshMoveItems(controller);
+
+        expect(menu.disableItem).toHaveBeenCalledWith(moveMenuOf(el));
+        expect(moveMenuOf(el)).not.toHaveAttribute('hidden');
+        expect(dividerOf(el)).not.toHaveAttribute('hidden');
+      });
+
+      // A batch menu whose only action is Move to position carries the
+      // explanation hidden, so it never opens empty.
+      describe('with an explanation item', () => {
+        const explanationOf = (el:HTMLElement) => el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveUnavailable"]')!;
+
+        function renderBatchMenuWithExplanation():{ el:HTMLElement; list:HTMLElement } {
+          const { el } = renderItemWithMenu(1);
+          nestDirectionsInSubmenu(el);
+          const list = document.createElement('ul');
+          list.setAttribute('role', 'menu');
+          const li = document.createElement('li');
+          li.setAttribute('data-sortable-lists--item-target', 'moveUnavailable');
+          li.setAttribute('hidden', '');
+          li.innerHTML = '<button role="menuitem" aria-disabled="true">No actions available for the selected work packages.</button>';
+          list.append(li);
+          el.querySelector('action-menu')!.prepend(list);
+          document.body.appendChild(el);
+          return { el, list };
+        }
+
+        it('swaps Move to position for the explanation when a batch block cannot move', async () => {
+          const { el } = renderBatchMenuWithExplanation();
+          const controller = await mountItemController(el);
+          controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), unavailable, [el, document.createElement('li')]));
+          await refreshMoveItems(controller);
+
+          expect(moveMenuOf(el)).toHaveAttribute('hidden');
+          expect(explanationOf(el)).not.toHaveAttribute('hidden');
+          expect(within(el).getByRole('menuitem', { name: 'No actions available for the selected work packages.' })).toBeVisible();
+        });
+
+        it('moves focus to the explanation when the focused submenu is hidden', async () => {
+          const { el, list } = renderBatchMenuWithExplanation();
+          const moveMenu = moveMenuOf(el);
+          moveMenu.insertAdjacentHTML('afterbegin', '<button role="menuitem">Move to position</button>');
+          list.append(moveMenu);
+          const controller = await mountItemController(el);
+          controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), unavailable, [el, document.createElement('li')]));
+          within(list).getByRole('menuitem', { name: 'Move to position' }).focus();
+
+          await refreshMoveItems(controller);
+
+          expect(moveMenu).toHaveAttribute('hidden');
+          expect(within(explanationOf(el)).getByRole('menuitem')).toHaveFocus();
+        });
+
+        it('moves focus to Move to position before hiding the focused explanation', async () => {
+          const { el, list } = renderBatchMenuWithExplanation();
+          const moveMenu = moveMenuOf(el);
+          moveMenu.insertAdjacentHTML('afterbegin', '<button role="menuitem">Move to position</button>');
+          list.append(moveMenu);
+          const controller = await mountItemController(el);
+          const availability = { ...unavailable };
+          controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), availability, [el, document.createElement('li')]));
+          await refreshMoveItems(controller);
+          within(explanationOf(el)).getByRole('menuitem').focus();
+
+          Object.assign(availability, { down: true });
+          await refreshMoveItems(controller);
+
+          expect(explanationOf(el)).toHaveAttribute('hidden');
+          expect(within(list).getByRole('menuitem', { name: 'Move to position' })).toHaveFocus();
+        });
+
+        it('moves focus to another action when the focused submenu is hidden and nothing explains it', async () => {
+          const { el, list } = renderBatchMenuWithExplanation();
+          explanationOf(el).remove();
+          list.insertAdjacentHTML('afterbegin', '<li><form><button role="menuitem">Move to sprint</button></form></li>');
+          const moveMenu = moveMenuOf(el);
+          moveMenu.insertAdjacentHTML('afterbegin', '<button role="menuitem">Move to position</button>');
+          list.append(moveMenu);
+          const controller = await mountItemController(el);
+          controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), unavailable, [el, document.createElement('li')]));
+          within(list).getByRole('menuitem', { name: 'Move to position' }).focus();
+
+          await refreshMoveItems(controller);
+
+          expect(moveMenu).toHaveAttribute('hidden');
+          expect(within(list).getByRole('menuitem', { name: 'Move to sprint' })).toHaveFocus();
+        });
+
+        it('hides the explanation again once the block can move', async () => {
+          const { el } = renderBatchMenuWithExplanation();
+          const controller = await mountItemController(el);
+          const availability = { ...unavailable };
+          controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), availability, [el, document.createElement('li')]));
+          await refreshMoveItems(controller);
+
+          Object.assign(availability, { down: true });
+          await refreshMoveItems(controller);
+
+          expect(moveMenuOf(el)).not.toHaveAttribute('hidden');
+          expect(explanationOf(el)).toHaveAttribute('hidden');
+        });
+
+        it('keeps the explanation hidden for a contiguous block', async () => {
+          const { el } = renderBatchMenuWithExplanation();
+          const controller = await mountItemController(el);
+          controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), undefined, [el, document.createElement('li')]));
+          await refreshMoveItems(controller);
+
+          expect(moveMenuOf(el)).not.toHaveAttribute('hidden');
+          expect(explanationOf(el)).toHaveAttribute('hidden');
+        });
+
+        it('leaves a list without an explanation item as before', async () => {
+          const { el, menu } = renderItemWithMenu(1);
+          nestDirectionsInSubmenu(el);
+          document.body.appendChild(el);
+          const controller = await mountItemController(el);
+          controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), unavailable, [el, document.createElement('li')]));
+          await refreshMoveItems(controller);
+
+          expect(moveMenuOf(el)).toHaveAttribute('hidden');
+          expect(menu.showItem).not.toHaveBeenCalled();
+        });
+      });
+
+      // Above the batch cap the server renders every position item disabled
+      // and marks it locked; direction gating must not revive it.
+      describe('above the batch cap', () => {
+        function lockAsServerDisabled(el:HTMLElement):void {
+          [moveMenuOf(el), ...el.querySelectorAll<HTMLElement>('li[data-sortable-lists--item-target="moveItem"]')]
+            .forEach((li) => {
+              li.classList.add('ActionListItem--disabled');
+              li.setAttribute('data-sortable-lists-locked', '');
+            });
+        }
+
+        const someAvailable = {
+          top: false, up: false, down: true, bottom: true,
+        };
+
+        it.each([
+          { mode: 'hiding', hideUnavailable: 'true' },
+          { mode: 'disabling', hideUnavailable: 'false' },
+        ])('keeps server-disabled position items disabled and visible when $mode', async ({ hideUnavailable }) => {
+          const { el } = renderItemWithMenu(1);
+          nestDirectionsInSubmenu(el);
+          lockAsServerDisabled(el);
+          el.setAttribute('data-sortable-lists--item-hide-unavailable-value', hideUnavailable);
+          document.body.appendChild(el);
+          const controller = await mountItemController(el);
+          const moveInDirection = vi.fn();
+          controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, moveInDirection, someAvailable, [el, document.createElement('li')]));
+          await refreshMoveItems(controller);
+
+          for (const li of [moveMenuOf(el), ...['top', 'up', 'down', 'bottom'].map((direction) => liFor(el, direction))]) {
+            expect(li).toHaveClass('ActionListItem--disabled');
+            expect(li).not.toHaveAttribute('hidden');
+          }
+
+          fireEvent.click(within(liFor(el, 'down')).getByRole('button'));
+          expect(moveInDirection).not.toHaveBeenCalled();
+        });
+      });
+    });
+
+    // The menu is loaded for the settled scope, so its position items
+    // connect after the root is already in place.
+    it('gates the position items a deferred menu fragment connects', async () => {
+      const { el, menu } = renderItemWithMenu(1);
+      const moveItems = [...el.querySelectorAll('li[data-sortable-lists--item-target="moveItem"]')];
+      moveItems.forEach((item) => item.remove());
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      controller.connectRoot(stubRoot(el, { isFirst: true, isLast: false }));
+
+      el.querySelector('action-menu')!.prepend(...moveItems);
+      await menuCtx!.nextFrame();
+
+      expect(menu.hideItem).toHaveBeenCalledWith(liFor(el, 'top'));
+      expect(menu.hideItem).toHaveBeenCalledWith(liFor(el, 'up'));
+      expect(menu.showItem).toHaveBeenCalledWith(liFor(el, 'down'));
     });
 
     it('delegates an enabled click to the root and no-ops a disabled one', async () => {
@@ -1522,15 +1898,108 @@ describe('Sortable lists item controller', () => {
       const moveInDirection = vi.fn();
       const controller = await mountItemController(el);
       controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, moveInDirection));
-      controller.moveItemTargetConnected();
+      await refreshMoveItems(controller);
 
       liFor(el, 'down').click();
-      expect(moveInDirection).toHaveBeenCalledWith(el, 'down');
+      expect(moveInDirection).toHaveBeenCalledWith(el, 'down', null);
 
       liFor(el, 'up').classList.add('ActionListItem--disabled'); // menu.isItemDisabled now returns true for it
       moveInDirection.mockClear();
       liFor(el, 'up').click();
       expect(moveInDirection).not.toHaveBeenCalled();
+    });
+
+    it('passes the primary scope owner when activating a positional submenu item', async () => {
+      const { el } = renderItemWithMenu(2);
+      const menu = el.querySelector('action-menu')!;
+      const scopeOwner = document.createElement('ul');
+      scopeOwner.setAttribute('data-sortable-lists-scope-count', '1');
+      scopeOwner.setAttribute('data-sortable-lists-scope-ids', '["2"]');
+      const submenu = document.createElement('ul');
+      submenu.append(...menu.children);
+      scopeOwner.append(submenu);
+      menu.append(scopeOwner);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      const moveInDirection = vi.fn();
+      controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, moveInDirection));
+      await refreshMoveItems(controller);
+
+      liFor(el, 'down').click();
+
+      expect(moveInDirection).toHaveBeenCalledWith(el, 'down', scopeOwner);
+    });
+
+    function appendDestinationItem(el:HTMLElement):{ li:HTMLElement; form:HTMLFormElement } {
+      const li = document.createElement('li');
+      li.setAttribute('data-action', 'click->sortable-lists--item#moveToDestination:prevent');
+      li.innerHTML = `
+        <form action="/collection/move" method="post">
+          <input type="hidden" name="ids[]" value="7">
+          <input type="hidden" name="ids[]" value="3">
+          <button type="submit">Move to inbox</button>
+        </form>
+      `;
+      el.querySelector('action-menu')!.appendChild(li);
+      return { li, form: li.querySelector('form')! };
+    }
+
+    it('hands the rendered destination form to the root without submitting it', async () => {
+      const { el } = renderItemWithMenu(2);
+      const { li, form } = appendDestinationItem(el);
+      document.body.appendChild(el);
+      const moveToDestination = vi.fn();
+      const submit = vi.fn((event:Event) => event.preventDefault());
+      form.addEventListener('submit', submit);
+      const controller = await mountItemController(el);
+      controller.connectRoot({ element: el, busy: false, moveToDestination } as unknown as SortableListsRoot);
+
+      fireEvent.click(within(li).getByRole('button', { name: 'Move to inbox' }));
+
+      expect(moveToDestination).toHaveBeenCalledExactlyOnceWith(form);
+      expect(submit).not.toHaveBeenCalled();
+    });
+
+    it('ignores a disabled destination item', async () => {
+      const { el } = renderItemWithMenu(2);
+      const { li } = appendDestinationItem(el);
+      li.classList.add('ActionListItem--disabled');
+      document.body.appendChild(el);
+      const moveToDestination = vi.fn();
+      const controller = await mountItemController(el);
+      controller.connectRoot({ element: el, busy: false, moveToDestination } as unknown as SortableListsRoot);
+
+      fireEvent.click(within(li).getByRole('button', { name: 'Move to inbox' }));
+
+      expect(moveToDestination).not.toHaveBeenCalled();
+    });
+
+    ['move', 'moveToDestination'].forEach((command) => {
+      ['hidden', 'disabled', 'missing menu', 'non-element target'].forEach((state) => {
+        it(`${command} refuses ${state} activation`, async () => {
+          const { el } = renderItemWithMenu(2);
+          const { li } = appendDestinationItem(el);
+          document.body.appendChild(el);
+          const controller = await mountItemController(el);
+          const moveInDirection = vi.fn();
+          const moveToDestination = vi.fn();
+          controller.connectRoot({ ...stubRoot(el, { isFirst: false, isLast: false }, moveInDirection), moveToDestination });
+          if (state === 'hidden') li.hidden = true;
+          if (state === 'disabled') li.classList.add('ActionListItem--disabled');
+          if (state === 'missing menu') {
+            el.querySelector('action-menu')!.remove();
+            await new Promise<void>((resolve) => setTimeout(resolve));
+          }
+          const event = Object.assign(new Event('click'), { params: { direction: 'down' } });
+          Object.defineProperty(event, 'currentTarget', { value: state === 'non-element target' ? document : li });
+
+          if (command === 'move') controller.move(event);
+          else controller.moveToDestination(event);
+
+          expect(moveInDirection).not.toHaveBeenCalled();
+          expect(moveToDestination).not.toHaveBeenCalled();
+        });
+      });
     });
 
     it('does nothing when there is no action-menu (drag-only consumer)', async () => {
@@ -1646,29 +2115,51 @@ describe('Sortable lists item controller', () => {
       expect(document.activeElement).toBe(item);
     });
 
-    it('marks the batch on drag start', async () => {
+    // Pragmatic dispatches onDragStart a frame after the preview; the root's
+    // monitor starts the session then, so an item controller replaced in
+    // between cannot strand the batch. The item itself marks nothing.
+    it('leaves drag-start marking to the root while a session exists', async () => {
       const item = await renderItem({ mobility: 'free' });
       const controller = controllerFor(item);
-      const markDragBatch = vi.fn();
-      const root:SortableListsRoot = {
-        element: item,
-        busy: false,
-        moveInDirection: vi.fn(),
-        moveAvailability: vi.fn(() => null),
-        ownerRowsContainer: vi.fn(() => null),
-        freezeDragBatch: vi.fn(() => 1),
-        markDragBatch,
-        dragPermittedDestinations: vi.fn(() => null),
-        ownerDestinationOf: vi.fn(() => null),
-        dragRefused: vi.fn(() => false),
-        externalDragItems: vi.fn((element:HTMLElement) => [element]),
-      };
+      const root = fakeRoot(item);
 
       controller.connectRoot(root);
+      const session = permitDrag(item, root);
 
       vi.mocked(draggable).mock.lastCall?.[0].onDragStart?.(dragEventPayload(item));
 
-      expect(markDragBatch).toHaveBeenCalled();
+      expect(session.phase).toBe('prospective');
+      expect(item).not.toHaveAttribute('data-dragging');
+    });
+
+    // canDrag refuses every drag without a root, so the item's own marking
+    // only ever runs when the root went away after permitting the drag.
+    it('marks and clears itself when the root disconnected after canDrag', async () => {
+      const item = await renderItem({ mobility: 'free' });
+      const controller = controllerFor(item);
+      const root = fakeRoot(item);
+      controller.connectRoot(root);
+      permitDrag(item, root);
+
+      controller.disconnectRoot();
+      vi.mocked(draggable).mock.lastCall?.[0].onDragStart?.(dragEventPayload(item));
+      expect(item).toHaveAttribute('data-dragging', 'source');
+
+      vi.mocked(draggable).mock.lastCall?.[0].onDrop?.(dragEventPayload(item));
+      expect(item).not.toHaveAttribute('data-dragging');
+    });
+
+    it('leaves a mark the root set alone on drop while the session lives', async () => {
+      const item = await renderItem({ mobility: 'free' });
+      const controller = controllerFor(item);
+      const root = fakeRoot(item);
+      controller.connectRoot(root);
+      permitDrag(item, root);
+      item.setAttribute('data-dragging', 'source');
+
+      vi.mocked(draggable).mock.lastCall?.[0].onDrop?.(dragEventPayload(item));
+
+      expect(item).toHaveAttribute('data-dragging', 'source');
     });
 
     // Pragmatic invokes onGenerateDragPreview before onDragStart, so the
@@ -1677,29 +2168,18 @@ describe('Sortable lists item controller', () => {
     it('freezes the batch at the top of onGenerateDragPreview, before the preview renders', async () => {
       const item = await renderItem({ mobility: 'free' });
       const controller = controllerFor(item);
-      const freezeDragBatch = vi.fn(() => 1);
-      const root:SortableListsRoot = {
-        element: item,
-        busy: false,
-        moveInDirection: vi.fn(),
-        moveAvailability: vi.fn(() => null),
-        ownerRowsContainer: vi.fn(() => null),
-        freezeDragBatch,
-        markDragBatch: vi.fn(),
-        dragPermittedDestinations: vi.fn(() => null),
-        ownerDestinationOf: vi.fn(() => null),
-        dragRefused: vi.fn(() => false),
-        externalDragItems: vi.fn((element:HTMLElement) => [element]),
-      };
+      const root = fakeRoot(item);
 
       controller.connectRoot(root);
+      const session = permitDrag(item, root);
 
       vi.mocked(draggable).mock.lastCall?.[0].onGenerateDragPreview?.({
         ...dragEventPayload(item),
         nativeSetDragImage: vi.fn(),
       });
 
-      expect(freezeDragBatch).toHaveBeenCalledWith(item);
+      expect(root.beginDrag).toHaveBeenCalledWith(item);
+      expect(session.phase).toBe('frozen');
     });
   });
 });

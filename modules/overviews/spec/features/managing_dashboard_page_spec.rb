@@ -102,7 +102,7 @@ RSpec.describe "Dashboard page managing", :js do
       # The widgets load their respective contents
       within description_area.area do
         expect(page)
-          .to have_content("My custom description")
+          .to have_text("My custom description")
       end
 
       # within top-left area, add an additional widget
@@ -127,9 +127,9 @@ RSpec.describe "Dashboard page managing", :js do
       table_area.expect_to_span(4, 1, 5, 3)
 
       expect(page)
-        .to have_content(created_work_package.subject)
+        .to have_text(created_work_package.subject)
       expect(page)
-        .to have_content(assigned_work_package.subject)
+        .to have_text(assigned_work_package.subject)
 
       sleep(0.1)
 
@@ -145,6 +145,30 @@ RSpec.describe "Dashboard page managing", :js do
       overview_area.expect_to_span(2, 1, 4, 2)
       members_area.expect_to_span(3, 2, 4, 3)
       table_area.expect_to_span(4, 1, 5, 3)
+    end
+
+    it "exposes a work package table widget as a named treegrid that can be entered and selected by keyboard" do
+      dashboard_page.add_widget(1, 1, :row, "Work packages table")
+      dashboard_page.expect_and_dismiss_all_toasters message: I18n.t("js.notice_successful_update")
+
+      rows = [created_work_package, assigned_work_package].sort_by(&:id)
+      wp_table = Pages::EmbeddedWorkPackagesTable.new(
+        find(".grid--area.-widgeted:nth-of-type(1)"),
+        entry_control: -> { find(:link, accessible_name: "Show menu options for Work packages table widget") },
+        table_name: "Work packages table"
+      )
+      wp_table.expect_work_package_listed(*rows)
+      expect(wp_table.treegrid).to have_element(:th, scope: "row", role: "rowheader", count: rows.size)
+      rows.each do |work_package|
+        expect(wp_table.treegrid).to have_selector(:role, "rowheader", accessible_name: work_package.subject,
+                                                                       exact: true, count: 1)
+      end
+
+      wp_table.tab_into_table
+      wp_table.expect_focus_on_row(rows.first)
+
+      wp_table.press_keys([BrowserPlatform.multi_select_modifier(page), "a"])
+      expect(wp_table.treegrid).to have_selector(:row, aria: { selected: true }, count: rows.size)
     end
 
     it "can add a new widget via a primary button" do
@@ -166,7 +190,7 @@ RSpec.describe "Dashboard page managing", :js do
       page.find_test_selector("overview--add-widgets-button").click
 
       within(".spot-modal") do
-        expect(page).to have_content(I18n.t("js.grid.add_widget"))
+        expect(page).to have_text(I18n.t("js.grid.add_widget"))
 
         SeleniumHubWaiter.wait unless using_cuprite?
 

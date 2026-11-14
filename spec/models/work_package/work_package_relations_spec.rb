@@ -35,7 +35,7 @@ RSpec.describe WorkPackage do
   describe "#relation" do
     let(:closed_state) do
       create(:status,
-             is_closed: true)
+             category: "closed")
     end
 
     describe "#duplicate" do

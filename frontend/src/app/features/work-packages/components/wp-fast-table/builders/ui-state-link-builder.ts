@@ -29,6 +29,12 @@ import { KeepTabService } from 'core-app/features/work-packages/components/wp-si
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
+import { withTooltip } from 'core-app/shared/helpers/tooltip-helper';
+
+export interface UiStateLink {
+  link:HTMLAnchorElement;
+  element:DocumentFragment;
+}
 
 export const uiStateLinkClass = '__ui-state-link';
 
@@ -41,11 +47,11 @@ export class UiStateLinkBuilder {
   ) {
   }
 
-  public linkToDetails(workPackageId:string, title:string, content:string, routingId?:string) {
+  public linkToDetails(workPackageId:string, title:string, content:string, routingId?:string):UiStateLink {
     return this.build(workPackageId, 'split', title, content, routingId);
   }
 
-  public linkToShow(workPackageId:string, title:string, content:string, routingId?:string) {
+  public linkToShow(workPackageId:string, title:string, content:string, routingId?:string):UiStateLink {
     return this.build(workPackageId, 'show', title, content, routingId);
   }
 
@@ -61,7 +67,7 @@ export class UiStateLinkBuilder {
    * and call preventDefault() — the href is never followed during normal
    * in-table clicks. It only matters for right-click / open-in-new-tab.
    */
-  private build(workPackageId:string, state:'show'|'split', title:string, content:string, routingId?:string) {
+  private build(workPackageId:string, state:'show'|'split', title:string, content:string, routingId?:string):UiStateLink {
     const a = document.createElement('a');
     const idForHref = routingId ?? workPackageId;
     let href:string;
@@ -80,9 +86,14 @@ export class UiStateLinkBuilder {
     a.dataset.workPackageId = workPackageId;
     a.dataset.wpState = state;
 
-    a.setAttribute('title', title);
     a.textContent = content;
 
-    return a;
+    const tooltipText = title === content ? '' : title;
+    const tooltipType = content ? 'description' : 'label';
+
+    return {
+      link: a,
+      element: withTooltip(a, tooltipText, tooltipType),
+    };
   }
 }

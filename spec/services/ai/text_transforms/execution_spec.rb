@@ -30,8 +30,7 @@
 require "spec_helper"
 
 RSpec.describe AI::TextTransforms::Execution,
-               with_flag: { ai_text_transform_actions: true },
-               with_settings: { ai_text_transform_actions_enabled: true } do
+               with_flag: { ai_text_actions: true } do
   let(:run) { create(:ai_text_transform_run) }
   let(:time) { { now: 0.0 } }
   let(:clock) { -> { time[:now] } }
@@ -96,6 +95,37 @@ RSpec.describe AI::TextTransforms::Execution,
     expect(events).to eq([[1, "status", { "status" => "running" }]])
   end
 
+  it "ends cancelled on the first empty delta after cancellation is requested" do
+    received = 0
+    gateway = AI::TextTransforms::FakeGateway.new(deltas: ["", "", "", "a"],
+                                                  before_each: lambda {
+                                                    received += 1
+                                                    advance.call(0.6)
+                                                    run.update_column(:cancel_requested, true)
+                                                  })
+
+    execute(gateway)
+
+    expect(received).to eq(1)
+    expect(run).to be_cancelled
+    expect(events).to eq([[1, "status", { "status" => "running" }]])
+  end
+
+  it "fails with timeout on the first empty delta past the budget" do
+    received = 0
+    gateway = AI::TextTransforms::FakeGateway.new(deltas: ["", "", "a"],
+                                                  before_each: lambda {
+                                                    received += 1
+                                                    advance.call(200)
+                                                  })
+
+    execute(gateway)
+
+    expect(received).to eq(1)
+    expect(run).to be_failed
+    expect(events.last[1..]).to eq(["error", { "message" => "The AI service did not respond in time.", "reason" => "timeout" }])
+  end
+
   it "ends cancelled when cancellation is requested within the first flush window" do
     gateway = AI::TextTransforms::FakeGateway.new(deltas: %w[a],
                                                   before_each: -> { run.update_column(:cancel_requested, true) })
@@ -128,9 +158,12 @@ RSpec.describe AI::TextTransforms::Execution,
   end
 
   {
-    AI::TextTransforms::Errors::NotAvailable => ["not_available", "The AI assistant is not available."],
+    AI::TextTransforms::Errors::NotAvailable => ["not_available", "The text assistant is not available."],
     AI::TextTransforms::Errors::ConnectionFailed => ["connection_failed", "The AI service could not be reached."],
     AI::TextTransforms::Errors::TimedOut => ["timeout", "The AI service did not respond in time."],
+    AI::TextTransforms::Errors::RateLimited => ["rate_limited", "The AI service is busy. Try again in a moment."],
+    AI::TextTransforms::Errors::ContextTooLong => ["context_too_long",
+                                                   "The text is too long for the AI model. Shorten it and try again."],
     AI::TextTransforms::Errors::Upstream => ["upstream_error", "The AI service returned an error."]
   }.each do |error_class, (reason, message)|
     it "maps #{error_class.name.demodulize} to #{reason} without the upstream text" do
@@ -168,6 +201,6 @@ RSpec.describe AI::TextTransforms::Execution,
 
     expect(run).to be_failed
     expect(gateway.calls).to be_empty
-    expect(events).to eq([[1, "error", { "message" => "The AI assistant is not available.", "reason" => "not_available" }]])
+    expect(events).to eq([[1, "error", { "message" => "The text assistant is not available.", "reason" => "not_available" }]])
   end
 end

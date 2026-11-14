@@ -29,7 +29,7 @@
 
 require_relative "../spec_helper"
 
-RSpec.describe "Work Package timer", :js, :selenium do
+RSpec.describe "Work Package timer", :js do
   shared_let(:project) { create(:project_with_types) }
 
   shared_let(:work_package_a) { create(:work_package, subject: "WP A", project:) }
@@ -50,6 +50,7 @@ RSpec.describe "Work Package timer", :js, :selenium do
   shared_examples "allows time tracking" do
     it "shows the timer and allows tracking time" do
       wp_view_a.visit!
+      wp_view_a.ensure_page_loaded
       timer_button.expect_visible
       timer_button.start
       timer_button.expect_active

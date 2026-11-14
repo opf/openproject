@@ -31,10 +31,8 @@ module Admin
   class LabelsController < ::ApplicationController
     include OpTurbo::ComponentStream
     include PaginationHelper
-    include ::Labels::LabelsFeature
 
     before_action :require_admin
-    before_action :require_work_package_labels_feature
     before_action :find_label, only: %i[edit_dialog update deletion_dialog destroy]
 
     menu_item :labels

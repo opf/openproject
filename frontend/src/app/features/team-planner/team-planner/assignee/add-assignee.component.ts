@@ -59,7 +59,7 @@ export class AddAssigneeComponent {
 
   @Input() alreadySelected:string[] = [];
 
-  public getOptionsFn = (query:string):Observable<unknown[]> => this.autocomplete(query);
+  public getOptionsFn = (query:string):Observable<HalResource[]> => this.autocomplete(query);
 
   public autocomplete(term:string|null):Observable<HalResource[]> {
     const filters = new ApiV3FilterBuilder();
@@ -83,7 +83,8 @@ export class AddAssigneeComponent {
       );
   }
 
-  public selectUser(user:HalResource):void {
+  public selectUser(user:unknown):void {
+    if (!(user instanceof HalResource)) { return; }
     this.selectAssignee.emit(user);
   }
 }

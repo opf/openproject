@@ -114,7 +114,7 @@ export class OpBaselineLegendsComponent extends UntilDestroyedMixin implements O
     const baselineValue = baselineFilterFromValue(this.wpTableBaseline.current);
     const changesSinceOrBetween = this.deriveChangesSinceOrBetween(baselineValue);
     let description = '';
-    let upstreamDate = '';
+    let upstreamDate:string;
     let localDate = '';
 
     switch (baselineValue) {

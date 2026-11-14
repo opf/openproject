@@ -182,10 +182,10 @@ module Import
 
       # Converts a single raw Jira field value (as found in `issue.payload["fields"][field_key]`)
       # into the value to assign to the OP custom field attribute.
-      def convert_value(raw_value, custom_field)
+      def convert_value(raw_value, custom_field, attachment_paths_by_name: {})
         case format
         when "bool" then convert_multicheckbox_bool_value(raw_value)
-        when "text" then JiraWikiMarkupConverter.new(raw_value.to_s).convert
+        when "text" then JiraWikiMarkupConverter.new(raw_value.to_s, attachment_paths_by_name:).convert
         when "list" then convert_list_value(raw_value, custom_field)
         when "user" then convert_user_value(raw_value)
         when "hierarchy" then convert_hierarchy_value(raw_value, custom_field)
@@ -299,15 +299,7 @@ module Import
       def best_matching_candidate(candidates, run_custom_field_ids)
         return best_value_bearing_candidate(candidates, run_custom_field_ids) if value_bearing_format?
 
-        exact_name_match(candidates) || numbered_name_match(candidates)
-      end
-
-      def exact_name_match(candidates)
-        import_names.filter_map { |name| candidates.find { |cf| cf.name.casecmp?(name) } }.first
-      end
-
-      def numbered_name_match(candidates)
-        import_names.filter_map { |name| candidates.find { |cf| CustomFieldNames.same_field?(cf.name, name) } }.first
+        CustomFieldNames.best_match(candidates, import_names)
       end
 
       def import_names

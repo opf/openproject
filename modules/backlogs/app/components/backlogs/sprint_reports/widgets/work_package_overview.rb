@@ -33,33 +33,93 @@ module Backlogs
       class WorkPackageOverview < Grids::WidgetComponent
         include Backlogs::CommonHelper
         include Backlogs::SprintsHelper
+        include Backlogs::Concerns::ProgressMetric
 
         param :sprint
         param :project
+        param :breakdown
 
-        def title = t("backlogs.show_work_package_overview")
+        def title = t(".title")
 
         def render?
-          user_allowed?(:view_sprints)
+          sprint.date_range_set? && user_allowed?(:view_sprints)
         end
 
-        def show_widget_content? = sprint.date_range_set?
+        def show_secondary_metric?
+          !project.estimation_unit_none?
+        end
 
-        def resolved_percentage
-          return 0 if total_work_packages_count.zero?
+        def secondary_metric_text(block)
+          if estimation_metric == :time
+            DurationConverter.output(block.estimated_hours)
+          else
+            t("backlogs.story_points", count: block.story_points)
+          end
+        end
 
-          (resolved_work_packages_count.to_f / total_work_packages_count * 100).round
+        def secondary_metric_change_text
+          if estimation_metric == :time
+            hours_change_text
+          else
+            story_points_change_text
+          end
+        end
+
+        def progress_label
+          case progress_metric
+          when :time
+            t(".completed_estimated_time")
+          when :story_points
+            t(".completed_story_points")
+          else
+            t(".closed_work_packages")
+          end
         end
 
         private
 
-        def resolved_summary_text
+        def hours_change_text
           t(
-            ".resolved_summary",
-            percentage: resolved_percentage,
-            resolved: resolved_work_packages_count,
-            total: total_work_packages_count,
-            count: total_work_packages_count
+            ".blocks.changed_after_start.change_html",
+            added: DurationConverter.output(breakdown.changed_after_start.added_estimated_hours),
+            removed: DurationConverter.output(breakdown.changed_after_start.removed_estimated_hours),
+            divider: divider_text
+          )
+        end
+
+        def story_points_change_text
+          t(
+            ".blocks.changed_after_start.story_points_change_html",
+            added: breakdown.changed_after_start.added_story_points,
+            removed: breakdown.changed_after_start.removed_story_points,
+            divider: divider_text
+          )
+        end
+
+        def resolved_value
+          @resolved_value ||= metric_value(breakdown.completed)
+        end
+
+        def total_value
+          @total_value ||= resolved_value + metric_value(breakdown.unfinished)
+        end
+
+        def metric_value(block)
+          case progress_metric
+          when :time
+            block.estimated_hours
+          when :story_points
+            block.story_points
+          else
+            block.work_package_count
+          end
+        end
+
+        def progress_summary_text
+          t(
+            ".progress_summary.#{progress_metric}",
+            percentage: formatted_percentage,
+            **progress_values
           )
         end
 
@@ -69,10 +129,6 @@ module Backlogs
 
         def total_work_packages_count
           @total_work_packages_count ||= resolved_work_packages_count + breakdown.unfinished.work_package_count
-        end
-
-        def breakdown
-          @breakdown ||= ::Sprints::WorkPackageBreakdown.new(sprint:, project:)
         end
 
         def divider_text

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -71,13 +73,33 @@ RSpec.describe "My page documents widget",
     document_area.expect_to_span(1, 1, 2, 2)
 
     expect(page)
-      .to have_content visible_document.title
+      .to have_text visible_document.title
     expect(page)
-      .to have_content visible_document.description
+      .to have_text visible_document.description
     expect(page)
-      .to have_content visible_document.created_at.strftime("%m/%d/%Y")
+      .to have_text visible_document.created_at.strftime("%m/%d/%Y")
 
     expect(page)
-      .to have_no_content invisible_document.title
+      .to have_no_text invisible_document.title
+  end
+
+  context "without visible documents" do
+    include_context "with axe on Cuprite"
+
+    let(:empty_project) { create(:project) }
+    let(:user) do
+      create(:user,
+             member_with_permissions: { empty_project => %i[view_documents] })
+    end
+
+    it "shows an empty state below the widget title" do
+      my_page.add_widget(1, 1, :within, "Documents")
+
+      within(".grid--area.-widgeted:nth-of-type(1)") do
+        expect(page).to have_heading("Documents", level: 3)
+        expect(page).to have_heading("No documents yet.", level: 4)
+      end
+      expect(page).to be_axe_clean.within(".grid--area.-widgeted:nth-of-type(1)")
+    end
   end
 end

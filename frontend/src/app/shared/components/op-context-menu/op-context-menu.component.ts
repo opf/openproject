@@ -59,7 +59,7 @@ export class OPContextMenuComponent {
     }
 
     if (item.onClick!(event)) {
-      this.locals.service!.close();
+      this.locals.service!.close(false, 'action');
       event.preventDefault();
       event.stopPropagation();
       return false;

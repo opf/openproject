@@ -33,7 +33,7 @@ import { compareByHrefOrString } from 'core-app/shared/helpers/angular/tracking-
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
-import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { QueryFilterInstanceResource, QueryFilterValue } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
 /**
@@ -153,7 +153,7 @@ export class WorkPackageFilterValues {
     this.setValue(change, attributeName, this.isMultiValueAttribute(attributeName) ? [] : { href: null });
   }
 
-  private setValueFor(change:WorkPackageChangeset|Record<string, unknown>, field:string, value:string|HalResource):void {
+  private setValueFor(change:WorkPackageChangeset|Record<string, unknown>, field:string, value:QueryFilterValue):void {
     const newValue = this.findSpecialValue(value, field) || value;
 
     if (newValue) {
@@ -174,7 +174,7 @@ export class WorkPackageFilterValues {
    * @param {string | HalResource} value
    * @param {string} field
    */
-  private findSpecialValue(value:string|HalResource, field:string):string|HalResource|undefined {
+  private findSpecialValue(value:QueryFilterValue, field:string):QueryFilterValue|undefined {
     if (field === 'parent') {
       return value;
     }

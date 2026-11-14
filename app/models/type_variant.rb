@@ -80,6 +80,7 @@ class TypeVariant < ApplicationRecord
   has_many :projects, through: :project_types
 
   validates :variant_name, length: { maximum: 255 }
+  validates :description, length: { maximum: Type::DESCRIPTION_MAX_LENGTH }
   validates :variant_name,
             presence: true,
             uniqueness: { scope: %i[type_id project_id], case_sensitive: false },
@@ -88,7 +89,6 @@ class TypeVariant < ApplicationRecord
   validate :only_one_variant_enabled_in_new_projects
   validate :base_variant_is_never_owned
   validate :owned_variant_is_never_enabled_in_new_projects
-  validate :workflow_is_available_to_this_variant
 
   scopes :switch_targets
 
@@ -216,13 +216,6 @@ class TypeVariant < ApplicationRecord
     return unless enabled_in_new_projects? && project_id.present?
 
     errors.add(:enabled_in_new_projects, :not_available_to_project_owned_variant)
-  end
-
-  def workflow_is_available_to_this_variant
-    return if workflow.nil? || !workflow.project_specific?
-    return if workflow.project_id == project_id
-
-    errors.add(:workflow, :not_available_to_this_variant)
   end
 
   # A type's own configuration belongs to the type, so no single project may own it.

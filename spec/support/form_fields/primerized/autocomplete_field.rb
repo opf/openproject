@@ -50,7 +50,7 @@ module FormFields
       def deselect_option(*values)
         values.each do |val|
           open_options
-          page.find(".ng-value", text: val, visible: :all).find(".ng-value-icon").click
+          within(".ng-value", text: val, visible: :all) { find(".ng-value-icon").click }
           expect_not_selected(val)
         end
         field_container.find(".ng-input input").send_keys(:escape)

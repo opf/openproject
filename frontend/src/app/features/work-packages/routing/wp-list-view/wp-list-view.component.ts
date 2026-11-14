@@ -35,13 +35,12 @@ import {
   OnInit,
 } from '@angular/core';
 import { take } from 'rxjs/operators';
-import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
 import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
 import {
   WorkPackageViewDisplayRepresentationService,
   wpDisplayCardRepresentation,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
-import { WorkPackageTableConfigurationObject } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
+import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -75,7 +74,6 @@ import { WorkPackageViewSelectionService } from 'core-app/features/work-packages
   providers: [
     { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
     DragAndDropService,
-    CausedUpdatesService,
   ],
   standalone: false,
 })
@@ -119,9 +117,9 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   public baselineEnabled:boolean;
 
   /** */
-  readonly wpTableConfiguration:WorkPackageTableConfigurationObject = {
+  readonly wpTableConfiguration = new WorkPackageTableConfiguration({
     dragAndDropEnabled: true,
-  };
+  });
 
   ngOnInit() {
     // If a work package is open in the split view (per the URL), select its row.

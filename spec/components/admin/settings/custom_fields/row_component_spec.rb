@@ -32,7 +32,10 @@ require "rails_helper"
 RSpec.describe Admin::Settings::CustomFields::RowComponent, type: :component do
   include Rails.application.routes.url_helpers
 
-  let(:table) { Admin::Settings::CustomFields::TableComponent.new(rows: [custom_field], work_package:, project_counts: {}) }
+  let(:form_counts) { {} }
+  let(:table) do
+    Admin::Settings::CustomFields::TableComponent.new(rows: [custom_field], work_package:, project_counts: {}, form_counts:)
+  end
 
   # Only custom field types administered through CustomFieldsBaseController render this
   # component; project/user custom fields have their own section-grouped row component.
@@ -67,6 +70,24 @@ RSpec.describe Admin::Settings::CustomFields::RowComponent, type: :component do
 
     it "renders no action menu" do
       expect(rendered_component).to have_no_css("action-menu")
+    end
+
+    context "when the field is contained in forms" do
+      let(:form_counts) { { 4242 => 3 } }
+
+      it "links to the field's forms tab with the form count" do
+        expect(rendered_component)
+          .to have_link("3 forms", href: "/admin/settings/work_package_custom_fields/4242/forms")
+      end
+    end
+
+    context "when the field is contained in no forms" do
+      let(:form_counts) { {} }
+
+      it "warns and links to the field's forms tab to add it to a form" do
+        expect(rendered_component)
+          .to have_link("Add this field to a form", href: "/admin/settings/work_package_custom_fields/4242/forms")
+      end
     end
   end
 

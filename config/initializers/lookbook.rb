@@ -42,7 +42,7 @@ Rails.application.configure do
   config.lookbook.ui_favicon = Rails.root.join("app/assets/images/icon_logo.svg").read
   config.lookbook.ui_theme = "blue"
   config.lookbook.ui_theme_overrides = {
-    header_bg: "#1A67A3"
+    header_bg: "#0F41B5"
   }
 
   # Previews: ours, plus the ones shipped by Primer

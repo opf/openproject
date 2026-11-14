@@ -30,6 +30,7 @@
 module Attachments
   class ExtractFulltextJob < ApplicationJob
     queue_with_priority :low
+    queue_as :long_running
 
     def perform(attachment_id)
       @attachment_id = attachment_id
@@ -41,6 +42,7 @@ module Attachments
 
       return unless OpenProject::Database.allows_tsv?
       return unless @attachment = find_attachment(attachment_id)
+      return if @attachment.prepared?
 
       init
       update

@@ -9,7 +9,12 @@
         render(Primer::Box.new(display: :flex, flex_wrap: :wrap, classes: "gap-3")) do
           stats.each do |stat|
             card = render(Users::WorkingHours::StatCardComponent.new(label: stat[:label], value: stat[:value], subtitle: stat[:subtitle]))
-            concat(stat[:url].present? ? render(Primer::Beta::Link.new(href: stat[:url], target: "_blank", underline: false, display: :flex, flex: 1)) { card } : card)
+            tile = if stat[:url].present?
+                     Primer::Beta::Link.new(href: stat[:url], target: "_blank", underline: false, display: :flex, flex: 1)
+                   else
+                     Primer::Box.new(display: :flex, flex: 1)
+                   end
+            concat(render(tile) { card })
           end
         end
       )

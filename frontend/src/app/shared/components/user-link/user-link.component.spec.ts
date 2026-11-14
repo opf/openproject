@@ -26,7 +26,7 @@
 //++
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { screen } from '@testing-library/dom';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { UserLinkComponent } from './user-link.component';
@@ -36,11 +36,6 @@ describe('UserLinkComponent component test', () => {
     userPath: (id:string) => `/users/${id}`,
   };
 
-  const I18nStub = {
-    t: (key:string, args:any) => `Author: ${args.user}`,
-  };
-
-  let app:UserLinkComponent;
   let fixture:ComponentFixture<UserLinkComponent>;
   let element:HTMLElement;
   let user:UserResource;
@@ -51,13 +46,11 @@ describe('UserLinkComponent component test', () => {
         UserLinkComponent,
       ],
       providers: [
-        { provide: I18nService, useValue: I18nStub },
         { provide: PathHelperService, useValue: PathHelperStub },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(UserLinkComponent);
-    app = fixture.debugElement.componentInstance;
     element = fixture.elementRef.nativeElement;
   });
 
@@ -73,12 +66,8 @@ describe('UserLinkComponent component test', () => {
         fixture.detectChanges();
       });
 
-      it('should render an inner link with specified classes', () => {
-        const link = element.querySelector('a')!;
-
-        expect(link.textContent).toEqual('First Last');
-        expect(link.getAttribute('title')).toEqual('Author: First Last');
-        expect(link.getAttribute('href')).toEqual('/users/1');
+      it('renders a link to the user', () => {
+        expect(screen.getByRole('link', { name: 'First Last' })).toHaveAttribute('href', '/users/1');
       });
     });
 

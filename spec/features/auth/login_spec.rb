@@ -47,7 +47,7 @@ RSpec.describe "Login" do
 
   def expect_not_being_logged_in
     expect(page)
-      .to have_field("Username")
+      .to have_field("Username or email")
   end
 
   context "sign in user" do
@@ -143,14 +143,14 @@ RSpec.describe "Login" do
 
       expect(page).to have_current_path signin_path
       expect(page)
-        .to have_content "Invalid user or password"
+        .to have_text "Invalid user or password"
     end
 
     it "forwards to the deep linked page after login" do
       visit my_page_path
 
       expect(page)
-        .to have_field("Username")
+        .to have_field("Username or email")
 
       login_with(user.login, user_password)
 

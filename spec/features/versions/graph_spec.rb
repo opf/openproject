@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "version show graph", :js, :selenium do
+RSpec.describe "version show graph", :js do
   shared_let(:user) { create(:admin) }
   # parent
   # +- sibling
@@ -62,7 +62,7 @@ RSpec.describe "version show graph", :js, :selenium do
     expect(page).to have_css(".work-packages-embedded-view--container", wait: 20)
     expect(page).to have_css(".op-wp-embedded-graph", visible: :all, wait: 20)
     canvas = find(".op-wp-embedded-graph canvas")
-    expect(canvas.text).to eq("1 Control; 1 Subject under test")
+    expect(canvas.text(:all)).to eq("1 Control; 1 Subject under test")
   end
 
   context "for a version not shared" do

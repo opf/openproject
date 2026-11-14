@@ -89,441 +89,456 @@ RSpec.describe McpTools::SearchWorkPackages do
     tool_config.save!
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP text tool"
+  it_behaves_like "MCP text tool"
 
-    it "finds all work packages without filters" do
+  it "finds all work packages without filters" do
+    mcp_request
+    expect(result_items.size).to eq(2)
+  end
+
+  it "responds with properly formatted work packages" do
+    mcp_request
+    result_items.each do |work_package|
+      expect(work_package.to_json).to match_json_schema.from_docs("work_package_model")
+    end
+  end
+
+  it "removes html from the description" do
+    subject
+    result_items.each do |work_package|
+      expect(work_package.fetch("description")).not_to have_key("html")
+    end
+  end
+
+  it "removes unnecessary links from work packages, such as purely action-based links" do
+    subject
+    result_items.each do |work_package|
+      # Spec is based on the assumption that we might have to increase this number over time, but rather not reduce it.
+      # When you are here to increase it, maybe reflect on whether we should've filtered more links by now.
+      expect(work_package.fetch("_links").size).to be < 40
+
+      # it keeps non-action links, because they are still useful (non-exhaustive examples) ...
+      expect(work_package.fetch("_links").keys).to include("status", "type", "assignee")
+
+      # ... but rejects links that merely tell the client "what's possible to do" (non-exhaustive examples)
+      expect(work_package.fetch("_links").keys).not_to include("logTime", "generate_pdf", "copy")
+    end
+  end
+
+  context "when not requesting a full representation" do
+    let(:call_args) { {} }
+
+    it "finds all work packages" do
       mcp_request
       expect(result_items.size).to eq(2)
     end
 
-    it "responds with properly formatted work packages" do
+    it "removes lots of attributes" do
+      subject
+      result_items.each do |work_package|
+        expect(work_package.keys.size).to be < 15
+
+        links = work_package.fetch("_links")
+        expect(links.keys.size).to be < 10
+      end
+    end
+  end
+
+  describe "filtering by id" do
+    context "when searching by a classic identifier" do
+      let(:call_args) { { id: work_package_a.id } }
+
+      it "finds the work package" do
+        mcp_request
+        expect(result_items.size).to eq(1)
+        expect(result_items.first["id"]).to eq(work_package_a.id)
+      end
+    end
+
+    context "when searching by a semantic identifier" do
+      let(:call_args) { { id: work_package_a.identifier } }
+
+      it "finds the work package" do
+        mcp_request
+        expect(result_items.size).to eq(1)
+        expect(result_items.first["id"]).to eq(work_package_a.id)
+      end
+    end
+  end
+
+  describe "filtering by project_id" do
+    let!(:other_work_package) { create(:work_package, subject: "Other Project WP") }
+
+    let(:call_args) { { project_id: project.id } }
+
+    it "finds only work packages in the specified project" do
       mcp_request
-      result_items.each do |work_package|
-        expect(work_package.to_json).to match_json_schema.from_docs("work_package_model")
-      end
+      expect(result_items.size).to eq(2)
+      expect(result_items.pluck("id")).to contain_exactly(work_package_a.id, work_package_b.id)
     end
+  end
 
-    it "removes html from the description" do
-      subject
-      result_items.each do |work_package|
-        expect(work_package.fetch("description")).not_to have_key("html")
-      end
+  describe "filtering by status_id" do
+    let!(:other_status_wp) { create(:work_package, project:, subject: "Different Status WP") }
+
+    let(:call_args) { { status_id: status.id } }
+
+    it "finds only work packages with the specified status" do
+      mcp_request
+      expect(result_items.size).to eq(2)
+      expect(result_items.pluck("id")).to contain_exactly(work_package_a.id, work_package_b.id)
     end
+  end
 
-    it "removes unnecessary links from work packages, such as purely action-based links" do
-      subject
-      result_items.each do |work_package|
-        # Spec is based on the assumption that we might have to increase this number over time, but rather not reduce it.
-        # When you are here to increase it, maybe reflect on whether we should've filtered more links by now.
-        expect(work_package.fetch("_links").size).to be < 40
+  describe "filtering by a list of status ids" do
+    let(:other_status) { create(:status) }
+    let!(:other_status_wp) { create(:work_package, project:, status: other_status) }
+    let!(:third_status_wp) { create(:work_package, project:) }
 
-        # it keeps non-action links, because they are still useful (non-exhaustive examples) ...
-        expect(work_package.fetch("_links").keys).to include("status", "type", "assignee")
+    let(:call_args) { { status_id: [status.id, other_status.id] } }
 
-        # ... but rejects links that merely tell the client "what's possible to do" (non-exhaustive examples)
-        expect(work_package.fetch("_links").keys).not_to include("logTime", "generate_pdf", "copy")
-      end
+    it "finds the work packages with any of the statuses" do
+      mcp_request
+      expect(result_items.pluck("id"))
+        .to contain_exactly(work_package_a.id, work_package_b.id, other_status_wp.id)
     end
+  end
 
-    context "when not requesting a full representation" do
-      let(:call_args) { {} }
+  describe "filtering by open" do
+    let(:closed_status) { create(:closed_status) }
+    let!(:closed_wp) { create(:work_package, project:, status: closed_status) }
 
-      it "finds all work packages" do
+    context "when searching for open work packages" do
+      let(:call_args) { { open: true } }
+
+      it "finds only work packages with an open status" do
         mcp_request
-        expect(result_items.size).to eq(2)
-      end
-
-      it "removes lots of attributes" do
-        subject
-        result_items.each do |work_package|
-          expect(work_package.keys.size).to be < 15
-
-          links = work_package.fetch("_links")
-          expect(links.keys.size).to be < 10
-        end
-      end
-    end
-
-    describe "filtering by id" do
-      context "when searching by a classic identifier" do
-        let(:call_args) { { id: work_package_a.id } }
-
-        it "finds the work package" do
-          mcp_request
-          expect(result_items.size).to eq(1)
-          expect(result_items.first["id"]).to eq(work_package_a.id)
-        end
-      end
-
-      context "when searching by a semantic identifier" do
-        let(:call_args) { { id: work_package_a.identifier } }
-
-        it "finds the work package" do
-          mcp_request
-          expect(result_items.size).to eq(1)
-          expect(result_items.first["id"]).to eq(work_package_a.id)
-        end
-      end
-    end
-
-    describe "filtering by project_id" do
-      let!(:other_work_package) { create(:work_package, subject: "Other Project WP") }
-
-      let(:call_args) { { project_id: project.id } }
-
-      it "finds only work packages in the specified project" do
-        mcp_request
-        expect(result_items.size).to eq(2)
         expect(result_items.pluck("id")).to contain_exactly(work_package_a.id, work_package_b.id)
       end
     end
 
-    describe "filtering by status_id" do
-      let!(:other_status_wp) { create(:work_package, project:, subject: "Different Status WP") }
+    context "when searching for closed work packages" do
+      let(:call_args) { { open: false } }
 
-      let(:call_args) { { status_id: status.id } }
-
-      it "finds only work packages with the specified status" do
+      it "finds only work packages with a closed status" do
         mcp_request
-        expect(result_items.size).to eq(2)
-        expect(result_items.pluck("id")).to contain_exactly(work_package_a.id, work_package_b.id)
+        expect(result_items.pluck("id")).to contain_exactly(closed_wp.id)
       end
     end
+  end
 
-    describe "filtering by a list of status ids" do
-      let(:other_status) { create(:status) }
-      let!(:other_status_wp) { create(:work_package, project:, status: other_status) }
-      let!(:third_status_wp) { create(:work_package, project:) }
+  describe "filtering by type_id" do
+    let!(:other_type_wp) { create(:work_package, project:, subject: "Different Type WP") }
 
-      let(:call_args) { { status_id: [status.id, other_status.id] } }
+    let(:call_args) { { type_id: type.id } }
 
-      it "finds the work packages with any of the statuses" do
-        mcp_request
-        expect(result_items.pluck("id"))
-          .to contain_exactly(work_package_a.id, work_package_b.id, other_status_wp.id)
-      end
+    it "finds only work packages with the specified type" do
+      mcp_request
+      expect(result_items.size).to eq(2)
+      expect(result_items.pluck("id")).to contain_exactly(work_package_a.id, work_package_b.id)
     end
+  end
 
-    describe "filtering by open" do
-      let(:closed_status) { create(:closed_status) }
-      let!(:closed_wp) { create(:work_package, project:, status: closed_status) }
+  describe "filtering by assigned_to_id" do
+    context "when searching for assigned work packages" do
+      let(:call_args) { { assigned_to_id: assignee.id } }
 
-      context "when searching for open work packages" do
-        let(:call_args) { { open: true } }
-
-        it "finds only work packages with an open status" do
-          mcp_request
-          expect(result_items.pluck("id")).to contain_exactly(work_package_a.id, work_package_b.id)
-        end
-      end
-
-      context "when searching for closed work packages" do
-        let(:call_args) { { open: false } }
-
-        it "finds only work packages with a closed status" do
-          mcp_request
-          expect(result_items.pluck("id")).to contain_exactly(closed_wp.id)
-        end
-      end
-    end
-
-    describe "filtering by type_id" do
-      let!(:other_type_wp) { create(:work_package, project:, subject: "Different Type WP") }
-
-      let(:call_args) { { type_id: type.id } }
-
-      it "finds only work packages with the specified type" do
-        mcp_request
-        expect(result_items.size).to eq(2)
-        expect(result_items.pluck("id")).to contain_exactly(work_package_a.id, work_package_b.id)
-      end
-    end
-
-    describe "filtering by assigned_to_id" do
-      context "when searching for assigned work packages" do
-        let(:call_args) { { assigned_to_id: assignee.id } }
-
-        it "finds only work packages assigned to the specified user" do
-          mcp_request
-          expect(result_items.size).to eq(1)
-          expect(result_items.first["id"]).to eq(work_package_a.id)
-        end
-      end
-
-      context "when searching for unassigned work packages" do
-        let(:call_args) { { assigned_to_id: nil } }
-
-        it "finds only unassigned work packages" do
-          mcp_request
-          expect(result_items.size).to eq(1)
-          expect(result_items.first["id"]).to eq(work_package_b.id)
-        end
-      end
-    end
-
-    describe "filtering by author_id" do
-      let(:call_args) { { author_id: author.id } }
-
-      it "finds only work packages created by the specified user" do
+      it "finds only work packages assigned to the specified user" do
         mcp_request
         expect(result_items.size).to eq(1)
         expect(result_items.first["id"]).to eq(work_package_a.id)
       end
     end
 
-    # Both params dispatch to the `with_target_version` / `without_target_version`
-    # scopes; the query semantics (incl. observed_in divergence) are covered in
-    # spec/models/work_package_spec.rb. Here we only assert the wiring: each param
-    # reaches the right scope. `version_id` is the deprecated alias for the new
-    # `target_version_id`, so both behave identically.
-    %i[version_id target_version_id].each do |filter_name|
-      describe "filtering by #{filter_name}" do
-        context "with a version id" do
-          let(:call_args) { { filter_name => version.id } }
+    context "when searching for unassigned work packages" do
+      let(:call_args) { { assigned_to_id: nil } }
 
-          it "returns work packages targeting that version" do
-            mcp_request
-            expect(result_items.pluck("id")).to contain_exactly(work_package_a.id)
-          end
-        end
-
-        context "with null" do
-          let(:call_args) { { filter_name => nil } }
-
-          it "returns work packages without a target version" do
-            mcp_request
-            expect(result_items.pluck("id")).to contain_exactly(work_package_b.id)
-          end
-        end
-      end
-    end
-
-    describe "filtering by subject" do
-      context "with exact subject" do
-        let(:call_args) { { subject: "First Work Package" } }
-
-        it "finds the work package" do
-          mcp_request
-          expect(result_items.size).to eq(1)
-          expect(result_items.first["id"]).to eq(work_package_a.id)
-        end
-      end
-
-      context "with partial subject" do
-        let(:call_args) { { subject: "First" } }
-
-        it "finds the work package" do
-          mcp_request
-          expect(result_items.size).to eq(1)
-          expect(result_items.first["id"]).to eq(work_package_a.id)
-        end
-      end
-
-      context "with case-insensitive search" do
-        let(:call_args) { { subject: "first work" } }
-
-        it "finds the work package" do
-          mcp_request
-          expect(result_items.size).to eq(1)
-          expect(result_items.first["id"]).to eq(work_package_a.id)
-        end
-      end
-
-      context "with common term" do
-        let(:call_args) { { subject: "Work Package" } }
-
-        it "finds all matching work packages" do
-          mcp_request
-          expect(result_items.size).to eq(2)
-        end
-      end
-    end
-
-    describe "combining multiple filters" do
-      let(:call_args) { { project_id: project.id, assigned_to_id: assignee.id } }
-
-      it "applies all filters" do
+      it "finds only unassigned work packages" do
         mcp_request
         expect(result_items.size).to eq(1)
-        expect(result_items.first["id"]).to eq(work_package_a.id)
+        expect(result_items.first["id"]).to eq(work_package_b.id)
       end
     end
+  end
 
-    context "when user cannot see work packages" do
-      let(:user) { create(:user) }
+  describe "filtering by author_id" do
+    let(:call_args) { { author_id: author.id } }
 
-      it "does not find any work packages" do
-        mcp_request
-        expect(result_items).to be_empty
-      end
+    it "finds only work packages created by the specified user" do
+      mcp_request
+      expect(result_items.size).to eq(1)
+      expect(result_items.first["id"]).to eq(work_package_a.id)
     end
+  end
 
-    describe "counting" do
-      let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
-      let(:status) { create(:status, name: "Open one") }
-      let(:closed_status) { create(:closed_status, name: "Closed one") }
-      let(:assignee) { create(:user, firstname: "Ada", lastname: "Assignee", member_with_permissions: { project => [] }) }
-      let(:other_project) { create(:project, name: "Other project") }
-      let(:result) { parsed_results.fetch("structuredContent") }
+  # Both params dispatch to the `with_target_version` / `without_target_version`
+  # scopes; the query semantics (incl. observed_in divergence) are covered in
+  # spec/models/work_package_spec.rb. Here we only assert the wiring: each param
+  # reaches the right scope. `version_id` is the deprecated alias for the new
+  # `target_version_id`, so both behave identically.
+  %i[version_id target_version_id].each do |filter_name|
+    describe "filtering by #{filter_name}" do
+      context "with a version id" do
+        let(:call_args) { { filter_name => version.id } }
 
-      before do
-        create(:work_package, project:, status: closed_status)
-        create(:work_package, project: other_project, status:)
-      end
-
-      context "with level_of_detail count" do
-        let(:call_args) { { level_of_detail: "count" } }
-
-        it "counts only the work packages that the user can see, and returns no items" do
+        it "returns work packages targeting that version" do
           mcp_request
-          expect(result).to eq("items" => [], "total" => 3)
+          expect(result_items.pluck("id")).to contain_exactly(work_package_a.id)
         end
       end
 
-      context "with a project filter" do
-        let(:call_args) { { level_of_detail: "count", project_id: other_project.id } }
+      context "with null" do
+        let(:call_args) { { filter_name => nil } }
 
-        it "counts nothing in a project that the user cannot see" do
+        it "returns work packages without a target version" do
           mcp_request
-          expect(result).to eq("items" => [], "total" => 0)
-        end
-      end
-
-      context "with open: true" do
-        let(:call_args) { { level_of_detail: "count", open: true } }
-
-        it "counts only open work packages" do
-          mcp_request
-          expect(result).to eq("items" => [], "total" => 2)
-        end
-      end
-
-      context "when grouped by status" do
-        let(:call_args) { { level_of_detail: "count", group_by: "status" } }
-
-        it "returns the count per status, the largest first" do
-          mcp_request
-          expect(result["total"]).to eq(3)
-          expect(result["groups"]).to eq([{ "name" => "Open one", "count" => 2 }, { "name" => "Closed one", "count" => 1 }])
-        end
-      end
-
-      context "when grouped by status of open work packages" do
-        let(:call_args) { { level_of_detail: "count", group_by: "status", open: true } }
-
-        it "returns the count per open status" do
-          mcp_request
-          expect(result["groups"]).to eq([{ "name" => "Open one", "count" => 2 }])
-        end
-      end
-
-      context "when grouped by project" do
-        let(:call_args) { { level_of_detail: "count", group_by: "project" } }
-
-        it "returns the count per visible project" do
-          mcp_request
-          expect(result["groups"]).to eq([{ "name" => project.name, "count" => 3 }])
-        end
-      end
-
-      %w[type priority].each do |group_by|
-        context "when grouped by #{group_by}" do
-          let(:call_args) { { level_of_detail: "count", group_by: } }
-
-          it "counts every work package in one of the groups" do
-            mcp_request
-            expect(result["groups"].sum { it["count"] }).to eq(3)
-          end
-        end
-      end
-
-      context "when grouped without level_of_detail count" do
-        let(:call_args) { { group_by: "status" } }
-
-        it "returns the items as well" do
-          mcp_request
-          expect(result["items"].size).to eq(3)
-          expect(result["groups"].sum { it["count"] }).to eq(3)
-        end
-      end
-
-      context "when grouped by assignee" do
-        let(:call_args) { { level_of_detail: "count", group_by: "assignee", open: true } }
-
-        it "names the assignees, and counts unassigned work packages as (none)" do
-          mcp_request
-          expect(result["groups"]).to contain_exactly({ "id" => assignee.id, "name" => "Ada Assignee", "count" => 1 },
-                                                      { "name" => "(none)", "count" => 1 })
-        end
-      end
-
-      context "when grouped by assignee for a list of people" do
-        let(:idle) { create(:user, firstname: "Ida", lastname: "Idle", member_with_permissions: { project => [] }) }
-        let(:call_args) do
-          { level_of_detail: "count", group_by: "assignee", open: true, assigned_to_id: [assignee.id, idle.id] }
-        end
-
-        it "lists every one of them, also with no work packages" do
-          mcp_request
-          expect(result["groups"]).to eq([{ "id" => assignee.id, "name" => "Ada Assignee", "count" => 1 },
-                                          { "id" => idle.id, "name" => "Ida Idle", "count" => 0 }])
-        end
-      end
-
-      context "with an unknown group" do
-        let(:call_args) { { group_by: "author" } }
-
-        it "rejects the call" do
-          mcp_request
-          expect(parsed_results["isError"]).to be(true)
-        end
-      end
-    end
-
-    describe "pagination" do
-      let(:page_size) { 10 }
-      let(:overspilling_work_packages) { 5 }
-      let(:work_packages_count) { page_size + overspilling_work_packages }
-      let(:call_args) { { subject: "Stormtrooper" } }
-
-      before do
-        allow(described_class).to receive(:page_size).and_return(page_size)
-
-        work_packages_count.times do |idx|
-          create(:work_package,
-                 project:,
-                 type:,
-                 status:,
-                 subject: "Send Stormtrooper squad No. #{idx} to Jedi temple on Coruscant")
-        end
-      end
-
-      it "returns only results up to the page size" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "items").count).to eq(page_size)
-      end
-
-      it "indicates the total number of results" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "total")).to eq(work_packages_count)
-      end
-
-      context "if another page is requested" do
-        let(:call_args) { { subject: "Stormtrooper", page: 2 } }
-
-        it "returns the requested page" do
-          mcp_request
-          expect(parsed_results.dig("structuredContent", "items").count).to eq(overspilling_work_packages)
+          expect(result_items.pluck("id")).to contain_exactly(work_package_b.id)
         end
       end
     end
   end
 
-  context "when the mcp_server enterprise feature is disabled" do
-    it "responds with a 404" do
+  describe "filtering by label_id" do
+    let(:label) { create(:label) }
+
+    before { work_package_a.labels << label }
+
+    context "with a label id" do
+      let(:call_args) { { label_id: label.id } }
+
+      it "returns work packages carrying that label" do
+        mcp_request
+        expect(result_items.pluck("id")).to contain_exactly(work_package_a.id)
+      end
+    end
+
+    context "with null" do
+      let(:call_args) { { label_id: nil } }
+
+      it "returns work packages without any label" do
+        mcp_request
+        expect(result_items.pluck("id")).to contain_exactly(work_package_b.id)
+      end
+    end
+  end
+
+  describe "filtering by subject" do
+    context "with exact subject" do
+      let(:call_args) { { subject: "First Work Package" } }
+
+      it "finds the work package" do
+        mcp_request
+        expect(result_items.size).to eq(1)
+        expect(result_items.first["id"]).to eq(work_package_a.id)
+      end
+    end
+
+    context "with partial subject" do
+      let(:call_args) { { subject: "First" } }
+
+      it "finds the work package" do
+        mcp_request
+        expect(result_items.size).to eq(1)
+        expect(result_items.first["id"]).to eq(work_package_a.id)
+      end
+    end
+
+    context "with case-insensitive search" do
+      let(:call_args) { { subject: "first work" } }
+
+      it "finds the work package" do
+        mcp_request
+        expect(result_items.size).to eq(1)
+        expect(result_items.first["id"]).to eq(work_package_a.id)
+      end
+    end
+
+    context "with common term" do
+      let(:call_args) { { subject: "Work Package" } }
+
+      it "finds all matching work packages" do
+        mcp_request
+        expect(result_items.size).to eq(2)
+      end
+    end
+  end
+
+  describe "combining multiple filters" do
+    let(:call_args) { { project_id: project.id, assigned_to_id: assignee.id } }
+
+    it "applies all filters" do
       mcp_request
-      expect(last_response).to have_http_status(404)
+      expect(result_items.size).to eq(1)
+      expect(result_items.first["id"]).to eq(work_package_a.id)
+    end
+  end
+
+  context "when user cannot see work packages" do
+    let(:user) { create(:user) }
+
+    it "does not find any work packages" do
+      mcp_request
+      expect(result_items).to be_empty
+    end
+  end
+
+  describe "counting" do
+    let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
+    let(:status) { create(:status, name: "Open one") }
+    let(:closed_status) { create(:closed_status, name: "Closed one") }
+    let(:assignee) { create(:user, firstname: "Ada", lastname: "Assignee", member_with_permissions: { project => [] }) }
+    let(:other_project) { create(:project, name: "Other project") }
+    let(:result) { parsed_results.fetch("structuredContent") }
+
+    before do
+      create(:work_package, project:, status: closed_status)
+      create(:work_package, project: other_project, status:)
+    end
+
+    context "with level_of_detail count" do
+      let(:call_args) { { level_of_detail: "count" } }
+
+      it "counts only the work packages that the user can see, and returns no items" do
+        mcp_request
+        expect(result).to eq("items" => [], "total" => 3)
+      end
+    end
+
+    context "with a project filter" do
+      let(:call_args) { { level_of_detail: "count", project_id: other_project.id } }
+
+      it "counts nothing in a project that the user cannot see" do
+        mcp_request
+        expect(result).to eq("items" => [], "total" => 0)
+      end
+    end
+
+    context "with open: true" do
+      let(:call_args) { { level_of_detail: "count", open: true } }
+
+      it "counts only open work packages" do
+        mcp_request
+        expect(result).to eq("items" => [], "total" => 2)
+      end
+    end
+
+    context "when grouped by status" do
+      let(:call_args) { { level_of_detail: "count", group_by: "status" } }
+
+      it "returns the count per status, the largest first" do
+        mcp_request
+        expect(result["total"]).to eq(3)
+        expect(result["groups"]).to eq([{ "name" => "Open one", "count" => 2 }, { "name" => "Closed one", "count" => 1 }])
+      end
+    end
+
+    context "when grouped by status of open work packages" do
+      let(:call_args) { { level_of_detail: "count", group_by: "status", open: true } }
+
+      it "returns the count per open status" do
+        mcp_request
+        expect(result["groups"]).to eq([{ "name" => "Open one", "count" => 2 }])
+      end
+    end
+
+    context "when grouped by project" do
+      let(:call_args) { { level_of_detail: "count", group_by: "project" } }
+
+      it "returns the count per visible project" do
+        mcp_request
+        expect(result["groups"]).to eq([{ "name" => project.name, "count" => 3 }])
+      end
+    end
+
+    %w[type priority].each do |group_by|
+      context "when grouped by #{group_by}" do
+        let(:call_args) { { level_of_detail: "count", group_by: } }
+
+        it "counts every work package in one of the groups" do
+          mcp_request
+          expect(result["groups"].sum { it["count"] }).to eq(3)
+        end
+      end
+    end
+
+    context "when grouped without level_of_detail count" do
+      let(:call_args) { { group_by: "status" } }
+
+      it "returns the items as well" do
+        mcp_request
+        expect(result["items"].size).to eq(3)
+        expect(result["groups"].sum { it["count"] }).to eq(3)
+      end
+    end
+
+    context "when grouped by assignee" do
+      let(:call_args) { { level_of_detail: "count", group_by: "assignee", open: true } }
+
+      it "names the assignees, and counts unassigned work packages as (none)" do
+        mcp_request
+        expect(result["groups"]).to contain_exactly({ "id" => assignee.id, "name" => "Ada Assignee", "count" => 1 },
+                                                    { "name" => "(none)", "count" => 1 })
+      end
+    end
+
+    context "when grouped by assignee for a list of people" do
+      let(:idle) { create(:user, firstname: "Ida", lastname: "Idle", member_with_permissions: { project => [] }) }
+      let(:call_args) do
+        { level_of_detail: "count", group_by: "assignee", open: true, assigned_to_id: [assignee.id, idle.id] }
+      end
+
+      it "lists every one of them, also with no work packages" do
+        mcp_request
+        expect(result["groups"]).to eq([{ "id" => assignee.id, "name" => "Ada Assignee", "count" => 1 },
+                                        { "id" => idle.id, "name" => "Ida Idle", "count" => 0 }])
+      end
+    end
+
+    context "with an unknown group" do
+      let(:call_args) { { group_by: "author" } }
+
+      it "rejects the call" do
+        mcp_request
+        expect(parsed_results["isError"]).to be(true)
+      end
+    end
+  end
+
+  describe "pagination" do
+    let(:page_size) { 10 }
+    let(:overspilling_work_packages) { 5 }
+    let(:work_packages_count) { page_size + overspilling_work_packages }
+    let(:call_args) { { subject: "Stormtrooper" } }
+
+    before do
+      allow(described_class).to receive(:page_size).and_return(page_size)
+
+      work_packages_count.times do |idx|
+        create(:work_package,
+               project:,
+               type:,
+               status:,
+               subject: "Send Stormtrooper squad No. #{idx} to Jedi temple on Coruscant")
+      end
+    end
+
+    it "returns only results up to the page size" do
+      mcp_request
+      expect(parsed_results.dig("structuredContent", "items").count).to eq(page_size)
+    end
+
+    it "indicates the total number of results" do
+      mcp_request
+      expect(parsed_results.dig("structuredContent", "total")).to eq(work_packages_count)
+    end
+
+    context "if another page is requested" do
+      let(:call_args) { { subject: "Stormtrooper", page: 2 } }
+
+      it "returns the requested page" do
+        mcp_request
+        expect(parsed_results.dig("structuredContent", "items").count).to eq(overspilling_work_packages)
+      end
     end
   end
 end

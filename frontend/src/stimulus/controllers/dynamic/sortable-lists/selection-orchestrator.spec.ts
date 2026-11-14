@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { within } from '@testing-library/dom';
 import { usePlatform } from 'core-common/testing/platform';
 import { LiveRegionElement } from '@primer/live-region-element';
 import { type MockInstance } from 'vitest';
@@ -463,6 +464,17 @@ describe('SelectionOrchestrator', () => {
   });
 
   describe('keyboard and pointer edge cases', () => {
+    it('leaves a click on a disabled item of a card menu to the menu', () => {
+      const orchestrator = new SelectionOrchestrator(hostFor(root));
+      orchestrator.handleClick(clickOn(item('1')));
+      orchestrator.handleClick(clickOn(item('2'), { shiftKey: true }));
+      item('2').innerHTML = '<ul role="menu"><li><button role="menuitem" aria-disabled="true">Move to sprint</button></li></ul>';
+
+      orchestrator.handleClick(clickOn(within(item('2')).getByRole('menuitem', { name: 'Move to sprint' })));
+
+      expect(selectedIds()).toEqual(['1', '2']);
+    });
+
     it('still moves focus with the arrows while a move is in flight', () => {
       const orchestrator = new SelectionOrchestrator(hostFor(root));
       busy = true;

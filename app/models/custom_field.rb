@@ -34,6 +34,8 @@ class CustomField < ApplicationRecord
   include Lists::MoveAfterAnchor
 
   SORTABLE_LIST_TYPE = "custom_field"
+  ATTRIBUTE_NAME_PATTERN = /\Acustom_field_(?<id>\d+)\z/
+  COLUMN_NAME_PATTERN = /\Acf_(?<id>\d+)\z/
 
   normalizes :name, with: OpenProject::RemoveInvisibleCharacters
 
@@ -55,6 +57,19 @@ class CustomField < ApplicationRecord
           inverse_of: "custom_field"
 
   attr_readonly :field_format
+
+  # Overrides the global default from config/initializers/store_attribute.rb: settings keys that were never
+  # written (e.g. a default value assigned on creation is not dirty and thus not persisted) must read as their
+  # declared default, otherwise e.g. `user_self_editable` would read as nil instead of true.
+  self.store_attribute_unset_values_fallback_to_default = true
+  store_attribute :settings, :regexp, :string, default: ""
+  store_attribute :settings, :min_length, :integer, default: 0
+  store_attribute :settings, :max_length, :integer, default: 0
+  store_attribute :settings, :min_value, :float
+  store_attribute :settings, :max_value, :float
+  store_attribute :settings, :default_value, :string
+  store_attribute :settings, :content_right_to_left, :boolean, default: false
+  store_attribute :settings, :allow_non_open_versions, :boolean, default: false
 
   has_many :calculated_value_errors, dependent: :delete_all, inverse_of: "custom_field"
   has_many :comments, class_name: "CustomComment", dependent: :delete_all, inverse_of: "custom_field"
@@ -127,8 +142,7 @@ class CustomField < ApplicationRecord
         ids.first
       end
     else
-      val = read_attribute :default_value
-      cast_value val
+      cast_value super
     end
   end
 
@@ -318,7 +332,25 @@ class CustomField < ApplicationRecord
   end
 
   def self.custom_field_attribute?(attribute_name)
-    /custom_field_\d+/.match?(attribute_name.to_s)
+    ATTRIBUTE_NAME_PATTERN.match?(attribute_name.to_s)
+  end
+
+  def self.id_from_attribute_name(attribute_name)
+    match = ATTRIBUTE_NAME_PATTERN.match(attribute_name.to_s)
+    match[:id].to_i if match
+  end
+
+  def self.column_name?(name)
+    COLUMN_NAME_PATTERN.match?(name.to_s)
+  end
+
+  def self.id_from_column_name(name)
+    match = COLUMN_NAME_PATTERN.match(name.to_s)
+    match[:id].to_i if match
+  end
+
+  def self.column_name_pattern_for(ids)
+    /\Acf_(?<id>#{ids.map(&:to_i).join('|')})\z/
   end
 
   # to move in project_custom_field
@@ -411,7 +443,7 @@ class CustomField < ApplicationRecord
   end
 
   def multi_value_possible?
-    format_definition&.multi_value_possible?
+    format_definition&.multi_value_possible?(self.class.customized_class&.name)
   end
 
   def numeric_bounds_possible?

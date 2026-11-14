@@ -30,7 +30,7 @@
 require "rails_helper"
 
 RSpec.describe AI::TextTransforms::ResultPaneState do
-  let(:action) { build(:ai_text_transform_action, label: "Fix grammar") }
+  let(:action) { build(:ai_text_action, label: "Fix grammar") }
   let(:run) { build(:ai_text_transform_run, action:, status:) }
   let(:status) { "running" }
   let(:request_id) { SecureRandom.uuid }
@@ -79,6 +79,28 @@ RSpec.describe AI::TextTransforms::ResultPaneState do
       end
 
       it { expect(pane.state).to eq("failed") }
+    end
+  end
+
+  describe "#retryable?" do
+    %w[queued running succeeded cancelled].each do |run_status|
+      context "when the run is #{run_status}" do
+        let(:status) { run_status }
+
+        it { is_expected.not_to be_retryable }
+      end
+    end
+
+    context "when the run failed" do
+      let(:status) { "failed" }
+
+      it { is_expected.to be_retryable }
+    end
+
+    context "when the start was rejected" do
+      subject(:pane) { described_class.rejected(message: "Not available", label: "Fix grammar", scope:, request_id:) }
+
+      it { is_expected.not_to be_retryable }
     end
   end
 

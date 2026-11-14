@@ -39,7 +39,7 @@ class LoginForm < ApplicationForm
       id: "username#{@id_suffix}",
       value: @username,
       autofocus: @username.blank?,
-      label: User.human_attribute_name(:login),
+      label: I18n.t("account.username_or_email"),
       required: true,
       autocomplete: "username"
     )

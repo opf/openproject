@@ -84,6 +84,11 @@ export class OpProjectIncludeListComponent {
     return this.selected.includes(href);
   }
 
+  public toggleWithSpace(event:Event, project:IProjectData):void {
+    event.preventDefault();
+    this.changeSelected(project);
+  }
+
   public changeSelected(project:IProjectData):void {
     if (project.disabled) {
       return;

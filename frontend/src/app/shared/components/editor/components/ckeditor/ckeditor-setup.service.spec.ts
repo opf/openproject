@@ -44,6 +44,7 @@ describe('CKEditorSetupService with the vendored editor', () => {
   let wrapper:HTMLDivElement;
   let editor:ICKEditorInstance|undefined;
   const storageKey = 'op-20399-editor-spec';
+  const revisionKey = `op_ckeditor_rev_u1_${storageKey}`;
 
   beforeAll(async () => {
     await import('core-vendor/ckeditor/ckeditor');
@@ -52,7 +53,11 @@ describe('CKEditorSetupService with the vendored editor', () => {
   beforeEach(() => {
     vi.stubGlobal('OpenProject', {
       pluginContext: { value: {
-        services: { i18n: { t: (key:string) => key }, notifications: { addError: vi.fn() } },
+        services: {
+          i18n: { t: (key:string) => key },
+          notifications: { addError: vi.fn() },
+          currentUser: { userId: '1' },
+        },
         helpers: {},
       } },
     });
@@ -73,7 +78,7 @@ describe('CKEditorSetupService with the vendored editor', () => {
     await editor?.destroy();
     editor = undefined;
     wrapper.remove();
-    localStorage.removeItem(storageKey);
+    localStorage.removeItem(revisionKey);
     vi.unstubAllGlobals();
   });
 
@@ -89,7 +94,7 @@ describe('CKEditorSetupService with the vendored editor', () => {
     expect(within(wrapper).getByRole('textbox')).toHaveTextContent('Updated text');
 
     fireEvent(wrapper, new Event('op:ckeditor:autosave'));
-    await waitFor(() => expect(localStorage.getItem(storageKey)).not.toBeNull());
+    await waitFor(() => expect(localStorage.getItem(revisionKey)).not.toBeNull());
 
     await created.destroy();
     expect(created.state).toBe('destroyed');

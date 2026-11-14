@@ -29,8 +29,5 @@
 
 module Workflows
   class CreateContract < BaseContract
-    # The owner an :error_unauthorized is raised over, so it has to be writable for the rule in
-    # AuthorizesVariantAuthoring to be the one that decides.
-    attribute :project_id
   end
 end
