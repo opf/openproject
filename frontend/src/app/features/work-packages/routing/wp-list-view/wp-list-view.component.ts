@@ -58,16 +58,13 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { States } from 'core-app/core/states/states.service';
 import {
   matchesRoutingId,
-  resolveNumericId,
   resolveRoutingId,
 } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
-import { isSemanticWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import {
   GlobalEditFormChangesTrackerService,
 } from 'core-app/shared/components/fields/edit/services/global-edit-form-changes-tracker/global-edit-form-changes-tracker.service';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
-import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -100,7 +97,6 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   readonly urlParams = inject(UrlParamsService);
   readonly states = inject(States);
   readonly wpTableSelection = inject(WorkPackageViewSelectionService);
-  readonly wpTableFocus = inject(WorkPackageViewFocusService);
 
   text = {
     jump_to_pagination: this.I18n.t('js.work_packages.jump_marks.pagination'),
@@ -134,16 +130,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     // WorkPackageSplitViewComponent#init did this via a shared query space/injector.
     const details = this.urlParams.currentDetailsRouteParams();
     if (details) {
-      // Plain numeric ids need no lookup; resolving a semantic id needs the
-      // work package cached already, which may not be the case yet this early.
-      const numericId = isSemanticWorkPackageId(details.routingId)
-        ? resolveNumericId(this.states, details.routingId)
-        : details.routingId;
-      if (numericId) {
-        this.wpTableSelection.initializeSelection([numericId]);
-      } else {
-        this.selectOnceLoaded(details.routingId);
-      }
+      this.selectSplitViewRow(details.routingId);
     }
 
     // Mark tableInformationLoaded when initially loading done
@@ -232,16 +219,21 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     }
   }
 
-  private selectOnceLoaded(routingId:string):void {
+  // Matched against the loaded results rather than the work package cache, which a deep
+  // link cannot resolve a semantic id against, and which would miss the ancestor rows
+  // that hierarchy mode renders for work packages the query itself does not match.
+  private selectSplitViewRow(routingId:string):void {
     this
       .querySpace
       .results
       .values$()
       .pipe(take(1), this.untilDestroyed())
       .subscribe((results) => {
-        const workPackage = results.elements.find((element) => matchesRoutingId(element, routingId));
-        if (workPackage?.id) {
-          this.wpTableFocus.initializeSelectionAndFocus(workPackage.id, false, false);
+        const rows = results.elements.flatMap((element) => [element, ...element.getAncestors()]);
+        const id = rows.find((row) => matchesRoutingId(row, routingId))?.id;
+
+        if (id) {
+          this.wpTableSelection.initializeSelection([id]);
         }
       });
   }
