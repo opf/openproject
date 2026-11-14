@@ -27,9 +27,11 @@
 
 import {
   AfterContentChecked,
+  afterNextRender,
   afterRenderEffect,
   AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   computed,
   contentChild,
@@ -37,7 +39,9 @@ import {
   DestroyRef,
   ElementRef,
   inject,
+  Injector,
   input,
+  model,
   output,
   viewChild,
 } from '@angular/core';
@@ -52,6 +56,10 @@ import type { ActionMenuAlign } from 'core-common/contextual-action-menu';
 import { OpActionMenuTriggerDirective } from './op-action-menu-trigger.directive';
 
 const SUBMENU_OPENING_KEYS = new Set(['ArrowRight', 'Enter', ' ']);
+
+export function isTriggerDisabled(trigger:HTMLElement):boolean {
+  return trigger.getAttribute('aria-disabled') === 'true' || trigger.matches(':disabled');
+}
 
 type KeyedMenuItem = OpContextMenuItem & { key:string; children?:KeyedMenuItem[] };
 
@@ -113,8 +121,10 @@ export function visibleMenuItems(items:OpContextMenuItem[]):KeyedMenuItem[] {
 export class OpActionMenuComponent implements AfterContentChecked, AfterViewInit {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly changeDetector = inject(ChangeDetectorRef);
+  private readonly injector = inject(Injector);
 
-  readonly items = input.required<OpContextMenuItem[]>();
+  readonly items = model<OpContextMenuItem[]>([]);
   readonly label = input.required<string>();
   readonly align = input<ActionMenuAlign>('start');
   /** Positions the overlay against this element instead of the invoker. */
@@ -127,8 +137,11 @@ export class OpActionMenuComponent implements AfterContentChecked, AfterViewInit
   /** Emits after an item's `onClick` handled the activation. */
   readonly activated = output<OpContextMenuItem>();
 
-  /** Emits from the primary overlay's `beforetoggle`, before the list is read. */
-  readonly opening = output<void>();
+  /**
+   * Emits from the primary overlay's `beforetoggle`, before the list is read.
+   * Calling `preventDefault()` on the event keeps the menu closed.
+   */
+  readonly opening = output<ToggleEvent>();
 
   /** Emits once per primary close, after focus has been settled. */
   readonly closed = output<OpContextMenuCloseReason>();
@@ -149,6 +162,8 @@ export class OpActionMenuComponent implements AfterContentChecked, AfterViewInit
 
   private invokerRefocused = false;
 
+  private disabledObserver?:MutationObserver;
+
   constructor() {
     afterRenderEffect({
       write: () => {
@@ -161,6 +176,7 @@ export class OpActionMenuComponent implements AfterContentChecked, AfterViewInit
     this.destroyRef.onDestroy(() => {
       this.listeners.abort();
       this.externalFocus?.abort();
+      this.disabledObserver?.disconnect();
     });
   }
 
@@ -183,7 +199,19 @@ export class OpActionMenuComponent implements AfterContentChecked, AfterViewInit
     const { overlay } = this.menuElement;
 
     overlay.addEventListener('beforetoggle', (event) => {
-      if (event.newState === 'open') {
+      if (event.newState !== 'open') {
+        return;
+      }
+      const { invoker } = this;
+      if (invoker && isTriggerDisabled(invoker)) {
+        event.preventDefault();
+      } else {
+        this.opening.emit(event);
+      }
+      if (event.defaultPrevented) {
+        // Keeps the trigger's tooltip from taking a canceled opening for an open menu.
+        event.stopImmediatePropagation();
+      } else {
         this.onOpening();
       }
     }, { signal });
@@ -199,6 +227,16 @@ export class OpActionMenuComponent implements AfterContentChecked, AfterViewInit
 
   get invokerId():string {
     return this.trigger()?.element.nativeElement.id ?? `${this.menuId}-button`;
+  }
+
+  /** Opens the menu with the current items; returns whether it opened. */
+  open():boolean {
+    const { overlay } = this.menuElement;
+    if (!overlay.matches(':popover-open')) {
+      this.changeDetector.detectChanges();
+      overlay.showPopover();
+    }
+    return overlay.matches(':popover-open');
   }
 
   close():void {
@@ -245,6 +283,17 @@ export class OpActionMenuComponent implements AfterContentChecked, AfterViewInit
     trigger.setAttribute('aria-controls', `${this.menuId}-list`);
     trigger.setAttribute('aria-haspopup', 'menu');
     trigger.setAttribute('aria-expanded', 'false');
+    afterNextRender({ write: () => this.rewireTooltips(trigger) }, { injector: this.injector });
+  }
+
+  // Primer's `<tool-tip>` subscribes to its control's popover only when it
+  // wires itself (on connect or a `for` change), and the overlay carries its
+  // id only once rendered. Without rewiring, a trigger's tooltip would reopen
+  // over the open menu.
+  private rewireTooltips(trigger:HTMLElement):void {
+    trigger.ownerDocument
+      .querySelectorAll(`tool-tip[for="${CSS.escape(trigger.id)}"]`)
+      .forEach((tooltip) => tooltip.setAttribute('for', trigger.id));
   }
 
   private onOpening():void {
@@ -252,12 +301,14 @@ export class OpActionMenuComponent implements AfterContentChecked, AfterViewInit
     this.lastExternalFocus = undefined;
     this.invokerRefocused = false;
     this.trackExternalFocus();
-    this.opening.emit();
+    this.closeWhenInvokerDisabled();
   }
 
   private onClosed():void {
     this.externalFocus?.abort();
     this.externalFocus = undefined;
+    this.disabledObserver?.disconnect();
+    this.disabledObserver = undefined;
     this.invoker?.setAttribute('aria-expanded', 'false');
 
     const { reason } = this;
@@ -291,6 +342,21 @@ export class OpActionMenuComponent implements AfterContentChecked, AfterViewInit
     return SUBMENU_OPENING_KEYS.has(event.key)
       && event.target instanceof Element
       && event.target.matches('[aria-haspopup="menu"][aria-disabled="true"]');
+  }
+
+  private closeWhenInvokerDisabled():void {
+    const { invoker } = this;
+    this.disabledObserver?.disconnect();
+    if (!invoker) {
+      return;
+    }
+
+    this.disabledObserver = new MutationObserver(() => {
+      if (isTriggerDisabled(invoker)) {
+        this.close();
+      }
+    });
+    this.disabledObserver.observe(invoker, { attributes: true, attributeFilter: ['disabled', 'aria-disabled'] });
   }
 
   private trackExternalFocus():void {

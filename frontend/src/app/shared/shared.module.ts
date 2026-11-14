@@ -182,7 +182,9 @@ export function bootstrapModule(injector:Injector):void {
     OpNonWorkingDaysListComponent,
 
     PrimerCounterComponent,
-    PrimerIconButtonComponent
+    PrimerIconButtonComponent,
+    OpActionMenuComponent,
+    OpActionMenuTriggerDirective,
   ],
   providers: [
     CopyToClipboardService,

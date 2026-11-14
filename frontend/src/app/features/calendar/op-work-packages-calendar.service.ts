@@ -83,7 +83,7 @@ import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-p
 import {
   WorkPackageViewContextMenu,
 } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-view-context-menu.directive';
-import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { OpActionMenuService } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.service';
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { IDay } from 'core-app/core/state/days/day.model';
@@ -116,7 +116,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
   readonly urlParamsService = inject(UrlParamsService);
   readonly halEditing = inject(HalResourceEditingService);
   readonly wpTableSelection = inject(WorkPackageViewSelectionService);
-  readonly contextMenuService = inject(OPContextMenuService);
+  readonly actionMenuService = inject(OpActionMenuService);
   readonly calendarService = inject(OpCalendarService);
   readonly weekdayService = inject(WeekdayService);
   readonly dayService = inject(DayResourceService);
@@ -363,7 +363,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
     event.preventDefault();
 
     const handler = new WorkPackageViewContextMenu(this.injector, workPackageId, event.target as HTMLElement);
-    this.contextMenuService.show(handler, event);
+    this.actionMenuService.show(handler, event);
   }
 
   private defaultOptions():CalendarOptions {

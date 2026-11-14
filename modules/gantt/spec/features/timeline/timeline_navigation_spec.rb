@@ -389,7 +389,7 @@ RSpec.describe "Work package timeline navigation",
 
       # The button to fold/expand all groups is only present when grouping
       expect(page)
-        .to have_no_button("wp-fold-toggle-button")
+        .to have_no_button(accessible_name: "Collapse or expand groups", exact: true)
 
       group_by.enable_via_menu "Project"
 
@@ -414,8 +414,8 @@ RSpec.describe "Work package timeline navigation",
 
       expect(page).to have_no_css(".-group-row .timeline-element")
 
-      click_button("wp-fold-toggle-button")
-      click_button(I18n.t("js.button_collapse_all"))
+      click_button(accessible_name: "Collapse or expand groups", exact: true)
+      find(:menuitem, "Collapse all").click
 
       # Will again fold all rows so the milestone elements should again be present
       expect(page).to have_css(".-group-row .timeline-element.milestone")

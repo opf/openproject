@@ -30,7 +30,7 @@
 require "spec_helper"
 require_relative "shared_context"
 
-RSpec.describe "Work package table context menu",
+RSpec.describe "Team planner context menu",
                :js,
                with_ee: %i[team_planner_view],
                with_settings: { start_of_week: 1 } do
@@ -77,5 +77,20 @@ RSpec.describe "Work package table context menu",
 
     menu.choose "Open details view"
     Pages::SplitWorkPackage.new(work_package, project).expect_attributes Subject: work_package.subject
+  end
+
+  it "opens on a context menu event on the focused card, moves with the arrow keys and returns focus on Escape" do
+    card = page.find(".op-wp-single-card-#{work_package.id}")
+    card.execute_script("this.focus(); this.dispatchEvent(new MouseEvent('contextmenu', { bubbles: true, cancelable: true }))")
+
+    menu.expect_open
+    expect(page).to have_css("[role='menuitem']:focus", text: "Open details view")
+
+    page.send_keys(:down)
+    expect(page).to have_css("[role='menuitem']:focus", text: "Open fullscreen view")
+
+    menu.press_escape
+    menu.expect_closed
+    expect(page).to have_css(".op-wp-single-card-#{work_package.id}:focus")
   end
 end

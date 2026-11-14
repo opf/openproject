@@ -507,4 +507,27 @@ RSpec.describe "new work package", :js do
       expect(split_create_page).to have_test_selector("op-wp-breadcrumb", text: "Parent:\n#{parent.subject}")
     end
   end
+
+  context "with the settings menu on the full create page" do
+    let(:user) { create(:admin) }
+    let(:wp_page) { Pages::FullWorkPackageCreate.new(project:) }
+
+    before do
+      wp_page.visit!
+    end
+
+    it "lists the form configuration link and returns focus to the button" do
+      wp_page.expect_current_path
+      click_button(accessible_name: "Settings", exact: true)
+
+      expect(page).to have_menu "Settings"
+      within(:menu, "Settings") do
+        expect(page).to have_selector(:menuitem, "Configure form")
+        find(:menuitem, "Configure form").send_keys(:escape)
+      end
+
+      expect(page).to have_no_menu "Settings"
+      expect(page).to have_focus_on("#create-wp-menu-button")
+    end
+  end
 end

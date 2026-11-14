@@ -76,7 +76,7 @@ import {
 import { matchesRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { isInsideDisabledControl } from 'core-common/interactive-element-helper';
+import { isInsideDisabledControl, isInsideMenuControl } from 'core-common/interactive-element-helper';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -228,7 +228,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
       return;
     }
 
-    if (event.target instanceof Element && isInsideDisabledControl(event.target)) {
+    if (this.isOnMenuOrDisabledControl(event)) {
       return;
     }
 
@@ -236,11 +236,15 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   }
 
   public emitPointerEvent(output:EventEmitter<{ workPackageId:string, event:MouseEvent }>, event:MouseEvent):void {
-    if (this.workPackage.id === null) {
+    if (this.workPackage.id === null || this.isOnMenuOrDisabledControl(event)) {
       return;
     }
 
     output.emit({ workPackageId: this.workPackage.id, event });
+  }
+
+  private isOnMenuOrDisabledControl(event:Event):boolean {
+    return event.target instanceof Element && (isInsideDisabledControl(event.target) || isInsideMenuControl(event.target));
   }
 
   cardTitle():string {

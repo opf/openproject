@@ -63,8 +63,7 @@ RSpec.describe "Create cost entry without rate permissions", :js do
     full_view.visit!
     # Go to add cost entry page
     SeleniumHubWaiter.wait
-    find("#action-show-more-dropdown-menu .button").click
-    find(".menu-item", text: "Log unit costs").click
+    full_view.select_from_context_menu("Log unit costs")
 
     SeleniumHubWaiter.wait
     # Set single value, should update suffix

@@ -47,13 +47,18 @@
             <opce-zen-mode-toggle-button />
           </li>
           <li class="toolbar-item action_menu_main" id="action-show-more-dropdown-menu">
-            <button class="button dropdown-relative toolbar-icon"
-              opTooltip
-              [label]="text.fullView.buttonMore"
-              wpSingleContextMenu
-              [wpSingleContextMenu-workPackage]="workPackage">
-              <op-icon icon-classes="button--icon icon-show-more" />
-            </button>
+            <op-action-menu wpSingleContextMenu
+              [wpSingleContextMenu-workPackage]="workPackage"
+              align="end"
+              [label]="text.fullView.buttonMore">
+              <button opActionMenuTrigger
+                type="button"
+                class="button toolbar-icon"
+                opTooltip
+                [label]="text.fullView.buttonMore">
+                <op-icon icon-classes="button--icon icon-show-more" />
+              </button>
+            </op-action-menu>
           </li>
         </ul>
       </div>

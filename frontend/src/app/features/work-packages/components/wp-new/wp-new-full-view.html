@@ -17,13 +17,18 @@
             <opce-zen-mode-toggle-button />
           </li>
           <li class="toolbar-item hidden-for-tablet">
-            <button id="create-wp-menu-button"
-              opTooltip
-              [label]="text.button_settings"
-              class="button last work-packages-settings-button toolbar-icon"
-              wpCreateSettingsMenu>
-              <i class="button--icon icon-show-more"></i>
-            </button>
+            <op-action-menu wpCreateSettingsMenu
+              align="end"
+              [label]="text.button_settings">
+              <button id="create-wp-menu-button"
+                type="button"
+                opActionMenuTrigger
+                opTooltip
+                [label]="text.button_settings"
+                class="button last work-packages-settings-button toolbar-icon">
+                <i class="button--icon icon-show-more" aria-hidden="true"></i>
+              </button>
+            </op-action-menu>
           </li>
         </ul>
       </div>

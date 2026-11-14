@@ -25,15 +25,14 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, Directive, ElementRef, inject, Injector, Input, OnDestroy } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, inject, Injector, Input } from '@angular/core';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HookService } from 'core-app/features/plugins/hook-service';
-import {
-  OpContextMenuTrigger,
-} from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
+import { OpActionMenuItems } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu-items';
+import { withOcticon } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-menu-octicons';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import {
   ContextMenuItemGroups,
@@ -58,9 +57,8 @@ import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[wpSingleContextMenu]',
-  standalone: false,
 })
-export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger implements AfterViewInit, OnDestroy {
+export class WorkPackageSingleContextMenuDirective extends OpActionMenuItems implements AfterViewInit {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('wpSingleContextMenu-workPackage') public workPackage:WorkPackageResource;
 
@@ -80,30 +78,25 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
 
   private closeDialogHandler:EventListener = this.handleTimeEntryDialogClose.bind(this);
 
-  override readonly placement = 'bottom-end';
-
   ngAfterViewInit():void {
-    super.ngAfterViewInit();
     document.addEventListener('dialog:close', this.closeDialogHandler);
 
-    this.timeEntryService.activeTimer$.subscribe((timer) => {
+    this.timeEntryService.activeTimer$.pipe(this.untilDestroyed()).subscribe((timer) => {
       this.currentTimer = timer;
     });
   }
 
-  ngOnDestroy():void {
+  override ngOnDestroy():void {
     document.removeEventListener('dialog:close', this.closeDialogHandler);
+    super.ngOnDestroy();
   }
 
-  protected open(evt:Event) {
-    void this.workPackage.project.$load().then(() => {
+  protected buildItems():Promise<OpContextMenuItem[]> {
+    return this.workPackage.project.$load().then(() => {
       this.authorisationService.initModelAuth('work_package', this.workPackage.$links);
 
       const authorization = new WorkPackageAuthorization(this.workPackage, this.PathHelper);
-      const permittedActions = this.getPermittedActions(authorization);
-
-      this.buildItems(permittedActions);
-      this.opContextMenu.show(this, evt);
+      return this.menuItems(this.getPermittedActions(authorization));
     });
   }
 
@@ -201,7 +194,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
     return authorization.permittedActionsWithLinks(actions);
   }
 
-  protected buildItems(permittedActions:WorkPackageAction[]):OpContextMenuItem[] {
+  private menuItems(permittedActions:WorkPackageAction[]):OpContextMenuItem[] {
     const configureFormLink = this.workPackage.configureForm;
 
     const groups = new ContextMenuItemGroups();
@@ -237,9 +230,9 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
       });
     }
 
-    this.items = groups.items;
+    groups.transform(withOcticon);
 
-    return this.items;
+    return groups.items;
   }
 
   private handleTimeEntryDialogClose(event:CustomEvent<DialogCloseDetail>):void {

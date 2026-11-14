@@ -39,7 +39,7 @@ RSpec.describe "Allocate resource from the work package context menu", :js, with
   before do
     login_as(user)
     wp_view.visit!
-    find("#action-show-more-dropdown-menu .button").click
+    wp_view.open_more_menu
   end
 
   context "with permission to allocate resources" do
@@ -49,7 +49,7 @@ RSpec.describe "Allocate resource from the work package context menu", :js, with
     end
 
     it "opens the allocation dialog with the work package preselected" do
-      find(".menu-item", text: menu_item_label).click
+      find(:menuitem, menu_item_label).click
 
       within_dialog do
         expect(page).to have_text(I18n.t("resource_management.allocate_resource_dialog.title"))
@@ -64,8 +64,8 @@ RSpec.describe "Allocate resource from the work package context menu", :js, with
     end
 
     it "does not offer the menu item" do
-      expect(page).to have_css(".menu-item")
-      expect(page).to have_no_css(".menu-item", text: menu_item_label)
+      expect(page).to have_selector(:menuitem)
+      expect(page).to have_no_selector(:menuitem, menu_item_label)
     end
   end
 end

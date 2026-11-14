@@ -76,8 +76,8 @@ module Pages
     def click_reminder_button_with_context_menu(menu_item: "At a particular date/time")
       click_reminder_button
 
-      within "#reminder-dropdown-menu" do
-        click_link_or_button menu_item
+      within(:menu, "Set a reminder") do
+        find(:menuitem, menu_item).click
       end
     end
 

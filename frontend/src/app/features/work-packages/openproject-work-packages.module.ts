@@ -222,9 +222,6 @@ import {
 import {
   WorkPackagesTableConfigMenuComponent,
 } from 'core-app/features/work-packages/components/wp-table/config-menu/config-menu.component';
-import {
-  WorkPackageViewDropdownMenuDirective,
-} from 'core-app/shared/components/op-context-menu/handlers/wp-view-dropdown-menu.directive';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import {
   WorkPackageNotificationService,
@@ -416,6 +413,13 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
   imports: [
     // Commons
     OpSharedModule,
+    WorkPackageSingleContextMenuDirective,
+    OpTypesContextMenuDirective,
+    OpSettingsMenuDirective,
+    WorkPackageReminderContextMenuDirective,
+    WorkPackageGroupToggleDropdownMenuDirective,
+    WorkPackageCreateSettingsMenuDirective,
+    WorkPackageStatusDropdownDirective,
     NgSelectModule,
     // Display + Edit field functionality
     OpenprojectFieldsModule,
@@ -543,15 +547,6 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
     WorkPackageFilterContainerComponent,
     WorkPackageFilterButtonComponent,
 
-    // Context menus
-    OpTypesContextMenuDirective,
-    OpSettingsMenuDirective,
-    WorkPackageStatusDropdownDirective,
-    WorkPackageCreateSettingsMenuDirective,
-    WorkPackageSingleContextMenuDirective,
-    WorkPackageViewDropdownMenuDirective,
-    WorkPackageGroupToggleDropdownMenuDirective,
-
     // Timeline
     WorkPackageTimelineButtonComponent,
     WorkPackageTimelineHeaderController,
@@ -606,7 +601,6 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
     WorkPackageSplitViewToolbarComponent,
     WorkPackageWatcherButtonComponent,
     WorkPackageReminderButtonComponent,
-    WorkPackageReminderContextMenuDirective,
     WorkPackageShareButtonComponent,
     WorkPackageSubjectComponent,
 

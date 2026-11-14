@@ -109,3 +109,7 @@ export function closestDragBlockingElement(el:Element|null, stopAt:Element|null 
 export function isInsideDisabledControl(el:Element|null):boolean {
   return el?.closest('[aria-disabled="true"]') != null;
 }
+
+export function isInsideMenuControl(el:Element|null):boolean {
+  return el?.closest('[role="menu"], [aria-haspopup="menu"]') != null;
+}

@@ -57,7 +57,7 @@ RSpec.describe "Milestones full screen v iew", :js do
 
     it "shows the button as enabled" do
       click_button("Create", class: "add-work-package")
-      expect(page).to have_css(".menu-item", text: type.name.upcase)
+      expect(page).to have_selector(:menuitem, type.name, exact: true)
     end
   end
 

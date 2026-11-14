@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -59,17 +61,18 @@ RSpec.describe "Update status from WP card", :js, with_config: { edition: "bim" 
            role: manager_role)
   end
 
+  let!(:query) do
+    create(:query, user: manager, project:, display_representation: "cards")
+  end
+
   let(:wp_table) { Pages::IfcModels::ShowDefault.new(project) }
   let(:wp_card_view) { Pages::WorkPackageCards.new(project) }
 
   before do
     login_as(manager)
 
-    wp_table.visit!
-    loading_indicator_saveguard
-    wp_table.expect_work_package_listed(work_package)
-
-    wp_table.switch_view "Cards"
+    wp_table.visit_query query
+    wp_card_view.expect_work_package_listed(work_package)
   end
 
   it "can update the status through the button" do
