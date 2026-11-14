@@ -53,6 +53,18 @@ RSpec.describe "Recurring meetings show",
     login_as(current_user)
   end
 
+  context "when the series template is missing" do
+    before do
+      recurring_meeting.template.destroy!
+    end
+
+    it "returns not found" do
+      request
+
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
   context "when user has permissions to access" do
     it "shows the recurring meetings" do
       get recurring_meeting_path(recurring_meeting)

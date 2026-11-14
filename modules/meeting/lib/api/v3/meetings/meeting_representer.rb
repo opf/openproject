@@ -67,7 +67,9 @@ module API
         end
 
         link :delete,
-             cache_if: -> { current_user.allowed_in_project?(:delete_meetings, represented.project) } do
+             cache_if: -> {
+               !represented.series_template? && current_user.allowed_in_project?(:delete_meetings, represented.project)
+             } do
           {
             href: api_v3_paths.meeting(represented.id),
             method: :delete
