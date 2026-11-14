@@ -28,9 +28,7 @@
 #++
 
 module CustomOptions
-  class CreateContract < ::ModelContract
-    include RequiresAdminGuard
-
+  class CreateContract < BaseContract
     attribute :custom_field_id do
       errors.add(:custom_field, :blank) if model.custom_field.nil?
     end

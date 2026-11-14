@@ -31,12 +31,19 @@
 module CustomFields
   module ProjectSpecificValues
     class BaseContract < ::BaseContract
-      include RequiresAdminGuard
-
+      validate :validate_authorized
       validate :validate_restriction_enabled
       validate :validate_enterprise_plan
 
       private
+
+      def validate_authorized
+        return if user.admin? && user.active?
+        return if model.project_level_value_management? &&
+                  user.allowed_in_project?(:manage_work_package_custom_field_values, options[:project])
+
+        errors.add :base, :error_unauthorized
+      end
 
       def validate_restriction_enabled
         return if model.project_specific_value_restriction.present?

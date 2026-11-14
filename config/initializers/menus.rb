@@ -902,7 +902,8 @@ Redmine::MenuManager.map :project_menu do |menu|
       if: ->(project) {
         User.current.allowed_in_project?(:edit_project, project) ||
           User.current.allowed_in_project?(%i[manage_types manage_project_variants], project) ||
-          User.current.allowed_in_project?(:manage_categories, project)
+          User.current.allowed_in_project?(:manage_categories, project) ||
+          User.current.allowed_in_project?(:manage_work_package_custom_field_values, project)
       }
     },
     work_packages_import: { caption: :"work_packages.import.menu_title" },

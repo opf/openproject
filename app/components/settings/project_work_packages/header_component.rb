@@ -49,6 +49,16 @@ module Settings
         User.current.allowed_in_project?(:manage_categories, @project)
       end
 
+      def show_internal_comments?
+        User.current.allowed_in_project?(:edit_project, @project)
+      end
+
+      def show_custom_fields?
+        User.current.allowed_in_project?(
+          %i[manage_types manage_project_variants manage_work_package_custom_field_values], @project
+        )
+      end
+
       def internal_comments_title
         unless EnterpriseToken.allows_to?(:internal_comments)
           return render(Primer::Beta::Octicon.new(
@@ -62,41 +72,37 @@ module Settings
       end
 
       def tabs
-        tabs = []
+        [types_tab, categories_tab, custom_fields_tab, internal_comments_tab].compact
+      end
 
-        if show_types?
-          tabs << {
-            name: "types",
-            path: project_settings_work_packages_types_path,
-            label: t("label_type_plural")
-          }
-        end
+      def types_tab
+        return unless show_types?
 
-        if show_categories?
-          tabs << {
-            name: "categories",
-            path: project_settings_work_packages_categories_path,
-            label: t("documents.label_categories")
-          }
-        end
+        { name: "types", path: project_settings_work_packages_types_path, label: t("label_type_plural") }
+      end
 
-        if show_types?
-          tabs << {
-            name: "custom_fields",
-            path: project_settings_work_packages_custom_fields_path,
-            label: t(:label_custom_field_plural)
-          }
-        end
+      def categories_tab
+        return unless show_categories?
 
-        tabs << {
+        { name: "categories", path: project_settings_work_packages_categories_path, label: t("documents.label_categories") }
+      end
+
+      def custom_fields_tab
+        return unless show_custom_fields?
+
+        { name: "custom_fields", path: project_settings_work_packages_custom_fields_path, label: t(:label_custom_field_plural) }
+      end
+
+      def internal_comments_tab
+        return unless show_internal_comments?
+
+        {
           name: "internal_comments",
           path: project_settings_work_packages_internal_comments_path,
           label: internal_comments_title,
           # The nav label may carry an upsell icon; the browser title needs plain text.
           title_label: internal_comments_translation
         }
-
-        tabs
       end
 
       # Read outwards from the active tab, so the browser title reverses the

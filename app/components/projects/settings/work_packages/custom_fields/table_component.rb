@@ -35,25 +35,33 @@ module Projects
         class TableComponent < OpPrimer::BorderBoxTableComponent
           include ::WorkPackageTypes::VariantRoutes
 
-          columns :custom_field, :variants
-          main_column :custom_field, :variants
-          mobile_labels :variants
+          columns :custom_field, :field_format, :variants
+          mobile_labels :field_format, :variants
 
-          def initialize(project:, variants_by_field:, **)
+          def initialize(project:, variants_by_field:, project_specific_value_counts:, **)
             super(rows: variants_by_field.keys, **)
 
             @project = project
             @variants_by_field = variants_by_field
+            @project_specific_value_counts = project_specific_value_counts
+            @values_manageable = User.current.allowed_in_project?(:manage_work_package_custom_field_values, project)
           end
 
           def headers
             [
               [:custom_field, { caption: t("projects.settings.custom_fields.column_name") }],
+              [:field_format, { caption: t("projects.settings.custom_fields.column_format") }],
               [:variants, { caption: t("projects.settings.custom_fields.column_variants") }]
             ]
           end
 
           def variants_for(field) = @variants_by_field.fetch(field)
+
+          def project_specific_value_count(field) = @project_specific_value_counts.fetch(field, 0)
+
+          def values_manageable?(field)
+            @values_manageable && (field.project_level_value_management? || field.allow_additional_project_values?)
+          end
 
           def variant_path(variant)
             variant_settings_path(variant.project_owned? ? project : nil, variant)

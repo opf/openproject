@@ -28,9 +28,7 @@
 #++
 
 module CustomOptions
-  class UpdateContract < ::ModelContract
-    include RequiresAdminGuard
-
+  class UpdateContract < BaseContract
     attribute :value
   end
 end

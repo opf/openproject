@@ -94,14 +94,15 @@ module CustomFields
       end
 
       def delete_option
-        if @custom_option.destroy
-          num_deleted = delete_custom_values! @custom_option
+        num_deleted = CustomValue.where(custom_field_id: @custom_option.custom_field_id, value: @custom_option.id).count
+        call = ::CustomOptions::DeleteService.new(user: current_user, model: @custom_option).call
 
+        if call.success?
           flash[:notice] = I18n.t(
             :notice_custom_options_deleted, option_value: @custom_option.value, num_deleted:
           )
         else
-          flash[:error] = @custom_option.errors.full_messages
+          flash[:error] = call.errors.full_messages
         end
 
         redirect_to list_item_path(@custom_field, id: @custom_field.id), status: :see_other
@@ -119,12 +120,6 @@ module CustomFields
 
       def find_custom_option
         @custom_option = CustomOption.find params[:option_id]
-      end
-
-      def delete_custom_values!(custom_option)
-        CustomValue
-          .where(custom_field_id: custom_option.custom_field_id, value: custom_option.id)
-          .delete_all
       end
 
       def prepare_custom_option_position

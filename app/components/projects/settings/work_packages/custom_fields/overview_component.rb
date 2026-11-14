@@ -34,25 +34,38 @@ module Projects
       module CustomFields
         class OverviewComponent < ApplicationComponent
           include OpPrimer::ComponentHelpers
+          include OpTurbo::Streamable
 
-          def initialize(project:)
+          def initialize(project:, query:)
             super()
 
             @project = project
+            @query = query
           end
 
           private
 
-          attr_reader :project
+          attr_reader :project, :query
 
           def docs_url = OpenProject::Static::Links.url_for(:sysadmin_docs, :types)
 
           def variants_by_field
             @variants_by_field ||= applied_variants
                                      .flat_map { |variant| variant.custom_fields.map { |field| [field, variant] } }
+                                     .select { |field, _| matching_field_ids.include?(field.id) }
                                      .group_by(&:first)
                                      .sort_by { |field, _| field.name.downcase }
                                      .to_h { |field, pairs| [field, pairs.map(&:last)] }
+          end
+
+          def matching_field_ids
+            @matching_field_ids ||= query.results.pluck(:id).to_set
+          end
+
+          def project_specific_value_counts
+            variants_by_field.keys
+                             .select(&:project_specific_values_supported?)
+                             .index_with { |field| field.restrictable_values.where(project_id: project.id).count }
           end
 
           def applied_variants

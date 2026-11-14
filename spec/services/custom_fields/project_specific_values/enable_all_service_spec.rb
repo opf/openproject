@@ -90,6 +90,33 @@ RSpec.describe CustomFields::ProjectSpecificValues::EnableAllService, with_ee: %
         expect(service_call.errors.symbols_for(:project_specific_value_restriction)).to eq([:blank])
       end
     end
+
+    context "as a user allowed to manage custom field values in the project" do
+      let(:user) { create(:user, member_with_permissions: { project => %i[manage_work_package_custom_field_values] }) }
+
+      subject(:service_call) { described_class.new(user:, model: custom_field).call(project:) }
+
+      context "when project admins may manage the values of the custom field" do
+        let(:custom_field) do
+          create(:list_wp_custom_field, :project_specific_allowlist, possible_values: %w[A B C],
+                                                                     project_level_value_management: true)
+        end
+
+        it "allows every option" do
+          expect(service_call).to be_success
+          expect(custom_field.usable_values_in(project)).to contain_exactly(option_a, option_b, option_c)
+        end
+      end
+
+      context "when project admins may not manage the values of the custom field" do
+        let(:traits) { [:project_specific_allowlist] }
+
+        it "fails" do
+          expect(service_call).to be_failure
+          expect(service_call.errors.symbols_for(:base)).to include(:error_unauthorized)
+        end
+      end
+    end
   end
 
   shared_examples "enabling all hierarchical items" do |factory|
