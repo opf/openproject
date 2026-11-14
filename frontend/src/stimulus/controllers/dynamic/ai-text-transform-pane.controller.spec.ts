@@ -41,7 +41,7 @@ describe('AiTextTransformPaneController', () => {
      data-ai-text-transform-pane-close-form-value="${CLOSE_FORM_ID}"
      data-action="keydown.esc->ai-text-transform-pane#close resize@window->ai-text-transform-pane#keepInViewport turbo:submit-end->ai-text-transform-pane#submitEnded turbo:submit-start->ai-text-transform-pane#submitStarted">
   <div data-ai-text-transform-pane-target="pane" role="dialog" aria-label="AI result" tabindex="-1"
-       style="position: fixed; top: 40px; right: 16px; width: 340px; height: 260px; max-width: calc(100vw - 32px);">
+       style="position: fixed; top: 40px; right: 16px; width: 340px; height: 260px; min-height: 250px; max-width: calc(100vw - 32px);">
     <div data-testid="header" ${action('pointerdown', 'beginDrag')}>
       <a href="#">Link</a>
       <button type="button" aria-label="Close" ${action('click', 'close')}>×</button>
@@ -172,6 +172,7 @@ describe('AiTextTransformPaneController', () => {
       dragBy(handle, -5000, -5000);
       expect(rect().width).toBe(320);
       expect(rect().height).toBe(240);
+      expect(pane().style.minHeight).toBe('240px');
 
       dragBy(handle, 5000, 5000);
       expect(rect().right).toBe(window.innerWidth - 8);
