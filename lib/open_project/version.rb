@@ -91,6 +91,12 @@ module OpenProject
         parts.join(separator)
       end
 
+      # This is used to explicitly control how OpenProject::Cache::CacheKey calculates
+      # the hashed prefix for our cache key.
+      def cache_key
+        to_s
+      end
+
       private
 
       def release_date_from_file
