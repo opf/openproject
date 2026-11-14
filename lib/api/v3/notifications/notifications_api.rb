@@ -34,6 +34,23 @@ module API
             authorize_by_with_raise(current_user.logged?)
           end
 
+          namespace :summary do
+            before do
+              header "Cache-Control", "no-store"
+            end
+
+            after_validation do
+              raise API::Errors::Unauthenticated unless current_user.active?
+
+              guard_feature_flag(:progressive_web_app)
+            end
+
+            get do
+              NotificationSummaryRepresenter.new(PushSubscriptions::NotificationSummary.new(current_user),
+                                                 current_user:)
+            end
+          end
+
           helpers do
             def notification_query
               @notification_query ||= ParamsToQueryService

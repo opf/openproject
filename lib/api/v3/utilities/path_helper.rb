@@ -357,6 +357,10 @@ module API
             "#{notifications}/unread_ian"
           end
 
+          def self.notification_summary
+            "#{notifications}/summary"
+          end
+
           def self.notification_read_ian(id)
             "#{notification(id)}/read_ian"
           end
