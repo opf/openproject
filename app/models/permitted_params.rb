@@ -294,7 +294,6 @@ class PermittedParams
                                                 :templated,
                                                 :status_code,
                                                 :status_explanation,
-                                                enabled_module_names: [],
                                                 custom_comments: {})
 
     whitelist

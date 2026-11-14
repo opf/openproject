@@ -40,7 +40,7 @@ module Projects
     private
 
     def before_perform(_service_result)
-      model.enabled_module_names = params[:enabled_modules]
+      model.enabled_module_names = OpenProject::AccessControl.modules_with_dependencies_appended(params[:enabled_modules])
       super
     end
 

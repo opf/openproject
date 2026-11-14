@@ -37,23 +37,18 @@ RSpec.describe "Backlogs project module dependencies", :js do
     create(:user, member_with_permissions: { project => %i[edit_project select_project_modules] })
   end
 
-  it "requires Boards to be enabled alongside Backlogs" do
+  it "enables Boards along with Backlogs and says so" do
     modules_settings_page.visit!
 
-    check "Backlogs"
-    click_button "Save"
+    modules_settings_page.toggle_module("backlogs")
 
-    expect_flash(type: :error, message:
-      I18n.t(:"activerecord.errors.models.project.attributes.enabled_modules.dependency_missing",
-             dependency: "Boards",
-             module: "Backlogs"))
+    modules_settings_page.expect_flash type: :warning, message:
+      I18n.t("projects.settings.modules.dependencies_enabled",
+             dependencies: I18n.t("project_module_board_view"),
+             module: I18n.t("project_module_backlogs"))
 
-    expect(project.reload).not_to be_module_enabled("backlogs")
-
-    check "Boards"
-    click_button "Save"
-
-    expect_flash type: :success, message: I18n.t(:notice_successful_update)
+    modules_settings_page.expect_module_enabled("board_view")
+    modules_settings_page.expect_module_locked("board_view")
 
     expect(project.reload).to be_module_enabled("backlogs")
     expect(project).to be_module_enabled("board_view")
@@ -62,18 +57,23 @@ RSpec.describe "Backlogs project module dependencies", :js do
   context "with both modules already enabled" do
     let!(:project) { create(:project, enabled_module_names: %w[work_package_tracking backlogs board_view]) }
 
-    it "refuses to disable Boards while Backlogs stays enabled" do
+    it "locks the Boards toggle and explains why" do
       modules_settings_page.visit!
 
-      uncheck "Boards"
-      click_button "Save"
+      modules_settings_page.expect_module_locked("board_view")
+      modules_settings_page.expect_lock_reason("board_view")
+    end
 
-      expect_flash(type: :error, message:
-        I18n.t(:"activerecord.errors.models.project.attributes.enabled_modules.dependency_missing",
-               dependency: "Boards",
-               module: "Backlogs"))
+    it "releases the Boards toggle once Backlogs is disabled" do
+      modules_settings_page.visit!
 
-      expect(project.reload).to be_module_enabled("board_view")
+      modules_settings_page.toggle_module("backlogs")
+
+      modules_settings_page.expect_module_unlocked("board_view")
+      modules_settings_page.expect_no_flash
+
+      expect(project.reload).not_to be_module_enabled("backlogs")
+      expect(project).to be_module_enabled("board_view")
     end
   end
 end

@@ -29,6 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
     header.with_title { I18n.t(:label_module_plural) }
+    header.with_description { I18n.t("projects.settings.modules.description") }
     header.with_breadcrumbs(
       [{ href: project_overview_path(@project.id), text: @project.name },
        { href: project_settings_general_path(@project.id), text: I18n.t("label_project_settings") },
@@ -37,13 +38,4 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= error_messages_for(@project) %>
-
-<%= labelled_tabular_form_for @project,
-                              url: project_settings_modules_path(@project) do |form| %>
-
-  <%= render partial: "form",
-             locals: { form: form } %>
-
-  <p><%= form.button t(:button_save), class: "button -primary -with-icon icon-checkmark" %></p>
-<% end %>
+<%= render(Projects::Settings::Modules::IndexComponent.new(project: @project)) %>

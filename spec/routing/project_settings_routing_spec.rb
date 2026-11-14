@@ -53,9 +53,9 @@ RSpec.describe Projects::SettingsController do
     end
 
     it do
-      expect(patch("/projects/123/settings/modules"))
+      expect(post("/projects/123/settings/modules/toggle"))
         .to route_to(
-          controller: "projects/settings/modules", action: "update", project_id: "123"
+          controller: "projects/settings/modules", action: "toggle", project_id: "123"
         )
     end
 

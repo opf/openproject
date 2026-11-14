@@ -837,7 +837,6 @@ en:
               archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
               project_initiation_request_disabled: "Project initiation request is disabled. It must be enabled to create the artefact work package."
             enabled_modules:
-              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
               format: "%{message}"
             identifier:
               must_start_with_letter: "must start with a letter"
@@ -6175,6 +6174,10 @@ en:
         section_header: "Phases"
         step:
           use_in_project: "Use %{step} in this project"
+      modules:
+        dependencies_enabled: "%{dependencies} was enabled as well because %{module} requires it."
+        description: "Enabling a module allows using its functionality in this project."
+        required_by: "This module cannot be disabled because %{modules} requires it."
       private_confirmation:
         checkbox: "I understand that this will make the previously public content private."
         description: >
@@ -7004,7 +7007,6 @@ en:
       start_gate: "Start gate"
       start_gate_caption: "Add a gate with the start date of the phase"
     projects:
-      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project lists"
     session: "Session"
