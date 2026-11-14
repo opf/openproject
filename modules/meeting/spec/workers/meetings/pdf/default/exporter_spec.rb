@@ -195,7 +195,7 @@ RSpec.describe Meetings::PDF::Default::Exporter do
 
           "Second section", "  ", "10 mins",
 
-          "Task", "##{work_package.id}", "Important task", " (Workin' on it)", "  ", "10 mins",
+          "Task", work_package.formatted_id, "Important task", " (Workin' on it)", "  ", "10 mins",
           "bar",
           "✓   Outcome",
           "A single outcome",
@@ -238,7 +238,7 @@ RSpec.describe Meetings::PDF::Default::Exporter do
           "foo",
 
           "Second section", "  ", "10 mins",
-          "Task", "##{work_package.id}", "Important task", " (Workin' on it)", "  ", "10 mins",
+          "Task", work_package.formatted_id, "Important task", " (Workin' on it)", "  ", "10 mins",
           "bar",
 
           "1", # Page number
@@ -271,7 +271,7 @@ RSpec.describe Meetings::PDF::Default::Exporter do
       end
 
       before do
-        work_package.update_columns(identifier: "MEET-1", sequence_number: 1)
+        work_package.update_columns(identifier: "MEET-999", sequence_number: 999)
       end
 
       it "renders the semantic identifier for the agenda item and the mention in its notes" do
@@ -284,8 +284,8 @@ RSpec.describe Meetings::PDF::Default::Exporter do
           "foo",
 
           "Second section", "  ", "10 mins",
-          "Task", "MEET-1", "Important task", " (Workin' on it)", "  ", "10 mins",
-          "MEET-1",
+          "Task", "MEET-999", "Important task", " (Workin' on it)", "  ", "10 mins",
+          "MEET-999",
 
           "1", # Page number
           export_time_formatted,
@@ -398,7 +398,7 @@ RSpec.describe Meetings::PDF::Default::Exporter do
           "Agenda Item", "  ", "15 mins", "  ", "Export User",
           "Agenda item notes",
           "✓   Outcome",
-          "Task", "##{outcome_work_package.id}", "Outcome WP", " (In Progress)",
+          "Task", outcome_work_package.formatted_id, "Outcome WP", " (In Progress)",
 
           "1", # Page number
           export_time_formatted,
@@ -411,7 +411,7 @@ RSpec.describe Meetings::PDF::Default::Exporter do
       context "with semantic work package identifiers",
               with_settings: { work_packages_identifier: "semantic" } do
         before do
-          outcome_work_package.update_columns(identifier: "MEET-1", sequence_number: 1)
+          outcome_work_package.update_columns(identifier: "MEET-999", sequence_number: 999)
         end
 
         it "renders the work package outcome with the semantic identifier" do
@@ -423,7 +423,7 @@ RSpec.describe Meetings::PDF::Default::Exporter do
             "Agenda Item", "  ", "15 mins", "  ", "Export User",
             "Agenda item notes",
             "✓   Outcome",
-            "Task", "MEET-1", "Outcome WP", " (In Progress)",
+            "Task", "MEET-999", "Outcome WP", " (In Progress)",
 
             "1", # Page number
             export_time_formatted,

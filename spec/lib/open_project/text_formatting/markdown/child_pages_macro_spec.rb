@@ -42,10 +42,10 @@ RSpec.describe "OpenProject child pages macro" do
     create(:valid_project, :with_internal_wiki)
   end
   shared_let(:member_project) do
-    create(:valid_project, :with_internal_wiki, identifier: "member-project")
+    create(:valid_project, :with_internal_wiki)
   end
   shared_let(:invisible_project) do
-    create(:valid_project, :with_internal_wiki, identifier: "other-project")
+    create(:valid_project, :with_internal_wiki)
   end
   shared_let(:user) do
     create(:user, member_with_permissions: { project => [:view_wiki_pages],
@@ -167,14 +167,21 @@ RSpec.describe "OpenProject child pages macro" do
   end
 
   context "when page slug from invisible project passed" do
-    let(:input) { '<macro class="child_pages" data-page="other-project:leaf-page-from-other-project"></macro>' }
+    let(:input) do
+      %(<macro class="child_pages" data-page="#{invisible_project.identifier}:leaf-page-from-other-project"></macro>)
+    end
 
-    it { is_expected.to be_html_eql(error_html("Cannot find the wiki page 'other-project:leaf-page-from-other-project'.")) }
+    it do
+      expect(subject).to be_html_eql(
+        error_html("Cannot find the wiki page '#{invisible_project.identifier}:leaf-page-from-other-project'.")
+      )
+    end
   end
 
   context "when referencing page from a member project" do
     let(:input) do
-      '<macro class="child_pages" data-page="member-project:leaf-page-from-member-project" data-include-parent="true"></macro>'
+      "<macro class=\"child_pages\" data-page=\"#{member_project.identifier}:leaf-page-from-member-project\" " \
+        "data-include-parent=\"true\"></macro>"
     end
 
     it { is_expected.to match(leaf_page_member_project.title) }

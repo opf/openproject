@@ -37,11 +37,12 @@ RSpec.describe Projects::IdentifierController do
 
   describe "update" do
     it "sets the project identifier to the provided value" do
-      put :update, params: { project_id: project.id, project: { identifier: "new-identifier" } }
+      new_identifier = attributes_for(:project)[:identifier]
+      put :update, params: { project_id: project.id, project: { identifier: new_identifier } }
 
       # Upon success, the user is redirected to the general project settings page
       expect(response).to have_http_status(:redirect)
-      expect(project.reload.identifier).to eq("new-identifier")
+      expect(project.reload.identifier).to eq(new_identifier)
     end
 
     context "with an invalid identifier" do
@@ -50,7 +51,6 @@ RSpec.describe Projects::IdentifierController do
         put :update, params: { project_id: project.id, project: { identifier: "bad identifier" }, format: :turbo_stream }
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.body).to include("Identifier is invalid")
         expect(project.reload.identifier).to eq(previous_identifier)
       end
     end

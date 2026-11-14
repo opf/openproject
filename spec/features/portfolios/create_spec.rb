@@ -77,12 +77,12 @@ RSpec.describe "Portfolios",
 
       expect_and_dismiss_flash type: :success, message: "Successful creation."
 
-      expect(page).to have_current_path /\/projects\/foo-bar\/?/
+      portfolio = Project.last
+      expect(page).to have_current_path %r{/projects/#{portfolio.identifier}/?}
       expect(page).to have_text "Foo bar"
 
-      portfolio = Project.last
+      expect(portfolio.name).to eq "Foo bar"
       expect(portfolio.workspace_type).to eq "portfolio"
-      expect(portfolio.identifier).to eq "foo-bar"
       expect(portfolio.parent).to be_nil
     end
 

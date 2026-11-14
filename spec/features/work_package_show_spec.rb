@@ -75,7 +75,7 @@ RSpec.describe "Work package show page" do
     click_on accessible_name: parent.subject, exact: true
     expect(page).to have_test_selector "op-wp-breadcrumb-parent", text: grand_parent.subject, wait: 10
 
-    expect(page).to have_current_path project_work_packages_path(project) + "/#{parent.id}/activity"
+    expect(page).to have_current_path project_work_package_path(project, parent, "activity")
 
     # Go back
     page.go_back
@@ -83,7 +83,7 @@ RSpec.describe "Work package show page" do
 
     # Navigate to Grandparent
     click_on accessible_name: grand_parent.subject, exact: true
-    expect(page).to have_current_path project_work_packages_path(project) + "/#{grand_parent.id}/activity", wait: 10
+    expect(page).to have_current_path project_work_package_path(project, grand_parent, "activity"), wait: 10
   end
 
   context "as an accessible page" do

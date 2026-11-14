@@ -52,7 +52,7 @@ RSpec.shared_examples_for "APIv3 workspace update" do
   let(:permissions) { %i[edit_project view_project_attributes edit_project_attributes] }
   let(:body) do
     {
-      identifier: "new_workspace_identifier",
+      identifier: attributes_for(:project)[:identifier],
       name: "Project name"
     }
   end

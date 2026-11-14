@@ -61,7 +61,7 @@ RSpec.describe "Work Package table parent column", :js, :selenium do
     end
 
     page.within(".wp-row-#{child.id}") do
-      expect(page).to have_css("td.parent", text: "##{parent.id}")
+      expect(page).to have_css("td.parent", text: parent.formatted_id)
     end
   end
 

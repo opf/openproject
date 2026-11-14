@@ -221,7 +221,7 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
 
         it "redirects to the work package page" do
           expect(subject).to be_redirect
-          expect(subject).to redirect_to(work_package_path(work_package))
+          expect(subject).to redirect_to(work_package_path(work_package.reload))
         end
       end
 
@@ -240,7 +240,7 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
         before do
           # outsider is not a member of target_project, so the move fails
           # contract validation before anything is persisted.
-          unmovable_work_package.update_columns(identifier: "SRC-1", sequence_number: 1)
+          unmovable_work_package.update_columns(identifier: "SRC-999", sequence_number: 999)
 
           post :create,
                params: {
@@ -250,7 +250,7 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
         end
 
         it "shows the semantic identifier in the error flash, not the bare numeric id" do
-          expect(flash[:error]).to include("SRC-1")
+          expect(flash[:error]).to include("SRC-999")
           expect(flash[:error]).not_to include("##{unmovable_work_package.id}")
         end
 

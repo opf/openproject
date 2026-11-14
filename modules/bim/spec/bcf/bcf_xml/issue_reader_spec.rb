@@ -32,7 +32,6 @@ RSpec.describe OpenProject::Bim::BcfXml::IssueReader do
   let(:type) { create(:type, name: "Issue", default_variant_enabled_in_all_projects: true) }
   let(:project) do
     create(:project,
-           identifier: "bim_project",
            types: [type])
   end
   let(:manage_bcf_role) do

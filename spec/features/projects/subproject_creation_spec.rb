@@ -71,10 +71,9 @@ RSpec.describe "Subproject creation", :js do
 
     expect_and_dismiss_flash type: :success, message: "Successful creation."
 
-    expect(page).to have_current_path /\/projects\/foo-child\/?/
-
     child = Project.last
-    expect(child.identifier).to eq "foo-child"
+    expect(child.name).to eq "Foo child"
+    expect(page).to have_current_path %r{/projects/#{child.identifier}/?}
     expect(child.parent).to eq parent_project
   end
 end

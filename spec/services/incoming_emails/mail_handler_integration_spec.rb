@@ -32,7 +32,7 @@ require "spec_helper"
 RSpec.describe IncomingEmails::MailHandler, "integration", type: :service do
   # Integration tests to ensure backwards compatibility after refactoring
 
-  shared_let(:project) { create(:valid_project, identifier: "test-project") }
+  shared_let(:project) { create(:valid_project) }
   shared_let(:user) { create(:user, mail: "test@example.com") }
   shared_let(:priority) { create(:priority_low, is_default: true) }
 

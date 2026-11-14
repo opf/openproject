@@ -55,7 +55,7 @@ RSpec.describe Queries::WorkPackages::Selects::ExactMatchSelect do
       it { is_expected.to be_nil }
     end
 
-    context "when the query string is a plain numeric id" do
+    context "when the query string is a plain numeric id", :classic_identifiers do
       let!(:exact_work_package)  { create(:work_package) }
       let!(:prefix_work_package) { create(:work_package) }
       let(:query_string) { "5" }
@@ -163,7 +163,7 @@ RSpec.describe Queries::WorkPackages::Selects::ExactMatchSelect do
         end
       end
 
-      context "and the instance is in classic identifier mode" do
+      context "and the instance is in classic identifier mode", :classic_identifiers do
         context "when the query is hash-prefixed" do
           let(:query_string) { "#COM-5" }
 

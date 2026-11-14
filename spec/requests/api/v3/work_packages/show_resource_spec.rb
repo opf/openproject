@@ -36,7 +36,7 @@ RSpec.describe "API v3 Work package resource",
   include Capybara::RSpecMatchers
   include API::V3::Utilities::PathHelper
 
-  shared_let(:project) { create(:project, identifier: "test_project", public: false) }
+  shared_let(:project) { create(:project, public: false) }
   shared_let(:closed_status) { create(:closed_status) }
   shared_let(:priority) { create(:priority) }
   shared_let(:status) { create(:status) }

@@ -192,7 +192,7 @@ RSpec.describe "Work package calendars", :js do
       page.find(".fc-event-title", text: current_work_package.subject).click
 
       wait_for_turbo_frame do
-        expected_path = "/projects/#{project.identifier}/calendars/new/details/#{current_work_package.id}"
+        expected_path = "/projects/#{project.identifier}/calendars/new/details/#{current_work_package.display_id}"
         expect(page).to have_current_path(expected_path, ignore_query: true)
         current_wp_split_screen.expect_open
       end

@@ -144,13 +144,13 @@ RSpec.describe "activity comments", :js do
           let!(:wp2) { create(:work_package, project:, subject: "AutoFoo") }
 
           it "can move to the work package by click (Regression #30928)" do
-            activity_tab.type_comment("foo ##{wp2.id}")
+            activity_tab.type_comment("foo ##{wp2.display_id}")
             expect(page).to have_css(".mention-list-item", text: wp2.to_s.strip)
 
             activity_tab.submit_comment
             activity_tab.expect_journal_notes(text: "foo") # check if the comment is saved
 
-            page.find("a.issue", text: wp2.id).click
+            page.find("a.issue", text: wp2.display_id).click
 
             other_wp_page = Pages::FullWorkPackage.new wp2
             other_wp_page.ensure_page_loaded
@@ -185,11 +185,11 @@ RSpec.describe "activity comments", :js do
         activity_tab.open_new_comment_editor
 
         # Insert a new reference using the autocompleter
-        activity_tab.get_editor_form_field_element.input_element.send_keys "Single ##{work_package2.id}"
+        activity_tab.get_editor_form_field_element.input_element.send_keys "Single ##{work_package2.display_id}"
         expect(page)
-          .to have_css(".mention-list-item", text: "#{work_package2.type.name} ##{work_package2.id}:")
+          .to have_css(".mention-list-item", text: "#{work_package2.type.name} #{work_package2.formatted_id}:")
 
-        find(".mention-list-item", text: "#{work_package2.type.name} ##{work_package2.id}:").click
+        find(".mention-list-item", text: "#{work_package2.type.name} #{work_package2.formatted_id}:").click
 
         # Insert new text, need to do this separately.
         # No autocompleter used this time.
@@ -205,7 +205,7 @@ RSpec.describe "activity comments", :js do
 
         activity_tab.submit_comment
 
-        activity_tab.expect_journal_notes(text: "Single ##{work_package2.id}")
+        activity_tab.expect_journal_notes(text: "Single #{work_package2.formatted_id}")
         expect(page).to have_css(".work-packages-activities-tab-journals-item-component opce-macro-wp-quickinfo", count: 2)
         expect(page).to have_css(
           ".work-packages-activities-tab-journals-item-component opce-macro-wp-quickinfo",

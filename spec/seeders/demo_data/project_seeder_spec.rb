@@ -118,7 +118,8 @@ RSpec.describe DemoData::ProjectSeeder do
       project_seeder.seed!
       created_version = Version.find_by!(name: "First sprint")
       expect(created_version.wiki_page.text)
-        .to eq("Please see the [Task board](/projects/some-project/backlogs/sprints/#{created_version.id}/taskboard).")
+        .to eq("Please see the [Task board](/projects/#{created_version.project.identifier}/backlogs/sprints/" \
+               "#{created_version.id}/taskboard).")
     end
   end
 

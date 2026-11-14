@@ -85,8 +85,8 @@ RSpec.describe "Cost report calculations", :js do
   end
 
   it_behaves_like "a project picker searchable by identifier" do
-    let(:target_project) { create(:project, name: "Searched Report Project", identifier: "searched-report-project") }
-    let(:control_project) { create(:project, name: "Unrelated Report Project", identifier: "unrelated-report-project") }
+    let(:target_project) { create(:project, name: "Searched Report Project") }
+    let(:control_project) { create(:project, name: "Unrelated Report Project") }
 
     def search_project(query)
       search_autocomplete(find("opce-project-autocompleter#project_id_select_1"), query:)
