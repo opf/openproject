@@ -173,6 +173,10 @@ export default class extends Controller {
       throw new RefreshError('unavailable', 'Collaboration session ended');
     }
 
+    if (this.accessDenied) {
+      throw new RefreshError('access_denied', 'Access to the document was revoked');
+    }
+
     if (this.canUseCachedToken) {
       this.canUseCachedToken = false;
       return this.currentToken;
