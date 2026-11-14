@@ -77,6 +77,10 @@ RSpec.describe "Menu item traversal" do
       }
     end
 
+    before do
+      create(:internal_wiki_provider) # necessary for successful traversal (normally it's seeded)
+    end
+
     it "checks for authorized status for all links" do
       login_as admin
       visit admin_index_path

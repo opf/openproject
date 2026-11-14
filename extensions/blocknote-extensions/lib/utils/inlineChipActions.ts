@@ -88,8 +88,8 @@ export function selectInlineChipAtDOM(editor:AnyEditor, chipDom:HTMLElement, typ
   if (chip) selectInlineChipAt(editor, chip.position, type);
 }
 
-export function removeInlineChipAt(editor:AnyEditor, position:number):void {
-  const node = chipAt(editor, position);
+export function removeInlineChipAt(editor:AnyEditor, position:number, type:string = INLINE_WP_TYPE):void {
+  const node = chipAt(editor, position, type);
   if (!node) return;
   editor.transact((tr) => {
     tr.delete(position, position + node.nodeSize);
