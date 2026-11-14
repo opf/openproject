@@ -292,7 +292,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   }
 
   protected shouldUpdateHtmlTitle():boolean {
-    return true;
+    return this.urlParams.currentDetailsRouteParams() === null;
   }
 
   protected staticQueryName(query:QueryResource):string {
