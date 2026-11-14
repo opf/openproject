@@ -29,6 +29,19 @@
 
 module DevelopmentData
   class ProjectsSeeder < Seeder
+    IDENTIFIERS = {
+      "dev-empty" => "DEV_EMPTY",
+      "dev-work-package-sharing" => "DEV_SHARE",
+      "dev-large" => "DEV_LARGE",
+      "dev-large-child" => "DEV_CHILD",
+      "dev-custom-fields" => "DEV_CF",
+      "dev-forums" => "DEV_FORUM"
+    }.freeze
+
+    def self.identifier(key)
+      Setting::WorkPackageIdentifier.semantic? ? IDENTIFIERS.fetch(key) : key
+    end
+
     def seed_data!
       # We are relying on the default_projects_modules setting to set the desired project modules
       print_status " ↳ Creating development projects..."
@@ -56,20 +69,20 @@ module DevelopmentData
     end
 
     def project_identifiers
-      %w(dev-empty dev-work-package-sharing dev-large dev-large-child dev-custom-fields dev-forums)
+      IDENTIFIERS.keys.map { |key| self.class.identifier(key) }
     end
 
     def reset_projects
       Project.where(identifier: project_identifiers).destroy_all
-      project_identifiers.map do |id|
-        project = Project.new project_data(id)
+      IDENTIFIERS.keys.map do |key|
+        project = Project.new project_data(key)
 
-        if id == "dev-large-child"
+        if key == "dev-large-child"
           project.parent = seed_data.find_reference(:dev_large)
         end
 
         project.save!
-        seed_data.store_reference(id.underscore.to_sym, project)
+        seed_data.store_reference(key.underscore.to_sym, project)
 
         project
       end
@@ -99,18 +112,18 @@ module DevelopmentData
       end
     end
 
-    def project_data(identifier)
+    def project_data(key)
       {
-        name: project_name(identifier),
-        identifier:,
+        name: project_name(key),
+        identifier: self.class.identifier(key),
         enabled_module_names: project_modules,
         project_types: Type.all.map { |type| ProjectType.new(type:) },
         workspace_type: "project"
       }
     end
 
-    def project_name(identifier)
-      _dev, *parts = identifier.split("-")
+    def project_name(key)
+      _dev, *parts = key.split("-")
       "[dev] #{parts.join(' ').capitalize}"
     end
 
