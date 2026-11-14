@@ -37,6 +37,23 @@ module Projects::DemoProject
   def identifier?(identifier) = IDENTIFIERS.include?(identifier)
 
   def identifier
-    Project.where("LOWER(identifier) IN (?)", IDENTIFIERS.map(&:downcase)).pick(:identifier) || CLASSIC_IDENTIFIER
+    seeded_identifier || renamed_identifier || CLASSIC_IDENTIFIER
   end
+
+  # Matches IDENTIFIERS verbatim: in classic mode "demo" is a valid identifier for an
+  # unrelated project, and case-insensitive matching would let it shadow the seeded one.
+  def seeded_identifier
+    Project.where(identifier: IDENTIFIERS).order(:id).pick(:identifier)
+  end
+
+  # A renamed demo project keeps its seeded identifier in FriendlyId's slug history, so
+  # resolve through it to find the identifier the project is reachable under today.
+  def renamed_identifier
+    Project
+      .where(id: Project.identifier_slugs.where(slug: IDENTIFIERS).select(:sluggable_id))
+      .order(:id)
+      .pick(:identifier)
+  end
+
+  private_class_method :seeded_identifier, :renamed_identifier
 end
