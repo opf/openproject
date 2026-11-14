@@ -151,6 +151,14 @@ RSpec.describe ApplicationController do
     end
   end
 
+  describe "format given as a symbol, as route defaults do", with_settings: { login_required: false } do
+    it "is treated as an API request" do
+      controller.params = ActionController::Parameters.new(format: :json)
+
+      expect(controller.send(:api_request?)).to be(true)
+    end
+  end
+
   describe "CSRF token stored in the session", with_settings: { login_required: false } do
     around do |example|
       state = ActionController::Base.allow_forgery_protection
