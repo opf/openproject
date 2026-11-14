@@ -66,6 +66,27 @@ RSpec.describe "Real-time collaboration with Hocuspocus for documents",
         wait_for { document.reload.content_binary }.to be_present
         expect(document.description).to eq("Hello Hocuspocus\n")
       end
+
+      it "keeps accepting edits while the connection is cut and syncs them once it is back" do
+        tracking_websockets do
+          visit document_path(document)
+          expect(page).to have_test_selector("blocknote-document-description")
+          editor.fill_in("Before the outage.")
+          wait_for { document.reload.description }.to include("Before the outage.")
+
+          with_capped_timers do
+            while_network_cut do
+              expect(page).to have_test_selector("document-info-line", text: "You are currently offline.", wait: 5)
+              expect(page).to have_test_selector("blocknote-document-description")
+              expect(page).to have_no_test_selector("connection-error-notice", wait: 0)
+
+              editor.fill_in("During the outage.")
+            end
+
+            wait(5).for { document.reload.description }.to include("Before the outage.").and include("During the outage.")
+          end
+        end
+      end
     end
 
     context "with readonly permission" do
@@ -88,6 +109,64 @@ RSpec.describe "Real-time collaboration with Hocuspocus for documents",
         expect(document.reload.content_binary).to eql(binary) # nothing changed
         expect(document.description).to eq("Hello Hocuspocus\n")
       end
+    end
+  end
+
+  context "when the user loses access to a document that is open", with_settings: { login_required: true } do
+    include_context "with hocuspocus"
+
+    shared_examples "a removed offline copy" do
+      it "deletes the cached document and blocks the editor" do
+        sign_in
+        tracking_websockets do
+          visit document_path(document)
+          expect(page).to have_test_selector("blocknote-document-description")
+
+          editor.fill_in("Confidential")
+          wait_for { document.reload.content_binary }.to be_present
+          wait_for { cached_document_databases }.not_to be_empty
+
+          revoke_access
+          close_tracked_websockets
+
+          expect(page).to have_test_selector("connection-error-notice", wait: 5)
+          expect(page).to have_no_test_selector("blocknote-document-description", wait: 0)
+          wait_for { cached_document_databases }.to be_empty
+        end
+      end
+    end
+
+    let(:project) { create(:project, public: false) }
+    let(:editor_role) { create(:existing_project_role, permissions: %i[view_documents manage_documents]) }
+    let(:user) { create(:user, member_with_roles: { project => editor_role }) }
+
+    def cached_document_databases
+      result = page.evaluate_async_script(<<~JS, "op-document:#{user.id}:")
+        const [prefix, done] = arguments;
+        indexedDB.databases()
+          .then((databases) => databases.map(({ name }) => name).filter((name) => name.startsWith(prefix)))
+          .catch((error) => ({ error: String(error) }))
+          .then(done);
+      JS
+      raise "Could not list IndexedDB databases: #{result['error']}" if result.is_a?(Hash)
+
+      result
+    end
+
+    context "when the membership is removed" do
+      def sign_in = login_as(user)
+
+      def revoke_access = user.memberships.destroy_all
+
+      it_behaves_like "a removed offline copy"
+    end
+
+    context "when the session is ended" do
+      def sign_in = login_with(user.login, "adminADMIN!")
+
+      def revoke_access = Sessions::UserSession.for_user(user).delete_all
+
+      it_behaves_like "a removed offline copy"
     end
   end
 

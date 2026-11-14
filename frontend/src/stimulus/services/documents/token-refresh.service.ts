@@ -30,11 +30,10 @@ import { getMetaContent } from 'core-app/core/setup/globals/global-helpers';
 
 export interface TokenResponse {
   encrypted_token:string;
-  expires_at:string;
   expires_in_seconds:number;
 }
 
-export type RefreshErrorKind = 'session_expired' | 'http_error' | 'unknown';
+export type RefreshErrorKind = 'access_denied' | 'unavailable' | 'rejected';
 
 export class RefreshError extends Error {
   constructor(
@@ -46,10 +45,12 @@ export class RefreshError extends Error {
     this.name = 'RefreshError';
   }
 
+  get isAccessDenied():boolean {
+    return this.kind === 'access_denied';
+  }
+
   get isRetryable():boolean {
-    if (this.kind === 'session_expired') return false;
-    if (this.status !== undefined) return this.status >= 500 || this.status === 429;
-    return this.kind === 'unknown';
+    return this.kind === 'unavailable';
   }
 }
 
@@ -57,8 +58,12 @@ const REFRESH_THRESHOLD = 0.8; // 80% of the token lifetime
 const RETRY_DELAY_MS = 5000;
 const MAX_RETRIES = 3;
 const MIN_REFRESH_DELAY_MS = 1000;
+const ACQUIRE_INITIAL_DELAY_MS = 1000;
+const ACQUIRE_MAX_DELAY_MS = 30000;
 
-export type ProviderAuthErrorKind = 'token_refresh' | 'authentication';
+const destroyedError = ():RefreshError => new RefreshError('unavailable', 'Token service destroyed');
+
+export type ProviderAuthErrorKind = 'token_refresh' | 'authentication' | 'access_denied';
 export const PROVIDER_AUTH_ERROR_EVENT = 'op:provider-auth-error';
 
 /**
@@ -80,27 +85,23 @@ export const PROVIDER_AUTH_ERROR_EVENT = 'op:provider-auth-error';
  *   │  [5xx error] retry up to 3x          │                                   │
  *   │── POST /refresh_token ──────────────►│                                   │
  *   │                                      │                                   │
- *   │  [401/403] stop - session expired    │                                   │
+ *   │  [401/403/404] stop - access denied  │                                   │
  *   │  [4xx] stop - non-retryable          │                                   │
  * ```
  */
 export class TokenRefreshService {
   private refreshTimer:ReturnType<typeof setTimeout> | null = null;
-  private provider:HocuspocusProvider;
-  private refreshUrl:string;
-  private onTokenRefreshed:(token:string) => void;
   private destroyed = false;
   private retryCount = 0;
+  private pendingAcquire:Promise<TokenResponse> | null = null;
+  private cancelBackoff:(() => void) | null = null;
 
   constructor(
-    provider:HocuspocusProvider,
-    refreshUrl:string,
-    onTokenRefreshed:(token:string) => void,
-  ) {
-    this.provider = provider;
-    this.refreshUrl = refreshUrl;
-    this.onTokenRefreshed = onTokenRefreshed;
-  }
+    private readonly provider:HocuspocusProvider,
+    private readonly refreshUrl:string,
+    private readonly onTokenRefreshed:(token:string) => void,
+    private readonly onFailure:(error:RefreshError) => void,
+  ) {}
 
   scheduleRefresh(expiresInSeconds:number):void {
     this.retryCount = 0;
@@ -111,30 +112,63 @@ export class TokenRefreshService {
     this.scheduleRefreshAfter(delayMs);
   }
 
-  static async fetchToken(refreshUrl:string):Promise<TokenResponse> {
-    const response = await fetch(refreshUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': getMetaContent('csrf-token'),
-      },
-      credentials: 'same-origin',
+  /**
+   * Fetches a token for a reconnecting provider. Transient failures are retried until the web
+   * server responds, so the provider only ever sees a rejection for a real problem.
+   */
+  acquireToken():Promise<TokenResponse> {
+    if (this.pendingAcquire) return this.pendingAcquire;
+
+    this.pendingAcquire = this.fetchWithBackoff().finally(() => {
+      this.pendingAcquire = null;
     });
 
-    if (response.status === 401 || response.status === 403) {
-      throw new RefreshError('session_expired', 'Session expired', response.status);
+    return this.pendingAcquire;
+  }
+
+  static async fetchToken(refreshUrl:string):Promise<TokenResponse> {
+    let response:Response;
+    try {
+      response = await fetch(refreshUrl, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': getMetaContent('csrf-token'),
+        },
+        credentials: 'same-origin',
+      });
+    } catch (error) {
+      throw new RefreshError('unavailable', error instanceof Error ? error.message : 'Network error');
+    }
+
+    if (response.status === 401 || response.status === 403 || response.status === 404) {
+      throw new RefreshError('access_denied', `HTTP ${response.status}`, response.status);
     }
 
     if (!response.ok) {
-      throw new RefreshError('http_error', `HTTP ${response.status}: ${response.statusText}`, response.status);
+      const retryable = response.status >= 500 || response.status === 429 || response.status === 408;
+      throw new RefreshError(
+        retryable ? 'unavailable' : 'rejected',
+        `HTTP ${response.status}: ${response.statusText}`,
+        response.status,
+      );
     }
 
+    let payload:Partial<TokenResponse>;
     try {
-      return await response.json() as TokenResponse;
+      payload = await response.json() as Partial<TokenResponse>;
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to parse token response JSON';
-      throw new RefreshError('http_error', message, response.status);
+      throw new RefreshError('unavailable', message, response.status);
     }
+
+    const { encrypted_token: token, expires_in_seconds: expiresIn } = payload ?? {};
+    if (typeof token !== 'string' || token === '' || typeof expiresIn !== 'number' || !Number.isFinite(expiresIn) || expiresIn <= 0) {
+      throw new RefreshError('unavailable', 'Malformed token response', response.status);
+    }
+
+    return { encrypted_token: token, expires_in_seconds: expiresIn };
   }
 
   async performRefresh():Promise<void> {
@@ -142,17 +176,20 @@ export class TokenRefreshService {
 
     try {
       const data = await TokenRefreshService.fetchToken(this.refreshUrl);
+      if (this.destroyed) return;
 
       this.onTokenRefreshed(data.encrypted_token);
       void this.provider.sendToken();
       this.scheduleRefresh(data.expires_in_seconds);
     } catch (error) {
+      if (this.destroyed) return;
+
       const refreshError = error instanceof RefreshError
         ? error
-        : new RefreshError('unknown', error instanceof Error ? error.message : 'Unknown error');
+        : new RefreshError('unavailable', error instanceof Error ? error.message : 'Unknown error');
 
       if (!refreshError.isRetryable || this.retryCount >= MAX_RETRIES) {
-        this.emitFailureEvent(refreshError);
+        this.onFailure(refreshError);
         return;
       }
 
@@ -164,12 +201,44 @@ export class TokenRefreshService {
   destroy():void {
     this.destroyed = true;
     this.clearTimer();
+    this.cancelBackoff?.();
   }
 
-  private emitFailureEvent(error:RefreshError):void {
-    document.dispatchEvent(new CustomEvent(PROVIDER_AUTH_ERROR_EVENT, {
-      detail: { kind: 'token_refresh' as ProviderAuthErrorKind, message: error.message },
-    }));
+  private async fetchWithBackoff():Promise<TokenResponse> {
+    let delayMs = ACQUIRE_INITIAL_DELAY_MS;
+
+    while (true) {
+      try {
+        if (this.destroyed) throw destroyedError();
+
+        const data = await TokenRefreshService.fetchToken(this.refreshUrl);
+        if (this.destroyed) throw destroyedError();
+
+        this.scheduleRefresh(data.expires_in_seconds);
+        return data;
+      } catch (error) {
+        if (this.destroyed) throw destroyedError();
+        if (!(error instanceof RefreshError) || !error.isRetryable) throw error;
+
+        await this.waitForBackoff(delayMs);
+        delayMs = Math.min(delayMs * 2, ACQUIRE_MAX_DELAY_MS);
+      }
+    }
+  }
+
+  private waitForBackoff(delayMs:number):Promise<void> {
+    return new Promise((resolve, reject) => {
+      const timer = setTimeout(() => {
+        this.cancelBackoff = null;
+        resolve();
+      }, delayMs);
+
+      this.cancelBackoff = () => {
+        clearTimeout(timer);
+        this.cancelBackoff = null;
+        reject(destroyedError());
+      };
+    });
   }
 
   private scheduleRetry():void {

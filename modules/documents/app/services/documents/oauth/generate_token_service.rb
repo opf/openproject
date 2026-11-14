@@ -30,6 +30,8 @@
 module Documents
   module OAuth
     class GenerateTokenService < BaseServices::BaseCallable
+      TOKEN_LIFETIME = 5.minutes
+
       def initialize(user:)
         super()
 
@@ -57,7 +59,7 @@ module Documents
         application.access_tokens.create(
           resource_owner_id: @user.id,
           scopes: "api_v3",
-          expires_in: 5.minutes.to_i
+          expires_in: TOKEN_LIFETIME.to_i
         )
       end
     end

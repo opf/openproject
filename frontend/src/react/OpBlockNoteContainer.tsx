@@ -27,11 +27,11 @@
 
 import { User } from '@blocknote/core';
 import { HocuspocusProvider } from '@hocuspocus/provider';
-import { useEffect, useRef } from 'react';
 import * as Y from 'yjs';
 import { DocumentLoadingSkeleton } from './components/DocumentLoadingSkeleton';
 import { OpBlockNoteEditor } from './components/OpBlockNoteEditor';
 import { useCollaboration } from './hooks/useCollaboration';
+import { useConnectionEvents } from './hooks/useConnectionEvents';
 
 export interface OpBlockNoteContainerProps {
   activeUser:User;
@@ -55,26 +55,16 @@ export default function OpBlockNoteContainer({
   hocuspocusProvider,
 }:OpBlockNoteContainerProps) {
   const doc:Y.Doc = hocuspocusProvider.document;
-  const { isLoading, offlineMode } = useCollaboration(hocuspocusProvider);
-  const hadErrorRef = useRef(false);
+  const { isLoading, offlineMode, blockingOffline } = useCollaboration(hocuspocusProvider);
 
-  useEffect(() => {
-    if (offlineMode) {
-      hadErrorRef.current = true;
-      window.dispatchEvent(new CustomEvent('documents:connection-error'));
-    } else if (hadErrorRef.current) {
-      window.dispatchEvent(new CustomEvent('documents:connection-recovery'));
-    }
-  }, [offlineMode]);
+  useConnectionEvents({ offlineMode, blockingOffline });
 
   if (isLoading) {
     return <DocumentLoadingSkeleton />;
   }
 
-  // Without IndexedDB offline persistence, all offline is blocking — hide the
-  // editor entirely to prevent a fresh empty Y.Doc from being synced as
-  // authoritative server state on reconnect.
-  if (offlineMode) {
+  // An unverified empty document must not mount; it would later be merged into the real one.
+  if (blockingOffline) {
     return null;
   }
 
