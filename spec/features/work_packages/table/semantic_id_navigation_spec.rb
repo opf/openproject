@@ -60,4 +60,11 @@ RSpec.describe "Work package table semantic ID navigation",
       project_work_package_path(project, semantic_id, "activity")
     )
   end
+
+  it "selects the row of a split view opened by its semantic ID URL" do
+    visit details_project_work_packages_path(project, work_package.reload.identifier)
+
+    wp_table.expect_work_package_listed(work_package)
+    expect(page).to have_css("#{wp_table.row_selector(work_package)}.-checked")
+  end
 end

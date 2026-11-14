@@ -56,13 +56,18 @@ import { WorkPackageViewBaselineService } from '../wp-view-base/view-services/wp
 import { combineLatest } from 'rxjs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { States } from 'core-app/core/states/states.service';
-import { resolveNumericId, resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
+import {
+  matchesRoutingId,
+  resolveNumericId,
+  resolveRoutingId,
+} from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 import { isSemanticWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import {
   GlobalEditFormChangesTrackerService,
 } from 'core-app/shared/components/fields/edit/services/global-edit-form-changes-tracker/global-edit-form-changes-tracker.service';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -95,6 +100,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   readonly urlParams = inject(UrlParamsService);
   readonly states = inject(States);
   readonly wpTableSelection = inject(WorkPackageViewSelectionService);
+  readonly wpTableFocus = inject(WorkPackageViewFocusService);
 
   text = {
     jump_to_pagination: this.I18n.t('js.work_packages.jump_marks.pagination'),
@@ -135,6 +141,8 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
         : details.routingId;
       if (numericId) {
         this.wpTableSelection.initializeSelection([numericId]);
+      } else {
+        this.selectOnceLoaded(details.routingId);
       }
     }
 
@@ -222,6 +230,20 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     } else {
       this.handleWorkPackageClicked(event);
     }
+  }
+
+  private selectOnceLoaded(routingId:string):void {
+    this
+      .querySpace
+      .results
+      .values$()
+      .pipe(take(1), this.untilDestroyed())
+      .subscribe((results) => {
+        const workPackage = results.elements.find((element) => matchesRoutingId(element, routingId));
+        if (workPackage?.id) {
+          this.wpTableFocus.initializeSelectionAndFocus(workPackage.id, false, false);
+        }
+      });
   }
 
   protected openInFullView(workPackageId:string) {
