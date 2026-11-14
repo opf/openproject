@@ -68,19 +68,19 @@ RSpec.describe "Notification center navigation", :js do
       # Details view of WP opens with activity tab
       center.click_item notification
       split_screen.expect_open
-      expect(page).to have_current_path "/notifications/details/#{work_package.id}/activity"
+      expect(page).to have_current_path "/notifications/details/#{work_package.display_id}/activity"
 
       # Switch to the relations tab
       split_screen.switch_to_tab tab: "Relations"
-      expect(page).to have_current_path "/notifications/details/#{work_package.id}/relations"
+      expect(page).to have_current_path "/notifications/details/#{work_package.display_id}/relations"
 
       # Navigate to full view and back
       wp_full = split_screen.switch_to_fullscreen
-      expect(page).to have_current_path "/projects/#{project.identifier}/work_packages/#{work_package.id}/relations"
+      expect(page).to have_current_path "/projects/#{project.identifier}/work_packages/#{work_package.display_id}/relations"
 
       page.execute_script("window.history.back()")
       split_screen.expect_open
-      expect(page).to have_current_path "/notifications/details/#{work_package.id}/relations"
+      expect(page).to have_current_path "/notifications/details/#{work_package.display_id}/relations"
 
       # Close the split screen
       split_screen.close
@@ -101,11 +101,11 @@ RSpec.describe "Notification center navigation", :js do
       # Details view of WP opens with activity tab
       center.click_item notification
       split_screen.expect_open
-      expect(page).to have_current_path "/notifications/details/#{work_package.id}/activity?filter=reason&name=mentioned"
+      expect(page).to have_current_path "/notifications/details/#{work_package.display_id}/activity?filter=reason&name=mentioned"
 
       # Switch to the relations tab
       split_screen.switch_to_tab tab: "Relations"
-      expect(page).to have_current_path "/notifications/details/#{work_package.id}/relations?filter=reason&name=mentioned"
+      expect(page).to have_current_path "/notifications/details/#{work_package.display_id}/relations?filter=reason&name=mentioned"
 
       # Close the split screen
       split_screen.close
@@ -121,9 +121,9 @@ RSpec.describe "Notification center navigation", :js do
   end
 
   it "deep linking to a notification details highlights it" do
-    visit "/notifications/details/#{work_package.id}"
+    visit "/notifications/details/#{work_package.display_id}"
 
-    expect(page).to have_current_path "/notifications/details/#{work_package.id}"
+    expect(page).to have_current_path "/notifications/details/#{work_package.display_id}"
 
     split_screen.expect_open
 
@@ -136,9 +136,9 @@ RSpec.describe "Notification center navigation", :js do
     end
 
     it "can link to that parent from notifications (Regression #42984)" do
-      visit "/notifications/details/#{work_package.id}"
+      visit "/notifications/details/#{work_package.display_id}"
 
-      expect(page).to have_current_path "/notifications/details/#{work_package.id}"
+      expect(page).to have_current_path "/notifications/details/#{work_package.display_id}"
 
       split_screen.expect_open
 
@@ -146,16 +146,16 @@ RSpec.describe "Notification center navigation", :js do
 
       page.find_test_selector("op-wp-breadcrumb-parent").click
 
-      expect(page).to have_current_path /\/work_packages\/#{second_work_package.id}/
+      expect(page).to have_current_path /\/work_packages\/#{second_work_package.display_id}/
 
       # Works with another tab as well
-      visit "/notifications/details/#{work_package.id}/relations"
+      visit "/notifications/details/#{work_package.display_id}/relations"
 
-      expect(page).to have_current_path "/notifications/details/#{work_package.id}/relations"
+      expect(page).to have_current_path "/notifications/details/#{work_package.display_id}/relations"
 
       page.find_test_selector("op-wp-breadcrumb-parent").click
 
-      expect(page).to have_current_path /\/work_packages\/#{second_work_package.id}/
+      expect(page).to have_current_path /\/work_packages\/#{second_work_package.display_id}/
     end
   end
 end

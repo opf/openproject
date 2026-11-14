@@ -38,14 +38,14 @@ RSpec.describe "Projects lists table display and actions", :js, with_settings: {
   shared_let(:custom_field) { create(:text_project_custom_field) }
   shared_let(:invisible_custom_field) { create(:project_custom_field, admin_only: true) }
 
-  shared_let(:project) { create(:project, name: "Plain project", identifier: "plain-project") }
+  shared_let(:project) { create(:project, name: "Plain project") }
   shared_let(:public_project) do
-    create(:project, name: "Public Pr", identifier: "public-pr", public: true) do |project|
+    create(:project, name: "Public Pr", public: true) do |project|
       project.custom_field_values = { invisible_custom_field.id => "Secret CF" }
     end
   end
-  shared_let(:development_project) { create(:project, name: "Development project", identifier: "development-project") }
-  shared_let(:archived_project) { create(:project, name: "Archived project", identifier: "archived-project", active: false) }
+  shared_let(:development_project) { create(:project, name: "Development project") }
+  shared_let(:archived_project) { create(:project, name: "Archived project", active: false) }
 
   let(:news) { create(:news, project:) }
   let(:projects_page) { Pages::Projects::Index.new }
@@ -533,8 +533,7 @@ RSpec.describe "Projects lists table display and actions", :js, with_settings: {
 
     shared_let(:parent_project) do
       create(:project,
-             name: "Parent project",
-             identifier: "parent-project")
+             name: "Parent project")
     end
 
     shared_let(:can_copy_projects_manager) do

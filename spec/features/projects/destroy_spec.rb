@@ -30,7 +30,7 @@
 require "spec_helper"
 
 RSpec.describe "Projects#destroy", :js do
-  let!(:project) { create(:project, name: "foo", identifier: "foo") }
+  let!(:project) { create(:project, name: "foo") }
   let(:project_page) { Pages::Projects::Settings::General.new(project) }
 
   current_user { create(:admin) }

@@ -56,8 +56,7 @@ RSpec.describe "Project list sharing",
   shared_let(:project_role) { create(:project_role, permissions: %i[view_work_packages edit_work_packages]) }
   shared_let(:project_where_both_are_members) do
     create(:project,
-           name: "Shared project",
-           identifier: "shared-project") do |project|
+           name: "Shared project") do |project|
       create(:member, project:, user: sharer, roles: [project_role])
       create(:member, project:, user: shared_user, roles: [project_role])
       create(:member, project:, user: wildcard_user, roles: [project_role])

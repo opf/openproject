@@ -90,7 +90,7 @@ RSpec.describe "Accessible work package table tooltips", :js do
     within(wp_table.row(parent)) do
       expect(page).to have_selector(:role, "rowheader", accessible_name: "Tooltip parent", exact: true)
 
-      find(:link, accessible_name: parent.id.to_s, accessible_description: "", exact: true).hover
+      find(:link, accessible_name: parent.display_id.to_s, accessible_description: "", exact: true).hover
       expect(page).to have_no_element(:"tool-tip")
 
       find(".op-principal--name", text: "Taylor Tooltip", exact_text: true).hover
@@ -106,7 +106,7 @@ RSpec.describe "Accessible work package table tooltips", :js do
     end
 
     Components::WorkPackages::Columns.new.remove("Subject")
-    expect(wp_table.row(parent)).to have_selector(:role, "rowheader", accessible_name: parent.id.to_s, exact: true)
+    expect(wp_table.row(parent)).to have_selector(:role, "rowheader", accessible_name: parent.display_id.to_s, exact: true)
   end
 
   it "keeps visible action tooltips usable at desktop and narrow table widths" do

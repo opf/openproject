@@ -30,10 +30,9 @@
 RSpec.shared_context "principal membership management context" do
   shared_let(:project) do
     create(:project,
-           name: "Project 1",
-           identifier: "project1")
+           name: "Project 1")
   end
-  shared_let(:project2) { create(:project, name: "Project 2", identifier: "project2") }
+  shared_let(:project2) { create(:project, name: "Project 2") }
 
   shared_let(:manager)   { create(:project_role, name: "Manager", permissions: %i[view_members manage_members]) }
   shared_let(:developer) { create(:project_role, name: "Developer") }

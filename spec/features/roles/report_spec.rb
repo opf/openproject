@@ -31,7 +31,7 @@ require "rails_helper"
 
 RSpec.describe "Roles report", :js do
   shared_let(:admin) { create(:admin) }
-  let(:project) { create(:project, name: "Project 1", identifier: "project1") }
+  let(:project) { create(:project, name: "Project 1") }
   let(:permissions) { %i[view_project permission1 permission2] }
   let!(:role1) { create(:global_role, permissions:, name: "Global IT MGMT") }
   let!(:role2) { create(:global_role, permissions:, name: "Unsure Off-Shore") }

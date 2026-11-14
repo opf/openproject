@@ -240,13 +240,11 @@ RSpec.describe "Invite user modal", :js do
           let(:target_project) do
             create(:project,
                    name: "Alpha Initiative",
-                   identifier: "zulu-target",
                    members: { current_user => role })
           end
           let(:other_project) do
             create(:project,
                    name: "Beta Initiative",
-                   identifier: "yankee-other",
                    members: { current_user => role })
           end
           let(:additional_projects) { [target_project, other_project] }

@@ -39,18 +39,18 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
   shared_let(:integer_custom_field) { create(:integer_project_custom_field) }
 
   shared_let(:project) do
-    create(:project, name: "Plain project", identifier: "plain-project") do |project|
+    create(:project, name: "Plain project") do |project|
       project.custom_field_values = { integer_custom_field.id => 41 }
       project.save!
     end
   end
   shared_let(:public_project) do
-    create(:project, name: "Public Pr", identifier: "public-pr", public: true) do |project|
+    create(:project, name: "Public Pr", public: true) do |project|
       project.custom_field_values = { invisible_custom_field.id => "Secret CF", integer_custom_field.id => 42 }
       project.save!
     end
   end
-  shared_let(:development_project) { create(:project, name: "Development project", identifier: "development-project") }
+  shared_let(:development_project) { create(:project, name: "Development project") }
   shared_let(:manager) do
     create(:user,
            member_with_roles: {
@@ -105,7 +105,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
     projects_page.expect_projects_listed(project, development_project, public_project)
 
     # Filter on model attribute 'identifier'
-    projects_page.filter_by_name_and_identifier("plain-project")
+    projects_page.filter_by_name_and_identifier(project.identifier)
     wait_for_reload
 
     projects_page.expect_projects_listed(project)
@@ -115,13 +115,11 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
   describe "Active or archived" do
     shared_let(:parent_project) do
       create(:project,
-             name: "Parent project",
-             identifier: "parent-project")
+             name: "Parent project")
     end
     shared_let(:child_project) do
       create(:project,
              name: "Child project",
-             identifier: "child-project",
              parent: parent_project)
     end
 

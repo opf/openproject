@@ -72,7 +72,7 @@ RSpec.describe "Project attributes activity", :js, with_settings: { journal_aggr
       status_explanation: "some explanation",
       public: true,
       parent: nil,
-      identifier: "a-new-project-name-#{project.id}",
+      identifier: attributes_for(:project)[:identifier],
       active: true,
       templated: true,
       list_project_custom_field.attribute_name => list_project_custom_field.possible_values.first.id,

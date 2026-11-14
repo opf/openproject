@@ -140,11 +140,11 @@ RSpec.describe "Bulk update work packages through Rails view", :js do
 
         expect_flash(type: :error, message: I18n.t("work_packages.bulk.none_could_be_saved", total: 2))
         expect_flash(type: :error,
-                     message: "#{work_package.id}: Parent #{I18n.t('activerecord.errors.messages.does_not_exist')}")
+                     message: "#{work_package.display_id}: Parent #{I18n.t('activerecord.errors.messages.does_not_exist')}")
 
         expect_flash(type: :error, message:
           <<~MSG.squish
-            #{work_package2.id}:
+            #{work_package2.display_id}:
             Parent #{I18n.t('activerecord.errors.messages.does_not_exist')}
             Status #{I18n.t('activerecord.errors.models.work_package.attributes.status_id.status_transition_invalid')}
           MSG
@@ -175,7 +175,7 @@ RSpec.describe "Bulk update work packages through Rails view", :js do
 
             expect_flash(type: :error, message:
               <<~MSG.squish
-                #{work_package2.id}:
+                #{work_package2.display_id}:
                 #{custom_field.name} #{I18n.t('activerecord.errors.messages.error_readonly')}
                 #{I18n.t('activerecord.errors.models.work_package.readonly_status')}
               MSG

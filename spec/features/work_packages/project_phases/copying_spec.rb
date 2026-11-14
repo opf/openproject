@@ -58,13 +58,14 @@ RSpec.describe "Copying a work package with linked project phases", :js do
   def submit_copy(button_text)
     click_on button_text
 
-    copied_work_package_id = nil
+    copied_work_package = nil
     page.document.synchronize(20) do
-      copied_work_package_id = page.current_path[%r{/work_packages/(\d+)}, 1]&.to_i
-      raise Capybara::ElementNotFound if copied_work_package_id.nil? || copied_work_package_id == work_package.id
+      copied_display_id = page.current_path[%r{/work_packages/([^/]+)}, 1]
+      copied_work_package = WorkPackage.find_by_display_id(copied_display_id) if copied_display_id
+      raise Capybara::ElementNotFound if copied_work_package.nil? || copied_work_package == work_package
     end
 
-    WorkPackage.find(copied_work_package_id)
+    copied_work_package
   end
 
   context "when duplicating within the same project" do
