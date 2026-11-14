@@ -441,6 +441,23 @@ RSpec.describe OpenProject::TextFormatting,
                                                                        class: 'project op-uc-link')}</p>")
         }
       end
+
+      context "with a semantic project identifier", with_settings: { work_packages_identifier: "semantic" } do
+        let(:subproject) { create(:valid_project, identifier: "SUBPROJ", parent: project, public: true) }
+
+        subject { format_text("project:#{subproject.identifier}") }
+
+        it {
+          expect(subject).to be_html_eql("<p class='op-uc-p'>#{link_to(subproject.name, project_url,
+                                                                       target: '_top',
+                                                                       aria: {
+                                                                         label: "#{subproject.name}: " \
+                                                                                'A dynamic link to a project placed ' \
+                                                                                'using a macro.'
+                                                                       },
+                                                                       class: 'project op-uc-link')}</p>")
+        }
+      end
     end
 
     context "Wiki links" do
