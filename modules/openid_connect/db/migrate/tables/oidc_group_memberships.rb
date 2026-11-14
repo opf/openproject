@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -25,16 +25,23 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-require Rails.root.join("db/migrate/migration_utils/permission_renamer")
+require Rails.root.join("db/migrate/tables/base").to_s
 
-class RenameManageOverviewToManageDashboards < ActiveRecord::Migration[8.0]
-  def up
-    ::Migration::MigrationUtils::PermissionRenamer.rename("manage_overview", "manage_dashboards")
-  end
+class Tables::OidcGroupMemberships < Tables::Base
+  def self.table(migration)
+    create_table migration do |t|
+      t.belongs_to :auth_provider, null: false,
+                                   index: false,
+                                   foreign_key: { on_delete: :cascade }
+      t.belongs_to :group_user, null: false,
+                                index: true,
+                                foreign_key: { on_delete: :cascade }
 
-  def down
-    ::Migration::MigrationUtils::PermissionRenamer.rename("manage_dashboards", "manage_overview")
+      t.index %i[auth_provider_id group_user_id], unique: true
+
+      t.timestamps null: false
+    end
   end
 end

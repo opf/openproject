@@ -28,16 +28,25 @@
 #++
 
 require Rails.root.join("db/migrate/migration_utils/squashed_migration").to_s
-require_relative "tables/oidc_user_session_links"
-require_relative "tables/oidc_user_tokens"
+require_relative "tables/budgets"
+require_relative "tables/budget_journals"
+require_relative "tables/labor_budget_items"
+require_relative "tables/material_budget_items"
 
-class AggregatedOpenIDConnectMigrations < SquashedMigration
-  tables Tables::OidcUserSessionLinks,
-         Tables::OidcUserTokens
-
+# This migration aggregates the migrations detailed in MIGRATION_FILES
+class AggregatedBudgetMigrations < SquashedMigration
   squashed_migrations *%w[
-    1018015_aggregated_openid_connect_migrations
-    20241212131910_add_oidc_user_tokens
-    20250218133700_add_expires_at_to_oidc_user_tokens
+    1004015_aggregated_budget_migrations
+    20250714142919_add_base_amount_to_budget
   ]
+
+  tables Tables::Budgets,
+         Tables::BudgetJournals,
+         Tables::LaborBudgetItems,
+         Tables::MaterialBudgetItems
+
+  modifications do
+    add_column :work_packages, :budget_id, :integer
+    add_column :work_package_journals, :budget_id, :integer, null: true
+  end
 end

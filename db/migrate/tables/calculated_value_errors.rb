@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -25,27 +25,23 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class CleanupMeetingPermissions < ActiveRecord::Migration[7.1]
-  def up
-    execute <<-SQL.squish
-      DELETE FROM role_permissions
-      WHERE permission IN (
-        'close_meeting_agendas',
-        'send_meeting_minutes_notification',
-        'send_meeting_agendas_icalendar',
-        'create_meeting_agendas'
-      );
-    SQL
+require_relative "base"
 
-    execute <<-SQL.squish
-      UPDATE role_permissions
-      SET permission = 'send_meeting_invites_and_outcomes'
-      WHERE permission = 'meetings_send_invite'
-    SQL
+class Tables::CalculatedValueErrors < Tables::Base
+  def self.table(migration)
+    create_table migration do |t|
+      t.references :customized, polymorphic: true, null: false
+      t.references :custom_field, foreign_key: true
+      t.string :error_code, null: false
+      t.integer :missing_custom_field_ids, array: true, default: [], null: false
+
+      t.timestamps
+
+      t.index %i[customized_type customized_id custom_field_id error_code],
+              unique: true,
+              name: "index_unique_calc_val_error_per_customized_and_cf"
+    end
   end
-
-  # No-op
-  def down; end
 end

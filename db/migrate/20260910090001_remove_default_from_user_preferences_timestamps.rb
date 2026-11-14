@@ -22,19 +22,26 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class CreateScimClients < ActiveRecord::Migration[8.0]
-  def change
-    create_table :scim_clients do |t|
-      t.string :name, null: false
-      t.belongs_to :auth_provider, null: false, foreign_key: { on_delete: :restrict }
-      t.integer :authentication_method, null: false
-
-      t.timestamps null: false
+# Up to OpenProject 16, Tables::UserPreferences declared the timestamps as
+# t.timestamps default: DateTime.now, which froze the moment the migration ran
+# into the column default. OpenProject 17 dropped the default from the table
+# class without removing it from existing installations.
+class RemoveDefaultFromUserPreferencesTimestamps < ActiveRecord::Migration[8.1]
+  def up
+    change_table :user_preferences, bulk: true do |t|
+      t.change_default :created_at, nil
+      t.change_default :updated_at, nil
     end
+  end
+
+  def down
+    # No-op. The defaults held an arbitrary point in time per installation and
+    # cannot be restored meaningfully.
   end
 end

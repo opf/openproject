@@ -22,32 +22,23 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class AddEntityToTimeEntry < ActiveRecord::Migration[8.0]
+# 20250210184018_add_jobs_finished_at_to_good_job_batches was emptied out when the
+# column moved into Tables::GoodJobBatches, although it had never shipped in an
+# OpenProject 16 release. Installations upgrading from 16 therefore never received
+# the column, while fresh installations get it from the table class.
+class AddMissingJobsFinishedAtToGoodJobBatches < ActiveRecord::Migration[8.1]
   def up
-    add_reference :time_entries, :entity, polymorphic: true
-    add_reference :time_entry_journals, :entity, polymorphic: true
+    add_column :good_job_batches, :jobs_finished_at, :datetime, if_not_exists: true
+  end
 
-    execute <<~SQL.squish
-      UPDATE time_entries
-      SET
-        entity_type = 'WorkPackage',
-        entity_id = work_package_id
-      WHERE
-        work_package_id IS NOT NULL;
-    SQL
-
-    execute <<~SQL.squish
-      UPDATE time_entry_journals
-      SET
-        entity_type = 'WorkPackage',
-        entity_id = work_package_id
-      WHERE
-        work_package_id IS NOT NULL;
-    SQL
+  def down
+    # No-op. The column belongs to the table as described in
+    # Tables::GoodJobBatches, so it must not be removed here.
   end
 end

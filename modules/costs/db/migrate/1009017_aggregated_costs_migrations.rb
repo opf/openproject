@@ -27,8 +27,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class AddListItemScore < ActiveRecord::Migration[8.0]
-  def change
-    add_column :hierarchical_items, :score, :decimal, default: nil, null: true
-  end
+require Rails.root.join("db/migrate/migration_utils/squashed_migration").to_s
+require_relative "tables/cost_entries"
+require_relative "tables/cost_types"
+require_relative "tables/rates"
+require_relative "tables/time_entries"
+require_relative "tables/time_entry_activities_projects"
+require_relative "tables/time_entry_journals"
+
+class AggregatedCostsMigrations < SquashedMigration
+  squashed_migrations *%w[
+    1009016_aggregated_costs_migrations
+    20250416095154_add_entity_to_time_entry
+    20250416112143_add_entity_to_cost_entry
+    20250709090813_add_entity_index_for_costs
+  ].freeze
+
+  tables Tables::CostEntries,
+         Tables::CostTypes,
+         Tables::Rates,
+         Tables::TimeEntries,
+         Tables::TimeEntryActivitiesProjects,
+         Tables::TimeEntryJournals
 end
