@@ -2,12 +2,23 @@
 
 set -e
 
+echo "Cleaning up npm development dependencies"
+PATH="$PWD/.heroku/node/bin:$PATH" env -u NPM_CONFIG_PRODUCTION npm prune --omit=dev --ignore-scripts
+
 echo "Cleaning up frontend/node_modules folders"
 rm -rf frontend/node_modules || true
 
 echo "Cleaning up current docs folders except API"
 # We need the api folder for openapi (https://community.openproject.org/work_packages/40352/activity)
-find docs -mindepth 1 -maxdepth 1 -type d -not -name 'api' | xargs rm -rf
+find docs -mindepth 1 -maxdepth 1 -type d -not -name 'api' -exec rm -rf '{}' +
 
 echo "Cleaning up angular cache"
 rm -rf frontend/.angular || true
+
+echo "Cleaning up application and module tests"
+rm -rf spec
+find modules -mindepth 2 -maxdepth 2 -type d \
+  \( -name spec -o -name test -o -name tests \) -exec rm -rf '{}' +
+
+echo "Cleaning up compiled source maps"
+find public/assets -type f -name '*.map' -delete
