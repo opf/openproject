@@ -79,7 +79,7 @@ module WorkPackages
             action: "click->#{quote_comments_stimulus_controller}#quote:prevent",
             quote_comments_stimulus_controller("-content-param") => journal.notes,
             quote_comments_stimulus_controller("-user-id-param") => journal.user_id,
-            quote_comments_stimulus_controller("-user-name-param") => journal.user.name,
+            quote_comments_stimulus_controller("-user-name-param") => journal.user&.name,
             quote_comments_stimulus_controller("-is-internal-param") => journal.internal?,
             quote_comments_stimulus_controller("-text-wrote-param") => I18n.t(:text_wrote),
             quote_comments_stimulus_controller("-#{internal_comment_stimulus_controller}-outlet") => add_comment_component_dom_selector, # rubocop:disable Layout/LineLength

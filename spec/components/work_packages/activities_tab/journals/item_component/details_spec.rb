@@ -63,6 +63,17 @@ RSpec.describe WorkPackages::ActivitiesTab::Journals::ItemComponent::Details, ty
     end
   end
 
+  context "when the journal user has been deleted" do
+    let(:journal) { build_stubbed(:work_package_journal, journable: work_package, user: nil, version: 2) }
+    let(:details) { { "subject" => ["Old", "New"] } }
+    let(:rendered) { { ["subject", ["Old", "New"]] => "Subject changed from Old to New" } }
+
+    it "renders a deleted user label" do
+      expect(page).to have_css("[data-test-selector='op-journal-details-header']",
+                               text: I18n.t("activities.work_packages.activity_tab.deleted_user"))
+    end
+  end
+
   context "for the initial journal" do
     let(:journal) { build_stubbed(:work_package_journal, journable: work_package, user:, version: 1) }
     let(:details) { { "subject" => [nil, "Initial subject"] } }

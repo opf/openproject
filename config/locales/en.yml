@@ -1448,6 +1448,7 @@ en:
         commented: "commented"
         created: "created"
         created_on: "created this on"
+        deleted_user: "(deleted user)"
         internal_comment: Internal comment
         internal_comment_confirmation:
           confirm_button_text: "Make public"

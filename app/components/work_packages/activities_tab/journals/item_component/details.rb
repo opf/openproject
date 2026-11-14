@@ -104,6 +104,8 @@ module WorkPackages
         end
 
         def render_user_avatar(container)
+          return if journal.user.nil?
+
           container.with_column(mr: 2) do
             render Users::AvatarComponent.new(user: journal.user, show_name: false, size: :mini)
           end

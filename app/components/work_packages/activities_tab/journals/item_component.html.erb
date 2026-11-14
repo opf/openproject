@@ -27,8 +27,10 @@
                   flex_layout: true,
                   classes: "work-packages-activities-tab-journals-item-component--header-start-container ellipsis"
                 ) do |header_start_container|
-                  header_start_container.with_column(mr: 2) do
-                    render Users::AvatarComponent.new(user: journal.user, show_name: false, size: :mini)
+                  if journal.user
+                    header_start_container.with_column(mr: 2) do
+                      render Users::AvatarComponent.new(user: journal.user, show_name: false, size: :mini)
+                    end
                   end
                   header_start_container.with_column(
                     mr: 1, flex_layout: true,
