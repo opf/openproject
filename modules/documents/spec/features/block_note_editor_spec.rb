@@ -271,13 +271,14 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
 
         expect(editor.element).to have_no_text("Loading") # the card's loading state, not the chip's "…"
         # A card leads with the type, where every inline chip leads with the ID
-        expect(editor.element.text).to match(/LIFE GOALS\s*##{work_package.display_id}\s*Open\s*pet a tiger/)
+        expect(editor.element.text).to match(/LIFE GOALS\s*#{work_package.formatted_id}\s*Open\s*pet a tiger/)
         # Capybara's have_link seems not to work in a shadow dom, so it's tested via the property
         expect(editor.element.find_link(text: "pet a tiger").native.property("href"))
-          .to end_with("/wp/#{work_package.id}")
+          .to end_with("/wp/#{work_package.display_id}")
 
         editor.wait_for_autosave do
-          document.reload.description&.include?("[####{work_package.id}](https://openproject.local/wp/#{work_package.id})")
+          document.reload.description
+            &.include?("[####{work_package.display_id}](https://openproject.local/wp/#{work_package.id})")
         end
       end
 
