@@ -1,4 +1,4 @@
-<div class="op-submenu" data-controller="filter--filter-list" data-test-selector="op-submenu">
+<div class="op-submenu" data-test-selector="op-submenu" <%= tag.attributes(container_data_attributes) %>>
   <% if @searchable %>
     <div class="op-submenu--search">
       <%= render Primer::Alpha::TextField.new(
@@ -35,7 +35,7 @@
         <% top_level_sidebar_menu_items.first.children.each do |menu_item| %>
           <li class="op-submenu--item" data-filter--filter-list-target="searchItem">
             <% selected = menu_item.selected ? "selected" : "" %>
-            <a class="op-submenu--item-action <%= selected %>" href="<%= menu_item.href %>" data-test-selector="op-submenu--item-action">
+            <a class="op-submenu--item-action <%= selected %>" href="<%= menu_item.href %>" data-test-selector="op-submenu--item-action" <%= tag.attributes(link_data_attributes) %>>
               <% if menu_item.icon %>
                 <%= render Primer::Beta::Octicon.new(icon: menu_item.icon, classes: "op-submenu--item-icon") %>
               <% end %>
@@ -79,7 +79,7 @@
           <% menu_item.children.each do |child_item| %>
             <li class="op-submenu--item" data-filter--filter-list-target="searchItem">
               <% selected = child_item.selected ? "selected" : "" %>
-              <a class="op-submenu--item-action <%= selected %>" href="<%= child_item.href %>" data-test-selector="op-submenu--item-action">
+              <a class="op-submenu--item-action <%= selected %>" href="<%= child_item.href %>" data-test-selector="op-submenu--item-action" <%= tag.attributes(link_data_attributes) %>>
                 <% if child_item.icon %>
                   <%= render Primer::Beta::Octicon.new(icon: child_item.icon, classes: "op-submenu--item-icon") %>
                 <% end %>

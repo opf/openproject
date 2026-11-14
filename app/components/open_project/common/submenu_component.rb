@@ -30,11 +30,30 @@
 module OpenProject
   module Common
     class SubmenuComponent < ApplicationComponent
-      def initialize(sidebar_menu_items: nil, searchable: false, create_btn_options: nil)
+      def initialize(sidebar_menu_items: nil, searchable: false, create_btn_options: nil,
+                     query_select_controller: nil, query_select_frame_id: nil)
         super()
         @sidebar_menu_items = sidebar_menu_items
         @searchable = searchable
         @create_btn_options = create_btn_options
+        @query_select_controller = query_select_controller
+        @query_select_frame_id = query_select_frame_id
+      end
+
+      def link_data_attributes
+        return {} unless @query_select_controller
+
+        { data: { action: "click->#{@query_select_controller}#navigate", turbo: false } }
+      end
+
+      def container_data_attributes
+        controllers = ["filter--filter-list"]
+        controllers << @query_select_controller if @query_select_controller
+
+        data = { controller: controllers.join(" ") }
+        data[:"#{@query_select_controller}-frame-id-value"] = @query_select_frame_id if @query_select_frame_id
+
+        { data: }
       end
 
       def render?
