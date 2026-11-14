@@ -124,6 +124,15 @@ RSpec.describe Query::Results,
           expect(results).to contain_exactly(wp_reassigned_from_a_to_b, wp_always_a)
         end
       end
+
+      context "with only the historic timestamp and grouped" do
+        let(:timestamps) { [historic_time] }
+        let(:query) { super().tap { it.group_by = "project" } }
+
+        it "counts the work packages that targeted the version back then" do
+          expect(described_class.new(query).work_package_count_by_group).to eq(project => 2)
+        end
+      end
     end
 
     context 'with the "=" operator on version B' do
