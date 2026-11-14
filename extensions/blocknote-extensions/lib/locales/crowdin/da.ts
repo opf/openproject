@@ -80,7 +80,7 @@ export const en = {
     },
     'options': {
       'openInNewTab': "Åbn i ny fane",
-      'open': "Åbn",
+      'openWorkPackage': 'Open {{id}}',
       'changeSize': "Skift størrelse",
       'changeSizeAriaLabel': "Skift størrelse: {{size}}",
       'menuAriaLabel': "Valgmuligheder for arbejdspakke {{id}}",
@@ -137,6 +137,11 @@ export const en = {
         'label': "Betegnelse",
         'value': "Værdi",
         'both': "Betegnelse + værdi"
+      },
+      'options': {
+        'menuAriaLabel': 'Options for {{attribute}} of work package {{id}}',
+        'removeAriaLabel': 'Remove work package attribute',
+        'selectedDescription': '{{attribute}} of work package {{id}}'
       },
       'dialog': {
         'title': "Indsæt arbejdspakkeattribut",

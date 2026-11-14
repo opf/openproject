@@ -3220,6 +3220,7 @@ fa:
       work_package_query_relation_columns: ستون‌های رابطه Query بسته کاری
       work_package_sharing: اشتراک‌گذاری بسته‌های کاری با کاربران خارجی
       work_package_subject_generation: تولید عنوان بسته کاری
+      xwiki_integration: XWiki Integration
     teaser:
       description_html: به همه قابلیت‌های %{trial_plan} دسترسی دارید.
       title:
@@ -7372,6 +7373,7 @@ fa:
         rename_group: تغییر نام بخش
         required:
           already_required_globally: این فیلد سفارشی برای همه نوع‌ها الزامی است.
+          excluded: Switch this custom field on before requiring it for this type.
           for_variant: برای این نوع الزامی است
           globally: الزامی
           globally_hint: این مورد را در فیلد سفارشی تغییر دهید
@@ -7449,6 +7451,7 @@ fa:
           success: پیکربندی کپی شد.
         exclusions:
           not_inherited: این پیکربندی ارث‌بری نمی‌شود، بنابراین چیزی برای مستثناکردن وجود ندارد. در عوض پیکربندی را مستقیماً ویرایش کنید.
+          required: A required custom field cannot be switched off.
           unknown_aspect: بخش پیکربندی ناشناخته «%{aspect}».
         inherited:
           configure_manually: پیکربندی دستی

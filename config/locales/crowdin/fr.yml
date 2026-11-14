@@ -3222,6 +3222,7 @@ fr:
       work_package_query_relation_columns: Colonnes de relations dans les requêtes de lots de travaux
       work_package_sharing: Partager les lots de travaux avec des utilisateurs externes
       work_package_subject_generation: Génération de l'objet du lot de travaux
+      xwiki_integration: XWiki Integration
     teaser:
       description_html: Vous avez accès à toutes les fonctionnalités de %{trial_plan}.
       title:
@@ -7369,6 +7370,7 @@ fr:
         rename_group: Renommer la section
         required:
           already_required_globally: Ce champ personnalisé est obligatoire pour tous les types.
+          excluded: Switch this custom field on before requiring it for this type.
           for_variant: Required for this type
           globally: Obligatoire
           globally_hint: Modifiez ce paramètre dans le champ personnalisé
@@ -7446,6 +7448,7 @@ fr:
           success: La configuration a été copiée.
         exclusions:
           not_inherited: Vu que cette configuration n'est pas héritée, il n'y a rien à exclure. Modifiez-la directement.
+          required: A required custom field cannot be switched off.
           unknown_aspect: Section de configuration inconnue « %{aspect} ».
         inherited:
           configure_manually: Configurer manuellement

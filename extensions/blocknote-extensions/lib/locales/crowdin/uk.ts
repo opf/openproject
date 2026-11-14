@@ -80,7 +80,7 @@ export const en = {
     },
     'options': {
       'openInNewTab': "Відкрити у новій вкладці",
-      'open': "Відкрити",
+      'openWorkPackage': 'Open {{id}}',
       'changeSize': "Змінити розмір",
       'changeSizeAriaLabel': 'Change size: {{size}}',
       'menuAriaLabel': 'Options for work package {{id}}',
@@ -137,6 +137,11 @@ export const en = {
         'label': "Мітка",
         'value': "Значення",
         'both': 'Label + value'
+      },
+      'options': {
+        'menuAriaLabel': 'Options for {{attribute}} of work package {{id}}',
+        'removeAriaLabel': 'Remove work package attribute',
+        'selectedDescription': '{{attribute}} of work package {{id}}'
       },
       'dialog': {
         'title': 'Insert work package attribute',
