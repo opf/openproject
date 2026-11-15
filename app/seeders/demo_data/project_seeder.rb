@@ -33,8 +33,7 @@ module DemoData
     alias_method :project_data, :seed_data
 
     def self.identifier(project_data)
-      key = Setting::WorkPackageIdentifier.semantic? ? "semantic_identifier" : "identifier"
-      project_data.lookup(key)
+      mode_identifier(classic: project_data.lookup("identifier"), semantic: project_data.lookup("semantic_identifier"))
     end
 
     self.needs = WorkPackageSeeder.needs + [
