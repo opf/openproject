@@ -41,6 +41,7 @@ import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/w
 import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { createScrollSync, ScrollSync } from 'core-app/features/work-packages/components/wp-table/wp-table-scroll-sync';
+import { WorkPackageTableColumnLock } from 'core-app/features/work-packages/components/wp-table/wp-table-column-lock';
 import { WpTableHoverSync } from 'core-app/features/work-packages/components/wp-table/wp-table-hover-sync';
 import { WorkPackageTimelineTableController } from 'core-app/features/work-packages/components/wp-table/timeline/container/wp-timeline-container.directive';
 import { headerRowKey } from 'core-app/features/work-packages/components/wp-fast-table/row-keys';
@@ -260,6 +261,10 @@ export class WorkPackagesTableComponent implements OnInit, TableEventComponent, 
     onDestroySafely(this.workPackageTable.destroyRef, () => scroll.destroy());
     hover.activate();
     scroll.update(this.viewState()?.timelineVisible ?? false);
+
+    // SPIKE (DREAM-1041)
+    const table = this.element.querySelector<HTMLTableElement>('table.work-package-table');
+    if (table) new WorkPackageTableColumnLock(this.workPackageTable, table, this.injector);
 
     this.renderHeader();
   }
