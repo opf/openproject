@@ -39,7 +39,7 @@ module DevelopmentData
     }.freeze
 
     def self.identifier(key)
-      Setting::WorkPackageIdentifier.semantic? ? IDENTIFIERS.fetch(key) : key
+      mode_identifier(classic: key, semantic: IDENTIFIERS.fetch(key))
     end
 
     def seed_data!
