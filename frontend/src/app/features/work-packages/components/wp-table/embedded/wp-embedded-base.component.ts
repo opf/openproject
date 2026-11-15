@@ -39,7 +39,6 @@ import { UrlParamsHelperService } from 'core-app/features/work-packages/componen
 import { WorkPackagesViewBase } from 'core-app/features/work-packages/routing/wp-view-base/work-packages-view.base';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { firstValueFrom } from 'rxjs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 @Directive()
@@ -117,20 +116,25 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
     const query = this.querySpace.query.value!;
     const pagination = this.wpTablePagination.paginationObject;
 
-    if (firstPage) {
+    if (this.returningToFirstPage(firstPage)) {
       pagination.offset = 1;
     }
 
     const params = this.urlParamsHelper.buildV3GetQueryFromQueryResource(query, pagination) as object;
-    const promise = firstValueFrom(
+    const applied = this.reloads.apply(
       this
         .wpListService
         .loadQueryFromExisting(query, params, this.queryProjectScope),
-    )
-      .then((updated) => this.wpStatesInitialization.updateQuerySpace(updated, updated.results));
+      (updated) => {
+        this.reloadApplied();
+        this.wpStatesInitialization.updateQuerySpace(updated, updated.results);
+      },
+    );
 
     if (visible) {
-      this.loadingIndicator = promise;
+      this.loadingIndicator = applied;
+    } else {
+      void applied;
     }
   }
 

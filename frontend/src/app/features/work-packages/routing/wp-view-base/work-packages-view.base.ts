@@ -91,6 +91,7 @@ import {
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { tableRefreshRequest } from 'core-app/features/work-packages/routing/wp-view-base/work-packages-view.actions';
+import { LatestOnly } from 'core-app/features/work-packages/routing/wp-view-base/latest-only';
 
 @Directive()
 export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implements OnInit, OnDestroy {
@@ -155,6 +156,25 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
 
   readonly actions$ = inject(ActionsService);
 
+  protected readonly reloads = new LatestOnly();
+
+  private firstPageDue = false;
+
+  /**
+   * A reload that was to return to the first page may be superseded before it is applied.
+   * The reloads replacing it have to return there too, or the table stays on a page that
+   * the changed query may not have.
+   */
+  protected returningToFirstPage(requested:boolean):boolean {
+    this.firstPageDue ||= requested;
+
+    return this.firstPageDue;
+  }
+
+  protected reloadApplied():void {
+    this.firstPageDue = false;
+  }
+
   /** Determine when query is initially loaded */
   queryLoaded = false;
 
@@ -170,6 +190,11 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
 
     // Mark tableInformationLoaded when initially loading done
     this.setupQueryLoadedListener();
+  }
+
+  override ngOnDestroy():void {
+    super.ngOnDestroy();
+    this.reloads.cancel();
   }
 
   private setupQueryObservers() {
