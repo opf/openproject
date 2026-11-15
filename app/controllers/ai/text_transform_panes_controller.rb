@@ -44,6 +44,7 @@ module AI
     before_action :resolve_context, only: %i[create apply]
 
     def show
+      run.fail_if_stalled!
       return head(:no_content) if unchanged?
 
       run.cancelled? ? close_pane : update_sections

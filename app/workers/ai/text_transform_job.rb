@@ -33,6 +33,7 @@ module AI
 
     def perform(run_id)
       run = AI::TextTransformRun.find_by(id: run_id)
+      return run.fail!(:interrupted) if run&.running?
       return unless run&.queued?
 
       User.execute_as(run.user) do

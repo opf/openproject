@@ -241,6 +241,21 @@ RSpec.describe API::V3::AI::TextTransformRunsAPI,
       end
     end
 
+    context "with a run whose job stopped writing for longer than the budget allows" do
+      before do
+        quiet = (AI::TextTransformRun::STALLED_AFTER + 1.minute).ago
+        run.update_columns(status: "running", updated_at: quiet)
+        run.events.update_all(created_at: quiet)
+        get api_v3_paths.ai_text_transform_run(run.uuid)
+      end
+
+      it "fails the run as interrupted" do
+        expect(run.reload).to be_failed
+        expect(last_response.body).to be_json_eql("failed".to_json).at_path("status")
+        expect(last_response.body).to be_json_eql("interrupted".to_json).at_path("events/3/payload/reason")
+      end
+    end
+
     context "with a negative cursor" do
       before { get "#{api_v3_paths.ai_text_transform_run(run.uuid)}?after=-1" }
 

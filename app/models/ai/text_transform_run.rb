@@ -30,6 +30,8 @@
 module AI
   class TextTransformRun < ApplicationRecord
     TERMINAL_STATUSES = %w[succeeded failed cancelled].freeze
+    ACTIVE_STATUSES = %w[queued running].freeze
+    STALLED_AFTER = (AI::TextTransforms::Execution::BUDGET + 60).seconds
     MAX_INPUT_LENGTH = 100_000
 
     belongs_to :user
@@ -72,12 +74,23 @@ module AI
       end
     end
 
+    # Locks the row as the terminal transitions do, so that no event follows the one that ended the run.
+    def append_event_while_active(kind, payload = {})
+      transaction do
+        append_event(kind, payload) if self.class.lock.exists?(id:, status: ACTIVE_STATUSES)
+      end
+    end
+
     def events_after(seq)
       events.where(seq: (seq.to_i + 1)..).order(:seq)
     end
 
     def start!
-      update!(status: "running")
+      transaction do
+        transition!(from: "queued", status: "running").tap do |started|
+          append_event("status", status: "running") if started
+        end
+      end
     end
 
     def request_cancel!
@@ -87,10 +100,46 @@ module AI
     def finish!(status, error_message: nil)
       raise ArgumentError, "#{status} is not a terminal status" unless TERMINAL_STATUSES.include?(status.to_s)
 
-      update!(status:, error_message:)
+      transition!(from: ACTIVE_STATUSES, status:, error_message:, finished_at: Time.current)
+    end
+
+    def succeed!(text)
+      transaction do
+        finish!("succeeded").tap { |succeeded| append_event("completed", text:) if succeeded }
+      end
+    end
+
+    def fail!(reason)
+      message = OpenProject::LocaleHelper.with_locale_for(user) { I18n.t("ai.text_transform.errors.#{reason}") }
+      transaction do
+        finish!("failed", error_message: message).tap do |failed|
+          append_event("error", message:, reason: reason.to_s) if failed
+        end
+      end
+    end
+
+    def stalled?
+      running? && [updated_at, events.maximum(:created_at)].compact.max < STALLED_AFTER.ago
+    end
+
+    # The job takes the row lock for every write, so a job that started or wrote since the run was loaded keeps it.
+    def fail_if_stalled!
+      return false unless stalled?
+
+      transaction do
+        lock!
+        stalled? && fail!(:interrupted)
+      end
     end
 
     private
+
+    # A live job and a poll that took it for dead may both try to end the run, so only one transition may win.
+    def transition!(from:, **attributes)
+      changed = self.class.where(id:, status: from).update_all(attributes.merge(updated_at: Time.current)).positive?
+      reload if changed
+      changed
+    end
 
     def stamp_finished_at
       self.finished_at ||= Time.current

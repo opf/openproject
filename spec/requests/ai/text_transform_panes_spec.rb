@@ -297,6 +297,19 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
       end
     end
 
+    it "fails a run that has not moved on for longer than the budget allows and offers to try again" do
+      run = run_with_events(:running, ["text_delta", { "delta" => "Partial" }])
+      quiet = (AI::TextTransformRun::STALLED_AFTER + 1.minute).ago
+      run.update_columns(updated_at: quiet)
+      run.events.update_all(created_at: quiet)
+
+      get ai_text_transform_pane_path(run.uuid, **pane_params, after: 1, state: "generating"), headers: stream
+
+      expect(run.reload).to be_failed
+      expect(response.body).to include("Generation failed", "Generating the text was interrupted before it finished.",
+                                       "Try again", 'data-state="failed"')
+    end
+
     it "shows the stopped state for a blocked response" do
       run = run_with_events(:failed, ["error", { "reason" => "blocked", "message" => "Blocked." }])
 
