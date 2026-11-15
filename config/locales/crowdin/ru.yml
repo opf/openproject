@@ -3516,6 +3516,7 @@ ru:
       work_package_query_relation_columns: Колонки запросов пакета работ
       work_package_sharing: Поделиться пакетами работ с внешними пользователями
       work_package_subject_generation: Создание темы пакета работ
+      xwiki_integration: XWiki Integration
     teaser:
       description_html: У вас есть доступ ко всем функциям %{trial_plan}.
       title:
@@ -7731,6 +7732,7 @@ ru:
         rename_group: Переименовать секцию
         required:
           already_required_globally: Это настраиваемое поле обязательно для всех типов.
+          excluded: Switch this custom field on before requiring it for this type.
           for_variant: Required for this type
           globally: Обязательно
           globally_hint: Измените это в пользовательском поле
@@ -7808,6 +7810,7 @@ ru:
           success: Конфигурация была скопирована.
         exclusions:
           not_inherited: Данная конфигурация не наследуется, поэтому исключать ничего не нужно. Вместо этого отредактируйте конфигурацию напрямую.
+          required: A required custom field cannot be switched off.
           unknown_aspect: Неизвестная секция конфигурации "%{aspect}".
         inherited:
           configure_manually: Настройка вручную

@@ -3224,6 +3224,7 @@ pt-BR:
       work_package_query_relation_columns: Colunas de relação de consulta do pacote de trabalho
       work_package_sharing: Compartilhar pacotes de trabalho com pessoas de fora da organização
       work_package_subject_generation: Geração de assunto do pacote de trabalho
+      xwiki_integration: XWiki Integration
     teaser:
       description_html: Você possui acesso a todos os recursos do %{trial_plan}.
       title:
@@ -7360,6 +7361,7 @@ pt-BR:
         rename_group: Renomear seção
         required:
           already_required_globally: Este campo personalizado é obrigatório para todos os tipos.
+          excluded: Switch this custom field on before requiring it for this type.
           for_variant: Required for this type
           globally: Obrigatório
           globally_hint: Altere isso no campo personalizado
@@ -7437,6 +7439,7 @@ pt-BR:
           success: A configuração foi copiada.
         exclusions:
           not_inherited: Esta configuração não é herdada, portanto não há nada a excluir. Edite a configuração diretamente.
+          required: A required custom field cannot be switched off.
           unknown_aspect: Seção de configuração desconhecida "%{aspect}".
         inherited:
           configure_manually: Configurar manualmente

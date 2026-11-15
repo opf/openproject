@@ -3222,6 +3222,7 @@ hy:
       work_package_query_relation_columns: Աշխատանքային փաթեթների հարցման կապերի սյունակներ
       work_package_sharing: Աշխատանքային փաթեթների համօգտագործում արտաքին օգտատերերի հետ
       work_package_subject_generation: Աշխատանքային փաթեթի վերնագրի գեներացում
+      xwiki_integration: XWiki Integration
     teaser:
       description_html: Դուք հասանելիություն ունեք %{trial_plan}-ի բոլոր հնարավորություններին։
       title:
@@ -7370,6 +7371,7 @@ hy:
         rename_group: Վերանվանել բաժինը
         required:
           already_required_globally: This custom field is required for all types.
+          excluded: Switch this custom field on before requiring it for this type.
           for_variant: Required for this type
           globally: Required
           globally_hint: Change this on the custom field
@@ -7447,6 +7449,7 @@ hy:
           success: Կազմաձևումը պատճենվել է։
         exclusions:
           not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
+          required: A required custom field cannot be switched off.
           unknown_aspect: Unknown configuration section "%{aspect}".
         inherited:
           configure_manually: Configure manually
