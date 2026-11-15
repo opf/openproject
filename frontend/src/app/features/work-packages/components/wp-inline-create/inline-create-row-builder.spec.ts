@@ -55,9 +55,10 @@ describe('InlineCreateRowBuilder', () => {
 
   const expectCancelBesideField = async (row:HTMLTableRowElement) => {
     const cell = row.lastElementChild as HTMLTableCellElement;
+    const button = await within(cell).findByRole('button', { name: 'Cancel' });
     const cellBox = cell.getBoundingClientRect();
     const fieldBox = cell.querySelector('.wp-table--cell-container')!.getBoundingClientRect();
-    const buttonBox = (await within(cell).findByRole('button', { name: 'Cancel' })).getBoundingClientRect();
+    const buttonBox = button.getBoundingClientRect();
 
     expect(getComputedStyle(cell).display).toBe('table-cell');
     expect(cellBox.height).toBe(row.getBoundingClientRect().height);
