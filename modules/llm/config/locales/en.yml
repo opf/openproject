@@ -1,5 +1,26 @@
 ---
 en:
+  activemodel:
+    attributes:
+      llm/completions/request:
+        messages: "Messages"
+        tools: "Tools"
+    errors:
+      models:
+        llm/completions/request:
+          attributes:
+            base:
+              too_large: "The request must not exceed %{count} characters."
+            messages:
+              assistant_last: "must end with a user or tool message"
+              tool_result_without_id: "need a toolCallId for every tool result"
+              too_long: "must not exceed %{count}"
+              too_short: "must not be empty"
+              unknown_role: "may only have the roles %{roles}"
+            tools:
+              duplicate_name: "need unique names"
+              invalid_name: "need names that match %{pattern}"
+              too_long: "must not exceed %{count}"
   activerecord:
     attributes:
       llm_capability_verdict:
@@ -307,7 +328,17 @@ en:
     context_window_sources:
       registry: "the figure published for this model"
       server: "reported by the server"
+    completions:
+      errors:
+        context_too_long: "The conversation is too long for the model."
+        not_ready: "AI completions are not available on this instance right now."
+        rate_limited: "Too many AI completions in this minute. Try again later."
+        upstream: "The LLM server could not answer the request."
+        upstream_rate_limited: "The LLM server is rate limiting requests. Try again later."
     features:
+      api_completions:
+        caption: "Answers model requests from API clients, such as the AI Assistance browser extension. The clients run their own tools."
+        label: "API completions"
       description_assistant:
         caption: "Runs the text actions users apply to work package descriptions, such as proofreading, rewriting and structuring."
         caption_with_link: "Runs the [text actions](text_actions_url) users apply to work package descriptions, such as proofreading, rewriting and structuring."
@@ -393,3 +424,4 @@ en:
   menus:
     admin:
       llm_connection: "LLM settings"
+  permission_use_llm_completions: "Use AI completions through the API"
