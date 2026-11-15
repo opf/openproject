@@ -1,5 +1,5 @@
 import type { WorkPackage } from '../../openProjectTypes';
-import { fetchWorkPackage, isWorkPackageIdentifier, searchWorkPackages } from '../../services/openProjectApi';
+import { fetchWorkPackage, isWorkPackageIdentifier, searchWorkPackages } from '../../services/openProjectApi/workPackages';
 import { cachedWorkPackageSchema, loadWorkPackage } from '../../services/workPackageLoader';
 import { findAttribute } from './attributes';
 import type { AttributeNodeKind } from './externalHtml';

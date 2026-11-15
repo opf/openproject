@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import i18n from '../../services/i18n';
-import { fetchConfiguration, fetchNonWorkingDays, fetchWeekdays } from '../../services/openProjectApi';
+import { fetchConfiguration, fetchNonWorkingDays, fetchWeekdays } from '../../services/openProjectApi/resources';
 import { firstDayOfWeek, isoDateOf } from './dateTime';
 import type { DateTimeSettings } from './dateTime';
 

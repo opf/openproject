@@ -5,7 +5,7 @@ import {
   metaTextColor,
   typeTextColor,
 } from '../../services/colors';
-import { linkToWorkPackage } from '../../services/openProjectApi';
+import { linkToWorkPackage } from '../../services/openProjectApi/workPackages';
 
 /* lets a line break between two meta parts that are each kept unbroken  */
 export const WRAP_OPPORTUNITY = '\u200B';

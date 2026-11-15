@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import type { WorkPackage } from '../openProjectTypes';
-import { searchWorkPackages } from '../services/openProjectApi';
+import { searchWorkPackages } from '../services/openProjectApi/workPackages';
 
 export const MAX_SEARCH_RESULTS = 5;
 
