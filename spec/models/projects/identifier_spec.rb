@@ -326,4 +326,35 @@ RSpec.describe Projects::Identifier do
       expect(values).to contain_exactly("OLD-SLUG")
     end
   end
+
+  describe ".ids_by_identifier" do
+    let!(:project) { create(:project, identifier: "current-id") }
+    let!(:other_project) { create(:project, identifier: "other-id") }
+
+    before do
+      FriendlyId::Slug.create!(sluggable: project, slug: "old-slug")
+    end
+
+    it "maps current identifiers to project ids" do
+      expect(Project.ids_by_identifier(%w[current-id other-id]))
+        .to eq("current-id" => project.id, "other-id" => other_project.id)
+    end
+
+    it "matches case-insensitively and keys by the supplied value" do
+      expect(Project.ids_by_identifier(%w[CURRENT-ID])).to eq("CURRENT-ID" => project.id)
+    end
+
+    it "maps former identifiers to the project that held them" do
+      expect(Project.ids_by_identifier(%w[OLD-SLUG])).to eq("OLD-SLUG" => project.id)
+    end
+
+    it "leaves out identifiers that match no project" do
+      expect(Project.ids_by_identifier(%w[current-id unknown])).to eq("current-id" => project.id)
+    end
+
+    it "only resolves projects within the current scope" do
+      expect(Project.where(id: other_project).ids_by_identifier(%w[current-id old-slug other-id]))
+        .to eq("other-id" => other_project.id)
+    end
+  end
 end

@@ -28,6 +28,8 @@
 #++
 
 class Queries::WorkPackages::Filter::ProjectFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  include Queries::Filters::Shared::ProjectIds
+
   def allowed_values
     @allowed_values ||= begin
       project_values = []
@@ -57,7 +59,7 @@ class Queries::WorkPackages::Filter::ProjectFilter < Queries::WorkPackages::Filt
   end
 
   def value_objects
-    visible_projects.where(id: values.map(&:to_i))
+    visible_projects.where(id: project_ids.map(&:to_i))
   end
 
   def where
@@ -65,6 +67,10 @@ class Queries::WorkPackages::Filter::ProjectFilter < Queries::WorkPackages::Filt
   end
 
   private
+
+  def type_strategy
+    @type_strategy ||= Queries::Filters::Strategies::ProjectList.new(self)
+  end
 
   def visible_projects
     Project.visible.active
