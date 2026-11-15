@@ -137,10 +137,10 @@ fa:
         commented: دارای دیدگاه
       custom_field:
         admin_only: فقط مدیر
+        allow_additional_project_values: Project admins can add project-specific values
         allow_non_open_versions: اجازه نسخه‌های بازنشده
         content_right_to_left: محتوای راست‌به‌چپ
         default_value: مقدار پیش فرض
-        editable: قابل ویرایش
         field_format: قالب‎بندی
         formula: فرمول
         has_comment: افزودن فیلد متنی دیدگاه
@@ -153,10 +153,12 @@ fa:
         min_value: حداقل مقدار
         multi_value: اجازه انتخاب چندگانه
         possible_values: مقادیر ممکن
+        project_level_value_management: Project admins can manage values at a project level
         project_specific_value_restriction: مقادیر ویژه هر پروژه
         regexp: عبارت منظم
         searchable: قابل جستجو
         semantic_key: معنای معنایی
+        user_self_editable: Editable
         visible_on_user_card: نمایش در کارت کاربر
       custom_field/project_specific_value_restriction:
         restriction: محدودیت
@@ -342,6 +344,10 @@ fa:
         custom_field_section: بخش
       project_type:
         variant: گونه
+      push_subscription:
+        created_at: افزوده‌شده
+        endpoint: نقطه پایانی
+        session_id: نشست
       query:
         child_work_packages: بسته‌های کاری فرزند
         column_names: ستون‌ها
@@ -713,8 +719,10 @@ fa:
               invalid_tokens: فقط مقادیر عددی، عملگرها، توابع، کلیدواژه‌ها و ویژگی‌های پروژه از نوع عدد صحیح، اعشاری، مقدار محاسبه‌شده و فهرست وزن‌دار مجاز هستند.
               multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: ویژگی %{custom_fields} قابل استفاده نیست، زیرا باعث ارجاع دوری می‌شود؛ یک ویژگی به دیگری وابسته است.
+            project_level_value_management:
+              not_available_for_all_values: is only available when values are restricted per project.
             project_specific_value_restriction:
-              not_supported: تنها برای فیلدهای سفارشی بسته کاری با قالب‌های فهرست، سلسله‌مراتب و فهرست اقلام وزن‌دار در دسترس است.
+              not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted list.
             required:
               cannot_be_true: نمی‌تواند روی true تنظیم شود.
           previous_custom_field_recalculation_unprocessed: محاسبه مجدد تغییرات قبلی این فیلد سفارشی هنوز اعمال نشده است؛ لطفاً چند دقیقه دیگر دوباره تلاش کنید.
@@ -725,6 +733,10 @@ fa:
           attributes:
             project_ids:
               blank: لطفاً یک پروژه انتخاب کنید.
+        custom_option:
+          attributes:
+            project_id:
+              additional_values_not_allowed: cannot add values to this custom field.
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -857,6 +869,10 @@ fa:
             variant:
               must_be_owned_by_the_project: نباید گونه‌ای باشد که متعلق به پروژه دیگری است.
               must_belong_to_the_type: باید گونه‌ای از نوع مورد استفاده پروژه باشد.
+        push_subscription:
+          attributes:
+            base:
+              too_many_push_subscriptions: فقط %{count} دستگاه می‌توانند هم‌زمان اعلان‌های پوش مرورگر را دریافت کنند.
         queries/filters/base:
           attributes:
             values:
@@ -1155,8 +1171,8 @@ fa:
         one: فیلد سفارشی
         other: فیلدهای سفارشی
       custom_field/hierarchy/item:
-        one: مورد سلسله‌مراتبی
-        other: موارد سلسله‌مراتبی
+        one: Hierarchy value
+        other: Hierarchy values
       custom_field_section:
         one: بخش فیلد سفارشی
         other: بخش‌های فیلد سفارشی
@@ -2134,6 +2150,37 @@ fa:
           error: ترتیب بخش تغییر نکرد.
         move:
           error: ترتیب بخش تغییر نکرد.
+      push_notifications:
+        checking: در حال بررسی…
+        description: کاربران می‌توانند نسخه برنامه وب پیش‌رونده (PWA) از OpenProject را در مرورگرهای جدید نصب کنند و در این صورت اعلان‌های بومی سیستم‌عامل درباره فعالیت‌های OpenProject را نیز دریافت کنند.
+        hosts_intro: 'OpenProject اعلان‌های پوش را از طریق سرویس پوشی ارسال می‌کند که مرورگر هر کاربر در آن عضو شده است. بررسی زیر با سرویس‌های پوش مرورگرهای اصلی و همه سرویس‌هایی که اشتراک فعالی دارند ارتباط برقرار می‌کند:'
+        http_status: HTTP %{code}
+        key_managed_by_environment: کلید امضای پوش از طریق متغیر محیطی OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY تأمین می‌شود. برای نوسازی آن، مقدار متغیر را تغییر دهید.
+        key_renewed: کلید امضای پوش نوسازی شد. همه دستگاه‌ها باید دوباره اعلان‌های مرورگر را فعال کنند.
+        key_unreadable: کلید امضای پوش قابل خواندن نبود. برای بازیابی اعلان‌های مرورگر آن را نوسازی کنید؛ سپس همه دستگاه‌ها باید دوباره اعلان‌های مرورگر را فعال کنند.
+        reachable: قابل دسترسی
+        reasons:
+          connection: اتصال برقرار نشد
+          filtered: درخواست به‌وسیله محافظت SSRF مسدود شد
+          invalid_host: نام میزبان معتبر نیست
+          private_address: نام میزبان به یک نشانی خصوصی تبدیل شد
+          sample_unresolved: نام میزبان نمونه قابل تبدیل به نشانی نبود؛ نتیجه قطعی نیست
+          timeout: تا %{seconds} ثانیه پاسخی دریافت نشد
+          tls: دست‌دهی TLS ناموفق بود
+          unresolved: نام میزبان قابل تبدیل به نشانی نبود
+        renew_key: نوسازی کلیدها
+        renew_key_dialog:
+          confirm_button: نوسازی کلید
+          confirmation: می‌دانم که همه دستگاه‌ها باید اعلان‌های مرورگر را دوباره فعال کنند.
+          description:
+            one: 'OpenProject هر اعلان مرورگر را با این کلید (VAPID) امضا می‌کند تا سرویس پوش هر مرورگر به آن اعتماد کند. کلید جدید اتصال همه دستگاه‌ها را قطع می‌کند: یک اشتراک موجود حذف می‌شود و همه کاربران باید در هر دستگاه اعلان‌های مرورگر را دوباره فعال کنند.'
+            other: 'OpenProject هر اعلان مرورگر را با این کلید (VAPID) امضا می‌کند تا سرویس پوش هر مرورگر به آن اعتماد کند. کلید جدید اتصال همه دستگاه‌ها را قطع می‌کند: %{count} اشتراک حذف می‌شوند و همه کاربران باید در هر دستگاه اعلان‌های مرورگر را دوباره فعال کنند.'
+            zero: 'OpenProject هر اعلان مرورگر را با این کلید (VAPID) امضا می‌کند تا سرویس پوش هر مرورگر به آن اعتماد کند. کلید جدید اتصال همه دستگاه‌ها را قطع می‌کند: هنوز اشتراکی وجود ندارد، اما همه کاربران باید در هر دستگاه اعلان‌های مرورگر را دوباره فعال کنند.'
+          heading: کلید امضای پوش نوسازی شود؟
+          title: نوسازی کلیدها
+        unreachable: غیرقابل دسترسی
+        verify_reachability: بررسی دسترسی‌پذیری
+        verify_reachability_description: برای بررسی اعلان‌ها، OpenProject یک اعلان پوش بیدارباش بدون محتوا می‌فرستد. سپس PWA نصب‌شده تعداد موارد خوانده‌نشده را از طریق نشست کاربر دریافت می‌کند. سرویس‌های پوش زیر می‌توانند نقطه پایانی اشتراک، نشانی این سامانه، کلید عمومی و زمان هر اعلان پوش را ببینند.
       user_custom_field_sections:
         destroy:
           error: بخش حذف نشد.
@@ -2427,7 +2474,7 @@ fa:
     body: بدنه
     category: دسته‌بندی
     color: رنگ
-    comment: دیدگاه
+    comment: نظر
     comments: دیدگاه
     content: محتوا
     created_at: ایجادشده در
@@ -2592,12 +2639,13 @@ fa:
   button_actions: اقدام‌ها
   button_add: ﺍﻓﺰﻭﺩﻥ
   button_add_comment: افزودن دیدگاه
-  button_add_item_above: افزودن مورد در بالا
-  button_add_item_below: افزودن مورد در پایین
+  button_add_item_above: Add value above
+  button_add_item_below: Add value below
   button_add_member: افزودن عضو
   button_add_menu_entry: افزودن آیتم منو
   button_add_non_working_time: مرخصی
   button_add_sub_item: افزودن زیرمورد
+  button_add_sub_value: Add sub-value
   button_add_watcher: افزودن دنبال‌کننده
   button_all_filters: همه فیلترها
   button_annotate: حاشیه‌نویسی
@@ -2802,28 +2850,30 @@ fa:
     admin:
       hierarchy:
         subitems:
-          one: "%{count} زیرمورد"
-          other: "%{count} زیرمورد"
-          zero: بدون زیرمورد
+          one: "%{count} sub-value"
+          other: "%{count} sub-values"
+          zero: no sub-values
       items:
-        actions: اقدام‌های مورد
+        actions: Value actions
         blankslate:
           item:
-            description: برای ایجاد زیرمورد داخل مورد دیگر، موارد را به این فهرست اضافه کنید
-            title: این مورد هیچ سطح سلسله‌مراتبی پایین‌تری ندارد
+            description: Add values to this list to create sub-values inside another one
+            title: This value doesn't have any hierarchy level below
+          project_item:
+            description: This value belongs to the project %{project}. It cannot have global sub-values. Sub-values can only be added in the [project administration](project_administration).
           root:
-            description: با افزودن موارد به فیلد سفارشی از نوع سلسله‌مراتب شروع کنید. هر مورد می‌تواند برای ایجاد سلسله‌مراتب زیر آن استفاده شود. برای پیمایش و ایجاد زیرمورد در یک سلسله‌مراتب روی مورد ایجادشده کلیک کنید.
-            title: فهرست موارد شما خالی است
+            description: Start by adding values to the custom field of type hierarchy. Each value can be used to create a hierarchy below it. To navigate and create sub-values inside a hierarchy click on the created value.
+            title: Your list of values is empty
         delete_dialog:
-          description: این اقدام به‌صورت بازگشت‌ناپذیر مورد و همه زیرموردهای آن را حذف می‌کند. همه مقادیر تخصیص‌یافته برای همیشه حذف خواهند شد. اگر این فیلد الزامی باشد، حذف موارد ممکن است باعث نامعتبرشدن بسته‌های کاری موجود شود.
-          heading: مورد فیلد سفارشی حذف شود؟
-          title: حذف مورد فیلد سفارشی
+          description: This action will irreversibly remove the value and all its sub-values. Any assigned values will be permanently deleted. If this field is required, removing values may cause existing work packages to become invalid.
+          heading: Delete custom field value?
+          title: Delete custom field value
         placeholder:
-          label: برچسب مورد
+          label: Value label
           short: نام کوتاه
           weight: وزن
       notice:
-        remember_items_and_projects: یادتان باشد گزینه‌های این فیلد سفارشی را تنظیم کنید و مطمئن شوید دست‌کم در یک پروژه استفاده می‌شود.
+        remember_items_and_projects: Remember to set values for this custom field, and to make sure it is used in at least one project.
       projects:
         changes_heading: تغییرات مهم
         changes_text: 'از نسخه 18.0، فیلدهای سفارشی دیگر در سطح پروژه فعال یا غیرفعال نمی‌شوند. آن‌ها در فرم‌هایی قرار می‌گیرند که سپس در انواع و گونه‌های مختلف استفاده می‌شوند. فهرست زیر پروژه‌هایی را نشان می‌دهد که از انواع یا گونه‌هایی با فرم شامل این فیلد سفارشی استفاده می‌کنند.
@@ -2877,8 +2927,6 @@ fa:
       admin_only:
         all: برای اینکه این فیلد سفارشی فقط برای مدیران قابل مشاهده باشد این گزینه را فعال کنید. کاربران بدون دسترسی مدیر امکان مشاهده یا ویرایش آن را نخواهند داشت.
         project: برای اینکه این ویژگی فقط برای مدیران قابل مشاهده باشد این گزینه را فعال کنید. کاربران بدون دسترسی مدیر امکان مشاهده یا ویرایش آن را نخواهند داشت.
-      editable:
-        all: اجازه دهید فیلد توسط خود کاربران قابل ویرایش باشد.
       formula:
         project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
@@ -2908,6 +2956,8 @@ fa:
       searchable:
         all: هنگام استفاده از جستجوی سراسری، مقادیر فیلد را در جستجو لحاظ کنید.
         project: برای در دسترس قراردادن این ویژگی به‌عنوان فیلتر در فهرست پروژه‌ها این گزینه را فعال کنید.
+      user_self_editable:
+        all: Allow the field to be editable by users themselves.
       visible_on_user_card:
         all: در صورت فعال‌بودن، مقدار این فیلد هنگام قرارگرفتن نشانگر روی کاربر در سراسر برنامه، در کارت اطلاعات کاربر نمایش داده می‌شود.
     is_enabled_globally: به‌صورت سراسری فعال است
@@ -2929,6 +2979,11 @@ fa:
       block:
         caption: به‌صورت پیش‌فرض، همه مقادیر در همه پروژه‌ها در دسترس هستند، اما می‌توانید مقادیر مشخصی را برای هر پروژه به‌صورت دستی غیرفعال کنید.
         label: 'فیلتر مسدودسازی: مقادیری را که باید برای هر پروژه غیرفعال شوند، به‌صورت دستی انتخاب کنید'
+      label: Project-specific
+      label_with_project: 'Project-specific: %{project}'
+      project_admins:
+        additional_values_caption: Added values are only available in the project they were created in. You can make them available to all projects later.
+        value_management_caption: Project admins can enable or disable certain values for their project. All global values will be visible to them.
       switch_warning:
         all: همه مقادیر در همه پروژه‌ها در دسترس خواهند بود.
         allow: تا زمانی که مقادیر را برای هر پروژه جداگانه و به‌صورت دستی فعال نکنید، هیچ مقداری در هیچ پروژه‌ای در دسترس نخواهد بود.
@@ -3216,11 +3271,10 @@ fa:
       team_planner_view: نمای برنامه‌ریز تیم
       text_assistant: دستیار متن
       virus_scanning: اسکن آنتی‌ویروس
-      weighted_item_lists: فهرست آیتم‌های وزن‌دار
+      weighted_item_lists: Weighted lists
       work_package_query_relation_columns: ستون‌های رابطه Query بسته کاری
       work_package_sharing: اشتراک‌گذاری بسته‌های کاری با کاربران خارجی
       work_package_subject_generation: تولید عنوان بسته کاری
-      xwiki_integration: XWiki Integration
     teaser:
       description_html: به همه قابلیت‌های %{trial_plan} دسترسی دارید.
       title:
@@ -3335,7 +3389,7 @@ fa:
       virus_scanning:
         description: اطمینان حاصل کنید فایل‌های بارگذاری‌شده در OpenProject پیش از دسترسی سایر کاربران برای ویروس اسکن می‌شوند.
       weighted_item_lists:
-        description: فهرست‌های آیتم وزن‌دار امکان ایجاد فهرستی با مقادیر عددی زیربنایی مرتبط را می‌دهند.
+        description: Weighted lists allow you to create a list with underlying numeric values associated.
       work_package_sharing:
         description: بسته‌های کاری را با کاربرانی که عضو پروژه نیستند به اشتراک بگذارید.
       work_package_subject_generation:
@@ -4137,7 +4191,7 @@ fa:
   label_delete_user: حذف کاربر
   label_deleted: حذف‌شده
   label_deleted_custom_field: "(فیلد سفارشی حذف‌شده)"
-  label_deleted_custom_item: "(مورد حذف‌شده)"
+  label_deleted_custom_item: "(deleted value)"
   label_deleted_custom_option: "(گزینه حذف‌شده)"
   label_deleted_label: "(برچسب حذف‌شده)"
   label_deleted_version: "(نسخه حذف‌شده)"
@@ -4276,8 +4330,6 @@ fa:
   label_invalid_file_type: این نوع فایل پشتیبانی نمی‌شود.
   label_invitation: دعوت نامه
   label_invite_user: دعوت کاربر
-  label_item: مورد
-  label_item_plural: موارد
   label_jira_import: مهاجرت‌دهنده Jira
   label_journal: ژورنال
   label_journal_diff: مقایسه توضیحات
@@ -4650,6 +4702,7 @@ fa:
   label_user_settings: تنظیمات کاربر
   label_users_settings: تنظیمات کاربران
   label_value: مقدار
+  label_value_plural: Values
   label_value_x: 'مقدار: %{x}'
   label_version_custom_field_plural: فیلدهای سفارشی نسخه
   label_version_edit: ویرایش نسخه
@@ -4669,7 +4722,7 @@ fa:
   label_view_x: 'نما: %{x}'
   label_watched_work_packages: بسته‌های کاری دنبال‌شده
   label_week: هفته
-  label_weighted_item_list: فهرست آیتم وزن‌دار
+  label_weighted_item_list: Weighted list
   label_what_is_this: این چیست؟
   label_widget_new: Widget جدید
   label_wiki_content_added: صفحه Wiki اضافه شد
@@ -4728,13 +4781,13 @@ fa:
     one: "%{count} فایل"
     other: "%{count} فایل"
     zero: بدون فایل
+  label_x_forms:
+    one: "%{count} form"
+    other: "%{count} forms"
   label_x_in_progress_work_packages_abbr:
     one: 1 in progress
     other: "%{count} in progress"
     zero: 0 in progress
-  label_x_forms:
-    one: "%{count} form"
-    other: "%{count} forms"
   label_x_items:
     one: "%{count} مورد"
     other: "%{count} مورد"
@@ -5091,6 +5144,7 @@ fa:
       mail_notification: اعلان‌های ایمیلی
       mails_and_notifications: ایمیل‌ها و اعلان‌ها
       mcp_configurations: Model Context Protocol (MCP)
+      push_notifications: اعلان‌های مرورگر
       text_actions: دستیار متن
     quick_add:
       label: افزودن…
@@ -5346,7 +5400,7 @@ fa:
   notice_no_principals_found: نتیجه‌ای یافت نشد.
   notice_not_authorized: مجوز دسترسی به این صفحه را ندارید.
   notice_not_authorized_archived_project: پروژه‌ای که می‌خواهید به آن دسترسی پیدا کنید بایگانی شده است.
-  notice_parent_item_not_found: مورد والد یافت نشد.
+  notice_parent_item_not_found: Parent value not found.
   notice_password_confirmation_failed: گذرواژه واردشده صحیح نیست.
   notice_principals_found_multiple: "%{number} نتیجه یافت شد. \n برای تمرکز روی اولین نتیجه Tab را فشار دهید."
   notice_principals_found_single: "یک نتیجه یافت شد. \n برای تمرکز روی آن Tab را فشار دهید."
@@ -5566,12 +5620,15 @@ fa:
         custom_field:
           format_not_supported: قالب '%{field_format}' پشتیبانی نمی‌شود.
         item:
-          not_persisted: باید یک مورد از قبل موجود باشد.
-          root_item: نمی‌تواند مورد ریشه باشد.
+          not_persisted: must be an already existing value.
+          root_item: cannot be a root value.
         label:
           not_unique: باید در همان سطح سلسله‌مراتب یکتا باشد.
         parent:
           not_descendant: باید فرزند ریشه سلسله‌مراتب باشد.
+          other_project: must be a global value or belong to the same project.
+        project:
+          additional_values_not_allowed: cannot add values to this custom field.
         short:
           not_unique: باید در همان سطح سلسله‌مراتب یکتا باشد.
       str?: باید رشته باشد.
@@ -5585,7 +5642,7 @@ fa:
       blueprint: Blueprint الگو
       depth: عمق
       enabled: فعال
-      item: مورد
+      item: Value
       label: برچسب
       parent: والد
       short: نام کوتاه
@@ -6593,6 +6650,12 @@ fa:
   setting_user_format: قالب نام کاربران
   setting_users_deletable_by_admins: امکان حذف حساب کاربران توسط مدیران
   setting_users_deletable_by_self: اجازه کاربران برای حذف حساب خود
+  setting_web_push_enabled: اعلان‌های مرورگر
+  setting_web_push_enabled_caption: به کاربرانی که OpenProject را به‌صورت برنامه وب پیش‌رونده نصب کرده‌اند اجازه می‌دهد هنگام داشتن اعلان خوانده‌نشده، اعلان سیستم‌عامل دریافت کنند.
+  setting_web_push_enabled_false: اعلان‌های مرورگر مجاز نباشد
+  setting_web_push_enabled_false_caption: کاربران حتی با داشتن PWA نصب‌شده نمی‌توانند اعلان‌های مرورگر را در تنظیمات حسابشان فعال کنند.
+  setting_web_push_enabled_true: اجازه اعلان‌های مرورگر
+  setting_web_push_enabled_true_caption: کاربران در صورت نصب PWA می‌توانند اعلان‌های مرورگر را در تنظیمات حساب خود فعال کنند.
   setting_welcome_on_homescreen: نمایش بلوک خوش‌آمدگویی در صفحه خانه
   setting_welcome_text: متن بلوک خوش‌آمدگویی
   setting_welcome_title: عنوان بلوک خوش‌آمدگویی
@@ -7373,7 +7436,6 @@ fa:
         rename_group: تغییر نام بخش
         required:
           already_required_globally: این فیلد سفارشی برای همه نوع‌ها الزامی است.
-          excluded: Switch this custom field on before requiring it for this type.
           for_variant: برای این نوع الزامی است
           globally: الزامی
           globally_hint: این مورد را در فیلد سفارشی تغییر دهید
@@ -7451,7 +7513,6 @@ fa:
           success: پیکربندی کپی شد.
         exclusions:
           not_inherited: این پیکربندی ارث‌بری نمی‌شود، بنابراین چیزی برای مستثناکردن وجود ندارد. در عوض پیکربندی را مستقیماً ویرایش کنید.
-          required: A required custom field cannot be switched off.
           unknown_aspect: بخش پیکربندی ناشناخته «%{aspect}».
         inherited:
           configure_manually: پیکربندی دستی
