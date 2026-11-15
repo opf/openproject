@@ -178,7 +178,7 @@ describe('AiTextTransformPaneController', () => {
       expect(rect().bottom).toBe(window.innerHeight - 8);
     });
 
-    it('moves only the left edge with the bottom-left handle', () => {
+    it('moves the left edge with the bottom-left handle', () => {
       const before = rect();
       dragBy(byTestId('resize-bottom-left'), -30, 0);
 
@@ -186,6 +186,16 @@ describe('AiTextTransformPaneController', () => {
       expect(rect().width).toBe(before.width + 30);
       expect(rect().right).toBe(before.right);
       expect(rect().height).toBe(before.height);
+    });
+
+    it('resizes width and height together with the bottom-left handle', () => {
+      const before = rect();
+      dragBy(byTestId('resize-bottom-left'), -30, 40);
+
+      expect(rect().left).toBe(before.left - 30);
+      expect(rect().right).toBe(before.right);
+      expect(rect().top).toBe(before.top);
+      expect(rect().height).toBe(before.height + 40);
     });
 
     it('keeps the right edge when the bottom-left handle grows past the stylesheet max-width', () => {
