@@ -49,10 +49,10 @@ export class UserPreferencesService {
     this.store.setLoading(true);
     this.preferenceAPI(user)
       .get()
-      .subscribe(
-        (prefs) => { this.store.update(prefs); },
-        (error:HttpErrorResponse) => this.toastService.addError(error),
-      )
+      .subscribe({
+        next: (prefs) => { this.store.update(prefs); },
+        error: (error:HttpErrorResponse) => this.toastService.addError(error),
+      })
       .add(
         () => this.store.setLoading(false),
       );
@@ -63,13 +63,13 @@ export class UserPreferencesService {
     this
       .preferenceAPI(user)
       .patch(delta)
-      .subscribe(
-        (prefs) => {
+      .subscribe({
+        next: (prefs) => {
           this.store.update(prefs);
           this.toastService.addSuccess(this.I18n.t('js.notice_successful_update'));
         },
-        (error:HttpErrorResponse) => this.toastService.addError(error),
-      )
+        error: (error:HttpErrorResponse) => this.toastService.addError(error),
+      })
       .add(() => this.store.setLoading(false));
   }
 

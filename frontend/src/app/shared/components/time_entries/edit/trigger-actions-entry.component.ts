@@ -116,10 +116,10 @@ export class TriggerActionsEntryComponent {
           .id(entry)
           .delete()),
       )
-      .subscribe(
-        () => window.location.reload(),
-        (error:HttpErrorResponse) => this.toastService.addError(error || this.text.error),
-      );
+      .subscribe({
+        next: () => window.location.reload(),
+        error: (error:HttpErrorResponse) => this.toastService.addError(error || this.text.error),
+      });
   }
 
   protected loadEntry():Observable<TimeEntryResource> {

@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { lastValueFrom } from 'rxjs';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
@@ -140,7 +141,7 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
 
   protected additionalLoadingTime():Promise<unknown> {
     if (this.wpTableTimeline.isVisible) {
-      return this.querySpace.timelineRendered.pipe(take(1)).toPromise();
+      return lastValueFrom(this.querySpace.timelineRendered.pipe(take(1)), { defaultValue: undefined });
     }
     return this.querySpace.tableRendered.valuesPromise() as Promise<unknown>;
   }

@@ -136,15 +136,18 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
       .id(this.workPackageId)
       .requireAndStream()
       .pipe(this.untilDestroyed())
-      .subscribe((wp:WorkPackageResource) => {
-        if (wp.id && this.workPackageId !== wp.id) {
-          this.workPackageId = wp.id;
-          this.subscribeToNumericCacheSlot(wp.id);
-        }
+      .subscribe({
+        next: (wp:WorkPackageResource) => {
+          if (wp.id && this.workPackageId !== wp.id) {
+            this.workPackageId = wp.id;
+            this.subscribeToNumericCacheSlot(wp.id);
+          }
 
-        this.applyWorkPackage(wp);
-      }, (error) => {
-        this.handleLoadingError(error);
+          this.applyWorkPackage(wp);
+        },
+        error: (error) => {
+          this.handleLoadingError(error);
+        },
       });
   }
 
@@ -191,12 +194,12 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
     // the work package resource from split view.
     this.projectsResourceService
       .requireEntity((this.workPackage.$links.project as CallableHalLink).href!)
-      .subscribe(
-        () => {},
-        (error:HttpErrorResponse) => {
+      .subscribe({
+        next: () => {},
+        error: (error:HttpErrorResponse) => {
           this.toastService.addError(error);
         },
-      );
+      });
 
     this.displayNotificationsButton$ = this.storeService.hasNotifications$;
     this.storeService.setFilters(this.workPackage.id!);

@@ -119,7 +119,7 @@ export class AttributeModelLoaderService {
     id = id || this.currentProject.id;
 
     if (!id) {
-      return throwError(this.text.not_found);
+      return throwError(() => this.text.not_found);
     }
 
     return this
@@ -134,7 +134,7 @@ export class AttributeModelLoaderService {
 
   private loadWorkPackage(id?:string|null) {
     if (!id) {
-      return throwError(this.text.not_found);
+      return throwError(() => this.text.not_found);
     }
 
     // Resolve a numeric ID or semantic identifier globally; the API show

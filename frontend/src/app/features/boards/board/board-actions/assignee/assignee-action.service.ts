@@ -39,7 +39,7 @@ import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
-import { Observable } from 'rxjs';
+import { Observable, lastValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable()
@@ -120,12 +120,11 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
       ? this.I18n.t('js.boards.add_list_modal.warning.assignee')
       : this.I18n.t('js.boards.add_list_modal.warning.no_member');
 
-    return this
+    return lastValueFrom(this
       .apiV3Service
       .projects
       .id(this.currentProject.id!)
-      .get()
-      .toPromise()
+      .get(), { defaultValue: undefined })
       .then((project:ProjectResource) => {
         if (project.memberships) {
           text = text.concat(

@@ -131,10 +131,10 @@ export class FilePickerModalComponent extends FilePickerBaseModalComponent {
       this.locals.addFileLinksHref as string,
       this.storage._links.self,
       files,
-    ).subscribe(
-      (fileLinks) => { this.toastService.addSuccess(this.text.toast.successFileLinksCreated(fileLinks.count)); },
-      (error:HttpErrorResponse) => { this.toastService.addError(error); },
-    );
+    ).subscribe({
+      next: (fileLinks) => { this.toastService.addSuccess(this.text.toast.successFileLinksCreated(fileLinks.count)); },
+      error: (error:HttpErrorResponse) => { this.toastService.addError(error); },
+    });
 
     this.service.close();
   }

@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { lastValueFrom } from 'rxjs';
 import { Injectable, Injector, inject } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
@@ -329,12 +330,11 @@ export class WorkPackageCardDragAndDropService {
     newOrder = Array.from(new Set(newOrder));
 
     Promise
-      .all(newOrder.map((id) => this
+      .all(newOrder.map((id) => lastValueFrom(this
         .apiV3Service
         .work_packages
         .id(id)
-        .get()
-        .toPromise()))
+        .get(), { defaultValue: undefined })))
       .then((workPackages:WorkPackageResource[]) => {
         if (this.destroyed || !this.stillAt(revision, newOrder)) {
           return;

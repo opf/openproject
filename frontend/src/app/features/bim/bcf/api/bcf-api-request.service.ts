@@ -114,7 +114,7 @@ export class BcfApiRequestService<T> {
         map((response) => this.deserialize(response)),
         catchError((error:HttpErrorResponse) => {
           console.error(`Failed to ${method} ${path}: ${error.name}`);
-          return throwError(error);
+          return throwError(() => error);
         }),
       );
   }

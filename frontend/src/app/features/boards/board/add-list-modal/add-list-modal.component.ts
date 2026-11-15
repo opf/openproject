@@ -154,16 +154,16 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
       .apiV3Service
       .versions
       .post(this.getVersionPayload(this.ngSelectComponent.ngSelectInstance.searchTerm))
-      .subscribe(
-        (version) => {
+      .subscribe({
+        next: (version) => {
           this.selectedAttribute = version;
           this.create();
         },
-        (error) => {
+        error: (error) => {
           this.ngSelectComponent.closeSelect();
           this.halNotification.handleRawError(error);
         },
-      );
+      });
   }
 
   private getVersionPayload(name:string) {

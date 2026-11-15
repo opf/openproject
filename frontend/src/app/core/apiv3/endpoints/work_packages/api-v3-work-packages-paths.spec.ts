@@ -28,7 +28,7 @@
 import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3WorkPackagesPaths } from 'core-app/core/apiv3/endpoints/work_packages/api-v3-work-packages-paths';
-import { Observable, of, throwError } from 'rxjs';
+import { EMPTY, EmptyError, Observable, of, throwError } from 'rxjs';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { States } from 'core-app/core/states/states.service';
@@ -141,6 +141,12 @@ describe('ApiV3WorkPackagesPaths', () => {
       await expect(workPackages.requireAll(['1'], ['2026-01-10T00:00:00Z'])).rejects.toThrow('request failed');
 
       expect(getAllPaginated).toHaveBeenCalledTimes(1);
+    });
+
+    it('rejects when a paginated request completes without a response', async () => {
+      respondWith(EMPTY);
+
+      await expect(workPackages.requireAll(['1'])).rejects.toBeInstanceOf(EmptyError);
     });
 
     it('rejects when second request fails', async () => {

@@ -27,7 +27,7 @@
 
 import { groupBy } from 'lodash-es';
 import { Injectable, Injector, inject } from '@angular/core';
-import { debounceTime, defaultIfEmpty, distinctUntilChanged, map, mapTo, switchMap, take, tap } from 'rxjs/operators';
+import { debounceTime, defaultIfEmpty, distinctUntilChanged, map, switchMap, take, tap } from 'rxjs/operators';
 import { forkJoin, from, Observable, Subject } from 'rxjs';
 import { ID, Query } from '@datorama/akita';
 
@@ -173,10 +173,11 @@ export class IanCenterService extends UntilDestroyedMixin {
       .fetchCollection(this.params, { handleErrors: false })
       .pipe(
         switchMap(
-          (results) => from(this.sideLoadInvolvedWorkPackages(results._embedded.elements))
-            .pipe(
-              mapTo(mapHALCollectionToIDCollection(results)),
-            ),
+          (results) => {
+            const sideLoad = this.sideLoadInvolvedWorkPackages(results._embedded.elements);
+            const collection = mapHALCollectionToIDCollection(results);
+            return from(sideLoad).pipe(map(() => collection));
+          },
         ),
       )),
 

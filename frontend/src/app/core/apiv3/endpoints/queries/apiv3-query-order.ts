@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, lastValueFrom } from 'rxjs';
 import { Injector } from '@angular/core';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { HttpClient } from '@angular/common/http';
@@ -48,11 +48,7 @@ export class ApiV3QueryOrder extends SimpleResource {
   }
 
   public get():Promise<QueryOrder> {
-    return this.http
-      .get<QueryOrder>(
-      this.path,
-    )
-      .toPromise()
+    return lastValueFrom(this.http.get<QueryOrder>(this.path), { defaultValue: undefined })
       .then((result) => result ?? {});
   }
 

@@ -112,8 +112,8 @@ export class WpCustomActionComponent extends UntilDestroyedMixin implements OnIn
 
     this.halResourceService
       .post<WorkPackageResource>(`${this.action.href}/execute`, payload)
-      .subscribe(
-        (savedWp:WorkPackageResource) => {
+      .subscribe({
+        next: (savedWp:WorkPackageResource) => {
           this.notificationService.showSave(savedWp, false);
           this.workPackage = savedWp;
           this.wpActivity.clear(this.workPackage.id);
@@ -126,12 +126,12 @@ export class WpCustomActionComponent extends UntilDestroyedMixin implements OnIn
             this.cdRef.detectChanges();
           });
         },
-        (errorResource) => {
+        error: (errorResource) => {
           this.notificationService.handleRawError(errorResource, this.workPackage);
           this.change.inFlight = false;
           this.cdRef.detectChanges();
         },
-      );
+      });
   }
 
   @HostListener('mouseenter') onMouseEnter():void {

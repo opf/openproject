@@ -25,13 +25,14 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { lastValueFrom } from 'rxjs';
 import { isEqual } from 'lodash-es';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { States } from 'core-app/core/states/states.service';
 import { Injectable, inject } from '@angular/core';
 import { QueryColumn, queryColumnTypes } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { combine } from '@openproject/reactivestates';
-import { mapTo, take } from 'rxjs/operators';
+import { take, map } from 'rxjs/operators';
 import { cloneHalResourceCollection } from 'core-app/features/hal/helpers/hal-resource-builder';
 import { WorkPackageQueryStateService } from './wp-view-base.service';
 import { sharedUserColumn } from 'core-app/features/work-packages/components/wp-fast-table/builders/internal-sort-columns';
@@ -291,12 +292,11 @@ export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<
    * Columns service depends on two states
    */
   public onReady() {
-    return combine(this.pristineState, this.availableState)
+    return lastValueFrom(combine(this.pristineState, this.availableState)
       .values$()
       .pipe(
         take(1),
-        mapTo(null),
-      )
-      .toPromise();
+        map(() => null),
+      ), { defaultValue: undefined });
   }
 }

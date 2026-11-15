@@ -37,7 +37,7 @@ import {
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import moment from 'moment';
-import { Subject } from 'rxjs';
+import { Subject, lastValueFrom } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 import { States } from 'core-app/core/states/states.service';
@@ -343,8 +343,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
       additionalOptions.initialView = 'dayGridWeek';
     }
 
-    void this.weekdayService.loadWeekdays()
-      .toPromise()
+    void lastValueFrom(this.weekdayService.loadWeekdays(), { defaultValue: undefined })
       .then(() => {
         this.calendarOptions$.next(
           this.workPackagesCalendar.calendarOptions(additionalOptions),

@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { lastValueFrom } from 'rxjs';
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -56,12 +57,11 @@ export class WorkPackageService {
     const params = {
       'ids[]': ids,
     };
-    const promise = this.http
+    const promise = lastValueFrom(this.http
       .delete(
         this.PathHelper.workPackagesBulkDeletePath(),
         { params, withCredentials: true },
-      )
-      .toPromise();
+      ), { defaultValue: undefined });
 
     if (defaultHandling) {
       promise

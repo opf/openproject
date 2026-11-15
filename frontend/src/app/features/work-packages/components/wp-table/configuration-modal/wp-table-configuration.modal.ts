@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { lastValueFrom } from 'rxjs';
 import { ApplicationRef, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, InjectionToken, Injector, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
@@ -159,12 +160,11 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
 
   protected loadForm() {
     const query = this.querySpace.query.value!;
-    return this
+    return lastValueFrom(this
       .apiV3Service
       .queries
       .form
-      .load(query)
-      .toPromise()
+      .load(query), { defaultValue: undefined })
       .then(([form, _]:[QueryFormResource, QueryResource]) => {
         this.wpStatesInitialization.updateStatesFromForm(query, form);
 

@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { lastValueFrom } from 'rxjs';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { PreparedTableDragAction, TableDragActionService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-action.service';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
@@ -142,12 +143,11 @@ export class HierarchyDragActionService extends TableDragActionService {
   }
 
   private loadParentOfWP(wpId:string):Promise<string|null> {
-    return this
+    return lastValueFrom(this
       .apiV3Service()
       .work_packages
       .id(wpId)
-      .get()
-      .toPromise()
+      .get(), { defaultValue: undefined })
       .then((wp:WorkPackageResource) => Promise.resolve(wp.parent?.id || null));
   }
 }

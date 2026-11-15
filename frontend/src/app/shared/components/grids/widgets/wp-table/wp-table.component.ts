@@ -138,10 +138,10 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent implements O
       .queries
       .id(query)
       .patch(query, this.queryForm)
-      .subscribe(
-        () => { this.inFlight = false; },
-        () => { this.inFlight = false; },
-      );
+      .subscribe({
+        next: () => { this.inFlight = false; },
+        error: () => { this.inFlight = false; },
+      });
   }
 
   private createInitial():Observable<QueryResource> {

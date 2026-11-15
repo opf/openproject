@@ -27,7 +27,7 @@
 
 import { isEqual, uniqBy } from 'lodash-es';
 import { combine } from '@openproject/reactivestates';
-import { mapTo } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
@@ -50,7 +50,7 @@ export class WorkPackageViewSortByService extends WorkPackageQueryStateService<Q
     return combine(this.pristineState, this.querySpace.available.sortBy)
       .values$()
       .pipe(
-        mapTo(null),
+        map(() => null),
       );
   }
 

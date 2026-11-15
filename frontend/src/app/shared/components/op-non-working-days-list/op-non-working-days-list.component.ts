@@ -150,8 +150,8 @@ export class OpNonWorkingDaysListComponent implements OnInit {
     failureCallback:(error:Error) => void,
   ):void|PromiseLike<EventInput[]> {
     this.dayService.requireNonWorkingYear$(fetchInfo.start)
-      .subscribe(
-        (days:IDay[]) => {
+      .subscribe({
+        next: (days:IDay[]) => {
           this.nonWorkingDays = uniqBy([...this.nonWorkingDays, ...days], (el) => el.date)
             .filter((el:INonWorkingDay) => !this.nonWorkingDays.find((existing) => existing.id === el.id && existing._destroy));
           this.originalNonWorkingDays = [...this.nonWorkingDays];
@@ -159,8 +159,8 @@ export class OpNonWorkingDaysListComponent implements OnInit {
           successCallback(events);
           this.cdRef.detectChanges();
         },
-        failureCallback,
-      );
+        error: failureCallback,
+      });
   }
 
   private mapToCalendarEvents(nonWorkingDays:INonWorkingDay[]) {

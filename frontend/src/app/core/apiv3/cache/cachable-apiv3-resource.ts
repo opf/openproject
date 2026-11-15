@@ -29,9 +29,9 @@ import { ApiV3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource'
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { States } from 'core-app/core/states/states.service';
 import { HasId, StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
-import { concat, Observable, of } from 'rxjs';
+import { concat, Observable, of, lastValueFrom } from 'rxjs';
 import {
-  mapTo, shareReplay, switchMap, take, tap,
+  map, shareReplay, switchMap, take, tap,
 } from 'rxjs/operators';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -115,15 +115,12 @@ export abstract class ApiV3Resource<T extends HasId = HalResource>
    *
    * Accesses or modifies the global store for this resource.
    */
-  refresh():Promise<T> {
-    return this
+  refresh():Promise<T|undefined> {
+    return lastValueFrom(this
       .requireAndStream(true)
       .pipe(
         take(1),
-      )
-      // Use a promise to ensure this fires
-      // even if caller isn't subscribing.
-      .toPromise() as Promise<T>;
+      ), { defaultValue: undefined });
   }
 
   /**
@@ -140,7 +137,7 @@ export abstract class ApiV3Resource<T extends HasId = HalResource>
               .requireAndStream((resource.$links.schema as CallableHalLink).href!)
               .pipe(
                 take(1),
-                mapTo(resource),
+                map(() => resource),
               );
           }
           return of(resource);

@@ -348,11 +348,10 @@ export function registerWorkPackageMouseHandler(this:void,
       .save<WorkPackageResource, WorkPackageChangeset>(change)
       .then((result) => {
         notificationService.showSave(result.resource);
-        return apiv3Service
+        return lastValueFrom(apiv3Service
           .work_packages
           .filterUpdatedSince(ids, updatedAt)
-          .get()
-          .toPromise()
+          .get(), { defaultValue: undefined })
           .then(async () => {
             halEvents.push(result.resource, { eventType: 'updated' });
             if (alive()) {

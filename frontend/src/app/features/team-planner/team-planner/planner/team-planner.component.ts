@@ -35,6 +35,7 @@ import {
   EventInput,
 } from '@fullcalendar/core';
 import {
+  lastValueFrom,
   BehaviorSubject,
   combineLatest,
   Observable,
@@ -494,8 +495,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   private initializeCalendar() {
-    void this.weekdayService.loadWeekdays()
-      .toPromise()
+    void lastValueFrom(this.weekdayService.loadWeekdays(), { defaultValue: undefined })
       .then(() => {
         this.calendarOptions$.next(
           this.workPackagesCalendar.calendarOptions({
@@ -624,8 +624,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         take(1),
         finalize(() => this.clearLoading()),
       )
-      .subscribe(
-        ([workPackages, projectAssignables]) => {
+      .subscribe({
+        next: ([workPackages, projectAssignables]) => {
           const events = this.mapToCalendarEvents(workPackages.elements, projectAssignables);
 
           this.workPackagesCalendar.warnOnTooManyResults(workPackages);
@@ -636,8 +636,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
           this.ucCalendar.getApi().render();
         },
-        failureCallback,
-      );
+        error: failureCallback,
+      });
   }
 
   public switchView(key:TeamPlannerViewOptionKey):void {
