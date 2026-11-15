@@ -69,7 +69,7 @@ module DemoData
 
       {
         welcome_title: welcome.lookup("title"),
-        welcome_text: with_references(welcome.lookup("text"), tags: %w[project]),
+        welcome_text: with_references(welcome.lookup("text")),
         welcome_on_homescreen: 1
       }
     end
