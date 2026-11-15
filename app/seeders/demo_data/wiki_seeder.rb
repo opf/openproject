@@ -71,7 +71,7 @@ module DemoData
         title: data[:title],
         parent:,
         author: admin_user,
-        text: with_references(data[:content])
+        text: with_references(data[:content], tags: %w[project])
       )
 
       print_status "."
