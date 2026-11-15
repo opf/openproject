@@ -150,6 +150,12 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
     }
   }
 
+  protected get loadingIndicatorElement():HTMLElement|null {
+    if (!this.configuration.tableVisible) return null;
+
+    return this.loadingIndicatorService.indicator(this.uniqueEmbeddedTableName).indicator;
+  }
+
   public abstract loadQuery(visible:boolean, firstPage:boolean):Promise<QueryResource|undefined>;
 
   protected get queryProjectScope() {

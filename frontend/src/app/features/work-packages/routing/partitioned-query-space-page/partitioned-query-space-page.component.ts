@@ -287,6 +287,10 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     this.loadingIndicatorService.table.promise = promise;
   }
 
+  protected get loadingIndicatorElement():HTMLElement|null {
+    return this.loadingIndicatorService.table.indicator;
+  }
+
   protected shouldUpdateHtmlTitle():boolean {
     return true;
   }

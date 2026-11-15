@@ -28,7 +28,8 @@
 import { ChangeDetectorRef, Directive, Injector, OnDestroy, OnInit, inject } from '@angular/core';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { filter, take, withLatestFrom } from 'rxjs/operators';
+import { defer, firstValueFrom, Observable, Subject } from 'rxjs';
+import { filter, map, skip, switchMap, take, takeUntil, withLatestFrom } from 'rxjs/operators';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { StaticQueriesService } from 'core-app/shared/components/op-view-select/op-static-queries.service';
@@ -92,6 +93,9 @@ import {
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { tableRefreshRequest } from 'core-app/features/work-packages/routing/wp-view-base/work-packages-view.actions';
 import { LatestOnly } from 'core-app/features/work-packages/routing/wp-view-base/latest-only';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+
+const RELOAD_ATTEMPTS = 3;
 
 @Directive()
 export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implements OnInit, OnDestroy {
@@ -286,6 +290,77 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
       .subscribe(() => {
         this.refresh(false, false);
       });
+
+    this.querySpace.reloadTable.putValue(() => this.reloadAndRender());
+
+    this.querySpace
+      .tableOperation
+      .values$()
+      .pipe(
+        this.untilDestroyed(),
+      )
+      .subscribe((operation) => {
+        this.blockTableDuring(operation);
+      });
+  }
+
+  // Sets `inert` directly instead of through a binding: the table moves focus synchronously
+  // when the operation settles, and a binding would only release the table a render later.
+  private blockTableDuring(operation:Promise<unknown>):void {
+    const element = this.loadingIndicatorElement;
+    const unblock = () => {
+      if (element) element.inert = false;
+    };
+
+    this.loadingIndicator = operation;
+    if (element) element.inert = true;
+    void operation.then(unblock, unblock);
+  }
+
+  /**
+   * Reloads until the table has rendered results of its own reload. Other loads can
+   * replace those results before they are rendered, which is what the comparison catches.
+   */
+  private async reloadAndRender():Promise<void> {
+    for (let attempt = 0; attempt < RELOAD_ATTEMPTS; attempt += 1) {
+      const abandoned = new Subject<void>();
+      const rendered = this.nextRenderedReload(abandoned);
+      rendered.catch(() => undefined);
+
+      this.refresh(false, false);
+      try {
+        await this.reloads.latest;
+        if (await rendered === this.querySpace.results.value) return;
+      } finally {
+        abandoned.next();
+      }
+    }
+
+    throw new Error('The table kept being replaced by other results');
+  }
+
+  /**
+   * Resolves with the results of the next reload once the table has been set up with them
+   * and has rendered. A render that was queued for earlier results is skipped that way.
+   */
+  private nextRenderedReload(abandoned:Observable<void>):Promise<unknown> {
+    const { initialized, tableRendered } = this.querySpace;
+    const next = <T>(state:{ hasValue():boolean, values$():Observable<T> }) => defer(
+      () => state.values$().pipe(skip(state.hasValue() ? 1 : 0), take(1)),
+    );
+
+    return firstValueFrom(this.reloads.applied$.pipe(
+      switchMap((applied) => next(initialized).pipe(
+        switchMap(() => next(tableRendered)),
+        map(() => (applied as QueryResource).results),
+      )),
+      takeUntil(abandoned),
+      this.untilDestroyed(),
+    ));
+  }
+
+  private originatesHere(event:HalEvent):boolean {
+    return event.origin === this.querySpace;
   }
 
   /**
@@ -302,6 +377,8 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
    */
   protected abstract set loadingIndicator(promise:Promise<unknown>);
 
+  protected abstract get loadingIndicatorElement():HTMLElement|null;
+
   /**
    * Filter the given work package events for something interesting
    * @param events HalEvent[]
@@ -316,6 +393,8 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
     const rendered = new Set(source);
 
     for (const item of events) {
+      if (this.originatesHere(item)) continue;
+
       if (rendered.has(item.id) || item.eventType === 'created') {
         return true;
       }
