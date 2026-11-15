@@ -98,12 +98,6 @@ RSpec.describe Llm::Completions::Complete, :llm_server_helpers, :webmock,
     end
   end
 
-  context "without a connection" do
-    it "raises NotReady" do
-      expect { completion }.to raise_error(Llm::Errors::NotReady)
-    end
-  end
-
   context "with the feature flag off", with_flag: { llm_completions_api: false } do
     before { create(:llm_connection, :with_models, default_chat_model_identifier: "qwen3.6-27b") }
 

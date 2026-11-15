@@ -94,6 +94,8 @@ module Llm
       end
 
       def validate_size
+        return if errors.any?
+
         errors.add(:base, :too_large, count: MAX_CHARACTERS) if characters > MAX_CHARACTERS
       end
 

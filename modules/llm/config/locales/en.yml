@@ -8,19 +8,18 @@ en:
     errors:
       models:
         llm/completions/request:
+          too_long: "must not exceed %{count}"
           attributes:
             base:
               too_large: "The request must not exceed %{count} characters."
             messages:
               assistant_last: "must end with a user or tool message"
               tool_result_without_id: "need a toolCallId for every tool result"
-              too_long: "must not exceed %{count}"
               too_short: "must not be empty"
               unknown_role: "may only have the roles %{roles}"
             tools:
               duplicate_name: "need unique names"
               invalid_name: "need names that match %{pattern}"
-              too_long: "must not exceed %{count}"
   activerecord:
     attributes:
       llm_capability_verdict:

@@ -41,12 +41,10 @@ module API
             helpers do
               def raise_llm_error(error)
                 case error
-                when ::Llm::Errors::NotReady
+                when ::Llm::Errors::NotReady, ::Llm::Errors::ConfigurationError
+                  reason = error.is_a?(::Llm::Errors::NotReady) ? error.status : :configuration
                   raise ::API::Errors::UnprocessableContent.new(I18n.t("llm.completions.errors.not_ready"),
-                                                                details: { reason: error.status })
-                when ::Llm::Errors::ConfigurationError
-                  raise ::API::Errors::UnprocessableContent.new(I18n.t("llm.completions.errors.not_ready"),
-                                                                details: { reason: :configuration })
+                                                                details: { reason: })
                 when ::Llm::Errors::ContextLengthError
                   raise ::API::Errors::UnprocessableContent.new(I18n.t("llm.completions.errors.context_too_long"))
                 when ::Llm::Errors::RateLimitedError
@@ -58,19 +56,16 @@ module API
             end
 
             get do
-              resolution = ::Llm::Runtime.for(::Llm::Completions::Complete::FEATURE)
-
-              { _type: "LlmCompletionsAvailability", available: resolution.ready?,
-                status: resolution.status, model: (resolution.model_id if resolution.ready?) }
+              { _type: "LlmCompletionsAvailability", **::Llm::Completions::Complete.availability }
             end
 
             post do
-              request = ::Llm::Completions::Request.from_params(params)
-              raise ::API::Errors::ErrorBase.create_and_merge_errors(request.errors) unless request.valid?
-
               unless ::Llm::Completions::RateLimit.new(current_user).allow?
                 raise ::API::Errors::TooManyRequests.new(message: I18n.t("llm.completions.errors.rate_limited"))
               end
+
+              request = ::Llm::Completions::Request.from_params(params)
+              raise ::API::Errors::ErrorBase.create_and_merge_errors(request.errors) unless request.valid?
 
               completion = ::Llm::Completions::Complete.new(user: current_user, request:).call
 

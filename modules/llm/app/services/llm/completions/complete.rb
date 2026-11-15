@@ -37,6 +37,11 @@ module Llm
 
       Result = Data.define(:content, :tool_calls, :thinking, :model_id, :input_tokens, :output_tokens)
 
+      def self.availability
+        resolution = Llm::Runtime.for(FEATURE)
+        { available: resolution.ready?, status: resolution.status, model: (resolution.model_id if resolution.ready?) }
+      end
+
       def initialize(user:, request:)
         @user = user
         @request = request
