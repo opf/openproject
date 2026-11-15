@@ -68,10 +68,10 @@ module DemoData
     #
     # - Turns `##project.identifier:demo_project` into the identifier of the
     #   project referenced with :demo_project, e.g. `demo-project` or `DEMO`.
-    def with_references(str)
+    def with_references(str, tags: %w[query sprint wp project])
       return str if str.blank?
 
-      str.gsub(/##(?<tag>query|sprint|wp|project)(?:\.(?<attribute>id|identifier))?:(?<reference>[a-z_0-9]+)/) do
+      str.gsub(/##(?<tag>#{tags.join('|')})(?:\.(?<attribute>id|identifier))?:(?<reference>[a-z_0-9]+)/) do
         match = Regexp.last_match
         instance = seed_data.find_reference(match[:reference].to_sym)
         match[:attribute] ? instance.public_send(match[:attribute]) : link(match[:tag], instance)
