@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, OnDestroy, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, Injector, inject } from '@angular/core';
+import { AfterViewInit, OnDestroy, Component, DestroyRef, ElementRef, Injector, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   IToast,
@@ -92,10 +92,6 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
   selector: 'wp-timeline-container',
   templateUrl: './wp-timeline-container.html',
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class WorkPackageTimelineTableController implements AfterViewInit, OnDestroy {

@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, inject } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, ElementRef, inject } from '@angular/core';
 import moment, { Moment } from 'moment';
 import { TimelineZoomLevel } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
@@ -47,10 +47,6 @@ import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanu
   selector: 'wp-timeline-grid',
   template: '<div class="wp-table-timeline--grid"></div>',
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class WorkPackageTableTimelineGrid implements AfterViewInit {

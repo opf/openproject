@@ -27,7 +27,7 @@
 
 import { debounce } from 'lodash-es';
 import {
-  AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject,
+  AfterViewInit, Component, ElementRef, ViewChild, inject,
 } from '@angular/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -37,10 +37,6 @@ import type { Editor as CodeMirrorEditor } from 'codemirror';
 @Component({
   templateUrl: './code-block-macro.modal.html',
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class CodeBlockMacroModalComponent extends OpModalComponent implements AfterViewInit {
   public changed = false;
