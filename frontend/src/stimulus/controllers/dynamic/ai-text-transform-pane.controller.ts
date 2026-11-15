@@ -33,6 +33,8 @@ import { getMetaContent } from 'core-app/core/setup/globals/global-helpers';
 const EDGE_MARGIN = 8;
 const MIN_WIDTH = 320;
 const MIN_HEIGHT = 240;
+const VERTICAL_RESIZE_THRESHOLD = 12;
+const VERTICAL_RESIZE_RATIO = 1 / 3;
 const GEOMETRY_PROPERTIES = ['left', 'top', 'right', 'bottom', 'width', 'height', 'maxWidth', 'maxHeight'] as const;
 const POLL_MIN = 400;
 const POLL_MAX = 1000;
@@ -64,6 +66,7 @@ interface ResizeStart {
   width:number;
   height:number;
   edge:string;
+  vertical:boolean;
 }
 
 // A new run replaces the whole pane element, so the place the user moved it to outlives the controller.
@@ -246,6 +249,7 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
       width: rect.width,
       height: rect.height,
       edge: (event.currentTarget as HTMLElement).dataset.edge ?? 'bottom-right',
+      vertical: false,
     };
     this.pin(rect.left, rect.top);
     this.listen((move) => this.resize(move));
@@ -385,19 +389,24 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     }
 
     const { x, y, left, top, width, height, edge } = this.resizeStart;
+    const dx = event.clientX - x;
+    const dy = event.clientY - y;
     const { style } = this.paneTarget;
     style.maxWidth = `calc(100vw - ${2 * EDGE_MARGIN}px)`;
 
     if (edge.endsWith('left')) {
-      const newWidth = clamp(width - (event.clientX - x), MIN_WIDTH, left + width - EDGE_MARGIN);
+      const newWidth = clamp(width - dx, MIN_WIDTH, left + width - EDGE_MARGIN);
       this.pin(left + width - newWidth, top);
       style.width = `${newWidth}px`;
     } else {
-      style.width = `${clamp(width + (event.clientX - x), MIN_WIDTH, window.innerWidth - left - EDGE_MARGIN)}px`;
+      style.width = `${clamp(width + dx, MIN_WIDTH, window.innerWidth - left - EDGE_MARGIN)}px`;
     }
 
-    if (edge.startsWith('bottom')) {
-      style.height = `${clamp(height + (event.clientY - y), MIN_HEIGHT, window.innerHeight - top - EDGE_MARGIN)}px`;
+    this.resizeStart.vertical ||= Math.abs(dy) > VERTICAL_RESIZE_THRESHOLD
+      && Math.abs(dy) > Math.abs(dx) * VERTICAL_RESIZE_RATIO;
+
+    if (this.resizeStart.vertical) {
+      style.height = `${clamp(height + dy, MIN_HEIGHT, window.innerHeight - top - EDGE_MARGIN)}px`;
       style.maxHeight = `calc(100vh - ${2 * EDGE_MARGIN}px)`;
     }
   }

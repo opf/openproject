@@ -198,6 +198,27 @@ describe('AiTextTransformPaneController', () => {
       expect(rect().height).toBe(before.height + 40);
     });
 
+    it('keeps the height content-driven when a corner is dragged sideways with a little wobble', () => {
+      pane().style.height = '';
+      const before = rect();
+      dragBy(byTestId('resize-bottom-left'), -45, 14);
+
+      expect(rect().width).toBe(before.width + 45);
+      expect(pane().style.height).toBe('');
+    });
+
+    it('keeps resizing the height for the rest of a drag once it went vertical', () => {
+      const handle = byTestId('resize-bottom-right');
+      const start = handle.getBoundingClientRect();
+      const before = rect();
+      fireEvent.pointerDown(handle, { clientX: start.left, clientY: start.top, button: 0 });
+      fireEvent.pointerMove(window, { clientX: start.left, clientY: start.top + 40 });
+      fireEvent.pointerMove(window, { clientX: start.left, clientY: start.top + 5 });
+      fireEvent.pointerUp(window, { clientX: start.left, clientY: start.top + 5 });
+
+      expect(rect().height).toBe(before.height + 5);
+    });
+
     it('keeps the right edge when the bottom-left handle grows past the stylesheet max-width', () => {
       const before = rect();
       dragBy(byTestId('resize-bottom-left'), -5000, 0);
@@ -239,7 +260,7 @@ describe('AiTextTransformPaneController', () => {
     });
 
     it('keeps a resized pane inside the viewport when the window shrinks', () => {
-      dragBy(byTestId('resize-bottom-right'), 10, 10);
+      dragBy(byTestId('resize-bottom-right'), 10, 20);
       pane().style.width = `${window.innerWidth * 2}px`;
       pane().style.height = `${window.innerHeight * 2}px`;
 
