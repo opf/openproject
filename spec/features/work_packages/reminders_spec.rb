@@ -381,7 +381,7 @@ RSpec.describe "Work package reminder modal",
         within(:menu, "Set a reminder") do
           expect(page).to have_selector(:menuitem, count: 5)
 
-          find(:menuitem, "Tomorrow").click
+          find(:menuitem, "Tomorrow", exact: true).click
         end
 
         wait_for_network_idle

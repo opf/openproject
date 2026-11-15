@@ -77,7 +77,7 @@ module Pages
       click_reminder_button
 
       within(:menu, "Set a reminder") do
-        find(:menuitem, menu_item).click
+        find(:menuitem, menu_item, exact: true).click
       end
     end
 

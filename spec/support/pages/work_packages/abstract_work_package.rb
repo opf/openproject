@@ -53,7 +53,7 @@ module Pages
     end
 
     def open_more_menu
-      find("[data-test-selector='wp-details-toolbar--show-more-button'], #action-show-more-dropdown-menu button").click
+      find(:button, accessible_name: /\AMore\z/).click
       find(:menu, "More")
     end
 

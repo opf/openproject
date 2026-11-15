@@ -415,7 +415,9 @@ RSpec.describe "Work package timeline navigation",
       expect(page).to have_no_css(".-group-row .timeline-element")
 
       click_button(accessible_name: "Collapse or expand groups", exact: true)
-      find(:menuitem, "Collapse all").click
+      within(:menu, "Collapse or expand groups") do
+        find(:menuitem, "Collapse all", exact: true).click
+      end
 
       # Will again fold all rows so the milestone elements should again be present
       expect(page).to have_css(".-group-row .timeline-element.milestone")

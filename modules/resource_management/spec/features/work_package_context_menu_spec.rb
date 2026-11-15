@@ -49,7 +49,9 @@ RSpec.describe "Allocate resource from the work package context menu", :js, with
     end
 
     it "opens the allocation dialog with the work package preselected" do
-      find(:menuitem, menu_item_label).click
+      within(:menu, "More") do
+        find(:menuitem, menu_item_label, exact: true).click
+      end
 
       within_dialog do
         expect(page).to have_text(I18n.t("resource_management.allocate_resource_dialog.title"))

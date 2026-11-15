@@ -55,7 +55,7 @@ module Components
       end
 
       def open!
-        find_by_id("work-packages-settings-button").click
+        find(:button, accessible_name: MENU_LABEL).click
         dropdown_menu
       end
 

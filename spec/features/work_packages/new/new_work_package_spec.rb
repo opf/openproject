@@ -520,14 +520,13 @@ RSpec.describe "new work package", :js do
       wp_page.expect_current_path
       click_button(accessible_name: "Settings", exact: true)
 
-      expect(page).to have_menu "Settings"
       within(:menu, "Settings") do
-        expect(page).to have_selector(:menuitem, "Configure form")
-        find(:menuitem, "Configure form").send_keys(:escape)
+        expect(page).to have_selector(:menuitem, "Configure form", focused: true)
       end
 
-      expect(page).to have_no_menu "Settings"
-      expect(page).to have_focus_on("#create-wp-menu-button")
+      page.driver.browser.keyboard.type(:escape)
+      expect(page).to have_no_menu
+      expect(page).to have_button(accessible_name: "Settings", exact: true, focused: true)
     end
 
     it "leads to the form configuration of the type" do

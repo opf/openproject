@@ -49,18 +49,20 @@ RSpec.describe "Work package single context menu timer", :js do
         wp_view.visit!
         wp_view.open_more_menu
 
-        expect(page).to have_selector(:menuitem, "Log time")
-        expect(page).to have_selector(:menuitem, "Start timer")
-        expect(page).to have_no_selector(:menuitem, "Stop timer")
+        expect(page).to have_selector(:menuitem, "Log time", exact: true)
+        expect(page).to have_selector(:menuitem, "Start timer", exact: true)
+        expect(page).to have_no_selector(:menuitem, "Stop timer", exact: true)
 
-        find(:menuitem, "Start timer").click
+        within(:menu, "More") do
+          find(:menuitem, "Start timer", exact: true).click
+        end
         wait_for_network_idle
 
         retry_block do
           wp_view.open_more_menu
-          expect(page).to have_selector(:menuitem, "Log time")
-          expect(page).to have_selector(:menuitem, "Stop timer")
-          expect(page).to have_no_selector(:menuitem, "Start timer")
+          expect(page).to have_selector(:menuitem, "Log time", exact: true)
+          expect(page).to have_selector(:menuitem, "Stop timer", exact: true)
+          expect(page).to have_no_selector(:menuitem, "Start timer", exact: true)
         end
       end
     end
@@ -70,9 +72,9 @@ RSpec.describe "Work package single context menu timer", :js do
         wp_view.visit!
         wp_view.open_more_menu
 
-        expect(page).to have_selector(:menuitem, "Log time")
-        expect(page).to have_no_selector(:menuitem, "Start timer")
-        expect(page).to have_no_selector(:menuitem, "Stop timer")
+        expect(page).to have_selector(:menuitem, "Log time", exact: true)
+        expect(page).to have_no_selector(:menuitem, "Start timer", exact: true)
+        expect(page).to have_no_selector(:menuitem, "Stop timer", exact: true)
       end
     end
   end
@@ -84,9 +86,9 @@ RSpec.describe "Work package single context menu timer", :js do
       wp_view.visit!
       wp_view.open_more_menu
 
-      expect(page).to have_no_selector(:menuitem, "Log time")
-      expect(page).to have_no_selector(:menuitem, "Start timer")
-      expect(page).to have_no_selector(:menuitem, "Stop timer")
+      expect(page).to have_no_selector(:menuitem, "Log time", exact: true)
+      expect(page).to have_no_selector(:menuitem, "Start timer", exact: true)
+      expect(page).to have_no_selector(:menuitem, "Stop timer", exact: true)
     end
   end
 end

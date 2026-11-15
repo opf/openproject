@@ -69,10 +69,10 @@ RSpec.describe "Work package details toolbar", :js do
   describe "More menu" do
     let(:user) { create(:admin) }
     let(:split_view) { Pages::SplitWorkPackage.new(work_package, project) }
-    let(:more_button) { find_test_selector("wp-details-toolbar--show-more-button") }
+    let(:more_button) { find(:button, accessible_name: /\AMore\z/) }
 
-    def focus_more_button
-      page.execute_script("document.querySelector('[data-test-selector=wp-details-toolbar--show-more-button]').focus()")
+    def press_keys(*keys)
+      page.driver.browser.keyboard.type(*keys)
     end
 
     before do
@@ -82,41 +82,43 @@ RSpec.describe "Work package details toolbar", :js do
     end
 
     it "opens with Enter, moves with arrow keys and returns focus to the button on Escape" do
-      focus_more_button
-      page.send_keys(:enter)
+      send_keys_without_click(more_button, :enter)
 
-      expect(page).to have_selector(:menu, "More")
-      expect(page).to have_selector(:menuitem, "Copy link to clipboard", focused: true)
+      within(:menu, "More") do
+        expect(page).to have_selector(:menuitem, "Copy link to clipboard", focused: true)
 
-      page.send_keys(:down)
-      page.send_keys(:down)
-      expect(page).to have_selector(:menuitem, focused: true, text: "Log time")
+        press_keys(:down, :down)
+        expect(page).to have_selector(:menuitem, "Log time", focused: true)
+      end
 
-      page.send_keys(:escape)
-      expect(page).to have_no_selector(:menu, "More")
-      expect(page).to have_focus_on("[data-test-selector='wp-details-toolbar--show-more-button']")
+      press_keys(:escape)
+      expect(page).to have_no_menu
+      expect(page).to have_button(accessible_name: /\AMore\z/, focused: true)
     end
 
     it "opens with the m shortcut and moves with arrow keys" do
-      page.send_keys("m")
+      press_keys("m")
 
-      expect(page).to have_selector(:menu, "More")
-      expect(page).to have_selector(:menuitem, "Copy link to clipboard", focused: true)
+      within(:menu, "More") do
+        expect(page).to have_selector(:menuitem, "Copy link to clipboard", focused: true)
 
-      page.send_keys(:down)
-      expect(page).to have_selector(:menuitem, "Copy work package ID", focused: true)
+        press_keys(:down)
+        expect(page).to have_selector(:menuitem, "Copy work package ID", focused: true)
+      end
     end
 
     it "moves focus into the Delete dialog and back to the button on cancel" do
       more_button.click
-      find(:menuitem, "Delete").click
+      within(:menu, "More") do
+        find(:menuitem, "Delete", exact: true).click
+      end
 
       within_dialog do
         expect(page).to have_css(":focus")
         click_on "Cancel"
       end
 
-      expect(page).to have_focus_on("[data-test-selector='wp-details-toolbar--show-more-button']")
+      expect(page).to have_button(accessible_name: /\AMore\z/, focused: true)
     end
   end
 end
