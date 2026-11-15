@@ -1,0 +1,34 @@
+---
+en:
+  activerecord:
+    attributes:
+      test_management/project_setting: {display_prefix: Display prefix, navigation_layout: Navigation layout}
+    models:
+      test_management/project_setting: Test management settings
+  permission_add_test_cases: Add test cases
+  permission_delete_test_cases: Delete test cases
+  permission_edit_test_cases: Edit test cases
+  permission_manage_test_management: Manage test management
+  permission_manage_test_suites: Manage test suites
+  permission_view_test_cases: View test cases
+  project_module_test_management: Test management
+  test_management:
+    admin:
+      default_display_prefix: Default display prefix
+      default_display_prefix_too_long: "Default display prefix is too long (maximum is %{count} characters)."
+      general: General
+      heading: Test management
+    cases:
+      empty: No test cases yet
+      empty_hint: Case create and folders arrive in a later change.
+      heading: Test cases
+    menu:
+      cases: Cases
+    project_settings:
+      display_prefix_hint: Used as the visible ID prefix for cases (for example DEMO-12).
+      general: General
+      heading: Test management
+      layouts:
+        horizontal: Horizontal (top bar)
+        vertical: Vertical (left panel)
+      navigation_layout_hint: "Vertical keeps Cases and later sections in the left panel with the main area beside it. Horizontal puts Cases and later sections in a top bar above the main area."

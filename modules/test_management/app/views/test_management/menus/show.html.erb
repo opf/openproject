@@ -1,0 +1,5 @@
+<%= turbo_frame_tag "test_management_sub_menu" do %>
+  <% if @menu.vertical_navigation? && @sidebar_menu_items.any? %>
+    <%= render OpenProject::Common::SubmenuComponent.new(sidebar_menu_items: @sidebar_menu_items) %>
+  <% end %>
+<% end %>
