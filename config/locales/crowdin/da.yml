@@ -3224,7 +3224,7 @@ da:
       work_package_query_relation_columns: Relationskolonner i visninger af arbejdspakker
       work_package_sharing: Del arbejdspakker med eksterne brugere
       work_package_subject_generation: Automatisk dannede emner for arbejdspakker
-      xwiki_integration: XWiki Integration
+      xwiki_integration: XWiki-integration
     teaser:
       description_html: Du har adgang til alle funktioner i %{trial_plan}.
       title:
@@ -7368,7 +7368,7 @@ da:
         rename_group: Omdøb afsnit
         required:
           already_required_globally: Det brugerdefinerede felt er påkrævet for alle typer.
-          excluded: Switch this custom field on before requiring it for this type.
+          excluded: Slå det brugerdefinerede felt til, før du gør det obligatorisk for denne type.
           for_variant: Påkrævet for denne type
           globally: Påkrævet
           globally_hint: Det ændres på det brugerdefinerede felt
@@ -7446,7 +7446,7 @@ da:
           success: Konfigurationen er kopieret.
         exclusions:
           not_inherited: Konfigurationen er ikke nedarvet, så der er intet at udelade. Rediger i stedet konfigurationen direkte.
-          required: A required custom field cannot be switched off.
+          required: Et obligatorisk brugerdefineret felt kan ikke slås fra.
           unknown_aspect: Ukendt konfigurationsafsnit "%{aspect}".
         inherited:
           configure_manually: Konfigurer manuelt
