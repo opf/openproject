@@ -23,13 +23,17 @@
   text-align: center !important
 
 .wp-table--cancel-create-host
-  display: flex
-  align-items: center
+  --wp-inline-create-cancel-width: 1.5rem
+  position: relative
+  padding-inline-end: var(--wp-inline-create-cancel-width) !important
 
-  .wp-table--cell-container
-    flex: 1 1 auto
-    width: auto
-    min-width: 0
+  .wp-table--cancel-create-link
+    position: absolute
+    top: 50%
+    inset-inline-end: 0
+    width: var(--wp-inline-create-cancel-width)
+    transform: translateY(-50%)
+    text-align: center
 
 .wp-table--cancel-create-link
   &:before
