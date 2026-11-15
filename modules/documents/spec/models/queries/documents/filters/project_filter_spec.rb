@@ -30,14 +30,11 @@
 require "spec_helper"
 
 RSpec.describe Queries::Documents::Filters::ProjectFilter do
-  let(:project1) { build_stubbed(:project) }
-  let(:project2) { build_stubbed(:project) }
+  let(:project1) { create(:project) }
+  let(:project2) { create(:project) }
 
   before do
-    allow(Project)
-      .to receive_message_chain(:visible, :pluck)
-      .with(:id)
-      .and_return([project1.id, project2.id])
+    allow(Project).to receive(:visible).and_return(Project.where(id: [project1, project2]))
   end
 
   it_behaves_like "basic query filter" do
@@ -58,5 +55,54 @@ RSpec.describe Queries::Documents::Filters::ProjectFilter do
     let(:attribute) { :project_id }
     let(:model) { Document }
     let(:valid_values) { [project1.id.to_s] }
+  end
+
+  describe "#project_ids" do
+    let(:instance) { described_class.create!(name: :project_id, operator: "=", values:) }
+
+    context "with a project identifier" do
+      let(:values) { [project1.identifier] }
+
+      it "resolves the identifier to the project id" do
+        expect(instance.project_ids).to eq([project1.id.to_s])
+        expect(instance).to be_valid
+      end
+    end
+
+    context "with a semantic project identifier", with_settings: { work_packages_identifier: "semantic" } do
+      let(:project1) { create(:project, identifier: "SDT") }
+      let(:values) { %w[SDT] }
+
+      it "resolves the identifier to the project id" do
+        expect(instance.project_ids).to eq([project1.id.to_s])
+        expect(instance).to be_valid
+      end
+    end
+
+    context "with a project id" do
+      let(:values) { [project1.id.to_s] }
+
+      it "keeps the id" do
+        expect(instance.project_ids).to eq([project1.id.to_s])
+      end
+    end
+
+    context "with the identifier of one and the id of another project" do
+      let(:values) { [project1.identifier, project2.id.to_s] }
+
+      it "resolves only the identifier" do
+        expect(instance.project_ids).to eq([project1.id.to_s, project2.id.to_s])
+      end
+    end
+
+    context "with the identifier of a project the user cannot see" do
+      let(:invisible_project) { create(:project) }
+      let(:values) { [invisible_project.identifier] }
+
+      it "does not resolve the identifier and is invalid" do
+        expect(instance.project_ids).to eq([invisible_project.identifier])
+        expect(instance).not_to be_valid
+      end
+    end
   end
 end

@@ -29,16 +29,11 @@
 
 module Queries::Filters::Shared::ProjectFilter::Required
   def self.included(base)
+    base.include(Queries::Filters::Shared::ProjectFilter::Common)
     base.include(InstanceMethods)
-    base.extend(ClassMethods)
   end
 
   module InstanceMethods
-    def allowed_values
-      # We don't care for the first value as we do not display the values visibly
-      @allowed_values ||= ::Project.visible.pluck(:id).map { |id| [id, id.to_s] }
-    end
-
     def type
       :list
     end
@@ -48,21 +43,7 @@ module Queries::Filters::Shared::ProjectFilter::Required
       # to see we only check that the value is an integer.  Non valid ids
       # will then simply create an empty result but will not cause any
       # harm.
-      @type_strategy ||= ::Queries::Filters::Strategies::IntegerList.new(self)
-    end
-
-    def autocomplete_options
-      {
-        component: "opce-project-autocompleter",
-        resource: "projects",
-        filters: [{ name: "active", operator: "=", values: ["t"] }]
-      }
-    end
-  end
-
-  module ClassMethods
-    def key
-      :project_id
+      @type_strategy ||= ::Queries::Filters::Strategies::ProjectListRequired.new(self)
     end
   end
 end
