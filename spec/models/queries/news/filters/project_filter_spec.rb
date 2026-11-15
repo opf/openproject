@@ -32,7 +32,5 @@ require "spec_helper"
 RSpec.describe Queries::News::Filters::ProjectFilter do
   include_context "with visible projects"
 
-  let(:model) { News }
-
   it_behaves_like "project_id list_optional filter"
 end

@@ -32,8 +32,6 @@ require "spec_helper"
 RSpec.describe Queries::Documents::Filters::ProjectFilter do
   include_context "with visible projects"
 
-  let(:model) { Document }
-
   describe "#values=" do
     let(:instance) { described_class.create!(name: :project_id, operator: "=", values:) }
 

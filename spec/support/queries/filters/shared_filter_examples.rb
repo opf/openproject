@@ -152,7 +152,6 @@ RSpec.shared_examples_for "project_id list_optional filter" do
   it_behaves_like "basic query filter" do
     let(:class_key) { :project_id }
     let(:type) { :list_optional }
-    let(:name) { model.human_attribute_name(:project) }
 
     describe "#allowed_values" do
       it "is a list of the possible values" do

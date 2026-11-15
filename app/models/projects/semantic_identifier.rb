@@ -52,7 +52,7 @@ module Projects::SemanticIdentifier
 
     taken = self.class
                 .where.not(id:)
-                .where("LOWER(identifier) IN (?)", candidates.map(&:downcase))
+                .by_identifiers_ci(candidates)
                 .pluck(:identifier)
                 .to_set(&:downcase)
 
