@@ -83,6 +83,12 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent, type: :component do
     expect(subject).to have_css(".Box-header[data-action='pointerdown->ai-text-transform-pane#beginDrag']")
   end
 
+  it "puts the drag grip inside the draggable header" do
+    expect(subject).to have_css(
+      ".Box-header[data-action='pointerdown->ai-text-transform-pane#beginDrag'] .op-ai-result-pane--grip .octicon-grabber"
+    )
+  end
+
   it "has a close button in the header" do
     expect(subject).to have_css(".Box-header button[aria-label='Close'][data-action='click->ai-text-transform-pane#close']")
   end
