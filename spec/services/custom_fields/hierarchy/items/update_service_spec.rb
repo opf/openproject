@@ -209,5 +209,26 @@ RSpec.describe CustomFields::Hierarchy::Items::UpdateService, with_ee: %i[custom
       expect(project_using_two.custom_value_for(calculated_value)).to have_attributes(value: "123")
       expect(project_having_fields_enabled.custom_values).to be_empty
     end
+
+    context "when also changing the parent" do
+      let(:attributes) { super().merge(parent: lando) }
+
+      it "moves the item, saves its weight, and recalculates dependent values" do
+        expect(result).to be_success
+        expect(item.reload).to have_attributes(parent: lando, weight: 42)
+        expect(project_using_one.custom_value_for(calculated_value)).to have_attributes(value: "84.0")
+      end
+    end
+
+    context "when also changing the sort order" do
+      let(:attributes) { super().merge(sort_order: 2) }
+
+      it "reorders the item, saves its weight, and recalculates dependent values" do
+        expect(result).to be_success
+        expect(root.reload.children.to_a).to eq([lando, item])
+        expect(item.reload.weight).to eq(42)
+        expect(project_using_one.custom_value_for(calculated_value)).to have_attributes(value: "84.0")
+      end
+    end
   end
 end
