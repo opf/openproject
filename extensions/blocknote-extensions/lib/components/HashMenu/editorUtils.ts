@@ -71,12 +71,11 @@ function insertWpBlockCard(
   workPackage:WorkPackage,
   size:BlockWpSize
 ):void {
-  const range = editor.transact((tr) => {
-    const to = tr.selection.from;
-    return { from: triggerStartBefore(tr.doc, to), to };
-  });
   const props = { wpid: workPackage.id, size, displayId: workPackage.displayId };
-  insertBlockInLine(editor, range, { type: BLOCK_WP_TYPE, props });
+  editor.transact((tr) => {
+    const to = tr.selection.from;
+    insertBlockInLine(editor, { from: triggerStartBefore(tr.doc, to), to }, { type: BLOCK_WP_TYPE, props });
+  });
 }
 
 function insertChipAtCursor(

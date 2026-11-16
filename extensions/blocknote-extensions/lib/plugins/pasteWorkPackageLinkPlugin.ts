@@ -85,8 +85,9 @@ function insertPastedCard(editor:AnyEditor, card:Node):boolean {
   const props = card.attrs as WorkPackageBlockProps;
   if (!props.wpid) return false;
 
-  const range = editor.transact(({ selection }) => ({ from: selection.from, to: selection.to }));
-  insertBlockInLine(editor, range, { type: BLOCK_WP_TYPE, props: { ...props } });
+  editor.transact(({ selection }) => {
+    insertBlockInLine(editor, { from: selection.from, to: selection.to }, { type: BLOCK_WP_TYPE, props: { ...props } });
+  });
   return true;
 }
 
