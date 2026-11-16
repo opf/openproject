@@ -645,6 +645,8 @@ en:
         custom_field:
           at_least_one_custom_option: "At least one option needs to be available."
           attributes:
+            admin_only:
+              cannot_be_true: "is not supported for this type of custom field."
             formula:
               blank: "Formula can't be blank."
               format: "%{message}"
