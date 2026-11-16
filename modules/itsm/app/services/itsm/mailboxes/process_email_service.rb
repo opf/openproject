@@ -85,16 +85,19 @@ module ITSM
         ignore_reason = InboundEmails::IgnoreRules.new(email).reason
         return remove("Ignored (#{ignore_reason})") if ignore_reason
         return mark_seen("Not processed (reply)", level: :info) if reply?(email)
+        return work_package_not_created("no help desk user") if helpdesk_user.nil?
 
         create_work_package(email)
       end
+
+      def helpdesk_user = @helpdesk_user ||= ITSM.helpdesk_user
 
       def reply?(email)
         EmailMessage.in_project(project).exists?(message_id: [email.headers.in_reply_to, *email.headers.references].compact)
       end
 
       def create_work_package(email)
-        case InboundEmails::CreateWorkPackageService.new(user: User.system).call(mailbox:, email:)
+        case InboundEmails::CreateWorkPackageService.new(user: helpdesk_user).call(mailbox:, email:)
         in { success: true, result: thread }
           if thread.previously_new_record?
             remove("Added to work package ##{thread.work_package_id}")
@@ -102,11 +105,15 @@ module ITSM
             remove("Already in work package ##{thread.work_package_id}")
           end
         in { failure: true, result:, errors: } if project_setup_prevents?(result, errors)
-          log("Work package not created (#{error_codes(errors)})", level: :warn)
-          failure(:work_package_not_created)
+          work_package_not_created(error_codes(errors))
         in { failure: true, errors: }
           mark_seen("Not processed (#{error_codes(errors)})", level: :warn)
         end
+      end
+
+      def work_package_not_created(reason)
+        log("Work package not created (#{reason})", level: :warn)
+        failure(:work_package_not_created)
       end
 
       def project_setup_prevents?(record, errors)

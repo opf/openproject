@@ -49,6 +49,7 @@ RSpec.describe ITSM::Mailboxes::ProcessEmailService do
   let(:warned) { [] }
   let!(:status) { create(:default_status) }
   let!(:priority) { create(:default_priority) }
+  let!(:helpdesk_member) { ITSM::HelpdeskUsers::AddToProjectService.new(project:).call.result }
 
   before do
     allow(imap).to receive_messages(uid_fetch: fetched, uid_store: nil, uid_expunge: nil, capable?: true)
@@ -57,8 +58,8 @@ RSpec.describe ITSM::Mailboxes::ProcessEmailService do
     allow(Rails.logger).to receive(:warn) { |&message| warned << message.call }
   end
 
-  it "creates a work package as the system user and removes the email from the server" do
-    expect { result }.to change { WorkPackage.where(project:, author: User.system).count }.by(1)
+  it "creates a work package as the help desk user and removes the email from the server" do
+    expect { result }.to change { WorkPackage.where(project:, author: ITSM.helpdesk_user).count }.by(1)
     expect(result).to be_success
     expect(imap).to have_received(:uid_store).with(7, "+FLAGS", %i[Seen Deleted])
     expect(imap).to have_received(:uid_expunge).with(7)
@@ -136,6 +137,27 @@ RSpec.describe ITSM::Mailboxes::ProcessEmailService do
       expect(result.errors.symbols_for(:base)).to eq([:work_package_not_created])
       expect(imap).not_to have_received(:uid_store)
       expect(warned).to include("Work package not created (priority blank)")
+    end
+  end
+
+  context "when the help desk user is not a member of the project" do
+    before { helpdesk_member.destroy }
+
+    it "fails and leaves the email untouched, to be tried again" do
+      expect { result }.not_to change(WorkPackage, :count)
+      expect(result.errors.symbols_for(:base)).to eq([:work_package_not_created])
+      expect(imap).not_to have_received(:uid_store)
+    end
+  end
+
+  context "without a help desk user" do
+    let!(:helpdesk_member) { nil }
+
+    it "fails and leaves the email untouched, to be tried again" do
+      expect { result }.not_to change(WorkPackage, :count)
+      expect(result.errors.symbols_for(:base)).to eq([:work_package_not_created])
+      expect(imap).not_to have_received(:uid_store)
+      expect(warned).to include("Work package not created (no help desk user)")
     end
   end
 
