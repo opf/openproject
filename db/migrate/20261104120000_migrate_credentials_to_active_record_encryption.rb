@@ -62,7 +62,7 @@ class MigrateCredentialsToActiveRecordEncryption < ActiveRecord::Migration[8.1]
     type = model.type_for_attribute(attribute)
 
     select_rows(model.select(:id, attribute).to_sql).each do |id, raw|
-      next if raw.nil? || raw == ""
+      next if raw.blank?
 
       clear = type.encrypted?(raw) ? type.deserialize(raw) : Redmine::Ciphering.decrypt_text(raw)
       model.where(id:).update_all(attribute => clear)

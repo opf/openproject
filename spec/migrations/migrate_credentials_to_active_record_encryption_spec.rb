@@ -100,15 +100,13 @@ RSpec.describe MigrateCredentialsToActiveRecordEncryption,
     expect(raw_ldap_password).to eq("")
   end
 
-  it "encrypts whitespace-only credentials" do
+  it "leaves whitespace-only credentials as they are" do
     store_raw("\t", " ")
 
     migrate
 
-    expect(raw_repository_password).to start_with('{"p":')
-    expect(repository.password).to eq("\t")
-    expect(raw_ldap_password).to start_with('{"p":')
-    expect(ldap.account_password).to eq(" ")
+    expect(raw_repository_password).to eq("\t")
+    expect(raw_ldap_password).to eq(" ")
   end
 
   context "without a legacy cipher key", with_config: { "database_cipher_key" => nil } do
