@@ -2006,6 +2006,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
     end
 
     context "with an admin-only custom field" do
+      let(:cache_enabled) { true }
       let(:admin) { build_stubbed(:admin) }
       let(:public_custom_field) { build_stubbed(:string_wp_custom_field) }
       let(:admin_only_custom_field) { build_stubbed(:string_wp_custom_field, admin_only: true) }
