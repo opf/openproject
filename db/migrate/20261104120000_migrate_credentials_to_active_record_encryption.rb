@@ -28,17 +28,28 @@
 #++
 
 class MigrateCredentialsToActiveRecordEncryption < ActiveRecord::Migration[8.1]
+  class MigratedRepository < ActiveRecord::Base
+    self.table_name = "repositories"
+    self.inheritance_column = nil
+    encrypts :password
+  end
+
+  class MigratedLdapAuthSource < ActiveRecord::Base
+    self.table_name = "ldap_auth_sources"
+    encrypts :account_password
+  end
+
   def up
     OpenProject::DatabaseEncryption.validate_secret!
 
     change_column :repositories, :password, :text
     change_column :ldap_auth_sources, :account_password, :text
 
-    Repository.reset_column_information
-    LdapAuthSource.reset_column_information
+    MigratedRepository.reset_column_information
+    MigratedLdapAuthSource.reset_column_information
 
-    encrypt_credentials(Repository, :password)
-    encrypt_credentials(LdapAuthSource, :account_password)
+    encrypt_credentials(MigratedRepository, :password)
+    encrypt_credentials(MigratedLdapAuthSource, :account_password)
   end
 
   def down
@@ -50,11 +61,11 @@ class MigrateCredentialsToActiveRecordEncryption < ActiveRecord::Migration[8.1]
   def encrypt_credentials(model, attribute)
     type = model.type_for_attribute(attribute)
 
-    select_rows(model.unscoped.select(:id, attribute).to_sql).each do |id, raw|
+    select_rows(model.select(:id, attribute).to_sql).each do |id, raw|
       next if raw.nil? || raw == ""
 
       clear = type.encrypted?(raw) ? type.deserialize(raw) : Redmine::Ciphering.decrypt_text(raw)
-      model.unscoped.where(id:).update_all(attribute => clear)
+      model.where(id:).update_all(attribute => clear)
     end
   end
 end
