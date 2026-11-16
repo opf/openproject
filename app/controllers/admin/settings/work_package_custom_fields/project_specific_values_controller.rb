@@ -204,46 +204,25 @@ module Admin
         end
 
         def create_item
-          ::CustomFields::Hierarchy::HierarchicalItemService
-            .new
-            .insert_item(contract_class: insert_item_contract,
-                         parent: @parent,
+          call = ::CustomFields::Hierarchy::Items::CreateService
+                   .new(user: current_user)
+                   .call(parent: @parent,
                          label: params[:label],
                          short: params[:short],
                          weight: params[:weight],
                          project: @configured_project)
-            .either(->(_) { {} }, ->(validation) { item_errors(validation) })
+          item_errors(call)
         end
 
         def update_item
-          ::CustomFields::Hierarchy::HierarchicalItemService
-            .new
-            .update_item(contract_class: update_item_contract,
-                         item: @value,
-                         label: params[:label],
-                         short: params[:short],
-                         weight: params[:weight])
-            .either(->(_) { {} }, ->(validation) { item_errors(validation) })
+          call = ::CustomFields::Hierarchy::Items::UpdateService
+                   .new(user: current_user, model: @value)
+                   .call(label: params[:label], short: params[:short], weight: params[:weight])
+          item_errors(call)
         end
 
-        def insert_item_contract
-          if @custom_field.field_format_weighted_item_list?
-            ::CustomFields::Hierarchy::InsertWeightedItemContract
-          else
-            ::CustomFields::Hierarchy::InsertListItemContract
-          end
-        end
-
-        def update_item_contract
-          if @custom_field.field_format_weighted_item_list?
-            ::CustomFields::Hierarchy::UpdateWeightedItemContract
-          else
-            ::CustomFields::Hierarchy::UpdateListItemContract
-          end
-        end
-
-        def item_errors(validation)
-          errors = validation.errors(full: true).to_h
+        def item_errors(call)
+          errors = call.errors.to_hash(true)
           errors[:parent_id] = errors.delete(:parent) if errors.key?(:parent)
           errors
         end
@@ -260,7 +239,7 @@ module Admin
             @value.destroy!
             CustomValue.where(custom_field: @custom_field, value: @value.id).delete_all
           else
-            ::CustomFields::Hierarchy::HierarchicalItemService.new.delete_branch(item: @value).value!
+            ::CustomFields::Hierarchy::Items::DeleteService.new(user: current_user, model: @value).call
           end
         end
 
