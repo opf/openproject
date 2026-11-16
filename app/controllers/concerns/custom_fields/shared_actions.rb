@@ -94,18 +94,19 @@ module CustomFields
       end
 
       def delete_option
-        num_deleted = CustomValue.where(custom_field_id: @custom_option.custom_field_id, value: @custom_option.id).count
         call = ::CustomOptions::DeleteService.new(user: current_user, model: @custom_option).call
 
         if call.success?
           flash[:notice] = I18n.t(
-            :notice_custom_options_deleted, option_value: @custom_option.value, num_deleted:
+            :notice_custom_options_deleted,
+            option_value: @custom_option.value,
+            num_deleted: call.state.deleted_custom_values_count
           )
         else
           flash[:error] = call.errors.full_messages
         end
 
-        redirect_to list_item_path(@custom_field, id: @custom_field.id), status: :see_other
+        redirect_to list_item_path(@custom_field), status: :see_other
       end
 
       def new_custom_field

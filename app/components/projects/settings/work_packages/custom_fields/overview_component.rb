@@ -50,12 +50,18 @@ module Projects
           def docs_url = OpenProject::Static::Links.url_for(:sysadmin_docs, :types)
 
           def variants_by_field
-            @variants_by_field ||= applied_variants
-                                     .flat_map { |variant| variant.custom_fields.map { |field| [field, variant] } }
-                                     .select { |field, _| matching_field_ids.include?(field.id) }
+            @variants_by_field ||= matching_field_variant_pairs
                                      .group_by(&:first)
                                      .sort_by { |field, _| field.name.downcase }
                                      .to_h { |field, pairs| [field, pairs.map(&:last)] }
+          end
+
+          def matching_field_variant_pairs
+            applied_variants.flat_map do |variant|
+              variant.custom_fields
+                     .select { |field| matching_field_ids.include?(field.id) }
+                     .map { |field| [field, variant] }
+            end
           end
 
           def matching_field_ids
