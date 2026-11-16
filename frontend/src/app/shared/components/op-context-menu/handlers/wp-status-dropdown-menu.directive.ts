@@ -83,7 +83,7 @@ export class WorkPackageStatusDropdownDirective extends OpActionMenuItems {
       title: readonly ? this.I18n.t('js.work_packages.message_work_package_read_only') : undefined,
       ...(readonly
         ? { octicon: 'lock' as const, octiconClass: Highlighting.foregroundClass('status', status.id!) }
-        : { labelClass: Highlighting.dotClass('status', status.id!) }),
+        : { dotClass: Highlighting.dotClass('status', status.id!) }),
       onClick: () => {
         this.updateStatus(status);
         return true;

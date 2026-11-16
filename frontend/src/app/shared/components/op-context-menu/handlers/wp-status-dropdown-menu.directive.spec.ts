@@ -136,7 +136,7 @@ describe('WorkPackageStatusDropdownDirective', () => {
 
     const item = within(menu).getByRole('menuitem', { name: 'New' });
     expect(item.querySelector('svg')).toBeNull();
-    expect(item.querySelector('.__hl_dot')).toHaveClass('__hl_status_1');
+    expect(item.querySelector('.ActionListItem-visual--leading > .__hl_dot')).toHaveClass('__hl_status_1');
     const dot = getComputedStyle(item.querySelector('.__hl_dot')!, '::before');
     expect(dot.display).toBe('inline-block');
     expect(dot.width).not.toBe('auto');

@@ -58,6 +58,8 @@ export interface OpContextMenuItem {
   class?:string;
   /** Classes for the label text, e.g. highlight classes. */
   labelClass?:string;
+  /** Highlight dot classes, rendered as the leading visual. */
+  dotClass?:string;
   ariaLabel?:string;
   linkText?:string;
   title?:string;

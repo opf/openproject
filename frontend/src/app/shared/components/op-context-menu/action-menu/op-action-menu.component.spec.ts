@@ -112,6 +112,37 @@ describe('OpActionMenuComponent', () => {
     expect(item.querySelector('svg')).toHaveClass('__hl_foreground', '__hl_status_3');
   });
 
+  it('puts dotClass on a dot in the leading visual and aligns its label with Octicon items', async () => {
+    fixture.componentRef.setInput('items', [
+      { linkText: 'New', dotClass: '__hl_dot __hl_status_1' },
+      { linkText: 'Locked', octicon: 'lock' },
+    ]);
+    await open();
+
+    const item = (name:string) => within(menu()).getByRole('menuitem', { name });
+    const labelLeft = (name:string) => item(name).querySelector('.ActionListItem-label')!.getBoundingClientRect().left;
+
+    expect(item('New').querySelector('.ActionListItem-visual--leading > .__hl_dot')).toHaveClass('__hl_status_1');
+    expect(item('New').querySelector('.ActionListItem-label .__hl_dot')).toBeNull();
+    expect(labelLeft('New')).toBe(labelLeft('Locked'));
+  });
+
+  it('centers a leading dot where Octicon items center their icon', async () => {
+    fixture.componentRef.setInput('items', [
+      { linkText: 'New', dotClass: '__hl_dot __hl_status_1' },
+      { linkText: 'Locked', octicon: 'lock' },
+    ]);
+    await open();
+
+    const visual = (name:string) => within(menu()).getByRole('menuitem', { name }).querySelector('.ActionListItem-visual--leading')!;
+    const dot = visual('New').firstElementChild!;
+    const dotStyle = getComputedStyle(dot, '::before');
+    const dotCenter = dot.getBoundingClientRect().left + parseFloat(dotStyle.width) / 2;
+    const lock = visual('Locked').querySelector('svg')!.getBoundingClientRect();
+
+    expect(dotCenter).toBeCloseTo(lock.left + lock.width / 2, 0);
+  });
+
   it('aligns labels beside legacy icons and Octicons', async () => {
     await open();
 
