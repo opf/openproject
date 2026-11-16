@@ -42,6 +42,7 @@ module Webhooks
     validates :name, presence: true, uniqueness: { case_sensitive: false }
     validates :image, :command, :body, presence: true
     validates :timeout_seconds, numericality: { only_integer: true, greater_than: 0 }
+    validate :validate_input_schema
 
     after_create :ensure_api_identity!
     after_update :rename_api_identity, if: :saved_change_to_name?
@@ -102,11 +103,55 @@ module Webhooks
         .where("? = ANY(event_names)", event_name)
     end
 
+    def self.manual_for(work_package)
+      where(manual: true)
+        .joins(:project_scripts)
+        .where(webhooks_kubernetes_project_scripts: { project_id: work_package.project_id })
+        .where("cardinality(type_ids) = 0 OR ? = ANY(type_ids)", work_package.type_id)
+        .order(:name)
+    end
+
     def event_names=(names)
       super(Array(names).compact_blank)
     end
 
+    def type_ids=(ids)
+      super(Array(ids).compact_blank.map(&:to_i))
+    end
+
+    def input_schema=(value)
+      @input_schema_text = nil
+      @input_schema_parse_error = nil
+      if value.is_a?(String)
+        @input_schema_text = value
+        value = value.blank? ? nil : JSON.parse(value)
+      end
+      super
+    rescue JSON::ParserError => e
+      @input_schema_parse_error = e.message
+    end
+
+    def input_schema_text
+      @input_schema_text || (input_schema && JSON.pretty_generate(input_schema)) || ""
+    end
+
+    def form_schema
+      ManualScriptSchema.new(input_schema)
+    end
+
+    def label
+      button_label.presence || name
+    end
+
     private
+
+    def validate_input_schema
+      if @input_schema_parse_error
+        errors.add(:input_schema, :invalid_json, message: @input_schema_parse_error)
+      elsif input_schema.present?
+        form_schema.errors.each { |message| errors.add(:input_schema, message) }
+      end
+    end
 
     def rename_api_identity
       service_account&.update!(name: service_account_name)

@@ -19,8 +19,12 @@ en:
         command: "Command"
         event_names: "Events"
         image: "Container image"
+        button_label: "Action label"
+        input_schema: "Input form (JSON Schema)"
+        manual: "Can be run manually from work packages"
         kubernetes_connection: "Kubernetes connection"
         timeout_seconds: "Timeout (seconds)"
+        type_ids: "Work package types"
       webhooks/log:
         event_name: 'Event name'
         response_body: 'Response'
@@ -47,6 +51,7 @@ en:
         other: "Webhooks"
 
   permission_manage_project_scripts: "Manage Kubernetes scripts"
+  permission_run_manual_scripts: "Run scripts manually"
   plugin_openproject_webhooks:
     description: "Provides a plug-in API to support OpenProject webhooks for better 3rd party integration."
     name: "OpenProject Webhooks"
@@ -77,6 +82,19 @@ en:
         ask_admin: "An administrator has to define scripts before they can be enabled in this project."
         explanation: "Enabled scripts run as Kubernetes jobs whenever one of their events occurs in this project. The webhook payload of the event is passed to the script."
         title: "Scripts"
+      manual_runs:
+        actions: "Actions"
+        confirm: "This script takes no input. Run it for this work package?"
+        run: "Run"
+        open_link: "Open"
+        run_list_entry: "Manual run on %{work_package} by %{user}"
+        started: "Run #%{id} has been started."
+        status_texts:
+          error: "Run #%{id} could not be completed."
+          failed: "Run #%{id} failed."
+          queued: "Run #%{id} is waiting to start."
+          running: "Run #%{id} is running."
+          succeeded: "Run #%{id} has finished."
       runs:
         no_results: "No scripts have run in this project yet."
         output: "Output"
@@ -94,9 +112,22 @@ en:
           command: "Interpreter the script is passed to, e.g. python or bash."
           events: "Events this script can handle. Projects that enable the script will run it for these events."
           image: "Container image to run the script in, e.g. python:3.13-slim."
+          button_label: "Shown in the Actions menu of work packages. Defaults to the script name."
+          input_schema: "Fields users fill in before the script runs, as a JSON Schema object. Supported: string (formats textarea, date, op-user, op-work-package, op-version), integer, number, boolean, enum or oneOf with const, and arrays of enums. Leave empty for scripts without input. The values are passed to the script as \"input\" in the payload."
+          manual_explanation: "Manual scripts appear in the Actions menu of work packages in projects that enable the script. Users need the permission \"Run scripts manually\"."
+          manual_legend: "Manual run"
+          type_ids: "Only offer the script for these types. Leave all unchecked to offer it for every type."
         label_add_new: "Add new script"
         no_results: "No scripts have been defined yet."
         global_role_name: "%{name} – global"
+        manual: "Manual run"
+        preview:
+          description: "How the saved input form appears when users run the script from a work package. Save to update the preview."
+          no_fields: "The script takes no input. Users only confirm the run."
+          title: "Input form preview"
+        schema_errors:
+          root: "must be an object schema with \"type\": \"object\" and \"properties\"."
+          unsupported: "property \"%{name}\" uses a type or format that the form cannot display."
         permissions:
           dependencies_added: "Required permissions were added as well: %{permissions}."
           global_explanation: "Granted instance-wide to the script's service accounts in every project that enables the script."

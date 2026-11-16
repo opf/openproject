@@ -87,7 +87,15 @@
               ) { t("webhooks.kubernetes.runs.statuses.#{run.status}") }
             )
             concat(render(Primer::Beta::Text.new(font_weight: :bold)) { run.kubernetes_script.name })
-            concat(render(Primer::Beta::Text.new(color: :muted)) { run.event_name })
+            concat(render(Primer::Beta::Text.new(color: :muted)) do
+              if run.trigger_manual?
+                t("webhooks.kubernetes.manual_runs.run_list_entry",
+                  user: run.triggered_by&.name || "–",
+                  work_package: run.work_package_id ? "##{run.work_package_id}" : "–")
+              else
+                run.event_name
+              end
+            end)
             concat(render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { format_time(run.created_at) })
             if run.k8s_job_name
               concat(render(Primer::Beta::Text.new(color: :muted, font_size: :small, font_family: :mono)) { run.k8s_job_name })

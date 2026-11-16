@@ -38,7 +38,7 @@ class KubernetesScriptJob < ApplicationJob
     @run = ::Webhooks::KubernetesScriptRun.find_by(id: run_id)
     return unless run
 
-    payload = payload_job_class.constantize.new.payload_for(resource, run.event_name, actor:)
+    payload = build_payload(payload_job_class, resource, actor)
     token = script.issue_access_token!(project: run.project, expires_in: script.timeout_seconds + TOKEN_GRACE_SECONDS)
     run.update!(oauth_access_token_id: token.id)
 
@@ -53,7 +53,7 @@ class KubernetesScriptJob < ApplicationJob
     end
 
     run.update!(status: :running, k8s_job_name: job_name)
-    KubernetesScriptStatusJob.set(wait: KubernetesScriptStatusJob::INTERVAL).perform_later(run.id)
+    KubernetesScriptStatusJob.set(wait: KubernetesScriptStatusJob.interval_for(run)).perform_later(run.id)
   rescue StandardError => e
     fail_run!("#{e.class}: #{e.message}") if run
     raise unless run
@@ -72,6 +72,13 @@ class KubernetesScriptJob < ApplicationJob
       "openproject.org/script-id": script.id.to_s,
       "openproject.org/run-id": run.id.to_s
     }
+  end
+
+  def build_payload(payload_job_class, resource, actor)
+    payload = payload_job_class.constantize.new.payload_for(resource, run.event_name, actor:)
+    return payload unless run.trigger_manual?
+
+    JSON.generate(JSON.parse(payload).merge("action" => "manual", "input" => run.input || {}))
   end
 
   def fail_run!(message)
@@ -109,6 +116,7 @@ class KubernetesScriptJob < ApplicationJob
       env: [
         { name: "OP_PAYLOAD_FILE", value: "#{MOUNT_PATH}/payload.json" },
         { name: "OP_EVENT", value: run.event_name },
+        { name: "OP_TRIGGER", value: run.trigger },
         { name: "OP_PROJECT_ID", value: run.project_id.to_s },
         { name: "OP_SCRIPT_RUN_ID", value: run.id.to_s },
         { name: "OP_API_URL", value: connection.effective_openproject_url },

@@ -29,10 +29,15 @@
 
 class KubernetesScriptStatusJob < ApplicationJob
   INTERVAL = 10.seconds
+  MANUAL_INTERVAL = 1.second
   GRACE_PERIOD = 2.minutes
   LOG_LINES = 200
 
   attr_reader :run
+
+  def self.interval_for(run)
+    run.trigger_manual? ? MANUAL_INTERVAL : INTERVAL
+  end
 
   def perform(run_id)
     @run = ::Webhooks::KubernetesScriptRun.find_by(id: run_id)
@@ -42,14 +47,14 @@ class KubernetesScriptStatusJob < ApplicationJob
     return finish!(:error, "Job no longer exists in the cluster.") if status == 404
     raise "Reading job failed (#{status}): #{job['message']}" unless status == 200
 
-    if job.dig("status", "succeeded").to_i.positive?
+    if succeeded?(job)
       finish!(:succeeded, logs)
-    elsif job.dig("status", "failed").to_i.positive?
+    elsif failed?(job)
       finish!(:failed, [failure_reason(job), logs].compact_blank.join("\n\n"))
     elsif run.created_at < deadline
       finish!(:error, "No result within the timeout. #{logs}")
     else
-      self.class.set(wait: INTERVAL).perform_later(run.id)
+      self.class.set(wait: self.class.interval_for(run)).perform_later(run.id)
     end
   rescue StandardError => e
     raise unless run
@@ -72,17 +77,40 @@ class KubernetesScriptStatusJob < ApplicationJob
     run.update!(status:, message:)
   end
 
+  # The pod finishes a few seconds before the job controller marks the job as complete.
+  def succeeded?(job)
+    job.dig("status", "succeeded").to_i.positive? || pod_phase == "Succeeded"
+  end
+
+  def failed?(job)
+    job.dig("status", "failed").to_i.positive? || pod_phase == "Failed"
+  end
+
   def failure_reason(job)
     Array(job.dig("status", "conditions"))
       .select { it["status"] == "True" && it["type"] == "Failed" }
       .map { "#{it['reason']}: #{it['message']}" }
-      .first
+      .first || pod_failure_reason
+  end
+
+  def pod
+    return @pod if defined?(@pod)
+
+    selector = CGI.escape("job-name=#{run.k8s_job_name}")
+    status, pods = connection.request(:get, "/api/v1/namespaces/#{namespace}/pods?labelSelector=#{selector}")
+    @pod = (Array(pods["items"]).first if status == 200)
+  end
+
+  def pod_phase
+    pod&.dig("status", "phase")
+  end
+
+  def pod_failure_reason
+    terminated = pod&.dig("status", "containerStatuses", 0, "state", "terminated") || {}
+    "#{terminated['reason'] || 'Failed'}: exit code #{terminated['exitCode']}"
   end
 
   def logs
-    selector = CGI.escape("job-name=#{run.k8s_job_name}")
-    status, pods = connection.request(:get, "/api/v1/namespaces/#{namespace}/pods?labelSelector=#{selector}")
-    pod = Array(pods["items"]).first if status == 200
     return "" unless pod
 
     path = "/api/v1/namespaces/#{namespace}/pods/#{pod.dig('metadata', 'name')}/log?tailLines=#{LOG_LINES}"

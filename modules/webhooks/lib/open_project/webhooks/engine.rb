@@ -64,6 +64,13 @@ module OpenProject::Webhooks
                    require: :member
       end
 
+      project_module :work_package_tracking do
+        permission :run_manual_scripts,
+                   { "webhooks/manual_scripts": %i[menu new create show] },
+                   permissible_on: %i[work_package project],
+                   dependencies: %i[view_work_packages]
+      end
+
       menu :project_menu,
            :settings_kubernetes_scripts,
            { controller: "/projects/settings/kubernetes_scripts", action: :show },

@@ -81,3 +81,51 @@
     </div>
   <% end %>
 </fieldset>
+
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend">
+    <%= t("webhooks.kubernetes.scripts.form.manual_legend") %>
+  </legend>
+  <p><%= t("webhooks.kubernetes.scripts.form.manual_explanation") %></p>
+
+  <div class="form--field">
+    <%= f.check_box :manual %>
+  </div>
+
+  <div class="form--field">
+    <%= f.text_field :button_label, container_class: "-middle", placeholder: @script.name %>
+    <div class="form--field-instructions">
+      <%= t("webhooks.kubernetes.scripts.form.button_label") %>
+    </div>
+  </div>
+
+  <div class="form--field">
+    <label class="form--label"><%= Webhooks::KubernetesScript.human_attribute_name(:type_ids) %></label>
+    <div class="form--field-container -vertical">
+      <%= hidden_field_tag "kubernetes_script[type_ids][]", "" %>
+      <% ::Type.order(:position).each do |type| %>
+        <label class="form--label-with-check-box">
+          <%= styled_check_box_tag "kubernetes_script[type_ids][]", type.id, @script.type_ids.include?(type.id) -%>
+          <%= type.name %>
+        </label>
+      <% end %>
+    </div>
+    <div class="form--field-instructions">
+      <%= t("webhooks.kubernetes.scripts.form.type_ids") %>
+    </div>
+  </div>
+
+  <div class="form--field" data-controller="webhooks--code-editor" data-webhooks--code-editor-mode-value="json"
+       data-webhooks--code-editor-height-value="20rem">
+    <%= f.text_area :input_schema,
+                    value: @script.input_schema_text,
+                    rows: 14,
+                    container_class: "-xxwide",
+                    class: "-monospace",
+                    spellcheck: false,
+                    data: { webhooks__code_editor_target: "textarea" } %>
+    <div class="form--field-instructions">
+      <%= t("webhooks.kubernetes.scripts.form.input_schema") %>
+    </div>
+  </div>
+</fieldset>

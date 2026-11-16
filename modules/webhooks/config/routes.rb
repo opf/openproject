@@ -54,6 +54,12 @@ Rails.application.routes.draw do
     end
   end
 
+  scope "work_packages/:work_package_id", as: "work_package" do
+    resources :manual_scripts, only: %i[new create show], controller: "webhooks/manual_scripts" do
+      get :menu, on: :collection
+    end
+  end
+
   scope "projects/:project_id", as: "project", module: "projects" do
     namespace "settings" do
       resource :kubernetes_scripts, only: %i[show update]

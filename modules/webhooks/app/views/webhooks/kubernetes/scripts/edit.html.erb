@@ -27,3 +27,28 @@
     <%= link_to t(:button_cancel), admin_kubernetes_scripts_path, class: "button -with-icon icon-cancel" %>
   </p>
 <% end %>
+
+<% saved_schema = Webhooks::ManualScriptSchema.new(@script.attribute_in_database(:input_schema)) %>
+<% if @script.manual_in_database && saved_schema.errors.empty? %>
+  <%=
+    render(Primer::Beta::Subhead.new(mt: 6)) do |subhead|
+      subhead.with_heading(tag: :h3, size: :medium) { t("webhooks.kubernetes.scripts.preview.title") }
+      subhead.with_description { t("webhooks.kubernetes.scripts.preview.description") }
+    end
+  %>
+  <%=
+    render(Primer::Beta::BorderBox.new(test_selector: "manual-script-form-preview")) do |box|
+      box.with_header { @script.label }
+      box.with_body do
+        if saved_schema.fields.empty?
+          render(Primer::Beta::Text.new(color: :muted)) { t("webhooks.kubernetes.scripts.preview.no_fields") }
+        else
+          primer_form_with(model: Webhooks::ManualScriptInputForm.model_for(saved_schema.fields),
+                           url: "#", scope: :input, html: { onsubmit: "return false" }) do |form|
+            render(Webhooks::ManualScriptInputForm.new(form, fields: saved_schema.fields))
+          end
+        end
+      end
+    end
+  %>
+<% end %>

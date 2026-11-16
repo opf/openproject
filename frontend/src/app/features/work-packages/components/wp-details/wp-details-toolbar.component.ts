@@ -28,6 +28,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -48,6 +49,7 @@ export class WorkPackageSplitViewToolbarComponent implements OnInit {
   readonly halEditing = inject(HalResourceEditingService);
   readonly configurationService = inject(ConfigurationService);
   readonly currentUserService = inject(CurrentUserService);
+  readonly pathHelper = inject(PathHelperService);
 
   @Input() workPackage:WorkPackageResource;
 
@@ -59,6 +61,10 @@ export class WorkPackageSplitViewToolbarComponent implements OnInit {
   public text = {
     button_more: this.I18n.t('js.button_more'),
   };
+
+  public get manualScriptsMenuPath():string {
+    return `${this.pathHelper.workPackagePath(this.workPackage.id!)}/manual_scripts/menu`;
+  }
 
   ngOnInit() {
     this.displayShareButton$ = this.currentUserService.hasCapabilities$('work_package_shares/index', this.workPackage.project.id);

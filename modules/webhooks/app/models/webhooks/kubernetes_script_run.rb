@@ -31,6 +31,10 @@ module Webhooks
   class KubernetesScriptRun < ApplicationRecord
     belongs_to :kubernetes_script, class_name: "::Webhooks::KubernetesScript"
     belongs_to :project, class_name: "::Project", optional: true
+    belongs_to :work_package, class_name: "::WorkPackage", optional: true
+    belongs_to :triggered_by, class_name: "::User", optional: true
+
+    enum :trigger, { event: "event", manual: "manual" }, prefix: true
 
     enum :status,
          { queued: "queued", running: "running", succeeded: "succeeded", failed: "failed", error: "error" },

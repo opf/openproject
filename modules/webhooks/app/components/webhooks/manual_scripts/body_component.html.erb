@@ -1,0 +1,67 @@
+<%=
+  component_wrapper do
+    if run
+      component_collection do |collection|
+        collection.with_component(Primer::Alpha::Dialog::Body.new(test_selector: "manual-script-run", data: poll_data)) do
+          concat(render(Primer::Box.new(display: :flex, align_items: :center, mb: 3)) do
+            concat(render(Primer::Beta::Spinner.new(size: :small, mr: 2))) if run_active?
+            concat(render(Primer::Beta::Label.new(scheme: status_scheme, size: :large, mr: 2)) do
+              t("webhooks.kubernetes.runs.statuses.#{run.status}")
+            end)
+            concat(render(Primer::Beta::Text.new) { t("webhooks.kubernetes.manual_runs.status_texts.#{run.status}", id: run.id) })
+          end)
+          if result
+            concat(render(Primer::Alpha::Banner.new(scheme: run.succeeded? ? :success : :danger, mb: 3,
+                                                   test_selector: "manual-script-result")) do
+              concat(result["message"].to_s)
+              if result["link"].present?
+                concat(" ")
+                concat(render(Primer::Beta::Link.new(href: result["link"], target: "_top")) do
+                  result["link_label"].presence || t("webhooks.kubernetes.manual_runs.open_link")
+                end)
+              end
+            end)
+          end
+          if output.present?
+            concat(content_tag(:details, open: result.nil? && !run.succeeded?) do
+              concat(content_tag(:summary, t("webhooks.kubernetes.runs.output")))
+              concat(content_tag(:pre, output, class: "op-uc-code-block", style: "max-height: 20rem; overflow: auto; white-space: pre-wrap;"))
+            end)
+          end
+        end
+        collection.with_component(Primer::Alpha::Dialog::Footer.new) do
+          render(Primer::Beta::Button.new(data: { "close-dialog-id": dialog_id })) do
+            t(:button_close)
+          end
+        end
+      end
+    else
+      primer_form_with(**form_config) do |form|
+        component_collection do |collection|
+          collection.with_component(Primer::Alpha::Dialog::Body.new) do
+            if script.description.present?
+              concat(render(Primer::Beta::Text.new(tag: :p, color: :muted)) { script.description })
+            end
+            if fields.empty?
+              concat(render(Primer::Beta::Text.new(tag: :p)) { t("webhooks.kubernetes.manual_runs.confirm") })
+            else
+              concat(render(input_form(form)))
+            end
+          end
+          collection.with_component(Primer::Alpha::Dialog::Footer.new) do
+            component_collection do |footer|
+              footer.with_component(Primer::Beta::Button.new(data: { "close-dialog-id": dialog_id })) do
+                t(:button_cancel)
+              end
+              footer.with_component(Primer::Beta::Button.new(scheme: :primary, type: :submit,
+                                                             test_selector: "manual-script-submit")) do |button|
+                button.with_leading_visual_icon(icon: :play)
+                t("webhooks.kubernetes.manual_runs.run")
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+%>

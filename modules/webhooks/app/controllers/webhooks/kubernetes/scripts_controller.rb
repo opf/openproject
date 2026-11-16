@@ -37,6 +37,20 @@ module Webhooks
 
       helper ::RolesHelper
 
+      EXAMPLE_INPUT_SCHEMA = {
+        "type" => "object",
+        "required" => ["reason"],
+        "properties" => {
+          "reason" => { "type" => "string", "title" => "Reason", "format" => "textarea" },
+          "priority" => {
+            "type" => "string", "title" => "Priority", "default" => "normal",
+            "oneOf" => [{ "const" => "low", "title" => "Low" }, { "const" => "normal", "title" => "Normal" },
+                        { "const" => "high", "title" => "High" }]
+          },
+          "notify" => { "type" => "boolean", "title" => "Notify the assignee", "default" => true }
+        }
+      }.freeze
+
       menu_item :plugin_webhooks_kubernetes_scripts
 
       def index
@@ -47,7 +61,8 @@ module Webhooks
         @script = ::Webhooks::KubernetesScript.new(
           image: "python:3.13-slim",
           command: "python",
-          body: default_body
+          body: default_body,
+          input_schema: EXAMPLE_INPUT_SCHEMA
         )
       end
 
@@ -128,8 +143,9 @@ module Webhooks
       def permitted_params
         params
           .expect(kubernetes_script: [:name, :description, :kubernetes_connection_id, :image, :command, :body,
-                                      :timeout_seconds, { event_names: [] }])
-          .with_defaults(event_names: [])
+                                      :timeout_seconds, :manual, :button_label, :input_schema,
+                                      { event_names: [], type_ids: [] }])
+          .with_defaults(event_names: [], type_ids: [])
       end
 
       def default_body

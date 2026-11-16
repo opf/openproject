@@ -35,7 +35,7 @@ class Projects::Settings::KubernetesScriptsController < Projects::SettingsContro
     @enabled_ids = ::Webhooks::KubernetesProjectScript.where(project: @project).pluck(:kubernetes_script_id)
     @runs = ::Webhooks::KubernetesScriptRun
       .where(project: @project)
-      .includes(:kubernetes_script)
+      .includes(:kubernetes_script, :triggered_by)
       .order(id: :desc)
       .limit(20)
   end

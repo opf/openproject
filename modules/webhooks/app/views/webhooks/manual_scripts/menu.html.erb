@@ -1,0 +1,22 @@
+<turbo-frame id="<%= @frame_id %>">
+  <% if @scripts.any? %>
+    <%=
+      render(Primer::Alpha::ActionMenu.new(anchor_align: :end, test_selector: "wp-manual-scripts-menu")) do |menu|
+        menu.with_show_button do |button|
+          button.with_leading_visual_icon(icon: :play)
+          button.with_trailing_action_icon(icon: :"triangle-down")
+          t("webhooks.kubernetes.manual_runs.actions")
+        end
+        @scripts.each do |script|
+          menu.with_item(
+            label: script.label,
+            href: new_work_package_manual_script_path(@work_package, script_id: script.id),
+            content_arguments: { data: { controller: "async-dialog", turbo: false } }
+          ) do |item|
+            item.with_description { script.description.to_s.truncate(80) } if script.description.present?
+          end
+        end
+      end
+    %>
+  <% end %>
+</turbo-frame>

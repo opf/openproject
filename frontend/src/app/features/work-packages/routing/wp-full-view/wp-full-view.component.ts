@@ -74,6 +74,10 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
     },
   };
 
+  public get manualScriptsMenuPath():string {
+    return `${this.PathHelper.workPackagePath(this.workPackage.id!)}/manual_scripts/menu`;
+  }
+
   public onTabSelected(tab:TabDefinition):void {
     this.activeTab = tab.id;
     this.cdRef.markForCheck();

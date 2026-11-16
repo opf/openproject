@@ -41,6 +41,12 @@ const MODES:Record<string, string> = {
 export default class CodeEditorController extends Controller<HTMLElement> {
   static targets = ['textarea', 'command'];
 
+  static values = { mode: String, height: { type: String, default: '32rem' } };
+
+  declare readonly modeValue:string;
+  declare readonly hasModeValue:boolean;
+  declare readonly heightValue:string;
+
   declare readonly textareaTarget:HTMLTextAreaElement;
   declare readonly commandTarget:HTMLInputElement;
   declare readonly hasCommandTarget:boolean;
@@ -57,10 +63,11 @@ export default class CodeEditorController extends Controller<HTMLElement> {
   private async setupEditor() {
     const CodeMirror = await this.loader.loadCore();
 
+    const indent = this.modeValue === 'json' ? 2 : 4;
     this.editor = CodeMirror.fromTextArea(this.textareaTarget, {
       lineNumbers: true,
-      indentUnit: 4,
-      tabSize: 4,
+      indentUnit: indent,
+      tabSize: indent,
       indentWithTabs: false,
       smartIndent: true,
       lineWrapping: false,
@@ -76,7 +83,7 @@ export default class CodeEditorController extends Controller<HTMLElement> {
       },
     });
     this.editor.getWrapperElement().style.lineHeight = '1.45';
-    this.editor.setSize(null, '32rem');
+    this.editor.setSize(null, this.heightValue);
     const editor = this.editor;
     editor.on('change', () => editor.save());
 
@@ -89,11 +96,21 @@ export default class CodeEditorController extends Controller<HTMLElement> {
   }
 
   async updateMode() {
+    if (this.hasModeValue) {
+      const json = this.modeValue === 'json';
+      await this.applyMode(json ? 'javascript' : this.modeValue, json ? 'application/json' : this.modeValue);
+      return;
+    }
+
     const program = this.hasCommandTarget ? this.commandTarget.value.trim().split(/\s+/)[0] : '';
     const command = program.split('/').pop() ?? '';
     const mode = MODES[command.toLowerCase()] ?? '';
+    await this.applyMode(mode, mode);
+  }
+
+  private async applyMode(module:string, mode:string) {
     const request = ++this.modeRequest;
-    const loaded = await this.loader.ensureModeLoaded(mode);
+    const loaded = await this.loader.ensureModeLoaded(module);
     if (request === this.modeRequest) {
       this.editor?.setOption('mode', loaded ? mode : '');
     }

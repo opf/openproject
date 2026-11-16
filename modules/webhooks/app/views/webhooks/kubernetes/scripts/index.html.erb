@@ -42,8 +42,9 @@
                 [
                   script.kubernetes_connection.name,
                   script.image,
-                  t("webhooks.outgoing.label_x_events", count: script.event_names.size)
-                ].join(" · ")
+                  t("webhooks.outgoing.label_x_events", count: script.event_names.size),
+                  (t("webhooks.kubernetes.scripts.manual") if script.manual?)
+                ].compact.join(" · ")
               end
             )
           end
