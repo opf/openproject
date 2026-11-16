@@ -3224,6 +3224,7 @@ de:
       work_package_query_relation_columns: Arbeitspaket-Relationsspalten
       work_package_sharing: Teilen von Arbeitspaketen mit externen Nutzer:innen
       work_package_subject_generation: Arbeitspaket-Betreff Generierung
+      xwiki_integration: XWiki Integration
     teaser:
       description_html: Sie haben Zugriff auf alle Funktionen von %{trial_plan}.
       title:
@@ -7374,6 +7375,7 @@ de:
         rename_group: Abschnitt umbenennen
         required:
           already_required_globally: Dieses benutzerdefinierte Feld ist für alle Typen ein Pflichtfeld.
+          excluded: Switch this custom field on before requiring it for this type.
           for_variant: Für diesen Typ erforderlich
           globally: Erforderlich
           globally_hint: Ändern Sie dies im benutzerdefinierten Feld
@@ -7451,6 +7453,7 @@ de:
           success: Die Konfiguration wurde kopiert.
         exclusions:
           not_inherited: Diese Konfiguration wird geerbt, sodass nichts auszuschließen ist. Bearbeiten Sie die Konfiguration stattdessen direkt.
+          required: A required custom field cannot be switched off.
           unknown_aspect: Unbekannter Konfigurationsabschnitt "%{aspect}".
         inherited:
           configure_manually: Manuell konfigurieren

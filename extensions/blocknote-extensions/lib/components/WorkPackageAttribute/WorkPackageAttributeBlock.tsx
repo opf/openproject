@@ -5,8 +5,8 @@ import { selectBlockNode } from '../../utils/selection';
 import { blockDragProps } from '../../utils/blockDrag';
 import type { AttributeDisplay } from './display';
 import { useWorkPackageAttribute } from './useWorkPackageAttribute';
-import { useAttributeDisplayMenu } from './useAttributeDisplayMenu';
-import { AttributeDisplayMenu } from './AttributeDisplayMenu';
+import { useAttributeOptions } from './useAttributeOptions';
+import { AttributeOptionsPopover } from './AttributeOptionsPopover';
 import { AttributeBlockFrame, MenuAnchor } from './atoms';
 import { attributeTitle, WorkPackageAttributeBlockView } from './WorkPackageAttributeView';
 import type { AttributeProps } from './types';
@@ -22,9 +22,10 @@ interface WorkPackageAttributeBlockProps {
 export function WorkPackageAttributeBlock({ blockId, content, editor, onDisplayChange }:WorkPackageAttributeBlockProps) {
   const { wpid, displayId, attribute, display } = content;
   const resolved = useWorkPackageAttribute(wpid, attribute);
-  const { elementRef, menuOpen, active, pick, toggleProps } = useAttributeDisplayMenu({
+  const { setElementRef, options, active, pick, toggleProps } = useAttributeOptions({
     editor,
-    display,
+    content,
+    resolved,
     onDisplayChange,
     onActivate: () => selectBlockNode(editor, blockId),
   });
@@ -33,15 +34,28 @@ export function WorkPackageAttributeBlock({ blockId, content, editor, onDisplayC
 
   return (
     <AttributeBlockFrame
-      ref={(node:HTMLDivElement | null) => { elementRef.current = node; }}
+      ref={setElementRef}
       title={attributeTitle(resolved, displayId)}
-      $selected={selected || menuOpen}
+      $selected={selected || options.isOpen}
       {...blockDragProps(editor, blockId)}
       {...toggleProps}
     >
       <MenuAnchor ref={setMenuAnchor} />
       <WorkPackageAttributeBlockView resolved={resolved} display={display} reference={attribute} />
-      {menuOpen && <AttributeDisplayMenu anchorEl={menuAnchor} placement="above" active={active} onPick={pick} />}
+      {options.isOpen && (
+        <AttributeOptionsPopover
+          resolved={resolved}
+          displayId={displayId}
+          reference={attribute}
+          active={active}
+          anchorEl={menuAnchor}
+          autoFocus={options.takesFocus}
+          onClose={options.close}
+          onRestoreFocus={() => editor.focus()}
+          onPick={pick}
+          onRemove={() => editor.removeBlocks([blockId])}
+        />
+      )}
     </AttributeBlockFrame>
   );
 }

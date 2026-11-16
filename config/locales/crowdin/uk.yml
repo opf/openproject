@@ -3518,6 +3518,7 @@ uk:
       work_package_query_relation_columns: Стовпці зв’язків запиту пакета робіт
       work_package_sharing: Діліться пакетами робіт із зовнішніми користувачами
       work_package_subject_generation: Створення теми пакета робіт
+      xwiki_integration: XWiki Integration
     teaser:
       description_html: У вас є доступ до всіх функцій %{trial_plan}.
       title:
@@ -7750,6 +7751,7 @@ uk:
         rename_group: Перейменувати розділ
         required:
           already_required_globally: Це користувацьке поле є обов’язковим для всіх типів.
+          excluded: Switch this custom field on before requiring it for this type.
           for_variant: Required for this type
           globally: Обов'язкове
           globally_hint: Змініть це у користувацькому полі
@@ -7827,6 +7829,7 @@ uk:
           success: Конфігурацію скопійовано.
         exclusions:
           not_inherited: Ця конфігурація не спадкується, тому виключати нічого не потрібно. Натомість відредагуйте безпосередньо конфігурацію.
+          required: A required custom field cannot be switched off.
           unknown_aspect: Невідомий розділ конфігурації «%{aspect}».
         inherited:
           configure_manually: Налаштувати вручну

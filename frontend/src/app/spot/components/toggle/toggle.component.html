@@ -12,6 +12,7 @@
       [name]="name"
       [value]="option.value"
       [ngModel]="value"
+      [ngModelOptions]="{ standalone: true }"
       (ngModelChange)="onToggle($event)"
       />
     {{ option.title }}
