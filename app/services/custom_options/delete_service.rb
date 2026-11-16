@@ -32,7 +32,8 @@ module CustomOptions
     private
 
     def after_perform(service_call)
-      CustomValue.where(custom_field_id: model.custom_field_id, value: model.id).delete_all
+      state.deleted_custom_values_count =
+        CustomValue.where(custom_field_id: model.custom_field_id, value: model.id).delete_all
 
       service_call
     end
