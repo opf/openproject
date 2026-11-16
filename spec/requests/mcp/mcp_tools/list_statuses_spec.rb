@@ -65,33 +65,24 @@ RSpec.describe McpTools::ListStatuses do
     tool_config.save!
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP embedded resource tool"
+  it_behaves_like "MCP embedded resource tool"
 
-    it "finds all statuses" do
-      mcp_request
-      expect(parsed_results.dig("structuredContent", "count")).to eq(2)
-    end
-
-    it "responds with properly formatted statuses" do
-      mcp_request
-      expect(parsed_results.fetch("structuredContent").to_json).to match_json_schema.from_docs("status_collection_model")
-    end
-
-    context "when lacking permission to see statuses" do
-      let(:permissions) { [] }
-
-      it "finds no statuses" do
-        mcp_request
-        expect(parsed_results.dig("structuredContent", "count")).to eq(0)
-      end
-    end
+  it "finds all statuses" do
+    mcp_request
+    expect(parsed_results.dig("structuredContent", "count")).to eq(2)
   end
 
-  context "when the mcp_server enterprise feature is disabled" do
-    it "responds in a 404" do
+  it "responds with properly formatted statuses" do
+    mcp_request
+    expect(parsed_results.fetch("structuredContent").to_json).to match_json_schema.from_docs("status_collection_model")
+  end
+
+  context "when lacking permission to see statuses" do
+    let(:permissions) { [] }
+
+    it "finds no statuses" do
       mcp_request
-      expect(last_response).to have_http_status(404)
+      expect(parsed_results.dig("structuredContent", "count")).to eq(0)
     end
   end
 end

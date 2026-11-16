@@ -26,7 +26,7 @@
 //++
 
 import { ApplicationController } from 'stimulus-use';
-import { renderStreamMessage } from '@hotwired/turbo';
+import { renderStreamMessage, visit } from '@hotwired/turbo';
 
 export default class PollForChangesController extends ApplicationController {
   static values = {
@@ -78,6 +78,12 @@ export default class PollForChangesController extends ApplicationController {
 
     void fetch(url.toString())
       .then(async (r) => {
+      if (r.redirected) {
+        clearInterval(this.interval);
+        visit(window.location.href);
+        return;
+      }
+
       if (r.status === 200) {
         if (!this.continuousValue) {
           clearInterval(this.interval);

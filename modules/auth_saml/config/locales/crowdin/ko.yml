@@ -183,7 +183,7 @@ ko:
       notice_created: 새로운 SAML ID 공급자가 생성되었습니다.
       plural: SAML ID 공급자
       refresh_metadata:
-        apply: Apply changes
+        apply: 변경 사항 적용
         description: Review the configuration fetched from your identity provider. Changes are saved only when you apply them.
         no_changes: The metadata matches the current configuration.
         title: Review metadata changes

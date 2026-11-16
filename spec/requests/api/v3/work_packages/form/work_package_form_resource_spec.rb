@@ -237,7 +237,7 @@ RSpec.describe "API v3 Work package form resource" do
                 end
               end
 
-              context "with a title for a label that does not exist yet by a user who may not create labels" do
+              context "with a title for a label that does not exist yet by a user the work package is shared with" do
                 let(:current_user) do
                   create(:user).tap do |user|
                     create(:work_package_member,
@@ -250,11 +250,7 @@ RSpec.describe "API v3 Work package form resource" do
                   valid_params.merge(_links: { labels: [{ href: nil, title: "Needs triage" }] })
                 end
 
-                it "reports the labels as unauthorized" do
-                  expect(last_response.body)
-                    .to be_json_eql("Labels #{I18n.t('activerecord.errors.messages.error_unauthorized')}".to_json)
-                          .at_path("_embedded/validationErrors/labels/message")
-                end
+                it_behaves_like "having no errors"
 
                 it "creates no label" do
                   expect(Label.count).to eq(0)

@@ -34,8 +34,17 @@ module ITSM
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
+      def self.wrapper_key = :imap_server_configuration_section
+
       def configured?
         MailServer.imap.exists?
+      end
+
+      def server_information
+        return unless configured?
+
+        server = MailServer.imap.first
+        "#{server.host} #{I18n.t('itsm.admin.port')}: #{server.port} - #{server.encryption.upcase}"
       end
     end
   end

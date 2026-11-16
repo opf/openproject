@@ -151,7 +151,9 @@ RSpec.describe "Forms index", :js do
       click_link_or_button I18n.t(:button_save)
     end
 
-    expect(page).to have_css(".PageHeader-title", text: "Phase layout")
+    expect(page).to have_current_path(form_configurations_path)
+    expect(page).to have_no_css("dialog")
+    expect(row_for("Phase layout")).to be_present
     expect(phase.default_variant.form_configuration.reload.name).to eq("Phase layout")
   end
 

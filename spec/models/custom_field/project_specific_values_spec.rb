@@ -330,6 +330,14 @@ RSpec.describe CustomField::ProjectSpecificValues do
           it "returns all options" do
             expect(visible_values).to contain_exactly(option_a, option_b, option_c, option_d, option_e)
           end
+
+          context "within projects" do
+            subject(:visible_values) { custom_field.visible_values_for(user, within: [member_project, foreign_project]) }
+
+            it "returns the options allowed in those projects" do
+              expect(visible_values).to contain_exactly(option_a, option_c)
+            end
+          end
         end
       end
     end

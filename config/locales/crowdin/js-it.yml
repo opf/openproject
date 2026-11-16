@@ -63,7 +63,7 @@ it:
         single: Seleziona "%{name}"
       remove: Rimuovi %{name}
     autocompleter:
-      create_label: Create label
+      create_label: Crea etichetta
       notFoundText: Nessun elemento trovato
       placeholder: Digita per cercare
       project:
@@ -131,10 +131,10 @@ it:
     button_confirm: Conferma
     button_continue: Continua
     button_copy: Copia
-    button_copy_id: Copy ID ("%{id}")
-    button_copy_link_to_clipboard: Copy link
+    button_copy_link_to_clipboard: Copia link negli appunti
     button_copy_to_clipboard: Copia negli appunti
     button_copy_to_other_project: Duplica in un altro progetto
+    button_copy_work_package_id: Copia ID macro-attività
     button_create: Crea
     button_custom-fields: Campo personalizzato
     button_delete: Cancella
@@ -150,7 +150,7 @@ it:
     button_log_time: Registra l'orario effettuato
     button_more: Più
     button_more_actions: Altre azioni
-    button_move: Move
+    button_move_to_position: Sposta alla posizione
     button_open_details: Mostra dettagli
     button_open_fullscreen: Apri la visualizzazione a schermo intero
     button_quote: Cita
@@ -350,6 +350,8 @@ it:
       direct_hit_available: Macro-attività con ID esatto trovata. Premi Invio per aprirla.
       items_available: "%{count} elementi disponibili"
       recently_viewed: Visualizzati di recente
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Cerca macro-attività per oggetto, progetto, tipo, stato o ID
       title:
         all_projects: tutti i progetti
@@ -503,6 +505,7 @@ it:
     label_in: in
     label_in_less_than: in meno di
     label_in_more_than: in più di
+    label_in_progress_work_packages: in corso
     label_incoming_emails: Email in arrivo
     label_infinity: Infinito
     label_information_plural: Informazioni
@@ -535,6 +538,10 @@ it:
     label_open_context_menu: Apri il menu di scelta rapida
     label_open_menu: Apri menu
     label_open_work_packages: aperte
+    label_origin: Origine
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Sorgente
     label_password: Password
     label_per_page: 'Per pagina:'
     label_please_wait: Attendere
@@ -559,8 +566,8 @@ it:
     label_reset: Reimposta
     label_resize_project_menu: Ridimensiona il menu del progetto
     label_save_as: Salva come
-    label_scroll_left: Scroll left
-    label_scroll_right: Scroll right
+    label_scroll_left: Scorri a sinistra
+    label_scroll_right: Scorri a destra
     label_search_columns: Cerca una colonna
     label_select_watcher: Seleziona un osservatore...
     label_selected_filter_list: Filtri selezionati
@@ -568,9 +575,9 @@ it:
     label_show_in_menu: Mostra la vista nel menù
     label_sort_by: Ordina per
     label_sort_higher: Sposta su
-    label_sort_highest: Move to top
+    label_sort_highest: Sposta in cima
     label_sort_lower: Sposta giu
-    label_sort_lowest: Move to bottom
+    label_sort_lowest: Sposta in fondo
     label_sorted_by: ordinati per
     label_sorting: Ordinamento
     label_spent_time: Tempo speso
@@ -581,6 +588,7 @@ it:
     label_sum_for: Somma per
     label_this_week: questa settimana
     label_time_entry_plural: Tempo speso
+    label_to_do_work_packages: to-do
     label_today: Oggi
     label_total_amount: 'Totale: %{amount}'
     label_total_progress: "%{percent}% Progresso totale"
@@ -636,7 +644,7 @@ it:
       center:
         and_more_users:
           one: and %{count} other
-          other: and %{count} others
+          other: e altri %{count}
         empty_state:
           no_notification: Sembra che siate tutti coinvolti.
           no_notification_for_filter: A quanto pare ti piace molto questo filtro.
@@ -841,11 +849,11 @@ it:
         range_blocked: Selezione invariata. L'intervallo contiene un elemento che non partecipa all'ordinamento di questo elenco.
         range_restarted:
           one: Could not extend the range. %{count} item selected.
-          other: Could not extend the range. %{count} items selected.
+          other: Non è stato possibile estendere l'intervallo. %{count} elementi selezionati.
         range_unavailable: Selezione invariata. Espandi questo elenco per selezionare l'intervallo.
         selected:
           one: "%{count} item selected."
-          other: "%{count} items selected."
+          other: "%{count} elementi selezionati."
     spot:
       drop_modal:
         close: Chiusura modale
@@ -895,19 +903,19 @@ it:
     units:
       child_work_packages:
         one: "%{count} child work package"
-        other: "%{count} work package children"
+        other: "%{count} macro-attività subordinate"
       day:
         one: "%{count} day"
         other: "%{count} giorni"
         zero: 0 giorni
       hour:
-        one: "%{count} h"
+        one: "%{count} o"
         other: "%{count} o"
         zero: 0 o
       hour_string: "%{hours} h"
       word:
         one: "%{count} word"
-        other: "%{count} words"
+        other: "%{count} parole"
       workPackage:
         one: macro-attività
         other: macro-attività
@@ -966,6 +974,7 @@ it:
         all_open: Apri tutto
         assigned_to_me: Assegnato a me
         created_by_me: Creato da me
+        in_progress: In corso
         latest_activity: Ultima attività
         manually_sorted: Nuovo elenco progetti ordinato manualmente
         overdue: In ritardo
@@ -973,6 +982,7 @@ it:
         shared_with_me: Condivisi con me
         shared_with_users: Condiviso con gli utenti
         summary: Sommario
+        to_do: To-do
       description_enter_text: Inserisci testo
       description_filter: Filtro
       description_options_hide: Nascondi opzioni
@@ -1060,6 +1070,7 @@ it:
         other: Altro
         people: Persone
       query:
+        add_columns: Aggiungi colonne
         click_to_edit_query_name: Clicca per modificare il titolo della vista.
         column_names: Colonne
         confirm_edit_cancel: Sei sicuro di voler annullare la modifica del nome di questa vista? Il titolo verrà impostato sul valore precedente.
@@ -1069,17 +1080,16 @@ it:
           not_found: La vista non esiste
           unretrievable_query: Impossibile recuperare la vista dall'URL
         filters: Filtri
-        group: Raggruppa per
         group_by: Raggruppa i risultati per
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Raggruppamento disabilitato durante la modalità gerarchica.
-        hide_column: Nascondi la colonna
         hierarchy_disabled_by_group_by: Modalità gerarchica disabilitata a causa di un raggruppamento sulla colonna %{column}.
-        insert_columns: Inserisci colonne
         move_column_left: Spostare la colonna a sinistra
         move_column_right: Spostare la colonna a destra
         public_text: 'Pubblica questa vista, consentendo ad altri utenti di accedere alla tua vista. Gli utenti con il permesso "Gestisci viste pubbliche" possono modificare o rimuovere la query pubblica. Questo non influisce sulla visibilità dei risultati della macro-attività in quella vista e gli utenti possono vedere risultati diversi a seconda dei loro permessi.
 
           '
+        remove_column: Rimuovi colonna
         rename_query_placeholder: Nome di questa vista
         sort_ascending: Ordinamento crescente
         sort_descending: Ordinamento decrescente
@@ -1104,16 +1114,16 @@ it:
         all_selected:
           one: All %{count} work package on this page selected.
           other: All %{count} work packages on this page selected.
-        cleared: Selection cleared.
+        cleared: Selezione azzerata.
         selected:
           one: "%{count} work package selected."
-          other: "%{count} work packages selected."
+          other: "%{count} macro-attività selezionate."
       sharing:
         show_all_users: Mostra tutti gli utenti con i quali la macro-attività è stata condivisa
         title: Condividi macro-attività
       table:
         configure_button: Configura la tabella della macro-attività
-        grid_actions_header: Actions
+        grid_actions_header: Azioni
         grid_baseline_header: Comparison status
         relations_button: Relations in %{column} for %{work_package}
         sort_criterion_ascending: "%{column} ascending"

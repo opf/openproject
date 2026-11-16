@@ -79,6 +79,11 @@ RSpec.describe Workflows::CopiesController do
       it "assigns the source role" do
         expect(assigns[:source_role]).to eq(source_role)
       end
+
+      it "excludes the source role from the roles to copy to" do
+        expect(assigns[:all_roles]).not_to include(source_role)
+        expect(assigns[:all_roles]).to match_array(Workflows::StatusTransition.eligible_roles - [source_role])
+      end
     end
   end
 end

@@ -70,7 +70,7 @@ RSpec.describe "Query selection" do
 
     it "shows the default (status) filter", :js do
       filters.expect_filter_count 1
-      filters.expect_filter_by "Status", "open", nil
+      filters.expect_filter_by "Status", "open (to-do + in progress)", nil
     end
   end
 

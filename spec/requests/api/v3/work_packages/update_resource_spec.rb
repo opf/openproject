@@ -804,7 +804,7 @@ RSpec.describe "API v3 Work package resource",
           end
         end
 
-        context "with a new title from a user who may edit the work package but not create labels" do
+        context "with a new title from a user the work package is shared with with edit rights" do
           let(:label_links) { [{ href: nil, title: "Needs triage" }] }
           let(:current_user) do
             create(:user).tap do |user|
@@ -817,16 +817,10 @@ RSpec.describe "API v3 Work package resource",
 
           include_context "patch request"
 
-          it { expect(response).to have_http_status(:unprocessable_entity) }
+          it { expect(response).to have_http_status(:ok) }
 
-          it "reports the labels as unauthorized" do
-            expect(response.body)
-              .to be_json_eql("Labels #{I18n.t('activerecord.errors.messages.error_unauthorized')}".to_json)
-                    .at_path("message")
-          end
-
-          it "creates no label" do
-            expect(Label.count).to eq(0)
+          it "creates the label and assigns it" do
+            expect(work_package.reload.labels).to contain_exactly(Label.find_by!(name: "Needs triage"))
           end
         end
 

@@ -85,7 +85,7 @@ RSpec.describe Wikis::InlinePageLinkMacroComponent, type: :component do
     end
 
     context "when access to the page is forbidden" do
-      let(:error_code) { :forbidden }
+      let(:error_code) { :unauthorized }
 
       it_behaves_like "an unresolved wiki page link", "You do not have permission to access this wiki page"
     end

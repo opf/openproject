@@ -55,6 +55,12 @@ export class WorkPackageTableConfiguration {
   /** Whether inline create is enabled */
   public inlineCreateEnabled = true;
 
+  /** Whether inline edit is enabled */
+  public inlineEditEnabled = true;
+
+  /** Whether rows can be selected and activated as the current work package */
+  public selectionEnabled = true;
+
   /** Whether the hierarchy toggler item in the subject column is enabled */
   public hierarchyToggleEnabled = true;
 
@@ -86,5 +92,9 @@ export class WorkPackageTableConfiguration {
         (this as Record<string, unknown>)[key] = value;
       }
     });
+
+    if (!this.inlineEditEnabled) {
+      this.inlineCreateEnabled = false;
+    }
   }
 }

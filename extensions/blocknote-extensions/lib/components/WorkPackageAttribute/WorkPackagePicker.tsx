@@ -38,10 +38,9 @@ interface WorkPackagePickerProps {
   autoFocus?:boolean;
   onPick:(workPackage:WorkPackage) => void;
   onDeselect:() => void;
-  onEscape:() => void;
 }
 
-export const WorkPackagePicker = ({ id, label, selected, autoFocus, onPick, onDeselect, onEscape }:WorkPackagePickerProps) => {
+export const WorkPackagePicker = ({ id, label, selected, autoFocus, onPick, onDeselect }:WorkPackagePickerProps) => {
   const { t } = useTranslation();
   const [inputEl, setInputEl] = useState<HTMLInputElement | null>(null);
   const blurTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -62,7 +61,7 @@ export const WorkPackagePicker = ({ id, label, selected, autoFocus, onPick, onDe
     isDropdownOpen,
     setIsDropdownOpen,
     handleKeyDown,
-  } = useWorkPackageSearchDropdown({ onSelect: (workPackage) => pick(workPackage), onEscape });
+  } = useWorkPackageSearchDropdown({ onSelect: (workPackage) => pick(workPackage) });
   const { mounted, open, onClosed } = usePickerMotion(isDropdownOpen);
 
   useEffect(() => {
@@ -151,9 +150,10 @@ export const WorkPackagePicker = ({ id, label, selected, autoFocus, onPick, onDe
           switch (event.key) {
             case 'Escape':
               // One step at a time: the search first, then whatever holds the picker.
-              event.stopPropagation();
-              if (editing || isDropdownOpen) restore();
-              else onEscape();
+              if (editing || isDropdownOpen) {
+                event.stopPropagation();
+                restore();
+              }
               return;
             case 'ArrowDown':
               if (isDropdownOpen) break;

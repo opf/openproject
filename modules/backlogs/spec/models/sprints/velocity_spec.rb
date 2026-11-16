@@ -37,7 +37,7 @@ RSpec.describe Sprints::Velocity do
 
   shared_let(:open_status) { create(:status, is_default: true) }
   shared_let(:done_status) { create(:status) }
-  shared_let(:closed_status) { create(:status, is_closed: true) }
+  shared_let(:closed_status) { create(:status, category: "closed") }
 
   shared_let(:start_of_history) { Time.zone.local(2026, 3, 2, 10) }
 
@@ -70,10 +70,10 @@ RSpec.describe Sprints::Velocity do
            **)
   end
 
-  def create_story(time:, sprint:, story_points:, status: open_status, project: self.project, changes: {})
-    initial = { project_id: project.id, sprint_id: sprint.id, story_points:, status_id: status.id }
-    history = changes.each_with_object({ time => initial }) do |(changed_at, attributes), journals|
-      journals[changed_at] = journals.values.last.merge(attributes)
+  def create_story(time:, sprint:, status: open_status, project: self.project, changes: {}, **attributes)
+    initial = { project_id: project.id, sprint_id: sprint.id, status_id: status.id, **attributes }
+    history = changes.each_with_object({ time => initial }) do |(changed_at, changed_attributes), journals|
+      journals[changed_at] = journals.values.last.merge(changed_attributes)
     end
 
     create(:work_package, **history.values.last, journals: history)
@@ -276,6 +276,43 @@ RSpec.describe Sprints::Velocity do
         create_story(time: start_of_history, sprint:, story_points: 8)
 
         expect(velocity.completed).to eq [5.0]
+      end
+    end
+  end
+
+  context "with the estimation unit feature active", with_flag: { project_settings_estimation_unit: true } do
+    let(:sprint) do
+      completed_sprint(started_at: start_of_history + 1.day, completed_at: start_of_history + 2.weeks)
+    end
+
+    before do
+      project.estimation_unit = estimation_unit
+
+      create_story(time: start_of_history, sprint:, story_points: 5, estimated_hours: 2.5, status: done_status)
+      create_story(time: start_of_history, sprint:, story_points: 8, estimated_hours: 4)
+    end
+
+    context "when estimation unit is story points" do
+      let(:estimation_unit) { "story_points" }
+
+      it "sums the story points" do
+        expect(velocity).to have_attributes(committed: [13], completed: [5])
+      end
+    end
+
+    context "when estimation unit is time" do
+      let(:estimation_unit) { "time" }
+
+      it "sums the estimated hours" do
+        expect(velocity).to have_attributes(committed: [6.5], completed: [2.5])
+      end
+    end
+
+    context "when estimation unit is none" do
+      let(:estimation_unit) { "none" }
+
+      it "counts the work packages" do
+        expect(velocity).to have_attributes(committed: [2], completed: [1])
       end
     end
   end

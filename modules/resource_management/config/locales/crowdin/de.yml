@@ -80,9 +80,9 @@ de:
         title: Ressourcenmanagement
   label_resource_management: Ressourcenmanagement
   permission_allocate_user_resources: Benutzer-Ressourcen zuweisen
-  permission_allocate_user_resources_explanation: Ermöglicht Benutzern das Erstellen, Aktualisieren und Löschen von Ressourcenzuweisungen innerhalb eines Ressourcenplaners. Dazu gehört die Zuweisung von Benutzern (oder Benutzerfiltern) zu einem Planer und die Anpassung des zugewiesenen Zeit- und Datumsbereichs.
+  permission_allocate_user_resources_explanation: Ermöglicht Benutzern das Erstellen, Aktualisieren und Löschen von Ressourcenzuweisungen innerhalb eines Ressourcenplaners. Dazu gehört die Zuweisung von Benutzern oder Platzhalter zu einem Planer und die Anpassung des zugewiesenen Zeit- und Datumsbereichs.
   permission_assign_users_to_generic_allocations: Benutzer an Platzhalter zuweisen
-  permission_assign_users_to_generic_allocations_explanation: Ermöglicht es Benutzern, über die Ansicht „Personalplanung“ echte Benutzer an einen Platzhalter zuzuordnen, denen noch kein Benutzer zugewiesen ist. Das Erstellen oder Bearbeiten von Zuweisungen ist nicht möglich.
+  permission_assign_users_to_generic_allocations_explanation: Ermöglicht es Benutzern, über die Ansicht „Personalplanung“ echte Benutzer an einen Platzhalter zuzuordnen. Das Erstellen oder Bearbeiten von Zuweisungen ist nicht möglich.
   permission_manage_public_global_resource_planners: Öffentliche projektübergreifende Ressourcenplaner verwalten
   permission_manage_public_global_resource_planners_explanation: Ermöglicht es Benutzern, ihre eigenen projektübergreifenden Ressourcenplaner zu veröffentlichen und projektübergreifende Ressourcenplaner zu verwalten, die andere Benutzer öffentlich freigegeben haben. Es ist Benutzern nicht gestattet, projektübergreifende Ressourcenplaner einzusehen, die nicht öffentlich freigegeben sind.
   permission_manage_public_resource_planners: Öffentliche Ressourcenplaner verwalten
@@ -133,9 +133,9 @@ de:
     assignment_dialog:
       available: "%{hours} verfügbar"
       confirm_overtime: Trotzdem zuweisen
-      filter_criteria: Filterkriterien
+      filter_criteria: Kriterien
       no_candidates:
-        description: Es gibt kein Projektmitglied, das den Filterkriterien dieser Zuweisung entspricht.
+        description: Es gibt kein Projektmitglied, das den Kriterien dieses Platzhalters entspricht.
         title: Keine entsprechenden Mitglieder
       no_schedule: Für diesen Benutzer wurde kein Arbeitszeitplan eingerichtet, daher können wir nicht feststellen, ob diese Zuweisung passt.
       overbooked_detail: Dieser Benutzer steht in diesem Zeitraum für %{available} zur Verfügung; für das Arbeitspaket sind %{requested} erforderlich.
@@ -186,7 +186,7 @@ de:
     staffing:
       assign: Benutzer zuweisen
       blank:
-        description: Allen Resourcenplanungen in diesem Projekt ist ein Benutzer zugewiesen.
+        description: Allen Resourcenplanungen mit Platzhaltern in diesem Projekt ist ein Benutzer zugewiesen.
         title: Keine Zuweisungen erforderlich
       columns:
         dates: Daten
@@ -329,8 +329,8 @@ de:
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          one: "%{count} Mitglied dieses Projekts entspricht dem Platzhalter."
-          other: "%{count} Mitglieder dieses Projekts entsprechen den Filterkriterien der Zuweisung."
+          one: "%{count} Mitglied dieses Projekts entspricht den Kriterien des Platzhalterbenutzers."
+          other: "%{count} Mitglieder dieses Projekts entsprechen den Kriterien des Platzhalterbenutzers."
       blank:
         add_work_package: Arbeitspaket hinzufügen
         configure_view: Ansicht konfigurieren

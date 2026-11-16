@@ -121,8 +121,9 @@ properties:
         allOf:
           - $ref: "./link.yml"
           - description: |-
-              Download link to the attachment. Points to the external storage location once the
-              attachment resides in remote storage, otherwise identical to `staticDownloadLocation`.
+              Download link to the attachment through OpenProject's content endpoint, identical to
+              `staticDownloadLocation`. Download access is checked before serving the file or
+              redirecting to external storage.
 
               **Resource**: -
 examples:

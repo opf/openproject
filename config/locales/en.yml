@@ -401,10 +401,14 @@ en:
         authentication_method: "Authentication method"
         jwt_sub: "Subject claim"
       status:
+        category: "Category"
         default_done_ratio: "% Complete"
         excluded_from_totals: "Exclude from calculation of totals in hierarchy"
-        is_closed: "Work package closed"
         is_readonly: "Work package read-only"
+      status/category:
+        closed: "Closed"
+        in_progress: "In progress"
+        to_do: "To-do"
       subproject_template_assignment:
         workspace_type: "Workspace type"
       time_entry:
@@ -2163,10 +2167,6 @@ en:
       user_custom_field_sections:
         destroy:
           error: "The section could not be deleted."
-        drop:
-          error: "The section could not be reordered."
-        move:
-          error: "The section could not be reordered."
       versions_and_categories:
         banner:
           button_more_information: More information
@@ -3285,7 +3285,6 @@ en:
       gantt_pdf_export: Gantt PDF Export
       internal_comments: Internal Comments
       ldap_groups: LDAP users and group sync
-      mcp_server: Model Context Protocol (MCP)
       meeting_templates: Reusable meeting templates
       nextcloud_sso: Single Sign-On for Nextcloud Storage
       one_drive_sharepoint_file_storage: OneDrive/SharePoint File Storage
@@ -3304,6 +3303,7 @@ en:
       work_package_query_relation_columns: Work Package Query Relation Columns
       work_package_sharing: Share work packages with external users
       work_package_subject_generation: Work Package Subject Generation
+      xwiki_integration: XWiki Integration
     teaser:
       description_html: "You have access to all %{trial_plan} features."
       title:
@@ -3376,8 +3376,6 @@ en:
       internal_comments_inline:
         description: " "
         title: "Write internal comments only a small group can see"
-      mcp_server:
-        description: "Bring OpenProject into your AI workflows with a secure MCP server."
       meeting_templates:
         description: "Define meeting templates with a set agenda structure and save time by reusing them when creating new meetings."
       nextcloud_sso:
@@ -4373,6 +4371,7 @@ en:
   label_in: "in"
   label_in_less_than: "in less than"
   label_in_more_than: "in more than"
+  label_in_progress_work_packages: "in progress"
   label_inactive: "Inactive"
   label_include_sub_projects: Include sub-projects
   label_includes: "includes"
@@ -4525,7 +4524,7 @@ en:
   label_on: "on"
   label_open: "open"
   label_open_menu: "Open menu"
-  label_open_work_packages: "open"
+  label_open_work_packages: "open (to-do + in progress)"
   label_open_work_packages_plural: "open"
   label_openproject_website: "OpenProject website"
   label_operator_all: "is not empty"
@@ -4732,6 +4731,7 @@ en:
   label_time_entry_plural: "Spent time"
   label_timer_since: "Started at %{time}"
   label_title: "Title"
+  label_to_do_work_packages: "to-do"
   label_today: "today"
   label_today_as_date: "Select today as date."
   label_today_as_due_date: "Select today as finish date."
@@ -4845,6 +4845,10 @@ en:
     one: "%{count} file"
     other: "%{count} files"
     zero: "no files"
+  label_x_in_progress_work_packages_abbr:
+    one: "1 in progress"
+    other: "%{count} in progress"
+    zero: "0 in progress"
   label_x_forms:
     one: "%{count} form"
     other: "%{count} forms"
@@ -4863,6 +4867,10 @@ en:
     one: "%{count} project"
     other: "%{count} projects"
     zero: "no projects"
+  label_x_to_do_work_packages_abbr:
+    one: "1 to-do"
+    other: "%{count} to-do"
+    zero: "0 to-do"
   label_x_work_packages:
     one: "%{count} work package"
     other: "%{count} work packages"
@@ -5826,7 +5834,7 @@ en:
   permission_comment_news: "Comment news"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "Duplicate projects"
-  permission_copy_projects_explanation: "In template projects, this permission has a secondary function, it allows the creation of new projects derived from the template."
+  permission_copy_projects_explanation: "Allows copying all project data, including content and attachments the user cannot view in the source project. The role can effectively grant access to all copied data depending on the role in the new project. It also allows creating projects from templates."
   permission_copy_work_packages: "Duplicate work packages"
   permission_create_backup: "Create backups"
   permission_create_user: "Create users"
@@ -7011,6 +7019,7 @@ en:
         label_built_in_attribute_actions: "Built-in attribute actions"
       custom_field_row_component:
         label_user_custom_field_actions: "User attribute actions"
+      label_move_to_section: "Move to %{name}"
       show_component:
         label_add_attribute: "Add a user attribute"
         label_edit_section: "Edit title"
@@ -7132,6 +7141,11 @@ en:
 
   statuses:
     edit:
+      captions:
+        category:
+          closed: "Work that has been completed."
+          in_progress: "Work that is actively being worked on."
+          to_do: "Work that has not yet started."
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
@@ -7591,6 +7605,7 @@ en:
         rename_group: "Rename section"
         required:
           already_required_globally: "This custom field is required for all types."
+          excluded: "Switch this custom field on before requiring it for this type."
           for_variant: "Required for this type"
           globally: "Required"
           globally_hint: "Change this on the custom field"
@@ -7667,6 +7682,7 @@ en:
           success: "The configuration was copied."
         exclusions:
           not_inherited: "This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead."
+          required: "A required custom field cannot be switched off."
           unknown_aspect: 'Unknown configuration section "%{aspect}".'
         inherited:
           configure_manually: "Configure manually"
@@ -7730,6 +7746,10 @@ en:
         delete:
           description: "The projects using this variant will be switched to the variant you choose below before this variant is deleted."
           title: "Delete %{name}"
+          unused:
+            description: "The variant will be deleted permanently. This action cannot be undone."
+            heading: "Delete variant '%{name}'?"
+            title: "Delete variant"
         filter: "Filter by text"
         filter_no_results: "No variants match this filter"
         global_section:

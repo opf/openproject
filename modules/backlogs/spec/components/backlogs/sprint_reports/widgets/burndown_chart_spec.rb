@@ -35,6 +35,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
   shared_let(:project) { create(:project) }
   shared_let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
   shared_let(:open_status) { create(:status, name: "Open", is_default: true) }
+  shared_let(:closed_status) { create(:closed_status, name: "Closed") }
 
   let(:monday) { Date.new(2026, 10, 12) }
   let(:friday) { Date.new(2026, 10, 16) }
@@ -67,6 +68,10 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
 
     it "renders the burndown chart element" do
       expect(rendered_component).to have_element(:"opce-burndown-chart")
+    end
+
+    it "sends the unit" do
+      expect(chart_data["unit"]).to eq "story_points"
     end
 
     it "carries each series under a stable id and a translated label" do
@@ -123,20 +128,196 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
     end
   end
 
-  context "when the sprint has no date range set" do
-    let(:sprint) { create(:sprint, project:, start_date: nil, finish_date: nil) }
-
+  context "when the sprint never received a work package" do
     it "renders a blankslate instead of the chart" do
       expect(rendered_component).to have_no_element(:"opce-burndown-chart")
-      expect(rendered_component).to have_text("No burndown data available")
+      expect(rendered_component).to have_css(".blankslate", text: "No work to display")
+      expect(rendered_component).to have_css(
+        ".blankslate-description",
+        exact_text: "The burndown chart will appear here once the sprint has an open work package with estimated story points."
+      )
     end
   end
 
-  context "when the project has no estimation unit set", with_flag: { project_settings_estimation_unit: true } do
-    before { project.estimation_unit = "none" }
+  context "when the sprint only held story points before the charted window" do
+    before do
+      create(:work_package, project:, story_points: 5,
+                            journals: { monday.in_time_zone - 2.days => { sprint_id: sprint.id },
+                                        monday.in_time_zone - 1.day => {} })
+    end
+
+    it "renders a blankslate instead of the chart" do
+      expect(rendered_component).to have_no_element(:"opce-burndown-chart")
+      expect(rendered_component).to have_css(
+        ".blankslate-description",
+        exact_text: "The burndown chart will appear here once the sprint has an open work package with estimated story points."
+      )
+    end
+  end
+
+  context "when the story points in the sprint were closed throughout the charted window" do
+    before do
+      create(:work_package, project:, sprint:, status: closed_status,
+                            journals: { monday.in_time_zone - 1.day => { story_points: 5, status_id: closed_status.id } })
+    end
+
+    it "renders a blankslate asking for open work" do
+      expect(rendered_component).to have_no_element(:"opce-burndown-chart")
+      expect(rendered_component).to have_css(
+        ".blankslate-description",
+        exact_text: "The burndown chart will appear here once the sprint has an open work package with estimated story points."
+      )
+    end
+  end
+
+  context "when the sprint only received work packages without story points" do
+    before { create(:work_package, project:, sprint:, story_points: nil) }
+
+    it "renders a blankslate instead of the chart" do
+      expect(rendered_component).to have_no_element(:"opce-burndown-chart")
+      expect(rendered_component).to have_css(".blankslate", text: "No work to display")
+      expect(rendered_component).to have_css(
+        ".blankslate-description",
+        exact_text: "The burndown chart will appear here once the sprint has an open work package with estimated story points."
+      )
+    end
+  end
+
+  context "when the project estimates in time", with_flag: { project_settings_estimation_unit: true } do
+    before { project.estimation_unit = "time" }
+
+    context "when the sprint never received a work package" do
+      it "renders a blankslate asking for a work time estimate" do
+        expect(rendered_component).to have_no_element(:"opce-burndown-chart")
+        expect(rendered_component).to have_css(
+          ".blankslate-description",
+          exact_text: "The burndown chart will appear here once the sprint has an open work package with work time estimate."
+        )
+      end
+    end
+  end
+
+  context "when the current date is before the sprint's start date and the sprint never received a work package" do
+    let(:now) { monday.in_time_zone - 2.hours }
+    let(:sprint) { create(:sprint, project:, start_date: monday, finish_date: second_friday) }
+
+    it "renders a blankslate instead of the chart" do
+      expect(rendered_component).to have_no_element(:"opce-burndown-chart")
+      expect(rendered_component).to have_css(".blankslate", text: "No work to display")
+      expect(rendered_component).to have_css(
+        ".blankslate-description",
+        exact_text: "The burndown chart will appear here after the sprint starts."
+      )
+    end
+  end
+
+  context "when the current date is before the sprint's start date" do
+    let(:now) { monday.in_time_zone - 2.hours }
+    let(:sprint) { create(:sprint, project:, start_date: monday, finish_date: second_friday) }
+
+    before { create(:work_package, project:, sprint:, story_points: 3) }
+
+    it "renders a blankslate instead of the chart" do
+      expect(rendered_component).to have_no_element(:"opce-burndown-chart")
+      expect(rendered_component).to have_css(".blankslate", text: "No work to display")
+      expect(rendered_component).to have_css(
+        ".blankslate-description",
+        exact_text: "The burndown chart will appear here after the sprint starts."
+      )
+    end
+
+    context "when the sprint was started early" do
+      let(:sprint) do
+        create(:sprint, project:, start_date: monday, finish_date: second_friday, started_at: now - 1.hour)
+      end
+
+      it "renders the chart" do
+        expect(rendered_component).to have_element(:"opce-burndown-chart")
+      end
+    end
+
+    context "with a viewer for whom the start date has already begun" do
+      current_user do
+        create(:user, member_with_roles: { project => role }, preferences: { time_zone: "Asia/Tokyo" })
+      end
+
+      it "renders the chart" do
+        expect(rendered_component).to have_element(:"opce-burndown-chart")
+      end
+    end
+  end
+
+  context "when the sprint takes more than a year" do
+    let(:sprint) do
+      create(:sprint, project:, start_date: monday, finish_date: monday + 13.months, started_at: monday.in_time_zone + 9.hours)
+    end
+
+    before { create(:work_package, project:, sprint:) }
+
+    it "renders a blankslate instead of the chart" do
+      expect(rendered_component).to have_no_element(:"opce-burndown-chart")
+      expect(rendered_component).to have_css(".blankslate", text: "No chart to display")
+      expect(rendered_component).to have_css(
+        ".blankslate",
+        text: "The sprint duration exceeded the 1-year limit of the burndown chart's timespan."
+      )
+    end
+  end
+
+  context "when the sprint has no date range set" do
+    let(:sprint) { create(:sprint, project:, start_date: nil, finish_date: nil) }
 
     it "renders nothing" do
       expect(rendered_component.to_s).to be_empty
+    end
+  end
+
+  context "with the estimation unit feature active", with_flag: { project_settings_estimation_unit: true } do
+    before { project.estimation_unit = estimation_unit }
+
+    context "when estimation unit is story points" do
+      let(:estimation_unit) { "story_points" }
+
+      before do
+        create(:work_package, project:, sprint:, status: open_status,
+                              journals: { monday.in_time_zone + 9.hours => { story_points: 10 } })
+      end
+
+      it "renders the widget" do
+        expect(rendered_component).to have_element(:"opce-burndown-chart")
+      end
+    end
+
+    context "when estimation unit is time" do
+      let(:estimation_unit) { "time" }
+
+      before do
+        create(:work_package, project:, sprint:, status: open_status,
+                              journals: { monday.in_time_zone + 9.hours => { estimated_hours: 10 } })
+      end
+
+      it "renders the widget" do
+        expect(rendered_component).to have_element(:"opce-burndown-chart")
+      end
+
+      it "sends the unit" do
+        expect(chart_data["unit"]).to eq "time"
+      end
+
+      it "labels the series in estimated time" do
+        expect(chart_data["series"].pluck("id", "label"))
+          .to eq([["remaining", "Remaining estimated time"],
+                  ["guideline", "Guideline"],
+                  ["projection", "Remaining estimated time (projection)"]])
+      end
+    end
+
+    context "when estimation unit is none" do
+      let(:estimation_unit) { "none" }
+
+      it "renders nothing" do
+        expect(rendered_component.to_s).to be_empty
+      end
     end
   end
 end

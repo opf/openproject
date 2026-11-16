@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Documents
-  priority: 900
+  priority: 820
 description: Documents module settings in OpenProject.
 keywords: document category, document categories, documents, collaboration, category, categories, real-time collaboration, edit document
 ---

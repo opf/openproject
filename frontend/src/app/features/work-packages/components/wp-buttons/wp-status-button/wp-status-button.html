@@ -28,7 +28,7 @@
         <span class="sr-only">{{ text.status }} </span>
         <span [textContent]="status.name"></span>
       </span>
-      <op-icon icon-classes="button--icon icon-small icon-pulldown" />
+      <svg triangle-down-icon [size]="small ? 'xsmall' : 'small'" class="op-wp-status-button--caret"></svg>
     </button>
   </div>
 }

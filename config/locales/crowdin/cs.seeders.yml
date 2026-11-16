@@ -73,13 +73,27 @@ cs:
           name: Standardní globální role
       ai_text_actions:
         item_0:
-          label: Fix grammar
+          label: Structure
         item_1:
-          label: Make concise
+          label: Proofread
         item_2:
-          label: Translate to English
+          label: Rewrite
         item_3:
-          label: Sort into template
+          label: Friendly
+        item_4:
+          label: Professional
+        item_5:
+          label: Concise
+        item_6:
+          label: Summarize
+        item_7:
+          label: Key points
+        item_8:
+          label: List
+        item_9:
+          label: Table
+        item_10:
+          label: Suggest subject
     standard:
       project_phases:
         item_0:
