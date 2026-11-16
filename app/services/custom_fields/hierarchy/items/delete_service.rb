@@ -29,15 +29,25 @@
 
 module CustomFields
   module Hierarchy
-    class GenerateRootContract < DryApplicationContract
-      params do
-        required(:custom_field).filled(type?: CustomField)
-      end
+    module Items
+      class DeleteService < ::BaseServices::Delete
+        protected
 
-      rule(:custom_field) do
-        field_format = value.field_format
-        key.failure(:format_not_supported, field_format:) if %w[hierarchy weighted_item_list].exclude?(field_format)
-        key.failure(:defined) if value.hierarchy_root.present?
+        def before_perform(service_result)
+          @deleted_item_ids = model.self_and_descendant_ids
+          @custom_field = model.root.custom_field
+
+          super
+        end
+
+        def after_perform(service_result)
+          service_result.merge!(
+            RecalculateValuesService.new(user:, model: @custom_field).call(item_ids: @deleted_item_ids)
+          )
+          CustomValue.where(custom_field: @custom_field, value: @deleted_item_ids).delete_all
+
+          service_result
+        end
       end
     end
   end

@@ -27,33 +27,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module CustomFields
-  module Hierarchy
-    class UpdateWeightedItemContract < DryApplicationContract
-      params do
-        required(:item).filled(type?: CustomField::Hierarchy::Item)
-        required(:label).filled(:string)
-        required(:weight).filled(:decimal)
-      end
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
-      rule(:item) do
-        key.failure(:not_persisted) if value.new_record?
-        key.failure(:root_item) if value.root?
-      end
+RSpec.describe CustomFields::Hierarchy::Items::DeleteContract,
+               :check_errors_i18n,
+               with_ee: %i[custom_field_hierarchies] do
+  include_context "ModelContract shared context"
 
-      rule(:label) do
-        next if schema_error?(:item)
+  let(:current_user) { build_stubbed(:admin) }
+  let(:custom_field) { create(:hierarchy_wp_custom_field) }
+  let(:root) { custom_field.hierarchy_root }
+  let(:item) { create(:hierarchy_item, parent: root, label: "Luke") }
 
-        key.failure(:not_unique) if conflicting_siblings(values[:item]).with_label_ignoring_case(value).exists?
-      end
+  subject(:contract) { described_class.new(item, current_user) }
 
-      private
+  it_behaves_like "contract is valid for active admins and invalid for regular users"
 
-      def conflicting_siblings(item)
-        return item.siblings if item.project_id.nil?
+  context "for the root" do
+    let(:item) { root }
 
-        item.siblings.where(project_id: [nil, item.project_id])
-      end
-    end
+    it_behaves_like "contract is invalid", base: :root_item
   end
 end

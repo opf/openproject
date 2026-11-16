@@ -27,40 +27,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module CustomFields
-  module Hierarchy
-    class UpdateListItemContract < DryApplicationContract
-      params do
-        required(:item).filled(type?: CustomField::Hierarchy::Item)
-        required(:label).filled(:string)
-        required(:short).maybe(:string)
-      end
+# Primer's TreeView submits every checked node as a JSON payload of the form {"path": [...], "value": "..."}.
+module TreeViewFormValues
+  extend ActiveSupport::Concern
 
-      rule(:item) do
-        key.failure(:not_persisted) if value.new_record?
-        key.failure(:root_item) if value.root?
-      end
+  private
 
-      rule(:label) do
-        next if schema_error?(:item)
+  def selected_tree_view_value(input)
+    return if input.blank?
 
-        key.failure(:not_unique) if conflicting_siblings(values[:item]).with_label_ignoring_case(value).exists?
-      end
-
-      rule(:short) do
-        next if schema_error?(:item)
-        next if value.nil?
-
-        key.failure(:not_unique) if conflicting_siblings(values[:item]).with_short_ignoring_case(value).exists?
-      end
-
-      private
-
-      def conflicting_siblings(item)
-        return item.siblings if item.project_id.nil?
-
-        item.siblings.where(project_id: [nil, item.project_id])
-      end
-    end
+    MultiJSON.load(Array(input).first, symbolize_keys: true)[:value].presence
   end
 end

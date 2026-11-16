@@ -27,12 +27,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class CustomField::Hierarchy::Forms::NewParentFormModel
-  extend ActiveModel::Naming
-
-  attr_reader :new_parent
-
-  def initialize(new_parent:)
-    @new_parent = new_parent
+module CustomFields
+  module Hierarchy
+    module Items
+      class SetAttributesService < ::BaseServices::SetAttributes
+      end
+    end
   end
 end

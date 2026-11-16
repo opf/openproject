@@ -27,41 +27,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module CustomFields
-      module Hierarchy
-        class GetItemsParameterContract < DryApplicationContract
-          option :hierarchy_root
+module CustomFields
+  module Hierarchy
+    module Items
+      class UpdateService < ::BaseServices::Update
+        protected
 
-          params do
-            optional(:parent).filled(:integer)
-            optional(:depth).filled(:integer)
+        def persist(service_result)
+          item = service_result.result
+          @weight_changed = item.weight_changed?
+          return super unless item.parent_id_changed? || item.sort_order_changed?
+
+          item.place_under(item.parent, before: requested_position(item))
+
+          if item.errors.any?
+            service_result.success = false
+            service_result.errors = item.errors
+            return service_result
           end
 
-          rule(:parent) do
-            next unless key?
+          service_result.merge!(RebuildPositionCacheService.new(user:, model: item).call)
+        end
 
-            parent_item = ::CustomField::Hierarchy::Item.find_by(id: value)
+        def after_perform(service_result)
+          item = service_result.result
+          return service_result unless @weight_changed
 
-            if parent_item.nil?
-              key.failure(:not_found)
-            elsif persistence_service.descendant_of?(item: parent_item, parent: hierarchy_root).failure?
-              key.failure(:not_descendant)
-            end
-          end
+          service_result.merge!(
+            RecalculateValuesService.new(user:, model: item.root.custom_field).call(item_ids: [item.id])
+          )
+        end
 
-          rule(:depth) do
-            next unless key?
+        private
 
-            key.failure(:greater_or_equal_zero) if value < 0
-          end
-
-          private
-
-          def persistence_service
-            @persistence_service ||= ::CustomFields::Hierarchy::HierarchicalItemService.new
-          end
+        def requested_position(item)
+          item.sort_order unless item.parent_id_changed?
         end
       end
     end

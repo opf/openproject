@@ -29,36 +29,34 @@
 
 module CustomFields
   module Hierarchy
-    class MoveItemContract < DryApplicationContract
-      params do
-        required(:item).filled(type?: CustomField::Hierarchy::Item)
-        required(:parent).filled(type?: CustomField::Hierarchy::Item)
-      end
+    module Items
+      class RecalculateValuesService < ::BaseServices::BaseContracted
+        def initialize(user:, model:, contract_class: AdminOnlyContract, contract_options: {})
+          self.model = model
+          super(user:, contract_class:, contract_options:)
+        end
 
-      rule(:parent, :item) do
-        next if schema_error?(:item) || schema_error?(:parent)
+        protected
 
-        parent = values[:parent]
-        key(:parent).failure(:other_project) unless parent.project_id.nil? || parent.project_id == values[:item].project_id
-      end
+        def persist(service_result)
+          recalculate_customized(params[:item_ids]) if model.field_format_weighted_item_list?
 
-      rule(:parent, :item) do
-        next if schema_error?(:item) || schema_error?(:parent)
+          service_result
+        end
 
-        item = values[:item]
-        siblings = conflicting_siblings(values[:parent], item)
+        private
 
-        key(:label).failure(:not_unique) if siblings.with_label_ignoring_case(item.label).exists?
-        key(:short).failure(:not_unique) if item.short && siblings.with_short_ignoring_case(item.short).exists?
-      end
+        def recalculate_customized(item_ids)
+          model.class.customized_class
+               .where(custom_values: model.custom_values.where(value: item_ids))
+               .find_each do |customized|
+            affected_cfs = customized.available_custom_fields.affected_calculated_fields([model.id])
 
-      private
-
-      def conflicting_siblings(parent, item)
-        siblings = parent.children.where.not(id: item.id)
-        return siblings if item.project_id.nil?
-
-        siblings.where(project_id: [nil, item.project_id])
+            customized.calculate_custom_fields(affected_cfs)
+            # rubocop:disable-next Rails/SaveBang
+            customized.save if customized.changed_for_autosave?
+          end
+        end
       end
     end
   end

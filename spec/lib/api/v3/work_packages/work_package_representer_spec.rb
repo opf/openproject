@@ -1502,12 +1502,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
       context "with format weighted item list" do
         let(:custom_field) { build_stubbed(:weighted_item_list_wp_custom_field) }
-        let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
-        let(:contract_class) { CustomFields::Hierarchy::InsertWeightedItemContract }
         let(:weighted_item) do
-          service
-            .insert_item(contract_class:, parent: custom_field.hierarchy_root, label: "TIE Fighter", weight: 16.7)
-            .value!
+          create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "TIE Fighter", weight: 16.7)
         end
         let(:value) { weighted_item.id }
 
@@ -1520,12 +1516,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
       context "with format hierarchy" do
         let(:custom_field) { build_stubbed(:hierarchy_wp_custom_field) }
-        let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
-        let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
         let(:item) do
-          service
-            .insert_item(contract_class:, parent: custom_field.hierarchy_root, label: "TIE Fighter", short: "TF")
-            .value!
+          create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "TIE Fighter", short: "TF")
         end
         let(:value) { item.id }
 

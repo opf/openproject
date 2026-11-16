@@ -38,13 +38,13 @@ See COPYRIGHT and LICENSE files for more details.
       primer_form_with(**form_arguments) do |form|
         render(
           Primer::OpenProject::FilterableTreeView.new(
-            form_arguments: { builder: form, name: :new_parent },
+            form_arguments: { builder: form, name: :new_parent_id },
             include_sub_items_check_box_arguments: { hidden: true },
             filter_mode_control_arguments: { hidden: true }
           )
         ) do |tree_view|
           parent = @hierarchy_item.parent
-          descendants = hierarchy_service.get_descendants(item: @hierarchy_item).value!
+          descendants = @hierarchy_item.self_and_descendants.to_a
           item_formatter = standard_tree_view_item_formatter
           label_fn = lambda { |item| with_project_specific_label(item_formatter.format(item:), item) }
 
