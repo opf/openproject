@@ -1041,6 +1041,18 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
           end
         end
 
+        context "when an issue's environment is blank" do
+          let(:jira_issue_payload) do
+            super().tap { |payload| payload["fields"]["environment"] = " \t\r\n " }
+          end
+
+          it "does not add an environment field" do
+            create_work_packages
+            work_package = WorkPackage.find("DPPP-6")
+            expect(work_package.type.default_variant.custom_field_ids).not_to include(environment_cf.id)
+          end
+        end
+
         it "does not add an environment field when no issue has the field set" do
           create_work_packages
           work_package = WorkPackage.find("DPPP-6")

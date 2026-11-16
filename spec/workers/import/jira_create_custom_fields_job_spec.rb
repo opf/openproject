@@ -330,6 +330,16 @@ RSpec.describe Import::JiraCreateCustomFieldsJob do
       end
     end
 
+    context "when every issue's environment is blank" do
+      let(:environment) { " \t\r\n " }
+
+      it "creates no field" do
+        expect { create_custom_fields }.to change(WorkPackageCustomField, :count).by(2)
+        expect(custom_field).to be_nil
+        expect(jira_import.reload.system_field_custom_fields).to be_empty
+      end
+    end
+
     context "when the import is configured to exclude resolution fields" do
       let(:jira) { create(:jira, exclude_resolution_fields: true) }
 
@@ -340,7 +350,7 @@ RSpec.describe Import::JiraCreateCustomFieldsJob do
     end
   end
 
-  describe "with the issue value index stored by stage 3" do
+  describe "with the issue value index stored by a previous stage" do
     it "reads issues only to check the system fields" do
       number_of_fields = Import::JiraCreateProjectJob::JiraImportCustomFields::SYSTEM_FIELD_CUSTOM_FIELDS.size
       store_index
