@@ -30,13 +30,17 @@
 module ITSM
   module OutboundEmails
     class ReplyAvailability
+      # Will be turned on in ITSM-55 when a backend is implemented.
+      # https://community.openproject.org/wp/ITSM-55
+      BACKEND_IMPLEMENTED = false
+
       def initialize(work_package:, user:)
         @work_package = work_package
         @user = user
       end
 
       def available?
-        helpdesk_enabled? && user_allowed? && email_thread? && outgoing_mailbox?
+        BACKEND_IMPLEMENTED && helpdesk_enabled? && user_allowed? && email_thread? && outgoing_mailbox?
       end
 
       private

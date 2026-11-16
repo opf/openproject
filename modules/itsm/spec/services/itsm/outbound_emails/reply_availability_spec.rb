@@ -40,33 +40,39 @@ RSpec.describe ITSM::OutboundEmails::ReplyAvailability, with_flag: { helpdesk: t
 
   subject(:availability) { described_class.new(work_package:, user:) }
 
-  it { is_expected.to be_available }
+  it { is_expected.not_to be_available }
 
-  context "when the feature flag is inactive", with_flag: { helpdesk: false } do
-    it { is_expected.not_to be_available }
-  end
+  context "when the backend is implemented" do
+    before { stub_const("#{described_class}::BACKEND_IMPLEMENTED", true) }
 
-  context "when the project does not use the help desk" do
-    let(:enabled_module_names) { %i[work_package_tracking] }
+    it { is_expected.to be_available }
 
-    it { is_expected.not_to be_available }
-  end
+    context "when the feature flag is inactive", with_flag: { helpdesk: false } do
+      it { is_expected.not_to be_available }
+    end
 
-  context "when the user may not comment" do
-    let(:permissions) { %i[view_work_packages] }
+    context "when the project does not use the help desk" do
+      let(:enabled_module_names) { %i[work_package_tracking] }
 
-    it { is_expected.not_to be_available }
-  end
+      it { is_expected.not_to be_available }
+    end
 
-  context "when the work package was not created from an email" do
-    let!(:thread) { nil }
+    context "when the user may not comment" do
+      let(:permissions) { %i[view_work_packages] }
 
-    it { is_expected.not_to be_available }
-  end
+      it { is_expected.not_to be_available }
+    end
 
-  context "when the project has no outgoing mailbox" do
-    let!(:mailbox) { nil }
+    context "when the work package was not created from an email" do
+      let!(:thread) { nil }
 
-    it { is_expected.not_to be_available }
+      it { is_expected.not_to be_available }
+    end
+
+    context "when the project has no outgoing mailbox" do
+      let!(:mailbox) { nil }
+
+      it { is_expected.not_to be_available }
+    end
   end
 end
