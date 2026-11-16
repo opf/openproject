@@ -53,6 +53,7 @@ module OpenProject::Webhooks::EventResources
         active_webhooks.with_event_name(event_name).pluck(:id).each do |id|
           TimeEntryWebhookJob.perform_later(id, payload[:time_entry], event_name)
         end
+        enqueue_kubernetes_scripts(event_name, payload[:time_entry].project_id, TimeEntryWebhookJob, payload[:time_entry])
       end
     end
   end

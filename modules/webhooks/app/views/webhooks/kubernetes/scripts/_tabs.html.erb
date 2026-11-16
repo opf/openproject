@@ -1,0 +1,10 @@
+<%=
+  render(Primer::Alpha::TabNav.new(label: t("webhooks.kubernetes.scripts.singular"), mb: 3)) do |nav|
+    nav.with_tab(selected: selected == :general, href: edit_admin_kubernetes_script_path(script)) do |tab|
+      tab.with_text { t("webhooks.kubernetes.scripts.tabs.general") }
+    end
+    nav.with_tab(selected: selected == :permissions, href: permissions_admin_kubernetes_script_path(script)) do |tab|
+      tab.with_text { t("webhooks.kubernetes.scripts.tabs.permissions") }
+    end
+  end
+%>

@@ -1,0 +1,43 @@
+<% html_title t(:label_administration), t("webhooks.kubernetes.scripts.plural"), @script.name %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { @script.name }
+    header.with_breadcrumbs(
+      [{ href: admin_index_path, text: t("label_administration") },
+       { href: admin_settings_api_path, text: t("menus.admin.api_and_webhooks") },
+       { href: admin_kubernetes_scripts_path, text: t("webhooks.kubernetes.scripts.plural") },
+       @script.name]
+    )
+  end
+%>
+
+<%= render partial: "tabs", locals: { script: @script, selected: :permissions } %>
+
+<%= form_tag permissions_admin_kubernetes_script_path(@script), method: :patch, id: "script-permissions-form" do %>
+  <%= hidden_field_tag "role[permissions][]", "" %>
+
+  <%=
+    render(Primer::OpenProject::SubHeader.new) do |subheader|
+      subheader.with_text do
+        render(Primer::Beta::Heading.new(tag: :h3)) { t("webhooks.kubernetes.scripts.permissions.global_title") }
+      end
+    end
+  %>
+  <p><%= t("webhooks.kubernetes.scripts.permissions.global_explanation", account: @script.service_account_name) %></p>
+  <%= render partial: "roles/permissions",
+             locals: { permissions: grouped_setable_permissions(@roles[:global]), role: @roles[:global], show_global_role: true } %>
+
+  <%=
+    render(Primer::OpenProject::SubHeader.new(mt: 5)) do |subheader|
+      subheader.with_text do
+        render(Primer::Beta::Heading.new(tag: :h3)) { t("webhooks.kubernetes.scripts.permissions.project_title") }
+      end
+    end
+  %>
+  <p><%= t("webhooks.kubernetes.scripts.permissions.project_explanation") %></p>
+  <%= render partial: "roles/permissions",
+             locals: { permissions: grouped_setable_permissions(@roles[:project]), role: @roles[:project], show_global_role: false } %>
+
+  <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary, mt: 3)) { t(:button_save) } %>
+<% end %>

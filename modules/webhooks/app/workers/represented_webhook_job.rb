@@ -49,6 +49,13 @@ class RepresentedWebhookJob < WebhookJob
       .call!(body:, headers:)
   end
 
+  def payload_for(resource, event_name, actor: nil)
+    @resource = resource
+    @event_name = event_name
+    @actor = actor
+    request_body
+  end
+
   def accepted_in_project?
     webhook.enabled_for_project?(project_id)
   end

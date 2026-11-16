@@ -57,6 +57,8 @@ module OpenProject::Webhooks::EventResources
         active_webhooks.with_event_name(event_name).pluck(:id).each do |id|
           WorkPackageCommentWebhookJob.perform_later(id, journal, event_name)
         end
+        enqueue_kubernetes_scripts(event_name, journal.journable.project_id, WorkPackageCommentWebhookJob, journal,
+                                   triggered_by: journal.user)
       end
     end
   end

@@ -1,0 +1,83 @@
+<fieldset class="form--fieldset" data-controller="webhooks--code-editor">
+  <div class="form--field -required">
+    <%= f.text_field :name, required: true, container_class: "-middle" %>
+  </div>
+
+  <div class="form--field">
+    <%= f.text_area :description, rows: 2, container_class: "-wide" %>
+  </div>
+
+  <div class="form--field -required">
+    <%= f.select :kubernetes_connection_id,
+                 Webhooks::KubernetesConnection.order(:name).pluck(:name, :id),
+                 { include_blank: true },
+                 required: true,
+                 container_class: "-middle" %>
+  </div>
+
+  <div class="form--field -required">
+    <%= f.text_field :image, required: true, container_class: "-middle" %>
+    <div class="form--field-instructions">
+      <%= t("webhooks.kubernetes.scripts.form.image") %>
+    </div>
+  </div>
+
+  <div class="form--field -required">
+    <%= f.text_field :command,
+                     required: true,
+                     container_class: "-middle",
+                     data: {
+                       webhooks__code_editor_target: "command",
+                       action: "input->webhooks--code-editor#updateMode"
+                     } %>
+    <div class="form--field-instructions">
+      <%= t("webhooks.kubernetes.scripts.form.command") %>
+    </div>
+  </div>
+
+  <div class="form--field -required">
+    <%= f.number_field :timeout_seconds, min: 1, required: true, container_class: "-slim" %>
+  </div>
+
+  <div class="form--field -required">
+    <%= f.text_area :body,
+                    rows: 20,
+                    container_class: "-xxwide",
+                    class: "-monospace",
+                    spellcheck: false,
+                    data: { webhooks__code_editor_target: "textarea" } %>
+    <div class="form--field-instructions">
+      <%= t("webhooks.kubernetes.scripts.form.body") %>
+    </div>
+  </div>
+</fieldset>
+
+<fieldset class="form--fieldset" data-controller="checkable">
+  <legend class="form--fieldset-legend">
+    <%= t("webhooks.outgoing.form.events.title") %>
+  </legend>
+  <p><%= t("webhooks.kubernetes.scripts.form.events") %></p>
+  <div class="form--toolbar">
+    <span class="form--toolbar-item">
+      <%= check_all_links %>
+    </span>
+  </div>
+
+  <%= hidden_field_tag "kubernetes_script[event_names][]", "" %>
+  <% OpenProject::Webhooks::EventResources.available_events_map.each do |resource_label, events| %>
+    <div class="form--field">
+      <label class="form--label"><%= resource_label %></label>
+      <div class="form--field-container -vertical">
+        <% events.each do |key, label| %>
+          <label class="form--label-with-check-box">
+            <%= styled_check_box_tag "kubernetes_script[event_names][]",
+                                     key,
+                                     @script.event_names.include?(key),
+                                     data: { checkable_target: "checkbox" } -%>
+            <%= label %>
+          </label>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</fieldset>

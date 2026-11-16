@@ -1,0 +1,37 @@
+<% html_title t(:label_administration), t("webhooks.kubernetes.connections.plural"), @connection.name %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { @connection.name }
+    header.with_breadcrumbs(
+      [{ href: admin_index_path, text: t("label_administration") },
+       { href: admin_settings_api_path, text: t("menus.admin.api_and_webhooks") },
+       { href: admin_kubernetes_connections_path, text: t("webhooks.kubernetes.connections.plural") },
+       @connection.name]
+    )
+    header.with_action_button(
+      tag: :a,
+      href: test_admin_kubernetes_connection_path(@connection),
+      leading_icon: :plug,
+      mobile_icon: :plug,
+      mobile_label: t("webhooks.kubernetes.connections.test"),
+      data: { turbo_method: :post }
+    ) do
+      t("webhooks.kubernetes.connections.test")
+    end
+  end
+%>
+
+<%= error_messages_for @connection %>
+
+<%= labelled_tabular_form_for @connection,
+                              url: admin_kubernetes_connection_path(@connection),
+                              method: :patch,
+                              as: "kubernetes_connection",
+                              html: { class: "form", autocomplete: "off" } do |f| %>
+  <%= render partial: "form", locals: { f: } %>
+  <p>
+    <%= styled_button_tag t(:button_save), class: "-primary -with-icon icon-checkmark" %>
+    <%= link_to t(:button_cancel), admin_kubernetes_connections_path, class: "button -with-icon icon-cancel" %>
+  </p>
+<% end %>

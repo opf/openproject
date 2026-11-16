@@ -1,0 +1,27 @@
+<% html_title t(:label_administration), t("webhooks.kubernetes.scripts.label_add_new") %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t("webhooks.kubernetes.scripts.label_add_new") }
+    header.with_breadcrumbs(
+      [{ href: admin_index_path, text: t("label_administration") },
+       { href: admin_settings_api_path, text: t("menus.admin.api_and_webhooks") },
+       { href: admin_kubernetes_scripts_path, text: t("webhooks.kubernetes.scripts.plural") },
+       t("webhooks.kubernetes.scripts.label_add_new")]
+    )
+  end
+%>
+
+<%= error_messages_for @script %>
+
+<%= labelled_tabular_form_for @script,
+                              url: admin_kubernetes_scripts_path,
+                              method: :post,
+                              as: "kubernetes_script",
+                              html: { class: "form", autocomplete: "off" } do |f| %>
+  <%= render partial: "form", locals: { f: } %>
+  <p>
+    <%= styled_button_tag t(:button_create), class: "-primary -with-icon icon-checkmark" %>
+    <%= link_to t(:button_cancel), admin_kubernetes_scripts_path, class: "button -with-icon icon-cancel" %>
+  </p>
+<% end %>

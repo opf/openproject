@@ -1,0 +1,87 @@
+<fieldset class="form--fieldset">
+  <div class="form--field -required">
+    <%= f.text_field :name, required: true, container_class: "-middle" %>
+  </div>
+
+  <div class="form--field -required">
+    <%= f.select :auth_mode,
+                 Webhooks::KubernetesConnection.auth_modes.keys.map { [t("webhooks.kubernetes.connections.auth_modes.#{it}"), it] },
+                 {},
+                 container_class: "-middle" %>
+    <div class="form--field-instructions">
+      <%= t("webhooks.kubernetes.connections.form.auth_mode") %>
+    </div>
+  </div>
+
+  <div class="form--field">
+    <%= f.url_field :api_url, placeholder: "https://kubernetes.example.com:6443", container_class: "-wide" %>
+    <div class="form--field-instructions">
+      <%= t("webhooks.kubernetes.connections.form.api_url") %>
+    </div>
+  </div>
+
+  <div class="form--field">
+    <%= f.text_field :namespace, container_class: "-middle" %>
+    <div class="form--field-instructions">
+      <%= t("webhooks.kubernetes.connections.form.namespace") %>
+    </div>
+  </div>
+
+  <div class="form--field">
+    <%= f.check_box :verify_tls %>
+  </div>
+
+  <div class="form--field">
+    <%= f.text_area :ca_cert, rows: 6, placeholder: "-----BEGIN CERTIFICATE-----", container_class: "-wide", class: "-monospace" %>
+    <div class="form--field-instructions">
+      <%= t("webhooks.kubernetes.connections.form.ca_cert") %>
+    </div>
+  </div>
+</fieldset>
+
+<%
+  secret_field_options = ->(attribute, placeholder = nil) do
+    stored = f.object.attribute_in_database(attribute).present?
+    {
+      value: "",
+      placeholder: stored ? t("webhooks.kubernetes.connections.form.secret_stored") : placeholder,
+      autocomplete: "off",
+      spellcheck: false,
+      style: "-webkit-text-security: disc; text-security: disc;"
+    }
+  end
+%>
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend"><%= t("webhooks.kubernetes.connections.auth_modes.bearer_token") %></legend>
+  <div class="form--field">
+    <%= f.text_area :token, rows: 4, container_class: "-wide", class: "-monospace", **secret_field_options.call(:token) %>
+  </div>
+</fieldset>
+
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend"><%= t("webhooks.kubernetes.connections.auth_modes.client_certificate") %></legend>
+  <div class="form--field">
+    <%= f.text_area :client_cert, rows: 6, placeholder: "-----BEGIN CERTIFICATE-----", container_class: "-wide", class: "-monospace" %>
+  </div>
+  <div class="form--field">
+    <%= f.text_area :client_key, rows: 6, container_class: "-wide", class: "-monospace",
+                    **secret_field_options.call(:client_key, "-----BEGIN RSA PRIVATE KEY-----") %>
+  </div>
+</fieldset>
+
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend"><%= t("webhooks.kubernetes.connections.form.api_access_legend") %></legend>
+  <p><%= t("webhooks.kubernetes.connections.form.api_access_explanation") %></p>
+  <div class="form--field">
+    <%= f.url_field :openproject_url, placeholder: @connection.effective_openproject_url, container_class: "-wide" %>
+    <div class="form--field-instructions">
+      <%= t("webhooks.kubernetes.connections.form.openproject_url") %>
+    </div>
+  </div>
+  <div class="form--field">
+    <%= f.text_area :openproject_ca_cert, rows: 6, placeholder: "-----BEGIN CERTIFICATE-----", container_class: "-wide", class: "-monospace" %>
+    <div class="form--field-instructions">
+      <%= t("webhooks.kubernetes.connections.form.openproject_ca_cert") %>
+    </div>
+  </div>
+</fieldset>

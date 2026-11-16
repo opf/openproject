@@ -1,0 +1,108 @@
+<% html_title t(:label_project_settings), t("webhooks.kubernetes.project_settings.title") %>
+
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t("webhooks.kubernetes.project_settings.title") }
+    header.with_breadcrumbs(
+      [{ href: project_overview_path(@project.id), text: @project.name },
+       { href: project_settings_general_path(@project.id), text: t(:label_project_settings) },
+       t("webhooks.kubernetes.project_settings.title")]
+    )
+    header.with_description { t("webhooks.kubernetes.project_settings.explanation") }
+  end
+%>
+
+<% if @scripts.empty? %>
+  <%=
+    render(Primer::Beta::Blankslate.new(border: true)) do |slate|
+      slate.with_visual_icon(icon: :"file-code")
+      slate.with_heading(tag: :h2) { t("webhooks.kubernetes.scripts.no_results") }
+      slate.with_description { t("webhooks.kubernetes.project_settings.ask_admin") }
+    end
+  %>
+<% else %>
+  <%= form_tag project_settings_kubernetes_scripts_path(@project), method: :patch do %>
+    <%= hidden_field_tag "script_ids[]", "" %>
+    <%=
+      render(Primer::Beta::BorderBox.new(mb: 3)) do |box|
+        @scripts.each do |script|
+          box.with_row(display: :flex, align_items: :flex_start) do
+            concat(
+              check_box_tag(
+                "script_ids[]",
+                script.id,
+                @enabled_ids.include?(script.id),
+                id: "script_ids_#{script.id}",
+                class: "mt-1 mr-2"
+              )
+            )
+            concat(
+              render(Primer::Box.new(flex: 1)) do
+                concat(label_tag("script_ids_#{script.id}", script.name, class: "text-bold"))
+                if script.description.present?
+                  concat(render(Primer::Beta::Text.new(tag: :div)) { script.description })
+                end
+                concat(
+                  render(Primer::Beta::Text.new(tag: :div, font_size: :small, color: :muted)) do
+                    [script.kubernetes_connection.name, script.image, script.command].join(" · ")
+                  end
+                )
+                concat(
+                  render(Primer::Beta::Text.new(tag: :div, font_size: :small, color: :muted)) do
+                    events = script.event_names.map do |name|
+                      OpenProject::Webhooks::EventResources.lookup_resource_name(name).compact.join(": ")
+                    end
+                    "#{Webhooks::KubernetesScript.human_attribute_name(:event_names)}: " \
+                      "#{events.presence&.join(', ') || t('webhooks.outgoing.label_x_events', count: 0)}"
+                  end
+                )
+              end
+            )
+          end
+        end
+      end
+    %>
+    <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary)) { t(:button_save) } %>
+  <% end %>
+<% end %>
+
+<%=
+  render(Primer::OpenProject::SubHeader.new(mt: 5)) do |subheader|
+    subheader.with_text { render(Primer::Beta::Heading.new(tag: :h3)) { t("webhooks.kubernetes.runs.title") } }
+  end
+%>
+
+<% status_schemes = { succeeded: :success, failed: :danger, error: :danger, running: :attention } %>
+<%=
+  render(Primer::Beta::BorderBox.new) do |box|
+    box.with_row { t("webhooks.kubernetes.runs.no_results") } if @runs.empty?
+
+    @runs.each do |run|
+      box.with_row do
+        concat(
+          render(Primer::Box.new(display: :flex, align_items: :center, style: "gap: 8px")) do
+            concat(
+              render(
+                Primer::Beta::Label.new(scheme: status_schemes.fetch(run.status.to_sym, :secondary))
+              ) { t("webhooks.kubernetes.runs.statuses.#{run.status}") }
+            )
+            concat(render(Primer::Beta::Text.new(font_weight: :bold)) { run.kubernetes_script.name })
+            concat(render(Primer::Beta::Text.new(color: :muted)) { run.event_name })
+            concat(render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { format_time(run.created_at) })
+            if run.k8s_job_name
+              concat(render(Primer::Beta::Text.new(color: :muted, font_size: :small, font_family: :mono)) { run.k8s_job_name })
+            end
+          end
+        )
+        if run.message.present?
+          concat(
+            content_tag(:details, class: "mt-2") do
+              concat(content_tag(:summary, t("webhooks.kubernetes.runs.output")))
+              concat(content_tag(:pre, run.message, class: "mt-2 p-2 color-bg-subtle", style: "white-space: pre-wrap; max-height: 24rem; overflow: auto"))
+            end
+          )
+        end
+      end
+    end
+  end
+%>

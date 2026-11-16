@@ -42,6 +42,34 @@ module OpenProject::Webhooks
            if: Proc.new { User.current.admin? },
            parent: :api_and_webhooks,
            caption: :"webhooks.plural"
+
+      menu :admin_menu,
+           :plugin_webhooks_kubernetes_connections,
+           { controller: "/webhooks/kubernetes/connections", action: :index },
+           if: Proc.new { User.current.admin? },
+           parent: :api_and_webhooks,
+           caption: :"webhooks.kubernetes.connections.plural"
+
+      menu :admin_menu,
+           :plugin_webhooks_kubernetes_scripts,
+           { controller: "/webhooks/kubernetes/scripts", action: :index },
+           if: Proc.new { User.current.admin? },
+           parent: :api_and_webhooks,
+           caption: :"webhooks.kubernetes.scripts.plural"
+
+      project_module nil do
+        permission :manage_project_scripts,
+                   { "projects/settings/kubernetes_scripts": %i[show update] },
+                   permissible_on: :project,
+                   require: :member
+      end
+
+      menu :project_menu,
+           :settings_kubernetes_scripts,
+           { controller: "/projects/settings/kubernetes_scripts", action: :show },
+           caption: :"webhooks.kubernetes.project_settings.title",
+           parent: :settings,
+           before: :settings_storage
     end
 
     initializer "webhooks.subscribe_to_notifications" do |app|

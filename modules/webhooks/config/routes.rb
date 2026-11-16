@@ -36,6 +36,27 @@ Rails.application.routes.draw do
                 param: :webhook_id,
                 controller: "webhooks/outgoing/admin",
                 as: "admin_outgoing_webhooks"
+
+      resources :kubernetes_connections,
+                except: %i[show],
+                controller: "webhooks/kubernetes/connections",
+                as: "admin_kubernetes_connections" do
+        post :test, on: :member
+      end
+
+      resources :kubernetes_scripts,
+                except: %i[show],
+                controller: "webhooks/kubernetes/scripts",
+                as: "admin_kubernetes_scripts" do
+        get :permissions, on: :member
+        patch :permissions, on: :member, action: :update_permissions
+      end
+    end
+  end
+
+  scope "projects/:project_id", as: "project", module: "projects" do
+    namespace "settings" do
+      resource :kubernetes_scripts, only: %i[show update]
     end
   end
 end

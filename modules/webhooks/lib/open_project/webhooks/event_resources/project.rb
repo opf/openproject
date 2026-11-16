@@ -56,6 +56,7 @@ module OpenProject::Webhooks::EventResources
         active_webhooks.with_event_name(event_name).pluck(:id).each do |id|
           ProjectWebhookJob.perform_later(id, payload[:project], event_name)
         end
+        enqueue_kubernetes_scripts(event_name, payload[:project].id, ProjectWebhookJob, payload[:project])
       end
     end
   end

@@ -2,6 +2,25 @@
 en:
   activerecord:
     attributes:
+      webhooks/kubernetes_connection:
+        api_url: "API server URL"
+        auth_mode: "Authentication"
+        ca_cert: "CA certificate"
+        client_cert: "Client certificate"
+        client_key: "Client key"
+        namespace: "Namespace"
+        openproject_ca_cert: "OpenProject CA certificate"
+        openproject_url: "OpenProject URL"
+        scripts: "Kubernetes scripts"
+        token: "Bearer token"
+        verify_tls: "Verify TLS certificate"
+      webhooks/kubernetes_script:
+        body: "Script"
+        command: "Command"
+        event_names: "Events"
+        image: "Container image"
+        kubernetes_connection: "Kubernetes connection"
+        timeout_seconds: "Timeout (seconds)"
       webhooks/log:
         event_name: 'Event name'
         response_body: 'Response'
@@ -14,6 +33,12 @@ en:
         secret: 'Signature secret'
         url: 'Payload URL'
     models:
+      webhooks/kubernetes_connection:
+        one: "Kubernetes connection"
+        other: "Kubernetes connections"
+      webhooks/kubernetes_script:
+        one: "Kubernetes script"
+        other: "Kubernetes scripts"
       webhooks/log:
         one: "Webhook log"
         other: "Webhook logs"
@@ -21,10 +46,70 @@ en:
         one: "Webhook"
         other: "Webhooks"
 
+  permission_manage_project_scripts: "Manage Kubernetes scripts"
   plugin_openproject_webhooks:
     description: "Provides a plug-in API to support OpenProject webhooks for better 3rd party integration."
     name: "OpenProject Webhooks"
   webhooks:
+    kubernetes:
+      connections:
+        auth_modes:
+          bearer_token: "Bearer token"
+          client_certificate: "Client certificate"
+          in_cluster: "In-cluster (service account)"
+        explanation: "Kubernetes clusters that scripts can be run in as jobs."
+        form:
+          api_access_explanation: "Every run gets a temporary API token for the script's service account. These settings tell the script how to reach OpenProject from inside the cluster."
+          api_access_legend: "OpenProject API access"
+          secret_stored: "A value is stored and hidden. Leave empty to keep it."
+          api_url: "Not used for in-cluster connections."
+          auth_mode: "In-cluster uses the service account token, CA and namespace mounted into the OpenProject pod."
+          ca_cert: "PEM encoded CA certificate of the API server. Leave empty to use the system CA store."
+          namespace: "Namespace jobs are created in. Optional for in-cluster connections, which default to the pod namespace."
+          openproject_ca_cert: "PEM encoded CA certificate the script should trust for the OpenProject URL. Needed when OpenProject uses a private CA. Passed to the script as OP_CA_FILE."
+          openproject_url: "URL under which pods reach OpenProject. Leave empty to use the URL of this instance."
+        label_add_new: "Add new Kubernetes connection"
+        no_results: "No Kubernetes connections have been defined yet."
+        plural: "Kubernetes connections"
+        singular: "Kubernetes connection"
+        test: "Test connection"
+      project_settings:
+        ask_admin: "An administrator has to define scripts before they can be enabled in this project."
+        explanation: "Enabled scripts run as Kubernetes jobs whenever one of their events occurs in this project. The webhook payload of the event is passed to the script."
+        title: "Scripts"
+      runs:
+        no_results: "No scripts have run in this project yet."
+        output: "Output"
+        statuses:
+          error: "Error"
+          failed: "Failed"
+          queued: "Queued"
+          running: "Running"
+          succeeded: "Succeeded"
+        title: "Recent runs"
+      scripts:
+        explanation: "Scripts run as Kubernetes jobs when one of their events occurs in a project that has enabled them."
+        form:
+          body: "The webhook payload is available as JSON in the file referenced by OP_PAYLOAD_FILE, the event name in OP_EVENT. To call the OpenProject API, send the token from OP_API_TOKEN_FILE as Bearer token to OP_API_URL."
+          command: "Interpreter the script is passed to, e.g. python or bash."
+          events: "Events this script can handle. Projects that enable the script will run it for these events."
+          image: "Container image to run the script in, e.g. python:3.13-slim."
+        label_add_new: "Add new script"
+        no_results: "No scripts have been defined yet."
+        global_role_name: "%{name} – global"
+        permissions:
+          dependencies_added: "Required permissions were added as well: %{permissions}."
+          global_explanation: "Granted instance-wide to the script's service accounts in every project that enables the script."
+          global_title: "Global permissions"
+          project_explanation: "Granted to the script only in the project whose event triggered the run. The API token of a run cannot act in any other project."
+          project_title: "Project permissions"
+        plural: "Kubernetes scripts"
+        project_service_account_name: "%{name} (script, %{project})"
+        service_account_name: "%{name} (script)"
+        singular: "Script"
+        tabs:
+          general: "General"
+          permissions: "Permissions"
     outgoing:
       deliveries:
         no_results_table: No deliveries have been made for this webhook in the past days.

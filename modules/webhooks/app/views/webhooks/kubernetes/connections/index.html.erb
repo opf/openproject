@@ -1,0 +1,66 @@
+<% html_title t(:label_administration), t("webhooks.kubernetes.connections.plural") %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t("webhooks.kubernetes.connections.plural") }
+    header.with_breadcrumbs(
+      [{ href: admin_index_path, text: t("label_administration") },
+       { href: admin_settings_api_path, text: t("menus.admin.api_and_webhooks") },
+       t("webhooks.kubernetes.connections.plural")]
+    )
+    header.with_description { t("webhooks.kubernetes.connections.explanation") }
+  end
+%>
+
+<%=
+  render(Primer::OpenProject::SubHeader.new) do |subheader|
+    subheader.with_action_button(
+      scheme: :primary,
+      leading_icon: :plus,
+      label: t("webhooks.kubernetes.connections.label_add_new"),
+      tag: :a,
+      href: new_admin_kubernetes_connection_path
+    ) do
+      t("webhooks.kubernetes.connections.singular")
+    end
+  end
+%>
+
+<%=
+  render(Primer::Beta::BorderBox.new) do |box|
+    if @connections.empty?
+      box.with_row { t("webhooks.kubernetes.connections.no_results") }
+    end
+
+    @connections.each do |connection|
+      box.with_row(display: :flex, align_items: :center) do
+        concat(
+          render(Primer::Box.new(flex: 1)) do
+            concat(render(Primer::Beta::Link.new(href: edit_admin_kubernetes_connection_path(connection))) { connection.name })
+            concat(
+              render(Primer::Beta::Text.new(tag: :div, font_size: :small, color: :muted)) do
+                [
+                  t("webhooks.kubernetes.connections.auth_modes.#{connection.auth_mode}"),
+                  connection.in_cluster? ? nil : connection.api_url,
+                  connection.namespace
+                ].compact_blank.join(" · ")
+              end
+            )
+          end
+        )
+        concat(
+          render(
+            Primer::Beta::IconButton.new(
+              icon: :trash,
+              scheme: :danger,
+              tag: :a,
+              href: admin_kubernetes_connection_path(connection),
+              "aria-label": t(:button_delete),
+              data: { turbo_method: :delete, turbo_confirm: t(:text_are_you_sure) }
+            )
+          )
+        )
+      end
+    end
+  end
+%>

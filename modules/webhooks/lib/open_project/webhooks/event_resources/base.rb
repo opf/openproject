@@ -97,6 +97,23 @@ module OpenProject::Webhooks::EventResources
       def active_webhooks
         ::Webhooks::Webhook.where(enabled: true)
       end
+
+      def enqueue_kubernetes_scripts(event_name, project_id, payload_job_class, resource, actor: nil,
+                                     triggered_by: actor || User.current)
+        # Changes made through a script's own API token must not trigger scripts again (endless loops).
+        return if project_id.nil? || script_service_account?(triggered_by)
+
+        ::Webhooks::KubernetesScript.for_event(event_name, project_id).find_each do |script|
+          run = ::Webhooks::KubernetesScriptRun.create!(kubernetes_script: script, project_id:, event_name:)
+          ::KubernetesScriptJob.perform_later(run.id, payload_job_class.name, resource, actor:)
+        end
+      end
+
+      def script_service_account?(user)
+        user.is_a?(::ServiceAccount) &&
+          ::ServiceAccountAssociation.exists?(service_account_id: user.id,
+                                              service_type: ::Webhooks::KubernetesProjectScript.name)
+      end
     end
   end
 end
