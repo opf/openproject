@@ -275,6 +275,19 @@ RSpec.describe "Cost reports", :aggregate_failures, type: :rails_request do
     end
   end
 
+  describe "grouping on both axes" do
+    let(:work_package) { create(:work_package, project:) }
+
+    before { create(:time_entry, entity: work_package, project:, user:, hours: 2) }
+
+    it "labels the column and the row dimensions in separate header rows" do
+      get project_reporting_cost_reports_path(project), params: { filters: "", rows: "work_package_id", columns: "spent_on" }
+
+      expect(response.parsed_body.css("table.report thead tr").map { |tr| tr.at_css("th").text.strip })
+        .to eq([CostQuery::GroupBy::SpentOn.label, CostQuery::GroupBy::WorkPackageId.label])
+    end
+  end
+
   describe "saving a report with a custom field", :skip_csrf do
     shared_let(:custom_field) { create(:string_wp_custom_field) }
 
