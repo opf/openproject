@@ -930,7 +930,7 @@ RSpec.describe "API v3 Work package resource",
         end
       end
 
-      context "category",
+      context "when setting the category",
               with_flag: { work_package_multiple_categories: false },
               with_settings: { work_package_multiple_categories: false } do
         let(:target_category) { create(:category, project:) }
