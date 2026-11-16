@@ -1060,6 +1060,25 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
         end
       end
 
+      context "with several system fields set on the same issue" do
+        let(:jira_issue_payload) do
+          super().tap do |payload|
+            payload["fields"]["resolutiondate"] = "2026-09-12T12:18:05.851+0000"
+            payload["fields"]["environment"] = "*Browser:* Firefox 140"
+          end
+        end
+
+        it "stores every system field on the work package" do
+          create_work_packages
+          work_package = WorkPackage.find("DPPP-6")
+
+          expect(work_package.type.default_variant.custom_field_ids)
+            .to include(resolution_date_cf.id, environment_cf.id)
+          expect(work_package.send(resolution_date_cf.attribute_getter)).to eq(Time.utc(2026, 9, 12, 12, 18, 5))
+          expect(work_package.send(environment_cf.attribute_getter)).to eq("**Browser:** Firefox 140")
+        end
+      end
+
       context "with watchers" do
         let(:locked_op_user) { create(:user, status: :locked) }
         let(:jira_issue_payload) do
