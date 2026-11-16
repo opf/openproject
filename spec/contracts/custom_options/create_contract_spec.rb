@@ -30,7 +30,7 @@
 require "spec_helper"
 require "contracts/shared/model_contract_shared_context"
 
-RSpec.describe CustomOptions::CreateContract do
+RSpec.describe CustomOptions::CreateContract, with_ee: %i[project_specific_list_values] do
   include_context "ModelContract shared context"
 
   current_user { build_stubbed(:admin) }
@@ -60,6 +60,16 @@ RSpec.describe CustomOptions::CreateContract do
       let(:custom_field) { create(:list_wp_custom_field, possible_values: %w[Berlin], allow_additional_project_values: false) }
 
       it_behaves_like "contract is invalid", project_id: :additional_values_not_allowed
+    end
+  end
+
+  context "without the enterprise feature", with_ee: [] do
+    it_behaves_like "contract is valid"
+
+    context "with a project" do
+      let(:option_project) { project }
+
+      it_behaves_like "contract is invalid", base: :error_enterprise_only
     end
   end
 

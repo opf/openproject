@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe CustomOptions::UpdateService do
+RSpec.describe CustomOptions::UpdateService, with_ee: %i[project_specific_list_values] do
   shared_let(:admin) { create(:admin) }
   shared_let(:project) { create(:project) }
   shared_let(:other_project) { create(:project) }

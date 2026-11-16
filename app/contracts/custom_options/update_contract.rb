@@ -29,6 +29,11 @@
 
 module CustomOptions
   class UpdateContract < BaseContract
+    include RequiresEnterpriseGuard
+
+    self.enterprise_action = :project_specific_list_values
+    self.enterprise_condition = -> { model.project_id.present? }
+
     attribute :value
   end
 end

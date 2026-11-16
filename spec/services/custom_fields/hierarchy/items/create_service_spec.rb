@@ -29,7 +29,8 @@
 
 require "spec_helper"
 
-RSpec.describe CustomFields::Hierarchy::Items::CreateService, with_ee: %i[custom_field_hierarchies] do
+RSpec.describe CustomFields::Hierarchy::Items::CreateService,
+               with_ee: %i[custom_field_hierarchies project_specific_list_values] do
   subject(:result) { described_class.new(user:).call(parent: root, label: "bob", **attributes) }
 
   let(:user) { create(:admin) }
@@ -119,6 +120,16 @@ RSpec.describe CustomFields::Hierarchy::Items::CreateService, with_ee: %i[custom
       it "honors the position" do
         expect(result).to be_success
         expect(root.reload.children.to_a).to eq([luke, leia, result.result, jedi])
+      end
+    end
+
+    context "as a user allowed to manage custom field values in the project" do
+      let(:user) { create(:user, member_with_permissions: { project => %i[manage_work_package_custom_field_values] }) }
+      let(:attributes) { { project: } }
+
+      it "appends the item of the project after the project items" do
+        expect(result).to be_success
+        expect(root.reload.children.to_a).to eq([luke, leia, jedi, result.result])
       end
     end
 

@@ -30,7 +30,7 @@
 require "spec_helper"
 require "contracts/shared/model_contract_shared_context"
 
-RSpec.describe CustomOptions::UpdateContract do
+RSpec.describe CustomOptions::UpdateContract, with_ee: %i[project_specific_list_values] do
   include_context "ModelContract shared context"
 
   current_user { build_stubbed(:admin) }
@@ -48,6 +48,16 @@ RSpec.describe CustomOptions::UpdateContract do
   subject(:contract) { described_class.new(custom_option, current_user) }
 
   it_behaves_like "contract is valid for active admins and invalid for regular users"
+
+  context "without the enterprise feature", with_ee: [] do
+    it_behaves_like "contract is invalid", base: :error_enterprise_only
+
+    context "with a global value" do
+      let(:option_project) { nil }
+
+      it_behaves_like "contract is valid"
+    end
+  end
 
   context "as a user allowed to manage custom field values in the project" do
     let(:current_user) { build_stubbed(:user) }

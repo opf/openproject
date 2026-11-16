@@ -193,7 +193,7 @@ RSpec.describe "Admin project-specific values of a work package custom field", :
       end
     end
 
-    describe "adding a value to a project" do
+    describe "adding a value to a project", with_ee: %i[project_specific_list_values] do
       let(:new_path) { new_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, using_project) }
 
       context "for a list custom field" do
@@ -223,7 +223,7 @@ RSpec.describe "Admin project-specific values of a work package custom field", :
         end
       end
 
-      context "for a hierarchy custom field", with_ee: %i[custom_field_hierarchies] do
+      context "for a hierarchy custom field", with_ee: %i[custom_field_hierarchies project_specific_list_values] do
         let(:custom_field) do
           create(:hierarchy_wp_custom_field, types: [feature], allow_additional_project_values: true)
         end
@@ -261,7 +261,7 @@ RSpec.describe "Admin project-specific values of a work package custom field", :
       end
     end
 
-    describe "editing a value of a project" do
+    describe "editing a value of a project", with_ee: %i[project_specific_list_values] do
       let(:edit_path) do
         lambda do |value|
           edit_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, using_project, value.id)
@@ -305,7 +305,7 @@ RSpec.describe "Admin project-specific values of a work package custom field", :
         end
       end
 
-      context "for a hierarchy custom field", with_ee: %i[custom_field_hierarchies] do
+      context "for a hierarchy custom field", with_ee: %i[custom_field_hierarchies project_specific_list_values] do
         let(:custom_field) do
           create(:hierarchy_wp_custom_field, types: [feature], allow_additional_project_values: true)
         end

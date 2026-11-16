@@ -612,7 +612,8 @@ RSpec.describe "Hierarchy item management", :skip_csrf, type: :rails_request do
           end
         end
 
-        context "with project items" do
+        context "with project items",
+                with_ee: %i[custom_field_hierarchies weighted_item_lists project_specific_list_values] do
           let(:project) { create(:project) }
           let!(:chewie) { create(:hierarchy_item, parent: root, label: "Chewie", project:) }
 

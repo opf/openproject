@@ -29,7 +29,8 @@
 
 require "spec_helper"
 
-RSpec.describe CustomFields::Hierarchy::Items::DeleteService, with_ee: %i[custom_field_hierarchies] do
+RSpec.describe CustomFields::Hierarchy::Items::DeleteService,
+               with_ee: %i[custom_field_hierarchies project_specific_list_values] do
   subject(:result) { described_class.new(user:, model: item).call }
 
   let(:user) { create(:admin) }
@@ -57,6 +58,18 @@ RSpec.describe CustomFields::Hierarchy::Items::DeleteService, with_ee: %i[custom
     it "does not delete the item" do
       expect(result).to be_failure
       expect(root.reload.self_and_descendants.count).to eq(4)
+    end
+  end
+
+  context "as a user allowed to manage custom field values in the project" do
+    let(:project) { create(:project) }
+    let(:user) { create(:user, member_with_permissions: { project => %i[manage_work_package_custom_field_values] }) }
+    let(:custom_field) { create(:hierarchy_wp_custom_field, types: [wp_type], allow_additional_project_values: true) }
+    let(:item) { create(:hierarchy_item, parent: root, label: "jedi", project:) }
+
+    it "deletes the item of the project" do
+      expect(result).to be_success
+      expect(root.reload.children.to_a).to eq([luke, leia])
     end
   end
 
