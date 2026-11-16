@@ -52,4 +52,74 @@ RSpec.describe WorkPackage::Categories do
 
     expect { work_package.destroy }.to change(WorkPackageCategory, :count).by(-1)
   end
+
+  describe "mirroring" do
+    let(:backend) { create(:category, project:, name: "Backend") }
+    let(:frontend) { create(:category, project:, name: "Frontend") }
+    let(:api) { create(:category, project:, name: "api") }
+
+    context "when writing category_ids_replacements" do
+      before do
+        work_package.category_ids_replacements = [frontend.id, api.id, backend.id]
+        work_package.save!
+      end
+
+      it "stores the categories in the join table" do
+        expect(work_package.reload.categories).to eq [api, backend, frontend]
+      end
+
+      it "mirrors the first category in alphabetical order into category_id" do
+        expect(work_package.reload.category_id).to eq api.id
+      end
+
+      it "clears the replacements after the save" do
+        expect(work_package.override_categories?).to be false
+      end
+
+      it "replaces the set on the next write" do
+        work_package.category_ids_replacements = [backend.id]
+
+        expect { work_package.save! }
+          .to change { work_package.reload.categories.to_a }.from([api, backend, frontend]).to([backend])
+          .and change { work_package.reload.category_id }.from(api.id).to(backend.id)
+      end
+
+      it "removes all categories with an empty list" do
+        work_package.category_ids_replacements = []
+
+        expect { work_package.save! }
+          .to change { work_package.reload.categories.to_a }.from([api, backend, frontend]).to([])
+          .and change { work_package.reload.category_id }.from(api.id).to(nil)
+      end
+    end
+
+    context "when writing category_id" do
+      it "mirrors a set category into the join table" do
+        work_package.update!(category: backend)
+
+        expect(work_package.reload.categories).to contain_exactly(backend)
+      end
+
+      it "mirrors a changed category into the join table" do
+        work_package.update!(category: backend)
+
+        expect { work_package.update!(category: frontend) }
+          .to change { work_package.reload.categories.to_a }.from([backend]).to([frontend])
+      end
+
+      it "mirrors a removed category into the join table" do
+        work_package.update!(category: backend)
+
+        expect { work_package.update!(category: nil) }
+          .to change { work_package.reload.categories.to_a }.from([backend]).to([])
+      end
+    end
+
+    it "keeps the join table untouched when the category does not change" do
+      work_package.update!(category: backend)
+
+      expect { work_package.update!(subject: "Changed") }
+        .not_to change { work_package.work_package_categories.reload.ids }
+    end
+  end
 end
