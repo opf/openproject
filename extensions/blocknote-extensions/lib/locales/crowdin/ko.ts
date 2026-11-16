@@ -80,7 +80,7 @@ export const en = {
     },
     'options': {
       'openInNewTab': 'Open in new tab',
-      'openWorkPackage': 'Open {{id}}',
+      'open': "열림",
       'changeSize': 'Change size',
       'changeSizeAriaLabel': 'Change size: {{size}}',
       'menuAriaLabel': 'Options for work package {{id}}',
@@ -137,11 +137,6 @@ export const en = {
         'label': "레이블",
         'value': "값",
         'both': 'Label + value'
-      },
-      'options': {
-        'menuAriaLabel': 'Options for {{attribute}} of work package {{id}}',
-        'removeAriaLabel': 'Remove work package attribute',
-        'selectedDescription': '{{attribute}} of work package {{id}}'
       },
       'dialog': {
         'title': 'Insert work package attribute',

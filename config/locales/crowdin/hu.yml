@@ -137,10 +137,10 @@ hu:
         commented: Hozzászólás
       custom_field:
         admin_only: Admin-only
+        allow_additional_project_values: Project admins can add project-specific values
         allow_non_open_versions: Allow non-open versions
         content_right_to_left: Right-to-Left content
         default_value: Alap érték
-        editable: Szerkeszthető
         field_format: Formátum
         formula: Formula
         has_comment: Add a comment text field
@@ -153,10 +153,12 @@ hu:
         min_value: Minimum value
         multi_value: Többszörös kijelölés engedélyezése
         possible_values: Lehetséges értékek
+        project_level_value_management: Project admins can manage values at a project level
         project_specific_value_restriction: Project-specific values
         regexp: Hagyományos kifejezések
         searchable: Kereshető
         semantic_key: Semantic meaning
+        user_self_editable: Editable
         visible_on_user_card: Show on user card
       custom_field/project_specific_value_restriction:
         restriction: Restriction
@@ -344,6 +346,10 @@ hu:
         custom_field_section: Szekció
       project_type:
         variant: Variant
+      push_subscription:
+        created_at: Added
+        endpoint: Endpoint
+        session_id: Session
       query:
         child_work_packages: Child work packages
         column_names: Oszlopok
@@ -727,8 +733,10 @@ hu:
               invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
               multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: The attribute %{custom_fields} cannot be used because it leads to a circular reference; one attribute depends on the other.
+            project_level_value_management:
+              not_available_for_all_values: is only available when values are restricted per project.
             project_specific_value_restriction:
-              not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
+              not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted list.
             required:
               cannot_be_true: cannot be set to true.
           previous_custom_field_recalculation_unprocessed: Az adott egyéni mezőre vonatkozó korábbi módosítások újraszámítása még nem történt meg; kérjük, próbálja meg újra néhány perc múlva.
@@ -739,6 +747,10 @@ hu:
           attributes:
             project_ids:
               blank: Please select a project.
+        custom_option:
+          attributes:
+            project_id:
+              additional_values_not_allowed: cannot add values to this custom field.
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -885,6 +897,10 @@ hu:
             variant:
               must_be_owned_by_the_project: must not be a variant another project owns.
               must_belong_to_the_type: must be a variant of the type the project uses.
+        push_subscription:
+          attributes:
+            base:
+              too_many_push_subscriptions: Only %{count} devices can receive browser push notifications at the same time.
         queries/filters/base:
           attributes:
             values:
@@ -1191,8 +1207,8 @@ hu:
         one: Custom field
         other: Custom fields
       custom_field/hierarchy/item:
-        one: Hierarchy item
-        other: Hierarchy items
+        one: Hierarchy value
+        other: Hierarchy values
       custom_field_section:
         one: Custom field section
         other: Custom field sections
@@ -2170,6 +2186,37 @@ hu:
           error: The section could not be reordered.
         move:
           error: The section could not be reordered.
+      push_notifications:
+        checking: Checking…
+        description: Users can choose to install a progressive web app (PWA) version of OpenProject on modern web browsers. If they do so, they are also able to receive native OS-level notifications for activity in OpenProject.
+        hosts_intro: 'OpenProject sends pushes to whichever push service each user''s browser subscribes through. The check below contacts the push services of the major browsers and every service an existing subscription uses:'
+        http_status: HTTP %{code}
+        key_managed_by_environment: The push signing key is supplied through the OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY environment variable. To renew it, change the variable.
+        key_renewed: The push signing key was renewed. Every device has to turn browser notifications on again.
+        key_unreadable: The push signing key could not be read. Renew it to restore browser notifications; every device then has to turn browser notifications on again.
+        reachable: Reachable
+        reasons:
+          connection: The connection failed
+          filtered: The request was blocked by SSRF protection
+          invalid_host: The host name is not valid
+          private_address: The host resolved to a private address
+          sample_unresolved: Sample host could not be resolved; result inconclusive
+          timeout: No response within %{seconds} seconds
+          tls: The TLS handshake failed
+          unresolved: The host name could not be resolved
+        renew_key: Renew keys
+        renew_key_dialog:
+          confirm_button: Renew key
+          confirmation: I understand that every device has to turn browser notifications on again.
+          description:
+            one: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: the one existing subscription is deleted, and every user has to turn browser notifications on again on each device.'
+            other: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: %{count} subscriptions are deleted, and every user has to turn browser notifications on again on each device.'
+            zero: 'OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: no subscriptions exist yet, but every user has to turn browser notifications on again on each device.'
+          heading: Renew the push signing key?
+          title: Renew keys
+        unreachable: Unreachable
+        verify_reachability: Verify reachability
+        verify_reachability_description: To check for notifications, OpenProject sends a content-free wake-up push. The installed PWA then fetches the unread count over the user's session. The following push services see the subscription endpoint, this instance's address and public key and the time of each push.
       user_custom_field_sections:
         destroy:
           error: The section could not be deleted.
@@ -2634,12 +2681,13 @@ hu:
   button_actions: Műveletek
   button_add: Hozzáadás
   button_add_comment: Megjegyzés hozzáadása
-  button_add_item_above: Add item above
-  button_add_item_below: Add item below
+  button_add_item_above: Add value above
+  button_add_item_below: Add value below
   button_add_member: Tag hozzáadása
   button_add_menu_entry: Menüpont hozzáadása
   button_add_non_working_time: Time off
   button_add_sub_item: Add sub-item
+  button_add_sub_value: Add sub-value
   button_add_watcher: Megfigyelő hozzáadása
   button_all_filters: Minden szűrő
   button_annotate: Jegyzetekkel ellát
@@ -2844,28 +2892,30 @@ hu:
     admin:
       hierarchy:
         subitems:
-          one: "%{count} sub-item"
-          other: "%{count} sub-items"
-          zero: no sub-items
+          one: "%{count} sub-value"
+          other: "%{count} sub-values"
+          zero: no sub-values
       items:
-        actions: Item actions
+        actions: Value actions
         blankslate:
           item:
-            description: Add items to this list to create sub-items inside another one
-            title: This item doesn't have any hierarchy level below
+            description: Add values to this list to create sub-values inside another one
+            title: This value doesn't have any hierarchy level below
+          project_item:
+            description: This value belongs to the project %{project}. It cannot have global sub-values. Sub-values can only be added in the [project administration](project_administration).
           root:
-            description: Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item.
-            title: Your list of items is empty
+            description: Start by adding values to the custom field of type hierarchy. Each value can be used to create a hierarchy below it. To navigate and create sub-values inside a hierarchy click on the created value.
+            title: Your list of values is empty
         delete_dialog:
-          description: This action will irreversibly remove the item and all its sub-items. Any assigned values will be permanently deleted. If this field is required, removing items may cause existing work packages to become invalid.
-          heading: Delete custom field item?
-          title: Delete custom field item
+          description: This action will irreversibly remove the value and all its sub-values. Any assigned values will be permanently deleted. If this field is required, removing values may cause existing work packages to become invalid.
+          heading: Delete custom field value?
+          title: Delete custom field value
         placeholder:
-          label: Item label
+          label: Value label
           short: Short name
           weight: Weight
       notice:
-        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
+        remember_items_and_projects: Remember to set values for this custom field, and to make sure it is used in at least one project.
       projects:
         changes_heading: Important changes
         changes_text: 'Starting version 18.0, custom fields are no longer enabled or disabled at a project level. They are included in forms, which are then used in different types and variants. The following list shows projects that use types or variants using forms including this custom field.
@@ -2921,8 +2971,6 @@ hu:
       admin_only:
         all: Check to make this custom field only visible to administrators. Users without admin rights will not be able to view or edit it.
         project: Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it.
-      editable:
-        all: Allow the field to be editable by users themselves.
       formula:
         project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
       has_comment:
@@ -2952,6 +3000,8 @@ hu:
       searchable:
         all: Include the field values when using the global search functionality.
         project: Check to make this attribute available as a filter in project lists.
+      user_self_editable:
+        all: Allow the field to be editable by users themselves.
       visible_on_user_card:
         all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
     is_enabled_globally: Globálisan engedélyezve van
@@ -2973,6 +3023,11 @@ hu:
       block:
         caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
         label: 'Block filter: Manually choose which values to deactivate for each project'
+      label: Project-specific
+      label_with_project: 'Project-specific: %{project}'
+      project_admins:
+        additional_values_caption: Added values are only available in the project they were created in. You can make them available to all projects later.
+        value_management_caption: Project admins can enable or disable certain values for their project. All global values will be visible to them.
       switch_warning:
         all: All values will be available in all projects.
         allow: No values will be available to any project unless you manually activate them in each project individually.
@@ -3270,11 +3325,10 @@ hu:
       team_planner_view: Team Planner View
       text_assistant: Text assistant
       virus_scanning: Antivirus Scanning
-      weighted_item_lists: Weighted item lists
+      weighted_item_lists: Weighted lists
       work_package_query_relation_columns: Work Package Query Relation Columns
       work_package_sharing: Share work packages with external users
       work_package_subject_generation: Work Package Subject Generation
-      xwiki_integration: XWiki Integration
     teaser:
       description_html: You have access to all %{trial_plan} features.
       title:
@@ -3391,7 +3445,7 @@ hu:
       virus_scanning:
         description: Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users.
       weighted_item_lists:
-        description: Weighted item lists allow you to create a list with underlying numeric values associated.
+        description: Weighted lists allow you to create a list with underlying numeric values associated.
       work_package_sharing:
         description: Share work packages with users who are not members of the project.
       work_package_subject_generation:
@@ -4197,7 +4251,7 @@ hu:
   label_delete_user: Felhasználó törlése
   label_deleted: Törölve
   label_deleted_custom_field: "(egyéni mező törölve)"
-  label_deleted_custom_item: "(deleted item)"
+  label_deleted_custom_item: "(deleted value)"
   label_deleted_custom_option: "(opció törlése)"
   label_deleted_label: "(deleted label)"
   label_deleted_version: "(deleted version)"
@@ -4336,8 +4390,6 @@ hu:
   label_invalid_file_type: This file type is not supported.
   label_invitation: Meghívó
   label_invite_user: Felhasználó meghívása
-  label_item: Item
-  label_item_plural: Items
   label_jira_import: Jira Migrator
   label_journal: Hírközlés
   label_journal_diff: Leírás összehasonlítás
@@ -4710,6 +4762,7 @@ hu:
   label_user_settings: Felhasználói beállítások
   label_users_settings: Users settings
   label_value: Value
+  label_value_plural: Values
   label_value_x: 'Value: %{x}'
   label_version_custom_field_plural: Version custom fields
   label_version_edit: Módosított verzió
@@ -4729,7 +4782,7 @@ hu:
   label_view_x: 'View: %{x}'
   label_watched_work_packages: Megfigyelt munkacsomagok
   label_week: Hét
-  label_weighted_item_list: Weighted item list
+  label_weighted_item_list: Weighted list
   label_what_is_this: Mi ez?
   label_widget_new: New widget
   label_wiki_content_added: Wiki oldal hozzáadva
@@ -4788,13 +4841,13 @@ hu:
     one: "%{count} file"
     other: "%{count} files"
     zero: no files
+  label_x_forms:
+    one: "%{count} form"
+    other: "%{count} forms"
   label_x_in_progress_work_packages_abbr:
     one: 1 in progress
     other: "%{count} in progress"
     zero: 0 in progress
-  label_x_forms:
-    one: "%{count} form"
-    other: "%{count} forms"
   label_x_items:
     one: "%{count} item"
     other: "%{count} items"
@@ -5173,6 +5226,7 @@ hu:
       mail_notification: Email értesítés
       mails_and_notifications: Emails and notifications
       mcp_configurations: Modellkontextus-protokoll (MCP)
+      push_notifications: Browser notifications
       text_actions: Text assistant
     quick_add:
       label: Add…
@@ -5430,7 +5484,7 @@ hu:
   notice_no_principals_found: Nincs találat.
   notice_not_authorized: Ön nem jogosult a lap eléréséhez.
   notice_not_authorized_archived_project: Az elérni kivánt projekt archiválva.
-  notice_parent_item_not_found: Parent item not found.
+  notice_parent_item_not_found: Parent value not found.
   notice_password_confirmation_failed: The entered password is not correct.
   notice_principals_found_multiple: "%{number} találat. \n Tab-al tudsz az első találatra fókuszálni."
   notice_principals_found_single: |-
@@ -5666,12 +5720,15 @@ hu:
         custom_field:
           format_not_supported: format '%{field_format}' is unsupported.
         item:
-          not_persisted: must be an already existing item.
-          root_item: cannot be a root item.
+          not_persisted: must be an already existing value.
+          root_item: cannot be a root value.
         label:
           not_unique: must be unique within the same hierarchy level.
         parent:
           not_descendant: must be a descendant of the hierarchy root.
+          other_project: must be a global value or belong to the same project.
+        project:
+          additional_values_not_allowed: cannot add values to this custom field.
         short:
           not_unique: must be unique within the same hierarchy level.
       str?: must be a string.
@@ -5685,7 +5742,7 @@ hu:
       blueprint: Pattern blueprint
       depth: Depth
       enabled: Enabled
-      item: Item
+      item: Value
       label: Label
       parent: Szülő
       short: Short name
@@ -6699,6 +6756,12 @@ hu:
   setting_user_format: Users name format
   setting_users_deletable_by_admins: A felhasználói fiókok az adminok által törölhetőek
   setting_users_deletable_by_self: Engedélyezi, hogy a felhasználók törölhessék a saját fiókjukat
+  setting_web_push_enabled: Browser notifications
+  setting_web_push_enabled_caption: Lets users who installed OpenProject as a progressive web app receive operating system notifications when they have unread notifications in OpenProject.
+  setting_web_push_enabled_false: Do not allow browser notifications
+  setting_web_push_enabled_false_caption: Users are not able to enable browser notifications in their account settings even if they have the PWA installed
+  setting_web_push_enabled_true: Allow browser notifications
+  setting_web_push_enabled_true_caption: Users can enable browser notifications in their account settings if they have the PWA installed
   setting_welcome_on_homescreen: Üdvözlő blokk megjelenítése a kezdőképernyőn
   setting_welcome_text: Üdvözlő blokk szöveg
   setting_welcome_title: Üdvözlő blokk címe
@@ -7477,7 +7540,6 @@ hu:
         rename_group: Rename section
         required:
           already_required_globally: This custom field is required for all types.
-          excluded: Switch this custom field on before requiring it for this type.
           for_variant: Required for this type
           globally: Required
           globally_hint: Change this on the custom field
@@ -7555,7 +7617,6 @@ hu:
           success: The configuration was copied.
         exclusions:
           not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
-          required: A required custom field cannot be switched off.
           unknown_aspect: Unknown configuration section "%{aspect}".
         inherited:
           configure_manually: Configure manually

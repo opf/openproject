@@ -80,7 +80,7 @@ export const en = {
     },
     'options': {
       'openInNewTab': "بازکردن در زبانه جدید",
-      'openWorkPackage': 'Open {{id}}',
+      'open': "باز",
       'changeSize': "تغییر اندازه",
       'changeSizeAriaLabel': "تغییر اندازه: {{size}}",
       'menuAriaLabel': "گزینه‌های بسته کاری {{id}}",
@@ -137,11 +137,6 @@ export const en = {
         'label': 'Label',
         'value': 'Value',
         'both': 'Label + value'
-      },
-      'options': {
-        'menuAriaLabel': 'Options for {{attribute}} of work package {{id}}',
-        'removeAriaLabel': 'Remove work package attribute',
-        'selectedDescription': '{{attribute}} of work package {{id}}'
       },
       'dialog': {
         'title': 'Insert work package attribute',
