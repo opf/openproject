@@ -30,42 +30,21 @@
 require "spec_helper"
 
 RSpec.describe "db ciphering" do # rubocop:disable RSpec/DescribeClass
-  let!(:repository) { create(:repository_subversion, password: "repository-password") }
-  let!(:ldap) { create(:ldap_auth_source, account_password: "ldap-password") }
-
-  def with_keys(*keys, &)
-    key_provider = ActiveRecord::Encryption::DerivedSecretKeyProvider.new(keys)
-    ActiveRecord::Encryption.with_encryption_context(key_provider:, &)
-  end
-
   describe "db:encrypt" do
     include_context "rake" do
       let(:task_path) { "lib/tasks/ciphering" }
     end
 
-    let(:old_keys) { OpenProject::DatabaseEncryption.primary_keys }
+    let(:service) { instance_double(DatabaseEncryption::ReencryptService, call: ServiceResult.success) }
 
-    it "re-encrypts both credential types with the current key for rotation" do
-      with_keys(*old_keys, "new-key") { subject.invoke }
-
-      with_keys("new-key") do
-        expect(repository.reload.password).to eq("repository-password")
-        expect(ldap.reload.account_password).to eq("ldap-password")
-      end
-
-      with_keys(*old_keys) do
-        expect { repository.reload.password }.to raise_error(ActiveRecord::Encryption::Errors::Decryption)
-      end
+    before do
+      allow(DatabaseEncryption::ReencryptService).to receive(:new).and_return(service)
     end
 
-    it "rolls back all credentials if one cannot be decrypted" do
-      ActiveRecord::Encryption.without_encryption do
-        ldap.update_columns(account_password: "not-ciphertext")
-      end
-      stored = repository.reload.read_attribute_before_type_cast(:password)
+    it "re-encrypts the database" do
+      subject.invoke
 
-      expect { subject.invoke }.to raise_error(ActiveRecord::Encryption::Errors::Decryption)
-      expect(repository.reload.read_attribute_before_type_cast(:password)).to eq(stored)
+      expect(service).to have_received(:call)
     end
   end
 end

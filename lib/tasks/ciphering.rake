@@ -31,12 +31,6 @@ namespace :db do
   desc "Re-encrypts all encrypted attributes in the database with the current encryption key."
   task encrypt: :environment do
     Rails.application.eager_load!
-    models = ActiveRecord::Base.descendants.select do |model|
-      model.base_class? && model.encrypted_attributes.present?
-    end
-
-    ActiveRecord::Base.transaction do
-      models.each { |model| model.unscoped.find_each(&:encrypt) }
-    end
+    DatabaseEncryption::ReencryptService.new.call
   end
 end
