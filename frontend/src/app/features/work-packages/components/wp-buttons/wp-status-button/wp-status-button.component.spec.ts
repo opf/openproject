@@ -30,6 +30,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { screen, waitFor } from '@testing-library/dom';
 import { of } from 'rxjs';
+import { TriangleDownIconComponent } from '@openproject/octicons-angular';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
@@ -51,7 +52,7 @@ describe('WorkPackageStatusButtonComponent', () => {
 
     await TestBed
       .configureTestingModule({
-        imports: [OpTooltipDirective],
+        imports: [OpTooltipDirective, TriangleDownIconComponent],
         declarations: [WorkPackageStatusButtonComponent],
         schemas: [NO_ERRORS_SCHEMA],
         providers: [
