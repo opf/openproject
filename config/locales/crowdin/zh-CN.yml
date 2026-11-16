@@ -3079,6 +3079,7 @@ zh-CN:
       work_package_query_relation_columns: 工作包查询关系列
       work_package_sharing: 与外部用户共享工作包
       work_package_subject_generation: 工作包主题生成
+      xwiki_integration: XWiki Integration
     teaser:
       description_html: 您可以访问 %{trial_plan} 的所有功能。
       title:
@@ -7177,6 +7178,7 @@ zh-CN:
         rename_group: 重命名小节
         required:
           already_required_globally: 此自定义字段对所有类型为必选项。
+          excluded: Switch this custom field on before requiring it for this type.
           for_variant: Required for this type
           globally: 必选
           globally_hint: 在自定义字段上更改此项
@@ -7254,6 +7256,7 @@ zh-CN:
           success: 配置已复制。
         exclusions:
           not_inherited: 此配置不是继承而来，因此无需排除任何内容。请直接编辑该配置。
+          required: A required custom field cannot be switched off.
           unknown_aspect: 未知的配置分区“%{aspect}”。
         inherited:
           configure_manually: 手动配置
