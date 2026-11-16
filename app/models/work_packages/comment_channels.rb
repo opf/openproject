@@ -46,10 +46,6 @@ module WorkPackages
         registry.values.find { it.delivered?(journal) }
       end
 
-      def journal_preloads
-        registry.values.flat_map(&:journal_preloads)
-      end
-
       private
 
       def registry

@@ -49,10 +49,22 @@ module ITSM
       end
 
       def delivered?(journal)
-        journal.helpdesk_reply.present?
+        replied_journal_ids(journal.journable_id).include?(journal.id)
       end
 
-      def journal_preloads = [:helpdesk_reply]
+      private
+
+      def replied_journal_ids(work_package_id)
+        RequestStore.fetch(:"itsm_replied_journal_ids_#{work_package_id}") do
+          EmailMessage
+            .outbound
+            .joins(:thread)
+            .where(itsm_email_threads: { work_package_id: })
+            .where.not(journal_id: nil)
+            .pluck(:journal_id)
+            .to_set
+        end
+      end
     end
   end
 end

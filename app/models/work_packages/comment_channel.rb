@@ -47,7 +47,5 @@ module WorkPackages
     def deliver(_journal) = raise(SubclassResponsibilityError)
 
     def delivered?(_journal) = false
-
-    def journal_preloads = []
   end
 end

@@ -76,7 +76,6 @@ module OpenProject::ITSM
     end
 
     include_module "Projects::HelpdeskMailboxes", into: "Project"
-    include_module "Journals::HelpdeskReply", into: "Journal"
 
     config.to_prepare do
       WorkPackages::CommentChannels.register(ITSM::OutboundEmails::ReplyChannel.new)

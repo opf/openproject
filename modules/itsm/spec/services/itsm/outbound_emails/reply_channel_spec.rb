@@ -46,8 +46,7 @@ RSpec.describe ITSM::OutboundEmails::ReplyChannel do
       key: "email_reply",
       label: "Reply to recipients",
       delivered_label: "Sent to the recipients by email",
-      icon: :"op-mail-sent",
-      journal_preloads: [:helpdesk_reply]
+      icon: :"op-mail-sent"
     )
   end
 
@@ -106,6 +105,20 @@ RSpec.describe ITSM::OutboundEmails::ReplyChannel do
       before { create(:itsm_email_message, thread:, journal:) }
 
       it { is_expected.to be(false) }
+    end
+
+    context "with an outbound email for another comment of the work package" do
+      let(:other_journal) { work_package.journals.first }
+
+      before { create(:itsm_email_message, thread:, journal: other_journal, direction: "outbound", status: "queued") }
+
+      it { is_expected.to be(false) }
+
+      it "looks up the sent comments of the work package once per request" do
+        journals = [journal, other_journal]
+
+        expect { journals.each { channel.delivered?(it) } }.to have_a_query_limit(1)
+      end
     end
   end
 end

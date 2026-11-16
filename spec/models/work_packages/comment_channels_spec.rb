@@ -37,15 +37,13 @@ RSpec.describe WorkPackages::CommentChannels do
     instance_double(WorkPackages::CommentChannel,
                     key: "letter",
                     available?: true,
-                    delivered?: true,
-                    journal_preloads: [:letter])
+                    delivered?: true)
   end
   let(:other_channel) do
     instance_double(WorkPackages::CommentChannel,
                     key: "fax",
                     available?: false,
-                    delivered?: false,
-                    journal_preloads: [])
+                    delivered?: false)
   end
 
   before do
@@ -85,12 +83,6 @@ RSpec.describe WorkPackages::CommentChannels do
       it "returns nothing" do
         expect(described_class.delivering(journal)).to be_nil
       end
-    end
-  end
-
-  describe ".journal_preloads" do
-    it "collects the preloads of all channels" do
-      expect(described_class.journal_preloads).to eq([:letter])
     end
   end
 end
