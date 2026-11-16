@@ -47,7 +47,7 @@ By default OpenProject has 4 so called web workers and 1 background worker. Web 
 If there are more users you will need more web workers and eventually also more background workers.
 
 The database will need resources as well, and this, too, will increase with the number of users.
-There may come a point where you will have to make configuration changes to the database and/or use an external database, but for most cases the default database setup should be enough. You will ideally want to have the database on a performant storage such as SSDs. [There are also other excellent resources](https://wiki.postgresql.org/wiki/Performance_Optimization) for tuning PostgreSQL database performance.
+There may come a point where you will have to make configuration changes to the database and/or use an external database, but for most cases the default database setup should be enough. You will ideally want to have the database on a performant storage such as NVMe SSDs. [There are also other excellent resources](https://wiki.postgresql.org/wiki/Performance_Optimization) for tuning PostgreSQL database performance. See also our documentation regarding OpenProject specific [PostgreSQL Tuning](../configuration/database/#postgresql-tuning).
 
 Using a rough estimate we can give the following recommendations based on the number of total active users.
 
