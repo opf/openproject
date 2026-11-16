@@ -31,6 +31,8 @@ class Category < ApplicationRecord
   belongs_to :project
   belongs_to :assigned_to, class_name: "Principal"
   has_many :work_packages, dependent: :nullify
+  has_many :work_package_categories, dependent: :delete_all
+  has_many :categorized_work_packages, through: :work_package_categories, source: :work_package
 
   validates :name,
             uniqueness: { scope: [:project_id], case_sensitive: false },
