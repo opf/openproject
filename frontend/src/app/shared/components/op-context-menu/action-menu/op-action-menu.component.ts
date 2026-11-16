@@ -208,6 +208,11 @@ export class OpActionMenuComponent implements AfterContentChecked, AfterViewInit
     }
   }
 
+  itemRole(item:OpContextMenuItem):'menuitem'|'menuitemcheckbox'|'menuitemradio' {
+    if (item.checked === undefined) return 'menuitem';
+    return item.radio ? 'menuitemradio' : 'menuitemcheckbox';
+  }
+
   subMenuId(prefix:string, index:number):string {
     return `${prefix}-${index}`;
   }

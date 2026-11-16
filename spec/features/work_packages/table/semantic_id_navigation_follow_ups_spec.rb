@@ -106,7 +106,7 @@ RSpec.describe "Work package table navigation follow-ups use displayId",
       JS
 
       context_menu.open_for(work_package)
-      context_menu.choose("Copy link")
+      context_menu.choose("Copy link to clipboard")
 
       copied = nil
       retry_block do
@@ -134,7 +134,7 @@ RSpec.describe "Work package table navigation follow-ups use displayId",
       JS
 
       context_menu.open_for(work_package)
-      context_menu.choose("Copy ID (\"#{semantic_id}\")")
+      context_menu.choose("Copy work package ID")
 
       copied = nil
       retry_block do
@@ -154,9 +154,25 @@ RSpec.describe "Work package table navigation follow-ups use displayId",
     let(:project) { create(:project, identifier: "navfollow") }
 
     describe "right-click context menu 'Copy ID' item" do
-      it "shows the numeric id" do
+      it "copies the numeric id" do
+        page.execute_script(<<~JS)
+          window.__lastCopiedText = null;
+          navigator.clipboard.writeText = function(text) {
+            window.__lastCopiedText = text;
+            return Promise.resolve();
+          };
+        JS
+
         context_menu.open_for(work_package)
-        context_menu.expect_options("Copy ID (\"#{work_package.id}\")")
+        context_menu.choose("Copy work package ID")
+
+        copied = nil
+        retry_block do
+          copied = page.evaluate_script("window.__lastCopiedText")
+          raise "clipboard write not yet observed" if copied.nil?
+        end
+
+        expect(copied).to eq(work_package.id.to_s)
       end
     end
   end

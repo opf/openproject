@@ -2,7 +2,7 @@
 set -euxo pipefail
 
 # Ensure we can write in /tmp/op_uploaded_files (cf. #29112)
-mkdir -p /tmp/op_uploaded_files/ && chown -R $APP_USER:$APP_USER /tmp/op_uploaded_files/
+mkdir -p /tmp/op_uploaded_files/ && chown -R "${APP_USER}:${APP_USER}" /tmp/op_uploaded_files/
 
 # Remove any existing config/database.yml
 rm -f ./config/database.yml
@@ -15,5 +15,5 @@ tmp_path="$APP_PATH/tmp"
 rm -rf "$tmp_path"
 # Recreate and own it for the user for later files (PID etc. see above)
 mkdir -p "$tmp_path"
-chown -R $APP_USER:$APP_USER "$tmp_path"
+chown -R "${APP_USER}:${APP_USER}" "$tmp_path"
 chmod g+rw "$tmp_path"

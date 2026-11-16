@@ -39,6 +39,15 @@
     padding: var(--base-size-16)
     border-radius: var(--borderRadius-medium)
 
+  // Before the record exists the steps are not navigable yet, so strip the
+  // hover highlight and pointer cursor that would make them look pressable.
+  &--sidebar-static
+    .TreeViewRootUlStyles .TreeViewItemContainer:hover
+      background-color: transparent
+
+    .TreeViewRootUlStyles .TreeViewItemContent
+      cursor: default
+
   &--sidebar,
   &--main
     overflow: auto

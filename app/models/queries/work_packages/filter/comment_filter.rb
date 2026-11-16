@@ -42,6 +42,7 @@ class Queries::WorkPackages::Filter::CommentFilter < Queries::WorkPackages::Filt
      WHERE #{journal_table}.journable_id = #{WorkPackage.table_name}.id
 	   AND #{journal_table}.journable_type = '#{WorkPackage.name}'
      AND #{notes_condition}
+     AND #{WorkPackage.internal_journals_visible_condition}
     SQL
   end
 

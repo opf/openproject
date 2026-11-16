@@ -48,7 +48,7 @@ class CostQuery::Filter::UserId < Report::Filter::Base
     end
   end
 
-  def self.available_values(*)
+  def self.available_values(**)
     []
   end
 end

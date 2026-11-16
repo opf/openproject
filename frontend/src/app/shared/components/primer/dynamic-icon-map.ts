@@ -34,7 +34,6 @@ import {
   clockIconData,
   columnsIconData,
   duplicateIconData,
-  eyeClosedIconData,
   graphIconData,
   hashIconData,
   infoIconData,
@@ -44,6 +43,7 @@ import {
   moveToTopIconData,
   noteIconData,
   opArrowInIconData,
+  opBudgetIconData,
   opColumnsLeftIconData,
   opColumnsRightIconData,
   opCopyToProjectIconData,
@@ -60,6 +60,7 @@ import {
   opViewFullscreenIconData,
   opViewSplitIconData,
   opWorkPackagesIconData,
+  packageDependentsIconData,
   pasteIconData,
   pencilIconData,
   personAddIconData,
@@ -69,6 +70,7 @@ import {
   SVGData,
   trashIconData,
   triangleDownIconData,
+  xCircleIconData,
   xIconData,
 } from '@openproject/octicons-angular';
 
@@ -81,7 +83,6 @@ export const ICON_MAP = {
   clock: clockIconData,
   columns: columnsIconData,
   duplicate: duplicateIconData,
-  'eye-closed': eyeClosedIconData,
   graph: graphIconData,
   hash: hashIconData,
   info: infoIconData,
@@ -91,6 +92,7 @@ export const ICON_MAP = {
   'move-to-top': moveToTopIconData,
   note: noteIconData,
   'op-arrow-in': opArrowInIconData,
+  'op-budget': opBudgetIconData,
   'op-columns-left': opColumnsLeftIconData,
   'op-columns-right': opColumnsRightIconData,
   'op-copy-to-project': opCopyToProjectIconData,
@@ -107,6 +109,7 @@ export const ICON_MAP = {
   'op-view-fullscreen': opViewFullscreenIconData,
   'op-view-split': opViewSplitIconData,
   'op-work-packages': opWorkPackagesIconData,
+  'package-dependents': packageDependentsIconData,
   paste: pasteIconData,
   pencil: pencilIconData,
   'person-add': personAddIconData,
@@ -116,6 +119,7 @@ export const ICON_MAP = {
   trash: trashIconData,
   'triangle-down': triangleDownIconData,
   x: xIconData,
+  'x-circle': xCircleIconData,
 } satisfies Record<string, SVGData>;
 
 export type DynamicIconName = keyof typeof ICON_MAP;

@@ -33,7 +33,7 @@ class CostQuery::Filter::TypeId < Report::Filter::Base
     WorkPackage.human_attribute_name(:type)
   end
 
-  def self.available_values(*)
+  def self.available_values(**)
     Type.order(Arel.sql("name")).pluck(:name, :id)
   end
 end

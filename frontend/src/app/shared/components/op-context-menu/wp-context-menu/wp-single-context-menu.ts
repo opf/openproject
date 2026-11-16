@@ -36,9 +36,11 @@ import {
 } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import {
+  ContextMenuItemGroups,
   copyIdActionLabel,
   isCopyIdAction,
   PERMITTED_CONTEXT_MENU_ACTIONS,
+  sortContextMenuActions,
 } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-static-context-menu-actions';
 import { CopyToClipboardService } from 'core-app/shared/components/copy-to-clipboard/copy-to-clipboard.service';
 import {
@@ -202,37 +204,40 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
   protected buildItems(permittedActions:WorkPackageAction[]):OpContextMenuItem[] {
     const configureFormLink = this.workPackage.configureForm;
 
-    this.items = permittedActions.map((action:WorkPackageAction) => {
-      const { key } = action;
-      const href = isCopyIdAction(key) || action.turboRequest ? undefined : action.link;
+    const groups = new ContextMenuItemGroups();
 
-      return {
-        disabled: false,
-        hidden: action.hidden === true,
-        linkText: isCopyIdAction(key) ? copyIdActionLabel(this.workPackage) : I18n.t(`js.button_${key}`),
-        href,
-        icon: action.icon || `icon-${key}`,
-        onClick: (event:MouseEvent) => {
-          if (href && isClickedWithModifier(event)) {
-            return false;
-          }
+    sortContextMenuActions(permittedActions)
+      .filter((action) => action.hidden !== true)
+      .forEach((action:WorkPackageAction) => {
+        const { key } = action;
+        const href = isCopyIdAction(key) || action.turboRequest ? undefined : action.link;
 
-          this.triggerContextMenuAction(action, key);
-          return true;
-        },
-      };
-    });
+        groups.addAction(key, {
+          disabled: false,
+          linkText: isCopyIdAction(key) ? copyIdActionLabel() : I18n.t(`js.button_${key}`),
+          href,
+          icon: action.icon ?? `icon-${key}`,
+          onClick: (event:MouseEvent) => {
+            if (href && isClickedWithModifier(event)) {
+              return false;
+            }
+
+            this.triggerContextMenuAction(action, key);
+            return true;
+          },
+        });
+      });
 
     if (configureFormLink) {
-      this.items.push(
-        {
-          href: configureFormLink.href as string|undefined,
-          icon: 'icon-settings3',
-          linkText: I18n.t('js.button_configure-form'),
-          onClick: () => false,
-        },
-      );
+      groups.append('configure', {
+        href: configureFormLink.href as string|undefined,
+        icon: 'icon-settings3',
+        linkText: I18n.t('js.button_configure-form'),
+        onClick: () => false,
+      });
     }
+
+    this.items = groups.items;
 
     return this.items;
   }

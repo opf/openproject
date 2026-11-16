@@ -211,6 +211,22 @@ describe('focus position model', () => {
     expect(reconcilePosition(rows, cell('A', 1), 1)).toEqual({ key: 'A', cell: null, desiredColumn: 1 });
   });
 
+  it('ArrowRight on a row without cells does nothing', () => {
+    const rows = buildRows().map((candidate) => (candidate.key === 'A' ? { ...candidate, cellCount: 0 } : candidate));
+
+    expect(computeNextPosition(rows, row('A'), 'ArrowRight', 5)).toEqual({ type: 'none' });
+  });
+
+  it('computeNextPosition from a row that is not rendered is none', () => {
+    expect(computeNextPosition(buildRows(), row('gone'), 'ArrowDown', 5)).toEqual({ type: 'none' });
+  });
+
+  it('a cell position without a desired column lands in the first cell of the next row', () => {
+    const position:FocusPosition = { key: 'A', cell: 2, desiredColumn: null };
+
+    expect(computeNextPosition(buildRows(), position, 'ArrowDown', 5)).toEqual(move(cell('0:header', 0)));
+  });
+
   it('computeNextPosition on a hidden current row is none for every key', () => {
     const keys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'PageUp', 'PageDown', 'CtrlHome', 'CtrlEnd'] as const;
 

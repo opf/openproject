@@ -29,6 +29,7 @@
 
 class Sprint < ApplicationRecord
   include ::Scopes::Scoped
+  include Sprints::Origin
 
   belongs_to :project
   has_many :work_packages, inverse_of: :sprint, dependent: :nullify

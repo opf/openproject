@@ -47,6 +47,7 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
            started_at: 12.hours.ago)
   end
   shared_let(:sprint_goal) { create(:sprint_goal, sprint:, project:, text: "Add sprint goal widget") }
+  shared_let(:work_package) { create(:work_package, project:, sprint:, story_points: 3) }
 
   let(:permissions) { %i[view_sprints view_work_packages show_board_views] }
 
@@ -109,7 +110,7 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
         [:css, "opce-velocity-chart"],
         [:css, "opce-burndown-chart"],
         [:css, "opce-burnup-chart"],
-        [:css, "opce-wp-overview-graph"]
+        [:css, "opce-sprint-work-package-graph"]
       ]
     end
 
@@ -122,7 +123,7 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
         [:css, "opce-burnup-chart"],
         [:css, "opce-created-resolved-chart"],
         [:text, "Epic progress"],
-        [:css, "opce-wp-overview-graph"],
+        [:css, "opce-sprint-work-package-graph"],
         [:text, "Completed work"],
         [:text, "Unfinished work"],
         [:text, "Scope increase after sprint start"],
@@ -166,6 +167,22 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
 
       it "has nothing left to upsell" do
         expect(page).to have_no_test_selector("op-enterprise-banner")
+      end
+    end
+
+    context "when the sprint has no date range set",
+            with_ee: %i[baseline_comparison sprint_report_pro_widgets] do
+      shared_let(:sprint) do
+        create(:sprint, project:, name: "Sprint 42", start_date: nil, finish_date: nil)
+      end
+      shared_let(:sprint_goal) { create(:sprint_goal, sprint:, project:, text: "Add sprint goal widget") }
+
+      it "shows only the goal widget and a missing dates blankslate", :aggregate_failures do
+        expect(page).to have_css(".widget-boxes .widget-box", count: 1)
+        expect(page).to have_css(".widget-boxes .widget-box", text: "Add sprint goal widget")
+
+        expect(page).to have_css(".blankslate", text: "Missing sprint dates")
+        expect(page).to have_css(".blankslate", text: "Sprint start and finish dates are necessary for the report to show.")
       end
     end
   end

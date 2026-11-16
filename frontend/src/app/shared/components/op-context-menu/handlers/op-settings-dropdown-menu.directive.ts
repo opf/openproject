@@ -199,7 +199,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements Aft
       },
       {
         // Insert columns
-        linkText: this.I18n.t('js.work_packages.query.insert_columns'),
+        linkText: this.I18n.t('js.work_packages.query.add_columns'),
         hidden: this.hideTableOptions,
         icon: 'icon-columns',
         class: 'hidden-for-mobile',

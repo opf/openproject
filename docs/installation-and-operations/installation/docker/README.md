@@ -354,6 +354,9 @@ server {
 Let's assume you want OpenProject to run on your host with the _server name_ `example.com`
 under the _subdirectory_ `/openproject`.
 
+> [!WARNING]
+> Deploying OpenProject in a subdirectory has security limitations. See [Browser data after logout](../../../security-and-privacy/statement-on-security/#browser-data-after-logout) in our statement on security.
+
 If you want to run OpenProject in a subdirectory on your server, first you will
 need to configure OpenProject accordingly by adding the following options to the `docker run` call:
 

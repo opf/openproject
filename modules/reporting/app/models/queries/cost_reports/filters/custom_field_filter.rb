@@ -91,7 +91,7 @@ class Queries::CostReports::Filters::CustomFieldFilter < Queries::CostReports::F
     when "bool"
       [[I18n.t(:general_text_yes), "t"], [I18n.t(:general_text_no), "f"]]
     when "list"
-      custom_field.possible_values.map { |option| [option.value, option.value] }
+      engine_filter.available_values(project: context&.project)
     end
   end
 end

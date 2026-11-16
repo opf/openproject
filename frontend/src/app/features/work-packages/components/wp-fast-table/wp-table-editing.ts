@@ -105,17 +105,6 @@ export class WorkPackageTableEditingContext {
     return this.halEditing.typedState<WorkPackageResource, WorkPackageChangeset>(workPackage).value;
   }
 
-  // TODO
-  public stopEditing(workPackage:WorkPackageResource) {
-    this.halEditing.stopEditing(workPackage);
-
-    const existing = this.forms[workPackage.id!];
-    if (existing) {
-      existing.destroy();
-      delete this.forms[workPackage.id!];
-    }
-  }
-
   public startEditing(workPackage:WorkPackageResource, classIdentifier:string):TableEditForm {
     const wpId = workPackage.id!;
     const existing = this.forms[wpId];

@@ -28,7 +28,7 @@
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
+import { lazyInject } from 'core-app/shared/helpers/angular/lazy-inject';
 
 export type OpTableActionFactory = (i:Injector, wp:WorkPackageResource) => OpTableAction;
 export const contextMenuTdClassName = 'wp-table--context-menu-td';
@@ -40,7 +40,7 @@ export const destructiveControlAttribute = 'data-wp-table-destructive';
 export const invisibleIconButtonClasses = ['Button', 'Button--iconOnly', 'Button--invisible', 'Button--small'] as const;
 
 export abstract class OpTableAction {
-  @LazyInject() I18n!:I18nService;
+  readonly I18n = lazyInject(I18nService, { injector: () => this.injector });
 
   constructor(readonly injector:Injector,
     readonly workPackage:WorkPackageResource) {

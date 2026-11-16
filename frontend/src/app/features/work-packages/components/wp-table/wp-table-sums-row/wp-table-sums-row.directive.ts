@@ -25,16 +25,14 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, Directive, DestroyRef, ElementRef, Injector, Input, inject } from '@angular/core';
-import { switchMap, tap } from 'rxjs/operators';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AfterViewInit, Directive, DestroyRef, ElementRef, Injector, input, inject, effect, signal, computed, untracked } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { States } from 'core-app/core/states/states.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { WorkPackageViewSumService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sum.service';
-import { combineLatest, ReplaySubject } from 'rxjs';
+import { combineLatest } from 'rxjs';
 import { GroupSumsBuilder } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/group-sums-builder';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
@@ -45,7 +43,7 @@ import { totalsRowKey } from 'core-app/features/work-packages/components/wp-fast
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[wpTableSumsRow]',
   host: {
-    '[class.-hidden]': 'isHidden',
+    '[class.-hidden]': 'isHidden()',
   },
   standalone: false,
 })
@@ -61,83 +59,70 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
 
   private readonly destroyRef = inject(DestroyRef);
 
-  private readonly tables = new ReplaySubject<WorkPackageTable>(1);
-
-  private currentTable:WorkPackageTable;
-
   // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('wpTableSumsRow-table')
-  set workPackageTable(table:WorkPackageTable) {
-    this.currentTable = table;
-    if (table) this.tables.next(table);
-  }
+  readonly workPackageTable = input<WorkPackageTable>(undefined, { alias: 'wpTableSumsRow-table' });
 
-  get workPackageTable():WorkPackageTable {
-    return this.currentTable;
-  }
+  private readonly viewReady = signal(false);
 
-  public isHidden = true;
+  private readonly sourceState = toSignal(combineLatest({
+    columns: this.wpTableColumns.live$(),
+    sum: this.wpTableSums.live$(),
+    results: this.querySpace.results.values$(),
+  }));
+
+  readonly isHidden = computed(() => !this.workPackageTable() || !this.sourceState()?.sum);
+
+  private initializedTable?:WorkPackageTable;
 
   private text:{ sum:string };
 
   private element:HTMLTableRowElement;
 
-  private groupSumsBuilder:GroupSumsBuilder;
-
   constructor() {
-    const I18n = this.I18n;
+    this.text = { sum: this.I18n.t('js.label_total_sum') };
 
-    this.text = {
-      sum: I18n.t('js.label_total_sum'),
-    };
-  }
+    effect((onCleanup) => {
+      const table = this.workPackageTable();
+      const state = this.sourceState();
+      if (!this.viewReady() || !table || table.destroyed || this.destroyRef.destroyed) return;
+      let current = true;
+      onCleanup(() => { current = false; });
 
-  ngAfterViewInit():void {
-    this.element = this.elementRef.nativeElement;
-
-    this.tables
-      .pipe(
-        tap((table) => this.reconcileSemantics(table)),
-        switchMap((table) => combineLatest([
-          this.wpTableColumns.live$(),
-          this.wpTableSums.live$(),
-          this.querySpace.results.values$(),
-        ]).pipe(takeUntilDestroyed(table.destroyRef))),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe(([columns, sum, resource]) => {
-        const table = this.workPackageTable;
-        if (!table || table.destroyed || this.destroyRef.destroyed) return;
-        this.isHidden = !sum;
-        if (sum && resource.sumsSchema) {
-          void this.schemaCache
-            .ensureLoaded(resource.sumsSchema.href!)
-            .then(() => {
-              if (table.destroyed || this.destroyRef.destroyed || this.workPackageTable !== table || !this.wpTableSums.isEnabled) return;
-              table.mutate(new Set([totalsRowKey]), () => this.refresh(columns, resource));
-            });
+      untracked(() => {
+        const sum = state?.sum;
+        const resource = state?.results;
+        if (this.initializedTable !== table || (!sum && this.element.hasChildNodes())) {
+          this.initializedTable = table;
+          table.mutate(new Set([totalsRowKey]), () => {
+            if (!sum) this.clear();
+          });
+        }
+        if (sum && resource?.sumsSchema) {
+          void this.schemaCache.ensureLoaded(resource.sumsSchema.href!).then(() => {
+            if (!current || table.destroyed || this.destroyRef.destroyed
+              || this.workPackageTable() !== table || this.sourceState() !== state) return;
+            table.mutate(new Set([totalsRowKey]), () => this.refresh(resource, table));
+          });
         } else if (this.element.hasChildNodes()) {
           table.mutate(new Set([totalsRowKey]), () => this.clear());
         }
       });
+    });
   }
 
-  private reconcileSemantics(table:WorkPackageTable) {
-    table.mutate(new Set([totalsRowKey]), () => undefined);
+  ngAfterViewInit():void {
+    this.element = this.elementRef.nativeElement;
+    this.viewReady.set(true);
   }
 
   private clear() {
     this.element.innerHTML = '';
   }
 
-  private refresh(columns:QueryColumn[], resource:WorkPackageCollectionResource) {
+  private refresh(resource:WorkPackageCollectionResource, table:WorkPackageTable) {
     this.clear();
-    this.render(columns, resource);
-  }
-
-  private render(columns:QueryColumn[], resource:WorkPackageCollectionResource) {
-    this.groupSumsBuilder = new GroupSumsBuilder(this.injector, this.workPackageTable);
-    this.groupSumsBuilder.text = this.text;
-    this.groupSumsBuilder.renderColumns(resource.totalSums!, this.element, 'total');
+    const builder = new GroupSumsBuilder(this.injector, table);
+    builder.text = this.text;
+    builder.renderColumns(resource.totalSums!, this.element, 'total');
   }
 }

@@ -351,7 +351,7 @@ export class DragAndDropTransformer implements RowMover {
   }
 
   private collapseSelectionTo(row:HTMLElement):void {
-    if (this.table.destroyed) return;
+    if (this.table.destroyed || !this.table.configuration.selectionEnabled) return;
     const wpId = row.dataset.workPackageId;
     if (wpId) {
       selectionGesture(this.table, 'navigation', () => {
@@ -503,6 +503,7 @@ export class DragAndDropTransformer implements RowMover {
         };
         if (preparedQuery && manualSort) {
           originalQuery.setSortBy([manualSort]);
+          if (ownsQuery()) sortService.update([manualSort]);
           await preparedQuery.persist();
         }
         complete(true);

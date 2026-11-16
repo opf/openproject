@@ -185,41 +185,34 @@ The application aims to return to the MVC pattern using Rails, Hotwire, and View
 
 ### Angular frontend
 
-Some of the responses of the application include a frontend application approach using Angular. These pages communicate with a REST API to receive data and perform updates. An example of this is the work packages module. Requests within the module are handled completely in the frontend, while boundary requests are forwarded to the Rails stack, returning to a classical request/response pattern.
+Some parts of the application, most notably the work packages module, are still rendered by Angular. These components communicate with the REST API (APIv3) to receive data and perform updates. New UI is built with Hotwire and Primer ViewComponents instead, and the remaining Angular components are being migrated in the meantime.
 
-All requests to the application are still handled by Rails. In some of the responses, only the root Angular component is rendered to bootstrap the Angular frontend. On these pages, [UI-Router for Angular](https://github.com/ui-router/angular) parses the URL to determine what module/frontend route to load and show.
+All requests to the application are handled by Rails. Angular components are not routed by the frontend: they are registered as [custom elements](https://angular.dev/guide/elements) and placed in Rails-rendered pages like any other HTML tag.
 
-In the following, we'll take a look at the different components at use in the application stack of OpenProject as well as concrete examples on how these components interact.
+In the following, we'll take a look at concrete examples of how these parts interact.
 
-#### Exemplary frontend view request
+#### Exemplary request mounting an Angular custom element
 
 Let's take a look at how the request to `/projects/identifier/work_packages` would be handled by Rails and Angular (excluding any external actual HTTP requests to the web server)
 
-1. Rails receives the request and according to its [`config/routes.rb`](https://github.com/opf/openproject/blob/dev/config/routes.rb#L257), will handle the request with the [WorkPackagesController#index action](https://github.com/opf/openproject/blob/dev/app/controllers/work_packages_controller.rb#L66-L81).
-2. This controller responds with [an index template](https://github.com/opf/openproject/blob/dev/app/views/work_packages/index.html.erb) that only renders some details but otherwise, will output the `<openproject-base>` Angular root component that is defined in the [`Rails angular layout`](https://github.com/opf/openproject/blob/dev/app/views/layouts/angular/angular.html.erb).
-3. The rendered response is returned to the Browser and Angular is initialized globally once in [`frontend/src/main.ts`](https://github.com/opf/openproject/blob/dev/frontend/src/main.ts#L48-L49).
-4. As the `<openproject-base>` component contains a ui-router [`[ui-ref]`](https://github.com/opf/openproject/blob/dev/frontend/src/app/core/routing/base/application-base.component.ts) directive, the ui-router will start parsing the URL and looks for a route definition that matches. It will end up matching `root.work-packages` [defined in the work packages' module routes file](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/work-packages/routing/work-packages-routes.ts).
-5. From there, the flow is as with a single-page application. The router mounts that component and the Angular frontend will use the APIv3 to fetch and render the application table.
+1. Rails receives the request and according to its [`config/routes.rb`](https://github.com/opf/openproject/blob/dev/config/routes.rb), will handle the request with the [WorkPackagesController#index action](https://github.com/opf/openproject/blob/dev/app/controllers/work_packages_controller.rb).
+2. This controller responds with [an index template](https://github.com/opf/openproject/blob/dev/app/views/work_packages/index.html.erb) that renders the page structure and outputs the `<opce-work-packages-view>` custom element using the [`angular_component_tag` helper](https://github.com/opf/openproject/blob/dev/app/helpers/angular_helper.rb).
+3. The rendered response is returned to the browser, and Angular is bootstrapped once in [`frontend/src/main.ts`](https://github.com/opf/openproject/blob/dev/frontend/src/main.ts). On bootstrap, the [`OpenProjectModule`](https://github.com/opf/openproject/blob/dev/frontend/src/app/app.module.ts) registers its custom elements with [`registerCustomElement`](https://github.com/opf/openproject/blob/dev/frontend/src/app/shared/helpers/angular/custom-elements.helper.ts).
+4. The browser upgrades `<opce-work-packages-view>` to the [`WorkPackageViewPageEntryComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/work-packages/routing/wp-view-page/wp-view-page-entry.component.ts), which uses the APIv3 to fetch and render the work package table.
 
-This will result in a page on which the majority of the content has been rendered by Angular. Only the toolbar, basic page structure, and upper side menu have been rendered by Rails.
+This will result in a page on which the work package table has been rendered by Angular, while the basic page structure and menus have been rendered by Rails.
 
 ![Work packages table](work-packages-table.png)
 
-This approach has the significant disadvantage to go through the entire Rails stack first to output a response that is mostly irrelevant for the Angular application, and both systems (Rails and Angular) need a somewhat duplicated routing information. The long-term goal is to move to a single-page application and avoid the first two steps.
+#### Exemplary Rails view request augmented by Stimulus
 
-#### Exemplary Rails view request augmented by Angular
+A response that is fully controlled by Rails and enhanced by Stimulus might look as follows. Let's take a look at the request to [edit a form configuration](../../system-admin-guide/manage-work-packages/work-package-types/form-configuration/) `/forms/1/edit`:
 
-A response that is fully controlled by Rails but extended by some Angular components in the frontend might look as follows. Let's take a look at the request to [edit a type's form configuration](../../system-admin-guide/manage-work-packages/work-package-types/form-configuration/) `/types/1/edit/form_configuration`:
+1. Rails receives the request and according to its [`config/routes.rb`](https://github.com/opf/openproject/blob/dev/config/routes.rb), will handle the request with the [FormConfigurations::FormConfigurationsController#edit action](https://github.com/opf/openproject/blob/dev/app/controllers/form_configurations/form_configurations_controller.rb).
 
-1. Rails receives the request and according to its [`config/routes.rb`](https://github.com/opf/openproject/blob/dev/config/routes.rb#L257), will handle the request with the [TypesController#edit action](https://github.com/opf/openproject/blob/dev/app/controllers/types_controller.rb#L71-L82) with its tab set to `form_configuration`.
+2. This controller responds with [an edit template](https://github.com/opf/openproject/blob/dev/app/views/form_configurations/form_configurations/edit.html.erb) that renders the [`WorkPackageTypes::FormConfigurationComponent`](https://github.com/opf/openproject/blob/dev/app/components/work_package_types/form_configuration_component.rb) and its [child components](https://github.com/opf/openproject/tree/dev/app/components/work_package_types/form_configuration), built with Primer ViewComponents.
 
-2. This controller responds with [an edit template](https://github.com/opf/openproject/blob/dev/app/views/types/edit.html.erb) that will include the [type form partial](https://github.com/opf/openproject/blob/dev/app/views/types/form/_form_configuration.html.erb#L77-L83). In this component, an Angular component is explicitly output that will be bootstrapped on page load.
-
-3. The rendered response is returned to the Browser and Angular is initialized globally once in [`frontend/src/main.ts`](https://github.com/opf/openproject/blob/dev/frontend/src/main.ts#L48-L49).
-
-4. Dynamic components in Angular are registered as [custom elements](https://angular.dev/guide/elements) so they can be used throughout the page as web components.
-
-5. This triggers the [`FormConfigurationComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/admin/types/type-form-configuration.component.ts) to be initialized and allows the application to include a highly dynamic component (drag & drop organization of attributes) to be used on an admin form that otherwise has no connection to Angular.
+3. The component attaches the `admin--type-form-configuration--main` Stimulus controller, which is loaded on demand from [`frontend/src/stimulus/controllers/dynamic/admin/type-form-configuration/main.controller.ts`](https://github.com/opf/openproject/blob/dev/frontend/src/stimulus/controllers/dynamic/admin/type-form-configuration/main.controller.ts). Together with the `sortable-lists` controllers, it provides the drag & drop organization of attributes, and changes are sent back to Rails, which responds with Turbo Streams.
 
    ![Exemplary form configuration](form-configuration.png)
 
@@ -227,7 +220,7 @@ A response that is fully controlled by Rails but extended by some Angular compon
 
 Historically, OpenProject has been forked from [Redmine](https://www.redmine.org/) and modified from a primarily software-development focused flow into a general project management application suite. A Ruby on Rails monolith was used to serve the entire application, frontend and API. Javascript was used to extend some of the functionality with Prototype.js and jQuery on existing, Rails-rendered pages.
 
-The monolith was turned into a hybrid application with semi-separated JavaScript frontend by the [introduction of AngularJS in 2014](https://github.com/opf/openproject/pull/913) for a redesign of the [work package table](../../user-guide/work-packages/work-package-views/#work-packages-views). The Rails monolith was and is still rendering a large portion of the frontend however. The AngularJS frontend was served from within Rails and not separated. Therefore, the application frontend is not a single-page application yet.
+The monolith was turned into a hybrid application with semi-separated JavaScript frontend by the [introduction of AngularJS in 2014](https://github.com/opf/openproject/pull/913) for a redesign of the [work package table](../../user-guide/work-packages/work-package-views/#work-packages-views). However, the Rails monolith was and is still rendering a large portion of the frontend. The AngularJS frontend was served from within Rails and not separated.
 
 Due to performance issues with AngularJS digest cycles and a large number of components, the work package table was [refactored into a plain JavaScript renderer](https://github.com/opf/openproject/pull/5117) end of 2016. Finally, in early 2018, the application frontend was [migrated from AngularJS to Angular](https://github.com/opf/openproject/pull/5984) during the course of a few releases.
 

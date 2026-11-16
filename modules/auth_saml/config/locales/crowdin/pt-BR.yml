@@ -184,7 +184,7 @@ pt-BR:
       notice_created: Um novo provedor de identidade SAML foi criado com sucesso.
       plural: Provedores de identidade SAML
       refresh_metadata:
-        apply: Apply changes
+        apply: Aplicar as alterações
         description: Review the configuration fetched from your identity provider. Changes are saved only when you apply them.
         no_changes: The metadata matches the current configuration.
         title: Review metadata changes

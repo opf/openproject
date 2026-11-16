@@ -400,9 +400,8 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
       mock_permissions_for(current_user) { |mock| mock.allow_in_project(:view_sprints, project:) }
     end
 
-    it "renders a blankslate" do
-      expect(rendered_component).to have_css(".blankslate", text: "No sprint data available")
-      expect(rendered_component).to have_no_css(".op-wp-overview--blocks")
+    it "renders nothing" do
+      expect(rendered_component.to_s).to be_empty
     end
   end
 end

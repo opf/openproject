@@ -1,0 +1,165 @@
+---
+da:
+  activerecord:
+    attributes:
+      repositories/gitlab_provider:
+        gitlab_user: Webhook-bruger
+        url: GitLab-URL
+        webhook_secret: Webhook-hemmelighed
+      repositories/provider:
+        created_at: Oprettet
+        name: Navn
+    errors:
+      models: {}
+    models:
+      repositories/gitlab_provider:
+        one: GitLab-udbyder
+        other: GitLab-udbydere
+      repositories/provider:
+        one: Repository-udbyder
+        other: Repository-udbydere
+  permission_show_repository_content: Vis indhold fra repositories
+  project_module_repositories: Projektarkiver
+  repositories:
+    admin:
+      buttons:
+        save_and_continue: Gem, og fortsæt
+      destroy_confirmation_dialog_component:
+        delete_result:
+          branches_and_commits: Alle branches og commits, der er modtaget fra udbyderen, og deres links til arbejdspakker.
+          issues: Alle issues, der er modtaget fra udbyderen, og deres links til arbejdspakker.
+          merge_requests: Alle merge requests og pipelines, der er modtaget fra udbyderen, og deres links til arbejdspakker.
+        description_html: 'Repository-udbyderen %{provider} slettes sammen med alle data, som OpenProject har modtaget fra den. Det gælder:'
+        heading: Vil du slette repository-udbyderen permanent?
+        title: Slet repository-udbyder
+      gitlab_integration:
+        go_to_repositories: Gå til Projektarkiver
+        moved_notice: GitLab opsættes nu som repository-udbyder i det nye afsnit Projektarkiver i administrationen.
+      index_description: Forbind repository-udbydere for at vise issues, merge requests, branches og commits i de arbejdspakker, de henviser til.
+      label_add_new: Tilføj ny repository-udbyder
+      label_new_provider: Ny %{provider_type}-udbyder
+      label_provider: Repository-udbyder
+      menu: Projektarkiver
+      open_provider: Åbn
+      regenerate_webhook_secret_dialog_component:
+        confirm_button: Opret ny hemmelighed
+        description: Den nuværende webhook-hemmelighed holder op med at virke med det samme. Du skal angive den nye hemmelighed i alle udbyderens webhooks.
+        heading: Vil du oprette en ny webhook-hemmelighed?
+        title: Opret ny webhook-hemmelighed
+      sections:
+        general_information: Generelle oplysninger
+        webhook: Webhook
+      steps:
+        general_information:
+          edit: Rediger udbyderens konfiguration
+          name_caption: Giv udbyderen et navn, så brugerne kan skelne mellem flere udbydere.
+          title: Udbyderens konfiguration
+          url_caption: Adressen på din GitLab-installation inklusive https://. Webhooks accepteres for alle projekter under denne adresse.
+        webhook:
+          description_configured: Webhook-hemmeligheden er konfigureret.
+          description_pending: Der er ikke konfigureret nogen webhook-hemmelighed. Anmodninger til webhooken accepteres uden kontrol, så uvedkommende kan forfalske hændelser.
+          edit: Vis webhook-konfiguration
+          form_description: Opret en webhook i dine GitLab-projekter eller -grupper med følgende URL og hemmelige token.
+          regenerate_secret: Opret ny hemmelighed
+          secret: Hemmeligt token
+          secret_caption: Kopiér værdien til feltet "Secret token" i GitLab-webhooken.
+          title: Webhook-konfiguration
+          url: URL
+          url_caption: Erstat %{placeholder} med en API-nøgle for webhook-brugeren.
+        webhook_user:
+          caption: Når feltet er udfyldt, afvises webhook-anmodninger, der er godkendt med en anden brugers API-nøgle.
+          description_any_user: Webhooks kan sendes med enhver brugers API-nøgle.
+          description_pending: Der er endnu ikke valgt nogen webhook-bruger.
+          description_user: Webhooks skal sendes med en API-nøgle tilhørende %{name}.
+          edit: Rediger webhook-bruger
+          form_description: Den OpenProject-bruger, hvis API-nøgle godkender webhook-anmodninger. Brugeren skriver også automatiske kommentarer på arbejdspakker og skal have tilladelse til at se og kommentere dem.
+          title: Webhook-bruger
+      table:
+        blank_description: Tilføj en repository-udbyder for at se dens aktivitet i arbejdspakker.
+        blank_title: Der er endnu ingen repository-udbydere
+        provider_type: Udbyder
+    branch_component:
+      copy_name: Kopiér navn på branch
+      create_merge_request: Opret merge request
+      updated_at: Opdateret %{date_time}.
+      updated_by: Senest opdateret af %{name}.
+    commit_component:
+      authored_at: Skrevet %{date_time}.
+      copy_sha: Kopiér SHA til udklipsholderen
+      created_by: Oprettet af %{name}.
+      empty_message: "<empty commit message>"
+    git_snippets_dialog_component:
+      branch_name: Navn på branch
+      commit_message: Commit-besked
+      copy_branch_name: Kopiér navn på branch
+      copy_commit_message: Kopiér commit-besked
+      copy_create_branch_command: Kopiér kommando til at oprette en branch med tomt commit
+      create_branch_with_empty_commit: Opret branch med tomt commit
+      title: Hurtige Git-kodestykker
+    gitlab:
+      issue_closed_referenced_comment: "**Issue lukket:** Issue %{issue_number} [%{issue_title}](%{issue_url}) i [%{repository}](%{repository_url}) er lukket af [%{gitlab_user}](%{gitlab_user_url}).\n"
+      issue_opened_referenced_comment: "**Issue åbnet:** Issue %{issue_number} [%{issue_title}](%{issue_url}) i [%{repository}](%{repository_url}) er åbnet af [%{gitlab_user}](%{gitlab_user_url}).\n"
+      issue_reopened_referenced_comment: "**Issue genåbnet:** Issue %{issue_number} [%{issue_title}](%{issue_url}) i [%{repository}](%{repository_url}) er genåbnet af [%{gitlab_user}](%{gitlab_user_url}).\n"
+      merge_request_closed_comment: "**MR lukket:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) i [%{repository}](%{repository_url}) er lukket af [%{gitlab_user}](%{gitlab_user_url}).\n"
+      merge_request_merged_comment: "**MR flettet:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) i [%{repository}](%{repository_url}) er flettet af [%{gitlab_user}](%{gitlab_user_url}).\n"
+      merge_request_opened_comment: "**MR åbnet:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) i [%{repository}](%{repository_url}) er åbnet af [%{gitlab_user}](%{gitlab_user_url}).\n"
+      merge_request_reopened_comment: "**MR genåbnet:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) i [%{repository}](%{repository_url}) er genåbnet af [%{gitlab_user}](%{gitlab_user_url}).\n"
+      note_commit_referenced_comment: "**Henvist til i commit:** [%{gitlab_user}](%{gitlab_user_url}) henviste til denne arbejdspakke i en commit-note [%{commit_id}](%{commit_url}) i [%{repository}](%{repository_url}): %{commit_note}\n"
+      note_issue_commented_comment: "**Kommenteret i issue:** [%{gitlab_user}](%{gitlab_user_url}) kommenterede denne arbejdspakke i issue %{issue_number} [%{issue_title}](%{issue_url}) i [%{repository}](%{repository_url}): %{issue_note}\n"
+      note_issue_referenced_comment: "**Henvist til i issue:** [%{gitlab_user}](%{gitlab_user_url}) henviste til denne arbejdspakke i issue %{issue_number} [%{issue_title}](%{issue_url}) i [%{repository}](%{repository_url}): %{issue_note}\n"
+      note_mr_commented_comment: "**Kommenteret i MR:** [%{gitlab_user}](%{gitlab_user_url}) kommenterede denne arbejdspakke i merge request %{mr_number} [%{mr_title}](%{mr_url}) i [%{repository}](%{repository_url}): %{mr_note}\n"
+      note_mr_referenced_comment: "**Henvist til i MR:** [%{gitlab_user}](%{gitlab_user_url}) henviste til denne arbejdspakke i merge request %{mr_number} [%{mr_title}](%{mr_url}) i [%{repository}](%{repository_url}): %{mr_note}\n"
+      note_snippet_referenced_comment: "**Henvist til i snippet:** [%{gitlab_user}](%{gitlab_user_url}) henviste til denne arbejdspakke i snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) i [%{repository}](%{repository_url}): %{snippet_note} %{commit_note} %{commit_note}\n"
+      push_single_commit_comment_with_ref: "**Pushet i %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushede [%{commit_number}](%{commit_url}) til [%{repository}](%{repository_url}) %{commit_timestamp}: %{commit_note}\n"
+    issue_component:
+      states:
+        closed: Lukket
+        opened: Åben
+      updated_at: Opdateret %{date_time}.
+      updated_by: Senest opdateret af %{name}.
+    merge_request_component:
+      pipeline_statuses:
+        canceled: Annulleret
+        canceling: Annullerer
+        created: Oprettet
+        failed: Mislykkedes
+        manual: Manuel
+        pending: Afventer
+        preparing: Forbereder
+        running: Kører
+        scheduled: Planlagt
+        skipped: Sprunget over
+        success: Lykkedes
+        waiting_for_callback: Venter på callback
+        waiting_for_resource: Venter på ressource
+      states:
+        closed: Lukket
+        locked: Låst
+        merged: Flettet
+        opened: Åben
+      updated_at: Opdateret %{date_time}.
+      updated_by: Senest opdateret af %{name}.
+    provider_types:
+      gitlab:
+        name: GitLab
+    work_package_tab_component:
+      blank_slates:
+        branches:
+          description_html: Link en branch ved at navngive den, så navnet starter med %{code} eller kun %{identifier}.
+          title: Ingen branches
+        commits:
+          description_html: Link et commit ved at tilføje koden %{code} eller URL'en %{url} i commit-beskeden.
+          title: Ingen commits
+        issues:
+          description_html: Link et issue ved at tilføje koden %{code} i titlen eller beskrivelsen.
+          title: Ingen issues
+        merge_requests:
+          description_html: Link en merge request ved at tilføje koden %{code} i titlen eller beskrivelsen.
+          title: Ingen merge requests
+      branches: Branches
+      commits: Commits
+      description_html: Link et eksisterende GitLab-element ved at tilføje koden %{code} i titlen eller beskrivelsen.
+      git_snippets: Git-kodestykker
+      issues: Issues
+      merge_requests: Merge requests
+      snippets_button_label: Git-kodestykker

@@ -38,6 +38,9 @@ You can use this integration in the following two ways:
 
 To access the LDAP group sync administration pane, expand the LDAP authentication menu item in your administration.
 
+> [!NOTE]
+> Group membership synchronization does not automatically lock or reactivate OpenProject accounts. Configure [LDAP user status synchronization](../#enable-status-synchronization) separately, including a user filter on the LDAP connection that excludes inactive accounts. Status synchronization only covers users linked to that LDAP connection. Group synchronization links users it creates, but does not link existing users created through other login methods.
+
 ## Synchronized group: Synchronizing a single LDAP group
 
 Synchronizing a single LDAP group allows you to connect an existing group in OpenProject with one from LDAP.

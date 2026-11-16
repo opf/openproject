@@ -287,7 +287,7 @@ RSpec.describe "Work package table keyboard selection", :js do
       wp_table.expect_focus_on_column_header("Subject")
       wp_table.press_keys(:enter)
       within(:menu, "Subject") do
-        find(:menuitem, "Sort descending").click
+        find(:role, "menuitemradio", text: "Sort descending").click
       end
 
       wp_table.expect_work_package_order(echo, delta, charlie, bravo, alpha)
@@ -315,7 +315,7 @@ RSpec.describe "Work package table keyboard selection", :js do
       wp_table.expect_focus_on_column_header("Subject")
       wp_table.press_keys(:enter)
       within(:menu, "Subject") do
-        find(:menuitem, "Hide column").click
+        find(:menuitem, "Remove column").click
       end
 
       wp_table.expect_focus_on_column_header("ID")

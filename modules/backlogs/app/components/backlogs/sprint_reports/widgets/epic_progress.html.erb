@@ -29,21 +29,25 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   widget_wrapper(classes: "op-sprint-reports--epic-progress-widget") do |container|
-    container.with_body(padding: :none) do
-      render(
-        OpPrimer::BorderBoxListComponent.new(
-          container: "op-sprint-reports--epic-progress",
-          classes: "op-sprint-reports--epic-progress",
-          scheme: :transparent,
-          border: false
-        )
-      ) do |list|
-        relevant_epics.each do |epic|
-          list.with_item(classes: "epic-progress--row") do
-            render(Backlogs::SprintReports::Widgets::EpicProgress::Card.new(epic:, sprint:, project:, current_user:))
+    if chart_available?
+      container.with_body(padding: :none) do
+        render(
+          OpPrimer::BorderBoxListComponent.new(
+            container: "op-sprint-reports--epic-progress",
+            classes: "op-sprint-reports--epic-progress",
+            scheme: :transparent,
+            border: false
+          )
+        ) do |list|
+          relevant_epics.each do |epic|
+            list.with_item(classes: "epic-progress--row") do
+              render(Backlogs::SprintReports::Widgets::EpicProgress::Card.new(epic:, sprint:, project:, current_user:))
+            end
           end
         end
       end
+    else
+      container.with_body { blankslate }
     end
   end
 %>

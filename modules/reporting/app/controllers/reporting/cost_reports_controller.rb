@@ -118,7 +118,7 @@ module Reporting
       return head :bad_request if params[:filter_name].blank?
       return head :not_found if requested_filter_class.nil?
 
-      render Widget::Filters::Option.new(requested_filter), layout: !request.xhr?
+      render Widget::Filters::Option.new(requested_filter, project: @project), layout: !request.xhr?
     end
 
     private

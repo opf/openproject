@@ -41,7 +41,7 @@ class CostQuery::Filter::VersionId < Report::Filter::Base
     WorkPackage.human_attribute_name(Setting::WorkPackageMultipleVersions.active? ? :target_versions : :version)
   end
 
-  def self.available_values(*)
+  def self.available_values(**)
     versions = Version.where(project_id: Project.visible.select(:id)).includes(:project)
     versions.map { |a| ["#{a.project.name} - #{a.name}", a.id] }.sort_by { |a| a.first.to_s + a.second.to_s }
   end

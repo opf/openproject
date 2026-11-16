@@ -131,10 +131,10 @@ tr:
     button_confirm: Onayla
     button_continue: Devam et
     button_copy: Kopyala
-    button_copy_id: Copy ID ("%{id}")
-    button_copy_link_to_clipboard: Copy link
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: Panoya kopyala
     button_copy_to_other_project: Başka projeye çoğalt
+    button_copy_work_package_id: Copy work package ID
     button_create: Oluştur
     button_custom-fields: Özel alanlar
     button_delete: Sil
@@ -150,7 +150,7 @@ tr:
     button_log_time: Zaman kaydet
     button_more: Daha
     button_more_actions: Daha fazla eylem
-    button_move: Move
+    button_move_to_position: Move to position
     button_open_details: Ayrıntılar görünümünü aç
     button_open_fullscreen: Tam ekran görünümünü aç
     button_quote: Alıntı
@@ -350,6 +350,8 @@ tr:
       direct_hit_available: Tam kimliğe sahip iş paketi bulundu. Açmak için Enter tuşuna basın.
       items_available: "%{count} mevcut ürün"
       recently_viewed: Son görüntülenenler
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: İş paketlerini konu, proje, tür, durum veya kimliğe göre arama
       title:
         all_projects: tüm projeler
@@ -503,6 +505,7 @@ tr:
     label_in: şurada
     label_in_less_than: daha azdır
     label_in_more_than: daha fazla
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Gelen e-postalar
     label_infinity: Infinity
     label_information_plural: Bilgi
@@ -535,6 +538,10 @@ tr:
     label_open_context_menu: Bağlam menüsünü aç
     label_open_menu: Menüyü Aç
     label_open_work_packages: açık
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Parola
     label_per_page: 'Sayfa başına:'
     label_please_wait: Lütfen bekleyin
@@ -581,6 +588,7 @@ tr:
     label_sum_for: Toplam
     label_this_week: bu hafta
     label_time_entry_plural: Harcanan zaman
+    label_to_do_work_packages: to-do
     label_today: Bugün
     label_total_amount: 'Toplam: %{amount}'
     label_total_progress: Toplam ilerleme %{percent}%
@@ -966,6 +974,7 @@ tr:
         all_open: Tüm açık
         assigned_to_me: Bana atananlar
         created_by_me: Benim oluşturduklarım
+        in_progress: In progress
         latest_activity: En son etkinlik
         manually_sorted: Elle sıralanmış yeni sorgu
         overdue: Süresi geçmiş
@@ -973,6 +982,7 @@ tr:
         shared_with_me: Benimle paylaşılanlar
         shared_with_users: Kullanıcılarla paylaşanlar
         summary: Özet
+        to_do: To-do
       description_enter_text: Metin girin
       description_filter: Filtre
       description_options_hide: Seçenekleri gizle
@@ -1060,6 +1070,7 @@ tr:
         other: Diğer
         people: Kişiler
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Bu görünümün başlığını düzenlemek için tıklayın.
         column_names: Sütunlar
         confirm_edit_cancel: Bu görünümün adını düzenlemeyi iptal etmek istediğinizden emin misiniz? Başlık önceki değere ayarlanacaktır.
@@ -1069,17 +1080,16 @@ tr:
           not_found: Böyle bir görünüm bulunmamakta
           unretrievable_query: URL’den görünüm alınamadı
         filters: Filtreler
-        group: Grupla
         group_by: Sonuçları grupla
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Hiyerarşi durumu etkin olduğundan Gruplama özelliği devre dışı.
-        hide_column: Sütunu gizle
         hierarchy_disabled_by_group_by: Sonuşlar %{column} sütununa göre gruplandığından, hiyerarşi modu devre dışı.
-        insert_columns: Sütun ekle
         move_column_left: Sütunu sola taşı
         move_column_right: Sütunu sağa taşı
         public_text: 'Diğer kullanıcıların görünümünüze erişmesine izin vererek bu görünümü yayınlayın. ''Genel görünümleri yönet'' iznine sahip kullanıcılar genel sorguyu değiştirebilir veya kaldırabilir. Bu, iş paketi sonuçlarının görünürlüğünü bu görünümde etkilemez ve izinlerine bağlı olarak, kullanıcılar farklı sonuçlar görebilir.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Bu görünümüm adı
         sort_ascending: Artan sırala
         sort_descending: Azalan sırala

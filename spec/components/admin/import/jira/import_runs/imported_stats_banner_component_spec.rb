@@ -65,6 +65,16 @@ RSpec.describe Admin::Import::Jira::ImportRuns::ImportedStatsBannerComponent, ty
     expect(page).to have_no_css("a", text: "Work packages")
   end
 
+  it "stretches every tile alike, linked or not" do
+    linked_stats = [
+      { label: "Projects", value: 3, subtitle: "Imported into OpenProject", url: "/projects" },
+      { label: "Work packages", value: 2748, subtitle: "With attachments" }
+    ]
+    render_inline(described_class.new(title: "Data imported", stats: linked_stats))
+
+    expect(page).to have_css(".d-flex.flex-1", count: 2)
+  end
+
   it "does not link tiles when url is blank" do
     render_inline(described_class.new(title: "Data imported", stats:))
 
