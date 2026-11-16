@@ -73,76 +73,67 @@ RSpec.describe McpTools::UpdateTimeEntry do
     time_entry.save! # making sure creation already happens before expect blocks
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP text tool"
+  it_behaves_like "MCP text tool"
 
-    it "updates the time entry" do
-      expect { mcp_request }.not_to change(TimeEntry, :count)
+  it "updates the time entry" do
+    expect { mcp_request }.not_to change(TimeEntry, :count)
 
-      time_entry.reload
-      expect(time_entry.hours).to eq(3.0)
-      expect(time_entry.comments).to eq("The updated comment")
+    time_entry.reload
+    expect(time_entry.hours).to eq(3.0)
+    expect(time_entry.comments).to eq("The updated comment")
+  end
+
+  it "responds with a properly formatted time entry" do
+    mcp_request
+
+    expect(result_item.to_json).to match_json_schema.from_docs("time_entry_model")
+  end
+
+  context "when passing spentOn" do
+    let(:call_args) do
+      {
+        id: time_entry.id,
+        data: {
+          spentOn: "2026-07-13"
+        }
+      }
     end
 
-    it "responds with a properly formatted time entry" do
+    it "updates the date of the time entry" do
       mcp_request
 
-      expect(result_item.to_json).to match_json_schema.from_docs("time_entry_model")
-    end
-
-    context "when passing spentOn" do
-      let(:call_args) do
-        {
-          id: time_entry.id,
-          data: {
-            spentOn: "2026-07-13"
-          }
-        }
-      end
-
-      it "updates the date of the time entry" do
-        mcp_request
-
-        expect(time_entry.reload.spent_on).to eq(Date.iso8601("2026-07-13"))
-      end
-    end
-
-    context "when the time entry does not exist" do
-      let(:call_args) do
-        {
-          id: 0,
-          data: {
-            hours: "PT3H"
-          }
-        }
-      end
-
-      it "responds with an error" do
-        mcp_request
-        expect(result_item.fetch("error")).to eq("The given time entry could not be found.")
-      end
-    end
-
-    context "when the user is not allowed to update the time entry" do
-      let(:user) do
-        create(:user, member_with_permissions: { time_entry.project => %i[view_work_packages view_time_entries] })
-      end
-
-      it "responds with an error" do
-        mcp_request
-        expect(result_item.fetch("error")).to eq("You don't have permissions to edit this time entry.")
-      end
-
-      it "does not update the time entry" do
-        expect { mcp_request }.not_to change { time_entry.reload.comments }
-      end
+      expect(time_entry.reload.spent_on).to eq(Date.iso8601("2026-07-13"))
     end
   end
 
-  context "when the mcp_server enterprise feature is disabled" do
-    it "responds with a 404" do
+  context "when the time entry does not exist" do
+    let(:call_args) do
+      {
+        id: 0,
+        data: {
+          hours: "PT3H"
+        }
+      }
+    end
+
+    it "responds with an error" do
       mcp_request
-      expect(last_response).to have_http_status(404)
+      expect(result_item.fetch("error")).to eq("The given time entry could not be found.")
+    end
+  end
+
+  context "when the user is not allowed to update the time entry" do
+    let(:user) do
+      create(:user, member_with_permissions: { time_entry.project => %i[view_work_packages view_time_entries] })
+    end
+
+    it "responds with an error" do
+      mcp_request
+      expect(result_item.fetch("error")).to eq("You don't have permissions to edit this time entry.")
+    end
+
+    it "does not update the time entry" do
+      expect { mcp_request }.not_to change { time_entry.reload.comments }
     end
   end
 end

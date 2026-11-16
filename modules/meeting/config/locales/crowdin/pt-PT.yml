@@ -32,7 +32,7 @@ pt-PT:
         notify: Enviar notificações
         participant:
           one: "%{count} Participant"
-          other: "%{count} Participants"
+          other: "%{count} Participantes"
         participants: Participantes
         participants_added: 'Participantes adicionados:'
         participants_attended: Participantes
@@ -169,8 +169,8 @@ pt-PT:
   label_agenda_backlog_clear_title: Limpar backlog da agenda?
   label_agenda_item_actions: Ações dos itens da agenda
   label_agenda_item_add: Adicionar ponto à ordem de trabalhos
-  label_agenda_item_add_above: Add item above
-  label_agenda_item_add_below: Add item below
+  label_agenda_item_add_above: Adicionar item acima
+  label_agenda_item_add_below: Adicionar item abaixo
   label_agenda_item_add_notes: Adicionar notas
   label_agenda_item_add_outcome: Adicionar resultado
   label_agenda_item_convert_to_work_package: Converter em pacote de trabalho
@@ -243,7 +243,7 @@ pt-PT:
   label_meeting_minutes: Minutos
   label_meeting_more:
     one: There is %{count} more meeting.
-    other: There are %{count} more meetings.
+    other: Há mais %{count} reuniões.
   label_meeting_new: Nova reunião
   label_meeting_new_dynamic: Nova reunião única
   label_meeting_new_recurring: Nova reunião recorrente
@@ -288,11 +288,11 @@ pt-PT:
   label_recurring_meeting_delete: Eliminar ocorrência
   label_recurring_meeting_duplicate: Duplicar como reunião única
   label_recurring_meeting_more:
-    one: There is %{count} more scheduled meeting (%{schedule}).
-    other: There are %{count} more scheduled meetings (%{schedule}).
+    one: Existe mais %{count} reunião agendada (%{schedule}).
+    other: Existem mais %{count} reuniões agendadas (%{schedule}).
   label_recurring_meeting_more_past:
-    one: There is %{count} more past meeting.
-    other: There are %{count} more past meetings.
+    one: Existe mais %{count} reunião no passado.
+    other: Existem mais %{count} reuniões anteriores.
   label_recurring_meeting_new: Nova reunião recorrente
   label_recurring_meeting_next_occurrence: Próxima ocorrência
   label_recurring_meeting_no_end_date: Existem mais reuniões agendadas (%{schedule}).
@@ -597,7 +597,7 @@ pt-PT:
       ends_on: Resulta numa série que termina em %{date}
       occurrences:
         one: This results in %{count} upcoming occurrence
-        other: This results in %{count} upcoming occurrences
+        other: Resulta em %{count} ocorrências futuras
       occurrences_capped: Resulta em mais de %{count} ocorrências futuras
     day_of_month_skipping_info: Os meses com menos de %{monthly_day} dias serão ignorados
     delete_dialog:

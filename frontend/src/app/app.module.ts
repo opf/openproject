@@ -201,6 +201,7 @@ import {
   OpWpDatePickerInstanceComponent,
 } from 'core-app/shared/components/datepicker/wp-date-picker-modal/wp-date-picker-instance.component';
 import { AppBadgeService } from 'core-app/features/in-app-notifications/bell/app-badge.service';
+import { BrowserNotificationSyncService } from 'core-app/features/in-app-notifications/bell/browser-notification-sync.service';
 import { TimeEntryTimerService } from 'core-app/shared/components/time_entries/services/time-entry-timer.service';
 import { WorkPackageFullCopyEntryComponent } from 'core-app/features/work-packages/routing/wp-full-copy/wp-full-copy-entry.component';
 import { WorkPackageFullCreateEntryComponent } from 'core-app/features/work-packages/routing/wp-full-create/wp-full-create-entry.component';
@@ -212,6 +213,7 @@ import { BurndownChartComponent } from './features/backlogs/burndown-chart.compo
 import { BurnupChartComponent } from './features/backlogs/burnup-chart.component';
 import { CreatedResolvedComponent } from './features/backlogs/created-resolved-chart.component';
 import { VelocityChartComponent } from './features/backlogs/velocity-chart.component';
+import { SprintWorkPackageGraphComponent } from './features/backlogs/sprint-work-package-graph.component';
 import { BudgetByCostTypeComponent } from './shared/components/budget-graphs/overview/budget-by-cost-type.component';
 import { ActualCostsComponent } from './shared/components/budget-graphs/overview/actual-costs.component';
 import { ProjectTimelineGraphComponent } from './shared/components/project-timeline-graph/project-timeline-graph.component';
@@ -242,7 +244,12 @@ export function initializeServices(injector:Injector) {
     keyboardShortcuts.register();
 
     const configuration = injector.get(ConfigurationService).initialize();
-    void configuration.then(() => injector.get(AppBadgeService).initialize()).catch(() => undefined);
+    void configuration
+      .then(() => {
+        injector.get(AppBadgeService).initialize();
+        injector.get(BrowserNotificationSyncService).initialize();
+      })
+      .catch(() => undefined);
     return configuration;
   };
 }
@@ -426,6 +433,7 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-burnup-chart', BurnupChartComponent, { injector });
     registerCustomElement('opce-created-resolved-chart', CreatedResolvedComponent, { injector });
     registerCustomElement('opce-velocity-chart', VelocityChartComponent, { injector });
+    registerCustomElement('opce-sprint-work-package-graph', SprintWorkPackageGraphComponent, { injector });
     registerCustomElement('opce-budget-by-cost-type', BudgetByCostTypeComponent, { injector });
     registerCustomElement('opce-actual-costs', ActualCostsComponent, { injector });
     registerCustomElement('opce-project-timeline-graph', ProjectTimelineGraphComponent, { injector });

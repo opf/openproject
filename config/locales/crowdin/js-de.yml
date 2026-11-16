@@ -131,10 +131,10 @@ de:
     button_confirm: Bestätigen
     button_continue: Fortfahren
     button_copy: Kopieren
-    button_copy_id: Copy ID ("%{id}")
-    button_copy_link_to_clipboard: Copy link
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: In Zwischenablage kopieren
     button_copy_to_other_project: In anderes Projekt duplizieren
+    button_copy_work_package_id: Copy work package ID
     button_create: Anlegen
     button_custom-fields: Benutzerdefinierte Felder
     button_delete: Löschen
@@ -150,7 +150,7 @@ de:
     button_log_time: Zeit buchen
     button_more: Mehr
     button_more_actions: Weitere Aktionen
-    button_move: Move
+    button_move_to_position: Move to position
     button_open_details: Detailansicht öffnen
     button_open_fullscreen: Vollbildansicht öffnen
     button_quote: Zitieren
@@ -350,6 +350,8 @@ de:
       direct_hit_available: Arbeitspaket mit exakter ID gefunden. Drücken Sie Enter um es zu öffnen.
       items_available: "%{count} Verfügbare Artikel"
       recently_viewed: Vor Kurzem angesehen
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Suchen Sie Arbeitspakete nach Thema, Projekt, Typ, Status oder ID
       title:
         all_projects: alle Projekte
@@ -503,6 +505,7 @@ de:
     label_in: in
     label_in_less_than: in weniger als
     label_in_more_than: in mehr als
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Eingehende E-Mails
     label_infinity: Unendlich
     label_information_plural: Information
@@ -535,6 +538,10 @@ de:
     label_open_context_menu: Kontextmenü öffnen
     label_open_menu: Menü öffnen
     label_open_work_packages: offen
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Passwort
     label_per_page: 'Pro Seite:'
     label_please_wait: Bitte warten
@@ -581,6 +588,7 @@ de:
     label_sum_for: Summe für
     label_this_week: diese Woche
     label_time_entry_plural: Aufgewendete Zeit
+    label_to_do_work_packages: to-do
     label_today: Heute
     label_total_amount: 'Gesamt: %{amount}'
     label_total_progress: "%{percent}% Gesamtfortschritt"
@@ -968,6 +976,7 @@ de:
         all_open: Alle offenen
         assigned_to_me: Mir zugewiesen
         created_by_me: Erstellt von mir
+        in_progress: In progress
         latest_activity: Letzte Änderungen
         manually_sorted: Neue manuell sortierte Ansicht
         overdue: Überfällig
@@ -975,6 +984,7 @@ de:
         shared_with_me: Mit mir geteilt
         shared_with_users: Geteilt mit Benutzern
         summary: Zusammenfassung
+        to_do: To-do
       description_enter_text: Text eingeben
       description_filter: Filter
       description_options_hide: Optionen ausblenden
@@ -1062,6 +1072,7 @@ de:
         other: Andere
         people: Personen
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Klicken, um den Titel dieser Ansicht zu bearbeiten.
         column_names: Spalten
         confirm_edit_cancel: Sind Sie sicher, dass Sie die Umbenennung dieser Ansicht abbrechen wollen? Der Titel wird zum letzten gespeicherten Wert zurückgesetzt.
@@ -1071,17 +1082,16 @@ de:
           not_found: Diese Ansicht konnte nicht gefunden werden
           unretrievable_query: Konnte die Ansicht nicht verarbeiten
         filters: Filter
-        group: Gruppieren nach
         group_by: Gruppiere Ergebnisse nach
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Die Gruppierung ist deaktiviert, da der Hierarchie-Modus aktiv ist.
-        hide_column: Spalte ausblenden
         hierarchy_disabled_by_group_by: Der Hierarchie-Modus ist deaktiviert da die Ergebnisse nach %{column} gruppiert sind.
-        insert_columns: Spalten einfügen
         move_column_left: Spalte nach links verschieben
         move_column_right: Spalte nach rechts verschieben
         public_text: 'Veröffentlicht die Ansicht für andere Mitglieder des Projekts. Nutzer mit der ''Öffentliche Ansichten verwalten''-Berechtigung können diese Ansicht auch verändern oder entfernen. Beeinträchtigt nicht die Sichtbarkeit von Arbeitspaketen in der Ansicht. Abhängig der Berechtigungen, erhalten Mitglieder unterschiedliche Ergebnisse.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Name der Ansicht
         sort_ascending: Sortiere aufsteigend
         sort_descending: Sortiere absteigend

@@ -128,7 +128,7 @@ export class TreegridSemantics {
 
   private paintSelected(occurrence:RenderedOccurrence):void {
     const row = occurrence.element;
-    if (!row || !isSelectableOccurrence(occurrence)) return;
+    if (!row || !this.table.configuration.selectionEnabled || !isSelectableOccurrence(occurrence)) return;
     const selected = this.wpTableSelection.isSelected(occurrence.workPackageId);
     const pressed = this.wpTableFocus.isFocused(occurrence.workPackageId);
     setOrRemove(row, 'aria-selected', String(selected));

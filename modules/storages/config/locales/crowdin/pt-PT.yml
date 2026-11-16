@@ -504,7 +504,7 @@ pt-PT:
     oauth_grant_nudge_modal:
       cancel_button_label: Farei isso mais tarde
       heading: Tem de iniciar sessão em %{provider_type}
-      login_button_aria_label: Iniciar sessão em %{storage}
+      login_button_accessible_name: "%{provider_type} log in to %{storage}"
       login_button_label: Início de sessão em %{provider_type}
       project_settings:
         description: Para ter acesso à pasta do projeto, tem de iniciar sessão em %{storage}.

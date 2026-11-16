@@ -31,7 +31,7 @@ ko:
         notes: 노트
         notify: 알림 보내기
         participant:
-          other: "%{count} Participants"
+          other: 참가자 %{count}명
         participants: 참가자
         participants_added: '참가자 추가됨:'
         participants_attended: 참석자
@@ -160,8 +160,8 @@ ko:
   label_agenda_backlog_clear_title: 의제 백로그를 지우시겠습니까?
   label_agenda_item_actions: 의제 항목 작업
   label_agenda_item_add: 의제 항목 추가
-  label_agenda_item_add_above: Add item above
-  label_agenda_item_add_below: Add item below
+  label_agenda_item_add_above: 위에 항목 추가
+  label_agenda_item_add_below: 아래에 항목 추가
   label_agenda_item_add_notes: 메모 추가
   label_agenda_item_add_outcome: 결과 추가
   label_agenda_item_convert_to_work_package: 작업 패키지로 전환
@@ -233,7 +233,7 @@ ko:
   label_meeting_last_updated: 마지막 업데이트
   label_meeting_minutes: 의사록
   label_meeting_more:
-    other: There are %{count} more meetings.
+    other: 미팅이 %{count}개 더 있습니다.
   label_meeting_new: 새 미팅
   label_meeting_new_dynamic: 새로운 일회성 미팅
   label_meeting_new_recurring: 새로운 반복 미팅
@@ -278,9 +278,9 @@ ko:
   label_recurring_meeting_delete: 항목 삭제
   label_recurring_meeting_duplicate: 일회성 미팅으로 복제
   label_recurring_meeting_more:
-    other: There are %{count} more scheduled meetings (%{schedule}).
+    other: 예정된 미팅(%{schedule})이 %{count}개 더 있습니다.
   label_recurring_meeting_more_past:
-    other: There are %{count} more past meetings.
+    other: 지난 미팅이 %{count}개 더 있습니다.
   label_recurring_meeting_new: 새로운 반복 미팅
   label_recurring_meeting_next_occurrence: 다음 항목
   label_recurring_meeting_no_end_date: 예정된 미팅(%{schedule})이 더 있습니다.
@@ -314,7 +314,7 @@ ko:
       change: Change sorting mode
       current_mode: Currently in %{mode} mode
       invalid_reaction: Only upvotes and downvotes are allowed on agenda items.
-      manual: Manual
+      manual: 수동
       manual_description: You can manually arrange agenda items in any order you like by dragging and dropping them up or down.
       manual_order_disabled: Agenda items are ordered by votes. Switch to manual sorting to reorder them.
       remove_thumbs_down: Remove downvote
@@ -584,7 +584,7 @@ ko:
     caption:
       ends_on: 이렇게 하면 시리즈가 %{date}에 종료됩니다
       occurrences:
-        other: This results in %{count} upcoming occurrences
+        other: 이렇게 하면 향후 항목이 %{count}개가 됩니다
       occurrences_capped: 이렇게 하면 향후 항목이 %{count}개를 초과하게 됩니다
     day_of_month_skipping_info: "%{monthly_day}일보다 적은 달은 건너뜁니다"
     delete_dialog:

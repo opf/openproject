@@ -90,7 +90,7 @@ RSpec.describe McpTools::ListWorkPackageComments do
     activity_creator
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server internal_comments] do
+  context "when the internal comments enterprise feature is enabled", with_ee: %i[internal_comments] do
     it_behaves_like "MCP text tool"
 
     it "finds all comments of the work package" do
@@ -213,13 +213,6 @@ RSpec.describe McpTools::ListWorkPackageComments do
           expect(parsed_results.dig("structuredContent", "items").count).to eq(overspilling_comments)
         end
       end
-    end
-  end
-
-  context "when the mcp_server enterprise feature is disabled" do
-    it "responds in a 404" do
-      mcp_request
-      expect(last_response).to have_http_status(404)
     end
   end
 end

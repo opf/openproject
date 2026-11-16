@@ -145,7 +145,7 @@ module Admin
                    end
 
             menu.with_item(
-              label: I18n.t(:button_add_sub_item),
+              label: I18n.t(:button_add_sub_value),
               tag: :a,
               href:,
               content_arguments: { data: { turbo_frame: ItemsComponent.wrapper_key } }

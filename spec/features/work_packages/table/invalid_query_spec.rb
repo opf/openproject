@@ -93,7 +93,7 @@ RSpec.describe "Invalid query spec", :js do
     filters.open
     filters.expect_filter_count 1
     filters.expect_no_filter_by("Assignee")
-    filters.expect_filter_by("Status", "open", nil)
+    filters.expect_filter_by("Status", "open (to-do + in progress)", nil)
 
     wp_table.expect_no_toaster(type: :error,
                                message: I18n.t("js.work_packages.faulty_query.description"))

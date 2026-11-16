@@ -510,7 +510,7 @@ cs:
     oauth_grant_nudge_modal:
       cancel_button_label: Udělám to později
       heading: Je vyžadováno přihlášení do %{provider_type}
-      login_button_aria_label: Přihlásit se do %{storage}
+      login_button_accessible_name: "%{provider_type} log in to %{storage}"
       login_button_label: Přihlášení %{provider_type}
       project_settings:
         description: Chcete-li získat přístup ke složce projektu, musíte se přihlásit do %{storage}.

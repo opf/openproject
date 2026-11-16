@@ -3,39 +3,39 @@ zh-CN:
   activerecord:
     attributes:
       itsm/email_message:
-        direction: Direction
-        from_address: From
+        direction: 方向
+        from_address: 从
         message_id: Message ID
-        status: Status
-        subject: Subject
+        status: 状态
+        subject: 主题
       itsm/email_thread:
         recipients: Recipients
         requester_email: Requester email
         requester_name: Requester name
-        work_package: Work package
+        work_package: 工作包
       itsm/incoming_mailbox:
-        active: Active
+        active: 进行中
         aliases: Known email addresses
-        email: Email address
+        email: 电子邮件地址
         mail_server: IMAP server
-        password: Password
-        project: Project
-        username: Username
+        password: 密码
+        project: 项目
+        username: 用户名
       itsm/mail_server:
         encryption: Encryption
         host: Server name
         incoming_mailboxes: Incoming mailboxes
-        name: Name
+        name: 姓名
         outgoing_mailboxes: Outgoing mailboxes
-        port: Port
-        protocol: Protocol
+        port: 端口
+        protocol: 协议
       itsm/outgoing_mailbox:
-        mail_server: SMTP server
-        password: Password
-        project: Project
+        mail_server: SMTP 服务器
+        password: 密码
+        project: 项目
         sender_email: Sender email
         sender_name: Sender name
-        username: Username
+        username: 用户名
     models:
       itsm/email_message:
         other: Email messages

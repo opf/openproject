@@ -51,7 +51,7 @@ RSpec.shared_examples_for "list custom fields" do |type|
     cf_page.expect_flash(message: "Successful creation.")
     expect(page).to have_field("multi_value", checked: true)
 
-    click_link "Items"
+    click_link "Values"
     wait_for_network_idle
 
     expect(page).to have_css(".custom-option-row", count: 1)

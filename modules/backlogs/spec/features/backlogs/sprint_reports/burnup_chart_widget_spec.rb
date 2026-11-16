@@ -54,6 +54,7 @@ RSpec.describe "Burnup chart widget", :js, with_flag: :sprint_reports do
              finish_date: Date.tomorrow,
              status: :active)
     end
+    shared_let(:work_package) { create(:work_package, project:, sprint:, story_points: 3) }
 
     it "renders the burnup chart" do
       visit_sprint_report(sprint)
@@ -63,23 +64,6 @@ RSpec.describe "Burnup chart widget", :js, with_flag: :sprint_reports do
 
       description_id = canvas["aria-describedby"]
       expect(canvas.find("##{description_id}", visible: :all).text(:all)).to include("Burnup chart data")
-    end
-  end
-
-  context "when the sprint has no date range set" do
-    shared_let(:sprint) do
-      create(:sprint,
-             project:,
-             name: "Sprint 42",
-             start_date: nil,
-             finish_date: nil)
-    end
-
-    it "renders a blankslate instead of the chart" do
-      visit_sprint_report(sprint)
-
-      expect(page).to have_no_element(:"opce-burnup-chart")
-      expect(page).to have_text("No burnup data available")
     end
   end
 

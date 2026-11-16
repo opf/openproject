@@ -31,7 +31,7 @@ module McpTools
   class SearchCustomFieldItems < Base
     default_title "Custom Field Items"
     default_description "Access items available as values for the given custom field. Usable for hierarchy and " \
-                        "weighted item list custom fields."
+                        "weighted list custom fields."
 
     name "search_custom_field_items"
     annotations read_only: true, idempotent: true, destructive: false
@@ -86,7 +86,7 @@ module McpTools
     end
 
     def visible_value_ids(custom_field)
-      return if custom_field.project_specific_value_restriction.nil?
+      return unless custom_field.project_specific_values_supported?
 
       custom_field.visible_values_for(current_user).pluck(:id).to_set
     end

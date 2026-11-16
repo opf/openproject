@@ -91,6 +91,31 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter, "with project-s
         expect(filter.allowed_values.map(&:last)).to contain_exactly(acme.id, oscorp.id, umbrella.id)
       end
     end
+
+    context "for an admin" do
+      current_user { create(:admin) }
+
+      it "only allows the items visible in the project and its subprojects" do
+        expect(filter.allowed_values.map(&:last)).to contain_exactly(acme.id, umbrella.id, cyberdyne.id)
+      end
+
+      context "in a project query without subprojects" do
+        let(:include_subprojects) { false }
+
+        it "only allows the items visible in the project" do
+          expect(filter.allowed_values.map(&:last)).to contain_exactly(acme.id)
+        end
+      end
+
+      context "in a global query" do
+        let(:query_project) { nil }
+
+        it "allows all items" do
+          expect(filter.allowed_values.map(&:last))
+            .to contain_exactly(acme.id, oscorp.id, umbrella.id, cyberdyne.id, tyrell.id)
+        end
+      end
+    end
   end
 
   context "for a list custom field" do
@@ -136,6 +161,48 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter, "with project-s
         expect(filter.allowed_values)
           .to contain_exactly(["A", option_a.id.to_s], ["B", option_b.id.to_s], ["C", option_c.id.to_s])
       end
+    end
+
+    context "for an admin" do
+      current_user { create(:admin) }
+
+      it "only allows the options visible in the project and its subprojects" do
+        expect(filter.allowed_values)
+          .to contain_exactly(["A", option_a.id.to_s], ["C", option_c.id.to_s], ["D", option_d.id.to_s])
+      end
+
+      context "in a project query without subprojects" do
+        let(:include_subprojects) { false }
+
+        it "only allows the options visible in the project" do
+          expect(filter.allowed_values).to contain_exactly(["A", option_a.id.to_s])
+        end
+      end
+
+      context "in a global query" do
+        let(:query_project) { nil }
+
+        it "allows all options" do
+          expect(filter.allowed_values).to contain_exactly(["A", option_a.id.to_s],
+                                                           ["B", option_b.id.to_s],
+                                                           ["C", option_c.id.to_s],
+                                                           ["D", option_d.id.to_s],
+                                                           ["E", option_e.id.to_s])
+        end
+      end
+    end
+  end
+
+  context "for a list custom field with options added by projects" do
+    let(:custom_field) { create(:list_wp_custom_field, types: [type], possible_values: %w[A]) }
+    let(:option_a) { custom_field.custom_options.find_by!(value: "A") }
+    let!(:own_option) { create(:custom_option, custom_field:, value: "Own", project:) }
+    let!(:subproject_option) { create(:custom_option, custom_field:, value: "Sub", project: subproject) }
+    let!(:foreign_option) { create(:custom_option, custom_field:, value: "Foreign", project: other_project) }
+
+    it "allows the global options and the options of the project and its visible subprojects" do
+      expect(filter.allowed_values)
+        .to contain_exactly(["A", option_a.id.to_s], ["Own", own_option.id.to_s], ["Sub", subproject_option.id.to_s])
     end
   end
 

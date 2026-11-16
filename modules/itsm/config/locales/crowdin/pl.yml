@@ -3,39 +3,39 @@ pl:
   activerecord:
     attributes:
       itsm/email_message:
-        direction: Direction
-        from_address: From
+        direction: Kierunek
+        from_address: Od
         message_id: Message ID
         status: Status
-        subject: Subject
+        subject: Temat
       itsm/email_thread:
         recipients: Recipients
         requester_email: Requester email
         requester_name: Requester name
-        work_package: Work package
+        work_package: Zadanie
       itsm/incoming_mailbox:
-        active: Active
+        active: Aktywny
         aliases: Known email addresses
-        email: Email address
+        email: Adres e-mail
         mail_server: IMAP server
-        password: Password
-        project: Project
-        username: Username
+        password: Hasło
+        project: Projekt
+        username: Nazwa użytkownika
       itsm/mail_server:
         encryption: Encryption
         host: Server name
         incoming_mailboxes: Incoming mailboxes
-        name: Name
+        name: Nazwa
         outgoing_mailboxes: Outgoing mailboxes
         port: Port
-        protocol: Protocol
+        protocol: Protokół
       itsm/outgoing_mailbox:
-        mail_server: SMTP server
-        password: Password
-        project: Project
+        mail_server: Serwer SMTP
+        password: Hasło
+        project: Projekt
         sender_email: Sender email
         sender_name: Sender name
-        username: Username
+        username: Nazwa użytkownika
     models:
       itsm/email_message:
         one: Email message

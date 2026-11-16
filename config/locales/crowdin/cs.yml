@@ -137,6 +137,7 @@ cs:
         commented: Komentované
       custom_field:
         admin_only: Pouze pro správce
+        allow_additional_project_values: Project admins can add project-specific values
         allow_non_open_versions: Povolit neotevřené verze
         content_right_to_left: |-
           Obsah zprava dolev
@@ -154,6 +155,7 @@ cs:
         min_value: Minimum value
         multi_value: Povolit multi-select
         possible_values: Možné hodnoty
+        project_level_value_management: Project admins can manage values at a project level
         project_specific_value_restriction: Project-specific values
         regexp: Regulární výraz
         searchable: Vyhledávatelné
@@ -397,10 +399,14 @@ cs:
         authentication_method: Authentication method
         jwt_sub: Subject claim
       status:
+        category: Category
         default_done_ratio: "% Dokončeno"
         excluded_from_totals: Vyloučit z výpočtu úhrnů v hierarchii
-        is_closed: Pracovní balíček uzavřen
         is_readonly: Pracovní balíček jen pro čtení
+      status/category:
+        closed: Closed
+        in_progress: In progress
+        to_do: To-do
       subproject_template_assignment:
         workspace_type: Workspace type
       time_entry:
@@ -552,6 +558,11 @@ cs:
         labels: Labels
         notify: Oznámit
         observed_in_versions: Observed in versions
+        origin: Origin
+        origin_host: Origin host
+        origin_id: Origin ID
+        origin_source: Origin source
+        origin_url: Origin URL
         parent: Nadřazený
         parent_issue: Nadřazený
         parent_work_package: Nadřazený
@@ -712,8 +723,10 @@ cs:
               invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
               multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: The attribute %{custom_fields} cannot be used because it leads to a circular reference; one attribute depends on the other.
+            project_level_value_management:
+              not_available_for_all_values: is only available when values are restricted per project.
             project_specific_value_restriction:
-              not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
+              not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted list.
             required:
               cannot_be_true: cannot be set to true.
           previous_custom_field_recalculation_unprocessed: The recalculation of previous changes for this custom field have not been applied yet, please try again in a few minutes.
@@ -726,6 +739,10 @@ cs:
           attributes:
             project_ids:
               blank: Vyberte projekt.
+        custom_option:
+          attributes:
+            project_id:
+              additional_values_not_allowed: cannot add values to this custom field.
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -1206,10 +1223,10 @@ cs:
         many: Custom fields
         other: Custom fields
       custom_field/hierarchy/item:
-        one: Hierarchy item
-        few: Hierarchy items
-        many: Hierarchy items
-        other: Hierarchy items
+        one: Hierarchy value
+        few: Hierarchy values
+        many: Hierarchy values
+        other: Hierarchy values
       custom_field_section:
         one: Custom field section
         few: Custom field sections
@@ -1920,6 +1937,10 @@ cs:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
+          JiraCreateRelationsJob:
+            title: Create relations for '%{jira_project_name}'
+          JiraCreateSprintsJob:
+            title: Create sprints
           JiraCreateUsersJob:
             title: Create users
           JiraDownloadProjectWorkPackageAttachmentsJob:
@@ -1930,12 +1951,16 @@ cs:
             title: Fetch issue types
           JiraFetchPrioritiesJob:
             title: Fetch priorities
+          JiraFetchProjectBoardsJob:
+            title: Fetch boards for project '%{jira_project_name}'
           JiraFetchProjectIssuesJob:
             title: Fetch issues for project '%{jira_project_name}'
           JiraFetchProjectVersionsJob:
             title: Fetch versions for project '%{jira_project_name}'
           JiraFetchProjectsJob:
             title: Fetch projects
+          JiraFetchSprintsJob:
+            title: Fetch sprints
           JiraFetchStatusesJob:
             title: Fetch statuses
           JiraFetchUsersJob:
@@ -2091,10 +2116,16 @@ cs:
                 projects:
                   label: Projects
                   subtitle: Selected as scope
+                sprints:
+                  label: Sprints
+                  subtitle: With goals and work package assignments
                 title: Data imported
                 users_and_groups:
                   label: Users & groups
-                  subtitle: 'Involved in imported projects '
+                  subtitle: Involved in imported projects
+                versions:
+                  label: Versions
+                  subtitle: Of the imported projects
                 work_packages:
                   label: Work packages
                   subtitle: With attachments and logged time
@@ -2113,17 +2144,15 @@ cs:
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               elements:
                 custom_fields: A subset of custom fields
-                issue_details: Issue description, history, comments and attachments
-                issue_ids: Identifikátory issues
+                issue_details: Issue identifiers, description, history, comments and attachments
                 issues: Issues
                 logged_time: Logged time
                 permissions: Permissions
-                project_ids: Project identifiers
-                project_versions: Project versions
+                project_details: Project identifiers, description and versions
                 projects: Projects
                 relations: Vztahy mezi issues
                 schemes: Schémata
-                sprints: Přiřazení sprintu
+                sprints: Sprints and sprint assignments
                 users: Zapojení uživatelé a skupiny
                 workflows: Project-level workflows
               label_coming_later: Coming later
@@ -2150,17 +2179,20 @@ cs:
               rest_line_text: ''
               title: Fetch Jira configuration
             '10':
+              rest_line_text: Creating relations for %{projects_number} more projects
+              title: Create relations
+            '11':
               rest_line_text: Creating time entries for %{projects_number} more projects
               title: Create time entries
-            '11':
+            '12':
               rest_line_text: Downloading attachments for %{projects_number} more projects
               title: Download attachments
             '2':
-              rest_line_text: Fetching issues and versions for %{projects_number} more projects
-              title: Fetch project issues and versions
+              rest_line_text: Fetching issues, boards and versions for %{projects_number} more projects
+              title: Fetch project issues, boards and versions
             '3':
               rest_line_text: ''
-              title: Fetch users and custom fields
+              title: Fetch users, sprints and custom fields
             '4':
               rest_line_text: ''
               title: Create users, groups and memberships
@@ -2171,8 +2203,8 @@ cs:
               rest_line_text: Creating %{projects_number} more projects
               title: Create projects
             '7':
-              rest_line_text: Creating versions for %{projects_number} more projects
-              title: Create project versions
+              rest_line_text: Creating versions and sprints for %{projects_number} more projects
+              title: Create project versions and sprints
             '8':
               rest_line_text: Creating work packages for %{projects_number} more projects
               title: Create work packages
@@ -2398,10 +2430,6 @@ cs:
       user_custom_field_sections:
         destroy:
           error: The section could not be deleted.
-        drop:
-          error: The section could not be reordered.
-        move:
-          error: The section could not be reordered.
       versions_and_categories:
         banner:
           button_more_information: More information
@@ -2521,6 +2549,8 @@ cs:
       blankslate:
         description: Add statuses to start configuring workflows for this role
         linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
+        readonly_description: Select other roles to view configured transitions
+        readonly_title: No status transitions configured for the selected roles
         title: Nejsou nakonfigurovány žádné stavové přechody
       leave_confirmation:
         description: You are about to leave this page but you have unsaved changes. Would you like to save them before continuing?
@@ -2863,12 +2893,13 @@ cs:
   button_actions: Akce
   button_add: Přidat
   button_add_comment: Přidat komentář
-  button_add_item_above: Přidat položku výše
-  button_add_item_below: Přidat položku níže
+  button_add_item_above: Add value above
+  button_add_item_below: Add value below
   button_add_member: Přidat člena
   button_add_menu_entry: Přidat položku menu
   button_add_non_working_time: Volno
   button_add_sub_item: Přidat podpoložku
+  button_add_sub_value: Add sub-value
   button_add_watcher: Přidat sledující
   button_all_filters: Všechny filtry
   button_annotate: Komentovat
@@ -3073,28 +3104,30 @@ cs:
     admin:
       hierarchy:
         subitems:
-          one: "%{count} sub-item"
-          other: "%{count} dílčí položky"
-          zero: žádné dílčí položky
+          one: "%{count} sub-value"
+          other: "%{count} sub-values"
+          zero: no sub-values
       items:
-        actions: Akce položky
+        actions: Value actions
         blankslate:
           item:
-            description: Přidat položky do tohoto seznamu k vytvoření podpoložek uvnitř jiného
-            title: Tato položka nemá žádnou úroveň hierarchie níže
+            description: Add values to this list to create sub-values inside another one
+            title: This value doesn't have any hierarchy level below
+          project_item:
+            description: This value belongs to the project %{project}. It cannot have global sub-values. Sub-values can only be added in the [project administration](project_administration).
           root:
-            description: Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item.
-            title: Váš seznam položek je prázdný
+            description: Start by adding values to the custom field of type hierarchy. Each value can be used to create a hierarchy below it. To navigate and create sub-values inside a hierarchy click on the created value.
+            title: Your list of values is empty
         delete_dialog:
-          description: This action will irreversibly remove the item and all its sub-items. Any assigned values will be permanently deleted. If this field is required, removing items may cause existing work packages to become invalid.
-          heading: Odstranit vlastní položku pole?
-          title: Odstranění položku vlastního pole
+          description: This action will irreversibly remove the value and all its sub-values. Any assigned values will be permanently deleted. If this field is required, removing values may cause existing work packages to become invalid.
+          heading: Delete custom field value?
+          title: Delete custom field value
         placeholder:
-          label: Štítek položky
+          label: Value label
           short: Krátký název
           weight: Váha
       notice:
-        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
+        remember_items_and_projects: Remember to set values for this custom field, and to make sure it is used in at least one project.
       projects:
         changes_heading: Important changes
         changes_text: 'Starting version 18.0, custom fields are no longer enabled or disabled at a project level. They are included in forms, which are then used in different types and variants. The following list shows projects that use types or variants using forms including this custom field.
@@ -3144,7 +3177,7 @@ cs:
         warning: Depending on the role selected below, the user assigned to this project attribute might gain significantly more permissions than they previously had, including the ability to add new members and elevate their role.
     calculated_field_not_editable: Non-editable attribute. This value is calculated automatically.
     confirm_destroy_option: Smazáním možnosti smažete všechny výskyty (např. v pracovních balíčcích). Opravdu ji chcete odstranit?
-    contained_in_type: Obsahuje typ
+    contained_in: Contained in
     enabled_in_project: Povoleno v projektu
     instructions:
       admin_only:
@@ -3202,6 +3235,11 @@ cs:
       block:
         caption: By default, all values will be available to all projects, but you can manually deactivate specific values for individual projects.
         label: 'Block filter: Manually choose which values to deactivate for each project'
+      label: Project-specific
+      label_with_project: 'Project-specific: %{project}'
+      project_admins:
+        additional_values_caption: Added values are only available in the project they were created in. You can make them available to all projects later.
+        value_management_caption: Project admins can enable or disable certain values for their project. All global values will be visible to them.
       switch_warning:
         all: All values will be available in all projects.
         allow: No values will be available to any project unless you manually activate them in each project individually.
@@ -3515,7 +3553,6 @@ cs:
       gantt_pdf_export: Gantt PDF export
       internal_comments: Interní komentáře
       ldap_groups: Synchronizace uživatelů a skupin LDAP
-      mcp_server: Model Context Protocol (MCP)
       meeting_templates: Opakovaně použitelné šablony schůzek
       nextcloud_sso: Jednotné přihlášení pro úložiště Nextcloud
       one_drive_sharepoint_file_storage: OneDrive/SharePoint File Storage
@@ -3530,7 +3567,7 @@ cs:
       team_planner_view: Team Planner View
       text_assistant: Text assistant
       virus_scanning: Antivirové skenování
-      weighted_item_lists: Weighted item lists
+      weighted_item_lists: Weighted lists
       work_package_query_relation_columns: Work Package Query Relation Columns
       work_package_sharing: Share work packages with external users
       work_package_subject_generation: Work Package Subject Generation
@@ -3611,8 +3648,6 @@ cs:
       internal_comments_inline:
         description: " "
         title: Pište interní komentáře, které vidí jen malá skupina
-      mcp_server:
-        description: Bring OpenProject into your AI workflows with a secure MCP server.
       meeting_templates:
         description: Define meeting templates with a set agenda structure and save time by reusing them when creating new meetings.
       nextcloud_sso:
@@ -3652,7 +3687,7 @@ cs:
       virus_scanning:
         description: Zajistěte, aby nahrané soubory v OpenProjectu byly před zpřístupněním ostatním uživatelům zkontrolovány na přítomnost virů.
       weighted_item_lists:
-        description: Weighted item lists allow you to create a list with underlying numeric values associated.
+        description: Weighted lists allow you to create a list with underlying numeric values associated.
       work_package_sharing:
         description: Sdílejte pracovní balíčky s uživateli, kteří nejsou členy projektu.
       work_package_subject_generation:
@@ -4317,7 +4352,7 @@ cs:
   label_active_in_new_projects: Aktivní v nových projektech
   label_activity: Aktivita
   label_add_another_file: Přidat další soubor
-  label_add_column: Přidat sloupec
+  label_add_column: Add columns
   label_add_columns: Přidat vybrané sloupce
   label_add_edit_translations: Přidat a upravit překlady
   label_add_note: Přidat poznámku
@@ -4453,7 +4488,7 @@ cs:
   label_custom_export_footer: Footer image
   label_custom_export_logo: Logo
   label_custom_favicon: Vlastní favicon
-  label_custom_field_add_no_type: Přidat toto pole k typu pracovního balíčku
+  label_custom_field_add_no_form: Add this field to a form
   label_custom_field_default_type: Prázdný typ
   label_custom_field_new: Nové vlastní pole
   label_custom_field_plural: Vlastní pole
@@ -4480,7 +4515,7 @@ cs:
   label_delete_user: Odstranit uživatele
   label_deleted: Smazáno
   label_deleted_custom_field: "(odstraněno vlastní pole)"
-  label_deleted_custom_item: "(smazaná položka)"
+  label_deleted_custom_item: "(deleted value)"
   label_deleted_custom_option: "(deleted option)"
   label_deleted_label: "(deleted label)"
   label_deleted_version: "(deleted version)"
@@ -4547,7 +4582,7 @@ cs:
   label_filter: Filtry
   label_filter_add: Přidat filtr
   label_filter_any_name_attribute: Atributy názvu
-  label_filter_by: Filtrovat podle
+  label_filter_by_column: Filter by %{column}
   label_filter_plural: Filtry
   label_filters_toggle: Zobrazit/skrýt filtry
   label_float: Desetinné číslo
@@ -4598,6 +4633,7 @@ cs:
   label_in: v
   label_in_less_than: za méně než
   label_in_more_than: za více než
+  label_in_progress_work_packages: in progress
   label_inactive: Neaktivní
   label_include_sub_projects: Zahrnout všechny podprojekty
   label_includes: zahrnuje
@@ -4618,8 +4654,6 @@ cs:
   label_invalid_file_type: This file type is not supported.
   label_invitation: Pozvánka
   label_invite_user: Pozvat uživatele
-  label_item: Položka
-  label_item_plural: Položky
   label_jira_import: Jira Migrátor
   label_journal: Deník
   label_journal_diff: Popis porovnání
@@ -4749,7 +4783,7 @@ cs:
   label_on: ''
   label_open: otevřít
   label_open_menu: Otevřít nabídku
-  label_open_work_packages: otevřené
+  label_open_work_packages: open (to-do + in progress)
   label_open_work_packages_plural: otevřené
   label_openproject_website: Webové stránky OpenProject
   label_operator_all: není prázdný
@@ -4956,6 +4990,7 @@ cs:
   label_time_entry_plural: Strávený čas
   label_timer_since: Začalo v %{time}
   label_title: Název
+  label_to_do_work_packages: to-do
   label_today: dnes
   label_today_as_date: Vyberte dnešek jako datum.
   label_today_as_due_date: Vyberte dnešek jako datum ukončení.
@@ -4991,6 +5026,7 @@ cs:
   label_user_settings: Uživatelská nastavení
   label_users_settings: Uživatelská nastavení
   label_value: Value
+  label_value_plural: Values
   label_value_x: 'Hodnota: %{x}'
   label_version_custom_field_plural: Version custom fields
   label_version_edit: Upravit verzi
@@ -5010,7 +5046,7 @@ cs:
   label_view_x: 'Zobrazení: %{x}'
   label_watched_work_packages: Sledované pracovní balíčky
   label_week: Týden
-  label_weighted_item_list: Vážený seznam položek
+  label_weighted_item_list: Weighted list
   label_what_is_this: Co to je?
   label_widget_new: Nový widget
   label_wiki_content_added: Přidána stránka wiki
@@ -5071,6 +5107,15 @@ cs:
     one: "%{count} file"
     other: "%{count} souborů"
     zero: žádné soubory
+  label_x_forms:
+    one: "%{count} form"
+    few: "%{count} forms"
+    many: "%{count} forms"
+    other: "%{count} forms"
+  label_x_in_progress_work_packages_abbr:
+    one: 1 in progress
+    other: "%{count} in progress"
+    zero: 0 in progress
   label_x_items:
     one: "%{count} item"
     other: "%{count} položek"
@@ -5088,6 +5133,10 @@ cs:
     one: "%{count} project"
     other: "%{count} projektů"
     zero: Žádné projekty
+  label_x_to_do_work_packages_abbr:
+    one: 1 to-do
+    other: "%{count} to-do"
+    zero: 0 to-do
   label_x_work_packages:
     one: "%{count} work package"
     other: " %{count} Pracovních balíčků"
@@ -5703,7 +5752,7 @@ cs:
   notice_no_principals_found: Nenalezeny žádné výsledky.
   notice_not_authorized: Nemáte oprávnění k přístupu na tuto stránku.
   notice_not_authorized_archived_project: Projekt, na který se pokoušíte přistoupit byl archivován.
-  notice_parent_item_not_found: Parent item not found.
+  notice_parent_item_not_found: Parent value not found.
   notice_password_confirmation_failed: Zadané heslo není správné.
   notice_principals_found_multiple: "Nalezeno %{number} výsledků. \nStiskněte Tab pro přechod na první výsledek."
   notice_principals_found_single: "Existuje jeden výsledek. \n Záložka pro zaměření."
@@ -5927,12 +5976,15 @@ cs:
         custom_field:
           format_not_supported: formát '%{field_format}' není podporován.
         item:
-          not_persisted: musí být již existující položka.
-          root_item: nemůže být kořenová položka.
+          not_persisted: must be an already existing value.
+          root_item: cannot be a root value.
         label:
           not_unique: musí být v rámci stejné hierarchie jedinečné.
         parent:
           not_descendant: musí být potomkem kořenu hierarchie.
+          other_project: must be a global value or belong to the same project.
+        project:
+          additional_values_not_allowed: cannot add values to this custom field.
         short:
           not_unique: musí být v rámci stejné hierarchie jedinečné.
       str?: musí být textový řetězec.
@@ -5946,7 +5998,7 @@ cs:
       blueprint: Vzhled plánu
       depth: Hloubka
       enabled: Zapnuto
-      item: Položka
+      item: Value
       label: Popisek
       parent: Nadřazený
       short: Krátký název
@@ -6050,7 +6102,7 @@ cs:
   permission_comment_news: Komentování novinek
   permission_commit_access: Čtěte/zapisovat přístup do repozitáře (commit)
   permission_copy_projects: Duplicate projects
-  permission_copy_projects_explanation: In template projects, this permission has a secondary function, it allows the creation of new projects derived from the template.
+  permission_copy_projects_explanation: Allows copying all project data, including content and attachments the user cannot view in the source project. The role can effectively grant access to all copied data depending on the role in the new project. It also allows creating projects from templates.
   permission_copy_work_packages: Duplikovat pracovní balíčky
   permission_create_backup: Vytvořit zálohy
   permission_create_user: Vytvořit uživatele
@@ -6270,7 +6322,7 @@ cs:
   project_module_activity: Aktivita
   project_module_forums: Fóra
   project_module_news: Novinky
-  project_module_repository: Repozitář
+  project_module_repository: SVN/Git Repository (deprecated)
   project_module_wiki: Wiki
   project_module_work_package_tracking: Pracovní balíčky
   projects:
@@ -7200,6 +7252,7 @@ cs:
         label_built_in_attribute_actions: Built-in attribute actions
       custom_field_row_component:
         label_user_custom_field_actions: User attribute actions
+      label_move_to_section: Move to %{name}
       show_component:
         label_add_attribute: Add a user attribute
         label_edit_section: Edit title
@@ -7312,6 +7365,11 @@ cs:
   status_registered: registrován
   statuses:
     edit:
+      captions:
+        category:
+          closed: Work that has been completed.
+          in_progress: Work that is actively being worked on.
+          to_do: Work that has not yet started.
       status_color_text: |
         Klikněte na přiřadit nebo změnit barvu této priority.
         lze použít ke zvýraznění pracovních balíčků v tabulce.
@@ -7808,7 +7866,7 @@ cs:
         actions:
           confirm_remove: Remove the type %{type} from %{project}?
           remove_from_project: Remove from project
-          switch_variant: Change variant
+          switch_variant: Switch variant
         add_dialog:
           no_projects_selected: Please select at least one project.
           search_placeholder: Search projects
@@ -7901,6 +7959,10 @@ cs:
         delete:
           description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
           title: Delete %{name}
+          unused:
+            description: The variant will be deleted permanently. This action cannot be undone.
+            heading: Delete variant '%{name}'?
+            title: Delete variant
         filter: Filter by text
         filter_no_results: No variants match this filter
         global_section:

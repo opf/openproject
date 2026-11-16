@@ -13,11 +13,11 @@ export const en = {
         'wp': "ap",
         'link': 'link',
         'create': "opret",
-        'attribute': 'attribute'
+        'attribute': "attribut"
       },
       'attribute': {
-        'title': 'Work package attribute',
-        'subtext': 'Insert a live attribute or custom field'
+        'title': "Arbejdspakkeattribut",
+        'subtext': "Indsæt en dynamisk attribut eller et brugerdefineret felt"
       }
     },
     'formattingToolbar': {
@@ -128,32 +128,32 @@ export const en = {
       'ariaLabel': "Indlæser"
     },
     'workPackageAttribute': {
-      'missing': '{{attribute}} unavailable',
-      'yes': 'Yes',
-      'no': 'No',
-      'days_one': '{{count}} day',
-      'days_other': '{{count}} days',
+      'missing': "{{attribute}} er ikke tilgængelig",
+      'yes': "Ja",
+      'no': "Nej",
+      'days_one': "{{count}} dag",
+      'days_other': "{{count}} dage",
       'display': {
-        'label': 'Label',
-        'value': 'Value',
-        'both': 'Label + value'
+        'label': "Betegnelse",
+        'value': "Værdi",
+        'both': "Betegnelse + værdi"
       },
       'dialog': {
-        'title': 'Insert work package attribute',
-        'workPackage': 'Work package',
-        'attribute': 'Attribute',
-        'attributePlaceholder': 'Select an attribute…',
-        'attributeDisabled': 'Select a work package first',
-        'attributeLoading': 'Loading attributes…',
-        'attributeUnavailable': 'Attributes unavailable',
-        'loadFailed': 'The attributes of {{id}} could not be loaded.',
-        'retry': 'Try again',
-        'prefilled': 'Prefilled with your last selection',
-        'notAvailable': '"{{attribute}}" is not available on {{id}}. Choose another attribute.',
-        'show': 'Show',
-        'preview': 'Preview',
-        'previewEmpty': 'Choose a work package and an attribute',
-        'insert': 'Insert'
+        'title': "Indsæt arbejdspakkeattribut",
+        'workPackage': "Arbejdspakke",
+        'attribute': "Attribut",
+        'attributePlaceholder': "Vælg en attribut …",
+        'attributeDisabled': "Vælg først en arbejdspakke",
+        'attributeLoading': "Indlæser attributter …",
+        'attributeUnavailable': "Attributterne er ikke tilgængelige",
+        'loadFailed': "Attributterne for {{id}} kunne ikke indlæses.",
+        'retry': "Prøv igen",
+        'prefilled': "Udfyldt med dit seneste valg",
+        'notAvailable': "\"{{attribute}}\" er ikke tilgængelig for {{id}}. Vælg en anden attribut.",
+        'show': "Vis",
+        'preview': "Forhåndsvisning",
+        'previewEmpty': "Vælg en arbejdspakke og en attribut",
+        'insert': "Indsæt"
       }
     }
   }

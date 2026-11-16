@@ -25,7 +25,7 @@ jobs:
       contents: read
     services:
       postgres:
-        image: postgres:16
+        image: pgvector/pgvector:pg16-trixie
         env:
           POSTGRES_DB: app
           POSTGRES_USER: app
@@ -42,7 +42,7 @@ jobs:
           - el:9
           - sles:15
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@v7.0.1
         with:
           ref: ${{ inputs.tag || github.ref }}
           fetch-depth: 0
@@ -61,7 +61,7 @@ jobs:
             echo "channel=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
           fi
       - name: Package
-        uses: pkgr/action/package@72711239e8f309a29f078b90bd269af6c7db3f70 # v1
+        uses: pkgr/action/package@v1
         id: package
         with:
           target: ${{ matrix.target }}
@@ -72,7 +72,7 @@ jobs:
           env: |
             DATABASE_URL=postgres://app:p4ssw0rd@127.0.0.1:5432/app
       - name: Publish
-        uses: pkgr/action/publish@72711239e8f309a29f078b90bd269af6c7db3f70 # v1
+        uses: pkgr/action/publish@v1
         with:
           target: ${{ matrix.target }}
           token: ${{ secrets.PACKAGER_PUBLISH_TOKEN }}

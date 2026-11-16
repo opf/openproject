@@ -76,7 +76,7 @@ module FormConfigurations
                                   .call(**form_configuration_params)
 
       if service_call.success?
-        redirect_to edit_form_configuration_path(@form_configuration), status: :see_other
+        redirect_back_or_to edit_form_configuration_path(@form_configuration), status: :see_other
       else
         render_form_errors(service_call.result)
       end

@@ -55,72 +55,63 @@ RSpec.describe "MCP tools/list" do
     tool_config.save!
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP result response"
+  it_behaves_like "MCP result response"
 
-    it "includes the search_projects tool" do
-      subject
+  it "includes the search_projects tool" do
+    subject
 
-      tool = parsed_results.fetch("tools").find { |t| t.fetch("name") == "search_projects" }
-      expect(tool).not_to be_nil
-      expect(tool.fetch("title")).to eq(tool_config.title)
-      expect(tool.fetch("description")).to eq(tool_config.description)
-    end
-
-    context "when not passing a token" do
-      subject do
-        header "Content-Type", "application/json"
-        post "/mcp", request_body.to_json
-      end
-
-      it_behaves_like "MCP unauthenticated response"
-    end
-
-    context "when passing an API key via Basic auth" do
-      subject do
-        header "Authorization", "Basic #{Base64.encode64("apikey:#{apikey.plain_value}")}"
-        header "Content-Type", "application/json"
-        post "/mcp", request_body.to_json
-      end
-
-      let(:apikey) { create(:api_token) }
-
-      it_behaves_like "MCP result response"
-    end
-
-    context "when passing a Bearer token with a wrong scope" do
-      let(:access_token) { create(:oauth_access_token, scopes: "api_v3") }
-
-      it_behaves_like "MCP unauthenticated response"
-    end
-
-    context "when the MCP server is disabled via configuration" do
-      let(:server_config) { create(:mcp_configuration, identifier: "mcp_server", enabled: false) }
-
-      it "responds in a 404" do
-        subject
-        expect(last_response).to have_http_status(404)
-      end
-    end
-
-    context "when the search_projects tool is disabled" do
-      let(:tool_config) { create(:mcp_configuration, identifier: McpTools::SearchProjects.qualified_name, enabled: false) }
-
-      it_behaves_like "MCP result response"
-
-      it "does not include the search_projects tool" do
-        subject
-
-        tool = parsed_results.fetch("tools").find { |t| t.fetch("name") == "search_projects" }
-        expect(tool).to be_nil
-      end
-    end
+    tool = parsed_results.fetch("tools").find { |t| t.fetch("name") == "search_projects" }
+    expect(tool).not_to be_nil
+    expect(tool.fetch("title")).to eq(tool_config.title)
+    expect(tool.fetch("description")).to eq(tool_config.description)
   end
 
-  context "when the mcp_server enterprise feature is disabled" do
+  context "when not passing a token" do
+    subject do
+      header "Content-Type", "application/json"
+      post "/mcp", request_body.to_json
+    end
+
+    it_behaves_like "MCP unauthenticated response"
+  end
+
+  context "when passing an API key via Basic auth" do
+    subject do
+      header "Authorization", "Basic #{Base64.encode64("apikey:#{apikey.plain_value}")}"
+      header "Content-Type", "application/json"
+      post "/mcp", request_body.to_json
+    end
+
+    let(:apikey) { create(:api_token) }
+
+    it_behaves_like "MCP result response"
+  end
+
+  context "when passing a Bearer token with a wrong scope" do
+    let(:access_token) { create(:oauth_access_token, scopes: "api_v3") }
+
+    it_behaves_like "MCP unauthenticated response"
+  end
+
+  context "when the MCP server is disabled via configuration" do
+    let(:server_config) { create(:mcp_configuration, identifier: "mcp_server", enabled: false) }
+
     it "responds in a 404" do
       subject
       expect(last_response).to have_http_status(404)
+    end
+  end
+
+  context "when the search_projects tool is disabled" do
+    let(:tool_config) { create(:mcp_configuration, identifier: McpTools::SearchProjects.qualified_name, enabled: false) }
+
+    it_behaves_like "MCP result response"
+
+    it "does not include the search_projects tool" do
+      subject
+
+      tool = parsed_results.fetch("tools").find { |t| t.fetch("name") == "search_projects" }
+      expect(tool).to be_nil
     end
   end
 end

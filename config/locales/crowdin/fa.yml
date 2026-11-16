@@ -137,6 +137,7 @@ fa:
         commented: دارای دیدگاه
       custom_field:
         admin_only: فقط مدیر
+        allow_additional_project_values: Project admins can add project-specific values
         allow_non_open_versions: اجازه نسخه‌های بازنشده
         content_right_to_left: محتوای راست‌به‌چپ
         default_value: مقدار پیش فرض
@@ -152,6 +153,7 @@ fa:
         min_value: حداقل مقدار
         multi_value: اجازه انتخاب چندگانه
         possible_values: مقادیر ممکن
+        project_level_value_management: Project admins can manage values at a project level
         project_specific_value_restriction: مقادیر ویژه هر پروژه
         regexp: عبارت منظم
         searchable: قابل جستجو
@@ -395,10 +397,14 @@ fa:
         authentication_method: روش احراز هویت
         jwt_sub: Claim موضوع
       status:
+        category: Category
         default_done_ratio: "٪ تکمیل"
         excluded_from_totals: حذف از محاسبه مجموع‌ها در سلسله‌مراتب
-        is_closed: بسته کاری بسته شد
         is_readonly: بسته کاری فقط‌خواندنی
+      status/category:
+        closed: Closed
+        in_progress: In progress
+        to_do: To-do
       subproject_template_assignment:
         workspace_type: نوع فضای کاری
       time_entry:
@@ -550,6 +556,11 @@ fa:
         labels: برچسب‌ها
         notify: اعلان
         observed_in_versions: مشاهده‌شده در نسخه‌ها
+        origin: Origin
+        origin_host: Origin host
+        origin_id: Origin ID
+        origin_source: Origin source
+        origin_url: Origin URL
         parent: بالادستی
         parent_issue: والد
         parent_work_package: والد
@@ -708,8 +719,10 @@ fa:
               invalid_tokens: فقط مقادیر عددی، عملگرها، توابع، کلیدواژه‌ها و ویژگی‌های پروژه از نوع عدد صحیح، اعشاری، مقدار محاسبه‌شده و فهرست وزن‌دار مجاز هستند.
               multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
               not_allowed_custom_fields_referenced: ویژگی %{custom_fields} قابل استفاده نیست، زیرا باعث ارجاع دوری می‌شود؛ یک ویژگی به دیگری وابسته است.
+            project_level_value_management:
+              not_available_for_all_values: is only available when values are restricted per project.
             project_specific_value_restriction:
-              not_supported: تنها برای فیلدهای سفارشی بسته کاری با قالب‌های فهرست، سلسله‌مراتب و فهرست اقلام وزن‌دار در دسترس است.
+              not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted list.
             required:
               cannot_be_true: نمی‌تواند روی true تنظیم شود.
           previous_custom_field_recalculation_unprocessed: محاسبه مجدد تغییرات قبلی این فیلد سفارشی هنوز اعمال نشده است؛ لطفاً چند دقیقه دیگر دوباره تلاش کنید.
@@ -720,6 +733,10 @@ fa:
           attributes:
             project_ids:
               blank: لطفاً یک پروژه انتخاب کنید.
+        custom_option:
+          attributes:
+            project_id:
+              additional_values_not_allowed: cannot add values to this custom field.
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -1154,8 +1171,8 @@ fa:
         one: فیلد سفارشی
         other: فیلدهای سفارشی
       custom_field/hierarchy/item:
-        one: مورد سلسله‌مراتبی
-        other: موارد سلسله‌مراتبی
+        one: Hierarchy value
+        other: Hierarchy values
       custom_field_section:
         one: بخش فیلد سفارشی
         other: بخش‌های فیلد سفارشی
@@ -1696,6 +1713,10 @@ fa:
             title: ایجاد نسخه‌ها برای «%{jira_project_name}»
           JiraCreateProjectWorkPackagesJob:
             title: ایجاد بسته‌های کاری «%{jira_project_name}»
+          JiraCreateRelationsJob:
+            title: Create relations for '%{jira_project_name}'
+          JiraCreateSprintsJob:
+            title: Create sprints
           JiraCreateUsersJob:
             title: ایجاد کاربران
           JiraDownloadProjectWorkPackageAttachmentsJob:
@@ -1706,12 +1727,16 @@ fa:
             title: دریافت انواع مسئله
           JiraFetchPrioritiesJob:
             title: دریافت اولویت‌ها
+          JiraFetchProjectBoardsJob:
+            title: Fetch boards for project '%{jira_project_name}'
           JiraFetchProjectIssuesJob:
             title: دریافت مسائل پروژه «%{jira_project_name}»
           JiraFetchProjectVersionsJob:
             title: دریافت نسخه‌های پروژه «%{jira_project_name}»
           JiraFetchProjectsJob:
             title: دریافت پروژه‌ها
+          JiraFetchSprintsJob:
+            title: Fetch sprints
           JiraFetchStatusesJob:
             title: دریافت وضعیت‌ها
           JiraFetchUsersJob:
@@ -1851,10 +1876,16 @@ fa:
                 projects:
                   label: پروژه‌ها
                   subtitle: به‌عنوان دامنه انتخاب‌شده
+                sprints:
+                  label: Sprints
+                  subtitle: With goals and work package assignments
                 title: داده‌های واردشده
                 users_and_groups:
                   label: کاربران و گروه‌ها
-                  subtitle: درگیر در پروژه‌های واردشده
+                  subtitle: Involved in imported projects
+                versions:
+                  label: Versions
+                  subtitle: Of the imported projects
                 work_packages:
                   label: بسته‌های کاری
                   subtitle: با پیوست‌ها و زمان ثبت‌شده
@@ -1871,17 +1902,15 @@ fa:
               description: از داده‌های موجود دریافت‌شده از نمونه میزبان Jira، موارد موردنظر برای Import را انتخاب کنید.
               elements:
                 custom_fields: زیرمجموعه‌ای از فیلدهای سفارشی
-                issue_details: توضیحات Issue، تاریخچه، دیدگاه‌ها و پیوست‌ها
-                issue_ids: شناسه‌های Issue
+                issue_details: Issue identifiers, description, history, comments and attachments
                 issues: Issueها
                 logged_time: زمان ثبت‌شده
                 permissions: مجوزها
-                project_ids: شناسه‌های پروژه
-                project_versions: نسخه‌های پروژه
+                project_details: Project identifiers, description and versions
                 projects: پروژه‌ها
                 relations: روابط بین Issueها
                 schemes: Schemaها
-                sprints: تخصیص‌های اسپرینت
+                sprints: Sprints and sprint assignments
                 users: کاربران و گروه‌های درگیر
                 workflows: گردش‌کارهای سطح پروژه
               label_coming_later: بعداً اضافه می‌شود
@@ -1908,17 +1937,20 @@ fa:
               rest_line_text: ''
               title: دریافت پیکربندی Jira
             '10':
-              rest_line_text: در حال ایجاد ورودی‌های ثبت زمان برای %{projects_number} پروژه دیگر
-              title: ایجاد ورودی‌های ثبت زمان
+              rest_line_text: Creating relations for %{projects_number} more projects
+              title: Create relations
             '11':
-              rest_line_text: در حال دریافت پیوست‌های %{projects_number} پروژه دیگر
-              title: دریافت پیوست‌ها
+              rest_line_text: Creating time entries for %{projects_number} more projects
+              title: Create time entries
+            '12':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
             '2':
-              rest_line_text: در حال دریافت مسائل و نسخه‌های %{projects_number} پروژه دیگر
-              title: دریافت مسائل و نسخه‌های پروژه‌ها
+              rest_line_text: Fetching issues, boards and versions for %{projects_number} more projects
+              title: Fetch project issues, boards and versions
             '3':
               rest_line_text: ''
-              title: دریافت کاربران و فیلدهای سفارشی
+              title: Fetch users, sprints and custom fields
             '4':
               rest_line_text: ''
               title: ایجاد کاربران، گروه‌ها و عضویت‌ها
@@ -1929,8 +1961,8 @@ fa:
               rest_line_text: در حال ایجاد %{projects_number} پروژه دیگر
               title: ایجاد پروژه‌ها
             '7':
-              rest_line_text: در حال ایجاد نسخه‌ها برای %{projects_number} پروژه دیگر
-              title: ایجاد نسخه‌های پروژه
+              rest_line_text: Creating versions and sprints for %{projects_number} more projects
+              title: Create project versions and sprints
             '8':
               rest_line_text: در حال ایجاد بسته‌های کاری برای %{projects_number} پروژه دیگر
               title: ایجاد بسته‌های کاری
@@ -2152,10 +2184,6 @@ fa:
       user_custom_field_sections:
         destroy:
           error: بخش حذف نشد.
-        drop:
-          error: ترتیب بخش تغییر نکرد.
-        move:
-          error: ترتیب بخش تغییر نکرد.
       versions_and_categories:
         banner:
           button_more_information: اطلاعات بیشتر
@@ -2271,6 +2299,8 @@ fa:
       blankslate:
         description: برای شروع پیکربندی گردش‌کارهای این نقش، وضعیت‌ها را اضافه کنید
         linked_description: این نوع از گردش‌کارهای نوع منبع پیوندشده خود استفاده می‌کند که هیچ انتقال وضعیتی برای آن پیکربندی نشده است
+        readonly_description: Select other roles to view configured transitions
+        readonly_title: No status transitions configured for the selected roles
         title: هیچ انتقال وضعیتی پیکربندی نشده است
       leave_confirmation:
         description: در حال ترک این صفحه هستید اما تغییرات ذخیره‌نشده دارید. آیا می‌خواهید پیش از ادامه آن‌ها را ذخیره کنید؟
@@ -2609,12 +2639,13 @@ fa:
   button_actions: اقدام‌ها
   button_add: ﺍﻓﺰﻭﺩﻥ
   button_add_comment: افزودن دیدگاه
-  button_add_item_above: افزودن مورد در بالا
-  button_add_item_below: افزودن مورد در پایین
+  button_add_item_above: Add value above
+  button_add_item_below: Add value below
   button_add_member: افزودن عضو
   button_add_menu_entry: افزودن آیتم منو
   button_add_non_working_time: مرخصی
   button_add_sub_item: افزودن زیرمورد
+  button_add_sub_value: Add sub-value
   button_add_watcher: افزودن دنبال‌کننده
   button_all_filters: همه فیلترها
   button_annotate: حاشیه‌نویسی
@@ -2819,28 +2850,30 @@ fa:
     admin:
       hierarchy:
         subitems:
-          one: "%{count} زیرمورد"
-          other: "%{count} زیرمورد"
-          zero: بدون زیرمورد
+          one: "%{count} sub-value"
+          other: "%{count} sub-values"
+          zero: no sub-values
       items:
-        actions: اقدام‌های مورد
+        actions: Value actions
         blankslate:
           item:
-            description: برای ایجاد زیرمورد داخل مورد دیگر، موارد را به این فهرست اضافه کنید
-            title: این مورد هیچ سطح سلسله‌مراتبی پایین‌تری ندارد
+            description: Add values to this list to create sub-values inside another one
+            title: This value doesn't have any hierarchy level below
+          project_item:
+            description: This value belongs to the project %{project}. It cannot have global sub-values. Sub-values can only be added in the [project administration](project_administration).
           root:
-            description: با افزودن موارد به فیلد سفارشی از نوع سلسله‌مراتب شروع کنید. هر مورد می‌تواند برای ایجاد سلسله‌مراتب زیر آن استفاده شود. برای پیمایش و ایجاد زیرمورد در یک سلسله‌مراتب روی مورد ایجادشده کلیک کنید.
-            title: فهرست موارد شما خالی است
+            description: Start by adding values to the custom field of type hierarchy. Each value can be used to create a hierarchy below it. To navigate and create sub-values inside a hierarchy click on the created value.
+            title: Your list of values is empty
         delete_dialog:
-          description: این اقدام به‌صورت بازگشت‌ناپذیر مورد و همه زیرموردهای آن را حذف می‌کند. همه مقادیر تخصیص‌یافته برای همیشه حذف خواهند شد. اگر این فیلد الزامی باشد، حذف موارد ممکن است باعث نامعتبرشدن بسته‌های کاری موجود شود.
-          heading: مورد فیلد سفارشی حذف شود؟
-          title: حذف مورد فیلد سفارشی
+          description: This action will irreversibly remove the value and all its sub-values. Any assigned values will be permanently deleted. If this field is required, removing values may cause existing work packages to become invalid.
+          heading: Delete custom field value?
+          title: Delete custom field value
         placeholder:
-          label: برچسب مورد
+          label: Value label
           short: نام کوتاه
           weight: وزن
       notice:
-        remember_items_and_projects: یادتان باشد گزینه‌های این فیلد سفارشی را تنظیم کنید و مطمئن شوید دست‌کم در یک پروژه استفاده می‌شود.
+        remember_items_and_projects: Remember to set values for this custom field, and to make sure it is used in at least one project.
       projects:
         changes_heading: تغییرات مهم
         changes_text: 'از نسخه 18.0، فیلدهای سفارشی دیگر در سطح پروژه فعال یا غیرفعال نمی‌شوند. آن‌ها در فرم‌هایی قرار می‌گیرند که سپس در انواع و گونه‌های مختلف استفاده می‌شوند. فهرست زیر پروژه‌هایی را نشان می‌دهد که از انواع یا گونه‌هایی با فرم شامل این فیلد سفارشی استفاده می‌کنند.
@@ -2888,7 +2921,7 @@ fa:
         warning: بسته به نقش انتخاب‌شده در زیر، کاربر تخصیص‌یافته به این ویژگی پروژه ممکن است مجوزهای بسیار بیشتری از قبل دریافت کند، از جمله امکان افزودن اعضای جدید و ارتقای نقش آن‌ها.
     calculated_field_not_editable: ویژگی غیرقابل‌ویرایش. این مقدار به‌طور خودکار محاسبه می‌شود.
     confirm_destroy_option: حذف یک گزینه همه کاربردهای آن را نیز حذف می‌کند (برای مثال در بسته‌های کاری). مطمئنید می‌خواهید آن را حذف کنید؟
-    contained_in_type: موجود در نوع
+    contained_in: Contained in
     enabled_in_project: فعال در پروژه
     instructions:
       admin_only:
@@ -2946,6 +2979,11 @@ fa:
       block:
         caption: به‌صورت پیش‌فرض، همه مقادیر در همه پروژه‌ها در دسترس هستند، اما می‌توانید مقادیر مشخصی را برای هر پروژه به‌صورت دستی غیرفعال کنید.
         label: 'فیلتر مسدودسازی: مقادیری را که باید برای هر پروژه غیرفعال شوند، به‌صورت دستی انتخاب کنید'
+      label: Project-specific
+      label_with_project: 'Project-specific: %{project}'
+      project_admins:
+        additional_values_caption: Added values are only available in the project they were created in. You can make them available to all projects later.
+        value_management_caption: Project admins can enable or disable certain values for their project. All global values will be visible to them.
       switch_warning:
         all: همه مقادیر در همه پروژه‌ها در دسترس خواهند بود.
         allow: تا زمانی که مقادیر را برای هر پروژه جداگانه و به‌صورت دستی فعال نکنید، هیچ مقداری در هیچ پروژه‌ای در دسترس نخواهد بود.
@@ -3219,7 +3257,6 @@ fa:
       gantt_pdf_export: خروجی PDF گانت
       internal_comments: دیدگاه‌های داخلی
       ldap_groups: همگام‌سازی کاربران و گروه‌های LDAP
-      mcp_server: Model Context Protocol (MCP)
       meeting_templates: الگوهای جلسه قابل استفاده مجدد
       nextcloud_sso: ورود یکپارچه برای فضای ذخیره‌سازی Nextcloud
       one_drive_sharepoint_file_storage: فضای ذخیره‌سازی OneDrive/SharePoint
@@ -3234,7 +3271,7 @@ fa:
       team_planner_view: نمای برنامه‌ریز تیم
       text_assistant: دستیار متن
       virus_scanning: اسکن آنتی‌ویروس
-      weighted_item_lists: فهرست آیتم‌های وزن‌دار
+      weighted_item_lists: Weighted lists
       work_package_query_relation_columns: ستون‌های رابطه Query بسته کاری
       work_package_sharing: اشتراک‌گذاری بسته‌های کاری با کاربران خارجی
       work_package_subject_generation: تولید عنوان بسته کاری
@@ -3313,8 +3350,6 @@ fa:
       internal_comments_inline:
         description: " "
         title: دیدگاه‌های داخلی بنویسید که فقط گروه کوچکی بتوانند ببینند
-      mcp_server:
-        description: OpenProject را با یک سرور MCP امن وارد گردش‌کارهای هوش مصنوعی خود کنید.
       meeting_templates:
         description: الگوهای جلسه را با ساختار دستورجلسه مشخص تعریف کنید و با استفاده مجدد از آن‌ها هنگام ایجاد جلسه جدید در زمان صرفه‌جویی کنید.
       nextcloud_sso:
@@ -3354,7 +3389,7 @@ fa:
       virus_scanning:
         description: اطمینان حاصل کنید فایل‌های بارگذاری‌شده در OpenProject پیش از دسترسی سایر کاربران برای ویروس اسکن می‌شوند.
       weighted_item_lists:
-        description: فهرست‌های آیتم وزن‌دار امکان ایجاد فهرستی با مقادیر عددی زیربنایی مرتبط را می‌دهند.
+        description: Weighted lists allow you to create a list with underlying numeric values associated.
       work_package_sharing:
         description: بسته‌های کاری را با کاربرانی که عضو پروژه نیستند به اشتراک بگذارید.
       work_package_subject_generation:
@@ -3993,7 +4028,7 @@ fa:
   label_active_in_new_projects: فعال در پروژه های جدید
   label_activity: فعالیت
   label_add_another_file: افزودن فایل دیگر
-  label_add_column: افزودن ستون
+  label_add_column: Add columns
   label_add_columns: افزودن ستون‌های انتخاب‌شده
   label_add_edit_translations: افزودن و ویرایش ترجمه‌ها
   label_add_note: افزودن یادداشت
@@ -4129,7 +4164,7 @@ fa:
   label_custom_export_footer: تصویر پانوشت
   label_custom_export_logo: لوگو
   label_custom_favicon: Favicon سفارشی
-  label_custom_field_add_no_type: افزودن این فیلد به یک نوع بسته کاری
+  label_custom_field_add_no_form: Add this field to a form
   label_custom_field_default_type: نوع خالی
   label_custom_field_new: فیلد سفارشی جدید
   label_custom_field_plural: فیلدهای سفارشی
@@ -4156,7 +4191,7 @@ fa:
   label_delete_user: حذف کاربر
   label_deleted: حذف‌شده
   label_deleted_custom_field: "(فیلد سفارشی حذف‌شده)"
-  label_deleted_custom_item: "(مورد حذف‌شده)"
+  label_deleted_custom_item: "(deleted value)"
   label_deleted_custom_option: "(گزینه حذف‌شده)"
   label_deleted_label: "(برچسب حذف‌شده)"
   label_deleted_version: "(نسخه حذف‌شده)"
@@ -4223,7 +4258,7 @@ fa:
   label_filter: فیلترها
   label_filter_add: افزودن فیلتر
   label_filter_any_name_attribute: ویژگی‌های نام
-  label_filter_by: فیلتر بر اساس
+  label_filter_by_column: Filter by %{column}
   label_filter_plural: فیلترها
   label_filters_toggle: نمایش/پنهان کردن فیلتر
   label_float: عدد اعشاری
@@ -4274,6 +4309,7 @@ fa:
   label_in: در
   label_in_less_than: کمتر از
   label_in_more_than: بیشتر از
+  label_in_progress_work_packages: in progress
   label_inactive: غیرفعال
   label_include_sub_projects: شامل زیرپروژه‌ها
   label_includes: شامل
@@ -4294,8 +4330,6 @@ fa:
   label_invalid_file_type: این نوع فایل پشتیبانی نمی‌شود.
   label_invitation: دعوت نامه
   label_invite_user: دعوت کاربر
-  label_item: مورد
-  label_item_plural: موارد
   label_jira_import: مهاجرت‌دهنده Jira
   label_journal: ژورنال
   label_journal_diff: مقایسه توضیحات
@@ -4425,7 +4459,7 @@ fa:
   label_on: در
   label_open: باز
   label_open_menu: بازکردن منو
-  label_open_work_packages: باز
+  label_open_work_packages: open (to-do + in progress)
   label_open_work_packages_plural: باز
   label_openproject_website: وب‌سایت OpenProject
   label_operator_all: خالی نیست
@@ -4632,6 +4666,7 @@ fa:
   label_time_entry_plural: زمان صرف‌شده
   label_timer_since: شروع شده از %{time}
   label_title: عنوان
+  label_to_do_work_packages: to-do
   label_today: امروز
   label_today_as_date: امروز را به‌عنوان تاریخ انتخاب کنید.
   label_today_as_due_date: امروز را به‌عنوان تاریخ پایان انتخاب کنید.
@@ -4667,6 +4702,7 @@ fa:
   label_user_settings: تنظیمات کاربر
   label_users_settings: تنظیمات کاربران
   label_value: مقدار
+  label_value_plural: Values
   label_value_x: 'مقدار: %{x}'
   label_version_custom_field_plural: فیلدهای سفارشی نسخه
   label_version_edit: ویرایش نسخه
@@ -4686,7 +4722,7 @@ fa:
   label_view_x: 'نما: %{x}'
   label_watched_work_packages: بسته‌های کاری دنبال‌شده
   label_week: هفته
-  label_weighted_item_list: فهرست آیتم وزن‌دار
+  label_weighted_item_list: Weighted list
   label_what_is_this: این چیست؟
   label_widget_new: Widget جدید
   label_wiki_content_added: صفحه Wiki اضافه شد
@@ -4745,6 +4781,13 @@ fa:
     one: "%{count} فایل"
     other: "%{count} فایل"
     zero: بدون فایل
+  label_x_forms:
+    one: "%{count} form"
+    other: "%{count} forms"
+  label_x_in_progress_work_packages_abbr:
+    one: 1 in progress
+    other: "%{count} in progress"
+    zero: 0 in progress
   label_x_items:
     one: "%{count} مورد"
     other: "%{count} مورد"
@@ -4760,6 +4803,10 @@ fa:
     one: "%{count} پروژه"
     other: "%{count} پروژه"
     zero: بدون پروژه
+  label_x_to_do_work_packages_abbr:
+    one: 1 to-do
+    other: "%{count} to-do"
+    zero: 0 to-do
   label_x_work_packages:
     one: "%{count} بسته کاری"
     other: "%{count} بسته کاری"
@@ -5353,7 +5400,7 @@ fa:
   notice_no_principals_found: نتیجه‌ای یافت نشد.
   notice_not_authorized: مجوز دسترسی به این صفحه را ندارید.
   notice_not_authorized_archived_project: پروژه‌ای که می‌خواهید به آن دسترسی پیدا کنید بایگانی شده است.
-  notice_parent_item_not_found: مورد والد یافت نشد.
+  notice_parent_item_not_found: Parent value not found.
   notice_password_confirmation_failed: گذرواژه واردشده صحیح نیست.
   notice_principals_found_multiple: "%{number} نتیجه یافت شد. \n برای تمرکز روی اولین نتیجه Tab را فشار دهید."
   notice_principals_found_single: "یک نتیجه یافت شد. \n برای تمرکز روی آن Tab را فشار دهید."
@@ -5573,12 +5620,15 @@ fa:
         custom_field:
           format_not_supported: قالب '%{field_format}' پشتیبانی نمی‌شود.
         item:
-          not_persisted: باید یک مورد از قبل موجود باشد.
-          root_item: نمی‌تواند مورد ریشه باشد.
+          not_persisted: must be an already existing value.
+          root_item: cannot be a root value.
         label:
           not_unique: باید در همان سطح سلسله‌مراتب یکتا باشد.
         parent:
           not_descendant: باید فرزند ریشه سلسله‌مراتب باشد.
+          other_project: must be a global value or belong to the same project.
+        project:
+          additional_values_not_allowed: cannot add values to this custom field.
         short:
           not_unique: باید در همان سطح سلسله‌مراتب یکتا باشد.
       str?: باید رشته باشد.
@@ -5592,7 +5642,7 @@ fa:
       blueprint: Blueprint الگو
       depth: عمق
       enabled: فعال
-      item: مورد
+      item: Value
       label: برچسب
       parent: والد
       short: نام کوتاه
@@ -5696,7 +5746,7 @@ fa:
   permission_comment_news: دیدگاه روی اخبار
   permission_commit_access: دسترسی خواندن/نوشتن به مخزن (Commit)
   permission_copy_projects: تکثیر پروژه‌ها
-  permission_copy_projects_explanation: در پروژه‌های الگو، این مجوز یک کارکرد ثانویه دارد و اجازه ایجاد پروژه‌های جدید براساس الگو را می‌دهد.
+  permission_copy_projects_explanation: Allows copying all project data, including content and attachments the user cannot view in the source project. The role can effectively grant access to all copied data depending on the role in the new project. It also allows creating projects from templates.
   permission_copy_work_packages: تکثیر بسته‌های کاری
   permission_create_backup: ایجاد نسخه‌های پشتیبان
   permission_create_user: ایجاد کاربران
@@ -5914,7 +5964,7 @@ fa:
   project_module_activity: فعالیت
   project_module_forums: انجمن‌ها
   project_module_news: اخبار
-  project_module_repository: مخزن
+  project_module_repository: SVN/Git Repository (deprecated)
   project_module_wiki: ویکی
   project_module_work_package_tracking: بسته‌های کاری
   projects:
@@ -6824,6 +6874,7 @@ fa:
         label_built_in_attribute_actions: اقدام‌های ویژگی داخلی
       custom_field_row_component:
         label_user_custom_field_actions: اقدام‌های ویژگی کاربر
+      label_move_to_section: Move to %{name}
       show_component:
         label_add_attribute: افزودن ویژگی کاربر
         label_edit_section: ویرایش عنوان
@@ -6936,6 +6987,11 @@ fa:
   status_registered: ثبت‌نام‌شده
   statuses:
     edit:
+      captions:
+        category:
+          closed: Work that has been completed.
+          in_progress: Work that is actively being worked on.
+          to_do: Work that has not yet started.
       status_color_text: |
         برای تخصیص یا تغییر رنگ این وضعیت کلیک کنید.
         این رنگ در دکمه وضعیت نمایش داده می‌شود و می‌تواند برای برجسته‌سازی بسته‌های کاری در جدول استفاده شود.
@@ -7426,7 +7482,7 @@ fa:
         actions:
           confirm_remove: نوع %{type} از %{project} حذف شود؟
           remove_from_project: حذف از پروژه
-          switch_variant: تغییر گونه
+          switch_variant: Switch variant
         add_dialog:
           no_projects_selected: لطفاً حداقل یک پروژه انتخاب کنید.
           search_placeholder: جستجوی پروژه‌ها
@@ -7519,6 +7575,10 @@ fa:
         delete:
           description: پروژه‌هایی که از این گونه استفاده می‌کنند، پیش از حذف آن به گونه‌ای که در زیر انتخاب می‌کنید منتقل خواهند شد.
           title: حذف %{name}
+          unused:
+            description: The variant will be deleted permanently. This action cannot be undone.
+            heading: Delete variant '%{name}'?
+            title: Delete variant
         filter: فیلتر بر اساس متن
         filter_no_results: هیچ گونه‌ای با این فیلتر مطابقت ندارد
         global_section:

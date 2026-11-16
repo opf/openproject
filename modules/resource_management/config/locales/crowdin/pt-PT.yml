@@ -80,9 +80,9 @@ pt-PT:
         title: Gestão de recursos
   label_resource_management: Gestão de recursos
   permission_allocate_user_resources: Alocar recursos do utilizador
-  permission_allocate_user_resources_explanation: Permite aos utilizadores criar, atualizar e eliminar atribuições de recursos dentro de um planeador de recursos. Isto inclui atribuir utilizadores (ou filtros de utilizadores) a um planeador e ajustar o tempo e o intervalo de datas alocados.
-  permission_assign_users_to_generic_allocations: Atribuir utilizadores a atribuições genéricas
-  permission_assign_users_to_generic_allocations_explanation: Permite aos utilizadores utilizar a vista de Pessoal para atribuir utilizadores reais a atribuições de recursos genéricas (baseadas em filtros) que ainda não tenham um utilizador. Não permite criar nem editar atribuições.
+  permission_allocate_user_resources_explanation: Allows users to create, update, and delete resource allocations within a resource planner. This includes allocating users or placeholder users to work packages and adjusting the allocated time and date range.
+  permission_assign_users_to_generic_allocations: Assign users to placeholder user allocations
+  permission_assign_users_to_generic_allocations_explanation: Allows users to use the Staffing view to assign users to resource allocations that were made for a placeholder user. It does not allow creating or editing allocations.
   permission_manage_public_global_resource_planners: Gerir os planeadores de recursos globais públicos
   permission_manage_public_global_resource_planners_explanation: Permite que os utilizadores publiquem os seus próprios planeadores globais de recursos, e que façam a gestão dos planeadores globais de recursos que outros utilizadores tenham partilhado publicamente. Não permite que os utilizadores vejam planeadores globais de recursos que não tenham sido partilhados publicamente.
   permission_manage_public_resource_planners: Gerir os planeadores de recursos públicos
@@ -133,9 +133,9 @@ pt-PT:
     assignment_dialog:
       available: "%{hours} disponível"
       confirm_overtime: Atribuir na mesma
-      filter_criteria: Critérios do filtro
+      filter_criteria: Critérios
       no_candidates:
-        description: Nenhum membro do projeto corresponde aos critérios de filtragem desta atribuição.
+        description: No project member matches the criteria of this placeholder user.
         title: Não foram encontrados membros correspondentes
       no_schedule: Este utilizador não tem nenhum horário de trabalho definido, pelo que não podemos determinar se esta atribuição é adequada.
       overbooked_detail: Este utilizador tem %{available} disponível neste período; o pacote de trabalho requer %{requested}.
@@ -174,7 +174,7 @@ pt-PT:
     label_resource_planner: Planeador de recursos
     label_resource_planner_plural: Planeadores de recursos
     my_time_management:
-      hidden_work_package: Work package not visible to you
+      hidden_work_package: Pacote de trabalho que não está visível para si
     new_view_dialog:
       title: Adicionar vista
     public_caption: Torne esta vista pública para todos os membros do projeto. Não afeta a visibilidade dos pacotes de trabalho, que continua a depender da permissão de cada utilizador.
@@ -186,7 +186,7 @@ pt-PT:
     staffing:
       assign: Atribuir utilizador
       blank:
-        description: Todas as atribuições genéricas neste projeto têm um utilizador associado.
+        description: All placeholder user allocations in this project have a user assigned.
         title: Nada para o pessoal
       columns:
         dates: Datas
@@ -329,8 +329,8 @@ pt-PT:
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          one: "%{count} membro deste projeto corresponde aos critérios de filtragem da atribuição."
-          other: "%{count} membros deste projeto correspondem aos critérios de filtragem da atribuição."
+          one: "%{count} member of this project matches the criteria of the placeholder user."
+          other: "%{count} members of this project match the criteria of the placeholder user."
       blank:
         add_work_package: Adicionar pacote de trabalho
         configure_view: Configurar vista
