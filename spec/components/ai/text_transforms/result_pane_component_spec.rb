@@ -83,6 +83,12 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent, type: :component do
     expect(subject).to have_css(".Box-header[data-action='pointerdown->ai-text-transform-pane#beginDrag']")
   end
 
+  it "puts the drag grip inside the draggable header" do
+    expect(subject).to have_css(
+      ".Box-header[data-action='pointerdown->ai-text-transform-pane#beginDrag'] .op-ai-result-pane--grip .octicon-grabber"
+    )
+  end
+
   it "has a close button in the header" do
     expect(subject).to have_css(".Box-header button[aria-label='Close'][data-action='click->ai-text-transform-pane#close']")
   end
@@ -93,14 +99,13 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent, type: :component do
     end
   end
 
-  it "renders the four resize handles with the OpenProject resizer icons" do
-    expect(subject).to have_css(".op-ai-result-pane--resize[aria-hidden=true]", count: 4)
-    expect(subject).to have_css(".op-ai-result-pane--resize .octicon-op-resizer-vertical-lines", count: 2)
+  it "renders the two corner resize handles with the OpenProject resizer icon" do
+    expect(subject).to have_css(".op-ai-result-pane--resize[aria-hidden=true]", count: 2)
     expect(subject).to have_css(".op-ai-result-pane--resize .octicon-op-resizer-bottom-right", count: 2)
   end
 
   it "resizes the pane from each handle's edge" do
-    %w[left right bottom-left bottom-right].each do |edge|
+    %w[bottom-left bottom-right].each do |edge|
       expect(subject).to have_css(
         ".op-ai-result-pane--resize[data-edge='#{edge}'][data-action='pointerdown->ai-text-transform-pane#beginResize']"
       )

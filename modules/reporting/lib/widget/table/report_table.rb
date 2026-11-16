@@ -30,14 +30,6 @@
 class Widget::Table::ReportTable < Widget::Table
   attr_accessor :walker
 
-  def configure_query
-    if @subject.depth_of(:row) == 0
-      @subject.row(:singleton_value)
-    elsif @subject.depth_of(:column) == 0
-      @subject.column(:singleton_value)
-    end
-  end
-
   # rubocop:disable Metrics/AbcSize
   def configure_walker
     @walker ||= @subject.walker
@@ -73,7 +65,6 @@ class Widget::Table::ReportTable < Widget::Table
   # rubocop:enable Metrics/AbcSize
 
   def call
-    configure_query
     configure_walker
     concat "<table class='report'>".html_safe
     render_thead
