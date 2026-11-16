@@ -51,7 +51,7 @@ workflows:
     '.github/workflows/eslint-core.yml':
         - 'actions/checkout@v7.0.1'
         - 'actions/setup-node@v7.1.0'
-        - 'reviewdog/action-eslint@v1.36.1'
+        - 'reviewdog/action-eslint@v1.37.0'
     '.github/workflows/hocuspocus-docker.yml': []
     '.github/workflows/hocuspocus-test.yml':
         - 'actions/checkout@v7.0.1'
@@ -190,9 +190,9 @@ dependencies:
         repo_id: 255978101
         uses:
             - 'actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9'
-    'reviewdog/action-eslint@v1.36.1':
-        ref: 'v1.36.1'
-        commit: 'sha1-3ee2a450da17e060b9dfa4bffd53976906c6b2b0'
+    'reviewdog/action-eslint@v1.37.0':
+        ref: 'v1.37.0'
+        commit: 'sha1-6dad10dc50476699ad1ddbbb19bf55d36f311a39'
         owner_id: 48765237
         repo_id: 210385198
     'reviewdog/action-rubocop@v2.22.0':
