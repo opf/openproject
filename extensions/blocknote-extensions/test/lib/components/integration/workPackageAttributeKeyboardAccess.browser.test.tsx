@@ -4,10 +4,12 @@ import { renderEditor } from '../../../helpers/renderEditor';
 import { selectBlockNode } from '../../../../lib/utils/selection';
 import type { AnyEditor } from '../../../../lib/editorTypes';
 
-const inlineStatus = {
+const inlineStatusShowing = (display:string) => ({
   type: 'openProjectWorkPackageAttributeInline',
-  props: { wpid: '321', displayId: 'PROJ-321', attribute: 'status', display: 'value' },
-};
+  props: { wpid: '321', displayId: 'PROJ-321', attribute: 'status', display },
+});
+
+const inlineStatus = inlineStatusShowing('value');
 
 const longText = {
   type: 'openProjectWorkPackageAttributeBlock',
@@ -32,14 +34,14 @@ function inlineAttributes(editor:AnyEditor) {
     .map((node) => node.props);
 }
 
-async function selectInlineAttributeWithKeyboard({ editable = true } = {}):Promise<AnyEditor> {
+async function selectInlineAttributeWithKeyboard({ editable = true, attribute = inlineStatus } = {}):Promise<AnyEditor> {
   let editor!:AnyEditor;
   renderEditor({
     editable,
-    initialContent: [{ type: 'paragraph', content: ['before ', inlineStatus] }, { type: 'paragraph', content: 'next line' }],
+    initialContent: [{ type: 'paragraph', content: ['before ', attribute] }, { type: 'paragraph', content: 'next line' }],
     onEditor: (created) => { editor = created; },
   });
-  await expect.element(page.getByText('In progress')).toBeVisible();
+  await expect.element(page.getByRole('button', { name: /Status|In progress/ })).toBeVisible();
 
   editor.focus();
   editor.setTextCursorPosition(editor.document[0], 'end');
@@ -52,10 +54,24 @@ describe('Work package attribute keyboard access - an inline attribute', () => {
     const editor = await selectInlineAttributeWithKeyboard();
 
     await expect.poll(() => liveRegion()?.textContent)
-      .toBe('Status of work package PROJ-321. Press Enter to open its options.');
+      .toBe('Status of work package PROJ dash 321: In progress. Press Enter to open its options.');
 
     await userEvent.keyboard('{ArrowLeft}x');
     expect(inlineNodes(editor)[0].text).toBe('before x');
+  });
+
+  it('announces its label and value when it shows both', async () => {
+    await selectInlineAttributeWithKeyboard({ attribute: inlineStatusShowing('both') });
+
+    await expect.poll(() => liveRegion()?.textContent)
+      .toBe('Status of work package PROJ dash 321: In progress. Press Enter to open its options.');
+  });
+
+  it('announces no value when it shows only its label', async () => {
+    await selectInlineAttributeWithKeyboard({ attribute: inlineStatusShowing('label') });
+
+    await expect.poll(() => liveRegion()?.textContent)
+      .toBe('Status of work package PROJ dash 321. Press Enter to open its options.');
   });
 
   it('opens its options on Enter with the focus on the first item, and hands the focus back on Escape', async () => {
@@ -123,7 +139,7 @@ describe('Work package attribute keyboard access - a long text', () => {
     editor.focus();
     selectBlockNode(editor, editor.document[1].id);
     await expect.poll(() => liveRegion()?.textContent)
-      .toBe('Description of work package PROJ-321. Press Enter to open its options.');
+      .toBe('Description of work package PROJ dash 321. Press Enter to open its options.');
 
     await userEvent.keyboard('{Enter}');
 
