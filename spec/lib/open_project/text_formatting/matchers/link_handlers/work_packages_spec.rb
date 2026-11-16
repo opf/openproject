@@ -135,24 +135,48 @@ RSpec.describe OpenProject::TextFormatting::Matchers::LinkHandlers::WorkPackages
     end
   end
 
-  describe "classic mode is query-free",
+  describe "classic mode query behavior",
            with_settings: { work_packages_identifier: "classic" } do
-    # Rendering a `#N` reference in classic mode must not run any
-    # WorkPackage SELECTs: the preload is a no-op when `display_id` and
-    # `formatted_id` would collapse to the numeric form, so the link
-    # handler can build the link from the matched id alone.
+    # Classic mode needs only a visibility-scoped status query to style
+    # closed references; it does not need full work package records.
     include_context "with author signed in"
     let(:project) { create(:project, identifier: "classicproj") }
 
-    it "does not query work_packages when rendering #N" do
+    it "uses one visibility and closed-status query and marks only closed references" do
       wps = create_list(:work_package, 3, project:, author:)
+      closed = wps.first
+      closed.update!(status: create(:closed_status))
       ids_text = wps.map { |wp| "##{wp.id}" }.join(" ")
 
-      recorder = ActiveRecord::QueryRecorder.new { format_text(ids_text) }
+      rendered = nil
+      recorder = ActiveRecord::QueryRecorder.new { rendered = format_text(ids_text) }
       wp_selects = recorder.log.grep(/FROM "work_packages"/i)
 
-      expect(wp_selects).to be_empty,
-                            "classic mode added unexpected WP SELECTs:\n#{wp_selects.join("\n")}"
+      expect(wp_selects.size).to eq(1),
+                                 "expected one visibility/status query, got:\n#{wp_selects.join("\n")}"
+      doc = Nokogiri::HTML.fragment(rendered)
+      expect(doc.at_css(%(a[href="/work_packages/#{closed.id}"]))["class"]).to include("closed")
+      expect(doc.at_css(%(a[href="/work_packages/#{wps.second.id}"]))["class"]).not_to include("closed")
+    end
+
+    it "does not expose closed status for work packages the viewer cannot see" do
+      hidden_project = create(:project, identifier: "hidden-classic")
+      hidden_closed = create(:work_package, project: hidden_project, status: create(:closed_status))
+
+      rendered = format_text("##{hidden_closed.id}")
+      link = Nokogiri::HTML.fragment(rendered).at_css("a.work_package")
+
+      expect(link).to be_present
+      expect(link["class"]).not_to include("closed")
+    end
+
+    it "does not query work_packages for plain-text output" do
+      work_package = create(:work_package, project:, author:)
+      recorder = ActiveRecord::QueryRecorder.new do
+        format_text("##{work_package.id}", render_mode: :external_text)
+      end
+
+      expect(recorder.log.grep(/FROM "work_packages"/i)).to be_empty
     end
   end
 
@@ -169,7 +193,7 @@ RSpec.describe OpenProject::TextFormatting::Matchers::LinkHandlers::WorkPackages
       wp_selects = recorder.log.grep(/FROM "work_packages"/i)
 
       # One unscoped fetch by identifier (label resolution) plus one
-      # visibility-scoped pluck on the resulting ids (link gating).
+      # visibility-scoped status pluck (link gating and closed styling).
       expect(wp_selects.size).to eq(2),
                                  "expected exactly two work_packages SELECTs, got #{wp_selects.size}:\n#{wp_selects.join("\n")}"
     end
@@ -193,6 +217,27 @@ RSpec.describe OpenProject::TextFormatting::Matchers::LinkHandlers::WorkPackages
       # The hover-card route accepts both numeric and semantic ids; pass
       # display_id so the URL matches the user-facing identifier.
       expect(rendered).to include(%(data-hover-card-url="/work_packages/#{wp.display_id}/hover_card"))
+    end
+
+    it "marks a closed semantic reference with the closed class" do
+      work_package.update!(status: create(:closed_status))
+      wp = work_package.reload
+
+      rendered = format_text("see ##{wp.display_id}")
+      link = Nokogiri::HTML.fragment(rendered).at_css("a.work_package")
+
+      expect(link["href"]).to eq("/work_packages/#{wp.display_id}")
+      expect(link["class"]).to include("closed")
+    end
+
+    it "marks a static quickinfo link for a closed work package" do
+      work_package.update!(status: create(:closed_status))
+      wp = work_package.reload
+
+      rendered = format_text("see ##{wp.display_id}", render_mode: :external_html)
+      link = Nokogiri::HTML.fragment(rendered).at_css("a.work_package")
+
+      expect(link["class"]).to include("closed")
     end
 
     it "renders `##PROJ-N` as a quickinfo macro element with id and displayId" do

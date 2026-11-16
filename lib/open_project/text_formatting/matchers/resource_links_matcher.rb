@@ -72,11 +72,12 @@ module OpenProject::TextFormatting
       # link gating (`visible_ids`), so the link handler renders the
       # same label for everyone and decides anchor-vs-text per viewer.
       class WorkPackagePreloadCache
-        attr_reader :lookup, :visible_ids
+        attr_reader :lookup, :visible_ids, :closed_ids
 
-        def initialize(lookup:, visible_ids:)
+        def initialize(lookup:, visible_ids:, closed_ids:)
           @lookup = lookup
           @visible_ids = visible_ids
+          @closed_ids = closed_ids
         end
 
         def fetch(identifier)
@@ -87,8 +88,12 @@ module OpenProject::TextFormatting
           visible_ids.include?(work_package_id)
         end
 
+        def closed?(work_package_id)
+          closed_ids.include?(work_package_id)
+        end
+
         # Frozen singleton, not a factory — callers must not mutate it.
-        EMPTY = new(lookup: {}.freeze, visible_ids: Set.new.freeze).freeze
+        EMPTY = new(lookup: {}.freeze, visible_ids: Set.new.freeze, closed_ids: Set.new.freeze).freeze
       end
 
       CACHE_KEY = :text_formatting_work_package_preload_cache
@@ -172,12 +177,17 @@ module OpenProject::TextFormatting
         RequestStore.store[CACHE_KEY] = previous
       end
 
-      # Semantic mode needs the row to map `PROJ-7` to an id; static-HTML
-      # output needs `type`/`subject` to compose the quickinfo anchor.
+      # Rich output needs closed IDs so references to closed work packages
+      # can be struck through. Plain-text output does not render links.
       def self.preload_required?(context)
-        Setting::WorkPackageIdentifier.semantic? || context[:static_html]
+        lookup_required?(context) || !context[:plain_text]
       end
       private_class_method :preload_required?
+
+      def self.lookup_required?(context)
+        Setting::WorkPackageIdentifier.semantic? || context[:static_html]
+      end
+      private_class_method :lookup_required?
 
       def self.collect_work_package_identifiers(doc)
         identifiers = Set.new
@@ -204,11 +214,12 @@ module OpenProject::TextFormatting
         identifier
       end
 
-      # Two SELECTs in the common case (unscoped fetch + visibility id
-      # pluck), a third when historical aliases need resolving. Static-
-      # HTML output additionally needs `:type` and `:status` to compose
-      # the anchor for `##`/`###` macros.
+      # Two work package queries in the common case (unscoped fetch + combined
+      # visibility and closed-status pluck). Historical aliases add an alias
+      # lookup, and static HTML preloads type and status for quickinfo links.
       def self.build_cache(identifiers, context = {})
+        return build_closed_only_cache(identifiers) unless lookup_required?(context)
+
         scope = WorkPackage.where_display_id_in(*identifiers)
         scope = if context[:static_html]
                   scope.includes(:type, :status)
@@ -217,12 +228,43 @@ module OpenProject::TextFormatting
                 end
         work_packages = scope.to_a
         all_wp_ids = work_packages.map(&:id)
-        visible_ids = WorkPackage.visible.where(id: all_wp_ids).pluck(:id).to_set
+        visible_ids, closed_ids = visible_and_closed_ids(all_wp_ids)
         lookup = index_by_id_and_identifier(work_packages)
         fold_in_alias_keys(lookup, identifiers, all_wp_ids:)
-        WorkPackagePreloadCache.new(lookup:, visible_ids:)
+        WorkPackagePreloadCache.new(lookup:, visible_ids:, closed_ids:)
       end
       private_class_method :build_cache
+
+      def self.build_closed_only_cache(identifiers)
+        numeric_ids = identifiers.filter_map do |identifier|
+          identifier.to_i if WorkPackage::SemanticIdentifier.numeric_id?(identifier)
+        end
+        rows = WorkPackage.visible
+                          .where(id: numeric_ids)
+                          .left_joins(:status)
+                          .pluck(:id, Status.arel_table[:category].eq("closed"))
+        closed_ids = rows.filter_map { |id, closed| id if closed }.to_set
+        WorkPackagePreloadCache.new(
+          lookup: {}.freeze,
+          visible_ids: rows.map(&:first).to_set,
+          closed_ids:
+        )
+      end
+      private_class_method :build_closed_only_cache
+
+      def self.visible_and_closed_ids(work_package_ids)
+        return [Set.new, Set.new] if work_package_ids.empty?
+
+        rows = WorkPackage.visible
+                          .where(id: work_package_ids)
+                          .left_joins(:status)
+                          .pluck(:id, Status.arel_table[:category].eq("closed"))
+        [
+          rows.map(&:first).to_set,
+          rows.filter_map { |id, closed| id if closed }.to_set
+        ]
+      end
+      private_class_method :visible_and_closed_ids
 
       # Keys are stringified at write time so callers can read with a single
       # `identifier.to_s` regardless of whether the input is a numeric id or
