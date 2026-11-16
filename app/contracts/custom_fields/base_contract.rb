@@ -32,7 +32,9 @@ module CustomFields
   class BaseContract < ::ModelContract
     include RequiresAdminGuard
 
-    attribute :admin_only
+    attribute :admin_only do
+      validate_admin_only_allowed
+    end
     attribute :allow_non_open_versions
     attribute :content_right_to_left
     attribute :custom_field_section_id
@@ -62,6 +64,12 @@ module CustomFields
       return unless %w[bool calculated_value].include?(field_format)
 
       errors.add(:is_required, :cannot_be_true) if is_required == true
+    end
+
+    def validate_admin_only_allowed
+      return if model.admin_only_allowed? || !model.admin_only_changed?
+
+      errors.add(:admin_only, :cannot_be_true) if admin_only
     end
   end
 end

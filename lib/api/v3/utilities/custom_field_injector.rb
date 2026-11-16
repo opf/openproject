@@ -439,6 +439,8 @@ module API
         end
 
         module RepresenterClass
+          attr_accessor :injected_custom_fields
+
           def self.extended(base)
             class << base
               # In order to ensure the custom fields to be loaded correctly, consumers need to call the
@@ -472,7 +474,8 @@ module API
           end
 
           def custom_field_class(custom_fields)
-            custom_field_sha = OpenProject::Cache::CacheKey.expand(custom_fields.sort_by(&:id))
+            sorted_custom_fields = custom_fields.sort_by(&:id)
+            custom_field_sha = OpenProject::Cache::CacheKey.expand(sorted_custom_fields)
 
             cached_custom_field_classes[custom_field_sha] ||=
               begin
@@ -480,7 +483,9 @@ module API
 
                 method_name = :"create_#{custom_field_injector_config[:type]}"
 
-                injector_class.send(method_name, custom_fields, self)
+                representer_class = injector_class.send(method_name, custom_fields, self)
+                representer_class.injected_custom_fields = sorted_custom_fields
+                representer_class
               end
           end
 
