@@ -35,9 +35,10 @@ RSpec.describe Storages::HealthService do
   let(:health_service) { described_class.new(storage:) }
 
   describe "health attributes" do
-    it "can be marked as healthy or unhealthy" do
+    it "can be marked as healthy, unhealthy and be reset" do
       healthy_time = Time.parse "2021-03-14T15:17:00Z"
       unhealthy_time = Time.parse "2023-03-14T15:17:00Z"
+      reset_time = Time.parse "2025-03-14T15:17:00Z"
 
       Timecop.freeze(healthy_time) do
         expect do
@@ -57,6 +58,17 @@ RSpec.describe Storages::HealthService do
       end
       expect(storage.health_healthy?).to be(false)
       expect(storage.health_unhealthy?).to be(true)
+
+      Timecop.freeze(reset_time) do
+        expect do
+          health_service.reset
+        end.to(change(storage, :health_changed_at).from(unhealthy_time).to(reset_time)
+                                                  .and(change(storage, :health_status).from("unhealthy").to("pending"))
+                                                  .and(change(storage, :health_reason).from("thou_shall_not_pass_error").to(nil)))
+      end
+
+      expect(storage.health_healthy?).to be(false)
+      expect(storage.health_unhealthy?).to be(false)
     end
 
     # rubocop:disable RSpec/ExampleLength

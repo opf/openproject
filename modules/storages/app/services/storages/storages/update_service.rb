@@ -58,6 +58,8 @@ module Storages
 
       def after_perform(service_call)
         storage = service_call.result
+        ::Storages::HealthService.new(storage:).reset unless storage.automatically_managed?
+
         return service_call unless storage.provider_type_nextcloud?
         return service_call unless storage.oauth_application
 
