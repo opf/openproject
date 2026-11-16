@@ -69,6 +69,8 @@ export class IanBellService {
 
   loadedUnread$ = this.query.loadedUnread$;
 
+  loadedUnreadUpdates$ = this.query.loadedUnreadUpdates$;
+
   constructor() {
     this.query.unreadCountChanged$.subscribe((count) => {
       this.actions$.dispatch(notificationCountChanged({ origin: this.id, count }));
