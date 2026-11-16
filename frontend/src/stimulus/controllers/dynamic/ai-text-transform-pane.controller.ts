@@ -33,7 +33,7 @@ import { getMetaContent } from 'core-app/core/setup/globals/global-helpers';
 const EDGE_MARGIN = 8;
 const MIN_WIDTH = 320;
 const MIN_HEIGHT = 240;
-const VERTICAL_RESIZE_THRESHOLD = 12;
+const VERTICAL_RESIZE_THRESHOLD = 6;
 const VERTICAL_RESIZE_RATIO = 1 / 3;
 const GEOMETRY_PROPERTIES = ['left', 'top', 'right', 'bottom', 'width', 'height', 'maxWidth', 'maxHeight'] as const;
 const POLL_MIN = 400;
