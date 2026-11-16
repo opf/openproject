@@ -32,7 +32,6 @@ Review this against how your teams actually use Jira. If anything here would be 
 - [ ] Issue links (blocks, relates to, duplicates, etc.) (planned: [JIM-76](https://community.openproject.org/projects/JIM/work_packages/JIM-76))
 - [ ] Web links (workaround planned: [JIM-206](https://community.openproject.org/projects/JIM/work_packages/JIM-206)).
 - [ ] Votes (workaround planned: [JIM-207](https://community.openproject.org/projects/JIM/work_packages/JIM-207), open feature request: [OP-3251](https://community.openproject.org/projects/OP/work_packages/OP-3251))
-- [ ] Environment
 - [ ] Security Level
 - [ ] Components (planned: [JIM-107](https://community.openproject.org/projects/JIM/work_packages/JIM-107))
 - [ ] Archived issues (skipped entirely, don't appear in OpenProject in any form)
