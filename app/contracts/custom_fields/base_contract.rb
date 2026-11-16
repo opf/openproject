@@ -73,7 +73,7 @@ module CustomFields
 
       errors.add(:admin_only, :cannot_be_true) if admin_only
     end
-    
+
     def validate_project_specific_value_restriction
       return if project_specific_value_restriction.nil?
 
