@@ -50,7 +50,7 @@ describe('InlineCreateCancelButton', () => {
     expect(cancelButton.element).toHaveClass(inlineCreateCancelClassName);
   });
 
-  it('aligns its tooltip with its end edge, like the other row-end controls', async () => {
+  it('aligns its tooltip with its end edge', async () => {
     const cancelButton = mount();
 
     await screen.findByRole('button', { name: 'Cancel' });
