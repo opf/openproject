@@ -83,8 +83,11 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent, type: :component do
     expect(subject).to have_css(".Box-header[data-action='pointerdown->ai-text-transform-pane#beginDrag']")
   end
 
-  it "has a close button in the header" do
-    expect(subject).to have_css(".Box-header button[aria-label='Close'][data-action='click->ai-text-transform-pane#close']")
+  it "has a close button in the header, sized and offset like a dialog close button" do
+    expect(subject).to have_css(
+      ".Box-header button.Overlay-closeButton.mt-n2.mr-n2.mb-n2" \
+      "[aria-label='Close'][data-action='click->ai-text-transform-pane#close']"
+    )
   end
 
   it "renders each section in its own streamable wrapper" do
