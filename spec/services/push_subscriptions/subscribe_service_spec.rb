@@ -88,6 +88,15 @@ RSpec.describe PushSubscriptions::SubscribeService do
       expect(existing.reload.user).not_to eq(user)
     end
 
+    it "does not retry when another user's active subscription holds the endpoint" do
+      create(:push_subscription, endpoint:)
+      allow(PushSubscription).to receive(:find_or_initialize_by).and_call_original
+
+      service.call(endpoint:)
+
+      expect(PushSubscription).to have_received(:find_or_initialize_by).once
+    end
+
     it "takes over another user's dormant row on a shared browser" do
       previous = create(:push_subscription, endpoint:, session: nil)
 
