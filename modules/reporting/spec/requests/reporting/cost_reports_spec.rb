@@ -254,6 +254,20 @@ RSpec.describe "Cost reports", :aggregate_failures, type: :rails_request do
       expect(response.parsed_body.at_css("table.report thead").text).to include(work_package.subject)
     end
 
+    it "labels the row dimensions in the table header when only rows are grouped" do
+      get project_reporting_cost_reports_path(project), params: { filters: "", rows: "spent_on,work_package_id" }
+
+      expect(response.parsed_body.css("table.report thead th").map { |th| th.text.strip })
+        .to include(CostQuery::GroupBy::SpentOn.label, CostQuery::GroupBy::WorkPackageId.label)
+    end
+
+    it "labels the column dimensions in the table header when only columns are grouped" do
+      get project_reporting_cost_reports_path(project), params: { filters: "", columns: "spent_on,work_package_id" }
+
+      expect(response.parsed_body.css("table.report thead tr").map { |tr| tr.at_css("th").text.strip })
+        .to eq([CostQuery::GroupBy::SpentOn.label, CostQuery::GroupBy::WorkPackageId.label])
+    end
+
     it "does not show the filler for the empty axis as a group by" do
       get project_reporting_cost_reports_path(project), params: { filters: "", rows: "work_package_id" }
 
