@@ -73,13 +73,27 @@ ko:
           name: 표준 글로벌 역할
       ai_text_actions:
         item_0:
-          label: Fix grammar
+          label: Structure
         item_1:
-          label: Make concise
+          label: Proofread
         item_2:
-          label: Translate to English
+          label: Rewrite
         item_3:
-          label: Sort into template
+          label: Friendly
+        item_4:
+          label: 전문
+        item_5:
+          label: Concise
+        item_6:
+          label: Summarize
+        item_7:
+          label: Key points
+        item_8:
+          label: 목록
+        item_9:
+          label: 테이블
+        item_10:
+          label: Suggest subject
     standard:
       project_phases:
         item_0:
@@ -125,7 +139,7 @@ ko:
         item_2:
           name: Speakers
         item_3:
-          name: Security
+          name: 보안
         item_4:
           name: UX
       projects:

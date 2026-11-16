@@ -294,7 +294,7 @@ describe('Work package attributes in a read-only editor', () => {
     await userEvent.click(page.getByText('Kick-off'));
     await userEvent.click(page.getByText('In progress'));
 
-    expect(document.querySelector('[data-testid="attribute-display-menu"]')).toBeNull();
+    expect(document.querySelector('[data-testid="popover-content"]')).toBeNull();
   });
 });
 
@@ -313,7 +313,7 @@ describe('Long text work package attribute from external HTML', () => {
   });
 });
 
-describe('Display menu of a long text taller than the screen', () => {
+describe('Size menu of a long text taller than the screen', () => {
   it('shows all its options on its own background', async () => {
     const longText = '<p>' + 'A long line of text. '.repeat(400) + '</p>';
     worker.use(
@@ -331,7 +331,8 @@ describe('Display menu of a long text taller than the screen', () => {
     await expect.element(page.getByText('A long line', { exact: false }).first()).toBeVisible();
 
     await userEvent.click(document.querySelector('.op-bn-wp-attribute-block')!);
-    const menu = page.getByTestId('attribute-display-menu').element();
+    await userEvent.click(page.getByRole('menuitem', { name: /^Change size/ }));
+    const menu = page.getByTestId('size-menu').element();
     const menuBox = menu.getBoundingClientRect();
 
     for (const option of Array.from(menu.querySelectorAll('[role="menuitemradio"]'))) {
@@ -339,5 +340,77 @@ describe('Display menu of a long text taller than the screen', () => {
       expect(box.bottom).toBeLessThanOrEqual(menuBox.bottom);
     }
     expect(menu.scrollHeight).toBeLessThanOrEqual(menu.clientHeight);
+  });
+});
+
+describe('Options of a work package attribute', () => {
+  const inlineStatus = { type: 'openProjectWorkPackageAttributeInline', props: { wpid: '321', displayId: 'PROJ-321', attribute: 'status', display: 'value' } };
+  const longText = { type: 'openProjectWorkPackageAttributeBlock', props: { wpid: '321', displayId: 'PROJ-321', attribute: 'description', display: 'value' } };
+
+  it('look like the options of a work package', async () => {
+    renderAttribute('status', 'value');
+    await userEvent.click(page.getByRole('button', { name: 'In progress' }));
+
+    const menu = page.getByRole('menu', { name: 'Options for Status of work package PROJ-321' });
+    await expect.element(menu).toBeVisible();
+    await expect.element(menu.getByRole('menuitem', { name: 'Open work package PROJ-321 in new tab' })).toHaveTextContent('Open PROJ-321');
+    await expect.element(menu.getByRole('menuitem', { name: 'Change size: Value' })).toHaveTextContent('Value');
+    await expect.element(menu.getByRole('menuitem', { name: 'Remove work package attribute' })).toHaveTextContent('Remove');
+  });
+
+  it('open the work package in a new tab', async () => {
+    const openSpy = vi.spyOn(window, 'open').mockReturnValue(null);
+    renderAttribute('status', 'value');
+    await userEvent.click(page.getByRole('button', { name: 'In progress' }));
+
+    await userEvent.click(page.getByRole('menuitem', { name: 'Open work package PROJ-321 in new tab' }));
+
+    expect(openSpy).toHaveBeenCalledWith(expect.stringContaining('/wp/PROJ-321'), '_blank', 'noopener,noreferrer');
+    openSpy.mockRestore();
+  });
+
+  it('switch what an inline attribute shows', async () => {
+    let editor:any;
+    renderEditor({
+      onEditor: (instance) => { editor = instance; },
+      initialContent: [{ type: 'paragraph', content: ['See ', inlineStatus] }],
+    });
+    await userEvent.click(page.getByRole('button', { name: 'In progress' }));
+
+    await userEvent.click(page.getByRole('menuitem', { name: 'Change size: Value' }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Label + value' }));
+
+    await expect.element(page.getByRole('button', { name: 'Status: In progress' })).toBeVisible();
+    await expect.element(page.getByTestId('popover-content')).not.toBeInTheDocument();
+    expect(attributeProps(editor)[0]).toMatchObject({ display: 'both' });
+  });
+
+  it('remove an inline attribute', async () => {
+    let editor:any;
+    renderEditor({
+      onEditor: (instance) => { editor = instance; },
+      initialContent: [{ type: 'paragraph', content: ['See ', inlineStatus] }],
+    });
+    await userEvent.click(page.getByRole('button', { name: 'In progress' }));
+
+    await userEvent.click(page.getByRole('menuitem', { name: 'Remove work package attribute' }));
+
+    await vi.waitFor(() => expect(attributeProps(editor)).toEqual([]));
+    await expect.element(page.getByText('See')).toBeVisible();
+    await expect.element(page.getByTestId('popover-content')).not.toBeInTheDocument();
+  });
+
+  it('remove a long text', async () => {
+    let editor:{ document:{ type:string }[] } | undefined;
+    renderEditor({
+      onEditor: (instance) => { editor = instance; },
+      initialContent: [{ type: 'paragraph', content: 'Before' }, longText],
+    });
+    await expect.element(page.getByText('Kick-off')).toBeVisible();
+    await userEvent.click(page.getByText('Kick-off'));
+
+    await userEvent.click(page.getByRole('menuitem', { name: 'Remove work package attribute' }));
+
+    await vi.waitFor(() => expect(editor!.document.map((block) => block.type)).not.toContain('openProjectWorkPackageAttributeBlock'));
   });
 });

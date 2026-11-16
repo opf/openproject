@@ -140,6 +140,7 @@ export class TablePaginationComponent extends UntilDestroyedMixin implements OnI
   public updatePageNumbers() {
     if (!this.showPageSelections) {
       this.pageNumbers = [];
+      this.prePageNumbers = [];
       this.postPageNumbers = [];
       return;
     }

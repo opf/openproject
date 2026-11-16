@@ -16,9 +16,9 @@ da:
         env_provisioned_at: Anvendt fra miljøet
         llm_features_enabled: Slå LLM'er til for denne installation
       llm_feature_binding:
-        dimensions: Dimensioner
         feature_key: Funktion
         model: Model
+        semantic_index: Semantisk indeks
       llm_model:
         admin_context_window: Kontekstvindue
         capability_function_calling: Værktøjskald
@@ -29,7 +29,17 @@ da:
         manual: Angivet manuelt
         raw_metadata: Metadata
         external: Modelnavn
+      semantic_index:
+        context_token_length: Kontekstlængde
+        description: Beskrivelse
+        embedding_vector_dimensions: Dimensioner
+        llm_feature_bindings: Konfiguration af funktioner
+        model: Model
+        state: Status
+        title: Visningsnavn
     errors:
+      messages:
+        semantic_search_unavailable: er ikke tilgængelig i øjeblikket.
       models:
         llm_connection:
           attributes:
@@ -58,14 +68,12 @@ da:
               requires_connection: kan ikke slås til, før der er konfigureret en forbindelse.
         llm_feature_binding:
           attributes:
-            dimensions:
-              locked: kan ikke ændres, så længe der findes data, der er indekseret med den. Indeksér igen for at ændre den.
-              not_for_chat_feature: gælder kun funktioner, der danner embeddings.
             feature_key:
               not_registered: hører ikke til en kendt AI-funktion.
             model_id:
-              locked: kan ikke ændres, så længe der findes data, der er indekseret med den. Indeksér igen for at skifte model.
               not_available: tilbydes ikke af den konfigurerede LLM-server.
+            semantic_index:
+              not_for_chat_feature: gælder kun funktioner, der danner embeddings.
         llm_model:
           attributes:
             base:
@@ -73,7 +81,70 @@ da:
               discovered: Kun modeller, der er angivet manuelt, kan fjernes. LLM-serveren styrer de modeller, den oplyser.
             external_id:
               conflicting_capabilities: har gemte oplysninger om egenskaber, der er i modstrid med denne models.
+        semantic_index:
+          attributes:
+            base:
+              active: Det semantiske indeks er aktivt. Aktivér et andet semantisk indeks først.
+              locked_while_indexing: kan ikke ændres, mens det bliver indekseret.
+            model_id:
+              not_offered: er ikke en embedding-model, som den konfigurerede LLM-server tilbyder.
   admin:
+    semantic_indexes:
+      activate:
+        body_html: Semantisk søgning bruger <b>%{title}</b> med det samme.
+        body_switch_html: Semantisk søgning skifter fra <b>%{current}</b> til <b>%{title}</b> med det samme. %{current} forbliver klar og kan aktiveres igen.
+        button: Aktivér
+        confirm: Aktivér
+        success: '"%{title}" er nu det aktive semantiske indeks.'
+        title: Vil du aktivere "%{title}"?
+      active: Aktiv
+      box:
+        empty_description: Opret et nyt semantisk indeks, så arbejdspakker kan findes ud fra betydning.
+        empty_title: Der er endnu intet semantisk indeks
+        new: Semantisk indeks
+        title: Semantiske indekser
+      destroy:
+        description: Det semantiske indeks og dets indstillinger fjernes. Det kan ikke fortrydes.
+        heading: Vil du slette %{title}?
+        title: Slet semantisk indeks
+      dialog:
+        edit_title: Rediger "%{title}"
+        new_title: Nyt semantisk indeks
+      form:
+        context_token_length_caption: Det højeste antal tokens, der indlejres pr. arbejdspakke.
+        embedding_vector_dimensions_caption: Skal passe til den valgte model.
+        immutable: Model, kontekstlængde og dimensioner kan ikke ændres, efter at indekset er oprettet. Opret et nyt semantisk indeks for at bruge andre parametre.
+        model_caption: Kun modeller, der vides at kunne danne embeddings, vises.
+        option_unqualified: "%{model} (kan ikke længere bruges)"
+      indexing:
+        failed_requests:
+          one: 1 anmodning mislykkedes.
+          other: "%{count} anmodninger mislykkedes."
+        not_ready:
+          model_missing: Modellen %{model} tilbydes ikke længere af forbindelsen.
+          no_connection: Der er ikke konfigureret nogen aktiv LLM-forbindelse.
+          pgvector_missing: Udvidelsen pgvector er ikke installeret. Installer den, og kør migreringerne igen for at starte indekseringen.
+        progress: "%{percentage} % færdig"
+      menu:
+        delete: Slet
+        locked_while_active: Kan ikke slettes, mens det er aktivt.
+        locked_while_indexing: Kan ikke slettes under indeksering.
+      start_indexing:
+        button:
+          failed: Prøv indeksering igen
+          not_indexed: Start indeksering
+          ready: Indekser igen
+        not_indexable: Det semantiske indeks bliver allerede indekseret.
+        started: Indekseringen af "%{title}" er startet.
+      states:
+        failed: Mislykkedes
+        indexing: Indekserer
+        not_indexed: Ikke indekseret
+        ready: Klar
+      stop_indexing:
+        button: Stop
+        not_indexing: Det semantiske indeks bliver ikke indekseret.
+        stopped: Indekseringen af "%{title}" er stoppet.
     llm_connections:
       header_description: Forbind OpenProject til en LLM-server, og se de modeller, den tilbyder.
       delete_api_key:
@@ -119,14 +190,9 @@ da:
     llm_feature_bindings:
       dangling: "%{model} tilbydes ikke længere af LLM-serveren. Funktionen kører ikke, før der er valgt en anden model."
       form:
-        dimensions_caption: Hvor mange tal hver vektor har. Lad feltet stå tomt for at bruge det, som serveren returnerer.
-        dimensions_caption_probed: Serveren returnerede vektorer med %{dimensions} dimensioner for denne model. Lad feltet stå tomt for at bruge det, som den returnerer ved indeksering.
-        model_caption_embedding: Der tilbydes kun modeller, der vides at kunne danne embeddings. [Læs mere](docs_url) om modeltyper.
         model_caption_ruled_out: Modeller, der vides at mangle en egenskab, som funktionen har brug for, tilbydes ikke.
       inherit_with_default: Brug standarden (%{model})
       inherit_without_default: Brug standarden (ingen angivet)
-      locked: "%{model} bruges af indekserede data og kan ikke ændres her. Indeksér igen for at skifte model."
-      locked_values_heading: Værdier, der er fastlagt af det eksisterende indeks
       option_unqualified: "%{model} (kan ikke længere bruges til denne funktion)"
       update:
         model_incapable: Modellen til %{feature} er gemt, men serveren har netop oplyst, at den ikke understøtter %{capability}. Vælg en anden model, eller angiv egenskaben på modellen, hvis du ved bedre.
@@ -204,6 +270,9 @@ da:
         success: Modellisten er opdateret.
       update:
         success: "%{model} er opdateret."
+  attributes:
+    semantic_similarity: Lighed
+  label_search_by_meaning: Søg ud fra betydning
   llm:
     api_formats:
       anthropic: Anthropic
@@ -265,7 +334,6 @@ da:
         features_model_missing: "%{features} peger på en model, som serveren ikke længere tilbyder."
         features_unbound: "%{features} har endnu ikke fået valgt en model."
         invalid_api_key: Serveren afviste den gemte API-nøgle.
-        locked_model_missing: "%{features} har indekseret data med en model, som serveren ikke længere tilbyder. Indekset kan ikke udvides, før det er bygget igen."
         model_not_served: Serveren har ingen rute til %{model} (404). Tjek, at modellen stadig tilbydes til din konto, og at værtens URL indeholder segmentet med API-versionen.
         models_endpoint_missing: Serveren har ingen modelliste på denne adresse, så API-nøglen kunne heller ikke kontrolleres. Tjek, at URL'en indeholder segmentet med API-versionen (fx https://example.com/v1).
         no_model_to_test: Der er ingen model at teste med. Tilføj en model, eller vælg en standard først.
@@ -274,13 +342,14 @@ da:
         not_configured: Der er ikke konfigureret noget endepunkt.
         not_openai_compatible: Endepunktet returnerede ikke en gyldig modelliste. Sørg for, at det peger på et endepunkt, der er kompatibelt med OpenAI's API, inklusive segmentet med API-versionen.
         request_timed_out: Serveren svarede ikke i tide.
+        semantic_index_model_missing: Det aktive semantiske indeks "%{title}" er bygget med %{model}, som serveren ikke længere tilbyder. Aktivér et andet semantisk indeks, så søgning ud fra betydning bliver ved med at virke.
         server_error: Serveren svarede med status %{status}.
         ssrf_filtered: Endepunktet peger på en blokeret adresse.
         unsupported_api_format: "%{api_format} kræver legitimationsoplysninger, som OpenProject ikke kan gemme."
       features:
+        active_semantic_index_intact: Det aktive semantiske indeks har stadig sin model
         bindings_resolvable: Hver funktion har en model, der kan bruges
         header: AI-funktioner
-        locked_bindings_intact: Indekserede data har stadig deres model
       inference:
         chat_round_trip: Serveren besvarer en forespørgsel
         header: Inferens
@@ -300,6 +369,9 @@ da:
     model_kinds:
       chat: Chat
       embedding: Embedding
+    pgvector:
+      admin_check: Databaseudvidelsen pgvector er slået til (valgfri)
+      unavailable: Semantisk søgning er ikke tilgængelig, fordi udvidelsen pgvector ikke er opsat i databasen. Installer pgvector til PostgreSQL, og kør databasemigreringerne igen. [Læs mere](docs_url)
     verdict_states:
       supported: understøttet
       unknown: ikke kontrolleret

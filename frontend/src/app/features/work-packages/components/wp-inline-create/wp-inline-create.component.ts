@@ -45,19 +45,14 @@ import { WorkPackageChangeset } from 'core-app/features/work-packages/components
 import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import {
-  inlineCreateCancelClassName,
-  InlineCreateRowBuilder,
-  inlineCreateRowClassName,
-} from './inline-create-row-builder';
+import { InlineCreateRowBuilder, inlineCreateRowClassName } from './inline-create-row-builder';
+import { InlineCreateCancelButton } from './inline-create-cancel-button';
 import { WorkPackageCreateService } from '../wp-new/wp-create.service';
 import { inlineCreateRowKey } from 'core-app/features/work-packages/components/wp-fast-table/row-keys';
 import { WorkPackageTable } from '../wp-fast-table/wp-fast-table';
-import { onClickOrEnter } from '../wp-fast-table/handlers/click-or-enter-handler';
 import {
   HalResourceEditingService,
 } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
-import { delegate, DelegateEvent } from '@knowledgecode/delegate';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -131,6 +126,8 @@ export class WorkPackageInlineCreateComponent implements AfterViewInit {
 
   private readonly element = this.elementRef.nativeElement;
 
+  private cancelButton:InlineCreateCancelButton|null = null;
+
   constructor() {
     effect((onCleanup) => {
       this.table();
@@ -139,6 +136,7 @@ export class WorkPackageInlineCreateComponent implements AfterViewInit {
         this.currentWorkPackage = null;
         this.modeValue.set('inactive');
         this.element.querySelector('.wp-row-new')?.remove();
+        this.destroyCancelButton();
       });
     });
 
@@ -170,29 +168,6 @@ export class WorkPackageInlineCreateComponent implements AfterViewInit {
     this.wpTableColumns.updates$()
       .pipe(takeUntilDestroyed(this.destroyRef), filter(() => this.isActive()))
       .subscribe(() => untracked(() => this.refreshRow()));
-
-    // Cancel edition of current new row
-    this.registerCancelHandler();
-  }
-
-  /**
-   * Reset the inline creation row on the cancel button,
-   * which is dynamically inserted into the action row by the inline create renderer.
-   */
-  private registerCancelHandler() {
-    const handler = (evt:DelegateEvent) => {
-      onClickOrEnter(evt.originalEvent, () => {
-        evt.preventDefault();
-        this.resetRow();
-      });
-
-      evt.stopImmediatePropagation();
-      return false;
-    };
-
-    delegate(this.element)
-      .on('click', `.${inlineCreateCancelClassName}`, handler)
-      .on('keydown', `.${inlineCreateCancelClassName}`, handler);
   }
 
   /**
@@ -214,7 +189,7 @@ export class WorkPackageInlineCreateComponent implements AfterViewInit {
           this.table().keyboardNavigation.rememberWorkPackageAfterRender(wp.id!);
 
           // Split view on the last inserted id if any
-          if (!this.table().configuration.isEmbedded) {
+          if (!this.table().configuration.isEmbedded && this.table().configuration.selectionEnabled) {
             this.wpTableFocus.initializeSelectionAndFocus(wp.id!);
           }
 
@@ -310,7 +285,7 @@ export class WorkPackageInlineCreateComponent implements AfterViewInit {
   }
 
   private refreshRow() {
-    const builder = new InlineCreateRowBuilder(this.injector, this.table());
+    const builder = new InlineCreateRowBuilder(this.injector, this.table(), this.ensureCancelButton());
     const rowElement = this.element.querySelector<HTMLTableRowElement>(`.${inlineCreateRowClassName}`);
 
     if (rowElement && this.currentWorkPackage) {
@@ -326,7 +301,7 @@ export class WorkPackageInlineCreateComponent implements AfterViewInit {
    * @returns The work package form of the row
    */
   private renderInlineCreateRow(wp:WorkPackageResource):EditForm {
-    const builder = new InlineCreateRowBuilder(this.injector, this.table());
+    const builder = new InlineCreateRowBuilder(this.injector, this.table(), this.ensureCancelButton());
     const form = this.table().editing.startEditing(wp, builder.classIdentifier(wp));
 
     const [row] = builder.buildNew(wp, form);
@@ -365,6 +340,21 @@ export class WorkPackageInlineCreateComponent implements AfterViewInit {
     this.wpCreate.cancelCreation();
     this.currentWorkPackage = null;
     this.mutateRow(() => this.element.querySelector('.wp-row-new')?.remove());
+    this.destroyCancelButton();
+  }
+
+  private ensureCancelButton():InlineCreateCancelButton {
+    this.cancelButton ??= new InlineCreateCancelButton(
+      this.injector,
+      this.I18n.t('js.button_cancel'),
+      () => this.resetRow(),
+    );
+    return this.cancelButton;
+  }
+
+  private destroyCancelButton():void {
+    this.cancelButton?.destroy();
+    this.cancelButton = null;
   }
 
   public showRow() {

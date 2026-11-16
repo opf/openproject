@@ -80,9 +80,9 @@ sv:
         title: Resurshantering
   label_resource_management: Resurshantering
   permission_allocate_user_resources: Tilldela användarresurser
-  permission_allocate_user_resources_explanation: Tillåter användare att skapa, uppdatera och ta bort resurstilldelningar i en resursplanerare. Detta omfattar att tilldela användare (eller användarfilter) till en planerare och justera tilldelad tid och datumintervall.
-  permission_assign_users_to_generic_allocations: Tilldela användare till generiska tilldelningar
-  permission_assign_users_to_generic_allocations_explanation: Tillåter användare att använda bemanningsvyn för att tilldela verkliga användare till generiska (filterbaserade) resurstilldelningar som ännu inte har någon användare. Det tillåter inte att tilldelningar skapas eller redigeras.
+  permission_allocate_user_resources_explanation: Allows users to create, update, and delete resource allocations within a resource planner. This includes allocating users or placeholder users to work packages and adjusting the allocated time and date range.
+  permission_assign_users_to_generic_allocations: Assign users to placeholder user allocations
+  permission_assign_users_to_generic_allocations_explanation: Allows users to use the Staffing view to assign users to resource allocations that were made for a placeholder user. It does not allow creating or editing allocations.
   permission_manage_public_global_resource_planners: Hantera offentliga globala resursplanerare
   permission_manage_public_global_resource_planners_explanation: Tillåter användare att publicera egna globala resursplanerare och hantera globala resursplanerare som andra användare har delat offentligt. Behörigheten ger inte tillgång till globala resursplanerare som inte har delats offentligt.
   permission_manage_public_resource_planners: Hantera offentliga resursplanerare
@@ -133,9 +133,9 @@ sv:
     assignment_dialog:
       available: "%{hours} tillgängliga"
       confirm_overtime: Tilldela ändå
-      filter_criteria: Filterkriterier
+      filter_criteria: Criteria
       no_candidates:
-        description: Ingen projektmedlem matchar filterkriterierna för den här tilldelningen.
+        description: No project member matches the criteria of this placeholder user.
         title: Inga matchande medlemmar
       no_schedule: Den här användaren har inget arbetsschema konfigurerat, så vi kan inte avgöra om tilldelningen passar.
       overbooked_detail: Den här användaren har %{available} tillgängligt under perioden, medan arbetspaketet kräver %{requested}.
@@ -186,7 +186,7 @@ sv:
     staffing:
       assign: Tilldela användare
       blank:
-        description: Alla generiska tilldelningar i det här projektet har en användare tilldelad.
+        description: All placeholder user allocations in this project have a user assigned.
         title: Inget att bemanna
       columns:
         dates: Datum
@@ -329,8 +329,8 @@ sv:
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          one: "%{count} medlem i det här projektet matchar tilldelningens filterkriterier."
-          other: "%{count} medlemmar i det här projektet matchar tilldelningens filterkriterier."
+          one: "%{count} member of this project matches the criteria of the placeholder user."
+          other: "%{count} members of this project match the criteria of the placeholder user."
       blank:
         add_work_package: Lägg till arbetspaket
         configure_view: Konfigurera vy

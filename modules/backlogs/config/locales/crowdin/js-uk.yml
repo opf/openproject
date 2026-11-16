@@ -25,7 +25,7 @@ uk:
     backlogs:
       action_menu:
         menu_label:
-          one: Work package actions
+          one: Дії з пакетом робіт
           few: Actions for %{count} selected work packages
           many: Actions for %{count} selected work packages
           other: Actions for %{count} selected work packages
@@ -53,31 +53,32 @@ uk:
         range_blocked: Вибір залишився незмінним. Діапазон містить пакет робіт, що не впливає на порядок у цьому списку.
         range_restarted:
           one: Could not extend the range. %{count} work package selected.
-          few: Could not extend the range. %{count} work packages selected.
-          many: Could not extend the range. %{count} work packages selected.
-          other: Could not extend the range. %{count} work packages selected.
+          few: Не вдалося розширити діапазон. Вибрано %{count} пакети робіт.
+          many: Не вдалося розширити діапазон. Вибрано %{count} пакетів робіт.
+          other: Не вдалося розширити діапазон. Вибрано %{count} пакета робіт.
         range_unavailable: Вибір залишився незмінним. Щоб вибрати потрібний діапазон, розгорніть цей список.
         selected:
           one: "%{count} work package selected."
-          few: "%{count} work packages selected."
-          many: "%{count} work packages selected."
-          other: "%{count} work packages selected."
+          few: Вибрано %{count} пакети робіт.
+          many: Вибрано %{count} пакетів робіт.
+          other: Вибрано %{count} пакета робіт.
     burndown_chart:
       chart_day: 'Day %{day}: %{values}'
-      chart_label: Burndown chart
+      chart_label: Діаграма згорання завдань
       chart_summary: 'Burndown chart data: %{days}.'
       chart_value: "%{label}: %{value}"
-      story_points: Story points
     burnup_chart:
       chart_day: 'Day %{day}: %{values}'
       chart_label: Burnup chart
       chart_summary: 'Burnup chart data: %{days}.'
       chart_value: "%{label}: %{value}"
-      story_points: Story points
     created_resolved_chart:
-      work_packages: Work packages
+      work_packages: Пакети робіт
     sprint_charts:
-      non_working_day: Non-working day
+      non_working_day: Неробочий день
+      y_axis_title:
+        story_points: Сторі-поінти
+        time: Приблизний час
     work_packages:
       properties:
         storyPoints: Сторі-поінти

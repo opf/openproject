@@ -71,4 +71,20 @@ RSpec.describe Queries::FormConfigurations::FormConfigurationQuery do
     expect(results { it.where(:project_id, "=", [on_task.id.to_s]) }).to contain_exactly(shared_form)
     expect(results { it.where(:project_id, "!", [on_bug.id.to_s]) }).to contain_exactly(phase_form)
   end
+
+  context "with a form whose type is not active in any project" do
+    let(:unassigned_form) do
+      create(:type, name: "Unassigned").default_variant.form_configuration.tap { it.update!(name: "Unassigned form") }
+    end
+
+    it "finds only forms used in some project for the is-not-empty operator" do
+      unassigned_form
+      expect(results { it.where(:project_id, "*", []) }).to contain_exactly(shared_form, phase_form)
+    end
+
+    it "finds only forms used in no project for the is-empty operator" do
+      unassigned_form
+      expect(results { it.where(:project_id, "!*", []) }).to contain_exactly(unassigned_form)
+    end
+  end
 end

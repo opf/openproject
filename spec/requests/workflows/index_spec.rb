@@ -164,6 +164,24 @@ RSpec.describe "Workflows index", :skip_csrf, type: :rails_request do
       expect(page).to have_no_text("Spare flow")
     end
 
+    it "keeps only workflows active in no project when the project filter is empty" do
+      create(:named_workflow, name: "Spare flow")
+
+      get workflows_path(filters: %(project_id !*))
+
+      expect(page).to have_text("Spare flow")
+      expect(page).to have_no_text("Standard flow")
+    end
+
+    it "keeps only workflows active in some project when the project filter is not empty" do
+      create(:named_workflow, name: "Spare flow")
+
+      get workflows_path(filters: %(project_id *))
+
+      expect(page).to have_text("Standard flow")
+      expect(page).to have_no_text("Spare flow")
+    end
+
     it "finds a workflow a status transitions from" do
       origin = create(:status)
       create(:status_transition, workflow: shared_workflow, old_status: origin)

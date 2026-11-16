@@ -63,6 +63,12 @@ export class WorkPackageFilterContainerComponent extends UntilDestroyedMixin imp
 
   public loaded = false;
 
+  public text = {
+    search_mode_label: I18n.t('js.global_search.search_mode'),
+    search_mode_text: I18n.t('js.work_packages.label_filter_by_text'),
+    search_mode_semantic: I18n.t('js.global_search.search_by_meaning'),
+  };
+
   constructor() {
     super();
     this.visible$ = this.wpFiltersService.observeUntil(componentDestroyed(this));

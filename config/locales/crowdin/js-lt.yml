@@ -131,10 +131,10 @@ lt:
     button_confirm: Patvirtinti
     button_continue: Tęsti
     button_copy: Kopijuoti
-    button_copy_id: Copy ID ("%{id}")
-    button_copy_link_to_clipboard: Copy link
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: Kopijuoti į iškarpinę
     button_copy_to_other_project: Duplicate in another project
+    button_copy_work_package_id: Copy work package ID
     button_create: Kurti
     button_custom-fields: Pritaikyti laukai
     button_delete: Trinti
@@ -150,7 +150,7 @@ lt:
     button_log_time: Registruoti laiką
     button_more: Daugiau
     button_more_actions: Daugiau veiksmų
-    button_move: Move
+    button_move_to_position: Move to position
     button_open_details: Atverti detalų vaizdą
     button_open_fullscreen: Atverti pilno ekrano vaizdą
     button_quote: Cituoti
@@ -350,6 +350,8 @@ lt:
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} items available"
       recently_viewed: Neseniai žiūrėtos
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: visi projektai
@@ -503,6 +505,7 @@ lt:
     label_in: " "
     label_in_less_than: mažiau nei
     label_in_more_than: daugiau nei
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Gauti el. laiškai
     label_infinity: Infinity
     label_information_plural: Informacija
@@ -535,6 +538,10 @@ lt:
     label_open_context_menu: Atverti kontekstinį meniu
     label_open_menu: Atidaryti meniu
     label_open_work_packages: atidarytas
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Slaptažodis
     label_per_page: 'Puslapyje:'
     label_please_wait: Prašome palaukti
@@ -581,6 +588,7 @@ lt:
     label_sum_for: Suma
     label_this_week: ši savaitė
     label_time_entry_plural: Praleista laiko
+    label_to_do_work_packages: to-do
     label_today: Šiandien
     label_total_amount: 'Iš viso: %{amount}'
     label_total_progress: "%{percent} % įvykdyta"
@@ -978,6 +986,7 @@ lt:
         all_open: Visi atviri
         assigned_to_me: Priskirti man
         created_by_me: Sukūriau pats
+        in_progress: In progress
         latest_activity: Paskutinė veikla
         manually_sorted: New manually sorted query
         overdue: Vėluojama
@@ -985,6 +994,7 @@ lt:
         shared_with_me: Bendrinama su manimi
         shared_with_users: Bendrinamas su naudotojais
         summary: Santrauka
+        to_do: To-do
       description_enter_text: Įveskite tekstą
       description_filter: Filtras
       description_options_hide: Slėpti parinktis
@@ -1072,6 +1082,7 @@ lt:
         other: Kita
         people: Žmonės
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Paspauskite norėdami keisti vaizdo pavadinimą.
         column_names: Stulpeliai
         confirm_edit_cancel: Ar tikrai norite atšaukti pavadinimo pakeitimus? Pavadinimas bus atstatytas į prieš tai buvusį tekstą.
@@ -1081,17 +1092,16 @@ lt:
           not_found: Nėra tokio vaizdo
           unretrievable_query: Nepavyksta gauti vaizdo iš URL
         filters: Filtrai
-        group: Grupuoti pagal
         group_by: Grupuoti rezultatus pagal
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Grupavimas išjungtas dėl aktyvaus hierarchijos režimo.
-        hide_column: Slėpti stulpelį
         hierarchy_disabled_by_group_by: Hierarchijos režimas išjungtas dėl rezultatų, kurie sugrupuoti pagal stulpelį, pavadinimu %{column}.
-        insert_columns: Įterpti stulpelius
         move_column_left: Perkelti stulpelį į kairę
         move_column_right: Perkelti stulpelį į dešinę
         public_text: 'Publikuoti šį vaizdą, leidžiant kitiems naudotojams prieigą prie jūsų vaizdo. Naudotojai su teise „Valdyti viešus vaizdus“ galės keisti ar išimti viešą užklausą. Tai neįtakoja darbo paketo rezultatų matomumo vaizde ir priklausomai nuo teisių, naudotojai gali matyti kitokius rezultatus.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Vaizdo pavadinimas
         sort_ascending: Rikiuoti didėjančiai
         sort_descending: Rikiuoti mažėjančiai

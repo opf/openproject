@@ -36,8 +36,10 @@ module OpenProject
     # Features declare the capabilities they need so the administration UI can
     # tell an administrator which models are usable for which job, and so a
     # feature never silently runs against a model that cannot serve it.
-    Feature = Data.define(:key, :kind, :requires, :prefers, :overridable, :available, :i18n_scope) do
-      def available? = available.call
+    Feature = Data.define(:key, :kind, :requires, :prefers, :overridable, :enabled, :prerequisites, :i18n_scope) do
+      def enabled? = enabled.call
+
+      def available? = enabled? && prerequisites.call
 
       def chat? = kind == :chat
 
@@ -78,14 +80,17 @@ module OpenProject
                    requires: [],
                    prefers: [],
                    overridable: false,
-                   available: -> { true },
+                   enabled: -> { true },
+                   prerequisites: -> { true },
                    i18n_scope: nil)
         key = key.to_sym
         validate!(key, kind, requires + prefers)
 
         all[key] = Feature.new(key:, kind:, requires: requires.map(&:to_sym).freeze,
                                prefers: prefers.map(&:to_sym).freeze,
-                               overridable:, available:,
+                               overridable:,
+                               enabled:,
+                               prerequisites:,
                                i18n_scope: i18n_scope || "llm.features.#{key}")
       end
 
@@ -99,9 +104,12 @@ module OpenProject
 
       # Features whose own toggle is on. A feature that is switched off keeps its
       # stored binding: flipping a flag must not lose an administrator's choice.
+      def enabled = all.values.select(&:enabled?)
+
+      # Features that can run right now: enabled, and their prerequisites are met.
       def available = all.values.select(&:available?)
 
-      def for_kind(kind) = available.select { |feature| feature.kind == kind }
+      def for_kind(kind) = enabled.select { |feature| feature.kind == kind }
 
       def validate!(key, kind, capabilities)
         raise ArgumentError, "unknown kind #{kind.inspect}" unless KINDS.include?(kind)

@@ -109,6 +109,88 @@ module OpenProject
       end
     end
 
+    describe "#format_date_range with times" do
+      let(:time) { Time.utc(2025, 1, 16, 9, 30) }
+      let(:date) { Date.new(2025, 1, 29) }
+
+      current_user { build_stubbed(:user) }
+
+      it "gives only the time a title with the full timestamp" do
+        fragment = Capybara.string(helper.format_date_range([time, date]))
+
+        expect(fragment).to have_element(:time, datetime: "2025-01-16T09:30:00Z", title: helper.format_time(time),
+                                                text: helper.format_date(time), exact_text: true)
+        expect(fragment).to have_element(:time, datetime: "2025-01-29")
+      end
+
+      it "renders an open range with the time of day" do
+        expected =
+          "<time datetime=\"2025-01-16T09:30:00Z\">#{helper.format_time(time)}</time>" \
+          "\u00A0\u2013\u00A0"
+
+        expect(helper.format_date_range([time, nil], include_time: true)).to be_html_eql(expected)
+      end
+    end
+
+    describe "#format_date_tag" do
+      let(:user_time_zone) { "Etc/UTC" }
+
+      current_user { build_stubbed(:user, preferences: { time_zone: user_time_zone }) }
+
+      context "with a date" do
+        let(:date) { Date.new(2025, 1, 6) }
+
+        it "renders the date in a time element" do
+          expect(helper.format_date_tag(date))
+            .to be_html_eql("<time datetime=\"2025-01-06\">#{helper.format_date(date)}</time>")
+        end
+
+        it "renders the same when asked to include the time" do
+          expect(helper.format_date_tag(date, include_time: true))
+            .to be_html_eql("<time datetime=\"2025-01-06\">#{helper.format_date(date)}</time>")
+        end
+      end
+
+      context "with nil" do
+        it "returns nil" do
+          expect(helper.format_date_tag(nil)).to be_nil
+        end
+      end
+
+      context "with a time" do
+        let(:time) { Time.utc(2025, 1, 16, 9, 30) }
+
+        it "renders the date and keeps the full timestamp as title" do
+          expected =
+            "<time datetime=\"2025-01-16T09:30:00Z\" title=\"#{helper.format_time(time)}\">" \
+            "#{helper.format_date(time)}</time>"
+
+          expect(helper.format_date_tag(time)).to be_html_eql(expected)
+        end
+
+        it "renders the timestamp without a title when asked to include the time" do
+          expect(helper.format_date_tag(time, include_time: true))
+            .to be_html_eql("<time datetime=\"2025-01-16T09:30:00Z\">#{helper.format_time(time)}</time>")
+        end
+
+        it "includes the time of day in the timestamp" do
+          expect(helper.format_date_tag(time, include_time: true)).to include("09:30")
+        end
+      end
+
+      context "with a time late in the UTC day and a user ahead of UTC" do
+        let(:user_time_zone) { "Asia/Tokyo" }
+        let(:time) { Time.utc(2025, 1, 15, 23, 30) }
+
+        it "renders the user's calendar day" do
+          fragment = Capybara.string(helper.format_date_tag(time))
+
+          expect(fragment).to have_element(:time, text: helper.format_date(Date.new(2025, 1, 16)), exact_text: true)
+          expect(fragment.find("time")[:title]).to include("08:30")
+        end
+      end
+    end
+
     describe "all_languages" do
       # Those are the two languages we support
       it "includes en" do

@@ -51,6 +51,12 @@ module OpenProject::Llm
     class_inflection_override("ruby_llm_provider_headers" => "RubyLLMProviderHeaders",
                               "ruby_llm_stream_error_status" => "RubyLLMStreamErrorStatus")
 
+    initializer "openproject_llm.inflections" do
+      ActiveSupport::Inflector.inflections(:en) do |inflect|
+        inflect.irregular "semantic_index", "semantic_indexes"
+      end
+    end
+
     # RubyLLM's legacy acts_as API warns on boot unless the new one is chosen,
     # and the choice has to be made before its railtie reaches ActiveRecord.
     # OpenProject uses the plain client rather than either ActiveRecord API.
@@ -103,19 +109,77 @@ module OpenProject::Llm
       # Semantic search embeds work packages into a pgvector index. The stored vectors
       # are meaningless under a different model, so it is not overridable: changing it
       # is a destructive re-index rather than a swap.
-      #
-      # The feature itself is not built yet, so it carries its own flag rather than
-      # riding on :llm_connection. Until that flag is on it is registered but never
-      # available, which keeps it off the feature configuration tab and out of the
-      # health checks.
       OpenProject::Llm::Features.register :semantic_search,
                                           kind: :embedding,
                                           requires: %i[embeddings],
-                                          available: -> { OpenProject::FeatureDecisions.semantic_search_active? }
+                                          enabled: -> {
+                                            OpenProject::FeatureDecisions.semantic_search_active?
+                                          },
+                                          prerequisites: -> {
+                                            OpenProject::Llm::Pgvector.available?
+                                          }
     end
 
     config.to_prepare do
       AI::TextTransforms::Gateway.factory = -> { Llm::TextTransformGateway.new }
+    end
+
+    initializer "openproject_llm.pgvector_migrations", after: "openproject_llm.append_migrations" do
+      OpenProject::Llm::Pgvector.include_migrations_path_if_installed!
+    end
+
+    rake_tasks do
+      namespace :openproject do
+        namespace :llm do
+          namespace :pgvector do
+            desc "Include the pgvector migrations in db:migrate if the extension can be installed"
+            task include_migrations_path_if_installable: :environment do
+              failure = OpenProject::Llm::Pgvector.include_migrations_path_if_installable!
+              warn OpenProject::Llm::Pgvector.warning(failure) if failure
+            rescue ActiveRecord::NoDatabaseError
+              # db:migrate creates the database after this task. The next run installs the extension via its migrations.
+            end
+          end
+        end
+      end
+
+      if Rake::Task.task_defined?("db:migrate")
+        Rake::Task["db:migrate"].enhance(["openproject:llm:pgvector:include_migrations_path_if_installable"])
+      end
+
+      # Schema loads replay the dump and run no migrations;
+      # as pgvector is optional, the dump can't depend on it.
+      # therefore we must run its migrations after loading the schema
+      %w[db:schema:load db:prepare].each do |name|
+        next unless Rake::Task.task_defined?(name)
+
+        Rake::Task[name].enhance do
+          OpenProject::Llm::Pgvector.migrate_pending_if_installable!
+        end
+      end
+    end
+
+    initializer "openproject_llm.pgvector_types" do
+      OpenProject::Llm::Pgvector.register_active_record_type
+    end
+
+    config.to_prepare do
+      OpenProject::Llm::Hooks
+    end
+
+    initializer "openproject_llm.event_subscriptions" do
+      Rails.application.config.after_initialize do
+        OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY) do |payload|
+          Llm::WorkPackages::RefreshEmbedding.call(payload[:journal])
+        end
+      end
+    end
+
+    config.to_prepare do
+      ::Queries::Register.register(::Query) do
+        filter Queries::WorkPackages::Filter::SemanticSearchFilter
+        select Queries::WorkPackages::Selects::SemanticSimilaritySelect
+      end
     end
 
     initializer "openproject_llm.load_patches" do

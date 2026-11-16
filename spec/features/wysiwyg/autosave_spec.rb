@@ -78,7 +78,7 @@ RSpec.describe "Wysiwyg autosave spec",
       wiki_page = WikiPage.last
 
       keys = page.evaluate_script "Object.keys(localStorage)"
-      expect(keys).to include "op_ckeditor_rev_/api/v3/wiki_pages/#{wiki_page.id}_page[text]"
+      expect(keys).to include "op_ckeditor_rev_u#{user.id}_/api/v3/wiki_pages/#{wiki_page.id}_page[text]"
 
       expect_and_dismiss_flash(message: "Successful update.")
 
@@ -98,6 +98,39 @@ RSpec.describe "Wysiwyg autosave spec",
       end
 
       expect(editor.editor_element).to have_text "This should be saved"
+    end
+  end
+
+  describe "switching users in the same browser" do
+    shared_let(:wiki_page) { create(:wiki_page, wiki: project.wiki, title: "Shared page") }
+    shared_let(:other_user) do
+      create(:user, member_with_permissions: { project => %i[view_wiki_pages edit_wiki_pages] })
+    end
+
+    let(:previous_user_revision_key) { "op_ckeditor_rev_u#{user.id}_/api/v3/wiki_pages/#{wiki_page.id}_page[text]" }
+
+    it "shows only the revisions of the current user and removes the others" do
+      visit edit_project_wiki_path(project, wiki_page.slug)
+
+      editor.set_markdown "Earlier draft"
+      editor.trigger_autosave
+
+      retry_block do
+        editor.click_hover_toolbar_button "Show local modifications"
+        page.find(".ck-button", text: /current - .+? seconds ago \(2 words\)/)
+      end
+
+      login_as(other_user)
+      visit edit_project_wiki_path(project, wiki_page.slug)
+
+      editor.click_hover_toolbar_button "Show local modifications"
+      expect(page).to have_css(".ck-button", text: "No local modifications found")
+      expect(page).to have_no_css(".ck-button", text: /\(2 words\)/)
+
+      retry_block do
+        keys = page.evaluate_script "Object.keys(localStorage)"
+        raise "Revisions of the previous user are still stored" if keys.include?(previous_user_revision_key)
+      end
     end
   end
 end

@@ -35,14 +35,9 @@ module Backlogs
         class Card < ApplicationComponent
           include OpPrimer::ComponentHelpers
           include Backlogs::Concerns::TimeConsciousScope
+          include Backlogs::Concerns::ProgressMetric
 
           attr_reader :epic, :sprint, :project, :current_user
-
-          def self.percentage(resolved:, total:)
-            return 0 if total.zero? || resolved.zero?
-
-            [resolved * 100 / total, 1].max
-          end
 
           def initialize(epic:, sprint:, project:, current_user: User.current)
             super()
@@ -53,8 +48,12 @@ module Backlogs
             @current_user = current_user
           end
 
-          def resolved_percentage
-            self.class.percentage(resolved: resolved_work_packages_count, total: total_work_packages_count)
+          def progress_text
+            t(".progress.#{progress_metric}", **progress_values)
+          end
+
+          def progress_label
+            t(".progress_label.#{progress_metric}", epic: epic.subject, **progress_values)
           end
 
           private
@@ -72,12 +71,23 @@ module Backlogs
             WorkPackage.with_ancestor(epic.descendants.where(type_id: epic.type_id)).select(:id)
           end
 
-          def resolved_work_packages_count
-            @resolved_work_packages_count ||= work_packages_in_epic.where(status: project.statuses_considered_closed).count
+          def resolved_value
+            @resolved_value ||= measure(work_packages_in_epic.where(status: project.statuses_considered_closed))
           end
 
-          def total_work_packages_count
-            @total_work_packages_count ||= work_packages_in_epic.count
+          def total_value
+            @total_value ||= measure(work_packages_in_epic)
+          end
+
+          def measure(scope)
+            case progress_metric
+            when :time
+              scope.sum(:estimated_hours)
+            when :story_points
+              scope.sum(:story_points)
+            else
+              scope.count
+            end
           end
 
           def descendant_ids_excluding_sub_epic_descendants

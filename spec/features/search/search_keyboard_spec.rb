@@ -59,7 +59,7 @@ RSpec.describe "Search work packages keyboard navigation", :js, with_settings: {
 
   it_behaves_like "an embedded keyboard table", editable: false do
     let(:first_row_controls) { [rows.first.id.to_s] }
-    let(:next_control) { { element: :em, text: "1" } }
+    let(:next_control) { { element: :span, text: "1" } }
     let(:axe_states) { [-> { wp_table.press_keys(select_all_chord) }] }
   end
 

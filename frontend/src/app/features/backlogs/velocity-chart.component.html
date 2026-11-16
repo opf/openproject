@@ -25,7 +25,7 @@
       <tr>
         <th scope="row">{{ sprint }}</th>
         @for (dataset of parsedData().datasets; track dataset.label) {
-          <td>{{ dataset.data[sprintIndex] }}</td>
+          <td>{{ formatValue(dataset.data[sprintIndex]) }}</td>
         }
       </tr>
     }

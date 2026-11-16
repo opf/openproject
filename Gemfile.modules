@@ -26,6 +26,7 @@ group :opf_plugins do
   gem 'openproject-webhooks',                  path: 'modules/webhooks'
   gem 'openproject-github_integration',        path: 'modules/github_integration'
   gem 'openproject-gitlab_integration',        path: 'modules/gitlab_integration'
+  gem 'openproject-squashtm_integration',      path: 'modules/squashtm_integration'
   gem 'openproject-ldap_groups',               path: 'modules/ldap_groups'
   gem 'openproject-ldap_departments',          path: 'modules/ldap_departments'
   gem 'openproject-recaptcha',                 path: 'modules/recaptcha'

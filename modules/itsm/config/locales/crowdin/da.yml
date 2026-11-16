@@ -62,6 +62,19 @@ da:
         edit: Rediger konfigurationen af IMAP-serveren
         title: Konfiguration af IMAP-server
       mail_servers: Mailservere
+      port: Port
+      server_configuration_form:
+        encryption: Kryptering
+        imap:
+          instruction: 'Konfigurer IMAP-serveren til at omdanne indgående e-mails til arbejdspakker. OpenProject har ingen mekanisme, der forhindrer forfalskede afsendere (spoofing). Sørg derfor for, at den konfigurerede mailserver udfører SPF-, DKIM- og DMARC-kontrol og sætter e-mails, der ikke består, i karantæne.
+
+            '
+          title: Konfiguration af IMAP-server
+        name: Servernavn
+        port: Serverport
+        smtp:
+          instruction: Konfigurer SMTP-serveren til at besvare e-mails direkte fra arbejdspakkens aktivitet.
+          title: Konfiguration af SMTP-server
       smtp_server_configuration_component:
         description: Konfigurer SMTP-serveren til at besvare e-mails direkte fra arbejdspakkens aktivitet.
         edit: Rediger konfigurationen af SMTP-serveren
