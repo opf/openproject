@@ -113,9 +113,7 @@ module Projects::Concerns
                             .map { it.to_s.to_i }
 
       # Extract custom field IDs from params keys that match 'custom_field_<id>'
-      via_cf = params.keys
-                     .grep(/\Acustom_field_\d+\z/)
-                     .map { |k| k.to_s[/custom_field_(\d+)/, 1].to_i }
+      via_cf = params.keys.filter_map { CustomField.id_from_attribute_name(it) }
 
       via_cf_values + via_cf
     end

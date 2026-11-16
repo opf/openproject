@@ -32,9 +32,9 @@ module CustomFields::Inputs::Base::ProjectSpecificValues
   private
 
   def usable_value?(value)
-    return true if @custom_field.project_specific_value_restriction.nil?
+    return true unless @custom_field.project_specific_values_supported?
 
-    @object.project.present? && @custom_field.usable_value_id?(@object.project, value.id)
+    @custom_field.usable_value_id?(@object.project, value.id)
   end
 
   # Stored values that are no longer usable stay selected, so that saving the form keeps them.

@@ -100,7 +100,7 @@ class WorkPackage::Exports::FormConfiguration
   end
 
   def form_key_to_custom_field(form_key)
-    id = form_key.to_s.sub("custom_field_", "").to_i
+    id = CustomField.id_from_attribute_name(form_key)
     work_package.available_custom_fields.find { it.id == id }
   end
 

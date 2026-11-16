@@ -33,6 +33,7 @@ module Admin
       class ItemsComponent < ApplicationComponent
         include OpTurbo::Streamable
         include OpPrimer::ComponentHelpers
+        include CustomFieldHierarchyTreeViewHelper
 
         def initialize(item:, new_item: nil)
           super(item)
@@ -41,6 +42,10 @@ module Admin
 
         def root
           @root ||= model.root? ? model : model.root
+        end
+
+        def items_addable?
+          model.project_id.nil?
         end
 
         def new_item_path
@@ -85,9 +90,15 @@ module Admin
 
         def blank_description_text
           if model.root?
-            "custom_fields.admin.items.blankslate.root.description"
+            I18n.t("custom_fields.admin.items.blankslate.root.description")
+          elsif model.project
+            # TODO: link to the project administration page for managing custom field values once it exists
+            helpers.link_translate("custom_fields.admin.items.blankslate.project_item.description",
+                                   i18n_args: { project: model.project.name },
+                                   links: { project_administration: "#" },
+                                   external: false)
           else
-            "custom_fields.admin.items.blankslate.item.description"
+            I18n.t("custom_fields.admin.items.blankslate.item.description")
           end
         end
 
@@ -109,12 +120,15 @@ module Admin
               if item.root?
                 { href: admin_settings_project_custom_field_items_path(custom_field.id), label: custom_field.name }
               else
-                { href: admin_settings_project_custom_field_item_path(custom_field.id, item), label: item.label }
+                {
+                  href: admin_settings_project_custom_field_item_path(custom_field.id, item),
+                  label: with_project_specific_label(item.label, item)
+                }
               end
             elsif item.root?
               { href: custom_field_items_path(custom_field.id), label: custom_field.name }
             else
-              { href: custom_field_item_path(custom_field.id, item), label: item.label }
+              { href: custom_field_item_path(custom_field.id, item), label: with_project_specific_label(item.label, item) }
             end
           end
         end

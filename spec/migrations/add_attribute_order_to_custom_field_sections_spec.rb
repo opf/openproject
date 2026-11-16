@@ -47,11 +47,11 @@ RSpec.describe AddAttributeOrderToCustomFieldSections, type: :model do
     conn.select_value(<<~SQL.squish)
       INSERT INTO custom_fields
         (type, name, field_format, custom_field_section_id, position_in_custom_field_section,
-         is_required, is_for_all, searchable, editable, admin_only, multi_value,
+         is_required, is_for_all, searchable, admin_only, multi_value,
          created_at, updated_at)
       VALUES
         ('UserCustomField', 'CF #{position}', 'string', #{section_id}, #{position},
-         false, false, false, true, false, false,
+         false, false, false, false, false,
          NOW(), NOW())
       RETURNING id
     SQL

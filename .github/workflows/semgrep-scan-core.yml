@@ -1,0 +1,55 @@
+name: semgrep
+
+on:
+  pull_request:
+    branches:
+      - dev
+      - release/*
+    paths:
+      - "**.rb"
+      - ".semgrep/**"
+      - ".github/workflows/semgrep-scan-core.yml"
+  schedule:
+    - cron: "20 6 * * 1"
+
+permissions:
+  contents: read
+
+env:
+  SEMGREP_IMAGE: semgrep/semgrep:1.182.1@sha256:451b3d875c00dac7ed5db5293e584a07de11449a409c10b3c2d2652f429630b6
+
+jobs:
+  semgrep-scan:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+    if: github.repository == 'opf/openproject'
+    name: Semgrep Scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Test rules
+        run: |
+          docker run --rm -v "$PWD:/src" -w /src "$SEMGREP_IMAGE" \
+            semgrep --test --metrics=off \
+            --config .semgrep/unsafe-reflection.yml \
+            .semgrep/unsafe-reflection.rb
+
+      - name: Scan
+        run: |
+          docker run --rm -v "$PWD:/src" -w /src "$SEMGREP_IMAGE" \
+            semgrep scan --metrics=off \
+            --config .semgrep/unsafe-reflection.yml \
+            --sarif --output=semgrep.sarif.json \
+            app lib lib_static modules
+
+      - name: Upload SARIF
+        uses: github/codeql-action/upload-sarif@v4.39.3
+        with:
+          sarif_file: semgrep.sarif.json
+          category: semgrep

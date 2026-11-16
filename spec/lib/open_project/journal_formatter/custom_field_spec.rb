@@ -40,7 +40,7 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
 
   let(:instance) { described_class.new(journal) }
   let(:id) { 1 }
-  let(:journal) { instance_double(Journal, id:) }
+  let(:journal) { instance_double(Journal, id:, project: nil) }
   let(:key) { "custom_fields_#{custom_field.id}" }
   let(:options) { {} }
   let(:custom_field) { build_stubbed(:work_package_custom_field) }

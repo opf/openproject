@@ -96,6 +96,16 @@ RSpec.describe CustomFields::Hierarchy::InsertListItemContract do
       end
     end
 
+    context "when the label only differs in case from a label in the same hierarchy level" do
+      let(:params) { { parent:, label: "duplicate LABEL", short: nil } }
+
+      before { create(:hierarchy_item, parent:, label: "Duplicate Label") }
+
+      it "is invalid" do
+        expect(subject.call(params).errors.to_h).to include(label: ["must be unique within the same hierarchy level."])
+      end
+    end
+
     context "when short is not unique in the same hierarchy level" do
       let(:params) { { parent:, label: "Valid Label", short: "Repeated Short" } }
 
@@ -105,6 +115,16 @@ RSpec.describe CustomFields::Hierarchy::InsertListItemContract do
         result = subject.call(params)
         expect(result).to be_failure
         expect(result.errors.to_h).to include(short: ["must be unique within the same hierarchy level."])
+      end
+    end
+
+    context "when the short only differs in case from a short in the same hierarchy level" do
+      let(:params) { { parent:, label: "Valid Label", short: "repeated SHORT" } }
+
+      before { create(:hierarchy_item, parent:, label: "Unique Label", short: "Repeated Short") }
+
+      it "is invalid" do
+        expect(subject.call(params).errors.to_h).to include(short: ["must be unique within the same hierarchy level."])
       end
     end
 
@@ -133,6 +153,146 @@ RSpec.describe CustomFields::Hierarchy::InsertListItemContract do
           { parent:, label: "A label", short: "A shorthand" },
           { parent:, label: "A label", short: nil }
         ].each { |params| expect(subject.call(params)).to be_success }
+      end
+    end
+
+    context "with a project", with_ee: %i[custom_field_hierarchies] do
+      let(:custom_field) { create(:custom_field, :hierarchy, allow_additional_project_values: true) }
+      let(:parent) { custom_field.hierarchy_root }
+      let(:project) { create(:project) }
+      let(:other_project) { create(:project) }
+      let(:params) { { parent:, label: "Project Label", short: "PL", project: } }
+
+      it "is valid" do
+        expect(subject.call(params)).to be_success
+      end
+
+      context "when the custom field does not allow additional project values" do
+        let(:custom_field) { create(:custom_field, :hierarchy, allow_additional_project_values: false) }
+
+        it "is invalid" do
+          result = subject.call(params)
+          expect(result).to be_failure
+          expect(result.errors.to_h).to include(project: ["cannot add values to this custom field."])
+        end
+      end
+
+      context "when the parent belongs to the same project" do
+        let(:params) { { parent: create(:hierarchy_item, parent:, project:), label: "Project Label", short: nil, project: } }
+
+        it "is valid" do
+          expect(subject.call(params)).to be_success
+        end
+      end
+
+      context "when the parent belongs to another project" do
+        let(:params) do
+          { parent: create(:hierarchy_item, parent:, project: other_project), label: "Project Label", short: nil, project: }
+        end
+
+        it "is invalid" do
+          result = subject.call(params)
+          expect(result).to be_failure
+          expect(result.errors.to_h).to include(parent: ["must be a global value or belong to the same project."])
+        end
+      end
+
+      context "when a global sibling uses the label" do
+        before { create(:hierarchy_item, parent:, label: "Project Label") }
+
+        it "is invalid" do
+          expect(subject.call(params).errors.to_h).to include(label: ["must be unique within the same hierarchy level."])
+        end
+      end
+
+      context "when a global sibling uses the label in a different case" do
+        before { create(:hierarchy_item, parent:, label: "PROJECT LABEL") }
+
+        it "is invalid" do
+          expect(subject.call(params).errors.to_h).to include(label: ["must be unique within the same hierarchy level."])
+        end
+      end
+
+      context "when a global sibling uses the short" do
+        before { create(:hierarchy_item, parent:, label: "Global Label", short: "PL") }
+
+        it "is invalid" do
+          expect(subject.call(params).errors.to_h).to include(short: ["must be unique within the same hierarchy level."])
+        end
+      end
+
+      context "when a global sibling uses the short in a different case" do
+        before { create(:hierarchy_item, parent:, label: "Global Label", short: "pl") }
+
+        it "is invalid" do
+          expect(subject.call(params).errors.to_h).to include(short: ["must be unique within the same hierarchy level."])
+        end
+      end
+
+      context "when a sibling of the same project uses the label" do
+        before { create(:hierarchy_item, parent:, label: "Project Label", project:) }
+
+        it "is invalid" do
+          expect(subject.call(params).errors.to_h).to include(label: ["must be unique within the same hierarchy level."])
+        end
+      end
+
+      context "when a sibling of the same project uses the label in a different case" do
+        before { create(:hierarchy_item, parent:, label: "project label", project:) }
+
+        it "is invalid" do
+          expect(subject.call(params).errors.to_h).to include(label: ["must be unique within the same hierarchy level."])
+        end
+      end
+
+      context "when a sibling of another project uses the label and short" do
+        before { create(:hierarchy_item, parent:, label: "Project Label", short: "PL", project: other_project) }
+
+        it "is valid" do
+          expect(subject.call(params)).to be_success
+        end
+      end
+
+      context "when a sibling of another project uses the label and short in a different case" do
+        before { create(:hierarchy_item, parent:, label: "project label", short: "pl", project: other_project) }
+
+        it "is valid" do
+          expect(subject.call(params)).to be_success
+        end
+      end
+    end
+
+    context "with a global item", with_ee: %i[custom_field_hierarchies] do
+      let(:custom_field) { create(:custom_field, :hierarchy, allow_additional_project_values: true) }
+      let(:root) { custom_field.hierarchy_root }
+      let(:project) { create(:project) }
+
+      context "when a project sibling uses the label" do
+        let(:params) { { parent: root, label: "Project Label", short: nil } }
+
+        before { create(:hierarchy_item, parent: root, label: "Project Label", project:) }
+
+        it "is invalid" do
+          expect(subject.call(params).errors.to_h).to include(label: ["must be unique within the same hierarchy level."])
+        end
+      end
+
+      context "when a project sibling uses the label in a different case" do
+        let(:params) { { parent: root, label: "Project Label", short: nil } }
+
+        before { create(:hierarchy_item, parent: root, label: "PROJECT label", project:) }
+
+        it "is invalid" do
+          expect(subject.call(params).errors.to_h).to include(label: ["must be unique within the same hierarchy level."])
+        end
+      end
+
+      context "when the parent belongs to a project" do
+        let(:params) { { parent: create(:hierarchy_item, parent: root, project:), label: "Global Label", short: nil } }
+
+        it "is invalid" do
+          expect(subject.call(params).errors.to_h).to include(parent: ["must be a global value or belong to the same project."])
+        end
       end
     end
 

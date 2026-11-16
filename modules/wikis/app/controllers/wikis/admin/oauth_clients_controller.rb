@@ -47,9 +47,7 @@ module Wikis
         )
 
         update_via_turbo_stream(
-          component: Wikis::Admin::Forms::OAuthClientFormComponent.new(@wiki_provider,
-                                                                       oauth_client:,
-                                                                       in_wizard: in_wizard?)
+          component: @wiki_provider.resolve("components.forms.oauth_client", oauth_client:, in_wizard: in_wizard?)
         )
         respond_with_turbo_streams
       end
@@ -59,9 +57,7 @@ module Wikis
 
         @service_result.on_failure do
           update_via_turbo_stream(
-            component: Wikis::Admin::Forms::OAuthClientFormComponent.new(@wiki_provider,
-                                                                         oauth_client: @oauth_client,
-                                                                         in_wizard: in_wizard?)
+            component: @wiki_provider.resolve("components.forms.oauth_client", oauth_client: @oauth_client, in_wizard: in_wizard?)
           )
           respond_with_turbo_streams
         end
@@ -74,8 +70,7 @@ module Wikis
 
         @service_result.on_failure do
           update_via_turbo_stream(
-            component: Wikis::Admin::Forms::OAuthClientFormComponent.new(@wiki_provider,
-                                                                         oauth_client: @oauth_client)
+            component: @wiki_provider.resolve("components.forms.oauth_client", oauth_client: @oauth_client)
           )
           respond_with_turbo_streams
         end
@@ -85,7 +80,7 @@ module Wikis
 
       def show_redirect_uri
         update_via_turbo_stream(
-          component: Wikis::Admin::Forms::RedirectUriFormComponent.new(@wiki_provider, read_only: true)
+          component: @wiki_provider.resolve("components.forms.redirect_uri", read_only: true)
         )
         respond_with_turbo_streams
       end
@@ -118,8 +113,8 @@ module Wikis
         if in_wizard?
           redirect_to new_admin_settings_wiki_provider_path(continue_wizard: @wiki_provider.id), status: :see_other
         else
-          update_via_turbo_stream(component: Wikis::Admin::OAuthClientInfoComponent.new(@wiki_provider))
-          update_via_turbo_stream(component: Wikis::Admin::Forms::RedirectUriFormComponent.new(@wiki_provider))
+          update_via_turbo_stream(component: @wiki_provider.resolve("components.oauth_client"))
+          update_via_turbo_stream(component: @wiki_provider.resolve("components.forms.redirect_uri"))
           respond_with_turbo_streams
         end
       end

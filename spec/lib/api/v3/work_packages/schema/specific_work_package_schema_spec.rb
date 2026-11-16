@@ -173,6 +173,21 @@ RSpec.describe API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
       end
     end
 
+    context "for a list custom field with options added by projects" do
+      let(:project) { create(:project) }
+      let(:list_cf) { create(:list_wp_custom_field, possible_values: %w[A]) }
+      let(:option_a) { list_cf.custom_options.find_by!(value: "A") }
+      let!(:own_option) { create(:custom_option, custom_field: list_cf, value: "Own", project:) }
+
+      before do
+        create(:custom_option, custom_field: list_cf, value: "Foreign", project: create(:project))
+      end
+
+      it "is the global options and the options of the work package's project" do
+        expect(subject.assignable_custom_field_values(list_cf)).to contain_exactly(option_a, own_option)
+      end
+    end
+
     it "is a version custom fields' project values" do
       result = [instance_double(Version)]
 

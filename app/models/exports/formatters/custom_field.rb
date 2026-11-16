@@ -31,7 +31,7 @@ module Exports
   module Formatters
     class CustomField < Default
       def self.apply?(attribute, export_format)
-        export_format == :csv && attribute.start_with?("cf_")
+        export_format == :csv && ::CustomField.column_name?(attribute)
       end
 
       ##
@@ -67,7 +67,7 @@ module Exports
       ##
       # Finds a custom field from the attribute identifier
       def find_custom_field(object)
-        id = attribute.to_s.delete_prefix("cf_").to_i
+        id = ::CustomField.id_from_column_name(attribute)
         object.available_custom_fields.find { it.id == id }
       end
     end

@@ -144,7 +144,7 @@ module CustomFieldsHelper
   end
 
   def usable_in_all?(custom_field, projects, value_id)
-    return true if custom_field.project_specific_value_restriction.nil?
+    return true unless custom_field.project_specific_values_supported?
 
     projects.present? && projects.all? { |project| custom_field.usable_value_id?(project, value_id) }
   end

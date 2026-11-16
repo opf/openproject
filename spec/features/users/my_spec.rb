@@ -157,7 +157,7 @@ RSpec.describe "my", :js do
 
   describe "non-editable custom fields" do
     let!(:readonly_cf) do
-      create(:user_custom_field, :string, name: "Employee ID", editable: false)
+      create(:user_custom_field, :string, name: "Employee ID", user_self_editable: false)
     end
 
     it "renders them read-only on the account page" do
