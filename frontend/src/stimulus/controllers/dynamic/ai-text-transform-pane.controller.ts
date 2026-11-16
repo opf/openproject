@@ -398,16 +398,22 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
 
     if (edge.startsWith('bottom')) {
       style.height = `${clamp(height + (event.clientY - y), MIN_HEIGHT, window.innerHeight - top - EDGE_MARGIN)}px`;
-      style.maxHeight = `calc(100vh - ${2 * EDGE_MARGIN}px)`;
+      style.maxHeight = `calc(100vh - ${this.minTop + EDGE_MARGIN}px)`;
     }
+  }
+
+  private get minTop():number {
+    const header = document.querySelector('.op-app-header');
+    return Math.max(0, header?.getBoundingClientRect().bottom ?? 0) + EDGE_MARGIN;
   }
 
   private pinInViewport(left:number, top:number):void {
     const { width, height } = this.paneTarget.getBoundingClientRect();
+    const { minTop } = this;
     const maxLeft = Math.max(EDGE_MARGIN, window.innerWidth - width - EDGE_MARGIN);
-    const maxTop = Math.max(EDGE_MARGIN, window.innerHeight - height - EDGE_MARGIN);
+    const maxTop = Math.max(minTop, window.innerHeight - height - EDGE_MARGIN);
 
-    this.pin(clamp(left, EDGE_MARGIN, maxLeft), clamp(top, EDGE_MARGIN, maxTop));
+    this.pin(clamp(left, EDGE_MARGIN, maxLeft), clamp(top, minTop, maxTop));
   }
 
   private pin(left:number, top:number):void {

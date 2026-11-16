@@ -132,6 +132,16 @@ describe('AiTextTransformPaneController', () => {
       expect(rect().bottom).toBe(window.innerHeight - 8);
     });
 
+    it('keeps the pane below the top bar', () => {
+      ctx.container.insertAdjacentHTML(
+        'afterbegin',
+        '<header class="op-app-header" style="position: fixed; top: 0; left: 0; width: 100%; height: 55px;"></header>',
+      );
+      dragBy(byTestId('header'), 0, -5000);
+
+      expect(rect().top).toBe(63);
+    });
+
     it('stops following the pointer after pointerup', () => {
       dragBy(byTestId('header'), -20, 30);
       const after = rect();
