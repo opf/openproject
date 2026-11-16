@@ -310,6 +310,14 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
                                        "Try again", 'data-state="failed"')
     end
 
+    it "shows the text after an unclosed comment" do
+      run = run_with_events(:succeeded, ["completed", { "text" => "Intro\n\n<!-- note\n\n## Heading\n\nText after." }])
+
+      get ai_text_transform_pane_path(run.uuid, **pane_params), headers: stream
+
+      expect(response.body).to include("&lt;!-- note", "Heading", "Text after.")
+    end
+
     it "shows the stopped state for a blocked response" do
       run = run_with_events(:failed, ["error", { "reason" => "blocked", "message" => "Blocked." }])
 
@@ -414,6 +422,28 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
 
       detail = JSON.parse(Nokogiri::HTML5.fragment(response.body).at("turbo-stream")["detail"])
       expect(detail["text"]).to eq("Fixed  [Image: chart](https://example.com/a.png)")
+    end
+
+    it "hands over no image that removing a macro joins together" do
+      text = "<macro>\n\n!<macro></macro>[chart](https://example.test/pixel.png)"
+      run = run_with_events(:succeeded, ["completed", { "text" => text }])
+
+      post apply_ai_text_transform_pane_path(run.uuid), params: pane_params, headers: stream
+
+      detail = JSON.parse(Nokogiri::HTML5.fragment(response.body).at("turbo-stream")["detail"])
+      expect(detail["text"]).to eq("\n\n[Image: chart](https://example.test/pixel.png)")
+    end
+
+    it "hands over no new mention that malformed markup hides" do
+      devs = %(<mention class=mention data-type=group data-id=3 data-text=@Devs>@Devs</mention>)
+      text = %(<macro>\n\n<div><mention x">#{devs}"></mention></div>)
+      run = run_with_events(:succeeded, ["completed", { "text" => text }])
+
+      post apply_ai_text_transform_pane_path(run.uuid), params: pane_params, headers: stream
+
+      detail = JSON.parse(Nokogiri::HTML5.fragment(response.body).at("turbo-stream")["detail"])
+      expect(detail["text"]).to include("@Devs")
+      expect(detail["text"]).not_to include("data-type")
     end
 
     it "hands over new mentions only as plain text" do
