@@ -43,14 +43,14 @@ class AddWorkPackageNoteService
     self.contract_class = WorkPackages::CreateNoteContract
   end
 
-  def call(notes, send_notifications: nil, internal: false, channel: nil)
+  def call(notes, send_notifications: nil, internal: false)
     in_context(work_package, send_notifications:) do
       add_journal_to_work_package(notes, internal)
-      success, errors = save_journal_with_validation(channel)
+      success, errors = save_journal_with_validation
 
       journal = fetch_latest_journal if success
 
-      build_service_result(success, journal, errors).on_success { deliver(it.result, channel) }
+      build_service_result(success, journal, errors)
     end
   end
 
@@ -60,14 +60,10 @@ class AddWorkPackageNoteService
     work_package.add_journal(user:, notes:, internal:)
   end
 
-  def save_journal_with_validation(channel)
-    validate_and_yield(work_package, user, options: { channel: }) do
+  def save_journal_with_validation
+    validate_and_yield(work_package, user) do
       work_package.save_journals
     end
-  end
-
-  def deliver(journal, channel)
-    WorkPackages::CommentChannels.find(channel)&.deliver(journal)
   end
 
   def fetch_latest_journal

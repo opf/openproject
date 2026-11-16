@@ -32,7 +32,10 @@ require "spec_helper"
 RSpec.describe WorkPackages::ActivitiesTab::CommentService do
   let(:work_package) { build_stubbed(:work_package) }
   let(:user) { build_stubbed(:user) }
-  let(:add_service) { instance_double(AddWorkPackageNoteService, call: nil) }
+  let(:journal) { build_stubbed(:work_package_journal) }
+  let(:add_result) { ServiceResult.success(result: journal) }
+  let(:add_service) { instance_double(AddWorkPackageNoteService, call: add_result) }
+  let(:channel) { instance_double(WorkPackages::CommentChannel, deliver: nil) }
   let(:update_service) { instance_double(Journals::UpdateService, call: nil) }
   let(:sanitizer) { WorkPackages::ActivitiesTab::InternalCommentMentionsSanitizer }
 
@@ -44,13 +47,15 @@ RSpec.describe WorkPackages::ActivitiesTab::CommentService do
     allow(AddWorkPackageNoteService).to receive(:new).with(user:, work_package:).and_return(add_service)
     allow(Journals::UpdateService).to receive(:new).and_return(update_service)
     allow(sanitizer).to receive(:sanitize).and_return("sanitized")
+    allow(WorkPackages::CommentChannels).to receive(:find).and_return(nil)
+    allow(WorkPackages::CommentChannels).to receive(:find).with("email_reply").and_return(channel)
   end
 
   describe "#add" do
     it "writes the raw notes for a public comment and notifies by default" do
       service(journal: { notes: "hi", mode: "public" }).add
 
-      expect(add_service).to have_received(:call).with("hi", send_notifications: true, internal: false, channel: nil)
+      expect(add_service).to have_received(:call).with("hi", send_notifications: true, internal: false)
       expect(sanitizer).not_to have_received(:sanitize)
     end
 
@@ -58,26 +63,37 @@ RSpec.describe WorkPackages::ActivitiesTab::CommentService do
       service(journal: { notes: "raw", mode: "internal" }).add
 
       expect(sanitizer).to have_received(:sanitize).with(work_package, "raw")
-      expect(add_service).to have_received(:call).with("sanitized", send_notifications: true, internal: true, channel: nil)
+      expect(add_service).to have_received(:call).with("sanitized", send_notifications: true, internal: true)
     end
 
     it "writes a public comment when no mode is given" do
       service(journal: { notes: "hi" }).add
 
-      expect(add_service).to have_received(:call).with("hi", send_notifications: true, internal: false, channel: nil)
+      expect(add_service).to have_received(:call).with("hi", send_notifications: true, internal: false)
     end
 
-    it "passes any other mode on as the channel of a public comment" do
+    it "writes a public comment and delivers it through the channel named by the mode" do
       service(journal: { notes: "hi", mode: "email_reply" }).add
 
-      expect(add_service).to have_received(:call).with("hi", send_notifications: true, internal: false, channel: "email_reply")
+      expect(add_service).to have_received(:call).with("hi", send_notifications: true, internal: false)
       expect(sanitizer).not_to have_received(:sanitize)
+      expect(channel).to have_received(:deliver).with(journal)
+    end
+
+    context "when the comment cannot be written" do
+      let(:add_result) { ServiceResult.failure }
+
+      it "delivers nothing" do
+        service(journal: { notes: "hi", mode: "email_reply" }).add
+
+        expect(channel).not_to have_received(:deliver)
+      end
     end
 
     it "honors an explicit notify=false flag" do
       service(journal: { notes: "hi", mode: "public" }, notify: "false").add
 
-      expect(add_service).to have_received(:call).with("hi", send_notifications: false, internal: false, channel: nil)
+      expect(add_service).to have_received(:call).with("hi", send_notifications: false, internal: false)
     end
   end
 

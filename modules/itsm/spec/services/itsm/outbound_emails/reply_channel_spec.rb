@@ -65,15 +65,29 @@ RSpec.describe ITSM::OutboundEmails::ReplyChannel do
 
   describe "#deliver" do
     let(:send_service) { instance_double(ITSM::OutboundEmails::SendReplyService, call: ServiceResult.success) }
+    let(:availability) { instance_double(ITSM::OutboundEmails::ReplyAvailability, available?: available) }
+    let(:available) { true }
 
     before do
       allow(ITSM::OutboundEmails::SendReplyService).to receive(:new).with(journal:).and_return(send_service)
+      allow(ITSM::OutboundEmails::ReplyAvailability)
+        .to receive(:new).with(work_package:, user: journal.user).and_return(availability)
     end
 
     it "sends the comment as a reply" do
       channel.deliver(journal)
 
       expect(send_service).to have_received(:call)
+    end
+
+    context "when replying is not available for the work package and the author" do
+      let(:available) { false }
+
+      it "sends nothing" do
+        channel.deliver(journal)
+
+        expect(send_service).not_to have_received(:call)
+      end
     end
   end
 

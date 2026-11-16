@@ -43,6 +43,8 @@ module ITSM
       end
 
       def deliver(journal)
+        return unless available?(work_package: journal.journable, user: journal.user)
+
         SendReplyService.new(journal:).call
       end
 

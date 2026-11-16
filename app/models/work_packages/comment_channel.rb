@@ -42,8 +42,8 @@ module WorkPackages
 
     def available?(work_package:, user:) = false # rubocop:disable Lint/UnusedMethodArgument
 
-    # Called after the comment was saved. Must not raise when the delivery fails,
-    # the comment stays in any case.
+    # Called after the comment was saved, without asking available? first.
+    # Must not raise when the delivery fails, the comment stays in any case.
     def deliver(_journal) = raise(SubclassResponsibilityError)
 
     def delivered?(_journal) = false
