@@ -26,6 +26,7 @@
 #++
 
 module Redmine
+  # Only the migration MigrateCredentialsToActiveRecordEncryption uses this module. Remove it when that migration is squashed.
   module Ciphering
     class << self
       def decrypt_text(text)
