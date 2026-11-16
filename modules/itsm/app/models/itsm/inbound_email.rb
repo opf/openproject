@@ -57,9 +57,7 @@ module ITSM
       email_addresses(%w[Delivered-To X-Original-To].filter_map { header_value(it)&.delete("<>") })
     end
 
-    def delivery_report?
-      mail.mime_type == "multipart/report" && mail.content_type_parameters["report-type"]&.casecmp?("delivery-status")
-    end
+    def report? = mail.mime_type == "multipart/report"
 
     private
 

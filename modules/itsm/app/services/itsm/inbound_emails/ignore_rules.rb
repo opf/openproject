@@ -55,7 +55,7 @@ module ITSM
 
       def sent_by_helpdesk? = EmailAddress.helpdesk_addresses.include?(email.headers.from_address)
 
-      def automatic? = email.delivery_report? || automatic_header? || bulk_precedence?
+      def automatic? = email.report? || automatic_header? || bulk_precedence?
 
       def automatic_header?
         AUTOMATIC_HEADERS.any? { |name| email.header_value(name).then { it.present? && !it.casecmp?("no") } }

@@ -346,22 +346,22 @@ RSpec.describe ITSM::InboundEmail do
     end
   end
 
-  describe "#delivery_report?" do
+  describe "#report?" do
     let(:content_type) { "multipart/report; report-type=delivery-status; boundary=report" }
     let(:raw) { "From: mailer-daemon@example.com\r\nContent-Type: #{content_type}\r\n\r\n--report--" }
 
-    it { expect(email).to be_delivery_report }
+    it { expect(email).to be_report }
 
-    context "with another kind of report" do
+    context "with a read receipt" do
       let(:content_type) { "multipart/report; report-type=disposition-notification; boundary=report" }
 
-      it { expect(email).not_to be_delivery_report }
+      it { expect(email).to be_report }
     end
 
     context "with a normal email" do
       let(:raw) { "From: jane@customer.example\r\n\r\nHello" }
 
-      it { expect(email).not_to be_delivery_report }
+      it { expect(email).not_to be_report }
     end
   end
 end

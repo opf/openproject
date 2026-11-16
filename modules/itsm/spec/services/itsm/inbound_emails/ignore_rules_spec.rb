@@ -83,6 +83,12 @@ RSpec.describe ITSM::InboundEmails::IgnoreRules, with_settings: { host_name: "op
     it { is_expected.to eq(:automatic) }
   end
 
+  context "with a read receipt" do
+    let(:extra_headers) { "Content-Type: multipart/report; report-type=disposition-notification; boundary=report\r\n" }
+
+    it { is_expected.to eq(:automatic) }
+  end
+
   context "with an email sent by this OpenProject" do
     let(:extra_headers) { "X-OpenProject-Host: openproject.example\r\nAuto-Submitted: auto-generated\r\n" }
 
