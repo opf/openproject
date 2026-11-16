@@ -45,7 +45,9 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent::Title, type: :component 
   end
 
   it "shows a grip in front of the AI icon" do
+    icons = subject.all(".octicon-grabber, .octicon-sparkle").map { |icon| icon[:class][/octicon-(grabber|sparkle)/, 1] }
+
     expect(subject).to have_css(".op-ai-result-pane--grip .octicon-grabber")
-    expect(subject).to have_css(".op-ai-result-pane--grip + * .octicon-sparkle")
+    expect(icons).to eq(%w[grabber sparkle])
   end
 end
