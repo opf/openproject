@@ -37,7 +37,6 @@ module MeetingOutcomes
     end
 
     attribute :work_package
-    attribute :meeting_agenda_item
 
     attribute :notes
     attribute :kind
