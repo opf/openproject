@@ -40,12 +40,14 @@ module Projects
       class Impact
         Field = ::WorkPackageTypes::FormFieldSet::Field
 
-        def initialize(source:, target:, project: nil, work_packages: nil)
-          raise ArgumentError, "Pass either 'project' or 'work_packages'" unless [project, work_packages].compact.one?
+        def initialize(source:, target:, project: nil, projects: nil, work_packages: nil)
+          unless [project, projects, work_packages].compact.one?
+            raise ArgumentError, "Pass one of 'project', 'projects' or 'work_packages'"
+          end
 
           @source = source
           @target = target
-          @project = project
+          @projects = project ? [project] : projects&.to_a
           @work_packages = work_packages
         end
 
@@ -92,26 +94,32 @@ module Projects
         end
 
         def single_project?
-          project.present?
+          projects&.one? || false
         end
 
-        # The projects the impact covers: the one it is scoped to, or every project applying the
+        def project
+          projects.first if single_project?
+        end
+
+        # The projects the impact covers: the ones it is scoped to, or every project applying the
         # source variant. The preview uses these to filter its global work-package links down to
         # the same projects the counts came from.
         def project_ids
-          single_project? ? [project.id] : source.projects.ids
+          projects ? projects.map(&:id) : source.projects.ids
         end
 
         # Public so the report can link to the work packages behind its counters.
-        attr_reader :project, :source, :target
+        attr_reader :source, :target
 
         private
+
+        attr_reader :projects
 
         # The project-derived default, used unless work_packages are explicitly passed.
         # Scoped on the type, not the variant: a work package stores its type whichever variant the project resolves to,
         # so scoping on the variant would match nothing and quietly report an impact of zero.
         def work_packages
-          @work_packages ||= ::WorkPackage.where(project:, type_id: source.type_id)
+          @work_packages ||= ::WorkPackage.where(project: projects, type_id: source.type_id)
         end
 
         def fields_of(variant)
