@@ -83,6 +83,7 @@ describe('TableActionRenderer tooltips', () => {
       expect(details).toHaveAttribute('href', expect.stringContaining('/details/DEMO-7/overview'));
       expect(details.querySelector('svg.Button-visual')).toBeInTheDocument();
       expect(details.nextElementSibling?.tagName).toBe('TOOL-TIP');
+      expect(details.nextElementSibling).toHaveAttribute('data-direction', 'se');
 
       const context = within(row).getByRole('button', { name: 'Open context menu' });
       expect(context).toHaveAttribute('title', '');
@@ -91,6 +92,7 @@ describe('TableActionRenderer tooltips', () => {
       expect(context).toHaveAttribute('aria-expanded', 'false');
       expect(context.querySelector('svg.Button-visual')).toBeInTheDocument();
       expect(context.nextElementSibling?.tagName).toBe('TOOL-TIP');
+      expect(context.nextElementSibling).toHaveAttribute('data-direction', 'se');
     });
 
     const ids = [...table.querySelectorAll('[id]')].map((element) => element.id);
@@ -107,6 +109,7 @@ describe('TableActionRenderer tooltips', () => {
     expect(unlink).toHaveAttribute('title', '');
     expect(unlink).toHaveClass('Button', 'Button--iconOnly', 'Button--invisible');
     expect(unlink.querySelector('svg.Button-visual')).toBeInTheDocument();
+    expect(unlink.nextElementSibling).toHaveAttribute('data-direction', 'se');
     unlink.click();
     expect(onClick).toHaveBeenCalledExactlyOnceWith(wp);
   });

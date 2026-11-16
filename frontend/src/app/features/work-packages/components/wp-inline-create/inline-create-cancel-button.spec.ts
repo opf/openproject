@@ -50,6 +50,13 @@ describe('InlineCreateCancelButton', () => {
     expect(cancelButton.element).toHaveClass(inlineCreateCancelClassName);
   });
 
+  it('aligns its tooltip with its end edge, like the other row-end controls', async () => {
+    const cancelButton = mount();
+
+    await screen.findByRole('button', { name: 'Cancel' });
+    expect(cancelButton.element.querySelector('tool-tip')).toHaveAttribute('data-direction', 'se');
+  });
+
   it('cancels on click', async () => {
     const onCancel = vi.fn();
     mount(onCancel);

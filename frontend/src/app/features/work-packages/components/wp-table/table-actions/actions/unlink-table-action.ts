@@ -32,6 +32,7 @@ import {
   OpTableActionFactory,
   destructiveControlAttribute,
   invisibleIconButtonClasses,
+  rowActionTooltipDirection,
 } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
 import { octiconElement } from 'core-app/shared/helpers/op-icon-builder';
 import { ICON_MAP } from 'core-app/shared/components/primer/dynamic-icon-map';
@@ -81,6 +82,6 @@ export class OpUnlinkTableAction extends OpTableAction {
     element.appendChild(octiconElement(ICON_MAP.x, 'small', 'Button-visual'));
     element.addEventListener('click', () => this.onClick(this.workPackage));
 
-    return withTooltip(element, this.title, 'label');
+    return withTooltip(element, this.title, 'label', rowActionTooltipDirection);
   }
 }
