@@ -42,63 +42,66 @@ export default class InternalCommentController extends BaseController {
   declare hasModeMenuTarget:boolean;
   declare hasLearnMoreLinkTarget:boolean;
 
-  static classes = ['hidden'];
+  static classes = ['highlight', 'hidden'];
+  declare readonly highlightClass:string;
   declare readonly hiddenClass:string;
 
   static values = {
-    mode: { type: String, default: 'public' },
+    isInternal: { type: Boolean, default: false },
   };
 
-  declare modeValue:string;
+  declare isInternalValue:boolean;
 
   connect():void {
     super.connect();
-    this.restoreMode();
+    this.restoreInternalState();
   }
 
   disconnect():void {
     super.disconnect();
-    this.rescueMode();
+    this.rescueInternalState();
   }
 
   onSubmitEnd(_event:CustomEvent):void {
-    const defaultMode = this.modeItems[0];
-    if (defaultMode) this.selectMode(defaultMode);
+    this.selectMode(this.modeItems[0]);
   }
 
-  onModeSelected():void {
-    const item = this.selectedModeItem;
-    if (!item) return;
+  updateInternalState({ persist = true } = {}):void {
+    const mode = this.selectedMode;
+    if (!mode) return;
 
-    this.applyMode(item);
-    this.persistMode(this.modeValue);
+    if (persist) {
+      this.setInternalStateWithPersistence(mode);
+    } else {
+      this.setInternalStateWithoutPersistence(mode);
+    }
 
-    if (this.isInternal(item)) {
+    if (this.isInternal(mode)) {
       void this.sanitizeInternalMentions();
     }
   }
 
-  restrictToInternal():void {
-    const internalItem = this.modeItems.find((item) => this.isInternal(item));
-    if (internalItem) this.selectMode(internalItem);
+  selectInternalMode():void {
+    this.selectMode(this.modeItems.find((mode) => this.isInternal(mode)));
   }
 
-  async modeValueChanged(currentValue:string, previousValue:string):Promise<void> {
+  async isInternalValueChanged(currentValue:boolean, previousValue:boolean):Promise<void> {
     if (currentValue === previousValue) return;
-
-    const previousItem = this.modeItem(previousValue);
-    const currentItem = this.modeItem(currentValue);
-    if (!previousItem || !currentItem) return;
-    if (!this.isInternal(previousItem) || this.isInternal(currentItem)) return;
 
     if (this.ckEditorInstance) {
       const editorData = this.ckEditorInstance.getData({ trim: 'none' });
       if (editorData.length === 0) return;
 
-      const confirmed = await this.askForConfirmation();
-      if (!confirmed) this.selectMode(previousItem);
+      if (!currentValue && previousValue) {
+        const confirmed = await this.askForConfirmation();
 
-      this.editorOutlet.focusEditor();
+        if (confirmed) {
+          this.editorOutlet.focusEditor();
+        } else {
+          this.selectInternalMode();
+          this.editorOutlet.focusEditor();
+        }
+      }
     }
   }
 
@@ -108,50 +111,39 @@ export default class InternalCommentController extends BaseController {
     return Array.from(this.modeMenuTarget.querySelectorAll<HTMLElement>('[role="menuitemradio"]'));
   }
 
-  private get selectedModeItem():HTMLElement|undefined {
-    return this.modeItems.find((item) => item.getAttribute('aria-checked') === 'true');
+  private get selectedMode():HTMLElement|undefined {
+    return this.modeItems.find((mode) => mode.getAttribute('aria-checked') === 'true');
   }
 
-  private modeItem(mode:string):HTMLElement|undefined {
-    return this.modeItems.find((item) => item.dataset.value === mode);
+  private isInternal(mode:HTMLElement):boolean {
+    return mode.dataset.internal === 'true';
   }
 
-  private isInternal(item:HTMLElement):boolean {
-    return item.dataset.internal === 'true';
+  private highlightClassOf(mode:HTMLElement):string|undefined {
+    return this.isInternal(mode) ? this.highlightClass : mode.dataset.highlightClass;
   }
 
-  // The menu keeps the checked item, its label and the form input in sync when an item is clicked.
-  private selectMode(item:HTMLElement):void {
-    if (item === this.selectedModeItem) {
-      this.applyMode(item);
-    } else {
-      item.click();
-    }
+  private selectMode(mode:HTMLElement|undefined):void {
+    if (mode && mode !== this.selectedMode) mode.click();
   }
 
-  private applyMode(item:HTMLElement):void {
-    this.modeItems.forEach(({ dataset: { highlightClass } }) => {
-      if (highlightClass) this.formContainerTarget.classList.remove(highlightClass);
-    });
-    if (item.dataset.highlightClass) this.formContainerTarget.classList.add(item.dataset.highlightClass);
-
-    this.showModeIcon(item);
-    this.toggleLearnMoreLink(this.isInternal(item));
-    this.modeValue = item.dataset.value ?? this.modeValue;
-  }
-
-  private showModeIcon(item:HTMLElement):void {
-    const icon = item.querySelector('.ActionListItem-visual--leading svg');
+  private showIconOf(mode:HTMLElement):void {
+    const icon = mode.querySelector('.ActionListItem-visual--leading svg');
     const buttonVisual = this.modeMenuTarget.querySelector('.Button-leadingVisual');
 
     if (icon && buttonVisual) buttonVisual.replaceChildren(icon.cloneNode(true));
   }
 
-  private toggleLearnMoreLink(isInternal:boolean):void {
+  private setInternalStateWithPersistence(mode:HTMLElement):void {
+    this.setInternalStateWithoutPersistence(mode);
+    this.persistInternalState(mode);
+  }
+
+  private toggleLearnMoreLink(isChecked:boolean):void {
     if (!this.hasLearnMoreLinkTarget) return;
     if (this.isMobile()) return; // hidden on mobile
 
-    this.learnMoreLinkTarget.classList.toggle(this.hiddenClass, !isInternal);
+    this.learnMoreLinkTarget.classList.toggle(this.hiddenClass, !isChecked);
   }
 
   private async sanitizeInternalMentions():Promise<void> {
@@ -201,31 +193,31 @@ export default class InternalCommentController extends BaseController {
     });
   }
 
-  private persistMode(mode:string):void {
+  private persistInternalState(mode:HTMLElement):void {
     try {
-      localStorage.setItem(this.storageKey, mode);
+      localStorage.setItem(this.storageKey, JSON.stringify(mode.dataset.value));
     } catch (error) {
       window.ErrorReporter.captureException(error as Error);
     }
   }
 
-  private rescueMode():void {
-    if (!this.hasModeMenuTarget) return;
+  private rescueInternalState():void {
+    if (!this.selectedMode) return;
 
-    this.persistMode(this.modeValue);
+    this.persistInternalState(this.selectedMode);
   }
 
-  private restoreMode():void {
+  private restoreInternalState():void {
     if (!this.hasModeMenuTarget) return;
 
     try {
-      const storedMode = localStorage.getItem(this.storageKey);
-      if (storedMode !== null) {
-        const item = this.modeItem(storedMode);
-        if (item) this.selectMode(item);
-        // Remove the stored mode after restoration to ensure it is only persisted
-        // temporarily (e.g., across a single navigation or reload).
-        // This prevents a stale mode from being applied unintentionally in future sessions.
+      const storedState = localStorage.getItem(this.storageKey);
+      if (storedState !== null) {
+        const storedMode = JSON.parse(storedState) as unknown;
+        this.selectMode(this.modeItems.find((mode) => mode.dataset.value === storedMode));
+        // Remove the stored state after restoration to ensure the internal comment state
+        // is only persisted temporarily (e.g., across a single navigation or reload).
+        // This prevents stale state from being applied unintentionally in future sessions.
         localStorage.removeItem(this.storageKey);
       }
     } catch (error) {
@@ -233,12 +225,22 @@ export default class InternalCommentController extends BaseController {
     }
   }
 
+  private setInternalStateWithoutPersistence(mode:HTMLElement):void {
+    this.modeItems.forEach((other) => {
+      const highlightClass = this.highlightClassOf(other);
+      if (highlightClass) this.formContainerTarget.classList.toggle(highlightClass, other === mode);
+    });
+    this.showIconOf(mode);
+    this.toggleLearnMoreLink(this.isInternal(mode));
+    this.isInternalValue = this.isInternal(mode);
+  }
+
   private get ckEditorInstance() {
     return this.editorOutlet.ckEditorInstance;
   }
 
   private get storageKey():string {
-    return `work-package-${this.workPackageId}-comment-mode`;
+    return `work-package-${this.workPackageId}-internal-comment-state`;
   }
 
   private get workPackageId():string {

@@ -92,7 +92,7 @@ module WorkPackages
             key: CommentService::INTERNAL_MODE,
             label: t("activities.work_packages.activity_tab.internal_comment"),
             icon: :lock,
-            highlight_class: "work-packages-activities-tab-journals-new-component--journal-notes-body__internal-comment",
+            highlight_class: nil,
             internal: true
           )
         end
@@ -112,7 +112,7 @@ module WorkPackages
         def comment_mode_menu_data
           {
             internal_comment_stimulus_controller("-target") => "modeMenu",
-            action: "itemActivated->#{internal_comment_stimulus_controller}#onModeSelected",
+            action: "itemActivated->#{internal_comment_stimulus_controller}#updateInternalState",
             test_selector: "op-work-package-journal-comment-mode"
           }
         end

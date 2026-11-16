@@ -79,7 +79,7 @@ export default class QuoteCommentController extends Controller {
 
   private setCommentRestriction(isInternal:boolean) {
     if (isInternal) {
-      this.workPackagesActivitiesTabInternalCommentOutlet.restrictToInternal();
+      this.workPackagesActivitiesTabInternalCommentOutlet.selectInternalMode();
     }
   }
 
