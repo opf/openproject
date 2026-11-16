@@ -35,6 +35,7 @@ module CustomFields
 
         def persist(service_result)
           item = service_result.result
+          @weight_changed = item.weight_changed?
           return super unless item.parent_id_changed? || item.sort_order_changed?
 
           item.place_under(item.parent, before: requested_position(item))
@@ -50,7 +51,7 @@ module CustomFields
 
         def after_perform(service_result)
           item = service_result.result
-          return service_result unless item.weight_previously_changed?
+          return service_result unless @weight_changed
 
           service_result.merge!(
             RecalculateValuesService.new(user:, model: item.root.custom_field).call(item_ids: [item.id])
