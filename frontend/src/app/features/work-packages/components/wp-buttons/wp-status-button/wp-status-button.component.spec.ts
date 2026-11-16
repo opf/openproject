@@ -58,8 +58,14 @@ const translations:Record<string, string> = {
 describe('WorkPackageStatusButtonComponent', () => {
   let fixture:ComponentFixture<WorkPackageStatusButtonComponent>;
 
-  async function render({ readonly = false, width = '', small = false } = {}) {
-    const workPackage = { status: { id: '1', name: 'Waiting for customer feedback', $load: () => Promise.resolve() } };
+  async function render({
+    readonly = false, statusReadonly = readonly, width = '', small = false,
+  }:{ readonly?:boolean, statusReadonly?:boolean|null, width?:string, small?:boolean } = {}) {
+    const workPackage = {
+      status: {
+        id: '1', name: 'Waiting for customer feedback', isReadonly: statusReadonly ?? undefined, $load: () => Promise.resolve(),
+      },
+    };
     const schema = { isReadonly: readonly, isEditable: !readonly, isAttributeEditable: () => !readonly };
 
     await TestBed
@@ -152,5 +158,17 @@ describe('WorkPackageStatusButtonComponent', () => {
     await render();
 
     expect(screen.getByRole('button').querySelector('.Button-leadingVisual')).toBeNull();
+  });
+
+  it('shows the lock with a read-only status before the schema follows', async () => {
+    await render({ statusReadonly: true });
+
+    expect(screen.getByRole('button').querySelector('.Button-leadingVisual svg')).not.toBeNull();
+  });
+
+  it('falls back to the schema for the lock while the status is not loaded', async () => {
+    await render({ readonly: true, statusReadonly: null });
+
+    expect(screen.getByRole('button').querySelector('.Button-leadingVisual svg')).not.toBeNull();
   });
 });

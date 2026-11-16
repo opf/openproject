@@ -103,8 +103,8 @@ export class WorkPackageStatusButtonComponent extends UntilDestroyedMixin implem
     return this.workPackage.status;
   }
 
-  public get isReadonly() {
-    return this.schema.isReadonly;
+  public get isReadonly():boolean {
+    return (this.status.isReadonly as boolean|undefined) ?? !!this.schema.isReadonly;
   }
 
   public get allowed() {
