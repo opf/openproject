@@ -31,6 +31,17 @@ spec/**
 !spec/support
 !spec/support/**
 
+modules/*/spec/**
+!modules/*/spec/factories
+!modules/*/spec/factories/**
+!modules/*/spec/fixtures
+!modules/*/spec/fixtures/**
+!modules/*/spec/support
+!modules/*/spec/support/**
+modules/*/test
+modules/*/tests
+screenshots
+
 extra
 features
 help

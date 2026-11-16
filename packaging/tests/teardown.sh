@@ -67,7 +67,6 @@ removed=(
   modules/example/spec/fixture
   modules/example/test/fixture
   modules/example/tests/fixture
-  public/assets/frontend/main.js.map
 )
 retained=(
   frontend/src/main.ts
@@ -77,6 +76,8 @@ retained=(
   app/assets/videos/enterprise/demo.mp4
   public/assets/enterprise/demo-digest.mp4
   public/assets/frontend/main.js
+  public/assets/frontend/main.js.map
+  public/assets/frontend/main.js.map.gz
   public/assets/.sprockets-manifest.json
   modules/example/app/models/model.rb
   modules/example/files/seed.bcf

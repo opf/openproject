@@ -19,6 +19,3 @@ echo "Cleaning up application and module tests"
 rm -rf spec
 find modules -mindepth 2 -maxdepth 2 -type d \
   \( -name spec -o -name test -o -name tests \) -exec rm -rf '{}' +
-
-echo "Cleaning up compiled source maps"
-find public/assets -type f -name '*.map' -delete
