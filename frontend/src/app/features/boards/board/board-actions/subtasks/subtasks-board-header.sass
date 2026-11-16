@@ -7,14 +7,16 @@
   display: contents
 
 .op-subtask-board-header
-  .editable-toolbar-title--fixed
+  &.editable-toolbar-title--fixed
     @include board-header-editable-toolbar-title
 
+    display: grid
+    grid-template-columns: minmax(0, 1fr)
+
     a
-      display: -webkit-box
-      -webkit-box-orient: vertical
-      -webkit-line-clamp: 2
-      line-clamp: 2
+      display: block
+      max-height: calc(2 * 1lh)
       overflow: hidden
       white-space: normal
-      word-break: break-word
+      overflow-wrap: anywhere
+      hyphens: auto
