@@ -63,7 +63,7 @@ ko:
         single: '"%{name}" 선택'
       remove: "%{name} 삭제"
     autocompleter:
-      create_label: Create label
+      create_label: 레이블 만들기
       notFoundText: 항목 없음
       placeholder: 검색할 유형
       project:
@@ -131,10 +131,10 @@ ko:
     button_confirm: 확인
     button_continue: 계속
     button_copy: 복사
-    button_copy_link_to_clipboard: Copy link to clipboard
+    button_copy_link_to_clipboard: 클립보드에 링크 복사
     button_copy_to_clipboard: 클립보드 복사
     button_copy_to_other_project: 다른 프로젝트에 복제
-    button_copy_work_package_id: Copy work package ID
+    button_copy_work_package_id: 작업 패키지 ID 복사
     button_create: 만들기
     button_custom-fields: 사용자 정의 필드
     button_delete: 삭제
@@ -150,7 +150,7 @@ ko:
     button_log_time: 작업시간 기록
     button_more: 기타
     button_more_actions: 추가 작업
-    button_move_to_position: Move to position
+    button_move_to_position: 위치로 이동
     button_open_details: 자세히 보기
     button_open_fullscreen: 전체화면 보기
     button_quote: 인용
@@ -538,10 +538,10 @@ ko:
     label_open_context_menu: 콘텍스트 메뉴 열기
     label_open_menu: 메뉴 열기
     label_open_work_packages: 열기
-    label_origin: Origin
+    label_origin: 원본
     label_origin_id: ID
     label_origin_jira_data_center: Jira Data Center
-    label_origin_source: Source
+    label_origin_source: 소스
     label_password: 암호
     label_per_page: '페이지 당:'
     label_please_wait: 잠시 기다려 주세요.
@@ -566,8 +566,8 @@ ko:
     label_reset: 재설정
     label_resize_project_menu: 프로젝트 메뉴 크기 조정
     label_save_as: 다른 이름으로 저장
-    label_scroll_left: Scroll left
-    label_scroll_right: Scroll right
+    label_scroll_left: 왼쪽으로 스크롤
+    label_scroll_right: 오른쪽으로 스크롤
     label_search_columns: 열 검색
     label_select_watcher: 주시하는 사람을 선택
     label_selected_filter_list: 선택된 필터
@@ -575,9 +575,9 @@ ko:
     label_show_in_menu: 메뉴에서 보기 표시
     label_sort_by: 정렬 기준
     label_sort_higher: 위로 이동
-    label_sort_highest: Move to top
+    label_sort_highest: 맨 위로 이동
     label_sort_lower: 아래로 이동
-    label_sort_lowest: Move to bottom
+    label_sort_lowest: 맨 아래로 이동
     label_sorted_by: '정렬 :'
     label_sorting: 정렬
     label_spent_time: 소비한 시간
@@ -643,7 +643,7 @@ ko:
     notifications:
       center:
         and_more_users:
-          other: and %{count} others
+          other: 외 %{count}건
         empty_state:
           no_notification: 모두 확인하신 것 같습니다.
           no_notification_for_filter: 이 필터에 대한 모든 알림을 본 것 같습니다.
@@ -847,10 +847,10 @@ ko:
         not_selectable: 선택 항목이 변경되지 않았습니다. 이 항목은 해당 목록의 순서 지정에 영향을 미치지 않습니다.
         range_blocked: 선택 항목이 변경되지 않았습니다. 해당 범위에는 이 목록의 순서 지정에 영향을 미치지 않는 항목이 포함되어 있습니다.
         range_restarted:
-          other: Could not extend the range. %{count} items selected.
+          other: 범위를 확장할 수 없습니다. %{count}개 항목이 선택되었습니다.
         range_unavailable: 선택 항목이 변경되지 않았습니다. 이 목록을 확장하여 해당 범위를 선택하세요.
         selected:
-          other: "%{count} items selected."
+          other: "%{count}개 항목이 선택되었습니다."
     spot:
       drop_modal:
         close: 모달 닫기
@@ -899,18 +899,18 @@ ko:
       label_two_factor_authentication: 2단계 인증
     units:
       child_work_packages:
-        other: "%{count} work package children"
+        other: "%{count}개의 작업 패키지 자식"
       day:
         one: "%{count} day"
         other: "%{count}일"
         zero: 0일
       hour:
-        one: "%{count} h"
+        one: "%{count}시간"
         other: "%{count}시간"
         zero: 0 h
       hour_string: "%{hours}시간"
       word:
-        other: "%{count} words"
+        other: 단어 %{count}개
       workPackage:
         other: 작업 패키지
     upsell:
@@ -968,7 +968,7 @@ ko:
         all_open: 모두 열림
         assigned_to_me: 내게 할당됨
         created_by_me: 내가 만듦
-        in_progress: In progress
+        in_progress: 진행 중
         latest_activity: 최근 활동
         manually_sorted: 새로운 수동 정렬 쿼리
         overdue: 기한 지남
@@ -1064,7 +1064,7 @@ ko:
         other: 기타
         people: 사용자
       query:
-        add_columns: Add columns
+        add_columns: 열 추가
         click_to_edit_query_name: 이 보기의 제목을 편집하려면 클릭하세요.
         column_names: 컬럼
         confirm_edit_cancel: 이 보기 이름 편집을 취소하시겠습니까? 제목이 이전 값으로 다시 설정됩니다.
@@ -1083,7 +1083,7 @@ ko:
         public_text: '다른 사용자가 이 보기에 액세스할 수 있도록 하려면 이 보기를 게시하십시오. "공용 보기 관리" 권한을 가진 사용자가 공용 쿼리를 수정 또는 제거할 수 있습니다. 이는 해당 보기에서 작업 패키지 결과의 표시 여부에 영향을 주지 않기 때문에 사용자의 권한에 따라 다른 결과가 표시될 수 있습니다.
 
           '
-        remove_column: Remove column
+        remove_column: 열 제거
         rename_query_placeholder: 이 보기의 이름
         sort_ascending: 오름차순 정렬
         sort_descending: 내림차순 정렬
@@ -1107,15 +1107,15 @@ ko:
       selection:
         all_selected:
           other: All %{count} work packages on this page selected.
-        cleared: Selection cleared.
+        cleared: 선택 항목이 지워졌습니다.
         selected:
-          other: "%{count} work packages selected."
+          other: "%{count}개 작업 패키지가 선택되었습니다."
       sharing:
         show_all_users: 작업 패키지가 공유된 모든 사용자 표시
         title: 작업 패키지 공유
       table:
         configure_button: 작업 패키지 테이블 구성
-        grid_actions_header: Actions
+        grid_actions_header: 작업
         grid_baseline_header: Comparison status
         relations_button: Relations in %{column} for %{work_package}
         sort_criterion_ascending: "%{column} ascending"

@@ -131,10 +131,10 @@ pt-PT:
     button_confirm: Confirmar
     button_continue: Continuar
     button_copy: Copiar
-    button_copy_link_to_clipboard: Copy link to clipboard
+    button_copy_link_to_clipboard: Copiar link para a área de transferência
     button_copy_to_clipboard: Copiar para a área de transferência
     button_copy_to_other_project: Duplicar noutro projeto
-    button_copy_work_package_id: Copy work package ID
+    button_copy_work_package_id: Copiar ID do pacote de trabalho
     button_create: Criar
     button_custom-fields: Campos personalizados
     button_delete: Eliminar
@@ -150,7 +150,7 @@ pt-PT:
     button_log_time: Hora de registo
     button_more: Mais
     button_more_actions: Mais ações
-    button_move_to_position: Move to position
+    button_move_to_position: Mover para a posição
     button_open_details: Abrir vista de detalhes
     button_open_fullscreen: Abrir vista em ecrã inteiro
     button_quote: Citação
@@ -538,10 +538,10 @@ pt-PT:
     label_open_context_menu: Abrir menu de contexto
     label_open_menu: Abrir menu
     label_open_work_packages: aberto
-    label_origin: Origin
+    label_origin: Origem
     label_origin_id: ID
     label_origin_jira_data_center: Jira Data Center
-    label_origin_source: Source
+    label_origin_source: Origem
     label_password: Palavra-passe
     label_per_page: 'Por página:'
     label_please_wait: Aguarde, por favor
@@ -566,8 +566,8 @@ pt-PT:
     label_reset: Repor
     label_resize_project_menu: Redimensionar menu do projeto
     label_save_as: Guardar como
-    label_scroll_left: Scroll left
-    label_scroll_right: Scroll right
+    label_scroll_left: Deslocar para a esquerda
+    label_scroll_right: Deslocar para a direita
     label_search_columns: Pesquisar uma coluna
     label_select_watcher: Selecionar um observador...
     label_selected_filter_list: Filtros selecionados
@@ -575,9 +575,9 @@ pt-PT:
     label_show_in_menu: Mostrar vista no menu
     label_sort_by: Ordenar por
     label_sort_higher: Mover para cima
-    label_sort_highest: Move to top
+    label_sort_highest: Mover para o topo
     label_sort_lower: Mover para baixo
-    label_sort_lowest: Move to bottom
+    label_sort_lowest: Mover para a base
     label_sorted_by: ordenado por
     label_sorting: Ordenação
     label_spent_time: Tempo gasto
@@ -644,7 +644,7 @@ pt-PT:
       center:
         and_more_users:
           one: and %{count} other
-          other: and %{count} others
+          other: e %{count} outros
         empty_state:
           no_notification: Parece que tem tudo em dia.
           no_notification_for_filter: Parece que está em dia neste filtro.
@@ -849,11 +849,11 @@ pt-PT:
         range_blocked: Seleção inalterada. Esse intervalo contém um elemento que não intervém na ordenação desta lista.
         range_restarted:
           one: Could not extend the range. %{count} item selected.
-          other: Could not extend the range. %{count} items selected.
+          other: Não foi possível alargar o âmbito.  Foram selecionados %{count} elementos.
         range_unavailable: Seleção inalterada. Expanda esta lista para selecionar esse intervalo.
         selected:
           one: "%{count} item selected."
-          other: "%{count} items selected."
+          other: "%{count} elementos selecionados."
     spot:
       drop_modal:
         close: Fechar modal
@@ -903,7 +903,7 @@ pt-PT:
     units:
       child_work_packages:
         one: "%{count} child work package"
-        other: "%{count} work package children"
+        other: "%{count} pacotes de trabalho secundários"
       day:
         one: "%{count} day"
         other: "%{count} dias"
@@ -915,7 +915,7 @@ pt-PT:
       hour_string: "%{hours} h"
       word:
         one: "%{count} word"
-        other: "%{count} words"
+        other: "%{count} palavras"
       workPackage:
         one: pacote de trabalho
         other: pacotes de trabalho
@@ -974,7 +974,7 @@ pt-PT:
         all_open: Tudo aberto
         assigned_to_me: Atribuído a mim
         created_by_me: Criado por mim
-        in_progress: In progress
+        in_progress: Em curso
         latest_activity: Atividade mais recente
         manually_sorted: Nova consulta ordenada manualmente
         overdue: Em atraso
@@ -1070,7 +1070,7 @@ pt-PT:
         other: Outro
         people: Pessoas
       query:
-        add_columns: Add columns
+        add_columns: Adicionar colunas
         click_to_edit_query_name: Clique para editar o título desta vista.
         column_names: Colunas
         confirm_edit_cancel: Tem a certeza que deseja cancelar a edição do nome desta vista? O título voltará ao valor anterior.
@@ -1089,7 +1089,7 @@ pt-PT:
         public_text: 'Publique esta vista, permitindo que outros utilizadores acedam à sua vista. Os utilizadores com a permissão ''Gerir vistas públicas'' podem modificar ou remover a consulta pública. Isto não afeta a visibilidade dos resultados dos pacotes de trabalho nessa vista e, dependendo das respetivas permissões, os utilizadores poderão ver resultados diferentes.
 
           '
-        remove_column: Remove column
+        remove_column: Remover coluna
         rename_query_placeholder: Nome desta vista
         sort_ascending: Ordenar por ordem crescente
         sort_descending: Ordenar por ordem decrescente
@@ -1114,16 +1114,16 @@ pt-PT:
         all_selected:
           one: All %{count} work package on this page selected.
           other: All %{count} work packages on this page selected.
-        cleared: Selection cleared.
+        cleared: Seleção limpa.
         selected:
           one: "%{count} work package selected."
-          other: "%{count} work packages selected."
+          other: "%{count} pacotes de trabalho selecionados."
       sharing:
         show_all_users: Mostrar todos os utilizadores com quem o pacote de trabalho foi partilhado
         title: Partilhar pacote de trabalho
       table:
         configure_button: Configurar tabela de pacote de trabalho
-        grid_actions_header: Actions
+        grid_actions_header: Ações
         grid_baseline_header: Comparison status
         relations_button: Relations in %{column} for %{work_package}
         sort_criterion_ascending: "%{column} ascending"

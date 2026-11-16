@@ -78,16 +78,88 @@ RSpec.describe OpenProject::Llm::Pgvector do
       expect(described_class.include_migrations_path_if_installable!).to have_attributes(reason: :unavailable)
     end
 
-    it "reports a read-only database" do
-      allow(described_class).to receive(:read_only?).and_return(true)
+    context "when creating the extension fails" do
+      let(:connection) { ActiveRecord::Base.connection }
 
-      expect(described_class.include_migrations_path_if_installable!).to have_attributes(reason: :read_only)
+      def fail_extension_creation_with(pg_error)
+        allow(connection).to receive(:execute).and_call_original
+        allow(connection).to receive(:execute).with(/CREATE EXTENSION/) do
+          raise ActiveRecord::StatementInvalid, pg_error.message, cause: pg_error
+        end
+      end
+
+      it "reports a read-only database" do
+        fail_extension_creation_with(PG::ReadOnlySqlTransaction.new("read-only transaction"))
+
+        expect(described_class.include_migrations_path_if_installable!).to have_attributes(reason: :read_only)
+      end
+
+      it "reports a database user that may not create the extension" do
+        fail_extension_creation_with(PG::InsufficientPrivilege.new("permission denied"))
+
+        expect(described_class.include_migrations_path_if_installable!).to have_attributes(reason: :insufficient_privilege)
+      end
+
+      it "reports any other error with its message" do
+        fail_extension_creation_with(PG::FeatureNotSupported.new("extension \"vector\" is not allow-listed"))
+
+        expect(described_class.include_migrations_path_if_installable!)
+          .to have_attributes(reason: :error, detail: include("not allow-listed"))
+      end
+
+      it "does not include the migrations path" do
+        fail_extension_creation_with(PG::InsufficientPrivilege.new("permission denied"))
+        allow(described_class).to receive(:include_migrations_path!)
+
+        described_class.include_migrations_path_if_installable!
+
+        expect(described_class).not_to have_received(:include_migrations_path!)
+      end
     end
 
-    it "reports a database user that may not create the extension" do
-      allow(described_class).to receive(:may_create_extension?).and_return(false)
+    it "leaves no trace of the trial creation" do
+      connection = ActiveRecord::Base.connection
 
-      expect(described_class.include_migrations_path_if_installable!).to have_attributes(reason: :insufficient_privilege)
+      connection.transaction(requires_new: true) do
+        connection.execute("DROP EXTENSION #{described_class::EXTENSION} CASCADE")
+        expect(described_class.include_migrations_path_if_installable!).to be_nil
+        expect(described_class.extension_installed?).to be(false)
+        raise ActiveRecord::Rollback
+      end
+    end
+  end
+
+  describe ".migrate_pending_if_installable!" do
+    let(:migration_context) { instance_double(ActiveRecord::MigrationContext, migrate: nil) }
+
+    before do
+      allow(described_class).to receive(:migration_context).and_return(migration_context)
+      allow(described_class).to receive(:check_if_installable).and_call_original
+    end
+
+    it "migrates without checking installability when the extension is already installed" do
+      described_class.migrate_pending_if_installable!
+
+      expect(described_class).not_to have_received(:check_if_installable)
+      expect(migration_context).to have_received(:migrate)
+    end
+
+    context "when the extension is not installed yet" do
+      before { allow(described_class).to receive(:extension_installed?).and_return(false) }
+
+      it "migrates when the extension can be created" do
+        described_class.migrate_pending_if_installable!
+
+        expect(migration_context).to have_received(:migrate)
+      end
+
+      it "does not migrate when the extension cannot be created" do
+        allow(described_class).to receive(:extension_available?).and_return(false)
+
+        described_class.migrate_pending_if_installable!
+
+        expect(migration_context).not_to have_received(:migrate)
+      end
     end
   end
 

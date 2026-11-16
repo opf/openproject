@@ -120,7 +120,7 @@ RSpec.describe "Work package variants index", :js do
         I18n.t(:button_configure),
         href: type_variant_settings_path(type_id: bug_type.id, variant_id: alfa_variant.id)
       )
-      expect(page).to have_button(I18n.t(:button_delete))
+      expect(page).to have_link(I18n.t(:button_delete))
     end
   end
 

@@ -18,6 +18,7 @@ Not all translations are fully translated, and they will fall back to English st
 _Translations in OpenProject..._
 
 - depend on the [I18n yaml-based Rails standard](https://guides.rubyonrails.org/i18n.html) for translation files
+- must be used for all UI strings, which are never hard-coded
 - are split into backend and frontend strings
 - are used with Rails `t` in views and ViewComponents, and with the global `I18n.t` (or the `I18nService` in Angular) in frontend code
 
@@ -30,6 +31,21 @@ Additionally, modules can define their own translations, such as `modules/budget
 The `js-en.yml` files are not special on their own, but are simply prefixed with the `js:` key at the beginning of the file. This means all translations within are prefixed with the `js.` key. This is picked up by [`I18n.js`](https://github.com/fnando/i18n-js), a Ruby gem and frontend library that exports translations for the frontend. Only strings that are prefixed with `js.`, plus the `number`, `time` and `date` formats, will end up in the frontend due to the config we applied in [`config/i18n.yml`](https://github.com/opf/openproject/blob/dev/config/i18n.yml). English fallbacks are embedded for untranslated strings.
 
 The translations are output by the rake task `./bin/rails assets:export_locales` to `frontend/src/locales/{language}.json`. `bin/setup_dev` runs this task for you, and in development, [`config/initializers/i18n-js.rb`](https://github.com/opf/openproject/blob/dev/config/initializers/i18n-js.rb) listens for changes to the locale files and re-exports them automatically.
+
+## Checking translations with i18n-tasks
+
+Only the English source files (`en.yml` and `js-en.yml` in `config/locales/` and `modules/*/config/locales/`) are edited directly. All other languages are managed through Crowdin.
+
+[i18n-tasks](https://github.com/glebm/i18n-tasks) finds missing, unused and inconsistent translation keys:
+
+```shell
+bundle exec i18n-tasks missing                          # Show missing translation keys
+bundle exec i18n-tasks unused                           # Show unused translation keys
+bundle exec i18n-tasks normalize                        # Fix/normalize translation files
+bundle exec i18n-tasks check-consistent-interpolations  # Check interpolation consistency
+```
+
+By default, these commands use [`config/i18n-tasks.yml`](https://github.com/opf/openproject/blob/dev/config/i18n-tasks.yml), which currently only covers the storages module. To check all core and module locale files, pass `--config config/i18n-tasks-all-files.yml`. The [`i18n-tasks` workflow](https://github.com/opf/openproject/blob/dev/.github/workflows/i18n-tasks.yml) runs `check-consistent-interpolations` with that configuration on every pull request.
 
 ## Using I18n in your Rails code
 

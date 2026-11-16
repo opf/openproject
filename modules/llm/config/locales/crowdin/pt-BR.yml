@@ -3,21 +3,21 @@ pt-BR:
   activerecord:
     attributes:
       llm_capability_verdict:
-        capability: Capability
-        model_id: Model
-        state: State
+        capability: Capacidade
+        model_id: Modelo
+        state: Status
       llm_connection:
-        api_format: API format
-        api_key: API key
-        base_url: Host URL
-        default_chat_model: Default chat model
+        api_format: Formato da API
+        api_key: Chaves API
+        base_url: URL do host
+        default_chat_model: Modelo de chat padrão
         default_embedding_model: Default embedding model
         env_fingerprint: Applied environment configuration
         env_provisioned_at: Applied from the environment
         llm_features_enabled: Enable LLMs for this instance
       llm_feature_binding:
-        feature_key: Feature
-        model: Model
+        feature_key: Recurso
+        model: Modelo
         semantic_index: Semantic Index
       llm_model:
         admin_context_window: Context window
@@ -25,18 +25,18 @@ pt-BR:
         capability_reasoning: Reasoning
         capability_structured_output: Structured output
         capability_vision: Vision
-        display_name: Display name
+        display_name: Nome de exibição
         manual: Entered by hand
         raw_metadata: Metadata
-        external: Model name
+        external: Nome do modelo
       semantic_index:
         context_token_length: Context length
-        description: Description
+        description: Descrição
         embedding_vector_dimensions: Dimensions
         llm_feature_bindings: Feature configuration
-        model: Model
-        state: Status
-        title: Display name
+        model: Modelo
+        state: Estado
+        title: Nome de exibição
     errors:
       messages:
         semantic_search_unavailable: is currently unavailable.
@@ -93,11 +93,11 @@ pt-BR:
       activate:
         body_html: Semantic search will use <b>%{title}</b> immediately.
         body_switch_html: Semantic search switches from <b>%{current}</b> to <b>%{title}</b> immediately. %{current} stays ready and can be reactivated.
-        button: Activate
-        confirm: Activate
+        button: Ativar
+        confirm: Ativar
         success: '"%{title}" is now the active semantic index.'
         title: Activate "%{title}"?
-      active: Active
+      active: Ativa
       box:
         empty_description: Create a new semantic index to make work packages findable by meaning.
         empty_title: No semantic index yet
@@ -126,7 +126,7 @@ pt-BR:
           pgvector_missing: The pgvector extension is not installed. Install it and run the migrations again to start indexing.
         progress: "%{percentage}% done"
       menu:
-        delete: Delete
+        delete: Excluir
         locked_while_active: Cannot be deleted while it is active.
         locked_while_indexing: Cannot be deleted while indexing.
       start_indexing:
@@ -137,12 +137,12 @@ pt-BR:
         not_indexable: This semantic index is already being indexed.
         started: Indexing of "%{title}" has started.
       states:
-        failed: Failed
+        failed: Falhou
         indexing: Indexing
         not_indexed: Not indexed
         ready: Ready
       stop_indexing:
-        button: Stop
+        button: Parar
         not_indexing: This semantic index is not being indexed.
         stopped: Indexing of "%{title}" was stopped.
     llm_connections:
@@ -210,7 +210,7 @@ pt-BR:
         run_checks: Run checks
         running: Running checks...
         summary: "%{passed} passed, %{warnings} warnings, %{failures} failed."
-        title: Health status
+        title: Status de saúde
     llm_models:
       configured_from_env: The environment configures this model as a default, so it cannot be removed or renamed here.
       create:
@@ -246,15 +246,15 @@ pt-BR:
         state_supported: Supported
         state_unsupported: Not supported
       index:
-        add_model: Model
+        add_model: Modelo
         blank_description: The server reported no models. Refresh the list once the server is reachable, or add one by hand.
         blank_title: No models available
         context_window: Context window
         filter_label: Filter models
-        identifier: Model
-        kind: Type
+        identifier: Modelo
+        kind: Tipo
         refresh: Refresh models
-        source: Source
+        source: Fonte
         source_discovered: Server
         source_discovered_description: Reported by the server
         source_manual: Manual
@@ -317,7 +317,7 @@ pt-BR:
         credentials_present: API key is stored
         enabled: Connection is switched on
         feature_flag: AI features are switched on
-        header: Configuration
+        header: Configuração
       errors:
         api_key_missing: No API key is stored. This is only correct if the LLM server requires no authentication.
         catalogue_never_fetched: The model list has never been retrieved from the server.
@@ -356,7 +356,7 @@ pt-BR:
       models:
         catalogue_fresh: Model list is up to date
         catalogue_present: Models are available
-        default_chat_model: Default chat model
+        default_chat_model: Modelo de chat padrão
         default_embedding_model: Default embedding model
         header: Models
       server:
@@ -381,10 +381,10 @@ pt-BR:
       health_status_component:
         last_check: Last checked %{datetime}.
         never_checked: This connection has not been checked yet.
-        open_report: Open full health report
-        run_checks: Run checks now
+        open_report: Abrir relatório completo de integridade
+        run_checks: Executar as verificações agora
         running: Running checks...
-        title: Health status
+        title: Status de saúde
   menus:
     admin:
       llm_connection: LLM settings

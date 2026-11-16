@@ -131,10 +131,10 @@ da:
     button_confirm: Bekræft
     button_continue: Fortsæt
     button_copy: Kopiér
-    button_copy_link_to_clipboard: Copy link to clipboard
+    button_copy_link_to_clipboard: Kopiér link til udklipsholderen
     button_copy_to_clipboard: Kopiér til udklipsholderen
     button_copy_to_other_project: Dupliker i et andet projekt
-    button_copy_work_package_id: Copy work package ID
+    button_copy_work_package_id: Kopiér arbejdspakkens id
     button_create: Opret
     button_custom-fields: Brugerdefinerede felter
     button_delete: Slet
@@ -150,7 +150,7 @@ da:
     button_log_time: Registrer tid
     button_more: Mere
     button_more_actions: Flere handlinger
-    button_move_to_position: Move to position
+    button_move_to_position: Flyt til placering
     button_open_details: Åbn detaljevisning
     button_open_fullscreen: Åbn fuldskærmsvisning
     button_quote: Citer
@@ -350,8 +350,8 @@ da:
       direct_hit_available: Der blev fundet en arbejdspakke med præcis dette id. Tryk på Enter for at åbne den.
       items_available: "%{count} elementer tilgængelige"
       recently_viewed: Senest vist
-      search_by_meaning: Search by meaning
-      search_mode: Search mode
+      search_by_meaning: Søg ud fra betydning
+      search_mode: Søgetilstand
       search_placeholder_expanded: Søg efter arbejdspakker på emne, projekt, type, status eller id
       title:
         all_projects: alle projekter
@@ -505,7 +505,7 @@ da:
     label_in: i
     label_in_less_than: om mindre end
     label_in_more_than: om mere end
-    label_in_progress_work_packages: in progress
+    label_in_progress_work_packages: i gang
     label_incoming_emails: Indkommende e-mails
     label_infinity: Uendelig
     label_information_plural: Information
@@ -538,10 +538,10 @@ da:
     label_open_context_menu: Åbn genvejsmenu
     label_open_menu: Åbn menuen
     label_open_work_packages: åbne
-    label_origin: Origin
-    label_origin_id: ID
+    label_origin: Kilde
+    label_origin_id: Id
     label_origin_jira_data_center: Jira Data Center
-    label_origin_source: Source
+    label_origin_source: Kildesystem
     label_password: Adgangskode
     label_per_page: 'Pr. side:'
     label_please_wait: Vent et øjeblik
@@ -588,7 +588,7 @@ da:
     label_sum_for: Sum for
     label_this_week: denne uge
     label_time_entry_plural: Anvendt tid
-    label_to_do_work_packages: to-do
+    label_to_do_work_packages: ikke startet
     label_today: I dag
     label_total_amount: 'I alt: %{amount}'
     label_total_progress: 'Samlet fremdrift: %{percent} %'
@@ -974,7 +974,7 @@ da:
         all_open: Alle åbne
         assigned_to_me: Tildelt til mig
         created_by_me: Oprettet af mig
-        in_progress: In progress
+        in_progress: I gang
         latest_activity: Seneste aktivitet
         manually_sorted: Ny manuelt sorteret visning
         overdue: Forfaldne
@@ -982,7 +982,7 @@ da:
         shared_with_me: Delt med mig
         shared_with_users: Delt med brugere
         summary: Opsummering
-        to_do: To-do
+        to_do: Ikke startet
       description_enter_text: Indtast tekst
       description_filter: Filter
       description_options_hide: Skjul muligheder
@@ -1070,7 +1070,7 @@ da:
         other: Andet
         people: Personer
       query:
-        add_columns: Add columns
+        add_columns: Tilføj kolonner
         click_to_edit_query_name: Klik for at redigere visningens titel.
         column_names: Kolonner
         confirm_edit_cancel: Er du sikker på, at du vil annullere redigeringen af visningens navn? Titlen nulstilles til den tidligere værdi.
@@ -1081,7 +1081,7 @@ da:
           unretrievable_query: Visningen kunne ikke hentes fra URL'en
         filters: Filtre
         group_by: Gruppér resultater efter
-        group_by_column: Group by %{column}
+        group_by_column: Gruppér efter %{column}
         group_by_disabled_by_hierarchy: Gruppering er slået fra, fordi hierarkitilstand er aktiv.
         hierarchy_disabled_by_group_by: Hierarkitilstand er slået fra, fordi resultaterne er grupperet efter %{column}.
         move_column_left: Flyt kolonne til venstre
@@ -1089,7 +1089,7 @@ da:
         public_text: 'Offentliggør visningen, så andre brugere kan få adgang til den. Brugere med tilladelsen ''Administrer offentlige visninger'' kan ændre eller fjerne offentlige visninger. Det påvirker ikke, hvilke arbejdspakker der kan ses i visningen, og afhængigt af deres tilladelser kan brugerne se forskellige resultater.
 
           '
-        remove_column: Remove column
+        remove_column: Fjern kolonne
         rename_query_placeholder: Navn på visningen
         sort_ascending: Sortér stigende
         sort_descending: Sortér faldende

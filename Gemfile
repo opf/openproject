@@ -69,7 +69,7 @@ gem "awesome_nested_set", "~> 3.9.0"
 gem "closure_tree", "~> 9.8.0"
 gem "rubytree", "~> 2.2.2"
 
-gem "addressable", "~> 2.9.0"
+gem "addressable", "~> 2.9.1"
 
 # Remove whitespace from model input
 gem "auto_strip_attributes", "~> 3.0"
@@ -297,7 +297,7 @@ group :test do
   gem "cuprite", "~> 0.19.0"
   gem "rspec-wait"
   gem "selenium-devtools"
-  gem "selenium-webdriver", "~> 4.51"
+  gem "selenium-webdriver", "~> 4.52"
 
   gem "fuubar", "~> 2.5.0", require: false
   gem "timecop", "~> 0.9.0"

@@ -102,13 +102,8 @@ module API
         end
 
         link :downloadLocation do
-          location = if attachment.external_storage?
-                       attachment.external_url
-                     else
-                       api_v3_paths.attachment_content(attachment.id)
-                     end
           {
-            href: location
+            href: api_v3_paths.attachment_content(attachment.id)
           }
         end
 

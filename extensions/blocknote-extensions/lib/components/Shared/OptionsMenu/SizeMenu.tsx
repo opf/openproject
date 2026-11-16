@@ -1,17 +1,13 @@
 import { Fragment, useEffect, useId, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { menuItemFocusStyles, menuSurfaceStyles } from './atoms';
-import { useAnchoredPopover } from './anchoredPopover';
-import { useTapActivation } from '../../utils/tapActivation';
-import { focusMenuItem, navigateMenu } from '../../utils/a11y';
-import type { BlockWpSize, InlineWpSize, WpSize } from './types';
+import { menuItemFocusStyles, menuSurfaceStyles } from '../../WorkPackage/atoms';
+import { useAnchoredPopover } from '../../WorkPackage/anchoredPopover';
+import { useTapActivation } from '../../../utils/tapActivation';
+import { focusMenuItem, navigateMenu } from '../../../utils/a11y';
+import type { SizeGroup } from './types';
 
 const MENU_OFFSET = 4;
 const MAX_MENU_HEIGHT = 320;
-
-const INLINE_SIZE_OPTIONS:InlineWpSize[] = ['xxs', 'xs', 's'];
-const BLOCK_SIZE_OPTIONS:BlockWpSize[] = ['m'];
 
 const Menu = styled.div.attrs({
   className: 'op-bn-size-menu',
@@ -74,37 +70,26 @@ const SizeButtonDescription = styled.span`
   opacity: 0.6;
 `;
 
-interface SizeOption {
-  size:WpSize;
-  pick:() => void;
-}
-
-interface SizeGroup {
-  labelKey:string;
-  options:SizeOption[];
-}
-
 export interface SizeMenuProps {
   id?:string;
+  label:string;
   anchorEl?:HTMLElement | null;
   autoFocus?:boolean;
   // Escape closes only this menu and hands the focus back to the item that opened it.
   onDismiss:() => void;
-  activeSize:WpSize;
-  onPickInlineSize:(size:InlineWpSize) => void;
-  onPickBlockSize:(size:BlockWpSize) => void;
+  activeSize:string;
+  groups:SizeGroup[];
 }
 
 export const SizeMenu = ({
   id,
+  label,
   anchorEl,
   autoFocus = false,
   onDismiss,
   activeSize,
-  onPickInlineSize,
-  onPickBlockSize,
+  groups,
 }:SizeMenuProps) => {
-  const { t } = useTranslation();
   const menuRef = useRef<HTMLDivElement>(null);
   const tapProps = useTapActivation();
   const idPrefix = useId();
@@ -129,37 +114,20 @@ export const SizeMenu = ({
     maxHeight: MAX_MENU_HEIGHT,
   });
 
-  const groups:SizeGroup[] = [
-    {
-      labelKey: 'options.inlineSizeLabel',
-      options: INLINE_SIZE_OPTIONS.map((size) => ({
-        size,
-        pick: () => onPickInlineSize(size),
-      })),
-    },
-    {
-      labelKey: 'options.blockSizeLabel',
-      options: BLOCK_SIZE_OPTIONS.map((size) => ({
-        size,
-        pick: () => onPickBlockSize(size),
-      })),
-    },
-  ];
-
   return (
-    <Menu ref={menuRef} id={id} aria-label={t('options.changeSize')} onKeyDown={handleKeyDown}>
-      {groups.map(({ labelKey, options }, groupIndex) => (
-        <Fragment key={labelKey}>
+    <Menu ref={menuRef} id={id} aria-label={label} onKeyDown={handleKeyDown}>
+      {groups.map(({ label: groupLabel, options }, groupIndex) => (
+        <Fragment key={groupLabel}>
           {groupIndex > 0 && <MenuDivider />}
-          <div role="group" aria-labelledby={`${idPrefix}-${labelKey}`}>
-            <MenuLabel id={`${idPrefix}-${labelKey}`}>{t(labelKey)}</MenuLabel>
-            {options.map(({ size, pick }) => (
+          <div role="group" aria-labelledby={`${idPrefix}-group-${groupIndex}`}>
+            <MenuLabel id={`${idPrefix}-group-${groupIndex}`}>{groupLabel}</MenuLabel>
+            {options.map(({ key, label: optionLabel, description, pick }) => (
               <SizeButton
-                key={size}
-                aria-label={t(`sizes.${size}.label`)}
-                aria-describedby={`${idPrefix}-${size}-description`}
-                aria-checked={size === activeSize}
-                $active={size === activeSize}
+                key={key}
+                aria-label={optionLabel}
+                aria-describedby={description ? `${idPrefix}-${key}-description` : undefined}
+                aria-checked={key === activeSize}
+                $active={key === activeSize}
                 onMouseDown={(event) => event.preventDefault()}
                 // Kept from the chip the menu is rendered in, which would open the options again.
                 {...tapProps((event) => {
@@ -167,10 +135,12 @@ export const SizeMenu = ({
                   pick();
                 })}
               >
-                <SizeButtonLabel>{t(`sizes.${size}.label`)}</SizeButtonLabel>
-                <SizeButtonDescription id={`${idPrefix}-${size}-description`}>
-                  {t(`sizes.${size}.desc`)}
-                </SizeButtonDescription>
+                <SizeButtonLabel>{optionLabel}</SizeButtonLabel>
+                {description && (
+                  <SizeButtonDescription id={`${idPrefix}-${key}-description`}>
+                    {description}
+                  </SizeButtonDescription>
+                )}
               </SizeButton>
             ))}
           </div>

@@ -25,7 +25,7 @@ it:
     backlogs:
       action_menu:
         menu_label:
-          one: Work package actions
+          one: Azioni sulla macro-attività
           other: Actions for %{count} selected work packages
       announcements:
         batch_too_large: Non è possibile spostare %{count} macro-attività alla volta. Selezionane al massimo %{max}.
@@ -51,14 +51,14 @@ it:
         range_blocked: Selezione invariata. L'intervallo contiene una macro-attività che non partecipa all'ordinamento di questo elenco.
         range_restarted:
           one: Could not extend the range. %{count} work package selected.
-          other: Could not extend the range. %{count} work packages selected.
+          other: Non è stato possibile estendere l'intervallo. %{count} macro-attività selezionate.
         range_unavailable: Selezione invariata. Espandi questo elenco per selezionare l'intervallo.
         selected:
           one: "%{count} work package selected."
-          other: "%{count} work packages selected."
+          other: "%{count} macro-attività selezionate."
     burndown_chart:
       chart_day: 'Day %{day}: %{values}'
-      chart_label: Burndown chart
+      chart_label: Grafico Burndown
       chart_summary: 'Burndown chart data: %{days}.'
       chart_value: "%{label}: %{value}"
     burnup_chart:
@@ -67,12 +67,12 @@ it:
       chart_summary: 'Burnup chart data: %{days}.'
       chart_value: "%{label}: %{value}"
     created_resolved_chart:
-      work_packages: Work packages
+      work_packages: Macro-attività
     sprint_charts:
-      non_working_day: Non-working day
+      non_working_day: Giorno non lavorativo
       y_axis_title:
-        story_points: Story points
-        time: Estimated time
+        story_points: Punti story
+        time: Tempo stimato
     work_packages:
       properties:
         storyPoints: Punti della storia

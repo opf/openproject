@@ -129,10 +129,10 @@ es:
     button_confirm: Confirmar
     button_continue: Continuar
     button_copy: Copiar
-    button_copy_link_to_clipboard: Copy link to clipboard
+    button_copy_link_to_clipboard: Copiar enlace al portapapeles
     button_copy_to_clipboard: Copiar en el portapapeles
     button_copy_to_other_project: Duplicar en otro proyecto
-    button_copy_work_package_id: Copy work package ID
+    button_copy_work_package_id: Copiar el ID del paquete de trabajo
     button_create: Crear
     button_custom-fields: Campos personalizados
     button_delete: Eliminar
@@ -148,7 +148,7 @@ es:
     button_log_time: Registro de tiempo
     button_more: Más
     button_more_actions: Más acciones
-    button_move_to_position: Move to position
+    button_move_to_position: Mover a la posición
     button_open_details: Abrir vista detallada
     button_open_fullscreen: Abrir en pantalla completa
     button_quote: presupuesto
@@ -503,7 +503,7 @@ es:
     label_in: en
     label_in_less_than: en menos de
     label_in_more_than: en más de
-    label_in_progress_work_packages: in progress
+    label_in_progress_work_packages: en progreso
     label_incoming_emails: Correos electrónicos entrantes
     label_infinity: Infinito
     label_information_plural: Información
@@ -536,10 +536,10 @@ es:
     label_open_context_menu: Abrir menú contextual
     label_open_menu: Abrir menú
     label_open_work_packages: abrir
-    label_origin: Origin
+    label_origin: Origen
     label_origin_id: ID
     label_origin_jira_data_center: Jira Data Center
-    label_origin_source: Source
+    label_origin_source: Fuente
     label_password: Contraseña
     label_per_page: 'Por pagina:'
     label_please_wait: Por favor, espere
@@ -564,8 +564,8 @@ es:
     label_reset: Reiniciar
     label_resize_project_menu: Cambiar el tamaño del menú del proyecto
     label_save_as: Guardad como
-    label_scroll_left: Scroll left
-    label_scroll_right: Scroll right
+    label_scroll_left: Desplazar hacia la izquierda
+    label_scroll_right: Desplazar hacia la derecha
     label_search_columns: Buscar una columna
     label_select_watcher: Selecciona un observador...
     label_selected_filter_list: Filtros seleccionados
@@ -573,9 +573,9 @@ es:
     label_show_in_menu: Mostrar vista en menú
     label_sort_by: Ordenar por
     label_sort_higher: Mover hacia arriba
-    label_sort_highest: Move to top
+    label_sort_highest: Mover al principio
     label_sort_lower: Mover hacia abajo
-    label_sort_lowest: Move to bottom
+    label_sort_lowest: Mover al final
     label_sorted_by: ordenados por
     label_sorting: Orden
     label_spent_time: Tiempo invertido
@@ -642,7 +642,7 @@ es:
       center:
         and_more_users:
           one: and %{count} other
-          other: and %{count} others
+          other: y %{count} más
         empty_state:
           no_notification: Parece que ya estás al día.
           no_notification_for_filter: Parece que ya está al día completamente para este filtro.
@@ -847,11 +847,11 @@ es:
         range_blocked: La selección no ha cambiado. Ese rango contiene un elemento que no influye en el orden de esta lista.
         range_restarted:
           one: Could not extend the range. %{count} item selected.
-          other: Could not extend the range. %{count} items selected.
+          other: No se pudo ampliar el rango. Se seleccionaron %{count} elementos.
         range_unavailable: La selección no ha cambiado. Amplíe esta lista para seleccionar ese rango.
         selected:
           one: "%{count} item selected."
-          other: "%{count} items selected."
+          other: "%{count} elementos seleccionados."
     spot:
       drop_modal:
         close: Cerrar ventana modal
@@ -901,7 +901,7 @@ es:
     units:
       child_work_packages:
         one: "%{count} child work package"
-        other: "%{count} work package children"
+        other: "%{count} paquetes de trabajo secundarios"
       day:
         one: "%{count} day"
         other: "%{count} días"
@@ -913,7 +913,7 @@ es:
       hour_string: "%{hours} h"
       word:
         one: "%{count} word"
-        other: "%{count} words"
+        other: "%{count} palabras"
       workPackage:
         one: paquete de trabajo
         other: paquetes de trabajo
@@ -972,7 +972,7 @@ es:
         all_open: Todo abierto
         assigned_to_me: Asignado a mí
         created_by_me: Creado por mí
-        in_progress: In progress
+        in_progress: En curso
         latest_activity: Actividad reciente
         manually_sorted: Nueva consulta clasificada manualmente
         overdue: Vencido
@@ -1068,7 +1068,7 @@ es:
         other: Otros
         people: Personas
       query:
-        add_columns: Add columns
+        add_columns: Añadir columnas
         click_to_edit_query_name: Haga clic para editar el título de esta vista.
         column_names: Columnas
         confirm_edit_cancel: "¿Está seguro de que quiere cancelar la edición del nombre de esta vista? El título volverá a establecerse con el valor anterior."
@@ -1087,7 +1087,7 @@ es:
         public_text: 'Publique esta vista para que otros usuarios puedan acceder a esta. Los usuarios con el permiso “Administrar vistas públicas” puede modificar o quitar vistas públicas. Esto no afecta a la visibilidad de los resultados de paquetes de trabajo en esa vista y, según sus permisos, los usuarios pueden ver resultados distintos.
 
           '
-        remove_column: Remove column
+        remove_column: Eliminar columna
         rename_query_placeholder: Nombre de la vista
         sort_ascending: Ordenar ascendente
         sort_descending: Ordenar descendente
@@ -1112,16 +1112,16 @@ es:
         all_selected:
           one: All %{count} work package on this page selected.
           other: All %{count} work packages on this page selected.
-        cleared: Selection cleared.
+        cleared: Selección eliminada.
         selected:
           one: "%{count} work package selected."
-          other: "%{count} work packages selected."
+          other: Se han seleccionado %{count} paquetes de trabajo.
       sharing:
         show_all_users: Mostrar todos los usuarios con los que se ha compartido el paquete de trabajo
         title: Compartir paquete de trabajo
       table:
         configure_button: Configurar tabla de paquetes de trabajo
-        grid_actions_header: Actions
+        grid_actions_header: Acciones
         grid_baseline_header: Comparison status
         relations_button: Relations in %{column} for %{work_package}
         sort_criterion_ascending: "%{column} ascending"

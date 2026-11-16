@@ -85,7 +85,13 @@ RSpec.describe "Work package type variants tab", :js do
 
   it "stays on the tab after deleting a variant" do
     open_variant_menu
-    accept_confirm { click_on I18n.t(:button_delete) }
+    click_on I18n.t(:button_delete)
+
+    within("#unused-variant-deletion-dialog[open]") do
+      expect(page).to have_text("Delete variant 'Bug: Hardware'?")
+
+      click_on I18n.t(:button_delete)
+    end
 
     expect(page).to have_current_path(tab_path)
     expect(page).to have_text(I18n.t("types.edit.variants.blankslate.title"))
