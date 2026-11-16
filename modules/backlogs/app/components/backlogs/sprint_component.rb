@@ -57,6 +57,10 @@ module Backlogs
 
     private
 
+    def displayed_dates
+      @displayed_dates ||= ::Sprints::DisplayedDates.new(sprint)
+    end
+
     def list_type
       Backlogs::Target::SprintId.new(sprint.id).list_type
     end

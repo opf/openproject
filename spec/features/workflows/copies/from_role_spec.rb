@@ -39,8 +39,16 @@ RSpec.describe "Workflow copy from role", :js do
   current_user { admin }
 
   shared_examples "a copy-to-other-roles dialog" do |host:|
+    it "does not offer the currently edited role as a target" do
+      target_roles_autocompleter.open_options
+
+      target_roles_autocompleter.expect_option(roles.second.name)
+      target_roles_autocompleter.expect_option(roles.third.name)
+      target_roles_autocompleter.expect_no_option(roles.first.name)
+    end
+
     it "permits to select target roles" do
-      target_roles_autocompleter.select_option roles.first.name, roles.second.name
+      target_roles_autocompleter.select_option roles.second.name, roles.third.name
       target_roles_autocompleter.close_autocompleter
 
       click_button "Copy"

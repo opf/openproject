@@ -68,6 +68,14 @@ if [ "$HTTP_STATUS" -ne 200 ]; then
   exit 0
 fi
 
+TYPE_FROM_API=$(jq -r '._links.type.title // "not set"' response.json)
+
+if [[ "$TYPE_FROM_API" =~ ^(Feature|Epic)$ && "$BASE_REF" == release/* && " $UNFROZEN_RELEASE_BRANCHES " != *" $BASE_REF "* ]]; then
+  echo "::warning::Work package ${WORK_PACKAGE_ID} is a ${TYPE_FROM_API} and targets the frozen release branch ${BASE_REF}."
+  echo "frozen_release_feature=true" >> "$GITHUB_OUTPUT"
+  echo "frozen_release_feature_details= - ${WP_URL}" >> "$GITHUB_OUTPUT"
+fi
+
 # Extract and compare the versions from the api response.
 # Since 17.8., we are using targetVersions as the linked field. It may contain multiple references.
 # We still fall back to the version.title for now.
@@ -126,7 +134,6 @@ fi
 # Extract and check the presence of an Enterprise plan field from the api response
 
 ENTERPRISE_PLAN_FROM_API=$(jq -r '._links.customField426.title // "not set"' response.json)
-TYPE_FROM_API=$(jq -r '._links.type.title // "not set"' response.json)
 
 if [[ ! "$TYPE_FROM_API" =~ ^(Feature|Epic)$ ]]; then
   echo "Work package with type $TYPE_FROM_API does not require an Enterprise plan field to be set."

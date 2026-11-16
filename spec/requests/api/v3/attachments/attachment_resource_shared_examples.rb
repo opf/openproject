@@ -112,6 +112,13 @@ RSpec.shared_examples "it supports direct uploads" do
 
         describe "response" do
           describe "_links" do
+            describe "downloadLocation" do
+              it "points to the attachment content endpoint" do
+                expect(json.dig("_links", "downloadLocation", "href"))
+                  .to eq api_v3_paths.attachment_content(json["id"])
+              end
+            end
+
             describe "container" do
               let(:link) { json.dig "_links", "container" }
 

@@ -10,9 +10,14 @@
     color: var(--body-font-color)
     max-width: 100%
     display: flex
+    align-items: center
 
   &--text
     @include text-shortener
+
+  &--caret
+    flex-shrink: 0
+    margin-left: var(--base-size-4)
 
   &_small &--button
     line-height: 16px

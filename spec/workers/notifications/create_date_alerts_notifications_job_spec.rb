@@ -32,8 +32,8 @@ require "spec_helper"
 RSpec.describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
   shared_let(:project) { create(:project, name: "main") }
 
-  shared_let(:status_open) { create(:status, name: "open", is_closed: false) }
-  shared_let(:status_closed) { create(:status, name: "closed", is_closed: true) }
+  shared_let(:status_to_do) { create(:status, name: "open", category: "to_do") }
+  shared_let(:status_closed) { create(:status, name: "closed", category: "closed") }
 
   # Paris and Berlin are both UTC+01:00 (CET) or UTC+02:00 (CEST)
   shared_let(:timezone_paris) { ActiveSupport::TimeZone["Europe/Paris"] }
@@ -159,7 +159,7 @@ RSpec.describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
 
   describe "#perform" do
     it "creates date alert notifications only for open work packages" do
-      open_work_package = alertable_work_package(status: status_open)
+      open_work_package = alertable_work_package(status: status_to_do)
       closed_work_package = alertable_work_package(status: status_closed)
 
       run_job do

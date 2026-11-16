@@ -67,7 +67,7 @@ class Workflows::CopiesController < ApplicationController
   end
 
   def set_all_roles
-    @all_roles = eligible_roles
+    @all_roles = eligible_roles.where.not(id: @source_role&.id)
   end
 
   def eligible_roles

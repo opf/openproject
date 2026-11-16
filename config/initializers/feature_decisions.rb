@@ -48,20 +48,18 @@ OpenProject::FeatureDecisions.add :minutes_styling_meeting_pdf,
                                   description: "Allow exporting a meeting with FITKO styling. " \
                                                "See #65124 for details."
 
-OpenProject::FeatureDecisions.add :wiki_enhancements,
-                                  description: "Enables Wiki enhancements, such as the Wikis tab and XWiki integration.",
-                                  force_active: true
-
 OpenProject::FeatureDecisions.add :sprint_reports,
                                   description: "Enables sprint reporting within the backlogs module. " \
-                                               "It shows a dashboard with various widgets regarding the sprint progress."
+                                               "It shows a dashboard with various widgets regarding the sprint progress.",
+                                  force_active: true
 
 OpenProject::FeatureDecisions.add :ai_text_actions,
                                   description: "Enables the admin UI to manage AI text actions."
 
 OpenProject::FeatureDecisions.add :project_settings_estimation_unit,
                                   description: "Enables project settings for the unit of velocity, effort and capacity. " \
-                                               "See AGILE-198 for details."
+                                               "See AGILE-198 for details.",
+                                  force_active: true
 
 OpenProject::FeatureDecisions.add :progressive_web_app,
                                   description: "Lets OpenProject be installed as a desktop application (PWA). " \

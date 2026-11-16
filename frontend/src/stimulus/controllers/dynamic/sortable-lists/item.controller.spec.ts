@@ -321,6 +321,53 @@ describe('Sortable lists item controller', () => {
     expect(element.getAttribute('data-drop-target-for-element')).toEqual('true');
   });
 
+  it('suspends dragging while a text field in the item has focus', () => {
+    const element = document.createElement('li');
+    const input = document.createElement('input');
+    input.type = 'text';
+    element.appendChild(input);
+    connectedControllerFor(element);
+
+    fireEvent.focusIn(input);
+
+    expect(element).toHaveAttribute('draggable', 'false');
+
+    fireEvent.focusOut(input, { relatedTarget: null });
+
+    expect(element).toHaveAttribute('draggable', 'true');
+  });
+
+  it('stays suspended when re-registered while a text field has focus', () => {
+    const element = document.createElement('li');
+    const input = document.createElement('input');
+    input.type = 'text';
+    element.appendChild(input);
+    document.body.appendChild(element);
+    const controller = connectedControllerFor(element);
+    input.focus();
+    expect(input).toHaveFocus();
+
+    controller.reregister();
+
+    expect(element).toHaveAttribute('draggable', 'false');
+
+    element.remove();
+  });
+
+  it('does not restore the draggable attribute after disconnect', () => {
+    const element = document.createElement('li');
+    const input = document.createElement('input');
+    input.type = 'text';
+    element.appendChild(input);
+    const controller = connectedControllerFor(element);
+
+    fireEvent.focusIn(input);
+    controller.disconnect();
+    fireEvent.pointerDown(input);
+
+    expect(element).not.toHaveAttribute('draggable');
+  });
+
   it('marks the closest edge while dragging over an item', () => {
     const element = document.createElement('article');
     const controller = controllerFor(element);

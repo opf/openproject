@@ -15,7 +15,7 @@
         @if (prePageNumbers.length > 0) {
           @for (pageNumber of prePageNumbers; track pageNumber) {
             <li
-              class="op-pagination--item">
+              class="op-pagination--item op-pagination--item_number">
               <button
                 class="op-pagination--item-link"
                 type="button"
@@ -31,18 +31,19 @@
             <span aria-hidden="true">…</span>
           </li>
         }
-        @if (pageNumbers.length > 1) {
+        @if (pagination.total > pagination.perPage) {
           @for (pageNumber of pageNumbers; track pageNumber) {
             <li
               [ngClass]="{ 'op-pagination--item_current': pageNumber === pagination.page }"
-              class="op-pagination--item">
+              class="op-pagination--item op-pagination--item_number">
               @if (pageNumber === pagination.page) {
-                <em
+                <span
+                  class="op-pagination--item-link"
                   [attr.aria-label]="text.page_number(pageNumber)"
                   aria-current="page"
                   tabindex="0">
                   {{ pageNumber }}
-                </em>
+                </span>
               }
               @if (pageNumber !== pagination.page) {
                 <button
@@ -56,14 +57,14 @@
               }
             </li>
           }
+        }
+        @if (postPageNumbers.length) {
           <li class="op-pagination--space">
             <span class="sr-only" [textContent]="text.pages_skipped"></span>
             <span aria-hidden="true">…</span>
           </li>
-        }
-        @if (postPageNumbers.length) {
           @for (pageNumber of postPageNumbers; track pageNumber) {
-            <li class="op-pagination--item">
+            <li class="op-pagination--item op-pagination--item_number">
               <button
                 class="op-pagination--item-link"
                 type="button"
@@ -75,7 +76,7 @@
             </li>
           }
         }
-        <li [hidden]="!(pagination.total && pagination.page < pageNumbers[pageNumbers.length - 1])"
+        <li [hidden]="!showPageSelections || pagination.getUpperPageBound(pagination.total) >= pagination.total"
           class="op-pagination--item">
           <button
             class="op-pagination--item-link op-pagination--item-link_next"
@@ -88,7 +89,7 @@
         </li>
         <li class="op-pagination--range" aria-live="polite">
           {{currentRange}}
-          @if (pageNumbers.length === 1) {
+          @if (showPageSelections && pagination.total <= pagination.perPage) {
             <span
               id="op-pagination-empty-text"
               tabindex="0"
@@ -130,6 +131,7 @@
                 }
                 @if (perPageOption === pagination.perPage) {
                   <span
+                    class="op-pagination--item-link"
                     tabindex="0"
                     aria-current="true"
                     [attr.aria-label]="text.show_per_page(perPageOption)">

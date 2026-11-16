@@ -1,3 +1,10 @@
+---
+sidebar_navigation:
+  title: Browser drivers
+description: Why feature specs use Cuprite, when to use Selenium, and how to write specs for Cuprite
+keywords: testing, cuprite, selenium, capybara, browser drivers
+---
+
 # Browser drivers
 
 Feature specs tagged with `:js` use Capybara to run tests in an actual browser. OpenProject supports two browser drivers:

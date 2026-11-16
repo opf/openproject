@@ -74,7 +74,7 @@ jobs:
         edition: [standard, bim]
     services:
       postgres:
-        image: postgres:16
+        image: pgvector/pgvector:pg16-trixie
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres

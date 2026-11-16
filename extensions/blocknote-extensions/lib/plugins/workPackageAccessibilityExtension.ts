@@ -4,7 +4,9 @@ import type { AnyEditor } from '../editorTypes';
 import { selectedWorkPackageDom } from '../utils/selection';
 import { openOptionsWithin } from '../utils/optionsHost';
 import { selectInlineChipAt } from '../utils/inlineChipActions';
-import { INLINE_WP_TYPE } from '../utils/nodeTypes';
+import { INLINE_WP_ATTRIBUTE_TYPE, INLINE_WP_TYPE } from '../utils/nodeTypes';
+
+const INLINE_NODE_TYPES = [INLINE_WP_TYPE, INLINE_WP_ATTRIBUTE_TYPE];
 
 // Kept out of the tab order, a work package is operated through the editor
 // itself: the arrow keys select it and Enter or Space opens its options. A
@@ -33,9 +35,9 @@ function selectChipBeside(editor:AnyEditor, side:'before' | 'after'):boolean {
 
   const { $cursor } = selection;
   const chip = side === 'before' ? $cursor.nodeBefore : $cursor.nodeAfter;
-  if (chip?.type.name !== INLINE_WP_TYPE) return false;
+  if (!chip || !INLINE_NODE_TYPES.includes(chip.type.name)) return false;
 
-  selectInlineChipAt(editor, side === 'before' ? $cursor.pos - chip.nodeSize : $cursor.pos);
+  selectInlineChipAt(editor, side === 'before' ? $cursor.pos - chip.nodeSize : $cursor.pos, chip.type.name);
   return true;
 }
 

@@ -29,12 +29,15 @@ import { ChangeDetectionStrategy, Component, Signal, computed, inject, input } f
 import { Chart, ChartData, ChartOptions, LegendItem, Plugin } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { uniqueId } from 'lodash-es';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import AverageLinePlugin, { AVERAGE_LINE_DASH, isAverageLineVisible, toggleAverageLine } from './plugin.average-line';
 import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 
 interface VelocityChartData {
+  unit:'story_points'|'time';
   labels:string[];
   datasets:{ label:string, data:number[] }[];
   average:number|null;
@@ -62,6 +65,8 @@ function truncate(label:string):string {
 })
 export class VelocityChartComponent {
   readonly i18n = inject(I18nService);
+  readonly timezoneService = inject(TimezoneService);
+  readonly configurationService = inject(ConfigurationService);
   readonly chartData = input.required<string>();
 
   readonly plugins:Plugin<'bar'>[] = [ChartDataLabels, AverageLinePlugin];
@@ -86,7 +91,7 @@ export class VelocityChartComponent {
   });
 
   readonly barChartOptions:Signal<ChartOptions<'bar'>> = computed<ChartOptions<'bar'>>(() => {
-    const { average, averageLabel, yAxisTitle } = this.parsedData();
+    const { unit, average, averageLabel, yAxisTitle } = this.parsedData();
     const fontColor = getCSSVariable('--body-font-color');
     const gridColor = getCSSVariable('--borderColor-muted');
     const averageColor = getCSSVariable('--fgColor-muted');
@@ -118,7 +123,12 @@ export class VelocityChartComponent {
           beginAtZero: true,
           grace: '10%',
           grid: { color: gridColor },
-          ticks: { color: fontColor, maxTicksLimit: 3 },
+          ticks: {
+            color: fontColor,
+            maxTicksLimit: 3,
+            stepSize: unit === 'time' ? this.configurationService.hoursPerDay() : undefined,
+            callback: (value) => this.formatValue(Number(value)),
+          },
           title: { display: true, text: yAxisTitle, color: fontColor },
         },
       },
@@ -152,14 +162,28 @@ export class VelocityChartComponent {
           },
           color: fontColor,
           font: { weight: 'bold' },
+          formatter: (value:number) => this.formatValue(value),
+        },
+        tooltip: {
+          callbacks: {
+            label: ({ dataset, parsed }) => `${dataset.label}: ${this.formatValue(parsed.y ?? 0)}`,
+          },
         },
         averageLine: average === null ? {} : {
           value: average,
-          label: average.toLocaleString(this.i18n.locale, { maximumFractionDigits: 1 }),
+          label: this.formatValue(average),
           color: averageColor,
           labelColor: fontColor,
         },
       },
     };
   });
+
+  formatValue(value:number):string {
+    if (this.parsedData().unit === 'time') {
+      return this.timezoneService.formattedChronicDurationFromHours(value);
+    }
+
+    return new Intl.NumberFormat(this.i18n.locale, { maximumFractionDigits: 2 }).format(value);
+  }
 }

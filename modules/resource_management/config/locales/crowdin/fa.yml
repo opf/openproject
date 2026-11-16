@@ -80,9 +80,9 @@ fa:
         title: مدیریت منابع
   label_resource_management: مدیریت منابع
   permission_allocate_user_resources: تخصیص منابع کاربران
-  permission_allocate_user_resources_explanation: به کاربران اجازه می‌دهد تخصیص منابع را در برنامه‌ریز منابع ایجاد، به‌روزرسانی و حذف کنند. این شامل تخصیص کاربران یا فیلتر کاربران و تنظیم زمان و بازهٔ تاریخ تخصیص است.
-  permission_assign_users_to_generic_allocations: اختصاص کاربران به تخصیص‌های عمومی
-  permission_assign_users_to_generic_allocations_explanation: به کاربران اجازه می‌دهد در نمای Staffing کاربران واقعی را به تخصیص‌های عمومی منابع (مبتنی بر فیلتر) که هنوز کاربر ندارند اختصاص دهند. اجازهٔ ایجاد یا ویرایش تخصیص‌ها را نمی‌دهد.
+  permission_allocate_user_resources_explanation: Allows users to create, update, and delete resource allocations within a resource planner. This includes allocating users or placeholder users to work packages and adjusting the allocated time and date range.
+  permission_assign_users_to_generic_allocations: Assign users to placeholder user allocations
+  permission_assign_users_to_generic_allocations_explanation: Allows users to use the Staffing view to assign users to resource allocations that were made for a placeholder user. It does not allow creating or editing allocations.
   permission_manage_public_global_resource_planners: مدیریت برنامه‌ریزهای عمومی و سراسری منابع
   permission_manage_public_global_resource_planners_explanation: به کاربران اجازه می‌دهد برنامه‌ریزهای سراسری منابع خود را منتشر کنند و برنامه‌ریزهای سراسری منابعی را که کاربران دیگر به‌صورت عمومی به اشتراک گذاشته‌اند مدیریت کنند. این مجوز اجازه مشاهده برنامه‌ریزهای سراسری منابعی را که به‌صورت عمومی به اشتراک گذاشته نشده‌اند نمی‌دهد.
   permission_manage_public_resource_planners: مدیریت برنامه‌ریزهای منابع عمومی
@@ -133,9 +133,9 @@ fa:
     assignment_dialog:
       available: "%{hours} در دسترس"
       confirm_overtime: با این حال اختصاص بده
-      filter_criteria: معیارهای فیلتر
+      filter_criteria: Criteria
       no_candidates:
-        description: هیچ عضو پروژه‌ای با معیارهای فیلتر این تخصیص مطابقت ندارد.
+        description: No project member matches the criteria of this placeholder user.
         title: عضو منطبقی وجود ندارد
       no_schedule: برای این کاربر برنامهٔ کاری تنظیم نشده است؛ بنابراین نمی‌توان تعیین کرد این تخصیص با ظرفیت او سازگار است یا خیر.
       overbooked_detail: این کاربر در این بازه %{available} ظرفیت در دسترس دارد، درحالی‌که بستهٔ کاری به %{requested} نیاز دارد.
@@ -186,7 +186,7 @@ fa:
     staffing:
       assign: اختصاص کاربر
       blank:
-        description: همهٔ تخصیص‌های عمومی این پروژه دارای کاربر اختصاص‌یافته هستند.
+        description: All placeholder user allocations in this project have a user assigned.
         title: موردی برای تأمین نیرو وجود ندارد
       columns:
         dates: تاریخ‌ها
@@ -329,8 +329,8 @@ fa:
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          one: "%{count} عضو این پروژه با معیارهای فیلتر تخصیص مطابقت دارد."
-          other: "%{count} عضو این پروژه با معیارهای فیلتر تخصیص مطابقت دارند."
+          one: "%{count} member of this project matches the criteria of the placeholder user."
+          other: "%{count} members of this project match the criteria of the placeholder user."
       blank:
         add_work_package: افزودن بسته کاری
         configure_view: پیکربندی نما

@@ -55,6 +55,10 @@ module Sprints
       @unfinished ||= block(finish_snapshots.reject { done?(it) })
     end
 
+    def status_counts
+      @status_counts ||= finish_snapshots.group_by(&:status_id).transform_values(&:size)
+    end
+
     def changed_after_start
       @changed_after_start ||= begin
         added_story_points, removed_story_points = estimate_change(:story_points)

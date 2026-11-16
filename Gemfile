@@ -96,7 +96,7 @@ gem "escape_utils", "~> 1.3"
 # Syntax highlighting used in html-pipeline with rouge
 gem "rouge", "~> 5.1.0"
 # HTML sanitization used for html-pipeline
-gem "sanitize", "~> 7.0.0"
+gem "sanitize", "~> 7.0.2"
 # HTML autolinking for mails and urls (replaces autolink)
 gem "rinku", "~> 2.0.4", require: %w[rinku rails_rinku]
 # generates SVG Graphs
@@ -204,7 +204,7 @@ gem "aws-sdk-core", "~> 3.254"
 # File upload via fog + screenshots on travis
 gem "aws-sdk-s3", "~> 1.233"
 
-gem "openproject-token", "~> 8.16.0"
+gem "openproject-token", "~> 8.17.0"
 
 gem "plaintext", "~> 0.4.0"
 

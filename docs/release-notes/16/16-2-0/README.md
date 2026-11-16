@@ -15,7 +15,7 @@ We released [OpenProject 16.2.0](https://community.openproject.org/versions/2196
 ## Important feature changes
 
 Take a look at our release video showing the most important features introduced in OpenProject 16.2.0:
-  
+
 ![Release video of OpenProject 16.2](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject_16_2_release.mp4)
 
 ### New header and sidebar with improved navigation and design
@@ -69,7 +69,7 @@ In the **My time tracking** module, the week and work week views now automatical
 
 ![OpenProject's My time tracking module in list view, only Today expanded](user-guide-my-time-tracking-module-list-view.png)
 
-[Learn more about the My time tracking module in our documentation](../../../user-guide/time-and-costs/my-work/).
+[Learn more about the My time tracking module in our documentation](../../../user-guide/time-and-costs/my-time/).
 
 ### Option to disable keyboard shortcuts for better accessibility
 

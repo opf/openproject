@@ -640,6 +640,30 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     });
   });
 
+  describe('interaction state', () => {
+    it('leaves an editable, selectable table without aria-readonly', async () => {
+      await mount({});
+      const grid = screen.getByRole('treegrid');
+
+      expect(grid).not.toHaveAttribute('aria-readonly');
+      expect(grid).toHaveAttribute('aria-multiselectable', 'true');
+    });
+
+    it('marks a table without inline editing as read-only', async () => {
+      await mount({ inlineEditEnabled: false });
+
+      expect(screen.getByRole('treegrid')).toHaveAttribute('aria-readonly', 'true');
+    });
+
+    it('drops selection semantics when selection is disabled', async () => {
+      await mount({ selectionEnabled: false });
+      const grid = screen.getByRole('treegrid');
+
+      expect(grid).not.toHaveAttribute('aria-multiselectable');
+      within(grid).getAllByRole('row').forEach((row) => expect(row).not.toHaveAttribute('aria-selected'));
+    });
+  });
+
   it('paints the column header row through a table mutation', async () => {
     const component = await mount({});
     const scopes:PaintScope[] = [];
@@ -1167,12 +1191,23 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expectStructuralRow(row);
     });
 
-    it('keeps the Cancel link in a gridcell when no trailing column renders', async () => {
+    it('keeps the Cancel button in a gridcell when no trailing column renders', async () => {
       await mount({ inlineCreateEnabled: true });
       const row = await openCreateRow();
 
-      expect(within(row).getByRole('link', { name: 'Cancel' }).closest('td')).toHaveAttribute('role', 'gridcell');
+      expect(within(row).getByRole('button', { name: 'Cancel' }).closest('td')).toHaveAttribute('role', 'gridcell');
       expectStructuralRow(row);
+    });
+
+    it('restores the button row when the Cancel button is clicked', async () => {
+      await mount(inlineCreate);
+      const row = await openCreateRow();
+
+      fireEvent.click(within(row).getByRole('button', { name: 'Cancel' }));
+
+      expect(createRow()).not.toBeInTheDocument();
+      await waitFor(() => expectExposed());
+      expectStructuralRow(within(createSection()).getByRole('row'));
     });
 
     it('restores the button row after cancelling, hiding the section in between', async () => {

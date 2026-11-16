@@ -78,6 +78,16 @@ describe('WorkPackageTableConfiguration', () => {
     expect(configuration.filterButtonText).toBe('');
     expect(configuration.contextMenuEnabled).toBe(true);
   });
+
+  it('keeps inline create enabled by default', () => {
+    expect(new WorkPackageTableConfiguration({}).inlineCreateEnabled).toBe(true);
+  });
+
+  it('turns inline create off when inline editing is off', () => {
+    const configuration = new WorkPackageTableConfiguration({ inlineCreateEnabled: true, inlineEditEnabled: false });
+
+    expect(configuration.inlineCreateEnabled).toBe(false);
+  });
 });
 
 describe('embedded table configuration dataset', () => {

@@ -149,12 +149,6 @@ Redmine::MenuManager.map :quick_add_menu do |menu|
             ->(project) { [:new_dialog, project, :meetings] },
             caption: ->(_) { I18n.t(:label_meeting) },
             icon: "comment-discussion",
-            html: {
-              target: nil,
-              data: {
-                controller: "async-dialog"
-              }
-            },
             skip_permissions_check: true, # url is a polymorphic path, not a controller/action hash
             if: ->(project) {
               if project
@@ -619,7 +613,6 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: "/admin/mcp_configurations", action: :index },
             if: ->(_) { User.current.admin? },
             caption: I18n.t("menus.admin.mcp_configurations"),
-            enterprise_feature: "mcp_server",
             parent: :ai
 
   menu.push :working_days_and_hours,
