@@ -86,20 +86,19 @@ Expanded days display time entries in a table format with the following columns:
 
 - **Time**
 - **Hours**
+- **Type**
 - **Subject** (with a clickable link to the work package)
 - **Project**
-- **Activity**
-- **Comment**
 - **+** (last column, used to log time for that specific day)
 
 To log time in _List_ view, you can either:
 
-- Click the **+ Log Time** button to add a time entry for any date outside the currently displayed range.
+- Click the **+ Log time** button to add a time entry for any date outside the currently displayed range.
 - Use the **+** icon in the table to log time directly for a specific day.
 
 ![List view under My time module in OpenProject](openproject_user_guide_my_time_tracking_module_list_view_overview.png)
 
-To edit or delete a time entry in the _List_ view, click the **More** (three dots) icon at the end of the entry’s row in the table, then select the **Edit** (pencil) or **Delete** icon respectively.
+To edit or delete a time entry in the _List_ view, click the **More** (...) icon at the end of the entry’s row in the table, then select the **Edit** **time entry** or **Delete** **time entry** respectively.
 
 ![Icon to edit or delete a time entry under List tab of the My time module in OpenProject](openproject_user_guide_my_time_tracking_module_list_view_edit_icon.png)
 
@@ -149,8 +148,8 @@ Click an allocation to see the available actions:
 
 - **Open work package**
 - **Open project**
-- **Assign work package to me** – only shown if you are not the assignee of the work package.
-- **Log time from allocation** – opens the log time dialog with the work package, date and remaining hours already filled in.
+- **Edit time entry**
+- **Delete time entry**
 
 ![Actions for a resource allocation in My time](openproject_user_guide_my_work_allocation_menu.png)
 
