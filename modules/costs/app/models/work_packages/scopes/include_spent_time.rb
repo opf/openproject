@@ -33,7 +33,7 @@ module WorkPackages::Scopes::IncludeSpentTime
   class_methods do
     # Returns the spent time of the work package and its descendants.
     # The visibility check is carried out on the database level and is
-    # carried out on the projection. Therefore, `select` & `pluck` need to be avoided.
+    # carried out on the projection. Therefore, `pluck` and `except(:select)` must not be used.
     def include_spent_time(user, work_package = nil)
       hours = sum_over_visible_descendants(user, "#{visible_time_entries_cte.name}.hours")
 
