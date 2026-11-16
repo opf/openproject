@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { contextColumnIcon } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
 import { Injector } from '@angular/core';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
@@ -82,8 +83,8 @@ export class RowDoubleClickHandler implements TableEventHandler {
     const element = target.closest<HTMLElement>(this.SELECTOR)!.closest<HTMLTableRowElement>(`.${tableRowClassName}`)!;
     const wpId = element.dataset.workPackageId!;
 
-    // Ignore links
-    if (target instanceof HTMLAnchorElement || target.parentElement instanceof HTMLAnchorElement) {
+    // Ignore links and row action controls
+    if (target instanceof HTMLAnchorElement || target.parentElement instanceof HTMLAnchorElement || target.closest(`.${contextColumnIcon}`)) {
       return true;
     }
 

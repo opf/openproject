@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { contextColumnIcon } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
 import { Injector } from '@angular/core';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { States } from 'core-app/core/states/states.service';
@@ -70,8 +71,8 @@ export class RowClickHandler implements TableEventHandler {
   public handleEvent(view:TableEventComponent, evt:MouseEvent) {
     const target = evt.target as HTMLElement;
 
-    // Ignore links
-    if (target instanceof HTMLAnchorElement || target.parentElement instanceof HTMLAnchorElement) {
+    // Ignore links and row action controls
+    if (target instanceof HTMLAnchorElement || target.parentElement instanceof HTMLAnchorElement || target.closest(`.${contextColumnIcon}`)) {
       return true;
     }
 

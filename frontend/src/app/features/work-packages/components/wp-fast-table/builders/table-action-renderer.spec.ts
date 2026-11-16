@@ -97,20 +97,22 @@ describe('TableActionRenderer tooltips', () => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 
-  it('preserves destructive unlink behavior on the actual labeled link', () => {
+  it('preserves destructive unlink behavior on the actual labeled button', () => {
     const onClick = vi.fn();
     TestBed.inject(OpTableActionsService).setActions(OpUnlinkTableAction.factoryFor('remove', 'Remove relation', onClick));
     const row = renderRow();
-    const unlink = within(row).getByRole('link', { name: 'Remove relation' });
+    const unlink = within(row).getByRole('button', { name: 'Remove relation' });
     expect(unlink).toHaveAttribute(destructiveControlAttribute, '');
     expect(unlink).toHaveAttribute('data-work-package-id', '42');
     expect(unlink).toHaveAttribute('title', '');
+    expect(unlink).toHaveClass('Button', 'Button--iconOnly', 'Button--invisible');
+    expect(unlink.querySelector('svg.Button-visual')).toBeInTheDocument();
     unlink.click();
     expect(onClick).toHaveBeenCalledExactlyOnceWith(wp);
   });
 
   it('omits inapplicable unlink actions', () => {
     TestBed.inject(OpTableActionsService).setActions(OpUnlinkTableAction.factoryFor('remove', 'Remove relation', vi.fn(), () => false));
-    expect(within(renderRow()).queryByRole('link')).not.toBeInTheDocument();
+    expect(within(renderRow()).queryByRole('button', { name: 'Remove relation' })).not.toBeInTheDocument();
   });
 });
