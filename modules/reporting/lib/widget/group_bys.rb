@@ -39,8 +39,8 @@ class Widget::GroupBys < Widget::Base
   def call
     content_tag(:div, id: "group-by--area", class: "autoscroll") do
       out = ActiveSupport::SafeBuffer.new
-      out << render_group("columns", @subject.group_bys(:column))
-      out << render_group("rows", @subject.group_bys(:row))
+      out << render_group("columns", @subject.group_bys(:column).select(&:display?))
+      out << render_group("rows", @subject.group_bys(:row).select(&:display?))
       out
     end
   end

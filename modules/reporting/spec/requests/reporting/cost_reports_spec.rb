@@ -237,6 +237,30 @@ RSpec.describe "Cost reports", :aggregate_failures, type: :rails_request do
     end
   end
 
+  describe "grouping on a single axis" do
+    let(:work_package) { create(:work_package, project:, subject: "Grouped work package") }
+
+    before { create(:time_entry, entity: work_package, project:, user:, hours: 2) }
+
+    it "renders a row per group when only rows are grouped" do
+      get project_reporting_cost_reports_path(project), params: { filters: "", rows: "work_package_id" }
+
+      expect(response.parsed_body.at_css("table.report tbody th").text).to include(work_package.subject)
+    end
+
+    it "renders a column per group when only columns are grouped" do
+      get project_reporting_cost_reports_path(project), params: { filters: "", columns: "work_package_id" }
+
+      expect(response.parsed_body.at_css("table.report thead").text).to include(work_package.subject)
+    end
+
+    it "does not show the filler for the empty axis as a group by" do
+      get project_reporting_cost_reports_path(project), params: { filters: "", rows: "work_package_id" }
+
+      expect(response.parsed_body.at_css("#group-by--columns")["data-initially-selected"]).to eq("[]")
+    end
+  end
+
   describe "saving a report with a custom field", :skip_csrf do
     shared_let(:custom_field) { create(:string_wp_custom_field) }
 

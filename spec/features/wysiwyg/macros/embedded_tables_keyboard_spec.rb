@@ -97,25 +97,25 @@ RSpec.describe "Wiki embedded work package table keyboard navigation", :js do
       wp_table.expect_row_positions(rowcount: 5, rows: [1, 2, 3, 4, 5])
     end
 
-    it "keeps the Cancel link on the line of the create row's input" do
+    it "keeps the Cancel button on the line of the create row's input" do
       wp_table.click_inline_create
 
       creation_row = wp_table.creation_row
-      expect(creation_row).to have_selector(:link, accessible_name: "Cancel", obscured: false)
+      expect(creation_row).to have_button(accessible_name: "Cancel", obscured: false)
       expect(creation_row).to have_field("Subject", obscured: false)
       expect(creation_row).to have_css("td", count: wp_table.table_container.all("thead th").count)
 
-      field_top, field_bottom, link_top, link_bottom = page.evaluate_script(<<~JS, creation_row)
+      field_top, field_bottom, button_top, button_bottom = page.evaluate_script(<<~JS, creation_row)
         (function (row) {
           const field = row.querySelector("input").getBoundingClientRect();
-          const link = row.querySelector(".wp-table--cancel-create-link").getBoundingClientRect();
-          return [field.top, field.bottom, link.top, link.bottom];
+          const button = row.querySelector(".wp-table--cancel-create-link").getBoundingClientRect();
+          return [field.top, field.bottom, button.top, button.bottom];
         })(arguments[0])
       JS
-      expect(link_top).to be < field_bottom
-      expect(link_bottom).to be > field_top
+      expect(button_top).to be < field_bottom
+      expect(button_bottom).to be > field_top
 
-      creation_row.find(:link, accessible_name: "Cancel").click
+      creation_row.click_on(accessible_name: "Cancel")
       expect(wp_table.table_container).to have_no_css(".wp-inline-create-row")
     end
   end
