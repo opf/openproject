@@ -40,7 +40,13 @@ module ITSM
 
     validates :sender_email, presence: true
 
+    def self.first_of(project) = includes(:mail_server).order(:id).find_by(project:)
+
+    def sender_domain = sender_email.split("@").last
+
     def smtp_settings(address)
+      encryption = mail_server.tls? ? { tls: true } : { enable_starttls: :always }
+
       {
         address:,
         tls_hostname: mail_server.host,
@@ -49,9 +55,8 @@ module ITSM
         password:,
         authentication: :plain,
         open_timeout: SMTP_TIMEOUT,
-        read_timeout: SMTP_TIMEOUT,
-        **(mail_server.tls? ? { tls: true } : { enable_starttls: :always })
-      }
+        read_timeout: SMTP_TIMEOUT
+      }.merge(encryption)
     end
   end
 end

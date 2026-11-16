@@ -98,6 +98,28 @@ RSpec.describe ITSM::OutgoingMailbox do
     end
   end
 
+  describe ".first_of" do
+    let(:other_project) { create(:project) }
+
+    before { mailbox.save! }
+
+    it "is the project's first outgoing mailbox" do
+      create(:itsm_outgoing_mailbox, project:)
+
+      expect(described_class.first_of(project)).to eq(mailbox)
+    end
+
+    it "is nothing for a project without outgoing mailboxes" do
+      expect(described_class.first_of(other_project)).to be_nil
+    end
+  end
+
+  describe "#sender_domain" do
+    it "is the domain of the sender's address" do
+      expect(mailbox.sender_domain).to eq("example.com")
+    end
+  end
+
   describe "#smtp_settings" do
     it "connects to the given address with the mailbox's account and requires STARTTLS" do
       expect(mailbox.smtp_settings("203.0.113.10")).to eq(address: "203.0.113.10",

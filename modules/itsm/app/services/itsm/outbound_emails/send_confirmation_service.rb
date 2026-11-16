@@ -29,10 +29,9 @@
 
 module ITSM
   module OutboundEmails
-    class SendConfirmationService < ::BaseServices::BaseCallable
-      include Dry::Monads[:result]
+    class SendConfirmationService < BaseService
+      include Dry::Monads::Result(SimpleError)
       include Dry::Monads::Do.for(:send_confirmation)
-      include ServiceFailure
 
       CONFIRMATIONS_PER_REQUESTER = 10
       CONFIRMATIONS_PERIOD = 1.day
@@ -43,10 +42,13 @@ module ITSM
       protected
 
       def perform
-        confirmation = thread.messages.outbound.sent.order(:id).first
+        confirmation = thread.sent_confirmation
         return ServiceResult.success(result: confirmation) if confirmation
 
-        send_confirmation.fmap { ServiceResult.success(result: it) }.value_or { it }
+        send_confirmation.either(
+          ->(message) { ServiceResult.success(result: message) },
+          ->(error) { service_failure(error.code, result: error.payload) }
+        )
       end
 
       private
@@ -62,16 +64,13 @@ module ITSM
       end
 
       def within_limit
-        recent = EmailMessage.outbound.sent
-                             .where(created_at: CONFIRMATIONS_PERIOD.ago..)
-                             .where("? = ANY(to_addresses)", thread.requester_email)
-                             .count
+        recent = EmailMessage.sent_to(thread.requester_email).created_since(CONFIRMATIONS_PERIOD.ago).count
 
         recent < CONFIRMATIONS_PER_REQUESTER ? Success() : failure(:too_many_confirmations)
       end
 
       def outgoing_mailbox
-        mailbox = OutgoingMailbox.includes(:mail_server).order(:id).find_by(project: thread.work_package.project)
+        mailbox = OutgoingMailbox.first_of(thread.work_package.project)
         mailbox ? Success(mailbox) : failure(:no_outgoing_mailbox)
       end
 
@@ -80,16 +79,14 @@ module ITSM
       end
 
       def queue_message(mailbox)
-        message = unsent_message
+        message = thread.unsent_confirmation
         message.assign_attributes(message_attributes(message, mailbox))
 
-        message.save ? Success(message) : Failure(ServiceResult.failure(result: message, errors: message.errors))
+        message.save ? Success(message) : failure(:invalid, record: message)
       end
 
-      def unsent_message = thread.messages.outbound.where.not(status: :sent).order(:id).first_or_initialize
-
       def message_attributes(message, mailbox)
-        attributes = MessageAttributes.new(thread, mailbox).to_h.merge(error_message: nil)
+        attributes = MessageAttributes.new(thread, mailbox).to_h
 
         message.persisted? ? attributes.except(:message_id) : attributes
       end
@@ -114,12 +111,14 @@ module ITSM
       def send_to_first_reachable(message, mailbox, addresses)
         addresses.each_with_index do |address, index|
           return HelpdeskMailer.confirmation(message, mailbox, address).deliver_now
-        rescue *CONNECTION_ERRORS
+        rescue *CONNECTION_ERRORS => e
           raise if index == addresses.size - 1
+
+          Rails.logger.warn { "Email message #{message.id}: SMTP server address #{address} is not reachable (#{e.class.name})" }
         end
       end
 
-      def delivery_error(code, payload = nil) = Failure(SimpleError.new(source: self.class, code:, payload:))
+      def delivery_error(code, error_message = nil) = Failure(SimpleError.new(source: self.class, code:, payload: error_message))
 
       def sent(message, email)
         message.update!(status: :sent, to_addresses: Array(email.to), cc_addresses: Array(email.cc))
@@ -128,10 +127,10 @@ module ITSM
 
       def not_sent(message, code, error_message)
         message.update!(status: :failed, error_message:)
-        failure(code, result: message)
+        failure(code, record: message)
       end
 
-      def failure(code, result: thread) = Failure(service_failure(code, result:))
+      def failure(code, record: thread) = Failure(SimpleError.new(source: self.class, code:, payload: record))
     end
   end
 end

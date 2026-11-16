@@ -42,6 +42,7 @@ RSpec.describe ITSM::OutboundEmails::MessageAttributes do
   it "builds a queued outbound email from the mailbox to the requester and the recipients" do
     expect(attributes).to include(direction: :outbound,
                                   status: :queued,
+                                  error_message: nil,
                                   from_address: "support@example.com",
                                   from_name: "Support",
                                   to_addresses: ["jane@customer.example"],

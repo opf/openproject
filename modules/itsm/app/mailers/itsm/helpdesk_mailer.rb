@@ -59,9 +59,9 @@ module ITSM
     end
 
     def reply_address(from_address)
-      incoming = IncomingMailbox.where(project: @work_package.project, active: true).order(:id).pluck(:email, :aliases)
+      mailboxes = IncomingMailbox.receiving_for(@work_package.project).to_a
 
-      incoming.first&.first unless incoming.flatten.include?(from_address)
+      mailboxes.first&.email unless mailboxes.flat_map(&:addresses).include?(from_address)
     end
   end
 end

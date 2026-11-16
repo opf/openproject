@@ -30,36 +30,36 @@
 module ITSM
   module OutboundEmails
     class MessageAttributes
-      def initialize(thread, mailbox)
-        @thread = thread
+      def initialize(email_thread, mailbox)
+        @email_thread = email_thread
         @mailbox = mailbox
       end
 
       def to_h
-        { direction: :outbound, status: :queued, subject:, **sender, **recipients, **threading }
+        { direction: :outbound, status: :queued, error_message: nil, subject:, **sender, **recipients, **threading }
       end
 
       private
 
-      attr_reader :thread, :mailbox
+      attr_reader :email_thread, :mailbox
 
       def sender
         {
-          message_id: "#{SecureRandom.uuid}@#{mailbox.sender_email.split('@').last}",
+          message_id: "#{SecureRandom.uuid}@#{mailbox.sender_domain}",
           from_address: mailbox.sender_email,
           from_name: mailbox.sender_name
         }
       end
 
-      def recipients = { to_addresses: [thread.requester_email], cc_addresses: thread.recipients }
+      def recipients = { to_addresses: [email_thread.requester_email], cc_addresses: email_thread.recipients }
 
       def threading
-        inbound_ids = thread.messages.inbound.order(:created_at, :id).pluck(:message_id)
+        inbound_ids = email_thread.inbound_message_ids
 
         { in_reply_to: inbound_ids.last, referenced_message_ids: inbound_ids }
       end
 
-      def subject = "[#{thread.work_package.formatted_id}] #{thread.work_package.subject}"
+      def subject = "[#{email_thread.work_package.formatted_id}] #{email_thread.work_package.subject}"
     end
   end
 end
