@@ -53,6 +53,10 @@ RSpec.describe CustomOptions::DeleteContract do
     it_behaves_like "contract is valid for active admins and invalid for regular users"
   end
 
+  context "without the enterprise feature", with_ee: [] do
+    it_behaves_like "contract is valid"
+  end
+
   context "as a user allowed to manage custom field values in the project" do
     let(:current_user) { build_stubbed(:user) }
 
@@ -63,6 +67,10 @@ RSpec.describe CustomOptions::DeleteContract do
     end
 
     it_behaves_like "contract is valid"
+
+    context "without the enterprise feature", with_ee: [] do
+      it_behaves_like "contract is valid"
+    end
 
     context "when the custom field does not allow additional project values" do
       let(:allow_additional_project_values) { false }

@@ -29,21 +29,10 @@
 
 module CustomOptions
   class BaseContract < ::ModelContract
-    validate :validate_authorized
+    include AuthorizesProjectValueManagement
 
     private
 
-    def validate_authorized
-      return if user.admin? && user.active?
-      return if project_value_manageable?
-
-      errors.add :base, :error_unauthorized
-    end
-
-    def project_value_manageable?
-      model.project_id.present? &&
-        model.custom_field&.allow_additional_project_values? &&
-        user.allowed_in_project?(:manage_work_package_custom_field_values, model.project)
-    end
+    def custom_field = model.custom_field
   end
 end

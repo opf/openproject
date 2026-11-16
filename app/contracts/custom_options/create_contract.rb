@@ -29,6 +29,11 @@
 
 module CustomOptions
   class CreateContract < BaseContract
+    include RequiresEnterpriseGuard
+
+    self.enterprise_action = :project_specific_list_values
+    self.enterprise_condition = -> { model.project_id.present? }
+
     attribute :custom_field_id do
       errors.add(:custom_field, :blank) if model.custom_field.nil?
     end
