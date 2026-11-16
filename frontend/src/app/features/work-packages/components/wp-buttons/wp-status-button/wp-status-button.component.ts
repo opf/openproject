@@ -27,7 +27,9 @@
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation, inject,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -39,6 +41,7 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
   selector: 'wp-status-button',
   styleUrls: ['./wp-status-button.component.sass'],
   templateUrl: './wp-status-button.html',
+  encapsulation: ViewEncapsulation.None,
   standalone: false,
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.

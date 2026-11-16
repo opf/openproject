@@ -34,11 +34,11 @@ import { of } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { settlePopover } from 'core-common/testing/timing';
-import { TriangleDownIconComponent } from '@openproject/octicons-angular';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
+import { PrimerButtonComponent } from 'core-app/shared/components/primer/button.component';
 import { OpActionMenuComponent } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.component';
 import { OpActionMenuTriggerDirective } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu-trigger.directive';
 import { WorkPackageStatusDropdownDirective } from 'core-app/shared/components/op-context-menu/handlers/wp-status-dropdown-menu.directive';
@@ -274,7 +274,7 @@ describe('status menu inside a single card', () => {
         imports: [
           CommonModule,
           OpTooltipDirective,
-          TriangleDownIconComponent,
+          PrimerButtonComponent,
           OpActionMenuComponent,
           OpActionMenuTriggerDirective,
           WorkPackageStatusDropdownDirective,

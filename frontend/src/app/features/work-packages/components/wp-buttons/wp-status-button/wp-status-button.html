@@ -10,10 +10,14 @@
       [label]="text.status"
       >
       <button
+        primerButton
         opActionMenuTrigger
-        class="op-wp-status-button--button button"
+        [size]="small ? 'small' : 'medium'"
+        [leadingIcon]="isReadonly ? 'lock' : undefined"
+        trailingAction="triangle-down"
+        [iconSize]="small ? 'xsmall' : 'small'"
+        class="op-wp-status-button--button"
         [ngClass]="statusHighlightClass"
-        type="button"
         [attr.aria-disabled]="!allowed || null"
         title=""
         opTooltip
@@ -21,18 +25,10 @@
         [description]="disabledReason ?? undefined"
         [tooltipWhenTruncated]="disabledReason ? undefined : statusText"
         >
-        @if (isReadonly) {
-          <span
-            class="op-wp-status-button--text button--text"
-            >
-            <op-icon icon-classes="button--icon icon-locked" />
-          </span>
-        }
-        <span #statusText class="op-wp-status-button--text button--text">
+        <span #statusText class="op-wp-status-button--text">
           <span class="sr-only">{{ text.status }} </span>
           <span [textContent]="status.name"></span>
         </span>
-        <svg triangle-down-icon [size]="small ? 'xsmall' : 'small'" class="op-wp-status-button--caret"></svg>
       </button>
     </op-action-menu>
   </div>
