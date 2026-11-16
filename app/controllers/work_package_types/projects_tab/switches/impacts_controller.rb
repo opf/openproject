@@ -33,14 +33,10 @@ module WorkPackageTypes
       # POST although nothing changes: the choice arrives as the switch form's body, as for every
       # other live preview built on refresh-on-form-changes.
       class ImpactsController < BaseTabController
-        include OpTurbo::ComponentStream
-        include SelectedProjects
+        include VariantSwitching
 
         def create
-          impact = switch_selection.impact(switch_selection.target(params[:target_id]))
-          update_via_turbo_stream(component: ::Projects::Settings::WorkPackages::Types::SwitchImpactComponent.new(impact:))
-
-          respond_to_with_turbo_streams
+          respond_with_switch_impact
         end
       end
     end

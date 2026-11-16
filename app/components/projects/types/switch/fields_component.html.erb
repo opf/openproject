@@ -26,18 +26,15 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(Primer::OpenProject::InsetBox.new(mb: 3, test_selector: "type-projects-bulk-list")) do %>
-  <%= render(Primer::Box.new(tag: :ul, m: 0, classes: "list-style-none")) do %>
-    <% projects.each do |project| %>
-      <%= render(Primer::Box.new(tag: :li, py: 1)) do %>
-        <%= render(Primer::Beta::Link.new(href: project_path(project), font_weight: :semibold, mr: 2)) { project.name } %>
-        <%= render(Primer::Beta::Text.new(font_size: :small)) do %>
-          <%= variant(project)&.display_name %>
-          <% if variant(project)&.default? %>
-            <%= render(Primer::Beta::Text.new(color: :muted)) { t("types.edit.reuse_mode.parent_suffix").strip } %>
-          <% end %>
-        <% end %>
-      <% end %>
-    <% end %>
+<%= flex_layout(direction: :column) do |body| %>
+  <% body.with_row do %>
+    <%= render(
+          Projects::Types::Switch::TargetForm.new(
+            @form, targets: @targets, selected: @selected, validation_message: @validation_message
+          )
+        ) %>
+  <% end %>
+  <% body.with_row(mt: 3) do %>
+    <%= render(Projects::Types::Switch::ImpactComponent.new(impact: @impact)) %>
   <% end %>
 <% end %>

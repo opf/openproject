@@ -28,28 +28,24 @@
 #++
 
 module Projects
-  module Settings
-    module WorkPackages
-      module Types
-        # Moves a project from the family member it uses now to another one.
-        class SwitchDialogComponent < ApplicationComponent
-          include OpPrimer::ComponentHelpers
-          include OpTurbo::Streamable
+  module Types
+    module Switch
+      # Everything the switch asks for and reports, with no container of its
+      # own: the dialog wraps this in Dialog::Body, and a settings page could
+      # wrap the same component in page chrome instead.
+      class FieldsComponent < ApplicationComponent
+        include OpPrimer::ComponentHelpers
 
-          DIALOG_ID = "project-types-switch-dialog"
+        # Nil when there is nothing to report: the variant in use is selected, or the projects start
+        # from different variants.
+        def initialize(form:, targets:, selected:, validation_message: nil, impact: nil)
+          super()
 
-          def initialize(project:, source:, url:, selected: source)
-            super()
-
-            @project = project
-            @source = source
-            @url = url
-            @selected = selected
-          end
-
-          private
-
-          attr_reader :project, :source, :url, :selected
+          @form = form
+          @targets = targets
+          @selected = selected
+          @validation_message = validation_message
+          @impact = impact
         end
       end
     end

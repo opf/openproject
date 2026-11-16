@@ -27,23 +27,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  module ProjectsTab
-    class BulkProjectListComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
+module Projects
+  module Types
+    module Switch
+      # The parameters a page needs carried through the switch's steps, such as its selection.
+      class HiddenParamsComponent < ApplicationComponent
+        def initialize(params:)
+          super()
 
-      def initialize(projects:, type:)
-        super()
+          @params = params
+        end
 
-        @projects = projects
-        @type = type
+        def call
+          safe_join(
+            @params.flat_map do |name, value|
+              if value.is_a?(Array)
+                value.map { hidden_field_tag("#{name}[]", it, id: nil) }
+              else
+                [hidden_field_tag(name, value, id: nil)]
+              end
+            end
+          )
+        end
       end
-
-      private
-
-      attr_reader :projects, :type
-
-      def variant(project) = project.type_variant(type)
     end
   end
 end

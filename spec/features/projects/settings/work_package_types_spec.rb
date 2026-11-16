@@ -202,7 +202,7 @@ because it's still in use by work packages)
     settings_page.apply_switch
 
     within(settings_page.switch_dialog) do
-      expect(page).to have_text("The target type must be different from the type the project uses now")
+      expect(page).to have_text("The project already uses this type or variant.")
       expect(page).to have_select("New type or variant", selected: "Epic: Design")
     end
     expect(project.reload.project_types.find_by(type: epic).variant).to eq(design)

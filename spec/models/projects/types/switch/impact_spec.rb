@@ -30,7 +30,7 @@
 require "spec_helper"
 
 RSpec.describe Projects::Types::Switch::Impact do
-  subject(:impact) { described_class.new(project:, source:, target:) }
+  subject(:impact) { described_class.new(projects: [project], source:, target:) }
 
   shared_let(:story_points) { create(:integer_wp_custom_field, name: "Story points") }
   shared_let(:design_stage) { create(:string_wp_custom_field, name: "Design stage") }
@@ -223,11 +223,9 @@ RSpec.describe Projects::Types::Switch::Impact do
   end
 
   describe "how the work packages are scoped" do
-    it "requires exactly one of project, projects or work_packages" do
+    it "requires exactly one of projects or work_packages" do
       expect { described_class.new(source:, target:) }.to raise_error(ArgumentError)
-      expect { described_class.new(source:, target:, project:, work_packages: WorkPackage.all) }
-        .to raise_error(ArgumentError)
-      expect { described_class.new(source:, target:, project:, projects: [project]) }
+      expect { described_class.new(source:, target:, projects: [project], work_packages: WorkPackage.all) }
         .to raise_error(ArgumentError)
     end
 
@@ -248,14 +246,13 @@ RSpec.describe Projects::Types::Switch::Impact do
       expect(described_class.new(source:, target:, projects: [project, other]).work_package_count).to eq(3)
     end
 
-    it "is single-project only when scoped to a project" do
-      expect(described_class.new(source:, target:, project:)).to be_single_project
+    it "is never single-project when scoped to work packages" do
       expect(described_class.new(source:, target:, work_packages: WorkPackage.all)).not_to be_single_project
     end
 
     describe "#project_ids" do
       it "is the one project when scoped to it" do
-        expect(described_class.new(source:, target:, project:).project_ids).to contain_exactly(project.id)
+        expect(described_class.new(source:, target:, projects: [project]).project_ids).to contain_exactly(project.id)
       end
 
       it "is the given projects when scoped to several" do

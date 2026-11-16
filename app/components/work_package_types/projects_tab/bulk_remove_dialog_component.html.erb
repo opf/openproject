@@ -42,7 +42,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 
   <% dialog.with_additional_details(display: :block) do %>
-    <%= render(WorkPackageTypes::ProjectsTab::BulkProjectListComponent.new(projects:, type: variant.type)) %>
+    <%= render(Projects::Types::ProjectListComponent.new(projects:, type: variant.type)) %>
     <% projects.each do |project| %>
       <%= hidden_field_tag("project_ids[]", project.id, id: nil) %>
     <% end %>

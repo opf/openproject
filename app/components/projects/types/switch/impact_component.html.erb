@@ -26,7 +26,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%#-- Empty until a different variant is chosen: the field above already says to choose one. --%>
+<%#-- Empty while there is nothing to preview: the variant in use is selected, or the projects start from different variants. --%>
 <%= component_wrapper(data: { test_selector: "project-types-switch-impact" }) do %>
   <% unless impact.nil? %>
     <%= flex_layout(direction: :column) do |preview| %>

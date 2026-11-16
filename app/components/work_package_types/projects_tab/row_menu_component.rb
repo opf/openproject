@@ -57,7 +57,9 @@ module WorkPackageTypes
         { sortable_lists__menu_source_target: "menu", sortable_lists_scope_count: @projects.size }
       end
 
-      def switchable? = @variant.type.variants.many?
+      def switchable?
+        ::Projects::Types::Switch::Selection.new(type: @variant.type, projects: @projects, user: User.current).switchable?
+      end
 
       def project_ids = @projects.map(&:id)
 

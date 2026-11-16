@@ -28,25 +28,29 @@
 #++
 
 module Projects
-  module Settings
-    module WorkPackages
-      module Types
-        # Everything the switch asks for and reports, with no container of its
-        # own: the dialog wraps this in Dialog::Body, and a settings page could
-        # wrap the same component in page chrome instead.
-        class SwitchFieldsComponent < ApplicationComponent
-          include OpPrimer::ComponentHelpers
+  module Types
+    module Switch
+      class ConfirmDialogComponent < ApplicationComponent
+        include OpPrimer::ComponentHelpers
+        include OpTurbo::Streamable
 
-          # Nil while the selection is the member in force, which has nothing to report.
-          def initialize(form:, targets:, selected:, validation_message: nil, impact: nil)
-            super()
+        DIALOG_ID = "type-variant-switch-confirm-dialog"
 
-            @form = form
-            @targets = targets
-            @selected = selected
-            @validation_message = validation_message
-            @impact = impact
-          end
+        def initialize(target:, url:, params: {}, listed_projects: [])
+          super()
+
+          @target = target
+          @url = url
+          @params = params
+          @listed_projects = listed_projects
+        end
+
+        private
+
+        attr_reader :target, :url, :params, :listed_projects
+
+        def form_arguments
+          { action: url, method: :post, data: { turbo: true, turbo_stream: true } }
         end
       end
     end

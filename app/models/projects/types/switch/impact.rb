@@ -29,8 +29,9 @@
 
 module Projects
   module Types
-    # A namespace, not a form object: what a switch is gets decided by SwitchVariantContract
-    # and carried out by SwitchVariantService.
+    # A namespace, not a form object: Selection decides what projects may switch to and refuses a
+    # pointless switch up front; SwitchVariantContract guards each project's switch and
+    # SwitchVariantService carries it out.
     module Switch
       # What switching a project from one family member to another will do.
       #
@@ -40,14 +41,12 @@ module Projects
       class Impact
         Field = ::WorkPackageTypes::FormFieldSet::Field
 
-        def initialize(source:, target:, project: nil, projects: nil, work_packages: nil)
-          unless [project, projects, work_packages].compact.one?
-            raise ArgumentError, "Pass one of 'project', 'projects' or 'work_packages'"
-          end
+        def initialize(source:, target:, projects: nil, work_packages: nil)
+          raise ArgumentError, "Pass either 'projects' or 'work_packages'" unless [projects, work_packages].compact.one?
 
           @source = source
           @target = target
-          @projects = project ? [project] : projects&.to_a
+          @projects = projects&.to_a
           @work_packages = work_packages
         end
 

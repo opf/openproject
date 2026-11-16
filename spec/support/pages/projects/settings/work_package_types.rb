@@ -71,6 +71,7 @@ module Pages
           open_switch_dialog(variant)
           choose_switch_target(target)
           apply_switch
+          confirm_switch
         end
 
         def open_switch_dialog(variant)
@@ -93,6 +94,14 @@ module Pages
           wait_for_turbo_stream { within(switch_dialog) { click_on "Apply" } }
         end
 
+        def confirm_switch
+          wait_for_size_animation_completion("#type-variant-switch-confirm-dialog")
+          within("#type-variant-switch-confirm-dialog") do
+            check "I understand that fields the new variant does not include will be hidden, along with their values"
+            click_on "Switch"
+          end
+        end
+
         def expect_switch_impact(text)
           expect(page.find("[data-test-selector='project-types-switch-impact']")).to have_text(text)
         end
@@ -102,7 +111,7 @@ module Pages
         end
 
         def switch_dialog
-          page.find_by_id("project-types-switch-dialog")
+          page.find_by_id("type-variant-switch-dialog")
         end
 
         def expect_no_switch_action(variant)

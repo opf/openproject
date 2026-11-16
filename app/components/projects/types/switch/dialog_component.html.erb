@@ -29,14 +29,12 @@ See COPYRIGHT and LICENSE files for more details.
 <%= render(
       Primer::Alpha::Dialog.new(
         id: DIALOG_ID,
-        title: t("projects.settings.types.switch.title", type: source.name),
+        title: t("projects.settings.types.switch.title", type: selection.type.name),
         size: :large,
         classes: "Overlay--size-large-portrait"
       )
     ) do |dialog| %>
   <% dialog.with_header(variant: :large) %>
 
-  <%= render(
-        Projects::Settings::WorkPackages::Types::SwitchFormComponent.new(project:, source:, url:, selected:)
-      ) %>
+  <%= render(Projects::Types::Switch::FormComponent.new(selection:, selected:, **form_arguments)) %>
 <% end %>

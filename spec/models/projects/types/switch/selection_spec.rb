@@ -29,8 +29,8 @@
 
 require "rails_helper"
 
-RSpec.describe WorkPackageTypes::SwitchSelection do
-  subject(:selection) { described_class.new(type:, projects:) }
+RSpec.describe Projects::Types::Switch::Selection do
+  subject(:selection) { described_class.new(type:, projects:, user:) }
 
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:hardware) { create(:type_variant, type:, variant_name: "Hardware") }
@@ -46,6 +46,8 @@ RSpec.describe WorkPackageTypes::SwitchSelection do
   before_all do
     create(:project_type, project: owning, type:, variant: lab)
   end
+
+  let(:user) { create(:admin) }
 
   context "with projects sharing their variant" do
     let(:projects) { [on_hardware, also_on_hardware] }
@@ -64,6 +66,10 @@ RSpec.describe WorkPackageTypes::SwitchSelection do
 
       expect(impact.source).to eq(hardware)
       expect(impact.project_ids).to contain_exactly(on_hardware.id, also_on_hardware.id)
+    end
+
+    it "is switchable while another variant is on offer" do
+      expect(selection).to be_switchable
     end
 
     it "previews nothing for the variant in use" do
@@ -86,6 +92,10 @@ RSpec.describe WorkPackageTypes::SwitchSelection do
     it "previews nothing" do
       expect(selection.impact(firmware)).to be_nil
     end
+
+    it "moves only the projects not already on the target" do
+      expect(selection.moving(hardware)).to eq([on_base])
+    end
   end
 
   context "with a single project" do
@@ -105,7 +115,27 @@ RSpec.describe WorkPackageTypes::SwitchSelection do
     end
 
     it "refuses a target outside the offer" do
-      expect(selection.refusal(nil)).to eq("Choose a type or variant that every selected project can use.")
+      expect(selection.refusal(nil)).to eq("Choose a type or variant the project can use.")
+    end
+  end
+
+  context "for a user who may not author the projects' variants" do
+    let(:projects) { [on_base] }
+    let(:user) { create(:user, member_with_permissions: { on_base => %i[view_project manage_types] }) }
+
+    it "offers nothing" do
+      expect(selection.targets).to be_empty
+    end
+  end
+
+  context "with a type offering nothing but the variant in use" do
+    subject(:selection) { described_class.new(type: lonely, projects: [project], user:) }
+
+    let(:lonely) { create(:type, name: "Chore") }
+    let(:project) { create(:project, types: [lonely]) }
+
+    it "is not switchable" do
+      expect(selection).not_to be_switchable
     end
   end
 

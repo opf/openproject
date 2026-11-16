@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
+RSpec.describe Projects::Types::Switch::ImpactComponent,
                type: :component do
   include Rails.application.routes.url_helpers
 
@@ -49,7 +49,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
   # nil when the target is the member already in use: deciding there is nothing to report
   # belongs to whoever renders this, not to the component.
   let(:impact) do
-    Projects::Types::Switch::Impact.new(project:, source: epic_base, target:) unless target == epic_base
+    Projects::Types::Switch::Impact.new(projects: [project], source: epic_base, target:) unless target == epic_base
   end
 
   # The dialog opens on the member in use, and the field above already asks for a

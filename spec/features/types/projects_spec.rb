@@ -357,14 +357,14 @@ RSpec.describe "Work package type projects tab", :js do
       expect(page).to have_selector(:menuitem, text: "Remove type from these projects", visible: :visible)
       choose_menu_item("Switch variant")
 
-      within "#type-projects-switch-variant-dialog" do
+      within "#type-variant-switch-dialog" do
         select "Bug: Firmware", from: "New type or variant"
         click_button "Apply"
       end
 
-      wait_for_size_animation_completion("#type-projects-switch-variant-confirm-dialog")
-      within "#type-projects-switch-variant-confirm-dialog" do
-        check "I understand that I will lose information from some custom fields"
+      wait_for_size_animation_completion("#type-variant-switch-confirm-dialog")
+      within "#type-variant-switch-confirm-dialog" do
+        check "I understand that fields the new variant does not include will be hidden, along with their values"
         click_button "Switch"
       end
 
@@ -380,15 +380,15 @@ RSpec.describe "Work package type projects tab", :js do
       open_menu_of(on_hardware)
       choose_menu_item("Switch variant")
 
-      within "#type-projects-switch-variant-dialog" do
+      within "#type-variant-switch-dialog" do
         select "Bug: Firmware", from: "New type or variant"
         expect(page).to have_text("1 work package will use the new configuration")
         click_button "Apply"
       end
 
-      wait_for_size_animation_completion("#type-projects-switch-variant-confirm-dialog")
-      within "#type-projects-switch-variant-confirm-dialog" do
-        check "I understand that I will lose information from some custom fields"
+      wait_for_size_animation_completion("#type-variant-switch-confirm-dialog")
+      within "#type-variant-switch-confirm-dialog" do
+        check "I understand that fields the new variant does not include will be hidden, along with their values"
         click_button "Switch"
       end
 
@@ -402,13 +402,13 @@ RSpec.describe "Work package type projects tab", :js do
       open_menu_of(on_hardware)
       choose_menu_item("Switch variant")
 
-      within "#type-projects-switch-variant-dialog" do
+      within "#type-variant-switch-dialog" do
         expect(page).to have_select("New type or variant", selected: "Bug: Hardware")
         click_button "Apply"
 
         expect(page).to have_text("The project already uses this type or variant.")
       end
-      expect(page).to have_no_css("#type-projects-switch-variant-confirm-dialog")
+      expect(page).to have_no_css("#type-variant-switch-confirm-dialog")
     end
 
     it "removes the type where it can and names the projects where it cannot" do

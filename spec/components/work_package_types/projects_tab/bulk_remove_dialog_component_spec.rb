@@ -50,7 +50,7 @@ RSpec.describe WorkPackageTypes::ProjectsTab::BulkRemoveDialogComponent, type: :
   end
 
   it "lists each project with the variant it uses" do
-    list = find_test_selector("type-projects-bulk-list")
+    list = find_test_selector("type-projects-list")
 
     expect(list).to have_link("Bookshop").and have_text("Bug (parent)", normalize_ws: true)
     expect(list).to have_link("Foundry").and have_text("Hardware")

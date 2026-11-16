@@ -29,24 +29,34 @@
 
 module WorkPackageTypes
   module ProjectsTab
-    class SwitchVariantDialogComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
-      include OpTurbo::Streamable
+    # A type's projects tab as a page a variant switch starts from: it switches the selected rows.
+    module VariantSwitching
+      extend ActiveSupport::Concern
 
-      DIALOG_ID = "type-projects-switch-variant-dialog"
-
-      def initialize(variant:, selection:)
-        super()
-
-        @variant = variant
-        @selection = selection
-      end
+      include SelectedProjects
+      include ::Projects::Types::Switch::Flow
 
       private
 
-      attr_reader :variant, :selection
+      def switch_selection
+        @switch_selection ||= begin
+          raise ActiveRecord::RecordNotFound if selected_projects.none?
 
-      def selected = selection.source || selection.targets.first
+          ::Projects::Types::Switch::Selection.new(type: @type, projects: selected_projects, user: current_user)
+        end
+      end
+
+      def switch_url = variant_projects_switch_path(@variant)
+
+      def switch_confirmation_url = new_variant_projects_switch_confirmation_path(@variant)
+
+      def switch_impact_url = variant_projects_switch_impact_path(@variant)
+
+      def switch_params = { project_ids: switch_selection.projects.map(&:id) }
+
+      def switch_listed_projects(target) = switch_selection.moving(target)
+
+      def refresh_after_switch = refresh_projects
     end
   end
 end

@@ -27,33 +27,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  module ProjectsTab
-    class SwitchVariantConfirmDialogComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
-      include OpTurbo::Streamable
-      include WorkPackageTypes::VariantRoutes
+module Projects
+  module Types
+    module Switch
+      # Separate from the dialog so a refused target can repaint it in place: replacing the dialog
+      # would swap out the <dialog> element and close it.
+      class FormComponent < ApplicationComponent
+        include OpPrimer::ComponentHelpers
+        include OpTurbo::Streamable
 
-      DIALOG_ID = "type-projects-switch-variant-confirm-dialog"
+        def initialize(selection:, selected:, confirmation_url:, impact_url:, params: {}, validation_message: nil)
+          super()
 
-      def initialize(variant:, target:, projects:)
-        super()
+          @selection = selection
+          @selected = selected
+          @confirmation_url = confirmation_url
+          @impact_url = impact_url
+          @params = params
+          @validation_message = validation_message
+        end
 
-        @variant = variant
-        @target = target
-        @projects = projects
-      end
+        private
 
-      private
+        attr_reader :selection, :selected, :confirmation_url, :impact_url, :params, :validation_message
 
-      attr_reader :variant, :target, :projects
+        def form_data
+          {
+            turbo_stream: true,
+            controller: "refresh-on-form-changes",
+            refresh_on_form_changes_target: "form",
+            refresh_on_form_changes_turbo_stream_url_value: impact_url
+          }
+        end
 
-      def form_arguments
-        {
-          action: variant_projects_switch_path(variant),
-          method: :post,
-          data: { turbo: true, turbo_stream: true }
-        }
+        def dialog_id = DialogComponent::DIALOG_ID
       end
     end
   end

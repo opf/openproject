@@ -29,36 +29,67 @@
 
 require "rails_helper"
 
-RSpec.describe WorkPackageTypes::ProjectsTab::SwitchVariantConfirmDialogComponent, type: :component do
+RSpec.describe Projects::Types::Switch::ConfirmDialogComponent, type: :component do
   shared_let(:bug) { create(:type, name: "Bug") }
   shared_let(:hardware) { create(:type_variant, type: bug, variant_name: "Hardware") }
   shared_let(:bookshop) { create(:project, name: "Bookshop", types: [bug]) }
   shared_let(:foundry) { create(:project, name: "Foundry", types: [hardware]) }
 
+  let(:listed_projects) { [bookshop, foundry] }
+
   before do
     render_inline(
-      described_class.new(variant: bug.default_variant, target: hardware, projects: Project.where(id: [bookshop, foundry]))
+      described_class.new(target: hardware, url: "/switch", params: { project_ids: [bookshop.id, foundry.id] },
+                          listed_projects:)
     )
   end
 
-  it "warns about losing custom field values" do
+  it "says what the switch hides, naming the variant it switches to" do
     expect(page).to have_css("h2", text: "Switch type variant?")
-    expect(page).to have_text("Switching type variants will result in loss of information from custom fields " \
-                              "that are not included in the new variant.")
+    expect(page).to have_text("Switching to Bug: Hardware hides the fields it does not include. " \
+                              "Their values are kept, but will no longer be visible.")
   end
 
-  it "lists every selected project, including one already on the target" do
-    list = find_test_selector("type-projects-bulk-list")
+  it "introduces the listed projects" do
+    expect(page).to have_text("The following projects will switch:")
+  end
+
+  it "lists the given projects" do
+    list = find_test_selector("type-projects-list")
 
     expect(list).to have_link("Bookshop").and have_link("Foundry")
   end
 
+  context "with a single listed project" do
+    let(:listed_projects) { [foundry] }
+
+    it "introduces it" do
+      expect(page).to have_text("The following project will switch:")
+    end
+  end
+
+  context "without any listed project" do
+    let(:listed_projects) { [] }
+
+    it "lists nothing" do
+      expect(page).to have_no_test_selector("type-projects-list")
+      expect(page).to have_no_text("will switch")
+    end
+  end
+
   it "asks for an acknowledgement before switching" do
-    expect(page).to have_field("I understand that I will lose information from some custom fields", type: :checkbox)
+    expect(page).to have_field(
+      "I understand that fields the new variant does not include will be hidden, along with their values",
+      type: :checkbox
+    )
     expect(page).to have_button("Switch")
   end
 
-  it "submits the target and every project" do
+  it "submits to the given URL" do
+    expect(page).to have_css("form[action='/switch'][method='post']")
+  end
+
+  it "submits the target and the given parameters" do
     expect(page).to have_field("target_id", type: :hidden, with: hardware.id.to_s)
     expect(page).to have_field("project_ids[]", type: :hidden, with: bookshop.id.to_s)
     expect(page).to have_field("project_ids[]", type: :hidden, with: foundry.id.to_s)

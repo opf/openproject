@@ -58,7 +58,7 @@ RSpec.describe "Switching the variant of a work package type's projects", :skip_
       subject
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Switch type or variant").and include("Prototype").and include("Firmware")
+      expect(response.body).to include("Bug: Switch variant").and include("Prototype").and include("Firmware")
     end
 
     it "wires the live impact preview" do
@@ -103,7 +103,7 @@ RSpec.describe "Switching the variant of a work package type's projects", :skip_
       subject
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("closeDialog").and include("type-projects-switch-variant-dialog")
+      expect(response.body).to include("closeDialog").and include("type-variant-switch-dialog")
       expect(response.body).to include("Switch type variant?").and include("Foundry")
     end
 
@@ -134,11 +134,12 @@ RSpec.describe "Switching the variant of a work package type's projects", :skip_
     context "when only one of several differently-set projects already uses the target" do
       let(:projects) { [bookshop, smithy] }
 
-      it "asks to confirm, listing every project" do
+      it "asks to confirm, listing only the project that will switch" do
         subject
 
         expect(response).to have_http_status(:ok)
-        expect(response.body).to include("Switch type variant?").and include("Bookshop").and include("Smithy")
+        expect(response.body).to include("Switch type variant?").and include("Bookshop")
+        expect(response.body).not_to include("Smithy")
       end
     end
   end
@@ -269,7 +270,7 @@ RSpec.describe "Switching the variant of a work package type's projects", :skip_
         it "switches that one" do
           subject
 
-          expect(response.body).to include("type-projects-switch-variant-confirm-dialog")
+          expect(response.body).to include("type-variant-switch-confirm-dialog")
             .and include("The project now uses Bug: Firmware.")
           expect(bookshop.reload.type_variant(bug)).to eq(firmware)
         end

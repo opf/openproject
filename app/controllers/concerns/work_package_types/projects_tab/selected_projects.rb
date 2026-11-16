@@ -40,15 +40,8 @@ module WorkPackageTypes
         @selected_projects ||= ::Project
                                  .where(id: selected_project_ids)
                                  .where(id: ::ProjectType.where(type_id: @type.id).select(:project_id))
+                                 .includes(project_types: :variant)
                                  .order(:lft)
-      end
-
-      def switch_selection
-        @switch_selection ||= begin
-          raise ActiveRecord::RecordNotFound if selected_projects.none?
-
-          ::WorkPackageTypes::SwitchSelection.new(type: @type, projects: selected_projects)
-        end
       end
 
       def selected_project_ids = Array(params[:project_ids])

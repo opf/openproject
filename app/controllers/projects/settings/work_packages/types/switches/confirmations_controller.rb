@@ -27,38 +27,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  module ProjectsTab
-    # Separate from the dialog so a refused target can repaint it in place: replacing the dialog
-    # would swap out the <dialog> element and close it.
-    class SwitchVariantFormComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
-      include OpTurbo::Streamable
-      include WorkPackageTypes::VariantRoutes
+class Projects::Settings::WorkPackages::Types::Switches::ConfirmationsController < Projects::SettingsController
+  include Projects::Settings::WorkPackages::Types::VariantSwitching
 
-      def initialize(variant:, selection:, selected:, validation_message: nil)
-        super()
+  menu_item :settings_work_packages
 
-        @variant = variant
-        @selection = selection
-        @selected = selected
-        @validation_message = validation_message
-      end
-
-      private
-
-      attr_reader :variant, :selection, :selected, :validation_message
-
-      def form_data
-        {
-          turbo_stream: true,
-          controller: "refresh-on-form-changes",
-          refresh_on_form_changes_target: "form",
-          refresh_on_form_changes_turbo_stream_url_value: variant_projects_switch_impact_path(variant)
-        }
-      end
-
-      def dialog_id = SwitchVariantDialogComponent::DIALOG_ID
-    end
+  def new
+    respond_with_switch_confirmation
   end
 end

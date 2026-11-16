@@ -607,6 +607,7 @@ Rails.application.routes.draw do
           resources :types, only: %i[index new create destroy] do
             resource :switch, only: %i[new create], controller: "types/switches" do
               resource :impact, only: :create, controller: "types/switches/impacts"
+              resource :confirmation, only: :new, controller: "types/switches/confirmations"
             end
           end
           resource :categories, only: %i[show update]

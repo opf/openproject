@@ -26,28 +26,18 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(
-      Primer::OpenProject::DangerDialog.new(
-        id: DIALOG_ID,
-        title: t("types.edit.projects.switch_variant.confirm_title"),
-        size: :large,
-        classes: "Overlay--size-large-portrait",
-        confirm_button_text: t("types.edit.projects.switch_variant.confirm_submit"),
-        form_arguments:
-      )
-    ) do |dialog| %>
-  <% dialog.with_confirmation_message do |message| %>
-    <% message.with_heading(tag: :h2) { t("types.edit.projects.switch_variant.confirm_title") } %>
-    <% message.with_description { t("types.edit.projects.switch_variant.confirm_description") } %>
-  <% end %>
-
-  <% dialog.with_additional_details(display: :block) do %>
-    <%= render(WorkPackageTypes::ProjectsTab::BulkProjectListComponent.new(projects:, type: variant.type)) %>
-    <%= hidden_field_tag(:target_id, target.id, id: nil) %>
+<%= render(Primer::OpenProject::InsetBox.new(mb: 3, test_selector: "type-projects-list")) do %>
+  <%= render(Primer::Box.new(tag: :ul, m: 0, classes: "list-style-none")) do %>
     <% projects.each do |project| %>
-      <%= hidden_field_tag("project_ids[]", project.id, id: nil) %>
+      <%= render(Primer::Box.new(tag: :li, py: 1)) do %>
+        <%= render(Primer::Beta::Link.new(href: project_path(project), font_weight: :semibold, mr: 2)) { project.name } %>
+        <%= render(Primer::Beta::Text.new(font_size: :small)) do %>
+          <%= variant(project)&.display_name %>
+          <% if variant(project)&.default? %>
+            <%= render(Primer::Beta::Text.new(color: :muted)) { t("types.edit.reuse_mode.parent_suffix").strip } %>
+          <% end %>
+        <% end %>
+      <% end %>
     <% end %>
   <% end %>
-
-  <% dialog.with_confirmation_check_box_content(t("types.edit.projects.switch_variant.confirmation")) %>
 <% end %>

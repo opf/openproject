@@ -32,6 +32,7 @@ require "rails_helper"
 RSpec.describe WorkPackageTypes::ProjectsTab::RowMenuComponent, type: :component do
   include Rails.application.routes.url_helpers
 
+  shared_let(:admin) { create(:admin) }
   shared_let(:bug) { create(:type, name: "Bug") }
   shared_let(:hardware) { create(:type_variant, type: bug, variant_name: "Hardware") }
   shared_let(:bookshop) { create(:project, name: "Bookshop", types: [bug]) }
@@ -40,6 +41,8 @@ RSpec.describe WorkPackageTypes::ProjectsTab::RowMenuComponent, type: :component
   let(:variant) { bug.default_variant }
   let(:projects) { [foundry] }
   let(:menu) { page.find("ul[role='menu']") }
+
+  current_user { admin }
 
   before { render_inline(described_class.new(variant:, invoker: foundry, projects:)) }
 
@@ -73,6 +76,25 @@ RSpec.describe WorkPackageTypes::ProjectsTab::RowMenuComponent, type: :component
       expect(menu).to have_link("Switch variant", href: new_type_projects_switch_path(type_id: bug.id, project_ids: ids))
       expect(menu).to have_link("Remove type from these projects",
                                 href: new_type_projects_link_deletion_path(type_id: bug.id, project_ids: ids))
+    end
+  end
+
+  context "with several projects whose only other variant belongs to one of them" do
+    shared_let(:chore) { create(:type, name: "Chore") }
+    shared_let(:shed) { create(:project, name: "Shed", types: [chore]) }
+    shared_let(:barn) { create(:project, name: "Barn", types: [chore]) }
+
+    let(:variant) { chore.default_variant }
+    let(:projects) { [shed, barn] }
+
+    before do
+      create(:project_owned_type_variant, type: chore, project: shed, variant_name: "Shed only")
+      render_inline(described_class.new(variant:, invoker: shed, projects:))
+    end
+
+    it "only offers removal" do
+      expect(menu).to have_no_link("Switch variant")
+      expect(menu).to have_link("Remove type from these projects")
     end
   end
 

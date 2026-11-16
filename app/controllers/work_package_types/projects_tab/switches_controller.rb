@@ -30,42 +30,17 @@
 module WorkPackageTypes
   module ProjectsTab
     class SwitchesController < BaseTabController
-      include OpTurbo::ComponentStream
       include TableRefresh
-      include RefusalMessages
-      include SelectedProjects
+      include VariantSwitching
 
       before_action :load_query, only: %i[create]
 
       def new
-        respond_with_dialog SwitchVariantDialogComponent.new(variant: @variant, selection: switch_selection)
+        respond_with_switch_dialog
       end
 
-      def create # rubocop:disable Metrics/AbcSize
-        target = switch_selection.target(params[:target_id])
-        refusal = switch_selection.refusal(target)
-        return refuse(refusal) if refusal
-
-        result = ProjectAssignments.new(user: current_user, variant: @variant).switch(selected_projects, target:)
-        close_dialog_via_turbo_stream(SwitchVariantConfirmDialogComponent::DIALOG_ID)
-        refresh_projects
-        if result.success?
-          render_success_flash_message_via_turbo_stream(
-            message: I18n.t("types.edit.projects.switch_variant.success", type: target.composite_name,
-                                                                          count: selected_projects.size)
-          )
-        else
-          render_error_flash_message_via_turbo_stream(message: refusal_list_message(result))
-        end
-
-        respond_to_with_turbo_streams(status: result)
-      end
-
-      private
-
-      def refuse(message)
-        render_error_flash_message_via_turbo_stream(message:)
-        respond_to_with_turbo_streams(status: :unprocessable_entity)
+      def create
+        respond_with_switch
       end
     end
   end
