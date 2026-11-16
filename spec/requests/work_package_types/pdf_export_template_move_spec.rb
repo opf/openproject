@@ -61,20 +61,13 @@ RSpec.describe "PDF export template move", :skip_csrf, type: :rails_request do
     expect(ordered_ids).to eq(%w[artefact attributes contract])
   end
 
-  {
-    "an unknown anchor" => -> { { list_type:, list_id: "", prev_id: "bogus" } },
-    "an omitted prev_id" => -> { { list_type:, list_id: "" } },
-    "a wrong list_type" => -> { { list_type: "enumeration", list_id: "", prev_id: "" } },
-    "a nonblank list_id" => -> { { list_type:, list_id: "artefact", prev_id: "" } },
-    "a collection-valued prev_id" => -> { { list_type:, list_id: "", prev_id: ["artefact"] } },
-    "an empty collection prev_id" => -> { { list_type:, list_id: "", prev_id: [""] } },
-    "a collection-valued list_id" => -> { { list_type:, list_id: [""], prev_id: "" } }
-  }.each do |description, params|
-    it "422s without mutation for #{description}" do
-      move("attributes", instance_exec(&params))
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(ordered_ids).to eq(%w[attributes contract artefact])
-    end
+  it_behaves_like "a sortable list drop endpoint", list_id_scoped: false do
+    let(:dragged_id) { "attributes" }
+    let(:valid_drop_params) { { list_type:, list_id: "", prev_id: "artefact" } }
+
+    def send_drop(params) = move(dragged_id, params)
+
+    def expect_unmoved = expect(ordered_ids).to eq(%w[attributes contract artefact])
   end
 
   it "renders the invalid-anchor error message on failure" do
