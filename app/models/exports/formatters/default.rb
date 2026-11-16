@@ -63,8 +63,8 @@ module Exports
           format_date value
         when Time, DateTime, ActiveSupport::TimeWithZone
           format_time value
-        when Array
-          value.join options.fetch(:array_separator, ", ")
+        when Array, ActiveRecord::Associations::CollectionProxy
+          value.to_a.join options.fetch(:array_separator, ", ")
         when nil
           # ruby >=2.7.1 will return a frozen string for nil.to_s which will cause an error when e.g. trying to
           # force an encoding

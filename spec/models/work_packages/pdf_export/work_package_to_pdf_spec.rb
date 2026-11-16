@@ -250,6 +250,13 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
           []
         end),
       WorkPackage.human_attribute_name(:version), work_package.target_versions.first,
+      *(
+        if work_package.respond_to?(:categories)
+          [WorkPackage.human_attribute_name(:categories), work_package.categories.map(&:name).join(", ")]
+        else
+          []
+        end
+      ),
       "Category", work_package.category,
       "Project phase",
       "Date", "05/30/2024 - 03/13/2025",
