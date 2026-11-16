@@ -37,7 +37,8 @@ module ITSM
 
       menu_item :helpdesk
 
-      before_action :require_feature
+      guard_feature_flag :helpdesk
+
       before_action :require_admin
 
       def show
@@ -87,10 +88,6 @@ module ITSM
 
       def wizard
         ITSM::Wizard.new(model: nil)
-      end
-
-      def require_feature
-        render_404 unless OpenProject::FeatureDecisions.helpdesk_active?
       end
 
       def allowed_params

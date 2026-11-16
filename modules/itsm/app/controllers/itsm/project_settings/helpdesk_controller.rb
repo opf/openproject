@@ -35,15 +35,9 @@ module ITSM
 
       menu_item :settings_helpdesk
 
-      before_action :require_feature
+      guard_feature_flag :helpdesk
 
       def show; end
-
-      private
-
-      def require_feature
-        render_404 unless OpenProject::FeatureDecisions.helpdesk_active?
-      end
     end
   end
 end
