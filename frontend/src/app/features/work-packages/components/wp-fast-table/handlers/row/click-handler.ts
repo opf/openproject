@@ -25,7 +25,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { contextColumnIcon } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
 import { Injector } from '@angular/core';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { States } from 'core-app/core/states/states.service';
@@ -38,6 +37,7 @@ import { activeFieldClassName } from 'core-app/shared/components/fields/edit/edi
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
+import { isLinkOrRowAction } from './row-click-target';
 import { selectionGesture } from '../state/selection-feedback';
 import { controlSelector } from '../state/keyboard/cell-interaction';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
@@ -71,8 +71,7 @@ export class RowClickHandler implements TableEventHandler {
   public handleEvent(view:TableEventComponent, evt:MouseEvent) {
     const target = evt.target as HTMLElement;
 
-    // Ignore links and row action controls
-    if (target instanceof HTMLAnchorElement || target.parentElement instanceof HTMLAnchorElement || target.closest(`.${contextColumnIcon}`)) {
+    if (isLinkOrRowAction(target)) {
       return true;
     }
 

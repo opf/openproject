@@ -25,7 +25,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { contextColumnIcon } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
 import { Injector } from '@angular/core';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
@@ -35,6 +34,7 @@ import { displayClassName, editableClassName } from 'core-app/shared/components/
 import { activeFieldClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
+import { isLinkOrRowAction } from './row-click-target';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { tdClassName } from '../../builders/cell-builder';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
@@ -83,8 +83,7 @@ export class RowDoubleClickHandler implements TableEventHandler {
     const element = target.closest<HTMLElement>(this.SELECTOR)!.closest<HTMLTableRowElement>(`.${tableRowClassName}`)!;
     const wpId = element.dataset.workPackageId!;
 
-    // Ignore links and row action controls
-    if (target instanceof HTMLAnchorElement || target.parentElement instanceof HTMLAnchorElement || target.closest(`.${contextColumnIcon}`)) {
+    if (isLinkOrRowAction(target)) {
       return true;
     }
 
