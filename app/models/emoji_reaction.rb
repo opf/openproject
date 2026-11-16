@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -44,7 +43,14 @@ class EmojiReaction < ApplicationRecord
   belongs_to :user
   belongs_to :reactable, polymorphic: true
 
+  validates :reactable, presence: true
   validates :user_id, uniqueness: { scope: %i[reactable_type reactable_id reaction] }
+  validates :user_id,
+            uniqueness: { scope: %i[reactable_type reactable_id] },
+            if: -> { reactable.try(:single_emoji_reaction_per_user) }
+  validates :reaction,
+            inclusion: { in: ->(reaction) { reaction.reactable.allowed_emoji_reactions } },
+            if: -> { reactable.try(:allowed_emoji_reactions).present? }
 
   enum :reaction, EMOJI_MAP.each_with_object({}) { |(k, _v), h| h[k] = k.to_s }
 

@@ -68,7 +68,7 @@ ru:
       label_add_new: Добавить новый вебхук
       label_edit: Изменить вебхук
       label_x_events:
-        one: 1 событие
+        one: "%{count} event"
         other: "%{count} событий"
         zero: Нет событий
       no_results_table: Вебхуки еще не определены.

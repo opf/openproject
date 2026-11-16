@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -85,6 +84,8 @@ RSpec.describe "Create", :js do
 
         click_on "Create"
       end
+
+      planning_page.expect_loading_skeleton
 
       expect_and_dismiss_flash(exact_message: "Successful creation.")
       planning_page.expect_sprint_names_in_order(initial_sprint.name, "Created sprint")

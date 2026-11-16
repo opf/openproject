@@ -20,8 +20,9 @@
       <button
         role="button"
         class="button"
-        [title]="text.add_viewpoint"
-        (click)="saveViewpoint(workPackage)">
+        opTooltip
+        [description]="text.add_viewpoint"
+        (click)="saveViewpoint()">
         <op-icon icon-classes="button--icon icon-add" />
         <span class="button--text"> {{text.viewpoint}} </span>
       </button>

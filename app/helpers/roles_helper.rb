@@ -22,15 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module RolesHelper
   def setable_permissions(role)
-    # Use the base contract for now as we are only interested in the setable permissions
+    # Use the base contract for now as we are only interested in the settable permissions
     # which do not differentiate.
     contract = Roles::BaseContract.new(role, current_user)
 
@@ -54,5 +53,39 @@ module RolesHelper
       I18n.t("permission_header_for_project_module_#{mod}",
              default: [:"project_module_#{mod}", mod.humanize])
     end
+  end
+
+  def role_names_with_permissions_preview(roles, separator: ", ")
+    safe_join(
+      roles.map { safe_join([h(it.name), role_permissions_preview_icon(it, ml: 1)].compact) },
+      separator
+    )
+  end
+
+  def role_permissions_preview_icon(role, **system_arguments)
+    return unless Roles::PermissionsDialogComponent.visible_to?(User.current, role)
+
+    anchor_id = Primer::Component.generate_id(base_name: "role-permissions-preview")
+    tooltip = Primer::Alpha::Tooltip.new(
+      type: :label,
+      for_id: anchor_id,
+      direction: :e,
+      text: I18n.t("roles.permissions_dialog.preview_aria_label", role: role.name)
+    )
+
+    link = render(
+      Primer::Beta::Link.new(
+        id: anchor_id,
+        href: role_permissions_dialog_path(role),
+        muted: true,
+        display: :inline_flex,
+        data: { controller: "async-dialog" },
+        aria: { labelledby: tooltip.id },
+        test_selector: "op-roles--permissions-preview",
+        **system_arguments
+      )
+    ) { render(Primer::Beta::Octicon.new(icon: :info, size: :xsmall)) }
+
+    safe_join([link, render(tooltip)])
   end
 end

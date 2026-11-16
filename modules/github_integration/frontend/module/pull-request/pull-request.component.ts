@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,6 +32,7 @@ import {
   IGithubCheckRunResource,
   IGithubPullRequest,
 } from 'core-app/features/plugins/linked/openproject-github_integration/state/github-pull-request.model';
+import { PullRequestState } from './pull-request-state.component';
 
 @Component({
   selector: 'op-github-pull-request',
@@ -60,14 +60,15 @@ export class PullRequestComponent {
     label_actions: this.I18n.t('js.github_integration.github_actions'),
   };
 
-  get state():string {
-    if (this.pullRequest.state === 'open') {
-      return (this.pullRequest.draft ? 'draft' : 'open');
+  get state():PullRequestState {
+    switch (this.pullRequest.state) {
+      case 'open':
+        return this.pullRequest.draft ? 'draft' : 'open';
+      case 'closed':
+        return this.pullRequest.merged ? 'merged' : 'closed';
+      case 'deployed':
+        return 'deployed';
     }
-    if (this.pullRequest.state === 'deployed') {
-      return 'deployed';
-    }
-    return (this.pullRequest.merged ? 'merged' : 'closed');
   }
 
   public checkRunStateText(checkRun:IGithubCheckRunResource) {

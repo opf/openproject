@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -58,11 +57,12 @@ module ResourcePlannerViews
 
       private
 
+      # A global planner has no project to take the membership from and offers
+      # every user visible to the viewer, which is what
+      # `ResourcePlannerViewsController#addable_users` accepts in turn.
       def autocomplete_filters
-        filters = [
-          { name: "type", operator: "=", values: %w[User] },
-          { name: "member", operator: "=", values: [@project.id.to_s] }
-        ]
+        filters = [{ name: "type", operator: "=", values: %w[User] }]
+        filters << { name: "member", operator: "=", values: [@project.id.to_s] } if @project
 
         if @excluded_ids.present?
           filters << { name: "id", operator: "!", values: @excluded_ids.map(&:to_s) }

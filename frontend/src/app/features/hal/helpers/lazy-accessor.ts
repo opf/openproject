@@ -20,23 +20,20 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-
 export namespace OpenprojectHalModuleHelpers {
-  export function lazy(obj:HalResource,
+  export function lazy<V>(obj:object,
     property:string,
-    getter:() => any,
-    setter?:(value:any) => void):void {
+    getter:() => V,
+    setter?:(value:V) => V):void {
     if (typeof obj === 'object' && obj !== null) {
       let done = false;
-      let value:any;
-      const config:any = {
+      let value:V;
+      const config:PropertyDescriptor = {
         get() {
           if (!done) {
             value = getter();
@@ -51,7 +48,7 @@ export namespace OpenprojectHalModuleHelpers {
       };
 
       if (setter) {
-        config.set = (val:any) => {
+        config.set = (val:V) => {
           value = setter(val);
           done = true;
         };

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -56,10 +55,10 @@ describe('placePopover', () => {
     window.scrollTo(0, 0);
   });
 
-  const centred = () => popover.getBoundingClientRect().width / 2;
+  const centered = () => popover.getBoundingClientRect().width / 2;
 
   it('places the caret on the edge facing the anchor as soon as the popover is open', () => {
-    expect(placePopover(popover, anchor)).toEqual({ side: 'bottom', offset: centred() });
+    expect(placePopover(popover, anchor)).toEqual({ side: 'bottom', offset: centered() });
   });
 
   it('moves the popover into place without waiting for a frame', () => {
@@ -77,7 +76,7 @@ describe('placePopover', () => {
   });
 
   it('accepts a rectangle as the anchor', () => {
-    expect(placePopover(popover, new DOMRect(200, 200, 10, 10))).toEqual({ side: 'bottom', offset: centred() });
+    expect(placePopover(popover, new DOMRect(200, 200, 10, 10))).toEqual({ side: 'bottom', offset: centered() });
   });
 
   it('agrees with where anchored-position puts the popover', async () => {

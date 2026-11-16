@@ -47,6 +47,8 @@ sl:
       draggable_hint: 'Povlecite na urejevalno polje, da vstavite sliko ali referenčno prilogo. Med nadaljevanjem vlečenja se bodo odprla zaprta polja urejevalnika.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: The file is quarantined, as a virus was found. It is not available for download.
     autocomplete_ng_select:
       add_tag: Add item
@@ -61,6 +63,7 @@ sl:
         single: Izberi "%{name}"
       remove: Odstrani "%{name}"
     autocompleter:
+      create_label: Create label
       notFoundText: Ni najdenih elementov
       placeholder: Iskalni niz
       project:
@@ -129,9 +132,9 @@ sl:
     button_continue: Nadaljuj
     button_copy: Kopiraj
     button_copy_link_to_clipboard: Copy link to clipboard
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_to_clipboard: Kopiraj v odložišče
     button_copy_to_other_project: Duplicate in another project
+    button_copy_work_package_id: Copy work package ID
     button_create: Ustvari
     button_custom-fields: Polja po meri
     button_delete: Izbriši
@@ -147,6 +150,7 @@ sl:
     button_log_time: Beleži čas
     button_more: več
     button_more_actions: More actions
+    button_move_to_position: Move to position
     button_open_details: Prikaži pogled podrobnosti
     button_open_fullscreen: Odptri celozaslonski pogled
     button_quote: Citiraj
@@ -162,6 +166,7 @@ sl:
     button_stop_timer: Stop timer
     button_uncheck_all: Odznači vse
     button_update: Posodobi
+    button_view_markdown: View Markdown
     caption_rate_history: Zgodovina tečaja
     card:
       add_new: Dodaj nov card
@@ -201,7 +206,11 @@ sl:
     description_select_work_package: 'Izberi delovni paket #%{id}'
     description_subwork_package: 'Podrejen delovni paket #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: An error occurred within CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Shranjevanje dokumenta ni uspelo zaradi napake: %{error}'
       macro:
         attribute_reference:
@@ -341,6 +350,8 @@ sl:
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} items available"
       recently_viewed: Recently viewed
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: Vsi projekti
@@ -358,8 +369,8 @@ sl:
     ical_sharing_modal:
       copy_url_label: Copy URL
       description: You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there.
-      ical_generation_error_text: An error occured while generating the calendar URL.
-      inital_setup_error_message: An error occured while fetching data.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.
       title: Subscribe to calendar
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -431,7 +442,6 @@ sl:
     label_assignee: Prevzemnik
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Priponka
-    label_author: 'Avtor: %{user}'
     label_avatar: Avatar
     label_between: med
     label_board: Board
@@ -495,6 +505,7 @@ sl:
     label_in: v
     label_in_less_than: v manj kot
     label_in_more_than: v več kot
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Prihajajoča e-pošta
     label_infinity: Infinity
     label_information_plural: Informacije
@@ -527,6 +538,10 @@ sl:
     label_open_context_menu: Odpri kontekstni meni
     label_open_menu: Odpri meni
     label_open_work_packages: odpri
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Geslo
     label_per_page: 'Na stran:'
     label_please_wait: Prosimo, počakajte
@@ -551,6 +566,8 @@ sl:
     label_reset: Ponastavi
     label_resize_project_menu: Resize project menu
     label_save_as: Shrani kot
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Search a column
     label_select_watcher: Izberi opazovalca...
     label_selected_filter_list: Izbrani kriteriji
@@ -558,7 +575,9 @@ sl:
     label_show_in_menu: Prikaži pogled v meniju
     label_sort_by: Sortiraj po
     label_sort_higher: Premakni gor
+    label_sort_highest: Move to top
     label_sort_lower: Premakni dol
+    label_sort_lowest: Move to bottom
     label_sorted_by: Razvrščeno po
     label_sorting: Razvrščanje
     label_spent_time: Porabljen čas
@@ -569,6 +588,7 @@ sl:
     label_sum_for: Vsota za
     label_this_week: ta teden
     label_time_entry_plural: Porabljen čas
+    label_to_do_work_packages: to-do
     label_today: Danes
     label_total_amount: 'Skupaj: %{amount}'
     label_total_progress: "%{percent}% Napredek"
@@ -625,7 +645,7 @@ sl:
     notifications:
       center:
         and_more_users:
-          one: and 1 other
+          one: and %{count} other
           two: and %{count} others
           few: and %{count} others
           other: and %{count} others
@@ -724,6 +744,7 @@ sl:
     placeholders:
       default: "-"
       description: 'Description: Click to edit...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Kliknite, da dodate opis za to povezavo
       selection: Prosimo izberite
       subject: Vnesite temo tukaj
@@ -810,12 +831,37 @@ sl:
       sorting_disabled: Razvrščanje je onemogočeno
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} moved to position %{position} of %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+      selection:
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        range_restarted:
+          one: Could not extend the range. %{count} item selected.
+          two: Could not extend the range. %{count} items selected.
+          few: Could not extend the range. %{count} items selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          one: "%{count} item selected."
+          two: "%{count} items selected."
+          few: "%{count} items selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Close modal
@@ -829,9 +875,7 @@ sl:
     text_user_wrote: "%{value} je napisal(a):"
     text_work_packages_destroy_confirmation: Ali ste prepričani, da želite izbrisati izbrane delovne pakete?
     time_entry:
-      stop: Stop
       title: Beleži čas
-      tracking: Sledenje časa
       work_package_required: Najprej izberite opravilo
     timer:
       button_stop: Stop current timer
@@ -866,21 +910,21 @@ sl:
       label_two_factor_authentication: Dvofaktorna avtentikacija
     units:
       child_work_packages:
-        one: en podrejeni delovni paket
-        two: "%{count} podrejeni delovni paketi"
-        few: "%{count} podrejeni delovni paketi"
-        other: "%{count} podrejeni delovni paketi"
+        one: "%{count} child work package"
+        two: "%{count} work package children"
+        few: "%{count} work package children"
+        other: "%{count} work package children"
       day:
-        one: 1 dan
+        one: "%{count} day"
         other: "%{count} dni"
         zero: 0 days
       hour:
-        one: 1 ura
+        one: "%{count} h"
         other: "%{count} ur"
         zero: 0 ur
       hour_string: "%{hours} h"
       word:
-        one: 1 word
+        one: "%{count} word"
         two: "%{count} words"
         few: "%{count} words"
         other: "%{count} words"
@@ -946,6 +990,7 @@ sl:
         all_open: Vse odprto
         assigned_to_me: Dodeljeno meni
         created_by_me: Ustvaril jaz
+        in_progress: In progress
         latest_activity: Zadnja dejavnost
         manually_sorted: New manually sorted query
         overdue: Overdue
@@ -953,6 +998,7 @@ sl:
         shared_with_me: Shared with me
         shared_with_users: Shared with users
         summary: Povzetek
+        to_do: To-do
       description_enter_text: Vnesite besedilo
       description_filter: Filtriraj
       description_options_hide: Skrij možnosti
@@ -1046,6 +1092,7 @@ sl:
         other: Drugo
         people: Ljudje
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Kliknite za urejanje naslova tega pogleda.
         column_names: Stolpci
         confirm_edit_cancel: Ali ste prepričani, da želite preklicati urejanje tega pogleda? Naslov bo spremenjen nazaj v prejšnjega.
@@ -1057,17 +1104,16 @@ sl:
 
             '
         filters: Filtri
-        group: Razvrsti po
         group_by: Rezultati grupirani po
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Skupina je onemogočena, ker je aktiven hierarhijski način.
-        hide_column: Skrij stolpec
         hierarchy_disabled_by_group_by: Hirarhični pogled je onemogočen zaradi grupiranja po %{column}.
-        insert_columns: Insert columns
         move_column_left: Premakni stolpec v levo
         move_column_right: Premakni stolpec v desno
         public_text: 'Objavite ta pogled in drugim uporabnikom omogočite dostop do vašega pogleda. Uporabniki z dovoljenjem »Upravljanje javnih pogledov« lahko spremenijo ali odstranijo javno poizvedbo. To v tem pogledu ne vpliva na vidnost rezultatov delovnega paketa in uporabniki lahko glede na svoja dovoljenja vidijo različne rezultate.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Ime tega pogleda
         sort_ascending: Sortiraj naraščajoče
         sort_descending: Razvrsti padajoče
@@ -1088,17 +1134,30 @@ sl:
       scheduling:
         is_parent: Datumi tega delovnega paketa so samodejno ugotovljeni od njegovih podrazredov. Za nastavitev datumov aktivirajte 'Ročno razvrščanje'.
         is_switched_from_manual_to_automatic: Datumi delovnega paketa se bodo lahko, da morali preračunati po menjavi iz ročnega v samodejno razvrščanje zaradi razmerij z ostalimi delovnimi paketi.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          two: All %{count} work packages on this page selected.
+          few: All %{count} work packages on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          two: "%{count} work packages selected."
+          few: "%{count} work packages selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Show all users with whom the work package has been shared with
         title: Share work package
       table:
         configure_button: Uredi tabelo delovnega paketa
-        summary: 'Tabela z vrsticami delovnega paketa in stolpci atributov delovnega paketa.
-
-          '
-        text_inline_edit: Večina celic te tabele predstavlja gumbe, ki aktivirajo funkcionalnost urejanja v atributu.
-        text_select_hint: Izbrana polja je treba odpreti s tipko ALT in puščicami.
-        text_sort_hint: S povezavami v glavah tabel lahko sortirate, razvrstite, preuredite, odstranite in dodate stolpce tabel.
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: Uredi tabelo delovnega paketa
         choose_display_mode: Prikaži delovni paket kot
@@ -1109,7 +1168,6 @@ sl:
           '
         display_settings: Prikaži nastavitve
         display_sums_hint: Prikažite vsote vseh atributov, ki seštevajo v vrstici pod rezultati tabele.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: Vsi rezultati filtrirane tabele bodo dopolnjeni s svojimi predniki. Hierarhijo je mogoče razširiti in strniti.
         hierarchy_mode: Hierarhija
         highlighting: Poudarjanje

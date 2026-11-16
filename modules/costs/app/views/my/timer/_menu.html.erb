@@ -1,1 +1,9 @@
-<%= angular_component_tag "opce-timer-account-menu" %>
+<%= turbo_frame_tag "my_timers",
+                    target: "_top",
+                    data: {
+                      controller: "reload-frame-on-event",
+                      "reload-frame-on-event-event-name-value": My::Timer::MenuSectionComponent::CHANGED_EVENT,
+                      "reload-frame-on-event-url-value": my_timers_path
+                    } do %>
+  <%= render My::Timer::MenuSectionComponent.new(time_entry: TimeEntry.visible_ongoing.first) %>
+<% end %>

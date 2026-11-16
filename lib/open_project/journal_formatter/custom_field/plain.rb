@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -57,6 +56,8 @@ class OpenProject::JournalFormatter::CustomField::Plain < JournalFormatter::Base
     case custom_field.field_format
     when "hierarchy"
       :find_item_value
+    when "weighted_item_list"
+      :find_weighted_item_value
     when "list"
       :find_list_value
     when "user"
@@ -90,16 +91,23 @@ class OpenProject::JournalFormatter::CustomField::Plain < JournalFormatter::Base
     ids_to_names(ids, user_lookup)
   end
 
-  def find_item_value(value, _custom_field)
+  def find_item_value(value, custom_field)
     ids = value.split(",").map(&:to_i)
 
     items = CustomField::Hierarchy::Item.where(id: ids).index_by(&:id)
 
     ids.map do |id|
+      next I18n.t(:label_custom_value_no_longer_available) unless usable_in_project?(custom_field, id)
       next I18n.t(:label_deleted_custom_item) unless items[id]
 
       items[id].ancestry_path
     end.join(", ")
+  end
+
+  def find_weighted_item_value(value, custom_field)
+    return I18n.t(:label_custom_value_no_longer_available) unless usable_in_project?(custom_field, value)
+
+    format_value(value, custom_field)
   end
 
   def find_list_value(value, custom_field)
@@ -112,8 +120,16 @@ class OpenProject::JournalFormatter::CustomField::Plain < JournalFormatter::Base
                .to_h
 
     ids.map do |id|
+      next I18n.t(:label_custom_value_no_longer_available) unless usable_in_project?(custom_field, id)
+
       id_value[id] || I18n.t(:label_deleted_custom_option)
     end.join(", ")
+  end
+
+  def usable_in_project?(custom_field, value_id)
+    return true if custom_field.project_specific_value_restriction.nil? || project.nil?
+
+    custom_field.usable_value_id?(project, value_id)
   end
 
   def find_version_value(value, _custom_field)

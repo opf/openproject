@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -44,7 +43,6 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { UIRouterModule } from '@uirouter/angular';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { HookService } from 'core-app/features/plugins/hook-service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
@@ -73,7 +71,6 @@ describe('WorkPackageFilterValues', () => {
   function setupTestBed() {
     // noinspection JSIgnoredPromiseFromCall
     void TestBed.configureTestingModule({
-      imports: [UIRouterModule.forRoot({})],
       providers: [
         I18nService,
         { provide: WeekdayService, useValue: WeekdayServiceStub },
@@ -101,7 +98,7 @@ describe('WorkPackageFilterValues', () => {
     injector = TestBed.inject(Injector);
     halResourceService = injector.get(HalResourceService);
 
-    resource = halResourceService.createHalResourceOfClass(WorkPackageResource, source, true);
+    resource = halResourceService.createHalResourceOfClass(WorkPackageResource, source, true) as unknown as WorkPackageResource;
     changeset = new WorkPackageChangeset(resource);
 
     const type1 = halResourceService.createHalResourceOfClass(TypeResource, { _type: 'Type', id: '1', _links: { self: { href: '/api/v3/types/1', name: 'Task' } } });
@@ -123,7 +120,7 @@ describe('WorkPackageFilterValues', () => {
       const version = halResourceService.createHalResourceOfClass(
         HalResource,
         { _type: 'Version', id: '42', _links: { self: { href: '/api/v3/versions/42', name: 'v1.0' } } },
-      ) as HalResource;
+      );
 
       filters.push({
         id: 'version',

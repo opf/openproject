@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,7 +34,7 @@ module Projects
     option :dependencies_label
 
     form do |f|
-      # Primer, unlike Rails' check_box helper, does not render this auxilary hidden field for us.
+      # Primer, unlike Rails' check_box helper, does not render this auxiliary hidden field for us.
       f.hidden name: "copy_options[dependencies][]", value: "", scope_name_to_model: false
 
       f.check_box_group(name: :dependencies, label: dependencies_label) do |group|

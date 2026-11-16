@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -50,7 +49,6 @@ RSpec.describe "multi select custom values", :js do
       name: "Ingredients",
       multi_value:,
       types: [type],
-      projects: [project],
       possible_values: ["ham", "onions", "pineapple", "mushrooms"]
     )
   end
@@ -274,7 +272,7 @@ RSpec.describe "multi select custom values", :js do
           wp_table.expect_work_package_order work_package2, work_package
 
           # Reverse sort
-          sort_by.sort_via_header cf_frontend, descending: true, selector: cf_frontend
+          sort_by.sort_via_header custom_field.name, descending: true
 
           wp_table.expect_work_package_listed(work_package)
           wp_table.expect_work_package_listed(work_package2)
@@ -298,7 +296,7 @@ RSpec.describe "multi select custom values", :js do
           wp_table.expect_work_package_order work_package2, work_package
 
           # Reverse sort
-          sort_by.sort_via_header cf_frontend, descending: true, selector: cf_frontend
+          sort_by.sort_via_header custom_field.name, descending: true
 
           wp_table.expect_work_package_listed(work_package)
           wp_table.expect_work_package_listed(work_package2)

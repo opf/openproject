@@ -35,9 +35,9 @@ pl:
         title: Członkowie
         view_all_members: Zobacz wszystkich członków
         x_more:
-          one: i jeszcze jeden członek.
+          one: and %{count} more member.
           few: i jeszcze %{count} członków.
-          many: i jeszcze %{count} członków.
+          many: i jeszcze %{count} członka.
           other: i jeszcze %{count} członka.
       news:
         no_results: Utwórz nowy raport.

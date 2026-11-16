@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -61,7 +60,7 @@ export class WpTableConfigurationHighlightingTabComponent implements TabComponen
 
   public availableInlineHighlightedAttributes:HalResource[] = [];
 
-  public selectedAttributes:any[] = [];
+  public selectedAttributes:HalResource[] = [];
 
   public availableRowHighlightedAttributes:{ name:string; value:HighlightingMode }[] = [];
 
@@ -121,7 +120,7 @@ export class WpTableConfigurationHighlightingTabComponent implements TabComponen
 
   public get availableHighlightedAttributes():HalResource[] {
     const { schema } = this.querySpace.queryForm.value!;
-    return schema.highlightedAttributes.allowedValues;
+    return schema.highlightedAttributes!.allowedValues as HalResource[];
   }
 
   public onOpen(component:unknown) {

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -352,7 +351,7 @@ RSpec.describe "time entry dialog", :js do
         # make sure that the work package is shown in the table
         expect(page).to have_css("#result-table td[raw-data='#{work_package_a.id}']", text: work_package_a.subject)
 
-        find("opce-time-entry-trigger-actions .icon-edit").click
+        within("#result-table") { click_on accessible_name: "Edit" }
 
         time_logging_modal.is_visible(true)
         time_logging_modal.update_field("entity_id", work_package_c.subject)
@@ -378,7 +377,7 @@ RSpec.describe "time entry dialog", :js do
       # make sure that the work package is shown in the table
       expect(page).to have_css("#result-table td[raw-data='#{work_package_a.id}']", text: work_package_a.subject)
 
-      find("opce-time-entry-trigger-actions .icon-edit").click
+      within("#result-table") { click_on accessible_name: "Edit" }
 
       expect do
         time_logging_modal.is_visible(true)
@@ -411,7 +410,7 @@ RSpec.describe "time entry dialog", :js do
 
         # make sure that the work package is shown in the table
         expect(page).to have_css("#result-table td[raw-data='#{work_package_a.id}']", text: work_package_a.subject)
-        find("opce-time-entry-trigger-actions .icon-edit").click
+        within("#result-table") { click_on accessible_name: "Edit" }
 
         time_logging_modal.is_visible(true)
 

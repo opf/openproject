@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,23 +34,22 @@ module Backlogs
 
     DIALOG_ID = "move-to-sprint-dialog"
     FORM_ID = "move-to-sprint-dialog-form"
+    SELECTION_LABEL_ID = "move-to-sprint-dialog-selection"
 
-    attr_reader :work_package, :project, :sprints, :move_action
+    attr_reader :work_packages, :sprints, :move_action
 
-    def initialize(work_package:, project:, move_action:)
+    def initialize(work_packages:, sprints:, move_action:)
       super()
 
-      @work_package = work_package
-      @project = project
+      @work_packages = work_packages
+      @sprints = sprints
       @move_action = move_action
-      @sprints = Sprint.for_project(@project).visible.not_completed.order_by_date
-      @sprints = @sprints.where.not(id: work_package.sprint_id) if work_package.sprint_id
     end
 
     private
 
-    def list_type
-      Backlogs::Target::SprintId.new(nil).list_type
+    def destination_list_type
+      Backlogs::Target::SprintId.list_type
     end
   end
 end

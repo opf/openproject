@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,7 +31,7 @@ require "spec_helper"
 require_relative "../../support/pages/projects/settings/backlogs"
 
 RSpec.describe "Backlogs Project Settings", :js do
-  let!(:closed_status)      { create(:status, name: "Closed", is_closed: true) }
+  let!(:closed_status)      { create(:status, name: "Closed", category: "closed") }
   let!(:closed_like_status) { create(:status, name: "Sorta kinda Finished", is_default: true) }
   let!(:type_story) { create(:type_feature, name: "Story") }
   let!(:type_task)  { create(:type_task, name: "Task") }
@@ -43,7 +42,7 @@ RSpec.describe "Backlogs Project Settings", :js do
   end
   let(:role) do
     create(:project_role,
-           permissions: %i[select_backlog_types_and_statuses])
+           permissions: %i[manage_backlogs_configuration])
   end
   let!(:current_user) do
     create(:user,
@@ -60,7 +59,7 @@ RSpec.describe "Backlogs Project Settings", :js do
   context "when navigating between tabs" do
     let(:role) do
       create(:project_role,
-             permissions: %i[select_backlog_types_and_statuses share_sprint])
+             permissions: %i[manage_backlogs_configuration share_sprint])
     end
 
     it "persists the active tab in the URL when switching tabs" do
@@ -92,7 +91,7 @@ RSpec.describe "Backlogs Project Settings", :js do
     wait_for_network_idle
     wait_for_autocompleter_options_to_be_loaded
 
-    # Closed is preselected when the module is enabled, since it has the `is_closed: true` attribute
+    # Closed is preselected when the module is enabled, since it has the `category: "closed"` attribute
     done_status_ids_autocompleter.expect_selected "Closed"
     done_status_ids_autocompleter.open_options
     # It cannot be disabled

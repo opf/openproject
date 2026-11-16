@@ -1,10 +1,12 @@
 <button
   primerBaseButton
   [attr.id]="buttonId()"
-  [attr.aria-label]="ariaLabel()"
-  [attr.aria-description]="ariaDescription()"
-  [attr.aria-labelledby]="ariaLabelledBy()"
-  [attr.aria-describedby]="ariaDescribedBy()"
+  opTooltip
+  [label]="label()"
+  [description]="description()"
+  [showTooltip]="showTooltip()"
+  [tooltipId]="tooltipId()"
+  [tooltip-direction]="tooltipDirection()"
   [class]="['Button', 'Button--iconOnly', buttonClass(), `Button--${size()}`]"
   [class.Button--primary]="scheme() === 'primary'"
   [class.Button--secondary]="scheme() === 'default' || scheme() === 'secondary'"
@@ -18,13 +20,3 @@
   >
   <svg octicon size="small" class="Button-visual" [icon]="icon()"></svg>
 </button>
-@if (showTooltip()) {
-  <tool-tip
-    class="sr-only position-absolute"
-    popover="manual"
-    [attr.for]="buttonId()"
-    [attr.id]="tooltipId()"
-    [attr.data-direction]="tooltipDirection()"
-    [attr.data-type]="tooltipType()"
-    >{{ tooltipText() }}</tool-tip>
-}

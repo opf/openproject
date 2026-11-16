@@ -6,7 +6,7 @@
         test_selector: "project-life-cycle-sidebar-async-content"
       )
     ) do |panel|
-      panel.with_section(Overviews::ProjectPhases::ShowComponent.new(project: @project))
+      panel.with_section(Overviews::ProjectPhases::ShowComponent.new(project: @project, user: @user))
     end
   end
 %>

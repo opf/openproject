@@ -1,46 +1,43 @@
-<%#
-  -- copyright
-  OpenProject is an open source project management software.
-  Copyright (C) the OpenProject GmbH
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
 
-  This program is free software; you can redistribute it and/or
-  modify it under the terms of the GNU General Public License version 3.
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
 
-  OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-  Copyright (C) 2006-2013 Jean-Philippe Lang
-  Copyright (C) 2010-2013 the ChiliProject Team
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
 
-  This program is free software; you can redistribute it and/or
-  modify it under the terms of the GNU General Public License
-  as published by the Free Software Foundation; either version 2
-  of the License, or (at your option) any later version.
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-  See COPYRIGHT and LICENSE files for more details.
+See COPYRIGHT and LICENSE files for more details.
 
-  ++#
-%>
+++#%>
 
 <%=
   component_wrapper(
     tag: "turbo-frame", refresh: :morph,
     data: {
       controller: "documents--live-events",
-      action: "click->documents--live-events#toggle_popover",
+      action: "click@window->documents--live-events#closeOnClickOutside keydown.esc@window->documents--live-events#closePopover",
       "test-selector": "live-events"
     }
   ) do
     render Primer::BaseComponent.new(tag: :div, position: :relative) do
       concat(
-        flex_layout do |flex_container|
+        flex_layout(data: { action: "click->documents--live-events#togglePopover:prevent" }) do |flex_container|
           flex_container.with_column do
             render Primer::OpenProject::AvatarStack.new(
               data: { "documents--live-events-target": "users" }
@@ -61,25 +58,57 @@
         render Primer::Beta::Popover.new(
           position: :absolute,
           display: :none, # hidden by default
+          classes: "op-live-users--popover",
           data: { "documents--live-events-target": "popover" }
         ) do |component|
-          component.with_heading { I18n.t("documents.active_editors") }
           component.with_body(caret: :top_left) do
-            flex_layout do |container|
-              users.each do |user|
-                container.with_row(mb: 2) do
-                  flex_layout(align_items: :center) do |user_row|
-                    user_row.with_column do
-                      render Primer::OpenProject::AvatarWithFallback.new(**avatar_options_for(user))
-                    end
+            concat(
+              flex_layout(
+                justify_content: :space_between,
+                align_items: :center,
+                border: :bottom,
+                mt: -3,
+                ml: -4,
+                mr: -4,
+                mb: 3,
+                pb: 2,
+                px: 4
+              ) do |header|
+                header.with_column do
+                  render(Primer::Beta::Heading.new(tag: :h4)) { I18n.t("documents.active_editors") }
+                end
 
-                    user_row.with_column(ml: 2) do
-                      render(Primer::Beta::Text.new(color: :subtle)) { user.name }
+                header.with_column(ml: 2) do
+                  render(
+                    Primer::Beta::IconButton.new(
+                      icon: :x,
+                      scheme: :invisible,
+                      size: :small,
+                      mr: -2,
+                      aria: { label: I18n.t(:button_close) },
+                      data: { action: "documents--live-events#closePopover" }
+                    )
+                  )
+                end
+              end
+            )
+            concat(
+              flex_layout do |container|
+                users.each do |user|
+                  container.with_row(mb: 2) do
+                    flex_layout(align_items: :center) do |user_row|
+                      user_row.with_column do
+                        render Primer::OpenProject::AvatarWithFallback.new(**avatar_options_for(user))
+                      end
+
+                      user_row.with_column(ml: 2) do
+                        render(Primer::Beta::Text.new(color: :subtle, classes: "op-live-users--name")) { user.name }
+                      end
                     end
                   end
                 end
               end
-            end
+            )
           end
         end
       )

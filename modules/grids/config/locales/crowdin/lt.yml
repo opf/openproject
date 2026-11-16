@@ -35,7 +35,7 @@ lt:
         title: Members
         view_all_members: Rodyti visus narius
         x_more:
-          one: and one more member.
+          one: and %{count} more member.
           few: and %{count} more members.
           many: and %{count} more members.
           other: and %{count} more members.

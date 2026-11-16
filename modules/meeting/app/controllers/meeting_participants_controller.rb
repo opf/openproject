@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -55,6 +54,7 @@ class MeetingParticipantsController < ApplicationController
     @meeting.participants.each do |participant|
       participant.update!(attended: true)
     end
+    @meeting.save_journals
 
     update_participants_via_turbo_stream
 
@@ -63,6 +63,7 @@ class MeetingParticipantsController < ApplicationController
 
   def toggle_attendance
     @participant.toggle!(:attended)
+    @meeting.save_journals
 
     update_box_row_component_via_turbo_stream(participant: @participant)
     update_sidebar_participants_component_via_turbo_stream(meeting: @meeting)

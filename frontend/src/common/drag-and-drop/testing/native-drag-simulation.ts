@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -32,6 +31,8 @@
 //
 // Pragmatic postpones the drag start and throttles drag updates by one
 // animation frame, so every step awaits a frame before returning.
+
+import { nextFrame } from 'core-common/testing/timing';
 
 export interface Point {
   x:number;
@@ -62,12 +63,6 @@ export function towardsEdgeOf(element:Element, edge:'top'|'bottom'|'left'|'right
     default:
       return center;
   }
-}
-
-function nextFrame():Promise<void> {
-  return new Promise((resolve) => {
-    requestAnimationFrame(() => resolve());
-  });
 }
 
 export class NativeDragSimulation {

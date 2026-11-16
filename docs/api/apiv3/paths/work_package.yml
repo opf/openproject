@@ -58,7 +58,7 @@ delete:
 
 get:
   summary: View Work Package
-  operationId: view_work_package
+  operationId: get_work_package
   tags:
     - Work Packages
   description: |-
@@ -91,11 +91,14 @@ get:
       example: '2022-01-01T00:00:00Z,PT0S'
   responses:
     '200':
+      description: OK
       content:
         application/hal+json:
           schema:
             $ref: '../components/schemas/work_package_model.yml'
-      description: OK
+          examples:
+            response:
+              $ref: "../components/examples/work_package_simple_response.yml"
     '404':
       content:
         application/hal+json:
@@ -126,7 +129,7 @@ patch:
     The value of `lockVersion` is used to implement
     [optimistic locking](https://en.wikipedia.org/wiki/Optimistic_concurrency_control).
 
-    **Custom Field Validation**  
+    **Custom Field Validation**
 
     Required custom fields are only validated when they are explicitly provided in the request body. If a custom field
     is not included in the update request, it will not be validated. This enables clients to update
@@ -162,11 +165,14 @@ patch:
             $ref: '../components/examples/work_package_with_meta_validation.yml'
   responses:
     '200':
+      description: OK
       content:
         application/hal+json:
           schema:
             '$ref': '../components/schemas/work_package_model.yml'
-      description: OK
+          examples:
+            response:
+              $ref: "../components/examples/work_package_simple_response.yml"
     '400':
       $ref: '../components/responses/invalid_request_body.yml'
     '403':

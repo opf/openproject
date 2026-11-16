@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -37,6 +36,12 @@ module MetaTagsHelper
 
   def page_title(*parts)
     (parts.reverse + [Setting.app_title]).join(" | ")
+  end
+
+  # Unescaped counterpart of +html_title_parts+ for callers that assemble a title outside
+  # of a page render, where neither @html_title nor @project is set.
+  def page_title_with_project(*parts, project: nil)
+    page_title(*[project&.name, *parts].compact_blank.map(&:to_s))
   end
 
   def initializer_meta_tag

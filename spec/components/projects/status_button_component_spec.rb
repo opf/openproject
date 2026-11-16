@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -66,7 +65,7 @@ RSpec.describe Projects::StatusButtonComponent, type: :component do
     end
 
     it "does not render a Primer ActionMenu" do
-      expect(subject).not_to have_element "action-menu"
+      expect(subject).to have_no_element "action-menu"
     end
 
     context "without attribute help text" do
@@ -89,7 +88,8 @@ RSpec.describe Projects::StatusButtonComponent, type: :component do
 
     context "when status code is not set" do
       it "renders an enabled button" do
-        expect(subject).to have_button "Not set", disabled: false, aria: { label: "Edit status" }
+        expect(subject).to have_button "Not set", disabled: false
+        expect(subject).to have_element :"tool-tip", text: "Edit status", "data-type": "description"
       end
 
       it "renders a Primer ActionMenu (single variant)" do
@@ -134,7 +134,8 @@ RSpec.describe Projects::StatusButtonComponent, type: :component do
       let(:status_code) { :on_track }
 
       it "renders an enabled button" do
-        expect(subject).to have_button "On track", disabled: false, aria: { label: "Edit status" }
+        expect(subject).to have_button "On track", disabled: false
+        expect(subject).to have_element :"tool-tip", text: "Edit status", "data-type": "description"
       end
 
       it "renders a Primer ActionMenu (single variant)" do

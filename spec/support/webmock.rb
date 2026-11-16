@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -55,6 +54,18 @@ RSpec.configure do |config|
       ]
     )
     WebMock.enable!
+    stub_request(:post, %r{\Ahttps://accounts\.google\.com/ListAccounts})
+      .to_return(status: 204, body: "", headers: {})
+    stub_request(:post, %r{\Ahttps?://update\.googleapis\.com/service/update2/json})
+      .to_return(status: 204, body: "", headers: {})
+    stub_request(:post, %r{\Ahttps://android\.clients\.google\.com/(?:checkin|c2dm/register3)})
+      .to_return(status: 204, body: "", headers: {})
+    stub_request(:get, %r{\Ahttp://edgedl\.me\.gvt1\.com/edgedl/})
+      .to_return(status: 204, body: "", headers: {})
+    stub_request(:post, %r{\Ahttps://optimizationguide-pa\.googleapis\.com/v1:GetModels})
+      .to_return(status: 204, body: "", headers: {})
+    stub_request(:get, %r{\Ahttps://optimizationguide-pa\.googleapis\.com/downloads})
+      .to_return(status: 204, body: "", headers: {})
     example.run
   ensure
     WebMock.allow_net_connect!

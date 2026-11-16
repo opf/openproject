@@ -22,19 +22,13 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Backlogs::Concerns
-  # Decides whether a card may offer to move its work package.
-  #
-  # The card row and the card menu are separate components that each render a
-  # way to move it, so the decision lives here and both consume it: a
-  # surface that answered the question for itself would be free to drift out of
-  # step with the other, which is the defect this exists to prevent.
+  # Decides whether a card row may offer to move its work package.
   #
   # Requires `work_package`, `project` and `current_user` in the including
   # component; `project` and `current_user` are what {#sortable?} resolves the
@@ -74,6 +68,19 @@ module Backlogs::Concerns
     #   this work package.
     def movable?
       sortable? && !work_package.readonly_status?
+    end
+
+    # What ordering this card takes part in.
+    #
+    # `fixed` is no part at all: no drag, no positional move, no selection.
+    # `confined` reorders within its own list but is refused by every other
+    # container. `free` may move to any list that accepts it.
+    #
+    # @return [String] one of "fixed", "confined", "free".
+    def mobility
+      return "fixed" unless sortable?
+
+      movable? ? "free" : "confined"
     end
   end
 end

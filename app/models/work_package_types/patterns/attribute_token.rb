@@ -22,38 +22,28 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module WorkPackageTypes
   module Patterns
-    AttributeToken = Data.define(:key, :label_fn, :resolve_fn, :formatter) do
+    AttributeToken = Data.define(:key, :context, :label_fn, :resolve_fn, :formatter) do
       def label_with_context
         attribute_context = I18n.t("types.edit.defaults.token.context.#{context}")
         I18n.t("types.edit.defaults.token.label_with_context", attribute_context:, attribute_label: label)
       end
 
-      def label(*)
-        label_fn.call(*)
+      def label
+        label_fn.call
       end
 
-      def call(*)
-        value = resolve_fn.call(*)
-        formatter.call(value)
-      end
+      def call(context, format_param)
+        value = resolve_fn.call(context)
+        return value if value == :attribute_not_available
 
-      def context
-        case key.to_s
-        when /^project_/
-          :project
-        when /^parent_/
-          :parent
-        else
-          :work_package
-        end
+        formatter.call(value, format_param)
       end
 
       # --- Equality overrides ---

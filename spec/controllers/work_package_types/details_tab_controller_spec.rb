@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -68,6 +67,7 @@ RSpec.describe WorkPackageTypes::DetailsTabController do
           "type_id" => type.id,
           "type" => {
             "name" => "Galactic Order",
+            "description" => "The type for galactic matters",
             "color_id" => lightsaber_red.id.to_s,
             "is_milestone" => "0",
             "is_in_roadmap" => "1",
@@ -84,6 +84,7 @@ RSpec.describe WorkPackageTypes::DetailsTabController do
 
       it "updates the core settings" do
         expect(type.reload).to have_attributes(name: "Galactic Order",
+                                               description: "The type for galactic matters",
                                                color_id: lightsaber_red.id,
                                                is_milestone: false,
                                                is_in_roadmap: true,
@@ -107,6 +108,46 @@ RSpec.describe WorkPackageTypes::DetailsTabController do
 
         it { expect(response).to have_http_status(:unprocessable_entity) }
         it { expect(response).to render_template "edit" }
+      end
+
+      context "with a description over the character limit" do
+        let(:params) do
+          {
+            "type_id" => type.id,
+            "type" => { "name" => "Galactic Order", "description" => "a" * (Type::DESCRIPTION_MAX_LENGTH + 1) }
+          }
+        end
+
+        it "does not save and re-renders the form", :aggregate_failures do
+          put(:update, params:)
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(type.reload.description).to be_blank
+        end
+      end
+    end
+
+    describe "PUT update for a named variant" do
+      let(:variant) { create(:type_variant, type:, variant_name: "Hardware") }
+      let(:params) do
+        {
+          "type_id" => type.id,
+          "variant_id" => variant.id,
+          "type_variant" => {
+            "variant_name" => "Firmware",
+            "description" => "Variant for firmware work"
+          }
+        }
+      end
+
+      it "updates the variant name and description" do
+        expect(variant.description).to be_blank
+
+        put(:update, params:)
+
+        expect(response).to have_http_status(:redirect)
+        expect(variant.reload).to have_attributes(variant_name: "Firmware",
+                                                  description: "Variant for firmware work")
       end
     end
   end

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -153,6 +152,7 @@ RSpec.shared_examples "work package relations tab", :js, :with_cuprite do
           relations.add_parent(parent)
           wp_page.expect_and_dismiss_toaster(message: "Successful update.")
           relations.expect_parent(parent)
+          expect(page).to have_button(accessible_name: "Change parent")
           tabs.expect_counter(relations_tab, 3)
 
           ##
@@ -181,15 +181,6 @@ RSpec.shared_examples "work package relations tab", :js, :with_cuprite do
       end
     end
   end
-end
-
-RSpec.context "within a split screen" do
-  let(:wp_page) { Pages::SplitWorkPackage.new(work_package) }
-  let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
-
-  let(:relations_tab) { find(".op-tab-row--link_selected", text: "RELATIONS") }
-
-  it_behaves_like "work package relations tab"
 end
 
 RSpec.context "within a primerized split screen" do

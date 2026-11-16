@@ -20,15 +20,14 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-
+import '@openproject/primer-view-components/app/components/primer/alpha/tool_tip.js';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { screen, waitFor } from '@testing-library/dom';
 import { PrimerIconButtonComponent } from './icon-button.component';
 
 describe('PrimerIconButtonComponent', () => {
@@ -115,5 +114,32 @@ describe('PrimerIconButtonComponent', () => {
     const button = container.querySelector('[aria-label=\'Star\']');
 
     expect(button).not.toBeNull();
+  });
+
+  it('keeps its label as name when a description is given', async () => {
+    fixture.componentRef.setInput('icon', 'star');
+    fixture.componentRef.setInput('label', 'Star');
+    fixture.componentRef.setInput('description', 'Add to favorites');
+    await fixture.whenStable();
+
+    const button = screen.getByRole('button');
+
+    expect(button).toHaveAccessibleName('Star');
+    expect(button).toHaveAccessibleDescription('Add to favorites');
+  });
+
+  it('follows a buttonId change', async () => {
+    fixture.componentRef.setInput('icon', 'star');
+    fixture.componentRef.setInput('label', 'Star');
+    fixture.componentRef.setInput('buttonId', 'first-id');
+    await fixture.whenStable();
+
+    fixture.componentRef.setInput('buttonId', 'second-id');
+    await fixture.whenStable();
+
+    await waitFor(() => {
+      expect(screen.getByRole('button').id).toBe('second-id');
+      expect(fixture.nativeElement.querySelector('tool-tip')).toHaveAttribute('for', 'second-id');
+    });
   });
 });

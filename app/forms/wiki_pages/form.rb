@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -76,24 +75,6 @@ module WikiPages
         input_width: :large,
         placeholder: I18n.t(:text_wiki_page_comment_placeholder)
       )
-
-      f.group(layout: :horizontal) do |button_group|
-        button_group.submit(
-          name: :save,
-          label: submit_label,
-          scheme: :primary
-        )
-
-        unless create?
-          button_group.button(
-            name: :cancel,
-            label: I18n.t(:button_cancel),
-            tag: :a,
-            href: cancel_href,
-            data: { turbo_confirm: I18n.t(:text_are_you_sure) }
-          )
-        end
-      end
     end
 
     def initialize(create:)
@@ -116,24 +97,8 @@ module WikiPages
       )
     end
 
-    def submit_label
-      if create?
-        I18n.t(:button_create)
-      else
-        I18n.t(:button_save)
-      end
-    end
-
     def preview_context
       helpers.preview_context(model, model.project)
-    end
-
-    def cancel_href
-      url_helpers.url_for(controller: "wiki",
-                          action: "show",
-                          project_id: model.wiki.project,
-                          id: model.new_record? ? nil : model,
-                          only_path: true)
     end
   end
 end

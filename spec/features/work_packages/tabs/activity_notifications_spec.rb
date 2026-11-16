@@ -1,11 +1,38 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require "spec_helper"
 
 require "features/work_packages/work_packages_page"
 require "support/edit_fields/edit_field"
 
-RSpec.describe "Activity tab notifications", :js, :selenium do
+RSpec.describe "Activity tab notifications", :js do
   shared_let(:project) { create(:project_with_types, public: true) }
   shared_let(:work_package) do
     create(:work_package,
@@ -30,7 +57,7 @@ RSpec.describe "Activity tab notifications", :js, :selenium do
     let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }
 
     it "shows a notification bubble with the right number" do
-      expect(page).to have_test_selector("tab-counter-Activity", text: "1")
+      expect(page).to have_test_selector(tab_counter_selector, text: "1")
     end
 
     it "shows a notification icon next to activities that have an unread notification" do
@@ -46,7 +73,7 @@ RSpec.describe "Activity tab notifications", :js, :selenium do
 
       # ... and updates the view accordingly
       expect(page).not_to have_test_selector("mark-notification-read-button")
-      expect(page).not_to have_test_selector("tab-counter-Activity")
+      expect(page).not_to have_test_selector(tab_counter_selector)
       activity_tab.expect_no_notification_bubble
     end
   end
@@ -55,7 +82,7 @@ RSpec.describe "Activity tab notifications", :js, :selenium do
     let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }
 
     it "shows no notification bubble" do
-      expect(page).not_to have_test_selector("tab-counter-Activity")
+      expect(page).not_to have_test_selector(tab_counter_selector)
     end
 
     it "does not show any notification icons next to activities" do
@@ -70,6 +97,8 @@ RSpec.describe "Activity tab notifications", :js, :selenium do
   context "when on full view" do
     shared_let(:full_view) { Pages::FullWorkPackage.new(work_package, project) }
 
+    let(:tab_counter_selector) { "tab-counter-Activity" }
+
     before do
       login_as(admin)
       full_view.visit_tab! "activity"
@@ -82,7 +111,9 @@ RSpec.describe "Activity tab notifications", :js, :selenium do
   end
 
   context "when on split view" do
-    shared_let(:split_view) { Pages::SplitWorkPackage.new(work_package, project) }
+    shared_let(:split_view) { Pages::PrimerizedSplitWorkPackage.new(work_package, project) }
+
+    let(:tab_counter_selector) { "wp-details-tab-component--activity-counter" }
 
     before do
       login_as(admin)

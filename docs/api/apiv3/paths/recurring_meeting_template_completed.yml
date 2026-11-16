@@ -11,7 +11,7 @@ post:
     occurrence.
 
     The `notify` flag sets the series-wide email notification setting (stored on the template).
-    When `true`, the initial series invitations are sent to the template participants. 
+    When `true`, the initial series invitations are sent to the template participants.
     `notify` must be provided explicitly.
 
     Completing an already-completed series is rejected.

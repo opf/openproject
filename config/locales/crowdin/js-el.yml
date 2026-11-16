@@ -47,6 +47,8 @@ el:
       draggable_hint: 'Σύρετε στο πεδίο επεξεργαστή για να ευθυγραμμίσετε συνημμένα εικόνας ή αναφοράς. Τα κλειστά πεδία επεξεργαστή θα ανοίξουν όσο συνεχίζετε να σέρνετε.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: The file is quarantined, as a virus was found. It is not available for download.
     autocomplete_ng_select:
       add_tag: Add item
@@ -61,6 +63,7 @@ el:
         single: Επιλογή "%{name}"
       remove: Διαγραφή %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: No items found
       placeholder: Πληκτρολογήστε για αναζήτηση
       project:
@@ -128,10 +131,10 @@ el:
     button_confirm: Επιβεβαίωση
     button_continue: Συνέχεια
     button_copy: Αντιγραφή
-    button_copy_link_to_clipboard: Αντιγραφή συνδέσμου στο πρόχειρο
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: Αντιγραφή στο πρόχειρο
     button_copy_to_other_project: Duplicate in another project
+    button_copy_work_package_id: Copy work package ID
     button_create: Δημιουργία
     button_custom-fields: Προσαρμοσμένα πεδία
     button_delete: Διαγραφή
@@ -147,6 +150,7 @@ el:
     button_log_time: Ιστορικό χρόνου
     button_more: Περισσότερα
     button_more_actions: More actions
+    button_move_to_position: Move to position
     button_open_details: Άνοιγμα προβολής λεπτομερειών
     button_open_fullscreen: Άνοιγμα προβολής πλήρης οθόνη
     button_quote: Παράθεση
@@ -162,6 +166,7 @@ el:
     button_stop_timer: Διακοπή χρονόμετρου
     button_uncheck_all: Αποεπιλογή όλων
     button_update: Ενημέρωση
+    button_view_markdown: View Markdown
     caption_rate_history: Ιστορικό αμοιβής
     card:
       add_new: Προσθέστε νέα κάρτα
@@ -201,7 +206,11 @@ el:
     description_select_work_package: 'Επιλέξτε πακέτο εργασίας #%{id}'
     description_subwork_package: 'Παιδί του πακέτου εργασίας #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: An error occurred within CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Η αποθήκευση του αρχείου απέτυχε δίνοντας το ακόλουθο μήνυμα: %{error}'
       macro:
         attribute_reference:
@@ -341,6 +350,8 @@ el:
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} items available"
       recently_viewed: Recently viewed
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: όλα τα έργα
@@ -358,8 +369,8 @@ el:
     ical_sharing_modal:
       copy_url_label: Copy URL
       description: You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there.
-      ical_generation_error_text: An error occured while generating the calendar URL.
-      inital_setup_error_message: An error occured while fetching data.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.
       title: Subscribe to calendar
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -431,7 +442,6 @@ el:
     label_assignee: Ανάθεση σε
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Συνημμένα
-    label_author: 'Συγγραφέας: %{user}'
     label_avatar: Άβαταρ
     label_between: μεταξύ
     label_board: Πίνακας
@@ -495,6 +505,7 @@ el:
     label_in: σε
     label_in_less_than: σε λιγότερο από
     label_in_more_than: σε περισσότερο από
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Εισερχόμενα email
     label_infinity: Infinity
     label_information_plural: Πληροφορίες
@@ -527,6 +538,10 @@ el:
     label_open_context_menu: Άνοιγμα του μενού πλαισίου
     label_open_menu: Άνοιγμα μενού
     label_open_work_packages: ανοιχτό
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Κωδικός
     label_per_page: 'Ανά σελίδα:'
     label_please_wait: Παρακαλώ περιμένετε
@@ -551,6 +566,8 @@ el:
     label_reset: Επαναφορά
     label_resize_project_menu: Resize project menu
     label_save_as: Αποθήκευση ως
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Search a column
     label_select_watcher: Επιλέξτε έναν παρατηρητή...
     label_selected_filter_list: Επιλεγμένα φίλτρα
@@ -558,7 +575,9 @@ el:
     label_show_in_menu: Εμφάνιση προβολής στο μενού
     label_sort_by: Ταξινόμηση κατά
     label_sort_higher: Μετακίνηση προς τα πάνω
+    label_sort_highest: Move to top
     label_sort_lower: Μετακίνηση προς τα κάτω
+    label_sort_lowest: Move to bottom
     label_sorted_by: ταξινομημένο κατά
     label_sorting: Ταξινόμηση
     label_spent_time: Χρόνος που δαπανήθηκε
@@ -569,6 +588,7 @@ el:
     label_sum_for: Άθροισμα του
     label_this_week: αυτή την εβδομάδα
     label_time_entry_plural: Χρόνος που δαπανήθηκε
+    label_to_do_work_packages: to-do
     label_today: 'Σήμερα '
     label_total_amount: 'Σύνολο: %{amount}'
     label_total_progress: "%{percent}% Συνολική πρόοδος"
@@ -623,7 +643,7 @@ el:
     notifications:
       center:
         and_more_users:
-          one: and 1 other
+          one: and %{count} other
           other: and %{count} others
         empty_state:
           no_notification: Looks like you are all caught up.
@@ -720,6 +740,7 @@ el:
     placeholders:
       default: "-"
       description: 'Description: Click to edit...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Κάντε κλικ για να προσθέσετε περιγραφή για αυτή την σχέση
       selection: Παρακαλώ επιλέξτε
       subject: Εισάγετε θέμα εδώ
@@ -806,12 +827,33 @@ el:
       sorting_disabled: η ταξινόμηση είναι απενεργοποιημένη
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} moved to position %{position} of %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+      selection:
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        range_restarted:
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Close modal
@@ -825,9 +867,7 @@ el:
     text_user_wrote: "%{value} έγραψε:"
     text_work_packages_destroy_confirmation: Είστε βέβαιοι ότι θέλετε να διαγράψετε το(-α) επιλεγμένο(-α) πακέτο(-α) εργασίας;
     time_entry:
-      stop: Stop
       title: Καταγραφή χρόνου
-      tracking: Παρακολούθηση χρόνου
       work_package_required: Πρέπει πρώτα να επιλεγεί ένα πακέτο εργασίας.
     timer:
       button_stop: Stop current timer
@@ -862,19 +902,19 @@ el:
       label_two_factor_authentication: Ταυτοποίηση δύο παραγόντων
     units:
       child_work_packages:
-        one: ένα παιδί πακέτο εργασίας
-        other: "%{count} παιδιά πακέτα εργασίας"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: 1 ημέρα
+        one: "%{count} day"
         other: "%{count} ημέρες"
         zero: 0 days
       hour:
-        one: 1 ώρα
+        one: "%{count} h"
         other: "%{count} ώρες"
         zero: 0 ω
       hour_string: "%{hours} h"
       word:
-        one: 1 word
+        one: "%{count} word"
         other: "%{count} words"
       workPackage:
         one: πακέτο εργασίας
@@ -934,6 +974,7 @@ el:
         all_open: Όλα τα ανοιχτά
         assigned_to_me: Έχουν ανατεθεί σε εμένα
         created_by_me: Δημιουργήθηκε από εμένα
+        in_progress: In progress
         latest_activity: Τελευταία δραστηριότητα
         manually_sorted: New manually sorted query
         overdue: Overdue
@@ -941,6 +982,7 @@ el:
         shared_with_me: Shared with me
         shared_with_users: Shared with users
         summary: Περίληψη
+        to_do: To-do
       description_enter_text: Εισάγετε κείμενο
       description_filter: Φίλτρο
       description_options_hide: Απόκρυψη επιλογών
@@ -1028,6 +1070,7 @@ el:
         other: Άλλο
         people: Άτομα
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Κάντε κλικ για να επεξεργαστείτε τον τίτλο αυτής της προβολής.
         column_names: Στήλες
         confirm_edit_cancel: Είστε βέβαιοι ότι θέλετε να ακυρώσετε την επεξεργασία του ονόματος αυτής της προβολής; Ο τίτλος θα επανέλθει στην προηγούμενη τιμή του.
@@ -1037,17 +1080,16 @@ el:
           not_found: Δεν υπάρχει τέτοια προβολή
           unretrievable_query: Δεν ήταν δυνατή η ανάκτηση της προβολής από τον σύνδεσμο URL
         filters: Φίλτρα
-        group: Ομαδοποίηση κατά
         group_by: Ομαδοποίηση αποτελεσμάτων κατά
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Η ομαδοποίηση είναι απενεργοποιημένη επειδή είναι ενεργή η λειτουργία ιεραρχίας.
-        hide_column: Απόκρυψη στήλης
         hierarchy_disabled_by_group_by: Η λειτουργία ιεραρχίας είναι απενεργοποιημένη επειδή τα αποτελέσματα είναι ομαδοποιημένα κατά %{column}.
-        insert_columns: Insert columns
         move_column_left: Μετακίνηση στήλης αριστερά
         move_column_right: Μετακίνηση στήλης δεξιά
         public_text: 'Δημοσιεύστε αυτή την προβολή, επιτρέποντας σε άλλους χρήστες να έχουν πρόσβαση στην προβολή σας. Οι χρήστες με δικαίωμα ''Διαχείρισης δημόσιων προβολών'' μπορούν να τροποποιήσουν ή να αφαιρέσουν τις δημόσιες αναζητήσεις. Αυτό δεν επηρεάζει την ορατότητα των αποτελεσμάτων πακέτων εργασίας σε αυτή την προβολή και ανάλογα με τα δικαιώματα τους, οι χρήστες μπορεί να βλέπουν διαφορετικά αποτελέσματα.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Το όνομα αυτής της προβολής
         sort_ascending: Αύξουσα ταξινόμηση
         sort_descending: Φθίνουσα ταξινόμηση
@@ -1068,15 +1110,26 @@ el:
       scheduling:
         is_parent: Οι ημερομηνίες αυτού του πακέτου εργασίας προκύπτουν αυτόματα από τα παιδιά του. Ενεργοποιήστε τον "Χειροκίνητο προγραμματισμό" για να ορίσετε τις ημερομηνίες.
         is_switched_from_manual_to_automatic: Οι ημερομηνίες αυτού του πακέτου εργασίας μπορεί να χρειαστεί να υπολογιστούν εκ νέου μετά τη μετάβαση από χειροκίνητο σε αυτόματο προγραμματισμό λόγω των σχέσεων με άλλα πακέτα εργασίας.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Show all users with whom the work package has been shared with
         title: Share work package
       table:
         configure_button: Διαμόρφωση του πίνακα πακέτων εργασίας
-        summary: Πίνακας με γραμμές από πακέτα εργασίας και στήλες από χαρακτηριστικά πακέτων εργασίας.
-        text_inline_edit: Τα περισσότερα κελιά αυτού του πίνακα είναι κουμπιά τα οποία ενεργοποιούν την λειτουργικότητα επεξεργασίας-inline αυτού του χαρακτηριστικού.
-        text_select_hint: Επιλέξτε τα κουτιά που θα πρέπει να ανοίγουν με το πλήκτρο 'ALT' και τα πλήκτρα βέλους.
-        text_sort_hint: Με τους συνδέσμους στις επικεφαλίδες του πίνακα μπορείτε να ταξινομήσετε, ομαδοποιήσετε, να αλλάξετε την σειρά, να αφαιρέσετε και να προσθέσετε στήλες στον πίνακα.
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: Διαμόρφωση αυτού του πίνακα πακέτων εργασίας
         choose_display_mode: Εμφάνιση πακέτων εργασίας ως
@@ -1085,7 +1138,6 @@ el:
         default_mode: Επίπεδη λίστα
         display_settings: Ρυθμίσεις εμφάνισης
         display_sums_hint: Εμφάνιση αθροισμάτων από όλα τα αθροίσιμα χαρακτηριστικά σε μια στήλη κάτω από τα αποτελέσματα του πίνακα.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: Όλα τα φιλτραρισμένα αποτελέσματα πίνακα θα επαυξηθούν με τους προγόνους τους. Οι ιεραρχίες μπορούν να επεκταθούν ή να συμπτυχθούν.
         hierarchy_mode: Ιεραρχία
         highlighting: Επισημαίνοντας

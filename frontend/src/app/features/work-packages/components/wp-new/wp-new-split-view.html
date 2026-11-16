@@ -17,7 +17,7 @@
         <wp-edit-actions-bar (onCancel)="cancelAndBack()"/>
       </div>
       <div class="work-packages--details--resizer hidden-for-mobile hide-when-print">
-        <wp-resizer [elementClass]="'work-packages-partitioned-page--content-right'"
+        <wp-resizer [elementClass]="resizerClass"
         [localStorageKey]="'openProject-splitViewFlexBasis'" />
       </div>
     </edit-form>

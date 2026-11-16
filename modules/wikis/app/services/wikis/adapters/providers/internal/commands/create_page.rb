@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -68,7 +67,7 @@ module Wikis
               if result.success?
                 success(Queries::PageInfo.wiki_page_to_page_info(result.result, provider:))
               elsif result.errors.details.values.flatten.any? { |e| e.fetch(:error) == :error_unauthorized }
-                failure(code: :forbidden)
+                failure(code: :unauthorized)
               else
                 # for now simplifying to a single error code, since there is not really any
                 # error case expected to crop up during real usage, due to previous validations in upstream code

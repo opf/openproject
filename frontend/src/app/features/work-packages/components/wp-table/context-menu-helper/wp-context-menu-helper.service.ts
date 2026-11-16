@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -35,6 +34,7 @@ import { HookService } from 'core-app/features/plugins/hook-service';
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
 import { WorkPackageViewHierarchyIdentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service';
 import { WorkPackageViewDisplayRepresentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
+import { sortContextMenuActions } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-static-context-menu-actions';
 
 export interface WorkPackageAction {
   text?:string;
@@ -44,6 +44,7 @@ export interface WorkPackageAction {
   link?:string;
   href?:string;
   hidden?:boolean;
+  turboRequest?:boolean;
 }
 
 @Injectable()
@@ -55,7 +56,7 @@ export class WorkPackageContextMenuHelperService {
   private wpViewIndent = inject(WorkPackageViewHierarchyIdentationService);
   private PathHelper = inject(PathHelperService);
 
-  private BULK_ACTIONS = [
+  private BULK_ACTIONS:WorkPackageAction[] = [
     {
       text: I18n.t('js.work_packages.bulk_actions.edit'),
       key: 'edit',
@@ -82,8 +83,8 @@ export class WorkPackageContextMenuHelperService {
     },
   ];
 
-  public getPermittedActionLinks(workPackage:WorkPackageResource, permittedActionConstants:any, allowSplitScreenActions:boolean):WorkPackageAction[] {
-    const singularPermittedActions:any[] = [];
+  public getPermittedActionLinks(workPackage:WorkPackageResource, permittedActionConstants:WorkPackageAction[], allowSplitScreenActions:boolean):WorkPackageAction[] {
+    const singularPermittedActions:WorkPackageAction[] = [];
 
     let allowedActions = this.getAllowedActions(workPackage, permittedActionConstants);
 
@@ -92,19 +93,20 @@ export class WorkPackageContextMenuHelperService {
     // remove some actions on Gantt
     if (this.wpViewTimeline.isVisible) {
       allowedActions = allowedActions.filter((el) => {
-        const ganttNotAllowedActions = ['log_time', 'copy', 'copy_to_other_project', 'export-pdf', 'generate_pdf', 'export-atom', 'log_costs'];
+        const ganttNotAllowedActions = ['log_time', 'copy', 'copy_to_other_project', 'export-pdf', 'generate_pdf', 'export-atom', 'log_costs', 'allocate_resource'];
         return !(ganttNotAllowedActions.includes(el.key));
       });
     }
 
     allowedActions = allowedActions.concat(this.getAllowedRelationActions(workPackage, allowSplitScreenActions));
 
-    allowedActions.forEach((allowedAction) => {
+    sortContextMenuActions(allowedActions).forEach((allowedAction) => {
       singularPermittedActions.push({
         key: allowedAction.key,
         text: allowedAction.text,
         icon: allowedAction.icon,
         link: this.linkForAction(workPackage, allowedAction),
+        turboRequest: allowedAction.turboRequest,
       });
     });
 
@@ -116,6 +118,12 @@ export class WorkPackageContextMenuHelperService {
     switch (action.key) {
       case 'copy_link_to_clipboard':
         link = this.PathHelper.workPackageShortPath(workPackage.displayId);
+        break;
+      case 'view_markdown':
+        link = this.PathHelper.workPackageShortPath(workPackage.displayId, { format: 'md' });
+        break;
+      case 'log_time':
+        link = this.PathHelper.timeEntryWorkPackageDialog(workPackage.id!);
         break;
       default:
         link = action.link ? (workPackage[action.link] as HalLink).href! : undefined;
@@ -129,7 +137,7 @@ export class WorkPackageContextMenuHelperService {
     const possibleActions:WorkPackageAction[] = this.BULK_ACTIONS.concat(this.HookService.call('workPackageBulkContextMenu'));
     const permittedActions = possibleActions.filter((action) => workPackages.every((workPackage:WorkPackageResource) => this.isActionAllowed(workPackage, action)));
 
-    permittedActions.forEach((permittedAction) => {
+    sortContextMenuActions(permittedActions).forEach((permittedAction) => {
       bulkPermittedActions.push({
         key: permittedAction.key,
         text: permittedAction.text,
@@ -141,15 +149,15 @@ export class WorkPackageContextMenuHelperService {
     return bulkPermittedActions;
   }
 
-  public getBulkActionLink(action:any, workPackages:any) {
+  public getBulkActionLink(action:WorkPackageAction, workPackages:WorkPackageResource[]) {
     const workPackageIdParams = {
-      'ids[]': workPackages.map((wp:any) => wp.id),
+      'ids[]': workPackages.map((wp) => wp.id),
     };
     const serializedIdParams = this.UrlParamsHelper.buildQueryString(workPackageIdParams);
 
-    const linkAndQueryString = action.href.split('?');
+    const linkAndQueryString = action.href!.split('?');
     const link = linkAndQueryString.shift();
-    const queryParts = linkAndQueryString.concat(new Array(serializedIdParams));
+    const queryParts = linkAndQueryString.concat(new Array<string>(serializedIdParams!));
 
     return `${link}?${queryParts.join('&')}`;
   }
@@ -242,7 +250,7 @@ export class WorkPackageContextMenuHelperService {
     return allowedActions;
   }
 
-  public getPermittedActions(workPackages:WorkPackageResource[], permittedActionConstants:any, allowSplitScreenActions:boolean):WorkPackageAction[] {
+  public getPermittedActions(workPackages:WorkPackageResource[], permittedActionConstants:WorkPackageAction[], allowSplitScreenActions:boolean):WorkPackageAction[] {
     if (workPackages.length === 1) {
       return this.getPermittedActionLinks(workPackages[0], permittedActionConstants, allowSplitScreenActions);
     }

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -125,6 +124,53 @@ RSpec.describe Journals::UpdateService do
             expect(claims_service).to have_received(:new)
           end
         end
+      end
+    end
+  end
+
+  describe "retracting a comment" do
+    shared_let(:user) { create(:admin) }
+    shared_let(:work_package) { create(:work_package) }
+
+    let(:journal) do
+      AddWorkPackageNoteService.new(user:, work_package:).call("A comment")
+      work_package.last_journal
+    end
+
+    let(:notes) { "" }
+
+    subject(:call) { described_class.new(model: journal, user:).call(notes:) }
+
+    context "when the notes are emptied" do
+      it "marks the journal with a comment retraction cause instead of leaving a noop" do
+        expect(call).to be_success
+
+        journal.reload
+        expect(journal.cause).to eq("type" => "comment_retracted")
+        expect(journal).not_to be_noop
+        expect(journal.details).to have_key(:cause)
+      end
+    end
+
+    context "when the notes are emptied on a journal that already has a cause" do
+      let(:existing_cause) { Journal::CausedByWorkPackageParentDeletion.new.to_hash }
+
+      before do
+        journal.update_column(:cause, existing_cause)
+      end
+
+      it "keeps the existing cause" do
+        expect(call).to be_success
+        expect(journal.reload.cause).to eq(existing_cause)
+      end
+    end
+
+    context "when the notes are changed" do
+      let(:notes) { "An edited comment" }
+
+      it "does not set a cause" do
+        expect(call).to be_success
+        expect(journal.reload.cause).to be_blank
       end
     end
   end

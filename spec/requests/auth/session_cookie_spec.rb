@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,13 +34,15 @@ RSpec.describe "Session cookie", type: :rails_request do
     expect(Rails.application.config.session_options[:same_site]).to eq(:lax)
   end
 
-  it "sets SameSite=Lax on the HTTP-only cookie in the login response" do
-    get signin_path
+  it "sets SameSite=Lax on the HTTP-only cookie in the login response", :skip_csrf do
+    user = create(:user)
+
+    post signin_path, params: { username: user.login, password: "adminADMIN!" }
 
     cookie_name = OpenProject::Configuration["session_cookie_name"]
     cookie = Array(response.headers["Set-Cookie"]).find { |header| header.start_with?("#{cookie_name}=") }
 
-    expect(response).to have_http_status(:ok)
+    expect(response).to have_http_status(:redirect)
     expect(cookie).to be_present
     expect(cookie).to include("SameSite=Lax", "HttpOnly")
   end

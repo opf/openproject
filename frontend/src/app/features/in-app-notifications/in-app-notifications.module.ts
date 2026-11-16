@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -46,6 +45,7 @@ import {
   OpenprojectContentLoaderModule,
 } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 import { OpenprojectPrincipalRenderingModule } from 'core-app/shared/components/principal/principal-rendering.module';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import { OpSharedModule } from 'core-app/shared/shared.module';
 import { DynamicModule } from 'ng-dynamic-component';
 import { InAppNotificationActorsLineComponent } from './entry/actors-line/in-app-notification-actors-line.component';
@@ -74,6 +74,7 @@ import { InAppNotificationStatusComponent } from './entry/status/in-app-notifica
     OpenprojectWorkPackagesModule,
     OpenprojectContentLoaderModule,
     ScrollingModule,
+    OpTooltipDirective,
   ],
   providers: [
     IanBellService,

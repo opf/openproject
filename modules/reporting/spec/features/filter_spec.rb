@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,7 +37,7 @@ RSpec.describe "Cost report calculations", :js do
 
   before do
     login_as user
-    visit cost_reports_path(project)
+    visit project_reporting_cost_reports_path(project)
   end
 
   def clear_project_filter
@@ -83,6 +82,15 @@ RSpec.describe "Cost report calculations", :js do
 
     user_autocompleter = find("opce-user-autocompleter#user_id_select_1")
     expect_current_autocompleter_value(user_autocompleter, "me")
+  end
+
+  it_behaves_like "a project picker searchable by identifier" do
+    let(:target_project) { create(:project, name: "Searched Report Project", identifier: "searched-report-project") }
+    let(:control_project) { create(:project, name: "Unrelated Report Project", identifier: "unrelated-report-project") }
+
+    def search_project(query)
+      search_autocomplete(find("opce-project-autocompleter#project_id_select_1"), query:)
+    end
   end
 
   it "allows selecting a locked user in the user filter" do

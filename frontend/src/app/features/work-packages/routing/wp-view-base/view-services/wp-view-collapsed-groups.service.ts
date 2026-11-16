@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -132,18 +131,18 @@ export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseSe
     return { allGroupsAreCollapsed, allGroupsAreExpanded };
   }
 
-  initialize(query:QueryResource, results:WorkPackageCollectionResource, schema?:QuerySchemaResource) {
+  initialize(_query:QueryResource, _results:WorkPackageCollectionResource, _schema?:QuerySchemaResource) {
     // When this service is initialized (first time the table is loaded and very time the groupBy changes),
     // we need to wait until the table is ready to emit the collapseStatus. Otherwise the groups are not
     // ready in the DOM and can't be collapsed/expanded.
     this.querySpace.tableRendered.values$().pipe(take(1)).subscribe(() => this.update({ ...this.config, allGroupsChanged: true }));
   }
 
-  valueFromQuery(query:QueryResource, results:WorkPackageCollectionResource) {
+  valueFromQuery(_query:QueryResource, _results:WorkPackageCollectionResource) {
     return this.getDefaultState();
   }
 
-  applyToQuery(query:QueryResource) {
+  applyToQuery(_query:QueryResource) {
 
   }
 }

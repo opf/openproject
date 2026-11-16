@@ -31,11 +31,11 @@ properties:
               This non-working day.
 
               **Resource**: NonWorkingDay
-example:
-  _type: NonWorkingDay
-  date: '2022-12-25'
-  name: Christmas
-  _links:
-    self:
-      href: /api/v3/days/non_working/2022-12-25
-      title: Christmas
+examples:
+  - _type: NonWorkingDay
+    date: '2022-12-25'
+    name: Christmas
+    _links:
+      self:
+        href: /api/v3/days/non_working/2022-12-25
+        title: Christmas

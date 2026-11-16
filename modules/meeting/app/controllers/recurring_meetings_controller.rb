@@ -1,5 +1,32 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 class RecurringMeetingsController < ApplicationController
   include Layout
   include PaginationHelper
@@ -149,10 +176,10 @@ class RecurringMeetingsController < ApplicationController
     )
   end
 
-  def destroy
+  def destroy # rubocop:disable Metrics/AbcSize
     # rubocop:disable Rails/ActionControllerFlashBeforeRender
     RecurringMeetings::DeleteService
-      .new(model: @recurring_meeting, user: User.current)
+      .new(model: @recurring_meeting, user: User.current, cancellation_reason: params[:cancellation_reason])
       .call
       .on_success { flash[:notice] = I18n.t(:notice_successful_delete) }
       .on_failure { flash[:error] = I18n.t(:error_failed_to_delete_entry) }
@@ -274,9 +301,10 @@ class RecurringMeetingsController < ApplicationController
     # Include ongoing scheduled occurrences by setting a start time in the past
     from_time = Time.current - @recurring_meeting.template.duration.hours
 
-    # Get +1 scheduled_occurrences in case there is an ongoing cancelled occurrence
+    # Fetch enough occurrences to still have `count` planned ones after the already-opened
+    # occurrences are rejected, plus +1 in case there is an ongoing cancelled occurrence
     scheduled_times = @recurring_meeting
-      .scheduled_occurrences(limit: count + 1, from_time:)
+      .scheduled_occurrences(limit: count + opened.size + 1, from_time:)
       .reject { |occurrence_time| opened.include?(occurrence_time) }
 
     has_ongoing = scheduled_times.any? { |occurrence_time| occurrence_time < Time.current }
@@ -303,7 +331,8 @@ class RecurringMeetingsController < ApplicationController
         [total, 0].max
       end
 
-    @count = [show_more_limit_param(limit: params[:limit]), @max_count].compact.min
+    initial_limit = @direction == "past" ? SHOW_MORE_PAST_DEFAULT_LIMIT : SHOW_MORE_DEFAULT_LIMIT
+    @count = [show_more_limit_param(limit: params[:limit], initial_limit:), @max_count].compact.min
   end
 
   def planned_occurrence(recurrence_start_time)

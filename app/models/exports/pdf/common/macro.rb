@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,6 +33,7 @@ module Exports::PDF::Common::Macro
   UNSUPPORTED_NESTED = %w[<table <img ```].freeze
   # markdown quotes are not supported in nested rich text
   UNSUPPORTED_NESTED_REGEX = [/^\s>/].freeze
+  MARKDOWN_EXTENSIONS = %i[autolink strikethrough table tagfilter tasklist].freeze
 
   def apply_markdown_field_macros(markdown, context)
     return markdown if markdown.blank?
@@ -44,6 +44,7 @@ module Exports::PDF::Common::Macro
   def macros
     [
       WorkPackage::Exports::Macros::Links,
+      WorkPackage::Exports::Macros::WikiLinks,
       WorkPackage::Exports::Macros::Attributes
     ]
   end
@@ -53,7 +54,7 @@ module Exports::PDF::Common::Macro
   def apply_macros(markdown, context)
     return markdown unless macros.any? { |macro| macro.applicable?(markdown) }
 
-    document = Markly.parse(markdown)
+    document = Markly.parse(markdown, extensions: MARKDOWN_EXTENSIONS)
     document.walk { |node| apply_macros_node(node, context) }
     document.to_markdown
             .gsub("\\~", "~") # fix a bug in Markly that escapes tildes
@@ -171,7 +172,7 @@ module Exports::PDF::Common::Macro
     document = Markly.parse(
       markdown,
       flags: Markly::SMART | Markly::STRIKETHROUGH_DOUBLE_TILDE | Markly::UNSAFE | Markly::VALIDATE_UTF8,
-      extensions: %i[autolink strikethrough table tagfilter tasklist]
+      extensions: MARKDOWN_EXTENSIONS
     )
     document.to_html
   end

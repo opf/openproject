@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -101,7 +100,7 @@ RSpec.describe Budgets::AggregatedBudgets do
       let!(:labor_item) do
         create(:labor_budget_item,
                budget:,
-               user: user_with_rates,
+               principal: user_with_rates,
                hours: 100,
                amount: BigDecimal("5000"))
       end
@@ -190,7 +189,7 @@ RSpec.describe Budgets::AggregatedBudgets do
 
       # Create membership for user in portfolio and child projects
       [portfolio, child_project_one, child_project_two].each do |p|
-        create(:member, project: p, user:,
+        create(:member, project: p, principal: user,
                         roles: [create(:project_role, permissions: %i[view_budgets])])
       end
     end

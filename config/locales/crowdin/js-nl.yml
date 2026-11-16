@@ -47,6 +47,8 @@ nl:
       draggable_hint: 'Sleep op het invoerveld naar in line afbeelding of verwijzing bijlage. Gesloten invoervelden wordt geopend terwijl u blijft slepen.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: The file is quarantined, as a virus was found. It is not available for download.
     autocomplete_ng_select:
       add_tag: Add item
@@ -61,6 +63,7 @@ nl:
         single: Selecteer "%{name}"
       remove: Verwijder %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Geen items gevonden
       placeholder: Typ om te zoeken
       project:
@@ -128,10 +131,10 @@ nl:
     button_confirm: Accepteren
     button_continue: Ga verder
     button_copy: Kopieer
-    button_copy_link_to_clipboard: Link naar klembord kopiëren
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: Kopiëren naar het klembord
     button_copy_to_other_project: Duplicate in another project
+    button_copy_work_package_id: Copy work package ID
     button_create: Maken
     button_custom-fields: Aangepaste velden
     button_delete: Verwijderen
@@ -147,6 +150,7 @@ nl:
     button_log_time: Gelogde tijd
     button_more: Meer
     button_more_actions: Meer acties
+    button_move_to_position: Move to position
     button_open_details: Open detailweergave
     button_open_fullscreen: Open volledig scherm
     button_quote: Citeer
@@ -162,6 +166,7 @@ nl:
     button_stop_timer: Stop timer
     button_uncheck_all: Deselecteer alles
     button_update: Bijwerken
+    button_view_markdown: View Markdown
     caption_rate_history: Tarief geschiedenis
     card:
       add_new: Nieuwe kaart toevoegen
@@ -201,7 +206,11 @@ nl:
     description_select_work_package: 'Selecteer werk pakket #%{id}'
     description_subwork_package: 'Kind van werkpakket #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Er is een fout opgetreden in CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: Het opslaan van het document is mislukt met de volgende foutmelding:%{error}
       macro:
         attribute_reference:
@@ -341,6 +350,8 @@ nl:
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} items available"
       recently_viewed: Recent bekeken
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: alle projecten
@@ -358,8 +369,8 @@ nl:
     ical_sharing_modal:
       copy_url_label: URL kopiëren
       description: You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there.
-      ical_generation_error_text: Er is een fout opgetreden tijdens het genereren van de agenda-URL.
-      inital_setup_error_message: Er is een fout opgetreden tijdens het ophalen van gegevens.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.
       title: Abonneren op agenda
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -431,7 +442,6 @@ nl:
     label_assignee: Toegewezene
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Bijlagen
-    label_author: 'Auteur: %{user}'
     label_avatar: Avatar
     label_between: tussen
     label_board: Bord
@@ -495,6 +505,7 @@ nl:
     label_in: in
     label_in_less_than: in minder dan
     label_in_more_than: in meer dan
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Inkomende e-mails
     label_infinity: Infinity
     label_information_plural: Informatie
@@ -527,6 +538,10 @@ nl:
     label_open_context_menu: Toon context menu
     label_open_menu: Menu openen
     label_open_work_packages: Open
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Wachtwoord
     label_per_page: 'Per pagina:'
     label_please_wait: Een ogenblik geduld
@@ -551,6 +566,8 @@ nl:
     label_reset: Herstel
     label_resize_project_menu: Resize project menu
     label_save_as: Opslaan als
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Search a column
     label_select_watcher: Kies een toezichter...
     label_selected_filter_list: Geselecteerde filters
@@ -558,7 +575,9 @@ nl:
     label_show_in_menu: Toon overzicht in menu
     label_sort_by: Sorteer op
     label_sort_higher: Omhoog
+    label_sort_highest: Move to top
     label_sort_lower: Omlaag
+    label_sort_lowest: Move to bottom
     label_sorted_by: gesorteerd door
     label_sorting: Sortering
     label_spent_time: Bestede tijd
@@ -569,6 +588,7 @@ nl:
     label_sum_for: Som voor
     label_this_week: deze week
     label_time_entry_plural: Bestede tijd
+    label_to_do_work_packages: to-do
     label_today: Vandaag
     label_total_amount: 'Totaal: %{amount}'
     label_total_progress: "%{percent}% totale vooruitgang"
@@ -623,8 +643,8 @@ nl:
     notifications:
       center:
         and_more_users:
-          one: en 1 ander
-          other: en %{count} anderen
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Het lijkt erop dat u helemaal bij bent.
           no_notification_for_filter: Looks like you are all caught up for this filter.
@@ -720,6 +740,7 @@ nl:
     placeholders:
       default: "-"
       description: 'Beschrijving: Klik om te bewerken...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Klik om een beschrijving voor deze relatie toe te voegen
       selection: Gelieve te selecteren
       subject: Onderwerp hier invoeren
@@ -806,12 +827,33 @@ nl:
       sorting_disabled: sorteren is uitgeschakeld
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} moved to position %{position} of %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+      selection:
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        range_restarted:
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Close modal
@@ -825,9 +867,7 @@ nl:
     text_user_wrote: "%{value} schreef:"
     text_work_packages_destroy_confirmation: Weet u zeker dat u geselecteerd(e) werkpakket(ten) wilt verwijderen?
     time_entry:
-      stop: Stop
       title: Gelogde tijd
-      tracking: Tijdregistratie
       work_package_required: Vereist eerst een werkpakket te selecteren.
     timer:
       button_stop: Stop current timer
@@ -862,19 +902,19 @@ nl:
       label_two_factor_authentication: Twee-staps authenticatie
     units:
       child_work_packages:
-        one: één onderliggend werkpakket
-        other: "%{count} werkpakket kinderen"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: 1 dag
+        one: "%{count} day"
         other: "%{count} dagen"
         zero: 0 dagen
       hour:
-        one: 1 u
+        one: "%{count} h"
         other: "%{count} u"
         zero: 0 uur
       hour_string: "%{hours} h"
       word:
-        one: 1 word
+        one: "%{count} word"
         other: "%{count} words"
       workPackage:
         one: werkpakket
@@ -934,6 +974,7 @@ nl:
         all_open: Alles open
         assigned_to_me: Toegewezen aan mij
         created_by_me: Gemaakt door mijzelf
+        in_progress: In progress
         latest_activity: Laatste Activiteit
         manually_sorted: Nieuwe handmatig gesorteerde query
         overdue: Te laat
@@ -941,6 +982,7 @@ nl:
         shared_with_me: Shared with me
         shared_with_users: Gedeeld met gebruikers
         summary: Samenvatting
+        to_do: To-do
       description_enter_text: Tekst invoeren
       description_filter: Filter
       description_options_hide: Verberg opties
@@ -1028,6 +1070,7 @@ nl:
         other: Overige
         people: Mensen
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Klik om de titel van de weergave te bewerken.
         column_names: Kolommen
         confirm_edit_cancel: Weet u zeker dat u wilt stoppen met het bewerken van de naam van deze weergave? De Titel zal terug naar vorige waarde worden ingesteld.
@@ -1037,17 +1080,16 @@ nl:
           not_found: Deze weergave bestaat niet
           unretrievable_query: Het is onmogelijk om de weergave van de url op te halen
         filters: Filters
-        group: Groeperen op
         group_by: Groepeer resultaten op
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Groeperen is uitgeschakeld als gevolg van de hiërarchie-modus actief.
-        hide_column: Verberg kolom
         hierarchy_disabled_by_group_by: Hiërarchie-modus is uitgeschakeld als gevolg van de resultaten die worden gegroepeerd op %{column}.
-        insert_columns: Kolommen invoegen
         move_column_left: Verplaats kolom naar links
         move_column_right: Verplaats kolom naar rechts
         public_text: 'Publiceer deze weergave zodat andere gebruikers er toegang tot hebben. Gebruikers met de ''Openbare weergave beheren'' rechten kunnen openbare query wijzigen of verwijderen. Dit heeft geen invloed op de zichtbaarheid van werkpakket resultaten in die weergave en afhankelijk van hun permissies, kunnen gebruikers verschillende resultaten zien.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Naam van deze weergave
         sort_ascending: Sorteer opgaand
         sort_descending: Sorteer afgaand
@@ -1068,15 +1110,26 @@ nl:
       scheduling:
         is_parent: The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates.
         is_switched_from_manual_to_automatic: The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Toon alle gebruikers met wie het werkpakket is gedeeld
         title: Werkpakket delen
       table:
         configure_button: Configureer werkpakkettabel
-        summary: Tabel met rijen van werkpakket en kolommen werk pakket kenmerken.
-        text_inline_edit: De meeste cellen van deze tabel zijn knoppen die de inline-bewerken functionaliteit van dat kenmerk te activeren.
-        text_select_hint: Selecteer vakken die moeten worden geopend met 'ALT' en pijl.
-        text_sort_hint: Met de koppelingen in de tabelkoppen kunt u sorteren, groeperen, rangschikken, verwijderen en tabelkolommen toevoegen.
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: Configureer deze werkpakkettabel
         choose_display_mode: Werkpakketten weergeven als
@@ -1085,7 +1138,6 @@ nl:
         default_mode: Platte lijst
         display_settings: Weergave-instellingen
         display_sums_hint: Waarden van alle optelbare attributen in een rij onder de tabel resultaten weergeven.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: Alle gefilterde tabel resultaten zal worden uitgebreid met hun voorouders. Hiërarchieën kunnen worden uitgevouwen en samengevouwen.
         hierarchy_mode: Hiërarchie
         highlighting: Markering

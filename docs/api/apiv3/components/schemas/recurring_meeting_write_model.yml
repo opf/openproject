@@ -110,6 +110,6 @@ properties:
         allOf:
           - $ref: "./link.yml"
           - description: |-
-              The project the recurring meeting belongs to. Required on creation.
+              The project the recurring meeting belongs to. Required on creation, read-only afterwards.
 
               **Resource**: Project

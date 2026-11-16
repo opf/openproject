@@ -20,37 +20,37 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 /* eslint-disable @angular-eslint/component-selector, @angular-eslint/no-input-rename */
 
-import { ChangeDetectionStrategy, Component, computed, CUSTOM_ELEMENTS_SCHEMA, input, output } from '@angular/core';
+import { booleanAttribute, ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { generateId } from 'core-app/shared/helpers/dom-helpers';
 import { IconModule } from '../icon/icon.module';
 import { AbstractBaseButtonDirective } from './abstract-base-button.directive';
 import { PrimerBaseButtonDirective } from './base-button.directive';
+import { DynamicIconName } from './dynamic-icon-map';
 import { DynamicIconDirective } from './dynamic-icon.directive';
+import { TooltipDirection } from './tool-tip-element';
+import { OpTooltipDirective } from './tooltip.directive';
 
 type Scheme = 'default' | 'primary' | 'secondary' | 'danger' | 'invisible';
 type Size = 'small' | 'medium' | 'large';
-type TooltipDirection = 's' | 'n' | 'e' | 'w' | 'ne' | 'nw' | 'se' | 'sw';
 
 @Component({
   selector: 'primer-icon-button',
   templateUrl: './icon-button.component.html',
-  imports: [PrimerBaseButtonDirective, DynamicIconDirective, IconModule],
+  imports: [PrimerBaseButtonDirective, OpTooltipDirective, DynamicIconDirective, IconModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class PrimerIconButtonComponent extends AbstractBaseButtonDirective {
   readonly buttonId = input(generateId('icon-button'));
   readonly buttonClass = input('', { alias: 'button-class' });
 
-  readonly icon = input.required<string>();
+  readonly icon = input.required<DynamicIconName>();
   readonly scheme = input<Scheme>('default');
   readonly size = input<Size>('medium');
 
@@ -74,34 +74,9 @@ export class PrimerIconButtonComponent extends AbstractBaseButtonDirective {
    *
    * @default true
    */
-  readonly showTooltip = input(true);
+  readonly showTooltip = input(true, { transform: booleanAttribute });
   readonly tooltipId = input(generateId('tooltip'));
   readonly tooltipDirection = input<TooltipDirection>('s', { alias: 'tooltip-direction' });
 
   readonly clicked = output();
-
-  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  readonly tooltipText = computed(() => this.description() || this.label());
-  readonly tooltipType = computed(() => this.description() ? 'description' : 'label');
-
-  readonly ariaLabel = computed(() => this.whenNoTooltip(() => this.label()));
-  readonly ariaDescription = computed(() => this.whenNoTooltip(() => this.description()));
-
-  readonly ariaLabelledBy = computed(() =>
-    this.whenTooltipType('label', () => this.tooltipId())
-  );
-
-  readonly ariaDescribedBy = computed(() =>
-    this.whenTooltipType('description', () => this.tooltipId())
-  );
-
-  private whenNoTooltip<T>(value:() => T) {
-    return this.showTooltip() ? undefined : value();
-  }
-
-  private whenTooltipType<T>(type:'label' | 'description', value:() => T) {
-    return this.showTooltip() && this.tooltipType() === type
-      ? value()
-      : undefined;
-  }
 }

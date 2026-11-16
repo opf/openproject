@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,14 +22,19 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
+
 module Queries
   class ParamsParser
     class FiltersParser
+      # Everything up to the first quote that is not escaped. A backslash escapes
+      # the character following it, so it takes two of them to end on one.
+      DOUBLE_QUOTED_VALUE = /(?:[^"\\]|\\.)*"|\z/m
+      SINGLE_QUOTED_VALUE = /(?:[^'\\]|\\.)*'|\z/m
+
       def initialize(string)
         @buffer = StringScanner.new(string)
       end
@@ -89,12 +94,16 @@ module Queries
 
       def parse_doublequoted_value
         @buffer.getch
-        [@buffer.scan_until(/(?<!\\)"|\z/).delete_suffix('"').delete("\\")]
+        [unescape(@buffer.scan_until(DOUBLE_QUOTED_VALUE).delete_suffix('"'))]
       end
 
       def parse_singlequoted_value
         @buffer.getch
-        [@buffer.scan_until(/(?<!\\)'|\z/).delete_suffix("'").delete("\\")]
+        [unescape(@buffer.scan_until(SINGLE_QUOTED_VALUE).delete_suffix("'"))]
+      end
+
+      def unescape(value)
+        value.gsub(/\\(.)/m, '\1')
       end
 
       def parse_unguarded_value
@@ -105,14 +114,24 @@ module Queries
         [value]
       end
 
+      # Only quoted entries are values; anything else is consumed and dropped, which
+      # also keeps an unterminated array from looping forever.
       def parse_array_value
-        @buffer
-          .scan_until(/]|\z/)
-          .delete_suffix("]")
-          .delete_prefix("[")
-          .scan(/(?:'([^']*)')|(?:"([^"]*)")/)
-          .flatten
-          .compact
+        @buffer.getch
+        values = []
+
+        until @buffer.eos?
+          @buffer.skip(/[\s,]*/)
+          break if @buffer.skip(/]/)
+
+          case @buffer.peek(1)
+          when '"' then values.concat(parse_doublequoted_value)
+          when "'" then values.concat(parse_singlequoted_value)
+          else @buffer.getch
+          end
+        end
+
+        values
       end
     end
   end

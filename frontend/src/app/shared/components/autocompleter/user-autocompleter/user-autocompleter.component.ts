@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -55,6 +54,7 @@ import {
 } from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter-template.component';
 import { IUser } from 'core-app/core/state/principals/user.model';
 import { compareByAttribute } from 'core-app/shared/helpers/angular/tracking-functions';
+import { isRecord } from 'core-app/shared/helpers/type-guards';
 
 export const usersAutocompleterSelector = 'op-user-autocompleter';
 
@@ -171,8 +171,12 @@ export class UserAutocompleterComponent extends OpAutocompleterComponent<IUserAu
     };
   }
 
-  protected defaultTrackByFunction():(item:{ href:unknown, name:unknown }) => unknown {
-    return (item) => item.href || item.name;
+  protected defaultTrackByFunction():(item:unknown) => unknown {
+    return (item) => {
+      if (!isRecord(item)) return undefined;
+      if (item.href) return item.href;
+      return item.name;
+    };
   }
 
   protected defaultCompareWithFunction():(a:unknown, b:unknown) => boolean {

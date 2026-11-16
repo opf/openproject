@@ -11,15 +11,15 @@ Configure working days, dates formats and calendar subscriptions.
 
 Navigate to _Administration → Calendar and dates_.
 
-| Topic                                             | Content                                                      |
-| ------------------------------------------------- | ------------------------------------------------------------ |
+| Topic                                             | Content                                                                                               |
+|---------------------------------------------------|-------------------------------------------------------------------------------------------------------|
 | [Working days](#working-days-and-hours)           | Define which days of the week are considered working days for scheduling and calculation of duration. |
-| [Date format](#date-format)                       | Change time and date formats.                                |
-| [Calendar subscriptions](#calendar-subscriptions) | Allow users to subscribe to calendars.                       |
+| [Date and time formats](#date-and-time-formats)   | Change time and date formats.                                                                         |
+| [Calendar subscriptions](#calendar-subscriptions) | Allow users to subscribe to calendars.                                                                |
 
 ## Working days and hours
 
-Administrators are able to define how many hours are considered a day and which days of the week are considered working days at an instance level. In other words, this setting defines what OpenProject should consider to be a normal work week when scheduling work packages. 
+Administrators are able to define how many hours are considered a day and which days of the week are considered working days at an instance level. In other words, this setting defines what OpenProject should consider to be a normal work week when scheduling work packages.
 
 To change this setting, navigate to **Working days** inside of the **Calendar and dates** settings.
 
@@ -65,23 +65,23 @@ We only recommend changing this setting if you are absolutely sure and you are a
 
 The non-working days defined here are colored differently, generally with a darker background color, on the [work package date picker](../../user-guide/work-packages/set-change-dates/#working-days-and-duration), [Gantt chart](../../user-guide/gantt-chart/) and the [Team planner](../../user-guide/team-planner/) and [calendar](../../user-guide/calendar/) modules.
 
-## Date format
+## Date and time formats
 
-Administrators are able to change the default time and date formats in OpenProject. This affects how calendars and dates are calculated and displayed.
+Administrators are able to change the default date and time formats as well as the week numbering settings. Date and time formats can be overridden by users under [Account settings → Language and region](../../user-guide/account-settings/language-and-region/#change-your-preferred-date-and-time-formats).
 
-To change this setting, navigate to **Date format** inside of the **Calendar and dates** settings.
+To change these settings, navigate to **Date and time formats** inside of the **Calendar and dates** settings.
 
-![Date format in OpenProject administration settings](openeproject_system_admin_guide_calendars_dates_date_format.png)
+![Date and time formats in OpenProject administration settings](openeproject_system_admin_guide_calendars_dates_date_format.png)
 
-1. **Date**: default is based on user's language. You can choose various formats to display dates in the system.
-2. **Time**: default is based on user's language. You can choose various formats to display time in the system.
-3. **Week starts on**: configure what date the week starts on (e.g. in the calendar view). Default is `Based on user's language`.
+1. **Date**: you can choose various formats to display dates in the system.
+2. **Time**: you can choose one of the formats to display time in the system.
+3. **Week starts on**: configure what day the week starts on (e.g. in the calendar view). Default is `Use default for user locale`.
    You can also choose to start a week always on Mondays, Sundays or Saturdays.
    If you set **Week starts on**, you must also set the **First week in year contains** or you will probably get inconsistencies in week numbering in calendars and the Gantt chart.
 4. **First week in year contains**: select the day that needs to be contained in the first week of the year. This value is used together with _Week starts on_ to determine the first week of the year.
    - For European ISO-8601 standard, set **Week starts on** to `Monday` and **First week in year contains** to `Thursday`.
    - For US and Canada, set **Week starts on** to `Saturday` and **First week in year contains** to `Sunday`.
-   - If you leave both on `Based on user's language`, the information provided by moment.js will be used: For more information, please also see [this document from moment.js](https://momentjscom.readthedocs.io/en/latest/moment/07-customization/16-dow-doy/).
+   - If you leave both on `Use default for user locale`, the information provided by moment.js will be used: For more information, please also see [this document from moment.js](https://momentjscom.readthedocs.io/en/latest/moment/07-customization/16-dow-doy/).
    - For more information on the way the first week of the year is computed according to ISO standards, see [wikipedia](https://en.wikipedia.org/wiki/ISO_week_date#First_week)
 5. Do not forget to **save** your changes.
 

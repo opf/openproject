@@ -20,13 +20,12 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewEncapsulation, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnChanges, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -53,7 +52,7 @@ export interface PrincipalInput {
   encapsulation: ViewEncapsulation.None,
   standalone: false,
 })
-export class OpPrincipalComponent implements OnInit {
+export class OpPrincipalComponent implements OnInit, OnChanges {
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly PathHelper = inject(PathHelperService);
   readonly principalRenderer = inject(PrincipalRendererService);
@@ -68,6 +67,10 @@ export class OpPrincipalComponent implements OnInit {
   @Input() hideAvatar = false;
 
   @Input() avatarImageAltText?:string;
+
+  @Input() avatarImageUrl?:string;
+
+  @Input() avatarFallbackImageUrl?:string;
 
   @Input() hideName = false;
 
@@ -84,16 +87,30 @@ export class OpPrincipalComponent implements OnInit {
 
   @Input() title = '';
 
+  private initialized = false;
+
   public constructor() {
     populateInputsFromDataset(this);
   }
 
   ngOnInit() {
-    if (this.principal.name) {
+    this.initialized = true;
+    this.render();
+  }
+
+  ngOnChanges() {
+    if (this.initialized) this.render();
+  }
+
+  private render() {
+    this.elementRef.nativeElement.replaceChildren();
+    if (this.principal?.name) {
       const avatarOptions:AvatarOptions = {
         hide: this.hideAvatar,
         size: this.size,
         imageAltText: this.avatarImageAltText,
+        imageUrl: this.avatarImageUrl,
+        fallbackImageUrl: this.avatarFallbackImageUrl,
       };
 
       const hoverCardOptions:HoverCardOptions = {

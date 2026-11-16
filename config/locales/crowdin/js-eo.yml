@@ -47,6 +47,8 @@ eo:
       draggable_hint: 'Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: The file is quarantined, as a virus was found. It is not available for download.
     autocomplete_ng_select:
       add_tag: Aldoni eron
@@ -61,6 +63,7 @@ eo:
         single: Elekti "%{name}"
       remove: Forigi %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: No items found
       placeholder: Tajpu por serĉi
       project:
@@ -129,9 +132,9 @@ eo:
     button_continue: Daŭrigi
     button_copy: Kopii
     button_copy_link_to_clipboard: Copy link to clipboard
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_to_clipboard: Kopii al la tondujo
     button_copy_to_other_project: Duplicate in another project
+    button_copy_work_package_id: Copy work package ID
     button_create: Krei
     button_custom-fields: Propraj kampoj
     button_delete: Forigi
@@ -147,6 +150,7 @@ eo:
     button_log_time: Tempoprotokolo
     button_more: Pli
     button_more_actions: More actions
+    button_move_to_position: Move to position
     button_open_details: Malfermi detalan vidon
     button_open_fullscreen: Malfermi plenekranan vidon
     button_quote: Citi
@@ -162,6 +166,7 @@ eo:
     button_stop_timer: Stop timer
     button_uncheck_all: Malelekti ĉion
     button_update: Ĝisdatigi
+    button_view_markdown: View Markdown
     caption_rate_history: Rate history
     card:
       add_new: Aldoni novan karton
@@ -201,7 +206,11 @@ eo:
     description_select_work_package: 'Select work package #%{id}'
     description_subwork_package: 'Child of work package #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: An error occurred within CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Ne eblis konservi la dokumenton pro la jena eraro: %{error}'
       macro:
         attribute_reference:
@@ -341,6 +350,8 @@ eo:
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} haveblaj aĵoj"
       recently_viewed: Lastatempe vidita
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: ĉiuj projektoj
@@ -358,8 +369,8 @@ eo:
     ical_sharing_modal:
       copy_url_label: Copy URL
       description: You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there.
-      ical_generation_error_text: An error occured while generating the calendar URL.
-      inital_setup_error_message: An error occured while fetching data.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.
       title: Subscribe to calendar
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -431,7 +442,6 @@ eo:
     label_assignee: Asignita al
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Aldonaĵoj
-    label_author: 'Aŭtoro: %{user}'
     label_avatar: Avataro
     label_between: inter
     label_board: Tabulo
@@ -495,6 +505,7 @@ eo:
     label_in: en
     label_in_less_than: en malpli ol
     label_in_more_than: in more than
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Envenaj retpoŝtoj
     label_infinity: Infinity
     label_information_plural: Informo
@@ -527,6 +538,10 @@ eo:
     label_open_context_menu: Open context menu
     label_open_menu: Malfermi menuon
     label_open_work_packages: malfermita
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Pasvorto
     label_per_page: 'Po paĝo:'
     label_please_wait: Please wait
@@ -551,6 +566,8 @@ eo:
     label_reset: Restarigi
     label_resize_project_menu: Resize project menu
     label_save_as: Konservi kiel
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Serĉi kolumnon
     label_select_watcher: Select a watcher...
     label_selected_filter_list: Elekti filtrilon
@@ -558,7 +575,9 @@ eo:
     label_show_in_menu: Montri ĉiujn vidojn en la menuo
     label_sort_by: Sort by
     label_sort_higher: Move up
+    label_sort_highest: Move to top
     label_sort_lower: Move down
+    label_sort_lowest: Move to bottom
     label_sorted_by: sorted by
     label_sorting: Sorting
     label_spent_time: Uzata tempo
@@ -569,6 +588,7 @@ eo:
     label_sum_for: Sumo por
     label_this_week: tiu ĉi semajno
     label_time_entry_plural: Uzata tempo
+    label_to_do_work_packages: to-do
     label_today: Hodiaŭ
     label_total_amount: 'Totalo: %{amount}'
     label_total_progress: "%{percent}% Totala progreso"
@@ -623,7 +643,7 @@ eo:
     notifications:
       center:
         and_more_users:
-          one: and 1 other
+          one: and %{count} other
           other: and %{count} others
         empty_state:
           no_notification: Looks like you are all caught up.
@@ -720,6 +740,7 @@ eo:
     placeholders:
       default: "-"
       description: 'Description: Click to edit...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Klaki por aldoni priskribon al tiu ĉi rilato
       selection: Bonvolu elekti
       subject: Enter subject here
@@ -806,12 +827,33 @@ eo:
       sorting_disabled: sorting is disabled
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} moved to position %{position} of %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+      selection:
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        range_restarted:
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Close modal
@@ -825,9 +867,7 @@ eo:
     text_user_wrote: "%{value} wrote:"
     text_work_packages_destroy_confirmation: Are you sure you want to delete the selected work package(s)?
     time_entry:
-      stop: Stop
       title: Tempoprotokolo
-      tracking: Time tracking
       work_package_required: Requires selecting a work package first.
     timer:
       button_stop: Stop current timer
@@ -862,19 +902,19 @@ eo:
       label_two_factor_authentication: Two-factor authentication
     units:
       child_work_packages:
-        one: unu laborpakaĵa filo
+        one: "%{count} child work package"
         other: "%{count} work package children"
       day:
-        one: 1 tago
+        one: "%{count} day"
         other: "%{count} tagoj"
         zero: 0 days
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours} h"
       word:
-        one: 1 word
+        one: "%{count} word"
         other: "%{count} words"
       workPackage:
         one: laborpakaĵo
@@ -934,6 +974,7 @@ eo:
         all_open: Ĉio malfermita
         assigned_to_me: Asignita al mi
         created_by_me: Kreita de mi
+        in_progress: In progress
         latest_activity: Lastaj aktivecoj
         manually_sorted: New manually sorted query
         overdue: Malfrua
@@ -941,6 +982,7 @@ eo:
         shared_with_me: Shared with me
         shared_with_users: Shared with users
         summary: Resumo
+        to_do: To-do
       description_enter_text: Enigu tekston
       description_filter: Filtrilo
       description_options_hide: Hide options
@@ -1028,6 +1070,7 @@ eo:
         other: Aliaj
         people: Partoprenantoj
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Klaki por redakti titolon de tiu ĉi vidon.
         column_names: Kolumnoj
         confirm_edit_cancel: Are you sure you want to cancel editing the name of this view? Title will be set back to previous value.
@@ -1037,17 +1080,16 @@ eo:
           not_found: There is no such view
           unretrievable_query: Unable to retrieve view from URL
         filters: Filtriloj
-        group: Grupigi laŭ
         group_by: Grupaj rezultoj laŭ
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy mode being active.
-        hide_column: Kaŝi kolumnon
         hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results being grouped by %{column}.
-        insert_columns: Insert columns
         move_column_left: Movi kolumnon maldektren
         move_column_right: Movi kolumnon dektren
         public_text: 'Publish this view, allowing other users to access your view. Users with the ''Manage public views'' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Nomo de tiu ĉi vido
         sort_ascending: Sort ascending
         sort_descending: Sort descending
@@ -1068,15 +1110,26 @@ eo:
       scheduling:
         is_parent: The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates.
         is_switched_from_manual_to_automatic: The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Show all users with whom the work package has been shared with
         title: Share work package
       table:
         configure_button: Agordi laborpakaĵan tabelon
-        summary: Table with rows of work package and columns of work package attributes.
-        text_inline_edit: Most cells of this table are buttons that activate inline-editing functionality of that attribute.
-        text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
-        text_sort_hint: With the links in the table headers you can sort, group, reorder, remove and add table columns.
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: Agordi tiun ĉi laborpakaĵan tabelon
         choose_display_mode: Montri laborpakaĵojn kiel
@@ -1085,7 +1138,6 @@ eo:
         default_mode: Flat list
         display_settings: Montri agordojn
         display_sums_hint: Display sums of all summable attributes in a row below the table results.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed.
         hierarchy_mode: Hierarkio
         highlighting: Highlighting

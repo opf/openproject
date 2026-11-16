@@ -1,10 +1,5 @@
-.avatars--media
-  display: inline-flex
-  flex-direction: column
-  align-items: center
-  gap: 0.25rem
-
 .avatars--current-avatar
+  position: relative
   display: inline-block
 
   .op-avatar
@@ -13,11 +8,48 @@
     line-height: 3.75rem
     font-size: 1.75rem
 
-.avatars--upload-trigger
-  cursor: pointer
-  &:hover
-    opacity: 0.8
+.avatars--edit
+  display: inline-block
+  position: relative
+  margin-bottom: var(--stack-gap-normal)
 
-.avatars--error-pane
-  color: var(--content-form-error-color)
-  font-weight: var(--base-text-weight-bold)
+.avatars--edit-trigger
+  height: auto
+  padding: var(--base-size-4)
+  border-radius: 50%
+
+  &:hover,
+  &:focus-visible
+    .op-avatar
+      filter: brightness(0.85)
+
+.avatars--edit-badge
+  position: absolute
+  right: 0
+  bottom: 0
+  display: flex
+  align-items: center
+  justify-content: center
+  width: var(--base-size-24)
+  height: var(--base-size-24)
+  border: var(--borderWidth-thin) solid var(--borderColor-default)
+  border-radius: 50%
+  background-color: var(--bgColor-default)
+  color: var(--fgColor-muted)
+  box-shadow: var(--shadow-resting-small)
+
+.avatars--settings .FormControl-radio-group
+  gap: var(--stack-gap-normal)
+
+.avatars--preview-row
+  display: flex
+  align-items: center
+  gap: var(--stack-gap-normal)
+  min-width: 0
+  margin-bottom: var(--stack-gap-normal)
+
+  &:last-child
+    margin-bottom: 0
+
+.avatars--color-input-group
+  column-gap: var(--base-size-4)

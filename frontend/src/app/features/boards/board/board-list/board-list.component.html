@@ -12,6 +12,7 @@
       </div>
     }
     <div class="op-board-list--header"
+      [ngClass]="{ '-large-header': hasLargeHeader }"
       data-test-selector="op-board-list--header">
       @if (headerComponent) {
         <ndc-dynamic [ndcDynamicComponent]="headerComponent"
@@ -37,7 +38,8 @@
       [ngClass]="{ '-with-create-button': board.isAction || showAddButton }">
       <div class="op-board-list--button-container">
         @if (showAddButton) {
-          <button [title]="text.addCard"
+          <button opTooltip
+            [label]="text.addCard"
             data-test-selector="op-board-list--card-dropdown-add-button"
             data-tour-selector="op-board-list--card-dropdown-add-button"
             class="op-board-list--add-button op-board-list--card-dropdown-button button"
@@ -50,12 +52,14 @@
         [dragInto]="canDragInto"
         [listId]="listId"
         [workPackageAddedHandler]="workPackageAddedHandler"
+        [retainsCard]="retainsCard"
         [orderIsMembership]="board.isFree"
         [cardsRemovable]="board.isFree && canDragOutOf"
         [showInfoButton]="true"
         [highlightingMode]="board.highlightingMode"
         [showStatusButton]="showCardStatusButton()"
         (itemClicked)="openFullViewOnDoubleClick($event)"
+        (queryRefreshRequested)="updateQuery(true)"
         (stateLinkClicked)="openStateLink($event)" />
     </div>
   }
@@ -64,13 +68,13 @@
       <p>
         <span [textContent]="errorMessage"></span>
         &ngsp;
-        <buton
+        <button
           type="button"
           class="spot-link"
           (click)="onRemove.emit()"
           >
           <span [textContent]="text.click_to_remove"></span>
-        </buton>
+        </button>
       </p>
     </div>
   }

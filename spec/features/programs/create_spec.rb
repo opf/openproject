@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 
@@ -79,7 +78,7 @@ RSpec.describe "Programs",
       expect_and_dismiss_flash type: :success, message: "Successful creation."
 
       expect(page).to have_current_path /\/projects\/foo-bar\/?/
-      expect(page).to have_content "Foo bar"
+      expect(page).to have_text "Foo bar"
 
       program = Project.last
       expect(program.workspace_type).to eq "program"
@@ -93,7 +92,7 @@ RSpec.describe "Programs",
       it "cannot create the program" do
         visit new_program_path
 
-        expect(page).to have_content "[Error 403] You are not authorized to access this page."
+        expect(page).to have_text "[Error 403] You are not authorized to access this page."
       end
     end
   end

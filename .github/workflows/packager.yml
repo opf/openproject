@@ -15,11 +15,12 @@ jobs:
     if: github.repository == 'opf/openproject'
     name: ${{ matrix.target }}
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: read
     services:
       postgres:
-        image: postgres:16
+        image: pgvector/pgvector:pg16-trixie
         env:
           POSTGRES_DB: app
           POSTGRES_USER: app
@@ -32,7 +33,6 @@ jobs:
         target:
           - debian:11
           - debian:12
-          - ubuntu:20.04
           - ubuntu:22.04
           - el:9
           - sles:15

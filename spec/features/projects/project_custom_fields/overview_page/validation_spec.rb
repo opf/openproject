@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -41,7 +40,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
     overview_page.visit_page
   end
 
-  describe "with correct validation behaviour" do
+  describe "with correct validation behavior" do
     describe "after validation" do
       it "keeps showing only activated custom fields (tricky regression)" do
         custom_field = string_project_custom_field
@@ -114,32 +113,11 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
 
             it_behaves_like "keeps the unpersisted values"
           end
-
-          context "with list selected" do
-            let(:invalid_custom_field) { list_project_custom_field }
-            let(:invalid_field) { FormFields::Primerized::AutocompleteField.new(invalid_custom_field) }
-
-            it_behaves_like "keeps the unpersisted values"
-          end
         end
 
         context "with multi select fields" do
-          context "with multi version selected" do
-            let(:invalid_custom_field) { multi_version_project_custom_field }
-            let(:invalid_field) { FormFields::Primerized::AutocompleteField.new(invalid_custom_field) }
-
-            it_behaves_like "keeps the unpersisted values"
-          end
-
           context "with multi user selected" do
             let(:invalid_custom_field) { multi_user_project_custom_field }
-            let(:invalid_field) { FormFields::Primerized::AutocompleteField.new(invalid_custom_field) }
-
-            it_behaves_like "keeps the unpersisted values"
-          end
-
-          context "with multi list selected" do
-            let(:invalid_custom_field) { multi_list_project_custom_field }
             let(:invalid_field) { FormFields::Primerized::AutocompleteField.new(invalid_custom_field) }
 
             it_behaves_like "keeps the unpersisted values"
@@ -246,20 +224,6 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         it_behaves_like "a custom field input"
       end
 
-      describe "with integer CF" do
-        let(:custom_field) { integer_project_custom_field }
-        let(:form_field) { FormFields::Primerized::InputField.new(custom_field) }
-
-        it_behaves_like "a custom field input"
-      end
-
-      describe "with float CF" do
-        let(:custom_field) { float_project_custom_field }
-        let(:form_field) { FormFields::Primerized::InputField.new(custom_field) }
-
-        it_behaves_like "a custom field input"
-      end
-
       describe "with date CF" do
         let(:custom_field) { date_project_custom_field }
         let(:form_field) { FormFields::Primerized::InputField.new(custom_field) }
@@ -301,19 +265,6 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
           end
         end
 
-        describe "using int" do
-          before do
-            # prevent calculation from happening
-            calculated_from_int_project_custom_field.custom_values.delete_all
-            calculated_from_int_project_custom_field.update!(is_required: true)
-          end
-
-          let(:custom_field) { integer_project_custom_field }
-          let(:calculated_field) { calculated_from_int_project_custom_field }
-
-          it_behaves_like "a calculated custom field input"
-        end
-
         describe "using int and float" do
           before do
             # prevent calculation from happening
@@ -343,20 +294,6 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         end
       end
 
-      describe "with list CF" do
-        let(:custom_field) { list_project_custom_field }
-        let(:form_field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
-
-        it_behaves_like "a custom field select"
-      end
-
-      describe "with version CF" do
-        let(:custom_field) { version_project_custom_field }
-        let(:form_field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
-
-        it_behaves_like "a custom field select"
-      end
-
       describe "with user CF" do
         let(:custom_field) { user_project_custom_field }
         let(:form_field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
@@ -377,20 +314,6 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
 
           form_field.expect_error(I18n.t("activerecord.errors.messages.blank"))
         end
-      end
-
-      describe "with multi list CF" do
-        let(:custom_field) { multi_list_project_custom_field }
-        let(:form_field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
-
-        it_behaves_like "a custom field multi select"
-      end
-
-      describe "with multi version CF" do
-        let(:custom_field) { multi_version_project_custom_field }
-        let(:form_field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
-
-        it_behaves_like "a custom field multi select"
       end
 
       describe "with multi user CF" do

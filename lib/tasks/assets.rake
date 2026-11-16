@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -62,9 +61,16 @@ namespace :assets do
 
     puts "Building angular frontend"
     Dir.chdir Rails.root.join("frontend") do
-      sh("npm run build") do |ok, res|
+      sh("npm run build -- --stats-json") do |ok, res|
         raise "Failed to compile angular frontend: #{res.exitstatus}" if !ok
       end
+    end
+
+    stats_path = OpenProject::Assets.frontend_asset_path.join("stats.json")
+    begin
+      OpenProject::Plugins::FrontendLinking.verify_bundle!(stats_path)
+    ensure
+      FileUtils.rm_f(stats_path)
     end
 
     Rake::Task["assets:rebuild_manifest"].invoke

@@ -47,6 +47,8 @@ fi:
       draggable_hint: 'Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: The file is quarantined, as a virus was found. It is not available for download.
     autocomplete_ng_select:
       add_tag: Add item
@@ -61,6 +63,7 @@ fi:
         single: Select "%{name}"Valitse
       remove: Remove %{name} Poista
     autocompleter:
+      create_label: Create label
       notFoundText: No items found
       placeholder: Haku
       project:
@@ -129,9 +132,9 @@ fi:
     button_continue: Jatka
     button_copy: Kopioi
     button_copy_link_to_clipboard: Copy link to clipboard
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_to_clipboard: Kopioi leikepöydälle
     button_copy_to_other_project: Duplicate in another project
+    button_copy_work_package_id: Copy work package ID
     button_create: Uusi
     button_custom-fields: Mukautetut kentät
     button_delete: Poista
@@ -147,6 +150,7 @@ fi:
     button_log_time: Kirjaa työaika
     button_more: Lisää
     button_more_actions: More actions
+    button_move_to_position: Move to position
     button_open_details: Avaa tiedot
     button_open_fullscreen: Avaa kokonäyttötila
     button_quote: Siteeraa
@@ -162,6 +166,7 @@ fi:
     button_stop_timer: Stop timer
     button_uncheck_all: Poista valinnat
     button_update: Päivitä
+    button_view_markdown: View Markdown
     caption_rate_history: Tuntihinnan historia
     card:
       add_new: Uusi kortti
@@ -201,7 +206,11 @@ fi:
     description_select_work_package: 'Valitse tehtävä #%{id}'
     description_subwork_package: 'Tehtävän #%{id} alitehtävä'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: An error occurred within CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Tallennus epäonnistui: %{error}'
       macro:
         attribute_reference:
@@ -341,6 +350,8 @@ fi:
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} items available"
       recently_viewed: Recently viewed
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: kaikki projektit
@@ -358,8 +369,8 @@ fi:
     ical_sharing_modal:
       copy_url_label: Copy URL
       description: You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there.
-      ical_generation_error_text: An error occured while generating the calendar URL.
-      inital_setup_error_message: An error occured while fetching data.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.
       title: Subscribe to calendar
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -431,7 +442,6 @@ fi:
     label_assignee: Työn suorittaja
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Liitteet
-    label_author: 'Tekijä: %{user}'
     label_avatar: Kuva
     label_between: välillä
     label_board: Taulu
@@ -495,6 +505,7 @@ fi:
     label_in: tässä
     label_in_less_than: pienempi kuin
     label_in_more_than: suurempi kuin
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Saapuvat sähköpostiviestit
     label_infinity: Infinity
     label_information_plural: Tieto
@@ -527,6 +538,10 @@ fi:
     label_open_context_menu: Avaa valikko
     label_open_menu: Avaa valikko
     label_open_work_packages: avoin
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Salasana
     label_per_page: 'Sivulla:'
     label_please_wait: Odota hetki
@@ -551,6 +566,8 @@ fi:
     label_reset: Nollaus
     label_resize_project_menu: Resize project menu
     label_save_as: Tallenna nimellä
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Search a column
     label_select_watcher: Valitse seuraaja...
     label_selected_filter_list: Valitut suodattimet
@@ -558,7 +575,9 @@ fi:
     label_show_in_menu: Näytä näkymä valikossa
     label_sort_by: Lajitteluperuste
     label_sort_higher: Siirrä ylös
+    label_sort_highest: Move to top
     label_sort_lower: Siirrä alas
+    label_sort_lowest: Move to bottom
     label_sorted_by: lajiteltu
     label_sorting: Lajittelu
     label_spent_time: Käytetty aika
@@ -569,6 +588,7 @@ fi:
     label_sum_for: Summa
     label_this_week: tällä viikolla
     label_time_entry_plural: Käytetty aika
+    label_to_do_work_packages: to-do
     label_today: Tänään
     label_total_amount: 'Yhteensä: %{amount}'
     label_total_progress: "%{percent} % eteneminen"
@@ -623,7 +643,7 @@ fi:
     notifications:
       center:
         and_more_users:
-          one: and 1 other
+          one: and %{count} other
           other: and %{count} others
         empty_state:
           no_notification: Looks like you are all caught up.
@@ -720,6 +740,7 @@ fi:
     placeholders:
       default: "-"
       description: 'Description: Click to edit...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Painamalla tästä voit lisätä kuvauksen tälle suhteelle
       selection: Valitse
       subject: Lisää aihe
@@ -806,12 +827,33 @@ fi:
       sorting_disabled: lajittelu on poistettu käytöstä
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} moved to position %{position} of %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+      selection:
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        range_restarted:
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Close modal
@@ -825,9 +867,7 @@ fi:
     text_user_wrote: "%{value} kirjoitti:"
     text_work_packages_destroy_confirmation: Are you sure you want to delete the selected work package(s)?
     time_entry:
-      stop: Stop
       title: Kirjaa työaika
-      tracking: Työajanseuranta
       work_package_required: Requires selecting a work package first.
     timer:
       button_stop: Stop current timer
@@ -862,19 +902,19 @@ fi:
       label_two_factor_authentication: Kaksivaiheinen tunnistautuminen
     units:
       child_work_packages:
-        one: one child work package
+        one: "%{count} child work package"
         other: "%{count} work package children"
       day:
-        one: päivä
+        one: "%{count} day"
         other: "%{count} päivää"
         zero: 0 days
       hour:
-        one: 1 t
+        one: "%{count} h"
         other: "%{count} t"
         zero: 0 t
       hour_string: "%{hours} h"
       word:
-        one: 1 word
+        one: "%{count} word"
         other: "%{count} words"
       workPackage:
         one: work package
@@ -934,6 +974,7 @@ fi:
         all_open: Avoimet tehtävät
         assigned_to_me: Minulle määritetyt
         created_by_me: Itse luodut
+        in_progress: In progress
         latest_activity: Viimeisimmät tapahtumat
         manually_sorted: New manually sorted query
         overdue: Overdue
@@ -941,6 +982,7 @@ fi:
         shared_with_me: Shared with me
         shared_with_users: Shared with users
         summary: Yhteenveto
+        to_do: To-do
       description_enter_text: Enter text
       description_filter: Suodata
       description_options_hide: Piilota valinnat
@@ -1028,6 +1070,7 @@ fi:
         other: Muut
         people: Henkilöt
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Click to edit title of this view.
         column_names: Sarakkeet
         confirm_edit_cancel: Are you sure you want to cancel editing the name of this view? Title will be set back to previous value.
@@ -1037,17 +1080,16 @@ fi:
           not_found: There is no such view
           unretrievable_query: Unable to retrieve view from URL
         filters: Suodattimet
-        group: Ryhmittely
         group_by: Ryhmittele tulokset
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy mode being active.
-        hide_column: Piilota sarake
         hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results being grouped by %{column}.
-        insert_columns: Insert columns
         move_column_left: Siirrä saraketta vasemmalle
         move_column_right: Siirrä saraketta oikealle
         public_text: 'Julkaise tämä näkymä ja salli muiden käyttäjien nähdä se. Käyttäjät joilla on ''Muokkaa julkisia näkymiä'' -oikeus voivat muokata tai poistaa julkisia näkymiä. Tämä ei vaikuta tehtävien näkyvyyteen ja riippuen niiden oikeuksista, käyttäjät voivat nähdä eri tehtävänäkymän.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Name of this view
         sort_ascending: Lajittele nousevasti
         sort_descending: Lajittele laskevasti
@@ -1068,15 +1110,26 @@ fi:
       scheduling:
         is_parent: The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates.
         is_switched_from_manual_to_automatic: The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Show all users with whom the work package has been shared with
         title: Share work package
       table:
         configure_button: Configure work package table
-        summary: Taulukko jossa tehtävät riveinä ja ominaisuudet sarakkeina.
-        text_inline_edit: Useimmat tämän taulukon soluista ovat nappeja jotka aktivoivat suoran syöttömahdollisuuden kentän arvoon.
-        text_select_hint: Valintalaatikot tulisi avata "Alt" tai nuolinäppäimillä.
-        text_sort_hint: Taulukon otsikon linkkien avulla voit lajitella, ryhmitellä, järjestellä, poistaa ja lisätä taulukon sarakkeita.
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: Configure this work package table
         choose_display_mode: Näytä tehtävät
@@ -1085,7 +1138,6 @@ fi:
         default_mode: Listanäkymä
         display_settings: Näyttöasetukset
         display_sums_hint: Näytä kokonaismäärät taulukon alapuolella.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: Kaikki suoratetut tulokset näytetään taulukossa ylätehtävän kera. Hierarkioita voidaan avata ja sulkea.
         hierarchy_mode: Hierarkia
         highlighting: Korostus

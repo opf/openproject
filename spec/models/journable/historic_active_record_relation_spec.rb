@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -199,8 +198,7 @@ RSpec.describe Journable::HistoricActiveRecordRelation do
         let(:custom_field) do
           create(:text_wp_custom_field,
                  name: "Text CF",
-                 types: project.enabled_types,
-                 projects: [project])
+                 types: project.enabled_types)
         end
         let!(:monday_cf_journal) do
           create(:journal_customizable_journal, journal: monday_journal, custom_field:, value: "Monday_CV")
@@ -263,14 +261,12 @@ RSpec.describe Journable::HistoricActiveRecordRelation do
           let(:list_custom_field) do
             create(:list_wp_custom_field,
                    name: "List CF",
-                   types: project.enabled_types,
-                   projects: [project])
+                   types: project.enabled_types)
           end
           let(:hierarchy_custom_field) do
             create(:hierarchy_wp_custom_field,
                    name: "Hierarchy CF",
-                   types: project.enabled_types,
-                   projects: [project])
+                   types: project.enabled_types)
           end
 
           let!(:wednesday_list_cf_journal) do
@@ -338,8 +334,7 @@ RSpec.describe Journable::HistoricActiveRecordRelation do
         let(:text_custom_field) do
           create(:text_wp_custom_field,
                  name: "Text CF",
-                 types: project.enabled_types,
-                 projects: [project])
+                 types: project.enabled_types)
         end
         let!(:monday_text_cf_journal) do
           create(:journal_customizable_journal,
@@ -362,8 +357,7 @@ RSpec.describe Journable::HistoricActiveRecordRelation do
         let(:int_custom_field) do
           create(:integer_wp_custom_field,
                  name: "Int CF",
-                 types: project.enabled_types,
-                 projects: [project])
+                 types: project.enabled_types)
         end
         let!(:monday_int_cf_journal) do
           create(:journal_customizable_journal,

@@ -1,0 +1,67 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+  <%=
+    content_tag :article, aria: { labelledby: "hover-card-heading-#{@id}" } do
+      flex_layout(classes: "op-project-hover-card gap-1", data: { test_selector: "project-hover-card-#{@id}" }) do |flex|
+        if breadcrumb_items.present?
+          flex.with_row do
+            render(Primer::Beta::Breadcrumbs.new(data: { test_selector: "hierarchy-#{@id}" })) do |breadcrumbs|
+              breadcrumb_items.each_with_index do |item, i|
+                breadcrumbs.with_item(href: item[:href], font_size: :small, font_weight: i == breadcrumb_items.size - 1 ? :bold : nil) do
+                  render(Primer::Beta::Truncate.new) do |truncate|
+                    truncate.with_item(max_width: 135) { item[:text] }
+                  end
+                end
+              end
+            end
+          end
+        end
+
+        flex.with_row do
+          render(Primer::Beta::Text.new(tag: :h2, font_size: 5, id: "hover-card-heading-#{@id}")) { @name }
+        end
+
+        flex.with_row(classes: "gap-2", flex_layout: true, align_items: :center) do |row|
+          row.with_column do
+            render(Projects::WorkspaceLabelComponent.new(type: @workspace_type, data: { test_selector: "workspace-label-#{@id}" }))
+          end
+
+          if @project.archived?
+            row.with_column do
+              render(Primer::Beta::Label.new(scheme: :secondary)) { t("project.archive.archived") }
+            end
+          end
+
+          row.with_column do
+            render(Projects::StatusLabelComponent.new(project: @project, with_icon: true, data: { test_selector: "status-label-#{@id}" }))
+          end
+        end
+      end
+    end
+  %>

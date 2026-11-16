@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -90,7 +89,8 @@ RSpec.describe Users::HoverCardComponent, type: :component do
 
     context "with the user being member of some groups" do
       let(:groups) do
-        Array.new(2) { create(:group, members: user) }
+        [create(:group, members: user, lastname: "Alpha"),
+         create(:group, members: user, lastname: "Beta")]
       end
 
       context "and the current being a member in the group" do
@@ -142,6 +142,27 @@ RSpec.describe Users::HoverCardComponent, type: :component do
 
         expect(g).to have_text("Member of #{groups.slice(0, 4).map(&:lastname).join(', ')} and 4 more.")
       end
+    end
+  end
+
+  context "when the user has a job title" do
+    let(:current_user) { create(:user, global_permissions: %i[view_all_principals]) }
+    let!(:job_title_field) { create(:user_custom_field, :string, semantic_key: :job_title) }
+
+    let(:user) do
+      super().tap do |u|
+        create(:custom_value, custom_field: job_title_field, customized: u, value: "Senior Engineer")
+      end
+    end
+
+    it "shows the job-title" do
+      expect(page).to have_test_selector("user-hover-card-job-title", text: "Senior Engineer")
+    end
+  end
+
+  context "when the user has no job title" do
+    it "does not show a job title" do
+      expect(page).not_to have_test_selector("user-hover-card-job-title")
     end
   end
 

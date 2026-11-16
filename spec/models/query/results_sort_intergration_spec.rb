@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# --copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 
@@ -427,8 +426,7 @@ RSpec.describe Query::Results, "sorting and grouping" do
     before do
       [work_package1, work_package2, work_package3]
 
-      work_package1.project.work_package_custom_fields << string_cf
-      work_package1.type.default_variant.custom_fields << string_cf
+      work_package1.type.default_variant.custom_field_ids |= [string_cf.id]
 
       work_package1.reload
       project1.reload
@@ -488,8 +486,7 @@ RSpec.describe Query::Results, "sorting and grouping" do
     before do
       [work_package1, work_package2, work_package3]
 
-      work_package1.project.work_package_custom_fields << int_cf
-      work_package1.type.default_variant.custom_fields << int_cf
+      work_package1.type.default_variant.custom_field_ids |= [int_cf.id]
 
       work_package1.reload
       project1.reload

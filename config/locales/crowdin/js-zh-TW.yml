@@ -47,6 +47,8 @@ zh-TW:
       draggable_hint: '將圖片或附件拖曳到編輯區內即可新增。 滑鼠移到關閉的編輯區將會開啟這個編輯區。
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: 該文件由於發現了病毒已被隔離。該文件不可下載。
     autocomplete_ng_select:
       add_tag: 新增項目
@@ -61,6 +63,7 @@ zh-TW:
         single: 選擇 "%{name}"
       remove: 刪除 %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: 找不到任何項目
       placeholder: 搜尋
       project:
@@ -128,10 +131,10 @@ zh-TW:
     button_confirm: 確認
     button_continue: 繼續
     button_copy: 複製
-    button_copy_link_to_clipboard: 複製到剪貼簿
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: 複製到剪貼簿
     button_copy_to_other_project: 複製到其它專案
+    button_copy_work_package_id: Copy work package ID
     button_create: 建立
     button_custom-fields: 客製欄位
     button_delete: 删除
@@ -147,6 +150,7 @@ zh-TW:
     button_log_time: 工時紀錄
     button_more: 更多
     button_more_actions: 更多動作......
+    button_move_to_position: Move to position
     button_open_details: 檢視工作套件所有資料
     button_open_fullscreen: 開啟全螢幕檢視
     button_quote: 引言
@@ -162,6 +166,7 @@ zh-TW:
     button_stop_timer: 停止計時器
     button_uncheck_all: 取消全選
     button_update: 更新
+    button_view_markdown: View Markdown
     caption_rate_history: 費率歷史紀錄
     card:
       add_new: 新增卡片
@@ -201,7 +206,11 @@ zh-TW:
     description_select_work_package: '選取工作套件 #%{id}'
     description_subwork_package: '子工作套件 #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: CKEditor 出現錯誤
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: '保存文件失敗, 出現以下錯誤: %{error}'
       macro:
         attribute_reference:
@@ -341,6 +350,8 @@ zh-TW:
       direct_hit_available: 找到具有精確 ID 的工作套件。按 Enter 開啟它。
       items_available: "%{count} 可提供的項目"
       recently_viewed: 最近檢視
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: 依主題、專案、類型、狀態或 ID 搜尋工作套件
       title:
         all_projects: 所有專案
@@ -358,8 +369,8 @@ zh-TW:
     ical_sharing_modal:
       copy_url_label: 複製URL
       description: 您可以使用 URL (iCalendar) 在外部客戶端中訂閱此日曆，並從外部客戶端查看最新工作套件訊息。
-      ical_generation_error_text: 生成日曆 URL 時出錯。
-      inital_setup_error_message: 更新資料時發生錯誤
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: URL“%{name}”已成功複製到剪貼板。請將其粘貼到日曆客戶端中以完成訂閱。
       title: 訂閱日曆
       token_name_description_text: 如果您從多個裝置訂閱此行事曆，這個名稱將有助於您在<a href="%{myAccessTokensUrl}" target="_blank">存取令牌</a>清單中加以區分。
@@ -431,7 +442,6 @@ zh-TW:
     label_assignee: 執行者
     label_assignee_alt_text: 本工作包分配給 %{name}
     label_attachments: 附件
-    label_author: '工作套件發起者: %{user}'
     label_avatar: 大頭貼
     label_between: 介於
     label_board: 面板
@@ -495,6 +505,7 @@ zh-TW:
     label_in: 於
     label_in_less_than: 少於
     label_in_more_than: 多於
+    label_in_progress_work_packages: in progress
     label_incoming_emails: 接收到的電子郵件
     label_infinity: Infinity
     label_information_plural: 資訊
@@ -527,6 +538,10 @@ zh-TW:
     label_open_context_menu: 打開選單
     label_open_menu: 開啟選單
     label_open_work_packages: 開啟
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: 密碼
     label_per_page: 每頁：
     label_please_wait: 請稍候
@@ -551,6 +566,8 @@ zh-TW:
     label_reset: 重置
     label_resize_project_menu: 調整專案功能表大小
     label_save_as: 另存為
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: 選取欄位
     label_select_watcher: 選擇監看者
     label_selected_filter_list: 所選的篩選條件
@@ -558,7 +575,9 @@ zh-TW:
     label_show_in_menu: 在選單中顯示版面
     label_sort_by: 排序方式
     label_sort_higher: 往上移動
+    label_sort_highest: Move to top
     label_sort_lower: 往下移動
+    label_sort_lowest: Move to bottom
     label_sorted_by: 排序條件
     label_sorting: 排序
     label_spent_time: 工時
@@ -569,6 +588,7 @@ zh-TW:
     label_sum_for: 總和
     label_this_week: 本週
     label_time_entry_plural: 工時
+    label_to_do_work_packages: to-do
     label_today: 今日
     label_total_amount: '總計: %{amount}'
     label_total_progress: "%{percent}%總進度"
@@ -623,7 +643,7 @@ zh-TW:
     notifications:
       center:
         and_more_users:
-          other: 與其他 %{count} 個
+          other: and %{count} others
         empty_state:
           no_notification: 看起來您已查看所有通知。
           no_notification_for_filter: 看起來你已經處理完了這個篩選器的所有內容。
@@ -719,6 +739,7 @@ zh-TW:
     placeholders:
       default: "-"
       description: 描述：點選可編輯
+      description_double_click: 'Description: Double click to edit...'
       relation_description: 按一下以便為此關係添加描述
       selection: 請選擇
       subject: 在此輸入名稱
@@ -805,12 +826,31 @@ zh-TW:
       sorting_disabled: 已停用排序
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} moved to position %{position} of %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+      selection:
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        range_restarted:
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: 關閉模式
@@ -824,9 +864,7 @@ zh-TW:
     text_user_wrote: "%{value} 寫道："
     text_work_packages_destroy_confirmation: 你確定要刪除選定的工作套件嗎？
     time_entry:
-      stop: 停止
       title: 工時紀錄
-      tracking: 工時紀錄
       work_package_required: 需要先選擇一個工作套件。
     timer:
       button_stop: 停止當前計時器
@@ -861,18 +899,18 @@ zh-TW:
       label_two_factor_authentication: 雙因素驗證
     units:
       child_work_packages:
-        other: "%{count} 個子工作套件"
+        other: "%{count} work package children"
       day:
-        one: 1 天
+        one: "%{count} day"
         other: "%{count} 天"
         zero: 0 天
       hour:
-        one: 1 小時
+        one: "%{count} h"
         other: "%{count} 小時"
         zero: 0 小時
       hour_string: "%{hours} 小時"
       word:
-        other: "%{count} 字節"
+        other: "%{count} words"
       workPackage:
         other: 工作套件
     upsell:
@@ -930,6 +968,7 @@ zh-TW:
         all_open: 所有 「開啟中」 工作
         assigned_to_me: 分配給我
         created_by_me: 由我建立
+        in_progress: In progress
         latest_activity: 最新活動
         manually_sorted: 自訂排序
         overdue: 逾期
@@ -937,6 +976,7 @@ zh-TW:
         shared_with_me: 我參與之工作套件
         shared_with_users: 成員參與的
         summary: 總覽
+        to_do: To-do
       description_enter_text: 輸入文字
       description_filter: 篩選條件
       description_options_hide: 隱藏選項
@@ -1024,6 +1064,7 @@ zh-TW:
         other: 其他
         people: 人員
       query:
+        add_columns: Add columns
         click_to_edit_query_name: 按一下以編輯此版面的標題。
         column_names: 欄
         confirm_edit_cancel: 確實要取消編輯此版面的名稱嗎？標題將還原。
@@ -1033,17 +1074,16 @@ zh-TW:
           not_found: 無此查詢
           unretrievable_query: 無法從 url 取得版面
         filters: 篩選條件
-        group: 分組依據
         group_by: 依據此條件分組
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: 目前為層級模式顯示、無法以群組模式呈現。
-        hide_column: 隱藏欄
         hierarchy_disabled_by_group_by: 層次結構模式已禁用，因為結果依據 %{column} 分組。
-        insert_columns: 調整欄位
         move_column_left: 欄向左移
         move_column_right: 欄向右移
         public_text: '發布此檢視，讓其他使用者可以存取您的檢視。具有「管理公開檢視」權限的使用者可以修改或移除公開的查詢。 這不會影響該檢視中工作套件結果的可見性，實際顯示的內容將根據各使用者的權限而有所不同。
 
           '
+        remove_column: Remove column
         rename_query_placeholder: 此檢視的名稱
         sort_ascending: 昇冪排序
         sort_descending: 降冪排序
@@ -1064,15 +1104,24 @@ zh-TW:
       scheduling:
         is_parent: 此工作套件的日期是自動從其子項目推算而來。啟用「手動排程」以自行設定日期。
         is_switched_from_manual_to_automatic: 由於與其他工作套件的關聯，從手動排程切換回自動排程後，該工作套件的日期可能需要重新計算。
+      selection:
+        all_selected:
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: 顯示所有與該工作套件共享的使用者
         title: 參與工作套件
       table:
         configure_button: 設定工作套件
-        summary: 由工作套件和工作套件屬性列組成的表格。
-        text_inline_edit: 該表中的大多數單元格都內嵌可以編輯屬性的按鈕。
-        text_select_hint: 請使用Alt+方向鍵打開選擇框。
-        text_sort_hint: 通過表格標題中的鏈接，您可以排序，分組，重新排序，刪除和增加表格列。
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: 設定此工作套件表
         choose_display_mode: 將工作套件顯示為
@@ -1081,7 +1130,6 @@ zh-TW:
         default_mode: 展開清單
         display_settings: 顯示設定
         display_sums_hint: 在表格結果下方的一行中顯示總和。
-        embedded_tab_disabled: 此配置選項卡不適用於您正在編輯的嵌入式視圖。
         hierarchy_hint: 所有已篩選的資料與其來源將一起優化。階層可以展開和收合。
         hierarchy_mode: 階層
         highlighting: 強調

@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Documents
-  priority: 900
+  priority: 820
 description: Documents module settings in OpenProject.
 keywords: document category, document categories, documents, collaboration, category, categories, real-time collaboration, edit document
 ---
@@ -106,7 +106,7 @@ services:
       - "127.0.0.1:1234:1234"
 ```
 
-Replace the `<hocuspocus_image>` with the image from [here](https://github.com/opf/openproject-docker-compose/blob/stable/17/docker-compose.yml#L122).
+Replace the `<hocuspocus_image>` with the image from [here](https://github.com/opf/openproject-docker-compose/blob/stable/18/docker-compose.yml#L122).
 
 Run hocuspocus:
 

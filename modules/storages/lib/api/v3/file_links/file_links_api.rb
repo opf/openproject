@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -59,10 +58,10 @@ class API::V3::FileLinks::FileLinksAPI < API::OpenProjectAPI
         end
       end
 
-      # A helper is used to define the behaviour at GET /api/v3/file_links/:file_link_id
+      # A helper is used to define the behavior at GET /api/v3/file_links/:file_link_id
       get &::API::V3::Utilities::Endpoints::Show.new(model: ::Storages::FileLink).mount
 
-      # A helper is used to define the behaviour at DELETE /api/v3/file_links/:file_link_id
+      # A helper is used to define the behavior at DELETE /api/v3/file_links/:file_link_id
       delete &::API::V3::Utilities::Endpoints::Delete.new(
         model: ::Storages::FileLink,
         process_service: ::Storages::FileLinks::DeleteService

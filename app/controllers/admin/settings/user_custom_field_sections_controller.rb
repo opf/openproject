@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,8 +31,11 @@ module Admin::Settings
   class UserCustomFieldSectionsController < ::Admin::SettingsController
     include OpTurbo::ComponentStream
     include Admin::Settings::UserCustomFields::ComponentStreams
+    include ::SortableLists::DropRequestValidation
 
-    before_action :set_user_custom_field_section, only: %i[update move drop destroy]
+    configure_drop_request list_type: UserCustomFieldSection::SORTABLE_LIST_TYPE, list_id_scoped: false
+
+    before_action :set_user_custom_field_section, only: %i[update drop destroy]
 
     def create
       call = ::UserCustomFieldSections::CreateService.new(user: current_user).call(
@@ -58,7 +60,7 @@ module Admin::Settings
 
       if call.success?
         close_dialog_via_turbo_stream("user-custom-field-section-dialog#{@user_custom_field_section.id}")
-        update_section_via_turbo_stream(user_custom_field_section: call.result)
+        update_sections_via_turbo_stream(user_custom_field_sections: UserCustomFieldSection.all)
       else
         update_section_dialog_body_form_via_turbo_stream(user_custom_field_section: call.result)
       end
@@ -79,33 +81,17 @@ module Admin::Settings
       respond_with_turbo_streams
     end
 
-    def move
-      call = ::UserCustomFieldSections::UpdateService.new(user: current_user, model: @user_custom_field_section).call(
-        move_to: params.expect(:move_to)&.to_sym
-      )
-
-      if call.success?
-        update_sections_via_turbo_stream(user_custom_field_sections: UserCustomFieldSection.all)
-      else
-        render_section_error_via_turbo_stream(call)
-      end
-
-      respond_with_turbo_streams
-    end
-
     def drop
-      call = ::UserCustomFieldSections::UpdateService.new(user: current_user, model: @user_custom_field_section).call(
-        position: params[:position].to_i
-      )
+      moved = valid_drop_request? &&
+        @user_custom_field_section.move_after_anchor(drop_params[:prev_id], scope: UserCustomFieldSection.all)
 
-      if call.success?
-        update_header_via_turbo_stream(allow_custom_field_creation: allow_custom_field_creation?)
+      if moved
         update_sections_via_turbo_stream(user_custom_field_sections: UserCustomFieldSection.all)
+        respond_with_turbo_streams
       else
-        render_section_error_via_turbo_stream(call)
+        render_error_flash_message_via_turbo_stream(message: I18n.t(:error_invalid_list_move_anchor))
+        respond_with_turbo_streams(status: :unprocessable_entity)
       end
-
-      respond_with_turbo_streams
     end
 
     def new_link

@@ -1,0 +1,29 @@
+<%
+  the_form = Class.new(ApplicationForm) do
+    form do |f|
+      f.file_field(
+        name: :attachment,
+        label:,
+        description:,
+        caption:,
+        accept:,
+        auto_submit:,
+        disabled:,
+        preview_url:,
+        delete_path: (preview_url.present? ? "#" : nil),
+        invalid_file_message: invalid_file_message.presence,
+        max_size:,
+        file_too_large_message: file_too_large_message.presence
+      )
+    end
+  end
+%>
+
+<%=
+  primer_form_with(
+    url: "/abc",
+    id: "file-field-playground"
+  ) do |f|
+    render(the_form.new(f))
+  end
+%>

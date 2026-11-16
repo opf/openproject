@@ -47,6 +47,8 @@ cs:
       draggable_hint: 'Přetáhněte pole editoru na vložený obrázek nebo referenční přílohu. Uzavřená pole editoru budou otevřena během pokračujícího přetahování.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Soubor je karanténí, protože byl nalezen virus. Není k dispozici ke stažení.
     autocomplete_ng_select:
       add_tag: Přidat položku
@@ -61,6 +63,7 @@ cs:
         single: Vybrat "%{name}"
       remove: Odstranit %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Nenalezeny žádné položky
       placeholder: Zadejte hledaný text
       project:
@@ -128,10 +131,10 @@ cs:
     button_confirm: Potvrdit
     button_continue: Pokračovat
     button_copy: Kopírovat
-    button_copy_link_to_clipboard: Kopírovat odkaz do schránky
-    button_copy_numeric_id_to_clipboard: Kopírovat numerické ID do schránky
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: Kopírovat do schránky
     button_copy_to_other_project: Duplikovat v jiném projektu
+    button_copy_work_package_id: Copy work package ID
     button_create: Vytvořit
     button_custom-fields: Vlastní pole
     button_delete: Odstranit
@@ -147,6 +150,7 @@ cs:
     button_log_time: Vykázat čas
     button_more: Více
     button_more_actions: Další akce
+    button_move_to_position: Move to position
     button_open_details: Otevřít podrobností - panel
     button_open_fullscreen: Otevřít podrobnosti - fullscreen
     button_quote: Citovat
@@ -162,6 +166,7 @@ cs:
     button_stop_timer: Zastavit časovač
     button_uncheck_all: Odznačit vše
     button_update: Aktualizovat
+    button_view_markdown: View Markdown
     caption_rate_history: Historie sazeb
     card:
       add_new: Přidat novou kartu
@@ -201,7 +206,11 @@ cs:
     description_select_work_package: 'Vyberte pracovní balíček #%{id}'
     description_subwork_package: 'Podřazený pracovního balíčku #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Došlo k chybě v CKEditoru
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Uložení dokumentu se nezdařilo s následující chybou: %{error}'
       macro:
         attribute_reference:
@@ -341,6 +350,8 @@ cs:
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} položek je k dispozici"
       recently_viewed: Nedávno zobrazené
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: všechny projekty
@@ -358,8 +369,8 @@ cs:
     ical_sharing_modal:
       copy_url_label: Kopírovat URL
       description: Můžete použít URL (iCalendar) k odběru tohoto kalendáře v externím klientovi a zobrazit aktuální informace o pracovním balíčku.
-      ical_generation_error_text: Při generování adresy URL kalendáře došlo k chybě.
-      inital_setup_error_message: Při načítání dat došlo k chybě.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: URL "%{name}" byla úspěšně zkopírována do vaší schránky. Vložte ji do vašeho klienta kalendáře pro dokončení odběru.
       title: Přihlásit kalendář k odběru
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -431,7 +442,6 @@ cs:
     label_assignee: Řešitel
     label_assignee_alt_text: Tento pracovní balíček je přiřazen %{name}
     label_attachments: Přílohy
-    label_author: 'Autor: %{user}'
     label_avatar: Avatar
     label_between: mezi
     label_board: Tabule
@@ -495,6 +505,7 @@ cs:
     label_in: v
     label_in_less_than: za méně než
     label_in_more_than: za více než
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Příchozí e-maily
     label_infinity: Infinity
     label_information_plural: Informace
@@ -527,6 +538,10 @@ cs:
     label_open_context_menu: Otevřít kontextovou nabídku
     label_open_menu: Otevřít nabídku
     label_open_work_packages: open
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Heslo
     label_per_page: 'Na stránku:'
     label_please_wait: Čekejte prosím
@@ -551,6 +566,8 @@ cs:
     label_reset: Reset
     label_resize_project_menu: Resize project menu
     label_save_as: Uložit jako
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Vyhledávání ve sloupci
     label_select_watcher: Zvolte sledujícího...
     label_selected_filter_list: Vybrané filtry
@@ -558,7 +575,9 @@ cs:
     label_show_in_menu: Zobrazit pohled v menu
     label_sort_by: Seřadit podle
     label_sort_higher: Přesunout výš
+    label_sort_highest: Move to top
     label_sort_lower: Přesunout níž
+    label_sort_lowest: Move to bottom
     label_sorted_by: řazeno podle
     label_sorting: Řazení
     label_spent_time: Strávený čas
@@ -569,6 +588,7 @@ cs:
     label_sum_for: Součet pro
     label_this_week: tento týden
     label_time_entry_plural: Strávený čas
+    label_to_do_work_packages: to-do
     label_today: Dnes
     label_total_amount: 'Celkem: %{amount}'
     label_total_progress: Celkový průběh %{percent}%
@@ -623,10 +643,10 @@ cs:
     notifications:
       center:
         and_more_users:
-          one: a 1 další
-          few: a %{count} dalšich
-          many: a %{count} dalšich
-          other: a %{count} dalšich
+          one: and %{count} other
+          few: and %{count} others
+          many: and %{count} others
+          other: and %{count} others
         empty_state:
           no_notification: Vypadá to, že jste všechno dohnali...
           no_notification_for_filter: Vypadá to, že jste všichni zachytili tento filtr.
@@ -726,6 +746,7 @@ cs:
     placeholders:
       default: "-"
       description: 'Popis: Klikněte pro úpravu...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Kliknutím přidáte popis pro tento vztah
       selection: Zvolte prosím
       subject: Zde zadejte předmět
@@ -812,12 +833,37 @@ cs:
       sorting_disabled: řazení zakázáno
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} moved to position %{position} of %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+      selection:
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        range_restarted:
+          one: Could not extend the range. %{count} item selected.
+          few: Could not extend the range. %{count} items selected.
+          many: Could not extend the range. %{count} items selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          one: "%{count} item selected."
+          few: "%{count} items selected."
+          many: "%{count} items selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Zavřít modal
@@ -831,9 +877,7 @@ cs:
     text_user_wrote: "%{value} napsal:"
     text_work_packages_destroy_confirmation: Jste si jisti, že chcete odstranit vybrané pracovní balíčky?
     time_entry:
-      stop: Zastavit
       title: Vykázat čas
-      tracking: Sledování času
       work_package_required: Vyžaduje nejprve výběr pracovního balíčku.
     timer:
       button_stop: Zastavit aktuální časovač
@@ -868,24 +912,24 @@ cs:
       label_two_factor_authentication: Dvoufázové ověření
     units:
       child_work_packages:
-        one: jeden podřazený pracovní balíček
-        few: "%{count} podřazených pracovních balíčků"
-        many: "%{count} podřazených pracovních balíčků"
-        other: "%{count} podřazených pracovních balíčků"
+        one: "%{count} child work package"
+        few: "%{count} work package children"
+        many: "%{count} work package children"
+        other: "%{count} work package children"
       day:
-        one: 1 den
+        one: "%{count} day"
         other: "%{count} dní"
         zero: 0 dní
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours} h"
       word:
-        one: 1 slovo
-        few: "%{count} slov"
-        many: "%{count} slov"
-        other: "%{count} slov"
+        one: "%{count} word"
+        few: "%{count} words"
+        many: "%{count} words"
+        other: "%{count} words"
       workPackage:
         one: pracovní balíček
         few: pracovní balíčky
@@ -946,6 +990,7 @@ cs:
         all_open: Všechny otevřené
         assigned_to_me: Přiřazeno mně
         created_by_me: Vytvořeno mnou
+        in_progress: In progress
         latest_activity: Poslední aktivita
         manually_sorted: Nový ručně seřazený dotaz
         overdue: Po termínu
@@ -953,6 +998,7 @@ cs:
         shared_with_me: Sdíleno se mnou
         shared_with_users: Sdíleno s uživateli
         summary: Souhrn
+        to_do: To-do
       description_enter_text: Zadejte text
       description_filter: Filtr
       description_options_hide: Skrýt možnosti
@@ -1040,6 +1086,7 @@ cs:
         other: Ostatní
         people: Lidé
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Kliknutím upravíte název tohoto zobrazení.
         column_names: Sloupce
         confirm_edit_cancel: Jste si jisti, že chcete zrušit úpravy názvu tohoto pohledu? Titulek bude nastaven zpět na předchozí hodnotu.
@@ -1049,17 +1096,16 @@ cs:
           not_found: Neexistuje takové zobrazení
           unretrievable_query: Nelze načíst zobrazení z URL
         filters: Filtry
-        group: Seskupit podle
         group_by: Seskupit výsledky podle
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Skupina podle je zakázána kvůli aktivnímu režimu hierarchie.
-        hide_column: Skrýt sloupec
         hierarchy_disabled_by_group_by: Režim hierarchie je zakázán kvůli tomu, že výsledky jsou seskupeny uživatelem %{column}.
-        insert_columns: Vložit sloupec ...
         move_column_left: Přesunout sloupec vlevo
         move_column_right: Přesunout sloupec vpravo
         public_text: 'Publikujte toto zobrazení, umožňující ostatním uživatelům přístup k vašemu zobrazení. Uživatelé s oprávněním ''Spravovat veřejné zobrazení'' mohou upravit nebo odebrat veřejný dotaz. To nemá vliv na viditelnost výsledků pracovního balíčku v tomto zobrazení a v závislosti na jejich oprávněních mohou uživatelé vidět různé výsledky.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Název tohoto zobrazení
         sort_ascending: Seřadit vzestupně
         sort_descending: Seřadit sestupně
@@ -1080,15 +1126,30 @@ cs:
       scheduling:
         is_parent: Data tohoto pracovního balíčku jsou automaticky odvozena od jeho dětí. Aktivujte 'Manuální plánování' pro ručné nastavení dat.
         is_switched_from_manual_to_automatic: Data tohoto pracovního balíčku budou možná muset být přepočítána po přepnutí z manuálu na automatické plánování kvůli vztahům s ostatními pracovními balíčky.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          few: All %{count} work packages on this page selected.
+          many: All %{count} work packages on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          few: "%{count} work packages selected."
+          many: "%{count} work packages selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Zobrazit všechny uživatele, s nimiž byl pracovní balíček sdílen s
         title: Sdílet pracovní balíček
       table:
         configure_button: Konfigurovat tabulku pracovních balíčků
-        summary: Tabulka s řádky pracovního balíčku a atributy sloupců pracovního balíčku.
-        text_inline_edit: Většina buněk v této tabulce jsou tlačítka, která aktivují funkci úpravy inline-editace atributu.
-        text_select_hint: Vyberte pole by mělo být otevřeno pomocí kláves "ALT" a šipkami.
-        text_sort_hint: Pomocí odkazů v záhlaví tabulky můžete seřadit, seřadit, odstranit a přidat sloupce tabulky.
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: Konfigurovat tabulku pracovních balíčků
         choose_display_mode: Zobrazit pracovní balíčky jako
@@ -1097,7 +1158,6 @@ cs:
         default_mode: Plochý seznam
         display_settings: Nastavení zobrazení
         display_sums_hint: Zobrazit součty všech sčitatelných atributů v řádku pod tabulkou výsledků.
-        embedded_tab_disabled: Tato karta konfigurace není k dispozici pro embedded zobrazení, které upravujete.
         hierarchy_hint: Všechny filtrované výsledky z tabulky budou rozšířeny o jejich předky. Hierarchii lze rozbalit a sbalit.
         hierarchy_mode: Hierarchie
         highlighting: Zvýraznění

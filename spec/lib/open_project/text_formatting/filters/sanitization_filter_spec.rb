@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the GNU General Public
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -99,6 +98,18 @@ RSpec.describe OpenProject::TextFormatting::Filters::SanitizationFilter do
         expect(output).to include("name=\"#{prefix}constructor\"")
         expect(output).to include("name=\"#{prefix}appendChild\"")
       end
+    end
+  end
+
+  describe "horizontal rules" do
+    it "keeps hr elements" do
+      output = sanitize("<p>First slide</p><hr><p>Second slide</p>")
+      expect(output).to eq("<p>First slide</p><hr><p>Second slide</p>")
+    end
+
+    it "strips unsafe attributes from hr elements" do
+      output = sanitize('<hr onmouseover="alert(1)" style="position:fixed;z-index:99999">')
+      expect(output).to eq("<hr>")
     end
   end
 

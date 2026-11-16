@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -30,6 +29,8 @@ module API
   module V3
     module WorkPackages
       class CreateFormRepresenter < FormRepresenter
+        include ::WorkPackageTypes::VariantRoutes
+
         link :self do
           {
             href: api_v3_paths.create_work_package_form,
@@ -63,26 +64,15 @@ module API
           end
         end
 
-        link :customFields do
-          if represented.project && current_user.allowed_in_project?(:select_custom_fields, represented.project)
-            {
-              href: project_settings_custom_fields_path(represented.project.identifier),
-              type: "text/html",
-              title: I18n.t("label_custom_field_plural")
-            }
-          end
-        end
-
         link :configureForm do
-          if current_user.admin? &&
-             represented.type_id &&
-             represented.type_id != 0
-            {
-              href: edit_type_form_configuration_path(represented.type_id),
-              type: "text/html",
-              title: "Configure form"
-            }
-          end
+          variant = represented.type_variant
+          next unless variant&.configurable_by?(current_user)
+
+          {
+            href: edit_variant_form_configuration_path(variant.project, variant),
+            type: "text/html",
+            title: "Configure form"
+          }
         end
       end
     end

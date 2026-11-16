@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -449,6 +448,60 @@ RSpec.describe "Recurring meetings show",
         (6..15).each do |i|
           expect(page).to have_no_text format_time(Time.zone.today + i.days)
         end
+      end
+    end
+
+    describe "past direction default" do
+      before do
+        (1..16).each do |i|
+          create(:meeting,
+                 recurring_meeting:,
+                 start_time: i.days.ago + 10.hours,
+                 recurrence_start_time: i.days.ago + 10.hours)
+        end
+      end
+
+      it "defaults to 15 past meetings when no limit parameter is provided" do
+        get project_recurring_meeting_path(project, recurring_meeting, direction: "past")
+
+        expect(page).to have_css(".op-border-box-table__rows [role='row']", count: 15)
+        expect(page).to have_css("#recurring-meetings-footer-component")
+      end
+    end
+  end
+
+  describe "opening all occurrences of an ending series" do
+    let(:recurring_meeting) do
+      create :recurring_meeting,
+             project:,
+             author: user,
+             start_time: Time.zone.today + 1.day,
+             frequency: "daily",
+             end_after: "iterations",
+             iterations: 12
+    end
+
+    before do
+      (1..7).each do |i|
+        create(:meeting,
+               recurring_meeting:,
+               start_time: Time.zone.today + i.days,
+               recurrence_start_time: Time.zone.today + i.days,
+               state: :open)
+      end
+    end
+
+    it "still lists the remaining planned occurrences once the earlier ones are opened (Bug OP#20526)" do
+      get project_recurring_meeting_path(project, recurring_meeting, limit: 20)
+
+      opened = page.find("[data-test-selector='agenda-opened-table']")
+      (1..7).each do |i|
+        expect(opened).to have_text format_time(Time.zone.today + i.days)
+      end
+
+      planned = page.find("[data-test-selector='planned-table']")
+      (8..12).each do |i|
+        expect(planned).to have_text format_time(Time.zone.today + i.days)
       end
     end
   end

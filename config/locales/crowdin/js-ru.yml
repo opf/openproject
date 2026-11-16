@@ -47,6 +47,8 @@ ru:
       draggable_hint: 'Перенесите в поле редактора для вставки изображения или прикрепления ссылки. Закрытые поля будут открыты в процессе переноса.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Этот файл помещен в карантин, так как в нем обнаружен вирус. Он недоступен для загрузки.
     autocomplete_ng_select:
       add_tag: Добавить элемент
@@ -61,6 +63,7 @@ ru:
         single: Выберите "%{name}"
       remove: Удалить %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Элементов не найдено
       placeholder: Введите для поиска
       project:
@@ -128,10 +131,10 @@ ru:
     button_confirm: Подтвердить
     button_continue: Продолжить
     button_copy: Копировать
-    button_copy_link_to_clipboard: Копировать ссылку в буфер обмена
-    button_copy_numeric_id_to_clipboard: Скопировать числовой идентификатор в буфер обмена
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: Копировать в буфер обмена
     button_copy_to_other_project: Дублировать в другой проект
+    button_copy_work_package_id: Copy work package ID
     button_create: Создать
     button_custom-fields: Настраиваемые поля
     button_delete: Удалить
@@ -147,6 +150,7 @@ ru:
     button_log_time: Добавить трудозатраты
     button_more: Ещё
     button_more_actions: Еще действия
+    button_move_to_position: Move to position
     button_open_details: Открыть детальный просмотр
     button_open_fullscreen: Открыть полноэкранный просмотр
     button_quote: Цитировать
@@ -162,6 +166,7 @@ ru:
     button_stop_timer: Остановить таймер
     button_uncheck_all: Снять все отметки
     button_update: Обновить
+    button_view_markdown: View Markdown
     caption_rate_history: История оценок
     card:
       add_new: Добавить новую карту
@@ -201,7 +206,11 @@ ru:
     description_select_work_package: 'Выберите пакет работ #%{id}'
     description_subwork_package: 'Дочерний пакет работ #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: Произошла ошибка в CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Не удалось сохранить документ по следующей причине: %{error}'
       macro:
         attribute_reference:
@@ -341,6 +350,8 @@ ru:
       direct_hit_available: Пакет работ с точным идентификатором найден. Нажмите Enter для его открытия.
       items_available: "%{count} доступных элементов"
       recently_viewed: Недавно просмотренные
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Поиск пакетов работ по темам, проекту, типу, статусу или идентификатору
       title:
         all_projects: все проекты
@@ -358,8 +369,8 @@ ru:
     ical_sharing_modal:
       copy_url_label: Копировать URL
       description: Вы можете использовать URL-адрес (iCalendar), чтобы подписаться на этот календарь во внешнем клиенте и просматривать информацию о рабочем пакете отсюда.
-      ical_generation_error_text: Произошла ошибка при генерации URL-адреса календаря.
-      inital_setup_error_message: Произошла ошибка при получении данных.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: URL-адрес "%{name}" был успешно скопирован в ваш буфер обмена. Вставьте его в свой клиент календаря, чтобы завершить подписку.
       title: Подписаться на календарь
       token_name_description_text: Если Вы подписаны на этот календарь с нескольких устройств, это имя поможет Вам различать их в списке <a href="%{myAccessTokensUrl}" target="_blank">токенов доступа</a>.
@@ -431,7 +442,6 @@ ru:
     label_assignee: Исполнитель
     label_assignee_alt_text: Этот пакет работ назначен %{name}
     label_attachments: Вложения
-    label_author: 'Автор: %{user}'
     label_avatar: 'Аватар
 
       '
@@ -497,6 +507,7 @@ ru:
     label_in: в
     label_in_less_than: менее чем
     label_in_more_than: более чем
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Входящие письма
     label_infinity: Бесконечность
     label_information_plural: Информация
@@ -529,6 +540,10 @@ ru:
     label_open_context_menu: Открыть контекстное меню
     label_open_menu: Открыть меню
     label_open_work_packages: открыто
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Пароль
     label_per_page: 'На странице:'
     label_please_wait: Пожалуйста, подождите
@@ -553,6 +568,8 @@ ru:
     label_reset: Сброс
     label_resize_project_menu: Изменить размер меню проекта
     label_save_as: Сохранить как
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Поиск столбца
     label_select_watcher: Выберите наблюдателя...
     label_selected_filter_list: Выбранные фильтры
@@ -560,7 +577,9 @@ ru:
     label_show_in_menu: Показать представление в меню
     label_sort_by: Сортировать по
     label_sort_higher: Переместить вверх
+    label_sort_highest: Move to top
     label_sort_lower: Переместить вниз
+    label_sort_lowest: Move to bottom
     label_sorted_by: отсортировано по
     label_sorting: Сортировка
     label_spent_time: Затраченное время
@@ -571,6 +590,7 @@ ru:
     label_sum_for: Сумма для
     label_this_week: на этой неделе
     label_time_entry_plural: Затраченное время
+    label_to_do_work_packages: to-do
     label_today: Сегодня
     label_total_amount: 'Всего: %{amount}'
     label_total_progress: "%{percent}% общего прогресса"
@@ -625,10 +645,10 @@ ru:
     notifications:
       center:
         and_more_users:
-          one: и еще 1
-          few: и %{count} других
-          many: и %{count} других
-          other: и %{count} других
+          one: and %{count} other
+          few: and %{count} others
+          many: and %{count} others
+          other: and %{count} others
         empty_state:
           no_notification: Похоже, вы все сделали.
           no_notification_for_filter: Похоже, что для этого фильтра у Вас уже все готово.
@@ -724,6 +744,7 @@ ru:
     placeholders:
       default: "-"
       description: 'Описание: Нажмите для редактирования...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Нажмите, чтобы добавить описание для этой связи
       selection: Пожалуйста, выберите
       subject: Введите тему здесь
@@ -810,12 +831,37 @@ ru:
       sorting_disabled: сортировка отключена
     sortable_lists:
       announcements:
+        batch_too_large: Нельзя переместить %{count} элементов за один раз. Выберите не более %{max}.
         fallback_item_label: Элемент
         fallback_list_name: другой список
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Не удалось переместить. Проверьте текущую позицию.
+        move_failed_check_positions_batch:
+          other: Перемещение не удалось. Проверьте текущие позиции элементов.
         move_failed_rolled_back: Перемещение не удалось. %{label} вернулся на прежнюю позицию.
+        move_failed_rolled_back_batch:
+          other: Перемещение не удалось. %{count} элементов вернулось на прежние позиции.
         moved: "%{label} перемещен на позицию %{position} из %{total}"
+        moved_batch:
+          other: "%{count} элементов перемещёно на позиции с %{first} по %{last} из %{total}"
+        moved_batch_to_list:
+          other: "%{count} элементов перенесены в %{list}, на позиции с %{first} по %{last} из %{total}"
         moved_to_list: "%{label} перемещен в %{list}, на позицию %{position} из %{total}"
+      selection:
+        cleared: Выборка очищена.
+        not_selectable: Выборка не изменилась. Этот элемент не принимает участия в сортировке этого списка.
+        range_blocked: Выборка не изменилась. Этот диапазон содержит элемент, который не принимает участия в сортировке этого списка.
+        range_restarted:
+          one: Could not extend the range. %{count} item selected.
+          few: Could not extend the range. %{count} items selected.
+          many: Could not extend the range. %{count} items selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Выборка не изменена. Разверните этот список, чтобы выбрать этот диапазон.
+        selected:
+          one: "%{count} item selected."
+          few: "%{count} items selected."
+          many: "%{count} items selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Закрыть диалоговое окно
@@ -829,9 +875,7 @@ ru:
     text_user_wrote: "%{value} написал:"
     text_work_packages_destroy_confirmation: Вы уверены, что хотите удалить выбранные пакеты работ?
     time_entry:
-      stop: Стоп
       title: Журналировать время
-      tracking: Учет времени
       work_package_required: Сначала необходимо выбрать пакет работ.
     timer:
       button_stop: Остановить текущий таймер
@@ -866,24 +910,24 @@ ru:
       label_two_factor_authentication: Двухфакторная аутентификация
     units:
       child_work_packages:
-        one: пакет работ с одним дочерним
-        few: пакетов работ с %{count} дочерними
-        many: пакет работ с %{count} дочерними
-        other: пакет работ с %{count} дочерними
+        one: "%{count} child work package"
+        few: "%{count} work package children"
+        many: "%{count} work package children"
+        other: "%{count} work package children"
       day:
-        one: День
+        one: "%{count} day"
         other: "%{count} дней"
         zero: 0 дней
       hour:
-        one: 1 ч
+        one: "%{count} h"
         other: "%{count} ч"
         zero: 0 ч
       hour_string: "%{hours} ч"
       word:
-        one: 1 слово
-        few: "%{count} слов"
-        many: "%{count} слов"
-        other: "%{count} слов"
+        one: "%{count} word"
+        few: "%{count} words"
+        many: "%{count} words"
+        other: "%{count} words"
       workPackage:
         one: пакет работ
         few: пакетов работ
@@ -944,6 +988,7 @@ ru:
         all_open: Все открытые
         assigned_to_me: Я исполнитель
         created_by_me: Создано мной
+        in_progress: In progress
         latest_activity: Последние действия
         manually_sorted: Новый запрос с ручной сортировкой
         overdue: Просрочено
@@ -951,6 +996,7 @@ ru:
         shared_with_me: Поделились со мной
         shared_with_users: Доступно пользователям
         summary: Сводка
+        to_do: To-do
       description_enter_text: Введите текст
       description_filter: Фильтр
       description_options_hide: Скрыть параметры
@@ -1038,6 +1084,7 @@ ru:
         other: Другие
         people: Люди
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Нажмите, чтобы изменить заголовок этого представления.
         column_names: Столбцы
         confirm_edit_cancel: Уверены, что хотите отменить редактирование названия этого представления? Заголовку будет возвращено его прежнее название.
@@ -1047,17 +1094,16 @@ ru:
           not_found: Нет такого представления
           unretrievable_query: Не удается получить представление из URL-адреса
         filters: Фильтры
-        group: Группировать по
         group_by: Группировать результаты по
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: В режиме иерархии группировка отключена.
-        hide_column: Скрыть столбец
         hierarchy_disabled_by_group_by: Режим иерархии отключен из-за группировки результатов по %{column}.
-        insert_columns: Вставить столбцы
         move_column_left: Переместить столбец влево
         move_column_right: Переместить столбец вправо
         public_text: 'Опубликовать это представление, дав к нему доступ другим пользователям. Пользователи с правом доступа «Управление публичными представлениями» могут изменить или удалить публичный запрос. Это не влияет на видимость результатов пакета работ в этом представлении, и в зависимости от своих прав пользователи могут видеть разные результаты.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Название этого представления
         sort_ascending: Сортировать по возрастанию
         sort_descending: Сортировать по убыванию
@@ -1078,15 +1124,30 @@ ru:
       scheduling:
         is_parent: Даты этого пакета работ выводятся автоматически из дочерних узлов. Используйте «Ручной планировщик», чтобы установить даты.
         is_switched_from_manual_to_automatic: Даты этого пакета работ могут быть пересчитаны после переключения с ручного на автоматическое планирование из-за связей с другими пакетами работ.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          few: All %{count} work packages on this page selected.
+          many: All %{count} work packages on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          few: "%{count} work packages selected."
+          many: "%{count} work packages selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Показать всех пользователей, которым был предоставлен общий доступ к пакету работ
         title: Поделиться пакетом работ
       table:
         configure_button: Настроить таблицу пакета работ
-        summary: Таблица с названиями пакетов работ в строках и атрибутами пакетов работ в столбцах.
-        text_inline_edit: Большинство ячеек этой таблицы являются кнопками, которые активируют встроенную функцию редактирования этого атрибута.
-        text_select_hint: Чек-боксы могут быть открыты с использованием «ALT» и клавиш со стрелками.
-        text_sort_hint: Ссылки в заголовках таблиц позволяют сортировать, группировать, реорганизовывать, удалять и добавлять столбцы.
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: Настроить эту таблицу пакета работ
         choose_display_mode: Отображать пакеты работ как
@@ -1095,7 +1156,6 @@ ru:
         default_mode: Простой список
         display_settings: Настройки отображения
         display_sums_hint: Отображать сумму всех суммируемых атрибутов в строке под таблицей результатов.
-        embedded_tab_disabled: Эта вкладка конфигурации недоступна для редактируемого вами вида.
         hierarchy_hint: Все отфильтрованные результаты таблицы будут дополнены их предками. Иерархии можно разворачивать и сворачивать.
         hierarchy_mode: Иерархия
         highlighting: Выделение
