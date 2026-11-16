@@ -4,7 +4,7 @@ PostgreSQL addon for pkgr.
 
 New autoinstallations provision PostgreSQL 18 with pgvector available using packages from https://www.postgresql.org/download/linux/.
 
-Existing configured installations retain their PostgreSQL major and are only checked for connectivity. Reused external databases are not modified. Install the matching pgvector package for existing databases. OpenProject handles extension creation during application migrations.
+Existing configured installations retain their PostgreSQL major, are checked for connectivity, and attempt to install the matching pgvector package. Reused external databases are not modified; install pgvector on those servers yourself. OpenProject handles extension creation during application migrations.
 
 OpenProject packages use this vendored addon, not the upstream `pkgr/addon-postgres` repository.
 

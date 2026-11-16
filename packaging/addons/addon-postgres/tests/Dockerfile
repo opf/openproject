@@ -26,5 +26,5 @@
 #++
 
 FROM pgvector/pgvector:pg18-bookworm
-RUN apt-get update -qq && apt-get install -y --no-install-recommends postgresql-17 && rm -rf /var/lib/apt/lists/*
+RUN apt-get update -qq && apt-get install -y --no-install-recommends postgresql-17 postgresql-17-pgvector && rm -rf /var/lib/apt/lists/*
 ENTRYPOINT ["bash"]

@@ -50,11 +50,21 @@ wiz_get() {
     *) return 1 ;;
   esac
 }
-wiz_fact() { echo 'Unexpected package installation' >&2; exit 99; }
+wiz_fact() {
+  case "$1" in
+    osfamily) echo debian ;;
+    *) echo 'Unexpected server installation' >&2; exit 99 ;;
+  esac
+}
+wiz_check_package() {
+  test "$1" = postgresql-17-pgvector || exit 99
+  dpkg-query -W "$1" >/dev/null
+}
 WIZARD
 /source/bin/preinstall
-test "$(psql "$DATABASE_URL" -tAc "SELECT count(*) FROM pg_extension WHERE extname = 'vector'")" = 0
-echo 'PASS: packaged reconfiguration checks connectivity without provisioning'
+test "$(psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -tAc "SELECT count(*) FROM pg_available_extensions WHERE name = 'vector' AND installed_version IS NULL")" = 1
+test "$(psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -tAc "SELECT current_setting('server_version_num')::int / 10000")" = 17
+echo 'PASS: packaged reconfiguration retains PostgreSQL 17 and leaves vector available but inactive'
 runuser -u postgres -- "$PGBIN/pg_ctl" -D "$PGDATA" -m fast -w stop
 
 export PGDATA=/var/lib/postgresql/addon18 PGBIN=/usr/lib/postgresql/18/bin
