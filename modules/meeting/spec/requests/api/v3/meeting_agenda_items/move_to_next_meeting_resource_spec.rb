@@ -100,4 +100,65 @@ RSpec.describe "API v3 Meeting Agenda Item move to next meeting", content_type: 
       expect(agenda_item.reload.meeting_id).to eq(current_meeting.id)
     end
   end
+
+  context "when a target section is given" do
+    let!(:target_meeting) do
+      create(:recurring_meeting_occurrence, recurring_meeting: series, start_time: next_slot)
+    end
+    let!(:first_section) { create(:meeting_section, meeting: target_meeting) }
+    let!(:chosen_section) { create(:meeting_section, meeting: target_meeting) }
+
+    subject(:response) do
+      post path, { _links: { section: { href: api_v3_paths.meeting_section(chosen_section.id) } } }.to_json
+    end
+
+    it "moves the agenda item into the chosen section" do
+      expect(response).to have_http_status(:ok)
+      expect(agenda_item.reload.meeting_section_id).to eq(chosen_section.id)
+    end
+
+    context "when the section belongs to another series" do
+      let(:other_series) { create(:recurring_meeting, project:, author:) }
+      let(:other_meeting) { create(:recurring_meeting_occurrence, recurring_meeting: other_series) }
+      let(:chosen_section) { create(:meeting_section, meeting: other_meeting) }
+
+      it "returns an unprocessable error without moving the item" do
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(agenda_item.reload.meeting_id).to eq(current_meeting.id)
+      end
+    end
+
+    context "when moving to the series backlog" do
+      let(:chosen_section) { current_meeting.backlog }
+
+      it "moves the agenda item into the backlog" do
+        expect(response).to have_http_status(:ok)
+        expect(agenda_item.reload.meeting_section_id).to eq(chosen_section.id)
+      end
+    end
+
+    context "when the section belongs to a different occurrence of the same series" do
+      let!(:other_occurrence) do
+        create(:recurring_meeting_occurrence, recurring_meeting: series,
+                                              start_time: series.next_occurrence(from_time: next_slot))
+      end
+      let(:chosen_section) { create(:meeting_section, meeting: other_occurrence) }
+
+      it "returns an unprocessable error without orphaning the item" do
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(agenda_item.reload.meeting_id).to eq(current_meeting.id)
+      end
+    end
+
+    context "when the section does not exist" do
+      subject(:response) do
+        post path, { _links: { section: { href: api_v3_paths.meeting_section(0) } } }.to_json
+      end
+
+      it "returns a not found error" do
+        expect(response).to have_http_status(:not_found)
+        expect(agenda_item.reload.meeting_id).to eq(current_meeting.id)
+      end
+    end
+  end
 end

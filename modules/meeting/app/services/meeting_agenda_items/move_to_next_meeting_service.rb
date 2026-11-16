@@ -28,9 +28,6 @@
 #++
 
 module MeetingAgendaItems
-  # +start_time+ and +meeting_section+ are optional: the controller passes the
-  # datetime and section chosen in the dialog, while the API lets the service
-  # resolve both on its own.
   class MoveToNextMeetingService
     attr_reader :user, :meeting_agenda_item
 
@@ -93,12 +90,21 @@ module MeetingAgendaItems
     end
 
     def section_for(target_meeting, meeting_section)
-      return ServiceResult.success(result: meeting_section) if meeting_section
+      return validate_chosen_section(target_meeting, meeting_section) if meeting_section
 
       section = target_meeting.sections.order(:position).first
       return ServiceResult.success(result: section) if section
 
       MeetingSections::CreateService.new(user:).call(meeting_id: target_meeting.id, title: "")
+    end
+
+    def validate_chosen_section(target_meeting, meeting_section)
+      if meeting_section.backlog? || meeting_section.meeting_id == target_meeting.id
+        return ServiceResult.success(result: meeting_section)
+      end
+
+      meeting_agenda_item.errors.add(:meeting_section, :invalid)
+      ServiceResult.failure(result: meeting_agenda_item, errors: meeting_agenda_item.errors)
     end
 
     def validate_contract
