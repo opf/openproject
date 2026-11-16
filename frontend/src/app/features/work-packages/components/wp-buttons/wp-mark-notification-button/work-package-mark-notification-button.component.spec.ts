@@ -34,7 +34,7 @@ import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.di
 import { WorkPackageMarkNotificationButtonComponent } from './work-package-mark-notification-button.component';
 
 describe('WorkPackageMarkNotificationButtonComponent', () => {
-  it('renders a toolbar icon button with a tooltip', async () => {
+  beforeEach(async () => {
     await TestBed
       .configureTestingModule({
         imports: [OpTooltipDirective],
@@ -50,7 +50,9 @@ describe('WorkPackageMarkNotificationButtonComponent', () => {
     const fixture = TestBed.createComponent(WorkPackageMarkNotificationButtonComponent);
     fixture.detectChanges();
     await fixture.whenStable();
+  });
 
+  it('renders a toolbar icon button with a tooltip', () => {
     const button = screen.getByRole('button', { name: 'Mark as read' });
     expect(button).toHaveClass('button', 'toolbar-icon');
     expect(screen.getByText('Mark as read', { selector: 'tool-tip' })).toHaveAttribute('for', button.id);

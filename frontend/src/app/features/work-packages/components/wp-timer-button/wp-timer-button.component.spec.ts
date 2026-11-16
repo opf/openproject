@@ -42,7 +42,7 @@ import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { WorkPackageTimerButtonComponent } from './wp-timer-button.component';
 
 describe('WorkPackageTimerButtonComponent', () => {
-  it('renders an idle toolbar icon button with a tooltip', async () => {
+  beforeEach(async () => {
     await TestBed
       .configureTestingModule({
         imports: [OpTooltipDirective],
@@ -65,7 +65,9 @@ describe('WorkPackageTimerButtonComponent', () => {
     const fixture = TestBed.createComponent(WorkPackageTimerButtonComponent);
     fixture.detectChanges();
     await fixture.whenStable();
+  });
 
+  it('renders an idle toolbar icon button with a tooltip', () => {
     const button = screen.getByRole('button', { name: 'Start timer' });
     expect(button).toHaveClass('button', 'toolbar-icon');
     expect(screen.getByText('Start timer', { selector: 'tool-tip' })).toHaveAttribute('for', button.id);
