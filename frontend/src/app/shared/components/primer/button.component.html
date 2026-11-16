@@ -1,8 +1,13 @@
 <span class="Button-content">
   @if (leadingIcon(); as icon) {
     <span class="Button-visual Button-leadingVisual">
-      <svg octicon aria-hidden="true" size="small" [icon]="icon"></svg>
+      <svg octicon aria-hidden="true" [size]="iconSize()" [icon]="icon"></svg>
     </span>
   }
   <span class="Button-label"><ng-content /></span>
 </span>
+@if (trailingAction(); as icon) {
+  <span class="Button-visual Button-trailingAction">
+    <svg octicon aria-hidden="true" [size]="iconSize()" [icon]="icon"></svg>
+  </span>
+}

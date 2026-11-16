@@ -28,6 +28,7 @@
 /* eslint-disable @angular-eslint/component-selector */
 
 import { Component, input } from '@angular/core';
+import { SVGSize } from '@openproject/octicons-angular';
 import { IconModule } from '../icon/icon.module';
 import { PrimerBaseButtonDirective } from './base-button.directive';
 import { DynamicIconName } from './dynamic-icon-map';
@@ -60,4 +61,6 @@ export class PrimerButtonComponent {
   readonly scheme = input<PrimerButtonScheme>('default');
   readonly size = input<Size>('medium');
   readonly leadingIcon = input<DynamicIconName>();
+  readonly trailingAction = input<DynamicIconName>();
+  readonly iconSize = input<SVGSize>('small');
 }
