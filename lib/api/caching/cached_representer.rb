@@ -212,7 +212,7 @@ module API
         end
 
         def json_key_custom_fields
-          represented.available_custom_fields if represented.respond_to?(:available_custom_fields)
+          [represented.try(:available_custom_fields), self.class.try(:injected_custom_fields)]
         end
 
         def json_key_dependencies
