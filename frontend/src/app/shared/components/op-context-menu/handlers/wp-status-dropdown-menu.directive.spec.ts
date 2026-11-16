@@ -165,6 +165,18 @@ describe('WorkPackageStatusDropdownDirective', () => {
     expect(item.querySelector('.__hl_dot')).toBeNull();
   });
 
+  it('lets a work package move into a read-only status', async () => {
+    const menu = await openedMenu();
+    const item = within(menu).getByRole('menuitem', { name: 'Locked' });
+
+    expect(item).not.toHaveAttribute('aria-disabled');
+
+    await userEvent.click(item);
+
+    expect(projectedResource.status).toEqual({ id: '3', name: 'Locked', isReadonly: true });
+    expect(save).toHaveBeenCalledTimes(1);
+  });
+
   it('saves a persisted work package when a status is chosen', async () => {
     const menu = await openedMenu();
 
