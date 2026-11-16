@@ -1,6 +1,6 @@
-import { contentNodeToInlineContent } from '@blocknote/core';
+import { blockToNode, UniqueID } from '@blocknote/core';
 import type { Fragment, Node, ResolvedPos } from 'prosemirror-model';
-import { TextSelection } from 'prosemirror-state';
+import type { Transaction } from 'prosemirror-state';
 import type { AnyEditor } from '../editorTypes';
 import { moveCursorAfterBlock } from './cursor';
 
@@ -29,56 +29,63 @@ export function placeBlockInLine(editor:AnyEditor, range:LineRange, block:BlockT
     }
 
     const $from = tr.doc.resolve(from);
-    const line = $from.parent;
-    const lineId = line.inlineContent ? blockIdOf($from.node(-1)) : undefined;
+    const lineId = $from.parent.inlineContent ? blockIdOf($from.node(-1)) : undefined;
 
     if (!lineId) {
-      if (line.inlineContent) tr.delete(from, to);
+      if ($from.parent.inlineContent) tr.delete(from, to);
       return editor.insertBlocks([insertion], enclosingBlockId($from), 'after')[0].id;
     }
 
-    const fromOffset = $from.parentOffset;
-    const toOffset = fromOffset + to - from;
-    const before = line.content.cut(0, fromOffset);
-    const after = line.content.cut(toOffset);
-    const { selection } = tr;
-    const caret = selection.empty && selection.$from.parent === line ? selection.$from.parentOffset : undefined;
-
+    const before = $from.parent.content.cut(0, $from.parentOffset);
+    const after = $from.parent.content.cut($from.parentOffset + to - from);
     if (isBlank(before) && isBlank(after)) {
       editor.updateBlock(lineId, insertion);
       return lineId;
     }
+
+    tr.delete(from, to);
+    const $position = tr.doc.resolve(from);
+    const blockNode = blockToNode(insertion, editor.pmSchema);
     if (isBlank(before)) {
-      editor.updateBlock(lineId, { content: inlineContentOf(editor, line, after) });
-      const [inserted] = editor.insertBlocks([insertion], lineId, 'before');
-      if (caret !== undefined && caret >= toOffset) restoreCaret(editor, lineId, caret - toOffset);
-      return inserted.id;
+      tr.delete($position.start(), from + leadingSpaceLength(after));
+      tr.insert($position.before(-1), blockNode);
     }
-
-    // The nested blocks follow the line, so they go along with its last part.
-    const { children } = editor.getBlock(lineId)!;
-    if (children.length > 0) editor.removeBlocks(children);
-    editor.updateBlock(lineId, { content: inlineContentOf(editor, line, before) });
-    const rest = isBlank(after)
-      ? []
-      : [{ type: line.type.name, props: line.attrs, content: inlineContentOf(editor, line, after), children }];
-    const [inserted, restBlock] = editor.insertBlocks(
-      [{ ...insertion, children: rest.length > 0 ? [] : children }, ...rest] as BlockInsertion[],
-      lineId,
-      'after',
-    );
-
-    if (caret !== undefined && caret <= fromOffset) restoreCaret(editor, lineId, caret);
-    else if (caret !== undefined && caret >= toOffset && restBlock) restoreCaret(editor, restBlock.id, caret - toOffset);
-    return inserted.id;
+    else if (isBlank(after)) {
+      tr.delete(from, $position.end());
+      insertAfterLine(tr, from, blockNode);
+    }
+    else {
+      tr.delete(from, from + leadingSpaceLength(after));
+      splitLine(tr, from);
+      tr.insert(tr.doc.resolve(from).after(-1), blockNode);
+    }
+    return blockNode.attrs.id as string;
   });
 }
 
-function restoreCaret(editor:AnyEditor, blockId:string, offset:number):void {
-  editor.setTextCursorPosition(blockId, 'start');
-  editor.transact((tr) => {
-    tr.setSelection(TextSelection.create(tr.doc, tr.selection.from + offset));
-  });
+/**
+ * Mirrors BlockNote's `splitBlockTr`, which is not exported. Rewriting the line through
+ * `updateBlock` instead would drop the marks BlockNote leaves out of its blocks
+ * (`blocknoteIgnore`), such as comments. The nested blocks go along with the last part.
+ */
+function splitLine(tr:Transaction, position:number):void {
+  const $position = tr.doc.resolve(position);
+  const container = $position.node(-1);
+  const line = $position.parent;
+  tr.split(position, 2, [
+    { type: container.type, attrs: { ...container.attrs, id: UniqueID.options.generateID() } },
+    { type: line.type, attrs: line.attrs },
+  ]);
+}
+
+// The nested blocks follow the line, so they go along with the block that ends it.
+function insertAfterLine(tr:Transaction, position:number, blockNode:Node):void {
+  const $position = tr.doc.resolve(position);
+  const lineEnd = $position.after();
+  const container = $position.node(-1);
+  const nested = container.childCount > 1 ? container.lastChild : null;
+  if (nested) tr.delete(lineEnd, lineEnd + nested.nodeSize);
+  tr.insert(lineEnd + 1, nested ? blockNode.copy(blockNode.content.addToEnd(nested)) : blockNode);
 }
 
 function blockIdOf(node:Node):string | undefined {
@@ -97,11 +104,16 @@ function enclosingBlockId($position:ResolvedPos):string {
   throw new Error('Position is outside of any block');
 }
 
-function inlineContentOf(editor:AnyEditor, line:Node, content:Fragment) {
-  return contentNodeToInlineContent(line.copy(content), editor.schema.inlineContentSchema, editor.schema.styleSchema);
+// Inline nodes count as content, through their object replacement character.
+function textOf(fragment:Fragment):string {
+  return fragment.textBetween(0, fragment.size, '', '\ufffc');
 }
 
-// Inline nodes count as content, through their object replacement character.
 function isBlank(fragment:Fragment):boolean {
-  return fragment.textBetween(0, fragment.size, '', '\ufffc').trim() === '';
+  return textOf(fragment).trim() === '';
+}
+
+// A single space at the start of a new line is a leftover of the split; more are intentional.
+function leadingSpaceLength(fragment:Fragment):number {
+  return /^\s(?!\s)/.test(textOf(fragment)) ? 1 : 0;
 }

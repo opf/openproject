@@ -1,5 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect } from 'vitest';
+import { createExtension } from '@blocknote/core';
+import { CommentMark } from '@blocknote/core/comments';
 import { NodeSelection, TextSelection } from 'prosemirror-state';
 import { insertBlockInLine, placeBlockInLine } from '../../../lib/utils/blockInLine';
 import { BLOCK_WP_TYPE } from '../../../lib/utils/nodeTypes';
@@ -134,7 +136,7 @@ describe('insertBlockInLine', () => {
 
     expect(blockTypes(editor)).toEqual(['paragraph', BLOCK_WP_TYPE, 'paragraph']);
     expect(blockText(editor, 0)).toBe('One ');
-    expect(blockText(editor, 2)).toBe(' four');
+    expect(blockText(editor, 2)).toBe('four');
   });
 
   it('follows a block selected as a whole', () => {
@@ -180,6 +182,52 @@ describe('insertBlockInLine', () => {
     expect(cursorBlockIndex(editor)).toBe(2);
   });
 
+  it('drops a single space at the start of the text it moves to a new line', () => {
+    const editor = createHeadlessEditorWithBlocks([{ type: 'paragraph', content: 'Before after' }]);
+    placeCursorAfterText(editor, 'Before');
+
+    insertCardAtCursor(editor);
+
+    expect(blockText(editor, 0)).toBe('Before');
+    expect(blockText(editor, 2)).toBe('after');
+  });
+
+  it('keeps several spaces at the start of the text it moves to a new line', () => {
+    const editor = createHeadlessEditorWithBlocks([{ type: 'paragraph', content: 'Before   after' }]);
+    placeCursorAfterText(editor, 'Before');
+
+    insertCardAtCursor(editor);
+
+    expect(blockText(editor, 2)).toBe('   after');
+  });
+
+  it('drops a single space at the start of a line it precedes', () => {
+    const editor = createHeadlessEditorWithBlocks([{ type: 'paragraph', content: ' after' }]);
+    editor.setTextCursorPosition(editor.document[0], 'start');
+
+    insertCardAtCursor(editor);
+
+    expect(blockTypes(editor)).toEqual([BLOCK_WP_TYPE, 'paragraph']);
+    expect(blockText(editor, 1)).toBe('after');
+  });
+
+  it('keeps the marks BlockNote leaves out of its blocks, such as comments', () => {
+    const comments = createExtension({ key: 'commentMarks', tiptapExtensions: [CommentMark] });
+    const editor = createHeadlessEditorWithBlocks([{ type: 'paragraph', content: 'Before after' }], [comments]);
+    editor.transact((tr) => {
+      tr.addMark(1, tr.doc.content.size - 1, editor.pmSchema.marks.comment.create({ threadId: 'thread' }));
+    });
+    placeCursorAfterText(editor, 'Before ');
+
+    insertCardAtCursor(editor);
+
+    const commented:string[] = [];
+    editor.prosemirrorState.doc.descendants((node) => {
+      if (node.marks.some((mark) => mark.type.name === 'comment')) commented.push(node.text!);
+    });
+    expect(commented).toEqual(['Before ', 'after']);
+  });
+
   it('works within an outer transaction', () => {
     const editor = createHeadlessEditorWithBlocks([{ type: 'paragraph', content: 'Before after' }]);
     placeCursorAfterText(editor, 'Before ');
@@ -199,7 +247,7 @@ describe('placeBlockInLine', () => {
     placeBlockInLine(editor, { from, to: from + 'MACRO'.length }, { type: BLOCK_WP_TYPE, props: card });
 
     expect(cursorBlockIndex(editor)).toBe(2);
-    expect(editor.transact(({ selection }) => selection.$from.parentOffset)).toBe(' af'.length);
+    expect(editor.transact(({ selection }) => selection.$from.parentOffset)).toBe('af'.length);
   });
 
   it('keeps the caret in the text before the block', () => {

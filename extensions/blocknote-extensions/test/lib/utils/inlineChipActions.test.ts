@@ -69,7 +69,7 @@ describe('promoteInlineChipToBlockAt', () => {
     expect(blocks[0].type).toBe('paragraph');
     expect(blocks[1].type).toBe(BLOCK_WP_TYPE);
     expect(blocks[2].type).toBe('paragraph');
-    expect(blockContent(editor, 2)[0].text).toBe(' after');
+    expect(blockContent(editor, 2)[0].text).toBe('after');
   });
 
   it('keeps the type of the line on both sides of the block', () => {
@@ -94,7 +94,7 @@ describe('promoteInlineChipToBlockAt', () => {
     );
     expect(firstParagraphChips).toHaveLength(1);
     expect(blocks[1].type).toBe(BLOCK_WP_TYPE);
-    expect(blockContent(editor, 2)[0].text).toBe(' tail');
+    expect(blockContent(editor, 2)[0].text).toBe('tail');
   });
 
   it('does nothing for a pending (non-numeric) wpid', () => {
