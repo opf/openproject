@@ -26,19 +26,19 @@
 //++
 
 import { vi } from 'vitest';
-import { setupStimulusTest, type StimulusTestContext } from '../test-helpers';
-import PwaServiceWorkerController from './pwa-service-worker.controller';
+import { setupStimulusTest, type StimulusTestContext } from '../../../test-helpers';
+import PwaServiceWorkerController from './service-worker.controller';
 
 describe('PwaServiceWorkerController', () => {
   let ctx:StimulusTestContext;
   let register:ReturnType<typeof vi.fn>;
 
   async function mount() {
-    ctx = await setupStimulusTest({ controllers: { 'pwa-service-worker': PwaServiceWorkerController } });
+    ctx = await setupStimulusTest({ controllers: { 'pwa--service-worker': PwaServiceWorkerController } });
     await ctx.mount(`
-      <div data-controller="pwa-service-worker"
-           data-pwa-service-worker-url-value="/openproject/service-worker"
-           data-pwa-service-worker-scope-value="/openproject/"></div>
+      <div data-controller="pwa--service-worker"
+           data-pwa--service-worker-url-value="/openproject/service-worker"
+           data-pwa--service-worker-scope-value="/openproject/"></div>
     `);
   }
 

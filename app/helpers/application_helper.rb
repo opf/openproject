@@ -313,9 +313,9 @@ module ApplicationHelper
     return {} unless OpenProject::FeatureDecisions.progressive_web_app_active?
 
     {
-      controller: "pwa-service-worker",
-      pwa_service_worker_url_value: pwa_service_worker_path,
-      pwa_service_worker_scope_value: root_path
+      controller: "pwa--service-worker",
+      "pwa--service-worker-url-value": pwa_service_worker_path,
+      "pwa--service-worker-scope-value": root_path
     }
   end
 
@@ -323,9 +323,9 @@ module ApplicationHelper
     return {} unless pwa_push_resume?
 
     {
-      controller: "pwa-push-resume",
-      pwa_push_resume_url_value: my_push_subscriptions_path,
-      pwa_push_resume_session_value: Digest::SHA256.hexdigest(session.id.private_id).first(16)
+      controller: "pwa--push-resume",
+      "pwa--push-resume-url-value": my_push_subscriptions_path,
+      "pwa--push-resume-session-value": Digest::SHA256.hexdigest(session.id.private_id).first(16)
     }
   end
 
