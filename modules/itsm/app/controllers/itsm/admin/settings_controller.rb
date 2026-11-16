@@ -68,10 +68,6 @@ module ITSM
         respond_with_turbo_streams
       end
 
-      def require_feature
-        render_404 unless OpenProject::FeatureDecisions.helpdesk_active?
-      end
-
       def edit_server_configuration
         protocol = params[:server_protocol].to_s
         server = MailServer.find_or_initialize_by(protocol:) do |server|
@@ -91,6 +87,10 @@ module ITSM
 
       def wizard
         ITSM::Wizard.new(model: nil)
+      end
+
+      def require_feature
+        render_404 unless OpenProject::FeatureDecisions.helpdesk_active?
       end
 
       def allowed_params
