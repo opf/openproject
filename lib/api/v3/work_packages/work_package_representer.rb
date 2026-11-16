@@ -501,7 +501,60 @@ module API
                    (variant.present? && project&.available_custom_fields_for_variant(variant.id)&.any?) || false
                  end
 
-        associated_resource :category
+        # Deprecated in favor of `categories`
+        # Removed from the API if multiple categories is enabled on the instance
+        associated_resource :category,
+                            show_if: ->(*) { !Setting::WorkPackageMultipleCategories.active? },
+                            getter: ->(*) {
+                              next unless embed_link?(:category)
+
+                              category = represented.effective_categories.first
+                              next unless category
+
+                              ::API::V3::Categories::CategoryRepresenter.create(category, current_user:)
+                            },
+                            link: ->(*) {
+                              next if Setting::WorkPackageMultipleCategories.active?
+
+                              category = represented.effective_categories.first
+                              next({ href: nil }) if category.nil?
+
+                              ::API::Decorators::LinkObject
+                                .new(category,
+                                     property_name: :itself,
+                                     path: :category,
+                                     getter: :id,
+                                     title_attribute: :name)
+                                .to_hash
+                            },
+                            setter: ->(fragment:, **) do
+                              represented.category_ids = parse_link_ids_from_fragment([fragment], :category).compact
+                            end
+
+        associated_resources :categories,
+                             v3_path: :category,
+                             representer: ::API::V3::Categories::CategoryRepresenter,
+                             getter: ->(*) {
+                               next unless embed_link?(:categories)
+
+                               represented.effective_categories.map do |category|
+                                 ::API::V3::Categories::CategoryRepresenter.create(category, current_user:)
+                               end
+                             },
+                             link: ->(*) {
+                               represented.effective_categories.map do |category|
+                                 ::API::Decorators::LinkObject
+                                   .new(category,
+                                        property_name: :itself,
+                                        path: :category,
+                                        getter: :id,
+                                        title_attribute: :name)
+                                   .to_hash
+                               end
+                             },
+                             setter: ->(fragment:, **) do
+                               represented.category_ids = parse_link_ids_from_fragment(fragment, :category).compact
+                             end
 
         associated_resource :type
 
@@ -875,6 +928,7 @@ module API
                                 attachments
                                 target_versions
                                 observed_in_versions
+                                categories
                                 labels]
 
         # The dynamic class generation introduced because of the custom fields interferes with
@@ -892,7 +946,8 @@ module API
            Setting.show_work_package_attachments,
            Setting.feeds_enabled?,
            Setting::WorkPackageIdentifier.semantic?,
-           Setting::WorkPackageMultipleVersions.active?]
+           Setting::WorkPackageMultipleVersions.active?,
+           Setting::WorkPackageMultipleCategories.active?]
         end
 
         def load_complete_model(model)

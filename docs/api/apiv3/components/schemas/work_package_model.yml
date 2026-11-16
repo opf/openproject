@@ -416,12 +416,34 @@ allOf:
 
                   **Permission** view cost objects
           category:
+            deprecated: true
             allOf:
               - $ref: "./link.yml"
               - description: |-
                   The category of the work package
 
                   **Resource**: Category
+
+                  # Conditions
+
+                  **Deprecated**: this single-valued field is being replaced by `categories`.
+                  Read and write `categories` instead. While multiple categories is not enabled,
+                  `category` must not be written together with `categories` in the same request.
+                  Removed when multiple categories is enabled.
+          categories:
+            type: array
+            items:
+              $ref: "./link.yml"
+            description: |-
+              List of categories associated to the work package, in alphabetical order
+
+              **Resource**: Collection of Category
+
+              # Conditions
+
+              - Transitioning from single to multiple category support
+              - (Temporary) Only allows a single value while multiple categories is not enabled
+              - (Temporary) Must not be written together with `category` in the same request
           children:
             type: array
             items:

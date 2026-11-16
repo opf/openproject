@@ -973,7 +973,9 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
-    describe "category" do
+    describe "category",
+             with_flag: { work_package_multiple_categories: false },
+             with_settings: { work_package_multiple_categories: false } do
       let(:embedded_path) { "_embedded/category" }
       let(:href_path) { "_links/category/href" }
 
@@ -987,7 +989,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         let!(:category) { build_stubbed(:category) }
 
         before do
-          work_package.category = category
+          allow(work_package).to receive(:categories).and_return([category])
         end
 
         it_behaves_like "has a titled link" do
@@ -1000,6 +1002,66 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           expect(subject).to have_json_type(Hash).at_path("_embedded/category")
           expect(subject).to be_json_eql("Category".to_json).at_path("#{embedded_path}/_type")
           expect(subject).to be_json_eql(category.name.to_json).at_path("#{embedded_path}/name")
+        end
+      end
+
+      context "when multiple categories is active", with_settings: { work_package_multiple_categories: true } do
+        let(:category) { build_stubbed(:category) }
+
+        before do
+          allow(work_package).to receive(:categories).and_return([category])
+        end
+
+        it "renders neither the deprecated category link nor the embedded resource" do
+          expect(subject).not_to have_json_path("_links/category")
+          expect(subject).not_to have_json_path("_embedded/category")
+        end
+      end
+    end
+
+    describe "categories" do
+      context "when no category is set" do
+        it "renders an empty links collection and an empty embedded collection" do
+          expect(subject).to have_json_size(0).at_path("_links/categories")
+          expect(subject).to have_json_size(0).at_path("_embedded/categories")
+        end
+      end
+
+      context "when categories are set" do
+        let(:backend) { build_stubbed(:category, name: "Backend") }
+        let(:api) { build_stubbed(:category, name: "api") }
+
+        before do
+          allow(work_package).to receive(:categories).and_return([api, backend])
+        end
+
+        it "lists the categories in the links collection" do
+          expect(subject).to have_json_size(2).at_path("_links/categories")
+          expect(subject).to be_json_eql(api_v3_paths.category(api.id).to_json).at_path("_links/categories/0/href")
+          expect(subject).to be_json_eql(api.name.to_json).at_path("_links/categories/0/title")
+          expect(subject).to be_json_eql(api_v3_paths.category(backend.id).to_json).at_path("_links/categories/1/href")
+        end
+
+        it "lists the categories in the embedded collection" do
+          expect(subject).to have_json_size(2).at_path("_embedded/categories")
+          expect(subject).to be_json_eql("Category".to_json).at_path("_embedded/categories/0/_type")
+          expect(subject).to be_json_eql(api.name.to_json).at_path("_embedded/categories/0/name")
+        end
+      end
+
+      context "when categories are assigned but not yet persisted" do
+        let(:project) { create(:project) }
+        let!(:backend) { create(:category, project:, name: "Backend") }
+        let!(:api) { create(:category, project:, name: "api") }
+
+        before do
+          work_package.category_ids_replacements = [backend.id, api.id]
+        end
+
+        it "renders the pending categories in alphabetical order" do
+          expect(subject).to have_json_size(2).at_path("_links/categories")
+          expect(subject).to be_json_eql(api_v3_paths.category(api.id).to_json).at_path("_links/categories/0/href")
+          expect(subject).to be_json_eql(api_v3_paths.category(backend.id).to_json).at_path("_links/categories/1/href")
         end
       end
     end

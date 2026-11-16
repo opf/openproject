@@ -47,6 +47,12 @@ module WorkPackage::Categories
 
   def override_categories? = !category_ids_replacements.nil?
 
+  def effective_categories
+    return categories unless override_categories?
+
+    Category.where(id: category_ids_replacements).alphabetical.to_a
+  end
+
   def first_category_id_of(category_ids)
     category_ids = category_ids.uniq
     return category_ids.first if category_ids.size <= 1
