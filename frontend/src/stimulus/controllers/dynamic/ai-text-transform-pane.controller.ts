@@ -41,6 +41,7 @@ const POLL_HIDDEN = 5000;
 const POLL_RETRIES = 5;
 const RETRY_MIN = 1000;
 const APPLY_TIMEOUT = 300;
+const BOTTOM_TOLERANCE = 4;
 
 type Geometry = Partial<Record<typeof GEOMETRY_PROPERTIES[number], string>>;
 
@@ -72,7 +73,7 @@ let rememberedGeometry:Geometry|null = null;
 const clamp = (value:number, min:number, max:number) => Math.min(Math.max(min, value), max);
 
 export default class AiTextTransformPaneController extends Controller<HTMLElement> {
-  static targets = ['pane', 'state', 'error', 'errorMessage'];
+  static targets = ['pane', 'scroll', 'state', 'error', 'errorMessage'];
 
   static values = {
     closeForm: String,
@@ -83,6 +84,7 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
 
 
   declare readonly paneTarget:HTMLElement;
+  declare readonly scrollTarget:HTMLElement;
   declare readonly errorTarget:HTMLElement;
   declare readonly errorMessageTarget:HTMLElement;
   declare readonly hasErrorTarget:boolean;
@@ -94,6 +96,8 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
   private dragOffset:{ x:number; y:number }|null = null;
   private resizeStart:ResizeStart|null = null;
   private pointerListeners:AbortController|null = null;
+  private scrollWatch:{ mutations:MutationObserver; resizes:ResizeObserver; listeners:AbortController }|null = null;
+  private followsOutput = true;
 
   private run = { state: '', seq: '0', requestId: '', pollUrl: '' };
   private pollTimer:ReturnType<typeof setTimeout>|null = null;
@@ -116,12 +120,29 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
 
   disconnect():void {
     this.endPointerAction();
+    this.unwatchScroll();
     this.stopPolling();
     this.clearApplyTimer();
     rememberedGeometry = this.pinned ? this.geometry() : null;
     if (!this.element.isConnected) {
       this.abandon();
     }
+  }
+
+  scrollTargetConnected(element:HTMLElement):void {
+    this.unwatchScroll();
+    const listeners = new AbortController();
+    const mutations = new MutationObserver(() => this.outputChanged());
+    const resizes = new ResizeObserver(() => this.scrollAreaResized());
+    mutations.observe(element, { childList: true, characterData: true, subtree: true });
+    resizes.observe(element);
+    element.addEventListener('scroll', () => this.scrolled(), { passive: true, signal: listeners.signal });
+    this.scrollWatch = { mutations, resizes, listeners };
+    this.scrolled();
+  }
+
+  scrollTargetDisconnected():void {
+    this.unwatchScroll();
   }
 
   // The footer, and with it the state element, is replaced on every poll that brings news.
@@ -271,6 +292,33 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
 
   private get pinned():boolean {
     return this.paneTarget.style.left !== '';
+  }
+
+  private get scrolledToEnd():boolean {
+    const { scrollHeight, scrollTop, clientHeight } = this.scrollTarget;
+    return scrollHeight - scrollTop - clientHeight <= BOTTOM_TOLERANCE;
+  }
+
+  private scrolled():void {
+    this.followsOutput = this.scrolledToEnd;
+  }
+
+  private outputChanged():void {
+    if (this.followsOutput) {
+      this.scrollTarget.scrollTop = this.scrollTarget.scrollHeight;
+    }
+  }
+
+  private scrollAreaResized():void {
+    this.outputChanged();
+    this.followsOutput = this.scrolledToEnd;
+  }
+
+  private unwatchScroll():void {
+    this.scrollWatch?.mutations.disconnect();
+    this.scrollWatch?.resizes.disconnect();
+    this.scrollWatch?.listeners.abort();
+    this.scrollWatch = null;
   }
 
   private schedulePoll():void {

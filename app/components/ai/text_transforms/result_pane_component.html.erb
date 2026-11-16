@@ -52,7 +52,7 @@ See COPYRIGHT and LICENSE files for more details.
                 end
               end
             end
-            box.with_body(flex: 1, overflow: :auto) { render(Body.new(pane:)) }
+            box.with_body(flex: 1, overflow: :auto, data: target(:scroll)) { render(Body.new(pane:)) }
             box.with_footer(bg: :subtle) { render(Footer.new(pane:)) }
           end,
           *RESIZE_HANDLES.map do |edge, icon|

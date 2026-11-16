@@ -308,6 +308,69 @@ describe('AiTextTransformPaneController', () => {
       expect(removedPane).not.toBeInTheDocument();
     });
   });
+  describe('streaming output', () => {
+    const scrollArea = () => byTestId('scroll-area');
+    const lines = (count:number) => '<p style="margin: 0; height: 20px;">Line</p>'.repeat(count);
+    const distanceToEnd = () => scrollArea().scrollHeight - scrollArea().scrollTop - scrollArea().clientHeight;
+
+    async function mountScrollArea(lineCount = 0):Promise<void> {
+      pane().insertAdjacentHTML('beforeend', `
+        <div data-testid="scroll-area" data-ai-text-transform-pane-target="scroll" style="overflow: auto; height: 100px;">
+          <div data-testid="output">${lines(lineCount)}</div>
+        </div>`);
+      await ctx.nextFrame();
+    }
+
+    async function showLines(count:number):Promise<void> {
+      byTestId('output').innerHTML = lines(count);
+      await ctx.nextFrame();
+    }
+
+    async function scrollTo(top:number):Promise<void> {
+      scrollArea().scrollTop = top;
+      fireEvent.scroll(scrollArea());
+      await ctx.nextFrame();
+    }
+
+    it('follows new output while scrolled to the end', async () => {
+      await mountScrollArea();
+      await showLines(20);
+      expect(scrollArea().scrollTop).toBeGreaterThan(0);
+      expect(distanceToEnd()).toBe(0);
+
+      await showLines(30);
+      expect(distanceToEnd()).toBe(0);
+    });
+
+    it('stops following once the user scrolls up', async () => {
+      await mountScrollArea();
+      await showLines(20);
+      await scrollTo(50);
+      await showLines(30);
+
+      expect(scrollArea().scrollTop).toBe(50);
+    });
+
+    it('follows again once the user scrolls back to the end', async () => {
+      await mountScrollArea();
+      await showLines(20);
+      await scrollTo(0);
+      await scrollTo(scrollArea().scrollHeight);
+      await showLines(30);
+
+      expect(distanceToEnd()).toBe(0);
+    });
+
+    it('keeps following when the pane is resized at the end', async () => {
+      await mountScrollArea();
+      await showLines(20);
+      scrollArea().style.height = '60px';
+      await ctx.nextFrame();
+
+      expect(distanceToEnd()).toBe(0);
+    });
+  });
+
   describe('running', () => {
     const RUN = '9b2f6a8e-1c5d-4e7f-8a9b-0c1d2e3f4a5b';
     const REQUEST_ID = '5f0c1b9a-2d3e-4f50-8a6b-7c8d9e0f1a2b';
