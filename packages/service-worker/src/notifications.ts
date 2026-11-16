@@ -36,6 +36,10 @@ export class Notifications {
     return notifications.filter((notification) => notification.tag.startsWith(Tags.prefix));
   }
 
+  static get replacesSameTag():boolean {
+    return typeof Notification !== 'undefined' && 'renotify' in Notification.prototype;
+  }
+
   static ownerOf(tag:string):string|undefined {
     return Tags.workPackage.exec(tag)?.[1];
   }
@@ -97,7 +101,18 @@ export class Notifications {
     });
   }
 
-  static display(title:string, options:ShowOptions):Promise<void> {
+  static async closeSameTag(tag?:string):Promise<void> {
+    // Safari adds a second notification instead of replacing the one that has the same tag, so the open one is closed first:
+    // https://bugs.webkit.org/show_bug.cgi?id=258922
+    // Browsers that support renotify replace it themselves; closing first there makes the notification slide in again.
+    if (!tag || Notifications.replacesSameTag) return;
+
+    Notifications.close(await Notifications.listOpen(), [tag]);
+  }
+
+  static async display(title:string, options:ShowOptions):Promise<void> {
+    await Notifications.closeSameTag(options.tag).catch(() => undefined);
+
     return sw.registration.showNotification(title, { icon: Config.push.icon, ...options });
   }
 }
