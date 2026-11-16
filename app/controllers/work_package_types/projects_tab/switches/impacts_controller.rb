@@ -29,31 +29,19 @@
 
 module WorkPackageTypes
   module ProjectsTab
-    class BulkSwitchConfirmDialogComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
-      include OpTurbo::Streamable
-      include WorkPackageTypes::VariantRoutes
+    module Switches
+      # POST although nothing changes: the choice arrives as the switch form's body, as for every
+      # other live preview built on refresh-on-form-changes.
+      class ImpactsController < BaseTabController
+        include OpTurbo::ComponentStream
+        include SelectedProjects
 
-      DIALOG_ID = "type-projects-bulk-switch-confirm-dialog"
+        def create
+          impact = switch_selection.impact(switch_selection.target(params[:target_id]))
+          update_via_turbo_stream(component: ::Projects::Settings::WorkPackages::Types::SwitchImpactComponent.new(impact:))
 
-      def initialize(variant:, target:, projects:)
-        super()
-
-        @variant = variant
-        @target = target
-        @projects = projects
-      end
-
-      private
-
-      attr_reader :variant, :target, :projects
-
-      def form_arguments
-        {
-          action: variant_projects_switch_path(variant),
-          method: :post,
-          data: { turbo: true, turbo_stream: true }
-        }
+          respond_to_with_turbo_streams
+        end
       end
     end
   end

@@ -357,13 +357,13 @@ RSpec.describe "Work package type projects tab", :js do
       expect(page).to have_selector(:menuitem, text: "Remove type from these projects", visible: :visible)
       choose_menu_item("Switch variant")
 
-      within "#type-projects-bulk-switch-dialog" do
+      within "#type-projects-switch-variant-dialog" do
         select "Bug: Firmware", from: "New type or variant"
         click_button "Apply"
       end
 
-      wait_for_size_animation_completion("#type-projects-bulk-switch-confirm-dialog")
-      within "#type-projects-bulk-switch-confirm-dialog" do
+      wait_for_size_animation_completion("#type-projects-switch-variant-confirm-dialog")
+      within "#type-projects-switch-variant-confirm-dialog" do
         check "I understand that I will lose information from some custom fields"
         click_button "Switch"
       end
@@ -371,6 +371,44 @@ RSpec.describe "Work package type projects tab", :js do
       expect(page).to have_text("The selected projects now use Bug: Firmware.")
       expect(row(on_base)).to have_text("Firmware")
       expect(row(on_hardware)).to have_text("Firmware")
+    end
+
+    it "switches a single project after previewing the impact and confirming" do
+      create(:work_package, project: on_hardware, type:)
+      visit edit_type_projects_path(type_id: type.id)
+
+      open_menu_of(on_hardware)
+      choose_menu_item("Switch variant")
+
+      within "#type-projects-switch-variant-dialog" do
+        select "Bug: Firmware", from: "New type or variant"
+        expect(page).to have_text("1 work package will use the new configuration")
+        click_button "Apply"
+      end
+
+      wait_for_size_animation_completion("#type-projects-switch-variant-confirm-dialog")
+      within "#type-projects-switch-variant-confirm-dialog" do
+        check "I understand that I will lose information from some custom fields"
+        click_button "Switch"
+      end
+
+      expect(page).to have_text("The project now uses Bug: Firmware.")
+      expect(row(on_hardware)).to have_text("Firmware")
+    end
+
+    it "refuses the variant a project already uses inside the switch dialog" do
+      visit edit_type_projects_path(type_id: type.id)
+
+      open_menu_of(on_hardware)
+      choose_menu_item("Switch variant")
+
+      within "#type-projects-switch-variant-dialog" do
+        expect(page).to have_select("New type or variant", selected: "Bug: Hardware")
+        click_button "Apply"
+
+        expect(page).to have_text("The project already uses this type or variant.")
+      end
+      expect(page).to have_no_css("#type-projects-switch-variant-confirm-dialog")
     end
 
     it "removes the type where it can and names the projects where it cannot" do

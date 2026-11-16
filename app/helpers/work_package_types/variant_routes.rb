@@ -373,6 +373,13 @@ module WorkPackageTypes
                                    **)
     end
 
+    def variant_projects_switch_impact_path(variant, **)
+      administration_variant_route(variant,
+                                   base: :type_projects_switch_impact_path,
+                                   named: :type_variant_projects_switch_impact_path,
+                                   **)
+    end
+
     def variant_projects_menu_path(variant, **)
       administration_variant_route(variant,
                                    base: :type_projects_menu_path,

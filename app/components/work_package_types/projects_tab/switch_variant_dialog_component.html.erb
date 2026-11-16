@@ -36,30 +36,5 @@ See COPYRIGHT and LICENSE files for more details.
     ) do |dialog| %>
   <% dialog.with_header(variant: :large) %>
 
-  <% dialog.with_body do %>
-    <%= form_with(url: confirmation_path, method: :get, id: FORM_ID, data: { turbo_stream: true }) do %>
-      <% projects.each do |project| %>
-        <%= hidden_field_tag("project_ids[]", project.id, id: nil) %>
-      <% end %>
-      <%= render(
-            Primer::Alpha::Select.new(
-              name: :target_id,
-              label: t("types.edit.projects.switch_variant.target_label"),
-              full_width: true,
-              data: { test_selector: "type-projects-bulk-switch-target" }
-            )
-          ) do |select| %>
-        <% targets.each do |target| %>
-          <% select.option(value: target.id, label: target.composite_name) %>
-        <% end %>
-      <% end %>
-    <% end %>
-  <% end %>
-
-  <% dialog.with_footer(show_divider: true) do %>
-    <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": DIALOG_ID })) { t(:button_cancel) } %>
-    <%= render(Primer::Beta::Button.new(scheme: :primary, form: FORM_ID, type: :submit)) do %>
-      <%= t("types.edit.projects.switch_variant.submit") %>
-    <% end %>
-  <% end %>
+  <%= render(WorkPackageTypes::ProjectsTab::SwitchVariantFormComponent.new(variant:, selection:, selected:)) %>
 <% end %>

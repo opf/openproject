@@ -56,6 +56,11 @@ RSpec.describe "Work package type projects tab routes" do
         .to route_to("work_package_types/projects_tab/switches/confirmations#new", **ids)
     end
 
+    it "previews a switch's impact through a nested impact resource" do
+      expect(post: "#{prefix}/projects/switch/impact")
+        .to route_to("work_package_types/projects_tab/switches/impacts#create", **ids)
+    end
+
     it "no longer offers the legacy switch dialog action" do
       expect(get: "#{prefix}/projects/new_switch").not_to be_routable
     end

@@ -29,31 +29,38 @@
 
 require "rails_helper"
 
-RSpec.describe WorkPackageTypes::ProjectsTab::BulkSwitchDialogComponent, type: :component do
+RSpec.describe WorkPackageTypes::ProjectsTab::SwitchVariantConfirmDialogComponent, type: :component do
   shared_let(:bug) { create(:type, name: "Bug") }
   shared_let(:hardware) { create(:type_variant, type: bug, variant_name: "Hardware") }
   shared_let(:bookshop) { create(:project, name: "Bookshop", types: [bug]) }
   shared_let(:foundry) { create(:project, name: "Foundry", types: [hardware]) }
-  shared_let(:owned) { create(:project_owned_type_variant, type: bug, project: foundry, variant_name: "Prototype") }
 
   before do
-    render_inline(described_class.new(variant: bug.default_variant, projects: Project.where(id: [bookshop, foundry])))
+    render_inline(
+      described_class.new(variant: bug.default_variant, target: hardware, projects: Project.where(id: [bookshop, foundry]))
+    )
   end
 
-  it "is titled as a bulk switch" do
-    expect(page).to have_text("Switch type or variant")
+  it "warns about losing custom field values" do
+    expect(page).to have_css("h2", text: "Switch type variant?")
+    expect(page).to have_text("Switching type variants will result in loss of information from custom fields " \
+                              "that are not included in the new variant.")
   end
 
-  it "offers the type and its shared variants, never a project's own" do
-    expect(page).to have_select("New type or variant", options: ["Bug", "Bug: Hardware"])
+  it "lists every selected project, including one already on the target" do
+    list = find_test_selector("type-projects-bulk-list")
+
+    expect(list).to have_link("Bookshop").and have_link("Foundry")
   end
 
-  it "carries every selected project to the confirmation" do
+  it "asks for an acknowledgement before switching" do
+    expect(page).to have_field("I understand that I will lose information from some custom fields", type: :checkbox)
+    expect(page).to have_button("Switch")
+  end
+
+  it "submits the target and every project" do
+    expect(page).to have_field("target_id", type: :hidden, with: hardware.id.to_s)
     expect(page).to have_field("project_ids[]", type: :hidden, with: bookshop.id.to_s)
     expect(page).to have_field("project_ids[]", type: :hidden, with: foundry.id.to_s)
-  end
-
-  it "applies or cancels" do
-    expect(page).to have_button("Apply").and have_button("Cancel")
   end
 end

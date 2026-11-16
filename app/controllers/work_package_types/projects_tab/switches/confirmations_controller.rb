@@ -35,10 +35,25 @@ module WorkPackageTypes
         include SelectedProjects
 
         def new
-          close_dialog_via_turbo_stream(BulkSwitchDialogComponent::DIALOG_ID)
-          respond_with_dialog BulkSwitchConfirmDialogComponent.new(
-            variant: @variant, target: @type.variants.global.find(params.expect(:target_id)), projects: selected_projects
+          target = switch_selection.target(params[:target_id])
+          refusal = switch_selection.refusal(target)
+          return refuse(target, refusal) if refusal
+
+          close_dialog_via_turbo_stream(SwitchVariantDialogComponent::DIALOG_ID)
+          respond_with_dialog SwitchVariantConfirmDialogComponent.new(variant: @variant, target:, projects: selected_projects)
+        end
+
+        private
+
+        def refuse(target, message)
+          update_via_turbo_stream(
+            component: SwitchVariantFormComponent.new(
+              variant: @variant, selection: switch_selection, selected: target || switch_selection.targets.first,
+              validation_message: message
+            ),
+            status: :unprocessable_entity
           )
+          respond_to_with_turbo_streams(status: :unprocessable_entity)
         end
       end
     end

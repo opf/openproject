@@ -29,28 +29,32 @@
 
 module WorkPackageTypes
   module ProjectsTab
-    class BulkSwitchDialogComponent < ApplicationComponent
+    class SwitchVariantConfirmDialogComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
       include WorkPackageTypes::VariantRoutes
 
-      DIALOG_ID = "type-projects-bulk-switch-dialog"
-      FORM_ID = "type-projects-bulk-switch-form"
+      DIALOG_ID = "type-projects-switch-variant-confirm-dialog"
 
-      def initialize(variant:, projects:)
+      def initialize(variant:, target:, projects:)
         super()
 
         @variant = variant
+        @target = target
         @projects = projects
       end
 
       private
 
-      attr_reader :variant, :projects
+      attr_reader :variant, :target, :projects
 
-      def targets = variant.type.variants.global.in_display_order
-
-      def confirmation_path = new_variant_projects_switch_confirmation_path(variant)
+      def form_arguments
+        {
+          action: variant_projects_switch_path(variant),
+          method: :post,
+          data: { turbo: true, turbo_stream: true }
+        }
+      end
     end
   end
 end

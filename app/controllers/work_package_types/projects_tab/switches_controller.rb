@@ -38,87 +38,34 @@ module WorkPackageTypes
       before_action :load_query, only: %i[create]
 
       def new
-        respond_with_dialog(bulk_selection? ? bulk_dialog : project_dialog(selected_projects.first!))
+        respond_with_dialog SwitchVariantDialogComponent.new(variant: @variant, selection: switch_selection)
       end
 
-      def create
-        result = bulk_selection? ? switch_projects : switch_project(selected_projects.first!)
+      def create # rubocop:disable Metrics/AbcSize
+        target = switch_selection.target(params[:target_id])
+        refusal = switch_selection.refusal(target)
+        return refuse(refusal) if refusal
+
+        result = ProjectAssignments.new(user: current_user, variant: @variant).switch(selected_projects, target:)
+        close_dialog_via_turbo_stream(SwitchVariantConfirmDialogComponent::DIALOG_ID)
+        refresh_projects
+        if result.success?
+          render_success_flash_message_via_turbo_stream(
+            message: I18n.t("types.edit.projects.switch_variant.success", type: target.composite_name,
+                                                                          count: selected_projects.size)
+          )
+        else
+          render_error_flash_message_via_turbo_stream(message: refusal_list_message(result))
+        end
 
         respond_to_with_turbo_streams(status: result)
       end
 
       private
 
-      def project_dialog(project)
-        ::Projects::Settings::WorkPackages::Types::SwitchDialogComponent.new(
-          project:, source: applied_variant(project), url: switch_path(project)
-        )
-      end
-
-      def bulk_dialog
-        BulkSwitchDialogComponent.new(variant: @variant, projects: selected_projects)
-      end
-
-      def switch_project(project)
-        target = @type.variants.find_by(id: params[:target_id])
-        result = ::Projects::Types::SwitchVariantService
-                   .new(user: current_user, model: project)
-                   .call(source: applied_variant(project), target:)
-
-        result.on_success do
-          on_switched(dialog_id: ::Projects::Settings::WorkPackages::Types::SwitchDialogComponent::DIALOG_ID,
-                      message: I18n.t("projects.settings.types.switch.success", type: target.composite_name))
-        end
-        result.on_failure { on_switch_refused(project, target, result) }
-        result
-      end
-
-      # Several projects share no project-owned variant, so only the type's global ones qualify.
-      def switch_projects # rubocop:disable Metrics/AbcSize
-        target = @type.variants.global.find_by(id: params[:target_id])
-        return refuse_target if target.nil?
-
-        result = ProjectAssignments.new(user: current_user, variant: @variant).switch(selected_projects, target:)
-
-        if result.success?
-          on_switched(dialog_id: BulkSwitchConfirmDialogComponent::DIALOG_ID,
-                      message: I18n.t("types.edit.projects.switch_variant.success", type: target.composite_name))
-        else
-          close_dialog_via_turbo_stream(BulkSwitchConfirmDialogComponent::DIALOG_ID)
-          refresh_projects
-          render_error_flash_message_via_turbo_stream(message: refusal_list_message(result))
-        end
-        result
-      end
-
-      def refuse_target
-        render_error_flash_message_via_turbo_stream(message: I18n.t("types.edit.projects.switch_variant.invalid_target"))
-        ServiceResult.failure
-      end
-
-      def applied_variant(project) = project.type_variant(@type)
-
-      def switch_path(project) = variant_projects_switch_path(@variant, project_ids: [project.id])
-
-      def on_switched(dialog_id:, message:)
-        close_dialog_via_turbo_stream(dialog_id)
-        refresh_projects
-        render_success_flash_message_via_turbo_stream(message:)
-      end
-
-      def on_switch_refused(project, target, result)
-        message = result.errors.messages_for(:types).first
-        return if message.blank?
-
-        update_via_turbo_stream(
-          component: ::Projects::Settings::WorkPackages::Types::SwitchFormComponent.new(
-            project:,
-            source: applied_variant(project),
-            selected: target || applied_variant(project),
-            validation_message: message,
-            url: switch_path(project)
-          )
-        )
+      def refuse(message)
+        render_error_flash_message_via_turbo_stream(message:)
+        respond_to_with_turbo_streams(status: :unprocessable_entity)
       end
     end
   end

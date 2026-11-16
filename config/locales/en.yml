@@ -7747,7 +7747,9 @@ en:
             other: "The selected projects already use this type or variant."
           invalid_target: "Choose a type or variant that every selected project can use."
           submit: "Apply"
-          success: "The selected projects now use %{type}."
+          success:
+            one: "The project now uses %{type}."
+            other: "The selected projects now use %{type}."
           target_label: "New type or variant"
           title: "Switch type or variant"
         tab: Projects

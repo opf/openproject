@@ -43,9 +43,13 @@ module WorkPackageTypes
                                  .order(:lft)
       end
 
-      # Decided by what was submitted, not by what survives the filter above: a bulk dialog
-      # stays a bulk dialog even when only one of its projects remains.
-      def bulk_selection? = selected_project_ids.many?
+      def switch_selection
+        @switch_selection ||= begin
+          raise ActiveRecord::RecordNotFound if selected_projects.none?
+
+          ::WorkPackageTypes::SwitchSelection.new(type: @type, projects: selected_projects)
+        end
+      end
 
       def selected_project_ids = Array(params[:project_ids])
     end

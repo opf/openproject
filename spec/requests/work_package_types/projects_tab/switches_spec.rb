@@ -37,6 +37,7 @@ RSpec.describe "Switching the variant of a work package type's projects", :skip_
 
   shared_let(:bookshop) { create(:project, name: "Bookshop", types: [bug]) }
   shared_let(:foundry) { create(:project, name: "Foundry", types: [hardware]) }
+  shared_let(:forge) { create(:project, name: "Forge", types: [hardware]) }
   shared_let(:smithy) { create(:project, name: "Smithy", types: [firmware]) }
   shared_let(:unrelated) { create(:project, name: "Unrelated", types: []) }
 
@@ -51,36 +52,39 @@ RSpec.describe "Switching the variant of a work package type's projects", :skip_
 
     let(:projects) { [foundry] }
 
-    it "opens the switch dialog with the project's impact preview" do
+    before { create(:project_owned_type_variant, type: bug, project: foundry, variant_name: "Prototype") }
+
+    it "offers a single project its own variants too" do
       subject
 
       expect(response).to have_http_status(:ok)
-      expect(response.body)
-        .to include(Projects::Settings::WorkPackages::Types::SwitchDialogComponent::DIALOG_ID)
-        .and include("project-types-switch-impact")
+      expect(response.body).to include("Switch type or variant").and include("Prototype").and include("Firmware")
+    end
+
+    it "wires the live impact preview" do
+      subject
+
+      expect(response.body).to include(CGI.escapeHTML(type_projects_switch_impact_path(type_id: bug.id)))
     end
 
     context "with several projects" do
       let(:projects) { [bookshop, foundry] }
 
-      before { create(:project_owned_type_variant, type: bug, project: create(:project), variant_name: "Prototype") }
-
-      it "offers the type and its global variants as targets" do
+      it "offers the shared variants only" do
         subject
 
-        expect(response.body).to include("Switch type or variant")
-          .and include("Hardware").and include("Firmware")
+        expect(response.body).to include("Hardware").and include("Firmware")
         expect(response.body).not_to include("Prototype")
       end
     end
 
-    context "with several projects of which only one uses the type" do
-      let(:projects) { [bookshop, unrelated] }
+    context "when no selected project uses the type" do
+      let(:projects) { [unrelated] }
 
-      it "still opens the bulk dialog" do
+      it "is not found" do
         subject
 
-        expect(response.body).to include("Switch type or variant")
+        expect(response).to have_http_status(:not_found)
       end
     end
   end
@@ -88,16 +92,54 @@ RSpec.describe "Switching the variant of a work package type's projects", :skip_
   describe "GET switch/confirmation/new" do
     subject do
       get new_type_projects_switch_confirmation_path(type_id: bug.id),
-          params: { project_ids: [bookshop.id, smithy.id], target_id: firmware.id },
+          params: { project_ids: projects.map(&:id), target_id: target.id },
           as: :turbo_stream
     end
 
-    it "asks to confirm, listing every project including one already on the target" do
+    let(:projects) { [foundry] }
+    let(:target) { firmware }
+
+    it "asks to confirm switching a single project" do
       subject
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("closeDialog").and include("type-projects-bulk-switch-dialog")
-      expect(response.body).to include("Switch type variant?").and include("Bookshop").and include("Smithy")
+      expect(response.body).to include("closeDialog").and include("type-projects-switch-variant-dialog")
+      expect(response.body).to include("Switch type variant?").and include("Foundry")
+    end
+
+    context "when the project already uses the target" do
+      let(:target) { hardware }
+
+      it "refuses inside the dialog, without asking to confirm" do
+        subject
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body).to include("The project already uses this type or variant.")
+        expect(response.body).not_to include("Switch type variant?")
+      end
+    end
+
+    context "when every selected project already uses the target" do
+      let(:projects) { [foundry, forge] }
+      let(:target) { hardware }
+
+      it "refuses inside the dialog" do
+        subject
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body).to include("The selected projects already use this type or variant.")
+      end
+    end
+
+    context "when only one of several differently-set projects already uses the target" do
+      let(:projects) { [bookshop, smithy] }
+
+      it "asks to confirm, listing every project" do
+        subject
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("Switch type variant?").and include("Bookshop").and include("Smithy")
+      end
     end
   end
 
@@ -116,17 +158,39 @@ RSpec.describe "Switching the variant of a work package type's projects", :skip_
 
       expect(response).to have_http_status(:ok)
       expect(foundry.reload.type_variant(bug)).to eq(firmware)
+      expect(response.body).to include("The project now uses Bug: Firmware.")
     end
 
     context "when the project already uses the target" do
       let(:target) { hardware }
 
-      it "explains the refusal inside the dialog" do
+      it "is refused" do
         subject
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.body).to include("The target type must be different from the type the project uses now")
-        expect(response.body).not_to include("closeDialog")
+        expect(response.body).to include("The project already uses this type or variant.")
+      end
+    end
+
+    context "when the target is the project's own variant" do
+      let(:target) { create(:project_owned_type_variant, type: bug, project: foundry, variant_name: "Prototype") }
+
+      it "moves the project to it" do
+        subject
+
+        expect(response).to have_http_status(:ok)
+        expect(foundry.reload.type_variant(bug)).to eq(target)
+      end
+    end
+
+    context "when the target is another project's own variant" do
+      let(:target) { create(:project_owned_type_variant, type: bug, project: bookshop, variant_name: "Prototype") }
+
+      it "is refused" do
+        subject
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(foundry.reload.type_variant(bug)).to eq(hardware)
       end
     end
 
@@ -139,6 +203,18 @@ RSpec.describe "Switching the variant of a work package type's projects", :skip_
         expect(response).to have_http_status(:ok)
         expect(bookshop.reload.type_variant(bug)).to eq(firmware)
         expect(foundry.reload.type_variant(bug)).to eq(firmware)
+      end
+
+      context "when every one is already on the target" do
+        let(:projects) { [foundry, forge] }
+        let(:target) { hardware }
+
+        it "is refused" do
+          subject
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.body).to include("The selected projects already use this type or variant.")
+        end
       end
 
       context "when one is already on the target" do
@@ -190,11 +266,12 @@ RSpec.describe "Switching the variant of a work package type's projects", :skip_
       context "when only one of them uses the type" do
         let(:projects) { [bookshop, unrelated] }
 
-        it "still answers as a bulk switch" do
+        it "switches that one" do
           subject
 
-          expect(response.body).to include("type-projects-bulk-switch-confirm-dialog")
-            .and include("The selected projects now use Bug: Firmware.")
+          expect(response.body).to include("type-projects-switch-variant-confirm-dialog")
+            .and include("The project now uses Bug: Firmware.")
+          expect(bookshop.reload.type_variant(bug)).to eq(firmware)
         end
       end
 
