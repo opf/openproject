@@ -45,6 +45,7 @@ import {
   type SortableAxis,
 } from 'core-common/drag-and-drop/reorder';
 import { closestDragBlockingElement } from 'core-common/interactive-element-helper';
+import { suspendDraggableWhileEditing } from 'core-common/drag-and-drop/suspend-draggable-while-editing';
 
 export type CleanupFn = () => void;
 
@@ -532,6 +533,7 @@ export function createSortableRoot(options:SortableRootOptions):SortableRoot {
           },
         } : {}),
       });
+      const editingGuardCleanup = suspendDraggableWhileEditing(element);
 
       // No same-item exclusion here: registering as its own drop target lets
       // the root monitor's self-drop check (not this canDrop) resolve it as
@@ -563,7 +565,7 @@ export function createSortableRoot(options:SortableRootOptions):SortableRoot {
         onDrop: clearIndicator,
       });
 
-      return track(combine(draggableCleanup, dropTargetCleanup, () => {
+      return track(combine(editingGuardCleanup, draggableCleanup, dropTargetCleanup, () => {
         delete element.dataset.dragging;
         clearIndicator();
         itemsForList.delete(element);
