@@ -137,19 +137,18 @@ class Widget::Table::ReportTable < Widget::Table
     if column_dimension.display?
       concat content_tag(:th, column_dimension.class.label, colspan: @subject.depth_of(:row))
     else
-      render_row_dimension_labels
+      concat safe_join(row_dimension_labels)
     end
   end
 
   def render_row_dimension_label_row
-    concat "<tr>".html_safe
-    render_row_dimension_labels
-    concat content_tag(:th, "", colspan: @subject.column_first.final_number(:column))
-    concat "</tr>".html_safe
+    value_columns = content_tag(:th, "", colspan: @subject.column_first.final_number(:column))
+
+    concat content_tag(:tr, safe_join([*row_dimension_labels, value_columns]))
   end
 
-  def render_row_dimension_labels
-    @subject.group_bys(:row).each { |row_dimension| concat content_tag(:th, row_dimension.class.label) }
+  def row_dimension_labels
+    @subject.group_bys(:row).map { |row_dimension| content_tag(:th, row_dimension.class.label) }
   end
 
   def render_tfoot
