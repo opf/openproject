@@ -258,6 +258,88 @@ RSpec.describe Import::JiraCreateCustomFieldsJob do
     end
   end
 
+  describe "when the import uses Jira's environment field" do
+    let(:custom_field) { WorkPackageCustomField.find_by(name: "Environment") }
+    let(:reference) do
+      Import::JiraOpenProjectReference.find_by(jira_import:, op_entity_id: custom_field.id,
+                                               op_entity_class: "WorkPackageCustomField")
+    end
+    let(:environment) { "*Browser:* Firefox 140" }
+    let(:payload) { { "key" => "#{jira_project_key}-2", "fields" => { "environment" => environment } } }
+
+    before { create(:jira_issue, jira_import:, jira_project:, payload:) }
+
+    it "creates an environment custom field" do
+      expect { create_custom_fields }.to change(WorkPackageCustomField, :count).by(3)
+      expect(custom_field.field_format).to eq("text")
+      expect(jira_import.reload.system_field_custom_fields).to eq("environment" => custom_field.id)
+      expect(reference).to have_attributes(jira_entity_class: nil, uses_existing: false)
+    end
+
+    it "is idempotent" do
+      create_custom_fields
+      expect { create_custom_fields }.not_to change(WorkPackageCustomField, :count)
+      expect(reference).to have_attributes(uses_existing: false)
+    end
+
+    context "with an existing environment custom field" do
+      before { create(:work_package_custom_field, name: "Environment", field_format: "text") }
+
+      it "uses the existing field and does not create a new custom field" do
+        expect { create_custom_fields }.to change(WorkPackageCustomField, :count).by(2)
+        expect(jira_import.reload.system_field_custom_fields).to eq("environment" => custom_field.id)
+        expect(reference).to have_attributes(jira_entity_class: nil, uses_existing: true)
+      end
+    end
+
+    context "with an existing environment custom field with a different field format" do
+      let(:custom_field) { WorkPackageCustomField.find_by(name: "Environment (2)") }
+
+      before { create(:work_package_custom_field, name: "Environment", field_format: "string") }
+
+      it "creates a new custom field" do
+        expect { create_custom_fields }.to change(WorkPackageCustomField, :count).by(3)
+        expect(custom_field.field_format).to eq("text")
+        expect(jira_import.reload.system_field_custom_fields).to eq("environment" => custom_field.id)
+        expect(reference).to have_attributes(jira_entity_class: nil, uses_existing: false)
+      end
+    end
+
+    context "with a field an earlier run had to rename" do
+      let(:custom_field) { WorkPackageCustomField.find_by(name: "Environment (2)") }
+
+      before do
+        create(:work_package_custom_field, name: "Environment", field_format: "string")
+        create(:work_package_custom_field, name: "Environment (2)", field_format: "text")
+      end
+
+      it "reuses it instead of allocating the next counter" do
+        expect { create_custom_fields }.to change(WorkPackageCustomField, :count).by(2)
+        expect(jira_import.reload.system_field_custom_fields).to eq("environment" => custom_field.id)
+        expect(reference).to have_attributes(uses_existing: true)
+      end
+    end
+
+    context "when no issue has an environment" do
+      let(:environment) { nil }
+
+      it "creates no field" do
+        expect { create_custom_fields }.to change(WorkPackageCustomField, :count).by(2)
+        expect(custom_field).to be_nil
+        expect(jira_import.reload.system_field_custom_fields).to be_empty
+      end
+    end
+
+    context "when the import is configured to exclude resolution fields" do
+      let(:jira) { create(:jira, exclude_resolution_fields: true) }
+
+      it "still creates the field" do
+        expect { create_custom_fields }.to change(WorkPackageCustomField, :count).by(3)
+        expect(jira_import.reload.system_field_custom_fields).to eq("environment" => custom_field.id)
+      end
+    end
+  end
+
   describe "with the issue value index stored by stage 3" do
     it "reads issues only to check the system fields" do
       number_of_fields = Import::JiraCreateProjectJob::JiraImportCustomFields::SYSTEM_FIELD_CUSTOM_FIELDS.size
