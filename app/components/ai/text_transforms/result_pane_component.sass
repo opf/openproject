@@ -8,8 +8,7 @@
   min-height: min(240px, calc(100vh - var(--header-height) - var(--base-size-8) - var(--base-size-24)))
   max-height: calc(100vh - var(--header-height) - var(--base-size-8) - var(--base-size-24))
 
-  &--handle,
-  &--grip
+  &--handle
     cursor: grab
     user-select: none
     touch-action: none
@@ -20,9 +19,6 @@
   &--grip
     display: inline-flex
     line-height: 1
-
-  &--footer
-    width: 100%
 
   &--resize
     position: absolute
