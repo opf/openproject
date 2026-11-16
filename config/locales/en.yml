@@ -7728,16 +7728,6 @@ en:
           title:
             one: "Remove type '%{type}' from this project?"
             other: "Remove type '%{type}' from these projects?"
-        bulk_switch:
-          confirm_description: "Switching type variants will result in loss of information from custom fields that are not included in the new variant. The following projects will be affected by this bulk action:"
-          confirm_submit: "Switch"
-          confirm_title: "Switch type variant?"
-          confirmation: "I understand that I will lose information from some custom fields"
-          invalid_target: "Only the type itself or one of its shared variants can be applied to several projects at once."
-          submit: "Apply"
-          success: "The selected projects now use %{type}."
-          target_label: "New type or variant"
-          title: "Bulk switch type or variant"
         disable_all: Disable for all projects
         empty_state:
           description: Add a project to use this configuration there.
@@ -7747,6 +7737,19 @@ en:
         switch_dialog:
           description: 'The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.'
           title: "Replace variants?"
+        switch_variant:
+          confirm_description: "Switching type variants will result in loss of information from custom fields that are not included in the new variant. The following projects will be affected:"
+          confirm_submit: "Switch"
+          confirm_title: "Switch type variant?"
+          confirmation: "I understand that I will lose information from some custom fields"
+          identical:
+            one: "The project already uses this type or variant."
+            other: "The selected projects already use this type or variant."
+          invalid_target: "Choose a type or variant that every selected project can use."
+          submit: "Apply"
+          success: "The selected projects now use %{type}."
+          target_label: "New type or variant"
+          title: "Switch type or variant"
         tab: Projects
         variant_column: Variant or type
       reuse_mode:

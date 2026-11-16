@@ -68,7 +68,7 @@ RSpec.describe "Switching the variant of a work package type's projects", :skip_
       it "offers the type and its global variants as targets" do
         subject
 
-        expect(response.body).to include("Bulk switch type or variant")
+        expect(response.body).to include("Switch type or variant")
           .and include("Hardware").and include("Firmware")
         expect(response.body).not_to include("Prototype")
       end
@@ -80,7 +80,7 @@ RSpec.describe "Switching the variant of a work package type's projects", :skip_
       it "still opens the bulk dialog" do
         subject
 
-        expect(response.body).to include("Bulk switch type or variant")
+        expect(response.body).to include("Switch type or variant")
       end
     end
   end

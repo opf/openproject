@@ -82,7 +82,7 @@ module WorkPackageTypes
 
         if result.success?
           on_switched(dialog_id: BulkSwitchConfirmDialogComponent::DIALOG_ID,
-                      message: I18n.t("types.edit.projects.bulk_switch.success", type: target.composite_name))
+                      message: I18n.t("types.edit.projects.switch_variant.success", type: target.composite_name))
         else
           close_dialog_via_turbo_stream(BulkSwitchConfirmDialogComponent::DIALOG_ID)
           refresh_projects
@@ -92,7 +92,7 @@ module WorkPackageTypes
       end
 
       def refuse_target
-        render_error_flash_message_via_turbo_stream(message: I18n.t("types.edit.projects.bulk_switch.invalid_target"))
+        render_error_flash_message_via_turbo_stream(message: I18n.t("types.edit.projects.switch_variant.invalid_target"))
         ServiceResult.failure
       end
 

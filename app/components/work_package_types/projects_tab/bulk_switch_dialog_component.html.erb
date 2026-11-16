@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= render(
       Primer::Alpha::Dialog.new(
         id: DIALOG_ID,
-        title: t("types.edit.projects.bulk_switch.title"),
+        title: t("types.edit.projects.switch_variant.title"),
         size: :large,
         classes: "Overlay--size-large-portrait"
       )
@@ -44,7 +44,7 @@ See COPYRIGHT and LICENSE files for more details.
       <%= render(
             Primer::Alpha::Select.new(
               name: :target_id,
-              label: t("types.edit.projects.bulk_switch.target_label"),
+              label: t("types.edit.projects.switch_variant.target_label"),
               full_width: true,
               data: { test_selector: "type-projects-bulk-switch-target" }
             )
@@ -59,7 +59,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% dialog.with_footer(show_divider: true) do %>
     <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": DIALOG_ID })) { t(:button_cancel) } %>
     <%= render(Primer::Beta::Button.new(scheme: :primary, form: FORM_ID, type: :submit)) do %>
-      <%= t("types.edit.projects.bulk_switch.submit") %>
+      <%= t("types.edit.projects.switch_variant.submit") %>
     <% end %>
   <% end %>
 <% end %>

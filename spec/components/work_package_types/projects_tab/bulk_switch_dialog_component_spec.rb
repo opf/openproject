@@ -41,7 +41,7 @@ RSpec.describe WorkPackageTypes::ProjectsTab::BulkSwitchDialogComponent, type: :
   end
 
   it "is titled as a bulk switch" do
-    expect(page).to have_text("Bulk switch type or variant")
+    expect(page).to have_text("Switch type or variant")
   end
 
   it "offers the type and its shared variants, never a project's own" do
