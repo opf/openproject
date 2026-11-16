@@ -3226,6 +3226,7 @@ it:
       work_package_query_relation_columns: Colonne di relazione delle query della macro-attività
       work_package_sharing: Condividi macro-attività con utenti esterni
       work_package_subject_generation: Generazione oggetto di macro-attività
+      xwiki_integration: XWiki Integration
     teaser:
       description_html: Hai accesso a tutte le funzionalità %{trial_plan}.
       title:
@@ -7370,6 +7371,7 @@ it:
         rename_group: Rinomina sezione
         required:
           already_required_globally: Questo campo personalizzato è obbligatorio per tutti i tipi.
+          excluded: Switch this custom field on before requiring it for this type.
           for_variant: Required for this type
           globally: Obbligatorio
           globally_hint: Modifica questa impostazione nel campo personalizzato
@@ -7447,6 +7449,7 @@ it:
           success: La configurazione è stata copiata.
         exclusions:
           not_inherited: Questa configurazione non è ereditata, quindi non c'è nulla da escludere. Modifica direttamente la configurazione.
+          required: A required custom field cannot be switched off.
           unknown_aspect: Sezione di configurazione "%{aspect}" sconosciuta.
         inherited:
           configure_manually: Configura manualmente

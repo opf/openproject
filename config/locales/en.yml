@@ -3303,6 +3303,7 @@ en:
       work_package_query_relation_columns: Work Package Query Relation Columns
       work_package_sharing: Share work packages with external users
       work_package_subject_generation: Work Package Subject Generation
+      xwiki_integration: XWiki Integration
     teaser:
       description_html: "You have access to all %{trial_plan} features."
       title:
