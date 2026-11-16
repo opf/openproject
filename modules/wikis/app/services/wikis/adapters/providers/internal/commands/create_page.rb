@@ -67,7 +67,7 @@ module Wikis
               if result.success?
                 success(Queries::PageInfo.wiki_page_to_page_info(result.result, provider:))
               elsif result.errors.details.values.flatten.any? { |e| e.fetch(:error) == :error_unauthorized }
-                failure(code: :forbidden)
+                failure(code: :unauthorized)
               else
                 # for now simplifying to a single error code, since there is not really any
                 # error case expected to crop up during real usage, due to previous validations in upstream code

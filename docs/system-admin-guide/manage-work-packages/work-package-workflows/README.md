@@ -2,7 +2,7 @@
 
 sidebar_navigation:
   title: Workflows
-  priority: 700
+  priority: 600
 description: Manage Work package workflows.
 keywords: work package workflows
 ---
@@ -11,7 +11,7 @@ keywords: work package workflows
 
 A **workflow** in OpenProject defines the allowed transitions between work package statuses for a role and a work package type.
 
-This means that the available status transitions can differ depending on both the work package type and the user's [role in a project](../../../users-permissions/roles-permissions).
+This means that the available status transitions can differ depending on both the work package type and the user's [role in a project](../../users-permissions/roles-permissions/).
 
 To configure a workflow, navigate to **Administration → Work packages → Types**, select the work package type you want to edit and open the **Workflows** tab.
 

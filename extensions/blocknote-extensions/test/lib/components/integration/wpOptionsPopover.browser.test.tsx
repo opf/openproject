@@ -406,7 +406,7 @@ describe('Inline chip popover UX', () => {
     await waitForResolvedChip();
     await openPopover();
 
-    await userEvent.click(page.getByText('#123'));
+    await userEvent.click(page.getByText('#123', { exact: true }));
     await expect.element(page.getByTestId('popover-content')).not.toBeInTheDocument();
   });
 
@@ -433,6 +433,7 @@ describe('Inline chip popover UX', () => {
     await waitForResolvedChip();
 
     await openPopover();
+    await expect.element(page.getByTitle('Open in new tab')).toHaveTextContent('Open #123');
     await userEvent.click(page.getByTitle('Open in new tab'));
 
     expect(openSpy).toHaveBeenCalledWith(

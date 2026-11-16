@@ -88,7 +88,7 @@ RSpec.describe "Editing the form on a type's tab", :js do
     expect_toggle("assignee", pressed: true)
     toggle_for("assignee").click
     expect_toggle("assignee", pressed: false)
-    expect(variant.reload.form_configuration_excluded_elements).to eq(%w[assignee])
+    wait_for { variant.reload.form_configuration_excluded_elements }.to eq(%w[assignee])
 
     expect_field_on(task_package, :assignee, shown: false)
     expect_field_on(bug_package, :assignee, shown: true)

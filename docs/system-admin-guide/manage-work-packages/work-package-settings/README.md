@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: General
-  priority: 900
+  priority: 800
 description: Work package general settings in OpenProject.
 keywords: work package settings, work package configuration
 ---
