@@ -118,7 +118,7 @@ Before considering applying any suggestions, please consult our [system requirem
 
 ### Slow Notification Center
 
-OpenProject instances with a lot of activity can produce significant churn in the `notifications` table which drives the notification center. Tuning [`autovacuum_analyze_scale_factor`](https://www.postgresql.org/docs/18/runtime-config-autovacuum.html#GUC-AUTOVACUUM-ANALYZE-SCALE-FACTOR) and [`autovacuum_analyze_threshold`](https://www.postgresql.org/docs/18/runtime-config-autovacuum.html#GUC-AUTOVACUUM-ANALYZE-THRESHOLD) can have help to keep the [notification center](../../../user-guide/notifications/) fast. Applying should generally be safe and can easily be reverted.
+OpenProject instances with a lot of activity can produce significant churn in the `notifications` table which drives the notification center. Tuning [`autovacuum_analyze_scale_factor`](https://www.postgresql.org/docs/18/runtime-config-autovacuum.html#GUC-AUTOVACUUM-ANALYZE-SCALE-FACTOR) and [`autovacuum_analyze_threshold`](https://www.postgresql.org/docs/18/runtime-config-autovacuum.html#GUC-AUTOVACUUM-ANALYZE-THRESHOLD) can help to keep the [notification center](../../../user-guide/notifications/) fast. Applying should generally be safe and can easily be reverted.
 
 
 ```sql
