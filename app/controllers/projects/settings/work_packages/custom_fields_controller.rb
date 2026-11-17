@@ -33,7 +33,7 @@ class Projects::Settings::WorkPackages::CustomFieldsController < Projects::Setti
 
   menu_item :settings_work_packages
 
-  def show
+  def index
     @query = custom_fields_query
 
     respond_to do |format|
