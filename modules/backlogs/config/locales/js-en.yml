@@ -82,6 +82,13 @@ en:
       y_axis_title:
         story_points: "Story points"
         time: "Estimated time"
+    sprint_work_package_graph:
+      chart_label: "Work packages by status chart"
+      count_column: "Work packages"
+      status_column: "Status"
+    velocity_chart:
+      chart_label: "Velocity chart"
+      sprint_column: "Sprint"
     work_packages:
       properties:
         storyPoints: "Story Points"

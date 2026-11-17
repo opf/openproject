@@ -26,6 +26,8 @@
 //++
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { within } from '@testing-library/dom';
+import { tableColumns, tableRows } from 'core-app/shared/components/charts/description/testing/chart-description-table';
 import { By } from '@angular/platform-browser';
 import { BaseChartDirective } from 'ng2-charts';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -45,13 +47,26 @@ describe('VelocityChartComponent', () => {
     '--fgColor-muted': '#666666',
   };
 
+  const i18nStub = {
+    locale: 'de',
+    t(key:string, options:Record<string, string|number> = {}) {
+      const translations:Record<string, string> = {
+        'js.chart.description.caption': `${options.label}: data`,
+        'js.velocity_chart.chart_label': 'Velocity chart',
+        'js.velocity_chart.sprint_column': 'Sprint',
+      };
+
+      return translations[key] ?? key;
+    },
+  };
+
   beforeEach(async () => {
     Object.entries(cssVariables).forEach(([name, value]) => document.body.style.setProperty(name, value));
 
     await TestBed.configureTestingModule({
       imports: [VelocityChartComponent],
       providers: [
-        { provide: I18nService, useValue: { locale: 'de' } },
+        { provide: I18nService, useValue: i18nStub },
         {
           provide: ConfigurationService,
           useValue: { durationFormat: () => 'hours_only', hoursPerDay: () => 8, daysPerMonth: () => 20 },
@@ -73,7 +88,6 @@ describe('VelocityChartComponent', () => {
       averageLabel: 'Average',
       yAxisTitle: 'Story points',
       summary: 'Bar chart of committed and completed story points of the last 2 sprints. Average velocity: 14.5 SP.',
-      sprintColumnTitle: 'Sprint',
     }));
     fixture.detectChanges();
   });
@@ -89,50 +103,21 @@ describe('VelocityChartComponent', () => {
   });
 
   describe('accessibility', () => {
-    const canvas = () => element.querySelector('canvas')!;
-    const referenced = (attribute:string) => document.getElementById(canvas().getAttribute(attribute)!)!;
-
-    it('exposes the canvas as an image named by the summary', () => {
-      expect(canvas().getAttribute('role')).toBe('img');
-      expect(referenced('aria-labelledby').textContent.trim())
-        .toBe('Bar chart of committed and completed story points of the last 2 sprints. Average velocity: 14.5 SP.');
+    it('names the chart and uses the server summary as its description', () => {
+      expect(within(element).getByRole('img', {
+        name: 'Velocity chart',
+        description: 'Bar chart of committed and completed story points of the last 2 sprints. Average velocity: 14.5 SP.',
+      })).toBeInTheDocument();
     });
 
-    it('describes the canvas with a data table of all sprints', () => {
-      const table = referenced('aria-describedby');
-      const rows = Array.from(table.querySelectorAll('tr'))
-        .map((row) => Array.from(row.children).map((cell) => cell.textContent.trim()));
+    it('tabulates one row per sprint', () => {
+      const table = within(element).getByRole('table', { name: 'Velocity chart: data' });
 
-      expect(table.tagName).toBe('TABLE');
-      expect(rows).toEqual([
-        ['Sprint', 'Committed', 'Completed'],
+      expect(tableColumns(table)).toEqual(['Sprint', 'Committed', 'Completed']);
+      expect(tableRows(table)).toEqual([
         ['Sprint 1', '21', '20'],
         ['A sprint with a very long name', '13', '9'],
       ]);
-    });
-
-    it('marks up the table headers for screen readers', () => {
-      const table = referenced('aria-describedby');
-
-      expect(Array.from(table.querySelectorAll('thead th')).map((th) => th.getAttribute('scope')))
-        .toEqual(['col', 'col', 'col']);
-      expect(Array.from(table.querySelectorAll('tbody th')).map((th) => th.getAttribute('scope')))
-        .toEqual(['row', 'row']);
-    });
-
-    it('hides the summary and table visually', () => {
-      expect(referenced('aria-labelledby').classList).toContain('sr-only');
-      expect(referenced('aria-describedby').classList).toContain('sr-only');
-    });
-
-    it('gives every chart instance its own ids', () => {
-      const other = TestBed.createComponent(VelocityChartComponent);
-      other.componentRef.setInput('chartData', fixture.componentRef.instance.chartData());
-      other.detectChanges();
-
-      const otherCanvas = (other.nativeElement as HTMLElement).querySelector('canvas')!;
-      expect(otherCanvas.getAttribute('aria-labelledby')).not.toBe(canvas().getAttribute('aria-labelledby'));
-      expect(otherCanvas.getAttribute('aria-describedby')).not.toBe(canvas().getAttribute('aria-describedby'));
     });
   });
 
@@ -299,7 +284,7 @@ describe('VelocityChartComponent', () => {
     });
 
     it('formats the data table cells as durations', () => {
-      const cells = Array.from(element.querySelectorAll('tbody td')).map((cell) => cell.textContent.trim());
+      const cells = within(element).getAllByRole('cell').map((cell) => cell.textContent.trim());
 
       expect(cells).toEqual(['21.25h', '20h', '13h', '8.5h']);
     });
