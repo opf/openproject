@@ -48,6 +48,8 @@ module CustomFields
         end
 
         def custom_field = model.root.custom_field
+
+        def project_value_manageable? = project_value_permitted?
       end
     end
   end

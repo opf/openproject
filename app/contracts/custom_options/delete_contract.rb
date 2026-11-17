@@ -34,5 +34,9 @@ module CustomOptions
     def validate_model?
       false
     end
+
+    private
+
+    def project_value_manageable? = project_value_permitted?
   end
 end
