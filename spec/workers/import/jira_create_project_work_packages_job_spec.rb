@@ -36,9 +36,11 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
   include_context "with a jira demo issue"
 
   let(:resolution_date_cf) { create(:wp_custom_field, name: "Resolution Date (2)", field_format: "datetime") }
+  let(:environment_cf) { create(:wp_custom_field, name: "Environment", field_format: "text") }
 
-  def stage_5_resolution_date_cf
-    jira_import.update!(system_field_custom_fields: { "resolutiondate" => resolution_date_cf.id })
+  def stage_5_system_field_cfs
+    jira_import.update!(system_field_custom_fields: { "resolutiondate" => resolution_date_cf.id,
+                                                      "environment" => environment_cf.id })
   end
 
   describe "#perform" do
@@ -46,7 +48,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
       before do
         create_project_role
         create_project
-        stage_5_resolution_date_cf
+        stage_5_system_field_cfs
       end
 
       it "updates the project work package sequence counter to the highest imported sequence number" do
@@ -978,6 +980,102 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
               expect(work_package.type.default_variant.custom_field_ids).not_to include(resolution_date_cf.id)
             end
           end
+        end
+      end
+
+      context "with the environment field" do
+        context "when an issue's environment is set" do
+          let(:jira_issue_payload) do
+            super().tap do |payload|
+              payload["fields"]["environment"] = "*Browser:* Firefox 140\n\nh2. Server\n\nStaging"
+            end
+          end
+
+          it "stores the converted environment in a text custom field" do
+            create_work_packages
+            work_package = WorkPackage.find("DPPP-6")
+            expect(work_package.send(environment_cf.attribute_getter))
+              .to eq("**Browser:** Firefox 140\n\n\n## Server\n\n\nStaging")
+          end
+
+          context "when only some issues have an environment" do
+            let!(:jira_issue2) do
+              payload = jira_issue_payload.deep_dup
+              payload["id"] = "10406"
+              payload["key"] = "DPPP-7"
+              payload["fields"]["environment"] = nil
+              create(:jira_issue, jira_import:, origin_id: "10406", jira_project:, payload:)
+            end
+
+            it "adds the Environment field to all work packages' type" do
+              create_work_packages
+
+              wp_with_environment = WorkPackage.find("DPPP-6")
+              wp_without_environment = WorkPackage.find("DPPP-7")
+
+              expect(wp_without_environment.type.default_variant.custom_field_ids).to include(environment_cf.id)
+              expect(wp_without_environment.send(environment_cf.attribute_getter)).to be_blank
+              expect(wp_with_environment.send(environment_cf.attribute_getter)).to be_present
+            end
+          end
+
+          context "when the custom field from stage 5 is missing" do
+            before { jira_import.update!(system_field_custom_fields: {}) }
+
+            it "ignores the environment field" do
+              create_work_packages
+              work_package = WorkPackage.find("DPPP-6")
+              expect(work_package.type.default_variant.custom_field_ids).not_to include(environment_cf.id)
+            end
+          end
+
+          context "when the import is configured to exclude resolution fields" do
+            let(:jira) { create(:jira, exclude_resolution_fields: true) }
+
+            it "still imports the environment" do
+              create_work_packages
+              work_package = WorkPackage.find("DPPP-6")
+              expect(work_package.type.default_variant.custom_field_ids).to include(environment_cf.id)
+              expect(work_package.send(environment_cf.attribute_getter)).to be_present
+            end
+          end
+        end
+
+        context "when an issue's environment is blank" do
+          let(:jira_issue_payload) do
+            super().tap { |payload| payload["fields"]["environment"] = " \t\r\n " }
+          end
+
+          it "does not add an environment field" do
+            create_work_packages
+            work_package = WorkPackage.find("DPPP-6")
+            expect(work_package.type.default_variant.custom_field_ids).not_to include(environment_cf.id)
+          end
+        end
+
+        it "does not add an environment field when no issue has the field set" do
+          create_work_packages
+          work_package = WorkPackage.find("DPPP-6")
+          expect(work_package.type.default_variant.custom_field_ids).not_to include(environment_cf.id)
+        end
+      end
+
+      context "with several system fields set on the same issue" do
+        let(:jira_issue_payload) do
+          super().tap do |payload|
+            payload["fields"]["resolutiondate"] = "2026-09-12T12:18:05.851+0000"
+            payload["fields"]["environment"] = "*Browser:* Firefox 140"
+          end
+        end
+
+        it "stores every system field on the work package" do
+          create_work_packages
+          work_package = WorkPackage.find("DPPP-6")
+
+          expect(work_package.type.default_variant.custom_field_ids)
+            .to include(resolution_date_cf.id, environment_cf.id)
+          expect(work_package.send(resolution_date_cf.attribute_getter)).to eq(Time.utc(2026, 9, 12, 12, 18, 5))
+          expect(work_package.send(environment_cf.attribute_getter)).to eq("**Browser:** Firefox 140")
         end
       end
 
