@@ -35,9 +35,18 @@ import {
   WorkPackageViewSelectionService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
-import { OpContextMenuHandler } from 'core-app/shared/components/op-context-menu/op-context-menu-handler';
+import {
+  FOCUSABLE_SELECTOR,
+  OpContextMenuHandler,
+} from 'core-app/shared/components/op-context-menu/op-context-menu-handler';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
-import { OpContextMenuLocalsMap } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import {
+  OpContextMenuCloseReason,
+  OpContextMenuItem,
+  OpContextMenuLocalsMap,
+} from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import { focusAfterMenuClose } from 'core-app/shared/components/op-context-menu/action-menu/menu-focus';
+import { withOcticon } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-menu-octicons';
 import {
   ContextMenuItemGroups,
   copyIdActionLabel,
@@ -169,6 +178,23 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
     }
   }
 
+  public override onClose(focus = true, reason?:OpContextMenuCloseReason):void {
+    if (reason === undefined) {
+      super.onClose(focus);
+      return;
+    }
+
+    focusAfterMenuClose(this.afterFocusOn, reason);
+  }
+
+  protected override get afterFocusOn():HTMLElement {
+    return this.element.closest<HTMLElement>(FOCUSABLE_SELECTOR) ?? super.afterFocusOn;
+  }
+
+  protected menuItem(item:OpContextMenuItem):OpContextMenuItem {
+    return withOcticon(item);
+  }
+
   private deleteSelectedWorkPackages() {
     const selected = this.getSelectedWorkPackages();
     const ids = selected.map((wp) => wp.id).filter((id) => id !== null);
@@ -269,6 +295,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
       }
     }
 
+    groups.transform((item) => this.menuItem(item));
     return groups;
   }
 }

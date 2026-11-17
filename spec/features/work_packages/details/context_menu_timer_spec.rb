@@ -47,20 +47,22 @@ RSpec.describe "Work package single context menu timer", :js do
 
       it "shows the timer entries" do
         wp_view.visit!
-        find("#action-show-more-dropdown-menu .button").click
+        wp_view.open_more_menu
 
-        expect(page).to have_css(".menu-item", text: "Log time")
-        expect(page).to have_css(".menu-item", text: "Start timer")
-        expect(page).to have_no_css(".menu-item", text: "Stop timer")
+        expect(page).to have_selector(:menuitem, "Log time", exact: true)
+        expect(page).to have_selector(:menuitem, "Start timer", exact: true)
+        expect(page).to have_no_selector(:menuitem, "Stop timer", exact: true)
 
-        find(".menu-item", text: "Start timer").click
+        within(:menu, "More") do
+          find(:menuitem, "Start timer", exact: true).click
+        end
         wait_for_network_idle
 
         retry_block do
-          find("#action-show-more-dropdown-menu .button").click
-          expect(page).to have_css(".menu-item", text: "Log time")
-          expect(page).to have_css(".menu-item", text: "Stop timer")
-          expect(page).to have_no_css(".menu-item", text: "Start timer")
+          wp_view.open_more_menu
+          expect(page).to have_selector(:menuitem, "Log time", exact: true)
+          expect(page).to have_selector(:menuitem, "Stop timer", exact: true)
+          expect(page).to have_no_selector(:menuitem, "Start timer", exact: true)
         end
       end
     end
@@ -68,11 +70,11 @@ RSpec.describe "Work package single context menu timer", :js do
     context "when not mobile" do
       it "does not show the timer entries" do
         wp_view.visit!
-        find("#action-show-more-dropdown-menu .button").click
+        wp_view.open_more_menu
 
-        expect(page).to have_css(".menu-item", text: "Log time")
-        expect(page).to have_no_css(".menu-item", text: "Start timer")
-        expect(page).to have_no_css(".menu-item", text: "Stop timer")
+        expect(page).to have_selector(:menuitem, "Log time", exact: true)
+        expect(page).to have_no_selector(:menuitem, "Start timer", exact: true)
+        expect(page).to have_no_selector(:menuitem, "Stop timer", exact: true)
       end
     end
   end
@@ -82,11 +84,11 @@ RSpec.describe "Work package single context menu timer", :js do
 
     it "does not show the timer entries" do
       wp_view.visit!
-      find("#action-show-more-dropdown-menu .button").click
+      wp_view.open_more_menu
 
-      expect(page).to have_no_css(".menu-item", text: "Log time")
-      expect(page).to have_no_css(".menu-item", text: "Start timer")
-      expect(page).to have_no_css(".menu-item", text: "Stop timer")
+      expect(page).to have_no_selector(:menuitem, "Log time", exact: true)
+      expect(page).to have_no_selector(:menuitem, "Start timer", exact: true)
+      expect(page).to have_no_selector(:menuitem, "Stop timer", exact: true)
     end
   end
 end

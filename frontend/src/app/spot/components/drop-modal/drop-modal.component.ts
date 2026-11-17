@@ -167,7 +167,10 @@ export class SpotDropModalComponent implements OnDestroy {
          * that event would reach the event listener added here and close the modal right away.
          */
         setTimeout(() => {
-          document.body.addEventListener('click', this.onGlobalClick);
+          if (!this._opened) {
+            return;
+          }
+          this.closeOnOutsidePress();
           document.body.addEventListener('keydown', this.onEscape);
           window.addEventListener('resize', this.onResize);
           window.addEventListener('orientationchange', this.onResize);
@@ -191,7 +194,7 @@ export class SpotDropModalComponent implements OnDestroy {
     this.teleportationService.activate(this.body);
   }
 
-  close():void {
+  close(restoreFocus = true):void {
     this._opened = false;
     this.closed.emit();
     /*
@@ -201,24 +204,69 @@ export class SpotDropModalComponent implements OnDestroy {
      *
      * To make it happy, we update afterwards
      */
-    document.body.removeEventListener('click', this.onGlobalClick);
+    this.outsidePress?.abort();
     document.body.removeEventListener('keydown', this.onEscape);
     window.removeEventListener('resize', this.onResize);
     window.removeEventListener('orientationchange', this.onResize);
 
-    this.teleportationService.clear();
+    this.clearOwnBody();
     this.cdRef.detectChanges();
-    this.focusGrabber.nativeElement.focus();
+    if (restoreFocus) {
+      this.focusGrabber.nativeElement.focus();
+    }
   }
 
-  private onGlobalClick = this.close.bind(this);
+  private outsidePress?:AbortController;
+
+  // Follows the light dismiss of native popovers: a press that starts and
+  // ends outside closes the modal, whatever the pressed element does with its
+  // click, and a canceled press (a touch scroll) does not. Focus stays where
+  // the press put it, and returns to the trigger if it was left in the modal.
+  private closeOnOutsidePress():void {
+    this.outsidePress?.abort();
+    this.outsidePress = new AbortController();
+    const options = { capture: true, signal: this.outsidePress.signal };
+    let pressedOutside = false;
+
+    document.addEventListener('pointerdown', (event) => { pressedOutside = this.isOutside(event); }, options);
+    document.addEventListener('pointercancel', () => { pressedOutside = false; }, options);
+    document.addEventListener('pointerup', (event) => {
+      if (pressedOutside && this.isOutside(event)) {
+        this.close(this.hasFocus);
+      }
+      pressedOutside = false;
+    }, options);
+    // Activation without a pointer, such as from assistive technology.
+    document.addEventListener('click', (event) => {
+      if (event.detail === 0 && this.isOutside(event)) {
+        this.close(this.hasFocus);
+      }
+    }, options);
+  }
+
+  // The portal is shared: another modal may have taken it over since.
+  private clearOwnBody():void {
+    if (this.teleportationService.templateRef$.value === this.body) {
+      this.teleportationService.clear();
+    }
+  }
+
+  private get hasFocus():boolean {
+    return !!this.anchor?.nativeElement.contains(document.activeElement);
+  }
+
+  private isOutside(event:Event):boolean {
+    const { target } = event;
+    return !(target instanceof Node
+      && (this.elementRef.nativeElement.contains(target) || this.anchor?.nativeElement.contains(target)));
+  }
 
   ngOnDestroy():void {
     if (this.opened) {
-      this.teleportationService.clear();
+      this.clearOwnBody();
     }
 
-    document.body.removeEventListener('click', this.onGlobalClick);
+    this.outsidePress?.abort();
     document.body.removeEventListener('keydown', this.onEscape);
     window.removeEventListener('resize', this.onResize);
     window.removeEventListener('orientationchange', this.onResize);
