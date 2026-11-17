@@ -117,6 +117,17 @@ RSpec.describe OpenProject::Llm::Pgvector do
       end
     end
 
+    context "when optional migrations are skipped", with_env: { "OPENPROJECT_SKIP_OPTIONAL_MIGRATIONS" => "true" } do
+      it "neither checks installability nor includes the migrations path" do
+        allow(described_class).to receive(:check_if_installable)
+        allow(described_class).to receive(:include_migrations_path!)
+
+        expect(described_class.include_migrations_path_if_installable!).to be_nil
+        expect(described_class).not_to have_received(:check_if_installable)
+        expect(described_class).not_to have_received(:include_migrations_path!)
+      end
+    end
+
     it "leaves no trace of the trial creation" do
       connection = ActiveRecord::Base.connection
 
@@ -159,6 +170,26 @@ RSpec.describe OpenProject::Llm::Pgvector do
         described_class.migrate_pending_if_installable!
 
         expect(migration_context).not_to have_received(:migrate)
+      end
+    end
+
+    context "when optional migrations are skipped", with_env: { "OPENPROJECT_SKIP_OPTIONAL_MIGRATIONS" => "true" } do
+      it "does not migrate" do
+        described_class.migrate_pending_if_installable!
+
+        expect(migration_context).not_to have_received(:migrate)
+      end
+    end
+  end
+
+  describe ".include_migrations_path_if_installed!" do
+    context "when optional migrations are skipped", with_env: { "OPENPROJECT_SKIP_OPTIONAL_MIGRATIONS" => "true" } do
+      it "does not include the migrations path although the extension is installed" do
+        allow(described_class).to receive(:include_migrations_path!)
+
+        described_class.include_migrations_path_if_installed!
+
+        expect(described_class).not_to have_received(:include_migrations_path!)
       end
     end
   end
