@@ -102,7 +102,11 @@ module Admin
         end
 
         def value_menu?(row)
-          custom_field.allow_additional_project_values? && (row.project_specific? || custom_field.hierarchical_list?)
+          row.project_specific? || sub_values_addable?
+        end
+
+        def sub_values_addable?
+          custom_field.allow_additional_project_values? && custom_field.hierarchical_list?
         end
 
         def indentation(row)

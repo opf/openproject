@@ -147,7 +147,7 @@ See COPYRIGHT and LICENSE files for more details.
                         content_arguments: { data: { controller: "async-dialog" } }
                       )
                     end
-                    if custom_field.hierarchical_list?
+                    if sub_values_addable?
                       menu.with_item(
                         label: t(:button_add_sub_value),
                         tag: :a,

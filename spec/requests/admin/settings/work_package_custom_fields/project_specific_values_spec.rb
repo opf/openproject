@@ -119,6 +119,18 @@ RSpec.describe "Admin project-specific values of a work package custom field", :
         end
       end
 
+      context "when project admins can no longer add values but the project already added some" do
+        before { create(:custom_option, custom_field:, value: "Own", project: using_project) }
+
+        it "warns that the existing values stay available instead" do
+          get values_path
+
+          expect(page).to have_css(".Banner",
+                                   text: I18n.t("custom_fields.admin.projects.additional_values_disabled_project_notice"))
+          expect(page).to have_no_css(".Banner strong", text: custom_field.name)
+        end
+      end
+
       context "when values are deactivated for each project" do
         let(:custom_field) do
           create(:list_wp_custom_field, :project_specific_blocklist, types: [feature], possible_values: %w[A B])

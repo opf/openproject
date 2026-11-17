@@ -34,9 +34,9 @@ module Admin
       class TableComponent < OpPrimer::BorderBoxTableComponent
         FRAME_ID = "custom-field-projects-list"
 
-        columns :name, :types, :project_specific_values
+        columns :name, :types, :global_values, :project_specific_values
         main_column :name
-        mobile_labels :types, :project_specific_values
+        mobile_labels :types, :global_values, :project_specific_values
 
         attr_reader :custom_field
 
@@ -52,34 +52,30 @@ module Admin
           [
             [:name, { caption: Project.model_name.human }],
             [:types, { caption: I18n.t("custom_fields.admin.projects.types_column") }],
-            if project_specific_values?
-              [:project_specific_values,
-               { caption: CustomField.human_attribute_name(:project_specific_value_restriction) }]
-            end
-          ].compact
-        end
-
-        def skip_column?(column)
-          column == :project_specific_values && !project_specific_values?
-        end
-
-        def project_specific_values?
-          custom_field.project_specific_value_restriction.present?
+            [:global_values, { caption: I18n.t("custom_fields.admin.projects.global_values_column") }],
+            [:project_specific_values, { caption: I18n.t("custom_fields.admin.projects.project_specific_values_column") }]
+          ]
         end
 
         def types_of(project)
           types_by_id.values_at(*@type_ids_by_project_id.fetch(project.id, [])).compact.sort_by(&:position)
         end
 
-        def value_count
-          @value_count ||= custom_field.restrictable_values.count
+        def global_value_count
+          @global_value_count ||= custom_field.restrictable_values.where(project_id: nil).count
         end
 
-        def usable_value_counts
-          @usable_value_counts ||= custom_field.usable_value_counts_in(Project.where(id: rows.map(&:id)))
+        def usable_global_value_counts
+          @usable_global_value_counts ||= custom_field.usable_global_value_counts_in(Project.where(id: rows.map(&:id)))
         end
 
-        def has_actions? = project_specific_values? || custom_field.allow_additional_project_values?
+        def project_value_counts
+          @project_value_counts ||= custom_field.project_value_counts
+        end
+
+        def has_actions?
+          custom_field.project_specific_value_restriction.present? || custom_field.allow_additional_project_values?
+        end
 
         def mobile_title = I18n.t(:label_project_plural)
 

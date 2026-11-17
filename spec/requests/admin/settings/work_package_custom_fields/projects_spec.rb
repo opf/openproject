@@ -156,24 +156,74 @@ RSpec.describe "Admin work package custom field projects", :skip_csrf, type: :ra
     context "without project-specific values enabled" do
       let(:custom_field) { create(:list_wp_custom_field, types: [feature]) }
 
-      it "lists the projects without their project-specific values" do
+      it "lists the projects with all global values and without project-specific values" do
         get projects_path
 
         expect(response).to have_http_status(:ok)
-        expect(page).to have_link(using_project.name, href: project_path(using_project))
-        expect(page).to have_no_text(CustomField.human_attribute_name(:project_specific_value_restriction))
+        row = page.find("[data-test-selector='custom-field-projects-row-#{using_project.id}']")
+        expect(row).to have_link(using_project.name, href: project_path(using_project))
+        expect(row).to have_text(I18n.t("custom_fields.admin.projects.enabled_values.all"))
+        expect(row).to have_text("–")
         expect(page).to have_no_link(href: values_path)
         expect(page).to have_no_link(I18n.t("custom_fields.admin.projects.quick_filter.with_project_specific_values"))
+      end
+
+      it "shows no banner" do
+        get projects_path
+
+        expect(page).to have_no_css(".Banner")
       end
     end
 
     context "with only additional project values allowed" do
-      let(:custom_field) { create(:list_wp_custom_field, types: [feature], allow_additional_project_values: true) }
+      let(:custom_field) do
+        create(:list_wp_custom_field, types: [feature], possible_values: %w[A B], allow_additional_project_values: true)
+      end
+
+      before do
+        create(:custom_option, custom_field:, value: "Own", project: using_project)
+        create(:custom_option, custom_field:, value: "Other", project: using_project)
+        get projects_path
+      end
 
       it "links each project to the configuration of its values" do
+        expect(page).to have_link(href: values_path)
+      end
+
+      it "counts the global values and the values the project added separately" do
+        row = page.find("[data-test-selector='custom-field-projects-row-#{using_project.id}']")
+        expect(row).to have_css("[role='cell'][aria-colindex='3']",
+                                text: I18n.t("custom_fields.admin.projects.enabled_values.all"))
+        expect(row).to have_css("[role='cell'][aria-colindex='4']", text: "2")
+      end
+
+      it "tells that project admins can manage the values" do
+        expect(page).to have_css(".Banner", text: I18n.t("custom_fields.admin.projects.project_admins_manage_notice"))
+      end
+    end
+
+    context "with project admins managing the values" do
+      let(:custom_field) do
+        create(:list_wp_custom_field, :project_specific_allowlist,
+               types: [feature], possible_values: %w[A B], project_level_value_management: true)
+      end
+
+      it "tells that project admins can manage the values" do
         get projects_path
 
-        expect(page).to have_link(href: values_path)
+        expect(page).to have_css(".Banner", text: I18n.t("custom_fields.admin.projects.project_admins_manage_notice"))
+      end
+
+      context "when project admins can no longer add values but projects already added some" do
+        before { create(:custom_option, custom_field:, value: "Own", project: using_project) }
+
+        it "warns that the values stay available instead" do
+          get projects_path
+
+          expect(page).to have_css(".Banner",
+                                   text: I18n.t("custom_fields.admin.projects.additional_values_disabled_notice"))
+          expect(page).to have_no_text(I18n.t("custom_fields.admin.projects.project_admins_manage_notice"))
+        end
       end
     end
   end

@@ -46,9 +46,9 @@ module Admin
           safe_join(table.types_of(project).map { |type| link_to(type.name, type_settings_path(type_id: type.id)) }, ", ")
         end
 
-        def project_specific_values
-          count = table.usable_value_counts.fetch(project.id)
-          total = table.value_count
+        def global_values
+          count = table.usable_global_value_counts.fetch(project.id)
+          total = table.global_value_count
 
           if count.zero?
             I18n.t("custom_fields.admin.projects.enabled_values.none")
@@ -57,6 +57,10 @@ module Admin
           else
             I18n.t("custom_fields.admin.projects.enabled_values.some", count:, total:)
           end
+        end
+
+        def project_specific_values
+          table.project_value_counts.fetch(project.id, "–")
         end
 
         def button_links

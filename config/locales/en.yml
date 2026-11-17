@@ -2961,11 +2961,8 @@ en:
       notice:
         remember_items_and_projects: "Remember to set values for this custom field, and to make sure it is used in at least one project."
       projects:
-        changes_heading: "Important changes"
-        changes_text: >
-          Starting version 18.0, custom fields are no longer enabled or disabled at a project level.
-          They are included in forms, which are then used in different types and variants. The
-          following list shows projects that use types or variants using forms including this custom field.
+        additional_values_disabled_notice: "Project admins can no longer add values to this custom field. Existing project-specific values stay available."
+        additional_values_disabled_project_notice: "Project admins can no longer add values to this custom field. However, existing project-specific values are still available and can be enabled or disabled."
         configure: "Configure project-specific values for %{project}"
         delete_value_dialog:
           description: "This action will irreversibly remove the value from %{project}. Any assigned values will be permanently deleted."
@@ -2987,9 +2984,12 @@ en:
         filter_no_results:
           description: "Change the filters to see more projects."
           title: "No projects match this filter"
+        global_values_column: "Global values"
         make_available_to_all_projects: "Make available to all projects"
         make_available_to_all_projects_confirm: "Make “%{value}” available to all projects?"
         new_value: "Value"
+        project_admins_manage_notice: "Project admins can manage the values of this custom field in their projects. You can review and adjust any project below."
+        project_specific_values_column: "Project-specific values"
         quick_filter:
           all: "All projects"
           with_project_specific_values: "With project-specific values"
@@ -3091,6 +3091,12 @@ en:
       label_with_project: "Project-specific: %{project}"
       project_admins:
         additional_values_caption: "Added values are only available in the project they were created in. You can make them available to all projects later."
+        remaining_values_count:
+          one: "1 project-specific value"
+          other: "%{count} project-specific values"
+        remaining_values_warning:
+          one: "1 project already has %{values}. They remain available in that project but project admins can no longer add new ones unless ‘%{setting}’ is checked."
+          other: "%{count} projects already have %{values}. They remain available in those projects but project admins can no longer add new ones unless ‘%{setting}’ is checked."
         value_management_caption: "Project admins can enable or disable certain values for their project. All global values will be visible to them."
       switch_warning:
         all: "All values will be available in all projects."

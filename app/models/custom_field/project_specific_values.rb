@@ -84,10 +84,18 @@ module CustomField::ProjectSpecificValues
     values.is_a?(Array) ? values & usable_ids : values.presence_in(usable_ids)
   end
 
-  def usable_value_counts_in(projects)
-    count_sql = usable_values_in_reach("SELECT projects.id").unscope(:order).select(Arel.star.count).to_sql
+  def usable_global_value_counts_in(projects)
+    count_sql = usable_values_in_reach("SELECT projects.id")
+                  .where(project_id: nil)
+                  .unscope(:order)
+                  .select(Arel.star.count)
+                  .to_sql
 
     projects.unscope(:order).pluck(:id, Arel.sql("(#{count_sql})")).to_h
+  end
+
+  def project_value_counts
+    restrictable_values.where.not(project_id: nil).unscope(:order).group(:project_id).count
   end
 
   # SQL condition on whether the value with the id given by value_id_sql is usable in the project

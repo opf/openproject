@@ -236,8 +236,16 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
       let(:custom_field) { create(:hierarchy_wp_custom_field, :project_specific_allowlist) }
       let!(:global_item) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Global") }
 
-      it "offers no actions" do
+      it "offers no actions for global values" do
         expect(row.call(global_item).css("action-menu")).to be_empty
+      end
+
+      context "with a value the project added before" do
+        let!(:own_item) { create(:hierarchy_item, parent: global_item, label: "Own", project:) }
+
+        it "offers all actions but adding sub-values for it" do
+          expect(menu_items.call(own_item)).to eq(own_value_actions - [I18n.t(:button_add_sub_value)])
+        end
       end
     end
   end
