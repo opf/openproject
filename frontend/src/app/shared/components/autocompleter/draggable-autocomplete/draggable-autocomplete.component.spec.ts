@@ -275,6 +275,70 @@ describe('DraggableAutocompleteComponent', () => {
     });
   });
 
+  describe('with a maximum number of items', () => {
+    const d:DraggableOption = { id: 'd', name: 'Delta' };
+
+    beforeEach(() => {
+      component.options = [a, b, c, d];
+      component.maxItems = 3;
+    });
+
+    it('is unlimited by default', () => {
+      component.maxItems = null;
+      fixture.detectChanges();
+
+      component.select(c);
+      component.select(d);
+
+      expect(component.selected).toEqual([a, b, c, d]);
+      expect(component.limitReached).toBe(false);
+    });
+
+    it('accepts items until the limit is reached', () => {
+      fixture.detectChanges();
+
+      expect(component.limitReached).toBe(false);
+
+      component.select(c);
+
+      expect(component.selected).toEqual([a, b, c]);
+      expect(component.limitReached).toBe(true);
+    });
+
+    it('ignores selections beyond the limit', () => {
+      component.selected = [a, b, c];
+      fixture.detectChanges();
+
+      component.select(d);
+
+      expect(component.selected).toEqual([a, b, c]);
+    });
+
+    it('caps options received through the add event', () => {
+      fixture.detectChanges();
+
+      (fixture.nativeElement as HTMLElement).dispatchEvent(
+        new CustomEvent<DraggableOption[]>(DraggableAutocompleteComponent.ADD_EVENT, { detail: [c, d] }),
+      );
+
+      expect(component.selected).toEqual([a, b, c]);
+    });
+
+    it('makes the input read-only once the limit is reached and editable again after a removal', () => {
+      component.selected = [a, b, c];
+      fixture.detectChanges();
+
+      expect(component.ngSelectComponent.readonly()).toBe(true);
+
+      const removeButton = fixture.debugElement.query(By.css('.op-draggable-autocomplete--remove-item'));
+      (removeButton.nativeElement as HTMLButtonElement).click();
+      fixture.detectChanges();
+
+      expect(component.selected).toEqual([b, c]);
+      expect(component.ngSelectComponent.readonly()).toBe(false);
+    });
+  });
+
   describe('reordering through the sortable-lists drop output', () => {
     beforeEach(() => {
       component.selected = [a, b, c];

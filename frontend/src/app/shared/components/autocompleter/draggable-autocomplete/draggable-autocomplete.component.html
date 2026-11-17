@@ -17,6 +17,7 @@
           [clearSearchOnAdd]="true"
           [closeOnSelect]="true"
           [searchFn]="searchFunction"
+          [readonly]="limitReached"
           [appendTo]="appendTo"
           (open)="opened()"
           (change)="select($event)"
