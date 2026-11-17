@@ -156,7 +156,7 @@ module WorkPackageTypes
     end
 
     def deletion_path(variant)
-      type_variant_path(type_id: variant.type_id, id: variant.id, back_url: params[:back_url])
+      variant_path(variant_scope_project, variant, back_url: params[:back_url])
     end
 
     def chosen_target(variant)
