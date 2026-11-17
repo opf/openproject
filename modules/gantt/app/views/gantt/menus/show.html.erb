@@ -1,3 +1,8 @@
 <%= turbo_frame_tag "gantt_menu" do %>
-  <%= render OpenProject::Common::SubmenuComponent.new(sidebar_menu_items: @sidebar_menu_items, searchable: true) %>
+  <%= render OpenProject::Common::SubmenuComponent.new(
+        sidebar_menu_items: @sidebar_menu_items,
+        searchable: true,
+        query_select_controller: "query-select",
+        query_select_frame_id: "gantt_menu"
+      ) %>
 <% end %>
