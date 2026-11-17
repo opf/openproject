@@ -26,10 +26,13 @@
 //++
 
 import {
+  calendarDate,
+  calendarDaysSpanned,
   endOfDayISO,
   isoToWallClockDate,
   startOfDayISO,
   wallClockDateToISO,
+  weekStartDate,
 } from './local-datetime';
 
 describe('startOfDayISO', () => {
@@ -72,5 +75,50 @@ describe('wallClockDateToISO', () => {
 
   it('applies the winter offset', () => {
     expect(wallClockDateToISO(new Date(2026, 0, 15, 14, 30), 'Europe/Berlin')).toBe('2026-01-15T13:30:00Z');
+  });
+});
+
+describe('calendarDate', () => {
+  // Havana repeats 00:00 on 2026-11-01, so both instants fall on that date.
+  it('names the date of an instant in the time zone across a repeated midnight', () => {
+    expect(calendarDate('2026-11-01T04:59:59.999Z', 'America/Havana')).toBe('2026-11-01');
+    expect(calendarDate('2026-11-01T05:59:59.999Z', 'America/Havana')).toBe('2026-11-01');
+  });
+
+  it('names the earlier date west of UTC', () => {
+    expect(calendarDate('2026-11-02T03:00:00.000Z', 'America/New_York')).toBe('2026-11-01');
+  });
+
+  it('returns null for an invalid instant', () => {
+    expect(calendarDate('nonsense', 'UTC')).toBeNull();
+  });
+});
+
+describe('weekStartDate', () => {
+  it('steps back to the configured first day of the week', () => {
+    expect(weekStartDate('2026-03-08', 1)).toBe('2026-03-02');
+    expect(weekStartDate('2026-11-04', 0)).toBe('2026-11-01');
+    expect(weekStartDate('2026-11-01', 6)).toBe('2026-10-31');
+  });
+
+  it('treats 0 and 7 alike as Sunday', () => {
+    expect(weekStartDate('2026-11-01', 0)).toBe('2026-11-01');
+    expect(weekStartDate('2026-11-01', 7)).toBe('2026-11-01');
+  });
+
+  it('returns null for an invalid date', () => {
+    expect(weekStartDate('nonsense', 1)).toBeNull();
+  });
+});
+
+describe('calendarDaysSpanned', () => {
+  it('counts both ends', () => {
+    expect(calendarDaysSpanned('2026-03-08', '2026-04-08')).toBe(32);
+    expect(calendarDaysSpanned('2026-10-01', '2026-10-31')).toBe(31);
+    expect(calendarDaysSpanned('2026-10-01', '2026-10-01')).toBe(1);
+  });
+
+  it('returns null for an invalid date', () => {
+    expect(calendarDaysSpanned('nonsense', '2026-10-01')).toBeNull();
   });
 });
