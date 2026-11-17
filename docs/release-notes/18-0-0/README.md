@@ -426,8 +426,6 @@ What should be implemented is defined in work packages, while the implementation
 
 GitLab is now configured in the new **Repositories** section of the administration, which also supports connecting multiple GitLab instances. The GitHub integration is still configured under **Integrations**.
 
-![Code tab of a work package in OpenProject showing related GitLab merge requests and commits](openproject_release_notes_18.0_code_tab_gitlab.png)
-
 Read more: [GitLab integration system admin guide](../../system-admin-guide/integrations/gitlab-integration/), [Repositories system admin guide](../../system-admin-guide/repositories/), [GitLab integration overview](https://www.openproject.org/integrations/gitlab/)
 
 #### SquashTM integration
