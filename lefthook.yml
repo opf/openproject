@@ -63,6 +63,14 @@ pre-commit:
         else
           echo "warning: typos is not installed, skipping (https://github.com/crate-ci/typos#install)" >&2
         fi
+    betterleaks:
+      run: |
+        if command -v betterleaks > /dev/null 2>&1; then
+          betterleaks git --config .betterleaks.toml --staged --redact --no-banner
+        else
+          echo "warning: betterleaks is not installed, skipping (https://github.com/betterleaks/betterleaks/tree/v1.x#installation)" >&2
+        fi
+
 
 # Autofix counterpart of the pre-commit checks. Run explicitly:
 #
