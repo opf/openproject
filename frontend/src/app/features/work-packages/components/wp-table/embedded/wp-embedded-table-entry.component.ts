@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, Input, inject } from '@angular/core';
+import { Component, ElementRef, Input, inject } from '@angular/core';
 import { WorkPackageTableConfigurationObject } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import { QueryRequestParams } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
@@ -44,10 +44,6 @@ export const wpTableEntrySelector = 'wp-embedded-table-entry';
                          [configuration]="configuration" />
   `,
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WorkPackageEmbeddedTableEntryComponent {
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);

@@ -5,7 +5,7 @@
     [class.-compact-tables]="configuration.compactTableStyle"
     [class.-external-height]="externalHeight"
     [attr.data-indicator-name]="uniqueEmbeddedTableName">
-    @if (renderTable) {
+    @if (renderTable()) {
       <!-- Filter container (if requested) -->
       @if (configuration.withFilters) {
         <op-filter-container [showFilterButton]="configuration.showFilterButton"

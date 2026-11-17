@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ApplicationRef, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, InjectionToken, Injector, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { ApplicationRef, Component, DestroyRef, ElementRef, EventEmitter, InjectionToken, Injector, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { WpTableConfigurationService } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.service';
@@ -52,10 +52,6 @@ export const WpTableConfigurationModalPrependToken = new InjectionToken<Componen
 @Component({
   templateUrl: './wp-table-configuration.modal.html',
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WpTableConfigurationModalComponent extends OpModalComponent implements OnInit, OnDestroy {
   prependModalComponent = inject<ComponentType<unknown> | null>(WpTableConfigurationModalPrependToken, { optional: true });
@@ -69,6 +65,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
   readonly notificationService = inject(WorkPackageNotificationService);
   readonly wpTableColumns = inject(WorkPackageViewColumnsService);
   readonly ConfigurationService = inject(ConfigurationService);
+  private readonly destroyRef = inject(DestroyRef);
 
   public text = {
     title: this.I18n.t('js.work_packages.table_configuration.modal_title'),
@@ -107,14 +104,16 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
 
     this.loadingIndicator.indicator('modal').promise = this.loadForm()
       .then(() => {
+        if (this.destroyRef.destroyed) return;
+
         const initialTabName = this.locals.initialTab as string|undefined;
         const initialTab = this.availableTabs.find((el) => el.id === initialTabName);
-        this.switchTo(initialTab || this.availableTabs[0]);
-        this.cdRef.detectChanges();
+        this.switchTo(initialTab ?? this.availableTabs[0]);
       });
   }
 
   ngOnDestroy():void {
+    super.ngOnDestroy();
     this.onDataUpdated.complete();
     this.tabPortalHost.dispose();
   }
@@ -131,6 +130,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
     const definition = this.availableTabs.find((available) => available.id === tab.id);
     if (definition) {
       this.tabPortalHost.switchTo(definition);
+      this.cdRef.markForCheck();
     }
   }
 
@@ -166,10 +166,14 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
       .load(query)
       .toPromise()
       .then(([form, _]:[QueryFormResource, QueryResource]) => {
-        this.wpStatesInitialization.updateStatesFromForm(query, form);
+        if (!this.destroyRef.destroyed) {
+          this.wpStatesInitialization.updateStatesFromForm(query, form);
+        }
 
         return form;
       })
-      .catch((error) => this.notificationService.handleRawError(error));
+      .catch((error) => {
+        if (!this.destroyRef.destroyed) this.notificationService.handleRawError(error);
+      });
   }
 }

@@ -25,7 +25,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnInit, Output, ViewEncapsulation, inject } from '@angular/core';
+import {
+  ChangeDetectorRef, Component, DestroyRef, EventEmitter, HostBinding, Injector, Input, OnChanges, OnInit, Output, ViewEncapsulation, inject, viewChild,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { filter } from 'rxjs';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   compareByHref,
@@ -44,17 +48,17 @@ import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/
   templateUrl: './query-filter.component.html',
   encapsulation: ViewEncapsulation.None,
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
-export class QueryFilterComponent implements OnInit {
+export class QueryFilterComponent implements OnChanges, OnInit {
   readonly wpTableFilters = inject(WorkPackageViewFiltersService);
   readonly wpTableBaseline = inject(WorkPackageViewBaselineService);
   readonly schemaCache = inject(SchemaCacheService);
   readonly I18n = inject(I18nService);
   readonly currentProject = inject(CurrentProjectService);
+
+  private readonly cdRef = inject(ChangeDetectorRef);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly valueEditor = viewChild('valueEditor', { read: Injector });
 
   @HostBinding('class.op-query-filter') className = true;
 
@@ -67,8 +71,6 @@ export class QueryFilterComponent implements OnInit {
   @Output() public deactivateFilter = new EventEmitter<QueryFilterInstanceResource>();
 
   public availableOperators:QueryOperatorResource[];
-
-  public showValuesInput = false;
 
   public eeShowBanners = false;
 
@@ -88,7 +90,7 @@ export class QueryFilterComponent implements OnInit {
 
   public onFilterUpdated(filter:QueryFilterInstanceResource) {
     this.filter = filter;
-    this.showValuesInput = this.showValues();
+    this.markFilterForCheck();
     this.filterChanged.emit();
   }
 
@@ -104,13 +106,34 @@ export class QueryFilterComponent implements OnInit {
     return undefined;
   }
 
-  ngOnInit() {
+  public get showValuesInput():boolean {
+    return !!this.filter.currentSchema?.isValueRequired() && this.valueType !== '[1]Boolean';
+  }
+
+  ngOnChanges():void {
+    this.refreshFilterDetails();
+  }
+
+  ngOnInit():void {
+    this.wpTableFilters.live$()
+      .pipe(
+        filter((filters) => filters.includes(this.filter)),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(() => {
+        this.refreshFilterDetails();
+        this.markFilterForCheck();
+      });
+  }
+
+  private refreshFilterDetails():void {
     this.availableOperators = this.schemaCache.of(this.filter).availableOperators as QueryOperatorResource[];
-    this.showValuesInput = this.showValues();
     this.baselineIncompatibleFilter = this.wpTableBaseline.isActive() && this.wpTableBaseline.isIncompatibleFilter(this.filter.id);
   }
 
-  private showValues() {
-    return this.filter.currentSchema!.isValueRequired() && this.filter.currentSchema!.values!.type !== '[1]Boolean';
+  private markFilterForCheck():void {
+    // Editors can keep the same filter instance when the operator or values change.
+    const changeDetector = this.valueEditor()?.get(ChangeDetectorRef) ?? this.cdRef;
+    changeDetector.markForCheck();
   }
 }

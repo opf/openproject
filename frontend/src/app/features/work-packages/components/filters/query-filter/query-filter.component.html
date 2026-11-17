@@ -48,7 +48,7 @@
     }
 
     @if (valueType === '[1]Boolean') {
-      <op-filter-boolean-value (filterChanged)="onFilterUpdated($event)"
+      <op-filter-boolean-value #valueEditor (filterChanged)="onFilterUpdated($event)"
         [shouldFocus]="shouldFocus"
         [filter]="filter"
        />
@@ -59,49 +59,49 @@
     <div class="advanced-filters--filter-value">
       @switch (valueType) {
         @case ('[1]Integer') {
-          <op-filter-integer-value (filterChanged)="onFilterUpdated($event)"
+          <op-filter-integer-value #valueEditor (filterChanged)="onFilterUpdated($event)"
             [shouldFocus]="shouldFocus"
             [filter]="filter"
            />
         }
         @case ('[1]Date') {
-          <op-filter-date-value (filterChanged)="onFilterUpdated($event)"
+          <op-filter-date-value #valueEditor (filterChanged)="onFilterUpdated($event)"
             [shouldFocus]="shouldFocus"
             [filter]="filter"
            />
         }
         @case ('[2]Date') {
-          <op-filter-dates-value (filterChanged)="onFilterUpdated($event)"
+          <op-filter-dates-value #valueEditor (filterChanged)="onFilterUpdated($event)"
             [shouldFocus]="shouldFocus"
             [filter]="filter"
            />
         }
         @case ('[1]DateTime') {
-          <op-filter-date-time-value (filterChanged)="onFilterUpdated($event)"
+          <op-filter-date-time-value #valueEditor (filterChanged)="onFilterUpdated($event)"
             [shouldFocus]="shouldFocus"
             [filter]="filter"
            />
         }
         @case ('[2]DateTime') {
-          <op-filter-date-times-value [shouldFocus]="shouldFocus"
+          <op-filter-date-times-value #valueEditor [shouldFocus]="shouldFocus"
             (filterChanged)="onFilterUpdated($event)"
             [filter]="filter"
            />
         }
         @case ('[1]String') {
-          <op-filter-string-value (filterChanged)="onFilterUpdated($event)"
+          <op-filter-string-value #valueEditor (filterChanged)="onFilterUpdated($event)"
             [shouldFocus]="shouldFocus"
             [filter]="filter"
            />
         }
         @case ('[1]Float') {
-          <op-filter-string-value (filterChanged)="onFilterUpdated($event)"
+          <op-filter-string-value #valueEditor (filterChanged)="onFilterUpdated($event)"
             [shouldFocus]="shouldFocus"
             [filter]="filter"
            />
         }
         @case ('[]Project') {
-          <op-filter-project (filterChanged)="onFilterUpdated($event)"
+          <op-filter-project #valueEditor (filterChanged)="onFilterUpdated($event)"
             [shouldFocus]="shouldFocus"
             [filter]="filter"
            />
@@ -109,12 +109,12 @@
         @default {
           @if (filter.currentSchema; as schema) {
             @if (schema.loadedAllowedValues()) {
-              <op-filter-toggled-multiselect-value (filterChanged)="onFilterUpdated($event)"
+              <op-filter-toggled-multiselect-value #valueEditor (filterChanged)="onFilterUpdated($event)"
                 [shouldFocus]="shouldFocus"
                 [filter]="filter"
                />
             } @else {
-              <op-filter-searchable-multiselect-value (filterChanged)="onFilterUpdated($event)"
+              <op-filter-searchable-multiselect-value #valueEditor (filterChanged)="onFilterUpdated($event)"
                 [shouldFocus]="shouldFocus"
                 [filter]="filter"
                />

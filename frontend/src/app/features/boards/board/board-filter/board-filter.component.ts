@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
+import { AfterViewInit, Component, Input, inject } from '@angular/core';
 import { Board } from 'core-app/features/boards/board/board';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { WorkPackageStatesInitializationService } from 'core-app/features/work-packages/components/wp-list/wp-states-initialization.service';
@@ -47,10 +47,6 @@ import * as Turbo from '@hotwired/turbo';
   selector: 'board-filter',
   templateUrl: './board-filter.component.html',
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class BoardFilterComponent extends UntilDestroyedMixin implements AfterViewInit {
   private readonly currentProjectService = inject(CurrentProjectService);
@@ -74,7 +70,7 @@ export class BoardFilterComponent extends UntilDestroyedMixin implements AfterVi
     }
 
     this.board$
-      .pipe(take(1))
+      .pipe(take(1), this.untilDestroyed())
       .subscribe((board) => {
         // Initially load the form once to be able to render filters
         this.loadQueryForm();
@@ -94,9 +90,9 @@ export class BoardFilterComponent extends UntilDestroyedMixin implements AfterVi
     this.wpTableFilters
       .live$()
       .pipe(
-        this.untilDestroyed(),
         skip(1),
         debounceTime(250),
+        this.untilDestroyed(),
       )
       .subscribe(() => {
         const filters:QueryFilterInstanceResource[] = this.wpTableFilters.current;
@@ -125,6 +121,7 @@ export class BoardFilterComponent extends UntilDestroyedMixin implements AfterVi
         undefined,
         this.currentProjectService.id,
       )
+      .pipe(this.untilDestroyed())
       .subscribe(([form, query]) => {
         this.querySpace.query.putValue(query);
         this.wpStatesInitialization.updateStatesFromForm(query, form);

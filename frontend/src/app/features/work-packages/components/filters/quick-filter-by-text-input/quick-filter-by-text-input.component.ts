@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, EventEmitter, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { Subject } from 'rxjs';
@@ -42,10 +42,6 @@ import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/que
   selector: 'wp-filter-by-text-input',
   templateUrl: './quick-filter-by-text-input.html',
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WorkPackageFilterByTextInputComponent extends UntilDestroyedMixin {
   readonly I18n = inject(I18nService);
@@ -87,10 +83,10 @@ export class WorkPackageFilterByTextInputComponent extends UntilDestroyedMixin {
 
     this.searchTermChanged
       .pipe(
-        this.untilDestroyed(),
         distinctUntilChanged(),
         tap((val) => this.searchTerm.putValue(val)),
         debounceTime(500),
+        this.untilDestroyed(),
       )
       .subscribe((term) => {
         if (term.length > 0) {
