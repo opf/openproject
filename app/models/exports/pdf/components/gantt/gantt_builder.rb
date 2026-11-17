@@ -49,10 +49,11 @@ module Exports::PDF::Components::Gantt
       init_defaults
     end
 
-    def build(work_packages, id_wp_meta_map, query)
+    def build(work_packages, id_wp_meta_map, query, query_columns)
       @all_work_packages = work_packages
       @id_wp_meta_map = id_wp_meta_map
       @query = query
+      @query_columns = query_columns
       dates = collect_column_dates(work_packages)
       entries = build_gantt_entries(work_packages)
       adjust_to_pages

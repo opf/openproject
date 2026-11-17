@@ -61,6 +61,10 @@ module Exports::PDF::Components::Gantt
     write_gantt(mode, column_width, id_wp_meta_map, wps)
   end
 
+  def gantt_text_columns
+    TextColumns.new(query).resolve(without_columns? ? [] : options[:columns])
+  end
+
   private
 
   def gantt_settings_mode
@@ -91,7 +95,7 @@ module Exports::PDF::Components::Gantt
 
   def write_gantt(mode, column_width, id_wp_meta_map, work_packages)
     builder = gantt_builder(mode, column_width)
-    pages = builder.build(work_packages, id_wp_meta_map, query)
+    pages = builder.build(work_packages, id_wp_meta_map, query, column_objects)
     pages = pages.filter { |page| page.columns.pluck(:work_packages).flatten.any? } if options[:filter_empty]
     painter = GanttPainter.new(pdf)
     painter.paint(pages)

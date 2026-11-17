@@ -464,6 +464,61 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     end
   end
 
+  describe "text column selection" do
+    let(:column_names) { %w[status priority] }
+    let(:text_column_names) { export.column_objects.map { |column| column.name.to_s } }
+
+    it "uses ID, subject, start date and finish date when no columns are requested" do
+      expect(text_column_names).to eq(%w[id subject start_date due_date])
+    end
+
+    context "with requested columns" do
+      let(:options) { super().merge(columns: %w[due_date subject type status priority start_date id]) }
+
+      it "uses them in order, capped at the maximum column count" do
+        expect(text_column_names).to eq(%w[due_date subject type status priority])
+      end
+    end
+
+    context "with disallowed and unknown columns requested" do
+      let(:options) { super().merge(columns: %w[relations_of_type_follows unknown subject]) }
+
+      it "drops them" do
+        expect(text_column_names).to eq(%w[subject])
+      end
+    end
+
+    context "with an empty selection" do
+      let(:options) { super().merge(columns: [""], no_columns: "1") }
+
+      it "falls back to the subject" do
+        expect(text_column_names).to eq(%w[subject])
+      end
+    end
+
+    context "with no_columns but without a columns parameter" do
+      let(:options) { super().merge(no_columns: "1") }
+
+      it "falls back to the subject" do
+        expect(text_column_names).to eq(%w[subject])
+      end
+    end
+
+    it "passes the resolved columns to the gantt builder" do
+      builder = nil
+      allow(Exports::PDF::Components::Gantt::GanttBuilderDays).to receive(:new).and_wrap_original do |method, *args|
+        builder = method.call(*args)
+        allow(builder).to receive(:build).and_call_original
+        builder
+      end
+
+      export_pdf
+
+      expect(builder).to have_received(:build)
+        .with(anything, anything, query, export.column_objects)
+    end
+  end
+
   describe "with a request for a PDF gantt with too long date range" do
     let(:work_packages) { [work_package_task_far_future] }
 
