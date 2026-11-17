@@ -32,7 +32,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PortalModule } from '@angular/cdk/portal';
 import { CommonModule } from '@angular/common';
-import { DynamicModule } from 'ng-dynamic-component';
+import { DynamicOutputsDirective } from 'core-app/shared/components/dynamic-component/dynamic-outputs.directive';
 import { OpSpotModule } from 'core-app/spot/spot.module';
 import { CurrentUserModule } from 'core-app/core/current-user/current-user.module';
 import {
@@ -130,6 +130,7 @@ export function bootstrapModule(injector:Injector):void {
     OpActionMenuComponent,
     OpActionMenuTriggerDirective,
     DynamicIconDirective,
+    DynamicOutputsDirective,
   ],
   exports: [
     // Re-export all commonly used
@@ -172,7 +173,7 @@ export function bootstrapModule(injector:Injector):void {
     OpBreadcrumbsComponent,
     EditableToolbarTitleComponent,
 
-    DynamicModule,
+    DynamicOutputsDirective,
 
     OpOptionListComponent,
     OpProjectIncludeComponent,

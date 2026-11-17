@@ -1,6 +1,6 @@
-@if ((ndcDynamicInputs$ | async); as ndcDynamicInputs) {
-  @if (ndcDynamicInputs.workPackage && ndcDynamicInputs.tab) {
-    <ndc-dynamic [ndcDynamicComponent]="ndcDynamicInputs.tab.component"
-      [ndcDynamicInputs]="{ workPackage: ndcDynamicInputs.workPackage }" />
+@if ((tabInputs$ | async); as tabInputs) {
+  @if (tabInputs.workPackage && tabInputs.tab) {
+    <ng-container [ngComponentOutlet]="tabInputs.tab.component"
+      [ngComponentOutletInputs]="{ workPackage: tabInputs.workPackage }" />
   }
 }

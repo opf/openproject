@@ -40,7 +40,6 @@ import { AddCardDropdownMenuDirective } from 'core-app/features/boards/board/add
 import { BoardFilterComponent } from 'core-app/features/boards/board/board-filter/board-filter.component';
 import { BoardListMenuComponent } from 'core-app/features/boards/board/board-list/board-list-menu.component';
 import { VersionBoardHeaderComponent } from 'core-app/features/boards/board/board-actions/version/version-board-header.component';
-import { DynamicModule } from 'ng-dynamic-component';
 import { BoardPartitionedPageComponent } from 'core-app/features/boards/board/board-partitioned-page/board-partitioned-page.component';
 import { BoardListContainerComponent } from 'core-app/features/boards/board/board-partitioned-page/board-list-container.component';
 import { BoardEntryComponent } from 'core-app/features/boards/board/board-partitioned-page/board-entry.component';
@@ -61,8 +60,6 @@ import { OpenprojectEnterpriseModule } from 'core-app/features/enterprise/openpr
     OpenprojectEnterpriseModule,
     OpTooltipDirective,
 
-    // Dynamic Module for actions
-    DynamicModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [
