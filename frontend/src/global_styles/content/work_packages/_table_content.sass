@@ -79,6 +79,16 @@
   .inline-edit--field.ng-select
     min-width: 140px
 
+// SPIKE (DREAM-1041): with pinned column widths an editor wider than its column overlays the next cells
+.work-package-table--container table.generic-table.-columns-locked tbody td.-editing
+  &,
+  .wp-table--cell-container
+    overflow: visible
+
+  .inline-edit--field.ng-select
+    position: relative
+    z-index: 1
+
 .work-package-table--container table.generic-table tbody th[scope="row"]
   font-weight: var(--base-text-weight-normal, 400)
 
