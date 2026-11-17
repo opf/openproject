@@ -26,6 +26,12 @@
           end
         end
 
+        if prefilled_participants.any?
+          modal_body.with_row(mt: 3) do
+            render(Meetings::Index::PrefilledParticipantsComponent.new(users: prefilled_participants))
+          end
+        end
+
         unless @template
           modal_body.with_row(mt: 3) do
             render(Meeting::Location.new(f, meeting: @meeting))
