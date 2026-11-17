@@ -37,7 +37,7 @@ class OnboardingController < ApplicationController
 
     result = Users::UpdateService
              .new(model: @user, user: @user)
-             .call(permitted_params.user.to_h)
+             .call(user_settings_params)
 
     if result.success?
       flash[:notice] = I18n.t(:notice_account_updated)
@@ -53,5 +53,11 @@ class OnboardingController < ApplicationController
 
   def onboarding_video_dialog
     respond_with_dialog Onboarding::VideoDialogComponent.new
+  end
+
+  private
+
+  def user_settings_params
+    permitted_params.user.to_h.except("mail")
   end
 end

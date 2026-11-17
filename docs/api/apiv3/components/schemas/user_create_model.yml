@@ -37,6 +37,7 @@ properties:
       *Conditions:*
 
       Required when changing `password` for a self update (`PATCH /api/v3/users/me` or `PATCH /api/v3/users/{id}` where `id` is the caller).
+      Also required when a non-admin user changes their own `email` and password confirmation is enabled (the default).
 
       Ignored for non-self updates (for example, administrators updating other users).
   firstName:

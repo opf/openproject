@@ -156,7 +156,10 @@ class UsersController < ApplicationController
 
   def update # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     update_params = build_user_update_params
-    call = ::Users::UpdateService.new(model: @user, user: current_user).call(update_params)
+    call = ::Users::UpdateService
+             .new(model: @user, user: current_user)
+             .with_state(session:)
+             .call(update_params)
 
     if call.success?
       department_result = update_department
