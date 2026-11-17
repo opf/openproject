@@ -3141,10 +3141,10 @@ en:
       project_admins:
         additional_values_caption: "Added values are only available in the project they were created in. You can make them available to all projects later."
         remaining_values_count:
-          one: "1 project-specific value"
+          one: "%{count} project-specific value"
           other: "%{count} project-specific values"
         remaining_values_warning:
-          one: "1 project already has %{values}. They remain available in that project but project admins can no longer add new ones unless ‘%{setting}’ is checked."
+          one: "%{count} project already has %{values}. They remain available in that project but project admins can no longer add new ones unless ‘%{setting}’ is checked."
           other: "%{count} projects already have %{values}. They remain available in those projects but project admins can no longer add new ones unless ‘%{setting}’ is checked."
         value_management_caption: "Project admins can enable or disable certain values for their project. All global values will be visible to them."
       switch_warning:
@@ -6332,7 +6332,7 @@ en:
         column_variants: "Variants"
         no_results_title_text: There are currently no custom fields available.
         project_specific_values_count:
-          one: "1 project-specific value"
+          one: "%{count} project-specific value"
           other: "%{count} project-specific values"
         search_label: "Search custom fields"
         values_description: >
