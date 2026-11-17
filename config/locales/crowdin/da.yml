@@ -160,6 +160,11 @@ da:
         semantic_key: Semantisk betydning
         user_self_editable: Redigerbar
         visible_on_user_card: Vis på brugerkortet
+      custom_field/hierarchy/item:
+        label: Label
+        parent: Parent
+        short: Short
+        weight: Weight
       custom_field/project_specific_value_restriction:
         restriction: Begrænsning
       custom_value:
@@ -345,7 +350,6 @@ da:
       project_type:
         variant: Variant
       push_subscription:
-        created_at: Tilføjet
         endpoint: Endepunkt
         session_id: Session
       query:
@@ -731,6 +735,20 @@ da:
           referenced_in_other_fields_html:
             one: "%{name} bruges i beregningen af projektattributten %{links}."
             other: "%{name} bruges i beregningerne af projektattributter: %{links}."
+        custom_field/hierarchy/item:
+          attributes:
+            base:
+              root_item: The root of a hierarchy cannot be deleted.
+            label:
+              not_unique: must be unique within the same hierarchy level.
+            parent:
+              other_hierarchy: must belong to the same hierarchy.
+              other_project: must be a global value or belong to the same project.
+              own_descendant: cannot be the value itself or one of its descendants.
+            project_id:
+              additional_values_not_allowed: cannot add values to this custom field.
+            short:
+              not_unique: must be unique within the same hierarchy level.
         custom_fields_project:
           attributes:
             project_ids:
@@ -874,7 +892,7 @@ da:
         push_subscription:
           attributes:
             base:
-              too_many_push_subscriptions: Kun %{count} enheder kan få browsernotifikationer på samme tid.
+              too_many_push_subscriptions: Only %{count} devices can receive browser notifications at the same time.
         queries/filters/base:
           attributes:
             values:
@@ -3279,6 +3297,7 @@ da:
       work_package_query_relation_columns: Relationskolonner i visninger af arbejdspakker
       work_package_sharing: Del arbejdspakker med eksterne brugere
       work_package_subject_generation: Automatisk dannede emner for arbejdspakker
+      xwiki_integration: XWiki-integration
     teaser:
       description_html: Du har adgang til alle funktioner i %{trial_plan}.
       title:
@@ -5340,9 +5359,36 @@ da:
         title: Projektspecifikke notifikationer
     notifications_and_email:
       tabs:
+        browser_push: Browser notifications
         email_reminders: Påmindelser via e-mail
         notifications: Notifikationsindstillinger
       title: Notifikationer og e-mail
+    push_notifications:
+      description: Get notified with native push notifications via this browser when you have unread notifications, even when OpenProject is not open. Your notification content stays in OpenProject and is not shared with the notification provider.
+      disable: Disable for this browser
+      enable: Enable for this browser
+      no_devices: No device receives browser notifications yet.
+      no_devices_description: Enable browser notifications on a device and it appears here.
+      revoke: Revoke
+      revoke_confirm: Stop sending browser notifications to %{device}?
+      revoke_device: Revoke %{device}
+      revoked: Browser notifications were disabled for that device.
+      signed_out: Signed out
+      signed_out_description: A device that is signed out keeps browser notifications suspended and resumes them when you sign in there again. Revoke the device to stop them for good.
+      status:
+        blocked: Notifications are blocked for this site in your browser settings.
+        disabled: Browser notifications are not enabled for this browser in the current session.
+        enabled: Browser notifications are enabled for this browser in the current session.
+        error: Browser notifications could not be changed. Please try again.
+        prompting: Waiting for you to allow notifications in the browser prompt…
+        subscribing: Registering this browser with its push service…
+        timeout: Your browser did not finish registering for push in time. Check your network connection and try again.
+        unsupported: Browser notifications are not available in this browser.
+      this_session: This session
+      title: Browser notifications
+      try_again: Try again
+      try_again_label: Try again to change browser notifications for this browser
+      unavailable: Browser notifications are temporarily unavailable on this instance.
   news:
     index:
       no_results_content_text: Tilføj en nyhed
@@ -5606,7 +5652,6 @@ da:
       eql?: skal være lig med %{left}.
       filled?: skal udfyldes.
       format?: har et ugyldigt format.
-      greater_or_equal_zero: skal være større end eller lig med 0.
       gt?: skal være større end %{num}.
       gteq?: skal være større end eller lig med %{num}.
       hash?: skal være en hash.
@@ -5619,21 +5664,6 @@ da:
       max_size?: må højst være på %{num} tegn.
       not_found: blev ikke fundet.
       respond_to?: implementerer ikke den påkrævede metode.
-      rules:
-        custom_field:
-          format_not_supported: formatet '%{field_format}' understøttes ikke.
-        item:
-          not_persisted: skal være en eksisterende værdi.
-          root_item: kan ikke være en rodværdi.
-        label:
-          not_unique: skal være entydig på samme niveau i hierarkiet.
-        parent:
-          not_descendant: skal ligge under hierarkiets rod.
-          other_project: skal være en global værdi eller høre til samme projekt.
-        project:
-          additional_values_not_allowed: kan ikke tilføje værdier til dette brugerdefinerede felt.
-        short:
-          not_unique: skal være entydig på samme niveau i hierarkiet.
       str?: skal være en streng.
       time?: skal være et klokkeslæt.
       type?: skal være %{type}.
@@ -6211,6 +6241,25 @@ da:
       status_restored: Forbindelsen er genoprettet. Genindlæser …
       status_still: Stadig offline. Vi prøver igen om lidt.
       title: Offline
+    push:
+      all_read_title: No unread notifications
+      fallback_title: New activity in OpenProject
+      group_title:
+        one: "%{count} update"
+        other: "%{count} updates"
+      more_title:
+        one: "%{count} more work package"
+        other: "%{count} more work packages"
+      reasons:
+        assigned: "%{actor} assigned you"
+        commented: "%{actor} commented"
+        date_alert_due_date: Due date alert
+        date_alert_start_date: Start date alert
+        mentioned: "%{actor} mentioned you"
+        reminder: Reminder
+        responsible: "%{actor} made you accountable"
+        shared: "%{actor} shared a work package with you"
+        updated: "%{actor} updated"
   queries:
     apply_filter: Tildel filter som specificeret på forhånd
     configure_view:
@@ -7431,6 +7480,7 @@ da:
         rename_group: Omdøb afsnit
         required:
           already_required_globally: Det brugerdefinerede felt er påkrævet for alle typer.
+          excluded: Slå det brugerdefinerede felt til, før du gør det obligatorisk for denne type.
           for_variant: Påkrævet for denne type
           globally: Påkrævet
           globally_hint: Det ændres på det brugerdefinerede felt
@@ -7508,6 +7558,7 @@ da:
           success: Konfigurationen er kopieret.
         exclusions:
           not_inherited: Konfigurationen er ikke nedarvet, så der er intet at udelade. Rediger i stedet konfigurationen direkte.
+          required: Et obligatorisk brugerdefineret felt kan ikke slås fra.
           unknown_aspect: Ukendt konfigurationsafsnit "%{aspect}".
         inherited:
           configure_manually: Konfigurer manuelt
@@ -7758,6 +7809,7 @@ da:
     sessions:
       browser: Browser
       browser_session: "(Browsersession)"
+      browser_with_version: "%{name} (Version %{version})"
       current: Aktuel (denne enhed)
       deletion_warning: Er du sikker på, at du vil tilbagekalde sessionen? Du bliver logget ud på denne enhed.
       device: Enhed/styresystem

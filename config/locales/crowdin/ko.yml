@@ -160,6 +160,11 @@ ko:
         semantic_key: 시맨틱 의미
         user_self_editable: 편집 가능
         visible_on_user_card: 사용자 카드에 표시
+      custom_field/hierarchy/item:
+        label: Label
+        parent: Parent
+        short: Short
+        weight: Weight
       custom_field/project_specific_value_restriction:
         restriction: Restriction
       custom_value:
@@ -345,7 +350,6 @@ ko:
       project_type:
         variant: 변형
       push_subscription:
-        created_at: 추가됨
         endpoint: Endpoint
         session_id: 세션
       query:
@@ -730,6 +734,20 @@ ko:
           previous_custom_field_recalculation_unprocessed: 이 사용자 지정 필드에 대한 이전 변경 사항의 다시 계산이 아직 적용되지 않았습니다. 몇 분 후에 다시 시도하세요.
           referenced_in_other_fields_html:
             other: "%{name}은(는) 프로젝트 특성 계산에 사용됩니다: %{links}."
+        custom_field/hierarchy/item:
+          attributes:
+            base:
+              root_item: The root of a hierarchy cannot be deleted.
+            label:
+              not_unique: must be unique within the same hierarchy level.
+            parent:
+              other_hierarchy: must belong to the same hierarchy.
+              other_project: must be a global value or belong to the same project.
+              own_descendant: cannot be the value itself or one of its descendants.
+            project_id:
+              additional_values_not_allowed: cannot add values to this custom field.
+            short:
+              not_unique: must be unique within the same hierarchy level.
         custom_fields_project:
           attributes:
             project_ids:
@@ -873,7 +891,7 @@ ko:
         push_subscription:
           attributes:
             base:
-              too_many_push_subscriptions: Only %{count} devices can receive browser push notifications at the same time.
+              too_many_push_subscriptions: Only %{count} devices can receive browser notifications at the same time.
         queries/filters/base:
           attributes:
             values:
@@ -3150,6 +3168,7 @@ ko:
       work_package_query_relation_columns: 작업 패키지 쿼리 관계 열
       work_package_sharing: 외부 사용자와 작업 패키지 공유
       work_package_subject_generation: 작업 패키지 제목 생성
+      xwiki_integration: XWiki Integration
     teaser:
       description_html: 모든 %{trial_plan} 기능에 액세스할 수 있습니다.
       title:
@@ -5183,9 +5202,36 @@ ko:
         title: 프로젝트별 알림
     notifications_and_email:
       tabs:
+        browser_push: Browser notifications
         email_reminders: 이메일 미리 알림
         notifications: 알림 설정
       title: 알림 및 이메일
+    push_notifications:
+      description: Get notified with native push notifications via this browser when you have unread notifications, even when OpenProject is not open. Your notification content stays in OpenProject and is not shared with the notification provider.
+      disable: Disable for this browser
+      enable: Enable for this browser
+      no_devices: No device receives browser notifications yet.
+      no_devices_description: Enable browser notifications on a device and it appears here.
+      revoke: Revoke
+      revoke_confirm: Stop sending browser notifications to %{device}?
+      revoke_device: Revoke %{device}
+      revoked: Browser notifications were disabled for that device.
+      signed_out: Signed out
+      signed_out_description: A device that is signed out keeps browser notifications suspended and resumes them when you sign in there again. Revoke the device to stop them for good.
+      status:
+        blocked: Notifications are blocked for this site in your browser settings.
+        disabled: Browser notifications are not enabled for this browser in the current session.
+        enabled: Browser notifications are enabled for this browser in the current session.
+        error: Browser notifications could not be changed. Please try again.
+        prompting: Waiting for you to allow notifications in the browser prompt…
+        subscribing: Registering this browser with its push service…
+        timeout: Your browser did not finish registering for push in time. Check your network connection and try again.
+        unsupported: Browser notifications are not available in this browser.
+      this_session: This session
+      title: Browser notifications
+      try_again: Try again
+      try_again_label: Try again to change browser notifications for this browser
+      unavailable: Browser notifications are temporarily unavailable on this instance.
   news:
     index:
       no_results_content_text: 소식 항목 추가
@@ -5451,7 +5497,6 @@ ko:
       eql?: "- %{left}과(와) 같아야 합니다."
       filled?: "- 입력해야 합니다."
       format?: "- 형식이 잘못되었습니다."
-      greater_or_equal_zero: "- 0보다 크거나 같아야 합니다."
       gt?: must be greater than %{num}.
       gteq?: "- %{num}보다 크거나 같아야 합니다."
       hash?: "- 해시여야 합니다."
@@ -5464,21 +5509,6 @@ ko:
       max_size?: must not be longer than %{num} characters.
       not_found: "- 찾을 수 없습니다."
       respond_to?: "- 필수 메서드를 구현하지 않습니다."
-      rules:
-        custom_field:
-          format_not_supported: 형식 '%{field_format}'은(는) 지원되지 않습니다.
-        item:
-          not_persisted: must be an already existing value.
-          root_item: cannot be a root value.
-        label:
-          not_unique: "- 동일한 계층 수준 내에서 고유해야 합니다."
-        parent:
-          not_descendant: "- 계층 루트의 하위 항목이어야 합니다."
-          other_project: must be a global value or belong to the same project.
-        project:
-          additional_values_not_allowed: cannot add values to this custom field.
-        short:
-          not_unique: "- 동일한 계층 수준 내에서 고유해야 합니다."
       str?: "- 문자열이어야 합니다."
       time?: "- 시간이어야 합니다."
       type?: "- %{type}이어야(여야) 합니다."
@@ -6049,6 +6079,23 @@ ko:
       status_restored: Connection restored. Reloading…
       status_still: Still offline. We’ll try again in a moment.
       title: Offline
+    push:
+      all_read_title: No unread notifications
+      fallback_title: New activity in OpenProject
+      group_title:
+        other: "%{count} updates"
+      more_title:
+        other: "%{count} more work packages"
+      reasons:
+        assigned: "%{actor} assigned you"
+        commented: "%{actor} commented"
+        date_alert_due_date: Due date alert
+        date_alert_start_date: Start date alert
+        mentioned: "%{actor} mentioned you"
+        reminder: Reminder
+        responsible: "%{actor} made you accountable"
+        shared: "%{actor} shared a work package with you"
+        updated: "%{actor} updated"
   queries:
     apply_filter: 미리 구성된 필터 적용
     configure_view:
@@ -7259,6 +7306,7 @@ ko:
         rename_group: 섹션 이름 바꾸기
         required:
           already_required_globally: 이 사용자 지정 필드는 모든 유형에서 필수입니다.
+          excluded: Switch this custom field on before requiring it for this type.
           for_variant: Required for this type
           globally: 필수
           globally_hint: 사용자 지정 필드에서 이 항목을 변경하세요
@@ -7336,6 +7384,7 @@ ko:
           success: 구성이 복사되었습니다.
         exclusions:
           not_inherited: 이 구성은 상속되지 않으므로, 제외할 항목이 없습니다. 대신 구성을 직접 편집하세요.
+          required: A required custom field cannot be switched off.
           unknown_aspect: 알 수 없는 구성 섹션 "%{aspect}"입니다.
         inherited:
           configure_manually: 수동으로 구성
@@ -7582,6 +7631,7 @@ ko:
     sessions:
       browser: 브라우저
       browser_session: "(브라우저 세션)"
+      browser_with_version: "%{name} (Version %{version})"
       current: 현재(이 장치)
       deletion_warning: 이 세션을 취소하시겠습니까? 이 장치에서 로그아웃됩니다.
       device: 장치/OS

@@ -160,6 +160,11 @@ fr:
         semantic_key: Signification sémantique
         user_self_editable: Modifiable
         visible_on_user_card: Afficher sur la fiche utilisateur
+      custom_field/hierarchy/item:
+        label: Label
+        parent: Parent
+        short: Short
+        weight: Weight
       custom_field/project_specific_value_restriction:
         restriction: Restriction
       custom_value:
@@ -345,7 +350,6 @@ fr:
       project_type:
         variant: Variante
       push_subscription:
-        created_at: Ajoutés
         endpoint: Endpoint
         session_id: Session
       query:
@@ -731,6 +735,20 @@ fr:
           referenced_in_other_fields_html:
             one: "%{name} est utilisé dans le calcul des attributs du projet %{links}."
             other: "%{name} est utilisé dans les calculs des attributs du projet : %{links}."
+        custom_field/hierarchy/item:
+          attributes:
+            base:
+              root_item: The root of a hierarchy cannot be deleted.
+            label:
+              not_unique: must be unique within the same hierarchy level.
+            parent:
+              other_hierarchy: must belong to the same hierarchy.
+              other_project: must be a global value or belong to the same project.
+              own_descendant: cannot be the value itself or one of its descendants.
+            project_id:
+              additional_values_not_allowed: cannot add values to this custom field.
+            short:
+              not_unique: must be unique within the same hierarchy level.
         custom_fields_project:
           attributes:
             project_ids:
@@ -874,7 +892,7 @@ fr:
         push_subscription:
           attributes:
             base:
-              too_many_push_subscriptions: Seuls %{count} appareils peuvent recevoir simultanément des notifications push via le navigateur.
+              too_many_push_subscriptions: Only %{count} devices can receive browser notifications at the same time.
         queries/filters/base:
           attributes:
             values:
@@ -3277,6 +3295,7 @@ fr:
       work_package_query_relation_columns: Colonnes de relations dans les requêtes de lots de travaux
       work_package_sharing: Partager les lots de travaux avec des utilisateurs externes
       work_package_subject_generation: Génération de l'objet du lot de travaux
+      xwiki_integration: XWiki Integration
     teaser:
       description_html: Vous avez accès à toutes les fonctionnalités de %{trial_plan}.
       title:
@@ -5339,9 +5358,36 @@ fr:
         title: Notifications spécifiques au projet
     notifications_and_email:
       tabs:
+        browser_push: Browser notifications
         email_reminders: Rappels par e-mail
         notifications: Paramètres de notifications
       title: Notification et e-mail
+    push_notifications:
+      description: Get notified with native push notifications via this browser when you have unread notifications, even when OpenProject is not open. Your notification content stays in OpenProject and is not shared with the notification provider.
+      disable: Disable for this browser
+      enable: Enable for this browser
+      no_devices: No device receives browser notifications yet.
+      no_devices_description: Enable browser notifications on a device and it appears here.
+      revoke: Revoke
+      revoke_confirm: Stop sending browser notifications to %{device}?
+      revoke_device: Revoke %{device}
+      revoked: Browser notifications were disabled for that device.
+      signed_out: Signed out
+      signed_out_description: A device that is signed out keeps browser notifications suspended and resumes them when you sign in there again. Revoke the device to stop them for good.
+      status:
+        blocked: Notifications are blocked for this site in your browser settings.
+        disabled: Browser notifications are not enabled for this browser in the current session.
+        enabled: Browser notifications are enabled for this browser in the current session.
+        error: Browser notifications could not be changed. Please try again.
+        prompting: Waiting for you to allow notifications in the browser prompt…
+        subscribing: Registering this browser with its push service…
+        timeout: Your browser did not finish registering for push in time. Check your network connection and try again.
+        unsupported: Browser notifications are not available in this browser.
+      this_session: This session
+      title: Browser notifications
+      try_again: Try again
+      try_again_label: Try again to change browser notifications for this browser
+      unavailable: Browser notifications are temporarily unavailable on this instance.
   news:
     index:
       no_results_content_text: Ajouter une actualité
@@ -5607,7 +5653,6 @@ fr:
       eql?: doit être égal à %{left}.
       filled?: doit être rempli.
       format?: n'est pas dans un format valide.
-      greater_or_equal_zero: doit être supérieur ou égal à 0.
       gt?: must be greater than %{num}.
       gteq?: doit être supérieur ou égal à %{num}.
       hash?: doit être un hachage.
@@ -5620,21 +5665,6 @@ fr:
       max_size?: must not be longer than %{num} characters.
       not_found: est introuvable.
       respond_to?: ne met pas en œuvre la méthode requise.
-      rules:
-        custom_field:
-          format_not_supported: Le format « %{field_format} » n'est pas pris en charge.
-        item:
-          not_persisted: must be an already existing value.
-          root_item: cannot be a root value.
-        label:
-          not_unique: doit être unique au sein d'un même niveau hiérarchique.
-        parent:
-          not_descendant: doit être un descendant de la racine de la hiérarchie.
-          other_project: must be a global value or belong to the same project.
-        project:
-          additional_values_not_allowed: cannot add values to this custom field.
-        short:
-          not_unique: doit être unique au sein d'un même niveau hiérarchique.
       str?: doit être une chaîne de caractères.
       time?: doit être une heure.
       type?: 'doit être de type : %{type}.'
@@ -6212,6 +6242,25 @@ fr:
       status_restored: Connection restored. Reloading…
       status_still: Still offline. We’ll try again in a moment.
       title: Offline
+    push:
+      all_read_title: No unread notifications
+      fallback_title: New activity in OpenProject
+      group_title:
+        one: "%{count} update"
+        other: "%{count} updates"
+      more_title:
+        one: "%{count} more work package"
+        other: "%{count} more work packages"
+      reasons:
+        assigned: "%{actor} assigned you"
+        commented: "%{actor} commented"
+        date_alert_due_date: Due date alert
+        date_alert_start_date: Start date alert
+        mentioned: "%{actor} mentioned you"
+        reminder: Reminder
+        responsible: "%{actor} made you accountable"
+        shared: "%{actor} shared a work package with you"
+        updated: "%{actor} updated"
   queries:
     apply_filter: Appliquer le filtre préconfiguré
     configure_view:
@@ -7433,6 +7482,7 @@ fr:
         rename_group: Renommer la section
         required:
           already_required_globally: Ce champ personnalisé est obligatoire pour tous les types.
+          excluded: Switch this custom field on before requiring it for this type.
           for_variant: Required for this type
           globally: Obligatoire
           globally_hint: Modifiez ce paramètre dans le champ personnalisé
@@ -7510,6 +7560,7 @@ fr:
           success: La configuration a été copiée.
         exclusions:
           not_inherited: Vu que cette configuration n'est pas héritée, il n'y a rien à exclure. Modifiez-la directement.
+          required: A required custom field cannot be switched off.
           unknown_aspect: Section de configuration inconnue « %{aspect} ».
         inherited:
           configure_manually: Configurer manuellement
@@ -7760,6 +7811,7 @@ fr:
     sessions:
       browser: Navigateur
       browser_session: "(Session du navigateur)"
+      browser_with_version: "%{name} (Version %{version})"
       current: Actuel (cet appareil)
       deletion_warning: Voulez-vous vraiment révoquer cette session ? Vous serez déconnecté(e) sur cet appareil.
       device: Dispositif/système d'exploitation
