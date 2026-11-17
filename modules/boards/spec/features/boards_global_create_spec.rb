@@ -93,7 +93,6 @@ RSpec.describe "Boards",
       let(:control_project) do
         create(:project,
                name: "Unrelated Control Project",
-               identifier: "unrelated-control-project",
                enabled_module_names: %i[work_package_tracking board_view])
       end
 

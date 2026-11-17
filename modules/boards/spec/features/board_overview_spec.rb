@@ -30,11 +30,9 @@ require_relative "support/board_overview_page"
 
 RSpec.describe "Work Package Boards Overview",
                :js do
-  # The identifier is important to test https://community.openproject.com/wp/29754
   shared_let(:project) do
     create(:project,
            name: "Project 2",
-           identifier: "boards",
            enabled_module_names: %i[work_package_tracking board_view])
   end
   shared_let(:other_project) do

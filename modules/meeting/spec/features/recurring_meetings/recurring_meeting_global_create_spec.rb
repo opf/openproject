@@ -89,7 +89,6 @@ RSpec.describe "Recurring meetings global creation",
       let(:control_project) do
         create(:project,
                name: "Unrelated Control Project",
-               identifier: "unrelated-control-project",
                enabled_module_names: %w[meetings],
                member_with_permissions: { user => %i[view_meetings create_meetings] })
       end

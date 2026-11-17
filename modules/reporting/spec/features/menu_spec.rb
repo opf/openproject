@@ -29,7 +29,7 @@ require "spec_helper"
 
 RSpec.describe "project menu" do
   let(:current_user) { create(:admin) }
-  let!(:project) { create(:valid_project, identifier: "ponyo", name: "Ponyo") }
+  let!(:project) { create(:valid_project, name: "Ponyo") }
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -68,18 +68,18 @@ RSpec.describe "project menu" do
         it "leads to cost reports" do
           find("#main-menu .costs-menu-item", text: "Time and costs").click
 
-          expect(page).to have_current_path("/projects/ponyo/reporting/cost_reports")
+          expect(page).to have_current_path("/projects/#{project.identifier}/reporting/cost_reports")
         end
       end
 
       context "when on the project's activity page" do
-        let(:current_path) { "/projects/ponyo/activity" }
+        let(:current_path) { "/projects/#{project.identifier}/activity" }
 
         it_behaves_like "it leads to the project costs reports"
       end
 
       context "when on the project's calendars" do
-        let(:current_path) { "/projects/ponyo/calendars" }
+        let(:current_path) { "/projects/#{project.identifier}/calendars" }
 
         it_behaves_like "it leads to the project costs reports"
       end

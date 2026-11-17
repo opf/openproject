@@ -174,7 +174,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
               modified_author: current_user.mail,
               modified_date: work_package.updated_at.iso8601(3),
               reference_links: [
-                api_v3_paths.work_package(work_package.id)
+                api_v3_paths.work_package(work_package.display_id)
               ],
               stage: bcf_issue.stage,
               title: work_package.subject,
@@ -219,7 +219,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
           modified_author: current_user.mail,
           modified_date: work_package.updated_at.iso8601(3),
           reference_links: [
-            api_v3_paths.work_package(work_package.id)
+            api_v3_paths.work_package(work_package.display_id)
           ],
           stage: bcf_issue.stage,
           title: work_package.subject,
@@ -271,7 +271,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
             modified_author: current_user.mail,
             modified_date: work_package.updated_at.iso8601(3),
             reference_links: [
-              api_v3_paths.work_package(work_package.id)
+              api_v3_paths.work_package(work_package.display_id)
             ],
             stage: bcf_issue.stage,
             title: work_package.subject,
@@ -556,7 +556,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
           labels:,
           index:,
           reference_links: [
-            api_v3_paths.work_package(work_package&.id)
+            api_v3_paths.work_package(work_package&.display_id)
           ],
           assigned_to: view_only_user.mail,
           due_date: Date.today.iso8601,
@@ -818,7 +818,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
           labels: [],
           index:,
           reference_links: [
-            api_v3_paths.work_package(work_package&.id)
+            api_v3_paths.work_package(work_package&.display_id)
           ],
           assigned_to: view_only_user.mail,
           due_date: Date.today.iso8601,
@@ -857,7 +857,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
             labels: [],
             index: nil,
             reference_links: [
-              api_v3_paths.work_package(work_package&.id)
+              api_v3_paths.work_package(work_package&.display_id)
             ],
             assigned_to: nil,
             due_date: nil,

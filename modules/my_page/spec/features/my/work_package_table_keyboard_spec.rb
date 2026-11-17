@@ -80,7 +80,7 @@ RSpec.describe "Work package table widgets keyboard navigation on my page", :js 
   end
 
   it_behaves_like "an embedded keyboard table", editable: true do
-    let(:first_row_controls) { [rows.first.id.to_s] }
+    let(:first_row_controls) { [rows.first.display_id.to_s] }
     let(:next_control) { { role: :button, name: "Create new work package" } }
     let(:axe_states) { [-> { wp_table.press_keys(%i[shift space]) }] }
   end
@@ -90,7 +90,7 @@ RSpec.describe "Work package table widgets keyboard navigation on my page", :js 
     wp_table.expect_focus_on_row(rows.first)
 
     wp_table.press_keys(:tab)
-    wp_table.expect_focus_on_control(rows.first, rows.first.id.to_s)
+    wp_table.expect_focus_on_control(rows.first, rows.first.display_id.to_s)
 
     wp_table.press_keys(:tab)
     expect(page).to have_button("Create new work package", focused: true)

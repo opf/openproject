@@ -130,7 +130,7 @@ RSpec.describe "Arbitrary WorkPackage query table widget on my page",
 
       retry_block do
         expect(filter_area.area)
-          .to have_css(".id", text: type_work_package.id)
+          .to have_css(".id", text: type_work_package.display_id)
 
         # as the Subject column is disabled
         expect(filter_area.area)
@@ -138,7 +138,7 @@ RSpec.describe "Arbitrary WorkPackage query table widget on my page",
 
         # As other_type is filtered out
         expect(filter_area.area)
-          .to have_no_css(".id", text: other_type_work_package.id)
+          .to have_no_css(".id", text: other_type_work_package.display_id)
       end
 
       # Wait for the column save PATCH to complete after the DOM has confirmed the
@@ -182,14 +182,14 @@ RSpec.describe "Arbitrary WorkPackage query table widget on my page",
         wait_for_network_idle
 
         expect(filter_area.area)
-          .to have_css(".id", text: type_work_package.id)
+          .to have_css(".id", text: type_work_package.display_id)
 
         # As other_type is filtered out — check this before the subject column check
         # so that Capybara waits here until the saved type filter is actually applied.
         # Without this ordering, have_no_css(".subject") can run while the widget is
         # still in its initial unfiltered state and fail.
         expect(filter_area.area)
-          .to have_no_css(".id", text: other_type_work_package.id)
+          .to have_no_css(".id", text: other_type_work_package.display_id)
 
         # as the Subject column is disabled
         expect(filter_area.area)
