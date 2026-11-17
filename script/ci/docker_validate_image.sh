@@ -212,7 +212,7 @@ check_missing() {
   exit 1
 }
 
-for tool in node npm IfcConvert COLLADA2GLTF xeokit-metadata; do
+for tool in node npm IfcConvert COLLADA2GLTF web-ifc-xeokit-metadata; do
   check_present "$tool"
 done
 

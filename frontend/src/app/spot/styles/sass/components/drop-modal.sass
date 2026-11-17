@@ -2,7 +2,7 @@
   display: flex
 
   &--body
-    $border-radius: 5px
+    $border-radius: var(--borderRadius-medium)
 
     position: absolute
     @include spot-z-index("drop-modal", 1)
@@ -66,7 +66,7 @@
     bottom: 0
     left: 0
     right: 0
-    background: rgba($spot-color-basic-black, 0.5)
+    background: var(--overlay-backdrop-bgColor)
 
     @media #{$spot-mq-drop-modal-in-context}
       display: none
@@ -94,7 +94,8 @@
     margin-top: $spot-spacing-0_75
     left: 50%
     transform: translateX(-50%)
-    background-color: $spot-color-basic-white
+    background-color: var(--button-default-bgColor-rest)
+    color: var(--button-default-fgColor-rest)
 
     @media #{$spot-mq-landscape}
       left: unset

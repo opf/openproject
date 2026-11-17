@@ -45,6 +45,7 @@ import { QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC, QuerySortByResource } from 'core
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { PrimerButtonComponent } from 'core-app/shared/components/primer/button.component';
 import { WorkPackageInlineCreateComponent } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.component';
 import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
 import { WorkPackageCreateService } from 'core-app/features/work-packages/components/wp-new/wp-create.service';
@@ -423,7 +424,7 @@ function configureTableModule():void {
   vi.spyOn(OpenprojectWorkPackagesModule, 'bootstrapAttributeGroups').mockImplementation(() => undefined);
   TestBed.overrideModule(OpenprojectWorkPackagesModule, {
     set: {
-      imports: [CommonModule, NoResultsComponent],
+      imports: [CommonModule, NoResultsComponent, PrimerButtonComponent],
       declarations: [WorkPackagesTableComponent, WorkPackageInlineCreateComponent, WorkPackageTableSumsRowController, SortHeaderDirective],
       exports: [WorkPackagesTableComponent],
       providers: [
@@ -1000,6 +1001,20 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expect(within(row).getAllByRole('button')).toHaveLength(2);
     });
 
+    it('renders the Create and reference buttons as Primer link buttons with octicons', async () => {
+      canReference.next(true);
+      await mount(inlineCreate);
+      const buttons = [
+        within(createSection()).getByRole('button', { name: 'Create new work package' }),
+        within(createSection()).getByRole('button', { name: 'Reference an existing work package' }),
+      ];
+
+      buttons.forEach((button) => {
+        expect(button).toHaveClass('Button', 'Button--link');
+        expect(button.querySelector('.Button-leadingVisual svg.octicon')).toBeInTheDocument();
+      });
+    });
+
     it('opens and closes the create row through table mutations', async () => {
       const component = await mount(inlineCreate);
       const scopes:PaintScope[] = [];
@@ -1191,12 +1206,23 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expectStructuralRow(row);
     });
 
-    it('keeps the Cancel link in a gridcell when no trailing column renders', async () => {
+    it('keeps the Cancel button in a gridcell when no trailing column renders', async () => {
       await mount({ inlineCreateEnabled: true });
       const row = await openCreateRow();
 
-      expect(within(row).getByRole('link', { name: 'Cancel' }).closest('td')).toHaveAttribute('role', 'gridcell');
+      expect(within(row).getByRole('button', { name: 'Cancel' }).closest('td')).toHaveAttribute('role', 'gridcell');
       expectStructuralRow(row);
+    });
+
+    it('restores the button row when the Cancel button is clicked', async () => {
+      await mount(inlineCreate);
+      const row = await openCreateRow();
+
+      fireEvent.click(within(row).getByRole('button', { name: 'Cancel' }));
+
+      expect(createRow()).not.toBeInTheDocument();
+      await waitFor(() => expectExposed());
+      expectStructuralRow(within(createSection()).getByRole('row'));
     });
 
     it('restores the button row after cancelling, hiding the section in between', async () => {

@@ -57,6 +57,15 @@ export function listAttributes(schema:WorkPackageSchema):WorkPackageAttribute[] 
   return attributes;
 }
 
+export function sortByLabel(attributes:WorkPackageAttribute[], locale:string):WorkPackageAttribute[] {
+  const collator = new Intl.Collator(locale, { sensitivity: 'base', numeric: true });
+  const startsWithSymbol = (label:string) => !/^[\p{L}\p{N}]/u.test(label);
+  return [...attributes].sort((first, second) => (
+    Number(startsWithSymbol(first.label)) - Number(startsWithSymbol(second.label))
+    || collator.compare(first.label, second.label)
+  ));
+}
+
 // As in the attribute macros, so a reference survives the deprecation of
 // `version` and a change of the type to a milestone.
 const KEY_ALIASES:Record<string, string> = {
