@@ -54,6 +54,18 @@ RSpec.describe "Project settings for the values of a work package custom field",
 
   before { login_as user }
 
+  it "shows the values of the custom field in the project" do
+    get values_path
+
+    expect(response).to have_http_status(:ok)
+    expect(page).to have_link(I18n.t(:label_custom_field_plural),
+                              href: project_settings_work_packages_custom_fields_path(project.id))
+    expect(page).to have_text(
+      I18n.t("projects.settings.custom_fields.values_description", custom_field: custom_field.name, project: project.name)
+    )
+    expect(page).to have_test_selector("custom-field-project-value-#{global_option.id}")
+  end
+
   it "adds a value to the project" do
     post values_path, params: { label: "Own" }
 

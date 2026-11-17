@@ -67,6 +67,8 @@ module Projects
             variant_settings_path(variant.project_owned? ? project : nil, variant)
           end
 
+          def values_path(field) = project_settings_work_packages_custom_field_values_path(project, field)
+
           def linked?(variant) = variant.configurable_by?(User.current)
 
           def mobile_title = t(:label_custom_field_plural)

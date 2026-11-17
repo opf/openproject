@@ -46,7 +46,7 @@ See COPYRIGHT and LICENSE files for more details.
           render(Primer::Beta::Text.new(font_weight: :bold)) { custom_field.name }
         end
 
-        if restricted? && manageable? && rows.any?
+        if values_toggleable? && manageable? && rows.any?
           header.with_column do
             safe_join(
               [
@@ -110,7 +110,7 @@ See COPYRIGHT and LICENSE files for more details.
 
           line.with_column do
             flex_layout(align_items: :center) do |actions|
-              if restricted? && !row.project_specific?
+              if values_toggleable? && !row.project_specific?
                 actions.with_column do
                   render(
                     Primer::Alpha::ToggleSwitch.new(
@@ -155,7 +155,7 @@ See COPYRIGHT and LICENSE files for more details.
                         content_arguments: { data: { controller: "async-dialog" } }
                       )
                     end
-                    if own_value_changeable?(row)
+                    if make_global?(row)
                       menu.with_item(
                         label: t("custom_fields.admin.projects.make_available_to_all_projects"),
                         tag: :a,

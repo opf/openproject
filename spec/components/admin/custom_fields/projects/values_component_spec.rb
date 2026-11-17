@@ -148,6 +148,48 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
     end
   end
 
+  context "for a user managing the values in the project", with_ee: %i[project_specific_list_values] do
+    let(:permissions) { %i[manage_work_package_custom_field_values] }
+    let(:project_level_value_management) { true }
+    let(:custom_field) do
+      create(:list_wp_custom_field, :project_specific_allowlist,
+             possible_values: %w[A], project_level_value_management:, allow_additional_project_values: true)
+    end
+    let(:option) { custom_field.custom_options.find_by!(value: "A") }
+    let!(:own_option) { create(:custom_option, custom_field:, value: "Own", project:) }
+    let(:current_user) { create(:user, member_with_permissions: { project => permissions }) }
+
+    it "allows to enable or disable the values" do
+      expect(row.call(option).css("toggle-switch")).to be_present
+      expect(rendered).to have_link(I18n.t("custom_fields.admin.projects.enable_all"))
+      expect(rendered).to have_link(I18n.t("custom_fields.admin.projects.disable_all"))
+    end
+
+    it "does not offer to make a value of the project available to all projects" do
+      expect(row.call(own_option).css(".ActionListItem-label").map { it.text.strip })
+        .to eq([I18n.t("custom_fields.admin.projects.edit_value"), I18n.t(:button_delete)])
+    end
+
+    context "when the project may only add values" do
+      let(:project_level_value_management) { false }
+
+      it "does not allow to enable or disable the values" do
+        expect(row.call(option).css("toggle-switch")).to be_empty
+        expect(rendered).to have_no_link(I18n.t("custom_fields.admin.projects.enable_all"))
+        expect(rendered).to have_no_link(I18n.t("custom_fields.admin.projects.disable_all"))
+      end
+    end
+
+    context "without the permission to manage the values" do
+      let(:permissions) { %i[view_work_packages] }
+
+      it "does not allow to enable or disable the values" do
+        expect(row.call(option).css("toggle-switch")).to be_empty
+        expect(rendered).to have_no_link(I18n.t("custom_fields.admin.projects.enable_all"))
+      end
+    end
+  end
+
   describe "the value menu", with_ee: %i[custom_field_hierarchies project_specific_list_values] do
     let(:menu_items) do
       ->(value) { row.call(value).css(".ActionListItem-label").map { it.text.strip } }
