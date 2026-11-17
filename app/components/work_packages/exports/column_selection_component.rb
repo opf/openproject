@@ -32,14 +32,15 @@ module WorkPackages
     class ColumnSelectionComponent < ApplicationComponent
       include WorkPackagesHelper
 
-      attr_reader :export_settings, :query, :id, :caption, :label
+      attr_reader :export_settings, :query, :id, :caption, :label, :max_columns
 
       def initialize(
         export_settings, id, caption,
         label = I18n.t(:"queries.configure_view.columns.input_label"),
         required: true,
         excluded_columns: [],
-        allow_relation_columns: false
+        allow_relation_columns: false,
+        max_columns: nil
       )
         super()
 
@@ -51,6 +52,7 @@ module WorkPackages
         @required = required
         @excluded_columns = excluded_columns.map(&:to_s)
         @allow_relation_columns = allow_relation_columns
+        @max_columns = max_columns
       end
 
       def available_columns
@@ -66,8 +68,11 @@ module WorkPackages
       end
 
       def selected_columns
-        return columns_from_saved_export_settings if export_settings.settings.key?(:columns)
+        columns = export_settings.settings.key?(:columns) ? columns_from_saved_export_settings : default_columns
+        max_columns ? columns.first(max_columns) : columns
+      end
 
+      def default_columns
         query
           .columns
           .reject { |column| excluded_column?(column) }

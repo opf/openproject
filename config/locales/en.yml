@@ -3703,9 +3703,11 @@ en:
       heading: "Demo PDF"
     dialog:
       columns:
+        input_caption_gantt: "Select up to %{count} attributes to show as columns next to the chart. By default ID, subject, start date and finish date are selected. Without a selection, the subject is shown. Long text fields and relations are not available."
         input_caption_report: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in the attribute table, but can be displayed below it."
         input_caption_required: "It is not possible to export the view without any column. Please add at least one column."
         input_caption_table: "By default all attributes added as columns in the work package list are selected. Long text fields are not available in table based exports."
+        input_label_gantt: "Add columns next to the chart"
         input_label_report: "Add columns to attribute table"
       format:
         label: "File format"

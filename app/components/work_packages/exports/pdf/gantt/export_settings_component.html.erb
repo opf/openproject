@@ -1,13 +1,18 @@
 <%= flex_layout do |container| %>
-  <% gantt_selects.each_with_index do |entry, index| %>
-    <% container.with_row(mt: index == 0 ? 0 : 3) do %>
-      <%= render(Primer::Alpha::Select.new(
-                   name: entry[:name],
-                   label: entry[:label],
-                   caption: entry[:caption],
-                   size: :medium,
-                   input_width: :small
-                 )) do |component|
+  <% container.with_row do %>
+    <%= render WorkPackages::Exports::PDF::Gantt::ColumnSelectionComponent.new(export_settings) %>
+  <% end %>
+  <% gantt_selects.each do |entry| %>
+    <% container.with_row(mt: 3) do %>
+      <%= render(
+            Primer::Alpha::Select.new(
+              name: entry[:name],
+              label: entry[:label],
+              caption: entry[:caption],
+              size: :medium,
+              input_width: :small
+            )
+          ) do |component|
             selected = find_selected_option(entry)
             entry[:options].each do |e|
               component.option(label: e[:label], value: e[:value], selected: selected[:value] == e[:value])
