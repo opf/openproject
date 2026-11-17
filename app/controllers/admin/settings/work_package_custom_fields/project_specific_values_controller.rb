@@ -41,19 +41,59 @@ module Admin
 
         private
 
-        def find_custom_field
-          @custom_field = WorkPackageCustomField.find(params.expect(:work_package_custom_field_id))
+        def custom_field
+          @custom_field ||= WorkPackageCustomField.find(params.expect(:work_package_custom_field_id))
         end
 
         # Not @project, as the layout would then announce the project as the current one.
         def configured_project
           @configured_project ||= Project.active
-                                         .with_available_custom_fields([@custom_field.id])
+                                         .with_available_custom_fields([custom_field.id])
                                          .find(params.expect(:project_id))
         end
 
         def values_path
-          admin_settings_work_package_custom_field_project_specific_values_path(@custom_field, configured_project)
+          admin_settings_work_package_custom_field_project_specific_values_path(custom_field, configured_project)
+        end
+
+        def new_value_path(parent_id: nil)
+          new_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, configured_project,
+                                                                                   parent_id:)
+        end
+
+        def value_path(value_id)
+          admin_settings_work_package_custom_field_project_specific_value_path(custom_field, configured_project, value_id)
+        end
+
+        def edit_value_path(value_id)
+          edit_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, configured_project,
+                                                                                    value_id)
+        end
+
+        def toggle_value_path(value_id)
+          toggle_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, configured_project,
+                                                                                      value_id)
+        end
+
+        def make_global_value_path(value_id)
+          make_global_admin_settings_work_package_custom_field_project_specific_value_path(custom_field,
+                                                                                           configured_project, value_id)
+        end
+
+        def value_deletion_dialog_path(value_id)
+          deletion_dialog_admin_settings_work_package_custom_field_project_specific_value_path(custom_field,
+                                                                                               configured_project,
+                                                                                               value_id)
+        end
+
+        def enable_all_values_path
+          enable_all_admin_settings_work_package_custom_field_project_specific_values_path(custom_field,
+                                                                                           configured_project)
+        end
+
+        def disable_all_values_path
+          disable_all_admin_settings_work_package_custom_field_project_specific_values_path(custom_field,
+                                                                                            configured_project)
         end
 
         def custom_field_page_title

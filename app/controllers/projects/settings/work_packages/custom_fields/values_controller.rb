@@ -41,24 +41,56 @@ module Projects
 
           private
 
-          def find_custom_field
-            @custom_field = WorkPackageCustomField.find(params.expect(:custom_field_id))
+          def custom_field
+            @custom_field ||= WorkPackageCustomField.find(params.expect(:custom_field_id))
           end
 
           def configured_project = @project
 
           def require_custom_field_in_project
-            render_404 unless Project.where(id: @project.id).with_available_custom_fields([@custom_field.id]).exists?
+            render_404 unless Project.where(id: @project.id).with_available_custom_fields([custom_field.id]).exists?
           end
 
           def require_project_value_management
-            return if @custom_field.project_level_value_management? || @custom_field.allow_additional_project_values?
+            return if custom_field.project_level_value_management? || custom_field.allow_additional_project_values?
 
             render_404
           end
 
           def values_path
-            project_settings_work_packages_custom_field_values_path(@project, @custom_field)
+            project_settings_work_packages_custom_field_values_path(configured_project, custom_field)
+          end
+
+          def new_value_path(parent_id: nil)
+            new_project_settings_work_packages_custom_field_value_path(configured_project, custom_field, parent_id:)
+          end
+
+          def value_path(value_id)
+            project_settings_work_packages_custom_field_value_path(configured_project, custom_field, value_id)
+          end
+
+          def edit_value_path(value_id)
+            edit_project_settings_work_packages_custom_field_value_path(configured_project, custom_field, value_id)
+          end
+
+          def toggle_value_path(value_id)
+            toggle_project_settings_work_packages_custom_field_value_path(configured_project, custom_field, value_id)
+          end
+
+          def make_global_value_path(value_id)
+            make_global_project_settings_work_packages_custom_field_value_path(configured_project, custom_field, value_id)
+          end
+
+          def value_deletion_dialog_path(value_id)
+            deletion_dialog_project_settings_work_packages_custom_field_value_path(configured_project, custom_field, value_id)
+          end
+
+          def enable_all_values_path
+            enable_all_project_settings_work_packages_custom_field_values_path(configured_project, custom_field)
+          end
+
+          def disable_all_values_path
+            disable_all_project_settings_work_packages_custom_field_values_path(configured_project, custom_field)
           end
         end
       end
