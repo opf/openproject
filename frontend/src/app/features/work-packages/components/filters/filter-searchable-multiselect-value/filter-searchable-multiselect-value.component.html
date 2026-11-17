@@ -1,12 +1,12 @@
 <div class="inline-label ng-select-container"
      id="div-values-{{filter.id}}">
 
-  <op-autocompleter
+  <op-autocompleter #valuesAutocompleter
     class="advanced-filters--ng-select -multi-select"
     [id]="'values-' + filter.id"
     [getOptionsFn]="autocompleterFn"
     [groupBy]="groupByFn"
-    [classes]="{'-required-highlighting' : value.length === 0}"
+    [classes]="{'-required-highlighting' : filter.values.length === 0}"
     [virtualScroll]="false"
     [closeOnSelect]="false"
     [placeholder]="text.placeholder"
@@ -14,10 +14,15 @@
     [multiple]="true"
     [fetchDataDirectly]="true"
     [focusDirectly]="shouldFocus"
-    [model]="value"
+    [model]="selection.model()"
     [resource]="resourceType"
-    [compareWith]="compareByHref"
+    [compareWith]="selection.bridge.compareWith"
     [trackByFn]="itemTracker"
-    (change)="setValues($event)"
+    [inputAttrs]="selection.state().kind === 'invalid' | selectionInputAttrs: 'values-' + filter.id + '-selection-error'"
+    (change)="setValues($event, valuesAutocompleter)"
    />
+
+  @if (selection.state().kind === 'invalid') {
+    <op-selection-error [id]="'values-' + filter.id + '-selection-error'" />
+  }
 </div>

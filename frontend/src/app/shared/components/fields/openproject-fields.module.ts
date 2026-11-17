@@ -28,6 +28,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule, inject, provideAppInitializer } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
+import { SelectionErrorComponent, SelectionInputAttrsPipe } from 'core-app/shared/components/autocompleter/selection/selection-error.component';
 import { OpenprojectEditorModule } from 'core-app/shared/components/editor/openproject-editor.module';
 import { OpenprojectAttachmentsModule } from 'core-app/shared/components/attachments/openproject-attachments.module';
 import { OpSharedModule } from 'core-app/shared/shared.module';
@@ -81,6 +82,7 @@ import { FormsModule } from '@angular/forms';
     OpenprojectEditorModule,
     OpenprojectModalModule,
     OpenprojectAutocompleterModule,
+    SelectionErrorComponent, SelectionInputAttrsPipe,
     AttributeHelpTextModule,
     // Input Modules
     BooleanEditFieldModule,

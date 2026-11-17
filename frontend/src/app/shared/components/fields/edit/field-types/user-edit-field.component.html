@@ -1,14 +1,20 @@
 @if (url) {
-  <op-user-autocompleter class="inline-edit--field {{ handler.fieldName }}"
+  <op-user-autocompleter #userAutocompleter class="inline-edit--field {{ handler.fieldName }}"
     [url]="url"
     [inviteUserToProject]="projectId"
     [focusDirectly]="!(handler.inEditMode || isNew)"
     [openDirectly]="!(handler.inEditMode || isNew)"
     appendTo="body"
-    [model]="value"
+    [model]="selection.model()"
+    [compareWith]="selection.bridge.compareWith"
+    [trackByFn]="selection.bridge.trackBy"
     [id]="handler.htmlId"
-    (change)="onModelChange($event)"
+    [inputAttrs]="selection.state().kind === 'invalid' | selectionInputAttrs: handler.htmlId + '-selection-error'"
+    (change)="selection.bridge.accept($event, userAutocompleter)"
     (cancel)="handler.handleUserCancel()"
-    (userInvited)="onModelChange($event)"
+    (userInvited)="selection.bridge.accept($event, userAutocompleter)"
    />
+  @if (selection.state().kind === 'invalid') {
+    <op-selection-error [id]="handler.htmlId + '-selection-error'" />
+  }
 }

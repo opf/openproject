@@ -82,6 +82,7 @@ en:
       remove: "Remove %{name}"
     autocompleter:
       create_label: "Create label"
+      invalid_selection: "This selection could not be read. Choose a value again or clear the field."
       notFoundText: "No items found"
       placeholder: "Type to search"
       project:
