@@ -105,11 +105,18 @@ export class BcfExportButtonComponent extends UntilDestroyedMixin implements OnI
   private requestExport(url:string):void {
     this
       .httpClient
-      .get(url, { observe: 'body', responseType: 'json' })
-      .subscribe(
-        (json:{ job_id:string }) => this.jobStatusModalService.show(json.job_id),
-        (error:HttpErrorResponse) => this.handleError(error),
-      );
+      .get<unknown>(url)
+      .subscribe({
+        next: (response) => {
+          if (typeof response === 'object' && response !== null
+            && 'job_id' in response && typeof response.job_id === 'string') {
+            this.jobStatusModalService.show(response.job_id);
+          } else {
+            this.toastService.addError(this.I18n.t('js.error.internal'));
+          }
+        },
+        error: (error:HttpErrorResponse) => this.handleError(error),
+      });
   }
 
   private handleError(error:HttpErrorResponse) {

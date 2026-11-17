@@ -397,13 +397,13 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       .queries
       .id(this.query)
       .patch({ name: value })
-      .subscribe(
-        () => {
+      .subscribe({
+        next: () => {
           this.inFlight = false;
           this.toastService.addSuccess(this.text.updateSuccessful);
         },
-        (_error) => { this.inFlight = false; },
-      );
+        error: (_error) => { this.inFlight = false; },
+      });
   }
 
   private boardListActionColorClass(value?:HalResource):string {
@@ -537,8 +537,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     }
 
     observable
-      .subscribe(
-        (query) => {
+      .subscribe({
+        next: (query) => {
           if (requestSerial !== this.queryRequestSerial) {
             return;
           }
@@ -547,7 +547,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
           this.knownRevisions.clear();
           this.wpStatesInitialization.updateQuerySpace(query, query.results);
         },
-        (error) => {
+        error: (error) => {
           if (requestSerial !== this.queryRequestSerial) {
             return;
           }
@@ -561,7 +561,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
           this.loadingError = this.halNotification.retrieveErrorMessage(error);
           this.cdRef.detectChanges();
         },
-      );
+      });
   }
 
   private get indicatorInstance() {

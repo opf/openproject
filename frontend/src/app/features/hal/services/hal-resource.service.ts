@@ -324,6 +324,6 @@ export class HalResourceService {
       resource = this.createHalResource<ErrorResource>(error.error);
     }
 
-    return throwError(new HalError(error, resource));
+    return throwError(() => new HalError(error, resource));
   }
 }

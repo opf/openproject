@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Observable } from 'rxjs';
+import { Observable, lastValueFrom } from 'rxjs';
 import { ApiV3WorkPackagePaths } from 'core-app/core/apiv3/endpoints/work_packages/api-v3-work-package-paths';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
@@ -63,37 +63,23 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
    * @param ids
    * @param timestamps Baseline timestamps to load the work packages at, if any
    */
-  public requireAll(ids:string[], timestamps?:string[]):Promise<unknown> {
+  public async requireAll(ids:string[], timestamps?:string[]):Promise<void> {
     if (ids.length === 0) {
-      return Promise.resolve();
+      return;
     }
 
     const uniqueIds = Array.from(new Set(ids));
-    return new Promise<undefined>((resolve, reject) => {
-      this
-        .loadCollectionsFor(uniqueIds, timestamps)
-        .then((pagedResults:WorkPackageCollectionResource[]) => {
-          const loadedIds = this.cacheCollection(pagedResults);
+    const pagedResults = await this.loadCollectionsFor(uniqueIds, timestamps);
+    const loadedIds = this.cacheCollection(pagedResults);
 
-          // Load current state of WPs that didn't exist at any timestamp
-          if (timestamps?.length && uniqueIds.length !== loadedIds.size) {
-            const missingIds = uniqueIds.filter(id => !loadedIds.has(String(id)));
+    // Load current state of WPs that didn't exist at any timestamp
+    if (timestamps?.length && uniqueIds.length !== loadedIds.size) {
+      const missingIds = uniqueIds.filter(id => !loadedIds.has(String(id)));
 
-            if (missingIds.length > 0) {
-              this
-                .loadCollectionsFor(missingIds)
-                .then((fallbackResults:WorkPackageCollectionResource[]) => {
-                  this.cacheCollection(fallbackResults);
-                  resolve(undefined);
-                }, reject);
-            } else {
-              resolve(undefined);
-            }
-          } else {
-            resolve(undefined);
-          }
-        }, reject);
-    });
+      if (missingIds.length > 0) {
+        this.cacheCollection(await this.loadCollectionsFor(missingIds));
+      }
+    }
   }
 
   private cacheCollection(pagedResults:WorkPackageCollectionResource[]):Set<string> {
@@ -185,17 +171,16 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
    * @return {WorkPackageCollectionResource[]}
    */
   protected loadCollectionsFor(ids:string[], timestamps?:string[]):Promise<WorkPackageCollectionResource[]> {
-    return this
+    return lastValueFrom(this
       .halResourceService
-      .getAllPaginated(
+      .getAllPaginated<WorkPackageCollectionResource>(
         this.path,
         {
           filters: ApiV3Filter('id', '=', ids).toJson(),
           valid_subset: true,
           ...(timestamps?.length ? { timestamps: timestamps.join(',') } : {}),
         },
-      )
-      .toPromise() as Promise<WorkPackageCollectionResource[]>;
+      ));
   }
 
   protected createCache():WorkPackageCache {

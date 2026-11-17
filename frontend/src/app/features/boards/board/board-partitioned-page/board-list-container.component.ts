@@ -37,7 +37,7 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { EMPTY, Observable, Subscription } from 'rxjs';
+import { EMPTY, Observable, Subscription, lastValueFrom } from 'rxjs';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { BoardListComponent } from 'core-app/features/boards/board/board-list/board-list.component';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
@@ -191,7 +191,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
     if (board.isFree) {
       return this.BoardList
         .addFreeQuery(board, { name: this.text.unnamedList })
-        .then((board) => this.Boards.save(board).toPromise())
+        .then((board) => lastValueFrom(this.Boards.save(board), { defaultValue: undefined }))
         .catch((error) => this.showError(error as string));
     }
     const active = this.getActionFiltersFromWidget(board);

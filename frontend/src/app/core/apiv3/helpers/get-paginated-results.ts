@@ -90,7 +90,7 @@ export function getPaginatedCollections<T, C extends ApiV3CollectionType<T>>(
 
           // Branch out and fetch all remaining pages in parallel.
           // Afterwards, merge the resulting list
-          return forkJoin(...calls)
+          return forkJoin(calls)
             .pipe(
               map((results:C[]) => [collection, ...results]),
             );

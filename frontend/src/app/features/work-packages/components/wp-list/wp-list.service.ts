@@ -36,9 +36,9 @@ import { UrlParamsHelperService } from 'core-app/features/work-packages/componen
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { firstValueFrom, from, Observable, of } from 'rxjs';
+import { firstValueFrom, from, Observable, of, lastValueFrom } from 'rxjs';
 import { input } from '@openproject/reactivestates';
-import { catchError, mapTo, mergeMap, share, switchMap, take } from 'rxjs/operators';
+import { catchError, mergeMap, share, switchMap, take, map } from 'rxjs/operators';
 import {
   WorkPackageViewPaginationService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service';
@@ -287,12 +287,11 @@ export class WorkPackagesListService {
   public delete() {
     const query = this.currentQuery;
 
-    const promise = this
+    const promise = lastValueFrom(this
       .apiV3Service
       .queries
       .id(query)
-      .delete()
-      .toPromise();
+      .delete(), { defaultValue: undefined });
 
     void promise
       .then(() => {
@@ -309,12 +308,11 @@ export class WorkPackagesListService {
 
     const form = await this.querySpace.queryForm.valuesPromise();
 
-    const promise = this
+    const promise = lastValueFrom(this
       .apiV3Service
       .queries
       .id(query)
-      .patch(query, form)
-      .toPromise();
+      .patch(query, form), { defaultValue: undefined });
 
     void promise
       .then(() => {
@@ -491,11 +489,10 @@ export class WorkPackagesListService {
           .loadWithParams(queryProps, queryId, projectIdentifier),
       )
         .then(([form, _]) => {
-          this
+          lastValueFrom(this
             .apiV3Service
             .queries
-            .find({ pageSize: 0 }, undefined, projectIdentifier)
-            .toPromise()
+            .find({ pageSize: 0 }, undefined, projectIdentifier), { defaultValue: undefined })
             .then((query:QueryResource) => {
               this.wpListInvalidQueryService.restoreQuery(query, form);
 
@@ -527,7 +524,7 @@ export class WorkPackagesListService {
           .wpQueryView
           .create(createdQuery, viewType)
           .pipe(
-            mapTo(createdQuery),
+            map(() => createdQuery),
           )),
       );
   }

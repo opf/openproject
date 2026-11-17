@@ -33,7 +33,7 @@ import { Injectable, inject } from '@angular/core';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
-import { firstValueFrom, Observable } from 'rxjs';
+import { firstValueFrom, Observable, lastValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
@@ -116,11 +116,10 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
 
   public requireAll(ids:string[]):Promise<void> {
     return new Promise<undefined>((resolve, reject) => {
-      this
+      lastValueFrom(this
         .apiV3Service
         .relations
-        .loadInvolved(ids)
-        .toPromise()
+        .loadInvolved(ids), { defaultValue: undefined })
         .then((elements:RelationResource[]) => {
           this.clearSome(...ids);
           this.accumulateRelationsFromInvolved(ids, elements);
@@ -194,9 +193,8 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
     };
 
     const path = this.apiV3Service.work_packages.id(fromId).relations.toString();
-    return this.halResource
-      .post<RelationResource>(path, params)
-      .toPromise()
+    return lastValueFrom(this.halResource
+      .post<RelationResource>(path, params), { defaultValue: undefined })
       .then((relation:RelationResource) => {
         this.insertIntoStates(relation);
         return relation;

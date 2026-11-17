@@ -38,6 +38,7 @@ describe('WorkPackageRelationsHierarchyService failure reporting', () => {
   const notification = { handleRawError: vi.fn(), showSave: vi.fn() };
   const events = { push: vi.fn() };
   const cache = { updateWorkPackage: vi.fn() };
+  const refresh = vi.fn<() => Promise<WorkPackageResource|undefined>>();
   let service:WorkPackageRelationsHierarchyService;
 
   beforeEach(() => {
@@ -48,7 +49,7 @@ describe('WorkPackageRelationsHierarchyService failure reporting', () => {
       { provide: PathHelperService, useValue: {} },
       { provide: HalEventsService, useValue: events },
       { provide: WorkPackageNotificationService, useValue: notification },
-      { provide: ApiV3Service, useValue: { work_packages: { cache, id: (id:string) => ({ path: `/work_packages/${id}` }) } } },
+      { provide: ApiV3Service, useValue: { work_packages: { cache, id: (id:string) => ({ path: `/work_packages/${id}`, refresh }) } } },
     ] });
     service = TestBed.inject(WorkPackageRelationsHierarchyService);
   });
@@ -70,5 +71,20 @@ describe('WorkPackageRelationsHierarchyService failure reporting', () => {
     expect(cache.updateWorkPackage).toHaveBeenCalledExactlyOnceWith(saved);
     expect(notification.showSave).toHaveBeenCalledExactlyOnceWith(saved);
     expect(events.push).toHaveBeenCalledExactlyOnceWith(wp, { eventType: 'association', relatedWorkPackage: '2', relationType: 'parent' });
+  });
+
+  it('updates the child without publishing a parent event when refresh returns no parent', async () => {
+    const saved = {} as WorkPackageResource;
+    const child = {
+      $load: () => Promise.resolve(),
+      parent: { id: '2' },
+      changeParent: () => Promise.resolve(saved),
+    } as unknown as WorkPackageResource;
+    refresh.mockResolvedValueOnce(undefined);
+
+    await service.removeChild(child);
+
+    expect(cache.updateWorkPackage).toHaveBeenCalledExactlyOnceWith(saved);
+    expect(events.push).not.toHaveBeenCalled();
   });
 });

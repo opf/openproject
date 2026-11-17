@@ -102,8 +102,8 @@ export class UploadProgressComponent extends UntilDestroyedMixin implements OnIn
       this.upload,
       this.viewInitialized,
     ]).pipe(this.untilDestroyed())
-      .subscribe(
-        ([evt, initialized]) => {
+      .subscribe({
+        next: ([evt, initialized]) => {
           if (!initialized) {
             return;
           }
@@ -130,8 +130,8 @@ export class UploadProgressComponent extends UntilDestroyedMixin implements OnIn
               console.warn(`unknown event type: ${evt.type}`);
           }
         },
-        (error:HttpErrorResponse) => this.handleError(error),
-      );
+        error: (error:HttpErrorResponse) => this.handleError(error),
+      });
   }
 
   ngAfterViewInit():void {

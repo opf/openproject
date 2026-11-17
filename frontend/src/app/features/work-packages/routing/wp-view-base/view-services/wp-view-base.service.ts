@@ -29,8 +29,8 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
 import {
   combine, deriveRaw, input, State,
 } from '@openproject/reactivestates';
-import { map, mapTo, take } from 'rxjs/operators';
-import { merge, Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
+import { merge, Observable, lastValueFrom } from 'rxjs';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { Injectable, inject } from '@angular/core';
 import { QuerySchemaResource } from 'core-app/features/hal/resources/query-schema-resource';
@@ -120,14 +120,13 @@ export abstract class WorkPackageViewBaseService<T> {
   }
 
   public onReady() {
-    return this
+    return lastValueFrom(this
       .pristineState
       .values$()
       .pipe(
         take(1),
-        mapTo(null),
-      )
-      .toPromise();
+        map(() => null),
+      ), { defaultValue: undefined });
   }
 
   /** Get the last updated value from either pristine or update state */

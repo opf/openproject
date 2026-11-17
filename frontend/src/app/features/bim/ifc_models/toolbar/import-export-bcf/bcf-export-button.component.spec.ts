@@ -27,7 +27,8 @@
 
 import '@openproject/primer-view-components/app/components/primer/alpha/tool_tip.js';
 import { TestBed } from '@angular/core/testing';
-import { HttpClient } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 import { screen } from '@testing-library/dom';
 import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
@@ -42,7 +43,12 @@ import { JobStatusModalService } from 'core-app/features/job-status/job-status-m
 import { BcfExportButtonComponent } from './bcf-export-button.component';
 
 describe('BcfExportButtonComponent', () => {
+  const showJob = vi.fn();
+  const addError = vi.fn();
+
   beforeEach(async () => {
+    showJob.mockClear();
+    addError.mockClear();
     await TestBed
       .configureTestingModule({
         imports: [OpTooltipDirective],
@@ -53,9 +59,10 @@ describe('BcfExportButtonComponent', () => {
           { provide: BcfPathHelperService, useValue: { projectExportIssuesPath: () => '/bcf/export' } },
           { provide: IsolatedQuerySpace, useValue: { query: { values$: () => of({ filters: [] }) } } },
           { provide: UrlParamsHelperService, useValue: { buildV3GetFilters: () => [] } },
-          { provide: JobStatusModalService, useValue: {} },
-          { provide: HttpClient, useValue: {} },
-          { provide: ToastService, useValue: {} },
+          { provide: JobStatusModalService, useValue: { show: showJob } },
+          { provide: ToastService, useValue: { addError } },
+          provideHttpClient(),
+          provideHttpClientTesting(),
         ],
       })
       .compileComponents();
@@ -64,11 +71,28 @@ describe('BcfExportButtonComponent', () => {
     fixture.detectChanges();
   });
 
+  afterEach(() => TestBed.inject(HttpTestingController).verify());
+
   it('describes the link with its tooltip', () => {
     const link = screen.getByRole('link', { name: 'js.bcf.export' });
     const tooltip = screen.getByText('js.bcf.export_bcf_xml_file', { selector: 'tool-tip' });
 
     expect(link).toHaveAccessibleDescription('js.bcf.export_bcf_xml_file');
     expect(tooltip).toHaveAttribute('for', link.id);
+  });
+
+  it('opens the status modal for the returned job', () => {
+    screen.getByRole('link', { name: 'js.bcf.export' }).click();
+    TestBed.inject(HttpTestingController).expectOne('/bcf/export').flush({ job_id: '123' });
+
+    expect(showJob).toHaveBeenCalledWith('123');
+  });
+
+  it('shows an error when the export response has no job ID', () => {
+    screen.getByRole('link', { name: 'js.bcf.export' }).click();
+    TestBed.inject(HttpTestingController).expectOne('/bcf/export').flush({});
+
+    expect(addError).toHaveBeenCalledWith('js.error.internal');
+    expect(showJob).not.toHaveBeenCalled();
   });
 });

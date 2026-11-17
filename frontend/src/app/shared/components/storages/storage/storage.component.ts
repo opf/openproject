@@ -380,7 +380,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
         switchMap((link) => this.uploadAndNotify(link, data.file, data.location, data.overwrite)),
         catchError((error) => {
           isUploadError = true;
-          return throwError(error);
+          return throwError(():unknown => error);
         }),
         switchMap((uploadResponse) => this.createFileLinkData(uploadResponse)),
         tap((fileLinkCreationData) => {

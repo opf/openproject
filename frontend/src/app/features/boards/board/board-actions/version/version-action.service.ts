@@ -167,12 +167,12 @@ export class BoardVersionActionService extends CachedBoardActionService {
       .versions
       .id(version)
       .patch({ status: newStatus })
-      .subscribe(
-        () => {
+      .subscribe({
+        next: () => {
           Turbo.visit(window.location.href, { action: 'replace' });
         },
-        (error) => this.halNotification.handleRawError(error),
-      );
+        error: (error) => this.halNotification.handleRawError(error),
+      });
   }
 
   private buildItemsForVersion(version:VersionResource):OpContextMenuItem[] {

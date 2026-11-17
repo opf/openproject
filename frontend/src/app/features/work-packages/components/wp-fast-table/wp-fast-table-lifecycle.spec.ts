@@ -653,7 +653,7 @@ describe('WorkPackageTable lifecycle', () => {
   it('allows a loaded child into shared cache without redrawing a disposed table', async () => {
     const harness = await mount({ workPackages: [{ id: '1', attributes: { children: [{ id: '2' }] } }], columns: ['id', 'subject', 'children'] });
     const api = harness.injector.get(ApiV3Service);
-    const loaded = deferred<WorkPackageResource[]>();
+    const loaded = deferred<void>();
     const requireAll = vi.spyOn(api.work_packages, 'requireAll').mockImplementation(() => loaded.promise);
     const columns = harness.injector.get(WorkPackageViewColumnsService);
     columns.findById('children')!._type = queryColumnTypes.RELATION_CHILD;
@@ -667,7 +667,7 @@ describe('WorkPackageTable lifecycle', () => {
     harness.querySpace.tableRendered.putValue(cards);
     const child = buildWorkPackage({ id: '2' });
     harness.injector.get(States).workPackages.get('2').putValue(child);
-    loaded.resolve([child]);
+    loaded.resolve();
     await loaded.promise;
     await nextFrame();
     expect(harness.injector.get(States).workPackages.get('2').value).toBe(child);

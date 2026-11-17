@@ -42,6 +42,7 @@ import { WorkPackageNotificationService } from 'core-app/features/work-packages/
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkPackageEmbeddedGraphDataset } from 'core-app/shared/components/work-package-graphs/embedded/wp-embedded-graph.component';
 import {
+  lastValueFrom,
   firstValueFrom,
   Observable,
   switchMap,
@@ -142,12 +143,11 @@ export class WpGraphConfigurationService {
 
   private async saveQuery(query:QueryResource) {
     return this.formFor(query)
-      .then((form) => this
+      .then((form) => lastValueFrom(this
         .apiv3Service
         .queries
         .id(query)
-        .patch(query, form)
-        .toPromise());
+        .patch(query, form), { defaultValue: undefined }));
   }
 
   private projectIdentifier() {

@@ -26,7 +26,7 @@
 //++
 
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
-import { from, Observable } from 'rxjs';
+import { from, Observable, lastValueFrom } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -136,7 +136,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   protected initialValueLoading() {
     this.valuesLoaded = false;
-    return this.loadValues().toPromise();
+    return lastValueFrom(this.loadValues(), { defaultValue: undefined });
   }
 
   public autocompleterComponent() {

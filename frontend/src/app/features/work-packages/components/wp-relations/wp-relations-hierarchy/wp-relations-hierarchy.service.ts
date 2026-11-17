@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { lastValueFrom } from 'rxjs';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { States } from 'core-app/core/states/states.service';
 import { Injectable, inject } from '@angular/core';
@@ -89,12 +90,11 @@ export class WorkPackageRelationsHierarchyService {
   }
 
   public addExistingChildWp(workPackage:WorkPackageResource, childWpId:string):Promise<WorkPackageResource> {
-    return this
+    return lastValueFrom(this
       .apiV3Service
       .work_packages
       .id(childWpId)
-      .get()
-      .toPromise()
+      .get(), { defaultValue: undefined })
       .then((wpToBecomeChild:WorkPackageResource|undefined) => this.changeParent(wpToBecomeChild!, workPackage.id)
         .then((wp) => {
           // Reload work package
@@ -126,13 +126,17 @@ export class WorkPackageRelationsHierarchyService {
         lockVersion: childWorkPackage.lockVersion,
       }).then((wp) => {
         if (parentWorkPackage) {
-          this
+          void this
             .apiV3Service
             .work_packages
             .id(parentWorkPackage)
             .refresh()
-            .then((wp) => {
-              this.halEvents.push(wp, {
+            .then((parent) => {
+              if (!parent) {
+                return;
+              }
+
+              this.halEvents.push(parent, {
                 eventType: 'association',
                 relatedWorkPackage: null,
                 relationType: 'child',

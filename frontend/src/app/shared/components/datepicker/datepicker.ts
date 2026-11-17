@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { lastValueFrom } from 'rxjs';
 import moment from 'moment';
 import flatpickr from 'flatpickr';
 import { Instance } from 'flatpickr/dist/types/instance';
@@ -66,10 +67,9 @@ export class DatePicker {
   }
 
   private initialize(options:FlatpickrOptions) {
-    this.weekdaysPromise = this
+    this.weekdaysPromise = lastValueFrom(this
       .weekdaysService
-      .loadWeekdays()
-      .toPromise()
+      .loadWeekdays(), { defaultValue: undefined })
       .then(() => {
         if (this.datepickerInstance) {
           this.datepickerInstance.redraw();

@@ -96,13 +96,13 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
       .apiV3Service
       .versions
       .post(this.getVersionPayload(name))
-      .subscribe(
-        (version) => this.onCreate.emit(version),
-        (error) => {
+      .subscribe({
+        next: (version) => this.onCreate.emit(version),
+        error: (error) => {
           this.closeSelect();
           this.halNotification.handleRawError(error);
         },
-      );
+      });
   }
 
   private getVersionPayload(name:string) {

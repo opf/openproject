@@ -45,7 +45,7 @@ import {
 } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, lastValueFrom } from 'rxjs';
 import { QueryRequestParams } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { PortalOutletTarget } from 'core-app/shared/components/modal/portal-outlet-target.enum';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
@@ -182,15 +182,14 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     }
 
     this.error = null;
-    const promise = this
+    const promise = lastValueFrom(this
       .apiv3Service
       .queries
       .find(
         this.queryProps,
         this.queryId,
         this.queryProjectScope,
-      )
-      .toPromise()
+      ), { defaultValue: undefined })
       .then((query:QueryResource) => {
         this.initializeStates(query);
         this.onQueryLoaded.emit(query);

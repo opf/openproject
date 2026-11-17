@@ -28,6 +28,7 @@
 import { merge } from 'lodash-es';
 import { Injectable, Injector, inject } from '@angular/core';
 import {
+  lastValueFrom,
   firstValueFrom,
   Observable,
   Subject,
@@ -115,13 +116,12 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
   }
 
   public createNewWorkPackage(projectIdentifier:string|undefined|null, payload:HalSource):Promise<WorkPackageChangeset> {
-    return this
+    return lastValueFrom(this
       .apiV3Service
       .withOptionalProject(projectIdentifier)
       .work_packages
       .form
-      .forPayload(payload)
-      .toPromise()
+      .forPayload(payload), { defaultValue: undefined })
       .then((form:FormResource) => this.fromCreateForm(form));
   }
 
@@ -142,12 +142,11 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     // Ideally we would make an empty request before to get the create schema (cannot use the update schema of the source changeset)
     // to get all the writable attributes and only send those.
     // But as this would require an additional request, we don't.
-    return this
+    return lastValueFrom(this
       .apiV3Service
       .work_packages
       .form
-      .post(request)
-      .toPromise()
+      .post(request), { defaultValue: undefined })
       .then((form:FormResource) => {
         const changeset = this.fromCreateForm(form);
 
@@ -333,13 +332,12 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     const filtersApplied = Object.keys(fromFilter).length > 1 || Object.keys(fromFilter._links).length > 0;
 
     if (filtersApplied) {
-      return this
+      return lastValueFrom(this
         .apiV3Service
         .withOptionalProject(projectIdentifier)
         .work_packages
         .form
-        .forTypePayload(defaults || { _links: {} })
-        .toPromise()
+        .forTypePayload(defaults ?? { _links: {} }), { defaultValue: undefined })
         .then((form:FormResource) => {
           this.toApiPayload(fromFilter, form.schema);
           return fromFilter;

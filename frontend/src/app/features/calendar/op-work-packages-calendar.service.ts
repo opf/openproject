@@ -45,7 +45,7 @@ import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/w
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { firstValueFrom, Observable } from 'rxjs';
+import { firstValueFrom, Observable, lastValueFrom } from 'rxjs';
 import {
   WorkPackageViewFiltersService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
@@ -251,10 +251,12 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
       this.wpListChecksumService.set(queryId, queryProps);
     }
 
-    return Promise.all([this
+    return Promise.all([lastValueFrom(this
       .wpListService
-      .fromQueryParams({ query_id: queryId, query_props: queryProps }, projectIdentifier || undefined)
-      .toPromise(),
+      .fromQueryParams(
+        { query_id: queryId, query_props: queryProps },
+        projectIdentifier?.length ? projectIdentifier : undefined,
+      ), { defaultValue: undefined }),
     ]);
   }
 
