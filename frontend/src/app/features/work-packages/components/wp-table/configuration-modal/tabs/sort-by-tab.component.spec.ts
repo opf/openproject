@@ -27,10 +27,10 @@
 
 import { TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { within } from '@testing-library/dom';
-import { of } from 'rxjs';
+import { fireEvent, within } from '@testing-library/dom';
+import { of, Subject } from 'rxjs';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { QUERY_SORT_BY_ASC, QuerySortByResource } from 'core-app/features/hal/resources/query-sort-by-resource';
+import { QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC, QuerySortByResource } from 'core-app/features/hal/resources/query-sort-by-resource';
 import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
 import { WpTableConfigurationSortByTabComponent } from './sort-by-tab.component';
 
@@ -45,8 +45,10 @@ describe('WpTableConfigurationSortByTabComponent', () => {
 
   async function createComponent(
     current:QuerySortByResource[],
-    available = [sortBy('id'), sortBy('subject'), sortBy('manualSorting')],
+    available = [sortBy('id'), sortBy('subject'), sortBy('subject', QUERY_SORT_BY_DESC), sortBy('manualSorting')],
+    ready = of(null),
   ) {
+    const update = vi.fn<WorkPackageViewSortByService['update']>();
     await TestBed.configureTestingModule({
       declarations: [WpTableConfigurationSortByTabComponent],
       imports: [FormsModule],
@@ -55,20 +57,19 @@ describe('WpTableConfigurationSortByTabComponent', () => {
         {
           provide: WorkPackageViewSortByService,
           useValue: {
-            onReadyWithAvailable: () => of(null),
+            onReadyWithAvailable: () => ready,
+            update,
             available,
             current,
-          } satisfies Partial<Record<keyof WorkPackageViewSortByService, unknown>>,
+          } satisfies Pick<WorkPackageViewSortByService, 'onReadyWithAvailable'|'available'|'current'|'update'>,
         },
       ],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(WpTableConfigurationSortByTabComponent);
-    fixture.detectChanges();
     await fixture.whenStable();
-    fixture.detectChanges();
 
-    return { component: fixture.componentInstance, element: fixture.nativeElement as HTMLElement };
+    return { fixture, update, component: fixture.componentInstance, element: fixture.nativeElement as HTMLElement };
   }
 
   function manualRadio(element:HTMLElement) {
@@ -87,7 +88,7 @@ describe('WpTableConfigurationSortByTabComponent', () => {
 
     expect(component.sortingMode).toBe('automatic');
     expect(component.sortObjects[0].column.href).toBe('/api/v3/queries/columns/subject');
-    expect(manualRadio(element)).not.toBeNull();
+    expect(manualRadio(element)).toBeInTheDocument();
   });
 
   it('keeps every column and hides the manual mode when the query offers no manual sort option', async () => {
@@ -95,7 +96,64 @@ describe('WpTableConfigurationSortByTabComponent', () => {
 
     expect(component.allColumns.map((column) => column.name)).toEqual(['id', 'subject']);
     expect(component.sortingMode).toBe('automatic');
-    expect(manualRadio(element)).toBeNull();
+    expect(manualRadio(element)).not.toBeInTheDocument();
+  });
+
+  it('renders sorting options arriving after initial rendering', async () => {
+    const ready = new Subject<null>();
+    const { fixture, element } = await createComponent([sortBy('subject')], undefined, ready);
+    const view = within(element);
+    expect(view.queryByRole('combobox')).not.toBeInTheDocument();
+
+    ready.next(null);
+    ready.complete();
+    await fixture.whenStable();
+
+    expect(view.getAllByRole('combobox')).toHaveLength(3);
+    expect(view.getAllByRole('combobox')[0]).toHaveValue('/api/v3/queries/columns/subject');
+  });
+
+  it('shows default ID sorting when switching from manual to automatic', async () => {
+    const { fixture, element, component, update } = await createComponent([sortBy('manualSorting')]);
+    const view = within(element);
+    expect(manualRadio(element)).toBeChecked();
+    expect(view.queryByRole('combobox')).not.toBeInTheDocument();
+
+    fireEvent.click(view.getByRole('radio', { name: /sorting_mode.automatic/ }));
+    await fixture.whenStable();
+
+    expect(view.getAllByRole('combobox')[0]).toHaveValue('/api/v3/queries/columns/id');
+    component.onSave();
+    expect(update).toHaveBeenCalledWith([sortBy('id')]);
+  });
+
+  it('updates available criteria and saves the edited column and direction', async () => {
+    const { fixture, element, component, update } = await createComponent([sortBy('id')]);
+    const view = within(element);
+    fireEvent.change(view.getAllByRole('combobox')[0], { target: { value: '/api/v3/queries/columns/subject' } });
+    fireEvent.click(view.getAllByRole('radio', { name: 'js.label_descending' })[0]);
+    await fixture.whenStable();
+
+    expect(view.getAllByRole('combobox')[0]).toHaveValue('/api/v3/queries/columns/subject');
+    expect(view.getAllByRole('radio', { name: 'js.label_descending' })[0]).toBeChecked();
+    const secondCriterion = within(view.getAllByRole('combobox')[1]);
+    expect(secondCriterion.queryByRole('option', { name: 'subject' })).not.toBeInTheDocument();
+    expect(secondCriterion.getByRole('option', { name: 'id' })).toBeInTheDocument();
+    expect(update).not.toHaveBeenCalled();
+    component.onSave();
+    expect(update).toHaveBeenCalledWith([sortBy('subject', QUERY_SORT_BY_DESC)]);
+  });
+
+  it('hides automatic criteria and saves manual sorting', async () => {
+    const { fixture, element, component, update } = await createComponent([sortBy('subject')]);
+    const view = within(element);
+    fireEvent.click(view.getByRole('radio', { name: /sorting_mode.manually/ }));
+    await fixture.whenStable();
+
+    expect(manualRadio(element)).toBeChecked();
+    expect(view.queryByRole('combobox')).not.toBeInTheDocument();
+    component.onSave();
+    expect(update).toHaveBeenCalledWith([sortBy('manualSorting')]);
   });
 
   it('labels each sort criterion select with its own position', async () => {
