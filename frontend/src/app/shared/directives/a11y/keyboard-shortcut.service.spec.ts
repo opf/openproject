@@ -279,6 +279,23 @@ describe('KeyboardShortcutService', () => {
       expect(onClick).toHaveBeenCalledOnce();
     });
 
+    it('clicks the last element when several share the access key', () => {
+      const listMenuButton = outsideButton();
+      const detailsMenuButton = outsideButton();
+      const onListClick = vi.fn();
+      const onDetailsClick = vi.fn();
+      listMenuButton.setAttribute('accesskey', '7');
+      detailsMenuButton.setAttribute('accesskey', '7');
+      listMenuButton.addEventListener('click', onListClick);
+      detailsMenuButton.addEventListener('click', onDetailsClick);
+      document.body.append(listMenuButton, detailsMenuButton);
+
+      service.accessKey('moreMenu')();
+
+      expect(onDetailsClick).toHaveBeenCalledOnce();
+      expect(onListClick).not.toHaveBeenCalled();
+    });
+
     it('logs instead of throwing when no element has the access key', () => {
       const log = vi.spyOn(console, 'log').mockImplementation(() => undefined);
 

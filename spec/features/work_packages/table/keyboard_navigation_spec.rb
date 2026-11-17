@@ -241,6 +241,14 @@ RSpec.describe "Work package table keyboard navigation", :js do
     expect(page).to have_button(accessible_name: "More actions", focused: true)
   end
 
+  it "opens the More actions menu with the m shortcut" do
+    wp_table.press_keys("m")
+
+    within(:menu, "More actions") do
+      expect(page).to have_selector(:menuitem, "Configure view", focused: true)
+    end
+  end
+
   context "as a flat table" do
     let!(:query) do
       create(:query, user:, project:, column_names: %w[id subject],

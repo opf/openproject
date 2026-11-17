@@ -92,7 +92,9 @@ export class KeyboardShortcutService {
     const key = accessKeys[keyName];
 
     return () => {
-      const elem = document.querySelector<HTMLElement>(`[accesskey="${key}"]`);
+      // The last match wins: in the split view, the details toolbar's More
+      // button follows the list toolbar's More button in the DOM.
+      const elem = Array.from(document.querySelectorAll<HTMLElement>(`[accesskey="${key}"]`)).at(-1);
       if (!elem) {
         // eslint-disable-next-line no-console
         console.log(`No element with access key ${key} (${keyName})`);
