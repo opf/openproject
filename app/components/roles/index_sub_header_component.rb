@@ -43,14 +43,7 @@ module Roles
 
     def filter_input_id = "roles-filter-name"
 
-    def sub_header_data_attributes
-      {
-        controller: "filter--filters-form",
-        "filter--filters-form-output-format-value": "json",
-        "filter--filters-form-turbo-frame-request-value": Roles::IndexComponent::FRAME_ID,
-        "filter--filters-form-clear-button-id-value": clear_button_id
-      }
-    end
+    def turbo_frame_request = Roles::IndexComponent::FRAME_ID
 
     # turbo_permanent carries the live input across the frame render this component is part
     # of, so typing keeps both its focus and its caret.
