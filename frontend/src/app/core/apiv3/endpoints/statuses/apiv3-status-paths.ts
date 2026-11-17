@@ -28,9 +28,18 @@
 import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 import { ApiV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
+import { Observable } from 'rxjs';
 
 export class ApiV3StatusPaths extends ApiV3Resource<StatusResource> {
   protected createCache():StateCacheService<StatusResource> {
     return new StateCacheService<StatusResource>(this.states.statuses);
+  }
+
+  public patch(resource:StatusResource|{ name:string }):Observable<StatusResource> {
+    return this
+      .halResourceService
+      .patch<StatusResource>(this.path, {
+        name: resource.name,
+      });
   }
 }
