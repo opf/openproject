@@ -1440,7 +1440,6 @@ en:
           description: "Your comment will be visible to anyone who can access this work package. Are you sure you want to do this?"
           heading: "Make this comment public?"
           title: "Make this comment public?"
-        internal_journal: Internal comments are visible to a limited group of members.
         label_activity_hide_meetings: "Hide meetings updates"
         label_activity_show_all: "Show everything"
         label_activity_show_only_changes: "Show changes only"
