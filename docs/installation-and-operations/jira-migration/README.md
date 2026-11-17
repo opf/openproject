@@ -27,7 +27,7 @@ For concise answers to common questions, see the [Jira migration FAQ](./faq/).
 
 ## Data covered by the Jira Migrator
 
-The Jira Migrator is currently in beta and supports the following data: 
+The Jira Migrator is currently in beta and supports the following data:
 
 - Projects
 - Project identifiers
@@ -36,6 +36,9 @@ The Jira Migrator is currently in beta and supports the following data:
 - Issues
 - Issue identifiers
 - Issue descriptions, history, watchers, comments, and attachments
+- Inline images in descriptions and comments
+- Parent-child relationships (sub-tasks)
+- Issue links (blocks, relates to, duplicates, etc.)
 - Logged work (worklogs) as time entries
 - A subset of custom fields (see [Custom fields migration](./custom-fields/))
 - Involved users and groups
@@ -44,11 +47,7 @@ The Jira Migrator is currently in beta and supports the following data:
 
 See [the field mapping reference](./field-mapping/) for details.
 
-## Data not yet covered by the Migrator 
-
-### Coming soon
-
-- Relations between issues
+## Data not yet covered by the Migrator
 
 ### Coming later
 
@@ -60,7 +59,7 @@ See [the field mapping reference](./field-mapping/) for details.
 
 ## Supported Jira versions
 
-- We currently only support Jira Data Center versions 10.x and 11.x.
+- We support Jira Server/Data Center versions 8.x, 9.x, 10.x and 11.x.
 - Cloud instances are **not** supported at this time.
 
 ## Import preparation
