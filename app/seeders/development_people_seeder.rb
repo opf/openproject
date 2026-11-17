@@ -38,6 +38,9 @@ class DevelopmentPeopleSeeder < CompositeSeeder
     [
       DevelopmentData::UserCustomFieldsSeeder,
       DevelopmentData::DepartmentSeeder,
+      DevelopmentData::AdminNameSeeder,
+      DevelopmentData::TeamSeeder,
+      DevelopmentData::AiAssistantsSeeder,
       DevelopmentData::WorkingTimeSeeder
     ]
   end

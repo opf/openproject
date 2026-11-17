@@ -94,7 +94,14 @@ class Journal < ApplicationRecord
                    label_names
                    meeting_id
                    source_meeting_id
+                   source
+                   depth
+                   run_id
+                   skill_key
+                   assistant_name
+                   chat_id
                    message_id
+                   proposal_id
                    sender_address
                  ],
                  prefix: true
@@ -113,6 +120,8 @@ class Journal < ApplicationRecord
   ].freeze
 
   VALID_CAUSE_TYPES = (%w[
+    assistant_chat
+    assistant_skill
     comment_retracted
     default_attribute_written
     email

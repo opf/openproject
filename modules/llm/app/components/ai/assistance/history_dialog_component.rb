@@ -1,0 +1,76 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+module AI
+  module Assistance
+    # The user's chats on this work package, newest first.
+    class HistoryDialogComponent < ApplicationComponent
+      include OpTurbo::Streamable
+
+      DIALOG_ID = "ai-assistance-history-dialog"
+
+      def initialize(chats:)
+        super
+        @chats = chats.to_a.select { |chat| chat.messages.any? }
+      end
+
+      def entries
+        @chats.sort_by(&:created_at).reverse
+      end
+
+      def entry_path(chat)
+        url_helpers.ai_assistance_chat_path(chat_id: chat.id)
+      end
+
+      # A chat also shows its first question. A skill that answers at once shows the start
+      # of its first answer.
+      def entry_label(chat)
+        summary = chat.skill.chat? ? chat.messages.find(&:from_user?)&.content : first_answer_line(chat)
+        [chat.skill.full_label, summary.to_s.truncate(60).presence].compact.join(" · ")
+      end
+
+      # Where the chat took place, then the number of answers.
+      def entry_detail(chat)
+        count = chat.messages.count { |message| message.from_assistant? && message.done? }
+        answers = I18n.t("ai_assistance.history.answers", count:)
+        [chat.place.label, answers].compact.join(" · ")
+      end
+
+      def first_answer_line(chat)
+        answer = chat.messages.find { |message| message.from_assistant? && message.done? }
+        answer&.content.to_s.lines.map { |line| line.strip.sub(/\A[#*>\-\s]+/, "") }.find(&:present?)
+      end
+
+      def entry_icon(chat)
+        chat.skill.icon
+      end
+    end
+  end
+end

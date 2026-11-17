@@ -1,0 +1,115 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+module AI
+  module Assistance
+    # The conversation in the dialog body. Replaced after each question, and polled while
+    # an answer is pending.
+    class ChatComponent < ApplicationComponent
+      include OpTurbo::Streamable
+      include Polling
+
+      attr_reader :place, :skill, :chat, :read_only
+
+      def initialize(place:, skill:, chat:, read_only: false)
+        super
+        @place = place
+        @skill = skill
+        @chat = chat
+        @read_only = read_only
+      end
+
+      def self.wrapper_key = "ai-assistance-chat"
+
+      # Changes with each event of a pending answer, so a poll can show the tool calls so far.
+      def self.progress_reference(chat)
+        chat.messages.select(&:pending?).sum { |message| message.events.size }.to_s
+      end
+
+      def messages
+        chat ? chat.messages.includes(:proposals).to_a : []
+      end
+
+      def pending?
+        chat&.pending?
+      end
+
+      def wrapper_data
+        return {} unless pending?
+
+        poll_data(url_helpers.poll_ai_assistance_chat_path(chat_id: chat.id))
+          .merge(poll_for_changes_reference_value: self.class.progress_reference(chat))
+      end
+
+      # Off a work package, a skill proposes nothing.
+      def read_only?
+        skill.scope_read_only? || !place.work_package?
+      end
+
+      def empty_title
+        place.work_package? ? I18n.t("ai_assistance.chat.empty_title") : I18n.t("ai_assistance.chat.empty_title_generic")
+      end
+
+      def empty_description
+        if place.work_package?
+          I18n.t("ai_assistance.chat.#{read_only? ? 'empty_description_read_only' : 'empty_description'}")
+        elsif place.project
+          I18n.t("ai_assistance.chat.empty_description_project", project: place.project.name)
+        else
+          I18n.t("ai_assistance.chat.empty_description_generic")
+        end
+      end
+
+      def start_text
+        I18n.t("ai_assistance.chat.started", user: chat.user.name, skill: skill.display_label)
+      end
+
+      # The tool calls of a pending answer, for example "Count work packages (project_id: 1, open: true)".
+      def tool_steps(message)
+        message.events.select { |event| event["kind"] == "tool_call" }.map do |event|
+          data = event["data"]
+          arguments = (data["arguments"] || {}).map { |key, value| "#{key}: #{value}" }.join(", ")
+          I18n.t("ai_assistance.chat.tool_step", tool: tool_title(data["name"]), arguments:)
+        end
+      end
+
+      def pending_text(previous)
+        key = previous&.from_start? && place.label ? "working_on" : "answering"
+        I18n.t("ai_assistance.chat.#{key}", assistant: skill.assistant.name, id: place.label)
+      end
+
+      private
+
+      def tool_title(name)
+        McpTools.all.find { |tool| tool.name == name }&.default_title || name
+      end
+    end
+  end
+end

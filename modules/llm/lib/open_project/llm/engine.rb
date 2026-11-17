@@ -46,10 +46,55 @@ module OpenProject::Llm
            caption: :"menus.admin.llm_connection",
            parent: :ai,
            first: true
+
+      menu :admin_menu,
+           :ai_assistants,
+           { controller: "/admin/ai_assistants", action: :index },
+           if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.ai_assistance_active? },
+           caption: :"menus.admin.ai_assistants",
+           parent: :ai,
+           before: :text_transform_actions
+
+      menu :my_menu,
+           :ai_assistants,
+           { controller: "/my/ai_assistants", action: "index" },
+           caption: :"my_account.ai_assistants.title",
+           icon: "sparkle",
+           if: ->(*) {
+             OpenProject::FeatureDecisions.ai_assistance_active? &&
+               User.current.allowed_globally?(:manage_own_ai_assistants)
+           },
+           before: :notifications
+
+      project_module nil do
+        permission :manage_own_ai_assistants,
+                   {
+                     "my/ai_assistants": %i[index new create edit update destroy copy],
+                     "my/ai_assistant_skills": %i[new create edit update destroy copy]
+                   },
+                   permissible_on: :global,
+                   require: :loggedin,
+                   visible: -> { OpenProject::FeatureDecisions.ai_assistance_active? }
+      end
+
+      project_module :work_package_tracking do
+        permission :use_ai_assistance,
+                   {
+                     "ai_assistance/menus": %i[show],
+                     "ai_assistance/chats": %i[show create start rerun send_message poll history apply dismiss]
+                   },
+                   permissible_on: %i[work_package project],
+                   dependencies: :view_work_packages
+      end
     end
 
+    patches %i[Group User]
+
     class_inflection_override("ruby_llm_provider_headers" => "RubyLLMProviderHeaders",
-                              "ruby_llm_stream_error_status" => "RubyLLMStreamErrorStatus")
+                              "ruby_llm_stream_error_status" => "RubyLLMStreamErrorStatus",
+                              "ai_assistance" => "AIAssistance",
+                              "ai_assistants_controller" => "AIAssistantsController",
+                              "ai_assistant_skills_controller" => "AIAssistantSkillsController")
 
     initializer "openproject_llm.inflections" do
       ActiveSupport::Inflector.inflections(:en) do |inflect|
@@ -74,6 +119,10 @@ module OpenProject::Llm
     end
 
     initializer "openproject_llm.feature_decisions" do
+      OpenProject::FeatureDecisions.add :ai_assistance,
+                                        description: "Enables the AI Assistance menu on work packages, " \
+                                                     "with skills such as Refresh work package."
+
       OpenProject::FeatureDecisions.add :llm_connection,
                                         description: "Enables the administration page connecting OpenProject to an " \
                                                      "OpenAI-API-compatible LLM server, and the AI features built on it."
@@ -118,6 +167,14 @@ module OpenProject::Llm
                                           prerequisites: -> {
                                             OpenProject::Llm::Pgvector.available?
                                           }
+
+      # AI Assistance skills answer with structured proposals. An assistant may choose its
+      # own model, which is why it is overridable.
+      OpenProject::Llm::Features.register :ai_assistance,
+                                          kind: :chat,
+                                          prefers: %i[structured_output],
+                                          overridable: true,
+                                          enabled: -> { OpenProject::FeatureDecisions.ai_assistance_active? }
     end
 
     config.to_prepare do

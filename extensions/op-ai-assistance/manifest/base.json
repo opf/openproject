@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "OpenProject AI Assistance",
+  "short_name": "OP AI Assistance",
+  "description": "Adds AI Assistance to the work packages of your OpenProject instance. Uses your own LLM key and your OpenProject permissions.",
+  "version": "0.1.0",
+  "icons": {
+    "48": "icons/icon.svg",
+    "96": "icons/icon.svg",
+    "128": "icons/icon.svg"
+  },
+  "action": {
+    "default_title": "OpenProject AI Assistance",
+    "default_popup": "popup.html",
+    "default_icon": "icons/icon.svg"
+  },
+  "options_ui": {
+    "page": "settings.html",
+    "open_in_tab": true
+  },
+  "permissions": ["storage", "scripting", "activeTab"],
+  "optional_host_permissions": ["https://*/*", "http://*/*"],
+  "web_accessible_resources": [
+    {
+      "resources": ["chat.html", "settings.html", "assets/*", "icons/*"],
+      "matches": ["https://*/*", "http://*/*"]
+    }
+  ]
+}

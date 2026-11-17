@@ -50,7 +50,7 @@ module McpTools
           return super(schema.deep_merge({ properties: { page: } }))
         end
 
-        super
+        with_group_by(super)
       end
 
       ##
@@ -90,19 +90,66 @@ module McpTools
       def filters
         @filters ||= {}
       end
+
+      ##
+      # Defines a field that results can be counted by, through the group_by input parameter. The result then lists
+      # the count per value of that field next to the total.
+      #
+      # @param name [Symbol] The value of group_by that selects this group.
+      # @param column [String] The SQL column whose values are counted.
+      # @param association [Symbol] The association to join for the column, if the column is not on the base table.
+      # @param with [Symbol] Name of an instance method that returns the groups instead, for groups that need more than
+      #                      a column. It receives the filtered scope and the applied filters.
+      # @example
+      #   group :status, column: "statuses.name", association: :status
+      #
+      # @example
+      #   group :assignee, with: :assignee_groups
+      def group(name, column: nil, association: nil, with: nil)
+        if with.nil? == column.nil?
+          raise ArgumentError, "Specify either column or with for group #{name}"
+        end
+
+        groups[name.to_sym] = { column:, association:, with: }
+      end
+
+      def groups
+        @groups ||= {}
+      end
+
+      private
+
+      def with_group_by(schema)
+        return schema if schema.nil? || groups.empty?
+
+        group_by = {
+          type: "string",
+          enum: groups.keys.map(&:to_s),
+          description: "Count the results per value of this field. The counts are returned as groups next to the total."
+        }
+        schema.deep_merge({ properties: { group_by: } })
+      end
     end
 
     private
 
-    def call(page: nil, level_of_detail: "condensed", **filters_and_scope_params)
+    def call(page: nil, level_of_detail: "condensed", group_by: nil, **filters_and_scope_params)
       scope_params = filters_and_scope_params.slice(*scope_param_names)
       filters = filters_and_scope_params.except(*scope_param_names).reverse_merge(default_filters)
       base_scope(**scope_params).bind do |scope|
         filtered = apply_filters(scope, filters)
-        items, total = apply_pagination(filtered, page)
+        result = search_result(filtered, page, level_of_detail)
+        result[:groups] = apply_group(filtered, group_by, filters) if group_by.present?
 
-        Success({ items: items.map { |item| apply_lod(format_item(item), level_of_detail:) }, total: })
+        Success(result)
       end
+    end
+
+    def search_result(scope, page, level_of_detail)
+      return { items: [], total: scope.count } if level_of_detail == "count"
+
+      items, total = apply_pagination(scope, page)
+      { items: items.map { |item| apply_lod(format_item(item), level_of_detail:) }, total: }
     end
 
     def apply_filters(scope, params)
@@ -116,6 +163,20 @@ module McpTools
 
     def filter_proc_for(name)
       self.class.filters[name] || raise(ArgumentError, "Don't know how to handle filter argument called #{name}")
+    end
+
+    def apply_group(scope, name, filters)
+      group = self.class.groups.fetch(name.to_sym)
+      return send(group[:with], scope, filters) if group[:with]
+
+      column_groups(scope, **group.slice(:column, :association))
+    end
+
+    def column_groups(scope, column:, association:)
+      scope = scope.left_joins(association) if association
+      scope.group(column).count
+           .map { |value, count| { name: value || "(none)", count: } }
+           .sort_by { -it[:count] }
     end
 
     def apply_pagination(scope, page)

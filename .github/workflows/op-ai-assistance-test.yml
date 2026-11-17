@@ -1,0 +1,85 @@
+name: "AI Assistance extension / Tests"
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    paths:
+      - 'extensions/op-ai-assistance/**'
+      - '.github/workflows/op-ai-assistance-test.yml'
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: ./extensions/op-ai-assistance
+
+jobs:
+  lint:
+    name: Lint and typecheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v7.1.0
+        with:
+          node-version: '24.22.1'
+          package-manager-cache: false
+          cache: npm
+          cache-dependency-path: extensions/op-ai-assistance/package-lock.json
+
+      - name: Install Dependencies
+        id: npm-ci
+        run: npm ci
+
+      - name: lint
+        id: npm-lint
+        run: npm run lint
+
+      - name: typecheck
+        id: npm-typecheck
+        run: npm run typecheck
+
+  tests:
+    name: Unit tests, build and smoke test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v7.1.0
+        with:
+          node-version: '24.22.1'
+          package-manager-cache: false
+          cache: npm
+          cache-dependency-path: extensions/op-ai-assistance/package-lock.json
+
+      - name: Install Dependencies
+        id: npm-ci
+        run: npm ci
+
+      - name: unit tests
+        id: npm-test
+        run: CI=1 npm test
+
+      - name: build
+        id: npm-build
+        run: npm run build
+
+      - name: web-ext lint
+        id: web-ext-lint
+        run: npm run lint:firefox
+
+      - name: Install Playwright Browsers
+        id: install-playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: smoke test in Chromium
+        id: smoke
+        run: CI=1 npm run test:smoke

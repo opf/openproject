@@ -1,0 +1,98 @@
+<%#
+  -- copyright
+  OpenProject is an open source project management software.
+  Copyright (C) the OpenProject GmbH
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License version 3.
+
+  OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+  Copyright (C) 2006-2013 Jean-Philippe Lang
+  Copyright (C) 2010-2013 the ChiliProject Team
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 2
+  of the License, or (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+  See COPYRIGHT and LICENSE files for more details.
+
+  ++#
+%>
+
+<%# position: relative keeps absolutely positioned form labels inside the scrolling body;
+    without it they stretch the dialog and give it a second scrollbar. %>
+<%= component_wrapper(data: wrapper_data, class: "position-relative") do %>
+  <% if messages.empty? %>
+    <%= render(Primer::Beta::Blankslate.new(data: { test_selector: "ai-assistance-chat-empty" })) do |slate| %>
+      <% slate.with_visual_icon(icon: :sparkle) %>
+      <% slate.with_heading(tag: :h3).with_content(empty_title) %>
+      <% slate.with_description { empty_description } %>
+    <% end %>
+  <% end %>
+
+  <% messages.each_with_index do |message, index| %>
+    <% last = index == messages.size - 1 %>
+    <% if message.from_start? %>
+      <%= render(Primer::Box.new(display: :flex, align_items: :center, my: 3, data: { test_selector: "ai-assistance-chat-start" })) do %>
+        <%= render(Primer::Box.new(flex: 1, border: :top)) %>
+        <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small, text_align: :center, px: 2)) do %>
+          <%= start_text %><br>
+          <%= helpers.format_time(message.created_at) %>
+        <% end %>
+        <%= render(Primer::Box.new(flex: 1, border: :top)) %>
+      <% end %>
+    <% elsif message.from_user? %>
+      <%= render(Primer::Box.new(display: :flex, justify_content: :flex_end, mb: 2)) do %>
+        <%= render(Primer::Box.new(bg: :accent, border_radius: 2, p: 2, style: "max-width: 85%; white-space: pre-wrap;", data: { test_selector: "ai-assistance-chat-question" })) { message.content } %>
+      <% end %>
+    <% else %>
+      <%= render(Primer::Box.new(mb: 3, data: { test_selector: "ai-assistance-chat-answer", controller: (last ? "scroll-into-view" : nil) })) do %>
+        <% if message.failed? %>
+          <%= render(Primer::Alpha::Banner.new(scheme: :danger)) { t("ai_assistance.chat.failed") } %>
+        <% elsif message.done? && message.content.present? %>
+          <div class="op-uc-container"><%= helpers.format_text(message.content) %></div>
+          <%= render(
+                Primer::Beta::ClipboardCopyButton.new(
+                  id: "ai-assistance-copy-#{message.id}", value: message.content,
+                  aria: { label: t("ai_assistance.chat.copy") },
+                  scheme: :invisible, size: :small,
+                  data: { test_selector: "ai-assistance-chat-copy" }
+                )
+              ) %>
+        <% end %>
+        <% if message.proposals.any? %>
+          <%= render(Primer::Beta::BorderBox.new(mt: 2, data: { test_selector: "ai-assistance-proposals" })) do |box| %>
+            <% message.proposals.each do |proposal| %>
+              <% box.with_row { render(AI::Assistance::ProposalItemComponent.new(proposal:, read_only:)) } %>
+            <% end %>
+          <% end %>
+        <% end %>
+        <% if message.pending? %>
+          <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mt: 2)) do %>
+            <%= render(Primer::Beta::Spinner.new(size: :small, mr: 1)) %><%= pending_text(index.positive? ? messages[index - 1] : nil) %>
+          <% end %>
+          <% steps = tool_steps(message) %>
+          <% if steps.any? %>
+            <ul class="list-style-none pl-4 mt-1" data-test-selector="ai-assistance-tool-steps">
+              <% steps.each do |step| %>
+                <li><%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { step } %></li>
+              <% end %>
+            </ul>
+          <% end %>
+        <% end %>
+        <%= render(AI::Assistance::RunEventsComponent.new(events: message.events)) %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+<% end %>

@@ -1,0 +1,125 @@
+<%#
+  -- copyright
+  OpenProject is an open source project management software.
+  Copyright (C) the OpenProject GmbH
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License version 3.
+
+  OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+  Copyright (C) 2006-2013 Jean-Philippe Lang
+  Copyright (C) 2010-2013 the ChiliProject Team
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 2
+  of the License, or (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+  See COPYRIGHT and LICENSE files for more details.
+
+  ++#
+%>
+
+<% title = @assistant.name %>
+<% html_title(*pages.html_title_parts, title) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { title }
+    header.with_breadcrumbs(pages.breadcrumbs(title))
+
+    header.with_action_button(
+      mobile_icon: :copy,
+      mobile_label: t(:button_copy),
+      tag: :a,
+      href: pages.copy_assistant_path(@assistant),
+      data: { turbo_method: :post, test_selector: "ai-assistant-copy" }
+    ) do |button|
+      button.with_leading_visual_icon(icon: :copy)
+      t(:button_copy)
+    end
+
+    header.with_action_button(
+      scheme: :danger,
+      mobile_icon: :trash,
+      mobile_label: t("button_delete"),
+      tag: :a,
+      href: pages.assistant_path(@assistant),
+      data: { turbo_method: :delete, turbo_confirm: t("admin.ai_assistants.delete.confirm"),
+              test_selector: "ai-assistant-delete" }
+    ) do |button|
+      button.with_leading_visual_icon(icon: :trash)
+      t("button_delete")
+    end
+  end
+%>
+
+<% if pages.admin? && @assistant.group? %>
+  <%= render(Primer::Alpha::Banner.new(mb: 4, icon: :people)) do %>
+    <%= t("admin.ai_assistants.edit.group_banner", group: @assistant.principal.name) %>
+  <% end %>
+<% end %>
+
+<%= render "ai_assistants/form", url: pages.assistant_path(@assistant), method: :patch %>
+
+<%= render(Primer::Beta::Subhead.new(mt: 6)) do |subhead| %>
+  <% subhead.with_heading(tag: :h2) { t("admin.ai_assistants.skills.title") } %>
+  <% subhead.with_actions do %>
+    <%= render(Primer::Beta::Button.new(tag: :a, href: pages.new_skill_path(@assistant))) do |button| %>
+      <% button.with_leading_visual_icon(icon: :plus) %>
+      <%= t("admin.ai_assistants.skills.add") %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= render(Primer::Beta::BorderBox.new) do |box| %>
+  <% if @assistant.skills.empty? %>
+    <% box.with_body { t("admin.ai_assistants.skills.empty") } %>
+  <% end %>
+  <% @assistant.skills.each do |skill| %>
+    <% box.with_row(data: { test_selector: "ai-assistant-skill-row" }) do %>
+      <%= flex_layout(align_items: :center) do |row| %>
+        <% row.with_column(flex: 1) do %>
+          <%= render(Primer::Beta::Link.new(href: pages.edit_skill_path(@assistant, skill))) { skill.display_label } %>
+          <% if skill.default_label != skill.display_label %>
+            <%= render(Primer::Beta::Label.new(scheme: :secondary, ml: 2)) { skill.default_label } %>
+          <% end %>
+          <% if skill.prompt.blank? %>
+            <%= render(Primer::Beta::Label.new(scheme: :attention, ml: 2)) do %>
+              <%= t("admin.ai_assistants.skills.no_prompt_not_offered") %>
+            <% end %>
+          <% end %>
+          <% if skill.conditions.present? %>
+            <%= render(Primer::Beta::Label.new(scheme: :accent, ml: 2, data: { test_selector: "ai-skill-conditions" })) do %>
+              <%= skill.conditions.map { |key, ids| t("admin.ai_assistants.skills.conditions.count.#{key}", count: ids.size) }.join(" · ") %>
+            <% end %>
+          <% end %>
+          <% unless skill.active? %>
+            <%= render(Primer::Beta::Label.new(scheme: :secondary, ml: 2)) { t("admin.ai_assistants.inactive") } %>
+          <% end %>
+        <% end %>
+        <% row.with_column do %>
+          <%= button_to t(:button_copy),
+                        pages.copy_skill_path(@assistant, skill),
+                        method: :post,
+                        class: "Button Button--invisibleVariant Button--small",
+                        form_class: "d-inline-block" %>
+          <%= button_to t(:button_delete),
+                        pages.skill_path(@assistant, skill),
+                        method: :delete,
+                        class: "Button Button--invisibleVariant Button--small",
+                        form: { class: "d-inline-block", data: { turbo_confirm: t("admin.ai_assistants.skills.delete_confirm") } } %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
