@@ -6,7 +6,7 @@ Default: reuse
 Description: Do you want to use this wizard to help setup your PostgreSQL database?
  If you choose to SKIP this wizard, you will have to then manually configure the database used by the _APP_NAME_.
  .
- If you choose to INSTALL, a new PostgreSQL v17 server will be downloaded and installed on your server, and the database will be automatically created.
+ If you choose to INSTALL, a new PostgreSQL v18 server with pgvector will be downloaded and installed on your server, and the database will be automatically created. OpenProject handles extension creation during application migrations.
  Make sure this does not conflict with any existing PostgreSQL installation.
  If you choose to USE an existing installation, you must create the database beforehand and provide the credentials in the next page.
 
