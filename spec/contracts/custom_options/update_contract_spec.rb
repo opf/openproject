@@ -49,6 +49,18 @@ RSpec.describe CustomOptions::UpdateContract, with_ee: %i[project_specific_list_
 
   it_behaves_like "contract is valid for active admins and invalid for regular users"
 
+  context "when the custom field does not allow additional project values" do
+    let(:allow_additional_project_values) { false }
+
+    it_behaves_like "contract is invalid", project_id: :additional_values_not_allowed
+
+    context "with a global value" do
+      let(:option_project) { nil }
+
+      it_behaves_like "contract is valid"
+    end
+  end
+
   context "without the enterprise feature", with_ee: [] do
     it_behaves_like "contract is invalid", base: :error_enterprise_only
 

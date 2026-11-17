@@ -43,6 +43,12 @@ module AuthorizesProjectValueManagement
 
   private
 
+  def validate_additional_values_allowed
+    return if model.project_id.nil? || custom_field.nil? || custom_field.allow_additional_project_values
+
+    errors.add(:project_id, :additional_values_not_allowed)
+  end
+
   def project_value_manageable?
     model.project_id.present? &&
       custom_field&.allow_additional_project_values? &&

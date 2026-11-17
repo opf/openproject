@@ -113,6 +113,19 @@ RSpec.describe CustomFields::Hierarchy::Items::UpdateService,
     end
   end
 
+  describe "changing an item of a project when the custom field does not allow additional project values" do
+    let(:project) { create(:project) }
+    let!(:jedi) { create(:hierarchy_item, parent: root, label: "jedi", project:) }
+    let(:item) { jedi }
+    let(:attributes) { { label: "sith" } }
+
+    it "keeps the item unchanged" do
+      expect(result).to be_failure
+      expect(result.errors.symbols_for(:project_id)).to include(:additional_values_not_allowed)
+      expect(jedi.reload.label).to eq("jedi")
+    end
+  end
+
   describe "changing the sort order" do
     let(:item) { chewbacca }
     let(:attributes) { { sort_order: 1 } }

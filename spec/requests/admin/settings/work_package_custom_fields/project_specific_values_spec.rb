@@ -465,5 +465,44 @@ RSpec.describe "Admin project-specific values of a work package custom field", :
         expect(response).to have_http_status(:not_found)
       end
     end
+
+    context "when project admins can no longer add values but the project already added some",
+            with_ee: %i[project_specific_list_values] do
+      let!(:own_option) { create(:custom_option, custom_field:, value: "Own", project: using_project) }
+      let(:edit_path) do
+        edit_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, using_project, own_option.id)
+      end
+      let(:make_global_path) do
+        make_global_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, using_project,
+                                                                                         own_option.id)
+      end
+
+      it "does not edit the value" do
+        get edit_path, as: :turbo_stream
+
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it "does not rename the value" do
+        patch destroy_path.call(own_option), params: { label: "Renamed" }
+
+        expect(response).to have_http_status(:not_found)
+        expect(own_option.reload.value).to eq("Own")
+      end
+
+      it "does not make the value available to all projects" do
+        post make_global_path
+
+        expect(response).to have_http_status(:not_found)
+        expect(own_option.reload.project).to eq(using_project)
+      end
+
+      it "deletes the value" do
+        delete destroy_path.call(own_option)
+
+        expect(response).to redirect_to(values_path)
+        expect(CustomOption.exists?(own_option.id)).to be(false)
+      end
+    end
   end
 end

@@ -41,17 +41,7 @@ module CustomOptions
     attribute :position
     attribute :default_value
     attribute :project_id do
-      validate_additional_project_values_allowed
-    end
-
-    private
-
-    def validate_additional_project_values_allowed
-      return if model.project_id.nil? || model.custom_field.nil?
-
-      unless model.custom_field.allow_additional_project_values
-        errors.add(:project_id, :additional_values_not_allowed)
-      end
+      validate_additional_values_allowed
     end
   end
 end
