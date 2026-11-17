@@ -602,7 +602,21 @@ Rails.application.routes.draw do
             end
           end
           resource :categories, only: %i[show update]
-          resources :custom_fields, only: %i[index]
+          resources :custom_fields, only: %i[index] do
+            resources :values,
+                      controller: "custom_fields/values",
+                      only: %i[index new create edit update destroy] do
+              member do
+                post :toggle
+                post :make_global
+                get :deletion_dialog
+              end
+              collection do
+                post :enable_all
+                post :disable_all
+              end
+            end
+          end
         end
         resource :work_packages_import, only: %i[show create], controller: "work_packages_import" do
           member do
