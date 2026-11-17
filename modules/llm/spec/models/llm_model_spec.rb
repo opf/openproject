@@ -114,54 +114,6 @@ RSpec.describe LlmModel do
     end
   end
 
-  describe "#cascade_rename!" do
-    let(:connection) { create(:llm_connection, :provisioned_from_env, env_fingerprint: "seeded") }
-
-    before do
-      llm_model
-      create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3")
-      create(:llm_feature_binding, llm_connection: connection, feature_key: "description_assistant", model_id: "bge-m3")
-    end
-
-    it "carries verdicts and bindings over to the new identifier" do
-      llm_model.update!(external_id: "bge-m3-v2")
-      llm_model.cascade_rename!("bge-m3")
-
-      expect(connection.capability_verdicts.pluck(:model_id)).to eq(["bge-m3-v2"])
-      expect(connection.feature_bindings.pluck(:model_id)).to eq(["bge-m3-v2"])
-    end
-
-    it "takes the connection out of the environment's hands when it renames a default" do
-      connection.update_columns(default_chat_model_id: llm_model.id)
-      llm_model.update!(external_id: "bge-m3-v2")
-
-      llm_model.cascade_rename!("bge-m3")
-
-      expect(connection.reload).to have_attributes(env_provisioned_at: nil, env_fingerprint: nil)
-    end
-
-    it "leaves the environment's claim alone when the model is no default" do
-      llm_model.update!(external_id: "bge-m3-v2")
-
-      llm_model.cascade_rename!("bge-m3")
-
-      expect(connection.reload.env_provisioned_at).to be_present
-    end
-  end
-
-  describe "#cascade_delete!" do
-    it "removes the model's verdicts and the defaults that named it" do
-      create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3")
-      create(:llm_capability_verdict, llm_connection: connection, model_id: "another")
-      connection.update_columns(default_embedding_model_id: llm_model.id)
-
-      llm_model.cascade_delete!
-
-      expect(connection.capability_verdicts.pluck(:model_id)).to eq(["another"])
-      expect(connection.reload.default_embedding_model_id).to be_nil
-    end
-  end
-
   describe "#model_type" do
     it "is chat while nothing says the model embeds" do
       expect(llm_model).not_to be_embedding

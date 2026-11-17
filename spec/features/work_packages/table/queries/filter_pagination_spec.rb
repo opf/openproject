@@ -63,7 +63,7 @@ RSpec.describe "Filter updates pagination", :js do
 
     # Go to second page
     within(".op-pagination--pages") do
-      find(".op-pagination--item button", text: "2").click
+      click_button "2"
     end
 
     wp_table.expect_work_package_listed work_package_2

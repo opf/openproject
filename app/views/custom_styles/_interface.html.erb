@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% design_color_groups.each do |group_name, design_colors| %>
   <%= render(
-        OpenProject::Common::BorderBoxListComponent.new(
+        OpPrimer::BorderBoxListComponent.new(
           container: "design-color-group-#{group_name}",
           mb: 3,
           test_selector: "design-color-group-#{group_name}"

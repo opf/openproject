@@ -33,8 +33,7 @@ require_relative "update_flash_shared_examples"
 require_relative "../../support/pages/meetings/show"
 
 RSpec.describe "Meetings CRUD",
-               :js,
-               :selenium do
+               :js do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   shared_let(:project) { create(:project, enabled_module_names: %w[meetings work_package_tracking]) }

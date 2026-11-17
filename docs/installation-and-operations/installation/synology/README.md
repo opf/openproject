@@ -12,7 +12,7 @@ This means OpenProject has to be used exactly as described in the [docker](../do
 Launching OpenProject works like launching any other container in [Synology](https://www.synology.com/en-global/knowledgebase/DSM/help/Docker/docker_container).
 
 First you have to go to the **Registry** section and download the OpenProject image.
-It's best to choose the specific tag of the latest stable version (`openproject/openproject:17` at the time of writing).
+It's best to choose the specific tag of the latest stable version (`openproject/openproject:18` at the time of writing).
 
 Below are some settings you have to pay attention to when launching the container.
 

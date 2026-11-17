@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "messages", :js, :selenium do
+RSpec.describe "messages", :js do
   let(:forum) do
     create(:forum)
   end

@@ -15,8 +15,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: {
-        'op-blocknote-extensions': path.resolve(__dirname, 'lib/index.ts'),
-        'op-blocknote-extensions-server': path.resolve(__dirname, 'lib/server.ts'),
+        'blocknote-extensions': path.resolve(__dirname, 'lib/index.ts'),
+        'blocknote-extensions-server': path.resolve(__dirname, 'lib/server.ts'),
       },
       name: 'OpBlocknoteExtensions',
       formats: ['es', 'cjs'],
@@ -24,7 +24,9 @@ export default defineConfig({
     },
     rollupOptions: {
       // Externalize deps that shouldn't be bundled, including their subpaths
-      external: buildExternals.map((name) => new RegExp(`^${name}(/|$)`)),
+      // (except `?inline` imports, which only Vite can resolve)
+      external: (id) => !id.endsWith('?inline')
+        && buildExternals.some((name) => new RegExp(`^${name}(/|$)`).test(id)),
     },
   },
 });

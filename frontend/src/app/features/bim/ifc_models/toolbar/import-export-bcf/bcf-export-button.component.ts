@@ -39,7 +39,8 @@ import { JobStatusModalService } from 'core-app/features/job-status/job-status-m
 
 @Component({
   template: `
-    <a [title]="text.export_hover"
+    <a opTooltip
+       [description]="text.export_hover"
        class="button export-bcf-button"
        [attr.href]="exportLink"
        (click)="showDelayedExport($event)">

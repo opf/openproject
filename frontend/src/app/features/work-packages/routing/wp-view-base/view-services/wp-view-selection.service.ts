@@ -30,11 +30,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { States } from 'core-app/core/states/states.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { OpActionMenuService } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.service';
 import { WorkPackageViewBaseService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-base.service';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 
-import { BatchSelection, SelectionItem, selectionKey } from 'core-common/batch-selection';
+import { BatchSelection, SelectionItem, SelectionKey, selectionKey } from 'core-common/batch-selection';
 import {
   anchoredOccurrence,
   occurrenceRangeIds,
@@ -51,6 +52,8 @@ export interface WorkPackageViewSelectionState {
 export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<WorkPackageViewSelectionState> {
   readonly states = inject(States);
   readonly opContextMenu = inject(OPContextMenuService);
+
+  readonly actionMenu = inject(OpActionMenuService);
 
   private readonly model = new BatchSelection();
   private readonly destroyRef = inject(DestroyRef);
@@ -87,6 +90,7 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
   }
 
   public isSelected(id:string):boolean { return this.model.has(this.item(id)); }
+  public get selectionKeys():ReadonlySet<SelectionKey> { return this.model.keys; }
   public get selectionCount():number { return this.model.size; }
   public get isEmpty():boolean { return this.model.size === 0; }
   public get hasSelectionState():boolean { return this.model.size > 0 || this.model.anchor !== null; }
@@ -160,15 +164,18 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
     this.publish();
   }
 
-  public selectAll(rows:RenderedWorkPackage[], requestedAnchor?:RenderedWorkPackage):void {
+  /** `requestedAnchor === null`: no anchor (any existing one is cleared). `undefined`: legacy first-selectable fallback. */
+  public selectAll(rows:RenderedWorkPackage[], requestedAnchor?:RenderedWorkPackage|null):void {
     const selectable = selectableOccurrences(rows);
-    const anchor = selectAllAnchor(selectable, requestedAnchor);
-    if (!anchor) return;
-    this.model.selectAll(selectable.map((candidate) => this.item(candidate.workPackageId!)), {
-      ...this.item(anchor.workPackageId!), listKey: 'view', occurrenceKey: anchor.classIdentifier,
-    });
+    if (selectable.length === 0) return;
+    const anchor = requestedAnchor === null ? null : selectAllAnchor(selectable, requestedAnchor) ?? null;
+    this.model.selectAll(
+      selectable.map((candidate) => this.item(candidate.workPackageId)),
+      anchor && { ...this.item(anchor.workPackageId), listKey: 'view', occurrenceKey: anchor.classIdentifier },
+    );
     this.publish();
     this.opContextMenu.close();
+    this.actionMenu.close();
   }
 
   /**
@@ -180,7 +187,7 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
    * it has committed; the card view and Boards never do.
    */
   public retainRendered(rows:readonly RenderedWorkPackage[]):void {
-    const live = new Set(selectableOccurrences(rows).map((row) => selectionKey(this.item(row.workPackageId!))));
+    const live = new Set(selectableOccurrences(rows).map((row) => selectionKey(this.item(row.workPackageId))));
     if (this.model.prune(live)) {
       this.publish();
     }

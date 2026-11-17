@@ -152,6 +152,7 @@ RSpec.shared_examples "work package relations tab", :js, :with_cuprite do
           relations.add_parent(parent)
           wp_page.expect_and_dismiss_toaster(message: "Successful update.")
           relations.expect_parent(parent)
+          expect(page).to have_button(accessible_name: "Change parent")
           tabs.expect_counter(relations_tab, 3)
 
           ##

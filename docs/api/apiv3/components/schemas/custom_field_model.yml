@@ -2,14 +2,14 @@
 ---
 type: object
 required:
-- id
-- name
-- fieldFormat
-- isRequired
-- isMultiValue
-- createdAt
-- updatedAt
-- _links
+  - id
+  - name
+  - fieldFormat
+  - isRequired
+  - isMultiValue
+  - createdAt
+  - updatedAt
+  - _links
 properties:
   id:
     type: integer
@@ -22,19 +22,19 @@ properties:
     type: string
     description: Defines which kind of values are allowed in the custom field.
     enum:
-    - bool
-    - date
-    - datetime
-    - float
-    - hierarchy
-    - int
-    - link
-    - list
-    - string
-    - text
-    - user
-    - version
-    - weighted_item_list
+      - bool
+      - date
+      - datetime
+      - float
+      - hierarchy
+      - int
+      - link
+      - list
+      - string
+      - text
+      - user
+      - version
+      - weighted_item_list
   isRequired:
     type: boolean
     description: Whether the custom field must be filled out to save an object using it.
@@ -54,22 +54,22 @@ properties:
   _links:
     type: object
     required:
-    - self
+      - self
     properties:
       self:
         allOf:
-        - $ref: "./link.yml"
-        - description: APIv3 self-reference of the custom field.
+          - $ref: "./link.yml"
+          - description: APIv3 self-reference of the custom field.
 
-example:
-  id: 42
-  name: Celestial Body
-  fieldFormat: hierarchy
-  isRequired: false
-  isMultiValue: false
-  createdAt: "2026-07-20T13:37:00Z"
-  updatedAt: "2026-07-20T20:13:37Z"
-  _links:
-    self:
-      href: "/api/v3/custom_fields/42"
-      title: "Celestial Body"
+examples:
+  - id: 42
+    name: Celestial Body
+    fieldFormat: hierarchy
+    isRequired: false
+    isMultiValue: false
+    createdAt: "2026-07-20T13:37:00Z"
+    updatedAt: "2026-07-20T20:13:37Z"
+    _links:
+      self:
+        href: "/api/v3/custom_fields/42"
+        title: "Celestial Body"

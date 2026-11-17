@@ -24,22 +24,21 @@ jobs:
     timeout-minutes: 10
     env:
       RUBY_GC_HEAP_INIT_SLOTS: 100000
+      BUNDLE_ONLY: brakeman
     steps:
       - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
-
-      - name: Setup Brakeman
-        run: |
-          gem install brakeman
+        uses: ruby/setup-ruby@v1.336.0
+        with:
+          bundler-cache: true
 
       - name: Scan
         run: |
-          brakeman \
+          bundle exec brakeman \
             --ignore-config config/brakeman.ignore \
             --no-exit-on-warn \
             --no-exit-on-error \
@@ -47,6 +46,6 @@ jobs:
             --output output.sarif.json
 
       - name: Upload SARIF
-        uses: github/codeql-action/upload-sarif@6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee # v4.39.0
+        uses: github/codeql-action/upload-sarif@v4.39.3
         with:
           sarif_file: output.sarif.json

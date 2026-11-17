@@ -35,4 +35,5 @@ Rails.application.config.to_prepare do
   Highlighting::Registry.register_model key: "color", model: Color
 
   Highlighting::Registry.register_static key: "project_status", values: Projects::Statuses::AVAILABLE
+  Highlighting::Registry.register_static key: "project_phase_status", values: Projects::PhaseStatuses::AVAILABLE
 end

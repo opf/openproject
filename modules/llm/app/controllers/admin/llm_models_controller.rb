@@ -35,9 +35,6 @@ module Admin
     layout "admin"
     menu_item :llm_connection
 
-    IDENTIFIER_INDEX = "index_llm_models_on_llm_connection_id_and_external_id"
-    private_constant :IDENTIFIER_INDEX
-
     before_action :require_feature
     before_action :require_admin
     before_action :set_connection
@@ -82,33 +79,21 @@ module Admin
     end
 
     def create
-      submitted = llm_model_params
-      llm_model = @connection.models.new(submitted.except(*capability_param_names).merge(manual: true))
+      result = ::LlmModels::CreateService
+                 .new(user: current_user)
+                 .call(**llm_model_params, llm_connection: @connection)
+      @llm_model = result.result
 
-      if save_with_capabilities(llm_model, submitted)
-        flash[:notice] = t(".success", model: llm_model.external_id)
-        redirect_to llm_models_path, status: :see_other
-      else
-        # Re-rendered rather than redirected so the Primer form shows the error
-        # inline against the field that caused it.
-        @llm_model = llm_model
-        render :new, status: :unprocessable_entity
-      end
+      respond_to_save(result, failure: :new)
     end
 
     def update
       @llm_model = @connection.models.find(params.expect(:id))
-      updated = unless_env_named_default(@llm_model, applies: renames?(@llm_model)) do
-        update_with_capabilities(@llm_model)
-      end
-      return refuse_env_named_default if updated == :refused
+      result = ::LlmModels::UpdateService
+                 .new(user: current_user, model: @llm_model)
+                 .call(**llm_model_params)
 
-      if updated
-        flash[:notice] = t(".success", model: @llm_model.external_id)
-        redirect_to llm_models_path, status: :see_other
-      else
-        render_edit_with_errors
-      end
+      respond_to_save(result, failure: :edit)
     end
 
     def delete_dialog
@@ -120,10 +105,10 @@ module Admin
 
     def destroy
       llm_model = @connection.models.manual.find(params.expect(:id))
-      destroyed = unless_env_named_default(llm_model) { destroy_with_references(llm_model) }
-      return refuse_env_named_default if destroyed == :refused
+      result = ::LlmModels::DeleteService.new(user: current_user, model: llm_model).call
+      return refuse_env_named_default if configured_from_env?(result)
 
-      flash[:notice] = t(".success", model: llm_model.external_id)
+      flash_outcome(result, model: llm_model.external_id)
       redirect_to llm_models_path, status: :see_other
     end
 
@@ -148,36 +133,32 @@ module Admin
       @connection = LlmConnection.active_connection
     end
 
-    def render_edit_with_errors
-      render :edit, status: :unprocessable_entity
-    end
+    def respond_to_save(result, failure:)
+      return refuse_env_named_default if configured_from_env?(result)
 
-    def renames?(llm_model)
-      submitted = params.dig(:llm_model, :external_id)
-
-      !submitted.nil? && submitted != llm_model.external_id
-    end
-
-    # Judged on the committed row under the connection's advisory lock: a seed
-    # applying the environment's values holds that lock until it commits.
-    def unless_env_named_default(llm_model, applies: true)
-      OpenProject::Mutex.with_advisory_lock_transaction(@connection) do
-        next :refused if applies && @connection.reload.env_named_default?(llm_model)
-
-        yield
+      if result.success?
+        flash[:notice] = t(".success", model: result.result.external_id)
+        redirect_to llm_models_path, status: :see_other
+      else
+        render failure, status: :unprocessable_entity
       end
+    end
+
+    def flash_outcome(result, model:)
+      if result.success?
+        flash[:notice] = t(".success", model:)
+      else
+        flash[:error] = result.errors.full_messages.join(", ")
+      end
+    end
+
+    def configured_from_env?(result)
+      result.errors.of_kind?(:base, :configured_from_env)
     end
 
     def refuse_env_named_default
       flash[:error] = t("admin.llm_models.configured_from_env")
       redirect_to llm_models_path, status: :see_other
-    end
-
-    def destroy_with_references(llm_model)
-      ActiveRecord::Base.transaction do
-        llm_model.destroy!
-        llm_model.cascade_delete!
-      end
     end
 
     # The flag gates the endpoints, not only the menu entry: an unfinished page
@@ -195,109 +176,15 @@ module Admin
       redirect_to llm_connection_path, status: :see_other
     end
 
-    def update_with_capabilities(llm_model)
-      submitted = llm_model_params
-      pin_type = type_chosen?(llm_model, submitted)
-
-      ActiveRecord::Base.transaction(requires_new: true) do
-        previous_external_id = llm_model.external_id
-        llm_model.assign_attributes(updatable_attributes(llm_model, submitted))
-        llm_model.save!
-        llm_model.cascade_rename!(previous_external_id)
-        apply_capabilities(llm_model, submitted, pin_type:)
-      end
-
-      true
-    rescue ActiveRecord::RecordInvalid
-      false
-    rescue ActiveRecord::RecordNotUnique => e
-      add_uniqueness_error(llm_model, e)
-      false
-    end
-
-    # A discovered model is named by the server; only a hand-entered one may be
-    # renamed here, and everything referencing the old name follows it.
-    def updatable_attributes(llm_model, submitted)
-      attributes = submitted.except(*capability_param_names)
-      llm_model.manual? ? attributes : attributes.except(:external_id)
-    end
-
-    def type_chosen?(llm_model, submitted)
-      submitted[:model_type].present? && submitted[:model_type] != llm_model.model_type.to_s
-    end
-
     # external_id is accepted on create, and on update for manually added models.
     def llm_model_params
       params.expect(
         llm_model: [:external_id, :display_name, :admin_context_window, :model_type, *capability_param_names]
-      )
+      ).to_h.symbolize_keys
     end
 
     def capability_param_names
       Llm::Capabilities::CHAT.map { |capability| :"capability_#{capability}" }
-    end
-
-    def save_with_capabilities(llm_model, submitted)
-      ActiveRecord::Base.transaction do
-        llm_model.save!
-        apply_capabilities(llm_model, submitted, pin_type: submitted[:model_type].present?)
-      end
-
-      true
-    rescue ActiveRecord::RecordInvalid
-      false
-    rescue ActiveRecord::RecordNotUnique => e
-      add_uniqueness_error(llm_model, e)
-      false
-    end
-
-    # Two administrators saving the same free identifier both pass the
-    # uniqueness validation, and only the index rejects the second. A rename also
-    # carries verdicts along, and those may collide with verdicts left under the
-    # new identifier by a model that no longer exists.
-    def add_uniqueness_error(llm_model, error)
-      llm_model.errors.add(:external_id, identifier_taken?(error) ? :taken : :conflicting_capabilities)
-    end
-
-    def identifier_taken?(error)
-      error.cause.try(:result)&.error_field(PG::Result::PG_DIAG_CONSTRAINT_NAME) == IDENTIFIER_INDEX
-    end
-
-    # Stored as admin-sourced verdicts, which survive re-detection: an
-    # administrator knows things about their deployment that neither a published
-    # registry nor a probe can determine.
-    #
-    # The type is only pinned when the administrator picked one that differs from
-    # what the model is today, so re-saving a discovered model does not freeze a
-    # type that a probe or a refresh could still correct.
-    #
-    # A capability is only touched when its key was submitted. Absent is not the
-    # same as blank: a PATCH carrying one field would otherwise run the whole
-    # loop with nil and clear every assertion an administrator had made, which
-    # is the one thing an admin-sourced verdict is supposed to survive.
-    def apply_capabilities(llm_model, submitted, pin_type:)
-      embedding = submitted[:model_type] == "embedding"
-      assert(llm_model.external_id, :embeddings, embedding ? "supported" : "unsupported") if pin_type
-
-      Llm::Capabilities::CHAT.each do |capability|
-        next unless embedding || submitted.key?(:"capability_#{capability}")
-
-        state = embedding ? nil : submitted[:"capability_#{capability}"].presence
-        assert(llm_model.external_id, capability, state)
-      end
-    end
-
-    def assert(model_id, capability, state)
-      verdict = @connection.capability_verdicts
-                           .find_or_initialize_by(model_id:, capability: capability.to_s)
-
-      if state.blank?
-        # "Not specified" clears an assertion rather than recording ignorance as
-        # fact; detection may fill it in later.
-        verdict.destroy! if verdict.persisted? && verdict.source_admin?
-      else
-        verdict.update!(state:, source: "admin", checked_at: Time.current)
-      end
     end
   end
 end

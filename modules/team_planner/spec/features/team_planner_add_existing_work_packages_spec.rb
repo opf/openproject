@@ -34,7 +34,7 @@ RSpec.describe "Team planner add existing work packages",
                :selenium do
   include_context "with team planner full access"
 
-  let(:closed_status) { create(:status, is_closed: true) }
+  let(:closed_status) { create(:status, category: "closed") }
   let(:start_of_week) { Time.zone.today.beginning_of_week(:sunday) }
 
   let!(:other_user) do
@@ -114,6 +114,15 @@ RSpec.describe "Team planner add existing work packages",
 
         add_existing_pane.expect_result first_wp
       end
+    end
+
+    it "names the toolbar buttons" do
+      expect(page).to have_button(accessible_name: "Add existing",
+                                  exact: true,
+                                  accessible_description: "Add existing work packages")
+      expect(page).to have_button(accessible_name: "Work week", exact: true)
+      expect(page).to be_axe_clean.within(".op-team-planner--add-existing-toggle",
+                                          ".op-team-planner--view-select-dropdown")
     end
 
     it "allows to click cards to open split view when open" do

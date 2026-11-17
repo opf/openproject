@@ -43,13 +43,13 @@ the [Hierarchy format](../../../system-admin-guide/custom-fields/#hierarchy-cust
 Jira custom field types not listed above are skipped. This includes, but is not limited to, the following fields. (See [JIM-55](https://community.openproject.org/projects/JIM/work_packages/JIM-55/activity) for details):
 
 - Version fields
-- Sprint assignment
 - Epic links
-- Story points
 - Third-party plugin fields, with the possible exception of a ScriptRunner scripted field reporting a datetime
   return type — see [Date Time Picker](#date-time-picker) below
 
 If a field is skipped, its values are not imported and no OpenProject custom field is created for it.
+
+The Jira Story Points field is a regular Number field and is imported as a Float custom field named "Story Points", like any Number field with values on the imported issues. Its values do not go into OpenProject's own story points, so backlogs and burndown charts show no story points. See [Agile data that is currently not migrated](../field-mapping/#agile-data-that-is-currently-not-migrated).
 
 ## Field type details and edge cases
 

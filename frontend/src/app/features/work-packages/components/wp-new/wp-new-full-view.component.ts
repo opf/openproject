@@ -27,6 +27,7 @@
 
 import { WorkPackageCreateComponent } from 'core-app/features/work-packages/components/wp-new/wp-create.component';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { BreadcrumbItem } from 'core-app/shared/components/breadcrumbs/op-breadcrumbs.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -37,12 +38,12 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   standalone: false,
 })
 export class WorkPackageNewFullViewComponent extends WorkPackageCreateComponent {
-  breadcrumbItems() {
-    const items = [];
+  breadcrumbItems():BreadcrumbItem[] {
+    const items:BreadcrumbItem[] = [];
     if (this.currentProjectService?.identifier) {
       items.push({
         href: this.pathHelper.projectPath(this.currentProjectService.identifier),
-        text: this.currentProjectService.name,
+        text: this.currentProjectService.name ?? '',
       });
     }
     items.push({

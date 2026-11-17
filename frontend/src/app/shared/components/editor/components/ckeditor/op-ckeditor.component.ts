@@ -342,6 +342,7 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
           this.elementRef.nativeElement.querySelector<HTMLElement>('.ck-editor__source')!,
           {
             lineNumbers: true,
+            lineWrapping: true,
             smartIndent: true,
             value: current,
             mode: resolvedMode,

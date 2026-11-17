@@ -28,8 +28,6 @@
 #++
 
 class Queries::WorkPackages::Filter::LabelsFilter < Queries::WorkPackages::Filter::WorkPackageFilter
-  def available? = OpenProject::FeatureDecisions.work_package_labels_active?
-
   def self.key = :label_id
   def human_name = WorkPackage.human_attribute_name("labels")
   def ar_object_filter? = true

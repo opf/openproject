@@ -31,12 +31,13 @@ module WorkPackageTypes
   module FormConfiguration
     class GroupAttributeRowComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
+      include SortableLists::MoveMenu
+      include AttributeItemData
 
-      def initialize(attribute:, context:, index:, total_count:)
+      def initialize(attribute:, context:, total_count:)
         super
         @attribute = attribute
         @context = context
-        @index = index
         @total_count = total_count
       end
 
@@ -59,21 +60,23 @@ module WorkPackageTypes
       end
 
       def required_action_disabled?
-        @attribute[:required_globally].present?
+        @attribute[:required_globally].present? || excluded?
       end
 
       def toggle_required_label
-        key = @attribute[:required_for_variant] ? "unmark" : "mark"
+        key = required? ? "unmark" : "mark"
 
         t("types.edit.form_configuration.required.#{key}")
       end
 
       def toggle_required_icon
-        @attribute[:required_for_variant] ? "circle-slash" : "check-circle"
+        required? ? "circle-slash" : "check-circle"
       end
 
       def toggle_required_hint
-        t("types.edit.form_configuration.required.globally_hint")
+        key = @attribute[:required_globally] ? "globally_hint" : "excluded"
+
+        t("types.edit.form_configuration.required.#{key}")
       end
 
       def toggle_required_button_id
@@ -106,22 +109,31 @@ module WorkPackageTypes
         @exclusion_toggle ||= ExclusionToggleComponent.new(
           exclusions: @context.exclusions,
           element_key: @attribute[:key],
-          label: t("types.edit.form_configuration.exclusions.attribute_label", attribute: @attribute[:translation])
+          label: t("types.edit.form_configuration.exclusions.attribute_label", attribute: @attribute[:translation]),
+          enabled: !required_and_included?
         )
       end
 
       private
 
+      def required_and_included?
+        @attribute[:is_cf] && required? && !excluded?
+      end
+
+      def required?
+        @attribute[:required_globally] || @attribute[:required_for_variant]
+      end
+
+      def excluded?
+        @context.exclusions&.excluded?(@attribute[:key])
+      end
+
+      def sortable?
+        !readonly? && sortable_attribute?(@attribute)
+      end
+
       def multiple_attributes?
         @total_count > 1
-      end
-
-      def attribute_can_move_up?
-        multiple_attributes? && !@index.zero?
-      end
-
-      def attribute_can_move_down?
-        multiple_attributes? && @index != @total_count - 1
       end
 
       def actions_button_arguments
@@ -129,29 +141,15 @@ module WorkPackageTypes
           icon: "kebab-horizontal",
           scheme: :invisible,
           size: :small,
+          tooltip_direction: :w,
           classes: "type-form-configuration-page--actions-button",
           test_selector: "type-form-configuration-attribute-actions-#{@attribute[:key]}",
           "aria-label": t("types.edit.form_configuration.row_actions")
         }
       end
 
-      def row_move_path(move_to)
-        @context.row_path(:move, row_key: @attribute[:key], move_to:)
-      end
-
       def row_destroy_path
         @context.row_path(row_key: @attribute[:key])
-      end
-
-      def move_action(menu:, href:, label:, icon:)
-        menu.with_item(
-          label:,
-          tag: :a,
-          href:,
-          content_arguments: { data: { turbo_method: :put, turbo_stream: true } }
-        ) do |item|
-          item.with_leading_visual_icon(icon:)
-        end
       end
     end
   end

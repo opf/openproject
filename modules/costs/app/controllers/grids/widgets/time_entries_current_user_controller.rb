@@ -56,6 +56,6 @@ class Grids::Widgets::TimeEntriesCurrentUserController < Grids::WidgetController
   def date
     Date.iso8601(params[:date].to_s)
   rescue StandardError
-    Time.zone.today
+    current_user.today
   end
 end

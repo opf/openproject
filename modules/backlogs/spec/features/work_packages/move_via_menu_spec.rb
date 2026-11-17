@@ -31,7 +31,7 @@ require "spec_helper"
 require_relative "../../support/pages/backlog"
 
 RSpec.describe "Move a backlog card via its menu",
-               :js, :selenium do
+               :js do
   include RSpec::Wait
 
   let!(:project) do

@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe Query::Results, "Grouping and sorting for labels", with_flag: { work_package_labels: true } do
+RSpec.describe Query::Results, "Grouping and sorting for labels" do
   let(:query_results) do
     described_class.new query
   end

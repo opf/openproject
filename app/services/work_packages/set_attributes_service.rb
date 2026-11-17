@@ -86,8 +86,11 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
 
   def set_labels_attributes(attributes)
     label_ids = attributes.delete(:label_ids)
+    label_names = attributes.delete(:label_names)
 
     model.label_id_replacements = label_ids if label_ids
+
+    model.label_name_replacements = label_names if label_names
   end
 
   def set_static_attributes(attributes)
@@ -546,8 +549,6 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   def set_cause_for_readonly_attributes
     return unless work_package.changes.keys.intersect?(%w(created_at updated_at author))
 
-    work_package.journal_cause = {
-      "type" => "default_attribute_written"
-    }
+    work_package.journal_cause = Journal::CausedByDefaultAttributeWritten.new
   end
 end

@@ -20,7 +20,7 @@ allOf:
           - $ref: './link.yml'
           - description: |-
               A link to the previous page of the collection.
-              
+
               # Conditions
               - The collection is not on the first page.
       nextByOffset:
@@ -28,6 +28,6 @@ allOf:
           - $ref: './link.yml'
           - description: |-
               A link to the next page of the collection.
-              
+
               # Conditions
               - The collection is not on the last page.

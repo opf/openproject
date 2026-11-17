@@ -38,13 +38,9 @@ export class CollectionResource<T = HalResource> extends HalResource {
 
   public offset:number;
 
-  /**
-   * Update the collection's elements and return them in a promise.
-   * This is useful, as angular does not recognize update made by $load.
-   */
-  public updateElements():Promise<unknown> {
+  public updateElements():Promise<void> {
     if (this.href) {
-      return this.$load().then((collection:this) => this.elements = collection.elements);
+      return this.$load().then((collection:this) => { this.elements = collection.elements; });
     }
     return Promise.resolve();
   }

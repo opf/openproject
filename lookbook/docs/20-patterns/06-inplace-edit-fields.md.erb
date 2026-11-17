@@ -23,7 +23,7 @@ The InplaceEdit system consists of:
 ## Usage
 
 ```ruby
-OpenProject::Common::InplaceEditFieldComponent.new(
+OpPrimer::InplaceEditFieldComponent.new(
   model: @project,
   attribute: :description
 )
@@ -95,7 +95,7 @@ Thus, the same attribute always renders the same component across different mode
 ```ruby
 OpenProject::InplaceEdit::FieldRegistry.register(
   :description,
-  OpenProject::Common::InplaceEditFields::RichTextAreaComponent
+  OpPrimer::InplaceEditFields::RichTextAreaComponent
 )
 ```
 
@@ -117,22 +117,20 @@ It handles the optional rendering of a comment field for custom fields with comm
 | `self.open_in_dialog?` | `false` | Return `true` to force the field to always open in a dialog regardless of the caller's settings |
 
 ```ruby
-module OpenProject
-  module Common
-    module InplaceEditFields
-      class MyCustomComponent < BaseFieldComponent
-        def self.display_class
-          DisplayFields::DisplayFieldComponent
-        end
+module OpPrimer
+  module InplaceEditFields
+    class MyCustomComponent < BaseFieldComponent
+      def self.display_class
+        DisplayFields::DisplayFieldComponent
+      end
 
-        def self.open_in_dialog?
-          false  # override to true for dialog-only fields
-        end
+      def self.open_in_dialog?
+        false  # override to true for dialog-only fields
+      end
 
-        def call
-          form.text_field(name: attribute, **@system_arguments)
-          comment_field_if_enabled(form)
-        end
+      def call
+        form.text_field(name: attribute, **@system_arguments)
+        comment_field_if_enabled(form)
       end
     end
   end
@@ -179,29 +177,27 @@ All field components should inherit from `BaseFieldComponent` to get access to t
 
 **Simplified example of an `EditFieldComponent`:**
 ```ruby
-module OpenProject
-  module Common
-    module InplaceEditFields
-      class RichTextAreaComponent < BaseFieldComponent
-        def self.display_class
-          DisplayFields::RichTextAreaComponent
-        end
+module OpPrimer
+  module InplaceEditFields
+    class RichTextAreaComponent < BaseFieldComponent
+      def self.display_class
+        DisplayFields::RichTextAreaComponent
+      end
 
-        def call
-          form.rich_text_area(name: attribute, **@system_arguments)
-          comment_field_if_enabled(form)
-          render_action_buttons(form) if show_action_buttons
-        end
+      def call
+        form.rich_text_area(name: attribute, **@system_arguments)
+        comment_field_if_enabled(form)
+        render_action_buttons(form) if show_action_buttons
+      end
 
-        private
+      private
 
-        def cancel_button_options
-          super.merge(test_selector: "op-inplace-edit-field--textarea-cancel")
-        end
+      def cancel_button_options
+        super.merge(test_selector: "op-inplace-edit-field--textarea-cancel")
+      end
 
-        def submit_button_options
-          { test_selector: "op-inplace-edit-field--textarea-save" }
-        end
+      def submit_button_options
+        { test_selector: "op-inplace-edit-field--textarea-save" }
       end
     end
   end
@@ -304,19 +300,17 @@ They expose the edit URL via data attributes and typically make the rendered val
 
 Display fields are mandatory. There is one default `DisplayFieldComponent` which can be inherited from if needed. E.g the RichTextArea does add some more elements to the HTML:
 ```ruby
-module OpenProject
-  module Common
-    module InplaceEditFields
-      module DisplayFields
-        class RichTextAreaComponent < DisplayFieldComponent
-          attr_reader :model, :attribute, :writable
+module OpPrimer
+  module InplaceEditFields
+    module DisplayFields
+      class RichTextAreaComponent < DisplayFieldComponent
+        attr_reader :model, :attribute, :writable
 
-          def call
-            render(Primer::BaseComponent.new(tag: :div, **display_field_arguments)) do
-              render(Primer::BaseComponent.new(tag: :div,
-                                               classes: "op-uc-container op-uc-container_reduced-headings -multiline")) do
-                render_display_value
-              end
+        def call
+          render(Primer::BaseComponent.new(tag: :div, **display_field_arguments)) do
+            render(Primer::BaseComponent.new(tag: :div,
+                                             classes: "op-uc-container op-uc-container_reduced-headings -multiline")) do
+              render_display_value
             end
           end
         end

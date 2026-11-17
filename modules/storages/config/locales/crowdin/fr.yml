@@ -498,7 +498,7 @@ fr:
     oauth_grant_nudge_modal:
       cancel_button_label: Je le ferai plus tard
       heading: Connexion à %{provider_type} requise
-      login_button_aria_label: Connexion à %{storage}
+      login_button_accessible_name: "%{provider_type} log in to %{storage}"
       login_button_label: Connexion à %{provider_type}
       project_settings:
         description: Pour accéder au dossier du projet, vous devez vous connecter à %{storage}.

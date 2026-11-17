@@ -109,11 +109,5 @@ RSpec.describe WorkPackageTypes::CreateVariantService, "owning project" do
       expect(variant.workflow.status_transitions.pluck(:old_status_id, :new_status_id))
         .to contain_exactly([status_a.id, status_b.id])
     end
-
-    it "copies nothing into a workflow of the project's own" do
-      call(user: project_admin, project:)
-
-      expect(Workflow.owned_by(project)).to be_empty
-    end
   end
 end

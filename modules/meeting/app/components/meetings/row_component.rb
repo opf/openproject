@@ -71,7 +71,7 @@ module Meetings
     def duration
       return if model.duration.blank?
 
-      render OpenProject::Common::DurationComponent.new(model.duration, :hours, abbreviated: false)
+      render OpPrimer::DurationComponent.new(model.duration, :hours, abbreviated: false)
     end
 
     def location

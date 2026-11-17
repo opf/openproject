@@ -307,6 +307,7 @@ module API
     error_response NotImplementedError, ::API::Errors::NotImplemented, log: false
 
     error_response MultiJSON::ParseError, ::API::Errors::ParseError
+    error_response ::Queries::ParamsParser::MalformedParameterError, ::API::Errors::InvalidQuery, log: false
 
     error_response ::API::Errors::Unauthenticated, headers: auth_headers, log: false
     error_response ::API::Errors::ErrorBase, rescue_subclasses: true, log: false

@@ -1,13 +1,11 @@
 import type { AnyEditor } from '../../editorTypes';
 import type { WorkPackage } from '../../openProjectTypes';
-import {
-  chipContentOf,
-  promoteInlineChipToBlockAt,
-  removePendingInlineChip,
-} from '../../utils/inlineChipActions';
+import { chipContentOf, promoteInlineChipToBlockAt } from '../../utils/inlineChipActions';
+import { insertPendingInline, removePendingInline } from '../../utils/pendingInline';
 import { INLINE_WP_TYPE } from '../../utils/nodeTypes';
 import { subjectOf } from '../../utils/subject';
-import { makePendingWpid, registerInlineWpCallbacks } from '../InlineWorkPackage/callbacks';
+import { pendingWorkPackages } from '../InlineWorkPackage/pending';
+import type { PendingWorkPackage } from '../InlineWorkPackage/pending';
 import type { BlockWpSize, InlineWpSize } from '../WorkPackage/types';
 import type { HashTarget } from './hashTrigger';
 
@@ -28,18 +26,16 @@ export function createWpForTarget(
   query:string,
   target:HashTarget
 ):void {
-  const pendingWpid = makePendingWpid();
-
-  registerInlineWpCallbacks(
-    pendingWpid,
-    (workPackage) => replacePendingChip(editor, pendingWpid, () => insertWpForTarget(editor, workPackage, target)),
-    () => replacePendingChip(editor, pendingWpid, () => restoreHashQuery(editor, query)),
-    { mode: 'create', initialSubject: subjectOf(query) }
-  );
-
-  (editor.insertInlineContent as (content:unknown[]) => void)([
-    { type: INLINE_WP_TYPE, props: { wpid: pendingWpid } },
-  ]);
+  insertPendingInline(editor, pendingWorkPackages, {
+    type: INLINE_WP_TYPE,
+    withSpacer: false,
+    entry: (pendingWpid):PendingWorkPackage => ({
+      onResolve: (workPackage) => replacePendingChip(editor, pendingWpid, () => insertWpForTarget(editor, workPackage, target)),
+      onCancel: () => replacePendingChip(editor, pendingWpid, () => restoreHashQuery(editor, query)),
+      mode: 'create',
+      initialSubject: subjectOf(query),
+    }),
+  });
 }
 
 // The cursor stays right behind the pending chip while the form is open, so
@@ -47,7 +43,7 @@ export function createWpForTarget(
 function replacePendingChip(editor:AnyEditor, pendingWpid:string, insertReplacement:() => void):void {
   editor.focus();
   editor.transact(() => {
-    if (removePendingInlineChip(editor, pendingWpid)) insertReplacement();
+    if (removePendingInline(editor, pendingWpid, INLINE_WP_TYPE)) insertReplacement();
   });
 }
 

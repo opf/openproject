@@ -33,15 +33,25 @@ module Admin::Import::Jira::ImportRuns
     include Admin::Import::Jira::ImportRunsHelper
 
     def import_selection
+      (selected_counts + import_explanations)
+        .compact
+        .map { |label| { label:, checked: true } }
+    end
+
+    def selected_counts
       [
         projects_label(selected_projects_count),
         issues_label(selected_issues_count),
         statuses_label(selected_statuses_count),
         types_label(selected_types_count)
       ]
-        .compact
-        .map { |label| { label:, checked: true } }
-        .push({ label: I18n.t(:"admin.jira.run.wizard.sections.confirm_import.label_users_import_explanation") })
+    end
+
+    def import_explanations
+      [
+        users_explanation,
+        resolution_statuses_explanation
+      ]
     end
 
     def selected_projects_count
@@ -58,6 +68,16 @@ module Admin::Import::Jira::ImportRuns
 
     def selected_statuses_count
       model.selected["status_ids"]&.count
+    end
+
+    def users_explanation
+      I18n.t(:"admin.jira.run.wizard.sections.confirm_import.label_users_import_explanation")
+    end
+
+    def resolution_statuses_explanation
+      return if model.exclude_resolution_fields?
+
+      I18n.t(:"admin.jira.run.wizard.sections.confirm_import.label_resolution_statuses_explanation")
     end
   end
 end

@@ -149,7 +149,7 @@ module WorkPackagesHelper
     if Setting::WorkPackageMultipleVersions.active?
       work_package.target_versions.sort_by(&:name).join(", ")
     else
-      work_package.target_versions.first
+      work_package.lowest_target_version
     end
   end
 

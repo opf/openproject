@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work Package group by progress", :js, :selenium do
+RSpec.describe "Work Package group by progress", :js do
   shared_let(:user) { create(:admin) }
 
   shared_let(:project) { create(:project) }
@@ -97,7 +97,7 @@ RSpec.describe "Work Package group by progress", :js, :selenium do
       group_by.expect_no_groups
 
       # Expect disabled group by to be kept after reload
-      page.driver.browser.navigate.refresh
+      page.refresh
       group_by.expect_no_groups
 
       # But query has not been changed

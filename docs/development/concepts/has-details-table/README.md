@@ -23,6 +23,8 @@ _HasDetailsTable …_
 - promotes validation errors from the detail onto the owner so they appear as first-class attributes.
 - provides `with_detail` and `where_detail` scopes for eager-loading and filtering.
 - duplicates the detail when the owner is `dup`'d.
+- merges the detail's dirty tracking into the owner (`changed`, `changes`, `changed?`, `previous_changes`, …), so that `ModelContract` can detect unauthorized writes to delegated attributes.
+- reloads the detail when the owner is reloaded.
 
 ## When to use
 
@@ -72,19 +74,21 @@ widget.detail             # => #<WidgetDetail ...>
 
 ## What it sets up automatically
 
-| Feature                | Details                                                                                 |
-| ---------------------- | --------------------------------------------------------------------------------------- |
-| Detail class           | `<Model>Detail` constant, subclass of `ApplicationRecord`                               |
-| Association            | `has_one :<model>_detail` on owner, `belongs_to :<model>` on detail                     |
-| Aliases                | `detail` / `detail=` / `build_detail` point to the association                          |
-| Column delegation      | Readers delegated via `delegate`, writers via custom methods that auto-build the detail |
-| Association delegation | `belongs_to` associations declared in the block are delegated (both object and `_id`)   |
-| Auto-build             | `after_initialize` builds the detail for new records                                    |
-| Error promotion        | Detail validation errors are copied onto the owner                                      |
-| Dup support            | `dup` on the owner also duplicates the detail                                           |
-| `with_detail` scope    | `joins` + `includes` for eager loading                                                  |
-| `where_detail` scope   | `joins` + `where` for filtering by detail columns                                       |
-| Nested attributes      | `accepts_nested_attributes_for` is called automatically                                 |
+| Feature                | Details                                                                                                                                    |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Detail class           | `<Model>Detail` constant, subclass of `ApplicationRecord`                                                                                  |
+| Association            | `has_one :<model>_detail` on owner, `belongs_to :<model>` on detail                                                                        |
+| Aliases                | `detail` / `detail=` / `build_detail` point to the association                                                                             |
+| Column delegation      | Readers delegated via `delegate`, writers via custom methods that auto-build the detail; boolean columns also get `<column>?` predicates   |
+| Association delegation | `belongs_to` associations declared in the block are delegated (both object and `_id`)                                                      |
+| Auto-build             | `after_initialize` builds the detail for new records                                                                                       |
+| Error promotion        | Detail validation errors are copied onto the owner                                                                                         |
+| Dup support            | `dup` on the owner also duplicates the detail                                                                                              |
+| Dirty tracking         | `changed`, `changes`, `changed?`, `changed_attributes`, `previous_changes`/`saved_changes` and `restore_attributes` include detail columns |
+| Reload                 | `reload` on the owner also reloads the detail                                                                                              |
+| `with_detail` scope    | `joins` + `includes` for eager loading                                                                                                     |
+| `where_detail` scope   | `joins` + `where` for filtering by detail columns                                                                                          |
+| Nested attributes      | `accepts_nested_attributes_for` is called automatically                                                                                    |
 
 ## Custom foreign key (STI)
 
@@ -127,7 +131,8 @@ The detail table must follow these conventions:
 | Required columns | FK (non-null), `created_at`, `updated_at`    |
 | Unique index     | On the FK column (enforces 1:1)              |
 
-The concern reads the detail table's columns at load time to set up delegation, so **the migration must run before the model is loaded**. In practice this means the migration should exist before or alongside the code change — standard Rails migration ordering.
+> [!IMPORTANT]
+> Run the detail-table migration before relying on column delegation at class-load time. If the table is absent, delegation is deferred to `after_initialize` (see [Gotchas](#gotchas)). Include the migration before or alongside the code change.
 
 ## Adding associations to the detail
 
@@ -148,7 +153,7 @@ group.parent_id       # delegated via column delegation
 group.parent_id = 42  # delegated via column writer
 ```
 
-The back-reference from the details table to the owner (`belongs_to :group` / `belongs_to :principal`) is set up automatically — don't declare it yourself.
+The back-reference from the details table to the owner (e.g. `belongs_to :group`, with `foreign_key: :principal_id` when a custom foreign key is given) is set up automatically — don't declare it yourself.
 
 ## Gotchas
 

@@ -28,6 +28,22 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_backlogs) %>
 
+<%
+  # Dialogs like "new work package" redirect back here. A morphing refresh reloads the lists
+  # in place instead of starting over with the skeleton.
+  turbo_refreshes_with method: :morph, scroll: :preserve
+%>
+
+<%
+  # When this page is reached via a link and Turbo has a cached copy of it, Turbo shows that copy
+  # as a preview while it fetches the page, including the list loaded into `backlogs_container`.
+  # The fetched response will only have the skeleton in `backlogs_container`, which then loads the
+  # list itself. So the page would flicker from the cached list to the skeleton and back to the list.
+  # Exempting the page from preview skips the cached copy on link visits. The page is still
+  # cached, so back and forward still restore it instantly.
+  turbo_exempts_page_from_preview
+%>
+
 <% content_for :content_header do %>
   <%=
     render Primer::OpenProject::PageHeader.new do |header|
@@ -45,14 +61,20 @@ See COPYRIGHT and LICENSE files for more details.
 <% content_for :content_body do %>
   <%= turbo_frame_tag :backlogs_container,
                       refresh: :morph,
-                      src: project_backlogs_backlog_path(@project, backlog_filter_params),
+                      src: backlogs_container_src(@project),
                       class: "op-backlogs-page",
                       data: {
-                        controller: "backlogs--list-refresh backlogs--split-view-sync sortable-lists",
+                        controller: "backlogs--list-refresh backlogs--split-view-sync sortable-lists sortable-lists--menu-source",
                         sortable_lists_optimistic_value: true,
-                        action: "#{Backlogs::WorkPackagesController::WORK_PACKAGE_MOVED_EVENT}@document->backlogs--split-view-sync#onWorkPackageMoved",
+                        action: [
+                          "#{Backlogs::WorkPackagesController::WORK_PACKAGE_MOVED_EVENT}@document->backlogs--split-view-sync#onWorkPackageMoved",
+                          "#{Backlogs::WorkPackagesController::WORK_PACKAGE_MOVED_EVENT}@document->sortable-lists#clearSelectionAfterMove"
+                        ].join(" "),
                         sortable_lists_move_url_template_value: backlogs_move_url_template(@project),
                         sortable_lists_collection_move_url_value: move_project_backlogs_work_packages_path(@project),
+                        sortable_lists_sortable_lists__menu_source_outlet: "#backlogs_container",
+                        sortable_lists__menu_source_url_value: menu_project_backlogs_work_packages_path(@project),
+                        sortable_lists__menu_source_menu_label_key_value: "js.backlogs.action_menu.menu_label",
                         sortable_lists_max_batch_size_value: Backlogs::WorkPackages::BatchUpdateService::MAX_BATCH_SIZE,
                         sortable_lists_move_announcement_scope_value: "js.backlogs.announcements",
                         sortable_lists_selection_enabled_value: batch_selection_allowed?(@project),
@@ -62,7 +84,9 @@ See COPYRIGHT and LICENSE files for more details.
                         sortable_lists_sortable_lists__list_outlet: "#backlogs_container [data-controller~='sortable-lists--list']",
                         sortable_lists_sortable_lists__item_outlet: "#backlogs_container [data-controller~='sortable-lists--item']",
                         sortable_lists_sortable_lists__scrollable_outlet: "#backlogs_container [data-controller~='sortable-lists--scrollable']"
-                      } %>
+                      } do %>
+    <%= render(Backlogs::ListsSkeletonComponent.new) %>
+  <% end %>
 <% end %>
 
 <% content_for :content_body_right do %>

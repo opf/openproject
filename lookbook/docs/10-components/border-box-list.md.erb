@@ -3,7 +3,7 @@ optional section headers, item actions, empty states, and a footer.
 
 ## Overview
 
-<%= embed OpenProject::Common::BorderBoxListComponentPreview, :default %>
+<%= embed OpPrimer::BorderBoxListComponentPreview, :default %>
 
 ## Anatomy
 
@@ -95,27 +95,27 @@ Both static and collapsible headers can include additional actions. For example,
 a menu button can offer contextual actions such as edit, delete, move up, or
 move down.
 
-<%= embed OpenProject::Common::BorderBoxListComponentPreview, :default, params: { collapsible: true } %>
+<%= embed OpPrimer::BorderBoxListComponentPreview, :default, params: { collapsible: true } %>
 
 ## Variants
 
-<%= embed OpenProject::Common::BorderBoxListComponentPreview, :playground, panels: %i[params source] %>
+<%= embed OpPrimer::BorderBoxListComponentPreview, :playground, panels: %i[params source] %>
 
 ### Transparent scheme
 
 Use the transparent scheme for list containers that should not render a visible
 header background or separator, such as Backlogs sprint and inbox containers.
 
-<%= embed OpenProject::Common::BorderBoxListComponentPreview, :transparent, panels: %i[params source] %>
+<%= embed OpPrimer::BorderBoxListComponentPreview, :transparent, panels: %i[params source] %>
 
 ### Work package items
 
 Use `with_work_package_item` for rows that should render a work package card.
-It renders `OpenProject::Common::WorkPackageCardComponent` by default. See the
+It renders `OpPrimer::WorkPackageCardComponent` by default. See the
 [Work Package Card documentation](/lookbook/pages/components/work_packages/card)
 for card-specific layout, parameters, and slots.
 
-<%= embed OpenProject::Common::BorderBoxListComponentPreview, :with_work_package_items, panels: %i[source] %>
+<%= embed OpPrimer::BorderBoxListComponentPreview, :with_work_package_items, panels: %i[source] %>
 
 ### Custom header content
 
@@ -126,7 +126,7 @@ belongs to `count:` and actions to the header action slots. Use
 `menu.with_show_button` when the default action-menu trigger is not specific
 enough for the list action.
 
-<%= embed OpenProject::Common::BorderBoxListComponentPreview, :custom_header_content, panels: %i[source] %>
+<%= embed OpPrimer::BorderBoxListComponentPreview, :custom_header_content, panels: %i[source] %>
 
 ### Header breadcrumbs
 
@@ -137,7 +137,7 @@ renders as a visually hidden heading, keeping the list's accessible name and
 heading navigation intact. The last crumb is marked as the current page
 automatically. Breadcrumbs are not available on collapsible headers.
 
-<%= embed OpenProject::Common::BorderBoxListComponentPreview, :header_breadcrumbs, panels: %i[source] %>
+<%= embed OpPrimer::BorderBoxListComponentPreview, :header_breadcrumbs, panels: %i[source] %>
 
 ### Empty state
 
@@ -147,7 +147,7 @@ When no items are present, the component renders a generic
 (`action_label:`, `action_icon:`, `action_arguments:`), or custom Blankslate
 system arguments.
 
-<%= embed OpenProject::Common::BorderBoxListComponentPreview, :empty_state, panels: %i[source] %>
+<%= embed OpPrimer::BorderBoxListComponentPreview, :empty_state, panels: %i[source] %>
 
 ### Empty-state behavior
 
@@ -157,7 +157,7 @@ system arguments.
 - `:none` — suppresses the empty state entirely, including any declared `with_empty_state` slot. Use this for grouped lists where a generic blankslate per empty group would be noisy.
 - `:dynamic` — reserved for client-side lifecycle handling on sortable and filtered lists; see lifecycle controller.
 
-<%= embed OpenProject::Common::BorderBoxListComponentPreview, :with_behavior_none, panels: %i[source] %>
+<%= embed OpPrimer::BorderBoxListComponentPreview, :with_behavior_none, panels: %i[source] %>
 
 ## Usage guidelines
 
@@ -192,7 +192,7 @@ If the content needs table structure with columns and column headers, use the
 
 ## Technical notes
 
-Use `OpenProject::Common::BorderBoxListComponent` instead of composing
+Use `OpPrimer::BorderBoxListComponent` instead of composing
 `Primer::Beta::BorderBox` directly when rendering OpenProject lists.
 Header descriptions are wrapped in `Primer::Beta::Text` with muted text color by
 default, and can receive Primer system arguments through `with_description`.
@@ -200,7 +200,7 @@ default, and can receive Primer system arguments through `with_description`.
 ## Code structure
 
 ```ruby
-render OpenProject::Common::BorderBoxListComponent.new(
+render OpPrimer::BorderBoxListComponent.new(
   container: "project-attributes",
   scheme: :transparent,
   header_padding: :default,

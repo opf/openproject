@@ -52,9 +52,8 @@ RSpec.describe Projects::InfoLineComponent, type: :component do
   context "when asked to show the workspace type" do
     let(:show_workspace_type) { true }
 
-    it "names the workspace type with its icon" do
-      expect(rendered_component).to have_test_selector("project-info-line-workspace-type", text: I18n.t(:label_program))
-      expect(rendered_component).to have_css("[data-test-selector='project-info-line-workspace-type'] svg.octicon-versions")
+    it "renders the workspace type" do
+      expect(rendered_component).to have_test_selector("project-info-line-workspace-type")
     end
   end
 

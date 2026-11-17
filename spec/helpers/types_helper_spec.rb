@@ -182,12 +182,30 @@ RSpec.describe TypesHelper do
       end
 
       context "with a query group" do
+        current_user { create(:admin) }
+
         let(:query) { create(:query) }
 
         before do
           allow(variant)
             .to receive(:attribute_groups)
             .and_return [Type::QueryGroup.new(variant, "Related", query)]
+        end
+
+        it "preserves unavailable values before sanitizing editor props" do
+          project = create(:project)
+          archived = create(:project)
+          query.add_filter("project_id", "=", [project.id.to_s, archived.id.to_s])
+          query.save!
+          archived.update!(active: false)
+          group = subject.first
+          expect(group[:query_summary].flat_map { it[:values] }.join).to include("Unavailable value")
+          editor_filter = JSON.parse(JSON.parse(group[:query]).fetch("filters")).find { it.key?("project") }
+          expect(editor_filter.fetch("project").fetch("values")).to eq([project.id.to_s])
+          expect(query.filters.find { it.name == :project_id }.values).to include(archived.id.to_s)
+          repeated_group = helper.form_configuration_groups(variant)[:actives].first
+          expect(repeated_group[:query_summary]).to eq(group[:query_summary])
+          expect(query.reload.filters.find { it.name == :project_id }.values).to include(archived.id.to_s)
         end
 
         it "carries the query key the group is excluded by" do
@@ -206,6 +224,7 @@ RSpec.describe TypesHelper do
           expect { subject }.not_to raise_error
           expect(subject.first[:element_key]).to be_nil
           expect(subject.first[:query]).to be_nil
+          expect(subject.first[:query_summary]).to eq([{ label: "Configuration", values: ["Configuration unavailable"] }])
         end
       end
     end
@@ -230,6 +249,24 @@ RSpec.describe TypesHelper do
           expect(cf_attr[:field_format_label]).to eq I18n.t(:label_string)
         end
       end
+    end
+  end
+
+  describe "#form_configuration_groups with an editor context" do
+    let(:form) { create(:form_configuration) }
+    let!(:group) { create(:form_configuration_group, form_configuration: form, label: "Details") }
+    let!(:active) do
+      create(:form_configuration_attribute, form_configuration: form, group:, position: 1, attribute_key: "assignee")
+    end
+    let!(:inactive) { create(:form_configuration_attribute, form_configuration: form, attribute_key: "priority") }
+    let(:context) { WorkPackageTypes::FormConfiguration::EditorContext.new(form_configuration: form) }
+
+    it "carries record ids for groups, active and inactive attributes", :aggregate_failures do
+      result = helper.form_configuration_groups(context)
+
+      expect(result[:actives].first).to include(id: group.id)
+      expect(result[:actives].first[:attributes].first).to include(key: "assignee", id: active.id)
+      expect(result[:inactives].find { it[:key] == "priority" }).to include(id: inactive.id)
     end
   end
 

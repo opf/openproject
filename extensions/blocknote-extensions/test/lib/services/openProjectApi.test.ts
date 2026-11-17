@@ -2,12 +2,17 @@ import { afterEach, beforeEach, describe, expect, it, vi, type MockInstance } fr
 import {
   canCreateWorkPackages,
   createWorkPackage,
+  avatarUrlOf,
   fetchAllowedValues,
+  fetchConfiguration,
+  fetchNonWorkingDays,
+  fetchPriorities,
   fetchStatuses,
   fetchTypes,
   fetchWorkPackage,
   fetchWorkPackages,
   fetchWorkPackageCreateForm,
+  fetchWeekdays,
   probeCreateWorkPackagePermission,
   initOpenProjectApi,
   linkToNewWorkPackage,
@@ -165,6 +170,14 @@ describe('openProjectApi', () => {
 
       await searchWorkPackages('test query');
       expect(calledUrl(fetchSpy.mock.calls, 3)).toContain(`${proxyUrl}/api/v3/work_packages?`);
+
+      await fetchPriorities();
+      expect(calledUrl(fetchSpy.mock.calls, 4)).toBe(`${proxyUrl}/api/v3/priorities`);
+    });
+
+    it('loads the pictures of users from the proxyUrl, which authorizes them', () => {
+      initOpenProjectApi({ baseUrl, proxyUrl });
+      expect(avatarUrlOf('/api/v3/users/3')).toBe(`${proxyUrl}/api/v3/users/3/avatar`);
     });
 
     it('sends a write to the proxyUrl as well', async () => {
@@ -294,10 +307,24 @@ describe('openProjectApi', () => {
     beforeEach(() => initOpenProjectApi({ baseUrl: proxyUrl }));
     afterEach(() => vi.restoreAllMocks());
 
+    it('returns the schemas the API embeds along with them', async () => {
+      const schema = { _links: { self: { href: '/api/v3/work_packages/schemas/1-2' } } };
+      vi.spyOn(globalThis, 'fetch').mockResolvedValue(mockResponse({
+        ok: true,
+        json: async () => ({
+          total: 1,
+          count: 1,
+          _embedded: { elements: [{ id: 1 }], schemas: { _embedded: { elements: [schema] } } },
+        }),
+      }));
+
+      expect((await fetchWorkPackages([1])).schemas).toEqual([schema]);
+    });
+
     it('asks for all of them in a single request', async () => {
       const fetchSpy = stubApi({ visible: [1, 2, 3] });
 
-      const workPackages = await fetchWorkPackages([1, 2, 3]);
+      const { workPackages } = await fetchWorkPackages([1, 2, 3]);
 
       expect(workPackages.map(({ id }) => id)).toEqual([1, 2, 3]);
       expect(fetchSpy).toHaveBeenCalledTimes(1);
@@ -319,7 +346,7 @@ describe('openProjectApi', () => {
     it('leaves out the work packages the user cannot see', async () => {
       stubApi({ visible: [1, 3] });
 
-      const workPackages = await fetchWorkPackages([1, 2, 3]);
+      const { workPackages } = await fetchWorkPackages([1, 2, 3]);
 
       expect(workPackages.map(({ id }) => id)).toEqual([1, 3]);
     });
@@ -327,14 +354,14 @@ describe('openProjectApi', () => {
     it('answers with none when not one of them is visible, instead of what the dropped filter returns', async () => {
       const fetchSpy = stubApi({ visible: [7, 8, 9, 10] });
 
-      expect(await fetchWorkPackages([1, 2])).toEqual([]);
+      expect(await fetchWorkPackages([1, 2])).toEqual({ workPackages: [], schemas: [] });
       expect(fetchSpy).toHaveBeenCalledTimes(1);
     });
 
     it('follows the pages when the instance caps the page size', async () => {
       const fetchSpy = stubApi({ visible: [1, 2, 3, 4, 5], maxPageSize: 2 });
 
-      const workPackages = await fetchWorkPackages([1, 2, 3, 4, 5]);
+      const { workPackages } = await fetchWorkPackages([1, 2, 3, 4, 5]);
 
       expect(workPackages.map(({ id }) => id)).toEqual([1, 2, 3, 4, 5]);
       expect(fetchSpy.mock.calls.map(([input]) => new URL(input as string).searchParams.get('offset')))
@@ -345,7 +372,7 @@ describe('openProjectApi', () => {
       const ids = Array.from({ length: 250 }, (_, index) => index + 1);
       const fetchSpy = stubApi({ visible: ids });
 
-      const workPackages = await fetchWorkPackages(ids);
+      const { workPackages } = await fetchWorkPackages(ids);
 
       expect(workPackages).toHaveLength(250);
       expect(fetchSpy.mock.calls.map(([input]) => idsOf(input as string).length)).toEqual([100, 100, 50]);
@@ -354,14 +381,14 @@ describe('openProjectApi', () => {
     it('sends no request for no ids', async () => {
       const fetchSpy = stubApi({ visible: [] });
 
-      expect(await fetchWorkPackages([])).toEqual([]);
+      expect(await fetchWorkPackages([])).toEqual({ workPackages: [], schemas: [] });
       expect(fetchSpy).not.toHaveBeenCalled();
     });
 
     it('leaves out invalid ids instead of failing the others with them', async () => {
       const fetchSpy = stubApi({ visible: [1] });
 
-      const workPackages = await fetchWorkPackages([1, -1, NaN, 1.5]);
+      const { workPackages } = await fetchWorkPackages([1, -1, NaN, 1.5]);
 
       expect(workPackages.map(({ id }) => id)).toEqual([1]);
       expect(idsOf(calledUrl(fetchSpy.mock.calls))).toEqual([1]);
@@ -370,7 +397,7 @@ describe('openProjectApi', () => {
     it('sends no request when no id is valid', async () => {
       const fetchSpy = stubApi({ visible: [1] });
 
-      expect(await fetchWorkPackages([-1, NaN])).toEqual([]);
+      expect(await fetchWorkPackages([-1, NaN])).toEqual({ workPackages: [], schemas: [] });
       expect(fetchSpy).not.toHaveBeenCalled();
     });
 
@@ -891,6 +918,64 @@ describe('openProjectApi', () => {
         fetchSpy.mockRestore();
         consoleSpy.mockRestore();
       }
+    });
+  });
+
+  describe('what the date pickers are set up with', () => {
+    async function requested(call:() => Promise<unknown>, body:unknown = {}):Promise<string> {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
+        ok: true,
+        json: async () => body,
+      }));
+
+      try {
+        await call();
+        return calledUrl(fetchSpy.mock.calls);
+      } finally {
+        fetchSpy.mockRestore();
+      }
+    }
+
+    it('reads the formats and time zone of the user from the configuration', async () => {
+      expect(await requested(fetchConfiguration)).toBe('http://localhost:3000/api/v3/configuration');
+    });
+
+    it('reads which days of the week are worked', async () => {
+      expect(await requested(fetchWeekdays)).toBe('http://localhost:3000/api/v3/days/week');
+    });
+
+    it('asks for the non working days of one whole year', async () => {
+      const url = new URL(await requested(() => fetchNonWorkingDays(2026)));
+
+      expect(url.pathname).toBe('/api/v3/days/non_working');
+      expect(JSON.parse(url.searchParams.get('filters')!)).toEqual([
+        { date: { operator: '<>d', values: ['2026-01-01', '2026-12-31'] } },
+      ]);
+    });
+
+    it('answers with the dates of the non working days', async () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
+        ok: true,
+        json: async () => ({ _embedded: { elements: [{ date: '2026-12-25', name: 'Christmas' }] } }),
+      }));
+
+      try {
+        expect(await fetchNonWorkingDays(2026)).toEqual(['2026-12-25']);
+      } finally {
+        fetchSpy.mockRestore();
+      }
+    });
+  });
+
+  describe('avatarUrlOf', () => {
+    it('has a picture for users only', () => {
+      initOpenProjectApi({ baseUrl: 'https://example.com' });
+
+      expect(avatarUrlOf('/api/v3/groups/4')).toBeUndefined();
+      expect(avatarUrlOf('/api/v3/placeholder_users/5')).toBeUndefined();
+      expect(avatarUrlOf(null)).toBeUndefined();
     });
   });
 });

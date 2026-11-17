@@ -30,7 +30,6 @@ import { input, InputState } from '@openproject/reactivestates';
 import {
   filter,
   map,
-  take,
 } from 'rxjs/operators';
 import {
   firstValueFrom,

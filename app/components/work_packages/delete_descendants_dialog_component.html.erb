@@ -67,7 +67,7 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
     <% end %>
     <% if deleted_descendants.any? %>
-      <%= render(OpPrimer::InsetBoxComponent.new) do %>
+      <%= render(Primer::OpenProject::InsetBox.new) do %>
         <%= render(Primer::Beta::Text.new(font_size: :small, font_weight: :bold, display: :block, mb: 2)) do %>
           <%= I18n.t("work_packages.bulk_delete_dialog.children_label") %>
         <% end %>

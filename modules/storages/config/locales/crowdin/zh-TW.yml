@@ -492,7 +492,7 @@ zh-TW:
     oauth_grant_nudge_modal:
       cancel_button_label: 稍後再做
       heading: 需要使用 %{provider_type} 登入
-      login_button_aria_label: 登入到 %{storage}
+      login_button_accessible_name: "%{provider_type} log in to %{storage}"
       login_button_label: "%{provider_type} 登入"
       project_settings:
         description: 若要存取專案資料夾，您需要登入 %{storage}。

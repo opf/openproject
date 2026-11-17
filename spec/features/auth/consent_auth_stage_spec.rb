@@ -137,7 +137,6 @@ RSpec.describe "Authentication Stages" do
 
   context "when enabled, and consent exists",
           :js,
-          :selenium,
           with_settings: {
             consent_info: { en: "# Consent header!" },
             consent_required: true
@@ -255,11 +254,10 @@ RSpec.describe "Authentication Stages" do
 
       expect_logged_in
 
-      manager = page.driver.browser.manage
-      autologin_cookie = manager.cookie_named("autologin")
-      expect(autologin_cookie[:name]).to eq "autologin"
+      autologin_cookie = page.driver.cookies["autologin"]
+      expect(autologin_cookie).to be_present
       # Cookie is set to expire at the given day
-      expect(autologin_cookie[:expires].to_date).to eq (Date.today + 1.day)
+      expect(autologin_cookie.expires.to_date).to eq(Time.zone.today + 1.day)
     end
 
     context "with contact mail address", with_settings: { consent_decline_mail: "foo@example.org" } do

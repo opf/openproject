@@ -48,7 +48,7 @@ export class ApiV3StatusesPaths extends ApiV3ResourceCollection<StatusResource, 
       .get<CollectionResource<StatusResource>>(this.path)
       .pipe(
         tap((collection) => {
-          collection.elements.forEach((resource, id) => {
+          collection.elements.forEach((resource) => {
             this.id(resource.id!).cache.updateValue(resource.id!, resource);
           });
         }),

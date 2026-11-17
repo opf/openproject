@@ -142,6 +142,11 @@ RSpec.describe WhatsNew::Release do
       expect(release).not_to be_visible_to(User.anonymous)
     end
 
+    it "is not visible with community links disabled",
+       with_config: { show_community_links: false } do
+      expect(release).not_to be_visible_to(user)
+    end
+
     it "is not visible without items" do
       expect(described_class.new(major: 99, minor: 2)).not_to be_visible_to(user)
     end

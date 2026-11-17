@@ -30,6 +30,11 @@
 class UserCustomFieldSection < CustomFieldSection
   BUILT_IN_ATTRIBUTES = %w[login firstname lastname mail language department].freeze
 
+  # Sections drag among themselves; the rows they hold -- built-in attributes
+  # and UserCustomFields alike -- drag among the sections' field lists.
+  SORTABLE_LIST_TYPE = "user_custom_field_section"
+  FIELD_SORTABLE_LIST_TYPE = "user_field"
+
   has_many :custom_fields,
            class_name: "UserCustomField",
            dependent: :restrict_with_exception,

@@ -1,42 +1,47 @@
 export const en = {
   translation: {
     'slashMenu': {
-      'title': 'Link existing work package',
-      'subtext': 'Add a dynamic link to a single work package',
+      'title': "Vincular el paquete de trabajo existente",
+      'subtext': "Añadir un enlace dinámico a un solo paquete de trabajo",
       'create': {
-        'title': 'Create new work package',
+        'title': "Crear un nuevo paquete de trabajo",
         'subtext': 'Create a work package and link it here'
       },
       'aliases': {
-        'workpackage': 'workpackage',
-        'work package': 'work package',
-        'wp': 'wp',
-        'link': 'link',
-        'create': 'create'
+        'workpackage': "paquetedetrabajo",
+        'work package': "paquete de trabajo",
+        'wp': "pt",
+        'link': "enlance",
+        'create': "crear",
+        'attribute': 'attribute'
+      },
+      'attribute': {
+        'title': 'Work package attribute',
+        'subtext': 'Insert a live attribute or custom field'
       }
     },
     'formattingToolbar': {
-      'createWorkPackage': 'Create work package'
+      'createWorkPackage': "Crear paquete de trabajo"
     },
     'createWorkPackage': {
-      'title': 'Create new work package',
-      'close': 'Close',
-      'cancel': 'Cancel',
-      'create': 'Create',
+      'title': "Crear un nuevo paquete de trabajo",
+      'close': "Cerrar",
+      'cancel': "Cancelar",
+      'create': "Crear",
       'creating': 'Creating…',
       'selectPlaceholder': 'Please select…',
       'searchPlaceholder': 'Type to search…',
-      'loading': 'Loading…',
-      'noResults': 'No results',
+      'loading': "Cargando…",
+      'noResults': "Sin resultados",
       'filterBy': 'Filter the list',
-      'allValues': 'All',
-      'favorites': 'Favorites',
-      'clear': 'Clear',
+      'allValues': "Todos",
+      'favorites': "Favoritos",
+      'clear': "Despejar",
       'deselect': 'Remove selection',
       'removeValue': 'Remove {{value}}',
-      'openOptions': 'Show options',
-      'closeOptions': 'Hide options',
-      'subjectPlaceholder': 'Enter subject here',
+      'openOptions': "Mostrar opciones",
+      'closeOptions': "Ocultar opciones",
+      'subjectPlaceholder': "Escriba aquí el asunto",
       'subjectClipped': 'The selected text was too long and has been shortened to the first {{limit}} characters.',
       'projectPlaceholder': 'Select a project…',
       'loadFailed': 'The work package form could not be loaded: {{message}}',
@@ -50,35 +55,38 @@ export const en = {
       'createInOpenProject': 'Create it in OpenProject'
     },
     'search': {
-      'label': 'Link existing work package',
-      'placeholder': 'Search by work package ID or subject',
-      'dropdownAriaLabel': 'Work package search results',
-      'noResults': 'No results',
+      'label': "Vincular el paquete de trabajo existente",
+      'placeholder': "Buscar paquete de trabajo por ID o asunto",
+      'dropdownAriaLabel': "Resultados de la búsqueda de paquetes de trabajo",
+      'noResults': "Sin resultados",
       'error': 'Error. Unable to load content.',
-      'createWorkPackage': 'Create new work package'
+      'createWorkPackage': "Crear un nuevo paquete de trabajo"
     },
     'unavailableWorkPackage': {
       'loading': {
-        'header': 'Loading',
-        'message': 'Please wait'
+        'header': "Cargando",
+        'message': "Por favor, espere"
       },
       'unauthorized': {
-        'header': 'Linked work package unavailable',
-        'message': 'You do not have permission to see this',
+        'header': "Paquete de trabajo vinculado no disponible",
+        'message': "Usted no está autorizado para ver este contenido",
         'short_message': 'Work package unavailable: no permission'
       },
       'error': {
         'header': 'Error',
-        'message': 'Could not load work package',
+        'message': "No se ha podido cargar el paquete de trabajo",
         'short_message': 'Unavailable: error'
       }
     },
     'options': {
       'openInNewTab': 'Open in new tab',
-      'open': 'Open',
+      'openWorkPackage': 'Open {{id}}',
       'changeSize': 'Change size',
-      'remove': 'Remove',
-      'removeAriaLabel': 'Remove work package',
+      'changeSizeAriaLabel': 'Change size: {{size}}',
+      'menuAriaLabel': 'Options for work package {{id}}',
+      'selectedAnnouncement': '{{description}}. Press Enter to open its options.',
+      'remove': "Eliminar",
+      'removeAriaLabel': "Eliminar paquete de trabajo",
       'openAriaLabel': 'Open work package {{id}} in new tab',
       'inlineSizeLabel': 'Inline size',
       'blockSizeLabel': 'Block size',
@@ -90,14 +98,14 @@ export const en = {
     'sizes': {
       'xxs': {
         'label': 'Tiny',
-        'desc': 'Identifier'
+        'desc': "Identificador"
       },
       'xs': {
         'label': 'Compact',
         'desc': 'Type, Identifier, Subject'
       },
       's': {
-        'label': 'Regular',
+        'label': "Normal",
         'desc': 'Status, Type, Identifier, Subject'
       },
       'm': {
@@ -117,7 +125,41 @@ export const en = {
       'typeToSearch': 'Type to search work packages…'
     },
     'spinner': {
-      'ariaLabel': 'Loading'
+      'ariaLabel': "Cargando"
+    },
+    'workPackageAttribute': {
+      'missing': '{{attribute}} unavailable',
+      'yes': "Sí",
+      'no': 'No',
+      'days_one': '{{count}} day',
+      'days_other': '{{count}} days',
+      'display': {
+        'label': "Etiqueta",
+        'value': "Valor",
+        'both': 'Label + value'
+      },
+      'options': {
+        'menuAriaLabel': 'Options for {{attribute}} of work package {{id}}',
+        'removeAriaLabel': 'Remove work package attribute',
+        'selectedDescription': '{{attribute}} of work package {{id}}'
+      },
+      'dialog': {
+        'title': 'Insert work package attribute',
+        'workPackage': "paquete de trabajo",
+        'attribute': "Atributo",
+        'attributePlaceholder': 'Select an attribute…',
+        'attributeDisabled': 'Select a work package first',
+        'attributeLoading': 'Loading attributes…',
+        'attributeUnavailable': 'Attributes unavailable',
+        'loadFailed': 'The attributes of {{id}} could not be loaded.',
+        'retry': "Intentar otra vez",
+        'prefilled': 'Prefilled with your last selection',
+        'notAvailable': '"{{attribute}}" is not available on {{id}}. Choose another attribute.',
+        'show': "Mostrar",
+        'preview': "Vista preliminar",
+        'previewEmpty': 'Choose a work package and an attribute',
+        'insert': "Insertar"
+      }
     }
   }
 };

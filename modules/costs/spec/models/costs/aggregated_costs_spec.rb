@@ -146,7 +146,7 @@ RSpec.describe Costs::AggregatedCosts do
 
       before do
         create(:hourly_rate,
-               user:,
+               principal: user,
                project:,
                rate: 50.0,
                valid_from: Date.current - 1.day)
@@ -173,7 +173,7 @@ RSpec.describe Costs::AggregatedCosts do
 
       before do
         create(:hourly_rate,
-               user: user_without_hourly_rates,
+               principal: user_without_hourly_rates,
                project: project,
                rate: 50.0,
                valid_from: Date.current - 1.day)
@@ -212,12 +212,12 @@ RSpec.describe Costs::AggregatedCosts do
 
       before do
         create(:hourly_rate,
-               user: user_with_own_rate_only,
+               principal: user_with_own_rate_only,
                project: project,
                rate: 50.0,
                valid_from: Date.current - 1.day)
         create(:hourly_rate,
-               user: other_user,
+               principal: other_user,
                project: project,
                rate: 60.0,
                valid_from: Date.current - 1.day)
@@ -264,7 +264,7 @@ RSpec.describe Costs::AggregatedCosts do
 
       before do
         create(:hourly_rate,
-               user:,
+               principal: user,
                project:,
                rate: 50.0,
                valid_from: Date.current - 1.day)
@@ -310,7 +310,7 @@ RSpec.describe Costs::AggregatedCosts do
 
       before do
         create(:hourly_rate,
-               user:,
+               principal: user,
                project:,
                rate: 50.0,
                valid_from: Date.current - 1.day)
@@ -413,7 +413,7 @@ RSpec.describe Costs::AggregatedCosts do
 
       before do
         create(:hourly_rate,
-               user:,
+               principal: user,
                project:,
                rate: 50.0,
                valid_from: Date.new(2025, 1, 1))
@@ -462,7 +462,7 @@ RSpec.describe Costs::AggregatedCosts do
       end
 
       before do
-        create(:hourly_rate, user:, project:, rate: 50.0, valid_from: Date.new(2025, 1, 1))
+        create(:hourly_rate, principal: user, project:, rate: 50.0, valid_from: Date.new(2025, 1, 1))
       end
 
       it "returns the sorted union of labor and material months as Date objects" do
@@ -535,7 +535,7 @@ RSpec.describe Costs::AggregatedCosts do
     subject(:aggregated) { described_class.new(project:, current_user: user, date_range:) }
 
     before do
-      create(:hourly_rate, user:, project:, rate: 50.0, valid_from: Date.new(2024, 1, 1))
+      create(:hourly_rate, principal: user, project:, rate: 50.0, valid_from: Date.new(2024, 1, 1))
     end
 
     context "with entries inside and outside the date range" do

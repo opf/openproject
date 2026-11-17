@@ -29,36 +29,12 @@
 
 module API
   module Errors
-    # A representation for internal server errors that's safe to be used to wrap unexpected errors received in rescue_from.
-    # It will hide the detailed error message of some exception classes that are known to risk exposing internal details.
     class InternalError < ErrorBase
       identifier "InternalServerError"
       code 500
 
-      def initialize(error_message = nil, exception:)
-        error = I18n.t("api_v3.errors.code_500")
-
-        if error_message && visible_exception?(exception)
-          error += " #{error_message}"
-        end
-
-        super(error)
-      end
-
-      private
-
-      ##
-      # Hide internal database errors in production
-      def visible_exception?(exception)
-        exception_blocklist.none? do |clz|
-          exception.is_a?(clz)
-        end
-      end
-
-      def exception_blocklist
-        [
-          ActiveRecord::StatementInvalid
-        ]
+      def initialize(*, **)
+        super(I18n.t("api_v3.errors.code_500"))
       end
     end
   end

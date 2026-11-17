@@ -64,7 +64,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
         expect(work_package.estimated_hours).to eq(120.0)
         expect(work_package.remaining_hours).to eq(11.0)
         expect(work_package.status.name).to eq("In Progress")
-        expect(work_package.status.is_closed).to be false
+        expect(work_package.status).not_to be_closed
         expect(work_package.priority.name).to eq("Highest")
         expect(work_package.assigned_to).to eq(op_user)
         expect(work_package.identifier).to eq("DPPP-6")
@@ -82,6 +82,16 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
         expect(work_package.updated_at).to eq(Time.zone.parse(jira_issue_payload["fields"]["updated"]))
       end
 
+      it "sets the origin fields for the imported work package" do
+        create_work_packages
+
+        work_package = WorkPackage.find("DPPP-6")
+        expect(work_package.origin_source).to eq("jira_data_center")
+        expect(work_package.origin_id).to eq(jira_issue.origin_id)
+        expect(work_package.origin_host).to eq(jira.url)
+        expect(work_package.origin_url).to eq("#{jira.url}/browse/DPPP-6")
+      end
+
       # rubocop:disable Layout/LineLength
       # rubocop:disable-next RSpec/ExampleLength
       it "creates appropriate comments on the work package" do
@@ -89,9 +99,8 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
 
         work_package = WorkPackage.find("DPPP-6")
 
-        # the 18th journal is added later, when Import::JiraCreateProjectWorkPackageAttachmentsJob
-        # attaches the file referenced by the "Attachment" changelog item asserted below
-        expect(work_package.journals.count).to be 17
+        # 16 journals replay the Jira changelog and comments, enclosed by the creation and the migration entry
+        expect(work_package.journals.count).to be 18
         expect(work_package.journals.where(notes: "Demo comment 1\n\n").count).to be 1
         expect(work_package.journals.where(notes: "Demo comment 2").count).to be 1
         expect(work_package.journals.where(notes: "Parampampam").count).to be 1
@@ -137,6 +146,159 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
       it "creates references for imported entities" do
         expect { create_work_packages }
           .to change(Import::JiraOpenProjectReference, :count).by_at_least(4)
+      end
+
+      it "closes the activity with a migration entry" do
+        create_work_packages
+
+        journal = WorkPackage.find("DPPP-6").journals.order(:version).last
+        expect(journal.cause).to eq("type" => "import", "migrated" => true)
+        expect(journal.created_at).to be_within(1.minute).of(Time.current)
+      end
+
+      describe "attachments" do
+        let(:work_package) { WorkPackage.find("DPPP-6") }
+        let(:attachment) { work_package.attachments.sole }
+        let(:jira_attachment_payload) { jira_issue_payload["fields"]["attachment"].sole }
+
+        it "prepares the attachment from the Jira metadata" do
+          create_work_packages
+
+          expect(attachment).to have_attributes(
+            status: "import_prepared",
+            filename: "airplane-wing-over-cloudy-sky.jpg",
+            filesize: 136426,
+            content_type: "image/jpeg",
+            author: op_user
+          )
+        end
+
+        it "takes the attachment timestamps from the date it was attached in Jira" do
+          create_work_packages
+
+          attached_at = Time.zone.parse(jira_attachment_payload["created"])
+          expect(attachment).to have_attributes(created_at: attached_at, updated_at: attached_at)
+        end
+
+        it "keeps the Jira attachment for downloading the file" do
+          create_work_packages
+
+          jira_attachment = Import::JiraAttachment.sole
+          expect(jira_attachment).to have_attributes(
+            origin_id: "10100",
+            jira_issue:,
+            jira_project:,
+            payload: jira_attachment_payload
+          )
+          expect(jira_import.find_op_leg(jira_attachment)).to eq(attachment)
+        end
+
+        it "records the attachment in every journal" do
+          create_work_packages
+
+          attachment_ids_by_journal = work_package.journals.map { |journal| journal.attachable_journals.pluck(:attachment_id) }
+          expect(attachment_ids_by_journal).to all(eq([attachment.id]))
+        end
+
+        context "with an attachment missing the date it was attached" do
+          let(:jira_issue_payload) do
+            super().tap do |payload|
+              attachments = payload["fields"]["attachment"]
+              attachments << attachments.sole.merge("id" => "10101", "filename" => "undated.jpg").except("created")
+            end
+          end
+          let(:undated_attachment) { work_package.attachments.find_by!(filename: "undated.jpg") }
+
+          it "dates it at the time of the import" do
+            create_work_packages
+
+            expect(undated_attachment.created_at).to be_within(1.minute).of(Time.current)
+          end
+        end
+
+        context "with an uploader not otherwise involved in the issue" do
+          let(:uploader) { create(:user) }
+          let(:jira_issue_payload) do
+            super().tap do |payload|
+              payload["fields"]["attachment"].sole["author"]["key"] = "JIRAUSER10001"
+            end
+          end
+
+          before do
+            jira_uploader = create(:jira_user, jira_import:, origin_id: "JIRAUSER10001")
+            create(:jira_open_project_reference,
+                   jira_import:,
+                   jira_entity_class: "Import::JiraUser",
+                   jira_entity_id: jira_uploader.id.to_s,
+                   op_entity_class: "User",
+                   op_entity_id: uploader.id.to_s)
+          end
+
+          it "adds the uploader as a project member" do
+            create_work_packages
+
+            expect(Project.find_by!(identifier: jira_project_key).users).to include(uploader)
+          end
+        end
+
+        context "when the attachment is embedded as an image" do
+          let(:jira_issue_payload) do
+            super().tap do |payload|
+              payload["fields"]["description"] = "The wing: !airplane-wing-over-cloudy-sky.jpg!"
+              payload["fields"]["comment"]["comments"].first["body"] = "Again: !airplane-wing-over-cloudy-sky.jpg!"
+            end
+          end
+          let(:image) { "![](/api/v3/attachments/#{attachment.id}/content)" }
+
+          it "links the description to the attachment" do
+            create_work_packages
+
+            expect(work_package.description).to eq("The wing: #{image}")
+          end
+
+          it "links the comment to the attachment" do
+            create_work_packages
+
+            expect(work_package.journals.where(notes: "Again: #{image}")).to exist
+          end
+
+          context "with an older attachment of the same name" do
+            let(:jira_issue_payload) do
+              super().tap do |payload|
+                attachments = payload["fields"]["attachment"]
+                attachments << attachments.sole.merge("id" => "10099", "created" => "2026-03-17T08:00:00.000+0000")
+              end
+            end
+            let(:attachment) do
+              newer_jira_attachment = Import::JiraAttachment.find_by!(origin_id: "10100")
+              jira_import.find_op_leg(newer_jira_attachment)
+            end
+
+            it "links the most recent one" do
+              create_work_packages
+
+              expect(work_package.description).to eq("The wing: #{image}")
+            end
+          end
+        end
+      end
+
+      context "when another issue of the import shares the type, status and priority" do
+        before do
+          create(:jira_issue,
+                 jira_import:,
+                 origin_id: "10406",
+                 jira_project:,
+                 payload: jira_issue_payload.deep_dup.merge("id" => "10406", "key" => "#{jira_project_key}-1124"))
+        end
+
+        it "keeps them marked as created by the import" do
+          create_work_packages
+
+          references = Import::JiraOpenProjectReference.where(jira_import:, op_entity_class: %w[Type Status IssuePriority])
+          expect(references.pluck(:op_entity_class, :uses_existing))
+            .to contain_exactly(["Type", false], ["Status", false], ["IssuePriority", false])
+        end
       end
 
       context "when finding or creating a status" do
@@ -200,19 +362,107 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
           create_work_packages
 
           work_package = WorkPackage.find("DPPP-6")
-          expect(work_package.journals.count).to be 17
+          expect(work_package.journals.count).to be 18
           expect(work_package.journals.where(notes: "Demo comment 2").count).to be 1
         end
       end
 
-      context "if Jira status is done" do
-        let(:jira_issue_payload) { super().tap { |payload| payload["fields"]["status"]["statusCategory"]["key"] = "done" } }
+      context "when Jira status category is 'indeterminate'" do
+        let(:jira_issue_payload) do
+          super().tap { |payload| payload["fields"]["status"]["statusCategory"]["key"] = "indeterminate" }
+        end
 
-        it "creates workpackage with closed status" do
+        it "creates status with in_progress category" do
           create_work_packages
 
           work_package = WorkPackage.find("DPPP-6")
-          expect(work_package.status.is_closed).to be true
+          expect(work_package.status.category).to eq("in_progress")
+        end
+      end
+
+      context "when Jira status category is 'new'" do
+        let(:jira_issue_payload) do
+          super().tap { |payload| payload["fields"]["status"]["statusCategory"]["key"] = "new" }
+        end
+
+        it "creates status with to_do category" do
+          create_work_packages
+
+          work_package = WorkPackage.find("DPPP-6")
+          expect(work_package.status.category).to eq("to_do")
+        end
+      end
+
+      context "when Jira status category is 'done'" do
+        let(:jira_issue_payload) do
+          super().tap { |payload| payload["fields"]["status"]["statusCategory"]["key"] = "done" }
+        end
+
+        it "creates status with closed category" do
+          create_work_packages
+
+          work_package = WorkPackage.find("DPPP-6")
+          expect(work_package.status.category).to eq("closed")
+          expect(work_package.status).to be_closed
+        end
+      end
+
+      context "when Jira status category is 'undefined'" do
+        let(:jira_issue_payload) do
+          super().tap { |payload| payload["fields"]["status"]["statusCategory"]["key"] = "undefined" }
+        end
+
+        it "creates status with nil category" do
+          create_work_packages
+
+          work_package = WorkPackage.find("DPPP-6")
+          expect(work_package.status.category).to be_nil
+        end
+      end
+
+      context "when importing the due date" do
+        before { week_with_saturday_and_sunday_as_weekend }
+
+        context "when it falls on a working day" do
+          it "keeps the work package scheduled on working days only" do
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6"))
+              .to have_attributes(due_date: Date.new(2031, 5, 29), ignore_non_working_days: false)
+          end
+        end
+
+        context "when it falls on a weekend" do
+          let(:jira_issue_payload) { super().deep_merge("fields" => { "duedate" => "2031-05-31" }) }
+
+          it "keeps the due date by including non-working days" do
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6"))
+              .to have_attributes(due_date: Date.new(2031, 5, 31), ignore_non_working_days: true)
+          end
+        end
+
+        context "when it falls on a non-working day of the instance" do
+          before { create(:non_working_day, date: Date.new(2031, 5, 29)) }
+
+          it "keeps the due date by including non-working days" do
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6"))
+              .to have_attributes(due_date: Date.new(2031, 5, 29), ignore_non_working_days: true)
+          end
+        end
+
+        context "when the issue has none" do
+          let(:jira_issue_payload) { super().deep_merge("fields" => { "duedate" => nil }) }
+
+          it "keeps the work package scheduled on working days only" do
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6"))
+              .to have_attributes(due_date: nil, ignore_non_working_days: false)
+          end
         end
       end
 
@@ -406,6 +656,231 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
         end
       end
 
+      context "with sprint assignments" do
+        let(:op_project) { Project.find_by!(identifier: jira_project_key) }
+        let(:sprint_value) { [] }
+        let(:jira_issue_payload) { super().deep_merge("fields" => { "customfield_10102" => sprint_value }) }
+        let(:work_package) { WorkPackage.find("DPPP-6") }
+
+        def stage_sprint(origin_id, sprint)
+          jira_sprint = create(:jira_sprint, jira_import:, origin_id:)
+          create(:jira_open_project_reference,
+                 jira_import:,
+                 jira_entity_class: jira_sprint.class.to_s,
+                 jira_entity_id: jira_sprint.id.to_s,
+                 op_entity_class: sprint.class.to_s,
+                 op_entity_id: sprint.id.to_s)
+          sprint
+        end
+
+        def closed(id) = { "id" => id, "state" => "closed", "completeDate" => "2026-01-04T22:03:28.766Z" }
+
+        before do
+          create(:jira_field,
+                 jira_import:,
+                 origin_id: "customfield_10102",
+                 payload: { "id" => "customfield_10102",
+                            "schema" => { "type" => "array", "items" => "string",
+                                          "custom" => "com.pyxis.greenhopper.jira:gh-sprint" } })
+        end
+
+        context "when the issue was carried over into an open sprint" do
+          let(:sprint_value) { [{ "id" => 2, "state" => "active" }, closed(1)] }
+
+          it "assigns the open sprint" do
+            stage_sprint("1", create(:sprint, :completed, project: op_project))
+            open_sprint = stage_sprint("2", create(:sprint, :active, project: op_project))
+
+            create_work_packages
+
+            expect(work_package.sprint).to eq(open_sprint)
+          end
+        end
+
+        context "when every sprint of the issue is closed" do
+          let(:sprint_value) { [closed(1)] }
+
+          it "assigns the completed sprint" do
+            completed_sprint = stage_sprint("1", create(:sprint, :completed, project: op_project))
+
+            create_work_packages
+
+            expect(work_package.sprint).to eq(completed_sprint)
+          end
+        end
+
+        context "when several issues are in the same sprint" do
+          let(:sprint_value) { [closed(1)] }
+
+          before do
+            create(:jira_issue,
+                   jira_import:,
+                   origin_id: "10406",
+                   jira_project:,
+                   payload: jira_issue_payload.deep_dup.merge("id" => "10406", "key" => "#{jira_project_key}-1124"))
+          end
+
+          it "assigns all of them and looks the sprint up once" do
+            sprint = stage_sprint("1", create(:sprint, :completed, project: op_project))
+            allow(Import::JiraSprint).to receive(:find_by).and_call_original
+
+            create_work_packages
+
+            expect(WorkPackage.where(project: op_project).map(&:sprint)).to eq([sprint, sprint])
+            expect(Import::JiraSprint).to have_received(:find_by).once
+          end
+        end
+
+        context "when the sprint is owned by another project" do
+          let(:sprint_value) { [{ "id" => 3, "state" => "future" }] }
+
+          it "assigns the sprint" do
+            foreign_sprint = stage_sprint("3", create(:sprint, project: create(:project)))
+
+            create_work_packages
+
+            expect(work_package.sprint).to eq(foreign_sprint)
+          end
+        end
+
+        context "when the project owns an active sprint and receives another one" do
+          let(:sprint_value) { [{ "id" => 3, "state" => "active" }] }
+
+          before do
+            create(:sprint, :active, project: op_project)
+            stage_sprint("3", create(:sprint, :active, project: create(:project)))
+          end
+
+          it "allows multiple active sprints in the project" do
+            create_work_packages
+
+            expect(op_project.reload).to be_allow_multiple_active_sprints
+          end
+        end
+
+        context "when the project only receives an active sprint" do
+          let(:sprint_value) { [{ "id" => 3, "state" => "active" }] }
+
+          it "leaves the setting alone" do
+            stage_sprint("3", create(:sprint, :active, project: create(:project)))
+
+            create_work_packages
+
+            expect(op_project.reload).not_to be_allow_multiple_active_sprints
+          end
+        end
+
+        context "when the sprint was not imported" do
+          let(:sprint_value) { [{ "id" => 9, "state" => "active" }] }
+
+          it "creates the work package without a sprint" do
+            create_work_packages
+
+            expect(work_package.sprint).to be_nil
+          end
+        end
+      end
+
+      context "with labels" do
+        let(:jira_issue_payload) do
+          super().tap { |payload| payload["fields"]["labels"] = %w[backend urgent] }
+        end
+
+        it "attaches the jira labels to the work package" do
+          create_labels
+          create_work_packages
+
+          expect(WorkPackage.find("DPPP-6").labels.pluck(:name)).to contain_exactly("backend", "urgent")
+        end
+
+        it "records the labels in the work package journal" do
+          create_labels
+          create_work_packages
+
+          work_package = WorkPackage.find("DPPP-6")
+          expect(work_package.journals.last.label_journals.pluck(:label_id)).to match_array(work_package.label_ids)
+        end
+
+        context "when a label with the same name already exists in a different case" do
+          let!(:existing_label) { create(:label, name: "Backend") }
+
+          it "attaches the existing label instead of a second one" do
+            create_labels
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6").labels).to include(existing_label)
+            expect(Label.named("backend").count).to eq(1)
+          end
+        end
+
+        context "when a second issue carries the same label" do
+          let!(:jira_issue2) do
+            payload = jira_issue_payload.deep_dup
+            payload["id"] = "10406"
+            payload["key"] = "DPPP-7"
+            payload["fields"]["labels"] = %w[backend]
+            create(:jira_issue, jira_import:, origin_id: "10406", jira_project:, payload:)
+          end
+
+          it "attaches the one label to both work packages" do
+            create_labels
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-7").labels.pluck(:name)).to eq(["backend"])
+            expect(WorkPackage.find("DPPP-6").labels).to include(Label.named("backend").first)
+          end
+        end
+
+        context "when the issue has no labels" do
+          let(:jira_issue_payload) { super().tap { |payload| payload["fields"]["labels"] = [] } }
+
+          it "leaves the work package without labels" do
+            create_labels
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6").labels).to be_empty
+          end
+        end
+
+        context "when the labels field is hidden in the jira field configuration" do
+          let(:jira_issue_payload) { super().tap { |payload| payload["fields"].delete("labels") } }
+
+          it "imports the work package without labels" do
+            create_labels
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6").labels).to be_empty
+          end
+        end
+
+        context "when the labels field is not an array" do
+          let(:jira_issue_payload) do
+            super().tap { |payload| payload["fields"]["labels"] = "backend" }
+          end
+
+          it "imports the work package without labels and does not log a missing one" do
+            allow(Rails.logger).to receive(:warn)
+
+            create_labels
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6").labels).to be_empty
+            expect(Rails.logger).not_to have_received(:warn).with(/backend/)
+          end
+        end
+
+        context "when the labels stage did not run" do
+          it "imports the work package without labels and logs them" do
+            allow(Rails.logger).to receive(:warn)
+
+            create_work_packages
+
+            expect(WorkPackage.find("DPPP-6").labels).to be_empty
+            expect(Rails.logger).to have_received(:warn).with(/backend, urgent/)
+          end
+        end
+      end
+
       context "with resolution fields" do
         context "when an issue's resolution is set" do
           let(:jira_issue_payload) do
@@ -502,6 +977,52 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
               work_package = WorkPackage.find("DPPP-6")
               expect(work_package.type.default_variant.custom_field_ids).not_to include(resolution_date_cf.id)
             end
+          end
+        end
+      end
+
+      context "with watchers" do
+        let(:locked_op_user) { create(:user, status: :locked) }
+        let(:jira_issue_payload) do
+          super().merge(
+            "watchers" => [
+              { "key" => "JIRAUSER_WATCHER" },
+              { "key" => "JIRAUSER10000" },
+              { "key" => "JIRAUSER_UNKNOWN" }
+            ]
+          )
+        end
+
+        before do
+          jira_user = create(:jira_user, jira_import:, origin_id: "JIRAUSER_WATCHER", payload: jira_user_payload)
+          create(:jira_open_project_reference,
+                 jira_import:,
+                 jira_entity_class: "Import::JiraUser",
+                 jira_entity_id: jira_user.id.to_s,
+                 op_entity_class: "User",
+                 op_entity_id: locked_op_user.id.to_s)
+        end
+
+        it "adds the existing users as watchers to the work package, even if they are still locked" do
+          expect { create_work_packages }.to change(Watcher, :count).by(2)
+
+          expect(WorkPackage.find("DPPP-6").watcher_users).to contain_exactly(locked_op_user, op_user)
+        end
+
+        it "makes the watchers members of the project" do
+          create_work_packages
+
+          project = Project.find_by!(identifier: jira_project_key)
+          expect(Member.where(project:, principal: locked_op_user)).to exist
+        end
+
+        context "when the author is not listed as a watcher in jira" do
+          let(:jira_issue_payload) { super().merge("watchers" => [{ "key" => "JIRAUSER_UNKNOWN" }]) }
+
+          it "still adds them as a watcher" do
+            expect { create_work_packages }.to change(Watcher, :count).by(1)
+
+            expect(WorkPackage.find("DPPP-6").watcher_users).to contain_exactly(op_user)
           end
         end
       end

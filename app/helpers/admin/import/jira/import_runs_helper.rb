@@ -48,6 +48,12 @@ module Admin::Import::Jira::ImportRunsHelper
     I18n.t(:"admin.jira.run.wizard.parts.statuses", count:)
   end
 
+  def resolutions_label(count)
+    return nil if count.nil?
+
+    I18n.t(:"admin.jira.run.wizard.parts.resolutions", count:)
+  end
+
   def types_label(count)
     return nil if count.nil?
 

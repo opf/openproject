@@ -76,7 +76,7 @@ describe('Hash menu - search feedback', () => {
     await userEvent.keyboard('{Enter}');
 
     await expect.element(page.getByText('No results')).not.toBeInTheDocument();
-    await expect.element(page.getByRole('textbox')).toHaveTextContent('#zzz');
+    await expect.element(page.getByRole('textbox')).toMatchTextContent('#zzz');
   });
 
   it('shows an error message when the search request fails', async () => {

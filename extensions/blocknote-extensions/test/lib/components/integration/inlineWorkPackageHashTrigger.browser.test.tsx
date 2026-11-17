@@ -22,6 +22,6 @@ describe('Inline chip - # trigger with an existing hash in the line', () => {
     // The chip is inserted and the earlier "#42" must be preserved (only the
     // "#Fix" trigger is removed — by BlockNote's suggestion menu).
     await expect.element(page.getByText('#123')).toBeVisible();
-    await expect.element(editor).toHaveTextContent('See PR #42');
+    await expect.element(editor).toMatchTextContent('See PR #42');
   });
 });

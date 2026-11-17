@@ -50,7 +50,7 @@ module Admin
         attr_reader :custom_field, :project
 
         def rows
-          custom_field.list? ? option_rows : item_rows
+          @rows ||= custom_field.list? ? option_rows : item_rows
         end
 
         def option_rows
@@ -74,10 +74,7 @@ module Admin
         end
 
         def hierarchy_items
-          ::CustomFields::Hierarchy::HierarchicalItemService
-            .new
-            .get_descendants(item: custom_field.hierarchy_root, include_self: false)
-            .value_or([])
+          custom_field.hierarchy_root.descendants_preordered
         end
 
         def item_caption(item)

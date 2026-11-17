@@ -139,4 +139,52 @@ RSpec.describe Status do
               .to(false)
     end
   end
+
+  describe ".workflow_counts" do
+    let(:status) { create(:status) }
+    let(:other_status) { create(:status) }
+
+    it "returns an empty hash when given no statuses" do
+      expect(described_class.workflow_counts([])).to eq({})
+    end
+
+    it "omits a status no workflow transition references" do
+      expect(described_class.workflow_counts([status])).to eq({})
+    end
+
+    it "counts a workflow referencing the status as the old status" do
+      create(:status_transition, old_status: status)
+
+      expect(described_class.workflow_counts([status])).to eq(status.id => 1)
+    end
+
+    it "counts a workflow referencing the status as the new status" do
+      create(:status_transition, new_status: status)
+
+      expect(described_class.workflow_counts([status])).to eq(status.id => 1)
+    end
+
+    it "counts a workflow once even when several of its transitions touch the status" do
+      workflow = create(:named_workflow)
+      create(:status_transition, workflow:, old_status: status, new_status: other_status)
+      create(:status_transition, workflow:, old_status: other_status, new_status: status)
+
+      expect(described_class.workflow_counts([status])).to eq(status.id => 1)
+    end
+
+    it "counts each distinct workflow that references the status" do
+      create(:status_transition, old_status: status)
+      create(:status_transition, new_status: status)
+
+      expect(described_class.workflow_counts([status])).to eq(status.id => 2)
+    end
+
+    it "counts each requested status without leaking the transition's other end" do
+      create(:status_transition, old_status: status, new_status: other_status)
+
+      expect(described_class.workflow_counts([status])).to eq(status.id => 1)
+      expect(described_class.workflow_counts([status, other_status]))
+        .to eq(status.id => 1, other_status.id => 1)
+    end
+  end
 end

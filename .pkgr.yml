@@ -18,8 +18,6 @@ targets:
       - imagemagick
   debian-12:
     <<: *debian
-  ubuntu-20.04:
-    <<: *debian
   ubuntu-22.04:
     <<: *debian
   centos-9:

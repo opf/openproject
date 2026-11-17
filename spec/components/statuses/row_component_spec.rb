@@ -37,7 +37,8 @@ RSpec.describe Statuses::RowComponent, type: :component do
   end
 
   let(:table) do
-    Statuses::TableComponent.new(rows: Status.all, query:, page_args: { page: 1, per_page: 20 })
+    Statuses::TableComponent.new(rows: Status.all, query:, page_args: { page: 1, per_page: 20 },
+                                 workflow_counts: Status.workflow_counts(Status.all))
   end
   let(:query) { Queries::Statuses::StatusQuery.new(user: User.current) }
   let(:status) { create(:status, name: "In progress", default_done_ratio: 40) }
@@ -79,10 +80,10 @@ RSpec.describe Statuses::RowComponent, type: :component do
 
   describe "flag columns" do
     context "when the status is closed" do
-      let(:status) { create(:status, name: "Closed", is_closed: true) }
+      let(:status) { create(:status, name: "Closed", category: "closed") }
 
       it "checks the closed column" do
-        expect(rendered_component).to have_css("[aria-label='Closed']")
+        expect(rendered_component).to have_css("[data-test-selector='category']", text: "Closed")
       end
     end
 

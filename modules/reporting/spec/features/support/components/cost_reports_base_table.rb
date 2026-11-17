@@ -76,6 +76,7 @@ module Components
       page.find("#{row_selector(row)} .icon-edit").click
 
       time_logging_modal.is_visible true
+      expect(page).to have_css("opce-time-entries-work-package-autocompleter .ng-value", wait: 10)
       time_logging_modal.change_hours(hours)
       time_logging_modal.activity_input_disabled_because_work_package_missing? false
 

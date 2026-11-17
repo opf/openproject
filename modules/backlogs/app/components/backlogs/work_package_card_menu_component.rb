@@ -33,73 +33,116 @@ module Backlogs
   class WorkPackageCardMenuComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
     include CommonHelper
-    include Concerns::WorkPackageMovability
+    include SortableLists::MoveMenu
 
-    attr_reader :work_package, :project, :open_sprints_exist, :other_buckets_exist, :current_user
+    attr_reader :invoker, :work_packages, :destinations, :project, :current_user, :stale_scope
 
-    def initialize(work_package:, project:, open_sprints_exist:, other_buckets_exist:, current_user: User.current)
+    # A scope of several cards gets a batch menu of move actions only. When
+    # none applies, the batch menu says so.
+    #
+    # @param invoker [WorkPackage] the card the menu opened on; it names the
+    #   menu and carries its singular actions.
+    # @param work_packages [Array<WorkPackage>] the ordered selection the
+    #   destination actions apply to, including the invoker.
+    # @param destinations [Backlogs::WorkPackages::DestinationAvailability]
+    #   the destinations every member of `work_packages` may move to.
+    def initialize(project:, invoker:, work_packages:, destinations:, current_user: User.current, stale_scope: false)
       super()
 
-      @work_package = work_package
       @project = project
-      @open_sprints_exist = open_sprints_exist
-      @other_buckets_exist = other_buckets_exist
+      @invoker = invoker
+      @work_packages = work_packages
+      @destinations = destinations
       @current_user = current_user
+      @stale_scope = stale_scope
     end
 
     def menu_id
-      dom_target(work_package, :menu)
+      dom_target(invoker, :menu)
     end
 
     private
 
-    # Positional moves reorder within the card's own list, which the server
+    def list_data
+      {
+        sortable_lists__menu_source_target: "menu",
+        sortable_lists_scope_count: batch_menu? ? work_packages.size : 1,
+        sortable_lists_scope_ids: (batch_menu? ? work_packages : [invoker]).map { |wp| wp.id.to_s }.to_json
+      }
+    end
+
+    def batch_menu?
+      !stale_scope && work_packages.many?
+    end
+
+    def show_no_batch_actions?
+      batch_menu? && !moves_locked? && !any_destination?
+    end
+
+    # The client hides Move to position for a block that cannot move in any
+    # direction, which only the DOM can tell. When it is the sole batch
+    # action, the explanation rides along hidden for the client to reveal.
+    def no_batch_actions_item_arguments
+      return {} unless show_move_items?
+
+      { hidden: true, data: { sortable_lists__item_target: "moveUnavailable" } }
+    end
+
+    # Above the cap the batch menu still renders, with its actions disabled
+    # and the reason given once.
+    def moves_locked?
+      work_packages.size > Backlogs::WorkPackages::BatchUpdateService::MAX_BATCH_SIZE
+    end
+
+    def batch_too_large_message
+      t("js.backlogs.announcements.batch_too_large",
+        count: work_packages.size,
+        max: Backlogs::WorkPackages::BatchUpdateService::MAX_BATCH_SIZE)
+    end
+
+    def destination_item_arguments(key, **wiring)
+      {
+        id: dom_target(invoker, :menu, key),
+        label: t(".action_menu.#{key}"),
+        tag: :button,
+        **(moves_locked? ? { disabled: true } : wiring)
+      }
+    end
+
+    # Positional moves reorder within the cards' own list, which the server
     # allows even for a read-only work package, so they gate on the page-level
-    # permission alone. Only the cross-container moves below require movable?.
+    # permission and on every member sharing one list, not on whether any
+    # cross-container destination is offered.
     def show_move_items?
-      sortable?
+      destinations.manage_permission? && one_list?
+    end
+
+    def one_list?
+      work_packages.map { |work_package| Backlogs::Target.for_work_package(work_package) }.uniq.one?
     end
 
     def show_move_to_inbox?
-      movable? && (work_package.sprint_id? || work_package.backlog_bucket_id?)
+      destinations.inbox?
     end
 
     def show_move_to_backlog_bucket?
-      movable? && other_buckets_exist
+      destinations.buckets.any?
     end
 
     def show_move_to_sprint?
-      movable? && open_sprints_exist
+      destinations.sprints.any?
     end
 
-    def show_move_submenu?
-      show_move_items? || show_move_to_sprint? || show_move_to_inbox? || show_move_to_backlog_bucket?
+    def id_inputs
+      work_packages.map { |work_package| { name: "ids[]", value: work_package.id } }
     end
 
-    def build_move_menu(menu)
-      build_move_item(menu, label: :label_sort_highest, direction: "top", icon: :"move-to-top")
-      build_move_item(menu, label: :label_sort_higher, direction: "up", icon: :"chevron-up")
-      build_move_item(menu, label: :label_sort_lower, direction: "down", icon: :"chevron-down")
-      build_move_item(menu, label: :label_sort_lowest, direction: "bottom", icon: :"move-to-bottom")
+    def any_move_action?
+      !stale_scope && (show_move_items? || any_destination?)
     end
 
-    def build_move_item(menu, label:, icon:, direction:)
-      # The `data:` hash must live on the item level so Primer renders it on
-      # the ActionList `<li>`: the controller's `<li>` targets and the
-      # action-menu API's `disableItem`/`enableItem` both address that element,
-      # and the click action rides it via the bubbled button click.
-      menu.with_item(
-        id: dom_target(work_package, :menu, label),
-        label: I18n.t(label),
-        tag: :button,
-        data: {
-          sortable_lists__item_target: "moveItem",
-          sortable_lists__item_direction_param: direction,
-          action: "click->sortable-lists--item#move"
-        }
-      ) do |item|
-        item.with_leading_visual_icon(icon:)
-      end
+    def any_destination?
+      show_move_to_sprint? || show_move_to_inbox? || show_move_to_backlog_bucket?
     end
 
     def inbox_list_type

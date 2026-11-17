@@ -46,6 +46,7 @@ module Reporting
     before_action :find_report, only: %i[show update rename destroy]
     before_action :build_report, only: %i[index create]
     before_action :narrow_values_only, only: %i[index]
+    before_action :validate_report_query, only: %i[index show create update]
     before_action :set_cost_types, except: %i[available_values]
 
     # The rendering widgets reach for these through method_missing on the
@@ -116,16 +117,21 @@ module Reporting
     # Renders the option tags for the available values of a single filter.
     def available_values
       return head :bad_request if params[:filter_name].blank?
+      return head :not_found if requested_filter_class.nil?
 
-      render Widget::Filters::Option.new(requested_filter), layout: !request.xhr?
+      render Widget::Filters::Option.new(requested_filter, project: @project), layout: !request.xhr?
     end
 
     private
 
     def requested_filter
-      filter_class(params[:filter_name]).new.tap do |filter|
+      requested_filter_class.new.tap do |filter|
         filter.values = requested_filter_values if params[:values].present?
       end
+    end
+
+    def requested_filter_class
+      ::CostQuery::Filter.named(params[:filter_name])
     end
 
     def requested_filter_values
@@ -143,6 +149,7 @@ module Reporting
 
     def find_report
       @report = CostReport.visible(current_user).find(params.expect(:id))
+      return render_404 unless @report.visible?(current_user)
 
       if configured_by_params?
         ::CostReports::ParamsToReport.new(params, project: @project, user: current_user).call(@report)
@@ -159,6 +166,10 @@ module Reporting
 
     def build_report
       @report = ::CostReports::ParamsToReport.new(params, project: @project, user: current_user).call
+    end
+
+    def validate_report_query
+      render_400 unless @report.query.valid?
     end
 
     def render_or_export_report
@@ -221,10 +232,6 @@ module Reporting
     def load_all
       ::CostQuery::GroupBy.all
       ::CostQuery::Filter.all
-    end
-
-    def filter_class(name)
-      ::CostQuery::Filter.all.detect { |filter| filter.underscore_name == name }
     end
 
     def make_public?

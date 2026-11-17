@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  render(OpenProject::Common::BorderBoxListComponent.new(container: provider, padding: :condensed)) do |list|
+  render(OpPrimer::BorderBoxListComponent.new(container: provider, padding: :condensed)) do |list|
     list.with_header(
       title: provider.name,
       count: page_links.count,

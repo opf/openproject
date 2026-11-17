@@ -68,13 +68,15 @@ module Accounts::SessionLifetime
   end
 
   def session_expired?
-    !api_request? && !api_key_authenticated? && current_user.logged? && session_ttl_expired?
+    !api_key_authenticated? && current_user.logged? && session_ttl_expired?
   end
 
   # Only write to the session if we really need to, to prevent a session write
   # that has no effect other than bumping updated_at.
   def refresh_session_activity
-    return if api_key_authenticated?
+    # TTL is not relevant for anonymous sessions, as just another anonymous session will be spawned.
+    # Avoid writing the session#updated_at for these users
+    return if api_key_authenticated? || !current_user.logged?
 
     last_seen = session[:updated_at]
     return if last_seen.present? && last_seen > session_activity_refresh_interval.ago

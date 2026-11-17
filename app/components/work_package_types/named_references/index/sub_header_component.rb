@@ -78,6 +78,14 @@ module WorkPackageTypes
           ProjectsFilterComponent.new(query:, model_class:)
         end
 
+        def filter_button_component
+          Filter::FilterButtonComponent.new(query:)
+        end
+
+        def filter_panel_component
+          FiltersComponent.new(query:)
+        end
+
         private
 
         attr_reader :query, :model_class

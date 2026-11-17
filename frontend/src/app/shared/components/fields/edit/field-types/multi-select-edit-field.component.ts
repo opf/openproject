@@ -30,7 +30,7 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { Component, ChangeDetectionStrategy, OnInit, ViewChild, inject } from '@angular/core';
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { ValueOption } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-edit-field.component';
-import { NgSelectComponent } from '@ng-select/ng-select';
+import { NgSelectComponent, NgSelectConfig } from '@ng-select/ng-select';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
@@ -44,6 +44,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
 
   readonly pathHelperService = inject(PathHelperService);
+  private readonly ngSelectConfig = inject(NgSelectConfig);
 
   groupByFn = (item:HalResource):string|null => {
     if (!this.isVersionResource) return null;
@@ -60,7 +61,12 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
     cancel: this.I18n.t('js.inplace.button_cancel', { attribute: this.schema.name }),
   };
 
-  public appendTo:string|null|undefined = null;
+  public appendTo = '';
+
+  public get projectId():string|null {
+    const project = this.resource.project;
+    return project instanceof HalResource ? project.id ?? null : null;
+  }
 
   public currentValueInvalid = false;
 
@@ -94,7 +100,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
       });
 
     super.ngOnInit();
-    this.appendTo = this.overflowingSelector;
+    this.appendTo = this.overflowingSelector ?? this.ngSelectConfig.appendTo ?? '';
   }
 
   public get value() {

@@ -46,7 +46,7 @@ module Queries::Filters::Shared
       end
 
       def allowed_values
-        if custom_field.list? && custom_field.project_specific_value_restriction
+        if custom_field.list? && custom_field.project_specific_values_supported?
           visible_custom_options.map { |option| [option.value, option.id.to_s] }
         else
           options = field_format == "version" ? { scope: :visible } : {}

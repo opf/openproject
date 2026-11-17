@@ -123,8 +123,8 @@ The project members of a newly created project depend on how the project was cre
 
 - **Copied from another project**: The project inherits the members and roles from the original project. See here [how to duplicate a project](../../user-guide/projects/project-settings/project-information/#duplicate-a-project).
 
-> [!TIP]
-> A user copying a project is also assigned a **New role for users that create projects** in the newly created project. Depending on your configuration, this role may grant more permissions than the user had in the original project. Keep this in mind when granting users permission to copy projects.
+> [!IMPORTANT]
+> Copying a project includes all selected data, including content and attachments the user cannot view in the original project. Users who are not instance administrators receive the configured **New role for users that create projects** in the new project. This role can grant access to all copied data. Administrators should review the [role assigned to project creators](../../system-admin-guide/projects/new-project/) when granting **Copy projects**.
 
 To continue configuring your project, see the documentation on [project settings](../../user-guide/projects/project-settings/project-information/).
 

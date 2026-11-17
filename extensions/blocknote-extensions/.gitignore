@@ -25,7 +25,7 @@ coverage/
 *.sw?
 
 # build things
-op-blocknote-extensions-*
+openproject-blocknote-extensions-*.tgz
 
 .env
 !.env.*
@@ -34,4 +34,4 @@ op-blocknote-extensions-*
 test/lib/components/integration/__screenshots__/*
 
 # test attachments
-.vitest-attachments
+.vitest

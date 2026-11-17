@@ -71,15 +71,29 @@ da:
           name: Personale- og projektadministrator
         item_1:
           name: Global standardrolle
-      ai_text_transform_actions:
+      ai_text_actions:
         item_0:
-          label: Ret grammatik
+          label: Strukturér
         item_1:
-          label: Gør kortere
+          label: Korrekturlæs
         item_2:
-          label: Oversæt til engelsk
+          label: Omskriv
         item_3:
-          label: Sortér efter skabelon
+          label: Venlig
+        item_4:
+          label: Professionel
+        item_5:
+          label: Kortfattet
+        item_6:
+          label: Opsummer
+        item_7:
+          label: Hovedpunkter
+        item_8:
+          label: Liste
+        item_9:
+          label: Tabel
+        item_10:
+          label: Foreslå emne
     standard:
       project_phases:
         item_0:
@@ -117,6 +131,17 @@ da:
           name: Økonomi og administration
         item_6:
           name: Kvalitetssikring
+      labels:
+        item_0:
+          name: Websted
+        item_1:
+          name: Marketing
+        item_2:
+          name: Talere
+        item_3:
+          name: Sikkerhed
+        item_4:
+          name: UX
       projects:
         demo-project:
           name: Demoprojekt
@@ -126,8 +151,8 @@ da:
             item_0:
               title: Velkommen til dit demoprojekt
               summary: |
-                Vi er glade for deltagelsen.
-                I dette modul kan man kommunikere projektnyheder til sine teammedlemmer.
+                Vi er glade for, at du er med.
+                I dette modul kan du formidle projektnyheder til dine teammedlemmer.
               description: Selve nyheden
           categories:
             item_0: Kategori 1 (skal ændres i Projektindstillinger)
@@ -230,9 +255,9 @@ da:
 
             * Indsætte tekst og billeder, også ved at kopiere og indsætte fra andre dokumenter
             * Oprette et sidehierarki med overordnede sider
-            * Føje wikisider til projektmenuen
+            * Føje wiki-sider til projektmenuen
             * Bruge makroer til at indsætte fx indholdsfortegnelser, lister over arbejdspakker eller Gantt-diagrammer
-            * Indsætte wikisider i andre tekstfelter, fx på projektets oversigtsside
+            * Indsætte wiki-sider i andre tekstfelter, fx på projektets oversigtsside
             * Indsætte links til andre dokumenter
             * Se ændringshistorikken
             * Vise siden som Markdown
@@ -246,8 +271,8 @@ da:
             item_0:
               title: Velkommen til dit Scrum-demoprojekt
               summary: |
-                Vi er glade for deltagelsen.
-                I dette modul kan man kommunikere projektnyheder til sine teammedlemmer.
+                Vi er glade for, at du er med.
+                I dette modul kan du formidle projektnyheder til dine teammedlemmer.
           versions:
             item_0:
               wiki:
@@ -260,7 +285,7 @@ da:
                   * Arbejdspakkerne i denne release er dem med målversion 1.0.
                   * Release-datoen er datoen for milepælen *Release v1.0*.
                   * Åbn [Køreplanen]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) for at følge fremdriften i alle versioner.
-                  * Åbn [Projektindstillinger &rightarrow; Versioner]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) for at knytte en anden wikiside til en version.
+                  * Åbn [Projektindstillinger &rightarrow; Versioner]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) for at knytte en anden wiki-side til en version.
           categories:
             item_0: Kategori 1 (skal ændres i Projektindstillinger)
           queries:

@@ -62,7 +62,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
   /**
    * The hierarchy builder is only applicable if the hierarchy mode is active
    */
-  public isApplicable(table:WorkPackageTable) {
+  public isApplicable(_table:WorkPackageTable) {
     return this.groups.length > 0;
   }
 
@@ -94,7 +94,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
   /**
    * Refresh the group expansion state
    */
-  public refreshExpansionState() {
+  public refreshExpansionState():ReadonlyMap<OccurrenceKey, boolean> {
     const groups = this.getGroupData();
     const builder = new GroupHeaderBuilder(this.injector);
     const updates = new Map<OccurrenceKey, boolean>();
@@ -137,7 +137,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
           });
       });
 
-    this.workPackageTable.setHidden(updates);
+    return updates;
   }
 
   /**

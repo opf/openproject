@@ -61,35 +61,15 @@ module WorkPackages
         end
 
         def attributes_settings
-          stored = template_settings("attributes")
-          {
-            footer_text: resolve_setting(stored, :footer_text, work_package.project.name),
-            page_orientation: resolve_setting(stored, :page_orientation, "portrait"),
-            hyphenation: resolve_boolean_setting(stored, :hyphenation, false),
-            hyphenation_language: hyphenation_language_for(stored)
-          }
+          template_settings("attributes")
         end
 
         def contract_settings
-          stored = template_settings("contract")
-          {
-            footer_text_center: resolve_setting(stored, :footer_text_center, work_package.subject),
-            hyphenation: resolve_boolean_setting(stored, :hyphenation, false),
-            hyphenation_language: hyphenation_language_for(stored)
-          }
+          template_settings("contract")
         end
 
         def artefact_settings
-          stored = template_settings("artefact")
-          {
-            toc: resolve_boolean_setting(stored, :toc, WorkPackage::PDFExport::Artefact::DEFAULT_TOC),
-            include_lifecycle: resolve_boolean_setting(stored, :include_lifecycle,
-                                                       WorkPackage::PDFExport::Artefact::DEFAULT_INCLUDE_LIFECYCLE),
-            include_budget: resolve_boolean_setting(stored, :include_budget,
-                                                    WorkPackage::PDFExport::Artefact::DEFAULT_INCLUDE_BUDGET),
-            hyphenation: resolve_boolean_setting(stored, :hyphenation, false),
-            hyphenation_language: hyphenation_language_for(stored)
-          }
+          template_settings("artefact")
         end
 
         def hyphenation_default
@@ -99,32 +79,7 @@ module WorkPackages
         private
 
         def template_settings(template_id)
-          work_package.type_variant.pdf_export_templates.settings_for(template_id)
-        end
-
-        # `stored` only ever has keys the admin explicitly saved (see
-        # Type::PdfExportTemplates#settings_for), so `key?` - not `||` - is what tells "explicitly
-        # set to a blank/false value" apart from "never configured, use today's default".
-        def resolve_setting(stored, key, default)
-          stored.key?(key) ? stored[key] : default
-        end
-
-        # Stored checkbox settings round-trip through the jsonb column as the strings "true"/
-        # "false" (they arrive from a form submit). Rails' checked-state check
-        # (ActionView::Helpers::Tags::Checkable#input_checked?) only treats the literal `true` or
-        # the string "checked" as checked, so passing the stored string "true" straight through
-        # would render the box unchecked. Cast the same way the exporters' own read sites already
-        # do (e.g. WorkPackage::PDFExport::Artefact#with_toc?).
-        def resolve_boolean_setting(stored, key, default)
-          return default unless stored.key?(key)
-
-          ActiveModel::Type::Boolean.new.cast(stored[key])
-        end
-
-        def hyphenation_language_for(stored)
-          resolve_setting(stored, :hyphenation_language, nil) ||
-            hyphenation_language_by_locale&.fetch(:value) ||
-            hyphenation_options[0][:value]
+          work_package.type_variant.pdf_export_templates.settings_with_defaults_for(template_id, work_package)
         end
       end
     end

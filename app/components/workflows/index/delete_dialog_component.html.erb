@@ -43,7 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
 
     <% dialog.with_additional_details(display: :block) do %>
-      <%= render(OpPrimer::InsetBoxComponent.new(mb: 3)) do %>
+      <%= render(Primer::OpenProject::InsetBox.new(mb: 3)) do %>
         <%= render(Primer::Box.new(tag: :ul, m: 0, pl: 3)) do %>
           <% variant_names.each do |name| %>
             <%= content_tag(:li, name) %>

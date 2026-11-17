@@ -10,7 +10,10 @@
         auto_submit:,
         disabled:,
         preview_url:,
-        delete_path: (preview_url.present? ? "#" : nil)
+        delete_path: (preview_url.present? ? "#" : nil),
+        invalid_file_message: invalid_file_message.presence,
+        max_size:,
+        file_too_large_message: file_too_large_message.presence
       )
     end
   end

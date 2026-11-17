@@ -107,6 +107,43 @@ RSpec.describe CustomFields::SetAttributesService, type: :model do
     end
   end
 
+  context "when switching a field managed by project admins to all values in all projects" do
+    let(:cf_instance) do
+      WorkPackageCustomField.new(field_format: "list",
+                                 project_specific_value_restriction: "allow",
+                                 project_level_value_management: true,
+                                 allow_additional_project_values: true)
+    end
+    let(:params) { { project_specific_value_restriction: nil } }
+
+    it "turns off project-level value management" do
+      subject
+
+      expect(cf_instance.project_level_value_management).to be(false)
+    end
+
+    it "keeps project-specific values" do
+      subject
+
+      expect(cf_instance.allow_additional_project_values).to be(true)
+    end
+  end
+
+  context "when a field managed by project admins keeps restricting values" do
+    let(:cf_instance) do
+      WorkPackageCustomField.new(field_format: "list",
+                                 project_specific_value_restriction: "block",
+                                 project_level_value_management: true)
+    end
+    let(:params) { { name: "Foobar" } }
+
+    it "keeps project-level value management" do
+      subject
+
+      expect(cf_instance.project_level_value_management).to be(true)
+    end
+  end
+
   context "with an invalid contract" do
     let(:contract_valid) { false }
     let(:expect_time_instance_save) do

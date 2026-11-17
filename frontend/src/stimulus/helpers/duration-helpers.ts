@@ -26,8 +26,9 @@
 //++
 
 export function displayDuration(duration:number):string {
-  const hours = Math.floor(duration);
-  const minutes = Math.round((duration - hours) * 60);
+  const totalMinutes = Math.round(duration * 60);
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
 
   if (minutes === 0) {
     return `${hours}h`;

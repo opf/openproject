@@ -32,7 +32,7 @@ require "spec_helper"
 RSpec.describe Projects::Settings::BacklogEstimationUnitsController do
   let(:user) do
     create(:user,
-           member_with_permissions: { project => %w[view_work_packages select_backlog_types_and_statuses] })
+           member_with_permissions: { project => %w[view_work_packages manage_backlogs_configuration] })
   end
   let(:project) { create(:project, estimation_unit: "story_points") }
 

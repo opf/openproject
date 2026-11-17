@@ -151,7 +151,7 @@ module MeetingAgendaItems
 
     def target_section(new_section_id)
       # allows from backlog to current meeting
-      target_section = if @old_section.backlog? && @meeting.backlog == @old_section
+      target_section = if @meeting.recurring? && @old_section.backlog? && @meeting.backlog == @old_section
                          MeetingSection
                          .joins(:meeting)
                          .where(meetings: { recurring_meeting_id: @meeting.recurring_meeting_id })

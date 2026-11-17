@@ -47,6 +47,8 @@ ro:
       draggable_hint: 'Trage pe câmpul editorului pentru a introduce o imagine sau un atașament de referință. Câmpurile de editor închise vor fi deschise în timp ce continui să tragi.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Fișierul este în carantină, deoarece a fost găsit un virus. Acesta nu este disponibil pentru descărcare.
     autocomplete_ng_select:
       add_tag: Adaugă element
@@ -129,10 +131,10 @@ ro:
     button_confirm: Confirmă
     button_continue: Continuă
     button_copy: Copiază
-    button_copy_link_to_clipboard: Copiază link-ul în clipboard
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: Copiză în clipboard
     button_copy_to_other_project: Copiază în alt proiect
+    button_copy_work_package_id: Copy work package ID
     button_create: Creează
     button_custom-fields: Câmpuri personalizate
     button_delete: Șterge
@@ -148,6 +150,7 @@ ro:
     button_log_time: Înregistrare timp
     button_more: Mai mult
     button_more_actions: Mai multe acțiuni
+    button_move_to_position: Move to position
     button_open_details: Deschide vizualizare detaliată
     button_open_fullscreen: Afișează pe tot ecranul
     button_quote: Citat
@@ -203,6 +206,9 @@ ro:
     description_select_work_package: 'Selectează pachet de lucru #%{id}'
     description_subwork_package: 'Copil al pachetului de lucru #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: A apărut o eroare în cadrul CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Salvarea documentului a eșuat cu următoarea eroare: %{error}'
@@ -344,6 +350,8 @@ ro:
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} items available"
       recently_viewed: Vizualizate recent
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Caută pachetele de lucru după subiect, proiect, tip, stare sau ID
       title:
         all_projects: toate proiectele
@@ -434,7 +442,6 @@ ro:
     label_assignee: Executant
     label_assignee_alt_text: Acest pachet de lucru este atribuit %{name}
     label_attachments: Atașamente
-    label_author: 'Autor: %{user}'
     label_avatar: Avatar
     label_between: între
     label_board: Tablă
@@ -498,6 +505,7 @@ ro:
     label_in: în
     label_in_less_than: în mai puțin de
     label_in_more_than: în mai mult de
+    label_in_progress_work_packages: in progress
     label_incoming_emails: E-mailuri primite
     label_infinity: Infinity
     label_information_plural: Informații
@@ -530,6 +538,10 @@ ro:
     label_open_context_menu: Deschide meniul contextual
     label_open_menu: Deschide meniu
     label_open_work_packages: deschise
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Parolă
     label_per_page: 'Pe pagină:'
     label_please_wait: Așteptați
@@ -563,7 +575,9 @@ ro:
     label_show_in_menu: Vizualizează configurația în meniu
     label_sort_by: Sortează după
     label_sort_higher: Mută în sus
+    label_sort_highest: Move to top
     label_sort_lower: Mută în jos
+    label_sort_lowest: Move to bottom
     label_sorted_by: sortează după
     label_sorting: Sortare
     label_spent_time: Timp consumat
@@ -574,6 +588,7 @@ ro:
     label_sum_for: Suma pentru
     label_this_week: săptămâna curentă
     label_time_entry_plural: Timp consumat
+    label_to_do_work_packages: to-do
     label_today: Azi
     label_total_amount: 'Total: %{amount}'
     label_total_progress: "%{percent} % Progres total"
@@ -816,6 +831,7 @@ ro:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.
@@ -964,6 +980,7 @@ ro:
         all_open: Toate deschise
         assigned_to_me: Atribuit mie
         created_by_me: Creat de mine
+        in_progress: In progress
         latest_activity: Activitate recentă
         manually_sorted: Interogare nouă sortată manual
         overdue: Restanțe
@@ -971,6 +988,7 @@ ro:
         shared_with_me: Partajate cu mine
         shared_with_users: Partajate cu utilizatorii
         summary: Rezumat
+        to_do: To-do
       description_enter_text: Introdu textul
       description_filter: Filtrează
       description_options_hide: Ascunde opțiuni
@@ -1058,6 +1076,7 @@ ro:
         other: Altele
         people: Persoane
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Câmpul %s este gol. Click aici pentru a-l edita.
         column_names: Coloane
         confirm_edit_cancel: Ești sigur că vrei să anulezi editarea numelui acestei vizualizări? Titlul va fi setat la valoarea anterioară.
@@ -1067,17 +1086,16 @@ ro:
           not_found: Vezi
           unretrievable_query: Nu se poate prelua vizualizarea din URL
         filters: Filtre
-        group: Grupează după
         group_by: Grupare rezultate
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Gruparea este dezactivată deoarece modul ierarhic este activ.
-        hide_column: Ascunde coloana
         hierarchy_disabled_by_group_by: Modul ierarhic este dezactivat deoarece rezultatele sunt grupate în %{column}.
-        insert_columns: Inserează coloane
         move_column_left: Mută coloana la stânga
         move_column_right: Mută coloana la dreapta
         public_text: 'Publicați această vizualizare, permițând altor utilizatori să vă acceseze vizualizarea. Utilizatorii cu permisiunea "Manage public views" pot modifica sau elimina interogarea publică. Acest lucru nu afectează vizibilitatea rezultatelor pachetului de lucru în vizualizarea respectivă și, în funcție de permisiunile lor, utilizatorii pot vedea rezultate diferite.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Vezi
         sort_ascending: Ordonează ascendent
         sort_descending: Ordonează descendent
@@ -1098,15 +1116,28 @@ ro:
       scheduling:
         is_parent: Datele acestui pachet de lucru sunt deduse automat din copiii săi. Activați "Programare manuală" pentru a stabili datele.
         is_switched_from_manual_to_automatic: Este posibil ca datele acestui pachet de lucru să trebuiască să fie recalculate după trecerea de la programarea manuală la cea automată din cauza relațiilor cu alte pachete de lucru.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          few: All %{count} work packages on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          few: "%{count} work packages selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Arată toți utilizatorilor cu care pachetul de lucru a fost partajat
         title: Share work package
       table:
         configure_button: Configurarea tabelului pachetului de lucru
-        summary: Tabel cu pachete de lucru pe rânduri şi câmpurile pachetelor pe coloane.
-        text_inline_edit: Majoritatea celulelor din acest tabel sunt butoane care activează editarea "inline" a câmpului respectiv.
-        text_select_hint: Casetele de selectare ar trebui să fie deschise cu 'ALT' si tastele săgeată.
-        text_sort_hint: Cu link-urile din capul de tabel poți sorta, grupa, reordona, elimina și adăuga coloane la tabel.
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: Configurează acest tabel al pachetului de lucru
         choose_display_mode: Afișare pachete de lucru din subproiecte pe pagina proiectului principal
@@ -1115,7 +1146,6 @@ ro:
         default_mode: Listă
         display_settings: Setări afișare
         display_sums_hint: Afișarea sumelor tuturor atributelor însumabile pe un rând sub rezultatele tabelului.
-        embedded_tab_disabled: Această filă de configurare nu este disponibilă pentru vizualizarea încorporată pe care o editezi.
         hierarchy_hint: Toate rezultatele tabelelor filtrate vor fi completate cu strămoșii lor. Ierarhiile pot fi extinse și restrânse.
         hierarchy_mode: Ierarhie
         highlighting: Evidențiere

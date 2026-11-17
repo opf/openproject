@@ -498,7 +498,7 @@ tr:
     oauth_grant_nudge_modal:
       cancel_button_label: Daha sonra yapacağım
       heading: "%{provider_type} adresine giriş gerekli"
-      login_button_aria_label: "%{storage}'da giriş yapın"
+      login_button_accessible_name: "%{provider_type} log in to %{storage}"
       login_button_label: "%{provider_type} sağlayıcısına giriş yap"
       project_settings:
         description: Proje klasörüne erişmek için %{storage}'de giriş yapmanız gerekir.

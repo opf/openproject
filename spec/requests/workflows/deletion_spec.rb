@@ -64,7 +64,7 @@ RSpec.describe "Workflows deletion", :skip_csrf, type: :rails_request do
     it "shows an error flash instead of the dialog when a used workflow has no replacement" do
       workflow = create(:named_workflow)
       create(:type, name: "Bug").default_variant.update!(workflow:)
-      Workflow.global.where.not(id: workflow.id).destroy_all
+      Workflow.where.not(id: workflow.id).destroy_all
 
       get deletion_dialog_workflow_path(workflow), as: :turbo_stream
 

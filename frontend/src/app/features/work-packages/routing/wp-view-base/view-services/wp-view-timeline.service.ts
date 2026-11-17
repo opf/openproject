@@ -101,7 +101,7 @@ export class WorkPackageViewTimelineService extends WorkPackageQueryStateService
     this.modify({ labels });
   }
 
-  public getNormalizedLabels(workPackage:WorkPackageResource) {
+  public getNormalizedLabels(_workPackage:WorkPackageResource) {
     const labels:TimelineLabels = this.defaultLabels;
 
     (Object.entries(this.current.labels) as [string, string|null][]).forEach(([positionAsString, attribute]) => {

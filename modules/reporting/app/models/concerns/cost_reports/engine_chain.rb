@@ -148,11 +148,7 @@ module CostReports
     # The engine looks a chainable up by its demodulized, camelized name and
     # ignores anything it cannot find, e.g. a custom field that has been deleted.
     def add_chain(type, name, options)
-      begin
-        chain type.const_get(name.to_s.camelcase), options
-      rescue NameError
-        nil
-      end
+      chain type.named(name), options
 
       @transformer = @walker = @table = @depths = nil
       self

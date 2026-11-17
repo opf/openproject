@@ -81,6 +81,12 @@ fr:
         primary_action: Activer la collaboration en temps réel
         success: La collaboration en temps réel a été activée.
     button_add_type: Type
+    collaboration_token:
+      errors:
+        collaboration_disabled: Real-time collaboration is not enabled.
+        collaboration_token_not_allowed: Requests authenticated with a collaboration token cannot request collaboration tokens.
+        invalid_previous_token: The previous collaboration token is invalid, already revoked, or does not belong to this document and user.
+        not_collaborative: The document does not support real-time collaboration.
     delete_dialog:
       confirmation_message_html: Cette opération supprimera définitivement ce document et toutes les pièces jointes. Voulez-vous vraiment continuer ?
       heading: Supprimer le document ?

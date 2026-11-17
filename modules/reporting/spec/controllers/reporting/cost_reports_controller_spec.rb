@@ -51,6 +51,18 @@ RSpec.describe Reporting::CostReportsController do
     end
   end
 
+  describe "GET available_values" do
+    before do
+      is_member project, user, [:view_cost_entries]
+    end
+
+    it "returns 404 for a filter that is not registered" do
+      get :available_values, params: { project_id: project.id, filter_name: "::Object" }
+
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
   describe "DELETE destroy" do
     let(:user) { create(:admin) }
     let!(:report) { create(:cost_report, principal: user, project:, public: true) }

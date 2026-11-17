@@ -185,7 +185,7 @@ pt-PT:
         main: Principais páginas wiki
       sub_pages_count:
         one: "%{count} sub-page"
-        other: "%{count} sub-pages"
+        other: "%{count} sub-páginas"
     inline_wiki_page_dialog:
       title_add: Adicionar página wiki existente
       title_create: Criar nova página wiki

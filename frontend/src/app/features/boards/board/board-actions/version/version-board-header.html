@@ -6,10 +6,14 @@
     <h2 class="editable-toolbar-title--fixed">
       <small [textContent]="text.version"></small>
       <br/>
-      <a [href]="pathHelper.versionShowPath(version.id)"
-        [textContent]="version.name"
-        target="_blank">
-      </a>
+      @if (version.id; as versionId) {
+        <a [href]="pathHelper.versionShowPath(versionId)"
+          [textContent]="version.name"
+          target="_blank">
+        </a>
+      } @else {
+        <span [textContent]="version.name"></span>
+      }
     </h2>
     <span class="op-version-board-header--info-row -italic -small-font"> {{version.endDate}}  </span>
   </div>

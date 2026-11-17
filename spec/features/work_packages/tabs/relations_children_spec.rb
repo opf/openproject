@@ -87,8 +87,8 @@ RSpec.describe "Relations children tab", :js, :with_cuprite do
       expect_and_dismiss_flash type: :success, exact_message: "New work package created and added as a child"
 
       page.within("#work-package-relations-tab-content") do
-        expect(page).to have_content("Hello there")
-        expect(page).to have_content("RISK")
+        expect(page).to have_text("Hello there")
+        expect(page).to have_text("RISK")
       end
     end
 
@@ -114,8 +114,8 @@ RSpec.describe "Relations children tab", :js, :with_cuprite do
         expect_and_dismiss_flash type: :success, exact_message: "New work package created and added as a child"
 
         page.within("#work-package-relations-tab-content") do
-          expect(page).to have_content("Hello there")
-          expect(page).to have_content("RISK")
+          expect(page).to have_text("Hello there")
+          expect(page).to have_text("RISK")
         end
 
         expect(page).to have_css("body.router--work-packages-partitioned-split-view-details")
@@ -169,8 +169,8 @@ RSpec.describe "Relations children tab", :js, :with_cuprite do
         expect_and_dismiss_flash type: :success, exact_message: "New work package created and added as a child"
 
         page.within("#work-package-relations-tab-content") do
-          expect(page).to have_content("Hello there")
-          expect(page).to have_content("TASK")
+          expect(page).to have_text("Hello there")
+          expect(page).to have_text("TASK")
         end
       end
     end

@@ -195,7 +195,7 @@ export default defineConfig([
       ],
       '@angular-eslint/template/elements-content': [
         'error',
-        { 'allowList': ['textContent'] }
+        { 'allowList': ['textContent', 'label'] }
       ],
       '@angular-eslint/template/prefer-control-flow': 'error'
     }
@@ -208,6 +208,8 @@ export default defineConfig([
 
       // Allow more than one class definitions per file (test components)
       'max-classes-per-file': 'off',
+      // Test harnesses expose `expect*` helpers that wrap several assertions
+      'vitest/expect-expect': ['error', { assertFunctionNames: ['expect', '*.expect*'] }],
     },
   },
   {

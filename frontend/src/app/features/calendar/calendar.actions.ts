@@ -25,7 +25,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ID } from '@datorama/akita';
 import {
   action,
   props,

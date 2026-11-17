@@ -14,7 +14,7 @@ keywords: feature requests, ideas, open feature request
 3. Open the [feature create form](https://community.openproject.org/projects/openproject/work_packages/new?type=6).
 4. Add a subject and detailed description using the template.
 5. Attach a file (optional).
-7. Press **Create**.
+6. Press **Create**.
 
 ## Feature idea guideline
 
@@ -60,8 +60,7 @@ SO THAT I am clearly aware which status transitions are allowed before doing the
 ### Wireframes / Screenshots
 
 - If the request is visual, it is helpful to add a short wireframe or a screenshot in which changes are highlighted.
-- The wireframe or screenshot can be attached as a file and can be integrated in the description with the following syntax: "!Name_of_screenshot.png!" (without quotation marks)
-(Notice: Name_of_screenshot should be replaced with the respective name of the file. The file ending (here: .png) has to be adjusted to the appropriate file type of the screenshot.)
+- The wireframe or screenshot can be pasted or dragged and dropped directly into the description editor, which attaches it to the work package and embeds it in the text.
 
 ## Example of a feature request
 

@@ -34,6 +34,12 @@ import { map, tap } from 'rxjs/operators';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { QueryFiltersService } from 'core-app/features/work-packages/components/wp-query/query-filters.service';
 
+export interface QueryFormPayload {
+  [key:string]:unknown;
+  name?:string;
+  _links?:Record<string, unknown>;
+}
+
 export class ApiV3QueryForm extends ApiV3FormResource<QueryFormResource> {
   @LazyInject() private queryFilters:QueryFiltersService;
 
@@ -45,7 +51,7 @@ export class ApiV3QueryForm extends ApiV3FormResource<QueryFormResource> {
     // We need a valid payload so that we
     // can check whether form saving is possible.
     // The query needs a name to be valid.
-    const payload:any = {
+    const payload:QueryFormPayload = {
       name: query.name || '!!!__O__o__O__!!!',
     };
 
@@ -74,7 +80,7 @@ export class ApiV3QueryForm extends ApiV3FormResource<QueryFormResource> {
    * @param projectIdentifier
    * @param payload
    */
-  public loadWithParams(params:Record<string, unknown>, queryId:string|null|undefined, projectIdentifier:string|undefined|null, payload:any = {}):Observable<[QueryFormResource, QueryResource]> {
+  public loadWithParams(params:Record<string, unknown>, queryId:string|null|undefined, projectIdentifier:string|undefined|null, payload:QueryFormPayload = {}):Observable<[QueryFormResource, QueryResource]> {
     // We need a valid payload so that we
     // can check whether form saving is possible.
     // The query needs a name to be valid.
@@ -83,7 +89,7 @@ export class ApiV3QueryForm extends ApiV3FormResource<QueryFormResource> {
     }
 
     if (projectIdentifier) {
-      payload._links = payload._links || {};
+      payload._links ??= {};
       payload._links.project = {
         href: this.apiRoot.projects.id(projectIdentifier).toString(),
       };

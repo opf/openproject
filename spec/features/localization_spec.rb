@@ -41,7 +41,7 @@ RSpec.describe "Localization", with_settings: { login_required?: false,
       visit projects_path
 
       expect(page)
-        .to have_content("Projekte")
+        .to have_text("Projekte")
     end
   end
 
@@ -53,7 +53,7 @@ RSpec.describe "Localization", with_settings: { login_required?: false,
     it "uses the default language configured in administration" do
       visit projects_path
 
-      expect(page).to have_content("Projects")
+      expect(page).to have_text("Projects")
     end
   end
 end

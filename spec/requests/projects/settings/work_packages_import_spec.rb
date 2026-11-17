@@ -213,7 +213,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
 
       expect(response.body).to include("Before you start")
       expect(response.body).to include('accept="text/csv,.csv"')
-      expect(page).to have_css("[data-test-selector='import-drop-box']")
+      expect(page).to have_css(".FormControl-file-field-drop-zone")
       expect(page).to have_text("Drop a CSV file here or click to select one.")
       expect(page).to have_css("#import_report", visible: :all)
       expect(page).to have_css("#import_form", visible: :all)
@@ -232,7 +232,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
       expect(response.body).to include('target="import_report"')
       expect(response.body).to include('target="import_form"')
       expect(response.body).to include("Before you start")
-      expect(response.body).to include("import-drop-box")
+      expect(response.body).to include("FormControl-file-field-drop-zone")
       expect(response.body).not_to include('target="poll"')
     end
 
@@ -294,7 +294,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
       it "hides the drop zone and the checkbox while the run is under way" do
         get show_path(job: job_id)
 
-        expect(page).to have_no_css("[data-test-selector='import-drop-box']")
+        expect(page).to have_no_css(".FormControl-file-field-drop-zone")
         expect(page).to have_no_field("dry_run", type: "checkbox")
       end
 
@@ -356,7 +356,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
         get show_path(job: job_id)
 
         expect(page).to have_button("Check file", disabled: true)
-        expect(page).to have_css("[data-test-selector='import-drop-box']")
+        expect(page).to have_css(".FormControl-file-field-drop-zone")
       end
 
       it "stops the poller that is already running" do
@@ -441,7 +441,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
 
       get show_path(job: JobStatus::Status.sole.job_id)
 
-      expect(page).to have_no_css("[data-test-selector='import-drop-box']")
+      expect(page).to have_no_css(".FormControl-file-field-drop-zone")
       expect(page).to have_no_field("dry_run", type: "checkbox")
       expect(page).to have_no_button("Check file")
       expect(page).to have_link("Clear")
@@ -582,7 +582,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
     it "tells the client the limit before anything is uploaded" do
       get show_path
 
-      expect(response.body).to include("data-work-packages--csv-import-max-size-value")
+      expect(response.body).to include("data-file-field-max-size-value")
       expect(response.body).to include("larger than the")
     end
   end

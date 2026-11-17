@@ -28,7 +28,7 @@
     "src/test-browser-polyfills.ts"
   ],
   "angularCompilerOptions": {
-    "strictTemplates": false
+    "strictTemplates": true
   },
   "types": [
     "node",

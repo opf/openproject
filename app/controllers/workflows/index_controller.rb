@@ -78,24 +78,11 @@ module Workflows
     def load_query
       @query = ::Queries::Workflows::WorkflowQuery.new
 
-      @query.where(:name, "~", [name_term]) if name_term.present?
-      @query.where(:type_id, "=", filtered_type_ids) if filtered_type_ids.any?
-      @query.where(:project_id, "=", filtered_project_ids) if filtered_project_ids.any?
+      requested_filters.each do |filter|
+        @query.where(filter[:attribute], filter[:operator], filter[:values])
+      end
 
       @query
-    end
-
-    def name_term = @name_term ||= values_for(::Queries::Workflows::Filters::NameFilter.key).first.to_s.strip
-
-    def filtered_type_ids = @filtered_type_ids ||= values_for(::Queries::Workflows::Filters::TypeFilter.key)
-
-    def filtered_project_ids = @filtered_project_ids ||= values_for(::Queries::Workflows::Filters::ProjectFilter.key)
-
-    def values_for(filter_key)
-      requested_filters
-        .select { |filter| filter[:attribute].to_s == filter_key.to_s }
-        .flat_map { |filter| Array(filter[:values]).map(&:to_s) }
-        .compact_blank
     end
 
     def requested_filters
@@ -121,7 +108,7 @@ module Workflows
 
     def workflows
       @workflows ||= begin
-        page = @query.results.includes(:project).page(page_param).per_page(per_page_param)
+        page = @query.results.page(page_param).per_page(per_page_param)
         page = page.page(page.total_pages) if page.out_of_bounds? && page.total_pages.positive?
         page
       end

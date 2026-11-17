@@ -98,6 +98,11 @@
   LI > .inactive
     color: var(--fgColor-muted)
 
+  LI > .-danger:not(.inactive)
+    &,
+    &:hover
+      color: var(--fgColor-danger)
+
   LI > .selected
     background: var(--drop-down-selected-bg-color)
     font-weight: var(--base-text-weight-bold)
@@ -164,14 +169,6 @@
   list-style-type: none
   select
     width: 100%
-
-.drop-down .button--dropdown-indicator
-  @extend .icon-pulldown
-  &:before
-    @include icon-font-common
-    @include icon-mixin-pulldown
-    font-size: 10px
-    padding: 0 0 0 9px
 
 .drop-down .menu-drop-down-container
   right: 0

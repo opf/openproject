@@ -89,7 +89,7 @@
           render_meeting_attribute_row(:stopwatch) do
             flex_layout do |duration|
               duration.with_column do
-                render OpenProject::Common::DurationComponent.new(@meeting.duration, :hours, abbreviated: true)
+                render OpPrimer::DurationComponent.new(@meeting.duration, :hours, abbreviated: true)
               end
 
               if @meeting.duration_exceeded_by_agenda_items?

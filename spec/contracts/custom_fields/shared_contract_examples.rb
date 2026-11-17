@@ -37,7 +37,6 @@ RSpec.shared_examples_for "custom_field contract" do
 
   let(:custom_field_name) { "Project name" }
   let(:custom_field_type) { "ProjectCustomField" }
-  let(:custom_field_editable) { true }
   let(:custom_field_field_format) { "int" }
   let(:custom_field_is_filter) { true }
   let(:custom_field_is_for_all) { true }
@@ -57,6 +56,8 @@ RSpec.shared_examples_for "custom_field contract" do
   let(:custom_field_custom_field_section_id) { custom_field_section.id }
   let(:custom_field_allow_non_open_versions) { nil }
   let(:custom_field_project_specific_value_restriction) { nil }
+  let(:custom_field_allow_additional_project_values) { false }
+  let(:custom_field_project_level_value_management) { false }
 
   let(:custom_field_section) { build_stubbed(:project_custom_field_section) }
 
@@ -66,6 +67,21 @@ RSpec.shared_examples_for "custom_field contract" do
     let(:custom_field_name) { nil }
 
     it_behaves_like "contract is invalid", name: %i(blank)
+  end
+
+  context "for a custom field type not supporting admin-only" do
+    let(:custom_field_type) { "WorkPackageCustomField" }
+    let(:custom_field_admin_only) { false }
+
+    it_behaves_like "contract is valid"
+
+    context "if admin_only is set to true" do
+      before do
+        custom_field.admin_only = true
+      end
+
+      it_behaves_like "contract is invalid", admin_only: :cannot_be_true
+    end
   end
 
   context "for a boolean field" do
@@ -101,6 +117,7 @@ RSpec.shared_examples_for "custom_field contract" do
 
   context "with project-specific value restrictions" do
     let(:custom_field_type) { "WorkPackageCustomField" }
+    let(:custom_field_admin_only) { false }
     let(:custom_field_field_format) { "list" }
     let(:custom_field_possible_values) { %w[A B] }
     let(:custom_field_project_specific_value_restriction) { "allow" }
@@ -133,11 +150,20 @@ RSpec.shared_examples_for "custom_field contract" do
       it_behaves_like "contract is invalid", project_specific_value_restriction: :error_enterprise_only
     end
 
-    # TODO: Remove this context once block mode is supported.
-    context "when blocking values" do
+    context "when blocking values", with_ee: %i[project_specific_list_values] do
       let(:custom_field_project_specific_value_restriction) { "block" }
 
-      it_behaves_like "contract is invalid", project_specific_value_restriction: :inclusion
+      it_behaves_like "contract is valid"
+    end
+
+    context "when blocking values while the enterprise plan does not include project-specific values" do
+      let(:custom_field_project_specific_value_restriction) { nil }
+
+      before do
+        custom_field.project_specific_value_restriction = "block"
+      end
+
+      it_behaves_like "contract is invalid", project_specific_value_restriction: :error_enterprise_only
     end
 
     context "for a format without selectable values" do
@@ -151,6 +177,64 @@ RSpec.shared_examples_for "custom_field contract" do
       let(:custom_field_type) { "ProjectCustomField" }
 
       it_behaves_like "contract is invalid", project_specific_value_restriction: :not_supported
+    end
+
+    context "when project admins can add values and manage them", with_ee: %i[project_specific_list_values] do
+      let(:custom_field_allow_additional_project_values) { true }
+      let(:custom_field_project_level_value_management) { true }
+
+      context "when allowing values" do
+        it_behaves_like "contract is valid"
+      end
+
+      context "when blocking values" do
+        let(:custom_field_project_specific_value_restriction) { "block" }
+
+        it_behaves_like "contract is valid"
+      end
+
+      context "when all values are available in all projects" do
+        let(:custom_field_project_specific_value_restriction) { nil }
+
+        it_behaves_like "contract is invalid", project_level_value_management: :not_available_for_all_values
+      end
+    end
+
+    context "when project admins can add values while all values are available in all projects",
+            with_ee: %i[project_specific_list_values] do
+      let(:custom_field_project_specific_value_restriction) { nil }
+      let(:custom_field_allow_additional_project_values) { true }
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "when enabling project admin values while the enterprise plan does not include project-specific values" do
+      before do
+        custom_field.allow_additional_project_values = true
+      end
+
+      it_behaves_like "contract is invalid", allow_additional_project_values: :error_enterprise_only
+    end
+
+    context "when enabling project admin management while the enterprise plan does not include project-specific values" do
+      before do
+        custom_field.project_level_value_management = true
+      end
+
+      it_behaves_like "contract is invalid", project_level_value_management: :error_enterprise_only
+    end
+
+    context "when disabling project admin flags while the enterprise plan does not include project-specific values" do
+      let(:custom_field_allow_additional_project_values) { true }
+      let(:custom_field_project_level_value_management) { true }
+
+      before do
+        custom_field.clear_changes_information
+        custom_field.allow_additional_project_values = false
+        custom_field.project_level_value_management = false
+      end
+
+      it_behaves_like "contract is valid"
     end
   end
 end

@@ -48,7 +48,10 @@ module Import
                           view_work_packages
                           add_work_package_comments
                           add_work_package_attachments
-                          work_package_assigned]
+                          work_package_assigned
+                          view_time_entries
+                          view_sprints
+                          show_board_views]
         )
         if service_call.success?
           create_reference!(op_leg: service_call.result,
