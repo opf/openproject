@@ -577,7 +577,7 @@ describe('SortHeaderDirective column menu', () => {
     expect(subject).toHaveAttribute('aria-expanded', 'false');
     expect(subject).toHaveAttribute('aria-controls', menu('subject').id);
     expect(within(header(1)).queryByRole('link')).toBeNull();
-    expect(getComputedStyle(indicator(1)).visibility).toBe('hidden');
+    expect(indicator(1)).not.toBeVisible();
   });
 
   it('marks the sort direction on the menu button', async () => {
@@ -595,7 +595,7 @@ describe('SortHeaderDirective column menu', () => {
     focusHeader(1);
 
     expect(header(1)).toHaveFocus();
-    expect(getComputedStyle(indicator(1)).visibility).toBe('visible');
+    expect(indicator(1)).toBeVisible();
   });
 
   it('keeps the menu indicators hidden while the header row has keyboard focus', () => {
