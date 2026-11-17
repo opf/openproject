@@ -121,6 +121,15 @@ export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
     this.items = this.itemGroups.items;
   }
 
+  // The table is inert while the change runs, which drops the focus that closing the menu returned to it.
+  private returnFocusAfter(change:Promise<unknown>):void {
+    const returnFocus = () => {
+      if (this.origin) this.table.keyboardNavigation.returnFocusFromMenu(this.origin);
+    };
+
+    void change.then(returnFocus, returnFocus);
+  }
+
   public override onClose(focus = true, reason?:OpContextMenuCloseReason):void {
     forgetKeyboardMenuOpen(this.table);
 
@@ -149,11 +158,11 @@ export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
         break;
 
       case 'hierarchy-indent':
-        void this.wpViewIndentation.indent(this.workPackage);
+        this.returnFocusAfter(this.wpViewIndentation.indent(this.workPackage));
         break;
 
       case 'hierarchy-outdent':
-        void this.wpViewIndentation.outdent(this.workPackage);
+        this.returnFocusAfter(this.wpViewIndentation.outdent(this.workPackage));
         break;
 
       default:
