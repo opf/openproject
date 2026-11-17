@@ -282,10 +282,13 @@ describe('KeyboardShortcutService', () => {
     it('logs instead of throwing when no element has the access key', () => {
       const log = vi.spyOn(console, 'log').mockImplementation(() => undefined);
 
-      expect(() => service.accessKey('moreMenu')()).not.toThrow();
+      try {
+        expect(() => service.accessKey('moreMenu')()).not.toThrow();
 
-      expect(log).toHaveBeenCalledWith('No element with access key 7 (moreMenu)');
-      log.mockRestore();
+        expect(log).toHaveBeenCalledWith('No element with access key 7 (moreMenu)');
+      } finally {
+        log.mockRestore();
+      }
     });
   });
 });
