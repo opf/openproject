@@ -41,6 +41,7 @@ import { ISchemaProxy, SchemaProxy } from 'core-app/features/hal/schemas/schema-
 import { IHalOptionalTitledLink } from 'core-app/core/state/hal-resource';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { firstValueFrom } from 'rxjs';
+import { signal } from '@angular/core';
 import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 
 export const PROXY_IDENTIFIER = '__is_changeset_proxy';
@@ -76,8 +77,15 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
   /** Request cache for objects within the changeset for the current form */
   protected cache:Record<string, Promise<unknown>> = {};
 
-  /** Flag whether this is currently being saved */
-  public inFlight = false;
+  private readonly saving = signal(false);
+
+  public get inFlight():boolean {
+    return this.saving();
+  }
+
+  public set inFlight(value:boolean) {
+    this.saving.set(value);
+  }
 
   /** Flag whether to validate all custom fields */
   public validateCustomFields = false;
@@ -184,7 +192,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
   protected updateForm():Promise<FormResource> {
     const update = this.pristineResource.$links.update as CallableHalLink<FormResource>|undefined;
     if (!update) {
-      return Promise.reject();
+      return Promise.reject(new Error('Resource has no update link'));
     }
 
     const previousUpdate = this.pendingFormUpdate;
