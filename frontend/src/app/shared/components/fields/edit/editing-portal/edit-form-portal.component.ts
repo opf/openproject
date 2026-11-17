@@ -25,9 +25,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, Input, OnDestroy, OnInit, Output, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, DestroyRef, ElementRef, EventEmitter, Injector, Input, OnDestroy, OnInit, Output, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
 import { HalResourceEditFieldHandler } from 'core-app/shared/components/fields/edit/field-handler/hal-resource-edit-field-handler';
+import { merge } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import {
   OpEditingPortalChangesetToken,
@@ -44,16 +46,13 @@ import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/r
   selector: 'edit-form-portal',
   templateUrl: './edit-form-portal.component.html',
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit {
   readonly injector = inject(Injector);
   readonly editField = inject(EditFieldService);
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly cdRef = inject(ChangeDetectorRef);
+  private readonly destroyRef = inject(DestroyRef);
 
   @Input() schemaInput:IFieldSchema;
 
@@ -97,12 +96,8 @@ export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit
     this.fieldInjector = createLocalInjector(this.injector, this.change, this.handler, this.schema);
 
     if (this.handler instanceof HalResourceEditFieldHandler) {
-      this.handler.errorsChanged$
-        .pipe(takeUntil(this.handler.onDestroy))
-        .subscribe(() => this.cdRef.detectChanges());
-
-      this.handler.stateChanged$
-        .pipe(takeUntil(this.handler.onDestroy))
+      merge(this.handler.errorsChanged$, this.handler.stateChanged$)
+        .pipe(takeUntil(this.handler.onDestroy), takeUntilDestroyed(this.destroyRef))
         .subscribe(() => this.cdRef.detectChanges());
     }
   }
@@ -113,8 +108,9 @@ export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit
 
   ngAfterViewInit() {
     // Fire in a timeout to avoid same execution context in AfterViewInit
-    setTimeout(() => {
+    const ready = setTimeout(() => {
       this.onEditFieldReady.emit();
     });
+    this.destroyRef.onDestroy(() => clearTimeout(ready));
   }
 }

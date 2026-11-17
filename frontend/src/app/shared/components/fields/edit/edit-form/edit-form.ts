@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ApplicationRef, Injector } from '@angular/core';
+import { ApplicationRef, Injector, signal } from '@angular/core';
 import { States } from 'core-app/core/states/states.service';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import {
@@ -71,8 +71,15 @@ export abstract class EditForm<T extends HalResource = HalResource> {
   // Reference to the changeset used in this form
   public resource:T;
 
-  // Whether this form exists in edit mode
-  public editMode = false;
+  private readonly editModeState = signal(false);
+
+  public get editMode():boolean {
+    return this.editModeState();
+  }
+
+  public set editMode(editMode:boolean) {
+    this.editModeState.set(editMode);
+  }
 
   protected constructor(public injector:Injector) {
   }

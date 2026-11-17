@@ -27,11 +27,12 @@
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { EMPTY, Subscription, catchError, from, switchMap, tap } from 'rxjs';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 
 @Component({
@@ -40,16 +41,16 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
   styleUrls: ['./wp-status-button.component.sass'],
   templateUrl: './wp-status-button.html',
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
-export class WorkPackageStatusButtonComponent extends UntilDestroyedMixin implements OnInit {
+export class WorkPackageStatusButtonComponent implements OnChanges {
   readonly I18n = inject(I18nService);
   readonly cdRef = inject(ChangeDetectorRef);
   readonly schemaCache = inject(SchemaCacheService);
   readonly halEditing = inject(HalResourceEditingService);
+
+  private readonly destroyRef = inject(DestroyRef);
+  private workPackageSubscription?:Subscription;
+  protected currentWorkPackage:WorkPackageResource;
 
   @Input() public workPackage:WorkPackageResource;
 
@@ -61,22 +62,24 @@ export class WorkPackageStatusButtonComponent extends UntilDestroyedMixin implem
     workPackageStatusBlocked: this.I18n.t('js.work_packages.message_work_package_status_blocked'),
   };
 
-  ngOnInit() {
-    this.halEditing
-      .temporaryEditResource(this.workPackage)
-      .values$()
+  ngOnChanges(changes:SimpleChanges<WorkPackageStatusButtonComponent>):void {
+    if (!changes.workPackage) {
+      return;
+    }
+
+    this.workPackageSubscription?.unsubscribe();
+    this.currentWorkPackage = this.workPackage;
+    this.workPackageSubscription = this.halEditing
+      .observeTemporaryEditResource(this.workPackage)
       .pipe(
-        this.untilDestroyed(),
+        tap((workPackage) => {
+          this.currentWorkPackage = workPackage;
+          this.cdRef.markForCheck();
+        }),
+        switchMap(({ status }) => status ? from(status.$load()).pipe(catchError(() => EMPTY)) : EMPTY),
+        takeUntilDestroyed(this.destroyRef),
       )
-      .subscribe((wp) => {
-        this.workPackage = wp;
-
-        if (this.workPackage.status) {
-          void this.workPackage.status.$load();
-        }
-
-        this.cdRef.detectChanges();
-      });
+      .subscribe(() => this.cdRef.markForCheck());
   }
 
   public get disabledReason():string|null {
@@ -97,7 +100,7 @@ export class WorkPackageStatusButtonComponent extends UntilDestroyedMixin implem
   }
 
   public get status():HalResource {
-    return this.workPackage.status;
+    return this.currentWorkPackage.status;
   }
 
   public get isReadonly() {
@@ -109,9 +112,7 @@ export class WorkPackageStatusButtonComponent extends UntilDestroyedMixin implem
   }
 
   private get schema() {
-    if (this.halEditing.typedState(this.workPackage).hasValue()) {
-      return this.halEditing.typedState(this.workPackage).value!.schema;
-    }
-    return this.schemaCache.of(this.workPackage);
+    const change = this.halEditing.typedState(this.currentWorkPackage).value;
+    return change?.schema ?? this.schemaCache.of(this.currentWorkPackage);
   }
 }

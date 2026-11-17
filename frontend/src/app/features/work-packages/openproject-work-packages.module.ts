@@ -101,18 +101,6 @@ import {
   WorkPackageRelationsComponent,
 } from 'core-app/features/work-packages/components/wp-relations/wp-relations.component';
 import {
-  WorkPackageRelationsGroupComponent,
-} from 'core-app/features/work-packages/components/wp-relations/wp-relations-group/wp-relations-group.component';
-import {
-  WorkPackageRelationRowComponent,
-} from 'core-app/features/work-packages/components/wp-relations/wp-relation-row/wp-relation-row.component';
-import {
-  WorkPackageRelationsCreateComponent,
-} from 'core-app/features/work-packages/components/wp-relations/wp-relations-create/wp-relations-create.component';
-import {
-  WorkPackageRelationsHierarchyComponent,
-} from 'core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.directive';
-import {
   WorkPackageCreateButtonComponent,
 } from 'core-app/features/work-packages/components/wp-buttons/wp-create-button/wp-create-button.component';
 import {
@@ -584,10 +572,6 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
     // Relations
     WorkPackageRelationsTabComponent,
     WorkPackageRelationsComponent,
-    WorkPackageRelationsGroupComponent,
-    WorkPackageRelationRowComponent,
-    WorkPackageRelationsCreateComponent,
-    WorkPackageRelationsHierarchyComponent,
     WorkPackageRelationsAutocompleteComponent,
     WorkPackageBreadcrumbParentComponent,
 

@@ -15,7 +15,7 @@
       [description]="disabledReason ?? undefined"
       [tooltipWhenTruncated]="disabledReason ? undefined : statusText"
       wpStatusDropdown
-      [wpStatusDropdown-workPackage]="workPackage"
+      [wpStatusDropdown-workPackage]="currentWorkPackage"
       >
       @if (isReadonly) {
         <span

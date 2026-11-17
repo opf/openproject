@@ -2,7 +2,9 @@
   <div class="detail-panel-description detail-panel--relations detail-panel--autocomplete-target"
     >
     <div class="detail-panel-description-content">
-      <wp-relations [workPackage]="workPackage" />
+      @for (resource of [workPackage]; track resource.id) {
+        <wp-relations [workPackage]="resource" />
+      }
     </div>
   </div>
 }

@@ -3,7 +3,7 @@
     <button
         type="button"
         class="inplace-edit--control inplace-edit--control--save"
-        [disabled]="(field.required && field.isEmpty()) || undefined"
+        [disabled]="saveDisabled"
         opTooltip
         [label]="saveTitle"
         (click)="save()"

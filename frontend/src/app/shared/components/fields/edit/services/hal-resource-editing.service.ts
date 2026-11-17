@@ -26,11 +26,11 @@
 //++
 
 import {
-  combine, deriveRaw, InputState, multiInput, State, StatesGroup,
+  InputState, multiInput, observableToState, State, StatesGroup,
 } from '@openproject/reactivestates';
 import { filter, map } from 'rxjs/operators';
 import { Injectable, Injector, inject } from '@angular/core';
-import { Subject } from 'rxjs';
+import { combineLatest, Observable, Subject } from 'rxjs';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { ChangeMap } from 'core-app/shared/components/fields/changeset/changeset';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
@@ -170,7 +170,7 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
   protected newChangeset<V extends HalResource, T extends ResourceChangeset<V>>(resource:V, state:InputState<T>, form?:FormResource):T {
     // we take the last registered group component which means that
     // plugins will have their say if they register for it.
-    const cls = this.hook.call('halResourceChangesetClass', resource).pop() || ResourceChangeset;
+    const cls = this.hook.call('halResourceChangesetClass', resource).pop() ?? ResourceChangeset;
     return new cls(resource, state, form) as T;
   }
 
@@ -219,21 +219,25 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
    * @return {State<HalResource>}
    */
   public temporaryEditResource<V extends HalResource, T extends ResourceChangeset<V>>(resource:V):State<V> {
-    const combined = combine(resource.state! as State<V>, this.typedState<V, T>(resource));
+    return observableToState(this.observeTemporaryEditResource<V, T>(resource));
+  }
 
-    return deriveRaw(combined,
-      ($) => $
-        .pipe(
-          filter(([resource, _]) => !!resource),
-          map(([resource, change]) => {
-            if (change) {
-              change.updatePristineResource(resource!);
-              return change.projectedResource;
-            }
+  public observeTemporaryEditResource<V extends HalResource, T extends ResourceChangeset<V>>(resource:V):Observable<V> {
+    const resourceState = resource.state! as State<V>;
+    return combineLatest([
+      resourceState.changes$(),
+      this.typedState<V, T>(resource).changes$(),
+    ]).pipe(
+      filter((values):values is [V, T|undefined] => !!values[0]),
+      map(([current, change]) => {
+        if (change) {
+          change.updatePristineResource(current);
+          return change.projectedResource;
+        }
 
-            return resource;
-          }),
-        ));
+        return current;
+      }),
+    );
   }
 
   public stopEditing(resource:HalResource|{ href:string }) {

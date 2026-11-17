@@ -25,9 +25,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
 import { fireEvent, screen } from '@testing-library/dom';
 import { WorkPackageSubjectComponent } from './wp-subject.component';
 import { EditableAttributeFieldComponent } from 'core-app/shared/components/fields/edit/field/editable-attribute-field.component';
@@ -44,26 +45,31 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 
 describe('WorkPackageSubjectComponent', () => {
-  beforeEach(async () => {
-    const schemaStub = {
-      ofProperty: () => ({ type: 'String' }),
-      isAttributeEditable: () => true,
-    };
+  let hal:HalResourceService;
+  let api:ApiV3Service;
+  const schemaPath = '/api/v3/work_packages/schemas/1-1';
 
+  beforeEach(async () => {
     const registeredFields:Record<string, EditableAttributeFieldComponent> = {};
 
     await TestBed.configureTestingModule({
       imports: [CommonModule],
       declarations: [WorkPackageSubjectComponent, EditableAttributeFieldComponent],
       providers: [
-        { provide: ApiV3Service, useValue: {} },
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        States,
+        SchemaCacheService,
+        HalResourceEditingService,
         { provide: OPContextMenuService, useValue: { close: () => undefined } },
-        { provide: States, useValue: {} },
-        { provide: I18nService, useValue: { t: (key:string) => key } },
-        { provide: SchemaCacheService, useValue: { of: () => schemaStub } },
+        {
+          provide: I18nService,
+          useValue: { t: (key:string, options?:{ attribute:string }) => options?.attribute ?? key },
+        },
         { provide: ConfigurationService, useValue: { requireDoubleClickForInlineEdit: () => false } },
         {
           provide: EditFormComponent,
@@ -75,40 +81,65 @@ describe('WorkPackageSubjectComponent', () => {
             },
           },
         },
-        {
-          provide: HalResourceEditingService,
-          useValue: {
-            temporaryEditResource: (resource:HalResource) => ({ values$: () => of(resource) }),
-            typedState: () => ({ hasValue: () => false }),
-          },
-        },
       ],
     }).compileComponents();
 
+    hal = TestBed.inject(HalResourceService);
+    hal.registerResource('WorkPackage', { cls: WorkPackageResource });
+    api = TestBed.inject(ApiV3Service);
+    await TestBed.inject(SchemaCacheService).updateValue(schemaPath, hal.createHalResourceOfClass(SchemaResource, {
+      _links: { self: { href: schemaPath } },
+      subject: { name: 'Subject', type: 'String', writable: true },
+      type: { name: 'Type', type: 'String', writable: true },
+    }, true));
     initializeCoreDisplayFields(TestBed.inject(DisplayFieldService))();
   });
 
-  function render(wpOverrides:Partial<WorkPackageResource> = {}):ComponentFixture<WorkPackageSubjectComponent> {
+  function createWorkPackage(subject:string, id = 1) {
+    return hal.createHalResource<WorkPackageResource>({
+      _type: 'WorkPackage',
+      subject,
+      _links: {
+        self: { href: `/api/v3/work_packages/${id}` },
+        schema: { href: schemaPath },
+        update: { href: `/api/v3/work_packages/${id}/form`, method: 'post' },
+      },
+    });
+  }
+
+  async function render(workPackage:WorkPackageResource):Promise<ComponentFixture<WorkPackageSubjectComponent>> {
+    await api.work_packages.cache.updateWorkPackage(workPackage);
     const fixture = TestBed.createComponent(WorkPackageSubjectComponent);
-    fixture.componentInstance.workPackage = { subject: 'Some subject', ...wpOverrides } as WorkPackageResource;
-    fixture.detectChanges();
+    fixture.componentRef.setInput('workPackage', workPackage);
+    await fixture.whenStable();
     return fixture;
   }
 
-  it('renders the work package subject as a level 2 heading', () => {
+  it('renders the work package subject as a level 2 heading', async () => {
     const subject = 'Add some angular tests for wp-subject';
-    render({ subject });
+    await render(createWorkPackage(subject));
 
     expect(screen.getByRole('heading', { level: 2, name: subject })).toBeInTheDocument();
   });
 
   it('keeps the accessible heading while editing', async () => {
     const subject = 'Add some angular tests for wp-subject';
-    render({ subject });
+    await render(createWorkPackage(subject));
 
-    fireEvent.click(screen.getByRole('button', { name: `subject ${subject}`}));
+    fireEvent.click(screen.getByRole('button', { name: `Subject ${subject}`}));
     await screen.findByRole('textbox');
 
     expect(screen.getByRole('heading', { level: 2, name: subject })).toBeInTheDocument();
+  });
+
+  it('refreshes the accessible heading after the cache republishes the same work package', async () => {
+    const workPackage = createWorkPackage('Original subject');
+    await render(workPackage);
+    expect(screen.getByRole('heading', { level: 2, name: 'Original subject' })).toBeInTheDocument();
+
+    workPackage.subject = 'Updated subject';
+    await api.work_packages.cache.updateWorkPackage(workPackage);
+
+    expect(await screen.findByRole('heading', { level: 2, name: 'Updated subject' })).toBeInTheDocument();
   });
 });
