@@ -152,10 +152,12 @@ RSpec.describe Repository::Subversion do
     let(:managed_git_root) { "/tmp/managed-git" }
     let(:managed_svn_root) { "/tmp/managed-svn" }
     let(:config) { { manages: managed_svn_root } }
+    let(:resolved_ip) { "93.184.215.14" }
 
     before do
       allow(OpenProject::Configuration).to receive(:scm_local_checkout_path).and_return(checkout_root)
       allow(Repository::Git).to receive(:managed_root).and_return(managed_git_root)
+      allow(OpenProject::SsrfProtection).to receive(:resolver).and_return(->(_) { [IPAddr.new(resolved_ip)] })
     end
 
     context "file URL points to OpenProject-managed directory" do
@@ -185,6 +187,81 @@ RSpec.describe Repository::Subversion do
 
       it "is valid" do
         expect(instance).to be_valid
+      end
+    end
+
+    context "with a host resolving to a public address" do
+      let(:instance) { build(:repository_subversion, url: "https://svn.example.org/repo") }
+
+      it "is valid" do
+        expect(instance).to be_valid
+      end
+    end
+
+    %w[
+      http://127.0.0.1/svn
+      http://[::1]/svn
+      http://169.254.169.254/latest/meta-data/
+      svn://10.0.0.1/repo
+      svn+ssh://192.168.1.1/repo
+    ].each do |internal_url|
+      context "with internal URL #{internal_url}" do
+        let(:instance) { build(:repository_subversion, url: internal_url) }
+
+        it "is invalid" do
+          expect(instance).not_to be_valid
+          expect(instance.errors.details[:url]).to include(error: :ssrf_filtered)
+        end
+      end
+    end
+
+    context "with a host resolving to a private address" do
+      let(:instance) { build(:repository_subversion, url: "https://svn.intranet/repo") }
+      let(:resolved_ip) { "10.0.0.5" }
+
+      it "is invalid" do
+        expect(instance).not_to be_valid
+        expect(instance.errors.details[:url]).to include(error: :ssrf_filtered)
+      end
+
+      context "when the address is allowlisted", with_ssrf_ip_allowlist: ["10.0.0.0/8"] do
+        it "is valid" do
+          expect(instance).to be_valid
+        end
+      end
+    end
+
+    context "with an internal host and a path that is not URI-safe" do
+      let(:instance) { build(:repository_subversion, url: "http://127.0.0.1/[repo] with spaces") }
+
+      it "is invalid" do
+        expect(instance).not_to be_valid
+        expect(instance.errors.details[:url]).to include(error: :ssrf_filtered)
+      end
+    end
+
+    context "with an unparseable host" do
+      let(:instance) { build(:repository_subversion, url: "http://svn example.org/repo") }
+
+      it "is invalid" do
+        expect(instance).not_to be_valid
+        expect(instance.errors.details[:url]).to include(error: :invalid_url)
+      end
+    end
+
+    context "when an existing repository already points to an internal host" do
+      let(:instance) { create(:repository_subversion) }
+
+      before do
+        instance.update_column(:url, "http://127.0.0.1/svn")
+        instance.reload
+      end
+
+      it "is valid until the URL is changed" do
+        expect(instance).to be_valid
+
+        instance.url = "http://127.0.0.2/svn"
+        expect(instance).not_to be_valid
       end
     end
   end
