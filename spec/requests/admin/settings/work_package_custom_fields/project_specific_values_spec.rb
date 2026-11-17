@@ -398,6 +398,16 @@ RSpec.describe "Admin project-specific values of a work package custom field", :
           expect(CustomValue.exists?(custom_value.id)).to be(false)
         end
 
+        it "shows the error when deleting the last value of the custom field" do
+          custom_field.custom_options.where(project_id: nil).delete_all
+
+          delete destroy_path.call(own_option)
+
+          expect(response).to redirect_to(values_path)
+          expect(flash[:error]).to eq(I18n.t("activerecord.errors.models.custom_field.at_least_one_custom_option"))
+          expect(CustomOption.exists?(own_option.id)).to be(true)
+        end
+
         it "does not find a global value" do
           delete destroy_path.call(custom_field.custom_options.find_by!(value: "A"))
 

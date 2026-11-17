@@ -122,9 +122,14 @@ module CustomFields
     end
 
     def destroy
-      destroy_value
+      call = destroy_value
 
-      flash[:notice] = I18n.t(:notice_successful_delete)
+      if call.success?
+        flash[:notice] = I18n.t(:notice_successful_delete)
+      else
+        flash[:error] = call.message
+      end
+
       redirect_to_index
     end
 
@@ -271,8 +276,7 @@ module CustomFields
 
     def destroy_value
       if custom_field.list?
-        call = ::CustomOptions::DeleteService.new(user: current_user, model: @value).call
-        raise ActiveRecord::RecordNotDestroyed.new(call.message, @value) if call.failure?
+        ::CustomOptions::DeleteService.new(user: current_user, model: @value).call
       else
         ::CustomFields::Hierarchy::Items::DeleteService.new(user: current_user, model: @value).call
       end
