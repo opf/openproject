@@ -75,6 +75,7 @@ workflows:
         - 'ruby/setup-ruby@v1.336.0'
     '.github/workflows/packager.yml':
         - 'actions/checkout@v7.0.1'
+        - 'actions/setup-node@v7.1.0'
         - 'pkgr/action@v1'
     '.github/workflows/pullpreview.yml':
         - 'actions/checkout@v7.0.1'
@@ -103,7 +104,6 @@ workflows:
         - 'reviewdog/action-setup@v1.5.0'
     '.github/workflows/work-package-check.yml':
         - 'actions/checkout@v7.0.1'
-        - 'marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88'
         - 'marocchino/sticky-pull-request-comment@v3.0.5'
         - 'ruby/setup-ruby@v1.336.0'
     '.github/workflows/yamllint-core.yml':
@@ -163,11 +163,6 @@ dependencies:
         commit: 'sha1-33d7b85da1a04171e211befe2c739303b9a4c066'
         owner_id: 9919
         repo_id: 259445878
-    'marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88':
-        ref: 'v3.0.5'
-        commit: 'sha1-5770ad5eb8f42dd2c4f34da00c94c5381e49af88'
-        owner_id: 128431
-        repo_id: 223043916
     'marocchino/sticky-pull-request-comment@v3.0.5':
         ref: 'v3.0.5'
         commit: 'sha1-5770ad5eb8f42dd2c4f34da00c94c5381e49af88'
