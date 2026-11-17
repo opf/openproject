@@ -69,7 +69,7 @@ See COPYRIGHT and LICENSE files for more details.
         render(
           BreakdownBlock.new(
             heading: t(".blocks.initially_planned.heading"),
-            show_all_href: show_all_path(timestamps: breakdown.reference_start)
+            show_all_href: show_all_path(timestamps: [breakdown.reference_start])
           )
         ) do |block|
           block.with_count { breakdown.initially_planned.work_package_count.to_s }
