@@ -16,7 +16,29 @@ on:
     - cron: '0 3 * * *' # Daily at 03:00
 
 jobs:
+  cleanup:
+    if: github.repository == 'opf/openproject'
+    name: Validate packaging cleanup
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        if: hashFiles('packaging/tests/teardown.sh') != ''
+        with:
+          node-version: '24.22.1'
+          package-manager-cache: false
+      - name: Validate cleanup when the selected revision includes the test
+        if: hashFiles('packaging/tests/teardown.sh') != ''
+        run: bash packaging/tests/teardown.sh
+
   build:
+    needs: cleanup
     if: github.repository == 'opf/openproject'
     name: ${{ matrix.target }}
     runs-on: ubuntu-latest
