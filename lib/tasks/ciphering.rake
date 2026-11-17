@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,19 +28,9 @@
 #++
 
 namespace :db do
-  desc "Encrypts SCM and LDAP passwords in the database."
+  desc "Re-encrypts all encrypted attributes in the database with the current encryption key."
   task encrypt: :environment do
-    unless Repository.encrypt_all(:password) &&
-           LdapAuthSource.encrypt_all(:account_password)
-      raise "Some objects could not be saved after encryption, update was rolled back."
-    end
-  end
-
-  desc "Decrypts SCM and LDAP passwords in the database."
-  task decrypt: :environment do
-    unless Repository.decrypt_all(:password) &&
-           LdapAuthSource.decrypt_all(:account_password)
-      raise "Some objects could not be saved after decryption, update was rolled back."
-    end
+    Rails.application.eager_load!
+    DatabaseEncryption::ReencryptService.new.call
   end
 end

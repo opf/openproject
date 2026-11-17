@@ -16,6 +16,7 @@ In general the following parts of your OpenProject installation should be backed
 - Configuration files
 - Uploaded files (attachments)
 - Repositories (subversion, git) if applicable
+- The value of `SECRET_KEY_BASE`, or of `OPENPROJECT_DATABASE__ENCRYPTION__KEY` if you set it. Without it, OpenProject cannot read the SCM and LDAP passwords in the database. See [Encryption of SCM and LDAP passwords](../../configuration/#encryption-of-scm-and-ldap-passwords).
 
 ## Package-based installation (DEB/RPM)
 
