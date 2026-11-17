@@ -50,8 +50,7 @@ module API
         date_time_property :created_at
         date_time_property :updated_at
 
-        # Title being the identifier is kind of a placeholder until we have actual page names
-        self_link(path: :wiki_page_link, title_getter: ->(*) { represented.identifier })
+        self_link(path: :wiki_page_link, title_getter: ->(*) { represented.title })
 
         associated_resource :provider,
                             v3_path: :wiki_provider,
