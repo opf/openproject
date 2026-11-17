@@ -69,16 +69,7 @@ See COPYRIGHT and LICENSE files for more details.
 
     <% unless record.marked_default? %>
       <% menu.with_divider %>
-
-      <% menu.with_item(
-           scheme: :danger,
-           label: t(:button_delete),
-           href: helpers.polymorphic_path(record),
-           form_arguments: { method: :delete, data: { turbo_confirm: t(:text_are_you_sure) } },
-           test_selector: test_selector("delete-action")
-         ) do |item| %>
-        <% item.with_leading_visual_icon(icon: :trash) %>
-      <% end %>
+      <% delete_action(menu) %>
     <% end %>
   <% end %>
 <% end %>

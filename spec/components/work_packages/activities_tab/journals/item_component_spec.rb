@@ -157,5 +157,22 @@ RSpec.describe WorkPackages::ActivitiesTab::Journals::ItemComponent, type: :comp
         expect(page).to have_text(I18n.t(:"journals.changes_retracted"))
       end
     end
+
+    context "with a comment retraction cause" do
+      let(:journal) do
+        create(:work_package_journal, journable: work_package, user:, notes: "", version: 2,
+                                      cause: Journal::CausedByCommentRetraction.new.to_hash)
+      end
+
+      let(:notification) { nil }
+
+      it "renders the retraction as a detail instead of a comment" do
+        rendered_component
+
+        expect(page).to have_no_test_selector("op-journal-notes-body")
+        expect(page).to have_no_text(I18n.t(:"journals.changes_retracted"))
+        expect(page).to have_text(I18n.t("journals.caused_changes.comment_retracted"))
+      end
+    end
   end
 end

@@ -49,7 +49,7 @@ RSpec.describe DevelopmentData::UserCustomFieldsSeeder do
     job_title = UserCustomField.find_by(name: "Job title")
     expect(job_title.field_format).to eq("list")
     expect(job_title).not_to be_multi_value
-    expect(job_title).not_to be_editable
+    expect(job_title).not_to be_user_self_editable
     expect(job_title.semantic_key).to eq("job_title")
     expect(job_title.custom_options.pluck(:value)).to include("Project Manager", "Software Developer")
   end
@@ -60,7 +60,7 @@ RSpec.describe DevelopmentData::UserCustomFieldsSeeder do
     %w[Spoken\ languages Key\ skills].each do |name|
       field = UserCustomField.find_by(name:)
       expect(field).to be_multi_value
-      expect(field).to be_editable
+      expect(field).to be_user_self_editable
     end
   end
 
@@ -69,7 +69,7 @@ RSpec.describe DevelopmentData::UserCustomFieldsSeeder do
 
     job_start_date = UserCustomField.find_by(name: "Job start date")
     expect(job_start_date.field_format).to eq("date")
-    expect(job_start_date).not_to be_editable
+    expect(job_start_date).not_to be_user_self_editable
   end
 
   it "does not mark any of the fields as admin-only" do

@@ -5,19 +5,15 @@ $blocknote-side-menu-gutter: 48px // Left lane for BlockNote's side menu (drag h
   .ck-content
     min-height: 30vh
 
-// BlockNote 0.51 stamps `.block-note-editor-container` (the className we
-// pass to <BlockNoteView>) onto BOTH its outer `.bn-container` wrapper AND
-// an inner wrapper without `.bn-container`. Without the `.bn-container`
-// requirement, the rules below cascade onto both elements — `gap: 10px`
-// and `flex-direction: column-reverse` get applied at two nesting levels,
-// which shows up as a few-pixel vertical layout jump whenever the side
-// menu / drag handle re-renders during selection.
+// BlockNote stamps `.block-note-editor-container` (the className we pass to
+// <BlockNoteView>) onto an inner wrapper as well, hence `.bn-container`.
+// No `gap` here: since 0.55 BlockNote mounts empty siblings next to
+// `.bn-editor` on selection, and a gap turns each into a vertical jump.
 .block-note-editor-container.bn-container
   align-items: center
   position: relative
   display: flex
-  flex-direction: column-reverse
-  gap: 10px
+  flex-direction: column
   height: 100%
   max-width: none
   padding: 0

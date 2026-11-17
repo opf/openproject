@@ -102,7 +102,7 @@ module TimeEntries
       if model.errors[:project_id].present?
         model.errors[:project_id].first
       else
-        model.errors[:entities]&.first
+        model.errors[:entity].first
       end
     end
 

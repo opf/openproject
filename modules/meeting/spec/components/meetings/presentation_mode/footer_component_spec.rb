@@ -90,4 +90,72 @@ RSpec.describe Meetings::PresentationMode::FooterComponent, type: :component do
       expect(subject).not_to have_test_selector("meeting-presentation-slide-progress")
     end
   end
+
+  context "with surrounding agenda items" do
+    shared_let(:meeting) { create(:meeting) }
+    shared_let(:presenter) { create(:user) }
+    shared_let(:other_presenter) { create(:user) }
+    shared_let(:previous_agenda_item) do
+      create(:meeting_agenda_item, meeting:, title: "Previous item", presenter: other_presenter)
+    end
+    shared_let(:agenda_item) do
+      create(:meeting_agenda_item, meeting:, title: "Current item", notes: "One\n\n---\n\nTwo\n\n---\n\nThree", presenter:)
+    end
+    shared_let(:next_agenda_item) do
+      create(:meeting_agenda_item, meeting:, title: "Next item", presenter: other_presenter)
+    end
+
+    let(:footer_left) { subject.find(".op-meeting-presentation--footer-left") }
+    let(:footer_right) { subject.find(".op-meeting-presentation--footer-right") }
+
+    subject do
+      render_inline(described_class.new(meeting:,
+                                        sorted_agenda_item_ids: [previous_agenda_item.id, agenda_item.id, next_agenda_item.id],
+                                        current_item: agenda_item,
+                                        current_slide:,
+                                        started_at: Time.current))
+      page
+    end
+
+    context "on the first slide" do
+      it "labels previous with the previous item and its presenter" do
+        expect(footer_left).to have_text("Previous item")
+        expect(footer_left).to have_css("opce-principal")
+      end
+
+      it "labels next with the next slide and no presenter" do
+        expect(footer_right).to have_text("Current item: Slide 2/3", normalize_ws: true)
+        expect(footer_right).to have_no_text("Next item")
+        expect(footer_right).to have_no_css("opce-principal")
+      end
+    end
+
+    context "on a middle slide" do
+      let(:current_slide) { 2 }
+
+      it "labels both directions with the neighboring slides and no presenter" do
+        expect(footer_left).to have_text("Current item: Slide 1/3", normalize_ws: true)
+        expect(footer_left).to have_no_text("Previous item")
+        expect(footer_left).to have_no_css("opce-principal")
+        expect(footer_right).to have_text("Current item: Slide 3/3", normalize_ws: true)
+        expect(footer_right).to have_no_text("Next item")
+        expect(footer_right).to have_no_css("opce-principal")
+      end
+    end
+
+    context "on the last slide" do
+      let(:current_slide) { 3 }
+
+      it "labels previous with the previous slide and no presenter" do
+        expect(footer_left).to have_text("Current item: Slide 2/3", normalize_ws: true)
+        expect(footer_left).to have_no_text("Previous item")
+        expect(footer_left).to have_no_css("opce-principal")
+      end
+
+      it "labels next with the next item and its presenter" do
+        expect(footer_right).to have_text("Next item")
+        expect(footer_right).to have_css("opce-principal")
+      end
+    end
+  end
 end

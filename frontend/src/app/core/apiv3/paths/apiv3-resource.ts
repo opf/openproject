@@ -170,7 +170,7 @@ export class ApiV3ResourceCollection<V, T extends ApiV3GettableResource<V>> exte
    * Returns an observable response.
    *
    * @param filters filter object to filter with
-   * @param select The signalling parameters to request
+   * @param select The signaling parameters to request
    * @param params additional URL params to append
    */
   public signalled<R>(filters:ApiV3FilterBuilder, select:string[], params:Record<string, string> = {}):Observable<R> {

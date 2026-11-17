@@ -28,6 +28,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do %>
   <%= render(WorkPackageTypes::ReuseMode::SectionComponent.new(variant: model, aspect: TypeVariant::PDF_EXPORT)) %>
-  <%= render(WorkPackageTypes::Wizard::StepDescriptionComponent.new(step: :pdf)) %>
+  <%= render(WorkPackageTypes::AspectDescriptionComponent.new(variant: model, aspect: :pdf)) %>
   <%= render(WorkPackageTypes::ExportConfigurationComponent.new(model, readonly: model.linked?(TypeVariant::PDF_EXPORT))) %>
 <% end %>

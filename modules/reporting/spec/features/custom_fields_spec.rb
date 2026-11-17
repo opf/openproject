@@ -72,7 +72,7 @@ RSpec.describe "Custom fields reporting", :js do
     end
 
     let(:initial_custom_values) { { custom_field.id => custom_value_for(custom_field, "First option") } }
-    let(:cf_id) { "custom_field#{custom_field.id}" }
+    let(:cf_id) { custom_field.column_name }
 
     # Have a second work package in the test that will have no values
     # as this caused problems with casting the nil value of the custom value to 0.
@@ -99,7 +99,7 @@ RSpec.describe "Custom fields reporting", :js do
       expect(select).to have_css("option", text: "Second option")
       select.find("option", text: "Second option").select_option
 
-      click_link "Apply"
+      click_on "Apply"
 
       # Expect empty result table
       within("#result-table") do
@@ -125,7 +125,7 @@ RSpec.describe "Custom fields reporting", :js do
       select "List CF", from: "group-by--add-columns"
       select "Work package", from: "group-by--add-rows"
 
-      click_link "Apply"
+      click_on "Apply"
 
       # Expect row of work package
       within("#result-table") do
@@ -187,7 +187,7 @@ RSpec.describe "Custom fields reporting", :js do
         select "Work package", from: "group-by--add-rows"
 
         sleep(0.1)
-        click_link "Apply"
+        click_on "Apply"
 
         # Expect row of work package
         within("#result-table") do
@@ -219,7 +219,7 @@ RSpec.describe "Custom fields reporting", :js do
       select "Text CF", from: "group-by--add-columns"
       select "Work package", from: "group-by--add-rows"
 
-      click_link "Apply"
+      click_on "Apply"
 
       # Expect row of work package
       within("#result-table") do

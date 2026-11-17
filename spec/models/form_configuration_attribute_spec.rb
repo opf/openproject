@@ -142,7 +142,7 @@ RSpec.describe FormConfigurationAttribute do
       check_deferred_constraints!
     end
 
-    it "activates into a group at the requested position and shifts the neighbours" do
+    it "activates into a group at the requested position and shifts the neighbors" do
       id = inactive_row.id
       inactive_row.place!(group:, position: 1)
 

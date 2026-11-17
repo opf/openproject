@@ -50,6 +50,9 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
   let(:version) { build_stubbed(:version) }
   let(:target_versions) { [version] }
   let(:observed_in_versions) { [] }
+  let(:label_a) { build_stubbed(:label) }
+  let(:label_b) { build_stubbed(:label) }
+  let(:labels) { [label_a, label_b] }
   let(:parent) do
     build_stubbed(:work_package).tap do |wp|
       allow(wp)
@@ -87,7 +90,9 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
                   type:,
                   priority:,
                   parent:,
-                  responsible:).tap do |wp|
+                  responsible:,
+                  estimated_hours: 5,
+                  derived_estimated_hours: 8).tap do |wp|
       allow(wp)
         .to receive(:respond_to?)
               .and_call_original
@@ -99,7 +104,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
         .to receive_messages(available_custom_fields:,
                              custom_field_values: [custom_value],
                              effective_target_versions: target_versions,
-                             effective_observed_in_versions: observed_in_versions)
+                             effective_observed_in_versions: observed_in_versions,
+                             effective_labels: labels)
     end
   end
   let(:timestamp) { Timestamp.new(1.day.ago) }
@@ -137,6 +143,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
         "subject" => work_package.subject,
         "startDate" => work_package.start_date,
         "dueDate" => work_package.due_date,
+        "estimatedTime" => "PT5H",
+        "derivedEstimatedTime" => "PT8H",
         "customField#{custom_field.id}" => "This is a string value",
         "_meta" => {
           "matchesFilters" => true,
@@ -238,6 +246,17 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
     end
   end
 
+  %w[estimated_hours derived_estimated_hours].each do |attribute|
+    context "with only #{attribute} changed" do
+      let(:attributes_changed_to_baseline) { [attribute] }
+
+      it "renders both own and total work" do
+        expect(subject).to be_json_eql("PT5H".to_json).at_path("estimatedTime")
+        expect(subject).to be_json_eql("PT8H".to_json).at_path("derivedEstimatedTime")
+      end
+    end
+  end
+
   context "with the target versions changed together with the single-value version",
           with_settings: { work_package_multiple_versions: false } do
     let(:version_b) { build_stubbed(:version) }
@@ -320,6 +339,46 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
     it "renders as expected" do
       expect(subject)
         .to be_json_eql(expected_json)
+    end
+  end
+
+  context "with only the labels changed" do
+    let(:attributes_changed_to_baseline) { %w[labels] }
+
+    let(:expected_json) do
+      {
+        "_meta" => {
+          "matchesFilters" => true,
+          "exists" => true,
+          "timestamp" => timestamp.to_s
+        },
+        "_links" => {
+          "labels" => [
+            { "href" => api_v3_paths.label(label_a.id), "title" => label_a.name },
+            { "href" => api_v3_paths.label(label_b.id), "title" => label_b.name }
+          ],
+          "self" => {
+            "href" => api_v3_paths.work_package(work_package.id, timestamps: timestamp),
+            "title" => work_package.subject
+          },
+          "schema" => {
+            "href" => api_v3_paths.work_package_schema(work_package.project_id, work_package.type_id)
+          }
+        }
+      }.to_json
+    end
+
+    it "renders as expected" do
+      expect(subject)
+        .to be_json_eql(expected_json)
+    end
+  end
+
+  context "with the labels unchanged" do
+    let(:attributes_changed_to_baseline) { %w[subject] }
+
+    it "does not render the labels" do
+      expect(subject).not_to have_json_path("_links/labels")
     end
   end
 
@@ -563,6 +622,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
         "subject" => work_package.subject,
         "startDate" => work_package.start_date,
         "dueDate" => work_package.due_date,
+        "estimatedTime" => "PT5H",
+        "derivedEstimatedTime" => "PT8H",
         "_meta" => {
           "matchesFilters" => true,
           "exists" => true,
@@ -602,6 +663,10 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
               "href" => api_v3_paths.version(version.id),
               "title" => version.name
             }
+          ],
+          "labels" => [
+            { "href" => api_v3_paths.label(label_a.id), "title" => label_a.name },
+            { "href" => api_v3_paths.label(label_b.id), "title" => label_b.name }
           ],
           "observedInVersions" => [],
           "parent" => {

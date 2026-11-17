@@ -39,7 +39,7 @@ module Admin::Import::Jira::ImportRuns
       ) do
         "#{I18n.t('admin.jira.run.title')} ##{model.id}"
       end +
-        render(Admin::Import::Jira::ImportRuns::StatusBadgeComponent.new(model.current_state))
+        render(Admin::Import::Jira::ImportRuns::StatusLabelComponent.new(model.current_state))
     end
 
     def creator

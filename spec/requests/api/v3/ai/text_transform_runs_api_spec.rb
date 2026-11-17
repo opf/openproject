@@ -31,14 +31,13 @@ require "spec_helper"
 require "rack/test"
 
 RSpec.describe API::V3::AI::TextTransformRunsAPI,
-               with_flag: { ai_text_transform_actions: true },
-               with_settings: { ai_text_transform_actions_enabled: true } do
+               with_flag: { ai_text_actions: true } do
   include API::V3::Utilities::PathHelper
 
   shared_let(:type) { create(:type) }
   shared_let(:project) { create(:project, types: [type]) }
   shared_let(:work_package) { create(:work_package, project:, type:) }
-  shared_let(:action) { create(:ai_text_transform_action, prompt: "Fix grammar only.") }
+  shared_let(:action) { create(:ai_text_action, prompt: "Fix grammar only.") }
   shared_let(:user) do
     create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages add_work_packages] })
   end
@@ -139,12 +138,6 @@ RSpec.describe API::V3::AI::TextTransformRunsAPI,
       end
 
       it_behaves_like "action not available", :context_required
-    end
-
-    context "when the assistant is disabled", with_settings: { ai_text_transform_actions_enabled: false } do
-      before { post_run(body) }
-
-      it_behaves_like "action not available", :assistant_disabled
     end
 
     context "with blank content" do

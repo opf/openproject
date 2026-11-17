@@ -30,8 +30,7 @@
 require "spec_helper"
 
 RSpec.describe AI::TextTransforms::Availability,
-               with_flag: { ai_text_transform_actions: true },
-               with_settings: { ai_text_transform_actions_enabled: true } do
+               with_flag: { ai_text_actions: true } do
   shared_let(:type) { create(:type) }
   shared_let(:other_type) { create(:type) }
   shared_let(:project) { create(:project, types: [type, other_type]) }
@@ -41,20 +40,16 @@ RSpec.describe AI::TextTransforms::Availability,
   let(:availability) { described_class.new(gateway:) }
   let(:context) { AI::TextTransforms::Context.for_work_package(work_package) }
   let(:no_context) { AI::TextTransforms::Context.none }
-  let(:action) { create(:ai_text_transform_action) }
+  let(:action) { create(:ai_text_action) }
 
   describe "#assistant" do
-    it "is available when flag, setting and gateway agree" do
+    it "is available when flag and gateway agree" do
       expect(availability.assistant).to be_available
       expect(availability.assistant.reason).to be_nil
     end
 
-    it "reports the feature flag", with_flag: { ai_text_transform_actions: false } do
+    it "reports the feature flag", with_flag: { ai_text_actions: false } do
       expect(availability.assistant.reason).to eq(:feature_disabled)
-    end
-
-    it "reports the setting", with_settings: { ai_text_transform_actions_enabled: false } do
-      expect(availability.assistant.reason).to eq(:assistant_disabled)
     end
 
     it "reports the gateway" do
@@ -95,13 +90,13 @@ RSpec.describe AI::TextTransforms::Availability,
     end
 
     it "requires a context for actions scoped to specific types" do
-      action = create(:ai_text_transform_action, usage_scope: "specific_work_package_types", types: [type])
+      action = create(:ai_text_action, usage_scope: "specific_work_package_types", types: [type])
 
       expect(availability.action(action, no_context).reason).to eq(:context_required)
     end
 
     it "matches specific types against the context type" do
-      action = create(:ai_text_transform_action, usage_scope: "specific_work_package_types", types: [other_type])
+      action = create(:ai_text_action, usage_scope: "specific_work_package_types", types: [other_type])
 
       expect(availability.action(action, context).reason).to eq(:type_mismatch)
 
@@ -126,7 +121,7 @@ RSpec.describe AI::TextTransforms::Availability,
     end
 
     it "reports a type mismatch before a missing template" do
-      action = create(:ai_text_transform_action,
+      action = create(:ai_text_action,
                       usage_scope: "specific_work_package_types", injects_type_template: true, types: [other_type])
 
       expect(availability.action(action, context).reason).to eq(:type_mismatch)
@@ -153,30 +148,30 @@ RSpec.describe AI::TextTransforms::Availability,
       expect(availability.runnable(action).reason).to eq(:action_inactive)
     end
 
-    it "reports the assistant first", with_settings: { ai_text_transform_actions_enabled: false } do
-      expect(availability.runnable(action).reason).to eq(:assistant_disabled)
+    it "reports the assistant first", with_flag: { ai_text_actions: false } do
+      expect(availability.runnable(action).reason).to eq(:feature_disabled)
     end
   end
 
   describe "#actions_for" do
     it "returns matching active actions ordered by position" do
-      second = create(:ai_text_transform_action, position: 2)
-      first = create(:ai_text_transform_action, position: 1)
-      create(:ai_text_transform_action, active: false)
-      create(:ai_text_transform_action, usage_scope: "specific_work_package_types", types: [other_type])
+      second = create(:ai_text_action, position: 2)
+      first = create(:ai_text_action, position: 1)
+      create(:ai_text_action, active: false)
+      create(:ai_text_action, usage_scope: "specific_work_package_types", types: [other_type])
 
       expect(availability.actions_for(context)).to eq([first, second])
     end
 
     it "omits type-scoped actions without a context" do
-      everywhere = create(:ai_text_transform_action)
-      create(:ai_text_transform_action, usage_scope: "all_work_package_types")
+      everywhere = create(:ai_text_action)
+      create(:ai_text_action, usage_scope: "all_work_package_types")
 
       expect(availability.actions_for(no_context)).to eq([everywhere])
     end
 
-    it "is empty when the assistant is unavailable", with_settings: { ai_text_transform_actions_enabled: false } do
-      create(:ai_text_transform_action)
+    it "is empty when the assistant is unavailable", with_flag: { ai_text_actions: false } do
+      create(:ai_text_action)
 
       expect(availability.actions_for(context)).to eq([])
     end
@@ -185,7 +180,7 @@ RSpec.describe AI::TextTransforms::Availability,
   describe "REASONS" do
     it "lists every reason the service can answer" do
       expect(described_class::REASONS)
-        .to contain_exactly(:feature_disabled, :assistant_disabled, :llm_unavailable, :action_inactive,
+        .to contain_exactly(:feature_disabled, :llm_unavailable, :action_inactive,
                             :context_required, :type_mismatch, :template_missing)
     end
   end

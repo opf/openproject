@@ -59,13 +59,14 @@ import { HierarchyTransformer } from './state/hierarchy-transformer';
 import { RelationsTransformer } from './state/relations-transformer';
 import { RowsTransformer } from './state/rows-transformer';
 import { SelectionTransformer } from './state/selection-transformer';
+import { KeyboardNavigationTransformer } from './state/keyboard/keyboard-navigation-transformer';
 import { TimelineTransformer } from './state/timeline-transformer';
 import {
   SharingTransformer,
 } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/sharing-transformer';
 
 // noinspection JSUnusedLocalSymbols
-type StateTransformers = new(injector:Injector, table:WorkPackageTable) => unknown;
+type StateTransformers = new(injector:Injector, table:WorkPackageTable, view:TableEventComponent) => unknown;
 
 const attachedTables = new WeakSet<WorkPackageTable>();
 
@@ -104,6 +105,7 @@ export class TableHandlerRegistry extends WorkPackageViewHandlerRegistry<TableEv
 
   protected readonly stateTransformers:StateTransformers[] = [
     SelectionTransformer,
+    KeyboardNavigationTransformer,
     RowsTransformer,
     ColumnsTransformer,
     GroupFoldTransformer,
@@ -128,7 +130,7 @@ export class TableHandlerRegistry extends WorkPackageViewHandlerRegistry<TableEv
     });
 
     try {
-      this.stateTransformers.forEach((Transformer) => instances.push(new Transformer(this.injector, table)));
+      this.stateTransformers.forEach((Transformer) => instances.push(new Transformer(this.injector, table, viewRef)));
       listeners = super.attachTo(viewRef);
     } catch (error) {
       table.destroy();

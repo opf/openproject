@@ -35,7 +35,7 @@ module NotificationSettings::Scopes
       # Return notifications settings that prevail in the selected context (project)
       # If there is only the global notification setting in place, those are authoritative.
       # If there is a project specific setting in place, it is the project specific setting instead.
-      # rubocop:disable Metrics/AbcSize
+      # rubocop:disable-next Metrics/AbcSize
       def applicable(project)
         global_notifications = NotificationSetting.arel_table
         project_notifications = NotificationSetting.arel_table.alias("project_settings")
@@ -49,7 +49,6 @@ module NotificationSettings::Scopes
 
         where(global_notifications[:id].in(subselect))
       end
-      # rubocop:enable Metrics/AbcSize
     end
   end
 end

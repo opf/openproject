@@ -307,7 +307,7 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     let!(:cost_rate) { create(:cost_rate, cost_type:, rate: 1000.0, valid_from: 1.year.ago.to_date) }
     let(:labor_user) { create(:user, firstname: "Alice", lastname: "Anderson") }
     let!(:hourly_rate) do
-      create(:hourly_rate, user: labor_user, project:, rate: 400.0, valid_from: 1.year.ago.to_date)
+      create(:hourly_rate, principal: labor_user, project:, rate: 400.0, valid_from: 1.year.ago.to_date)
     end
     let(:budget) { create(:budget, project:, subject: "Phase 1 rollout", fixed_date: Date.current) }
     let!(:material_item) { create(:material_budget_item, budget:, cost_type:, units: 2.0) }
@@ -556,13 +556,29 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
         expect(pdf_strings.join(" ")).not_to include(I18n.t(:label_table_of_contents))
       end
     end
+
+    context "with a group whose attributes are all hidden" do
+      let(:type) do
+        type = create(:type_bug)
+        variant = type.default_variant
+        default_groups = variant.default_attribute_groups.map { |key, attributes| [key, attributes - %w(project_phase)] }
+        variant.attribute_groups = default_groups + [["Phases", %w(project_phase)]]
+        variant.save!
+        type
+      end
+
+      it "lists no contents entry for a group with only hidden attributes" do
+        expect(pdf_strings).not_to include("Phases")
+      end
+    end
   end
 
   describe "inherited form configuration" do
     let(:type) do
       create(:type_bug).tap do |t|
         variant = t.default_variant
-        variant.attribute_groups = variant.default_attribute_groups + [["borrowed_group", %w(assignee)]]
+        default_groups = variant.default_attribute_groups.map { |key, attributes| [key, attributes - %w(assignee)] }
+        variant.attribute_groups = default_groups + [["borrowed_group", %w(assignee)]]
         variant.save!
       end
     end
@@ -587,14 +603,16 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     let(:type) do
       create(:type_bug).tap do |t|
         variant = t.default_variant
-        variant.attribute_groups = variant.default_attribute_groups + [["root_group", %w(assignee)]]
+        default_groups = variant.default_attribute_groups.map { |key, attributes| [key, attributes - %w(assignee)] }
+        variant.attribute_groups = default_groups + [["root_group", %w(assignee)]]
         variant.save!
       end
     end
     let(:variant) do
       create(:type_variant, type:, variant_name: "Bug variant").tap do |v|
         unlink_configuration(v, aspect: TypeVariant::FORM_CONFIGURATION)
-        v.attribute_groups = v.default_attribute_groups + [["variant_group", %w(assignee)]]
+        default_groups = v.default_attribute_groups.map { |key, attributes| [key, attributes - %w(assignee)] }
+        v.attribute_groups = default_groups + [["variant_group", %w(assignee)]]
         v.save!
       end
     end

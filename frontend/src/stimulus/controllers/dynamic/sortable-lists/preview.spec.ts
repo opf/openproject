@@ -52,7 +52,7 @@ describe('sortable lists drag preview', () => {
   }
 
   describe('sanitizePreview', () => {
-    it('strips behaviour and interaction-state attributes from the clone', () => {
+    it('strips behavior and interaction-state attributes from the clone', () => {
       const element = previewTarget();
 
       sanitizePreview(element);

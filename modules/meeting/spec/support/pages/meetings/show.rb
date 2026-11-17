@@ -100,14 +100,17 @@ module Pages::Meetings
       click_link_or_button name
     end
 
-    def trigger_change_poll
-      script = <<~JS
-        var target = document.querySelector('#content-wrapper');
-        var controller = window.Stimulus.getControllerForElementAndIdentifier(target, 'poll-for-changes')
-        controller.triggerTurboStream();
-      JS
+    def trigger_change_poll(target: "#content-wrapper")
+      # Turbo applies a stream on the next repaint, so the poll only counts as done after it
+      page.evaluate_async_script(<<~JS, target)
+        const [selector, done] = arguments;
+        const controller = window.Stimulus.getControllerForElementAndIdentifier(document.querySelector(selector), 'poll-for-changes');
+        const nextRepaint = (resolve) => (document.visibilityState === 'hidden' ? setTimeout(resolve) : requestAnimationFrame(resolve));
 
-      page.execute_script(script)
+        controller.triggerTurboStream()
+          .then(() => new Promise(nextRepaint))
+          .then(() => setTimeout(done));
+      JS
     end
 
     def add_agenda_item(type: MeetingAgendaItem, save: true, &)
@@ -579,8 +582,8 @@ module Pages::Meetings
       expect(page).to have_text(participant.name)
 
       if !editable
-        expect(page).to have_no_selector("[data-test-selector='attendance_button_#{participant.id}']", text: "Attended")
-        expect(page).to have_no_selector("[data-test-selector='attendance_button_#{participant.id}']", text: "Mark as attended")
+        expect(page).to have_no_css("[data-test-selector='attendance_button_#{participant.id}']", text: "Attended")
+        expect(page).to have_no_css("[data-test-selector='attendance_button_#{participant.id}']", text: "Mark as attended")
 
         return
       end
@@ -620,7 +623,7 @@ module Pages::Meetings
     end
 
     def uncheck_apply_to_upcoming
-      page.find('input[type="checkbox"][name="meeting_participant[apply_to_upcoming]"]').set(false)
+      page.find_field(type: "checkbox", name: "meeting_participant[apply_to_upcoming]").set(false)
     end
 
     def expect_apply_to_upcoming_checked

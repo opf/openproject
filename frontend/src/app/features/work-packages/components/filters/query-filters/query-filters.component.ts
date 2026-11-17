@@ -83,8 +83,15 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
     button_delete: this.I18n.t('js.button_delete'),
     please_select: this.I18n.t('js.placeholders.selection'),
     filter_by_text: this.I18n.t('js.work_packages.label_filter_by_text'),
+    search_by_meaning: this.I18n.t('js.global_search.search_by_meaning'),
     baseline_warning: this.I18n.t('js.work_packages.filters.baseline_warning'),
   };
+
+  public get filterByTextLabel():string {
+    return this.wpTableFilters.semanticSearchEnabled
+      ? this.text.search_by_meaning
+      : this.text.filter_by_text;
+  }
 
   ngOnInit():void {
     this.wpTableFilters.live$()
@@ -165,9 +172,9 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
     return this.filters[index];
   }
 
-  public isFilterAvailable(filter:QueryFilterResource):boolean {
+  public isFilterAvailable(filter:QueryFilterInstanceResource):boolean {
     return (this.wpTableFilters.availableFilters.some((availableFilter) => availableFilter.id === filter.id)
-      && !(this.wpTableFilters.hidden.includes(filter.id) || (filter as QueryFilterResource & { isTemplated():boolean }).isTemplated()));
+      && !(this.wpTableFilters.hidden.includes(filter.id) || filter.isTemplated()));
   }
 
   public onOpen() {

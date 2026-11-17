@@ -95,8 +95,7 @@ RSpec.describe CustomStylesHelper do
       let(:current_theme) { build_stubbed(:custom_style) }
 
       before do
-        allow(current_theme).to receive(:favicon).and_return(true)
-        allow(current_theme).to receive(:touch_icon).and_return(true)
+        allow(current_theme).to receive_messages(favicon: true, touch_icon: true)
       end
 
       context "without EE", with_ee: false do
@@ -123,28 +122,6 @@ RSpec.describe CustomStylesHelper do
     subject { helper.apply_custom_touch_icon? }
 
     it_behaves_like "apply when ee present"
-  end
-
-  describe ".mobile_logo_present?" do
-    subject { helper.mobile_logo_present? }
-
-    context "with only a light high contrast mobile logo", with_ee: %i[define_custom_style] do
-      let(:current_theme) { build(:custom_style_with_logo_mobile_light_high_contrast) }
-
-      it { is_expected.to be true }
-    end
-
-    context "without a mobile logo", with_ee: %i[define_custom_style] do
-      let(:current_theme) { build_stubbed(:custom_style) }
-
-      it { is_expected.to be false }
-    end
-
-    context "with a stored mobile logo but without EE", with_ee: false do
-      let(:current_theme) { build(:custom_style_with_logo_mobile_light_high_contrast) }
-
-      it { is_expected.to be false }
-    end
   end
 
   describe ".mobile_logo_modes" do
@@ -367,6 +344,15 @@ RSpec.describe CustomStylesHelper do
       expect(uploads.dig(:logo_dark, :source)).to be_nil
       expect(uploads.dig(:logo_dark, :delete_path))
         .to eq(custom_style_logo_delete_path(field: :logo_dark))
+    end
+
+    it "includes the preview's color-mode/theme data attributes for each logo mode" do
+      uploads = helper.custom_logo_uploads(style).index_by { |upload| upload[:field] }
+
+      expect(uploads.dig(:logo, :preview_data)).to eq({ "color-mode": :light, "light-theme": :light })
+      expect(uploads.dig(:logo_light_high_contrast, :preview_data))
+        .to eq({ "color-mode": :light, "light-theme": :light_high_contrast })
+      expect(uploads.dig(:logo_dark, :preview_data)).to eq({ "color-mode": :dark, "dark-theme": :dark })
     end
   end
 

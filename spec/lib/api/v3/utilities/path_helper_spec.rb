@@ -99,7 +99,7 @@ RSpec.describe API::V3::Utilities::PathHelper do
     it_behaves_like "index", :capability
     it_behaves_like "show", :capability
 
-    describe "#capabilties_contexts_global" do
+    describe "#capabilities_contexts_global" do
       subject { helper.capabilities_contexts_global }
 
       it_behaves_like "api v3 path", "/capabilities/contexts/global"
@@ -165,6 +165,12 @@ RSpec.describe API::V3::Utilities::PathHelper do
       subject { helper.notification_bulk_unread_ian }
 
       it_behaves_like "api v3 path", "/notifications/unread_ian"
+    end
+
+    describe "#notification_summary" do
+      subject { helper.notification_summary }
+
+      it_behaves_like "api v3 path", "/notifications/summary"
     end
 
     describe "#notification_read_ian" do
@@ -556,6 +562,12 @@ RSpec.describe API::V3::Utilities::PathHelper do
       subject { helper.work_package_activities 42 }
 
       it_behaves_like "api v3 path", "/work_packages/42/activities"
+    end
+
+    describe "#work_package_pdf" do
+      subject { helper.work_package_pdf 42 }
+
+      it_behaves_like "api v3 path", "/work_packages/42/pdf"
     end
 
     describe "#work_package_relations" do

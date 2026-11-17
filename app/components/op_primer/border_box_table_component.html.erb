@@ -31,16 +31,17 @@ See COPYRIGHT and LICENSE files for more details.
   render(
     OpPrimer::BorderBoxTableComponent::InternalBoxComponent.new(
       id: container_id,
-      classes: container_class,
+      classes: container_classes,
       role: :table,
       aria: { label: mobile_title, colcount: column_count, rowcount: row_count },
       data: container_data,
-      list_arguments: { tag: :div, role: :rowgroup, classes: rows_container_class },
+      style: container_style,
+      list_arguments: { tag: :div, role: :rowgroup, classes: [rowgroup_class, rows_container_class] },
       test_selector:
     )
   ) do |component|
 %>
-  <% component.with_header(role: :rowgroup) do %>
+  <% component.with_header(role: :rowgroup, classes: rowgroup_class) do %>
     <%=
       render(
         Primer::BaseComponent.new(
@@ -66,7 +67,7 @@ See COPYRIGHT and LICENSE files for more details.
         Primer::BaseComponent.new(
           tag: :div,
           color: :muted,
-          classes: [grid_class, "#{grid_class}--has-headers"],
+          classes: class_names(grid_class, "#{grid_class}--has-headers", actions_grid_class),
           role: :row,
           aria: { rowindex: 1 }
         )
@@ -119,7 +120,7 @@ See COPYRIGHT and LICENSE files for more details.
           scheme: row_instance.scheme,
           tag: :div,
           id: row_instance.row_css_id,
-          classes: [grid_class, row_instance.row_css_class],
+          classes: class_names(grid_class, actions_grid_class, row_instance.row_css_class),
           data: row_instance.row_data,
           role: :row,
           aria: { rowindex: row_index(index) }
@@ -132,7 +133,7 @@ See COPYRIGHT and LICENSE files for more details.
 
     <% if has_footer? %>
       <%
-        component.with_footer(role: :rowgroup) do
+        component.with_footer(role: :rowgroup, classes: rowgroup_class) do
           render(
             Primer::BaseComponent.new(tag: :div, color: :muted, classes: grid_class, role: :row, aria: { rowindex: row_count })
           ) do

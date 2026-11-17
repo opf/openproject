@@ -61,7 +61,7 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
 
   @Input() public resource:HalResource;
 
-  @Input() public model:any;
+  @Input() public model:unknown;
 
   @Input() public required = false;
 
@@ -74,6 +74,8 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
   @Input() public classes = '';
 
   @Input() public typeahead?:Subject<string>;
+
+  protected readonly localSearch = new Subject<string>();
 
   @Input() public hideSelected = false;
 

@@ -127,7 +127,6 @@ export class WpGraphConfigurationService {
       .apiv3Service
       .queries
       .find(
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         { pageSize: 0, ...params.props },
         params.id,
         this.projectIdentifier(),

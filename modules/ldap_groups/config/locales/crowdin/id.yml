@@ -89,7 +89,7 @@ id:
       plural: Grup LDAP tersinkronisasi
       singular: Grup LDAP tersinkronisasi
       upsell:
-        description: Manfaatkan grup LDAP tersinkronisasi untuk mengelola pengguna, mengubah izin mereka, dan memfasilitasi pengelolaan pengguna di seluruh grup.
+        description: Take advantage of synchronized LDAP groups to manage users, change their permissions and facilitate user management across groups.
   plugin_openproject_ldap_groups:
     description: Sinkronisasi keanggotaan grup LDAP.
     name: Grup LDAP OpenProject

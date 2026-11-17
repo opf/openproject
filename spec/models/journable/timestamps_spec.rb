@@ -708,7 +708,7 @@ RSpec.describe Journable::Timestamps do
         work_package.update_attribute :position, position
       end
 
-      describe "when retrieving the position of the current (nin-historic) record" do
+      describe "when retrieving the position of the current (non-historic) record" do
         subject { work_package.position }
 
         it "returns the value of the work_packages table" do

@@ -74,7 +74,7 @@ describe('ChronicDurationController', () => {
     expect(await reformat(input, '1w')).toEqual('40h');
   });
 
-  it('honours a non default working day length', async () => {
+  it('honors a non default working day length', async () => {
     const input = await mountInput('data-chronic-duration-hours-per-day-value="6"');
 
     expect(await reformat(input, '1d')).toEqual('6h');

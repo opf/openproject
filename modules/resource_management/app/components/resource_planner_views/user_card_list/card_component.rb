@@ -28,7 +28,7 @@
 #++
 
 module ResourcePlannerViews::UserCardList
-  # Modelled on Users::HoverCardComponent
+  # Modeled on Users::HoverCardComponent
   class CardComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
     include ResourceAllocations::ScheduleSummary

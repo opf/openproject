@@ -57,7 +57,7 @@ RSpec.describe Forums::RowComponent, type: :component do
     expect(rendered_component).to have_css(".DragHandle[data-sortable-lists--item-target~='handle']", visible: :all)
   end
 
-  it "offers every move between neighbours", :aggregate_failures do
+  it "offers every move between neighbors", :aggregate_failures do
     expect(rendered_component).to have_button("Move to top")
     expect(rendered_component).to have_button("Move up")
     expect(rendered_component).to have_button("Move down")

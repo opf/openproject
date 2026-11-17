@@ -287,7 +287,7 @@ module WorkPackages::Progress::SqlCommands
             )
           )
         END
-      /* Select only work packages at the curren depth */
+      /* Select only work packages at the current depth */
       WHERE
         wp.id IN (
           SELECT

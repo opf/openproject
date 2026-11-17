@@ -14,7 +14,7 @@ Put the controller on a wrapper you own rather than on the `action-menu` element
 <%% end %>
 ```
 
-Attach it alongside whatever controller already owns the element's ordinary behaviour — the two do not interact.
+Attach it alongside whatever controller already owns the element's ordinary behavior — the two do not interact.
 
 ## What it does
 
@@ -27,6 +27,12 @@ Attach it alongside whatever controller already owns the element's ordinary beha
 * **Interactive descendants keep the browser's menu.** Links, buttons, form fields and the open menu itself all fall through, so copying a link address still works.
 * **Touch and pen keep the native long-press menu.** There is no touch-sized design for the menu, so the gesture is left to the browser.
 * **It never touches the menu's contents.** The controller adds entry points only; what the menu offers, and any selection state, stays with whatever else owns the element.
+
+## Choosing the menu's contents
+
+Keep primary actions at the top level. Group secondary actions into [submenus](/lookbook/inspect/primer/alpha/action_menu/sub_menus) when this makes the menu easier to scan. The same action can land on either level depending on what the element is for. As an example the move actions that stand in for drag and drop sit at the top level in a list whose order is the setting being edited, and in a submenu where reordering is an occasional correction rather than the reason the action menu is needed.
+
+Also have a look at the [primer guidelines](https://primer.style/product/components/action-menu/guidelines/#multi-level).
 
 ## Preparing or suppressing an invocation
 

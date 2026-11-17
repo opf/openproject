@@ -55,12 +55,11 @@ module Saml
     private
 
     def apply_metadata(metadata)
-      new_options = provider.options.merge(metadata)
       last_metadata_update = metadata.blank? ? nil : Time.current
 
       Saml::Providers::SetAttributesService
         .new(model: @provider, user: User.current, contract_class: Saml::Providers::UpdateContract)
-        .call({ options: new_options, last_metadata_update: })
+        .call({ options: metadata, last_metadata_update: })
     end
 
     def fetch_metadata

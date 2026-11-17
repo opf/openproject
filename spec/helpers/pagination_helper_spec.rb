@@ -72,7 +72,7 @@ RSpec.describe PaginationHelper do
       expect(pagination).to have_css("div.op-pagination")
     end
 
-    it "renders a labelled nav element" do
+    it "renders a labeled nav element" do
       expect(pagination).to have_element "nav", aria: { label: "Pagination" }
     end
 
@@ -147,7 +147,7 @@ RSpec.describe PaginationHelper do
           expect(pagination).to have_css ".op-pagination--options"
         end
 
-        it "renders a labelled nav element" do
+        it "renders a labeled nav element" do
           expect(pagination).to have_element "nav", aria: { label: "Items per page selection" }
         end
 
@@ -178,7 +178,7 @@ RSpec.describe PaginationHelper do
           expect(pagination).to have_no_css ".op-pagination--options"
         end
 
-        it "does not render a labelled nav element" do
+        it "does not render a labeled nav element" do
           expect(pagination).to have_no_element "nav", aria: { label: "Items per page selection" }
         end
       end
@@ -221,7 +221,7 @@ RSpec.describe PaginationHelper do
         expect(pagination).to have_no_css(".op-pagination")
       end
 
-      it "does not render a labelled nav element" do
+      it "does not render a labeled nav element" do
         expect(pagination).to have_no_element "nav", aria: { label: "Pagination" }
       end
     end

@@ -30,14 +30,12 @@
 require "spec_helper"
 
 RSpec.describe Exports::Formatters::HierarchyFormatter, with_ee: [:custom_field_hierarchies] do
-  let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
-  let(:custom_field) { create(:custom_field, field_format: "hierarchy", hierarchy_root: nil) }
-  let(:root) { service.generate_root(custom_field).value! }
-  let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
-  let!(:homer) { service.insert_item(contract_class:, parent: root, label: "Homer", short: "HS").value! }
-  let!(:bart) { service.insert_item(contract_class:, parent: homer, label: "Bart", short: "BS").value! }
-  let!(:lisa) { service.insert_item(contract_class:, parent: homer, label: "Lisa").value! }
-  let!(:zia) { service.insert_item(contract_class:, parent: lisa, label: "Zia").value! }
+  let(:custom_field) { create(:custom_field, :hierarchy) }
+  let(:root) { custom_field.hierarchy_root }
+  let!(:homer) { create(:hierarchy_item, parent: root, label: "Homer", short: "HS") }
+  let!(:bart) { create(:hierarchy_item, parent: homer, label: "Bart", short: "BS") }
+  let!(:lisa) { create(:hierarchy_item, parent: homer, label: "Lisa") }
+  let!(:zia) { create(:hierarchy_item, parent: lisa, label: "Zia") }
 
   let(:work_package) do
     wp = build_stubbed(:work_package)
@@ -110,6 +108,19 @@ RSpec.describe Exports::Formatters::HierarchyFormatter, with_ee: [:custom_field_
       it "returns the values joined by a comma" do
         expect(formatter.format(work_package, custom_field))
           .to eq("Homer (HS), Homer / Bart (BS), Homer / Lisa, Homer / Lisa / Zia")
+      end
+    end
+
+    context "with a value that is no longer available in the project" do
+      let(:custom_value) { CustomValue.new(custom_field:, value: bart.id) }
+      let(:custom_values) { [custom_value] }
+
+      before do
+        allow(custom_value).to receive(:available_in_project?).and_return(false)
+      end
+
+      it "returns the placeholder instead of the item" do
+        expect(formatter.format(work_package, custom_field)).to eq(I18n.t(:label_custom_value_no_longer_available))
       end
     end
 

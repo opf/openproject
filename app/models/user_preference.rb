@@ -234,6 +234,18 @@ class UserPreference < ApplicationRecord
     self.settings = settings.merge("pause_reminders" => pause_reminders_hash(hash))
   end
 
+  def reminders_paused_on?(date)
+    return false unless pause_reminders[:enabled]
+
+    first_day = pause_reminders[:first_day]
+    last_day = pause_reminders[:last_day]
+    return true if first_day.blank? || last_day.blank?
+
+    (Date.parse(first_day)..Date.parse(last_day)).cover?(date.to_date)
+  rescue Date::Error
+    false
+  end
+
   def dismissed_banner?(feature)
     dismissed_enterprise_banners.key?(feature.to_s)
   end
@@ -247,7 +259,15 @@ class UserPreference < ApplicationRecord
   end
 
   def mark_whats_new_read(version_key, key)
-    whats_new_read_items[version_key.to_s] = (whats_new_read_keys(version_key) | [key.to_s])
+    self.whats_new_read_items = { version_key.to_s => whats_new_read_keys(version_key) | [key.to_s] }
+  end
+
+  def mark_whats_new_seen(version_key)
+    return if whats_new_seen_version == version_key.to_s
+
+    self.whats_new_seen_version = version_key.to_s
+    self.whats_new_seen_at = Time.current
+    self.whats_new_read_items = whats_new_read_items.slice(version_key.to_s)
   end
 
   def supported_settings_method?(method_name)

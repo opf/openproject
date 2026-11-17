@@ -142,6 +142,7 @@ public readonly injector:Injector,
       oldRow.replaceWith(replacement);
       replacement.dataset.occurrenceKey = occurrence.key;
     }
+    if (occurrence.renderType === 'primary') this.highlighting.refreshRow(replacement, workPackage);
 
     return replacement;
   }
@@ -157,7 +158,7 @@ public readonly injector:Injector,
       case 'child_relations':
         return this.childRelations.refreshRelationRow(occurrence, workPackage, oldRow);
       default:
-        return this.rowBuilder.refreshRow(workPackage, oldRow);
+        return this.rowBuilder.refreshRow(workPackage, oldRow, occurrence.level - 1);
     }
   }
 
@@ -199,12 +200,14 @@ public readonly injector:Injector,
     if (this.draft.occurrences.length === 0 && this.workPackageTable.renderPlaceholderRow) {
       this.registerAppended(this.rowBuilder.placeholderRow, {
         key: placeholderOccurrenceKey(),
+        kind: 'placeholder',
         classIdentifier: 'wp--placeholder-row',
         additionalClasses: [],
         workPackage: null,
         workPackageId: null,
         renderType: 'primary',
         hidden: false,
+        level: 1,
       });
     }
   }
@@ -221,40 +224,49 @@ workPackage:WorkPackageResource,
     row:HTMLTableRowElement,
     additionalClasses:string[] = [],
     hidden = false,
+    level = 1,
 ) {
     this.registerAppended(row, {
       key: wpOccurrenceKey(workPackage.id!),
+      kind: 'workPackage',
       classIdentifier: this.rowBuilder.classIdentifier(workPackage),
       additionalClasses,
       workPackage,
       workPackageId: workPackage.id!,
       renderType: 'primary',
       hidden,
+      level,
     });
   }
 
   /**
    * Append a non-work package row to both containers
    * @param row HTMLElement to append
-   * @param classIdentifer a unique identifier for the two rows (one each in table/timeline).
+   * @param classIdentifier a unique identifier for the two rows (one each in table/timeline).
    * @param hidden whether the row was rendered hidden
    */
   protected appendNonWorkPackageRow(
     key:OccurrenceKey,
+    kind:'groupHeader'|'sums',
     row:HTMLTableRowElement,
-    classIdentifer:string,
+    classIdentifier:string,
     additionalClasses:string[] = [],
     hidden = false,
+    groupIdentifier?:string,
+    level = 1,
   ) {
-    row.classList.add(classIdentifer);
+    row.classList.add(classIdentifier);
     this.registerAppended(row, {
       key,
-      classIdentifier: classIdentifer,
+      kind,
+      classIdentifier,
       additionalClasses,
       workPackage: null,
       workPackageId: null,
       renderType: 'primary',
       hidden,
+      level,
+      groupIdentifier,
     });
   }
 

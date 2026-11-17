@@ -119,7 +119,7 @@ module Import
         "text" => "text",
         "number" => "float",
         "date" => "date",
-        "datetime" => "date", # TODO: loss of precision
+        "datetime" => "datetime",
         "option" => "list",
         "user" => "user",
         "any" => "string"
@@ -182,10 +182,10 @@ module Import
 
       # Converts a single raw Jira field value (as found in `issue.payload["fields"][field_key]`)
       # into the value to assign to the OP custom field attribute.
-      def convert_value(raw_value, custom_field)
+      def convert_value(raw_value, custom_field, attachment_paths_by_name: {})
         case format
         when "bool" then convert_multicheckbox_bool_value(raw_value)
-        when "text" then JiraWikiMarkupConverter.new(raw_value.to_s).convert
+        when "text" then JiraWikiMarkupConverter.new(raw_value.to_s, attachment_paths_by_name:).convert
         when "list" then convert_list_value(raw_value, custom_field)
         when "user" then convert_user_value(raw_value)
         when "hierarchy" then convert_hierarchy_value(raw_value, custom_field)
@@ -282,14 +282,8 @@ module Import
         end.uniq
       end
 
-      # Matches `Example`, `Example (2)`, `Example (DYX)` and `Example (DYX, ABC)
       def candidate_custom_fields
-        base_name = stable_base_name
-        escaped = ActiveRecord::Base.sanitize_sql_like(base_name)
-        WorkPackageCustomField
-          .where("LOWER(name) = LOWER(?)", base_name)
-          .or(WorkPackageCustomField.where("name ILIKE ?", "#{escaped} (%"))
-          .order(:id)
+        CustomFieldNames.candidates(stable_base_name)
       end
 
       def compatible_candidates
@@ -305,8 +299,11 @@ module Import
       def best_matching_candidate(candidates, run_custom_field_ids)
         return best_value_bearing_candidate(candidates, run_custom_field_ids) if value_bearing_format?
 
-        candidates.find { |cf| cf.name.casecmp?(@import_name) } ||
-          candidates.find { |cf| cf.name.casecmp?(stable_base_name) }
+        CustomFieldNames.best_match(candidates, import_names)
+      end
+
+      def import_names
+        [@import_name, stable_base_name].uniq
       end
 
       def value_bearing_format?
@@ -345,25 +342,11 @@ module Import
         root = custom_field.hierarchy_root
         return [] if root.nil?
 
-        CustomFields::Hierarchy::HierarchicalItemService
-          .new
-          .get_descendants(item: root, include_self: false)
-          .fmap { |items| items.map(&:ancestry_path) }
-          .value_or([])
-      end
-
-      def custom_field_by_name(name)
-        WorkPackageCustomField.where("LOWER(name) = LOWER(?)", name).first
+        root.descendants_preordered.map(&:ancestry_path)
       end
 
       def unique_custom_field_name
-        unique_name = @import_name
-        suffix = 2
-        while custom_field_by_name(unique_name)
-          unique_name = "#{@import_name} (#{suffix})"
-          suffix += 1
-        end
-        unique_name
+        CustomFieldNames.unique_name(@import_name)
       end
 
       def jira_to_op_field_format(jira_field)
@@ -440,34 +423,31 @@ module Import
         root = custom_field.hierarchy_root
         return unless root
 
-        service = CustomFields::Hierarchy::HierarchicalItemService.new
-        contract = CustomFields::Hierarchy::InsertListItemContract
-
         context_group_allowed_values.each do |parent_option|
-          insert_hierarchy_option(service, contract, root, parent_option)
+          insert_hierarchy_option(root, parent_option)
         end
       end
 
-      def insert_hierarchy_option(service, contract, parent, option)
+      def insert_hierarchy_option(parent, option)
         label = option_label(option["value"])
         return if label.blank?
 
-        item = insert_hierarchy_item(service, contract, parent, label)
+        item = insert_hierarchy_item(parent, label)
         return unless item
 
         Array(option["children"]).each do |child_option|
-          insert_hierarchy_option(service, contract, item, child_option)
+          insert_hierarchy_option(item, child_option)
         end
       end
 
-      def insert_hierarchy_item(service, contract, parent, label)
-        result = service.insert_item(contract_class: contract, parent:, label:)
-        result.success? ? result.value! : nil
+      def insert_hierarchy_item(parent, label)
+        call = CustomFields::Hierarchy::Items::CreateService.new(user: User.system).call(parent:, label:)
+        call.result if call.success?
       end
 
-      # Fallback for scalar formats (string, float, date, link). Hash values
-      # (e.g. cascading selects without enterprise) are converted to a readable
-      # "Parent - Child" string instead of their Ruby Hash#to_s representation.
+      # Fallback for scalar formats. Hash values (e.g. cascading selects without
+      # enterprise) are converted to a readable "Parent - Child" string instead of
+      # their Ruby Hash#to_s representation.
       def convert_fallback_value(raw_value)
         return raw_value unless raw_value.is_a?(Hash)
 

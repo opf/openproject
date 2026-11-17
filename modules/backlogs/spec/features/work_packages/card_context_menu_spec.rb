@@ -30,9 +30,9 @@
 require "spec_helper"
 require_relative "../../support/pages/backlog"
 
-# Selenium, not Cuprite: the presenter's behaviour hangs on a trusted
+# Selenium, not Cuprite: the presenter's behavior hangs on a trusted
 # `contextmenu` and on a real pointer sequence for the browser's light-dismiss
-# to act on, neither of which a synthesised gesture reproduces.
+# to act on, neither of which a synthesized gesture reproduces.
 RSpec.describe "Open a backlog card's action menu contextually",
                :js, :selenium do
   let!(:project) do

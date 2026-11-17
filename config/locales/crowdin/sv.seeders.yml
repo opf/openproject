@@ -71,15 +71,29 @@ sv:
           name: Personal- och projekthanterare
         item_1:
           name: Global standardroll
-      ai_text_transform_actions:
+      ai_text_actions:
         item_0:
-          label: Korrigera grammatiken
+          label: Structure
         item_1:
-          label: Gör kortfattad
+          label: Proofread
         item_2:
-          label: Översätt till engelska
+          label: Rewrite
         item_3:
-          label: Sortera in i mall
+          label: Friendly
+        item_4:
+          label: Professional
+        item_5:
+          label: Concise
+        item_6:
+          label: Summarize
+        item_7:
+          label: Key points
+        item_8:
+          label: List
+        item_9:
+          label: Table
+        item_10:
+          label: Suggest subject
     standard:
       project_phases:
         item_0:
@@ -117,6 +131,17 @@ sv:
           name: Ekonomi och administration
         item_6:
           name: Kvalitetssäkring
+      labels:
+        item_0:
+          name: Website
+        item_1:
+          name: Marketing
+        item_2:
+          name: Speakers
+        item_3:
+          name: Security
+        item_4:
+          name: UX
       projects:
         demo-project:
           name: Demoprojekt

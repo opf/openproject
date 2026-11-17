@@ -29,10 +29,9 @@ import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation, inject }
 import { HttpClient } from '@angular/common/http';
 import { from } from 'rxjs';
 import {
-  EditFieldComponent,
-} from 'core-app/shared/components/fields/edit/edit-field.component';
+  AutocompleterEditFieldComponent,
+} from 'core-app/shared/components/fields/edit/field-types/autocompleter-edit-field.component';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { IProject } from 'core-app/core/state/projects/project.model';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { take, tap } from 'rxjs/operators';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
@@ -48,12 +47,12 @@ import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-bui
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class ProjectEditFieldComponent extends EditFieldComponent implements OnInit {
+export class ProjectEditFieldComponent extends AutocompleterEditFieldComponent implements OnInit {
   readonly apiV3Service = inject(ApiV3Service);
   readonly http = inject(HttpClient);
   readonly halResourceService = inject(HalResourceService);
 
-  isNew = isNewResource(this.resource as { id:string | null });
+  isNew = isNewResource(this.resource);
 
   url:string;
 
@@ -65,7 +64,8 @@ export class ProjectEditFieldComponent extends EditFieldComponent implements OnI
     }
   }
 
-  public onModelChange(project?:IProject):unknown {
+  public onModelChange(project:unknown):unknown {
+    if (project !== undefined && (typeof project !== 'object' || Array.isArray(project))) { return; }
     if (project) {
       // We fake a HalResource here because we're using a plain JS object, but the schema loading and editing
       // is part of the older HalResource stack
@@ -85,7 +85,7 @@ export class ProjectEditFieldComponent extends EditFieldComponent implements OnI
     ];
 
     const type = this.change.value<{ href:string }|null>('type');
-    if (isNewResource(this.resource as { id:string | null }) && type) {
+    if (isNewResource(this.resource) && type) {
       const typeId = idFromLink(type.href);
       filters.push({ name: 'type_id', operator: '=', values: [typeId] });
     }

@@ -8,14 +8,14 @@ da:
       projects:
         demo-project:
           resource_planner:
-            name: Team allocations
+            name: Teamets ressourcefordeling
             work_package_list:
-              name: Work packages
+              name: Arbejdspakker
             work_package_timeline:
-              name: Work package timeline
+              name: Arbejdspakkernes tidslinje
             user_card:
-              name: Team members
+              name: Teammedlemmer
             user_timeline:
-              name: Team timeline
+              name: Teamets tidslinje
             generic_allocation:
-              filter_name: Software Developer
+              filter_name: Softwareudvikler

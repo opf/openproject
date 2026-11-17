@@ -158,7 +158,7 @@ RSpec.describe "My page my spent time widget", :js, with_settings: { start_of_we
   end
 
   # The slot lanes lie over the day columns and are what a click actually lands on, so the
-  # day is picked by clicking a lane at that column's horizontal centre, as a user does.
+  # day is picked by clicking a lane at that column's horizontal center, as a user does.
   def select_day(date)
     # The stack renders once its frame has loaded, so wait for the grid before measuring it.
     find("td.fc-timegrid-col[data-date='#{date.iso8601}']")

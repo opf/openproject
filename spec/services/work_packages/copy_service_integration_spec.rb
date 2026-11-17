@@ -151,6 +151,30 @@ RSpec.describe WorkPackages::CopyService, "integration", type: :model do
           end
         end
       end
+
+      describe "copied labels" do
+        let(:label_one) { create(:label) }
+        let(:label_two) { create(:label) }
+
+        before do
+          create(:labeling, label: label_one, labelable: work_package)
+          create(:labeling, label: label_two, labelable: work_package)
+        end
+
+        it "copies the labels and keeps them on the source" do
+          expect(copy.labels).to contain_exactly(label_one, label_two)
+          expect(work_package.reload.labels).to contain_exactly(label_one, label_two)
+        end
+
+        context "when overriding the labels" do
+          let(:other_label) { create(:label) }
+          let(:attributes) { { label_ids: [other_label.id] } }
+
+          it "applies the given labels instead" do
+            expect(copy.labels).to contain_exactly(other_label)
+          end
+        end
+      end
     end
 
     describe "to a different project" do
@@ -379,7 +403,12 @@ RSpec.describe WorkPackages::CopyService, "integration", type: :model do
       end
 
       context "when specifying to copy attachments (default)" do
-        it "copies the attachment" do
+        before do
+          create(:attachment, :pending_import, container: work_package)
+          create(:attachment, :failed_import, container: work_package)
+        end
+
+        it "copies all attachments except incomplete imports" do
           expect(copy.attachments.length)
             .to eq 1
 

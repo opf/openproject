@@ -159,6 +159,10 @@ RSpec.describe Repository::Git do
     let(:managed_svn_root) { "/tmp/managed-svn" }
     let(:config) { { manages: managed_git_root } }
 
+    before do
+      allow(OpenProject::SsrfProtection).to receive(:resolver).and_return(->(_) { [IPAddr.new("93.184.215.14")] })
+    end
+
     shared_examples "repository url is valid" do
       it "is valid" do
         expect(instance).to be_valid
@@ -178,9 +182,27 @@ RSpec.describe Repository::Git do
     end
 
     context "https URLs" do
-      let(:url) { "https://localhost/git/foo" }
+      let(:url) { "https://git.example.org/git/foo" }
 
       it_behaves_like "repository url is valid"
+    end
+
+    context "with an https URL to an internal host" do
+      let(:url) { "https://127.0.0.1/git/foo" }
+
+      it "is invalid" do
+        expect(instance).not_to be_valid
+        expect(instance.errors.details[:url]).to include(error: :ssrf_filtered)
+      end
+    end
+
+    context "with a git URL to an internal host" do
+      let(:url) { "git://10.0.0.1/foo.git" }
+
+      it "is invalid" do
+        expect(instance).not_to be_valid
+        expect(instance.errors.details[:url]).to include(error: :ssrf_filtered)
+      end
     end
 
     context "SSH URLs" do
@@ -512,7 +534,7 @@ RSpec.describe Repository::Git do
           let (:encoding) { "ISO-8859-1" }
           let (:char1_hex) { (+"\xc3\x9c").force_encoding("UTF-8") }
 
-          it "latests changesets latin 1 dir" do
+          it "latest changesets latin 1 dir" do
             instance.fetch_changesets
             instance.reload
             changesets = instance.latest_changesets(

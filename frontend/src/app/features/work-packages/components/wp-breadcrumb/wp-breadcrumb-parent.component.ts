@@ -84,7 +84,11 @@ export class WorkPackageBreadcrumbParentComponent {
     this.toggle(true);
   }
 
-  public updateParent(newParent:WorkPackageResource|null) {
+  public updateParent(newParent:unknown) {
+    if (newParent !== null && !(newParent instanceof WorkPackageResource)) {
+      return;
+    }
+
     this.close();
     const newParentId = newParent ? newParent.id : null;
     if ((this.parent?.id ?? null) === newParentId) {
@@ -92,11 +96,11 @@ export class WorkPackageBreadcrumbParentComponent {
     }
 
     this.isSaving = true;
-    this.wpRelationsHierarchy.changeParent(this.workPackage, newParentId)
-      .catch((error:any) => {
+    void this.wpRelationsHierarchy.changeParent(this.workPackage, newParentId)
+      .catch((error:unknown) => {
         this.notificationService.handleRawError(error, this.workPackage);
       })
-      .then(() => this.isSaving = false); // Behaves as .finally()
+      .then(() => { this.isSaving = false; }); // Behaves as .finally()
   }
 
   private toggle(state:boolean) {

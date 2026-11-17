@@ -43,7 +43,7 @@ export class WorkPackageRelationsHierarchyService {
 
 
   public changeParent(workPackage:WorkPackageResource, parentId:string|null, options:{ reportError?:boolean } = {}) {
-    const payload:any = {
+    const payload:{ lockVersion:number, _links?:{ parent:{ href:string|null } } } = {
       lockVersion: workPackage.lockVersion,
     };
 

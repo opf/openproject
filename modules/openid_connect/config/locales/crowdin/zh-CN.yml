@@ -79,7 +79,7 @@ zh-CN:
       group_regexes: 每行一个正则表达式模式。有关如何操作的更多信息，请阅读[文档](docs_url)。
       group_regexes_detail_html: 可以选择使用正则表达式定义模式，以匹配群组声明中的群组名称。例如，输入类似 <code>^Level1/Level2/([\w/]+)$</code> 的模式将从包含“Level1/Level2/GroupName/SubGroup”的响应中提取群组“Groupname/SubGroup”。如果没有模式匹配，则会忽略该群组。留空可使用完整群组名称同步所有群组。
       group_regexes_testing: 点击“测试模式”，以根据样本 OIDC 用户信息测试正则表达式模式。
-      group_sync: 自动从身份提供商提取并同步群组成员信息。
+      group_sync: Automatically extract and synchronize group membership information from the identity provider.
       groups_claim: 指定预期表示用户所属群组名称的声明的名称。
       limit_self_registration: 如果启用，用户只能在提供商的配置允许的情况下使用该提供商进行注册。
       mapping_admin: '在用户信息响应中提供自定义映射，用于管理员状态。它期望返回一个布尔属性。

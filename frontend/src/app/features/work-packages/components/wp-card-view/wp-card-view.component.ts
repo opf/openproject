@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { WorkPackageStateLinkEvent } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewChild, OnDestroy, inject } from '@angular/core';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -41,7 +42,6 @@ import {
   map,
   withLatestFrom,
 } from 'rxjs/operators';
-import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { CardViewHandlerRegistry } from 'core-app/features/work-packages/components/wp-card-view/event-handler/card-view-handler-registry';
 import { WorkPackageCardViewService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-view.service';
@@ -49,6 +49,7 @@ import { WorkPackageCardDragAndDropService } from 'core-app/features/work-packag
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import {
+  WorkPackageViewHandlerRegistry,
   WorkPackageViewHandlerToken,
   WorkPackageViewOutputs,
 } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
@@ -76,6 +77,7 @@ export interface WorkPackageAddedResult {
    * package persistence for membership.
    */
   membershipPersisted:boolean;
+  needsQueryRefresh?:() => boolean;
 }
 
 @Component({
@@ -96,7 +98,6 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
   readonly notificationService = inject(WorkPackageNotificationService);
   readonly halEvents = inject(HalEventsService);
   readonly authorisationService = inject(AuthorisationService);
-  readonly causedUpdates = inject(CausedUpdatesService);
   readonly cdRef = inject(ChangeDetectorRef);
   readonly pathHelper = inject(PathHelperService);
   readonly wpTableSelection = inject(WorkPackageViewSelectionService);
@@ -124,6 +125,8 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
    */
   @Input() public orderIsMembership = false;
 
+  @Input() public retainsCard?:(wp:WorkPackageResource) => boolean;
+
   @Input() public showStatusButton = true;
 
   @Input() public showInfoButton = false;
@@ -145,9 +148,11 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onMoved = new EventEmitter<void>();
 
+  @Output() public queryRefreshRequested = new EventEmitter<void>();
+
   @Output() itemClicked = new EventEmitter<{ workPackageId:string, double:boolean }>();
 
-  @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
+  @Output() stateLinkClicked = new EventEmitter<WorkPackageStateLinkEvent>();
 
   public trackByHref = trackByHrefAndProperty('lockVersion');
 
@@ -210,7 +215,7 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
       .pipe(
         withLatestFrom(this.querySpace.query.values$()),
         this.untilDestroyed(),
-      ).subscribe(([results, query]) => {
+      ).subscribe(([_results, query]) => {
         this.query = query;
         this.workPackages = this.wpViewOrder.orderedWorkPackages();
         this.cardView.updateRenderedCardsValues(this.workPackages);
@@ -223,8 +228,8 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
     this.cardDragDrop.init(this);
 
     // Register event handlers for the cards
-    const registry = this.injector.get<any>(WorkPackageViewHandlerToken, CardViewHandlerRegistry);
-    if (registry instanceof CardViewHandlerRegistry) {
+    const registry = this.injector.get(WorkPackageViewHandlerToken, CardViewHandlerRegistry);
+    if (registry instanceof WorkPackageViewHandlerRegistry) {
       registry.attachTo(this);
     } else {
       new registry(this.injector).attachTo(this);
@@ -313,8 +318,8 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
       .pipe(
         this.untilDestroyed(),
       )
-      .subscribe(async (wp:WorkPackageResource) => {
-        this.onCardSaved(wp);
+      .subscribe((wp:WorkPackageResource) => {
+        void this.onCardSaved(wp);
       });
   }
 }

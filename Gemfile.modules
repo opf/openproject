@@ -26,10 +26,13 @@ group :opf_plugins do
   gem 'openproject-webhooks',                  path: 'modules/webhooks'
   gem 'openproject-github_integration',        path: 'modules/github_integration'
   gem 'openproject-gitlab_integration',        path: 'modules/gitlab_integration'
+  gem 'openproject-squashtm_integration',      path: 'modules/squashtm_integration'
   gem 'openproject-ldap_groups',               path: 'modules/ldap_groups'
   gem 'openproject-ldap_departments',          path: 'modules/ldap_departments'
   gem 'openproject-recaptcha',                 path: 'modules/recaptcha'
+  gem 'openproject-repositories',              path: 'modules/repositories'
   gem 'openproject-job_status',                path: 'modules/job_status'
+  gem 'openproject-llm',                       path: 'modules/llm'
 
   gem 'grids',                                 path: 'modules/grids'
   gem 'my_page',                               path: 'modules/my_page'
@@ -43,6 +46,7 @@ group :opf_plugins do
   gem 'openproject-resource_management',       path: 'modules/resource_management'
   gem 'openproject-storages',                  path: 'modules/storages'
   gem 'openproject-wikis',                     path: 'modules/wikis'
+  gem 'openproject-itsm',                      path: 'modules/itsm'
   gem 'openproject-documents',                 path: 'modules/documents'
 
   gem 'openproject-bim',                       path: 'modules/bim'

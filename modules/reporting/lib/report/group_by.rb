@@ -40,6 +40,10 @@ class Report::GroupBy
     all.group_by(&:applies_for).to_a.sort { |a, b| a.first.to_s <=> b.first.to_s }
   end
 
+  def self.named(name)
+    all.detect { |group_by| group_by.underscore_name == name.to_s.underscore }
+  end
+
   def self.from_hash
     raise SubclassResponsibilityError
   end

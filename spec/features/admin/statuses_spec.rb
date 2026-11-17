@@ -33,7 +33,7 @@ RSpec.describe "Statuses admin page", :js do
   shared_let(:admin) { create(:admin) }
   shared_let(:status_new) { create(:status, name: "New", default_done_ratio: 0, is_default: true) }
   shared_let(:status_in_progress) { create(:status, name: "In Progress", default_done_ratio: 40) }
-  shared_let(:status_done) { create(:status, name: "Done", default_done_ratio: 100, is_closed: true, is_readonly: true) }
+  shared_let(:status_done) { create(:status, name: "Done", default_done_ratio: 100, category: "closed", is_readonly: true) }
 
   before do
     login_as(admin)
@@ -246,7 +246,7 @@ RSpec.describe "Statuses admin page", :js do
       end
     end
 
-    context "with commmunity edition", with_ee: false do
+    context "with community edition", with_ee: false do
       it "has 'is read-only' checkbox always disabled" do
         visit new_status_path
 
@@ -298,7 +298,7 @@ RSpec.describe "Statuses admin page", :js do
       end
     end
 
-    context "with commmunity edition", with_ee: false do
+    context "with community edition", with_ee: false do
       it "has 'is read-only' checkbox always disabled" do
         visit statuses_path
 

@@ -95,12 +95,19 @@ display-field
     white-space: nowrap
 
     // Table specific styles
-    .wp-table--cell-container &
+    .wp-table--cell-container &,
+    .op-table-baseline--container &
       width: 100%
 
       .-actual-value,
       .-derived-value
         @include wp-table--time-values
+
+    &.op-table-baseline--old-field
+      .-actual-value,
+      .-derived-value
+        // text-decoration doesn't propagate into inline-blocks
+        text-decoration: inherit
 
     .-actual-value
       @include wp-table--actual-time-values
@@ -119,6 +126,9 @@ display-field
     .display-field--scheduling-icon
       position: relative
       top: 1px
+
+.op-labels-display-field .Label
+  background-color: var(--bgColor-muted)
 
 display-field .hierarchy-items,
 .inline-edit--display-field.hierarchy-items,
@@ -183,7 +193,7 @@ display-field .hierarchy-items,
   cursor: text
   border-color: transparent
   border-style: solid
-  border-radius: 2px
+  border-radius: var(--borderRadius-medium)
   border-width: 1px
   overflow-wrap: anywhere
   word-break: normal

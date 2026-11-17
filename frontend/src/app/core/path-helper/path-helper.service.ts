@@ -40,6 +40,10 @@ export class PathHelperService {
     return this.appBasePath;
   }
 
+  public aiTextTransformPanesPath() {
+    return `${this.staticBase}/ai/text_transform_panes`;
+  }
+
   public attachmentDownloadPath(attachmentIdentifier:string, slug:string|undefined) {
     const path = `${this.staticBase}/attachments/${attachmentIdentifier}`;
 
@@ -331,8 +335,9 @@ export class PathHelperService {
     return `${this.workPackagePath(workPackageId)}/${tab}`;
   }
 
-  public workPackageShortPath(id:string|number) {
-    return `${this.staticBase}/wp/${id.toString()}`;
+  public workPackageShortPath(id:string|number, { format }:{ format?:string } = {}) {
+    const path = `${this.staticBase}/wp/${id.toString()}`;
+    return format ? `${path}.${format}` : path;
   }
 
   public workPackageCopyPath(projectIdentifier:string|null, workPackageId:string|number) {
@@ -456,8 +461,8 @@ export class PathHelperService {
     return `${this.staticBase}/time_entries/${timeEntryId}`;
   }
 
-  public myWorkRefresh(date:string, viewMode:string, mode:string, entries:string) {
-    return `${this.staticBase}/my/work/refresh?date=${date}&view_mode=${viewMode}&mode=${mode}&entries=${entries}`;
+  public myTimeRefresh(date:string, viewMode:string, mode:string, entries:string) {
+    return `${this.staticBase}/my/time/refresh?date=${date}&view_mode=${viewMode}&mode=${mode}&entries=${entries}`;
   }
 
   public previewCustomFieldRoleAssignmentDialog(customFieldId:number, roleId:number) {

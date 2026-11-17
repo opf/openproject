@@ -49,6 +49,16 @@ module Pages
         within(type_group(type).find(".Box-header"), &)
       end
 
+      # Primer collapses the filter input behind a button once the sub header carries a quick
+      # filter, so it has to be opened before the first search.
+      def filter_by_name(text)
+        unless page.has_field?("query", wait: 0)
+          page.first("[data-action~='click:sub-header#expandFilterInput']").click
+        end
+
+        fill_in "query", with: text
+      end
+
       def within_actions_menu(type, &)
         within_type_header(type) do
           within(open_controlled_menu(find(:button, accessible_name: I18n.t(:label_actions))), &)

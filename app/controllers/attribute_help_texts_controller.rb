@@ -130,9 +130,7 @@ class AttributeHelpTextsController < ApplicationController
     name = params[:tab] || params[:name] || "WorkPackage"
     submodule = AttributeHelpText.available_types.find { |mod| mod == name }
 
-    if submodule.nil?
-      render_404
-    end
+    return render_404 if submodule.nil?
 
     @attribute_scope = AttributeHelpText.const_get(submodule).to_s
   end

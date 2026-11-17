@@ -36,6 +36,7 @@ import {
 import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
+import { isSelectableOccurrence, type SelectableOccurrence } from 'core-app/features/work-packages/routing/wp-view-base/view-services/rendered-occurrences';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import {
   GroupObject,
@@ -77,12 +78,12 @@ export class IsolatedQuerySpace extends StatesGroup {
   // Event to be raised when the timeline is up to date
   timelineRendered = new Subject<null>();
 
-  renderedWorkPackages:State<RenderedWorkPackage[]> = derive(this.tableRendered, ($) => $.pipe(
-    map((rows) => rows.filter((row) => !!row.workPackageId)),
+  renderedWorkPackages:State<SelectableOccurrence[]> = derive(this.tableRendered, ($) => $.pipe(
+    map((rows) => rows.filter(isSelectableOccurrence)),
   ));
 
   renderedWorkPackageIds:State<string[]> = derive(this.renderedWorkPackages, ($) => $.pipe(
-    map((rows) => rows.map((row) => row.workPackageId!.toString())),
+    map((rows) => rows.map((row) => row.workPackageId.toString())),
   ));
 
   // Subject used to unregister all listeners of states above.

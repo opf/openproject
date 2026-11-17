@@ -32,7 +32,7 @@ FactoryBot.define do
     ignore_non_working_days { false }
     # The following properties are not actually valid.
     # They were added when the default value (also 0) was removed and too many
-    # tests relied on this behaviour for it to be fixed right away.
+    # tests relied on this behavior for it to be fixed right away.
     subject { "abc" }
     type_id { 0 }
     project_id { 0 }

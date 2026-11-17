@@ -78,7 +78,7 @@ export class VersionsEditFieldComponent extends MultiSelectEditFieldComponent {
    */
   public get selectableOptions():HalResource[]|ValueOption[] {
     if (this.allowMultiple || this.required) {
-      return this.availableOptions as HalResource[];
+      return this.availableOptions;
     }
 
     if (this.selectableOptionsSource !== this.availableOptions) {

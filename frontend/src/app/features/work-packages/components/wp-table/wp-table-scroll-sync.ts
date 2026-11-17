@@ -43,7 +43,7 @@ function getXandYScrollDeltas(ev:WheelEvent):[number, number] {
   return [x, y];
 }
 
-function getPlattformAgnosticScrollAmount(originalValue:number) {
+function getPlatformAgnosticScrollAmount(originalValue:number) {
   if (originalValue === 0) {
     return originalValue;
   }
@@ -68,8 +68,8 @@ function syncWheelEvent(
     return;
   }
 
-  deltaX = getPlattformAgnosticScrollAmount(deltaX); // apply only in target div
-  deltaY = getPlattformAgnosticScrollAmount(deltaY); // apply in both divs
+  deltaX = getPlatformAgnosticScrollAmount(deltaX); // apply only in target div
+  deltaY = getPlatformAgnosticScrollAmount(deltaY); // apply in both divs
 
   schedule(() => {
     elementTable.scrollTop = elementTable.scrollTop + deltaY;

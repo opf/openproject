@@ -108,7 +108,7 @@ module Components
       def expect_calculation_error(string)
         within_field do
           expect(page).to have_test_selector("error--#{attribute.name}")
-          expect(page).to have_content(string)
+          expect(page).to have_text(string)
         end
       end
 

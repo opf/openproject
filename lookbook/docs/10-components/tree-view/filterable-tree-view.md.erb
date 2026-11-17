@@ -48,6 +48,8 @@ The search field enables text-based filtering of the tree.
   - Selecting a parent will select all its descendants, even if they’re hidden due to filtering.
 - On form submission, **all selected items** are submitted, including those currently not shown.
 
+For the format of the submitted values and how to read them in a controller, see [Submitting selections in a form](./tree_view#submitting-selections-in-a-form).
+
 ---
 
 ### Segmented control
@@ -260,6 +262,7 @@ Each node **must** carry a stable `data-node-id` so the component can preserve s
 ## Used in
 
 - The global project selector
+- The "Change parent" dialogs of hierarchy custom field values and departments
 - (Planned) In the admin settings as a way of selecting projects in which to enable a certain object, like a project attribute, type or custom field.
 
 ## Examples

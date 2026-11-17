@@ -34,6 +34,10 @@ import {
   ResourceDisplayField,
 } from 'core-app/shared/components/fields/display/field-types/resource-display-field.module';
 import { renderHierarchyItem } from 'core-app/shared/components/fields/display/field-types/render-hierarchy-item';
+import {
+  isUndisclosed,
+  undisclosedValueNode,
+} from 'core-app/shared/components/fields/display/field-types/undisclosed-value';
 
 export class HierarchyItemDisplayField extends ResourceDisplayField {
   public render(element:HTMLElement, _displayText:string) {
@@ -44,6 +48,12 @@ export class HierarchyItemDisplayField extends ResourceDisplayField {
     }
 
     element.innerHTML = '';
+
+    if (isUndisclosed(item)) {
+      element.appendChild(undisclosedValueNode(item.name));
+      return;
+    }
+
     element.classList.add('hierarchy-items');
 
     this.branch(item).subscribe((path) => {

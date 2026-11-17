@@ -36,7 +36,7 @@ module Wikis::Admin
         required: true,
         type: :url,
         pattern: ".{1,255}",
-        placeholder: "https://xwiki.my-organisation.com",
+        placeholder: "https://xwiki.example.com",
         caption: I18n.t("wikis.admin.wiki_providers.url_caption"),
         input_width: :large,
         disabled: model.configured_from_env?

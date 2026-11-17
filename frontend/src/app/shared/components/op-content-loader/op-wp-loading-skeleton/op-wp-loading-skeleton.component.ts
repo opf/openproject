@@ -39,5 +39,5 @@ import {
   standalone: false,
 })
 export class OpWPLoadingComponent {
-  @Input() public viewBox?:string = '0 0 800 80';
+  @Input() public viewBox = '0 0 800 80';
 }

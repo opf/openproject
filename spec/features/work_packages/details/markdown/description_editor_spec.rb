@@ -61,7 +61,7 @@ RSpec.describe "description inplace editor", :js do
       field.expect_state_text(description_text)
 
       # Regression test #24033
-      # Cancelling an edition several tiems properly resets the value
+      # Cancelling an edition several times properly resets the value
       field.activate!
 
       field.set_value "My intermittent edit 1"

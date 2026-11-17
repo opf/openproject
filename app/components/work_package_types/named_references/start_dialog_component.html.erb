@@ -39,7 +39,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
   <% end %>
 
-  <% dialog.with_footer(show_divider: true) do %>
+  <% dialog.with_footer do %>
     <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": dialog_id })) { t(:button_cancel) } %>
     <%= render(Primer::Beta::Button.new(scheme: :primary, form: form_id, type: :submit)) { t(:button_continue) } %>
   <% end %>

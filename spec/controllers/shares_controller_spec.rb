@@ -41,7 +41,7 @@ RSpec.describe SharesController do
 
   before { login_as(user) }
 
-  # We test the specifc behavior for loading the entity here. In the rest of the test we just use project_query as the
+  # We test the specific behavior for loading the entity here. In the rest of the test we just use project_query as the
   # entity because it is easier to set up as it does not need a project. There should be no entity specific behavior
   # outside of the `load_entity` method
   describe "entity specific behavior" do

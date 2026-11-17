@@ -34,13 +34,13 @@ RSpec.describe "API v3 projects resource with filters for the linked storages",
                content_type: :json do
   include API::V3::Utilities::PathHelper
 
-  def enable_module(project, modul)
-    project.enabled_module_names = project.enabled_module_names + [modul]
+  def enable_module(project, module_name)
+    project.enabled_module_names = project.enabled_module_names + [module_name]
     project.save
   end
 
-  def disable_module(project, modul)
-    project.enabled_module_names = project.enabled_module_names - [modul]
+  def disable_module(project, module_name)
+    project.enabled_module_names = project.enabled_module_names - [module_name]
     project.save
   end
 

@@ -301,9 +301,10 @@ class RecurringMeetingsController < ApplicationController
     # Include ongoing scheduled occurrences by setting a start time in the past
     from_time = Time.current - @recurring_meeting.template.duration.hours
 
-    # Get +1 scheduled_occurrences in case there is an ongoing cancelled occurrence
+    # Fetch enough occurrences to still have `count` planned ones after the already-opened
+    # occurrences are rejected, plus +1 in case there is an ongoing cancelled occurrence
     scheduled_times = @recurring_meeting
-      .scheduled_occurrences(limit: count + 1, from_time:)
+      .scheduled_occurrences(limit: count + opened.size + 1, from_time:)
       .reject { |occurrence_time| opened.include?(occurrence_time) }
 
     has_ongoing = scheduled_times.any? { |occurrence_time| occurrence_time < Time.current }

@@ -29,7 +29,7 @@
 
 module ResourcePlannerViews
   module UserTimeline
-    # Styling (the blue colour) is applied through the event's class names by FullCalendar.
+    # Styling (the blue color) is applied through the event's class names by FullCalendar.
     class NonWorkingBarComponent < ApplicationComponent
       def initialize(label:, icon: :calendar)
         super

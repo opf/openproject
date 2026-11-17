@@ -34,8 +34,8 @@ module AI
 
     belongs_to :user
     belongs_to :action,
-               class_name: "AI::TextTransformAction",
-               foreign_key: :ai_text_transform_action_id,
+               class_name: "AI::TextAction",
+               foreign_key: :ai_text_action_id,
                inverse_of: false
     has_many :events,
              class_name: "AI::TextTransformRunEvent",
@@ -78,6 +78,10 @@ module AI
 
     def start!
       update!(status: "running")
+    end
+
+    def request_cancel!
+      update_columns(cancel_requested: true, updated_at: Time.current) unless terminal?
     end
 
     def finish!(status, error_message: nil)

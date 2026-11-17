@@ -79,7 +79,7 @@ RSpec.describe Principals::Scopes::Visible do
       end
     end
 
-    shared_examples "sees principals in same projets and groups" do
+    shared_examples "sees principals in same projects and groups" do
       it "sees only the users, groups, and placeholder users in the same project" do
         expect(subject).to contain_exactly(current_user, project_user, project_group, project_placeholder_user)
       end
@@ -91,7 +91,7 @@ RSpec.describe Principals::Scopes::Visible do
                       member_with_roles: { project => role })
       end
 
-      include_examples "sees principals in same projets and groups"
+      include_examples "sees principals in same projects and groups"
     end
 
     context "when user has no manage_members project permission, and is member of a project" do
@@ -100,7 +100,7 @@ RSpec.describe Principals::Scopes::Visible do
                       member_with_permissions: { project => %i[view_work_packages] })
       end
 
-      include_examples "sees principals in same projets and groups"
+      include_examples "sees principals in same projects and groups"
     end
 
     context "when user has view_all_principals global permission" do

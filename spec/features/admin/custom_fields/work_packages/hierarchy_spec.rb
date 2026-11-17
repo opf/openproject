@@ -44,7 +44,7 @@ RSpec.describe "work package custom fields of type hierarchy", :js do
 
     custom_field_index_page.click_to_create_new_custom_field("Hierarchy")
 
-    hierarchy_name = "Stormtrooper Organisation"
+    hierarchy_name = "Stormtrooper Organization"
     fill_in "Name", with: hierarchy_name
     click_on "Save"
 
@@ -63,7 +63,7 @@ RSpec.describe "work package custom fields of type hierarchy", :js do
     expect(page).to have_css(".PageHeader-title", text: hierarchy_name)
 
     # Now, that was the wrong name, so I can change it to the correct one
-    hierarchy_name = "Imperial Organisation"
+    hierarchy_name = "Imperial Organization"
     fill_in "Name", with: "", fill_options: { clear: :backspace }
     fill_in "Name", with: hierarchy_name
     click_on "Save"
@@ -75,13 +75,13 @@ RSpec.describe "work package custom fields of type hierarchy", :js do
     # region Adding items to the hierarchy
 
     # Now we want to create our first hierarchy items
-    hierarchy_page.switch_tab "Items"
+    hierarchy_page.switch_tab "Values"
     hierarchy_page.expect_current_path
     expect(page).to have_test_selector("op-custom-fields--hierarchy-items-blankslate")
 
-    within("sub-header") { click_on "Item" }
+    within("sub-header") { click_on "Value" }
     expect(page).not_to have_test_selector("op-custom-fields--hierarchy-items-blankslate")
-    fill_in "Item label", with: "Stormtroopers"
+    fill_in "Value label", with: "Stormtroopers"
     fill_in "Short name", with: "ST"
     click_on "Save"
     expect(page).not_to have_test_selector("op-custom-fields--hierarchy-items-blankslate")
@@ -93,14 +93,14 @@ RSpec.describe "work package custom fields of type hierarchy", :js do
     expect(page).to have_test_selector("op-custom-fields--new-item-form")
 
     # Can I add the same item again?
-    fill_in "Item label", with: "Stormtroopers"
+    fill_in "Value label", with: "Stormtroopers"
     click_on "Save"
     within_test_selector("op-custom-fields--new-item-form") do
       expect(page).to have_css(".FormControl-inlineValidation", text: "Label must be unique within the same hierarchy level")
     end
 
     # Is the form cancelable?
-    fill_in "Item label", with: "Dark Troopers"
+    fill_in "Value label", with: "Dark Troopers"
     click_on "Cancel"
     expect(page).not_to have_test_selector("op-custom-fields--new-item-form")
     expect(page).to have_test_selector("op-custom-fields--hierarchy-item", count: 1)
@@ -111,8 +111,8 @@ RSpec.describe "work package custom fields of type hierarchy", :js do
     # region Deleting items from the hierarchy
 
     # What happens if I added a wrong item?
-    click_on "Item"
-    fill_in "Item label", with: "Phoenix Squad"
+    click_on "Value"
+    fill_in "Value label", with: "Phoenix Squad"
     click_on "Save"
     expect(page).to have_test_selector("op-custom-fields--hierarchy-item", count: 2)
     expect(page).to have_test_selector("op-custom-fields--hierarchy-item", text: "Phoenix Squad")
@@ -146,8 +146,8 @@ RSpec.describe "work package custom fields of type hierarchy", :js do
     # Finally, we delete the custom field ... I'm done with this ...
     custom_field_index_page.visit!
     expect(page).to have_row(hierarchy_name)
-    within("tr", text: hierarchy_name) do
-      page.find_test_selector("op-custom-fields--delete-button").click
+    within(".Box-row", text: hierarchy_name) do
+      page.find_test_selector("custom-field-delete-button").click
     end
     within_dialog("Delete custom field #{hierarchy_name}") do
       click_on "Delete"
@@ -157,7 +157,7 @@ RSpec.describe "work package custom fields of type hierarchy", :js do
     # endregion
   end
 
-  it "lets you add sub-items through the context menu", with_ee: [:custom_field_hierarchies] do
+  it "lets you add sub-values through the context menu", with_ee: [:custom_field_hierarchies] do
     custom_field = create(:hierarchy_wp_custom_field, name: "Imperial Organization")
     root = custom_field.hierarchy_root
 
@@ -170,16 +170,16 @@ RSpec.describe "work package custom fields of type hierarchy", :js do
     hierarchy_page.add_custom_field_state(custom_field)
     click_on custom_field.name
 
-    hierarchy_page.switch_tab "Items"
+    hierarchy_page.switch_tab "Values"
     hierarchy_page.expect_current_path
     expect(page).not_to have_test_selector("op-custom-fields--hierarchy-items-blankslate")
     expect(page).to have_test_selector("op-custom-fields--hierarchy-item", count: 2)
 
     hierarchy_page.open_action_menu_for("Stormtroopers")
-    click_on "Add sub-item"
+    click_on "Add sub-value"
 
     expect(page).to have_test_selector("op-custom-fields--new-item-form")
-    fill_in "Item label", with: "Snowtroopers"
+    fill_in "Value label", with: "Snowtroopers"
     fill_in "Short name", with: "SnT"
     click_on "Save"
 
@@ -189,21 +189,19 @@ RSpec.describe "work package custom fields of type hierarchy", :js do
     within('[data-test-selector="hierarchy-breadcrumbs"]') { click_on "Imperial Organization" }
     expect(page).to have_test_selector("op-custom-fields--hierarchy-item", count: 2)
     expect(page).to have_test_selector("op-custom-fields--hierarchy-item", text: "Imperial Navy")
-    expect(page).to have_test_selector("op-custom-fields--hierarchy-item", text: "Stormtroopers\n(ST)\n1 sub-item")
+    expect(page).to have_test_selector("op-custom-fields--hierarchy-item", text: "Stormtroopers\n(ST)\n1 sub-value")
   end
 
   context "when navigating the hierarchy", with_ee: [:custom_field_hierarchies] do
-    let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
-    let(:custom_field) { create(:wp_custom_field, name: "Hogwarts", field_format: "hierarchy", hierarchy_root: nil) }
-    let!(:root) { service.generate_root(custom_field).value! }
-    let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
-    let!(:ravenclaw) { service.insert_item(contract_class:, parent: root, label: "Ravenclaw").value! }
-    let!(:slytherin) { service.insert_item(contract_class:, parent: root, label: "Slytherin").value! }
-    let!(:hufflepuff) { service.insert_item(contract_class:, parent: root, label: "Hufflepuff").value! }
-    let!(:gryffindor) { service.insert_item(contract_class:, parent: root, label: "Gryffindor").value! }
-    let!(:luna) { service.insert_item(contract_class:, parent: ravenclaw, label: "Luna Lovegood").value! }
-    let!(:harry) { service.insert_item(contract_class:, parent: gryffindor, label: "Harry Potter").value! }
-    let!(:hermione) { service.insert_item(contract_class:, parent: gryffindor, label: "Hermione Granger").value! }
+    let(:custom_field) { create(:wp_custom_field, :hierarchy, name: "Hogwarts") }
+    let!(:root) { custom_field.hierarchy_root }
+    let!(:ravenclaw) { create(:hierarchy_item, parent: root, label: "Ravenclaw") }
+    let!(:slytherin) { create(:hierarchy_item, parent: root, label: "Slytherin") }
+    let!(:hufflepuff) { create(:hierarchy_item, parent: root, label: "Hufflepuff") }
+    let!(:gryffindor) { create(:hierarchy_item, parent: root, label: "Gryffindor") }
+    let!(:luna) { create(:hierarchy_item, parent: ravenclaw, label: "Luna Lovegood") }
+    let!(:harry) { create(:hierarchy_item, parent: gryffindor, label: "Harry Potter") }
+    let!(:hermione) { create(:hierarchy_item, parent: gryffindor, label: "Hermione Granger") }
     let(:tree_view) { Components::TreeView.new }
 
     before do
@@ -215,11 +213,11 @@ RSpec.describe "work package custom fields of type hierarchy", :js do
     it "can navigate and keep the tab selection (regression #63921)", with_ee: [:custom_field_hierarchies] do
       # Expect items to be loaded and the tab nav to be selected correctly
       expect(page).to have_test_selector("op-custom-fields--hierarchy-item", count: 2)
-      hierarchy_page.expect_tab "Items"
+      hierarchy_page.expect_tab "Values"
 
       # Navigating to an item will keep the tab nav selection
       page.find_test_selector("op-custom-fields--hierarchy-item", text: "Hermione Granger").click
-      hierarchy_page.expect_tab "Items"
+      hierarchy_page.expect_tab "Values"
     end
 
     it "can use the TreeView for navigation", with_ee: [:custom_field_hierarchies] do
@@ -241,7 +239,7 @@ RSpec.describe "work package custom fields of type hierarchy", :js do
       tree_view.should_have_collapsed_node("Gryffindor")
 
       expect(page).to have_test_selector("op-custom-fields--hierarchy-item", count: 0)
-      hierarchy_page.expect_tab "Items"
+      hierarchy_page.expect_tab "Values"
     end
   end
 

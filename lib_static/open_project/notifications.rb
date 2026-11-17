@@ -75,7 +75,7 @@ module OpenProject
     end
 
     # Send a notification.
-    # Payload should be a Hash and might be marshalled and unmarshalled before being
+    # Payload should be a Hash and might be marshaled and unmarshaled before being
     # delivered (although it is not at the moment), so don't count on object equality
     # for the payload.
     def send(name, payload)

@@ -397,7 +397,7 @@ RSpec.describe RecurringMeetings::UpdateService, "integration", type: :model do
         expect(german_mail.html_part.body).not_to include("Neuer Zeitplan")
       end
 
-      it "attaches an ICS that referes to the new location" do
+      it "attaches an ICS that refers to the new location" do
         expect(service_result).to be_success
         perform_enqueued_jobs
 

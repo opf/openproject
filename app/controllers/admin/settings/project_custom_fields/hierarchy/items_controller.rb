@@ -31,7 +31,7 @@ module Admin
   module Settings
     module ProjectCustomFields
       module Hierarchy
-        class ItemsController < CustomFields::Hierarchy::ItemsBaseController
+        class ItemsController < Admin::CustomFields::Hierarchy::ItemsBaseController
           menu_item :project_custom_fields_settings
 
           private

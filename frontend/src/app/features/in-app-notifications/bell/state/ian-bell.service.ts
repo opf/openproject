@@ -67,6 +67,10 @@ export class IanBellService {
 
   unread$ = this.query.unread$;
 
+  loadedUnread$ = this.query.loadedUnread$;
+
+  loadedUnreadUpdates$ = this.query.loadedUnreadUpdates$;
+
   constructor() {
     this.query.unreadCountChanged$.subscribe((count) => {
       this.actions$.dispatch(notificationCountChanged({ origin: this.id, count }));
@@ -87,7 +91,7 @@ export class IanBellService {
         map((result) => result.total),
         tap({
           next: (count) => {
-            this.store.update({ totalUnread: count });
+            this.store.update({ totalUnread: count, loaded: true });
           },
           error: (error) => {
             console.error('Failed to load notifications: %O', error);
@@ -103,7 +107,9 @@ export class IanBellService {
     if (action.all) {
       this.fetchUnread().subscribe();
     } else {
-      this.store.update(({ totalUnread }) => ({ totalUnread: totalUnread - action.notifications.length }));
+      this.store.update(({ totalUnread }) => ({
+        totalUnread: totalUnread < 0 ? totalUnread : Math.max(0, totalUnread - action.notifications.length),
+      }));
     }
   }
 }

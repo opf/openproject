@@ -34,7 +34,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
             wpGroupToggleDropdown>
       <op-icon icon-classes="button--icon icon-outline" />
       <span class="button--text"></span>
-      <op-icon icon-classes="button--icon icon-small icon-pulldown" />
+      <svg triangle-down-icon size="small"></svg>
     </button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

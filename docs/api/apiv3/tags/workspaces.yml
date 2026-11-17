@@ -6,12 +6,12 @@ description: |-
   * [Portfolio](https://www.openproject.org/docs/api/endpoints/portfolios)
   * [Program](https://www.openproject.org/docs/api/endpoints/programs)
   * [Project](https://www.openproject.org/docs/api/endpoints/projects)
-  
+
   A lot of resources reference the workspaces they are valid in, e.g. [Work package](https://www.openproject.org/docs/api/endpoints/work-packages/#linked-properties) and
   [Memberships](https://www.openproject.org/docs/api/endpoints/memberships/#linked-properties).
 
   Before OP 17.0 only projects existed. At that point, the API v3 was already established. That is the reason why quite a number of
-  resource have links called "project" or similar when they are in fact contained in a different type of workspace. To not break the API, the name of the link was kept. 
+  resource have links called "project" or similar when they are in fact contained in a different type of workspace. To not break the API, the name of the link was kept.
   But those links can contain the other types of workspaces as well. It can thus be possible for a work package to have the following:
 
   ```
@@ -26,7 +26,7 @@ description: |-
        ...
     }
   ```
- 
+
   Accordingly, to set the workspace a resource is in, sending any workspace link to the link property will be accepted by the API.
 
   The concept of workspaces is planned to be extended to include further types.

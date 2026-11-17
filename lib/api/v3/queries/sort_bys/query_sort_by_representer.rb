@@ -57,11 +57,9 @@ module API
 
           property :name
 
-          # rubocop:disable Naming/PredicateMethod -- name must match the "displayable" property below
           def displayable
             represented.displayable?
           end
-          # rubocop:enable Naming/PredicateMethod
 
           property :displayable, exec_context: :decorator
 

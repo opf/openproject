@@ -297,7 +297,10 @@ namespace :copyright do
   desc "Update the copyright on .js, .mjs, and .cjs source files"
   task :update_js, :path do |_task, args|
     path = args[:path] || "."
-    excluded = %w[**/vendor/**/*]
+    excluded = %w[
+      **/vendor/**/*
+      app/views/pwa/_offline_script.js
+    ]
 
     rewrite_copyright("js", excluded, :js, path,
                       file_list: source_file_list(path, %w[js mjs cjs]),

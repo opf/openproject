@@ -34,7 +34,7 @@ RSpec.shared_context "eager loaded work package representer" do
       without_partial_double_verification do
         allow(work_package)
           .to receive(:cache_checksum)
-          .and_return(srand)
+          .and_return("fixed-checksum")
       end
 
       work_package

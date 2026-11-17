@@ -75,10 +75,10 @@ export class HalResource {
   @LazyInject() I18n!:I18nService;
 
   /**
-   * Constructs and initializes the HalResource. For this, the halResoureFactory is required.
+   * Constructs and initializes the HalResource. For this, the HalResourceService is required.
    *
-   * However, We can't inject the HalResourceFactory here because it itself depends on this class.
-   * So if you need to initialize a HalResource, use +HalResourceFactory.createHalResource+ instead.
+   * However, We can't inject the HalResourceService here because it itself depends on this class.
+   * So if you need to initialize a HalResource, use +HalResourceService.createHalResource+ instead.
    *
    * @param {Injector} injector
    * @param $halType The HalResource type that this instance maps to
@@ -177,7 +177,7 @@ export class HalResource {
    * Create a HalResource from the copied source of the given, other HalResource.
    *
    * @param {HalResource} other
-   * @returns A HalResource with the identitical copied source of other.
+   * @returns A HalResource with the identical copied source of other.
    */
   public $copy<T extends HalResource = HalResource>(source:object = {}):T {
     const clone = this.constructor as HalResourceClass<T>;
@@ -238,7 +238,7 @@ export class HalResource {
     return undefined;
   }
 
-  public getEditorContext(fieldName:string):ICKEditorContext {
+  public getEditorContext(_fieldName:string):ICKEditorContext {
     return { type: 'constrained' };
   }
 

@@ -36,6 +36,12 @@ See COPYRIGHT and LICENSE files for more details.
   <%= auto_discovery_link_tag(:atom,
                               { format: 'atom', key: User.current.rss_key },
                               title: "#{work_package.project} - #{work_package.to_s}") %>
+  <%= auto_discovery_link_tag(
+        :md,
+        work_package_url(work_package, tab: nil, format: :md),
+        type: "text/markdown",
+        title: t(:label_markdown_version)
+      ) %>
 <% end %>
 
 <% content_for :content_body do %>

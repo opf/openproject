@@ -47,11 +47,20 @@ module WaitHelpers
         raise ArgumentError, "Invalid selector or element"
       end
     page.document.synchronize do
-      initial_position = page.evaluate_script("arguments[0].getBoundingClientRect()", element)
+      initial_position = bounding_rect(element)
       sleep 0.1 # Small delay to allow for animation
-      final_position = page.evaluate_script("arguments[0].getBoundingClientRect()", element)
+      final_position = bounding_rect(element)
       raise Capybara::ExpectationNotMet, "Animation not finished" unless initial_position == final_position
     end
+  end
+
+  def bounding_rect(element)
+    page.evaluate_script(<<~JS, element)
+      (() => {
+        const { x, y, width, height } = arguments[0].getBoundingClientRect();
+        return [x, y, width, height];
+      })()
+    JS
   end
 
   # Executes the given block and waits for a Turbo Stream to be rendered.

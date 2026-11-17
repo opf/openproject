@@ -48,11 +48,12 @@ import { firstValueFrom } from 'rxjs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
+import { BreadcrumbItem } from 'core-app/shared/components/breadcrumbs/op-breadcrumbs.component';
 import { EventHandler } from 'ng-dynamic-component';
 
 export interface DynamicComponentDefinition {
-  component:ComponentType<any>;
-  inputs?:Record<string, any>;
+  component:ComponentType<unknown>;
+  inputs?:Record<string, unknown>;
   outputs?:Record<string, EventHandler>;
 }
 
@@ -170,7 +171,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
       });
   }
 
-  breadcrumbItems() {
+  breadcrumbItems():BreadcrumbItem[] {
     throw new Error('Not implemented');
   }
 

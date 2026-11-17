@@ -2,6 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
+    "resolveJsonModule": true,
     "rootDir": "..",
     "types": [
       "vitest/globals",
@@ -23,6 +24,6 @@
     "src/app/**/*.module.ts"
   ],
   "angularCompilerOptions": {
-    "strictTemplates": false
+    "strictTemplates": true
   }
 }

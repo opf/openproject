@@ -69,9 +69,13 @@ function setHash(hash:string) {
   window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}${hash}`);
 }
 
+// The scroll position snaps to device pixels, so on a high-density screen a heading at a
+// fractional offset can come to rest a fraction of a pixel above the top.
+const SUBPIXEL_TOLERANCE = 1;
+
 function isInViewport(element:Element) {
   const { top, bottom, height } = element.getBoundingClientRect();
-  return height > 0 && top >= 0 && bottom <= window.innerHeight;
+  return height > 0 && top > -SUBPIXEL_TOLERANCE && bottom < window.innerHeight + SUBPIXEL_TOLERANCE;
 }
 
 const headingElement = (root:ParentNode = document) =>

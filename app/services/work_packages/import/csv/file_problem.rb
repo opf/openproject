@@ -32,7 +32,7 @@ module WorkPackages
     module CSV
       # Something about the file as a whole that stops it being imported, rather than a column or a
       # row. It has no column and no header, which is what tells it apart from a HeaderMap::Problem
-      # once both have been serialised into the job status payload.
+      # once both have been serialized into the job status payload.
       FileProblem = Data.define(:message)
     end
   end

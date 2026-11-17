@@ -78,6 +78,10 @@ export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit
 
   public label:string;
 
+  public get hasErrors():boolean {
+    return this.handler instanceof HalResourceEditFieldHandler && this.handler.isErrorenous;
+  }
+
   ngOnInit() {
     if (this.editFieldHandler && this.schemaInput) {
       this.handler = this.editFieldHandler;

@@ -280,7 +280,7 @@ module RecurringMeetings
     end
 
     # The mail for the schedule that ended looks like any other update.
-    # It ist just "updated" as a side-effect with a new end date.
+    # It is just "updated" as a side-effect with a new end date.
     def historic_schedule_changes(historic, recipient)
       ended = ended_schedule_model(historic)
 

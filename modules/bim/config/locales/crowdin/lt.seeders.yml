@@ -61,7 +61,7 @@ lt:
         item_2:
           name: BIM valdytojai
         item_3:
-          name: BIM modeliuotojai
+          name: BIM Modelers
         item_4:
           name: Įkelti BIM koordinatorius
         item_5:
@@ -511,17 +511,17 @@ lt:
               description: Šis tipas hierarchiškai yra tėvas tipų &quot;Susidūrimas&quot; ir &quot;Užklausa&quot;, taigi reprezentuoja bendrą pastabą.
               children:
                 item_0:
-                  subject: Modeliuojamas pradinis BIM modelis
+                  subject: Modeling initial BIM model
                   description: |-
-                    # Tikslas
+                    # Goal
 
-                    *   Modeliuoti pradinį BIM modelį
-                    *   Kurti BIM modelį visai projekto komandai
+                    *   Modeling the initial BIM model
+                    *   Creating a BIM model for the whole project team
 
-                    # Aprašymas
+                    # Description
 
-                    *   Pagal iš kliento surinktus duomenis sumodeliuojamas pradinis modelis
-                    *   Modelis turi būti modeliuojamas pagal LOD matricas ir turėti reikiamą informaciją
+                    *   According to the gathered data from the customer, the initial model will be modeled
+                    *   The model shall be modeled according to the LOD Matrices and contain the information needed
                     *   ...
                 item_1:
                   subject: Pradinio, vidinio modelio tikrinimas ir peržiūra
@@ -538,23 +538,23 @@ lt:
                   subject: Pateikiamas pradinis BIM modelis
                   description: Šis tipas hierarchiškai yra tėvas tipų &quot;Susidūrimas&quot; ir &quot;Užklausa&quot;, taigi reprezentuoja bendrą pastabą.
             item_4:
-              subject: Modeliavimas, pirmas ciklas
+              subject: Modeling, first cycle
               description: Šis tipas hierarchiškai yra tėvas tipų &quot;Susidūrimas&quot; ir &quot;Užklausa&quot;, taigi reprezentuoja bendrą pastabą.
               children:
                 item_0:
                   subject: Nuorodos į išorinius BIM modelius
                   description: |-
-                    # Tikslas
+                    # Goal
 
-                    *   Turėti pagrindą pradinio modelio kūrimui bei galimus atsakymus į klausimus
-                    *   Išorinio modelio naudojimas kuriant vidinį modelį
+                    *   Having a foundation for developing the internal model/ offering answers
+                    *   Using the external model to develop the internal model
 
-                    # Aprašymas
+                    # Description
 
-                    *   Išorinis modelis bus naudojamas BIM platformoje, taigi naudojamas modeliuojant vidinį modelį
+                    *   The external model will be referenced in the BIM platform, thus used for modeling the internal model
                     *   ...
                 item_1:
-                  subject: BIM modelio modeliavimas
+                  subject: Modeling the BIM model
                   description: |-
                     # Tikslas
 
@@ -602,19 +602,19 @@ lt:
                   subject: Baigiamoji koordinacija, pirmas ciklas
                   description: Šis tipas hierarchiškai yra tėvas tipų &quot;Susidūrimas&quot; ir &quot;Užklausa&quot;, taigi reprezentuoja bendrą pastabą.
             item_6:
-              subject: Modeliavimas ir koordinavimas, antras ciklas
+              subject: Modeling & coordinating, second cycle
               description: "## Tikslas\r\n\r\n*   ...\r\n\r\n## Aprašymas\r\n\r\n* \\  ..."
             item_7:
-              subject: Modeliavimas ir koordinavimas, ... ciklas
+              subject: Modeling & coordinating, ... cycle
               description: Šis tipas hierarchiškai yra tėvas tipų &quot;Susidūrimas&quot; ir &quot;Užklausa&quot;, taigi reprezentuoja bendrą pastabą.
             item_8:
-              subject: Modeliavimas ir koordinavimas, (n-tasis minus 1) ciklas
+              subject: Modeling & coordinating, (n-th minus 1) cycle
               description: "## Tikslas\r\n\r\n*   ...\r\n\r\n## Aprašymas\r\n\r\n* \\  ..."
             item_9:
-              subject: Modeliavimas ir koordinavimas, n-tasis ciklas
+              subject: Modeling & coordinating n-th cycle
               description: Šis tipas hierarchiškai yra tėvas tipų &quot;Susidūrimas&quot; ir &quot;Užklausa&quot;, taigi reprezentuoja bendrą pastabą.
             item_10:
-              subject: Modeliavimo ir koordinavimo užbaigimas, n-tasis ciklas
+              subject: Finishing modeling & coordinating, n-th cycle
               description: Šis tipas hierarchiškai yra tėvas tipų &quot;Susidūrimas&quot; ir &quot;Užklausa&quot;, taigi reprezentuoja bendrą pastabą.
             item_11:
               subject: Naudoti modelį statybos fazėje

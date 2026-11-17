@@ -69,7 +69,6 @@ Important data inputs:
 - data: `{ target_name: "abc"}` or `data-target-name="abc"` allows you to define multiple sets of cause/effect handlers
 - If you want the target to be visibly blocked, not hidden, then use `data: { set_visibility: "true" }`. By default, the field will be hidden and removed from DOM computation.
 
-
 ## Advanced Interactivity by previewing forms before submission
 
 In order to implement complex form interactions other than hiding or showing fields, we can use the form preview pattern. A few examples of such interactions include displaying instant form validation errors on a changed field, or on its related fields. Another example is updating the caption of an input field based on its value. Handling each element update separately in these scenarios would be too cumbersome. A much better approach is to re-render the whole form when a field changes, preferably using a turbo streams morph response.
@@ -96,7 +95,7 @@ The form preview mechanism can be applied to any form by binding the `form-previ
 
 ### Customizing the triggering mechanism:
 
-In some cases we might want to further customize the triggering behaviour, for example when using a date range picker input field. For date range pickers we want to trigger the form preview only when the both the start and end dates are chosen and the datepicker is closed. The solution is to create a form specific controller that will inherit from the `FormPreviewController` controller, and it decides if the `submit` action needs to be called.
+In some cases we might want to further customize the triggering behavior, for example when using a date range picker input field. For date range pickers we want to trigger the form preview only when the both the start and end dates are chosen and the datepicker is closed. The solution is to create a form specific controller that will inherit from the `FormPreviewController` controller, and it decides if the `submit` action needs to be called.
 
 1. The form specific controller handles the input changes on the form. It also calls the `submit()` function from the parent controller when the date range picker is not visible anymore.
 
@@ -130,7 +129,6 @@ In some cases we might want to further customize the triggering behaviour, for e
 
 **Important note:** Javascript rendered elements inside the form such as the datepicker above, could be broken after the form update. This happens, because the datepicker input get replaced without re-initializing the datepicker library. To fix the issue, we can either avoid updating the datepicker input elements using "data-turbo-permanent", or we can programmatically re-initialize them after the form update. In case of angular components, this issue is solved automatically by not updating the components. For more info see the `turbo:before-morph-element` eventlistener in the `turbo-global-listeners.ts`.
 
-
 ### How to handle the form preview actions on the backend?
 
 The form preview mechanism shown above can be nicely tied with our existing ActiveRecord object saving services.
@@ -139,7 +137,7 @@ The form preview mechanism shown above can be nicely tied with our existing Acti
 
     ```ruby
       module WorkPackages
-        class PreviewAttributesService < ::BaseServices::SetAttributes
+        class PreviewAttributesService <::BaseServices::SetAttributes
           def perform(*)
             super.tap do |service_call|
               clear_unchanged_fields(service_call)

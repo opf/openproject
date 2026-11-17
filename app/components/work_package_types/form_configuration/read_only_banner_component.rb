@@ -36,6 +36,8 @@ module WorkPackageTypes
         @context = context
       end
 
+      def render? = context.scope_project.nil?
+
       private
 
       attr_reader :context

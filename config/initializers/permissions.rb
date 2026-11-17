@@ -118,7 +118,10 @@ Rails.application.reloader.to_prepare do
                      require: :loggedin
 
       map.permission :view_project,
-                     { projects: %i[show list_row_menu] },
+                     {
+                       projects: %i[show list_row_menu],
+                       "projects/hover_card": %i[show]
+                     },
                      permissible_on: :project,
                      public: true
 
@@ -135,7 +138,7 @@ Rails.application.reloader.to_prepare do
                        "projects/settings/work_packages/internal_comments": %i[show update],
                        "projects/settings/creation_wizard": %i[show disable_dialog toggle refresh_submission_form
                                                                update_name_settings update_submission_settings
-                                                               update_artifact_export_settings
+                                                               update_artefact_export_settings
                                                                toggle_project_custom_field
                                                                disable_all_of_section enable_all_of_section],
                        "projects/settings/subitems": %i[show update],
@@ -191,7 +194,7 @@ Rails.application.reloader.to_prepare do
                      dependencies: :view_project
 
       map.permission :edit_project_phases,
-                     {},
+                     { "project_phases/status": :update },
                      permissible_on: :project,
                      require: :member,
                      dependencies: :view_project_phases,
@@ -233,47 +236,6 @@ Rails.application.reloader.to_prepare do
                      {
                        "projects/settings/versions": [:show],
                        versions: %i[new create edit update close_completed destroy]
-                     },
-                     permissible_on: :project,
-                     require: :member
-
-      map.permission :manage_types,
-                     {
-                       "projects/settings/work_packages": %i[show],
-                       "projects/settings/work_packages/types": %i[index new create destroy]
-                     },
-                     permissible_on: :project,
-                     require: :member
-
-      # Separate from :manage_types, which is about which types a project uses. This one is about
-      # authoring the project's own variants of them, on administration's own controllers.
-      map.permission :manage_project_variants,
-                     {
-                       "projects/settings/work_packages": %i[show],
-                       "projects/settings/work_packages/types": %i[index],
-                       "projects/settings/work_packages/types/switches": %i[new create],
-                       "projects/settings/work_packages/types/switches/impacts": %i[create],
-                       "work_package_types/settings_tab": %i[index],
-                       "work_package_types/variants": %i[destroy menu],
-                       "work_package_types/creation_wizard": %i[new create show update],
-                       "work_package_types/details_tab": %i[edit update],
-                       "work_package_types/defaults_tab": %i[edit update],
-                       "work_package_types/form_configuration_tab": %i[edit toggle_required change_dialog change],
-                       "work_package_types/project_attributes_tab":
-                         %i[edit toggle enable_all_of_section disable_all_of_section],
-                       "work_package_types/workflow_tab":
-                         %i[edit change_dialog change create configure_dialog configure
-                            start_dialog start],
-                       "work_package_types/pdf_export_template":
-                         %i[edit toggle move enable_all disable_all update_artefact_export
-                            edit_settings update_settings],
-                       "work_package_types/excluded_elements": %i[toggle],
-                       "work_package_types/configuration_links": %i[dialog confirm switch],
-                       "work_package_types/configuration_independence": %i[dialog confirm switch],
-                       "work_package_types/configuration_copies": %i[dialog confirm copy],
-                       "workflows/matrix": %i[show update status_dialog confirm_statuses],
-                       "workflows/copies": %i[new],
-                       "workflows/copies/from_roles": %i[create]
                      },
                      permissible_on: :project,
                      require: :member
@@ -450,6 +412,45 @@ Rails.application.reloader.to_prepare do
                      {
                        "projects/settings/work_packages/categories": [:show],
                        categories: %i[new create edit update destroy]
+                     },
+                     permissible_on: :project,
+                     require: :member
+
+      wpt.permission :manage_types,
+                     {
+                       "projects/settings/work_packages": %i[show],
+                       "projects/settings/work_packages/types": %i[index new create destroy],
+                       "projects/settings/work_packages/custom_fields": %i[show]
+                     },
+                     permissible_on: :project,
+                     require: :member
+
+      # Separate from :manage_types, which is about which types a project uses. This one is about
+      # authoring the project's own variants of them, on administration's own controllers.
+      wpt.permission :manage_project_variants,
+                     {
+                       "projects/settings/work_packages": %i[show],
+                       "projects/settings/work_packages/types": %i[index],
+                       "projects/settings/work_packages/custom_fields": %i[show],
+                       "projects/settings/work_packages/types/switches": %i[new create],
+                       "projects/settings/work_packages/types/switches/impacts": %i[create],
+                       "work_package_types/settings_tab": %i[index],
+                       "work_package_types/variants": %i[destroy menu],
+                       "work_package_types/creation_wizard": %i[new create show update],
+                       "work_package_types/details_tab": %i[edit update],
+                       "work_package_types/defaults_tab": %i[edit update],
+                       "work_package_types/form_configuration_tab": %i[edit toggle_required change_dialog change],
+                       "work_package_types/project_attributes_tab":
+                         %i[edit toggle enable_all_of_section disable_all_of_section],
+                       "work_package_types/workflow_tab": %i[edit change_dialog change],
+                       "work_package_types/pdf_export_template":
+                         %i[edit toggle move enable_all disable_all update_artefact_export
+                            edit_settings update_settings],
+                       "work_package_types/excluded_elements": %i[toggle],
+                       "work_package_types/configuration_links": %i[dialog confirm switch],
+                       "work_package_types/configuration_independence": %i[dialog confirm switch],
+                       "work_package_types/configuration_copies": %i[dialog confirm copy],
+                       "workflows/matrix": %i[show]
                      },
                      permissible_on: :project,
                      require: :member

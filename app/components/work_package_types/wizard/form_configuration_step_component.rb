@@ -52,6 +52,11 @@ module WorkPackageTypes
         @back_url || variant_creation_wizard_path(helpers.variant_scope_project, model, step: :form_configuration)
       end
 
+      def form_mode
+        started_id = helpers.params[:started_form_configuration_id].presence&.to_i
+        model.form_configuration_id == started_id ? :new : :existing
+      end
+
       def no_filter_query
         ::API::V3::Queries::QueryParamsRepresenter
           .new(Query.new_default.tap { |query| query.filters = [] })

@@ -35,6 +35,16 @@ class Backlogs::Sprints::FinishService < BaseServices::BaseContracted
 
   protected
 
+  # Settled here, ahead of #before_perform moving the unfinished work out, rather than when the
+  # sprint row is written. The burndown reads the sprint up to completed_at, and the moves take
+  # that work out of the sprint as they are journalled, so a stamp taken afterward leaves every
+  # finished sprint reporting nothing remaining however much of it there was.
+  def validate_params
+    self.params = params.reverse_merge(completed_at: Time.zone.now)
+
+    super
+  end
+
   def before_perform(service_call)
     case params[:unfinished_action]
     when "move_to_sprint"
@@ -50,7 +60,7 @@ class Backlogs::Sprints::FinishService < BaseServices::BaseContracted
   end
 
   def persist(service_call)
-    model.update!(status: "completed", completed_at: Time.zone.now)
+    model.update!(status: "completed", completed_at: params[:completed_at])
     service_call
   end
 

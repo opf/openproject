@@ -43,7 +43,8 @@ class Header::WhatsNewController < ApplicationController
   end
 
   def seen
-    current_user.pref.update!(whats_new_seen_version: release.version_key)
+    current_user.pref.mark_whats_new_seen(release.version_key)
+    current_user.pref.save!
 
     turbo_streams << turbo_stream.remove_all("[data-whats-new-badge]")
     respond_with_turbo_streams

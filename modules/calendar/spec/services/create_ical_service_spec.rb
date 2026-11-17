@@ -183,7 +183,7 @@ RSpec.describe Calendar::CreateICalService, type: :model do
 
   describe "sanitized attributes" do
     # the iCalendar gem takes care of escaping malicious values
-    # following specs double check on this behaviour
+    # following specs double check on this behavior
     let(:work_package_with_malicious_subject) do
       create(:work_package, subject: "<script>alert('Subject');</script>", project:,
                             due_date: Time.zone.today + 7.days, assigned_to: user)
@@ -226,6 +226,16 @@ RSpec.describe Calendar::CreateICalService, type: :model do
       expect(formatted_result).to include("Type: Task")
       expect(formatted_result).not_to include("Type: Bug")
       expect(formatted_result).to include("Status: #{sub_work_package.status.name}")
+    end
+  end
+
+  describe "subject with HTML-significant characters" do
+    let(:work_packages) do
+      [create(:work_package, subject: %(Tom's R&D "plan"), project:, due_date: Time.zone.today + 7.days)]
+    end
+
+    it "keeps the characters as plain text in the summary" do
+      expect(formatted_result).to include(%(SUMMARY:Tom's R&D "plan"\n))
     end
   end
 end

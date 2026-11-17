@@ -51,7 +51,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
     end
   end
 
-  describe "with correct updating behaviour" do
+  describe "with correct updating behavior" do
     def open_dialog
       dialog = overview_page.open_modal_for_custom_field(custom_field).dialog
 
@@ -90,7 +90,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
           overview_page.visit_page
 
           overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_content I18n.t("placeholders.default")
+            expect(page).to have_text I18n.t("placeholders.default")
           end
 
           open_field do
@@ -98,7 +98,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
           end
 
           overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_content "Yes"
+            expect(page).to have_text "Yes"
           end
         end
 
@@ -106,7 +106,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
           overview_page.visit_page
 
           overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_content "Yes"
+            expect(page).to have_text "Yes"
           end
 
           open_field do
@@ -114,7 +114,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
           end
 
           overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_content "No"
+            expect(page).to have_text "No"
           end
         end
       end
@@ -126,7 +126,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
           overview_page.visit_page
 
           overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_content I18n.t("placeholders.default")
+            expect(page).to have_text I18n.t("placeholders.default")
           end
 
           open_field do
@@ -134,7 +134,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
           end
 
           overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_content expected_updated_value
+            expect(page).to have_text expected_updated_value
           end
         end
       end
@@ -147,7 +147,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
           overview_page.visit_page
 
           overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_content expected_initial_value
+            expect(page).to have_text expected_initial_value
           end
 
           open_dialog do |dialog|
@@ -155,7 +155,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
           end
 
           overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_content expected_initial_value
+            expect(page).to have_text expected_initial_value
           end
         end
 
@@ -163,7 +163,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
           overview_page.visit_page
 
           overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_content expected_initial_value
+            expect(page).to have_text expected_initial_value
           end
 
           open_field do
@@ -171,7 +171,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
           end
 
           overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_content I18n.t("placeholders.default")
+            expect(page).to have_text I18n.t("placeholders.default")
           end
         end
 
@@ -185,7 +185,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
           overview_page.visit_page
 
           overview_page.within_custom_field_container(calculated_value_custom_field) do
-            expect(page).to have_content expected_initial_calculated_value
+            expect(page).to have_text expected_initial_calculated_value
           end
 
           open_field do
@@ -193,7 +193,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
           end
 
           overview_page.within_custom_field_container(calculated_value_custom_field) do
-            expect(page).to have_content expected_updated_calculated_value
+            expect(page).to have_text expected_updated_calculated_value
           end
         end
 
@@ -201,7 +201,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
           overview_page.visit_page
 
           overview_page.within_custom_field_container(calculated_value_custom_field) do
-            expect(page).to have_content expected_initial_calculated_value
+            expect(page).to have_text expected_initial_calculated_value
           end
 
           open_field do |dialog|
@@ -209,7 +209,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
           end
 
           overview_page.within_custom_field_container(calculated_value_custom_field) do
-            expect(page).to have_content expected_initial_calculated_value
+            expect(page).to have_text expected_initial_calculated_value
           end
         end
 
@@ -217,7 +217,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
           overview_page.visit_page
 
           overview_page.within_custom_field_container(calculated_value_custom_field) do
-            expect(page).to have_content expected_initial_calculated_value
+            expect(page).to have_text expected_initial_calculated_value
           end
 
           open_field do
@@ -225,7 +225,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
           end
 
           overview_page.within_custom_field_container(calculated_value_custom_field) do
-            expect(page).to have_content I18n.t("placeholders.default")
+            expect(page).to have_text I18n.t("placeholders.default")
           end
         end
       end
@@ -462,7 +462,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
                                       member_with_roles: { project => reader_role })
           end
 
-          it "saves selected placeholer user properly" do
+          it "saves selected placeholder user properly" do
             custom_field.custom_values.delete_all
 
             overview_page.visit_page
@@ -694,7 +694,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         # all the custom field accessors on every project, and that leads to having the
         # empty custom values created. This is a compromise to avoid further patching the
         # aac plugin and increase complexity. We will also get rid of the patch and this
-        # behaviour in a latter ticket https://community.openproject.org/wp/53729 .
+        # behavior in a latter ticket https://community.openproject.org/wp/53729 .
         # An extra expectation is added to make sure we don't activate other custom fields,
         # so there are no unwanted side effects.
 
@@ -747,7 +747,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         end
 
         overview_page.within_custom_field_container(custom_field) do
-          expect(page).to have_content "567"
+          expect(page).to have_text "567"
         end
         overview_page.expect_no_custom_field(float_project_custom_field)
         overview_page.expect_no_custom_field(calculated_from_int_project_custom_field)

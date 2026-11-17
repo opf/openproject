@@ -69,7 +69,7 @@ class ApplicationController < ActionController::Base
 
   layout "base"
 
-  protect_from_forgery
+  protect_from_forgery with: :exception, store: Sessions::CsrfTokenCookieStore.new
   # CSRF protection prevents two things. It prevents an attacker from using a
   # user's session to execute requests. It also prevents an attacker to log in
   # a user with the attacker's account. API requests each contain their own
@@ -207,7 +207,8 @@ class ApplicationController < ActionController::Base
   # Checks if the session cookie is missing.
   # This is useful only on a second request
   def openproject_cookie_missing?
-    request.cookies[OpenProject::Configuration["session_cookie_name"]].nil?
+    [OpenProject::Configuration["session_cookie_name"], Sessions::CsrfTokenCookieStore.cookie_name]
+      .none? { |name| request.cookies.key?(name) }
   end
 
   helper_method :openproject_cookie_missing?
@@ -216,7 +217,7 @@ class ApplicationController < ActionController::Base
   # Create CSRF issue
   def log_csrf_failure
     message = "CSRF validation error"
-    message += " (No session cookie present)" if openproject_cookie_missing?
+    message += " (No session or CSRF cookie present)" if openproject_cookie_missing?
 
     op_handle_error message, reference: :csrf_validation_failed
   end
@@ -349,6 +350,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def api_key_auth_format?
+    api_request?
+  end
+
+  def api_key_authenticated?
+    @api_key_authenticated == true
+  end
+
   # Returns the API key present in the request
   def api_key_from_request
     if params[:key].present?
@@ -388,7 +397,7 @@ class ApplicationController < ActionController::Base
         return view_paths.find_template(default_template_name(action_name), "api")
       rescue ::ActionView::MissingTemplate
         # the api template was not found
-        # fallback to the default behaviour
+        # fallback to the default behavior
       end
     end
     super
@@ -425,10 +434,6 @@ class ApplicationController < ActionController::Base
 
   def permitted_params
     @permitted_params ||= PermittedParams.new(params, current_user)
-  end
-
-  def session_expired?
-    !api_request? && current_user.logged? && session_ttl_expired?
   end
 
   def login_back_url_params

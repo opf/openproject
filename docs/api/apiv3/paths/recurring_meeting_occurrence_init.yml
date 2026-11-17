@@ -2,7 +2,7 @@
 ---
 post:
   summary: Instantiate an occurrence
-  operationId: init_recurring_meeting_occurrence
+  operationId: create_recurring_meeting_occurrence
   tags:
     - Recurring Meetings
   description: |-

@@ -28,6 +28,8 @@
 #++
 
 class Query < ApplicationRecord
+  DEFAULT_SORT_CRITERIA = [%w[id asc].freeze].freeze
+
   include Timelines
   include Timestamps
   include Highlighting
@@ -92,7 +94,7 @@ class Query < ApplicationRecord
   def set_default_sort
     return if sort_criteria.any?
 
-    self.sort_criteria = [%w[id asc]]
+    self.sort_criteria = DEFAULT_SORT_CRITERIA.deep_dup
   end
 
   def context

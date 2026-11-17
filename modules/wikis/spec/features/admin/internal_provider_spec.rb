@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Updating internal wiki provider", :js, :selenium, driver: :firefox_en do
+RSpec.describe "Updating internal wiki provider", :js, :selenium do
   shared_let(:admin) { create(:admin, preferences: { time_zone: "Etc/UTC" }) }
   shared_let(:auth_provider) { create(:oidc_provider) }
 
@@ -39,22 +39,18 @@ RSpec.describe "Updating internal wiki provider", :js, :selenium, driver: :firef
 
   it "can enable and disable the internal provider", :aggregate_failures, with_ee: [:scim_api] do
     visit admin_settings_internal_wiki_provider_path
-    expect(page).to be_axe_clean.within("#content")
+    expect(page).to be_axe_clean
 
     expect(page).to have_checked_field("Enable OpenProject project wikis")
 
     uncheck "Enable OpenProject project wikis"
-    click_on "Save"
-
-    SeleniumHubWaiter.wait
+    wait_for_turbo { click_on "Save" }
 
     expect(page).to have_unchecked_field("Enable OpenProject project wikis")
     expect(provider.reload).not_to be_enabled
 
     check "Enable OpenProject project wikis"
-    click_on "Save"
-
-    SeleniumHubWaiter.wait
+    wait_for_turbo { click_on "Save" }
 
     expect(page).to have_checked_field("Enable OpenProject project wikis")
     expect(provider.reload).to be_enabled

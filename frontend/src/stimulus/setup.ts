@@ -45,6 +45,7 @@ import PasswordRequirementsController from './controllers/password-requirements.
 import PreviewController from './controllers/dynamic/work-packages/date-picker/preview.controller';
 import KeepScrollPositionController from './controllers/keep-scroll-position.controller';
 import PatternInputController from './controllers/pattern-input.controller';
+import FileFieldController from './controllers/file-field.controller';
 import HoverCardTriggerController from './controllers/hover-card-trigger.controller';
 import ScrollIntoViewController from './controllers/scroll-into-view.controller';
 import ReloadFrameOnEventController from './controllers/reload-frame-on-event.controller';
@@ -57,6 +58,7 @@ import LazyPageController from './controllers/dynamic/work-packages/activities-t
 import EditablePageHeaderTitleController from './controllers/dynamic/editable-page-header-title.controller';
 import WorkingHoursFormController from './controllers/dynamic/users/working-hours-form.controller';
 import DailyRemindersController from './controllers/dynamic/my/daily-reminders.controller';
+import PushSubscriptionController from './controllers/dynamic/my/push-subscription.controller';
 import HeaderProjectSelectController from './controllers/header-project-select.controller';
 import ResourceTimelineController from './controllers/dynamic/resource-management/resource-timeline.controller';
 import CreatedPlaceholderUserController from './controllers/dynamic/resource-management/created-placeholder-user.controller';
@@ -67,6 +69,8 @@ import OpPasswordForceChangeController from './controllers/password-force-change
 import AutoSubmit from '@stimulus-components/auto-submit';
 import RevealController from '@stimulus-components/reveal';
 import AutoThemeSwitcher from './controllers/auto-theme-switcher.controller';
+import PwaServiceWorkerController from './controllers/pwa-service-worker.controller';
+import PwaPushResumeController from './controllers/pwa-push-resume.controller';
 import ThemeSelectorController from './controllers/theme-selector.controller';
 import { OpenProjectStimulusApplication } from 'core-stimulus/openproject-stimulus-application';
 import { Application } from '@hotwired/stimulus';
@@ -109,6 +113,7 @@ OpenProjectStimulusApplication.preregister('zen-mode', OpZenModeController);
 OpenProjectStimulusApplication.preregister('work-packages--date-picker--preview', PreviewController);
 OpenProjectStimulusApplication.preregister('keep-scroll-position', KeepScrollPositionController);
 OpenProjectStimulusApplication.preregister('pattern-input', PatternInputController);
+OpenProjectStimulusApplication.preregister('file-field', FileFieldController);
 OpenProjectStimulusApplication.preregister('scroll-into-view', ScrollIntoViewController);
 OpenProjectStimulusApplication.preregister('reload-frame-on-event', ReloadFrameOnEventController);
 OpenProjectStimulusApplication.preregister('ckeditor-focus', CkeditorFocusController);
@@ -121,6 +126,8 @@ OpenProjectStimulusApplication.preregister('work-packages--activities-tab--edito
 OpenProjectStimulusApplication.preregister('work-packages--activities-tab--lazy-page', LazyPageController);
 OpenProjectStimulusApplication.preregister('beforeunload', BeforeunloadController);
 OpenProjectStimulusApplication.preregister('auto-theme-switcher', AutoThemeSwitcher);
+OpenProjectStimulusApplication.preregister('pwa-service-worker', PwaServiceWorkerController);
+OpenProjectStimulusApplication.preregister('pwa-push-resume', PwaPushResumeController);
 OpenProjectStimulusApplication.preregister('theme-selector', ThemeSelectorController);
 OpenProjectStimulusApplication.preregister('external-links', ExternalLinksController);
 OpenProjectStimulusApplication.preregister('highlight-target-element', HighlightTargetElementController);
@@ -128,6 +135,7 @@ OpenProjectStimulusApplication.preregister('select-autosize', SelectAutosizeCont
 OpenProjectStimulusApplication.preregister('editable-page-header-title', EditablePageHeaderTitleController);
 OpenProjectStimulusApplication.preregister('users--working-hours-form', WorkingHoursFormController);
 OpenProjectStimulusApplication.preregister('my--daily-reminders', DailyRemindersController);
+OpenProjectStimulusApplication.preregister('my--push-subscription', PushSubscriptionController);
 OpenProjectStimulusApplication.preregister('resource-management--resource-timeline', ResourceTimelineController);
 OpenProjectStimulusApplication.preregister('resource-management--created-placeholder-user', CreatedPlaceholderUserController);
 OpenProjectStimulusApplication.preregister('users--non-working-times', NonWorkingTimesController);

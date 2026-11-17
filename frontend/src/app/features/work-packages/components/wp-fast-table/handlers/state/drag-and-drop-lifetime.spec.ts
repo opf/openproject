@@ -57,6 +57,7 @@ import { HookService } from 'core-app/features/plugins/hook-service';
 import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
+import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
 import { WorkPackageViewPaginationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service';
 import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
@@ -104,6 +105,7 @@ describe('accepted table drag persistence lifetime', () => {
   let orderSaved:ReturnType<typeof deferred<string>>;
   let actionSaved:ReturnType<typeof deferred<WorkPackageResource>>;
   let querySaved:Subject<QueryResource>;
+  let queryReloaded:Subject<QueryResource>;
   let formLoaded:Subject<[QueryFormResource, QueryResource]>;
   let positionsLoaded:ReturnType<typeof deferred<Record<string, number>>>;
   let resourceLoaded:Subject<WorkPackageResource>;
@@ -133,7 +135,7 @@ describe('accepted table drag persistence lifetime', () => {
     await waitFor(() => expect(calls).toEqual(expected));
   }
 
-  async function mount(kind:'default'|'group'|'hierarchy' = 'group', saved = true) {
+  async function mount(kind:'default'|'group'|'hierarchy' = 'group', saved = true, positions = false) {
     const grouped = kind === 'group';
     original = query(saved, grouped, kind === 'hierarchy');
     const providers:Provider[] = [
@@ -145,7 +147,7 @@ describe('accepted table drag persistence lifetime', () => {
       HalResourceEditingService,
       HalEventsService,
       HookService,
-      { provide: UrlParamsHelperService, useValue: {} },
+      { provide: UrlParamsHelperService, useValue: { buildV3GetQueryFromQueryResource: () => ({}) } },
       { provide: AuthorisationService, useValue: {} },
       { provide: ConfigurationService, useValue: { perPageOptions: [20, 50] } },
       { provide: CurrentUserService, useValue: { userId: '1' } },
@@ -171,14 +173,14 @@ describe('accepted table drag persistence lifetime', () => {
           }),
         },
         queries: {
-          id: () => ({ order: { get: () => delayPositions ? positionsLoaded.promise : Promise.resolve({ '1': 10, '2': 20, '3': 30 }), update: orderWrite }, patch }),
+          id: () => ({ order: { get: () => delayPositions ? positionsLoaded.promise : Promise.resolve({ '1': 10, '2': 20, '3': 30 }), update: orderWrite }, patch, parameterised: () => queryReloaded }),
           post,
           form: { load: () => { calls.push('form'); return delayForm ? formLoaded : of([form, original]); } },
         },
         views: { post: view },
       } },
     ];
-    dom = buildDom();
+    dom = buildDom({ productionMarkup: positions });
     table = buildTable({
       query: original,
       builtinDragActions: true,
@@ -194,6 +196,11 @@ describe('accepted table drag persistence lifetime', () => {
       ],
       groups: grouped ? [{ value: 'New', href: status1.href, count: 1 }, { value: 'Progress', href: status2.href, count: 2 }] : undefined,
       showHierarchies: kind === 'hierarchy',
+      ...(positions ? {
+        productionMarkup: true,
+        pagination: { offset: 1, pageSize: 50, total: 3 },
+        configuration: { inlineCreateEnabled: true },
+      } : {}),
     });
     await table.render();
     table.injector.get(WorkPackageViewPaginationService).initialize(original, { elements: [], offset: 1, pageSize: 50, total: 3, count: 3 } as unknown as WorkPackageCollectionResource);
@@ -277,6 +284,7 @@ describe('accepted table drag persistence lifetime', () => {
     orderSaved = deferred<string>();
     actionSaved = deferred<WorkPackageResource>();
     querySaved = new Subject<QueryResource>();
+    queryReloaded = new Subject<QueryResource>();
     formLoaded = new Subject<[QueryFormResource, QueryResource]>();
     positionsLoaded = deferred<Record<string, number>>();
     resourceLoaded = new Subject<WorkPackageResource>();
@@ -304,9 +312,28 @@ describe('accepted table drag persistence lifetime', () => {
     vi.unstubAllGlobals();
   });
 
+  it.each([true, false])('publishes manual sorting before query reload finishes (saved: %s)', async (saved) => {
+    await mount('default', saved);
+    const sort = table.injector.get(WorkPackageViewSortByService);
+    expect(sort.isManualSortingMode).toBe(false);
+    const dropping = table.drop('1', '2', 'bottom');
+    if (saved) {
+      await expectCalls(['order']);
+      orderSaved.resolve('now');
+    }
+    await expectCalls(saved ? ['order', 'query'] : ['query']);
+    expect(sort.isManualSortingMode).toBe(true);
+    querySaved.next(saved ? original : query());
+    expect(await dropping).toBe(true);
+    expect(sort.isManualSortingMode).toBe(true);
+    expect(notify.handleRawError).not.toHaveBeenCalled();
+    expect(toast.addError).not.toHaveBeenCalled();
+  });
+
   it.each(['default', 'group', 'hierarchy'] as const)('finishes the accepted %s drop after order disposal', async (kind) => {
     await mount(kind);
     expect(editing).toBeInstanceOf(HalResourceEditingService);
+    const sort = table.injector.get(WorkPackageViewSortByService);
     const dropping = table.drop('1', kind === 'hierarchy' ? '3' : '2', 'bottom');
     await expectCalls(['order']);
     expect(editing.typedState(workPackage).value).toBeUndefined();
@@ -330,6 +357,7 @@ describe('accepted table drag persistence lifetime', () => {
     expect(await dropping).toBe(true);
     expect(completions).toEqual([true]);
     expect(original.sortBy).toEqual([manualSort]);
+    expect(sort.isManualSortingMode).toBe(false);
     expect(notify.handleRawError).not.toHaveBeenCalled();
     expect(menu.reloadSubmenu).not.toHaveBeenCalled();
     expect(commits.map((commit) => commit.resource)).toEqual(kind === 'group' ? [savedWorkPackage] : []);
@@ -455,6 +483,46 @@ describe('accepted table drag persistence lifetime', () => {
     checkSuccessor();
   });
 
+  describe('with row positions', () => {
+    const positions = ['1', '2', '3', '4', '5', '6'];
+
+    it('stays withdrawn through a switch to manual sorting until a matching collection arrives', async () => {
+      await mount('default', true, true);
+      table.expectRowPositions(positions, '6');
+      const rebuilt = table.nextRender();
+      const dropping = table.drop('1', '2', 'bottom');
+      await expectCalls(['order']);
+      expect(table.rowIds()).toEqual(['2', '1', '3']);
+      table.expectNoRowPositions();
+      orderSaved.resolve('now');
+      await expectCalls(['order', 'query']);
+      table.expectNoRowPositions();
+      querySaved.next(original);
+      expect(await dropping).toBe(true);
+      expect(original.sortBy).toEqual([manualSort]);
+      await rebuilt;
+      expect(table.rowIds()).toEqual(['2', '1', '3']);
+      table.expectNoRowPositions();
+
+      await table.render(['2', '1', '3'].map((id) => ({ id, attributes: { status: id === '1' ? status1 : status2 } })));
+      table.expectRowPositions(positions, '6');
+    });
+
+    it('stays withdrawn when the saved order remains visible after query saving fails', async () => {
+      await mount('default', true, true);
+      const rebuilt = table.nextRender();
+      const dropping = table.drop('1', '2', 'bottom');
+      await expectCalls(['order']);
+      orderSaved.resolve('now');
+      await expectCalls(['order', 'query']);
+      querySaved.error(new Error('query failed'));
+      expect(await dropping).toBe(false);
+      await rebuilt;
+      expect(table.rowIds()).toEqual(['2', '1', '3']);
+      table.expectNoRowPositions();
+    });
+  });
+
   it('lets the adapter report a hierarchy failure once with the captured resource', async () => {
     await mount('hierarchy');
     const dropping = table.drop('1', '3', 'bottom');
@@ -537,7 +605,7 @@ describe('accepted table drag persistence lifetime', () => {
     expect(orderWrite).not.toHaveBeenCalled();
   });
 
-  it.each(['render', 'query', 'order', 'permission', 'target'] as const)('revalidates %s after preparation and makes no writes', async (change) => {
+  it.each(['render', 'query', 'permission', 'target'] as const)('revalidates %s after preparation and makes no writes', async (change) => {
     await mount();
     delayForm = true;
     table.querySpace.queryForm.clear();
@@ -545,7 +613,6 @@ describe('accepted table drag persistence lifetime', () => {
     await expectCalls(['form']);
     if (change === 'render') await table.render();
     if (change === 'query') table.querySpace.query.putValue(query());
-    if (change === 'order') table.querySpace.tableRendered.putValue([]);
     if (change === 'permission') vi.spyOn(table.injector.get(SchemaCacheService), 'of').mockReturnValue({ isAttributeEditable: () => false } as unknown as ReturnType<SchemaCacheService['of']>);
     if (change === 'target') table.row('2').remove();
     const dom = table.container.innerHTML;

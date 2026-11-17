@@ -36,6 +36,7 @@ import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/
 import { WorkPackageRelationQueryBase } from 'core-app/features/work-packages/components/wp-relations/embedded/wp-relation-query.base';
 import { WpChildrenInlineCreateService } from 'core-app/features/work-packages/components/wp-relations/embedded/children/wp-children-inline-create.service';
 import { filter } from 'rxjs/operators';
+import { QueryRequestParams } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -67,7 +68,7 @@ export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryB
 
   @Input() public workPackage:WorkPackageResource;
 
-  @Input() public query:QueryResource;
+  @Input() public query:QueryResource|Partial<QueryRequestParams>;
 
   /** An optional group descriptor if we're rendering on the single view */
   @Input() public group?:GroupDescriptor;

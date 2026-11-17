@@ -292,7 +292,7 @@ RSpec.describe WikiController do
           { project_id: project, id: existing_page.title }
         end
 
-        it "is sucessful" do
+        it "is successful" do
           expect(response)
             .to have_http_status(:ok)
         end
@@ -330,7 +330,7 @@ RSpec.describe WikiController do
           %i[view_wiki_pages edit_wiki_pages manage_wiki]
         end
 
-        it "is sucessful" do
+        it "is successful" do
           expect(response)
             .to have_http_status(:ok)
         end
@@ -355,7 +355,7 @@ RSpec.describe WikiController do
           { project_id: project, id: "foobar" }
         end
 
-        it "is sucessful" do
+        it "is successful" do
           expect(response)
             .to have_http_status(:ok)
         end

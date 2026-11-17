@@ -35,6 +35,8 @@ class Workflows::StatusTransition < ApplicationRecord
 
   validates :role, :old_status, :new_status, :workflow, presence: true
 
+  scope :touching_statuses, ->(status_ids) { where(old_status_id: status_ids).or(where(new_status_id: status_ids)) }
+
   def self.count_by_workflow_and_role
     counts = counts_per_workflow_and_role
     roles = Role.order(Arel.sql("builtin, position"))
@@ -98,7 +100,7 @@ class Workflows::StatusTransition < ApplicationRecord
     records.empty? ? model.all : records
   end
 
-  def self.copy_one(source_workflow, source_role, target_workflow, target_role) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity, Naming/PredicateMethod
+  def self.copy_one(source_workflow, source_role, target_workflow, target_role) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     unless source_workflow.is_a?(::Workflow) && !source_workflow.new_record? &&
            source_role.is_a?(Role) && !source_role.new_record? &&
            target_workflow.is_a?(::Workflow) && !target_workflow.new_record? &&
@@ -137,9 +139,16 @@ class Workflows::StatusTransition < ApplicationRecord
     eligible_roles.order(:builtin, :position)
   end
 
-  def self.selected_roles(role_ids)
+  def self.used_roles(workflow)
+    ordered_eligible_roles.where(id: workflow.status_transitions.select(:role_id))
+  end
+
+  def self.selected_roles(role_ids, workflow:)
     ordered = ordered_eligible_roles
     selected = ordered.where(id: role_ids)
-    selected.any? ? selected : [ordered.first].compact
+    return selected if selected.any?
+
+    used = used_roles(workflow)
+    used.any? ? used : [ordered.first].compact
   end
 end

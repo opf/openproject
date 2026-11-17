@@ -31,7 +31,7 @@
 require "spec_helper"
 require "rack/test"
 
-RSpec.describe "GET workspaces/:id/labels", with_flag: :work_package_labels do
+RSpec.describe "GET workspaces/:id/labels" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -110,6 +110,27 @@ RSpec.describe "GET workspaces/:id/labels", with_flag: :work_package_labels do
       end
     end
 
+    context "for a user with a work package of the workspace shared with them" do
+      let(:shared_user) do
+        create(:user).tap do |user|
+          create(:work_package_member,
+                 principal: user,
+                 entity: create(:work_package, project:),
+                 roles: [create(:edit_work_package_role)])
+        end
+      end
+
+      current_user { shared_user }
+
+      before do
+        get get_path
+      end
+
+      it_behaves_like "API V3 collection response", 3, 3, "Label" do
+        let(:elements) { [local_label, popular_elsewhere, unused_label] }
+      end
+    end
+
     context "for a user without permission to view work packages" do
       current_user { unpermitted_user }
 
@@ -118,16 +139,6 @@ RSpec.describe "GET workspaces/:id/labels", with_flag: :work_package_labels do
       end
 
       it_behaves_like "unauthorized access"
-    end
-
-    context "with the feature flag inactive", with_flag: { work_package_labels: false } do
-      current_user { permitted_user }
-
-      before do
-        get get_path
-      end
-
-      it_behaves_like "not found"
     end
   end
 

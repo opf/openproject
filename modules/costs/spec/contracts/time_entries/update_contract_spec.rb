@@ -52,6 +52,13 @@ RSpec.describe TimeEntries::UpdateContract do
       it "is invalid" do
         expect_valid(false, base: %i(error_unauthorized))
       end
+
+      it "explains that the time entry cannot be edited" do
+        contract.validate
+
+        expect(contract.errors.full_messages_for(:base))
+          .to contain_exactly("You don't have permissions to edit this time entry.")
+      end
     end
 
     context "if project changed" do
@@ -151,6 +158,18 @@ RSpec.describe TimeEntries::UpdateContract do
       it "is invalid" do
         time_entry.user = new_user
         expect_valid(false, user_id: %i(invalid))
+      end
+    end
+
+    context "if the user is changed to a user who cannot see the work package" do
+      before do
+        allow(other_user).to receive(:visible?).and_return(true)
+        allow(time_entry_entity).to receive(:visible?).with(other_user).and_return(false)
+        time_entry.user = other_user
+      end
+
+      it "is invalid" do
+        expect_valid(false, user_id: %i(no_access_to_entity))
       end
     end
 

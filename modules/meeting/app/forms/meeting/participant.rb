@@ -78,7 +78,7 @@ class Meeting::Participant < ApplicationForm
     list = [
       { name: "type", operator: "=", values: %w[User] },
       { name: "invitable_to_meeting_in_project", operator: "=", values: [meeting.project_id] },
-      { name: "status", operator: "=", values: [Principal.statuses[:active]] }
+      { name: "status", operator: "=", values: [Principal.statuses[:active], Principal.statuses[:invited]] }
     ]
 
     list << { name: "id", operator: "!", values: excluded_ids } if excluded_ids.any?

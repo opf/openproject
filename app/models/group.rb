@@ -164,7 +164,7 @@ class Group < Principal
               # For now raises exception in case of group as a member arrival.
               raise Scimitar::InvalidSyntaxError.new("Unsupported type #{type.inspect}")
             else
-              raise Scimitar::InvalidSyntaxError.new("Unrecognised type #{type.inspect}")
+              raise Scimitar::InvalidSyntaxError.new("Unrecognized type #{type.inspect}")
             end
           }
         }

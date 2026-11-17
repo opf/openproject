@@ -30,6 +30,69 @@ import { HalSource } from 'core-app/features/hal/interfaces';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { GlobalSearchInputComponent } from './global-search-input.component';
 
+import { TestBed } from '@angular/core/testing';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { provideHttpClient, withXhr } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { of } from 'rxjs';
+import { screen, waitFor } from '@testing-library/dom';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { States } from 'core-app/core/states/states.service';
+import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
+import { RecentItemsService } from 'core-app/core/recent-items.service';
+import { OpenprojectAutocompleterModule } from 'core-app/shared/components/autocompleter/openproject-autocompleter.module';
+import { IconModule } from 'core-app/shared/components/icon/icon.module';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
+
+@Component({
+  templateUrl: './global-search-input.component.html',
+  imports: [CommonModule, OpenprojectAutocompleterModule, IconModule, OpTooltipDirective],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+class TestGlobalSearchComponent extends GlobalSearchInputComponent {}
+
+describe('global search projected options', () => {
+  let header:HTMLElement;
+
+  beforeEach(() => {
+    header = document.createElement('header');
+    header.className = 'op-app-header';
+    document.body.append(header);
+  });
+
+  afterEach(() => {
+    header.remove();
+  });
+
+  it('renders searched work packages through the shared work package option', async () => {
+    await TestBed.configureTestingModule({
+      imports: [TestGlobalSearchComponent],
+      providers: [
+        States, provideHttpClient(withXhr()), provideHttpClientTesting(),
+        { provide: HalResourceNotificationService, useValue: {} },
+        { provide: GlobalSearchService, useValue: {} },
+        { provide: RecentItemsService, useValue: { recentItems$: of([]) } },
+      ],
+    }).compileComponents();
+    const fixture = TestBed.createComponent(TestGlobalSearchComponent);
+    const component = fixture.componentInstance;
+    const workPackage = Object.create(WorkPackageResource.prototype) as WorkPackageResource;
+    workPackage.$source = { id: 42, _links: {}, _embedded: {} };
+    workPackage.subject = 'Needle in a thread';
+    component.autocompleterOptions.getOptionsFn = () => of([
+      { projectScope: 'all_projects', text: 'All projects' }, workPackage,
+    ]);
+    fixture.detectChanges();
+    await waitFor(() => expect(component.ngSelectComponent.ngSelectInstance).toBeDefined());
+
+    component.ngSelectComponent.ngSelectInstance.filter('Needle');
+
+    expect(await screen.findByText('Needle in a thread')).toHaveClass('op-autocompleter--wp-subject');
+    expect(await screen.findByText('All projects', { exact: false })).toHaveClass('global-search--project-scope');
+  });
+});
+
 // followItem is verified through the prototype against a stand-in context, avoiding
 // a real component instance whose many injected dependencies this branch never uses.
 describe('GlobalSearchInputComponent#followItem', () => {
@@ -66,7 +129,7 @@ describe('GlobalSearchInputComponent#followItem', () => {
       return item;
     }
 
-    it('is recognised as a HalResource', () => {
+    it('is recognized as a HalResource', () => {
       expect(buildWorkPackage({ id: 42 }) instanceof HalResource).toBe(true);
     });
 

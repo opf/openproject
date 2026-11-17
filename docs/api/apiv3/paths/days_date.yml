@@ -2,7 +2,7 @@
 ---
 get:
   summary: View day
-  operationId: view_day
+  operationId: get_day
   tags:
     - Work Schedule
   description: |-

@@ -33,7 +33,6 @@ import {
 import {
   combineLatest,
   firstValueFrom,
-  forkJoin,
   Observable,
 } from 'rxjs';
 import {
@@ -112,8 +111,8 @@ export class StateCacheService<T> {
    *
    * @param resource<T> The value.
    */
-  public updateFor(resource:HasId):Promise<T> {
-    return this.updateValue(resource.id!, resource as any);
+  public updateFor(resource:T & HasId):Promise<T> {
+    return this.updateValue(resource.id!, resource);
   }
 
   /**

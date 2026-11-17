@@ -111,6 +111,26 @@ RSpec.describe Queries::WorkPackages::Selects::PropertySelect do
         expect(column.groupable).to include("kind = 'observed_in'")
       end
     end
+
+    describe "labels column" do
+      it "is displayable, sortable and groupable" do
+        column = described_class.instances.find { it.name == :labels }
+
+        expect(column).to be_displayable
+        expect(column).to be_sortable
+        expect(column).to be_groupable
+        expect(column.caption).to eq WorkPackage.human_attribute_name(:labels)
+      end
+
+      it "sorts and groups via the labelings join rows, scoped to work packages" do
+        column = described_class.instances.find { it.name == :labels }
+
+        expect(Array(column.sortable)).to all include("labelings")
+        expect(Array(column.sortable)).to all include("labelable_type = 'WorkPackage'")
+        expect(column.groupable).to include("labelings")
+        expect(column.groupable).to include("labelable_type = 'WorkPackage'")
+      end
+    end
   end
 
   describe ".stored_name" do

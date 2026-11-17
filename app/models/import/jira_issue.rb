@@ -33,5 +33,8 @@ module Import
 
     belongs_to :jira_import, class_name: "Import::JiraImport"
     belongs_to :jira_project, class_name: "Import::JiraProject"
+
+    scope :with_field_set, ->(field) { where("jira_issues.payload -> 'fields' ->> ? IS NOT NULL", field) }
+    scope :with_worklogs, -> { where("jsonb_array_length(jira_issues.payload #> '{fields,worklog,worklogs}') > 0") }
   end
 end

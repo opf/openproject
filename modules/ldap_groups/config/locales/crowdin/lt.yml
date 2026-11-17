@@ -95,7 +95,7 @@ lt:
       plural: Sinchronizuotos LDAP grupės
       singular: Sinchronizuota LDAP grupė
       upsell:
-        description: Pasinaudokite sinchronizuotomis LDAP grupėmis naudotojų tvarkymui, jų teisių keitimui ir tarpgrupiniam naudotjų valdymui.
+        description: Take advantage of synchronized LDAP groups to manage users, change their permissions and facilitate user management across groups.
   plugin_openproject_ldap_groups:
     description: LDAP grupių narysčių sinchronizavimas.
     name: OpenProject LDAP grupės

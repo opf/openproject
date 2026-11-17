@@ -53,7 +53,7 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
   current_user { admin }
 
   def accept_lost_statuses
-    within_test_selector("change-workflow-confirm-dialog") { click_on I18n.t(:button_confirm) }
+    within_change_workflow_confirm_dialog { click_on I18n.t(:button_confirm) }
   end
 
   def visit_step = visit type_creation_wizard_path(type, step: :workflows, role_ids: [role.id])
@@ -110,10 +110,9 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
 
       switch_workflow_to "Standard flow"
 
-      expect(page).to have_current_path(/step=workflows/)
+      expect(page).to have_test_selector("workflow-selector", text: "Standard flow")
       expect(variant.reload.workflow).to eq(existing)
       expect_chosen("existing")
-      expect(page).to have_test_selector("workflow-selector", text: "Standard flow")
     end
 
     it "offers no way to change the transitions another type is already using" do
@@ -131,9 +130,10 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
       visit_step
 
       switch_workflow_to "Standard flow"
+      expect(page).to have_test_selector("workflow-selector", text: "Standard flow")
       click_on I18n.t(:button_continue)
 
-      expect(page).to have_current_path(/step=projects/)
+      expect(page).to have_current_query_params("step" => "project_attributes")
       expect(transitions_of(existing)).to contain_exactly([status_a.id, status_b.id])
     end
 
@@ -142,7 +142,7 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
 
       switch_workflow_to "Standard flow"
 
-      expect(page).to have_current_path(/step=workflows/)
+      expect(page).to have_test_selector("workflow-selector", text: "Standard flow")
       expect(page).to have_no_text(I18n.t(:notice_successful_update))
     end
   end
@@ -160,7 +160,10 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
       end
 
       accept_lost_statuses
-      expect(page).to have_current_path(/started_workflow_id=#{variant.reload.workflow_id}/)
+      expect(page).to have_current_query_params(
+        "step" => "workflows",
+        "started_workflow_id" => variant.reload.workflow_id.to_s
+      )
       expect_chosen("new")
       expect(page).to have_no_test_selector("workflow-selector")
     end
@@ -178,8 +181,8 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
 
       switch_to_existing("Standard flow")
 
-      expect(variant.reload.workflow).to eq(existing)
       expect_chosen("existing")
+      expect(variant.reload.workflow).to eq(existing)
       expect(page).to have_test_selector("workflow-selector", text: "Standard flow")
     end
 
@@ -194,13 +197,13 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
 
       accept_lost_statuses
 
-      expect(page).to have_current_path(/started_workflow_id=/)
+      expect(page).to have_current_query_params("step" => "workflows", "started_workflow_id" => be_present)
       started = variant.reload.workflow
       create(:status_transition, workflow: started, role:, old_status: status_a, new_status: create(:status, name: "Closed"))
 
       switch_to_existing("Standard flow")
 
-      within_test_selector("change-workflow-confirm-dialog") do
+      within_change_workflow_confirm_dialog do
         expect(page).to have_text("Use a different workflow for Bug?")
         within_test_selector("change-workflow-missing-statuses") do
           expect(page).to have_text("Closed")
@@ -208,9 +211,8 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
         click_on I18n.t(:button_confirm)
       end
 
-      expect(page).to have_current_path(/step=workflows/)
-      expect(variant.reload.workflow).to eq(existing)
       expect_chosen("existing")
+      expect(variant.reload.workflow).to eq(existing)
     end
 
     it "asks before a blank start drops the transitions the type already uses" do
@@ -222,7 +224,7 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
         click_on I18n.t(:button_continue)
       end
 
-      within_test_selector("change-workflow-confirm-dialog") do
+      within_change_workflow_confirm_dialog do
         expect(page).to have_text("Use a different workflow for Bug?")
         expect(page).to have_text("The new workflow has no transitions. All status transitions of Bug will be removed.")
         click_on I18n.t(:button_cancel)
@@ -242,7 +244,7 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
 
       accept_lost_statuses
 
-      expect(page).to have_current_path(/step=workflows/)
+      expect(page).to have_current_query_params("step" => "workflows", "started_workflow_id" => be_present)
 
       started = variant.reload.workflow
       expect(started).not_to eq(existing)
@@ -260,7 +262,7 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
         click_on I18n.t(:button_continue)
       end
 
-      expect(page).to have_current_path(/step=workflows/)
+      expect(page).to have_current_query_params("step" => "workflows", "started_workflow_id" => be_present)
 
       started = variant.reload.workflow
       expect(started).not_to eq(existing)
@@ -282,13 +284,13 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
         click_on I18n.t(:button_continue)
       end
 
-      within_test_selector("change-workflow-confirm-dialog") do
+      within_change_workflow_confirm_dialog do
         expect(page).to have_text("Thin flow")
         within_test_selector("change-workflow-missing-statuses") { expect(page).to have_text("Closed") }
         click_on I18n.t(:button_confirm)
       end
 
-      expect(page).to have_current_path(/step=workflows/)
+      expect(page).to have_current_query_params("step" => "workflows", "started_workflow_id" => be_present)
       started = variant.reload.workflow
       expect(started).not_to eq(existing)
       expect(transitions_of(started)).to contain_exactly([status_a.id, status_b.id])

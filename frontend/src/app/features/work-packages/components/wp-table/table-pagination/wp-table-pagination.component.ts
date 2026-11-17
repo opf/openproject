@@ -72,7 +72,7 @@ export class WorkPackageTablePaginationComponent extends TablePaginationComponen
       this.wpTableSortBy.live$(),
     ]).pipe(
       this.untilDestroyed(),
-    ).subscribe(([query, sort]) => {
+    ).subscribe(([query]) => {
       this.showPerPage = this.showPageSelections = !this.isManualSortingMode;
       this.infoText = this.paginationInfoText(query.results);
 

@@ -63,7 +63,7 @@ RSpec.describe Forums::TableComponent, type: :component do
         expect(box["data-sortable-lists--list-name-value"]).to eq("Forums")
         expect(box["data-sortable-lists-move-url-template-value"])
           .to eq("/projects/#{project.identifier}/forums/{id}/move")
-        expect(box["data-sortable-lists--list-rows-container-element"]).to eq(":scope > .op-border-box-table--rows")
+        expect(box["data-sortable-lists--list-rows-container-element"]).to eq(":scope > .op-border-box-table__rows")
       end
     end
 

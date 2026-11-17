@@ -106,7 +106,7 @@ module ResourcePlannerViews
         "#{helpers.format_date(from_date)} - #{helpers.format_date(to_date)}"
       end
 
-      # Nil when the status has no colour, in which case the CSS falls back to a muted border.
+      # Nil when the status has no color, in which case the CSS falls back to a muted border.
       def status_style
         return unless entity_visible?
 

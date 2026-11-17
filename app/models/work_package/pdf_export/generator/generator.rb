@@ -174,7 +174,7 @@ module WorkPackage::PDFExport::Generator::Generator
   end
 
   def md_to_pdf_options
-    # rubocop:disable Naming/VariableNumber
+    # rubocop:disable-next Naming/VariableNumber
     {
       language: hyphenation_language,
       pdf_footer: footer_date,
@@ -183,7 +183,6 @@ module WorkPackage::PDFExport::Generator::Generator
       pdf_header_logo: logo_image_filename,
       pdf_header: heading
     }.compact
-    # rubocop:enable Naming/VariableNumber
   end
 
   def styling_asset_path

@@ -93,7 +93,7 @@ ca:
       plural: Grups LDAP sincronitzats
       singular: Grup LDAP sincronitzat
       upsell:
-        description: Beneficiat de la sincronització de grups LDAP per administrar usuaris, cambiar permisos i facilitar l'administració d'usuaris entre grups.
+        description: Take advantage of synchronized LDAP groups to manage users, change their permissions and facilitate user management across groups.
   plugin_openproject_ldap_groups:
     description: Synchronization of LDAP group memberships.
     name: OpenProject LDAP groups

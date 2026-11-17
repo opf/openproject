@@ -51,15 +51,19 @@ module Import
 
     # rubocop:disable Metrics/AbcSize
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
+      project_key = jira_project_key(jira_project_id)
+      tagged_log("jira_import_id:#{jira_import_id}",
+                 "jira_project_id:#{project_key}", "jira_object_type:issue") do
+        Rails.logger.debug "Fetching issues started"
+      end
       prepare_jira_import_ivars(jira_import_id)
-      jira_project = Import::JiraProject.find(jira_project_id)
 
       cursor ||= @jira_import.get_job_cursor(self)
       start_at = cursor&.dig("start_at") || 0
 
       Enumerator.new do |yielder|
         loop do
-          jql = "project = '#{jira_project.payload['key']}' ORDER BY id ASC"
+          jql = "project = '#{project_key}' ORDER BY id ASC"
           response = @jira_client.issues(jql:, start_at:, max_results: 50)
 
           issues = response["issues"]
@@ -71,6 +75,14 @@ module Import
           issues_and_total = { "issues" => issues, "total" => total }
 
           @jira_import.set_job_cursor(self, new_cursor)
+
+          # This loop body runs later, inside the Enumerator's own Fiber, once build_enumerator has
+          # already returned and the tagged block above has already closed - so it needs its own
+          # full set of tags rather than nesting inside (and inheriting from) that one.
+          tagged_log("jira_import_id:#{jira_import_id}",
+                     "jira_project_id:#{project_key}", "jira_object_type:issue") do
+            Rails.logger.debug { "Fetched #{start_at + issues.size} of #{total} issues" }
+          end
 
           yielder.yield(
             issues_and_total,
@@ -84,7 +96,16 @@ module Import
 
     def each_iteration(issues_and_total, jira_import_id, jira_project_id)
       issues = issues_and_total["issues"]
-      issues_and_total["total"]
+      tagged_log("jira_import_id:#{jira_import_id}", "jira_project_id:#{jira_project_key(jira_project_id)}",
+                 "jira_object_type:issue") do
+        issues.each do |payload|
+          Rails.logger.tagged("jira_issue_key:#{payload['key']}") do
+            Rails.logger.debug "Fetched issue"
+            fetch_missing_worklogs(payload)
+            fetch_watchers(payload)
+          end
+        end
+      end
       issues_upsert_data = issues.map do |payload|
         {
           payload:,
@@ -98,5 +119,34 @@ module Import
       Import::JiraIssue.upsert_all(issues_upsert_data, unique_by: %i[jira_import_id origin_id])
     end
     # rubocop:enable Metrics/AbcSize
+
+    private
+
+    # Jira only returns 20 worklogs with an issue, so fetch the full list when there are more.
+    def fetch_missing_worklogs(payload)
+      worklog = payload.dig("fields", "worklog")
+
+      return if worklog.blank? || worklog["total"] <= worklog["worklogs"].size
+
+      worklog.merge!(@jira_client.issue_worklogs(payload.fetch("id")))
+    end
+
+    def has_watchers?(issue_payload)
+      issue_payload.dig("fields", "watches", "watchCount").to_i > 0
+    end
+
+    def fetch_watchers(payload)
+      return unless has_watchers?(payload)
+
+      issue_id = payload.fetch("id")
+      watchers = @jira_client.issue_watchers(issue_id).fetch("watchers")
+      Rails.logger.debug { "Fetched #{watchers.size} watchers" }
+      payload["watchers"] = watchers
+    rescue JiraClient::ApiError => e
+      raise unless e.status == 404
+
+      Rails.logger.warn "Watchers for issue ID #{issue_id} not found (#{e.message}), skipping"
+      payload["watchers"] = []
+    end
   end
 end

@@ -45,6 +45,14 @@ import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 
 export const PROXY_IDENTIFIER = '__is_changeset_proxy';
 
+export interface ChangesetPayload {
+  [key:string]:unknown;
+  _links:Record<string, unknown>;
+  _meta?:{ validateCustomFields?:boolean };
+}
+
+type LinkedValue = { href:string|null }|{ href:string }[];
+
 /**
  * Temporary class living while a resource is being edited
  * Maintains references to:
@@ -122,7 +130,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
       await this.pendingFormUpdate;
     }
 
-    return this.buildPayloadFromChanges() as object;
+    return this.buildPayloadFromChanges();
   }
 
   /**
@@ -132,7 +140,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    */
   public updatePristineResource(resource:T) {
     // Ensure we're not passing in a proxy
-    if ((resource as any)[PROXY_IDENTIFIER]) {
+    if (resource[PROXY_IDENTIFIER]) {
       throw new Error("You're trying to pass proxy object as a pristine resource. This will cause errors");
     }
 
@@ -141,7 +149,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
       this._pristineResource,
       {
         get: (_, key:string) => this.proxyGet(key),
-        set: (_, key:string, val:any) => {
+        set: (_, key:string, val:unknown) => {
           this.setValue(key, val);
           return true;
         },
@@ -325,7 +333,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    * @param key
    * @param val
    */
-  public setValue(key:string, val:any) {
+  public setValue(key:string, val:unknown) {
     this.changeset.set(key, val, this.pristineResource[key]);
   }
 
@@ -383,10 +391,12 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
       return this.cache[key] as Promise<V>;
     }
 
-    return this.cache[key] = request();
+    const promise = request();
+    this.cache[key] = promise;
+    return promise;
   }
 
-  protected get minimalPayload() {
+  protected get minimalPayload():ChangesetPayload {
     return { lockVersion: this.pristineResource.lockVersion, _links: {} };
   }
 
@@ -394,9 +404,9 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    * Merge the current changes into the payload resource.
    *
    * @param {plainPayload:unknown} A set of attributes to merge into the payload
-   * @return {any}
+   * @return {ChangesetPayload}
    */
-  protected applyChanges(plainPayload:any) {
+  protected applyChanges(plainPayload:ChangesetPayload):ChangesetPayload {
     // Fall back to the last known state of the HalResource should the form not be loaded.
     let reference = this.pristineResource.$source;
     if (this.form$.value) {
@@ -421,7 +431,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
     // Validate all custom fields if the flag is set
     if (this.validateCustomFields) {
       plainPayload._meta ??= {};
-      plainPayload._meta!.validateCustomFields = true;
+      plainPayload._meta.validateCustomFields = true;
     }
 
     return plainPayload;
@@ -431,8 +441,8 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    * Create the payload from the current changes, and extend it with the current lock version.
    * -- This is the place to add additional logic when the lockVersion changed in between --
    */
-  protected buildPayloadFromChanges() {
-    let payload:unknown&{ _links:{ attachments?:IHalOptionalTitledLink[], fileLinks?:IHalOptionalTitledLink[] } };
+  protected buildPayloadFromChanges():ChangesetPayload {
+    let payload:ChangesetPayload;
 
     if (isNewResource(this.pristineResource)) {
       // If the resource is new, we need to pass the entire form payload
@@ -448,14 +458,14 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
       // They will already be created on the server, but now
       // we need to claim them for the newly created work package.
       if (this.pristineResource.attachments) {
-        payload._links.attachments = (this.pristineResource.attachments as unknown&{ elements:IHalOptionalTitledLink[] })
+        payload._links.attachments = (this.pristineResource.attachments as { elements:IHalOptionalTitledLink[] })
           .elements
           .map((a) => ({ href: a.href }));
       }
 
       // Add file links to be assigned.
       if (this.pristineResource.fileLinks) {
-        payload._links.fileLinks = (this.pristineResource.fileLinks as unknown&{ elements:IHalOptionalTitledLink[] })
+        payload._links.fileLinks = (this.pristineResource.fileLinks as { elements:IHalOptionalTitledLink[] })
           .elements
           .map((fl) => ({ href: fl.href }));
       }
@@ -470,7 +480,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
   /**
    * Extract the link(s) in the given changed value
    */
-  protected getLinkedValue(val:any, fieldSchema:IFieldSchema) {
+  protected getLinkedValue(val:unknown, fieldSchema:IFieldSchema):LinkedValue {
     // Links should always be nullified as { href: null }, but
     // this wasn't always the case, so ensure null values are returned as such.
     if (val == null) {
@@ -482,7 +492,8 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
     const isArrayType = (fieldSchema.type || '').startsWith('[]');
     let isArray = false;
 
-    if (val.forEach || val.elements) {
+    const collection = val as { forEach?:unknown, elements?:{ href:string }[] };
+    if (collection.forEach || collection.elements) {
       isArray = true;
     }
 
@@ -490,7 +501,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
       const links:{ href:string }[] = [];
 
       if (val) {
-        const elements = (val.forEach && val) || val.elements;
+        const elements = (collection.forEach ? val : collection.elements) as { href:string }[];
 
         elements.forEach((link:{ href:string }) => {
           if (link.href) {

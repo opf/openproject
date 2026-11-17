@@ -53,7 +53,7 @@ module WorkPackageTypes
       end
 
       def roles
-        Workflows::StatusTransition.selected_roles(helpers.params[:role_ids])
+        Workflows::StatusTransition.selected_roles(helpers.params[:role_ids], workflow: variant.workflow)
       end
     end
   end

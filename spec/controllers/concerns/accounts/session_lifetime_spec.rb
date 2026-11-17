@@ -34,6 +34,7 @@ RSpec.describe ApplicationController, "session lifetime handling" do # rubocop:d
 
   controller do
     authorization_checked! :index
+    accept_api_key_auth :index
 
     def index
       render plain: "OK"
@@ -72,17 +73,61 @@ RSpec.describe ApplicationController, "session lifetime handling" do # rubocop:d
     end
 
     context "and the last activity exceeds the TTL" do
-      it "logs the user out and does not refresh the now-invalidated session" do
-        # The anonymous controller has no generatable route for the back_url
+      before do
         allow(controller).to receive(:login_back_url).and_return("/")
         allow(controller).to receive(:refresh_session_activity)
         session[:updated_at] = 3.hours.ago
+      end
+
+      %i[html json xml].each do |format|
+        it "logs the user out without refreshing the session for #{format} requests" do
+          get :index, format: format
+
+          expect(controller).not_to have_received(:refresh_session_activity)
+          expect(response).to redirect_to(controller: "/account", action: "login", back_url: "/")
+          expect(session[:user_id]).to be_nil
+          expect(flash[:warning]).to eq(I18n.t(:notice_forced_logout, ttl_time: Setting.session_ttl))
+        end
+      end
+
+      %w[application/json application/xml].each do |content_type|
+        it "logs the user out when #{content_type} is requested through the Accept header" do
+          request.headers["Accept"] = content_type
+
+          get :index
+
+          expect(controller).not_to have_received(:refresh_session_activity)
+          expect(response).to have_http_status(:redirect)
+          expect(session[:user_id]).to be_nil
+        end
+      end
+    end
+  end
+
+  context "with API key authentication",
+          with_settings: { api_tokens_enabled: true, session_ttl_enabled?: true, session_ttl: "5" } do
+    let(:token) { create(:api_token, user:) }
+
+    it "authenticates without a browser session" do
+      session.clear
+
+      get :index, params: { key: token.plain_value }, format: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(User.current).to eq(user)
+      expect(session[:user_id]).to be_nil
+    end
+
+    context "and the request was authenticated by API key" do
+      it "neither logs out nor refreshes the session" do
+        allow(controller).to receive_messages(api_key_authenticated?: true)
+        last_seen = 3.hours.ago
+        session[:updated_at] = last_seen
 
         get :index
 
-        expect(controller).not_to have_received(:refresh_session_activity)
-        expect(response).to have_http_status(:redirect)
-        expect(flash[:warning]).to eq(I18n.t(:notice_forced_logout, ttl_time: Setting.session_ttl))
+        expect(response).to have_http_status(:ok)
+        expect(session[:updated_at]).to eq(last_seen)
       end
     end
   end
@@ -125,6 +170,17 @@ RSpec.describe ApplicationController, "session lifetime handling" do # rubocop:d
       get :index
 
       expect(session[:updated_at]).to eq(last_seen)
+    end
+  end
+
+  context "when the user is anonymous", with_settings: { login_required?: false } do
+    before { session.delete(:user_id) }
+
+    it "does not write a session timestamp" do
+      get :index
+
+      expect(response).to have_http_status(:ok)
+      expect(session[:updated_at]).to be_nil
     end
   end
 end

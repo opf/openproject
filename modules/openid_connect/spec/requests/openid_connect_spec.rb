@@ -54,7 +54,7 @@ RSpec.describe "OpenID Connect", :skip_2fa_stage, :skip_csrf, # Prevent redirect
   let(:oidc_sid) { "oidc-session-id-42" }
 
   before do
-    # The redirect will include an authorisation code.
+    # The redirect will include an authorization code.
     # Since we don't actually get a valid code in the test we will stub the resulting AccessToken.
     allow_any_instance_of(OpenIDConnect::Client).to receive(:access_token!) do
       instance_double(OpenIDConnect::AccessToken,

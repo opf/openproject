@@ -32,6 +32,8 @@ import { contextMenuSpanClassName, contextMenuTdClassName } from 'core-app/featu
 import { internalContextMenuColumn } from 'core-app/features/work-packages/components/wp-fast-table/builders/internal-sort-columns';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { tdClassName } from './cell-builder';
+import { navigableCellClassName } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
+import { removeTabStops } from 'core-app/shared/helpers/dom/remove-tab-stops';
 
 export class TableActionRenderer {
   // Injections
@@ -51,11 +53,15 @@ export class TableActionRenderer {
 
     this.tableActionsService
       .render(workPackage)
-      .forEach((el:HTMLElement) => {
+      .forEach((el) => {
         span.appendChild(el);
       });
 
     td.appendChild(span);
+
+    td.classList.add(navigableCellClassName);
+    removeTabStops(td);
+
     return td;
   }
 }

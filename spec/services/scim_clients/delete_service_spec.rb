@@ -37,7 +37,7 @@ RSpec.describe ScimClients::DeleteService, type: :model do
   let(:user) { build_stubbed(:admin) }
   let!(:scim_client) do
     # loading the freshly created client from the database, so that associations are not preloaded
-    # (because this leads to different behaviour after destroy)
+    # (because this leads to different behavior after destroy)
     ScimClient.find(create(:scim_client, service_account:).id)
   end
   let(:service_account) { create(:service_account, authentication_provider: create(:oidc_provider)) }

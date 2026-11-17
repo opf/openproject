@@ -124,6 +124,22 @@ RSpec.describe WorkPackages::CreateContract do
       it_behaves_like "can write", :author_id, -> { user.id + 1 }
     end
 
+    context "with a pending label name for a user who may not create labels" do
+      before do
+        work_package.label_name_replacements = ["Brand new"]
+      end
+
+      after do
+        work_package.label_name_replacements = nil
+      end
+
+      it "is invalid with error_unauthorized on labels" do
+        contract.validate
+
+        expect(contract.errors.symbols_for(:labels)).to include(:error_unauthorized)
+      end
+    end
+
     context "when disabled for admin", with_settings: { apiv3_write_readonly_attributes: false } do
       let(:user) { build_stubbed(:admin) }
 

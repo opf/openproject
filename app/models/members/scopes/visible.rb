@@ -51,12 +51,12 @@ module Members::Scopes
         where(id: visible_member_ids)
       end
 
-      # Project-wide memberships in projects where the user may view or manage members.
+      # Project-wide memberships in projects where the user may view members,
+      # and view_members permission is implied for manage_members.
       def visible_project_members(user)
         view_members = Project.allowed_to(user, :view_members)
-        manage_members = Project.allowed_to(user, :manage_members)
 
-        where(project_id: view_members.or(manage_members).select(:id), entity_type: nil)
+        where(project_id: view_members.select(:id), entity_type: nil)
       end
 
       # Work package shares the user may list, limited to entities they can view.

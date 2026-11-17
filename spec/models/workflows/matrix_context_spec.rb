@@ -57,7 +57,7 @@ RSpec.describe Workflows::MatrixContext do
       expect(described_class.new(workflow:, tab: "assignee").tab).to eq("assignee")
     end
 
-    it "falls back to the always tab for anything unrecognised" do
+    it "falls back to the always tab for anything unrecognized" do
       expect(described_class.new(workflow:, tab: "bogus").tab).to eq("always")
     end
   end
@@ -67,9 +67,85 @@ RSpec.describe Workflows::MatrixContext do
       expect(context.roles).to contain_exactly(role)
     end
 
-    it "falls back to the first eligible role when none was requested" do
+    it "falls back to the first eligible role when the workflow has no transitions" do
       expect(described_class.new(workflow:).roles)
         .to contain_exactly(Workflows::StatusTransition.ordered_eligible_roles.first)
+    end
+
+    context "with transitions" do
+      before do
+        create_transition(old_status: status_a, new_status: status_b)
+        create_transition(old_status: status_b, new_status: status_c, for_role: other_role, author: true)
+      end
+
+      it "defaults to all used roles, including those used only on another tab" do
+        expect(described_class.new(workflow:).roles).to contain_exactly(role, other_role)
+      end
+
+      it "preserves an explicit selection" do
+        expect(context.roles).to contain_exactly(role)
+      end
+
+      it "allows explicitly selecting a role without transitions" do
+        unused_role = create(:project_role)
+
+        expect(described_class.new(workflow:, role_ids: [unused_role.id]).roles).to contain_exactly(unused_role)
+      end
+
+      it "falls back to used roles for invalid role IDs" do
+        expect(described_class.new(workflow:, role_ids: [0]).roles).to contain_exactly(role, other_role)
+      end
+
+      it "excludes roles used only in other workflows" do
+        unused_role = create(:project_role)
+        create(:status_transition, workflow: create(:named_workflow), role: unused_role,
+                                   old_status: status_a, new_status: status_b)
+
+        expect(described_class.new(workflow:).roles).to contain_exactly(role, other_role)
+      end
+
+      it "excludes ineligible roles even when they have transitions" do
+        create_transition(old_status: status_a, new_status: status_b, for_role: create(:global_role))
+
+        expect(described_class.new(workflow:).roles).to contain_exactly(role, other_role)
+      end
+    end
+  end
+
+  describe "#used_roles" do
+    it "returns each used role once across all transition tabs" do
+      create_transition(old_status: status_a, new_status: status_b)
+      create_transition(old_status: status_b, new_status: status_c, author: true)
+      create_transition(old_status: status_a, new_status: status_c, for_role: other_role, assignee: true)
+
+      expect(context.used_roles).to contain_exactly(role, other_role)
+    end
+  end
+
+  describe "#explicit_selection?" do
+    it "is true for a known tab and eligible roles" do
+      expect(described_class.new(workflow:, tab: "author", role_ids: [role.id.to_s, other_role.id.to_s]))
+        .to be_explicit_selection
+    end
+
+    it "is false without a tab" do
+      expect(described_class.new(workflow:, role_ids: [role.id])).not_to be_explicit_selection
+    end
+
+    it "is false for an unknown tab" do
+      expect(described_class.new(workflow:, tab: "bogus", role_ids: [role.id])).not_to be_explicit_selection
+    end
+
+    it "is false without roles" do
+      expect(described_class.new(workflow:, tab: "always")).not_to be_explicit_selection
+    end
+
+    it "is false when a requested role is not eligible" do
+      expect(described_class.new(workflow:, tab: "always", role_ids: [role.id, 0])).not_to be_explicit_selection
+    end
+
+    it "is false when no requested role is eligible" do
+      expect(described_class.new(workflow:, tab: "always", role_ids: [0])).not_to be_explicit_selection
     end
   end
 

@@ -28,7 +28,7 @@
 #++
 
 module OpPrimer
-  class ComponentCollectionComponent < Primer::Component
+  class ComponentCollectionComponent < Primer::Component # rubocop:disable OpenProject/AddPreviewForViewComponent
     def initialize(**)
       super
 

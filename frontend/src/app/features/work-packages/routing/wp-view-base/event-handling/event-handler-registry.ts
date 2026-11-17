@@ -49,14 +49,21 @@ export interface WorkPackageViewAttachment {
   destroy():void;
 }
 
+export interface WorkPackageStateLinkEvent {
+  workPackageId:string;
+  requestedState:'split'|'show';
+}
+
 export interface WorkPackageViewOutputs {
   // On row (double) clicked
   itemClicked:EventEmitter<{ workPackageId:string, double:boolean }>;
   // On work package link / details icon clicked
-  stateLinkClicked:EventEmitter<{ workPackageId:string, requestedState:string }>;
+  stateLinkClicked:EventEmitter<WorkPackageStateLinkEvent>;
 }
 
-export const WorkPackageViewHandlerToken = new InjectionToken<WorkPackageViewEventHandler<unknown>>('CardEventHandler');
+export const WorkPackageViewHandlerToken = new InjectionToken<
+  WorkPackageViewHandlerRegistry<unknown>|(new (injector:Injector) => WorkPackageViewHandlerRegistry<unknown>)
+>('CardEventHandler');
 
 /**
  * Abstract view handler registry for globally handling arbitrary event on the

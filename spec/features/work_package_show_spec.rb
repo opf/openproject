@@ -72,7 +72,7 @@ RSpec.describe "Work package show page" do
     wp_page.visit!
 
     # Navigate to parent element
-    page.find_test_selector("op-wp-breadcrumb-parent", text: parent.subject).click
+    click_on accessible_name: parent.subject, exact: true
     expect(page).to have_test_selector "op-wp-breadcrumb-parent", text: grand_parent.subject, wait: 10
 
     expect(page).to have_current_path project_work_packages_path(project) + "/#{parent.id}/activity"
@@ -82,7 +82,16 @@ RSpec.describe "Work package show page" do
     expect(page).to have_test_selector "op-wp-breadcrumb-parent", text: parent.subject, wait: 10
 
     # Navigate to Grandparent
-    page.find_test_selector("op-wp-breadcrumb--hierarchy-element", text: grand_parent.subject).click
+    click_on accessible_name: grand_parent.subject, exact: true
     expect(page).to have_current_path project_work_packages_path(project) + "/#{grand_parent.id}/activity", wait: 10
+  end
+
+  context "as an accessible page" do
+    it "is AXe clean", :js, :selenium do
+      wp_page = Pages::FullWorkPackage.new(work_package)
+      wp_page.visit!
+      wp_page.expect_attributes type: work_package.type.name.upcase
+      expect(page).to be_axe_clean
+    end
   end
 end

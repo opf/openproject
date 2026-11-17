@@ -45,8 +45,8 @@ module Meetings
       mode = @meeting.agenda_sorting_mode
 
       OpPrimer::ModeSelectorComponent.new(
-        title: I18n.t("meeting.agenda_sorting.title"),
-        state: I18n.t("meeting.agenda_sorting.#{mode}"),
+        title: I18n.t("meeting.agenda_sorting.sidebar_title"),
+        state: I18n.t("meeting.agenda_sorting.current_mode", mode: I18n.t("meeting.agenda_sorting.#{mode}")),
         description: I18n.t("meeting.agenda_sorting.#{mode}_description"),
         path: agenda_sorting_dialog_project_meeting_path(@meeting.project, @meeting),
         button_label: I18n.t("meeting.agenda_sorting.change"),

@@ -36,20 +36,25 @@ import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-re
 import { Observable, switchMap } from 'rxjs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'opce-time-entry-trigger-actions',
   template: `
-    <a (click)="editTimeEntry()"
-       [title]="text.edit"
-       class="no-decoration-on-hover">
+    <button type="button"
+       opTooltip
+       [label]="text.edit"
+       (click)="editTimeEntry()"
+       class="button--link no-decoration-on-hover">
       <op-icon icon-classes="icon-context icon-edit" />
-    </a>
-    <a (click)="deleteTimeEntry()"
-       [title]="text.delete"
-       class="no-decoration-on-hover">
+    </button>
+    <button type="button"
+       opTooltip
+       [label]="text.delete"
+       (click)="deleteTimeEntry()"
+       class="button--link no-decoration-on-hover">
       <op-icon icon-classes="icon-context icon-delete" />
-    </a>
+    </button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -113,7 +118,7 @@ export class TriggerActionsEntryComponent {
       )
       .subscribe(
         () => window.location.reload(),
-        (error) => this.toastService.addError(error || this.text.error),
+        (error:HttpErrorResponse) => this.toastService.addError(error || this.text.error),
       );
   }
 

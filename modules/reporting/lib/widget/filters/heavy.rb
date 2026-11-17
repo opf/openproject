@@ -33,7 +33,7 @@
 #        But well this is again one of those temporary solutions.
 class Widget::Filters::Heavy < Widget::Filters::Base
   # rubocop:disable Metrics/AbcSize
-  def render
+  def render_filter
     # TODO: sometimes filter.values is of the form [["3"]] and sometimes ["3"].
     #       (using cost reporting)
     #       this might be a bug - further research would be fine
@@ -56,7 +56,7 @@ class Widget::Filters::Heavy < Widget::Filters::Base
       box
     end
     alternate_text = safe_join(opts.map(&:first), ", ")
-    write(div + content_tag(:label, alternate_text))
+    div + content_tag(:label, alternate_text)
   end
 
   # rubocop:enable Metrics/AbcSize

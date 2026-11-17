@@ -195,7 +195,10 @@ module API
             type: resource_type(custom_field),
             name_source: ->(*) { custom_field.name },
             required: custom_field.is_required,
-            href_callback: ->(*) { api_v3_paths.custom_field_items(custom_field.id) }
+            href_callback: ->(*) do
+              project_id = represented.project&.id if custom_field.project_specific_values_supported?
+              api_v3_paths.custom_field_items(custom_field.id, project: project_id)
+            end
           )
         end
 
@@ -246,24 +249,21 @@ module API
                       getter:)
         end
 
+        # An undisclosed link keeps the stored values that are no longer available. For a multi value
+        # custom field it remains among the values, so the undisclosed values can be retained once
+        # the customized object is known.
         def link_value_setter_for(custom_field, property, expected_namespace)
+          parse_href = ->(href) do
+            next href if href == ::API::V3::URN_UNDISCLOSED
+
+            ::API::Utilities::ResourceLinkParser.parse_id(href, property:, expected_version: "3", expected_namespace:)
+          end
+
           ->(fragment:, represented:, **) {
-            values = Array([fragment].flatten).flat_map do |link|
-              href = link["href"]
-              value =
-                if href
-                  ::API::Utilities::ResourceLinkParser.parse_id(
-                    href,
-                    property:,
-                    expected_version: "3",
-                    expected_namespace:
-                  )
-                end
+            hrefs = Array([fragment].flatten).filter_map { |link| link["href"] }
+            next if hrefs.include?(::API::V3::URN_UNDISCLOSED) && !custom_field.multi_value?
 
-              [value].compact
-            end
-
-            represented.send(custom_field.attribute_setter, values)
+            represented.send(custom_field.attribute_setter, hrefs.filter_map(&parse_href))
           }
         end
 
@@ -442,6 +442,8 @@ module API
         end
 
         module RepresenterClass
+          attr_accessor :injected_custom_fields
+
           def self.extended(base)
             class << base
               # In order to ensure the custom fields to be loaded correctly, consumers need to call the
@@ -475,7 +477,8 @@ module API
           end
 
           def custom_field_class(custom_fields)
-            custom_field_sha = OpenProject::Cache::CacheKey.expand(custom_fields.sort_by(&:id))
+            sorted_custom_fields = custom_fields.sort_by(&:id)
+            custom_field_sha = OpenProject::Cache::CacheKey.expand(sorted_custom_fields)
 
             cached_custom_field_classes[custom_field_sha] ||=
               begin
@@ -483,7 +486,9 @@ module API
 
                 method_name = :"create_#{custom_field_injector_config[:type]}"
 
-                injector_class.send(method_name, custom_fields, self)
+                representer_class = injector_class.send(method_name, custom_fields, self)
+                representer_class.injected_custom_fields = sorted_custom_fields
+                representer_class
               end
           end
 

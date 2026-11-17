@@ -492,7 +492,7 @@ ms:
     oauth_grant_nudge_modal:
       cancel_button_label: Saya akan lakukannya sebentar lagi
       heading: Log masuk ke %{provider_type} diperlukan
-      login_button_aria_label: Log masuk ke %{storage}
+      login_button_accessible_name: "%{provider_type} log in to %{storage}"
       login_button_label: "%{provider_type} log masuk"
       project_settings:
         description: Untuk dapatkan akses ke folder projek anda perlu log masuk ke %{storage}.

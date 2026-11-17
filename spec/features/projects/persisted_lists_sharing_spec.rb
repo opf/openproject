@@ -363,7 +363,7 @@ RSpec.describe "Project list sharing",
           visit projects_path(query_id: invalid_list.id)
 
           # The page should load and show the list
-          expect(page).to have_content("Invalid shared list")
+          expect(page).to have_text("Invalid shared list")
 
           # Open the share dialog
           projects_index_page.open_share_dialog

@@ -27,11 +27,11 @@
 
 import { html, render } from 'lit-html';
 
-// Builds the custom native drag preview for a sortable item: a sanitised clone
+// Builds the custom native drag preview for a sortable item: a sanitized clone
 // of the item's preview target, sized to match and carrying the originating
 // Box's density so its card styling survives being mounted outside the Box.
 
-// Attributes stripped from the cloned drag preview so it carries no behaviour or
+// Attributes stripped from the cloned drag preview so it carries no behavior or
 // stale interaction state. The dynamic `data-*--*-target` attributes are removed
 // separately in sanitizePreview.
 // `data-batch-selected` is deliberately absent: it lives on the sortable

@@ -30,7 +30,7 @@
 require "rails_helper"
 
 format_cases = {
-  WorkPackageCustomField => %w[hierarchy],
+  WorkPackageCustomField => %w[hierarchy list weighted_item_list string],
   TimeEntryCustomField => %w[text date float user version string bool list int],
   VersionCustomField => %w[text date float int user bool string list version],
   GroupCustomField => %w[text date float int bool list string],
@@ -48,8 +48,17 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
       custom_field_section_id: ->(model) { model.is_a?(ProjectCustomField) || model.is_a?(UserCustomField) },
       has_comment: ->(model) { model.is_a?(ProjectCustomField) },
       is_filter: ->(model) { model.is_a?(WorkPackageCustomField) },
+      project_specific_value_restriction: lambda { |model|
+        model.is_a?(WorkPackageCustomField) && %w[list hierarchy weighted_item_list].include?(model.field_format)
+      },
+      allow_additional_project_values: lambda { |model|
+        model.is_a?(WorkPackageCustomField) && %w[list hierarchy weighted_item_list].include?(model.field_format)
+      },
+      project_level_value_management: lambda { |model|
+        model.is_a?(WorkPackageCustomField) && %w[list hierarchy weighted_item_list].include?(model.field_format)
+      },
       content_right_to_left: ->(model) { model.is_a?(WorkPackageCustomField) && model.field_format == "text" },
-      editable: ->(model) { model.is_a?(UserCustomField) },
+      user_self_editable: ->(model) { model.is_a?(UserCustomField) },
       visible_on_user_card: ->(model) { model.is_a?(UserCustomField) },
       is_for_all: ->(model) { model.is_a?(ProjectCustomField) },
       searchable: lambda { |model|
@@ -63,7 +72,10 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
       max_value: ->(model) { %w[int float].include?(model.field_format) },
       regexp: ->(model) { %w[string int float text link].include?(model.field_format) },
       default_value: ->(model) { %w[string int float text link bool].include?(model.field_format) },
-      multi_value: ->(model) { %w[list user version hierarchy].include?(model.field_format) },
+      multi_value: ->(model) do
+        %w[list user version hierarchy].include?(model.field_format) ||
+          (model.is_a?(ProjectCustomField) && model.field_format == "weighted_item_list")
+      end,
       is_required: ->(model) { %w[calculated_value bool].exclude?(model.field_format) },
       formula: ->(model) { model.field_format == "calculated_value" },
       allow_non_open_versions: ->(model) { model.field_format == "version" }
@@ -84,6 +96,8 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
       I18n.t("activerecord.attributes.project_custom_field.custom_field_section")
     when :formula
       I18n.t(:label_formula)
+    when :project_specific_value_restriction
+      I18n.t("custom_fields.project_specific_values.allow.label")
     else
       I18n.t("activerecord.attributes.custom_field.#{field}")
     end
@@ -99,6 +113,10 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
     elsif field == :default_value && field_format == "text"
       expect(page).to have_selector(:rich_text_field, label)
       expect(page).to have_field(label, type: "textarea", name:, visible: :all)
+    elsif field == :project_specific_value_restriction
+      expect(page).to have_field(label, type: "radio", name:, disabled: :all)
+    elsif %i[allow_additional_project_values project_level_value_management].include?(field)
+      expect(page).to have_field(label, type: "checkbox", name:, disabled: :all, visible: :all)
     else
       expect(page).to have_field(label, type: control_type(field), name:)
     end
@@ -110,6 +128,7 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
     when :min_length, :max_length, :min_value, :max_value then "number"
     when :regexp then "text"
     when :default_value then field_format == "bool" ? "checkbox" : "text"
+    when :project_specific_value_restriction then "radio"
     else "checkbox"
     end
   end
@@ -133,6 +152,115 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
             end
           end
         end
+      end
+    end
+  end
+
+  context "with a WorkPackageCustomField with project-specific values" do
+    let(:model_class) { WorkPackageCustomField }
+    let(:field_format) { "list" }
+    let(:model) { model_class.new(field_format:, project_specific_value_restriction: "allow") }
+
+    it "selects manually choosing the values for each project" do
+      expect(page).to have_checked_field(I18n.t("custom_fields.project_specific_values.allow.label"), with: "allow")
+      expect(page).to have_unchecked_field(I18n.t("custom_fields.project_specific_values.all.label"))
+    end
+
+    context "when the enterprise plan does not include project-specific values" do
+      it "keeps the selection usable and offers the upsell" do
+        expect(page).to have_field(I18n.t("custom_fields.project_specific_values.allow.label"), disabled: false)
+        expect(page).to have_text(I18n.t("ee.upsell.project_specific_list_values.description"))
+      end
+    end
+  end
+
+  context "with a WorkPackageCustomField with deactivated values per project" do
+    let(:model_class) { WorkPackageCustomField }
+    let(:field_format) { "list" }
+    let(:model) { model_class.new(field_format:, project_specific_value_restriction: "block") }
+
+    it "selects manually deactivating the values for each project" do
+      expect(page).to have_checked_field(I18n.t("custom_fields.project_specific_values.block.label"), with: "block")
+      expect(page).to have_unchecked_field(I18n.t("custom_fields.project_specific_values.allow.label"), disabled: :all)
+    end
+  end
+
+  context "with a WorkPackageCustomField without project-specific values" do
+    let(:model_class) { WorkPackageCustomField }
+    let(:field_format) { "list" }
+
+    context "when the enterprise plan includes project-specific values", with_ee: %i[project_specific_list_values] do
+      it "offers to choose the values for each project" do
+        expect(page).to have_field(I18n.t("custom_fields.project_specific_values.allow.label"), disabled: false)
+        expect(page).to have_field(I18n.t("custom_fields.project_specific_values.block.label"), disabled: false)
+        expect(page).to have_no_text(I18n.t("ee.upsell.project_specific_list_values.description"))
+      end
+    end
+
+    context "when the enterprise plan does not include project-specific values" do
+      it "does not offer to choose the values for each project and offers the upsell" do
+        expect(page).to have_field(I18n.t("custom_fields.project_specific_values.allow.label"), disabled: true)
+        expect(page).to have_field(I18n.t("custom_fields.project_specific_values.block.label"), disabled: true)
+        expect(page).to have_text(I18n.t("ee.upsell.project_specific_list_values.description"))
+      end
+    end
+  end
+
+  describe "project admin settings" do
+    let(:model_class) { WorkPackageCustomField }
+    let(:field_format) { "list" }
+    let(:project_specific_value_restriction) { nil }
+    let(:allow_additional_project_values) { false }
+    let(:project_level_value_management) { false }
+    let(:model) do
+      model_class.new(field_format:,
+                      project_specific_value_restriction:,
+                      allow_additional_project_values:,
+                      project_level_value_management:)
+    end
+
+    context "when all values are available in all projects", with_ee: %i[project_specific_list_values] do
+      it "only offers adding project-specific values below the selected mode", :aggregate_failures do
+        expect(page).to have_unchecked_field("custom_field_allow_additional_project_values_all")
+        expect(page).to have_no_field("custom_field_project_level_value_management_all", visible: :all)
+
+        expect(page).to have_field("custom_field_allow_additional_project_values_allow", visible: :hidden, disabled: true)
+        expect(page).to have_field("custom_field_project_level_value_management_allow", visible: :hidden, disabled: true)
+        expect(page).to have_field("custom_field_allow_additional_project_values_block", visible: :hidden, disabled: true)
+        expect(page).to have_field("custom_field_project_level_value_management_block", visible: :hidden, disabled: true)
+      end
+    end
+
+    context "when allowing values per project", with_ee: %i[project_specific_list_values] do
+      let(:project_specific_value_restriction) { "allow" }
+      let(:project_level_value_management) { true }
+
+      it "offers both settings below the selected mode", :aggregate_failures do
+        expect(page).to have_checked_field("custom_field_project_level_value_management_allow")
+        expect(page).to have_unchecked_field("custom_field_allow_additional_project_values_allow")
+
+        expect(page).to have_field("custom_field_allow_additional_project_values_all", visible: :hidden, disabled: true)
+        expect(page).to have_field("custom_field_project_level_value_management_block", visible: :hidden, disabled: true)
+      end
+    end
+
+    context "when blocking values per project and project admins can add values",
+            with_ee: %i[project_specific_list_values] do
+      let(:project_specific_value_restriction) { "block" }
+      let(:allow_additional_project_values) { true }
+
+      it "offers both settings below the selected mode", :aggregate_failures do
+        expect(page).to have_unchecked_field("custom_field_project_level_value_management_block")
+        expect(page).to have_checked_field("custom_field_allow_additional_project_values_block")
+      end
+    end
+
+    context "when the enterprise plan does not include project-specific values" do
+      let(:project_specific_value_restriction) { "allow" }
+
+      it "disables the settings below the selected mode", :aggregate_failures do
+        expect(page).to have_field("custom_field_project_level_value_management_allow", disabled: true)
+        expect(page).to have_field("custom_field_allow_additional_project_values_allow", disabled: true)
       end
     end
   end

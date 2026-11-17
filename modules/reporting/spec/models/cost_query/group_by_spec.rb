@@ -73,6 +73,20 @@ RSpec.describe CostQuery, :reporting_query_helper do
   minimal_query
 
   describe CostQuery::GroupBy do
+    describe ".named" do
+      it "finds a registered group by" do
+        expect(described_class.named("project_id")).to eq(CostQuery::GroupBy::ProjectId)
+      end
+
+      it "finds a group by that is not selectable" do
+        expect(described_class.named("tweek")).to eq(CostQuery::GroupBy::Tweek)
+      end
+
+      it "does not resolve constants outside the registered group bys" do
+        expect(described_class.named("::Object")).to be_nil
+      end
+    end
+
     it "does not fail when grouping by a non-existent column" do
       expect { query.group_by(:non_existent_column).result }.not_to raise_error
     end
@@ -94,6 +108,24 @@ RSpec.describe CostQuery, :reporting_query_helper do
     it "computes group_by WorkPackage" do
       query.group_by :work_package_id
       expect(query.result.size).to eq(2)
+    end
+
+    describe CostQuery::GroupBy::SingletonValue do
+      it "keeps the row groups when it is the only column" do
+        query.column :singleton_value
+        query.row :work_package_id
+
+        expect(query.result.map { |result| result.fields["entity_gid"] })
+          .to contain_exactly(work_package1.to_global_id.to_s, work_package2.to_global_id.to_s)
+      end
+
+      it "keeps the column groups when it is the only row" do
+        query.column :work_package_id
+        query.row :singleton_value
+
+        expect(query.result.first.map { |result| result.fields["entity_gid"] })
+          .to contain_exactly(work_package1.to_global_id.to_s, work_package2.to_global_id.to_s)
+      end
     end
 
     it "labels the group 'Version' while multiple versions is off", with_settings: { work_package_multiple_versions: false } do
@@ -291,12 +323,12 @@ RSpec.describe CostQuery, :reporting_query_helper do
       expect(query.result.count).to eq(8)
     end
 
-    it "accepts row as a specialised group_by" do
+    it "accepts row as a specialized group_by" do
       query.row :project_id
       expect(query.chain.type).to eq(:row)
     end
 
-    it "accepts column as a specialised group_by" do
+    it "accepts column as a specialized group_by" do
       query.column :project_id
       expect(query.chain.type).to eq(:column)
     end
@@ -404,7 +436,7 @@ RSpec.describe CostQuery, :reporting_query_helper do
 
         check_cache
 
-        query.group_by custom_field2.attribute_name
+        query.group_by custom_field2.column_name
         footprint = query.result.each_direct_result.map { |c| [c.count, c.units.to_i] }.sort
         expect(footprint).to eq([[8, 8]])
       end

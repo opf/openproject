@@ -44,7 +44,7 @@ export class OpenProject {
    */
   public theme = new ThemeUtils();
 
-  /** Globally setable variable whether the page was edited or submitted */
+  /** Globally settable variable whether the page was edited or submitted */
   pageState:OpenProjectPageState = 'pristine';
 
   public get pageWasEdited():boolean {

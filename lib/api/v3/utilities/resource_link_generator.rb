@@ -33,6 +33,8 @@ module API
           include ::API::V3::Utilities::PathHelper
 
           def make_link(record)
+            return ::API::V3::URN_UNDISCLOSED if record.is_a?(::CustomField::UnavailableValue)
+
             if record.respond_to?(:id)
               path_method = determine_path_method(record)
               record_identifier = record.id

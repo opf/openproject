@@ -16,7 +16,7 @@ code**, so a Stimulus or Turbo spec still needs the Angular build to succeed —
 Angular tree fails specs that have nothing to do with it.
 
 Specs run in real browsers driven by [Playwright](https://playwright.dev/), not in a DOM shim. That
-means layout, focus and event behaviour are real, and an engine-specific bug surfaces in CI rather
+means layout, focus and event behavior are real, and an engine-specific bug surfaces in CI rather
 than in review.
 
 ## Writing assertions
@@ -79,7 +79,7 @@ expect(inputs.every((input) => input.checked)).toBe(true);
 Target properties are declared `readonly`, so they are supplied with `Object.defineProperty` rather
 than assigned. Do not reach for an `any` cast to get around it — that discards exactly the type
 checking that makes the isolated test worth writing. Reach for this only when the
-behaviour is worth testing apart from its markup — a controller tested solely this way can pass while
+behavior is worth testing apart from its markup — a controller tested solely this way can pass while
 being unusable from HTML.
 
 ## Angular components

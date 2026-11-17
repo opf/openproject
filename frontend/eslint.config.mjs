@@ -99,6 +99,8 @@ export default defineConfig([
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': ['error', { varsIgnorePattern: '^_', argsIgnorePattern: '^_' }],
 
+      '@typescript-eslint/no-empty-function': 'off',
+
       // Allow short circuit evaluations
       '@typescript-eslint/no-unused-expressions': ['error', { allowShortCircuit: true }],
 
@@ -149,7 +151,7 @@ export default defineConfig([
       'no-underscore-dangle': [
         'warn',
         {
-          allow: ['_links', '_embedded', '_meta', '_type', '_destroy'],
+          allow: ['_links', '_embedded', '_meta', '_type', '_destroy', '__initialized_at'],
           allowAfterThis: true,
           allowAfterSuper: false,
           allowAfterThisConstructor: false,
@@ -159,7 +161,6 @@ export default defineConfig([
       ],
 
       'no-return-assign': ['error', 'except-parens'],
-      'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
 
       // https://typescript-eslint.io/rules/no-base-to-string/ Disable false positives due to missing types
       '@typescript-eslint/no-base-to-string': [
@@ -176,6 +177,12 @@ export default defineConfig([
     },
   },
   {
+    files: ['**/*.d.ts'],
+    rules: {
+      '@typescript-eslint/triple-slash-reference': 'off',
+    },
+  },
+  {
     files: ['**/*.html'],
     extends: [
       ...angular.configs.templateRecommended,
@@ -188,7 +195,7 @@ export default defineConfig([
       ],
       '@angular-eslint/template/elements-content': [
         'error',
-        { 'allowList': ['textContent'] }
+        { 'allowList': ['textContent', 'label'] }
       ],
       '@angular-eslint/template/prefer-control-flow': 'error'
     }
@@ -201,6 +208,8 @@ export default defineConfig([
 
       // Allow more than one class definitions per file (test components)
       'max-classes-per-file': 'off',
+      // Test harnesses expose `expect*` helpers that wrap several assertions
+      'vitest/expect-expect': ['error', { assertFunctionNames: ['expect', '*.expect*'] }],
     },
   },
   {

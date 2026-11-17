@@ -71,15 +71,29 @@ fa:
           name: مدیر کارکنان و پروژه‌ها
         item_1:
           name: نقش سراسری استاندارد
-      ai_text_transform_actions:
+      ai_text_actions:
         item_0:
-          label: اصلاح دستور زبان
+          label: Structure
         item_1:
-          label: خلاصه‌تر کردن
+          label: Proofread
         item_2:
-          label: ترجمه به انگلیسی
+          label: Rewrite
         item_3:
-          label: مرتب‌سازی در الگو
+          label: Friendly
+        item_4:
+          label: Professional
+        item_5:
+          label: Concise
+        item_6:
+          label: Summarize
+        item_7:
+          label: Key points
+        item_8:
+          label: List
+        item_9:
+          label: Table
+        item_10:
+          label: Suggest subject
     standard:
       project_phases:
         item_0:
@@ -117,6 +131,17 @@ fa:
           name: مالی و اداری
         item_6:
           name: تضمین کیفیت
+      labels:
+        item_0:
+          name: Website
+        item_1:
+          name: Marketing
+        item_2:
+          name: Speakers
+        item_3:
+          name: Security
+        item_4:
+          name: UX
       projects:
         demo-project:
           name: پروژهٔ نمایشی

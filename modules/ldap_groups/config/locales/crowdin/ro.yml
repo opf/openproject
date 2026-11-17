@@ -93,7 +93,7 @@ ro:
       plural: Grupuri LDAP sincronizate
       singular: Grup LDAP sincronizat
       upsell:
-        description: Profită de grupurile LDAP sincronizate pentru a gestiona utilizatorii, a le modifica permisiunile și a facilita gestionarea utilizatorilor între grupuri.
+        description: Take advantage of synchronized LDAP groups to manage users, change their permissions and facilitate user management across groups.
   plugin_openproject_ldap_groups:
     description: Synchronization of LDAP group memberships.
     name: OpenProject LDAP groups

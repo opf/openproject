@@ -57,7 +57,7 @@ module Wikis
             end
 
             def wiki_name(wiki_path)
-              # The default wiki name seems to be xwiki and it builts entirely different pathes than
+              # The default wiki name seems to be xwiki and it builds entirely different paths than
               # other wikis
               return "xwiki" if wiki_path == "bin"
 

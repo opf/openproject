@@ -50,7 +50,7 @@ namespace :docs do
         Refusing to write #{documentation::DOC_PATH}: this instance has
         #{configured.keys.to_sentence} configured, and the defaults of
         default_projects_modules and real_time_text_collaboration_enabled are derived from
-        them. Generate on an installation that has none of them set, or neutralise them
+        them. Generate on an installation that has none of them set, or neutralize them
         for the run:
 
             RAILS_ENV=production SECRET_KEY_BASE=unused_for_docs_generation \\

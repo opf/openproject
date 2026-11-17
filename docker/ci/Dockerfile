@@ -2,7 +2,7 @@
 ARG RUBY_VERSION
 FROM ruby:${RUBY_VERSION}-trixie
 
-ENV NODE_VERSION="24.18.0"
+ENV NODE_VERSION="24.22.1"
 ENV DEBIAN_FRONTEND=noninteractive
 ENV BUNDLE_WITHOUT="development:production:docker"
 
@@ -15,7 +15,7 @@ ENV CHROME_SOURCE_URL="https://dl.google.com/dl/linux/direct/google-chrome-stabl
 RUN --mount=type=cache,target=/var/cache/apt export f="/tmp/chrome.deb" && \
   wget --no-verbose -O $f $CHROME_SOURCE_URL && \
   apt-get update -qq && \
-  apt-get install -y "$f" postgresql-$PGVERSION postgresql-client-$PGVERSION time imagemagick default-jre-headless firefox-esr && \
+  apt-get install -y "$f" postgresql-$PGVERSION postgresql-$PGVERSION-pgvector postgresql-client-$PGVERSION time imagemagick default-jre-headless firefox-esr && \
   rm -f "$f" && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/lib/postgresql && \

@@ -41,9 +41,9 @@ module Import
       ListItem = Data.define(:children, :sublist)
       BlockQuote = Data.define(:children)
       MultiLineBlockQuote = Data.define(:lines)
-      TableHeaderRow = Data.define(:cells)
-      TableDataRow = Data.define(:raw)
-      Panel = Data.define(:params, :content)
+      Table = Data.define(:header, :rows)
+      TableCell = Data.define(:children, :header)
+      Panel = Data.define(:params, :children)
       BlankLine = Data.define
 
       # Inline nodes

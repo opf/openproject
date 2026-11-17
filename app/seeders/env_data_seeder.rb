@@ -32,7 +32,6 @@ class EnvDataSeeder < CompositeSeeder
     [
       EnvData::CustomDesignSeeder,
       EnvData::LdapSeeder,
-      EnvData::LlmConnectionSeeder,
       EnvData::ScimClientSeeder,
       EnvData::TokenSeeder
     ]

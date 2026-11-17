@@ -111,7 +111,7 @@ describe('MainMenuToggleService', () => {
     window.OpenProject = originalOpenProject;
   });
 
-  it('initialises via dependency injection', () => {
+  it('initializes via dependency injection', () => {
     expect(TestBed.inject(MainMenuToggleService)).toBeTruthy();
   });
 

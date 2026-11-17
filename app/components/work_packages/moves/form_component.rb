@@ -125,6 +125,16 @@ module WorkPackages
         available.select { |version| selected_ids.include?(version.id.to_s) }
       end
 
+      def available_labels
+        @available_labels ||= Label.order(Arel.sql("LOWER(name)"))
+      end
+
+      def selected_label_ids = Array(selected_values[:label_ids]).compact_blank.map(&:to_s)
+
+      def no_label_change_selected? = selected_label_ids.empty?
+
+      def label_removal_selected? = selected_label_ids.include?("none")
+
       def selected_custom_field_value(custom_field)
         selected_values.dig(:custom_field_values, custom_field.id.to_s)
       end

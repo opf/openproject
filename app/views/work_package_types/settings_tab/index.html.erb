@@ -32,4 +32,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render ::Types::EditPageHeaderComponent.new(type: @type, variant: @variant, tabs:) %>
 
+<%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t("types.edit.overview.caption") } %>
+
 <%= render WorkPackageTypes::Overview::TableComponent.new(variant: @variant, tabs:) %>

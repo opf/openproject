@@ -39,15 +39,18 @@ import {
   initializeOpBlockNoteExtensions,
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageInlineSpec,
+  openProjectWorkPackageAttributeInlineSpec,
+  openProjectWorkPackageAttributeBlockSpec,
   getOpenProjectSlashMenuItems,
   OpenProjectFormattingToolbar,
-  useHashWpMenu,
-} from '@openproject/op-blocknote-extensions';
+  OpenProjectHashMenu,
+} from '@openproject/blocknote-extensions';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import * as Y from 'yjs';
 import { useBlockNoteAttachments } from '../hooks/useBlockNoteAttachments';
 import { useBlockNoteLocale } from '../hooks/useBlockNoteLocale';
 import { useOpTheme } from '../hooks/useOpTheme';
+import { tableBlockSpec } from '../blocks/table';
 
 export interface OpBlockNoteEditorProps {
   activeUser:User;
@@ -63,10 +66,13 @@ export interface OpBlockNoteEditorProps {
 
 const schema = BlockNoteSchema.create().extend({
   blockSpecs: {
+    table: tableBlockSpec,
     openProjectWorkPackageBlock: openProjectWorkPackageBlockSpec(),
+    openProjectWorkPackageAttributeBlock: openProjectWorkPackageAttributeBlockSpec(),
   },
   inlineContentSpecs: {
     openProjectWorkPackageInline: openProjectWorkPackageInlineSpec,
+    openProjectWorkPackageAttributeInline: openProjectWorkPackageAttributeInlineSpec,
   },
 });
 
@@ -95,6 +101,7 @@ export function OpBlockNoteEditor({
   const editorParams = useMemo<Partial<BlockNoteEditorOptions<typeof schema.blockSchema, typeof schema.inlineContentSchema, typeof schema.styleSchema>>>(() => {
     const baseParams = {
       schema,
+      tables: { splitCells: true, cellBackgroundColor: true, cellTextColor: true, headers: true },
       dictionary: localeDictionary,
       ...(attachmentsEnabled && { uploadFile }),
       extensions: [
@@ -152,7 +159,6 @@ export function OpBlockNoteEditor({
     ...getDefaultReactSlashMenuItems(editorInstance),
     ...getOpenProjectSlashMenuItems(editorInstance),
   ], []);
-  const { getHashItems, HashWpMenu } = useHashWpMenu(editor);
 
   return (
     <>
@@ -169,11 +175,7 @@ export function OpBlockNoteEditor({
           triggerCharacter="/"
           getItems={async (query:string) => Promise.resolve(filterSuggestionItems(getCustomSlashMenuItems(editor), query))}
         />
-        <SuggestionMenuController
-          triggerCharacter="#"
-          getItems={getHashItems}
-          suggestionMenuComponent={HashWpMenu}
-        />
+        <OpenProjectHashMenu />
       </BlockNoteView>
     </>
   );

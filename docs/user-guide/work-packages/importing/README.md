@@ -148,7 +148,7 @@ A time zone is optional, and may follow the time with or without a space.
 
 A cell with no time zone is read in the time zone of your own account, so `2026-09-26 08:09` imported
 from an account set to Berlin is 08:09 Berlin time. A date with no time at all is read as midnight in
-that same zone. A zone name that OpenProject does not recognise is reported rather than ignored, so a
+that same zone. A zone name that OpenProject does not recognize is reported rather than ignored, so a
 cell is never read in a zone other than the one it names.
 
 #### Created on and Updated on

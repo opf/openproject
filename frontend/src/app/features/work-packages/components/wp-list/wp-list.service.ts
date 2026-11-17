@@ -89,6 +89,9 @@ export class WorkPackagesListService {
   // We remember the query requests coming in so we can ensure only the latest request is being tended to
   private queryRequests = input<QueryDefinition>();
 
+  // The form request in flight, so concurrent callers join it instead of issuing their own
+  private formLoading:{ href:string|null|undefined, promise:Promise<QueryFormResource> }|undefined;
+
   // This mapped observable requests the latest query automatically.
   private queryLoading = this.queryRequests
     .values$()
@@ -125,7 +128,7 @@ export class WorkPackagesListService {
       .find(queryData, queryParams.query_id, projectIdentifier);
 
     return stream.pipe(
-      catchError((error) => {
+      catchError((error:ErrorResource) => {
         // Load a default query
         const queryProps = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(decodedProps);
         return from(this.handleQueryLoadingError(error, queryProps, queryParams.query_id, projectIdentifier));
@@ -422,7 +425,7 @@ export class WorkPackagesListService {
     return this.save(query);
   }
 
-  public toggleStarred(query:QueryResource):Promise<any> {
+  public toggleStarred(query:QueryResource):Promise<unknown> {
     const promise = this
       .apiV3Service
       .queries
@@ -452,8 +455,16 @@ export class WorkPackagesListService {
         .then((loaded) => this.conditionallyLoadForm(loaded));
     }
 
-    if (!currentForm || (query.$links.update as CallableHalLink|undefined)?.href !== currentForm.href) {
-      return this.loadForm(query);
+    const updateHref = (query.$links.update as CallableHalLink|undefined)?.href;
+
+    if (!currentForm || updateHref !== currentForm.href) {
+      if (!this.formLoading || this.formLoading.href !== updateHref) {
+        const promise = this.loadForm(query).finally(() => { this.formLoading = undefined; });
+        this.formLoading = { href: updateHref, promise };
+        return promise;
+      }
+
+      return this.formLoading.promise;
     }
 
     return Promise.resolve(currentForm);

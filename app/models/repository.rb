@@ -47,6 +47,7 @@ class Repository < ApplicationRecord
 
   validates :password, length: { maximum: 255, allow_nil: true }
   validate :validate_enabled_scm, on: :create
+  validate :validate_remote_host, if: :url_changed?
 
   def file_changes
     Change.where(changeset_id: changesets).joins(:changeset)
@@ -55,6 +56,19 @@ class Repository < ApplicationRecord
   # Checks if the SCM is enabled when creating a repository
   def validate_enabled_scm
     errors.add(:type, :not_available) unless OpenProject::SCM::Manager.enabled?(vendor)
+  end
+
+  # The SCM binaries resolve the host again on every invocation, so this only
+  # guards the configured URL and cannot prevent DNS rebinding.
+  def validate_remote_host
+    scheme_and_authority = url.to_s[%r{\A[^/]*//[^/]*}]
+    uri = URI.parse(scheme_and_authority.to_s)
+    return if uri.scheme == "file" || uri.hostname.blank?
+    return if OpenProject::SsrfProtection.safe_ip?(uri.hostname)
+
+    errors.add(:url, :ssrf_filtered)
+  rescue URI::InvalidURIError
+    errors.add(:url, :invalid_url)
   end
 
   # Removes leading and trailing whitespace
@@ -188,9 +202,9 @@ class Repository < ApplicationRecord
   # Returns whether an asynchronous count refresh has been requested.
   def update_required_storage
     if scm.storage_available?
-      oldest_cachable_time = Setting.repository_storage_cache_minutes.to_i.minutes.ago
+      oldest_cacheable_time = Setting.repository_storage_cache_minutes.to_i.minutes.ago
       if storage_updated_at.nil? ||
-         storage_updated_at < oldest_cachable_time
+         storage_updated_at < oldest_cacheable_time
 
         ::SCM::StorageUpdaterJob.perform_later(self)
         return true
@@ -213,7 +227,7 @@ class Repository < ApplicationRecord
   end
 
   # Returns the latest changesets for +path+
-  # Default behaviour is to search in cached changesets
+  # Default behavior is to search in cached changesets
   def latest_changesets(path, _rev, limit = 10)
     if path.blank?
       changesets.includes(:user)

@@ -464,8 +464,44 @@ RSpec.describe "Recurring meetings show",
       it "defaults to 15 past meetings when no limit parameter is provided" do
         get project_recurring_meeting_path(project, recurring_meeting, direction: "past")
 
-        expect(page).to have_css(".op-border-box-table--rows [role='row']", count: 15)
+        expect(page).to have_css(".op-border-box-table__rows [role='row']", count: 15)
         expect(page).to have_css("#recurring-meetings-footer-component")
+      end
+    end
+  end
+
+  describe "opening all occurrences of an ending series" do
+    let(:recurring_meeting) do
+      create :recurring_meeting,
+             project:,
+             author: user,
+             start_time: Time.zone.today + 1.day,
+             frequency: "daily",
+             end_after: "iterations",
+             iterations: 12
+    end
+
+    before do
+      (1..7).each do |i|
+        create(:meeting,
+               recurring_meeting:,
+               start_time: Time.zone.today + i.days,
+               recurrence_start_time: Time.zone.today + i.days,
+               state: :open)
+      end
+    end
+
+    it "still lists the remaining planned occurrences once the earlier ones are opened (Bug OP#20526)" do
+      get project_recurring_meeting_path(project, recurring_meeting, limit: 20)
+
+      opened = page.find("[data-test-selector='agenda-opened-table']")
+      (1..7).each do |i|
+        expect(opened).to have_text format_time(Time.zone.today + i.days)
+      end
+
+      planned = page.find("[data-test-selector='planned-table']")
+      (8..12).each do |i|
+        expect(planned).to have_text format_time(Time.zone.today + i.days)
       end
     end
   end

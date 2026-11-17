@@ -94,7 +94,7 @@ RSpec.describe ExtractNamedForms, "converting groups to rows", type: :model, wit
     )
   end
 
-  it "honours the milestone rule when it writes the defaults" do
+  it "honors the milestone rule when it writes the defaults" do
     groups_of(milestone_owner, nil)
 
     migrate_up

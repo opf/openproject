@@ -133,7 +133,7 @@ module Pages
     def ensure_page_loaded
       expect_angular_frontend_initialized
 
-      expect(page).to have_no_selector("content-loader", wait: 10)
+      expect(page).to have_no_css("content-loader", wait: 10)
 
       nil
     end

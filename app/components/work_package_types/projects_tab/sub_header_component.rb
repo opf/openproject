@@ -34,12 +34,13 @@ module WorkPackageTypes
       include OpTurbo::Streamable
       include WorkPackageTypes::VariantRoutes
 
-      def initialize(type:, variant:, query:)
+      def initialize(type:, variant:, query:, wizard: false)
         super()
 
         @type = type
         @variant = variant
         @query = query
+        @wizard = wizard
       end
 
       def filters_form_attributes
@@ -47,8 +48,9 @@ module WorkPackageTypes
           controller: "filter--filters-form",
           "filter--filters-form-turbo-stream-request-value": true,
           "filter--filters-form-clear-button-id-value": clear_button_id,
-          "filter--filters-form-current-filters-value": serialized_filters
-        }
+          "filter--filters-form-current-filters-value": serialized_filters,
+          "filter--filters-form-url-path-name-value": (variant_creation_wizard_projects_path(variant) if wizard?)
+        }.compact
       end
 
       def name_filter_attributes
@@ -70,7 +72,8 @@ module WorkPackageTypes
 
       def clear_button_id = "type-projects-filters-clear-button"
 
-      def variant_filter_available? = variant.default?
+      # A type still being created has no other variant to filter by.
+      def variant_filter_available? = variant.default? && !wizard?
 
       def variant_filter_component
         VariantFilterComponent.new(type:, variant:, query:)
@@ -80,10 +83,14 @@ module WorkPackageTypes
 
       attr_reader :type, :variant, :query
 
-      def add_path = new_link_variant_projects_path(variant)
+      def wizard? = @wizard
+
+      def wizard_params = wizard? ? { wizard: true } : {}
+
+      def add_path = new_link_variant_projects_path(variant, **wizard_params)
 
       def toggle_all_path
-        enable_all_variant_projects_path(variant, value: enabled_everywhere? ? "0" : "1")
+        enable_all_variant_projects_path(variant, value: enabled_everywhere? ? "0" : "1", **wizard_params)
       end
 
       def toggle_all_label

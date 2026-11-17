@@ -35,15 +35,16 @@ module WorkPackageTypes
   class ExclusionToggleComponent < ApplicationComponent
     include WorkPackageTypes::VariantRoutes
 
-    def initialize(exclusions:, element_key:, label:, aspect:, off_label:, test_selector:)
+    def initialize(exclusions:, element_key:, label:, aspect:, test_selector:, enabled: true, turbo: false)
       super()
 
       @exclusions = exclusions
       @element_key = element_key
       @label = label
       @aspect = aspect
-      @off_label = off_label
       @test_selector = test_selector
+      @enabled = enabled
+      @turbo = turbo
     end
 
     def render?
@@ -61,8 +62,8 @@ module WorkPackageTypes
         src: toggle_path,
         csrf_token: helpers.form_authenticity_token,
         checked: !excluded?,
-        on_label: "",
-        off_label: @off_label,
+        enabled: @enabled,
+        turbo: @turbo,
         size: :small,
         status_label_position: :start,
         aria: { label: @label },

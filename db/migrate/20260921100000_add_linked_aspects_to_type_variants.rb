@@ -29,7 +29,7 @@
 
 # A variant that owned an aspect (no '<aspect>_source_id') stays independent. A variant that
 # inherited one - from any source, base or otherwise - is linked to its own base instead, dropping
-# the old model's arbitrary inheritance in favour of parent-only links.
+# the old model's arbitrary inheritance in favor of parent-only links.
 class AddLinkedAspectsToTypeVariants < ActiveRecord::Migration[8.1]
   ASPECTS = %w[pdf_export defaults form_configuration project_attributes].freeze
 

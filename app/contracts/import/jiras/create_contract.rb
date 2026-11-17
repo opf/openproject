@@ -30,7 +30,9 @@
 module Import
   module Jiras
     class CreateContract < BaseContract
-      validates :personal_access_token, presence: true
+      validates :personal_access_token, presence: true, if: -> { model.auth_method_bearer? }
+      validates :basic_auth_username, presence: true, if: -> { model.auth_method_basic? }
+      validates :basic_auth_password, presence: true, if: -> { model.auth_method_basic? }
     end
   end
 end

@@ -132,7 +132,12 @@ class EditField
 
   def expect_display_value(value)
     expect(display_element)
-      .to have_content(value)
+      .to have_text(value)
+  end
+
+  def expect_selected_values(*names)
+    expect(field_container).to have_css(".ng-value-label", count: names.size)
+    names.each { expect(field_container).to have_css(".ng-value-label", text: it) }
   end
 
   ##
@@ -195,7 +200,7 @@ class EditField
 
   def expect_inactive!
     expect(context).to have_css("#{@selector} #{display_selector}", wait: 10)
-    expect(context).to have_no_selector("#{@selector} #{field_type}")
+    expect(context).to have_no_css("#{@selector} #{field_type}")
   end
 
   def expect_enabled!
@@ -355,6 +360,8 @@ class EditField
       "create-autocompleter"
     when :targetVersions
       "ng-select"
+    when :labels
+      "op-labels-autocompleter"
     when :project
       "op-project-autocompleter"
     when :activity

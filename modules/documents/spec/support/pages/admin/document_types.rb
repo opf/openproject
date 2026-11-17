@@ -34,7 +34,7 @@ module Pages
     class DocumentTypes < EnumerationList
       def path = admin_settings_document_types_path
 
-      def list_selector = "#document-types-table > .op-border-box-table--rows"
+      def list_selector = "#document-types-table > .op-border-box-table__rows"
 
       def item_selector = :row
 

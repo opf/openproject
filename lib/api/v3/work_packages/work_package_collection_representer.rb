@@ -56,7 +56,7 @@ module API
           @current_user = current_user
 
           if timestamps_active?
-            query_params[:timestamps] ||= API::V3::Utilities::PathHelper::ApiV3Path.timestamps_to_param_value(timestamps)
+            query_params[:timestamps] = API::V3::Utilities::PathHelper::ApiV3Path.timestamps_to_param_value(timestamps)
           end
 
           super(models,

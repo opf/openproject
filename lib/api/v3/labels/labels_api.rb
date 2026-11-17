@@ -37,8 +37,6 @@ module API
       class LabelsAPI < ::API::OpenProjectAPI
         resources :labels do
           after_validation do
-            raise API::Errors::NotFound unless OpenProject::FeatureDecisions.work_package_labels_active?
-
             authorize_in_any_work_package(:view_work_packages)
           end
 
@@ -47,7 +45,7 @@ module API
                  .mount
 
           post do
-            authorize_in_any_project(:edit_work_packages)
+            authorize_in_any_work_package(:edit_work_packages)
 
             attributes = ::API::V3::ParseResourceParamsService
                            .new(current_user, model: Label)

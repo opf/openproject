@@ -101,45 +101,39 @@ module ::Query::Results::GroupBy
 
     groups.transform_keys do |key|
       if custom_field.multi_value?
-        Array(key&.split(".")).map { |subkey| items[subkey].first }
+        Array(key&.split(".")).map { |subkey| custom_field_group_value(subkey, items) }
+      elsif key == CustomField::UnavailableValue::GROUP_KEY
+        [CustomField::UnavailableValue.new]
       else
         items[key] || []
       end
     end
   end
 
-  # rubocop:disable Metrics/AbcSize
   def hierarchy_items_for_keys(custom_field, groups)
     keys = groups.keys.map { |k| k ? k.split(".") : [] }.flatten.uniq
 
-    CustomFields::Hierarchy::HierarchicalItemService
-      .new
-      .get_descendants(item: custom_field.hierarchy_root, include_self: false)
-      .fmap do |list|
-        list.filter_map { |item| CustomField::Hierarchy::HierarchyItemAdapter.new(item:) if keys.include?(item.id.to_s) }
-          .group_by { |item| item.id.to_s }
-      end
-      .either(
-        ->(list) { list },
-        ->(error) do
-          msg = "#{I18n.t('api_v3.errors.code_500')} #{error}"
-          raise ::API::Errors::SafeInternalError.new(msg)
-        end
-      )
+    custom_field.hierarchy_root.descendants_preordered
+      .filter_map { |item| CustomField::Hierarchy::HierarchyItemAdapter.new(item:) if keys.include?(item.id.to_s) }
+      .group_by { |item| item.id.to_s }
   end
-
-  # rubocop:enable Metrics/AbcSize
 
   def transform_list_custom_field_keys(custom_field, groups)
     options = custom_options_for_keys(custom_field, groups)
 
     groups.transform_keys do |key|
       if custom_field.multi_value?
-        Array(key&.split(".")).map.map { |subkey| options[subkey].first }
+        Array(key&.split(".")).map.map { |subkey| custom_field_group_value(subkey, options) }
       else
-        options[key]&.first
+        custom_field_group_value(key, options)
       end
     end
+  end
+
+  def custom_field_group_value(key, values_by_key)
+    return CustomField::UnavailableValue.new if key == CustomField::UnavailableValue::GROUP_KEY
+
+    values_by_key[key]&.first
   end
 
   def custom_options_for_keys(custom_field, groups)
@@ -150,7 +144,8 @@ module ::Query::Results::GroupBy
     # If we were to use the keys array with duplicates to find the actual custom options,
     # AR would throw an error as the number of records returned does not match the number
     # of ids searched for.
-    custom_field.custom_options.find(keys.flatten.uniq).group_by { |o| o.id.to_s }
+    option_ids = keys.flatten.uniq - [CustomField::UnavailableValue::GROUP_KEY]
+    custom_field.custom_options.find(option_ids).group_by { |o| o.id.to_s }
   end
 
   def transform_single_custom_field_keys(custom_field, groups)

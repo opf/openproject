@@ -75,7 +75,7 @@ export class ViewPortService implements ViewPortServiceInterface {
 
   isJournalsContainerScrolledToBottom():boolean {
     let atBottom = false;
-    // we have to handle different scrollable containers for different viewports/pages in order to idenfity if the user is at the bottom of the journals
+    // we have to handle different scrollable containers for different viewports/pages in order to identify if the user is at the bottom of the journals
     // DOM structure different for notification center and workpackage detail view as well
     const scrollableContainer = this.scrollableContainer;
     if (scrollableContainer) {

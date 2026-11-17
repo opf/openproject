@@ -33,7 +33,7 @@ RSpec.describe Groups::CreateInheritedRolesService, "integration" do
   # The setup for these specs are a bit weird. First, the group is set up with its users already
   # attached. Then, the memberships of the group are added afterwards.
   # That way, the inherited roles are not yet created which they would otherwise by the group factory.
-  # This mimicks have a group with users already set up which can happen in two cases:
+  # This mimics having a group with users already set up which can happen in two cases:
   # * The Groups::AddUsersService service has run before because an additional user has been added to the group.
   #   The AddUsersService then calls the CreateInheritedRolesService
   # * The group receives an additional membership (in a project)

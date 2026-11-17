@@ -323,7 +323,7 @@ module MeetingAgendaItems
 
     ##
     # Find the next occurrence that we can move an item to.
-    # Even if meeting.start_time is in the past, its canonical reccurrence_start_time might be in the future.
+    # Even if meeting.start_time is in the past, its canonical recurrence_start_time might be in the future.
     # (when the meeting has been moved earlier than it recurrence time).
     #
     # In order to find the next valid slot, we need to skip:

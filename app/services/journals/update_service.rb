@@ -31,6 +31,13 @@ module Journals
   class UpdateService < ::BaseServices::Update
     protected
 
+    def after_validate(call)
+      journal = call.result
+      journal.cause = Journal::CausedByCommentRetraction.new.to_hash if comment_retracted?(journal)
+
+      call
+    end
+
     def after_perform(call)
       if call.success? && activity_comment?(call.result)
         attachments_claims = claim_attachments_for(call.result)
@@ -46,6 +53,10 @@ module Journals
     end
 
     private
+
+    def comment_retracted?(journal)
+      journal.notes.blank? && journal.notes_was.present? && !journal.has_cause?
+    end
 
     def activity_comment?(journal)
       journal.notes.present? || journal.attachments.exists?

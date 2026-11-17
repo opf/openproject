@@ -6,7 +6,7 @@ The OpenProject frontend is located at `frontend/src` and uses the Angular CLI (
 
 - `src/app/` — the legacy Angular application. New work does not go here.
 - `src/common/` — framework-agnostic modules, reachable through the `core-common` alias and importable from both Angular and Stimulus. Code belongs here when it depends on neither framework and both sides need it; a helper only Stimulus controllers use belongs in `src/stimulus/helpers/` instead.
-- `src/stimulus/` — Stimulus controllers, the current approach for new behaviour.
+- `src/stimulus/` — Stimulus controllers, the current approach for new behavior.
 - `src/turbo/` — Turbo integration: stream actions, custom elements and helpers.
 
 ## Angular frontend

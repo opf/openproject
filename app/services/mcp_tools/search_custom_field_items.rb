@@ -31,7 +31,7 @@ module McpTools
   class SearchCustomFieldItems < Base
     default_title "Custom Field Items"
     default_description "Access items available as values for the given custom field. Usable for hierarchy and " \
-                        "weighted item list custom fields."
+                        "weighted list custom fields."
 
     name "search_custom_field_items"
     annotations read_only: true, idempotent: true, destructive: false
@@ -76,11 +76,16 @@ module McpTools
     end
 
     def flatten_hierarchy(custom_field)
-      ::CustomFields::Hierarchy::HierarchicalItemService
-        .new
-        .hashed_subtree(item: custom_field.hierarchy_root)
-        .fmap { |tree| ::CustomFields::Hierarchy::HierarchicalItemAggregator.flatten_tree_hash(tree) }
-        .value_or([])
+      visible_ids = visible_value_ids(custom_field)
+
+      API::V3::CustomFields::Hierarchy::HierarchicalItemAggregate
+        .from_tree(custom_field.hierarchy_root.hash_tree, visible_ids:)
+    end
+
+    def visible_value_ids(custom_field)
+      return unless custom_field.project_specific_values_supported?
+
+      custom_field.visible_values_for(current_user).pluck(:id).to_set
     end
   end
 end

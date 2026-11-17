@@ -45,7 +45,7 @@
 # that wouldn't match the filter still resolves.
 #
 # Internally, the activities feed is a single Journal relation paginated by
-# pagy at the database level. Only the page slice is materialised — eager-loaded
+# pagy at the database level. Only the page slice is materialized — eager-loaded
 # and wrapped — keeping per-request cost independent of total history size.
 #
 # @param work_package [WorkPackage] The work package to paginate activities for
@@ -179,7 +179,7 @@ class WorkPackages::ActivitiesTab::Paginator
   def page_journals(page_relation)
     page_relation
       .includes(:user, :customizable_journals, :attachable_journals, :storable_journals, :target_version_journals,
-                :observed_in_version_journals, :notifications, :attachments)
+                :label_journals, :observed_in_version_journals, :notifications, :attachments)
       .to_a
   end
 

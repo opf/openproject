@@ -36,7 +36,7 @@ import { vi } from 'vitest';
 import { NativeDragSimulation } from 'core-common/drag-and-drop/testing/native-drag-simulation';
 import type { createSortableRoot as createSortableRootFn } from './sortable-lists-engine';
 
-// `doMock` is not hoisted, so this initialises before the factory below runs
+// `doMock` is not hoisted, so this initializes before the factory below runs
 // and a plain const does the job `vi.hoisted()` used to.
 const previewCalls:{
   getOffset?:(args:{ container:HTMLElement }) => { x:number; y:number };

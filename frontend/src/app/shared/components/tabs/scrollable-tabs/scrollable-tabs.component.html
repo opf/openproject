@@ -6,11 +6,13 @@
     <ul
       #scrollPane
       class="op-tab-row"
+      role="tablist"
       (scroll)="onScroll()"
       >
       @for (tab of tabs; track tab.id) {
         <li
           class="op-tab-row--tab"
+          role="presentation"
           (dragenter)="startDebouncedTabActivation(tab)"
           (dragleave)="cancelDebouncedTabActivation()"
           [attr.data-tab-id]="tab.id"
@@ -25,8 +27,11 @@
             [class.op-tab-row--link_selected]="tab.id === currentTabId"
             [class.op-tab-row--link_disabled]="tab.disable !== undefined"
             [attr.aria-selected]="tab.id === currentTabId"
+            [attr.aria-disabled]="tab.disable !== undefined || null"
+            [attr.tabindex]="tab.disable !== undefined && !tab.path ? 0 : null"
             (click)="clickTab(tab, $event)"
-            [attr.title]="tabTitle(tab)"
+            opTooltip
+            [description]="disabledReason(tab)"
             >
             <span [textContent]="tab.name"></span>
             @if (counter(tab) | async; as tabCounter) {
@@ -51,6 +56,7 @@
       class="op-scrollable-tabs--button op-scrollable-tabs--button_left"
       [hidden]="hideLeftButton"
       (click)="scrollLeft()"
+      [attr.aria-label]="text.scrollLeft"
       >
       <span class="icon-arrow-left2"></span>
     </button>
@@ -60,6 +66,7 @@
       class="op-scrollable-tabs--button op-scrollable-tabs--button_right"
       [hidden]="hideRightButton"
       (click)="scrollRight()"
+      [attr.aria-label]="text.scrollRight"
       >
       <span class="icon-arrow-right2"></span>
     </button>

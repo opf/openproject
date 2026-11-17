@@ -457,5 +457,14 @@ RSpec.describe WorkPackage do
     it "offers a field the applied variant's form configuration shows" do
       expect(work_package.available_custom_fields).to include(field)
     end
+
+    it "picks up a field the form configuration gained after an earlier lookup" do
+      later_field = create(:work_package_custom_field)
+      work_package.available_custom_fields.to_a
+
+      type.default_variant.custom_field_ids |= [later_field.id]
+
+      expect(described_class.find(work_package.id).available_custom_fields).to include(later_field)
+    end
   end
 end

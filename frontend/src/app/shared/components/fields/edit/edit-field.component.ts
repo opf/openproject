@@ -105,11 +105,11 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
     return this.handler.inFlight;
   }
 
-  public get value() {
+  public get value():unknown {
     return this.resource[this.name];
   }
 
-  public set value(value:any) {
+  public set value(value:unknown) {
     this.resource[this.name] = this.parseValue(value);
   }
 
@@ -143,7 +143,7 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
   /**
    * Parse the value from the model for setting
    */
-  protected parseValue(val:any) {
+  protected parseValue(val:unknown):unknown {
     return val;
   }
 }

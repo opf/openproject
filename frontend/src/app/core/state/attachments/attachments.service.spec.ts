@@ -75,7 +75,7 @@ describe('AttachmentsResourceService', () => {
     service = TestBed.inject(AttachmentsResourceService);
   });
 
-  it('initialises via dependency injection', () => {
+  it('initializes via dependency injection', () => {
     expect(service).toBeTruthy();
   });
 

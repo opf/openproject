@@ -38,21 +38,17 @@ module Admin
           input_width: :medium
         )
 
-        color_form.group(layout: :horizontal, classes: "color-form--hexcode-row") do |hexcode_group|
-          hexcode_group.text_field(
-            name: :hexcode,
-            label: attribute_name(:hexcode),
-            required: true,
-            autocomplete: "off",
-            input_width: :small
-          )
-
-          if show_swatch?
-            hexcode_group.html_content do
-              render(Colors::SwatchComponent.new(hexcode: model.hexcode, classes: "color-form--hexcode-row-swatch"))
-            end
-          end
-        end
+        color_form.color_field(
+          name: :hexcode,
+          label: attribute_name(:hexcode),
+          required: true,
+          input_width: :medium,
+          data: {
+            color_contrast_target: "hexcode",
+            invalid_message: hexcode_invalid_message,
+            action: "input->color-contrast#update change->color-contrast#check"
+          }
+        )
 
         color_form.group(layout: :horizontal) do |button_group|
           button_group.button(
@@ -77,8 +73,8 @@ module Admin
         url_helpers.custom_style_path(tab: :default_colors)
       end
 
-      def show_swatch?
-        model.hexcode.present? && model.errors.messages_for(:hexcode).empty?
+      def hexcode_invalid_message
+        model.errors.full_message(:hexcode, model.errors.generate_message(:hexcode, :hexcode_invalid))
       end
     end
   end

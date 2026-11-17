@@ -89,14 +89,14 @@ RSpec.describe "My spent time widget with a negative time zone", :js,
     end
 
     # The browser runs five hours behind the server here, which must not move the entry
-    # to the neighbouring day.
+    # to the neighboring day.
     select_day(thursday)
 
     time_logging_modal.has_field_with_value "spent_on", thursday.iso8601
   end
 
   # The slot lanes lie over the day columns and are what a click actually lands on, so the
-  # day is picked by clicking a lane at that column's horizontal centre, as a user does.
+  # day is picked by clicking a lane at that column's horizontal center, as a user does.
   def select_day(date)
     # The stack renders once its frame has loaded, so wait for the grid before measuring it.
     find("td.fc-timegrid-col[data-date='#{date.iso8601}']")

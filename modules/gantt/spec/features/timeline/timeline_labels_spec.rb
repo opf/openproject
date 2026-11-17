@@ -29,7 +29,6 @@ require "spec_helper"
 
 RSpec.describe "Work package timeline labels",
                :js,
-               :selenium,
                with_settings: { date_format: "%Y-%m-%d" } do
   let(:user) { create(:admin) }
   let(:today) { Time.zone.today }

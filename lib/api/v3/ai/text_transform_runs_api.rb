@@ -78,7 +78,7 @@ module API
             authorize_logged_in
 
             context = context_from_params
-            action = ::AI::TextTransformAction.find_by(id: params[:actionId])
+            action = ::AI::TextAction.find_by(id: params[:actionId])
             call = ::AI::TextTransforms::CreateRun
                      .new(user: current_user, action:, context:, content: params[:content])
                      .call
@@ -104,7 +104,7 @@ module API
 
             namespace :cancel do
               post do
-                @run.update!(cancel_requested: true) unless @run.terminal?
+                @run.request_cancel!
 
                 status 204
               end

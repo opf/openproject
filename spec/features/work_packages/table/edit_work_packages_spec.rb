@@ -124,6 +124,23 @@ RSpec.describe "Inline editing work packages", :js do
       expect(work_package.status.id).to eq(status2.id)
     end
 
+    it "closes the status popup before cancelling its editor" do
+      wp_table.focus_cell_by_keyboard(work_package, :status)
+      wp_table.press_keys(:enter)
+      status_field = wp_table.edit_field(work_package, :status)
+      status_field.expect_active!
+      status_field.openSelectField
+      expect(page).to have_css(".ng-dropdown-panel")
+
+      wp_table.press_keys(:escape)
+      expect(page).to have_no_css(".ng-dropdown-panel")
+      status_field.expect_active!
+
+      wp_table.press_keys(:escape)
+      status_field.expect_inactive!
+      wp_table.expect_focus_on_cell(work_package, :status)
+    end
+
     it "provides error handling" do
       subject_field = wp_table.edit_field(work_package, :subject)
       subject_field.expect_text("Foobar")
@@ -135,7 +152,9 @@ RSpec.describe "Inline editing work packages", :js do
 
       subject_field.save!
 
-      wp_table.expect_and_dismiss_toaster(type: :error, message: "Subject can't be blank.")
+      wp_table.expect_toast(type: :error, message: "Subject can't be blank.")
+      expect(subject_field.input_element).to match_selector('[aria-invalid="true"]', focused: true)
+      subject_field.expect_invalid
 
       expect(work_package.reload.subject).to eq "Foobar"
     end
@@ -200,8 +219,8 @@ RSpec.describe "Inline editing work packages", :js do
         message: "#{cf_list_name} can't be blank.\n#{cf_text_name} can't be blank."
       )
 
-      expect(page).to have_css("th a", text: cf_list_name.upcase)
-      expect(page).to have_css("th a", text: cf_text_name.upcase)
+      expect(page).to have_columnheader(cf_list_name)
+      expect(page).to have_columnheader(cf_text_name)
       expect(wp_table.row(work_package)).to have_css(".wp-table--cell-container.-error", count: 2)
 
       cf_text = wp_table.edit_field(work_package, custom_fields.last.attribute_name(:camel_case))
@@ -223,7 +242,7 @@ RSpec.describe "Inline editing work packages", :js do
       expect(work_package.send(custom_fields.first.attribute_getter)).to eq("bar")
       expect(work_package.send(custom_fields.last.attribute_getter)).to eq("my custom text")
 
-      # Saveguard to let the background update complete
+      # Safeguard to let the background update complete
       wp_table.visit!
       wp_table.expect_work_package_listed(work_package)
     end

@@ -79,7 +79,7 @@ See COPYRIGHT and LICENSE files for more details.
               end
 
               row.with_column(ml: 2) do
-                render(Projects::StatusBadgeComponent.new(project: child))
+                render(Projects::StatusLabelComponent.new(project: child))
               end
             end
           end

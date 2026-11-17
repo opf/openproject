@@ -127,7 +127,145 @@ RSpec.describe API::V3::Attachments::AttachmentsAPI do
         end
       end
     end
+
+    describe "GET /content of a pending attachment", :with_direct_uploads do
+      include DirectUploadHelpers
+
+      let(:permissions) { [:view_work_packages] }
+      let(:author) { current_user }
+      let(:attachment) do
+        create(:attachment, status: :prepared, author:, container: create(:work_package, project:))
+      end
+
+      before do
+        stage_direct_upload(attachment)
+        get api_v3_paths.attachment_content(attachment.id)
+      end
+
+      context "when requested by the author" do
+        it "redirects to the staged upload" do
+          expect(last_response).to have_http_status :found
+          expect(last_response.headers["Location"]).to include direct_upload_staging_key(attachment)
+        end
+
+        it "does not allow caching the redirect" do
+          expect(last_response.headers["Cache-Control"]).not_to include "public"
+          expect(last_response.headers["Expires"]).to be_nil
+        end
+      end
+
+      context "when requested by another user" do
+        let(:author) { create(:user, member_with_roles: { project => role }) }
+
+        it "returns 404" do
+          expect(last_response).to have_http_status :not_found
+        end
+      end
+    end
   end
 
-  context "with an quarantined attachments"
+  describe "GET /content of an incomplete import" do
+    let(:permissions) { [:view_work_packages] }
+
+    let(:attachment) do
+      create(:attachment, status:, author: current_user, container: create(:work_package, project:))
+    end
+
+    before do
+      allow(User).to receive(:current).and_return current_user
+      get api_v3_paths.attachment_content(attachment.id)
+    end
+
+    %i[import_prepared import_failed].each do |status|
+      context "when the attachment is #{status}" do
+        let(:status) { status }
+
+        it "returns 404" do
+          expect(last_response).to have_http_status :not_found
+        end
+      end
+    end
+  end
+
+  describe "external attachment downloads",
+           with_ee: %i[virus_scanning],
+           with_settings: { antivirus_scan_mode: :clamav_socket } do
+    let(:permissions) { [:view_work_packages] }
+    let(:author) { create(:user) }
+    let(:status) { :uploaded }
+    let(:external_url) { "https://storage.example.com/attachment?signature=secret" }
+    let(:attachment) do
+      create(:attachment, status:, author:, container: create(:work_package, project:))
+    end
+
+    before do
+      allow(User).to receive(:current).and_return(current_user)
+      allow(Attachment).to receive(:find).with(attachment.id).and_return(attachment)
+      allow(attachment).to receive(:external_url).and_return(external_url)
+    end
+
+    shared_examples "a guarded attachment download" do
+      it "exposes the guarded content endpoint and enforces download access" do
+        get api_v3_paths.attachment(attachment.id)
+
+        expect(last_response).to have_http_status :ok
+        download_location = JSON.parse(last_response.body).dig("_links", "downloadLocation", "href")
+        expect(download_location).to eq api_v3_paths.attachment_content(attachment.id)
+        expect(attachment).not_to have_received(:external_url)
+
+        get download_location
+
+        expect(last_response).to have_http_status expected_status
+        expect(last_response.headers["Location"]).to eq expected_location
+      end
+    end
+
+    context "when quarantined" do
+      let(:status) { :quarantined }
+      let(:expected_status) { :forbidden }
+      let(:expected_location) { nil }
+
+      it_behaves_like "a guarded attachment download"
+
+      context "when requested by the author" do
+        let(:author) { current_user }
+
+        it_behaves_like "a guarded attachment download"
+      end
+    end
+
+    context "when awaiting a virus scan" do
+      let(:expected_status) { :forbidden }
+      let(:expected_location) { nil }
+
+      it_behaves_like "a guarded attachment download"
+
+      context "when requested by the author" do
+        let(:author) { current_user }
+        let(:expected_status) { :found }
+        let(:expected_location) { external_url }
+
+        it_behaves_like "a guarded attachment download"
+      end
+    end
+
+    context "when scanned" do
+      let(:status) { :scanned }
+      let(:expected_status) { :found }
+      let(:expected_location) { external_url }
+
+      it_behaves_like "a guarded attachment download"
+    end
+
+    context "without container visibility" do
+      let(:permissions) { [] }
+
+      it "does not expose attachment metadata or generate an external URL" do
+        get api_v3_paths.attachment(attachment.id)
+
+        expect(last_response).to have_http_status :not_found
+        expect(attachment).not_to have_received(:external_url)
+      end
+    end
+  end
 end

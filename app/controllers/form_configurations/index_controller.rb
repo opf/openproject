@@ -61,6 +61,16 @@ module FormConfigurations
              layout: false
     end
 
+    def types_dialog
+      record = ::FormConfiguration.find(params.expect(:id))
+
+      respond_with_dialog(
+        WorkPackageTypes::NamedReferences::Index::TypesDialogComponent.new(
+          record:, model_class:, variants: ordered_variants.where(form_configuration_id: record.id)
+        )
+      )
+    end
+
     private
 
     def model_class = ::FormConfiguration
@@ -68,26 +78,11 @@ module FormConfigurations
     def load_query
       @query = ::Queries::FormConfigurations::FormConfigurationQuery.new
 
-      @query.where(:name, "~", [name_term]) if name_term.present?
-      @query.where(:type_id, "=", filtered_type_ids) if filtered_type_ids.any?
-      @query.where(:project_id, "=", filtered_project_ids) if filtered_project_ids.any?
+      requested_filters.each do |filter|
+        @query.where(filter[:attribute], filter[:operator], filter[:values])
+      end
 
       @query
-    end
-
-    def name_term = @name_term ||= values_for(::Queries::FormConfigurations::Filters::NameFilter.key).first.to_s.strip
-
-    def filtered_type_ids = @filtered_type_ids ||= values_for(::Queries::FormConfigurations::Filters::TypeFilter.key)
-
-    def filtered_project_ids
-      @filtered_project_ids ||= values_for(::Queries::FormConfigurations::Filters::ProjectFilter.key)
-    end
-
-    def values_for(filter_key)
-      requested_filters
-        .select { |filter| filter[:attribute].to_s == filter_key.to_s }
-        .flat_map { |filter| Array(filter[:values]).map(&:to_s) }
-        .compact_blank
     end
 
     def requested_filters
@@ -120,13 +115,15 @@ module FormConfigurations
     end
 
     def form_variants
-      @form_variants ||= TypeVariant
-                           .where(form_configuration_id: forms.map(&:id))
-                           .includes(:type, :projects)
-                           .joins(:type)
-                           .merge(::Type.order(:position))
-                           .in_display_order
-                           .group_by(&:form_configuration_id)
+      @form_variants ||= ordered_variants.where(form_configuration_id: forms.map(&:id)).group_by(&:form_configuration_id)
+    end
+
+    def ordered_variants
+      TypeVariant
+        .includes(:type, :projects)
+        .joins(:type)
+        .merge(::Type.order(:position))
+        .in_display_order
     end
 
     def candidate_projects

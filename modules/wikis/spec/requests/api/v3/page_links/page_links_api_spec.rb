@@ -169,18 +169,18 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
   end
 
   describe "GET /api/v3/wiki_page_links" do
-    let(:unaccessible_links) { create_list(:relation_wiki_page_link, 2, provider: xwiki_provider) }
+    let(:inaccessible_links) { create_list(:relation_wiki_page_link, 2, provider: xwiki_provider) }
     let(:path) { api_v3_paths.wiki_page_links }
 
     context "with all preconditions met (happy path)" do
       before do
-        unaccessible_links
+        inaccessible_links
         get path
       end
 
       it_behaves_like "API V3 collection response", 9, 9, "WikiPageLink", "WikiPageLinkCollection" do
         let(:elements) do
-          ids = unaccessible_links.pluck(:id) + same_identifier_page_links.pluck(:id)
+          ids = inaccessible_links.pluck(:id) + same_identifier_page_links.pluck(:id)
           Wikis::PageLink.where.not(id: ids).order(id: :desc).all
         end
       end
@@ -198,12 +198,12 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
 
     context "when paginated with an offset beyond the first page" do
       let(:all_ids) do
-        ids = unaccessible_links.pluck(:id) + same_identifier_page_links.pluck(:id)
+        ids = inaccessible_links.pluck(:id) + same_identifier_page_links.pluck(:id)
         Wikis::PageLink.where.not(id: ids).order(id: :desc).pluck(:id)
       end
 
       before do
-        unaccessible_links
+        inaccessible_links
         get "#{path}?pageSize=2&offset=2"
       end
 
@@ -229,7 +229,7 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
 
       it_behaves_like "API V3 collection response", 3, 3, "WikiPageLink", "WikiPageLinkCollection" do
         let(:elements) do
-          ids = unaccessible_links.pluck(:id) + same_identifier_page_links.pluck(:id)
+          ids = inaccessible_links.pluck(:id) + same_identifier_page_links.pluck(:id)
           Wikis::RelationPageLink.where.not(id: ids).order(id: :desc).all
         end
       end

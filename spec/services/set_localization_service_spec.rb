@@ -57,7 +57,7 @@ RSpec.describe SetLocalizationService do
     end
   end
 
-  shared_examples_for "falls back to the instane's default language" do
+  shared_examples_for "falls back to the instance's default language" do
     it "falls back to the instance's default language" do
       expect_locale(default_language)
 
@@ -127,19 +127,19 @@ RSpec.describe SetLocalizationService do
                                                                    default_language]
         end
 
-        it_behaves_like "falls back to the instane's default language"
+        it_behaves_like "falls back to the instance's default language"
       end
 
       context "with no header set" do
         let(:http_accept_header) { nil }
 
-        it_behaves_like "falls back to the instane's default language"
+        it_behaves_like "falls back to the instance's default language"
       end
 
       context "with wildcard header set" do
         let(:http_accept_language) { "*" }
 
-        it_behaves_like "falls back to the instane's default language"
+        it_behaves_like "falls back to the instance's default language"
       end
     end
   end
@@ -152,13 +152,13 @@ RSpec.describe SetLocalizationService do
     context "with no header set" do
       let(:http_accept_header) { nil }
 
-      it_behaves_like "falls back to the instane's default language"
+      it_behaves_like "falls back to the instance's default language"
     end
 
     context "with a wildcard header set" do
       let(:http_accept_language) { "*" }
 
-      it_behaves_like "falls back to the instane's default language"
+      it_behaves_like "falls back to the instance's default language"
     end
   end
 end

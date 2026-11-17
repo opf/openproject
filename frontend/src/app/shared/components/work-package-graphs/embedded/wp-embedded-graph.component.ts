@@ -27,17 +27,20 @@
 
 import { ChangeDetectionStrategy, Component, Input, SimpleChanges, OnChanges, inject } from '@angular/core';
 import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
-import { ChartOptions, Plugin } from 'chart.js';
+import { ChartOptions, ChartType, Plugin } from 'chart.js';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
+import { generateId } from 'core-app/shared/helpers/dom-helpers';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 import PrimerColorsPlugin from './../plugin.primer-colors';
-import { chartTypeLocaleKey } from './../chart-type';
+import { ChartTypeIdentifier, chartTypeLocaleKey, normalizeChartType } from './../chart-type';
+import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
 
 export interface WorkPackageEmbeddedGraphDataset {
   label:string;
-  queryProps:any;
+  queryProps:unknown;
   queryId?:number|string;
   groups?:GroupObject[];
 }
@@ -52,7 +55,8 @@ interface ChartDataSet {
   styleUrls: ['./wp-embedded-graph.component.sass'],
   standalone: true,
   imports: [
-    BaseChartDirective
+    BaseChartDirective,
+    NoResultsComponent,
   ],
   providers: [
     provideCharts(withDefaultRegisterables(PrimerColorsPlugin)),
@@ -65,11 +69,13 @@ interface ChartDataSet {
 export class WorkPackageEmbeddedGraphComponent implements OnChanges {
   readonly i18n = inject(I18nService);
 
+  readonly chartDescriptionId = generateId('work-package-chart-description');
+
   @Input() public datasets:WorkPackageEmbeddedGraphDataset[];
 
   @Input() public chartOptions:ChartOptions;
 
-  @Input() chartType = 'bar';
+  @Input({ transform: normalizeChartType }) chartType:ChartTypeIdentifier = 'bar';
 
   public configuration:WorkPackageTableConfiguration;
 
@@ -88,6 +94,7 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
   public readonly plugins:Plugin[] = [ChartDataLabels];
 
   public text = {
+    chartLabel: this.i18n.t('js.grid.widgets.work_packages_graph.title'),
     noResults: this.i18n.t('js.work_packages.no_results.title'),
   };
 
@@ -105,24 +112,24 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
   }
 
   private updateChartData() {
-    let uniqLabels = Array.from(new Set(this.datasets.reduce((array, dataset) => {
-      const groups = (dataset.groups || []).map((group) => group.value) as any;
+    const uniqLabels = Array.from(new Set(this.datasets.reduce<(string|null)[]>((array, dataset) => {
+      const groups = (dataset.groups ?? []).map((group) => group.value);
       return array.concat(groups);
-    }, []))) as string[];
+    }, [])));
 
     const labelCountMaps = this.datasets.map((dataset) => {
-      const countMap = (dataset.groups || []).reduce<any>((hash, group) => ({
+      const countMap = (dataset.groups ?? []).reduce<Record<string, number>>((hash, group) => ({
         ...hash,
-        [group.value]: group.count,
+        [String(group.value)]: group.count,
       }), {});
 
       return {
         label: dataset.label,
-        data: uniqLabels.map((label) => countMap[label] || 0),
+        data: uniqLabels.map((label) => countMap[String(label)] || 0),
       };
     });
 
-    uniqLabels = uniqLabels.map((label) => {
+    const displayLabels = uniqLabels.map((label) => {
       if (label === null) {
         return this.i18n.t('js.placeholders.default');
       }
@@ -133,15 +140,15 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
 
     // keep the array in order to update the labels
     this.chartLabels.length = 0;
-    this.chartLabels.push(...uniqLabels);
+    this.chartLabels.push(...displayLabels);
     this.chartData.length = 0;
     this.chartData.push(...labelCountMaps);
   }
 
   protected setChartOptions() {
-    const bodyFontColor= getComputedStyle(document.body).getPropertyValue('--body-font-color');
-    const gridLineColor= getComputedStyle(document.body).getPropertyValue('--borderColor-muted');
-    const backdropColor= getComputedStyle(document.body).getPropertyValue('--overlay-backdrop-bgColor');
+    const bodyFontColor = getCSSVariable('--body-font-color');
+    const gridLineColor = getCSSVariable('--borderColor-muted');
+    const backdropColor = getCSSVariable('--overlay-backdrop-bgColor');
 
     const valueAxisGrace = this.isBarChart() ? '10%' : 0;
 
@@ -222,7 +229,7 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
     return this.chartData.length > 0 && this.chartData.some((set) => set.data.length > 0);
   }
 
-  public get mappedChartType():string {
+  public get mappedChartType():ChartType {
     return this.chartType === 'horizontalBar' ? 'bar' : this.chartType;
   }
 
@@ -241,7 +248,7 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
 
   private setHeight() {
     if (this.chartType === 'horizontalBar' && this.datasets?.[0]) {
-      const labels:string[] = [];
+      const labels:(string|null)[] = [];
       this.datasets.forEach((d) => { d.groups!.forEach((g) => {
         if (!labels.includes(g.value)) {
           labels.push(g.value);

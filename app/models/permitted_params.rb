@@ -42,7 +42,7 @@ class PermittedParams
   #
   # A controller could use a permitted_params method like this
   #
-  # model_instance.METHOD_USING_ASSIGMENT = permitted_params.name_of_the_params_key_referenced
+  # model_instance.METHOD_USING_ASSIGNMENT = permitted_params.name_of_the_params_key_referenced
   #
   attr_reader :params, :current_user
 
@@ -141,18 +141,6 @@ class PermittedParams
 
   def member
     params.require(:member).permit(*self.class.permitted_attributes[:member])
-  end
-
-  def oauth_application
-    params.require(:application).permit(*self.class.permitted_attributes[:oauth_application]).tap do |app_params|
-      scopes = app_params[:scopes]
-
-      if scopes.present?
-        app_params[:scopes] = scopes.compact_blank.join(" ")
-      end
-
-      app_params
-    end
   end
 
   def query
@@ -501,7 +489,6 @@ class PermittedParams
           { triggers_attributes: [:id, :type, :position, { options: {} }, :_destroy] }
         ],
         custom_field: [
-          :editable,
           :field_format,
           :formula,
           :is_filter,
@@ -523,7 +510,11 @@ class PermittedParams
           :custom_field_section_id,
           :allow_non_open_versions,
           :has_comment,
+          :user_self_editable,
           :visible_on_user_card,
+          :project_specific_value_restriction,
+          :allow_additional_project_values,
+          :project_level_value_management,
           { custom_options_attributes: %i(id value default_value position) },
           { type_ids: [] }
         ],
@@ -562,6 +553,7 @@ class PermittedParams
           :estimated_hours,
           { target_version_ids: [] },
           { observed_in_version_ids: [] },
+          { label_ids: [] },
           :budget_id,
           :parent_id,
           :priority_id,
@@ -591,15 +583,8 @@ class PermittedParams
           :status_id,
           { target_version_ids: [] },
           { observed_in_version_ids: [] },
+          { label_ids: [] },
           :priority_id
-        ],
-        oauth_application: [
-          :name,
-          :redirect_uri,
-          :confidential,
-          :enabled,
-          :client_credentials_user_id,
-          { scopes: [] }
         ],
         placeholder_user: %i(
           name
@@ -634,13 +619,14 @@ class PermittedParams
           scope
           filter
           submit
+          search_mode
         ),
         status: %i(
           name
           color_id
           default_done_ratio
           excluded_from_totals
-          is_closed
+          category
           is_default
           is_readonly
           move_to

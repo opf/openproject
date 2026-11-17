@@ -94,7 +94,7 @@ export class Changeset {
    * Get a single value from the changeset
    * @param key
    */
-  public getValue(key:string):unknown|undefined {
+  public getValue(key:string):unknown {
     return this.getItem(key)?.to;
   }
 
@@ -102,7 +102,7 @@ export class Changeset {
    * Get a single pristine value from the changeset
    * @param key
    */
-  public getPristine(key:string):unknown|undefined {
+  public getPristine(key:string):unknown {
     return this.changes[key]?.from;
   }
 }

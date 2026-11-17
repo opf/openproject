@@ -53,6 +53,16 @@ module WorkPackageTypes
 
       def mark_default? = model_class.defaultable? && !record.marked_default?
 
+      def delete_action(menu)
+        menu.with_item(
+          scheme: :danger,
+          label: t(:button_delete),
+          href: helpers.polymorphic_path(record),
+          form_arguments: { method: :delete, data: { turbo_confirm: t(:text_are_you_sure) } },
+          test_selector: test_selector("delete-action")
+        ) { |item| item.with_leading_visual_icon(icon: :trash) }
+      end
+
       def test_selector(part) = "#{dom_class(model_class)}-#{part}"
     end
   end

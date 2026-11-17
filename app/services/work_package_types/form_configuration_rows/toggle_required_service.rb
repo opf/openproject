@@ -68,14 +68,24 @@ module WorkPackageTypes
           I18n.t("types.edit.form_configuration.required.not_a_custom_field")
         elsif custom_field.is_required?
           I18n.t("types.edit.form_configuration.required.already_required_globally")
+        elsif !required_for_variant? && excluded?
+          I18n.t("types.edit.form_configuration.required.excluded")
         end
+      end
+
+      def required_for_variant?
+        variant[:required_attributes].map(&:to_s).include?(@row_key)
+      end
+
+      def excluded?
+        variant.excluded_elements(TypeVariant::FORM_CONFIGURATION).map(&:to_s).include?(@row_key)
       end
 
       def custom_field
         return @custom_field if defined?(@custom_field)
 
         @custom_field = if CustomField.custom_field_attribute?(@row_key)
-                          WorkPackageCustomField.find_by(id: @row_key.delete_prefix("custom_field_").to_i)
+                          WorkPackageCustomField.find_by(id: CustomField.id_from_attribute_name(@row_key))
                         end
       end
 
@@ -93,7 +103,7 @@ module WorkPackageTypes
       def next_required_attributes
         current = variant[:required_attributes].map(&:to_s)
 
-        current.include?(@row_key) ? current - [@row_key] : current | [@row_key]
+        required_for_variant? ? current - [@row_key] : current | [@row_key]
       end
     end
   end

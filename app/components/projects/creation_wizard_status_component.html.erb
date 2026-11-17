@@ -3,15 +3,15 @@
   <%= render(Primer::Beta::Text.new(tag: :p)) { @status_explanation } %>
 <% end %>
 
-<% if artifact_work_package %>
+<% if artefact_work_package %>
   <%= render(
         Primer::Beta::Button.new(
           mt: 2,
           tag: :a,
-          href: project_work_package_path(project, artifact_work_package)
+          href: project_work_package_path(project, artefact_work_package)
         )
       ) { t("settings.project_initiation_request.status.submitted_button") } %>
-<% elsif artifact_id.blank? %>
+<% elsif artefact_id.blank? %>
   <%= render(
         Primer::Beta::Button.new(
           mt: 2,

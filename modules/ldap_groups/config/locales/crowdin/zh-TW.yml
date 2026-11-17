@@ -89,7 +89,7 @@ zh-TW:
       plural: LDAP 同步群組
       singular: LDAP 同步群組
       upsell:
-        description: 利用 LDAP 同步群組來管理用戶、更改其權限並促進跨群組的用戶管理。
+        description: Take advantage of synchronized LDAP groups to manage users, change their permissions and facilitate user management across groups.
   plugin_openproject_ldap_groups:
     description: LDAP組成員同步。
     name: OpenProject LDAP 群組

@@ -36,4 +36,31 @@ RSpec.describe PermittedParams do
         .to include(:sprint_id, :backlog_bucket_id, :story_points)
     end
   end
+
+  describe "#backlog_filters" do
+    subject(:permitted) { described_class.new(params, build_stubbed(:user)).backlog_filters.to_h }
+
+    context "with :bucket_ids, :sprint_ids and :all as string" do
+      let(:params) do
+        ActionController::Parameters.new(
+          bucket_ids: %w[1 2].to_json,
+          sprint_ids: %w[3].to_json,
+          all: "1"
+        )
+      end
+
+      it "permits all" do
+        expect(permitted)
+          .to eq("bucket_ids" => %w[1 2].to_json, "sprint_ids" => %w[3].to_json, "all" => "1")
+      end
+    end
+
+    context "with unpermitted params" do
+      let(:params) { ActionController::Parameters.new(bucket_ids: %w[1], sprint_ids: %w[1], evil: "true") }
+
+      it "filters them out" do
+        expect(permitted).to eq({})
+      end
+    end
+  end
 end

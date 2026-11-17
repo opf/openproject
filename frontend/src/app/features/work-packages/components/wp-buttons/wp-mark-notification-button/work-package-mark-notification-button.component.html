@@ -1,7 +1,8 @@
 <button
   (click)="markAllBelongingNotificationsAsRead()"
-  [attr.title]="text.mark_as_read"
-  class="button">
+  opTooltip
+  [label]="text.mark_as_read"
+  class="button toolbar-icon">
 
   <svg
     read-icon

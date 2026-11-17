@@ -28,6 +28,20 @@
 #++
 
 module AdminHelper
+  extend self
+
+  def ai_landing_path
+    routes = Rails.application.routes.url_helpers
+
+    if OpenProject::FeatureDecisions.llm_connection_active?
+      routes.llm_connection_path
+    elsif OpenProject::FeatureDecisions.ai_text_actions_active?
+      routes.admin_text_actions_path
+    else
+      routes.mcp_configurations_path
+    end
+  end
+
   def project_status_options_for_select(selected)
     options_for_select([[I18n.t(:label_all), ""],
                         [I18n.t(:status_active), 1]], selected)

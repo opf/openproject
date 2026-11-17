@@ -29,10 +29,7 @@
 
 module OpTurbo
   module Streamable
-    # rubocop:disable OpenProject/AddPreviewForViewComponent
     class MissingComponentWrapper < StandardError; end
-    # rubocop:enable OpenProject/AddPreviewForViewComponent
-
     INLINE_ACTIONS = %i[dialog flash].freeze
     private_constant :INLINE_ACTIONS
     # Turbo allows the response method for these actions only:
@@ -154,7 +151,7 @@ module OpTurbo
     end
 
     def insert_target_modified?
-      # optionally overriden (returning true) in subclass in order to indicate thate the insert target
+      # optionally overridden (returning true) in subclass in order to indicate that the insert target
       # is modified and should not be the root inner html element
       # insert_target_container needs to be present on component's erb template then
       false

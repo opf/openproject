@@ -34,7 +34,7 @@ RSpec.describe Wikis::Admin::RedirectUriInfoComponent, type: :component do
   let(:wiki_provider) { create(:xwiki_provider) }
   let(:oauth_client) { build(:oauth_client, integration: wiki_provider, client_id: "openproject-1234") }
 
-  subject { render_inline(described_class.new(wiki_provider)) && page }
+  subject { render_inline(described_class.new(model: wiki_provider)) && page }
 
   context "without an oauth client" do
     before { allow(wiki_provider).to receive(:oauth_client).and_return(nil) }
@@ -63,7 +63,7 @@ RSpec.describe Wikis::Admin::RedirectUriInfoComponent, type: :component do
       expect(subject).to have_text(I18n.t(:label_completed))
     end
 
-    it "renders the labelled redirect uri" do
+    it "renders the labeled redirect uri" do
       expect(subject).to have_text(
         "#{I18n.t('wikis.admin.redirect_uri_info_component.label_uri')}: #{oauth_client.redirect_uri}"
       )

@@ -32,6 +32,7 @@ module API
     class ParseQueryParamsService
       KEYS_GROUP_BY = %i(group_by groupBy g).freeze
       KEYS_COLUMNS = %i(columns c column_names columns[]).freeze
+      KEYS_HIGHLIGHTED_ATTRIBUTES = %i(highlightedAttributes highlightedAttributes[]).freeze
 
       def call(params)
         json_parsed = json_parsed_params(params)
@@ -61,7 +62,7 @@ module API
         result
       end
 
-      # rubocop:disable Metrics/AbcSize
+      # rubocop:disable-next Metrics/AbcSize
       def parsed_params(params)
         ServiceResult.success result: {
           group_by: group_by_from_params(params),
@@ -81,7 +82,6 @@ module API
         result.errors.add(:base, e.message)
         result
       end
-      # rubocop:enable Metrics/AbcSize
 
       def determine_allowed_empty(params)
         allow_empty = params.keys
@@ -159,7 +159,7 @@ module API
       end
 
       def highlighted_attributes_from_params(params)
-        highlighted_attributes = Array(params[:highlightedAttributes].presence)
+        highlighted_attributes = Array(params_value(params, KEYS_HIGHLIGHTED_ATTRIBUTES).presence)
 
         return if highlighted_attributes.blank?
 
@@ -186,7 +186,7 @@ module API
       #
       # Examples:
       #   * status => status_id
-      #   * progresssDone => done_ratio
+      #   * progressDone => done_ratio
       #   * assigned => assigned_to
       #   * customField1 => cf_1
       #

@@ -69,6 +69,8 @@ export interface IGithubPullRequestResourceEmbedded {
   checkRuns:IGithubCheckRunResource[];
 }
 
+export type GithubPullRequestState = 'open'|'closed'|'deployed';
+
 export interface IGithubPullRequest {
   id:ID;
   additionsCount?:number;
@@ -82,16 +84,16 @@ export interface IGithubPullRequest {
   createdAt?:string;
   deletionsCount?:number;
   draft?:boolean;
-  githubUpdatedAt?:string;
+  githubUpdatedAt:string;
   htmlUrl:string;
   labels?:string[];
   merged?:boolean;
   mergedAt?:string;
   number?:number;
   repository:string;
-  repositoryHtmlUrl:string;
+  repositoryHtmlUrl?:string;
   reviewCommentsCount?:number;
-  state?:string;
+  state:GithubPullRequestState;
   title:string;
   updatedAt?:string;
 

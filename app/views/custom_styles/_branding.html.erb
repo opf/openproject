@@ -26,22 +26,35 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(Primer::Beta::Subhead.new(spacious: true)) do |subhead| %>
-  <% subhead.with_heading(tag: :h3, size: :medium) { t("admin.custom_styles.branding.desktop.title") } %>
+<%= render(Primer::Beta::Subhead.new(spacious: false)) do |subhead| %>
+  <% subhead.with_heading(tag: :h3, size: :medium, mt: 4) { t("admin.custom_styles.branding.desktop.title") } %>
   <% subhead.with_description { t("admin.custom_styles.branding.desktop.description") } %>
 <% end %>
 
-<% custom_logo_uploads(@custom_style).each do |image| %>
-  <%= render partial: "custom_styles/uploads/image", locals: { image: } %>
+<%= flex_layout(flex_wrap: :wrap, classes: "gap-3") do |flex| %>
+  <% custom_logo_uploads(@custom_style).each do |image| %>
+    <% flex.with_column(flex: 1, classes: "custom-style--growing-logo-form") do %>
+      <%= render partial: "custom_styles/uploads/image", locals: { image: } %>
+    <% end %>
+  <% end %>
 <% end %>
 
-<%= render(Primer::Beta::Subhead.new(spacious: true)) do |subhead| %>
-  <% subhead.with_heading(tag: :h3, size: :medium) { t("admin.custom_styles.branding.mobile.title") } %>
+<%= render(Primer::Beta::Subhead.new(spacious: false)) do |subhead| %>
+  <% subhead.with_heading(tag: :h3, size: :medium, mt: 4) { t("admin.custom_styles.branding.mobile.title") } %>
   <% subhead.with_description { t("admin.custom_styles.branding.mobile.description") } %>
 <% end %>
 
-<% custom_logo_uploads(@custom_style, mobile: true).each do |image| %>
-  <%= render partial: "custom_styles/uploads/image", locals: { image: } %>
+<%= flex_layout(flex_wrap: :wrap, classes: "gap-3") do |flex| %>
+  <% custom_logo_uploads(@custom_style, mobile: true).each do |image| %>
+    <% flex.with_column(flex: 1, classes: "custom-style--growing-logo-form") do %>
+      <%= render partial: "custom_styles/uploads/image", locals: { image: } %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= render(Primer::Beta::Subhead.new(spacious: false)) do |subhead| %>
+  <% subhead.with_heading(tag: :h3, size: :medium, mt: 4) { t("admin.custom_styles.branding.favicon.title") } %>
+  <% subhead.with_description { t("admin.custom_styles.branding.favicon.title_description") } %>
 <% end %>
 
 <%
@@ -55,14 +68,19 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 <%= render partial: "custom_styles/uploads/image", locals: { image: {
       field: :favicon,
-      label: I18n.t(:label_custom_favicon),
+      label: t("admin.custom_styles.branding.favicon.field"),
+      instructions: t("admin.custom_styles.branding.favicon.field_description"),
       present: favicon_present,
       source: favicon_source,
       img_class: "custom-favicon-preview",
       accept: "image/*",
-      delete_path: custom_style_favicon_delete_path,
-      instructions: I18n.t("text_custom_favicon_instructions")
+      delete_path: custom_style_favicon_delete_path
     } } %>
+
+<%= render(Primer::Beta::Subhead.new(spacious: false)) do |subhead| %>
+  <% subhead.with_heading(tag: :h3, size: :medium, mt: 4) { t("admin.custom_styles.branding.touch_icon.title") } %>
+  <% subhead.with_description { t("admin.custom_styles.branding.touch_icon.title_description") } %>
+<% end %>
 
 <%
   touch_icon_present = @custom_style.persisted? && @custom_style.touch_icon.present?
@@ -75,11 +93,11 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 <%= render partial: "custom_styles/uploads/image", locals: { image: {
       field: :touch_icon,
-      label: I18n.t(:label_custom_touch_icon),
+      label: t("admin.custom_styles.branding.touch_icon.field"),
+      instructions: t("admin.custom_styles.branding.touch_icon.field_description"),
       present: touch_icon_present,
       source: touch_icon_source,
       img_class: "custom-touch-icon-preview",
       accept: "image/*",
-      delete_path: custom_style_touch_icon_delete_path,
-      instructions: I18n.t("text_custom_touch_icon_instructions")
+      delete_path: custom_style_touch_icon_delete_path
     } } %>

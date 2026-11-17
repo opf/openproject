@@ -44,9 +44,7 @@ describe('canonicalizeWorkPackageIdInUrl', () => {
   }
 
   beforeEach(() => {
-    /* eslint-disable @typescript-eslint/no-empty-function */
     historyReplaceSpy = vi.spyOn(Turbo.session.history, 'replace').mockImplementation(() => {});
-    /* eslint-enable @typescript-eslint/no-empty-function */
   });
 
   afterEach(() => {

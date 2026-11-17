@@ -171,7 +171,7 @@ export class CustomTextEditFieldService extends EditFieldHandler {
         type: 'full',
         macros: 'resource',
       } as ICKEditorContext),
-      canAddAttachments: value.grid.canAddAttachments as boolean,
+      canAddAttachments: value.grid.canAddAttachments,
       _links: {
         addAttachment: grid.addAttachment as { href?:string },
         attachments: grid.attachments,

@@ -30,9 +30,28 @@
 class Setting
   module AllowedLinkProtocols
     ALWAYS_ALLOWED = %w[http https mailto].freeze
+    # A browser can execute these schemes from a link href.
+    NEVER_ALLOWED = %w[data javascript vbscript].freeze
 
     def self.all
-      (Setting.allowed_link_protocols + ALWAYS_ALLOWED).compact
+      (parse(Setting.allowed_link_protocols) + ALWAYS_ALLOWED).uniq
     end
+
+    def self.custom
+      all - ALWAYS_ALLOWED
+    end
+
+    def self.parse(value)
+      entries = value.is_a?(Array) ? value : value.to_s.split(/\r?\n/)
+
+      entries.filter_map { |protocol| sanitize_token(protocol) }
+             .uniq
+             .reject { |protocol| NEVER_ALLOWED.include?(protocol) }
+    end
+
+    def self.sanitize_token(protocol)
+      protocol.to_s.strip.downcase.gsub(/[^a-z0-9+\-.]+/, "").presence
+    end
+    private_class_method :sanitize_token
   end
 end

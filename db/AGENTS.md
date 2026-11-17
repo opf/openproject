@@ -1,29 +1,7 @@
 # Database
 
-## Code Style
+## Database Migrations
 
-### Database Migrations
-- Follow Rails migration conventions
-- Migrations are "squashed" between major releases (see `docs/development/migrations/`)
-
-## Commands
-
-### Local
-
-```bash
-bundle exec rails g migration MigrationName  # Generate a migration
-bundle exec rails db:migrate                 # Run migrations
-bundle exec rails db:rollback                # Rollback last migration
-bundle exec rails db:seed                    # Seed sample data
-```
-
-### Docker
-
-```bash
-bin/compose exec backend bundle exec rails db:migrate      # Run migrations
-bin/compose exec backend bundle exec rails db:seed         # Seed data
-```
-
-## Important Note
-
-**CRITICAL**: `config/database.yml` must NOT exist when using Docker (rename or delete it)
+- Follow Rails migration conventions and the [migration guide](../docs/development/migrations/README.md).
+- Migrations are "squashed" between major releases (see the migration guide).
+- In the Docker environment, run Rails commands via `bin/compose exec backend` (see [docker/dev/AGENTS.md](../docker/dev/AGENTS.md)).

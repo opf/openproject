@@ -127,7 +127,7 @@ RSpec.describe QueryPolicy, type: :controller do
         end
 
         it "is true if the user has the manage_public_query permission in the project " \
-           "AND it is anothers query " \
+           "AND it is another user's query " \
            "AND the query is public" do
           mock_permissions_for(user) do |mock|
             mock.allow_in_project :manage_public_queries, project: global ? build_stubbed(:project) : project
@@ -139,7 +139,7 @@ RSpec.describe QueryPolicy, type: :controller do
         end
 
         it "is false if the user lacks the manage_public_query permission in the project " \
-           "AND it is anothers query " \
+           "AND it is another user's query " \
            "AND the query is public" do
           mock_permissions_for(user) do |mock|
             mock.allow_in_project :save_queries, project: global ? build_stubbed(:project) : project
@@ -151,7 +151,7 @@ RSpec.describe QueryPolicy, type: :controller do
         end
 
         it "is false if the user has the manage_public_query permission in the project " \
-           "AND it is anothers query " \
+           "AND it is another user's query " \
            "AND the query is not public" do
           mock_permissions_for(user) do |mock|
             mock.allow_in_project :manage_public_queries, project: global ? build_stubbed(:project) : project
@@ -520,7 +520,7 @@ RSpec.describe QueryPolicy, type: :controller do
     it_behaves_like "viewing queries", global: true
     it_behaves_like "viewing queries", global: false
     # TODO: should this be better done in 'action on persisted' context?
-    # I'm not sure if the action on persisted perrmission dependecies apply to the share via ical context
+    # I'm not sure if the action on persisted permission dependencies apply to the share via ical context
     it_behaves_like "share via ical", global: true
     it_behaves_like "share via ical", global: false
   end

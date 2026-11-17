@@ -1,17 +1,17 @@
 ---
 da:
-  different_formats: Different formats
+  different_formats: Forskellige formater
   export:
     format:
       xls: XLS
-      xls_with_descriptions: XLS med beskrivelse
-      xls_with_relations: XLS with relations
+      xls_with_descriptions: XLS med beskrivelser
+      xls_with_relations: XLS med relationer
   export_to_excel: Eksporter XLS
   plugin_openproject_xls_export:
-    description: Export issue lists as Excel spreadsheets (.xls).
+    description: Eksportér lister som Excel-regneark (.xls).
     name: OpenProject XLS Export
-  print_with_description: Print preview with description
+  print_with_description: Udskriftsvisning med beskrivelse
   sentence_separator_or: eller
   xls_export:
-    child_of: child of
-    parent_of: parent of
+    child_of: underordnet til
+    parent_of: overordnet til

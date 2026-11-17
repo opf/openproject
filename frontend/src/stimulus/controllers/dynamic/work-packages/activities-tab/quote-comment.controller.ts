@@ -67,7 +67,7 @@ export default class QuoteCommentController extends Controller {
 
   private insertQuoteOnExistingEditor(quotedText:string) {
     if (this.ckEditorInstance) {
-      const editorData = this.ckEditorInstance.getData({ trim: false });
+      const editorData = this.ckEditorInstance.getData({ trim: 'none' });
 
       if (editorData.endsWith('<br>') || editorData.endsWith('\n')) {
         this.ckEditorInstance.setData(`${editorData}${quotedText}`);

@@ -29,7 +29,7 @@ import { Injectable, inject } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import moment, { Moment, MomentInput } from 'moment-timezone';
-import { outputChronicDuration } from '../../shared/helpers/chronic_duration';
+import { ChronicDurationOptions, outputChronicDuration } from '../../shared/helpers/chronic_duration';
 
 @Injectable({ providedIn: 'root' })
 export class TimezoneService {
@@ -100,6 +100,17 @@ export class TimezoneService {
     return `${c[0]} ${c[1]}`;
   }
 
+  /**
+   * The date a datetime falls on in the user's configured timezone, which is not what
+   * {@link formattedDate} answers: that one parses without a zone, as suits the 'YYYY-MM-DD'
+   * strings it is meant for.
+   *
+   * @param {String} datetimeString an instant, as 'YYYY-MM-DDTHH:mm:ssZ'
+   */
+  public formattedDatetimeAsDate(datetimeString:string):string {
+    return this.formattedDatetimeComponents(datetimeString)[0];
+  }
+
   public formattedRelativeDateTime(datetimeString:string):string {
     const d = this.parseDatetime(datetimeString);
     return d.fromNow();
@@ -157,14 +168,20 @@ export class TimezoneService {
     }
   }
 
-  public formattedChronicDuration(durationString:string, opts = {
+  public formattedChronicDuration(durationString:string, opts?:ChronicDurationOptions):string {
+    return this.formattedChronicDurationFromSeconds(this.toSeconds(durationString), opts);
+  }
+
+  public formattedChronicDurationFromHours(hours:number, opts?:ChronicDurationOptions):string {
+    return this.formattedChronicDurationFromSeconds(Math.round(hours * 3600), opts);
+  }
+
+  public formattedChronicDurationFromSeconds(seconds:number, opts:ChronicDurationOptions = {
     format: this.configurationService.durationFormat(),
     hoursPerDay: this.configurationService.hoursPerDay(),
     daysPerMonth: this.configurationService.daysPerMonth(),
   }):string {
     // Keep in sync with app/services/duration_converter#output
-    const seconds = this.toSeconds(durationString);
-
     return outputChronicDuration(seconds, opts) || '0h';
   }
 

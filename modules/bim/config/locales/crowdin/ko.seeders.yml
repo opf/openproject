@@ -61,7 +61,7 @@ ko:
         item_2:
           name: BIM 관리자
         item_3:
-          name: BIM 모델러
+          name: BIM Modelers
         item_4:
           name: 리드 BIM 코디네이터
         item_5:
@@ -511,17 +511,17 @@ ko:
               description: 이 유형은 계층적으로 &quot;충돌&quot; 및 &quot;요청&quot; 유형의 부모이므로 일반 메모를 나타냅니다.
               children:
                 item_0:
-                  subject: 초기 BIM 모델 모델링
+                  subject: Modeling initial BIM model
                   description: |-
-                    # 목표
+                    # Goal
 
-                    *   초기 BIM 모델 모델링
-                    *   전체 프로젝트 팀을 위한 BIM 모델 만들기
+                    *   Modeling the initial BIM model
+                    *   Creating a BIM model for the whole project team
 
-                    # 설명
+                    # Description
 
-                    *   고객으로부터 수집된 데이터에 따라 초기 모델이 모델링됩니다.
-                    *   모델은 LOD 매트릭스에 따라 모델링되며 필요한 정보를 포함합니다.
+                    *   According to the gathered data from the customer, the initial model will be modeled
+                    *   The model shall be modeled according to the LOD Matrices and contain the information needed
                     *   ...
                 item_1:
                   subject: 초기, 내부 모델 확인 및 수정
@@ -538,23 +538,23 @@ ko:
                   subject: 초기 BIM 모델 제출
                   description: 이 유형은 계층적으로 &quot;충돌&quot; 및 &quot;요청&quot; 유형의 부모이므로 일반 메모를 나타냅니다.
             item_4:
-              subject: 모델링, 첫 번째 사이클
+              subject: Modeling, first cycle
               description: 이 유형은 계층적으로 &quot;충돌&quot; 및 &quot;요청&quot; 유형의 부모이므로 일반 메모를 나타냅니다.
               children:
                 item_0:
                   subject: 외부 BIM 모델 참조
                   description: |-
-                    # 목표
+                    # Goal
 
-                    *   내부 모델 개발/해답 제시를 위한 토대 마련
-                    *   외부 모델을 사용하여 내부 모델 개발
+                    *   Having a foundation for developing the internal model/ offering answers
+                    *   Using the external model to develop the internal model
 
-                    # 설명
+                    # Description
 
-                    *   외부 모델은 BIM 플랫폼에서 참조되므로 내부 모델 모델링에 사용됩니다.
+                    *   The external model will be referenced in the BIM platform, thus used for modeling the internal model
                     *   ...
                 item_1:
-                  subject: BIM 모델 모델링
+                  subject: Modeling the BIM model
                   description: |-
                     # 목표
 
@@ -602,19 +602,19 @@ ko:
                   subject: 조정 완료, 첫 번째 사이클
                   description: 이 유형은 계층적으로 &quot;충돌&quot; 및 &quot;요청&quot; 유형의 부모이므로 일반 메모를 나타냅니다.
             item_6:
-              subject: 모델링 및 조정, 두 번째 사이클
+              subject: Modeling & coordinating, second cycle
               description: "## 목표\r\n\r\n*   ...\r\n\r\n## 설명\r\n\r\n* \\  ..."
             item_7:
-              subject: 모델링 및 조정, ... 사이클
+              subject: Modeling & coordinating, ... cycle
               description: 이 유형은 계층적으로 &quot;충돌&quot; 및 &quot;요청&quot; 유형의 부모이므로 일반 메모를 나타냅니다.
             item_8:
-              subject: 모델링 및 조정, (n - 1) 사이클
+              subject: Modeling & coordinating, (n-th minus 1) cycle
               description: "## 목표\r\n\r\n*   ...\r\n\r\n## 설명\r\n\r\n* \\  ..."
             item_9:
-              subject: 모델링 및 조정, n번째 사이클
+              subject: Modeling & coordinating n-th cycle
               description: 이 유형은 계층적으로 &quot;충돌&quot; 및 &quot;요청&quot; 유형의 부모이므로 일반 메모를 나타냅니다.
             item_10:
-              subject: 모델링 및 조정 완료, n번째 사이클
+              subject: Finishing modeling & coordinating, n-th cycle
               description: 이 유형은 계층적으로 &quot;충돌&quot; 및 &quot;요청&quot; 유형의 부모이므로 일반 메모를 나타냅니다.
             item_11:
               subject: 건설 단계의 모델 사용

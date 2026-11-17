@@ -107,7 +107,7 @@ module Meetings
       end
 
       def meeting_duration(meeting)
-        OpenProject::Common::DurationComponent.new(meeting.duration, :hours, abbreviated: true).text
+        OpPrimer::DurationComponent.new(meeting.duration, :hours, abbreviated: true).text
       end
     end
   end

@@ -31,27 +31,29 @@ module Queries::NamedReferences::Filters::MemberExists
   private
 
   def member_exists(condition, binds, extra_joins: nil)
-    honouring_negation(member_exists_sql(condition, extra_joins:), binds)
+    honoring_negation(member_exists_sql(condition, extra_joins:), binds)
   end
 
   def member_exists_sql(condition, extra_joins: nil)
+    value_condition = operator_strategy.requires_value? ? "AND #{condition}" : ""
+
     <<~SQL.squish
       EXISTS (
         SELECT 1
         FROM type_variants members
         #{extra_joins}
         WHERE members.#{model.variant_reflection.foreign_key} = #{model.table_name}.id
-          AND #{condition}
+          #{value_condition}
       )
     SQL
   end
 
-  def honouring_negation(sql, binds)
+  def honoring_negation(sql, binds)
     [negated? ? "NOT (#{sql})" : "(#{sql})", binds]
   end
 
   def negated?
-    operator_strategy == Queries::Operators::NotEquals
+    [Queries::Operators::NotEquals, Queries::Operators::None].include?(operator_strategy)
   end
 
   def integer_values

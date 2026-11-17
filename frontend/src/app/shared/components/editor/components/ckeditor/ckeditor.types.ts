@@ -25,90 +25,40 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import type { AutosaveConfig } from '@ckeditor/ckeditor5-autosave';
+import type { LinkConfig } from '@ckeditor/ckeditor5-link';
+import type { EditorConfig } from '@ckeditor/ckeditor5-core';
+import type { DecoupledEditor } from '@ckeditor/ckeditor5-editor-decoupled';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import {
   ICKEditorMacroType,
   ICKEditorType,
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
 
-export interface CKEditorEvent {
-  stop:() => void;
-}
+export type ICKEditorInstance = DecoupledEditor;
 
-export interface CKEditorListenOptions {
-  priority:string;
-}
-
-export interface CKEditorDomEventData {
-  altKey:boolean;
-  shiftKey:boolean;
-  ctrlKey:boolean;
-  metaKey:boolean;
-  keyCode:number;
-}
-
-export interface CKEditorFocusTracker {
-  isFocused:boolean;
-  on(event:string, callback:(evt:unknown, name:string, value:boolean) => void):void;
-}
-
-export interface ICKEditorInstance {
-  id:string;
-
-  state:string;
-
-  getData(options?:{ trim:boolean }):string;
-
-  setData(content:string):void;
-
-  destroy():Promise<void>;
-
-  enableReadOnlyMode(lockId:string):void;
-
-  disableReadOnlyMode(lockId:string):void;
-
-  on(event:string, callback:() => unknown):void;
-
-  listenTo(node:unknown, key:string, callback:(evt:CKEditorEvent, data:CKEditorDomEventData) => unknown, options:CKEditorListenOptions):void;
-
-  model:{
-    on(ev:string, callback:() => unknown):void
-    fire(ev:string, data:unknown):void
-    document:{
-      on(ev:string, callback:() => unknown):void
-    };
-  };
-  editing:{
-    view:{
-      focus():void;
-      document:Document
-    }
-  };
-  config:{
-    get(name:'autosave'):{ save(editor:ICKEditorInstance):void };
-  };
-  ui:{
-    focusTracker:CKEditorFocusTracker;
-    view:{ toolbar:{ element:HTMLElement } };
-  };
-  element:HTMLElement;
-}
-
-export interface ICKEditorStatic {
-  create(el:HTMLElement, config?:unknown):Promise<ICKEditorInstance>;
-
-  createCustomized(el:HTMLElement, config?:unknown):Promise<ICKEditorInstance>;
-
-  defaultConfig?:{ toolbar?:{ items:string[] } };
+export type ICKEditorStatic = typeof DecoupledEditor & {
+  createCustomized(el:HTMLElement, config:OpenProjectEditorConfig):Promise<ICKEditorInstance>;
 
   // Registers a page-wide callback for unhandled editor errors; returns a function that removes it.
   onEditorError(callback:(data:ICKEditorErrorData) => void):() => void;
-}
+};
 
 export interface ICKEditorErrorData {
   error:Error;
   // The editor or context the error was attributed to.
   source:unknown;
+}
+
+export interface OpenProjectEditorConfig extends EditorConfig {
+  autosave?:AutosaveConfig;
+  link?:LinkConfig;
+  openProject:{
+    context:ICKEditorContext;
+    helpURL:string;
+    pluginContext:unknown;
+  };
+  storageKey?:string;
 }
 
 export interface ICKEditorContext {

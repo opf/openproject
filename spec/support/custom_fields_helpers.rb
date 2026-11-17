@@ -35,7 +35,7 @@ module CustomFieldsHelpers
         trait_name = trait_name(format.name)
         [
           trait_name,
-          format.multi_value_possible? ? "multi_#{trait_name}" : nil
+          format.multi_value_possible?(class_name) ? "multi_#{trait_name}" : nil
         ].compact
       end
   end
