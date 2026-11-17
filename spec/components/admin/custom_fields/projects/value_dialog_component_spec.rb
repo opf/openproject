@@ -39,8 +39,13 @@ RSpec.describe Admin::CustomFields::Projects::ValueDialogComponent, type: :compo
   let(:parent) { nil }
   let(:parent_options) { rendered.css("select[name='parent_id'] option").map { it.text.strip } }
   let(:field_names) { rendered.css("input:not([type='hidden']), select").pluck("name") }
+  let(:vc_test_controller_class) { Admin::Settings::WorkPackageCustomFields::ProjectSpecificValuesController }
 
   subject(:rendered) { render_inline(described_class.new(custom_field:, project:, value:, parent:)) }
+
+  before do
+    allow(vc_test_controller).to receive_messages(custom_field:, configured_project: project)
+  end
 
   context "for a list custom field" do
     let(:custom_field) { create(:list_wp_custom_field, allow_additional_project_values: true) }

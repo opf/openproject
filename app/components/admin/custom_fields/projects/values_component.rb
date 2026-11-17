@@ -124,41 +124,9 @@ module Admin
             data: {
               controller: "reload-frame-on-event",
               reload_frame_on_event_event_name_value: "toggleSwitchSuccess",
-              reload_frame_on_event_url_value: values_path
+              reload_frame_on_event_url_value: helpers.values_path
             }
           }
-        end
-
-        def values_path
-          admin_settings_work_package_custom_field_project_specific_values_path(custom_field, project)
-        end
-
-        def toggle_path(row)
-          toggle_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, row.id)
-        end
-
-        def new_sub_value_path(row)
-          new_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, parent_id: row.id)
-        end
-
-        def edit_path(row)
-          edit_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, row.id)
-        end
-
-        def make_global_path(row)
-          make_global_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, row.id)
-        end
-
-        def deletion_dialog_path(row)
-          deletion_dialog_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, row.id)
-        end
-
-        def enable_all_path
-          enable_all_admin_settings_work_package_custom_field_project_specific_values_path(custom_field, project)
-        end
-
-        def disable_all_path
-          disable_all_admin_settings_work_package_custom_field_project_specific_values_path(custom_field, project)
         end
       end
     end

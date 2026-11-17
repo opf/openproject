@@ -35,9 +35,14 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
 
   shared_let(:project) { create(:project) }
 
+  let(:vc_test_controller_class) { Admin::Settings::WorkPackageCustomFields::ProjectSpecificValuesController }
+  let(:row) { ->(value) { rendered.css("[data-test-selector='custom-field-project-value-#{value.id}']") } }
+
   subject(:rendered) { render_inline(described_class.new(custom_field:, project:)) }
 
-  let(:row) { ->(value) { rendered.css("[data-test-selector='custom-field-project-value-#{value.id}']") } }
+  before do
+    allow(vc_test_controller).to receive_messages(custom_field:, configured_project: project)
+  end
 
   context "for a list custom field", with_ee: %i[project_specific_list_values] do
     let(:custom_field) { create(:list_wp_custom_field, :project_specific_allowlist, possible_values: %w[A B]) }

@@ -50,22 +50,14 @@ module Admin
 
         def form_arguments
           if value
-            { url: update_path, method: :patch, data: { turbo_stream: true } }
+            { url: helpers.value_path(value.id), method: :patch, data: { turbo_stream: true } }
           else
-            { url: create_path, method: :post, data: { turbo_stream: true } }
+            { url: helpers.values_path, method: :post, data: { turbo_stream: true } }
           end
         end
 
         def submit_label
           value ? t(:button_save) : t(:button_add)
-        end
-
-        def create_path
-          admin_settings_work_package_custom_field_project_specific_values_path(custom_field, project)
-        end
-
-        def update_path
-          admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, value.id)
         end
       end
     end
