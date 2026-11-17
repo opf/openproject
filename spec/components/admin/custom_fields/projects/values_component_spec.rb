@@ -55,10 +55,18 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
       create(:project_specific_value_restriction, project:, custom_option: option_a)
     end
 
-    it "offers to enable and to disable all values" do
+    it "offers to enable and to disable all values outside of the values frame to show the result" do
+      expect(rendered).to have_css(
+        "a[data-turbo-frame='_top']",
+        text: I18n.t("custom_fields.admin.projects.enable_all")
+      )
       expect(rendered).to have_link(
         I18n.t("custom_fields.admin.projects.enable_all"),
         href: enable_all_admin_settings_work_package_custom_field_project_specific_values_path(custom_field, project)
+      )
+      expect(rendered).to have_css(
+        "a[data-turbo-frame='_top']",
+        text: I18n.t("custom_fields.admin.projects.disable_all")
       )
       expect(rendered).to have_link(
         I18n.t("custom_fields.admin.projects.disable_all"),
@@ -238,7 +246,7 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
         make_global_path = make_global_admin_settings_work_package_custom_field_project_specific_value_path(
           custom_field, project, own_item.id
         )
-        link = row.call(own_item).css("a[href='#{make_global_path}'][data-turbo-method='post']")
+        link = row.call(own_item).css("a[href='#{make_global_path}'][data-turbo-method='post'][data-turbo-frame='_top']")
 
         expect(link.attr("data-turbo-confirm").value)
           .to eq(I18n.t("custom_fields.admin.projects.make_available_to_all_projects_confirm", value: "Own"))
