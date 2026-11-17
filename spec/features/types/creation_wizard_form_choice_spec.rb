@@ -149,6 +149,38 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
     expect(form.description).to eq("Used by the support team")
   end
 
+  it "edits a new form on the step before naming it", :aggregate_failures, with_ee: %i[edit_attribute_groups] do
+    type = create_type_through_wizard("Incident")
+    click_on I18n.t(:button_continue)
+
+    choose_option("new")
+    within_dialog I18n.t("form_configurations.start.title") do
+      choose_form_start("scratch")
+      click_on I18n.t(:button_continue)
+    end
+    expect_chosen("new")
+
+    form = Components::Admin::TypeConfigurationForm.new
+    expect(page).to have_no_test_selector("form-configuration-read-only")
+    form.add_attribute_group("Extra")
+    wait_for { type.default_variant.reload.form_configuration.attribute_groups.map(&:translated_key) }.to include("Extra")
+
+    click_on I18n.t(:button_continue)
+    within_dialog I18n.t("form_configurations.form.save_title") do
+      fill_in "Form name", with: "Incident intake"
+      click_on I18n.t(:button_save)
+    end
+
+    expect(page).to have_current_query_params(
+      "step" => "workflows",
+      "started_form_configuration_id" => type.default_variant.reload.form_configuration_id.to_s
+    )
+    named = type.default_variant.form_configuration
+    expect(named.name).to eq("Incident intake")
+    expect(named.attribute_groups.map(&:translated_key)).to include("Extra")
+    expect(existing.reload.attribute_groups.map(&:translated_key)).not_to include("Extra")
+  end
+
   it "keeps asking until the new form has a name" do
     type = create_type_through_wizard("Incident")
     click_on I18n.t(:button_continue)
