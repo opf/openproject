@@ -60,8 +60,7 @@ module Backlogs
             average: velocity.average&.round(estimation_unit_time? ? 2 : 1),
             averageLabel: t(".average_legend"),
             yAxisTitle: t(".y_axis_title.#{unit}"),
-            summary:,
-            sprintColumnTitle: Sprint.model_name.human
+            summary:
           }.to_json
         end
 
