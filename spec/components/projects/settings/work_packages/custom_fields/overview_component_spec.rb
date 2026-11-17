@@ -32,6 +32,8 @@ require "rails_helper"
 RSpec.describe Projects::Settings::WorkPackages::CustomFields::OverviewComponent,
                type: :component,
                with_ee: %i[custom_field_hierarchies] do
+  include Rails.application.routes.url_helpers
+
   shared_let(:feature) { create(:type, name: "Feature") }
   shared_let(:project) { create(:project, types: [feature]) }
   shared_let(:other_project) { create(:project, types: [feature]) }
@@ -63,8 +65,9 @@ RSpec.describe Projects::Settings::WorkPackages::CustomFields::OverviewComponent
   it "links the fields whose values can be managed in the project" do
     render_inline(described_class.new(project:, query:))
 
-    expect(page).to have_link("Supplier", href: "#")
-    expect(page).to have_link("Department", href: "#")
+    expect(page).to have_link("Supplier", href: project_settings_work_packages_custom_field_values_path(project, supplier))
+    expect(page).to have_link("Department",
+                              href: project_settings_work_packages_custom_field_values_path(project, department))
     expect(page).to have_no_link("SKU")
   end
 

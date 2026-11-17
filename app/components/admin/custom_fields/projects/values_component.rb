@@ -97,8 +97,16 @@ module Admin
           EnterpriseToken.allows_to?(:project_specific_list_values)
         end
 
-        def restricted?
-          custom_field.project_specific_value_restriction.present?
+        def values_toggleable?
+          return false if custom_field.project_specific_value_restriction.nil?
+          return true if User.current.active_admin?
+
+          custom_field.project_level_value_management? &&
+            User.current.allowed_in_project?(:manage_work_package_custom_field_values, project)
+        end
+
+        def make_global?(row)
+          own_value_changeable?(row) && User.current.active_admin?
         end
 
         def value_menu?(row)

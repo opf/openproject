@@ -6335,6 +6335,9 @@ en:
           one: "1 project-specific value"
           other: "%{count} project-specific values"
         search_label: "Search custom fields"
+        values_description: >
+          Choose which values of %{custom_field} your team can use in %{project}. Global values are shared with
+          other projects and managed by administrators. Project-specific values are only available in this project.
         values_filter: "Values"
       forums:
         no_results_content_text: Create a new forum
