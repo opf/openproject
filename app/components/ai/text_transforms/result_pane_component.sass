@@ -16,6 +16,17 @@
     &:active
       cursor: grabbing
 
+  &--more-below
+    box-shadow: inset 0 calc(-1 * var(--base-size-8)) var(--base-size-8) calc(-1 * var(--base-size-6)) var(--borderColor-emphasis)
+
+  // Forced colors drop box shadows; the border keeps one width so the cue never resizes the scroll area.
+  @media (forced-colors: active)
+    .Box-body
+      border-bottom: var(--base-size-4) solid Canvas
+
+      &.op-ai-result-pane--more-below
+        border-bottom-color: CanvasText
+
   &--grip
     display: inline-flex
     line-height: 1

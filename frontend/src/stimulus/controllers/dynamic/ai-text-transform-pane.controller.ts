@@ -44,6 +44,7 @@ const POLL_RETRIES = 5;
 const RETRY_MIN = 1000;
 const APPLY_TIMEOUT = 300;
 const BOTTOM_TOLERANCE = 4;
+const MORE_BELOW_CLASS = 'op-ai-result-pane--more-below';
 
 type Geometry = Partial<Record<typeof GEOMETRY_PROPERTIES[number], string>>;
 
@@ -135,10 +136,14 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
   scrollTargetConnected(element:HTMLElement):void {
     this.unwatchScroll();
     const listeners = new AbortController();
-    const mutations = new MutationObserver(() => this.outputChanged());
     const resizes = new ResizeObserver(() => this.scrollAreaResized());
+    const mutations = new MutationObserver((records) => {
+      this.observeContentResizes(resizes, element, records);
+      this.outputChanged();
+    });
     mutations.observe(element, { childList: true, characterData: true, subtree: true });
     resizes.observe(element);
+    Array.from(element.children).forEach((child) => resizes.observe(child));
     element.addEventListener('scroll', () => this.scrolled(), { passive: true, signal: listeners.signal });
     this.scrollWatch = { mutations, resizes, listeners };
     this.scrolled();
@@ -305,17 +310,32 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
 
   private scrolled():void {
     this.followsOutput = this.scrolledToEnd;
+    this.showMoreBelow();
   }
 
   private outputChanged():void {
     if (this.followsOutput) {
       this.scrollTarget.scrollTop = this.scrollTarget.scrollHeight;
     }
+    this.showMoreBelow();
   }
 
   private scrollAreaResized():void {
     this.outputChanged();
     this.followsOutput = this.scrolledToEnd;
+  }
+
+  private observeContentResizes(resizes:ResizeObserver, scrollArea:HTMLElement, records:MutationRecord[]):void {
+    records
+      .filter((record) => record.target === scrollArea)
+      .forEach((record) => {
+        record.removedNodes.forEach((node) => node instanceof Element && resizes.unobserve(node));
+        record.addedNodes.forEach((node) => node instanceof Element && resizes.observe(node));
+      });
+  }
+
+  private showMoreBelow():void {
+    this.scrollTarget.classList.toggle(MORE_BELOW_CLASS, !this.scrolledToEnd);
   }
 
   private unwatchScroll():void {

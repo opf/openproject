@@ -352,10 +352,13 @@ describe('AiTextTransformPaneController', () => {
     const lines = (count:number) => '<p style="margin: 0; height: 20px;">Line</p>'.repeat(count);
     const distanceToEnd = () => scrollArea().scrollHeight - scrollArea().scrollTop - scrollArea().clientHeight;
 
-    async function mountScrollArea(lineCount = 0):Promise<void> {
+    const details = (open:boolean, lineCount:number) =>
+      `<details${open ? ' open' : ''}><summary style="height: 20px;">More</summary>${lines(lineCount)}</details>`;
+
+    async function mountScrollArea(output = ''):Promise<void> {
       pane().insertAdjacentHTML('beforeend', `
         <div data-testid="scroll-area" data-ai-text-transform-pane-target="scroll" style="overflow: auto; height: 100px;">
-          <div data-testid="output">${lines(lineCount)}</div>
+          <div data-testid="output">${output}</div>
         </div>`);
       await ctx.nextFrame();
     }
@@ -407,6 +410,55 @@ describe('AiTextTransformPaneController', () => {
       await ctx.nextFrame();
 
       expect(distanceToEnd()).toBe(0);
+    });
+
+    it('marks the scroll area while more output sits below the visible part', async () => {
+      await mountScrollArea();
+      await showLines(20);
+      expect(scrollArea()).not.toHaveClass('op-ai-result-pane--more-below');
+
+      await scrollTo(0);
+      expect(scrollArea()).toHaveClass('op-ai-result-pane--more-below');
+
+      await scrollTo(scrollArea().scrollHeight);
+      expect(scrollArea()).not.toHaveClass('op-ai-result-pane--more-below');
+    });
+
+    it('opens a long finished result at its start and marks that more follows', async () => {
+      await mountScrollArea(lines(20));
+
+      expect(scrollArea().scrollTop).toBe(0);
+      expect(scrollArea()).toHaveClass('op-ai-result-pane--more-below');
+    });
+
+    it('follows output that grows without new nodes', async () => {
+      await mountScrollArea(lines(20) + details(false, 10));
+      await scrollTo(scrollArea().scrollHeight);
+      ctx.container.querySelector('details')!.open = true;
+      await ctx.nextFrame();
+
+      expect(distanceToEnd()).toBe(0);
+    });
+
+    it('follows output that grows without new nodes after the output was replaced', async () => {
+      await mountScrollArea();
+      byTestId('output').outerHTML = `<div data-testid="output">${lines(20)}${details(false, 10)}</div>`;
+      await ctx.nextFrame();
+      await scrollTo(scrollArea().scrollHeight);
+      ctx.container.querySelector('details')!.open = true;
+      await ctx.nextFrame();
+
+      expect(distanceToEnd()).toBe(0);
+    });
+
+    it('drops the mark once output shrinks to fit without removing nodes', async () => {
+      await mountScrollArea(details(true, 20));
+      expect(scrollArea()).toHaveClass('op-ai-result-pane--more-below');
+
+      ctx.container.querySelector('details')!.open = false;
+      await ctx.nextFrame();
+
+      expect(scrollArea()).not.toHaveClass('op-ai-result-pane--more-below');
     });
   });
 
