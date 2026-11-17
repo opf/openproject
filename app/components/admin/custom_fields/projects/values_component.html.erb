@@ -94,7 +94,7 @@ See COPYRIGHT and LICENSE files for more details.
     rows.each do |row|
       box.with_row(test_selector: "custom-field-project-value-#{row.id}") do
         flex_layout(justify_content: :space_between, align_items: :center) do |line|
-          line.with_column(pl: indentation(row)) do
+          line.with_column(style: indentation(row)) do
             safe_join(
               [
                 render(Primer::Beta::Text.new) { row.label },

@@ -37,7 +37,7 @@ module Admin
         Row = Data.define(:id, :label, :depth, :caption, :enabled, :project_specific?, :required?,
                           :parent_project_specific?)
 
-        MAX_INDENTATION = 12
+        INDENTATION_PER_LEVEL = 16
 
         def initialize(custom_field:, project:)
           super()
@@ -122,7 +122,7 @@ module Admin
         end
 
         def indentation(row)
-          [row.depth * 3, MAX_INDENTATION].min
+          "padding-left: #{row.depth * INDENTATION_PER_LEVEL}px"
         end
 
         # Toggling a hierarchy item can change other items as well, so the list is reloaded afterwards.
