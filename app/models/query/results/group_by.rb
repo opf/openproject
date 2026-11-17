@@ -46,14 +46,20 @@ module ::Query::Results::GroupBy
   private
 
   def group_counts_by_group
-    work_packages_with_includes_for_count
+    restrict_to_filter_matches(work_packages_with_includes_for_count)
       .joins(query.group_by_join_statement)
       .group(group_by_for_count)
-      .visible
-      .where(query.statement)
       .order(order_for_count)
       .pluck(*pluck_for_count)
       .to_h
+  end
+
+  def restrict_to_filter_matches(scope)
+    if query.historic?
+      scope.where(id: filtered_work_packages.visible.at_timestamp(query.timestamps))
+    else
+      scope.visible.where(query.statement)
+    end
   end
 
   def work_packages_with_includes_for_count
