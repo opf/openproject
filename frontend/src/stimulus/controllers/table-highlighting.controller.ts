@@ -50,6 +50,7 @@ export default class TableHighlightingController extends Controller<HTMLTableEle
 
   disconnect():void {
     this.abortController?.abort();
+    this.colgroup?.querySelectorAll('col.hover').forEach((col) => col.classList.remove('hover'));
 
     this.thead = null;
     this.colgroup = null;
