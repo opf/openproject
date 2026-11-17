@@ -91,7 +91,7 @@ Review the [Jira migration guide](../) and [custom fields migration guide](../cu
 
 ## Which Jira data is not yet migrated automatically?
 
-The Jira Migrator is being expanded iteratively. OpenProject does not yet migrate every Jira configuration object or all ecosystem data. Important areas requiring particular attention include components, project-level workflows, permissions, schemes, boards, filters, dashboards, and data owned by marketplace apps.
+The Jira Migrator is being expanded iteratively. OpenProject does not yet migrate every Jira configuration object or all ecosystem data. Important areas requiring particular attention include components, project-level workflows, permissions, schemas, boards, filters, dashboards, and data owned by marketplace apps.
 
 Several of these areas are represented by roadmap items, including:
 
