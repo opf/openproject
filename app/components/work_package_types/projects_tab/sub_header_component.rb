@@ -43,14 +43,8 @@ module WorkPackageTypes
         @wizard = wizard
       end
 
-      def filters_form_attributes
-        {
-          controller: "filter--filters-form",
-          "filter--filters-form-turbo-stream-request-value": true,
-          "filter--filters-form-clear-button-id-value": clear_button_id,
-          "filter--filters-form-current-filters-value": serialized_filters,
-          "filter--filters-form-url-path-name-value": (variant_creation_wizard_projects_path(variant) if wizard?)
-        }.compact
+      def url_path_name
+        variant_creation_wizard_projects_path(variant) if wizard?
       end
 
       def name_filter_attributes
@@ -63,10 +57,6 @@ module WorkPackageTypes
       end
 
       def name_filter_key = ::Queries::Projects::Filters::NameAndIdentifierFilter.key.to_s
-
-      def serialized_filters
-        OpPrimer::QuickFilter.serialize(query.filters).to_json
-      end
 
       def name_filter_value = query.find_active_filter(name_filter_key.to_sym)&.values&.first
 
