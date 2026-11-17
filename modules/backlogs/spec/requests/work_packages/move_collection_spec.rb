@@ -30,6 +30,8 @@
 require "spec_helper"
 
 RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
+  destination_types = %w[inbox backlog_bucket sprint]
+
   shared_let(:type) { create(:type) }
   shared_let(:project) do
     create(:project, types: [type], enabled_module_names: %i[backlogs work_package_tracking])
@@ -58,11 +60,47 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
          headers: { "Accept" => "text/vnd.turbo-stream.html" }
   end
 
-  def expect_moved_event(ids)
+  def expect_moved_event(ids, destination_changed: true, destination: { "list_type" => "sprint", "list_id" => sprint.id })
     expect(response.body).to have_turbo_stream(action: "dispatchEvent", count: 1)
     stream = Nokogiri::HTML.fragment(response.body).at_css('turbo-stream[action="dispatchEvent"]')
     expect(stream["event-name"]).to eq(Backlogs::WorkPackagesController::WORK_PACKAGE_MOVED_EVENT)
-    expect(JSON.parse(stream["detail"])).to eq("work_package_ids" => ids)
+    expect(JSON.parse(stream["detail"]))
+      .to eq("work_package_ids" => ids, "destination_changed" => destination_changed, "destination" => destination)
+  end
+
+  %i[member add_existing].each do |entry_point|
+    destination_types.each do |list_type|
+      it "includes destination metadata for #{entry_point} to #{list_type}", :aggregate_failures do
+        list_id = { "inbox" => nil, "backlog_bucket" => bucket.id, "sprint" => sprint.id }.fetch(list_type)
+        params = { list_type:, list_id: }
+        headers = { "Accept" => "text/vnd.turbo-stream.html" }
+        if entry_point == :member
+          put move_project_backlogs_work_package_path(project, bucket_wp1), params:, headers:
+        else
+          post add_existing_project_backlogs_work_packages_path(project), params: params.merge(work_package_id: bucket_wp1.id),
+                                                                          headers:
+        end
+
+        expect(response).to have_http_status(:ok)
+        stream = Nokogiri::HTML.fragment(response.body).at_css('turbo-stream[action="dispatchEvent"]')
+        expect(JSON.parse(stream["detail"]))
+          .to eq("work_package_id" => bucket_wp1.id,
+                 "destination_changed" => (list_type != "backlog_bucket"),
+                 "destination" => { "list_type" => list_type, "list_id" => list_id })
+      end
+    end
+  end
+
+  destination_types.each do |list_type|
+    it "includes ordered collection metadata for #{list_type}", :aggregate_failures do
+      list_id = { "inbox" => nil, "backlog_bucket" => bucket.id, "sprint" => sprint.id }.fetch(list_type)
+      ids = [bucket_wp2.id, bucket_wp1.id]
+      move_collection(ids:, list_type:, list_id:)
+
+      expect(response).to have_http_status(:ok)
+      expect_moved_event(ids, destination_changed: list_type != "backlog_bucket",
+                              destination: { "list_type" => list_type, "list_id" => list_id })
+    end
   end
 
   context "without the manage_sprint_items permission" do
@@ -202,7 +240,7 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
           )
         )
         expect(sprint.work_packages_for(project).pluck(:id)).to eq [sprint_wp1.id, *frozen_ids]
-        expect_moved_event(frozen_ids)
+        expect_moved_event(frozen_ids, destination_changed: false)
       end
     end
 
@@ -215,6 +253,7 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
         expect(response.body).to include("backlogs:work-package-moved")
         expect(response.body).to include("work_package_ids")
         expect(response.body).not_to include('target="backlogs_container"')
+        expect_moved_event([sprint_wp1.id], destination_changed: false)
       end
     end
 
