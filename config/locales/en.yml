@@ -1625,7 +1625,7 @@ en:
       banner:
         contribution_callout: >
           Please, help us improve the Jira Migrator with your feedback and private data donations. You can [join the development community](link) of the Jira Migrator.
-        description: "This Jira Migrator is currently in beta. We support Jira Server/Data Center versions 8.x, 9.x, 10.x and 11.x. Cloud instances are not supported at this time."
+        description: "The Jira Migrator is currently in beta. We support Jira Server/Data Center versions 8.x, 9.x, 10.x and 11.x. Cloud instances are not supported at this time."
         title: "Beta - Try it out!"
       basic_auth_password_deleted: "Basic auth password was successfully deleted."
       blank:
