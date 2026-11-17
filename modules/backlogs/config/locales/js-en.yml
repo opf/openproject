@@ -68,18 +68,15 @@ en:
           one: "%{count} work package selected."
           other: "%{count} work packages selected."
     burndown_chart:
-      chart_day: "Day %{day}: %{values}"
       chart_label: "Burndown chart"
-      chart_summary: "Burndown chart data: %{days}."
-      chart_value: "%{label}: %{value}"
     burnup_chart:
-      chart_day: "Day %{day}: %{values}"
       chart_label: "Burnup chart"
-      chart_summary: "Burnup chart data: %{days}."
-      chart_value: "%{label}: %{value}"
     created_resolved_chart:
+      chart_label: "Created vs. resolved chart"
       work_packages: "Work packages"
     sprint_charts:
+      description_summary: "%{from} – %{to}. %{values}."
+      description_value: "%{label}: %{value}"
       # Shared by every sprint chart that paints the non-working-days plugin's bands.
       non_working_day: "Non-working day"
       y_axis_title:

@@ -2,6 +2,7 @@
   <div class="position-relative mx-auto op-sprint-chart--canvas">
     <canvas
       baseChart
+      [opChartDescription]="description()"
       [data]="lineChartData()"
       [options]="lineChartOptions()"
       [type]="'line'"

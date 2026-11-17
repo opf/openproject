@@ -2,15 +2,11 @@
   <div class="position-relative mx-auto op-sprint-chart--canvas">
     <canvas
       baseChart
-      role="img"
+      [opChartDescription]="description()"
       [data]="lineChartData()"
       [options]="lineChartOptions()"
       [type]="'line'"
-      [attr.aria-label]="chartLabel"
-      [attr.aria-describedby]="chartDescriptionId"
-    >
-      <span [id]="chartDescriptionId">{{ chartDescription() }}</span>
-    </canvas>
+    ></canvas>
   </div>
 } @else {
   <op-no-results icon="graph" />

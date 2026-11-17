@@ -47,20 +47,45 @@ RSpec.describe "Created vs resolved chart widget", :js, with_ee: %i[sprint_repor
   end
 
   context "when the sprint has a date range set" do
-    shared_let(:sprint) do
-      create(:sprint,
-             project:,
-             name: "Sprint 42",
-             start_date: Date.yesterday,
-             finish_date: Date.tomorrow,
-             status: :active)
+    around { |example| travel_to(Time.zone.local(2026, 11, 3, 12)) { example.run } }
+
+    let!(:sprint) do
+      create(
+        :sprint,
+        project:,
+        name: "Sprint 42",
+        start_date: Date.new(2026, 11, 2),
+        finish_date: Date.new(2026, 11, 4),
+        status: :active
+      )
     end
-    shared_let(:work_package) { create(:work_package, project:, sprint:) }
+    let!(:work_package) do
+      create(
+        :work_package,
+        :created_in_past,
+        created_at: Time.zone.local(2026, 11, 2, 12),
+        project:,
+        sprint:
+      )
+    end
 
     it "renders the created vs resolved chart" do
       visit_sprint_report(sprint)
 
       expect(page).to have_element(:"opce-created-resolved-chart")
+      expect(page).to have_css(
+        "opce-created-resolved-chart canvas",
+        accessible_name: "Created vs. resolved chart",
+        wait: 20
+      )
+      expect(page).to have_table(
+        "Created vs. resolved chart: data",
+        visible: :all,
+        data_rows: [
+          { "Date" => "11/02/2026", "Created" => "1", "Resolved" => "0" },
+          { "Date" => "11/03/2026", "Created" => "1", "Resolved" => "0" }
+        ]
+      )
     end
   end
 end

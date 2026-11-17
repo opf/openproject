@@ -27,6 +27,8 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { within } from '@testing-library/dom';
+import { tableColumns, tableRows } from 'core-app/shared/components/charts/description/testing/chart-description-table';
 import { CartesianScaleOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -43,10 +45,12 @@ describe('BurndownChartComponent', () => {
     locale: 'en',
     t(key:string, options:Record<string, string|number> = {}) {
       const translations:Record<string, string> = {
-        'js.burndown_chart.chart_day': `Day ${options.day}: ${options.values}`,
         'js.burndown_chart.chart_label': 'Burndown chart',
-        'js.burndown_chart.chart_summary': `Burndown chart data: ${options.days}.`,
-        'js.burndown_chart.chart_value': `${options.label}: ${options.value}`,
+        'js.chart.description.caption': `${options.label}: data`,
+        'js.chart.description.date': 'Date',
+        'js.chart.description.week': 'Week of',
+        'js.sprint_charts.description_summary': `${options.from} – ${options.to}. ${options.values}.`,
+        'js.sprint_charts.description_value': `${options.label}: ${options.value}`,
         'js.sprint_charts.y_axis_title.story_points': 'Story points',
         'js.sprint_charts.y_axis_title.time': 'Estimated time',
       };
@@ -144,50 +148,87 @@ describe('BurndownChartComponent', () => {
 
   const yAxisTitle = () => (fixture.componentInstance.lineChartOptions().scales!.y as CartesianScaleOptions).title.text;
 
-  const describedBy = (host:HTMLElement) => {
-    const id = host.querySelector('canvas')!.getAttribute('aria-describedby')!;
-
-    return host.querySelector<HTMLElement>(`#${id}`)!;
-  };
+  const describedTable = () => within(element).getByRole('table');
 
   // Remaining is sampled hourly and the guideline once a day, so a day holds several values of the
   // one and a single value of the other. Each is reported by what it closed the day at.
-  it('describes each day by the value its series closed at', () => {
-    renderWith([
-      {
-        id: 'remaining',
-        label: 'Story points',
-        data: [
-          point('2026-10-12T09:00:00.000Z', 8),
-          point('2026-10-12T14:00:00.000Z', 7),
-          point('2026-10-12T23:59:59.999Z', 5),
-          point('2026-10-13T12:00:00.000Z', 3),
-        ],
-      },
-      {
-        id: 'guideline',
-        label: 'Guideline',
-        data: [
-          point('2026-10-12T23:59:59.999Z', 6),
-          point('2026-10-13T23:59:59.999Z', 4),
-        ],
-      },
-    ]);
+  const sampledSeries = () => [
+    {
+      id: 'remaining',
+      label: 'Story points',
+      data: [
+        point('2026-10-12T09:00:00.000Z', 8),
+        point('2026-10-12T14:00:00.000Z', 7),
+        point('2026-10-12T23:59:59.999Z', 5),
+        point('2026-10-13T12:00:00.000Z', 3),
+      ],
+    },
+    {
+      id: 'guideline',
+      label: 'Guideline',
+      data: [
+        point('2026-10-12T23:59:59.999Z', 6),
+        point('2026-10-13T23:59:59.999Z', 4),
+      ],
+    },
+  ];
 
-    const canvas = element.querySelector('canvas')!;
-    const description = describedBy(element);
+  it('names the chart and summarizes the range and latest values', () => {
+    renderWith(sampledSeries());
 
-    expect(canvas).toHaveAttribute('role', 'img');
-    expect(canvas).toHaveAccessibleName('Burndown chart');
-    expect(canvas).toContainElement(description);
-    expect(description).toHaveTextContent(
-      'Burndown chart data: Day 1: Story points: 5, Guideline: 6; Day 2: Story points: 3, Guideline: 4.',
-    );
-    expect(canvas).toHaveAccessibleDescription(description.textContent.trim());
-    expect(element.textContent.split(description.textContent.trim())).toHaveLength(2);
+    expect(within(element).getByRole('img', {
+      name: 'Burndown chart',
+      description: '10/12/2026 – 10/23/2026. Story points: 3, Guideline: 4.',
+    })).toBeInTheDocument();
   });
 
-  it('omits a series from a day it has no value on', () => {
+  it('tabulates one row per day by the value each series closed at', () => {
+    renderWith(sampledSeries());
+
+    const table = within(element).getByRole('table', { name: 'Burndown chart: data' });
+
+    expect(tableColumns(table)).toEqual(['Date', 'Story points', 'Guideline']);
+    expect(tableRows(table)).toEqual([
+      ['10/12/2026', '5', '6'],
+      ['10/13/2026', '3', '4'],
+    ]);
+  });
+
+  it('orders the table columns the way the legend reads', () => {
+    renderWith([
+      ...sampledSeries(),
+      { id: 'projection', label: 'Projection', data: [point('2026-10-13T12:00:00.000Z', 3)] },
+    ]);
+
+    expect(tableColumns(describedTable())).toEqual(['Date', 'Story points', 'Projection', 'Guideline']);
+  });
+
+  // Havana repeats 00:00 on 2026-11-01, so the first two points share a local date.
+  it('keeps a repeated local midnight in one row', () => {
+    zone = 'America/Havana';
+
+    renderWith([{
+      id: 'remaining',
+      label: 'Story points',
+      data: [
+        point('2026-11-01T04:59:59.999Z', 8),
+        point('2026-11-01T05:59:59.999Z', 7),
+        point('2026-11-01T17:00:00.000Z', 3),
+      ],
+    }]);
+
+    expect(tableRows(describedTable())).toEqual([['11/01/2026', '3']]);
+  });
+
+  it("names each day in the viewer's zone west of UTC", () => {
+    zone = 'America/New_York';
+
+    renderWith([{ id: 'remaining', label: 'Story points', data: [point('2026-11-02T03:00:00.000Z', 5)] }]);
+
+    expect(tableRows(describedTable())).toEqual([['11/01/2026', '5']]);
+  });
+
+  it('leaves a cell empty for a period a series has no value in', () => {
     renderWith([
       { id: 'remaining', label: 'Story points', data: [point('2026-10-12T23:59:59.999Z', 8)] },
       {
@@ -197,14 +238,15 @@ describe('BurndownChartComponent', () => {
       },
     ]);
 
-    expect(describedBy(element)).toHaveTextContent(
-      'Burndown chart data: Day 1: Story points: 8, Guideline: 8; Day 2: Guideline: 4.',
-    );
+    expect(tableRows(describedTable())).toEqual([
+      ['10/12/2026', '8', '8'],
+      ['10/13/2026', '', '4'],
+    ]);
   });
 
   // The days are the reader's rather than UTC's: east of UTC these two instants fall either side
   // of a local midnight, so they are two days and not one.
-  it('groups days in the viewer time zone', () => {
+  it('buckets periods in the OpenProject zone', () => {
     zone = 'Asia/Kolkata';
 
     renderWith([
@@ -215,9 +257,10 @@ describe('BurndownChartComponent', () => {
       },
     ]);
 
-    expect(describedBy(element)).toHaveTextContent(
-      'Burndown chart data: Day 1: Story points: 8; Day 2: Story points: 5.',
-    );
+    expect(tableRows(describedTable())).toEqual([
+      ['10/12/2026', '8'],
+      ['10/13/2026', '5'],
+    ]);
   });
 
   // Story points are whole, so the axis is labeled in whole ones -- a sprint holding a single
@@ -264,26 +307,6 @@ describe('BurndownChartComponent', () => {
     renderWith(seriesWithAPointAt('2026-10-12T09:00:00.000Z'));
 
     expect(fixture.componentInstance.lineChartData().datasets).toHaveLength(1);
-  });
-
-  it('uses a unique description ID for each chart', () => {
-    renderWith([{ id: 'remaining', label: 'Story points', data: [point('2026-10-12T23:59:59.999Z', 8)] }]);
-
-    const secondFixture = TestBed.createComponent(BurndownChartComponent);
-    const secondElement = secondFixture.nativeElement as HTMLElement;
-
-    secondFixture.componentRef.setInput(
-      'chartData',
-      chartData([{ id: 'remaining', label: 'Story points', data: [point('2026-10-12T23:59:59.999Z', 5)] }]),
-    );
-    secondFixture.detectChanges();
-
-    const firstDescriptionId = element.querySelector('canvas')!.getAttribute('aria-describedby');
-    const secondDescriptionId = secondElement.querySelector('canvas')!.getAttribute('aria-describedby');
-
-    expect(firstDescriptionId).toEqual(fixture.componentInstance.chartDescriptionId);
-    expect(secondDescriptionId).toEqual(secondFixture.componentInstance.chartDescriptionId);
-    expect(firstDescriptionId).not.toEqual(secondDescriptionId);
   });
 
   // The axis places points using the OpenProject zone, so everything naming those points has to
@@ -392,10 +415,8 @@ describe('BurndownChartComponent', () => {
         .toEqual('Remaining estimated time: 21.25h');
     });
 
-    it('describes each day in durations', () => {
-      expect(describedBy(element)).toHaveTextContent(
-        'Burndown chart data: Day 1: Remaining estimated time: 20h.'
-      );
+    it('tabulates durations in estimated time', () => {
+      expect(tableRows(describedTable())).toEqual([['10/12/2026', '20h']]);
     });
   });
 
@@ -403,6 +424,7 @@ describe('BurndownChartComponent', () => {
     renderWith([]);
 
     expect(element.querySelector('canvas')).toBeNull();
-    expect(element.querySelector(`#${fixture.componentInstance.chartDescriptionId}`)).toBeNull();
+    expect(within(element).queryByRole('img')).not.toBeInTheDocument();
+    expect(within(element).queryByRole('table')).not.toBeInTheDocument();
   });
 });
