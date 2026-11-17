@@ -25,8 +25,14 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { getMetaContent } from 'core-app/core/setup/globals/global-helpers';
+
 export const onboardingTourStorageKey = 'openProject-onboardingTour';
 export type OnboardingTourNames = 'homescreen'|'workPackages'|'workPackagesFullView'|'gantt'|'final'|'boards'|'teamPlanner';
+
+export function demoProjectUrl():string {
+  return `${window.location.origin}${getMetaContent('app_base_path')}/projects/${getMetaContent('demo_project_identifier')}`;
+}
 
 function matchingFilter(list:NodeListOf<HTMLElement>, filterFunction:(match:HTMLElement) => boolean):HTMLElement|null {
   for (const element of list) {
