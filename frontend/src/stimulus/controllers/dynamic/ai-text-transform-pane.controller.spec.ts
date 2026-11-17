@@ -29,6 +29,7 @@ import { fireEvent } from '@testing-library/dom';
 import type { Mock, MockInstance } from 'vitest';
 import AiTextTransformPaneController from './ai-text-transform-pane.controller';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import { nextTask } from 'core-common/testing/timing';
 
 describe('AiTextTransformPaneController', () => {
   let ctx:StimulusTestContext;
@@ -355,12 +356,21 @@ describe('AiTextTransformPaneController', () => {
     const details = (open:boolean, lineCount:number) =>
       `<details${open ? ' open' : ''}><summary style="height: 20px;">More</summary>${lines(lineCount)}</details>`;
 
-    async function mountScrollArea(output = ''):Promise<void> {
+    const banner = (attributes:string) =>
+      `<div style="height: 20px;" ${attributes}><span data-ai-text-transform-pane-target="errorMessage"></span></div>`;
+
+    async function mountScrollArea(output = '', banners = ''):Promise<void> {
       pane().insertAdjacentHTML('beforeend', `
         <div data-testid="scroll-area" data-ai-text-transform-pane-target="scroll" style="overflow: auto; height: 100px;">
-          <div data-testid="output">${output}</div>
+          ${banners}<div data-testid="output">${output}</div>
         </div>`);
       await ctx.nextFrame();
+    }
+
+    function isInScrollView(element:HTMLElement):boolean {
+      const area = scrollArea().getBoundingClientRect();
+      const { top, bottom } = element.getBoundingClientRect();
+      return top >= area.top && bottom <= area.bottom;
     }
 
     async function showLines(count:number):Promise<void> {
@@ -412,6 +422,54 @@ describe('AiTextTransformPaneController', () => {
       expect(distanceToEnd()).toBe(0);
     });
 
+    it('keeps following when the pane shrinks before the scroll event of following', async () => {
+      await mountScrollArea();
+      await nextTask();
+      byTestId('output').innerHTML = lines(20);
+      await Promise.resolve();
+      scrollArea().style.height = '60px';
+      await ctx.nextFrame();
+      await ctx.nextFrame();
+      await showLines(30);
+
+      expect(distanceToEnd()).toBe(0);
+    });
+
+    it('follows again when the pane shrinks right after the user scrolled back to the end', async () => {
+      await mountScrollArea();
+      await showLines(20);
+      await scrollTo(0);
+      scrollArea().scrollTop = scrollArea().scrollHeight;
+      scrollArea().style.height = '60px';
+      await ctx.nextFrame();
+      await ctx.nextFrame();
+      await showLines(30);
+
+      expect(distanceToEnd()).toBe(0);
+    });
+
+    [2, 2.5].forEach((nudge) => {
+      it(`keeps following after a ${nudge}px nudge up whose scroll event comes first`, async () => {
+        await mountScrollArea();
+        await showLines(20);
+        await scrollTo(scrollArea().scrollTop - nudge);
+        await showLines(30);
+
+        expect(distanceToEnd()).toBe(0);
+      });
+
+      it(`keeps following after a ${nudge}px nudge up that new output overtakes`, async () => {
+        await mountScrollArea();
+        await showLines(20);
+        scrollArea().scrollTop -= nudge;
+        byTestId('output').innerHTML = lines(30);
+        await ctx.nextFrame();
+        await showLines(40);
+
+        expect(distanceToEnd()).toBe(0);
+      });
+    });
+
     it('marks the scroll area while more output sits below the visible part', async () => {
       await mountScrollArea();
       await showLines(20);
@@ -449,6 +507,59 @@ describe('AiTextTransformPaneController', () => {
       await ctx.nextFrame();
 
       expect(distanceToEnd()).toBe(0);
+    });
+
+    it('keeps an upward scroll that new output overtakes before the scroll event', async () => {
+      await mountScrollArea();
+      await showLines(20);
+      scrollArea().scrollTop = 50;
+      byTestId('output').innerHTML = lines(30);
+      await ctx.nextFrame();
+      await showLines(40);
+
+      expect(scrollArea().scrollTop).toBe(50);
+    });
+
+    it('follows again when new output overtakes the scroll event of reaching the end', async () => {
+      await mountScrollArea();
+      await showLines(20);
+      await scrollTo(0);
+      scrollArea().scrollTop = scrollArea().scrollHeight;
+      byTestId('output').innerHTML = lines(30);
+      await ctx.nextFrame();
+      expect(distanceToEnd()).toBe(0);
+
+      await showLines(40);
+      expect(distanceToEnd()).toBe(0);
+    });
+
+    it('reveals the error banner above followed output', async () => {
+      await mountScrollArea('', `${banner('data-testid="error" data-ai-text-transform-pane-target="error" hidden')}<form id="apply"></form>`);
+      await showLines(20);
+      document.getElementById('apply')!.dispatchEvent(new CustomEvent('turbo:submit-end', { bubbles: true, detail: { success: false } }));
+      await ctx.nextFrame();
+
+      expect(isInScrollView(byTestId('error'))).toBe(true);
+    });
+
+    it('reveals a notice that arrives above followed output', async () => {
+      await mountScrollArea();
+      await showLines(20);
+      scrollArea().innerHTML = `${banner('data-testid="notice" data-ai-text-transform-pane-target="notice"')}<div>${lines(20)}</div>`;
+      await ctx.nextFrame();
+
+      expect(isInScrollView(byTestId('notice'))).toBe(true);
+    });
+
+    it('keeps the reading position when a notice arrives after the user scrolled up', async () => {
+      await mountScrollArea();
+      await showLines(20);
+      await scrollTo(100);
+      scrollArea().innerHTML = `${banner('data-testid="notice" data-ai-text-transform-pane-target="notice"')}<div>${lines(20)}</div>`;
+      await ctx.nextFrame();
+
+      expect(scrollArea().scrollTop).toBe(100);
+      expect(isInScrollView(byTestId('notice'))).toBe(false);
     });
 
     it('drops the mark once output shrinks to fit without removing nodes', async () => {

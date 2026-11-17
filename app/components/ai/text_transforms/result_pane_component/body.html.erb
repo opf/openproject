@@ -35,7 +35,7 @@ See COPYRIGHT and LICENSE files for more details.
         end
       end
       if mentions_converted?
-        body.with_row(mb: 3, test_selector: "ai-text-transform-pane-mentions-converted") do
+        body.with_row(mb: 3, test_selector: "ai-text-transform-pane-mentions-converted", data: target(:notice)) do
           render(Primer::Alpha::Banner.new(scheme: :warning)) { label(:mentions_converted) }
         end
       end

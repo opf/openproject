@@ -77,7 +77,7 @@ let rememberedGeometry:Geometry|null = null;
 const clamp = (value:number, min:number, max:number) => Math.min(Math.max(min, value), max);
 
 export default class AiTextTransformPaneController extends Controller<HTMLElement> {
-  static targets = ['pane', 'scroll', 'state', 'error', 'errorMessage'];
+  static targets = ['pane', 'scroll', 'state', 'error', 'errorMessage', 'notice'];
 
   static values = {
     closeForm: String,
@@ -102,6 +102,7 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
   private pointerListeners:AbortController|null = null;
   private scrollWatch:{ mutations:MutationObserver; resizes:ResizeObserver; listeners:AbortController }|null = null;
   private followsOutput = true;
+  private knownScroll = { top: 0, height: 0, viewport: 0 };
 
   private run = { state: '', seq: '0', requestId: '', pollUrl: '' };
   private pollTimer:ReturnType<typeof setTimeout>|null = null;
@@ -146,11 +147,20 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     Array.from(element.children).forEach((child) => resizes.observe(child));
     element.addEventListener('scroll', () => this.scrolled(), { passive: true, signal: listeners.signal });
     this.scrollWatch = { mutations, resizes, listeners };
-    this.scrolled();
+    this.followsOutput = this.scrolledToEnd;
+    this.rememberScrollPosition();
+    this.showMoreBelow();
   }
 
   scrollTargetDisconnected():void {
     this.unwatchScroll();
+  }
+
+  noticeTargetConnected(element:HTMLElement):void {
+    this.catchUpWithUnseenScroll();
+    if (this.followsOutput) {
+      this.reveal(element);
+    }
   }
 
   // The footer, and with it the state element, is replaced on every poll that brings news.
@@ -308,16 +318,42 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     return scrollHeight - scrollTop - clientHeight <= BOTTOM_TOLERANCE;
   }
 
+  // Scroll events arrive with the next frame, after output or the pane may have changed, so only a move tells what the user did.
+  // The user aimed at the layout they saw before that change, and the browser may have clamped the position to the new one.
+  private catchUpWithUnseenScroll():void {
+    const { scrollTop } = this.scrollTarget;
+    const { top, height, viewport } = this.knownScroll;
+    const atEnd = this.scrolledToEnd || height - scrollTop - viewport <= BOTTOM_TOLERANCE;
+    if (scrollTop < top && !atEnd) {
+      this.followsOutput = false;
+    } else if (scrollTop > top && atEnd) {
+      this.followsOutput = true;
+    }
+  }
+
+  private rememberScrollPosition():void {
+    const { scrollTop, scrollHeight, clientHeight } = this.scrollTarget;
+    this.knownScroll = { top: scrollTop, height: scrollHeight, viewport: clientHeight };
+  }
+
   private scrolled():void {
-    this.followsOutput = this.scrolledToEnd;
+    this.catchUpWithUnseenScroll();
+    this.rememberScrollPosition();
     this.showMoreBelow();
   }
 
   private outputChanged():void {
+    this.catchUpWithUnseenScroll();
     if (this.followsOutput) {
       this.scrollTarget.scrollTop = this.scrollTarget.scrollHeight;
     }
+    this.rememberScrollPosition();
     this.showMoreBelow();
+  }
+
+  private reveal(element:HTMLElement):void {
+    this.followsOutput = false;
+    element.scrollIntoView({ block: 'nearest' });
   }
 
   private scrollAreaResized():void {
@@ -429,6 +465,7 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     if (this.hasErrorTarget) {
       this.errorMessageTarget.textContent = message;
       this.errorTarget.hidden = false;
+      this.reveal(this.errorTarget);
     }
   }
 

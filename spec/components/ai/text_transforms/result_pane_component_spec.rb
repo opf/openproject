@@ -53,6 +53,13 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent, type: :component do
     expect(subject).to have_css(".Box .Box-footer", text: "Replace")
   end
 
+  it "scrolls the result in the body that carries the more-below cue styles" do
+    expect(subject).to have_css(
+      ".op-ai-result-pane .Box-body[data-ai-text-transform-pane-target='scroll']",
+      text: "Login works again."
+    )
+  end
+
   it "attaches the pane controller to the wrapper" do
     expect(subject).to have_css(
       "[data-test-selector='ai-text-transform-result'][data-controller='ai-text-transform-pane']" \
