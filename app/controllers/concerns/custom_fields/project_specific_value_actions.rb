@@ -34,7 +34,12 @@ module CustomFields
     included do
       include OpTurbo::ComponentStream
 
-      before_action :find_custom_field
+      helper_method :custom_field, :configured_project,
+                    :values_path, :new_value_path, :value_path, :edit_value_path, :toggle_value_path,
+                    :make_global_value_path, :value_deletion_dialog_path, :enable_all_values_path,
+                    :disable_all_values_path
+
+      before_action :custom_field
       before_action :require_project_specific_values, only: %i[index deletion_dialog destroy]
       before_action :require_project_specific_value_restriction, only: %i[toggle enable_all disable_all]
       before_action :require_additional_project_values, only: %i[new create edit update make_global]
@@ -46,18 +51,18 @@ module CustomFields
 
     def new
       respond_with_dialog ::Admin::CustomFields::Projects::ValueDialogComponent.new(
-        custom_field: @custom_field, project: configured_project, parent: @parent
+        custom_field:, project: configured_project, parent: @parent
       )
     end
 
     def edit
       respond_with_dialog ::Admin::CustomFields::Projects::ValueDialogComponent.new(
-        custom_field: @custom_field, project: configured_project, value: @value
+        custom_field:, project: configured_project, value: @value
       )
     end
 
     def create
-      errors = @custom_field.list? ? create_option : create_item
+      errors = custom_field.list? ? create_option : create_item
 
       if errors.empty?
         flash[:notice] = I18n.t(:notice_successful_create)
@@ -68,7 +73,7 @@ module CustomFields
     end
 
     def update
-      errors = @custom_field.list? ? update_option : update_item
+      errors = custom_field.list? ? update_option : update_item
 
       if errors.empty?
         flash[:notice] = I18n.t(:notice_successful_update)
@@ -80,9 +85,9 @@ module CustomFields
 
     def toggle
       call = ::CustomFields::ProjectSpecificValues::SetService
-               .new(user: current_user, model: @custom_field)
+               .new(user: current_user, model: custom_field)
                .call(project: configured_project,
-                     value: @custom_field.restrictable_values.find(params.expect(:id)),
+                     value: custom_field.restrictable_values.find(params.expect(:id)),
                      enabled: params[:value] == "1")
 
       render json: {}, status: call.success? ? :ok : :unprocessable_entity
@@ -98,7 +103,7 @@ module CustomFields
 
     def make_global
       call = ::CustomFields::ProjectSpecificValues::MakeGlobalService
-               .new(user: current_user, model: @custom_field)
+               .new(user: current_user, model: custom_field)
                .call(project: configured_project, value: @value)
 
       if call.success?
@@ -112,7 +117,7 @@ module CustomFields
 
     def deletion_dialog
       respond_with_dialog ::Admin::CustomFields::Projects::DeleteValueDialogComponent.new(
-        custom_field: @custom_field, project: configured_project, value: @value
+        project: configured_project, value: @value
       )
     end
 
@@ -125,7 +130,7 @@ module CustomFields
 
     private
 
-    def find_custom_field
+    def custom_field
       raise SubclassResponsibilityError
     end
 
@@ -137,23 +142,55 @@ module CustomFields
       raise SubclassResponsibilityError
     end
 
+    def new_value_path(parent_id: nil)
+      raise SubclassResponsibilityError
+    end
+
+    def value_path(value_id)
+      raise SubclassResponsibilityError
+    end
+
+    def edit_value_path(value_id)
+      raise SubclassResponsibilityError
+    end
+
+    def toggle_value_path(value_id)
+      raise SubclassResponsibilityError
+    end
+
+    def make_global_value_path(value_id)
+      raise SubclassResponsibilityError
+    end
+
+    def value_deletion_dialog_path(value_id)
+      raise SubclassResponsibilityError
+    end
+
+    def enable_all_values_path
+      raise SubclassResponsibilityError
+    end
+
+    def disable_all_values_path
+      raise SubclassResponsibilityError
+    end
+
     def require_project_specific_values
-      return if @custom_field.project_specific_value_restriction.present?
-      return if @custom_field.allow_additional_project_values?
+      return if custom_field.project_specific_value_restriction.present?
+      return if custom_field.allow_additional_project_values?
 
       render_404
     end
 
     def require_project_specific_value_restriction
-      render_404 if @custom_field.project_specific_value_restriction.nil?
+      render_404 if custom_field.project_specific_value_restriction.nil?
     end
 
     def require_additional_project_values
-      render_404 unless @custom_field.allow_additional_project_values?
+      render_404 unless custom_field.allow_additional_project_values?
     end
 
     def find_own_value
-      @value = @custom_field.restrictable_values
+      @value = custom_field.restrictable_values
                             .where(project_id: configured_project.id)
                             .find(params.expect(:id))
     end
@@ -161,7 +198,7 @@ module CustomFields
     def find_parent
       return if params[:parent_id].blank?
 
-      @parent = @custom_field.hierarchy_root
+      @parent = custom_field.hierarchy_root
                              .self_and_descendants
                              .where(project_id: [nil, configured_project.id])
                              .find(params.expect(:parent_id))
@@ -174,7 +211,7 @@ module CustomFields
     def respond_with_form_errors(errors, value: nil)
       update_via_turbo_stream(
         component: ::Admin::CustomFields::Projects::ValueFormComponent.new(
-          custom_field: @custom_field, project: configured_project, value:, values: value_params, errors:
+          custom_field:, project: configured_project, value:, values: value_params, errors:
         ),
         status: :unprocessable_entity
       )
@@ -184,7 +221,7 @@ module CustomFields
     def create_option
       call = ::CustomOptions::CreateService
                .new(user: current_user)
-               .call(custom_field: @custom_field, project: configured_project, value: params[:label])
+               .call(custom_field:, project: configured_project, value: params[:label])
       option_errors(call)
     end
 
@@ -226,14 +263,14 @@ module CustomFields
     end
 
     def update_all(service_class)
-      call = service_class.new(user: current_user, model: @custom_field).call(project: configured_project)
+      call = service_class.new(user: current_user, model: custom_field).call(project: configured_project)
       flash[:error] = call.message unless call.success?
 
       redirect_to_index
     end
 
     def destroy_value
-      if @custom_field.list?
+      if custom_field.list?
         call = ::CustomOptions::DeleteService.new(user: current_user, model: @value).call
         raise ActiveRecord::RecordNotDestroyed.new(call.message, @value) if call.failure?
       else
