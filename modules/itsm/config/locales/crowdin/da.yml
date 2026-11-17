@@ -43,9 +43,6 @@ da:
       itsm/email_thread:
         one: E-mailtråd
         other: E-mailtråde
-      itsm/helpdesk_role:
-        one: Help desk role
-        other: Help desk roles
       itsm/incoming_mailbox:
         one: Indgående postkasse
         other: Indgående postkasser
@@ -59,7 +56,6 @@ da:
     admin:
       description: Gør det muligt at oprette arbejdspakker ved at sende e-mails via en IMAP-server og at besvare dem via en SMTP-server.
       enable_helpdesk: Slå helpdesk til i denne installation
-      helpdesk_not_enabled: 'The help desk could not be turned on, because its role or user could not be created: %{reason}'
       helpdesk_set_by_environment: Helpdesk-funktionen er angivet med en miljøvariabel og kan ikke ændres her.
       imap_server_configuration_component:
         description: Konfigurer IMAP-serveren til at omdanne indgående e-mails til arbejdspakker.
@@ -84,7 +80,5 @@ da:
         edit: Rediger konfigurationen af SMTP-serveren
         title: Konfiguration af SMTP-server
   label_helpdesk: Helpdesk
-  label_helpdesk_role: Help desk
-  label_helpdesk_user: Help desk
   permission_manage_helpdesk: Administrer helpdesk
   project_module_helpdesk: Helpdesk
