@@ -51,11 +51,12 @@ This includes:
 
 **3. [AI Text Assistant and MCP Server](#ai-text-assistant-and-mcp-server)**
 
-The new AI Text Assistant helps users proofread, rewrite, and structure text directly in OpenProject. Available in the Professional plan, it supports more efficient content creation and editing without switching between applications. In addition, the MCP Server is now available in the **Community edition**.
+The new AI Text Assistant helps users proofread, rewrite, and structure text directly in OpenProject. Available in the Professional plan, it supports more efficient content creation and editing without switching between applications. Administrators connect their own LLM in the new AI administration. In addition, the MCP Server is now available in the **Community edition** and can create and update work packages based on your form configuration.
 
 This includes:
 
 - [AI Text Assistant](#ai-text-assistant)
+- [MCP Server is now part of the Community edition](#mcp-server-is-now-part-of-the-community-edition)
 
 **4. [Labels for work packages](#labels-for-work-packages)**
 
@@ -205,10 +206,7 @@ Read more: [Backlogs project settings user guide](../../user-guide/projects/proj
 
 Planning, reporting, and collaboration are only as good as the information in your work packages. Writing complete, well-structured descriptions takes time, and unstructured notes often never make it into a proper work package. The new **AI Text Assistant** helps close that gap.
 
-The AI Text Assistant works directly in OpenProject's text editors. It can proofread text, rewrite it in a different tone, or turn rough notes into a structured description that follows your organization's templates. The assistant runs on an LLM that administrators connect themselves, so organizations stay in control of where their data is processed.
-
-> [!TIP]
-> **Good news for Community users:** The [MCP Server](../../system-admin-guide/ai/mcp-server/) is now available in the Community edition. Connect external AI assistants to OpenProject through the Model Context Protocol and let them create and update work packages based on your form configuration.
+The AI Text Assistant works directly in OpenProject's text editors. It can proofread text, rewrite it in a different tone, or turn rough notes into a structured description that follows your organization's templates. The assistant runs on an LLM that administrators connect themselves, so organizations stay in control of where their data is processed. In addition, the MCP Server, which connects external AI assistants to OpenProject, gets a new tool and is now available in the Community edition.
 
 Read more: [AI system admin guide](../../system-admin-guide/ai/), [Blog article on the AI Text Assistant](https://www.openproject.org/blog/ai-text-assistant/)
 
@@ -218,11 +216,22 @@ Read more: [AI system admin guide](../../system-admin-guide/ai/), [Blog article 
 
 Every rich text editor shows an **Assistant** button. The main part of the button runs the action you used last, and the arrow lists all available actions. In work package descriptions, this includes actions configured for that work package type. In other editors, such as comments, wiki pages, forums, and meetings, you see the actions available everywhere. The result appears in a popover, where you can review it before applying it to your text.
 
-![Setup of a new text action for the AI Text Assistant in OpenProject administration](openproject_release_notes_18.0_ai_text_assistant_settings.png)
-
 ![AI Text Assistant result popover with a suggested rewrite of a work package description in OpenProject](openproject_release_notes_18.0_ai_text_assistant_in_action.png)
 
+To set up the assistant, administrators use the new **AI** section in the administration, which brings all AI settings together. There, they connect OpenProject to an LLM provider and choose which model each AI feature uses, so AI features run on infrastructure your organization chooses. They also manage the **text actions**: which actions are available in every editor, which only apply to the descriptions of specific work package types, and how they match your organization's templates and writing standards.
+
+![Setup of a new text action for the AI Text Assistant in OpenProject administration](openproject_release_notes_18.0_ai_text_assistant_settings.png)
+
 Read more: [Text assistant system admin guide](../../system-admin-guide/ai/text-assistant/)
+
+#### MCP Server is now part of the Community edition
+
+> [!TIP]
+> **Good news for Community users:** You can now connect external AI assistants to OpenProject through the [MCP Server](../../system-admin-guide/ai/mcp-server/) and let them create and update work packages based on your form configuration.
+
+A new MCP tool lets AI assistants read the form of a new or existing work package: which fields exist, which are required, and which values and statuses are allowed. As a result, work packages that an assistant creates or updates use the right custom fields and follow your configuration. The MCP Server settings can now be found in the new **AI** section of the administration.
+
+Read more: [MCP Server system admin guide](../../system-admin-guide/ai/mcp-server/)
 
 ### Labels for work packages
 
