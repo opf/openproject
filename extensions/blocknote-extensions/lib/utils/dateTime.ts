@@ -26,11 +26,13 @@ export function luxonFormatOf(momentFormat:string):string {
   return momentFormat.replace(MOMENT_TOKEN, (token) => LUXON_TOKENS[token]);
 }
 
-function dateTimeFormatOf({ dateFormat, timeFormat }:DateTimeSettings):string {
-  const date = dateFormat ? luxonFormatOf(dateFormat) : LANGUAGE_DATE_FORMAT;
-  const time = timeFormat ? luxonFormatOf(timeFormat) : LANGUAGE_TIME_FORMAT;
-  return `${date} ${time}`;
-}
+const dateFormatOf = ({ dateFormat }:DateTimeSettings):string =>
+  (dateFormat ? luxonFormatOf(dateFormat) : LANGUAGE_DATE_FORMAT);
+
+const timeFormatOf = ({ timeFormat }:DateTimeSettings):string =>
+  (timeFormat ? luxonFormatOf(timeFormat) : LANGUAGE_TIME_FORMAT);
+
+const dateTimeFormatOf = (settings:DateTimeSettings):string => `${dateFormatOf(settings)} ${timeFormatOf(settings)}`;
 
 const toISO = (dateTime:DateTime):string | null =>
   (dateTime.isValid ? dateTime.toUTC().startOf('second').toISO({ suppressMilliseconds: true }) : null);
@@ -49,6 +51,12 @@ export const isoDateOf = (date:Date):string => DateTime.fromJSDate(date).toISODa
 export function localDateOf(isoDate:string):Date | null {
   const dateTime = DateTime.fromISO(isoDate.trim());
   return dateTime.isValid ? dateTime.toJSDate() : null;
+}
+
+export function formatDate(isoDate:string, settings:DateTimeSettings):string {
+  // In UTC, as a calendar day belongs to no time zone.
+  const date = DateTime.fromISO(isoDate, { zone: 'utc', locale: settings.locale });
+  return date.isValid ? date.toFormat(dateFormatOf(settings)) : '';
 }
 
 export function formatDateTime(iso:string, settings:DateTimeSettings):string {
