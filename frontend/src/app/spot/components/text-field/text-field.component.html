@@ -8,6 +8,7 @@
   [placeholder]="placeholder"
   [required]="required"
   [ngModel]="value"
+  [ngModelOptions]="{ standalone: true }"
   (ngModelChange)="valueChanged($event)"
   (focus)="onInputFocus($event)"
   (blur)="onInputBlur($event)"

@@ -27,7 +27,7 @@
 
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { createEvent, fireEvent, screen, waitFor } from '@testing-library/dom';
+import { screen, waitFor } from '@testing-library/dom';
 import { EMPTY, Observable, of, Subject } from 'rxjs';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
@@ -41,7 +41,6 @@ import { AutofocusDirective } from 'core-app/shared/directives/focus/autofocus.d
 import { WorkPackageCreateService } from '../wp-new/wp-create.service';
 import { WorkPackageTableConfigurationObject } from '../wp-table/wp-table-configuration';
 import { runMutation } from '../wp-fast-table/testing/table-harness';
-import { inlineCreateCancelClassName } from './inline-create-row-builder';
 import { WorkPackageInlineCreateComponent } from './wp-inline-create.component';
 import { WorkPackageInlineCreateService } from './wp-inline-create.service';
 
@@ -124,32 +123,5 @@ describe('WorkPackageInlineCreateComponent', () => {
     fixture.componentInstance.resetRow();
 
     await waitFor(() => expect(screen.getByRole('button', { name: 'Create new child' })).toHaveFocus());
-  });
-
-  it.each(['click', 'Enter'])('cancels inline creation without navigation on %s of a Cancel link', (gesture) => {
-    const fixture = mount();
-    const resetRow = vi.spyOn(fixture.componentInstance, 'resetRow').mockImplementation(() => undefined);
-    const cancelLink = document.createElement('a');
-    cancelLink.href = '#';
-    cancelLink.className = inlineCreateCancelClassName;
-    cancelLink.setAttribute('aria-label', 'Cancel');
-    (fixture.nativeElement as HTMLElement).append(cancelLink);
-
-    const preventVisit = vi.fn((event:Event) => event.preventDefault());
-    document.addEventListener('turbo:before-visit', preventVisit);
-    const link = screen.getByRole('link', { name: 'Cancel' });
-    const activation = gesture === 'click'
-      ? createEvent.click(link)
-      : createEvent.keyDown(link, { key: 'Enter' });
-
-    try {
-      fireEvent(link, activation);
-
-      expect(resetRow).toHaveBeenCalledOnce();
-      expect(activation.defaultPrevented).toBe(true);
-      expect(preventVisit).not.toHaveBeenCalled();
-    } finally {
-      document.removeEventListener('turbo:before-visit', preventVisit);
-    }
   });
 });

@@ -193,17 +193,15 @@ RSpec.describe "work package custom fields of type hierarchy", :js do
   end
 
   context "when navigating the hierarchy", with_ee: [:custom_field_hierarchies] do
-    let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
-    let(:custom_field) { create(:wp_custom_field, name: "Hogwarts", field_format: "hierarchy", hierarchy_root: nil) }
-    let!(:root) { service.generate_root(custom_field).value! }
-    let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
-    let!(:ravenclaw) { service.insert_item(contract_class:, parent: root, label: "Ravenclaw").value! }
-    let!(:slytherin) { service.insert_item(contract_class:, parent: root, label: "Slytherin").value! }
-    let!(:hufflepuff) { service.insert_item(contract_class:, parent: root, label: "Hufflepuff").value! }
-    let!(:gryffindor) { service.insert_item(contract_class:, parent: root, label: "Gryffindor").value! }
-    let!(:luna) { service.insert_item(contract_class:, parent: ravenclaw, label: "Luna Lovegood").value! }
-    let!(:harry) { service.insert_item(contract_class:, parent: gryffindor, label: "Harry Potter").value! }
-    let!(:hermione) { service.insert_item(contract_class:, parent: gryffindor, label: "Hermione Granger").value! }
+    let(:custom_field) { create(:wp_custom_field, :hierarchy, name: "Hogwarts") }
+    let!(:root) { custom_field.hierarchy_root }
+    let!(:ravenclaw) { create(:hierarchy_item, parent: root, label: "Ravenclaw") }
+    let!(:slytherin) { create(:hierarchy_item, parent: root, label: "Slytherin") }
+    let!(:hufflepuff) { create(:hierarchy_item, parent: root, label: "Hufflepuff") }
+    let!(:gryffindor) { create(:hierarchy_item, parent: root, label: "Gryffindor") }
+    let!(:luna) { create(:hierarchy_item, parent: ravenclaw, label: "Luna Lovegood") }
+    let!(:harry) { create(:hierarchy_item, parent: gryffindor, label: "Harry Potter") }
+    let!(:hermione) { create(:hierarchy_item, parent: gryffindor, label: "Hermione Granger") }
     let(:tree_view) { Components::TreeView.new }
 
     before do

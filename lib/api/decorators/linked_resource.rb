@@ -73,7 +73,7 @@ module API
       def validate_links!(links)
         raise ::API::Errors::BadRequest.new(I18n.t("api_v3.errors.bad_request.links_not_an_object")) unless links.is_a?(Hash)
 
-        invalid, = links.find { |_, link| !(link.is_a?(Hash) || link.is_a?(Array)) }
+        invalid, = links.find { |_, link| !(link.is_a?(Hash) || (link.is_a?(Array) && link.all?(Hash))) }
         return if invalid.nil?
 
         raise ::API::Errors::BadRequest.new(I18n.t("api_v3.errors.bad_request.invalid_link", key: invalid))

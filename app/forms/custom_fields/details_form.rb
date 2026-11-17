@@ -420,7 +420,7 @@ module CustomFields
     end
 
     def show_admin_only_field?
-      model.class.customized_class&.admin_only_custom_fields_allowed?
+      model.admin_only_allowed?
     end
 
     def show_user_self_editable_field?

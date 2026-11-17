@@ -160,6 +160,11 @@ zh-TW:
         semantic_key: Semantic meaning
         user_self_editable: Editable
         visible_on_user_card: Show on user card
+      custom_field/hierarchy/item:
+        label: Label
+        parent: Parent
+        short: Short
+        weight: Weight
       custom_field/project_specific_value_restriction:
         restriction: Restriction
       custom_value:
@@ -345,7 +350,6 @@ zh-TW:
       project_type:
         variant: Variant
       push_subscription:
-        created_at: Added
         endpoint: Endpoint
         session_id: Session
       query:
@@ -730,6 +734,20 @@ zh-TW:
           previous_custom_field_recalculation_unprocessed: 尚未套用此自訂欄位先前變更的重新計算，請過幾分鐘再試一次。
           referenced_in_other_fields_html:
             other: "%{name} 用於專案屬性計算： %{links}。"
+        custom_field/hierarchy/item:
+          attributes:
+            base:
+              root_item: The root of a hierarchy cannot be deleted.
+            label:
+              not_unique: must be unique within the same hierarchy level.
+            parent:
+              other_hierarchy: must belong to the same hierarchy.
+              other_project: must be a global value or belong to the same project.
+              own_descendant: cannot be the value itself or one of its descendants.
+            project_id:
+              additional_values_not_allowed: cannot add values to this custom field.
+            short:
+              not_unique: must be unique within the same hierarchy level.
         custom_fields_project:
           attributes:
             project_ids:
@@ -873,7 +891,7 @@ zh-TW:
         push_subscription:
           attributes:
             base:
-              too_many_push_subscriptions: Only %{count} devices can receive browser push notifications at the same time.
+              too_many_push_subscriptions: Only %{count} devices can receive browser notifications at the same time.
         queries/filters/base:
           attributes:
             values:
@@ -3138,6 +3156,7 @@ zh-TW:
       work_package_query_relation_columns: 工作套件查詢關聯列
       work_package_sharing: 與外部使用者共用工作套件
       work_package_subject_generation: 工作套件標題產生
+      xwiki_integration: XWiki Integration
     teaser:
       description_html: You have access to all %{trial_plan} features.
       title:
@@ -5171,9 +5190,36 @@ zh-TW:
         title: Project-specific notifications
     notifications_and_email:
       tabs:
+        browser_push: Browser notifications
         email_reminders: Email reminders
         notifications: Notification settings
       title: Notification and email
+    push_notifications:
+      description: Get notified with native push notifications via this browser when you have unread notifications, even when OpenProject is not open. Your notification content stays in OpenProject and is not shared with the notification provider.
+      disable: Disable for this browser
+      enable: Enable for this browser
+      no_devices: No device receives browser notifications yet.
+      no_devices_description: Enable browser notifications on a device and it appears here.
+      revoke: Revoke
+      revoke_confirm: Stop sending browser notifications to %{device}?
+      revoke_device: Revoke %{device}
+      revoked: Browser notifications were disabled for that device.
+      signed_out: Signed out
+      signed_out_description: A device that is signed out keeps browser notifications suspended and resumes them when you sign in there again. Revoke the device to stop them for good.
+      status:
+        blocked: Notifications are blocked for this site in your browser settings.
+        disabled: Browser notifications are not enabled for this browser in the current session.
+        enabled: Browser notifications are enabled for this browser in the current session.
+        error: Browser notifications could not be changed. Please try again.
+        prompting: Waiting for you to allow notifications in the browser prompt…
+        subscribing: Registering this browser with its push service…
+        timeout: Your browser did not finish registering for push in time. Check your network connection and try again.
+        unsupported: Browser notifications are not available in this browser.
+      this_session: This session
+      title: Browser notifications
+      try_again: Try again
+      try_again_label: Try again to change browser notifications for this browser
+      unavailable: Browser notifications are temporarily unavailable on this instance.
   news:
     index:
       no_results_content_text: 新增一個消息
@@ -5437,7 +5483,6 @@ zh-TW:
       eql?: 必須等於 %{left}。
       filled?: 必填。
       format?: is in invalid format.
-      greater_or_equal_zero: 必須大於或等於 0。
       gt?: must be greater than %{num}.
       gteq?: 必須大於或等於 %{num}。
       hash?: 必須是一個 hash 值。
@@ -5450,21 +5495,6 @@ zh-TW:
       max_size?: must not be longer than %{num} characters.
       not_found: 未找到。
       respond_to?: 未執行所需的方法。
-      rules:
-        custom_field:
-          format_not_supported: 格式 '%{field_format}' 不支援。
-        item:
-          not_persisted: must be an already existing value.
-          root_item: cannot be a root value.
-        label:
-          not_unique: 在相同的階層層級內必須是唯一的。
-        parent:
-          not_descendant: 必須是階層根節點的子層。
-          other_project: must be a global value or belong to the same project.
-        project:
-          additional_values_not_allowed: cannot add values to this custom field.
-        short:
-          not_unique: 在相同階層層級內必須唯一。
       str?: 必須為字串。
       time?: must be a time.
       type?: 必須是 %{type}。
@@ -6038,6 +6068,23 @@ zh-TW:
       status_restored: Connection restored. Reloading…
       status_still: Still offline. We’ll try again in a moment.
       title: Offline
+    push:
+      all_read_title: No unread notifications
+      fallback_title: New activity in OpenProject
+      group_title:
+        other: "%{count} updates"
+      more_title:
+        other: "%{count} more work packages"
+      reasons:
+        assigned: "%{actor} assigned you"
+        commented: "%{actor} commented"
+        date_alert_due_date: Due date alert
+        date_alert_start_date: Start date alert
+        mentioned: "%{actor} mentioned you"
+        reminder: Reminder
+        responsible: "%{actor} made you accountable"
+        shared: "%{actor} shared a work package with you"
+        updated: "%{actor} updated"
   queries:
     apply_filter: 套用篩選條件
     configure_view:
@@ -7252,6 +7299,7 @@ zh-TW:
         rename_group: Rename section
         required:
           already_required_globally: This custom field is required for all types.
+          excluded: Switch this custom field on before requiring it for this type.
           for_variant: Required for this type
           globally: Required
           globally_hint: Change this on the custom field
@@ -7329,6 +7377,7 @@ zh-TW:
           success: The configuration was copied.
         exclusions:
           not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
+          required: A required custom field cannot be switched off.
           unknown_aspect: Unknown configuration section "%{aspect}".
         inherited:
           configure_manually: Configure manually
@@ -7575,6 +7624,7 @@ zh-TW:
     sessions:
       browser: 瀏覽器
       browser_session: "（瀏覽器會話）"
+      browser_with_version: "%{name} (Version %{version})"
       current: 目前（此裝置）
       deletion_warning: 您確定要撤銷此會話？您將會登出此裝置。
       device: 裝置/作業系統

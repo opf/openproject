@@ -109,7 +109,7 @@ module Admin
         end
 
         def branch(item)
-          ::CustomFields::Hierarchy::HierarchicalItemService.new.get_branch(item:).value!
+          item.self_and_ancestors.reverse
         end
 
         def slices # rubocop:disable Metrics/AbcSize
