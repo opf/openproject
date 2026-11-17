@@ -83,6 +83,42 @@ RSpec.describe "Admin project-specific values of a work package custom field", :
         expect(page).to have_css("[data-test-selector='custom-field-project-value-#{custom_field.custom_options.first.id}']")
       end
 
+      it "names the custom field and the project being edited" do
+        get values_path
+
+        expect(page).to have_css(".Banner strong", text: custom_field.name)
+        expect(page).to have_link(using_project.name, href: project_path(using_project))
+        expect(page).to have_no_text(I18n.t("custom_fields.admin.projects.editing_values_project_admins_notice"))
+      end
+
+      context "when project admins can manage the values" do
+        let(:custom_field) do
+          create(:list_wp_custom_field, :project_specific_allowlist,
+                 types: [feature], possible_values: %w[A B], project_level_value_management: true)
+        end
+
+        it "tells that project admins can change the values too" do
+          get values_path
+
+          expect(page).to have_css(".Banner",
+                                   text: I18n.t("custom_fields.admin.projects.editing_values_project_admins_notice"))
+        end
+      end
+
+      context "when project admins can add values" do
+        let(:custom_field) do
+          create(:list_wp_custom_field, :project_specific_allowlist,
+                 types: [feature], possible_values: %w[A B], allow_additional_project_values: true)
+        end
+
+        it "tells that project admins can change the values too" do
+          get values_path
+
+          expect(page).to have_css(".Banner",
+                                   text: I18n.t("custom_fields.admin.projects.editing_values_project_admins_notice"))
+        end
+      end
+
       context "when values are deactivated for each project" do
         let(:custom_field) do
           create(:list_wp_custom_field, :project_specific_blocklist, types: [feature], possible_values: %w[A B])

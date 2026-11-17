@@ -2973,7 +2973,8 @@ en:
           title: "Delete project-specific value"
         disable_all: "Disable all"
         edit_value: "Edit value"
-        editing_values_notice: "You are currently editing the list of values visible for this custom field in the project [%{project}](project_url)."
+        editing_values_notice_html: "You are editing the values of <strong>%{custom_field}</strong> in [%{project}](project_url)."
+        editing_values_project_admins_notice: "Project admins of this project can change these values too."
         empty_state:
           description: "Add this custom field to the form of a type that is used in a project."
           title: "No project uses this custom field"
