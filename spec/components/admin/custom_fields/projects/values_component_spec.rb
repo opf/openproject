@@ -40,6 +40,8 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
 
   subject(:rendered) { render_inline(described_class.new(custom_field:, project:)) }
 
+  current_user { build_stubbed(:admin) }
+
   before do
     allow(vc_test_controller).to receive_messages(custom_field:, configured_project: project)
   end
@@ -324,13 +326,15 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
     let(:custom_field) { create(:weighted_item_list_wp_custom_field, :project_specific_allowlist) }
     let!(:parent) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "High", weight: 10) }
     let!(:child) { create(:hierarchy_item, parent:, label: "Urgent", weight: 15) }
+    let!(:grandchild) { create(:hierarchy_item, parent: child, label: "Critical", weight: 20) }
 
     it "indents sub-values and shows their weight" do
       expect(row.call(parent).text).to include("High", "10")
       expect(row.call(parent).text).not_to include(I18n.t("custom_fields.admin.hierarchy.subitems", count: 1))
       expect(row.call(child).text).to include("Urgent", "15")
-      expect(row.call(child).css(".pl-3")).to be_present
-      expect(row.call(parent).css(".pl-3")).to be_empty
+      expect(row.call(parent).css("[style='padding-left: 0px']")).to be_present
+      expect(row.call(child).css("[style='padding-left: 16px']")).to be_present
+      expect(row.call(grandchild).css("[style='padding-left: 32px']")).to be_present
     end
   end
 end
