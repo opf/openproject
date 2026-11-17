@@ -66,16 +66,11 @@ export default class TableHighlightingController extends Controller<HTMLTableEle
   };
 
   private resolveColumn(target:EventTarget|null):HTMLTableColElement|null {
-    if (!(target instanceof HTMLElement)) {
+    if (!(target instanceof HTMLTableCellElement && target.tagName === 'TH') || !this.colgroup) {
       return null;
     }
 
-    const th = target.closest('th');
-    if (!th || !this.colgroup) {
-      return null;
-    }
-
-    const index = th.cellIndex;
+    const index = target.cellIndex;
     if (index < 0) {
       return null;
     }

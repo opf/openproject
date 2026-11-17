@@ -87,6 +87,19 @@ describe('TableHighlightingController', () => {
     expect(col).not.toHaveClass('hover');
   });
 
+  it('keeps hover class when the pointer leaves a descendant of the header', () => {
+    const th = ctx.screen.getByRole('columnheader', { name: 'Name' });
+    const col = ctx.container.querySelector('colgroup col:first-child')!;
+    const child = document.createElement('span');
+    th.appendChild(child);
+
+    th.dispatchEvent(new MouseEvent('mouseenter'));
+    child.dispatchEvent(new MouseEvent('mouseenter'));
+    child.dispatchEvent(new MouseEvent('mouseleave'));
+
+    expect(col).toHaveClass('hover');
+  });
+
   it('skips columns with data-highlight="false"', () => {
     const th = ctx.screen.getByRole('columnheader', { name: 'Notes' });
     const col = ctx.container.querySelector('colgroup col:nth-child(3)')!;
