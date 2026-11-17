@@ -31,100 +31,11 @@ module Admin
   module Settings
     module WorkPackageCustomFields
       class ProjectSpecificValuesController < ::Admin::SettingsController
-        include OpTurbo::ComponentStream
+        include ::CustomFields::ProjectSpecificValueActions
 
         menu_item :work_package_custom_fields
 
-        before_action :find_custom_field
-        before_action :require_project_specific_values, only: %i[index deletion_dialog destroy]
-        before_action :require_project_specific_value_restriction, only: %i[toggle enable_all disable_all]
-        before_action :require_additional_project_values, only: %i[new create edit update make_global]
-        before_action :find_project_using_custom_field
-        before_action :find_own_value, only: %i[edit update make_global deletion_dialog destroy]
-        before_action :find_parent, only: %i[new create]
-
         helper_method :custom_field_page_title, :section_label
-
-        def index; end
-
-        def new
-          respond_with_dialog ::Admin::CustomFields::Projects::ValueDialogComponent.new(
-            custom_field: @custom_field, project: @configured_project, parent: @parent
-          )
-        end
-
-        def edit
-          respond_with_dialog ::Admin::CustomFields::Projects::ValueDialogComponent.new(
-            custom_field: @custom_field, project: @configured_project, value: @value
-          )
-        end
-
-        def create
-          errors = @custom_field.list? ? create_option : create_item
-
-          if errors.empty?
-            flash[:notice] = I18n.t(:notice_successful_create)
-            redirect_to_index
-          else
-            respond_with_form_errors(errors)
-          end
-        end
-
-        def update
-          errors = @custom_field.list? ? update_option : update_item
-
-          if errors.empty?
-            flash[:notice] = I18n.t(:notice_successful_update)
-            redirect_to_index
-          else
-            respond_with_form_errors(errors, value: @value)
-          end
-        end
-
-        def toggle
-          call = ::CustomFields::ProjectSpecificValues::SetService
-                   .new(user: current_user, model: @custom_field)
-                   .call(project: @configured_project,
-                         value: @custom_field.restrictable_values.find(params.expect(:id)),
-                         enabled: params[:value] == "1")
-
-          render json: {}, status: call.success? ? :ok : :unprocessable_entity
-        end
-
-        def enable_all
-          update_all(::CustomFields::ProjectSpecificValues::EnableAllService)
-        end
-
-        def disable_all
-          update_all(::CustomFields::ProjectSpecificValues::DisableAllService)
-        end
-
-        def make_global
-          call = ::CustomFields::ProjectSpecificValues::MakeGlobalService
-                   .new(user: current_user, model: @custom_field)
-                   .call(project: @configured_project, value: @value)
-
-          if call.success?
-            flash[:notice] = I18n.t(:notice_successful_update)
-          else
-            flash[:error] = call.message
-          end
-
-          redirect_to_index
-        end
-
-        def deletion_dialog
-          respond_with_dialog ::Admin::CustomFields::Projects::DeleteValueDialogComponent.new(
-            custom_field: @custom_field, project: @configured_project, value: @value
-          )
-        end
-
-        def destroy
-          destroy_value
-
-          flash[:notice] = I18n.t(:notice_successful_delete)
-          redirect_to_index
-        end
 
         private
 
@@ -132,120 +43,15 @@ module Admin
           @custom_field = WorkPackageCustomField.find(params.expect(:work_package_custom_field_id))
         end
 
-        def require_project_specific_values
-          return if @custom_field.project_specific_value_restriction.present?
-          return if @custom_field.allow_additional_project_values?
-
-          render_404
-        end
-
-        def require_project_specific_value_restriction
-          render_404 if @custom_field.project_specific_value_restriction.nil?
-        end
-
-        def require_additional_project_values
-          render_404 unless @custom_field.allow_additional_project_values?
-        end
-
         # Not @project, as that would render the project menu instead of the administration menu.
-        def find_project_using_custom_field
+        def find_configured_project
           @configured_project = Project.active
                                        .with_available_custom_fields([@custom_field.id])
                                        .find(params.expect(:project_id))
         end
 
-        def find_own_value
-          @value = @custom_field.restrictable_values
-                                .where(project_id: @configured_project.id)
-                                .find(params.expect(:id))
-        end
-
-        def find_parent
-          return if params[:parent_id].blank?
-
-          @parent = @custom_field.hierarchy_root
-                                 .self_and_descendants
-                                 .where(project_id: [nil, @configured_project.id])
-                                 .find(params.expect(:parent_id))
-        end
-
-        def value_params
-          params.permit(:label, :short, :weight, :parent_id).to_h.symbolize_keys
-        end
-
-        def respond_with_form_errors(errors, value: nil)
-          update_via_turbo_stream(
-            component: ::Admin::CustomFields::Projects::ValueFormComponent.new(
-              custom_field: @custom_field, project: @configured_project, value:, values: value_params, errors:
-            ),
-            status: :unprocessable_entity
-          )
-          respond_with_turbo_streams
-        end
-
-        def create_option
-          call = ::CustomOptions::CreateService
-                   .new(user: current_user)
-                   .call(custom_field: @custom_field, project: @configured_project, value: params[:label])
-          option_errors(call)
-        end
-
-        def update_option
-          call = ::CustomOptions::UpdateService
-                   .new(user: current_user, model: @value)
-                   .call(value: params[:label])
-          option_errors(call)
-        end
-
-        def option_errors(call)
-          errors = call.errors.to_hash(true)
-          errors[:label] = errors.delete(:value) if errors.key?(:value)
-          errors
-        end
-
-        def create_item
-          call = ::CustomFields::Hierarchy::Items::CreateService
-                   .new(user: current_user)
-                   .call(parent: @parent,
-                         label: params[:label],
-                         short: params[:short],
-                         weight: params[:weight],
-                         project: @configured_project)
-          item_errors(call)
-        end
-
-        def update_item
-          call = ::CustomFields::Hierarchy::Items::UpdateService
-                   .new(user: current_user, model: @value)
-                   .call(label: params[:label], short: params[:short], weight: params[:weight])
-          item_errors(call)
-        end
-
-        def item_errors(call)
-          errors = call.errors.to_hash(true)
-          errors[:parent_id] = errors.delete(:parent) if errors.key?(:parent)
-          errors
-        end
-
-        def update_all(service_class)
-          call = service_class.new(user: current_user, model: @custom_field).call(project: @configured_project)
-          flash[:error] = call.message unless call.success?
-
-          redirect_to_index
-        end
-
-        def destroy_value
-          if @custom_field.list?
-            call = ::CustomOptions::DeleteService.new(user: current_user, model: @value).call
-            raise ActiveRecord::RecordNotDestroyed.new(call.message, @value) if call.failure?
-          else
-            ::CustomFields::Hierarchy::Items::DeleteService.new(user: current_user, model: @value).call
-          end
-        end
-
-        def redirect_to_index
-          redirect_to admin_settings_work_package_custom_field_project_specific_values_path(@custom_field, @configured_project),
-                      status: :see_other
+        def values_path
+          admin_settings_work_package_custom_field_project_specific_values_path(@custom_field, @configured_project)
         end
 
         def custom_field_page_title
