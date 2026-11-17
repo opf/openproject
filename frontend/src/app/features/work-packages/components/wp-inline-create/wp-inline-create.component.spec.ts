@@ -132,7 +132,6 @@ describe('WorkPackageInlineCreateComponent', () => {
   it('stops editing the new work package when the create row resets', () => {
     const stopEditing = vi.fn();
     const fixture = mount({ stopEditing });
-    fixture.componentInstance.hideRow();
 
     fixture.componentInstance.resetRow();
 
