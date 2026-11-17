@@ -73,7 +73,7 @@ export interface InsertAttributeModalProps {
 }
 
 export const InsertAttributeModal = ({ anchorEl, prefill, offersLongText, onInsert, onCancel }:InsertAttributeModalProps) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const panelRef = useRef<HTMLDivElement>(null);
   useColors();
   const formatOptions = useAttributeFormatOptions();
@@ -105,9 +105,9 @@ export const InsertAttributeModal = ({ anchorEl, prefill, offersLongText, onInse
 
   const attributes = useMemo(
     () => (schema
-      ? sortByLabel(listAttributes(schema).filter((option) => isOffered(option, offersLongText)), formatOptions.locale)
+      ? sortByLabel(listAttributes(schema).filter((option) => isOffered(option, offersLongText)), i18n.language)
       : []),
-    [schema, offersLongText, formatOptions.locale],
+    [schema, offersLongText, i18n.language],
   );
   const found = schema && attribute ? findAttribute(schema, attribute) : undefined;
   const selected = found && isOffered(found, offersLongText) ? found : undefined;
