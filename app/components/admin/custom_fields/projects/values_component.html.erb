@@ -56,7 +56,7 @@ See COPYRIGHT and LICENSE files for more details.
                     size: :small,
                     tag: :a,
                     href: helpers.enable_all_values_path,
-                    data: { turbo_method: :post }
+                    data: { turbo_method: :post, turbo_frame: "_top" }
                   )
                 ) do |button|
                   button.with_leading_visual_icon(icon: :"check-circle")
@@ -68,7 +68,7 @@ See COPYRIGHT and LICENSE files for more details.
                     size: :small,
                     tag: :a,
                     href: helpers.disable_all_values_path,
-                    data: { turbo_method: :post }
+                    data: { turbo_method: :post, turbo_frame: "_top" }
                   )
                 ) do |button|
                   button.with_leading_visual_icon(icon: :"x-circle")
@@ -164,6 +164,7 @@ See COPYRIGHT and LICENSE files for more details.
                         content_arguments: {
                           data: {
                             turbo_method: :post,
+                            turbo_frame: "_top",
                             turbo_confirm: t(
                               "custom_fields.admin.projects.make_available_to_all_projects_confirm",
                               value: row.label
