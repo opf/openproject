@@ -116,6 +116,7 @@ RSpec.shared_examples_for "custom_field contract" do
 
   context "with project-specific value restrictions" do
     let(:custom_field_type) { "WorkPackageCustomField" }
+    let(:custom_field_admin_only) { false }
     let(:custom_field_field_format) { "list" }
     let(:custom_field_possible_values) { %w[A B] }
     let(:custom_field_project_specific_value_restriction) { "allow" }
