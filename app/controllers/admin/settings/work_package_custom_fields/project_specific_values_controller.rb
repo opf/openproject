@@ -36,9 +36,9 @@ module Admin
         menu_item :work_package_custom_fields
 
         before_action :find_custom_field
-        before_action :require_project_specific_values, only: %i[index edit update make_global deletion_dialog destroy]
+        before_action :require_project_specific_values, only: %i[index deletion_dialog destroy]
         before_action :require_project_specific_value_restriction, only: %i[toggle enable_all disable_all]
-        before_action :require_additional_project_values, only: %i[new create]
+        before_action :require_additional_project_values, only: %i[new create edit update make_global]
         before_action :find_project_using_custom_field
         before_action :find_own_value, only: %i[edit update make_global deletion_dialog destroy]
         before_action :find_parent, only: %i[new create]

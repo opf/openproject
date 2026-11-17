@@ -35,5 +35,7 @@ module CustomOptions
     self.enterprise_condition = -> { model.project_id.present? }
 
     attribute :value
+
+    validate :validate_additional_values_allowed
   end
 end
