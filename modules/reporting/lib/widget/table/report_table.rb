@@ -100,25 +100,53 @@ class Widget::Table::ReportTable < Widget::Table
     walker.headers
     return if walker.headers_empty?
 
-    concat "<thead>".html_safe
+    concat content_tag(:thead, safe_join(header_rows))
+  end
+
+  def header_rows
+    column_dimensions = @subject.group_bys(:column)
+    rows = []
+    cells = []
     walker.headers do |list, first, first_in_col, last_in_col|
-      concat "<tr>".html_safe if first_in_col
-      if first
-        concat(content_tag(:th, "", rowspan: @subject.depth_of(:column), colspan: @subject.depth_of(:row)))
-      end
+      cells = [dimension_labels(column_dimensions[rows.size])] if first_in_col
       list.each do |column|
         opts = { colspan: column.final_number(:column) }
         opts[:class] = "inner" if column.final?(:column)
-        concat(content_tag(:th, opts) do
-          show_row column
-        end)
+        cells << content_tag(:th, show_row(column), opts)
       end
       if first
-        concat(content_tag(:th, "", rowspan: @subject.depth_of(:column), colspan: @subject.depth_of(:row)))
+        cells << content_tag(:th, "", rowspan: header_row_count, colspan: @subject.depth_of(:row))
       end
-      concat "</tr>".html_safe if last_in_col
+      rows << content_tag(:tr, safe_join(cells)) if last_in_col
     end
-    concat "</thead>".html_safe
+    rows << row_dimension_label_row if row_labels_in_own_row?
+    rows
+  end
+
+  def row_labels_in_own_row?
+    @subject.group_bys(:column).first.display? && @subject.group_bys(:row).first.display?
+  end
+
+  def header_row_count
+    row_labels_in_own_row? ? @subject.depth_of(:column) + 1 : @subject.depth_of(:column)
+  end
+
+  def dimension_labels(column_dimension)
+    if column_dimension.display?
+      content_tag(:th, column_dimension.class.label, colspan: @subject.depth_of(:row))
+    else
+      safe_join(row_dimension_labels)
+    end
+  end
+
+  def row_dimension_label_row
+    value_columns = content_tag(:th, "", colspan: @subject.column_first.final_number(:column))
+
+    content_tag(:tr, safe_join([*row_dimension_labels, value_columns]))
+  end
+
+  def row_dimension_labels
+    @subject.group_bys(:row).map { |row_dimension| content_tag(:th, row_dimension.class.label) }
   end
 
   def render_tfoot
