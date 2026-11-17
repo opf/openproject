@@ -35,6 +35,8 @@ module Admin
 
         menu_item :work_package_custom_fields
 
+        before_action :configured_project
+
         helper_method :custom_field_page_title, :section_label
 
         private
@@ -43,15 +45,15 @@ module Admin
           @custom_field = WorkPackageCustomField.find(params.expect(:work_package_custom_field_id))
         end
 
-        # Not @project, as that would render the project menu instead of the administration menu.
-        def find_configured_project
-          @configured_project = Project.active
-                                       .with_available_custom_fields([@custom_field.id])
-                                       .find(params.expect(:project_id))
+        # Not @project, as the layout would then announce the project as the current one.
+        def configured_project
+          @configured_project ||= Project.active
+                                         .with_available_custom_fields([@custom_field.id])
+                                         .find(params.expect(:project_id))
         end
 
         def values_path
-          admin_settings_work_package_custom_field_project_specific_values_path(@custom_field, @configured_project)
+          admin_settings_work_package_custom_field_project_specific_values_path(@custom_field, configured_project)
         end
 
         def custom_field_page_title

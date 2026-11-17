@@ -460,6 +460,9 @@ Rails.application.reloader.to_prepare do
                      {
                        "projects/settings/work_packages": %i[show],
                        "projects/settings/work_packages/custom_fields": %i[index],
+                       "projects/settings/work_packages/custom_fields/values": %i[index new create edit update destroy
+                                                                                  toggle make_global deletion_dialog
+                                                                                  enable_all disable_all]
                      },
                      permissible_on: :project,
                      require: :member
