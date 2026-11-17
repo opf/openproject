@@ -122,6 +122,38 @@ RSpec.describe Sprints::WorkPackageBreakdown do
     end
   end
 
+  describe "a sprint that has not started although its start date has been reached" do
+    let(:sprint) { create(:sprint, project:, start_date:, finish_date: Time.zone.today + 10.days) }
+
+    let!(:planned_work_package) do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 5,
+                            estimated_hours: 8)
+    end
+
+    shared_examples "reports the work packages planned so far as initially planned" do
+      it do
+        expect(breakdown.initially_planned).to have_attributes(work_package_count: 1, story_points: 5, estimated_hours: 8)
+        expect(breakdown.changed_after_start).to have_attributes(
+          added_count: 0, removed_count: 0, added_story_points: 0, removed_story_points: 0,
+          added_estimated_hours: 0, removed_estimated_hours: 0
+        )
+        expect(breakdown.added_after_start_ids).to be_empty
+      end
+    end
+
+    context "when it starts today" do
+      let(:start_date) { Time.zone.today }
+
+      it_behaves_like "reports the work packages planned so far as initially planned"
+    end
+
+    context "when it was due to start in the past" do
+      let(:start_date) { Time.zone.today - 3.days }
+
+      it_behaves_like "reports the work packages planned so far as initially planned"
+    end
+  end
+
   describe "work packages without estimates" do
     let(:sprint) do
       create(:sprint, project:, start_date: Time.zone.today + 3.days, finish_date: Time.zone.today + 10.days)

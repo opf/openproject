@@ -56,10 +56,19 @@ module Sprints
 
     # The point in time at which the sprint has started or will start. A sprint yet to begin has
     # only its schedule to go on, so this is not always a moment anything happened at.
+    # While its planned timeframe is underway without it being started, it can at the earliest start now.
+    # Once that timeframe has passed, the planned start stands in for the history it never had.
     def effective_start
       return zoned(sprint.started_at) if sprint.started_at?
+      return now if (planned_start..planned_finish).cover?(now)
 
       planned_start
+    end
+
+    # Whether there is anything to measure yet: once the sprint was started, or once its planned
+    # timeframe has passed without that ever happening.
+    def begun?
+      sprint.started_at? || planned_finish < now
     end
 
     # The point in time up until which the sprint is expected to finish.
