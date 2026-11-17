@@ -32,6 +32,7 @@ module Storages
     include GoodJob::ActiveJobExtensions::Concurrency
     extend ::DebounceableJob
 
+    queue_as :long_running
     good_job_control_concurrency_with(
       total_limit: 2,
       enqueue_limit: 1,

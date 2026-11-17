@@ -33,7 +33,6 @@ module API
       class DocumentRepresenter < ::API::Decorators::Single
         include API::Decorators::DateProperty
         include API::Decorators::FormattableProperty
-        include API::Decorators::LinkedResource
         include API::V3::Workspaces::LinkedResource
         include API::Caching::CachedRepresenter
         include ::API::V3::Attachments::AttachableRepresenterMixin

@@ -32,7 +32,7 @@ require "rails_helper"
 RSpec.describe CustomFields::DetailsComponent, type: :component do
   subject(:rendered) { render_inline(described_class.new(custom_field, form_url: "/custom_fields")) }
 
-  let(:banner) { "Remember to set items for this custom field, and to make sure it is used in at least one project." }
+  let(:banner) { "Remember to set values for this custom field, and to make sure it is used in at least one project." }
 
   current_user { create(:admin) }
 

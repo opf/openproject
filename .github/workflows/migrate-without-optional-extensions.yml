@@ -48,12 +48,12 @@ jobs:
       RAILS_ENV: development
     steps:
       - name: Checkout code
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
+        uses: ruby/setup-ruby@v1.336.0
         with:
           bundler-cache: true
 
@@ -67,7 +67,7 @@ jobs:
       - name: Run all migrations
         run: bundle exec rake db:create db:migrate
 
-# github.head_ref is only availabe in PR context and if it is absent then github.run_id
+# github.head_ref is only available in PR context and if it is absent then github.run_id
 # is used . And github.run_id is unique for each workflow run. So, this option makes
 # sure that there is only one build running for a pull request and the build is attached
 # to the last commit of the PR.

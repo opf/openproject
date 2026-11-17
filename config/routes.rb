@@ -945,6 +945,11 @@ Rails.application.routes.draw do
       resource :incoming_mails, controller: "/admin/settings/incoming_mails_settings", only: %i[show update]
       resource :aggregation, controller: "/admin/settings/aggregation_settings", only: %i[show update]
       resource :mail_notifications, controller: "/admin/settings/mail_notifications_settings", only: %i[show update]
+      resource :push_notifications, controller: "/admin/settings/push_notifications_settings", only: %i[show update] do
+        post :check
+        get :renew_key_dialog
+        post :renew_key
+      end
       resource :api, controller: "/admin/settings/api_settings", only: %i[show update]
       # It is important to have this named something else than "work_packages".
       # Otherwise the angular ui-router will also recognize that as a WorkPackage page and apply according classes.
@@ -1480,6 +1485,8 @@ Rails.application.routes.draw do
 
     resources :sessions, controller: "my/sessions", as: "my_sessions", only: %i[index destroy]
     resources :auto_login_tokens, controller: "my/auto_login_tokens", as: "my_auto_login_tokens", only: %i[destroy]
+    resources :push_subscriptions, controller: "my/push_subscriptions", as: "my_push_subscriptions",
+                                   only: %i[create destroy]
 
     get "/banner" => "my/enterprise_banners#show", as: "show_enterprise_banner"
     post "/dismiss_banner" => "my/enterprise_banners#dismiss", as: "dismiss_enterprise_banner"

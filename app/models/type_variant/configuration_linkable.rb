@@ -191,11 +191,7 @@ class TypeVariant
     private
 
     def custom_field_ids_among(elements)
-      elements.filter_map do |element|
-        next unless CustomField.custom_field_attribute?(element)
-
-        element.delete_prefix(CUSTOM_FIELD_ELEMENT_PREFIX).to_i
-      end
+      elements.filter_map { CustomField.id_from_attribute_name(it) }
     end
 
     def linked_aspects_are_valid

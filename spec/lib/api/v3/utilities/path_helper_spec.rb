@@ -167,6 +167,12 @@ RSpec.describe API::V3::Utilities::PathHelper do
       it_behaves_like "api v3 path", "/notifications/unread_ian"
     end
 
+    describe "#notification_summary" do
+      subject { helper.notification_summary }
+
+      it_behaves_like "api v3 path", "/notifications/summary"
+    end
+
     describe "#notification_read_ian" do
       subject { helper.notification_read_ian(42) }
 
