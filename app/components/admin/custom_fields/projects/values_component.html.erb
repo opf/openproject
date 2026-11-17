@@ -139,7 +139,7 @@ See COPYRIGHT and LICENSE files for more details.
                       "aria-label": t("custom_fields.admin.projects.value_actions")
                     )
 
-                    if row.project_specific?
+                    if own_value_changeable?(row)
                       menu.with_item(
                         label: t("custom_fields.admin.projects.edit_value"),
                         tag: :a,
@@ -155,7 +155,7 @@ See COPYRIGHT and LICENSE files for more details.
                         content_arguments: { data: { controller: "async-dialog" } }
                       )
                     end
-                    if row.project_specific?
+                    if own_value_changeable?(row)
                       menu.with_item(
                         label: t("custom_fields.admin.projects.make_available_to_all_projects"),
                         tag: :a,
@@ -171,6 +171,8 @@ See COPYRIGHT and LICENSE files for more details.
                           }
                         }
                       )
+                    end
+                    if row.project_specific?
                       menu.with_item(
                         label: t(:button_delete),
                         tag: :a,

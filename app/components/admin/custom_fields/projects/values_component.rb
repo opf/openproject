@@ -109,6 +109,10 @@ module Admin
           custom_field.allow_additional_project_values? && custom_field.hierarchical_list?
         end
 
+        def own_value_changeable?(row)
+          row.project_specific? && custom_field.allow_additional_project_values?
+        end
+
         def indentation(row)
           [row.depth * 3, MAX_INDENTATION].min
         end
