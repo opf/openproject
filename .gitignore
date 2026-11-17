@@ -117,6 +117,16 @@ node_modules/
 plaintext.yml
 db/*.sql
 
+# Database dumps may contain customer data and must never be committed.
+# Keep in sync with the no-db-dumps check in lefthook.yml.
+*.sql
+*.sql.gz
+*.dump
+*.pgdump
+*.backup
+*.bak
+!/docs/installation-and-operations/operation/restoring/restoring-a-deleted-project/*.sql
+
 # Local development
 # used by dotenv
 /.env.*.local
