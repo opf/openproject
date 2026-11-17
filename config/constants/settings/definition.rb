@@ -178,7 +178,7 @@ module Settings
       autologin: {
         format: :integer,
         default: 0,
-        allowed: [1, 7, 14, 30, 60, 90, 365]
+        allowed: [0, 1, 7, 14, 30, 60, 90, 365]
       },
       autologin_cookie_name: {
         description: "Cookie name for autologin cookie",
