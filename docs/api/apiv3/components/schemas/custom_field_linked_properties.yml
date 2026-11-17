@@ -12,4 +12,4 @@ patternProperties:
           - List
           - User
           - Version
-          - Weighted item list
+          - Weighted list

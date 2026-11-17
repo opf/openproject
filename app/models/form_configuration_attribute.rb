@@ -51,8 +51,8 @@ class FormConfigurationAttribute < ApplicationRecord
 
   def self.reference_for(key)
     key = key.to_s
-    if (custom_field_id = key[/\Acustom_field_(\d+)\z/, 1])
-      { custom_field_id: custom_field_id.to_i, attribute_key: nil }
+    if (custom_field_id = CustomField.id_from_attribute_name(key))
+      { custom_field_id:, attribute_key: nil }
     else
       { custom_field_id: nil, attribute_key: key }
     end

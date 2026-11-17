@@ -127,7 +127,7 @@ class OpenProject::JournalFormatter::CustomField::Plain < JournalFormatter::Base
   end
 
   def usable_in_project?(custom_field, value_id)
-    return true if custom_field.project_specific_value_restriction.nil? || project.nil?
+    return true if !custom_field.project_specific_values_supported? || project.nil?
 
     custom_field.usable_value_id?(project, value_id)
   end

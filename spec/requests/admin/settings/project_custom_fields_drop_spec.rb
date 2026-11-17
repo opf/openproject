@@ -74,54 +74,23 @@ RSpec.describe "Project custom fields drop", :skip_csrf, type: :rails_request do
       expect(cf3.reload.custom_field_section_id).to eq(section_c.id)
     end
 
-    it "422s without mutation for an unknown prev_id" do
-      drop(cf3, { list_type: "custom_field", list_id: section_a.id.to_s, prev_id: "999999" })
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(section_a.reload.attribute_order).to eq([cf1.column_name, cf2.column_name, cf3.column_name])
-      expect(cf3.reload.custom_field_section_id).to eq(section_a.id)
-    end
+    it_behaves_like "a sortable list drop endpoint", list_id_scoped: true do
+      let(:dragged_id) { cf3.id }
+      let(:valid_drop_params) do
+        { list_type: "custom_field", list_id: section_a.id.to_s, prev_id: cf1.id.to_s }
+      end
 
-    it "422s without mutation for a self prev_id" do
-      drop(cf3, { list_type: "custom_field", list_id: section_a.id.to_s, prev_id: cf3.id.to_s })
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(section_a.reload.attribute_order).to eq([cf1.column_name, cf2.column_name, cf3.column_name])
-      expect(cf3.reload.custom_field_section_id).to eq(section_a.id)
+      def send_drop(params) = drop(cf3, params)
+
+      def expect_unmoved
+        expect(section_a.reload.attribute_order).to eq([cf1.column_name, cf2.column_name, cf3.column_name])
+        expect(section_b.reload.attribute_order).to eq([cf4.column_name])
+        expect(cf3.reload.custom_field_section_id).to eq(section_a.id)
+      end
     end
 
     it "422s without mutation for a prev_id from another section" do
       drop(cf3, { list_type: "custom_field", list_id: section_a.id.to_s, prev_id: cf4.id.to_s })
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(section_a.reload.attribute_order).to eq([cf1.column_name, cf2.column_name, cf3.column_name])
-      expect(section_b.reload.attribute_order).to eq([cf4.column_name])
-      expect(cf3.reload.custom_field_section_id).to eq(section_a.id)
-    end
-
-    it "422s when prev_id is omitted entirely" do
-      drop(cf3, { list_type: "custom_field", list_id: section_a.id.to_s })
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(section_a.reload.attribute_order).to eq([cf1.column_name, cf2.column_name, cf3.column_name])
-    end
-
-    it "422s for a wrong list_type" do
-      drop(cf3, { list_type: "section", list_id: section_a.id.to_s, prev_id: "" })
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(section_a.reload.attribute_order).to eq([cf1.column_name, cf2.column_name, cf3.column_name])
-    end
-
-    it "422s for a blank list_id" do
-      drop(cf3, { list_type: "custom_field", list_id: "", prev_id: "" })
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(section_a.reload.attribute_order).to eq([cf1.column_name, cf2.column_name, cf3.column_name])
-    end
-
-    it "422s without mutation for a collection-valued prev_id" do
-      drop(cf3, { list_type: "custom_field", list_id: section_a.id.to_s, prev_id: [cf1.id.to_s] })
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(section_a.reload.attribute_order).to eq([cf1.column_name, cf2.column_name, cf3.column_name])
-    end
-
-    it "422s without mutation for a collection-valued list_id" do
-      drop(cf3, { list_type: "custom_field", list_id: [section_b.id.to_s], prev_id: "" })
       expect(response).to have_http_status(:unprocessable_entity)
       expect(section_a.reload.attribute_order).to eq([cf1.column_name, cf2.column_name, cf3.column_name])
       expect(section_b.reload.attribute_order).to eq([cf4.column_name])

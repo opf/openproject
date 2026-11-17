@@ -31,7 +31,6 @@ module API
   module V3
     module RecurringMeetings
       class RecurringMeetingRepresenter < ::API::Decorators::Single
-        include API::Decorators::LinkedResource
         include API::V3::Workspaces::LinkedResource
         include API::Decorators::DateProperty
         include ::API::Caching::CachedRepresenter

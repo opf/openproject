@@ -28,21 +28,534 @@ See COPYRIGHT and LICENSE files for more details.
 const CACHE_PREFIX = <%== pwa_cache_prefix.to_json %>;
 
 <% if OpenProject::FeatureDecisions.progressive_web_app_active? %>
-const CACHE_NAME = <%== pwa_cache_name.to_json %>;
-const OFFLINE_URL = <%== pwa_offline_path.to_json %>;
+const Config = Object.freeze({
+  cache: { name: <%== pwa_cache_name.to_json %>, state: `${CACHE_PREFIX}push-state` },
+  urls: {
+    offline: <%== pwa_offline_path.to_json %>,
+    home: <%== root_path.to_json %>,
+    signOut: <%== signout_path.to_json %>,
+    push: <%== api_v3_paths.notification_summary.to_json %>,
+  },
+  tags: {
+    prefix: "openproject-",
+    workPackage: /^openproject-(\d+)-wp-/,
+    placeholder: "openproject-unread",
+    nothingNew: "openproject-nothing-new",
+    more: "openproject-more",
+  },
+  push: {
+    fetchTimeoutMs: 10000,
+    signOutTimeoutMs: 10000,
+    reconcileMinIntervalMs: 10000,
+    maxRememberedUnlisted: 50,
+    fallbackTitle: <%== I18n.t("pwa.push.fallback_title", locale: Setting.default_language).to_json %>,
+    allReadTitle: <%== I18n.t("pwa.push.all_read_title", locale: Setting.default_language).to_json %>,
+    icon: <%== image_path("pwa/icon-192.png").to_json %>,
+  },
+});
 
-// An error status or a redirect fails the install, which keeps the previous worker.
-const precacheOfflinePage = async () => {
-  const response = await fetch(new Request(OFFLINE_URL, { credentials: "omit", cache: "reload" }));
-  if (!response.ok || response.redirected) throw new Error("Offline page unavailable");
+class PushState {
+  static get shownUrl() {
+    return `${Config.urls.push}?shown`;
+  }
 
-  const cache = await caches.open(CACHE_NAME);
-  await cache.put(OFFLINE_URL, response);
-};
+  static async read() {
+    const cache = await caches.open(Config.cache.state);
+    const stored = await cache.match(PushState.shownUrl);
+    return stored ? stored.json() : {};
+  }
+
+  static async write(state) {
+    const cache = await caches.open(Config.cache.state);
+    await cache.put(PushState.shownUrl, new Response(JSON.stringify(state), { headers: { "Content-Type": "application/json" } }));
+  }
+
+  static clear() {
+    return PushState.write({});
+  }
+}
+
+class NotificationPlan {
+  static activityAt(group) {
+    return Number(group.revision.split(":")[1]) || 0;
+  }
+
+  static listedTags({ groups, more }) {
+    const tags = new Set(groups.map((group) => group.tag));
+    if (more) tags.add(Config.tags.more);
+    return tags;
+  }
+
+  static staleTags({ groups, more, openTags }) {
+    const listed = NotificationPlan.listedTags({ groups, more });
+    return openTags.filter((tag) => !listed.has(tag));
+  }
+
+  static pruneUnlisted({ state, groups, more }) {
+    const listed = NotificationPlan.listedTags({ groups, more });
+    const entries = Object.entries(state);
+    const unlisted = entries
+      .filter(([tag]) => !listed.has(tag))
+      .sort(([, a], [, b]) => (b.at || 0) - (a.at || 0))
+      .slice(0, Config.push.maxRememberedUnlisted);
+    return Object.fromEntries([...entries.filter(([tag]) => listed.has(tag)), ...unlisted]);
+  }
+
+  static isNewActivity(previous, at) {
+    return previous?.at === undefined || at > previous.at;
+  }
+
+  static needsRefresh({ group, previous, openTags }) {
+    const onlyPlaceholderOpen = openTags.length > 0 && openTags.every((tag) => tag === Config.tags.placeholder);
+    return (
+      onlyPlaceholderOpen || previous.evicted || (openTags.includes(group.tag) && previous.fingerprint !== group.fingerprint)
+    );
+  }
+
+  static evictedState(closeTags, state) {
+    const evicted = {};
+    closeTags
+      .filter((tag) => state[tag]?.at !== undefined)
+      .forEach((tag) => {
+        evicted[tag] = { ...state[tag], evicted: true };
+      });
+    return evicted;
+  }
+
+  static stateAfterClose({ closeTags, groups, more, state }) {
+    const remaining = Object.fromEntries(Object.entries(state).filter(([tag]) => !closeTags.includes(tag)));
+    if (!more) return remaining;
+
+    return NotificationPlan.pruneUnlisted({
+      state: { ...remaining, ...NotificationPlan.evictedState(closeTags, state) },
+      groups,
+      more,
+    });
+  }
+
+  static for({ groups, more, openTags, state }) {
+    const closeTags = NotificationPlan.staleTags({ groups, more, openTags });
+    const nextState = {};
+    const show = [];
+
+    if (more) {
+      Object.assign(nextState, NotificationPlan.evictedState(closeTags, state));
+      nextState[Config.tags.more] = { fingerprint: more.fingerprint };
+      if (state[Config.tags.more]?.fingerprint !== more.fingerprint || !openTags.includes(Config.tags.more)) {
+        show.push({ kind: "more", more });
+      }
+    }
+
+    // Shown oldest first, so the newest ends on top.
+    for (const group of [...groups].reverse()) {
+      const previous = state[group.tag];
+      const at = NotificationPlan.activityAt(group);
+      nextState[group.tag] = { fingerprint: group.fingerprint, at: Math.max(at, previous?.at || 0) };
+
+      if (NotificationPlan.isNewActivity(previous, at)) {
+        show.push({ kind: "alert", group });
+      } else if (NotificationPlan.needsRefresh({ group, previous, openTags })) {
+        show.push({ kind: "refresh", group });
+      }
+    }
+
+    // Safari drops every subscription of the site after three pushes that did not call
+    // showNotification, so the newest group is refreshed even when it is already on screen.
+    if (show.length === 0) {
+      show.push(openTags.includes(groups[0].tag) ? { kind: "refresh", group: groups[0] } : { kind: "nothingNew" });
+    }
+
+    const nextRemembered = more ? NotificationPlan.pruneUnlisted({ state: { ...state, ...nextState }, groups, more }) : nextState;
+    return { show, state: nextRemembered };
+  }
+}
+
+class Notifications {
+  static async listOpen() {
+    const notifications = await self.registration.getNotifications();
+    return notifications.filter((notification) => notification.tag.startsWith(Config.tags.prefix));
+  }
+
+  static ownerOf(tag) {
+    return tag.match(Config.tags.workPackage)?.[1];
+  }
+
+  static close(open, tags) {
+    open.filter((notification) => tags.includes(notification.tag)).forEach((notification) => notification.close());
+  }
+
+  static closeAll(open) {
+    open.forEach((notification) => notification.close());
+  }
+
+  static show(item) {
+    switch (item.kind) {
+      case "alert":
+        return Notifications.showGroup(item.group, { renotify: true });
+      case "refresh":
+        return Notifications.showGroup(item.group, { silent: true, renotify: false });
+      case "more":
+        return Notifications.showMore(item.more);
+      case "nothingNew":
+        return Notifications.showFallback(Config.tags.nothingNew);
+      default:
+        return Notifications.showFallback();
+    }
+  }
+
+  static showGroup(group, flags) {
+    return Notifications.display(group.title, {
+      tag: group.tag,
+      body: group.body,
+      data: { url: group.url, revision: group.revision },
+      ...flags,
+    });
+  }
+
+  static showMore(more) {
+    return Notifications.display(more.title, {
+      tag: Config.tags.more,
+      silent: true,
+      data: { url: more.url, revision: more.title },
+    });
+  }
+
+  static showFallback(tag = Config.tags.placeholder) {
+    return Notifications.display(Config.push.fallbackTitle, {
+      tag,
+      silent: true,
+      renotify: false,
+      data: { url: Config.urls.home, revision: "fallback" },
+    });
+  }
+
+  static showAllRead() {
+    return Notifications.display(Config.push.allReadTitle, {
+      tag: Config.tags.placeholder,
+      silent: true,
+      data: { url: Config.urls.home, revision: "all-read" },
+    });
+  }
+
+  static display(title, options) {
+    return self.registration.showNotification(title, { icon: Config.push.icon, ...options });
+  }
+}
+
+class UnreadSummary {
+  static async fetch() {
+    try {
+      const response = await fetch(Config.urls.push, {
+        credentials: "include",
+        cache: "no-store",
+        headers: { Accept: "application/json" },
+        signal: AbortSignal.timeout(Config.push.fetchTimeoutMs),
+      });
+      if (response.status === 401 || response.status === 403) return { outcome: "signedOut" };
+      if (!response.ok) return { outcome: "unavailable" };
+
+      const data = await response.json();
+      if (!data) return { outcome: "unavailable" };
+      if (data.count === 0) return { outcome: "empty" };
+      return { outcome: "unread", count: data.count, groups: data.groups, more: data.more };
+    } catch {
+      return { outcome: "unavailable" };
+    }
+  }
+}
+
+class Badge {
+  static set(count) {
+    return navigator.setAppBadge?.(count).catch(() => undefined);
+  }
+
+  static clear() {
+    return navigator.clearAppBadge?.().catch(() => undefined);
+  }
+}
+
+class NotificationFingerprint {
+  static async of(...parts) {
+    const bytes = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(JSON.stringify(parts)));
+    return Array.from(new Uint8Array(bytes), (byte) => byte.toString(16).padStart(2, "0")).join("");
+  }
+
+  static async addTo({ groups, more }) {
+    return {
+      groups: await Promise.all(groups.map(async (group) => ({
+        ...group,
+        fingerprint: await NotificationFingerprint.of(group.revision, group.title, group.body || ""),
+      }))),
+      more: more && { ...more, fingerprint: await NotificationFingerprint.of(more.title) },
+    };
+  }
+}
+
+class PushHandler {
+  constructor() {
+    this.queue = Promise.resolve();
+    this.pendingReconcile = undefined;
+    this.lastReconcileStartedAt = -Infinity;
+    this.signOutGeneration = 0;
+    this.signOutsInProgress = 0;
+    this.accountId = undefined;
+    this.signOutPath = new URL(Config.urls.signOut, self.location.href).pathname;
+  }
+
+  isSignOut(request) {
+    return new URL(request.url).pathname === this.signOutPath;
+  }
+
+  static settled(navigation) {
+    let timer;
+    const timeout = new Promise((resolve) => {
+      timer = setTimeout(resolve, Config.push.signOutTimeoutMs);
+    });
+    return Promise.race([navigation.catch(() => undefined), timeout]).finally(() => clearTimeout(timer));
+  }
+
+  signOut(navigation) {
+    this.signOutGeneration += 1;
+    this.signOutsInProgress += 1;
+    const cleared = this.clearForSignOut().catch(() => undefined);
+    // A push that was already running may show notifications again after the first clear.
+    const clearedAfterSettled = PushHandler.settled(navigation).then(() => {
+      this.signOutGeneration += 1;
+      this.signOutsInProgress -= 1;
+      return this.enqueue(() => this.clearForSignOut());
+    });
+    return Promise.all([cleared, clearedAfterSettled]);
+  }
+
+  onPush(event) {
+    event.waitUntil(this.enqueue(() => this.showUnread()));
+  }
+
+  onMessage(event) {
+    const { type, userId } = event.data || {};
+    if (type === "reconcile") {
+      event.waitUntil(this.requestReconcile());
+    } else if (type === "account" && userId) {
+      event.waitUntil(this.switchAccount(String(userId)));
+    }
+  }
+
+  requestReconcile() {
+    if (this.pendingReconcile) return this.pendingReconcile;
+
+    const delay = this.lastReconcileStartedAt + Config.push.reconcileMinIntervalMs - Date.now();
+    this.pendingReconcile = new Promise((resolve) => setTimeout(resolve, Math.max(0, delay))).then(() =>
+      this.enqueue(() => {
+        this.pendingReconcile = undefined;
+        this.lastReconcileStartedAt = Date.now();
+        return this.reconcile();
+      }),
+    );
+    return this.pendingReconcile;
+  }
+
+  switchAccount(userId) {
+    const changed = this.accountId !== undefined && this.accountId !== userId;
+    if (changed) this.signOutGeneration += 1;
+    this.accountId = userId;
+    return this.enqueue(async () => {
+      const closed = await this.closeOtherAccounts(userId, changed);
+      if (changed || closed) await this.refreshBadge();
+    });
+  }
+
+  enqueue(task) {
+    this.queue = this.queue.then(task, task).catch(() => undefined);
+    return this.queue;
+  }
+
+  // A push that shows no notification makes Chrome show a generic one, so every path ends in showNotification.
+  async showUnread() {
+    try {
+      await this.render();
+    } catch {
+      await Notifications.showFallback();
+    }
+  }
+
+  async render() {
+    const generation = this.signOutGeneration;
+    const summary = await UnreadSummary.fetch();
+    if (generation !== this.signOutGeneration || this.signOutsInProgress > 0) return Notifications.showFallback();
+
+    switch (summary.outcome) {
+      case "signedOut":
+        await Badge.clear();
+        await this.closeAndForgetAll();
+        return Notifications.showFallback();
+      case "unavailable":
+        return Notifications.showFallback();
+      case "empty":
+        await this.closeAndForgetAll();
+        await Notifications.showAllRead();
+        return Badge.clear();
+      default:
+        await Badge.set(summary.count);
+        return this.showUnreadGroups(summary);
+    }
+  }
+
+  async reconcile() {
+    const generation = this.signOutGeneration;
+    if ((await Notifications.listOpen()).length === 0) return this.refreshBadge();
+
+    const summary = await UnreadSummary.fetch();
+    if (generation !== this.signOutGeneration || this.signOutsInProgress > 0) return;
+
+    switch (summary.outcome) {
+      case "signedOut":
+      case "empty":
+        await this.closeAndForgetAll();
+        return Badge.clear();
+      case "unavailable":
+        return;
+      default:
+        await Badge.set(summary.count);
+        return this.closeUnlisted(summary);
+    }
+  }
+
+  async refreshBadge() {
+    const generation = this.signOutGeneration;
+    const summary = await UnreadSummary.fetch();
+    if (generation !== this.signOutGeneration || this.signOutsInProgress > 0) return;
+    if (summary.outcome === "unavailable") return;
+
+    return summary.outcome === "unread" ? Badge.set(summary.count) : Badge.clear();
+  }
+
+  async closeStale({ groups, more }) {
+    const state = await PushState.read();
+    const open = await Notifications.listOpen();
+    const openTags = open.map((notification) => notification.tag);
+    const closeTags = NotificationPlan.staleTags({ groups, more, openTags });
+    Notifications.close(open, closeTags);
+    return { state, openTags, closeTags };
+  }
+
+  async closeUnlisted(summary) {
+    const { state, closeTags } = await this.closeStale(summary);
+    if (closeTags.length === 0) return;
+
+    await PushState.write(NotificationPlan.stateAfterClose({ closeTags, groups: summary.groups, more: summary.more, state }));
+  }
+
+  async showUnreadGroups(summary) {
+    const { groups, more } = summary;
+    const { state, openTags } = await this.closeStale(summary);
+    if (groups.length === 0) return Notifications.showFallback();
+
+    const plan = NotificationPlan.for({ ...(await NotificationFingerprint.addTo({ groups, more })), openTags, state });
+    for (const item of plan.show) await Notifications.show(item);
+    await PushState.write(plan.state);
+  }
+
+  async closeAndForgetAll() {
+    Notifications.closeAll(await Notifications.listOpen());
+    await PushState.clear();
+  }
+
+  async closeOtherAccounts(userId, changed) {
+    const isOther = (tag) => {
+      const owner = Notifications.ownerOf(tag);
+      return owner === undefined ? changed : owner !== userId;
+    };
+    const open = await Notifications.listOpen();
+    const closeTags = open.map((notification) => notification.tag).filter(isOther);
+    Notifications.close(open, closeTags);
+
+    const state = await PushState.read();
+    const remembered = Object.entries(state).filter(([tag]) => !isOther(tag));
+    const forgot = remembered.length !== Object.keys(state).length;
+    if (forgot) await PushState.write(Object.fromEntries(remembered));
+    return closeTags.length > 0 || forgot;
+  }
+
+  async clearForSignOut() {
+    await this.closeAndForgetAll();
+    await Badge.clear();
+  }
+}
+
+class NotificationClick {
+  static sameOriginUrl(url) {
+    const resolved = new URL(url, self.location.href);
+    return resolved.origin === self.location.origin ? resolved.href : new URL(Config.urls.home, self.location.href).href;
+  }
+
+  static async windowsInScope() {
+    const windows = await self.clients.matchAll({ type: "window" });
+    return windows.filter((candidate) => candidate.url.startsWith(self.registration.scope));
+  }
+
+  static async open(requestedUrl) {
+    const url = NotificationClick.sameOriginUrl(requestedUrl);
+    const clients = await NotificationClick.windowsInScope();
+
+    const client =
+      clients.find((candidate) => candidate.visibilityState === "visible" || candidate.focused) || clients[0];
+    if (!client) return self.clients.openWindow(url);
+
+    try {
+      await client.focus();
+      await client.navigate(url);
+    } catch {
+      return self.clients.openWindow(url);
+    }
+  }
+}
+
+class OfflinePage {
+  static async precache() {
+    const response = await fetch(new Request(Config.urls.offline, { credentials: "omit", cache: "reload" }));
+    if (!response.ok || response.redirected) throw new Error("Offline page unavailable");
+
+    const cache = await caches.open(Config.cache.name);
+    await cache.put(Config.urls.offline, response);
+  }
+
+  static async deleteStaleCaches() {
+    for (const name of await caches.keys()) {
+      if (name.startsWith(CACHE_PREFIX) && name !== Config.cache.name && name !== Config.cache.state) await caches.delete(name);
+    }
+  }
+
+  static respondTo(event) {
+    const { request } = event;
+    if (request.mode !== "navigate" || request.destination !== "document" || request.method !== "GET") return;
+
+    const response = OfflinePage.load(event);
+    event.respondWith(response);
+    return response;
+  }
+
+  static async load(event) {
+    let preloaded;
+    try {
+      preloaded = await event.preloadResponse;
+    } catch {
+      preloaded = undefined;
+    }
+
+    try {
+      return preloaded || (await fetch(event.request));
+    } catch {
+      const cache = await caches.open(Config.cache.name);
+      return (await cache.match(Config.urls.offline)) || Response.error();
+    }
+  }
+}
+
+const pushHandler = new PushHandler();
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    precacheOfflinePage()
+    OfflinePage.precache()
       .catch((error) => {
         console.warn("Offline page could not be precached", error);
         throw error;
@@ -53,35 +566,27 @@ self.addEventListener("install", (event) => {
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches
-      .keys()
-      .then((names) =>
-        Promise.all(
-          names
-            .filter((name) => name.startsWith(CACHE_PREFIX) && name !== CACHE_NAME)
-            .map((name) => caches.delete(name)),
-        ),
-      )
+    OfflinePage.deleteStaleCaches()
       .then(() => self.registration.navigationPreload?.enable())
       .then(() => self.clients.claim()),
   );
 });
 
-// The URL stays the requested one so the offline page can retry it.
 self.addEventListener("fetch", (event) => {
-  const { request } = event;
-  if (request.mode !== "navigate" || request.destination !== "document" || request.method !== "GET") return;
+  const response = OfflinePage.respondTo(event);
+  // Only the worker sees every sign-out, including those that leave through a single sign-on redirect.
+  if (response && pushHandler.isSignOut(event.request)) {
+    event.waitUntil(pushHandler.signOut(response));
+  }
+});
 
-  event.respondWith(
-    (async () => {
-      try {
-        return (await event.preloadResponse) || (await fetch(request));
-      } catch {
-        const cache = await caches.open(CACHE_NAME);
-        return (await cache.match(OFFLINE_URL)) || Response.error();
-      }
-    })(),
-  );
+self.addEventListener("push", (event) => pushHandler.onPush(event));
+
+self.addEventListener("message", (event) => pushHandler.onMessage(event));
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  event.waitUntil(NotificationClick.open(event.notification.data?.url || Config.urls.home));
 });
 <% else %>
 self.addEventListener("install", (event) => {
