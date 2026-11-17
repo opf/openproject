@@ -500,7 +500,7 @@ describe('SortHeaderDirective column menu', () => {
   const menu = (name:string) => within(harness.headerRow()).getByRole('menu', { name, hidden: true });
   const overlay = (name:string) => menu(name).closest<HTMLElement>('anchored-position')!;
   const indicator = (index:number) => header(index).querySelector<SVGElement>('.wp-table--column-menu-indicator')!;
-  const focusHeader = (index:number) => harness.table.keyboardNavigation.focusPosition({ key: headerRowKey, cell: index, desiredColumn: index });
+  const focusHeader = (index:number|null) => harness.table.keyboardNavigation.focusPosition({ key: headerRowKey, cell: index, desiredColumn: index });
   // Primer focuses the first item a frame after the toggle task, which Firefox
   // may run after a settle; a key sent before then never reaches the menu.
   const open = async (name:string) => {
@@ -596,6 +596,15 @@ describe('SortHeaderDirective column menu', () => {
 
     expect(header(1)).toHaveFocus();
     expect(getComputedStyle(indicator(1)).visibility).toBe('visible');
+  });
+
+  it('keeps the menu indicators hidden while the header row has keyboard focus', () => {
+    focusHeader(null);
+
+    expect(harness.headerRow()).toHaveFocus();
+    columns().getColumns().forEach((_, index) => {
+      expect(indicator(index)).not.toBeVisible();
+    });
   });
 
   it('opens the menu flush with the header cell\'s bottom and right edges', async () => {
