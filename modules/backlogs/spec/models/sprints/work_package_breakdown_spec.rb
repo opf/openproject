@@ -154,6 +154,29 @@ RSpec.describe Sprints::WorkPackageBreakdown do
     end
   end
 
+  describe "a sprint that was never started, read by a viewer for whom its planned finish has passed" do
+    let(:sprint) { create(:sprint, project:, start_date: Time.zone.today - 6.days, finish_date: Time.zone.today) }
+
+    current_user do
+      create(:user, member_with_roles: { project => role }, preferences: { time_zone: "Asia/Tokyo" })
+    end
+
+    before do
+      # Past Tokyo midnight, which lies at 15:00 UTC, but not yet past server time midnight.
+      travel 8.hours
+
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 5,
+                            journals: { 10.days.ago => {} })
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 3,
+                            journals: { 1.hour.ago => {} })
+    end
+
+    it "reads it over its planned dates in the viewer's zone, as the sprint's charts do" do
+      expect(breakdown.initially_planned).to have_attributes(work_package_count: 1, story_points: 5)
+      expect(breakdown.changed_after_start).to have_attributes(added_count: 0, removed_count: 0)
+    end
+  end
+
   describe "work packages without estimates" do
     let(:sprint) do
       create(:sprint, project:, start_date: Time.zone.today + 3.days, finish_date: Time.zone.today + 10.days)
