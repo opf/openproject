@@ -89,10 +89,12 @@ class FogFileUploader < CarrierWave::Uploader::Base
     ActiveSupport::IsolatedExecutionState.delete(DOWNLOADS_KEY)&.each(&:discard_download)
   end
 
+  class DownloadError < StandardError; end
+
   def local_file
     @remote_file ||= file
     downloading = !cached?
-    cache_stored_file!
+    download_remote_file
     remember_download if downloading
     super
   end
@@ -160,6 +162,27 @@ class FogFileUploader < CarrierWave::Uploader::Base
   end
 
   private
+
+  def download_remote_file
+    @cache_error = nil
+
+    if remote_file.size.positive?
+      cache_stored_file!
+    else
+      cache_empty_file
+    end
+
+    return if file.is_a?(CarrierWave::SanitizedFile)
+
+    raise DownloadError.new("Failed to download #{remote_file.path}: #{@cache_error&.message}"), cause: @cache_error
+  end
+
+  # CarrierWave refuses to cache files without content, unless they exist on disk.
+  def cache_empty_file
+    Tempfile.create("empty") do |tempfile|
+      cache!(CarrierWave::SanitizedFile.new(tempfile:, filename: File.basename(remote_file.path)))
+    end
+  end
 
   def remember_download
     @download_cache_id = cache_id

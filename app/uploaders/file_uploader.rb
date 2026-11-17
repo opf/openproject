@@ -95,6 +95,7 @@ module FileUploader
     super
     @old_tmp_file = new_file
   rescue StandardError => e
+    @cache_error = e
     Rails.logger.error "Failed cache! of temporary upload file: #{e}"
   end
 
