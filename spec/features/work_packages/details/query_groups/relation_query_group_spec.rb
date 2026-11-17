@@ -61,7 +61,7 @@ RSpec.describe "Work package with relation query group", :js, :selenium do
   let(:full_wp) { Pages::FullWorkPackage.new(work_package) }
   let(:relations) { Components::WorkPackages::Relations.new(work_package) }
   let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
-  let(:relations_tab) { find(".op-tab-row--link", text: "RELATIONS") }
+  let(:relations_tab) { find("[role=tab]", text: "Relations") }
   let(:embedded_table) { Pages::EmbeddedWorkPackagesTable.new(first("wp-single-view .work-packages-embedded-view--container")) }
 
   let(:visit) { true }
@@ -251,7 +251,7 @@ RSpec.describe "Work package with relation query group", :js, :selenium do
 
       # Check that deletion of relations still work after a page reload
       full_wp.visit!
-      relations_tab = find(".op-tab-row--link", text: "RELATIONS")
+      relations_tab = find("[role=tab]", text: "Relations")
       relations_tab.click
 
       wait_for_network_idle

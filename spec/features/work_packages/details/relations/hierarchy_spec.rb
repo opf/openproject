@@ -195,7 +195,7 @@ RSpec.context "within a full screen" do
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
   let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
 
-  let(:relations_tab) { find(".op-tab-row--link_selected", text: "RELATIONS") }
+  let(:relations_tab) { find("[role=tab][aria-selected=true]", text: "Relations") }
 
   it_behaves_like "work package relations tab"
 end

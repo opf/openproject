@@ -25,79 +25,104 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Injector, OnChanges, Output, SimpleChanges, ViewChild, inject } from '@angular/core';
-import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
+import {
+  afterNextRender,
+  afterRenderEffect,
+  Component,
+  computed,
+  DestroyRef,
+  ElementRef,
+  inject,
+  Injector,
+  input,
+  model,
+  output,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import { share } from 'rxjs/operators';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { generateId } from 'core-app/shared/helpers/dom-helpers';
+import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
+import { TabPanelSource } from 'core-app/shared/components/tabs/tab-panel-source';
 
 @Component({
   templateUrl: 'scrollable-tabs.component.html',
   selector: 'op-scrollable-tabs',
   styleUrls: ['./scrollable-tabs.component.sass'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class ScrollableTabsComponent extends UntilDestroyedMixin implements AfterViewInit, OnChanges {
-  private cdRef = inject(ChangeDetectorRef);
-  private I18n = inject(I18nService);
-  injector = inject(Injector);
+export class ScrollableTabsComponent implements TabPanelSource {
+  private readonly I18n = inject(I18nService);
 
-  @ViewChild('scrollContainer', { static: true }) scrollContainer:ElementRef<HTMLElement>;
+  readonly injector = inject(Injector);
 
-  @ViewChild('scrollPane', { static: true }) scrollPane:ElementRef<HTMLUListElement>;
+  readonly tabs = input<TabDefinition[]>([]);
 
-  @ViewChild('scrollRightBtn', { static: true }) scrollRightBtn:ElementRef<HTMLButtonElement>;
+  readonly currentTabId = model<string|null>(null);
 
-  @ViewChild('scrollLeftBtn', { static: true }) scrollLeftBtn:ElementRef<HTMLButtonElement>;
+  readonly label = input<string>();
 
-  @Input() public currentTabId:string|null = null;
+  readonly panelId = input(generateId('op-tab-panel'));
 
-  @Input() public tabs:TabDefinition[] = [];
+  readonly tabSelected = output<TabDefinition>();
 
-  @Input() public classes:string[] = [];
+  readonly selectedTabElementId = computed(() => {
+    const id = this.currentTabId();
+    return id === null ? null : this.tabElementId(id);
+  });
 
-  @Input() public hideLeftButton = true;
+  protected readonly focusableTabId = computed(() => {
+    const tabs = this.tabs();
+    const current = this.currentTabId();
+    if (tabs.some((tab) => tab.id === current)) {
+      return current;
+    }
+    return tabs.find((tab) => tab.disable === undefined)?.id ?? null;
+  });
 
-  @Input() public hideRightButton = true;
+  protected readonly hideLeftButton = signal(true);
 
-  @Output() public tabSelected = new EventEmitter<TabDefinition>();
+  protected readonly hideRightButton = signal(true);
 
-  public text = {
+  protected readonly text = {
     scrollLeft: this.I18n.t('js.label_scroll_left'),
     scrollRight: this.I18n.t('js.label_scroll_right'),
   };
 
-  counters:Record<string, Observable<number>> = {};
+  private readonly scrollContainer = viewChild.required<ElementRef<HTMLElement>>('scrollContainer');
 
-  private container:Element;
+  private readonly scrollPane = viewChild.required<ElementRef<HTMLElement>>('scrollPane');
 
-  private pane:Element;
+  private readonly idPrefix = generateId('op-scrollable-tabs');
 
-  private resizeObserver:ResizeObserver;
+  private readonly counters:Record<string, Observable<number>> = {};
 
-  private debouncedTabActivationTimeout:ReturnType<typeof setTimeout>|null;
+  private debouncedTabActivationTimeout:ReturnType<typeof setTimeout>|null = null;
 
   private dragTargetStack = 0;
 
-  ngAfterViewInit():void {
-    this.container = this.scrollContainer.nativeElement;
-    this.pane = this.scrollPane.nativeElement;
+  constructor() {
+    const destroyRef = inject(DestroyRef);
 
-    this.resizeObserver = new ResizeObserver(() => this.updateScrollableArea());
-    this.resizeObserver.observe(this.container);
-  }
+    afterNextRender(() => {
+      const observer = new ResizeObserver(() => this.updateScrollableArea());
+      observer.observe(this.scrollContainer().nativeElement);
+      destroyRef.onDestroy(() => observer.disconnect());
+    });
 
-  override ngOnDestroy():void {
-    this.resizeObserver?.disconnect();
-    super.ngOnDestroy();
-  }
-
-  ngOnChanges(_changes:SimpleChanges):void {
-    if (this.pane) {
+    afterRenderEffect(() => {
+      this.tabs();
+      this.currentTabId();
       this.updateScrollableArea();
-    }
+    });
+
+    destroyRef.onDestroy(() => this.clearDebouncedTabActivation());
+  }
+
+  tabElementId(tabId:string):string {
+    return `${this.idPrefix}-tab-${tabId}`;
   }
 
   counter(tab:TabDefinition):Observable<number>|null {
@@ -105,65 +130,99 @@ export class ScrollableTabsComponent extends UntilDestroyedMixin implements Afte
       return null;
     }
 
-    if (!this.counters[tab.id]) {
-      this.counters[tab.id] = tab.counter(this.injector).pipe(share());
-    }
+    this.counters[tab.id] ??= tab.counter(this.injector).pipe(share());
 
     return this.counters[tab.id];
   }
 
-  private updateScrollableArea():void {
-    if (!this.pane || !this.container) {
-      return;
-    }
-
-    this.determineScrollButtonVisibility();
-    if (this.currentTabId != null) {
-      this.scrollIntoVisibleArea(this.currentTabId);
-    }
-  }
-
-  public clickTab(tab:TabDefinition, event:Event):void {
-    event.preventDefault();
-
+  activate(tab:TabDefinition):void {
     if (tab.disable !== undefined) {
       return;
     }
 
-    this.currentTabId = tab.id;
+    this.currentTabId.set(tab.id);
     this.tabSelected.emit(tab);
-
-    // Override history to avoid that browser back leads you to a different tab instead of the page you originated from
-    if (tab.path) {
-      const historyMethod = document.referrer !== '' ? 'replaceState' : 'pushState';
-      history[historyMethod](null, '', tab.path);
-    }
+    this.syncHistory(tab);
   }
 
-  public startDebouncedTabActivation(tab:TabDefinition):void {
-    // 'dragenter' events are always fired before 'dragleave' events. Hence, when dragging directly from one tab to
-    // another, first the dragenter of the new tab is fired, before we get a dragleave from the old one.
-    // Therefor we keep the drag stack, which can raise from 0 to 2. And we only clear the debounced tab activation
-    // completely when we fully leave tabs (which means, drag stack is 0).
-    this.dragTargetStack += 1;
-
-    if (this.debouncedTabActivationTimeout !== null) {
-      this.clearDebouncedTabActivation();
+  onKeydown(event:KeyboardEvent, index:number):void {
+    if (event.altKey || event.ctrlKey || event.metaKey) {
+      return;
     }
 
-    this.debouncedTabActivationTimeout = setTimeout(() => {
-      this.currentTabId = tab.id;
-      this.tabSelected.emit(tab);
+    const tabs = this.tabs();
+    const target = this.targetIndex(event.code, index, tabs.length);
+    if (target === null) {
+      return;
+    }
 
+    event.preventDefault();
+    const tab = tabs[target];
+    this.activate(tab);
+    document.getElementById(this.tabElementId(tab.id))?.focus();
+  }
+
+  disabledReason(tab:TabDefinition):string|undefined {
+    return typeof tab.disable === 'string' ? tab.disable : undefined;
+  }
+
+  startDebouncedTabActivation(tab:TabDefinition):void {
+    // 'dragenter' events are always fired before 'dragleave' events. Hence, when dragging directly from one tab to
+    // another, first the dragenter of the new tab is fired, before we get a dragleave from the old one.
+    // Therefore we keep the drag stack, which can raise from 0 to 2. And we only clear the debounced tab activation
+    // completely when we fully leave tabs (which means, drag stack is 0).
+    this.dragTargetStack += 1;
+    this.clearDebouncedTabActivation();
+
+    this.debouncedTabActivationTimeout = setTimeout(() => {
+      this.currentTabId.set(tab.id);
+      this.tabSelected.emit(tab);
       this.debouncedTabActivationTimeout = null;
     }, 300);
   }
 
-  public cancelDebouncedTabActivation():void {
+  cancelDebouncedTabActivation():void {
     this.dragTargetStack -= 1;
 
     if (this.dragTargetStack === 0) {
       this.clearDebouncedTabActivation();
+    }
+  }
+
+  onScroll():void {
+    this.determineScrollButtonVisibility();
+  }
+
+  scrollRight():void {
+    const pane = this.scrollPane().nativeElement;
+    pane.scrollLeft += pane.clientWidth;
+  }
+
+  scrollLeft():void {
+    const pane = this.scrollPane().nativeElement;
+    pane.scrollLeft -= pane.clientWidth;
+  }
+
+  private targetIndex(code:string, index:number, count:number):number|null {
+    switch (code) {
+      case 'ArrowRight':
+        return (index + 1) % count;
+      case 'ArrowLeft':
+        return (index - 1 + count) % count;
+      case 'Home':
+        return 0;
+      case 'End':
+        return count - 1;
+      default:
+        return null;
+    }
+  }
+
+  // Override history to avoid that browser back leads you to a different tab instead of the page you originated from
+  private syncHistory(tab:TabDefinition):void {
+    if (tab.path) {
+      const historyMethod = document.referrer !== '' ? 'replaceState' : 'pushState';
+      history[historyMethod](null, '', tab.path);
     }
   }
 
@@ -174,51 +233,35 @@ export class ScrollableTabsComponent extends UntilDestroyedMixin implements Afte
     }
   }
 
-  public onScroll():void {
+  private updateScrollableArea():void {
     this.determineScrollButtonVisibility();
+
+    const currentTabId = this.currentTabId();
+    if (currentTabId !== null) {
+      this.scrollIntoVisibleArea(currentTabId);
+    }
   }
 
-  private determineScrollButtonVisibility() {
-    this.hideLeftButton = (this.pane.scrollLeft <= 0);
-    this.hideRightButton = (this.pane.scrollWidth - this.pane.scrollLeft <= this.container.clientWidth);
-
-    this.cdRef.detectChanges();
+  private determineScrollButtonVisibility():void {
+    const pane = this.scrollPane().nativeElement;
+    this.hideLeftButton.set(pane.scrollLeft <= 0);
+    this.hideRightButton.set(pane.scrollWidth - pane.scrollLeft <= pane.clientWidth);
   }
 
-  public scrollRight():void {
-    this.pane.scrollLeft += this.container.clientWidth;
-  }
-
-  public scrollLeft():void {
-    this.pane.scrollLeft -= this.container.clientWidth;
-  }
-
-  public disabledReason(tab:TabDefinition):string|undefined {
-    return typeof tab.disable === 'string' ? tab.disable : undefined;
-  }
-
-  private scrollIntoVisibleArea(tabId:string) {
-    const tab = this.pane.querySelector<HTMLElement>(`[data-tab-id=${tabId}]`);
+  private scrollIntoVisibleArea(tabId:string):void {
+    const tab = document.getElementById(this.tabElementId(tabId));
     if (!tab) {
       return;
     }
 
-    const position = getPosition(tab);
-    const tabRightBorderAt = position.left + tab.offsetWidth;
-
-    if (this.pane.scrollLeft + this.container.clientWidth < tabRightBorderAt) {
-      this.pane.scrollLeft = tabRightBorderAt - this.container.clientWidth + 40; // 40px to not overlap by buttons
+    const pane = this.scrollPane().nativeElement;
+    const tabRect = tab.getBoundingClientRect();
+    const paneRect = pane.getBoundingClientRect();
+    if (tabRect.left < paneRect.left) {
+      pane.scrollLeft -= paneRect.left - tabRect.left;
+    } else if (tabRect.right > paneRect.right) {
+      pane.scrollLeft += tabRect.right - paneRect.right;
     }
   }
-}
 
-function getPosition(el:HTMLElement) {
-  const offsetParent = el.offsetParent || document.body;
-  const elRect = el.getBoundingClientRect();
-  const parentRect = offsetParent.getBoundingClientRect();
-
-  return {
-    top: elRect.top - parentRect.top - parseFloat(getComputedStyle(offsetParent).borderTopWidth),
-    left: elRect.left - parentRect.left - parseFloat(getComputedStyle(offsetParent).borderLeftWidth)
-  };
 }

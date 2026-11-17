@@ -15,10 +15,11 @@
     @if (tabPortalHost) {
       <op-scrollable-tabs [tabs]="availableTabs"
         [currentTabId]="tabPortalHost.currentTab?.id ?? null"
+        [label]="text.title"
         (tabSelected)="switchTo($event)"
          />
     }
-    <div class="tab-content" #tabContentOutlet></div>
+    <div class="tab-content" #tabContentOutlet [opTabPanel]="scrollableTabs()"></div>
   </div>
   <div class="spot-action-bar">
     <div class="spot-action-bar--right">

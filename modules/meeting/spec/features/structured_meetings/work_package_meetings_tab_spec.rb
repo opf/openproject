@@ -51,7 +51,7 @@ RSpec.describe "Open the Meetings tab",
   let(:meetings_tab) { Pages::MeetingsTab.new(project_id: project.id, work_package_id: work_package.id) }
 
   let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
-  let(:meetings_tab_element) { find(".op-tab-row--link_selected", text: "MEETINGS") }
+  let(:meetings_tab_element) { find("[role=tab][aria-selected=true]", text: "Meetings") }
 
   before do
     login_as(user)
