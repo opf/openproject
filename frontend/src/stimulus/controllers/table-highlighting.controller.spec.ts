@@ -115,6 +115,16 @@ describe('TableHighlightingController', () => {
     expect(col).not.toHaveClass('hover');
   });
 
+  it('skips headers spanning multiple columns', () => {
+    const th = ctx.screen.getByRole('columnheader', { name: 'Name' });
+    const col = ctx.container.querySelector('colgroup col:first-child')!;
+    th.setAttribute('colspan', '2');
+
+    th.dispatchEvent(new MouseEvent('mouseenter'));
+
+    expect(col).not.toHaveClass('hover');
+  });
+
   it('skips columns with data-highlight="false"', () => {
     const th = ctx.screen.getByRole('columnheader', { name: 'Notes' });
     const col = ctx.container.querySelector('colgroup col:nth-child(3)')!;

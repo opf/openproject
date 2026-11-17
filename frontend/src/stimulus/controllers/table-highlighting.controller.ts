@@ -67,7 +67,7 @@ export default class TableHighlightingController extends Controller<HTMLTableEle
   };
 
   private resolveColumn(target:EventTarget|null):HTMLTableColElement|null {
-    if (!(target instanceof HTMLTableCellElement && target.tagName === 'TH') || !this.colgroup) {
+    if (!(target instanceof HTMLTableCellElement && target.tagName === 'TH') || target.colSpan > 1 || !this.colgroup) {
       return null;
     }
 
