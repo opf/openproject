@@ -93,7 +93,7 @@ export class WorkPackageCache extends StateCacheService<WorkPackageResource> {
         }
 
         state.putValue(wp);
-      });
+      }).catch(() => undefined);
     });
   }
 
