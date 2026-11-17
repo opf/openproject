@@ -87,3 +87,54 @@ describe('addTurboGlobalListeners — snapshot caching', () => {
     expect(document.querySelector<HTMLElement>('#global-loading-indicator')).not.toBeVisible();
   });
 });
+
+describe('addTurboGlobalListeners — page visits', () => {
+  let controller:AbortController;
+  let pageVisits:number;
+  const countPageVisit = () => { pageVisits += 1; };
+
+  beforeEach(() => {
+    pageVisits = 0;
+    controller = new AbortController();
+    addTurboGlobalListeners(document, controller.signal);
+    document.addEventListener('op:page-visit', countPageVisit);
+  });
+
+  afterEach(() => {
+    document.removeEventListener('op:page-visit', countPageVisit);
+    controller.abort();
+    vi.unstubAllGlobals();
+  });
+
+  const visit = () => document.dispatchEvent(new CustomEvent('turbo:visit'));
+
+  it('dispatches op:page-visit on turbo:visit', () => {
+    visit();
+
+    expect(pageVisits).toBe(1);
+  });
+
+  it('dispatches op:page-visit for a rendering visit', () => {
+    vi.stubGlobal('Turbo', { navigator: { currentVisit: { willRender: true } } });
+
+    visit();
+
+    expect(pageVisits).toBe(1);
+  });
+
+  it('ignores frame visits promoted without rendering', () => {
+    vi.stubGlobal('Turbo', { navigator: { currentVisit: { willRender: false } } });
+
+    visit();
+
+    expect(pageVisits).toBe(0);
+  });
+
+  it('stops dispatching after abort', () => {
+    controller.abort();
+
+    visit();
+
+    expect(pageVisits).toBe(0);
+  });
+});

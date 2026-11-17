@@ -27,9 +27,27 @@
 
 import { State } from '@openproject/reactivestates';
 import { Injectable, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
-import { firstValueFrom, Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import {
+  concat,
+  defer,
+  EMPTY,
+  firstValueFrom,
+  fromEvent,
+  Observable,
+  ReplaySubject,
+  throwError,
+} from 'rxjs';
+import {
+  catchError,
+  filter,
+  finalize,
+  ignoreElements,
+  share,
+  take,
+  tap,
+} from 'rxjs/operators';
 import { States } from 'core-app/core/states/states.service';
 import { ISchemaProxy, SchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
@@ -47,6 +65,14 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
 
   fallbackSchema = this.halResourceService.createHalResourceOfClass<SchemaResource>(SchemaResource, {}, true);
 
+  private readonly expired = new Set<string>();
+
+  private readonly writes = new Map<string, number>();
+
+  private readonly loads = new Map<string, { generation:number, done:Observable<never> }>();
+
+  private visitGeneration = 0;
+
   constructor() {
     const states = inject(States);
 
@@ -54,6 +80,21 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
     this.states = states;
 
     this.putValue(fallbackSchemaId, this.fallbackSchema);
+
+    this.multiState
+      .observeChange()
+      .pipe(
+        filter(([, value]) => value !== undefined),
+        takeUntilDestroyed(),
+      )
+      .subscribe(([id]) => {
+        this.expired.delete(id);
+        this.writes.set(id, (this.writes.get(id) ?? 0) + 1);
+      });
+
+    fromEvent(document, 'op:page-visit')
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.expireAll());
   }
 
   public state(id:string|HalResource):State<SchemaResource> {
@@ -105,15 +146,88 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
    * @param force Load the value anyway.
    */
   public requireAndStream(href:string, force = false):Observable<SchemaResource> {
-    // Refresh when stale or being forced
-    if (this.stale(href) || force) {
-      this.clearAndLoad(
-        href,
-        this.load(href),
-      );
+    if (force || this.stale(href) || this.hasCurrentLoad(href)) {
+      return this.afterLoad(href, force);
     }
 
     return this.state(href).values$();
+  }
+
+  public override stale(href:string):boolean {
+    if (href === fallbackSchemaId || this.hasCurrentLoad(href)) {
+      return false;
+    }
+
+    const state = this.state(href);
+
+    return !state.hasValue() || state.isValueOlderThan(this.cacheDurationInMs) || this.expired.has(href);
+  }
+
+  private expireAll():void {
+    this.visitGeneration += 1;
+
+    Object
+      .entries(this.multiState.getValueOr({}))
+      .filter(([id, state]) => id !== fallbackSchemaId && state.hasValue())
+      .forEach(([id]) => this.expired.add(id));
+  }
+
+  private hasCurrentLoad(href:string):boolean {
+    return this.loads.get(href)?.generation === this.visitGeneration;
+  }
+
+  private afterLoad(href:string, force:boolean):Observable<SchemaResource> {
+    const generation = this.visitGeneration;
+    const state = this.state(href);
+
+    return concat(
+      this.sharedLoad(href, force).pipe(
+        catchError((error:unknown) => {
+          if (state.hasValue() || generation !== this.visitGeneration) {
+            return EMPTY;
+          }
+
+          return throwError(() => error);
+        }),
+      ),
+      defer(() => (generation === this.visitGeneration
+        ? state.values$()
+        : this.requireAndStream(href))),
+    );
+  }
+
+  private sharedLoad(href:string, force:boolean):Observable<never> {
+    const pending = this.loads.get(href);
+    if (!force && pending?.generation === this.visitGeneration) {
+      return pending.done;
+    }
+
+    const generation = this.visitGeneration;
+    const writes = this.writes.get(href) ?? 0;
+    const done = this.load(href).pipe(
+      tap((schema:SchemaResource) => {
+        if (generation === this.visitGeneration && writes === (this.writes.get(href) ?? 0)) {
+          this.putValue(href, schema);
+        }
+      }),
+      ignoreElements(),
+      finalize(() => {
+        if (this.loads.get(href)?.done === done) {
+          this.loads.delete(href);
+        }
+      }),
+      share({
+        connector: () => new ReplaySubject<never>(1),
+        resetOnError: false,
+        resetOnComplete: false,
+        resetOnRefCountZero: false,
+      }),
+    );
+
+    this.loads.set(href, { generation, done });
+    done.subscribe({ error: () => undefined });
+
+    return done;
   }
 
   /**
