@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { page, userEvent } from 'vitest/browser';
 import TableHighlightingController from './table-highlighting.controller';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 
@@ -50,7 +51,11 @@ const tableTemplate = `
       </tr>
     </tbody>
   </table>
+  <div data-testid="outside">Outside</div>
 `;
+
+const header = (name:string|RegExp) => page.getByRole('columnheader', { name });
+const outside = page.getByTestId('outside');
 
 describe('TableHighlightingController', () => {
   let ctx:StimulusTestContext;
@@ -61,37 +66,75 @@ describe('TableHighlightingController', () => {
     });
 
     await ctx.mount(tableTemplate);
+
+    // Firefox fires native mouseenter when the fixture renders under the pointer
+    // left behind by earlier tests, so start every test from a known position.
+    await userEvent.hover(outside);
   });
 
   afterEach(() => ctx.dispose());
 
-  it('adds hover class to col on header mouseenter', () => {
-    const th = ctx.screen.getByRole('columnheader', { name: 'Name' });
+  it('adds hover class to col on header mouseenter', async () => {
     const col = ctx.container.querySelector('colgroup col:first-child')!;
 
-    th.dispatchEvent(new MouseEvent('mouseenter'));
+    await userEvent.hover(header('Name'));
 
     expect(col).toHaveClass('hover');
   });
 
-  it('removes hover class on header mouseleave', () => {
-    const th = ctx.screen.getByRole('columnheader', { name: 'Name' });
+  it('removes hover class on header mouseleave', async () => {
     const col = ctx.container.querySelector('colgroup col:first-child')!;
 
-    th.dispatchEvent(new MouseEvent('mouseenter'));
+    await userEvent.hover(header('Name'));
 
     expect(col).toHaveClass('hover');
 
-    th.dispatchEvent(new MouseEvent('mouseleave'));
+    await userEvent.hover(outside);
 
     expect(col).not.toHaveClass('hover');
   });
 
-  it('skips columns with data-highlight="false"', () => {
-    const th = ctx.screen.getByRole('columnheader', { name: 'Notes' });
+  it('keeps hover class when the pointer leaves a descendant of the header', async () => {
+    const th = ctx.screen.getByRole('columnheader', { name: 'Name' });
+    const col = ctx.container.querySelector('colgroup col:first-child')!;
+    const child = document.createElement('span');
+    child.textContent = 'Child';
+    th.appendChild(child);
+
+    await userEvent.hover(page.getByText('Child'));
+    await userEvent.hover(header(/^Name/), { position: { x: 10, y: 10 } });
+
+    expect(col).toHaveClass('hover');
+
+    await userEvent.hover(outside);
+
+    expect(col).not.toHaveClass('hover');
+  });
+
+  it('removes hover class on disconnect', async () => {
+    const col = ctx.container.querySelector('colgroup col:first-child')!;
+
+    await userEvent.hover(header('Name'));
+    ctx.container.querySelector('table')!.removeAttribute('data-controller');
+    await ctx.nextFrame();
+
+    expect(col).not.toHaveClass('hover');
+  });
+
+  it('skips headers spanning multiple columns', async () => {
+    const th = ctx.screen.getByRole('columnheader', { name: 'Name' });
+    const col = ctx.container.querySelector('colgroup col:first-child')!;
+    th.setAttribute('colspan', '2');
+
+    await userEvent.hover(header('Name'));
+
+    expect(col).not.toHaveClass('hover');
+  });
+
+  it('skips columns with data-highlight="false"', async () => {
     const col = ctx.container.querySelector('colgroup col:nth-child(3)')!;
 
-    th.dispatchEvent(new MouseEvent('mouseenter'));
+    await userEvent.hover(header('Notes'));
 
     expect(col).not.toHaveClass('hover');
   });

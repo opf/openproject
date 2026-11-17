@@ -28,6 +28,7 @@
 import { ApplicationRef, ComponentRef, createComponent, Injector, inputBinding } from '@angular/core';
 import { PrimerIconButtonComponent, PrimerIconButtonScheme } from 'core-app/shared/components/primer/icon-button.component';
 import { DynamicIconName } from 'core-app/shared/components/primer/dynamic-icon-map';
+import { rowActionTooltipDirection } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
 
 export const inlineCreateCancelClassName = 'wp-table--cancel-create-link';
 
@@ -59,6 +60,7 @@ export class InlineCreateCancelButton {
         inputBinding('icon', () => 'x' satisfies DynamicIconName),
         inputBinding('scheme', () => 'invisible' satisfies PrimerIconButtonScheme),
         inputBinding('label', () => label),
+        inputBinding('tooltip-direction', () => rowActionTooltipDirection),
       ],
     });
 
