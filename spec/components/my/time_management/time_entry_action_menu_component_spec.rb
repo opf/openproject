@@ -61,7 +61,7 @@ RSpec.describe My::TimeManagement::TimeEntryActionMenuComponent, type: :componen
     let(:navigation) { true }
 
     it "links to the work package and its project" do
-      expect(rendered_component).to have_link("Open work package", href: "/work_packages/#{work_package.id}")
+      expect(rendered_component).to have_link("Open work package", href: "/work_packages/#{work_package.to_param}")
       expect(rendered_component).to have_link("Open project", href: "/projects/#{project.identifier}")
     end
   end

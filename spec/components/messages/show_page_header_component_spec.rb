@@ -136,8 +136,8 @@ RSpec.describe Messages::ShowPageHeaderComponent, type: :component do
     it "follows the counts with them, linked, in creation order", :aggregate_failures do
       summary = find_test_selector("topic-summary")
 
-      expect(summary).to have_link(from_topic.formatted_id, href: "/work_packages/#{from_topic.id}")
-      expect(summary).to have_link(from_reply.formatted_id, href: "/work_packages/#{from_reply.id}")
+      expect(summary).to have_link(from_topic.formatted_id, href: "/work_packages/#{from_topic.to_param}")
+      expect(summary).to have_link(from_reply.formatted_id, href: "/work_packages/#{from_reply.to_param}")
       expect(summary.text.index(from_topic.formatted_id)).to be < summary.text.index(from_reply.formatted_id)
     end
 
