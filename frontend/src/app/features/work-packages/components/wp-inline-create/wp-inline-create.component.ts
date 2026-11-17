@@ -32,6 +32,7 @@ import {
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { filter } from 'rxjs/operators';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
@@ -339,6 +340,7 @@ export class WorkPackageInlineCreateComponent implements AfterViewInit {
     this.invalidateCreation();
     this.wpCreate.cancelCreation();
     this.currentWorkPackage = null;
+    this.table().editing.stopEditing(HAL_NEW_RESOURCE_ID);
     this.mutateRow(() => this.element.querySelector('.wp-row-new')?.remove());
     this.destroyCancelButton();
   }
