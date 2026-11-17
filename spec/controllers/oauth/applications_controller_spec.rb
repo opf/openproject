@@ -79,8 +79,8 @@ RSpec.describe OAuth::ApplicationsController do
       it "does not offer the internal scope" do
         get :new
 
-        expect(response.body).to have_field("application[scopes][]", with: "api_v3")
-        expect(response.body).to have_no_field("application[scopes][]", with: "mcp")
+        expect(response.body).to have_field("doorkeeper_application[scopes][]", with: "api_v3")
+        expect(response.body).to have_no_field("doorkeeper_application[scopes][]", with: "mcp")
       end
     end
   end
