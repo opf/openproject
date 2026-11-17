@@ -68,6 +68,21 @@ RSpec.shared_examples_for "custom_field contract" do
     it_behaves_like "contract is invalid", name: %i(blank)
   end
 
+  context "for a custom field type not supporting admin-only" do
+    let(:custom_field_type) { "WorkPackageCustomField" }
+    let(:custom_field_admin_only) { false }
+
+    it_behaves_like "contract is valid"
+
+    context "if admin_only is set to true" do
+      before do
+        custom_field.admin_only = true
+      end
+
+      it_behaves_like "contract is invalid", admin_only: :cannot_be_true
+    end
+  end
+
   context "for a boolean field" do
     let(:custom_field_field_format) { "bool" }
     let(:custom_field_is_required) { false }
