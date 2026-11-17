@@ -29,10 +29,14 @@
 
 module Wikis
   module TextFormatting
-    class WikiLinkMatcher < OpenProject::TextFormatting::Matchers::RegexMatcher
+    class HtmlWikiLinkMatcher < OpenProject::TextFormatting::Matchers::RegexMatcher
       include Dry::Monads[:result]
 
       class << self
+        def applicable?(content)
+          content.include?("[[[")
+        end
+
         def regexp
           /\[\[\[([0-9]+):([^\]\n]+)\]\]\]/
         end
