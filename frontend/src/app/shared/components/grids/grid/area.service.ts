@@ -26,7 +26,7 @@
 //++
 
 import { range } from 'lodash-es';
-import { Injectable, inject } from '@angular/core';
+import { computed, DestroyRef, Injectable, inject, signal } from '@angular/core';
 import { GridWidgetArea } from 'core-app/shared/components/grids/areas/grid-widget-area';
 import { GridArea } from 'core-app/shared/components/grids/areas/grid-area';
 import { GridGap } from 'core-app/shared/components/grids/areas/grid-gap';
@@ -40,6 +40,7 @@ import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3GridForm } from 'core-app/core/apiv3/endpoints/grids/apiv3-grid-form';
 import { map } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface GridWidgetPayload {
   id:string;
@@ -52,6 +53,8 @@ interface GridPatchPayload {
   [key:string]:unknown;
 }
 
+type PendingWidgetCreation = Pick<GridWidgetResource, 'identifier'|'startRow'|'startColumn'> & { area:GridWidgetArea };
+
 type ScrollIntoViewIfNeededElement = HTMLElement&{ scrollIntoViewIfNeeded?:() => void };
 
 @Injectable()
@@ -60,103 +63,128 @@ export class GridAreaService {
   private toastService = inject(ToastService);
   private i18n = inject(I18nService);
 
-  private resource:GridResource;
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly resourceState = signal<GridResource|undefined>(undefined);
+  private readonly schemaState = signal<SchemaResource|undefined>(undefined);
+  private readonly columnCount = signal(0);
+  private readonly rowCount = signal(0);
+  private readonly cells = signal<readonly GridArea[]>([]);
+  private readonly gaps = signal<readonly GridGap[]>([]);
+  private readonly widgets = signal<readonly GridWidgetArea[]>([]);
+  private readonly hoveredArea = signal<GridArea|null>(null);
+  private readonly helpMode = signal(false);
+  private saveSequence = 0;
+  private readonly reconciledSequences = new WeakMap<GridWidgetArea, number>();
 
-  public schema:SchemaResource;
+  readonly gridResource = this.resourceState.asReadonly();
+  readonly schema = this.schemaState.asReadonly();
+  readonly numColumns = this.columnCount.asReadonly();
+  readonly numRows = this.rowCount.asReadonly();
+  readonly gridAreas = this.cells.asReadonly();
+  readonly gridGaps = this.gaps.asReadonly();
+  readonly widgetAreas = this.widgets.asReadonly();
+  readonly mousedOverArea = this.hoveredArea.asReadonly();
+  readonly gridAreaIds = computed(() => this.gridAreas().map((area) => area.guid));
+  readonly isEditable = computed(() => this.gridResource()?.updateImmediately !== undefined);
+  readonly isSingleCell = computed(() => this.numRows() === 1 && this.numColumns() === 1 && this.widgetAreas().length === 0);
+  readonly inHelpMode = computed(() => this.helpMode() || this.isSingleCell());
+  readonly widgetAreasForDisplay = computed(() => {
+    const index = (area:GridWidgetArea) => (area.startRow - 1) * this.numColumns() + area.startColumn;
+    return [...this.widgetAreas()].sort((a, b) => index(a) - index(b)
+      || (a.widget.id ?? a.guid).localeCompare(b.widget.id ?? b.guid));
+  });
 
-  public $schema = new BehaviorSubject<SchemaResource|null>(null);
+  readonly $schema = new BehaviorSubject<SchemaResource|null>(null);
+  readonly $mousedOverArea = new BehaviorSubject<GridArea|null>(null);
 
-  public numColumns = 0;
-
-  public numRows = 0;
-
-  public gridAreas:GridArea[];
-
-  public gridGaps:GridGap[];
-
-  public widgetAreas:GridWidgetArea[];
-
-  public gridAreaIds:string[];
-
-  public mousedOverArea:GridArea|null = null;
-
-  public $mousedOverArea = new BehaviorSubject(this.mousedOverArea);
-
-  public helpMode = false;
-
-  public set gridResource(value:GridResource) {
-    this.resource = value;
-    this.fetchSchema();
-
-    this.numRows = this.resource.rowCount;
-    this.numColumns = this.resource.columnCount;
-
-    this.buildAreas(true);
+  initialize(resource:GridResource) {
+    this.saveSequence++;
+    this.resourceState.set(resource);
+    this.schemaState.set(undefined);
+    this.$schema.next(null);
+    this.rowCount.set(resource.rowCount);
+    this.columnCount.set(resource.columnCount);
+    this.widgets.set(resource.widgets.map((widget) => new GridWidgetArea(widget)));
+    this.buildAreas();
+    this.fetchSchema(resource);
   }
 
-  public get gridResource() {
-    return this.resource;
+  private get resource():GridResource {
+    const resource = this.gridResource();
+    if (!resource) {
+      throw new Error('Grid is not initialized');
+    }
+    return resource;
+  }
+
+  addWidget(area:GridWidgetArea) {
+    this.resource.widgets = [...this.resource.widgets, area.widget];
+    this.widgets.update((areas) => [...areas, area]);
+  }
+
+  extendRows(endRow:number) {
+    this.rowCount.update((rows) => Math.max(rows, endRow));
+  }
+
+  publishGeometry() {
+    this.widgets.update((areas) => [...areas]);
   }
 
   public setMousedOverArea(area:GridArea|null) {
-    this.mousedOverArea = area;
+    this.hoveredArea.set(area);
 
     this.$mousedOverArea.next(area);
   }
 
   public cleanupUnusedAreas() {
-    // array containing Numbers from this.numRows to 1
-    let unusedRows = range(this.numRows, 0, -1);
+    // array containing Numbers from this.numRows() to 1
+    let unusedRows = range(this.numRows(), 0, -1);
 
-    this.widgetAreas.forEach((widget) => {
+    this.widgetAreas().forEach((widget) => {
       unusedRows = unusedRows.filter((item) => item !== widget.startRow);
     });
 
     unusedRows.forEach((number) => {
-      if (this.numRows > 1) {
+      if (this.numRows() > 1) {
         this.removeRow(number);
       }
     });
 
-    let unusedColumns = range(this.numColumns, 0, -1);
+    let unusedColumns = range(this.numColumns(), 0, -1);
 
-    this.widgetAreas.forEach((widget) => {
+    this.widgetAreas().forEach((widget) => {
       unusedColumns = unusedColumns.filter((item) => item !== widget.startColumn);
     });
 
     unusedColumns.forEach((number) => {
-      if (this.numColumns > 1) {
+      if (this.numColumns() > 1) {
         this.removeColumn(number);
       }
     });
   }
 
-  public buildAreas(widgets = false) {
-    this.gridAreas = this.buildGridAreas();
-    this.gridGaps = this.buildGridGaps();
-    this.gridAreaIds = this.buildGridAreaIds();
-    if (widgets) {
-      this.widgetAreas = this.buildGridWidgetAreas();
-    }
+  public buildAreas() {
+    this.cells.set(this.buildGridAreas());
+    this.gaps.set(this.buildGridGaps());
+    this.publishGeometry();
   }
 
-  public async rebuildAndPersist():Promise<GridResource> {
-    const resource = await this.persist();
-    this.buildAreas(false);
-    return resource;
+  public rebuildAndPersist():Promise<GridResource> {
+    return this.persist();
   }
 
   public persist() {
-    this.numRows = (this.widgetAreas.map((area) => area.endRow).sort((a, b) => a - b).pop() || 2) - 1;
-    this.resource.rowCount = this.numRows;
-    this.resource.columnCount = this.numColumns;
+    this.rowCount.set((this.widgetAreas().map((area) => area.endRow).sort((a, b) => a - b).pop() ?? 2) - 1);
+    this.resource.rowCount = this.numRows();
+    this.resource.columnCount = this.numColumns();
 
     this.writeAreaChangesToWidgets();
-    return this.saveGrid(this.resource, this.schema);
+    this.buildAreas();
+    return this.saveGrid(this.resource, this.schema());
   }
 
   public async saveWidgetChangeset(changeset:WidgetChangeset):Promise<GridResource> {
-    const payload = ApiV3GridForm.extractPayload(this.resource, this.schema) as GridPatchPayload;
+    const payload = ApiV3GridForm.extractPayload(this.resource, this.schema()) as GridPatchPayload;
     const gridId = this.resource.id;
 
     const payloadWidget = payload.widgets?.find((widget) => widget.id === changeset.pristineResource.id);
@@ -184,6 +212,7 @@ export class GridAreaService {
     // Adding the id so that the url can be deduced
     payload.id = gridId;
 
+    this.publishGeometry();
     return this.saveGrid(payload);
   }
 
@@ -191,16 +220,8 @@ export class GridAreaService {
     return area instanceof GridGap;
   }
 
-  public get isSingleCell() {
-    return this.numRows === 1 && this.numColumns === 1 && this.widgetResources.length === 0;
-  }
-
-  public get inHelpMode() {
-    return this.helpMode || this.isSingleCell;
-  }
-
   public toggleHelpMode() {
-    this.helpMode = !this.helpMode;
+    this.helpMode.update((value) => !value);
   }
 
   // This is a hacky way to have the placeholder in the viewport.
@@ -216,6 +237,11 @@ export class GridAreaService {
   }
 
   private async saveGrid(resource:GridResource|GridPatchPayload, schema?:SchemaResource):Promise<GridResource> {
+    const currentResource = this.resource;
+    const sequence = ++this.saveSequence;
+    const creations:PendingWidgetCreation[] = this.widgetAreas()
+      .filter((area) => !area.widget.id)
+      .map((area) => ({ area, identifier: area.widget.identifier, startRow: area.widget.startRow, startColumn: area.widget.startColumn }));
     const subscription = this
       .apiV3Service
       .grids
@@ -223,7 +249,13 @@ export class GridAreaService {
       .patch(resource, schema)
       .pipe(
         map((updatedGrid) => {
-          this.assignAreasWidget(updatedGrid);
+          if (!this.destroyRef.destroyed && this.gridResource() === currentResource) {
+            if (sequence === this.saveSequence) {
+              this.assignAreasWidget(updatedGrid, creations, sequence);
+            } else {
+              this.reconcileCreatedWidgets(updatedGrid, creations, sequence);
+            }
+          }
           this.toastService.addSuccess(this.i18n.t('js.notice_successful_update'));
 
           return updatedGrid;
@@ -237,31 +269,60 @@ export class GridAreaService {
       });
   }
 
-  private assignAreasWidget(newGrid:GridResource) {
-    this.resource.widgets = newGrid.widgets;
-
-    const takenIds = this.widgetAreas.map((a) => a.widget.id);
-    this.widgetAreas.forEach((area) => {
-      let newWidget:GridWidgetResource;
-
-      // identify the right resource for the area. Typically that means fetching them by id.
-      // But new areas have unpersisted resources at first. Unpersisted resources have no id.
-      // In those cases, we find the one resource which is not claimed by any other area.
-      if (area.widget.id) {
-        newWidget = newGrid.widgets.find((widget) => widget.id === area.widget.id)!;
-      } else {
-        newWidget = newGrid.widgets.find((widget) => !takenIds.includes(widget.id) && widget.identifier === area.widget.identifier && widget.startRow === area.widget.startRow && widget.startColumn === area.widget.startColumn)!;
+  private reconcileCreatedWidgets(savedGrid:GridResource, creations:PendingWidgetCreation[], sequence:number) {
+    const takenIds = new Set(this.widgetAreas().map((area) => area.widget.id));
+    for (const creation of creations) {
+      const { area } = creation;
+      if (!this.widgetAreas().includes(area) || (this.reconciledSequences.get(area) ?? 0) >= sequence) {
+        continue;
       }
+      const saved = savedGrid.widgets.find((widget) => (!takenIds.has(widget.id) || widget.id === area.widget.id)
+        && widget.identifier === creation.identifier
+        && widget.startRow === creation.startRow
+        && widget.startColumn === creation.startColumn);
+      if (!saved) {
+        continue;
+      }
+      const local = area.widget;
+      area.widget = Object.assign(saved, {
+        startRow: local.startRow,
+        endRow: local.endRow,
+        startColumn: local.startColumn,
+        endColumn: local.endColumn,
+        options: local.options,
+        grid: this.resource,
+      });
+      takenIds.add(saved.id);
+      this.reconciledSequences.set(area, sequence);
+    }
+    this.resource.widgets = this.widgetAreas().map((area) => area.widget);
+    this.publishGeometry();
+  }
 
-      area.widget = newWidget!;
+  private assignAreasWidget(newGrid:GridResource, creations:PendingWidgetCreation[], sequence:number) {
+    const takenIds = new Set(this.widgetAreas().map((area) => area.widget.id));
+    this.widgetAreas().forEach((area) => {
+      const creation = creations.find((candidate) => candidate.area === area);
+      const newWidget = newGrid.widgets.find((widget) => area.widget.id && widget.id === area.widget.id)
+        ?? (creation && newGrid.widgets.find((widget) => !takenIds.has(widget.id)
+          && widget.identifier === creation.identifier
+          && widget.startRow === creation.startRow
+          && widget.startColumn === creation.startColumn));
+      if (newWidget) {
+        area.widget = newWidget;
+        takenIds.add(newWidget.id);
+        this.reconciledSequences.set(area, sequence);
+      }
     });
+    this.resource.widgets = this.widgetAreas().map((area) => area.widget);
+    this.publishGeometry();
   }
 
   private buildGridAreas() {
     const cells:GridArea[] = [];
 
     // the one extra row is added in case the user wants to drag a widget to the very bottom
-    for (let row = 1; row <= this.numRows + 1; row++) {
+    for (let row = 1; row <= this.numRows() + 1; row++) {
       cells.push(...this.buildGridAreasRow(row));
     }
 
@@ -272,11 +333,11 @@ export class GridAreaService {
     const cells:GridGap[] = [];
 
     // special case where we want no gaps
-    if (this.isSingleCell) {
+    if (this.isSingleCell()) {
       return cells;
     }
 
-    for (let row = 1; row <= this.numRows + 1; row++) {
+    for (let row = 1; row <= this.numRows() + 1; row++) {
       cells.push(...this.buildGridGapRow(row));
     }
 
@@ -286,7 +347,7 @@ export class GridAreaService {
   private buildGridAreasRow(row:number) {
     const cells:GridArea[] = [];
 
-    for (let column = 1; column <= this.numColumns; column++) {
+    for (let column = 1; column <= this.numColumns(); column++) {
       const cell = new GridArea(row,
         row + 1,
         column,
@@ -301,7 +362,7 @@ export class GridAreaService {
   private buildGridGapRow(row:number) {
     const cells:GridGap[] = [];
 
-    for (let column = 1; column <= this.numColumns; column++) {
+    for (let column = 1; column <= this.numColumns(); column++) {
       cells.push(new GridGap(row,
         row + 1,
         column,
@@ -309,8 +370,8 @@ export class GridAreaService {
         'row'));
     }
 
-    if (row <= this.numRows) {
-      for (let column = 1; column <= this.numColumns + 1; column++) {
+    if (row <= this.numRows()) {
+      for (let column = 1; column <= this.numColumns() + 1; column++) {
         cells.push(new GridGap(row,
           row + 1,
           column,
@@ -322,24 +383,20 @@ export class GridAreaService {
     return cells;
   }
 
-  private buildGridWidgetAreas() {
-    return this.widgetResources.map((widget) => new GridWidgetArea(widget));
-  }
-
   // persist all changes to the areas caused by dragging/resizing
   // to the widget
   public writeAreaChangesToWidgets() {
-    this.widgetAreas.forEach((area) => {
+    this.widgetAreas().forEach((area) => {
       area.writeAreaChangeToWidget();
     });
   }
 
   public addColumn(column:number, excludeRow:number) {
-    this.numColumns++;
+    this.columnCount.update((count) => count + 1);
 
     const movedWidgets:GridWidgetArea[] = [];
 
-    for (let row = 1; row <= this.numRows; row++) {
+    for (let row = 1; row <= this.numRows(); row++) {
       if (row === excludeRow) {
         continue;
       }
@@ -358,16 +415,16 @@ export class GridAreaService {
       }
     }
 
-    this.moveSubsequentRowWidgets(this.widgetAreas.filter((widget) => !movedWidgets.includes(widget)),
+    this.moveSubsequentRowWidgets(this.widgetAreas().filter((widget) => !movedWidgets.includes(widget)),
       column);
   }
 
   public addRow(row:number, excludeColumn:number) {
-    this.numRows++;
+    this.rowCount.update((count) => count + 1);
 
     const movedWidgets:GridWidgetArea[] = [];
 
-    for (let column = 1; column <= this.numColumns; column++) {
+    for (let column = 1; column <= this.numColumns(); column++) {
       if (column === excludeColumn) {
         continue;
       }
@@ -386,15 +443,15 @@ export class GridAreaService {
       }
     }
 
-    this.moveSubsequentColumnWidgets(this.widgetAreas.filter((widget) => !movedWidgets.includes(widget)),
+    this.moveSubsequentColumnWidgets(this.widgetAreas().filter((widget) => !movedWidgets.includes(widget)),
       row);
   }
 
   public removeColumn(column:number) {
-    this.numColumns--;
+    this.columnCount.update((count) => count - 1);
 
     // shrink widgets that span more than the removed column
-    this.widgetAreas.forEach((widget) => {
+    this.widgetAreas().forEach((widget) => {
       if (widget.startColumn <= column && widget.endColumn >= column + 1) {
         // shrink widgets that span more than the removed column
         widget.endColumn--;
@@ -403,17 +460,17 @@ export class GridAreaService {
 
     // move all widgets that are after the removed column
     // so that they appear to keep their place.
-    this.widgetAreas.filter((widget) => widget.startColumn > column).forEach((widget) => {
+    this.widgetAreas().filter((widget) => widget.startColumn > column).forEach((widget) => {
       widget.startColumn--;
       widget.endColumn--;
     });
   }
 
   public removeRow(row:number) {
-    this.numRows--;
+    this.rowCount.update((count) => count - 1);
 
     // shrink widgets that span more than the removed row
-    this.widgetAreas.forEach((widget) => {
+    this.widgetAreas().forEach((widget) => {
       if (widget.startRow <= row && widget.endRow >= row + 1) {
         // shrink widgets that span more than the removed row
         widget.endRow--;
@@ -422,59 +479,41 @@ export class GridAreaService {
 
     // move all widgets that are after the removed row
     // so that they appear to keep their place.
-    this.widgetAreas.filter((widget) => widget.startRow > row).forEach((widget) => {
+    this.widgetAreas().filter((widget) => widget.startRow > row).forEach((widget) => {
       widget.startRow--;
       widget.endRow--;
     });
   }
 
   public resetAreas(ignoredArea:GridWidgetArea|null = null) {
-    this.widgetAreas.filter((area) => area.guid !== ignoredArea?.guid).forEach((area) => area.reset());
+    this.widgetAreas().filter((area) => area.guid !== ignoredArea?.guid).forEach((area) => area.reset());
 
-    this.numRows = this.resource.rowCount;
-    this.numColumns = this.resource.columnCount;
+    this.rowCount.set(this.resource.rowCount);
+    this.columnCount.set(this.resource.columnCount);
+    this.publishGeometry();
   }
 
-  public get isEditable() {
-    return this.gridResource.updateImmediately !== undefined;
-  }
-
-  private buildGridAreaIds() {
-    return this
-      .gridAreas
-      .filter((area) => !this.isGap(area))
-      .map((area) => area.guid);
-  }
-
-  private fetchSchema() {
-    this
-      .apiV3Service
-      .grids
-      .id(this.resource)
-      .form
-      .post({})
+  private fetchSchema(resource:GridResource) {
+    this.apiV3Service.grids.id(resource).form.post({})
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((form) => {
-        this.schema = form.schema;
+        if (this.gridResource() !== resource) {
+          return;
+        }
+        this.schemaState.set(form.schema);
         this.$schema.next(form.schema);
       });
   }
 
   public removeWidget(removedWidget:GridWidgetResource):Promise<GridResource> {
-    let index = this.resource.widgets.findIndex((widget) => widget.id === removedWidget.id);
-    this.resource.widgets.splice(index, 1);
-
-    index = this.widgetAreas.findIndex((area) => area.widget.id === removedWidget.id);
-    this.widgetAreas.splice(index, 1);
+    this.resource.widgets = this.resource.widgets.filter((widget) => widget !== removedWidget && (!removedWidget.id || widget.id !== removedWidget.id));
+    this.widgets.update((areas) => areas.filter((area) => area.widget !== removedWidget && (!removedWidget.id || area.widget.id !== removedWidget.id)));
     this.cleanupUnusedAreas();
     return this.rebuildAndPersist();
   }
 
-  public get widgetResources() {
-    return this.resource?.widgets || [];
-  }
-
   private rowWidgets(row:number) {
-    return this.widgetAreas.filter((widget) => widget.startRow === row);
+    return this.widgetAreas().filter((widget) => widget.startRow === row);
   }
 
   private moveSubsequentRowWidgets(rowWidgets:GridWidgetArea[], column:number) {
@@ -487,7 +526,7 @@ export class GridAreaService {
   }
 
   private columnWidgets(column:number) {
-    return this.widgetAreas.filter((widget) => widget.startColumn === column);
+    return this.widgetAreas().filter((widget) => widget.startColumn === column);
   }
 
   private moveSubsequentColumnWidgets(columnWidgets:GridWidgetArea[], row:number) {

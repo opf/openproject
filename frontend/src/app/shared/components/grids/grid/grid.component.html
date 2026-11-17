@@ -3,7 +3,7 @@
   [style.grid-template-rows]="gridRowStyle">
 
   <!-- Grid areas that have a widget in them -->
-  @for (area of widgetAreasForDisplay; track identifyGridArea($index, area)) {
+  @for (area of layout.widgetAreasForDisplay(); track identifyGridArea($index, area)) {
     <div
       class="grid--area -widgeted"
        [ngClass]="{'-dragged': drag.isDragged(area),
@@ -16,7 +16,7 @@
       cdkDropList
       [id]="area.guid"
       [cdkDropListData]="area"
-      [cdkDropListConnectedTo]="layout.gridAreaIds">
+      [cdkDropListConnectedTo]="layout.gridAreaIds()">
       <div
         class="grid--area-content widget-box"
         cdkDrag
@@ -45,14 +45,14 @@
   }
 
   <!-- One grid area per cell (row x columns) -->
-  @for (area of layout.gridAreas; track identifyGridArea($index, area)) {
+  @for (area of layout.gridAreas(); track identifyGridArea($index, area)) {
     <div
       class="grid--area hidden-for-mobile"
       [ngClass] = "{'-drop-target': drag.currentlyDragging,
       '-drop-only': drag.isDropOnlyArea(area),
       '-resize-target': resize.isTarget(area),
       '-addable': true,
-      '-help-mode': layout.inHelpMode}"
+      '-help-mode': layout.inHelpMode()}"
       [style.grid-row-start]="area.gridStartRow"
       [style.grid-row-end]="area.gridEndRow"
       [style.grid-column-start]="area.gridStartColumn"
@@ -63,7 +63,7 @@
       (mouseover)="layout.setMousedOverArea(area)"
       (focus)="layout.setMousedOverArea(area)"
       [cdkDropListData]="area"
-      [cdkDropListConnectedTo]="layout.gridAreaIds">
+      [cdkDropListConnectedTo]="layout.gridAreaIds()">
       @if (add.isAllowed) {
         <div class="grid--widget-add"
           [title]="add.addText"
@@ -81,11 +81,11 @@
     </div>
   }
 
-  @for (gap of layout.gridGaps; track identifyGridArea($index, gap)) {
+  @for (gap of layout.gridGaps(); track identifyGridArea($index, gap)) {
     <div
       class="grid--area -gap hidden-for-mobile"
       [ngClass] = "{'-addable': add.isAddable(gap),
-      '-help-mode': layout.inHelpMode,
+      '-help-mode': layout.inHelpMode(),
       '-row': gap.isRow,
       '-column': gap.isColumn}"
       [style.grid-row-start]="gap.gridStartRow"

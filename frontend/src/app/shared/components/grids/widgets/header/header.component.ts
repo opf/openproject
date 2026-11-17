@@ -55,6 +55,6 @@ export class WidgetHeaderComponent {
   }
 
   public get isRenameable() {
-    return this.editable && this.layout.isEditable;
+    return this.editable && this.layout.isEditable();
   }
 }
