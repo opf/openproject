@@ -26,7 +26,9 @@
 //++
 
 const PATTERN_SIZE = 8;
-const PATTERN_COUNT = 5;
+export const PATTERN_COUNT = 5;
+const LINE_DASHES = [[], [8, 4], [2, 3], [8, 3, 2, 3], [12, 4]];
+export const LINE_DASH_COUNT = LINE_DASHES.length;
 const patternCache = new WeakMap<CanvasRenderingContext2D, Map<string, CanvasPattern>>();
 
 export function createPatternFill(
@@ -39,15 +41,17 @@ export function createPatternFill(
   const pattern = index % PATTERN_COUNT;
   if (pattern === 0) return backgroundColor;
 
-  const scale = devicePixelRatio || 1;
+  const requestedScale = devicePixelRatio || 1;
+  const tileSize = Math.max(1, Math.round(PATTERN_SIZE * requestedScale));
+  const scale = tileSize / PATTERN_SIZE;
   const cache = patternCache.get(context) ?? new Map<string, CanvasPattern>();
   const cacheKey = `${backgroundColor}:${foregroundColor}:${pattern}:${scale}`;
   const cachedPattern = cache.get(cacheKey);
   if (cachedPattern) return cachedPattern;
 
   const tile = document.createElement('canvas');
-  tile.width = PATTERN_SIZE * scale;
-  tile.height = PATTERN_SIZE * scale;
+  tile.width = tileSize;
+  tile.height = tileSize;
 
   const tileContext = tile.getContext('2d');
   if (!tileContext) return backgroundColor;
@@ -100,8 +104,6 @@ function drawLines(context:CanvasRenderingContext2D, pattern:number):void {
 
   context.stroke();
 }
-
-const LINE_DASHES = [[], [8, 4], [2, 3], [8, 3, 2, 3], [12, 4]];
 
 export function lineDashFor(index:number):number[] {
   return LINE_DASHES[index % LINE_DASHES.length];

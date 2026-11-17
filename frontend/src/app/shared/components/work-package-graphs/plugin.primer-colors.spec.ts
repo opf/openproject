@@ -30,14 +30,15 @@ import PrimerColorsPlugin, { PrimerColorsPluginOptions } from './plugin.primer-c
 import { createPatternFill, lineDashFor } from './plugin.primer-patterns';
 
 describe('PrimerColorsPlugin', () => {
-  const patternTransforms = Array.from({ length: 16 }, () => vi.fn());
+  const patternTransforms = Array.from({ length: 32 }, () => vi.fn());
   const patterns = patternTransforms.map((setTransform) => ({ setTransform })) as unknown as CanvasPattern[];
   let createPattern:ReturnType<typeof vi.fn>;
+  let getComputedStyleSpy:ReturnType<typeof vi.spyOn>;
   let getPropertyValue:ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
     getPropertyValue = vi.fn((property:string) => property);
-    vi.spyOn(window, 'getComputedStyle').mockReturnValue({
+    getComputedStyleSpy = vi.spyOn(window, 'getComputedStyle').mockReturnValue({
       getPropertyValue,
     } as unknown as CSSStyleDeclaration);
     createPattern = vi.fn();
@@ -80,7 +81,8 @@ describe('PrimerColorsPlugin', () => {
       '--display-teal-scale-2',
     ]);
     expect(datasets[1].backgroundColor).toEqual([patterns[0], patterns[0]]);
-    expect(createPattern).toHaveBeenCalledOnce();
+    expect(datasets[1].hoverBackgroundColor).toEqual([patterns[1], patterns[1]]);
+    expect(createPattern).toHaveBeenCalledTimes(2);
   });
 
   it('keeps the existing color fills for a single bar dataset', () => {
@@ -91,6 +93,10 @@ describe('PrimerColorsPlugin', () => {
     expect(datasets[0].backgroundColor).toEqual([
       '--display-teal-scale-2',
       '--display-orange-scale-2',
+    ]);
+    expect(datasets[0].hoverBackgroundColor).toEqual([
+      '--display-teal-scale-3',
+      '--display-orange-scale-3',
     ]);
     expect(createPattern).not.toHaveBeenCalled();
   });
@@ -127,7 +133,7 @@ describe('PrimerColorsPlugin', () => {
     ]);
     expect((datasets[1] as ChartDataset<'line'>).borderDash).toEqual([8, 4]);
     expect(datasets[2].backgroundColor).toEqual([patterns[0], patterns[0]]);
-    expect(createPattern).toHaveBeenCalledOnce();
+    expect(createPattern).toHaveBeenCalledTimes(2);
   });
 
   it('uses a different pattern for every bar dataset', () => {
@@ -141,7 +147,7 @@ describe('PrimerColorsPlugin', () => {
 
     expect(datasets[0].backgroundColor).toEqual(['--display-teal-scale-2']);
     expect(datasets[1].backgroundColor).toEqual([patterns[0]]);
-    expect(datasets[2].backgroundColor).toEqual([patterns[1]]);
+    expect(datasets[2].backgroundColor).toEqual([patterns[2]]);
   });
 
   it('uses patterns to distinguish multiple radar datasets', () => {
@@ -165,7 +171,7 @@ describe('PrimerColorsPlugin', () => {
     applyPlugin('pie', datasets, ['Labor', 'Material A', 'Material B'], { labelBased: true });
 
     expect(new Set(datasets[0].backgroundColor as unknown[])).toHaveProperty('size', 3);
-    expect(createPattern).toHaveBeenCalledTimes(2);
+    expect(createPattern).toHaveBeenCalledTimes(6);
   });
 
   it('resolves the Primer palette once per layout', () => {
@@ -173,7 +179,8 @@ describe('PrimerColorsPlugin', () => {
 
     applyPlugin('pie', datasets);
 
-    expect(getPropertyValue).toHaveBeenCalledTimes(32);
+    expect(getComputedStyleSpy).toHaveBeenCalledOnce();
+    expect(getPropertyValue).toHaveBeenCalledTimes(48);
   });
 
   it('keeps pie segment patterns stable when labels are reordered', () => {
@@ -216,6 +223,24 @@ describe('PrimerColorsPlugin', () => {
     });
   });
 
+  it('assigns distinct line dashes independently from label colors', () => {
+    const datasets:ChartDataset[] = ['Labor', 'Material A', 'Material B']
+      .map((label) => ({ label, data: [1] }));
+
+    applyPlugin('line', datasets, [], { datasetLabelBased: true });
+
+    const lineDashes = datasets.map((dataset) => JSON.stringify((dataset as ChartDataset<'line'>).borderDash));
+    expect(new Set(lineDashes)).toHaveProperty('size', 3);
+  });
+
+  it('keeps label-based points solid for non-arc charts', () => {
+    const datasets:ChartDataset[] = [{ data: [5, 3, 1] }];
+
+    applyPlugin('bar', datasets, ['Labor', 'Material A', 'Material B'], { labelBased: true });
+
+    expect(createPattern).not.toHaveBeenCalled();
+  });
+
   it('uses patterns for pie segments without label-based colors', () => {
     const datasets:ChartDataset[] = [{ data: [5, 3, 1] }];
 
@@ -240,6 +265,18 @@ describe('PrimerColorsPlugin', () => {
     const tile = createPattern.mock.calls[0][0] as HTMLCanvasElement;
     expect([tile.width, tile.height]).toEqual([16, 16]);
     expect(patternTransforms[0]).toHaveBeenCalledWith({ a: 0.5, d: 0.5 });
+  });
+
+  it('uses a consistent scale for fractional device pixel ratios', () => {
+    const context = { createPattern } as unknown as CanvasRenderingContext2D;
+    const scale = vi.spyOn(CanvasRenderingContext2D.prototype, 'scale');
+
+    createPatternFill(context, '#ccc', '#333', 1, 1.1);
+
+    const tile = createPattern.mock.calls[0][0] as HTMLCanvasElement;
+    expect([tile.width, tile.height]).toEqual([9, 9]);
+    expect(scale).toHaveBeenCalledWith(1.125, 1.125);
+    expect(patternTransforms[0]).toHaveBeenCalledWith({ a: 8 / 9, d: 8 / 9 });
   });
 
   it('reuses an identical pattern for the same chart', () => {

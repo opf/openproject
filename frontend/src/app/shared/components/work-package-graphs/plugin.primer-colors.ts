@@ -32,7 +32,13 @@ import {
   ChartType,
   Plugin,
 } from 'chart.js';
-import { createPatternFill, lineDashFor } from './plugin.primer-patterns';
+import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
+import {
+  createPatternFill,
+  LINE_DASH_COUNT,
+  lineDashFor,
+  PATTERN_COUNT,
+} from './plugin.primer-patterns';
 
 export interface PrimerColorsPluginOptions {
   enabled?:boolean;
@@ -70,14 +76,16 @@ const PRIMER_COLORS = [
 
 interface PrimerPalette {
   emphasis:string[];
+  hoverMuted:string[];
   muted:string[];
 }
 
 function resolvePalette():PrimerPalette {
   const styles = getComputedStyle(document.body);
   return {
-    emphasis: PRIMER_COLORS.map((color) => styles.getPropertyValue(`--display-${color}-scale-6`).trim()),
-    muted: PRIMER_COLORS.map((color) => styles.getPropertyValue(`--display-${color}-scale-2`).trim()),
+    emphasis: PRIMER_COLORS.map((color) => getCSSVariable(`--display-${color}-scale-6`, '', styles)),
+    hoverMuted: PRIMER_COLORS.map((color) => getCSSVariable(`--display-${color}-scale-3`, '', styles)),
+    muted: PRIMER_COLORS.map((color) => getCSSVariable(`--display-${color}-scale-2`, '', styles)),
   };
 }
 
@@ -85,9 +93,22 @@ function colorAt(colors:string[], index:number):string {
   return colors[index % colors.length];
 }
 
+function fillFor(
+  backgroundColor:string,
+  foregroundColor:string,
+  styleIndex:number,
+  context?:CanvasRenderingContext2D,
+  devicePixelRatio?:number,
+):string|CanvasPattern {
+  return context
+    ? createPatternFill(context, backgroundColor, foregroundColor, styleIndex, devicePixelRatio)
+    : backgroundColor;
+}
+
 function colorizePoints(
   dataset:ChartDataset,
   colorIndexes:number[],
+  styleIndexes:number[],
   palette:PrimerPalette,
   patternContext?:CanvasRenderingContext2D,
   devicePixelRatio?:number,
@@ -96,15 +117,17 @@ function colorizePoints(
     const colorIndex = colorIndexes[index];
     const mutedColor = colorAt(palette.muted, colorIndex);
     const emphasisColor = colorAt(palette.emphasis, colorIndex);
-    return patternContext
-      ? createPatternFill(
-        patternContext,
-        mutedColor,
-        emphasisColor,
-        colorIndex,
-        devicePixelRatio,
-      )
-      : mutedColor;
+    return fillFor(mutedColor, emphasisColor, styleIndexes[index], patternContext, devicePixelRatio);
+  });
+  dataset.hoverBackgroundColor = dataset.data.map((_, index) => {
+    const colorIndex = colorIndexes[index];
+    return fillFor(
+      colorAt(palette.hoverMuted, colorIndex),
+      colorAt(palette.emphasis, colorIndex),
+      styleIndexes[index],
+      patternContext,
+      devicePixelRatio,
+    );
   });
   dataset.borderColor = dataset.data.map((_, index) => colorAt(palette.emphasis, colorIndexes[index]));
   dataset.borderWidth = 1;
@@ -120,21 +143,17 @@ function colorizeDataset(
   devicePixelRatio:number,
 ):void {
   const mutedColor = colorAt(palette.muted, colorIndex);
+  const hoverMutedColor = colorAt(palette.hoverMuted, colorIndex);
   const emphasisColor = colorAt(palette.emphasis, colorIndex);
-  const backgroundColor = lineChart
-    ? mutedColor
-    : createPatternFill(
-      context,
-      mutedColor,
-      emphasisColor,
-      styleIndex,
-      devicePixelRatio,
-    );
+  const patternContext = lineChart ? undefined : context;
+  const backgroundColor = fillFor(mutedColor, emphasisColor, styleIndex, patternContext, devicePixelRatio);
+  const hoverBackgroundColor = fillFor(hoverMutedColor, emphasisColor, styleIndex, patternContext, devicePixelRatio);
 
   // Instead of directly counting the index up, all elements of that dataset will get the same color
   // Only at the end, we increase so that the next dataset is in a different color
   // See https://community.openproject.org/wp/68364
   dataset.backgroundColor = dataset.data.map(() => backgroundColor);
+  dataset.hoverBackgroundColor = dataset.data.map(() => hoverBackgroundColor);
   dataset.borderColor = dataset.data.map(() => emphasisColor);
   dataset.borderWidth = 1;
   if (lineChart) {
@@ -152,15 +171,10 @@ function hashLabel(label:string):number {
   return hash;
 }
 
-// Build a collision-free label→palette-index map.
-// Each label's preferred slot is hash(label) % paletteSize.
-// If that slot is already claimed, linear-probe to the next free one.
-// Processing order: ascending preferred index, alphabetical tie-break — so the
-// same algorithm produces identical results for any subset of the same labels.
-function buildLabelColorMap(labels:string[]):Map<string, number> {
-  const paletteSize = PRIMER_COLORS.length;
-  const items = labels
-    .map((label) => ({ label, preferred: hashLabel(label) % paletteSize }))
+// Process labels in a stable order so input reordering does not change their slots.
+function buildLabelIndexMap(labels:string[], slotCount:number):Map<string, number> {
+  const items = [...new Set(labels)]
+    .map((label) => ({ label, preferred: hashLabel(label) % slotCount }))
     .sort((a, b) => a.preferred - b.preferred || a.label.localeCompare(b.label));
 
   const used = new Set<number>();
@@ -168,9 +182,9 @@ function buildLabelColorMap(labels:string[]):Map<string, number> {
 
   for (const { label, preferred } of items) {
     let slot = preferred;
-    if (used.size < paletteSize) {
+    if (used.size < slotCount) {
       while (used.has(slot)) {
-        slot = (slot + 1) % paletteSize;
+        slot = (slot + 1) % slotCount;
       }
       used.add(slot);
     }
@@ -185,12 +199,18 @@ function assignColorsByLabel(
   dataset:ChartDataset,
   labels:string[],
   palette:PrimerPalette,
-  patternContext:CanvasRenderingContext2D,
+  patternContext:CanvasRenderingContext2D|undefined,
   devicePixelRatio:number,
 ):void {
-  const colorMap = buildLabelColorMap(labels);
+  const colorMap = buildLabelIndexMap(labels, PRIMER_COLORS.length);
+  const styleMap = buildLabelIndexMap(labels, PATTERN_COUNT);
   const colorIndexes = dataset.data.map((_, index) => colorMap.get(labels[index] ?? '') ?? 0);
-  colorizePoints(dataset, colorIndexes, palette, patternContext, devicePixelRatio);
+  const styleIndexes = dataset.data.map((_, index) => styleMap.get(labels[index] ?? '') ?? 0);
+  colorizePoints(dataset, colorIndexes, styleIndexes, palette, patternContext, devicePixelRatio);
+}
+
+function usesPointPatterns(type:ChartType|undefined):boolean {
+  return type === 'pie' || type === 'doughnut' || type === 'polarArea';
 }
 
 const plugin:Plugin<ChartType, PrimerColorsPluginOptions> = {
@@ -208,33 +228,39 @@ const plugin:Plugin<ChartType, PrimerColorsPluginOptions> = {
 
     if (options.datasetLabelBased || (options.labelBased && datasets.length !== 1)) {
       const labels = datasets.map((d) => d.label ?? '');
-      const colorMap = buildLabelColorMap(labels);
+      const colorMap = buildLabelIndexMap(labels, PRIMER_COLORS.length);
+      const patternMap = buildLabelIndexMap(labels, PATTERN_COUNT);
+      const lineDashMap = buildLabelIndexMap(labels, LINE_DASH_COUNT);
       datasets.forEach((dataset:ChartDataset) => {
-        const colorIndex = colorMap.get(dataset.label ?? '') ?? 0;
+        const label = dataset.label ?? '';
+        const colorIndex = colorMap.get(label) ?? 0;
+        const lineChart = (dataset.type ?? chartType) === 'line';
         colorizeDataset(
           dataset,
           colorIndex,
-          colorIndex,
+          (lineChart ? lineDashMap : patternMap).get(label) ?? 0,
           palette,
           chart.ctx,
-          (dataset.type ?? chartType) === 'line',
+          lineChart,
           chart.currentDevicePixelRatio,
         );
       });
     } else if (options.labelBased && datasets.length === 1) {
+      const datasetType = datasets[0].type ?? chartType;
       assignColorsByLabel(
         datasets[0],
         (chart.data.labels ?? []) as string[],
         palette,
-        chart.ctx,
+        usesPointPatterns(datasetType) ? chart.ctx : undefined,
         chart.currentDevicePixelRatio,
       );
     } else if (datasets.length === 1) {
       const colorIndexes = datasets[0].data.map((_, index) => index);
       const datasetType = datasets[0].type ?? chartType;
-      const pointPatterns = datasetType === 'pie' || datasetType === 'doughnut' || datasetType === 'polarArea';
+      const pointPatterns = usesPointPatterns(datasetType);
       colorizePoints(
         datasets[0],
+        colorIndexes,
         colorIndexes,
         palette,
         pointPatterns ? chart.ctx : undefined,
