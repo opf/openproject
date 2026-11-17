@@ -93,7 +93,7 @@ RSpec.describe "Relation query group keyboard navigation", :js do
   end
 
   it_behaves_like "an embedded keyboard table", editable: true do
-    let(:first_row_controls) { [rows.first.id.to_s, "Remove child"] }
+    let(:first_row_controls) { [rows.first.display_id.to_s, "Remove child"] }
     let(:next_control) { { role: :button, name: "Create new child" } }
     let(:axe_states) { group_states }
   end
@@ -147,7 +147,7 @@ RSpec.describe "Relation query group keyboard navigation", :js do
       wp_table.row(child).hover
       expect(wp_table.row(child)).to have_selector(:link, accessible_name: "Remove child", accessible_description: "",
                                                           exact: true)
-      expect(wp_table.row(child)).to have_link(child.id.to_s, accessible_description: "", exact: true)
+      expect(wp_table.row(child)).to have_link(child.display_id.to_s, accessible_description: "", exact: true)
     end
 
     wp_table.focus_row_by_keyboard(rows.first)
@@ -170,7 +170,7 @@ RSpec.describe "Relation query group keyboard navigation", :js do
     wait_for_network_idle
     wp_table.expect_work_package_listed(*rows, orphan)
 
-    wp_table.row(rows.second).find(:link, rows.second.id.to_s, exact: true).click
+    wp_table.row(rows.second).find(:link, rows.second.display_id.to_s, exact: true).click
     Pages::FullWorkPackage.new(rows.second, project).expect_attributes(Subject: rows.second.subject)
   end
 

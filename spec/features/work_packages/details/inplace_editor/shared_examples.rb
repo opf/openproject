@@ -139,7 +139,7 @@ RSpec.shared_examples "a workpackage autocomplete field" do
   it "autocompletes the other work package" do
     field.activate!
     field.clear
-    field.type(" ##{wp2.id}")
+    field.type(" ##{wp2.display_id}")
     expect(page).to have_css(".mention-list-item", text: wp2.to_s.strip)
   end
 end

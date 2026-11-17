@@ -118,7 +118,7 @@ RSpec.describe "Work package table cell interaction", :js do
 
     wp_table.focus_row_by_keyboard(parent)
     wp_table.press_keys(:tab)
-    expect(page).to have_link(parent.id.to_s, focused: true)
+    expect(page).to have_link(parent.display_id.to_s, focused: true)
     wp_table.press_keys(:tab)
     expect(wp_table.row(parent)).to have_button(accessible_name: /Hierarchy level 1, expanded/, focused: true)
   end

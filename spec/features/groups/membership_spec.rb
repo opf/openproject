@@ -38,7 +38,7 @@ RSpec.describe "group memberships through project members page", :js do
   shared_let(:beta) { create(:project_role, name: "beta") }
 
   let(:group) { create(:group, lastname: "group1") }
-  let(:project) { create(:project, name: "Project 1", identifier: "project1", members: project_member) }
+  let(:project) { create(:project, name: "Project 1", members: project_member) }
 
   let(:members_page) { Pages::Members.new project.identifier }
   let(:groups_page) { Pages::Groups.new }

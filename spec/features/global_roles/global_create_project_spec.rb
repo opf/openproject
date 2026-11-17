@@ -98,7 +98,8 @@ RSpec.describe "Global role: Global Create project", :js do
 
       click_on "Complete"
 
-      expect(page).to have_current_path "/projects/new-project-name"
+      expect_flash type: :success, message: "Successful creation."
+      expect(page).to have_current_path "/projects/#{Project.find_by!(name: 'New project name').identifier}"
     end
   end
 

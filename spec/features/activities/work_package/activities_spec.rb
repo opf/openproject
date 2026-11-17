@@ -684,7 +684,7 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
 
         context "with #activity- anchor" do
           before do
-            visit project_work_package_path(project, work_package.id, "activity", anchor: "activity-1")
+            visit project_work_package_path(project, work_package, "activity", anchor: "activity-1")
             wp_page.wait_for_activity_tab
           end
 
@@ -696,7 +696,7 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
             initial_journal = work_package.journals.order(:version).first
             expect(page.evaluate_script("window.location.hash")).to eq("#comment-#{initial_journal.id}")
             # The rewrite must keep the work package path, not collapse it to "/".
-            expect(page.evaluate_script("window.location.pathname")).to include("/work_packages/#{work_package.id}")
+            expect(page.evaluate_script("window.location.pathname")).to include("/work_packages/#{work_package.display_id}")
 
             highlighted_comment = page.find(".--anchor-highlighted")
             expect(highlighted_comment).to have_text("created this on")
@@ -708,7 +708,7 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
 
         context "with #comment- anchor" do
           before do
-            visit project_work_package_path(project, work_package.id, "activity", anchor: "comment-#{comment_15.id}")
+            visit project_work_package_path(project, work_package, "activity", anchor: "comment-#{comment_15.id}")
             wp_page.wait_for_activity_tab
           end
 
@@ -739,7 +739,7 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
           before do
             page.current_window.resize_to(500, 1000)
 
-            visit project_work_package_path(project, work_package.id, "activity", anchor: "comment-#{comment_15.id}")
+            visit project_work_package_path(project, work_package, "activity", anchor: "comment-#{comment_15.id}")
             wp_page.wait_for_activity_tab
           end
 
@@ -767,7 +767,7 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
 
         context "with #comment- anchor" do
           before do
-            visit project_work_package_path(project, work_package.id, "activity", anchor: "comment-#{comment_1.id}")
+            visit project_work_package_path(project, work_package, "activity", anchor: "comment-#{comment_1.id}")
             wp_page.wait_for_activity_tab
           end
 
@@ -856,7 +856,7 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
     let!(:admin_preferences) { create(:user_preference, user: admin, others: { comments_sorting: :asc }) }
 
     before do
-      visit project_work_package_path(project, work_package.id, "activity", anchor: "comment-#{comment_one.id}")
+      visit project_work_package_path(project, work_package, "activity", anchor: "comment-#{comment_one.id}")
       wp_page.wait_for_activity_tab
     end
 

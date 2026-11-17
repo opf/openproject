@@ -32,8 +32,8 @@ require "spec_helper"
 RSpec.describe "onboarding tour for new users", :js do
   let(:user) { create(:admin) }
   let(:project) do
-    create(:project, :with_internal_wiki, name: "Demo project", identifier: "demo-project", public: true,
-                                          enabled_module_names: %w[work_package_tracking gantt]).reload
+    create(:project, :with_internal_wiki, :demo_project,
+           public: true, enabled_module_names: %w[work_package_tracking gantt]).reload
   end
 
   let!(:wp1) { create(:work_package, project:) }
