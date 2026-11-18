@@ -31,6 +31,10 @@ module Exports::PDF::Components::Gantt
   class GanttPainter
     GANTT_GRID_COLOR = "9b9ea3"
     GANTT_LINE_COLOR = "2b8bd5"
+    GROUP_ROW_BACKGROUND_COLOR = "ffffff"
+    ELLIPSIS = "..."
+    HEADER_MAX_LINES = 2
+    LINE_HEIGHT_TOLERANCE = 0.01
 
     def initialize(pdf)
       @pdf = pdf
@@ -52,6 +56,7 @@ module Exports::PDF::Components::Gantt
 
     def paint_page(page)
       paint_grid(page)
+      paint_group_row_backgrounds(page)
       paint_header_row(page)
       paint_lines(page)
       paint_rows(page)
@@ -74,7 +79,7 @@ module Exports::PDF::Components::Gantt
       [
         [0, page_height, 0],
         [0, page_height, page.width],
-        page.text_column.nil? ? nil : [0, page_height, page.text_column.width],
+        page.text_columns.map { |column| [0, page_height, column.right] },
         page.columns.map { |column| [page.header_row_height, page_height, column.right] },
         page.header_cells.map { |cell| [cell.top, cell.bottom, cell.left] }
       ]
@@ -82,14 +87,17 @@ module Exports::PDF::Components::Gantt
 
     def grid_h(page)
       page_width = page.width
-      text_column = page.text_column
       [
         [0, page_width, page.height],
         [0, page_width, page.rows.last.bottom],
-        text_column.nil? ? nil : [0, text_column.width, 0],
+        text_area_top_line(page),
         page.rows.map { |row| [0, page_width, row.top] },
         page.header_cells.map { |cell| [cell.left, cell.right, cell.top] }
       ]
+    end
+
+    def text_area_top_line(page)
+      [0, page.text_columns.last.right, 0] if page.text_columns.any?
     end
 
     def paint_grid_h(page)
@@ -117,7 +125,7 @@ module Exports::PDF::Components::Gantt
     end
 
     def paint_header_row(page)
-      paint_header_text_column(page) unless page.text_column.nil?
+      page.text_columns.each { |column| paint_header_text_column(column) }
       page.header_cells.each { |cell| paint_header_column_cell(cell) }
     end
 
@@ -150,29 +158,61 @@ module Exports::PDF::Components::Gantt
       @pdf.fill_color = current_color
     end
 
-    def paint_header_text_column(page)
-      paint_text_box(page.text_column.title, page.text_column.padding_h, 0,
-                     page.text_column.width - page.text_column.padding_h, page.header_row_height,
-                     { size: 10, style: :bold })
+    def paint_header_text_column(column)
+      padding = GanttTextColumnLayout::PADDING_H
+      paint_fitted_text(column.caption, column.left + padding, column.top, column.width - (padding * 2), column.height,
+                        size: GanttTextColumnLayout::HEADER_FONT_SIZE, max_lines: HEADER_MAX_LINES, style: :bold)
     end
 
     def paint_header_column_cell(cell)
       paint_text_box(cell.text, cell.left, cell.top, cell.width, cell.height, { size: 10, style: :bold, align: :center })
     end
 
-    def paint_row_text_line(line)
-      paint_text_box(truncate_ellipsis(line.text, line.width, line.font_size),
-                     line.left, line.top, line.width, line.height, { size: line.font_size })
+    # The grid is painted first; group titles may run on into the chart area,
+    # so the grid lines inside those rows are covered. Inset by half a grid line
+    # to keep the row borders.
+    def paint_group_row_backgrounds(page)
+      page.rows.select { |row| row.group && row.text_lines.any? }.each do |row|
+        paint_rect(0.25, row.top + 0.25, page.width - 0.5, row.height - 0.5, GROUP_ROW_BACKGROUND_COLOR)
+      end
     end
 
-    def truncate_ellipsis(text, available_width, font_size)
-      return text if @pdf.width_of(text, { size: font_size }) <= available_width
+    def paint_row_text_line(line)
+      paint_fitted_text(line.text, line.left, line.top, line.width, line.height,
+                        size: line.font_size, max_lines: line.max_lines)
+    end
 
-      line = text.dup
-      while line.present? && (@pdf.width_of("#{line}...", { size: font_size }) > available_width)
-        line = line.chop
-      end
-      "#{line}..."
+    def paint_fitted_text(text, left, top, width, height, size:, max_lines:, style: :normal)
+      font_options = { size:, style:, leading: 0 }
+      @pdf.text_box(fit_lines(text, width, height, max_lines, font_options),
+                    at: [@pdf.bounds.left + left, @pdf.bounds.top - top],
+                    width:,
+                    height:,
+                    overflow: :truncate,
+                    valign: :center,
+                    **font_options)
+    end
+
+    def fit_lines(text, width, height, max_lines, font_options)
+      box = fitting_text_box(text, width, height, max_lines, font_options)
+      return text if box.render(dry_run: true).blank?
+
+      lines = box.text.split("\n")
+      lines[-1] = ellipsize(lines.last, width, font_options)
+      lines.join("\n")
+    end
+
+    def fitting_text_box(text, width, height, max_lines, font_options)
+      line_height = @pdf.font.height_at(font_options[:size])
+      line_count = [max_lines, (height / line_height).floor].min.clamp(1..)
+      Prawn::Text::Box.new(text, document: @pdf, width:, overflow: :truncate,
+                                 height: (line_count * line_height) + LINE_HEIGHT_TOLERANCE, **font_options)
+    end
+
+    def ellipsize(text, available_width, font_options)
+      fits = ->(length) { @pdf.width_of("#{text[0, length].rstrip}#{ELLIPSIS}", font_options) <= available_width }
+      length = (0..text.length).bsearch { |candidate| !fits.call(candidate) } || (text.length + 1)
+      "#{text[0, length - 1].to_s.rstrip}#{ELLIPSIS}"
     end
 
     def paint_text_box(text, left, top, width, height, additional_options = {})

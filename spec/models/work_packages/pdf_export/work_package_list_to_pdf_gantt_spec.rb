@@ -157,6 +157,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   let(:work_packages) do
     [work_package_task, work_package_milestone]
   end
+  let(:rows_per_page) { 15 }
 
   def show_pdf
     cmd = "open -a Preview #{export_pdf.content.path}"
@@ -167,19 +168,13 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     pp pdf[:calls]
   end
 
-  def wp_title_dates(work_package)
-    if work_package.start_date == work_package.due_date
-      format_date(work_package.start_date)
-    else
-      formatted_start_date = format_date(work_package.start_date) || "no start date"
-      formatted_due_date = format_date(work_package.due_date) || "no start date"
-      "#{formatted_start_date} - #{formatted_due_date}"
-    end
+  def text_column_captions
+    %i[id subject start_date due_date].map { |name| WorkPackage.human_attribute_name(name) }
   end
 
-  def wp_title_column(work_package)
-    "#{work_package.type} #{work_package.formatted_id} • #{work_package.status} • " \
-      "#{wp_title_dates work_package} #{work_package.subject}"
+  def wp_text_cells(work_package)
+    [work_package.display_id, work_package.subject,
+     format_date(work_package.start_date), format_date(work_package.due_date)].compact.join(" ")
   end
 
   subject(:pdf) do
@@ -201,26 +196,26 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
   describe "with a request for a PDF gantt" do
     it "contains correct data" do
-      expect(pdf[:strings]).to eq [query.name, "2024 Apr 21 22 23", # header columns
-                                   wp_title_column(work_package_task),
-                                   wp_title_column(work_package_milestone),
+      expect(pdf[:strings]).to eq [text_column_captions, "2024 Apr 21 22 23", # header columns
+                                   wp_text_cells(work_package_task),
+                                   wp_text_cells(work_package_milestone),
                                    "1/1", export_date_formatted, query.name].join(" ").squeeze(" ")
 
       # if one of these expect fails you can output the actual pdf calls uncommenting the following line
       # show_calls
       milestone = [
         [:set_color_for_nonstroking_and_special, 1.0, 0.0, 0.0], # red milestone polygon
-        [:begin_new_subpath, 627.83333, 401.86],
-        [:append_line, 634.5, 408.52667],
-        [:append_line, 641.16667, 401.86],
-        [:append_line, 634.5, 395.19333],
-        [:append_line, 627.83333, 401.86],
+        [:begin_new_subpath, 697.04762, 395.86],
+        [:append_line, 703.71429, 402.52667],
+        [:append_line, 710.38095, 395.86],
+        [:append_line, 703.71429, 389.19333],
+        [:append_line, 697.04762, 395.86],
         [:close_subpath]
       ]
       expect(include_calls?(milestone, pdf[:calls])).to be true
       task = [
         [:set_color_for_nonstroking_and_special, 1.0, 1.0, 0.0], # yellow rectangle
-        [:append_rectangle, 207.0, 416.86, 171.0, 10.0],
+        [:append_rectangle, 622.28571, 414.86, 32.57143, 10.0],
         [:fill_path_with_nonzero]
       ]
       expect(include_calls?(task, pdf[:calls])).to be true
@@ -231,15 +226,15 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     context "in classic mode",
             with_settings: { work_packages_identifier: "classic" } do
       it "uses the numeric id and not the semantic identifier in the gantt chart" do
-        expect(pdf[:strings]).to include("##{work_package_task.id}")
+        expect(pdf[:strings]).to include("#{work_package_task.id} #{work_package_task.subject}")
       end
     end
 
     context "in semantic mode",
             with_settings: { work_packages_identifier: "semantic" } do
       it "uses the semantic identifier and not the numeric id in the gantt chart" do
-        expect(pdf[:strings]).to include(work_package_task.identifier)
-        expect(pdf[:strings]).not_to include("##{work_package_task.id}")
+        expect(pdf[:strings]).to include("#{work_package_task.identifier} #{work_package_task.subject}")
+        expect(pdf[:strings]).not_to include("#{work_package_task.id} #{work_package_task.subject}")
       end
     end
   end
@@ -250,28 +245,28 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     end
 
     it "contains correct data" do
-      expect(pdf[:strings]).to eq [query.name, "2024 Apr May 21 22 23 24 25 26 27 28 29 30 1 2 3 4 5", # header columns
-                                   wp_title_column(work_package_task),
-                                   wp_title_column(work_package_milestone),
+      expect(pdf[:strings]).to eq [text_column_captions, "2024 Apr May 21 22 23 24 25 26 27 28 29 30 1 2 3 4", # header columns
+                                   wp_text_cells(work_package_task),
+                                   wp_text_cells(work_package_milestone),
                                    "1/2", export_date_formatted, query.name,
-                                   "2024 May 6 7 8", # header columns
+                                   "2024 May 5 6 7 8", # header columns
                                    "2/2", export_date_formatted, query.name].join(" ").squeeze(" ")
 
       # if one of these expect fails you can output the actual pdf calls uncommenting the following line
       # show_calls
       milestone = [
         [:set_color_for_nonstroking_and_special, 1.0, 0.0, 0.0], # red milestone polygon
-        [:begin_new_subpath, 110.7619, 390.0],
-        [:append_line, 117.42857, 396.66667],
-        [:append_line, 124.09524, 390.0],
-        [:append_line, 117.42857, 383.33333],
-        [:append_line, 110.7619, 390.0],
+        [:begin_new_subpath, 143.33333, 384.0],
+        [:append_line, 150.0, 390.66667],
+        [:append_line, 156.66667, 384.0],
+        [:append_line, 150.0, 377.33333],
+        [:append_line, 143.33333, 384.0],
         [:close_subpath]
       ]
       expect(include_calls?(milestone, pdf[:calls])).to be true
       task = [
         [:set_color_for_nonstroking_and_special, 1.0, 1.0, 0.0], # yellow rectangle
-        [:append_rectangle, 231.42857, 405.0, 32.57143, 10.0],
+        [:append_rectangle, 231.976, 403.0, 32.57143, 10.0],
         [:fill_path_with_nonzero]
       ]
       expect(include_calls?(task, pdf[:calls])).to be true
@@ -286,30 +281,17 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
       Date.new(2024, 5, 8)
     end
     let(:large_example_content) do
-      [
-        query.name, "2024 Apr May 21 22 23 24 25 26 27 28 29 30 1 2 3 4 5", # header columns
-        wp_title_column(work_package_task),
-        filler_work_packages.slice(0, 17).map.map { |wp| wp_title_column(wp) },
-        "1/6", export_date_formatted, query.name,
-
-        "2024 May 6 7 8", # header columns
-        "2/6", export_date_formatted, query.name,
-
-        query.name, "2024 Apr May 21 22 23 24 25 26 27 28 29 30 1 2 3 4 5", # header columns
-        filler_work_packages.slice(17, 18).map { |wp| wp_title_column(wp) },
-        "3/6", export_date_formatted, query.name,
-
-        "2024 May 6 7 8", # header columns
-        "4/6", export_date_formatted, query.name,
-
-        query.name, "2024 Apr May 21 22 23 24 25 26 27 28 29 30 1 2 3 4 5", # header columns
-        filler_work_packages.slice(35, 15).map { |wp| wp_title_column(wp) },
-        wp_title_column(work_package_milestone),
-        "5/6", export_date_formatted, query.name,
-
-        "2024 May 6 7 8", # header columns
-        "6/6", export_date_formatted, query.name
-      ].flatten.join(" ").squeeze(" ")
+      row_pages = [work_package_task, *filler_work_packages, work_package_milestone]
+                    .map { |wp| wp_text_cells(wp) }
+                    .each_slice(rows_per_page).to_a
+      page_count = row_pages.size * 2
+      row_pages.each_with_index.flat_map do |rows, index|
+        [text_column_captions, "2024 Apr May 21 22 23 24 25 26 27 28 29 30 1 2 3 4", # header columns
+         rows,
+         "#{(index * 2) + 1}/#{page_count}", export_date_formatted, query.name,
+         "2024 May 5 6 7 8", # header columns
+         "#{(index * 2) + 2}/#{page_count}", export_date_formatted, query.name]
+      end.flatten.join(" ").squeeze(" ")
     end
 
     it "contains correct data" do
@@ -319,17 +301,17 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
       # show_calls
       milestone = [
         [:set_color_for_nonstroking_and_special, 1.0, 0.0, 0.0], # red milestone polygon
-        [:begin_new_subpath, 110.7619, 110.0],
-        [:append_line, 117.42857, 116.66667],
-        [:append_line, 124.09524, 110.0],
-        [:append_line, 117.42857, 103.33333],
-        [:append_line, 110.7619, 110.0],
+        [:begin_new_subpath, 143.33333, 264.0],
+        [:append_line, 150.0, 270.66667],
+        [:append_line, 156.66667, 264.0],
+        [:append_line, 150.0, 257.33333],
+        [:append_line, 143.33333, 264.0],
         [:close_subpath]
       ]
       expect(include_calls?(milestone, pdf[:calls])).to be true
       task = [
         [:set_color_for_nonstroking_and_special, 1.0, 1.0, 0.0], # yellow rectangle
-        [:append_rectangle, 231.42857, 405.0, 32.57143, 10.0],
+        [:append_rectangle, 245.536, 403.0, 32.57143, 10.0],
         [:fill_path_with_nonzero]
       ]
       expect(include_calls?(task, pdf[:calls])).to be true
@@ -347,21 +329,14 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
       Date.new(2024, 5, 1)
     end
     let(:large_example_content) do
-      [
-        query.name, "2024 Apr May 21 22 23 24 25 26 27 28 29 30 1", # header columns
-        wp_title_column(work_package_task),
-        filler_work_packages.slice(0, 17).map { |wp| wp_title_column(wp) },
-        "1/3", export_date_formatted, query.name,
-
-        query.name, "2024 Apr May 21 22 23 24 25 26 27 28 29 30 1", # header columns
-        filler_work_packages.slice(17, 18).map { |wp| wp_title_column(wp) },
-        "2/3", export_date_formatted, query.name,
-
-        query.name, "2024 Apr May 21 22 23 24 25 26 27 28 29 30 1", # header columns
-        filler_work_packages.slice(35, 15).map { |wp| wp_title_column(wp) },
-        wp_title_column(work_package_milestone),
-        "3/3", export_date_formatted, query.name
-      ].flatten.join(" ").squeeze(" ")
+      row_pages = [work_package_task, *filler_work_packages, work_package_milestone]
+                    .map { |wp| wp_text_cells(wp) }
+                    .each_slice(rows_per_page).to_a
+      row_pages.each_with_index.flat_map do |rows, index|
+        [text_column_captions, "2024 Apr May 21 22 23 24 25 26 27 28 29 30 1", # header columns
+         rows,
+         "#{index + 1}/#{row_pages.size}", export_date_formatted, query.name]
+      end.flatten.join(" ").squeeze(" ")
     end
 
     it "contains correct data" do
@@ -371,17 +346,17 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
       # show_calls
       milestone = [
         [:set_color_for_nonstroking_and_special, 1.0, 0.0, 0.0], # red milestone polygon
-        [:begin_new_subpath, 690.01515, 121.86],
-        [:append_line, 696.68182, 128.52667],
-        [:append_line, 703.34848, 121.86],
-        [:append_line, 696.68182, 115.19333],
-        [:append_line, 690.01515, 121.86],
+        [:begin_new_subpath, 697.04762, 275.86],
+        [:append_line, 703.71429, 282.52667],
+        [:append_line, 710.38095, 275.86],
+        [:append_line, 703.71429, 269.19333],
+        [:append_line, 697.04762, 275.86],
         [:close_subpath]
       ]
       expect(include_calls?(milestone, pdf[:calls])).to be true
       task = [
         [:set_color_for_nonstroking_and_special, 1.0, 1.0, 0.0], # yellow rectangle
-        [:append_rectangle, 207.0, 416.86, 46.63636, 10.0],
+        [:append_rectangle, 361.71429, 414.86, 32.57143, 10.0],
         [:fill_path_with_nonzero]
       ]
       expect(include_calls?(task, pdf[:calls])).to be true
@@ -395,28 +370,28 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     let(:query_attributes) { { group_by: "type" } }
 
     it "contains correct data" do
-      expect(pdf[:strings]).to eq [query.name, "2024 Apr 21 22 23", # header columns
+      expect(pdf[:strings]).to eq [text_column_captions, "2024 Apr 21 22 23", # header columns
                                    type_milestone.name,
-                                   wp_title_column(work_package_milestone),
+                                   wp_text_cells(work_package_milestone),
                                    type_task.name,
-                                   wp_title_column(work_package_task),
+                                   wp_text_cells(work_package_task),
                                    "1/1", export_date_formatted, query.name].join(" ").squeeze(" ")
 
       # if one of these expect fails you can output the actual pdf calls uncommenting the following line
       # show_calls
       milestone = [
         [:set_color_for_nonstroking_and_special, 1.0, 0.0, 0.0], # red milestone polygon
-        [:begin_new_subpath, 627.83333, 401.86],
-        [:append_line, 634.5, 408.52667],
-        [:append_line, 641.16667, 401.86],
-        [:append_line, 634.5, 395.19333],
-        [:append_line, 627.83333, 401.86],
+        [:begin_new_subpath, 697.04762, 395.86],
+        [:append_line, 703.71429, 402.52667],
+        [:append_line, 710.38095, 395.86],
+        [:append_line, 703.71429, 389.19333],
+        [:append_line, 697.04762, 395.86],
         [:close_subpath]
       ]
       expect(include_calls?(milestone, pdf[:calls])).to be true
       task = [
         [:set_color_for_nonstroking_and_special, 1.0, 1.0, 0.0], # yellow rectangle
-        [:append_rectangle, 207.0, 356.86, 171.0, 10.0],
+        [:append_rectangle, 622.28571, 342.86, 32.57143, 10.0],
         [:fill_path_with_nonzero]
       ]
       expect(include_calls?(task, pdf[:calls])).to be true
@@ -437,11 +412,11 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
             with_settings: { work_package_multiple_versions: true } do
       it "joins the several target versions of a work package into one group, " \
          "and groups work packages without a target version under a none placeholder" do
-        expect(pdf[:strings]).to eq [query.name, "2024 Apr 21 22 23", # header columns
+        expect(pdf[:strings]).to eq [text_column_captions, "2024 Apr 21 22 23", # header columns
                                      "1.0, 2.0",
-                                     wp_title_column(work_package_task),
+                                     wp_text_cells(work_package_task),
                                      I18n.t(:label_none_parentheses),
-                                     wp_title_column(work_package_milestone),
+                                     wp_text_cells(work_package_milestone),
                                      "1/1", export_date_formatted, query.name].join(" ").squeeze(" ")
       end
     end
@@ -454,11 +429,11 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
       it "groups a work package under its lowest-id target version, " \
          "and groups work packages without a target version under a none placeholder" do
-        expect(pdf[:strings]).to eq [query.name, "2024 Apr 21 22 23", # header columns
+        expect(pdf[:strings]).to eq [text_column_captions, "2024 Apr 21 22 23", # header columns
                                      version_one.name,
-                                     wp_title_column(work_package_task),
+                                     wp_text_cells(work_package_task),
                                      I18n.t(:label_none_parentheses),
-                                     wp_title_column(work_package_milestone),
+                                     wp_text_cells(work_package_milestone),
                                      "1/1", export_date_formatted, query.name].join(" ").squeeze(" ")
       end
     end
@@ -515,7 +490,88 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
       export_pdf
 
       expect(builder).to have_received(:build)
-        .with(anything, anything, query, export.column_objects)
+        .with(anything, anything, query, export.column_objects, cell_value: anything)
+    end
+  end
+
+  describe "text cells" do
+    let(:raw_strings) { PDF::Inspector::Text.analyze(File.read(export_pdf.content.path)).strings }
+
+    context "with a subject longer than two lines" do
+      let(:long_subject) { "Lorem ipsum dolor sit amet " * 30 }
+
+      before { work_package_task.update!(subject: long_subject) }
+
+      it "wraps it onto two lines and ellipsizes the second" do
+        subject_lines = raw_strings.select { |text| text.start_with?("Lorem", "ipsum", "dolor", "sit", "amet") }
+
+        expect(subject_lines.size).to eq(2)
+        expect(subject_lines.last).to end_with("...")
+        expect(pdf[:strings]).not_to include(long_subject.strip)
+      end
+    end
+
+    it "renders short values on a single line" do
+      expect(raw_strings).to include(work_package_task.subject)
+    end
+
+    context "with grouped work packages and a narrow text area" do
+      let(:query_attributes) { { group_by: "type" } }
+      let(:options) { super().merge(columns: %w[id]) }
+      let(:type_task) { create(:type, name: "A type name far wider than the identifier column") }
+
+      it "lets the group title run on into the chart area over a blank background" do
+        expect(raw_strings).to include(type_task.name)
+        expect(pdf[:calls]).to include([:set_color_for_nonstroking_and_special, 1.0, 1.0, 1.0])
+      end
+
+      context "when the group title is wider than the page" do
+        let(:type_task) { create(:type, name: ("Very long type name " * 12).strip) }
+
+        it "ellipsizes it at the page edge" do
+          title = raw_strings.find { |text| text.start_with?("Very long type name") }
+
+          expect(title).to end_with("...")
+          expect(title.length).to be < type_task.name.length
+        end
+      end
+    end
+
+    it "shows the column captions in the header and the view name only in the footer" do
+      expect(pdf[:strings]).to start_with(text_column_captions.join(" "))
+      expect(raw_strings.count(query.name)).to eq(1)
+    end
+
+    context "with a column caption longer than two lines" do
+      let(:long_name) { "A custom field with a remarkably long name that cannot fit into its column" }
+      let(:custom_field) { create(:string_wp_custom_field, name: long_name, is_for_all: true, types:) }
+      let(:options) { super().merge(columns: ["subject", custom_field.column_name]) }
+
+      it "wraps it onto two lines and ellipsizes the second" do
+        subject_caption, *custom_field_caption = raw_strings.take_while { |text| text != "2024" }
+
+        expect(subject_caption).to eq(WorkPackage.human_attribute_name(:subject))
+        expect(custom_field_caption.size).to eq(2)
+        expect(custom_field_caption.first).to start_with("A custom field")
+        expect(custom_field_caption.last).to end_with("...")
+      end
+    end
+
+    describe "#gantt_text_cell_value" do
+      let(:id_column) { Queries::WorkPackages::Selects::PropertySelect.new(:id) }
+      let(:spent_hours_column) { Queries::WorkPackages::Selects::PropertySelect.new(:spent_hours) }
+
+      it "uses the display id for the ID column" do
+        expect(export.gantt_text_cell_value(work_package_task, id_column)).to eq(work_package_task.display_id)
+      end
+
+      it "hides attributes the user may not view" do
+        allow(export).to receive(:allowed_to_view_attribute?).and_call_original
+        allow(export).to receive(:allowed_to_view_attribute?)
+          .with(work_package_task, :spent_hours).and_return(false)
+
+        expect(export.gantt_text_cell_value(work_package_task, spent_hours_column)).to eq("")
+      end
     end
   end
 

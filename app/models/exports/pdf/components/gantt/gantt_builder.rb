@@ -32,28 +32,27 @@ module Exports::PDF::Components::Gantt
     include Redmine::I18n
 
     BAR_CELL_PADDING = 5.to_f
-    TEXT_CELL_PADDING_H = 3.to_f
+    TEXT_CELL_PADDING_H = GanttTextColumnLayout::PADDING_H
     TEXT_CELL_PADDING_V = 1.to_f
-    GANTT_ROW_HEIGHT = 20.to_f
+    TEXT_CELL_MAX_LINES = 2
+    GANTT_ROW_HEIGHT = 24.to_f
+    SHAPE_AREA_HEIGHT = 20.to_f
     DEFAULT_HEADER_ROW_HEIGHT = 30.to_f
-    DEFAULT_TEXT_COLUMN_DIVIDER = 4
-    TEXT_COLUMN_MAX_WIDTH = 250.to_f
     LINE_STEP = 5.to_f
-    MAX_YEAR_RANGE = 10
+    MAX_YEAR_RANGE = 15
 
-    def initialize(pdf, title, column_width)
+    def initialize(pdf, column_width)
       @pdf = pdf
-      @title = title
       @column_width = column_width
       @draw_gantt_lines = true
       init_defaults
     end
 
-    def build(work_packages, id_wp_meta_map, query, query_columns)
+    def build(work_packages, id_wp_meta_map, query, query_columns, cell_value:)
       @all_work_packages = work_packages
       @id_wp_meta_map = id_wp_meta_map
       @query = query
-      @query_columns = query_columns
+      @text_layout = GanttTextColumnLayout.new(@pdf, query, query_columns, cell_value:).measure(work_packages)
       dates = collect_column_dates(work_packages)
       entries = build_gantt_entries(work_packages)
       adjust_to_pages
@@ -90,7 +89,6 @@ module Exports::PDF::Components::Gantt
     # Initializes the default values
     def init_defaults
       @header_row_height = DEFAULT_HEADER_ROW_HEIGHT.to_f
-      @text_column_width = [@pdf.bounds.width / DEFAULT_TEXT_COLUMN_DIVIDER, TEXT_COLUMN_MAX_WIDTH].min
       @nr_columns = (@pdf.bounds.width / @column_width).floor
     end
 
@@ -99,8 +97,8 @@ module Exports::PDF::Components::Gantt
       # distribute empty space right to the default column widths
       distribute_to_next_page_column
 
-      # distribute empty space right on the first page to the first column
-      distribute_to_first_column
+      fit_text_area
+      fit_first_page_columns
 
       # distribute empty space bottom to the first row
       distribute_to_header_row
@@ -113,11 +111,15 @@ module Exports::PDF::Components::Gantt
       @nr_columns = (@pdf.bounds.width / @column_width).floor
     end
 
-    # distribute empty space right on the first horizontal page to the text column
-    def distribute_to_first_column
-      gantt_columns_width_first_page = @pdf.bounds.width - @text_column_width
-      @nr_columns_first_page = (gantt_columns_width_first_page / @column_width).floor
-      @text_column_width = @pdf.bounds.width - (@nr_columns_first_page * @column_width)
+    def fit_text_area
+      @text_layout.fit(@pdf.bounds.width, @column_width)
+      @text_area_width = @text_layout.total_width
+    end
+
+    # The remaining space on the first horizontal page stays blank, so the date columns keep
+    # the same width on every page and printed pages line up.
+    def fit_first_page_columns
+      @nr_columns_first_page = ((@pdf.bounds.width - @text_area_width) / @column_width).floor
     end
 
     # distribute empty space at bottom to the header row
@@ -127,11 +129,16 @@ module Exports::PDF::Components::Gantt
       @header_row_height = @pdf.bounds.height - (@rows_per_page * GANTT_ROW_HEIGHT)
     end
 
-    # distribute space to all columns on first horizontal page
-    # if there are not enough columns for more horizontal pages
+    # if there are not enough columns for more horizontal pages,
+    # the first stretchable text column fills the page, else the date columns do
     def distribute_to_first_page(nr_of_columns)
       init_defaults
-      @column_width = (@pdf.bounds.width - @text_column_width) / nr_of_columns
+      free_width = @pdf.bounds.width - @text_area_width - (nr_of_columns * @column_width)
+      if @text_layout.stretch(free_width)
+        @text_area_width = @text_layout.total_width
+      else
+        @column_width = (@pdf.bounds.width - @text_area_width) / nr_of_columns
+      end
       @nr_columns_first_page = nr_of_columns
       @nr_columns = nr_of_columns
     end
@@ -220,7 +227,7 @@ module Exports::PDF::Components::Gantt
     # @param [Array<GanttDataEntry>] entries
     # @return [GanttDataPage]
     def build_page(dates, page_index, entries)
-      left = (page_index == 0 ? @text_column_width : 0)
+      left = (page_index == 0 ? @text_area_width : 0)
       columns = build_columns(left, dates, entries)
       GanttDataPage.new(
         page_index,
@@ -228,7 +235,7 @@ module Exports::PDF::Components::Gantt
         build_header_cells(columns),
         build_rows(columns, entries, page_index == 0),
         columns,
-        build_text_column(page_index),
+        build_text_columns(page_index),
         left + (dates.size * @column_width),
         @header_row_height + (@rows_per_page * GANTT_ROW_HEIGHT),
         @header_row_height
@@ -417,14 +424,14 @@ module Exports::PDF::Components::Gantt
       source_row_bottom = source.finish_row.bottom
       source_left = source.finish_left
       source_top = source.finish_top
-      target_left = target.start_left
+      approach = approach_left(target)
       target_top = target.start_top
       [
         [source_left, source_left + LINE_STEP, source_top, source_top],
         [source_left + LINE_STEP, source_left + LINE_STEP, source_top, source_row_bottom],
-        [target_left - LINE_STEP, source_left + LINE_STEP, source_row_bottom, source_row_bottom],
-        [target_left - LINE_STEP, target_left - LINE_STEP, source_row_bottom, target_top],
-        [target_left - LINE_STEP, target_left, target_top, target_top]
+        [approach, source_left + LINE_STEP, source_row_bottom, source_row_bottom],
+        [approach, approach, source_row_bottom, target_top],
+        [approach, target.start_left, target_top, target_top]
       ]
     end
 
@@ -433,12 +440,12 @@ module Exports::PDF::Components::Gantt
     def build_same_page_dep_lines_forward(source, target)
       source_left = source.finish_left
       source_top = source.finish_top
-      target_left = target.start_left
+      approach = approach_left(target)
       target_top = target.start_top
       [
-        [source_left, target_left - LINE_STEP, source_top, source_top],
-        [target_left - LINE_STEP, target_left - LINE_STEP, source_top, target_top],
-        [target_left - LINE_STEP, target_left, target_top, target_top]
+        [source_left, approach, source_top, source_top],
+        [approach, approach, source_top, target_top],
+        [approach, target.start_left, target_top, target_top]
       ]
     end
 
@@ -500,7 +507,7 @@ module Exports::PDF::Components::Gantt
     # @param [GanttDataLineInfo] target
     # @param [Float] top
     def build_multi_page_dep_line_backward_end(target, top)
-      left = target.start_left - LINE_STEP
+      left = approach_left(target)
       target.start_row.page.add_lines(
         [
           [left, target.start_row.page.columns.last.right, top, top],
@@ -537,13 +544,13 @@ module Exports::PDF::Components::Gantt
     def build_multi_page_dep_line_forward_end(source, target)
       source_left = target.start_row.page.columns.first.left - LINE_STEP
       source_top = source.finish_top
-      target_left = target.start_left
+      approach = approach_left(target)
       target_top = target.start_top
       target.start_row.page.add_lines(
         [
-          [source_left, target_left - LINE_STEP, source_top, source_top],
-          [target_left - LINE_STEP, target_left - LINE_STEP, source_top, target_top],
-          [target_left - LINE_STEP, target_left, target_top, target_top]
+          [source_left, approach, source_top, source_top],
+          [approach, approach, source_top, target_top],
+          [approach, target.start_left, target_top, target_top]
         ]
       )
     end
@@ -572,7 +579,7 @@ module Exports::PDF::Components::Gantt
     def build_multi_group_same_page_dep_line(source, target, page_index, page_groups)
       build_multi_group_same_page_dep_lines_forward_start(source, target)
       build_multi_group_dep_line_middle(source, target, page_index, page_groups)
-      build_multi_group_dep_line_group_end_end(target, target.start_left - LINE_STEP)
+      build_multi_group_dep_line_group_end_end(target, approach_left(target))
     end
 
     # Builds the dependency line between two work packages on different vertical but not horizontal pages (start)
@@ -580,7 +587,7 @@ module Exports::PDF::Components::Gantt
     # @param [GanttDataLineInfo] target
     def build_multi_group_same_page_dep_lines_forward_start(source, target)
       source_top = source.finish_top
-      target_left = target.start_left - LINE_STEP
+      target_left = approach_left(target)
       source.finish_row.page.add_lines([
                                          [source.finish_left, target_left, source_top, source_top],
                                          [target_left, target_left, source_top, source.finish_row.page.height]
@@ -620,7 +627,7 @@ module Exports::PDF::Components::Gantt
     # @param [GanttDataLineInfo] source
     # @param [GanttDataLineInfo] target
     def build_multi_group_dep_line_group_end(source, target, finish_page_index, page_groups)
-      target_left = target.start_left - LINE_STEP
+      target_left = approach_left(target)
       build_multi_group_dep_line_group_end_start(source, target_left, finish_page_index)
       build_multi_group_dep_line_middle(source, target, finish_page_index, page_groups)
       build_multi_group_dep_line_group_end_end(target, target_left)
@@ -635,7 +642,7 @@ module Exports::PDF::Components::Gantt
       page = source.finish_row.page.group.pages[finish_page_index]
       page.add_lines(
         [
-          [0, target_left, source.finish_top, source.finish_top],
+          [chart_left(page), target_left, source.finish_top, source.finish_top],
           [target_left, target_left, source.finish_top, page.height]
         ]
       )
@@ -675,15 +682,31 @@ module Exports::PDF::Components::Gantt
     # @param [Integer] finish_page_index
     def build_multi_group_dep_line_middle_for_group(group, target, finish_page_index)
       page = group.pages[finish_page_index]
-      page.add_line(target.start_left - LINE_STEP, target.start_left - LINE_STEP, page.header_row_height, page.height)
+      page.add_line(approach_left(target), approach_left(target), page.header_row_height, page.height)
     end
 
-    # Builds the text column data object if the page is first page of horizontal page group
+    # Dependency lines stay right of the text area
+    # @param [GanttDataPage] page
+    # @return [Float]
+    def chart_left(page)
+      page.columns.first.left
+    end
+
+    # Where a dependency line turns towards its target, kept out of the text area
+    # @param [GanttDataLineInfo] target
+    # @return [Float]
+    def approach_left(target)
+      [target.start_left - LINE_STEP, chart_left(target.start_row.page)].max
+    end
+
+    # The text columns are only shown on the first page of each horizontal page group
     # @param [Integer] page_index
-    def build_text_column(page_index)
-      if page_index == 0
-        GanttDataTextColumn.new(@title, 0, @text_column_width, 0, GANTT_ROW_HEIGHT,
-                                TEXT_CELL_PADDING_H, TEXT_CELL_PADDING_V)
+    # @return [Array<GanttDataTextColumn>]
+    def build_text_columns(page_index)
+      return [] unless page_index == 0
+
+      @text_layout.columns.map do |layout_column|
+        GanttDataTextColumn.new(layout_column.caption, layout_column.left, layout_column.width, 0, @header_row_height)
       end
     end
 
@@ -707,77 +730,34 @@ module Exports::PDF::Components::Gantt
       paint_columns = columns.filter { |column| column.entry_ids.include?(entry.id) }
       top = @header_row_height + (row_index * GANTT_ROW_HEIGHT)
       shape = build_shape(top, paint_columns, entry.work_package) unless entry.group? || paint_columns.empty?
-      text_lines = with_text_column ? build_row_text_lines(entry, top) : []
-      GanttDataRow.new(row_index, entry.id, shape, text_lines, 0, top, GANTT_ROW_HEIGHT)
+      text_lines = with_text_column ? build_row_text_lines(entry, top, columns) : []
+      GanttDataRow.new(row_index, entry.id, shape, text_lines, columns.first&.left || 0, top, GANTT_ROW_HEIGHT,
+                       entry.group?)
     end
 
-    # Builds the text lines for the given work package
+    # Builds the text cells of a row, or the group title for a group row
     # @param [GanttDataEntry] entry
     # @param [Float] top
+    # @param [Array<GanttDataColumn>] columns
     # @return [Array<GanttDataText>]
-    def build_row_text_lines(entry, top)
-      left = TEXT_CELL_PADDING_H
-      right = left + @text_column_width - (TEXT_CELL_PADDING_H * 2)
-      return build_row_text_lines_group_row(entry, left, right, top) if entry.group?
+    def build_row_text_lines(entry, top, columns)
+      return [build_group_row_title(entry, top, columns)] if entry.group?
 
-      [build_row_text_lines_wp_info(entry, left, right, top),
-       build_row_text_lines_wp_title(entry, left, right, top)]
-    end
-
-    # Builds the title line for the given work package entry
-    # @param [GanttDataEntry] entry
-    # @param [Float] left
-    # @param [Float] right
-    # @param [Float] top
-    # @return [GanttDataText]
-    def build_row_text_lines_wp_title(entry, left, right, top)
-      text_top = top + TEXT_CELL_PADDING_V + 4
-      text_bottom = text_top + 16
-      GanttDataText.new(entry.work_package.subject, left, right, text_top, text_bottom, 8)
-    end
-
-    # Builds the group row text lines for the given group entry
-    # @param [GanttDataEntry] entry
-    # @param [Float] left
-    # @param [Float] right
-    # @param [Float] top
-    # @return [Array<GanttDataText>]
-    def build_row_text_lines_group_row(entry, left, right, top)
-      text_top = top + TEXT_CELL_PADDING_V
-      text_bottom = text_top + GANTT_ROW_HEIGHT - (TEXT_CELL_PADDING_V * 2)
-      [GanttDataText.new(entry.subject, left, right, text_top, text_bottom, 8)]
-    end
-
-    # Builds the title line for the given work package entry
-    # @param [GanttDataEntry] entry
-    # @param [Float] left
-    # @param [Float] right
-    # @param [Float] top
-    # @return [GanttDataText]
-    def build_row_text_lines_wp_info(entry, left, right, top)
-      text_top = top + TEXT_CELL_PADDING_V
-      text_bottom = text_top + 8
-      GanttDataText.new(work_package_info_line(entry.work_package), left, right, text_top, text_bottom, 6)
-    end
-
-    # Returns the info text line for the given work package
-    # @param [WorkPackage] work_package
-    # @return [String]
-    def work_package_info_line(work_package)
-      "#{work_package.type} #{work_package.formatted_id} • #{work_package.status} • #{work_package_info_line_date work_package}"
-    end
-
-    def work_package_info_line_date(work_package)
-      if work_package.start_date == work_package.due_date
-        format_pdf_date(work_package, :start_date)
-      else
-        "#{format_pdf_date(work_package, :start_date)} - #{format_pdf_date(work_package, :due_date)}"
+      @text_layout.columns.map do |layout_column|
+        build_text_cell(@text_layout.value(entry.work_package, layout_column.column),
+                        layout_column.left, layout_column.right, top, TEXT_CELL_MAX_LINES)
       end
     end
 
-    def format_pdf_date(work_package, date_field)
-      date = work_package.send(date_field)
-      date.nil? ? I18n.t("label_no_#{date_field}") : format_date(date)
+    # Group rows have no bars, so the title may run on into the chart area of its row
+    def build_group_row_title(entry, top, columns)
+      build_text_cell(entry.subject, 0, columns.last&.right || @text_area_width, top, 1)
+    end
+
+    def build_text_cell(text, left, right, top, max_lines)
+      GanttDataText.new(text, left + TEXT_CELL_PADDING_H, right - TEXT_CELL_PADDING_H,
+                        top + TEXT_CELL_PADDING_V, top + GANTT_ROW_HEIGHT - TEXT_CELL_PADDING_V,
+                        GanttTextColumnLayout::CELL_FONT_SIZE, max_lines)
     end
 
     # Builds the shape for the given work package
@@ -813,7 +793,8 @@ module Exports::PDF::Components::Gantt
       x1 = calc_start_offset(work_package, paint_columns.first.date)
       x2 = paint_columns.last.right - paint_columns.first.left -
         calc_end_offset(work_package, paint_columns.last.date)
-      [x1, x2, BAR_CELL_PADDING, GANTT_ROW_HEIGHT - BAR_CELL_PADDING]
+      padding_v = ((GANTT_ROW_HEIGHT - SHAPE_AREA_HEIGHT) / 2) + BAR_CELL_PADDING
+      [x1, x2, padding_v, GANTT_ROW_HEIGHT - padding_v]
     end
 
     # Builds the milestone shape for the given work package
@@ -834,7 +815,7 @@ module Exports::PDF::Components::Gantt
     # @param [WorkPackage] work_package
     # @return [Array<Float>] x1, y1, diamond_size
     def milestone_layout(top, paint_columns, work_package)
-      diamond_size = ([@column_width, GANTT_ROW_HEIGHT].min / 3).to_f * 2
+      diamond_size = ([@column_width, SHAPE_AREA_HEIGHT].min / 3).to_f * 2
       x1 = if milestone_position_centered?
              (@column_width - diamond_size) / 2
            else

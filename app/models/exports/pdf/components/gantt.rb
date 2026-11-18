@@ -65,6 +65,13 @@ module Exports::PDF::Components::Gantt
     TextColumns.new(query).resolve(without_columns? ? [] : options[:columns])
   end
 
+  def gantt_text_cell_value(work_package, column)
+    return "" unless allowed_to_view_attribute?(work_package, column.name)
+    return work_package.display_id if column.name == :id
+
+    get_column_value(work_package, column.name)
+  end
+
   private
 
   def gantt_settings_mode
@@ -82,20 +89,21 @@ module Exports::PDF::Components::Gantt
   def gantt_builder(mode, column_width)
     case mode
     when :week
-      GanttBuilderWeeks.new(pdf, heading, column_width)
+      GanttBuilderWeeks.new(pdf, column_width)
     when :month
-      GanttBuilderMonths.new(pdf, heading, column_width)
+      GanttBuilderMonths.new(pdf, column_width)
     when :quarter
-      GanttBuilderQuarters.new(pdf, heading, column_width)
+      GanttBuilderQuarters.new(pdf, column_width)
     else
       # when :day
-      GanttBuilderDays.new(pdf, heading, column_width)
+      GanttBuilderDays.new(pdf, column_width)
     end
   end
 
   def write_gantt(mode, column_width, id_wp_meta_map, work_packages)
     builder = gantt_builder(mode, column_width)
-    pages = builder.build(work_packages, id_wp_meta_map, query, column_objects)
+    pages = builder.build(work_packages, id_wp_meta_map, query, column_objects,
+                          cell_value: method(:gantt_text_cell_value))
     pages = pages.filter { |page| page.columns.pluck(:work_packages).flatten.any? } if options[:filter_empty]
     painter = GanttPainter.new(pdf)
     painter.paint(pages)
@@ -109,7 +117,7 @@ module Exports::PDF::Components::Gantt
   end
 
   GanttDataPage = Struct.new(:index, :entry_ids, :header_cells, :rows, :columns,
-                             :text_column, :width, :height, :header_row_height, :group, :lines) do
+                             :text_columns, :width, :height, :header_row_height, :group, :lines) do
     def initialize(*args)
       super
       rows.each { |row| row.page = self }
@@ -126,13 +134,13 @@ module Exports::PDF::Components::Gantt
     end
   end
 
-  GanttDataText = Data.define(:text, :left, :right, :top, :bottom, :font_size) do
+  GanttDataText = Data.define(:text, :left, :right, :top, :bottom, :font_size, :max_lines) do
     def height = bottom - top
 
     def width = right - left
   end
 
-  GanttDataRow = Struct.new(:index, :entry_id, :shape, :text_lines, :left, :top, :height, :page) do
+  GanttDataRow = Struct.new(:index, :entry_id, :shape, :text_lines, :left, :top, :height, :group, :page) do
     def bottom = top + height
   end
 
@@ -156,7 +164,7 @@ module Exports::PDF::Components::Gantt
     def width = right - left
   end
 
-  GanttDataTextColumn = Data.define(:title, :left, :width, :top, :height, :padding_h, :padding_v) do
+  GanttDataTextColumn = Data.define(:caption, :left, :width, :top, :height) do
     def right = left + width
 
     def bottom = top + height
