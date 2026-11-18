@@ -31,10 +31,25 @@ module API
   module V3
     module MeetingAgendaItems
       class MoveToNextMeetingAPI < ::API::OpenProjectAPI
+        helpers do
+          def parsed_meeting_section
+            return unless request_body
+
+            struct = ::API::ParserStruct.new
+            MeetingAgendaItemRepresenter.new(struct, current_user:).from_hash(request_body)
+            return if struct.meeting_section_id.blank?
+
+            MeetingSection
+              .joins(meeting: :project)
+              .merge(Meeting.visible)
+              .find(struct.meeting_section_id)
+          end
+        end
+
         post :move_to_next_meeting do
           result = ::MeetingAgendaItems::MoveToNextMeetingService
             .new(user: current_user, meeting_agenda_item: @meeting_agenda_item)
-            .call
+            .call(meeting_section: parsed_meeting_section)
 
           unless result.success?
             raise ::API::Errors::ErrorBase.create_and_merge_errors(result.errors)
