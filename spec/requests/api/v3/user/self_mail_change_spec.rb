@@ -86,4 +86,22 @@ RSpec.describe "Changing the own email via PATCH /api/v3/users/me",
       expect(user.reload.mail).to eq("new@example.org")
     end
   end
+
+  context "as an admin" do
+    let(:user) { create(:admin, mail: "old@example.org", password:, password_confirmation: password) }
+
+    it "rejects the change without the current password" do
+      patch api_v3_paths.user("me"), { email: "new@example.org" }.to_json
+
+      expect(last_response).to have_http_status(:unprocessable_entity)
+      expect(user.reload.mail).to eq("old@example.org")
+    end
+
+    it "changes the email with the current password" do
+      patch api_v3_paths.user("me"), { email: "new@example.org", currentPassword: password }.to_json
+
+      expect(last_response).to have_http_status(:ok)
+      expect(user.reload.mail).to eq("new@example.org")
+    end
+  end
 end

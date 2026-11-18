@@ -159,7 +159,7 @@ class UsersController < ApplicationController
     call = ::Users::UpdateService
              .new(model: @user, user: current_user)
              .with_state(session:)
-             .call(update_params)
+             .call(update_params.merge(current_password_input: params[:_password_confirmation]))
 
     if call.success?
       department_result = update_department

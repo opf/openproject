@@ -97,7 +97,7 @@ patch:
 
     Password updates for self-service account changes require both `password` and `currentPassword`.
 
-    Email updates for self-service account changes of non-admin users require `currentPassword`
+    Email updates for self-service account changes require `currentPassword`
     when password confirmation is enabled (the default).
     After an email change, all sessions, remember-me tokens, password reset links, and invitation links of the user become invalid.
   parameters:
