@@ -74,6 +74,9 @@ namespace :assets do
     end
 
     Rake::Task["assets:rebuild_manifest"].invoke
+
+    puts "Compressing angular frontend assets"
+    sh("node", Rails.root.join("frontend/compress-assets.mjs").to_s, OpenProject::Assets.frontend_asset_path.to_s)
   end
 
   desc "Write angular assets manifest"

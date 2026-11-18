@@ -25,33 +25,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-/* eslint-disable @angular-eslint/component-selector */
+import { contextColumnIcon } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
 
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { IconModule } from 'core-app/shared/components/icon/icon.module';
-import { BlankslateActionComponent, BlankslateComponent, BlankslateDescriptionComponent, BlankslateHeadingComponent, BlankslateIconComponent } from 'core-app/shared/components/blankslate/blankslate.component';
-
-@Component({
-  selector: 'error-blankslate',
-  templateUrl: './error-blankslate.component.html',
-  imports: [
-    BlankslateComponent,
-    BlankslateIconComponent,
-    BlankslateHeadingComponent,
-    BlankslateDescriptionComponent,
-    BlankslateActionComponent,
-    IconModule
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
-})
-export class ErrorBlankSlateComponent {
-  readonly name = input<string>();
-  readonly message = input<string>();
-  readonly actionText = input<string>();
-  readonly action = output<void>();
-
-  onActionClick(event:Event) {
-    event.preventDefault?.();
-    this.action.emit();
-  }
+export function isLinkOrRowAction(target:HTMLElement):boolean {
+  return target instanceof HTMLAnchorElement
+    || target.parentElement instanceof HTMLAnchorElement
+    || target.closest(`.${contextColumnIcon}`) !== null;
 }

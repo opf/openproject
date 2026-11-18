@@ -776,8 +776,10 @@ ar:
       create_new: Create new
       group_by_relation_type: تصنيف حسب نوع العلاقة
       group_by_wp_type: تجميع حسب نوع حزمة العمل
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Indent hierarchy
       hierarchy_outdent: Outdent hierarchy
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: حذف علاقة
       remove_child: إزالة طفل
       remove_parent: إزالة والد
@@ -1036,6 +1038,7 @@ ar:
         label_pagination: اضغط هنا لتخطي جدول كتب العمل والانتقال للحدود الفاصلة
         pagination: الانتقال السريع إلى تقسيم الجدول
       key_value: "%{key}:%{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'نطاق قائمة منسدلة مشتركة: اختر بمفاتيح الأسهم، وأكّد الاختيار بالضغط على مفتاح الإدخال، واحذف بمفتاح التحرك للخلف'
       label_disable_multi_select: تعطيل الاختيار المتعدد
       label_enable_multi_select: السماح بالاختيار المتعدد

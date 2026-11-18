@@ -708,6 +708,8 @@ da:
         custom_field:
           at_least_one_custom_option: Der skal være mindst én valgmulighed.
           attributes:
+            admin_only:
+              cannot_be_true: is not supported for this type of custom field.
             formula:
               blank: Formlen må ikke være tom.
               format: "%{message}"
@@ -4732,13 +4734,13 @@ da:
     one: "%{count} fil"
     other: "%{count} filer"
     zero: ingen filer
+  label_x_forms:
+    one: "%{count} formular"
+    other: "%{count} formularer"
   label_x_in_progress_work_packages_abbr:
     one: 1 i gang
     other: "%{count} i gang"
     zero: 0 i gang
-  label_x_forms:
-    one: "%{count} formular"
-    other: "%{count} formularer"
   label_x_items:
     one: "%{count} element"
     other: "%{count} elementer"

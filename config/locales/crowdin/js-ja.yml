@@ -771,8 +771,10 @@ ja:
       create_new: 新規作成
       group_by_relation_type: 関係タイプのグループ
       group_by_wp_type: ワークパッケージタイプのグループ
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: 階層のインデント
       hierarchy_outdent: 階層のアウトデント
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: 関係を削除
       remove_child: 子関係を削除
       remove_parent: 親関係を削除
@@ -1006,6 +1008,7 @@ ja:
         label_pagination: ここをクリックすると、ワークパッケージ表をスキップしてページ設定に移動します
         pagination: 表のページ設定に移動する
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: '結合されたドロップダウンフィールド: 矢印キーで選択する、エンターキーで選択を確認する、バックスペースキーで削除する'
       label_disable_multi_select: 複数の選択を禁止
       label_enable_multi_select: 複数の選択を許可

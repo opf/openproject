@@ -148,6 +148,65 @@ describe('Insert work package attribute', () => {
     expect(type.getBoundingClientRect().width).toBeGreaterThan(type.getBoundingClientRect().height);
   });
 
+  it('shows the whole subject of a result on hover', async () => {
+    const subject = 'Test'.repeat(40);
+    answerSearchWith([{ ...mockAttributeWorkPackage, subject }]);
+    await openWorkPackageAttributeDialog();
+    await userEvent.type(page.getByPlaceholder(SEARCH_PLACEHOLDER), 'Test');
+
+    await expect.element(page.getByRole('option').getByText(subject)).toHaveAttribute('title', subject);
+  });
+
+  it('shows the whole reference of the chosen work package on hover', async () => {
+    const subject = 'Test'.repeat(40);
+    answerSearchWith([{ ...mockAttributeWorkPackage, subject }]);
+    await openWorkPackageAttributeDialog();
+    await expect.element(workPackageField()).not.toHaveAttribute('title');
+
+    await pickWorkPackage('Test', subject);
+    await expect.element(workPackageField()).toHaveAttribute('title', `PROJ-321 · Feature · ${subject}`);
+
+    await userEvent.keyboard('{Backspace}');
+    await expect.element(workPackageField()).not.toHaveAttribute('title');
+  });
+
+  describe('with a long type', () => {
+    const type = 'Very'.repeat(30);
+    const subject = 'Test'.repeat(40);
+    const widthOf = (element:Element) => element.getBoundingClientRect().width;
+
+    beforeEach(() => {
+      answerSearchWith([{
+        ...mockAttributeWorkPackage,
+        subject,
+        _links: { ...mockAttributeWorkPackage._links, type: { ...mockAttributeWorkPackage._links.type, title: type } },
+      }]);
+    });
+
+    it('keeps a result within the list, leaving room for its subject', async () => {
+      await openWorkPackageAttributeDialog();
+      await userEvent.type(page.getByPlaceholder(SEARCH_PLACEHOLDER), 'Test');
+      const typeLabel = page.getByRole('option').getByText(type);
+      await expect.element(typeLabel).toHaveAttribute('title', type);
+
+      const list = page.getByTestId('op-bn-wp-attribute-work-package-list-popover').element();
+      expect(list.scrollWidth).toBeLessThanOrEqual(list.clientWidth);
+      expect(widthOf(typeLabel.element())).toBeGreaterThan(typeLabel.element().getBoundingClientRect().height);
+      expect(widthOf(page.getByRole('option').getByText(subject).element())).toBeGreaterThan(widthOf(typeLabel.element()));
+    });
+
+    it('keeps the chosen work package within the field, leaving room for its subject', async () => {
+      await openWorkPackageAttributeDialog();
+      await pickWorkPackage('Test', subject);
+
+      const layer = selectedWorkPackage().element();
+      expect(layer.scrollWidth).toBeLessThanOrEqual(layer.clientWidth);
+      expect(widthOf(selectedWorkPackage().getByText(subject).element()))
+        .toBeGreaterThan(widthOf(selectedWorkPackage().getByText(type).element()));
+      await expect.element(workPackageField()).toHaveAttribute('title', `PROJ-321 · ${type} · ${subject}`);
+    });
+  });
+
   it('keeps a long subject within the dialog', async () => {
     const subject = 'Test'.repeat(40);
     answerSearchWith([{ ...mockAttributeWorkPackage, subject }]);
@@ -332,6 +391,27 @@ describe('Insert work package attribute', () => {
     await userEvent.fill(workPackageField(), 'beta');
     await userEvent.click(page.getByRole('radio', { name: 'Label', exact: true }));
     await expect.element(selectedWorkPackage()).toHaveTextContent('PROJ-321FeatureRedesign onboarding flow');
+  });
+
+  it('offers the attributes in alphabetical order, to be picked and not typed', async () => {
+    await openWorkPackageAttributeDialog();
+    await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+
+    const attributeField = page.getByRole('combobox', { name: 'Attribute' });
+    await expect.element(attributeField).toHaveAttribute('readonly');
+    expect(getComputedStyle(attributeField.element()).cursor).toBe('pointer');
+
+    await userEvent.click(attributeField);
+    await expect.element(page.getByRole('option', { name: 'Status' })).toBeVisible();
+
+    const labels = page.getByRole('option').elements().map((option) => option.textContent);
+    const byLetter = labels.slice(0, -1);
+    expect(byLetter).toEqual([...byLetter].sort(new Intl.Collator('en', { sensitivity: 'base' }).compare));
+    expect(labels.slice(0, 2)).toEqual(['Accountable', 'Approved']);
+    expect(labels.at(-1)).toBe('% Complete');
+
+    await userEvent.keyboard('s');
+    await expect.element(attributeField).toHaveAttribute('aria-activedescendant', `op-bn-wp-attribute-select-list-option-${labels.indexOf('Start date')}`);
   });
 
   it('prefills the next invocation with the previous choice, which can be cleared', async () => {

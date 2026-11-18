@@ -310,6 +310,59 @@ RSpec.describe API::V3::Users::UserRepresenter do
                 .with(representer.json_cache_key)
       end
 
+      context "with an admin-only custom field" do
+        let(:admin) { build_stubbed(:admin) }
+        let!(:public_custom_field) { create(:user_custom_field, :string) }
+        let!(:admin_only_custom_field) { create(:user_custom_field, :string, admin_only: true) }
+        let(:admin_representer) { described_class.create(user, current_user: admin) }
+
+        before do
+          allow(user)
+            .to receive(:custom_field_values)
+                  .and_return([
+                                build_stubbed(:custom_value, custom_field: public_custom_field, value: "public value"),
+                                build_stubbed(:custom_value, custom_field: admin_only_custom_field, value: "admin-only value")
+                              ])
+        end
+
+        context "when an admin's response is cached before a non-admin reads it" do
+          before do
+            login_as admin
+            admin_representer.to_json
+            login_as current_user
+            # Each request loads its own user, so the custom fields memoized for the admin must not carry over.
+            user.reset_custom_values_change_tracker
+          end
+
+          it "does not disclose the admin-only custom field to the non-admin" do
+            expect(subject).not_to have_json_path(admin_only_custom_field.attribute_name(:camel_case))
+            expect(subject).not_to include("admin-only value")
+          end
+
+          it "renders the public custom field to the non-admin" do
+            expect(subject)
+              .to be_json_eql("public value".to_json)
+                    .at_path(public_custom_field.attribute_name(:camel_case))
+          end
+        end
+
+        context "when a non-admin's response is cached before an admin reads it" do
+          before do
+            login_as current_user
+            representer.to_json
+            login_as admin
+            # Each request loads its own user, so the custom fields memoized for the non-admin must not carry over.
+            user.reset_custom_values_change_tracker
+          end
+
+          it "renders the admin-only custom field to the admin" do
+            expect(admin_representer.to_json)
+              .to be_json_eql("admin-only value".to_json)
+                    .at_path(admin_only_custom_field.attribute_name(:camel_case))
+          end
+        end
+      end
+
       describe "#json_cache_key" do
         let(:auth_source) { build_stubbed(:ldap_auth_source) }
         let(:former_cache_key) { representer.json_cache_key }

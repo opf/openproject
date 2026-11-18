@@ -110,6 +110,24 @@ RSpec.describe CostQuery, :reporting_query_helper do
       expect(query.result.size).to eq(2)
     end
 
+    describe CostQuery::GroupBy::SingletonValue do
+      it "keeps the row groups when it is the only column" do
+        query.column :singleton_value
+        query.row :work_package_id
+
+        expect(query.result.map { |result| result.fields["entity_gid"] })
+          .to contain_exactly(work_package1.to_global_id.to_s, work_package2.to_global_id.to_s)
+      end
+
+      it "keeps the column groups when it is the only row" do
+        query.column :work_package_id
+        query.row :singleton_value
+
+        expect(query.result.first.map { |result| result.fields["entity_gid"] })
+          .to contain_exactly(work_package1.to_global_id.to_s, work_package2.to_global_id.to_s)
+      end
+    end
+
     it "labels the group 'Version' while multiple versions is off", with_settings: { work_package_multiple_versions: false } do
       expect(CostQuery::GroupBy::VersionId.label).to eq("Version")
     end

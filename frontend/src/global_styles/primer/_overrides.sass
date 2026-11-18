@@ -164,6 +164,16 @@ ul.SegmentedControl,
   .ActionListItem-label[class^="__hl_"], .ActionListItem-label[class*=" __hl_"]
     color: var(--control-fgColor-disabled) !important
 
+// Primer leaves the icon of a disabled danger item red, and turns its label
+// and background red on hover or press (DREAM-1049). The doubled class
+// outweighs Primer's rule for the pressed state.
+.ActionListItem.ActionListItem--danger .ActionListContent.ActionListContent[aria-disabled="true"]
+  &:active
+    background: var(--control-transparent-bgColor-active)
+
+  .ActionListItem-label, .ActionListItem-visual
+    color: var(--control-fgColor-disabled)
+
 // Apply the mobile styles as soon as the banner itself is small
 // Styles are copied from the PVC repo
 .op-primer-flash

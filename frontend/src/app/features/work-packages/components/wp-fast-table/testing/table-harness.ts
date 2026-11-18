@@ -816,7 +816,7 @@ function fillProductionMarkup(wrapper:HTMLElement, query:QueryResource, configur
   if (configuration.inlineCreateEnabled) {
     wrapper.querySelector('tbody.work-package--results-tbody')!.closest('table')!.insertAdjacentHTML(
       'beforeend',
-      '<tbody wpInlineCreate><tr><td><button type="button" class="spot-link">Create new work package</button></td></tr></tbody>',
+      '<tbody wpInlineCreate><tr><td><button type="button" class="Button Button--link Button--medium">Create new work package</button></td></tr></tbody>',
     );
   }
   const augmentedColumns = [

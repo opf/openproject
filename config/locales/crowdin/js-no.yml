@@ -772,8 +772,10 @@
       create_new: Opprett ny
       group_by_relation_type: Grupper etter type relasjon
       group_by_wp_type: Gruppere etter arbeidspakke
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Indent-hierarki
       hierarchy_outdent: Utdødd hierarki
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Fjern relasjonen
       remove_child: Fjern underordnet
       remove_parent: Fjern overordnet
@@ -1012,6 +1014,7 @@
         label_pagination: Klikk her for å hoppe over tabellen for arbeidspakker og gå til paginering
         pagination: Gå til tabell paginering
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Kombinert nedtrekksfelt: velg med piltastene, bekreft valg med enter, slette med tilbaketasten'
       label_disable_multi_select: Deaktivere multivalg
       label_enable_multi_select: Aktiver multivalg

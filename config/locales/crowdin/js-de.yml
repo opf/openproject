@@ -774,8 +774,10 @@ de:
       create_new: Neu erstellen
       group_by_relation_type: Nach Relations-Typ gruppieren
       group_by_wp_type: Nach Arbeitspaket-Typ gruppieren
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: In Hierarchie einrücken
       hierarchy_outdent: Aus Hierarchie ausrücken
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Beziehung entfernen
       remove_child: Unteraufgabe entfernen
       remove_parent: Übergeordnetes Arbeitspaket entfernen
@@ -1014,6 +1016,7 @@ de:
         label_pagination: Hier klicken, um über die Tabelle der Arbeitspakete hinweg zur Seitennavigation zu springen
         pagination: Zur Seitennavigation springen
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Kombiniertes Eingabefeld: Auswahl mit Pfeiltasten, Auslösen mit Enter, Löschen mit Backspace'
       label_disable_multi_select: Mehrfachauswahl deaktivieren
       label_enable_multi_select: Mehrfachauswahl aktivieren

@@ -708,6 +708,8 @@ fil:
         custom_field:
           at_least_one_custom_option: Kahit isang opsyon lang ang kinakailangan na magagamit.
           attributes:
+            admin_only:
+              cannot_be_true: is not supported for this type of custom field.
             formula:
               blank: Formula can't be blank.
               format: "%{message}"
@@ -4732,13 +4734,13 @@ fil:
     one: "%{count} file"
     other: "%{count} files"
     zero: no files
+  label_x_forms:
+    one: "%{count} form"
+    other: "%{count} forms"
   label_x_in_progress_work_packages_abbr:
     one: 1 in progress
     other: "%{count} in progress"
     zero: 0 in progress
-  label_x_forms:
-    one: "%{count} form"
-    other: "%{count} forms"
   label_x_items:
     one: "%{count} item"
     other: "%{count} items"

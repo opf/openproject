@@ -237,6 +237,57 @@ RSpec.describe "Cost reports", :aggregate_failures, type: :rails_request do
     end
   end
 
+  describe "grouping on a single axis" do
+    let(:work_package) { create(:work_package, project:, subject: "Grouped work package") }
+
+    before { create(:time_entry, entity: work_package, project:, user:, hours: 2) }
+
+    it "renders a row per group when only rows are grouped" do
+      get project_reporting_cost_reports_path(project), params: { filters: "", rows: "work_package_id" }
+
+      expect(response.parsed_body.at_css("table.report tbody th").text).to include(work_package.subject)
+    end
+
+    it "renders a column per group when only columns are grouped" do
+      get project_reporting_cost_reports_path(project), params: { filters: "", columns: "work_package_id" }
+
+      expect(response.parsed_body.at_css("table.report thead").text).to include(work_package.subject)
+    end
+
+    it "labels the row dimensions in the table header when only rows are grouped" do
+      get project_reporting_cost_reports_path(project), params: { filters: "", rows: "spent_on,work_package_id" }
+
+      expect(response.parsed_body.css("table.report thead th").map { |th| th.text.strip })
+        .to include(CostQuery::GroupBy::SpentOn.label, CostQuery::GroupBy::WorkPackageId.label)
+    end
+
+    it "labels the column dimensions in the table header when only columns are grouped" do
+      get project_reporting_cost_reports_path(project), params: { filters: "", columns: "spent_on,work_package_id" }
+
+      expect(response.parsed_body.css("table.report thead tr").map { |tr| tr.at_css("th").text.strip })
+        .to eq([CostQuery::GroupBy::SpentOn.label, CostQuery::GroupBy::WorkPackageId.label])
+    end
+
+    it "does not show the filler for the empty axis as a group by" do
+      get project_reporting_cost_reports_path(project), params: { filters: "", rows: "work_package_id" }
+
+      expect(response.parsed_body.at_css("#group-by--columns")["data-initially-selected"]).to eq("[]")
+    end
+  end
+
+  describe "grouping on both axes" do
+    let(:work_package) { create(:work_package, project:) }
+
+    before { create(:time_entry, entity: work_package, project:, user:, hours: 2) }
+
+    it "labels the column and the row dimensions in separate header rows" do
+      get project_reporting_cost_reports_path(project), params: { filters: "", rows: "work_package_id", columns: "spent_on" }
+
+      expect(response.parsed_body.css("table.report thead tr").map { |tr| tr.at_css("th").text.strip })
+        .to eq([CostQuery::GroupBy::SpentOn.label, CostQuery::GroupBy::WorkPackageId.label])
+    end
+  end
+
   describe "saving a report with a custom field", :skip_csrf do
     shared_let(:custom_field) { create(:string_wp_custom_field) }
 

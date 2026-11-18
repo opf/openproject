@@ -41,6 +41,8 @@ id:
         other: Email messages
       itsm/email_thread:
         other: Email threads
+      itsm/helpdesk_role:
+        other: Help desk roles
       itsm/incoming_mailbox:
         other: Incoming mailboxes
       itsm/mail_server:
@@ -51,6 +53,7 @@ id:
     admin:
       description: Enables the functionality to create work packages by sending emails using an IMAP server and reply to those using an SMTP server.
       enable_helpdesk: Enable help desk in this instance
+      helpdesk_not_enabled: 'The help desk could not be turned on, because its role or user could not be created: %{reason}'
       helpdesk_set_by_environment: The help desk feature is set by an environment variable and not changeable here.
       imap_server_configuration_component:
         description: Configure the IMAP server to transform incoming emails to work packages.
@@ -75,5 +78,7 @@ id:
         edit: Edit SMTP server configuration
         title: SMTP server configuration
   label_helpdesk: Help desk
+  label_helpdesk_role: Help desk
+  label_helpdesk_user: Help desk
   permission_manage_helpdesk: Manage help desk
   project_module_helpdesk: Help desk
