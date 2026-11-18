@@ -33,7 +33,7 @@ module Projects
     module WorkPackages
       module CustomFields
         class RowComponent < OpPrimer::BorderBoxRowComponent
-          delegate :variants_for, :variant_path, :values_path, :linked?, :project_specific_value_count, :values_linked?,
+          delegate :variants_for, :values_path, :types_path, :types_linked?, :project_specific_value_count, :values_linked?,
                    to: :table
 
           def row_css_id = "project-custom-field-#{model.id}"
@@ -56,7 +56,7 @@ module Projects
             safe_join([format_label, project_specific_value_caption(count)])
           end
 
-          def variants
+          def types
             safe_join(variants_for(model).map { |variant| variant_name(variant) }, ", ")
           end
 
@@ -69,10 +69,10 @@ module Projects
           end
 
           def variant_name(variant)
-            if linked?(variant)
-              render(Primer::Beta::Link.new(href: variant_path(variant))) { variant.composite_name }
+            if types_linked?
+              render(Primer::Beta::Link.new(href: types_path)) { variant.composite_name }
             else
-              render(Primer::Beta::Text.new(color: :muted)) { variant.composite_name }
+              variant.composite_name
             end
           end
         end

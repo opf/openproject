@@ -74,6 +74,25 @@ RSpec.describe Projects::Settings::WorkPackages::CustomFields::OverviewComponent
     expect(page).to have_no_link("SKU")
   end
 
+  it "names the types each field is displayed in without linking them" do
+    render_inline(described_class.new(project:, query:))
+
+    expect(page).to have_text(I18n.t("projects.settings.custom_fields.column_types"))
+    expect(find_test_selector("project-custom-field-#{department.id}")).to have_text("Feature")
+    expect(find_test_selector("project-custom-field-#{department.id}")).to have_no_link("Feature")
+  end
+
+  context "with the permission to manage types" do
+    let(:permissions) { %i[manage_work_package_custom_field_values manage_types] }
+
+    it "links the types to the types of the project" do
+      render_inline(described_class.new(project:, query:))
+
+      expect(find_test_selector("project-custom-field-#{department.id}"))
+        .to have_link("Feature", href: project_settings_work_packages_types_path(project))
+    end
+  end
+
   it "shows the format of each field" do
     render_inline(described_class.new(project:, query:))
 
