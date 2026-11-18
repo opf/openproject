@@ -115,12 +115,25 @@ module OpPrimer
       #   # @return [ViewComponent::Slot]
       #   def with_action_icon_button(**system_arguments)
       #   end
+      #
+      #   # Adds an action menu with a visible trigger to the header actions
+      #   # area, e.g. a single-select picker. Configure the trigger with
+      #   # `with_show_button` in the block. For the overflow menu of list
+      #   # actions, use `with_menu` instead.
+      #   #
+      #   # @param system_arguments [Hash] forwarded to `Primer::Alpha::ActionMenu`.
+      #   # @return [ViewComponent::Slot]
+      #   def with_action_menu(**system_arguments, &block)
+      #   end
       renders_many :actions, types: {
         button: ->(scheme: DEFAULT_ACTION_SCHEME, **system_arguments) do
           Primer::Beta::Button.new(scheme:, **system_arguments)
         end,
         icon_button: ->(**system_arguments) do
           Primer::Beta::IconButton.new(**system_arguments)
+        end,
+        menu: ->(**system_arguments) do
+          Primer::Alpha::ActionMenu.new(**system_arguments)
         end
       }
 
