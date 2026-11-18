@@ -82,7 +82,7 @@ workflows:
         - 'pullpreview/action@v6.2.1'
     '.github/workflows/rubocop-core.yml':
         - 'actions/checkout@v7.0.1'
-        - 'reviewdog/action-rubocop@v2.22.0'
+        - 'reviewdog/action-rubocop@v2.23.0'
         - 'ruby/setup-ruby@v1.336.0'
     '.github/workflows/seed-all-locales.yml':
         - 'actions/checkout@v7.0.1'
@@ -190,9 +190,9 @@ dependencies:
         commit: 'sha1-3ee2a450da17e060b9dfa4bffd53976906c6b2b0'
         owner_id: 48765237
         repo_id: 210385198
-    'reviewdog/action-rubocop@v2.22.0':
-        ref: 'v2.22.0'
-        commit: 'sha1-b6d5e953a5fc0bf3ab65254e77730ea2174d6d6d'
+    'reviewdog/action-rubocop@v2.23.0':
+        ref: 'v2.23.0'
+        commit: 'sha1-3ed4a947f3051b184d27eac7ac903d3fe68563ed'
         owner_id: 48765237
         repo_id: 221548118
     'reviewdog/action-setup@v1.5.0':
