@@ -18,26 +18,34 @@ Alternatively, click the grid icon in the top left corner and select _My time_ f
 
 ### My time page filters
 
-1. On the _My time_ page, you’ll find the following interface elements:
+On the _My time_ page, you’ll find the following interface elements:
    1. **Zen mode** button — toggles a distraction-free view.
+   
    2. **Tab selector** — switch between [_Calendar_](#calendar-view), [_List_](#list-view) and [_Stack_](#stack-view) views.
+   
    3. **Zoom level dropdown menu** — choose the time scale for the view. Following options are available:
       - Day
       - Work week
       - Week
       - Month
-   4. **Displayed date range** — shows the currently visible timeframe.
-   5. **Navigation arrows** — move to the previous or next time period.
-   6. **Today** button — jump directly to the current day.
-   7. **+ Log time** button — add a new time entry.
+   
+  4. **Entry type filter** - choose which types of entries to display. Following options are available: 
+   
+      - All entries
+      - Logged time only
+      - Allocations only
+   
+   5. **Displayed date range** — shows the currently visible timeframe.
+   
+   6. **Navigation arrows** — move to the previous or next time period.
+   
+   7. **Today** button — jump directly to the current day.
+   
+   8. **+ Log time** button — add a new time entry.
 
 ![My time module filters explained](openproject_user_guide_my_time_tracking_module_filters_explained.png)
 
-If [Resource management](../../resource-management/) is available, an additional dropdown menu next to the zoom level lets you choose which entries are displayed:
-
-- **All entries**
-- **Logged time only**
-- **Allocations only**
+>  [!TIP] The entry type filter (5) is only available if [Resource management](../../resource-management/) is enabled.
 
 OpenProject remembers the view and zoom level you used last and it will be used when coming back to the **My time** section.
 
