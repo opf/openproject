@@ -91,7 +91,7 @@ RSpec.describe "OAuthClient callback endpoint" do
     shared_examples "with errors, being an admin" do
       it "redirects to admin settings for the storage" do
         expect(response).to have_http_status(:found)
-        expect(URI(response.location).path).to eq edit_admin_settings_storage_path(oauth_client.integration)
+        expect(URI(response.location).path).to eq "/admin"
       end
     end
 

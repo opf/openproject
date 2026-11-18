@@ -63,9 +63,7 @@ class OAuthClientsController < ApplicationController
       set_oauth_errors(service_result)
 
       redirect_user_or_admin(@redirect_uri) do
-        # If the current user is an admin, we send her directly to the
-        # settings that she needs to edit.
-        redirect_to edit_admin_settings_storage_path(@oauth_client.integration)
+        redirect_to admin_index_path
       end
     end
   end
@@ -115,7 +113,7 @@ class OAuthClientsController < ApplicationController
                      I18n.t("oauth_client.errors.oauth_client_not_found_explanation")]
 
     if User.current.admin?
-      redirect_to admin_settings_storages_path
+      redirect_to admin_index_path
     else
       redirect_to root_url
     end
@@ -162,9 +160,7 @@ class OAuthClientsController < ApplicationController
                        I18n.t("oauth_client.errors.oauth_code_not_present_explanation")]
 
       redirect_user_or_admin(get_redirect_uri) do
-        # If the current user is an admin, we send her directly to the
-        # settings that she needs to edit/fix.
-        redirect_to edit_admin_settings_storage_path(@oauth_client.integration)
+        redirect_to admin_index_path
       end
     end
   end
@@ -185,8 +181,7 @@ class OAuthClientsController < ApplicationController
                        I18n.t("oauth_client.errors.oauth_state_not_present_explanation")]
 
       redirect_user_or_admin(nil) do
-        # Guide the user to the settings that she needs to edit/fix.
-        redirect_to edit_admin_settings_storage_path(@oauth_client.integration)
+        redirect_to admin_index_path
       end
     end
   end
@@ -221,8 +216,7 @@ class OAuthClientsController < ApplicationController
                        I18n.t("oauth_client.errors.oauth_client_not_found_explanation")]
 
       redirect_user_or_admin(get_redirect_uri) do
-        # Something must be wrong in the storage's setup
-        redirect_to admin_settings_storages_path
+        redirect_to admin_index_path
       end
     end
   end
