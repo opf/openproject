@@ -51,10 +51,12 @@ maintenance:
     - name: OpenProject GmbH
       email: sales@openproject.com
       phone: '+4928877707'
+organisation:
+  uri: 'https://www.openproject.org'
+  name: OpenProject GmbH
 legal:
   license: GPL-3.0-or-later
   mainCopyrightOwner: OpenProject GmbH
-  repoOwner: OpenProject GmbH
 localisation:
   localisationReady: true
   availableLanguages:
