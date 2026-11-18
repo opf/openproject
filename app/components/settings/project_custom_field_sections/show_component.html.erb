@@ -16,12 +16,17 @@
         drag_handle_arguments: { classes: "handle", data: { sortable_lists__item_target: "handle" } }
       ) do |header|
         header.with_action_menu(select_variant: :single, size: :small, test_selector: "section-position-selector") do |menu|
-          menu.with_show_button(
-            aria: { label: t("settings.project_attributes.sections.display_representation.overview.label") }
-          ) do |button|
+          menu.with_show_button do |button|
             button.with_trailing_visual_icon(icon: :"triangle-down")
             button.with_leading_visual_icon(icon: display_representation_icon_for_section(@project_custom_field_section))
-            display_representation_label_for_section(@project_custom_field_section)
+            safe_join(
+              [
+                render(Primer::Beta::Text.new(classes: "sr-only")) do
+                  "#{t('settings.project_attributes.sections.display_representation.overview.label')} "
+                end,
+                display_representation_label_for_section(@project_custom_field_section)
+              ]
+            )
           end
 
           menu.with_item(
