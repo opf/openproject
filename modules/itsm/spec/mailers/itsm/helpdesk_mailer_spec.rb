@@ -31,7 +31,7 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe ITSM::HelpdeskMailer do
-  subject(:mail) { described_class.confirmation(email_message, mailbox, "203.0.113.10") }
+  subject(:mail) { described_class.confirmation(email_message, mailbox, ["203.0.113.10"]) }
 
   let(:work_package) { create(:work_package, subject: "Printer is broken") }
   let(:thread) { create(:itsm_email_thread, work_package:, requester_name: "Jane Doe") }
@@ -76,9 +76,9 @@ RSpec.describe ITSM::HelpdeskMailer do
     end
   end
 
-  it "is sent through the mailbox's SMTP server at the given address and reports delivery errors" do
+  it "is sent through the mailbox's SMTP server at the given addresses and reports delivery errors" do
     expect(mail.delivery_method).to be_a(ITSM::SmtpDelivery)
-    expect(mail.delivery_method.settings).to include(mailbox.smtp_settings("203.0.113.10"))
+    expect(mail.delivery_method.settings).to include(mailbox.smtp_settings(["203.0.113.10"]))
     expect(mail.raise_delivery_errors).to be(true)
   end
 

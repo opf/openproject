@@ -31,7 +31,7 @@ module ITSM
   class HelpdeskMailer < ActionMailer::Base # rubocop:disable Rails/ApplicationMailer -- ApplicationMailer only sends to users
     class_attribute :mailbox_delivery_method, default: SmtpDelivery
 
-    def confirmation(email_message, mailbox, address)
+    def confirmation(email_message, mailbox, addresses)
       @thread = email_message.thread
       @work_package = @thread.work_package
 
@@ -39,7 +39,7 @@ module ITSM
 
       # ActionMailer would merge the instance's SMTP settings (TLS flags, certificate verification) into the mailbox's.
       # Delivery errors are disabled globally in development, but the sender has to know whether the email was sent.
-      message.delivery_method(mailbox_delivery_method, mailbox.smtp_settings(address))
+      message.delivery_method(mailbox_delivery_method, mailbox.smtp_settings(addresses))
       message.raise_delivery_errors = true
     end
 

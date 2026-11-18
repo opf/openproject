@@ -31,7 +31,7 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe ITSM::OutboundEmails::MessageAttributes do
-  subject(:attributes) { described_class.new(thread, mailbox).to_h }
+  subject(:attributes) { described_class.from_thread(thread, mailbox).to_h }
 
   let(:work_package) { create(:work_package, subject: "Printer is broken") }
   let(:thread) do
@@ -52,7 +52,7 @@ RSpec.describe ITSM::OutboundEmails::MessageAttributes do
 
   it "gives it a new Message-ID on the sender's domain" do
     expect(attributes[:message_id]).to match(/\A\h{8}-\h{4}-\h{4}-\h{4}-\h{12}@example\.com\z/)
-    expect(described_class.new(thread, mailbox).to_h[:message_id]).not_to eq(attributes[:message_id])
+    expect(described_class.from_thread(thread, mailbox).message_id).not_to eq(attributes[:message_id])
   end
 
   context "with received emails" do

@@ -35,7 +35,6 @@ module ITSM
 
       CONFIRMATIONS_PER_REQUESTER = 10
       CONFIRMATIONS_PERIOD = 1.day
-      CONNECTION_ERRORS = [Errno::ECONNREFUSED, Errno::EHOSTUNREACH, Errno::ENETUNREACH, Net::OpenTimeout].freeze
       REJECTIONS = [Net::SMTPFatalError, Net::SMTPSyntaxError, Net::SMTPUnsupportedCommand].freeze
       DELIVERY_ERRORS = [Net::SMTPError, OpenSSL::SSL::SSLError, SocketError, SystemCallError, IOError, Timeout::Error].freeze
 
@@ -86,7 +85,7 @@ module ITSM
       end
 
       def message_attributes(message, mailbox)
-        attributes = MessageAttributes.new(thread, mailbox).to_h
+        attributes = MessageAttributes.from_thread(thread, mailbox).to_h
 
         message.persisted? ? attributes.except(:message_id) : attributes
       end
@@ -97,7 +96,7 @@ module ITSM
       end
 
       def send_email(message, mailbox, addresses)
-        email = send_to_first_reachable(message, mailbox, addresses)
+        email = deliver_confirmation(message, mailbox, addresses)
         email.perform_deliveries ? Success(email) : delivery_error(:not_delivered)
       rescue *REJECTIONS => e
         delivery_error(:delivery_rejected, e.message)
@@ -108,15 +107,7 @@ module ITSM
         delivery_error(:delivery_failed, e.class.name)
       end
 
-      def send_to_first_reachable(message, mailbox, addresses)
-        addresses.each_with_index do |address, index|
-          return HelpdeskMailer.confirmation(message, mailbox, address).deliver_now
-        rescue *CONNECTION_ERRORS => e
-          raise if index == addresses.size - 1
-
-          Rails.logger.warn { "Email message #{message.id}: SMTP server address #{address} is not reachable (#{e.class.name})" }
-        end
-      end
+      def deliver_confirmation(message, mailbox, addresses) = HelpdeskMailer.confirmation(message, mailbox, addresses).deliver_now
 
       def delivery_error(code, error_message = nil) = Failure(SimpleError.new(source: self.class, code:, payload: error_message))
 

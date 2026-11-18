@@ -70,9 +70,9 @@ RSpec.describe ITSM::OutboundEmails::SendConfirmationService do
                                             cc_addresses: ["colleague@customer.example"])
   end
 
-  it "connects to the checked address of the SMTP server" do
+  it "connects to the checked addresses of the SMTP server" do
     expect(result).to be_success
-    expect(delivered.delivery_method.settings).to include(address: "203.0.113.10", tls_hostname: "smtp.example.com")
+    expect(delivered.delivery_method.settings).to include(addresses: ["203.0.113.10"], tls_hostname: "smtp.example.com")
   end
 
   context "when the confirmation was already sent" do
@@ -161,24 +161,7 @@ RSpec.describe ITSM::OutboundEmails::SendConfirmationService do
     end
   end
 
-  context "when the first address of the SMTP server refuses the connection" do
-    let(:addresses) { [IPAddr.new("203.0.113.10"), IPAddr.new("203.0.113.11")] }
-    let(:refusing) { instance_double(ActionMailer::MessageDelivery) }
-
-    before do
-      allow(ITSM::HelpdeskMailer).to receive(:confirmation).and_call_original
-      allow(ITSM::HelpdeskMailer).to receive(:confirmation).with(anything, anything, "203.0.113.10").and_return(refusing)
-      allow(refusing).to receive(:deliver_now).and_raise(Errno::ECONNREFUSED)
-    end
-
-    it "sends through the next one" do
-      expect(result).to be_success
-      expect(delivered.delivery_method.settings).to include(address: "203.0.113.11")
-    end
-  end
-
-  context "when every address of the SMTP server refuses the connection" do
-    let(:addresses) { [IPAddr.new("203.0.113.10"), IPAddr.new("203.0.113.11")] }
+  context "when no address of the SMTP server accepts the connection" do
     let(:refusing) { instance_double(ActionMailer::MessageDelivery) }
 
     before do
@@ -190,7 +173,6 @@ RSpec.describe ITSM::OutboundEmails::SendConfirmationService do
       expect(result).to be_failure
       expect(result.errors.symbols_for(:base)).to eq([:delivery_failed])
       expect(sent_message.reload).to have_attributes(status: "failed", error_message: include("Connection refused"))
-      expect(ITSM::HelpdeskMailer).to have_received(:confirmation).twice
     end
   end
 

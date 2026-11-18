@@ -31,8 +31,9 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe ITSM::SmtpDelivery do
-  subject(:delivery) { described_class.new(address: "203.0.113.10", port: 465, tls: true) }
+  subject(:delivery) { described_class.new(addresses:, port: 465, tls: true) }
 
+  let(:addresses) { %w[203.0.113.10 203.0.113.11] }
   let(:context) { OpenSSL::SSL::SSLContext.new }
 
   before do
@@ -44,5 +45,48 @@ RSpec.describe ITSM::SmtpDelivery do
     delivery.send(:build_smtp_session)
 
     expect(context).to have_received(:min_version=).with(OpenSSL::SSL::TLS1_2_VERSION)
+  end
+
+  describe "#deliver!" do
+    let(:refusing) { [] }
+    let(:connected) { [] }
+
+    before do
+      allow(Net::SMTP).to receive(:new) do |address, _port|
+        instance_double(Net::SMTP, disable_starttls: nil, enable_tls: nil, "open_timeout=": nil, "read_timeout=": nil)
+          .tap do |smtp|
+            if refusing.include?(address)
+              allow(smtp).to receive(:start).and_raise(Errno::ECONNREFUSED)
+            else
+              allow(smtp).to receive(:start) { connected << address }
+            end
+          end
+      end
+    end
+
+    it "sends through the first address" do
+      delivery.deliver!(Mail.new)
+
+      expect(connected).to eq(["203.0.113.10"])
+    end
+
+    context "when the first address refuses the connection" do
+      let(:refusing) { ["203.0.113.10"] }
+
+      it "sends through the next one" do
+        delivery.deliver!(Mail.new)
+
+        expect(connected).to eq(["203.0.113.11"])
+      end
+    end
+
+    context "when every address refuses the connection" do
+      let(:refusing) { addresses }
+
+      it "raises the last error" do
+        expect { delivery.deliver!(Mail.new) }.to raise_error(Errno::ECONNREFUSED)
+        expect(connected).to be_empty
+      end
+    end
   end
 end

@@ -29,8 +29,24 @@
 
 module ITSM
   class SmtpDelivery < ::Mail::SMTP
+    CONNECTION_ERRORS = [Errno::ECONNREFUSED, Errno::EHOSTUNREACH, Errno::ENETUNREACH, Net::OpenTimeout].freeze
+
+    def deliver!(mail)
+      *fallbacks, last = settings.fetch(:addresses)
+
+      fallbacks.each do |address|
+        settings[:address] = address
+        return super
+      rescue *CONNECTION_ERRORS => e
+        Rails.logger.warn { "Connecting to #{address} failed (#{e.class.name}), trying the next address" }
+      end
+
+      settings[:address] = last
+      super
+    end
+
     private
 
-    def ssl_context = super.tap { it.min_version = OpenSSL::SSL::TLS1_2_VERSION }
+    def ssl_context = super.tap { it.min_version = MailServer::MIN_TLS_VERSION }
   end
 end

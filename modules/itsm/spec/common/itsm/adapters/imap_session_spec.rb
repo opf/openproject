@@ -124,7 +124,7 @@ RSpec.describe ITSM::Adapters::ImapSession do
       end
 
       before do
-        stub_const("#{described_class}::OPEN_TIMEOUT", 1)
+        stub_const("ITSM::MailServer::TIMEOUT", 1)
         allow(OpenProject::SsrfProtection).to receive(:resolver).and_return(->(_host) { [IPAddr.new("127.0.0.1")] })
         with_ssrf_ip_allowlist(["127.0.0.1"])
         allow(ITSM::Adapters::ImapConnection).to receive(:new).and_call_original
