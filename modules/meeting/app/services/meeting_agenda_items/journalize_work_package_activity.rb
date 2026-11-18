@@ -38,9 +38,11 @@ module MeetingAgendaItems
     def journalize_work_package(work_package, cause)
       return if work_package.nil?
 
-      Journals::CreateService
-        .new(work_package, user)
-        .call(cause:)
+      OpenProject::Mutex.with_advisory_lock_transaction(work_package) do
+        Journals::CreateService
+          .new(work_package, user)
+          .call(cause:)
+      end
     end
 
     def journalize_copied_agenda(meeting)
