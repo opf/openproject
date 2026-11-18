@@ -39,11 +39,11 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= helpers.turbo_frame_tag("custom-field-project-values", **frame_arguments) do %>
 <%=
-  render(Primer::Beta::BorderBox.new(test_selector: "custom-field-project-values", padding: :condensed)) do |box|
+  render(Primer::Beta::BorderBox.new(test_selector: "custom-field-project-values")) do |box|
     box.with_header do
       flex_layout(justify_content: :space_between, align_items: :center) do |header|
         header.with_column do
-          render(Primer::Beta::Text.new(font_weight: :bold)) { custom_field.name }
+          render(Primer::Beta::Text.new(font_weight: :bold)) { t("custom_fields.admin.projects.available_values") }
         end
 
         if values_toggleable? && manageable? && rows.any?
