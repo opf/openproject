@@ -291,6 +291,40 @@ RSpec.describe "Project settings for the values of a work package custom field",
       expect(flash[:error]).to be_present
       expect(custom_field.usable_values_in(project)).to include(global_option)
     end
+
+    context "for a hierarchy custom field" do
+      let(:custom_field) do
+        create(:hierarchy_wp_custom_field, :project_specific_allowlist,
+               types: [feature], project_level_value_management:, allow_additional_project_values:)
+      end
+      let!(:enabled_item) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Enabled") }
+      let!(:disabled_item) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Disabled") }
+
+      before do
+        create(:project_specific_value_restriction, project:, hierarchy_item: enabled_item, restriction: "allow")
+      end
+
+      it "adds a sub-value below a value enabled in the project" do
+        post values_path, params: { label: "Own", parent_id: enabled_item.id }
+
+        expect(response).to redirect_to(values_path)
+        expect(enabled_item.children.find_by!(label: "Own").project).to eq(project)
+      end
+
+      it "does not add a sub-value below a value disabled in the project" do
+        post values_path, params: { label: "Own", parent_id: disabled_item.id }
+
+        expect(response).to have_http_status(:not_found)
+        expect(disabled_item.children).to be_empty
+      end
+
+      it "adds a top level value" do
+        post values_path, params: { label: "Own", parent_id: custom_field.hierarchy_root.id }
+
+        expect(response).to redirect_to(values_path)
+        expect(custom_field.hierarchy_root.children.find_by!(label: "Own").project).to eq(project)
+      end
+    end
   end
 
   context "when project admins may not manage the values" do
