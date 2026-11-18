@@ -135,7 +135,6 @@ description:
       - Integrations into Nextcloud and OneDrive/SharePoint
       - Integrations into GitHub and GitLab
     longDescription: >
-
       OpenProject is a web-based project management solution specifically
       tailored to the needs of public administration. It supports project
       planning, task management, Agile workflows, time tracking, and project
@@ -185,7 +184,6 @@ description:
       - Integration in Nextcloud sowie in OneDrive/SharePoint
       - Integration in GitHub und in GitLab
     longDescription: >
-
       OpenProject ist eine web-basierte Projektmanagement-Lösung, welche speziell auf die Anforderungen der öffentlichen Verwaltung zugeschnitten ist. Sie unterstützt Projektplanung, Aufgabenmanagement, agile Workflows, Zeiterfassung und Projektportfolio-Management.
 
       Die Software kann in der eigenen Infrastruktur betrieben werden, sodass einsetzende Organisationen die volle Kontrolle über ihre Daten behalten.
