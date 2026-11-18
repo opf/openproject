@@ -58,7 +58,7 @@ module OpPrimer
       #   # inline phrasing content — a link or an emphasized fragment that
       #   # renders inside the heading element. Never nest block layouts,
       #   # counters, or buttons here: counts belong to `count:`, actions to
-      #   # `with_action_button`/`with_action_icon_button`/`with_menu`.
+      #   # `with_action_button`/`with_action_icon_button`/`with_action_menu`/`with_menu`.
       #   # Takes precedence over `title:` when both are given.
       #   #
       #   # @return [ViewComponent::Slot]
@@ -133,7 +133,7 @@ module OpPrimer
           Primer::Beta::IconButton.new(**system_arguments)
         end,
         menu: ->(**system_arguments) do
-          Primer::Alpha::ActionMenu.new(**system_arguments)
+          Primer::Alpha::ActionMenu.new(anchor_align: :end, **system_arguments)
         end
       }
 
