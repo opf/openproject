@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -229,6 +231,12 @@ module API
           schema :author,
                  type: "User",
                  location: :link,
+                 writable: false
+
+          schema :reporter,
+                 type: "User",
+                 location: :link,
+                 required: false,
                  writable: false
 
           schema_with_allowed_link :project,

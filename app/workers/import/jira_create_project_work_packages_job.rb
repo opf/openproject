@@ -238,18 +238,12 @@ module Import
     def find_or_create_resource(klass, name, jira_object_type:)
       Rails.logger.tagged("jira_object_type:#{jira_object_type}", "jira_object_id_or_name:#{name}") do
         resource = find_resource(klass, name)
-        if resource
-          Rails.logger.debug { "Found existing #{klass.name}" }
-          return [resource, true]
-        end
+        return [resource, true] if resource
 
         lock_key = "jira_import_create_#{klass.name.underscore}_#{name.parameterize(separator: '_')}"
         OpenProject::Mutex.with_advisory_lock(klass, lock_key, transaction: true) do
           resource = find_resource(klass, name)
-          if resource
-            Rails.logger.debug { "Found existing #{klass.name}" }
-            next [resource, true]
-          end
+          return [resource, true] if resource
 
           Rails.logger.debug { "Creating #{klass.name}" }
           [yield, false]
@@ -258,7 +252,9 @@ module Import
     end
 
     def find_resource(klass, name)
-      klass.find_by("LOWER(name) = LOWER(?)", name)
+      resource = klass.find_by("LOWER(name) = LOWER(?)", name)
+      Rails.logger.debug { "Found existing #{klass.name}" } if resource
+      resource
     end
 
     def setup_resolution_date_cf(jira_project)
@@ -317,9 +313,6 @@ module Import
 
     def update_workflows(type)
       Rails.logger.tagged("jira_object_type:issueType", "jira_object_id_or_name:#{type.name}") do
-        statuses = Status.all
-        row = statuses.to_h { |status| [status.id.to_s, ["always"]] }
-        status_params = statuses.to_h { |status| [status.id.to_s, row] }
         call = Workflows::BulkUpdateService
                   .new(role: @project_role, workflow: type.default_variant.workflow, tab: "always")
                   .call(status_params)
@@ -328,6 +321,12 @@ module Import
           raise call.message
         end
       end
+    end
+
+    def status_params
+      statuses = Status.all
+      row = statuses.to_h { |status| [status.id.to_s, ["always"]] }
+      statuses.to_h { |status| [status.id.to_s, row] }
     end
 
     # rubocop:disable-next Metrics/AbcSize, Metrics/PerceivedComplexity
@@ -345,12 +344,7 @@ module Import
       project.reload
 
       due_date = jira_issue.payload.dig("fields", "duedate")&.to_date
-      author_key = jira_issue.payload.dig("fields", "creator", "key")
-      author = find_user(author_key)
-      assignee_key = jira_issue.payload.dig("fields", "assignee", "key")
-      assigned_to = find_user(assignee_key)
-      [author, assigned_to].uniq.compact.each { |member| create_member(project, member) }
-
+      author, reporter, assigned_to = resolve_users(jira_issue:, project:)
       custom_field_attrs = collect_custom_field_attributes(custom_field_registry, jira_issue, attachment_paths_by_name:)
                              .merge(resolution_date_cf_attrs(jira_issue))
 
@@ -390,6 +384,7 @@ module Import
             priority:,
             status:,
             assigned_to:,
+            reporter:,
             target_versions:,
             observed_in_versions:,
             sprint: sprint_for(jira_issue),
@@ -440,6 +435,17 @@ module Import
       create_work_package_history(work_package, jira_issue, project, attachment_paths_by_name)
       create_watchers(work_package, jira_issue, project)
       work_package
+    end
+
+    def resolve_users(jira_issue:, project:)
+      author_key = jira_issue.payload.dig("fields", "creator", "key")
+      author = find_user(author_key)
+      reporter_key = jira_issue.payload.dig("fields", "reporter", "key")
+      reporter = find_user(reporter_key)
+      assignee_key = jira_issue.payload.dig("fields", "assignee", "key")
+      assigned_to = find_user(assignee_key)
+      [author, reporter, assigned_to].uniq.compact.each { |member| create_member(project, member) }
+      [author, reporter, assigned_to]
     end
 
     def sprint_for(jira_issue)
