@@ -45,6 +45,7 @@ module CustomFields
       before_action :require_additional_project_values, only: %i[new create edit update make_global]
       before_action :find_own_value, only: %i[edit update make_global deletion_dialog destroy]
       before_action :find_parent, only: %i[new create]
+      before_action :require_selectable_parent, only: %i[new create]
     end
 
     def index; end
@@ -207,6 +208,13 @@ module CustomFields
                              .self_and_descendants
                              .where(project_id: [nil, configured_project.id])
                              .find(params.expect(:parent_id))
+    end
+
+    def require_selectable_parent
+      return if @parent.nil? || @parent.root?
+      return if custom_field.values_toggleable_by?(current_user, configured_project)
+
+      render_404 unless custom_field.usable_value_id?(configured_project, @parent.id)
     end
 
     def value_params

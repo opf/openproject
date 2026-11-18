@@ -123,6 +123,40 @@ RSpec.describe Admin::CustomFields::Projects::ValueDialogComponent, type: :compo
     end
   end
 
+  context "for a hierarchy custom field with an allowlist",
+          with_ee: %i[custom_field_hierarchies project_specific_list_values] do
+    let(:project_level_value_management) { false }
+    let(:custom_field) do
+      create(:hierarchy_wp_custom_field, :project_specific_allowlist,
+             allow_additional_project_values: true, project_level_value_management:)
+    end
+    let!(:enabled_item) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Enabled") }
+    let!(:enabled_child) { create(:hierarchy_item, parent: enabled_item, label: "Enabled child") }
+    let!(:disabled_item) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Disabled") }
+    let(:indented_child) { "#{CustomFields::ProjectSpecificValues::ValueForm::INDENTATION}Enabled child" }
+
+    current_user { create(:user, member_with_permissions: { project => %i[manage_work_package_custom_field_values] }) }
+
+    before do
+      create(:project_specific_value_restriction, project:, hierarchy_item: enabled_item, restriction: "allow")
+      create(:project_specific_value_restriction, project:, hierarchy_item: enabled_child, restriction: "allow")
+    end
+
+    it "only offers the values enabled in the project as parents" do
+      expect(parent_options)
+        .to eq([I18n.t("custom_fields.admin.projects.value_dialog.top_level"), "Enabled", indented_child])
+    end
+
+    context "when project admins may manage the values" do
+      let(:project_level_value_management) { true }
+
+      it "offers all values as parents" do
+        expect(parent_options)
+          .to eq([I18n.t("custom_fields.admin.projects.value_dialog.top_level"), "Enabled", indented_child, "Disabled"])
+      end
+    end
+  end
+
   context "for a weighted list custom field", with_ee: %i[weighted_item_lists] do
     let(:custom_field) { create(:weighted_item_list_wp_custom_field, allow_additional_project_values: true) }
 

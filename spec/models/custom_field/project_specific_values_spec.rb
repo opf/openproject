@@ -413,6 +413,54 @@ RSpec.describe CustomField::ProjectSpecificValues do
     end
   end
 
+  describe "#values_toggleable_by?" do
+    let(:traits) { [:project_specific_allowlist] }
+    let(:project_level_value_management) { true }
+    let(:custom_field) { build_stubbed(:list_wp_custom_field, *traits, project_level_value_management:) }
+    let(:user) { build_stubbed(:user) }
+    let(:permission) { :manage_work_package_custom_field_values }
+
+    subject { custom_field.values_toggleable_by?(user, project) }
+
+    before do
+      mock_permissions_for(user) do |mock|
+        mock.allow_in_project permission, project:
+      end
+    end
+
+    it { is_expected.to be(true) }
+
+    context "when project admins may not manage the values" do
+      let(:project_level_value_management) { false }
+
+      it { is_expected.to be(false) }
+
+      context "for an admin" do
+        let(:user) { build_stubbed(:admin) }
+
+        it { is_expected.to be(true) }
+      end
+    end
+
+    context "without the permission to manage the values" do
+      let(:permission) { :view_work_packages }
+
+      it { is_expected.to be(false) }
+    end
+
+    context "without project-specific restrictions enabled" do
+      let(:traits) { [] }
+
+      it { is_expected.to be(false) }
+
+      context "for an admin" do
+        let(:user) { build_stubbed(:admin) }
+
+        it { is_expected.to be(false) }
+      end
+    end
+  end
+
   describe "#visible_values_for" do
     shared_let(:type) { create(:type) }
     shared_let(:user) { create(:user) }

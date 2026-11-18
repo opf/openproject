@@ -57,6 +57,13 @@ module CustomField::ProjectSpecificValues
     usable_values_in_any(projects.with_available_custom_fields(id))
   end
 
+  def values_toggleable_by?(user, project)
+    return false if project_specific_value_restriction.nil?
+    return true if user.active_admin?
+
+    project_level_value_management? && user.allowed_in_project?(:manage_work_package_custom_field_values, project)
+  end
+
   def project_specific_values_supported?
     is_a?(WorkPackageCustomField) && (list? || hierarchical_list?)
   end

@@ -105,10 +105,14 @@ module CustomFields
       def item_options
         depths = { @custom_field.hierarchy_root.id => -1 }
 
-        parent_items.map do |item|
+        parent_items.filter_map do |item|
           depths[item.id] = depths.fetch(item.parent_id) + 1
-          ["#{INDENTATION * depths[item.id]}#{item.label}", item.id]
+          ["#{INDENTATION * depths[item.id]}#{item.label}", item.id] if selectable_parent?(item)
         end
+      end
+
+      def selectable_parent?(item)
+        @custom_field.values_toggleable_by?(User.current, @project) || @custom_field.usable_value_id?(@project, item.id)
       end
 
       def selected_parent_id

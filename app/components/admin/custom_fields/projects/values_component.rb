@@ -102,11 +102,9 @@ module Admin
         end
 
         def values_toggleable?
-          return false if custom_field.project_specific_value_restriction.nil?
-          return true if User.current.active_admin?
+          return @values_toggleable if defined?(@values_toggleable)
 
-          custom_field.project_level_value_management? &&
-            User.current.allowed_in_project?(:manage_work_package_custom_field_values, project)
+          @values_toggleable = custom_field.values_toggleable_by?(User.current, project)
         end
 
         def make_global?(row)
