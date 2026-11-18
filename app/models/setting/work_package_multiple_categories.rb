@@ -30,8 +30,8 @@
 class Setting
   module WorkPackageMultipleCategories
     def self.active?
-      OpenProject::FeatureDecisions.work_package_multiple_categories_active? ||
-        Setting.work_package_multiple_categories?
+      Setting.work_package_multiple_categories? &&
+        OpenProject::FeatureDecisions.work_package_multiple_categories_active?
     end
   end
 end
