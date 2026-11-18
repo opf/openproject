@@ -29,7 +29,7 @@ workflows:
         - 'actions/checkout@v7.0.1'
     '.github/workflows/crowdin.yml':
         - 'actions/checkout@v7.0.1'
-        - 'crowdin/github-action@v3.5.0'
+        - 'crowdin/github-action@v3.6.0'
         - 'ruby/setup-ruby@v1.336.0'
     '.github/workflows/danger.yml':
         - 'actions/checkout@v7.0.1'
@@ -143,9 +143,9 @@ dependencies:
         commit: 'sha1-ca4a40a7d1004f18d9960b404b97e5f30a505a08'
         owner_id: 83762583
         repo_id: 233005322
-    'crowdin/github-action@v3.5.0':
-        ref: 'v3.5.0'
-        commit: 'sha1-959dc74ac104447731cba99a016f85d0ae719788'
+    'crowdin/github-action@v3.6.0':
+        ref: 'v3.6.0'
+        commit: 'sha1-d651c77756acbe11a31d77a6fb79d8a239e1e05a'
         owner_id: 861398
         repo_id: 258521306
     'dawidd6/action-send-mail@v24':
