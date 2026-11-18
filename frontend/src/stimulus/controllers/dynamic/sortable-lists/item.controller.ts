@@ -55,7 +55,7 @@ import {
 } from './drag-and-drop';
 import {
   isMoveDirection,
-  isOrderableItem,
+  isMovableItem,
   itemMobility,
   resolveItemExternalUrl,
   resolveItemLabel,
@@ -168,7 +168,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
 
   move(event:ActionEvent):void {
     const item = this.activatableMenuItem(event);
-    if (!item || !isOrderableItem(this.element)) return;
+    if (!item || !isMovableItem(this.element)) return;
 
     const { direction } = event.params;
     if (isMoveDirection(direction)) {
@@ -204,8 +204,10 @@ export default class ItemController extends Controller<HTMLElement> implements R
     this.root = root;
   }
 
-  disconnectRoot():void {
-    this.root = undefined;
+  disconnectRoot(root?:SortableListsRoot):void {
+    if (root === undefined || this.root === root) {
+      this.root = undefined;
+    }
   }
 
   // Re-establish the Pragmatic DnD registration from controller state. Called
@@ -222,7 +224,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
     this.cleanupFn = combine(
       // A non-movable item registers no draggable but stays a drop target:
       // its movable neighbors still anchor on it.
-      isOrderableItem(this.element) ? this.registerDraggable() : () => undefined,
+      isMovableItem(this.element) ? this.registerDraggable() : () => undefined,
       this.registerDropTarget(),
     );
   }

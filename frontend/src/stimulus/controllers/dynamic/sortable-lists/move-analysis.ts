@@ -30,7 +30,7 @@ import type { MoveAvailability, MoveDirection } from './list-dom';
 export interface MoveRow {
   element:HTMLElement;
   isItem:boolean;
-  orderable:boolean;
+  movable:boolean;
   previousItemId:string|null;
 }
 
@@ -52,7 +52,7 @@ export function analyzeMoveRows(rows:readonly MoveRow[], selectedRows:readonly H
   if (selected.size === 0 || selected.size !== selectedRows.length) return null;
 
   const block = rows.filter((row) => selected.has(row.element));
-  if (block.length !== selected.size || block.some((row) => !row.isItem || !row.orderable || !row.previousItemId)) return null;
+  if (block.length !== selected.size || block.some((row) => !row.isItem || !row.movable || !row.previousItemId)) return null;
 
   const firstIndex = rows.indexOf(block[0]);
   const lastIndex = rows.indexOf(block[block.length - 1]);

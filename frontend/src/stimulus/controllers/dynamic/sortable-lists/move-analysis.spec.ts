@@ -26,14 +26,9 @@
 //++
 
 import { analyzeMoveRows, analyzedMoveAvailability, resolveAnalyzedMove } from './move-analysis';
-import {
-  type MoveDirection,
-  reorderRows,
-  resolveBlockMove,
-  resolveBlockMoveAvailability,
-  resolveDirectionalPreviousItemId,
-  resolveMoveAvailability,
-} from './list-dom';
+import { type MoveDirection } from './list-dom';
+import { blockMove, blockMoveAvailability, renderList } from './rendered-list';
+import { reorderRows } from './row-mutations';
 
 describe('row movement geometry', () => {
   function fixture(initial:string) {
@@ -85,8 +80,8 @@ describe('row movement geometry', () => {
   cases.forEach(({ initial, direction, result, predecessor }) => {
     it(`${initial} ${direction} -> ${result ?? 'unavailable'}`, () => {
       const { rowsContainer, selected } = fixture(initial);
-      const resolution = resolveBlockMove({ itemElements: [...selected].reverse(), rowsContainer, direction });
-      const availability = resolveBlockMoveAvailability({ itemElements: selected, rowsContainer });
+      const resolution = blockMove(renderList(rowsContainer), [...selected].reverse(), direction);
+      const availability = blockMoveAvailability(renderList(rowsContainer), selected);
       expect(resolution).toEqual(result === null
         ? { available: false }
         : { available: true, rows: selected, previousItemId: predecessor });
@@ -99,21 +94,12 @@ describe('row movement geometry', () => {
     });
   });
 
-  cases.filter(({ initial }) => initial.split('*').length === 2).forEach(({ initial, direction, result, predecessor }) => {
-    it(`singleton wrappers agree for ${initial} ${direction}`, () => {
-      const { rowsContainer, selected: [itemElement] } = fixture(initial);
-      expect(resolveMoveAvailability({ itemElement, rowsContainer })?.[direction]).toBe(result !== null);
-      expect(resolveDirectionalPreviousItemId({ itemElement, rowsContainer, direction }))
-        .toBe(result === null ? undefined : predecessor);
-    });
-  });
-
   it('resolves a captured snapshot without consulting mutated DOM', () => {
     const { rowsContainer, selected } = fixture('A* B M(H)');
     const rows = Array.from(rowsContainer.children).map((element) => ({
       element: element as HTMLElement,
       isItem: element.hasAttribute('data-sortable-lists--item-id-value'),
-      orderable: true,
+      movable: true,
       previousItemId: element.getAttribute('data-sortable-lists--item-id-value')
         ?? element.getAttribute('data-sortable-lists-prev-item-id'),
     }));
@@ -132,7 +118,7 @@ describe('row movement geometry', () => {
   it('re-resolves a sparse selection after filtering an unselected row', () => {
     const { rowsContainer, selected } = fixture('0 1 2* 3 4* 5');
     rowsContainer.children[1].remove();
-    const resolution = resolveBlockMove({ itemElements: selected, rowsContainer, direction: 'up' });
+    const resolution = blockMove(renderList(rowsContainer), selected, 'up');
     expect(resolution).toEqual({ available: true, rows: selected, previousItemId: null });
   });
 });
