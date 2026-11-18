@@ -33,10 +33,8 @@ module Projects
     module WorkPackages
       module CustomFields
         class TableComponent < OpPrimer::BorderBoxTableComponent
-          include ::WorkPackageTypes::VariantRoutes
-
-          columns :custom_field, :field_format, :variants
-          mobile_labels :field_format, :variants
+          columns :custom_field, :field_format, :types
+          mobile_labels :field_format, :types
 
           def initialize(project:, variants_by_field:, project_specific_value_counts:, **)
             super(rows: variants_by_field.keys, **)
@@ -45,13 +43,14 @@ module Projects
             @variants_by_field = variants_by_field
             @project_specific_value_counts = project_specific_value_counts
             @values_permitted = User.current.allowed_in_project?(:manage_work_package_custom_field_values, project)
+            @types_permitted = User.current.allowed_in_project?(%i[manage_types manage_project_variants], project)
           end
 
           def headers
             [
               [:custom_field, { caption: t("projects.settings.custom_fields.column_name") }],
               [:field_format, { caption: t("projects.settings.custom_fields.column_format") }],
-              [:variants, { caption: t("projects.settings.custom_fields.column_variants") }]
+              [:types, { caption: t("projects.settings.custom_fields.column_types") }]
             ]
           end
 
@@ -63,13 +62,11 @@ module Projects
             @values_permitted && field.project_specific_values_supported?
           end
 
-          def variant_path(variant)
-            variant_settings_path(variant.project_owned? ? project : nil, variant)
-          end
-
           def values_path(field) = project_settings_work_packages_custom_field_values_path(project, field)
 
-          def linked?(variant) = variant.configurable_by?(User.current)
+          def types_linked? = @types_permitted
+
+          def types_path = project_settings_work_packages_types_path(project)
 
           def mobile_title = t(:label_custom_field_plural)
 
