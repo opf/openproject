@@ -53,4 +53,14 @@ RSpec.describe ITSM::InboundEmails::ThreadAttributes do
       expect(attributes[:recipients]).to be_empty
     end
   end
+
+  context "when used to create a thread" do
+    let(:work_package) { create(:work_package) }
+    let(:permissions) { %i[view_work_packages add_work_package_comments] }
+    let(:user) { create(:user, member_with_permissions: { work_package.project => permissions }) }
+
+    it "is accepted" do
+      expect(ITSM::EmailThreads::CreateService.new(user:).call(work_package:, **attributes)).to be_success
+    end
+  end
 end

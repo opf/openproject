@@ -54,4 +54,19 @@ RSpec.describe ITSM::InboundEmails::MessageAttributes do
                              cc_addresses: ["colleague@customer.example"],
                              subject: "Printer broken")
   end
+
+  context "when used to store the message" do
+    let(:work_package) { create(:work_package) }
+    let(:thread) { create(:itsm_email_thread, work_package:) }
+    let(:permissions) { %i[view_work_packages add_work_package_comments] }
+    let(:user) { create(:user, member_with_permissions: { work_package.project => permissions }) }
+
+    it "is accepted" do
+      result = ITSM::EmailMessages::CreateService.new(user:)
+                                                 .call(thread:, journal: work_package.journals.first, status: :processed,
+                                                       **attributes)
+
+      expect(result).to be_success
+    end
+  end
 end

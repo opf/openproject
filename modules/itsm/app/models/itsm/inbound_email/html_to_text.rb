@@ -30,7 +30,7 @@
 module ITSM
   class InboundEmail
     class HtmlToText
-      LINK_TARGET = /\A(https?|mailto):/i
+      HIDDEN_LINK_TARGET = /\A(#|(javascript|vbscript|data|cid):)/i
 
       def self.call(html) = new(html).call
 
@@ -49,9 +49,10 @@ module ITSM
 
       def link_text(link)
         text = link.text.strip
-        return text unless link["href"].match?(LINK_TARGET)
+        href = link["href"].strip
+        return text if href.empty? || href.match?(HIDDEN_LINK_TARGET)
 
-        target = link["href"].delete_prefix("mailto:")
+        target = href.delete_prefix("mailto:")
         text.empty? || text == target ? target : "#{text} (#{target})"
       end
     end

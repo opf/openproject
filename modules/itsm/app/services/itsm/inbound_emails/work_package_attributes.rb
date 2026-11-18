@@ -30,6 +30,8 @@
 module ITSM
   module InboundEmails
     class WorkPackageAttributes
+      SUBJECT_MAX_LENGTH = 255
+
       def initialize(email)
         @email = email
       end
@@ -44,15 +46,24 @@ module ITSM
 
       delegate :headers, :text, to: :email
 
-      def subject
-        (headers.subject.presence || I18n.t(:label_email_without_subject, locale: Setting.default_language)).truncate(255)
+      def subject = full_subject.truncate(SUBJECT_MAX_LENGTH)
+
+      def full_subject
+        @full_subject ||= headers.subject.presence || I18n.t(:label_email_without_subject, locale: Setting.default_language)
       end
 
       def description
-        return if text.empty?
+        content = [cut_subject, text].compact_blank.join("\n\n")
+        return "" if content.empty?
 
-        fence = "`" * [3, text.scan(/`+/).map(&:length).max.to_i + 1].max
-        "#{fence}\n#{text}\n#{fence}"
+        fence = "`" * [3, content.scan(/`+/).map(&:length).max.to_i + 1].max
+        "#{fence}\n#{content}\n#{fence}"
+      end
+
+      def cut_subject
+        return if full_subject.length <= SUBJECT_MAX_LENGTH
+
+        "#{WorkPackage.human_attribute_name(:subject, locale: Setting.default_language)}: #{full_subject}"
       end
     end
   end
