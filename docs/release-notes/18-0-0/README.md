@@ -22,7 +22,6 @@ OpenProject 18.0 is a particularly feature-rich release, introducing substantial
 
 The overview below introduces the ten main feature areas and provides direct links to individual improvements. Select a feature area to jump to its detailed description, or follow the links to a specific feature. Each detailed section explains what has changed and, where relevant, provides links to the updated OpenProject documentation.
 
-
 > [!TIP]
 > **Upgrading from an earlier version?** Review the [important updates and breaking changes](#important-updates-and-breaking-changes) before upgrading.
 
@@ -30,7 +29,7 @@ The overview below introduces the ten main feature areas and provides direct lin
 
 **1. [Work package types and variants, workflows, and forms](#work-package-types-and-variants-workflows-and-forms)**
 
-OpenProject 18.0 introduces more flexibility in configuring work package types, workflows, and forms to match the needs of different teams and projects. Type variants let projects work with their own version of a type, forms and workflows can be reused across types, and project-specific values for work package custom fields are available as a new Enterprise add-on.
+OpenProject 18.0 introduces more flexibility in configuring work package types, workflows, and forms to match the needs of different teams and projects. Type variants let projects work with their own version of a type. Forms and workflows can now be reused across types. In addition, project-specific values for work package custom fields are available as a new Enterprise add-on.
 
 This includes:
 
@@ -40,7 +39,7 @@ This includes:
 
 **2. [Agile planning and reporting](#agile-planning-and-reporting)**
 
-New agile reporting capabilities make it easier to track sprint progress, evaluate team performance, and understand changes in scope. The sprint report page with burndown and burnup charts is available in the Community edition, while velocity, Created vs. Resolved, and Epic progress charts provide deeper insights in the Professional plan. Improvements to backlog and sprint planning complement these reporting features.
+New agile reporting capabilities make it easier to track sprint progress, evaluate team performance, and understand changes in scope. The sprint report page with burndown and burnup charts is available in the Community edition. Velocity, Created vs. Resolved, and Epic progress charts, as well as detailed work package tables, provide deeper insights in the Professional plan. Improvements to backlog and sprint planning complement these reporting features.
 
 This includes:
 
@@ -63,7 +62,7 @@ Labels provide a new way to categorize and organize work packages across project
 
 **5. [Resource management and personal planning](#resource-management-and-personal-planning)**
 
-The Resource management module, available in the Premium plan, gets major extensions in OpenProject 18.0. Global resource planners support planning across projects, placeholder users can be used to define criteria and let you plan work before you know who will do it, allocations are visible directly in work packages, and users see the work allocated to them in My time.
+The Resource management module, available in the Premium plan, gets major extensions in OpenProject 18.0. Global resource planners support planning across projects. Placeholder users can be used to define criteria, so you can plan work before you know who will do it. Allocations are now visible directly in work packages, and users see the work allocated to them in My time.
 
 This includes:
 
@@ -74,12 +73,12 @@ This includes:
 
 **6. [Accessibility](#accessibility)**
 
-This release improves accessibility across OpenProject, with a particular focus on keyboard navigation, screen reader support, and color contrast. Work package tables and Backlogs are easier to use with the keyboard and screen readers, charts get accessible descriptions, and administrators can check the contrast of highlighting colors.
+This release improves accessibility across OpenProject, with a particular focus on keyboard navigation and screen reader support. Work package tables and Backlogs are much easier to use with the keyboard and screen readers, charts get accessible descriptions, and administrators can check the contrast of highlighting colors.
 
 This includes:
 
+- [Keyboard and screen reader support in work package tables and Backlogs](#keyboard-and-screen-reader-support-in-work-package-tables-and-backlogs)
 - [Color contrast check](#color-contrast-check)
-- [Keyboard navigation in work package tables and Backlogs](#keyboard-navigation-in-work-package-tables-and-backlogs)
 
 **7. [Meetings](#meetings)**
 
@@ -104,13 +103,16 @@ This includes:
 
 The Forums module has been revived. Teams can follow discussions more easily, mention colleagues, mark topics as solved, and turn conversations directly into work packages.
 
-**10. [More improvements](#more-improvements)**
+**10. [GitLab integration](#gitlab-integration)**
+
+The reworked **Code** tab (formerly "GitLab") shows related issues, merge requests, and commits directly in the work package, and GitLab is now configured in the new Repositories section of the administration.
+
+**[More improvements](#more-improvements)**
 
 Beyond the major feature areas, OpenProject 18.0 introduces a wide range of improvements to everyday project work and administration, including:
 
 - [Work package management: status categories, date and time fields, and more](#work-package-management)
 - [Documents: work package links, tables, and section anchors](#documents)
-- [GitLab integration: new Code tab and repository administration](#gitlab-integration)
 - [SquashTM integration: first version for test management](#squashtm-integration)
 - [Time tracking and costs: stacked view in My time and rates for placeholder users](#time-tracking-costs-and-budgets)
 - [Project portfolio and administration: life cycle states, memberships overview, and permission preview](#project-portfolio-and-administration)
@@ -146,7 +148,7 @@ Read more: [Work package types system admin guide](../../system-admin-guide/mana
 
 Workflows and forms are no longer bound to a single type. They are created under **Work packages** in the administration and can be used by any number of types and variants. When configuring a type or variant, you either use an existing workflow or form, which stays connected so that changes apply everywhere it is used, or configure a new one, starting from a copy or from scratch.
 
-The form defines which fields appear on a work package, and it is now where custom fields are added to a type, instead of in each custom field's settings. Without changing the shared form itself, you can still switch individual fields on or off for a type or variant and decide which fields are required. A field required for a type stays required in its variants unless a variant makes it optional.
+The form defines which fields appear on a work package, including custom fields. Without changing the shared form itself, you can still switch individual fields on or off for a type or variant and decide which fields are required. A field required for a type stays required in its variants unless a variant makes it optional.
 
 The new **workflow and form libraries** list all workflows and forms in your instance, the types and variants that use them, and the number of projects they are active in. Before building something new, you can check whether a suitable one already exists.
 
@@ -177,6 +179,9 @@ Read more: [Backlogs and agile user guide](../../user-guide/backlogs-scrum/)
 Each sprint now has its own report page, showing the sprint's status and dates, the sprint goal, an overview of its work packages, and a graph of how they are distributed. You can navigate between sprint reports in chronological order to compare sprints.
 
 The **burndown chart** has been reworked to make sprint progress easier to read. The new **burnup chart** additionally shows the sprint's scope as its own line, so you can see at a glance when work was added to or removed from a sprint. Scope changes are also reflected in the work package overview, including changes to story points.
+
+> [!TIP]
+> **Reports are frozen once a sprint is completed.** Changing a work package's status, estimate, or sprint afterwards no longer affects the report. This keeps reports reliable for sprint reviews and for looking back over longer periods.
 
 ![Sprint report page in OpenProject with sprint goal, work package overview, and burnup chart](openproject_release_notes_18.0_sprint_report.png)
 
@@ -246,7 +251,7 @@ Read more: [Labels system admin guide](../../system-admin-guide/labels/), [Blog 
 
 [feature: resource_management ]
 
-Planning resources rarely stops at project boundaries. People work on several projects at once, and resource managers need to see the full picture to avoid overloading anyone. Often, they also need to plan work before it is clear who will do it. And team members want to know what is expected of them.
+Planning resources rarely stops at project boundaries. People work on several projects at the same time, and resource managers need to see the full picture to avoid overloading anyone. Often, they also need to plan work before it is clear who will do it. And team members want to know what is expected of them.
 
 With OpenProject 18.0, the **Resource management** module covers all of this. Resource managers can plan across projects with **global resource planners**, use **placeholder users** to define criteria and plan work before it is clear who will do it, and later assign a matching team member in the new **Staffing** view. Project managers see allocations directly in work packages, and users see the work allocated to them in **My time**.
 
@@ -291,9 +296,9 @@ Read more: [Resource allocations in My time user guide](../../user-guide/time-an
 
 ### Accessibility
 
-Everyone should be able to use OpenProject, regardless of their abilities or the technologies they rely on. OpenProject 18.0 continues this work with a focus on keyboard and screen reader users, and on colors that remain readable for everyone.
+Everyone should be able to use OpenProject, regardless of their abilities or the technologies they rely on. OpenProject 18.0 continues this work with a focus on keyboard navigation and screen reader support.
 
-Administrators can now check the contrast of highlighting colors, and selection and context actions in the **work package table** work without a mouse. In addition, all of OpenProject's components and pages have been audited with the AXe accessibility testing tool.
+The biggest change is in the **work package table**: keyboard and screen reader users can now navigate it, select work packages, and use all context actions without a mouse. Administrators can also check the contrast of highlighting colors before using them. In addition, key areas such as the work package list and details, Backlogs, Boards, and Meetings have been audited with the AXe accessibility testing tool.
 
 Further improvements include:
 
@@ -302,6 +307,12 @@ Further improvements include:
 
 Read more: [Blog article on accessibility in OpenProject 18.0](https://www.openproject.org/blog/accessibility-18-0/)
 
+#### Keyboard and screen reader support in work package tables and Backlogs
+
+Keyboard and screen reader users can now move through rows and cells of the work package table, select one or several work packages, and open their context actions without a pointer. This makes bulk work such as moving, copying, changing the status, or deleting work packages possible in the same way as for mouse users. The table follows the same selection rules as Backlogs, and new context menu actions let you move work packages within the table. Clearing a selection is now more intuitive: press **Escape** instead of Ctrl/Cmd+D.
+
+Read more: [Keyboard shortcuts and access keys user guide](../../user-guide/keyboard-shortcuts-access-keys/)
+
 #### Color contrast check
 
 When creating or editing highlighting colors, administrators now see a **preview** of how the color looks in light and dark modes, together with a **contrast check**. This helps choose colors that remain readable for people with visual impairments or color vision deficiencies.
@@ -309,12 +320,6 @@ When creating or editing highlighting colors, administrators now see a **preview
 ![Highlighting color settings in OpenProject with a light and dark mode preview and contrast check](openproject_release_notes_18.0_color_contrast_preview.png)
 
 Read more: [Color settings system admin guide](../../system-admin-guide/design/#set-a-new-color)
-
-#### Keyboard navigation in work package tables and Backlogs
-
-Keyboard and screen reader users can now move through rows and cells of the work package table, select one or several work packages, and open their context actions without a pointer. This makes bulk work such as moving, copying, changing the status, or deleting work packages possible in the same way as for mouse users. The table follows the same selection rules as Backlogs, and new context menu actions let you move work packages within the table. Clearing a selection is now more intuitive: press **Escape** instead of Ctrl/Cmd+D.
-
-Read more: [Keyboard shortcuts and access keys user guide](../../user-guide/keyboard-shortcuts-access-keys/)
 
 ### Meetings
 
@@ -331,7 +336,7 @@ Meeting participants can now **vote on agenda items**. In vote-based sorting mod
 Working with agenda items has also become easier:
 
 - Add a new item directly **above or below** an existing one.
-- **Copy agenda items, including their outcomes,** to subsequent meetings.
+- When copying agenda items to subsequent meetings, you can now **include their outcomes**.
 - When moving an agenda item to the next meeting, OpenProject tries to place it in a **matching section**.
 
 ![Meeting agenda in OpenProject sorted by votes, with vote counts shown next to each agenda item](openproject_release_notes_18.0_meeting_agenda_voting.png)
@@ -340,7 +345,7 @@ Read more: [Agenda voting user guide](../../user-guide/meetings/one-time-meeting
 
 #### Presentation mode
 
-Long agenda items can now be **split into multiple slides** with a horizontal rule, so you no longer need to scroll during a presentation. You can also move agenda items to the next meeting directly from presentation mode. A notice shows when the presenter changes, and agenda items use more of the available width.
+Long agenda items can now be **split into multiple slides** with a horizontal rule, so you no longer need to scroll during a presentation. You can also move agenda items to the next meeting directly from presentation mode. A small avatar next to the previews of the previous and next agenda items shows when the presenter changes, and agenda items use more of the available width.
 
 Read more: [Presentation mode user guide](../../user-guide/meetings/one-time-meetings/#present-a-meeting)
 
@@ -360,12 +365,12 @@ Read more: [Jira migration guide](../../installation-and-operations/jira-migrati
 
 #### Jira Migrator: major progress toward a complete migration
 
-The Jira Migrator now keeps the context your teams rely on: how issues relate to each other, who worked on what, how much time was spent, which sprint an issue belonged to, and how it was resolved. New in this release, the Jira Migrator migrates: 
+The Jira Migrator now keeps the context your teams rely on: how issues relate to each other, who worked on what, how much time was spent, which sprint an issue belonged to, and how it was resolved. New in this release, the Jira Migrator migrates:
 
 - Issue links, which become relations between work packages
 - Sub-tasks, which become child work packages, so the hierarchy is preserved
 - Sprint assignments, with the required sprints and sprint attributes
-- Labels 
+- Labels
 - Watchers
 - Tracked time (spent time)
 - Resolution and Resolution date fields
@@ -391,9 +396,19 @@ The Forums module has been revived. A new browsing experience with pagination ma
 
 Read more: [Forums user guide](../../user-guide/forums/), [Blog article on the revived Forums](https://www.openproject.org/blog/passion-project-forums-module/)
 
+### GitLab integration
+
+What should be implemented is defined in work packages, while the implementation lives in GitLab. The reworked **Code** tab (formerly "GitLab") shows the related issues, merge requests, and commits directly in the work package. Developers can find code to review, project managers can see whether work is merged, and QA can see where to test.
+
+GitLab is now configured in the new **Repositories** section of the administration, which also supports connecting multiple GitLab instances. The GitHub integration is still configured under **Integrations**.
+
+![Code tab of a work package in OpenProject showing related GitLab merge requests and commits](openproject_release_notes_18.0_code_tab_gitlab.png)
+
+Read more: [GitLab integration system admin guide](../../system-admin-guide/integrations/gitlab-integration/), [Repositories system admin guide](../../system-admin-guide/repositories/), [GitLab integration overview](https://www.openproject.org/integrations/gitlab/)
+
 ### More improvements
 
-Besides the major feature areas, OpenProject 18.0 contains many improvements to everyday work. Documents gain new ways to work with work packages, the GitLab and SquashTM integrations get new capabilities, creating and editing XWiki pages from OpenProject has become easier, and time tracking gets a clearer overview.
+Besides the major feature areas, OpenProject 18.0 contains many improvements to everyday work. Documents gain new ways to work with work packages, the SquashTM integration is available in a first version, creating and editing XWiki pages from OpenProject has become easier, and time tracking gets a clearer overview.
 
 For administrators, there are new portfolio features, a central overview of memberships, and more transparency about permissions. The application also gets a refreshed design with a new header, and users have more freedom in designing their avatars.
 
@@ -426,14 +441,6 @@ Documents get several new ways to work with work packages: insert **work package
 ![Form to insert a work package attribute into a document via a slash command in the OpenProject Documents module](openproject_release_notes_18.0_documents_insert_wp_attribute.png)
 
 Read more: [Documents user guide](../../user-guide/documents/)
-
-#### GitLab integration
-
-What should be implemented is defined in work packages, while the implementation lives in GitLab. The reworked **Code** tab (formerly "GitLab") shows the related issues, merge requests, and commits directly in the work package. Developers can find code to review, project managers can see whether work is merged, and QA can see where to test.
-
-GitLab is now configured in the new **Repositories** section of the administration, which also supports connecting multiple GitLab instances. The GitHub integration is still configured under **Integrations**.
-
-Read more: [GitLab integration system admin guide](../../system-admin-guide/integrations/gitlab-integration/), [Repositories system admin guide](../../system-admin-guide/repositories/), [GitLab integration overview](https://www.openproject.org/integrations/gitlab/)
 
 #### SquashTM integration
 
@@ -510,7 +517,7 @@ Read more: [Jira field mapping guide](../../installation-and-operations/jira-mig
 
 ### Changes to existing configuration and interfaces
 
-- **Custom fields** are now added to a type by selecting them in the type's form, instead of selecting types in the custom field's settings. The administration of custom fields for work packages has moved accordingly.
+- **Custom fields** are now managed in the area of the administration they belong to, for example work package custom fields under **Work packages**. The **Custom fields** section remains, but only offers an overview with links to these areas.
 - The **Copy to other types** workflow action has been removed. Workflows can now be reused across types and variants instead.
 - The **Boards** module is now enabled automatically when Backlogs is enabled in a project.
 - The **Meetings API** now returns durations in ISO 8601 format instead of numbers. Integrations that read meeting durations need to be updated.
@@ -527,8 +534,6 @@ Read more: [Work package forms system admin guide](../../system-admin-guide/mana
 ## Bug fixes and changes
 
 <!-- Warning: Anything within the below lines will be automatically removed by the release script -->
-
-
 
 <!-- BEGIN AUTOMATED SECTION -->
 
@@ -952,4 +957,3 @@ Last but not least, we are very grateful for our very engaged translation contri
 Would you like to help out with translations yourself?
 Then take a look at our translation guide and find out exactly how you can contribute.
 It is very much appreciated!
-
