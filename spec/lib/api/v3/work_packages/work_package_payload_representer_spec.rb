@@ -347,7 +347,9 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           let(:link) { "/api/v3/categories/#{category.id}" }
         end
 
-        context "when multiple categories is active", with_settings: { work_package_multiple_categories: true } do
+        context "when multiple categories is active",
+                with_flag: { work_package_multiple_categories: true },
+                with_settings: { work_package_multiple_categories: true } do
           it "does not offer the deprecated property as writable" do
             expect(representer.writable_attributes).not_to include("category")
             expect(subject).not_to have_json_path("_links/category")

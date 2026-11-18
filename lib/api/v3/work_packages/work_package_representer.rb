@@ -508,7 +508,7 @@ module API
                             getter: ->(*) {
                               next unless embed_link?(:category)
 
-                              category = represented.effective_categories.first
+                              category = represented.effective_category
                               next unless category
 
                               ::API::V3::Categories::CategoryRepresenter.create(category, current_user:)
@@ -516,7 +516,7 @@ module API
                             link: ->(*) {
                               next if Setting::WorkPackageMultipleCategories.active?
 
-                              category = represented.effective_categories.first
+                              category = represented.effective_category
                               next({ href: nil }) if category.nil?
 
                               ::API::Decorators::LinkObject

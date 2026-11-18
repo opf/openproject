@@ -1016,6 +1016,7 @@ RSpec.describe "API v3 Work package resource",
         end
 
         context "with more than one category while multiple categories is enabled",
+                with_flag: { work_package_multiple_categories: true },
                 with_settings: { work_package_multiple_categories: true } do
           let(:categories_links) do
             [{ href: api_v3_paths.category(backend.id) },
@@ -1030,10 +1031,10 @@ RSpec.describe "API v3 Work package resource",
             expect(work_package.reload.categories).to contain_exactly(backend, api)
           end
 
-          it "responds with a link per category in alphabetical order" do
+          it "responds with a link per category ordered by id" do
             hrefs = parse_json(response.body, "_links/categories").pluck("href")
 
-            expect(hrefs).to eq([api_v3_paths.category(api.id), api_v3_paths.category(backend.id)])
+            expect(hrefs).to eq([backend, api].sort_by(&:id).map { api_v3_paths.category(it.id) })
           end
         end
 

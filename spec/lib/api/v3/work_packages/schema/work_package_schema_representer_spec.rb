@@ -1068,7 +1068,9 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         expect(subject).to be_json_eql(true.to_json).at_path("category/deprecated")
       end
 
-      context "when multiple categories is active", with_settings: { work_package_multiple_categories: true } do
+      context "when multiple categories is active",
+              with_flag: { work_package_multiple_categories: true },
+              with_settings: { work_package_multiple_categories: true } do
         it "drops the deprecated category field from the schema" do
           expect(subject).not_to have_json_path("category")
         end
@@ -1093,7 +1095,9 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         expect(subject).to be_json_eql(false.to_json).at_path("categories/options/multiple")
       end
 
-      context "when multiple categories is active", with_settings: { work_package_multiple_categories: true } do
+      context "when multiple categories is active",
+              with_flag: { work_package_multiple_categories: true },
+              with_settings: { work_package_multiple_categories: true } do
         it_behaves_like "has basic schema properties" do
           let(:path) { "categories" }
           let(:type) { "[]Category" }

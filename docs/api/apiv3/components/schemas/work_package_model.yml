@@ -420,7 +420,8 @@ allOf:
             allOf:
               - $ref: "./link.yml"
               - description: |-
-                  The category of the work package
+                  The category of the work package. If the work package has more than one category,
+                  this is the first one in case-insensitive alphabetical order.
 
                   **Resource**: Category
 
@@ -435,7 +436,7 @@ allOf:
             items:
               $ref: "./link.yml"
             description: |-
-              List of categories associated to the work package, in alphabetical order
+              List of categories associated to the work package
 
               **Resource**: Collection of Category
 

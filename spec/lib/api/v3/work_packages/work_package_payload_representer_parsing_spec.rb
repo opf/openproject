@@ -166,7 +166,9 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter, "parsing" d
       end
     end
 
-    context "when multiple categories is active", with_settings: { work_package_multiple_categories: true } do
+    context "when multiple categories is active",
+            with_flag: { work_package_multiple_categories: true },
+            with_settings: { work_package_multiple_categories: true } do
       it "does not write, as the deprecated property no longer exists" do
         expect(subject.category_ids).to be_nil
       end

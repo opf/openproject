@@ -1004,7 +1004,24 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         end
       end
 
-      context "when multiple categories is active", with_settings: { work_package_multiple_categories: true } do
+      context "when more than one category is set" do
+        let!(:backend) { create(:category, name: "Backend") }
+        let!(:api) { create(:category, name: "api") }
+
+        before do
+          allow(work_package).to receive(:categories).and_return([backend, api])
+        end
+
+        it_behaves_like "has a titled link" do
+          let(:link) { "category" }
+          let(:href) { api_v3_paths.category(api.id) }
+          let(:title) { api.name }
+        end
+      end
+
+      context "when multiple categories is active",
+              with_flag: { work_package_multiple_categories: true },
+              with_settings: { work_package_multiple_categories: true } do
         let(:category) { build_stubbed(:category) }
 
         before do
@@ -1054,13 +1071,13 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         let!(:api) { create(:category, project:, name: "api") }
 
         before do
-          work_package.category_ids_replacements = [backend.id, api.id]
+          work_package.category_ids_replacements = [api.id, backend.id]
         end
 
-        it "renders the pending categories in alphabetical order" do
+        it "renders the pending categories ordered by id" do
           expect(subject).to have_json_size(2).at_path("_links/categories")
-          expect(subject).to be_json_eql(api_v3_paths.category(api.id).to_json).at_path("_links/categories/0/href")
-          expect(subject).to be_json_eql(api_v3_paths.category(backend.id).to_json).at_path("_links/categories/1/href")
+          expect(subject).to be_json_eql(api_v3_paths.category(backend.id).to_json).at_path("_links/categories/0/href")
+          expect(subject).to be_json_eql(api_v3_paths.category(api.id).to_json).at_path("_links/categories/1/href")
         end
       end
     end
