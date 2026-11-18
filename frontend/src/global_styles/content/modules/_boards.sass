@@ -10,9 +10,12 @@
       .op-breadcrumbs
         margin-left: 46px
 
-.op-board-list__header-title
+.op-board-list--header-title
   grid-template-columns: minmax(0, 1fr)
   inline-size: 100%
   min-inline-size: 0
   display: grid
   line-height: normal !important
+
+  > *
+    @include text-shortener
