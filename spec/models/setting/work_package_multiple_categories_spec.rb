@@ -31,14 +31,18 @@ require "spec_helper"
 
 RSpec.describe Setting::WorkPackageMultipleCategories do
   context "when the feature flag is active", with_flag: { work_package_multiple_categories: true } do
-    context "and the setting is disabled", with_settings: { work_package_multiple_categories: false } do
+    context "and the setting is enabled", with_settings: { work_package_multiple_categories: true } do
       it { expect(described_class.active?).to be true }
+    end
+
+    context "and the setting is disabled", with_settings: { work_package_multiple_categories: false } do
+      it { expect(described_class.active?).to be false }
     end
   end
 
   context "when the feature flag is inactive", with_flag: { work_package_multiple_categories: false } do
     context "and the setting is enabled", with_settings: { work_package_multiple_categories: true } do
-      it { expect(described_class.active?).to be true }
+      it { expect(described_class.active?).to be false }
     end
 
     context "and the setting is disabled", with_settings: { work_package_multiple_categories: false } do
