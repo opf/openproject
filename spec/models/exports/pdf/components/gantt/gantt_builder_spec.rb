@@ -114,6 +114,47 @@ RSpec.describe Exports::PDF::Components::Gantt::GanttBuilder do
     end
   end
 
+  context "when no work package has dates" do
+    let(:work_packages) do
+      Array.new(row_count) do |index|
+        create(:work_package, project:, subject: "Work package #{index}", start_date: nil, due_date: nil)
+      end
+    end
+
+    %w[GanttBuilderDays GanttBuilderWeeks GanttBuilderMonths GanttBuilderQuarters].each do |builder_name|
+      context "with #{builder_name}" do
+        let(:builder_class) { Exports::PDF::Components::Gantt.const_get(builder_name) }
+
+        it "builds one page of text columns stretched to the page width, without date columns" do
+          page = pages.first
+
+          expect(pages.size).to eq(1)
+          expect(page.columns).to be_empty
+          expect(page.header_cells).to be_empty
+          expect(page.text_columns.last.right).to be_within(0.001).of(page_width)
+          expect(page.rows.map(&:shape)).to all(be_nil)
+        end
+      end
+    end
+
+    context "without a stretchable text column" do
+      let(:column_names) { %i[id start_date due_date] }
+
+      it "keeps the measured text column widths" do
+        expect(pages.first.text_columns.last.right).to be < (page_width * 0.3)
+      end
+    end
+
+    context "with more rows than fit on one page" do
+      let(:row_count) { 40 }
+
+      it "builds one page per page group" do
+        expect(pages.size).to be > 1
+        expect(pages.map(&:index).uniq).to eq([0])
+      end
+    end
+  end
+
   describe "dependency lines" do
     let(:successor) do
       create(:work_package, project:, subject: "Successor", start_date:, due_date: start_date + 2)

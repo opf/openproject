@@ -36,6 +36,7 @@ class WorkPackages::Exports::ScheduleService
     footer_text
     footer_text_center
     format
+    gantt_include_without_dates
     gantt_mode
     gantt_width
     header_text_right

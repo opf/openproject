@@ -3738,6 +3738,9 @@ en:
             table:
               caption: "Export the work packages list in a table with the desired columns."
               label: "Table"
+        gantt_include_without_dates:
+          caption: "Work packages without start and finish date are listed with empty chart cells."
+          label: "Include work packages without dates"
         gantt_zoom_levels:
           caption: "Select what is the zoom level for dates displayed in the chart."
           label: "Zoom levels"

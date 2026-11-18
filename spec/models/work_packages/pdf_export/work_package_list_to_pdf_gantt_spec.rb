@@ -575,6 +575,56 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     end
   end
 
+  describe "work packages without dates" do
+    let(:work_package_without_dates) do
+      create(:work_package, project:, status: status_new, type: type_task,
+                            subject: "Work package without dates", start_date: nil, due_date: nil)
+    end
+    let(:work_packages) { [work_package_task, work_package_milestone, work_package_without_dates] }
+    let(:bar_colors) do
+      [[:set_color_for_nonstroking_and_special, 1.0, 1.0, 0.0], [:set_color_for_nonstroking_and_special, 1.0, 0.0, 0.0]]
+    end
+
+    it "leaves them out by default" do
+      expect(pdf[:strings]).not_to include(work_package_without_dates.subject)
+    end
+
+    context "when they are included" do
+      let(:options) { super().merge(gantt_include_without_dates: "true") }
+
+      it "lists them with empty chart cells" do
+        expect(pdf[:strings]).to eq [text_column_captions, "2024 Apr 21 22 23", # header columns
+                                     wp_text_cells(work_package_task),
+                                     wp_text_cells(work_package_milestone),
+                                     wp_text_cells(work_package_without_dates),
+                                     "1/1", export_date_formatted, query.name].join(" ").squeeze(" ")
+        expect(pdf[:calls].count { |call| bar_colors.include?(call) }).to eq(2)
+      end
+
+      context "with a dependency to a work package without dates" do
+        before do
+          create(:relation, from: work_package_without_dates, to: work_package_task, relation_type: Relation::TYPE_FOLLOWS)
+        end
+
+        it "skips the dependency line" do
+          expect(pdf[:strings]).to include(work_package_without_dates.subject)
+        end
+      end
+
+      context "when no work package has dates" do
+        let(:work_packages) { [work_package_without_dates] }
+        let(:relation) { nil }
+
+        it "exports only the text columns" do
+          expect(pdf[:strings]).to eq [text_column_captions,
+                                       wp_text_cells(work_package_without_dates),
+                                       "1/1", export_date_formatted, query.name].join(" ").squeeze(" ")
+          expect(pdf[:calls].count { |call| bar_colors.include?(call) }).to eq(0)
+        end
+      end
+    end
+  end
+
   describe "with a request for a PDF gantt with too long date range" do
     let(:work_packages) { [work_package_task_far_future] }
 

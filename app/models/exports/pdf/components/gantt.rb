@@ -53,7 +53,7 @@ module Exports::PDF::Components::Gantt
   GANTT_COLUMN_DEFAULT = "wide"
 
   def write_work_packages_gantt!(work_packages, id_wp_meta_map)
-    wps = work_packages.select { |work_package| work_package.start_date || work_package.due_date }
+    wps = gantt_include_without_dates? ? work_packages : work_packages.select { |wp| wp.start_date || wp.due_date }
     return if wps.empty?
 
     mode = gantt_settings_mode
@@ -73,6 +73,10 @@ module Exports::PDF::Components::Gantt
   end
 
   private
+
+  def gantt_include_without_dates?
+    ActiveModel::Type::Boolean.new.cast(options[:gantt_include_without_dates])
+  end
 
   def gantt_settings_mode
     mode = options[:gantt_mode] || GANTT_MODE_DEFAULT

@@ -492,6 +492,12 @@ RSpec.describe "work package export", :js do
           export!
         end
 
+        it "exports with work packages without dates" do
+          check I18n.t("export.dialog.pdf.gantt_include_without_dates.label")
+          expected_params[:gantt_include_without_dates] = "true"
+          export!
+        end
+
         it "exports the selected text columns and restores a saved selection" do
           gantt_tab = find("[data-pdf-export-type='gantt']")
           captions = ->(names) { names.map { |name| WorkPackage.human_attribute_name(name) } }

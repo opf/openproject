@@ -282,7 +282,7 @@ class WorkPackagesController < ApplicationController
     return false if @query.new_record?
 
     relevant_keys = %i[format columns show_relations show_descriptions long_text_fields
-                       show_images gantt_mode gantt_width paper_size]
+                       show_images gantt_mode gantt_width gantt_include_without_dates paper_size]
 
     user_settings = params.slice(*relevant_keys)
 

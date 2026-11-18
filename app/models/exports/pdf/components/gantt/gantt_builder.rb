@@ -136,7 +136,7 @@ module Exports::PDF::Components::Gantt
       free_width = @pdf.bounds.width - @text_area_width - (nr_of_columns * @column_width)
       if @text_layout.stretch(free_width)
         @text_area_width = @text_layout.total_width
-      else
+      elsif nr_of_columns.positive?
         @column_width = (@pdf.bounds.width - @text_area_width) / nr_of_columns
       end
       @nr_columns_first_page = nr_of_columns
@@ -187,8 +187,12 @@ module Exports::PDF::Components::Gantt
     # @return [Array<GanttDataPageGroup>]
     def build_pages(entries, dates)
       vertical_pages_needed = (entries.size / @rows_per_page.to_f).ceil
-      horizontal_pages_needed = [((dates.size - @nr_columns_first_page) / @nr_columns.to_f).ceil, 0].max + 1
-      build_vertical_pages(entries, dates, vertical_pages_needed, horizontal_pages_needed)
+      build_vertical_pages(entries, dates, vertical_pages_needed, horizontal_pages_needed(dates))
+    end
+
+    def horizontal_pages_needed(dates)
+      remaining_dates = dates.size - @nr_columns_first_page
+      remaining_dates.positive? ? (remaining_dates / @nr_columns.to_f).ceil + 1 : 1
     end
 
     # Builds all page groups for the given work packages and dates
@@ -257,7 +261,7 @@ module Exports::PDF::Components::Gantt
     # @param [Array<GanttDataEntry>] entries
     # @return [GanttDataColumn]
     def build_column(date, left, entries)
-      work_packages = entries.reject(&:group?).map(&:work_package)
+      work_packages = entries.reject(&:group?).map(&:work_package).select { |wp| wp.start_date || wp.due_date }
       GanttDataColumn.new(date, left, @column_width, work_packages_on_date(date, work_packages).map(&:id))
     end
 
@@ -395,6 +399,8 @@ module Exports::PDF::Components::Gantt
     def build_dep_line(work_package, target_work_package, page_groups)
       line_source = collect_line_infos(work_package, page_groups)
       line_target = collect_line_infos(target_work_package, page_groups)
+      return if line_source.finish_row.nil? || line_target.start_row.nil?
+
       if line_source.finish_row.page == line_target.start_row.page
         build_same_page_dep_lines(line_source, line_target)
       elsif line_source.page_group == line_target.page_group
@@ -848,6 +854,8 @@ module Exports::PDF::Components::Gantt
     # @return [Array<Date>]
     def collect_column_dates(work_packages)
       wp_dates = collect_work_packages_dates(work_packages)
+      return [] if wp_dates.empty?
+
       years = ((wp_dates.last - wp_dates.first) / 365).floor
       if years > MAX_YEAR_RANGE
         raise InvalidDateRangeError, I18n.t(:error_pdf_date_range_too_long, years: MAX_YEAR_RANGE)
@@ -860,9 +868,9 @@ module Exports::PDF::Components::Gantt
     # @param [Array<WorkPackage>] work_packages
     # @return [Array<Date>]
     def collect_work_packages_dates(work_packages)
-      work_packages.map do |work_package|
+      work_packages.flat_map do |work_package|
         [work_package.start_date || work_package.due_date, work_package.due_date || work_package.start_date]
-      end.flatten.uniq.sort
+      end.compact.uniq.sort
     end
 
     # Collects all rows for the given work package

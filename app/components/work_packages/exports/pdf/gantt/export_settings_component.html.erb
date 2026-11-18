@@ -2,6 +2,20 @@
   <% container.with_row do %>
     <%= render WorkPackages::Exports::PDF::Gantt::ColumnSelectionComponent.new(export_settings) %>
   <% end %>
+  <% container.with_row(mt: 3) do %>
+    <%= render(
+          Primer::Alpha::CheckBox.new(
+            id: "gantt_include_without_dates",
+            name: "gantt_include_without_dates",
+            value: "true",
+            unchecked_value: "false",
+            checked: export_settings.true?(:gantt_include_without_dates),
+            label: I18n.t("export.dialog.pdf.gantt_include_without_dates.label"),
+            caption: I18n.t("export.dialog.pdf.gantt_include_without_dates.caption"),
+            visually_hide_label: false
+          )
+        ) %>
+  <% end %>
   <% gantt_selects.each do |entry| %>
     <% container.with_row(mt: 3) do %>
       <%= render(

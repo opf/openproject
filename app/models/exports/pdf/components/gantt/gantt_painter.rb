@@ -35,6 +35,7 @@ module Exports::PDF::Components::Gantt
     ELLIPSIS = "..."
     HEADER_MAX_LINES = 2
     LINE_HEIGHT_TOLERANCE = 0.01
+    FALLBACK_CAP_HEIGHT_RATIO = 0.7
 
     def initialize(pdf)
       @pdf = pdf
@@ -185,30 +186,54 @@ module Exports::PDF::Components::Gantt
 
     def paint_fitted_text(text, left, top, width, height, size:, max_lines:, style: :normal, align: :left)
       font_options = { size:, style:, leading: 0 }
-      @pdf.text_box(fit_lines(text, width, height, max_lines, font_options),
-                    at: [@pdf.bounds.left + left, @pdf.bounds.top - top],
+      lines = fit_lines(text, width, height, max_lines, font_options)
+      return if lines.empty?
+
+      @pdf.text_box(lines.join("\n"),
+                    at: [@pdf.bounds.left + left, @pdf.bounds.top - top - optical_top_offset(lines.size, height, size)],
                     width:,
-                    height:,
+                    height: lines_height(lines.size, size),
                     overflow: :truncate,
                     align:,
-                    valign: :center,
                     **font_options)
+    end
+
+    def optical_top_offset(line_count, height, size)
+      ascender, descender, cap_height = font_metrics(size)
+      ink_height = cap_height + ((line_count - 1) * @pdf.font.height_at(size)) + (descender / 2)
+      ((height - ink_height) / 2) - (ascender - cap_height)
+    end
+
+    def font_metrics(size)
+      font = @pdf.font
+      scale = size / @pdf.font_size.to_f
+      [font.ascender * scale, font.descender * scale, cap_height_ratio(font) * size]
+    end
+
+    def cap_height_ratio(font)
+      return FALLBACK_CAP_HEIGHT_RATIO unless font.respond_to?(:ttf) && font.ttf.os2.exists?
+
+      cap_height = font.ttf.os2.cap_height.to_f
+      cap_height.positive? ? cap_height / font.ttf.header.units_per_em : FALLBACK_CAP_HEIGHT_RATIO
     end
 
     def fit_lines(text, width, height, max_lines, font_options)
       box = fitting_text_box(text, width, height, max_lines, font_options)
-      return text if box.render(dry_run: true).blank?
-
+      remaining = box.render(dry_run: true)
       lines = box.text.split("\n")
-      lines[-1] = ellipsize(lines.last, width, font_options)
-      lines.join("\n")
+      lines[-1] = ellipsize(lines.last, width, font_options) if remaining.present? && lines.any?
+      lines
     end
 
     def fitting_text_box(text, width, height, max_lines, font_options)
       line_height = @pdf.font.height_at(font_options[:size])
       line_count = [max_lines, (height / line_height).floor].min.clamp(1..)
       Prawn::Text::Box.new(text, document: @pdf, width:, overflow: :truncate,
-                                 height: (line_count * line_height) + LINE_HEIGHT_TOLERANCE, **font_options)
+                                 height: lines_height(line_count, font_options[:size]), **font_options)
+    end
+
+    def lines_height(line_count, size)
+      (line_count * @pdf.font.height_at(size)) + LINE_HEIGHT_TOLERANCE
     end
 
     def ellipsize(text, available_width, font_options)
