@@ -3043,6 +3043,7 @@ en:
         quick_filter:
           all: "All projects"
           with_project_specific_values: "With project-specific values"
+        required_value_notice: "Cannot be disabled because a child project-specific value is enabled"
         types_column: "Displayed in type"
         value_actions: "Value actions"
         value_dialog:

@@ -107,6 +107,10 @@ module Admin
           @values_toggleable = custom_field.values_toggleable_by?(User.current, project)
         end
 
+        def required_notice?(row)
+          values_toggleable? && row.required?
+        end
+
         def make_global?(row)
           own_value_changeable?(row) && User.current.active_admin?
         end

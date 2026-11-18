@@ -103,6 +103,11 @@ See COPYRIGHT and LICENSE files for more details.
                   render(Primer::Beta::Label.new(scheme: :accent, ml: 2)) do
                     t("custom_fields.project_specific_values.label")
                   end
+                end,
+                if required_notice?(row)
+                  render(Primer::Beta::Text.new(tag: :div, color: :muted, font_size: :small)) do
+                    t("custom_fields.admin.projects.required_value_notice")
+                  end
                 end
               ]
             )

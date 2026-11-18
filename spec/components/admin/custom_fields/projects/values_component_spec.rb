@@ -150,6 +150,11 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
         expect(row.call(global_item).css("toggle-switch button[disabled]")).to be_present
         expect(row.call(other_global_item).css("toggle-switch button[disabled]")).to be_empty
       end
+
+      it "explains why the parents of the values of the project cannot be disabled" do
+        expect(row.call(global_item).text).to include(I18n.t("custom_fields.admin.projects.required_value_notice"))
+        expect(row.call(other_global_item).text).not_to include(I18n.t("custom_fields.admin.projects.required_value_notice"))
+      end
     end
   end
 
