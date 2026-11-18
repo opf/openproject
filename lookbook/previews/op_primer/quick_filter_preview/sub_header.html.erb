@@ -1,0 +1,48 @@
+<%= render(
+      OpPrimer::QuickFilter::SubHeader.new(
+        query:,
+        clear_button_id: "preview-sub-header-clear",
+        turbo_stream_request: true
+      )
+    ) do |subheader| %>
+  <% subheader.with_filter_input(
+       name: "subject",
+       label: "Filter",
+       visually_hide_label: true,
+       placeholder: "Filter",
+       leading_visual: { icon: :search, size: :small },
+       show_clear_button: true,
+       clear_button_id: "preview-sub-header-clear"
+     ) %>
+
+  <% subheader.with_quick_filter do %>
+    <%= render(
+          OpPrimer::QuickFilter::SegmentedControlComponent.new(
+            name: "Time",
+            query:,
+            filter_key: :time,
+            path_args: [:meetings]
+          )
+        ) do |component| %>
+      <% component.with_item(label: "Upcoming", value: "future") %>
+      <% component.with_item(label: "Past", value: "past") %>
+    <% end %>
+  <% end %>
+
+  <% subheader.with_quick_filter do %>
+    <%= render(
+          OpPrimer::QuickFilter::SelectPanelComponent.new(
+            name: "Project",
+            query:,
+            filter_key: :project_id,
+            path_args: [:meetings]
+          )
+        ) do |component| %>
+      <% Project.visible.each do |project| %>
+        <% component.with_item(label: project.name, value: project.id) %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <% subheader.with_filter_button %>
+<% end %>

@@ -1,6 +1,11 @@
 <%=
   render(
-    Primer::OpenProject::SubHeader.new(data: sub_header_data_attributes)
+    OpPrimer::QuickFilter::SubHeader.new(
+      query: @query,
+      clear_button_id:,
+      turbo_stream_request: true,
+      display_filters: filters_expanded?
+    )
   ) do |subheader|
     subheader.with_action_button(
       scheme: :primary,

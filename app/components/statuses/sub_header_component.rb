@@ -32,14 +32,5 @@ module Statuses
     include OpPrimer::ComponentHelpers
 
     options :query
-
-    private
-
-    def data_attributes
-      {
-        controller: "filter--filters-form",
-        "filter--filters-form-output-format-value": "json"
-      }
-    end
   end
 end
