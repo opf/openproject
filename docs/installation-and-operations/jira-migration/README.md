@@ -49,11 +49,17 @@ See [the field mapping reference](./field-mapping/) for details.
 
 ## Data not yet covered by the Migrator
 
+### Coming soon
+
+- Project-specific custom fields
+- Security Level
+- Configuration & Mapping options
+
 ### Coming later
 
-- Project-level workflows
 - Permissions
-- Schemas
+- Workflow migration
+- Plug-in migration
 
 See [the field mapping reference](./field-mapping/) for details.
 
