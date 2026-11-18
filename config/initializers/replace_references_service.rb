@@ -45,7 +45,7 @@ Rails.application.reloader.to_prepare do
       "::Query" => :user_id,
       "TimeEntry" => %i[logged_by_id user_id],
       "WikiPage" => :author_id,
-      "WorkPackage" => %i[author_id assigned_to_id responsible_id]
+      "WorkPackage" => %i[author_id assigned_to_id reporter_id responsible_id]
     }
   )
 end
