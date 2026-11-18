@@ -51,6 +51,12 @@ class WorkPackage
       add_costs_to wp_collection_scope
     end
 
+    def add_own_costs_to_work_package_collection(wp_collection_scope)
+      wp_collection_scope
+        .joins(own_costs_arel(wp_collection_scope).join_sources)
+        .select(costs_sum_alias)
+    end
+
     ##
     # For the given work packages calculates the sum of all costs.
     #
@@ -142,6 +148,23 @@ class WorkPackage
         .outer_join(ce_table)
         .on(ce_table_join_condition)
         .group(wp_table[:id])
+    end
+
+    def own_costs_arel(base_scope)
+      subselect = own_costs_subselect(base_scope)
+                  .arel
+                  .as(subselect_alias)
+      wp_table
+        .outer_join(subselect)
+        .on(subselect[:entity_id].eq(wp_table[:id]))
+    end
+
+    def own_costs_subselect(base_scope)
+      own_entries = costs_model.where(entity_type: "WorkPackage", entity_id: base_scope.select(:id))
+
+      filter_authorized(own_entries)
+        .group(:entity_id)
+        .select(:entity_id, "SUM(#{costs_value}) AS #{costs_sum_alias}")
     end
 
     def wp_table
