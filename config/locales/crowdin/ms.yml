@@ -710,6 +710,8 @@ ms:
         custom_field:
           at_least_one_custom_option: Sekurang-kurangnya satu pilihan perlu tersedia.
           attributes:
+            admin_only:
+              cannot_be_true: is not supported for this type of custom field.
             formula:
               blank: Formula can't be blank.
               format: "%{message}"
@@ -4586,12 +4588,12 @@ ms:
     one: "%{count} file"
     other: "%{count} fail"
     zero: tiada fail
+  label_x_forms:
+    other: "%{count} forms"
   label_x_in_progress_work_packages_abbr:
     one: 1 in progress
     other: "%{count} in progress"
     zero: 0 in progress
-  label_x_forms:
-    other: "%{count} forms"
   label_x_items:
     one: "%{count} item"
     other: "%{count} items"

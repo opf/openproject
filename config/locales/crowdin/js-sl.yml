@@ -776,8 +776,10 @@ sl:
       create_new: Ustvari novega
       group_by_relation_type: Združi glede na tip povezave
       group_by_wp_type: Združi glede na tip delovnega paketa
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Zamakni hierarhijo
       hierarchy_outdent: Prekliči zamik hierarhije
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Odstrani povezavo
       remove_child: Odstrani podrejenega
       remove_parent: Odstrani nadgrejenega
@@ -1034,6 +1036,7 @@ sl:
         label_pagination: Kliknite tukaj, da preskočite tabelo delovnih paketov in pojdite na stran
         pagination: Pojdi na stran s tabelo
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Kombinirano spustno polje: Izberite s puščicami, izbiro potrdite s tipko enter, izbrišite s tipko izbriši.'
       label_disable_multi_select: Onemogoči več selekcijo
       label_enable_multi_select: Omogoči več selekcijo

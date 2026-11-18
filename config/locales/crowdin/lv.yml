@@ -708,6 +708,8 @@ lv:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
           attributes:
+            admin_only:
+              cannot_be_true: is not supported for this type of custom field.
             formula:
               blank: Formula can't be blank.
               format: "%{message}"
@@ -4892,14 +4894,14 @@ lv:
     one: "%{count} file"
     other: "%{count} files"
     zero: no files
-  label_x_in_progress_work_packages_abbr:
-    one: 1 in progress
-    other: "%{count} in progress"
-    zero: 0 in progress
   label_x_forms:
     zero: "%{count} forms"
     one: "%{count} form"
     other: "%{count} forms"
+  label_x_in_progress_work_packages_abbr:
+    one: 1 in progress
+    other: "%{count} in progress"
+    zero: 0 in progress
   label_x_items:
     one: "%{count} item"
     other: "%{count} items"

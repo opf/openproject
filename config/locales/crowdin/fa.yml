@@ -706,6 +706,8 @@ fa:
         custom_field:
           at_least_one_custom_option: حداقل یک گزینه باید در دسترس باشد.
           attributes:
+            admin_only:
+              cannot_be_true: is not supported for this type of custom field.
             formula:
               blank: فرمول نمی‌تواند خالی باشد.
               format: "%{message}"
@@ -4728,13 +4730,13 @@ fa:
     one: "%{count} فایل"
     other: "%{count} فایل"
     zero: بدون فایل
+  label_x_forms:
+    one: "%{count} form"
+    other: "%{count} forms"
   label_x_in_progress_work_packages_abbr:
     one: 1 in progress
     other: "%{count} in progress"
     zero: 0 in progress
-  label_x_forms:
-    one: "%{count} form"
-    other: "%{count} forms"
   label_x_items:
     one: "%{count} مورد"
     other: "%{count} مورد"
