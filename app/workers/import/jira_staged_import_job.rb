@@ -135,13 +135,19 @@ module Import
             end
           end
         elsif batch.properties[:stage] == 12
-          Rails.logger.info "Import finished"
+          Rails.logger.info "Import finished in #{run_duration(jira_import)}"
           jira_import.transition_to!(:imported)
         end
       elsif batch.discarded?
-        Rails.logger.error "Staged import batch discarded, one or more jobs failed"
+        Rails.logger.error "Import failed in stage #{batch.properties[:stage]} after #{run_duration(jira_import)}, " \
+                           "one or more jobs failed"
         jira_import.transition_to!(:import_error)
       end
+    end
+
+    def run_duration(jira_import)
+      started_at = jira_import.state_machine.last_transition_to(:importing).created_at
+      ActiveSupport::Duration.build((Time.current - started_at).round).inspect
     end
 
     def start_stage(batch, number, &)
