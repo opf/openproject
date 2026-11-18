@@ -718,6 +718,8 @@ vi:
         custom_field:
           at_least_one_custom_option: Ít nhất một lựa chọn cần phải được cung cấp.
           attributes:
+            admin_only:
+              cannot_be_true: is not supported for this type of custom field.
             formula:
               blank: Công thức không được để trống.
               format: "%{message}"
@@ -731,6 +733,8 @@ vi:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted list.
             required:
               cannot_be_true: không thể được đặt thành đúng.
+            value:
+              required_by_project_values: cannot be disabled, as the project added values below it.
           previous_custom_field_recalculation_unprocessed: Tính toán lại các thay đổi trước đó cho trường tùy chỉnh này chưa được áp dụng, vui lòng thử lại sau vài phút.
           referenced_in_other_fields_html:
             other: "%{name} được sử dụng trong tính toán thuộc tính dự án: %{links}."

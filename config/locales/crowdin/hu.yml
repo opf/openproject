@@ -730,6 +730,8 @@ hu:
         custom_field:
           at_least_one_custom_option: Minimum egy opciónak elérhetőnek kell lennie.
           attributes:
+            admin_only:
+              cannot_be_true: is not supported for this type of custom field.
             formula:
               blank: Formula can't be blank.
               format: "%{message}"
@@ -743,6 +745,8 @@ hu:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted list.
             required:
               cannot_be_true: cannot be set to true.
+            value:
+              required_by_project_values: cannot be disabled, as the project added values below it.
           previous_custom_field_recalculation_unprocessed: Az adott egyéni mezőre vonatkozó korábbi módosítások újraszámítása még nem történt meg; kérjük, próbálja meg újra néhány perc múlva.
           referenced_in_other_fields_html:
             one: "%{name} is used in project attribute calculation %{links}."

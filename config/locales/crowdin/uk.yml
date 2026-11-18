@@ -720,6 +720,8 @@ uk:
         custom_field:
           at_least_one_custom_option: Необхідно мати принаймні один варіант.
           attributes:
+            admin_only:
+              cannot_be_true: is not supported for this type of custom field.
             formula:
               blank: Потрібно вказати формулу.
               format: "%{message}"
@@ -733,6 +735,8 @@ uk:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted list.
             required:
               cannot_be_true: не може мати значення true.
+            value:
+              required_by_project_values: cannot be disabled, as the project added values below it.
           previous_custom_field_recalculation_unprocessed: Перерахунок попередніх змін для цього власного поля ще не було застосовано. Спробуйте повторити спробу за кілька хвилин.
           referenced_in_other_fields_html:
             one: "%{name} використовується при обчисленні атрибутів проєкту %{links}."

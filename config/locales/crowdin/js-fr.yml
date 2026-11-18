@@ -772,8 +772,10 @@ fr:
       create_new: Créer
       group_by_relation_type: Grouper par type de relation
       group_by_wp_type: Grouper par type de lot de travaux
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Indenter la hiérarchie
       hierarchy_outdent: Désindenter dans la hiérarchie
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Retirer la relation
       remove_child: Retirer l'enfant
       remove_parent: Retirer le parent
@@ -1012,6 +1014,7 @@ fr:
         label_pagination: Cliquez ici pour passer directement à la pagination après le tableau des lots de travaux
         pagination: Passer à la pagination du tableau
       key_value: "%{key} : %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Champ de liste déroulante combinée : sélectionnez avec les touches fléchées, confirmez la sélection avec la touche Entrée et supprimez avec la touche Retour arrière'
       label_disable_multi_select: Désactiver la sélection multiple
       label_enable_multi_select: Activer la sélection multiple

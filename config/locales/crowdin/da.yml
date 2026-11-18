@@ -161,10 +161,10 @@ da:
         user_self_editable: Redigerbar
         visible_on_user_card: Vis på brugerkortet
       custom_field/hierarchy/item:
-        label: Label
-        parent: Parent
-        short: Short
-        weight: Weight
+        label: Betegnelse
+        parent: Overordnet
+        short: Kort navn
+        weight: Vægt
       custom_field/project_specific_value_restriction:
         restriction: Begrænsning
       custom_value:
@@ -718,6 +718,8 @@ da:
         custom_field:
           at_least_one_custom_option: Der skal være mindst én valgmulighed.
           attributes:
+            admin_only:
+              cannot_be_true: is not supported for this type of custom field.
             formula:
               blank: Formlen må ikke være tom.
               format: "%{message}"
@@ -731,6 +733,8 @@ da:
               not_supported: er kun tilgængelig for brugerdefinerede felter til arbejdspakker af formaterne liste, hierarki og vægtet liste.
             required:
               cannot_be_true: kan ikke slås til.
+            value:
+              required_by_project_values: cannot be disabled, as the project added values below it.
           previous_custom_field_recalculation_unprocessed: Genberegningen af tidligere ændringer i dette brugerdefinerede felt er endnu ikke anvendt. Prøv igen om et par minutter.
           referenced_in_other_fields_html:
             one: "%{name} bruges i beregningen af projektattributten %{links}."
@@ -738,17 +742,17 @@ da:
         custom_field/hierarchy/item:
           attributes:
             base:
-              root_item: The root of a hierarchy cannot be deleted.
+              root_item: Hierarkiets rod kan ikke slettes.
             label:
-              not_unique: must be unique within the same hierarchy level.
+              not_unique: skal være entydig på samme niveau i hierarkiet.
             parent:
-              other_hierarchy: must belong to the same hierarchy.
-              other_project: must be a global value or belong to the same project.
-              own_descendant: cannot be the value itself or one of its descendants.
+              other_hierarchy: skal høre til samme hierarki.
+              other_project: skal være en global værdi eller høre til samme projekt.
+              own_descendant: kan ikke være værdien selv eller en af dens underværdier.
             project_id:
-              additional_values_not_allowed: cannot add values to this custom field.
+              additional_values_not_allowed: kan ikke tilføje værdier til dette brugerdefinerede felt.
             short:
-              not_unique: must be unique within the same hierarchy level.
+              not_unique: skal være entydigt på samme niveau i hierarkiet.
         custom_fields_project:
           attributes:
             project_ids:
@@ -892,7 +896,7 @@ da:
         push_subscription:
           attributes:
             base:
-              too_many_push_subscriptions: Only %{count} devices can receive browser notifications at the same time.
+              too_many_push_subscriptions: Kun %{count} enheder kan få browsernotifikationer på samme tid.
         queries/filters/base:
           attributes:
             values:
@@ -5359,36 +5363,36 @@ da:
         title: Projektspecifikke notifikationer
     notifications_and_email:
       tabs:
-        browser_push: Browser notifications
+        browser_push: Browsernotifikationer
         email_reminders: Påmindelser via e-mail
         notifications: Notifikationsindstillinger
       title: Notifikationer og e-mail
     push_notifications:
-      description: Get notified with native push notifications via this browser when you have unread notifications, even when OpenProject is not open. Your notification content stays in OpenProject and is not shared with the notification provider.
-      disable: Disable for this browser
-      enable: Enable for this browser
-      no_devices: No device receives browser notifications yet.
-      no_devices_description: Enable browser notifications on a device and it appears here.
-      revoke: Revoke
-      revoke_confirm: Stop sending browser notifications to %{device}?
-      revoke_device: Revoke %{device}
-      revoked: Browser notifications were disabled for that device.
-      signed_out: Signed out
-      signed_out_description: A device that is signed out keeps browser notifications suspended and resumes them when you sign in there again. Revoke the device to stop them for good.
+      description: Få besked med push-notifikationer fra styresystemet via denne browser, når du har ulæste notifikationer, også når OpenProject ikke er åben. Indholdet af dine notifikationer bliver i OpenProject og deles ikke med udbyderen af notifikationerne.
+      disable: Slå fra for denne browser
+      enable: Slå til for denne browser
+      no_devices: Der er endnu ingen enheder, der får browsernotifikationer.
+      no_devices_description: Slå browsernotifikationer til på en enhed, så vises den her.
+      revoke: Tilbagekald
+      revoke_confirm: Vil du holde op med at sende browsernotifikationer til %{device}?
+      revoke_device: Tilbagekald %{device}
+      revoked: Browsernotifikationer er slået fra for enheden.
+      signed_out: Logget ud
+      signed_out_description: På en enhed, der er logget ud, sættes browsernotifikationerne på pause, og de genoptages, når du logger ind der igen. Tilbagekald enheden for at stoppe dem helt.
       status:
-        blocked: Notifications are blocked for this site in your browser settings.
-        disabled: Browser notifications are not enabled for this browser in the current session.
-        enabled: Browser notifications are enabled for this browser in the current session.
-        error: Browser notifications could not be changed. Please try again.
-        prompting: Waiting for you to allow notifications in the browser prompt…
-        subscribing: Registering this browser with its push service…
-        timeout: Your browser did not finish registering for push in time. Check your network connection and try again.
-        unsupported: Browser notifications are not available in this browser.
-      this_session: This session
-      title: Browser notifications
-      try_again: Try again
-      try_again_label: Try again to change browser notifications for this browser
-      unavailable: Browser notifications are temporarily unavailable on this instance.
+        blocked: Notifikationer er blokeret for dette websted i browserens indstillinger.
+        disabled: Browsernotifikationer er ikke slået til for denne browser i den aktuelle session.
+        enabled: Browsernotifikationer er slået til for denne browser i den aktuelle session.
+        error: Browsernotifikationerne kunne ikke ændres. Prøv igen.
+        prompting: Venter på, at du tillader notifikationer i browserens dialog …
+        subscribing: Registrerer browseren hos dens push-tjeneste …
+        timeout: Browseren blev ikke færdig med at registrere sig til push i tide. Tjek netværksforbindelsen, og prøv igen.
+        unsupported: Browsernotifikationer er ikke tilgængelige i denne browser.
+      this_session: Denne session
+      title: Browsernotifikationer
+      try_again: Prøv igen
+      try_again_label: Prøv igen at ændre browsernotifikationer for denne browser
+      unavailable: Browsernotifikationer er midlertidigt utilgængelige i denne installation.
   news:
     index:
       no_results_content_text: Tilføj en nyhed
@@ -6242,24 +6246,24 @@ da:
       status_still: Stadig offline. Vi prøver igen om lidt.
       title: Offline
     push:
-      all_read_title: No unread notifications
-      fallback_title: New activity in OpenProject
+      all_read_title: Ingen ulæste notifikationer
+      fallback_title: Ny aktivitet i OpenProject
       group_title:
-        one: "%{count} update"
-        other: "%{count} updates"
+        one: "%{count} opdatering"
+        other: "%{count} opdateringer"
       more_title:
-        one: "%{count} more work package"
-        other: "%{count} more work packages"
+        one: "%{count} arbejdspakke mere"
+        other: "%{count} arbejdspakker mere"
       reasons:
-        assigned: "%{actor} assigned you"
-        commented: "%{actor} commented"
-        date_alert_due_date: Due date alert
-        date_alert_start_date: Start date alert
-        mentioned: "%{actor} mentioned you"
-        reminder: Reminder
-        responsible: "%{actor} made you accountable"
-        shared: "%{actor} shared a work package with you"
-        updated: "%{actor} updated"
+        assigned: "%{actor} tildelte dig"
+        commented: "%{actor} kommenterede"
+        date_alert_due_date: Påmindelse om slutdato
+        date_alert_start_date: Påmindelse om startdato
+        mentioned: "%{actor} omtalte dig"
+        reminder: Påmindelse
+        responsible: "%{actor} gjorde dig ansvarlig"
+        shared: "%{actor} har delt en arbejdspakke med dig"
+        updated: "%{actor} opdaterede"
   queries:
     apply_filter: Tildel filter som specificeret på forhånd
     configure_view:
@@ -7809,7 +7813,7 @@ da:
     sessions:
       browser: Browser
       browser_session: "(Browsersession)"
-      browser_with_version: "%{name} (Version %{version})"
+      browser_with_version: "%{name} (version %{version})"
       current: Aktuel (denne enhed)
       deletion_warning: Er du sikker på, at du vil tilbagekalde sessionen? Du bliver logget ud på denne enhed.
       device: Enhed/styresystem

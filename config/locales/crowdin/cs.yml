@@ -720,6 +720,8 @@ cs:
         custom_field:
           at_least_one_custom_option: Alespoň jedna možnost musí být k dispozici.
           attributes:
+            admin_only:
+              cannot_be_true: is not supported for this type of custom field.
             formula:
               blank: Vzorec nemůže být prázdný.
               format: "%{message}"
@@ -733,6 +735,8 @@ cs:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted list.
             required:
               cannot_be_true: cannot be set to true.
+            value:
+              required_by_project_values: cannot be disabled, as the project added values below it.
           previous_custom_field_recalculation_unprocessed: The recalculation of previous changes for this custom field have not been applied yet, please try again in a few minutes.
           referenced_in_other_fields_html:
             one: "%{name} is used in project attribute calculation %{links}."

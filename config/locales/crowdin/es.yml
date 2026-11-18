@@ -718,6 +718,8 @@ es:
         custom_field:
           at_least_one_custom_option: Como mínimo, tiene que estar disponible una opción.
           attributes:
+            admin_only:
+              cannot_be_true: is not supported for this type of custom field.
             formula:
               blank: La fórmula no puede estar en blanco.
               format: "%{message}"
@@ -731,6 +733,8 @@ es:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted list.
             required:
               cannot_be_true: no se puede establecer como verdadero.
+            value:
+              required_by_project_values: cannot be disabled, as the project added values below it.
           previous_custom_field_recalculation_unprocessed: El recálculo de los cambios anteriores para este campo personalizado aún no se ha aplicado. Inténtalo de nuevo en unos minutos.
           referenced_in_other_fields_html:
             one: "%{name} se utiliza en el cálculo de atributos del proyecto %{links}."

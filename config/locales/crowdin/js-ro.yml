@@ -773,8 +773,10 @@ ro:
       create_new: Creează nou
       group_by_relation_type: Grupează dupa tipul legăturii
       group_by_wp_type: Grupează după tipul packetului de lucru
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Indentare ierarhie
       hierarchy_outdent: Elimină ierarhia
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Eliminare relație
       remove_child: Elimină copil
       remove_parent: Elimină părinte
@@ -1018,6 +1020,7 @@ ro:
         label_pagination: Click aici pentru a sări peste tabelul cu pachete de lucru și a ajunge la paginare
         pagination: Salt la paginarea tabelului
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Câmp desfășurat combinat: selectează cu săgețile, confirmă alegerea cu enter, şterge cu backspace'
       label_disable_multi_select: Dezactivează selecția multiplă
       label_enable_multi_select: Activare selecție multiplă

@@ -718,6 +718,8 @@ pl:
         custom_field:
           at_least_one_custom_option: Przynajmniej jedna opcja musi być dostępna.
           attributes:
+            admin_only:
+              cannot_be_true: is not supported for this type of custom field.
             formula:
               blank: Wzór nie może być pusty.
               format: "%{message}"
@@ -731,6 +733,8 @@ pl:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted list.
             required:
               cannot_be_true: nie można ustawić na wartość true.
+            value:
+              required_by_project_values: cannot be disabled, as the project added values below it.
           previous_custom_field_recalculation_unprocessed: Ponowne obliczenie poprzednich zmian tego pola niestandardowego nie zostało jeszcze zastosowane, spróbuj ponownie za kilka minut.
           referenced_in_other_fields_html:
             one: "%{name} jest używany w obliczeniach atrybutów projektu %{links}."

@@ -720,6 +720,8 @@ ms:
         custom_field:
           at_least_one_custom_option: Sekurang-kurangnya satu pilihan perlu tersedia.
           attributes:
+            admin_only:
+              cannot_be_true: is not supported for this type of custom field.
             formula:
               blank: Formula can't be blank.
               format: "%{message}"
@@ -733,6 +735,8 @@ ms:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted list.
             required:
               cannot_be_true: cannot be set to true.
+            value:
+              required_by_project_values: cannot be disabled, as the project added values below it.
           previous_custom_field_recalculation_unprocessed: The recalculation of previous changes for this custom field have not been applied yet, please try again in a few minutes.
           referenced_in_other_fields_html:
             other: "%{name} is used in project attribute calculations: %{links}."

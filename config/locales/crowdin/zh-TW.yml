@@ -718,6 +718,8 @@ zh-TW:
         custom_field:
           at_least_one_custom_option: 需要至少一個選項可用。
           attributes:
+            admin_only:
+              cannot_be_true: is not supported for this type of custom field.
             formula:
               blank: 公式不能為空白。
               format: "%{message}"
@@ -731,6 +733,8 @@ zh-TW:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted list.
             required:
               cannot_be_true: 不能設定為 true。
+            value:
+              required_by_project_values: cannot be disabled, as the project added values below it.
           previous_custom_field_recalculation_unprocessed: 尚未套用此自訂欄位先前變更的重新計算，請過幾分鐘再試一次。
           referenced_in_other_fields_html:
             other: "%{name} 用於專案屬性計算： %{links}。"

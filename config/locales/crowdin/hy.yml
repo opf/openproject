@@ -718,6 +718,8 @@ hy:
         custom_field:
           at_least_one_custom_option: Առնվազն մեկ ընտրանք պետք է հասանելի լինի։
           attributes:
+            admin_only:
+              cannot_be_true: is not supported for this type of custom field.
             formula:
               blank: Բանաձևը չի կարող դատարկ լինել։
               format: "%{message}"
@@ -731,6 +733,8 @@ hy:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted list.
             required:
               cannot_be_true: չի կարող սահմանվել true արժեքով։
+            value:
+              required_by_project_values: cannot be disabled, as the project added values below it.
           previous_custom_field_recalculation_unprocessed: Այս հատուկ դաշտի նախորդ փոփոխությունների վերահաշվարկը դեռ կիրառված չէ, խնդրում ենք փորձել կրկին մի քանի րոպեից։
           referenced_in_other_fields_html:
             one: "%{name}-ն օգտագործվում է %{links} նախագծի հատկանիշի հաշվարկում։"
