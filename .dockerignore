@@ -17,33 +17,48 @@ Guardfile
 docker-compose.*
 browserslist
 
+# The application serves the API schema; other documentation is not needed at runtime.
 /docs
 !/docs/api/apiv3/openapi-spec.yml
 !/docs/api/apiv3/paths
 !/docs/api/apiv3/tags
 !/docs/api/apiv3/components
 
-# Ignore spec/** folders
+# Exclude tests, but keep factories and support code for all-in-one Lookbook previews.
 spec/**
-# Allow factories in case we use lookbook
 !spec/factories
 !spec/factories/**
 !spec/support
 !spec/support/**
+
+# Module factories also read fixtures, including BIM viewpoints and IFC models.
+modules/*/spec/**
+!modules/*/spec/factories
+!modules/*/spec/factories/**
+!modules/*/spec/fixtures
+!modules/*/spec/fixtures/**
+!modules/*/spec/support
+!modules/*/spec/support/**
+modules/*/test
+modules/*/tests
+# Repository screenshots are documentation assets.
+screenshots
 
 extra
 features
 help
 log/*.log
 /tmp
+# Install frontend dependencies and rebuild the Angular cache inside the image.
 frontend/.angular/cache
 frontend/node_modules
 packages/service-worker/node_modules
 node_modules
-# travis
+# Install gems for the target image instead of copying a host bundle.
 vendor/bundle
 # Local checkout; all-in-one copies hocuspocus from its dedicated image.
 vendor/hocuspocus
+# Compile assets inside the image; generated source maps remain in runtime images.
 /public/assets
 /config/frontend_assets.manifest.json
 .oss-scanner

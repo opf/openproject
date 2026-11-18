@@ -86,6 +86,9 @@ namespace :assets do
       raise "The service worker bundle is missing from the assets manifest. " \
             "Check the service worker build output above."
     end
+
+    puts "Compressing angular frontend assets"
+    sh("node", Rails.root.join("frontend/compress-assets.mjs").to_s, OpenProject::Assets.frontend_asset_path.to_s)
   end
 
   desc "Write angular assets manifest"

@@ -361,18 +361,16 @@ RSpec.describe Query::Results, "Sorting by custom field" do
 
   context "for hierarchy format", with_ee: [:custom_field_hierarchies] do
     include_examples "it sorts" do
-      let(:custom_field) { create(:hierarchy_wp_custom_field, hierarchy_root: nil) }
-      let(:root) { service.generate_root(custom_field).value! }
-      let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
-      let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
+      let(:custom_field) { create(:hierarchy_wp_custom_field) }
+      let(:root) { custom_field.hierarchy_root }
 
-      let!(:item_first) { service.insert_item(contract_class:, parent: root, label: "aa item").value! }
-      let!(:item_a) { service.insert_item(contract_class:, parent: root, label: "item_a").value! }
-      let!(:item_a1) { service.insert_item(contract_class:, parent: item_a, label: "item_a1").value! }
-      let!(:item_a2) { service.insert_item(contract_class:, parent: item_a, label: "item_a2").value! }
-      let!(:item_c) { service.insert_item(contract_class:, parent: root, label: "item_c").value! }
-      let!(:item_b) { service.insert_item(contract_class:, parent: root, label: "item_b").value! }
-      let!(:item_last) { service.insert_item(contract_class:, parent: root, label: "zz item").value! }
+      let!(:item_first) { create(:hierarchy_item, parent: root, label: "aa item") }
+      let!(:item_a) { create(:hierarchy_item, parent: root, label: "item_a") }
+      let!(:item_a1) { create(:hierarchy_item, parent: item_a, label: "item_a1") }
+      let!(:item_a2) { create(:hierarchy_item, parent: item_a, label: "item_a2") }
+      let!(:item_c) { create(:hierarchy_item, parent: root, label: "item_c") }
+      let!(:item_b) { create(:hierarchy_item, parent: root, label: "item_b") }
+      let!(:item_last) { create(:hierarchy_item, parent: root, label: "zz item") }
 
       let(:work_packages) do
         [

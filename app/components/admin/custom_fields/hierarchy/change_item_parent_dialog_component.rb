@@ -50,13 +50,8 @@ module Admin
           {
             id: form_id,
             url:,
-            model: form_model,
             method: :post
           }
-        end
-
-        def hierarchy_service
-          @hierarchy_service ||= ::CustomFields::Hierarchy::HierarchicalItemService.new
         end
 
         def other_projects_items
@@ -64,10 +59,6 @@ module Admin
         end
 
         private
-
-        def form_model
-          CustomField::Hierarchy::Forms::NewParentFormModel.new(new_parent: [])
-        end
 
         def url
           if @custom_field.is_a?(ProjectCustomField)

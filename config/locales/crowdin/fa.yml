@@ -160,6 +160,11 @@ fa:
         semantic_key: معنای معنایی
         user_self_editable: Editable
         visible_on_user_card: نمایش در کارت کاربر
+      custom_field/hierarchy/item:
+        label: Label
+        parent: Parent
+        short: Short
+        weight: Weight
       custom_field/project_specific_value_restriction:
         restriction: محدودیت
       custom_value:
@@ -345,7 +350,6 @@ fa:
       project_type:
         variant: گونه
       push_subscription:
-        created_at: افزوده‌شده
         endpoint: نقطه پایانی
         session_id: نشست
       query:
@@ -712,6 +716,8 @@ fa:
         custom_field:
           at_least_one_custom_option: حداقل یک گزینه باید در دسترس باشد.
           attributes:
+            admin_only:
+              cannot_be_true: is not supported for this type of custom field.
             formula:
               blank: فرمول نمی‌تواند خالی باشد.
               format: "%{message}"
@@ -725,10 +731,26 @@ fa:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted list.
             required:
               cannot_be_true: نمی‌تواند روی true تنظیم شود.
+            value:
+              required_by_project_values: cannot be disabled, as the project added values below it.
           previous_custom_field_recalculation_unprocessed: محاسبه مجدد تغییرات قبلی این فیلد سفارشی هنوز اعمال نشده است؛ لطفاً چند دقیقه دیگر دوباره تلاش کنید.
           referenced_in_other_fields_html:
             one: "%{name} در محاسبه ویژگی پروژه %{links} استفاده می‌شود."
             other: "%{name} در محاسبات ویژگی پروژه استفاده می‌شود: %{links}."
+        custom_field/hierarchy/item:
+          attributes:
+            base:
+              root_item: The root of a hierarchy cannot be deleted.
+            label:
+              not_unique: must be unique within the same hierarchy level.
+            parent:
+              other_hierarchy: must belong to the same hierarchy.
+              other_project: must be a global value or belong to the same project.
+              own_descendant: cannot be the value itself or one of its descendants.
+            project_id:
+              additional_values_not_allowed: cannot add values to this custom field.
+            short:
+              not_unique: must be unique within the same hierarchy level.
         custom_fields_project:
           attributes:
             project_ids:
@@ -872,7 +894,7 @@ fa:
         push_subscription:
           attributes:
             base:
-              too_many_push_subscriptions: فقط %{count} دستگاه می‌توانند هم‌زمان اعلان‌های پوش مرورگر را دریافت کنند.
+              too_many_push_subscriptions: Only %{count} devices can receive browser notifications at the same time.
         queries/filters/base:
           attributes:
             values:
@@ -3275,6 +3297,7 @@ fa:
       work_package_query_relation_columns: ستون‌های رابطه Query بسته کاری
       work_package_sharing: اشتراک‌گذاری بسته‌های کاری با کاربران خارجی
       work_package_subject_generation: تولید عنوان بسته کاری
+      xwiki_integration: XWiki Integration
     teaser:
       description_html: به همه قابلیت‌های %{trial_plan} دسترسی دارید.
       title:
@@ -5335,9 +5358,36 @@ fa:
         title: اعلان‌های ویژه پروژه
     notifications_and_email:
       tabs:
+        browser_push: Browser notifications
         email_reminders: یادآوری‌های ایمیلی
         notifications: تنظیمات اعلان
       title: اعلان و ایمیل
+    push_notifications:
+      description: Get notified with native push notifications via this browser when you have unread notifications, even when OpenProject is not open. Your notification content stays in OpenProject and is not shared with the notification provider.
+      disable: Disable for this browser
+      enable: Enable for this browser
+      no_devices: No device receives browser notifications yet.
+      no_devices_description: Enable browser notifications on a device and it appears here.
+      revoke: Revoke
+      revoke_confirm: Stop sending browser notifications to %{device}?
+      revoke_device: Revoke %{device}
+      revoked: Browser notifications were disabled for that device.
+      signed_out: Signed out
+      signed_out_description: A device that is signed out keeps browser notifications suspended and resumes them when you sign in there again. Revoke the device to stop them for good.
+      status:
+        blocked: Notifications are blocked for this site in your browser settings.
+        disabled: Browser notifications are not enabled for this browser in the current session.
+        enabled: Browser notifications are enabled for this browser in the current session.
+        error: Browser notifications could not be changed. Please try again.
+        prompting: Waiting for you to allow notifications in the browser prompt…
+        subscribing: Registering this browser with its push service…
+        timeout: Your browser did not finish registering for push in time. Check your network connection and try again.
+        unsupported: Browser notifications are not available in this browser.
+      this_session: This session
+      title: Browser notifications
+      try_again: Try again
+      try_again_label: Try again to change browser notifications for this browser
+      unavailable: Browser notifications are temporarily unavailable on this instance.
   news:
     index:
       no_results_content_text: افزودن خبر
@@ -5603,7 +5653,6 @@ fa:
       eql?: باید برابر %{left} باشد.
       filled?: باید پر شود.
       format?: قالب نامعتبر دارد.
-      greater_or_equal_zero: باید بزرگ‌تر از یا برابر با ۰ باشد.
       gt?: باید بزرگ‌تر از %{num} باشد.
       gteq?: باید بزرگ‌تر از یا برابر با %{num} باشد.
       hash?: باید Hash باشد.
@@ -5616,21 +5665,6 @@ fa:
       max_size?: نباید بیش از %{num} نویسه داشته باشد.
       not_found: یافت نشد.
       respond_to?: متد الزامی را پیاده‌سازی نمی‌کند.
-      rules:
-        custom_field:
-          format_not_supported: قالب '%{field_format}' پشتیبانی نمی‌شود.
-        item:
-          not_persisted: must be an already existing value.
-          root_item: cannot be a root value.
-        label:
-          not_unique: باید در همان سطح سلسله‌مراتب یکتا باشد.
-        parent:
-          not_descendant: باید فرزند ریشه سلسله‌مراتب باشد.
-          other_project: must be a global value or belong to the same project.
-        project:
-          additional_values_not_allowed: cannot add values to this custom field.
-        short:
-          not_unique: باید در همان سطح سلسله‌مراتب یکتا باشد.
       str?: باید رشته باشد.
       time?: باید زمان باشد.
       type?: باید %{type} باشد.
@@ -6208,6 +6242,25 @@ fa:
       status_restored: اتصال برقرار شد. در حال بارگذاری مجدد…
       status_still: هنوز آفلاین هستید. کمی دیگر دوباره تلاش می‌کنیم.
       title: آفلاین
+    push:
+      all_read_title: No unread notifications
+      fallback_title: New activity in OpenProject
+      group_title:
+        one: "%{count} update"
+        other: "%{count} updates"
+      more_title:
+        one: "%{count} more work package"
+        other: "%{count} more work packages"
+      reasons:
+        assigned: "%{actor} assigned you"
+        commented: "%{actor} commented"
+        date_alert_due_date: Due date alert
+        date_alert_start_date: Start date alert
+        mentioned: "%{actor} mentioned you"
+        reminder: Reminder
+        responsible: "%{actor} made you accountable"
+        shared: "%{actor} shared a work package with you"
+        updated: "%{actor} updated"
   queries:
     apply_filter: اعمال فیلتر ازپیش‌پیکربندی‌شده
     configure_view:
@@ -7436,6 +7489,7 @@ fa:
         rename_group: تغییر نام بخش
         required:
           already_required_globally: این فیلد سفارشی برای همه نوع‌ها الزامی است.
+          excluded: Switch this custom field on before requiring it for this type.
           for_variant: برای این نوع الزامی است
           globally: الزامی
           globally_hint: این مورد را در فیلد سفارشی تغییر دهید
@@ -7513,6 +7567,7 @@ fa:
           success: پیکربندی کپی شد.
         exclusions:
           not_inherited: این پیکربندی ارث‌بری نمی‌شود، بنابراین چیزی برای مستثناکردن وجود ندارد. در عوض پیکربندی را مستقیماً ویرایش کنید.
+          required: A required custom field cannot be switched off.
           unknown_aspect: بخش پیکربندی ناشناخته «%{aspect}».
         inherited:
           configure_manually: پیکربندی دستی
@@ -7763,6 +7818,7 @@ fa:
     sessions:
       browser: مرورگر
       browser_session: "(Session مرورگر)"
+      browser_with_version: "%{name} (Version %{version})"
       current: فعلی (این دستگاه)
       deletion_warning: مطمئنید می‌خواهید این Session را لغو کنید؟ در این دستگاه از سیستم خارج خواهید شد.
       device: دستگاه / سیستم‌عامل

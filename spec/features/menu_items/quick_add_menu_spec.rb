@@ -129,14 +129,15 @@ RSpec.describe "Quick-add menu", :js do
              member_with_permissions: { project => %i[view_meetings create_meetings] })
     end
 
-    it "shows the add meeting option within the project and globally" do
+    it "shows the add one-time meeting option within the project and globally" do
       visit project_path(project)
 
       quick_add.expect_visible
       quick_add.toggle
       quick_add.expect_meeting
 
-      quick_add.click_link "Meeting"
+      quick_add.open_meeting_submenu
+      quick_add.click_link "One-time"
       expect(page).to have_css("#new-meeting-dialog")
 
       visit home_path
@@ -145,7 +146,30 @@ RSpec.describe "Quick-add menu", :js do
       quick_add.toggle
       quick_add.expect_meeting
 
-      quick_add.click_link "Meeting"
+      quick_add.open_meeting_submenu
+      quick_add.click_link "One-time"
+      expect(page).to have_css("#new-meeting-dialog")
+    end
+
+    it "shows the add recurring meeting option within the project and globally" do
+      visit project_path(project)
+
+      quick_add.expect_visible
+      quick_add.toggle
+      quick_add.expect_meeting
+
+      quick_add.open_meeting_submenu
+      quick_add.click_link "Recurring"
+      expect(page).to have_css("#new-meeting-dialog")
+
+      visit home_path
+
+      quick_add.expect_visible
+      quick_add.toggle
+      quick_add.expect_meeting
+
+      quick_add.open_meeting_submenu
+      quick_add.click_link "Recurring"
       expect(page).to have_css("#new-meeting-dialog")
     end
   end

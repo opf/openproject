@@ -75,6 +75,12 @@ export class IsolatedQuerySpace extends StatesGroup {
   // State to be updated when the table is up to date
   tableRendered = input<RenderedWorkPackage[]>();
 
+  // Present while an operation owns the table and input to it is blocked
+  tableOperation = input<Promise<unknown>>();
+
+  // Reloads the table; the promise settles once the reloaded results are rendered
+  reloadTable = input<() => Promise<void>>();
+
   // Event to be raised when the timeline is up to date
   timelineRendered = new Subject<null>();
 

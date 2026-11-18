@@ -55,6 +55,7 @@
     "test:unit": "vitest run",
     "test:browser": "vitest run --config vitest.browser.config.ts",
     "coverage": "vitest run --coverage",
+    "changelog": "node scripts/changelog.ts",
     "preview": "vite preview"
   },
   "devDependencies": {

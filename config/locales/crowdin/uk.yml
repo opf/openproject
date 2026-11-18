@@ -160,6 +160,11 @@ uk:
         semantic_key: Семантичне значення
         user_self_editable: Може бути відредаговане
         visible_on_user_card: Показати на картці користувача
+      custom_field/hierarchy/item:
+        label: Label
+        parent: Parent
+        short: Short
+        weight: Weight
       custom_field/project_specific_value_restriction:
         restriction: Restriction
       custom_value:
@@ -345,7 +350,6 @@ uk:
       project_type:
         variant: Варіант
       push_subscription:
-        created_at: Додано
         endpoint: Endpoint
         session_id: Сеанс
       query:
@@ -716,6 +720,8 @@ uk:
         custom_field:
           at_least_one_custom_option: Необхідно мати принаймні один варіант.
           attributes:
+            admin_only:
+              cannot_be_true: is not supported for this type of custom field.
             formula:
               blank: Потрібно вказати формулу.
               format: "%{message}"
@@ -729,12 +735,28 @@ uk:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted list.
             required:
               cannot_be_true: не може мати значення true.
+            value:
+              required_by_project_values: cannot be disabled, as the project added values below it.
           previous_custom_field_recalculation_unprocessed: Перерахунок попередніх змін для цього власного поля ще не було застосовано. Спробуйте повторити спробу за кілька хвилин.
           referenced_in_other_fields_html:
             one: "%{name} використовується при обчисленні атрибутів проєкту %{links}."
             few: "%{name} використовується при обчисленнях атрибутів проєкту: %{links}."
             many: "%{name} використовується при обчисленнях атрибутів проєкту: %{links}."
             other: "%{name} використовується при обчисленнях атрибутів проєкту: %{links}."
+        custom_field/hierarchy/item:
+          attributes:
+            base:
+              root_item: The root of a hierarchy cannot be deleted.
+            label:
+              not_unique: must be unique within the same hierarchy level.
+            parent:
+              other_hierarchy: must belong to the same hierarchy.
+              other_project: must be a global value or belong to the same project.
+              own_descendant: cannot be the value itself or one of its descendants.
+            project_id:
+              additional_values_not_allowed: cannot add values to this custom field.
+            short:
+              not_unique: must be unique within the same hierarchy level.
         custom_fields_project:
           attributes:
             project_ids:
@@ -880,7 +902,7 @@ uk:
         push_subscription:
           attributes:
             base:
-              too_many_push_subscriptions: Only %{count} devices can receive browser push notifications at the same time.
+              too_many_push_subscriptions: Only %{count} devices can receive browser notifications at the same time.
         queries/filters/base:
           attributes:
             values:
@@ -3571,6 +3593,7 @@ uk:
       work_package_query_relation_columns: Стовпці зв’язків запиту пакета робіт
       work_package_sharing: Діліться пакетами робіт із зовнішніми користувачами
       work_package_subject_generation: Створення теми пакета робіт
+      xwiki_integration: XWiki Integration
     teaser:
       description_html: У вас є доступ до всіх функцій %{trial_plan}.
       title:
@@ -5682,9 +5705,36 @@ uk:
         title: Сповіщення для проєкту
     notifications_and_email:
       tabs:
+        browser_push: Browser notifications
         email_reminders: Нагадування електронною поштою
         notifications: Налаштування сповіщень
       title: Сповіщення й електронні листи
+    push_notifications:
+      description: Get notified with native push notifications via this browser when you have unread notifications, even when OpenProject is not open. Your notification content stays in OpenProject and is not shared with the notification provider.
+      disable: Disable for this browser
+      enable: Enable for this browser
+      no_devices: No device receives browser notifications yet.
+      no_devices_description: Enable browser notifications on a device and it appears here.
+      revoke: Revoke
+      revoke_confirm: Stop sending browser notifications to %{device}?
+      revoke_device: Revoke %{device}
+      revoked: Browser notifications were disabled for that device.
+      signed_out: Signed out
+      signed_out_description: A device that is signed out keeps browser notifications suspended and resumes them when you sign in there again. Revoke the device to stop them for good.
+      status:
+        blocked: Notifications are blocked for this site in your browser settings.
+        disabled: Browser notifications are not enabled for this browser in the current session.
+        enabled: Browser notifications are enabled for this browser in the current session.
+        error: Browser notifications could not be changed. Please try again.
+        prompting: Waiting for you to allow notifications in the browser prompt…
+        subscribing: Registering this browser with its push service…
+        timeout: Your browser did not finish registering for push in time. Check your network connection and try again.
+        unsupported: Browser notifications are not available in this browser.
+      this_session: This session
+      title: Browser notifications
+      try_again: Try again
+      try_again_label: Try again to change browser notifications for this browser
+      unavailable: Browser notifications are temporarily unavailable on this instance.
   news:
     index:
       no_results_content_text: Додати новину
@@ -5954,7 +6004,6 @@ uk:
       eql?: має бути «%{left}».
       filled?: "— слід заповнити."
       format?: має недійсний формат.
-      greater_or_equal_zero: має бути більше ніж 0 або дорівнювати йому.
       gt?: must be greater than %{num}.
       gteq?: має бути більше ніж %{num} або дорівнювати цьому значенню.
       hash?: має бути гешом.
@@ -5967,21 +6016,6 @@ uk:
       max_size?: must not be longer than %{num} characters.
       not_found: "— не знайдено."
       respond_to?: не реалізує потрібний метод.
-      rules:
-        custom_field:
-          format_not_supported: формат «%{field_format}» не підтримується.
-        item:
-          not_persisted: must be an already existing value.
-          root_item: cannot be a root value.
-        label:
-          not_unique: має бути унікальним об’єктом у межах одного рівня ієрархії.
-        parent:
-          not_descendant: має бути нащадком кореня ієрархії.
-          other_project: must be a global value or belong to the same project.
-        project:
-          additional_values_not_allowed: cannot add values to this custom field.
-        short:
-          not_unique: має бути унікальним об’єктом у межах одного рівня ієрархії.
       str?: має бути рядком.
       time?: має бути часом.
       type?: має бути типом «%{type}».
@@ -6567,6 +6601,29 @@ uk:
       status_restored: Connection restored. Reloading…
       status_still: Still offline. We’ll try again in a moment.
       title: Offline
+    push:
+      all_read_title: No unread notifications
+      fallback_title: New activity in OpenProject
+      group_title:
+        one: "%{count} update"
+        few: "%{count} updates"
+        many: "%{count} updates"
+        other: "%{count} updates"
+      more_title:
+        one: "%{count} more work package"
+        few: "%{count} more work packages"
+        many: "%{count} more work packages"
+        other: "%{count} more work packages"
+      reasons:
+        assigned: "%{actor} assigned you"
+        commented: "%{actor} commented"
+        date_alert_due_date: Due date alert
+        date_alert_start_date: Start date alert
+        mentioned: "%{actor} mentioned you"
+        reminder: Reminder
+        responsible: "%{actor} made you accountable"
+        shared: "%{actor} shared a work package with you"
+        updated: "%{actor} updated"
   queries:
     apply_filter: Застосувати попередньо налаштований фільтр
     configure_view:
@@ -7812,6 +7869,7 @@ uk:
         rename_group: Перейменувати розділ
         required:
           already_required_globally: Це користувацьке поле є обов’язковим для всіх типів.
+          excluded: Switch this custom field on before requiring it for this type.
           for_variant: Required for this type
           globally: Обов'язкове
           globally_hint: Змініть це у користувацькому полі
@@ -7889,6 +7947,7 @@ uk:
           success: Конфігурацію скопійовано.
         exclusions:
           not_inherited: Ця конфігурація не спадкується, тому виключати нічого не потрібно. Натомість відредагуйте безпосередньо конфігурацію.
+          required: A required custom field cannot be switched off.
           unknown_aspect: Невідомий розділ конфігурації «%{aspect}».
         inherited:
           configure_manually: Налаштувати вручну
@@ -8147,6 +8206,7 @@ uk:
     sessions:
       browser: Браузер
       browser_session: "(Сеанс браузера)"
+      browser_with_version: "%{name} (Version %{version})"
       current: Поточний (цей пристрій)
       deletion_warning: Ви справді хочете скасувати цей сеанс? Ви вийдете з облікового запису на цьому пристрої.
       device: Пристрій / ОС

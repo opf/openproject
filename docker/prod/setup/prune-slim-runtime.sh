@@ -17,9 +17,6 @@ if [ -d "$APP_PATH/public/assets/enterprise" ]; then
   rm -rf "$APP_PATH/app/assets/videos/enterprise"
 fi
 
-# Source maps are useful during development, but unnecessary in slim runtime images.
-find "$APP_PATH/public/assets" -type f -name '*.map' -delete
-
 # Lookbook source is removed above, so its compiled static assets are unnecessary too.
 rm -rf "$APP_PATH/public/assets/lookbook"
 

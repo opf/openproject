@@ -32,44 +32,37 @@ See COPYRIGHT and LICENSE files for more details.
   <%= pane_form(id: APPLY_FORM_ID, url: apply_ai_text_transform_pane_path(pane.uuid), method: :post) if done? %>
   <%= pane_form(id: RETRY_FORM_ID, url: ai_text_transform_panes_path, method: :post, fields: { **form_params, retry_of: pane.uuid }) if pane.retryable? %>
   <%=
-    flex_layout(align_items: :center, classes: "op-ai-result-pane--footer") do |bar|
-      bar.with_column(mr: 2, classes: "op-ai-result-pane--grip", data: action(beginDrag: :pointerdown)) do
-        render(Primer::Beta::Octicon.new(icon: :grabber, color: :muted))
+    case state
+    when "generating"
+      flex_layout(align_items: :center, justify_content: :space_between) do |footer|
+        footer.with_column do
+          render(Primer::Beta::Text.new(color: :muted)) { label(:generating) }
+        end
+        footer.with_column do
+          render(Primer::Beta::Button.new(type: :submit, form: CLOSE_FORM_ID)) { label(:cancel) }
+        end
       end
-      bar.with_column(flex: 1) do
-        case state
-        when "generating"
-          flex_layout(align_items: :center, justify_content: :space_between) do |footer|
-            footer.with_column do
-              render(Primer::Beta::Text.new(color: :muted)) { label(:generating) }
-            end
-            footer.with_column do
-              render(Primer::Beta::Button.new(type: :submit, form: CLOSE_FORM_ID)) { label(:cancel) }
-            end
+    when "done"
+      flex_layout(align_items: :center) do |footer|
+        footer.with_column(flex: 1) do
+          render(Primer::Beta::ClipboardCopyButton.new(scheme: :invisible, value: pane.applicable_text, "aria-label": label(:copy)))
+        end
+        footer.with_column(mr: 2) do
+          render(Primer::Beta::Button.new(type: :submit, form: CLOSE_FORM_ID)) { label(:discard) }
+        end
+        footer.with_column do
+          render(Primer::Beta::Button.new(scheme: :primary, type: :submit, form: APPLY_FORM_ID)) { label(:replace) }
+        end
+      end
+    else
+      flex_layout(align_items: :center, justify_content: :flex_end) do |footer|
+        if pane.retryable?
+          footer.with_column(mr: 2) do
+            render(Primer::Beta::Button.new(type: :submit, form: RETRY_FORM_ID)) { label(:try_again) }
           end
-        when "done"
-          flex_layout(align_items: :center) do |footer|
-            footer.with_column(flex: 1) do
-              render(Primer::Beta::ClipboardCopyButton.new(scheme: :invisible, value: pane.applicable_text, "aria-label": label(:copy)))
-            end
-            footer.with_column(mr: 2) do
-              render(Primer::Beta::Button.new(type: :submit, form: CLOSE_FORM_ID)) { label(:discard) }
-            end
-            footer.with_column do
-              render(Primer::Beta::Button.new(scheme: :primary, type: :submit, form: APPLY_FORM_ID)) { label(:replace) }
-            end
-          end
-        else
-          flex_layout(align_items: :center, justify_content: :flex_end) do |footer|
-            if pane.retryable?
-              footer.with_column(mr: 2) do
-                render(Primer::Beta::Button.new(type: :submit, form: RETRY_FORM_ID)) { label(:try_again) }
-              end
-            end
-            footer.with_column do
-              render(Primer::Beta::Button.new(type: :submit, form: CLOSE_FORM_ID)) { label(:close) }
-            end
-          end
+        end
+        footer.with_column do
+          render(Primer::Beta::Button.new(type: :submit, form: CLOSE_FORM_ID)) { label(:close) }
         end
       end
     end

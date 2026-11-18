@@ -772,8 +772,10 @@ pt-PT:
       create_new: Criar novo
       group_by_relation_type: Agrupar por tipo de relação
       group_by_wp_type: Agrupar por tipo de pacote de trabalho
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Hierarquia interna
       hierarchy_outdent: Hierarquia externa
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Remover relação
       remove_child: Remover filho
       remove_parent: Remover pai
@@ -1012,6 +1014,7 @@ pt-PT:
         label_pagination: Clique aqui para saltar a tabela de pacotes de trabalho e ir para paginação
         pagination: Saltar para paginação da tabela
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Campo de lista pendente combinado: selecione com as teclas de seta, confirme a seleção com Enter e elimine com Backspace.'
       label_disable_multi_select: Desativar seleção múltipla
       label_enable_multi_select: Ativar seleção múltipla
