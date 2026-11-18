@@ -55,7 +55,7 @@ module Backlogs
         c: default_columns | ["sprint", *estimation_column(project)],
         is: false
       }
-      if timestamps.present?
+      if timestamps.present? && timestamps.any?(&:historic?)
         query_props[:ts] = API::V3::Utilities::PathHelper::ApiV3Path.timestamps_to_param_value(timestamps)
       end
 

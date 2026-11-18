@@ -277,4 +277,15 @@ RSpec.describe "baseline query saving",
 
     baseline_modal.expect_offset berlin_utc_offset, count: 2
   end
+
+  it "shows the date of a single historic timestamp in the legend" do
+    query = create(:query, project:, user: berlin_user, timestamps: ["2023-05-20T06:00+09:00"])
+
+    login_as berlin_user
+    wp_table.visit_query query
+
+    baseline.expect_legend_text "State at 2023-05-20 6:00 AM UTC+9"
+    baseline.expect_legend_tooltip "In your local timezone: 2023-05-19 11:00 PM UTC+2"
+    expect(page).to have_no_css(".op-baseline-legends--details")
+  end
 end
