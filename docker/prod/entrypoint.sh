@@ -51,7 +51,6 @@ if [ "$(id -u)" = '0' ]; then
 	# The $APP_DATA_PATH may be hosted on a NAS that creates snapshots (or a btrfs filesystem). In such a case, the .snapshot folder cannot be touched.
 	find "$APP_DATA_PATH" -path '*/.snapshot*' -prune -o -exec chown "$APP_USER:$APP_USER" {} +
 	if [ -d /etc/caddy ]; then
-		chown -R "$APP_USER:$APP_USER" /etc/caddy
 		echo "OpenProject currently expects to be reached on the following domain: ${SERVER_NAME:=localhost}, which does not seem to be how your installation is configured." > /var/www/html/index.html
 		echo "If you are an administrator, please ensure you have correctly set the SERVER_NAME variable when launching your container." >> /var/www/html/index.html
 	fi

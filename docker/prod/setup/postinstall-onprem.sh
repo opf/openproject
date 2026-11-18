@@ -37,6 +37,7 @@ done
 
 setcap cap_net_bind_service=+ep /usr/bin/caddy
 mkdir -p /etc/caddy /var/www/html
+chown "${APP_USER}:${APP_USER}" /etc/caddy
 
 rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 truncate -s 0 /var/log/*log
