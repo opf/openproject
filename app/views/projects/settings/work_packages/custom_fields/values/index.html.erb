@@ -51,11 +51,13 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%=
-  render(Primer::Beta::Text.new(tag: :p)) do
-    t("projects.settings.custom_fields.values_description", custom_field: custom_field.name, project: configured_project.name)
-  end
-%>
+<% if custom_field.values_toggleable_by?(current_user, configured_project) || custom_field.allow_additional_project_values? %>
+  <%=
+    render(Primer::Beta::Text.new(tag: :p)) do
+      t("projects.settings.custom_fields.values_description", custom_field: custom_field.name, project: configured_project.name)
+    end
+  %>
+<% end %>
 
 <%= render(Admin::CustomFields::Projects::ValuesSubHeaderComponent.new(custom_field:)) %>
 

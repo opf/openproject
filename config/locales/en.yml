@@ -2991,6 +2991,7 @@ en:
       projects:
         additional_values_disabled_notice: "Project admins can no longer add values to this custom field. Existing project-specific values stay available."
         additional_values_disabled_project_notice: "Project admins can no longer add values to this custom field. However, existing project-specific values are still available and can be enabled or disabled."
+        available_values: "Available values"
         configure: "Configure project-specific values for %{project}"
         delete_value_dialog:
           description: "This action will irreversibly remove the value from %{project}. Any assigned values will be permanently deleted."

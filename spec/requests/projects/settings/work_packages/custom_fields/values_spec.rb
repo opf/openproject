@@ -207,6 +207,9 @@ RSpec.describe "Project settings for the values of a work package custom field",
       get values_path
 
       expect(response).to have_http_status(:ok)
+      expect(page).to have_text(
+        I18n.t("projects.settings.custom_fields.values_description", custom_field: custom_field.name, project: project.name)
+      )
     end
 
     it "does not ask for a new value" do
@@ -259,6 +262,14 @@ RSpec.describe "Project settings for the values of a work package custom field",
 
   context "when project admins may only add values" do
     let(:project_level_value_management) { false }
+
+    it "asks to choose the values of the project" do
+      get values_path
+
+      expect(page).to have_text(
+        I18n.t("projects.settings.custom_fields.values_description", custom_field: custom_field.name, project: project.name)
+      )
+    end
 
     it "adds a value to the project" do
       post values_path, params: { label: "Own" }
@@ -331,10 +342,13 @@ RSpec.describe "Project settings for the values of a work package custom field",
     let(:project_level_value_management) { false }
     let(:allow_additional_project_values) { false }
 
-    it "shows the values of the custom field in the project" do
+    it "shows the values of the custom field in the project without asking to choose them" do
       get values_path
 
       expect(response).to have_http_status(:ok)
+      expect(page).to have_no_text(
+        I18n.t("projects.settings.custom_fields.values_description", custom_field: custom_field.name, project: project.name)
+      )
     end
 
     it "does not add a value to the project" do

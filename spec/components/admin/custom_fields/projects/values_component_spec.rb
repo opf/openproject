@@ -55,6 +55,11 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
       create(:project_specific_value_restriction, project:, custom_option: option_a)
     end
 
+    it "names the list as the available values" do
+      expect(rendered.css(".Box-header").text).to include(I18n.t("custom_fields.admin.projects.available_values"))
+      expect(rendered.css(".Box-header").text).not_to include(custom_field.name)
+    end
+
     it "offers to enable and to disable all values outside of the values frame to show the result" do
       expect(rendered).to have_css(
         "a[data-turbo-frame='_top']",
