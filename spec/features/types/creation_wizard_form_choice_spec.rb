@@ -181,6 +181,37 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
     expect(existing.reload.attribute_groups.map(&:translated_key)).not_to include("Extra")
   end
 
+  it "resets a new form without leaving the wizard", :aggregate_failures, with_ee: %i[edit_attribute_groups] do
+    type = create_type_through_wizard("Incident")
+    click_on I18n.t(:button_continue)
+
+    choose_option("new")
+    within_dialog I18n.t("form_configurations.start.title") do
+      choose_form_start("scratch")
+      click_on I18n.t(:button_continue)
+    end
+    expect_chosen("new")
+
+    form = Components::Admin::TypeConfigurationForm.new
+    form.add_attribute_group("Extra")
+    form.expect_group("Extra", "Extra")
+
+    form.reset_button.click
+    within_test_selector("type-form-configuration-reset-dialog") do
+      click_on I18n.t("button_reset")
+    end
+
+    expect_flash(message: I18n.t(:notice_successful_update))
+    expect(page).to have_current_path(/creation_wizard/)
+    expect(page).to have_current_query_params(
+      "step" => "form_configuration",
+      "started_form_configuration_id" => type.default_variant.reload.form_configuration_id.to_s
+    )
+    expect_chosen("new")
+    expect(page).to have_no_test_selector("type-form-configuration-groups-container", text: "Extra")
+    expect(type.default_variant.form_configuration.attribute_groups.map(&:translated_key)).not_to include("Extra")
+  end
+
   it "keeps asking until the new form has a name" do
     type = create_type_through_wizard("Incident")
     click_on I18n.t(:button_continue)
