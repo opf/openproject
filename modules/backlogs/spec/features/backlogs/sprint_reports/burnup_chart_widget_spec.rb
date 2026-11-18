@@ -46,24 +46,43 @@ RSpec.describe "Burnup chart widget", :js, with_flag: :sprint_reports do
   end
 
   context "when the sprint has a date range set" do
-    shared_let(:sprint) do
-      create(:sprint,
-             project:,
-             name: "Sprint 42",
-             start_date: Date.yesterday,
-             finish_date: Date.tomorrow,
-             status: :active)
+    around { |example| travel_to(Time.zone.local(2026, 11, 3, 12)) { example.run } }
+
+    let!(:sprint) do
+      create(
+        :sprint,
+        project:,
+        name: "Sprint 42",
+        start_date: Date.new(2026, 11, 2),
+        finish_date: Date.new(2026, 11, 4),
+        status: :active
+      )
     end
-    shared_let(:work_package) { create(:work_package, project:, sprint:, story_points: 3) }
+    let!(:work_package) do
+      create(
+        :work_package,
+        :created_in_past,
+        created_at: Time.zone.local(2026, 11, 1, 12),
+        project:,
+        sprint:,
+        story_points: 3
+      )
+    end
 
     it "renders the burnup chart" do
       visit_sprint_report(sprint)
 
       expect(page).to have_element(:"opce-burnup-chart")
-      canvas = find("opce-burnup-chart canvas[role='img']", wait: 20, aria: { label: "Burnup chart" })
-
-      description_id = canvas["aria-describedby"]
-      expect(canvas.find("##{description_id}", visible: :all).text(:all)).to include("Burnup chart data")
+      expect(page).to have_css("opce-burnup-chart canvas", accessible_name: "Burnup chart", wait: 20)
+      expect(page).to have_table(
+        "Burnup chart: data",
+        visible: :all,
+        data_rows: [
+          { "Date" => "11/02/2026", "Completed work" => "0", "Total work scope" => "3", "Guideline" => "1" },
+          { "Date" => "11/03/2026", "Completed work" => "0", "Total work scope" => "3", "Guideline" => "2" },
+          { "Date" => "11/04/2026", "Completed work" => "", "Total work scope" => "", "Guideline" => "3" }
+        ]
+      )
     end
   end
 

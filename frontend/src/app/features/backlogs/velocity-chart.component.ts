@@ -31,8 +31,9 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { uniqueId } from 'lodash-es';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { ChartDescriptionDirective } from 'core-app/shared/components/charts/description/chart-description.directive';
+import { ChartDescription } from 'core-app/shared/components/charts/description/chart-description';
 import AverageLinePlugin, { AVERAGE_LINE_DASH, isAverageLineVisible, toggleAverageLine } from './plugin.average-line';
 import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 
@@ -44,7 +45,6 @@ interface VelocityChartData {
   averageLabel:string;
   yAxisTitle:string;
   summary:string;
-  sprintColumnTitle:string;
 }
 
 const MAX_LABEL_LENGTH = 15;
@@ -59,7 +59,7 @@ function truncate(label:string):string {
 @Component({
   selector: 'op-velocity-chart',
   templateUrl: './velocity-chart.component.html',
-  imports: [BaseChartDirective],
+  imports: [BaseChartDirective, ChartDescriptionDirective],
   providers: [provideCharts(withDefaultRegisterables())],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -71,10 +71,25 @@ export class VelocityChartComponent {
 
   readonly plugins:Plugin<'bar'>[] = [ChartDataLabels, AverageLinePlugin];
 
-  readonly summaryId = uniqueId('op-velocity-chart-summary-');
-  readonly tableId = uniqueId('op-velocity-chart-table-');
-
   readonly parsedData:Signal<VelocityChartData> = computed(() => JSON.parse(this.chartData()) as VelocityChartData);
+
+  protected readonly description = computed<ChartDescription>(() => {
+    const { labels, datasets, summary } = this.parsedData();
+    const label = this.i18n.t('js.velocity_chart.chart_label');
+
+    return {
+      label,
+      summary,
+      table: {
+        caption: this.i18n.t('js.chart.description.caption', { label }),
+        columns: [this.i18n.t('js.velocity_chart.sprint_column'), ...datasets.map((dataset) => dataset.label)],
+        rows: labels.map((sprint, index) => ({
+          header: sprint,
+          cells: datasets.map((dataset) => this.formatValue(dataset.data[index])),
+        })),
+      },
+    };
+  });
 
   readonly barChartData:Signal<ChartData<'bar'>> = computed<ChartData<'bar'>>(() => {
     const { labels, datasets } = this.parsedData();
