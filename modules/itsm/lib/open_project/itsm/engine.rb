@@ -77,6 +77,15 @@ module OpenProject::ITSM
 
     include_module "Projects::HelpdeskMailboxes", into: "Project"
 
+    add_cron_jobs do
+      {
+        "ITSM::Mailboxes::ScheduleFetchesJob": {
+          cron: "*/15 * * * *",
+          class: ::ITSM::Mailboxes::ScheduleFetchesJob.name
+        }
+      }
+    end
+
     initializer "openproject_itsm.event_subscriptions" do
       Rails.application.config.after_initialize do
         OpenProject::Notifications.subscribe(OpenProject::Events::MODULE_ENABLED) do |payload|
