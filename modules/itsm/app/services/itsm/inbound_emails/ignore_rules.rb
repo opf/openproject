@@ -53,7 +53,7 @@ module ITSM
 
       def sent_by_openproject? = email.header_value("X-OpenProject-Host") == Setting.host_name
 
-      def sent_by_helpdesk? = EmailAddress.helpdesk_addresses.include?(email.headers.from_address)
+      def sent_by_helpdesk? = ITSM.helpdesk_addresses.include?(email.headers.from_address)
 
       def automatic? = email.report? || automatic_header? || bulk_precedence?
 

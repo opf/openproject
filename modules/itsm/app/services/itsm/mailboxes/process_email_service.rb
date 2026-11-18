@@ -29,8 +29,8 @@
 
 module ITSM
   module Mailboxes
-    class ProcessEmailService < BaseService
-      include Dry::Monads[:result]
+    class ProcessEmailService
+      include Dry::Monads::Result(SimpleError)
 
       MAX_EMAIL_SIZE = 50.megabytes
       DATABASE_ERRORS = [
@@ -40,18 +40,18 @@ module ITSM
       ].freeze
 
       def initialize(mailbox:, session:)
-        super()
         @mailbox = mailbox
         @session = session
       end
 
-      protected
+      def call(uid:)
+        @uid = uid
 
-      def perform
-        @uid = params[:uid]
+        Adapters::Queries::EmailSize.call(session:, uid:).bind do |size|
+          next mark_seen("Not processed (too large)", level: :warn) if size.to_i > MAX_EMAIL_SIZE
 
-        fetch_and_process.either(->(_) { ServiceResult.success(result: mailbox) },
-                                 ->(error) { service_failure(error.code, result: mailbox, server_message: error.payload) })
+          Adapters::Queries::RawEmail.call(session:, uid:).bind { |raw| raw.nil? ? Success() : parse_and_route(raw) }
+        end
       end
 
       private
@@ -59,14 +59,6 @@ module ITSM
       attr_reader :mailbox, :session, :uid
 
       delegate :project, to: :mailbox
-
-      def fetch_and_process
-        Adapters::Queries::EmailSize.call(session:, uid:).bind do |size|
-          next mark_seen("Not processed (too large)", level: :warn) if size.to_i > MAX_EMAIL_SIZE
-
-          Adapters::Queries::RawEmail.call(session:, uid:).bind { |raw| raw.nil? ? Success() : parse_and_route(raw) }
-        end
-      end
 
       def parse_and_route(raw)
         email = InboundEmail.new(raw)

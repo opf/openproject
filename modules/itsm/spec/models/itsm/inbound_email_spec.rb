@@ -335,8 +335,8 @@ RSpec.describe ITSM::InboundEmail do
         "Delivered-To: jane@customer.example\r\nFrom: jane@customer.example\r\n\r\nHello"
     end
 
-    it "returns the addresses the mail server delivered the email to last" do
-      expect(email.delivery_addresses).to eq(%w[inbox@mail.example support@company.example])
+    it "returns every address the mail servers delivered the email to" do
+      expect(email.delivery_addresses).to eq(%w[inbox@mail.example jane@customer.example support@company.example])
     end
 
     context "without delivery headers" do

@@ -31,6 +31,7 @@ module ITSM
   class InboundEmail
     Headers = Data.define(:message_id, :in_reply_to, :references, :from_address, :from_name,
                           :to_addresses, :cc_addresses, :subject)
+    DELIVERY_HEADERS = %w[Delivered-To X-Original-To].freeze
 
     def initialize(raw)
       @raw = raw
@@ -41,9 +42,9 @@ module ITSM
       @headers ||= begin
         values = header_values.transform_values { valid_utf8(it) }
         Headers.new(**values,
-                    from_address: email_addresses(Array(values[:from_address])).first,
-                    to_addresses: email_addresses(values[:to_addresses]),
-                    cc_addresses: email_addresses(values[:cc_addresses]))
+                    from_address: EmailAddress.parse_all(Array(values[:from_address])).first,
+                    to_addresses: EmailAddress.parse_all(values[:to_addresses]),
+                    cc_addresses: EmailAddress.parse_all(values[:cc_addresses]))
       end
     end
 
@@ -54,7 +55,8 @@ module ITSM
     def header_value(name) = valid_utf8(Array(mail.header[name]).first&.value)
 
     def delivery_addresses
-      email_addresses(%w[Delivered-To X-Original-To].filter_map { header_value(it)&.delete("<>") })
+      values = DELIVERY_HEADERS.flat_map { |name| Array(mail.header[name]).map { valid_utf8(it.value) } }
+      EmailAddress.parse_all(values)
     end
 
     def report? = mail.mime_type == "multipart/report"
@@ -100,10 +102,9 @@ module ITSM
       end
     end
 
-    def email_addresses(addresses) = EmailAddress::NORMALIZE_ALL.call(addresses.select { EmailValidator.valid?(it) })
-
     def content_based_message_id = "#{Digest::SHA256.hexdigest(raw)}@openproject.invalid"
 
+    # PostgreSQL rejects NUL bytes in text, although they are valid UTF-8.
     def valid_utf8(value)
       case value
       when Array then value.map { valid_utf8(it) }

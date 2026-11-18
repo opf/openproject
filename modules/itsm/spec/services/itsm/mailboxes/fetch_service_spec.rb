@@ -39,7 +39,7 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true }, wit
   let(:last_error) { nil }
   let(:imap) { instance_double(Net::IMAP, login: nil, select: nil, logout: nil, disconnect: nil, disconnected?: false) }
   let(:unseen_uids) { [2, 1] }
-  let(:process_email_service) { instance_double(ITSM::Mailboxes::ProcessEmailService, call: ServiceResult.success(result: mailbox)) }
+  let(:process_email_service) { instance_double(ITSM::Mailboxes::ProcessEmailService, call: Dry::Monads::Success()) }
 
   before do
     with_ssrf_ip_allowlist(["203.0.113.10"])
@@ -75,8 +75,8 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true }, wit
     expect(imap).to have_received(:logout)
   end
 
-  it "does not schedule another check" do
-    expect { result }.not_to have_enqueued_job(ITSM::Mailboxes::FetchJob)
+  it "reports that it processed every unseen email" do
+    expect(result.result).to have_attributes(processed: 2, complete?: true)
   end
 
   it "records the successful check", freeze_time: Time.current.change(usec: 0) do
@@ -117,8 +117,8 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true }, wit
       expect(process_email_service).to have_received(:call).once.with(uid: 1)
     end
 
-    it "checks the mailbox again right away" do
-      expect { result }.to have_enqueued_job(ITSM::Mailboxes::FetchJob).with(mailbox)
+    it "reports that unseen emails are left" do
+      expect(result.result).to have_attributes(processed: 1, complete?: false)
     end
   end
 
@@ -165,12 +165,11 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true }, wit
   context "when no work package can be created from an email" do
     before do
       stub_const("#{described_class}::BATCH_SIZE", 2)
-      allow(process_email_service).to receive(:call).with(uid: 1)
-        .and_return(ServiceResult.failure(result: mailbox).tap { it.errors.add(:base, :work_package_not_created) })
+      error = SimpleError.new(source: ITSM::Mailboxes::ProcessEmailService, code: :work_package_not_created)
+      allow(process_email_service).to receive(:call).with(uid: 1).and_return(Dry::Monads::Failure(error))
     end
 
     it "stops, so the email and the ones after it are tried again later" do
-      expect { result }.not_to have_enqueued_job(ITSM::Mailboxes::FetchJob)
       expect(result.errors.symbols_for(:base)).to eq([:work_package_not_created])
       expect(mailbox.reload).to have_attributes(last_error: "work_package_not_created", consecutive_failures: 1)
       expect(process_email_service).not_to have_received(:call).with(uid: 2)
@@ -205,8 +204,8 @@ RSpec.describe ITSM::Mailboxes::FetchService, with_flag: { helpdesk: true }, wit
 
   context "when the connection drops in the middle of the run" do
     before do
-      allow(process_email_service).to receive(:call).with(uid: 1)
-        .and_return(ServiceResult.failure(result: mailbox).tap { it.errors.add(:base, :unreachable) })
+      error = SimpleError.new(source: ITSM::Adapters::Queries::RawEmail, code: :unreachable)
+      allow(process_email_service).to receive(:call).with(uid: 1).and_return(Dry::Monads::Failure(error))
     end
 
     it "stops and records the failure" do

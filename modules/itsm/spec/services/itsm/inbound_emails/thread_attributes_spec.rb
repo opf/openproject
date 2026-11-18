@@ -64,4 +64,13 @@ RSpec.describe ITSM::InboundEmails::ThreadAttributes do
       expect(attributes[:recipients]).to eq(["colleague@customer.example"])
     end
   end
+
+  context "when the email was forwarded within the company before it reached the help desk" do
+    let(:forwarded) { Mail.new(from: "jane@customer.example", to: "team@company.example", cc: ["colleague@customer.example"]) }
+    let(:raw) { "Delivered-To: support@example.com\r\nDelivered-To: team@company.example\r\n#{forwarded}" }
+
+    it "does not take any of the delivery addresses as a recipient" do
+      expect(attributes[:recipients]).to eq(["colleague@customer.example"])
+    end
+  end
 end

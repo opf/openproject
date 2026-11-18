@@ -48,7 +48,7 @@ module ITSM
         (headers.to_addresses + headers.cc_addresses).uniq - [headers.from_address] - own_addresses
       end
 
-      def own_addresses = EmailAddress.helpdesk_addresses + email.delivery_addresses
+      def own_addresses = ITSM.helpdesk_addresses + email.delivery_addresses
     end
   end
 end

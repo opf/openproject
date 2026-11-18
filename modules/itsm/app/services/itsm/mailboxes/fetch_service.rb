@@ -31,9 +31,12 @@ module ITSM
   module Mailboxes
     class FetchService < BaseService
       include Dry::Monads[:result]
-      include Dry::Monads::Do.for(:process_all)
 
       BATCH_SIZE = 50
+
+      Fetched = Data.define(:processed) do
+        def complete? = processed < BATCH_SIZE
+      end
 
       def initialize(mailbox)
         super()
@@ -45,14 +48,12 @@ module ITSM
       def perform
         return service_failure(:inactive, result: mailbox) unless fetchable?
 
-        result = fetch_exclusively || service_failure(:fetch_in_progress, result: mailbox)
-        FetchJob.perform_later(mailbox) if more_emails
-        result
+        fetch_exclusively || service_failure(:fetch_in_progress, result: mailbox)
       end
 
       private
 
-      attr_reader :mailbox, :more_emails
+      attr_reader :mailbox
 
       def fetchable? = ITSM.helpdesk_available? && IncomingMailbox.fetchable.exists?(mailbox.id)
 
@@ -74,23 +75,18 @@ module ITSM
       def auth_strategy = Adapters::AuthenticationStrategies::BasicAuth.new(mailbox.credentials)
 
       def process_all(session, uids)
-        uids.each { |uid| yield process(session, uid) }
-        Success(uids)
+        uids.each do |uid|
+          result = ProcessEmailService.new(mailbox:, session:).call(uid:)
+          return result if result.failure?
+        end
+
+        Success(uids.size)
       end
 
-      def process(session, uid)
-        result = ProcessEmailService.new(mailbox:, session:).call(uid:)
-        return Success() if result.success?
-
-        result.errors.details[:base].first => { error: code, **details }
-        Failure(SimpleError.new(source: ProcessEmailService, code:, payload: details[:server_message]))
-      end
-
-      def fetch_succeeded(uids)
-        Rails.logger.info { "Processed #{uids.size} unseen emails" }
-        @more_emails = uids.size == BATCH_SIZE
+      def fetch_succeeded(processed)
+        Rails.logger.info { "Processed #{processed} unseen emails" }
         mailbox.fetch_succeeded!
-        ServiceResult.success(result: mailbox)
+        ServiceResult.success(result: Fetched.new(processed:))
       end
 
       def server_address = "#{mailbox.mail_server.host}:#{mailbox.mail_server.port}"

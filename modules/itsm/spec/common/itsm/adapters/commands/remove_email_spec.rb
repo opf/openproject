@@ -37,11 +37,11 @@ RSpec.describe ITSM::Adapters::Commands::RemoveEmail do
 
   subject(:result) { described_class.call(session:, uid: 42) }
 
-  let(:uidplus) { "UIDPLUS" }
+  let(:capabilities) { ["UIDPLUS"] }
 
   before do
     allow(imap).to receive_messages(uid_store: nil, uid_expunge: nil)
-    allow(imap).to receive(:capable?) { |capability| capability == uidplus }
+    allow(imap).to receive(:capable?) { |capability| capabilities.include?(capability) }
   end
 
   it "expunges only the given email" do
@@ -50,8 +50,17 @@ RSpec.describe ITSM::Adapters::Commands::RemoveEmail do
     expect(imap).to have_received(:uid_expunge).with(42)
   end
 
+  context "when the server supports IMAP4rev2, which includes UID EXPUNGE" do
+    let(:capabilities) { ["IMAP4rev2"] }
+
+    it "expunges only the given email" do
+      expect(result).to be_success
+      expect(imap).to have_received(:uid_expunge).with(42)
+    end
+  end
+
   context "when the server cannot expunge single emails" do
-    let(:uidplus) { nil }
+    let(:capabilities) { [] }
 
     it "only flags the email as deleted" do
       expect(result).to be_success

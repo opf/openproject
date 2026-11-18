@@ -134,7 +134,7 @@ RSpec.describe ITSM::Mailboxes::ProcessEmailService do
 
     it "fails and leaves the email untouched, to be tried again" do
       expect { result }.not_to change(WorkPackage, :count)
-      expect(result.errors.symbols_for(:base)).to eq([:work_package_not_created])
+      expect(result.failure.code).to eq(:work_package_not_created)
       expect(imap).not_to have_received(:uid_store)
       expect(warned).to include("Work package not created (priority blank)")
     end
@@ -145,7 +145,7 @@ RSpec.describe ITSM::Mailboxes::ProcessEmailService do
 
     it "fails and leaves the email untouched, to be tried again" do
       expect { result }.not_to change(WorkPackage, :count)
-      expect(result.errors.symbols_for(:base)).to eq([:work_package_not_created])
+      expect(result.failure.code).to eq(:work_package_not_created)
       expect(imap).not_to have_received(:uid_store)
     end
   end
@@ -155,7 +155,7 @@ RSpec.describe ITSM::Mailboxes::ProcessEmailService do
 
     it "fails and leaves the email untouched, to be tried again" do
       expect { result }.not_to change(WorkPackage, :count)
-      expect(result.errors.symbols_for(:base)).to eq([:work_package_not_created])
+      expect(result.failure.code).to eq(:work_package_not_created)
       expect(imap).not_to have_received(:uid_store)
       expect(warned).to include("Work package not created (no help desk user)")
     end
@@ -169,7 +169,7 @@ RSpec.describe ITSM::Mailboxes::ProcessEmailService do
     end
 
     it "fails and leaves the email untouched, to be tried again" do
-      expect(result.errors.symbols_for(:base)).to eq([:work_package_not_created])
+      expect(result.failure.code).to eq(:work_package_not_created)
       expect(imap).not_to have_received(:uid_store)
     end
   end
@@ -209,7 +209,7 @@ RSpec.describe ITSM::Mailboxes::ProcessEmailService do
     end
 
     it "fails and leaves the email untouched, to be tried again" do
-      expect(result.errors.symbols_for(:base)).to eq([:processing_failed])
+      expect(result.failure.code).to eq(:processing_failed)
       expect(imap).not_to have_received(:uid_store)
       expect(OpenProject.logger).to have_received(:error)
         .with("Email 7: Not processed (ActiveRecord::ConnectionNotEstablished)",
@@ -246,7 +246,7 @@ RSpec.describe ITSM::Mailboxes::ProcessEmailService do
 
     it "fails with the reason" do
       expect(result).to be_failure
-      expect(result.errors.symbols_for(:base)).to eq([:unreachable])
+      expect(result.failure.code).to eq(:unreachable)
     end
   end
 end
