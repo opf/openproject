@@ -439,6 +439,7 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_WORK__PACKAGE__LIST__DEFAULT__COLUMNS` | `["id", "subject", "type", "status", "assigned_to", "priority"]` |  |
 | `OPENPROJECT_WORK__PACKAGE__LIST__DEFAULT__HIGHLIGHTED__ATTRIBUTES` | `["status", "priority", "due_date"]` | Default inline highlighted attributes |
 | `OPENPROJECT_WORK__PACKAGE__LIST__DEFAULT__HIGHLIGHTING__MODE` | `"inline"` | Default highlighting mode |
+| `OPENPROJECT_WORK__PACKAGE__MULTIPLE__CATEGORIES` | `false` | Enable multiple category assignments on work packages. |
 | `OPENPROJECT_WORK__PACKAGE__MULTIPLE__VERSIONS` | `true` | Enable multiple version assignments on work packages. |
 | `OPENPROJECT_WORK__PACKAGE__STARTDATE__IS__ADDDATE` | `false` | Use current date as start date for new work packages |
 | `OPENPROJECT_WORK__PACKAGES__ACTIVITIES__TAB__POLLING__INTERVAL__IN__MS` | `10000` | Interval in milliseconds at which the work package activities tab polls for updates. |
