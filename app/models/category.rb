@@ -68,12 +68,8 @@ class Category < ApplicationRecord
   private
 
   def reassign_work_package_categories_to(other)
-    self.class.connection.execute(self.class.sanitize_sql_array([<<~SQL.squish, other.id, id]))
-      INSERT INTO work_package_categories (work_package_id, category_id, created_at, updated_at)
-      SELECT work_package_id, ?, NOW(), NOW()
-      FROM work_package_categories
-      WHERE category_id = ?
-      ON CONFLICT (work_package_id, category_id) DO NOTHING
-    SQL
+    work_package_categories
+      .where.not(work_package_id: other.work_package_categories.select(:work_package_id))
+      .update_all(category_id: other.id, updated_at: Time.current)
   end
 end
