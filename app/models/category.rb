@@ -34,6 +34,8 @@ class Category < ApplicationRecord
   has_many :work_package_categories, dependent: :delete_all
   has_many :categorized_work_packages, through: :work_package_categories, source: :work_package
 
+  scope :alphabetical, -> { order(arel_table[:name].lower, arel_table[:id]) }
+
   validates :name,
             uniqueness: { scope: [:project_id], case_sensitive: false },
             length: { maximum: 255 }
@@ -51,7 +53,8 @@ class Category < ApplicationRecord
   # If a category is specified, issues are reassigned to this category
   def destroy(reassign_to = nil)
     if reassign_to && reassign_to.is_a?(Category) && reassign_to.project == project
-      WorkPackage.where("category_id = #{id}").update_all("category_id = #{reassign_to.id}")
+      reassign_work_package_categories_to(reassign_to)
+      WorkPackage.where(category_id: id).update_all(category_id: reassign_to.id)
     end
     destroy_without_reassign
   end
@@ -61,4 +64,12 @@ class Category < ApplicationRecord
   end
 
   def to_s; name end
+
+  private
+
+  def reassign_work_package_categories_to(other)
+    work_package_categories
+      .where.not(work_package_id: other.work_package_categories.select(:work_package_id))
+      .update_all(category_id: other.id, updated_at: Time.current)
+  end
 end

@@ -2395,6 +2395,26 @@ RSpec.describe WorkPackages::SetAttributesService,
     end
   end
 
+  describe "categories attributes" do
+    it "extracts category_ids into replacements" do
+      instance.call(category_ids: ["1", 2])
+
+      expect(work_package.category_ids_replacements).to eq [1, 2]
+    end
+
+    it "sets an empty array as override" do
+      instance.call(category_ids: [])
+
+      expect(work_package.category_ids_replacements).to eq []
+    end
+
+    it "leaves the categories untouched when category_ids is not passed" do
+      instance.call({})
+
+      expect(work_package.override_categories?).to be false
+    end
+  end
+
   describe "labels attributes" do
     it "extracts label_ids into replacements" do
       instance.call(label_ids: ["3", 4])
