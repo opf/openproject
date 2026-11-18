@@ -194,7 +194,6 @@ RSpec.describe TypeVariant do
   describe "observed_in_versions in the form configuration" do
     it "is schema-addable but kept out of the default configuration" do
       expect(variant.work_package_attributes.keys).to include("observed_in_versions")
-
       members = variant.default_attribute_groups.to_h.values.flatten
       expect(members).not_to include("observed_in_versions")
     end
@@ -206,6 +205,21 @@ RSpec.describe TypeVariant do
       details = variant.attribute_groups.detect { |group| group.key == "details" }
 
       expect(details.attributes).to include("observed_in_versions")
+    end
+  end
+
+  describe "reporter in the form configuration" do
+    it "is schema-addable but kept out of the default configuration" do
+      expect(variant.work_package_attributes.keys).to include("reporter")
+      members = variant.default_attribute_groups.to_h.values.flatten
+      expect(members).not_to include("reporter")
+    end
+
+    it "can still be added to a group manually" do
+      variant.form_configuration.update!(attribute_groups: [["people", %w[assignee reporter]]])
+      variant.unset_attribute_groups_objects
+      people = variant.attribute_groups.detect { |group| group.key == "people" }
+      expect(people.attributes).to include("reporter")
     end
   end
 

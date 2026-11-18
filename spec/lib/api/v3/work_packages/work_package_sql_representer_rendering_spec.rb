@@ -52,6 +52,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageSqlRepresenter, "rendering" do
            type:,
            assigned_to: assignee,
            author:,
+           reporter:,
            responsible:)
   end
   let(:project) { create(:project, types: [type]) }
@@ -59,6 +60,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageSqlRepresenter, "rendering" do
   let(:is_milestone) { false }
   let(:assignee) { nil }
   let(:author) { create(:user) }
+  let(:reporter) { create(:user) }
   let(:responsible) { nil }
 
   let(:select) { { "*" => {} } }
@@ -95,6 +97,10 @@ RSpec.describe API::V3::WorkPackages::WorkPackageSqlRepresenter, "rendering" do
             author: {
               href: api_v3_paths.user(author.id),
               title: author.name
+            },
+            reporter: {
+              href: api_v3_paths.user(reporter.id),
+              title: reporter.name
             },
             status: {
               href: api_v3_paths.status(rendered_work_package.status.id),
@@ -141,6 +147,10 @@ RSpec.describe API::V3::WorkPackages::WorkPackageSqlRepresenter, "rendering" do
             author: {
               href: api_v3_paths.user(author.id),
               title: author.name
+            },
+            reporter: {
+              href: api_v3_paths.user(reporter.id),
+              title: reporter.name
             },
             status: {
               href: api_v3_paths.status(rendered_work_package.status.id),
@@ -258,6 +268,12 @@ RSpec.describe API::V3::WorkPackages::WorkPackageSqlRepresenter, "rendering" do
   describe "author link" do
     it_behaves_like "principal link", "author", only_user: true do
       let(:author) { principal_object }
+    end
+  end
+
+  describe "reporter link" do
+    it_behaves_like "principal link", "reporter", only_user: true do
+      let(:reporter) { principal_object }
     end
   end
 end
