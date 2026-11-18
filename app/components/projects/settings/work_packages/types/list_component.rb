@@ -173,7 +173,11 @@ module Projects
 
           def delete_variant_path(variant)
             variant_path(project, variant,
-                         back_url: project_settings_work_packages_types_path(project, expand: variant.type_id))
+                         back_url: project_settings_work_packages_types_path(
+                           project,
+                           expand: variant.type_id,
+                           created_by_migration: (WorkPackageTypes::MigrationFilterComponent::MIGRATED if migration_filter?)
+                         ))
           end
 
           def actionable?(project_type, variant)

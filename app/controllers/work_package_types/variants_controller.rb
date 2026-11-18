@@ -30,6 +30,9 @@
 module WorkPackageTypes
   class VariantsController < BaseTabController
     include OpTurbo::ComponentStream
+    include WorkPackageTypes::AdminTypesList
+
+    LIST_VIEW_STATE_KEYS = %w[page per_page query created_by_migration].freeze
 
     current_menu_item do
       :types
@@ -84,8 +87,8 @@ module WorkPackageTypes
 
       return repaint_deletion_form(variant, target, service_call) if target && !service_call.success?
 
-      flash_delete_result(service_call)
-      redirect_back_or_default(helpers.variant_scope_types_path, status: :see_other)
+      restore_list_view_state
+      replace_variant_list(variant, target, service_call)
     end
 
     def make_default
@@ -165,20 +168,60 @@ module WorkPackageTypes
       variant.migration_targets.find_by(id: params[:target_id])
     end
 
-    def flash_delete_result(service_call)
-      if service_call.success?
-        flash[:notice] = t(:notice_successful_delete)
-      else
-        flash[:error] = service_call.errors.full_messages.to_sentence
-      end
-    end
-
     # The impact spans every project applying the variant,
     # so work packages are passed in rather than scoping Impact to a particular project.
     def deletion_impact(variant, target)
       return if target.nil?
 
       ::Projects::Types::Switch::Impact.new(source: variant, target:, work_packages: variant.work_packages)
+    end
+
+    # The list the delete was triggered from is on the same page, so repaint it in place with a
+    # morph to keep scroll position and the type's expanded state instead of redirecting away.
+    def replace_variant_list(variant, target, service_call)
+      dialog_id = target ? Types::VariantDeletionDialogComponent::DIALOG_ID : Types::UnusedVariantDeletionDialogComponent::DIALOG_ID
+      close_dialog_via_turbo_stream(dialog_id)
+
+      replace_via_turbo_stream(component: variant_list_component(variant), method: :morph)
+
+      if service_call.success?
+        render_success_flash_message_via_turbo_stream(message: t(:notice_successful_delete))
+      else
+        render_error_flash_message_via_turbo_stream(message: service_call.errors.full_messages.to_sentence)
+      end
+
+      respond_with_turbo_streams(status: service_call)
+    end
+
+    def variant_list_component(variant)
+      if variant_scope_project
+        ::Projects::Settings::WorkPackages::Types::ListComponent.new(
+          project: variant_scope_project.reload,
+          created_by_migration: params[:created_by_migration] == MigrationFilterComponent::MIGRATED,
+          expanded_type_id: variant.type_id
+        )
+      elsif deletion_from_variants_tab?
+        VariantsListComponent.new(type: @type.reload, query: params[:query],
+                                  created_by_migration: params[:created_by_migration])
+      else
+        admin_types_list_component(expanded_type_id: variant.type_id)
+      end
+    end
+
+    def deletion_from_variants_tab?
+      params[:back_url].to_s.start_with?(type_variants_path(type_id: @type.id))
+    end
+
+    # A deletion posts from a paginated/filtered list, but that state travels inside
+    # back_url. Restore so morphing keeps the same state
+    def restore_list_view_state
+      search = params[:back_url].to_s.split("?", 2).second
+      return if search.blank?
+
+      restored = Rack::Utils.parse_nested_query(search)
+                            .slice(*LIST_VIEW_STATE_KEYS)
+                            .select { |_, value| value.is_a?(String) }
+      params.merge!(restored)
     end
 
     def repaint_deletion_form(variant, target, service_call)

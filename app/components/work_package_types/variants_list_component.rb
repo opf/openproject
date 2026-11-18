@@ -95,7 +95,7 @@ module WorkPackageTypes
       menu_type_variant_path(type_id: variant.type_id, id: variant.id, back_url: variants_path)
     end
 
-    def variants_path = type_variants_path(type_id: type.id)
+    def variants_path = type_variants_path(type_id: type.id, query:, created_by_migration:)
 
     def created_in(project)
       link = render(Primer::Beta::Link.new(href: project_settings_work_packages_types_path(project))) do

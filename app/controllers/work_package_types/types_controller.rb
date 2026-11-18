@@ -32,6 +32,7 @@ module WorkPackageTypes
     include PaginationHelper
     include OpTurbo::ComponentStream
     include SortableLists::DropRequestValidation
+    include WorkPackageTypes::AdminTypesList
 
     configure_drop_request list_type: ::Type.model_name.param_key, list_id_scoped: false
 
@@ -45,12 +46,12 @@ module WorkPackageTypes
     end
 
     def index
-      @expanded_type_id = expanded_type_id
-      @page_args = page_args
+      @expanded_type_id = admin_types_expanded_type_id
+      @page_args = admin_types_page_args
       @query = params[:query].presence
       @created_by_migration = params[:created_by_migration].presence
       @migrated_variants_exist = TypeVariant.created_by_migration.exists?
-      @types = types_for_index
+      @types = admin_types_scope
 
       render layout: false if turbo_frame_request?
     end
@@ -100,7 +101,8 @@ module WorkPackageTypes
     end
 
     def menu
-      render Types::TypeActionsComponent.new(type: @type, page_args:, expanded_type_id:, filtered: filtered?),
+      render Types::TypeActionsComponent.new(type: @type, page_args: admin_types_page_args,
+                                             expanded_type_id: admin_types_expanded_type_id, filtered: admin_types_filtered?),
              layout: false
     end
 
@@ -109,22 +111,6 @@ module WorkPackageTypes
     def find_type
       @type = ::Type.find(params.expect(:id))
     end
-
-    def types_for_index
-      scope = ::Type
-        .includes(:color, :projects,
-                  variants: [:workflow, { form_configuration: :custom_fields }])
-      scope = scope.with_own_or_variant_name_like(@query) if @query
-      scope = scope.with_migrated_variants if migration_filter?
-
-      scope
-        .page(page_param)
-        .per_page(per_page_param)
-    end
-
-    def migration_filter? = params[:created_by_migration].presence == "t"
-
-    def filtered? = params[:query].present? || migration_filter?
 
     def refuse_deletion
       flash[:error] = destroy_error_message
@@ -168,21 +154,9 @@ module WorkPackageTypes
 
     private
 
-    def page_args
-      { page: page_param, per_page: per_page_param }
-    end
-
-    def expanded_type_id
-      Integer(params[:expand].to_s, exception: false)
-    end
-
-    def ordering_component
-      Types::GroupedListComponent.new(types: types_for_index, page_args:, expanded_type_id:)
-    end
-
     def render_ordering_result(moved, error_message:)
       if moved
-        update_via_turbo_stream(component: ordering_component, method: :morph)
+        update_via_turbo_stream(component: admin_types_list_component, method: :morph)
         render_success_flash_message_via_turbo_stream(message: I18n.t(:notice_successful_update))
       else
         render_error_flash_message_via_turbo_stream(message: error_message)
