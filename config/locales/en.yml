@@ -3762,7 +3762,7 @@ en:
           caption: "Use an existing form for this type with a pre-defined set of attribute groups."
           label: "Use an existing form"
         new:
-          caption: "Arrange the attribute groups of a new form for this type."
+          caption: "Manually define a new set of sections and fields to display for this variant."
           label: "Configure a new form"
   forums:
     index:
@@ -7413,8 +7413,8 @@ en:
           type: "These are the fields project members see when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide."
           variant: "These are the fields project members see when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide."
         new:
-          type: "These are the fields project members see when creating or editing a work package of this type. Arrange and group them in any order you like."
-          variant: "These are the fields project members see when creating or editing a work package of this variant. Arrange and group them in any order you like."
+          type: "These are the fields that a project member sees when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide."
+          variant: "These are the fields that a project member sees when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide."
       pdf: "Choose which PDF templates are available when generating the PDF of work packages that use these settings. Each template defines the layout and which attributes appear in the PDF. The first template in the list is the default."
       project_attributes: "Choose which project attributes appear in work packages. Project members with permission can view and edit them in the work package's Project attributes tab."
       projects:
