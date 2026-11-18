@@ -1428,7 +1428,6 @@ it:
           description: Il tuo commento sarà visibile a chiunque possa accedere a questa macro-attività. Vuoi continuare?
           heading: Rendere pubblico questo commento?
           title: Rendere pubblico questo commento?
-        internal_journal: I commenti interni sono visibili solo a un gruppo ristretto di membri.
         label_activity_hide_meetings: Nascondi gli aggiornamenti delle riunioni
         label_activity_show_all: Mostra tutto
         label_activity_show_only_changes: Mostra solo le modifiche
@@ -1609,7 +1608,7 @@ it:
         contribution_callout: 'Aiutaci a migliorare il migratore Jira con il tuo feedback e la donazione di dati privati. Puoi [unirti alla community di sviluppo](link) del migratore Jira.
 
           '
-        description: Questo migratore Jira è attualmente in versione beta. Al momento supportiamo solo Jira Server/Data Center versioni 10.x e 11.x. Le istanze Cloud non sono attualmente supportate.
+        description: The Jira Migrator is currently in beta. We support Jira Server/Data Center versions 8.x, 9.x, 10.x and 11.x. Cloud instances are not supported at this time.
         title: Beta - Provalo!
       basic_auth_password_deleted: Basic auth password was successfully deleted.
       blank:
@@ -1891,17 +1890,22 @@ it:
                 other: "%{count} progetti selezionati come ambito"
               description: Seleziona i dati che desideri importare tra quelli disponibili recuperati dall'istanza host di Jira.
               elements:
+                configuration_mapping: Configuration & Mapping options
                 custom_fields: Un sottoinsieme di campi personalizzati
                 issue_details: Issue identifiers, description, history, comments and attachments
                 issues: Problemi
                 logged_time: Logged time
                 permissions: Permessi
+                plugin_migration: Plug-in migration
                 project_details: Project identifiers, description and versions
+                project_specific_custom_fields: Project-specific custom fields
                 projects: Progetti
                 relations: Relazioni tra i problemi
                 schemes: Schemi
+                security_level: Security Level
                 sprints: Sprints and sprint assignments
                 users: Utenti e gruppi coinvolti
+                workflow_migration: Workflow migration
                 workflows: Flussi di lavoro a livello di progetto
               label_coming_later: Disponibile prossimamente
               label_coming_soon: Prossimamente
@@ -3675,7 +3679,7 @@ it:
           caption: Use an existing form for this type with a pre-defined set of attribute groups.
           label: Use an existing form
         new:
-          caption: Arrange the attribute groups of a new form for this type.
+          caption: Manually define a new set of sections and fields to display for this variant.
           label: Configure a new form
   forums:
     index:
@@ -7179,8 +7183,8 @@ it:
           type: These are the fields project members see when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
           variant: These are the fields project members see when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
         new:
-          type: These are the fields project members see when creating or editing a work package of this type. Arrange and group them in any order you like.
-          variant: These are the fields project members see when creating or editing a work package of this variant. Arrange and group them in any order you like.
+          type: These are the fields that a project member sees when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
+          variant: These are the fields that a project member sees when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
       pdf: Choose which PDF templates are available when generating the PDF of work packages that use these settings. Each template defines the layout and which attributes appear in the PDF. The first template in the list is the default.
       project_attributes: Choose which project attributes appear in work packages. Project members with permission can view and edit them in the work package's Project attributes tab.
       projects:

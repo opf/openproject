@@ -1318,7 +1318,6 @@ zh-CN:
           description: 您的评论将对任何能够访问此工作包的人可见。您确定要这样做吗？
           heading: 公开此评论吗？
           title: 公开此评论吗？
-        internal_journal: 内部评论仅对有限的成员组可见。
         label_activity_hide_meetings: 隐藏会议动态
         label_activity_show_all: 显示所有
         label_activity_show_only_changes: 仅显示更改
@@ -1497,7 +1496,7 @@ zh-CN:
         contribution_callout: '请通过提供您的反馈和捐赠您的私有数据，帮助我们改进 Jira Migrator。您可以[加入 Jira Migrator 的开发社区](link)。
 
           '
-        description: 此 Jira Migrator 目前处于测试阶段。我们目前仅支持 Jira Server/Data Center 版本 10.x 和 11.x。目前不支持云实例。
+        description: The Jira Migrator is currently in beta. We support Jira Server/Data Center versions 8.x, 9.x, 10.x and 11.x. Cloud instances are not supported at this time.
         title: 测试版 - 试试吧！
       basic_auth_password_deleted: Basic auth password was successfully deleted.
       blank:
@@ -1770,17 +1769,22 @@ zh-CN:
                 other: "%{count} 个项目被选作范围"
               description: 在从主机 Jira 实例获取的可用数据中选择要导入的数据。
               elements:
+                configuration_mapping: Configuration & Mapping options
                 custom_fields: 自定义字段的子集
                 issue_details: Issue identifiers, description, history, comments and attachments
                 issues: 问题
                 logged_time: Logged time
                 permissions: 权限
+                plugin_migration: Plug-in migration
                 project_details: Project identifiers, description and versions
+                project_specific_custom_fields: Project-specific custom fields
                 projects: 项目
                 relations: 问题之间的关系
                 schemes: 方案
+                security_level: Security Level
                 sprints: Sprints and sprint assignments
                 users: 参与的用户和组
+                workflow_migration: Workflow migration
                 workflows: 项目级工作流
               label_coming_later: 稍后推出
               label_coming_soon: 临近
@@ -3522,7 +3526,7 @@ zh-CN:
           caption: Use an existing form for this type with a pre-defined set of attribute groups.
           label: Use an existing form
         new:
-          caption: Arrange the attribute groups of a new form for this type.
+          caption: Manually define a new set of sections and fields to display for this variant.
           label: Configure a new form
   forums:
     index:
@@ -6987,8 +6991,8 @@ zh-CN:
           type: These are the fields project members see when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
           variant: These are the fields project members see when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
         new:
-          type: These are the fields project members see when creating or editing a work package of this type. Arrange and group them in any order you like.
-          variant: These are the fields project members see when creating or editing a work package of this variant. Arrange and group them in any order you like.
+          type: These are the fields that a project member sees when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
+          variant: These are the fields that a project member sees when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
       pdf: Choose which PDF templates are available when generating the PDF of work packages that use these settings. Each template defines the layout and which attributes appear in the PDF. The first template in the list is the default.
       project_attributes: Choose which project attributes appear in work packages. Project members with permission can view and edit them in the work package's Project attributes tab.
       projects:
