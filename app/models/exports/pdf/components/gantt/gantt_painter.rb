@@ -161,7 +161,8 @@ module Exports::PDF::Components::Gantt
     def paint_header_text_column(column)
       padding = GanttTextColumnLayout::PADDING_H
       paint_fitted_text(column.caption, column.left + padding, column.top, column.width - (padding * 2), column.height,
-                        size: GanttTextColumnLayout::HEADER_FONT_SIZE, max_lines: HEADER_MAX_LINES, style: :bold)
+                        size: GanttTextColumnLayout::HEADER_FONT_SIZE, max_lines: HEADER_MAX_LINES, style: :bold,
+                        align: :center)
     end
 
     def paint_header_column_cell(cell)
@@ -182,13 +183,14 @@ module Exports::PDF::Components::Gantt
                         size: line.font_size, max_lines: line.max_lines)
     end
 
-    def paint_fitted_text(text, left, top, width, height, size:, max_lines:, style: :normal)
+    def paint_fitted_text(text, left, top, width, height, size:, max_lines:, style: :normal, align: :left)
       font_options = { size:, style:, leading: 0 }
       @pdf.text_box(fit_lines(text, width, height, max_lines, font_options),
                     at: [@pdf.bounds.left + left, @pdf.bounds.top - top],
                     width:,
                     height:,
                     overflow: :truncate,
+                    align:,
                     valign: :center,
                     **font_options)
     end

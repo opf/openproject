@@ -29,7 +29,7 @@
 
 module Exports::PDF::Components::Gantt
   class GanttTextColumnLayout
-    TEXT_AREA_MAX_RATIO = 0.6
+    TEXT_AREA_MAX_RATIO = 0.8
     MAX_WIDTHS = { subject: 200.0, simple_text: 120.0, fixed: 80.0 }.freeze
     MIN_COLUMN_WIDTH = 30.0
     PADDING_H = 3.0
