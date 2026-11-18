@@ -36,10 +36,18 @@ module Admin
         menu_item :work_package_custom_fields
 
         before_action :configured_project
+        before_action :require_project_specific_values, only: %i[index deletion_dialog destroy] # rubocop:disable Rails/LexicallyScopedActionFilter
 
         helper_method :custom_field_page_title, :section_label
 
         private
+
+        def require_project_specific_values
+          return if custom_field.project_specific_value_restriction.present?
+          return if custom_field.allow_additional_project_values?
+
+          render_404
+        end
 
         def custom_field
           @custom_field ||= WorkPackageCustomField.find(params.expect(:work_package_custom_field_id))

@@ -331,8 +331,14 @@ RSpec.describe "Project settings for the values of a work package custom field",
     let(:project_level_value_management) { false }
     let(:allow_additional_project_values) { false }
 
-    it "does not show the values" do
+    it "shows the values of the custom field in the project" do
       get values_path
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "does not add a value to the project" do
+      post values_path, params: { label: "Own" }
 
       expect(response).to have_http_status(:not_found)
     end
@@ -340,24 +346,36 @@ RSpec.describe "Project settings for the values of a work package custom field",
     it "does not enable all global values in the project" do
       post enable_all_path
 
-      expect(response).to have_http_status(:not_found)
+      expect(response).to redirect_to(values_path)
+      expect(flash[:error]).to be_present
+      expect(custom_field.usable_values_in(project)).not_to include(global_option)
     end
 
-    it "does not delete a value the project added before" do
+    it "deletes a value the project added before" do
       delete value_path.call(own_option)
 
-      expect(response).to have_http_status(:not_found)
-      expect(CustomOption.exists?(own_option.id)).to be(true)
+      expect(response).to redirect_to(values_path)
+      expect(CustomOption.exists?(own_option.id)).to be(false)
     end
+  end
 
-    context "as a global admin" do
-      let(:user) { create(:admin) }
+  context "when the values are neither restricted per project nor may be added" do
+    let(:custom_field) { create(:list_wp_custom_field, types: [feature], possible_values: %w[A B]) }
 
-      it "does not show the values" do
-        get values_path
+    it "shows the values of the custom field in the project" do
+      get values_path
 
-        expect(response).to have_http_status(:not_found)
-      end
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
+  context "for a custom field without values" do
+    let(:custom_field) { create(:integer_wp_custom_field, types: [feature]) }
+
+    it "is not found" do
+      get values_path
+
+      expect(response).to have_http_status(:not_found)
     end
   end
 

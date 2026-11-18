@@ -62,12 +62,15 @@ RSpec.describe Projects::Settings::WorkPackages::CustomFields::OverviewComponent
     expect(page).to have_no_text("SKU")
   end
 
-  it "links the fields whose values can be managed in the project" do
+  it "links the fields with values, whether or not the project may manage them" do
+    region = create(:list_wp_custom_field, name: "Region", types: [feature], possible_values: %w[North])
+
     render_inline(described_class.new(project:, query:))
 
     expect(page).to have_link("Supplier", href: project_settings_work_packages_custom_field_values_path(project, supplier))
     expect(page).to have_link("Department",
                               href: project_settings_work_packages_custom_field_values_path(project, department))
+    expect(page).to have_link("Region", href: project_settings_work_packages_custom_field_values_path(project, region))
     expect(page).to have_no_link("SKU")
   end
 

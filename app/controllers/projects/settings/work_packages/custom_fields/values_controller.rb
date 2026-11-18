@@ -37,7 +37,7 @@ module Projects
           menu_item :settings_work_packages
 
           before_action :require_custom_field_in_project
-          before_action :require_project_value_management
+          before_action :require_custom_field_with_values
 
           private
 
@@ -51,10 +51,8 @@ module Projects
             render_404 unless Project.where(id: @project.id).with_available_custom_fields([custom_field.id]).exists?
           end
 
-          def require_project_value_management
-            return if custom_field.project_level_value_management? || custom_field.allow_additional_project_values?
-
-            render_404
+          def require_custom_field_with_values
+            render_404 unless custom_field.project_specific_values_supported?
           end
 
           def values_path
