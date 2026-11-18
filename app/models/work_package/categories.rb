@@ -32,10 +32,7 @@ module WorkPackage::Categories
 
   included do
     has_many :work_package_categories, dependent: :delete_all
-    has_many :categories,
-             -> { alphabetical },
-             through: :work_package_categories,
-             source: :category
+    has_many :categories, -> { order(:id) }, through: :work_package_categories, source: :category
 
     before_save :mirror_category_replacements_to_category_id
     after_save :persist_category_associations

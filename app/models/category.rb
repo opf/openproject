@@ -54,7 +54,7 @@ class Category < ApplicationRecord
   def destroy(reassign_to = nil)
     if reassign_to && reassign_to.is_a?(Category) && reassign_to.project == project
       reassign_work_package_categories_to(reassign_to)
-      WorkPackage.where("category_id = #{id}").update_all("category_id = #{reassign_to.id}")
+      WorkPackage.where(category_id: id).update_all(category_id: reassign_to.id)
     end
     destroy_without_reassign
   end
@@ -68,12 +68,8 @@ class Category < ApplicationRecord
   private
 
   def reassign_work_package_categories_to(other)
-    self.class.connection.execute(self.class.sanitize_sql_array([<<~SQL.squish, other.id, id]))
-      INSERT INTO work_package_categories (work_package_id, category_id, created_at, updated_at)
-      SELECT work_package_id, ?, NOW(), NOW()
-      FROM work_package_categories
-      WHERE category_id = ?
-      ON CONFLICT (work_package_id, category_id) DO NOTHING
-    SQL
+    work_package_categories
+      .where.not(work_package_id: other.work_package_categories.select(:work_package_id))
+      .update_all(category_id: other.id, updated_at: Time.current)
   end
 end

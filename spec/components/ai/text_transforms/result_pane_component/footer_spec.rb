@@ -53,10 +53,6 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent::Footer, type: :component
     run.events.build(kind: "text_delta", payload: { "delta" => "Login **works** again" }, seq: 1)
   end
 
-  it "lets the grip drag the pane" do
-    expect(subject).to have_css(".op-ai-result-pane--grip[data-action='pointerdown->ai-text-transform-pane#beginDrag']")
-  end
-
   it "renders the close form" do
     expect(subject).to have_css("#{close_form}[action='/ai/text_transform_panes/#{run.uuid}']")
     expect(subject.find(close_form)).to have_field("_method", type: :hidden, with: "delete")

@@ -39,11 +39,11 @@ RSpec.describe WorkPackage::Categories do
     let!(:beta) { create(:category, project:, name: "beta") }
 
     before do
-      [zeta, alpha, beta].each { |category| create(:work_package_category, work_package:, category:) }
+      [beta, zeta, alpha].each { |category| create(:work_package_category, work_package:, category:) }
     end
 
-    it "returns the categories in case-insensitive alphabetical order" do
-      expect(work_package.reload.categories).to eq [alpha, beta, zeta]
+    it "returns the categories ordered by id" do
+      expect(work_package.reload.categories).to eq [zeta, alpha, beta]
     end
   end
 
@@ -65,7 +65,7 @@ RSpec.describe WorkPackage::Categories do
       end
 
       it "stores the categories in the join table" do
-        expect(work_package.reload.categories).to eq [api, backend, frontend]
+        expect(work_package.reload.categories).to contain_exactly(api, backend, frontend)
       end
 
       it "mirrors the first category in alphabetical order into category_id" do
@@ -80,7 +80,7 @@ RSpec.describe WorkPackage::Categories do
         work_package.category_ids_replacements = [backend.id]
 
         expect { work_package.save! }
-          .to change { work_package.reload.categories.to_a }.from([api, backend, frontend]).to([backend])
+          .to change { work_package.reload.categories.to_a }.from(contain_exactly(api, backend, frontend)).to([backend])
           .and change { work_package.reload.category_id }.from(api.id).to(backend.id)
       end
 
@@ -88,7 +88,7 @@ RSpec.describe WorkPackage::Categories do
         work_package.category_ids_replacements = []
 
         expect { work_package.save! }
-          .to change { work_package.reload.categories.to_a }.from([api, backend, frontend]).to([])
+          .to change { work_package.reload.categories.to_a }.from(contain_exactly(api, backend, frontend)).to([])
           .and change { work_package.reload.category_id }.from(api.id).to(nil)
       end
     end

@@ -160,6 +160,11 @@ da:
         semantic_key: Semantisk betydning
         user_self_editable: Redigerbar
         visible_on_user_card: Vis på brugerkortet
+      custom_field/hierarchy/item:
+        label: Betegnelse
+        parent: Overordnet
+        short: Kort navn
+        weight: Vægt
       custom_field/project_specific_value_restriction:
         restriction: Begrænsning
       custom_value:
@@ -345,7 +350,6 @@ da:
       project_type:
         variant: Variant
       push_subscription:
-        created_at: Tilføjet
         endpoint: Endepunkt
         session_id: Session
       query:
@@ -714,6 +718,8 @@ da:
         custom_field:
           at_least_one_custom_option: Der skal være mindst én valgmulighed.
           attributes:
+            admin_only:
+              cannot_be_true: is not supported for this type of custom field.
             formula:
               blank: Formlen må ikke være tom.
               format: "%{message}"
@@ -727,10 +733,26 @@ da:
               not_supported: er kun tilgængelig for brugerdefinerede felter til arbejdspakker af formaterne liste, hierarki og vægtet liste.
             required:
               cannot_be_true: kan ikke slås til.
+            value:
+              required_by_project_values: cannot be disabled, as the project added values below it.
           previous_custom_field_recalculation_unprocessed: Genberegningen af tidligere ændringer i dette brugerdefinerede felt er endnu ikke anvendt. Prøv igen om et par minutter.
           referenced_in_other_fields_html:
             one: "%{name} bruges i beregningen af projektattributten %{links}."
             other: "%{name} bruges i beregningerne af projektattributter: %{links}."
+        custom_field/hierarchy/item:
+          attributes:
+            base:
+              root_item: Hierarkiets rod kan ikke slettes.
+            label:
+              not_unique: skal være entydig på samme niveau i hierarkiet.
+            parent:
+              other_hierarchy: skal høre til samme hierarki.
+              other_project: skal være en global værdi eller høre til samme projekt.
+              own_descendant: kan ikke være værdien selv eller en af dens underværdier.
+            project_id:
+              additional_values_not_allowed: kan ikke tilføje værdier til dette brugerdefinerede felt.
+            short:
+              not_unique: skal være entydigt på samme niveau i hierarkiet.
         custom_fields_project:
           attributes:
             project_ids:
@@ -3279,6 +3301,7 @@ da:
       work_package_query_relation_columns: Relationskolonner i visninger af arbejdspakker
       work_package_sharing: Del arbejdspakker med eksterne brugere
       work_package_subject_generation: Automatisk dannede emner for arbejdspakker
+      xwiki_integration: XWiki-integration
     teaser:
       description_html: Du har adgang til alle funktioner i %{trial_plan}.
       title:
@@ -5340,9 +5363,36 @@ da:
         title: Projektspecifikke notifikationer
     notifications_and_email:
       tabs:
+        browser_push: Browsernotifikationer
         email_reminders: Påmindelser via e-mail
         notifications: Notifikationsindstillinger
       title: Notifikationer og e-mail
+    push_notifications:
+      description: Få besked med push-notifikationer fra styresystemet via denne browser, når du har ulæste notifikationer, også når OpenProject ikke er åben. Indholdet af dine notifikationer bliver i OpenProject og deles ikke med udbyderen af notifikationerne.
+      disable: Slå fra for denne browser
+      enable: Slå til for denne browser
+      no_devices: Der er endnu ingen enheder, der får browsernotifikationer.
+      no_devices_description: Slå browsernotifikationer til på en enhed, så vises den her.
+      revoke: Tilbagekald
+      revoke_confirm: Vil du holde op med at sende browsernotifikationer til %{device}?
+      revoke_device: Tilbagekald %{device}
+      revoked: Browsernotifikationer er slået fra for enheden.
+      signed_out: Logget ud
+      signed_out_description: På en enhed, der er logget ud, sættes browsernotifikationerne på pause, og de genoptages, når du logger ind der igen. Tilbagekald enheden for at stoppe dem helt.
+      status:
+        blocked: Notifikationer er blokeret for dette websted i browserens indstillinger.
+        disabled: Browsernotifikationer er ikke slået til for denne browser i den aktuelle session.
+        enabled: Browsernotifikationer er slået til for denne browser i den aktuelle session.
+        error: Browsernotifikationerne kunne ikke ændres. Prøv igen.
+        prompting: Venter på, at du tillader notifikationer i browserens dialog …
+        subscribing: Registrerer browseren hos dens push-tjeneste …
+        timeout: Browseren blev ikke færdig med at registrere sig til push i tide. Tjek netværksforbindelsen, og prøv igen.
+        unsupported: Browsernotifikationer er ikke tilgængelige i denne browser.
+      this_session: Denne session
+      title: Browsernotifikationer
+      try_again: Prøv igen
+      try_again_label: Prøv igen at ændre browsernotifikationer for denne browser
+      unavailable: Browsernotifikationer er midlertidigt utilgængelige i denne installation.
   news:
     index:
       no_results_content_text: Tilføj en nyhed
@@ -5606,7 +5656,6 @@ da:
       eql?: skal være lig med %{left}.
       filled?: skal udfyldes.
       format?: har et ugyldigt format.
-      greater_or_equal_zero: skal være større end eller lig med 0.
       gt?: skal være større end %{num}.
       gteq?: skal være større end eller lig med %{num}.
       hash?: skal være en hash.
@@ -5619,21 +5668,6 @@ da:
       max_size?: må højst være på %{num} tegn.
       not_found: blev ikke fundet.
       respond_to?: implementerer ikke den påkrævede metode.
-      rules:
-        custom_field:
-          format_not_supported: formatet '%{field_format}' understøttes ikke.
-        item:
-          not_persisted: skal være en eksisterende værdi.
-          root_item: kan ikke være en rodværdi.
-        label:
-          not_unique: skal være entydig på samme niveau i hierarkiet.
-        parent:
-          not_descendant: skal ligge under hierarkiets rod.
-          other_project: skal være en global værdi eller høre til samme projekt.
-        project:
-          additional_values_not_allowed: kan ikke tilføje værdier til dette brugerdefinerede felt.
-        short:
-          not_unique: skal være entydig på samme niveau i hierarkiet.
       str?: skal være en streng.
       time?: skal være et klokkeslæt.
       type?: skal være %{type}.
@@ -6211,6 +6245,25 @@ da:
       status_restored: Forbindelsen er genoprettet. Genindlæser …
       status_still: Stadig offline. Vi prøver igen om lidt.
       title: Offline
+    push:
+      all_read_title: Ingen ulæste notifikationer
+      fallback_title: Ny aktivitet i OpenProject
+      group_title:
+        one: "%{count} opdatering"
+        other: "%{count} opdateringer"
+      more_title:
+        one: "%{count} arbejdspakke mere"
+        other: "%{count} arbejdspakker mere"
+      reasons:
+        assigned: "%{actor} tildelte dig"
+        commented: "%{actor} kommenterede"
+        date_alert_due_date: Påmindelse om slutdato
+        date_alert_start_date: Påmindelse om startdato
+        mentioned: "%{actor} omtalte dig"
+        reminder: Påmindelse
+        responsible: "%{actor} gjorde dig ansvarlig"
+        shared: "%{actor} har delt en arbejdspakke med dig"
+        updated: "%{actor} opdaterede"
   queries:
     apply_filter: Tildel filter som specificeret på forhånd
     configure_view:
@@ -7431,6 +7484,7 @@ da:
         rename_group: Omdøb afsnit
         required:
           already_required_globally: Det brugerdefinerede felt er påkrævet for alle typer.
+          excluded: Slå det brugerdefinerede felt til, før du gør det obligatorisk for denne type.
           for_variant: Påkrævet for denne type
           globally: Påkrævet
           globally_hint: Det ændres på det brugerdefinerede felt
@@ -7508,6 +7562,7 @@ da:
           success: Konfigurationen er kopieret.
         exclusions:
           not_inherited: Konfigurationen er ikke nedarvet, så der er intet at udelade. Rediger i stedet konfigurationen direkte.
+          required: Et obligatorisk brugerdefineret felt kan ikke slås fra.
           unknown_aspect: Ukendt konfigurationsafsnit "%{aspect}".
         inherited:
           configure_manually: Konfigurer manuelt
@@ -7758,6 +7813,7 @@ da:
     sessions:
       browser: Browser
       browser_session: "(Browsersession)"
+      browser_with_version: "%{name} (version %{version})"
       current: Aktuel (denne enhed)
       deletion_warning: Er du sikker på, at du vil tilbagekalde sessionen? Du bliver logget ud på denne enhed.
       device: Enhed/styresystem

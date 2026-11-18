@@ -160,6 +160,11 @@ zh-CN:
         semantic_key: 语义
         user_self_editable: 可编辑
         visible_on_user_card: 在用户卡上显示
+      custom_field/hierarchy/item:
+        label: Label
+        parent: Parent
+        short: Short
+        weight: Weight
       custom_field/project_specific_value_restriction:
         restriction: Restriction
       custom_value:
@@ -345,7 +350,6 @@ zh-CN:
       project_type:
         variant: 变体
       push_subscription:
-        created_at: 已添加
         endpoint: Endpoint
         session_id: 会话
       query:
@@ -714,6 +718,8 @@ zh-CN:
         custom_field:
           at_least_one_custom_option: 至少有需要一个可用选项。
           attributes:
+            admin_only:
+              cannot_be_true: is not supported for this type of custom field.
             formula:
               blank: 公式不能为空。
               format: "%{message}"
@@ -727,9 +733,25 @@ zh-CN:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted list.
             required:
               cannot_be_true: 无法设置为 true。
+            value:
+              required_by_project_values: cannot be disabled, as the project added values below it.
           previous_custom_field_recalculation_unprocessed: 尚未对此自定义字段的先前更改进行重新计算，请几分钟后再试。
           referenced_in_other_fields_html:
             other: "%{name} 用于项目特性计算中：%{links}。"
+        custom_field/hierarchy/item:
+          attributes:
+            base:
+              root_item: The root of a hierarchy cannot be deleted.
+            label:
+              not_unique: must be unique within the same hierarchy level.
+            parent:
+              other_hierarchy: must belong to the same hierarchy.
+              other_project: must be a global value or belong to the same project.
+              own_descendant: cannot be the value itself or one of its descendants.
+            project_id:
+              additional_values_not_allowed: cannot add values to this custom field.
+            short:
+              not_unique: must be unique within the same hierarchy level.
         custom_fields_project:
           attributes:
             project_ids:
@@ -873,7 +895,7 @@ zh-CN:
         push_subscription:
           attributes:
             base:
-              too_many_push_subscriptions: Only %{count} devices can receive browser push notifications at the same time.
+              too_many_push_subscriptions: Only %{count} devices can receive browser notifications at the same time.
         queries/filters/base:
           attributes:
             values:
@@ -3134,6 +3156,7 @@ zh-CN:
       work_package_query_relation_columns: 工作包查询关系列
       work_package_sharing: 与外部用户共享工作包
       work_package_subject_generation: 工作包主题生成
+      xwiki_integration: XWiki Integration
     teaser:
       description_html: 您可以访问 %{trial_plan} 的所有功能。
       title:
@@ -5165,9 +5188,36 @@ zh-CN:
         title: 项目特定通知
     notifications_and_email:
       tabs:
+        browser_push: Browser notifications
         email_reminders: 电子邮件提醒
         notifications: 通知设置
       title: 通知和电子邮件
+    push_notifications:
+      description: Get notified with native push notifications via this browser when you have unread notifications, even when OpenProject is not open. Your notification content stays in OpenProject and is not shared with the notification provider.
+      disable: Disable for this browser
+      enable: Enable for this browser
+      no_devices: No device receives browser notifications yet.
+      no_devices_description: Enable browser notifications on a device and it appears here.
+      revoke: Revoke
+      revoke_confirm: Stop sending browser notifications to %{device}?
+      revoke_device: Revoke %{device}
+      revoked: Browser notifications were disabled for that device.
+      signed_out: Signed out
+      signed_out_description: A device that is signed out keeps browser notifications suspended and resumes them when you sign in there again. Revoke the device to stop them for good.
+      status:
+        blocked: Notifications are blocked for this site in your browser settings.
+        disabled: Browser notifications are not enabled for this browser in the current session.
+        enabled: Browser notifications are enabled for this browser in the current session.
+        error: Browser notifications could not be changed. Please try again.
+        prompting: Waiting for you to allow notifications in the browser prompt…
+        subscribing: Registering this browser with its push service…
+        timeout: Your browser did not finish registering for push in time. Check your network connection and try again.
+        unsupported: Browser notifications are not available in this browser.
+      this_session: This session
+      title: Browser notifications
+      try_again: Try again
+      try_again_label: Try again to change browser notifications for this browser
+      unavailable: Browser notifications are temporarily unavailable on this instance.
   news:
     index:
       no_results_content_text: 添加新闻项
@@ -5433,7 +5483,6 @@ zh-CN:
       eql?: 必须等于 %{left}。
       filled?: 必须填写
       format?: 格式无效。
-      greater_or_equal_zero: 必须大于或等于 0
       gt?: must be greater than %{num}.
       gteq?: 必须大于或等于 %{num}。
       hash?: 必须是一个哈希值。
@@ -5446,21 +5495,6 @@ zh-CN:
       max_size?: must not be longer than %{num} characters.
       not_found: 未找到。
       respond_to?: 不实现所需方法。
-      rules:
-        custom_field:
-          format_not_supported: 格式 '%{field_format}' 不受支持。
-        item:
-          not_persisted: must be an already existing value.
-          root_item: cannot be a root value.
-        label:
-          not_unique: 在同一层级内必须是唯一的。
-        parent:
-          not_descendant: 必须是层级根节点的后代。
-          other_project: must be a global value or belong to the same project.
-        project:
-          additional_values_not_allowed: cannot add values to this custom field.
-        short:
-          not_unique: 必须在同一层级级别中保持唯一。
       str?: 必须是一个字符串。
       time?: 必须为时间。
       type?: 必须是 %{type}。
@@ -6034,6 +6068,23 @@ zh-CN:
       status_restored: Connection restored. Reloading…
       status_still: Still offline. We’ll try again in a moment.
       title: Offline
+    push:
+      all_read_title: No unread notifications
+      fallback_title: New activity in OpenProject
+      group_title:
+        other: "%{count} updates"
+      more_title:
+        other: "%{count} more work packages"
+      reasons:
+        assigned: "%{actor} assigned you"
+        commented: "%{actor} commented"
+        date_alert_due_date: Due date alert
+        date_alert_start_date: Start date alert
+        mentioned: "%{actor} mentioned you"
+        reminder: Reminder
+        responsible: "%{actor} made you accountable"
+        shared: "%{actor} shared a work package with you"
+        updated: "%{actor} updated"
   queries:
     apply_filter: 应用预配置筛选器
     configure_view:
@@ -7241,6 +7292,7 @@ zh-CN:
         rename_group: 重命名小节
         required:
           already_required_globally: 此自定义字段对所有类型为必选项。
+          excluded: Switch this custom field on before requiring it for this type.
           for_variant: Required for this type
           globally: 必选
           globally_hint: 在自定义字段上更改此项
@@ -7318,6 +7370,7 @@ zh-CN:
           success: 配置已复制。
         exclusions:
           not_inherited: 此配置不是继承而来，因此无需排除任何内容。请直接编辑该配置。
+          required: A required custom field cannot be switched off.
           unknown_aspect: 未知的配置分区“%{aspect}”。
         inherited:
           configure_manually: 手动配置
@@ -7564,6 +7617,7 @@ zh-CN:
     sessions:
       browser: 浏览器
       browser_session: "(浏览器会话）"
+      browser_with_version: "%{name} (Version %{version})"
       current: 当前（本设备）
       deletion_warning: 确定要撤销此会话吗？您将在此设备上退出登录。
       device: 设备 / 操作系统

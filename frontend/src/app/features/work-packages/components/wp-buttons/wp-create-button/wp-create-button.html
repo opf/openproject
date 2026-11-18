@@ -1,21 +1,25 @@
 <div class="wp-create-button">
-  <button
-    class="button -primary add-work-package"
-    type="button"
-    [disabled]="createPaneOpen"
-    [attr.aria-disabled]="allowed === false || null"
-    opTooltip
-    [label]="text.explanation"
-    tooltipWhenTruncated=".button--text"
+  <op-action-menu
     opTypesCreateDropdown
     [projectIdentifier]="projectIdentifier"
-    [dropdownActive]="allowed"
     [fullView]="fullView"
+    [label]="text.explanation"
   >
-    <svg plus-icon size="small"/>
-    <span class="button--text"
-          [textContent]="text.createWithDropdown"
-          aria-hidden="true"></span>
-    <svg triangle-down-icon size="small"/>
-  </button>
+    <button
+      opActionMenuTrigger
+      class="button -primary add-work-package"
+      type="button"
+      [disabled]="createPaneOpen"
+      [attr.aria-disabled]="allowed === false || null"
+      opTooltip
+      [label]="text.explanation"
+      tooltipWhenTruncated=".button--text"
+    >
+      <svg plus-icon size="small"/>
+      <span class="button--text"
+            [textContent]="text.createWithDropdown"
+            aria-hidden="true"></span>
+      <svg triangle-down-icon size="small"/>
+    </button>
+  </op-action-menu>
 </div>

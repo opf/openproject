@@ -75,6 +75,7 @@ RSpec.describe WorkPackages::UpdateContract, "categories" do
     end
 
     it "is valid while multiple categories is on",
+       with_flag: { work_package_multiple_categories: true },
        with_settings: { work_package_multiple_categories: true } do
       expect_contract_valid
     end
@@ -82,6 +83,7 @@ RSpec.describe WorkPackages::UpdateContract, "categories" do
 
   context "when category_id is also set" do
     it "is valid when category_id is the first category in alphabetical order",
+       with_flag: { work_package_multiple_categories: true },
        with_settings: { work_package_multiple_categories: true } do
       work_package.category_ids_replacements = [frontend.id, backend.id]
       work_package.category_id = backend.id
