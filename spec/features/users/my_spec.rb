@@ -222,6 +222,29 @@ RSpec.describe "my", :js do
         end
       end
 
+      context "when submitting with Enter",
+              with_config: { internal_password_confirmation: true } do
+        it "keeps the dialog open and focuses the password" do
+          visit my_account_path
+
+          fill_in "user[mail]", with: "foo@mail.com"
+          fill_in "user[firstname]", with: "Foo"
+          fill_in "user[lastname]", with: "Bar"
+
+          keyboard = page.driver.browser.keyboard
+          keyboard.down(:Enter)
+          dialog.expect_open
+          expect(page).to have_css("input[name='password_confirmation']:focus")
+
+          keyboard.down(:Enter)
+          keyboard.up(:Enter)
+          dialog.expect_open
+
+          dialog.confirm_flow_with(user_password, with_keyboard: true)
+          expect_changed!
+        end
+      end
+
       # CKEditor-augmented text custom fields also intercept submit (to flush
       # editor → textarea). With turboMode they used to call Turbo's
       # navigator.submitForm, which bypassed password confirmation and POSTed
