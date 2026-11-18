@@ -32,9 +32,6 @@ module WorkPackage::Categories
 
   included do
     has_many :work_package_categories, dependent: :delete_all
-    has_many :categories,
-             -> { order(Category.arel_table[:name].lower, Category.arel_table[:id]) },
-             through: :work_package_categories,
-             source: :category
+    has_many :categories, -> { order(:id) }, through: :work_package_categories, source: :category
   end
 end

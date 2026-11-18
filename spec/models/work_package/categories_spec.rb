@@ -39,11 +39,11 @@ RSpec.describe WorkPackage::Categories do
     let!(:beta) { create(:category, project:, name: "beta") }
 
     before do
-      [zeta, alpha, beta].each { |category| create(:work_package_category, work_package:, category:) }
+      [beta, zeta, alpha].each { |category| create(:work_package_category, work_package:, category:) }
     end
 
-    it "returns the categories in case-insensitive alphabetical order" do
-      expect(work_package.reload.categories).to eq [alpha, beta, zeta]
+    it "returns the categories ordered by id" do
+      expect(work_package.reload.categories).to eq [zeta, alpha, beta]
     end
   end
 
