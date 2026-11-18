@@ -296,7 +296,7 @@ Read more: [Resource allocations in My time user guide](../../user-guide/time-an
 
 ### Accessibility
 
-Everyone should be able to use OpenProject, regardless of their abilities or the technologies they rely on. OpenProject 18.0 continues this work with a focus on keyboard navigation and screen reader support.
+Everyone should be able to use OpenProject, regardless of their abilities or the technologies they rely on. OpenProject 18.0 continues this work with a focus on keyboard navigation, contrast and screen reader support.
 
 The biggest change is in the **work package table**: keyboard and screen reader users can now navigate it, select work packages, and use all context actions without a mouse. Administrators can also check the contrast of highlighting colors before using them. In addition, key areas such as the work package list and details, Backlogs, Boards, and Meetings have been audited with the AXe accessibility testing tool.
 
