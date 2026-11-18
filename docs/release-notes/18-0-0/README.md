@@ -94,7 +94,7 @@ This includes:
 
 **8. [Jira Migrator and CSV import](#jira-migrator-and-csv-import)**
 
-Moving to OpenProject gets considerably easier. The Jira Migrator makes major progress and now migrates nearly all issue data, and a new CSV import brings in work packages from spreadsheets and other tools.
+Moving to OpenProject gets considerably easier. The Jira Migrator makes major progress: it now officially supports Jira Server and migrates nearly all issue data. In addition, a new CSV import brings in work packages from spreadsheets and other tools.
 
 This includes:
 
@@ -355,25 +355,24 @@ Read more: [Meetings filters user guide](../../user-guide/meetings/#meetings-fil
 
 ### Jira Migrator and CSV import
 
-Many organizations are moving away from Jira, and a move only works if project data comes along. OpenProject 18.0 makes major progress here: the **Jira Migrator** now moves nearly all issue data to OpenProject, so teams can continue working with the history and context they are used to. For data from spreadsheets or tools without a dedicated migrator, the new **CSV import** brings work packages into OpenProject as well.
+Many organizations are moving away from Jira, and a move only works if project data comes along. OpenProject 18.0 makes major progress here: the **Jira Migrator** now officially supports Jira Server and moves nearly all issue data to OpenProject, so teams can continue working with the history and context they are used to. For data from spreadsheets or tools without a dedicated migrator, the new **CSV import** brings work packages into OpenProject as well.
 
 Read more: [Jira migration guide](../../installation-and-operations/jira-migration/), [Jira Migrator overview](https://www.openproject.org/jira-migrator/)
 
 #### Jira Migrator: major progress toward a complete migration
 
-The Jira Migrator now keeps the context your teams rely on: how issues relate to each other, who worked on what, how much time was spent, which sprint an issue belonged to, and how it was resolved. New in this release, the Jira Migrator migrates:
+The Jira Migrator now keeps the context your teams rely on: how issues relate to each other, who worked on what, how much time was spent, which sprint an issue belonged to, and how it was resolved. New in this release, the Jira Migrator migrates: 
 
 - Issue links, which become relations between work packages
 - Sub-tasks, which become child work packages, so the hierarchy is preserved
 - Sprint assignments, with the required sprints and sprint attributes
-- Labels and watchers
+- Labels 
+- Watchers
 - Tracked time (spent time)
 - Resolution and Resolution date fields
-- Inline images in descriptions and comments, which are now stored in OpenProject
 - Custom datetime fields
-- Users' time zones
 
-Each imported work package keeps the original Jira issue key and internal ID, so you can always trace it back to its source. Connecting to Jira is also more flexible with Basic Auth support, and the connection test now checks that the token belongs to a Jira administrator. Importing Resolution fields changes how statuses are created. See [breaking changes](#jira-migrator-changed-import-of-resolution-fields).
+Each imported work package keeps the original Jira issue key and internal ID, so you can always trace it back to its source. Jira Server is now officially supported. Connecting to Jira has also become more flexible with Basic Auth support, and the connection test now checks that the token belongs to a Jira administrator. Importing Resolution fields changes how statuses are created. See [breaking changes](#jira-migrator-changed-import-of-resolution-fields).
 
 Read more: [Jira migration guide](../../installation-and-operations/jira-migration/), [Jira field mapping guide](../../installation-and-operations/jira-migration/field-mapping/), [Jira Migrator overview](https://www.openproject.org/jira-migrator/)
 
