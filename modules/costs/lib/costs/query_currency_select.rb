@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -28,6 +30,7 @@
 module Costs
   class QueryCurrencySelect < Queries::WorkPackages::Selects::WorkPackageSelect
     include ActionView::Helpers::NumberHelper
+
     alias :super_value :value
 
     def initialize(name, options = {})

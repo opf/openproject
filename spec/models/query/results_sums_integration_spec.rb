@@ -409,8 +409,11 @@ RSpec.describe Query::Results, "sums" do
     context "when grouped by done_ratio" do
       let(:group_by) { :done_ratio }
 
-      it "is a hash of sums grouped by done_ratio values and grouped columns" do
+      it "has a group for each done_ratio value" do
         expect(query_results.all_group_sums.keys).to contain_exactly(100, 50, 10)
+      end
+
+      it "sums the grouped columns of the 100% group" do
         expect(stringify_column_keys(query_results.all_group_sums[100]))
           .to eq("estimated_hours" => nil,
                  "remaining_hours" => nil,
@@ -421,6 +424,9 @@ RSpec.describe Query::Results, "sums" do
                  "labor_costs" => 0.0,
                  "overall_costs" => 0.0,
                  "story_points" => nil)
+      end
+
+      it "sums the grouped columns of the 50% group" do
         expect(stringify_column_keys(query_results.all_group_sums[50]))
           .to eq("estimated_hours" => 10.0,
                  "remaining_hours" => 5.0,
@@ -431,16 +437,19 @@ RSpec.describe Query::Results, "sums" do
                  "labor_costs" => 300.0,
                  "overall_costs" => 500.0,
                  "story_points" => 14)
+      end
+
+      it "sums the grouped columns of the 10% group" do
         expect(stringify_column_keys(query_results.all_group_sums[10]))
-           .to eq("estimated_hours" => 10.0,
-                  "remaining_hours" => 9.0,
-                  "done_ratio" => 10,
-                  int_cf.column_name => 10,
-                  float_cf.column_name => 3.41,
-                  "material_costs" => 200.0,
-                  "labor_costs" => 300.0,
-                  "overall_costs" => 500.0,
-                  "story_points" => 7)
+          .to eq("estimated_hours" => 10.0,
+                 "remaining_hours" => 9.0,
+                 "done_ratio" => 10,
+                 int_cf.column_name => 10,
+                 float_cf.column_name => 3.41,
+                 "material_costs" => 200.0,
+                 "labor_costs" => 300.0,
+                 "overall_costs" => 500.0,
+                 "story_points" => 7)
       end
 
       context "when filtering" do
