@@ -63,6 +63,8 @@ export class WorkPackageReminderButtonComponent extends UntilDestroyedMixin impl
 
   public buttonTitle = this.I18n.t('js.work_packages.reminders.button_label');
 
+  public menuTitle = this.I18n.t('js.work_packages.reminders.title.new');
+
   ngOnInit() {
     const reminderModalUpdated$ = this
       .actions$

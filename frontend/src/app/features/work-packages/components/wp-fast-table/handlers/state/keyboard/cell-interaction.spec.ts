@@ -120,17 +120,17 @@ describe('CellInteraction', () => {
           },
         }],
       });
-      const link = within(table.row('1')).getByRole('link', { name: 'Remove child' });
-      table.table.keyboardNavigation.focusPosition(positionOf(table, link.closest('td, th')!));
-      return { table, unlink, link, cell: link.closest('td, th')! };
+      const button = within(table.row('1')).getByRole('button', { name: 'Remove child' });
+      table.table.keyboardNavigation.focusPosition(positionOf(table, button.closest('td, th')!));
+      return { table, unlink, button, cell: button.closest('td, th')! };
     };
 
     it('focuses the unlink control on Enter and activates it on a second Enter', async () => {
-      const { table, unlink, link } = await mountWithUnlink();
+      const { table, unlink, button } = await mountWithUnlink();
 
       await userEvent.keyboard('{Enter}');
 
-      expect(link).toHaveFocus();
+      expect(button).toHaveFocus();
       expect(unlink).not.toHaveBeenCalled();
 
       await userEvent.keyboard('{Enter}');
@@ -139,12 +139,12 @@ describe('CellInteraction', () => {
     });
 
     it('cancels a repeated Enter on a destructive control', async () => {
-      const { table, unlink, link } = await mountWithUnlink();
+      const { table, unlink, button } = await mountWithUnlink();
       await userEvent.keyboard('{Enter}');
-      expect(link).toHaveFocus();
+      expect(button).toHaveFocus();
 
       const repeated = new KeyboardEvent('keydown', { key: 'Enter', repeat: true, bubbles: true, cancelable: true });
-      link.dispatchEvent(repeated);
+      button.dispatchEvent(repeated);
 
       expect(repeated.defaultPrevented).toBe(true);
       expect(unlink).not.toHaveBeenCalled();
@@ -155,15 +155,15 @@ describe('CellInteraction', () => {
     });
 
     it('returns from the focused unlink control to its cell with Escape and continues the walk with Tab', async () => {
-      const { table, link, cell } = await mountWithUnlink();
+      const { table, button, cell } = await mountWithUnlink();
       await userEvent.keyboard('{Enter}');
-      expect(link).toHaveFocus();
+      expect(button).toHaveFocus();
 
       await userEvent.keyboard('{Escape}');
       expect(cell).toHaveFocus();
 
       await userEvent.keyboard('{Enter}');
-      expect(link).toHaveFocus();
+      expect(button).toHaveFocus();
       await userEvent.tab({ shift: true });
       expect(cell).toHaveFocus();
 

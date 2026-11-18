@@ -126,8 +126,7 @@ RSpec.describe "Logging time within the work package view", :js, :with_cuprite d
 
     it "the context menu entry to log time leads to the modal" do
       # click on context menu opens the modal
-      find("#action-show-more-dropdown-menu .button").click
-      find(".menu-item", text: "Log time").click
+      wp_page.select_from_context_menu("Log time")
 
       log_time_via_modal
 

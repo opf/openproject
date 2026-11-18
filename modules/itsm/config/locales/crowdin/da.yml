@@ -36,6 +36,19 @@ da:
         sender_email: Afsenderens e-mail
         sender_name: Afsenderens navn
         username: Brugernavn
+    errors:
+      models:
+        itsm/incoming_mailbox:
+          attributes:
+            base:
+              address_not_allowed: The mail server resolves to a blocked address. If it runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable.
+              authentication_failed: 'The mail server rejected the login: %{server_message}'
+              fetch_in_progress: The mailbox is already being checked.
+              inactive: The mailbox is paused.
+              server_error: 'The mail server returned an error: %{server_message}'
+              timeout: The mail server stopped responding.
+              tls_failed: No secure connection to the mail server could be established. Check its certificate.
+              unreachable: The mail server could not be reached.
     models:
       itsm/email_message:
         one: E-mail
@@ -44,8 +57,8 @@ da:
         one: E-mailtråd
         other: E-mailtråde
       itsm/helpdesk_role:
-        one: Help desk role
-        other: Help desk roles
+        one: Helpdesk-rolle
+        other: Helpdesk-roller
       itsm/incoming_mailbox:
         one: Indgående postkasse
         other: Indgående postkasser
@@ -59,7 +72,7 @@ da:
     admin:
       description: Gør det muligt at oprette arbejdspakker ved at sende e-mails via en IMAP-server og at besvare dem via en SMTP-server.
       enable_helpdesk: Slå helpdesk til i denne installation
-      helpdesk_not_enabled: 'The help desk could not be turned on, because its role or user could not be created: %{reason}'
+      helpdesk_not_enabled: 'Helpdesken kunne ikke slås til, fordi dens rolle eller bruger ikke kunne oprettes: %{reason}'
       helpdesk_set_by_environment: Helpdesk-funktionen er angivet med en miljøvariabel og kan ikke ændres her.
       imap_server_configuration_component:
         description: Konfigurer IMAP-serveren til at omdanne indgående e-mails til arbejdspakker.
@@ -84,7 +97,7 @@ da:
         edit: Rediger konfigurationen af SMTP-serveren
         title: Konfiguration af SMTP-server
   label_helpdesk: Helpdesk
-  label_helpdesk_role: Help desk
-  label_helpdesk_user: Help desk
+  label_helpdesk_role: Helpdesk
+  label_helpdesk_user: Helpdesk
   permission_manage_helpdesk: Administrer helpdesk
   project_module_helpdesk: Helpdesk

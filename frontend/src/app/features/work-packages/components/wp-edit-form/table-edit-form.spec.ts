@@ -474,6 +474,55 @@ describe('TableEditForm origin', () => {
       expect(harness.table.committedRows()).toEqual({ generation: generation + 1, scope: new Set([inlineCreateRowKey]) });
     });
 
+    it('activates Subject again in an inline-create row reopened after stopping its form', async () => {
+      harness = buildTable({
+        workPackages: [{ id: '1' }],
+        editing: {},
+        productionMarkup: true,
+        providers: [{ provide: WorkPackagesListService, useValue: { conditionallyLoadForm: () => Promise.resolve() } }],
+      });
+      await harness.render();
+      const cancelled = harness.addInlineCreateRow();
+      await harness.table.editing.forms[HAL_NEW_RESOURCE_ID].activate('subject');
+
+      harness.table.editing.stopEditing(HAL_NEW_RESOURCE_ID);
+      cancelled.remove();
+      const reopened = harness.addInlineCreateRow();
+      await harness.table.editing.forms[HAL_NEW_RESOURCE_ID].activateWhenNeeded('subject');
+
+      expect(within(reopened).getByRole('textbox')).toBeInTheDocument();
+    });
+
+    it('drops a pending activation of a stopped inline-create form', async () => {
+      const pending = deferred<void>();
+      const conditionallyLoadForm = vi.fn()
+        .mockReturnValueOnce(pending.promise)
+        .mockResolvedValue(undefined);
+      harness = buildTable({
+        workPackages: [{ id: '1' }],
+        editing: {},
+        productionMarkup: true,
+        providers: [{ provide: WorkPackagesListService, useValue: { conditionallyLoadForm } }],
+      });
+      await harness.render();
+      const cancelled = harness.addInlineCreateRow();
+      const stopped = harness.table.editing.forms[HAL_NEW_RESOURCE_ID];
+      const staleActivation = stopped.activateWhenNeeded('subject');
+      await waitFor(() => expect(conditionallyLoadForm).toHaveBeenCalled());
+
+      harness.table.editing.stopEditing(HAL_NEW_RESOURCE_ID);
+      cancelled.remove();
+      const reopened = harness.addInlineCreateRow();
+      const form = harness.table.editing.forms[HAL_NEW_RESOURCE_ID];
+      await form.activateWhenNeeded('subject');
+      pending.resolve();
+      await staleActivation;
+
+      expect(stopped.activeFields).toEqual({});
+      expect(harness.table.editing.forms[HAL_NEW_RESOURCE_ID]).toBe(form);
+      expect(within(reopened).getByRole('textbox')).toBe(form.activeFields.subject.element?.querySelector('input'));
+    });
+
     it('a failed activation leaves no origin behind', async () => {
       await mountTwoRows();
       vi.spyOn(harness.injector.get(EditingPortalService), 'create').mockRejectedValue(new Error('portal failed'));

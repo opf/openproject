@@ -771,8 +771,10 @@ zh-CN:
       create_new: 新建
       group_by_relation_type: 按关系类型分组
       group_by_wp_type: 按工作包类型分组
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: 缩进层次结构
       hierarchy_outdent: 减少缩进层次结构
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: 删除关系
       remove_child: 删除子任务
       remove_parent: 删除父级
@@ -1006,6 +1008,7 @@ zh-CN:
         label_pagination: 单击此处跳过工作包表格并转到分页
         pagination: 跳转到表格分页
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: '组合式的下拉字段: 使用箭头键选择，用 enter 键确认选择，用退格键删除'
       label_disable_multi_select: 禁用多选
       label_enable_multi_select: 启用多选

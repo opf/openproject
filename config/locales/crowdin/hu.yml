@@ -720,6 +720,8 @@ hu:
         custom_field:
           at_least_one_custom_option: Minimum egy opciónak elérhetőnek kell lennie.
           attributes:
+            admin_only:
+              cannot_be_true: is not supported for this type of custom field.
             formula:
               blank: Formula can't be blank.
               format: "%{message}"
@@ -1458,7 +1460,6 @@ hu:
           description: Your comment will be visible to anyone who can access this work package. Are you sure you want to do this?
           heading: Make this comment public?
           title: Make this comment public?
-        internal_journal: Internal comments are visible to a limited group of members.
         label_activity_hide_meetings: Hide meetings updates
         label_activity_show_all: Show everything
         label_activity_show_only_changes: Show changes only
@@ -1639,7 +1640,7 @@ hu:
         contribution_callout: 'Kérjük, segítsen nekünk a Jira Migrator fejlesztésében visszajelzéseivel és a magánadatok felajánlásával. Csatlakozhat a Jira Migrator [fejlesztői közösségéhez](link).
 
           '
-        description: Ez a Jira Migrator jelenleg béta verzióban van. Jelenleg kizárólag a Jira Server/Data Center 10.x és 11.x verzióit támogatjuk. A felhőalapú példányokat jelenleg nem támogatjuk.
+        description: The Jira Migrator is currently in beta. We support Jira Server/Data Center versions 8.x, 9.x, 10.x and 11.x. Cloud instances are not supported at this time.
         title: Béta – Próbáld ki!
       basic_auth_password_deleted: Basic auth password was successfully deleted.
       blank:
@@ -1921,17 +1922,22 @@ hu:
                 other: "%{count} projects selected as scope"
               description: Válassza ki, hogy a gazda Jira-példányból letöltött rendelkezésre álló adatok közül melyeket szeretné importálni.
               elements:
+                configuration_mapping: Configuration & Mapping options
                 custom_fields: Az egyéni mezők egy részhalmaza
                 issue_details: Issue identifiers, description, history, comments and attachments
                 issues: Problémák
                 logged_time: Logged time
                 permissions: Jogosultságok
+                plugin_migration: Plug-in migration
                 project_details: Project identifiers, description and versions
+                project_specific_custom_fields: Project-specific custom fields
                 projects: Projektek
                 relations: Relations between issues
                 schemes: Schemas
+                security_level: Security Level
                 sprints: Sprints and sprint assignments
                 users: Érintett felhasználók és csoportok
+                workflow_migration: Workflow migration
                 workflows: Projektszintű munkafolyamatok
               label_coming_later: Később érkezik
               label_coming_soon: Coming soon
@@ -3729,7 +3735,7 @@ hu:
           caption: Use an existing form for this type with a pre-defined set of attribute groups.
           label: Use an existing form
         new:
-          caption: Arrange the attribute groups of a new form for this type.
+          caption: Manually define a new set of sections and fields to display for this variant.
           label: Configure a new form
   forums:
     index:
@@ -4788,13 +4794,13 @@ hu:
     one: "%{count} file"
     other: "%{count} files"
     zero: no files
+  label_x_forms:
+    one: "%{count} form"
+    other: "%{count} forms"
   label_x_in_progress_work_packages_abbr:
     one: 1 in progress
     other: "%{count} in progress"
     zero: 0 in progress
-  label_x_forms:
-    one: "%{count} form"
-    other: "%{count} forms"
   label_x_items:
     one: "%{count} item"
     other: "%{count} items"
@@ -7283,8 +7289,8 @@ hu:
           type: These are the fields project members see when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
           variant: These are the fields project members see when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
         new:
-          type: These are the fields project members see when creating or editing a work package of this type. Arrange and group them in any order you like.
-          variant: These are the fields project members see when creating or editing a work package of this variant. Arrange and group them in any order you like.
+          type: These are the fields that a project member sees when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
+          variant: These are the fields that a project member sees when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
       pdf: Choose which PDF templates are available when generating the PDF of work packages that use these settings. Each template defines the layout and which attributes appear in the PDF. The first template in the list is the default.
       project_attributes: Choose which project attributes appear in work packages. Project members with permission can view and edit them in the work package's Project attributes tab.
       projects:

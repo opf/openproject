@@ -30,6 +30,7 @@ import {
   contextColumnIcon,
   contextMenuLinkClassName,
   invisibleIconButtonClasses,
+  rowActionTooltipDirection,
   OpTableAction,
 } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
 import { octiconElement } from 'core-app/shared/helpers/op-icon-builder';
@@ -51,6 +52,6 @@ export class OpContextMenuTableAction extends OpTableAction {
 
     contextMenu.appendChild(octiconElement(ICON_MAP['kebab-horizontal'], 'small', 'Button-visual'));
 
-    return withTooltip(contextMenu, this.text.linkTitle, 'label');
+    return withTooltip(contextMenu, this.text.linkTitle, 'label', rowActionTooltipDirection);
   }
 }

@@ -806,8 +806,10 @@ hu:
       create_new: Új létrehozása
       group_by_relation_type: Rendezés kapcsolati típusok szerint
       group_by_wp_type: Rendezés feladatcsoport típusai szerint
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Behúzási hierarchia
       hierarchy_outdent: Kihúzási hierarchia
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Kapcsolat eltávolítása
       remove_child: Gyermek kapcsolat törlése
       remove_parent: Szülő eltávolítása
@@ -1046,6 +1048,7 @@ hu:
         label_pagination: Kattints ide, hogy átugorj a munkacsomag táblán és a lapszámozáshoz menj
         pagination: Ugrás a táblázat lapszámozásához
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Kombinált legördülő mező: Nyilakkal jelöljön ki, enter-el hagyja jóvá, és backspace-vel töröljön'
       label_disable_multi_select: Többszörös kijelölés tiltása
       label_enable_multi_select: Többszörös kijelölés engedélyezése

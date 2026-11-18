@@ -27,40 +27,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Wikis
-  module TextFormatting
-    class WikiLinkMatcher < OpenProject::TextFormatting::Matchers::RegexMatcher
-      include Dry::Monads[:result]
+require "spec_helper"
+require_module_spec_helper
 
-      class << self
-        def regexp
-          /\[\[\[([0-9]+):([^\]\n]+)\]\]\]/
-        end
+RSpec.describe ITSM::Adapters::AuthenticationStrategies::BasicAuth do
+  subject(:strategy) { described_class.new(credentials) }
 
-        def process_match(match, _matched_string, _context)
-          instance = new(
-            provider_id: match[1],
-            identifier: match[2]
-          )
+  let(:credentials) { ITSM::Mailbox::Credentials.new(username: "support@example.com", password: "secret") }
+  let(:imap) { instance_double(Net::IMAP, login: nil) }
+  let(:rejection) { Net::IMAP::TaggedResponse.new("RUBY0001", "NO", Net::IMAP::ResponseText.new(nil, "Authentication failed"), "") }
 
-          instance.process
-        end
-      end
+  it "logs in with the username and password" do
+    expect(strategy.call(imap)).to be_success
+    expect(imap).to have_received(:login).with("support@example.com", "secret")
+  end
 
-      attr_reader :provider_id, :identifier
+  context "when the server rejects the login" do
+    before { allow(imap).to receive(:login).and_raise(Net::IMAP::NoResponseError.new(rejection)) }
 
-      def initialize(provider_id:, identifier:)
-        super()
-
-        @provider_id = provider_id
-        @identifier = identifier
-      end
-
-      def process
-        view_context = ApplicationController.new.view_context
-
-        DeferredInlinePageLinkMacroComponent.new(provider_id:, identifier:).render_in(view_context)
-      end
+    it "fails with authentication_failed" do
+      expect(strategy.call(imap).failure.code).to eq(:authentication_failed)
     end
+  end
+
+  it "hides the password when inspected" do
+    expect(strategy.inspect).not_to include("secret")
   end
 end

@@ -12,7 +12,9 @@ echo "create database structure; create user structure with encrypted password '
 # since postgres 15 we need to also explicitly grant the user permissions on the public schema
 echo "grant all on schema public to structure;" | su - postgres -c 'psql -d structure'
 
-DATABASE_URL=postgres://structure:p4ssw0rd@127.0.0.1/structure RAILS_ENV=production \
+DATABASE_URL=postgres://structure:p4ssw0rd@127.0.0.1/structure \
+  RAILS_ENV=production \
+  OPENPROJECT_SKIP_OPTIONAL_MIGRATIONS=true \
   bundle exec rake db:migrate db:schema:dump db:schema:cache:dump
 
 # this line requires superuser rights, which is not always available and doesn't matter anyway
