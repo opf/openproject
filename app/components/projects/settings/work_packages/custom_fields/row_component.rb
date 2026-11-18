@@ -33,7 +33,7 @@ module Projects
     module WorkPackages
       module CustomFields
         class RowComponent < OpPrimer::BorderBoxRowComponent
-          delegate :variants_for, :variant_path, :values_path, :linked?, :project_specific_value_count, :values_manageable?,
+          delegate :variants_for, :variant_path, :values_path, :linked?, :project_specific_value_count, :values_linked?,
                    to: :table
 
           def row_css_id = "project-custom-field-#{model.id}"
@@ -41,7 +41,7 @@ module Projects
           def row_data = { test_selector: row_css_id }
 
           def custom_field
-            if values_manageable?(model)
+            if values_linked?(model)
               render(Primer::Beta::Link.new(href: values_path(model), font_weight: :bold)) { model.name }
             else
               render(Primer::Beta::Text.new(font_weight: :bold)) { model.name }

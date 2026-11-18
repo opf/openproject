@@ -44,7 +44,7 @@ module Projects
             @project = project
             @variants_by_field = variants_by_field
             @project_specific_value_counts = project_specific_value_counts
-            @values_manageable = User.current.allowed_in_project?(:manage_work_package_custom_field_values, project)
+            @values_permitted = User.current.allowed_in_project?(:manage_work_package_custom_field_values, project)
           end
 
           def headers
@@ -59,8 +59,8 @@ module Projects
 
           def project_specific_value_count(field) = @project_specific_value_counts.fetch(field, 0)
 
-          def values_manageable?(field)
-            @values_manageable && (field.project_level_value_management? || field.allow_additional_project_values?)
+          def values_linked?(field)
+            @values_permitted && field.project_specific_values_supported?
           end
 
           def variant_path(variant)

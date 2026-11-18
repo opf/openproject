@@ -40,7 +40,6 @@ module CustomFields
                     :disable_all_values_path
 
       before_action :custom_field
-      before_action :require_project_specific_values, only: %i[index deletion_dialog destroy]
       before_action :require_project_specific_value_restriction, only: %i[toggle enable_all disable_all]
       before_action :require_additional_project_values, only: %i[new create edit update make_global]
       before_action :find_own_value, only: %i[edit update make_global deletion_dialog destroy]
@@ -178,13 +177,6 @@ module CustomFields
 
     def disable_all_values_path
       raise SubclassResponsibilityError
-    end
-
-    def require_project_specific_values
-      return if custom_field.project_specific_value_restriction.present?
-      return if custom_field.allow_additional_project_values?
-
-      render_404
     end
 
     def require_project_specific_value_restriction
