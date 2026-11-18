@@ -49,7 +49,7 @@ it:
     active_editors: Editor attivi
     active_editors_count:
       one: "%{count} active editor"
-      other: "%{count} active editors"
+      other: "%{count} editor attivi"
     admin:
       collaboration_settings:
         banner:

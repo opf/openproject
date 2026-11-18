@@ -178,6 +178,25 @@ RSpec.describe Import::JiraFetchUsersJob do
         "JIRAUSER_EDITOR"
       )
     end
+
+    context "with mentions in the migrated wiki markup fields" do
+      let(:issue) do
+        instance_double(Import::JiraIssue, payload: {
+                          "fields" => {
+                            "description" => "ping [~jdoe]",
+                            "environment" => "staging, maintained by [~asmith]",
+                            "comment" => { "comments" => [{ "author" => { "key" => "JIRAUSER_COMMENTER" },
+                                                            "body" => "and [~bob]" }] }
+                          }
+                        })
+      end
+
+      it "collects the mentioned usernames from the description, the environment and the comments" do
+        job.send(:collect_user_keys_from_issue, user_keys, mention_usernames, issue)
+
+        expect(mention_usernames).to contain_exactly("jdoe", "asmith", "bob")
+      end
+    end
   end
 
   describe "#collect_markup_mentions" do

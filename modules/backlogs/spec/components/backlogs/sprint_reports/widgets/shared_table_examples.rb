@@ -69,7 +69,7 @@ RSpec.shared_context "with a sprint report work package table" do
     it "renders a blankslate", :aggregate_failures do
       expect(rendered_component).to have_no_css("opce-embedded-work-package-table")
       expect(rendered_component).to have_octicon(icon)
-      expect(rendered_component).to have_heading(heading, level: 3)
+      expect(rendered_component).to have_heading(heading, level: 4)
       expect(rendered_component).to have_text(description)
     end
   end

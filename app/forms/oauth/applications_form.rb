@@ -111,7 +111,8 @@ module OAuth
             url: ::API::V3::Utilities::PathHelper::ApiV3Path.users,
             searchKey: "any_name_attribute",
             multiple: false,
-            inputName: "doorkeeper_application[client_credentials_user_id]"
+            inputName: "doorkeeper_application[client_credentials_user_id]",
+            focusDirectly: false
           }
         )
       end

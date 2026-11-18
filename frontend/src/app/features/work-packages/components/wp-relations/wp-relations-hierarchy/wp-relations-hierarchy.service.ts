@@ -33,6 +33,13 @@ import { WorkPackageNotificationService } from 'core-app/features/work-packages/
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 
+export interface ChangeParentOptions {
+  reportError?:boolean;
+  notify?:boolean;
+  /** Passed on with the association event, so that the sender can recognize its own change. */
+  origin?:unknown;
+}
+
 @Injectable()
 export class WorkPackageRelationsHierarchyService {
   protected states = inject(States);
@@ -42,7 +49,7 @@ export class WorkPackageRelationsHierarchyService {
   protected apiV3Service = inject(ApiV3Service);
 
 
-  public changeParent(workPackage:WorkPackageResource, parentId:string|null, options:{ reportError?:boolean } = {}) {
+  public changeParent(workPackage:WorkPackageResource, parentId:string|null, options:ChangeParentOptions = {}) {
     const payload:{ lockVersion:number, _links?:{ parent:{ href:string|null } } } = {
       lockVersion: workPackage.lockVersion,
     };
@@ -69,11 +76,12 @@ export class WorkPackageRelationsHierarchyService {
           .work_packages
           .cache
           .updateWorkPackage(wp);
-        this.notificationService.showSave(wp);
+        if (options.notify !== false) this.notificationService.showSave(wp);
         this.halEvents.push(workPackage, {
           eventType: 'association',
           relatedWorkPackage: parentId,
           relationType: 'parent',
+          origin: options.origin,
         });
 
         return wp;

@@ -314,7 +314,7 @@ zh-TW:
   meeting:
     agenda_sorting:
       change: 變更排序模式
-      current_mode: Currently in %{mode} mode
+      current_mode: Currently in %{mode} mode.
       invalid_reaction: 議程項目僅允許投贊成票和反對票。
       manual: 使用說明
       manual_description: You can manually arrange agenda items in any order you like by dragging and dropping them up or down.

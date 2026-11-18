@@ -55,8 +55,15 @@ Rails.application.configure do
         sql: data[:sql]
       }
 
+      meta = %i[name affected_rows row_count].filter_map do |key|
+        value = data[key]
+        next if value.blank?
+
+        "#{key}=#{value.inspect}"
+      end.join(", ")
       sql_log_string = data[:sql].strip.gsub(/(^(\s+)?$\n)/, "")
-      OpenProject.logger.warn "Encountered slow SQL (#{payload[:duration]} ms): #{sql_log_string}",
+
+      OpenProject.logger.warn "Encountered slow SQL (#{meta}, duration=#{payload[:duration]} ms): #{sql_log_string}",
                               payload:,
                               # Hash of the query for reference/fingerprinting
                               reference: Digest::SHA1.hexdigest(data[:sql])

@@ -36,6 +36,19 @@ ru:
         sender_email: Sender email
         sender_name: Sender name
         username: Username
+    errors:
+      models:
+        itsm/incoming_mailbox:
+          attributes:
+            base:
+              address_not_allowed: The mail server resolves to a blocked address. If it runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable.
+              authentication_failed: 'The mail server rejected the login: %{server_message}'
+              fetch_in_progress: The mailbox is already being checked.
+              inactive: The mailbox is paused.
+              server_error: 'The mail server returned an error: %{server_message}'
+              timeout: The mail server stopped responding.
+              tls_failed: No secure connection to the mail server could be established. Check its certificate.
+              unreachable: The mail server could not be reached.
     models:
       itsm/email_message:
         one: Email message
@@ -47,6 +60,11 @@ ru:
         few: Email threads
         many: Email threads
         other: Email threads
+      itsm/helpdesk_role:
+        one: Help desk role
+        few: Help desk roles
+        many: Help desk roles
+        other: Help desk roles
       itsm/incoming_mailbox:
         one: Incoming mailbox
         few: Incoming mailboxes
@@ -65,17 +83,33 @@ ru:
   itsm:
     admin:
       description: Enables the functionality to create work packages by sending emails using an IMAP server and reply to those using an SMTP server.
-      enable_helpdesk: Enable Helpdesk in this instance
+      enable_helpdesk: Enable help desk in this instance
+      helpdesk_not_enabled: 'The help desk could not be turned on, because its role or user could not be created: %{reason}'
       helpdesk_set_by_environment: The help desk feature is set by an environment variable and not changeable here.
       imap_server_configuration_component:
         description: Configure the IMAP server to transform incoming emails to work packages.
         edit: Edit IMAP server configuration
         title: IMAP server configuration
       mail_servers: Mail servers
+      port: Port
+      server_configuration_form:
+        encryption: Encryption
+        imap:
+          instruction: 'Configure the IMAP server to transform incoming emails to work packages. Note that OpenProject has no mechanism to stop email spoofing, please, ensure that the configured mail server performs SPF, DKIM, and DMARC checks, and quarantines emails that fail them.
+
+            '
+          title: IMAP server configuration
+        name: Server name
+        port: Server port
+        smtp:
+          instruction: Configure the SMTP server to reply emails directly from the work packages activity.
+          title: SMTP server configuration
       smtp_server_configuration_component:
         description: Configure the SMTP server to reply emails directly from the work packages activity.
         edit: Edit SMTP server configuration
         title: SMTP server configuration
   label_helpdesk: Help desk
+  label_helpdesk_role: Help desk
+  label_helpdesk_user: Help desk
   permission_manage_helpdesk: Manage help desk
   project_module_helpdesk: Help desk

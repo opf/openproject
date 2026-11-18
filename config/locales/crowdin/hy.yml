@@ -708,6 +708,8 @@ hy:
         custom_field:
           at_least_one_custom_option: Առնվազն մեկ ընտրանք պետք է հասանելի լինի։
           attributes:
+            admin_only:
+              cannot_be_true: is not supported for this type of custom field.
             formula:
               blank: Բանաձևը չի կարող դատարկ լինել։
               format: "%{message}"
@@ -1424,7 +1426,6 @@ hy:
           description: Ձեր մեկնաբանությունը տեսանելի կլինի բոլորին, ովքեր հասանելիություն ունեն այս աշխատանքային փաթեթին։ Համոզվա՞ծ եք, որ ցանկանում եք դա անել։
           heading: Դարձնե՞լ այս մեկնաբանությունը հրապարակային
           title: Դարձնե՞լ այս մեկնաբանությունը հրապարակային
-        internal_journal: Ներքին մեկնաբանությունները տեսանելի են անդամների սահմանափակ խմբին։
         label_activity_hide_meetings: Hide meetings updates
         label_activity_show_all: Ցուցադրել ամեն ինչ
         label_activity_show_only_changes: Ցուցադրել միայն փոփոխությունները
@@ -1605,7 +1606,7 @@ hy:
         contribution_callout: 'Խնդրում ենք օգնել մեզ բարելավել Jira Migrator-ը Ձեր արձագանքներով և մասնավոր տվյալների նվիրաբերմամբ։ Դուք կարող եք միանալ Jira Migrator-ի [մշակման համայնքին](link)։
 
           '
-        description: Այս Jira Migrator-ը ներկայումս բետա փուլում է։ Ներկայումս աջակցվում են միայն Jira Server/Data Center 10.x և 11.x տարբերակները։ Cloud համակարգերն այս պահին չեն աջակցվում։
+        description: The Jira Migrator is currently in beta. We support Jira Server/Data Center versions 8.x, 9.x, 10.x and 11.x. Cloud instances are not supported at this time.
         title: Բետա - Փորձեք այն։
       basic_auth_password_deleted: Basic auth password was successfully deleted.
       blank:
@@ -1887,17 +1888,22 @@ hy:
                 other: "%{count} projects selected as scope"
               description: Ընտրեք, թե ինչ տվյալներ եք ցանկանում ներմուծել հոսթ Jira համակարգից ստացված հասանելի տվյալներից։
               elements:
+                configuration_mapping: Configuration & Mapping options
                 custom_fields: Հատուկ դաշտերի ենթաբազմություն
                 issue_details: Issue identifiers, description, history, comments and attachments
                 issues: Խնդիրներ
                 logged_time: Logged time
                 permissions: Թույլտվություններ
+                plugin_migration: Plug-in migration
                 project_details: Project identifiers, description and versions
+                project_specific_custom_fields: Project-specific custom fields
                 projects: Նախագծեր
                 relations: Կապեր խնդիրների միջև
                 schemes: Սխեմաներ
+                security_level: Security Level
                 sprints: Sprints and sprint assignments
                 users: Ներգրավված օգտատերեր և խմբեր
+                workflow_migration: Workflow migration
                 workflows: Նախագծի մակարդակի աշխատանքային հոսքեր
               label_coming_later: Ավելի ուշ
               label_coming_soon: Coming soon
@@ -3222,6 +3228,7 @@ hy:
       work_package_query_relation_columns: Աշխատանքային փաթեթների հարցման կապերի սյունակներ
       work_package_sharing: Աշխատանքային փաթեթների համօգտագործում արտաքին օգտատերերի հետ
       work_package_subject_generation: Աշխատանքային փաթեթի վերնագրի գեներացում
+      xwiki_integration: XWiki Integration
     teaser:
       description_html: Դուք հասանելիություն ունեք %{trial_plan}-ի բոլոր հնարավորություններին։
       title:
@@ -3668,7 +3675,7 @@ hy:
           caption: Use an existing form for this type with a pre-defined set of attribute groups.
           label: Use an existing form
         new:
-          caption: Arrange the attribute groups of a new form for this type.
+          caption: Manually define a new set of sections and fields to display for this variant.
           label: Configure a new form
   forums:
     index:
@@ -4727,13 +4734,13 @@ hy:
     one: "%{count} file"
     other: "%{count} նիշք"
     zero: նիշքեր չկան
+  label_x_forms:
+    one: "%{count} form"
+    other: "%{count} forms"
   label_x_in_progress_work_packages_abbr:
     one: 1 in progress
     other: "%{count} in progress"
     zero: 0 in progress
-  label_x_forms:
-    one: "%{count} form"
-    other: "%{count} forms"
   label_x_items:
     one: "%{count} item"
     other: "%{count} տարր"
@@ -5688,7 +5695,7 @@ hy:
   permission_comment_news: Մեկնաբանել նորությունները
   permission_commit_access: Պահոցի ընթերցման/գրման հասանելիություն (կոմիտ)
   permission_copy_projects: Duplicate projects
-  permission_copy_projects_explanation: Ձևանմուշ նախագծերում այս թույլտվությունն ունի երկրորդական գործառույթ՝ այն թույլ է տալիս ստեղծել ձևանմուշից բխող նոր նախագծեր։
+  permission_copy_projects_explanation: Allows copying all project data, including content and attachments the user cannot view in the source project. The role can effectively grant access to all copied data depending on the role in the new project. It also allows creating projects from templates.
   permission_copy_work_packages: Կրկնօրինակել աշխատանքային փաթեթները
   permission_create_backup: Ստեղծել պահուստային պատճեններ
   permission_create_user: Ստեղծել օգտատերեր
@@ -7176,8 +7183,8 @@ hy:
           type: These are the fields project members see when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
           variant: These are the fields project members see when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
         new:
-          type: These are the fields project members see when creating or editing a work package of this type. Arrange and group them in any order you like.
-          variant: These are the fields project members see when creating or editing a work package of this variant. Arrange and group them in any order you like.
+          type: These are the fields that a project member sees when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
+          variant: These are the fields that a project member sees when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
       pdf: Choose which PDF templates are available when generating the PDF of work packages that use these settings. Each template defines the layout and which attributes appear in the PDF. The first template in the list is the default.
       project_attributes: Choose which project attributes appear in work packages. Project members with permission can view and edit them in the work package's Project attributes tab.
       projects:
@@ -7370,6 +7377,7 @@ hy:
         rename_group: Վերանվանել բաժինը
         required:
           already_required_globally: This custom field is required for all types.
+          excluded: Switch this custom field on before requiring it for this type.
           for_variant: Required for this type
           globally: Required
           globally_hint: Change this on the custom field
@@ -7447,6 +7455,7 @@ hy:
           success: Կազմաձևումը պատճենվել է։
         exclusions:
           not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
+          required: A required custom field cannot be switched off.
           unknown_aspect: Unknown configuration section "%{aspect}".
         inherited:
           configure_manually: Configure manually
@@ -7509,6 +7518,10 @@ hy:
         delete:
           description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
           title: Delete %{name}
+          unused:
+            description: The variant will be deleted permanently. This action cannot be undone.
+            heading: Delete variant '%{name}'?
+            title: Delete variant
         filter: Filter by text
         filter_no_results: No variants match this filter
         global_section:
