@@ -112,7 +112,7 @@ module Import
     end
 
     def failed_connection_check
-      report_id = last_transition&.metadata&.dig("health_report_id")
+      report_id = last_transition&.metadata&.dig("failed_connection_check_id")
       HealthReport.find_by(id: report_id) if report_id
     end
 

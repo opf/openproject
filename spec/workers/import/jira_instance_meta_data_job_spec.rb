@@ -90,7 +90,7 @@ RSpec.describe Import::JiraInstanceMetaDataJob do
 
       report = jira.latest_health_report
       expect(report.group("authorization")["administrator"]).to be_failure
-      expect(jira_import.reload.last_transition.metadata).to include("health_report_id" => report.id)
+      expect(jira_import.reload.last_transition.metadata).to include("failed_connection_check_id" => report.id)
       expect(jira_import.last_transition.metadata).not_to have_key("error_backtrace")
     end
   end

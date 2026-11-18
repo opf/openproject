@@ -133,7 +133,7 @@ RSpec.describe Import::JiraImport do
     end
 
     it "is the report of the connection check that stopped the run" do
-      jira_import.transition_to!(:instance_meta_error, error: "failed", health_report_id: report.id)
+      jira_import.transition_to!(:instance_meta_error, error: "failed", failed_connection_check_id: report.id)
 
       expect(jira_import.failed_connection_check).to eq(report)
     end
@@ -145,7 +145,7 @@ RSpec.describe Import::JiraImport do
     end
 
     it "is nil once the run moved on" do
-      jira_import.transition_to!(:instance_meta_error, error: "failed", health_report_id: report.id)
+      jira_import.transition_to!(:instance_meta_error, error: "failed", failed_connection_check_id: report.id)
       jira_import.transition_to!(:instance_meta_fetching)
 
       expect(jira_import.failed_connection_check).to be_nil
