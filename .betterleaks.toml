@@ -1,0 +1,30 @@
+[extend]
+useDefault = true
+
+[allowlist]
+paths = [
+    '''(^|/)fixtures/''',
+    '''(^|/)lang/''',
+    '''(^|/)locales/''',
+    '''(^|/)spec/''',
+    '''(^|/)spec_legacy/''',
+    '''(^|/)test/''',
+    '''^doc/''',
+    '''^docker/''',
+    '''^docs/''',
+    '''^guides/''',
+    '''^frontend/patches/''',
+    '''^help/''',
+]
+
+# Ignore/allow any secret if it INCLUDES any of the following strings
+stopwords = [
+  "admin",
+  "hunter5",
+  "my_token",
+  "openproject",
+  "p4ssw0rd",
+  "password",
+  "postgres",
+  "secret",
+]
