@@ -74,7 +74,7 @@ This includes:
 
 **6. [Accessibility](#accessibility)**
 
-This release improves accessibility across OpenProject, with a particular focus on keyboard navigation, screen reader support, and color contrast. Work package tables and Backlogs are easier to use with the keyboard, charts get accessible descriptions, and administrators can check the contrast of highlighting colors.
+This release improves accessibility across OpenProject, with a particular focus on keyboard navigation, screen reader support, and color contrast. Work package tables and Backlogs are easier to use with the keyboard and screen readers, charts get accessible descriptions, and administrators can check the contrast of highlighting colors.
 
 This includes:
 
