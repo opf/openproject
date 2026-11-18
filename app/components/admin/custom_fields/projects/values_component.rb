@@ -51,7 +51,11 @@ module Admin
         attr_reader :custom_field, :project
 
         def rows
-          @rows ||= custom_field.list? ? option_rows : item_rows
+          @rows ||= values_toggleable? ? all_rows : all_rows.select(&:enabled)
+        end
+
+        def all_rows
+          custom_field.list? ? option_rows : item_rows
         end
 
         def option_rows
@@ -86,7 +90,7 @@ module Admin
         end
 
         def item_caption(item)
-          NumberFormatHelper.number_with_limit(item.weight) if custom_field.field_format_weighted_item_list?
+          ::CustomFields::Hierarchy::HierarchicalItemFormatter.new(label: false).format(item:).presence
         end
 
         def enabled?(value)

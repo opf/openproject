@@ -113,9 +113,14 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
   context "for a hierarchy custom field with values added by projects",
           with_ee: %i[custom_field_hierarchies project_specific_list_values] do
     let(:custom_field) { create(:hierarchy_wp_custom_field, :project_specific_allowlist) }
-    let!(:global_item) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Global") }
+    let!(:global_item) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Global", short: "GL") }
     let!(:own_item) { create(:hierarchy_item, parent: global_item, label: "Own", project:) }
     let!(:foreign_item) { create(:hierarchy_item, parent: global_item, label: "Foreign", project: create(:project)) }
+
+    it "shows the short name of the values that have one" do
+      expect(row.call(global_item).text).to include("(GL)")
+      expect(row.call(own_item).text).not_to include("(")
+    end
 
     it "only lists the global values and the values of the project" do
       expect(row.call(global_item)).to be_present
@@ -163,16 +168,25 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
     let(:project_level_value_management) { true }
     let(:custom_field) do
       create(:list_wp_custom_field, :project_specific_allowlist,
-             possible_values: %w[A], project_level_value_management:, allow_additional_project_values: true)
+             possible_values: %w[A B], project_level_value_management:, allow_additional_project_values: true)
     end
     let(:option) { custom_field.custom_options.find_by!(value: "A") }
+    let(:disabled_option) { custom_field.custom_options.find_by!(value: "B") }
     let!(:own_option) { create(:custom_option, custom_field:, value: "Own", project:) }
     let(:current_user) { create(:user, member_with_permissions: { project => permissions }) }
+
+    before do
+      create(:project_specific_value_restriction, project:, custom_option: option)
+    end
 
     it "allows to enable or disable the values" do
       expect(row.call(option).css("toggle-switch")).to be_present
       expect(rendered).to have_link(I18n.t("custom_fields.admin.projects.enable_all"))
       expect(rendered).to have_link(I18n.t("custom_fields.admin.projects.disable_all"))
+    end
+
+    it "lists the values disabled in the project as well" do
+      expect(row.call(disabled_option)).to be_present
     end
 
     it "does not offer to make a value of the project available to all projects" do
@@ -188,6 +202,12 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
         expect(rendered).to have_no_link(I18n.t("custom_fields.admin.projects.enable_all"))
         expect(rendered).to have_no_link(I18n.t("custom_fields.admin.projects.disable_all"))
       end
+
+      it "only lists the values enabled in the project" do
+        expect(row.call(option)).to be_present
+        expect(row.call(own_option)).to be_present
+        expect(row.call(disabled_option)).to be_empty
+      end
     end
 
     context "without the permission to manage the values" do
@@ -196,6 +216,11 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
       it "does not allow to enable or disable the values" do
         expect(row.call(option).css("toggle-switch")).to be_empty
         expect(rendered).to have_no_link(I18n.t("custom_fields.admin.projects.enable_all"))
+      end
+
+      it "only lists the values enabled in the project" do
+        expect(row.call(option)).to be_present
+        expect(row.call(disabled_option)).to be_empty
       end
     end
   end
@@ -337,9 +362,9 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
     let!(:grandchild) { create(:hierarchy_item, parent: child, label: "Critical", weight: 20) }
 
     it "indents sub-values and shows their weight" do
-      expect(row.call(parent).text).to include("High", "10")
+      expect(row.call(parent).text).to include("High", "(10)")
       expect(row.call(parent).text).not_to include(I18n.t("custom_fields.admin.hierarchy.subitems", count: 1))
-      expect(row.call(child).text).to include("Urgent", "15")
+      expect(row.call(child).text).to include("Urgent", "(15)")
       expect(row.call(parent).css("[style='padding-left: 0px']")).to be_present
       expect(row.call(child).css("[style='padding-left: 16px']")).to be_present
       expect(row.call(grandchild).css("[style='padding-left: 32px']")).to be_present
