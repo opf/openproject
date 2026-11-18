@@ -304,12 +304,15 @@ Further improvements include:
 
 - **Accessible chart descriptions:** Charts in dashboard widgets and Backlogs now have descriptions for screen reader users.
 - **Work packages in documents:** Improved keyboard navigation and screen reader support for work packages embedded in documents.
+- **Theme-specific logos:** Administrators can now upload different logos for light, dark, and high contrast modes.
 
 Read more: [Blog article on accessibility in OpenProject 18.0](https://www.openproject.org/blog/accessibility-18-0/)
 
 #### Keyboard and screen reader support in work package tables and Backlogs
 
-Keyboard and screen reader users can now move through rows and cells of the work package table, select one or several work packages, and open their context actions without a pointer. This makes bulk work such as moving, copying, changing the status, or deleting work packages possible in the same way as for mouse users. The table follows the same selection rules as Backlogs, and new context menu actions let you move work packages within the table. Clearing a selection is now more intuitive: press **Escape** instead of Ctrl/Cmd+D.
+Keyboard and screen reader users can now move through rows and cells of the work package table, select one or several work packages, and open their context actions without a pointer. This makes bulk work such as moving, copying, changing the status, or deleting work packages possible in the same way as for mouse users. The table follows the same selection rules as Backlogs, and new context menu actions let you move work packages within the table.
+
+Editable cells can be opened with **Enter** or **F2**. To clear a selection, press **Escape** instead of Ctrl/Cmd+D. If a menu or editor is open, Escape closes it first, and pressing it again clears the selection.
 
 Read more: [Keyboard shortcuts and access keys user guide](../../user-guide/keyboard-shortcuts-access-keys/)
 
@@ -402,7 +405,7 @@ What should be implemented is defined in work packages, while the implementation
 
 GitLab is now configured in the new **Repositories** section of the administration, which also supports connecting multiple GitLab instances. The GitHub integration is still configured under **Integrations**.
 
-![Code tab of a work package in OpenProject showing related GitLab merge requests and commits](openproject_release_notes_18.0_code_tab_gitlab.png)
+Placeholder for the screenshot alt-text: Code tab of a work package in OpenProject showing related GitLab merge requests and commits (openproject_release_notes_18.0_code_tab_gitlab.png )
 
 Read more: [GitLab integration system admin guide](../../system-admin-guide/integrations/gitlab-integration/), [Repositories system admin guide](../../system-admin-guide/repositories/), [GitLab integration overview](https://www.openproject.org/integrations/gitlab/)
 
