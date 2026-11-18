@@ -1,0 +1,48 @@
+{
+  "name": "OpenProject",
+  "dockerComposeFile": "compose.yml",
+  "service": "workspace",
+  "runServices": ["workspace", "db", "cache"],
+  "shutdownAction": "stopCompose",
+  "workspaceFolder": "/home/dev/openproject",
+  "remoteUser": "dev",
+  "features": {
+    "./nodejs": {
+      "version": "24.22.1"
+    }
+  },
+  "forwardPorts": [3000, 4200, 1234],
+  "portsAttributes": {
+    "3000": {
+      "label": "OpenProject (Rails)",
+      "onAutoForward": "notify"
+    },
+    "4200": {
+      "label": "Frontend assets (ng serve)",
+      "onAutoForward": "silent"
+    },
+    "1234": {
+      "label": "Hocuspocus",
+      "onAutoForward": "silent"
+    }
+  },
+  "hostRequirements": {
+    "cpus": 4,
+    "memory": "8gb"
+  },
+  "postCreateCommand": ".devcontainer/post-create.sh",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      },
+      "extensions": [
+        "Shopify.ruby-lsp",
+        "dbaeumer.vscode-eslint",
+        "Angular.ng-template",
+        "EditorConfig.EditorConfig",
+        "marcoroth.herb-lsp"
+      ]
+    }
+  }
+}
