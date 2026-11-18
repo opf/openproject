@@ -54,7 +54,7 @@ class Category < ApplicationRecord
   def destroy(reassign_to = nil)
     if reassign_to && reassign_to.is_a?(Category) && reassign_to.project == project
       reassign_work_package_categories_to(reassign_to)
-      WorkPackage.where("category_id = #{id}").update_all("category_id = #{reassign_to.id}")
+      WorkPackage.where(category_id: id).update_all(category_id: reassign_to.id)
     end
     destroy_without_reassign
   end
