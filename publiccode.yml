@@ -107,14 +107,18 @@ description:
     shortDescription: Web-based project- and project portfolio management software
     screenshots:
       - screenshots/opencode_openproject_1_homepage.png
-      - screenshots/opencode_openproject_2_gantt_chart.png
-      - screenshots/opencode_openproject_3_work_package_detailed_view.png
-      - screenshots/opencode_openproject_4_notifications_wp_reminder.png
-      - screenshots/opencode_openproject_5_meetings.png
+      - screenshots/opencode_openproject_2_portfolios.png
+      - screenshots/opencode_openproject_3_project_home.png
+      - screenshots/opencode_openproject_4_gantt_chart.png
+      - screenshots/opencode_openproject_5_real_time_collaboration.png
       - screenshots/opencode_openproject_6_teamplanner.png
-      - screenshots/opencode_openproject_7_gitlab-integration.png
-      - screenshots/opencode_openproject_8_sharepoint_integration_details.png
-      - screenshots/opencode_openproject_9_overview_of_file_storages.png
+      - screenshots/opencode_openproject_7_notifications_wp_reminder.png
+      - screenshots/opencode_openproject_8_work_package_detailed_view.png
+      - screenshots/opencode_openproject_9_boards.png
+      - screenshots/opencode_openproject_10_meetings.png
+      - screenshots/opencode_openproject_11_gitlab-integration.png
+      - screenshots/opencode_openproject_12_sharepoint_integration_details.png
+      - screenshots/opencode_openproject_13_overview_of_file_storages.png
     features:
       - Project planning and scheduling
       - Task management
@@ -154,14 +158,18 @@ description:
     shortDescription: Web-basierte Projekt-Management und Projektportfolio-Mangement Software
     screenshots:
       - screenshots/opencode_openproject_1_homepage.png
-      - screenshots/opencode_openproject_2_gantt_chart.png
-      - screenshots/opencode_openproject_3_work_package_detailed_view.png
-      - screenshots/opencode_openproject_4_notifications_wp_reminder.png
-      - screenshots/opencode_openproject_5_meetings.png
+      - screenshots/opencode_openproject_2_portfolios.png
+      - screenshots/opencode_openproject_3_project_home.png
+      - screenshots/opencode_openproject_4_gantt_chart.png
+      - screenshots/opencode_openproject_5_real_time_collaboration.png
       - screenshots/opencode_openproject_6_teamplanner.png
-      - screenshots/opencode_openproject_7_gitlab-integration.png
-      - screenshots/opencode_openproject_8_sharepoint_integration_details.png
-      - screenshots/opencode_openproject_9_overview_of_file_storages.png
+      - screenshots/opencode_openproject_7_notifications_wp_reminder.png
+      - screenshots/opencode_openproject_8_work_package_detailed_view.png
+      - screenshots/opencode_openproject_9_boards.png
+      - screenshots/opencode_openproject_10_meetings.png
+      - screenshots/opencode_openproject_11_gitlab-integration.png
+      - screenshots/opencode_openproject_12_sharepoint_integration_details.png
+      - screenshots/opencode_openproject_13_overview_of_file_storages.png
     features:
       - Projektplanung
       - Aufgabenverwaltung
