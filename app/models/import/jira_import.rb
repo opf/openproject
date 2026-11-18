@@ -107,6 +107,10 @@ module Import
       (projects || []).pluck("id")
     end
 
+    def last_changed_at
+      last_transition&.created_at || updated_at
+    end
+
     def failed_connection_check
       report_id = last_transition&.metadata&.dig("health_report_id")
       HealthReport.find_by(id: report_id) if report_id
