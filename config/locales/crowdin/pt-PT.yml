@@ -542,6 +542,7 @@ pt-PT:
         ancestor: Descendentes de
         begin_deletion: Início da exclusão
         begin_insertion: Início da inserção
+        categories: Categories
         children: Subelementos
         derived_done_ratio: "% total concluído"
         derived_remaining_hours: Trabalho total restante
@@ -1122,6 +1123,8 @@ pt-PT:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: não pode ser um marco porque este pacote de trabalho tem filhos.
+          categories_only_allow_single_value: Categories can only hold a single value.
+          category_and_categories_mutually_exclusive: Category and categories cannot be set to different values at the same time.
           is_not_a_valid_target_for_time_entries: 'Pacote de trabalho #%{id} não válido para reafectar os registos de horas.'
           readonly_status: O pacote de trabalho está em estado de apenas leitura, por isso os seus atributos não podem ser alterados.
           target_versions_only_allow_single_value: As versões de destino só podem conter um único valor.

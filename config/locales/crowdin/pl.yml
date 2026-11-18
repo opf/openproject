@@ -542,6 +542,7 @@ pl:
         ancestor: Potomkowie
         begin_deletion: Początek usuwania
         begin_insertion: Początek wstawiania
+        categories: Categories
         children: Elementy składowe
         derived_done_ratio: Dotychczas ukończono
         derived_remaining_hours: pozostało do ukończenia
@@ -1126,6 +1127,8 @@ pl:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: nie może być kamieniem milowym, ponieważ ten pakiet roboczy ma elementy podrzędne.
+          categories_only_allow_single_value: Categories can only hold a single value.
+          category_and_categories_mutually_exclusive: Category and categories cannot be set to different values at the same time.
           is_not_a_valid_target_for_time_entries: 'Zadanie #%{id} jest niepoprawnym celem do ponownego rozpisania czasu.'
           readonly_status: Pakiet roboczy ma status tylko do odczytu, więc jego atrybutów nie można zmienić.
           target_versions_only_allow_single_value: Wersje docelowe mogą mieć tylko jedną wartość.

@@ -542,6 +542,7 @@ th:
         ancestor: Descendants of
         begin_deletion: Begin of the deletion
         begin_insertion: Begin of the insertion
+        categories: Categories
         children: Subelements
         derived_done_ratio: Total % complete
         derived_remaining_hours: Total remaining work
@@ -1120,6 +1121,8 @@ th:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: cannot be a milestone because this work package has children.
+          categories_only_allow_single_value: Categories can only hold a single value.
+          category_and_categories_mutually_exclusive: Category and categories cannot be set to different values at the same time.
           is_not_a_valid_target_for_time_entries: 'ชุดภารกิจ #%{id} ไม่ใช่เป้าหมายที่ถูกต้องสำหรับการกำหนดรายการเวลา'
           readonly_status: The work package is in a readonly status so its attributes cannot be changed.
           target_versions_only_allow_single_value: Target Versions can only hold a single value.

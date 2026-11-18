@@ -542,6 +542,7 @@ de:
         ancestor: Nachkommen von
         begin_deletion: Beginn des Löschvorgangs
         begin_insertion: Beginn der Einfügung
+        categories: Categories
         children: Unteraufgaben
         derived_done_ratio: Insgesamt % abgeschlossen
         derived_remaining_hours: Verbleibende Arbeit insgesamt
@@ -1122,6 +1123,8 @@ de:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: kann kein Meilenstein werden, da dieses Arbeitspaket Unterelemente besitzt.
+          categories_only_allow_single_value: Categories can only hold a single value.
+          category_and_categories_mutually_exclusive: Category and categories cannot be set to different values at the same time.
           is_not_a_valid_target_for_time_entries: 'Arbeitspaket #%{id} ist kein gültiges Ziel für die Zuordnung der Zeiterfassungseinträge.'
           readonly_status: Das Arbeitspaket befindet sich in einem schreibgeschützten Status, so dass seine Attribute nicht geändert werden können.
           target_versions_only_allow_single_value: Zielversionen können nur einen einzigen Wert enthalten.

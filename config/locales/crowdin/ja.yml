@@ -544,6 +544,7 @@ ja:
         ancestor: 子・孫関係
         begin_deletion: 削除の始まり
         begin_insertion: 挿入の始まり
+        categories: Categories
         children: サブ要素
         derived_done_ratio: 完了率
         derived_remaining_hours: 残時間
@@ -1122,6 +1123,8 @@ ja:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: このワークパッケージには子ワークパッケージがあるため、マイルストーンにはできません。
+          categories_only_allow_single_value: Categories can only hold a single value.
+          category_and_categories_mutually_exclusive: Category and categories cannot be set to different values at the same time.
           is_not_a_valid_target_for_time_entries: 'ワークパッケージ #%{id} は、作業時間の再割り当ての対象としては有効ではありません。'
           readonly_status: ワークパッケージは読み取り専用の状態になっているため、その属性は変更できません。
           target_versions_only_allow_single_value: Target Versions can only hold a single value.

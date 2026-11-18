@@ -542,6 +542,7 @@ hy:
         ancestor: Հետնորդներ
         begin_deletion: Ջնջման սկիզբ
         begin_insertion: Ավելացման սկիզբ
+        categories: Categories
         children: Ենթատարրեր
         derived_done_ratio: Ընդհանուր կատարման %
         derived_remaining_hours: Ընդհանուր մնացած աշխատանք
@@ -1122,6 +1123,8 @@ hy:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: չի կարող լինել հանգրվան, քանի որ այս աշխատանքային փաթեթն ունի դուստր աշխատանքային փաթեթներ։
+          categories_only_allow_single_value: Categories can only hold a single value.
+          category_and_categories_mutually_exclusive: Category and categories cannot be set to different values at the same time.
           is_not_a_valid_target_for_time_entries: "#%{id} աշխատանքային փաթեթը ժամանակի գրառումների վերանշանակման վավեր թիրախ չէ։"
           readonly_status: Աշխատանքային փաթեթը միայն ընթերցելի կարգավիճակում է, ուստի դրա հատկանիշները հնարավոր չէ փոփոխել։
           target_versions_only_allow_single_value: Նպատակային տարբերակները կարող են պարունակել միայն մեկ արժեք։

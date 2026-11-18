@@ -772,10 +772,10 @@ da:
       create_new: Opret ny
       group_by_relation_type: Gruppér efter relationstype
       group_by_wp_type: Gruppér efter arbejdspakketype
-      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
+      hierarchy_change_timed_out: Hierarkiet kunne ikke ændres, fordi serveren ikke svarede. Prøv igen.
       hierarchy_indent: Ryk et niveau ind
       hierarchy_outdent: Ryk et niveau ud
-      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
+      hierarchy_refresh_failed: Tabellen kunne ikke opdateres. Det er ikke muligt at rykke ind eller ud, før den er indlæst igen.
       remove: Fjern relation
       remove_child: Fjern underordnet
       remove_parent: Fjern overordnet
@@ -1014,7 +1014,7 @@ da:
         label_pagination: Klik her for at springe tabellen med arbejdspakker over og gå til sidenavigationen
         pagination: Gå til tabellens sidenavigation
       key_value: "%{key}: %{value}"
-      label_collapse_expand_groups: Collapse or expand groups
+      label_collapse_expand_groups: Fold grupper sammen eller ud
       label_column_multiselect: 'Kombineret rullemenu: Vælg med piletasterne, bekræft valget med Enter, og slet med Backspace'
       label_disable_multi_select: Slå flervalg fra
       label_enable_multi_select: Slå flervalg til

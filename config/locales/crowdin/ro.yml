@@ -542,6 +542,7 @@ ro:
         ancestor: Descendants of
         begin_deletion: Început de ștergere
         begin_insertion: Începutul inserării
+        categories: Categories
         children: Subelemente
         derived_done_ratio: Total % finalizat
         derived_remaining_hours: Total muncă rămasă
@@ -1124,6 +1125,8 @@ ro:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: nu poate fi o piatră de hotar, deoarece acest pachet de lucru are copii.
+          categories_only_allow_single_value: Categories can only hold a single value.
+          category_and_categories_mutually_exclusive: Category and categories cannot be set to different values at the same time.
           is_not_a_valid_target_for_time_entries: 'Pachetul de lucru #%{id} nu este o ţintă validă pentru reasocierea timpilor de lucru.'
           readonly_status: Pachetul de lucru este într-o stare doar citire, astfel, atributele sale nu pot fi modificate.
           target_versions_only_allow_single_value: Target Versions can only hold a single value.

@@ -544,6 +544,7 @@ ms:
         ancestor: Descendants of
         begin_deletion: Permulaan pemadaman
         begin_insertion: Permulaan kemasukan
+        categories: Categories
         children: Subelemen
         derived_done_ratio: Jumlah % selesai
         derived_remaining_hours: Jumlah kerja berbaki
@@ -1122,6 +1123,8 @@ ms:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: tidak boleh menjadi satu pencapaian kerana pakej kerja ini mempunyai anak.
+          categories_only_allow_single_value: Categories can only hold a single value.
+          category_and_categories_mutually_exclusive: Category and categories cannot be set to different values at the same time.
           is_not_a_valid_target_for_time_entries: 'Pakej kerja #%{id} adalah sasaran yang tidak sah untuk penugasan semula entri waktu.'
           readonly_status: Pakej kerja berada dalam status baca sahaja maka atributnya tidak boleh diubah.
           target_versions_only_allow_single_value: Target Versions can only hold a single value.

@@ -542,6 +542,7 @@ uk:
         ancestor: Нащадки
         begin_deletion: Початок видалення
         begin_insertion: Початок вставки
+        categories: Categories
         children: Субелементи
         derived_done_ratio: Загальний % завершення
         derived_remaining_hours: Загальний залишок роботи
@@ -1130,6 +1131,8 @@ uk:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: не може бути важливою межой, оскільки цей робочий пакет має похідні.
+          categories_only_allow_single_value: Categories can only hold a single value.
+          category_and_categories_mutually_exclusive: Category and categories cannot be set to different values at the same time.
           is_not_a_valid_target_for_time_entries: 'Робочий пакет #%{id} не є дійсною ціллю для перепризначення записів часу.'
           readonly_status: Пакет робіт перебуває в стані лише для читання, тому його атрибути не можна змінити.
           target_versions_only_allow_single_value: Для цільових версій можна вказати лише одне значення.

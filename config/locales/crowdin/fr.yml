@@ -542,6 +542,7 @@ fr:
         ancestor: Descendants de
         begin_deletion: Début de la suppression
         begin_insertion: Début de l'insertion
+        categories: Categories
         children: Sous-éléments
         derived_done_ratio: "% total réalisé"
         derived_remaining_hours: Travail total restant
@@ -1122,6 +1123,8 @@ fr:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: ne peut être un jalon car ce lot de travaux a des enfants.
+          categories_only_allow_single_value: Categories can only hold a single value.
+          category_and_categories_mutually_exclusive: Category and categories cannot be set to different values at the same time.
           is_not_a_valid_target_for_time_entries: 'Le lot de travaux #%{id} n''est pas une cible valide pour réaffecter les entrées de temps.'
           readonly_status: Le lot de travaux est en lecture seule, ses attributs ne peuvent donc pas être changés.
           target_versions_only_allow_single_value: Les versions cibles ne peuvent contenir qu'une seule valeur.

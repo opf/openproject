@@ -542,6 +542,7 @@ nl:
         ancestor: Descendants of
         begin_deletion: Begin van de verwijdering
         begin_insertion: Begin van het invoegen
+        categories: Categories
         children: Subelementen
         derived_done_ratio: Totaal % compleet
         derived_remaining_hours: Totaal resterend werk
@@ -1122,6 +1123,8 @@ nl:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: kan geen mijlpaal zijn, want dit werkpakket heeft onderliggende werkpakketten.
+          categories_only_allow_single_value: Categories can only hold a single value.
+          category_and_categories_mutually_exclusive: Category and categories cannot be set to different values at the same time.
           is_not_a_valid_target_for_time_entries: 'Werkpakket #%{id} is niet een geldig doel voor het opnieuw toewijzen van de tijden.'
           readonly_status: Het werkpakket heeft een alleen-lezen status dus kunne attributen niet worden gewijzigd.
           target_versions_only_allow_single_value: Target Versions can only hold a single value.

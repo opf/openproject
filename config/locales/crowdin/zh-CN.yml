@@ -542,6 +542,7 @@ zh-CN:
         ancestor: 子级
         begin_deletion: 开始删除
         begin_insertion: 开始插入
+        categories: Categories
         children: 子元素
         derived_done_ratio: 总完成度%
         derived_remaining_hours: 总剩余工时
@@ -1120,6 +1121,8 @@ zh-CN:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: 无法成为里程碑，因为此工作包具有子级。
+          categories_only_allow_single_value: Categories can only hold a single value.
+          category_and_categories_mutually_exclusive: Category and categories cannot be set to different values at the same time.
           is_not_a_valid_target_for_time_entries: '工作包 #%{id} 不是重新分配时间条目的有效目标。'
           readonly_status: 工作包处于只读状态，因此无法更改其属性。
           target_versions_only_allow_single_value: 目标版本只能保存一个值。

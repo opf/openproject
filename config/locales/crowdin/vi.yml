@@ -542,6 +542,7 @@ vi:
         ancestor: Hậu duệ của
         begin_deletion: Bắt đầu xóa
         begin_insertion: Bắt đầu chèn
+        categories: Categories
         children: Subelements
         derived_done_ratio: Tổng % hoàn thành
         derived_remaining_hours: Tổng số công việc còn lại
@@ -1120,6 +1121,8 @@ vi:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: không thể là một mốc quan trọng vì work package này có trẻ em.
+          categories_only_allow_single_value: Categories can only hold a single value.
+          category_and_categories_mutually_exclusive: Category and categories cannot be set to different values at the same time.
           is_not_a_valid_target_for_time_entries: 'Work package #%{id} không phải là một mục tiêu hợp lệ để gán lại các mục thời gian.'
           readonly_status: Gói công việc ở trạng thái chỉ đọc nên các thuộc tính của nó không thể thay đổi.
           target_versions_only_allow_single_value: Target Versions can only hold a single value.

@@ -542,6 +542,7 @@ lt:
         ancestor: Descendants of
         begin_deletion: Ištrynimo pradžioje
         begin_insertion: Įterpimo pradžioje
+        categories: Categories
         children: Subelementai
         derived_done_ratio: Iš viso % baigta
         derived_remaining_hours: Iš viso liko darbo
@@ -1126,6 +1127,8 @@ lt:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: negali būti etapas, nes šis darbo paketas turi vaikų.
+          categories_only_allow_single_value: Categories can only hold a single value.
+          category_and_categories_mutually_exclusive: Category and categories cannot be set to different values at the same time.
           is_not_a_valid_target_for_time_entries: 'Darbų paketas #%{id} nėra tinkamas laiko įrašų perskirstymo pasirinkimas.'
           readonly_status: Darbo paketas yra tik skaitymo būsenoje, taigi jo atributų keisti negalima.
           target_versions_only_allow_single_value: Target Versions can only hold a single value.
