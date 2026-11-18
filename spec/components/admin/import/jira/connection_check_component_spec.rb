@@ -54,6 +54,7 @@ RSpec.describe Admin::Import::Jira::ConnectionCheckComponent, type: :component d
 
       expect(page).to have_text("Last check:")
       expect(page).to have_text("ERR_NOT_ADMINISTRATOR")
+      expect(page).to have_link("More information", href: %r{/jira-migration/.*#connection-check})
       expect(page).to have_css("button[formaction='/admin/import/jira/#{jira.id}/test_connection']")
     end
 
@@ -62,6 +63,20 @@ RSpec.describe Admin::Import::Jira::ConnectionCheckComponent, type: :component d
 
       expect(page).to have_text("ERR_NOT_ADMINISTRATOR")
       expect(page).to have_no_button("Test Connection")
+    end
+  end
+
+  context "with a report blocked by SSRF protection" do
+    let(:blocked_check) do
+      [HealthReport::ResultGroup.new(key: :server,
+                                     results: [HealthReport::Result.failure(:reachable, :ssrf_blocked, nil)])]
+    end
+
+    before { render_inline(described_class.new(jira, report: jira.health_reports.build(results: blocked_check))) }
+
+    it "links to the SSRF protection docs" do
+      expect(page).to have_text("ERR_SSRF_BLOCKED")
+      expect(page).to have_link("More information", href: %r{/configuration/ssrf-protection/})
     end
   end
 
