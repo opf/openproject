@@ -152,7 +152,6 @@ description:
       OpenProject is part of the open-source office and collaboration suite
       [openDesk](https://www.opendesk.eu).
 
-    genericName: OpenProject
   de:
     localisedName: OpenProject
     documentation: 'https://www.openproject.org/de/docs/'
