@@ -391,7 +391,7 @@ module CustomFields
     end
 
     def remaining_value_counts
-      return {} if model.new_record? || model.allow_additional_project_values?
+      return {} if model.new_record?
 
       @remaining_value_counts ||= model.project_value_counts
     end
