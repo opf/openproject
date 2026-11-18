@@ -79,12 +79,7 @@ module CustomFieldsHelper
                         include_blank: I18n.t(:label_no_change_option))
     when "hierarchy", "weighted_item_list"
       base_options = []
-      result = CustomFields::Hierarchy::HierarchicalItemService.new
-        .get_descendants(item: custom_field.hierarchy_root, include_self: false)
-        .either(
-          ->(items) { items },
-          ->(_) { [] }
-        )
+      result = custom_field.hierarchy_root.descendants_preordered
         .select { |item| usable_in_all?(custom_field, usable_in, item.id) }
       options = base_options + result.map do |item|
         label = item.short.present? ? "#{item.label} (#{item.short})" : item.label

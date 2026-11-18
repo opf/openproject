@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element.js';
 import { Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { screen } from '@testing-library/dom';
@@ -35,12 +36,15 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
+import { OpActionMenuComponent } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.component';
+import {
+  OpActionMenuTriggerDirective,
+} from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu-trigger.directive';
 import { WorkPackageCreateButtonComponent } from './wp-create-button.component';
 
 @Directive({ selector: '[opTypesCreateDropdown]', standalone: false })
 class TypesCreateDropdownStubDirective {
   @Input() projectIdentifier:string|null;
-  @Input() dropdownActive:boolean;
   @Input() fullView:boolean;
 }
 
@@ -61,7 +65,7 @@ describe('WorkPackageCreateButtonComponent', () => {
 
     await TestBed
       .configureTestingModule({
-        imports: [OpTooltipDirective],
+        imports: [OpTooltipDirective, OpActionMenuComponent, OpActionMenuTriggerDirective],
         declarations: [WorkPackageCreateButtonComponent, TypesCreateDropdownStubDirective],
         providers: [
           { provide: I18nService, useValue: { t: (key:string) => translations[key] ?? key } },

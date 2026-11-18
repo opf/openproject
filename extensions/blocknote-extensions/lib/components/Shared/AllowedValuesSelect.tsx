@@ -6,7 +6,7 @@ import { Suggestions, usePickerMotion } from './Suggestions';
 import type { AllowedValue, ListedValue } from './options';
 import {
   OptionColorDot,
-  PickerControl,
+  SelectControl,
   TrailingActions,
   TypeColorDot,
   TypeaheadWrapper,
@@ -179,13 +179,11 @@ export const AllowedValuesSelect = ({
         if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false);
       }}
     >
-      <PickerControl
+      <SelectControl
         id={id}
         ref={setInputEl}
-        $namesPick
         type="text"
         role="combobox"
-        readOnly
         aria-expanded={isOpen}
         aria-controls={listId}
         aria-haspopup="listbox"

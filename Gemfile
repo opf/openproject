@@ -69,7 +69,7 @@ gem "awesome_nested_set", "~> 3.9.0"
 gem "closure_tree", "~> 9.8.0"
 gem "rubytree", "~> 2.2.2"
 
-gem "addressable", "~> 2.9.0"
+gem "addressable", "~> 2.9.1"
 
 # Remove whitespace from model input
 gem "auto_strip_attributes", "~> 3.0"
@@ -201,9 +201,9 @@ gem "fog-aws"
 gem "ssrf_filter", "~> 1.6"
 gem "web-push", "~> 3.1"
 
-gem "aws-sdk-core", "~> 3.261"
+gem "aws-sdk-core", "~> 3.263"
 # File upload via fog + screenshots on travis
-gem "aws-sdk-s3", "~> 1.233"
+gem "aws-sdk-s3", "~> 1.237"
 
 gem "openproject-token", "~> 8.17.0"
 

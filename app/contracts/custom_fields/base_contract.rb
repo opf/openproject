@@ -31,7 +31,9 @@ module CustomFields
   class BaseContract < ::ModelContract
     include RequiresAdminGuard
 
-    attribute :admin_only
+    attribute :admin_only do
+      validate_admin_only_allowed
+    end
     stored_attribute :allow_additional_project_values, store: :settings do
       validate_project_admin_flag_enterprise(:allow_additional_project_values)
     end
@@ -81,6 +83,12 @@ module CustomFields
         errors.add(:project_specific_value_restriction, :error_enterprise_only,
                    action: I18n.t("ee.features.project_specific_list_values"))
       end
+    end
+
+    def validate_admin_only_allowed
+      return if model.admin_only_allowed? || !model.admin_only_changed?
+
+      errors.add(:admin_only, :cannot_be_true) if admin_only
     end
 
     def validate_project_level_value_management

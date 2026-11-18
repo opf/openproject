@@ -160,6 +160,11 @@ pt-PT:
         semantic_key: Significado semântico
         user_self_editable: Editável
         visible_on_user_card: Mostrar no cartão do utilizador
+      custom_field/hierarchy/item:
+        label: Label
+        parent: Parent
+        short: Short
+        weight: Weight
       custom_field/project_specific_value_restriction:
         restriction: Restriction
       custom_value:
@@ -345,7 +350,6 @@ pt-PT:
       project_type:
         variant: Variante
       push_subscription:
-        created_at: Adicionado
         endpoint: Endpoint
         session_id: Sessão
       query:
@@ -538,6 +542,7 @@ pt-PT:
         ancestor: Descendentes de
         begin_deletion: Início da exclusão
         begin_insertion: Início da inserção
+        categories: Categories
         children: Subelementos
         derived_done_ratio: "% total concluído"
         derived_remaining_hours: Trabalho total restante
@@ -714,6 +719,8 @@ pt-PT:
         custom_field:
           at_least_one_custom_option: Pelo menos uma opção precisa estar disponível.
           attributes:
+            admin_only:
+              cannot_be_true: is not supported for this type of custom field.
             formula:
               blank: A fórmula não pode ficar em branco.
               format: "%{message}"
@@ -727,10 +734,26 @@ pt-PT:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted list.
             required:
               cannot_be_true: não pode ser definido como verdadeiro.
+            value:
+              required_by_project_values: cannot be disabled, as the project added values below it.
           previous_custom_field_recalculation_unprocessed: Ainda não foi aplicado o recálculo das alterações anteriores neste campo personalizado. Tente novamente daqui a alguns minutos.
           referenced_in_other_fields_html:
             one: "%{name} é utilizado no cálculo dos atributos do projeto %{links}."
             other: "%{name} é utilizado nos cálculos dos atributos do projeto: %{links}."
+        custom_field/hierarchy/item:
+          attributes:
+            base:
+              root_item: The root of a hierarchy cannot be deleted.
+            label:
+              not_unique: must be unique within the same hierarchy level.
+            parent:
+              other_hierarchy: must belong to the same hierarchy.
+              other_project: must be a global value or belong to the same project.
+              own_descendant: cannot be the value itself or one of its descendants.
+            project_id:
+              additional_values_not_allowed: cannot add values to this custom field.
+            short:
+              not_unique: must be unique within the same hierarchy level.
         custom_fields_project:
           attributes:
             project_ids:
@@ -874,7 +897,7 @@ pt-PT:
         push_subscription:
           attributes:
             base:
-              too_many_push_subscriptions: Only %{count} devices can receive browser push notifications at the same time.
+              too_many_push_subscriptions: Only %{count} devices can receive browser notifications at the same time.
         queries/filters/base:
           attributes:
             values:
@@ -1100,6 +1123,8 @@ pt-PT:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: não pode ser um marco porque este pacote de trabalho tem filhos.
+          categories_only_allow_single_value: Categories can only hold a single value.
+          category_and_categories_mutually_exclusive: Category and categories cannot be set to different values at the same time.
           is_not_a_valid_target_for_time_entries: 'Pacote de trabalho #%{id} não válido para reafectar os registos de horas.'
           readonly_status: O pacote de trabalho está em estado de apenas leitura, por isso os seus atributos não podem ser alterados.
           target_versions_only_allow_single_value: As versões de destino só podem conter um único valor.
@@ -3279,6 +3304,7 @@ pt-PT:
       work_package_query_relation_columns: Colunas de relação de consulta do pacote de trabalho
       work_package_sharing: Partilhe pacotes de trabalho com utilizadores externos
       work_package_subject_generation: Geração de tema do pacote de trabalho
+      xwiki_integration: XWiki Integration
     teaser:
       description_html: Tem acesso a todas as funcionalidades de %{trial_plan}.
       title:
@@ -5339,9 +5365,36 @@ pt-PT:
         title: Notificações específicas do projeto
     notifications_and_email:
       tabs:
+        browser_push: Browser notifications
         email_reminders: Lembretes por e-mail
         notifications: Definições de notificações
       title: Notificação e e-mail
+    push_notifications:
+      description: Get notified with native push notifications via this browser when you have unread notifications, even when OpenProject is not open. Your notification content stays in OpenProject and is not shared with the notification provider.
+      disable: Disable for this browser
+      enable: Enable for this browser
+      no_devices: No device receives browser notifications yet.
+      no_devices_description: Enable browser notifications on a device and it appears here.
+      revoke: Revoke
+      revoke_confirm: Stop sending browser notifications to %{device}?
+      revoke_device: Revoke %{device}
+      revoked: Browser notifications were disabled for that device.
+      signed_out: Signed out
+      signed_out_description: A device that is signed out keeps browser notifications suspended and resumes them when you sign in there again. Revoke the device to stop them for good.
+      status:
+        blocked: Notifications are blocked for this site in your browser settings.
+        disabled: Browser notifications are not enabled for this browser in the current session.
+        enabled: Browser notifications are enabled for this browser in the current session.
+        error: Browser notifications could not be changed. Please try again.
+        prompting: Waiting for you to allow notifications in the browser prompt…
+        subscribing: Registering this browser with its push service…
+        timeout: Your browser did not finish registering for push in time. Check your network connection and try again.
+        unsupported: Browser notifications are not available in this browser.
+      this_session: This session
+      title: Browser notifications
+      try_again: Try again
+      try_again_label: Try again to change browser notifications for this browser
+      unavailable: Browser notifications are temporarily unavailable on this instance.
   news:
     index:
       no_results_content_text: Adicione um item de notícias
@@ -5605,7 +5658,6 @@ pt-PT:
       eql?: tem de ser igual a %{left}.
       filled?: tem de estar preenchido.
       format?: está num formato inválido.
-      greater_or_equal_zero: tem de ser maior ou igual a 0.
       gt?: must be greater than %{num}.
       gteq?: tem de ser maior ou igual a %{num}.
       hash?: tem de ser um hash.
@@ -5618,21 +5670,6 @@ pt-PT:
       max_size?: must not be longer than %{num} characters.
       not_found: não encontrado.
       respond_to?: não implementa o método requerido.
-      rules:
-        custom_field:
-          format_not_supported: o formato '%{field_format}' não é suportado.
-        item:
-          not_persisted: must be an already existing value.
-          root_item: cannot be a root value.
-        label:
-          not_unique: tem de ser único dentro do mesmo nível hierárquico.
-        parent:
-          not_descendant: tem de ser um descendente da raiz da hierarquia.
-          other_project: must be a global value or belong to the same project.
-        project:
-          additional_values_not_allowed: cannot add values to this custom field.
-        short:
-          not_unique: tem de ser único dentro do mesmo nível hierárquico.
       str?: tem de ser uma string.
       time?: tem de ser uma hora.
       type?: tem de ser %{type}.
@@ -5748,7 +5785,7 @@ pt-PT:
   permission_comment_news: Comentar notícias
   permission_commit_access: Acesso de leitura/escrita ao repositório (comprometer)
   permission_copy_projects: Duplicate projects
-  permission_copy_projects_explanation: 'Nos projetos modelo, esta permissão tem uma função secundária: permite a criação de novos projetos derivados do modelo.'
+  permission_copy_projects_explanation: Allows copying all project data, including content and attachments the user cannot view in the source project. The role can effectively grant access to all copied data depending on the role in the new project. It also allows creating projects from templates.
   permission_copy_work_packages: Duplicar pacotes de trabalho
   permission_create_backup: Criar cópias de segurança
   permission_create_user: Criar utilizadores
@@ -6210,6 +6247,25 @@ pt-PT:
       status_restored: Connection restored. Reloading…
       status_still: Still offline. We’ll try again in a moment.
       title: Offline
+    push:
+      all_read_title: No unread notifications
+      fallback_title: New activity in OpenProject
+      group_title:
+        one: "%{count} update"
+        other: "%{count} updates"
+      more_title:
+        one: "%{count} more work package"
+        other: "%{count} more work packages"
+      reasons:
+        assigned: "%{actor} assigned you"
+        commented: "%{actor} commented"
+        date_alert_due_date: Due date alert
+        date_alert_start_date: Start date alert
+        mentioned: "%{actor} mentioned you"
+        reminder: Reminder
+        responsible: "%{actor} made you accountable"
+        shared: "%{actor} shared a work package with you"
+        updated: "%{actor} updated"
   queries:
     apply_filter: Aplicar filtro pré-configurado
     configure_view:
@@ -7425,6 +7481,7 @@ pt-PT:
         rename_group: Mudar o nome da secção
         required:
           already_required_globally: Este campo personalizado é obrigatório para todos os tipos.
+          excluded: Switch this custom field on before requiring it for this type.
           for_variant: Required for this type
           globally: Obrigatório
           globally_hint: Altere isto no campo personalizado
@@ -7502,6 +7559,7 @@ pt-PT:
           success: A configuração foi copiada.
         exclusions:
           not_inherited: Esta configuração não é herdada, pelo que não há nada a excluir. Em vez disso, edite a configuração diretamente.
+          required: A required custom field cannot be switched off.
           unknown_aspect: Secção de configuração desconhecida "%{aspect}".
         inherited:
           configure_manually: Configurar manualmente
@@ -7564,6 +7622,10 @@ pt-PT:
         delete:
           description: Os projetos que utilizam esta variante serão transferidos para a que escolher abaixo, antes desta variante ser eliminada.
           title: Eliminar %{name}
+          unused:
+            description: The variant will be deleted permanently. This action cannot be undone.
+            heading: Delete variant '%{name}'?
+            title: Delete variant
         filter: Filtrar por texto
         filter_no_results: Nenhuma variante corresponde a este filtro
         global_section:
@@ -7748,6 +7810,7 @@ pt-PT:
     sessions:
       browser: Navegador
       browser_session: "(Sessão do navegador)"
+      browser_with_version: "%{name} (Version %{version})"
       current: Atual (este dispositivo)
       deletion_warning: Tem a certeza de que quer revogar esta sessão? A sua sessão será terminada neste dispositivo.
       device: Dispositivo/SO

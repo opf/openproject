@@ -36,7 +36,7 @@ RSpec.describe MeetingOutcomes::UpdateContract do
   shared_let(:project) { create(:project) }
   let(:meeting) { create(:meeting, project:) }
   let(:meeting_agenda_item) { create(:meeting_agenda_item, meeting:) }
-  let(:outcome) { build(:meeting_outcome, meeting_agenda_item:) }
+  let(:outcome) { create(:meeting_outcome, meeting_agenda_item:) }
   let(:contract) { described_class.new(outcome, user) }
 
   context "with permission" do
@@ -70,6 +70,7 @@ RSpec.describe MeetingOutcomes::UpdateContract do
 
     context "when :meeting_agenda_item is not present anymore" do
       before do
+        outcome
         meeting_agenda_item.destroy
       end
 

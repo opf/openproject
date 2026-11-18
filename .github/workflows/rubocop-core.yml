@@ -21,9 +21,9 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1.336.0
+        uses: ruby/setup-ruby@v1.338.0
       - name: Run RuboCop
-        uses: reviewdog/action-rubocop@v2.22.0
+        uses: reviewdog/action-rubocop@v2.23.0
         with:
           reporter: github-pr-annotations
           fail_level: any

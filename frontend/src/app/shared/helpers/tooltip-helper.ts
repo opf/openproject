@@ -25,11 +25,17 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { TooltipDirection } from 'core-app/shared/components/primer/tool-tip-element';
 import { attributeTokenList, ensureId, generateId } from './dom-helpers';
 
 export type TooltipType = 'label'|'description';
 
-export function withTooltip(control:HTMLElement, text:string, type:TooltipType):DocumentFragment {
+export function withTooltip(
+  control:HTMLElement,
+  text:string,
+  type:TooltipType,
+  direction:TooltipDirection = 's',
+):DocumentFragment {
   const fragment = document.createDocumentFragment();
   control.title = '';
   fragment.append(control);
@@ -40,7 +46,7 @@ export function withTooltip(control:HTMLElement, text:string, type:TooltipType):
   tooltip.setAttribute('for', ensureId(control));
   tooltip.setAttribute('popover', 'manual');
   tooltip.dataset.type = type;
-  tooltip.dataset.direction = 's';
+  tooltip.dataset.direction = direction;
   tooltip.classList.add('sr-only', 'position-absolute');
   tooltip.textContent = text;
 

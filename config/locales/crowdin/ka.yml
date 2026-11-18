@@ -160,6 +160,11 @@ ka:
         semantic_key: Semantic meaning
         user_self_editable: Editable
         visible_on_user_card: Show on user card
+      custom_field/hierarchy/item:
+        label: Label
+        parent: Parent
+        short: Short
+        weight: Weight
       custom_field/project_specific_value_restriction:
         restriction: Restriction
       custom_value:
@@ -345,7 +350,6 @@ ka:
       project_type:
         variant: Variant
       push_subscription:
-        created_at: Added
         endpoint: Endpoint
         session_id: Session
       query:
@@ -538,6 +542,7 @@ ka:
         ancestor: Descendants of
         begin_deletion: Begin of the deletion
         begin_insertion: Begin of the insertion
+        categories: Categories
         children: ქვეელემენტები
         derived_done_ratio: Total % complete
         derived_remaining_hours: Total remaining work
@@ -714,6 +719,8 @@ ka:
         custom_field:
           at_least_one_custom_option: At least one option needs to be available.
           attributes:
+            admin_only:
+              cannot_be_true: is not supported for this type of custom field.
             formula:
               blank: Formula can't be blank.
               format: "%{message}"
@@ -727,10 +734,26 @@ ka:
               not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted list.
             required:
               cannot_be_true: cannot be set to true.
+            value:
+              required_by_project_values: cannot be disabled, as the project added values below it.
           previous_custom_field_recalculation_unprocessed: The recalculation of previous changes for this custom field have not been applied yet, please try again in a few minutes.
           referenced_in_other_fields_html:
             one: "%{name} is used in project attribute calculation %{links}."
             other: "%{name} is used in project attribute calculations: %{links}."
+        custom_field/hierarchy/item:
+          attributes:
+            base:
+              root_item: The root of a hierarchy cannot be deleted.
+            label:
+              not_unique: must be unique within the same hierarchy level.
+            parent:
+              other_hierarchy: must belong to the same hierarchy.
+              other_project: must be a global value or belong to the same project.
+              own_descendant: cannot be the value itself or one of its descendants.
+            project_id:
+              additional_values_not_allowed: cannot add values to this custom field.
+            short:
+              not_unique: must be unique within the same hierarchy level.
         custom_fields_project:
           attributes:
             project_ids:
@@ -874,7 +897,7 @@ ka:
         push_subscription:
           attributes:
             base:
-              too_many_push_subscriptions: Only %{count} devices can receive browser push notifications at the same time.
+              too_many_push_subscriptions: Only %{count} devices can receive browser notifications at the same time.
         queries/filters/base:
           attributes:
             values:
@@ -1100,6 +1123,8 @@ ka:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: cannot be a milestone because this work package has children.
+          categories_only_allow_single_value: Categories can only hold a single value.
+          category_and_categories_mutually_exclusive: Category and categories cannot be set to different values at the same time.
           is_not_a_valid_target_for_time_entries: 'Work package #%{id} is not a valid target for reassigning the time entries.'
           readonly_status: The work package is in a readonly status so its attributes cannot be changed.
           target_versions_only_allow_single_value: Target Versions can only hold a single value.
@@ -3279,6 +3304,7 @@ ka:
       work_package_query_relation_columns: Work Package Query Relation Columns
       work_package_sharing: Share work packages with external users
       work_package_subject_generation: Work Package Subject Generation
+      xwiki_integration: XWiki Integration
     teaser:
       description_html: You have access to all %{trial_plan} features.
       title:
@@ -5341,9 +5367,36 @@ ka:
         title: Project-specific notifications
     notifications_and_email:
       tabs:
+        browser_push: Browser notifications
         email_reminders: Email reminders
         notifications: Notification settings
       title: Notification and email
+    push_notifications:
+      description: Get notified with native push notifications via this browser when you have unread notifications, even when OpenProject is not open. Your notification content stays in OpenProject and is not shared with the notification provider.
+      disable: Disable for this browser
+      enable: Enable for this browser
+      no_devices: No device receives browser notifications yet.
+      no_devices_description: Enable browser notifications on a device and it appears here.
+      revoke: Revoke
+      revoke_confirm: Stop sending browser notifications to %{device}?
+      revoke_device: Revoke %{device}
+      revoked: Browser notifications were disabled for that device.
+      signed_out: Signed out
+      signed_out_description: A device that is signed out keeps browser notifications suspended and resumes them when you sign in there again. Revoke the device to stop them for good.
+      status:
+        blocked: Notifications are blocked for this site in your browser settings.
+        disabled: Browser notifications are not enabled for this browser in the current session.
+        enabled: Browser notifications are enabled for this browser in the current session.
+        error: Browser notifications could not be changed. Please try again.
+        prompting: Waiting for you to allow notifications in the browser prompt…
+        subscribing: Registering this browser with its push service…
+        timeout: Your browser did not finish registering for push in time. Check your network connection and try again.
+        unsupported: Browser notifications are not available in this browser.
+      this_session: This session
+      title: Browser notifications
+      try_again: Try again
+      try_again_label: Try again to change browser notifications for this browser
+      unavailable: Browser notifications are temporarily unavailable on this instance.
   news:
     index:
       no_results_content_text: Add a news item
@@ -5609,7 +5662,6 @@ ka:
       eql?: must be equal to %{left}.
       filled?: must be filled.
       format?: is in invalid format.
-      greater_or_equal_zero: must be greater or equal to 0.
       gt?: must be greater than %{num}.
       gteq?: must be greater than or equal to %{num}.
       hash?: must be a hash.
@@ -5622,21 +5674,6 @@ ka:
       max_size?: must not be longer than %{num} characters.
       not_found: not found.
       respond_to?: does not implement required method.
-      rules:
-        custom_field:
-          format_not_supported: format '%{field_format}' is unsupported.
-        item:
-          not_persisted: must be an already existing value.
-          root_item: cannot be a root value.
-        label:
-          not_unique: must be unique within the same hierarchy level.
-        parent:
-          not_descendant: must be a descendant of the hierarchy root.
-          other_project: must be a global value or belong to the same project.
-        project:
-          additional_values_not_allowed: cannot add values to this custom field.
-        short:
-          not_unique: must be unique within the same hierarchy level.
       str?: must be a string.
       time?: must be a time.
       type?: must be %{type}.
@@ -5752,7 +5789,7 @@ ka:
   permission_comment_news: კომენტარი სიახლეებზე
   permission_commit_access: Read/write access to repository (commit)
   permission_copy_projects: Duplicate projects
-  permission_copy_projects_explanation: In template projects, this permission has a secondary function, it allows the creation of new projects derived from the template.
+  permission_copy_projects_explanation: Allows copying all project data, including content and attachments the user cannot view in the source project. The role can effectively grant access to all copied data depending on the role in the new project. It also allows creating projects from templates.
   permission_copy_work_packages: Duplicate work packages
   permission_create_backup: მარქაფების შექმნა
   permission_create_user: მომხმარებლების შექმნა
@@ -6214,6 +6251,25 @@ ka:
       status_restored: Connection restored. Reloading…
       status_still: Still offline. We’ll try again in a moment.
       title: Offline
+    push:
+      all_read_title: No unread notifications
+      fallback_title: New activity in OpenProject
+      group_title:
+        one: "%{count} update"
+        other: "%{count} updates"
+      more_title:
+        one: "%{count} more work package"
+        other: "%{count} more work packages"
+      reasons:
+        assigned: "%{actor} assigned you"
+        commented: "%{actor} commented"
+        date_alert_due_date: Due date alert
+        date_alert_start_date: Start date alert
+        mentioned: "%{actor} mentioned you"
+        reminder: Reminder
+        responsible: "%{actor} made you accountable"
+        shared: "%{actor} shared a work package with you"
+        updated: "%{actor} updated"
   queries:
     apply_filter: Apply preconfigured filter
     configure_view:
@@ -7442,6 +7498,7 @@ ka:
         rename_group: Rename section
         required:
           already_required_globally: This custom field is required for all types.
+          excluded: Switch this custom field on before requiring it for this type.
           for_variant: Required for this type
           globally: Required
           globally_hint: Change this on the custom field
@@ -7519,6 +7576,7 @@ ka:
           success: The configuration was copied.
         exclusions:
           not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
+          required: A required custom field cannot be switched off.
           unknown_aspect: Unknown configuration section "%{aspect}".
         inherited:
           configure_manually: Configure manually
@@ -7581,6 +7639,10 @@ ka:
         delete:
           description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
           title: Delete %{name}
+          unused:
+            description: The variant will be deleted permanently. This action cannot be undone.
+            heading: Delete variant '%{name}'?
+            title: Delete variant
         filter: Filter by text
         filter_no_results: No variants match this filter
         global_section:
@@ -7765,6 +7827,7 @@ ka:
     sessions:
       browser: ბრაუზერი
       browser_session: "(Browser session)"
+      browser_with_version: "%{name} (Version %{version})"
       current: Current (this device)
       deletion_warning: Are you sure you want to revoke this session? You will be logged out on this device.
       device: მოწყობილობა / ოს-ი
