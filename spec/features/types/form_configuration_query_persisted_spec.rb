@@ -134,6 +134,45 @@ RSpec.describe "Saved related table queries", :js, with_ee: %i[edit_attribute_gr
     end
   end
 
+  context "when returning to the work package through a Turbo visit" do
+    let(:status) { create(:status, color: create(:color, hexcode: "#FF0000")) }
+    let!(:child) { create(:work_package, project:, type:, parent: work_package, status:) }
+
+    def turbo_visit(path)
+      # Turbo.visit keeps the JS context like a Drive link; visit reloads it
+      # and hides OP-20713.
+      wait_for_turbo { page.execute_script("Turbo.visit(#{path.to_json})") }
+    end
+
+    def saved_children_table
+      Pages::EmbeddedWorkPackagesTable.new(
+        find(".attributes-group[data-group-name='Saved children'] .work-packages-embedded-view--container")
+      )
+    end
+
+    it "shows the saved highlighting without a reload" do
+      visit work_package_path(work_package)
+      table = saved_children_table
+      table.expect_work_package_listed child
+      expect(page).to have_no_css("#{table.row_selector(child)}.__hl_background")
+
+      turbo_visit edit_form_configuration_path(form_configuration)
+      highlighting = Components::WorkPackages::Highlighting.new
+      edit_table
+      within_dialog "Work package table configuration" do
+        find(:role, :tab, accessible_name: /Highlighting/i).click
+      end
+      highlighting.assume_opened
+      wait_for_turbo_stream { highlighting.switch_entire_row_highlight "Status" }
+
+      turbo_visit work_package_path(work_package)
+
+      table = saved_children_table
+      table.expect_work_package_listed child
+      expect(page).to have_css("#{table.row_selector(child)}.__hl_background.__hl_status_#{status.id}")
+    end
+  end
+
   def remove_id_column_from_saved_table
     edit_table
     within_dialog "Work package table configuration" do
