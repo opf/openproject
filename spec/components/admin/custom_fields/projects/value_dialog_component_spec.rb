@@ -53,9 +53,8 @@ RSpec.describe Admin::CustomFields::Projects::ValueDialogComponent, type: :compo
     it "asks for the name of the value in the project" do
       expect(rendered).to have_text(I18n.t("custom_fields.admin.projects.value_dialog.title"))
       expect(rendered).to have_field(I18n.t("custom_fields.admin.projects.value_dialog.name"))
-      expect(rendered).to have_text(
-        I18n.t("custom_fields.admin.projects.value_dialog.name_caption", project: "Scrum project")
-      )
+      expect(rendered).to have_text("Only available in Scrum project.")
+      expect(rendered).to have_css("strong", text: "Scrum project")
       expect(rendered.css("form").attr("action").value)
         .to eq(admin_settings_work_package_custom_field_project_specific_values_path(custom_field, project))
       expect(rendered).to have_button(I18n.t(:button_add))
@@ -94,6 +93,7 @@ RSpec.describe Admin::CustomFields::Projects::ValueDialogComponent, type: :compo
 
     it "asks for a short name before the parent" do
       expect(field_names).to eq(%w[label short parent_id])
+      expect(rendered).to have_text(I18n.t("custom_fields.admin.projects.value_dialog.short_caption"))
     end
 
     context "when adding a sub-value" do
@@ -163,6 +163,7 @@ RSpec.describe Admin::CustomFields::Projects::ValueDialogComponent, type: :compo
     it "asks for a weight before the parent" do
       expect(field_names).to eq(%w[label weight parent_id])
       expect(rendered).to have_field(I18n.t("custom_fields.admin.items.placeholder.weight"), type: "number")
+      expect(rendered).to have_text(I18n.t("custom_fields.admin.projects.value_dialog.weight_caption"))
     end
   end
 end

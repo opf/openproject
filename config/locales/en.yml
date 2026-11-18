@@ -3028,11 +3028,13 @@ en:
         value_dialog:
           edit_title: "Edit value"
           name: "Name"
-          name_caption: "Only available in %{project}."
+          name_caption_html: "Only available in <strong>%{project}</strong>."
           parent: "Add to parent"
+          short_caption: "Optionally pick a shorter name or code for this value."
           title: "Add project-specific value"
           title_with_parent: "Add project-specific value to “%{parent}”"
           top_level: "Top level"
+          weight_caption: "Each value has a weight associated with it."
         values_empty_state:
           description: "Add values to this custom field to choose which of them are available in this project."
           title: "This custom field has no values yet"
