@@ -8,12 +8,12 @@ keywords: meetings, dynamic meetings, agenda, minutes, recurring meeting
 
 # Recurring meetings management
 
-With OpenProject 15.3, meetings were enhanced by introducing a clear distinction between **one-time meetings** and **recurring meetings**. This page covers the features and functionalities of recurring meetings. For information on one-time meetings, please refer to [this page](../one-time-meetings).
+With OpenProject 15.3, meetings were enhanced by introducing a clear distinction between **one-time meetings** and **recurring meetings**. This page covers the features and functionalities of recurring meetings. For information on one-time meetings, please refer to [this page](../one-time-meetings/). For features that apply to all meetings, see [Meeting features](../../meeting-features/).
 
 Recurring meetings are helpful to schedule and organize meetings that happen regularly and which have the same structure. They consist of individual occurrences that repeat with a defined frequency and interval, and are all based on a meeting template consisting of predefined sections, agenda items and participants.
 
 > [!NOTE]
-> The **Meetings module needs to be activated** in the [Project settings](../../projects/project-settings/modules/) to be able to create and edit meetings.
+> The **Meetings module needs to be activated** in the [Project settings](../../../projects/project-settings/modules/) to be able to create and edit meetings.
 
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -26,7 +26,7 @@ Recurring meetings are helpful to schedule and organize meetings that happen reg
 
 ## Create and edit recurring meetings
 
-You can either create a recurring meeting from within a project or from the global **Meetings** module. For steps on setting up one-time meetings, please consult [this page](../one-time-meetings).
+You can either create a recurring meeting from within a project or from the global **Meetings** module. For steps on setting up one-time meetings, please consult [this page](../../meeting-features/meeting-creation/#create-a-new-meeting).
 
 To create a new recurring meeting, click the green **+ Meeting** button in the upper right corner and select **Recurring**.
 
@@ -85,11 +85,11 @@ Click the **Create meeting series** button to save your changes. This will creat
 
 ## Edit recurring meetings template
 
-After creating a meeting series, you are redirected to the recurring meeting template, which will open in the [draft mode](../one-time-meetings/#meeting-draft-mode) by default. At this point, no meeting within the recurring meeting series has yet been set up. You need to first define a template that will be the basis of all upcoming meetings. In other words, all new iterations of meetings in the series will be a copy of this template.
+After creating a meeting series, you are redirected to the recurring meeting template, which will open in the [draft mode](../../meeting-features/meeting-modes/#meeting-draft-mode) by default. At this point, no meeting within the recurring meeting series has yet been set up. You need to first define a template that will be the basis of all upcoming meetings. In other words, all new iterations of meetings in the series will be a copy of this template.
 
 ![Template meeting for recurring meetings in OpenProject](openproject_userguide_meetings_recurring_meeting_initial_template.png)
 
-You can define the template the same way that you would a [one-time meeting](../one-time-meetings): you can add sections, agenda items, work packages and even a set of participants. Keep in mind that every new occurrence of a meeting in the series will use this template. After you are done editing the meeting template, you can create the first meeting by clicking **Open first meeting** button, which will direct you to the first open meeting occurrence in the new series.
+You can define the template the same way that you would the [agenda of any meeting](../../meeting-features/meeting-agenda/): you can add sections, agenda items, work packages and even a set of participants. Keep in mind that every new occurrence of a meeting in the series will use this template. After you are done editing the meeting template, you can create the first meeting by clicking **Open first meeting** button, which will direct you to the first open meeting occurrence in the new series.
 
 > [!IMPORTANT]
 > Once you leave the draft mode, you can no longer return, i.e. you can still edit your template, but the changes may be visible (depending on the e-mail notification status).
@@ -115,7 +115,7 @@ When a planned occurrence is opened and its agenda is created from the template,
 
 Changing the template's sorting mode affects future occurrences created from it, not meetings that have already been opened. You can also change the mode for an individual occurrence without changing the template or other occurrences.
 
-See [Sort agenda items and vote](../one-time-meetings/#sort-agenda-items-and-vote) for voting controls, sorting rules and permissions. The series backlog remains manually sorted and does not support voting.
+See [Sort agenda items and vote](../../meeting-features/meeting-agenda/#sort-agenda-items-and-vote) for voting controls, sorting rules and permissions. The series backlog remains manually sorted and does not support voting.
 
 ## Edit recurring meetings
 
@@ -149,7 +149,7 @@ To edit a single meeting within recurring meeting series you have to open it fir
 
 ![Select a meeting occurrence on a recurring meetings series index page](openproject_userguide_meetings_edit_meeting_occurence_link.png)
 
-This will open the specific meeting page. You can then edit the meeting by using same functions as for [editing one-time meetings](../one-time-meetings), including adding sections and agenda points, documenting agenda item outcomes, inviting participants and adding attachments.
+This will open the specific meeting page. You can then edit the meeting by using the same [meeting features](../../meeting-features/) as for any other meeting, including adding sections and agenda points, documenting agenda item outcomes, inviting participants and adding attachments.
 
 Additionally you can copy a specific meeting series occurrence as a one-time meeting. To do that click the **More** (three dots) icon and select **Duplicate as one-time meeting**.
 
@@ -165,7 +165,7 @@ Within the same menu you also have the following options:
 
 ### Move an agenda item to next meeting
 
-In addition to all the options available when clicking on the three-dot **More** (⋯) menu for an agenda item in when [editing one-time meetings](../one-time-meetings), you will see one additional option to move the agenda item to the next meeting occurrence in the series.
+In addition to all the options available when clicking on the three-dot **More** (⋯) menu for an agenda item when [editing a meeting agenda](../../meeting-features/meeting-agenda/#edit-a-meeting-agenda), you will see one additional option to move the agenda item to the next meeting occurrence in the series.
 
 ![Move an agenda item to next meeting in OpenProject recurring meetings](openproject_userguide_meetings_recurring_move_agenda_item.png)
 

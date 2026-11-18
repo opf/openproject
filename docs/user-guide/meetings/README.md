@@ -2,7 +2,7 @@
 sidebar_navigation:
   title: Meetings
   priority: 760
-description: Manage meetings with agenda and meeting minutes in OpenProject.
+description: Manage meetings with agenda and meeting outcomes in OpenProject.
 keywords: meetings, meeting, meeting series, recurring meetings, meetings agenda
 ---
 
@@ -20,16 +20,30 @@ Meetings in OpenProject allow you to manage and document your project meetings, 
 | Topic                                               | Content                                                   |
 | --------------------------------------------------- | --------------------------------------------------------- |
 | [Meetings in OpenProject](#meetings-in-openproject) | How to open meetings in OpenProject.                      |
-| [One-time meetings](one-time-meetings/)             | How to create and edit single meetings in OpenProject.    |
-| [Recurring meetings](recurring-meetings/)           | How to create and edit recurring meetings in OpenProject. |
-| [Vote-based agenda sorting](one-time-meetings/#sort-agenda-items-and-vote) | How to prioritize agenda items with participant votes. |
-| [Meetings FAQs](meetings-faq)                       | Frequently asked questions about meetings in OpenProject. |
+| [Meeting types](meeting-types/)                     | The difference between one-time and recurring meetings.   |
+| [Meeting features](meeting-features/)               | Features that apply to all meetings.                      |
+| [Meetings FAQs](meetings-faq/)                      | Frequently asked questions about meetings in OpenProject. |
+
+### Common tasks
+
+| Task | Where to find it |
+| --- | --- |
+| Create a one-time meeting | [Create a new meeting](meeting-features/meeting-creation/#create-a-new-meeting) |
+| Create a meeting series | [Recurring meetings](meeting-types/recurring-meetings/#create-and-edit-recurring-meetings) |
+| Use a meeting template | [Meeting templates](meeting-features/meeting-templates/) |
+| Add participants | [Add meeting participants](meeting-features/meeting-participants/#add-meeting-participants) |
+| Prepare the agenda | [Meeting agenda](meeting-features/meeting-agenda/) |
+| Vote on agenda items | [Sort agenda items and vote](meeting-features/meeting-agenda/#sort-agenda-items-and-vote) |
+| Start or close a meeting | [Change meeting status](meeting-features/meeting-modes/#change-meeting-status) |
+| Present a meeting | [Present a meeting](meeting-features/meeting-modes/#present-a-meeting) |
+| Document outcomes | [Meeting outcomes](meeting-features/meeting-outcomes/) |
+| Export a meeting as PDF | [Export a meeting](meeting-features/meeting-follow-up/#export-a-meeting) |
 
 ## Meetings in OpenProject
 
-Meetings in OpenProject help teams organize discussions, track meeting agendas, and document decisions efficiently. There are two types of meetings: **one-time meetings** and **recurring meetings**. [One-time meetings](one-time-meetings/) are standalone events scheduled for a specific date and time. [Recurring meetings](recurring-meetings/) introduce a structured way to define a series of related meetings, ensuring consistency and reducing manual setup.
+Meetings in OpenProject help teams organize discussions, track meeting agendas, and document decisions efficiently. There are two [types of meetings](meeting-types/): **one-time meetings** and **recurring meetings**. [One-time meetings](meeting-types/one-time-meetings/) are standalone events scheduled for a specific date and time. [Recurring meetings](meeting-types/recurring-meetings/) introduce a structured way to define a series of related meetings, ensuring consistency and reducing manual setup.
 
-Meeting agendas can be sorted manually or by votes. With [vote-based sorting](one-time-meetings/#sort-agenda-items-and-vote), participants can upvote or downvote agenda items to prioritize topics within each section.
+Both meeting types share the same [meeting features](meeting-features/), such as agendas, participants, outcomes and presentation mode. Meeting agendas can be sorted manually or by votes. With [vote-based sorting](meeting-features/meeting-agenda/#sort-agenda-items-and-vote), participants can upvote or downvote agenda items to prioritize topics within each section.
 
 ### Meetings overview
 
@@ -60,10 +74,13 @@ The menu on the left will allow you to filter meetings based on following:
 - **My meetings** lists all meetings you participate in
 - **Recurring meetings** lists all recurring meetings visible to you
 - **All meetings** lists all meetings visible to you
-- **Templates** lists all meeting templates in projects visible to you
-- **Meeting series** lists meeting occurrences that are part of recurring meetings
-- **Involvement** lists all meetings you are invited to
-- **Attended** lists all meetings in which you were marked as having attended
+- **Templates** lists the [meeting templates](meeting-features/meeting-templates/) you have access to (Enterprise add-on, only shown if you have the permission to create meetings)
+
+Under **Meeting series**, all recurring meeting series visible to you are listed. Click a series to see its occurrences.
+
+Under **Involvement**, you can find:
+
+- **Attended** lists all past meetings in which you were marked as having attended
 - **Created by me** lists all meetings created by you
 
 The buttons next to _Filters_ will allow you to filter for upcoming or past meetings.
@@ -94,7 +111,7 @@ You can also use the meetings filters to refine the list of meetings based on th
 
 You can subscribe to all your OpenProject meetings in an external calendar application (such as Outlook, Apple Calendar, or Open-Xchange). This provides a single, read-only calendar that stays up to date automatically, without relying on individual .ics email invites.
 
-In addition to viewing meetings, subscribing to meetings allows you to **respond to meeting invitations directly from your calendar**. Your response (Accepted, Tentative, or Declined) is synchronized back to OpenProject and shown as your participation status in the meeting.
+A calendar subscription is read-only: it shows your meetings, but you cannot respond to meeting invitations through it. To respond to a meeting invitation, use the invitation you receive by email. Learn more about [participation status](meeting-features/meeting-participants/#add-meeting-participants).
 
 #### Create a subscription
 
@@ -116,12 +133,9 @@ You will be guided through creating an iCal subscription token:
 
 3. Add this URL to your external calendar to subscribe to your OpenProject meetings.
 
-Once subscribed, meeting dates and updates are synchronized automatically. If you respond to a meeting invitation in your calendar, your participation status is updated in OpenProject and visible to meeting organizers and other participants.
+Once subscribed, meeting dates and updates are synchronized automatically.
 
-> [!NOTE]
-> If you respond to a meeting invitation in your calendar before the meeting is fully created or visible in OpenProject, your response will still be applied once the meeting becomes available, as long as the calendar subscription remains active.
-
-If you are only interested in a specific meeting, you can [download that specific meeting as an iCal event](./one-time-meetings/#download-a-meeting-as-an-icalendar-event) instead. 
+If you are only interested in a specific meeting, you can [download that specific meeting as an iCal event](meeting-features/meeting-participants/#download-a-meeting-as-an-icalendar-event) instead. 
 
 > [!TIP]
 > If you are interested in how the Meetings module is used by the OpenProject team, please take a look at [this blog article](https://www.openproject.org/blog/meeting-management-example/) and this [use case](../../use-cases/meeting-management/).
