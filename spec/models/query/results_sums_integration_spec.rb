@@ -182,6 +182,22 @@ RSpec.describe Query::Results, "sums" do
       end
     end
 
+    context "when work packages with costs have a parent in the result" do
+      let!(:parent) { create(:work_package, type:) }
+
+      before do
+        work_package1.update!(parent:)
+        work_package2.update!(parent:)
+      end
+
+      it "sums the costs of the children only once" do
+        expect(stringify_column_keys(query_results.all_total_sums))
+          .to include("material_costs" => 400.0,
+                      "labor_costs" => 600.0,
+                      "overall_costs" => 1000.0)
+      end
+    end
+
     describe "% complete sum" do
       subject(:percent_complete_sum) { stringify_column_keys(query_results.all_total_sums)["done_ratio"] }
 
@@ -366,6 +382,26 @@ RSpec.describe Query::Results, "sums" do
                    "labor_costs" => 0.0,
                    "overall_costs" => 0.0,
                    "story_points" => 7)
+        end
+      end
+
+      context "when work packages with costs have a parent in another group" do
+        let!(:parent) { create(:work_package, type:) }
+
+        before do
+          work_package1.update!(parent:)
+          work_package2.update!(parent:)
+        end
+
+        it "sums the costs of each work package only within its own group" do
+          expect(stringify_column_keys(query_results.all_group_sums[current_user]))
+            .to include("material_costs" => 200.0,
+                        "labor_costs" => 300.0,
+                        "overall_costs" => 500.0)
+          expect(stringify_column_keys(query_results.all_group_sums[nil]))
+            .to include("material_costs" => 200.0,
+                        "labor_costs" => 300.0,
+                        "overall_costs" => 500.0)
         end
       end
     end
