@@ -22,7 +22,6 @@ OpenProject 18.0 is a particularly feature-rich release, introducing substantial
 
 The overview below introduces the ten main feature areas and provides direct links to individual improvements. Select a feature area to jump to its detailed description, or follow the links to a specific feature. Each detailed section explains what has changed and, where relevant, provides links to the updated OpenProject documentation.
 
-The overview focuses on the most important new capabilities and user-facing changes. Additional technical changes, smaller improvements, and bug fixes are covered in the corresponding sections further down the release notes.
 
 > [!TIP]
 > **Upgrading from an earlier version?** Review the [important updates and breaking changes](#important-updates-and-breaking-changes) before upgrading.
