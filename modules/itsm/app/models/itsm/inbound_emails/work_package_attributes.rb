@@ -29,22 +29,29 @@
 
 module ITSM
   module InboundEmails
-    class MessageAttributes
-      def initialize(email)
-        @email = email
+    WorkPackageAttributes = Data.define(:subject, :description, :journal_cause) do
+      def self.from_email(email)
+        full_subject = email.headers.subject.presence || I18n.t(:label_email_without_subject, locale: Setting.default_language)
+        subject = full_subject.truncate(255)
+        cut_subject = subject_line(full_subject) if subject != full_subject
+
+        new(subject:,
+            description: fenced([cut_subject, email.text].compact_blank.join("\n\n")),
+            journal_cause: Journal::CausedByEmail.new(sender_address: email.headers.from_address))
       end
 
-      def to_h
-        headers.to_h
-               .slice(:message_id, :in_reply_to, :from_address, :from_name, :to_addresses, :cc_addresses, :subject)
-               .merge(direction: :inbound, referenced_message_ids: headers.references)
+      def self.subject_line(full_subject)
+        "#{WorkPackage.human_attribute_name(:subject, locale: Setting.default_language)}: #{full_subject}"
       end
 
-      private
+      def self.fenced(content)
+        return "" if content.empty?
 
-      attr_reader :email
+        fence = "`" * [3, content.scan(/`+/).map(&:length).max.to_i + 1].max
+        "#{fence}\n#{content}\n#{fence}"
+      end
 
-      delegate :headers, to: :email
+      private_class_method :subject_line, :fenced
     end
   end
 end

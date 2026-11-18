@@ -29,28 +29,14 @@
 
 module ITSM
   module InboundEmails
-    class ThreadAttributes
-      def initialize(email)
-        @email = email
-      end
+    MessageAttributes = Data.define(:direction, :message_id, :in_reply_to, :referenced_message_ids, :from_address,
+                                    :from_name, :to_addresses, :cc_addresses, :subject) do
+      def self.from_email(email)
+        headers = email.headers
 
-      def to_h
-        { requester_email: headers.from_address, requester_name: headers.from_name, recipients: }
-      end
-
-      private
-
-      attr_reader :email
-
-      delegate :headers, to: :email
-
-      def recipients
-        EmailAddress::NORMALIZE_ALL.call(headers.to_addresses + headers.cc_addresses) -
-          [EmailAddress::NORMALIZE.call(headers.from_address)] - own_addresses
-      end
-
-      def own_addresses
-        IncomingMailbox.pluck(:email, :aliases).flatten + OutgoingMailbox.pluck(:sender_email)
+        new(**headers.to_h.slice(:message_id, :in_reply_to, :from_address, :from_name, :to_addresses, :cc_addresses, :subject),
+            direction: :inbound,
+            referenced_message_ids: headers.references)
       end
     end
   end

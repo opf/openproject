@@ -81,18 +81,18 @@ module ITSM
       def processed_thread = ServiceResult.success(result: processed_message.thread)
 
       def create_work_package
-        WorkPackages::CreateService.new(user:).call(project:, **WorkPackageAttributes.new(email).to_h)
+        WorkPackages::CreateService.new(user:).call(project:, **WorkPackageAttributes.from_email(email).to_h)
       end
 
       def create_email_thread(work_package)
-        EmailThreads::CreateService.new(user:).call(work_package:, **ThreadAttributes.new(email).to_h)
+        EmailThreads::CreateService.new(user:).call(work_package:, **ThreadAttributes.from_email(email).to_h)
       end
 
       def create_email_message(thread)
         EmailMessages::CreateService.new(user:).call(thread:,
                                                      journal: thread.work_package.journals.first,
                                                      status: :processed,
-                                                     **MessageAttributes.new(email).to_h)
+                                                     **MessageAttributes.from_email(email).to_h)
       end
 
       def missing_sender

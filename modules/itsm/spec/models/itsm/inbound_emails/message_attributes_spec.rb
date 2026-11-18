@@ -31,7 +31,7 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe ITSM::InboundEmails::MessageAttributes do
-  subject(:attributes) { described_class.new(ITSM::InboundEmail.new(raw)).to_h }
+  subject(:attributes) { described_class.from_email(ITSM::InboundEmail.new(raw)).to_h }
 
   let(:raw) do
     Mail.new(message_id: "<request-1@customer.example>",

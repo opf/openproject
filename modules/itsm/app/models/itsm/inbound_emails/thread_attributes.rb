@@ -29,42 +29,23 @@
 
 module ITSM
   module InboundEmails
-    class WorkPackageAttributes
-      SUBJECT_MAX_LENGTH = 255
-
-      def initialize(email)
-        @email = email
+    ThreadAttributes = Data.define(:requester_email, :requester_name, :recipients) do
+      def self.from_email(email)
+        new(requester_email: email.headers.from_address, requester_name: email.headers.from_name, recipients: recipients(email))
       end
 
-      def to_h
-        { subject:, description:, journal_cause: Journal::CausedByEmail.new(sender_address: headers.from_address) }
+      def self.recipients(email)
+        headers = email.headers
+
+        EmailAddress::NORMALIZE_ALL.call(headers.to_addresses + headers.cc_addresses) -
+          [EmailAddress::NORMALIZE.call(headers.from_address)] - own_addresses
       end
 
-      private
-
-      attr_reader :email
-
-      delegate :headers, :text, to: :email
-
-      def subject = full_subject.truncate(SUBJECT_MAX_LENGTH)
-
-      def full_subject
-        @full_subject ||= headers.subject.presence || I18n.t(:label_email_without_subject, locale: Setting.default_language)
+      def self.own_addresses
+        IncomingMailbox.pluck(:email, :aliases).flatten + OutgoingMailbox.pluck(:sender_email)
       end
 
-      def description
-        content = [cut_subject, text].compact_blank.join("\n\n")
-        return "" if content.empty?
-
-        fence = "`" * [3, content.scan(/`+/).map(&:length).max.to_i + 1].max
-        "#{fence}\n#{content}\n#{fence}"
-      end
-
-      def cut_subject
-        return if full_subject.length <= SUBJECT_MAX_LENGTH
-
-        "#{WorkPackage.human_attribute_name(:subject, locale: Setting.default_language)}: #{full_subject}"
-      end
+      private_class_method :recipients, :own_addresses
     end
   end
 end
