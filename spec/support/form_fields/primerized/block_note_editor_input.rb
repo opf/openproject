@@ -184,7 +184,9 @@ module FormFields
       end
 
       def shadow_root
-        page.find("op-block-note").shadow_root
+        page.document.synchronize do
+          page.find("op-block-note").shadow_root or raise Capybara::ElementNotFound, "op-block-note has no shadow root yet"
+        end
       end
 
       # Simulates pasting one or more links into the editor — a common user
@@ -293,8 +295,6 @@ module FormFields
         (x + (width / 2)).between?(left, left + container_width)
       end
 
-      # Attention: This only works with selenium, not with cuprite,
-      # as cuprite does not support shadow dom (yet).
       def send_keys_to_editor(keys)
         element.send_keys(keys)
       end

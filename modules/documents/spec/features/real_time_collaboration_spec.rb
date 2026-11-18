@@ -32,7 +32,6 @@ require_module_spec_helper
 
 RSpec.describe "Real-time collaboration with Hocuspocus for documents",
                :js,
-               :selenium,
                with_settings: { real_time_text_collaboration_enabled: true } do
   let(:editor) { FormFields::Primerized::BlockNoteEditorInput.new }
   let(:admin) { create(:admin, firstname: "Armin", lastname: "Admin") }

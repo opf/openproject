@@ -29,9 +29,9 @@
 
 # Emulated offline does not close WebSockets that are already open, so the helpers record sockets
 # and close them when the network is cut.
-module SeleniumNetworkHelpers
+module BrowserNetworkHelpers
   def tracking_websockets
-    identifier = chrome_devtools(
+    identifier = ferrum_browser.page.command(
       "Page.addScriptToEvaluateOnNewDocument",
       source: <<~JS
         window.openSockets = [];
@@ -46,19 +46,23 @@ module SeleniumNetworkHelpers
     ).fetch("identifier")
     yield
   ensure
-    chrome_devtools("Page.removeScriptToEvaluateOnNewDocument", identifier:) if identifier
+    ferrum_browser.page.command("Page.removeScriptToEvaluateOnNewDocument", identifier:) if identifier
   end
 
   def while_network_cut
-    emulate_network(offline: true)
+    network = ferrum_browser.network
+    network.offline_mode
     close_tracked_websockets
     yield
   ensure
-    emulate_network(offline: false)
+    network&.emulate_network_conditions(offline: false, latency: 0, download_throughput: -1, upload_throughput: -1)
   end
 
   def close_tracked_websockets
-    page.execute_script("(window.openSockets || []).forEach((socket) => socket.close());")
+    closed = page.evaluate_script(<<~JS)
+      (window.openSockets || []).map((socket) => socket.close()).length
+    JS
+    raise "No tracked WebSockets to close; was tracking_websockets active before the page loaded?" if closed.zero?
   end
 
   # Timers created before the block keep their real delay, so it must start after the page has loaded.
@@ -81,23 +85,13 @@ module SeleniumNetworkHelpers
 
   private
 
-  def emulate_network(offline:)
-    chrome_devtools("Network.enable")
-    chrome_devtools("Network.emulateNetworkConditions",
-                    offline:,
-                    latency: 0,
-                    downloadThroughput: offline ? 0 : -1,
-                    uploadThroughput: offline ? 0 : -1)
-  end
+  def ferrum_browser
+    raise "Network helpers need the Cuprite driver" unless using_cuprite?
 
-  def chrome_devtools(command, **params)
-    driver = page.driver
-    raise "Chrome DevTools helpers need the Selenium driver" unless driver.is_a?(Capybara::Selenium::Driver)
-
-    driver.browser.execute_cdp(command, **params)
+    page.driver.browser
   end
 end
 
 RSpec.configure do |config|
-  config.include SeleniumNetworkHelpers, :selenium
+  config.include BrowserNetworkHelpers, :js
 end
