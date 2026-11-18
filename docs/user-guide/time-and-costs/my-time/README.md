@@ -61,7 +61,7 @@ You can log time by selecting a time range anywhere on the calendar or by using 
 
 You can drag and drop time entries to reposition them within the same day or move them to a different day. To adjust the duration of an entry, drag the top or bottom edge of the time entry up or down.
 
-![Example of logging time in OpenProject My time module](openproject-my-time-tracking-page.gif)
+![Example of logging time in OpenProject My time module](openproject_release_notes_18_0_planned_labor_time_units.gif)
 
 To edit a time entry, click it in the calendar, make your changes, and save. You can also delete it from the same menu.
 
