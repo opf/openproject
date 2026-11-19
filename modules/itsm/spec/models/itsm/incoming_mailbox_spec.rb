@@ -50,6 +50,25 @@ RSpec.describe ITSM::IncomingMailbox do
     expect(mailbox.inspect).not_to include("imap-password")
   end
 
+  describe ".receiving_for" do
+    let!(:second) { create(:itsm_incoming_mailbox, project:) }
+    let!(:first) { create(:itsm_incoming_mailbox, project:, id: second.id - 1) }
+    let!(:inactive) { create(:itsm_incoming_mailbox, project:, active: false) }
+    let!(:foreign) { create(:itsm_incoming_mailbox) }
+
+    it "lists the project's active mailboxes, oldest first" do
+      expect(described_class.receiving_for(project)).to eq([first, second])
+    end
+  end
+
+  describe "#addresses" do
+    let(:aliases) { ["help@example.com"] }
+
+    it "lists the email and the aliases" do
+      expect(mailbox.addresses).to eq(%w[support@example.com help@example.com])
+    end
+  end
+
   context "without a username" do
     let(:username) { "" }
 

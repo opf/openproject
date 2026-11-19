@@ -34,10 +34,9 @@ module ITSM
     class ImapSession
       include Dry::Monads::Result(SimpleError)
 
-      OPEN_TIMEOUT = 10
       SESSION_TIMEOUT = 5.minutes
       FOLDER = "INBOX"
-      TLS_OPTIONS = { min_version: OpenSSL::SSL::TLS1_2_VERSION }.freeze
+      TLS_OPTIONS = { min_version: MailServer::MIN_TLS_VERSION }.freeze
 
       def self.open(mail_server:, auth_strategy:)
         session = new(mail_server:, auth_strategy:)
@@ -92,7 +91,7 @@ module ITSM
                            addresses:,
                            port: mail_server.port,
                            ssl: mail_server.tls? && TLS_OPTIONS,
-                           open_timeout: OPEN_TIMEOUT)
+                           open_timeout: MailServer::TIMEOUT)
       end
 
       def imap_request(source: self.class)
