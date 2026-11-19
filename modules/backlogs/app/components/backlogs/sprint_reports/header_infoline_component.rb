@@ -58,7 +58,7 @@ module Backlogs
       def planned_range_arguments
         return {} unless displayed_dates.actual?
 
-        { font_size: :small, color: :muted, ml: 2 }
+        { color: :muted, ml: 2 }
       end
     end
   end
