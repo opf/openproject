@@ -41,7 +41,7 @@ RSpec.describe ITSM::OutboundEmails::SendConfirmationJob, type: :job,
 
   before { allow(ITSM::OutboundEmails::SendConfirmationService).to receive(:new).and_return(service) }
 
-  it "sends the confirmation once" do
+  it "sends the confirmation without trying again" do
     perform
 
     expect(service).to have_received(:call).with(thread:)
@@ -52,7 +52,7 @@ RSpec.describe ITSM::OutboundEmails::SendConfirmationJob, type: :job,
     expect(described_class.new(thread).priority).to eq(ApplicationJob.priority_number(:notification))
   end
 
-  it "sends the confirmation of a thread once at a time" do
+  it "runs one confirmation per thread at a time" do
     expect(described_class.good_job_concurrency_config).to include(perform_limit: 1)
     expect(described_class.new(thread).good_job_concurrency_key).to eq("#{described_class.name}-#{thread.id}")
   end
@@ -66,7 +66,9 @@ RSpec.describe ITSM::OutboundEmails::SendConfirmationJob, type: :job,
   end
 
   context "when the email could not be sent" do
-    let(:email_message) { create(:itsm_email_message, thread:, direction: "outbound", status: "failed") }
+    let(:email_message) do
+      create(:itsm_email_message, thread:, direction: "outbound", status: "failed", error_message: "421 Service not available")
+    end
     let(:result) { ServiceResult.failure(result: email_message).tap { it.errors.add(:base, :delivery_failed) } }
 
     it "tries again later" do
@@ -75,9 +77,9 @@ RSpec.describe ITSM::OutboundEmails::SendConfirmationJob, type: :job,
       expect(described_class).to have_been_enqueued.with(thread)
     end
 
-    it "fails with the reason" do
+    it "fails with the reason and the server's answer" do
       expect { described_class.new.perform(thread) }
-        .to raise_error(described_class::DeliveryFailed, "Confirmation not sent (delivery_failed)")
+        .to raise_error(described_class::DeliveryFailed, "Confirmation not sent (delivery_failed): 421 Service not available")
     end
 
     it "gives up after the last attempt and logs it" do
@@ -103,13 +105,19 @@ RSpec.describe ITSM::OutboundEmails::SendConfirmationJob, type: :job,
   end
 
   context "when the SMTP server rejected the email" do
-    let(:email_message) { create(:itsm_email_message, thread:, direction: "outbound", status: "failed") }
+    let(:email_message) do
+      create(:itsm_email_message, thread:, direction: "outbound", status: "failed", error_message: "550 Mailbox unavailable")
+    end
     let(:result) { ServiceResult.failure(result: email_message).tap { it.errors.add(:base, :delivery_rejected) } }
+    let(:warned) { [] }
 
-    it "does not try again" do
+    before { allow(Rails.logger).to receive(:warn) { |&message| warned << message.call } }
+
+    it "does not try again and logs the server's answer" do
       perform
 
       expect(described_class).not_to have_been_enqueued
+      expect(warned).to include("Confirmation not sent (delivery_rejected): 550 Mailbox unavailable")
     end
   end
 
@@ -125,19 +133,31 @@ RSpec.describe ITSM::OutboundEmails::SendConfirmationJob, type: :job,
 
   context "when the project has no outgoing mailbox" do
     let(:result) { ServiceResult.failure(result: thread).tap { it.errors.add(:base, :no_outgoing_mailbox) } }
-    let(:logged) { [] }
+    let(:warned) { [] }
 
-    before { allow(Rails.logger).to receive(:info) { |&message| logged << message.call } }
+    before { allow(Rails.logger).to receive(:warn) { |&message| warned << message.call } }
 
     it "does not try again and logs why" do
       perform
 
       expect(described_class).not_to have_been_enqueued
-      expect(logged).to include("Confirmation not sent (no_outgoing_mailbox)")
+      expect(warned).to include("Confirmation not sent (no_outgoing_mailbox)")
     end
   end
 
   context "when the help desk was turned off before the job ran", with_settings: { helpdesk_enabled: false } do
+    it "sends nothing" do
+      perform
+
+      expect(ITSM::OutboundEmails::SendConfirmationService).not_to have_received(:new)
+    end
+  end
+
+  context "when the project no longer uses the help desk" do
+    let(:thread) do
+      create(:itsm_email_thread, work_package: create(:work_package, project: create(:project, disable_modules: :helpdesk)))
+    end
+
     it "sends nothing" do
       perform
 

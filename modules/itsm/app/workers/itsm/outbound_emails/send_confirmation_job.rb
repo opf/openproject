@@ -50,7 +50,7 @@ module ITSM
       discard_on ActiveJob::DeserializationError
 
       def perform(thread)
-        return unless ITSM.helpdesk_available?
+        return unless ITSM.helpdesk_available? && thread.work_package.project.module_enabled?(:helpdesk)
 
         Rails.logger.tagged("ITSM", "email thread #{thread.id}") do
           SendConfirmationService.new.call(thread:).on_failure { not_sent(it) }
@@ -61,10 +61,14 @@ module ITSM
 
       def not_sent(result)
         codes = result.errors.symbols_for(:base)
-        reason = "Confirmation not sent (#{codes.join(', ')})"
+        reason = ["Confirmation not sent (#{codes.join(', ')})", server_message(result.result)].compact.join(": ")
         raise DeliveryFailed, reason if codes.intersect?(RETRIED_ERRORS)
 
-        Rails.logger.info { reason }
+        Rails.logger.warn { reason }
+      end
+
+      def server_message(record)
+        record.error_message if record.is_a?(EmailMessage)
       end
     end
   end
