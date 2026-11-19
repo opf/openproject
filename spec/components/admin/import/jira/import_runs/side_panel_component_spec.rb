@@ -42,7 +42,7 @@ RSpec.describe Admin::Import::Jira::ImportRuns::SidePanelComponent, type: :compo
     before do
       failure = HealthReport::Result.failure(:administrator, :not_administrator, nil)
       report = jira.health_reports.create!(results: [HealthReport::ResultGroup.new(key: :authorization, results: [failure])])
-      jira_import.transition_to!(:instance_meta_error, error: "failed", health_report_id: report.id)
+      jira_import.transition_to!(:instance_meta_error, error: "failed", failed_connection_check_id: report.id)
       render_inline(described_class.new(jira_import))
     end
 

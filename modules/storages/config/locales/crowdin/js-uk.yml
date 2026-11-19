@@ -26,14 +26,14 @@ uk:
         select: Виберіть файли
         select_all: Вибрати все
         selection:
-          none: Select files to link
+          none: Виберіть файли, які потрібно зв‘язати
           one: Link %{count} file
-          other: Link %{count} files
+          other: Зв’язати %{count} файлу
         success_create:
           one: Successfully created %{count} file link.
-          few: Successfully created %{count} file links.
-          many: Successfully created %{count} file links.
-          other: Successfully created %{count} file links.
+          few: Створено посилання на %{count} файли
+          many: Створено посилання на %{count} файлів
+          other: Створено посилання на %{count} файлу
         tooltip:
           not_found: Не вдається знайти цей файл.
           not_logged_in: Щоб отримати доступ до цього файлу, увійдіть у сховище.

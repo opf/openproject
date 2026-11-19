@@ -36,7 +36,7 @@ module Llm
       return unless OpenProject::Llm::Features[:semantic_search].available?
 
       semantic_index = SemanticIndex.find_by(id: semantic_index_id)
-      return unless semantic_index&.indexing?
+      return if semantic_index.blank?
 
       work_packages = WorkPackage.where(id: work_package_ids)
       Llm::WorkPackages::EmbedService.new(semantic_index, work_packages).call

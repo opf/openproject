@@ -145,7 +145,7 @@ uk:
     assignment_dialog:
       available: Доступно %{hours}
       confirm_overtime: Усе одно призначити
-      filter_criteria: Criteria
+      filter_criteria: Критерії
       no_candidates:
         description: No project member matches the criteria of this placeholder user.
         title: Не знайдено відповідних учасників
@@ -186,7 +186,7 @@ uk:
     label_resource_planner: Планувальник ресурсів
     label_resource_planner_plural: Планувальники ресурсів
     my_time_management:
-      hidden_work_package: Work package not visible to you
+      hidden_work_package: Цей пакет робіт вам недоступний
     new_view_dialog:
       title: Додати подання
     public_caption: Якщо зробити це подання загальнодоступним, доступ до нього отримають усі учасники проєкту. Це не вплине на видимість пакетів робіт, яка все ще залежить від того, чи є в користувача відповідний дозвіл.

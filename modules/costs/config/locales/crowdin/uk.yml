@@ -80,7 +80,7 @@ uk:
           attributes:
             base:
               cannot_edit_time_entry: You don't have permissions to edit this time entry.
-              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
+              cannot_log_for_this_work_package: У вас немає дозволу реєструвати час для цього пакета робіт.
             entity:
               blank: Поле «Зареєстровано для» не може бути порожнім.
               format: "%{message}"
@@ -205,7 +205,7 @@ uk:
         none_active: Зараз у цьому проєкті немає активних типів витрат.
       time_and_costs: Час і витрати
       time_entry_activities:
-        heading: Time tracking
+        heading: Відстеження часу
         hint: Select which time tracking activities are displayed in your project when members log their time.
   costs:
     widgets:
@@ -269,7 +269,7 @@ uk:
   label_status_finished: Готово
   label_time: Час
   label_time_entry_activity_form_description: Зміни цієї дії з введення часу відображатимуться в усіх проєктах, де їх дозволено.
-  label_time_entry_custom_field_plural: Time entry custom fields
+  label_time_entry_custom_field_plural: Користувацькі поля для запису часу
   label_time_entry_restrictions: Ліміти
   label_today_capitalized: Сьогодні
   label_units: Одиниці витрат

@@ -145,7 +145,7 @@ pl:
     assignment_dialog:
       available: Dostępne %{hours}
       confirm_overtime: Przypisz mimo to
-      filter_criteria: Criteria
+      filter_criteria: Kryteria
       no_candidates:
         description: No project member matches the criteria of this placeholder user.
         title: Brak pasujących członków

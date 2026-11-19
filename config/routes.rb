@@ -1085,15 +1085,26 @@ Rails.application.routes.draw do
 
           get :list_items
           get :projects
-          get "projects/:project_id", action: :project_values, as: :project_values
-          post "projects/:project_id/values/:value_id", action: :toggle_project_value, as: :toggle_project_value
-          post "projects/:project_id/enable_all", action: :enable_all_project_values, as: :enable_all_project_values
-          post "projects/:project_id/disable_all", action: :disable_all_project_values, as: :disable_all_project_values
 
           get :forms
           get :types_and_variants
 
           get :deletion_dialog
+        end
+
+        resources :project_specific_values,
+                  path: "projects/:project_id",
+                  controller: "/admin/settings/work_package_custom_fields/project_specific_values",
+                  only: %i[index new create edit update destroy] do
+          member do
+            post :toggle
+            post :make_global
+            get :deletion_dialog
+          end
+          collection do
+            post :enable_all
+            post :disable_all
+          end
         end
       end
 
@@ -1486,6 +1497,8 @@ Rails.application.routes.draw do
 
     resources :sessions, controller: "my/sessions", as: "my_sessions", only: %i[index destroy]
     resources :auto_login_tokens, controller: "my/auto_login_tokens", as: "my_auto_login_tokens", only: %i[destroy]
+    resources :push_subscriptions, controller: "my/push_subscriptions", as: "my_push_subscriptions",
+                                   only: %i[create destroy]
 
     get "/banner" => "my/enterprise_banners#show", as: "show_enterprise_banner"
     post "/dismiss_banner" => "my/enterprise_banners#dismiss", as: "dismiss_enterprise_banner"

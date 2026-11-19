@@ -73,7 +73,7 @@ module Workflows
                                                  .call(**workflow_params)
 
       if service_call.success?
-        redirect_to edit_workflow_path(@workflow), status: :see_other
+        redirect_back_or_to edit_workflow_path(@workflow), status: :see_other
       else
         render_form_errors(service_call.result)
       end

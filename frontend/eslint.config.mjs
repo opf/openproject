@@ -195,7 +195,7 @@ export default defineConfig([
       ],
       '@angular-eslint/template/elements-content': [
         'error',
-        { 'allowList': ['textContent'] }
+        { 'allowList': ['textContent', 'label'] }
       ],
       '@angular-eslint/template/prefer-control-flow': 'error'
     }

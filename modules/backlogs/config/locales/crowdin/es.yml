@@ -26,7 +26,7 @@ es:
       project:
         allow_multiple_active_sprints: Permitir varios sprints activos
         backlog_excluded_types: Tipos de paquetes de trabajo excluidos
-        estimation_unit: Unit
+        estimation_unit: Unidad
         sprint_sharing: Compartir Sprint
         statuses_considered_closed: Estados considerados cerrados
       sprint:
@@ -34,7 +34,7 @@ es:
         finish_date: Fecha de finalización
         goal: Objetivo del sprint
         name: Nombre del sprint
-        origin: Origin
+        origin: Origen
         origin_host: Origin host
         origin_id: Origin ID
         origin_source: Origin source
@@ -78,8 +78,8 @@ es:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                one: There is %{count} work package that was not completed in this sprint.
-                other: There are %{count} work packages that were not completed in this sprint.
+                one: Hay %{count} paquete de trabajo que no se completó en este sprint.
+                other: Hay %{count} paquetes de trabajo que no se completaron en este sprint.
             status:
               not_active: no está activo, por lo que no puede cerrarse.
         sprint_goal:
@@ -143,7 +143,7 @@ es:
       series:
         created: Created
         resolved: Resolved
-    estimation_unit: Units
+    estimation_unit: Unidades
     excluded_work_package_types_caption: 'Elige qué tipos de paquetes de trabajo quieres ocultar en el backlog. Los elementos de los tipos seleccionados no aparecerán automáticamente en el backlog, lo que te permitirá centrarte en el trabajo que realmente importa a tu equipo. Por ejemplo, puedes ocultar tipos como «Épicos» o «Hitos», que se gestionan a un nivel superior, para que el backlog se centre en elementos sobre los que se pueda actuar.
 
       '
@@ -167,7 +167,7 @@ es:
       label_actions: Acciones de bandeja de entrada
       show_more:
         one: Show %{count} more item
-        other: Show %{count} more items
+        other: Mostrar %{count} artículos más
       title: Bandeja de entrada
     index_subheader_component:
       label_search_by_subject: Buscar paquetes de trabajo por tema
@@ -222,8 +222,8 @@ es:
         description: Sprint start and finish dates are necessary for the report to show.
         heading: Missing sprint dates
       navigation_component:
-        next: Next
-        previous: Previous
+        next: Siguiente
+        previous: Anterior
       page_header_component:
         breadcrumb: Informe
         title: Informe de %{sprint}
@@ -313,7 +313,7 @@ es:
             other: 'Average of previous %{count} sprints:'
           average_legend: Average
           committed: Committed
-          completed: Completed
+          completed: Completado
           story_points: "%{value} SP"
           summary:
             story_points:
@@ -326,8 +326,8 @@ es:
           title: Velocity chart
           velocity: "%{sprint}:"
           y_axis_title:
-            story_points: Story points
-            time: Estimated time
+            story_points: Puntos de historia
+            time: Tiempo estimado
         work_package_graph:
           blankslate:
             no_work:
@@ -374,7 +374,7 @@ es:
                 description: Added work packages will appear here after the sprint starts.
             title: Scope increase after sprint start
           blankslate:
-            heading: No work packages to display
+            heading: No hay paquetes de trabajo para mostrar
           completed:
             blankslate:
               empty:
@@ -457,7 +457,7 @@ es:
         member_failed: "%{work_package}: %{reason}"
         moved_announcement:
           one: "%{count} work package moved to %{list}, position %{first} of %{total}"
-          other: "%{count} work packages moved to %{list}, positions %{first} through %{last} of %{total}"
+          other: "%{count} paquetes de trabajo se han trasladado a %{list}, a las posiciones %{first}-%{last} de %{total}"
         too_many_work_packages: No se pueden trasladar más de %{max} paquetes de trabajo a la vez.
         work_packages_not_found: Al menos un paquete de trabajo no se encontró en este proyecto.
       update_service:
@@ -519,14 +519,14 @@ es:
       sprints: Sprints
     settings:
       backlog_estimation_unit:
-        estimation_unit: Unit
+        estimation_unit: Unidad
         options:
           none:
             caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
-            label: None
+            label: Ninguno
           story_points:
             caption: The cards and charts will display story points.
-            label: Story points
+            label: Puntos de historia
           time:
             caption: The cards and charts will display work time estimates.
             label: Work time estimate

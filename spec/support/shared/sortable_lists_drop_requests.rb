@@ -58,6 +58,8 @@ RSpec.shared_examples "a sortable list drop endpoint" do |list_id_scoped:|
     "a collection-valued prev_id" => -> { { prev_id: [valid_drop_params[:prev_id]] } },
     "an empty collection prev_id" => -> { { prev_id: [""] } },
     "a collection-valued list_id" => -> { { list_id: [valid_drop_params[:list_id]] } },
+    "a hash-valued prev_id" => -> { { prev_id: { id: valid_drop_params[:prev_id] } } },
+    "a hash-valued list_id" => -> { { list_id: { id: valid_drop_params[:list_id] } } },
     "a self-referencing anchor" => -> { { prev_id: dragged_id.to_s } },
     "an unknown anchor" => -> { { prev_id: "999999" } },
     "a suffixed anchor id" => -> { { prev_id: "#{valid_drop_params[:prev_id]}junk" } }

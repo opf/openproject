@@ -37,6 +37,7 @@ import { activeFieldClassName } from 'core-app/shared/components/fields/edit/edi
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
+import { isLinkOrRowAction } from './row-click-target';
 import { selectionGesture } from '../state/selection-feedback';
 import { controlSelector } from '../state/keyboard/cell-interaction';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
@@ -70,8 +71,7 @@ export class RowClickHandler implements TableEventHandler {
   public handleEvent(view:TableEventComponent, evt:MouseEvent) {
     const target = evt.target as HTMLElement;
 
-    // Ignore links
-    if (target instanceof HTMLAnchorElement || target.parentElement instanceof HTMLAnchorElement) {
+    if (isLinkOrRowAction(target)) {
       return true;
     }
 

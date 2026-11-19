@@ -285,6 +285,20 @@ RSpec.describe API::Decorators::LinkedResource do
       end
     end
 
+    context "when passing a link array containing strings" do
+      let(:input_hash) do
+        {
+          "_links" => {
+            "foo" => ["https://example.com"]
+          }
+        }
+      end
+
+      it "raises an error" do
+        expect { subject }.to raise_error(API::Errors::BadRequest)
+      end
+    end
+
     context "when passing _links as array" do
       let(:input_hash) do
         {

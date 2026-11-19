@@ -81,7 +81,7 @@ ko:
         item_3:
           label: Friendly
         item_4:
-          label: Professional
+          label: 전문
         item_5:
           label: Concise
         item_6:
@@ -89,9 +89,9 @@ ko:
         item_7:
           label: Key points
         item_8:
-          label: List
+          label: 목록
         item_9:
-          label: Table
+          label: 테이블
         item_10:
           label: Suggest subject
     standard:
@@ -139,7 +139,7 @@ ko:
         item_2:
           name: Speakers
         item_3:
-          name: Security
+          name: 보안
         item_4:
           name: UX
       projects:

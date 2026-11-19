@@ -28,6 +28,7 @@
 import '@openproject/primer-view-components/app/components/primer/alpha/tool_tip';
 import { waitFor, within } from '@testing-library/dom';
 import { userEvent } from 'vitest/browser';
+import { nextTask } from 'core-common/testing/timing';
 import { buildTable, TableHarness } from './testing/table-harness';
 
 describe('Read-only table', () => {
@@ -60,6 +61,9 @@ describe('Read-only table', () => {
     it('reaches the context menu button with Tab and closes its tooltip with Escape', async () => {
       const button = contextMenuButton();
       focusCell(button.closest('td')!);
+      // Primer's tool-tip hides focus-opened tooltips in a timer queued on focusin;
+      // let the cell's timer run before Tab opens the button's tooltip.
+      await nextTask();
 
       await userEvent.tab();
       expect(button).toHaveFocus();

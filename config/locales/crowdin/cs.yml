@@ -162,6 +162,11 @@ cs:
         semantic_key: Semantic meaning
         user_self_editable: Editable
         visible_on_user_card: Show on user card
+      custom_field/hierarchy/item:
+        label: Label
+        parent: Parent
+        short: Short
+        weight: Weight
       custom_field/project_specific_value_restriction:
         restriction: Restriction
       custom_value:
@@ -347,7 +352,6 @@ cs:
       project_type:
         variant: Variant
       push_subscription:
-        created_at: Added
         endpoint: Endpoint
         session_id: Session
       query:
@@ -540,6 +544,7 @@ cs:
         ancestor: Potomci
         begin_deletion: Začátek odstranění
         begin_insertion: Začátek vložení
+        categories: Categories
         children: Dílčí prvky
         derived_done_ratio: Celkem v % dokončeno
         derived_remaining_hours: Celkem zbývající práce
@@ -716,6 +721,8 @@ cs:
         custom_field:
           at_least_one_custom_option: Alespoň jedna možnost musí být k dispozici.
           attributes:
+            admin_only:
+              cannot_be_true: is not supported for this type of custom field.
             formula:
               blank: Vzorec nemůže být prázdný.
               format: "%{message}"
@@ -726,15 +733,31 @@ cs:
             project_level_value_management:
               not_available_for_all_values: is only available when values are restricted per project.
             project_specific_value_restriction:
-              not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
+              not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted list.
             required:
               cannot_be_true: cannot be set to true.
+            value:
+              required_by_project_values: cannot be disabled, as the project added values below it.
           previous_custom_field_recalculation_unprocessed: The recalculation of previous changes for this custom field have not been applied yet, please try again in a few minutes.
           referenced_in_other_fields_html:
             one: "%{name} is used in project attribute calculation %{links}."
             few: "%{name} is used in project attribute calculations: %{links}."
             many: "%{name} is used in project attribute calculations: %{links}."
             other: "%{name} is used in project attribute calculations: %{links}."
+        custom_field/hierarchy/item:
+          attributes:
+            base:
+              root_item: The root of a hierarchy cannot be deleted.
+            label:
+              not_unique: must be unique within the same hierarchy level.
+            parent:
+              other_hierarchy: must belong to the same hierarchy.
+              other_project: must be a global value or belong to the same project.
+              own_descendant: cannot be the value itself or one of its descendants.
+            project_id:
+              additional_values_not_allowed: cannot add values to this custom field.
+            short:
+              not_unique: must be unique within the same hierarchy level.
         custom_fields_project:
           attributes:
             project_ids:
@@ -878,7 +901,7 @@ cs:
         push_subscription:
           attributes:
             base:
-              too_many_push_subscriptions: Only %{count} devices can receive browser push notifications at the same time.
+              too_many_push_subscriptions: Only %{count} devices can receive browser notifications at the same time.
         queries/filters/base:
           attributes:
             values:
@@ -1106,6 +1129,8 @@ cs:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: nemůže být milníkem, protože tento pracovní balíček má potomky.
+          categories_only_allow_single_value: Categories can only hold a single value.
+          category_and_categories_mutually_exclusive: Category and categories cannot be set to different values at the same time.
           is_not_a_valid_target_for_time_entries: 'Pracovní balíček #%{id} není platný cíl pro přeřazení časových záznamů.'
           readonly_status: Pracovní balíček je ve stavu jen pro čtení, takže jeho atributy nelze změnit.
           target_versions_only_allow_single_value: Target Versions can only hold a single value.
@@ -1223,10 +1248,10 @@ cs:
         many: Custom fields
         other: Custom fields
       custom_field/hierarchy/item:
-        one: Hierarchy item
-        few: Hierarchy items
-        many: Hierarchy items
-        other: Hierarchy items
+        one: Hierarchy value
+        few: Hierarchy values
+        many: Hierarchy values
+        other: Hierarchy values
       custom_field_section:
         one: Custom field section
         few: Custom field sections
@@ -2893,12 +2918,13 @@ cs:
   button_actions: Akce
   button_add: Přidat
   button_add_comment: Přidat komentář
-  button_add_item_above: Přidat položku výše
-  button_add_item_below: Přidat položku níže
+  button_add_item_above: Add value above
+  button_add_item_below: Add value below
   button_add_member: Přidat člena
   button_add_menu_entry: Přidat položku menu
   button_add_non_working_time: Volno
   button_add_sub_item: Přidat podpoložku
+  button_add_sub_value: Add sub-value
   button_add_watcher: Přidat sledující
   button_all_filters: Všechny filtry
   button_annotate: Komentovat
@@ -3103,30 +3129,30 @@ cs:
     admin:
       hierarchy:
         subitems:
-          one: "%{count} sub-item"
-          other: "%{count} dílčí položky"
-          zero: žádné dílčí položky
+          one: "%{count} sub-value"
+          other: "%{count} sub-values"
+          zero: no sub-values
       items:
-        actions: Akce položky
+        actions: Value actions
         blankslate:
           item:
-            description: Přidat položky do tohoto seznamu k vytvoření podpoložek uvnitř jiného
-            title: Tato položka nemá žádnou úroveň hierarchie níže
+            description: Add values to this list to create sub-values inside another one
+            title: This value doesn't have any hierarchy level below
           project_item:
-            description: This value belongs to the project %{project}. It cannot have global sub-items. Sub-items can only be added in the [project administration](project_administration).
+            description: This value belongs to the project %{project}. It cannot have global sub-values. Sub-values can only be added in the [project administration](project_administration).
           root:
-            description: Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item.
-            title: Váš seznam položek je prázdný
+            description: Start by adding values to the custom field of type hierarchy. Each value can be used to create a hierarchy below it. To navigate and create sub-values inside a hierarchy click on the created value.
+            title: Your list of values is empty
         delete_dialog:
-          description: This action will irreversibly remove the item and all its sub-items. Any assigned values will be permanently deleted. If this field is required, removing items may cause existing work packages to become invalid.
-          heading: Odstranit vlastní položku pole?
-          title: Odstranění položku vlastního pole
+          description: This action will irreversibly remove the value and all its sub-values. Any assigned values will be permanently deleted. If this field is required, removing values may cause existing work packages to become invalid.
+          heading: Delete custom field value?
+          title: Delete custom field value
         placeholder:
-          label: Štítek položky
+          label: Value label
           short: Krátký název
           weight: Váha
       notice:
-        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
+        remember_items_and_projects: Remember to set values for this custom field, and to make sure it is used in at least one project.
       projects:
         changes_heading: Important changes
         changes_text: 'Starting version 18.0, custom fields are no longer enabled or disabled at a project level. They are included in forms, which are then used in different types and variants. The following list shows projects that use types or variants using forms including this custom field.
@@ -3566,10 +3592,11 @@ cs:
       team_planner_view: Team Planner View
       text_assistant: Text assistant
       virus_scanning: Antivirové skenování
-      weighted_item_lists: Weighted item lists
+      weighted_item_lists: Weighted lists
       work_package_query_relation_columns: Work Package Query Relation Columns
       work_package_sharing: Share work packages with external users
       work_package_subject_generation: Work Package Subject Generation
+      xwiki_integration: XWiki Integration
     teaser:
       description_html: Máte přístup ke všem funkcím %{trial_plan}.
       title:
@@ -3686,7 +3713,7 @@ cs:
       virus_scanning:
         description: Zajistěte, aby nahrané soubory v OpenProjectu byly před zpřístupněním ostatním uživatelům zkontrolovány na přítomnost virů.
       weighted_item_lists:
-        description: Weighted item lists allow you to create a list with underlying numeric values associated.
+        description: Weighted lists allow you to create a list with underlying numeric values associated.
       work_package_sharing:
         description: Sdílejte pracovní balíčky s uživateli, kteří nejsou členy projektu.
       work_package_subject_generation:
@@ -4514,7 +4541,7 @@ cs:
   label_delete_user: Odstranit uživatele
   label_deleted: Smazáno
   label_deleted_custom_field: "(odstraněno vlastní pole)"
-  label_deleted_custom_item: "(smazaná položka)"
+  label_deleted_custom_item: "(deleted value)"
   label_deleted_custom_option: "(deleted option)"
   label_deleted_label: "(deleted label)"
   label_deleted_version: "(deleted version)"
@@ -4653,8 +4680,6 @@ cs:
   label_invalid_file_type: This file type is not supported.
   label_invitation: Pozvánka
   label_invite_user: Pozvat uživatele
-  label_item: Položka
-  label_item_plural: Položky
   label_jira_import: Jira Migrátor
   label_journal: Deník
   label_journal_diff: Popis porovnání
@@ -5027,6 +5052,7 @@ cs:
   label_user_settings: Uživatelská nastavení
   label_users_settings: Uživatelská nastavení
   label_value: Value
+  label_value_plural: Values
   label_value_x: 'Hodnota: %{x}'
   label_version_custom_field_plural: Version custom fields
   label_version_edit: Upravit verzi
@@ -5046,7 +5072,7 @@ cs:
   label_view_x: 'Zobrazení: %{x}'
   label_watched_work_packages: Sledované pracovní balíčky
   label_week: Týden
-  label_weighted_item_list: Vážený seznam položek
+  label_weighted_item_list: Weighted list
   label_what_is_this: Co to je?
   label_widget_new: Nový widget
   label_wiki_content_added: Přidána stránka wiki
@@ -5107,15 +5133,15 @@ cs:
     one: "%{count} file"
     other: "%{count} souborů"
     zero: žádné soubory
-  label_x_in_progress_work_packages_abbr:
-    one: 1 in progress
-    other: "%{count} in progress"
-    zero: 0 in progress
   label_x_forms:
     one: "%{count} form"
     few: "%{count} forms"
     many: "%{count} forms"
     other: "%{count} forms"
+  label_x_in_progress_work_packages_abbr:
+    one: 1 in progress
+    other: "%{count} in progress"
+    zero: 0 in progress
   label_x_items:
     one: "%{count} item"
     other: "%{count} položek"
@@ -5687,9 +5713,36 @@ cs:
         title: Projektové notifikace
     notifications_and_email:
       tabs:
+        browser_push: Browser notifications
         email_reminders: E-mailové připomínky
         notifications: Nastavení oznámení
       title: Oznámení a e-mail
+    push_notifications:
+      description: Get notified with native push notifications via this browser when you have unread notifications, even when OpenProject is not open. Your notification content stays in OpenProject and is not shared with the notification provider.
+      disable: Disable for this browser
+      enable: Enable for this browser
+      no_devices: No device receives browser notifications yet.
+      no_devices_description: Enable browser notifications on a device and it appears here.
+      revoke: Revoke
+      revoke_confirm: Stop sending browser notifications to %{device}?
+      revoke_device: Revoke %{device}
+      revoked: Browser notifications were disabled for that device.
+      signed_out: Signed out
+      signed_out_description: A device that is signed out keeps browser notifications suspended and resumes them when you sign in there again. Revoke the device to stop them for good.
+      status:
+        blocked: Notifications are blocked for this site in your browser settings.
+        disabled: Browser notifications are not enabled for this browser in the current session.
+        enabled: Browser notifications are enabled for this browser in the current session.
+        error: Browser notifications could not be changed. Please try again.
+        prompting: Waiting for you to allow notifications in the browser prompt…
+        subscribing: Registering this browser with its push service…
+        timeout: Your browser did not finish registering for push in time. Check your network connection and try again.
+        unsupported: Browser notifications are not available in this browser.
+      this_session: This session
+      title: Browser notifications
+      try_again: Try again
+      try_again_label: Try again to change browser notifications for this browser
+      unavailable: Browser notifications are temporarily unavailable on this instance.
   news:
     index:
       no_results_content_text: Přidat příspěvek
@@ -5752,7 +5805,7 @@ cs:
   notice_no_principals_found: Nenalezeny žádné výsledky.
   notice_not_authorized: Nemáte oprávnění k přístupu na tuto stránku.
   notice_not_authorized_archived_project: Projekt, na který se pokoušíte přistoupit byl archivován.
-  notice_parent_item_not_found: Parent item not found.
+  notice_parent_item_not_found: Parent value not found.
   notice_password_confirmation_failed: Zadané heslo není správné.
   notice_principals_found_multiple: "Nalezeno %{number} výsledků. \nStiskněte Tab pro přechod na první výsledek."
   notice_principals_found_single: "Existuje jeden výsledek. \n Záložka pro zaměření."
@@ -5959,7 +6012,6 @@ cs:
       eql?: se musí rovnat %{left}.
       filled?: musí být vyplněno
       format?: je v neplatném formátu.
-      greater_or_equal_zero: musí být větší nebo rovno 0.
       gt?: must be greater than %{num}.
       gteq?: musí být větší než nebo rovno %{num}.
       hash?: musí být hash.
@@ -5972,21 +6024,6 @@ cs:
       max_size?: must not be longer than %{num} characters.
       not_found: nenalezeno
       respond_to?: neimplementuje požadovanou metodu.
-      rules:
-        custom_field:
-          format_not_supported: formát '%{field_format}' není podporován.
-        item:
-          not_persisted: musí být již existující položka.
-          root_item: nemůže být kořenová položka.
-        label:
-          not_unique: musí být v rámci stejné hierarchie jedinečné.
-        parent:
-          not_descendant: musí být potomkem kořenu hierarchie.
-          other_project: must be a global value or belong to the same project.
-        project:
-          additional_values_not_allowed: cannot add values to this custom field.
-        short:
-          not_unique: musí být v rámci stejné hierarchie jedinečné.
       str?: musí být textový řetězec.
       time?: musí být čas.
       type?: musí být %{type}.
@@ -5998,7 +6035,7 @@ cs:
       blueprint: Vzhled plánu
       depth: Hloubka
       enabled: Zapnuto
-      item: Položka
+      item: Value
       label: Popisek
       parent: Nadřazený
       short: Krátký název
@@ -6102,7 +6139,7 @@ cs:
   permission_comment_news: Komentování novinek
   permission_commit_access: Čtěte/zapisovat přístup do repozitáře (commit)
   permission_copy_projects: Duplicate projects
-  permission_copy_projects_explanation: In template projects, this permission has a secondary function, it allows the creation of new projects derived from the template.
+  permission_copy_projects_explanation: Allows copying all project data, including content and attachments the user cannot view in the source project. The role can effectively grant access to all copied data depending on the role in the new project. It also allows creating projects from templates.
   permission_copy_work_packages: Duplikovat pracovní balíčky
   permission_create_backup: Vytvořit zálohy
   permission_create_user: Vytvořit uživatele
@@ -6572,6 +6609,29 @@ cs:
       status_restored: Connection restored. Reloading…
       status_still: Still offline. We’ll try again in a moment.
       title: Offline
+    push:
+      all_read_title: No unread notifications
+      fallback_title: New activity in OpenProject
+      group_title:
+        one: "%{count} update"
+        few: "%{count} updates"
+        many: "%{count} updates"
+        other: "%{count} updates"
+      more_title:
+        one: "%{count} more work package"
+        few: "%{count} more work packages"
+        many: "%{count} more work packages"
+        other: "%{count} more work packages"
+      reasons:
+        assigned: "%{actor} assigned you"
+        commented: "%{actor} commented"
+        date_alert_due_date: Due date alert
+        date_alert_start_date: Start date alert
+        mentioned: "%{actor} mentioned you"
+        reminder: Reminder
+        responsible: "%{actor} made you accountable"
+        shared: "%{actor} shared a work package with you"
+        updated: "%{actor} updated"
   queries:
     apply_filter: Použít přednastavený filtr
     configure_view:
@@ -7820,6 +7880,7 @@ cs:
         rename_group: Rename section
         required:
           already_required_globally: This custom field is required for all types.
+          excluded: Switch this custom field on before requiring it for this type.
           for_variant: Required for this type
           globally: Required
           globally_hint: Change this on the custom field
@@ -7897,6 +7958,7 @@ cs:
           success: The configuration was copied.
         exclusions:
           not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
+          required: A required custom field cannot be switched off.
           unknown_aspect: Unknown configuration section "%{aspect}".
         inherited:
           configure_manually: Configure manually
@@ -7959,6 +8021,10 @@ cs:
         delete:
           description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
           title: Delete %{name}
+          unused:
+            description: The variant will be deleted permanently. This action cannot be undone.
+            heading: Delete variant '%{name}'?
+            title: Delete variant
         filter: Filter by text
         filter_no_results: No variants match this filter
         global_section:
@@ -8151,6 +8217,7 @@ cs:
     sessions:
       browser: Prohlížeč
       browser_session: "(relace prohlížeče)"
+      browser_with_version: "%{name} (Version %{version})"
       current: Aktuální (toto zařízení)
       deletion_warning: Jste si jisti, že chcete tuto relaci zrušit? Na tomto zařízení budete odhlášeni.
       device: Zařízení / OS

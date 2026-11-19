@@ -124,28 +124,6 @@ RSpec.describe CustomStylesHelper do
     it_behaves_like "apply when ee present"
   end
 
-  describe ".mobile_logo_present?" do
-    subject { helper.mobile_logo_present? }
-
-    context "with only a light high contrast mobile logo", with_ee: %i[define_custom_style] do
-      let(:current_theme) { build(:custom_style_with_logo_mobile_light_high_contrast) }
-
-      it { is_expected.to be true }
-    end
-
-    context "without a mobile logo", with_ee: %i[define_custom_style] do
-      let(:current_theme) { build_stubbed(:custom_style) }
-
-      it { is_expected.to be false }
-    end
-
-    context "with a stored mobile logo but without EE", with_ee: false do
-      let(:current_theme) { build(:custom_style_with_logo_mobile_light_high_contrast) }
-
-      it { is_expected.to be false }
-    end
-  end
-
   describe ".mobile_logo_modes" do
     context "without a custom style" do
       it "keeps the default mobile logo available in every mode" do

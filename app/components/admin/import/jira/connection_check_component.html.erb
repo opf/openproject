@@ -38,13 +38,7 @@ See COPYRIGHT and LICENSE files for more details.
 
         if report
           container.with_row(mt: 3) do
-            render(
-              HealthReports::ReportComponent.new(
-                report,
-                i18n_scope: "admin.jira.connection_check",
-                docs_href: ::OpenProject::Static::Links.url_for(:jira_migration_docs, :connection_check)
-              )
-            )
+            render(HealthReports::ReportComponent.new(report, i18n_scope: "admin.jira.connection_check", docs_href:))
           end
         end
 

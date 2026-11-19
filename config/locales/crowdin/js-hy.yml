@@ -772,8 +772,10 @@ hy:
       create_new: Ստեղծել նոր
       group_by_relation_type: Խմբավորել ըստ կապի տեսակի
       group_by_wp_type: Խմբավորել ըստ աշխատանքային փաթեթի տեսակի
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Իջեցնել հիերարխիայի մակարդակը
       hierarchy_outdent: Բարձրացնել հիերարխիայի մակարդակը
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Հեռացնել կապը
       remove_child: Հեռացնել դուստր տարրը
       remove_parent: Հեռացնել ծնողը
@@ -1012,6 +1014,7 @@ hy:
         label_pagination: Սեղմեք այստեղ՝ աշխատանքային փաթեթների աղյուսակը բաց թողնելու և էջերի նավարկմանն անցնելու համար
         pagination: Անցնել աղյուսակի էջերի նավարկմանը
       key_value: "%{key}՝ %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: Համակցված բացվող դաշտ՝ ընտրեք սլաքների ստեղներով, հաստատեք ընտրությունը enter-ով, ջնջեք backspace-ով
       label_disable_multi_select: Անջատել բազմակի ընտրությունը
       label_enable_multi_select: Միացնել բազմակի ընտրությունը

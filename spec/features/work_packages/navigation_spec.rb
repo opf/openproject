@@ -282,4 +282,15 @@ RSpec.describe "Work package navigation", :js do
     # Expect classes to be gone
     expect(page).to have_no_css("body.router--work-packages-base")
   end
+
+  it "sets the browser title to the unescaped subject exactly once when it contains quotes (#OP-19066)" do
+    work_package.subject = %(Allow "quotes", 'quotes', and & in the title)
+    work_package.save!
+
+    full_work_package = Pages::FullWorkPackage.new(work_package, project)
+    full_work_package.visit!
+    full_work_package.expect_subject
+
+    project_html_title.expect_first_segment wp_title_segment
+  end
 end

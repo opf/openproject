@@ -5,18 +5,18 @@ zh-CN:
       llm_capability_verdict:
         capability: Capability
         model_id: Model
-        state: State
+        state: 地区
       llm_connection:
         api_format: API format
-        api_key: API key
-        base_url: Host URL
+        api_key: API 密钥
+        base_url: 主机 URL
         default_chat_model: Default chat model
         default_embedding_model: Default embedding model
         env_fingerprint: Applied environment configuration
         env_provisioned_at: Applied from the environment
         llm_features_enabled: Enable LLMs for this instance
       llm_feature_binding:
-        feature_key: Feature
+        feature_key: 功能
         model: Model
         semantic_index: Semantic Index
       llm_model:
@@ -25,18 +25,18 @@ zh-CN:
         capability_reasoning: Reasoning
         capability_structured_output: Structured output
         capability_vision: Vision
-        display_name: Display name
+        display_name: 显示名称
         manual: Entered by hand
         raw_metadata: Metadata
         external: Model name
       semantic_index:
         context_token_length: Context length
-        description: Description
+        description: 描述
         embedding_vector_dimensions: Dimensions
         llm_feature_bindings: Feature configuration
         model: Model
-        state: Status
-        title: Display name
+        state: 状态
+        title: 显示名称
     errors:
       messages:
         semantic_search_unavailable: is currently unavailable.
@@ -93,11 +93,11 @@ zh-CN:
       activate:
         body_html: Semantic search will use <b>%{title}</b> immediately.
         body_switch_html: Semantic search switches from <b>%{current}</b> to <b>%{title}</b> immediately. %{current} stays ready and can be reactivated.
-        button: Activate
-        confirm: Activate
+        button: 激活
+        confirm: 激活
         success: '"%{title}" is now the active semantic index.'
         title: Activate "%{title}"?
-      active: Active
+      active: 进行中
       box:
         empty_description: Create a new semantic index to make work packages findable by meaning.
         empty_title: No semantic index yet
@@ -125,7 +125,7 @@ zh-CN:
           pgvector_missing: The pgvector extension is not installed. Install it and run the migrations again to start indexing.
         progress: "%{percentage}% done"
       menu:
-        delete: Delete
+        delete: 删除
         locked_while_active: Cannot be deleted while it is active.
         locked_while_indexing: Cannot be deleted while indexing.
       start_indexing:
@@ -136,12 +136,12 @@ zh-CN:
         not_indexable: This semantic index is already being indexed.
         started: Indexing of "%{title}" has started.
       states:
-        failed: Failed
+        failed: 失败
         indexing: Indexing
         not_indexed: Not indexed
         ready: Ready
       stop_indexing:
-        button: Stop
+        button: 停止
         not_indexing: This semantic index is not being indexed.
         stopped: Indexing of "%{title}" was stopped.
     llm_connections:
@@ -209,7 +209,7 @@ zh-CN:
         run_checks: Run checks
         running: Running checks...
         summary: "%{passed} passed, %{warnings} warnings, %{failures} failed."
-        title: Health status
+        title: 健康状态
     llm_models:
       configured_from_env: The environment configures this model as a default, so it cannot be removed or renamed here.
       create:
@@ -251,12 +251,12 @@ zh-CN:
         context_window: Context window
         filter_label: Filter models
         identifier: Model
-        kind: Type
+        kind: 类型
         refresh: Refresh models
-        source: Source
+        source: 源
         source_discovered: Server
         source_discovered_description: Reported by the server
-        source_manual: Manual
+        source_manual: 手动
         source_manual_description: Added manually by an administrator
         source_withdrawn: Withdrawn
         source_withdrawn_description: No longer reported by the server
@@ -316,7 +316,7 @@ zh-CN:
         credentials_present: API key is stored
         enabled: Connection is switched on
         feature_flag: AI features are switched on
-        header: Configuration
+        header: 配置
       errors:
         api_key_missing: No API key is stored. This is only correct if the LLM server requires no authentication.
         catalogue_never_fetched: The model list has never been retrieved from the server.
@@ -372,7 +372,7 @@ zh-CN:
       admin_check: Database extension pgvector enabled (optional)
       unavailable: Semantic search is unavailable because the pgvector extension is not set up in the database. Install pgvector for PostgreSQL and run the database migrations again. [Learn more](docs_url)
     verdict_states:
-      supported: supported
+      supported: 受支持
       unknown: not verified
       unsupported: not supported
   llm_connections:
@@ -380,10 +380,10 @@ zh-CN:
       health_status_component:
         last_check: Last checked %{datetime}.
         never_checked: This connection has not been checked yet.
-        open_report: Open full health report
-        run_checks: Run checks now
+        open_report: 打开完整的健康报告
+        run_checks: 立即运行检查
         running: Running checks...
-        title: Health status
+        title: 健康状态
   menus:
     admin:
       llm_connection: LLM settings

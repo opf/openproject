@@ -4,7 +4,8 @@
       model: @meeting_agenda_item,
       method: @method,
       url: @submit_path,
-      namespace: "form_#{wrapper_uniq_by}"
+      namespace: "form_#{wrapper_uniq_by}",
+      data: { poll_for_changes_pause: true }
     ) do |f|
       grid_layout("op-meeting-agenda-item-form", classes: conditional_layout_classes, tag: :div) do |grid|
         grid.with_area(:title) do

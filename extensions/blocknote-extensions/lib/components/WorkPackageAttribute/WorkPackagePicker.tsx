@@ -24,12 +24,17 @@ const Reference = ({ workPackage }:{ workPackage:WorkPackage }) => (
   <WorkPackageReference>
     <WorkPackageId as="span" $compact>{formatWorkPackageId(workPackage.displayId)}</WorkPackageId>
     {workPackage._links?.type?.title && (
-      <WorkPackageType as="span" $compact $color={typeColor(workPackage)}>
+      <WorkPackageType as="span" $compact $color={typeColor(workPackage)} title={workPackage._links.type.title}>
         {workPackage._links.type.title}
       </WorkPackageType>
     )}
   </WorkPackageReference>
 );
+
+const referenceTitle = (workPackage:WorkPackage):string =>
+  [formatWorkPackageId(workPackage.displayId), workPackage._links?.type?.title, workPackage.subject]
+    .filter(Boolean)
+    .join(' · ');
 
 interface WorkPackagePickerProps {
   id:string;
@@ -38,10 +43,9 @@ interface WorkPackagePickerProps {
   autoFocus?:boolean;
   onPick:(workPackage:WorkPackage) => void;
   onDeselect:() => void;
-  onEscape:() => void;
 }
 
-export const WorkPackagePicker = ({ id, label, selected, autoFocus, onPick, onDeselect, onEscape }:WorkPackagePickerProps) => {
+export const WorkPackagePicker = ({ id, label, selected, autoFocus, onPick, onDeselect }:WorkPackagePickerProps) => {
   const { t } = useTranslation();
   const [inputEl, setInputEl] = useState<HTMLInputElement | null>(null);
   const blurTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -62,7 +66,7 @@ export const WorkPackagePicker = ({ id, label, selected, autoFocus, onPick, onDe
     isDropdownOpen,
     setIsDropdownOpen,
     handleKeyDown,
-  } = useWorkPackageSearchDropdown({ onSelect: (workPackage) => pick(workPackage), onEscape });
+  } = useWorkPackageSearchDropdown({ onSelect: (workPackage) => pick(workPackage) });
   const { mounted, open, onClosed } = usePickerMotion(isDropdownOpen);
 
   useEffect(() => {
@@ -135,6 +139,7 @@ export const WorkPackagePicker = ({ id, label, selected, autoFocus, onPick, onDe
         autoComplete="off"
         spellCheck={false}
         aria-describedby={showsSelected ? selectedId : undefined}
+        title={showsSelected ? referenceTitle(selected) : undefined}
         placeholder={showsSelected ? undefined : t('search.placeholder')}
         value={editing ? searchQuery : ''}
         onFocus={() => {
@@ -151,9 +156,10 @@ export const WorkPackagePicker = ({ id, label, selected, autoFocus, onPick, onDe
           switch (event.key) {
             case 'Escape':
               // One step at a time: the search first, then whatever holds the picker.
-              event.stopPropagation();
-              if (editing || isDropdownOpen) restore();
-              else onEscape();
+              if (editing || isDropdownOpen) {
+                event.stopPropagation();
+                restore();
+              }
               return;
             case 'ArrowDown':
               if (isDropdownOpen) break;

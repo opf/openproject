@@ -162,6 +162,35 @@ RSpec.describe "API v3 Label resource" do
 
         it_behaves_like "unauthorized access"
       end
+
+      context "for a user with a work package shared with them with edit rights" do
+        let(:current_user) do
+          create(:user).tap do |user|
+            create(:work_package_member,
+                   principal: user,
+                   entity: create(:work_package, project:),
+                   roles: [create(:edit_work_package_role)])
+          end
+        end
+
+        it "creates the label" do
+          expect(response).to have_http_status(:created)
+          expect(Label.named("Needs review")).to exist
+        end
+      end
+
+      context "for a user with a work package shared with them with view rights only" do
+        let(:current_user) do
+          create(:user).tap do |user|
+            create(:work_package_member,
+                   principal: user,
+                   entity: create(:work_package, project:),
+                   roles: [create(:view_work_package_role)])
+          end
+        end
+
+        it_behaves_like "unauthorized access"
+      end
     end
   end
 

@@ -31,7 +31,6 @@ import { StatusResource } from 'core-app/features/hal/resources/status-resource'
 
 @Component({
   templateUrl: './status-board-header.html',
-  styleUrls: ['./status-board-header.sass'],
   host: { class: 'title-container -small' },
   standalone: false,
   // TODO: This component has been partially migrated to be zoneless-compatible.

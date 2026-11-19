@@ -33,7 +33,7 @@
 #   browser        --subscribe-------------> push service
 #   push service   --endpoint URL + keys---> browser --------> OpenProject
 #   OpenProject    --signed POST, no body--> push service ---> device wakes
-#   service worker --GET /push-notification, session cookie--> OpenProject
+#   service worker --GET /api/v3/notifications/summary, session cookie--> OpenProject
 #
 # The POST is signed with the instance's VAPID key so the push service can
 # tell which application server is calling. The push carries no content;

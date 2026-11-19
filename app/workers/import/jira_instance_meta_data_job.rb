@@ -69,7 +69,7 @@ module Import
       Rails.logger.warn "Fetching instance meta data stopped by the failed connection check"
       jira_import.transition_to!(:instance_meta_error,
                                  error: I18n.t(:"admin.jira.run.connection_check_error"),
-                                 health_report_id: report.id)
+                                 failed_connection_check_id: report.id)
     end
 
     def collect_metadata

@@ -81,7 +81,7 @@ zh-CN:
         item_3:
           label: Friendly
         item_4:
-          label: Professional
+          label: 专业
         item_5:
           label: Concise
         item_6:
@@ -89,9 +89,9 @@ zh-CN:
         item_7:
           label: Key points
         item_8:
-          label: List
+          label: 列表
         item_9:
-          label: Table
+          label: 表格
         item_10:
           label: Suggest subject
     standard:
@@ -139,7 +139,7 @@ zh-CN:
         item_2:
           name: Speakers
         item_3:
-          name: Security
+          name: 安全性
         item_4:
           name: UX
       projects:
