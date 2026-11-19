@@ -35,6 +35,7 @@ module WorkPackageTypes
     include ::WorkPackageTypes::VariantRoutes
     include OpTurbo::ComponentStream
     include ::WorkPackageTypes::ProjectsTab::TableRefresh
+    include ::FormConfigurations::EditorRecords
 
     layout "no_menu"
 
@@ -47,6 +48,7 @@ module WorkPackageTypes
 
     def show
       load_query if @current_step == :projects
+      reconcile_editor_records(wizard_variant.form_configuration) if editing_started_form?
     end
 
     # The projects step's filters ask for its table here rather than from the step's own address,
@@ -134,6 +136,12 @@ module WorkPackageTypes
 
       variant.update!(form_configuration: reusable)
       ::FormConfiguration.find(started_id).destroy!
+    end
+
+    def editing_started_form?
+      @current_step == :form_configuration &&
+        @started_form_configuration_id.present? &&
+        wizard_variant.form_configuration_id == @started_form_configuration_id
     end
 
     def create_variant
