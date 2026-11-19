@@ -56,9 +56,6 @@ RSpec.describe Admin::Import::Jira::ConnectionCheckDialogComponent, type: :compo
       expect(page).to have_css("h2", text: "Connection check failed")
       expect(page).to have_text("The configuration is saved, but the check Credentials accepted failed.")
       expect(page).to have_css("strong", text: "Credentials accepted")
-    end
-
-    it "shows a danger icon" do
       expect(page).to have_css(".FeedbackMessage .color-fg-danger")
     end
 

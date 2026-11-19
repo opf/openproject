@@ -111,11 +111,6 @@ module Import
       last_transition&.created_at || updated_at
     end
 
-    def connection_check_report
-      report_id = last_instance_meta_transition&.metadata&.dig("health_report_id")
-      HealthReport.find_by(id: report_id) if report_id
-    end
-
     # rubocop:disable-next Metrics/AbcSize
     def destroy_jira_objects
       Import::JiraAttachment.where(jira_import_id: id).destroy_all
@@ -149,17 +144,6 @@ module Import
         .where("arguments = ?::jsonb",
                active_job.serialize["arguments"].to_json)
         .pick(:cursor)
-    end
-
-    private
-
-    def last_instance_meta_transition
-      transitions
-        .where(to_state: [Import::JiraImportStateMachine::INSTANCE_META_FETCHING,
-                          Import::JiraImportStateMachine::INSTANCE_META_DONE,
-                          Import::JiraImportStateMachine::INSTANCE_META_ERROR])
-        .order(:sort_key)
-        .last
     end
   end
 end

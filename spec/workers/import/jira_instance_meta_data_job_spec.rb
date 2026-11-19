@@ -66,12 +66,10 @@ RSpec.describe Import::JiraInstanceMetaDataJob do
       expect(jira_import.available).to include("total_issues" => 5, "total_users" => 2, "server_info" => server_info)
     end
 
-    it "stores the passed connection check and records it on the run" do
+    it "stores the passed connection check" do
       perform_job
 
-      report = jira.latest_health_report
-      expect(report).to be_healthy
-      expect(jira_import.reload.last_transition.metadata).to include("health_report_id" => report.id)
+      expect(jira.latest_health_report).to be_healthy
     end
   end
 
@@ -79,13 +77,11 @@ RSpec.describe Import::JiraInstanceMetaDataJob do
     let(:administrator) { true }
     let(:server_info) { { "serverTitle" => "Jira", "version" => "12.0.0" } }
 
-    it "fetches the instance meta data anyway and records the warning on the run" do
+    it "stores the warning and fetches the instance meta data anyway" do
       perform_job
 
-      report = jira.latest_health_report
-      expect(report.group("server")["version_supported"]).to be_warning
+      expect(jira.latest_health_report.group("server")["version_supported"]).to be_warning
       expect(jira_import.reload.current_state).to eq("instance_meta_done")
-      expect(jira_import.connection_check_report).to eq(report)
     end
   end
 
@@ -97,17 +93,9 @@ RSpec.describe Import::JiraInstanceMetaDataJob do
 
       expect(jira_import.reload.current_state).to eq("instance_meta_error")
       expect(jira_import.last_transition.metadata["error"]).to eq(I18n.t(:"admin.jira.run.connection_check_error"))
+      expect(jira_import.last_transition.metadata).not_to have_key("error_backtrace")
       expect(jira_client).not_to have_received(:projects)
       expect(jira_import.available).to be_empty
-    end
-
-    it "records the failed connection check on the run, without a backtrace" do
-      perform_job
-
-      report = jira.latest_health_report
-      expect(report.group("authorization")["administrator"]).to be_failure
-      expect(jira_import.reload.last_transition.metadata).to include("health_report_id" => report.id)
-      expect(jira_import.last_transition.metadata).not_to have_key("error_backtrace")
     end
   end
 end

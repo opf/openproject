@@ -41,9 +41,6 @@ module Admin::Import::Jira::ImportRuns
 
     private
 
-    def connection_check_with_findings
-      report = @jira_import.connection_check_report
-      report if report && (report.unhealthy? || report.warning?)
-    end
+    def imported? = @jira_import.state_equal_or_after?(:imported)
   end
 end

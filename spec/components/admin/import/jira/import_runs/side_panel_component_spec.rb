@@ -38,55 +38,32 @@ RSpec.describe Admin::Import::Jira::ImportRuns::SidePanelComponent, type: :compo
     jira_import.transition_to!(:instance_meta_fetching)
   end
 
-  context "when the connection check stopped the run" do
+  def create_health_report(group_key, result)
+    jira.health_reports.create!(results: [HealthReport::ResultGroup.new(key: group_key, results: [result])])
+  end
+
+  context "when the data is not imported yet" do
     before do
-      failure = HealthReport::Result.failure(:administrator, :not_administrator, nil)
-      report = jira.health_reports.create!(results: [HealthReport::ResultGroup.new(key: :authorization, results: [failure])])
-      jira_import.transition_to!(:instance_meta_error, error: "failed", health_report_id: report.id)
+      create_health_report(:authorization, HealthReport::Result.failure(:administrator, :not_administrator, nil))
+      jira_import.transition_to!(:instance_meta_error, error: "failed")
+      create_health_report(:authorization, HealthReport::Result.success(:administrator))
       render_inline(described_class.new(jira_import))
     end
 
-    it "shows the failed check under the run status, without a Test connection button" do
+    it "shows the latest check of the configuration under the run status, without a Test connection button" do
       expect(page).to have_text("Run status")
-      expect(page).to have_text("Connection check")
-      expect(page).to have_text("ERR_NOT_ADMINISTRATOR")
+      expect(page).to have_text("All checks passed")
+      expect(page).to have_no_text("ERR_NOT_ADMINISTRATOR")
       expect(page).to have_no_button("Test Connection")
     end
   end
 
-  context "when the connection check warned before the data was fetched" do
+  context "when the data is imported" do
     before do
-      warning = HealthReport::Result.warning(:version_supported, :unsupported_version, { "version" => "12.0.0" })
-      report = jira.health_reports.create!(results: [HealthReport::ResultGroup.new(key: :server, results: [warning])])
-      jira_import.transition_to!(:instance_meta_done, health_report_id: report.id)
-      jira_import.transition_to!(:configuring)
-      render_inline(described_class.new(jira_import))
-    end
-
-    it "keeps showing the warning under the run status" do
-      expect(page).to have_text("Connection check")
-      expect(page).to have_text("WRN_UNSUPPORTED_VERSION")
-      expect(page).to have_text("Jira 12.0.0 is not a supported version.")
-    end
-  end
-
-  context "when the connection check passed before the data was fetched" do
-    before do
-      success = HealthReport::Result.success(:version_supported)
-      report = jira.health_reports.create!(results: [HealthReport::ResultGroup.new(key: :server, results: [success])])
-      jira_import.transition_to!(:instance_meta_done, health_report_id: report.id)
-      render_inline(described_class.new(jira_import))
-    end
-
-    it "shows only the run status" do
-      expect(page).to have_text("Run status")
-      expect(page).to have_no_text("Connection check")
-    end
-  end
-
-  context "when the run failed for another reason" do
-    before do
-      jira_import.transition_to!(:instance_meta_error, error: "failed")
+      create_health_report(:authorization, HealthReport::Result.failure(:administrator, :not_administrator, nil))
+      %i[instance_meta_done configuring projects_meta_fetching projects_meta_done importing imported].each do |state|
+        jira_import.transition_to!(state)
+      end
       render_inline(described_class.new(jira_import))
     end
 

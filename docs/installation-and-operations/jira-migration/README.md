@@ -128,7 +128,7 @@ A check can also end with a warning. A warning does not stop the other checks, a
 
 When you save a new configuration, or change the URL, the authentication method or the credentials of an existing one, OpenProject saves it and then runs the same checks. The result is stored and shown in the panel. If a check fails or warns, the configuration stays saved and a dialog names the check. Click **Fix configuration** to stay on the form, or **Continue anyway** to go to the configuration. Fetching data fails until no check fails.
 
-When an import run checks the available data, it runs the same checks first. The result is stored, and the edit form of the configuration shows it with the time of the last check. If a check fails, no data is fetched and the side panel of the import run shows the report under _Run status_. Click **Retry** to run the checks again. If a check only warns, the data is fetched and the side panel keeps showing the warning for the rest of the import run.
+When an import run checks the available data, it runs the same checks first, and the result is stored. If a check fails, no data is fetched. Fix any failed checks shown in the side panel, then click **Retry** to run the checks again. If a check only warns, the data is fetched.
 
 A failed check shows one of these error codes:
 
