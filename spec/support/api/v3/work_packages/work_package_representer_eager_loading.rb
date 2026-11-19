@@ -28,15 +28,13 @@
 #++
 
 RSpec.shared_context "eager loaded work package representer" do
-  let(:cache_enabled) { false }
-
   before do
     allow(API::V3::WorkPackages::WorkPackageEagerLoadingWrapper)
       .to receive(:wrap_one) do |work_package, _user|
       without_partial_double_verification do
         allow(work_package)
           .to receive(:cache_checksum)
-          .and_return(cache_enabled ? "fixed-checksum" : srand)
+          .and_return("fixed-checksum")
       end
 
       work_package

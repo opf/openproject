@@ -42,6 +42,8 @@ module ITSM
       validates :username, :password, presence: true
     end
 
+    def credentials = Credentials.new(username:, password:)
+
     private
 
     def mail_server_uses_its_protocol

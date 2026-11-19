@@ -49,5 +49,8 @@ module ITSM
 
     validates :message_id, presence: true, length: { maximum: 255 }, uniqueness: { scope: :thread_id }
     validates :from_address, presence: true
+
+    scope :sent_to, ->(address) { outbound.sent.where("? = ANY(to_addresses)", address) }
+    scope :created_since, ->(time) { where(created_at: time..) }
   end
 end

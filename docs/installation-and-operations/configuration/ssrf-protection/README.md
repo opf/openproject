@@ -28,6 +28,7 @@ includes:
 - OpenID Connect providers
 - Webhook deliveries
 - Outgoing email server tests
+- Remote Subversion and Git repository URLs, checked only when the URL is set (see [Repository Integration](../repositories/#ssrf-protection-for-remote-repositories))
 - Any other integration that requires a URL to be configured by an administrator
 
 If the target host resolves to a private IP address - even if you entered a hostname rather than a raw IP - the

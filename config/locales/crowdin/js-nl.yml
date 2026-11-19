@@ -109,6 +109,7 @@ nl:
         maintained_with_changes: Behoud met wijzigingen
         no_longer_meets_filter_criteria: Voldoet niet langer aan filtercriteria
         now_meets_filter_criteria: Voldoet nu aan filtercriteria
+        state_at: State at
       show_changes_since: Toon wijzigingen sinds
       time: Tijd
       time_description: 'In uw lokale tijd: %{datetime}'
@@ -772,8 +773,10 @@ nl:
       create_new: Nieuwe aanmaken
       group_by_relation_type: Groep per relatietype
       group_by_wp_type: Groep per werkpakkettype
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Inspringen hiërarchie
       hierarchy_outdent: Uitspringen hiërarchie
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Relatie verwijderen
       remove_child: Verwijder kind
       remove_parent: Verwijder bovenliggende map
@@ -1012,6 +1015,7 @@ nl:
         label_pagination: Klik hier om de tabel werk pakketten over te slaan en ga naar paginering
         pagination: Ga naar de tabelpaginering
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Gecombineerd met dropdown-veld: Selecteer met richtingstoetsen, bevestig selectie met enter, verwijder met backspace'
       label_disable_multi_select: Laat meerkeuze niet toe
       label_enable_multi_select: Laat meerkeuze toe

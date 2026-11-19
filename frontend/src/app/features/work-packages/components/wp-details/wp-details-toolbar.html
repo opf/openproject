@@ -17,17 +17,22 @@
        />
   }
 
-  <button class="button dropdown-relative"
-    [attr.accesskey]="7"
-    opTooltip
-    [label]="text.button_more"
-    data-test-selector="wp-details-toolbar--show-more-button"
-    wpSingleContextMenu
-    [wpSingleContextMenu-workPackage]="workPackage">
-    <svg
-      kebab-horizontal-icon
-      class="button--icon"
-      size="small"
-    ></svg>
-  </button>
+  <op-action-menu wpSingleContextMenu
+    [wpSingleContextMenu-workPackage]="workPackage"
+    align="end"
+    [label]="text.button_more">
+    <button opActionMenuTrigger
+      type="button"
+      class="button"
+      [attr.accesskey]="7"
+      opTooltip
+      [label]="text.button_more"
+      data-test-selector="wp-details-toolbar--show-more-button">
+      <svg
+        kebab-horizontal-icon
+        class="button--icon"
+        size="small"
+      ></svg>
+    </button>
+  </op-action-menu>
 </div>

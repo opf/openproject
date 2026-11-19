@@ -109,6 +109,7 @@ ko:
         maintained_with_changes: 변경 사항으로 유지됨
         no_longer_meets_filter_criteria: 더 이상 필터 기준을 충족하지 않습니다
         now_meets_filter_criteria: 이제 필터 기준을 충족합니다
+        state_at: State at
       show_changes_since: 다음 이후 변경 사항 표시
       time: 시간
       time_description: '내 현지 시간: %{datetime}'
@@ -771,8 +772,10 @@ ko:
       create_new: 새로 만들기
       group_by_relation_type: 관계 유형별 그룹화
       group_by_wp_type: 작업 패키지 유형별 그룹화
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: 계층 들여쓰기
       hierarchy_outdent: 계층 내어쓰기
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: 관계 제거
       remove_child: 자식 제거
       remove_parent: 부모 제거
@@ -1006,6 +1009,7 @@ ko:
         label_pagination: 여기를 클릭하여 작업 패키지 테이블로 건너뛰고 페이지 매김으로 이동
         pagination: 테이블 페이지 매김으로 이동
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: '결합된 드롭다운 필드: 화살표 키로 선택, Enter로 선택 확인, 백스페이스로 삭제'
       label_disable_multi_select: 다중 선택 사용 안 함
       label_enable_multi_select: 다중 선택 사용

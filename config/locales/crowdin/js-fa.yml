@@ -109,6 +109,7 @@ fa:
         maintained_with_changes: حفظ‌شده با تغییرات
         no_longer_meets_filter_criteria: دیگر معیارهای فیلتر را برآورده نمی‌کند
         now_meets_filter_criteria: اکنون معیارهای فیلتر را برآورده می‌کند
+        state_at: State at
       show_changes_since: نمایش تغییرات از
       time: زمان
       time_description: 'در زمان محلی شما: %{datetime}'
@@ -772,8 +773,10 @@ fa:
       create_new: ایجاد جدید
       group_by_relation_type: گروه‌بندی بر اساس نوع رابطه
       group_by_wp_type: گروه‌بندی بر اساس نوع بسته کاری
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: افزایش تورفتگی سلسله‌مراتب
       hierarchy_outdent: کاهش تورفتگی سلسله‌مراتب
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: حذف رابطه
       remove_child: حذف فرزند
       remove_parent: حذف والد
@@ -1012,6 +1015,7 @@ fa:
         label_pagination: برای عبور از جدول بسته‌های کاری و رفتن به صفحه‌بندی اینجا کلیک کنید
         pagination: رفتن به صفحه‌بندی جدول
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'فیلد کشویی ترکیبی: با کلیدهای جهت‌نما انتخاب کنید، با Enter تأیید و با Backspace حذف کنید'
       label_disable_multi_select: غیرفعال‌کردن انتخاب چندگانه
       label_enable_multi_select: فعال‌کردن انتخاب چندگانه

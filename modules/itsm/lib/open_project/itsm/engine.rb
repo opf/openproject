@@ -61,7 +61,9 @@ module OpenProject::ITSM
     register "openproject-itsm", author_url: "https://www.openproject.org", bundled: true do
       project_module :helpdesk, if: -> { OpenProject::FeatureDecisions.helpdesk_active? } do
         permission :manage_helpdesk,
-                   {},
+                   {
+                     "itsm/project_settings/helpdesk": %i[show]
+                   },
                    permissible_on: :project,
                    require: :member
       end
@@ -73,12 +75,29 @@ module OpenProject::ITSM
            after: :api_and_webhooks,
            icon: :"op-life-ring",
            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.helpdesk_active? }
+
+      menu :project_menu,
+           :settings_helpdesk,
+           { controller: "/itsm/project_settings/helpdesk", action: "show" },
+           caption: :label_helpdesk,
+           parent: :settings,
+           after: :settings_project_storages,
+           if: ->(project) { project.module_enabled?("helpdesk") && OpenProject::FeatureDecisions.helpdesk_active? }
     end
 
     include_module "Projects::HelpdeskMailboxes", into: "Project"
 
     config.to_prepare do
       WorkPackages::CommentChannels.register(ITSM::OutboundEmails::ReplyChannel.new)
+    end
+
+    add_cron_jobs do
+      {
+        "ITSM::Mailboxes::ScheduleFetchesJob": {
+          cron: "*/15 * * * *",
+          class: ::ITSM::Mailboxes::ScheduleFetchesJob.name
+        }
+      }
     end
 
     initializer "openproject_itsm.event_subscriptions" do
