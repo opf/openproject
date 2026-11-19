@@ -584,7 +584,8 @@ class PermittedParams
           { target_version_ids: [] },
           { observed_in_version_ids: [] },
           { label_ids: [] },
-          :priority_id
+          :priority_id,
+          :move_descendants
         ],
         placeholder_user: %i(
           name

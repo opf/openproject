@@ -142,6 +142,10 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
         this.deleteSelectedWorkPackages();
         break;
 
+      case 'change_project':
+        this.moveSelectedWorkPackages();
+        break;
+
       case 'edit':
         this.editSelectedWorkPackages(link!);
         break;
@@ -200,6 +204,13 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
     const ids = selected.map((wp) => wp.id).filter((id) => id !== null);
     const backUrl = this.urlParams.basePathWithoutDetails();
     void this.turboRequests.request(this.pathHelper.workPackagesBulkDeleteDialogPath(ids, backUrl), { method: 'GET' });
+  }
+
+  private moveSelectedWorkPackages() {
+    const selected = this.getSelectedWorkPackages();
+    const ids = selected.map((wp) => wp.id).filter((id) => id !== null);
+    const backUrl = this.urlParams.basePathWithoutDetails();
+    void this.turboRequests.request(this.pathHelper.workPackagesMoveDialogPath(ids, backUrl), { method: 'GET' });
   }
 
   private editSelectedWorkPackages(link:string) {

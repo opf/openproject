@@ -30,6 +30,7 @@
 class WorkPackages::UpdateService < BaseServices::Update
   include ::WorkPackages::Shared::UpdateAncestors
   include ::WorkPackages::Shared::FindOrCreateLabels
+  include ::WorkPackages::Shared::MovePlanning
   include Attachments::ReplaceAttachments
   include Types::ApplyPatterns
 
@@ -41,6 +42,20 @@ class WorkPackages::UpdateService < BaseServices::Update
   end
 
   private
+
+  def move_roots = [model]
+
+  def move_user = user
+
+  def set_attributes_params(params) = super.except(:move_descendants)
+
+  # Exposes the caller's choice to WorkPackages::UpdateContract, which rejects the
+  # move outright when it would leave a descendant in a different project while
+  # cross-project work package relations are disabled.
+  def before_perform(service_call)
+    contract_options[:move_descendants] = move_descendants?
+    super
+  end
 
   def after_validate(call)
     labels_call = find_or_create_labels(call.result)
@@ -86,15 +101,26 @@ class WorkPackages::UpdateService < BaseServices::Update
   end
 
   def update_descendants(work_package)
-    if work_package.saved_change_to_project_id?
-      attributes = { project: work_package.project }
+    return [] unless work_package.saved_change_to_project_id?
 
-      work_package.descendants.map do |descendant|
-        set_descendant_attributes(attributes, descendant)
-      end
-    else
-      []
+    attributes = { project: work_package.project }
+
+    cascaded_descendants.map do |descendant|
+      set_descendant_attributes(attributes, descendant)
     end
+  end
+
+  # Only descendants the user may see and move follow their root to the new
+  # project; the rest stay behind, same as WorkPackages::Bulk::CopyService
+  # already does for copies. move_descendants defaults to true so API calls
+  # and inline edits that don't pass the option keep today's cascading
+  # behavior, just limited to the movable set.
+  def cascaded_descendants
+    move_descendants? ? movable_descendants : []
+  end
+
+  def move_descendants?
+    ActiveModel::Type::Boolean.new.cast(params.fetch(:move_descendants, true))
   end
 
   def set_descendant_attributes(attributes, descendant)
@@ -107,7 +133,7 @@ class WorkPackages::UpdateService < BaseServices::Update
 
   def cleanup(work_package)
     if work_package.saved_change_to_project_id?
-      moved_work_packages = [work_package] + work_package.descendants
+      moved_work_packages = [work_package] + cascaded_descendants
       delete_relations(moved_work_packages)
       move_time_entries(moved_work_packages, work_package.project_id)
       move_work_package_memberships(moved_work_packages, work_package.project_id)

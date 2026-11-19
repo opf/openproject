@@ -111,6 +111,10 @@ RSpec.describe "Moving a work package through Rails view", :js do
         context_menu.open_for work_package
         context_menu.choose "Move to another project"
 
+        move_dialog = Components::WorkPackages::MoveDialog.new
+        move_dialog.expect_open
+        move_dialog.continue_with_descendants
+
         # On work packages move page
         find_by_id("new_project_id")
         project_autocompleter = -> { page.find_test_selector("new_project_id") }
@@ -224,6 +228,46 @@ RSpec.describe "Moving a work package through Rails view", :js do
       it "does not allow to move" do
         context_menu.open_for work_package
         context_menu.expect_no_options "Move to another project"
+      end
+    end
+
+    context "when the child is in a project the user may not move it from" do
+      let(:other_project) { create(:project, name: "Other", types: [type]) }
+      let(:viewer_role) { create(:project_role, permissions: %i[view_work_packages]) }
+      # A regular (non-admin) user, so the missing move_work_packages permission on
+      # other_project actually matters instead of being bypassed by admin rights.
+      let(:mover) do
+        create(:user,
+               firstname: "Manager",
+               lastname: "Guy",
+               member_with_roles: { project => mover_role, project2 => mover_role, other_project => viewer_role })
+      end
+      let(:child_wp) do
+        create(:work_package, author: dev, parent: work_package, project: other_project, type:, status:)
+      end
+
+      it "moves the parent but leaves the child behind in its own project" do
+        context_menu.open_for work_package
+        context_menu.choose "Move to another project"
+
+        move_dialog = Components::WorkPackages::MoveDialog.new
+        move_dialog.expect_open
+        move_dialog.continue_with_descendants
+
+        find_by_id("new_project_id")
+        wait_for_turbo_stream(wait: 20) do
+          select_autocomplete page.find_test_selector("new_project_id"),
+                              query: "Target",
+                              select_text: "Target",
+                              results_selector: "body"
+        end
+
+        click_on "Move and follow"
+        wait_for_reload
+
+        expect(work_package.reload.project_id).to eq(project2.id)
+        expect(child_wp.reload.project_id).to eq(other_project.id)
+        expect(child_wp.reload.parent_id).to eq(work_package.id)
       end
     end
   end
