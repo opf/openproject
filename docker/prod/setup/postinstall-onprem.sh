@@ -35,7 +35,7 @@ for version in $PGVERSION_CHOICES ; do
 	rm -rf /var/lib/postgresql/{$version}
 done
 
-a2enmod proxy proxy_http
+a2enmod proxy proxy_http setenvif rewrite headers
 rm -f /etc/apache2/sites-enabled/000-default.conf
 
 rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
