@@ -16,32 +16,12 @@ concurrency:
 
 jobs:
   release-branches:
-    name: Find release branches
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
     if: github.repository == 'opf/openproject'
-    outputs:
-      branches: ${{ steps.find_release_branches.outputs.branches }}
-    steps:
-      - name: Find the two latest release branches
-        id: find_release_branches
-        env:
-          GITHUB_TOKEN: ${{ secrets.OPENPROJECTCI_GH_CORE_PAT }}
-        run: |
-          set -euo pipefail
-
-          branches=$(gh api --paginate \
-            "repos/$GITHUB_REPOSITORY/branches?protected=true&per_page=100" \
-            --jq '.[] | select(.name | startswith("release/")) | .name' | \
-            sort --version-sort | tail -2 | jq -R . | jq -sc .
-          )
-          if [ "$branches" = "[]" ]; then
-            echo "No protected release branch found." >&2
-            exit 1
-          fi
-
-          echo "Found release branches: $branches"
-          echo "branches=$branches" >> "$GITHUB_OUTPUT"
+    permissions:
+      contents: read
+    uses: $/.github/workflows/release-branches.yml
+    with:
+      count: 2
 
   audit-fix:
     name: bundle audit fix (${{ matrix.branch }})
@@ -60,14 +40,14 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ matrix.branch }}
           token: ${{ secrets.OPENPROJECTCI_GH_CORE_PAT }}
           persist-credentials: false
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1.342.0
+        uses: ruby/setup-ruby@f9c4492e86def3e644ab32a0ef185eda5b0c20d0 # v1.342.0
 
       - name: Required git config
         run: |
@@ -80,7 +60,7 @@ jobs:
           set -euo pipefail
 
           mkdir -p reports
-          gem install bundler-audit --no-document
+          gem install bundler-audit -v 0.9.3 --no-document
           bundle-audit update
 
           audit() {

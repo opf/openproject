@@ -16,32 +16,12 @@ concurrency:
 
 jobs:
   release-branches:
-    name: Find release branches
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
     if: github.repository == 'opf/openproject'
-    outputs:
-      branches: ${{ steps.find_release_branches.outputs.branches }}
-    steps:
-      - name: Find the two latest release branches
-        id: find_release_branches
-        env:
-          GITHUB_TOKEN: ${{ secrets.OPENPROJECTCI_GH_CORE_PAT }}
-        run: |
-          set -euo pipefail
-
-          branches=$(gh api --paginate \
-            "repos/$GITHUB_REPOSITORY/branches?protected=true&per_page=100" \
-            --jq '.[] | select(.name | startswith("release/")) | .name' | \
-            sort --version-sort | tail -2 | jq -R . | jq -sc .
-          )
-          if [ "$branches" = "[]" ]; then
-            echo "No protected release branch found." >&2
-            exit 1
-          fi
-
-          echo "Found release branches: $branches"
-          echo "branches=$branches" >> "$GITHUB_OUTPUT"
+    permissions:
+      contents: read
+    uses: $/.github/workflows/release-branches.yml
+    with:
+      count: 2
 
   audit-fix:
     name: npm audit fix (${{ matrix.branch }})
