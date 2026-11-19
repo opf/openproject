@@ -27,7 +27,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1.338.0
+        uses: ruby/setup-ruby@v1.342.0
         with:
           bundler-cache: true
       - name: Run ERB lint
