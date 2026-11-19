@@ -69,6 +69,11 @@ module OpenProject::Gantt
            caption: :label_gantt_chart_plural,
            after: :work_packages,
            icon: "op-view-timeline",
+           html: {
+             data: {
+               turbo: false
+             }
+           },
            if: should_render_global_menu_item
 
       menu :global_menu,
@@ -88,7 +93,13 @@ module OpenProject::Gantt
            if: ->(project) { should_render_project_menu.call(project) },
            icon: "op-view-timeline",
            html: {
-             id: "main-menu-gantt"
+             id: "main-menu-gantt",
+             data: {
+               # The gantt entry disables Turbo Drive (data-turbo="false") so that navigating to it
+               # always performs a full page load instead of a Turbo visit, which previously left the
+               # gantt chart missing/blank next to the table.
+               turbo: false
+             }
            }
 
       menu :project_menu,
@@ -106,6 +117,11 @@ module OpenProject::Gantt
            caption: :label_gantt_chart_plural,
            after: :work_packages,
            icon: "op-view-timeline",
+           html: {
+             data: {
+               turbo: false
+             }
+           },
            if: should_render_global_menu_item
     end
 

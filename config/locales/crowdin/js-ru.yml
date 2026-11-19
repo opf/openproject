@@ -109,6 +109,7 @@ ru:
         maintained_with_changes: Поддерживается с изменениями
         no_longer_meets_filter_criteria: Больше не соответствует критериям фильтра
         now_meets_filter_criteria: Теперь соответствует критериям фильтра
+        state_at: State at
       show_changes_since: Показать изменения с
       time: Время
       time_description: 'В ваше местное время: %{datetime}'

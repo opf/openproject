@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
-    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+    - uses: actions/checkout@v7.0.1
       with:
         persist-credentials: false
     - name: Generate .env.pullpreview file
@@ -45,7 +45,7 @@ jobs:
         cp ./docker/pullpreview/docker-compose.yml ./docker-compose.pullpreview.yml
         cp ./docker/pullpreview/Caddyfile ./Caddyfile
         cp ./docker/prod/Dockerfile ./Dockerfile
-    - uses: pullpreview/action@7ef9914ea29854d3e9cd60a0cec35ce3f060855a # v6
+    - uses: pullpreview/action@v6.2.1
       with:
         # allows to ssh to the instance using our GitHub ssh key
         admins: "crohr,HDinger,machisuji,oliverguenther,ulferts,wielinde,cbliard,@collaborators/push"

@@ -109,6 +109,7 @@ nl:
         maintained_with_changes: Behoud met wijzigingen
         no_longer_meets_filter_criteria: Voldoet niet langer aan filtercriteria
         now_meets_filter_criteria: Voldoet nu aan filtercriteria
+        state_at: State at
       show_changes_since: Toon wijzigingen sinds
       time: Tijd
       time_description: 'In uw lokale tijd: %{datetime}'

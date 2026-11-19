@@ -109,6 +109,7 @@ hy:
         maintained_with_changes: Պահպանվել է փոփոխություններով
         no_longer_meets_filter_criteria: Այլևս չի համապատասխանում զտիչի չափանիշներին
         now_meets_filter_criteria: Այժմ համապատասխանում է զտիչի չափանիշներին
+        state_at: State at
       show_changes_since: Ցուցադրել փոփոխությունները սկսած
       time: Ժամ
       time_description: Ձեր տեղական ժամանակով՝ %{datetime}

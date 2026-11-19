@@ -32,7 +32,6 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 
 @Component({
   templateUrl: './version-board-header.html',
-  styleUrls: ['./version-board-header.sass'],
   host: { class: 'title-container -small' },
   standalone: false,
   // TODO: This component has been partially migrated to be zoneless-compatible.

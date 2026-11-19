@@ -58,7 +58,7 @@ describe('WorkPackage', () => {
   let workPackage:WorkPackageResource;
 
   const createWorkPackage = () => {
-    source = source || { id: 'new' };
+    source = source ?? { id: 'new' };
     workPackage = halResourceService.createHalResourceOfType('WorkPackage', { ...source });
   };
 
@@ -266,6 +266,44 @@ describe('WorkPackage', () => {
       createWorkPackage();
 
       expect(workPackage.subjectWithId()).toEqual('New task');
+    });
+
+    describe('when the subject needs truncating', () => {
+      const subject = 'Fix the very long bug in the board header';
+
+      it('should fit the subject and numeric id within the given length', () => {
+        source = { id: 42, displayId: '42', subject };
+        createWorkPackage();
+
+        const result = workPackage.subjectWithId(30);
+
+        expect(result).toEqual('Fix the very long bug… (#42)');
+        expect(result.length).toBeLessThanOrEqual(30);
+      });
+
+      it('should account for a longer semantic id', () => {
+        source = { id: 42, displayId: 'PROJ-7', subject };
+        createWorkPackage();
+
+        const result = workPackage.subjectWithId(30);
+
+        expect(result).toEqual('Fix the very long… (PROJ-7)');
+        expect(result.length).toBeLessThanOrEqual(30);
+      });
+
+      it('should cut within a word when the subject has no whitespace', () => {
+        source = { id: 42, displayId: '42', subject: 'Supercalifragilisticexpialidocious' };
+        createWorkPackage();
+
+        expect(workPackage.subjectWithId(20)).toEqual('Supercalifrag… (#42)');
+      });
+
+      it('should not truncate when the length is 0', () => {
+        source = { id: 42, displayId: '42', subject };
+        createWorkPackage();
+
+        expect(workPackage.subjectWithId(0)).toEqual(`${subject} (#42)`);
+      });
     });
   });
 
