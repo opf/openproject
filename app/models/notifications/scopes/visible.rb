@@ -36,10 +36,31 @@ module Notifications::Scopes
       # * the user is the recipient
       # * the user has the permission to see the associated resource
       #
-      # As currently only notifications for work packages exist, the implementation is work package specific.
+      # Notifications exist for work packages and documents. Each resource type is
+      # checked against the visibility scope of its own model.
       def visible(user)
         recipient(user)
-          .where(resource_type: "WorkPackage", resource_id: WorkPackage.visible(user).select(:id))
+          .merge(visible_resources(user))
+      end
+
+      # The resource types notifications can be visible for, mapped to the scope
+      # of resources of that type visible to the user.
+      def visible_resource_scopes(user)
+        {
+          "WorkPackage" => WorkPackage.visible(user),
+          "Document" => Document.visible(user)
+        }
+      end
+
+      private
+
+      # One `resource_type = ... AND resource_id IN (subquery)` condition per resource type,
+      # combined by OR. Built on an unscoped relation so that the conditions of the scope
+      # `visible` is called on are not repeated within each OR branch.
+      def visible_resources(user)
+        visible_resource_scopes(user)
+          .map { |resource_type, scope| unscoped.where(resource_type:, resource_id: scope.select(:id)) }
+          .reduce(:or)
       end
     end
   end

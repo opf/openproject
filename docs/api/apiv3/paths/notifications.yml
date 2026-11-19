@@ -72,7 +72,7 @@ get:
 
         + resourceId: Filter by the id of the resource the notification was created for. Ideally used together with the `resourceType` filter.
 
-        + resourceType: Filter by the type of the resource the notification was created for. Ideally used together with the `resourceId` filter.
+        + resourceType: Filter by the type of the resource the notification was created for, i.e. `WorkPackage` or `Document`. Ideally used together with the `resourceId` filter.
       example: '[{ "readIAN": { "operator": "=", "values": ["t"] } }]'
       required: false
       schema:
