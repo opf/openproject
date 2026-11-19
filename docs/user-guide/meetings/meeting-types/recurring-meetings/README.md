@@ -26,9 +26,9 @@ Recurring meetings are helpful to schedule and organize meetings that happen reg
 
 ## Create and edit recurring meetings
 
-You can either create a recurring meeting from within a project or from the global **Meetings** module. For steps on setting up one-time meetings, please consult [this page](../../meeting-features/meeting-creation/#create-a-new-meeting).
+You can create a recurring meeting from within a project, from the global **Meetings** module, or using the **+** button in the header navigation. For steps on setting up one-time meetings, please consult [this page](../../meeting-features/meeting-creation/#create-a-new-meeting).
 
-To create a new recurring meeting, click the green **+ Meeting** button in the upper right corner and select **Recurring**.
+To create a new recurring meeting, click the green **+ Meeting** button in the upper right corner and select **Recurring**. Alternatively, from anywhere in OpenProject, click the **+** button in the header navigation, select **Meetings**, then **Meeting series**. Both routes lead to the same meeting-series creation steps.
 
 ![A button to create recurring meetings in OpenProject](openproject_userguide_meetings_recurring_meeting_button.png)
 
