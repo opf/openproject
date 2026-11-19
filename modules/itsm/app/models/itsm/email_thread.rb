@@ -38,9 +38,13 @@ module ITSM
     validates :work_package, uniqueness: true
     validates :requester_email, presence: true
 
-    def sent_confirmation = messages.outbound.sent.order(:id).first
+    def sent_confirmation = messages.confirmations.sent.order(:id).first
 
-    def unsent_confirmation = messages.outbound.where.not(status: :sent).order(:id).first_or_initialize
+    def unsent_confirmation = messages.confirmations.where.not(status: :sent).order(:id).first_or_initialize
+
+    def sent_reply(journal) = messages.replies_to(journal).sent.first
+
+    def unsent_reply(journal) = messages.replies_to(journal).where.not(status: :sent).first_or_initialize
 
     def inbound_message_ids = messages.inbound.order(:created_at, :id).pluck(:message_id)
   end

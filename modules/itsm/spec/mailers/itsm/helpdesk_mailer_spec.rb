@@ -126,4 +126,58 @@ RSpec.describe ITSM::HelpdeskMailer do
       expect(mail.body.encoded).to include("Hello requester@customer.example,")
     end
   end
+
+  describe ".reply" do
+    subject(:mail) { described_class.reply(email_message, mailbox, ["203.0.113.10"]) }
+
+    let(:notes) { "We replaced the **toner**." }
+    let(:journal) { create(:work_package_journal, journable: work_package, notes:, version: 2) }
+    let(:email_message) do
+      create(:itsm_email_message,
+             thread:,
+             journal:,
+             direction: "outbound",
+             status: "queued",
+             message_id: "reply@example.com",
+             from_address: "support@example.com",
+             from_name: "Support",
+             to_addresses: ["requester@customer.example"],
+             cc_addresses: ["colleague@customer.example"],
+             subject: "[##{work_package.id}] Printer is broken",
+             in_reply_to: "follow-up@customer.example",
+             referenced_message_ids: %w[request@customer.example follow-up@customer.example])
+    end
+
+    it "sends the comment as plain text" do
+      expect(mail.body.encoded).to include("We replaced the toner.")
+      expect(mail.body.encoded).not_to include("Hello")
+    end
+
+    it "replies to the request from the mailbox" do
+      expect(mail[:from].to_s).to eq("Support <support@example.com>")
+      expect(mail).to have_attributes(to: ["requester@customer.example"],
+                                      cc: ["colleague@customer.example"],
+                                      message_id: "reply@example.com",
+                                      in_reply_to: "follow-up@customer.example")
+    end
+
+    it "is marked as not automatic and sent through the mailbox's SMTP server" do
+      expect(mail["Auto-Submitted"].value).to eq("no")
+      expect(mail.delivery_method).to be_a(ITSM::SmtpDelivery)
+      expect(mail.raise_delivery_errors).to be(true)
+    end
+
+    context "when the comment mentions a user" do
+      let(:mentioned) { create(:user, firstname: "Ada", lastname: "Lovelace") }
+      let(:mention) do
+        %(<mention class="mention" data-id="#{mentioned.id}" data-type="user" data-text="@Ada Lovelace">@Ada Lovelace</mention>)
+      end
+      let(:notes) { "Hi, #{mention} takes over." }
+
+      it "shows the name as text" do
+        expect(mail.body.encoded).to include("@Ada Lovelace takes over.")
+        expect(mail.body.encoded).not_to include("<mention")
+      end
+    end
+  end
 end

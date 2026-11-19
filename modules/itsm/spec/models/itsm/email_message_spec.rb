@@ -56,6 +56,18 @@ RSpec.describe ITSM::EmailMessage do
     end
   end
 
+  describe ".confirmations and .replies_to" do
+    let(:journal) { create(:work_package_journal, journable: thread.work_package, version: 2) }
+    let!(:confirmation) { create(:itsm_email_message, thread:, direction: "outbound", status: "sent") }
+    let!(:reply) { create(:itsm_email_message, thread:, journal:, direction: "outbound", status: "sent") }
+    let!(:received) { create(:itsm_email_message, thread:, journal:) }
+
+    it "tell the confirmations from the replies to a comment" do
+      expect(described_class.confirmations).to contain_exactly(confirmation)
+      expect(described_class.replies_to(journal)).to contain_exactly(reply)
+    end
+  end
+
   describe ".created_since" do
     let!(:recent) { create(:itsm_email_message, thread:, created_at: 1.hour.ago) }
     let!(:old) { create(:itsm_email_message, thread:, created_at: 2.days.ago) }

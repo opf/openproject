@@ -44,6 +44,8 @@ module WorkPackages
       end
 
       def add
+        return channel_unavailable unless channel_available?
+
         AddWorkPackageNoteService
           .new(user:, work_package:)
           .call(note_body(internal:), send_notifications:, internal:)
@@ -74,6 +76,14 @@ module WorkPackages
 
       def channel
         WorkPackages::CommentChannels.find(mode)
+      end
+
+      def channel_available? = channel.nil? || channel.available?(work_package:, user:)
+
+      def channel_unavailable
+        message = I18n.t("activities.work_packages.activity_tab.comment_mode_unavailable", mode: channel.label)
+
+        ServiceResult.failure.tap { it.errors.add(:base, message) }
       end
 
       def mode

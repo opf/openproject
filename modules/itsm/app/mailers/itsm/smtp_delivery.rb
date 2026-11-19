@@ -30,8 +30,10 @@
 module ITSM
   class SmtpDelivery < ::Mail::SMTP
     CONNECTION_ERRORS = [Errno::ECONNREFUSED, Errno::EHOSTUNREACH, Errno::ENETUNREACH, Net::OpenTimeout].freeze
+    AUTO_SUBMITTED = "Auto-Submitted"
 
     def deliver!(mail)
+      keep_own_auto_submitted(mail)
       *fallbacks, last = settings.fetch(:addresses)
 
       fallbacks.each do |address|
@@ -46,6 +48,17 @@ module ITSM
     end
 
     private
+
+    # Interceptors::DefaultHeaders adds "Auto-Submitted: auto-generated" and "Precedence: bulk" to every email,
+    # next to the mailer's own Auto-Submitted. Other help desks drop emails marked automatic (RFC 3834),
+    # so an email the mailer marked as not automatic must not carry either.
+    def keep_own_auto_submitted(mail)
+      return unless mail.header.fields.any? { it.name.casecmp?(AUTO_SUBMITTED) && it.value == "no" }
+
+      mail[AUTO_SUBMITTED] = nil
+      mail[AUTO_SUBMITTED] = "no"
+      mail["Precedence"] = nil
+    end
 
     def ssl_context = super.tap { it.min_version = MailServer::MIN_TLS_VERSION }
   end

@@ -63,29 +63,27 @@ RSpec.describe ITSM::OutboundEmails::ReplyChannel do
   end
 
   describe "#deliver" do
-    let(:send_service) { instance_double(ITSM::OutboundEmails::SendReplyService, call: ServiceResult.success) }
     let(:availability) { instance_double(ITSM::OutboundEmails::ReplyAvailability, available?: available) }
     let(:available) { true }
 
     before do
-      allow(ITSM::OutboundEmails::SendReplyService).to receive(:new).with(journal:).and_return(send_service)
       allow(ITSM::OutboundEmails::ReplyAvailability)
         .to receive(:new).with(work_package:, user: journal.user).and_return(availability)
     end
 
-    it "sends the comment as a reply" do
+    it "queues the comment to be sent as a reply" do
       channel.deliver(journal)
 
-      expect(send_service).to have_received(:call)
+      expect(ITSM::OutboundEmails::SendReplyJob).to have_been_enqueued.with(journal)
     end
 
     context "when replying is not available for the work package and the author" do
       let(:available) { false }
 
-      it "sends nothing" do
+      it "queues nothing" do
         channel.deliver(journal)
 
-        expect(send_service).not_to have_received(:call)
+        expect(ITSM::OutboundEmails::SendReplyJob).not_to have_been_enqueued
       end
     end
   end
@@ -95,10 +93,22 @@ RSpec.describe ITSM::OutboundEmails::ReplyChannel do
 
     it { is_expected.to be(false) }
 
-    context "with an outbound email for the comment" do
-      before { create(:itsm_email_message, thread:, journal:, direction: "outbound", status: "queued") }
+    context "with a sent email for the comment" do
+      before { create(:itsm_email_message, thread:, journal:, direction: "outbound", status: "sent") }
 
       it { is_expected.to be(true) }
+    end
+
+    context "with an email for the comment that was not sent yet" do
+      before { create(:itsm_email_message, thread:, journal:, direction: "outbound", status: "queued") }
+
+      it { is_expected.to be(false) }
+    end
+
+    context "with an email for the comment that could not be sent" do
+      before { create(:itsm_email_message, thread:, journal:, direction: "outbound", status: "failed") }
+
+      it { is_expected.to be(false) }
     end
 
     context "with an inbound email for the comment" do
@@ -110,7 +120,7 @@ RSpec.describe ITSM::OutboundEmails::ReplyChannel do
     context "with an outbound email for another comment of the work package" do
       let(:other_journal) { work_package.journals.first }
 
-      before { create(:itsm_email_message, thread:, journal: other_journal, direction: "outbound", status: "queued") }
+      before { create(:itsm_email_message, thread:, journal: other_journal, direction: "outbound", status: "sent") }
 
       it { is_expected.to be(false) }
 

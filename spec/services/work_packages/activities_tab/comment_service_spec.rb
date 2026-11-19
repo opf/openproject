@@ -35,7 +35,10 @@ RSpec.describe WorkPackages::ActivitiesTab::CommentService do
   let(:journal) { build_stubbed(:work_package_journal) }
   let(:add_result) { ServiceResult.success(result: journal) }
   let(:add_service) { instance_double(AddWorkPackageNoteService, call: add_result) }
-  let(:channel) { instance_double(WorkPackages::CommentChannel, deliver: nil) }
+  let(:channel) do
+    instance_double(WorkPackages::CommentChannel, deliver: nil, available?: channel_available, label: "Reply to recipients")
+  end
+  let(:channel_available) { true }
   let(:update_service) { instance_double(Journals::UpdateService, call: nil) }
   let(:sanitizer) { WorkPackages::ActivitiesTab::InternalCommentMentionsSanitizer }
 
@@ -78,6 +81,20 @@ RSpec.describe WorkPackages::ActivitiesTab::CommentService do
       expect(add_service).to have_received(:call).with("hi", send_notifications: true, internal: false)
       expect(sanitizer).not_to have_received(:sanitize)
       expect(channel).to have_received(:deliver).with(journal)
+    end
+
+    context "when the channel named by the mode is not available" do
+      let(:channel_available) { false }
+
+      it "writes nothing and fails with the reason" do
+        result = service(journal: { notes: "hi", mode: "email_reply" }).add
+
+        expect(result).to be_failure
+        expect(result.errors.full_messages).to eq(["Reply to recipients is not available for this work package."])
+        expect(channel).to have_received(:available?).with(work_package:, user:)
+        expect(add_service).not_to have_received(:call)
+        expect(channel).not_to have_received(:deliver)
+      end
     end
 
     context "when the comment cannot be written" do

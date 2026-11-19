@@ -1432,6 +1432,7 @@ en:
         changed: "changed"
         changed_on: "changed on"
         comment_mode: "Comment type"
+        comment_mode_unavailable: "%{mode} is not available for this work package."
         commented: "commented"
         created: "created"
         created_on: "created this on"
