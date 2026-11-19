@@ -3,7 +3,7 @@ name: npm audit fix
 on:
   workflow_dispatch:
   schedule:
-    - cron: "23 4 * * 1"
+    - cron: "45 4,13 * * *" # Daily at 04:45 and 13:45 UTC
 
 env:
   BRANCH_PREFIX: npm-audit-fix
@@ -15,8 +15,37 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  release-branches:
+    name: Find release branches
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: github.repository == 'opf/openproject'
+    outputs:
+      branches: ${{ steps.find_release_branches.outputs.branches }}
+    steps:
+      - name: Find the two latest release branches
+        id: find_release_branches
+        env:
+          GITHUB_TOKEN: ${{ secrets.OPENPROJECTCI_GH_CORE_PAT }}
+        run: |
+          set -euo pipefail
+
+          branches=$(gh api --paginate \
+            "repos/$GITHUB_REPOSITORY/branches?protected=true&per_page=100" \
+            --jq '.[] | select(.name | startswith("release/")) | .name' | \
+            sort --version-sort | tail -2 | jq -R . | jq -sc .
+          )
+          if [ "$branches" = "[]" ]; then
+            echo "No protected release branch found." >&2
+            exit 1
+          fi
+
+          echo "Found release branches: $branches"
+          echo "branches=$branches" >> "$GITHUB_OUTPUT"
+
   audit-fix:
-    name: npm audit fix
+    name: npm audit fix (${{ matrix.branch }})
+    needs: release-branches
     runs-on: ubuntu-latest
     timeout-minutes: 15
     if: github.repository == 'opf/openproject' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
@@ -25,31 +54,16 @@ jobs:
       contents: write # for git push
       pull-requests: write # for creating pull requests
 
+    strategy:
+      fail-fast: false
+      matrix:
+        branch: ${{ fromJSON(needs.release-branches.outputs.branches) }}
+
     steps:
-      - name: Find latest release branch
-        id: find_latest_release
-        env:
-          GITHUB_TOKEN: ${{ secrets.OPENPROJECTCI_GH_CORE_PAT }}
-        run: |
-          set -euo pipefail
-
-          branch=$(gh api --paginate \
-            "repos/$GITHUB_REPOSITORY/branches?protected=true&per_page=100" \
-            --jq '.[] | select(.name | startswith("release/")) | .name' | \
-            sort --version-sort | tail -1
-          )
-          if [ -z "$branch" ]; then
-            echo "No protected release branch found." >&2
-            exit 1
-          fi
-
-          echo "Found latest release branch: $branch"
-          echo "branch=$branch" >> "$GITHUB_OUTPUT"
-
       - name: Checkout repository
         uses: actions/checkout@v7.0.1
         with:
-          ref: ${{ steps.find_latest_release.outputs.branch }}
+          ref: ${{ matrix.branch }}
           token: ${{ secrets.OPENPROJECTCI_GH_CORE_PAT }}
           persist-credentials: false
 
@@ -182,7 +196,7 @@ jobs:
       - name: Create pull request
         if: steps.audit_fix.outputs.has_changes == 'true'
         env:
-          BASE_BRANCH: ${{ steps.find_latest_release.outputs.branch }}
+          BASE_BRANCH: ${{ matrix.branch }}
           GITHUB_TOKEN: ${{ secrets.OPENPROJECTCI_GH_CORE_PAT }}
         run: |
           set -euo pipefail
@@ -193,6 +207,18 @@ jobs:
             --limit 100 \
             --json number,headRefName \
             --jq '.[] | select(.headRefName | startswith("'"$BRANCH_PREFIX"'-")) | .number')
+
+          gh auth setup-git
+          mapfile -t lockfiles < reports/lockfiles.txt
+
+          for pr_number in $pr_numbers; do
+            head_ref=$(gh pr view "$pr_number" --json headRefName --jq .headRefName)
+            git fetch --depth=1 origin "$head_ref"
+            if git diff --quiet FETCH_HEAD -- "${lockfiles[@]}"; then
+              echo "PR #$pr_number already contains these changes."
+              exit 0
+            fi
+          done
 
           for pr_number in $pr_numbers; do
             gh pr close "$pr_number" --delete-branch
@@ -258,19 +284,17 @@ jobs:
             done
           } >> "$pr_body_file"
 
-          temp_branch="$BRANCH_PREFIX-$(date "+%Y%m%d%H%M%S")"
+          temp_branch="$BRANCH_PREFIX-${BASE_BRANCH#release/}-$(date "+%Y%m%d%H%M%S")"
 
           git switch -c "$temp_branch"
-          mapfile -t lockfiles < reports/lockfiles.txt
           git add -- "${lockfiles[@]}"
           git commit -m "Run npm audit fix"
-          gh auth setup-git
           git push origin "$temp_branch"
 
           gh pr create \
             --base "$BASE_BRANCH" \
             --head "$temp_branch" \
-            --title "Run npm audit fix" \
+            --title "Run npm audit fix on $BASE_BRANCH" \
             --body-file "$pr_body_file"
 
           echo "Created a PR with npm audit fixes (${temp_branch}) against ${BASE_BRANCH}"
