@@ -27,7 +27,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-#
 module Storages::Admin
   class OAuthApplicationInfoComponent < StorageInfoComponent
     def self.wrapper_key = :storage_openproject_oauth_section

@@ -23,8 +23,8 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
-
 ++#%>
+
 <% diff = Redmine::UnifiedDiff.new(diff, type: diff_type, max_lines: Setting.diff_max_lines_displayed.to_i) -%>
 <% diff.each do |table_file| -%>
   <div class="autoscroll">

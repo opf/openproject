@@ -23,8 +23,8 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
-
 ++#%>
+
 <% if @user.ldap_auth_source %>
   <%= t(:mail_body_account_information_external, value: @user.ldap_auth_source.name) %>
 <% else %>

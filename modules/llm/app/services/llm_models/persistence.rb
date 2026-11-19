@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module LlmModels
   module Persistence
     IDENTIFIER_INDEX = "index_llm_models_on_llm_connection_id_and_external_id"

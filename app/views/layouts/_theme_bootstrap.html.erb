@@ -23,8 +23,8 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
-
 ++#%>
+
 <% if User.current.pref.sync_with_os_theme? %>
   <%# Keeps the pre-bundle first paint identical to what the theme switcher stamps once it loads. %>
   <%= nonced_javascript_tag do %>

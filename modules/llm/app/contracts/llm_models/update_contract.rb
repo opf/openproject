@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module LlmModels
   class UpdateContract < BaseContract
     validate :rename_not_configured_from_env

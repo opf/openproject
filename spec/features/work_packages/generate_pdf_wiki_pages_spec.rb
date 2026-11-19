@@ -25,6 +25,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
+#++
 
 require "spec_helper"
 require "features/work_packages/work_packages_page"
