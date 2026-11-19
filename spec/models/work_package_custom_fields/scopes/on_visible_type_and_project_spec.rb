@@ -58,7 +58,7 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
     end
   end
 
-  describe ".on_visible_type_and_project with a linked form configuration" do
+  describe ".on_visible_type_and_project with a linked form configuration", with_flag: { type_variants: true } do
     shared_let(:source_type) { create(:type) }
     shared_let(:linked_type) { create(:type) }
     shared_let(:linked_project) { create(:project, types: [linked_type]) }
@@ -90,8 +90,12 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
         expect(subject).not_to include(linked_own_cf)
       end
 
-      it "resolves the same with the flag off", with_flag: { type_variants: false } do
-        expect(subject).to include(source_cf)
+      it "ignores the link with the flag off", with_flag: { type_variants: false } do
+        expect(subject).to contain_exactly(linked_own_cf)
+      end
+
+      it "does not touch type_variants with the flag off", with_flag: { type_variants: false } do
+        expect(subject.to_sql).not_to include("type_variants")
       end
     end
 
