@@ -8,7 +8,7 @@ keywords: meetings, one-time meeting, single meeting
 
 # One-time meetings
 
-A **one-time meeting** is a single meeting scheduled for a specific date and time. Use it for meetings that happen only once, such as a kick-off, a workshop or an ad-hoc discussion. For meetings that take place regularly with the same structure, use [recurring meetings](../recurring-meetings/) instead.
+A **one-time meeting** in OpenProject is a single meeting scheduled for a specific date and time. Use it for meetings that happen only once, such as a kick-off, a workshop or an ad-hoc discussion. For meetings that take place regularly with the same structure, use [recurring meetings](../recurring-meetings/) instead.
 
 > [!NOTE]
 > The **Meetings module needs to be activated** in the [Project settings](../../../projects/project-settings/modules/) to be able to create and edit meetings.

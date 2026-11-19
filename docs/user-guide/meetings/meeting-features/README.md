@@ -8,7 +8,7 @@ keywords: meetings, meeting features, agenda, participants, outcomes, presentati
 
 # Meeting features
 
-The features described in this section apply to all [meeting types](../meeting-types/): one-time meetings and individual occurrences of recurring meetings. Where recurring meetings behave differently, this is noted on the respective page.
+The features described in this section apply to all [meeting types](../meeting-types/) in OpenProject: one-time meetings and individual occurrences of recurring meetings. Where recurring meetings behave differently, this is noted on the respective page.
 
 | Topic | Content |
 | --- | --- |
