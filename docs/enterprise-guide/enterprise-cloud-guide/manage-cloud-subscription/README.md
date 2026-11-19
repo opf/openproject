@@ -8,13 +8,13 @@ keywords: enterprise cloud edition, subscription, address, payment method, invoi
 
 # Manage your OpenProject Enterprise cloud subscription
 
-If you want to make changes to your subscription (Up- or downgrade, cancel, change your address or payment method), navigate to _Administration_ -> _Subscription_ within your system's Administration. Then click the **Manage subscription** button.
+To change the number of users, switch to a different Enterprise cloud plan, cancel your subscription, or update your account and payment details, navigate to _Administration_ -> _Subscription_ within your system's Administration. Then click the **Manage subscription** button.
 
 ![Manage subscription button in OpenProject administration](openproject_enterprise_guide_manage_subscription_button.png)
 
 In the overlay window, you can choose between several options:
 
-- [Upgrade, downgrade or cancel](#update-existing-subscriptions)
+- [Change the number of users or subscription plan, or cancel](#update-existing-subscriptions)
 - Edit account information
 - Edit billing and shipping addresses
 - Edit or add payment methods
@@ -22,15 +22,15 @@ In the overlay window, you can choose between several options:
 
 ## Update existing subscriptions
 
-If you want to up- or downgrade the amount of users of an existing subscription, click on the subscription listed at the top of **Manage subscriptions** overlay window. 
+To update an existing subscription, click the subscription listed at the top of the **Manage subscriptions** overlay window.
 
 ![Edit Enterprise Cloud subscription in OpenProject](openproject_enterprise_guide_edit_subscription_option.png)
 
 Here you can either **Edit or Cancel the existing subscription**.
 
-### Upgrade or downgrade subscription
+### Increase or decrease the number of users
 
-To upgrade or downgrade your Enterprise cloud subscription, follow the steps described above and click the **Edit Subscription** link.
+You can change the number of users in your Enterprise cloud subscription without changing your subscription plan. To do so, follow the steps described above and click the **Edit Subscription** link.
 
 ![Edit subscription link in OpenProject Enterprise cloud administration](openproject_enterprise_guide_edit_subscription_link.png)
 
@@ -38,15 +38,23 @@ Alternatively, you can navigate to _Administration -> Subscription_ and click th
 
 ![Upgrade subscription button in OpenProject administration](openproject_enterprise_guide_upgrade_subscription_button.png)
 
-Here you can choose the new amount of users. Your next payment will be displayed below.
+Choose the new number of users. Your next payment will be displayed below.
 
-You can **upgrade an existing subscription** in increments of 5 at any time. Additional users will be billed on a prorated basis, this means you will only pay for the additional users for the rest of the current subscription period.
+You can **increase the number of users** in increments of 5 at any time. Additional users are billed on a prorated basis, meaning you only pay for them for the remainder of the current subscription period.
 
-You can **downgrade a subscription** to the end of a current subscription period. This means the downgrade becomes active with the next payment term.
+You can **decrease the number of users** at the end of the current subscription period. The reduction takes effect at the beginning of the next subscription period.
 
 Click the **Update your subscription now** button to save the changes.
 
 ![The button to update the OpenProject Enterprise cloud subscription after upgrading](openproject_enterprise_guide_upgrade_subscription_now_button.png)
+
+### Change your subscription plan
+
+You can also upgrade your Enterprise cloud subscription to a higher plan to access additional Enterprise features. This is separate from increasing or decreasing the number of users.
+
+To change your plan, open the subscription management interface via _Administration -> Subscription -> Manage subscription_. Select your existing subscription to manage it. Review the available subscription options and pricing before confirming a plan change.
+
+For a comparison of the available plans and their features, see the [OpenProject pricing page](https://www.openproject.org/pricing/).
 
 ### Cancel subscription
 
