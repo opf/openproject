@@ -98,7 +98,7 @@ Once a meeting has been closed, it can no longer be edited. Project members with
 
 ## Present a meeting
 
-**Presentation mode** is available when you want to show the meeting content in a clean, non-editable view. This mode is intended for presenting the agenda or meeting material to participants during or before the meeting without distractions. However, agenda items can be edited in presentation mode if needed.
+**Presentation mode** provides a clean, focused view of the meeting content, allowing you to present the agenda and supporting material to participants before or during a meeting without distractions. Agenda items can still be edited directly in presentation mode when needed.
 
 Presentation mode can be used regardless of the meeting status (open, in progress or closed). However, a presentation mode is not available in a draft mode or for a meeting template (recurring meetings).
 
