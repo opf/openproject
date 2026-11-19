@@ -19,7 +19,7 @@ The features described on this page apply to all [meeting types](../../meeting-t
 
 ## Add meeting participants
 
-You will see the list of all the invited project members under **Participants**. You can add participants (Invitees and Attendees) to a meeting in [edit mode](../meeting-creation/#edit-meeting-details). The process is the same whether you are creating a new meeting or editing an existing one. You can either click the cogwheel icon next to **Participants** section or click the **Manage participants** link under the list of existing participants.
+You will see the list of all the invited project members under **Participants**. You can add participants (Invitees and Attendees) to a meeting in [edit mode](../meeting-setup/#edit-meeting-details). The process is the same whether you are creating a new meeting or editing an existing one. You can either click the cogwheel icon next to **Participants** section or click the **Manage participants** link under the list of existing participants.
 
 ![Add meeting participants in OpenProject](openproject_userguide_meetings_add_participants.png)
 
