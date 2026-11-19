@@ -22,16 +22,27 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class AddIndicesToMeetingParticipants < ActiveRecord::Migration[8.0]
+class RemoveDuplicateFavoritesIndex < ActiveRecord::Migration[8.1]
   disable_ddl_transaction!
 
-  def change
-    add_index :meeting_participants, :meeting_id, algorithm: :concurrently
-    add_index :meeting_participants, :user_id, algorithm: :concurrently
+  def up
+    remove_index :favorites,
+                 name: "index_favorites_on_favored",
+                 algorithm: :concurrently,
+                 if_exists: true
+  end
+
+  def down
+    add_index :favorites,
+              %i[favorited_type favorited_id],
+              name: "index_favorites_on_favored",
+              algorithm: :concurrently,
+              if_not_exists: true
   end
 end

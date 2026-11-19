@@ -27,13 +27,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class AddValidityPeriodToEnterpriseToken < ActiveRecord::Migration[8.0]
-  def change
-    change_table :enterprise_tokens, bulk: true do |table|
-      table.column :valid_from, :date
-      table.column :valid_until, :date
+require Rails.root.join("db/migrate/migration_utils/squashed_migration").to_s
 
-      table.index %i[valid_from valid_until]
-    end
-  end
+class AggregatedOverviewsMigrations < SquashedMigration
+  squashed_migrations *%w[
+    1019015_aggregated_overviews_migrations
+    20250910085916_rename_manage_overview_to_manage_dashboards
+    20250923120330_remove_news_beta_widgets
+  ]
 end
