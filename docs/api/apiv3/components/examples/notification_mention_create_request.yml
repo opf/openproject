@@ -1,0 +1,9 @@
+# Example: Notification mention create request
+---
+value:
+  reason: mentioned
+  _links:
+    resource:
+      href: '/api/v3/documents/5'
+    recipient:
+      href: '/api/v3/users/13'
