@@ -12,7 +12,7 @@ The features described in this section apply to all [meeting types](../meeting-t
 
 | Topic | Content |
 | --- | --- |
-| [Meeting setup](meeting-creation/) | How to set up, edit, copy and delete meetings. |
+| [Meeting setup](meeting-setup/) | How to set up, edit, copy and delete meetings. |
 | [Meeting templates](meeting-templates/) | How to reuse a predefined meeting structure (Enterprise add-on). |
 | [Meeting participants](meeting-participants/) | How to invite participants and keep them informed via email and calendar. |
 | [Meeting agenda](meeting-agenda/) | How to prepare the agenda, add work packages, sort and vote on agenda items. |
@@ -32,7 +32,7 @@ If you frequently organize meetings with a similar structure, consider using a [
 
 ### 2. Create your meeting
 
-[Create a meeting](meeting-creation/) from within a project, from the global Meetings module or using the **+** button in the header navigation. Choose between a one-time meeting and a recurring meeting series.
+[Create a meeting](meeting-setup/) from within a project, from the global Meetings module or using the **+** button in the header navigation. Choose between a one-time meeting and a recurring meeting series.
 
 New meetings initially open in [draft mode](meeting-modes/#meeting-draft-mode). This allows you to prepare the meeting before making it available to participants.
 
