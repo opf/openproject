@@ -54,4 +54,26 @@ RSpec.describe Sessions::ClearOldSessionsService do
     expect(ActiveRecord::SessionStore::Session.all)
       .to contain_exactly(recent_anonymous, stale_anonymous, recent_user, stale_user)
   end
+
+  context "with push subscriptions" do
+    let!(:newly_dormant) { create(:push_subscription, session: nil, updated_at: 90.days.ago) }
+    let!(:long_dormant) { create(:push_subscription, session: nil, suspended_at: 31.days.ago) }
+    let!(:recent_dormant) { create(:push_subscription, session: nil, suspended_at: 1.day.ago) }
+    let!(:active) { create(:push_subscription, updated_at: 90.days.ago) }
+
+    it "forgets dormant push subscriptions suspended longer than the retention window only" do
+      described_class.call!
+
+      expect(PushSubscription.all).to contain_exactly(newly_dormant, recent_dormant, active)
+    end
+
+    it "starts the retention clock for a subscription that just became dormant" do
+      freeze_time do
+        described_class.call!
+
+        expect(newly_dormant.reload.suspended_at).to eq(Time.current)
+        expect(active.reload.suspended_at).to be_nil
+      end
+    end
+  end
 end

@@ -10,7 +10,7 @@
 - **Backend**: Ruby on Rails
 - **Frontend**: Node.js, npm, TypeScript
 - **Database**: PostgreSQL (required)
-- **Architecture**: Server-rendered HTML with Hotwire (Turbo + Stimulus). Legacy Angular components exist and are being migrated to custom elements. Uses GitHub's Primer Design System via ViewComponent.
+- **Architecture**: New UI uses server-rendered HTML with Hotwire (Turbo + Stimulus) and GitHub's Primer Design System via ViewComponent. Remaining Angular components are being migrated to custom elements in the meantime.
 - **Editions**: Community, Enterprise (SSO, LDAP, SCIM), and BIM (construction industry, code in `modules/bim/`)
 
 ## Setup and Dependency Versions
@@ -18,7 +18,7 @@
 Before building or running checks, verify Ruby against [.ruby-version](.ruby-version), Node.js and npm against the engines in [package.json](package.json) and [frontend/package.json](frontend/package.json), and Bundler against `BUNDLED WITH` in [Gemfile.lock](Gemfile.lock). Rails and other gem requirements are defined in [Gemfile](Gemfile).
 
 - For native setup, read the [development environment guide](docs/development/development-environment/README.md) and follow the instructions for your operating system.
-- For Docker setup and commands, read [docker/dev/AGENTS.md](docker/dev/AGENTS.md).
+- For Docker setup and commands, read the [Docker development setup](docs/development/development-environment/docker/README.md).
 - For setup or asset failures, consult the [development FAQ](docs/development/faq/README.md).
 
 ## Project Structure
@@ -29,7 +29,7 @@ Before building or running checks, verify Ruby against [.ruby-version](.ruby-ver
 - `config/` — Rails configuration, routes, locales
 - `db/` — Database migrations and seeds
 - `docker/dev/` — Docker development environment
-- `frontend/` — TypeScript/Angular/Stimulus frontend
+- `frontend/` — TypeScript frontend (Stimulus/Turbo; legacy Angular)
 - `lib/` — Ruby libraries and extensions
 - `lookbook/` — ViewComponent previews (<https://qa.openproject-edge.com/lookbook/>)
 - `modules/` — OpenProject plugin modules
@@ -49,28 +49,15 @@ Use the applicable `copyright:update_*` Rake task or ESLint autofix to generate 
 
 ## Code Comments
 
-Readers are domain experts who know Ruby, Rails, TypeScript, and the patterns used here.
-Write self-explanatory code instead of comments.
+Full rules: [code comments guide](docs/development/style-guide/README.md#code-comments). In short:
 
-- Default to zero comments. Sparse is the goal, not thorough coverage.
-- Never restate what the code plainly does (`# increments the counter` above `counter += 1`).
-  These get flagged in review.
-- Never justify the chosen approach. If a comment names a rejected alternative
-  ("EXISTS rather than a join because…"), delete it — that reasoning belongs in the commit
-  message or PR description, not the source.
-- Do comment to explain a constraint the code cannot express itself: a workaround for an
-  upstream bug, a non-obvious edge case, an ordering requirement, an invariant the caller
-  must uphold. Link the work package or upstream issue when there is one.
-- Don't add YARD/JSDoc headers to self-descriptive methods. Only where generated
-  documentation is actually consumed.
-- More than a handful of comments in a file is a smell: extract better-named methods,
-  variables, and objects so the code explains itself.
-- When in doubt, delete the comment rather than shortening it.
-- Use en-us spelling.
+- Default to zero comments. Never restate what the code does or justify the chosen approach; that belongs in the commit message.
+- Only comment constraints the code cannot express (upstream workaround, non-obvious edge case, ordering, invariant), linking the work package or issue.
+- No YARD/JSDoc headers on self-descriptive methods. Use en-us spelling.
 
 ## Task-Specific Documentation
 
-- Commits and pull requests: follow the [code review guidelines](docs/development/code-review-guidelines/README.md), including commit messages and merge strategy, and [CONTRIBUTING.md](CONTRIBUTING.md) for the contribution workflow.
+- Commits and pull requests: follow the [code review guidelines](docs/development/code-review-guidelines/README.md), including commit messages and merge strategy, and the [development workflow](docs/development/git-workflow/README.md) for branch names and which branch to target.
 - Primer components and icons: read the [design system guide](docs/development/design-system/README.md), which links the maintained source repositories and Lookbook.
 - CKEditor: read the [WYSIWYG editor concept](docs/development/concepts/wysiwyg-editor/README.md) for the custom build repository and integration requirements.
 - Service objects and results: follow [application architecture](docs/development/application-architecture/README.md#service-objects).

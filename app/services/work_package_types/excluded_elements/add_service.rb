@@ -38,6 +38,22 @@ module WorkPackageTypes
       def updated_elements(current, requested)
         current | requested
       end
+
+      def rejection_reason(aspect)
+        return unless aspect == TypeVariant::FORM_CONFIGURATION
+        return unless elements_param.any? { |element| required_custom_field?(element) }
+
+        I18n.t("types.edit.reuse_mode.exclusions.required")
+      end
+
+      private
+
+      def required_custom_field?(element)
+        return false unless CustomField.custom_field_attribute?(element)
+
+        variant.required_attributes.include?(element) ||
+          WorkPackageCustomField.exists?(id: CustomField.id_from_attribute_name(element), is_required: true)
+      end
     end
   end
 end

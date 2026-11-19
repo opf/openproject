@@ -148,6 +148,65 @@ describe('Insert work package attribute', () => {
     expect(type.getBoundingClientRect().width).toBeGreaterThan(type.getBoundingClientRect().height);
   });
 
+  it('shows the whole subject of a result on hover', async () => {
+    const subject = 'Test'.repeat(40);
+    answerSearchWith([{ ...mockAttributeWorkPackage, subject }]);
+    await openWorkPackageAttributeDialog();
+    await userEvent.type(page.getByPlaceholder(SEARCH_PLACEHOLDER), 'Test');
+
+    await expect.element(page.getByRole('option').getByText(subject)).toHaveAttribute('title', subject);
+  });
+
+  it('shows the whole reference of the chosen work package on hover', async () => {
+    const subject = 'Test'.repeat(40);
+    answerSearchWith([{ ...mockAttributeWorkPackage, subject }]);
+    await openWorkPackageAttributeDialog();
+    await expect.element(workPackageField()).not.toHaveAttribute('title');
+
+    await pickWorkPackage('Test', subject);
+    await expect.element(workPackageField()).toHaveAttribute('title', `PROJ-321 · Feature · ${subject}`);
+
+    await userEvent.keyboard('{Backspace}');
+    await expect.element(workPackageField()).not.toHaveAttribute('title');
+  });
+
+  describe('with a long type', () => {
+    const type = 'Very'.repeat(30);
+    const subject = 'Test'.repeat(40);
+    const widthOf = (element:Element) => element.getBoundingClientRect().width;
+
+    beforeEach(() => {
+      answerSearchWith([{
+        ...mockAttributeWorkPackage,
+        subject,
+        _links: { ...mockAttributeWorkPackage._links, type: { ...mockAttributeWorkPackage._links.type, title: type } },
+      }]);
+    });
+
+    it('keeps a result within the list, leaving room for its subject', async () => {
+      await openWorkPackageAttributeDialog();
+      await userEvent.type(page.getByPlaceholder(SEARCH_PLACEHOLDER), 'Test');
+      const typeLabel = page.getByRole('option').getByText(type);
+      await expect.element(typeLabel).toHaveAttribute('title', type);
+
+      const list = page.getByTestId('op-bn-wp-attribute-work-package-list-popover').element();
+      expect(list.scrollWidth).toBeLessThanOrEqual(list.clientWidth);
+      expect(widthOf(typeLabel.element())).toBeGreaterThan(typeLabel.element().getBoundingClientRect().height);
+      expect(widthOf(page.getByRole('option').getByText(subject).element())).toBeGreaterThan(widthOf(typeLabel.element()));
+    });
+
+    it('keeps the chosen work package within the field, leaving room for its subject', async () => {
+      await openWorkPackageAttributeDialog();
+      await pickWorkPackage('Test', subject);
+
+      const layer = selectedWorkPackage().element();
+      expect(layer.scrollWidth).toBeLessThanOrEqual(layer.clientWidth);
+      expect(widthOf(selectedWorkPackage().getByText(subject).element()))
+        .toBeGreaterThan(widthOf(selectedWorkPackage().getByText(type).element()));
+      await expect.element(workPackageField()).toHaveAttribute('title', `PROJ-321 · ${type} · ${subject}`);
+    });
+  });
+
   it('keeps a long subject within the dialog', async () => {
     const subject = 'Test'.repeat(40);
     answerSearchWith([{ ...mockAttributeWorkPackage, subject }]);
@@ -207,6 +266,54 @@ describe('Insert work package attribute', () => {
     expect(attributeProps()).toEqual([]);
   });
 
+  it('keeps a filled form when the overlay is clicked, and drops an untouched one', async () => {
+    const clickOverlay = () => userEvent.click(page.getByTestId('create-wp-overlay'), { position: { x: 5, y: 5 } });
+    await openWorkPackageAttributeDialog();
+    await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+
+    await clickOverlay();
+    await expect.element(dialog()).toBeVisible();
+    await expect.element(selectedWorkPackage()).toHaveTextContent('PROJ-321FeatureRedesign onboarding flow');
+
+    await userEvent.click(page.getByRole('button', { name: 'Remove selection' }));
+    await clickOverlay();
+    await expect.element(dialog()).not.toBeInTheDocument();
+  });
+
+  it('keeps a chosen display when the overlay is clicked before a work package is chosen', async () => {
+    await openWorkPackageAttributeDialog();
+    await userEvent.click(page.getByRole('radio', { name: 'Label', exact: true }));
+
+    await userEvent.click(page.getByTestId('create-wp-overlay'), { position: { x: 5, y: 5 } });
+    await expect.element(dialog()).toBeVisible();
+    await expect.element(page.getByRole('radio', { name: 'Label', exact: true })).toHaveAttribute('aria-checked', 'true');
+  });
+
+  it('keeps a filled form on Escape', async () => {
+    await openWorkPackageAttributeDialog();
+    await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+    await pickAttribute('Status');
+
+    await userEvent.keyboard('{Escape}');
+    await expect.element(dialog()).toBeVisible();
+    await expect.element(preview()).toHaveTextContent('In progress');
+  });
+
+  it('drops an untouched prefilled form when the overlay is clicked', async () => {
+    await openWorkPackageAttributeDialog();
+    await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+    await pickAttribute('Status');
+    await userEvent.click(insertButton());
+    await expect.element(dialog()).not.toBeInTheDocument();
+
+    await userEvent.keyboard('{End}');
+    await openWorkPackageAttributeDialog();
+    await expect.element(page.getByText('Prefilled with your last selection')).toBeVisible();
+
+    await userEvent.click(page.getByTestId('create-wp-overlay'), { position: { x: 5, y: 5 } });
+    await expect.element(dialog()).not.toBeInTheDocument();
+  });
+
   it('says so when the attributes cannot be loaded, and loads them again on request', async () => {
     loadServerErrorWorkPackages(mockAttributeWorkPackage.id);
     await openWorkPackageAttributeDialog();
@@ -241,15 +348,12 @@ describe('Insert work package attribute', () => {
     await userEvent.click(insertButton());
 
     await userEvent.click(page.getByRole('button', { name: 'In progress' }));
-    const heading = getComputedStyle(page.getByTestId('attribute-display-menu').getByText('Show').element());
-    expect(heading.opacity).toBe('1');
-    expect(heading.color).toBe('rgb(89, 99, 110)');
-    const check = page.getByRole('menuitemradio', { name: 'Value', exact: true }).element().querySelector('svg')!;
-    expect(getComputedStyle(check).color).toBe('rgb(9, 105, 218)');
+    await userEvent.click(page.getByRole('menuitem', { name: 'Change size: Value' }));
+    await expect.element(page.getByRole('menuitemradio', { name: 'Value', exact: true })).toHaveAttribute('aria-checked', 'true');
     await userEvent.click(page.getByRole('menuitemradio', { name: 'Label', exact: true }));
 
     await expect.element(page.getByRole('button', { name: 'Status', exact: true })).toBeVisible();
-    await expect.element(page.getByTestId('attribute-display-menu')).not.toBeInTheDocument();
+    await expect.element(page.getByTestId('popover-content')).not.toBeInTheDocument();
     expect(attributeProps()[0]).toMatchObject({ display: 'label' });
   });
 
@@ -287,6 +391,27 @@ describe('Insert work package attribute', () => {
     await userEvent.fill(workPackageField(), 'beta');
     await userEvent.click(page.getByRole('radio', { name: 'Label', exact: true }));
     await expect.element(selectedWorkPackage()).toHaveTextContent('PROJ-321FeatureRedesign onboarding flow');
+  });
+
+  it('offers the attributes in alphabetical order, to be picked and not typed', async () => {
+    await openWorkPackageAttributeDialog();
+    await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+
+    const attributeField = page.getByRole('combobox', { name: 'Attribute' });
+    await expect.element(attributeField).toHaveAttribute('readonly');
+    expect(getComputedStyle(attributeField.element()).cursor).toBe('pointer');
+
+    await userEvent.click(attributeField);
+    await expect.element(page.getByRole('option', { name: 'Status' })).toBeVisible();
+
+    const labels = page.getByRole('option').elements().map((option) => option.textContent);
+    const byLetter = labels.slice(0, -1);
+    expect(byLetter).toEqual([...byLetter].sort(new Intl.Collator('en', { sensitivity: 'base' }).compare));
+    expect(labels.slice(0, 2)).toEqual(['Accountable', 'Approved']);
+    expect(labels.at(-1)).toBe('% Complete');
+
+    await userEvent.keyboard('s');
+    await expect.element(attributeField).toHaveAttribute('aria-activedescendant', `op-bn-wp-attribute-select-list-option-${labels.indexOf('Start date')}`);
   });
 
   it('prefills the next invocation with the previous choice, which can be cleared', async () => {
@@ -523,7 +648,7 @@ describe('Insert work package attribute', () => {
       await vi.waitFor(() => expect(selectionMarks()).toEqual({ ring: true, other: 0 }));
 
       await userEvent.click(page.getByText('Kick-off'));
-      await expect.element(page.getByTestId('attribute-display-menu')).toBeVisible();
+      await expect.element(page.getByTestId('popover-content')).toBeVisible();
       expect(selectionMarks()).toEqual({ ring: true, other: 0 });
     });
 
@@ -535,7 +660,7 @@ describe('Insert work package attribute', () => {
 
       await userEvent.click(page.getByText('Kick-off'));
 
-      await expect.element(page.getByTestId('attribute-display-menu')).toBeVisible();
+      await expect.element(page.getByTestId('popover-content')).toBeVisible();
       const selected = document.getSelection()?.toString() ?? '';
       expect(selected).not.toContain('Kick-off');
       expect(getComputedStyle(page.getByText('Kick-off').element()).userSelect).toBe('none');
@@ -568,6 +693,7 @@ describe('Insert work package attribute', () => {
       await userEvent.click(insertButton());
 
       await userEvent.click(page.getByText('Kick-off'));
+      await userEvent.click(page.getByRole('menuitem', { name: /^Change size/ }));
       await userEvent.click(page.getByRole('menuitemradio', { name: 'Label + value' }));
 
       await expect.element(page.getByText('Description', { exact: true })).toBeVisible();

@@ -72,7 +72,7 @@ da:
       non_working_day: Arbejdsfri dag
       y_axis_title:
         story_points: Story points
-        time: Estimated time
+        time: Anslået tid
     work_packages:
       properties:
         storyPoints: Story points

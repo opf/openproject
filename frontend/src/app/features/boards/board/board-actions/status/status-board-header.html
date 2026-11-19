@@ -1,9 +1,6 @@
 @if (status) {
-  <div class="op-status-board-header">
-    <h2 class="editable-toolbar-title--fixed">
-      <small [textContent]="text.status"></small>
-      <br/>
-      {{ status.name }}
-    </h2>
-  </div>
+  <h2 class="op-board-list--header-title editable-toolbar-title--fixed">
+    <small [textContent]="text.status"></small>
+    <span>{{ status.name }}</span>
+  </h2>
 }

@@ -49,7 +49,7 @@ pt-BR:
     active_editors: Editores ativos
     active_editors_count:
       one: "%{count} active editor"
-      other: "%{count} active editors"
+      other: "%{count} editores ativos"
     admin:
       collaboration_settings:
         banner:

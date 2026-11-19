@@ -32,6 +32,9 @@ FactoryBot.define do
   factory :push_subscription do
     user
     session { Sessions::UserSession.find_by!(session_id: create(:user_session, user:).session_id) }
+    browser_name { "Chrome" }
+    browser_version { "131" }
+    platform { "macOS" }
     endpoint { "https://fcm.googleapis.com/fcm/send/#{SecureRandom.hex(16)}" }
   end
 end

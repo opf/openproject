@@ -58,6 +58,7 @@ import { HttpClient } from '@angular/common/http';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { HalEventsService } from '../hal/services/hal-events.service';
 import { AiActionsService } from 'core-app/core/ai-actions/ai-actions.service';
 /**
@@ -97,6 +98,7 @@ export class OpenProjectPluginContext {
     http: this.injector.get(HttpClient),
     turboRequests: this.injector.get(TurboRequestsService),
     currentProject: this.injector.get(CurrentProjectService),
+    currentUser: this.injector.get(CurrentUserService),
     aiActions: this.injector.get(AiActionsService),
   };
 

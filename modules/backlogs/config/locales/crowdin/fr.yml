@@ -34,7 +34,7 @@ fr:
         finish_date: Date de fin
         goal: Objectif du sprint
         name: Nom du sprint
-        origin: Origin
+        origin: Origine
         origin_host: Origin host
         origin_id: Origin ID
         origin_source: Origin source
@@ -243,7 +243,7 @@ fr:
               description: The sprint duration exceeded the 1-year limit of the burndown chart's timespan.
               heading: No chart to display
           series:
-            guideline: Guideline
+            guideline: Lignes directrices
             projection:
               story_points: Remaining story points (projection)
               time: Remaining estimated time (projection)
@@ -266,11 +266,11 @@ fr:
               description: The sprint duration exceeded the 1-year limit of the burnup chart's timespan.
               heading: No chart to display
           series:
-            completed: Completed work
-            guideline: Guideline
+            completed: Travail terminé
+            guideline: Lignes directrices
             projection: Total work scope (projection)
             scope: Total work scope
-          title: Burnup chart
+          title: Graphique burnup
         created_resolved_chart:
           blankslate:
             no_work:
@@ -317,8 +317,8 @@ fr:
           story_points: "%{value} SP"
           summary:
             story_points:
-              one: Bar chart of committed and completed story points of the last sprint.
-              other: Bar chart of committed and completed story points of the last %{count} sprints.
+              one: Diagramme à barres représentant les points de story engagés et réalisés lors du dernier sprint.
+              other: Diagramme à barres représentant les points d'histoire engagés et achevés au cours des %{count} derniers sprints.
             time:
               one: Bar chart of committed and completed estimated time of the last sprint.
               other: Bar chart of committed and completed estimated time of the last %{count} sprints.
@@ -327,7 +327,7 @@ fr:
           velocity: "%{sprint} :"
           y_axis_title:
             story_points: Story points
-            time: Estimated time
+            time: Temps estimé
         work_package_graph:
           blankslate:
             no_work:
@@ -457,7 +457,7 @@ fr:
         member_failed: "%{work_package} : %{reason}"
         moved_announcement:
           one: "%{count} work package moved to %{list}, position %{first} of %{total}"
-          other: "%{count} work packages moved to %{list}, positions %{first} through %{last} of %{total}"
+          other: "%{count} lots de travaux déplacés vers %{list}, aux positions %{first} à %{last} sur %{total}"
         too_many_work_packages: Il est impossible de déplacer plus de %{max} lots de travaux à la fois.
         work_packages_not_found: Au moins un lot de travaux est introuvable dans ce projet.
       update_service:

@@ -101,6 +101,26 @@ RSpec.describe Import::JiraImport do
     end
   end
 
+  describe "#last_changed_at" do
+    context "without transitions" do
+      it "is the time of the last update" do
+        expect(jira_import.last_changed_at).to eq(jira_import.updated_at)
+      end
+    end
+
+    context "with a transition" do
+      before do
+        allow(Import::JiraImportStateMachine).to receive(:enqueued_job_id).and_return("stubbed-job-id")
+        jira_import.update_column(:updated_at, 1.day.ago)
+        jira_import.transition_to!(:instance_meta_fetching)
+      end
+
+      it "is the time of the last transition" do
+        expect(jira_import.last_changed_at).to eq(jira_import.last_transition.created_at)
+      end
+    end
+  end
+
   describe "#connection_check_report" do
     let(:report) do
       failure = HealthReport::Result.failure(:administrator, :not_administrator, nil)

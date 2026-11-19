@@ -26,7 +26,7 @@ zh-CN:
       project:
         allow_multiple_active_sprints: 允许多个处于有效状态的冲刺
         backlog_excluded_types: 排除的工作包类型
-        estimation_unit: Unit
+        estimation_unit: 单位
         sprint_sharing: 冲刺共享
         statuses_considered_closed: 被视为已关闭的状态
       sprint:
@@ -34,7 +34,7 @@ zh-CN:
         finish_date: 结束日期
         goal: 冲刺目标
         name: 冲刺名称
-        origin: Origin
+        origin: 来源
         origin_host: Origin host
         origin_id: Origin ID
         origin_source: Origin source
@@ -78,7 +78,7 @@ zh-CN:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                other: There are %{count} work packages that were not completed in this sprint.
+                other: 此冲刺中有 %{count} 个未完成的工作包。
             status:
               not_active: 未处于有效状态，因此无法关闭。
         sprint_goal:
@@ -139,7 +139,7 @@ zh-CN:
       series:
         created: Created
         resolved: Resolved
-    estimation_unit: Units
+    estimation_unit: 单位
     excluded_work_package_types_caption: '选择要从积压工作中隐藏的工作包类型。所选类型的项目不会自动出现在积压工作中，从而聚焦于对您团队真正重要的工作。例如，可以隐藏长篇故事或里程碑等在更高级别管理的类型，使积压工作聚焦于可执行的项目。
 
       '
@@ -162,7 +162,7 @@ zh-CN:
       drop_zone_label: 拖放到此处以添加此条目
       label_actions: 收件箱操作
       show_more:
-        other: Show %{count} more items
+        other: 显示其他 %{count} 个条目
       title: 收件箱
     index_subheader_component:
       label_search_by_subject: 按主题搜索工作包
@@ -215,8 +215,8 @@ zh-CN:
         description: Sprint start and finish dates are necessary for the report to show.
         heading: Missing sprint dates
       navigation_component:
-        next: Next
-        previous: Previous
+        next: 下一步
+        previous: 上一页
       page_header_component:
         breadcrumb: 报告
         title: "%{sprint}报告"
@@ -301,7 +301,7 @@ zh-CN:
             other: 'Average of previous %{count} sprints:'
           average_legend: Average
           committed: Committed
-          completed: Completed
+          completed: 已完成
           story_points: "%{value} SP"
           summary:
             story_points:
@@ -312,8 +312,8 @@ zh-CN:
           title: Velocity chart
           velocity: "%{sprint}:"
           y_axis_title:
-            story_points: Story points
-            time: Estimated time
+            story_points: 故事点
+            time: 估计时间
         work_package_graph:
           blankslate:
             no_work:
@@ -358,7 +358,7 @@ zh-CN:
                 description: Added work packages will appear here after the sprint starts.
             title: Scope increase after sprint start
           blankslate:
-            heading: No work packages to display
+            heading: 没有可显示的工作包
           completed:
             blankslate:
               empty:
@@ -439,7 +439,7 @@ zh-CN:
         invalid_ids: 要移动的工作包列表无效。
         member_failed: "%{work_package}：%{reason}"
         moved_announcement:
-          other: "%{count} work packages moved to %{list}, positions %{first} through %{last} of %{total}"
+          other: "%{count} 个工作包已被移至 %{list} 的位置 %{first} 到 %{last}，总计 %{total}"
         too_many_work_packages: 一次移动的工作包数量不能超过 %{max} 个。
         work_packages_not_found: 至少有一个工作包在此项目中无法找到。
       update_service:
@@ -498,14 +498,14 @@ zh-CN:
       sprints: 冲刺
     settings:
       backlog_estimation_unit:
-        estimation_unit: Unit
+        estimation_unit: 单位
         options:
           none:
             caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
-            label: None
+            label: 无
           story_points:
             caption: The cards and charts will display story points.
-            label: Story points
+            label: 故事点
           time:
             caption: The cards and charts will display work time estimates.
             label: Work time estimate

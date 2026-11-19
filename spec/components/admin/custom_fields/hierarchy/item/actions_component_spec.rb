@@ -44,7 +44,7 @@ RSpec.describe Admin::CustomFields::Hierarchy::Item::ActionsComponent, type: :co
     it "offers to add items next to and below it", :aggregate_failures do
       expect(page).to have_text(I18n.t(:button_add_item_above))
       expect(page).to have_text(I18n.t(:button_add_item_below))
-      expect(page).to have_text(I18n.t(:button_add_sub_item))
+      expect(page).to have_text(I18n.t(:button_add_sub_value))
     end
   end
 
@@ -54,7 +54,7 @@ RSpec.describe Admin::CustomFields::Hierarchy::Item::ActionsComponent, type: :co
     it "offers to add items next to it, but not below it", :aggregate_failures do
       expect(page).to have_text(I18n.t(:button_add_item_above))
       expect(page).to have_text(I18n.t(:button_add_item_below))
-      expect(page).to have_no_text(I18n.t(:button_add_sub_item))
+      expect(page).to have_no_text(I18n.t(:button_add_sub_value))
     end
   end
 
@@ -65,7 +65,7 @@ RSpec.describe Admin::CustomFields::Hierarchy::Item::ActionsComponent, type: :co
     it "does not offer to add items", :aggregate_failures do
       expect(page).to have_no_text(I18n.t(:button_add_item_above))
       expect(page).to have_no_text(I18n.t(:button_add_item_below))
-      expect(page).to have_no_text(I18n.t(:button_add_sub_item))
+      expect(page).to have_no_text(I18n.t(:button_add_sub_value))
     end
   end
 end

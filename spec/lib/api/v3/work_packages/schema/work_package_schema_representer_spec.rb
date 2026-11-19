@@ -940,7 +940,9 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
-    describe "categories" do
+    describe "category allowed values",
+             with_flag: { work_package_multiple_categories: false },
+             with_settings: { work_package_multiple_categories: false } do
       it_behaves_like "has basic schema properties" do
         let(:path) { "category" }
         let(:type) { "Category" }
@@ -948,6 +950,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:required) { false }
         let(:writable) { true }
         let(:location) { "_links" }
+        let(:description) { I18n.t("api_v3.attributes.category.deprecated") }
       end
 
       it_behaves_like "has a collection of allowed values" do
@@ -1054,6 +1057,58 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
         it "announces that multiple values are allowed" do
           expect(subject).to be_json_eql(true.to_json).at_path("targetVersions/options/multiple")
+        end
+      end
+    end
+
+    describe "category",
+             with_flag: { work_package_multiple_categories: false },
+             with_settings: { work_package_multiple_categories: false } do
+      it "marks the deprecated category field as deprecated" do
+        expect(subject).to be_json_eql(true.to_json).at_path("category/deprecated")
+      end
+
+      context "when multiple categories is active",
+              with_flag: { work_package_multiple_categories: true },
+              with_settings: { work_package_multiple_categories: true } do
+        it "drops the deprecated category field from the schema" do
+          expect(subject).not_to have_json_path("category")
+        end
+      end
+    end
+
+    describe "categories",
+             with_flag: { work_package_multiple_categories: false },
+             with_settings: { work_package_multiple_categories: false } do
+      let(:permissions) { [:edit_work_packages] }
+
+      it_behaves_like "has basic schema properties" do
+        let(:path) { "categories" }
+        let(:type) { "[]Category" }
+        let(:name) { WorkPackage.human_attribute_name(:category) }
+        let(:required) { false }
+        let(:writable) { true }
+        let(:location) { "_links" }
+      end
+
+      it "announces the single value restriction while multiple categories is inactive" do
+        expect(subject).to be_json_eql(false.to_json).at_path("categories/options/multiple")
+      end
+
+      context "when multiple categories is active",
+              with_flag: { work_package_multiple_categories: true },
+              with_settings: { work_package_multiple_categories: true } do
+        it_behaves_like "has basic schema properties" do
+          let(:path) { "categories" }
+          let(:type) { "[]Category" }
+          let(:name) { WorkPackage.human_attribute_name(:categories) }
+          let(:required) { false }
+          let(:writable) { true }
+          let(:location) { "_links" }
+        end
+
+        it "announces that multiple values are allowed" do
+          expect(subject).to be_json_eql(true.to_json).at_path("categories/options/multiple")
         end
       end
     end

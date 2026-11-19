@@ -38,7 +38,7 @@ module Wikis
       case error
       in { code: :not_found }
         I18n.t("wikis.page_links.errors.page_not_found")
-      in { code: :forbidden }
+      in { code: :unauthorized }
         I18n.t("wikis.page_links.errors.page_access_forbidden")
       else
         I18n.t("wikis.page_links.errors.unexpected")

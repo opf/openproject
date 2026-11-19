@@ -40,10 +40,10 @@ See COPYRIGHT and LICENSE files for more details.
                   tag: :a,
                   scheme: :primary,
                   leading_icon: :plus,
-                  label: t(:label_item),
+                  label: t(:label_value),
                   href: new_item_path
                 ) do
-                  I18n.t(:label_item)
+                  I18n.t(:label_value)
                 end
               end
             end
@@ -63,7 +63,7 @@ See COPYRIGHT and LICENSE files for more details.
                     if items_addable?
                       component.with_primary_action(href: new_item_path) do |button|
                         button.with_leading_visual_icon(icon: :plus)
-                        I18n.t(:label_item)
+                        I18n.t(:label_value)
                       end
                     end
                   end

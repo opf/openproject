@@ -150,6 +150,8 @@ linter:
       enabled: false
     erb-no-method-definitions:
       enabled: false
+    erb-no-trailing-comment:
+      enabled: true
     erb-no-unsafe-raw:
       enabled: false
     erb-no-unused-expressions:

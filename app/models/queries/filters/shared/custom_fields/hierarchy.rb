@@ -59,7 +59,7 @@ module Queries
           end
 
           def allowed_values
-            return super if custom_field.project_specific_value_restriction.nil?
+            return super unless custom_field.project_specific_values_supported?
 
             visible_items.map { |item| [item.ancestry_path(include_shorts_and_weights: true), item.id] }
           end

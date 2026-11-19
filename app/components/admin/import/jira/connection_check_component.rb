@@ -56,6 +56,18 @@ module Admin::Import::Jira
       end
     end
 
+    def docs_href
+      if ssrf_blocked?
+        ::OpenProject::Static::Links.url_for(:sysadmin_docs, :ssrf_protection)
+      else
+        ::OpenProject::Static::Links.url_for(:jira_migration_docs, :connection_check)
+      end
+    end
+
+    def ssrf_blocked?
+      report.results.flat_map(&:results).any? { |result| result.code.to_s == "ssrf_blocked" }
+    end
+
     def test_connection_button_arguments
       {
         type: :submit,

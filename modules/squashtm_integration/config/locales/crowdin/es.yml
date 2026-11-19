@@ -3,14 +3,14 @@ es:
   activerecord:
     attributes:
       squashtm_integration/project_link:
-        project: Project
+        project: Proyecto
         squashtm_project: SquashTM project
       squashtm_integration/server:
-        api_token: API token
+        api_token: Token API
         base_url: SquashTM URL
       squashtm_integration/work_package_link:
         squashtm_requirement: SquashTM requirement
-        work_package: Work package
+        work_package: paquete de trabajo
     errors:
       models:
         squashtm_integration/project_link:
@@ -81,20 +81,20 @@ es:
         update:
           connection_warning: 'The settings were saved, but the connection to SquashTM failed: %{reason}'
     execution_statuses:
-      blocked: Blocked
-      cancelled: Cancelled
+      blocked: Bloqueado
+      cancelled: Cancelada
       error: Error
-      failure: Failed
+      failure: Error
       not_executed: Not executed
       not_found: Not found
       not_run: Not run
       ready: Ready
-      running: Running
+      running: En ejecución
       settled: Settled
-      skipped: Skipped
-      success: Passed
+      skipped: Omitido
+      success: Aprobado
       untestable: Untestable
-      warning: Warning
+      warning: Alerta
     project_settings:
       delete_project_link_dialog_component:
         confirm: Unlink

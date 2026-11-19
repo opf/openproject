@@ -35,10 +35,6 @@ module Admin::Import::Jira::ImportRuns
       include OpPrimer::ComponentHelpers
 
       alias_method :jira_import, :model
-
-      def last_changed_date
-        jira_import.last_transition&.created_at || jira_import.updated_at
-      end
     end
   end
 end

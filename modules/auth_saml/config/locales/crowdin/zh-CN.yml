@@ -183,7 +183,7 @@ zh-CN:
       notice_created: 成功创建了一个新的 SAML 身份提供程序。
       plural: SAML 身份供应商
       refresh_metadata:
-        apply: Apply changes
+        apply: 应用更改
         description: Review the configuration fetched from your identity provider. Changes are saved only when you apply them.
         no_changes: The metadata matches the current configuration.
         title: Review metadata changes
