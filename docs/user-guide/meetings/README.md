@@ -28,7 +28,7 @@ Meetings in OpenProject allow you to manage and document your project meetings, 
 
 | Task | Where to find it |
 | --- | --- |
-| Create a one-time meeting | [Create a new meeting](meeting-features/meeting-creation/#create-a-new-meeting) |
+| Create a one-time meeting | [Create a new meeting](meeting-features/meeting-setup/#create-a-new-meeting) |
 | Create a meeting series | [Recurring meetings](meeting-types/recurring-meetings/#create-and-edit-recurring-meetings) |
 | Use a meeting template | [Meeting templates](meeting-features/meeting-templates/) |
 | Add participants | [Add meeting participants](meeting-features/meeting-participants/#add-meeting-participants) |
