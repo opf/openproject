@@ -58,7 +58,7 @@ class Meeting::AddToSection < ApplicationForm
     super()
 
     @wrapper_id = wrapper_id
-    @occurrence = meeting == occurrence ? nil : occurrence
+    @other_meeting = meeting == occurrence ? nil : occurrence
     @selected_section = item&.meeting_section
     @move_to_section = move_to_section
   end
@@ -74,8 +74,8 @@ class Meeting::AddToSection < ApplicationForm
   def items # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     items = []
 
-    items.concat(meeting.sections) if meeting.present? && @occurrence.nil?
-    items.concat(@occurrence.sections) if @occurrence.present?
+    items.concat(meeting.sections) if meeting.present? && @other_meeting.nil?
+    items.concat(@other_meeting.sections) if @other_meeting.present?
     items.push(MeetingSection.new) if items.empty?
     items.push(meeting.backlog) if meeting.present? && !meeting.template? && meeting.backlog.present?
 
