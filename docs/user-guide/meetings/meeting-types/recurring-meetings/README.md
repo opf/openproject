@@ -169,7 +169,10 @@ In addition to all the options available when clicking on the three-dot **More**
 
 ![Move an agenda item to next meeting in OpenProject recurring meetings](openproject_userguide_meetings_recurring_move_agenda_item.png)
 
-Clicking this option will display a confirmation dialog. From there, choose where to move the item: a section of the agenda or the backlog.
+Clicking this option will display a confirmation dialog. From there, choose where to move the item: a section of the agenda or the backlog. If the next meeting has a section with the same name as the current section of the agenda item, that section is preselected. Otherwise, the last section is preselected.
+
+> [!TIP]
+> You can also move an agenda item to the next meeting directly from [presentation mode](../../meeting-features/meeting-modes/#present-a-meeting), using the **More** (three dots) menu of the current agenda item.
 
 ![A confirmation dialogue for moving an agenda item into the the next meeting occurrence in OpenProject](openproject_userguide_meetings_recurring_move_agenda_item_confirmation_dialog.png)
 
