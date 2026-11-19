@@ -97,6 +97,6 @@ You can delete a meeting. To do so, click on the three dots in the top right cor
 
 ![Deleting a meeting in OpenProject](openproject_userguide_meetings_delete_meeting.png)
 
-In the dialog that opens, you can optionally add a reason for cancellation before clicking **Delete**. When email notifications are enabled, the reason is included in the cancellation email sent to participants.
+In the dialog that opens, you can optionally add a reason for cancellation before clicking **Delete**. If email notifications are enabled, the reason is included in the cancellation email sent to participants.
 
 ![Add reason for deleting a meeting in OpenProject](openproject_userguide_meetings_delete_meeting_reason.png)

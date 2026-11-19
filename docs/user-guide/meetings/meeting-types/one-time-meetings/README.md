@@ -15,7 +15,7 @@ A **one-time meeting** in OpenProject is a single meeting scheduled for a specif
 
 ## Create a one-time meeting
 
-To create a one-time meeting, click the green **+ Meeting** button in the **Meetings** module and select **One-time**. Alternatively, from anywhere in OpenProject, click the **+** button in the header navigation, select **Meetings**, then **One-time meeting**. Both routes lead to the same creation steps: enter the title, location, start date and time, and duration of the meeting. If you have the [Meeting templates](../../meeting-features/meeting-templates/) Enterprise add-on, you can also start from a template.
+To create a one-time meeting, click the green **+ Meeting** button in the **Meetings** module (either within a project or from the global Meetings module) and select **One-time**. Alternatively, from anywhere in OpenProject, click the **+** button in the header navigation, select **Meetings**, then **One-time meeting**. Both routes lead to the same creation steps: enter the title, location, start date and time, and duration of the meeting. If you have the [Meeting templates](../../meeting-features/meeting-templates/) Enterprise add-on, you can also start from a template.
 
 For step-by-step instructions, see [Create a new meeting](../../meeting-features/meeting-creation/#create-a-new-meeting).
 
