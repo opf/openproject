@@ -109,6 +109,7 @@ fi:
         maintained_with_changes: Maintained with changes
         no_longer_meets_filter_criteria: No longer meets filter criteria
         now_meets_filter_criteria: Now meets filter criteria
+        state_at: State at
       show_changes_since: Show changes since
       time: Aika
       time_description: 'In your local time: %{datetime}'
@@ -772,8 +773,10 @@ fi:
       create_new: Create new
       group_by_relation_type: Ryhmittele suhteen tyypin mukaan
       group_by_wp_type: Ryhmittele tehtävät tyypeittäin
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Indent hierarchy
       hierarchy_outdent: Outdent hierarchy
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Remove relation
       remove_child: Poista alitehtävä
       remove_parent: Poista ylätaso
@@ -1012,6 +1015,7 @@ fi:
         label_pagination: Click here to skip over the work packages table and go to pagination
         pagination: Jump to table pagination
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Yhdistetty avattava kenttä: Valitse nuolinäppäimillä, vahvista Enter, backspace poistaa'
       label_disable_multi_select: Poista monivalinta käytöstä
       label_enable_multi_select: Ota monivalinta käyttöön

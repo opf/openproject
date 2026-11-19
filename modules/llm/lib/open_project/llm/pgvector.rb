@@ -37,8 +37,12 @@ module OpenProject
     # The extension itself is created by a migration in that path, so installation goes
     # through the regular migration pipeline instead of a single connection.
     # Making pgvector mandatory means moving them into db/migrate and deleting this.
+    #
+    # Setting OPENPROJECT_SKIP_OPTIONAL_MIGRATIONS=true never includes them, e.g. to dump a
+    # db/structure.sql that does not depend on the extension regardless of the database used.
     module Pgvector
       EXTENSION = "vector"
+      SKIP_ENV_VAR = "OPENPROJECT_SKIP_OPTIONAL_MIGRATIONS"
       DOCS_URL = "https://www.openproject.org/docs/installation-and-operations/system-requirements/#pgvector"
 
       Failure = Data.define(:reason, :detail)
@@ -79,13 +83,21 @@ module OpenProject
           !migration_context.needs_migration?
         end
 
+        def migrations_skipped?
+          ENV[SKIP_ENV_VAR] == "true"
+        end
+
         def include_migrations_path_if_installed!
+          return if migrations_skipped?
+
           include_migrations_path! if extension_installed?
         rescue ActiveRecord::ConnectionNotEstablished, ActiveRecord::NoDatabaseError
           # No database yet, e.g. before db:create. db:migrate decides again.
         end
 
         def include_migrations_path_if_installable!
+          return if migrations_skipped?
+
           failure = check_if_installable
           include_migrations_path! if failure.nil?
           failure
@@ -94,6 +106,8 @@ module OpenProject
         # The extension lives in pg_catalog, so once installed it is shared by every schema
         # and need not be checked for installability again.
         def migrate_pending_if_installable!
+          return if migrations_skipped?
+
           if extension_installed?
             include_migrations_path!
           elsif include_migrations_path_if_installable!

@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
     if next_meetings.empty?
       render(Primer::Beta::Blankslate.new(test_selector: "meetings-widget-empty")) do |component|
         component.with_visual_icon(icon: :"comment-discussion")
-        component.with_heading(tag: :h3).with_content(t("meeting.widgets.blankslate.heading"))
+        component.with_heading(tag: :h4).with_content(t("meeting.widgets.blankslate.heading"))
         component.with_description { t("meeting.widgets.blankslate.description") }
 
         if can_manage_meetings?

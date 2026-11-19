@@ -30,6 +30,7 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { withTooltip } from 'core-app/shared/helpers/tooltip-helper';
+import { TooltipDirection } from 'core-app/shared/components/primer/tool-tip-element';
 
 export interface UiStateLink {
   link:HTMLAnchorElement;
@@ -47,8 +48,14 @@ export class UiStateLinkBuilder {
   ) {
   }
 
-  public linkToDetails(workPackageId:string, title:string, content:string, routingId?:string):UiStateLink {
-    return this.build(workPackageId, 'split', title, content, routingId);
+  public linkToDetails(
+    workPackageId:string,
+    title:string,
+    content:string,
+    routingId?:string,
+    tooltipDirection?:TooltipDirection,
+  ):UiStateLink {
+    return this.build(workPackageId, 'split', title, content, routingId, tooltipDirection);
   }
 
   public linkToShow(workPackageId:string, title:string, content:string, routingId?:string):UiStateLink {
@@ -67,7 +74,14 @@ export class UiStateLinkBuilder {
    * and call preventDefault() — the href is never followed during normal
    * in-table clicks. It only matters for right-click / open-in-new-tab.
    */
-  private build(workPackageId:string, state:'show'|'split', title:string, content:string, routingId?:string):UiStateLink {
+  private build(
+    workPackageId:string,
+    state:'show'|'split',
+    title:string,
+    content:string,
+    routingId?:string,
+    tooltipDirection?:TooltipDirection,
+  ):UiStateLink {
     const a = document.createElement('a');
     const idForHref = routingId ?? workPackageId;
     let href:string;
@@ -93,7 +107,7 @@ export class UiStateLinkBuilder {
 
     return {
       link: a,
-      element: withTooltip(a, tooltipText, tooltipType),
+      element: withTooltip(a, tooltipText, tooltipType, tooltipDirection),
     };
   }
 }

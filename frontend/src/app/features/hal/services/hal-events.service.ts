@@ -36,6 +36,7 @@ export interface HalEvent {
   eventType:string;
   resourceType:string;
   commit?:ResourceChangesetCommit;
+  origin?:unknown;
 }
 
 export interface HalCreatedEvent extends HalEvent {

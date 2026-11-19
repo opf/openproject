@@ -435,7 +435,7 @@ RSpec.describe API::V3::Users::UsersAPI do
     end
 
     describe "email update" do
-      let(:parameters) { { email: "this.is.a.new@email.address" } }
+      let(:parameters) { { email: "this.is.a.new@email.address", currentPassword: "adminADMIN!" } }
 
       context "when users may change their email", with_settings: { user_can_change_email: true } do
         it "updates the users email correctly" do

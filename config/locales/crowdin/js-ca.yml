@@ -109,6 +109,7 @@ ca:
         maintained_with_changes: Mantingut amb canvis
         no_longer_meets_filter_criteria: Ja no compleix els criteris del filtre
         now_meets_filter_criteria: Ara compleix els criteris del filtre
+        state_at: State at
       show_changes_since: Mostra canvis des de
       time: Hora
       time_description: 'En el temps local: %{datetime}'
@@ -772,8 +773,10 @@ ca:
       create_new: Crear nou
       group_by_relation_type: Agrupar per classe de relació
       group_by_wp_type: Agrupar per classe de paquet de treball
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Jerarquia cap a l'interior
       hierarchy_outdent: Jerarquia cap a l'exterior
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Eliminar la relació
       remove_child: Eliminar fill
       remove_parent: Eliminar pare
@@ -1012,6 +1015,7 @@ ca:
         label_pagination: Fes clic aquí per saltar per sobre la taula de paquets de treball i anar a paginació
         pagination: Saltar a la paginació de la taula
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Camp combinat desplegable: selecciona amb les tecles de fletxa, confirma la selecció amb enter, elimina amb retrocés'
       label_disable_multi_select: Deshabilita la selecció múltiple
       label_enable_multi_select: Permetre selecció múltiple

@@ -34,6 +34,8 @@ import {
 } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
+export const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
 /**
  * Interface passed to CM service to open a particular context menu.
  * This will often be a trigger component, but does not have to be.
@@ -98,12 +100,10 @@ export abstract class OpContextMenuHandler extends UntilDestroyedMixin {
   }
 
   protected get afterFocusOn():HTMLElement {
-    const focusableSelector = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
-
-    if (this.element.matches(focusableSelector)) {
+    if (this.element.matches(FOCUSABLE_SELECTOR)) {
       return this.element;
     }
 
-    return this.element.querySelector<HTMLElement>(focusableSelector) ?? this.element;
+    return this.element.querySelector<HTMLElement>(FOCUSABLE_SELECTOR) ?? this.element;
   }
 }

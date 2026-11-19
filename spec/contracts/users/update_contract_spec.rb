@@ -287,12 +287,32 @@ RSpec.describe Users::UpdateContract do
         it_behaves_like "contract is invalid", status: :error_readonly
       end
 
-      describe "can update the email" do
+      context "when changing the email" do
         before do
+          allow(user).to receive(:check_password?).and_return(false)
+          allow(user).to receive(:check_password?).with("correct").and_return(true)
           user.mail = "a.new@email.address"
         end
 
-        it_behaves_like "contract is valid"
+        context "with the correct current password" do
+          before { user.current_password_input = "correct" }
+
+          it_behaves_like "contract is valid"
+        end
+
+        context "with a wrong current password" do
+          before { user.current_password_input = "wrong" }
+
+          it_behaves_like "contract is invalid", current_password: :invalid
+        end
+
+        context "without the current password" do
+          it_behaves_like "contract is invalid", current_password: :invalid
+        end
+
+        context "when password confirmation is disabled", with_config: { internal_password_confirmation: false } do
+          it_behaves_like "contract is valid"
+        end
       end
 
       context "when users are not allowed to change their email", with_settings: { user_can_change_email: false } do
@@ -316,10 +336,20 @@ RSpec.describe Users::UpdateContract do
           let(:user) { build_stubbed(:admin, attributes) }
 
           before do
+            allow(user).to receive(:check_password?).and_return(false)
+            allow(user).to receive(:check_password?).with("correct").and_return(true)
             user.mail = "a.new@email.address"
           end
 
-          it_behaves_like "contract is valid"
+          context "with the correct current password" do
+            before { user.current_password_input = "correct" }
+
+            it_behaves_like "contract is valid"
+          end
+
+          context "without the current password" do
+            it_behaves_like "contract is invalid", current_password: :invalid
+          end
         end
       end
 
