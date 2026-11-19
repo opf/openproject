@@ -30,20 +30,31 @@
 module Backlogs
   module SprintReports
     module Widgets
-      # Including widgets implement `too_long_to_chart?` and `anything_to_chart?`.
+      # Including widgets implement `too_long_to_chart?`, `anything_to_chart?` and
+      # `chartable_work_packages`.
       module BurnChartBlankslate
         include ChartBlankslate
 
         private
 
         def blankslate_reason
-          if too_long_to_chart?
-            :too_long
-          elsif !start_reached?
-            :not_started
-          elsif !anything_to_chart?
+          return :too_long if too_long_to_chart?
+
+          if estimated_work?
+            :not_started unless start_reached?
+          elsif start_reached?
             :"no_#{estimate_column}"
+          else
+            :"not_started_without_#{estimate_column}"
           end
+        end
+
+        # Before the sprint opens nothing has been measured, so what the sprint holds now has to
+        # answer in the series' place.
+        def estimated_work?
+          return anything_to_chart? if start_reached?
+
+          chartable_work_packages.where(WorkPackage.arel_table[estimate_column].gt(0)).exists?
         end
 
         def estimate_column = project.estimation_unit_time? ? :estimated_hours : :story_points

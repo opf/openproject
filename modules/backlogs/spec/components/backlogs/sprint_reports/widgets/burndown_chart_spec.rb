@@ -128,57 +128,62 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
     end
   end
 
-  context "when the sprint never received a work package" do
-    it "renders a blankslate instead of the chart" do
+  context "when the sprint holds no work package" do
+    it "asks for an estimated open work package, so that both conditions are known upfront" do
       expect(rendered_component).to have_no_element(:"opce-burndown-chart")
       expect(rendered_component).to have_css(".blankslate", text: "No work to display")
       expect(rendered_component).to have_css(
         ".blankslate-description",
-        exact_text: "The burndown chart will appear here once the sprint has an open work package with estimated story points."
+        exact_text: "The burndown chart will appear here once the sprint contains " \
+                    "open work packages with estimated story points."
       )
     end
   end
 
-  context "when the sprint only held story points before the charted window" do
+  context "when the sprint only held work packages before the charted window" do
     before do
       create(:work_package, project:, story_points: 5,
                             journals: { monday.in_time_zone - 2.days => { sprint_id: sprint.id },
                                         monday.in_time_zone - 1.day => {} })
     end
 
-    it "renders a blankslate instead of the chart" do
+    it "asks for an estimated open work package" do
       expect(rendered_component).to have_no_element(:"opce-burndown-chart")
       expect(rendered_component).to have_css(
         ".blankslate-description",
-        exact_text: "The burndown chart will appear here once the sprint has an open work package with estimated story points."
+        exact_text: "The burndown chart will appear here once the sprint contains " \
+                    "open work packages with estimated story points."
       )
     end
   end
 
+  # Only open work burns down, so work that was done throughout leaves nothing to draw.
   context "when the story points in the sprint were closed throughout the charted window" do
     before do
       create(:work_package, project:, sprint:, status: closed_status,
                             journals: { monday.in_time_zone - 1.day => { story_points: 5, status_id: closed_status.id } })
     end
 
-    it "renders a blankslate asking for open work" do
+    it "asks for an estimated open work package" do
       expect(rendered_component).to have_no_element(:"opce-burndown-chart")
       expect(rendered_component).to have_css(
         ".blankslate-description",
-        exact_text: "The burndown chart will appear here once the sprint has an open work package with estimated story points."
+        exact_text: "The burndown chart will appear here once the sprint contains " \
+                    "open work packages with estimated story points."
       )
     end
   end
 
-  context "when the sprint only received work packages without story points" do
+  context "when the sprint holds work packages without story points" do
     before { create(:work_package, project:, sprint:, story_points: nil) }
 
-    it "renders a blankslate instead of the chart" do
+    it "asks for story points" do
       expect(rendered_component).to have_no_element(:"opce-burndown-chart")
       expect(rendered_component).to have_css(".blankslate", text: "No work to display")
       expect(rendered_component).to have_css(
         ".blankslate-description",
-        exact_text: "The burndown chart will appear here once the sprint has an open work package with estimated story points."
+        exact_text: "The burndown chart will appear here once the sprint contains " \
+                    "open work packages with estimated story points."
       )
     end
   end
@@ -186,28 +191,26 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
   context "when the project estimates in time", with_flag: { project_settings_estimation_unit: true } do
     before { project.estimation_unit = "time" }
 
-    context "when the sprint never received a work package" do
-      it "renders a blankslate asking for a work time estimate" do
+    context "when the sprint holds work packages without a work estimate" do
+      before { create(:work_package, project:, sprint:, story_points: 3, estimated_hours: nil) }
+
+      it "asks for a work time estimate" do
         expect(rendered_component).to have_no_element(:"opce-burndown-chart")
         expect(rendered_component).to have_css(
           ".blankslate-description",
-          exact_text: "The burndown chart will appear here once the sprint has an open work package with work time estimate."
+          exact_text: "The burndown chart will appear here once the sprint contains open work packages with work time estimates."
         )
       end
     end
-  end
 
-  context "when the current date is before the sprint's start date and the sprint never received a work package" do
-    let(:now) { monday.in_time_zone - 2.hours }
-    let(:sprint) { create(:sprint, project:, start_date: monday, finish_date: second_friday) }
-
-    it "renders a blankslate instead of the chart" do
-      expect(rendered_component).to have_no_element(:"opce-burndown-chart")
-      expect(rendered_component).to have_css(".blankslate", text: "No work to display")
-      expect(rendered_component).to have_css(
-        ".blankslate-description",
-        exact_text: "The burndown chart will appear here after the sprint starts."
-      )
+    context "when the sprint holds no work package" do
+      it "asks for open work packages carrying work time estimates" do
+        expect(rendered_component).to have_css(
+          ".blankslate-description",
+          exact_text: "The burndown chart will appear here once the sprint contains " \
+                      "open work packages with work time estimates."
+        )
+      end
     end
   end
 
@@ -215,34 +218,73 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
     let(:now) { monday.in_time_zone - 2.hours }
     let(:sprint) { create(:sprint, project:, start_date: monday, finish_date: second_friday) }
 
-    before { create(:work_package, project:, sprint:, story_points: 3) }
+    context "when the sprint holds work packages with story points" do
+      before { create(:work_package, project:, sprint:, story_points: 3) }
 
-    it "renders a blankslate instead of the chart" do
-      expect(rendered_component).to have_no_element(:"opce-burndown-chart")
-      expect(rendered_component).to have_css(".blankslate", text: "No work to display")
-      expect(rendered_component).to have_css(
-        ".blankslate-description",
-        exact_text: "The burndown chart will appear here after the sprint starts."
-      )
+      it "names the start date alone" do
+        expect(rendered_component).to have_no_element(:"opce-burndown-chart")
+        expect(rendered_component).to have_css(".blankslate", text: "No work to display")
+        expect(rendered_component).to have_css(
+          ".blankslate-description",
+          exact_text: "The burndown chart will appear here after the sprint start date."
+        )
+      end
+
+      context "when the sprint was started early" do
+        let(:sprint) do
+          create(:sprint, project:, start_date: monday, finish_date: second_friday, started_at: now - 1.hour)
+        end
+
+        it "renders the chart" do
+          expect(rendered_component).to have_element(:"opce-burndown-chart")
+        end
+      end
+
+      context "with a viewer for whom the start date has already begun" do
+        current_user do
+          create(:user, member_with_roles: { project => role }, preferences: { time_zone: "Asia/Tokyo" })
+        end
+
+        it "renders the chart" do
+          expect(rendered_component).to have_element(:"opce-burndown-chart")
+        end
+      end
     end
 
-    context "when the sprint was started early" do
-      let(:sprint) do
-        create(:sprint, project:, start_date: monday, finish_date: second_friday, started_at: now - 1.hour)
-      end
+    context "when the sprint holds work packages without story points" do
+      before { create(:work_package, project:, sprint:, story_points: nil) }
 
-      it "renders the chart" do
-        expect(rendered_component).to have_element(:"opce-burndown-chart")
+      it "names the start date and the missing story points" do
+        expect(rendered_component).to have_css(
+          ".blankslate-description",
+          exact_text: "The burndown chart will appear here after the sprint start date, " \
+                      "once the sprint contains open work packages with estimated story points."
+        )
       end
     end
 
-    context "with a viewer for whom the start date has already begun" do
-      current_user do
-        create(:user, member_with_roles: { project => role }, preferences: { time_zone: "Asia/Tokyo" })
+    context "when the sprint holds no work package" do
+      it "names the start date and the estimated open work package it will need" do
+        expect(rendered_component).to have_css(
+          ".blankslate-description",
+          exact_text: "The burndown chart will appear here after the sprint start date, " \
+                      "once the sprint contains open work packages with estimated story points."
+        )
+      end
+    end
+
+    context "when the project estimates in time", with_flag: { project_settings_estimation_unit: true } do
+      before do
+        project.estimation_unit = "time"
+        create(:work_package, project:, sprint:, story_points: 3, estimated_hours: nil)
       end
 
-      it "renders the chart" do
-        expect(rendered_component).to have_element(:"opce-burndown-chart")
+      it "names the start date and the missing work time estimate" do
+        expect(rendered_component).to have_css(
+          ".blankslate-description",
+          exact_text: "The burndown chart will appear here after the sprint start date, " \
+                      "once the sprint contains open work packages with work time estimates."
+        )
       end
     end
   end
