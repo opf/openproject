@@ -22,14 +22,14 @@ This page explains how to create a meeting and how to edit, copy or delete it. F
 
 ## Create a new meeting
 
-You can either create a meeting from within a project or from the global **Meetings** module.
+You can create a meeting from within a project, from the global **Meetings** module, or using the **+** button in the header navigation.
 
 To create a new meeting, click the green **+ Meeting** button in the upper right corner and select what type of meeting you want to create. You can choose between **one-time and recurring meetings**. 
 
 ![Create new meeting in OpenProject](openproject_userguide_meetings_create_meeting_button.png)
 
 > [!TIP]
-> You can also create a meeting from anywhere in OpenProject by clicking the **+** button in the top navigation bar, selecting **Meeting** and choosing the type of meeting.
+> You can also create a meeting from anywhere in OpenProject using the **+** button in the header navigation. Click **+**, select **Meetings**, then choose **One-time meeting** or **Meeting series**. After selecting the meeting type, follow the same creation steps as above.
 
 For steps on setting up recurring meetings please consult [this page](../../meeting-types/recurring-meetings/).
 
