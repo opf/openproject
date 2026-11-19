@@ -109,7 +109,6 @@ uk:
         maintained_with_changes: Збережено зі змінами
         no_longer_meets_filter_criteria: Більше не відповідає критеріям фільтра
         now_meets_filter_criteria: Тепер відповідає критеріям фільтра
-        state_at: State at
       show_changes_since: Показувати зміни з
       time: Час
       time_description: 'За вашим місцевим часом: %{datetime}'

@@ -109,7 +109,6 @@ pl:
         maintained_with_changes: Zachowano ze zmianami
         no_longer_meets_filter_criteria: Już nie spełnia kryteriów filtrowania
         now_meets_filter_criteria: Teraz spełnia kryteria filtrowania
-        state_at: State at
       show_changes_since: Pokaż zmiany od
       time: Godzina
       time_description: 'W Twoim czasie lokalnym: %{datetime}'

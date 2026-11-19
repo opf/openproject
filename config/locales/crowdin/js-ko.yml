@@ -109,7 +109,6 @@ ko:
         maintained_with_changes: 변경 사항으로 유지됨
         no_longer_meets_filter_criteria: 더 이상 필터 기준을 충족하지 않습니다
         now_meets_filter_criteria: 이제 필터 기준을 충족합니다
-        state_at: State at
       show_changes_since: 다음 이후 변경 사항 표시
       time: 시간
       time_description: '내 현지 시간: %{datetime}'

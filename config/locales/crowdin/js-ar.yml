@@ -109,7 +109,6 @@ ar:
         maintained_with_changes: Maintained with changes
         no_longer_meets_filter_criteria: No longer meets filter criteria
         now_meets_filter_criteria: Now meets filter criteria
-        state_at: State at
       show_changes_since: Show changes since
       time: الوقت
       time_description: 'In your local time: %{datetime}'

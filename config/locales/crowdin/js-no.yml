@@ -109,7 +109,6 @@
         maintained_with_changes: Beholdt med endringer
         no_longer_meets_filter_criteria: Oppfyller ikke lenger filterkriteriene
         now_meets_filter_criteria: Oppfyller nå filterkriteriene
-        state_at: State at
       show_changes_since: Vis endringer siden
       time: Tidspunkt
       time_description: 'I din lokale tid: %{datetime}'
@@ -166,7 +165,7 @@
     button_start_timer: Start timer
     button_stop_timer: Stop timer
     button_uncheck_all: Avmerk alle
-    button_update: Oppdater
+    button_update: Oppdatèr
     button_view_markdown: View Markdown
     caption_rate_history: Satshistorikk
     card:

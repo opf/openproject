@@ -109,7 +109,6 @@ fr:
         maintained_with_changes: Maintenu avec les modifications
         no_longer_meets_filter_criteria: Ne répond plus aux critères de filtrage
         now_meets_filter_criteria: Répond désormais aux critères de filtrage
-        state_at: State at
       show_changes_since: Afficher les modifications depuis
       time: Heure 
       time_description: 'Dans votre fuseau horaire : %{datetime}'

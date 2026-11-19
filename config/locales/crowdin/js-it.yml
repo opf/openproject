@@ -109,7 +109,6 @@ it:
         maintained_with_changes: Mantenuto con le modifiche
         no_longer_meets_filter_criteria: Non soddisfa più i criteri del filtro
         now_meets_filter_criteria: Ora soddisfa i criteri del filtro
-        state_at: State at
       show_changes_since: Mostra le modifiche da
       time: Ora
       time_description: 'Nella tua ora locale: %{datetime}'

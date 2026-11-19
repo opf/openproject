@@ -109,7 +109,6 @@ zh-CN:
         maintained_with_changes: 保持更改
         no_longer_meets_filter_criteria: 不再符合过滤条件
         now_meets_filter_criteria: 现在符合过滤条件
-        state_at: State at
       show_changes_since: 显示更改自
       time: 时间
       time_description: '在您的本地时间: %{datetime}'

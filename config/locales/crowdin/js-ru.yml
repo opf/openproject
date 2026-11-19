@@ -109,7 +109,6 @@ ru:
         maintained_with_changes: Поддерживается с изменениями
         no_longer_meets_filter_criteria: Больше не соответствует критериям фильтра
         now_meets_filter_criteria: Теперь соответствует критериям фильтра
-        state_at: State at
       show_changes_since: Показать изменения с
       time: Время
       time_description: 'В ваше местное время: %{datetime}'
@@ -166,7 +165,7 @@ ru:
     button_start_timer: Запустить таймер
     button_stop_timer: Остановить таймер
     button_uncheck_all: Снять все отметки
-    button_update: Обновить
+    button_update: Обновление
     button_view_markdown: View Markdown
     caption_rate_history: История оценок
     card:

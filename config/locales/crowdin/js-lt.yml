@@ -109,7 +109,6 @@ lt:
         maintained_with_changes: Palaikoma su pakeitimais
         no_longer_meets_filter_criteria: Nebeatitinka filtro kriterijaus
         now_meets_filter_criteria: Dabar atitinka filtro kriterijų
-        state_at: State at
       show_changes_since: Rodyti pakeitimus nuo
       time: Laikas
       time_description: 'Jūsų lokaliu laiku: %{datetime}'

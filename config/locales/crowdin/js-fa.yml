@@ -109,7 +109,6 @@ fa:
         maintained_with_changes: حفظ‌شده با تغییرات
         no_longer_meets_filter_criteria: دیگر معیارهای فیلتر را برآورده نمی‌کند
         now_meets_filter_criteria: اکنون معیارهای فیلتر را برآورده می‌کند
-        state_at: State at
       show_changes_since: نمایش تغییرات از
       time: زمان
       time_description: 'در زمان محلی شما: %{datetime}'

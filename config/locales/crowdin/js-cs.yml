@@ -109,7 +109,6 @@ cs:
         maintained_with_changes: Udržováno se změnami
         no_longer_meets_filter_criteria: Již nesplňuje kritéria filtru
         now_meets_filter_criteria: Nyní splňuje kritéria filtru
-        state_at: State at
       show_changes_since: Zobrazit změny od
       time: Čas
       time_description: 'Ve vašem místním čase: %{datetime}'

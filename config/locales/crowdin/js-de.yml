@@ -109,7 +109,6 @@ de:
         maintained_with_changes: Änderungen erhalten
         no_longer_meets_filter_criteria: Erfüllt Filterkriterien nicht mehr
         now_meets_filter_criteria: Erfüllt nun die Filterkriterien
-        state_at: State at
       show_changes_since: Änderungen anzeigen ab
       time: Zeit
       time_description: 'In Ihrer Ortszeit: %{datetime}'
@@ -205,7 +204,7 @@ de:
     description_available_columns: Verfügbare Spalten
     description_current_position: 'Sie sind hier: '
     description_select_work_package: 'Arbeitspaket #%{id} auswählen'
-    description_subwork_package: 'Unteraufgabe von Arbeitspaket #%{id}'
+    description_subwork_package: 'Kind von Arbeitspaket #%{id}'
     editor:
       ai_actions:
         caption: Assistant
@@ -603,7 +602,7 @@ de:
     label_uploaded_by: Hochgeladen von
     label_user_plural: Benutzer
     label_validation_error: 'Das Arbeitspaket konnte aufgrund folgender Fehler nicht gespeichert werden:'
-    label_value_derived_from_children: "(aggregierter Wert von Unteraufgaben)"
+    label_value_derived_from_children: "(aggregierter Wert von Kindelementen)"
     label_version_plural: Versionen
     label_view_has_changed: Diese Ansicht hat ungespeicherte Änderungen. Klicken, um sie zu speichern.
     label_visibility_settings: Sichtbarkeits-Einstellungen
@@ -973,7 +972,7 @@ de:
         button: Erstellen
         header: 'Neu: %{type}'
         header_no_type: Neues Arbeitspaket (Typ noch nicht gesetzt)
-        header_with_parent: 'Neu: %{type} (Unteraufgabe von %{parent_type} #%{id})'
+        header_with_parent: 'Neu: %{type} (Kind von %{parent_type} #%{id})'
         title: Neues Arbeitspaket
       default_queries:
         all_open: Alle offenen
