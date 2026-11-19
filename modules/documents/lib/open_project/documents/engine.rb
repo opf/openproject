@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,6 +32,13 @@ module OpenProject::Documents
     engine_name :openproject_documents
 
     include OpenProject::Plugins::ActsAsOpEngine
+
+    initializer "openproject_documents.feature_decisions" do
+      OpenProject::FeatureDecisions.add :documents_collaboration_token_api,
+                                        description: "Enables the API endpoint for creating real-time collaboration " \
+                                                     "tokens for documents (used by the mobile app). " \
+                                                     "See SE-664 for details."
+    end
 
     register "openproject-documents",
              author_url: "http://www.openproject.org",
@@ -52,6 +58,8 @@ module OpenProject::Documents
       end
 
       project_module :documents do |_map|
+        enabled_by_default! if: -> { Setting.real_time_text_collaboration_enabled? }
+
         permission :view_documents,
                    {
                      documents: %i[
@@ -108,12 +116,10 @@ module OpenProject::Documents
 
     patches %i[Project]
 
-    add_api_path :documents do
-      "#{root}/documents"
-    end
+    add_api_resource_paths :document, only: %i[index show]
 
-    add_api_path :document do |id|
-      "#{root}/documents/#{id}"
+    add_api_path :document_collaboration_token do |id|
+      "#{document(id)}/collaboration_token"
     end
 
     add_api_path :attachments_by_document do |id|

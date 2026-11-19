@@ -20,31 +20,66 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, inject } from '@angular/core';
+import { DestroyRef, Injectable, inject, signal } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackageRelationsHierarchyService } from 'core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
-import { States } from 'core-app/core/states/states.service';
 import { WorkPackageViewDisplayRepresentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { firstValueFrom } from 'rxjs';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { firstValueFrom, Subscription } from 'rxjs';
+
+export const REQUEST_TIMEOUT_MS = 30_000;
+export const RENDER_TIMEOUT_MS = 10_000;
+
+/**
+ * `outOfDate`: the server may hold a parent change that the table does not show,
+ * so the rendered order cannot be used to work out a new parent.
+ */
+type HierarchyState = 'idle'|'running'|'outOfDate';
+
+interface Deadline {
+  exceeded:Promise<void>;
+  cancel:() => void;
+}
 
 @Injectable()
 export class WorkPackageViewHierarchyIdentationService {
   private wpViewHierarchies = inject(WorkPackageViewHierarchiesService);
   private wpDisplayRepresentation = inject(WorkPackageViewDisplayRepresentationService);
-  private states = inject(States);
   private wpRelationHierarchy = inject(WorkPackageRelationsHierarchyService);
   private apiV3Service = inject(ApiV3Service);
   private querySpace = inject(IsolatedQuerySpace);
+  private notificationService = inject(WorkPackageNotificationService);
+  private toastService = inject(ToastService);
+  private I18n = inject(I18nService);
 
+  private readonly state = signal<HierarchyState>('idle');
+
+  private destroyed = false;
+
+  private readonly cleanups = new Set<() => void>();
+
+  private readonly gone:Promise<void>;
+
+  constructor() {
+    this.gone = new Promise((resolve) => {
+      inject(DestroyRef).onDestroy(() => {
+        this.destroyed = true;
+        this.cleanups.forEach((cleanup) => cleanup());
+        this.cleanups.clear();
+        resolve();
+      });
+    });
+  }
 
   /**
    * Return whether the current hierarchy mode is active
@@ -58,7 +93,7 @@ export class WorkPackageViewHierarchyIdentationService {
    * @param workPackage
    */
   public canIndent(workPackage:WorkPackageResource):boolean {
-    if (!workPackage.changeParent || !this.applicable) {
+    if (!this.canChange(workPackage)) {
       return false;
     }
 
@@ -91,7 +126,7 @@ export class WorkPackageViewHierarchyIdentationService {
    * @param workPackage
    */
   public canOutdent(workPackage:WorkPackageResource):boolean {
-    if (!workPackage.changeParent || !this.applicable) {
+    if (!this.canChange(workPackage)) {
       return false;
     }
 
@@ -101,9 +136,9 @@ export class WorkPackageViewHierarchyIdentationService {
 
   /**
    * Try to indent the work package.
-   * @return a Promise with the change parent result
+   * @return a Promise settling once the table shows the result, or is known to be out of date
    */
-  public async indent(workPackage:WorkPackageResource):Promise<unknown> {
+  public indent(workPackage:WorkPackageResource):Promise<void> {
     if (!this.canIndent(workPackage)) {
       return Promise.reject();
     }
@@ -112,45 +147,195 @@ export class WorkPackageViewHierarchyIdentationService {
     const index = rendered.indexOf(workPackage.id!);
     const predecessorId:string = rendered[index - 1];
 
-    // By default, assume we're going to insert under parent
-    let newParentId = predecessorId;
+    return this.run(workPackage, async () => {
+      // If the predecessor is in an ancestor chain,
+      // get the first element of the ancestor chain that workPackage is not in.
+      // Otherwise, insert under the predecessor.
+      const predecessor = await firstValueFrom(this.apiV3Service.work_packages.id(predecessorId).get());
+      const difference = predecessor.ancestorIds.filter((id) => !workPackage.ancestorIds.includes(id));
 
-    // If the predecessor is in an ancestor chain.
-    // get the first element of the ancestor chain that workPackage is not in
-    const predecessor = await firstValueFrom(this.apiV3Service.work_packages.id(predecessorId).get());
-
-    const difference = predecessor.ancestorIds.filter((id) => !workPackage.ancestorIds.includes(id));
-    if (difference && difference.length > 0) {
-      newParentId = difference[0];
-    }
-
-    return this
-      .wpRelationHierarchy
-      .changeParent(workPackage, newParentId);
+      return difference.length > 0 ? difference[0] : predecessorId;
+    });
   }
 
   /**
    * Try to outdent the work package.
-   * @return a Promise with the change parent result
+   * @return a Promise settling once the table shows the result, or is known to be out of date
    */
-  public outdent(workPackage:WorkPackageResource):Promise<unknown> {
+  public outdent(workPackage:WorkPackageResource):Promise<void> {
     if (!this.canOutdent(workPackage)) {
       return Promise.reject();
     }
 
-    let newParentId:string|null = null;
-
-    // If we have more than one ancestor,
-    // just drop the last one
+    // If we have more than one ancestor, just drop the last one
     const { ancestorIds } = workPackage;
     const ancestorCount = ancestorIds.length;
-    if (ancestorCount > 1) {
-      newParentId = ancestorIds[ancestorCount - 2];
+    const newParentId = ancestorCount > 1 ? ancestorIds[ancestorCount - 2] : null;
+
+    return this.run(workPackage, () => Promise.resolve(newParentId));
+  }
+
+  private canChange(workPackage:WorkPackageResource):boolean {
+    return this.state() === 'idle' && !!workPackage.changeParent && this.applicable;
+  }
+
+  private run(workPackage:WorkPackageResource, resolveParent:() => Promise<string|null>):Promise<void> {
+    this.state.set('running');
+
+    const operation = Promise.resolve()
+      .then(() => Promise.race([this.perform(workPackage, resolveParent), this.gone]))
+      .finally(() => {
+        if (this.state() === 'running') this.state.set('idle');
+        this.querySpace.tableOperation.clear('Hierarchy change finished');
+      });
+
+    this.querySpace.tableOperation.putValue(operation);
+
+    // Derived, so that it settles a turn after the published promise: the table is released before a caller acts.
+    return operation.then(() => undefined);
+  }
+
+  private async perform(workPackage:WorkPackageResource, resolveParent:() => Promise<string|null>):Promise<void> {
+    let sent = false;
+    let abandoned = false;
+    const stopped = () => abandoned || this.destroyed;
+
+    const saving = (async ():Promise<'saved'|'stopped'> => {
+      const parentId = await resolveParent();
+      if (stopped()) return 'stopped';
+
+      sent = true;
+      await this.wpRelationHierarchy.changeParent(workPackage, parentId, { notify: false, origin: this.querySpace });
+      return stopped() ? 'stopped' : 'saved';
+    })();
+
+    const requests = this.deadline(REQUEST_TIMEOUT_MS);
+    let outcome:'saved'|'stopped'|'timedOut';
+    try {
+      outcome = await Promise.race([saving, requests.exceeded.then(() => 'timedOut' as const)]);
+    } catch (error) {
+      if (this.destroyed) return;
+      // A rejected change does not prove that the server kept the old parent, so the table
+      // is kept until a reload shows what the server holds.
+      if (sent) await this.showServerState(); else this.notificationService.handleRawError(error, workPackage);
+      throw error;
+    } finally {
+      requests.cancel();
     }
 
-    return this
-      .wpRelationHierarchy
-      .changeParent(workPackage, newParentId);
+    if (outcome === 'stopped') return;
+
+    if (outcome === 'timedOut') {
+      abandoned = true;
+      if (sent) {
+        this.warnAboutRefresh();
+        this.state.set('outOfDate');
+        void saving.then(() => this.reconcile(), () => this.reconcile());
+      } else {
+        this.toastService.addError(this.I18n.t('js.relation_buttons.hierarchy_change_timed_out'));
+      }
+
+      throw new Error('Changing the hierarchy timed out');
+    }
+
+    if (await this.showServerState()) this.notificationService.showSave(workPackage);
+  }
+
+  /**
+   * Reloads the table and waits for it to render. When that does not happen in time,
+   * warns and keeps hierarchy changes off until it does.
+   *
+   * @returns whether the table shows the reloaded results
+   */
+  private async showServerState():Promise<boolean> {
+    this.state.set('outOfDate');
+
+    const rendering = this.reloadTable();
+    const render = this.deadline(RENDER_TIMEOUT_MS);
+    const shown = await Promise
+      .race([rendering.then(() => true), render.exceeded.then(() => false)])
+      .catch(() => false);
+    render.cancel();
+    if (this.destroyed) return false;
+
+    if (shown) {
+      this.state.set('running');
+    } else {
+      this.warnAboutRefresh();
+      this.recoverWith(rendering);
+    }
+
+    return shown;
+  }
+
+  private reloadTable():Promise<void> {
+    const reload = this.querySpace.reloadTable.value;
+
+    return reload ? reload() : Promise.reject(new Error('No table to reload'));
+  }
+
+  private reconcile():void {
+    if (!this.destroyed) this.recoverWith(this.reloadTable());
+  }
+
+  /**
+   * Keeps hierarchy changes off until the given reload has been rendered. Should that
+   * fail, reloads again whenever the table renders results from elsewhere.
+   */
+  private recoverWith(rendering:Promise<void>):void {
+    this.state.set('outOfDate');
+
+    const recovered = () => {
+      if (this.state() === 'outOfDate') this.state.set('idle');
+    };
+
+    void rendering.then(recovered, () => this.onNextRender(() => this.reconcile()));
+  }
+
+  /**
+   * Calls back once the table has been cleared and rendered again, which only happens
+   * when reloaded results are applied. A repaint of the current rows does not count.
+   */
+  private onNextRender(callback:() => void):void {
+    if (this.destroyed) return;
+
+    let cleared = false;
+    const subscription = new Subscription();
+    const stop = () => {
+      subscription.unsubscribe();
+      this.cleanups.delete(stop);
+    };
+    subscription.add(this.querySpace.tableRendered.changes$().subscribe((rows) => {
+      if (rows === undefined) {
+        cleared = true;
+        return;
+      }
+      if (!cleared) return;
+
+      stop();
+      callback();
+    }));
+    this.cleanups.add(stop);
+  }
+
+  private deadline(milliseconds:number):Deadline {
+    if (this.destroyed) return { exceeded: new Promise(() => undefined), cancel: () => undefined };
+
+    let cancel = () => undefined as void;
+    const exceeded = new Promise<void>((resolve) => {
+      const timer = setTimeout(resolve, milliseconds);
+      cancel = () => {
+        clearTimeout(timer);
+        this.cleanups.delete(cancel);
+      };
+    });
+    this.cleanups.add(cancel);
+
+    return { exceeded, cancel: () => cancel() };
+  }
+
+  private warnAboutRefresh():void {
+    this.toastService.addWarning(this.I18n.t('js.relation_buttons.hierarchy_refresh_failed'));
   }
 
   /**

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,11 +35,21 @@ module WorkPackages::Dialogs
 
     attr_reader :work_package, :project
 
-    def initialize(work_package:, project:)
+    def initialize(work_package:, project:, submit_url: nil, refresh_url: nil)
       super
 
       @work_package = work_package
       @project = project
+      @submit_url = submit_url
+      @refresh_url = refresh_url
+    end
+
+    def submit_url
+      @submit_url || project_work_packages_dialog_path(project)
+    end
+
+    def refresh_url
+      @refresh_url || refresh_form_project_work_packages_dialog_path(project)
     end
   end
 end

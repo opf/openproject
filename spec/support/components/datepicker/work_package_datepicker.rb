@@ -1,5 +1,32 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require_relative "datepicker"
 
 module Components
@@ -87,11 +114,9 @@ module Components
     end
 
     def enable_start_date
-      retry_block do
-        page.find_test_selector("wp-datepicker--show-start-date").click
-        wait_for_network_idle
-        expect_start_highlighted
-      end
+      page.find_test_selector("wp-datepicker--show-start-date").click
+      wait_for_changes_to_be_applied_after_setting_field
+      expect_start_highlighted
     end
 
     def enable_start_date_if_visible
@@ -109,11 +134,9 @@ module Components
     end
 
     def enable_due_date
-      retry_block do
-        page.find_test_selector("wp-datepicker--show-due-date").click
-        wait_for_network_idle
-        expect_due_highlighted
-      end
+      page.find_test_selector("wp-datepicker--show-due-date").click
+      wait_for_changes_to_be_applied_after_setting_field
+      expect_due_highlighted
     end
 
     def enable_due_date_if_visible
@@ -220,6 +243,7 @@ module Components
 
     def toggle_working_days_only
       find("label", text: "Working days only").click
+      wait_for_changes_to_be_applied_after_setting_field
     end
 
     def uncheck_working_days_only
@@ -231,16 +255,15 @@ module Components
     end
 
     def wait_for_preview_update
-      # we no visual clue that informs that the preview is in progress. With
-      # cuprite we can wait for the network idle, but otherwise we need to sleep
-      # an arbitrary amount of time.
-      if using_cuprite?
-        wait_for_network_idle
-      else
-        # TODO: find a better mechanism to wait for the preview to finish and
-        # update the datepicker values.
-        sleep 0.350
-      end
+      wait_for_changes_to_be_applied_after_setting_field
+    end
+
+    protected
+
+    def wait_for_changes_to_be_applied_after_setting_field
+      container.has_css?("[data-datepicker-preview-pending]", wait: 2)
+      expect(container).to have_no_css("[data-datepicker-preview-pending]")
+      wait_for_network_idle
     end
 
     private

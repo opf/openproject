@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -76,7 +75,7 @@ module MeetingAgendaItems
           raise ActiveRecord::Rollback
         end
 
-        journalize_added(meeting_agenda_item)
+        journalize_conversion(meeting_agenda_item)
 
         result = ServiceResult.success(result: work_package)
       end
@@ -86,8 +85,9 @@ module MeetingAgendaItems
 
     private
 
-    def journalize_added(meeting_agenda_item)
+    def journalize_conversion(meeting_agenda_item)
       journalize_agenda_item(meeting_agenda_item, Journal::CausedByMeetingAgendaItemAdded.new(meeting_agenda_item.meeting))
+      meeting_agenda_item.meeting.save_journals
     end
 
     def build_description(meeting_agenda_item)

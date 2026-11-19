@@ -1,0 +1,11 @@
+---
+da:
+  js:
+    button_allocate_resource: Fordel ressource
+    resource_management:
+      create_placeholder_user: Opret pladsholder-bruger med filterkriterier
+      hidden_user: Skjult bruger
+      my_time_management:
+        finish_by: Færdig senest %{date}
+        finish_today: Færdig i dag
+      show_allocations: Vis fordeling af ressourcer

@@ -20,14 +20,12 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 // @ts-expect-error xeokit-sdk has no module
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { utils } from '@xeokit/xeokit-sdk/dist/xeokit-sdk.es';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { IfcModelsDataService } from '../pages/viewer/ifc-models-data.service';

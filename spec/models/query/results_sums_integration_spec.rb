@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,22 +38,18 @@ RSpec.describe Query::Results, "sums" do
   end
   shared_let(:type) do
     create(:type) do |t|
-      t.default_variant.custom_fields << int_cf
-      t.default_variant.custom_fields << float_cf
+      t.default_variant.custom_field_ids |= [int_cf.id]
+      t.default_variant.custom_field_ids |= [float_cf.id]
     end
   end
   shared_let(:project) do
     create(:project) do |p|
       p.project_types.create!(type:)
-      p.work_package_custom_fields << int_cf
-      p.work_package_custom_fields << float_cf
     end
   end
   shared_let(:other_project) do
     create(:project) do |p|
       p.project_types.create!(type:)
-      p.work_package_custom_fields << int_cf
-      p.work_package_custom_fields << float_cf
     end
   end
   shared_let(:current_user) do

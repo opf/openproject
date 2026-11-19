@@ -49,7 +49,7 @@
               end
             end
             if job_html.present?
-              flex.with_row(text_align: :left) { job_html.html_safe }
+              flex.with_row(text_align: :left) { helpers.sanitize_basic_html(job_html) }
             end
           end
         end

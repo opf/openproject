@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -46,12 +45,12 @@ module Projects
             }
           }
         ) do |list|
-          available_statuses.each do |label, value, is_closed|
+          available_statuses.each do |label, value, category|
             list.option(
               label:,
               value:,
               selected: value.in?(model.done_status_ids),
-              disabled: is_closed
+              disabled: category == "closed"
             )
           end
         end
@@ -87,7 +86,7 @@ module Projects
       private
 
       def available_statuses
-        Status.pluck(:name, :id, :is_closed)
+        Status.pluck(:name, :id, :category)
       end
 
       def available_types

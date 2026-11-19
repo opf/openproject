@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,6 +31,7 @@ module Backlogs::Projects
   class BacklogSettingsContract < ::ModelContract
     stored_attribute :sprint_sharing, store: :settings
     stored_attribute :allow_multiple_active_sprints, store: :settings
+    stored_attribute :estimation_unit, store: :settings
 
     validate :validate_permissions
     validate :validate_global_sprint_sharer_uniqueness
@@ -54,6 +54,9 @@ module Backlogs::Projects
       validate :validate_no_active_or_borrowed_sprint_when_receiving_shared_sprints
       validate :validate_no_work_packages_in_shared_sprints_when_leaving_receiving
     end
+
+    validates :estimation_unit, presence: true
+    validates :estimation_unit, inclusion: { in: Project::ESTIMATION_UNITS }, allow_blank: true
 
     def validate_model? = false
 

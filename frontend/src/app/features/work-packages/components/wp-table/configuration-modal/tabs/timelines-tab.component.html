@@ -25,9 +25,9 @@
         <div class="form--field">
           <div class="form--field-container">
             <div class="form--text-select-container -slim">
-              <select
+              <select #zoomSelect
                 id="modal-timelines-zoomlevel"
-                (change)="zoomLevel = $event.target.value"
+                (change)="updateZoomLevel(zoomSelect.value)"
                 class="form--select">
                 @for (level of availableZoomLevels; track level) {
                   <option
@@ -55,9 +55,9 @@
               </label>
               <div class="form--field-container">
                 <div class="form--select-container">
-                  <select
+                  <select #labelSelect
                     id="modal-timelines-label-{{key}}"
-                    (change)="updateLabels(key, $event.target.value)"
+                    (change)="updateLabels(key, labelSelect.value)"
                     class="form--select">
                     @for (column of availableAttributes; track column.id) {
                       <option

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -20,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -60,27 +61,48 @@ RSpec.describe "Update status from WP card", :js, with_config: { edition: "bim" 
            role: manager_role)
   end
 
+  let!(:query) do
+    create(:query, user: manager, project:, display_representation: "cards")
+  end
+
   let(:wp_table) { Pages::IfcModels::ShowDefault.new(project) }
   let(:wp_card_view) { Pages::WorkPackageCards.new(project) }
 
-  before do
-    login_as(manager)
+  shared_examples "status update through the card" do
+    it "can update the status through the button" do
+      status_button = wp_card_view.status_button(work_package)
+      status_button.update status2.name
 
-    wp_table.visit!
-    loading_indicator_saveguard
-    wp_table.expect_work_package_listed(work_package)
+      wp_card_view.expect_and_dismiss_toaster message: "Successful update."
+      status_button.expect_text status2.name
 
-    wp_table.switch_view "Cards"
+      work_package.reload
+      expect(work_package.status).to eq(status2)
+    end
   end
 
-  it "can update the status through the button" do
-    status_button = wp_card_view.status_button(work_package)
-    status_button.update status2.name
+  before do
+    login_as(manager)
+  end
 
-    wp_card_view.expect_and_dismiss_toaster message: "Successful update."
-    status_button.expect_text status2.name
+  context "when opening a saved cards view" do
+    before do
+      wp_table.visit_query query
+      wp_card_view.expect_work_package_listed(work_package)
+    end
 
-    work_package.reload
-    expect(work_package.status).to eq(status2)
+    it_behaves_like "status update through the card"
+  end
+
+  context "when switching to the cards view" do
+    before do
+      wp_table.visit!
+      loading_indicator_saveguard
+      wp_table.switch_view "Cards"
+      wp_table.model_viewer_visible false
+      wp_card_view.expect_work_package_count(1)
+    end
+
+    it_behaves_like "status update through the card"
   end
 end

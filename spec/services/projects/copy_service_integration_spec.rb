@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -141,7 +140,7 @@ RSpec.describe(
       copied_work_package
     end
 
-    describe "the variant a type resolves to", with_flag: { type_variants: true } do
+    describe "the variant a type resolves to" do
       shared_let(:root_type) { create(:type, name: "Copied root") }
       shared_let(:variant) { create(:type_variant, type: root_type, variant_name: "Copied variant") }
 
@@ -160,6 +159,49 @@ RSpec.describe(
         expect(subject).to be_success
 
         expect(project_copy.project_types.pluck(:project_id).uniq).to eq([project_copy.id])
+      end
+
+      context "when the source owns the variant" do
+        shared_let(:owned_type) { create(:type, name: "Owned root") }
+        shared_let(:shared_workflow) { create(:named_workflow, name: "Shared workflow") }
+        shared_let(:owned_variant) do
+          create(:project_owned_type_variant, type: owned_type, project: source,
+                                              variant_name: "Source only", workflow: shared_workflow)
+        end
+
+        before { source.project_types.create!(type: owned_type, variant: owned_variant) }
+
+        it "succeeds" do
+          expect(subject).to be_success
+        end
+
+        it "gives the copy a variant of its own" do
+          expect(subject).to be_success
+
+          copied = project_copy.project_types.find_by(type: owned_type).variant
+
+          expect(copied.project).to eq(project_copy)
+          expect(copied).not_to eq(owned_variant)
+        end
+
+        it "keeps the narrowing the source variant expressed" do
+          owned_variant.update!(form_configuration_excluded_elements: %w[assignee])
+
+          expect(subject).to be_success
+
+          copied = project_copy.project_types.find_by(type: owned_type).variant
+
+          expect(copied.form_configuration_excluded_elements).to contain_exactly("assignee")
+          expect(copied.form_configuration).to eq(owned_variant.form_configuration)
+        end
+
+        it "lets the copy reference the same workflow" do
+          expect(subject).to be_success
+
+          copied = project_copy.project_types.find_by(type: owned_type).variant
+
+          expect(copied.workflow).to eq(shared_workflow)
+        end
       end
 
       context "when the caller names the types itself" do
@@ -384,36 +426,6 @@ RSpec.describe(
           end
         end
       end
-
-      describe "work_package_custom_fields" do
-        context "with disabled work package custom field" do
-          it "is still disabled in the copy" do
-            custom_field = create(:text_wp_custom_field)
-            create(:type_task,
-                   projects: [source],
-                   custom_fields: [custom_field])
-
-            expect(subject).to be_success
-
-            expect(source.work_package_custom_fields).to eq([])
-            expect(project_copy.work_package_custom_fields).to match_array(source.work_package_custom_fields)
-          end
-        end
-
-        context "with enabled work package custom field" do
-          it "is still enabled in the copy" do
-            custom_field = create(:text_wp_custom_field, projects: [source])
-            create(:type_task,
-                   projects: [source],
-                   custom_fields: [custom_field])
-
-            expect(subject).to be_success
-
-            expect(source.work_package_custom_fields).to eq([custom_field])
-            expect(project_copy.work_package_custom_fields).to match_array(source.work_package_custom_fields)
-          end
-        end
-      end
     end
 
     context "when source project has a non-zero wp_sequence_counter",
@@ -434,7 +446,6 @@ RSpec.describe(
       let(:only_args) { all_modules }
       let(:storage1) { source_automatic_project_storage.storage }
       let(:storage2) { source_manual_project_storage.storage }
-      # rubocop:enable RSpec/IndexedLet
 
       shared_let(:source_automatic_project_storage) do
         storage = create(:nextcloud_storage)
@@ -515,7 +526,9 @@ RSpec.describe(
 
           automatic_project_storage_copy = project_copy.project_storages.find_by(storage: storage1)
           expect(project_copy.project_creation_wizard_artifact_export_storage).to eq(automatic_project_storage_copy.id.to_s)
-          expect(project_copy.project_creation_wizard_artifact_export_storage).not_to eq(source.project_creation_wizard_artifact_export_storage)
+          expect(project_copy.project_creation_wizard_artifact_export_storage).not_to(
+            eq(source.project_creation_wizard_artifact_export_storage)
+          )
         end
       end
 
@@ -698,10 +711,8 @@ RSpec.describe(
 
         let(:work_package) { create(:work_package, project: source) }
 
-        # rubocop:disable RSpec/IndexedLet
         let(:work_package2) { create(:work_package, project: source) }
         let(:work_package3) { create(:work_package, project: source) }
-        # rubocop:enable RSpec/IndexedLet
 
         it "does not copy work package budgets" do
           budget = create(:budget, project: source)
@@ -829,6 +840,20 @@ RSpec.describe(
             expect(wp).not_to be_nil
             expect(wp.target_versions).to be_empty
             expect(wp.observed_in_versions).to be_empty
+          end
+        end
+
+        context "with labels" do
+          let(:label) { create(:label) }
+
+          before do
+            create(:labeling, label:, labelable: source_wp)
+          end
+
+          it "copies the labels" do
+            expect(subject).to be_success
+
+            expect(copy_of(source_wp).labels).to contain_exactly(label)
           end
         end
 
@@ -1148,8 +1173,7 @@ RSpec.describe(
         describe "work package user custom field" do
           let(:custom_field) do
             create(:user_wp_custom_field).tap do |cf|
-              source.work_package_custom_fields << cf
-              work_package.type.default_variant.custom_fields << cf
+              work_package.type.default_variant.custom_field_ids |= [cf.id]
             end
           end
 
@@ -1297,7 +1321,7 @@ RSpec.describe(
       let!(:source_member) { create(:user, member_with_roles: { source => role }) }
       let(:only_args) { nil }
 
-      # rubocop:disable RSpec/MultipleExpectations
+      # rubocop:disable-next RSpec/MultipleExpectations
       it "sets attributes only without copying dependencies" do
         expect(subject).to be_success
 
@@ -1335,7 +1359,6 @@ RSpec.describe(
         expect(member.roles)
           .to contain_exactly(new_project_role)
       end
-      # rubocop:enable RSpec/MultipleExpectations
 
       context "with group memberships" do
         let!(:user) { create(:user) }

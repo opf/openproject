@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,7 +28,7 @@
 import { nextcloud } from 'core-app/shared/components/storages/storages-constants.const';
 
 export interface IFileIcon {
-  icon:'file'|'file-directory-fill'|'file-media'|'op-file-csv'|'op-file-doc'|'op-file-presentation'|'op-file-sheet'|'op-file-text'|'op-pdf'|'server'
+  icon:'file'|'file-directory-fill'|'file-media'|'op-file-csv'|'op-file-doc'|'op-file-presentation'|'op-file-sheet'|'op-file-text'|'op-pdf'|'server'|'op-whiteboards'
   clazz:'pdf'|'img'|'txt'|'doc'|'sheet'|'presentation'|'form'|'primary'|'mov'|'default'
 }
 
@@ -71,6 +70,7 @@ export const fileIconMappings:Record<string, IFileIcon> = {
   'application/vnd.ms-excel': { icon: 'op-file-sheet', clazz: 'sheet' },
   'application/vnd.stardivision.calc': { icon: 'op-file-sheet', clazz: 'sheet' },
   'application/vnd.apple.numbers': { icon: 'op-file-sheet', clazz: 'sheet' },
+  'application/vnd.excalidraw': { icon: 'op-whiteboards', clazz: 'sheet' },
   'application/x-starcalc': { icon: 'op-file-sheet', clazz: 'sheet' },
   'application/x-quattro-pro': { icon: 'op-file-sheet', clazz: 'sheet' },
 

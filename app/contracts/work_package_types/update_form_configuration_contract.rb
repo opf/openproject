@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,7 +32,7 @@ module WorkPackageTypes
     include AuthorizesVariantAuthoring
     include RequiresEnterpriseGuard
 
-    def self.model = TypeVariant
+    def self.model = FormConfiguration
 
     self.enterprise_action = :edit_attribute_groups
     self.enterprise_condition = ->(*) { custom_groups_modified? }
@@ -83,7 +82,7 @@ module WorkPackageTypes
         if key.is_a?(String) && valid_attributes.exclude?(key)
           errors.add(
             :attribute_groups,
-            I18n.t("activerecord.errors.models.type_variant.attributes.attribute_groups.attribute_unknown_name",
+            I18n.t("activerecord.errors.models.form_configuration.attributes.attribute_groups.attribute_unknown_name",
                    attribute: key)
           )
         end

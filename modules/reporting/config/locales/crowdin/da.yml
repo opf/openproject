@@ -22,8 +22,15 @@
 ---
 da:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: Rækker og kolonner skal tilsammen dække præcis visningens grupperingskriterier.
     models:
       cost_query:
+        one: Omkostningsrapport
+        other: Omkostningsrapporter
+      cost_report:
         one: Omkostningsrapport
         other: Omkostningsrapporter
   button_save_report_as: Gem rapport som...
@@ -99,7 +106,6 @@ da:
   plugin_openproject_reporting:
     description: Pluginnet gør det muligt at oprette egne omkostningsrapporter med filtrering og gruppering ud fra data fra OpenProject-pluginnet Tid og omkostninger.
     name: OpenProject Reporting
-  project_module_reporting_module: Omkostningsrapporter
   reporting:
     group_by:
       selected_columns: Valgte kolonner

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -49,7 +48,7 @@ RSpec.describe "User non-working times", :js do
 
       nwt_page.confirm_dialog
 
-      nwt_page.expect_sidebar_entry("Mar 10")
+      nwt_page.expect_sidebar_entry("Mar 10 - Mar 10, 2026: 1 working day")
       expect(managed_user.non_working_times.count).to eq(1)
     end
 
@@ -62,7 +61,18 @@ RSpec.describe "User non-working times", :js do
 
       nwt_page.confirm_dialog
 
-      nwt_page.expect_sidebar_entry("5 working days")
+      nwt_page.expect_sidebar_entry("Mar 09 - Mar 13, 2026: 5 working day")
+    end
+
+    it "shows only this year part when spanning to the next year" do
+      nwt_page.open_create_dialog
+
+      nwt_page.set_start_date(Date.new(2026, 12, 21))
+      nwt_page.set_end_date(Date.new(2027, 1, 15))
+
+      nwt_page.confirm_dialog
+
+      nwt_page.expect_sidebar_entry("Dec 21 - Dec 31, 2026: 11 working days")
     end
 
     it "shows a validation error when end date is before start date" do

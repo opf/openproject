@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -76,7 +75,11 @@ RSpec.describe "Team planner constraints for a subproject",
       drag_release
 
       # Try to drag work package to other user
-      start_dragging team_planner.event(work_package)
+      page.document.synchronize do
+        event = team_planner.event(work_package)
+        scroll_to_element event
+        start_dragging event, scroll: false
+      end
       drag_element_to find(".fc-timeline-lane[data-resource-id='/api/v3/users/#{other_user.id}']")
 
       # Expect background event on other user

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -35,6 +34,10 @@ import {
   ResourceDisplayField,
 } from 'core-app/shared/components/fields/display/field-types/resource-display-field.module';
 import { renderHierarchyItem } from 'core-app/shared/components/fields/display/field-types/render-hierarchy-item';
+import {
+  isUndisclosed,
+  undisclosedValueNode,
+} from 'core-app/shared/components/fields/display/field-types/undisclosed-value';
 
 export class HierarchyItemDisplayField extends ResourceDisplayField {
   public render(element:HTMLElement, _displayText:string) {
@@ -45,6 +48,12 @@ export class HierarchyItemDisplayField extends ResourceDisplayField {
     }
 
     element.innerHTML = '';
+
+    if (isUndisclosed(item)) {
+      element.appendChild(undisclosedValueNode(item.name));
+      return;
+    }
+
     element.classList.add('hierarchy-items');
 
     this.branch(item).subscribe((path) => {

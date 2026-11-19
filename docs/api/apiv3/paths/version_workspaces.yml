@@ -51,7 +51,7 @@ get:
                 count: 1
                 total: 1
           schema:
-            "$ref": "../components/schemas/list_workspaces_by_version_model.yml"
+            $ref: "../components/schemas/list_workspaces_by_version_model.yml"
       description: OK
       headers: {}
     '404':
@@ -71,5 +71,5 @@ get:
 
     The workspaces returned depend on the sharing settings of the given version,
     but are also limited to the workspaces that the current user is allowed to see.
-  operationId: List_workspaces_with_version
+  operationId: list_workspaces_with_version
   summary: List workspaces having version

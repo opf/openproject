@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -84,8 +83,15 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
     button_delete: this.I18n.t('js.button_delete'),
     please_select: this.I18n.t('js.placeholders.selection'),
     filter_by_text: this.I18n.t('js.work_packages.label_filter_by_text'),
+    search_by_meaning: this.I18n.t('js.global_search.search_by_meaning'),
     baseline_warning: this.I18n.t('js.work_packages.filters.baseline_warning'),
   };
+
+  public get filterByTextLabel():string {
+    return this.wpTableFilters.semanticSearchEnabled
+      ? this.text.search_by_meaning
+      : this.text.filter_by_text;
+  }
 
   ngOnInit():void {
     this.wpTableFilters.live$()
@@ -166,9 +172,8 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
     return this.filters[index];
   }
 
-  public isFilterAvailable(filter:QueryFilterResource):boolean {
+  public isFilterAvailable(filter:QueryFilterInstanceResource):boolean {
     return (this.wpTableFilters.availableFilters.some((availableFilter) => availableFilter.id === filter.id)
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       && !(this.wpTableFilters.hidden.includes(filter.id) || filter.isTemplated()));
   }
 

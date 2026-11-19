@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -64,7 +63,7 @@ RSpec.describe "Invite user modal subprojects", :js do
 
       assignee_field.activate!
 
-      find(".ng-dropdown-footer button", text: "Invite", wait: 10).click
+      find(".ng-dropdown-footer", wait: 10).click_button("Invite")
 
       modal.expect_open
       modal.within_modal do

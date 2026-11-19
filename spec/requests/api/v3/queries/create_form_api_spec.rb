@@ -22,10 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
+#++
 
 require "spec_helper"
 require "rack/test"
@@ -156,9 +156,7 @@ RSpec.describe "POST /api/v3/queries/form",
     describe "columns", with_settings: { work_package_multiple_versions: false } do
       let(:custom_field) do
         cf = create(:list_wp_custom_field)
-        project.work_package_custom_fields << cf
-        cf.type_variants << project.enabled_variants.first
-
+        project.enabled_variants.first.custom_field_ids |= [cf.id]
         cf
       end
 
@@ -215,9 +213,7 @@ RSpec.describe "POST /api/v3/queries/form",
     describe "columns", with_settings: { work_package_multiple_versions: false } do
       let(:custom_field) do
         cf = create(:list_wp_custom_field)
-        project.work_package_custom_fields << cf
-        cf.type_variants << project.enabled_variants.first
-
+        project.enabled_variants.first.custom_field_ids |= [cf.id]
         cf
       end
 
@@ -621,6 +617,124 @@ RSpec.describe "POST /api/v3/queries/form",
     end
   end
 
+  describe "with only the currently unavailable version filter key",
+           with_settings: { work_package_multiple_versions: true } do
+    let(:version) { create(:version, project:) }
+    let(:parameters) do
+      {
+        name: "Some Query",
+        filters: [
+          {
+            _links: {
+              filter: { href: "/api/v3/queries/filters/version" },
+              operator: { href: "/api/v3/queries/operators/=" },
+              values: [{ href: api_v3_paths.version(version.id) }]
+            }
+          }
+        ]
+      }
+    end
+
+    it "renders it under the available version filter, keeping its values" do
+      expect(form.dig("_embedded", "payload", "filters").size).to eq 1
+
+      expect(form.dig("_embedded", "payload", "filters", 0, "_links", "filter", "href"))
+        .to eq "/api/v3/queries/filters/targetVersion"
+
+      expect(form.dig("_embedded", "payload", "filters", 0, "_links", "values", 0, "href"))
+        .to eq api_v3_paths.version(version.id)
+    end
+  end
+
+  describe "with both version filter keys present, carrying different values",
+           with_settings: { work_package_multiple_versions: true } do
+    let(:version_a) { create(:version, project:) }
+    let(:version_b) { create(:version, project:) }
+    let(:version_filter) do
+      {
+        _links: {
+          filter: { href: "/api/v3/queries/filters/version" },
+          operator: { href: "/api/v3/queries/operators/=" },
+          values: [{ href: api_v3_paths.version(version_a.id) }]
+        }
+      }
+    end
+    let(:target_version_filter) do
+      {
+        _links: {
+          filter: { href: "/api/v3/queries/filters/targetVersion" },
+          operator: { href: "/api/v3/queries/operators/=" },
+          values: [{ href: api_v3_paths.version(version_b.id) }]
+        }
+      }
+    end
+
+    context "with the version filter listed first" do
+      let(:parameters) { { name: "Some Query", filters: [version_filter, target_version_filter] } }
+
+      it "renders a single filter under targetVersion, keeping the targetVersion filter's values" do
+        expect(form.dig("_embedded", "payload", "filters").size).to eq 1
+
+        expect(form.dig("_embedded", "payload", "filters", 0, "_links", "filter", "href"))
+          .to eq "/api/v3/queries/filters/targetVersion"
+
+        expect(form.dig("_embedded", "payload", "filters", 0, "_links", "values", 0, "href"))
+          .to eq api_v3_paths.version(version_b.id)
+      end
+    end
+
+    context "with the targetVersion filter listed first" do
+      let(:parameters) { { name: "Some Query", filters: [target_version_filter, version_filter] } }
+
+      it "renders a single filter under targetVersion, keeping the targetVersion filter's values" do
+        expect(form.dig("_embedded", "payload", "filters").size).to eq 1
+
+        expect(form.dig("_embedded", "payload", "filters", 0, "_links", "filter", "href"))
+          .to eq "/api/v3/queries/filters/targetVersion"
+
+        expect(form.dig("_embedded", "payload", "filters", 0, "_links", "values", 0, "href"))
+          .to eq api_v3_paths.version(version_b.id)
+      end
+    end
+  end
+
+  describe "with both version filter keys present, carrying different values",
+           with_settings: { work_package_multiple_versions: false } do
+    let(:version_a) { create(:version, project:) }
+    let(:version_b) { create(:version, project:) }
+    let(:parameters) do
+      {
+        name: "Some Query",
+        filters: [
+          {
+            _links: {
+              filter: { href: "/api/v3/queries/filters/version" },
+              operator: { href: "/api/v3/queries/operators/=" },
+              values: [{ href: api_v3_paths.version(version_a.id) }]
+            }
+          },
+          {
+            _links: {
+              filter: { href: "/api/v3/queries/filters/targetVersion" },
+              operator: { href: "/api/v3/queries/operators/=" },
+              values: [{ href: api_v3_paths.version(version_b.id) }]
+            }
+          }
+        ]
+      }
+    end
+
+    it "renders a single filter under version, keeping the targetVersion filter's values" do
+      expect(form.dig("_embedded", "payload", "filters").size).to eq 1
+
+      expect(form.dig("_embedded", "payload", "filters", 0, "_links", "filter", "href"))
+        .to eq "/api/v3/queries/filters/version"
+
+      expect(form.dig("_embedded", "payload", "filters", 0, "_links", "values", 0, "href"))
+        .to eq api_v3_paths.version(version_b.id)
+    end
+  end
+
   describe "posting to a project-query form with a CF present only there (Regression #29873)" do
     let(:custom_field) do
       create(
@@ -631,7 +745,7 @@ RSpec.describe "POST /api/v3/queries/form",
       )
     end
     let!(:type) { create(:type, custom_fields: [custom_field]) }
-    let!(:project) { create(:project, types: [type], work_package_custom_fields: [custom_field]) }
+    let!(:project) { create(:project, types: [type]) }
 
     let(:path_with_cf) do
       uri = Addressable::URI.parse(path)

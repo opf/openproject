@@ -43,7 +43,7 @@ hy:
     changed_files_count: Փոփոխված նիշքեր
     comments_count: Մեկնաբանությունների քանակ
     deletions_count: Ջնջումների թիվ
-    github: GitHub-ի նույնացուցիչ
+    github: GitHub identifier
     github_app_owner_avatar_url: Սեփականատիրոջ ավատարի URL
     github_avatar_url: Ավատարի URL
     github_html_url: Ձգման հարցման URL

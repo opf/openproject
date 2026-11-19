@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -36,7 +35,7 @@ import {
 } from 'rxjs';
 import { distinctUntilChanged, filter, take } from 'rxjs/operators';
 
-export type TeleportInstance = TemplateRef<any>;
+export type TeleportInstance = TemplateRef<unknown>;
 
 @Injectable({ providedIn: 'root' })
 export class SpotDropModalTeleportationService {
@@ -47,10 +46,10 @@ export class SpotDropModalTeleportationService {
 
   public hasRenderedFiltered$ = this.hasRendered$.pipe(distinctUntilChanged());
 
-  public afterRenderOnce$(appearOrDissapear = true) {
+  public afterRenderOnce$(appearOrDisappear = true) {
     return this.hasRenderedFiltered$
       .pipe(
-        filter(f => f === appearOrDissapear),
+        filter(f => f === appearOrDisappear),
         take(1),
       );
   }

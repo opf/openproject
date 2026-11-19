@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -126,7 +125,7 @@ describe('PullRequestComponent', () => {
     component = fixture.componentInstance;
     element = fixture.debugElement;
     // @ts-ignore
-    component.pullRequest = pullRequestStub;
+    component.pullRequest = { ...pullRequestStub };
 
     fixture.detectChanges();
   });
@@ -151,5 +150,16 @@ describe('PullRequestComponent', () => {
     expect(checkRuns.length).toBe(1);
     expect(checkRunElement.textContent).toContain(pullRequestStub._embedded.checkRuns[0].name);
     expect(checkRunLinkElement.href).toContain(pullRequestStub._embedded.checkRuns[0].detailsUrl);
+  });
+
+  it.each([
+    ['open', false, false, 'open'],
+    ['open', true, false, 'draft'],
+    ['closed', false, false, 'closed'],
+    ['closed', false, true, 'merged'],
+    ['deployed', false, true, 'deployed'],
+  ])('renders the %s state with draft=%s and merged=%s', (state, draft, merged, expected) => {
+    Object.assign(component.pullRequest, { state, draft, merged });
+    expect(component.state).toBe(expected);
   });
 });

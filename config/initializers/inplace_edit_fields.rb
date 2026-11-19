@@ -22,33 +22,32 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 Rails.application.config.to_prepare do
   # Register the edit fields per attribute
-  OpenProject::InplaceEdit::FieldRegistry.register(:description, OpenProject::Common::InplaceEditFields::RichTextAreaComponent)
-  OpenProject::InplaceEdit::FieldRegistry.register(:status_explanation, OpenProject::Common::InplaceEditFields::RichTextAreaComponent)
+  OpenProject::InplaceEdit::FieldRegistry.register(:description, OpPrimer::InplaceEditFields::RichTextAreaComponent)
+  OpenProject::InplaceEdit::FieldRegistry.register(:status_explanation, OpPrimer::InplaceEditFields::RichTextAreaComponent)
 
   # Register custom field edit components based on field format
   # This mirrors the pattern used in CustomFields::CustomFieldRendering
   custom_field_format_mappings = {
-    "string" => OpenProject::Common::InplaceEditFields::TextInputComponent,
-    "text" => OpenProject::Common::InplaceEditFields::RichTextAreaComponent,
-    "int" => OpenProject::Common::InplaceEditFields::IntegerInputComponent,
-    "float" => OpenProject::Common::InplaceEditFields::FloatInputComponent,
-    "date" => OpenProject::Common::InplaceEditFields::DateInputComponent,
-    "bool" => OpenProject::Common::InplaceEditFields::BooleanInputComponent,
-    "link" => OpenProject::Common::InplaceEditFields::LinkInputComponent,
-    "hierarchy" => OpenProject::Common::InplaceEditFields::HierarchyListComponent,
-    "weighted_item_list" => OpenProject::Common::InplaceEditFields::HierarchyListComponent,
-    "list" => OpenProject::Common::InplaceEditFields::SelectListComponent,
-    "user" => OpenProject::Common::InplaceEditFields::UserSelectListComponent,
-    "version" => OpenProject::Common::InplaceEditFields::VersionSelectListComponent,
-    "calculated_value" => OpenProject::Common::InplaceEditFields::CalculatedValueInputComponent
+    "string" => OpPrimer::InplaceEditFields::TextInputComponent,
+    "text" => OpPrimer::InplaceEditFields::RichTextAreaComponent,
+    "int" => OpPrimer::InplaceEditFields::IntegerInputComponent,
+    "float" => OpPrimer::InplaceEditFields::FloatInputComponent,
+    "date" => OpPrimer::InplaceEditFields::DateInputComponent,
+    "bool" => OpPrimer::InplaceEditFields::BooleanInputComponent,
+    "link" => OpPrimer::InplaceEditFields::LinkInputComponent,
+    "hierarchy" => OpPrimer::InplaceEditFields::HierarchyListComponent,
+    "weighted_item_list" => OpPrimer::InplaceEditFields::HierarchyListComponent,
+    "list" => OpPrimer::InplaceEditFields::SelectListComponent,
+    "user" => OpPrimer::InplaceEditFields::UserSelectListComponent,
+    "version" => OpPrimer::InplaceEditFields::VersionSelectListComponent,
+    "calculated_value" => OpPrimer::InplaceEditFields::CalculatedValueInputComponent
   }
 
   OpenProject::InplaceEdit::FieldRegistry.register_custom_field_format_mappings(custom_field_format_mappings)

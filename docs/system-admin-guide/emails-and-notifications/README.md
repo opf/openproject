@@ -32,7 +32,7 @@ The setting **User actions aggregated within** specifies a time interval in whic
 3. Define if the email should be formatted in **plain text** (no HTML).
 4. Define if the users in emails should be **addressed with their first names or full names**.
 
-The frequency of sending e-mails per work package can be set [here](../calendars-and-dates/#date-format).
+The frequency of sending e-mails per work package can be set [here](#aggregation).
 
 ### Configure email header and email footer
 

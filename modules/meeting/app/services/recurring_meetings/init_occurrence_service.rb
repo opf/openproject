@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -61,10 +60,10 @@ module RecurringMeetings
 
     def instantiate_in_context(start_time)
       in_context(recurring_meeting, send_notifications: false) do
-        result = instantiate(start_time)
-        move_interim_responses_to_participants(result.result) if result.success?
-
-        result
+        instantiate(start_time).on_success do |call|
+          move_interim_responses_to_participants(call.result)
+          call.result.save_journals
+        end
       end
     end
 

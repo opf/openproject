@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -40,3 +39,22 @@ export interface IOPAutocompleterOption {
 }
 
 export type TOpAutocompleterResource = 'work_packages' | 'users' | 'principals' | 'projects' | 'portfolios' | 'programs';
+
+export type AutocompleterResource = TOpAutocompleterResource | 'parent-child' | 'assignee' | 'subproject' | 'version' | 'status' | 'default';
+
+
+export interface AutocompleterSearchContext {
+  search:string|null;
+}
+
+export interface AutocompleterOptionContext extends AutocompleterSearchContext {
+  $implicit:unknown;
+  index?:number;
+}
+
+export interface AutocompleterLabelContext {
+  $implicit:unknown;
+  clear:(item:unknown) => void;
+}
+
+export type AutocompleterDropdownContext = AutocompleterSearchContext;

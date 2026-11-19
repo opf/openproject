@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,7 +30,7 @@
 require "spec_helper"
 require "support/pages/projects/settings/work_package_types"
 
-RSpec.describe "Project settings work package types", :js, with_flag: { type_variants: true } do
+RSpec.describe "Project settings work package types", :js do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   shared_let(:epic) { create(:type, name: "Epic") }
@@ -73,6 +72,26 @@ RSpec.describe "Project settings work package types", :js, with_flag: { type_var
     expect(project.project_types.find_by(type: feature).variant).to eq(research)
   end
 
+  context "with variants owned by projects" do
+    let!(:own_variant) do
+      create(:project_owned_type_variant, type: milestone, project:, variant_name: "Ours")
+    end
+    let!(:foreign_variant) do
+      create(:project_owned_type_variant, type: milestone, project: create(:project), variant_name: "Theirs")
+    end
+
+    it "offers this project's variant but not another project's" do
+      page.find("[data-test-selector='project-types-add-button']").click
+      expect(page).to have_text("Add type")
+
+      autocompleter = page.find("[data-test-selector='project-types-add-select']")
+      search_autocomplete(autocompleter, query: "Milestone")
+
+      expect_ng_option(autocompleter, "Milestone: Ours")
+      expect_no_ng_option(autocompleter, "Milestone: Theirs")
+    end
+  end
+
   it "removes a type that has no work packages" do
     settings_page.remove_type(bug.default_variant)
 
@@ -103,6 +122,48 @@ because it's still in use by work packages)
     end
   end
 
+  describe "variants a migration created" do
+    shared_let(:converted) do
+      create(:type_variant, type: epic, variant_name: "Converted", created_by_migration: true)
+    end
+
+    def filter_migrated
+      within_test_selector("project-types-migration-filter") do
+        click_on I18n.t("types.edit.variants.created_by_migration_filter.migrated")
+      end
+    end
+
+    it "labels them, leaving the authored ones unlabeled" do
+      within_test_selector("project-types-variant-#{converted.id}") do
+        expect(page).to have_css(".Label--attention", text: I18n.t("types.index.created_by_migration"))
+      end
+
+      within_test_selector("project-types-variant-#{design.id}") do
+        expect(page).to have_no_css(".Label--attention")
+      end
+    end
+
+    it "filters the list down to them and back out again" do
+      filter_migrated
+
+      expect(page).to have_text(converted.variant_name)
+      expect(page).to have_no_text(design.variant_name)
+      expect(page).to have_css(".SegmentedControl-item--selected",
+                               text: I18n.t("types.edit.variants.created_by_migration_filter.migrated"))
+
+      within_test_selector("project-types-migration-filter") do
+        click_on I18n.t("types.edit.variants.created_by_migration_filter.all")
+      end
+
+      expect(page).to have_text(design.variant_name)
+      expect(page).to have_text(converted.variant_name)
+    end
+  end
+
+  it "leaves the migration filter out when no variant came from a migration" do
+    expect(page).to have_no_test_selector("project-types-migration-filter")
+  end
+
   it "switches the project to a sibling variant" do
     work_package = create(:work_package, project:, type: epic)
 
@@ -123,14 +184,14 @@ because it's still in use by work packages)
     expect(project.reload.project_types.find_by(type: epic).variant).to eq(epic.default_variant)
   end
 
-  it "opens on the type's own configuration, with nothing reported yet" do
+  it "opens on the type's own configuration, previewing the switch to it" do
     settings_page.open_switch_dialog(design)
 
     within(settings_page.switch_dialog) do
       expect(page).to have_text("Epic: Switch variant")
       expect(page).to have_select("Variant", selected: "Epic")
-      expect(page).to have_no_text("Fields that")
     end
+    settings_page.expect_switch_impact("No fields or statuses are affected.")
   end
 
   # Reported under the select rather than as a flash, so the choice can be corrected where it
@@ -164,15 +225,18 @@ because it's still in use by work packages)
       create(:work_package, project:, type: epic)
     end
 
-    it "reports the impact once a different variant is chosen" do
+    it "updates the impact as the chosen variant changes" do
       settings_page.open_switch_dialog(design)
+      settings_page.expect_switch_impact("1 work package will use the new configuration")
+
+      settings_page.choose_switch_target("Epic: Design")
       settings_page.expect_no_switch_impact
 
       settings_page.choose_switch_target("Epic: Blueprint")
 
       settings_page.expect_switch_impact("1 work package will use the new configuration")
-      settings_page.expect_switch_impact("Fields that will no longer be shown")
-      settings_page.expect_switch_impact("Fields that become available")
+      settings_page.expect_switch_impact("Fields that will be removed")
+      settings_page.expect_switch_impact("Fields that will be added")
     end
 
     # The field sections keep their contents behind a disclosure. A status the target
@@ -186,7 +250,7 @@ because it's still in use by work packages)
       settings_page.open_switch_dialog(design)
       settings_page.choose_switch_target("Epic: Blueprint")
 
-      settings_page.expect_switch_impact("Work packages that get stuck")
+      settings_page.expect_switch_impact("Work packages without transitions")
       expect(settings_page.switch_dialog).to have_text("Blocked")
       expect(settings_page.switch_dialog).to have_no_text("Assignee")
     end

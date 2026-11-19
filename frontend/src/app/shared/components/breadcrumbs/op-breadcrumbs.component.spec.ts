@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -141,9 +140,23 @@ describe('OpBreadcrumbsComponent', () => {
       .toEqual('text:Board 48:2');
   });
 
+  it('retains navigation when a project label is unavailable', () => {
+    fixture.componentRef.setInput('items', [
+      { href: '/projects/sp', text: null },
+      { href: '/projects/sp/boards', text: 'Boards' },
+      'Board 48',
+    ]);
+    fixture.detectChanges();
+    const links = (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLAnchorElement>('a');
+
+    expect(links[0]).toHaveAttribute('href', '/projects/sp');
+    expect(links[0].textContent?.trim()).toBe('');
+    expect(links[1]).toHaveAttribute('href', '/projects/sp/boards');
+  });
+
   function breadcrumbItems() {
     return fixture.debugElement.queryAll(By.css('[data-test-selector="op-breadcrumbs--item"]'));
   }
 });
 
-type BreadcrumbLink = Extract<BreadcrumbItem, { href:string; text:string }>;
+type BreadcrumbLink = Extract<BreadcrumbItem, { href:string }>;

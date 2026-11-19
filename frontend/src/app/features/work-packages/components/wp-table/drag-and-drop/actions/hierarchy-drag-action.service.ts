@@ -20,14 +20,13 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { TableDragActionService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-action.service';
+import { PreparedTableDragAction, TableDragActionService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-action.service';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { WorkPackageRelationsHierarchyService } from 'core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
 import {
@@ -35,18 +34,18 @@ import {
   hierarchyRootClass,
 } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-hierarchy-helpers';
 import { relationRowClass, isInsideCollapsedGroup } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers';
-import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
+import { lazyInject } from 'core-app/shared/helpers/angular/lazy-inject';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 export class HierarchyDragActionService extends TableDragActionService {
-  @LazyInject() private wpTableHierarchies:WorkPackageViewHierarchiesService;
+  private readonly wpTableHierarchies = lazyInject(WorkPackageViewHierarchiesService, { injector: () => this.injector });
 
-  @LazyInject() private relationHierarchyService:WorkPackageRelationsHierarchyService;
+  private readonly relationHierarchyService = lazyInject(WorkPackageRelationsHierarchyService, { injector: () => this.injector });
 
-  @LazyInject() private apiV3Service:ApiV3Service;
+  private readonly apiV3Service = lazyInject(ApiV3Service, { injector: () => this.injector });
 
   public get applies() {
-    return this.wpTableHierarchies.isEnabled;
+    return this.wpTableHierarchies().isEnabled;
   }
 
   /**
@@ -56,8 +55,12 @@ export class HierarchyDragActionService extends TableDragActionService {
     return !!workPackage.changeParent;
   }
 
-  public handleDrop(workPackage:WorkPackageResource, el:HTMLElement):Promise<unknown> {
-    return this.determineParent(el).then((parentId:string|null) => this.relationHierarchyService.changeParent(workPackage, parentId));
+  public async prepareDrop(workPackage:WorkPackageResource, el:HTMLElement):Promise<PreparedTableDragAction> {
+    const hierarchy = this.relationHierarchyService();
+    const parentId = await this.determineParent(el);
+    return {
+      persist: async () => { await hierarchy.changeParent(workPackage, parentId, { reportError: false }); },
+    };
   }
 
   /**
@@ -84,7 +87,7 @@ export class HierarchyDragActionService extends TableDragActionService {
 
       const previousWpId = (previous as HTMLElement).dataset.workPackageId!;
 
-      if (this.isHiearchyRoot(previous, previousWpId)) {
+      if (this.isHierarchyRoot(previous, previousWpId)) {
         const droppedIntoCollapsedGroup = isInsideCollapsedGroup(next);
 
         if (droppedIntoCollapsedGroup) {
@@ -134,13 +137,13 @@ export class HierarchyDragActionService extends TableDragActionService {
     return !skipDroppedIntoGroup && inGroup || isRoot;
   }
 
-  private isHiearchyRoot(previous:Element, previousWpId:string):boolean {
+  private isHierarchyRoot(previous:Element, previousWpId:string):boolean {
     return previous.classList.contains(hierarchyRootClass(previousWpId));
   }
 
   private loadParentOfWP(wpId:string):Promise<string|null> {
     return this
-      .apiV3Service
+      .apiV3Service()
       .work_packages
       .id(wpId)
       .get()

@@ -20,24 +20,28 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { States } from 'core-app/core/states/states.service';
-import { StateService } from '@uirouter/core';
 import { Injectable, inject } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 
+export interface ChangeParentOptions {
+  reportError?:boolean;
+  notify?:boolean;
+  /** Passed on with the association event, so that the sender can recognize its own change. */
+  origin?:unknown;
+}
+
 @Injectable()
 export class WorkPackageRelationsHierarchyService {
-  protected $state = inject(StateService);
   protected states = inject(States);
   protected halEvents = inject(HalEventsService);
   protected notificationService = inject(WorkPackageNotificationService);
@@ -45,8 +49,8 @@ export class WorkPackageRelationsHierarchyService {
   protected apiV3Service = inject(ApiV3Service);
 
 
-  public changeParent(workPackage:WorkPackageResource, parentId:string|null) {
-    const payload:any = {
+  public changeParent(workPackage:WorkPackageResource, parentId:string|null, options:ChangeParentOptions = {}) {
+    const payload:{ lockVersion:number, _links?:{ parent:{ href:string|null } } } = {
       lockVersion: workPackage.lockVersion,
     };
 
@@ -72,17 +76,18 @@ export class WorkPackageRelationsHierarchyService {
           .work_packages
           .cache
           .updateWorkPackage(wp);
-        this.notificationService.showSave(wp);
+        if (options.notify !== false) this.notificationService.showSave(wp);
         this.halEvents.push(workPackage, {
           eventType: 'association',
           relatedWorkPackage: parentId,
           relationType: 'parent',
+          origin: options.origin,
         });
 
         return wp;
       })
-      .catch((error) => {
-        this.notificationService.handleRawError(error, workPackage);
+      .catch((error:unknown) => {
+        if (options.reportError !== false) this.notificationService.handleRawError(error, workPackage);
         return Promise.reject(error);
       });
   }
@@ -115,24 +120,6 @@ export class WorkPackageRelationsHierarchyService {
 
           return wp;
         }));
-  }
-
-  public addNewChildWp(baseRoute:string, workPackage:WorkPackageResource) {
-    workPackage.project.$load()
-      .then(() => {
-        const args = [
-          `${baseRoute}.new`,
-          {
-            parent_id: workPackage.id,
-          },
-        ];
-
-        if (this.$state.includes('work-packages.show')) {
-          args[0] = 'work-packages.new';
-        }
-
-        (this.$state as any).go(...args);
-      });
   }
 
   public removeChild(childWorkPackage:WorkPackageResource) {

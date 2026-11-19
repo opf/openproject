@@ -52,10 +52,10 @@ cs:
   documents:
     active_editors: Aktivní editoři
     active_editors_count:
-      one: 1 aktivní editor
+      one: "%{count} active editor"
       few: "%{count} active editors"
       many: "%{count} active editors"
-      other: "%{count} aktivních editorů"
+      other: "%{count} active editors"
     admin:
       collaboration_settings:
         banner:
@@ -70,9 +70,9 @@ cs:
           invalid_scheme: Musíte použít protokol WebSocket (ws:// nebo wss://).
           label: URL serveru Hocuspocus
         page_header:
-          description: |-
-            Když je Spolupráce v reálném čase povolena, umožňuje vícero uživatelům upravovat dokument současně.
-            Vyžaduje to funkční %{hocuspocus_server_link}.
+          description_html: |-
+            When enabled, real-time collaboration allows multiple users to edit a document at the same time.
+            It requires a working [Hocuspocus server](hocuspocus_server_link) to function.
       disable_text_collaboration_dialog:
         confirmation_checkbox_message: Porozuměl jsem, že mohu trvale ztratit data
         confirmation_message: Všechny existující dokumenty se mohou stát nedostupnými. Tento postup proveďte pouze v případě, že jste si jisti, že chcete na této instanci vypnout spolupráci v reálném čase a editor BlockNote.
@@ -88,6 +88,12 @@ cs:
         primary_action: Povolit spolupráci v reálném čase
         success: Spolupráce v reálném čase byla povolena.
     button_add_type: Type
+    collaboration_token:
+      errors:
+        collaboration_disabled: Real-time collaboration is not enabled.
+        collaboration_token_not_allowed: Requests authenticated with a collaboration token cannot request collaboration tokens.
+        invalid_previous_token: The previous collaboration token is invalid, already revoked, or does not belong to this document and user.
+        not_collaborative: The document does not support real-time collaboration.
     delete_dialog:
       confirmation_message_html: Tímto bude trvale odstraněn tento dokument a všechny přílohy. Opravdu to chcete udělat?
       heading: Smazat tento dokument?
@@ -127,7 +133,7 @@ cs:
       currently_offline: Nyní jste v režimu offline.
     label_attachment_author: Autor přílohy
     label_categories: Kategorie
-    last_updated_at: Naposledy uloženo %{time}.
+    last_updated_at_html: Last saved %{time}.
     menu:
       all: Všechny dokumenty
       collaboration_settings: Spolupráce v reálném čase

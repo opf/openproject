@@ -69,7 +69,7 @@ get:
                 count: 2
                 total: 2
           schema:
-            "$ref": "../components/schemas/available_assignees_model.yml"
+            $ref: "../components/schemas/available_assignees_model.yml"
       description: OK
       headers: {}
     '403':
@@ -111,5 +111,5 @@ get:
     - Work Packages
   description: Gets a list of users that can be assigned to work packages in the given
     workspace.
-  operationId: Workspace_Available_assignees
+  operationId: list_available_assignees_for_workspace
   summary: Workspace Available assignees

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -34,6 +33,7 @@ import {
 import {
   TimeEntriesWorkPackageAutocompleterComponent,
 } from 'core-app/shared/components/autocompleter/time-entries-work-package-autocompleter/time-entries-work-package-autocompleter.component';
+import { AutocompleterDropdownContext } from 'core-app/shared/components/autocompleter/op-autocompleter/typings';
 
 @Component({
   templateUrl: './time-entries-work-package-autocompleter-template.component.html',
@@ -47,7 +47,7 @@ export class TimeEntriesWorkPackageAutocompleterTemplateComponent implements IAu
   @Input() public isOpenedInModal = false;
   @Input() public hoverCards = true;
 
-  @ViewChild('headerTemplate') headerTemplate:TemplateRef<Element>;
+  @ViewChild('headerTemplate') headerTemplate:TemplateRef<AutocompleterDropdownContext>;
 
   autocompleter:TimeEntriesWorkPackageAutocompleterComponent = this.injector.get(OpAutocompleterComponent) as TimeEntriesWorkPackageAutocompleterComponent;
 }

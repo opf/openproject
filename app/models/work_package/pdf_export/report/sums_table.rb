@@ -22,16 +22,16 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module WorkPackage::PDFExport::Report::SumsTable
-  def write_work_packages_sums!(_work_packages)
+  def write_work_packages_sums!(work_packages)
     return unless has_summable_column?
 
+    @sums_work_packages = work_packages
     write_optional_page_break
     write_sums_title
     with_margin(styles.wp_table_margins) do
@@ -54,6 +54,12 @@ module WorkPackage::PDFExport::Report::SumsTable
 
   def sums_columns_objects
     @sums_columns_objects ||= column_objects.select(&:summable?)
+  end
+
+  def allowed_sums_columns
+    @allowed_sums_columns ||= sums_columns_objects.select do |col|
+      @sums_work_packages.all? { |work_package| allowed_to_view_attribute?(work_package, col.name) }
+    end
   end
 
   def sums_table_column_widths
@@ -115,7 +121,7 @@ module WorkPackage::PDFExport::Report::SumsTable
 
   def build_sums_row(sums, label, sums_style)
     sum_row = sums_columns_objects.map do |col|
-      content = get_formatted_value(sums[col], col.name)
+      content = allowed_sums_columns.include?(col) ? get_formatted_value(sums[col], col.name) : ""
       pdf.make_cell(content, sums_style)
     end
     sum_row.unshift pdf.make_cell(label, sums_style)

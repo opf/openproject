@@ -22,6 +22,7 @@
     </section>
   }
 
+  @let canManageFileLinks = (allowManageFileLinks$ | async) === true;
   @for (storage of projectStorages | async; track storage.id) {
     <section
       data-test-selector="op-tab-content--tab-section"
@@ -29,8 +30,8 @@
       >
       <op-storage [resource]="workPackage"
         [projectStorage]="storage"
-        [allowUploading]="allowManageFileLinks$ | async"
-        [allowLinking]="allowManageFileLinks$ | async"
+        [allowUploading]="canManageFileLinks"
+        [allowLinking]="canManageFileLinks"
         (fileRemoved)="attachmentRemoved()"
         (fileAdded)="attachmentAdded()"
        />

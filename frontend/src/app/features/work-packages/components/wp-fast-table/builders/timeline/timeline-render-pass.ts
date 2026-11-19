@@ -20,16 +20,16 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Injector } from '@angular/core';
-import { PrimaryRenderPass, RowRenderInfo } from '../primary-render-pass';
+import { PrimaryRenderPass } from '../primary-render-pass';
 import { TimelineRowBuilder } from './timeline-row-builder';
 import { WorkPackageTable } from '../../wp-fast-table';
+import { placeholderOccurrenceKey } from '../../rendered-occurrence-ledger';
 
 export class TimelineRenderPass {
   /** Row builders */
@@ -49,11 +49,11 @@ export class TimelineRenderPass {
     this.timelineBuilder = new TimelineRowBuilder(this.injector, this.table);
 
     // Render into timeline fragment
-    this.tablePass.renderedOrder.forEach((row:RowRenderInfo) => {
-      const wpId = row.workPackage ? row.workPackage.id : null;
-
-      const secondary = this.timelineBuilder.build(wpId);
-      secondary.classList.add(row.classIdentifier, `${row.classIdentifier}-timeline`, ...row.additionalClasses);
+    this.tablePass.draft.occurrences.forEach(({ key, workPackageId, classIdentifier, additionalClasses }) => {
+      if (key === placeholderOccurrenceKey()) return;
+      const secondary = this.timelineBuilder.build(workPackageId);
+      secondary.classList.add(classIdentifier, `${classIdentifier}-timeline`, ...additionalClasses);
+      secondary.dataset.classIdentifier = classIdentifier;
       this.timelineBody.appendChild(secondary);
     });
   }

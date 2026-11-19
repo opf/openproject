@@ -29,7 +29,7 @@ properties:
           - $ref: './link.yml'
           - description: |-
               This form endpoint
-              
+
               **Resource** : Form
       validate:
         allOf:

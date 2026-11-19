@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -31,6 +30,7 @@ import { SchemaResource } from 'core-app/features/hal/resources/schema-resource'
 import { HalPayloadHelper } from 'core-app/features/hal/schemas/hal-payload.helper';
 import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { GridResource } from 'core-app/features/hal/resources/grid-resource';
 
 export class ApiV3GridForm extends ApiV3FormResource {
   /**
@@ -42,7 +42,7 @@ export class ApiV3GridForm extends ApiV3FormResource {
    */
   public static extractPayload(resource:HalResource|object, schema:SchemaResource|null = null):object {
     if (resource instanceof HalResource && schema) {
-      const grid = resource;
+      const grid = resource as GridResource;
       const payload = HalPayloadHelper.extractPayloadFromSchema(grid, schema);
 
       // The widget only states the type of the widget resource but does not explain

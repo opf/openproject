@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -46,7 +45,7 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { ApiV3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
-import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { QueryFilterInstanceResource, QueryFilterValue, isQueryFilterValue } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -55,6 +54,7 @@ import { CurrentUserService } from 'core-app/core/current-user/current-user.serv
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { compareByHref } from 'core-app/shared/helpers/angular/tracking-functions';
 import { MAGIC_FILTER_AUTOCOMPLETE_PAGE_SIZE } from 'core-app/core/apiv3/helpers/get-paginated-results';
+import { isRecord } from 'core-app/shared/helpers/type-guards';
 
 @Component({
   selector: 'op-filter-searchable-multiselect-value',
@@ -90,7 +90,10 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
 
   initialRequest$:Observable<CollectionResource>;
 
-  itemTracker = (item:HalResource):string => item.href ?? item.id ?? item.name;
+  itemTracker = (item:unknown):unknown => {
+    if (!isRecord(item)) return undefined;
+    return item.href ?? item.id ?? item.name;
+  };
 
   groupByFn = (item:HalResource):string|null => {
     if (!this.isVersionResource) return null;
@@ -100,13 +103,13 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
 
   compareByHref = compareByHref;
 
-  resourceType:string|null = null;
+  resourceType:'work_packages'|null = null;
 
   readonly text = {
     placeholder: this.I18n.t('js.placeholders.selection'),
   };
 
-  public get value():string[]|HalResource[] {
+  public get value():QueryFilterValue[] {
     return this.filter.values;
   }
 
@@ -198,13 +201,18 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
     return filters;
   }
 
-  public setValues(val:string|HalResource|HalResource[]) {
-    let values:string[]|HalResource[];
+  public setValues(val:unknown) {
+    if (val === undefined) { return; }
+    let values:unknown[];
 
     if (typeof val === 'string') {
       values = val.length > 0 ? [val] : [];
     } else {
       values = Array.isArray(val) ? val : [val];
+    }
+
+    if (!values.every(isQueryFilterValue)) {
+      return;
     }
 
     this.filter.values = values;

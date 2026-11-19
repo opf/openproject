@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -76,7 +75,7 @@ export class ViewPortService implements ViewPortServiceInterface {
 
   isJournalsContainerScrolledToBottom():boolean {
     let atBottom = false;
-    // we have to handle different scrollable containers for different viewports/pages in order to idenfity if the user is at the bottom of the journals
+    // we have to handle different scrollable containers for different viewports/pages in order to identify if the user is at the bottom of the journals
     // DOM structure different for notification center and workpackage detail view as well
     const scrollableContainer = this.scrollableContainer;
     if (scrollableContainer) {

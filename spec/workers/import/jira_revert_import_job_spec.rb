@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -68,6 +67,56 @@ RSpec.describe Import::JiraRevertImportJob do
     it "deletes the referenced project" do
       expect { job.send(:delete_projects) }.to change(Project, :count).by(-1)
       expect(Project).not_to exist(project.id)
+    end
+
+    it "deletes the sprints of the project and unassigns them elsewhere" do
+      sprint = create(:sprint, project:)
+      create(:sprint_goal, sprint:, project:)
+      outside_work_package = create(:work_package, sprint:)
+
+      expect { job.send(:delete_projects) }.to change(Sprint, :count).by(-1).and change(SprintGoal, :count).by(-1)
+      expect(outside_work_package.reload.sprint).to be_nil
+    end
+
+    context "when another import reuses a sprint of the project" do
+      let(:other_import) { create(:jira_import, jira:, author:) }
+      let(:other_project) { create(:project) }
+      let(:sprint) { create(:sprint, project:) }
+      let!(:other_work_package) { create(:work_package, project: other_project, sprint:) }
+
+      before do
+        create(:work_package, project:, sprint:)
+        reference_for(sprint, "Sprint")
+        reference_for(sprint, "Sprint", uses_existing: true, import: other_import)
+      end
+
+      it "moves the sprint to the project still using it" do
+        expect { job.send(:delete_projects) }.not_to change(Sprint, :count)
+        expect(sprint.reload.project).to eq(other_project)
+        expect(other_work_package.reload.sprint).to eq(sprint)
+      end
+
+      context "when the sprint and a sprint of the other project are active" do
+        let(:sprint) do
+          create(:sprint, :active, project: other_project)
+          create(:sprint, :active, project:)
+        end
+
+        it "allows multiple active sprints in the other project" do
+          job.send(:delete_projects)
+
+          expect(sprint.reload.project).to eq(other_project)
+          expect(other_project.reload.allow_multiple_active_sprints?).to be(true)
+        end
+      end
+
+      context "when no work package outside the reverted projects is left in it" do
+        let!(:other_work_package) { nil }
+
+        it "deletes the sprint" do
+          expect { job.send(:delete_projects) }.to change(Sprint, :count).by(-1)
+        end
+      end
     end
 
     context "when the project is already gone" do
@@ -155,6 +204,18 @@ RSpec.describe Import::JiraRevertImportJob do
         job.send(:delete_types_statuses_and_issue_priorities)
 
         expect(Type).to exist(pre_existing_type.id)
+      end
+    end
+
+    context "when they are still used by a work package outside the import" do
+      before { create(:work_package, type:, status:, priority:) }
+
+      it "keeps them" do
+        job.send(:delete_types_statuses_and_issue_priorities)
+
+        expect(Type).to exist(type.id)
+        expect(Status).to exist(status.id)
+        expect(IssuePriority).to exist(priority.id)
       end
     end
   end
@@ -259,6 +320,47 @@ RSpec.describe Import::JiraRevertImportJob do
     end
   end
 
+  describe "#delete_labels" do
+    let(:label) { create(:label) }
+    let!(:reference) { reference_for(label, "Label") }
+
+    it "deletes the referenced label" do
+      expect { job.send(:delete_labels) }.to change(Label, :count).by(-1)
+    end
+
+    context "when the label is already gone" do
+      before { label.destroy }
+
+      it "skips the dangling reference" do
+        expect { job.send(:delete_labels) }.not_to raise_error
+      end
+    end
+
+    context "when the label existed before the import" do
+      let(:pre_existing_label) { create(:label) }
+
+      before { reference_for(pre_existing_label, "Label", uses_existing: true) }
+
+      it "keeps it" do
+        job.send(:delete_labels)
+
+        expect(Label).to exist(pre_existing_label.id)
+      end
+    end
+
+    context "when the label is still attached to a work package outside the import" do
+      let(:work_package) { create(:work_package) }
+
+      before { create(:labeling, label:, labelable: work_package) }
+
+      it "keeps it" do
+        job.send(:delete_labels)
+
+        expect(Label).to exist(label.id)
+      end
+    end
+  end
+
   describe "#delete_references" do
     let(:other_import) { create(:jira_import, jira:, author:) }
 
@@ -342,15 +444,15 @@ RSpec.describe Import::JiraRevertImportJob do
 
   describe "#progress" do
     it "is 0 while no step has been completed" do
-      expect(job.progress).to eq({ current: 0, percentage: 0, total: 8 })
+      expect(job.progress).to eq({ current: 0, percentage: 0, total: 9 })
     end
 
     it "grows with every completed step" do
       jira_import.set_job_cursor(job, :delete_projects)
-      expect(job.progress).to eq({ current: 1, percentage: 12.5, total: 8 })
+      expect(job.progress).to eq({ current: 1, percentage: 11.11, total: 9 })
 
       jira_import.set_job_cursor(job, :delete_jira_objects)
-      expect(job.progress).to eq({ current: 8, percentage: 100, total: 8 })
+      expect(job.progress).to eq({ current: 9, percentage: 100, total: 9 })
     end
   end
 

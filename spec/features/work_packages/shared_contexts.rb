@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,7 +31,7 @@
 # The status filter is loaded very late in the page setup.
 RSpec.shared_context "ensure wp details pane update done" do
   let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }
-  let(:abstract_work_package_page) { Pages::AbstractWorkPackage.new(work_package) }
+  let(:abstract_work_package_page) { Pages::PrimerizedSplitWorkPackage.new(work_package) }
 
   after do
     unless update_user

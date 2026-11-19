@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,6 +34,16 @@ class Backlogs::Sprints::FinishService < BaseServices::BaseContracted
   end
 
   protected
+
+  # Settled here, ahead of #before_perform moving the unfinished work out, rather than when the
+  # sprint row is written. The burndown reads the sprint up to completed_at, and the moves take
+  # that work out of the sprint as they are journalled, so a stamp taken afterward leaves every
+  # finished sprint reporting nothing remaining however much of it there was.
+  def validate_params
+    self.params = params.reverse_merge(completed_at: Time.zone.now)
+
+    super
+  end
 
   def before_perform(service_call)
     case params[:unfinished_action]
@@ -51,7 +60,7 @@ class Backlogs::Sprints::FinishService < BaseServices::BaseContracted
   end
 
   def persist(service_call)
-    model.update!(status: "completed", completed_at: Time.zone.now)
+    model.update!(status: "completed", completed_at: params[:completed_at])
     service_call
   end
 
@@ -81,6 +90,9 @@ class Backlogs::Sprints::FinishService < BaseServices::BaseContracted
     call_args[:position] = position if position
 
     open_work_packages.order(position: order_direction).map do |wp|
+      # Moving the previous work package out of the sprint shifted this one's
+      # position via update_all, leaving the loaded record stale.
+      wp.reload
       ::WorkPackages::UpdateService
         .new(user:, model: wp, contract_class: ::Backlogs::WorkPackages::MoveToBacklogContract)
         .call(**call_args)

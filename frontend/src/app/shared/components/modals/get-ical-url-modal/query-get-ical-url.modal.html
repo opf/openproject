@@ -28,12 +28,12 @@
         opAutofocus
        />
 
-      @if (nameControl?.errors?.rails) {
+      @if (nameControl?.errors?.rails; as railsError) {
         <div
           slot="errors"
           class="spot-form-field--error"
           >
-          {{nameControl?.errors?.rails}}
+          {{ railsError }}
         </div>
       }
 

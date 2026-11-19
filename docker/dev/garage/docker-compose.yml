@@ -1,0 +1,51 @@
+services:
+  # local S3 storage for development
+  garage:
+    image: dxflrs/garage:v2.4.1
+    ports:
+      - "3900:3900" # S3 API
+      - "3903:3903" # Admin API
+    volumes:
+      - ./garage.toml:/etc/garage.toml:ro
+      - garage_meta:/var/lib/garage/meta
+      - garage_data:/var/lib/garage/data
+    networks:
+      - external
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.garage.entrypoints=websecure"
+      - "traefik.http.routers.garage.rule=Host(`garage.${OPENPROJECT_DOCKER_DEV_TLD:-local}`)"
+      - "traefik.http.routers.garage.service=garage"
+      - "traefik.http.routers.garage.tls.certresolver=step"
+      - "traefik.http.services.garage.loadbalancer.server.port=3900"
+    healthcheck:
+      test: ["CMD", "/garage", "status"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # Garage has no CLI command for bucket CORS rules, so they are set through the S3 API.
+  aws:
+    image: amazon/aws-cli:latest
+    profiles: ["tools"]
+    environment:
+      AWS_ACCESS_KEY_ID: "GKa1b2c3d4e5f60718293a4b5c"
+      AWS_SECRET_ACCESS_KEY: "6f70656e70726f6a6563742d6761726167652d6465762d7365637265742d3031"
+      AWS_DEFAULT_REGION: "garage"
+      AWS_ENDPOINT_URL: "http://garage:3900"
+      AWS_REQUEST_CHECKSUM_CALCULATION: "when_required"
+      AWS_RESPONSE_CHECKSUM_VALIDATION: "when_required"
+    networks:
+      - external
+    depends_on:
+      garage:
+        condition: service_healthy
+
+volumes:
+  garage_meta:
+  garage_data:
+
+networks:
+  external:
+    name: gateway
+    external: true

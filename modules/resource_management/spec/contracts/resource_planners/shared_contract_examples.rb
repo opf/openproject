@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -80,5 +79,44 @@ RSpec.shared_examples_for "resource planner contract" do
     end
 
     it_behaves_like "contract user is unauthorized"
+  end
+
+  context "with a global planner" do
+    let(:resource_planner) do
+      build_stubbed(:resource_planner, :global, principal: owner, public: public_planner)
+    end
+
+    context "when user is the owner with view_global_resource_planners permission" do
+      let(:current_user) { create(:user, global_permissions: %i[view_global_resource_planners]) }
+      let(:owner) { current_user }
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "when user has manage_public_global_resource_planners and the planner is public" do
+      let(:current_user) do
+        create(:user, global_permissions: %i[view_global_resource_planners
+                                             manage_public_global_resource_planners])
+      end
+      let(:public_planner) { true }
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "when user is the owner but only holds the project permission" do
+      let(:current_user) do
+        create(:user, member_with_permissions: { project => %i[view_resource_planners] })
+      end
+      let(:owner) { current_user }
+
+      it_behaves_like "contract user is unauthorized"
+    end
+
+    context "when user has no permission at all" do
+      let(:current_user) { create(:user) }
+      let(:owner) { current_user }
+
+      it_behaves_like "contract user is unauthorized"
+    end
   end
 end

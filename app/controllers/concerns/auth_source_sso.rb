@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,13 +38,13 @@ module AuthSourceSSO
     # Do nothing if sso disabled
     return user unless auth_source_sso_enabled?
     # Return super auth if SSO already in progress
-    return user if sso_in_progress!
+    return user if !api_key_authenticated? && sso_in_progress!
 
     # Get the header-provided login value
     login = read_sso_login
 
     if login.present?
-      perform_header_sso login, user
+      api_key_authenticated? ? user : perform_header_sso(login, user)
     elsif header_optional?
       user
     else
@@ -65,7 +64,7 @@ module AuthSourceSSO
       return logged_user
     end
 
-    Rails.logger.debug { "Starting header-based auth source SSO for #{header_name}='#{op_auth_header_value}'" }
+    Rails.logger.debug { "Starting header-based auth source SSO for #{header_name}=#{op_auth_header_value.inspect}" }
 
     # Try to find an existing, or autocreate a new user for onthefly ldap connections
     user = LdapAuthSource.find_user(login)
@@ -76,7 +75,7 @@ module AuthSourceSSO
     return if user.nil?
     return user if user.login.casecmp?(login)
 
-    Rails.logger.warn { "Header-based auth source SSO user changed from #{user.login} to #{login}. Re-authenticating" }
+    Rails.logger.warn { "Header-based auth source SSO user changed from #{user.login} to #{login.inspect}. Re-authenticating" }
     ::Users::LogoutService.new(controller: self).call!(user)
 
     nil

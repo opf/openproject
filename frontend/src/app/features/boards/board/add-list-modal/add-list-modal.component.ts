@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -43,6 +42,7 @@ import {
   Observable,
 } from 'rxjs';
 import { OpAutocompleterComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
+import { AutocompleterResource } from 'core-app/shared/components/autocompleter/op-autocompleter/typings';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 @Component({
@@ -64,19 +64,24 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
 
   @ViewChild(OpAutocompleterComponent, { static: true }) public ngSelectComponent:OpAutocompleterComponent;
 
-  getAutocompleterData = (searchTerm:string):Observable<HalResource[]> => {
+  getAutocompleterData = (searchTerm:string|null):Observable<HalResource[]> => {
     // Remove prefix # from search
-    searchTerm = searchTerm.replace(/^#/, '');
+    searchTerm = (searchTerm ?? '').replace(/^#/, '');
     return this.actionService.loadAvailable(this.active, searchTerm)
-      .pipe(tap((values) => (this.warnIfNoOptions(values))));
+      .pipe(tap((values) => {
+        this.availableOptions = values;
+        this.warnIfNoOptions(values);
+      }));
   };
 
-  public autocompleterOptions = {
-    resource: '',
+  public autocompleterOptions:{ resource:AutocompleterResource|undefined; getOptionsFn:(term:string|null) => Observable<HalResource[]> } = {
+    resource: undefined,
     getOptionsFn: this.getAutocompleterData,
   };
 
   public showClose:boolean;
+
+  private availableOptions:HalResource[] = [];
 
   public confirmed = false;
 
@@ -97,7 +102,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
 
   public warningText:string|undefined;
 
-  public text:any = {
+  public text = {
     title: this.I18n.t('js.boards.add_list'),
     button_add: this.I18n.t('js.button_add'),
     button_create: this.I18n.t('js.button_create'),
@@ -118,14 +123,14 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
 
   ngOnInit() {
     super.ngOnInit();
-    this.board = this.locals.board;
+    this.board = this.locals.board as Board;
     this.active = new Set(this.locals.active as string[]);
     this.actionService = this.boardActions.get(this.board.actionAttribute!);
-    this.autocompleterOptions.resource = this.actionService.resourceName.toLowerCase();
+    this.autocompleterOptions.resource = this.actionService.resourceName;
   }
 
-  onModelChange(element:HalResource) {
-    this.selectedAttribute = element;
+  onModelChange(element:unknown) {
+    this.selectedAttribute = this.availableOptions.find((option) => option === element);
   }
 
   create() {
@@ -162,28 +167,19 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   }
 
   private getVersionPayload(name:string) {
-    const payload:any = {};
-    payload.name = name;
-    payload._links = {
-      definingProject: {
-        href: this.apiV3Service.projects.id(this.currentProject.id!).path,
+    return {
+      name,
+      _links: {
+        definingProject: {
+          href: this.apiV3Service.projects.id(this.currentProject.id!).path,
+        },
       },
     };
-
-    return payload;
   }
 
   private warnIfNoOptions(values:unknown[]) {
-    let hasMember = false;
-    if (values.length === 0) {
-      if (this.ngSelectComponent.ngSelectInstance.searchTerm !== undefined && this.ngSelectComponent.ngSelectInstance.searchTerm !== '') {
-        hasMember = true;
-      } else {
-        hasMember = false;
-      }
-    } else {
-      hasMember = false;
-    }
+    const { searchTerm } = this.ngSelectComponent.ngSelectInstance;
+    const hasMember = values.length === 0 && searchTerm !== undefined && searchTerm !== '';
     this.actionService
       .warningTextWhenNoOptionsAvailable(hasMember)
       .then((text) => {

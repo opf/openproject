@@ -17,7 +17,7 @@
   // Leave space for the shadow to be displayed
   width: calc(100% - 2px)
   border: 1px solid var(--box-list-item-border-color)
-  border-radius: 2px
+  border-radius: var(--borderRadius-medium)
   padding: 10px
   position: relative
   box-shadow: 1px 1px 3px 0px var(--borderColor-default)
@@ -25,7 +25,9 @@
   color: var(--body-font-color)
   font-size: var(--body-font-size)
 
-  &:hover
+  &:hover,
+  &:focus-visible,
+  &:has(:focus-visible)
     --op-wp-single-card-bg-color: var(--box-list-item-bg-hover-color)
 
     .op-wp-single-card--inline-buttons
@@ -160,7 +162,7 @@
     position: absolute
     top: 0
     left: 0
-    border-radius: 2px 2px 0 0
+    border-radius: var(--borderRadius-medium) var(--borderRadius-medium) 0 0
 
   &--card-actions
     display: flex

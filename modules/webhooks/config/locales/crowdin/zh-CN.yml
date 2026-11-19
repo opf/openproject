@@ -62,7 +62,7 @@ zh-CN:
       label_add_new: 添加新的 Webhook
       label_edit: 编辑 Webhook
       label_x_events:
-        one: 1 个活动
+        one: "%{count} event"
         other: "%{count} 个活动"
         zero: 无活动
       no_results_table: 尚未定义任何 Webhook。

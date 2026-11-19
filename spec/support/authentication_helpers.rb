@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,7 +39,7 @@ module AuthenticationHelpers
     if is_a?(RSpec::Rails::FeatureExampleGroup)
       # If we want to mock having finished the login process
       # we must set the user_id in rack.session accordingly
-      # Otherwise e.g. calls to Warden will behave unexpectantly
+      # Otherwise e.g. calls to Warden will behave unexpectedly
       # as they will login AnonymousUser
       if using_cuprite? && js_enabled?
         page.driver.set_cookie(
@@ -59,17 +58,18 @@ module AuthenticationHelpers
   def login_with(login, password, autologin: false, visit_signin_path: true)
     visit signin_path if visit_signin_path
 
-    within_test_selector("user-login--form") do
-      fill_in "username", with: login
-      fill_in "password", with: password
-      if autologin
-        autologin_label = I18n.t("users.autologins.prompt",
-                                 num_days: I18n.t("datetime.distance_in_words.x_days", count: Setting.autologin))
-        check autologin_label
-      end
+    wait_for_login_submission do
+      within_test_selector("user-login--form") do
+        fill_in "username", with: login
+        fill_in "password", with: password
+        if autologin
+          autologin_label = I18n.t("users.autologins.prompt",
+                                   num_days: I18n.t("datetime.distance_in_words.x_days", count: Setting.autologin))
+          check autologin_label
+        end
 
-      click_button I18n.t(:button_login), type: "submit"
-      wait_for_network_idle
+        click_button I18n.t(:button_login), type: "submit"
+      end
     end
   end
 
@@ -98,6 +98,22 @@ module AuthenticationHelpers
   private_constant :STALE_PAGE_ERRORS
 
   private
+
+  def wait_for_login_submission
+    if using_cuprite?
+      yield
+      wait_for_network_idle
+    elsif page.driver.is_a?(Capybara::Selenium::Driver)
+      # The login form submits as a full page load, which Selenium's click does
+      # not wait for. A navigation started right after races the POST and makes
+      # it fail the CSRF check.
+      page.execute_script("document.body.dataset.loginSubmitting = 'true'")
+      yield
+      expect(page).to have_no_css("body[data-login-submitting]")
+    else
+      yield
+    end
+  end
 
   # set_rack_session drives a real form on /rack_session: it submits the
   # form and immediately reads the page text to confirm the update. Under

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -50,14 +49,14 @@ import {
   DateEditFieldComponent,
 } from 'core-app/shared/components/fields/edit/field-types/date-edit-field/date-edit-field.component';
 import {
+  DateTimeEditFieldComponent,
+} from 'core-app/shared/components/fields/edit/field-types/datetime-edit-field.component';
+import {
   FormattableEditFieldComponent,
 } from 'core-app/shared/components/fields/edit/field-types/formattable-edit-field/formattable-edit-field.component';
 import {
   SelectAutocompleterRegisterService,
 } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-autocompleter-register.service';
-import {
-  ProjectStatusEditFieldComponent,
-} from 'core-app/shared/components/fields/edit/field-types/project-status-edit-field.component';
 import {
   PlainFormattableEditFieldComponent,
 } from 'core-app/shared/components/fields/edit/field-types/plain-formattable-edit-field.component';
@@ -84,6 +83,9 @@ import {
 import {
   VersionsEditFieldComponent,
 } from 'core-app/shared/components/fields/edit/field-types/versions-edit-field.component';
+import {
+  LabelsEditFieldComponent,
+} from 'core-app/shared/components/fields/edit/field-types/labels-edit-field.component';
 import { ProjectPhaseAutocompleterComponent } from '../../autocompleter/project-phase-autocompleter/project-phase-autocompleter.component';
 
 export function initializeCoreEditFields(editFieldService:EditFieldService, selectAutocompleterRegisterService:SelectAutocompleterRegisterService) {
@@ -95,6 +97,7 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
       .addFieldType(ProgressPopoverEditFieldComponent, 'progress', ['Progress'])
       .addFieldType(ProjectEditFieldComponent, 'project', ['Project'])
       .addFieldType(UserEditFieldComponent, 'user', ['User'])
+      .addFieldType(LabelsEditFieldComponent, 'labels', ['[]Label'])
       .addFieldType(SelectEditFieldComponent, 'select', [
         'Priority',
         'ProjectPhase',
@@ -118,6 +121,7 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
       .addFieldType(WorkPackageEditFieldComponent, 'workPackage', ['WorkPackage'])
       .addFieldType(BooleanEditFieldComponent, 'boolean', ['Boolean'])
       .addFieldType(DateEditFieldComponent, 'date', ['Date'])
+      .addFieldType(DateTimeEditFieldComponent, 'datetime', ['DateTime'])
       .addFieldType(FormattableEditFieldComponent, 'wiki-textarea', ['Formattable']);
 
     editFieldService
@@ -145,9 +149,6 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
         'versions',
         ['targetVersions'],
       )
-      .addSpecificFieldType('Project', ProjectStatusEditFieldComponent, 'status', ['status'])
-      .addSpecificFieldType('Portfolio', ProjectStatusEditFieldComponent, 'status', ['status'])
-      .addSpecificFieldType('Program', ProjectStatusEditFieldComponent, 'status', ['status'])
       .addSpecificFieldType('TimeEntry', PlainFormattableEditFieldComponent, 'comment', ['comment'])
       .addSpecificFieldType('TimeEntry', HoursDurationEditFieldComponent, 'hours', ['hours']);
 

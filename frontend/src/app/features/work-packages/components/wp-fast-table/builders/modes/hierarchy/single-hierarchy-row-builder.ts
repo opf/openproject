@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -32,6 +31,7 @@ import { SingleRowBuilder } from 'core-app/features/work-packages/components/wp-
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import { States } from 'core-app/core/states/states.service';
 import {
+  ancestorClassIdentifier,
   collapsedGroupClass,
   hierarchyGroupClass,
   hierarchyRootClass,
@@ -76,13 +76,13 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
 
   /**
    * Refresh a single row after structural changes.
-   * Remembers and re-adds the hierarchy indicator if necessary.
+   * Re-adds the hierarchy indicator at `depth`, the row's place in the rendered query, when given.
    */
-  public refreshRow(workPackage:WorkPackageResource, row:HTMLTableRowElement) {
+  public override refreshRow(workPackage:WorkPackageResource, row:HTMLTableRowElement, depth?:number) {
     // Remove any old hierarchy
     const newRow = super.refreshRow(workPackage, row);
     newRow.querySelector('.wp-table--hierarchy-span')?.remove();
-    this.appendHierarchyIndicator(workPackage, newRow);
+    this.appendHierarchyIndicator(workPackage, newRow, depth);
 
     return newRow;
   }
@@ -131,11 +131,13 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
    * Append an additional ancestor row that is not yet loaded
    */
   public buildAncestorRow(ancestor:WorkPackageResource,
-    ancestorGroups:string[],
-    index:number):[HTMLTableRowElement, boolean] {
+    _ancestorGroups:string[],
+    _index:number):[HTMLTableRowElement, boolean] {
     const workPackage = this.states.workPackages.get(ancestor.id!).value!;
     const [tr, hidden] = this.buildEmpty(workPackage);
-    tr.classList.add(additionalHierarchyRowClassName);
+    const identifier = ancestorClassIdentifier(ancestor.id!);
+    tr.classList.add(additionalHierarchyRowClassName, identifier, `${identifier}-table`);
+    tr.dataset.classIdentifier = identifier;
     return [tr, hidden];
   }
 
@@ -150,11 +152,12 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
     const hierarchyLevel = level === undefined || null ? ancestors.length : level;
     const hierarchyElement = this.buildHierarchyIndicator(workPackage, row, hierarchyLevel);
 
-    const subjectCell = row.querySelector<HTMLTableCellElement>('td.subject');
+    const subjectCell = Array.from(row.cells).find((cell) => cell.classList.contains('subject'));
     if (!subjectCell) return;
 
     subjectCell.classList.add('-with-hierarchy');
     subjectCell.prepend(hierarchyElement);
+    if (this.parentsWithVisibleChildren[workPackage.id!]) row.dataset.expandable = '';
 
     // Assure that the content is still visible when the hierarchy indentation is very large
     subjectCell.style.minWidth = `${125 + (hierarchyIndentation * hierarchyLevel)}px`;
@@ -165,11 +168,12 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   }
 
   /**
-   * Build the hierarchy indicator at the given indentation level.
+   * Build the hierarchy indicator at the given indentation level, reading the one-based level in its text.
    */
   private buildHierarchyIndicator(workPackage:WorkPackageResource, row:HTMLTableRowElement, level:number):HTMLElement {
     const hierarchyIndicator = document.createElement('span');
     const collapsed = this.wpTableHierarchies.collapsed(workPackage.id!);
+    const labelLevel = level + 1;
     const indicatorWidth = `${hierarchyBaseIndentation + (hierarchyIndentation * level)}px`;
     hierarchyIndicator.classList.add(hierarchyCellClassName);
     hierarchyIndicator.style.width = indicatorWidth;
@@ -178,20 +182,20 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
     if (this.parentsWithVisibleChildren[workPackage.id!]) {
       const className = collapsed ? indicatorCollapsedClass : '';
       hierarchyIndicator.innerHTML = `
-            <a href tabindex="0" role="button" class="wp-table--hierarchy-indicator ${className}">
+            <a href tabindex="-1" role="button" class="wp-table--hierarchy-indicator ${className}">
               <span class="wp-table--hierarchy-indicator-icon" aria-hidden="true"></span>
               <span class="wp-table--hierarchy-indicator-expanded sr-only">${this.text.expanded(
-    level,
+    labelLevel,
   )}</span>
               <span class="wp-table--hierarchy-indicator-collapsed sr-only">${this.text.collapsed(
-    level,
+    labelLevel,
   )}</span>
             </a>
         `;
     } else {
       hierarchyIndicator.innerHTML = `
-            <span tabindex="0" class="wp-table--leaf-indicator">
-              <span class="sr-only">${this.text.leaf(level)}</span>
+            <span tabindex="-1" class="wp-table--leaf-indicator">
+              <span class="sr-only">${this.text.leaf(labelLevel)}</span>
             </span>
         `;
     }

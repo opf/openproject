@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -72,7 +71,7 @@ module Projects::Identifier
     # slug column to its previous value when validation fails. With slug_column: :identifier,
     # this would reset a manually-set identifier back to nil on new records. Since the
     # identifier is managed by our own callbacks and user input (not FriendlyId's slug generator),
-    # we disable this behaviour entirely.
+    # we disable this behavior entirely.
     # Must be inside `included` to override FriendlyId::Slugged in the MRO.
     def unset_slug_if_invalid; end
   end

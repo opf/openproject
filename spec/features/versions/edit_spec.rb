@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -54,7 +53,7 @@ RSpec.describe "version edit", :js do
     expect(page)
       .to have_current_path(version_path(version))
     expect(page)
-      .to have_content new_version_name
+      .to have_text new_version_name
   end
 
   context "with a custom field" do
@@ -91,7 +90,7 @@ RSpec.describe "version edit", :js do
       click_on "Save"
 
       expect(page).to have_text("Successful update")
-      expect(page).to have_content("Version 2.1")
+      expect(page).to have_text("Version 2.1")
 
       # Verify the custom field value was updated
       updated_version = Version.find_by(name: "Version 2.1")

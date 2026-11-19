@@ -61,6 +61,8 @@ hu:
   attributes:
     budget: Költségvetés
   budgets:
+    labor_budget_items:
+      no_rate_at_fixed_date: No hourly rate on %{date}
     widgets:
       budget_by_cost_type:
         blankslate:
@@ -106,7 +108,7 @@ hu:
   events:
     budget: Szerkesztett költségvetés
   help_click_to_edit: Szerkesztéshez kattintson ide.
-  help_currency_format: Megjelenített pénznem-értékek megjelenítési formátuma. %n helyébe a pénznem értéke, %u helyébe a neve kerül.
+  help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u is replaced with the currency unit.
   help_override_rate: Adjon meg egy értéket az alapértelmezett díj felülírásához.
   label_budget_available: Rendelkezésre álló költségvetés
   label_budget_details: Költségvetés részletei

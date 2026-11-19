@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -70,6 +69,8 @@ export interface IGithubPullRequestResourceEmbedded {
   checkRuns:IGithubCheckRunResource[];
 }
 
+export type GithubPullRequestState = 'open'|'closed'|'deployed';
+
 export interface IGithubPullRequest {
   id:ID;
   additionsCount?:number;
@@ -83,16 +84,16 @@ export interface IGithubPullRequest {
   createdAt?:string;
   deletionsCount?:number;
   draft?:boolean;
-  githubUpdatedAt?:string;
+  githubUpdatedAt:string;
   htmlUrl:string;
   labels?:string[];
   merged?:boolean;
   mergedAt?:string;
   number?:number;
   repository:string;
-  repositoryHtmlUrl:string;
+  repositoryHtmlUrl?:string;
   reviewCommentsCount?:number;
-  state?:string;
+  state:GithubPullRequestState;
   title:string;
   updatedAt?:string;
 

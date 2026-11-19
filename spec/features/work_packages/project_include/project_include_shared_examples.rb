@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,6 +30,8 @@
 require "spec_helper"
 
 RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
+  include_context "with axe on Cuprite"
+
   let(:dropdown) { Components::ProjectIncludeComponent.new }
 
   shared_let(:portfolio) do
@@ -52,7 +53,7 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
   end
 
   shared_let(:other_project) do
-    create(:project, name: "Other project", enabled_module_names: enabled_modules)
+    create(:project, name: "Other project", identifier: "unrelated-slug", enabled_module_names: enabled_modules)
   end
 
   shared_let(:other_sub_project) do
@@ -99,7 +100,7 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
 
   shared_let(:type_task) { create(:type_task) }
   shared_let(:type_bug) { create(:type_bug) }
-  shared_let(:closed_status) { create(:status, is_closed: true) }
+  shared_let(:closed_status) { create(:status, category: "closed") }
 
   shared_let(:task) do
     create(:work_package,
@@ -248,6 +249,11 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
     dropdown.click_button "Apply"
     dropdown.expect_closed
     dropdown.expect_count 2
+  end
+
+  it "names the toggle button" do
+    expect(page).to have_button(accessible_name: "Include projects 1", exact: true)
+    expect(page).to be_axe_clean.within("[data-test-selector='project-include-button']")
   end
 
   it "can clear the selection" do
@@ -443,6 +449,37 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
       dropdown.expect_checkbox(portfolio.id, true)
       dropdown.expect_checkbox(program.id)
       dropdown.expect_checkbox(sub_sub_sub_project.id)
+    end
+  end
+
+  it "filters projects in the list by their identifier" do
+    dropdown.expect_count 1
+    dropdown.toggle!
+    dropdown.expect_open
+
+    retry_block do
+      dropdown.search ""
+
+      dropdown.expect_checkbox(other_project.id)
+      dropdown.expect_checkbox(other_sub_project.id)
+      dropdown.expect_checkbox(other_sub_sub_project.id)
+      dropdown.expect_checkbox(another_sub_sub_project.id)
+      dropdown.expect_checkbox(portfolio.id, true)
+      dropdown.expect_checkbox(program.id, true)
+      dropdown.expect_checkbox(sub_sub_sub_project.id, true)
+    end
+
+    retry_block do
+      dropdown.search other_project.identifier
+
+      # Assert non-matching projects first to ensure the filtering was already done.
+      dropdown.expect_no_checkbox(other_sub_project.id)
+      dropdown.expect_no_checkbox(other_sub_sub_project.id)
+      dropdown.expect_no_checkbox(another_sub_sub_project.id)
+      dropdown.expect_no_checkbox(portfolio.id)
+      dropdown.expect_no_checkbox(program.id)
+      dropdown.expect_no_checkbox(sub_sub_sub_project.id)
+      dropdown.expect_checkbox(other_project.id)
     end
   end
 

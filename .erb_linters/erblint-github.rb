@@ -1,1 +1,0 @@
-require "erblint-github/linters"

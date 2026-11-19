@@ -38,7 +38,7 @@ All OpenProject GmbH employees employ industry standard data security measures t
 
 The GDPR grants the right to access, modify, receive, and delete their own data to every data subject. 
 
-OpenProject customers with admin accounts on their instance act as data controllers for their team members and have comprehensive tools to fulfil these requests on behalf of the data subjects they are responsible for.
+OpenProject customers with admin accounts on their instance act as data controllers for their team members and have comprehensive tools to fulfill these requests on behalf of the data subjects they are responsible for.
 
 Below, we outline some of these key data rights.
 

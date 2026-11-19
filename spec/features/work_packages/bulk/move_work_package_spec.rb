@@ -1,5 +1,32 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require "spec_helper"
 require "features/page_objects/notification"
 require "support/components/autocompleter/ng_select_autocomplete_helpers"
@@ -79,22 +106,21 @@ RSpec.describe "Moving a work package through Rails view", :js do
       let!(:version) { create(:version, project: project2) }
 
       before do
-        expect(child_wp.project_id).to eq(project.id)
+        raise "Child work package is in the wrong project" unless child_wp.project_id == project.id
 
         context_menu.open_for work_package
         context_menu.choose "Move to another project"
 
         # On work packages move page
-        expect(page).to have_css("#new_project_id")
-        select_autocomplete page.find_test_selector("new_project_id"),
-                            query: "Target",
-                            select_text: "Target",
-                            results_selector: "body"
-        if using_cuprite?
-          wait_for_network_idle
-        else
-          SeleniumHubWaiter.wait
+        find_by_id("new_project_id")
+        project_autocompleter = -> { page.find_test_selector("new_project_id") }
+        wait_for_turbo_stream(wait: 20) do
+          select_autocomplete project_autocompleter,
+                              query: "Target",
+                              select_text: "Target",
+                              results_selector: "body"
         end
+        expect_current_autocompleter_value(project_autocompleter, "Target")
       end
 
       context "when the limit to move in the frontend is 1",
@@ -171,19 +197,15 @@ RSpec.describe "Moving a work package through Rails view", :js do
       context "when the target project has a type with a required field" do
         let(:required_cf) { create(:integer_wp_custom_field, is_required: true) }
         let(:type2) { create(:type, name: "Risk", custom_fields: [required_cf]) }
-        let!(:project2) { create(:project, name: "Target", types: [type2], work_package_custom_fields: [required_cf]) }
+        let!(:project2) { create(:project, name: "Target", types: [type2]) }
 
         it "does not moves the work package when the required field is missing" do
-          select "Risk", from: "Type"
+          wait_for_turbo_stream(wait: 20) { select "Risk", from: "Type" }
           expect(page).to have_field(required_cf.name)
-          project_autocompleter = find_test_selector("new_project_id")
+          project_autocompleter = -> { find_test_selector("new_project_id") }
           expect_current_autocompleter_value(project_autocompleter, "Target")
 
-          # Clicking move and follow might be broken due to the location.href
-          # in the refresh-on-form-changes component
-          retry_block do
-            click_on "Move and follow"
-          end
+          click_on "Move and follow"
 
           expect_flash type: :error, message: I18n.t(:"work_packages.bulk.none_could_be_saved", total: 1)
           child_wp.reload
@@ -214,11 +236,10 @@ RSpec.describe "Moving a work package through Rails view", :js do
     priority = create(:priority, name: "High")
     required_cf = create(:integer_wp_custom_field,
                          name: "Risk score",
-                         is_required: true,
-                         projects: [project, project2])
+                         is_required: true)
     create(:workflow, type:, old_status: status, new_status:, role: mover_role)
     create(:workflow, type: type2, old_status: status, new_status:, role: mover_role)
-    type2.default_variant.custom_fields << required_cf
+    type2.default_variant.custom_field_ids |= [required_cf.id]
 
     visit new_move_work_packages_path(ids: work_packages.map(&:id))
 
@@ -247,6 +268,34 @@ RSpec.describe "Moving a work package through Rails view", :js do
     notes_editor.expect_value "Keep this note"
   end
 
+  describe "searching the target project by its identifier" do
+    let(:target_project) { project2 }
+    let(:control_project) { project }
+
+    before do
+      context_menu.open_for work_package
+      context_menu.choose "Move to another project"
+    end
+
+    def search_project(query)
+      search_autocomplete page.find_test_selector("new_project_id"),
+                          query:,
+                          results_selector: "body"
+    end
+
+    it_behaves_like "a project picker searchable by identifier"
+
+    it "selects the project found by its identifier" do
+      dropdown = search_project(target_project.identifier)
+
+      wait_for_turbo_stream do
+        dropdown.find(".ng-option", text: target_project.name).click
+      end
+
+      expect_current_autocompleter_value(page.find_test_selector("new_project_id"), target_project.name)
+    end
+  end
+
   describe "moving an unmovable (e.g. readonly status) and a movable work package", with_ee: %i[readonly_work_packages] do
     let(:work_packages) { [work_package, work_package2] }
     let(:work_package2_status) { create(:status, is_readonly: true) }
@@ -254,7 +303,7 @@ RSpec.describe "Moving a work package through Rails view", :js do
     before do
       loading_indicator_saveguard
       # Select all work packages
-      find("body").send_keys [:control, "a"]
+      wp_table.select_all_work_packages
 
       context_menu.open_for work_package2
       context_menu.choose "Bulk change of project"
@@ -264,7 +313,12 @@ RSpec.describe "Moving a work package through Rails view", :js do
                           query: project2.name,
                           select_text: project2.name,
                           results_selector: "body"
+
+      move_path = page.current_path
       click_on "Move and follow"
+      page.document.synchronize(30) do
+        raise Capybara::ElementNotFound if page.current_path == move_path
+      end
     end
 
     it "displays an error message explaining which work package could not be moved and why" do

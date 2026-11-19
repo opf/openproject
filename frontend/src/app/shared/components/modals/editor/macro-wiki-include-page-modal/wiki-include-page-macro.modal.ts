@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -51,7 +50,7 @@ export class WikiIncludePageMacroModalComponent extends OpModalComponent impleme
 
   @ViewChild('selectedPageInput', { static: true }) selectedPageInput:ElementRef<HTMLInputElement>;
 
-  public text:any = {
+  public text = {
     title: this.I18n.t('js.editor.macro.wiki_page_include.button'),
     hint: this.I18n.t('js.editor.macro.wiki_page_include.hint'),
     page: this.I18n.t('js.editor.macro.wiki_page_include.page'),
@@ -63,7 +62,7 @@ export class WikiIncludePageMacroModalComponent extends OpModalComponent impleme
   constructor() {
     super();
 
-    this.selectedPage = this.page = this.locals.page;
+    this.selectedPage = this.page = this.locals.page as string;
 
     // We could provide an autocompleter here to get correct page names
   }

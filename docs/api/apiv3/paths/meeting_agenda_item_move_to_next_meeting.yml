@@ -1,0 +1,43 @@
+---
+post:
+  summary: Move an agenda item to the next meeting
+  operationId: move_meeting_agenda_item_to_next_meeting
+  tags:
+    - Meetings
+  description: |-
+    Moves the agenda item to the next available occurrence of its recurring meeting
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: Agenda item identifier
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: The agenda item, now linked to the next meeting and its section
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/meeting_agenda_item_model.yml"
+    '403':
+      description: |-
+        The user lacks `manage_agendas` in the source or target project
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+    '404':
+      description: The item or meeting does not exist or is invisible to the client
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+    '422':
+      description: |-
+        The item's meeting is not recurring, is a series template, is closed, or
+        the series has no upcoming occurrence available to move the item to
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"

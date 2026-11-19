@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,7 +32,7 @@ module Capabilities::Scopes
     extend ActiveSupport::Concern
 
     class_methods do
-      # Currently, this does not reflect the behaviour present in the backend that every permission in at least one project
+      # Currently, this does not reflect the behavior present in the backend that every permission in at least one project
       # leads to having that permission in the global context as well. Hopefully, this is not necessary to be added.
       def default
         capabilities_sql = <<~SQL.squish

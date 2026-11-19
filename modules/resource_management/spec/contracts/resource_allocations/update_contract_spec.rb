@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,6 +35,47 @@ RSpec.describe ResourceAllocations::UpdateContract do
 
   it_behaves_like "resource allocation contract" do
     let(:contract) { described_class.new(resource_allocation, current_user) }
+  end
+
+  context "for an assignee who is not a member of the work package's project" do
+    let(:project) { create(:project, enabled_module_names: %w[resource_management]) }
+    let(:current_user) do
+      create(:user, member_with_permissions: { project => %i[view_resource_planners allocate_user_resources] })
+    end
+    let(:work_package) { create(:work_package, project:) }
+    let(:member) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
+    let(:deleted_user) { create(:deleted_user) }
+    let(:contract) { described_class.new(resource_allocation, current_user) }
+
+    context "when the deleted user stays assigned" do
+      let(:resource_allocation) do
+        build_stubbed(:resource_allocation, entity: work_package, principal: deleted_user).tap do |allocation|
+          allocation.allocated_time = 16 * 60
+        end
+      end
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "when a user removed from the project stays assigned" do
+      let(:resource_allocation) do
+        build_stubbed(:resource_allocation, entity: work_package, principal: create(:user)).tap do |allocation|
+          allocation.allocated_time = 16 * 60
+        end
+      end
+
+      it_behaves_like "contract is invalid", principal: :not_a_member
+    end
+
+    context "when the deleted user is newly assigned" do
+      let(:resource_allocation) do
+        build_stubbed(:resource_allocation, entity: work_package, principal: member).tap do |allocation|
+          allocation.principal = deleted_user
+        end
+      end
+
+      it_behaves_like "contract is invalid", principal: :not_a_member
+    end
   end
 
   describe "writable attributes" do
@@ -51,8 +91,8 @@ RSpec.describe ResourceAllocations::UpdateContract do
       expect(contract.writable?(:entity)).to be(false)
     end
 
-    it "allows principal, state, dates, allocated_time, and user_filter" do
-      %i[principal principal_explicit state start_date end_date allocated_time user_filter].each do |attr|
+    it "allows principal, placeholder_user, state, dates and allocated_time" do
+      %i[principal placeholder_user state start_date end_date allocated_time].each do |attr|
         expect(contract.writable?(attr)).to be(true), "expected #{attr} to be writable"
       end
     end

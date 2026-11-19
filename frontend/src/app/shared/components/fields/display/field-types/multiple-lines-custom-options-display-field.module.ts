@@ -20,13 +20,16 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { cssClassCustomOption } from 'core-app/shared/components/fields/display/display-field.module';
+import {
+  isUndisclosed,
+  undisclosedValueNode,
+} from 'core-app/shared/components/fields/display/field-types/undisclosed-value';
 import { ResourcesDisplayField } from './resources-display-field.module';
 
 export class MultipleLinesCustomOptionsDisplayField extends ResourcesDisplayField {
@@ -49,12 +52,17 @@ export class MultipleLinesCustomOptionsDisplayField extends ResourcesDisplayFiel
     return this.stringValue.join(', ');
   }
 
-  protected renderValues(values:string[], element:HTMLElement) {
-    values.forEach((value) => {
+  protected renderValues(_values:string[], element:HTMLElement) {
+    this.resources.forEach((resource) => {
       const div = document.createElement('div');
       div.classList.add(cssClassCustomOption, '-multiple-lines');
-      div.setAttribute('title', value);
-      div.textContent = value;
+      div.setAttribute('title', resource.name);
+
+      if (isUndisclosed(resource)) {
+        div.appendChild(undisclosedValueNode(resource.name));
+      } else {
+        div.textContent = resource.name;
+      }
 
       element.appendChild(div);
     });

@@ -130,7 +130,7 @@ zh-TW:
     error_invalid_backup_code: 不正確2FA 備份代碼
     error_is_enforced_not_active: '配置錯誤: 已強制執行兩階段驗證, 但無規則可套用。'
     error_no_device: 未為該使用者找到已註冊的2FA 設備, 儘管此實例是必需的。
-    error_no_matching_strategy: 沒有匹配的2FA 策略可供此使用者使用。請聯繫您的系統管理員。
+    error_no_matching_strategy: No matching 2FA strategy available for this user. Please contact your administrator.
     forced_registration:
       required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
     label_2fa_disabled: 兩階段驗證已關閉
