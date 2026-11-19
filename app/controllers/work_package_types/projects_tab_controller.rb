@@ -247,7 +247,7 @@ module WorkPackageTypes
     end
 
     def candidate_projects
-      scope = ::Project.order(:lft)
+      scope = ::Project.active.order(:lft)
       return scope.to_a if filter_term.blank?
 
       matching = Queries::Projects::Filters::NameAndIdentifierFilter

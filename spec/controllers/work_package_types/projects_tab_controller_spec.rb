@@ -105,6 +105,14 @@ RSpec.describe WorkPackageTypes::ProjectsTabController do
 
         expect(response.body).to include("Bookshop")
       end
+
+      it "leaves out archived projects" do
+        create(:project, name: "Shelved", active: false)
+
+        get :tree, params: { type_id: type.id, name: "project_ids" }
+
+        expect(response.body).not_to include("Shelved")
+      end
     end
 
     describe "POST link" do
