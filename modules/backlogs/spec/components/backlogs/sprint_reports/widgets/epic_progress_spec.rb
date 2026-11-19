@@ -70,7 +70,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress, type: :component,
       expect(rendered_component).to have_css(".blankslate", text: "No epics to display")
       expect(rendered_component).to have_css(
         ".blankslate",
-        text: "The epic progress chart will appear here once the sprint has received a work package tied to an epic."
+        text: "The epic progress chart will appear here once the sprint contains work packages tied to an epic."
       )
     end
   end
@@ -92,7 +92,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress, type: :component,
       expect(rendered_component).to have_css(".blankslate", text: "No epics to display")
       expect(rendered_component).to have_css(
         ".blankslate",
-        text: "The epic progress chart will appear here once the sprint has received a work package tied to an epic."
+        text: "The epic progress chart will appear here once the sprint contains work packages tied to an epic."
       )
     end
   end
