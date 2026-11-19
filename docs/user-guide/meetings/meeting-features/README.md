@@ -12,7 +12,7 @@ The features described in this section apply to all [meeting types](../meeting-t
 
 | Topic | Content |
 | --- | --- |
-| [Meeting creation](meeting-creation/) | How to create, edit, copy and delete meetings. |
+| [Meeting setup](meeting-creation/) | How to set up, edit, copy and delete meetings. |
 | [Meeting templates](meeting-templates/) | How to reuse a predefined meeting structure (Enterprise add-on). |
 | [Meeting participants](meeting-participants/) | How to invite participants and keep them informed via email and calendar. |
 | [Meeting agenda](meeting-agenda/) | How to prepare the agenda, add work packages, sort and vote on agenda items. |
