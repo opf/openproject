@@ -73,6 +73,17 @@ RSpec.describe "API v3 project-specific custom field values", :webmock, content_
           expect(acme_element.dig("_links", "children").pluck("title")).to eq(["Traffic lights"])
           expect(traffic_lights_element.dig("_links", "children")).to be_empty
         end
+
+        context "with a visible item below a hidden one" do
+          let!(:spider_sense) { create(:hierarchy_item, parent: oscorp, label: "Spider sense") }
+
+          before { create(:project_specific_value_restriction, project:, hierarchy_item: spider_sense) }
+
+          it "skips the visible item together with its hidden parent" do
+            expect(last_response).to have_http_status(:ok)
+            expect(elements.pluck("id")).to eq([root.id, acme.id, traffic_lights.id])
+          end
+        end
       end
 
       context "with a project" do
@@ -160,6 +171,45 @@ RSpec.describe "API v3 project-specific custom field values", :webmock, content_
         let(:path) { api_v3_paths.custom_option(option_b.id) }
 
         it_behaves_like "not found"
+      end
+    end
+  end
+
+  context "for values added by projects without project-specific restrictions" do
+    context "for a hierarchy custom field", with_ee: [:custom_field_hierarchies] do
+      let(:custom_field) { create(:hierarchy_wp_custom_field, types: [type]) }
+      let(:root) { custom_field.hierarchy_root }
+      let!(:acme) { create(:hierarchy_item, parent: root, label: "Acme") }
+      let!(:own_item) { create(:hierarchy_item, parent: acme, label: "Own", project:) }
+      let!(:foreign_item) { create(:hierarchy_item, parent: acme, label: "Foreign", project: other_project) }
+
+      describe "GET /api/v3/custom_fields/:id/items" do
+        let(:path) { api_v3_paths.custom_field_items(custom_field.id, project: project.id) }
+
+        it "returns the global items and the items of the project" do
+          expect(last_response).to have_http_status(:ok)
+          expect(elements.pluck("id")).to eq([root.id, acme.id, own_item.id])
+        end
+      end
+    end
+
+    context "for a list custom field" do
+      let(:custom_field) { create(:list_wp_custom_field, types: [type], possible_values: %w[A]) }
+      let!(:own_option) { create(:custom_option, custom_field:, value: "Own", project:) }
+      let!(:foreign_option) { create(:custom_option, custom_field:, value: "Foreign", project: other_project) }
+
+      describe "GET /api/v3/custom_options/:id" do
+        context "for an option of a project the user sees work packages in" do
+          let(:path) { api_v3_paths.custom_option(own_option.id) }
+
+          it_behaves_like "successful response"
+        end
+
+        context "for an option of another project" do
+          let(:path) { api_v3_paths.custom_option(foreign_option.id) }
+
+          it_behaves_like "not found"
+        end
       end
     end
   end

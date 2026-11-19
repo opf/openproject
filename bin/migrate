@@ -29,7 +29,12 @@ POSTGRES_CONTAINER=op-migrate-pg17
 OUTPUT_BUFFER=$(mktemp)
 
 if [ -z "$DUMP_FILE" ]; then
-  echo -e "Usage: bin/migrate [-n|--change-schema-name NAME] [-f|--format sql|pgdump] openproject.sql"
+  echo -e "Usage: bin/migrate [-n|--change-schema-name NAME] [-f|--format sql|pgdump] /path/outside/any/repository/openproject.sql"
+  exit 1
+fi
+
+if git -C "$(dirname "$DUMP_FILE")" rev-parse --is-inside-work-tree &>/dev/null; then
+  >&2 echo "Error: $DUMP_FILE is inside a git working tree. Move it to a folder outside of any repository."
   exit 1
 fi
 

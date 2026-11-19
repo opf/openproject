@@ -261,6 +261,107 @@ RSpec.describe CustomField::ProjectSpecificValues do
     end
   end
 
+  describe "values added by projects" do
+    context "for a list custom field" do
+      let(:custom_field) { create(:list_wp_custom_field, *traits, possible_values: %w[A B]) }
+      let(:option_a) { custom_field.custom_options.find_by!(value: "A") }
+      let(:option_b) { custom_field.custom_options.find_by!(value: "B") }
+      let!(:own_option) { create(:custom_option, custom_field:, value: "Own", project:) }
+      let!(:foreign_option) { create(:custom_option, custom_field:, value: "Foreign", project: other_project) }
+
+      context "without project-specific restrictions enabled" do
+        let(:traits) { [] }
+
+        it "returns the global options and the options of the project" do
+          expect(custom_field.usable_values_in(project)).to contain_exactly(option_a, option_b, own_option)
+        end
+
+        it "only accepts the global options and the options of the project as usable" do
+          expect(custom_field.usable_value_id?(project, own_option.id)).to be(true)
+          expect(custom_field.usable_value_id?(project, foreign_option.id)).to be(false)
+          expect(custom_field.usable_value_id?(project, option_a.id)).to be(true)
+        end
+
+        it "keeps only the global options and the options of the project" do
+          values = [option_a, own_option, foreign_option].map { |option| option.id.to_s }
+
+          expect(custom_field.keep_usable_values(values, project)).to contain_exactly(option_a.id.to_s, own_option.id.to_s)
+        end
+
+        it "only returns the global options without a project" do
+          expect(custom_field.usable_values_in(nil)).to contain_exactly(option_a, option_b)
+        end
+      end
+
+      context "with an allowlist" do
+        let(:traits) { [:project_specific_allowlist] }
+
+        before { create(:project_specific_value_restriction, project:, custom_option: option_a) }
+
+        it "returns the allowed global options and the options of the project" do
+          expect(custom_field.usable_values_in(project)).to contain_exactly(option_a, own_option)
+        end
+      end
+
+      context "with a blocklist" do
+        let(:traits) { [:project_specific_blocklist] }
+
+        before { create(:project_specific_value_restriction, project:, custom_option: option_a) }
+
+        it "returns the global options that are not blocked and the options of the project" do
+          expect(custom_field.usable_values_in(project)).to contain_exactly(option_b, own_option)
+        end
+      end
+    end
+
+    shared_examples "including the hierarchical items of the project" do |factory|
+      let(:custom_field) { create(factory, *traits) }
+      let!(:acme) { create(:hierarchy_item, parent: custom_field.hierarchy_root) }
+      let!(:oscorp) { create(:hierarchy_item, parent: custom_field.hierarchy_root) }
+      let!(:own_item) { create(:hierarchy_item, parent: acme, project:) }
+      let!(:own_child) { create(:hierarchy_item, parent: own_item, project:) }
+      let!(:foreign_item) { create(:hierarchy_item, parent: acme, project: other_project) }
+
+      subject(:usable_values) { custom_field.usable_values_in(project) }
+
+      context "without project-specific restrictions enabled" do
+        let(:traits) { [] }
+
+        it "returns the global items and the items of the project" do
+          expect(usable_values).to contain_exactly(acme, oscorp, own_item, own_child)
+        end
+      end
+
+      context "with an allowlist" do
+        let(:traits) { [:project_specific_allowlist] }
+
+        before { create(:project_specific_value_restriction, project:, hierarchy_item: acme) }
+
+        it "returns the allowed global items and the items of the project" do
+          expect(usable_values).to contain_exactly(acme, own_item, own_child)
+        end
+      end
+
+      context "with a blocklist" do
+        let(:traits) { [:project_specific_blocklist] }
+
+        before { create(:project_specific_value_restriction, project:, hierarchy_item: oscorp) }
+
+        it "returns the global items that are not blocked and the items of the project" do
+          expect(usable_values).to contain_exactly(acme, own_item, own_child)
+        end
+      end
+    end
+
+    context "for a hierarchy custom field", with_ee: [:custom_field_hierarchies] do
+      it_behaves_like "including the hierarchical items of the project", :hierarchy_wp_custom_field
+    end
+
+    context "for a weighted item list custom field", with_ee: [:weighted_item_lists] do
+      it_behaves_like "including the hierarchical items of the project", :weighted_item_list_wp_custom_field
+    end
+  end
+
   describe "#visible_values_for" do
     shared_let(:type) { create(:type) }
     shared_let(:user) { create(:user) }
@@ -293,6 +394,15 @@ RSpec.describe CustomField::ProjectSpecificValues do
 
         it "returns all options" do
           expect(visible_values).to contain_exactly(option_a, option_b, option_c, option_d, option_e)
+        end
+
+        context "with options added by projects" do
+          let!(:member_option) { create(:custom_option, custom_field:, value: "Member", project: member_project) }
+          let!(:foreign_option) { create(:custom_option, custom_field:, value: "Foreign", project: foreign_project) }
+
+          it "returns the global options and the options of the projects in which the user sees the field" do
+            expect(visible_values).to contain_exactly(option_a, option_b, option_c, option_d, option_e, member_option)
+          end
         end
       end
 

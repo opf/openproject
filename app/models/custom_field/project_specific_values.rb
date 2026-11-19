@@ -33,6 +33,8 @@ module CustomField::ProjectSpecificValues
 
   included do
     enum :project_specific_value_restriction, { allow: "allow", block: "block" }, prefix: true, validate: { allow_nil: true }
+    store_attribute :settings, :allow_additional_project_values, :boolean, default: false
+    store_attribute :settings, :project_level_value_management, :boolean, default: false
     has_many :project_specific_value_restrictions,
              class_name: "CustomField::ProjectSpecificValueRestriction",
              dependent: :delete_all
@@ -55,18 +57,30 @@ module CustomField::ProjectSpecificValues
     usable_values_in_any(projects.with_available_custom_fields(id))
   end
 
-  def usable_value_id?(project, value_id)
-    return true if project_specific_value_restriction.nil?
+  def project_specific_values_supported?
+    is_a?(WorkPackageCustomField) && (list? || hierarchical_list?)
+  end
 
-    @usable_value_ids ||= {}
-    @usable_value_ids[project.id] ||= usable_values_in(project).pluck(:id).to_set
-    @usable_value_ids[project.id].include?(value_id.to_i)
+  # The global ancestors of the values the project added, which have to stay usable in the project.
+  def required_value_ids_in(project)
+    return [] unless hierarchical_list?
+
+    own_item_ids = restrictable_values.where(project_id: project.id).select(:id)
+    ancestor_ids = CustomField::Hierarchy::ItemHierarchy.where(descendant_id: own_item_ids).select(:ancestor_id)
+
+    restrictable_values.where(id: ancestor_ids, project_id: nil).pluck(:id)
+  end
+
+  def usable_value_id?(project, value_id)
+    return true unless project_specific_values_supported?
+
+    usable_value_ids_in(project).include?(value_id.to_i)
   end
 
   def keep_usable_values(values, project)
-    return values if project_specific_value_restriction.nil?
+    return values unless project_specific_values_supported?
 
-    usable_ids = usable_values_in(project).pluck(:id).map(&:to_s)
+    usable_ids = usable_value_ids_in(project).map(&:to_s)
     values.is_a?(Array) ? values & usable_ids : values.presence_in(usable_ids)
   end
 
@@ -84,6 +98,11 @@ module CustomField::ProjectSpecificValues
 
   private
 
+  def usable_value_ids_in(project)
+    @usable_value_ids ||= {}
+    @usable_value_ids[project&.id] ||= usable_values_in(project).pluck(:id).to_set
+  end
+
   def usable_values_in_any(projects)
     usable_values_in_reach(projects.select(:id).to_sql)
   end
@@ -91,14 +110,25 @@ module CustomField::ProjectSpecificValues
   # The restrictions are evaluated per project of the reach, so the rows of different projects
   # never combine into making a value usable that is usable in none of them.
   def usable_values_in_reach(reach_sql)
-    return restrictable_values if project_specific_value_restriction.nil?
+    return global_and_reach_values(reach_sql) if project_specific_value_restriction.nil?
 
     restrictable_values.where(<<~SQL.squish)
       EXISTS (
         SELECT 1 FROM (#{reach_sql}) reach
-        WHERE #{list? ? usable_option_condition : usable_item_condition}
+        WHERE #{values_table}.project_id = reach.id
+          OR (#{values_table}.project_id IS NULL AND #{list? ? usable_option_condition : usable_item_condition})
       )
     SQL
+  end
+
+  def global_and_reach_values(reach_sql)
+    project_id = restrictable_values.arel_table[:project_id]
+
+    restrictable_values.where(project_id.eq(nil).or(project_id.in(Arel.sql(reach_sql))))
+  end
+
+  def values_table
+    list? ? CustomOption.table_name : CustomField::Hierarchy::Item.table_name
   end
 
   def usable_option_condition
