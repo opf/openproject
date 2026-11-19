@@ -31,7 +31,7 @@ module Import
   module Jiras
     module Validators
       class ServerValidator < HealthReports::ValidatorGroup
-        SUPPORTED_VERSIONS = Gem::Requirement.new(">= 8.14", "< 12")
+        SUPPORTED_VERSIONS = Gem::Requirement.new(">= 8", "< 12")
         BASIC_AUTH_ONLY_VERSIONS = Gem::Requirement.new("< 9")
 
         def self.key = :server

@@ -77,8 +77,8 @@ RSpec.describe Admin::Import::Jira::ConnectionCheckDialogComponent, type: :compo
           key: :server,
           results: [HealthReport::Result.success(:reachable),
                     HealthReport::Result.success(:responds_as_jira),
-                    HealthReport::Result.warning(:version_supported, :unsupported_version, { "version" => "8.5.0" }),
-                    HealthReport::Result.failure(:auth_method_supported, :basic_auth_required, { "version" => "8.5.0" })]
+                    HealthReport::Result.warning(:version_supported, :unsupported_version, { "version" => "7.13.0" }),
+                    HealthReport::Result.failure(:auth_method_supported, :basic_auth_required, { "version" => "7.13.0" })]
         )
       ]
     end
