@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -42,12 +41,12 @@ RSpec.describe "Test mail notification", :js do
     error_message = '"error" with <strong>Markup?</strong>'
     allow(UserMailer).to receive(:test_mail).and_raise error_message
 
-    click_link "Send a test email"
-
-    expect(UserMailer).to have_received(:test_mail).with(admin, delivery_method_options: {})
+    expect_angular_frontend_initialized
+    wait_for_turbo { click_link "Send a test email" }
 
     expected = "An error occurred while sending mail (#{error_message})"
     expect_flash(type: :error, message: expected)
+    expect(UserMailer).to have_received(:test_mail).with(admin, delivery_method_options: {})
     expect(page).to have_no_css(".op-toast.-error strong")
   end
 end

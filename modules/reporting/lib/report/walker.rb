@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -119,7 +118,7 @@ class Report::Walker
     result ||= query.result.tap { |r| sort(r) }
     if result.row?
       if result.final_row?
-        subresults = query.table.with_gaps_for(:column, result).map(&method(:walk_cell))
+        subresults = query.table.with_gaps_for(:column, result).map { |cell| walk_cell(cell) }
         for_final_row.call result, subresults
       else
         subresults = result.map { |r| body(r) }
@@ -127,7 +126,7 @@ class Report::Walker
       end
     else
       # you only get here if no rows are defined
-      result.each_direct_result.map(&method(:walk_cell))
+      result.each_direct_result.map { |cell| walk_cell(cell) }
     end
   end
 end

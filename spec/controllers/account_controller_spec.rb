@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -155,6 +154,16 @@ RSpec.describe AccountController, :skip_2fa_stage do
         expect(response).to have_http_status :unprocessable_entity
         expect(response).to render_template "login"
         expect(flash[:error]).to include "Invalid user or password"
+      end
+
+      it "logs the submitted username on a single line" do
+        allow(Rails.logger).to receive(:warn)
+
+        post :login, params: { username: "probe\n[FORGED] INFO -- : Successful admin login", password: "bad" }
+
+        expect(Rails.logger)
+          .to have_received(:warn)
+          .with(a_string_starting_with('Failed login for "probe\\n[FORGED] INFO -- : Successful admin login" from'))
       end
 
       context "with unrestricted password login", with_settings: { password_login: "all" } do
@@ -377,6 +386,34 @@ RSpec.describe AccountController, :skip_2fa_stage do
         expect(response).to be_redirect
       end
 
+      it "tells the browser to clear site storage without a relative URL root",
+         with_config: { rails_relative_url_root: nil } do
+        login_as admin
+
+        get :logout
+
+        expect(response.headers["Clear-Site-Data"]).to eq('"storage"')
+      end
+
+      it "tells the browser to clear site storage with an empty relative URL root",
+         with_config: { rails_relative_url_root: "" } do
+        login_as admin
+
+        get :logout
+
+        expect(response.headers["Clear-Site-Data"]).to eq('"storage"')
+      end
+
+      it "does not tell the browser to clear site storage with a relative URL root",
+         with_config: { rails_relative_url_root: "/openproject" } do
+        login_as admin
+
+        get :logout
+
+        expect(response.headers).not_to have_key("Clear-Site-Data")
+        expect(response).to be_redirect
+      end
+
       context "with a user with an SSO provider attached" do
         let(:user) { build_stubbed(:user, login: "bob", authentication_provider: sso_provider) }
         let(:slo_callback) { nil }
@@ -486,6 +523,18 @@ RSpec.describe AccountController, :skip_2fa_stage do
       it "is not found" do
         expect(response).to have_http_status :not_found
       end
+    end
+  end
+
+  describe "POST #lost_password" do
+    it "logs an unknown mail on a single line" do
+      allow(Rails.logger).to receive(:error)
+
+      post :lost_password, params: { mail: "nobody@example.com\n[FORGED] INFO -- : Password reset" }
+
+      expect(Rails.logger)
+        .to have_received(:error)
+        .with('Lost password unknown email input: "nobody@example.com\\n[FORGED] INFO -- : Password reset"')
     end
   end
 

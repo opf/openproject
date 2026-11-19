@@ -22,10 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
+#++
 
 require "spec_helper"
 require "contracts/work_packages/shared_contract_examples"
@@ -317,8 +317,7 @@ RSpec.describe WorkPackages::UpdateContract do
           let(:cf1) { create(:string_wp_custom_field) }
 
           before do
-            persisted_project.work_package_custom_fields << cf1
-            persisted_type.default_variant.custom_fields << cf1
+            persisted_type.default_variant.custom_field_ids |= [cf1.id]
             work_package.custom_field_values = { cf1.id => "test" }
             contract.validate
           end

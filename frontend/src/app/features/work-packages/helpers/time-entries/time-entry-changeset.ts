@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -30,7 +29,7 @@ import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/r
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
 
 export class TimeEntryChangeset extends ResourceChangeset<TimeEntryResource> {
-  public setValue(key:string, val:any) {
+  public setValue(key:string, val:unknown) {
     super.setValue(key, val);
 
     // Update the form for fields that may alter the form itself
@@ -40,7 +39,7 @@ export class TimeEntryChangeset extends ResourceChangeset<TimeEntryResource> {
   }
 
   protected buildPayloadFromChanges() {
-    const payload = super.buildPayloadFromChanges();
+    const payload = super.buildPayloadFromChanges() as { _links:Record<string, unknown> };
 
     // we ignore the project and instead rely completely on the work package.
     delete payload._links.project;

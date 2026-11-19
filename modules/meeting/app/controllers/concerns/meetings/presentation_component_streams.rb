@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -64,6 +63,7 @@ module Meetings
             meeting: @meeting,
             sorted_agenda_item_ids:,
             current_item: @meeting_agenda_item,
+            current_slide: @current_slide,
             started_at: @started_at
           )
         )
@@ -74,7 +74,9 @@ module Meetings
           component: MeetingAgendaItems::ItemComponent::ShowComponent.new(
             meeting_agenda_item: @meeting_agenda_item,
             current_occurrence: @meeting,
-            presentation_mode: true
+            presentation_mode: true,
+            slide: @current_slide,
+            started_at: @started_at
           )
         )
       end

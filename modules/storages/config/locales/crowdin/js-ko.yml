@@ -26,7 +26,8 @@ ko:
         select: 파일 선택
         select_all: 모두 선택
         selection:
-          zero: 연결할 파일 선택
+          none: 연결할 파일 선택
+          one: Link %{count} file
           other: "%{count}개 파일 연결"
         success_create:
           other: "%{count}개 파일 링크를 생성했습니다."

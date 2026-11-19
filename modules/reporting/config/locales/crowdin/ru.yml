@@ -22,8 +22,17 @@
 ---
 ru:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: Строки и столбцы в совокупности должны точно соответствовать критериям группировки запроса.
     models:
       cost_query:
+        one: Отчет о затратах
+        few: Cost reports
+        many: Cost reports
+        other: Отчеты о затратах
+      cost_report:
         one: Отчет о затратах
         few: Cost reports
         many: Cost reports
@@ -101,7 +110,6 @@ ru:
   plugin_openproject_reporting:
     description: Этот плагин позволяет создавать пользовательские отчеты о стоимости с фильтрацией и группировкой, созданной плагином OpenProject Time и затратами.
     name: Отчёт OpenProject
-  project_module_reporting_module: Отчет по стоимости
   reporting:
     group_by:
       selected_columns: Выбранные столбцы

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -119,7 +118,7 @@ class WorkPackageRelationsTab::IndexComponent < ApplicationComponent
 
   def render_relation_group(title:, relation_group:, &)
     render(
-      OpenProject::Common::BorderBoxListComponent.new(
+      OpPrimer::BorderBoxListComponent.new(
         container: "op-relation-group-#{relation_group.type}",
         padding: :condensed,
         test_selector: "op-relation-group-#{relation_group.type}"
@@ -238,7 +237,7 @@ class WorkPackageRelationsTab::IndexComponent < ApplicationComponent
   def new_relation_path(relation_type)
     case relation_type
     when "new_child"
-      new_project_work_packages_dialog_path(work_package.project, parent_id: work_package.id)
+      new_work_package_child_path(work_package)
     when Relation::TYPE_CHILD, Relation::TYPE_PARENT
       new_work_package_hierarchy_relation_path(work_package, relation_type:)
     when *Relation::TYPES.keys

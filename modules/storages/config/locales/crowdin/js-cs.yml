@@ -26,16 +26,14 @@ cs:
         select: Vybrat soubory
         select_all: Vybrat vše
         selection:
-          zero: Vyberte soubory, které chcete propojit
-          one: Propojit 1 Soubor
-          few: Propojit %{count} souborů
-          many: Propojit %{count} souborů
-          other: Propojit %{count} souborů
+          none: Select files to link
+          one: Link %{count} file
+          other: Link %{count} files
         success_create:
-          one: Odkaz na soubor byl úspěšně vytvořen.
-          few: "%{count} odkazů na soubor byl úspěšně vytvořen."
-          many: "%{count} odkazů na soubor byl úspěšně vytvořen."
-          other: "%{count} odkazů na soubor byl úspěšně vytvořen."
+          one: Successfully created %{count} file link.
+          few: Successfully created %{count} file links.
+          many: Successfully created %{count} file links.
+          other: Successfully created %{count} file links.
         tooltip:
           not_found: Tento soubor nebyl nalezen.
           not_logged_in: Pro přístup k tomuto souboru se přihlaste do úložiště.

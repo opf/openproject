@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -104,9 +103,20 @@ class ParamsToQueryService
   end
 
   def parse_sorting_from_json(json)
-    JSON.parse(json).map do |(attribute, order)|
+    sorting = JSON.parse(json)
+    raise Queries::ParamsParser::MalformedParameterError.new("sortBy") unless valid_sorting?(sorting)
+
+    sorting.map do |(attribute, order)|
       [convert_attribute(attribute), order]
     end
+  rescue JSON::ParserError, TypeError
+    raise Queries::ParamsParser::MalformedParameterError.new("sortBy")
+  end
+
+  def valid_sorting?(sorting)
+    pairs = sorting.is_a?(Hash) ? sorting.to_a : sorting
+
+    pairs.is_a?(Array) && pairs.all? { it in [String, String] }
   end
 
   def convert_attribute(attribute, append_id: false)

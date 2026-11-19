@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -61,7 +60,7 @@ RSpec.describe "Authentication Stages" do
 
   def expect_not_logged_in
     visit my_account_path
-    wait_for_netowrk_idle
+    wait_for_network_idle
 
     expect(page).to have_no_test_selector "my-account-form"
   end
@@ -138,7 +137,6 @@ RSpec.describe "Authentication Stages" do
 
   context "when enabled, and consent exists",
           :js,
-          :selenium,
           with_settings: {
             consent_info: { en: "# Consent header!" },
             consent_required: true
@@ -213,6 +211,7 @@ RSpec.describe "Authentication Stages" do
       fill_in "user_lastname", with: "Last"
 
       click_on I18n.t(:button_create)
+      expect_flash(message: "Successful creation.")
 
       # Get invitation token and log in as that user
       visit signout_path
@@ -255,11 +254,10 @@ RSpec.describe "Authentication Stages" do
 
       expect_logged_in
 
-      manager = page.driver.browser.manage
-      autologin_cookie = manager.cookie_named("autologin")
-      expect(autologin_cookie[:name]).to eq "autologin"
+      autologin_cookie = page.driver.cookies["autologin"]
+      expect(autologin_cookie).to be_present
       # Cookie is set to expire at the given day
-      expect(autologin_cookie[:expires].to_date).to eq (Date.today + 1.day)
+      expect(autologin_cookie.expires.to_date).to eq(Time.zone.today + 1.day)
     end
 
     context "with contact mail address", with_settings: { consent_decline_mail: "foo@example.org" } do

@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -55,8 +54,15 @@ module BudgetsHelper
     }
   end
 
-  # Groups and placeholder users cannot hold an hourly rate and are therefore
-  # budgeted with 0.0 costs, but they are valid assignees (wp/74197).
+  def labor_budget_item_rate_hint(labor_budget_item, fixed_date:, project_id:)
+    return "" if labor_budget_item.overridden_costs?
+    return "" unless labor_budget_item.missing_rate?(fixed_date, project_id)
+
+    t("budgets.labor_budget_items.no_rate_at_fixed_date", date: format_date(fixed_date))
+  end
+
+  # Groups cannot hold an hourly rate and are therefore budgeted with 0.0 costs,
+  # but they are valid assignees (wp/74197).
   def labor_budget_item_user_filters(project)
     [
       { name: "type", operator: "=", values: %w[User Group PlaceholderUser] },

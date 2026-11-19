@@ -62,7 +62,7 @@ ko:
       label_add_new: 새로운 Webhook 추가
       label_edit: Webhook 편집
       label_x_events:
-        one: 1개 이벤트
+        one: "%{count} event"
         other: "%{count}개 이벤트"
         zero: 이벤트 없음
       no_results_table: 아직 정의된 Webhook이 없습니다.

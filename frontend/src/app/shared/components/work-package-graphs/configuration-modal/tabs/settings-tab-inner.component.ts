@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -35,6 +34,7 @@ import { WorkPackageStatesInitializationService } from 'core-app/features/work-p
 import { TabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
 import { QuerySpacedTabComponent } from 'core-app/shared/components/work-package-graphs/configuration-modal/tabs/abstract-query-spaced-tab.component';
 import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
+import { CHART_TYPE_IDENTIFIERS, chartTypeLocaleKey } from 'core-app/shared/components/work-package-graphs/chart-type';
 
 interface OpChartType {
   identifier:string;
@@ -126,15 +126,13 @@ export class WpGraphConfigurationSettingsTabInnerComponent extends QuerySpacedTa
   }
 
   private initializeAvailableChartType() {
-    this.availableChartTypes = sortBy([
-      { identifier: 'horizontalBar', label: this.I18n.t('js.chart.types.horizontal_bar') },
-      { identifier: 'bar', label: this.I18n.t('js.chart.types.bar') },
-      { identifier: 'line', label: this.I18n.t('js.chart.types.line') },
-      { identifier: 'pie', label: this.I18n.t('js.chart.types.pie') },
-      { identifier: 'doughnut', label: this.I18n.t('js.chart.types.doughnut') },
-      { identifier: 'radar', label: this.I18n.t('js.chart.types.radar') },
-      { identifier: 'polarArea', label: this.I18n.t('js.chart.types.polar_area') },
-    ], 'label');
+    this.availableChartTypes = sortBy(
+      CHART_TYPE_IDENTIFIERS.map((identifier) => ({
+        identifier,
+        label: this.I18n.t(`js.chart.types.${chartTypeLocaleKey(identifier)}`),
+      })),
+      'label',
+    );
 
     this.currentChartType = this.availableChartTypes.find((type) => type.identifier === this.wpGraphConfiguration.configuration.chartType) || this.availableChartTypes[0];
   }

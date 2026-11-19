@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -72,7 +71,8 @@ module OpenProject::Wikis
         getter: ->(*) { ::Wikis::Provider.enabled.exists? }
       )
 
-      OpenProject::TextFormatting::Filters::PatternMatcherFilter.append_matcher ::Wikis::TextFormatting::WikiLinkMatcher
+      OpenProject::TextFormatting::Filters::PatternMatcherFilter.append_matcher ::Wikis::TextFormatting::HtmlWikiLinkMatcher
+      Exports::PDF::Common::Macro.register_macro ::Wikis::TextFormatting::PdfWikiLinkMatcher
 
       # Registering queries and filters
       ::Queries::Register.register(::Queries::Wikis::PageLinks::PageLinkQuery) do
@@ -164,15 +164,12 @@ module OpenProject::Wikis
            skip_permissions_check: true,
            after: :relations,
            badge: ->(work_package:, **) { Wikis::PageLinkService.new.count(work_package) },
-           if: lambda { |_project|
-             Wikis::Provider.enabled.exists? &&
-               OpenProject::FeatureDecisions.wiki_enhancements_active?
-           }
+           if: ->(_project) { Wikis::Provider.enabled.exists? }
 
       menu :admin_menu,
            :wiki_providers,
            { controller: "/wikis/admin/wiki_providers", action: :index },
-           if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.wiki_enhancements_active? },
+           if: ->(_) { User.current.admin? },
            caption: :"menus.admin.wikis",
            icon: :book
 
@@ -180,7 +177,7 @@ module OpenProject::Wikis
            :external_wiki_providers,
            { controller: "/wikis/admin/wiki_providers", action: :index },
            parent: :wiki_providers,
-           if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.wiki_enhancements_active? },
+           if: ->(_) { User.current.admin? },
            caption: :"menus.admin.external_wiki_providers"
 
       menu :admin_menu,
@@ -188,7 +185,7 @@ module OpenProject::Wikis
            { controller: "/wikis/admin/internal_wiki_provider", action: :show },
            parent: :wiki_providers,
            after: :external_wiki_providers,
-           if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.wiki_enhancements_active? },
+           if: ->(_) { User.current.admin? },
            caption: :"menus.admin.internal_wiki_provider"
 
       menu :project_menu,
@@ -204,9 +201,8 @@ module OpenProject::Wikis
     patch_with_namespace :WorkPackages, :CreateService
     patch_with_namespace :WorkPackages, :UpdateService
 
-    add_api_path(:wiki_page_links) { "#{root}/wiki_page_links" }
-    add_api_path(:wiki_page_link) { |page_link_id| "#{wiki_page_links}/#{page_link_id}" }
-    add_api_path(:wiki_provider) { |provider_universal_identifier| "#{root}/wiki_providers/#{provider_universal_identifier}" }
+    add_api_resource_paths :wiki_page_link, only: %i[index show]
+    add_api_resource_paths :wiki_provider, only: :show
     add_api_path(:work_package_wiki_page_links) { |work_package_id| "#{work_package(work_package_id)}/wiki_page_links" }
 
     add_api_endpoint "API::V3::Root" do

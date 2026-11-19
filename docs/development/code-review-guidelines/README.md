@@ -6,13 +6,18 @@ This guide serves as a foundation on how to prepare your work for and perform co
 
 ### Coding style
 
-We try to adhere to the [Ruby community style guide](https://github.com/bbatsov/ruby-style-guide) as well as the [AirBnB JavaScript style guide](https://github.com/airbnb/javascript) with [some extensions for Angular](../style-guide/frontend/). Rules we want to follow are expressed as either Rubocop definitions or eslint rules. Follow your linter to adhere to them.
+We try to adhere to the [Ruby community style guide](https://github.com/bbatsov/ruby-style-guide) for Ruby and the [frontend style guide](../style-guide/frontend/) for TypeScript and JavaScript. Rules we want to follow are expressed as either Rubocop definitions or eslint rules (`frontend/eslint.config.mjs`, built on typescript-eslint, angular-eslint, and `@stylistic`). Follow your linter to adhere to them. See also the [development style guide](../style-guide/), including how to write [code comments](../style-guide/#code-comments).
 
 Due to the age of our codebase, a lot of our code might not yet adhere to these style guides, but we want all new code to adhere to it. You do not have to improve existing code when making changes, but we encourage it. If you do, please do all improvements in a separate commit from the actual change, so the improvements do not hide your actual code changes in a diff.
 
 Before committing, please run your new code through [Rubocop](https://github.com/bbatsov/rubocop). It detects deviations from a lot of things in the style guide and things that are bad practice in general. You obviously do not have to fix issues with existing code. There is a [list of editor plugins](https://docs.rubocop.org/rubocop/integration_with_other_tools.html#editor-integration) in the Rubocop docs. You can also use `bin/dirty-rubocop` to test them. Pull requests are being linted automatically through a GitHub action.
 
 The same is true for eslint. Your editor will likely have support for eslint checks, and allows you to correct them before committing.
+
+For ERB templates, run `bundle exec erb_lint path/to/template.html.erb` and
+`npm run herb:lint -- path/to/template.html.erb`. ERB Lint checks Ruby style and
+template safety; Herb checks accessibility and HTML structure using `.herb.yml`.
+Both run in CI and through Lefthook.
 
 **Lefthook**
 
@@ -21,25 +26,60 @@ at [Lefthook](https://github.com/evilmartians/lefthook). You can install these r
 are several options on how to install `lefthook` on your system, including using `brew`, `apt`, `bundle`, or `npm`. For
 example, one can add a `Gemfile.local` and thus the `lefthook` to the bundle.
 
+For spelling checks, also install [typos](https://github.com/crate-ci/typos#install).
+The pre-commit hook checks the full contents of staged files using the same
+`typos.toml` dictionary and exclusions as CI. If `typos` is not installed, the
+hook prints a warning and skips the check.
+
+Run only the spelling check with `lefthook run pre-commit --command typos`.
+To apply spelling fixes explicitly, run `lefthook run fix --command typos`,
+then review and stage the changes. The check does not modify files, and the
+fix command does not stage changes automatically.
+
+> [!TIP]
+> For an intentional spelling or project acronym, add an entry mapping the term
+> to itself in the existing `[default.extend-words]` section of `typos.toml`.
+> For example, `lod = "lod"` accepts LOD (level of detail).
+>
+> To exclude a file or directory, append a pattern such as `"path/to/file.txt"`
+> or `"path/to/directory/**"` to the existing `extend-exclude` array under
+> `[files]`. Prefer a term exception over excluding a whole file when possible.
+> See [typos: false positives](https://github.com/crate-ci/typos#false-positives)
+> for more options. These exceptions apply to both Lefthook and CI.
+
 ### Structure of commit messages
 
-- First line: less than 72 characters, this is when GitHub shows ‘…’
-- Blank line
-- Detailed description of the change, wrapped to 72 characters so the text is readable in git log
+- Subject line: at most 50 characters, in the imperative mood ("Remove foo", not "Removed foo").
+- Blank line.
+- Body: wrapped at 72 characters so the text is readable in `git log`. Explain why the change is made, not what it does; the diff shows what.
+- Work package reference: link the work package the commit is about. A link in the body is enough.
+- Optionally, also prefix the subject with the work package ID. Write semantic IDs without `#` (e.g. `[DREAM-863] Cover grouped collapse`) and numeric IDs with `#` (e.g. `[#12345] Remove foo`), and omit the prefix on follow-up commits that are not about that work package.
+
+```text
+[DREAM-863] Cover grouped collapse
+
+Collapsing a group hid its rows but kept them in the tab order, so
+keyboard users landed on invisible rows. Skip collapsed rows when
+computing focus targets.
+
+https://community.openproject.org/wp/DREAM-863
+```
 
 See the [Git Book](https://git-scm.com/book/en/v2/Distributed-Git-Contributing-to-a-Project#Commit-Guidelines).
 
 ### Pull Request description
 
-- Provide a clear title, optionally linking to a work package
-- Add steps necessary to review / reproduce / set up development data for testing
-- Reference the change in the OpenProject community, if ticket exists. If no ticket exists, double check if one is really optional.
+Fill in the [pull request template](https://github.com/opf/openproject/blob/dev/.github/pull_request_template.md). In addition:
+
+- Provide a clear title.
+- Add steps necessary to review / reproduce / set up development data for testing.
+- Link the work package in the **Ticket** section. If no work package exists, double check if one is really optional.
 
 ### Testing
 
-- All GitHub workflow actions must be green on continuous integration
+- All GitHub workflow actions must be green on continuous integration. Run the relevant tests [locally](../testing/running-tests-locally/) before creating your pull request, since the complete suite takes a while to run in CI. If you push to your branch in quick succession (especially force pushes), consider canceling the superseded CI runs.
 - Appropriate unit and integration tests, e.g. test application logic via rspec tests and its integration with the user interface via feature tests
-- Test frontend code with appropriate feature specs.
+- Test frontend code with Vitest unit specs (Stimulus controller specs live next to their controllers, see [testing the frontend](https://github.com/opf/openproject/blob/dev/frontend/doc/TESTING.md)) and its integration with the backend with feature specs.
 - Forms: besides testing for success response, also test whether values are actually saved, e.g. read form or look into database
 - Bugfixes: must contain a test which detects the bug they fix to prevent regressions
 - Translations: Never use a specific translation string in a test. We might want to change them in the future and do not want to fix tests when we do.
@@ -57,7 +97,7 @@ Every developer and reviewer should read the Rails Security Guide as well as the
 
 - All changes made to the OpenProject software are managed and documented via work packages in the [OpenProject project](https://community.openproject.org/projects/openproject/).
 - The [Roadmap view](https://community.openproject.org/projects/openproject/roadmap) gives a corresponding overview.
-- For any nontrivial or pure maintenance changes (Gem bumps etc.), please ensure you have a corresponding ticket you link to in the form of `OP##<Work package ID>` or `https://community.openproject.org/work_packages/ID` in your pull request.
+- For any nontrivial or pure maintenance changes (Gem bumps etc.), please ensure you have a corresponding work package and link it in the **Ticket** section of your pull request (e.g. `https://community.openproject.org/wp/OP-12345`).
 - To prevent inconsistencies and avoid redundant work there is no additional change log in the source code. Releases will contain a changelog of the publicly visible tickets in the GitHub releases pages, as well as [on our release notes](../../release-notes/).
 
 ### Marking your code as reviewable
@@ -122,7 +162,7 @@ If there are breaking changes (e.g., to permissions, code relevant for developer
 
 - For external contributions: Check whether the author has signed a [Contributor License Agreement](../#openproject-contributor-license-agreement-cla) and kindly ask for it if not. There is a GitHub workflow ensuring the contributor signed the current CLA. If the action is green, consider this point done.
 
-- Copyright notice: When new files are added, make sure they contain the OpenProject copyright notice (copy from any file in OpenProject).
+- Copyright notice: When new files are added, follow the [copyright notice guide](../style-guide/#copyright-notices) for generators and the manual fallback when generation is unavailable.
 
 - Adding Gems: When adding gems, make sure not only the Gemfile is updated, but also the Gemfile.lock.
 

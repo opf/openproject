@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,9 +31,10 @@ require "spec_helper"
 
 RSpec.describe "Recently viewed work packages",
                :js,
-               :selenium,
                with_settings: { login_required: false } do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
+
+  include_context "with axe on Cuprite"
 
   let(:global_search) { Components::GlobalSearch.new }
 
@@ -49,6 +49,13 @@ RSpec.describe "Recently viewed work packages",
       global_search.click_input
       expect(global_search.dropdown).to be_visible
       expect(global_search.dropdown).to have_no_text(recently_viewed_header_text)
+    end
+
+    it "names the search button" do
+      visit home_path
+
+      expect(page).to have_button(accessible_name: "Search", exact: true)
+      expect(page).to be_axe_clean.within("#top-menu-search-button")
     end
   end
 

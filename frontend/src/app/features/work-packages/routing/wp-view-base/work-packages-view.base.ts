@@ -20,17 +20,16 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { ChangeDetectorRef, Directive, Injector, OnDestroy, OnInit, inject } from '@angular/core';
-import { StateService, TransitionService } from '@uirouter/core';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { filter, take, withLatestFrom } from 'rxjs/operators';
+import { defer, firstValueFrom, Observable, Subject } from 'rxjs';
+import { filter, map, skip, switchMap, take, takeUntil, withLatestFrom } from 'rxjs/operators';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { StaticQueriesService } from 'core-app/shared/components/op-view-select/op-static-queries.service';
@@ -82,6 +81,9 @@ import {
   WorkPackageViewIncludeSubprojectsService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-include-subprojects.service';
 import { HalEvent, HalEventsService } from 'core-app/features/hal/services/hal-events.service';
+import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -90,12 +92,15 @@ import {
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { tableRefreshRequest } from 'core-app/features/work-packages/routing/wp-view-base/work-packages-view.actions';
+import { LatestOnly } from 'core-app/features/work-packages/routing/wp-view-base/latest-only';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+
+const RELOAD_ATTEMPTS = 3;
 
 @Directive()
 export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implements OnInit, OnDestroy {
-  injector = inject(Injector);
 
-  readonly $state = inject(StateService);
+  injector = inject(Injector);
 
   readonly states = inject(States);
 
@@ -129,8 +134,6 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
 
   readonly loadingIndicatorService = inject(LoadingIndicatorService);
 
-  readonly $transitions = inject(TransitionService);
-
   readonly I18n = inject(I18nService);
 
   readonly opStaticQueries = inject(StaticQueriesService);
@@ -147,11 +150,34 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
 
   readonly halEvents = inject(HalEventsService);
 
+  readonly wpTableFocus = inject(WorkPackageViewFocusService);
+
+  readonly urlParams = inject(UrlParamsService);
+
   readonly deviceService = inject(DeviceService);
 
   readonly currentProject = inject(CurrentProjectService);
 
   readonly actions$ = inject(ActionsService);
+
+  protected readonly reloads = new LatestOnly();
+
+  private firstPageDue = false;
+
+  /**
+   * A reload that was to return to the first page may be superseded before it is applied.
+   * The reloads replacing it have to return there too, or the table stays on a page that
+   * the changed query may not have.
+   */
+  protected returningToFirstPage(requested:boolean):boolean {
+    this.firstPageDue ||= requested;
+
+    return this.firstPageDue;
+  }
+
+  protected reloadApplied():void {
+    this.firstPageDue = false;
+  }
 
   /** Determine when query is initially loaded */
   queryLoaded = false;
@@ -168,6 +194,11 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
 
     // Mark tableInformationLoaded when initially loading done
     this.setupQueryLoadedListener();
+  }
+
+  override ngOnDestroy():void {
+    super.ngOnDestroy();
+    this.reloads.cancel();
   }
 
   private setupQueryObservers() {
@@ -247,6 +278,7 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
       )
       .subscribe((events:HalEvent[]) => {
         this.refresh(false, false);
+        this.focusNewlyCreatedWorkPackageIfOpenInDetails(events);
       });
 
     this
@@ -258,6 +290,77 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
       .subscribe(() => {
         this.refresh(false, false);
       });
+
+    this.querySpace.reloadTable.putValue(() => this.reloadAndRender());
+
+    this.querySpace
+      .tableOperation
+      .values$()
+      .pipe(
+        this.untilDestroyed(),
+      )
+      .subscribe((operation) => {
+        this.blockTableDuring(operation);
+      });
+  }
+
+  // Sets `inert` directly instead of through a binding: the table moves focus synchronously
+  // when the operation settles, and a binding would only release the table a render later.
+  private blockTableDuring(operation:Promise<unknown>):void {
+    const element = this.loadingIndicatorElement;
+    const unblock = () => {
+      if (element) element.inert = false;
+    };
+
+    this.loadingIndicator = operation;
+    if (element) element.inert = true;
+    void operation.then(unblock, unblock);
+  }
+
+  /**
+   * Reloads until the table has rendered results of its own reload. Other loads can
+   * replace those results before they are rendered, which is what the comparison catches.
+   */
+  private async reloadAndRender():Promise<void> {
+    for (let attempt = 0; attempt < RELOAD_ATTEMPTS; attempt += 1) {
+      const abandoned = new Subject<void>();
+      const rendered = this.nextRenderedReload(abandoned);
+      rendered.catch(() => undefined);
+
+      this.refresh(false, false);
+      try {
+        await this.reloads.latest;
+        if (await rendered === this.querySpace.results.value) return;
+      } finally {
+        abandoned.next();
+      }
+    }
+
+    throw new Error('The table kept being replaced by other results');
+  }
+
+  /**
+   * Resolves with the results of the next reload once the table has been set up with them
+   * and has rendered. A render that was queued for earlier results is skipped that way.
+   */
+  private nextRenderedReload(abandoned:Observable<void>):Promise<unknown> {
+    const { initialized, tableRendered } = this.querySpace;
+    const next = <T>(state:{ hasValue():boolean, values$():Observable<T> }) => defer(
+      () => state.values$().pipe(skip(state.hasValue() ? 1 : 0), take(1)),
+    );
+
+    return firstValueFrom(this.reloads.applied$.pipe(
+      switchMap((applied) => next(initialized).pipe(
+        switchMap(() => next(tableRendered)),
+        map(() => (applied as QueryResource).results),
+      )),
+      takeUntil(abandoned),
+      this.untilDestroyed(),
+    ));
+  }
+
+  private originatesHere(event:HalEvent):boolean {
+    return event.origin === this.querySpace;
   }
 
   /**
@@ -274,6 +377,8 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
    */
   protected abstract set loadingIndicator(promise:Promise<unknown>);
 
+  protected abstract get loadingIndicatorElement():HTMLElement|null;
+
   /**
    * Filter the given work package events for something interesting
    * @param events HalEvent[]
@@ -287,14 +392,39 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
 
     const rendered = new Set(source);
 
-    for (let i = 0; i < events.length; i++) {
-      const item = events[i];
+    for (const item of events) {
+      if (this.originatesHere(item)) continue;
+
       if (rendered.has(item.id) || item.eventType === 'created') {
         return true;
       }
     }
 
     return false;
+  }
+
+  /**
+   * If a work package is currently open in the split view (per the URL) and it just got
+   * created, mark it selected/focused in this list's own WorkPackageViewSelectionService.
+   *
+   * The split-create view lives in its own isolated query space,
+   * so it cannot update this list's selection state directly -
+   * it can only signal "a WorkPackage was created" via the root-provided
+   * HalEventsService, which is what triggers this handler.
+   */
+  private focusNewlyCreatedWorkPackageIfOpenInDetails(events:HalEvent[]):void {
+    const details = this.urlParams.currentDetailsRouteParams();
+    if (!details) {
+      return;
+    }
+
+    const created = events.find(
+      (event) => event.eventType === 'created' && resolveRoutingId(this.states, event.id) === details.routingId,
+    );
+
+    if (created) {
+      this.wpTableFocus.initializeSelectionAndFocus(created.id, false, false);
+    }
   }
 
   protected setupQueryLoadedListener() {

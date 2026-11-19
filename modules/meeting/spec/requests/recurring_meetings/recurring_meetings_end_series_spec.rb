@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -63,6 +62,18 @@ RSpec.describe "Recurring meetings complete template",
 
   def occurrence_count
     recurring_meeting.meetings.not_templated.count
+  end
+
+  context "when the series template is missing" do
+    before do
+      recurring_meeting.template.destroy!
+    end
+
+    it "returns not found without changing the series" do
+      expect { subject }.not_to change { recurring_meeting.reload.attributes }
+
+      expect(response).to have_http_status(:not_found)
+    end
   end
 
   context "when past occurrence is already created" do

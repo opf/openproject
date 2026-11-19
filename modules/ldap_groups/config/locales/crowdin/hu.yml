@@ -66,9 +66,7 @@ hu:
 
           '
       label_n_groups_found:
-        one: '1 csoportot talált a szűrő
-
-          '
+        one: "%{count} group found by the filter"
         other: "%{count} csoportot talált a szűrő"
         zero: A szűrő nem talált csoportokat
       plural: LDAP csoport szinkronizációs szűrő
@@ -105,7 +103,7 @@ hu:
       plural: Szinkronizált LDAP csoportok
       singular: Szinkronizált LDAP csoport
       upsell:
-        description: Használja ki a szinkronizált LDAP-csoportok előnyeit a felhasználók kezeléséhez, az engedélyeik módosításához és a csoportok közötti felhasználói kezelés megkönnyítéséhez.
+        description: Take advantage of synchronized LDAP groups to manage users, change their permissions and facilitate user management across groups.
   plugin_openproject_ldap_groups:
     description: Az LDAP-csoporttagságok szinkronizálása.
     name: OpenProject LDAP-csoportok

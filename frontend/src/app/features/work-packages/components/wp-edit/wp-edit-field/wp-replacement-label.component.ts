@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -30,6 +29,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, inject }
 import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-replacement-label',
   templateUrl: './wp-replacement-label.html',
   standalone: false,
@@ -58,7 +58,7 @@ export class WorkPackageReplacementLabelComponent implements OnInit {
     }
 
     const field = this.wpeditForm.fields[this.fieldName];
-    field && field.handleUserActivate(null);
+    field?.handleUserActivate(null);
 
     return false;
   }

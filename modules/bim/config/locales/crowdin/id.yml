@@ -102,7 +102,7 @@ id:
     not_recommended: Tidak disarankan
     recommended: Disarankan
     x_bcf_issues:
-      one: Satu masalah BCF
+      one: "%{count} BCF issue"
       other: Terdapat %{count} masalah BCF
       zero: Tidak ada masalah BCF
   bim:
@@ -142,8 +142,10 @@ id:
       processing_default: 'Model IFC bawaan berikut ini masih diproses dan belum tersedia sekarang:'
   oauth:
     scopes:
-      bcf_v2_1: Akses penuh kepada API BCF v2.1
+      bcf_v2_1: Access to the BCF v2.1 API
       bcf_v2_1_text: Aplikasi akan menerima akses penuh membaca & menulis kepada API OpenProject BCF v2.1 untuk melakukan tindakan atas nama anda.
+      explanations_admin:
+        bcf_v2_1: Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on the user's behalf.
   permission_delete_bcf: Hapus masalah BCF
   permission_manage_bcf: Import dan atur masalah BCF
   permission_manage_bcf_explanation: |

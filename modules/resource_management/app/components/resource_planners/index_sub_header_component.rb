@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,6 +30,7 @@
 module ResourcePlanners
   class IndexSubHeaderComponent < ApplicationComponent
     include ApplicationHelper
+    include ResourceManagement::PlannerRoutes
 
     def initialize(project:)
       super
@@ -38,7 +38,7 @@ module ResourcePlanners
     end
 
     def render_create_button?
-      User.current.allowed_in_project?(:view_resource_planners, @project)
+      ResourcePlanner.viewable_by?(User.current, @project)
     end
 
     def create_label
@@ -46,7 +46,7 @@ module ResourcePlanners
     end
 
     def create_path
-      new_project_resource_planner_path(@project)
+      new_planner_path(@project)
     end
   end
 end

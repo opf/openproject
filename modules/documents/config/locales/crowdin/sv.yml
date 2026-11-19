@@ -48,8 +48,8 @@ sv:
   documents:
     active_editors: Aktiva redigerare
     active_editors_count:
-      one: 1 aktiv redigerare
-      other: "%{count} aktiva redigerare"
+      one: "%{count} active editor"
+      other: "%{count} active editors"
     admin:
       collaboration_settings:
         banner:
@@ -64,9 +64,9 @@ sv:
           invalid_scheme: Måste använda ett WebSocket-protokoll (ws:// eller wss://).
           label: Hocuspocus server URL
         page_header:
-          description: |-
-            När detta är aktiverat kan flera användare redigera ett dokument samtidigt.
-            Det kräver att en fungerande %{hocuspocus_server_link} fungerar.
+          description_html: |-
+            När realtidssamarbete är aktiverat kan flera användare redigera ett dokument samtidigt.
+            Det kräver en fungerande [Hocuspocus-server](hocuspocus_server_link).
       disable_text_collaboration_dialog:
         confirmation_checkbox_message: Jag förstår att jag kan permanent förlora data
         confirmation_message: |-
@@ -84,6 +84,12 @@ sv:
         primary_action: Aktivera samarbete i realtid
         success: Samarbetet i realtid har aktiverats.
     button_add_type: Typ
+    collaboration_token:
+      errors:
+        collaboration_disabled: Real-time collaboration is not enabled.
+        collaboration_token_not_allowed: Requests authenticated with a collaboration token cannot request collaboration tokens.
+        invalid_previous_token: The previous collaboration token is invalid, already revoked, or does not belong to this document and user.
+        not_collaborative: The document does not support real-time collaboration.
     delete_dialog:
       confirmation_message_html: Detta kommer att ta bort detta dokument permanent och alla bifogade filer. Är du säker på att du vill göra detta?
       heading: Radera detta dokument?
@@ -121,7 +127,7 @@ sv:
       currently_offline: Du är för närvarande offline.
     label_attachment_author: Författare för bilaga
     label_categories: Kategorier
-    last_updated_at: Senast sparad %{time}.
+    last_updated_at_html: Senast sparad %{time}.
     menu:
       all: Alla dokument
       collaboration_settings: Samarbete i realtid

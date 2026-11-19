@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -97,9 +96,11 @@ module API
             mount ::API::V3::Repositories::RevisionsByWorkPackageAPI
             mount ::API::V3::WorkPackages::UpdateFormAPI
             mount ::API::V3::WorkPackages::AvailableAssigneesAPI
+            mount ::API::V3::AI::TextActionsByWorkPackageAPI
             mount ::API::V3::WorkPackages::AvailableProjectsOnEditAPI
             mount ::API::V3::WorkPackages::AvailableRelationCandidatesAPI
             mount ::API::V3::WorkPackages::WorkPackageRelationsAPI
+            mount ::API::V3::WorkPackages::PDFExportAPI
             mount ::API::V3::Reminders::RemindersByWorkPackageAPI
             mount ::API::V3::EmojiReactions::EmojiReactionsByWorkPackageCommentsAPI
           end

@@ -22,17 +22,18 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "support/pages/page"
+require "support/browsers/browser_platform"
 
 module Pages
   class Backlog < Page
     include ::Components::Common::Filters
+    include ::Axe::Matchers
 
     attr_reader :project
 
@@ -52,6 +53,23 @@ module Pages
 
     def path
       project_backlogs_backlog_path(project)
+    end
+
+    # A Turbo visit, so the page leaves a snapshot in the cache to come back to.
+    def leave_for_all_sprints
+      click_link "All sprints"
+      expect_left_backlogs
+    end
+
+    def go_back_to_backlogs
+      page.go_back
+      expect(page).to have_css("#sprint_backlogs_container")
+      wait_for_backlogs_network_idle
+    end
+
+    def go_forward_to_all_sprints
+      page.go_forward
+      expect_left_backlogs
     end
 
     def expect_inbox_blankslate
@@ -287,31 +305,31 @@ module Pages
       within_backlog_bucket(bucket) { expect_work_package_items(items:, present: false) }
     end
 
-    def within_sprint_menu(sprint, &)
+    def within_sprint_menu(sprint, activated: false, &)
       within_sprint(sprint) do
         button = find(:button, accessible_name: "Sprint actions")
         within(open_controlled_menu(button), &)
       end
 
-      dismiss_menu(sprint)
+      dismiss_menu(sprint, activated:)
     end
 
     def click_in_sprint_menu(sprint, item_name)
-      within_sprint_menu(sprint) do |menu|
+      within_sprint_menu(sprint, activated: true) do |menu|
         menu.find(:menuitem, text: item_name).click
       end
     end
 
-    def within_backlog_bucket_menu(bucket, &)
+    def within_backlog_bucket_menu(bucket, activated: false, &)
       within_backlog_bucket(bucket) do
         button = find(:button, accessible_name: "Backlog bucket actions")
         within(open_controlled_menu(button), &)
       end
-      dismiss_menu(bucket)
+      dismiss_menu(bucket, activated:)
     end
 
     def click_in_bucket_menu(bucket, item_name)
-      within_backlog_bucket_menu(bucket) do |menu|
+      within_backlog_bucket_menu(bucket, activated: true) do |menu|
         menu.find(:menuitem, text: item_name).click
       end
     end
@@ -329,22 +347,118 @@ module Pages
       end
     end
 
-    def within_work_package_menu(work_package, &)
+    def within_work_package_menu(work_package, activated: false, &)
+      within(open_work_package_menu(work_package), &)
+
+      dismiss_menu(work_package, activated:)
+    end
+
+    # Leaves the menu open, for callers that act while it is.
+    def open_work_package_menu(work_package)
       within_work_package(work_package) do
-        button = find(:button, accessible_name: "Work package actions")
-        within(open_controlled_menu(button), &)
+        find(:button, accessible_name: "Work package actions").click
       end
 
-      dismiss_menu(work_package)
+      loaded_work_package_menu(work_package)
+    end
+
+    # Opens a card's menu through one of the four entry points Backlogs
+    # supports and answers the loaded menu, so absence checks cannot pass
+    # against the loading placeholder.
+    def open_card_menu(work_package, via:)
+      case via
+      when :more then return open_work_package_menu(work_package)
+      when :right_click then right_click_work_package_card(work_package)
+      when :context_menu_key then press_context_menu_key_on_card(work_package)
+      when :shift_f10 then send_work_package_card_keys(work_package, %i[shift f10])
+      else raise ArgumentError, "Unknown card menu entry point: #{via.inspect}"
+      end
+
+      loaded_work_package_menu(work_package)
+    end
+
+    def loaded_work_package_menu(work_package)
+      expect_work_package_menu_loaded(work_package)
+      page.document.find(menu_owner_overlay_selector(work_package)).find(:menu)
+    end
+
+    # Escape returns focus to whatever opened the menu: the More button, or
+    # the card for a contextual invocation.
+    def dismiss_card_menu(work_package, via:)
+      press_escape
+      expect_no_work_package_context_menu(work_package)
+
+      if via == :more
+        within_work_package(work_package) do
+          expect(page).to have_button(accessible_name: singular_menu_label, focused: true)
+        end
+      else
+        expect_work_package_card_focused(work_package)
+      end
+    end
+
+    def light_dismiss_card_menu(work_package)
+      find(:heading, I18n.t(:label_backlog_and_sprints)).click
+      expect_no_work_package_context_menu(work_package)
+    end
+
+    def activate_card_menu_action(work_package, action, via:)
+      menu = open_card_menu(work_package, via:)
+
+      if move_direction_labels.include?(action)
+        wait_for_backlogs_turbo_stream do
+          open_move_submenu(menu).find(:menuitem, text: action, exact_text: true, visible: :all).click
+        end
+      else
+        menu.find(:menuitem, text: action, exact_text: true).click
+      end
+    end
+
+    def expect_work_package_menu_button_named(work_package, name)
+      within_work_package(work_package) do
+        expect(page).to have_button(accessible_name: name)
+      end
+    end
+
+    # Scoped to the card's whole action menu, so the More button and the
+    # tooltip naming it are scanned along with the open list.
+    def expect_open_card_menu_axe_clean(work_package)
+      expect_work_package_menu_loaded(work_package)
+      expect(page).to be_axe_clean.within("#{work_package_card_selector(work_package)} action-menu")
     end
 
     def work_package_card(work_package)
       find(work_package_card_selector(work_package))
     end
 
+    # The row wrapper, not the card: it carries the item id and, once
+    # selected, `data-batch-selected`. The description lives on the card,
+    # which is the focus host, so it is checked through {#work_package_card}.
+    def work_package_row(work_package)
+      find(work_package_selector(work_package))
+    end
+
+    # The row's resolved background color. Read it twice around one isolated
+    # change, never across two rows and never around a gesture that also
+    # focuses or navigates: the background depends on focus and `aria-current`
+    # too, so anything else makes the difference unattributable.
+    def row_background_color(work_package)
+      work_package_row(work_package).style("background-color").fetch("background-color")
+    end
+
+    # Moves focus onto the card without a pointer and without any event a
+    # Backlogs controller listens for. Establishes focus before a
+    # background-color control read, so a later keyboard gesture on the same
+    # card does not change it a second time.
+    def focus_work_package_card(work_package)
+      work_package_card(work_package).execute_script(
+        "this.focus({ focusVisible: true, preventScroll: true })"
+      )
+    end
+
     # Right-clicks near the card's top-left corner: the offset keeps the
-    # pointer off the subject link and the actions menu button, both of which
-    # keep their native context menu on purpose.
+    # pointer off the ID link and the actions menu button, both of which keep
+    # their native context menu on purpose.
     def right_click_work_package_card(work_package)
       work_package_card(work_package).right_click(x: 6, y: 6, offset: :position)
     end
@@ -383,6 +497,20 @@ module Pages
     def expect_work_package_card_focused(work_package)
       expect(page)
         .to have_css(work_package_card_selector(work_package), focused: true)
+    end
+
+    # The *computed* accessible description, not the raw `aria-describedby`
+    # token: an id that resolves to nothing, or an element the browser
+    # declines to traverse into, leaves this empty while the attribute reads
+    # exactly as intended.
+    def expect_work_package_card_described_as(work_package, description)
+      expect(page)
+        .to have_css(work_package_card_selector(work_package), accessible_description: description)
+    end
+
+    def expect_work_package_card_not_described(work_package)
+      expect(page)
+        .to have_css(work_package_card_selector(work_package), accessible_description: "")
     end
 
     # The presenter takes the overlay's `anchor` idref away for the duration of
@@ -468,15 +596,15 @@ module Pages
     end
 
     def click_in_work_package_menu(work_package, item_name, wait: true)
-      within_work_package_menu(work_package) do |submenu|
+      within_work_package_menu(work_package, activated: true) do |submenu|
         wait_for_turbo_stream(wait:) do
           submenu.find(:menuitem, text: item_name).click
         end
       end
     end
 
-    def within_work_package_move_submenu(work_package, &)
-      within_work_package_menu(work_package) do |menu|
+    def within_work_package_move_submenu(work_package, activated: false, &)
+      within_work_package_menu(work_package, activated:) do |menu|
         yield open_move_submenu(menu)
       end
     end
@@ -487,7 +615,7 @@ module Pages
     # Backlogs::WorkPackagesController#optimistic_same_list_move?). Wait for
     # the turbo-stream response instead, which still fires either way.
     def click_in_work_package_move_submenu(work_package, item_name, wait: true, frame_reload: false)
-      within_work_package_move_submenu(work_package) do |submenu|
+      within_work_package_move_submenu(work_package, activated: true) do |submenu|
         wait_for_backlogs_turbo_stream(wait:, frame_reload:) do
           submenu.find(:menuitem, text: item_name, visible: :all).click
         end
@@ -517,6 +645,30 @@ module Pages
       expect_turbo_frame_not_reloaded("backlogs_container", wait:)
     end
 
+    def expect_loading_skeleton
+      expect(page).to have_test_selector("op-backlogs-skeleton")
+      expect(page).to have_no_css("#global-loading-indicator", visible: :visible)
+
+      expect_no_loading_skeleton
+    end
+
+    def expect_no_loading_skeleton
+      expect(page).to have_no_test_selector("op-backlogs-skeleton")
+      expect(page).to have_no_css("#global-loading-indicator", visible: :visible)
+    end
+
+    def expect_loading_spinner
+      expect(page).to have_css("turbo-frame#backlogs_container[busy]")
+      expect(page).to have_css("#global-loading-indicator", visible: :visible)
+
+      expect_no_loading_spinner
+    end
+
+    def expect_no_loading_spinner
+      expect(page).to have_no_css("turbo-frame#backlogs_container[busy]")
+      expect(page).to have_no_css("#global-loading-indicator", visible: :visible)
+    end
+
     def expect_no_backlog_bucket_menu(bucket)
       within_backlog_bucket(bucket) do
         expect(page).to have_no_button(accessible_name: "Backlog bucket actions")
@@ -536,12 +688,26 @@ module Pages
       end
     end
 
+    # Opening details morphs the row into its "current work package" state, so
+    # a reference captured beforehand can go stale mid-morph. `retry_block`
+    # spaces the attempts out and finds the button, menu and view fresh on
+    # each one.
     def open_work_package_details(work_package)
-      within_work_package(work_package) do
-        button = find(:button, accessible_name: "Work package actions")
-        open_controlled_menu(button).find(:menuitem, text: I18n.t(:"js.button_open_details")).click
+      retry_block(
+        args: {
+          tries: 3,
+          on: [
+            Capybara::Cuprite::ObsoleteNode,
+            Selenium::WebDriver::Error::StaleElementReferenceError
+          ]
+        }
+      ) do
+        within_work_package(work_package) do
+          button = find(:button, accessible_name: "Work package actions")
+          open_controlled_menu(button).find(:menuitem, text: I18n.t(:"js.button_open_details")).click
+        end
+        expect_details_view(work_package)
       end
-      expect_details_view(work_package)
     end
 
     def expect_details_view(work_package)
@@ -606,9 +772,24 @@ module Pages
       end
     end
 
+    # Every row carries the item id whether or not the user may move it, so
+    # the id no longer distinguishes an orderable row. `draggable` and
+    # `mobility` are set independently and read by separate consumers, so
+    # both are checked.
+    def expect_work_package_draggable(work_package)
+      selector = work_package_selector(work_package)
+      expect(page).to have_css("#{selector}[draggable='true']")
+      expect(page).to have_no_css("#{selector}[data-sortable-lists--item-mobility-value='fixed']")
+    end
+
+    # Both assertions are negative, so they also pass against a page that
+    # never rendered the card — including the rack-session page a racing
+    # Selenium login can strand the browser on. Asserting the row exists first
+    # is blocked on fix/selenium-rack-session-login-flake.
     def expect_work_package_not_draggable(work_package)
-      expect(page)
-        .to have_no_css(draggable_work_package_selector(work_package))
+      selector = work_package_selector(work_package)
+      expect(page).to have_no_css("#{selector}[draggable='true']")
+      expect(page).to have_no_css("#{selector}[data-sortable-lists--item-mobility-value='free']")
     end
 
     # A read-only card keeps its drag but is confined to its own list: it can
@@ -616,13 +797,13 @@ module Pages
     # confined value is what the foreign drop targets read.
     def expect_work_package_confined(work_package)
       expect(page)
-        .to have_css("#{draggable_work_package_selector(work_package)}" \
-                     "[data-sortable-lists--item-confined-value='true']")
+        .to have_css("#{work_package_selector(work_package)}" \
+                     "[data-sortable-lists--item-mobility-value='confined']")
       expect(page)
         .to have_css("#{work_package_selector(work_package)}[draggable]")
     end
 
-    # The lock on the status badge is what tells the user why the cross-container
+    # The lock on the status label is what tells the user why the cross-container
     # moves are gone. Without it a read-only card is indistinguishable from a
     # movable one until they try to move it and nothing happens.
     def expect_work_package_locked(work_package)
@@ -635,6 +816,220 @@ module Pages
       within_work_package(work_package) do
         expect(page).to have_no_css(readonly_lock_selector)
       end
+    end
+
+    # An unmodified click: narrows the batch to this card and opens its
+    # details pane. Offset near the top-left corner, clear of the ID link and
+    # the actions menu button, both of which the selection root ignores as
+    # interactive descendants.
+    def select_card(work_package)
+      work_package_card(work_package).click(x: 6, y: 6, offset: :position)
+    end
+
+    # Toggles membership without navigating, and re-bases the anchor to this
+    # card even when the toggle deselects it.
+    def toggle_card(work_package)
+      modified_click(work_package, multi_select_modifier)
+    end
+
+    def multi_select_modifier
+      BrowserPlatform.multi_select_modifier(page)
+    end
+
+    # Selects the contiguous range from the anchor to this card. Repeated
+    # calls resize one range rather than walking it.
+    def extend_selection_to(work_package)
+      modified_click(work_package, :shift)
+    end
+
+    # Asserted directly because an empty batch proves nothing: a root that
+    # opted in and refused every gesture looks identical from outside, yet
+    # differs in whether the browser still gets the keystroke.
+    def expect_batch_selection_disabled
+      expect(page).to have_css("[data-controller~='sortable-lists'][data-sortable-lists-selection-enabled-value='false']",
+                               visible: :all)
+    end
+
+    # Live batch membership, in document order.
+    def selected_card_ids
+      all("[data-batch-selected]").pluck("data-sortable-lists--item-id-value")
+    end
+
+    def select_cards(*work_packages)
+      work_packages.each { |work_package| toggle_card(work_package) }
+      expect(page).to have_css("[data-batch-selected]", count: work_packages.size)
+    end
+
+    # Settles on the range's own endpoints rather than a card count, which
+    # only the caller knows for a span wider than a pair.
+    def select_contiguous_cards(first, last)
+      toggle_card(first)
+      extend_selection_to(last)
+      expect(page).to have_css("#{work_package_selector(first)}[data-batch-selected]")
+      expect(page).to have_css("#{work_package_selector(last)}[data-batch-selected]")
+    end
+
+    def expect_selected_cards_in_order(*work_packages)
+      wait_for { selected_card_ids }.to eq(work_packages.map { |work_package| work_package.id.to_s })
+    end
+
+    def expect_no_selected_cards
+      wait_for { selected_card_ids }.to be_empty
+    end
+
+    def move_selected_cards(invoker:, action:, wait: true)
+      click_in_work_package_move_submenu(invoker, action, wait:)
+    end
+
+    def expect_move_to_position_available(work_package, action: nil)
+      within_work_package_move_submenu(work_package) do |submenu|
+        next unless action
+
+        expect(submenu).to have_selector(:menuitem, text: action, exact_text: true)
+      end
+    end
+
+    def expect_move_to_position_unavailable(work_package, action: nil)
+      if action
+        within_work_package_move_submenu(work_package) do |submenu|
+          expect(submenu).to have_no_selector(:menuitem, text: action, exact_text: true)
+        end
+      else
+        expect_work_package_actions(work_package, absent: ["Move to position"])
+      end
+    end
+
+    def expect_work_package_move_submenu_axe_clean(work_package)
+      within_work_package_menu(work_package) do |menu|
+        menu_selector = "##{menu[:id]}"
+        submenu = open_move_submenu(menu)
+        expect(page).to be_axe_clean.within(menu_selector, "##{submenu[:id]}")
+      end
+    end
+
+    def clear_card_selection(work_package)
+      work_package_card(work_package).send_keys(:escape)
+      expect_no_selected_cards
+    end
+
+    def expect_work_package_actions(work_package, present: [], absent: [])
+      within_work_package_menu(work_package) do |menu|
+        present.each { |label| expect(menu).to have_selector(:menuitem, text: label, exact_text: true) }
+        absent.each { |label| expect(menu).to have_no_selector(:menuitem, text: label, exact_text: true) }
+      end
+    end
+
+    def work_package_menu_src(work_package)
+      within_work_package(work_package) do
+        find("action-menu", visible: :all)["src"]
+      end
+    end
+
+    def open_destination_dialog(work_package, action_label)
+      click_in_work_package_menu(work_package, action_label, wait: false)
+      expect(page).to have_selector(:modal, text: action_label)
+    end
+
+    # A refused action answers with a flash and leaves the menu open, so it
+    # still needs dismissing.
+    def invoke_destination_action_after_menu_load(work_package, action_label, &before_click)
+      within_work_package_menu(work_package) do |menu|
+        item = menu.find(:menuitem, text: action_label, exact_text: true)
+        before_click&.call
+        wait_for_backlogs_turbo_stream { item.click }
+      end
+    end
+
+    def move_to_backlog_inbox(work_package)
+      within_work_package_menu(work_package, activated: true) do |menu|
+        wait_for_backlogs_turbo_stream(frame_reload: true) do
+          menu.find(:menuitem, text: I18n.t("backlogs.work_package_card_menu_component.action_menu.move_to_inbox"),
+                               exact_text: true).click
+        end
+      end
+    end
+
+    def expect_destination_dialog(dialog_title, work_packages:)
+      within_modal dialog_title do
+        expect(page).to have_selector(
+          :heading,
+          text: I18n.t("backlogs.selected_work_packages_component.label", count: work_packages.size)
+        )
+        within(:list) do
+          expect(page).to have_selector(:list_item, count: work_packages.size)
+          expect(all(:list_item).map(&:text)).to match(work_packages.map { |work_package| include(work_package.subject) })
+        end
+      end
+    end
+
+    def expect_destination_dialog_options(dialog_title, options:)
+      within_modal dialog_title do
+        expect(find(:select).all(:option).map(&:text)).to eq(options)
+      end
+    end
+
+    def submit_destination_dialog(dialog_title, option:, frame_reload: true)
+      within_modal dialog_title do
+        find(:select).select(option)
+        wait_for_backlogs_turbo_stream(frame_reload:) { click_on I18n.t(:button_move) }
+      end
+    end
+
+    def cancel_destination_dialog(dialog_title)
+      within_modal dialog_title do
+        click_on I18n.t(:button_cancel)
+      end
+      expect(page).to have_no_selector(:modal, text: dialog_title)
+    end
+
+    def expect_no_destination_dialog
+      expect(page).to have_no_selector(:modal)
+    end
+
+    def expect_work_package_menu_axe_clean(work_package)
+      within_work_package_menu(work_package) do
+        expect(page).to be_axe_clean.within("##{ActionView::RecordIdentifier.dom_target(work_package, :menu)}-list")
+      end
+    end
+
+    # Primer's deferred-menu placeholder fails aria-required-children and
+    # aria-required-parent on its own, so scans wait for the loaded list.
+    def expect_work_package_menu_loaded(work_package)
+      expect(page.document)
+        .to have_no_css("#{menu_owner_overlay_selector(work_package)} include-fragment[src]", visible: :all)
+    end
+
+    # Scanned mid-fade, the dialog's opacity blends the primary button into
+    # its backdrop and color-contrast reports a ratio the settled dialog
+    # does not have.
+    def expect_destination_dialog_axe_clean(dialog_title)
+      dialog_selector = "##{find(:modal, text: dialog_title)[:id]}"
+      wait_for_animations_to_finish(dialog_selector)
+      expect(page).to be_axe_clean.within(dialog_selector)
+    end
+
+    def wait_for_animations_to_finish(selector)
+      wait_for do
+        page.evaluate_script(
+          "document.querySelector(#{selector.to_json})?.getAnimations({ subtree: true }).length"
+        )
+      end.to eq(0)
+    end
+
+    def expect_backlogs_axe_clean
+      expect(page).to be_axe_clean.within("#backlogs_container")
+    end
+
+    def expect_move_error(reason)
+      expect_flash(type: :error, message: I18n.t(:notice_unsuccessful_update_with_reason, reason:))
+    end
+
+    # The shared description every selected card's `aria-describedby` points
+    # at. Rendered once, permanently `hidden` — screen readers still reach it
+    # through the reference despite that — so `visible: :all` is required.
+    def expect_selection_description_present
+      expect(page).to have_css("##{Backlogs::SelectionDescriptionComponent::DESCRIPTION_ID}",
+                               visible: :all, count: 1)
     end
 
     def pick_up_and_release_work_package(work_package)
@@ -652,7 +1047,7 @@ module Pages
           ]
         }
       ) do
-        moved_element = find(draggable_work_package_selector(work_package))
+        moved_element = find(work_package_selector(work_package))
         install_backlogs_move_request_probe
         begin
           pick_up_and_release_backlogs_item(moved_element)
@@ -692,6 +1087,7 @@ module Pages
     end
 
     def apply_subject_filter(text)
+      expand_sub_header_search("Search work packages by subject")
       fill_in "Search work packages by subject", with: text
       wait_for_network_idle
     end
@@ -718,6 +1114,19 @@ module Pages
       selected_filter = select_filter("observed_in_version_id", "Observed in versions")
       within(selected_filter) { find('[data-filter-autocomplete="true"]').click }
       expect_ng_option(selected_filter, version.name, grouping: grouped_under)
+    end
+
+    def apply_shared_with_user_filter(principal, operator: "is (OR)")
+      open_filters
+      set_filter("shared_with_user", "Shared with users", operator, [principal.name])
+      wait_for_network_idle
+    end
+
+    def expect_shared_with_user_option(principal, present: true)
+      open_filters
+      selected_filter = select_filter("shared_with_user", "Shared with users")
+      within(selected_filter) { find('[data-filter-autocomplete="true"]').click }
+      expect_ng_option(selected_filter, principal.name, present:)
     end
 
     def apply_milestone_filter(value)
@@ -779,7 +1188,7 @@ module Pages
         raise ArgumentError, "You must specify exactly one of before, after or into"
       end
 
-      moved_element = find(draggable_work_package_selector(moved))
+      moved_element = find(work_package_selector(moved))
       target_element, edge =
         if before
           [find(work_package_selector(before)), :top]
@@ -794,6 +1203,35 @@ module Pages
       end
     rescue Capybara::Cuprite::ObsoleteNode, Selenium::WebDriver::Error::StaleElementReferenceError
       retry
+    end
+
+    # Attempts a drag the client refuses before it starts, so no request and
+    # no stream follow for drag_work_package to wait on.
+    def drag_work_package_expecting_refusal(moved, after:)
+      drag_backlogs_item(source: find(work_package_selector(moved)), target: find(work_package_selector(after)), edge: :bottom)
+    end
+
+    # Drags expecting a rejection: drag_work_package waits on the frame
+    # reload a successful cross-list move causes, while a rejected move only
+    # streams an error flash, so this settles on the stream render instead.
+    def drag_work_package_expecting_failure(moved, after:)
+      # See pick_up_and_release_work_package for the retry rationale.
+      retry_block(
+        args: {
+          tries: 3,
+          on: [
+            Capybara::Cuprite::ObsoleteNode,
+            Selenium::WebDriver::Error::StaleElementReferenceError
+          ]
+        }
+      ) do
+        moved_element = find(work_package_selector(moved))
+        target_element = find(work_package_selector(after))
+
+        wait_for_backlogs_turbo_stream(frame_reload: false) do
+          drag_backlogs_item(source: moved_element, target: target_element, edge: :bottom)
+        end
+      end
     end
 
     # Drags a confined card over another sprint's list body and releases it
@@ -811,11 +1249,11 @@ module Pages
           ]
         }
       ) do
-        moved_element = find(draggable_work_package_selector(moved))
+        moved_element = find(work_package_selector(moved))
         target_element = find(list_body_selector(sprint_selector(into)))
         install_backlogs_move_request_probe
         begin
-          drag_backlogs_item(source: moved_element, target: target_element)
+          drag_backlogs_item(source: moved_element, target: target_element, dwell: true)
         ensure
           stop_backlogs_move_request_probe
         end
@@ -827,20 +1265,25 @@ module Pages
 
     # The refusal must be observable, or the assertions above would also pass
     # for a drag that never engaged. The drop has to reach the controller —
-    # the foreign container stays an accepted drop target so the drag keeps
+    # the refused container stays an accepted drop target so the drag keeps
     # the standard cursor, so it may appear in the drop's target list, but no
-    # row of it may — and the final dragover, the one over the foreign
-    # container, must show no drop position and mark that container refused
-    # (the muted danger outline) rather than active. Earlier dragovers may
-    # legitimately show indicators while the pointer is still crossing the
-    # card's own list, which keeps accepting it for real.
+    # row of it may — and the last container feedback the drag painted must be
+    # a refusal (the muted danger outline) rather than an active outline.
+    # Container state is read across the whole event stream, not from the
+    # final dragover: the drop engine paints on an animation frame, so a
+    # refusal can land on a later dragenter than the last dragover. Earlier
+    # feedback may legitimately be active while the pointer is still crossing
+    # a list that accepts the drag for real.
     def expect_backlogs_drag_refused
       refusal = page.evaluate_script(<<~JS)
         (() => {
           const state = window.__opBacklogsDndProbeState;
           const call = state?.handleDropCalls?.at(-1);
-          const lastDragover = (state?.events ?? [])
-            .filter((event) => event.type === 'dragover')
+          const events = state?.events ?? [];
+          const lastDragover = events.filter((event) => event.type === 'dragover').at(-1);
+          const lastContainers = events
+            .map((event) => event.dropContainers)
+            .filter((containers) => containers.length > 0)
             .at(-1);
 
           return {
@@ -848,7 +1291,7 @@ module Pages
             dropTargetTypes: call?.dropTargets?.map((target) => target.data?.entries?.type) ?? [],
             observedDragover: Boolean(lastDragover),
             dropPositions: lastDragover?.dropPositions ?? null,
-            dropContainers: lastDragover?.dropContainers ?? null
+            dropContainers: lastContainers ?? null
           };
         })()
       JS
@@ -861,7 +1304,7 @@ module Pages
     end
 
     def drag_work_package_to_backlog_inbox(work_package)
-      moved_element = find(draggable_work_package_selector(work_package))
+      moved_element = find(work_package_selector(work_package))
       inbox = find(backlog_inbox_selector)
       target_item = inbox.all("[data-sortable-lists--item-id-value]", minimum: 0).last
       target_element = target_item || inbox.find("[data-empty-list-item]")
@@ -876,7 +1319,7 @@ module Pages
     end
 
     def drag_work_package_to_backlog_bucket(work_package, bucket)
-      moved_element = find(draggable_work_package_selector(work_package))
+      moved_element = find(work_package_selector(work_package))
       target_element = find(list_body_selector(bucket_selector(bucket)))
 
       wait_for_backlogs_turbo_stream(frame_reload: true) do
@@ -888,7 +1331,7 @@ module Pages
     end
 
     def drag_work_package_to_sprint(work_package, sprint)
-      moved_element = find(draggable_work_package_selector(work_package))
+      moved_element = find(work_package_selector(work_package))
       target_element = find(list_body_selector(sprint_selector(sprint)))
       wait_for_backlogs_turbo_stream(frame_reload: true) do
         drag_backlogs_item(source: moved_element, target: target_element)
@@ -923,7 +1366,7 @@ module Pages
     end
 
     def expect_sprint_completing_modal
-      expect(page).to have_css sprint_complete_modal_selector
+      wait_for_size_animation_completion(sprint_complete_modal_selector)
     end
 
     def expect_sprints_to_choose_for_moving_unfinished_work_packages_to(*sprints)
@@ -969,8 +1412,21 @@ module Pages
 
     private
 
+    def expect_left_backlogs
+      expect(page).to have_current_path(project_backlogs_sprints_path(project))
+      expect(page).to have_no_css("turbo-frame#backlogs_container")
+    end
+
     def boolean_filter?(filter)
       filter.to_s == "is_milestone"
+    end
+
+    # Node::Element#click takes the held key and positional options, so no
+    # action chain is needed. The offset keeps clear of the ID link and the
+    # actions menu button: the selection root ignores a gesture starting on
+    # either, and what lands dead center varies with the card's content.
+    def modified_click(work_package, key)
+      work_package_card(work_package).click(key, x: 6, y: 6, offset: :position)
     end
 
     def within_sprint(sprint, &)
@@ -1047,18 +1503,14 @@ module Pages
       "##{ActionView::RecordIdentifier.dom_target(menu_owner, :menu)}-overlay"
     end
 
-    def draggable_work_package_selector(work_package)
-      "#{work_package_selector(work_package)}[data-sortable-lists--item-id-value]"
-    end
-
     # Located by the lock's accessible name so the expectation fails if the
     # icon ever loses the text that explains it.
     def readonly_lock_selector
       "[aria-label='#{Status.human_attribute_name(:is_readonly)}']"
     end
 
-    def drag_backlogs_item(source:, target:, edge: nil)
-      selenium_drag_backlogs_item(source:, target:, edge:)
+    def drag_backlogs_item(source:, target:, edge: nil, dwell: false)
+      selenium_drag_backlogs_item(source:, target:, edge:, dwell:)
     end
 
     def pick_up_and_release_backlogs_item(source)
@@ -1116,11 +1568,11 @@ module Pages
       scroll_to_element(source, block: :nearest)
     end
 
-    def selenium_drag_backlogs_item(source:, target:, edge: nil)
+    def selenium_drag_backlogs_item(source:, target:, edge: nil, dwell: false)
       install_backlogs_dnd_probe(source:, target:, edge:)
 
       offset_x, offset_y = selenium_target_offset(target.native.rect, edge:)
-      perform_native_drag(source:, target:, offset_x:, offset_y:)
+      perform_native_drag(source:, target:, offset_x:, offset_y:, dwell:)
 
       # Assert Pragmatic DnD tore down its own honey-pot overlay before we force
       # a cleanup, so a regression that leaves the overlay stuck is caught here
@@ -1453,28 +1905,62 @@ module Pages
       page.find(:menu, id: button[:controls] || button["aria-controls"])
     end
 
+    # WebDriver's key table has no Context Menu key, so Chrome receives it
+    # through DevTools as a trusted key press on the focused card.
+    def press_context_menu_key_on_card(work_package)
+      focus_work_package_card(work_package)
+      key = { key: "ContextMenu", code: "ContextMenu", windowsVirtualKeyCode: 93, nativeVirtualKeyCode: 93 }
+      page.driver.browser.execute_cdp("Input.dispatchKeyEvent", type: "rawKeyDown", **key)
+      page.driver.browser.execute_cdp("Input.dispatchKeyEvent", type: "keyUp", **key)
+    end
+
+    def singular_menu_label
+      I18n.t("js.backlogs.action_menu.menu_label", count: 1)
+    end
+
+    def move_direction_labels
+      [I18n.t(:label_sort_highest), I18n.t(:label_sort_higher), I18n.t(:label_sort_lower), I18n.t(:label_sort_lowest)]
+    end
+
     def open_move_submenu(menu)
       move_item = menu.find(:menuitem, text: "Move to position")
       move_item.click
       page.find(:menu, id: move_item["aria-controls"])
     end
 
-    def dismiss_menu(menu_owner)
+    # Dismisses with Escape rather than an outside click: the compact batch
+    # menu can leave a live menuitem under the overlay's center point, so a
+    # click there activates an action instead of closing the menu.
+    # Activating an item closes the menu through Primer itself, so the caller
+    # only waits for that to happen. Pressing Escape on top of it races the
+    # dialog the same activation is still loading: the modal guard below reads
+    # the DOM before `showModal`, and the key then arrives after it and closes
+    # the dialog, which `StreamActions.dialog` removes from the DOM on close.
+    def dismiss_menu(menu_owner, activated: false)
       selector = menu_owner_overlay_selector(menu_owner)
 
-      return unless page.has_css?(selector, visible: true, wait: 0)
+      return expect(page).to have_no_css(selector, visible: :visible) if activated
+      return unless page.has_css?(selector, visible: :visible, wait: 0)
       return if page.has_selector?(:modal, wait: 0)
 
-      find(selector, wait: 0).click
-    rescue Capybara::ElementNotFound,
-           Ferrum::CoordinatesNotFoundError,
-           Selenium::WebDriver::Error::ElementNotInteractableError
-      # Menu actions can close the menu or open a modal between the checks
-      # above and the click; once the menu is gone or a modal owns focus,
-      # the overlay is unclickable (Cuprite raises CoordinatesNotFoundError,
-      # Selenium ElementNotInteractableError) and dismissal is moot.
-      raise unless page.has_selector?(:modal, wait: 0) ||
-        page.has_no_css?(selector, visible: true, wait: 0)
+      press_escape
+      # Escape closes only the top-most popover; an open submenu absorbs the
+      # first press and the menu itself needs a second one.
+      press_escape if page.has_css?(selector, visible: :visible, wait: 0)
+
+      expect(page).to have_no_css(selector, visible: :visible)
+    end
+
+    # Neither driver may deliver the key through the focused element:
+    # Selenium's Session#send_keys refuses once a closing submenu parked focus
+    # on a hidden item, and Cuprite's clicks its receiver first. Both paths
+    # below dispatch the key without touching any element.
+    def press_escape
+      if using_cuprite?
+        page.driver.browser.keyboard.type(:escape)
+      else
+        send_keys_to_focused_element(:escape)
+      end
     end
 
     def headed_section_titles(id_prefix:)

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -47,7 +46,7 @@ module Components
       expect(page).to have_css("[data-test-selector='project-include-list']")
     end
 
-    def expect_count(count, wait: 5)
+    def expect_count(count, wait: 20)
       expect(page).to have_css("[data-test-selector='project-include-button'] .badge", text: count, wait:)
     end
 

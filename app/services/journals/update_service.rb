@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,6 +30,13 @@
 module Journals
   class UpdateService < ::BaseServices::Update
     protected
+
+    def after_validate(call)
+      journal = call.result
+      journal.cause = Journal::CausedByCommentRetraction.new.to_hash if comment_retracted?(journal)
+
+      call
+    end
 
     def after_perform(call)
       if call.success? && activity_comment?(call.result)
@@ -47,6 +53,10 @@ module Journals
     end
 
     private
+
+    def comment_retracted?(journal)
+      journal.notes.blank? && journal.notes_was.present? && !journal.has_cause?
+    end
 
     def activity_comment?(journal)
       journal.notes.present? || journal.attachments.exists?

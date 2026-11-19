@@ -61,7 +61,7 @@ es:
         item_2:
           name: Gestores BIM
         item_3:
-          name: Modeladores BIM
+          name: BIM Modelers
         item_4:
           name: Coordinadores BIM principales
         item_5:
@@ -511,18 +511,18 @@ es:
               description: Este tipo es jerárquicamente principal de los tipos &quot;Choque&quot; y &quot;Solicitud&quot;, por lo que representa una nota general.
               children:
                 item_0:
-                  subject: Modelado del modelo BIM inicial
+                  subject: Modeling initial BIM model
                   description: |-
-                    # Objetivo
+                    # Goal
 
-                    * Modelar el modelo BIM inicial
-                    # Crear un modelo BIM para todo el equipo del proyecto
+                    *   Modeling the initial BIM model
+                    *   Creating a BIM model for the whole project team
 
-                    # Descripción
+                    # Description
 
-                    * De acuerdo con los datos recopilados del cliente, se modelará el modelo inicial
-                    * El modelo se modelará según las matrices LOD y contendrá la información necesaria
-                    * ...
+                    *   According to the gathered data from the customer, the initial model will be modeled
+                    *   The model shall be modeled according to the LOD Matrices and contain the information needed
+                    *   ...
                 item_1:
                   subject: Comprobación y revisión inicial e interna del modelo
                   description: |-
@@ -538,23 +538,23 @@ es:
                   subject: Envío del modelo BIM inicial
                   description: Este tipo es jerárquicamente principal de los tipos &quot;Choque&quot; y &quot;Solicitud&quot;, por lo que representa una nota general.
             item_4:
-              subject: Modelado primer ciclo
+              subject: Modeling, first cycle
               description: Este tipo es jerárquicamente principal de los tipos &quot;Choque&quot; y &quot;Solicitud&quot;, por lo que representa una nota general.
               children:
                 item_0:
                   subject: Referencia a modelos BIM externos
                   description: |-
-                    # Objetivo
+                    # Goal
 
-                    * Disponer de una base para desarrollar el modelo interno/ ofrecer respuestas
-                    * Utilizar el modelo externo para desarrollar el modelo interno
+                    *   Having a foundation for developing the internal model/ offering answers
+                    *   Using the external model to develop the internal model
 
-                    # Descripción
+                    # Description
 
-                    * El modelo externo se referenciará en la plataforma BIM, por lo que se utilizará para modelar el modelo interno
-                    * ...
+                    *   The external model will be referenced in the BIM platform, thus used for modeling the internal model
+                    *   ...
                 item_1:
-                  subject: Modelado del modelo BIM
+                  subject: Modeling the BIM model
                   description: |-
                     # Objetivo
 
@@ -602,19 +602,19 @@ es:
                   subject: Coordinación de acabado, primer ciclo
                   description: Este tipo es jerárquicamente principal de los tipos &quot;Choque&quot; y &quot;Solicitud&quot;, por lo que representa una nota general.
             item_6:
-              subject: Modelización y coordinación, segundo ciclo
+              subject: Modeling & coordinating, second cycle
               description: "## Objetivo\r\n\r\n* ...\r\n\r\n## Descripción\r\n\r\n* \\ ..."
             item_7:
-              subject: Modelización y coordinación, ... ciclo
+              subject: Modeling & coordinating, ... cycle
               description: Este tipo es jerárquicamente principal de los tipos &quot;Choque&quot; y &quot;Solicitud&quot;, por lo que representa una nota general.
             item_8:
-              subject: Modelización y coordinación, ciclo (n-ésimo menos 1)
+              subject: Modeling & coordinating, (n-th minus 1) cycle
               description: "## Objetivo\r\n\r\n* ...\r\n\r\n## Descripción\r\n\r\n* \\ ..."
             item_9:
-              subject: Modelización y coordinación del n-ésimo ciclo
+              subject: Modeling & coordinating n-th cycle
               description: Este tipo es jerárquicamente principal de los tipos &quot;Choque&quot; y &quot;Solicitud&quot;, por lo que representa una nota general.
             item_10:
-              subject: Acabado de modelado y coordinación, n-ésimo ciclo
+              subject: Finishing modeling & coordinating, n-th cycle
               description: Este tipo es jerárquicamente principal de los tipos &quot;Choque&quot; y &quot;Solicitud&quot;, por lo que representa una nota general.
             item_11:
               subject: Usar modelo para la fase de construcción

@@ -22,15 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 Rails.application.config.after_initialize do
   ##
-  # The default behaviour is to send the user a sign-up mail
+  # The default behavior is to send the user a sign-up mail
   # when they were invited.
   OpenProject::Notifications.subscribe UserInvitation::Events.user_invited do |token|
     Mails::InvitationJob.perform_later(token)

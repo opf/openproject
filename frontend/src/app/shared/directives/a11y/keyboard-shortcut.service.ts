@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -139,18 +138,34 @@ export class KeyboardShortcutService {
   }
 
   focusItemOffset(offset:number):void {
-    const list = document.querySelector(accessibleListSelector);
+    const active = document.activeElement;
+    const enclosing = active?.closest(accessibleListSelector) ?? null;
+    const list = enclosing ?? this.nearestList(active, offset);
     if (!list) {
       return;
     }
 
-    const rows:HTMLElement[] = Array.from(list.querySelectorAll('tbody > tr'));
-    let index:number;
-    if (document.activeElement) {
-      index = rows.indexOf(document.activeElement as HTMLElement);
-      const target = rows[index + offset];
-      target?.focus();
+    const rows = Array.from(list.querySelectorAll<HTMLTableRowElement>('tbody.work-package--results-tbody > tr, tbody > tr.wp-table--sums-row'))
+      .filter((row) => row.checkVisibility());
+    const current = enclosing ? active?.closest('tr') ?? null : null;
+    const index = current ? rows.indexOf(current) : -1;
+    const start = !enclosing && offset < 0 ? rows.length : index;
+    for (let next = start + offset; next >= 0 && next < rows.length; next += offset) {
+      if (!rows[next].classList.contains('wp-table--sums-row')) {
+        rows[next].focus();
+        return;
+      }
     }
+  }
+
+  private nearestList(active:Element|null, offset:number):Element|null {
+    const lists = Array.from(document.querySelectorAll(accessibleListSelector)).filter((list) => list.checkVisibility());
+    const side = offset > 0 ? Node.DOCUMENT_POSITION_FOLLOWING : Node.DOCUMENT_POSITION_PRECEDING;
+    const onSide = active ? lists.filter((list) => (active.compareDocumentPosition(list) & side) !== 0) : [];
+
+    return offset > 0
+      ? onSide[0] ?? lists[0] ?? null
+      : onSide.at(-1) ?? lists.at(-1) ?? null;
   }
 
   focusNextItem():void {

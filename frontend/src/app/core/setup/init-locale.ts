@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -30,7 +29,9 @@ import moment from 'moment';
 import { I18n } from 'i18n-js';
 import { getMetaElement } from './globals/global-helpers';
 
-export function initializeLocale() {
+export function initializeLocale(
+  loadLocale = (locale:string) => import(`../../../locales/${locale}.json`),
+) {
   const meta = getMetaElement('openproject_initializer');
   const getInitializerValue = (key:string, defaultValue = '') => meta?.dataset[key] ?? defaultValue;
   const userLocale = getInitializerValue('locale', 'en');
@@ -81,7 +82,7 @@ export function initializeLocale() {
 
   const localeImports = [...new Set([userLocale, instanceLocale])]
     .map(
-      (locale) => import(`../../../locales/${locale}.json`)
+      (locale) => loadLocale(locale)
         .then((imported:{ default:object }) => {
           i18n.store(imported.default);
         }),

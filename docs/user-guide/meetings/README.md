@@ -22,11 +22,14 @@ Meetings in OpenProject allow you to manage and document your project meetings, 
 | [Meetings in OpenProject](#meetings-in-openproject) | How to open meetings in OpenProject.                      |
 | [One-time meetings](one-time-meetings/)             | How to create and edit single meetings in OpenProject.    |
 | [Recurring meetings](recurring-meetings/)           | How to create and edit recurring meetings in OpenProject. |
+| [Vote-based agenda sorting](one-time-meetings/#sort-agenda-items-and-vote) | How to prioritize agenda items with participant votes. |
 | [Meetings FAQs](meetings-faq)                       | Frequently asked questions about meetings in OpenProject. |
 
 ## Meetings in OpenProject
 
 Meetings in OpenProject help teams organize discussions, track meeting agendas, and document decisions efficiently. There are two types of meetings: **one-time meetings** and **recurring meetings**. [One-time meetings](one-time-meetings/) are standalone events scheduled for a specific date and time. [Recurring meetings](recurring-meetings/) introduce a structured way to define a series of related meetings, ensuring consistency and reducing manual setup.
+
+Meeting agendas can be sorted manually or by votes. With [vote-based sorting](one-time-meetings/#sort-agenda-items-and-vote), participants can upvote or downvote agenda items to prioritize topics within each section.
 
 ### Meetings overview
 

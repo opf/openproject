@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -90,7 +89,7 @@ RSpec.describe McpTools::SearchCustomFieldItems do
     tool_config.save!
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server custom_field_hierarchies] do
+  context "when the custom field hierarchies enterprise feature is enabled", with_ee: %i[custom_field_hierarchies] do
     it_behaves_like "MCP text tool"
 
     it "finds all items of the custom field" do
@@ -119,6 +118,28 @@ RSpec.describe McpTools::SearchCustomFieldItems do
       let(:call_args) { {} }
 
       it_behaves_like "MCP tool execution error response"
+    end
+
+    context "with project-specific values" do
+      let(:type) { create(:type) }
+      let(:project) { create(:project, types: [type]) }
+      let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
+      let(:items) { parsed_results.dig("structuredContent", "items") }
+
+      before do
+        custom_field.update!(project_specific_value_restriction: "allow")
+        type.default_variant.custom_field_ids |= [custom_field.id]
+
+        green_item = custom_field.hierarchy_root.children.find_by!(label: "the green item")
+        create(:project_specific_value_restriction, project:, hierarchy_item: green_item)
+      end
+
+      it "only finds the items the user may see without linking hidden children" do
+        mcp_request
+
+        expect(items.pluck("label")).to contain_exactly(nil, "the green item")
+        expect(items.find { it["label"].nil? }.dig("_links", "children").pluck("title")).to eq(["the green item"])
+      end
     end
 
     context "when filtering by label" do
@@ -157,13 +178,6 @@ RSpec.describe McpTools::SearchCustomFieldItems do
         mcp_request
         expect(parsed_results.dig("structuredContent", "items").size).to eq(0)
       end
-    end
-  end
-
-  context "when the mcp_server enterprise feature is disabled", with_ee: %i[custom_field_hierarchies] do
-    it "responds in a 404" do
-      mcp_request
-      expect(last_response).to have_http_status(404)
     end
   end
 end

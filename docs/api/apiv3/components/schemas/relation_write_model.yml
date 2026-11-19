@@ -39,9 +39,9 @@ properties:
           - $ref: './link.yml'
           - description: |-
               The work package the relation ends in. Only available on relation creation, not on update.
-              
+
               **Resource**: WorkPackage
-              
+
               # Conditions
-              
+
               **Permission**: view work packages

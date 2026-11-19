@@ -146,11 +146,11 @@ get:
                   type: DateTime
                   writable: false
           schema:
-            "$ref": "../components/schemas/workspaces_schema_model.yml"
+            $ref: "../components/schemas/workspaces_schema_model.yml"
       description: OK
       headers: {}
   tags:
     - Workspaces
   description: ''
-  operationId: View_workspace_schema
+  operationId: get_workspace_schema
   summary: View workspace schema

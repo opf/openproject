@@ -22,14 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 class WorkPackages::CreateService < BaseServices::BaseCallable
   include ::WorkPackages::Shared::UpdateAncestors
+  include ::WorkPackages::Shared::FindOrCreateLabels
   include ::Shared::ServiceContext
   include Types::ApplyPatterns
 
@@ -60,20 +60,31 @@ class WorkPackages::CreateService < BaseServices::BaseCallable
       # Set attributes service passed, meaning the contract is fulfilled.
       # Avoid running validations again as we might be in a project copy scenario.
       work_package.attachments = work_package.attachments_replacements if work_package.attachments_replacements
-      work_package.save(validate: false)
+      return save_failure(result, work_package) if find_or_create_labels(work_package).failure?
+      return save_failure(result, work_package) unless work_package.save(validate: false)
 
-      apply_patterns(work_package)
-
-      # update ancestors before rescheduling, as the parent might switch to automatic mode
-      multi_update_ancestors(result.all_results).each do |ancestor_result|
-        result.merge!(ancestor_result)
-      end
-
-      result.merge!(reschedule_related(work_package))
-
-      set_user_as_watcher(work_package)
+      after_create(result, work_package)
     end
 
+    result
+  end
+
+  def after_create(result, work_package)
+    apply_patterns(work_package)
+
+    # update ancestors before rescheduling, as the parent might switch to automatic mode
+    multi_update_ancestors(result.all_results).each do |ancestor_result|
+      result.merge!(ancestor_result)
+    end
+
+    result.merge!(reschedule_related(work_package))
+
+    set_user_as_watcher(work_package)
+  end
+
+  def save_failure(result, work_package)
+    result.success = false
+    result.errors = work_package.errors
     result
   end
 

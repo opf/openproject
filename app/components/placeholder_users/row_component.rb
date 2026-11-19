@@ -22,20 +22,23 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module PlaceholderUsers
-  class RowComponent < ::RowComponent
+  class RowComponent < ::OpPrimer::BorderBoxRowComponent
     def placeholder_user
       model
     end
 
     def name
-      link_to h(placeholder_user.name), edit_placeholder_user_path(placeholder_user)
+      render(Primer::Beta::Link.new(href: edit_placeholder_user_path(placeholder_user), font_weight: :bold)) { h(placeholder_user.name) }
+    end
+
+    def criteria
+      ::Queries::FilterSummary.new(placeholder_user.user_filter).to_s
     end
 
     def created_at
@@ -48,10 +51,16 @@ module PlaceholderUsers
 
     def delete_link
       if helpers.can_delete_placeholder_user?(placeholder_user, User.current)
-        link_to deletion_info_placeholder_user_path(placeholder_user),
-                data: { controller: "async-dialog" } do
-          helpers.tooltip_tag I18n.t("placeholder_users.delete_tooltip"), icon: "icon-delete"
-        end
+        render(Primer::Beta::IconButton.new(
+                 icon: :trash,
+                 scheme: :danger,
+                 size: :small,
+                 tag: :a,
+                 href: deletion_info_placeholder_user_path(placeholder_user),
+                 "aria-label": I18n.t("placeholder_users.delete_tooltip"),
+                 tooltip_direction: :w,
+                 data: { controller: "async-dialog" }
+               ))
       else
         helpers.tooltip_tag I18n.t("placeholder_users.right_to_manage_members_missing"), icon: "icon-help2"
       end

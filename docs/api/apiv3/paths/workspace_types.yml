@@ -49,7 +49,7 @@ get:
                 count: 2
                 total: 2
           schema:
-            "$ref": "../components/schemas/types_by_workspace_model.yml"
+            $ref: "../components/schemas/types_by_workspace_model.yml"
       description: OK
       headers: {}
     '404':
@@ -76,5 +76,5 @@ get:
     - Types
     - Workspaces
   description: This endpoint lists the types that are *available* in a given workspace.
-  operationId: List_types_available_in_a_workspace
+  operationId: list_types_available_in_a_workspace
   summary: List types available in a workspace

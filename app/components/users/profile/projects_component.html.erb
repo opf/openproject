@@ -17,8 +17,9 @@
         list.with_element do
           concat helpers.link_to_project(membership.project)
 
-          roles = membership.roles.sort.collect(&:to_s).join(", ")
-          concat render(Primer::Beta::Text.new(ml: 1, color: :subtle, font_size: :small)) { "(#{roles})" }
+          concat render(Primer::Beta::Text.new(ml: 1, color: :subtle, font_size: :small)) {
+            safe_join(["(", role_names_with_permissions_preview(membership.roles.sort), ")"])
+          }
         end
       end
     end

@@ -22,15 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require_relative "../spec_helper"
 
-RSpec.describe "GET /cost_reports (CSRF token in query form)", type: :rails_request do
+RSpec.describe "GET /reporting/cost_reports (CSRF token in query form)", type: :rails_request do
   include OpenProject::Reporting::PluginSpecHelper
 
   current_user { user }
@@ -43,7 +42,7 @@ RSpec.describe "GET /cost_reports (CSRF token in query form)", type: :rails_requ
   end
 
   it "embeds a non-empty authenticity_token inside #query_form" do
-    get "/cost_reports"
+    get "/reporting/cost_reports"
 
     expect(response).to have_http_status(:ok)
 

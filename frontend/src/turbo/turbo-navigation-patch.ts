@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -39,13 +38,18 @@ import * as Turbo from '@hotwired/turbo';
  * there is no upstream frontend regression test — see the Rails system spec.
  *
  * Upstream fix in flight: https://github.com/hotwired/turbo/pull/1549. Once it
- * ships in a release we depend on, drop this patch in favour of it.
+ * ships in a release we depend on, drop this patch in favor of it.
  *
  * This is a verbatim fork of `FrameController.proposeVisitIfNavigatedWithAction`
- * with a single divergence: the history snapshot is built from the live
- * document (`frame.ownerDocument.documentElement.outerHTML`) instead of the
- * fetch response (`await fetchResponse.responseHTML`), so the restored snapshot
- * reflects the fully rendered page rather than the bare frame fragment.
+ * with two divergences:
+ * - The history snapshot is built from the live document
+ *   (`frame.ownerDocument.documentElement.outerHTML`) instead of the fetch
+ *   response (`await fetchResponse.responseHTML`), so the restored snapshot
+ *   reflects the fully rendered page rather than the bare frame fragment.
+ * - A visit that supersedes one which has not rendered yet reuses that visit's
+ *   snapshot. Cloning again would capture the frame mid-request (`busy`, the
+ *   superseded `src`, no `complete`), so going back would reload the
+ *   superseded URL instead of restoring the page.
  *
  * Pinned to @hotwired/turbo 8.0.x. `turbo-navigation-patch.spec.ts` is a
  * tripwire: it fails if Turbo renames the patched method or stops sourcing the
@@ -57,13 +61,16 @@ export function applyTurboNavigationPatch() {
     this.action = action;
 
     if (this.action) {
-      const pageSnapshot = Turbo.PageSnapshot.fromElement(frame).clone();
+      this.pendingPageSnapshot ??= Turbo.PageSnapshot.fromElement(frame).clone();
+      const pageSnapshot = this.pendingPageSnapshot;
       const { visitCachedSnapshot } = frame.delegate;
 
       // Kept `async` to mirror upstream's method shape even though the body no
       // longer awaits -- the divergence below sources the snapshot synchronously
       // from the live document instead of `await fetchResponse.responseHTML`.
       frame.delegate.fetchResponseLoaded = async (fetchResponse) => {
+        delete this.pendingPageSnapshot;
+
         if (frame.src) {
           const { statusCode, redirected } = fetchResponse;
           // Divergence from upstream: capture the live, fully rendered page
@@ -80,6 +87,19 @@ export function applyTurboNavigationPatch() {
           };
 
           if (this.action) options.action = this.action;
+
+          // Cache the snapshot synchronously. `Turbo.session.visit()`
+          // below also caches it eventually (via `PageView#cacheSnapshot`), but
+          // that happens asynchronously (`await nextEventLoopTick()`), while
+          // `turbo:render`/`turbo:load` for this visit fire immediately,
+          // before that write lands. If the user hits browser back/forward in that
+          // window, the popstate-triggered restore visit misses the cache and falls
+          // through to a full, uncached network fetch instead of an instant restore,
+          // Writing it here closes that window; the later async write then just overwrites the same
+          // entry with equivalent content.
+          if (pageSnapshot.isCacheable) {
+            Turbo.session.view.snapshotCache.put(Turbo.session.view.lastRenderedLocation, pageSnapshot);
+          }
 
           Turbo.session.visit(frame.src, options);
         }

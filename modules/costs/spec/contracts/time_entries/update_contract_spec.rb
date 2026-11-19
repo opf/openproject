@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -52,6 +51,13 @@ RSpec.describe TimeEntries::UpdateContract do
 
       it "is invalid" do
         expect_valid(false, base: %i(error_unauthorized))
+      end
+
+      it "explains that the time entry cannot be edited" do
+        contract.validate
+
+        expect(contract.errors.full_messages_for(:base))
+          .to contain_exactly("You don't have permissions to edit this time entry.")
       end
     end
 
@@ -152,6 +158,18 @@ RSpec.describe TimeEntries::UpdateContract do
       it "is invalid" do
         time_entry.user = new_user
         expect_valid(false, user_id: %i(invalid))
+      end
+    end
+
+    context "if the user is changed to a user who cannot see the work package" do
+      before do
+        allow(other_user).to receive(:visible?).and_return(true)
+        allow(time_entry_entity).to receive(:visible?).with(other_user).and_return(false)
+        time_entry.user = other_user
+      end
+
+      it "is invalid" do
+        expect_valid(false, user_id: %i(no_access_to_entity))
       end
     end
 

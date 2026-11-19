@@ -2,21 +2,19 @@
 
 .op-wp-status-button
   &--button
-    @include text-shortener(false)
-    padding: 5px
-    margin-bottom: 0
-    background-color: var(--label-orange-bgColor-active)
-    border: 1px solid var(--label-orange-fgColor-rest)
-    color: var(--body-font-color)
+    min-width: 0
     max-width: 100%
-    display: flex
+
+    .Button-content
+      flex-shrink: 1
+      min-width: 0
 
   &--text
+    display: block
     @include text-shortener
 
   &_small &--button
-    line-height: 16px
-    font-size: 12px
     height: 16px
-    padding: 0px 5px
-    margin-right: 0
+    padding: 0 5px
+    font-size: 12px
+    line-height: 16px

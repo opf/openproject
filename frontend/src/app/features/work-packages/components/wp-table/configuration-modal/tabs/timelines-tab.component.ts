@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -34,7 +33,12 @@ import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/r
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { zoomLevelOrder } from 'core-app/features/work-packages/components/wp-table/timeline/wp-timeline';
 import { TimelineLabels, TimelineZoomLevel } from 'core-app/features/hal/resources/query-resource';
-import { StateService } from '@uirouter/angular';
+
+const TIMELINE_LABEL_KEYS:Record<keyof TimelineLabels, true> = {
+  left: true,
+  right: true,
+  farRight: true,
+};
 
 @Component({
   templateUrl: './timelines-tab.component.html',
@@ -49,7 +53,6 @@ export class WpTableConfigurationTimelinesTabComponent implements TabComponent, 
   readonly I18n = inject(I18nService);
   readonly wpTableTimeline = inject(WorkPackageViewTimelineService);
   readonly wpTableColumns = inject(WorkPackageViewColumnsService);
-  readonly $state = inject(StateService);
 
   public timelineVisible = false;
 
@@ -57,7 +60,7 @@ export class WpTableConfigurationTimelinesTabComponent implements TabComponent, 
 
   public labels:TimelineLabels;
 
-  public availableLabels:string[];
+  public availableLabels:(keyof TimelineLabels)[];
 
   public zoomLevel:TimelineZoomLevel;
 
@@ -99,6 +102,13 @@ export class WpTableConfigurationTimelinesTabComponent implements TabComponent, 
     });
   }
 
+  public updateZoomLevel(value:string):void {
+    const level = this.availableZoomLevels.find((option) => option === value);
+    if (level !== undefined) {
+      this.zoomLevel = level;
+    }
+  }
+
   public updateLabels(key:keyof TimelineLabels, value:string|null) {
     if (value === '') {
       value = null;
@@ -116,7 +126,9 @@ export class WpTableConfigurationTimelinesTabComponent implements TabComponent, 
     // Current label models
     const { labels } = this.wpTableTimeline;
     this.labels = { ...labels };
-    this.availableLabels = Object.keys(this.labels);
+    this.availableLabels = Object.keys(this.labels).filter(
+      (key):key is keyof TimelineLabels => Object.hasOwn(TIMELINE_LABEL_KEYS, key),
+    );
 
     // Available labels
     const availableColumns = this.wpTableColumns
@@ -127,6 +139,6 @@ export class WpTableConfigurationTimelinesTabComponent implements TabComponent, 
   }
 
   timelineToggleDisabled():boolean {
-    return !!this.$state.current.name?.includes('gantt');
+    return window.location.pathname.includes('/gantt');
   }
 }

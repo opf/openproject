@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,7 +35,7 @@ module NotificationSettings::Scopes
       # Return notifications settings that prevail in the selected context (project)
       # If there is only the global notification setting in place, those are authoritative.
       # If there is a project specific setting in place, it is the project specific setting instead.
-      # rubocop:disable Metrics/AbcSize
+      # rubocop:disable-next Metrics/AbcSize
       def applicable(project)
         global_notifications = NotificationSetting.arel_table
         project_notifications = NotificationSetting.arel_table.alias("project_settings")
@@ -50,7 +49,6 @@ module NotificationSettings::Scopes
 
         where(global_notifications[:id].in(subselect))
       end
-      # rubocop:enable Metrics/AbcSize
     end
   end
 end

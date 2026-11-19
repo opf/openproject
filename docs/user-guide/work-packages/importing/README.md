@@ -97,6 +97,65 @@ a finish date before the start date, a type that has no such status in its workf
 An empty cell means "not given", and the work package is created with whatever the project and the type would give it.
 There is no way to say "explicitly empty" in a CSV file, so a value that is set by default cannot be cleared by leaving its cell blank.
 
+### How dates are read
+
+`YYYY-MM-DD` for a date and `YYYY-MM-DDTHH:MM:SSZ` for a date and time are the forms to write, and the
+ones the template hands you. Spreadsheet applications export several other shapes, and those are read
+as well. The tables below list every variant that is accepted.
+
+`Start date` and `Finish date` keep only the date: a cell that also carries a time is read, and the time
+is dropped. `Created on` and `Updated on` keep the whole moment.
+
+#### The date
+
+| Accepted                    | Example                 |
+|-----------------------------|-------------------------|
+| Dashes                      | `2026-09-26`            |
+| Slashes                     | `2026/09/26`            |
+| A one-digit month or day    | `2026-9-26`, `2026/9/6` |
+
+The date is always written year first, then month, then day. The year is always four digits, and the two
+separators have to be the same, so `2026-09/26` is reported. A date written in another order, as in
+`09/29/2026` or `29-09-2026`, is reported rather than read, because `03/04` is the 4th of March to one
+reader and the 3rd of April to another, and nothing in the file says which was meant. `2026.09.26`,
+`20260926` and a date that does not exist, such as `2026-02-30`, are reported as well.
+
+#### The time
+
+A time is optional. Where there is one, it follows the date after a `T` or a space.
+
+| Accepted                                 | Example                                       |
+|------------------------------------------|-----------------------------------------------|
+| Hours and minutes                        | `2026-09-26T08:09`, `2026-09-26 08:09`        |
+| Seconds                                  | `2026-09-26T08:09:52`                         |
+| A fraction of a second, which is dropped | `2026-09-26T08:09:52.120`                     |
+| A one-digit hour                         | `2026-09-26 8:09`                             |
+| A 12-hour clock, dots and space optional | `2026-09-26 10:40 AM`, `10:40 a.m.`, `10:40pm` |
+
+Minutes and seconds are always two digits, so `8:9` is reported. So is an hour of `24` or more, a minute
+or second of `60` or more, and an hour outside `1` to `12` beside `am` or `pm`.
+
+#### The time zone
+
+A time zone is optional, and may follow the time with or without a space.
+
+| Accepted               | Example                              |
+|------------------------|--------------------------------------|
+| `Z` for UTC            | `2026-09-26T08:09:52Z`               |
+| An offset              | `+02:00`, `+0200`, `+02`, `-05:00`   |
+| The name of a zone     | `UTC`, `GMT`, `CET`, `CEST`, `PST`   |
+| A name with an offset  | `UTC+2`, `GMT+02:00`                 |
+
+A cell with no time zone is read in the time zone of your own account, so `2026-09-26 08:09` imported
+from an account set to Berlin is 08:09 Berlin time. A date with no time at all is read as midnight in
+that same zone. A zone name that OpenProject does not recognize is reported rather than ignored, so a
+cell is never read in a zone other than the one it names.
+
+#### Created on and Updated on
+
+Neither may lie in the future, and `Created on` may not be later than the `Updated on` beside it on the
+same line.
+
 ## Limits
 
 A file can hold up to 5000 lines and can be up to 5 MB by default.
@@ -114,6 +173,6 @@ A CSV import creates work packages. It currently does not do any of the followin
 - **Change existing work packages**: Every line creates a new work package. There is no way to address one that already exists.
 - **Create hierarchies**: Parents and children have to be set after the import.
 - **Create relations**: Predecessors, successors and the other relation types are not read.
-- **Fill custom fields**: Only the columns listed above are accepted.
-- **Set watchers or attachments**:
+- **Fill custom fields**: Only the columns listed above are accepted. A type that requires a custom field is imported regardless.
+- **Set watchers or attachments**: Neither is read from the file.
 - **Read spreadsheet files**: Save an `.xlsx` or `.ods` file as CSV first.

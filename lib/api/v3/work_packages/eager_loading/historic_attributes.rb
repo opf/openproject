@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -106,16 +105,18 @@ module API::V3::WorkPackages::EagerLoading
 
     def override_attributes(work_package, source)
       work_package.attributes = source.attributes.except("timestamp", "journal_id")
-      override_target_versions(work_package, source)
+      override_association(work_package, source, :target_versions)
+      override_association(work_package, source, :observed_in_versions)
+      override_association(work_package, source, :labels)
       work_package.clear_changes_information
       work_package.readonly!
     end
 
-    def override_target_versions(work_package, source)
-      return unless work_package.respond_to?(:target_versions)
+    def override_association(work_package, source, name)
+      return unless work_package.respond_to?(name)
 
-      work_package.association(:target_versions).loaded!
-      work_package.association(:target_versions).target = source.target_versions.to_a
+      work_package.association(name).loaded!
+      work_package.association(name).target = source.public_send(name).to_a
     end
 
     def set_timestamp_attributes(work_package, source, timestamp)

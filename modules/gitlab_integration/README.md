@@ -145,7 +145,7 @@ In case of **Docker** installation, follow the official OpenProject documentatio
 * Build the container: `docker build -t openproject-docker --file=docker/prod/Dockerfile .`
 * Now run the image following the official documentation.
 
-In case of **DEB/RPM** based instalation, follow the official OpenProject documentation [here](https://www.openproject.org/docs/installation-and-operations/configuration/plugins/).
+In case of **DEB/RPM** based installation, follow the official OpenProject documentation [here](https://www.openproject.org/docs/installation-and-operations/configuration/plugins/).
 
 In case of [**manual**](https://www.openproject.org/docs/installation-and-operations/installation/manual/) installation, this plugin should be installed in the same place as the Github plugin that comes bundled with OpenProject.
 

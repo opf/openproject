@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -160,7 +159,7 @@ RSpec.describe "SCIM API Users", with_ee: [:scim_api] do
                                   "totalResults" => 0)
     end
 
-    it "filters results by externalId case-sesitively" do
+    it "filters results by externalId case-sensitively" do # rubocop:disable RSpec/ExampleLength
       filter_with_existing_rows = ERB::Util.url_encode("externalId Eq \"#{external_user_id}\"")
       get "/scim_v2/Users?filter=#{filter_with_existing_rows}", {}, headers
 

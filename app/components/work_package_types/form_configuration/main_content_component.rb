@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,17 +33,14 @@ module WorkPackageTypes
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
-      def initialize(variant:, group_components:, ee_available:, readonly: false)
+      def initialize(context:, group_components:, ee_available:)
         super
-        @variant = variant
+        @context = context
         @group_components = group_components
         @ee_available = ee_available
-        @readonly = readonly
       end
 
-      def readonly?
-        @readonly
-      end
+      delegate :readonly?, to: :@context
 
       private
 
@@ -53,14 +49,15 @@ module WorkPackageTypes
       end
 
       def groups_container_data
-        return { "test-selector": "type-form-configuration-groups-container" } if readonly?
+        data = { "test-selector": "type-form-configuration-groups-container" }
+        return data if readonly?
 
-        {
-          "test-selector": "type-form-configuration-groups-container",
+        data.merge(
           "admin--type-form-configuration--main-target": "groupsContainer",
-          "admin--type-form-configuration--drag-and-drop-target": "container",
-          "target-allowed-drag-type": "group"
-        }
+          controller: "sortable-lists--list",
+          sortable_lists__list_type_value: SortableTypes::GROUP,
+          sortable_lists__list_accepted_type_value: SortableTypes::GROUP
+        )
       end
     end
   end

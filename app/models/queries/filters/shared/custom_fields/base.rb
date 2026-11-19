@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -80,6 +79,7 @@ module Queries::Filters::Shared
           string: Queries::Filters::Strategies::CfString,
           text: Queries::Filters::Strategies::CfText,
           date: Queries::Filters::Strategies::CfDate,
+          datetime: Queries::Filters::Strategies::CfDateTime,
           hierarchy: Queries::Filters::Strategies::CfHierarchy,
           integer: Queries::Filters::Strategies::CfInteger,
           float: if custom_field.field_format == "calculated_value"
@@ -100,6 +100,8 @@ module Queries::Filters::Shared
           :text
         when "date"
           :date
+        when "datetime"
+          :datetime
         when "hierarchy", "weighted_item_list"
           :hierarchy
         else
@@ -134,12 +136,18 @@ module Queries::Filters::Shared
       def condition
         [
           custom_field_context.where_subselect_conditions,
-          operator_strategy.sql_for_field(values_replaced, CustomValue.table_name, "value")
+          type_strategy.sql_for_field(values_replaced, CustomValue.table_name, "value")
         ].compact.join(" AND ")
       end
 
       def type_strategy_class
         strategies[type] || strategies[:inexistent]
+      end
+
+      def projects_of_query
+        return if project.nil?
+
+        context.include_subprojects? ? project.self_and_descendants : Project.where(id: project)
       end
     end
   end

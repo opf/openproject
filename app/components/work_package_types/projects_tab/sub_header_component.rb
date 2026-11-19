@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,13 +32,15 @@ module WorkPackageTypes
     class SubHeaderComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
+      include WorkPackageTypes::VariantRoutes
 
-      def initialize(type:, variant:, query:)
+      def initialize(type:, variant:, query:, wizard: false)
         super()
 
         @type = type
         @variant = variant
         @query = query
+        @wizard = wizard
       end
 
       def filters_form_attributes
@@ -47,8 +48,9 @@ module WorkPackageTypes
           controller: "filter--filters-form",
           "filter--filters-form-turbo-stream-request-value": true,
           "filter--filters-form-clear-button-id-value": clear_button_id,
-          "filter--filters-form-current-filters-value": serialized_filters
-        }
+          "filter--filters-form-current-filters-value": serialized_filters,
+          "filter--filters-form-url-path-name-value": (variant_creation_wizard_projects_path(variant) if wizard?)
+        }.compact
       end
 
       def name_filter_attributes
@@ -70,7 +72,8 @@ module WorkPackageTypes
 
       def clear_button_id = "type-projects-filters-clear-button"
 
-      def variant_filter_available? = variant.default? && OpenProject::FeatureDecisions.type_variants_active?
+      # A type still being created has no other variant to filter by.
+      def variant_filter_available? = variant.default? && !wizard?
 
       def variant_filter_component
         VariantFilterComponent.new(type:, variant:, query:)
@@ -80,10 +83,14 @@ module WorkPackageTypes
 
       attr_reader :type, :variant, :query
 
-      def add_path = url_helpers.new_link_type_projects_path(**variant.path_args)
+      def wizard? = @wizard
+
+      def wizard_params = wizard? ? { wizard: true } : {}
+
+      def add_path = new_link_variant_projects_path(variant, **wizard_params)
 
       def toggle_all_path
-        url_helpers.enable_all_type_projects_path(**variant.path_args, value: enabled_everywhere? ? "0" : "1")
+        enable_all_variant_projects_path(variant, value: enabled_everywhere? ? "0" : "1", **wizard_params)
       end
 
       def toggle_all_label

@@ -23,10 +23,15 @@
 fi:
   js:
     button_log_costs: Kirjaa kustannuksia
+    costs:
+      widgets:
+        actual_costs:
+          chart_label: Actual costs by month chart
+          chart_month: "%{month}: %{values}"
+          chart_summary: 'Actual costs by month: %{months}.'
+          chart_value: "%{label}: %{value}"
     label_hour: tunti
     label_hours: tuntia
-    myTimeTracking:
-      noSpecificTime: No specific time
     text_are_you_sure: Oletko varma?
     work_packages:
       properties:

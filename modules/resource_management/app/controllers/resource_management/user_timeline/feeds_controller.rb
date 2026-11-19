@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,10 +30,11 @@
 module ResourceManagement
   module UserTimeline
     class FeedsController < BaseController
+      include ResourceManagement::PlannerRoutes
+
       menu_item :resource_management
 
-      before_action :find_project_by_project_id
-      before_action :authorize
+      load_and_authorize_in_planner_section
       before_action :find_resource_planner
       before_action :find_view
 
@@ -60,51 +60,15 @@ module ResourceManagement
         @scheduled_principal_ids ||= UserWorkingHours.for_user(users).distinct.pluck(:user_id).to_set
       end
 
-      # The overbooked ranges per user, keyed by user id, for users who are
-      # over-allocated (skipping those without a schedule, whose capacity is
-      # unknown). Computed once per request from the already-loaded allocations
-      # and reused by both the row warnings/feeds and the red background spans.
-      def overbooked_ranges_by_principal
-        @overbooked_ranges_by_principal ||=
-          users.each_with_object({}) do |user, ranges_by_id|
-            ranges = overbooked_ranges_for(user)
-            ranges_by_id[user.id] = ranges if ranges.any?
+      # Users without a schedule are skipped, as their capacity is unknown.
+      def availabilities_by_principal
+        @availabilities_by_principal ||=
+          users.each_with_object({}) do |user, by_id|
+            booked = allocations_by_principal.fetch(user.id, [])
+            next if booked.empty? || scheduled_principal_ids.exclude?(user.id)
+
+            by_id[user.id] = ResourceAllocations::Availability.new(user:)
           end
-      end
-
-      def overbooked_ranges_for(user)
-        return [] unless scheduled_principal_ids.include?(user.id)
-
-        booked = allocations_by_principal.fetch(user.id, [])
-        return [] if booked.empty?
-
-        ResourceAllocations::Availability
-          .new(user:, allocations: booked, global_non_working_days:)
-          .overbooked_ranges
-      end
-
-      # The global non-working days, fetched once and shared across every
-      # per-user working-time calendar this request builds (capacity, overbooking,
-      # working-day spans). Spans the allocations and the requested window, so it
-      # covers every range those calendars use.
-      def global_non_working_days
-        @global_non_working_days ||= NonWorkingDay.for_dates(non_working_days_span).pluck(:date).to_set
-      end
-
-      def non_working_days_span
-        dates = allocations_by_principal.values.flatten
-                                        .flat_map { |allocation| [allocation.start_date, allocation.end_date] }
-                                        .concat(requested_window_bounds)
-                                        .compact
-        return Date.current..Date.current if dates.empty?
-
-        Range.new(*dates.minmax)
-      end
-
-      def requested_window_bounds
-        return [] unless visible_range
-
-        [visible_range.begin, visible_range.end]
       end
 
       # The inclusive range of days the request wants rendered, or nil on the

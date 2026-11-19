@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -70,36 +69,27 @@ RSpec.describe McpTools::DeleteWorkPackageRelation do
     relation.save! # making sure creation already happens before expect blocks
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP text tool"
+  it_behaves_like "MCP text tool"
 
-    it "deletes the work package relation" do
-      expect { mcp_request }.to change(Relation, :count).from(1).to(0)
-    end
-
-    it "responds with a properly formatted relation" do
-      mcp_request
-      expect(parsed_results.fetch("structuredContent").to_json).to match_json_schema.from_docs("relation_read_model")
-    end
-
-    context "when deleting a non-existing relation" do
-      let(:call_args) do
-        {
-          id: relation.id + 100
-        }
-      end
-
-      it "responds with an error" do
-        mcp_request
-        expect(result_item.fetch("error")).to eq("The given relation could not be found.")
-      end
-    end
+  it "deletes the work package relation" do
+    expect { mcp_request }.to change(Relation, :count).from(1).to(0)
   end
 
-  context "when the mcp_server enterprise feature is disabled" do
-    it "responds with a 404" do
+  it "responds with a properly formatted relation" do
+    mcp_request
+    expect(parsed_results.fetch("structuredContent").to_json).to match_json_schema.from_docs("relation_read_model")
+  end
+
+  context "when deleting a non-existing relation" do
+    let(:call_args) do
+      {
+        id: relation.id + 100
+      }
+    end
+
+    it "responds with an error" do
       mcp_request
-      expect(last_response).to have_http_status(404)
+      expect(result_item.fetch("error")).to eq("The given relation could not be found.")
     end
   end
 end

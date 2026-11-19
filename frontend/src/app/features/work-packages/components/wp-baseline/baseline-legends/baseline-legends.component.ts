@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -80,6 +79,8 @@ export class OpBaselineLegendsComponent extends UntilDestroyedMixin implements O
 
   public legendDescription:string;
 
+  public isSnapshot = false;
+
   public text = {
     now_meets_filter_criteria: this.I18n.t('js.baseline.legends.now_meets_filter_criteria'),
     no_longer_meets_filter_criteria: this.I18n.t('js.baseline.legends.no_longer_meets_filter_criteria'),
@@ -104,6 +105,7 @@ export class OpBaselineLegendsComponent extends UntilDestroyedMixin implements O
           this.offset = parts.offset;
         }
 
+        this.isSnapshot = timestamps.length === 1;
         this.getBaselineDetails();
         this.getFilterName(timestamps);
         this.cdRef.detectChanges();
@@ -115,7 +117,7 @@ export class OpBaselineLegendsComponent extends UntilDestroyedMixin implements O
     const baselineValue = baselineFilterFromValue(this.wpTableBaseline.current);
     const changesSinceOrBetween = this.deriveChangesSinceOrBetween(baselineValue);
     let description = '';
-    let upstreamDate = '';
+    let upstreamDate:string;
     let localDate = '';
 
     switch (baselineValue) {
@@ -147,6 +149,10 @@ export class OpBaselineLegendsComponent extends UntilDestroyedMixin implements O
         [upstreamDate, localDate] = this.deriveDateRange(moment.parseZone(timestamps[0]), moment.parseZone(timestamps[1]));
         description += upstreamDate;
         break;
+      case null:
+        [upstreamDate, localDate] = this.formatUpstreamAndLocal(moment.parseZone(timestamps[0]));
+        description += upstreamDate;
+        break;
       default:
         break;
     }
@@ -159,6 +165,10 @@ export class OpBaselineLegendsComponent extends UntilDestroyedMixin implements O
   private deriveChangesSinceOrBetween(baselineValue:string|null) {
     if (baselineValue === 'betweenTwoSpecificDates') {
       return this.I18n.t('js.baseline.legends.changes_between');
+    }
+
+    if (baselineValue === null) {
+      return this.I18n.t('js.baseline.legends.state_at');
     }
 
     return this.I18n.t('js.baseline.legends.changes_since');

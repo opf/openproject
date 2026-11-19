@@ -22,15 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
 
-RSpec.describe OpenProject::TokenBucketBasedRateLimiter::Base do
+RSpec.describe OpenProject::TokenBucketBasedRateLimiter::Base, freeze_time: Time.current.change(usec: 0) do
   let!(:token_bucket_state) { create(:token_bucket_state, identifier: :sample, microtokens:, refilled_at:) }
   let(:microtokens) { 0 }
   let(:refilled_at) { Time.current }
@@ -86,7 +85,7 @@ RSpec.describe OpenProject::TokenBucketBasedRateLimiter::Base do
       context "when tokens need refilling" do
         let(:tokens) { 2 }
 
-        # 1 token left, but 2 tokens have been aquired in the mean time
+        # 1 token left, but 2 tokens have been acquired in the mean time
         let(:microtokens) { 1_000_000 }
         let(:refilled_at) { 2.hours.ago }
 

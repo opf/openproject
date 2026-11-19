@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require_relative "support/rspec_coverage_config"
+require "simplecov/formatter/json_formatter"
+
+abort "Usage: bundle exec ruby script/coverage_report DIRECTORY EXPECTED_WORKERS" unless ARGV.size == 2
+
+directory = File.expand_path(ARGV.fetch(0))
+expected_workers = Integer(ARGV.fetch(1), exception: false)
+abort "EXPECTED_WORKERS must be positive" unless expected_workers&.positive?
+
+reports = Dir.glob(File.join(directory, "workers", "*", ".resultset.json"))
+abort "Expected #{expected_workers} worker reports, found #{reports.size}" unless reports.size == expected_workers
+
+RSpecCoverage.configure
+SimpleCov.collate(reports) do
+  coverage_dir File.join(directory, "report")
+  formatters [SimpleCov::Formatter::HTMLFormatter, SimpleCov::Formatter::JSONFormatter]
+end

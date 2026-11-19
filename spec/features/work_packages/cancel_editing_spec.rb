@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 
@@ -153,9 +152,9 @@ RSpec.describe "Cancel editing work package", :js, :selenium do
     description.click_and_type_slowly "foobar"
 
     # Try to move back to list, expect warning
-    page.execute_script("window.history.back()")
-    expect(wp_page).to have_alert_dialog
-    wp_page.dismiss_alert_dialog!
+    dismiss_confirm(I18n.t("js.work_packages.confirm_edit_cancel")) do
+      page.execute_script("window.history.back()")
+    end
     description.expect_active!
 
     # Now cancel the field
@@ -182,7 +181,7 @@ RSpec.describe "Cancel editing work package", :js, :selenium do
       expect(wp_page).not_to have_alert_dialog
 
       expect(page).to have_no_css("#wp-new-inline-edit--field-subject")
-      expect(page).to have_css(".work-packages--details--subject", text: work_package2.subject)
+      expect(page).to have_heading(work_package2.subject, level: 2, exact: true)
 
       # Moving somewhere else
       expect_active_edit(new_split_work_packages_path)

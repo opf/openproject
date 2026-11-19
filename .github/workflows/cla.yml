@@ -16,6 +16,7 @@ jobs:
   CLAAssistant:
     if: github.repository == 'opf/openproject'
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: "CLA Assistant"
         if: (github.event.comment.body == 'recheck' || github.event.comment.body == 'I have read the CLA Document and I hereby sign the CLA') || github.event_name == 'pull_request_target'
@@ -77,12 +78,14 @@ jobs:
             myabc,
             oliverguenther,
             openprojectci,
+            openprojectnova,
             psatyal,
             samachon,
             schm,
             shiroginne,
             toy,
             tiroessler,
+            tisba,
             ulferts,
             vonTronje,
             vspielau,
@@ -94,7 +97,10 @@ jobs:
             thykel,
             j-racsko,
             FeliciaMundhenke2904,
-            tinexw
+            tinexw,
+            Giplat,
+            jwitt2310,
+            bitmotivator
           # the followings are the optional inputs - If the optional inputs are not given, then default values will be taken
           remote-organization-name: opf
           remote-repository-name: legal

@@ -61,6 +61,8 @@ fi:
   attributes:
     budget: Budjetti
   budgets:
+    labor_budget_items:
+      no_rate_at_fixed_date: No hourly rate on %{date}
     widgets:
       budget_by_cost_type:
         blankslate:
@@ -106,7 +108,7 @@ fi:
   events:
     budget: Budjettia muokattu
   help_click_to_edit: Muokkaa napsauttamalla tätä.
-  help_currency_format: Käytetty valuuttamuoto. %n korvataan arvolla, %u korvataan valuuttayksiköllä.
+  help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u is replaced with the currency unit.
   help_override_rate: Anna tähän arvo ohittaaksesi vakiohinnan.
   label_budget_available: Budget available
   label_budget_details: Budget details

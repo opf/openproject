@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,9 +33,10 @@ module OpenProject::Projects
     # !! Currently nothing happens when changing the status!!
     # @display min_height 400px
     # @param size [Symbol] select [small, medium, large]
-    def playground(size: :medium)
+    # @param status_code [Symbol] select [on_track, at_risk, off_track, not_started, finished, discontinued]
+    def playground(size: :medium, status_code: :on_track)
       user = FactoryBot.build_stubbed(:admin)
-      project = FactoryBot.build_stubbed(:project, :with_status)
+      project = FactoryBot.build_stubbed(:project, status_code:, status_explanation: "some explanation")
       render(Projects::StatusButtonComponent.new(project:, user:, size:))
     end
   end

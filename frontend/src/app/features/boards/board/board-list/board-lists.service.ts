@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -43,7 +42,6 @@ import {
   switchMap,
 } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { IOPFieldSchema } from 'core-app/features/hal/interfaces';
 
 @Injectable({ providedIn: 'root' })
 export class BoardListsService {
@@ -76,7 +74,7 @@ export class BoardListsService {
         switchMap(([form, query]) => {
           // When the permission to create public queries is missing, throw an error.
           // Otherwise private queries would be created.
-          if ((form.schema.public as IOPFieldSchema).writable) {
+          if (form.schema.public!.writable) {
             return this
               .apiV3Service
               .queries

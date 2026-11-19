@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -64,13 +63,13 @@ export class BcfTopicResource {
   @jsonArrayMember(String)
   labels:string[];
 
-  @jsonMember({ deserializer: (value) => moment(value), serializer: (timestamp:Moment) => timestamp.toISOString() })
+  @jsonMember({ deserializer: (value:string) => moment(value), serializer: (timestamp:Moment) => timestamp.toISOString() })
   creation_date:Moment;
 
   @jsonMember(String)
   creation_author:string;
 
-  @jsonMember({ deserializer: (value) => moment(value), serializer: (timestamp:Moment) => timestamp.toISOString() })
+  @jsonMember({ deserializer: (value:string) => moment(value), serializer: (timestamp:Moment) => timestamp.toISOString() })
   modified_date:Moment;
 
   @jsonMember(String, { preserveNull: true })
@@ -86,7 +85,7 @@ export class BcfTopicResource {
   description:string;
 
   @jsonMember({
-    deserializer: (value) => moment(value),
+    deserializer: (value:string) => moment(value),
     serializer: (timestamp:Moment) => timestamp.format('YYYY-MM-DD'),
   })
   due_date:Moment;

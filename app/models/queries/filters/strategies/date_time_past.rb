@@ -22,20 +22,21 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Queries::Filters::Strategies
   class DateTimePast < Queries::Filters::Strategies::Integer
-    self.supported_operators = [">t-", "<t-", "t-", "t", "w", "=d", "<>d"]
+    self.supported_operators = [">t-", "<t-", "t-", "t", "w", "=d", "<>d", ">d", "<d"]
     self.default_operator = ">t-"
 
     def validate
-      if operator == Queries::Operators::OnDateTime ||
-         operator == Queries::Operators::BetweenDateTime
+      if [Queries::Operators::OnDateTime,
+          Queries::Operators::BetweenDateTime,
+          Queries::Operators::GreaterOrEqualDateTime,
+          Queries::Operators::LessOrEqualDateTime].include?(operator)
         validate_values_all_datetime
       else
         super
@@ -48,6 +49,8 @@ module Queries::Filters::Strategies
       super_value = super.dup
       super_value["=d"] = Queries::Operators::OnDateTime
       super_value["<>d"] = Queries::Operators::BetweenDateTime
+      super_value[">d"] = Queries::Operators::GreaterOrEqualDateTime
+      super_value["<d"] = Queries::Operators::LessOrEqualDateTime
 
       super_value
     end

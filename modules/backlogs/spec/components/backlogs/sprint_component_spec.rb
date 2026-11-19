@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -85,6 +84,42 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
         expect(rendered_component).to have_text("8 points", normalize_ws: true)
       end
 
+      it "keeps the story points total and its unit on one line" do
+        expect(rendered_component.css(".velocity").text.strip).to eq("8 points")
+      end
+
+      context "when the project's estimation unit is time", with_flag: { project_settings_estimation_unit: true } do
+        before do
+          project.update!(estimation_unit: "time")
+          work_package1.update!(estimated_hours: 5)
+          work_package2.update!(estimated_hours: 3)
+        end
+
+        it "renders the estimated hours total instead of the story points total" do
+          expect(rendered_component).to have_no_text("points")
+          expect(rendered_component).to have_text(DurationConverter.output(8))
+        end
+
+        context "when the estimated hours total is zero" do
+          before do
+            work_package1.update!(estimated_hours: nil)
+            work_package2.update!(estimated_hours: nil)
+          end
+
+          it "renders no velocity total" do
+            expect(rendered_component).to have_no_css(".velocity")
+          end
+        end
+      end
+
+      context "when the project estimation unit is none", with_flag: { project_settings_estimation_unit: true } do
+        before { project.update!(estimation_unit: "none") }
+
+        it "renders no velocity total" do
+          expect(rendered_component).to have_no_css(".velocity")
+        end
+      end
+
       it "renders the inferred work-package count in the header" do
         expect(rendered_component).to have_css(
           ".Counter",
@@ -131,7 +166,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
 
         expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id} .op-work-package-card") do |card|
           expect(card["data-controller"].split).to include("backlogs--work-package")
-          expect(card["data-sortable-lists--item-target"]).to eq("preview handle")
+          expect(card["data-sortable-lists--item-target"]).to eq("preview handle focus")
           expect(card["data-backlogs--work-package-display-id-value"]).to eq(work_package1.display_id.to_s)
         end
       end
@@ -159,13 +194,13 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
                               priority: default_priority, story_points: 5, position: 1, sprint:)
       end
 
-      it "does not mark work package rows as draggable" do
-        expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id}")
-        expect(rendered_component)
-          .to have_no_css(".Box-row#work_package_#{work_package1.id}[data-sortable-lists--item-id-value]")
+      it "still renders the row as a sortable item, but fixed and not draggable" do
+        expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id}") do |row|
+          expect(row["data-controller"]).to eq("sortable-lists--item")
+          expect(row["data-sortable-lists--item-mobility-value"]).to eq("fixed")
+        end
         expect(rendered_component).to have_no_css(".Box-row#work_package_#{work_package1.id}[draggable='true']")
         expect(rendered_component).to have_no_css(".op-work-package-card[data-sortable-lists--item-id-value]")
-        expect(rendered_component).to have_no_css(".op-work-package-card[data-sortable-lists--item-target]")
         expect(rendered_component).to have_no_css(".op-work-package-card[draggable='true']")
         expect(rendered_component).to have_no_css(".op-work-package-card.Box-card--draggable")
       end
@@ -185,7 +220,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
       end
     end
 
-    describe "sprint status badge in header description" do
+    describe "sprint status label in header description" do
       context "when the sprint is in planning" do
         let(:sprint) do
           create(:sprint, project:, name: "Sprint 1",
@@ -193,7 +228,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
                           status: "in_planning")
         end
 
-        it "renders the status badge" do
+        it "renders the status label" do
           expect(rendered_component).to have_css(".Label", text: "In planning")
         end
       end
@@ -205,7 +240,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
                           status: "active")
         end
 
-        it "renders the status badge" do
+        it "renders the status label" do
           expect(rendered_component).to have_css(".Label", text: "Active")
         end
       end
@@ -217,7 +252,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
                           status: "completed")
         end
 
-        it "renders the status badge" do
+        it "renders the status label" do
           expect(rendered_component).to have_css(".Label", text: "Completed")
         end
       end
@@ -368,6 +403,16 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
           # The three item groups are separated by presentation-only dividers.
           expect(page).to have_css('li[role="presentation"]:nth-child(2)')
           expect(page).to have_css('li[role="presentation"]:nth-child(5)')
+        end
+
+        context "when the project estimation unit is none", with_flag: { project_settings_estimation_unit: true } do
+          before { project.update!(estimation_unit: "none") }
+
+          it "hides the burndown chart menu item, since there is nothing to burn down" do
+            rendered_component
+
+            expect(menu_items).not_to include("Burndown chart")
+          end
         end
       end
 
@@ -595,6 +640,63 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
           it "renders the start-sprint link enabled" do
             expect(rendered_component).to have_link("Start sprint")
           end
+        end
+      end
+    end
+  end
+
+  describe "dates" do
+    let(:start_date) { Date.new(2025, 1, 15) }
+    let(:finish_date) { Date.new(2025, 1, 29) }
+    let(:started_at) { Time.utc(2025, 1, 16, 9, 30) }
+    let(:completed_at) { Time.utc(2025, 1, 30, 17, 45) }
+
+    context "when the sprint is in planning" do
+      let(:sprint) { create(:sprint, project:, status: :in_planning, start_date:, finish_date:) }
+
+      it "shows the planned dates without marking them" do
+        expect(rendered_component).to have_element(:time, datetime: "2025-01-15")
+        expect(rendered_component).to have_element(:time, datetime: "2025-01-29")
+        expect(rendered_component).to have_no_text("(planned)")
+      end
+
+      context "without dates" do
+        let(:start_date) { nil }
+        let(:finish_date) { nil }
+
+        it "shows no dates" do
+          expect(rendered_component).to have_no_element(:time)
+        end
+      end
+    end
+
+    context "when the sprint is active" do
+      let(:sprint) { create(:sprint, project:, status: :active, start_date:, finish_date:, started_at:) }
+
+      it "shows the actual start with its timestamp as title and the planned finish" do
+        expect(rendered_component).to have_element(:time, datetime: "2025-01-16T09:30:00Z", title: true)
+        expect(rendered_component).to have_element(:time, datetime: "2025-01-29")
+        expect(rendered_component).to have_no_element(:time, datetime: "2025-01-15")
+      end
+    end
+
+    context "when the sprint is completed" do
+      let(:sprint) do
+        create(:sprint, project:, status: :completed, start_date:, finish_date:, started_at:, completed_at:)
+      end
+
+      it "shows the actual start and finish with their timestamps as titles" do
+        expect(rendered_component).to have_element(:time, datetime: "2025-01-16T09:30:00Z", title: true)
+        expect(rendered_component).to have_element(:time, datetime: "2025-01-30T17:45:00Z", title: true)
+      end
+
+      context "without planned dates" do
+        let(:start_date) { nil }
+        let(:finish_date) { nil }
+
+        it "still shows the actual start and finish" do
+          expect(rendered_component).to have_element(:time, datetime: "2025-01-16T09:30:00Z")
+          expect(rendered_component).to have_element(:time, datetime: "2025-01-30T17:45:00Z")
         end
       end
     end

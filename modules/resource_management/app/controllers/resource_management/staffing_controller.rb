@@ -22,27 +22,25 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module ::ResourceManagement
-  # Lists generic (filter-based) allocations in the project still awaiting a
-  # user, and assigns real users to them. Keeps the allocation's `user_filter`,
-  # `filter_name` and `principal_explicit: false` untouched — only `principal`
-  # and `principal_assigned_by` change.
   class StaffingController < BaseController
     include OpTurbo::ComponentStream
+    include ResourceManagement::PlannerRoutes
 
     menu_item :resource_management
 
-    before_action :find_project_by_project_id
-    before_action :authorize
+    before_action :load_and_authorize_in_optional_project
     before_action :find_allocation, only: %i[assign_form assign]
 
     def index
       @list_component = list_component
+
+      render :index, locals: { menu_name: project_or_global_menu }
     end
 
     def assign_form
@@ -103,19 +101,16 @@ module ::ResourceManagement
     end
 
     def render_warning_step(principal)
-      ranges = overbooked_ranges(principal)
-
       replace_via_turbo_stream(
         component: ResourceAllocations::WarningStep::FormComponent.new(
           allocation: @allocation,
           project: @project,
-          allocation_kind: "principal",
           form_values: {},
-          overbooked_ranges: ranges,
-          working_schedules: working_schedules(principal, ranges),
+          overbooking: overbooking(principal),
+          working_schedules: working_schedules(principal),
           body_id: ResourceAllocations::AssignmentDialogComponent::BODY_ID,
           form_id: ResourceAllocations::AssignmentDialogComponent::FORM_ID,
-          form_url: project_staffing_assign_path(@project, @allocation),
+          form_url: staffing_assign_path(@project, @allocation),
           form_method: :put,
           hidden_fields: { "principal_id" => principal.id }
         )
@@ -136,34 +131,30 @@ module ::ResourceManagement
     def needs_confirmation?(principal)
       return false if params[:confirmed].present?
 
-      overbooked_ranges(principal).any?
+      overbooking(principal)&.overbooked?
     end
 
-    def overbooked_ranges(principal)
-      @overbooked_ranges ||= compute_overbooked_ranges(principal)
+    def overbooking(principal)
+      return unless UserWorkingHours.for_user(principal).exists?
+      return if @allocation.allocated_time.to_i <= 0
+
+      @overbooking ||= availability(principal).overbooking_with(@allocation)
     end
 
-    def compute_overbooked_ranges(principal)
-      return [] unless UserWorkingHours.for_user(principal).exists?
-      return [] if @allocation.allocated_time.to_i <= 0
-
-      ResourceAllocations::Availability.new(user: principal).overbooking_with(
-        start_date: @allocation.start_date,
-        end_date: @allocation.end_date,
-        minutes: @allocation.allocated_time,
-        work_package_id: @allocation.entity_id,
-        exclude_id: @allocation.id
-      )
+    def working_schedules(principal)
+      span = overbooking(principal).period || (@allocation.start_date..@allocation.end_date)
+      UserWorkingHours.for_user(principal).effective_within(span)
     end
 
-    def working_schedules(principal, ranges)
-      return [] if ranges.empty?
-
-      span = ranges.map(&:start_date).min..ranges.map(&:end_date).max
-      ResourceAllocations::Availability.new(user: principal).working_schedules(span)
+    def availability(principal)
+      @availability ||= ResourceAllocations::Availability.new(user: principal)
     end
 
     def list_component
+      @project ? project_list_component : global_list_component
+    end
+
+    def project_list_component
       allocations = assignable_allocations
       ResourceAllocations::AssignmentListComponent.new(
         project: @project,
@@ -172,12 +163,32 @@ module ::ResourceManagement
       )
     end
 
+    # Every project the user may staff in gets a section, including the ones with
+    # nothing to do — an absent project reads as "nothing here" rather than
+    # "you cannot see it".
+    def global_list_component
+      allocations = assignable_allocations.to_a
+      by_project = allocations.group_by { |allocation| allocation.entity&.project_id }
+
+      ResourceAllocations::GlobalAssignmentListComponent.new(
+        sections: staffable_projects.map { |project| [project, by_project.fetch(project.id, [])] },
+        visible_work_package_ids: visible_work_package_ids(allocations)
+      )
+    end
+
+    def staffable_projects
+      @staffable_projects ||=
+        Project.allowed_to(current_user, :assign_users_to_generic_allocations).sort_by(&:lft)
+    end
+
     def assignable_scope
-      ResourceAllocation.for_project(@project).needs_principal_assignment
+      scope = @project ? ResourceAllocation.for_project(@project) : ResourceAllocation.for_projects(staffable_projects)
+
+      scope.needs_principal_assignment
     end
 
     def assignable_allocations
-      assignable_scope.includes(:entity).order(:start_date)
+      assignable_scope.includes(:entity, placeholder_user: :placeholder_user_detail).order(:start_date)
     end
 
     def visible_work_package_ids(allocations)
@@ -185,13 +196,14 @@ module ::ResourceManagement
       WorkPackage.visible(current_user).where(id: ids).pluck(:id).to_set
     end
 
-    # Project members the stored filter selects.
+    # Members of the allocation's own project that the stored filter selects —
+    # which on the global page differs from row to row.
     def candidates_for(allocation)
-      allocation.candidate_query(project: @project).results.to_a
+      allocation.candidate_query(project: allocation.project).results.to_a
     end
 
     def candidate_principal
-      User.visible(current_user).in_project(@project).find_by(id: params[:principal_id])
+      User.visible(current_user).in_project(@allocation.project).find_by(id: params[:principal_id])
     end
 
     def find_allocation

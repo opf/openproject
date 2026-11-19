@@ -1,4 +1,4 @@
-<div class="op-rm-timeline-bar">
+<div class="op-rm-timeline-bar" id="<%= label_tooltip_id %>">
   <span class="op-rm-timeline-bar--hours"><%= hours_label %></span>
 
   <% if principal_visible? %>
@@ -10,10 +10,19 @@
           name_classes: "op-rm-timeline-bar--label",
           hover_card: { active: true }
         ) %>
+    <% if job_title.present? %>
+      <span class="op-rm-timeline-bar--label color-fg-muted"><%= job_title %></span>
+    <% end %>
   <% else %>
     <%= render(Primer::Beta::Octicon.new(icon: :"person-add", size: :small)) %>
     <span class="op-rm-timeline-bar--label"><%= placeholder_label %></span>
   <% end %>
+
+  <%= render Primer::Alpha::Tooltip.new(
+        for_id: label_tooltip_id,
+        type: :description,
+        text: label_tooltip
+      ) %>
 
   <% if candidate_badge? %>
     <span class="op-rm-timeline-bar--badge">

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,11 +28,10 @@
 import { Application } from '@hotwired/stimulus';
 import { installElements } from '@openproject/stimulus-elements';
 import { ContextualActionMenu } from 'core-common/contextual-action-menu';
+import { nextFrame } from 'core-common/testing/timing';
 import type ContextualActionMenuControllerType from './contextual-action-menu.controller';
 
 describe('Contextual action menu controller', () => {
-  const nextFrame = () => new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-
   let application:Application;
   let fixture:HTMLElement;
   let ContextualActionMenuController:typeof ContextualActionMenuControllerType;
@@ -260,7 +258,7 @@ describe('Contextual action menu controller', () => {
   // and then opening a popover mid-gesture leaves a tablet user with nothing
   // at all — the trailing pointerup light-dismisses the popover, and the
   // native menu has already been prevented. AGILE-348 covers mouse and
-  // keyboard; touch keeps today's behaviour untouched.
+  // keyboard; touch keeps today's behavior untouched.
   it('leaves the native long-press menu alone for touch', async () => {
     const { card, overlay } = renderCard();
     await nextFrame();
@@ -410,10 +408,10 @@ describe('Contextual action menu controller', () => {
     await nextFrame();
 
     keydown(card, 'F10', { shiftKey: true });
-    rightClickPress(card, { clientX: 300, clientY: 400 });
+    rightClickPress(card, { clientX: 120, clientY: 240 });
     pointerRelease(card);
 
-    expect(pointerOffsetOf(overlay)).toBeCloseTo(300 - card.getBoundingClientRect().left, 0);
+    expect(pointerOffsetOf(overlay)).toBeCloseTo(120 - card.getBoundingClientRect().left, 0);
     expect((overlay as unknown as { anchorElement:HTMLElement|null }).anchorElement).toBe(card);
   });
 
@@ -461,6 +459,25 @@ describe('Contextual action menu controller', () => {
     keydown(card, 'ContextMenu');
 
     expect(origins).toEqual(['pointer', 'keyboard']);
+  });
+
+  it.each([
+    ['a right-click', (card:HTMLElement) => { rightClickPress(card); pointerRelease(); }],
+    ['the Context Menu key', (card:HTMLElement) => { keydown(card, 'ContextMenu'); }],
+    ['Shift+F10', (card:HTMLElement) => { keydown(card, 'F10', { shiftKey: true }); }],
+  ])('announces %s once, before the menu popover begins to open', async (_label, invoke) => {
+    const { card, overlay } = renderCard();
+    await nextFrame();
+
+    const sequence:string[] = [];
+    card.addEventListener('contextual-action-menu:beforeOpen', () => sequence.push('beforeOpen'));
+    overlay.addEventListener('beforetoggle', (event) => {
+      sequence.push(`beforetoggle:${event.newState}`);
+    });
+
+    invoke(card);
+
+    expect(sequence).toEqual(['beforeOpen', 'beforetoggle:open']);
   });
 
   it('leaves the native context menu alone when the card has no action menu', async () => {
@@ -673,7 +690,7 @@ describe('Contextual action menu controller', () => {
     expectAnchoredAtInvoker(overlay);
   });
 
-  // Not every release is reported as a pointer event: a gesture synthesised
+  // Not every release is reported as a pointer event: a gesture synthesized
   // by a driver or by other page code may only produce the mouse one, and
   // the menu still has to open from it.
   it('opens on a mouseup when the release brings no pointerup', async () => {

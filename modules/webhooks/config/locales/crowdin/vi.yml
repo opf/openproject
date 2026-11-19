@@ -62,7 +62,7 @@ vi:
       label_add_new: Thêm webhook mới
       label_edit: Chỉnh sửa webhook
       label_x_events:
-        one: 1 sự kiện
+        one: "%{count} event"
         other: "%{count} sự kiện"
         zero: Không có sự kiện
       no_results_table: Chưa có webhook nào được xác định.

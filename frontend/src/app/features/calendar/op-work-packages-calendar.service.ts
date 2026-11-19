@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -31,7 +30,6 @@ import {
   CalendarOptions,
   DatesSetArg,
   DayCellContentArg,
-  DayCellMountArg,
   DayHeaderContentArg,
   EventApi,
   EventDropArg,
@@ -45,6 +43,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { firstValueFrom, Observable } from 'rxjs';
 import {
@@ -84,7 +83,7 @@ import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-p
 import {
   WorkPackageViewContextMenu,
 } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-view-context-menu.directive';
-import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { OpActionMenuService } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.service';
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { IDay } from 'core-app/core/state/days/day.model';
@@ -94,11 +93,6 @@ import allLocales from '@fullcalendar/core/locales-all';
 export interface CalendarViewEvent {
   el:HTMLElement;
   event:EventApi;
-}
-
-// The CalenderOptions typings are missing daygrid hooks
-interface CalendarOptionsWithDayGrid extends CalendarOptions {
-  dayGridClassNames:(data:DayCellMountArg) => void;
 }
 
 @Injectable()
@@ -118,9 +112,11 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
   readonly halResourceService = inject(HalResourceService);
   readonly timezoneService = inject(TimezoneService);
   readonly pathHelper = inject(PathHelperService);
+
+  readonly urlParamsService = inject(UrlParamsService);
   readonly halEditing = inject(HalResourceEditingService);
   readonly wpTableSelection = inject(WorkPackageViewSelectionService);
-  readonly contextMenuService = inject(OPContextMenuService);
+  readonly actionMenuService = inject(OpActionMenuService);
   readonly calendarService = inject(OpCalendarService);
   readonly weekdayService = inject(WeekdayService);
   readonly dayService = inject(DayResourceService);
@@ -305,7 +301,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
   }
 
   public openSplitView(id:string, onlyWhenOpen = false):void {
-    this.wpTableSelection.setSelection(id, -1);
+    this.wpTableSelection.replaceSelection(id);
 
     // Only open the split view if already open, otherwise only clicking the details opens
     if (onlyWhenOpen && !window.location.pathname.includes('/details/')) {
@@ -320,7 +316,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
   }
 
   private visitSplitViewLink(id:string, extraParams?:Record<string, string>):void {
-    const basePath = window.location.pathname.replace(/\/details\/.*$/, '');
+    const basePath = this.urlParamsService.basePathWithoutDetails();
     const params = new URLSearchParams(window.location.search);
     if (extraParams) {
       Object.entries(extraParams).forEach(([key, value]) => params.set(key, value));
@@ -329,11 +325,11 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
   }
 
   public openFullView(id:string):void {
-    this.wpTableSelection.setSelection(id, -1);
+    this.wpTableSelection.replaceSelection(id);
     Turbo.visit(this.pathHelper.workPackagePath(resolveRoutingId(this.states, id)));
   }
 
-  public onCardClicked({ workPackageId, event }:{ workPackageId:string, event:MouseEvent }):void {
+  public onCardClicked({ workPackageId, event }:{ workPackageId:string, event:MouseEvent|KeyboardEvent }):void {
     if (isClickedWithModifier(event)) {
       return;
     }
@@ -350,10 +346,6 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
   }
 
   public showEventContextMenu({ workPackageId, event }:{ workPackageId:string, event:MouseEvent }):void {
-    if (isClickedWithModifier(event)) {
-      return;
-    }
-
     // We want to keep the original context menu on hrefs
     // (currently, this is only the id)
     if ((event.target as HTMLElement).closest(`.${uiStateLinkClass}`)) {
@@ -362,15 +354,15 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
     }
 
     // Set the selection to single
-    this.wpTableSelection.setSelection(workPackageId, -1);
+    this.wpTableSelection.replaceSelection(workPackageId);
 
     event.preventDefault();
 
     const handler = new WorkPackageViewContextMenu(this.injector, workPackageId, event.target as HTMLElement);
-    this.contextMenuService.show(handler, event);
+    this.actionMenuService.show(handler, event);
   }
 
-  private defaultOptions():CalendarOptionsWithDayGrid {
+  private defaultOptions():CalendarOptions {
     return {
       editable: false,
       locales: allLocales,
@@ -389,7 +381,6 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
       datesSet: (dates) => this.updateDateParam(dates),
       dayHeaderClassNames: (data:DayHeaderContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkingDays),
       dayCellClassNames: (data:DayCellContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkingDays),
-      dayGridClassNames: (data:DayCellContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkingDays),
       slotLaneClassNames: (data:SlotLaneContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkingDays),
       slotLabelClassNames: (data:SlotLabelContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkingDays),
       dayHeaderContent: (data:DayHeaderContentArg) => this.calendarService.dayHeaderContent(data),
@@ -419,8 +410,8 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
   }
 
   private get initializingWithQueryProps():boolean {
-    // Initialise with current query props
-    // If the filters are empty, they still need to be initialised (with empty props)
+    // Initialize with current query props
+    // If the filters are empty, they still need to be initialized (with empty props)
     return (this.areFiltersEmpty || this.urlParams.query_props) as boolean;
   }
 

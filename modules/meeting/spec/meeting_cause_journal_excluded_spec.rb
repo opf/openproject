@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -110,8 +109,16 @@ RSpec.describe "Meeting cause journal excluded locations", type: :model do
       controller
     end
 
-    it "refuses to load a meeting cause journal" do
+    it "loads a meeting cause journal whose meeting is visible" do
       controller = find_journal(meeting_journal.id, author)
+
+      expect(controller).not_to have_received(:respond_with_error)
+      expect(controller.instance_variable_get(:@journal)).to eq(meeting_journal)
+    end
+
+    it "refuses to load a meeting cause journal whose meeting is not visible" do
+      user_without_meetings = create(:user, member_with_permissions: { project => %i[view_work_packages] })
+      controller = find_journal(meeting_journal.id, user_without_meetings)
 
       expect(controller).to have_received(:respond_with_error)
       expect(controller.instance_variable_get(:@journal)).to be_nil

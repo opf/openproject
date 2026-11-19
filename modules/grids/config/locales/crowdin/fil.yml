@@ -31,7 +31,7 @@ fil:
         title: Members
         view_all_members: Tingnan ang lahat na mga miyembro
         x_more:
-          one: and one more member.
+          one: and %{count} more member.
           other: and %{count} more members.
       news:
         no_results: Walang bago para ireport.

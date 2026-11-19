@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -31,9 +30,9 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
-import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
-import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
+
+const DAYS_OPERATORS = ['<t+', '>t+', 't+', '<t-', '>t-', 't-'];
 
 @Component({
   selector: 'op-filter-integer-value',
@@ -46,7 +45,6 @@ import { QueryFilterResource } from 'core-app/features/hal/resources/query-filte
 })
 export class FilterIntegerValueComponent extends UntilDestroyedMixin {
   readonly I18n = inject(I18nService);
-  readonly schemaCache = inject(SchemaCacheService);
 
   @Input() public shouldFocus = false;
 
@@ -69,18 +67,6 @@ export class FilterIntegerValueComponent extends UntilDestroyedMixin {
   }
 
   public get unit() {
-    switch ((this.schema.filter.allowedValues as QueryFilterResource[])[0].id) {
-      case 'startDate':
-      case 'dueDate':
-      case 'updatedAt':
-      case 'createdAt':
-        return this.I18n.t('js.work_packages.time_relative.days');
-      default:
-        return '';
-    }
-  }
-
-  private get schema() {
-    return this.schemaCache.of(this.filter);
+    return DAYS_OPERATORS.includes(this.filter.operator?.id) ? this.I18n.t('js.work_packages.time_relative.days') : '';
   }
 }

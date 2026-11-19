@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -40,11 +39,11 @@ import { UrlParamsHelperService } from 'core-app/features/work-packages/componen
 import { WorkPackagesViewBase } from 'core-app/features/work-packages/routing/wp-view-base/work-packages-view.base';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { firstValueFrom } from 'rxjs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 @Directive()
 export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewBase implements AfterViewInit, OnInit, OnChanges {
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('configuration') protected providedConfiguration:WorkPackageTableConfigurationObject;
 
   @Input() public uniqueEmbeddedTableName = `embedded-table-${Date.now()}`;
@@ -113,26 +112,30 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
     this.cdRef.detectChanges();
   }
 
-  public refresh(visible = true, firstPage = false):Promise<any> {
+  public refresh(visible = true, firstPage = false):void {
     const query = this.querySpace.query.value!;
     const pagination = this.wpTablePagination.paginationObject;
 
-    if (firstPage) {
+    if (this.returningToFirstPage(firstPage)) {
       pagination.offset = 1;
     }
 
     const params = this.urlParamsHelper.buildV3GetQueryFromQueryResource(query, pagination) as object;
-    const promise = firstValueFrom(
+    const applied = this.reloads.apply(
       this
         .wpListService
         .loadQueryFromExisting(query, params, this.queryProjectScope),
-    )
-      .then((updated) => this.wpStatesInitialization.updateQuerySpace(updated, updated.results));
+      (updated) => {
+        this.reloadApplied();
+        this.wpStatesInitialization.updateQuerySpace(updated, updated.results);
+      },
+    );
 
     if (visible) {
-      this.loadingIndicator = promise;
+      this.loadingIndicator = applied;
+    } else {
+      void applied;
     }
-    return promise;
   }
 
   public get isInitialized() {
@@ -145,6 +148,12 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
         .indicator(this.uniqueEmbeddedTableName)
         .promise = promise;
     }
+  }
+
+  protected get loadingIndicatorElement():HTMLElement|null {
+    if (!this.configuration.tableVisible) return null;
+
+    return this.loadingIndicatorService.indicator(this.uniqueEmbeddedTableName).indicator;
   }
 
   public abstract loadQuery(visible:boolean, firstPage:boolean):Promise<QueryResource|undefined>;
