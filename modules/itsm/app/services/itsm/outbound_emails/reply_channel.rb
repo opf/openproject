@@ -45,7 +45,7 @@ module ITSM
       def deliver(journal)
         return unless available?(work_package: journal.journable, user: journal.user)
 
-        SendReplyService.new(journal:).call
+        SendReplyJob.perform_later(journal)
       end
 
       def delivered?(journal)
@@ -58,6 +58,7 @@ module ITSM
         RequestStore.fetch(:"itsm_replied_journal_ids_#{work_package_id}") do
           EmailMessage
             .outbound
+            .sent
             .joins(:thread)
             .where(itsm_email_threads: { work_package_id: })
             .where.not(journal_id: nil)

@@ -80,6 +80,29 @@ RSpec.describe ITSM::SmtpDelivery do
       end
     end
 
+    context "with the default headers of every email" do
+      let(:mail) { Mail.new.tap { Interceptors::DefaultHeaders.delivering_email(it) } }
+
+      it "keeps them" do
+        delivery.deliver!(mail)
+
+        expect(mail["Auto-Submitted"].value).to eq("auto-generated")
+        expect(mail["Precedence"].value).to eq("bulk")
+      end
+    end
+
+    context "with an email marked as not automatic" do
+      let(:mail) { Mail.new("Auto-Submitted" => "no").tap { Interceptors::DefaultHeaders.delivering_email(it) } }
+
+      it "sends it without the default headers that mark it automatic" do
+        delivery.deliver!(mail)
+
+        expect(mail.header.fields.select { it.name == "Auto-Submitted" }.map(&:value)).to eq(["no"])
+        expect(mail["Precedence"]).to be_nil
+        expect(mail["X-Mailer"].value).to eq("OpenProject")
+      end
+    end
+
     context "when every address refuses the connection" do
       let(:refusing) { addresses }
 

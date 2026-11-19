@@ -88,6 +88,20 @@ RSpec.describe ITSM::OutboundEmails::SendConfirmationService do
     end
   end
 
+  context "when a comment was already sent to the requester as a reply" do
+    let(:journal) { create(:work_package_journal, journable: work_package, version: 2) }
+    let!(:reply) do
+      create(:itsm_email_message, thread:, journal:, direction: "outbound", status: "sent",
+                                  from_address: "support@example.com", to_addresses: ["requester@customer.example"])
+    end
+
+    it "sends the confirmation as an email of its own" do
+      expect(result).to be_success
+      expect(sent_message).not_to eq(reply)
+      expect(delivered.message_id).to eq(sent_message.message_id)
+    end
+  end
+
   context "when an earlier confirmation could not be sent" do
     let!(:failed_confirmation) do
       create(:itsm_email_message, thread:, direction: "outbound", status: "failed", from_address: "support@example.com")

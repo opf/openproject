@@ -29,42 +29,18 @@
 
 module ITSM
   module OutboundEmails
-    # Mock: records the reply for the requester and all recipients without sending an email.
-    # The delivery replaces it in ITSM-55: https://community.openproject.org/wp/ITSM-55
-    class SendReplyService
-      def initialize(journal:)
-        @journal = journal
-      end
-
-      def call
-        message = thread.messages.create(journal:, **message_attributes)
-
-        ServiceResult.new(success: message.persisted?, result: message, errors: message.errors)
-      end
-
+    class SendReplyService < SendEmailService
       private
 
-      attr_reader :journal
+      def journal = params[:journal]
 
-      def thread
-        @thread ||= EmailThread.find_by!(work_package: journal.journable)
-      end
+      def thread = @thread ||= EmailThread.find_by!(work_package_id: journal.journable_id)
 
-      def mailbox
-        @mailbox ||= thread.work_package.project.helpdesk_outgoing_mailboxes.first!
-      end
+      def sent_message = thread.sent_reply(journal)
 
-      def message_attributes
-        {
-          direction: :outbound,
-          status: :queued,
-          message_id: "#{SecureRandom.uuid}@#{mailbox.sender_email.split('@').last}",
-          from_address: mailbox.sender_email,
-          from_name: mailbox.sender_name,
-          to_addresses: [thread.requester_email],
-          cc_addresses: thread.recipients
-        }
-      end
+      def unsent_message = thread.unsent_reply(journal)
+
+      def build_email(message, mailbox, addresses) = HelpdeskMailer.reply(message, mailbox, addresses)
     end
   end
 end

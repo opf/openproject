@@ -79,6 +79,16 @@ RSpec.describe ITSM::EmailThread do
         expect(thread.sent_confirmation).to eq(first_sent)
       end
     end
+
+    context "with a comment sent as a reply" do
+      let(:journal) { create(:work_package_journal, journable: work_package, version: 2) }
+
+      before { create(:itsm_email_message, thread:, journal:, direction: "outbound", status: "sent") }
+
+      it "is nothing" do
+        expect(thread.sent_confirmation).to be_nil
+      end
+    end
   end
 
   describe "#unsent_confirmation" do
@@ -94,6 +104,53 @@ RSpec.describe ITSM::EmailThread do
 
       it "is that email" do
         expect(thread.unsent_confirmation).to eq(failed)
+      end
+    end
+
+    context "with a reply that was not sent" do
+      let(:journal) { create(:work_package_journal, journable: work_package, version: 2) }
+
+      before { create(:itsm_email_message, thread:, journal:, direction: "outbound", status: "failed") }
+
+      it "is a new outbound email of the thread" do
+        expect(thread.unsent_confirmation).to be_new_record
+      end
+    end
+  end
+
+  describe "#sent_reply" do
+    let(:thread) { create(:itsm_email_thread, work_package:) }
+    let(:journal) { create(:work_package_journal, journable: work_package, version: 2) }
+    let!(:failed) { create(:itsm_email_message, thread:, journal:, direction: "outbound", status: "failed") }
+
+    it "is nothing while the comment was not sent" do
+      expect(thread.sent_reply(journal)).to be_nil
+    end
+
+    context "when the comment was sent" do
+      let!(:sent) { create(:itsm_email_message, thread:, journal:, direction: "outbound", status: "sent") }
+
+      it "is that email" do
+        expect(thread.sent_reply(journal)).to eq(sent)
+      end
+    end
+  end
+
+  describe "#unsent_reply" do
+    let(:thread) { create(:itsm_email_thread, work_package:) }
+    let(:journal) { create(:work_package_journal, journable: work_package, version: 2) }
+
+    before { create(:itsm_email_message, thread:, direction: "outbound", status: "failed") }
+
+    it "is a new outbound email for the comment" do
+      expect(thread.unsent_reply(journal)).to be_new_record.and have_attributes(thread:, journal:, direction: "outbound")
+    end
+
+    context "with an email for the comment that was not sent" do
+      let!(:failed) { create(:itsm_email_message, thread:, journal:, direction: "outbound", status: "failed") }
+
+      it "is that email" do
+        expect(thread.unsent_reply(journal)).to eq(failed)
       end
     end
   end
