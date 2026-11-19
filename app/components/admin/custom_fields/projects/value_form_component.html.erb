@@ -26,29 +26,30 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), "#{CustomField.model_name.human} #{h @custom_field.name}", @configured_project.name %>
-
 <%=
-  render(
-    Admin::CustomFields::EditFormHeaderComponent.new(
-      custom_field: @custom_field,
-      selected: :projects,
-      section_label:,
-      page_title: custom_field_page_title,
-      project: @configured_project
-    )
-  )
-%>
+  component_wrapper do
+    primer_form_with(**form_arguments) do |f|
+      component_collection do |collection|
+        collection.with_component(Primer::Alpha::Dialog::Body.new) do
+          render(::CustomFields::ProjectSpecificValues::ValueForm.new(f, custom_field:, project:, value:, values:, errors:))
+        end
 
-<%=
-  render(Primer::Alpha::Banner.new(scheme: :default, icon: :info, mb: 3)) do
-    link_translate(
-      "custom_fields.admin.projects.editing_values_notice",
-      i18n_args: { project: @configured_project.name },
-      links: { project_url: project_path(@configured_project) },
-      external: false
-    )
+        collection.with_component(Primer::Alpha::Dialog::Footer.new) do
+          component_collection do |footer|
+            footer.with_component(
+              Primer::Beta::Button.new(
+                data: { close_dialog_id: Admin::CustomFields::Projects::ValueDialogComponent::DIALOG_ID }
+              )
+            ) do
+              t(:button_cancel)
+            end
+
+            footer.with_component(Primer::Beta::Button.new(scheme: :primary, type: :submit)) do
+              submit_label
+            end
+          end
+        end
+      end
+    end
   end
 %>
-
-<%= render(Admin::CustomFields::Projects::ValuesComponent.new(custom_field: @custom_field, project: @configured_project)) %>

@@ -92,21 +92,14 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
   <% end %>
 
-  <%= render(Primer::OpenProject::InsetBox.new(mb: 3)) do |box| %>
-    <% box.with_title_icon(icon: :info) %>
-    <% box.with_title(tag: :h3) { t("custom_fields.admin.projects.changes_heading") } %>
-    <% box.with_action_button(
-         tag: :a,
-         href: OpenProject::Static::Links.url_for(:sysadmin_docs, :form_configuration),
-         target: "_blank",
-         rel: "noopener",
-         data: { allow_external_link: true }
-       ) do |button|
-         button.with_trailing_visual_icon(icon: :"link-external")
-         t(:label_learn_more)
-       end %>
-
-    <%= render(Primer::Beta::Text.new(tag: :p, mb: 0)) { t("custom_fields.admin.projects.changes_text") } %>
+  <% if !@custom_field.allow_additional_project_values? && @custom_field.project_value_counts.any? %>
+    <%= render(Primer::Alpha::Banner.new(scheme: :warning, icon: :alert, mb: 3)) do %>
+      <%= t("custom_fields.admin.projects.additional_values_disabled_notice") %>
+    <% end %>
+  <% elsif @custom_field.project_level_value_management? || @custom_field.allow_additional_project_values? %>
+    <%= render(Primer::Alpha::Banner.new(scheme: :default, icon: :info, mb: 3)) do %>
+      <%= t("custom_fields.admin.projects.project_admins_manage_notice") %>
+    <% end %>
   <% end %>
 
   <%=
