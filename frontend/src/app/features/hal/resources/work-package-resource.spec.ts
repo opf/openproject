@@ -41,6 +41,8 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { AttachmentCollectionResource } from 'core-app/features/hal/resources/attachment-collection-resource';
 import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
+import { UserResource } from 'core-app/features/hal/resources/user-resource';
+import { initializeHalResourceConfig } from 'core-app/features/hal/services/hal-resource.config';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
@@ -56,7 +58,7 @@ describe('WorkPackage', () => {
   let workPackage:WorkPackageResource;
 
   const createWorkPackage = () => {
-    source = source || { id: 'new' };
+    source = source ?? { id: 'new' };
     workPackage = halResourceService.createHalResourceOfType('WorkPackage', { ...source });
   };
 
@@ -107,6 +109,35 @@ describe('WorkPackage', () => {
 
     it('should return true for `isNewResource`', () => {
       expect(isNewResource(workPackage)).toBeTruthy();
+    });
+  });
+
+  describe('single-view metadata', () => {
+    afterEach(() => { source = undefined; });
+
+    it('keeps the API timestamp as an ISO string', () => {
+      source = { id: 42, updatedAt: '2026-10-29T09:30:00Z' };
+      createWorkPackage();
+
+      expect(workPackage.updatedAt).toBe('2026-10-29T09:30:00Z');
+    });
+
+    it('builds an embedded author as a user resource', () => {
+      source = { id: 42, _embedded: { author: { _type: 'User', id: 7, name: 'Author' } } };
+      createWorkPackage();
+
+      expect(workPackage.author).toBeInstanceOf(UserResource);
+      expect(workPackage.author.id).toBe('7');
+    });
+
+    it('builds a linked author as a user resource using the production mapping', () => {
+      initializeHalResourceConfig(halResourceService)();
+      source = { id: 42, _links: { author: { href: '/api/v3/users/7', title: 'Author' } } };
+      createWorkPackage();
+
+      expect(workPackage.author).toBeInstanceOf(UserResource);
+      expect(workPackage.author.id).toBe('7');
+      expect(workPackage.author.name).toBe('Author');
     });
   });
 
@@ -235,6 +266,44 @@ describe('WorkPackage', () => {
       createWorkPackage();
 
       expect(workPackage.subjectWithId()).toEqual('New task');
+    });
+
+    describe('when the subject needs truncating', () => {
+      const subject = 'Fix the very long bug in the board header';
+
+      it('should fit the subject and numeric id within the given length', () => {
+        source = { id: 42, displayId: '42', subject };
+        createWorkPackage();
+
+        const result = workPackage.subjectWithId(30);
+
+        expect(result).toEqual('Fix the very long bug… (#42)');
+        expect(result.length).toBeLessThanOrEqual(30);
+      });
+
+      it('should account for a longer semantic id', () => {
+        source = { id: 42, displayId: 'PROJ-7', subject };
+        createWorkPackage();
+
+        const result = workPackage.subjectWithId(30);
+
+        expect(result).toEqual('Fix the very long… (PROJ-7)');
+        expect(result.length).toBeLessThanOrEqual(30);
+      });
+
+      it('should cut within a word when the subject has no whitespace', () => {
+        source = { id: 42, displayId: '42', subject: 'Supercalifragilisticexpialidocious' };
+        createWorkPackage();
+
+        expect(workPackage.subjectWithId(20)).toEqual('Supercalifrag… (#42)');
+      });
+
+      it('should not truncate when the length is 0', () => {
+        source = { id: 42, displayId: '42', subject };
+        createWorkPackage();
+
+        expect(workPackage.subjectWithId(0)).toEqual(`${subject} (#42)`);
+      });
     });
   });
 

@@ -510,7 +510,7 @@ pl:
     oauth_grant_nudge_modal:
       cancel_button_label: Zrobię to później
       heading: Logowanie do %{provider_type} jest wymagane
-      login_button_aria_label: Zaloguj się do %{storage}
+      login_button_accessible_name: "%{provider_type} log in to %{storage}"
       login_button_label: Zaloguj się do %{provider_type}
       project_settings:
         description: Aby uzyskać dostęp do folderu projektu, musisz zalogować się do %{storage}.

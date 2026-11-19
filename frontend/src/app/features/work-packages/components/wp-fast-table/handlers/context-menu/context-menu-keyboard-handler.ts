@@ -74,8 +74,8 @@ export class ContextMenuKeyboardHandler extends ContextMenuHandler {
       component.workPackageTable,
       evt,
       row,
-      // Set position args to open at element
-      { placement: 'bottom-start', reference: target }
+      { placement: 'bottom-start', reference: target },
+      { anchor: target, align: 'start' },
     );
     this.noteKeyboardOpen(component.workPackageTable, row);
 

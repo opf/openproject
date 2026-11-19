@@ -22,7 +22,7 @@ This guide sets out to provide an introduction to the PM² Project Management Me
 
 - a common vocabulary (glossary) which makes it easier for project teams to communicate and apply project management concepts
 - best practices-it is up to the Project Managers (PMs) and project teams to choose the PM² practices that will bring most value to their projects
-- links to PM² resources (online resources, Artifact templates and examples)
+- links to PM² resources (online resources, Artefact templates and examples)
 - an introduction to other PM² models, such as PM²-Agile, PM²-PgM (for Programme Management) and PM²-PfM (for Portfolio Management).
 
 This guide can be read from beginning to end, to learn about the methodology, or it can be used as a reference, to help you as you practise PM².
@@ -37,8 +37,8 @@ PM² incorporates elements from a wide range of globally accepted project manage
 
 - a project governance structure
 - process guidelines
-- artifact templates
-- guidelines for using the artifacts
+- artefact templates
+- guidelines for using the artefacts
 - a set of effective mindsets.
 
 **PM² improves the effectiveness of project management by:**

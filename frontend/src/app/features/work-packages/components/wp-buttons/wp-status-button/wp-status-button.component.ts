@@ -27,7 +27,9 @@
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation, inject,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -39,6 +41,7 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
   selector: 'wp-status-button',
   styleUrls: ['./wp-status-button.component.sass'],
   templateUrl: './wp-status-button.html',
+  encapsulation: ViewEncapsulation.None,
   standalone: false,
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
@@ -56,7 +59,7 @@ export class WorkPackageStatusButtonComponent extends UntilDestroyedMixin implem
   @Input() public small = false;
 
   public text = {
-    explanation: this.I18n.t('js.label_edit_status'),
+    status: this.I18n.t('js.work_packages.properties.status'),
     workPackageReadOnly: this.I18n.t('js.work_packages.message_work_package_read_only'),
     workPackageStatusBlocked: this.I18n.t('js.work_packages.message_work_package_status_blocked'),
   };
@@ -79,13 +82,13 @@ export class WorkPackageStatusButtonComponent extends UntilDestroyedMixin implem
       });
   }
 
-  public get buttonTitle() {
+  public get disabledReason():string|null {
     if (this.schema.isReadonly) {
       return this.text.workPackageReadOnly;
     } if (this.schema.isEditable && !this.allowed) {
       return this.text.workPackageStatusBlocked;
     }
-    return '';
+    return null;
   }
 
   public get statusHighlightClass() {
@@ -100,8 +103,8 @@ export class WorkPackageStatusButtonComponent extends UntilDestroyedMixin implem
     return this.workPackage.status;
   }
 
-  public get isReadonly() {
-    return this.schema.isReadonly;
+  public get isReadonly():boolean {
+    return (this.status.isReadonly as boolean|undefined) ?? !!this.schema.isReadonly;
   }
 
   public get allowed() {

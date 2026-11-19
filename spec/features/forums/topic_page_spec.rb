@@ -83,7 +83,7 @@ RSpec.describe "Forum topic page", :js do
       show_page.expect_no_gap
       expect(page).to have_css("[data-test-selector^='forum-post-']", count: 46)
 
-      expect(page.current_url).to eq(url)
+      expect(page).to have_current_path(url)
     end
 
     it "highlights a hidden reply a link points to" do

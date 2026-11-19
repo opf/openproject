@@ -66,5 +66,10 @@ module Projects::Copy
             .pluck(:id)
             .index_with { |id| id }
     end
+
+    # The origin identifies the imported sprint eg. from Jira, so only the source may keep it.
+    def copyable_attributes(source_record)
+      super.except(*Sprints::Origin::ATTRIBUTES)
+    end
   end
 end

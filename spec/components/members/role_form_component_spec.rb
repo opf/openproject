@@ -47,7 +47,7 @@ RSpec.describe Members::RoleFormComponent, type: :component do
   end
 
   let(:form) do
-    page.first("form.toggle-item-class-name", visible: false).tap do |form|
+    page.first("form.toggle-item-class-name", visible: :all).tap do |form|
       form.native["style"] = ""
     end
   end

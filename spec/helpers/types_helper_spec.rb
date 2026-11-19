@@ -182,12 +182,30 @@ RSpec.describe TypesHelper do
       end
 
       context "with a query group" do
+        current_user { create(:admin) }
+
         let(:query) { create(:query) }
 
         before do
           allow(variant)
             .to receive(:attribute_groups)
             .and_return [Type::QueryGroup.new(variant, "Related", query)]
+        end
+
+        it "preserves unavailable values before sanitizing editor props" do
+          project = create(:project)
+          archived = create(:project)
+          query.add_filter("project_id", "=", [project.id.to_s, archived.id.to_s])
+          query.save!
+          archived.update!(active: false)
+          group = subject.first
+          expect(group[:query_summary].flat_map { it[:values] }.join).to include("Unavailable value")
+          editor_filter = JSON.parse(JSON.parse(group[:query]).fetch("filters")).find { it.key?("project") }
+          expect(editor_filter.fetch("project").fetch("values")).to eq([project.id.to_s])
+          expect(query.filters.find { it.name == :project_id }.values).to include(archived.id.to_s)
+          repeated_group = helper.form_configuration_groups(variant)[:actives].first
+          expect(repeated_group[:query_summary]).to eq(group[:query_summary])
+          expect(query.reload.filters.find { it.name == :project_id }.values).to include(archived.id.to_s)
         end
 
         it "carries the query key the group is excluded by" do
@@ -206,6 +224,7 @@ RSpec.describe TypesHelper do
           expect { subject }.not_to raise_error
           expect(subject.first[:element_key]).to be_nil
           expect(subject.first[:query]).to be_nil
+          expect(subject.first[:query_summary]).to eq([{ label: "Configuration", values: ["Configuration unavailable"] }])
         end
       end
     end

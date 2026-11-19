@@ -83,6 +83,14 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
   describe "GET /admin/llm_feature_bindings" do
     before { login_as admin }
 
+    it "shows the shared header description" do
+      create(:llm_connection, :with_models, base_url:)
+
+      get llm_feature_bindings_path
+
+      expect(response.body).to include(I18n.t("admin.llm_connections.header_description"))
+    end
+
     it "sends the administrator to the settings while no connection is stored" do
       get llm_feature_bindings_path
 
@@ -107,8 +115,23 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
 
         expect(response).to have_http_status(:ok)
         expect(response.body).to include("Feature configuration")
-        expect(response.body).to include("Description assistant")
+        expect(response.body).to include("Text assistant")
         expect(response.body).to include("Semantic search")
+      end
+
+      it "links the text actions in the caption when they are active",
+         with_flag: { llm_connection: true, ai_text_actions: true } do
+        get llm_feature_bindings_path
+
+        expect(page).to have_link("text actions", href: admin_text_actions_path)
+      end
+
+      it "names the text actions without a link when they are inactive",
+         with_flag: { llm_connection: true, ai_text_actions: false } do
+        get llm_feature_bindings_path
+
+        expect(page).to have_text("Runs the text actions users apply to work package descriptions")
+        expect(page).to have_no_link("text actions")
       end
 
       # Semantic search is registered but not built, so it carries a flag of its
@@ -118,7 +141,7 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
         get llm_feature_bindings_path
 
         expect(response).to have_http_status(:ok)
-        expect(response.body).to include("Description assistant")
+        expect(response.body).to include("Text assistant")
         expect(response.body).not_to include("Semantic search")
       end
 
@@ -130,11 +153,13 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
         expect(page).to have_css("[data-test-selector='llm-settings--tabs'] a[href='#{llm_feature_bindings_path}']")
       end
 
-      it "points at the page where the default models are chosen" do
+      it "labels the model options with the model name and submits the external id" do
+        connection.models.find_by!(external_id: "qwen3.6-27b").update!(display_name: "Qwen 3.6")
+
         get llm_feature_bindings_path
 
-        expect(response.body).to include("use the default models set on the")
-        expect(response.body).to include(llm_models_path)
+        items = page.find("form[action='#{llm_feature_binding_path(:description_assistant)}'] opce-autocompleter")["data-items"]
+        expect(JSON.parse(items)).to include(a_hash_including("id" => "qwen3.6-27b", "name" => "Qwen 3.6"))
       end
 
       it "names the default model a feature inherits" do
@@ -147,33 +172,25 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
         expect(response.body).to include("Use the default (Qwen 3.6)")
       end
 
-      # An unconfirmed capability is not a capability: offering such a model
-      # invites a choice that fails much later, at index time.
-      it "offers an embedding feature only models known to create embeddings" do
-        create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3", capability: "embeddings",
-                                        state: "supported", source: "probe")
+      context "without pgvector" do
+        let(:warning) { "[data-test-selector='llm-feature-bindings--pgvector-unavailable']" }
 
-        get llm_feature_bindings_path
+        before { allow(OpenProject::Llm::Pgvector).to receive(:available?).and_return(false) }
 
-        expect(offered_models(:semantic_search)).to contain_exactly("bge-m3")
-        expect(offered_models(:description_assistant)).to contain_exactly("qwen3.6-27b")
-      end
+        it "warns that semantic search is unavailable" do
+          get llm_feature_bindings_path
 
-      it "says so, and where to read up on model types" do
-        get llm_feature_bindings_path
+          expect(page).to have_css(warning)
+          expect(page).to have_link(href: OpenProject::Llm::Pgvector::DOCS_URL)
+        end
 
-        expect(response.body).to include("Only models known to create embeddings are offered")
-        expect(response.body).to include("huggingface.co/blog/getting-started-with-embeddings")
-      end
+        it "does not warn when semantic search is switched off",
+           with_flag: { llm_connection: true, semantic_search: false } do
+          get llm_feature_bindings_path
 
-      # Otherwise opening the page and saving it would blank a working binding.
-      it "keeps the bound model listed once it no longer qualifies" do
-        create(:llm_feature_binding, llm_connection: connection, feature_key: "semantic_search", model_id: "qwen3.6-27b")
-
-        get llm_feature_bindings_path
-
-        expect(offered_models(:semantic_search)).to include("qwen3.6-27b")
-        expect(response.body).to include("no longer eligible for this feature")
+          expect(response.body).to include("Feature configuration")
+          expect(page).to have_no_css(warning)
+        end
       end
     end
   end
@@ -284,56 +301,6 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
       patch llm_feature_binding_path("no_such_feature"), params: { llm_feature_binding: { model_id: "x" } }
 
       expect(response).to have_http_status(:not_found)
-    end
-  end
-
-  describe "embedding settings" do
-    let!(:connection) { create(:llm_connection, :with_models, base_url:) }
-
-    before do
-      login_as admin
-      # Binding an embedding feature probes the model for a vector.
-      mock_llm_embeddings_response(base_url)
-    end
-
-    it "stores the vector size" do
-      patch llm_feature_binding_path(:semantic_search),
-            params: { llm_feature_binding: { model_id: "bge-m3", dimensions: "1024" } }
-
-      binding = connection.feature_bindings.find_by(feature_key: "semantic_search")
-
-      expect(binding.dimensions).to eq(1024)
-    end
-
-    it "rejects a dimension count that is not a positive integer" do
-      patch llm_feature_binding_path(:semantic_search),
-            params: { llm_feature_binding: { model_id: "bge-m3", dimensions: "0" } }
-
-      expect(connection.feature_bindings.find_by(feature_key: "semantic_search")&.dimensions).to be_nil
-    end
-
-    it "ignores vector settings sent to a chat feature" do
-      patch llm_feature_binding_path(:description_assistant),
-            params: { llm_feature_binding: { model_id: "qwen3.6-27b", dimensions: "1024" } }
-
-      binding = connection.feature_bindings.find_by(feature_key: "description_assistant")
-
-      expect(binding.model_id).to eq("qwen3.6-27b")
-      expect(binding.dimensions).to be_nil
-    end
-
-    # A locked binding is the record that a vector index exists. Everything the
-    # index depends on is frozen, not just the model.
-    it "refuses to change anything a locked index depends on" do
-      binding = create(:llm_feature_binding, llm_connection: connection, feature_key: "semantic_search", model_id: "bge-m3",
-                                             dimensions: 1024, locked_at: Time.current)
-
-      patch llm_feature_binding_path(:semantic_search),
-            params: { llm_feature_binding: { model_id: "qwen3.6-27b", dimensions: "512" } }
-
-      binding.reload
-      expect(binding.model_id).to eq("bge-m3")
-      expect(binding.dimensions).to eq(1024)
     end
   end
 end

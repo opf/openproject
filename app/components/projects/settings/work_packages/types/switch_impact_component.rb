@@ -38,7 +38,7 @@ module Projects
           include OpPrimer::ComponentHelpers
           include OpTurbo::Streamable
 
-          Section = Data.define(:id, :heading, :fields)
+          Section = Data.define(:id, :heading, :description, :fields)
 
           DEFAULT_COLUMNS = %w[id type subject status].freeze
 
@@ -56,9 +56,11 @@ module Projects
             [
               Section.new(id: "hidden",
                           heading: t("projects.settings.types.switch.impact.hidden_heading"),
+                          description: t("projects.settings.types.switch.impact.hidden_description"),
                           fields: impact.hidden_fields),
               Section.new(id: "new",
                           heading: t("projects.settings.types.switch.impact.new_heading"),
+                          description: t("projects.settings.types.switch.impact.new_description"),
                           fields: impact.new_fields)
             ].reject { it.fields.empty? }
           end

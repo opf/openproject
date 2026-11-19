@@ -25,9 +25,9 @@ The Monitor \& Control activities are carried out based on the processes describ
 
 - Devise, plan, propose and implement corrective actions to address existing or potential performance risks or issues, while updating the relevant project plans and logs.
 
-![Fig 9.1 Monitor & Control activities and main artifacts](09.01.png)
+![Fig 9.1 Monitor & Control activities and main artefacts](09.01.png)
 
-Monitor \& Control artifacts comprise the Project Work Plan as well as a range of Project Logs and Checklists.
+Monitor \& Control artefacts comprise the Project Work Plan as well as a range of Project Logs and Checklists.
 
 The Project Logs are regularly updated as new information becomes available (e.g. new issues can arise and new information can be added to the Issue Log).
 
@@ -117,7 +117,7 @@ Approved project changes (e.g. addition of new tasks or changes to the required 
 
 ![Fig 9.3 Control Schedule inputs/outputs and main roles](09.03.png)
 
-| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Schedule Management | Project Charter | Project Handbook Project Work Plan | Project Reports | Project Work Plan | Project-End Report |
 
@@ -161,7 +161,7 @@ Note: The project budget must have been approved by the Project Owner (PO) at th
 
 ![Fig 9.4 Control Cost inputs/outputs and main roles](09.04.png)
 
-| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Cost Management | Business Case <br> Project Charter | Project Handbook <br> Project Work Plan | Project Reports | Project Work Plan <br> Project Logs | Project-End <br> Report |
 
@@ -203,7 +203,7 @@ Responsibility for this activity belongs to the Project Manager (PM). However, a
 
 ![Fig 9.5 Manage Stakeholders inputs/outputs and main roles](09.05.png)
 
-| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Stakeholder <br> Management | Business Case <br> Project Charter | Project Stakeholder <br> Matrix <br> Communications <br> Management Plan | Project <br> Reports | Project Logs <br> Stakeholders Checklist | Project-End <br> Report |
 
@@ -236,7 +236,7 @@ The Requirements Management Process can be tailored and customized to a project'
 
 - A requirement is a capability that a product or service must have in order to satisfy a stakeholder's need(s).
 - High-level requirements may also be referred to as business requirements, and are usually initially specified in the Project Initiation Request, the Business Case and the Project Charter.
-- Adding further detail to the requirements produces lower-level requirements. These can be described in a variety of formats (e.g. text, use cases or user stories, models, business processes, sketches or graphics, etc.) and are documented in various requirements artifacts.
+- Adding further detail to the requirements produces lower-level requirements. These can be described in a variety of formats (e.g. text, use cases or user stories, models, business processes, sketches or graphics, etc.) and are documented in various requirements artefacts.
 - The agreed and approved requirements of all stakeholders constitute the project's baseline scope.
 - Any change to the baselined requirements should be made in accordance with the change management process described in the Change Management Plan.
 - For each identified requirement, there should be a corresponding test to validate its acceptance. The test should be documented in the appropriate document (Deliverable Acceptance Plan, Deliverable Acceptance Checklist or Quality Review Checklist).
@@ -245,7 +245,7 @@ The Requirements Management Process can be tailored and customized to a project'
 
 **Steps**
 
-1. Specify the requirements: Together with the project stakeholders, gather the project requirements and document them clearly in the Requirements Artifacts. Structure them by adding relevant metadata.
+1. Specify the requirements: Together with the project stakeholders, gather the project requirements and document them clearly in the Requirements Artefacts. Structure them by adding relevant metadata.
 2. Evaluate the requirements: The project team assesses the feasibility, consistency and completeness of the requirements, and estimates the effort/costs needed to implement them. The Project Manager (PM) balances the list of requirements against project constraints (budget, time, etc.) and makes a proposal to the project stakeholders.
 3. Approve the requirements: The Project Manager (PM) and key stakeholders-such as the Project Owner (PO) or Business Manager (BM)—negotiate and agree on the requirements for the project.
 4. Monitor the implementation of requirements: The Project Manager (PM) continuously monitors the Project Core Team's (PCT) implementation of the requirements, adds new requirements and changes existing ones when needed.
@@ -257,7 +257,7 @@ The Requirements Management Process can be tailored and customized to a project'
 
 ![Fig 9.6 Manage Requirements inputs/outputs and main roles](09.06.png)
 
-| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Requirements <br> Management | Project Initiation <br> Request <br> Project Charter | Requirements <br> Management Plan <br> Deliverables Acceptance <br> Plan <br> Project Stakeholder <br> Matrix | Change <br> Requests | Requirements <br> Document <br> Project Work Plan <br> Project Logs | Project-End <br> Report |
 
@@ -304,7 +304,7 @@ All stakeholders affected by the project changes should be informed and the Chan
 
 ![Fig 9.7 Manage Project Change inputs/outputs and main roles](09.07.png)
 
-| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :-- | :--: | :--: | :--: | :--: | :--: |
 | Project Change Management | Project Charter | Project Change Management Plan | Change Request Project Reports | Change Log <br> Project Work Plan | Project-End  Report |
 
@@ -349,7 +349,7 @@ The Risk Management Process can be tailored and customized to a project's needs 
 
 ![Fig 9.8: Manage Risk inputs/outputs and main roles](09.08.png)
 
-| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Risk <br> Management | Project <br> Charter | Risk Management Plan | Project Reports | Project Logs <br> Project Work Plan | Project-End Report |
 
@@ -395,7 +395,7 @@ The Project Manager (PM) manages project issues and decisions. Issues are identi
 
 ![Fig 9.9 Manage Issues and Decisions inputs/outputs and main roles](09.09.png)
 
-| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Issue Management |  | Issue Management Plan | Project Reports | Project Logs <br> Project Work Plan | Project-End Report |
 
@@ -406,7 +406,7 @@ The Project Manager (PM) manages project issues and decisions. Issues are identi
 
 ## 9.9 Manage Quality 
 
-Project quality management aims to ensure that the project will achieve the expected results in the most efficient way and that deliverables will be accepted by the relevant stakeholders. It involves overseeing all the activities needed to maintain a desired level of excellence. This includes performing quality planning, quality assurance, quality control and quality improvement throughout the project until the Closing Phase and the final acceptance of the project. Configuration management helps project stakeholders manage project artifacts and deliverables effectively by providing a single reliable reference to these artifacts and deliverables, thereby ensuring that the correct versions are delivered to the project requestor/client.
+Project quality management aims to ensure that the project will achieve the expected results in the most efficient way and that deliverables will be accepted by the relevant stakeholders. It involves overseeing all the activities needed to maintain a desired level of excellence. This includes performing quality planning, quality assurance, quality control and quality improvement throughout the project until the Closing Phase and the final acceptance of the project. Configuration management helps project stakeholders manage project artefacts and deliverables effectively by providing a single reliable reference to these artefacts and deliverables, thereby ensuring that the correct versions are delivered to the project requestor/client.
 
 The Project Manager (PM) must ensure that the objectives, approach, requirements, activities, metrics and responsibilities of the quality management process are clearly defined and documented in the Quality Management Plan.
 
@@ -439,7 +439,7 @@ The Project Manager (PM) must ensure that the objectives, approach, requirements
 
 ![Fig. 9.10 Manage Quality inputs/outputs and main roles](09.10.png)
 
-| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Quality Management | Project <br> Charter | Quality <br> Management <br> Plan | Quality Review <br> Reports <br> Audit Reports | Quality Review Checklist <br> Phase-exit Review <br> Checklist <br> Project Logs | Project-End Report <br> Project Acceptance <br> Note |
 
@@ -494,7 +494,7 @@ For example:
 
 ![Fig 9.11 Manage Deliverables Acceptance inputs/outputs and main roles](09.11.png)
 
-| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Acceptance  Management | Project  Charter | Deliverables Acceptance Plan | Deliverables Acceptance Note | Deliverables Acceptance Checklist Decision Log | Project-End Report |
 
@@ -546,7 +546,7 @@ Transition management ensures a controlled and smooth transition from the old st
 
 ![Fig 9.12 Manage Transition inputs/outputs and main roles](09.12.png)
 
-| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Implementation <br> Management | Project <br> Charter | Transition Plan | Project Reports | Transition Checklist Sign-off Documents | Project-End Report |
 
@@ -595,7 +595,7 @@ Note that business implementation activities will almost always be required long
 
 ![Fig 9.13 Manage Business Implementation inputs/outputs and main roles](09.13.png)
 
-| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Implementation <br> Management |  | Business <br> Implementation Plan <br> Transition Plan | Project <br> Reports | Project Work Plan <br> Business Implementation <br> Checklist | Project-End Report <br> (Post-project <br> Recommendations) |
 
@@ -637,9 +637,9 @@ The Project Manager (PM) manages the delivery of all products and/or services th
 
 ![Fig 9.14 Manage Outsourcing inputs/outputs and main roles](09.14.png)
 
-| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
-| Outsourcing Management |  | Project Handbook <br> Outsourcing Plan <br> Deliverables <br> Acceptance Plan | Project <br> Reports | Outsourcing <br> Management artifacts | Project-End <br> Report |
+| Outsourcing Management |  | Project Handbook <br> Outsourcing Plan <br> Deliverables <br> Acceptance Plan | Project <br> Reports | Outsourcing <br> Management artefacts | Project-End <br> Report |
 
 **Outputs**
 

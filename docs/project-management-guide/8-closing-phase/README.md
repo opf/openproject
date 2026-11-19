@@ -11,7 +11,7 @@ keywords: project-end review meeting, lessons learned and post-project recommend
 The final phase of a PM² project is the Closing Phase. The Closing Phase starts with the Project-End Review Meeting and ends with the Project Owner's (PO) final approval, which marks the project's administrative closure. During the Closing Phase, the project's activities are completed, the project's final state is documented, and the finished deliverables are officially transferred to the Project Owner (PO).
 ![Fig 8.1 Closing Phase activities and main outputs](08.01.png)
 
-![Fig 8.2 Closing Phase artifacts](08.02.png)
+![Fig 8.2 Closing Phase artefacts](08.02.png)
 
 **Project-End Review Meeting**
 
@@ -159,7 +159,7 @@ Following the Project-End Review Meeting, the overall experience of the project 
 
 ![Fig 8.4 Project-End Report inputs and main roles](08.04.png)
 
-| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Communications <br> Management |  | Communications \& Quality Management Plan | Project <br> Reports | Project Checklists <br> Project Logs | Project-End Report |
 

@@ -61,7 +61,7 @@ import { HalSource } from 'core-app/features/hal/interfaces';
 export interface FieldDescriptor {
   name:string;
   label:string;
-  field?:DisplayField;
+  field:DisplayField;
   fields?:DisplayField[];
   spanAll:boolean;
   multiple:boolean;
@@ -159,6 +159,12 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     infoRow: {
       createdBy: this.I18n.t('js.label_created_by'),
       lastUpdatedOn: this.I18n.t('js.label_last_updated_on'),
+    },
+    origin: {
+      label: this.I18n.t('js.label_origin'),
+      source: this.I18n.t('js.label_origin_source'),
+      id: this.I18n.t('js.label_origin_id'),
+      jiraDataCenter: this.I18n.t('js.label_origin_jira_data_center'),
     },
   };
 
@@ -308,6 +314,18 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     return !this.isNewResource && this.projectContext && !this.projectContext.matches;
   }
 
+  public hasOrigin():boolean {
+    return !this.isNewResource && !!this.workPackage.originSource;
+  }
+
+  public get originSourceLabel():string {
+    const source = this.workPackage.originSource as string | undefined;
+    if (source === 'jira_data_center') {
+      return this.text.origin.jiraDataCenter;
+    }
+    return source ?? '';
+  }
+
   public get switchToProjectPath():string {
     const id = idFromLink(this.workPackage.project.href);
     return this.PathHelper.projectPath(id);
@@ -383,20 +401,13 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
    * combined 'start' and 'due' date field.
    */
   private getDateField(change:WorkPackageChangeset):FieldDescriptor {
-    const object:FieldDescriptor = {
+    return {
       name: 'date',
       label: this.I18n.t('js.work_packages.properties.date'),
       spanAll: false,
       multiple: false,
+      field: this.displayField(change, change.schema.ofProperty('date') ? 'date' : 'combinedDate'),
     };
-
-    if (change.schema.ofProperty('date')) {
-      object.field = this.displayField(change, 'date');
-    } else {
-      object.field = this.displayField(change, 'combinedDate');
-    }
-
-    return object;
   }
 
   /**

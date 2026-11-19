@@ -28,6 +28,7 @@
 #++
 
 # Define negated matchers for common RSpec expectations
+RSpec::Matchers.define_negated_matcher :exclude, :include
 RSpec::Matchers.define_negated_matcher :not_change, :change
 RSpec::Matchers.define_negated_matcher :not_start_with, :start_with
 RSpec::Matchers.define_negated_matcher :not_be_default, :be_default

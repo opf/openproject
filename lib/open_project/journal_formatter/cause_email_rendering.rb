@@ -36,6 +36,6 @@ module OpenProject::JournalFormatter::CauseEmailRendering
 
   def email_cause_message
     text = t("journals.caused_changes.email_html", sender: cause["sender_address"])
-    html? ? text : strip_tags(text)
+    html? ? text : CGI.unescapeHTML(strip_tags(text))
   end
 end

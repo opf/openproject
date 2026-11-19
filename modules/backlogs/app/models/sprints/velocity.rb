@@ -44,11 +44,11 @@ module Sprints
     end
 
     def committed
-      @committed ||= breakdowns.map { it.initially_planned.story_points.to_f }
+      @committed ||= breakdowns.map { metric_value(it.initially_planned) }
     end
 
     def completed
-      @completed ||= breakdowns.map { it.completed.story_points.to_f }
+      @completed ||= breakdowns.map { metric_value(it.completed) }
     end
 
     def velocity = completed.last
@@ -59,21 +59,26 @@ module Sprints
     end
 
     def preceding_sprints
-      @preceding_sprints ||= begin
-        ids = Sprint.for_project(project)
-                    .visible
-                    .where("COALESCE(sprints.completed_at, sprints.finish_date) IS NOT NULL")
-                    .order_by_date
-                    .pluck(:id)
-        position = ids.index(sprint.id)
-        position ? Sprint.find(ids.first(position).last(SPRINT_COUNT - 1)) : []
-      end
+      @preceding_sprints ||= Sprint.for_project(project)
+                                   .visible
+                                   .where("COALESCE(sprints.completed_at, sprints.finish_date) IS NOT NULL")
+                                   .preceding(sprint, limit: SPRINT_COUNT - 1)
     end
 
     private
 
     def breakdowns
       @breakdowns ||= sprints.map { Sprints::WorkPackageBreakdown.new(sprint: it, project:) }
+    end
+
+    def metric_value(block)
+      if project.estimation_unit_story_points?
+        block.story_points
+      elsif project.estimation_unit_time?
+        block.estimated_hours
+      else
+        block.work_package_count
+      end
     end
   end
 end

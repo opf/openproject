@@ -132,6 +132,8 @@ module Llm
 
     def from_transport(error)
       case error
+      when HTTPX::ServerSideRequestForgeryError
+        SsrfError.new("Host resolves to a blocked address")
       when Faraday::TimeoutError, Timeout::Error, Errno::ETIMEDOUT
         TimeoutError.new("Request timed out")
       when Faraday::SSLError, OpenSSL::SSL::SSLError

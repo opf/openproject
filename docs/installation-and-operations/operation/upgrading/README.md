@@ -98,7 +98,6 @@ Then follow the first steps of the [installation guide](../../installation/packa
 | Distribution (64 bits only)                                              |
 |--------------------------------------------------------------------------|
 | [Ubuntu 22.04 Jammy Jellyfish](../../installation/packaged/#ubuntu-2204) |
-| [Ubuntu 20.04 Focal](../../installation/packaged/#ubuntu-2004)           |
 | [Debian 12 Bookworm](../../installation/packaged/#debian-12)             |
 | [Debian 11 Bullseye](../../installation/packaged/#debian-11)             |
 | [CentOS/RHEL 9.x](../../installation/packaged/#centos-9--rhel-9)         |

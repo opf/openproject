@@ -62,6 +62,7 @@ RSpec.describe "Storage links in project menu" do
     it "has no links to enabled storage" do
       visit(project_path(id: project.id))
 
+      expect(page).to have_text(project.name)
       expect(page).to have_no_link(storage_configured_linked1.name)
       expect(page).to have_no_link(storage_configured_linked2.name)
       expect(page).to have_no_link(storage_configured_linked3.name)
@@ -107,6 +108,7 @@ RSpec.describe "Storage links in project menu" do
       it "has no links to enabled storages" do
         visit(project_path(id: project.id))
 
+        expect(page).to have_text(project.name)
         expect(page).to have_no_link(storage_configured_linked1.name)
         expect(page).to have_no_link(storage_configured_linked2.name)
         expect(page).to have_no_link(storage_configured_linked3.name)
@@ -136,6 +138,7 @@ RSpec.describe "Storage links in project menu" do
     it "has no links to enabled storages" do
       visit(project_path(id: project.id))
 
+      expect(page).to have_text(project.name)
       expect(page).to have_no_link(storage_configured_linked1.name)
       expect(page).to have_no_link(storage_configured_linked2.name)
       expect(page).to have_no_link(storage_configured_unlinked.name)

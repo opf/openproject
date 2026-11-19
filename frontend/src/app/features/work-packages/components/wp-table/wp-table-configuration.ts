@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-export type WorkPackageTableConfigurationObject = Partial<{ [field in keyof WorkPackageTableConfiguration]:string|boolean|null }>;
+export type WorkPackageTableConfigurationObject = Partial<WorkPackageTableConfiguration>;
 
 export class WorkPackageTableConfiguration {
   /** Render the table results, set to false when only wanting the table initialization */
@@ -55,6 +55,12 @@ export class WorkPackageTableConfiguration {
   /** Whether inline create is enabled */
   public inlineCreateEnabled = true;
 
+  /** Whether inline edit is enabled */
+  public inlineEditEnabled = true;
+
+  /** Whether rows can be selected and activated as the current work package */
+  public selectionEnabled = true;
+
   /** Whether the hierarchy toggler item in the subject column is enabled */
   public hierarchyToggleEnabled = true;
 
@@ -81,8 +87,14 @@ export class WorkPackageTableConfiguration {
 
   constructor(providedConfig:WorkPackageTableConfigurationObject) {
     Object.entries(providedConfig).forEach(([k, value]) => {
-      const key = (k as keyof WorkPackageTableConfiguration);
-      (this as Record<string, unknown>)[key] = value;
+      if (value !== undefined) {
+        const key = (k as keyof WorkPackageTableConfiguration);
+        (this as Record<string, unknown>)[key] = value;
+      }
     });
+
+    if (!this.inlineEditEnabled) {
+      this.inlineCreateEnabled = false;
+    }
   }
 }

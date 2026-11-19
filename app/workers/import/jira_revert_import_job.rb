@@ -51,6 +51,12 @@ module Import
       "Status" => "status"
     }.freeze
 
+    WORK_PACKAGE_ASSOCIATIONS = {
+      "Type" => :type,
+      "IssuePriority" => :priority,
+      "Status" => :status
+    }.freeze
+
     def text
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
     end
@@ -113,6 +119,7 @@ module Import
 
     # rubocop:disable-next Metrics/AbcSize
     def delete_projects
+      hand_over_sprints_reused_by_other_imports
       Import::JiraOpenProjectReference
         .where(jira_import_id: @jira_import.id, uses_existing: false)
         .where(op_entity_class: "Project")
@@ -134,16 +141,71 @@ module Import
         end
     end
 
+    # Deleting the owning project would destroy the sprint and unassign it from the work packages of the
+    # imports that reused it, so it moves to the project that keeps most of its work packages.
+    def hand_over_sprints_reused_by_other_imports
+      reverted_project_ids = created_project_ids
+      Sprint.where(id: sprint_ids_reused_by_other_imports, project_id: reverted_project_ids).find_each do |sprint|
+        new_owner = remaining_owner(sprint, reverted_project_ids)
+        next if new_owner.nil?
+
+        Rails.logger.tagged("jira_object_type:sprint", "jira_object_id_or_name:#{sprint.id}") do
+          Rails.logger.info "Moving sprint to project #{new_owner.identifier}, another import still uses it"
+        end
+        keep_active_sprint_valid(sprint, new_owner)
+        sprint.update!(project: new_owner)
+      end
+    end
+
+    def created_project_ids
+      Import::JiraOpenProjectReference
+        .where(jira_import_id: @jira_import.id, uses_existing: false, op_entity_class: "Project")
+        .pluck(:op_entity_id)
+        .map(&:to_i)
+    end
+
+    def sprint_ids_reused_by_other_imports
+      own_sprint_ids = Import::JiraOpenProjectReference
+        .where(jira_import_id: @jira_import.id, op_entity_class: "Sprint")
+        .select(:op_entity_id)
+      Import::JiraOpenProjectReference
+        .where(op_entity_class: "Sprint", op_entity_id: own_sprint_ids)
+        .where.not(jira_import_id: @jira_import.id)
+        .distinct
+        .pluck(:op_entity_id)
+        .map(&:to_i)
+    end
+
+    def remaining_owner(sprint, reverted_project_ids)
+      project_id = sprint.work_packages
+                         .where.not(project_id: reverted_project_ids)
+                         .group(:project_id)
+                         .order(Arel.sql("COUNT(*) DESC"), :project_id)
+                         .pick(:project_id)
+      Project.find_by(id: project_id)
+    end
+
+    def keep_active_sprint_valid(sprint, project)
+      return if !sprint.active? || project.allow_multiple_active_sprints?
+      return unless Sprint.for_project(project).active.where.not(id: sprint.id).exists?
+
+      project.update!(allow_multiple_active_sprints: true)
+    end
+
     # rubocop:disable-next Metrics/AbcSize
     def delete_types_statuses_and_issue_priorities
       Import::JiraOpenProjectReference
         .where(jira_import_id: @jira_import.id, uses_existing: false)
         .where(op_entity_class: ["Type", "IssuePriority", "Status"])
         .find_each do |ref|
+          op_leg = ref.op_leg
+
+          # delete_projects runs first, so any work package left is from outside this import
+          next if WorkPackage.exists?(WORK_PACKAGE_ASSOCIATIONS.fetch(ref.op_entity_class) => op_leg)
+
           Rails.logger.tagged("jira_object_type:#{REF_OBJECT_TYPES.fetch(ref.op_entity_class)}",
                               "jira_object_id_or_name:#{ref.op_entity_id}") do
             Rails.logger.debug { "Deleting #{ref.op_entity_class}" }
-            op_leg = ref.op_leg
             op_leg.destroy!
           end
         rescue Import::JiraOpenProjectReference::LegNotFoundError

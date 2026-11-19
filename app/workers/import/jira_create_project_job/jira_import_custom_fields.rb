@@ -372,11 +372,7 @@ module Import
         Rails.logger.tagged("jira_object_type:customField", "jira_object_id_or_name:#{custom_field.name}") do
           Rails.logger.debug "Reusing custom field"
         end
-        unless Import::JiraOpenProjectReference.exists?(op_entity_id: custom_field.id,
-                                                        op_entity_class: custom_field.class.to_s,
-                                                        jira_import_id: @jira_import.id)
-          create_reference!(op_leg: custom_field, jira_leg: jira_field, jira_import: @jira_import, uses_existing: true)
-        end
+        create_reference!(op_leg: custom_field, jira_leg: jira_field, jira_import: @jira_import, uses_existing: true)
         custom_field
       end
 

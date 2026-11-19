@@ -56,6 +56,7 @@ import { buildWorkPackage } from '../wp-fast-table/testing/work-package-fixture'
 import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 import { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
 import { wpOccurrenceKey } from '../wp-fast-table/rendered-occurrence-ledger';
+import { inlineCreateRowKey } from '../wp-fast-table/row-keys';
 
 function deferred<T>() {
   let resolve!:(value:T) => void;
@@ -413,7 +414,7 @@ describe('TableEditForm origin', () => {
 
     expect(index).toBeGreaterThan(-1);
     expect(form.originFor('subject')).toMatchObject({ cell: index });
-    harness.table.keyboardNavigation!.recordPosition({ key: 'header', cell: 0, desiredColumn: 0 });
+    harness.table.keyboardNavigation.recordPosition({ key: 'header', cell: 0, desiredColumn: 0 });
     expect(form.originFor('subject')).toMatchObject({ cell: index });
 
     form.closeEditFields();
@@ -428,7 +429,7 @@ describe('TableEditForm origin', () => {
         productionMarkup: true,
       });
       await harness.render();
-      harness.table.keyboardNavigation!.recordPosition({ key: wpOccurrenceKey('2'), cell: 0, desiredColumn: 0 });
+      harness.table.keyboardNavigation.recordPosition({ key: wpOccurrenceKey('2'), cell: 0, desiredColumn: 0 });
     };
     const formFor = (id:string) => {
       const wp = harness.injector.get(States).workPackages.get(id).value!;
@@ -458,6 +459,68 @@ describe('TableEditForm origin', () => {
       expect(handler).toBeDefined();
       expect(row).toContainElement(within(row).getByRole('textbox'));
       expect(form.originFor('subject')).toBeNull();
+    });
+
+    it('cancelling an editor in the inline-create row closes it and commits that row', async () => {
+      await mountTwoRows();
+      const row = harness.addInlineCreateRow();
+      await harness.table.editing.forms[HAL_NEW_RESOURCE_ID].activate('subject');
+      const input = within(row).getByRole('textbox');
+      const { generation } = harness.table.committedRows();
+
+      fireEvent.keyDown(input, { key: 'Escape' });
+
+      expect(within(row).queryByRole('textbox')).not.toBeInTheDocument();
+      expect(harness.table.committedRows()).toEqual({ generation: generation + 1, scope: new Set([inlineCreateRowKey]) });
+    });
+
+    it('activates Subject again in an inline-create row reopened after stopping its form', async () => {
+      harness = buildTable({
+        workPackages: [{ id: '1' }],
+        editing: {},
+        productionMarkup: true,
+        providers: [{ provide: WorkPackagesListService, useValue: { conditionallyLoadForm: () => Promise.resolve() } }],
+      });
+      await harness.render();
+      const cancelled = harness.addInlineCreateRow();
+      await harness.table.editing.forms[HAL_NEW_RESOURCE_ID].activate('subject');
+
+      harness.table.editing.stopEditing(HAL_NEW_RESOURCE_ID);
+      cancelled.remove();
+      const reopened = harness.addInlineCreateRow();
+      await harness.table.editing.forms[HAL_NEW_RESOURCE_ID].activateWhenNeeded('subject');
+
+      expect(within(reopened).getByRole('textbox')).toBeInTheDocument();
+    });
+
+    it('drops a pending activation of a stopped inline-create form', async () => {
+      const pending = deferred<void>();
+      const conditionallyLoadForm = vi.fn()
+        .mockReturnValueOnce(pending.promise)
+        .mockResolvedValue(undefined);
+      harness = buildTable({
+        workPackages: [{ id: '1' }],
+        editing: {},
+        productionMarkup: true,
+        providers: [{ provide: WorkPackagesListService, useValue: { conditionallyLoadForm } }],
+      });
+      await harness.render();
+      const cancelled = harness.addInlineCreateRow();
+      const stopped = harness.table.editing.forms[HAL_NEW_RESOURCE_ID];
+      const staleActivation = stopped.activateWhenNeeded('subject');
+      await waitFor(() => expect(conditionallyLoadForm).toHaveBeenCalled());
+
+      harness.table.editing.stopEditing(HAL_NEW_RESOURCE_ID);
+      cancelled.remove();
+      const reopened = harness.addInlineCreateRow();
+      const form = harness.table.editing.forms[HAL_NEW_RESOURCE_ID];
+      await form.activateWhenNeeded('subject');
+      pending.resolve();
+      await staleActivation;
+
+      expect(stopped.activeFields).toEqual({});
+      expect(harness.table.editing.forms[HAL_NEW_RESOURCE_ID]).toBe(form);
+      expect(within(reopened).getByRole('textbox')).toBe(form.activeFields.subject.element?.querySelector('input'));
     });
 
     it('a failed activation leaves no origin behind', async () => {
@@ -661,6 +724,18 @@ describe('TableEditForm focus return', () => {
     expect(within(subjectCell('2')).getByRole('textbox')).toHaveFocus();
   });
 
+  it('records the editor origin once when focusing the first error', async () => {
+    await mount();
+    const handler = await openEditor('2');
+    handler.setErrors(['Required']);
+    const recordPosition = vi.spyOn(harness.table.keyboardNavigation, 'recordPosition');
+
+    (harness.table.editing.forms['2'] as unknown as { focusOnFirstError():void }).focusOnFirstError();
+
+    expect(within(subjectCell('2')).getByRole('textbox')).toHaveFocus();
+    expect(recordPosition).toHaveBeenCalledTimes(1);
+  });
+
   it('leaves focus alone when the user moved to another row before the validation error', async () => {
     const save = deferred<{ resource:WorkPackageResource; wasNew:boolean }>();
     await mount({ editing: { save: () => save.promise } });
@@ -809,7 +884,7 @@ describe('TableEditForm focus return', () => {
 
       expect(subjectCell()).not.toHaveFocus();
       expect(subjectCell('2')).toHaveAttribute('tabindex', '0');
-      expect(harness.table.keyboardNavigation!.position).toMatchObject({ key: wpOccurrenceKey('2'), cell: 1 });
+      expect(harness.table.keyboardNavigation.position).toMatchObject({ key: wpOccurrenceKey('2'), cell: 1 });
     });
 
     it('records an AT-adopted position as the newer user position', async () => {
@@ -822,7 +897,7 @@ describe('TableEditForm focus return', () => {
       await complete();
 
       expect(subjectCell()).not.toHaveFocus();
-      expect(harness.table.keyboardNavigation!.position).toMatchObject({ key: wpOccurrenceKey('2'), cell: 1 });
+      expect(harness.table.keyboardNavigation.position).toMatchObject({ key: wpOccurrenceKey('2'), cell: 1 });
     });
 
     it('does not return or blur a newer owner when the table is destroyed during save', async () => {
@@ -845,7 +920,7 @@ describe('TableEditForm focus return', () => {
 
       expect(subjectCell()).not.toHaveFocus();
       expect(harness.row('1').querySelector(':scope > .wp-table--cell-td.id')).toHaveAttribute('tabindex', '0');
-      expect(harness.table.keyboardNavigation!.position).toMatchObject({ key: wpOccurrenceKey('1'), cell: 0 });
+      expect(harness.table.keyboardNavigation.position).toMatchObject({ key: wpOccurrenceKey('1'), cell: 0 });
     });
 
     it('returns focus to the hiding parent when the origin row was collapsed', async () => {
@@ -866,7 +941,7 @@ describe('TableEditForm focus return', () => {
 
       hierarchies.collapse('1');
       await waitFor(() => expect(harness.row('2')).not.toBeVisible());
-      expect(harness.table.keyboardNavigation!.position).toMatchObject({ key: wpOccurrenceKey('1'), cell: null });
+      expect(harness.table.keyboardNavigation.position).toMatchObject({ key: wpOccurrenceKey('1'), cell: null });
       hierarchies.expand('1');
       await waitFor(() => expect(harness.row('2')).toBeVisible());
       await complete();

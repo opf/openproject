@@ -56,7 +56,19 @@ module Components
     end
 
     def expect_meeting(present: true)
-      expect_link "Meeting", present:
+      within_dropdown do
+        if present
+          expect(page).to have_button "Meeting"
+        else
+          expect(page).to have_no_button "Meeting"
+        end
+      end
+    end
+
+    def open_meeting_submenu
+      within_dropdown do
+        page.click_button "Meeting"
+      end
     end
 
     def expect_document(present: true)

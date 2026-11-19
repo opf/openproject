@@ -1,0 +1,163 @@
+---
+ko:
+  activerecord:
+    attributes:
+      repositories/gitlab_provider:
+        gitlab_user: Webhook user
+        url: GitLab URL
+        webhook_secret: Webhook 비밀번호
+      repositories/provider:
+        created_at: 생성됨
+        name: 이름
+    errors:
+      models: {}
+    models:
+      repositories/gitlab_provider:
+        other: GitLab providers
+      repositories/provider:
+        other: Repository providers
+  permission_show_repository_content: Show repository content
+  project_module_repositories: 리포지토리
+  repositories:
+    admin:
+      buttons:
+        save_and_continue: 저장 및 계속
+      destroy_confirmation_dialog_component:
+        delete_result:
+          branches_and_commits: All branches and commits received from this provider and their links to work packages.
+          issues: All issues received from this provider and their links to work packages.
+          merge_requests: All merge requests and pipelines received from this provider and their links to work packages.
+        description_html: 'The repository provider %{provider} will be deleted together with all data OpenProject received from it. This includes:'
+        heading: Permanently delete this repository provider?
+        title: Delete repository provider
+      gitlab_integration:
+        go_to_repositories: Go to Repositories
+        moved_notice: GitLab is now configured as a repository provider in the new Repositories section of the administration.
+      index_description: Connect repository providers to show issues, merge requests, branches and commits in the work packages they reference.
+      label_add_new: Add new repository provider
+      label_new_provider: New %{provider_type} provider
+      label_provider: Repository provider
+      menu: 리포지토리
+      open_provider: 열림
+      regenerate_webhook_secret_dialog_component:
+        confirm_button: Regenerate secret
+        description: The current webhook secret will stop working immediately. You have to enter the new secret in all webhooks of this provider.
+        heading: Regenerate the webhook secret?
+        title: Regenerate webhook secret
+      sections:
+        general_information: 일반 정보
+        webhook: Webhook
+      steps:
+        general_information:
+          edit: Edit provider configuration
+          name_caption: Give the provider a name so that users can tell multiple providers apart.
+          title: Provider configuration
+          url_caption: The address of your GitLab instance, including the https://. Webhooks are accepted for all projects below this address.
+        webhook:
+          description_configured: The webhook secret is configured.
+          description_pending: No webhook secret is configured. Requests to the webhook are accepted without verification, which may allow unauthorized actors to forge events.
+          edit: Show webhook configuration
+          form_description: Create a webhook in your GitLab projects or groups with the following URL and secret token.
+          regenerate_secret: Regenerate secret
+          secret: Secret token
+          secret_caption: Copy this value into the "Secret token" field of the GitLab webhook.
+          title: Webhook configuration
+          url: 주소
+          url_caption: Replace %{placeholder} with an API key of the webhook user.
+        webhook_user:
+          caption: When set, webhook requests authenticated with any other user's API key are rejected.
+          description_any_user: Webhooks may be sent with the API key of any user.
+          description_pending: No webhook user has been chosen yet.
+          description_user: Webhooks have to be sent with an API key of %{name}.
+          edit: Edit webhook user
+          form_description: The OpenProject user whose API key authenticates webhook requests. This user also posts automated comments on work packages and needs permission to view and comment on them.
+          title: Webhook user
+      table:
+        blank_description: Add a repository provider to see its activity in work packages.
+        blank_title: No repository providers configured yet
+        provider_type: 공급자
+    branch_component:
+      copy_name: 브랜치 이름 복사
+      create_merge_request: 병합 요청 만들기
+      updated_at: "%{date_time} 에 수정됨."
+      updated_by: "%{name}에 의해 마지막으로 수정됨."
+    commit_component:
+      authored_at: "%{date_time} 에 작성됨."
+      copy_sha: SHA를 클립보드에 복사
+      created_by: "%{name}에 의해 생성됨."
+      empty_message: "<empty commit message>"
+    git_snippets_dialog_component:
+      branch_name: 브랜치 이름
+      commit_message: 커밋 메시지
+      copy_branch_name: 브랜치 이름 복사
+      copy_commit_message: 커밋 메시지 복사
+      copy_create_branch_command: Copy command to create a branch with empty commit
+      create_branch_with_empty_commit: 빈 커밋으로 브랜치 만들기
+      title: Git quick snippets
+    gitlab:
+      issue_closed_referenced_comment: "**이슈 닫힘:** [%{repository}](%{repository_url})에 대한 이슈 %{issue_number} [%{issue_title}](%{issue_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 닫혔습니다.\n"
+      issue_opened_referenced_comment: "**이슈 열림:** [%{repository}](%{repository_url})에 대한 이슈 %{issue_number} [%{issue_title}](%{issue_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 열렸습니다.\n"
+      issue_reopened_referenced_comment: "**이슈 다시 열림:** [%{repository}](%{repository_url})에 대한 이슈 %{issue_number} [%{issue_title}](%{issue_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 다시 열렸습니다.\n"
+      merge_request_closed_comment: "**MR 닫힘:** [%{repository}](%{repository_url})에 대한 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 닫혔습니다.\n"
+      merge_request_merged_comment: "**MR 병합됨:** [%{repository}](%{repository_url})에 대한 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 병합되었습니다.\n"
+      merge_request_opened_comment: "**MR 열림:** [%{repository}](%{repository_url})에 대한 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 열렸습니다.\n"
+      merge_request_reopened_comment: "**MR 다시 열림:** [%{repository}](%{repository_url})에 대한 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 다시 열렸습니다.\n"
+      note_commit_referenced_comment: "**커밋에서 참조됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 커밋 메모 [%{commit_id}](%{commit_url})에서 이 WP를 참조했습니다: %{commit_note}\n"
+      note_issue_commented_comment: "**이슈에서 코멘트 작성됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 이슈 %{issue_number} [%{issue_title}](%{issue_url})에서 이 WP에 대해 코멘트를 작성했습니다: %{issue_note}\n"
+      note_issue_referenced_comment: "**이슈에서 참조됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 이슈 %{issue_number} [%{issue_title}](%{issue_url})에서 이 WP를 참조했습니다: %{issue_note}\n"
+      note_mr_commented_comment: "**MR에서 코멘트 작성됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})에서 이 WP에 대해 코멘트를 작성했습니다: %{mr_note}\n"
+      note_mr_referenced_comment: "**MR에서 참조됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})에서 이 WP를 참조했습니다: %{mr_note}\n"
+      note_snippet_referenced_comment: "**Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note} %{commit_note} %{commit_note}\n"
+      push_single_commit_comment_with_ref: "**%{reference}에서 푸시됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{commit_number}](%{commit_url})을(를) %{commit_timestamp}, [%{repository}](%{repository_url})에 푸시했습니다: %{commit_note}\n"
+    issue_component:
+      states:
+        closed: 닫음
+        opened: 열림
+      updated_at: "%{date_time} 에 수정됨."
+      updated_by: "%{name}에 의해 마지막으로 수정됨."
+    merge_request_component:
+      pipeline_statuses:
+        canceled: 취소됨
+        canceling: 취소 중
+        created: 생성됨
+        failed: 실패
+        manual: 수동
+        pending: 대기 중
+        preparing: Preparing
+        running: 실행 중
+        scheduled: 예약됨
+        skipped: 건너뜀
+        success: 성공
+        waiting_for_callback: Waiting for callback
+        waiting_for_resource: Waiting for resource
+      states:
+        closed: 닫음
+        locked: 잠김
+        merged: 병합 됨
+        opened: 열림
+      updated_at: "%{date_time} 에 수정됨."
+      updated_by: "%{name}에 의해 마지막으로 수정됨."
+    provider_types:
+      gitlab:
+        name: GitLab
+    work_package_tab_component:
+      blank_slates:
+        branches:
+          description_html: Link a branch by naming the branch, so that it starts with %{code} or only %{identifier}.
+          title: No branches
+        commits:
+          description_html: Link a commit by adding the code %{code} or the URL %{url} to the commit message.
+          title: No commits
+        issues:
+          description_html: Link an issue by adding the code %{code} to the title or description.
+          title: No issues
+        merge_requests:
+          description_html: Link a merge request by adding the code %{code} to the title or description.
+          title: No merge requests
+      branches: 브랜치
+      commits: 커밋
+      description_html: Link an existing GitLab element by adding the code %{code} to the title or description.
+      git_snippets: Git 코드 조각
+      issues: 이슈
+      merge_requests: 병합 요청
+      snippets_button_label: Git 코드 조각

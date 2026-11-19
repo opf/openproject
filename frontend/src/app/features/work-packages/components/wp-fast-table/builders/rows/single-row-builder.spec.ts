@@ -28,7 +28,6 @@
 import { States } from 'core-app/core/states/states.service';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { page } from 'vitest/browser';
-import { InlineCreateRowBuilder } from '../../../wp-inline-create/inline-create-row-builder';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { nextFrame } from 'core-common/testing/timing';
@@ -143,6 +142,14 @@ describe('SingleRowBuilder baseline status text', () => {
 
   const baselineCell = (workPackageId:string) => harness.row(workPackageId).querySelector<HTMLTableCellElement>('td.op-table-baseline--column-cell')!;
 
+  it('leaves the baseline cell empty for an unchanged work package', async () => {
+    harness = buildTable({ workPackages: [{ id: '5', baseline: 'unchanged' }], baseline: true });
+    await harness.render();
+
+    expect(baselineCell('5')).toBeEmptyDOMElement();
+    expect(harness.row('5')).not.toHaveAccessibleDescription();
+  });
+
   it.each([
     ['1', 'added'],
     ['2', 'removed'],
@@ -256,7 +263,7 @@ describe('SingleRowBuilder refresh with an active editor', () => {
     const idCell = row.querySelector(':scope > .wp-table--cell-td.id');
     const wp = form.resource;
 
-    new InlineCreateRowBuilder(harness.injector, harness.table).refreshRow(wp, row);
+    harness.inlineCreateRowBuilder().refreshRow(wp, row);
 
     expect(input.isConnected).toBe(true);
     expect(input).toHaveFocus();
@@ -367,7 +374,7 @@ describe('SingleRowBuilder refresh with an active editor', () => {
       harness.relationRow('3', '2', 'children').querySelector(':scope > .wp-table--cell-td.subject'),
     ];
 
-    const navigation = harness.table.keyboardNavigation!;
+    const navigation = harness.table.keyboardNavigation;
     navigation.focusPosition(navigation.positionOfCell(origin)!);
     fireEvent.keyDown(origin, { key: 'Enter' });
     const input = await waitFor(() => within(origin).getByRole<HTMLInputElement>('textbox'));

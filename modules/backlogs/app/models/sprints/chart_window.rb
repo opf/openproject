@@ -32,12 +32,15 @@
 # in time they are sampled at. Shared by every chart on the sprint report so that two of them
 # drawn side by side agree on where the axis begins and ends.
 #
+# A window usually belongs to the one sprint being reported on, and +spanning+ builds one that
+# reaches back over the sprints before it instead. Either way it closes where that sprint does.
+#
 # Three instants decide the shape, and none of them replace one another:
 #
-# - +charted_from+ -- where the chart opens: the moment the sprint was started, or the opening
-#   of its planned start date while it has not been.
-# - +measured_until+ -- how far a measured series is sampled. The current time for a running
-#   sprint, the time it finished for a finished one, and nothing at all for one yet to begin.
+# - +charted_from+ -- where the chart opens: the moment the opening sprint was started, or the
+#   opening of its planned start date while it has not been.
+# - +measured_until+ -- how far a measured series is sampled. The current time while the sprint
+#   is still open, the time it closed once it has, and nothing at all before it opens.
 # - +charted_until+ -- where the sprint got to (for a completed sprint) or is planned to go to
 #   (for a running one). If the sprint is running longer than planned, there is no plan any more
 #   and the current time is used instead.
@@ -57,17 +60,36 @@ module Sprints
     # not render at all.
     CHARTABLE_SPAN = 1.year
 
-    def initialize(sprint, zone: Time.zone)
+    # A window over several sprints, opening with the earliest of them that still leaves a span
+    # anyone can read. Seven long sprints can exceed CHARTABLE_SPAN between them, and opening
+    # later costs history, which is less than the whole chart.
+    def self.spanning(sprints, zone: Time.zone)
+      windows = sprints.map { new(sprints.last, zone:, opening_sprint: it) }
+
+      windows.reject(&:too_long_to_chart?).min_by(&:charted_from) || windows.last
+    end
+
+    def initialize(sprint, zone: Time.zone, opening_sprint: sprint)
       @sprint = sprint
+      @opening_sprint = opening_sprint
       @zone = zone
     end
 
     attr_reader :zone
 
-    delegate :planned_finish, :measured_until, to: :timeframe
+    delegate :planned_finish, to: :timeframe
 
     def charted_from
-      timeframe.effective_start
+      opening_timeframe.effective_start
+    end
+
+    # How far a measured series is sampled: up to now, and never past where the window closes.
+    # Nothing at all before the window opens, which is not the same as before the sprint began --
+    # preceding sprints in the window have been measurable all along.
+    def measured_until
+      return nil if now < charted_from
+
+      [now, charted_until].min
     end
 
     def charted_until
@@ -111,10 +133,16 @@ module Sprints
 
     private
 
-    attr_reader :sprint
+    attr_reader :sprint, :opening_sprint
+
+    def now = Time.current.in_time_zone(zone)
 
     def timeframe
       @timeframe ||= Timeframe.new(sprint, zone:)
+    end
+
+    def opening_timeframe
+      @opening_timeframe ||= opening_sprint == sprint ? timeframe : Timeframe.new(opening_sprint, zone:)
     end
   end
 end

@@ -137,4 +137,117 @@ RSpec.describe Users::UpdateService do
       end
     end
   end
+
+  describe "changing the email", with_settings: { autologin: 1 } do
+    let(:update_user) { create(:user, mail: "old@example.org") }
+    let(:current_user) { create(:admin) }
+    let(:current_session) { nil }
+    let(:attributes) { { mail: "new@example.org" } }
+    let!(:recovery_token) { create(:recovery_token, user: update_user) }
+    let!(:invitation_token) { create(:invitation_token, user: update_user) }
+    let!(:autologin_token) { create(:autologin_token, user: update_user) }
+    let!(:user_session) { create(:user_session, user: update_user) }
+
+    subject(:result) do
+      described_class
+        .new(model: update_user, user: current_user)
+        .with_state(session: current_session)
+        .call(**attributes)
+    end
+
+    shared_examples "revokes all tokens" do
+      it "drops recovery, invitation, and autologin tokens" do
+        expect(result).to be_success
+        expect(Token::Recovery.where(user: update_user)).to be_empty
+        expect(Token::Invitation.where(user: update_user)).to be_empty
+        expect(Token::AutoLogin.where(user: update_user)).to be_empty
+      end
+    end
+
+    shared_examples "keeps all access" do
+      it "keeps tokens and sessions" do
+        expect(result).to be_success
+        expect(Token::Recovery.where(user: update_user)).to exist
+        expect(Token::Invitation.where(user: update_user)).to exist
+        expect(Token::AutoLogin.where(user: update_user)).to exist
+        expect(Sessions::UserSession.for_user(update_user)).to exist
+      end
+    end
+
+    context "when an admin changes the email of another user" do
+      it_behaves_like "revokes all tokens"
+
+      it "drops all sessions of that user" do
+        expect(result).to be_success
+        expect(Sessions::UserSession.for_user(update_user)).to be_empty
+      end
+
+      context "with a preference change" do
+        let(:attributes) { { mail: "new@example.org", pref: { comments_sorting: "desc" } } }
+
+        it_behaves_like "revokes all tokens"
+
+        it "saves the preference and drops all sessions" do
+          expect(result).to be_success
+          expect(update_user.pref.reload.comments_sorting).to eq("desc")
+          expect(Sessions::UserSession.for_user(update_user)).to be_empty
+        end
+      end
+
+      context "when the update fails" do
+        let(:attributes) { { mail: "invalid" } }
+
+        it "keeps tokens and sessions" do
+          expect(result).not_to be_success
+          expect(update_user.reload.mail).to eq("old@example.org")
+          expect(Token::Recovery.where(user: update_user)).to exist
+          expect(Token::Invitation.where(user: update_user)).to exist
+          expect(Token::AutoLogin.where(user: update_user)).to exist
+          expect(Sessions::UserSession.for_user(update_user)).to exist
+        end
+      end
+    end
+
+    context "when users change their own email" do
+      let(:current_user) { update_user }
+      let(:attributes) { { mail: "new@example.org", current_password_input: "adminADMIN!" } }
+
+      it_behaves_like "revokes all tokens"
+
+      it "drops all sessions without a current session" do
+        expect(result).to be_success
+        expect(Sessions::UserSession.for_user(update_user)).to be_empty
+      end
+
+      context "with a current session" do
+        let(:current_session_id) { Rack::Session::SessionId.new("current") }
+        let(:current_session) { instance_double(ActionDispatch::Request::Session, id: current_session_id) }
+        let!(:own_session) { create(:user_session, user: update_user, session_id: current_session_id.private_id) }
+
+        it "drops only the other sessions" do
+          expect(result).to be_success
+          expect(Sessions::UserSession.for_user(update_user).pluck(:session_id))
+            .to contain_exactly(current_session_id.private_id)
+        end
+      end
+    end
+
+    context "when the system user changes the email" do
+      let(:current_user) { User.system }
+
+      it_behaves_like "keeps all access"
+    end
+
+    context "when a service account changes the email" do
+      let(:current_user) { create(:service_account, admin: true) }
+
+      it_behaves_like "keeps all access"
+    end
+
+    context "when only the name changes" do
+      let(:attributes) { { firstname: "Renamed" } }
+
+      it_behaves_like "keeps all access"
+    end
+  end
 end

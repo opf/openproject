@@ -50,8 +50,12 @@ export class CellBuilder {
 
   public fieldRenderer:DisplayFieldRenderer;
 
+  private readonly historicFieldRenderer:DisplayFieldRenderer;
+
   constructor(public injector:Injector, private readonly configuration:WorkPackageTableConfiguration) {
-    this.fieldRenderer = new DisplayFieldRenderer(this.injector, 'table', { tabbable: false });
+    const writable = configuration.inlineEditEnabled;
+    this.fieldRenderer = new DisplayFieldRenderer(this.injector, 'table', { tabbable: false, writable });
+    this.historicFieldRenderer = new DisplayFieldRenderer(this.injector, 'table', { tabbable: false, writable, historic: true });
   }
 
   public build(workPackage:WorkPackageResource, column:QueryColumn, isRowHeader = false):HTMLTableCellElement {
@@ -127,7 +131,7 @@ export class CellBuilder {
   ):void {
     const base = (workPackage.attributesByTimestamp!)[0];
     base.$links.schema = base.$links.schema ?? workPackage.$links.schema;
-    const span = this.fieldRenderer.render(base, attribute, null);
+    const span = this.historicFieldRenderer.render(base, attribute, null);
     span.classList.add('op-table-baseline--field', 'op-table-baseline--old-field');
     container.classList.add('op-table-baseline--container');
     (container.parentElement as HTMLTableElement).classList.add('op-table-baseline--cell');

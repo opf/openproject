@@ -80,6 +80,7 @@ class TypeVariant < ApplicationRecord
   has_many :projects, through: :project_types
 
   validates :variant_name, length: { maximum: 255 }
+  validates :description, length: { maximum: Type::DESCRIPTION_MAX_LENGTH }
   validates :variant_name,
             presence: true,
             uniqueness: { scope: %i[type_id project_id], case_sensitive: false },

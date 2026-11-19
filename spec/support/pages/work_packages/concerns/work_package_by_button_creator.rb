@@ -34,7 +34,7 @@ module Pages
         def create_wp_by_button(type)
           click_wp_create_button
 
-          find("#types-context-menu .menu-item", text: type.name.upcase, wait: 30).click
+          find(:menuitem, type.name, exact: true, wait: 30).click
 
           create_page_class_instance(type)
         end
@@ -46,26 +46,24 @@ module Pages
 
         def expect_wp_create_button
           expect(page)
-            .to have_css(".add-work-package:not([disabled])", text: "Create")
+            .to have_css(".add-work-package:not([disabled]):not([aria-disabled='true'])", text: "Create")
         end
 
         def expect_wp_create_button_disabled
           expect(page)
-            .to have_css(".add-work-package[disabled]", text: "Create")
+            .to have_css(".add-work-package[aria-disabled='true']", text: "Create")
         end
 
         def expect_type_available_for_create(type)
           click_wp_create_button
 
-          expect(page)
-            .to have_css("#types-context-menu .menu-item", text: type.name.upcase)
+          expect(page).to have_selector(:menuitem, type.name, exact: true)
         end
 
         def expect_type_not_available_for_create(type)
           click_wp_create_button
 
-          expect(page)
-            .to have_no_css("#types-context-menu .menu-item", text: type.name.upcase)
+          expect(page).to have_no_selector(:menuitem, type.name, exact: true)
         end
 
         private

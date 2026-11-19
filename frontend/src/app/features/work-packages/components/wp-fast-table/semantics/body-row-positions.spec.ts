@@ -128,6 +128,17 @@ describe('draftAgrees', () => {
     expect(draftAgrees(grouped(), [structural('G'), structural('H-sum')], groups)).toBe(false);
   });
 
+  it('accepts a draft that skips a zero-count group', () => {
+    const rows = [structural('G'), member('C'), member('D'), structural('G-sum'), structural('H'), structural('H-sum')];
+    const withEmpty = [{ ...groups[0], headerKey: 'E', sumsKey: 'E-sum', count: 0 }, ...groups];
+
+    expect(draftAgrees(grouped(), rows, withEmpty)).toBe(true);
+  });
+
+  it('rejects members drawn without their group header', () => {
+    expect(draftAgrees(grouped(), [member('C'), member('D')], groups)).toBe(false);
+  });
+
   it('rejects unknown keys', () => {
     expect(draftAgrees(grouped(), [structural('G'), member('X')], groups)).toBe(false);
   });

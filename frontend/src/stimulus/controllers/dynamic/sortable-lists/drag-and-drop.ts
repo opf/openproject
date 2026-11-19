@@ -55,6 +55,7 @@ import {
   type MoveAvailability,
   type MoveDirection,
 } from './list-dom';
+import type { ActionScope } from './selection-orchestrator';
 
 // Shared with the global generic-drag-and-drop controller and its row
 // styles, so it is not scoped to sortable lists.
@@ -121,7 +122,12 @@ export interface SortableListData extends Record<string|symbol, unknown> {
 export interface SortableListsRoot {
   readonly element:HTMLElement;
   readonly busy:boolean;
-  moveInDirection(itemElement:HTMLElement, direction:MoveDirection):void;
+  actionScopeFor(itemElement:HTMLElement):ActionScope;
+  selectForAction(itemElement:HTMLElement):ActionScope;
+  // Submits a destination form as the menu rendered it: its ids are the
+  // scope settled when the menu loaded.
+  moveToDestination(form:HTMLFormElement):void;
+  moveInDirection(itemElement:HTMLElement, direction:MoveDirection, scopeOwner:HTMLElement|null):void;
   // A snapshot for menu gating; the click path re-resolves against the live DOM.
   moveAvailability(itemElement:HTMLElement):MoveAvailability|null;
   // The rows container of the item's innermost owning list, or null when the
@@ -145,6 +151,9 @@ export interface RootAwareChild {
   readonly element:Element;
   connectRoot(root:SortableListsRoot):void;
   disconnectRoot():void;
+}
+
+export interface RegisteredRootAwareChild extends RootAwareChild {
   reregister():void;
 }
 

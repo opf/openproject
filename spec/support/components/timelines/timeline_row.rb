@@ -56,9 +56,9 @@ module Components
           expect(container).to have_css(".labelHoverRight.not-empty", text: right)
         end
 
-        expect(container).to have_css(".labelLeft", visible: false)
-        expect(container).to have_css(".labelRight", visible: false)
-        expect(container).to have_css(".labelFarRight", visible: false)
+        expect(container).to have_css(".labelLeft", visible: :all)
+        expect(container).to have_css(".labelRight", visible: :all)
+        expect(container).to have_css(".labelFarRight", visible: :all)
       end
 
       def expect_labels(left:, right:, farRight:)

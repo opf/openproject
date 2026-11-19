@@ -37,24 +37,106 @@ module ITSM
 
       menu_item :helpdesk
 
-      before_action :require_feature
+      guard_feature_flag :helpdesk
+
       before_action :require_admin
 
       def show
         @helpdesk_enabled = Setting.helpdesk_enabled?
-        @helpdesk_feature_writable = Setting.helpdesk_enabled_writable?
+
+        @wizard = wizard
+      end
+
+      def update
+        p = allowed_params
+        server = MailServer.find_or_initialize_by(protocol: p[:protocol])
+        # TODO: Add contracts and services
+        success = server.update(p.except(:protocol))
+
+        if success
+          close_server_configuration_form(protocol: server.protocol)
+        else
+          update_server_configuration_form(server:)
+        end
       end
 
       def enable_helpdesk
         enabled = ActiveModel::Type::Boolean.new.cast(params[:value])
-        Setting.helpdesk_enabled = enabled
+        result = enabled ? HelpdeskUsers::SetUpService.new.call : ServiceResult.success
 
-        update_via_turbo_stream(component: ITSM::Admin::HelpdeskSettingsComponent.new(enabled:))
+        result
+          .on_success { Setting.helpdesk_enabled = enabled }
+          .on_failure { helpdesk_not_enabled(it) }
+
+        update_via_turbo_stream(
+          component: ITSM::Admin::HelpdeskSettingsComponent.new(enabled: Setting.helpdesk_enabled?, wizard:)
+        )
         respond_with_turbo_streams
       end
 
-      def require_feature
-        render_404 unless OpenProject::FeatureDecisions.helpdesk_active?
+      def edit_server_configuration
+        protocol = params[:server_protocol].to_s
+        server = MailServer.find_or_initialize_by(protocol:) do |server|
+          server.name = derive_server_name(protocol)
+          server.encryption = "tls"
+          server.port = derive_default_port(protocol)
+        end
+
+        update_server_configuration_form(server:)
+      end
+
+      def close_server_configuration
+        close_server_configuration_form(protocol: params[:server_protocol].to_s)
+      end
+
+      private
+
+      def helpdesk_not_enabled(result)
+        update_via_turbo_stream(component: ITSM::Admin::HelpdeskToggleComponent.new)
+        render_error_flash_message_via_turbo_stream(message: I18n.t("itsm.admin.helpdesk_not_enabled", reason: result.message))
+      end
+
+      def wizard
+        ITSM::Wizard.new(model: nil)
+      end
+
+      def allowed_params
+        params.expect(itsm_mail_server: %i[name host port protocol encryption])
+      end
+
+      def derive_server_name(protocol)
+        "#{protocol.upcase} Mail Server"
+      end
+
+      def derive_default_port(protocol)
+        case protocol
+        when "imap"
+          993
+        when "smtp"
+          465 # TLS is default, hence the TLS port is default
+        end
+      end
+
+      def update_server_configuration_form(server:)
+        case server.protocol
+        when "imap"
+          update_via_turbo_stream(component: Forms::ImapServerConfigurationFormComponent.new(server))
+        when "smtp"
+          update_via_turbo_stream(component: Forms::SmtpServerConfigurationFormComponent.new(server))
+        end
+
+        respond_with_turbo_streams
+      end
+
+      def close_server_configuration_form(protocol:)
+        case protocol
+        when "imap"
+          update_via_turbo_stream(component: ITSM::Admin::ImapServerConfigurationComponent.new)
+        when "smtp"
+          update_via_turbo_stream(component: ITSM::Admin::SmtpServerConfigurationComponent.new)
+        end
+
+        respond_with_turbo_streams
       end
     end
   end

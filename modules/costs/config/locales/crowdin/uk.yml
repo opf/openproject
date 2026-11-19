@@ -78,9 +78,11 @@ uk:
               invalid: має бути користувачем або прототипом користувача.
         time_entry:
           attributes:
+            base:
+              cannot_edit_time_entry: You don't have permissions to edit this time entry.
+              cannot_log_for_this_work_package: У вас немає дозволу реєструвати час для цього пакета робіт.
             entity:
               blank: Поле «Зареєстровано для» не може бути порожнім.
-              cannot_log_for_this_work_package: У вас немає дозволу реєструвати час для цього пакета робіт.
               format: "%{message}"
             hours:
               exceeds_user_working_hours: Кількість зареєстрованих годин не може перевищувати час, доступний у робочому дні користувача, тобто %{limit} год.
@@ -94,6 +96,9 @@ uk:
             start_time:
               format: "%{message}"
               invalid_time: Недійсний час. Значення має бути в межах від 00:00 до 23:59.
+            user_id:
+              format: "%{message}"
+              no_access_to_entity: The selected user doesn't have access to this work package.
           duplicate_ongoing: Інший таймер уже запущено. Одночасно може бути активним лише один таймер.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Робочий пакет #%{id}  не є дійсною ціллю для перепризначення записів витрат.'
@@ -200,7 +205,7 @@ uk:
         none_active: Зараз у цьому проєкті немає активних типів витрат.
       time_and_costs: Час і витрати
       time_entry_activities:
-        heading: Time tracking
+        heading: Відстеження часу
         hint: Select which time tracking activities are displayed in your project when members log their time.
   costs:
     widgets:
@@ -264,7 +269,7 @@ uk:
   label_status_finished: Готово
   label_time: Час
   label_time_entry_activity_form_description: Зміни цієї дії з введення часу відображатимуться в усіх проєктах, де їх дозволено.
-  label_time_entry_custom_field_plural: Time entry custom fields
+  label_time_entry_custom_field_plural: Користувацькі поля для запису часу
   label_time_entry_restrictions: Ліміти
   label_today_capitalized: Сьогодні
   label_units: Одиниці витрат

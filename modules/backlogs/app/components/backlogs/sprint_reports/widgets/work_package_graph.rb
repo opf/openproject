@@ -32,9 +32,13 @@ module Backlogs
     module Widgets
       class WorkPackageGraph < Grids::WidgetComponent
         include Backlogs::CommonHelper
+        include ChartBlankslate
+
+        Bar = Data.define(:label, :count, :color)
 
         param :sprint
         param :project
+        param :breakdown
 
         def title
           t(".title")
@@ -44,28 +48,38 @@ module Backlogs
           { full_width: true }
         end
 
-        def render? = user_allowed?(:view_sprints)
+        def render? = sprint.date_range_set? && user_allowed?(:view_sprints)
 
-        def call
-          widget_wrapper do |widget|
-            widget.with_body do
-              helpers.angular_component_tag(
-                "opce-wp-overview-graph",
-                "global-scope": false,
-                "initial-filters": graph_filters.to_json,
-                "show-group-by-options": false
-              )
-            end
-          end
+        def chart_data
+          {
+            labels: bars.map(&:label),
+            data: bars.map(&:count),
+            colors: bars.map(&:color),
+            summary:,
+            statusColumnTitle: WorkPackage.human_attribute_name(:status),
+            countColumnTitle: WorkPackage.model_name.human(count: 2)
+          }.to_json
         end
 
         private
 
-        def graph_filters
-          [
-            { sprint: { operator: "=", values: [sprint.id] } },
-            { project: { operator: "=", values: [project.id] } }
-          ]
+        def blankslate_reason
+          :no_work if bars.empty?
+        end
+
+        # Statuses might have been deleted. If that happened, work packages associated to that
+        # status are ignored in the count.
+        def bars
+          @bars ||= Status.includes(:color)
+                          .where(id: breakdown.status_counts.keys)
+                          .map { Bar.new(label: it.name, count: breakdown.status_counts[it.id], color: it.color&.hexcode) }
+        end
+
+        # The chart is frozen once the sprint is completed, so the summary names that moment
+        # rather than claiming to describe the sprint as it stands.
+        def summary
+          t(".summary.#{sprint.completed_at? ? 'completed' : 'current'}",
+            description: bars.map { "#{it.count} #{it.label}" }.join("; "))
         end
       end
     end

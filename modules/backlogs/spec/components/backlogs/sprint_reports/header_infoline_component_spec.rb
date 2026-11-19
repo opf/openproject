@@ -43,18 +43,101 @@ RSpec.describe Backlogs::SprintReports::HeaderInfolineComponent, type: :componen
     expect(rendered_component).to have_text(I18n.t(:"activerecord.attributes.sprint.statuses.active"))
   end
 
-  context "when the sprint has a date range" do
-    it "shows the start and finish dates" do
-      expect(rendered_component).to have_css("time[datetime='2025-01-15']")
-      expect(rendered_component).to have_css("time[datetime='2025-01-29']")
+  describe "dates" do
+    let(:start_date) { Date.new(2025, 1, 15) }
+    let(:finish_date) { Date.new(2025, 1, 29) }
+    let(:started_at) { Time.utc(2025, 1, 16, 9, 30) }
+    let(:completed_at) { Time.utc(2025, 1, 30, 17, 45) }
+
+    current_user { build_stubbed(:user) }
+
+    context "when the sprint is in planning" do
+      let(:sprint) { build_stubbed(:sprint, status: :in_planning, start_date:, finish_date:) }
+
+      it "shows the planned range without a time of day" do
+        expect(rendered_component).to have_text("Planned:")
+        expect(rendered_component).to have_element(:time, datetime: "2025-01-15")
+        expect(rendered_component).to have_element(:time, datetime: "2025-01-29")
+        expect(rendered_component).to have_element(:time, count: 2)
+        expect(rendered_component).to have_no_text(/\d{2}:\d{2}/)
+      end
+
+      context "with only a start date" do
+        let(:finish_date) { nil }
+
+        it "shows the planned start as an open range" do
+          expect(rendered_component).to have_text("Planned:")
+          expect(rendered_component).to have_element(:time, datetime: "2025-01-15")
+          expect(rendered_component).to have_element(:time, count: 1)
+        end
+      end
+
+      context "with only a finish date" do
+        let(:start_date) { nil }
+
+        it "shows the planned finish as an open range" do
+          expect(rendered_component).to have_text("Planned:")
+          expect(rendered_component).to have_element(:time, datetime: "2025-01-29")
+          expect(rendered_component).to have_element(:time, count: 1)
+        end
+      end
+
+      context "without dates" do
+        let(:start_date) { nil }
+        let(:finish_date) { nil }
+
+        it "shows no dates" do
+          expect(rendered_component).to have_no_element(:time)
+          expect(rendered_component).to have_no_text("Planned:")
+        end
+      end
     end
-  end
 
-  context "when the sprint has no date range" do
-    let(:sprint) { build_stubbed(:sprint, start_date: nil, finish_date: nil) }
+    context "when the sprint is active" do
+      let(:sprint) { build_stubbed(:sprint, status: :active, start_date:, finish_date:, started_at:) }
 
-    it "does not show dates" do
-      expect(rendered_component).to have_no_css("time")
+      it "shows when it was started on its own, followed by the planned range" do
+        expect(rendered_component).to have_element(:time, datetime: "2025-01-16T09:30:00Z", text: "09:30 AM")
+        expect(rendered_component).to have_text(/09:30 AM\s+Planned:/)
+        expect(rendered_component).to have_element(:time, datetime: "2025-01-15")
+        expect(rendered_component).to have_element(:time, datetime: "2025-01-29")
+      end
+
+      context "without a start timestamp" do
+        let(:started_at) { nil }
+
+        it "shows only the planned range" do
+          expect(rendered_component).to have_text("Planned:")
+          expect(rendered_component).to have_element(:time, count: 2)
+          expect(rendered_component).to have_no_text(/\d{2}:\d{2}/)
+        end
+      end
+    end
+
+    context "when the sprint is completed" do
+      let(:sprint) do
+        build_stubbed(:sprint, status: :completed, start_date:, finish_date:, started_at:, completed_at:)
+      end
+
+      it "shows when it was started and completed, followed by the planned range" do
+        expect(rendered_component).to have_element(:time, datetime: "2025-01-16T09:30:00Z", text: "09:30 AM")
+        expect(rendered_component).to have_element(:time, datetime: "2025-01-30T17:45:00Z", text: "05:45 PM")
+        expect(rendered_component).to have_text("Planned:")
+        expect(rendered_component).to have_element(:time, datetime: "2025-01-15")
+        expect(rendered_component).to have_element(:time, datetime: "2025-01-29")
+      end
+
+      context "without planned dates" do
+        let(:start_date) { nil }
+        let(:finish_date) { nil }
+
+        it "shows only when it was started and completed" do
+          expect(rendered_component).to have_element(:time, count: 2)
+          expect(rendered_component).to have_text("09:30 AM")
+          expect(rendered_component).to have_text("05:45 PM")
+          expect(rendered_component).to have_no_text("Planned:")
+        end
+      end
     end
   end
 end

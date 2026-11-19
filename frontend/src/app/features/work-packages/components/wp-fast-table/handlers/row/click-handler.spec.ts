@@ -26,8 +26,11 @@
 //++
 
 import { usePlatform } from 'core-common/testing/platform';
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, within } from '@testing-library/dom';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { buildTable, TableHarness } from '../../testing/table-harness';
+import { OpTableActionsService } from 'core-app/features/work-packages/components/wp-table/table-actions/table-actions.service';
+import { OpUnlinkTableAction } from 'core-app/features/work-packages/components/wp-table/table-actions/actions/unlink-table-action';
 
 describe('RowClickHandler', () => {
   let harness:TableHarness;
@@ -199,6 +202,89 @@ describe('RowClickHandler', () => {
     fireEvent.doubleClick(harness.row('2').querySelector('td')!);
     expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
     expect(harness.focus.focusedWorkPackage).toBe('2');
+  });
+
+  describe('with a row action control', () => {
+    let actionHarness:TableHarness;
+    const unlink = vi.fn();
+
+    beforeEach(async () => {
+      await harness.destroy();
+      actionHarness = buildTable({
+        workPackages: [{ id: '1' }, { id: '2' }],
+        configuration: { actionsColumnEnabled: true },
+        providers: [{
+          provide: OpTableActionsService,
+          useFactory: () => {
+            const actions = new OpTableActionsService();
+            actions.setActions(OpUnlinkTableAction.factoryFor('remove-child-action', 'Remove child', unlink));
+            return actions;
+          },
+        }],
+      });
+      harness = actionHarness;
+      await actionHarness.render();
+    });
+
+    const removeButton = () => within(actionHarness.row('2')).getByRole('button', { name: 'Remove child' });
+
+    it('leaves the row selection alone when the control is clicked', () => {
+      fireEvent.click(removeButton());
+
+      expect(unlink).toHaveBeenCalledOnce();
+      expect(actionHarness.selection.isEmpty).toBe(true);
+    });
+
+    it('does not open the row when the control is double-clicked', () => {
+      const clicked:boolean[] = [];
+      actionHarness.outputs.itemClicked.subscribe(({ double }) => clicked.push(double));
+
+      fireEvent.doubleClick(removeButton());
+
+      expect(clicked).toEqual([]);
+    });
+  });
+
+  describe('with the details pane open', () => {
+    const openOn = async (routingId:string) => {
+      await harness.destroy();
+      harness = buildTable({
+        workPackages: [{ id: '1' }, { id: '2' }],
+        providers: [{
+          provide: UrlParamsService,
+          useValue: {
+            currentDetailsRouteParams: () => ({ routingId, tab: 'activity' }),
+            basePathWithoutDetails: () => '/work_packages',
+          },
+        }],
+      });
+      await harness.render();
+      return vi.spyOn(Turbo, 'visit').mockImplementation(() => undefined);
+    };
+
+    it('switches it to the clicked row and keeps the tab', async () => {
+      const visit = await openOn('1');
+      try {
+        harness.click('2');
+
+        expect(visit).toHaveBeenCalledOnce();
+        expect(visit.mock.calls[0][0]).toContain('/work_packages/details/2/activity');
+        expect(visit.mock.calls[0][1]).toMatchObject({ frame: 'content-bodyRight', action: 'advance' });
+      } finally {
+        visit.mockRestore();
+      }
+    });
+
+    it('leaves it alone when the clicked row is already shown', async () => {
+      const visit = await openOn('1');
+      try {
+        harness.click('1');
+
+        expect(visit).not.toHaveBeenCalled();
+      } finally {
+        visit.mockRestore();
+      }
+    });
   });
 
   it('marks the clicked row as the current work package', () => {

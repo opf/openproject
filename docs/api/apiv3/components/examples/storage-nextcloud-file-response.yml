@@ -14,7 +14,7 @@ value:
   permissions:
     - readable
     - writable
-  _links: 
-    self: 
+  _links:
+    self:
       href: '/api/v3/storages/2/files/264'
       title: HOW_TO_TUTORIAL.md

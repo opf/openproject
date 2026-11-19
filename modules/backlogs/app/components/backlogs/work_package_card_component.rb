@@ -68,6 +68,8 @@ module Backlogs
         show_assignee: true,
         show_priority: true,
         show_parent: true,
+        link_subject: false,
+        link_parent: false,
         status_scheme: :secondary,
         **@system_arguments
       )

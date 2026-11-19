@@ -57,7 +57,16 @@ RSpec.describe "Milestones full screen v iew", :js do
 
     it "shows the button as enabled" do
       click_button("Create", class: "add-work-package")
-      expect(page).to have_css(".menu-item", text: type.name.upcase)
+      expect(page).to have_selector(:menuitem, type.name, exact: true)
+    end
+
+    it "opens the type menu from the keyboard and returns focus to the button on Escape" do
+      send_keys_without_click(find_button("Create", class: "add-work-package"), :enter)
+      expect(page).to have_selector(:menuitem, type.name, exact: true, focused: true)
+
+      page.driver.browser.keyboard.type(:escape)
+      expect(page).to have_no_menu
+      expect(page).to have_button("Create", class: "add-work-package", focused: true)
     end
   end
 
@@ -71,7 +80,14 @@ RSpec.describe "Milestones full screen v iew", :js do
     end
 
     it "shows the button as correctly disabled" do
-      expect(page).to have_button("Create", class: "add-work-package", disabled: true)
+      expect(page).to have_css(".add-work-package[aria-disabled='true']", text: "Create")
+    end
+
+    it "opens no menu from the disabled button" do
+      find(".add-work-package[aria-disabled='true']", text: "Create").click
+
+      wait_for_network_idle
+      expect(page).to have_no_menu
     end
   end
 end

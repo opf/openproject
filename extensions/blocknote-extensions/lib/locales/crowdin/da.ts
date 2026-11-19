@@ -12,7 +12,12 @@ export const en = {
         'work package': "arbejdspakker",
         'wp': "ap",
         'link': 'link',
-        'create': "opret"
+        'create': "opret",
+        'attribute': "attribut"
+      },
+      'attribute': {
+        'title': "Arbejdspakkeattribut",
+        'subtext': "Indsæt en dynamisk attribut eller et brugerdefineret felt"
       }
     },
     'formattingToolbar': {
@@ -75,7 +80,7 @@ export const en = {
     },
     'options': {
       'openInNewTab': "Åbn i ny fane",
-      'open': "Åbn",
+      'openWorkPackage': "Åbn {{id}}",
       'changeSize': "Skift størrelse",
       'changeSizeAriaLabel': "Skift størrelse: {{size}}",
       'menuAriaLabel': "Valgmuligheder for arbejdspakke {{id}}",
@@ -121,6 +126,40 @@ export const en = {
     },
     'spinner': {
       'ariaLabel': "Indlæser"
+    },
+    'workPackageAttribute': {
+      'missing': "{{attribute}} er ikke tilgængelig",
+      'yes': "Ja",
+      'no': "Nej",
+      'days_one': "{{count}} dag",
+      'days_other': "{{count}} dage",
+      'display': {
+        'label': "Betegnelse",
+        'value': "Værdi",
+        'both': "Betegnelse + værdi"
+      },
+      'options': {
+        'menuAriaLabel': "Valgmuligheder for {{attribute}} i arbejdspakke {{id}}",
+        'removeAriaLabel': "Fjern arbejdspakkeattribut",
+        'selectedDescription': "{{attribute}} i arbejdspakke {{id}}"
+      },
+      'dialog': {
+        'title': "Indsæt arbejdspakkeattribut",
+        'workPackage': "Arbejdspakke",
+        'attribute': "Attribut",
+        'attributePlaceholder': "Vælg en attribut …",
+        'attributeDisabled': "Vælg først en arbejdspakke",
+        'attributeLoading': "Indlæser attributter …",
+        'attributeUnavailable': "Attributterne er ikke tilgængelige",
+        'loadFailed': "Attributterne for {{id}} kunne ikke indlæses.",
+        'retry': "Prøv igen",
+        'prefilled': "Udfyldt med dit seneste valg",
+        'notAvailable': "\"{{attribute}}\" er ikke tilgængelig for {{id}}. Vælg en anden attribut.",
+        'show': "Vis",
+        'preview': "Forhåndsvisning",
+        'previewEmpty': "Vælg en arbejdspakke og en attribut",
+        'insert': "Indsæt"
+      }
     }
   }
 };

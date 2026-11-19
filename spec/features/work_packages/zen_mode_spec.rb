@@ -30,6 +30,8 @@
 require "spec_helper"
 
 RSpec.describe "Zen mode", :js do
+  include_context "with axe on Cuprite"
+
   let(:dev_role) do
     create(:project_role,
            permissions: %i[view_work_packages
@@ -65,9 +67,10 @@ RSpec.describe "Zen mode", :js do
 
   it "hides menus" do
     wp_page.expect_no_zen_mode
-    wp_page.page.find_by_id("work-packages-zen-mode-toggle-button").click
+    click_on accessible_name: "Activate zen mode"
     wp_page.expect_zen_mode
-    wp_page.page.find_by_id("work-packages-zen-mode-toggle-button").click
+    click_on accessible_name: "Deactivate zen mode"
     wp_page.expect_no_zen_mode
+    expect(page).to be_axe_clean.within("#toolbar-items")
   end
 end

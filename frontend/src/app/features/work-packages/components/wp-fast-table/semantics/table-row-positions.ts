@@ -125,6 +125,11 @@ export class TableRowPositions {
     this.committedWithdrawal = evidence && 'withdrawn' in evidence ? evidence : null;
   }
 
+  /** Why the last paint left positions off, or null when it painted them. */
+  public get withdrawn():string|null {
+    return this.withdrawal;
+  }
+
   /** Producers call this synchronously after every imperative row move or structural change, so no frame exposes a stale index. */
   public paint():string|null {
     this.withdrawal = this.paintPositions();

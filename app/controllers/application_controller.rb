@@ -69,7 +69,7 @@ class ApplicationController < ActionController::Base
 
   layout "base"
 
-  protect_from_forgery
+  protect_from_forgery with: :exception, store: Sessions::CsrfTokenCookieStore.new
   # CSRF protection prevents two things. It prevents an attacker from using a
   # user's session to execute requests. It also prevents an attacker to log in
   # a user with the attacker's account. API requests each contain their own
@@ -207,7 +207,8 @@ class ApplicationController < ActionController::Base
   # Checks if the session cookie is missing.
   # This is useful only on a second request
   def openproject_cookie_missing?
-    request.cookies[OpenProject::Configuration["session_cookie_name"]].nil?
+    [OpenProject::Configuration["session_cookie_name"], Sessions::CsrfTokenCookieStore.cookie_name]
+      .none? { |name| request.cookies.key?(name) }
   end
 
   helper_method :openproject_cookie_missing?
@@ -216,7 +217,7 @@ class ApplicationController < ActionController::Base
   # Create CSRF issue
   def log_csrf_failure
     message = "CSRF validation error"
-    message += " (No session cookie present)" if openproject_cookie_missing?
+    message += " (No session or CSRF cookie present)" if openproject_cookie_missing?
 
     op_handle_error message, reference: :csrf_validation_failed
   end

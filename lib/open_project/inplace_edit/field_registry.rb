@@ -47,6 +47,14 @@ module OpenProject
         @registry.fetch(attribute_name.to_s) { OpPrimer::InplaceEditFields::TextInputComponent }
       end
 
+      def registered?(attribute_name)
+        @registry.key?(attribute_name.to_s)
+      end
+
+      def editable?(attribute_name)
+        registered?(attribute_name) || CustomField.custom_field_attribute?(attribute_name)
+      end
+
       def fetch_for_custom_field_format(field_format)
         return OpPrimer::InplaceEditFields::TextInputComponent if field_format.nil?
 
@@ -58,7 +66,8 @@ module OpenProject
       class << self
         attr_reader :default
 
-        delegate :register, :fetch, :fetch_for_custom_field_format, :register_custom_field_format_mappings, to: :@default
+        delegate :register, :fetch, :registered?, :editable?, :fetch_for_custom_field_format,
+                 :register_custom_field_format_mappings, to: :@default
       end
     end
   end

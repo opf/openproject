@@ -35,7 +35,7 @@ module Components
       include RSpec::Matchers
 
       def toggle_drop_modal
-        page.find('[data-test-selector="baseline-button"]').click
+        page.click_on(accessible_name: I18n.t("js.baseline.toggle_title"), exact: true)
       end
 
       def expect_closed

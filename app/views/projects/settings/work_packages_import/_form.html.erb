@@ -19,9 +19,7 @@
     <%= primer_form_with url: project_settings_work_packages_import_path(@project), method: :post, multipart: true do |f| %>
       <%= hidden_field_tag :job, @status&.job_id if import_checked? %>
 
-      <%
-        max_size = Setting.attachment_max_size.to_i.kilobytes
-      %>
+      <% max_size = Setting.attachment_max_size.to_i.kilobytes %>
 
       <%= render Primer::Box.new(mb: 3) do %>
         <%=

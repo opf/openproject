@@ -112,7 +112,7 @@ RSpec.describe "Recurring meetings creation",
 
       # User is redirected to the template
       expect(page).to have_current_path(project_meeting_path(project, meeting.template))
-      expect(page).to have_content(I18n.t("recurring_meeting.template.description"))
+      expect(page).to have_text(I18n.t("recurring_meeting.template.description"))
 
       # Add participants
       template_page.open_participant_form
@@ -149,7 +149,7 @@ RSpec.describe "Recurring meetings creation",
       wait_for_network_idle
 
       # State component is only visible for draft mode in a template
-      expect(page).to have_no_selector("#meetings-side-panel-state-component")
+      expect(page).to have_no_css("#meetings-side-panel-state-component")
 
       # Sends out an invitation to the series
       show_page.visit!
@@ -242,7 +242,7 @@ RSpec.describe "Recurring meetings creation",
         page.find(".close-button").click
       end
 
-      expect(page).to have_no_selector("#new-meeting-dialog", wait: 10)
+      expect(page).to have_no_css("#new-meeting-dialog", wait: 10)
     end
   end
 end

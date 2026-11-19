@@ -33,7 +33,7 @@ RSpec.describe "Examples embedded in APIv3 schemas" do # rubocop:disable RSpec/D
   # rubocop:disable-next RSpec/LeakyLocalVariable
   schema_names = Dir[
     Rails.root.join("docs/api/apiv3/components/schemas/*").to_s
-  ].map { |f| File.basename(f).split(".", 2).first }.grep(/model$/)
+  ].map { |f| File.basename(f).split(".", 2).first }
 
   it "auto-discovers schemas [SELF-TEST]" do
     # heuristic self-test, when writing this spec there were 159 schemas to be discovered. This number should
@@ -42,14 +42,21 @@ RSpec.describe "Examples embedded in APIv3 schemas" do # rubocop:disable RSpec/D
   end
 
   schema_names.each do |schema_name|
-    it "has no schema errors in #{schema_name}" do
-      schema = JsonSchemaLoader.new.load(schema_name)
-      example = schema[:example]
+    schema = JsonSchemaLoader.new.load(schema_name) # rubocop:disable RSpec/LeakyLocalVariable
 
-      # TODO: It would be nice to just skip the abbreviated element from "required" validations, instead of skipping the
-      #       entire validation of the schema
-      if example && all_keys(example).exclude?(:_abbreviated)
-        expect(example.to_json).to match_json_schema(schema)
+    it "does not use 'example' in #{schema_name}" do
+      expect(schema).not_to have_key(:example), "Since OpenAPI 3.1 examples inside schemas should be " \
+                                                "defined under 'examples', not 'example'"
+    end
+
+    examples = schema[:examples] || []
+    examples.each_with_index do |example, i|
+      it "has no schema errors in #{schema_name} (example ##{i + 1})" do
+        # TODO: It would be nice to just skip the abbreviated element from "required" validations, instead of skipping the
+        #       entire validation of the schema
+        if all_keys(example).exclude?(:_abbreviated)
+          expect(example.to_json).to match_json_schema(schema)
+        end
       end
     end
   end

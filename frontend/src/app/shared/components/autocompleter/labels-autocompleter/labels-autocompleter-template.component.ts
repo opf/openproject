@@ -29,6 +29,7 @@ import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from '@ang
 import {
   IAutocompleterTemplateComponent,
 } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
+import { AutocompleterOptionContext } from 'core-app/shared/components/autocompleter/op-autocompleter/typings';
 
 @Component({
   templateUrl: './labels-autocompleter-template.component.html',
@@ -36,5 +37,5 @@ import {
   standalone: false,
 })
 export class LabelsAutocompleterTemplateComponent implements IAutocompleterTemplateComponent {
-  @ViewChild('optionTemplate') optionTemplate?:TemplateRef<Element>;
+  @ViewChild('optionTemplate') optionTemplate?:TemplateRef<AutocompleterOptionContext>;
 }

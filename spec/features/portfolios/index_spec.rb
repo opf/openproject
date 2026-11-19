@@ -233,7 +233,7 @@ RSpec.describe "Portfolios", "index", :js, with_ee: :portfolio_management do # T
     current_user { create(:user) }
 
     it "cannot see portfolios" do
-      expect(page).to have_content "[Error 403] You are not authorized to access this page."
+      expect(page).to have_text "[Error 403] You are not authorized to access this page."
     end
   end
 end

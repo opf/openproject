@@ -125,5 +125,5 @@ properties:
           - $ref: './link.yml'
           - description: |-
               Request an upload link.
-              
+
               **Condition:** `direct_uploads` is enabled

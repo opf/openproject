@@ -102,11 +102,11 @@ describe('focus position model', () => {
   });
 
   it('ArrowRight on a collapsed parent returns expand', () => {
-    expect(computeNextPosition(buildRows(), row('C'), 'ArrowRight', 5)).toEqual({ type: 'expand', key: 'C' });
+    expect(computeNextPosition(buildRows(), row('C'), 'ArrowRight', 5)).toEqual({ type: 'expand', row: expect.objectContaining({ key: 'C' }) });
   });
 
   it('ArrowLeft on an expanded group header returns collapse', () => {
-    expect(computeNextPosition(buildRows(), row('0:header'), 'ArrowLeft', 5)).toEqual({ type: 'collapse', key: '0:header' });
+    expect(computeNextPosition(buildRows(), row('0:header'), 'ArrowLeft', 5)).toEqual({ type: 'collapse', row: expect.objectContaining({ key: '0:header' }) });
   });
 
   it('ArrowLeft on a non-expanded row is none', () => {
@@ -209,6 +209,22 @@ describe('focus position model', () => {
     const rows = buildRows().map((r) => (r.key === 'A' ? { ...r, cellCount: 0 } : r));
 
     expect(reconcilePosition(rows, cell('A', 1), 1)).toEqual({ key: 'A', cell: null, desiredColumn: 1 });
+  });
+
+  it('ArrowRight on a row without cells does nothing', () => {
+    const rows = buildRows().map((candidate) => (candidate.key === 'A' ? { ...candidate, cellCount: 0 } : candidate));
+
+    expect(computeNextPosition(rows, row('A'), 'ArrowRight', 5)).toEqual({ type: 'none' });
+  });
+
+  it('computeNextPosition from a row that is not rendered is none', () => {
+    expect(computeNextPosition(buildRows(), row('gone'), 'ArrowDown', 5)).toEqual({ type: 'none' });
+  });
+
+  it('a cell position without a desired column lands in the first cell of the next row', () => {
+    const position:FocusPosition = { key: 'A', cell: 2, desiredColumn: null };
+
+    expect(computeNextPosition(buildRows(), position, 'ArrowDown', 5)).toEqual(move(cell('0:header', 0)));
   });
 
   it('computeNextPosition on a hidden current row is none for every key', () => {

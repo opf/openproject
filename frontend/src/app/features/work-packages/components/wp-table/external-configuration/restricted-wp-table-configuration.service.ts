@@ -36,17 +36,30 @@ export class RestrictedWpTableConfigurationService extends WpTableConfigurationS
   readonly locals = inject<QueryConfigurationLocals>(OpQueryConfigurationLocalsToken);
 
   public get tabs():TabInterface[] {
-    const disabledTabs = this.locals.disabledTabs || {};
+    const disabledTabs = this.disabledTabs();
+
+    if (this.locals.hideDisabledTabs) {
+      return super.tabs.filter((tab) => !disabledTabs.has(tab.id));
+    }
 
     return super
       .tabs
-      .map((el) => {
-        const reason = disabledTabs[el.id];
-        if (reason != null) {
-          el.disable = reason;
+      .map((tab) => {
+        const reason = disabledTabs.get(tab.id);
+        if (reason !== undefined) {
+          tab.disable = reason;
         }
 
-        return el;
+        return tab;
       });
+  }
+
+  private disabledTabs():Map<string, string|true> {
+    const { disabledTabs = [] } = this.locals;
+    const entries:[string, string|true][] = Array.isArray(disabledTabs)
+      ? disabledTabs.map((id) => [id, true])
+      : Object.entries(disabledTabs);
+
+    return new Map(entries);
   }
 }

@@ -32,7 +32,6 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 
 @Component({
   templateUrl: './version-board-header.html',
-  styleUrls: ['./version-board-header.sass'],
   host: { class: 'title-container -small' },
   standalone: false,
   // TODO: This component has been partially migrated to be zoneless-compatible.
@@ -45,7 +44,7 @@ export class VersionBoardHeaderComponent {
   readonly pathHelper = inject(PathHelperService);
 
   // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('resource') public version:VersionResource;
+  @Input('resource') public version:VersionResource|undefined;
 
   public text = {
     isLocked: this.I18n.t('js.boards.version.is_locked'),

@@ -37,13 +37,14 @@ module OpPrimer
     # @param show_drag_handle toggle
     # @param show_parent toggle
     # @param link_subject toggle
+    # @param link_parent toggle
     # @param show_metric toggle
     # @param show_menu toggle
     # @param additional_details toggle
     # @param status_scheme select [default, secondary]
     def playground(show_assignee: false, show_priority: false, show_drag_handle: false,
-                   show_parent: false, link_subject: true, show_metric: false, show_menu: false,
-                   additional_details: false, status_scheme: :default)
+                   show_parent: false, link_subject: true, link_parent: true, show_metric: false,
+                   show_menu: false, additional_details: false, status_scheme: :default)
       work_package = WorkPackage.visible.where.not(parent_id: nil).first || WorkPackage.visible.first
       return preview_message("No work packages in the database.") unless work_package
 
@@ -55,6 +56,7 @@ module OpPrimer
                              show_drag_handle:,
                              show_parent:,
                              link_subject:,
+                             link_parent:,
                              show_metric:,
                              show_menu:,
                              additional_details:,

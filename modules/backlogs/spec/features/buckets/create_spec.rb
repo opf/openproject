@@ -55,6 +55,8 @@ RSpec.describe "Backlog bucket creation", :js do
       click_on "Create"
     end
 
+    backlogs_page.expect_loading_skeleton
+
     expect_and_dismiss_flash type: :success, exact_message: "Successful creation."
     backlogs_page.expect_bucket_names_in_order("Discovery work")
 

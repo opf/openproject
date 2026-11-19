@@ -8,7 +8,7 @@ keywords: Jira, Jira Migrator, Jira migration, Jira Data Center, Import tool, Mi
 
 # Migrating from Jira to OpenProject
 
-Last edited on: September 30, 2026.
+Last edited on: November 10, 2026.
 
 The OpenProject team is actively developing the Jira Migrator, an import tool for Jira Data Center. This feature is under active development. We add new features with each release. Information on this page may change as new migration options become available.
 
@@ -27,14 +27,18 @@ For concise answers to common questions, see the [Jira migration FAQ](./faq/).
 
 ## Data covered by the Jira Migrator
 
-The Jira Migrator is currently in beta and supports the following data: 
+The Jira Migrator is currently in beta and supports the following data:
 
 - Projects
 - Project identifiers
 - Project versions
+- Sprints and sprint assignments (requires Jira Software, see [Sprints](./field-mapping/#sprints))
 - Issues
 - Issue identifiers
 - Issue descriptions, history, watchers, comments, and attachments
+- Inline images in descriptions and comments
+- Parent-child relationships (sub-tasks)
+- Issue links (blocks, relates to, duplicates, etc.)
 - Logged work (worklogs) as time entries
 - A subset of custom fields (see [Custom fields migration](./custom-fields/))
 - Involved users and groups
@@ -43,24 +47,25 @@ The Jira Migrator is currently in beta and supports the following data:
 
 See [the field mapping reference](./field-mapping/) for details.
 
-## Data not yet covered by the Migrator 
+## Data not yet covered by the Migrator
 
 ### Coming soon
 
-- Relations between issues
-- Sprint assignments
+- Project-specific custom fields
+- Security Level
+- Configuration & Mapping options
 
 ### Coming later
 
-- Project-level workflows
 - Permissions
-- Schemas
+- Workflow migration
+- Plug-in migration
 
 See [the field mapping reference](./field-mapping/) for details.
 
 ## Supported Jira versions
 
-- We currently only support Jira Data Center versions 10.x and 11.x.
+- We support Jira Server/Data Center versions 8.x, 9.x, 10.x and 11.x.
 - Cloud instances are **not** supported at this time.
 
 ## Import preparation
@@ -87,6 +92,9 @@ Provide the following details:
 - A name for the import configuration
 - Your Jira URL
 - A Personal Access Token. The migration tool requires a token with admin permissions. Otherwise, you will get a 403 error during the import process.
+
+> [!IMPORTANT]
+> Admin permissions are not enough to import sprints. The token user must also be able to see the Scrum boards of the projects you import, which in Jira depends on the sharing of each board's filter. Sprints the token user cannot see in Jira are skipped, and their issues are imported without a sprint. See [Sprints](./field-mapping/#sprints) for all requirements.
 
 Optionally, select **Exclude resolution fields for this configuration** if you do not want to import Jira's resolution and resolution date. See [Field mapping](field-mapping/) for how these fields are imported otherwise.
 

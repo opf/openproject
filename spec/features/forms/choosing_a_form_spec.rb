@@ -85,7 +85,7 @@ RSpec.describe "Choosing the form a type uses", :js do
 
     open_create_dialog
 
-    within_dialog I18n.t("form_configurations.form.new_title") do
+    within_dialog I18n.t("form_configurations.form.save_title") do
       expect(page).to have_field("Form name", with: "Bug form (2)")
 
       fill_in "Form name", with: "Bug layout"
@@ -106,7 +106,7 @@ RSpec.describe "Choosing the form a type uses", :js do
                           results_selector: "#form_configuration-dialog")
     end
 
-    within_dialog(I18n.t("form_configurations.form.new_title")) { click_on I18n.t(:button_create) }
+    within_dialog(I18n.t("form_configurations.form.copy_title", name: "Standard form")) { click_on I18n.t(:button_create) }
 
     expect(page).to have_current_path(%r{/forms/\d+/edit})
     expect(variant.reload.form_configuration.attribute_groups.map(&:key)).to eq(%w[Planning])

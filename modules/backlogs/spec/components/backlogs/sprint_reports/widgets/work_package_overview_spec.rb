@@ -96,15 +96,59 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
         expect(rendered_component).to have_css(".color-fg-muted", text: "2")
       end
 
-      it "links each block's 'View all' to the work packages table filtered to the sprint" do
-        links = rendered_component.css("a", text: "View all")
-        expect(links).not_to be_empty
+      describe "'View all' links" do
+        let(:query_props) do
+          rendered_component.css("a", text: "View all").map do |link|
+            JSON.parse(CGI.parse(URI.parse(link["href"]).query)["query_props"].first)
+          end
+        end
 
-        query_props = links.map { |link| JSON.parse(CGI.parse(URI.parse(link["href"]).query)["query_props"].first) }
+        it "links each block to the work packages table filtered to the sprint" do
+          expect(query_props).not_to be_empty
+          expect(query_props).to all(include("f" => include(include("n" => "sprintId"))))
+          expect(query_props).to all(include("is" => false))
+        end
 
-        expect(query_props).to all(include("f" => include(include("n" => "sprintId"))))
-        expect(query_props).to all(include("ts"))
-        expect(query_props).to all(include("is" => false))
+        it "adds only historic reference dates to the links" do
+          freeze_time do
+            sprint_start = Timestamp.new(sprint.started_at).to_s
+            now = Timestamp.new(Time.current).to_s
+
+            expect(query_props.pluck("ts")).to eq [sprint_start, "#{sprint_start},#{now}", nil, nil]
+          end
+        end
+
+        context "when the sprint is completed" do
+          let(:reference_finish) { Timestamp.new(1.day.ago) }
+
+          before { allow(breakdown).to receive(:reference_finish).and_return(reference_finish) }
+
+          it "adds the reference finish to the completed and unfinished links" do
+            expect(query_props.pluck("ts").last(2)).to eq [reference_finish.to_s, reference_finish.to_s]
+          end
+        end
+
+        it "includes the story points column" do
+          expect(query_props).to all(include("c" => include("story_points")))
+        end
+
+        context "when the project's estimation unit is time", with_flag: { project_settings_estimation_unit: true } do
+          before { project.estimation_unit = "time" }
+
+          it "includes the estimated time column" do
+            expect(query_props).to all(include("c" => include("estimated_hours")))
+            expect(query_props).to all(include("c" => exclude("story_points")))
+          end
+        end
+
+        context "when the project's estimation unit is none", with_flag: { project_settings_estimation_unit: true } do
+          before { project.estimation_unit = "none" }
+
+          it "includes no estimation column" do
+            expect(query_props).to all(include("c" => exclude("story_points")))
+            expect(query_props).to all(include("c" => exclude("estimated_hours")))
+          end
+        end
       end
     end
 
@@ -374,9 +418,8 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
       mock_permissions_for(current_user) { |mock| mock.allow_in_project(:view_sprints, project:) }
     end
 
-    it "renders a blankslate" do
-      expect(rendered_component).to have_css(".blankslate", text: "No sprint data available")
-      expect(rendered_component).to have_no_css(".op-wp-overview--blocks")
+    it "renders nothing" do
+      expect(rendered_component.to_s).to be_empty
     end
   end
 end

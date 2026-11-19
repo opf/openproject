@@ -10,7 +10,8 @@
           slide: current_slide,
           started_at: started_at_param
         ),
-        poll_for_changes_interval_value: check_for_updates_interval
+        poll_for_changes_interval_value: check_for_updates_interval,
+        poll_for_changes_pausable_value: true
       }
     ) do %>
   <%= content_tag :div,

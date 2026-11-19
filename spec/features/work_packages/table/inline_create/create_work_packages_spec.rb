@@ -137,6 +137,20 @@ RSpec.describe "inline create work package", :js do
         expect(page).to have_button("Create new work package", focused: true)
       end
 
+      it "focuses the Subject field again when reopened after cancelling" do
+        wp_table.expect_work_package_listed(existing_wp)
+
+        wp_table.click_inline_create
+        wp_table.edit_field(nil, :subject).expect_active!
+        within(".wp-inline-create-row") { click_on accessible_name: "Cancel" }
+        expect(page).to have_no_css(".wp-inline-create-row")
+
+        wp_table.click_inline_create
+
+        wp_table.edit_field(nil, :subject).expect_active!
+        expect(page).to have_focus_on("#wp-new-inline-edit--field-subject")
+      end
+
       it "closes an inline-create dropdown with the first Escape" do
         wp_table.expect_work_package_listed(existing_wp)
 
@@ -268,7 +282,7 @@ RSpec.describe "inline create work package", :js do
       it "renders the work packages, but no create" do
         wp_table.expect_work_package_listed(existing_wp)
         expect(page).to have_no_button(exact_text: "Create new work package")
-        expect(page).to have_css(".add-work-package[disabled]")
+        expect(page).to have_css(".add-work-package[aria-disabled='true']")
       end
     end
   end

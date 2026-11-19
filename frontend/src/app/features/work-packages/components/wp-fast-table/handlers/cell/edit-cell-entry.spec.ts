@@ -26,8 +26,11 @@
 //++
 
 import { fireEvent, waitFor, within } from '@testing-library/dom';
+import { activeFieldClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { readOnlyClassName } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { buildTable, TableHarness, TableHarnessOptions } from '../../testing/table-harness';
+import { activateTableField } from './edit-cell-handler';
 
 describe('Edit cell entry', () => {
   let harness:TableHarness;
@@ -39,6 +42,17 @@ describe('Edit cell entry', () => {
   };
 
   const subjectField = (workPackageId:string) => harness.row(workPackageId).querySelector<HTMLElement>(':scope > .wp-table--cell-td.subject .inline-edit--display-field')!;
+
+  const controlNestedInOpenEditor = async (workPackageId:string) => {
+    fireEvent.click(subjectField(workPackageId));
+    const textbox = await within(harness.row(workPackageId)).findByRole('textbox');
+    const host = document.createElement('div');
+    host.classList.add(activeFieldClassName);
+    const nested = document.createElement('button');
+    host.append(nested);
+    textbox.closest('td, th')!.append(host);
+    return nested;
+  };
 
   afterEach(() => harness.destroy());
 
@@ -54,11 +68,41 @@ describe('Edit cell entry', () => {
       expect(harness.focus.focusedWorkPackage).toBe('2');
     });
 
+    it('abandons an activation when the table is torn down mid-load', async () => {
+      const field = subjectField('1');
+
+      fireEvent.click(field);
+      harness.table.destroy();
+      await new Promise((resolve) => { setTimeout(resolve, 50); });
+
+      expect(field).not.toHaveClass(readOnlyClassName);
+      expect(within(harness.row('1')).queryByRole('textbox')).not.toBeInTheDocument();
+    });
+
     it('opens the editor on Enter', async () => {
       fireEvent.keyDown(subjectField('1'), { key: 'Enter' });
 
       await waitFor(() => expect(within(harness.row('1')).getByRole('textbox')).toHaveFocus());
       expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
+    });
+
+    it('does not open the work package when double clicking a control nested in the open editor', async () => {
+      const itemClicked = vi.fn();
+      harness.outputs.itemClicked.subscribe(itemClicked);
+      const nested = await controlNestedInOpenEditor('1');
+
+      fireEvent.dblClick(nested);
+
+      expect(itemClicked).not.toHaveBeenCalled();
+    });
+
+    it('leaves selection and the current work package alone when clicking a control nested in the open editor', async () => {
+      const nested = await controlNestedInOpenEditor('1');
+
+      fireEvent.click(nested);
+
+      expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
+      expect(harness.focus.focusedWorkPackage).toBe('2');
     });
   });
 
@@ -102,6 +146,69 @@ describe('Edit cell entry', () => {
       expect(blocked).toHaveBeenCalledWith('subject');
       expect(within(harness.row('1')).queryByRole('textbox')).not.toBeInTheDocument();
       expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
+    });
+  });
+
+  describe('when inline edit is disabled', () => {
+    beforeEach(() => renderTable({ editing: {}, configuration: { inlineEditEnabled: false } }));
+
+    it('refuses to open an editor through cell activation', () => {
+      expect(activateTableField(harness.table, subjectField('1'))).toBe(false);
+
+      expect(within(harness.row('1')).queryByRole('textbox')).not.toBeInTheDocument();
+      expect(harness.table.editing.forms).toEqual({});
+    });
+
+    it('does not open an editor or mark the field', () => {
+      fireEvent.click(subjectField('1'));
+
+      expect(within(harness.row('1')).queryByRole('textbox')).not.toBeInTheDocument();
+      expect(subjectField('1')).not.toHaveClass('-editable');
+      expect(subjectField('1')).not.toHaveClass('-read-only');
+      expect(harness.table.editing.forms).toEqual({});
+    });
+
+    it.each(['Enter', 'F2'])('does not open an editor with %s in a focused cell', (key) => {
+      const cell = subjectField('1').closest<HTMLTableCellElement>('td, th')!;
+      const navigation = harness.table.keyboardNavigation;
+      navigation.focusPosition(navigation.positionOfCell(cell)!);
+
+      fireEvent.keyDown(cell, { key });
+
+      expect(within(harness.row('1')).queryByRole('textbox')).not.toBeInTheDocument();
+      expect(cell).toHaveFocus();
+      expect(subjectField('1')).not.toHaveClass('-read-only');
+      expect(harness.table.editing.forms).toEqual({});
+    });
+
+    it('selects the row when clicking the field text', () => {
+      fireEvent.click(subjectField('1'));
+
+      expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1']);
+    });
+
+    it('opens the row when double clicking the field text', () => {
+      const itemClicked = vi.fn();
+      harness.outputs.itemClicked.subscribe(itemClicked);
+
+      fireEvent.dblClick(subjectField('1'));
+
+      expect(itemClicked).toHaveBeenCalledWith({ workPackageId: '1', double: true });
+    });
+
+    it('keeps row navigation and keyboard selection available', () => {
+      const cell = subjectField('1').closest<HTMLTableCellElement>('td, th')!;
+      const navigation = harness.table.keyboardNavigation;
+      navigation.focusPosition(navigation.positionOfCell(cell)!);
+
+      fireEvent.keyDown(cell, { key: 'ArrowLeft' });
+      fireEvent.keyDown(document.activeElement!, { key: 'ArrowLeft' });
+      expect(harness.row('1')).toHaveFocus();
+      fireEvent.keyDown(harness.row('1'), { key: ' ', code: 'Space', shiftKey: true });
+      expect(harness.selection.getSelectedWorkPackageIds()).toContain('1');
+      fireEvent.keyDown(harness.row('1'), { key: 'ArrowDown' });
+      expect(harness.row('2')).toHaveFocus();
+      expect(harness.table.editing.forms).toEqual({});
     });
   });
 

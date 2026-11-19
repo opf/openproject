@@ -84,15 +84,7 @@ module Import
     def reference_existing_label(name)
       Rails.logger.debug "Found existing label"
       label = Label.named(name).first!
-      return if referenced?(label)
-
       create_reference!(op_leg: label, jira_leg: nil, jira_import: @jira_import, uses_existing: true)
-    end
-
-    def referenced?(label)
-      Import::JiraOpenProjectReference.exists?(jira_import_id: @jira_import.id,
-                                               op_entity_class: label.class.to_s,
-                                               op_entity_id: label.id)
     end
   end
 end

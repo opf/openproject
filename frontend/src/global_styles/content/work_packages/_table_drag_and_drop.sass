@@ -89,15 +89,28 @@ wp-single-card[data-drop-position]
     overflow: hidden
     text-overflow: ellipsis
 
+// The drag service reads the element under the pointer, which must be the
+// handle itself rather than the icon inside it.
+.wp-table--drag-and-drop-handle
+  display: inline-flex
+  align-items: center
+  justify-content: center
+  width: var(--base-size-24)
+  min-height: var(--base-size-24)
+  vertical-align: middle
+
+  > svg
+    pointer-events: none
+
 // Hide the context menu button outside mobile
 html:not(.-browser-mobile)
   .wp-table-context-menu-icon,
   .wp-table--drag-and-drop-handle
     // Hide from viewers, but allow to be focused
     opacity: 0
-    display: inline-block
+
+  .wp-table--drag-and-drop-handle
     height: calc(var(--table-timeline--row-height) - 1px)
-    line-height: calc(var(--table-timeline--row-height) - 1px)
 
 
   .issue:hover .wp-table-context-menu-icon,

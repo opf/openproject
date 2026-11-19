@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -70,20 +72,27 @@ module API
               optional :delta, type: Hash
             end
             patch do
-              authorize_by_policy(:update) do
-                raise API::Errors::NotFound
-              end
-
-              params[:delta].each do |work_package_id, new_position|
-                if new_position == -1
-                  remove_order(work_package_id)
-                else
-                  upsert_order(work_package_id, new_position)
+              @query.with_lock do
+                authorize_by_policy(:update) do
+                  raise API::Errors::NotFound
                 end
-              end
 
-              @query.touch
-              { t: ::API::V3::Utilities::DateTimeFormatter.format_datetime(@query.updated_at) }
+                previous = @query.updated_at
+                params[:delta].each do |work_package_id, new_position|
+                  if new_position == -1
+                    remove_order(work_package_id)
+                  else
+                    upsert_order(work_package_id, new_position)
+                  end
+                end
+
+                # Polling exposes millisecond timestamps, including for simultaneous order writes.
+                @query.touch(time: previous && [Time.current, previous + 0.001].max)
+                {
+                  t: ::API::V3::Utilities::DateTimeFormatter.format_datetime(@query.updated_at),
+                  previousUpdatedAt: ::API::V3::Utilities::DateTimeFormatter.format_datetime(previous, allow_nil: true)
+                }
+              end
             end
           end
         end

@@ -296,10 +296,12 @@ $scrollbar-size: 10px
 
 @mixin hide-button-texts
   .button--text
-    display: none
-
-@mixin board-header-editable-toolbar-title
-  line-height: normal !important
+    position: absolute
+    width: 1px
+    height: 1px
+    overflow: hidden
+    clip: rect(0, 0, 0, 0)
+    white-space: nowrap
 
 @mixin toolbar-input-styles
   height: 36px !important

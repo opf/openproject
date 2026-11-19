@@ -170,27 +170,25 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI do
         end
       end
 
-      context "when labels are enabled", with_flag: { work_package_labels: true } do
-        context "with add_work_packages only" do
-          let(:role) do
-            create(:project_role, permissions: %i[view_work_packages add_work_packages change_work_package_status])
-          end
-
-          it "marks labels as not writable" do
-            expect(last_response.body)
-              .to be_json_eql(false.to_json)
-              .at_path("labels/writable")
-          end
+      context "with add_work_packages only" do
+        let(:role) do
+          create(:project_role, permissions: %i[view_work_packages add_work_packages change_work_package_status])
         end
 
-        context "with edit_work_packages" do
-          let(:role) { create(:project_role, permissions: %i[view_work_packages edit_work_packages]) }
+        it "marks labels as not writable" do
+          expect(last_response.body)
+            .to be_json_eql(false.to_json)
+            .at_path("labels/writable")
+        end
+      end
 
-          it "marks labels as writable" do
-            expect(last_response.body)
-              .to be_json_eql(true.to_json)
-              .at_path("labels/writable")
-          end
+      context "with edit_work_packages" do
+        let(:role) { create(:project_role, permissions: %i[view_work_packages edit_work_packages]) }
+
+        it "marks labels as writable" do
+          expect(last_response.body)
+            .to be_json_eql(true.to_json)
+            .at_path("labels/writable")
         end
       end
 

@@ -28,7 +28,7 @@
 import { usePlatform } from 'core-common/testing/platform';
 import { ElementRef, EventEmitter, Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, within } from '@testing-library/dom';
 import { LiveRegionElement } from '@primer/live-region-element';
 import { type MockInstance } from 'vitest';
 import { States } from 'core-app/core/states/states.service';
@@ -75,6 +75,9 @@ describe('CardClickHandler', () => {
       <wp-single-card data-work-package-id="${row.workPackageId}" data-class-identifier="${row.classIdentifier}">
         <div class="op-wp-single-card" data-test-selector="op-wp-single-card" tabindex="0">
           <span>${row.workPackageId}</span>
+          <button type="button" aria-disabled="true">Status</button>
+          <button type="button" aria-haspopup="menu"><span>Open menu</span></button>
+          <ul role="menu"><li role="none"><button type="button" role="menuitem">Closed</button></li></ul>
         </div>
       </wp-single-card>
     `).join('');
@@ -181,5 +184,37 @@ describe('CardClickHandler', () => {
     click('E', { shiftKey: true });
     expect(selected()).toEqual(['C', 'D', 'E']);
     expect(itemClicked).toEqual([{ workPackageId: 'E', double: false }]);
+  });
+
+  it('ignores activation of a disabled control inside the card', () => {
+    const itemClicked:{ workPackageId:string, double:boolean }[] = [];
+    card.itemClicked.subscribe((event) => itemClicked.push(event));
+    const status = within(cardSurface('B')).getByRole('button', { name: 'Status' });
+
+    status.click();
+
+    expect(selected()).toEqual([]);
+    expect(focus.focusedWorkPackage).toBeNull();
+    expect(itemClicked).toEqual([]);
+  });
+
+  it('ignores activation of a menu trigger inside the card', () => {
+    const itemClicked:{ workPackageId:string, double:boolean }[] = [];
+    card.itemClicked.subscribe((event) => itemClicked.push(event));
+
+    within(cardSurface('B')).getByRole('button', { name: 'Open menu' }).click();
+
+    expect(selected()).toEqual([]);
+    expect(itemClicked).toEqual([]);
+  });
+
+  it('ignores activation of a menu item inside the card', () => {
+    const itemClicked:{ workPackageId:string, double:boolean }[] = [];
+    card.itemClicked.subscribe((event) => itemClicked.push(event));
+
+    within(cardSurface('B')).getByRole('menuitem', { name: 'Closed' }).click();
+
+    expect(selected()).toEqual([]);
+    expect(itemClicked).toEqual([]);
   });
 });

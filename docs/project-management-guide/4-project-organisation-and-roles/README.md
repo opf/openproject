@@ -69,7 +69,7 @@ The Project Steering Committee (PSC) is chaired by the Project Owner (PO) and is
 - Authorizes transition between Phases unless this is performed by the Appropriate Governance Body (AGB).
 - Authorizes deviations and scope changes with a high project impact and has the final say on decisions.
 - Deals with escalated issues and conflicts.
-- Approves key project artifacts (e.g. Project Charter, Project Work Plan).
+- Approves key project artefacts (e.g. Project Charter, Project Work Plan).
 
 **Optional Project Steering Committee (PSC) members:**
 
@@ -101,7 +101,7 @@ The Project Owner (PO) is the client of the project, and as such sets the busine
 - Regularly monitors project progress.
 - Coordinates the resolution of escalated issues and conflicts.
 - Drives organizational change and monitors proper evolution and change implementation.
-- Approves key project artifacts (Business Case, Project Charter, Project Handbook, Work Plan, Deliverables Acceptance Plan, Transition Plan, Business Implementation Plan).
+- Approves key project artefacts (Business Case, Project Charter, Project Handbook, Work Plan, Deliverables Acceptance Plan, Transition Plan, Business Implementation Plan).
 
 4.6 Solution Provider (SP)
 
@@ -140,7 +140,7 @@ The Project Manager (PM) oversees the project on a daily basis and is responsibl
 - Coordinates the Project Core Team (PCT), ensuring the effective use of the allocated resources.
 - Ensures that project objectives are achieved within the identified constraints, taking preventive or corrective measures where necessary.
 - Manages stakeholder expectations.
-- Oversees the creation of all management artifacts (except the Project Initiation Request, Business Case and Business Implementation Plan) and secures approval from the Project Owner (PO) or the Project Steering Committee (PSC).
+- Oversees the creation of all management artefacts (except the Project Initiation Request, Business Case and Business Implementation Plan) and secures approval from the Project Owner (PO) or the Project Steering Committee (PSC).
 - Ensures the controlled evolution, of products delivered, through proper change management.
 - Performs risk management activities for project-related risks.
 - Monitors project status and reports to the Project Steering Committee (PSC) on project progress at regular predefined intervals.
@@ -214,11 +214,11 @@ The Project Support Team (PST) is an optional role that consists of the people r
 
 **Project Support Office (PSO)**
 
-The Project Support Office (PSO), also called Project Management Office or Project Office, is an optional structure that can provide services to project teams such as the application of the methodology and use of the artifacts, information systems, governance, logistics and various support.
+The Project Support Office (PSO), also called Project Management Office or Project Office, is an optional structure that can provide services to project teams such as the application of the methodology and use of the artefacts, information systems, governance, logistics and various support.
 
 **Project Quality Assurance (PQA)**
 
-Assigned by the Project Steering Committee (PSC) and working independently of the Project Manager (PM), the Project Quality Assurance (PQA) ensures the high quality of the project and its deliverables, by reviewing processes and artifacts, identifying non-conformities with the set quality standards and recommending corrective actions. This is an optional role in an organization, reporting directly to the Project Steering Committee (PSC), and may take the form of either a group or individual staff member.
+Assigned by the Project Steering Committee (PSC) and working independently of the Project Manager (PM), the Project Quality Assurance (PQA) ensures the high quality of the project and its deliverables, by reviewing processes and artefacts, identifying non-conformities with the set quality standards and recommending corrective actions. This is an optional role in an organization, reporting directly to the Project Steering Committee (PSC), and may take the form of either a group or individual staff member.
 
 **Other**
 
@@ -236,7 +236,7 @@ The Responsibility Assignment Matrix (RAM) is a way of representing and clarifyi
 | **C** | Consulted | Those whose opinions are requested and with whom there is two-way <br> communication. The consulted role does not help complete the task. |
 | **I** | Informed | Those who are kept informed of progress. |
 
-Stakeholders should be reminded of their roles and responsibilities during the project. This Open PM² guide includes a RAM (RASCI) table for each artifact in the Initiating, Planning and Closing Phases and for each of the activities in the Executing Phase and in Monitor \& Control (see Appendix E).
+Stakeholders should be reminded of their roles and responsibilities during the project. This Open PM² guide includes a RAM (RASCI) table for each artefact in the Initiating, Planning and Closing Phases and for each of the activities in the Executing Phase and in Monitor \& Control (see Appendix E).
 
 Example: The RAM for the Standard PM² roles involved in creating the Business Case document.
 

@@ -41,6 +41,23 @@ RSpec.describe FormConfigurations::GroupsController do
   end
 
   describe "POST #add_group", with_ee: %i[edit_attribute_groups] do
+    it "renders the unsaved query summary without persisting a query" do
+      create(:work_package)
+      query_props = { columns: %w[subject], filters: [{ parent: { operator: "=", values: ["{id}"] } }].to_json }.to_json
+
+      expect do
+        post :add_group,
+             params: { form_configuration_id: form.id, group_type: "query", query: query_props, name: "Draft children" },
+             format: :turbo_stream
+      end.not_to change(Query, :count)
+
+      expect(response).to have_http_status(:ok)
+      summary = Nokogiri::HTML.fragment(response.body)
+      expect(summary.css("dt").map { it.text.strip }).to include("Relation type", "Columns")
+      expect(summary.css("dd").map { it.text.strip }).to include("Children", "Subject")
+      expect(summary.at_css('input[name="group[name]"]')["value"]).to eq("Draft children")
+    end
+
     it "renders a temporary attribute group from group_type params" do
       expect do
         post :add_group, params: { form_configuration_id: form.id, group_type: "attribute" }, format: :turbo_stream
@@ -83,6 +100,73 @@ RSpec.describe FormConfigurations::GroupsController do
       query_group = variant.reload.attribute_groups.detect { |group| group.is_a?(Type::QueryGroup) }
       expect(query_group.attributes).to be_a(Query)
       expect(query_group.key).to eq("Empty test")
+    end
+  end
+
+  describe "PATCH #update_query", with_ee: %i[edit_attribute_groups] do
+    let!(:work_package) { create(:work_package) }
+    let(:query) { create(:query, user:, column_names: %w[id subject]) }
+
+    before do
+      query.add_filter("parent", "=", [Queries::Filters::TemplatedValue::KEY])
+      query.save!
+      form.update!(attribute_groups: [["Related", [query]]])
+    end
+
+    it "refreshes only the edited group's summary and editor data" do
+      query.column_names = %w[subject]
+      props = API::V3::Queries::QueryParamsRepresenter.new(query).to_json
+      patch :update_query,
+            params: { form_configuration_id: form.id, key: "Related", query: props },
+            format: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+      expect(response).to have_turbo_stream(action: "replace",
+                                            target: "work-package-types-form-configuration-group-query-row-component-Related")
+      expect(response).not_to have_turbo_stream(action: "update",
+                                                target: "work-package-types-form-configuration-main-content-component")
+      expect(response.body).to include("Relation type", "Children", "Columns", "Subject")
+      fragment = Nokogiri::HTML.fragment(response.body)
+      expect(fragment.css("dd").map { it.text.strip }).not_to include("ID")
+      expect(JSON.parse(fragment.at_css("[data-group-query]")["data-group-query"])["columns[]"]).to eq(%w[subject])
+    end
+
+    it "refreshes the canonical group when addressed by its display name" do
+      aliased_query = create(:query, user:)
+      form.update!(attribute_groups: [[:related, [aliased_query], "Related children"]])
+      props = API::V3::Queries::QueryParamsRepresenter.new(aliased_query).to_json
+      patch :update_query,
+            params: { form_configuration_id: form.id, key: "Related children", query: props },
+            format: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+      expect(response).to have_turbo_stream(action: "replace",
+                                            target: "work-package-types-form-configuration-group-query-row-component-related")
+    end
+
+    it "does not replace saved content when an existing query update is invalid" do
+      saved_filters = query.reload.filters.map { [it.name, it.operator, it.values] }
+
+      patch :update_query,
+            params: { form_configuration_id: form.id, key: "Related", query: "invalid JSON" },
+            format: :turbo_stream
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_turbo_stream(action: "flash", target: "op-primer-flash-component")
+      expect(response).not_to have_turbo_stream(action: "update",
+                                                target: "work-package-types-form-configuration-main-content-component")
+      expect(query.reload.filters.map { [it.name, it.operator, it.values] }).to eq(saved_filters)
+      expect(query.column_names).to eq(%i[id subject])
+    end
+
+    it "does not replace the saved content on failure" do
+      patch :update_query,
+            params: { form_configuration_id: form.id, key: "Missing", query: "{}" },
+            format: :turbo_stream
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).not_to have_turbo_stream(action: "update",
+                                                target: "work-package-types-form-configuration-main-content-component")
     end
   end
 
@@ -154,6 +238,25 @@ RSpec.describe FormConfigurations::GroupsController do
     end
   end
 
+  describe "PATCH #update with unavailable query values", with_ee: %i[edit_attribute_groups] do
+    it "preserves unavailable markers after a rejected rename" do
+      project = create(:project)
+      archived = create(:project)
+      query = create(:query, user:)
+      query.add_filter("project_id", "=", [project.id.to_s, archived.id.to_s])
+      query.save!
+      form.update!(attribute_groups: [["Related", [query]]])
+      archived.update!(active: false)
+
+      patch :update,
+            params: { form_configuration_id: form.id, key: "Related", group: { name: "" } },
+            format: :turbo_stream
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.body).to include("Unavailable value")
+    end
+  end
+
   describe "without a group key", with_ee: %i[edit_attribute_groups] do
     before do
       form.update!(attribute_groups: [["First group", %w[priority]]])
@@ -219,6 +322,8 @@ RSpec.describe FormConfigurations::GroupsController do
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.body.scan('data-group-key="Existing group"').count).to eq(1)
       expect(response.body).to include('data-group-key="__new_form_configuration_group__"')
+      summary = Nokogiri::HTML.fragment(response.body)
+      expect(summary.css("dt").map { it.text.strip }).to include("Relation type", "Columns")
     end
   end
 

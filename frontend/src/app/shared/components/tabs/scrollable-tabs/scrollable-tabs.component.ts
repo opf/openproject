@@ -124,10 +124,14 @@ export class ScrollableTabsComponent extends UntilDestroyedMixin implements Afte
   }
 
   public clickTab(tab:TabDefinition, event:Event):void {
+    event.preventDefault();
+
+    if (tab.disable !== undefined) {
+      return;
+    }
+
     this.currentTabId = tab.id;
     this.tabSelected.emit(tab);
-
-    event.preventDefault();
 
     // Override history to avoid that browser back leads you to a different tab instead of the page you originated from
     if (tab.path) {
@@ -189,8 +193,8 @@ export class ScrollableTabsComponent extends UntilDestroyedMixin implements Afte
     this.pane.scrollLeft -= this.container.clientWidth;
   }
 
-  public tabTitle(tab:TabDefinition):string {
-    return (typeof tab.disable === 'string') ? tab.disable : tab.name;
+  public disabledReason(tab:TabDefinition):string|undefined {
+    return typeof tab.disable === 'string' ? tab.disable : undefined;
   }
 
   private scrollIntoVisibleArea(tabId:string) {

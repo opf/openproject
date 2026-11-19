@@ -67,7 +67,7 @@ RSpec.describe "News creation and commenting", :js do
       .to have_link("My new news")
 
     expect(page)
-      .to have_content "The news summary"
+      .to have_text "The news summary"
 
     # Creating the news will have sent out mails
     expect(ActionMailer::Base.deliveries.size)
@@ -93,7 +93,7 @@ RSpec.describe "News creation and commenting", :js do
 
     # The new comment is visible on the show page
     expect(page)
-      .to have_content "A new text"
+      .to have_text "A new text"
 
     # Creating the news comment will have sent out mails
     expect(ActionMailer::Base.deliveries.size)

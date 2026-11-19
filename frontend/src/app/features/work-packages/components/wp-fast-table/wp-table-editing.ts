@@ -86,7 +86,7 @@ export class WorkPackageTableEditingContext {
 
   public markOverlay(overlay:HTMLElement):void {
     overlay.dataset.wpTableEditor = this.ownerId;
-    this.table.keyboardNavigation?.adoptOverlay(overlay);
+    this.table.keyboardNavigation.adoptOverlay(overlay);
   }
 
   public reset() {
@@ -101,19 +101,17 @@ export class WorkPackageTableEditingContext {
     this.forms = {};
   }
 
-  public change(workPackage:WorkPackageResource):WorkPackageChangeset|undefined {
-    return this.halEditing.typedState<WorkPackageResource, WorkPackageChangeset>(workPackage).value;
+  public stopEditing(workPackageId:string):void {
+    const form = this.forms[workPackageId];
+    if (!form) return;
+
+    delete this.forms[workPackageId];
+    if (this.table.destroyed) runCleanup(() => form.stop());
+    else form.stop();
   }
 
-  // TODO
-  public stopEditing(workPackage:WorkPackageResource) {
-    this.halEditing.stopEditing(workPackage);
-
-    const existing = this.forms[workPackage.id!];
-    if (existing) {
-      existing.destroy();
-      delete this.forms[workPackage.id!];
-    }
+  public change(workPackage:WorkPackageResource):WorkPackageChangeset|undefined {
+    return this.halEditing.typedState<WorkPackageResource, WorkPackageChangeset>(workPackage).value;
   }
 
   public startEditing(workPackage:WorkPackageResource, classIdentifier:string):TableEditForm {

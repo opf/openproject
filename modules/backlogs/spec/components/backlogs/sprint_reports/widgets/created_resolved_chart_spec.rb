@@ -38,13 +38,12 @@ RSpec.describe Backlogs::SprintReports::Widgets::CreatedResolvedChart,
   shared_let(:project) { create(:project) }
   shared_let(:role) { create(:project_role, permissions: %i[view_sprints view_work_packages]) }
   shared_let(:open_status) { create(:status, name: "Open", is_default: true) }
-  shared_let(:closed_status) { create(:status, name: "Closed", is_closed: true) }
+  shared_let(:closed_status) { create(:status, name: "Closed", category: "closed") }
 
   let(:monday) { Date.new(2026, 10, 12) }
-  let(:saturday) { Date.new(2026, 10, 17) }
-  let(:sunday) { Date.new(2026, 10, 18) }
   let(:second_friday) { Date.new(2026, 10, 23) }
   let(:sprint_start) { monday.in_time_zone + 9.hours }
+  let(:work_added) { sprint_start + 1.day }
   let(:now) { monday.in_time_zone + 3.days + 12.hours }
 
   let(:sprint) do
@@ -63,12 +62,18 @@ RSpec.describe Backlogs::SprintReports::Widgets::CreatedResolvedChart,
     travel_to(now) { example.run }
   end
 
+  context "when the enterprise token does not allow the sprint report pro widgets", with_ee: [] do
+    it "renders nothing" do
+      expect(rendered_component.to_s).to be_empty
+    end
+  end
+
   context "when the sprint has a date range set" do
     before do
       create(:work_package, project:, sprint:, status: open_status,
-                            journals: { sprint_start => { subject: "Open one" } })
+                            journals: { work_added => { subject: "Open one" } })
       create(:work_package, project:, sprint:, status: closed_status,
-                            journals: { sprint_start => { subject: "Closed one", status_id: closed_status.id } })
+                            journals: { work_added => { subject: "Closed one", status_id: closed_status.id } })
     end
 
     it "renders the created vs resolved chart element" do
@@ -77,16 +82,16 @@ RSpec.describe Backlogs::SprintReports::Widgets::CreatedResolvedChart,
 
     it "carries each series under a stable id and a translated label" do
       expect(chart_data["series"].pluck("id", "label"))
-        .to eq([["created", "Created work packages"],
-                ["resolved", "Resolved work packages"]])
+        .to eq([["created", "Created"], ["resolved", "Resolved"]])
     end
 
-    it "sends points as x/y pairs, counting what the sprint held at each tick" do
-      created, resolved = chart_data["series"].map { it["data"].first }
+    it "sends points as x/y pairs, counting what the project gained since the window opened" do
+      created, resolved = chart_data["series"].pluck("data")
 
-      expect(created["x"]).to eq sprint_start.utc.iso8601(3)
-      expect(created["y"]).to eq 2.0
-      expect(resolved["y"]).to eq 1.0
+      expect(created.first["x"]).to eq sprint_start.utc.iso8601(3)
+      expect(created.first["y"]).to eq 0.0
+      expect(created.last["y"]).to eq 2.0
+      expect(resolved.last["y"]).to eq 1.0
     end
 
     # Both series are counted at the same ticks, which is what lets the chart match them by index.
@@ -108,9 +113,21 @@ RSpec.describe Backlogs::SprintReports::Widgets::CreatedResolvedChart,
       expect(chart_data["series"].first["data"].last["x"]).to eq now.utc.iso8601(3)
     end
 
-    it "sends the non working days of the charted range" do
-      expect(chart_data["nonWorkingIntervals"])
-        .to eq([{ "from" => saturday.iso8601, "to" => sunday.iso8601 }])
+    # Over a span of several sprints they are too dense to read as anything but hatching.
+    it "leaves the non working days out" do
+      expect(chart_data).not_to have_key "nonWorkingIntervals"
+    end
+
+    context "with sprints preceding this one" do
+      let!(:earlier_sprint) do
+        create(:sprint, project:, start_date: monday - 42.days, finish_date: monday - 32.days,
+                        started_at: (monday - 42.days).in_time_zone + 9.hours)
+      end
+
+      it "opens the window with the earliest of them and samples by day over the longer span" do
+        expect(chart_data["range"]["from"]).to eq earlier_sprint.started_at.utc.iso8601(3)
+        expect(chart_data["step"]).to eq "day"
+      end
     end
 
     context "when the sprint has not started yet" do
@@ -119,20 +136,51 @@ RSpec.describe Backlogs::SprintReports::Widgets::CreatedResolvedChart,
       end
       let(:now) { monday.in_time_zone - 7.days }
 
-      # Nothing has been created in a sprint that has not begun, and a flat zero would invite the
-      # reader to believe that was measured. The frontend turns the empty payload into a blankslate.
-      it "leaves out both series rather than sending a measured zero" do
-        expect(chart_data["series"]).to be_empty
+      it "renders a blankslate instead of the chart" do
+        expect(rendered_component).to have_no_element(:"opce-created-resolved-chart")
+        expect(rendered_component).to have_css(".blankslate", text: "No work to display")
       end
+    end
+  end
+
+  context "when nothing was created or resolved within the charted window" do
+    before do
+      create(:work_package, project:, sprint:, status: open_status,
+                            journals: { sprint_start - 1.day => { subject: "Created before" } })
+    end
+
+    it "renders a blankslate instead of the chart" do
+      expect(rendered_component).to have_no_element(:"opce-created-resolved-chart")
+      expect(rendered_component).to have_css(".blankslate", text: "No work to display")
+      expect(rendered_component).to have_css(
+        ".blankslate",
+        text: "The created vs resolved chart will appear here once a work package has been created or resolved within the sprint."
+      )
+    end
+  end
+
+  context "when the sprint takes more than a year" do
+    let(:sprint) do
+      create(:sprint, project:, start_date: monday, finish_date: monday + 13.months, started_at: monday.in_time_zone + 9.hours)
+    end
+
+    before { create(:work_package, project:, sprint:) }
+
+    it "renders a blankslate instead of the chart" do
+      expect(rendered_component).to have_no_element(:"opce-created-resolved-chart")
+      expect(rendered_component).to have_css(".blankslate", text: "No chart to display")
+      expect(rendered_component).to have_css(
+        ".blankslate",
+        text: "The sprint duration exceeded the 1-year limit of the created vs resolved chart's timespan."
+      )
     end
   end
 
   context "when the sprint has no date range set" do
     let(:sprint) { create(:sprint, project:, start_date: nil, finish_date: nil) }
 
-    it "renders a blankslate instead of the chart" do
-      expect(rendered_component).to have_no_element(:"opce-created-resolved-chart")
-      expect(rendered_component).to have_text("No created vs resolved chart data available")
+    it "renders nothing" do
+      expect(rendered_component.to_s).to be_empty
     end
   end
 end

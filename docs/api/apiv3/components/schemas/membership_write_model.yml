@@ -21,7 +21,7 @@ properties:
             - $ref: './link.yml'
             - description: |-
                 A role the principal has.
-                
+
                 **Resource**: Role
       project:
         allOf:

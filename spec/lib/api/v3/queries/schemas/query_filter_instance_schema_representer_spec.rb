@@ -157,8 +157,10 @@ RSpec.describe API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter d
           it_behaves_like "links to and embeds allowed values directly" do
             let(:hrefs) do
               [api_v3_paths.query_operator(CGI.escape("o")),
-               api_v3_paths.query_operator(CGI.escape("=")),
+               api_v3_paths.query_operator(CGI.escape("to_do")),
+               api_v3_paths.query_operator(CGI.escape("in_progress")),
                api_v3_paths.query_operator(CGI.escape("c")),
+               api_v3_paths.query_operator(CGI.escape("=")),
                api_v3_paths.query_operator(CGI.escape("!")),
                api_v3_paths.query_operator(CGI.escape("*"))]
             end
@@ -190,7 +192,9 @@ RSpec.describe API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter d
               api_v3_paths.query_operator(CGI.escape("c")) => { lorem: "ipsum" },
               api_v3_paths.query_operator(CGI.escape("!")) => { lorem: "ipsum" },
               api_v3_paths.query_operator(CGI.escape("*")) => { lorem: "ipsum" },
-              api_v3_paths.query_operator(CGI.escape("o")) => { lorem: "ipsum" }
+              api_v3_paths.query_operator(CGI.escape("o")) => { lorem: "ipsum" },
+              api_v3_paths.query_operator(CGI.escape("to_do")) => { lorem: "ipsum" },
+              api_v3_paths.query_operator(CGI.escape("in_progress")) => { lorem: "ipsum" }
             }
 
             expect(subject)

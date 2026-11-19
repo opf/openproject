@@ -185,6 +185,7 @@ module Pages
     def expect_no_work_package_listed
       within(table_container) do
         expect(page).to have_css("#empty-row-notification")
+        expect(page).to have_heading(I18n.t("js.work_packages.no_results.title"), level: 3)
       end
     end
 
@@ -238,7 +239,7 @@ module Pages
       row_element = row(work_package)
       row_element.hover
 
-      scroll_to_and_click(row_element.find(".wp-table--details-link"))
+      scroll_to_and_click(row_element.find(:link, accessible_name: I18n.t("js.button_open_details")))
 
       split_page
     end
@@ -286,7 +287,7 @@ module Pages
 
     def select_all_work_packages
       send_select_all(roving_tab_stop || table_container.first("tr.wp-table--row", minimum: 1))
-      expect(page).to have_no_css "#work-package-context-menu"
+      expect(page).to have_no_selector(:menu, I18n.t("js.label_work_package_context_menu"))
     end
 
     # Moves focus into the table with Tab from the entry control.
@@ -364,6 +365,13 @@ module Pages
     # @param work_package [WorkPackage] The work package object.
     def expect_focus_on_row(work_package)
       expect(table_container).to have_css(row_selector(work_package), focused: true)
+    end
+
+    # Expects the row for `work_package` to be marked as the current work package.
+    #
+    # @param work_package [WorkPackage] The work package object.
+    def expect_current_row(work_package)
+      expect(table_container).to have_css("#{row_selector(work_package)}[data-pressed]")
     end
 
     # Expects exactly the rows in `selected` among `among` to be marked selected.

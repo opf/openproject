@@ -116,7 +116,9 @@ module SearchHelper
   end
 
   def last_journal(event)
-    if event.respond_to? :last_journal
+    if event.respond_to?(:last_loaded_visible_journal)
+      event.last_loaded_visible_journal
+    elsif event.respond_to?(:last_journal)
       event.last_loaded_journal
     end
   end

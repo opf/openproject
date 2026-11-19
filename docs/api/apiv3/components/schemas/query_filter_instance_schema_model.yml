@@ -2,8 +2,8 @@
 ---
 type: object
 required:
-- name
-- _links
+  - name
+  - _links
 properties:
   name:
     type: string
@@ -12,51 +12,51 @@ properties:
   _links:
     type: object
     required:
-    - self
-    - filter
+      - self
+      - filter
     properties:
       self:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            This QueryFilterInstanceSchema (same as for schema)
+          - $ref: "./link.yml"
+          - description: |-
+              This QueryFilterInstanceSchema (same as for schema)
 
-            **Resource**: QueryFilterInstanceSchema
-          readOnly: true
+              **Resource**: QueryFilterInstanceSchema
+            readOnly: true
       filter:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            The filter for which this schema is specific
+          - $ref: "./link.yml"
+          - description: |-
+              The filter for which this schema is specific
 
-            **Resource**: Filter
-          readOnly: true
-example:
-  _type: QueryFilterInstanceSchema
-  _dependencies:
-  - _type: SchemaDependency
-    'on': operator
-    dependencies:
-      "/api/v3/queries/operators/=":
-        values:
-          type: "[]User"
-          name: Values
-          required: true
-          hasDefault: false
-          writable: true
-          _links: {}
-      "/api/v3/queries/operators/!":
-        values:
-          type: "[]User"
-          name: Values
-          required: true
-          hasDefault: false
-          writable: true
-          _links: {}
-  name: "A name"
-  _links:
-    self:
-      href: "/api/v3/queries/filter_instance_schemas/author"
-    filter:
-      href: "/api/v3/queries/filters/author"
-      title: Author
+              **Resource**: Filter
+            readOnly: true
+examples:
+  - _type: QueryFilterInstanceSchema
+    _dependencies:
+      - _type: SchemaDependency
+        'on': operator
+        dependencies:
+          "/api/v3/queries/operators/=":
+            values:
+              type: "[]User"
+              name: Values
+              required: true
+              hasDefault: false
+              writable: true
+              _links: {}
+          "/api/v3/queries/operators/!":
+            values:
+              type: "[]User"
+              name: Values
+              required: true
+              hasDefault: false
+              writable: true
+              _links: {}
+    name: "A name"
+    _links:
+      self:
+        href: "/api/v3/queries/filter_instance_schemas/author"
+      filter:
+        href: "/api/v3/queries/filters/author"
+        title: Author

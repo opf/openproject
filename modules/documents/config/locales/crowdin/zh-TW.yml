@@ -81,6 +81,12 @@ zh-TW:
         primary_action: 實現即時協作
         success: 已啟用即時協作。
     button_add_type: 類型
+    collaboration_token:
+      errors:
+        collaboration_disabled: Real-time collaboration is not enabled.
+        collaboration_token_not_allowed: Requests authenticated with a collaboration token cannot request collaboration tokens.
+        invalid_previous_token: The previous collaboration token is invalid, already revoked, or does not belong to this document and user.
+        not_collaborative: The document does not support real-time collaboration.
     delete_dialog:
       confirmation_message_html: 這將永久刪除本文件和所有檔案附件。您確定要這麼做？
       heading: 刪除此文件？

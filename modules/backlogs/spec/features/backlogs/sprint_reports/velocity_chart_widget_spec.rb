@@ -34,7 +34,7 @@ RSpec.describe "Velocity chart widget", :js, with_flag: :sprint_reports do
   include Rails.application.routes.url_helpers
 
   shared_let(:project) { create(:project) }
-  shared_let(:done_status) { create(:status, is_closed: true) }
+  shared_let(:done_status) { create(:status, category: "closed") }
   shared_let(:user) do
     create(:user, member_with_permissions: { project => %i[view_sprints view_work_packages show_board_views] })
   end

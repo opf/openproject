@@ -132,9 +132,7 @@ It is probably best to use READMEs of already released plugins as a template.
 
 1. Make the github repository public.
 2. Make the plugin project public.
-    Do a little cleanup work first by removing modules not needed. Currently,
-    Activity, Issue Tracking, Time Tracking, Forums, and Backlogs are default.
-    Also, the My Project Page should only show Project Description and Tickets blocks.
+    Do a little cleanup work first by removing modules not needed.
 3. Create a news article about the newly released plugin and its features.
 4. Share a link to the news article on social media.
 5. If the plugin is referenced in our feature tour, add a download link to the plugin in the feature tour
@@ -147,7 +145,7 @@ These plugins must contain a `package.json` in the root directory of the plugin.
 Plugins are responsible for loading their own assets, including additional
 images, styles and I18n translations.
 
-Translations are processed by I18n.js through Rails and will be picked up from `config/locales/js-<locale>.js`.
+Translations are processed by I18n.js through Rails and will be picked up from `config/locales/js-<locale>.yml`.
 
 Pure frontend plugins are currently not possible without modifications to the OpenProject core `package.json`.
 We instead recommend to create a hybrid gem plugin instead (see below).

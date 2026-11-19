@@ -453,6 +453,42 @@ allOf:
                   # Conditions
 
                   **Permission**: view_file_links
+          repositoryIssues:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  Gets the collection of repository issues linked to this work package
+
+                  # Conditions
+
+                  **Permission**: show_repository_content
+          repositoryMergeRequests:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  Gets the collection of repository merge requests linked to this work package
+
+                  # Conditions
+
+                  **Permission**: show_repository_content
+          repositoryBranches:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  Gets the collection of repository branches linked to this work package
+
+                  # Conditions
+
+                  **Permission**: show_repository_content
+          repositoryCommits:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  Gets the collection of repository commits linked to this work package
+
+                  # Conditions
+
+                  **Permission**: show_repository_content
           labels:
             type: array
             items:

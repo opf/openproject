@@ -80,13 +80,13 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
     const workPackageId = element.dataset.workPackageId;
 
     // Normal link processing if there are no state and work package information
-    if (!state || !workPackageId) {
+    if ((state !== 'split' && state !== 'show') || !workPackageId) {
       return true;
     }
 
     const navigation = view.workPackageTable.keyboardNavigation;
-    const origin = navigation?.originForControl(element) ?? navigation?.positionOfCell(element);
-    if (origin && navigation) {
+    const origin = navigation.originForControl(element);
+    if (origin) {
       navigation.focusPosition(origin);
     } else {
       target.closest('a')?.blur();
@@ -99,10 +99,12 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
     const row = target.closest<HTMLElement>(`.${tableRowClassName}`);
     if (!row) { return true; }
 
-    this.wpTableFocus.updateFocus(workPackageId, false, false);
-    selectionGesture(view.workPackageTable, 'navigation', () => {
-      this.selectionGestures.replace(workPackageId, view.workPackageTable.renderedRows, row.dataset.classIdentifier);
-    });
+    if (view.workPackageTable.configuration.selectionEnabled) {
+      this.wpTableFocus.updateFocus(workPackageId, false, false);
+      selectionGesture(view.workPackageTable, 'navigation', () => {
+        this.selectionGestures.replace(workPackageId, view.workPackageTable.renderedRows, row.dataset.classIdentifier);
+      });
+    }
 
     view.stateLinkClicked.emit({ workPackageId, requestedState: state });
 

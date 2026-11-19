@@ -15,15 +15,16 @@ This repo is split into two parts:
 
 | OpenProject version | BlockNote extensions version |
 |---|---|
+| 18.0 | 0.3.4 |
 | 17.9 | 0.3.1 |
 | 17.8 | 0.2.3 | 
 
 ### Installation
 
-The package is published to npm as [`@openproject/op-blocknote-extensions`](https://www.npmjs.com/package/@openproject/op-blocknote-extensions).
+The package is published to npm as [`@openproject/blocknote-extensions`](https://www.npmjs.com/package/@openproject/blocknote-extensions).
 
 ```sh
-npm install @openproject/op-blocknote-extensions
+npm install @openproject/blocknote-extensions
 ```
 
 ### Implementation
@@ -173,21 +174,31 @@ To develop with OpenProject locally
 ```sh
 npm run build
 npm pack
-cp openproject-op-blocknote-extensions-*.tgz ../../frontend
+cp openproject-blocknote-extensions-*.tgz ../../frontend
 cd ../../frontend
-npm i -S op-blocknote-extensions@file:openproject-op-blocknote-extensions-<VERSION>.tgz
+npm i ./openproject-blocknote-extensions-<VERSION>.tgz
 ```
 
 This should make sure that the package is available for OpenProject even if running on a container.
 
+### Changelog
+
+Every pull request with a user-facing change adds one file to
+[changelog/unreleased](changelog/unreleased), named after its work package and the kind of change,
+e.g. `BNE-198.fixed.md`. The kind is one of `added`, `changed`, `deprecated`, `removed`, `fixed` and
+`security`. The file holds a single line describing the change; the link to the work package is
+added on release. As no two pull requests share a file, entries never conflict.
+
 ### Releases
 
-Bump `version` in _package.json_ and merge to `release-op-blocknote-extensions`. The
-[publish workflow](../../.github/workflows/op-blocknote-extensions-publish.yml)
+Bump `version` in _package.json_ and run `npm run changelog`, which moves the entries from
+_changelog/unreleased_ into a section for that version in _CHANGELOG.md_. Then merge to
+`release-blocknote-extensions`. The
+[publish workflow](../../.github/workflows/blocknote-extensions-publish.yml)
 publishes every version that is not yet on npm.
 
 > The branch is not merged back automatically. After every release, resync
-`release-op-blocknote-extensions` with `dev` manually, so that `dev` gets the version bump and the
+`release-blocknote-extensions` with `dev` manually, so that `dev` gets the version bump and the
 next release starts from the current `dev`.
 
 Versions up to 0.3.1 were released as tarballs from https://github.com/opf/op-blocknote-extensions/releases/.

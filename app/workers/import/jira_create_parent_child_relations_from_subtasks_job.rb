@@ -119,15 +119,25 @@ module Import
       end
 
       Rails.logger.debug { "Setting parent of #{child_wp.id} to #{parent_wp.id}" }
-      call = WorkPackages::UpdateService
-               .new(user: User.system, model: child_wp, contract_class: EmptyContract)
-               .with_state(bulk_duplicate_in_progress: true)
-               .call(parent_id: parent_wp.id)
+      call = preserving_updated_at(child_wp, parent_wp) do
+        WorkPackages::UpdateService
+          .new(user: User.system, model: child_wp, contract_class: EmptyContract)
+          .with_state(bulk_duplicate_in_progress: true)
+          .call(parent_id: parent_wp.id)
+      end
 
       return if call.success?
 
       Rails.logger.error "Failed to set parent for work package #{child_wp.id}: #{call.message}"
       raise call.message
+    end
+
+    def preserving_updated_at(*work_packages)
+      update_times = work_packages.to_h { [it.id, it.updated_at] }
+
+      yield.tap do
+        update_times.each { |id, updated_at| WorkPackage.where(id:).update_all(updated_at:) }
+      end
     end
 
     def subtasks_scope(jira_import_id, jira_project_id)

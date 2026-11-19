@@ -78,36 +78,44 @@ describe('TableActionRenderer tooltips', () => {
 
       expect(details).toHaveAccessibleDescription('');
       expect(details).toHaveAttribute('title', '');
-      expect(details).toHaveClass('wp-table--details-link', 'wp-table-context-menu-icon', 'hidden-for-mobile');
+      expect(details).toHaveClass('wp-table-context-menu-icon', 'hidden-for-mobile', 'Button', 'Button--iconOnly', 'Button--invisible', 'Button--small');
       expect(details).toHaveAttribute('data-work-package-id', '42');
       expect(details).toHaveAttribute('href', expect.stringContaining('/details/DEMO-7/overview'));
-      expect(details.querySelector('.icon-info2')).toBeInTheDocument();
+      expect(details.querySelector('svg.Button-visual')).toBeInTheDocument();
       expect(details.nextElementSibling?.tagName).toBe('TOOL-TIP');
+      expect(details.nextElementSibling).toHaveAttribute('data-direction', 'se');
 
-      const context = within(row).getByRole('link', { name: 'Open context menu' });
+      const context = within(row).getByRole('button', { name: 'Open context menu' });
       expect(context).toHaveAttribute('title', '');
-      expect(context).toHaveClass('wp-table-context-menu-link');
+      expect(context).toHaveClass('wp-table-context-menu-link', 'wp-table-context-menu-icon', 'Button', 'Button--iconOnly', 'Button--invisible', 'Button--small');
+      expect(context).toHaveAttribute('aria-haspopup', 'menu');
+      expect(context).toHaveAttribute('aria-expanded', 'false');
+      expect(context.querySelector('svg.Button-visual')).toBeInTheDocument();
       expect(context.nextElementSibling?.tagName).toBe('TOOL-TIP');
+      expect(context.nextElementSibling).toHaveAttribute('data-direction', 'se');
     });
 
     const ids = [...table.querySelectorAll('[id]')].map((element) => element.id);
     expect(new Set(ids).size).toBe(ids.length);
   });
 
-  it('preserves destructive unlink behavior on the actual labeled link', () => {
+  it('preserves destructive unlink behavior on the actual labeled button', () => {
     const onClick = vi.fn();
     TestBed.inject(OpTableActionsService).setActions(OpUnlinkTableAction.factoryFor('remove', 'Remove relation', onClick));
     const row = renderRow();
-    const unlink = within(row).getByRole('link', { name: 'Remove relation' });
+    const unlink = within(row).getByRole('button', { name: 'Remove relation' });
     expect(unlink).toHaveAttribute(destructiveControlAttribute, '');
     expect(unlink).toHaveAttribute('data-work-package-id', '42');
     expect(unlink).toHaveAttribute('title', '');
+    expect(unlink).toHaveClass('Button', 'Button--iconOnly', 'Button--invisible');
+    expect(unlink.querySelector('svg.Button-visual')).toBeInTheDocument();
+    expect(unlink.nextElementSibling).toHaveAttribute('data-direction', 'se');
     unlink.click();
     expect(onClick).toHaveBeenCalledExactlyOnceWith(wp);
   });
 
   it('omits inapplicable unlink actions', () => {
     TestBed.inject(OpTableActionsService).setActions(OpUnlinkTableAction.factoryFor('remove', 'Remove relation', vi.fn(), () => false));
-    expect(within(renderRow()).queryByRole('link')).not.toBeInTheDocument();
+    expect(within(renderRow()).queryByRole('button', { name: 'Remove relation' })).not.toBeInTheDocument();
   });
 });

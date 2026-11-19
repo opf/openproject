@@ -7,7 +7,9 @@ require "support/edit_fields/edit_field"
 require "features/work_packages/work_packages_page"
 require "features/page_objects/notification"
 
-RSpec.describe "labels inplace editor", :js, with_flag: { work_package_labels: true } do
+RSpec.describe "labels inplace editor", :js do
+  include_context "with axe on Cuprite"
+
   let(:project) { create(:project) }
   let!(:label) { create(:label, name: "Bug") }
   let!(:other_label) { create(:label, name: "Feature") }
@@ -108,6 +110,16 @@ RSpec.describe "labels inplace editor", :js, with_flag: { work_package_labels: t
       expect(dropdown).to have_no_selector(:list_box_option, text: create_option_text(other_label.name.upcase))
     end
 
+    it "names the save and cancel controls" do
+      field.activate!
+
+      within(".inplace-edit--controls") do
+        expect(page).to have_button(accessible_name: "Labels: Save")
+        expect(page).to have_button(accessible_name: "Labels: Cancel")
+      end
+      expect(page).to be_axe_clean.within(".inplace-edit--controls")
+    end
+
     it "discards the selection when the edit is cancelled" do
       field.activate!
       field.set_value(other_label.name)
@@ -129,6 +141,24 @@ RSpec.describe "labels inplace editor", :js, with_flag: { work_package_labels: t
       it "shows the label names as read only" do
         field.expect_state_text(label.name)
         field.expect_read_only
+      end
+    end
+
+    context "when the work package is shared with the user with edit rights" do
+      let(:user) do
+        create(:user).tap do |user|
+          create(:work_package_member,
+                 principal: user,
+                 entity: work_package,
+                 roles: [create(:edit_work_package_role)])
+        end
+      end
+
+      it "offers to create a new label" do
+        field.activate!
+
+        dropdown = field.autocomplete("Unknown", select: false)
+        expect(dropdown).to have_selector(:list_box_option, text: create_option_text("Unknown"))
       end
     end
   end
@@ -179,6 +209,25 @@ RSpec.describe "labels inplace editor", :js, with_flag: { work_package_labels: t
         field.expect_selected_values(label.name)
 
         dropdown = field.autocomplete(other_label.name.upcase, select: false)
+        expect(dropdown).to have_selector(:list_box_option, text: other_label.name)
+
+        dropdown = field.autocomplete("Unknown", select: false)
+        expect(dropdown).to have_no_selector(:list_box_option, text: create_option_text("Unknown"))
+      end
+    end
+
+    context "with edit_work_packages only in another project" do
+      let(:other_project) { create(:project) }
+      let(:user) do
+        create(:user,
+               member_with_permissions: {
+                 project => %i[view_work_packages add_work_packages],
+                 other_project => %i[view_work_packages edit_work_packages]
+               })
+      end
+
+      it "offers no option to create a label" do
+        dropdown = field.autocomplete(other_label.name, select: false)
         expect(dropdown).to have_selector(:list_box_option, text: other_label.name)
 
         dropdown = field.autocomplete("Unknown", select: false)
