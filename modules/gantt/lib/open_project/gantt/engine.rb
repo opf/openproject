@@ -95,6 +95,9 @@ module OpenProject::Gantt
            html: {
              id: "main-menu-gantt",
              data: {
+               # The gantt entry disables Turbo Drive (data-turbo="false") so that navigating to it
+               # always performs a full page load instead of a Turbo visit, which previously left the
+               # gantt chart missing/blank next to the table.
                turbo: false
              }
            }

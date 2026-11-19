@@ -36,6 +36,7 @@ RSpec.describe "Gantt sidebar navigation",
   let(:project) { create(:project, enabled_module_names:) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }
+  let(:global_wp_timeline) { Pages::WorkPackagesTimeline.new }
 
   let!(:work_package) do
     create(:work_package,
@@ -48,23 +49,55 @@ RSpec.describe "Gantt sidebar navigation",
     login_as(user)
   end
 
-  it "renders the gantt chart when navigating there from the work packages list via the sidebar (#DREAM-1055)" do
+  it "renders the gantt chart when navigating there within a project via the sidebar (#DREAM-1055)" do
     wp_table.visit!
     loading_indicator_saveguard
 
     find(".main-menu--arrow-left-to-project").click
 
-    gantt_link = page.find_by_id("main-menu-gantt")
+    within ".main-menu" do
+      gantt_link = find(:link, accessible_name: "Gantt charts")
+      expect(gantt_link["data-turbo"]).to eq("false")
 
-    # The gantt entry disables Turbo Drive (data-turbo="false") so that navigating to it
-    # always performs a full page load instead of a Turbo visit, which previously left the
-    # gantt chart missing/blank next to the table.
-    expect(gantt_link["data-turbo"]).to eq("false")
+      gantt_link.click
+    end
 
-    gantt_link.click
     loading_indicator_saveguard
 
     wp_timeline.expect_timeline!(open: true)
     wp_timeline.expect_work_package_listed work_package
+  end
+
+  it "renders the gantt chart when navigating there via the global sidebar (#DREAM-1055)" do
+    visit home_path
+
+    within ".main-menu" do
+      gantt_link = find(:link, accessible_name: "Gantt charts")
+      expect(gantt_link["data-turbo"]).to eq("false")
+
+      gantt_link.click
+    end
+
+    loading_indicator_saveguard
+
+    global_wp_timeline.expect_timeline!(open: true)
+    global_wp_timeline.expect_work_package_listed work_package
+  end
+
+  it "renders the gantt chart when navigating there via the modules menu (#DREAM-1055)" do
+    visit root_path
+
+    within ".op-app-header" do
+      page.find_test_selector("op-app-header--modules-menu-button").click
+    end
+
+    within "#op-app-header--modules-menu-list", visible: :all do
+      click_on "Gantt charts", visible: :all
+    end
+
+    loading_indicator_saveguard
+
+    global_wp_timeline.expect_timeline!(open: true)
+    global_wp_timeline.expect_work_package_listed work_package
   end
 end
