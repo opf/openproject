@@ -83,7 +83,7 @@ module Admin::Import
     end
 
     def test_connection
-      stream_connection_check(jira_with_form_values)
+      stream_connection_check
       respond_with_turbo_streams
     end
 
@@ -93,18 +93,14 @@ module Admin::Import
       @jira = Import::Jira.find(params.expect(:id))
     end
 
-    def stream_connection_check(jira)
+    def stream_connection_check
+      jira = params[:id] ? set_jira : Import::Jira.new
+      jira.assign_attributes(jira_params)
       report = Import::Jiras::Validators::ConnectionValidator.new(jira).call
       update_via_turbo_stream(component: Admin::Import::Jira::ConnectionCheckComponent.new(jira, report:))
     rescue StandardError => e
       OpenProject.logger.error("Testing the Jira connection failed", exception: e)
       render_error_flash_message_via_turbo_stream(message: I18n.t("js.error.internal"))
-    end
-
-    def jira_with_form_values
-      jira = params[:id] ? set_jira : Import::Jira.new
-      jira.assign_attributes(jira_params)
-      jira
     end
 
     def jira_params
