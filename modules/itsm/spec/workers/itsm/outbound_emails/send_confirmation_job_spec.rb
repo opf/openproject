@@ -30,7 +30,9 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe ITSM::OutboundEmails::SendConfirmationJob, type: :job do
+RSpec.describe ITSM::OutboundEmails::SendConfirmationJob, type: :job,
+                                                          with_flag: { helpdesk: true },
+                                                          with_settings: { helpdesk_enabled: true } do
   subject(:perform) { described_class.perform_now(thread) }
 
   let(:thread) { create(:itsm_email_thread) }
@@ -135,16 +137,11 @@ RSpec.describe ITSM::OutboundEmails::SendConfirmationJob, type: :job do
     end
   end
 
-  context "when the email message is invalid" do
-    let(:result) { ServiceResult.failure(result: thread).tap { it.errors.add(:message_id, :taken) } }
-    let(:logged) { [] }
-
-    before { allow(Rails.logger).to receive(:info) { |&message| logged << message.call } }
-
-    it "logs the invalid attribute" do
+  context "when the help desk was turned off before the job ran", with_settings: { helpdesk_enabled: false } do
+    it "sends nothing" do
       perform
 
-      expect(logged).to include("Confirmation not sent (message_id)")
+      expect(ITSM::OutboundEmails::SendConfirmationService).not_to have_received(:new)
     end
   end
 
