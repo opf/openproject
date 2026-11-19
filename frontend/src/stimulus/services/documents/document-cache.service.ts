@@ -32,7 +32,6 @@ import { getMetaValue } from 'core-app/core/setup/globals/global-helpers';
 const DB_PREFIX = 'op-document:';
 const DEFAULT_TIMEOUT_MS = 3000;
 const BLOCKED_GRACE_MS = 1000;
-const STORES = ['updates', 'custom'];
 
 interface OpenOptions {
   timeoutMs?:number;
@@ -191,8 +190,9 @@ export class DocumentCache {
 
   private static clearStores(db:IDBDatabase):Promise<void> {
     return DocumentCache.bounded((finish) => {
-      const transaction = db.transaction(STORES, 'readwrite');
-      STORES.forEach((store) => transaction.objectStore(store).clear());
+      const stores = Array.from(db.objectStoreNames);
+      const transaction = db.transaction(stores, 'readwrite');
+      stores.forEach((store) => transaction.objectStore(store).clear());
       transaction.oncomplete = finish;
       transaction.onerror = finish;
       transaction.onabort = finish;
