@@ -109,6 +109,7 @@ sv:
         maintained_with_changes: Upprätthålls med förändringar
         no_longer_meets_filter_criteria: Uppfyller inte längre filterkriterierna
         now_meets_filter_criteria: Uppfyller nu filterkriterierna
+        state_at: State at
       show_changes_since: Visa ändringar sedan
       time: Tid
       time_description: 'I din lokala tid: %{datetime}'
