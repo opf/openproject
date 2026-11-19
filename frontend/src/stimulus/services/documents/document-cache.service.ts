@@ -54,6 +54,8 @@ export class DocumentCache {
       return null;
     }
 
+    DocumentCache.detachOnFailedWrite(persistence, doc);
+
     const opening = DocumentCache.connection(persistence);
     opening
       .then((db) => DocumentCache.detachOnVersionChange(persistence, db))
@@ -151,6 +153,33 @@ export class DocumentCache {
       void DocumentCache.detach(persistence);
       closeConnection?.call(db, event);
     };
+  }
+
+  /**
+   * The offline copy is saved in the same step that hands each edit to the collaboration server.
+   * If the save throws there, which it does once the browser has closed the database, the
+   * document stops handing over edits altogether and nothing typed afterwards is synced.
+   * A failed save therefore only stops offline saving for this page; editing and sync continue.
+   *
+   * @see https://github.com/yjs/y-indexeddb/issues/48
+   */
+  private static detachOnFailedWrite(persistence:IndexeddbPersistence, doc:Y.Doc):void {
+    const holder = persistence as unknown as { _storeUpdate:(update:Uint8Array, origin:unknown) => void };
+    // eslint-disable-next-line no-underscore-dangle
+    const storeUpdate = holder._storeUpdate;
+
+    const guarded = (update:Uint8Array, origin:unknown) => {
+      try {
+        storeUpdate(update, origin);
+      } catch {
+        void DocumentCache.detach(persistence);
+      }
+    };
+
+    doc.off('update', storeUpdate);
+    // eslint-disable-next-line no-underscore-dangle
+    holder._storeUpdate = guarded;
+    doc.on('update', guarded);
   }
 
   private static async detach(persistence:IndexeddbPersistence):Promise<void> {

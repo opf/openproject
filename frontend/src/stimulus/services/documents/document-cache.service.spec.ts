@@ -135,6 +135,19 @@ describe('document cache', () => {
     expect(listener).toHaveBeenCalledTimes(1);
   });
 
+  it('keeps other update listeners running when the browser closes the connection', async () => {
+    const doc = new Y.Doc();
+    const cache = await track(doc);
+    const listener = vi.fn();
+    doc.on('update', listener);
+
+    (cache as unknown as { persistence:{ db:IDBDatabase } }).persistence.db.close();
+
+    expect(() => doc.getText('t').insert(0, 'first')).not.toThrow();
+    expect(() => doc.getText('t').insert(0, 'second')).not.toThrow();
+    expect(listener).toHaveBeenCalledTimes(2);
+  });
+
   it('leaves nothing attached to the doc when the open times out', async () => {
     const realOpen = indexedDB.open.bind(indexedDB);
     const hung = {} as IDBOpenDBRequest;
