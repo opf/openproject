@@ -28,8 +28,8 @@ There are two types of meetings in OpenProject: **one-time meetings** and **recu
 | Template | Optional [meeting template](../meeting-features/meeting-templates/) (Enterprise add-on) | [Series template](recurring-meetings/#edit-recurring-meetings-template) that is the basis for every occurrence |
 | Backlog | [Agenda backlog](../meeting-features/meeting-agenda/#agenda-backlogs) for the specific meeting | [Series backlog](recurring-meetings/#meeting-backlogs-for-recurring-meetings) shared by all occurrences |
 | Moving agenda items | Can be moved to another section or the backlog | Can also be moved to the [next meeting](recurring-meetings/#move-an-agenda-item-to-next-meeting) in the series |
-| Copying | [Copy the meeting](../meeting-features/meeting-creation/#copy-a-meeting) | [Duplicate an occurrence as a one-time meeting](recurring-meetings/#edit-a-recurring-meeting-occurrence) |
-| Removing | [Delete the meeting](../meeting-features/meeting-creation/#delete-a-meeting) | Cancel a single occurrence, end the series or delete the whole series |
+| Copying | [Copy the meeting](../meeting-features/meeting-setup/#copy-a-meeting) | [Duplicate an occurrence as a one-time meeting](recurring-meetings/#edit-a-recurring-meeting-occurrence) |
+| Removing | [Delete the meeting](../meeting-features/meeting-setup/#delete-a-meeting) | Cancel a single occurrence, end the series or delete the whole series |
 
 > [!NOTE]
 > Each occurrence of a recurring meeting is a meeting in its own right. Everything described under [meeting features](../meeting-features/) also applies to individual occurrences.
