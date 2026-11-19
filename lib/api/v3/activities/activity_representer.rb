@@ -83,7 +83,8 @@ module API
         property :details,
                  exec_context: :decorator,
                  getter: ->(*) { formatted_details(represented) },
-                 render_nil: true
+                 render_nil: true,
+                 uncacheable: true
 
         property :version, render_nil: true
 
