@@ -1,12 +1,12 @@
 ---
 sidebar_navigation:
-  title: Meeting creation
+  title: Meeting setup
   priority: 900
-description: Create, edit, copy and delete meetings in OpenProject.
+description: Set up, edit, copy and delete meetings in OpenProject.
 keywords: meetings, create meeting, one-time meeting, edit meeting, copy meeting, delete meeting
 ---
 
-# Create and manage meetings
+# Meeting setup
 
 This page explains how to create a meeting and how to edit, copy or delete it. For an overview of the differences between one-time and recurring meetings, see [Meeting types](../../meeting-types/). For setting up a meeting series, see [Recurring meetings](../../meeting-types/recurring-meetings/).
 
