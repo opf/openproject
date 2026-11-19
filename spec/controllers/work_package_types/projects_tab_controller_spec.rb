@@ -242,6 +242,15 @@ RSpec.describe WorkPackageTypes::ProjectsTabController do
         expect(project.reload.type_variant(type)).to eq(type.default_variant)
       end
 
+      it "leaves archived projects alone" do
+        archived = create(:project, active: false)
+
+        post :enable_all_projects, params: { type_id: type.id, value: "1" }, format: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        expect(archived.reload.enabled_types).not_to include(type)
+      end
+
       it "drops the type everywhere when toggled off" do
         create(:project_type, project:, type:)
 

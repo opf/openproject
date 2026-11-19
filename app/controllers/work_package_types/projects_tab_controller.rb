@@ -225,7 +225,7 @@ module WorkPackageTypes
     end
 
     def enable_everywhere
-      projects = ::Project.where.not(id: @variant.projects.select(:id))
+      projects = ::Project.active.where.not(id: @variant.projects.select(:id))
       switching = switching_project_types(projects)
       if unconfirmed_switch?(switching)
         return ask_to_switch(switching, url: enable_all_variant_projects_path(@variant, value: "1", **wizard_params))
