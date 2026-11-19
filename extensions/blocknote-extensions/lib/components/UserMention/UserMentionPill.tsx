@@ -1,11 +1,13 @@
-import { useRef } from 'react';
+import { useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled, { css } from 'styled-components';
 import type { AnyEditor } from '../../editorTypes';
 import { useIsNodeInSelection } from '../../hooks/useIsNodeInSelection';
 import { useInlineNodeOptions } from '../../hooks/useInlineNodeOptions';
+import { useSelectionAnnouncement } from '../../hooks/useSelectionAnnouncement';
 import { linkToUser } from '../../services/openProjectApi';
 import { newTabLinkProps } from '../../utils/links';
+import { useOptionsHost } from '../../utils/optionsHost';
 import { USER_MENTION_TYPE } from '../../utils/nodeTypes';
 import { OptionsPopover } from '../Shared/OptionsMenu';
 import { INLINE_NODE_STYLES, inlineNodeBaseStyles, inlineNodeContainerStyles } from '../Shared/inlineNodeStyles';
@@ -54,13 +56,24 @@ export function UserMentionPill({ props: { userId, name }, editor }:UserMentionP
   const { options, activationProps, removeNode } =
     useInlineNodeOptions(editor, pillRef, USER_MENTION_TYPE);
   const profileHref = linkToUser(userId);
+  const label = t('mention.ariaLabel', { name });
+
+  const optionsHostRef = useOptionsHost(() => options.open(true));
+  const setPillRef = useCallback((node:HTMLElement | null) => {
+    pillRef.current = node;
+    optionsHostRef(node);
+  }, [optionsHostRef]);
+
+  useSelectionAnnouncement(pillRef, editor, label);
 
   return (
     <Pill
-      ref={pillRef}
+      ref={setPillRef}
       data-drag-handle
       role="button"
-      aria-label={t('mention.ariaLabel', { name })}
+      aria-label={label}
+      aria-haspopup="menu"
+      aria-expanded={options.isOpen}
       $selected={selected || options.isOpen}
       {...activationProps()}
     >

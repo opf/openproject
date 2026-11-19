@@ -2,10 +2,10 @@ import { useEffect } from 'react';
 import type { RefObject } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { AnyEditor } from '../editorTypes';
-import { isWorkPackageNodeSelected } from '../utils/selection';
+import { isNodeSelected } from '../utils/selection';
 import { WorkPackageAccessibilityExtension } from '../plugins/workPackageAccessibilityExtension';
 
-// Announces the work package rendered into `elementRef` each time it becomes
+// Announces the node rendered into `elementRef` each time it becomes
 // the node selection, and takes the announcement back once it no longer is.
 export function useSelectionAnnouncement(
   elementRef:RefObject<HTMLElement | null>,
@@ -23,7 +23,7 @@ export function useSelectionAnnouncement(
 
     let wasSelected = false;
     const followSelection = () => {
-      const selected = isWorkPackageNodeSelected(editor, elementRef.current);
+      const selected = isNodeSelected(editor, elementRef.current);
       if (selected && !wasSelected) announcer.announce(message, elementRef);
       if (!selected && wasSelected) announcer.clearAnnouncement(elementRef);
       wasSelected = selected;

@@ -1,12 +1,12 @@
 import { createExtension } from '@blocknote/core';
 import { TextSelection } from 'prosemirror-state';
 import type { AnyEditor } from '../editorTypes';
-import { selectedWorkPackageDom } from '../utils/selection';
+import { selectedNodeDom } from '../utils/selection';
 import { openOptionsWithin } from '../utils/optionsHost';
 import { selectInlineChipAt } from '../utils/inlineChipActions';
-import { INLINE_WP_ATTRIBUTE_TYPE, INLINE_WP_TYPE } from '../utils/nodeTypes';
+import { INLINE_WP_ATTRIBUTE_TYPE, INLINE_WP_TYPE, USER_MENTION_TYPE } from '../utils/nodeTypes';
 
-const INLINE_NODE_TYPES = [INLINE_WP_TYPE, INLINE_WP_ATTRIBUTE_TYPE];
+const INLINE_NODE_TYPES = [INLINE_WP_TYPE, INLINE_WP_ATTRIBUTE_TYPE, USER_MENTION_TYPE];
 
 // Kept out of the tab order, a work package is operated through the editor
 // itself: the arrow keys select it and Enter or Space opens its options. A
@@ -44,7 +44,7 @@ function selectChipBeside(editor:AnyEditor, side:'before' | 'after'):boolean {
 // Swallowed whenever a work package is selected: let through, the key would
 // replace it with a line break or a space.
 function openSelectedOptions(editor:AnyEditor):boolean {
-  const dom = selectedWorkPackageDom(editor);
+  const dom = selectedNodeDom(editor);
   if (!dom) return false;
 
   openOptionsWithin(dom);
@@ -57,7 +57,7 @@ function keepFormattingToolbarClosed(editor:AnyEditor):(() => void) | undefined 
   const store = editor.getExtension('formattingToolbar')?.store;
 
   return store?.subscribe(() => {
-    if (store.state && selectedWorkPackageDom(editor)) store.setState(false);
+    if (store.state && selectedNodeDom(editor)) store.setState(false);
   });
 }
 

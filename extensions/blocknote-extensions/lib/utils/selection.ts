@@ -1,7 +1,7 @@
 import { NodeSelection } from 'prosemirror-state';
 import type { Node as ProsemirrorNode } from 'prosemirror-model';
 import type { AnyEditor } from '../editorTypes';
-import { WORK_PACKAGE_NODE_TYPES } from './nodeTypes';
+import { SELECTABLE_NODE_TYPES, WORK_PACKAGE_NODE_TYPES } from './nodeTypes';
 
 /**
  * Selection utilities.
@@ -46,7 +46,7 @@ export function hideSafariPhantomSelection(editor:AnyEditor):void {
     if (!view) return;
 
     const selectedNode = (view.state.selection as { node?:ProsemirrorNode }).node;
-    if (!selectedNode || !WORK_PACKAGE_NODE_TYPES.includes(selectedNode.type.name)) return;
+    if (!selectedNode || !SELECTABLE_NODE_TYPES.includes(selectedNode.type.name)) return;
 
     const domObserver = (view as unknown as { domObserver?:DomObserver }).domObserver;
     if (!domObserver) return;
@@ -85,15 +85,15 @@ export function selectBlockNode(editor:AnyEditor, blockId:string):void {
   hideSafariPhantomSelection(editor);
 }
 
-/** The DOM of the work package the editor has node-selected, if it has one selected. */
-export function selectedWorkPackageDom(editor:AnyEditor):Node | null {
+/** The DOM of the selectable node the editor has node-selected, if it has one selected. */
+export function selectedNodeDom(editor:AnyEditor):Node | null {
   const { selection } = editor.prosemirrorState;
   if (!(selection instanceof NodeSelection)) return null;
-  if (!WORK_PACKAGE_NODE_TYPES.includes(selection.node.type.name)) return null;
+  if (!SELECTABLE_NODE_TYPES.includes(selection.node.type.name)) return null;
 
   return editor.prosemirrorView?.nodeDOM(selection.from) ?? null;
 }
 
-export function isWorkPackageNodeSelected(editor:AnyEditor, element:Element | null):boolean {
-  return Boolean(element && selectedWorkPackageDom(editor)?.contains(element));
+export function isNodeSelected(editor:AnyEditor, element:Element | null):boolean {
+  return Boolean(element && selectedNodeDom(editor)?.contains(element));
 }

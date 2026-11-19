@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Mention users with `@` and notify them through the API ([SE-641](https://community.openproject.org/wp/SE-641))
+
 ### Fixed
 
 - Give work package attributes the same options menu as work package links, including keyboard access ([BNE-183](https://community.openproject.org/wp/BNE-183))
