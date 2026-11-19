@@ -149,6 +149,15 @@ RSpec.describe OpPrimer::ExpandableTextComponent, type: :component do
     end
   end
 
+  describe "tag" do
+    it "renders span elements for use inside phrasing content" do
+      render_component(tag: :span, truncate: :multi_line) { "Content" }
+
+      expect(page).to have_css("span[data-controller='expandable-text'] > span.op-vertical-truncate", text: "Content")
+      expect(page).to have_no_css("div", visible: :all)
+    end
+  end
+
   describe "expander_arguments" do
     it "merges additional arguments into the expander" do
       render_component(
@@ -178,6 +187,11 @@ RSpec.describe OpPrimer::ExpandableTextComponent, type: :component do
 
     it "raises for an invalid expansion in development and test" do
       expect { render_component(expansion: :sideways) { "Content" } }
+        .to raise_error(Primer::FetchOrFallbackHelper::InvalidValueError)
+    end
+
+    it "raises for an invalid tag in development and test" do
+      expect { render_component(tag: :section) { "Content" } }
         .to raise_error(Primer::FetchOrFallbackHelper::InvalidValueError)
     end
   end
