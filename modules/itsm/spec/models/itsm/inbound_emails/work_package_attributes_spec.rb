@@ -31,7 +31,7 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe ITSM::InboundEmails::WorkPackageAttributes do
-  subject(:attributes) { described_class.new(ITSM::InboundEmail.new(raw)).to_h }
+  subject(:attributes) { described_class.from_email(ITSM::InboundEmail.new(raw)).to_h }
 
   let(:email_subject) { "Printer broken" }
   let(:body) { "The printer on floor 2 is broken." }
@@ -62,10 +62,12 @@ RSpec.describe ITSM::InboundEmails::WorkPackageAttributes do
   end
 
   context "with a subject longer than a work package allows" do
-    let(:email_subject) { "Printer broken " * 30 }
+    let(:email_subject) { "Printer broken #{'x' * 300}" }
 
-    it "shortens it" do
+    it "shortens it and keeps the full subject above the text" do
       expect(attributes[:subject].length).to eq(255)
+      expect(attributes[:description])
+        .to eq("```\nSubject: Printer broken #{'x' * 300}\n\nThe printer on floor 2 is broken.\n```")
     end
   end
 
@@ -92,8 +94,19 @@ RSpec.describe ITSM::InboundEmails::WorkPackageAttributes do
   context "without text" do
     let(:body) { "" }
 
-    it "has no description" do
-      expect(attributes[:description]).to be_nil
+    it "has an empty description" do
+      expect(attributes[:description]).to eq("")
+    end
+  end
+
+  context "when used to create a work package" do
+    let(:project) { create(:project_with_types) }
+    let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages add_work_packages] }) }
+    let!(:status) { create(:default_status) }
+    let!(:priority) { create(:default_priority) }
+
+    it "is accepted" do
+      expect(WorkPackages::CreateService.new(user:).call(project:, **attributes)).to be_success
     end
   end
 end

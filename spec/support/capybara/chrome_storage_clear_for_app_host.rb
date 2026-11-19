@@ -22,33 +22,28 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ITSM
-  module InboundEmails
-    class ThreadAttributes
-      def initialize(email)
-        @email = email
-      end
+require "capybara/selenium/driver"
 
-      def to_h
-        { requester_email: headers.from_address, requester_name: headers.from_name, recipients: }
-      end
+# Chrome 158 rejects "*" as the origin of Storage.clearDataForOrigin, which Capybara 3.40
+# sends at the end of every ChromeDriver#reset!. Remove once Capybara ships a fix.
+# https://github.com/teamcapybara/capybara/issues/2865
+module ChromeStorageClearForAppHost
+  private
 
-      private
-
-      attr_reader :email
-
-      delegate :headers, to: :email
-
-      def recipients
-        (headers.to_addresses + headers.cc_addresses).uniq - [headers.from_address] - own_addresses
-      end
-
-      def own_addresses = ITSM.helpdesk_addresses + email.delivery_addresses
+  def execute_cdp(cmd, params = {})
+    if cmd == "Storage.clearDataForOrigin" && params[:origin] == "*"
+      super("Network.clearBrowserCookies")
+      super(cmd, params.merge(origin: Capybara.app_host))
+    else
+      super
     end
   end
 end
+
+Capybara::Selenium::Driver::ChromeDriver.prepend(ChromeStorageClearForAppHost)

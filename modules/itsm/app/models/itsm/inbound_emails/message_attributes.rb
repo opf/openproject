@@ -29,30 +29,14 @@
 
 module ITSM
   module InboundEmails
-    class WorkPackageAttributes
-      def initialize(email)
-        @email = email
-      end
+    MessageAttributes = Data.define(:direction, :message_id, :in_reply_to, :referenced_message_ids, :from_address,
+                                    :from_name, :to_addresses, :cc_addresses, :subject) do
+      def self.from_email(email)
+        headers = email.headers
 
-      def to_h
-        { subject:, description:, journal_cause: Journal::CausedByEmail.new(sender_address: headers.from_address) }
-      end
-
-      private
-
-      attr_reader :email
-
-      delegate :headers, :text, to: :email
-
-      def subject
-        (headers.subject.presence || I18n.t(:label_email_without_subject, locale: Setting.default_language)).truncate(255)
-      end
-
-      def description
-        return if text.empty?
-
-        fence = "`" * [3, text.scan(/`+/).map(&:length).max.to_i + 1].max
-        "#{fence}\n#{text}\n#{fence}"
+        new(**headers.to_h.slice(:message_id, :in_reply_to, :from_address, :from_name, :to_addresses, :cc_addresses, :subject),
+            direction: :inbound,
+            referenced_message_ids: headers.references)
       end
     end
   end

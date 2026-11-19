@@ -65,13 +65,19 @@ RSpec.describe ITSM::InboundEmail::HtmlToText do
         "<a href=\"https://shop.example\">https://shop.example</a>, " \
         "<a href=\"mailto:jane@customer.example\">Jane</a>, " \
         "<a href=\"mailto:joe@customer.example\">joe@customer.example</a>, " \
-        "<a href=\"#top\">top</a> and " \
-        "<a href=\"javascript:alert(1)\">this</a>.</p>"
+        "<a href=\"ftp://files.customer.example/scan.pdf\">the scan</a>, " \
+        "<a href=\"tel:+49123456789\">my phone</a>, " \
+        "<a href=\"#top\">top</a>, " \
+        "<a href=\"cid:logo@customer.example\">logo</a>, " \
+        "<a href=\"data:text/html,hello\">data</a> and " \
+        "<a href=\" JavaScript:alert(1)\">this</a>.</p>"
     end
 
-    it "keeps web and email addresses, but not anchors or unsafe targets" do
+    it "keeps the targets, but not anchors, inline parts or scripts" do
       expect(text).to eq("See my order (https://shop.example/orders/123), https://shop.example, " \
-                         "Jane (jane@customer.example), joe@customer.example, top and this.")
+                         "Jane (jane@customer.example), joe@customer.example, " \
+                         "the scan (ftp://files.customer.example/scan.pdf), my phone (tel:+49123456789), " \
+                         "top, logo, data and this.")
     end
   end
 end

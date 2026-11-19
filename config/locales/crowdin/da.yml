@@ -709,7 +709,7 @@ da:
           at_least_one_custom_option: Der skal være mindst én valgmulighed.
           attributes:
             admin_only:
-              cannot_be_true: is not supported for this type of custom field.
+              cannot_be_true: understøttes ikke for denne type brugerdefineret felt.
             formula:
               blank: Formlen må ikke være tom.
               format: "%{message}"
@@ -1426,7 +1426,6 @@ da:
           description: Din kommentar bliver synlig for alle, der har adgang til arbejdspakken. Er du sikker på, at du vil gøre det?
           heading: Vil du gøre kommentaren offentlig?
           title: Vil du gøre kommentaren offentlig?
-        internal_journal: Interne kommentarer er synlige for en begrænset gruppe medlemmer.
         label_activity_hide_meetings: Skjul opdateringer fra møder
         label_activity_show_all: Vis alt
         label_activity_show_only_changes: Vis kun ændringer
@@ -1607,7 +1606,7 @@ da:
         contribution_callout: 'Hjælp os med at forbedre Jira-migreringen med din feedback og ved at donere private data. Du kan [blive en del af udviklingsfællesskabet](link) bag Jira-migreringen.
 
           '
-        description: Jira-migreringen er i beta. Vi understøtter i øjeblikket kun Jira Server/Data Center version 10.x og 11.x. Cloud-installationer understøttes ikke endnu.
+        description: The Jira Migrator is currently in beta. We support Jira Server/Data Center versions 8.x, 9.x, 10.x and 11.x. Cloud instances are not supported at this time.
         title: Beta – prøv det!
       basic_auth_password_deleted: Adgangskoden til basic auth er slettet.
       blank:
@@ -1889,17 +1888,22 @@ da:
                 other: "%{count} projekter valgt som omfang"
               description: Vælg, hvilke af de data, der er hentet fra Jira-installationen, du vil importere.
               elements:
+                configuration_mapping: Configuration & Mapping options
                 custom_fields: Et udvalg af brugerdefinerede felter
                 issue_details: Id'er, beskrivelse, historik, kommentarer og vedhæftede filer for sager
                 issues: Sager
                 logged_time: Registreret tid
                 permissions: Tilladelser
+                plugin_migration: Plug-in migration
                 project_details: Id'er, beskrivelse og versioner for projekter
+                project_specific_custom_fields: Project-specific custom fields
                 projects: Projekter
                 relations: Relationer mellem sager
                 schemes: Skemaer
+                security_level: Security Level
                 sprints: Sprints og tildelinger til sprints
                 users: Involverede brugere og grupper
+                workflow_migration: Workflow migration
                 workflows: Arbejdsgange på projektniveau
               label_coming_later: Kommer senere
               label_coming_soon: Kommer snart
@@ -3675,7 +3679,7 @@ da:
           caption: Brug en eksisterende formular til typen med et foruddefineret sæt attributgrupper.
           label: Brug en eksisterende formular
         new:
-          caption: Sæt attributgrupperne sammen i en ny formular til typen.
+          caption: Manually define a new set of sections and fields to display for this variant.
           label: Konfigurer en ny formular
   forums:
     index:
@@ -7176,8 +7180,8 @@ da:
           type: Det er de felter, som projektets medlemmer ser, når de opretter eller redigerer en arbejdspakke af denne type. Du kan deaktivere felter, som du vil skjule.
           variant: Det er de felter, som projektets medlemmer ser, når de opretter eller redigerer en arbejdspakke af denne variant. Du kan deaktivere felter, som du vil skjule.
         new:
-          type: Det er de felter, som projektets medlemmer ser, når de opretter eller redigerer en arbejdspakke af denne type. Du bestemmer selv rækkefølgen og grupperingen.
-          variant: Det er de felter, som projektets medlemmer ser, når de opretter eller redigerer en arbejdspakke af denne variant. Du bestemmer selv rækkefølgen og grupperingen.
+          type: These are the fields that a project member sees when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
+          variant: These are the fields that a project member sees when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
       pdf: Vælg, hvilke PDF-skabeloner der er tilgængelige, når der dannes PDF'er af arbejdspakker, der bruger disse indstillinger. Hver skabelon bestemmer layoutet, og hvilke attributter der står i PDF'en. Den første skabelon på listen er standard.
       project_attributes: Vælg, hvilke projektattributter der vises i arbejdspakker. Projektmedlemmer med tilladelse kan se og redigere dem på arbejdspakkens fane Projektattributter.
       projects:

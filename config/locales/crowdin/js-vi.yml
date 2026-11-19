@@ -109,6 +109,7 @@ vi:
         maintained_with_changes: Duy trì với những thay đổi
         no_longer_meets_filter_criteria: Không còn đáp ứng tiêu chí lọc
         now_meets_filter_criteria: Bây giờ đáp ứng tiêu chí lọc
+        state_at: State at
       show_changes_since: Hiển thị các thay đổi kể từ
       time: thời gian
       time_description: 'Theo giờ địa phương của bạn: %{datetime}'

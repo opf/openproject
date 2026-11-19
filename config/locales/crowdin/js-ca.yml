@@ -109,6 +109,7 @@ ca:
         maintained_with_changes: Mantingut amb canvis
         no_longer_meets_filter_criteria: Ja no compleix els criteris del filtre
         now_meets_filter_criteria: Ara compleix els criteris del filtre
+        state_at: State at
       show_changes_since: Mostra canvis des de
       time: Hora
       time_description: 'En el temps local: %{datetime}'

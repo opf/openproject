@@ -1,7 +1,7 @@
 <%=
   I18n.t(
     :"mail_member_updated_global.body.updated_by.#{@message.present? ? 'with_message' : 'without_message'}",
-    user: User.current.name
+    user: @sender.name
   )
 %>
 

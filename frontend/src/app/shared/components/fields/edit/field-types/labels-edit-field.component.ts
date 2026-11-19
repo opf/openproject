@@ -33,6 +33,9 @@ import { HalResourceService } from 'core-app/features/hal/services/hal-resource.
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 import { isRecord } from 'core-app/shared/helpers/type-guards';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Component({
   templateUrl: './labels-edit-field.component.html',
@@ -41,10 +44,20 @@ import { isRecord } from 'core-app/shared/helpers/type-guards';
 })
 export class LabelsEditFieldComponent extends AutocompleterEditFieldComponent {
   readonly halResourceService = inject(HalResourceService);
+  readonly currentUserService = inject(CurrentUserService);
 
   isNew = isNewResource(this.resource);
 
   url:string;
+
+  private readonly projectId$ = new BehaviorSubject<string|undefined>(undefined);
+
+  canCreateLabels$:Observable<boolean> = this.isNew
+    ? this.projectId$.pipe(
+      distinctUntilChanged(),
+      switchMap((projectId) => (projectId ? this.currentUserService.hasCapabilities$('work_packages/update', projectId) : of(false))),
+    )
+    : of(true);
 
   public text = {
     save: this.I18n.t('js.inplace.button_save', { attribute: this.schema.name }),
@@ -56,6 +69,8 @@ export class LabelsEditFieldComponent extends AutocompleterEditFieldComponent {
     if (link) {
       this.url = link.$link.href!;
     }
+
+    this.projectId$.next(this.projectId);
   }
 
   public onModelChange(labels:unknown):void {

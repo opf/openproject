@@ -106,8 +106,26 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
         it "links each block to the work packages table filtered to the sprint" do
           expect(query_props).not_to be_empty
           expect(query_props).to all(include("f" => include(include("n" => "sprintId"))))
-          expect(query_props).to all(include("ts"))
           expect(query_props).to all(include("is" => false))
+        end
+
+        it "adds only historic reference dates to the links" do
+          freeze_time do
+            sprint_start = Timestamp.new(sprint.started_at).to_s
+            now = Timestamp.new(Time.current).to_s
+
+            expect(query_props.pluck("ts")).to eq [sprint_start, "#{sprint_start},#{now}", nil, nil]
+          end
+        end
+
+        context "when the sprint is completed" do
+          let(:reference_finish) { Timestamp.new(1.day.ago) }
+
+          before { allow(breakdown).to receive(:reference_finish).and_return(reference_finish) }
+
+          it "adds the reference finish to the completed and unfinished links" do
+            expect(query_props.pluck("ts").last(2)).to eq [reference_finish.to_s, reference_finish.to_s]
+          end
         end
 
         it "includes the story points column" do

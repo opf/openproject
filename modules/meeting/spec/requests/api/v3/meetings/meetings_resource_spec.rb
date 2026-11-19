@@ -71,6 +71,15 @@ RSpec.describe "API v3 Meeting resource", content_type: :json do
       end
     end
 
+    context "when the meeting is a series template" do
+      let(:meeting) { create(:recurring_meeting, project:, author: current_user).template }
+
+      it "does not advertise deletion" do
+        expect(last_response).to have_http_status(:ok)
+        expect(last_response.body).not_to have_json_path("_links/delete")
+      end
+    end
+
     context "with multiple participants" do
       let(:other_user) do
         create(:user, member_with_permissions: { project => [:view_meetings] })
@@ -559,6 +568,27 @@ RSpec.describe "API v3 Meeting resource", content_type: :json do
       let(:permissions) { [] }
 
       it_behaves_like "not found"
+    end
+
+    context "when deleting a series template" do
+      let(:series) { create(:recurring_meeting, project:, author: current_user) }
+      let(:meeting) { series.template }
+
+      it_behaves_like "unauthorized access"
+
+      it "preserves the series and its template" do
+        expect(RecurringMeeting).to exist(series.id)
+        expect(series.reload.template).to eq(meeting)
+      end
+    end
+
+    context "when deleting a one-time template" do
+      let(:meeting) { create(:onetime_template, project:, author: current_user) }
+
+      it "deletes the template" do
+        expect(subject).to have_http_status(:no_content)
+        expect(Meeting).not_to exist(meeting.id)
+      end
     end
 
     context "without permission to delete meetings" do

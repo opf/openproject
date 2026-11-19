@@ -61,6 +61,9 @@ module ITSM
     validates :status, inclusion: { in: ->(message) { STATUSES.fetch(message.direction, []) } }
     validates :from_address, presence: true
 
+    scope :sent_to, ->(address) { outbound.sent.where("? = ANY(to_addresses)", address) }
+    scope :created_since, ->(time) { where(created_at: time..) }
+
     private
 
     def message_id_fits_a_header_line

@@ -110,6 +110,7 @@ See COPYRIGHT and LICENSE files for more details.
                 I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.project_details"),
                 I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.issues"),
                 I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.issue_details"),
+                I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.relations"),
                 I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.logged_time"),
                 I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.custom_fields"),
                 I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.sprints"),
@@ -126,7 +127,9 @@ See COPYRIGHT and LICENSE files for more details.
             Admin::Import::Jira::ImportRuns::InfoListBoxComponent.new(
               title: I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_coming_soon"),
               list: [
-                I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.relations")
+                I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.project_specific_custom_fields"),
+                I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.security_level"),
+                I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.configuration_mapping")
               ].map { |label| { label:, checked: false } },
               h: :full,
               icon: :"op-flag"
@@ -138,9 +141,9 @@ See COPYRIGHT and LICENSE files for more details.
             Admin::Import::Jira::ImportRuns::InfoListBoxComponent.new(
               title: I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_coming_later"),
               list: [
-                I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.workflows"),
                 I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.permissions"),
-                I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.schemes")
+                I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.workflow_migration"),
+                I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.plugin_migration")
               ].map { |label| { label:, checked: false } },
               h: :full,
               icon: :"arrow-right"

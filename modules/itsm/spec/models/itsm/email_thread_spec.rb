@@ -63,6 +63,55 @@ RSpec.describe ITSM::EmailThread do
     it { is_expected.not_to be_valid }
   end
 
+  describe "#sent_confirmation" do
+    let(:thread) { create(:itsm_email_thread, work_package:) }
+    let!(:failed) { create(:itsm_email_message, thread:, direction: "outbound", status: "failed") }
+
+    it "is nothing while no outbound email was sent" do
+      expect(thread.sent_confirmation).to be_nil
+    end
+
+    context "with sent outbound emails" do
+      let!(:first_sent) { create(:itsm_email_message, thread:, direction: "outbound", status: "sent") }
+      let!(:second_sent) { create(:itsm_email_message, thread:, direction: "outbound", status: "sent") }
+
+      it "is the first one" do
+        expect(thread.sent_confirmation).to eq(first_sent)
+      end
+    end
+  end
+
+  describe "#unsent_confirmation" do
+    let(:thread) { create(:itsm_email_thread, work_package:) }
+    let!(:sent) { create(:itsm_email_message, thread:, direction: "outbound", status: "sent") }
+
+    it "is a new outbound email of the thread" do
+      expect(thread.unsent_confirmation).to be_new_record.and have_attributes(thread:, direction: "outbound")
+    end
+
+    context "with an outbound email that was not sent" do
+      let!(:failed) { create(:itsm_email_message, thread:, direction: "outbound", status: "failed") }
+
+      it "is that email" do
+        expect(thread.unsent_confirmation).to eq(failed)
+      end
+    end
+  end
+
+  describe "#inbound_message_ids" do
+    let(:thread) { create(:itsm_email_thread, work_package:) }
+
+    before do
+      create(:itsm_email_message, thread:, message_id: "second@customer.example", created_at: 1.hour.ago)
+      create(:itsm_email_message, thread:, message_id: "first@customer.example", created_at: 2.hours.ago)
+      create(:itsm_email_message, thread:, direction: "outbound", status: "sent", message_id: "ours@example.com")
+    end
+
+    it "lists the Message-IDs of the received emails, oldest first" do
+      expect(thread.inbound_message_ids).to eq(%w[first@customer.example second@customer.example])
+    end
+  end
+
   context "when its work package is deleted" do
     let!(:saved_thread) { create(:itsm_email_thread, work_package:) }
     let!(:message) { create(:itsm_email_message, thread: saved_thread) }

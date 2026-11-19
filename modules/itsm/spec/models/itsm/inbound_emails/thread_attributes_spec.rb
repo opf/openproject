@@ -31,7 +31,7 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe ITSM::InboundEmails::ThreadAttributes do
-  subject(:attributes) { described_class.new(ITSM::InboundEmail.new(raw)).to_h }
+  subject(:attributes) { described_class.from_email(ITSM::InboundEmail.new(raw)).to_h }
 
   let(:cc) { ["Colleague@Customer.example", "help@example.com", "jane@customer.example"] }
   let(:raw) { Mail.new(from: "Jane Requester <jane@customer.example>", to: "support@example.com", cc:).to_s }
@@ -71,6 +71,16 @@ RSpec.describe ITSM::InboundEmails::ThreadAttributes do
 
     it "does not take any of the delivery addresses as a recipient" do
       expect(attributes[:recipients]).to eq(["colleague@customer.example"])
+    end
+  end
+
+  context "when used to create a thread" do
+    let(:work_package) { create(:work_package) }
+    let(:permissions) { %i[view_work_packages add_work_package_comments] }
+    let(:user) { create(:user, member_with_permissions: { work_package.project => permissions }) }
+
+    it "is accepted" do
+      expect(ITSM::EmailThreads::CreateService.new(user:).call(work_package:, **attributes)).to be_success
     end
   end
 end

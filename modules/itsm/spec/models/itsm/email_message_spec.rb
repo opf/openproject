@@ -40,6 +40,32 @@ RSpec.describe ITSM::EmailMessage do
 
   it { is_expected.to be_valid }
 
+  describe ".sent_to" do
+    let!(:sent) do
+      create(:itsm_email_message, thread:, direction: "outbound", status: "sent", to_addresses: ["jane@customer.example"])
+    end
+    let!(:failed) do
+      create(:itsm_email_message, thread:, direction: "outbound", status: "failed", to_addresses: ["jane@customer.example"])
+    end
+    let!(:sent_to_another) do
+      create(:itsm_email_message, thread:, direction: "outbound", status: "sent", to_addresses: ["bob@customer.example"])
+    end
+    let!(:received) { create(:itsm_email_message, thread:, to_addresses: ["jane@customer.example"]) }
+
+    it "lists the outbound emails sent to the address" do
+      expect(described_class.sent_to("jane@customer.example")).to contain_exactly(sent)
+    end
+  end
+
+  describe ".created_since" do
+    let!(:recent) { create(:itsm_email_message, thread:, created_at: 1.hour.ago) }
+    let!(:old) { create(:itsm_email_message, thread:, created_at: 2.days.ago) }
+
+    it "lists the emails created from that time on" do
+      expect(described_class.created_since(1.day.ago)).to contain_exactly(recent)
+    end
+  end
+
   context "with an unknown direction" do
     let(:direction) { "sideways" }
 
