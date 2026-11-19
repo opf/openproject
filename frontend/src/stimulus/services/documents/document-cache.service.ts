@@ -140,7 +140,7 @@ export class DocumentCache {
    */
   private static connection(persistence:IndexeddbPersistence):Promise<IDBDatabase> {
     // eslint-disable-next-line no-underscore-dangle
-    return (persistence as unknown as { _db:Promise<IDBDatabase> })._db;
+    return persistence._db;
   }
 
   /**
@@ -164,9 +164,8 @@ export class DocumentCache {
    * @see https://github.com/yjs/y-indexeddb/issues/48
    */
   private static detachOnFailedWrite(persistence:IndexeddbPersistence, doc:Y.Doc):void {
-    const holder = persistence as unknown as { _storeUpdate:(update:Uint8Array, origin:unknown) => void };
     // eslint-disable-next-line no-underscore-dangle
-    const storeUpdate = holder._storeUpdate;
+    const storeUpdate = persistence._storeUpdate;
 
     const guarded = (update:Uint8Array, origin:unknown) => {
       try {
@@ -178,7 +177,7 @@ export class DocumentCache {
 
     doc.off('update', storeUpdate);
     // eslint-disable-next-line no-underscore-dangle
-    holder._storeUpdate = guarded;
+    persistence._storeUpdate = guarded;
     doc.on('update', guarded);
   }
 
