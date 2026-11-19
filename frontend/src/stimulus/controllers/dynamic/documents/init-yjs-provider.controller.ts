@@ -58,7 +58,7 @@ export default class extends Controller {
   private currentToken = '';
   private canUseCachedToken = true;
   private accessDenied = false;
-  private generation = 0;
+  private run:AbortController | null = null;
 
   connect():void {
     if (this.hasLiveSession()) {
@@ -66,12 +66,14 @@ export default class extends Controller {
       return;
     }
 
-    this.generation += 1;
-    void this.setUp(this.generation);
+    this.run?.abort();
+    this.run = new AbortController();
+    void this.setUp(this.run.signal);
   }
 
   disconnect():void {
-    this.generation += 1;
+    this.run?.abort();
+    this.run = null;
 
     this.tokenRefreshService?.destroy();
     this.tokenRefreshService = null;
@@ -106,14 +108,14 @@ export default class extends Controller {
    * The cache is opened before the provider exists so that cached content is already in the
    * document when the editor first renders.
    */
-  private async setUp(generation:number):Promise<void> {
+  private async setUp(signal:AbortSignal):Promise<void> {
     const doc = new Y.Doc();
     let cache:DocumentCache | null = null;
 
     try {
       cache = await DocumentCache.open(this.documentNameValue, doc);
 
-      if (generation !== this.generation) {
+      if (signal.aborted) {
         this.release(doc, cache);
         return;
       }
@@ -124,15 +126,15 @@ export default class extends Controller {
         return;
       }
 
-      this.startSession(doc, cache, generation);
+      this.startSession(doc, cache, signal);
     } catch (error) {
       this.releaseUnlessHandedOver(doc, cache);
       this.reportSetUpFailure(error);
     }
   }
 
-  private startSession(doc:Y.Doc, cache:DocumentCache | null, generation:number):void {
-    const provider = this.createProvider(doc, generation);
+  private startSession(doc:Y.Doc, cache:DocumentCache | null, signal:AbortSignal):void {
+    const provider = this.createProvider(doc, signal);
     const refreshService = this.createTokenRefreshService(provider);
 
     this.cache = cache;
@@ -149,14 +151,14 @@ export default class extends Controller {
     }
   }
 
-  private createProvider(doc:Y.Doc, generation:number):HocuspocusProvider {
+  private createProvider(doc:Y.Doc, signal:AbortSignal):HocuspocusProvider {
     return new HocuspocusProvider({
       url: this.hocuspocusUrlValue,
       name: this.documentNameValue,
-      token: () => this.getToken(generation),
+      token: () => this.getToken(signal),
       document: doc,
       onAuthenticationFailed: ({ reason }) => {
-        if (this.accessDenied || generation !== this.generation) return;
+        if (this.accessDenied || signal.aborted) return;
 
         this.dispatchAuthError('authentication', reason);
       },
@@ -167,9 +169,9 @@ export default class extends Controller {
    * On initial load, the DOM token is fresh. On reconnection (e.g., after server restart),
    * we must fetch a fresh token since the cached one may be expired.
    */
-  private async getToken(generation:number):Promise<string> {
+  private async getToken(signal:AbortSignal):Promise<string> {
     const refreshService = this.tokenRefreshService;
-    if (generation !== this.generation || !refreshService) {
+    if (signal.aborted || !refreshService) {
       throw new RefreshError('unavailable', 'Collaboration session ended');
     }
 
@@ -187,7 +189,7 @@ export default class extends Controller {
       this.currentToken = data.encrypted_token;
       return this.currentToken;
     } catch (error) {
-      if (error instanceof RefreshError && error.isAccessDenied && generation === this.generation) {
+      if (error instanceof RefreshError && error.isAccessDenied && !signal.aborted) {
         this.handleAccessDenied();
       }
       throw error;
