@@ -29,7 +29,7 @@ To create a new meeting, click the green **+ Meeting** button in the upper right
 ![Create new meeting in OpenProject](openproject_userguide_meetings_create_meeting_button.png)
 
 > [!TIP]
-> You can also create a meeting from anywhere in OpenProject by clicking the **+** button in the top navigation bar and selecting **Meeting**.
+> You can also create a meeting from anywhere in OpenProject by clicking the **+** button in the top navigation bar, selecting **Meeting** and choosing the type of meeting.
 
 For steps on setting up recurring meetings please consult [this page](../../meeting-types/recurring-meetings/).
 
