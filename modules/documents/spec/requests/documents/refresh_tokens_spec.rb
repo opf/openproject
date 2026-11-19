@@ -61,10 +61,10 @@ RSpec.describe "Document token refresh",
     page_csrf_token
   end
 
-  def request_token(csrf_token:)
+  def request_token(csrf_token:, user_id: nil)
     headers = { "ACCEPT" => "application/json", "CONTENT_TYPE" => "application/json" }
     headers["X-CSRF-Token"] = csrf_token if csrf_token
-    post path, headers:
+    post user_id ? "#{path}?user_id=#{user_id}" : path, headers:
   end
 
   def end_session_on_server
@@ -77,6 +77,14 @@ RSpec.describe "Document token refresh",
 
       expect(response).to have_http_status(:ok)
       expect(response.parsed_body).to include("encrypted_token", "expires_in_seconds")
+    end
+  end
+
+  context "with a valid session and the id of the user the page was rendered for" do
+    it "responds with 200" do
+      request_token(csrf_token: sign_in_through_login_form, user_id: user.id)
+
+      expect(response).to have_http_status(:ok)
     end
   end
 
@@ -131,6 +139,31 @@ RSpec.describe "Document token refresh",
       request_token(csrf_token:)
 
       expect(response).to have_http_status(:not_found)
+    end
+  end
+
+  context "when login is not required and the project is public",
+          with_settings: { login_required: false } do
+    let(:project) { create(:project, public: true) }
+
+    before { create(:anonymous_role, permissions: %i[view_project view_documents]) }
+
+    it "responds with 401 when the session of the user the page was rendered for has ended" do
+      csrf_token = sign_in_through_login_form
+      end_session_on_server
+
+      request_token(csrf_token:, user_id: user.id)
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it "responds with 200 to an anonymous reader the page was rendered for" do
+      get "/projects/#{project.id}"
+
+      request_token(csrf_token: page_csrf_token, user_id: User.anonymous.id)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body).to include("encrypted_token")
     end
   end
 
