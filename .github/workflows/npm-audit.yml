@@ -149,7 +149,7 @@ jobs:
           run_for_package frontend frontend
 
           shopt -s nullglob
-          for package_json in extensions/*/package.json; do
+          for package_json in extensions/*/package.json packages/*/package.json; do
             directory=$(dirname "$package_json")
             run_for_package "$directory" "$directory"
           done

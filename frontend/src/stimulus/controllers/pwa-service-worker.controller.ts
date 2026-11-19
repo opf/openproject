@@ -43,7 +43,7 @@ export default class PwaServiceWorkerController extends Controller {
     }
 
     worker
-      .register(this.urlValue, { scope: this.scopeValue })
+      .register(this.urlValue, { scope: this.scopeValue, updateViaCache: 'none' })
       .catch((error:unknown) => console.warn('Service worker registration failed', error));
   }
 }

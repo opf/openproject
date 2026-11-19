@@ -121,6 +121,14 @@ This starts the Angular CLI dev server on `http://localhost:4200`. It compiles t
 
 Always open the application through the Rails server at `http://localhost:3000`, which loads the frontend assets from the dev server. Port `4200` only serves assets, not the application. See [Developing OpenProject Frontend](https://github.com/opf/openproject/blob/dev/frontend/doc/README.md#angular-frontend) for details.
 
+### Service worker
+
+```shell
+npm -C packages/service-worker run serve
+```
+
+This will rebuild the service worker bundle whenever its sources change.
+
 ### Background job worker
 
 ```shell

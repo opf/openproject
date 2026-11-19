@@ -1,0 +1,54 @@
+name: "Service worker / Tests"
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    paths:
+      - 'packages/service-worker/**'
+      - '.github/workflows/service-worker-test.yml'
+      - 'COPYRIGHT_short'
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: ./packages/service-worker
+
+jobs:
+  units:
+    name: Typecheck, lint, test and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24.22.1'
+          package-manager-cache: false
+          cache: npm
+          cache-dependency-path: packages/service-worker/package-lock.json
+
+      - name: Install Dependencies
+        id: npm-ci
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        if: ${{ !cancelled() && steps.npm-ci.outcome == 'success' }}
+        run: npm run lint
+
+      - name: Test
+        if: ${{ !cancelled() && steps.npm-ci.outcome == 'success' }}
+        run: CI=1 npm test
+
+      - name: Build
+        if: ${{ !cancelled() && steps.npm-ci.outcome == 'success' }}
+        run: |
+          mkdir -p ../../public/assets/frontend
+          npm run build

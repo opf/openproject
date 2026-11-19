@@ -48,6 +48,15 @@ install_plugins() {
 		fi
 		popd >/dev/null
 
+		echo "Installing service worker dependencies..."
+		pushd $APP_PATH/packages/service-worker >/dev/null
+		if [ "$(id -u)" = '0' ]; then
+			su - $APP_USER -c "cd $APP_PATH/packages/service-worker && npm install"
+		else
+			npm install
+		fi
+		popd >/dev/null
+
 		echo "Precompiling new assets..."
 		bundle exec rake assets:precompile
 

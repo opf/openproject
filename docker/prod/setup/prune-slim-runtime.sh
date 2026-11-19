@@ -9,7 +9,8 @@ rm -rf \
   "$APP_PATH/spec" \
   "$APP_PATH/screenshots" \
   "$APP_PATH/lookbook" \
-  "$APP_PATH/frontend"
+  "$APP_PATH/frontend" \
+  "$APP_PATH/packages"
 
 # Keep precompiled enterprise media in public/assets and remove duplicate source videos.
 if [ -d "$APP_PATH/public/assets/enterprise" ]; then

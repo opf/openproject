@@ -52,6 +52,7 @@ log/*.log
 # Install frontend dependencies and rebuild the Angular cache inside the image.
 frontend/.angular/cache
 frontend/node_modules
+packages/service-worker/node_modules
 node_modules
 # Install gems for the target image instead of copying a host bundle.
 vendor/bundle

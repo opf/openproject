@@ -58,7 +58,7 @@ describe('PwaServiceWorkerController', () => {
   it('registers the worker with the configured url and scope', async () => {
     await mount();
 
-    expect(register).toHaveBeenCalledWith('/openproject/service-worker', { scope: '/openproject/' });
+    expect(register).toHaveBeenCalledWith('/openproject/service-worker', { scope: '/openproject/', updateViaCache: 'none' });
   });
 
   it('does nothing without service worker support', async () => {
