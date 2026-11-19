@@ -133,6 +133,17 @@ RSpec.describe WorkPackageTypes::ProjectsTabController do
         expect(child.reload.enabled_types).to include(type)
       end
 
+      it "skips archived descendants when asked to include sub-items" do
+        archived_child = create(:project, parent: project, active: false)
+
+        post :link,
+             params: { type_id: type.id, project_ids: [node_payload(project)], include_sub_items: "1" },
+             format: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        expect(archived_child.reload.enabled_types).not_to include(type)
+      end
+
       it "ignores a payload naming no project" do
         post :link, params: { type_id: type.id, project_ids: ["not json"] }, format: :turbo_stream
 

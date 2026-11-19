@@ -273,7 +273,7 @@ module WorkPackageTypes
     end
 
     def with_descendants(project_ids)
-      ::Project.where(id: project_ids).flat_map { |project| project.self_and_descendants.ids }.uniq
+      ::Project.where(id: project_ids).flat_map { |project| project.self_and_descendants.active.ids }.uniq
     end
 
     def aggregate_refusal_message(result)
