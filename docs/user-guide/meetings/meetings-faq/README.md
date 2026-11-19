@@ -47,7 +47,7 @@ Yes. Since OpenProject 18.0, you can switch a meeting to [vote-based sorting](..
 
 ## Can I tell participants why a meeting was cancelled?
 
-Yes. Since OpenProject 18.0, you can add an optional reason when [deleting a meeting](../meeting-features/meeting-creation/#delete-a-meeting). When email notifications are enabled, the reason is included in the cancellation email sent to participants.
+Yes. Since OpenProject 18.0, you can add an optional reason when [deleting a meeting](../meeting-features/meeting-setup/#delete-a-meeting). When email notifications are enabled, the reason is included in the cancellation email sent to participants.
 
 ## What makes OpenProject a great choice for managing meetings?
 
