@@ -870,6 +870,36 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
         end
       end
 
+      context "with external link changes" do
+        let(:external_link) { create(:external_link, work_package:) }
+
+        def change_external_links
+          yield
+          work_package.save_journals
+          work_package.journals.order(:version).last
+        end
+
+        it "includes journals where an external link was added, changed and removed" do
+          added = change_external_links { external_link }
+          changed = change_external_links { external_link.update!(title: "Roadmap") }
+          removed = change_external_links { external_link.destroy! }
+
+          _pagy, records = paginator.call
+          expect(records.map(&:id)).to include(added.id, changed.id, removed.id)
+        end
+
+        it "excludes journal with only an external link snapshot" do
+          change_external_links { external_link }
+          work_package.reload.add_journal(notes: "Unrelated change")
+          work_package.save!
+          snapshot = work_package.journals.order(:version).last
+
+          _pagy, records = paginator.call
+          expect(snapshot.reload.external_link_journals.count).to eq(1)
+          expect(records.map(&:id)).not_to include(snapshot.id)
+        end
+      end
+
       context "with target version changes" do
         let!(:journal_with_target_version_added) do
           version = create(:version, project:)

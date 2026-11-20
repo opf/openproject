@@ -1024,6 +1024,8 @@ RSpec.describe WorkPackage do
                                 title: "Release plan",
                                 description: "Plan for the next release",
                                 application_type: "com.atlassian.confluence")
+          expect(journable.last_journal.details)
+            .to eq("external_links_#{external_link.id}_url" => [nil, external_link.url])
         end
       end
 
@@ -1040,6 +1042,8 @@ RSpec.describe WorkPackage do
               .to change { journable.journals.count }.by(1)
 
             expect(journaled_external_links.sole).to have_attributes(external_link_id: external_link.id, title: "Roadmap")
+            expect(journable.last_journal.details)
+              .to eq("external_links_#{external_link.id}_title" => ["Release plan", "Roadmap"])
           end
         end
 
@@ -1049,6 +1053,8 @@ RSpec.describe WorkPackage do
               .to change { journable.journals.count }.by(1)
 
             expect(journaled_external_links).to be_empty
+            expect(journable.last_journal.details)
+              .to eq("external_links_#{external_link.id}_url" => [external_link.url, nil])
           end
         end
 
