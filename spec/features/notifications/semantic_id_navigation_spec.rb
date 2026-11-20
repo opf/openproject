@@ -93,4 +93,17 @@ RSpec.describe "Notification center uses displayId when navigating to the work p
     expect(page).to have_link(semantic_id, exact: true)
     expect(page).to be_axe_clean.within(".op-ian-item--top-line")
   end
+
+  it "shows the same html title as in classic mode when opening the split view" do
+    visit notifications_path
+    Components::HtmlTitle.new.expect_first_segment "Notifications"
+
+    center.click_item(notification)
+    split_screen.expect_open
+
+    work_package.reload
+    Components::HtmlTitle.new.expect_first_segment(
+      "#{work_package.type.name}: #{work_package.subject} (#{work_package.formatted_id})"
+    )
+  end
 end
