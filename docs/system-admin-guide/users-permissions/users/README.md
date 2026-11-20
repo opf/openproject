@@ -119,7 +119,9 @@ Click **Create** to add the user. After the user has been created, their user de
 
 ### Invite a user (via the header)
 
-You can invite new users to a project directly from the [project header](/../../../#invite-from-header). Click the **plus** icon and select **Invite user**.![Plus icon on the project header to invite a user](openproject_system_guide_invite_user_from_header.png)
+You can invite new users to a project directly from the [project header](/../../../#invite-from-header). Click the **plus** icon and select **Invite user**.
+
+![Project header showing the plus button used to invite a user](openproject_system_guide_invite_user_from_header.png)
 
 ### Create user (via self-registration)
 
