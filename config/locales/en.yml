@@ -561,6 +561,7 @@ en:
         duration: "Duration"
         end_deletion: "End of the deletion"
         end_insertion: "End of the insertion"
+        external_links: "External links"
         identifier: "Identifier"
         ignore_non_working_days: "Ignore non working days"
         include_non_working_days:
