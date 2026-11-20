@@ -56,7 +56,7 @@ Labels help you categorize work packages and are shared across all projects.
 
 To add a label, open a work package and click the **Labels** field in the work package details. Start typing to select an existing label.
 
-![Labels field in a work package showing existing labels and autocomplete suggestions](opeNproject_user_guide_wp_labels.png)
+![Labels field in a work package showing existing labels and autocomplete suggestions](openproject_user_guide_wp_labels.png)
 
 You can assign multiple labels to a work package.
 
