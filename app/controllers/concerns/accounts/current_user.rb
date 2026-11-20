@@ -137,22 +137,11 @@ module Accounts::CurrentUser
   end
 
   def current_api_key_user
-<<<<<<< HEAD
     return unless Setting.api_tokens_enabled? && api_key_auth_format?
-||||||| parent of b6fdb26ab2 (Enforce scopes and correctly assign elevation)
-    return unless Setting.api_tokens_enabled? && api_request?
-=======
-    return unless api_request?
->>>>>>> b6fdb26ab2 (Enforce scopes and correctly assign elevation)
 
     key = api_key_from_request
-<<<<<<< HEAD
-    return unless key && accept_api_key_auth_actions.include?(action_name)
-||||||| parent of b6fdb26ab2 (Enforce scopes and correctly assign elevation)
-=======
     scope = api_key_auth_scopes[action_name]
     return unless key && scope
->>>>>>> b6fdb26ab2 (Enforce scopes and correctly assign elevation)
 
     Users::Authentication.find_user_by_api_key(key, scope:)
   end

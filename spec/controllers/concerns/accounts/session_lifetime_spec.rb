@@ -34,7 +34,7 @@ RSpec.describe ApplicationController, "session lifetime handling" do # rubocop:d
 
   controller do
     authorization_checked! :index
-    accept_api_key_auth :index
+    accept_api_key_auth :index, scope: OpenProject::Authentication::Scope::API_V3
 
     def index
       render plain: "OK"

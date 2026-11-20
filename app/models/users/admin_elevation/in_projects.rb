@@ -46,7 +46,7 @@ module Users
         model = admin_scope.klass
 
         model.where(id: member_scope.select(:id))
-             .or(model.where(id: admin_scope.where(project_id_column => @project_ids).select(:id)))
+             .or(model.where(id: admin_scope.where(model.arel_table[project_id_column].in(@project_ids)).select(:id)))
       end
 
       def project_condition(project_id_column)
