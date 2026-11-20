@@ -38,9 +38,13 @@ Due to data privacy reasons we automatically delete OpenProject trial environmen
 
 Yes, longer subscription periods include attractive discounts which save you the equivalent of up to 15 months subscription fees compared to a annual (1 year) plan. Please check our current pricing [here](https://www.openproject.org/pricing/).
 
-### How can I book additional users for the Enterprise cloud edition?
+### How can I increase or decrease the number of users in my Enterprise cloud subscription?
 
-You can do this in your OpenProject instance in the administration. The number of users can be increased in steps of 5. Find out [here](../manage-cloud-subscription/#upgrade-or-downgrade-subscription) how to change the number of users in your system administration. A reduction in the number of users takes effect at the beginning of the next subscription period.
+You can change the number of users directly in your OpenProject instance under _Administration -> Subscription_. The number of users can be increased in increments of 5. A reduction takes effect at the beginning of the next subscription period. See [how to change the number of users](../manage-cloud-subscription/#increase-or-decrease-the-number-of-users) for detailed instructions.
+
+### Can I change my Enterprise cloud subscription plan?
+
+Yes. You can upgrade your existing Enterprise cloud subscription to a higher plan to access additional Enterprise features, independently of the number of users. See [how to change your subscription plan](../manage-cloud-subscription/#change-your-subscription-plan) and [compare the available plans](https://www.openproject.org/pricing/).
 
 ### How can I change my payment details (e.g. new credit card)?
 

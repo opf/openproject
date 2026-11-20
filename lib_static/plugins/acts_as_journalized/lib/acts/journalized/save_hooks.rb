@@ -54,7 +54,7 @@ module Acts::Journalized
       base.class_eval do
         after_save :save_journals
 
-        attr_accessor :journal_notes, :journal_user, :journal_internal, :journal_cause
+        attr_accessor :journal_notes, :journal_user, :journal_internal, :journal_cause, :journal_skip_aggregation
       end
     end
 
@@ -62,7 +62,10 @@ module Acts::Journalized
       with_ensured_journal_attributes do
         create_call = Journals::CreateService
                       .new(self, @journal_user)
-                      .call(notes: @journal_notes, internal: @journal_internal, cause: @journal_cause)
+                      .call(notes: @journal_notes,
+                            internal: @journal_internal,
+                            cause: @journal_cause,
+                            skip_aggregation: @journal_skip_aggregation)
 
         if create_call.success? && create_call.result
           OpenProject::Notifications.send(OpenProject::Events::JOURNAL_CREATED,
@@ -102,6 +105,7 @@ module Acts::Journalized
       self.journal_notes = nil
       self.journal_cause = nil
       self.journal_internal = nil
+      self.journal_skip_aggregation = nil
     end
   end
 end

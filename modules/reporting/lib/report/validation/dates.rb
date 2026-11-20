@@ -27,16 +27,11 @@
 
 module Report::Validation
   module Dates
-    def validate_dates(*values)
-      values = values.flatten
-      return true if values.empty?
-
-      values.flatten.all? do |val|
-        !!val.to_dateish
+    def validate_dates(values, errors)
+      values.each do |val|
+        val.to_dateish
       rescue ArgumentError
         errors[:date] << val
-        validate_dates(values - [val])
-        false
       end
     end
   end

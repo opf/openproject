@@ -1,9 +1,10 @@
-import { useEffect, type ReactNode, type RefObject } from 'react';
+import { createContext, useContext, useEffect, useMemo, useRef, type ReactNode, type RefObject } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { StyleSheetManager } from 'styled-components';
 import { XIcon } from '@primer/octicons-react';
-import { Header, HeaderTitle, IconButton, Overlay, Panel } from './atoms';
+import { Body, BodyContent, Header, HeaderTitle, IconButton, Overlay, Panel } from './atoms';
+import { useGrowthTransition } from './useGrowthTransition';
 
 const FOCUSABLE_SELECTOR = [
   'a[href]',
@@ -92,6 +93,23 @@ function keepFocusInside(panel:HTMLElement | null, event:React.KeyboardEvent):vo
   }
 }
 
+interface ModalBodyRefs {
+  bodyRef:RefObject<HTMLDivElement | null>;
+  contentRef:RefObject<HTMLDivElement | null>;
+}
+
+const ModalBodyContext = createContext<ModalBodyRefs | null>(null);
+
+export const ModalBody = ({ children }:{ children:ReactNode }) => {
+  const refs = useContext(ModalBodyContext);
+
+  return (
+    <Body ref={refs?.bodyRef}>
+      <BodyContent ref={refs?.contentRef}>{children}</BodyContent>
+    </Body>
+  );
+};
+
 interface ModalProps {
   anchorEl?:HTMLElement | null;
   carriedVariables?:string[];
@@ -113,7 +131,11 @@ export const Modal = ({
   children,
 }:ModalProps) => {
   const { t } = useTranslation();
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const bodyRefs = useMemo(() => ({ bodyRef, contentRef }), []);
   usePageScrollLock();
+  useGrowthTransition({ panelRef, bodyRef, contentRef });
   useEffect(() => { panelRef.current?.focus(); }, [panelRef]);
 
   const dismiss = () => {
@@ -140,7 +162,7 @@ export const Modal = ({
               <XIcon size={16} />
             </IconButton>
           </Header>
-          {children}
+          <ModalBodyContext.Provider value={bodyRefs}>{children}</ModalBodyContext.Provider>
         </Panel>
       </Overlay>
     </FullPagePortal>

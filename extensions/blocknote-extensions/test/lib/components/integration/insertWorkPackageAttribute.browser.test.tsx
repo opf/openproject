@@ -10,6 +10,7 @@ import { worker } from '../../../mocks/browser';
 import { requestedWorkPackageIds } from '../../../mocks/handlers';
 import { mockAttributeWorkPackage, mockMilestoneWorkPackage } from '../../../mocks/workPackageAttributes';
 import { loadServerErrorWorkPackages } from '../../../helpers/requestHelpers';
+import { recordFrames, untilStill } from '../../../helpers/animationHelpers';
 
 interface InlineNode { type:string, props?:Record<string, unknown> }
 
@@ -598,6 +599,25 @@ describe('Insert work package attribute', () => {
 
       await expect.element(preview().getByText('Description')).toBeVisible();
       await expect.element(preview().getByText('notes')).toHaveProperty('tagName', 'STRONG');
+    });
+
+    it('grows the dialog to its preview rather than jumping onto it', async () => {
+      await openWorkPackageAttributeDialog();
+      await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+      await pickAttribute('Subject');
+      const panel = dialog().element();
+      await untilStill(panel);
+      const before = panel.getBoundingClientRect().height;
+
+      const recorded = recordFrames(() => panel.getBoundingClientRect().height);
+      await pickAttribute('Description');
+      await expect.element(preview().getByText('notes')).toBeVisible();
+      await untilStill(panel);
+      recorded.stop();
+
+      const after = panel.getBoundingClientRect().height;
+      expect(after).toBeGreaterThan(before);
+      expect(recorded.frames.filter((height) => height > before && height < after).length).toBeGreaterThan(0);
     });
 
     it('takes the place of an empty line', async () => {
