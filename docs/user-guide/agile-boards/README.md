@@ -46,11 +46,11 @@ You can create as many Agile boards in a project as you need and configure them 
 
 Another way to create a board is by clicking the **+ (Plus)** button in the top right corner of the header navigation. 
 
-![Project header showing the plus button used to create a new board](OpenProject_user_guide_boards_project_header.png)
+![Header navigation showing the plus button used to create a new board](OpenProject_user_guide_boards_project_header.png)
 
 ## Choose between board types
 
-Choose the **Board type** and enter a **Title**. If you create the board using the plus button in the header, you also need to select a **Project** from the dropdown menu.
+Choose the **Board type** and enter a **Title**. If you create the board using the plus button in the header navigation, you also need to select a **Project** from the dropdown menu.
 
 ![Create a new board in OpenProject](choose-board-type.png)
 
