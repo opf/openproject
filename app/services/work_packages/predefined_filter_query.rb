@@ -37,12 +37,16 @@ module WorkPackages
     end
 
     def build
-      properties = properties_for(:work_packages)
+      properties = editor_properties
       Query.new(project:, name: filter.display_name, include_subprojects: false).tap do |query|
         apply_grouping(query, properties["g"])
         apply_sorting(query, properties["t"])
         apply_filters(query, properties["f"])
       end
+    end
+
+    def editor_properties
+      properties_for(:work_packages)
     end
 
     def menu_params(placement)
@@ -82,6 +86,7 @@ module WorkPackages
     def properties_for(placement)
       defaults_for(placement).merge(builtin_properties(placement)).merge(filter.query_properties).tap do |properties|
         properties["hi"] = false if properties["g"].present?
+        properties["tv"] = true if placement == :gantt
       end
     end
 

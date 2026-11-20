@@ -28,6 +28,11 @@
 #++
 
 class Admin::PredefinedWorkPackageFiltersController < ApplicationController
+  include OpTurbo::ComponentStream
+  include SortableLists::DropRequestValidation
+
+  configure_drop_request list_type: PredefinedWorkPackageFilter::SORTABLE_LIST_TYPE, list_id_scoped: false
+
   layout "admin"
   menu_item :predefined_work_package_filters
 
@@ -63,12 +68,13 @@ class Admin::PredefinedWorkPackageFiltersController < ApplicationController
   end
 
   def move
-    case params[:direction]
-    when "up" then @filter.move_higher
-    when "down" then @filter.move_lower
-    else return head :bad_request
+    filters = PredefinedWorkPackageFilter.available
+    unless valid_drop_request? && @filter.move_after_anchor(drop_params[:prev_id], scope: filters)
+      return head :unprocessable_entity
     end
-    redirect_to admin_predefined_work_package_filters_path, status: :see_other
+
+    update_via_turbo_stream(component: PredefinedWorkPackageFilters::TableComponent.new(rows: filters.ordered), method: :morph)
+    respond_with_turbo_streams
   end
 
   def projects
@@ -93,7 +99,9 @@ class Admin::PredefinedWorkPackageFiltersController < ApplicationController
   end
 
   def prepare_query
-    @query = WorkPackages::PredefinedFilterQuery.new(@filter).build
+    query = WorkPackages::PredefinedFilterQuery.new(@filter)
+    @query_editor_properties = query.editor_properties
+    @query = query.build
   end
 
   def save_filter
@@ -109,30 +117,32 @@ class Admin::PredefinedWorkPackageFiltersController < ApplicationController
   end
 
   def filter_attributes
-    allowed = params.expect(predefined_work_package_filter: %i[name project_overview work_packages gantt group_by])
-    allowed.except(:group_by).merge(
-      query_properties: @filter.query_properties.merge("g" => submitted_group_by(allowed[:group_by]), "f" => submitted_filters)
-    )
+    params.expect(predefined_work_package_filter: %i[name project_overview work_packages gantt])
+      .merge(query_properties: submitted_query_properties)
   end
 
-  def submitted_group_by(group_by)
-    API::Utilities::PropertyNameConverter.from_ar_name(group_by) if group_by.present?
+  def submitted_query_properties
+    payload = params[:query_props]
+    return @filter.query_properties if payload.blank?
+
+    properties = JSON.parse(payload)
+    raise JSON::ParserError unless valid_editor_properties?(properties)
+
+    defaults = WorkPackages::PredefinedFilterQuery.new(@filter).editor_properties
+    properties == defaults ? @filter.query_properties : properties
   end
 
-  def submitted_filters
-    entries = JSON.parse(params.fetch(:filters, "[]").presence || "[]")
-    raise JSON::ParserError unless entries.is_a?(Array)
+  def valid_editor_properties?(properties)
+    return false unless properties.is_a?(Hash)
+    return false unless properties["g"].nil? || properties["g"].is_a?(String)
+    return false unless properties["t"].nil? || properties["t"].is_a?(String)
 
-    entries.map { |entry| submitted_filter(entry) }
+    filters = properties["f"]
+    filters.is_a?(Array) && filters.all? { |filter| valid_editor_filter?(filter) }
   end
 
-  def submitted_filter(entry)
-    raise JSON::ParserError unless entry.is_a?(Hash) && entry.one?
-
-    field, definition = entry.first
-    raise JSON::ParserError unless definition.is_a?(Hash) && definition["values"].is_a?(Array)
-
-    name = API::Utilities::PropertyNameConverter.from_ar_name(field)
-    { "n" => name, "o" => definition.fetch("operator"), "v" => definition.fetch("values") }
+  def valid_editor_filter?(filter)
+    filter.is_a?(Hash) && filter["n"].is_a?(String) && filter["o"].is_a?(String) &&
+      Array(filter["v"]).all? { |value| value.is_a?(String) || value.is_a?(Numeric) || value.in?([true, false]) }
   end
 end

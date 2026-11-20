@@ -940,7 +940,7 @@ Rails.application.routes.draw do
       member do
         get :projects
         patch :projects, action: :update_projects
-        patch :move
+        put :move
       end
     end
 

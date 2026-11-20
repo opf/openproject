@@ -28,6 +28,9 @@
 #++
 
 class PredefinedWorkPackageFilter < ApplicationRecord
+  include Lists::MoveAfterAnchor
+
+  SORTABLE_LIST_TYPE = "predefined-work-package-filter"
   PLACEMENTS = %i[project_overview work_packages gantt].freeze
 
   has_many :project_settings,

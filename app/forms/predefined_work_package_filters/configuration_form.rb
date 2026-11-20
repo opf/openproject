@@ -29,21 +29,10 @@
 
 module PredefinedWorkPackageFilters
   class ConfigurationForm < ApplicationForm
-    def initialize(query:)
-      super()
-      @query = query
-    end
-
     form do |f|
       f.text_field(name: :name, label: I18n.t(:label_name), placeholder: model.display_name, required: !model.builtin?)
       PredefinedWorkPackageFilter::PLACEMENTS.each do |placement|
         f.check_box(name: placement, label: I18n.t("predefined_work_package_filters.placements.#{placement}"))
-      end
-      f.select_list(name: :group_by, label: I18n.t("predefined_work_package_filters.group_by"),
-                    include_blank: I18n.t(:label_none)) do |list|
-        @query.groupable_columns.each do |column|
-          list.option(label: column.caption, value: column.name, selected: @query.group_by.to_s == column.name.to_s)
-        end
       end
     end
   end

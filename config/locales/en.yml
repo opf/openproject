@@ -8914,9 +8914,7 @@ en:
     title: "Filters"
     new: "New filter"
     empty: "No matching work packages"
-    move_up: "Move filter up"
-    move_down: "Move filter down"
-    group_by: "Group by"
+    actions: "Actions for %{name}"
     placements:
       project_overview: "Project overview"
       work_packages: "Work packages"

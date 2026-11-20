@@ -65,10 +65,12 @@ RSpec.describe "Predefined work package filters", :skip_csrf, type: :rails_reque
     get new_admin_predefined_work_package_filter_path
     expect(response).to have_http_status(:ok)
 
+    expect(response.body).to include("opce-editable-query-props")
+
     post admin_predefined_work_package_filters_path,
          params: {
-           predefined_work_package_filter: { name: "Delivery", work_packages: "1", gantt: "1", group_by: "status" },
-           filters: [{ status_id: { operator: "o", values: [] } }].to_json
+           predefined_work_package_filter: { name: "Delivery", work_packages: "1", gantt: "1" },
+           query_props: { g: "status", c: %w[id subject], f: [{ n: "status", o: "o", v: [] }], tv: false }.to_json
          }
     expect(response).to have_http_status(:see_other)
     created = PredefinedWorkPackageFilter.find_by!(name: "Delivery")
@@ -76,8 +78,10 @@ RSpec.describe "Predefined work package filters", :skip_csrf, type: :rails_reque
                                                 "f" => [{ "n" => "status", "o" => "o", "v" => [] }])
     expect(created).not_to be_active_in(project)
 
-    patch move_admin_predefined_work_package_filter_path(created, direction: "up")
-    expect(response).to have_http_status(:see_other)
+    put move_admin_predefined_work_package_filter_path(created),
+        params: { list_type: "predefined-work-package-filter", prev_id: "" },
+        headers: { "Accept" => "text/vnd.turbo-stream.html" }
+    expect(response).to have_http_status(:ok)
     expect(created.reload.position).to be < filter.reload.position
 
     delete admin_predefined_work_package_filter_path(created)

@@ -36,33 +36,22 @@ See COPYRIGHT and LICENSE files for more details.
          t("predefined_work_package_filters.title")
        ]
      ) %>
-  <% header.with_action_button(
-       tag: :a,
-       href: new_admin_predefined_work_package_filter_path,
-       scheme: :primary,
-       mobile_icon: :plus,
-       mobile_label: t("predefined_work_package_filters.new")
-     ) do |button| %>
-    <% button.with_leading_visual_icon(icon: :plus) %>
-    <%= t("predefined_work_package_filters.new") %>
-  <% end %>
 <% end %>
 
-<%= render(OpPrimer::BorderBoxListComponent.new(container: :predefined_work_package_filters)) do |list| %>
-  <% @filters.each do |filter| %>
-    <% list.with_item do %>
-      <%= render(Primer::Beta::Link.new(href: edit_admin_predefined_work_package_filter_path(filter))) { filter.display_name } %>
-      <%= render(Primer::Beta::Link.new(href: projects_admin_predefined_work_package_filter_path(filter), ml: 3)) { t(:label_project_plural) } %>
-      <% %w[up down].each do |direction| %>
-        <%= primer_form_with(url: move_admin_predefined_work_package_filter_path(filter, direction:), method: :patch, class: "d-inline-block") do %>
-          <%= render(
-                Primer::Beta::IconButton.new(
-                  type: :submit, icon: :"arrow-#{direction}", scheme: :invisible,
-                  "aria-label": t("predefined_work_package_filters.move_#{direction}")
-                )
-              ) %>
-        <% end %>
-      <% end %>
-    <% end %>
-  <% end %>
-<% end %>
+<%=
+  flex_layout do |flex|
+    flex.with_row do
+      render(Primer::OpenProject::SubHeader.new) do |subheader|
+        subheader.with_action_button(
+          scheme: :primary,
+          leading_icon: :plus,
+          label: t("predefined_work_package_filters.new"),
+          tag: :a,
+          href: new_admin_predefined_work_package_filter_path
+        ) { t("predefined_work_package_filters.new") }
+      end
+    end
+
+    flex.with_row { render(PredefinedWorkPackageFilters::TableComponent.new(rows: @filters)) }
+  end
+%>

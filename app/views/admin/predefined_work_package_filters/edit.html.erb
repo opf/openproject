@@ -33,12 +33,10 @@ See COPYRIGHT and LICENSE files for more details.
 <% end %>
 
 <%= primer_form_with(model: @filter, url: @filter.persisted? ? admin_predefined_work_package_filter_path(@filter) : admin_predefined_work_package_filters_path) do |f| %>
-  <%= render(PredefinedWorkPackageFilters::ConfigurationForm.new(f, query: @query)) %>
-  <%= render(
-        Filters::FilterFormComponent.new(
-          builder: f, query: @query, wrap_with_controller: true,
-          hidden_input_name: "filters", output_format: :json
-        )
+  <%= render(PredefinedWorkPackageFilters::ConfigurationForm.new(f)) %>
+  <%= angular_component_tag(
+        "opce-editable-query-props",
+        data: { name: "query_props", query: @query_editor_properties.to_json, "url-params": "true" }
       ) %>
   <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary, mt: 3)) { t(:button_save) } %>
 <% end %>
