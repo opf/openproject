@@ -58,7 +58,7 @@ See COPYRIGHT and LICENSE files for more details.
             )
           )
         end
-      elsif attributes.empty? && !readonly?
+      elsif attributes.empty? && sortable?
         box.with_row(data: { "empty-list-item": true }) do
           flex_layout(align_items: :center) do |empty_row|
             empty_row.with_column(mr: 2, classes: "type-form-configuration-page--row-alignment-spacer")
@@ -69,7 +69,7 @@ See COPYRIGHT and LICENSE files for more details.
             end
           end
         end
-      elsif !attributes.empty?
+      else
         attributes.each do |attribute|
           box.with_row(data: row_data(attribute)) do
             render(
