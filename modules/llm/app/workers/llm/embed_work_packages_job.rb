@@ -29,7 +29,14 @@
 
 module Llm
   class EmbedWorkPackagesJob < ApplicationJob
+    include GoodJob::ActiveJobExtensions::Batches
+
     queue_with_priority :low
+
+    discard_on StandardError do |job, _error|
+      job.enqueue_per_work_package
+    end
+
     retry_on Llm::Errors::RateLimitedError, wait: :polynomially_longer, attempts: 10
 
     def perform(semantic_index_id, work_package_ids)
@@ -40,6 +47,23 @@ module Llm
 
       work_packages = WorkPackage.where(id: work_package_ids)
       Llm::WorkPackages::EmbedService.new(semantic_index, work_packages).call
+    end
+
+    def enqueue_per_work_package
+      semantic_index_id, work_package_ids = arguments
+      return if work_package_ids.size < 2
+
+      if batch
+        batch.add { enqueue_individually(semantic_index_id, work_package_ids) }
+      else
+        enqueue_individually(semantic_index_id, work_package_ids)
+      end
+    end
+
+    private
+
+    def enqueue_individually(semantic_index_id, work_package_ids)
+      work_package_ids.each { |work_package_id| self.class.perform_later(semantic_index_id, [work_package_id]) }
     end
   end
 end

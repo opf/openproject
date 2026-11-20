@@ -33,14 +33,17 @@ require_module_spec_helper
 RSpec.describe Llm::FinishSemanticIndexingJob do
   let(:semantic_index) { create(:semantic_index, state: "indexing") }
   let(:batch) { GoodJob::Batch.new(semantic_index_id: semantic_index.id).tap(&:save) }
+  let(:work_package) { create(:work_package) }
+  let(:other_work_package) { create(:work_package) }
 
-  def embed_job(finished_at: Time.current, error: nil)
+  def embed_job(work_package_ids: [work_package.id], finished_at: Time.current, error: nil)
     GoodJob::Job.create!(id: SecureRandom.uuid, active_job_id: SecureRandom.uuid, batch_id: batch.id,
                          job_class: Llm::EmbedWorkPackagesJob.name, queue_name: "default",
-                         serialized_params: {}, finished_at:, error:)
+                         serialized_params: { "arguments" => [semantic_index.id, work_package_ids] },
+                         finished_at:, error:)
   end
 
-  it "marks the Semantic Index ready when every request succeeded" do
+  it "marks the semantic index ready when every work package was embedded" do
     embed_job
 
     described_class.perform_now(batch, { event: :finish })
@@ -48,16 +51,33 @@ RSpec.describe Llm::FinishSemanticIndexingJob do
     expect(semantic_index.reload).to be_ready
   end
 
-  it "marks the Semantic Index failed with the number of failed requests" do
+  it "marks the semantic index failed with the number of failed individual work packages" do
     embed_job
     embed_job(error: "Llm::Errors::ApiError: boom")
 
     described_class.perform_now(batch, { event: :finish })
 
-    expect(semantic_index.reload).to have_attributes(state: "failed", error_message: "1 request failed.")
+    expect(semantic_index.reload).to have_attributes(
+      state: "failed",
+      error_message: I18n.t("admin.semantic_indexes.indexing.failed_work_packages.one")
+    )
   end
 
-  it "leaves a Semantic Index alone that is no longer indexing" do
+  it "only counts failed jobs for individual work packages as failed work packages" do
+    embed_job
+    embed_job(error: "Llm::Errors::ApiError: boom")
+    embed_job(work_package_ids: [work_package.id, other_work_package.id],
+              error: "Llm::Errors::ApiError: boom")
+
+    described_class.perform_now(batch, { event: :finish })
+
+    expect(semantic_index.reload).to have_attributes(
+      state: "failed",
+      error_message: I18n.t("admin.semantic_indexes.indexing.failed_work_packages.one")
+    )
+  end
+
+  it "leaves a semantic index alone that is no longer indexing" do
     semantic_index.update!(state: "ready")
 
     described_class.perform_now(batch, { event: :finish })

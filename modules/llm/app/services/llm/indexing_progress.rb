@@ -39,8 +39,10 @@ module Llm
       finished_count * 100 / total_count
     end
 
-    def failed_count
-      @failed_count ||= embed_jobs.where.not(finished_at: nil).where.not(error: nil).count
+    # We split batches of multiple work packages on failure into jobs
+    # which embed individual work packages so we count only those.
+    def failed_work_package_count
+      @failed_work_package_count ||= failed_embed_jobs.count { |job| individual_wp_embed?(job) }
     end
 
     private
@@ -48,6 +50,18 @@ module Llm
     attr_reader :batch
 
     def embed_jobs = GoodJob::Job.where(batch_id: batch.id, job_class: Llm::EmbedWorkPackagesJob.name)
+
+    def failed_embed_jobs = embed_jobs.where.not(finished_at: nil).where.not(error: nil)
+
+    def individual_wp_embed?(job)
+      work_package_ids_of(job).one?
+    end
+
+    def work_package_ids_of(job)
+      arguments = job.serialized_params["arguments"]
+      ids = arguments.is_a?(Array) ? arguments[1] : nil
+      ids.is_a?(Array) ? ids : []
+    end
 
     def total_count
       @total_count ||= embed_jobs.count
