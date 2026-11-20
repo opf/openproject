@@ -30,6 +30,7 @@
 require "spec_helper"
 
 RSpec.describe "Document token refresh",
+               :skip_2fa_stage,
                type: :rails_request,
                with_settings: { real_time_text_collaboration_enabled: true } do
   let(:password) { "adminADMIN!" }
@@ -42,8 +43,6 @@ RSpec.describe "Document token refresh",
   let(:path) { "/projects/#{project.id}/documents/#{document.id}/refresh_token" }
 
   before do
-    # The login flow would otherwise stop at a second-factor prompt.
-    allow(OpenProject::TwoFactorAuthentication::TokenStrategyManager).to receive(:enabled?).and_return(false)
     allow(Setting)
       .to receive(:collaborative_editing_hocuspocus_secret)
       .and_return("test_secret_for_encryption")
