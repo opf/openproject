@@ -161,6 +161,10 @@ module UsersHelper
   #   TabularFormBuilder rendered inside the same form, so existing plugins keep
   #   submitting their fields. It is only rendered (and the deprecation logged)
   #   when a listener is actually registered.
+  def user_form_data_attributes(user, data)
+    user == current_user ? password_confirmation_data_attribute(data) : data
+  end
+
   def render_user_form_hooks(user:, form:)
     safe_join([
       call_hook(:view_users_primer_form, user:, form:),

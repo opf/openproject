@@ -54,7 +54,7 @@ module API
             end
 
             def checksum_associations
-              @checksum_associations ||= %i[status author responsible assigned_to priority category type]
+              @checksum_associations ||= %i[status author responsible assigned_to priority type]
             end
 
             # Only singular associations (belongs_to/has_one) are supported, as a has_many
@@ -65,7 +65,7 @@ module API
 
             protected
 
-            # Versions and labels are has_many and enter as aggregated subqueries;
+            # Versions, categories and labels are has_many and enter as aggregated subqueries;
             # joining them in the pluck above would multiply the rows. A version
             # can attach under more than one kind, so the kind is part of the
             # value and of the order.
@@ -74,6 +74,13 @@ module API
                  FROM work_package_versions wpv
                  INNER JOIN versions v ON v.id = wpv.version_id
                 WHERE wpv.work_package_id = work_packages.id)
+            SQL
+
+            CATEGORIES_CHECKSUM_SQL = <<~SQL.squish
+              (SELECT COALESCE(STRING_AGG(CONCAT(c.id, c.updated_at), ',' ORDER BY c.id), '')
+                 FROM work_package_categories wpc
+                 INNER JOIN categories c ON c.id = wpc.category_id
+                WHERE wpc.work_package_id = work_packages.id)
             SQL
 
             LABELS_CHECKSUM_SQL = <<~SQL.squish
@@ -90,6 +97,7 @@ module API
                 %W[#{table_name}.id #{table_name}.updated_at]
               end
               md5_parts << VERSIONS_CHECKSUM_SQL
+              md5_parts << CATEGORIES_CHECKSUM_SQL
               md5_parts << LABELS_CHECKSUM_SQL
 
               <<-SQL

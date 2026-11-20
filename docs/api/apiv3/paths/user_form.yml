@@ -58,5 +58,6 @@ post:
     Validates a user update payload.
 
     For self password changes, provide both `password` and `currentPassword`.
+    For self email changes, provide `currentPassword` when password confirmation is enabled (the default).
   operationId: validate_user_update_form
   summary: User update form

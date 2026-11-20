@@ -42,6 +42,7 @@ module API
         def writable_attributes
           attributes = super + %w[date]
           attributes += %w[version] if attributes.include?("targetVersions") && !Setting::WorkPackageMultipleVersions.active?
+          attributes -= %w[category] if Setting::WorkPackageMultipleCategories.active?
           attributes
         end
 

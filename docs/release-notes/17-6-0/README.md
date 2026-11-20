@@ -111,7 +111,7 @@ Administrators can now unreserve old project-based (semantic) identifiers and ma
 
 ### Convert meeting agenda items into work packages
 
-OpenProject 17.6 adds a new [Convert to work package](../../user-guide/meetings/one-time-meetings/#convert-agenda-items-to-work-packages) action for meeting agenda items. This allows users to turn agenda items directly into work packages without leaving the meeting.
+OpenProject 17.6 adds a new [Convert to work package](../../user-guide/meetings/meeting-features/meeting-agenda/#convert-agenda-items-to-work-packages) action for meeting agenda items. This allows users to turn agenda items directly into work packages without leaving the meeting.
 
 The newly created work package remains linked to the agenda item, helping teams connect meeting discussions with follow-up work.
 

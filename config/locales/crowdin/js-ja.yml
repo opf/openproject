@@ -109,6 +109,7 @@ ja:
         maintained_with_changes: 変更に伴うメンテナンス
         no_longer_meets_filter_criteria: フィルター基準を満たさなくなった
         now_meets_filter_criteria: フィルター基準を満たすようになった
+        state_at: State at
       show_changes_since: 以降の変更を表示する
       time: 時間
       time_description: '現地時間: %{datetime}'

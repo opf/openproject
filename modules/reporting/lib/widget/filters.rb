@@ -70,7 +70,7 @@ class Widget::Filters < Widget::Base
       render_filters + spacer + add_filter
     end
 
-    content_tag(:div, list)
+    content_tag(:div, render(Widget::FilterErrors.new(@subject)) + list)
   end
 
   def selectables

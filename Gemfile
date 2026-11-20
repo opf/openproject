@@ -49,7 +49,7 @@ gem "connection_pool", "~> 3.0.2"
 gem "rdoc", ">= 2.4.2"
 
 gem "doorkeeper", "~> 5.9.9"
-gem "omniauth", "~> 2.1"
+gem "omniauth", "~> 2.2"
 gem "omniauth-rails_csrf_protection", "~> 2.0"
 gem "request_store", "~> 1.7.0"
 
@@ -201,9 +201,9 @@ gem "fog-aws"
 gem "ssrf_filter", "~> 1.6"
 gem "web-push", "~> 3.1"
 
-gem "aws-sdk-core", "~> 3.263"
+gem "aws-sdk-core", "~> 3.264"
 # File upload via fog + screenshots on travis
-gem "aws-sdk-s3", "~> 1.237"
+gem "aws-sdk-s3", "~> 1.238"
 
 gem "openproject-token", "~> 8.17.0"
 

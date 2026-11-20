@@ -32,7 +32,7 @@ require "spec_helper"
 RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progressive_web_app: true } do
   include CspHelper
 
-  let(:controller_selector) { 'body[data-controller~="pwa-service-worker"]' }
+  let(:controller_selector) { 'body[data-controller~="pwa--service-worker"]' }
 
   it "does not route a format suffix" do
     expect { get "/service-worker.js" }.to raise_error(ActionController::RoutingError)
@@ -112,8 +112,8 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
       it "registers the prefixed worker and scope" do
         get "/my/page", env: { "SCRIPT_NAME" => "/openproject" }
 
-        expect(page).to have_css('body[data-pwa-service-worker-url-value="/openproject/service-worker"]', visible: :all)
-        expect(page).to have_css('body[data-pwa-service-worker-scope-value="/openproject/"]', visible: :all)
+        expect(page).to have_css('body[data-pwa--service-worker-url-value="/openproject/service-worker"]', visible: :all)
+        expect(page).to have_css('body[data-pwa--service-worker-scope-value="/openproject/"]', visible: :all)
       end
     end
   end

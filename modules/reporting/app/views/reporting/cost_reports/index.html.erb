@@ -41,6 +41,7 @@ See COPYRIGHT and LICENSE files for more details.
     <%= CostReports::IndexPageHeaderComponent
           .new(query: @report, project: @project)
           .render_as_turbo_stream(view_context: self, action: :update) %>
+    <%= turbo_stream.replace("filter_errors") { render_widget Widget::FilterErrors, @report } %>
   <% end %>
   <%= render_widget Widget::Table, @report %>
 <% end %>

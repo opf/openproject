@@ -85,12 +85,10 @@ module WorkPackageTypes
 
       def wizard? = @wizard
 
-      def wizard_params = wizard? ? { wizard: true } : {}
-
-      def add_path = new_link_variant_projects_path(variant, **wizard_params)
+      def add_path = new_variant_projects_link_path(variant)
 
       def toggle_all_path
-        enable_all_variant_projects_path(variant, value: enabled_everywhere? ? "0" : "1", **wizard_params)
+        enable_all_variant_projects_path(variant, value: enabled_everywhere? ? "0" : "1")
       end
 
       def toggle_all_label

@@ -36,6 +36,19 @@ da:
         sender_email: Afsenderens e-mail
         sender_name: Afsenderens navn
         username: Brugernavn
+    errors:
+      models:
+        itsm/incoming_mailbox:
+          attributes:
+            base:
+              address_not_allowed: Mailserveren peger på en blokeret adresse. Hvis den kører på et internt netværk, så tillad dens IP-adresse via miljøvariablen OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.
+              authentication_failed: 'Mailserveren afviste login: %{server_message}'
+              fetch_in_progress: Postkassen bliver allerede tjekket.
+              inactive: Postkassen er sat på pause.
+              server_error: 'Mailserveren returnerede en fejl: %{server_message}'
+              timeout: Mailserveren holdt op med at svare.
+              tls_failed: Der kunne ikke oprettes en sikker forbindelse til mailserveren. Tjek dens certifikat.
+              unreachable: Mailserveren kunne ikke nås.
     models:
       itsm/email_message:
         one: E-mail
