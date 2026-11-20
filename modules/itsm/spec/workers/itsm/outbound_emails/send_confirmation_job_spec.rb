@@ -165,6 +165,16 @@ RSpec.describe ITSM::OutboundEmails::SendConfirmationJob, type: :job,
     end
   end
 
+  context "when the project was archived" do
+    let(:thread) { create(:itsm_email_thread, work_package: create(:work_package, project: create(:project, active: false))) }
+
+    it "sends nothing" do
+      perform
+
+      expect(ITSM::OutboundEmails::SendConfirmationService).not_to have_received(:new)
+    end
+  end
+
   context "when the thread was deleted before the job ran" do
     before do
       described_class.perform_later(thread)

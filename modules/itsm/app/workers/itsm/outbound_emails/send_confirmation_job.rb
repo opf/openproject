@@ -50,7 +50,7 @@ module ITSM
       discard_on ActiveJob::DeserializationError
 
       def perform(thread)
-        return unless ITSM.helpdesk_available? && thread.work_package.project.module_enabled?(:helpdesk)
+        return unless ITSM.helpdesk_available_in?(thread.work_package.project)
 
         Rails.logger.tagged("ITSM", "email thread #{thread.id}") do
           SendConfirmationService.new.call(thread:).on_failure { not_sent(it) }
