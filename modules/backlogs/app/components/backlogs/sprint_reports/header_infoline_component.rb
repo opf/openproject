@@ -48,7 +48,7 @@ module Backlogs
       end
 
       def actual_dates
-        if displayed_dates.finish_planned?
+        if sprint.active?
           format_date_tag(displayed_dates.actual_start, include_time: true)
         else
           format_date_range(displayed_dates.actual_range, include_time: true)
