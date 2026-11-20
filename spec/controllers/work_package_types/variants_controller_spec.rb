@@ -121,12 +121,17 @@ RSpec.describe WorkPackageTypes::VariantsController do
     end
 
     describe "DELETE destroy" do
-      let!(:variant) { create(:type_variant, type:) }
+      let(:type) { create(:type, name: "Reportable") }
+      let!(:variant) { create(:type_variant, type:, variant_name: "Doomed") }
+      let!(:survivor) { create(:type_variant, type:, variant_name: "Survivor") }
 
-      before { delete :destroy, params: { type_id: type.id, id: variant.id } }
+      before { delete :destroy, params: { type_id: type.id, id: variant.id }, format: :turbo_stream }
 
-      it "deletes it and falls back to the types index" do
-        expect(response).to redirect_to(types_path)
+      it "deletes it and morphs the admin types list in place" do
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include(WorkPackageTypes::Types::GroupedListComponent.component_id)
+        expect(response.body).to include("Reportable").and include("Survivor")
+        expect(response.body).not_to include("Doomed")
         expect(TypeVariant).not_to exist(id: variant.id)
       end
     end
@@ -147,10 +152,13 @@ RSpec.describe WorkPackageTypes::VariantsController do
         expect(response).to redirect_to(back_url)
       end
 
-      it "sends destroy back to the variants tab" do
-        delete :destroy, params: { type_id: type.id, id: variant.id, back_url: }
+      it "morphs the variants tab list in place on destroy" do
+        survivor = create(:type_variant, type:, variant_name: "Survivor")
 
-        expect(response).to redirect_to(back_url)
+        delete :destroy, params: { type_id: type.id, id: variant.id, back_url: }, format: :turbo_stream
+
+        expect(response.body).to include(WorkPackageTypes::VariantsListComponent.component_id)
+        expect(response.body).to include(survivor.variant_name)
       end
 
       it "ignores a back_url pointing at another host" do
