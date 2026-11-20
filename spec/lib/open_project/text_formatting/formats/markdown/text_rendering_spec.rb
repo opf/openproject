@@ -45,7 +45,7 @@ RSpec.describe "Markdown plain-text rendering" do # rubocop:disable RSpec/Descri
   end
 
   describe "with an inline work-package reference" do
-    shared_let(:project) { create(:project, identifier: "demo") }
+    shared_let(:project) { create(:project) }
     shared_let(:work_package) { create(:work_package, project:, subject: "task") }
     shared_let(:admin) { create(:admin) }
 
@@ -73,7 +73,7 @@ RSpec.describe "Markdown plain-text rendering" do # rubocop:disable RSpec/Descri
   end
 
   describe "with a quickinfo macro reference" do
-    shared_let(:project) { create(:project, identifier: "demo") }
+    shared_let(:project) { create(:project) }
     shared_let(:work_package) { create(:work_package, project:, subject: "task") }
     shared_let(:admin) { create(:admin) }
 
@@ -107,7 +107,7 @@ RSpec.describe "Markdown plain-text rendering" do # rubocop:disable RSpec/Descri
   end
 
   describe "with a work-package mention envelope" do
-    shared_let(:project) { create(:project, identifier: "demo") }
+    shared_let(:project) { create(:project) }
     shared_let(:work_package) { create(:work_package, project:, subject: "task") }
     shared_let(:admin) { create(:admin) }
 

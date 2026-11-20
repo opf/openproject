@@ -34,7 +34,7 @@ RSpec.describe "API v3 Watcher resource", content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  shared_let(:project) { create(:project, identifier: "test_project", public: false) }
+  shared_let(:project) { create(:project, public: false) }
   let(:current_user) do
     create(:user, member_with_roles: { project => role })
   end
@@ -134,7 +134,7 @@ RSpec.describe "API v3 Watcher resource", content_type: :json do
 
       expect(ActionMailer::Base.deliveries.first.text_part.body.encoded)
         .to include I18n.t("text_work_package_watcher_added",
-                           id: "##{work_package.id}",
+                           id: work_package.formatted_id,
                            watcher_changer: User.current)
     end
 
@@ -230,7 +230,7 @@ RSpec.describe "API v3 Watcher resource", content_type: :json do
 
         expect(ActionMailer::Base.deliveries.first.text_part.body.encoded)
           .to include I18n.t("text_work_package_watcher_removed",
-                             id: "##{work_package.id}",
+                             id: work_package.formatted_id,
                              watcher_changer: User.current)
       end
 

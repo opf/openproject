@@ -35,7 +35,7 @@ RSpec.describe "API v3 Query resource",
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { create(:project, identifier: "test_project", public: false) }
+  let(:project) { create(:project, public: false) }
   let(:other_project) { create(:project) }
   let(:current_user) do
     create(:user, member_with_roles: { project => role })

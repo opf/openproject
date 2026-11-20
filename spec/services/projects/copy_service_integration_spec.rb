@@ -73,7 +73,7 @@ RSpec.describe(
   let(:instance) { described_class.new(source:, user: current_user) }
   let(:only_args) { nil }
   let(:target_project_params) do
-    { name: "Target Project Name", identifier: "some-identifier" }
+    { name: "Target Project Name", identifier: attributes_for(:project)[:identifier] }
   end
   let(:params) do
     { target_project_params:, only: only_args, send_notifications: }
@@ -208,7 +208,11 @@ RSpec.describe(
         shared_let(:other_type) { create(:type, name: "Chosen type") }
 
         let(:target_project_params) do
-          { "name" => "Copy", "identifier" => "copy", "project_types" => [ProjectType.new(type: other_type)] }
+          {
+            "name" => "Copy",
+            "identifier" => attributes_for(:project)[:identifier],
+            "project_types" => [ProjectType.new(type: other_type)]
+          }
         end
 
         it "uses the caller's types instead of the source's" do
@@ -481,7 +485,7 @@ RSpec.describe(
         # Cleared attributes
         expect(project_copy).to be_persisted
         expect(project_copy.name).to eq "Target Project Name"
-        expect(project_copy.identifier).to eq "some-identifier"
+        expect(project_copy.identifier).to eq target_project_params[:identifier]
 
         # Duplicated attributes
         expect(project_copy.description).to eq source.description
@@ -1341,7 +1345,7 @@ RSpec.describe(
         expect(project_copy).to be_persisted
         expect(project_copy.name).to eq "Target Project Name"
         expect(project_copy.name).to eq "Target Project Name"
-        expect(project_copy.identifier).to eq "some-identifier"
+        expect(project_copy.identifier).to eq target_project_params[:identifier]
 
         # Duplicated attributes
         expect(project_copy.description).to eq source.description

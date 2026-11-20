@@ -129,7 +129,7 @@ RSpec.describe WorkPackageMailer do
     end
 
     describe "rendering a journal note containing a WP reference" do
-      shared_let(:persisted_project) { create(:project, identifier: "demo") }
+      shared_let(:persisted_project) { create(:project) }
       shared_let(:persisted_recipient) { create(:admin) }
       shared_let(:referenced_wp) { create(:work_package, project: persisted_project, subject: "child") }
       shared_let(:parent_wp) { create(:work_package, project: persisted_project, subject: "parent") }
@@ -286,7 +286,7 @@ RSpec.describe WorkPackageMailer do
     end
 
     describe "rendering the latest comment containing a WP reference" do
-      shared_let(:persisted_project) { create(:project, identifier: "demo") }
+      shared_let(:persisted_project) { create(:project) }
       shared_let(:persisted_recipient) { create(:admin) }
       shared_let(:referenced_wp) { create(:work_package, project: persisted_project, subject: "child") }
       shared_let(:parent_wp) { create(:work_package, project: persisted_project, subject: "parent") }
@@ -328,8 +328,8 @@ RSpec.describe WorkPackageMailer do
 
     describe "rendering a cross-project WP reference to a recipient without visibility",
              with_settings: { work_packages_identifier: "semantic" } do
-      shared_let(:parent_project) { create(:project, identifier: "parent-proj") }
-      shared_let(:child_project) { create(:project, identifier: "child-proj") }
+      shared_let(:parent_project) { create(:project) }
+      shared_let(:child_project) { create(:project) }
       shared_let(:parent_wp) { create(:work_package, project: parent_project, subject: "parent") }
       shared_let(:child_wp) { create(:work_package, project: child_project, subject: "child") }
       shared_let(:reader_role) { create(:project_role, permissions: %i[view_work_packages]) }
@@ -360,7 +360,7 @@ RSpec.describe WorkPackageMailer do
     end
 
     describe "rendering a quickinfo/detailed macro in the latest comment" do
-      shared_let(:persisted_project) { create(:project, identifier: "demo") }
+      shared_let(:persisted_project) { create(:project) }
       shared_let(:persisted_recipient) { create(:admin) }
       shared_let(:macro_type) { create(:type, name: "Task") }
       shared_let(:macro_status) { create(:status, name: "New") }

@@ -40,7 +40,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
   let(:work_package_html_link) do
     link_to_work_package(work_package, link_subject: true)
   end
-  let(:work_package_raw_link) { "##{work_package.id}" }
+  let(:work_package_raw_link) { work_package.formatted_id }
 
   # we need to tell the url_helper that there is not controller to get url_options so that we can call link_to
   let(:controller) { nil }

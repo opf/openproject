@@ -50,7 +50,7 @@ RSpec.shared_examples_for "progress modal submit path" do
 
       it "returns work_package_progress_path with the work package" do
         expect(component.submit_path)
-          .to eq(work_package_progress_path(work_package))
+          .to eq(work_package_progress_path(work_package.id))
       end
     end
 

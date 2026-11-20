@@ -49,7 +49,7 @@ RSpec.describe Admin::Settings::ProjectReservedIdentifiers::TableComponent, type
   end
 
   context "with slugs" do
-    let!(:project) { create(:project, identifier: "current-id") }
+    let!(:project) { create(:project) }
     let!(:slug) { FriendlyId::Slug.create!(sluggable: project, slug: "old-id") }
     let(:rows) { [slug] }
 

@@ -256,8 +256,8 @@ RSpec.describe Projects::Identifier do
   end
 
   describe ".identifier_slugs scopes" do
-    let!(:active_project) { create(:project, identifier: "active-id") }
-    let!(:renamed_project) { create(:project, identifier: "current-id") }
+    let!(:active_project) { create(:project) }
+    let!(:renamed_project) { create(:project) }
 
     before do
       # Slug history mirrors active identifiers for both projects (FriendlyId :history records the
@@ -289,7 +289,7 @@ RSpec.describe Projects::Identifier do
     describe "#upcased_values" do
       it "returns uppercased slugs as a plain array" do
         values = Project.identifier_slugs.upcased_values
-        expect(values).to contain_exactly("ACTIVE-ID", "CURRENT-ID", "OLD-SLUG")
+        expect(values).to contain_exactly(active_project.identifier.upcase, renamed_project.identifier.upcase, "OLD-SLUG")
       end
     end
 
@@ -297,7 +297,8 @@ RSpec.describe Projects::Identifier do
       it "returns downcased slugs as a plain array" do
         FriendlyId::Slug.create!(sluggable: renamed_project, slug: "MixedCase")
         values = Project.identifier_slugs.downcased_values
-        expect(values).to include("active-id", "current-id", "old-slug", "mixedcase")
+        expect(values)
+          .to include(active_project.identifier.downcase, renamed_project.identifier.downcase, "old-slug", "mixedcase")
       end
     end
 
@@ -305,19 +306,19 @@ RSpec.describe Projects::Identifier do
       it "returns slug values verbatim (no case folding)" do
         FriendlyId::Slug.create!(sluggable: renamed_project, slug: "MixedCase")
         values = Project.identifier_slugs.raw_values
-        expect(values).to contain_exactly("active-id", "current-id", "old-slug", "MixedCase")
+        expect(values).to contain_exactly(active_project.identifier, renamed_project.identifier, "old-slug", "MixedCase")
       end
     end
 
     describe "#excluding_project" do
       it "drops the given project's slug history from the relation" do
         values = Project.identifier_slugs.excluding_project(renamed_project).raw_values
-        expect(values).to contain_exactly("active-id")
+        expect(values).to contain_exactly(active_project.identifier)
       end
 
       it "is a no-op when project is nil" do
         values = Project.identifier_slugs.excluding_project(nil).raw_values
-        expect(values).to contain_exactly("active-id", "current-id", "old-slug")
+        expect(values).to contain_exactly(active_project.identifier, renamed_project.identifier, "old-slug")
       end
     end
 

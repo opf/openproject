@@ -104,7 +104,7 @@ RSpec.describe WorkPackageSemanticAlias do
         entry1 = WorkPackageSemanticAlias.create!(identifier: "PROJ-1", work_package: wp)
         entry2 = WorkPackageSemanticAlias.create!(identifier: "OLD-1", work_package: wp)
 
-        expect(wp.semantic_aliases).to contain_exactly(entry1, entry2)
+        expect(wp.semantic_aliases).to include(entry1, entry2)
       end
     end
   end
