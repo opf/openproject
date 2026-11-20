@@ -880,8 +880,8 @@ en:
               cannot_assign_multiple_variants_of_parent: "Can only enable a single variant of a Type on the project"
               cannot_assign_variant_and_parent: "Cannot assign a variant and its parent "
               in_use_by_work_packages: "still in use by work packages: %{types}"
-              switch_target_blank: "Select the variant to switch to"
-              switch_target_identical: "The target type must be different from the type the project uses now"
+              switch_target_blank: "Choose a type or variant the project can use."
+              switch_target_identical: "The project already uses this type or variant."
               switch_target_not_in_family: "Can only switch to another type of the same family"
           cannot_be_assigned_to_artefact_work_package: "The chosen user is not allowed to be assigned to work packages."
           foreign_wps_reference_version: "Work packages in non descendant projects reference versions of the project or its descendants."
@@ -6406,7 +6406,13 @@ en:
         project_specific_variant: "Project-specific variant"
         remove_from_project: "Remove from project"
         switch:
-          apply: "Apply"
+          confirm_description: "Switching to %{type} hides the fields it does not include. Their values are kept, but will no longer be visible."
+          confirm_submit: "Switch"
+          confirm_title: "Switch type variant?"
+          confirmation: "I understand that fields the new variant does not include will be hidden, along with their values"
+          identical:
+            one: "The project already uses this type or variant."
+            other: "The selected projects already use this type or variant."
           impact:
             hidden_description: "The variant you have selected does not include these fields. Any values these fields previously had will no longer be visible."
             hidden_heading: "Fields that will be removed"
@@ -6425,8 +6431,17 @@ en:
             work_packages:
               one: "%{count} work package will use the new configuration"
               other: "%{count} work packages will use the new configuration"
-          success: "The project now uses %{type}."
-          target_label: "Variant"
+          invalid_target:
+            one: "Choose a type or variant the project can use."
+            other: "Choose a type or variant every selected project can use."
+          listed_projects:
+            one: "The following project will switch:"
+            other: "The following projects will switch:"
+          submit: "Apply"
+          success:
+            one: "The project now uses %{type}."
+            other: "The selected projects now use %{type}."
+          target_label: "New type or variant"
           title: "%{type}: Switch variant"
         type_not_found: "The selected type could not be found."
         use_in_project: "Use in this project"
@@ -7833,12 +7848,23 @@ en:
       project_specific_variant_suffix: "(Project-specific variant)"
       projects:
         actions:
-          confirm_remove: "Remove the type %{type} from %{project}?"
-          remove_from_project: "Remove from project"
+          remove_from_project: "Remove type from this project"
+          remove_from_projects: "Remove type from these projects"
           switch_variant: "Switch variant"
         add_dialog:
           no_projects_selected: "Please select at least one project."
           search_placeholder: "Search projects"
+        bulk_remove:
+          confirmation:
+            one: "I understand that this type will no longer be available in this project"
+            other: "I understand that this type will no longer be available in the selected projects"
+          description:
+            one: "This type will no longer be available in the following project, unless it still has work packages of this type."
+            other: "This type will no longer be available in the following projects. Projects that still have work packages of this type keep it."
+          submit: "Remove"
+          title:
+            one: "Remove type '%{type}' from this project?"
+            other: "Remove type '%{type}' from these projects?"
         disable_all: Disable for all projects
         empty_state:
           description: Add a project to use this configuration there.

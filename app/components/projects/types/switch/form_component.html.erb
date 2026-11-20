@@ -26,15 +26,23 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= flex_layout(direction: :column) do |body| %>
-  <% body.with_row do %>
-    <%= render(
-          Projects::Settings::WorkPackages::Types::SwitchForm.new(
-            @form, targets: @targets, selected: @selected, validation_message: @validation_message
-          )
-        ) %>
-  <% end %>
-  <% body.with_row(mt: 3) do %>
-    <%= render(Projects::Settings::WorkPackages::Types::SwitchImpactComponent.new(impact: @impact)) %>
+<%= component_wrapper do %>
+  <%= primer_form_with(url: confirmation_url, method: :get, data: form_data) do |form| %>
+    <%= render(Projects::Types::Switch::HiddenParamsComponent.new(params:)) %>
+
+    <%= render(Primer::Alpha::Dialog::Body.new) do %>
+      <%= render(
+            Projects::Types::Switch::FieldsComponent.new(
+              form:, targets: selection.targets, selected:, validation_message:, impact: selection.impact(selected)
+            )
+          ) %>
+    <% end %>
+
+    <%= render(Primer::Alpha::Dialog::Footer.new) do %>
+      <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": dialog_id })) { t(:button_cancel) } %>
+      <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) do %>
+        <%= t("projects.settings.types.switch.submit") %>
+      <% end %>
+    <% end %>
   <% end %>
 <% end %>

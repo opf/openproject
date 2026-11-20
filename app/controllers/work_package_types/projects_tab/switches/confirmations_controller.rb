@@ -27,29 +27,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects
-  module Settings
-    module WorkPackages
-      module Types
-        # Moves a project from the family member it uses now to another one.
-        class SwitchDialogComponent < ApplicationComponent
-          include OpPrimer::ComponentHelpers
-          include OpTurbo::Streamable
+module WorkPackageTypes
+  module ProjectsTab
+    module Switches
+      class ConfirmationsController < BaseTabController
+        include VariantSwitching
 
-          DIALOG_ID = "project-types-switch-dialog"
-
-          def initialize(project:, source:, url:, selected: source)
-            super()
-
-            @project = project
-            @source = source
-            @url = url
-            @selected = selected
-          end
-
-          private
-
-          attr_reader :project, :source, :url, :selected
+        def new
+          respond_with_switch_confirmation
         end
       end
     end

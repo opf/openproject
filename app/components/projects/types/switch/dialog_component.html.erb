@@ -26,23 +26,15 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= component_wrapper do %>
-  <%= primer_form_with(url:, method: :post, data: refresh_data) do |form| %>
-    <%= render(Primer::Alpha::Dialog::Body.new) do %>
-      <%= render(
-            Projects::Settings::WorkPackages::Types::SwitchFieldsComponent.new(
-              form:, targets: available_targets, selected:, validation_message:, impact:
-            )
-          ) %>
-    <% end %>
+<%= render(
+      Primer::Alpha::Dialog.new(
+        id: DIALOG_ID,
+        title: t("projects.settings.types.switch.title", type: selection.type.name),
+        size: :large,
+        classes: "Overlay--size-large-portrait"
+      )
+    ) do |dialog| %>
+  <% dialog.with_header(variant: :large) %>
 
-    <%= render(Primer::Alpha::Dialog::Footer.new) do %>
-      <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": dialog_id })) do %>
-        <%= t(:button_cancel) %>
-      <% end %>
-      <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) do %>
-        <%= t("projects.settings.types.switch.apply") %>
-      <% end %>
-    <% end %>
-  <% end %>
+  <%= render(Projects::Types::Switch::FormComponent.new(selection:, selected:, **form_arguments)) %>
 <% end %>

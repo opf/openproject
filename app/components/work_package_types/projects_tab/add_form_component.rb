@@ -38,18 +38,17 @@ module WorkPackageTypes
       FORM_ID = "work-package-type-add-projects-form"
       FIELD_NAME = "project_ids"
 
-      def initialize(variant:, wizard: false, validation_message: nil)
+      def initialize(variant:, validation_message: nil)
         super()
 
         @variant = variant
-        @wizard = wizard
         @validation_message = validation_message
       end
 
       def form_arguments
         {
           id: FORM_ID,
-          url: link_variant_projects_path(variant, **(@wizard ? { wizard: true } : {})),
+          url: variant_projects_link_path(variant),
           method: :post,
           data: { turbo: true }
         }
@@ -59,7 +58,7 @@ module WorkPackageTypes
 
       attr_reader :variant, :validation_message
 
-      def tree_src = tree_variant_projects_path(variant, name: FIELD_NAME)
+      def tree_src = variant_projects_link_candidates_path(variant, name: FIELD_NAME)
     end
   end
 end

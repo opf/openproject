@@ -36,9 +36,15 @@ module TypeVariants::Scopes
       # project runs on goes with authoring its variants, not with choosing which types it uses.
       # Another project's variant is never among them.
       def switch_targets(user:, project:, source:)
-        return none unless user.allowed_in_project?(:manage_project_variants, project)
+        shared_switch_targets(user:, projects: [project], type: source.type)
+      end
 
-        source.type.variants.available_in(project)
+      # The variants every given project may move onto. A project-owned variant serves its own
+      # project only, so several projects share none of those.
+      def shared_switch_targets(user:, projects:, type:)
+        return none unless projects.all? { user.allowed_in_project?(:manage_project_variants, it) }
+
+        projects.one? ? type.variants.available_in(projects.first) : type.variants.global
       end
 
       def switchable?(user:, project:, source:, target:)

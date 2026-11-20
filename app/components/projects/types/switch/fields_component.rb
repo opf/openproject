@@ -28,25 +28,24 @@
 #++
 
 module Projects
-  module Settings
-    module WorkPackages
-      module Types
-        # Everything the switch asks for and reports, with no container of its
-        # own: the dialog wraps this in Dialog::Body, and a settings page could
-        # wrap the same component in page chrome instead.
-        class SwitchFieldsComponent < ApplicationComponent
-          include OpPrimer::ComponentHelpers
+  module Types
+    module Switch
+      # Everything the switch asks for and reports, with no container of its
+      # own: the dialog wraps this in Dialog::Body, and a settings page could
+      # wrap the same component in page chrome instead.
+      class FieldsComponent < ApplicationComponent
+        include OpPrimer::ComponentHelpers
 
-          # Nil while the selection is the member in force, which has nothing to report.
-          def initialize(form:, targets:, selected:, validation_message: nil, impact: nil)
-            super()
+        # Nil when there is nothing to report: the variant in use is selected, or the projects start
+        # from different variants.
+        def initialize(form:, targets:, selected:, validation_message: nil, impact: nil)
+          super()
 
-            @form = form
-            @targets = targets
-            @selected = selected
-            @validation_message = validation_message
-            @impact = impact
-          end
+          @form = form
+          @targets = targets
+          @selected = selected
+          @validation_message = validation_message
+          @impact = impact
         end
       end
     end

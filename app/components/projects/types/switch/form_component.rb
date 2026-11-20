@@ -27,24 +27,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  # A switch and its impact are two endpoints onto the same choice, so both resolve the
-  # member being switched away from the same way.
-  module SwitchLookup
-    private
+module Projects
+  module Types
+    module Switch
+      # Separate from the dialog so a refused target can repaint it in place: replacing the dialog
+      # would swap out the <dialog> element and close it.
+      class FormComponent < ApplicationComponent
+        include OpPrimer::ComponentHelpers
+        include OpTurbo::Streamable
 
-    # The row names the member in force, which is the variant when the project resolves one, so
-    # the type is looked up globally and checked against the families the project uses. It is
-    # then resolved again: on a page left open across a switch, the id names a member the
-    # project has since moved off.
-    def load_source
-      type = ::Type.find_by(id: params[:type_id])
-      @source = @project.type_variant(type) if type && @project.project_types.exists?(type_id: type.id)
+        def initialize(selection:, selected:, confirmation_url:, impact_url:, params: {}, validation_message: nil)
+          super()
 
-      return if @source
+          @selection = selection
+          @selected = selected
+          @confirmation_url = confirmation_url
+          @impact_url = impact_url
+          @params = params
+          @validation_message = validation_message
+        end
 
-      render_error_flash_message_via_turbo_stream(message: t("projects.settings.types.type_not_found"))
-      respond_to_with_turbo_streams(status: :unprocessable_entity)
+        private
+
+        attr_reader :selection, :selected, :confirmation_url, :impact_url, :params, :validation_message
+
+        def form_data
+          {
+            turbo_stream: true,
+            controller: "refresh-on-form-changes",
+            refresh_on_form_changes_target: "form",
+            refresh_on_form_changes_turbo_stream_url_value: impact_url
+          }
+        end
+
+        def dialog_id = DialogComponent::DIALOG_ID
+      end
     end
   end
 end
