@@ -54,12 +54,6 @@ module Backlogs
           format_date_range(displayed_dates.actual_range, include_time: true)
         end
       end
-
-      def planned_range_arguments
-        return {} unless displayed_dates.actual?
-
-        { color: :muted, ml: 2 }
-      end
     end
   end
 end

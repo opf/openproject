@@ -3,13 +3,13 @@
 
   <% if displayed_dates.any? %>
     <% if displayed_dates.actual? %>
-      <%= render(Primer::Beta::Text.new(role: :group, ml: 2, font_weight: :bold)) do %>
+      <%= render(Primer::Beta::Text.new(ml: 2, font_weight: :bold)) do %>
         <%= t(".started_at") if sprint.active? %>
         <%= actual_dates %>
       <% end %>
     <% end %>
     <% if displayed_dates.planned? %>
-      <%= render(Primer::Beta::Text.new(**planned_range_arguments)) do %>
+      <%= render(Primer::Beta::Text.new(ml: 2)) do %>
         <%= t(".planned_html", range: format_date_range(displayed_dates.planned_range)) %>
       <% end %>
     <% end %>
