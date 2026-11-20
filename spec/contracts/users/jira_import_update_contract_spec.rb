@@ -51,7 +51,17 @@ RSpec.describe Users::JiraImportUpdateContract do
         allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true)
       end
 
-      it_behaves_like "contract is invalid", base: :user_limit_reached
+      context "when activating a previously inactive user" do
+        let(:user) { build_stubbed(:user, status: :locked) }
+
+        before { user.status = :active }
+
+        it_behaves_like "contract is invalid", base: :user_limit_reached
+      end
+
+      context "when updating an already active user" do
+        it_behaves_like "contract is valid"
+      end
     end
   end
 end

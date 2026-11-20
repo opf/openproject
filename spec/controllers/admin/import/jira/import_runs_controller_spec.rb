@@ -310,6 +310,16 @@ RSpec.describe Admin::Import::Jira::ImportRunsController do
       end
     end
 
+    context "when step is revert from finalizing_error" do
+      before { transition_to_state(jira_import, "finalizing_error") }
+
+      it "transitions to reverting and triggers the job" do
+        post :continue, params: { jira_id: jira.id, id: jira_import.id, step: "revert" }, format: :turbo_stream
+        expect(jira_import.current_state).to eq("reverting")
+        expect(Import::JiraRevertImportJob).to have_received(:perform_later).with(jira_import.id)
+      end
+    end
+
     context "when step is revert from revert_error" do
       before { transition_to_state(jira_import, "revert_error") }
 
