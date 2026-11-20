@@ -363,7 +363,7 @@ describe('ExpandableTextController', () => {
       expect(controller).toBeDefined();
     });
 
-    it('detects vertical truncation via scrollHeight > clientHeight', async () => {
+    it('detects vertical truncation when lines are clamped away', async () => {
       await ctx.mount(multiLineTemplate);
 
       const truncateEl = ctx.container.querySelector<HTMLElement>('[data-expandable-text-target="truncate"]')!;
@@ -391,6 +391,38 @@ describe('ExpandableTextController', () => {
       controller.resize();
 
       expect(expander.hidden).toBe(true);
+    });
+
+    it('hides expander when glyphs only overhang the clamped lines by a pixel', async () => {
+      await ctx.mount(multiLineTemplate);
+
+      const truncateEl = ctx.container.querySelector<HTMLElement>('[data-expandable-text-target="truncate"]')!;
+      const expander = ctx.container.querySelector<HTMLElement>('[data-expandable-text-target="expander"]')!;
+
+      truncateEl.style.fontSize = '12px';
+      Object.defineProperty(truncateEl, 'scrollHeight', { configurable: true, value: 19 });
+      Object.defineProperty(truncateEl, 'clientHeight', { configurable: true, value: 18 });
+
+      const controller = ctx.getController<ExpandableTextController>('expandable-text');
+      controller.resize();
+
+      expect(expander.hidden).toBe(true);
+    });
+
+    it('shows expander when a whole line is clamped away', async () => {
+      await ctx.mount(multiLineTemplate);
+
+      const truncateEl = ctx.container.querySelector<HTMLElement>('[data-expandable-text-target="truncate"]')!;
+      const expander = ctx.container.querySelector<HTMLElement>('[data-expandable-text-target="expander"]')!;
+
+      truncateEl.style.fontSize = '12px';
+      Object.defineProperty(truncateEl, 'scrollHeight', { configurable: true, value: 54 });
+      Object.defineProperty(truncateEl, 'clientHeight', { configurable: true, value: 36 });
+
+      const controller = ctx.getController<ExpandableTextController>('expandable-text');
+      controller.resize();
+
+      expect(expander.hidden).toBe(false);
     });
 
     it('toggles op-vertical-truncate--expanded class instead of Truncate--expanded', async () => {
