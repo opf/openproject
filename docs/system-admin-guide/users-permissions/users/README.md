@@ -117,11 +117,11 @@ The form consists of the following sections:
 
 Click **Create** to add the user. After the user has been created, their user details page opens automatically.
 
-### Invite a user (via the header)
+### Invite a user via the header navigation
 
-You can invite new users to a project directly from the [project header](/../../../#invite-from-header). Click the **plus** icon and select **Invite user**.
+You can invite new users to a project directly from the header navigation. Click the **plus** icon and select **Invite user**.
 
-![Project header showing the plus button used to invite a user](openproject_system_guide_invite_user_from_header.png)
+![Header navigation showing the plus button and the option to invite a user](openproject_system_guide_invite_user_from_header.png)
 
 ### Create user (via self-registration)
 
