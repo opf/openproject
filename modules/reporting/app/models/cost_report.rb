@@ -79,7 +79,7 @@ class CostReport < PersistedView
   end
 
   def filter_errors
-    filters.reject(&:valid?).flat_map do |filter|
+    filters.flat_map do |filter|
       filter.errors.flat_map do |kind, values|
         values.map { |value| filter_error_message(filter.class.label, kind, value) }
       end

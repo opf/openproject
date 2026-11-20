@@ -248,6 +248,18 @@ RSpec.describe "Cost reports", :aggregate_failures, type: :rails_request do
         expect(response.body).not_to include(I18n.t(:no_results_title_text))
       end
 
+      [
+        'spent_on <>d "2026-10-01" & created_on <>d ["2026-01-01","2026-12-31"]',
+        'created_on <>d ["2026-01-01","2026-12-31"] & spent_on <>d "2026-10-01"'
+      ].each do |both_filters|
+        it "shows the error next to a valid filter with the same operator (#{both_filters})" do
+          get global_reporting_cost_reports_path, params: { filters: both_filters }
+
+          expect(response).to have_http_status(:ok)
+          expect(response.parsed_body.at_css("#filter_errors").text).to include("Date (Spent) requires 2 values.")
+        end
+      end
+
       it "streams the error into the filters section when only the result table frame reloads" do
         get global_reporting_cost_reports_path, params: { filters: }, headers: { "Turbo-Frame" => "result-table" }
 

@@ -352,7 +352,7 @@ class Report::Operator
   end
 
   def validate(*values)
-    [super, sufficient_values?(values.flatten.compact_blank)].all?
+    super.tap { |errors| validate_value_count(values.flatten.compact_blank, errors) }
   end
 
   def inspect
@@ -389,11 +389,8 @@ class Report::Operator
     @name = new_name
   end
 
-  def sufficient_values?(values)
-    return true if arity <= 0 || values.empty? || values.size >= arity
-
-    errors[:missing_values] << arity
-    false
+  def validate_value_count(values, errors)
+    errors[:missing_values] << arity if arity.positive? && values.any? && values.size < arity
   end
 
   # Done with class method definition, let's initialize the operators
