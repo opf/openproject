@@ -251,6 +251,7 @@ en:
     sprint_reports:
       header_infoline_component:
         planned_html: "Planned: %{range}"
+        started_at: "Start time:"
       missing_dates_blankslate_component:
         description: "Sprint start and finish dates are necessary for the report to show."
         heading: "Missing sprint dates"

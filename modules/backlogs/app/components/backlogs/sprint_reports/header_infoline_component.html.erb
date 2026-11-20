@@ -3,8 +3,8 @@
 
   <% if displayed_dates.any? %>
     <% if displayed_dates.actual? %>
-      <%= render(Primer::Beta::Text.new(role: :group, ml: 2, font_weight: :semibold)) do %>
-        <%= "#{Sprint.human_attribute_name(:started_at)}:" if sprint.active? %>
+      <%= render(Primer::Beta::Text.new(role: :group, ml: 2, font_weight: :bold)) do %>
+        <%= t(".started_at") if sprint.active? %>
         <%= actual_dates %>
       <% end %>
     <% end %>
