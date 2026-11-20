@@ -401,7 +401,7 @@ Read more: [Forums user guide](../../user-guide/forums/), [Blog article on the r
 
 ### GitLab integration
 
-What should be implemented is defined in work packages, while the implementation lives in GitLab. The reworked **Code** tab (formerly "GitLab") shows the related issues, merge requests, and commits directly in the work package. Developers can find code to review, project managers can see whether work is merged, and QA can see where to test.
+What should be implemented is defined in work packages, while the implementation lives in GitLab. The reworked **Code** tab (formerly "GitLab") shows the related issues, merge requests, branches, and commits directly in the work package. Developers can find code to review, project managers can see whether work is merged, and QA can see where to test.
 
 GitLab is now configured in the new **Repositories** section of the administration, which also supports connecting multiple GitLab instances. The GitHub integration is still configured under **Integrations**.
 
