@@ -140,7 +140,10 @@ RSpec.describe "Predefined work package filters", :skip_csrf, type: :rails_reque
 
     get path
     expect(response).to have_http_status(:ok)
-    summary = response.parsed_body.at_css("#predefined-filter-query-summary")
+    document = response.parsed_body
+    expect(document.at_css('button[type="submit"][disabled]').text.strip).to eq("Save")
+    expect(document.at_css('button[data-action="admin--predefined-filter-query#edit"]').text.strip).to eq("Edit query")
+    summary = document.at_css("#predefined-filter-query-summary")
     expect(summary.text).to include("Columns", "Subject", "Filters", "Ready for delivery",
                                     "Sorting", "Descending", "Group by")
     expect(summary.text).not_to include("Relation type")

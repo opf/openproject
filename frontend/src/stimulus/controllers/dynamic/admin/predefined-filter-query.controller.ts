@@ -27,18 +27,22 @@
 
 import { ApplicationInitStatus } from '@angular/core';
 import { Controller } from '@hotwired/stimulus';
+import { isEqual } from 'lodash-es';
 import type { OpenProjectPluginContext } from 'core-app/features/plugins/plugin-context';
 import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 
 export default class PredefinedFilterQueryController extends Controller {
   static services:ServiceKey[] = ['externalQueryConfiguration', 'notifications', 'turboRequests'];
-  static targets = ['input'];
+  static targets = ['input', 'submit'];
   static values = { summaryUrl: String };
 
   declare readonly inputTarget:HTMLInputElement;
+  declare readonly submitTarget:HTMLButtonElement;
   declare readonly summaryUrlValue:string;
   declare services:Promise<PickedServices<'externalQueryConfiguration'|'notifications'|'turboRequests'>>;
   declare pluginContext:Promise<OpenProjectPluginContext>;
+
+  private savedQuery:string|undefined;
 
   initialize() {
     useAngularServices(this);
@@ -54,10 +58,15 @@ export default class PredefinedFilterQueryController extends Controller {
       externalQueryConfiguration.show({
         currentQuery: this.inputTarget.value,
         urlParams: true,
-        callback: (queryProps:unknown) => {
-          if (!this.element.isConnected || typeof queryProps !== 'string') return;
+        includeInitialQuery: true,
+        callback: (queryProps:unknown, initialQuery?:string) => {
+          if (!this.element.isConnected || typeof queryProps !== 'string' || initialQuery === undefined) return;
+          if (this.sameQuery(queryProps, initialQuery)) return;
+
+          if (this.submitTarget.disabled) this.savedQuery = initialQuery;
 
           this.inputTarget.value = queryProps;
+          this.submitTarget.disabled = this.savedQuery !== undefined && this.sameQuery(queryProps, this.savedQuery);
           void turboRequests.request(this.summaryUrlValue, {
             method: 'POST',
             headers: { Accept: 'text/vnd.turbo-stream.html' },
@@ -68,5 +77,9 @@ export default class PredefinedFilterQueryController extends Controller {
     } catch (error) {
       notifications.addError(error instanceof Error ? error.message : String(error));
     }
+  }
+
+  private sameQuery(left:string, right:string):boolean {
+    return isEqual(JSON.parse(left) as unknown, JSON.parse(right) as unknown);
   }
 }
