@@ -68,17 +68,13 @@ RSpec.describe "Predefined work package filters", :skip_csrf, type: :rails_reque
     get new_admin_predefined_work_package_filter_path
     expect(response).to have_http_status(:ok)
 
-    expect(response.parsed_body.at_css('input[name="query_props"]')).to be_present
+    expect(response.parsed_body.at_css('input[name="query_props"]')).to be_nil
 
     post admin_predefined_work_package_filters_path,
-         params: {
-           predefined_work_package_filter: { name: "Delivery", work_packages: "1", gantt: "1" },
-           query_props: { g: "status", c: %w[id subject], f: [{ n: "status", o: "o", v: [] }], tv: false }.to_json
-         }
+         params: { predefined_work_package_filter: { name: "Delivery", work_packages: "1", gantt: "1" } }
     expect(response).to have_http_status(:see_other)
     created = PredefinedWorkPackageFilter.find_by!(name: "Delivery")
-    expect(created.query_properties).to include("g" => "status",
-                                                "f" => [{ "n" => "status", "o" => "o", "v" => [] }])
+    expect(response).to redirect_to(configuration_admin_predefined_work_package_filter_path(created))
     expect(created).not_to be_active_in(project)
 
     put move_admin_predefined_work_package_filter_path(created),
@@ -90,6 +86,37 @@ RSpec.describe "Predefined work package filters", :skip_csrf, type: :rails_reque
     delete admin_predefined_work_package_filter_path(created)
     expect(response).to have_http_status(:see_other)
     expect(PredefinedWorkPackageFilter.exists?(created.id)).to be false
+  end
+
+  it "shows display settings under General separately from the query configuration", :aggregate_failures do
+    login_as(admin)
+
+    get edit_admin_predefined_work_package_filter_path(filter)
+
+    expect(response).to have_http_status(:ok)
+    expect(response.parsed_body.at_css("fieldset legend").text).to eq("Display")
+    expect(response.parsed_body.at_css('input[name="query_props"]')).to be_nil
+    expect(response.body).to include(configuration_admin_predefined_work_package_filter_path(filter))
+  end
+
+  it "lets a non-administrator with Manage filters save and view a complete query configuration", :aggregate_failures do
+    role = create(:global_role, permissions: [:manage_filters])
+    login_as(create(:user, global_roles: [role]))
+    status = create(:status, name: "Ready for delivery")
+    path = configuration_admin_predefined_work_package_filter_path(filter)
+    properties = { g: "status", c: %w[id subject status], t: "subject:desc,id:asc",
+                   f: [{ n: "status", o: "=", v: [status.id.to_s] }] }
+
+    patch path, params: { query_props: properties.to_json }
+    expect(response).to have_http_status(:see_other)
+    expect(response).to redirect_to(path)
+
+    get path
+    expect(response).to have_http_status(:ok)
+    summary = response.parsed_body.at_css("#predefined-filter-query-summary")
+    expect(summary.text).to include("Columns", "Subject", "Filters", "Ready for delivery",
+                                    "Sorting", "Descending", "Group by")
+    expect(summary.text).not_to include("Relation type")
   end
 
   it "previews filter conditions without saving the filter" do
@@ -127,6 +154,9 @@ RSpec.describe "Predefined work package filters", :skip_csrf, type: :rails_reque
     expect(response).to have_http_status(:forbidden)
 
     post query_summary_admin_predefined_work_package_filters_path, params: { query_props: { f: [] }.to_json }
+    expect(response).to have_http_status(:forbidden)
+
+    patch configuration_admin_predefined_work_package_filter_path(filter), params: { query_props: { f: [] }.to_json }
     expect(response).to have_http_status(:forbidden)
 
     patch project_settings_work_packages_filters_path(project), params: { filters: { filter.id => "1" } }

@@ -26,7 +26,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render "header", projects: true %>
+<%= render "header", active_tab: :projects %>
 
 <%= primer_form_with(url: projects_admin_predefined_work_package_filter_path(@filter), method: :patch) do |f| %>
   <% rows = @projects.map { |project| [project.id, project.name, @active_project_ids.fetch(project.id, @filter.builtin?)] } %>

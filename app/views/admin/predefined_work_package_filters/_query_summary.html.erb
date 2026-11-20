@@ -26,6 +26,5 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% phrases = Queries::FilterSummary.new(query.filters, show_unavailable: true).phrases %>
-<% rows = [{ label: t(:label_filter_plural), values: phrases.presence || [t(:label_none).upcase_first] }] %>
-<%= render(WorkPackageTypes::FormConfiguration::QuerySummaryComponent.new(rows: rows)) %>
+<% summary = WorkPackageTypes::FormConfiguration::QuerySummary.new(query, embedded_relation: false) %>
+<%= render(WorkPackageTypes::FormConfiguration::QuerySummaryComponent.new(rows: summary.rows)) %>

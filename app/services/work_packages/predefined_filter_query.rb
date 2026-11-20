@@ -45,6 +45,16 @@ module WorkPackages
       end
     end
 
+    def configuration_query
+      properties = editor_properties
+      build.tap do |query|
+        query.column_names = Array(properties["c"]).grep(String).map do |column|
+          API::Utilities::WpPropertyNameConverter.to_ar_name(column)
+        end
+        query.timestamps = configuration_timestamps(properties["ts"])
+      end
+    end
+
     def editor_properties
       properties_for(:work_packages)
     end
@@ -58,6 +68,12 @@ module WorkPackages
     end
 
     private
+
+    def configuration_timestamps(value)
+      Timestamp.parse_multiple(value)
+    rescue ArgumentError
+      []
+    end
 
     def apply_grouping(query, group)
       return if group.blank?

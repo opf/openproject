@@ -36,11 +36,28 @@ See COPYRIGHT and LICENSE files for more details.
        ]
      ) %>
   <% if @filter.persisted? %>
+    <% header.with_action_menu(
+         menu_arguments: { anchor_align: :end },
+         button_arguments: { icon: "kebab-horizontal", "aria-label": t(:label_more) }
+       ) do |menu| %>
+      <% menu.with_item(
+           label: t(:button_delete),
+           tag: :button,
+           scheme: :danger,
+           href: admin_predefined_work_package_filter_path(@filter),
+           form_arguments: { method: :delete, data: { turbo_confirm: t(:text_are_you_sure) } }
+         ) do |item| %>
+        <% item.with_leading_visual_icon(icon: :trash) %>
+      <% end %>
+    <% end %>
     <% header.with_tab_nav(label: t("predefined_work_package_filters.title")) do |nav| %>
-      <% nav.with_tab(href: edit_admin_predefined_work_package_filter_path(@filter), selected: !projects) do |tab| %>
+      <% nav.with_tab(href: edit_admin_predefined_work_package_filter_path(@filter), selected: active_tab == :general) do |tab| %>
         <% tab.with_text { t(:label_general) } %>
       <% end %>
-      <% nav.with_tab(href: projects_admin_predefined_work_package_filter_path(@filter), selected: projects) do |tab| %>
+      <% nav.with_tab(href: configuration_admin_predefined_work_package_filter_path(@filter), selected: active_tab == :configuration) do |tab| %>
+        <% tab.with_text { t(:label_configuration).upcase_first } %>
+      <% end %>
+      <% nav.with_tab(href: projects_admin_predefined_work_package_filter_path(@filter), selected: active_tab == :projects) do |tab| %>
         <% tab.with_text { t(:label_project_plural) } %>
       <% end %>
     <% end %>

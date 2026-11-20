@@ -26,54 +26,9 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render "header", projects: false %>
-<% errors = @filter.errors.full_messages + @query.errors.full_messages %>
-<% if errors.any? %>
-  <%= render(Primer::Alpha::Banner.new(scheme: :danger)) { errors.to_sentence } %>
-<% end %>
+<%= render "header", active_tab: :general %>
+<%= render "errors", errors: @filter.errors.full_messages %>
 
 <%= primer_form_with(model: @filter, url: @filter.persisted? ? admin_predefined_work_package_filter_path(@filter) : admin_predefined_work_package_filters_path) do |f| %>
   <%= render(PredefinedWorkPackageFilters::ConfigurationForm.new(f)) %>
-  <%=
-    render(
-      Primer::Beta::BorderBox.new(
-        mt: 3,
-        data: {
-          controller: "admin--predefined-filter-query",
-          admin__predefined_filter_query_summary_url_value: query_summary_admin_predefined_work_package_filters_path
-        }
-      )
-    ) do |box|
-  %>
-    <% box.with_header(display: :flex, justify_content: :space_between, align_items: :center) do %>
-      <%= hidden_field_tag :query_props, @query_editor_properties.to_json, data: { admin__predefined_filter_query_target: "input" } %>
-      <%= render(Primer::Beta::Text.new(font_weight: :bold)) { t(:label_configuration).upcase_first } %>
-      <%=
-        render(
-          Primer::Beta::IconButton.new(
-            icon: :pencil,
-            scheme: :invisible,
-            size: :small,
-            type: :button,
-            tooltip_direction: :w,
-            data: { action: "admin--predefined-filter-query#edit" },
-            "aria-label": t("types.edit.form_configuration.edit_query")
-          )
-        )
-      %>
-    <% end %>
-    <% box.with_body(id: "predefined-filter-query-summary") do %>
-      <%= render "query_summary", query: @query %>
-    <% end %>
-  <% end %>
-  <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary, mt: 3)) { t(:button_save) } %>
-<% end %>
-
-<% if @filter.persisted? %>
-  <%= primer_form_with(
-        url: admin_predefined_work_package_filter_path(@filter), method: :delete,
-        data: { turbo_confirm: t(:text_are_you_sure) }
-      ) do %>
-    <%= render(Primer::Beta::Button.new(type: :submit, scheme: :danger, mt: 3)) { t(:button_delete) } %>
-  <% end %>
 <% end %>

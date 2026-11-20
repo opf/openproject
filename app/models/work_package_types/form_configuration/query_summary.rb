@@ -34,26 +34,37 @@ class WorkPackageTypes::FormConfiguration::QuerySummary
     columns: "label_columns",
     filters: "label_filter_plural",
     sorting: "js.label_sorting",
+    grouping: "label_group_by",
     baseline: "js.baseline.toggle_title"
   }.freeze
 
-  def initialize(query)
+  def initialize(query, embedded_relation: true)
     @query = query
+    @embedded_relation = embedded_relation
   end
 
   def rows
     return [row(:configuration, [t(:unavailable)])] unless @query
 
-    required_rows + { filters: filter_labels, sorting: sort_labels, baseline: baseline_labels }.filter_map do |key, labels|
-      row(key, labels) if labels.any?
-    end
+    required_rows + optional_rows
   end
 
   private
 
   def required_rows
-    [row(:relation_type, [relation ? relation_label(relation) : I18n.t(:label_none).upcase_first]),
-     row(:columns, [column_labels.join(I18n.t("support.array.words_connector"))])]
+    columns = row(:columns, [column_labels.join(I18n.t("support.array.words_connector"))])
+    return [columns] unless @embedded_relation
+
+    [row(:relation_type, [relation ? relation_label(relation) : I18n.t(:label_none).upcase_first]), columns]
+  end
+
+  def optional_rows
+    {
+      filters: filter_labels,
+      sorting: sort_labels,
+      grouping: grouping_labels,
+      baseline: baseline_labels
+    }.filter_map { |key, labels| row(key, labels) if labels.any? }
   end
 
   def relation
@@ -71,8 +82,10 @@ class WorkPackageTypes::FormConfiguration::QuerySummary
   end
 
   def filter_labels
-    filters = @query.filters.reject { it.equal?(relation) }
-    Queries::FilterSummary.new(filters, show_unavailable: true).phrases
+    filters = @query.filters
+    filters = filters.reject { it.equal?(relation) } if @embedded_relation
+    phrases = Queries::FilterSummary.new(filters, show_unavailable: true).phrases
+    @embedded_relation ? phrases : phrases.presence || [I18n.t(:label_none).upcase_first]
   end
 
   def relation_label(filter)
@@ -88,7 +101,7 @@ class WorkPackageTypes::FormConfiguration::QuerySummary
 
   def sort_labels
     criteria = @query.sort_criteria
-    return [] if criteria.empty? || criteria == Query::DEFAULT_SORT_CRITERIA
+    return [] if @embedded_relation && criteria == Query::DEFAULT_SORT_CRITERIA
 
     criteria.map { |name, direction| sort_label(name, direction) }
   end
@@ -106,6 +119,10 @@ class WorkPackageTypes::FormConfiguration::QuerySummary
     else
       I18n.t("queries.filter_summary.unavailable_value")
     end
+  end
+
+  def grouping_labels
+    @embedded_relation ? [] : Array(@query.group_by_column&.caption)
   end
 
   def baseline_labels

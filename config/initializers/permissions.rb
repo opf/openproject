@@ -268,7 +268,8 @@ Rails.application.reloader.to_prepare do
                      {
                        admin: %i[index],
                        "admin/predefined_work_package_filters": %i[index new create edit update destroy move projects
-                                                                   update_projects query_summary]
+                                                                   update_projects configuration update_configuration
+                                                                   query_summary]
                      },
                      permissible_on: :global,
                      require: :loggedin,

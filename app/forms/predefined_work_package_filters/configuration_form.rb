@@ -30,10 +30,14 @@
 module PredefinedWorkPackageFilters
   class ConfigurationForm < ApplicationForm
     form do |f|
-      f.text_field(name: :name, label: I18n.t(:label_name), placeholder: model.display_name, required: !model.builtin?)
-      PredefinedWorkPackageFilter::PLACEMENTS.each do |placement|
-        f.check_box(name: placement, label: I18n.t("predefined_work_package_filters.placements.#{placement}"))
+      f.text_field(name: :name, label: I18n.t(:label_name), placeholder: model.display_name,
+                   required: !model.builtin?, input_width: :medium)
+      f.fieldset_group(title: I18n.t(:label_display)) do |placements|
+        PredefinedWorkPackageFilter::PLACEMENTS.each do |placement|
+          placements.check_box(name: placement, label: I18n.t("predefined_work_package_filters.placements.#{placement}"))
+        end
       end
+      f.submit(name: :submit, label: I18n.t(model.persisted? ? :button_save : :button_create), scheme: :primary)
     end
   end
 end

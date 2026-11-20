@@ -45,26 +45,51 @@ class Admin::PredefinedWorkPackageFiltersController < ApplicationController
 
   def new
     @filter = PredefinedWorkPackageFilter.new
-    prepare_query
     render :edit
   end
 
-  def edit
-    prepare_query
-  end
+  def edit; end
 
   def create
-    @filter = PredefinedWorkPackageFilter.new
-    save_filter
+    @filter = PredefinedWorkPackageFilter.new(filter_attributes)
+    if @filter.save
+      redirect_to configuration_admin_predefined_work_package_filter_path(@filter),
+                  status: :see_other, notice: t(:notice_successful_create)
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   def update
-    save_filter
+    if @filter.update(filter_attributes)
+      redirect_to edit_admin_predefined_work_package_filter_path(@filter),
+                  status: :see_other, notice: t(:notice_successful_update)
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def configuration
+    prepare_query
+  end
+
+  def update_configuration
+    @filter.query_properties = submitted_query_properties
+    prepare_query
+
+    if @query.valid? && @filter.save
+      redirect_to configuration_admin_predefined_work_package_filter_path(@filter),
+                  status: :see_other, notice: t(:notice_successful_update)
+    else
+      render :configuration, status: :unprocessable_entity
+    end
+  rescue JSON::ParserError, KeyError, TypeError
+    head :bad_request
   end
 
   def query_summary
     filter = PredefinedWorkPackageFilter.new(query_properties: parse_query_properties(params.expect(:query_props)))
-    query = WorkPackages::PredefinedFilterQuery.new(filter).build
+    query = WorkPackages::PredefinedFilterQuery.new(filter).configuration_query
 
     render turbo_stream: turbo_stream.update(
       "predefined-filter-query-summary",
@@ -114,24 +139,11 @@ class Admin::PredefinedWorkPackageFiltersController < ApplicationController
   def prepare_query
     query = WorkPackages::PredefinedFilterQuery.new(@filter)
     @query_editor_properties = query.editor_properties
-    @query = query.build
-  end
-
-  def save_filter
-    @filter.assign_attributes(filter_attributes)
-    prepare_query
-    if @query.valid? && @filter.save
-      redirect_to admin_predefined_work_package_filters_path, status: :see_other
-    else
-      render :edit, status: :unprocessable_entity
-    end
-  rescue JSON::ParserError, KeyError, TypeError
-    head :bad_request
+    @query = query.configuration_query
   end
 
   def filter_attributes
     params.expect(predefined_work_package_filter: %i[name project_overview work_packages gantt])
-      .merge(query_properties: submitted_query_properties)
   end
 
   def submitted_query_properties

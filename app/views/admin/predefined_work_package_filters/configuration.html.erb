@@ -1,0 +1,66 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= render "header", active_tab: :configuration %>
+<%= render "errors", errors: @filter.errors.full_messages + @query.errors.full_messages %>
+
+<%= primer_form_with(url: configuration_admin_predefined_work_package_filter_path(@filter), method: :patch) do %>
+  <%=
+    render(
+      Primer::Beta::BorderBox.new(
+        mb: 3,
+        data: {
+          controller: "admin--predefined-filter-query",
+          admin__predefined_filter_query_summary_url_value: query_summary_admin_predefined_work_package_filters_path
+        }
+      )
+    ) do |box|
+  %>
+    <% box.with_header(display: :flex, justify_content: :space_between, align_items: :center) do %>
+      <%= hidden_field_tag :query_props, @query_editor_properties.to_json, data: { admin__predefined_filter_query_target: "input" } %>
+      <%= render(Primer::Beta::Text.new(font_weight: :bold)) { @filter.display_name } %>
+      <%=
+        render(
+          Primer::Beta::IconButton.new(
+            icon: :pencil,
+            scheme: :invisible,
+            size: :small,
+            type: :button,
+            tooltip_direction: :w,
+            data: { action: "admin--predefined-filter-query#edit" },
+            "aria-label": t("types.edit.form_configuration.edit_query")
+          )
+        )
+      %>
+    <% end %>
+    <% box.with_body(id: "predefined-filter-query-summary") do %>
+      <%= render "query_summary", query: @query %>
+    <% end %>
+  <% end %>
+  <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary)) { t(:button_save) } %>
+<% end %>
