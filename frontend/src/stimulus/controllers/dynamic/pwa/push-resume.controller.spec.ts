@@ -26,9 +26,9 @@
 //++
 
 import { vi } from 'vitest';
-import { setupStimulusTest, type StimulusTestContext } from '../test-helpers';
+import { setupStimulusTest, type StimulusTestContext } from '../../../test-helpers';
 import { TurboVisitTracker } from 'core-turbo/turbo-visit-tracker';
-import PwaPushResumeController from './pwa-push-resume.controller';
+import PwaPushResumeController from './push-resume.controller';
 
 describe('PwaPushResumeController', () => {
   let ctx:StimulusTestContext;
@@ -48,11 +48,11 @@ describe('PwaPushResumeController', () => {
   }
 
   async function mount(session = 'session-a', extra = '') {
-    ctx = await setupStimulusTest({ controllers: { 'pwa-push-resume': PwaPushResumeController } });
+    ctx = await setupStimulusTest({ controllers: { 'pwa--push-resume': PwaPushResumeController } });
     await ctx.mount(`
-      <div data-controller="pwa-push-resume"
-           data-pwa-push-resume-url-value="/my/push_subscriptions"
-           data-pwa-push-resume-session-value="${session}"></div>
+      <div data-controller="pwa--push-resume"
+           data-pwa--push-resume-url-value="/my/push_subscriptions"
+           data-pwa--push-resume-session-value="${session}"></div>
       ${extra}
     `);
     await ctx.nextFrame();
