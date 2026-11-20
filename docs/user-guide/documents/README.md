@@ -83,9 +83,9 @@ The uploaded documents are visible to all project members who have the necessary
 > [!NOTE]
 > There is no versioning of documents. An edit of any field or the contents of the document is visible to all members.
 
-- **Using the Plus icon on the header **
+- **Using the plus icon in the header**
 
-  ![Plus icon to create a new docuument from the header](openproject_user_guide_documents_create_new_from_header.png)
+  ![Project header showing the plus button used to create a new document](openproject_user_guide_documents_create_new_from_header.png)
 
 ## Edit a project document 
 
