@@ -33,7 +33,7 @@ OpenProject 18.0 introduces more flexibility in configuring work package types, 
 
 This includes:
 
-- [Project-specific type variants](#project-specific-type-variants)
+- [Type variants](#type-variants)
 - [Reusable forms and workflows](#reusable-forms-and-workflows)
 - [Project-specific values for work package custom fields](#project-specific-values-for-work-package-custom-fields)
 
@@ -44,7 +44,7 @@ New agile reporting capabilities make it easier to track sprint progress, evalua
 This includes:
 
 - [Sprint report page with burndown and burnup charts](#sprint-report-page-with-burndown-and-burnup-charts)
-- [Velocity, Created vs. Resolved, and Epic progress charts](#velocity-created-vs-resolved-and-epic-progress-charts)
+- [Velocity, Created vs. Resolved, Epic progress charts, and work package tables](#velocity-created-vs-resolved-epic-progress-charts-and-work-package-tables)
 - [Backlog and sprint planning improvements](#backlog-and-sprint-planning-improvements)
 
 **3. [AI Text Assistant and MCP Server](#ai-text-assistant-and-mcp-server)**
@@ -132,13 +132,13 @@ Existing types keep working after the upgrade. Only where projects used project-
 
 Read more: [Work package types system admin guide](../../system-admin-guide/manage-work-packages/work-package-types/), [Blog article on type variants, workflows, and forms](https://www.openproject.org/blog/type-variants-workflows-forms/)
 
-#### Project-specific type variants
+#### Type variants
 
 A variant is a version of a type with its own configuration. It can use its parent type's workflow and form, pick another existing one, or get its own. Settings such as default description, project attributes, and PDF export template are either taken over from the parent type or configured for the variant.
 
-Each project uses one variant of a type at a time. This way, the same type can follow a different process in different projects. Because all variants keep their type's name, work packages can still be grouped and filtered by type across all projects, regardless of the variant.
+Each project uses one version of a type at a time: the type itself or one of its variants. Because a variant can have its own workflow and form, projects can follow different processes while still working with the same type. All variants keep their type's name, so work packages can still be grouped and filtered by type across all projects, regardless of the variant.
 
-Instance administrators decide per type whether project administrators may create their own variants. If allowed, project administrators can add variants that are only available in their project, so large organizations can delegate configuration without losing oversight. When switching a project to another variant, a preview shows what will change. If a project-specific variant turns out to be useful elsewhere, an instance administrator can convert it into a global variant.
+Instance administrators decide per type whether project administrators may create their own variants. If allowed, project administrators can add variants that are only available in their project, so large organizations can delegate configuration without losing oversight. When switching a project to another variant, a preview shows what will change. If a project-specific variant turns out to be useful elsewhere, an instance administrator can make it available to other projects.
 
 ![Creating a new variant of a work package type in the OpenProject administration](openproject_release_notes_18.0_create_type_variant.png)
 
@@ -146,9 +146,11 @@ Read more: [Work package types system admin guide](../../system-admin-guide/mana
 
 #### Reusable forms and workflows
 
+A form defines which fields appear on a work package, including custom fields.
+
 Workflows and forms are no longer bound to a single type. They are created under **Work packages** in the administration and can be used by any number of types and variants. When configuring a type or variant, you either use an existing workflow or form, which stays connected so that changes apply everywhere it is used, or configure a new one, starting from a copy or from scratch.
 
-The form defines which fields appear on a work package, including custom fields. Without changing the shared form itself, you can still switch individual fields on or off for a type or variant and decide which fields are required. A field required for a type stays required in its variants unless a variant makes it optional.
+Without changing the shared form itself, you can still switch individual fields on or off for a type or variant. Whether a field is required is set separately for each type and variant, so it is not inherited from the type.
 
 The new **workflow and form libraries** list all workflows and forms in your instance, the types and variants that use them, and the number of projects they are active in. Before building something new, you can check whether a suitable one already exists.
 
@@ -180,6 +182,8 @@ Each sprint now has its own report page, showing the sprint's status and dates, 
 
 The **burndown chart** has been reworked to make sprint progress easier to read. The new **burnup chart** additionally shows the sprint's scope as its own line, so you can see at a glance when work was added to or removed from a sprint. Scope changes are also reflected in the work package overview, including changes to story points.
 
+Under **Project settings → Backlogs**, you can choose the default unit for velocity, effort, and capacity: story points, work time estimate, or none. This setting affects both backlog cards and sprint report charts. If you select **None**, charts use the number of work packages instead, and some sprint report charts are not displayed.
+
 > [!TIP]
 > **Reports are frozen once a sprint is completed.** Changing a work package's status, estimate, or sprint afterwards no longer affects the report. This keeps reports reliable for sprint reviews and for looking back over longer periods.
 
@@ -187,7 +191,7 @@ The **burndown chart** has been reworked to make sprint progress easier to read.
 
 Read more: [Sprint reports user guide](../../user-guide/backlogs-scrum/sprint-reports/)
 
-#### Velocity, Created vs. Resolved, and Epic progress charts
+#### Velocity, Created vs. Resolved, Epic progress charts, and work package tables
 
 [feature: sprint_report_pro_widgets ]
 
@@ -200,7 +204,7 @@ In addition to the core charts, the sprint report offers more insights for plann
 
 #### Backlog and sprint planning improvements
 
-During backlog refinement and sprint planning, you can now **select multiple cards** and move them to a sprint or back to the backlog in one step, using the same selection rules as in the work package table. A new project setting lets you choose the **unit for effort, velocity, and capacity**: story points, work time estimate, or none. Cards and charts use the chosen unit, so agile features fit the way your team estimates work.
+During backlog refinement and sprint planning, you can now **select multiple cards** and move them to a sprint or back to the backlog in one step, using the same selection rules as in the work package table.
 
 Further improvements include a loading state when the backlog is filtered or refreshed, the display of actual start and finish dates, and blank states for reporting charts without data.
 
@@ -271,7 +275,7 @@ Read more: [Global resource planners user guide](../../user-guide/resource-manag
 
 [Placeholder users](../../system-admin-guide/users-permissions/placeholder-users/) can now be used to **define criteria** and let you **plan work before you know who will do it**. Criteria describe the kind of person needed, for example a job title, key skills, or spoken languages. You allocate the work to such a placeholder user and assign a matching team member later. If no suitable placeholder user exists yet, you can create one with criteria directly from the allocation dialog.
 
-The new **Staffing** view lists all allocations to placeholder users that don't have a user assigned yet, both per project and globally across projects. When assigning a user, OpenProject suggests project members who match the placeholder user's criteria, together with their available hours in that period. The placeholder user stays recorded on the allocation, so you can still see what was originally requested.
+The updated **Staffing** view lists allocations to placeholder users that don't have a user assigned yet. It is now available both per project and globally across projects. When assigning a user, OpenProject suggests project members who match the placeholder user's criteria, together with their available hours in that period. The placeholder user stays recorded on the allocation, so you can still see what was originally requested.
 
 ![Staffing view in OpenProject listing allocations to placeholder users with suggested matching team members](openproject_release_notes_18.0_resource_management_staffing.png)
 
@@ -291,6 +295,8 @@ Read more: [Allocations in work packages user guide](../../user-guide/resource-m
 #### Personal allocations in My time
 
 Work allocated to you now appears in all views of **My time**. OpenProject distributes the hours of an allocation over your working days within the allocated dates and subtracts the time you have already logged on the work package, so you see how many hours are still expected each day. If an allocation exceeds your working hours because a resource planner confirmed it as overtime, the extra time is still shown, so no allocated time is silently dropped. From an allocation, you can open the work package, assign it to yourself, or log time with the work package, date, and remaining hours already filled in.
+
+**My time** also remembers your last selected view (Stack, Calendar, or List) and time range (day, workweek, week, or month), so you can pick up where you left off when you return.
 
 Read more: [Resource allocations in My time user guide](../../user-guide/time-and-costs/my-time/#resource-allocations-in-my-time)
 
