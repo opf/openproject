@@ -42,7 +42,7 @@ RSpec.describe Admin::Import::JiraController do
     }
   end
 
-  let(:connection_check) { ServiceResult.success(result: instance_double(HealthReport, unhealthy?: false)) }
+  let(:connection_check) { ServiceResult.success(result: instance_double(HealthReport, unhealthy?: false, warning?: false)) }
 
   before do
     login_as(admin)
@@ -237,6 +237,21 @@ RSpec.describe Admin::Import::JiraController do
           expect(response).to redirect_to(edit_admin_import_jira_path(jira))
           expect(flash[:op_modal]).to eq(component: Admin::Import::Jira::ConnectionCheckDialogComponent.name,
                                          parameters: { health_report_id: 42 })
+          expect(flash[:notice]).to be_nil
+        end
+      end
+
+      context "when the connection check warns" do
+        let(:connection_check) do
+          ServiceResult.success(result: instance_double(HealthReport, id: 43, unhealthy?: false, warning?: true))
+        end
+
+        it "opens the warning on the edit page of the saved configuration" do
+          post :create, params: { import_jira: jira_params }
+
+          expect(response).to redirect_to(edit_admin_import_jira_path(jira))
+          expect(flash[:op_modal]).to eq(component: Admin::Import::Jira::ConnectionCheckDialogComponent.name,
+                                         parameters: { health_report_id: 43 })
           expect(flash[:notice]).to be_nil
         end
       end

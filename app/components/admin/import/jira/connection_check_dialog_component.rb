@@ -39,18 +39,28 @@ module Admin::Import::Jira
 
     private
 
+    def outcome
+      report.unhealthy? ? :failure : :warning
+    end
+
     def title
-      I18n.t("admin.jira.connection_check.dialog.failure.title")
+      I18n.t("admin.jira.connection_check.dialog.#{outcome}.title")
     end
 
     def description
-      t("admin.jira.connection_check.dialog.failure.description_html", check: check_label)
+      t("admin.jira.connection_check.dialog.#{outcome}.description_html", check: check_label)
+    end
+
+    def icon_color
+      outcome == :failure ? :danger : :attention
     end
 
     def check_label
-      group = report.results.find(&:failure?)
-      result = group.results.find(&:failure?)
+      group = report.results.find(&outcome_predicate)
+      result = group.results.find(&outcome_predicate)
       I18n.t("admin.jira.connection_check.#{group.key}.#{result.key}")
     end
+
+    def outcome_predicate = :"#{outcome}?"
   end
 end

@@ -50,18 +50,16 @@ module Import
       @jira_import = Import::JiraImport.find(jira_import_id)
       jira = @jira_import.jira
       connection_check = Import::Jiras::CheckConnectionService.new(jira).call
-      return stop_after_failed_connection_check(@jira_import, connection_check.result) if connection_check.failure?
+      return stop_after_failed_connection_check(@jira_import) if connection_check.failure?
 
       @client = jira.client
       @jira_import.update!(available: collect_metadata)
       @jira_import.transition_to!(:instance_meta_done)
     end
 
-    def stop_after_failed_connection_check(jira_import, report)
+    def stop_after_failed_connection_check(jira_import)
       Rails.logger.warn "Fetching instance meta data stopped by the failed connection check"
-      jira_import.transition_to!(:instance_meta_error,
-                                 error: I18n.t(:"admin.jira.run.connection_check_error"),
-                                 failed_connection_check_id: report.id)
+      jira_import.transition_to!(:instance_meta_error, error: I18n.t(:"admin.jira.run.connection_check_error"))
     end
 
     def collect_metadata

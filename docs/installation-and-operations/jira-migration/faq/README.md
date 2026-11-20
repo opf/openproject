@@ -68,7 +68,7 @@ Each import run enters a review mode and can be approved or reverted. After appr
 
 ## Which Jira versions can currently be imported?
 
-OpenProject supports Jira Server/Data Center versions 8.x, 9.x, 10.x and 11.x. Jira Cloud is not supported yet. If Jira Cloud is part of the scope, treat migration as a separate workstream and verify the latest status on the [Jira Migrator stream](https://community.openproject.org/projects/JIM) and the [OpenProject roadmap](https://www.openproject.org/roadmap/).
+OpenProject supports Jira Server/Data Center versions 8.x, 9.x, 10.x and 11.x. Jira 8 requires basic auth instead of a personal access token. For other versions, the Jira Migrator shows a warning, and you can still continue at your own risk. Jira Cloud is not supported yet. If Jira Cloud is part of the scope, treat migration as a separate workstream and verify the latest status on the [Jira Migrator stream](https://community.openproject.org/projects/JIM) and the [OpenProject roadmap](https://www.openproject.org/roadmap/).
 
 ## Which data can the Jira Migrator import automatically?
 

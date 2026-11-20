@@ -37,7 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
       data: { controller: "auto-show-dialog", turbo_temporary: true }
     )
   ) do |dialog|
-    dialog.with_confirmation_message do |message|
+    dialog.with_confirmation_message(icon_arguments: { color: icon_color }) do |message|
       message.with_heading(tag: :h2) { title }
       message.with_description_content(description)
     end

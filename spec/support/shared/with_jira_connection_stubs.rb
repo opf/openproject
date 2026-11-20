@@ -32,10 +32,11 @@ RSpec.shared_context "with Jira connection stubs" do
 
   let(:url) { "https://jira.example.com" }
   let(:administrator) { true }
+  let(:server_info) { { "version" => "10.3.0" } }
   let(:json_headers) { { "Content-Type" => "application/json" } }
   let!(:server_info_request) do
     stub_request(:get, "#{url}/rest/api/2/serverInfo")
-      .to_return(status: 200, body: { "version" => "10.3.0" }.to_json, headers: json_headers)
+      .to_return(status: 200, body: server_info.to_json, headers: json_headers)
   end
   let!(:permissions_request) do
     stub_request(:get, "#{url}/rest/api/2/mypermissions")

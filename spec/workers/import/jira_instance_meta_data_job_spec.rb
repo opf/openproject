@@ -73,6 +73,18 @@ RSpec.describe Import::JiraInstanceMetaDataJob do
     end
   end
 
+  context "when the Jira version is not supported" do
+    let(:administrator) { true }
+    let(:server_info) { { "serverTitle" => "Jira", "version" => "12.0.0" } }
+
+    it "stores the warning and fetches the instance meta data anyway" do
+      perform_job
+
+      expect(jira.latest_health_report.group("server")["version_supported"]).to be_warning
+      expect(jira_import.reload.current_state).to eq("instance_meta_done")
+    end
+  end
+
   context "when the Jira user is not an administrator" do
     let(:administrator) { false }
 
@@ -81,17 +93,9 @@ RSpec.describe Import::JiraInstanceMetaDataJob do
 
       expect(jira_import.reload.current_state).to eq("instance_meta_error")
       expect(jira_import.last_transition.metadata["error"]).to eq(I18n.t(:"admin.jira.run.connection_check_error"))
+      expect(jira_import.last_transition.metadata).not_to have_key("error_backtrace")
       expect(jira_client).not_to have_received(:projects)
       expect(jira_import.available).to be_empty
-    end
-
-    it "records the failed connection check on the run, without a backtrace" do
-      perform_job
-
-      report = jira.latest_health_report
-      expect(report.group("authorization")["administrator"]).to be_failure
-      expect(jira_import.reload.last_transition.metadata).to include("failed_connection_check_id" => report.id)
-      expect(jira_import.last_transition.metadata).not_to have_key("error_backtrace")
     end
   end
 

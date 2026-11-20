@@ -11,7 +11,7 @@ Actions to take in Jira, in OpenProject and in your migration planning before yo
 
 ## Jira/instance-side prerequisites
 
-- [ ] Confirm your Jira instance is Server/Data Center version 8.x, 9.x, 10.x or 11.x. Cloud is not supported at the moment — plan a different route if you're on Cloud.
+- [ ] Confirm your Jira instance is Server/Data Center version 8.x, 9.x, 10.x or 11.x. On Jira 8, use basic auth instead of a personal access token. Other versions are not supported, but may still work: the Jira Migrator warns you and lets you continue at your own risk. Cloud is not supported at the moment — plan a different route if you're on Cloud.
 - [ ] If your organization logs into OpenProject via LDAP, check whether Jira usernames match your LDAP login names. If they do, flag this to your team now — those users' real LDAP passwords will stop working right after migration until an admin fixes each affected account (see [Post-Migration checklist](../post-migration-checklist/)). Not relevant if you only use local/password accounts.
 - [ ] Sync your external user directories (LDAP/AD) in Jira before migrating (Administration → User Management → User Directories → Sync). The migrator reads user data (email, display name) directly from Jira at the time of migration — if the sync is stale, that stale data gets carried over.
 - [ ] Run Jira's built-in **Database Integrity Checker** (Administration → System → Integrity Checker) and/or the **Integrity Check for Jira** Marketplace app before migrating. These catch broken/orphaned data (e.g. required fields with no value, dangling references) that could otherwise cause unexpected errors partway through the import.
