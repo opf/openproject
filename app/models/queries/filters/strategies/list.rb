@@ -53,11 +53,17 @@ module Queries::Filters::Strategies
     end
 
     def valid_values!
-      filter.values &= (allowed_values.map { |_, v| v.to_s } + ["-1"])
+      filter.values &= allowed_ids
     end
 
     def non_valid_values?
-      (values.compact_blank & (allowed_values.map { |_, v| v.to_s } + ["-1"])) != values.compact_blank
+      (values.compact_blank & allowed_ids) != values.compact_blank
+    end
+
+    private
+
+    def allowed_ids
+      allowed_values.map { |_, v| v.to_s } + ["-1"]
     end
   end
 end

@@ -91,6 +91,10 @@ module Projects::Identifier
       where("LOWER(slug) = ?", value.downcase)
     end
 
+    def for_identifiers(values)
+      where("LOWER(slug) IN (?)", values.map(&:downcase))
+    end
+
     # Excludes the given project's own slug history. No-op when project is nil.
     def excluding_project(project)
       project ? where.not(sluggable_id: project) : self
@@ -106,6 +110,20 @@ module Projects::Identifier
   class_methods do
     def classic_identifier_format?(str)
       str.match?(CLASSIC_FORMAT)
+    end
+
+    def by_identifiers_ci(identifiers)
+      where("LOWER(identifier) IN (?)", identifiers.map(&:downcase))
+    end
+
+    # Maps each supplied identifier to the id of the project that holds it now or
+    # held it before, ignoring case. Identifiers that match no project are left out.
+    def ids_by_identifier(identifiers)
+      ids = ids_by_current_identifier(identifiers)
+      former = identifiers.reject { ids.key?(it.downcase) }
+      ids.merge!(ids_by_former_identifier(former)) if former.any?
+
+      identifiers.index_with { ids[it.downcase] }.compact
     end
 
     def with_non_classic_identifier
@@ -133,6 +151,22 @@ module Projects::Identifier
       else
         ProjectIdentifiers::ClassicIdentifierSuggestionGenerator.new.suggest_identifier(name)
       end
+    end
+
+    private
+
+    def ids_by_current_identifier(identifiers)
+      by_identifiers_ci(identifiers)
+        .pluck(:identifier, :id)
+        .to_h { |identifier, id| [identifier.downcase, id] }
+    end
+
+    def ids_by_former_identifier(identifiers)
+      identifier_slugs
+        .for_identifiers(identifiers)
+        .where(sluggable_id: select(:id))
+        .pluck(:slug, :sluggable_id)
+        .to_h { |slug, id| [slug.downcase, id] }
     end
   end
 
