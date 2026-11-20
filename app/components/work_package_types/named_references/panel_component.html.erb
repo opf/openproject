@@ -35,7 +35,7 @@ See COPYRIGHT and LICENSE files for more details.
       test_selector: test_selector("panel")
     )
   ) do |panel|
-    panel.with_show_button(scheme: :secondary, test_selector: test_selector("selector")) do |button|
+    panel.with_show_button(scheme: :secondary, classes: "op-workflow-reference-button", test_selector: test_selector("selector")) do |button|
       button.with_trailing_visual_icon(icon: :"triangle-down")
 
       parts = [render(Primer::Beta::Text.new(color: :muted)) { prefix }, name]
