@@ -58,20 +58,14 @@ RSpec.describe OpenProject::Avatars::InitialsSvg do
   end
 
   describe ".hue_for" do
-    it "matches the frontend's valueHash in colors.service.ts, including its quirks" do
-      # Expected hues taken from running colors.service.ts#valueHash in Node for the same
-      # inputs. JS's `<<` wraps to a 32-bit signed integer (Ruby's Integer does not overflow
-      # on its own), and JS's charCodeAt walks UTF-16 code units, splitting characters outside
-      # the Basic Multilingual Plane into surrogate pairs (Ruby's each_char walks codepoints).
-      # hue_for must emulate both quirks so client and server land on the same hue modulo 360
-      # (hsl() hue is cyclic, so e.g. a JS result of -69 and a Ruby result of 291 match).
-      {
-        "42John Doe" => 291,
-        "123Jane Smith" => 243,
-        "500Alice Wonderland Something Long" => 335,
-        "28😋Robin Example" => 288
-      }.each do |value, expected_hue|
-        expect(described_class.hue_for(value)).to eq expected_hue
+    # Shared with frontend/src/app/shared/components/colors/colors.service.spec.ts so both
+    # implementations are checked against the exact same inputs/outputs and can't drift apart
+    # unnoticed again.
+    let(:fixtures) { JSON.parse(Rails.root.join("modules/avatars/spec/fixtures/avatar_hue_parity.json").read) }
+
+    it "matches the frontend's valueHash in colors.service.ts" do
+      fixtures.each do |fixture|
+        expect(described_class.hue_for(fixture["value"])).to eq fixture["expectedHue"]
       end
     end
   end
