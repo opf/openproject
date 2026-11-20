@@ -109,7 +109,7 @@ export default class ExpandableTextController extends Controller<HTMLElement> {
 
     let truncated:boolean;
     if (this.modeValue === 'multi_line') {
-      truncated = this.truncateTarget.scrollHeight > this.truncateTarget.clientHeight;
+      truncated = this.truncateTarget.scrollHeight - this.truncateTarget.clientHeight > this.overhangTolerance;
     } else {
       const truncateText = this.truncateTarget.querySelector<HTMLElement>('.Truncate-text')!;
       truncated = truncateText.scrollWidth > truncateText.clientWidth;
@@ -122,6 +122,12 @@ export default class ExpandableTextController extends Controller<HTMLElement> {
     } else {
       this.expanderTarget.hidden = !truncated;
     }
+  }
+
+  // Calculate a tolerance since some fonts have glyphs that exceed the line box (e.g. Noto Sans on Linux),
+  // causing overflow of the clamped lines by a pixel or so even when nothing is clamped away.
+  private get overhangTolerance():number {
+    return parseFloat(getComputedStyle(this.truncateTarget).fontSize) / 2;
   }
 
   private expanderClicked() {
