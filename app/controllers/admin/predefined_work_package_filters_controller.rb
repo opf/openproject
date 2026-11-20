@@ -37,7 +37,7 @@ class Admin::PredefinedWorkPackageFiltersController < ApplicationController
   menu_item :predefined_work_package_filters
 
   before_action :authorize_global
-  before_action :find_filter, except: %i[index new create]
+  before_action :find_filter, except: %i[index new create query_summary]
 
   def index
     @filters = PredefinedWorkPackageFilter.available.ordered
@@ -60,6 +60,19 @@ class Admin::PredefinedWorkPackageFiltersController < ApplicationController
 
   def update
     save_filter
+  end
+
+  def query_summary
+    filter = PredefinedWorkPackageFilter.new(query_properties: parse_query_properties(params.expect(:query_props)))
+    query = WorkPackages::PredefinedFilterQuery.new(filter).build
+
+    render turbo_stream: turbo_stream.update(
+      "predefined-filter-query-summary",
+      partial: "query_summary",
+      locals: { query: }
+    )
+  rescue JSON::ParserError, KeyError, TypeError
+    head :bad_request
   end
 
   def destroy
@@ -125,11 +138,16 @@ class Admin::PredefinedWorkPackageFiltersController < ApplicationController
     payload = params[:query_props]
     return @filter.query_properties if payload.blank?
 
+    properties = parse_query_properties(payload)
+    defaults = WorkPackages::PredefinedFilterQuery.new(@filter).editor_properties
+    properties == defaults ? @filter.query_properties : properties
+  end
+
+  def parse_query_properties(payload)
     properties = JSON.parse(payload)
     raise JSON::ParserError unless valid_editor_properties?(properties)
 
-    defaults = WorkPackages::PredefinedFilterQuery.new(@filter).editor_properties
-    properties == defaults ? @filter.query_properties : properties
+    properties
   end
 
   def valid_editor_properties?(properties)

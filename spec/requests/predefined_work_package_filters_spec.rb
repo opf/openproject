@@ -40,10 +40,13 @@ RSpec.describe "Predefined work package filters", :skip_csrf, type: :rails_reque
 
   it "gives administrators access to the list and project selection", :aggregate_failures do
     login_as(admin)
+    create(:status)
+    filter.update!(query_properties: { "f" => [{ "n" => "status", "o" => "o", "v" => [] }] })
 
     get admin_predefined_work_package_filters_path
     expect(response).to have_http_status(:ok)
-    expect(response.body).to include("Artefacts")
+    row = response.parsed_body.at_css("#predefined_work_package_filter_#{filter.id}")
+    expect(row.text).to include("Artefacts", "Status open (to-do + in progress)")
 
     get projects_admin_predefined_work_package_filter_path(filter)
     expect(response).to have_http_status(:ok)
@@ -65,7 +68,7 @@ RSpec.describe "Predefined work package filters", :skip_csrf, type: :rails_reque
     get new_admin_predefined_work_package_filter_path
     expect(response).to have_http_status(:ok)
 
-    expect(response.body).to include("opce-editable-query-props")
+    expect(response.parsed_body.at_css('input[name="query_props"]')).to be_present
 
     post admin_predefined_work_package_filters_path,
          params: {
@@ -89,6 +92,20 @@ RSpec.describe "Predefined work package filters", :skip_csrf, type: :rails_reque
     expect(PredefinedWorkPackageFilter.exists?(created.id)).to be false
   end
 
+  it "previews filter conditions without saving the filter" do
+    login_as(admin)
+    status = create(:status, name: "Ready for delivery")
+    original_properties = filter.query_properties
+
+    post query_summary_admin_predefined_work_package_filters_path,
+         params: { query_props: { f: [{ n: "status", o: "=", v: [status.id.to_s] }] }.to_json },
+         headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include('target="predefined-filter-query-summary"', "Ready for delivery")
+    expect(filter.reload.query_properties).to eq(original_properties)
+  end
+
   it "lets project editors update activation for their project" do
     editor = create(:user, member_with_permissions: { project => %i[view_project edit_project] })
     login_as(editor)
@@ -107,6 +124,9 @@ RSpec.describe "Predefined work package filters", :skip_csrf, type: :rails_reque
     login_as(create(:user))
 
     patch admin_predefined_work_package_filter_path(filter)
+    expect(response).to have_http_status(:forbidden)
+
+    post query_summary_admin_predefined_work_package_filters_path, params: { query_props: { f: [] }.to_json }
     expect(response).to have_http_status(:forbidden)
 
     patch project_settings_work_packages_filters_path(project), params: { filters: { filter.id => "1" } }

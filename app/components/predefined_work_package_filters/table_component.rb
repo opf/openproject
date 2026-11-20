@@ -29,10 +29,12 @@
 
 module PredefinedWorkPackageFilters
   class TableComponent < OpPrimer::BorderBoxTableComponent
-    columns :name
+    columns :name, :configured_filters
     main_column :name
 
-    def headers = [[:name, { caption: t(:label_name) }]]
+    def headers
+      [[:name, { caption: t(:label_name) }], [:configured_filters, { caption: t(:label_filter_plural) }]]
+    end
 
     def has_actions? = true
 

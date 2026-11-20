@@ -59,6 +59,17 @@ module PredefinedWorkPackageFilters
       end
     end
 
+    def configured_filters
+      query = WorkPackages::PredefinedFilterQuery.new(filter).build
+      phrases = Queries::FilterSummary.new(query.filters, show_unavailable: true).phrases
+
+      return render(Primer::Beta::Text.new(color: :subtle)) { t(:label_none).upcase_first } if phrases.empty?
+
+      flex_layout do |layout|
+        phrases.each { |phrase| layout.with_row { phrase } }
+      end
+    end
+
     def button_links = [action_menu]
 
     private

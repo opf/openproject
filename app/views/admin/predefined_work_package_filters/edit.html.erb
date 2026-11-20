@@ -34,10 +34,38 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= primer_form_with(model: @filter, url: @filter.persisted? ? admin_predefined_work_package_filter_path(@filter) : admin_predefined_work_package_filters_path) do |f| %>
   <%= render(PredefinedWorkPackageFilters::ConfigurationForm.new(f)) %>
-  <%= angular_component_tag(
-        "opce-editable-query-props",
-        data: { name: "query_props", query: @query_editor_properties.to_json, "url-params": "true" }
-      ) %>
+  <%=
+    render(
+      Primer::Beta::BorderBox.new(
+        mt: 3,
+        data: {
+          controller: "admin--predefined-filter-query",
+          admin__predefined_filter_query_summary_url_value: query_summary_admin_predefined_work_package_filters_path
+        }
+      )
+    ) do |box|
+  %>
+    <% box.with_header(display: :flex, justify_content: :space_between, align_items: :center) do %>
+      <%= hidden_field_tag :query_props, @query_editor_properties.to_json, data: { admin__predefined_filter_query_target: "input" } %>
+      <%= render(Primer::Beta::Text.new(font_weight: :bold)) { t(:label_configuration).upcase_first } %>
+      <%=
+        render(
+          Primer::Beta::IconButton.new(
+            icon: :pencil,
+            scheme: :invisible,
+            size: :small,
+            type: :button,
+            tooltip_direction: :w,
+            data: { action: "admin--predefined-filter-query#edit" },
+            "aria-label": t("types.edit.form_configuration.edit_query")
+          )
+        )
+      %>
+    <% end %>
+    <% box.with_body(id: "predefined-filter-query-summary") do %>
+      <%= render "query_summary", query: @query %>
+    <% end %>
+  <% end %>
   <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary, mt: 3)) { t(:button_save) } %>
 <% end %>
 
