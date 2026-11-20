@@ -192,7 +192,7 @@ The header only reaches the browser that sends the logout request. Data stays in
 - The user logs out in another application that shares a single sign-on session, such as openDesk, and OpenProject receives a back-channel logout.
 - The user closes the browser without logging out.
 
-Collaborative documents add an offline copy to site storage. When a logged-in user opens a collaborative document, the browser stores its content in IndexedDB, including edits not yet sent to the server. The copy is kept per user account, is not encrypted and does not expire. It is removed on logout, with the limits described above, and while the document is open, within a few minutes of the session ending or the user losing access; unsent edits are then lost. Otherwise it stays until the site data is cleared.
+Collaborative documents add an offline copy to site storage. When a logged-in user opens a collaborative document, the browser stores its content in IndexedDB, including edits not yet sent to the server. The copy is kept per user account, is not encrypted and does not expire. It is removed on logout, with the limits described above, and while the document is open, after the session ends or the user loses access: within a few minutes if the browser can reach the web server, otherwise as soon as it can again; unsent edits are then lost. Otherwise it stays until the site data is cleared.
 
 On shared or unmanaged devices, configure the browser to delete cached files and site data when it closes. On managed devices, use these browser policies:
 
