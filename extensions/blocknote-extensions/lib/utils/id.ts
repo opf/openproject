@@ -3,5 +3,5 @@ export function formatWorkPackageId(displayId:string):string {
 }
 
 export function projectIdFromHref(href:string | undefined):string | undefined {
-  return href ? (/\/api\/v3\/projects\/([^/?#]+)/.exec(href))?.[1] : undefined;
+  return href ? (/\/api\/v3\/(?:projects|programs|portfolios|workspaces)\/([^/?#]+)/.exec(href))?.[1] : undefined;
 }
