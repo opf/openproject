@@ -151,6 +151,7 @@ class Journal < ApplicationRecord
   has_many :project_phase_journals, class_name: "Journal::ProjectPhaseJournal", dependent: :delete_all
   has_many :storable_journals, class_name: "Journal::StorableJournal", dependent: :delete_all
   has_many :label_journals, class_name: "Journal::LabelJournal", dependent: :delete_all
+  has_many :external_link_journals, class_name: "Journal::ExternalLinkJournal", dependent: :delete_all
   has_many :work_package_version_journals, class_name: "Journal::WorkPackageVersionJournal", dependent: :delete_all
   # Row lifecycle is owned by work_package_version_journals above.
   # rubocop:disable Rails/HasManyOrHasOneDependent
