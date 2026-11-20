@@ -57,7 +57,10 @@ export class DocumentCache {
 
     const opening = DocumentCache.connection(persistence);
     opening
-      .then((db) => DocumentCache.detachOnVersionChange(persistence, db))
+      .then((db) => {
+        DocumentCache.detachOnVersionChange(persistence, db);
+        DocumentCache.detachOnAbortedTransaction(persistence, db);
+      })
       .catch(() => {
         // A failed open is reported through the readiness race below.
       });
@@ -178,6 +181,17 @@ export class DocumentCache {
     // eslint-disable-next-line no-underscore-dangle
     persistence._storeUpdate = guarded;
     doc.on('update', guarded);
+  }
+
+  /**
+   * Saves run in the background, so a failed one (quota exceeded, aborted transaction) cannot be
+   * caught where it is started. After any aborted transaction the stored copy may be missing an
+   * edit, so saving stops for this page. The stored copy is kept, not deleted.
+   */
+  private static detachOnAbortedTransaction(persistence:IndexeddbPersistence, db:IDBDatabase):void {
+    db.addEventListener('abort', () => {
+      void DocumentCache.detach(persistence);
+    });
   }
 
   private static async detach(persistence:IndexeddbPersistence):Promise<void> {

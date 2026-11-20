@@ -148,6 +148,25 @@ describe('document cache', () => {
     expect(listener).toHaveBeenCalledTimes(2);
   });
 
+  it('stops saving, but keeps the doc updating, once a write to the database fails', async () => {
+    const doc = new Y.Doc();
+    const cache = await track(doc);
+    const { db } = (cache as unknown as { persistence:{ db:IDBDatabase } }).persistence;
+    const listener = vi.fn();
+    doc.on('update', listener);
+    doc.getText('t').insert(0, 'saved');
+
+    const aborted = new Promise((resolve) => db.addEventListener('abort', resolve, { once: true }));
+    db.transaction('updates', 'readwrite').abort();
+    await aborted;
+    const storedBefore = await storedUpdateCount(`${dbPrefix}7:${documentName}`);
+
+    expect(() => doc.getText('t').insert(0, 'not saved')).not.toThrow();
+
+    expect(listener).toHaveBeenCalledTimes(2);
+    expect(await storedUpdateCount(`${dbPrefix}7:${documentName}`)).toBe(storedBefore);
+  });
+
   it('leaves nothing attached to the doc when the open times out', async () => {
     const realOpen = indexedDB.open.bind(indexedDB);
     const hung = {} as IDBOpenDBRequest;
