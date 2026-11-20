@@ -2,7 +2,7 @@
 # metadata file that makes public software easily discoverable.
 # More info at https://github.com/italia/publiccode.yml
 
-publiccodeYmlVersion: '0.2'
+publiccodeYmlVersion: '0'
 name: OpenProject
 applicationSuite: openDesk
 url: 'https://github.com/opf/openproject'
@@ -51,10 +51,12 @@ maintenance:
     - name: OpenProject GmbH
       email: sales@openproject.com
       phone: '+4928877707'
+organisation:
+  uri: 'https://www.openproject.org'
+  name: OpenProject GmbH
 legal:
   license: GPL-3.0-or-later
   mainCopyrightOwner: OpenProject GmbH
-  repoOwner: OpenProject GmbH
 localisation:
   localisationReady: true
   availableLanguages:
@@ -107,14 +109,18 @@ description:
     shortDescription: Web-based project- and project portfolio management software
     screenshots:
       - screenshots/opencode_openproject_1_homepage.png
-      - screenshots/opencode_openproject_2_gantt_chart.png
-      - screenshots/opencode_openproject_3_work_package_detailed_view.png
-      - screenshots/opencode_openproject_4_notifications_wp_reminder.png
-      - screenshots/opencode_openproject_5_meetings.png
+      - screenshots/opencode_openproject_2_portfolios.png
+      - screenshots/opencode_openproject_3_project_home.png
+      - screenshots/opencode_openproject_4_gantt_chart.png
+      - screenshots/opencode_openproject_5_real_time_collaboration.png
       - screenshots/opencode_openproject_6_teamplanner.png
-      - screenshots/opencode_openproject_7_gitlab-integration.png
-      - screenshots/opencode_openproject_8_sharepoint_integration_details.png
-      - screenshots/opencode_openproject_9_overview_of_file_storages.png
+      - screenshots/opencode_openproject_7_notifications_wp_reminder.png
+      - screenshots/opencode_openproject_8_work_package_detailed_view.png
+      - screenshots/opencode_openproject_9_boards.png
+      - screenshots/opencode_openproject_10_meetings.png
+      - screenshots/opencode_openproject_11_gitlab-integration.png
+      - screenshots/opencode_openproject_12_sharepoint_integration_details.png
+      - screenshots/opencode_openproject_13_overview_of_file_storages.png
     features:
       - Project planning and scheduling
       - Task management
@@ -129,7 +135,6 @@ description:
       - Integrations into Nextcloud and OneDrive/SharePoint
       - Integrations into GitHub and GitLab
     longDescription: >
-
       OpenProject is a web-based project management solution specifically
       tailored to the needs of public administration. It supports project
       planning, task management, Agile workflows, time tracking, and project
@@ -146,22 +151,25 @@ description:
       OpenProject is part of the open-source office and collaboration suite
       [openDesk](https://www.opendesk.eu).
 
-    genericName: OpenProject
   de:
     localisedName: OpenProject
     documentation: 'https://www.openproject.org/de/docs/'
     apiDocumentation: 'https://www.openproject.org/de/docs/api'
-    shortDescription: Web-basierte Projekt-Management und Projektportfolio-Mangement Software
+    shortDescription: Webbasierte Projektmanagement- und Projektportfoliomanagement-Software
     screenshots:
       - screenshots/opencode_openproject_1_homepage.png
-      - screenshots/opencode_openproject_2_gantt_chart.png
-      - screenshots/opencode_openproject_3_work_package_detailed_view.png
-      - screenshots/opencode_openproject_4_notifications_wp_reminder.png
-      - screenshots/opencode_openproject_5_meetings.png
+      - screenshots/opencode_openproject_2_portfolios.png
+      - screenshots/opencode_openproject_3_project_home.png
+      - screenshots/opencode_openproject_4_gantt_chart.png
+      - screenshots/opencode_openproject_5_real_time_collaboration.png
       - screenshots/opencode_openproject_6_teamplanner.png
-      - screenshots/opencode_openproject_7_gitlab-integration.png
-      - screenshots/opencode_openproject_8_sharepoint_integration_details.png
-      - screenshots/opencode_openproject_9_overview_of_file_storages.png
+      - screenshots/opencode_openproject_7_notifications_wp_reminder.png
+      - screenshots/opencode_openproject_8_work_package_detailed_view.png
+      - screenshots/opencode_openproject_9_boards.png
+      - screenshots/opencode_openproject_10_meetings.png
+      - screenshots/opencode_openproject_11_gitlab-integration.png
+      - screenshots/opencode_openproject_12_sharepoint_integration_details.png
+      - screenshots/opencode_openproject_13_overview_of_file_storages.png
     features:
       - Projektplanung
       - Aufgabenverwaltung
@@ -170,18 +178,17 @@ description:
       - Zeit- und Kostenverfolgung
       - Gantt-Diagramme
       - Wiki
-      - Projekt-Statusbereichte
+      - Projekt-Statusberichte
       - Workflows
       - Planungsvergleiche und Baselines
       - Integration in Nextcloud sowie in OneDrive/SharePoint
       - Integration in GitHub und in GitLab
     longDescription: >
-
       OpenProject ist eine web-basierte Projektmanagement-Lösung, welche speziell auf die Anforderungen der öffentlichen Verwaltung zugeschnitten ist. Sie unterstützt Projektplanung, Aufgabenmanagement, agile Workflows, Zeiterfassung und Projektportfolio-Management.
 
       Die Software kann in der eigenen Infrastruktur betrieben werden, sodass einsetzende Organisationen die volle Kontrolle über ihre Daten behalten.
       
-      Zusätzlich bietet der Hersteller in ihrer [Enterprise Cloud](https://www.openproject.org/de/enterprise-edition) ein Hosting in einem Rechenzentrum innerhalb der Europäischen Union an, das gemäß der Datenschutz-Grundverordnung (DS-GVO) erfolgt.
+      Zusätzlich bietet der Hersteller in seiner [Enterprise Cloud](https://www.openproject.org/de/enterprise-edition) ein Hosting in einem Rechenzentrum innerhalb der Europäischen Union an, das gemäß der Datenschutz-Grundverordnung (DS-GVO) erfolgt.
 
       OpenProject entspricht den Anforderungen des [BSI
       IT-Grundschutzes](https://www.bsi.bund.de/DE/Themen/Unternehmen-und-Organisationen/Standards-und-Zertifizierung/IT-Grundschutz/it-grundschutz_node.html)
