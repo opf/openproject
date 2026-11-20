@@ -203,6 +203,11 @@ en:
         subscription: "Subscription"
       enterprise_trial:
         company: "Company"
+      external_link:
+        application_type: "Application type"
+        description: "Description"
+        title: "Title"
+        url: "URL"
       favorite:
         favorited: "Item"
       form_configuration:
@@ -4460,6 +4465,7 @@ en:
   label_experimental: "Experimental"
   label_export_plural: "Exports"
   label_export_to: "Also available in:"
+  label_external_link_attribute: "%{attribute} of external link %{name}"
   label_external_links: "External links"
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
@@ -7477,6 +7483,8 @@ en:
   text_journal_deleted_no_detail: "%{label} deleted"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} deleted (%{link})"
+  text_journal_external_link_added: "External link %{name} added"
+  text_journal_external_link_removed: "External link %{name} removed"
   text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
   text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
   text_journal_label_value: "%{label} %{value}"

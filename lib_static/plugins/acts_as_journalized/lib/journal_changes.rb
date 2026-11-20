@@ -49,6 +49,7 @@ module JournalChanges
       get_observed_in_versions_changes,
       get_labels_changes,
       get_file_links_changes,
+      get_external_links_changes,
       get_participants_changes,
       get_agenda_items_changes
     ]
@@ -173,6 +174,12 @@ module JournalChanges
       predecessor,
       storable_journals
     )
+  end
+
+  def get_external_links_changes
+    return unless journable.respond_to?(:external_links)
+
+    ::Acts::Journalized::ExternalLinkJournalDiffer.new(predecessor, self).changes
   end
 
   def get_agenda_items_changes

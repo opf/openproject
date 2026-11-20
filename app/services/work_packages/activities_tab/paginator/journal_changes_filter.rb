@@ -36,6 +36,7 @@
 #   * File link changes (compares storages_file_links_journals with predecessor)
 #   * Target/observed-in version changes (compares work_package_version_journals with predecessor)
 #   * Label changes (compares label_journals with predecessor)
+#   * External link changes (compares external_link_journals with predecessor)
 #   * Cause metadata (system-triggered changes)
 #   * Attribute/data changes (compares work_package_journals columns with immediate predecessor)
 #
@@ -89,6 +90,7 @@ class WorkPackages::ActivitiesTab::Paginator::JournalChangesFilter
         OR EXISTS (#{file_link_changes_condition_sql})
         OR EXISTS (#{version_changes_condition_sql})
         OR EXISTS (#{label_changes_condition_sql})
+        OR EXISTS (#{external_link_changes_condition_sql})
       SQL
     end
 
@@ -143,6 +145,14 @@ class WorkPackages::ActivitiesTab::Paginator::JournalChangesFilter
         table: Journal::LabelJournal.table_name,
         join_columns: ["label_id"],
         value_columns: []
+      )
+    end
+
+    def external_link_changes_condition_sql
+      association_changes_condition_sql(
+        table: Journal::ExternalLinkJournal.table_name,
+        join_columns: ["external_link_id"],
+        value_columns: Journal::ExternalLinkJournal.journaled_attributes
       )
     end
 

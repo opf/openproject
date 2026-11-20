@@ -121,6 +121,7 @@ module WorkPackage::Journalized
     register_journal_formatted_fields "ignore_non_working_days", formatter_key: :ignore_non_working_days
     register_journal_formatted_fields "cause", formatter_key: :cause
     register_journal_formatted_fields /\Afile_links_?\d+\z/, formatter_key: :file_link
+    register_journal_formatted_fields /\Aexternal_links_\d+_\w+\z/, formatter_key: :external_link
     register_journal_formatted_fields "project_phase_definition_id",
                                       formatter_key: :project_phase_definition,
                                       view_permission: :view_project_phases

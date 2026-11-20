@@ -54,6 +54,7 @@ class Journal < ApplicationRecord
   register_journal_formatter OpenProject::JournalFormatter::CustomComment
   register_journal_formatter OpenProject::JournalFormatter::CustomField
   register_journal_formatter OpenProject::JournalFormatter::Diff
+  register_journal_formatter OpenProject::JournalFormatter::ExternalLink
   register_journal_formatter OpenProject::JournalFormatter::FileLink
   register_journal_formatter OpenProject::JournalFormatter::IgnoreNonWorkingDays
   register_journal_formatter OpenProject::JournalFormatter::Labels

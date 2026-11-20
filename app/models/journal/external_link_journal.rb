@@ -32,4 +32,6 @@ class Journal::ExternalLinkJournal < Journal::AssociatedJournal
   self.table_name = "external_link_journals"
 
   belongs_to :external_link
+
+  def self.journaled_attributes = column_names.map(&:to_sym) - %i[id journal_id external_link_id]
 end
