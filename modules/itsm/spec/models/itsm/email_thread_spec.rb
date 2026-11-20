@@ -98,6 +98,18 @@ RSpec.describe ITSM::EmailThread do
     end
   end
 
+  describe "#participant?" do
+    let(:thread) do
+      build(:itsm_email_thread, requester_email: "jane@customer.example", recipients: ["colleague@customer.example"])
+    end
+
+    it "is true for the requester and the recipients only" do
+      expect(thread.participant?("jane@customer.example")).to be(true)
+      expect(thread.participant?("colleague@customer.example")).to be(true)
+      expect(thread.participant?("stranger@elsewhere.example")).to be(false)
+    end
+  end
+
   describe "#inbound_message_ids" do
     let(:thread) { create(:itsm_email_thread, work_package:) }
 

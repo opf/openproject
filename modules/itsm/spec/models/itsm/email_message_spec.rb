@@ -57,6 +57,16 @@ RSpec.describe ITSM::EmailMessage do
     end
   end
 
+  describe ".referring_to" do
+    let!(:reply) { create(:itsm_email_message, thread:, in_reply_to: "first@customer.example") }
+    let!(:later_reply) { create(:itsm_email_message, thread:, referenced_message_ids: %w[first@customer.example]) }
+    let!(:other) { create(:itsm_email_message, thread:, in_reply_to: "other@customer.example") }
+
+    it "lists the emails replying to or referencing that Message-ID" do
+      expect(described_class.referring_to("first@customer.example")).to contain_exactly(reply, later_reply)
+    end
+  end
+
   describe ".created_since" do
     let!(:recent) { create(:itsm_email_message, thread:, created_at: 1.hour.ago) }
     let!(:old) { create(:itsm_email_message, thread:, created_at: 2.days.ago) }

@@ -43,5 +43,7 @@ module ITSM
     def unsent_confirmation = messages.outbound.where.not(status: :sent).order(:id).first_or_initialize
 
     def inbound_message_ids = messages.inbound.order(:created_at, :id).pluck(:message_id)
+
+    def participant?(address) = [requester_email, *recipients].include?(address)
   end
 end

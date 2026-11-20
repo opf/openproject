@@ -51,7 +51,7 @@ module ITSM
         "#{fence}\n#{content}\n#{fence}"
       end
 
-      private_class_method :subject_line, :fenced
+      private_class_method :subject_line
     end
   end
 end
