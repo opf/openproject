@@ -40,7 +40,7 @@ class WorkPackagesController < ApplicationController
   UPDATED_EVENT_NAME = "op-dispatched:work-packages:updated"
 
   accept_rss_key_auth :index, :show
-  accept_api_key_auth :show
+  accept_api_key_auth :show, scope: OpenProject::Authentication::Scope::API_V3
 
   before_action :authorize_on_work_package,
                 :project, only: %i[show generate_pdf_dialog generate_pdf]
@@ -169,7 +169,7 @@ class WorkPackagesController < ApplicationController
     send_data(export.content, type: export.mime_type, filename: export.title)
   rescue ::Exports::ExportError => e
     flash[:error] = e.message
-    redirect_back(fallback_location: work_package_path(work_package))
+    redirect_back_or_to(work_package_path(work_package))
   end
 
   def work_package_exporter
@@ -236,7 +236,7 @@ class WorkPackagesController < ApplicationController
     send_data(export.content, type: export.mime_type, filename: export.title)
   rescue ::Exports::ExportError => e
     flash[:error] = e.message
-    redirect_back(fallback_location: work_package_path(work_package))
+    redirect_back_or_to(work_package_path(work_package))
   end
 
   def render_markdown_export

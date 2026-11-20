@@ -29,6 +29,7 @@
 
 module Projects
   class DeleteContract < ::DeleteContract
-    delete_permission :admin
+    # Archived projects cannot be elevated into, so deleting them stays with any admin.
+    delete_permission -> { model.archived? ? user.active_admin? : user.admin_in_project?(model) }
   end
 end

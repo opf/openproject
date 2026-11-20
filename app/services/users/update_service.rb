@@ -71,5 +71,13 @@ module Users
     def revoke_sessions
       ::Users::RevokePasswordSessionsService.call!(user: model, session: state.session)
     end
+
+    def after_persist(call)
+      if model.saved_change_to_admin?(from: true, to: false)
+        ::AdminElevationSessions::EndAllService.new(user: model).call
+      end
+
+      super
+    end
   end
 end
