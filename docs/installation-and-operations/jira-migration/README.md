@@ -321,6 +321,19 @@ The run history provides a chronological overview of changes to the import run. 
 
 ![History of a Jira import run showing status changes and metadata](openproject_admin_import_jira_import_run_history.png)
 
+### View import logs
+
+Import runs are processed by background workers. See [Displaying and filtering log files](../operation/monitoring/#displaying-and-filtering-log-files) to find their logs.
+
+Each log line of an import run is tagged with `jira_import_id`, the last number in the URL of the run's page. Filter by it to follow one run, for example `jira_import_id:42`. The run ends with `Import finished in <duration>` or `Import failed in stage <number> after <duration>`.
+
+Log levels:
+
+- `error`: what made the import fail, including the issue or object that caused it
+- `warn`: data that was skipped or changed while the import continued
+- `info` (default): import progress, such as each stage and job starting and finishing
+- `debug`: every imported object. This produces a lot of output, so [raise the log level](../operation/monitoring/#raising-the-log-level) to `debug` only while investigating.
+
 
 ## Best practices for Jira migrations
 

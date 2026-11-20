@@ -525,8 +525,10 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
             .to receive(:in_state?).with(:import_aborting).and_return(true)
         end
 
-        it "stops iterating and reports the abortion" do
+        it "reports the abortion and still updates the project work package sequence counter" do
           expect { create_work_packages }.to raise_error(Import::ProgressableJob::AbortionError)
+
+          expect(Project.find_by!(identifier: jira_project_key).wp_sequence_counter).to eq(6)
         end
       end
 

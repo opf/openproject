@@ -30,7 +30,7 @@
 require "spec_helper"
 
 RSpec.describe Import::JiraInstanceMetaDataJob do
-  subject(:perform_job) { described_class.new.perform(jira_import.id) }
+  subject(:perform_job) { described_class.perform_now(jira_import.id) }
 
   shared_let(:author) { create(:admin) }
 
@@ -96,6 +96,19 @@ RSpec.describe Import::JiraInstanceMetaDataJob do
       expect(jira_import.last_transition.metadata).not_to have_key("error_backtrace")
       expect(jira_client).not_to have_received(:projects)
       expect(jira_import.available).to be_empty
+    end
+  end
+
+  context "when GoodJob's concurrency limit is exceeded" do
+    let(:administrator) { true }
+    let(:job) { described_class.new(jira_import.id) }
+
+    it "retries through GoodJob instead of failing the import" do
+      allow(job).to receive(:retry_job)
+
+      job.rescue_with_handler(GoodJob::ActiveJobExtensions::Concurrency::ConcurrencyExceededError.new)
+
+      expect(job).to have_received(:retry_job)
     end
   end
 end
