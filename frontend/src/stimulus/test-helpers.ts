@@ -29,6 +29,7 @@ import { Application, Controller } from '@hotwired/stimulus';
 import { type ControllerConstructor } from '@hotwired/stimulus/dist/types/core/controller';
 import { getQueriesForElement, queries, type BoundFunctions } from '@testing-library/dom';
 import { nextFrame } from 'core-common/testing/timing';
+import { onTestFinished } from 'vitest';
 
 export interface StimulusTestContext {
   application:Application;
@@ -113,4 +114,20 @@ export function createControllerInstance<T extends Controller>(
   ControllerClass:{ new (...args:unknown[]):T; prototype:T },
 ):T {
   return Object.create(ControllerClass.prototype) as T;
+}
+
+export function stubPluginContext(context:unknown):void {
+  installOpenProjectStub(() => Promise.resolve(context));
+}
+
+export function stubPendingPluginContext():(context:unknown) => void {
+  let resolveContext!:(context:unknown) => void;
+  installOpenProjectStub(() => new Promise((resolve) => { resolveContext = resolve; }));
+  return (context) => { resolveContext(context); };
+}
+
+function installOpenProjectStub(getPluginContext:() => Promise<unknown>):void {
+  const original = window.OpenProject;
+  window.OpenProject = { getPluginContext } as unknown as typeof window.OpenProject;
+  onTestFinished(() => { window.OpenProject = original; });
 }

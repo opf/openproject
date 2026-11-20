@@ -27,7 +27,7 @@
 
 import { vi, type Mock } from 'vitest';
 
-import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import { setupStimulusTest, type StimulusTestContext, stubPendingPluginContext, stubPluginContext } from 'core-stimulus/test-helpers';
 import type LazyPageControllerType from './lazy-page.controller';
 import type IndexController from './index.controller';
 
@@ -35,7 +35,6 @@ describe('Activities tab lazy page controller', () => {
   let ctx:StimulusTestContext;
   let LazyPageController:typeof LazyPageControllerType;
   let requestStream:Mock;
-  let originalOpenProject:typeof window.OpenProject;
 
   beforeAll(async () => {
     ({ default: LazyPageController } = await import('./lazy-page.controller'));
@@ -45,10 +44,7 @@ describe('Activities tab lazy page controller', () => {
     vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
 
     requestStream = vi.fn().mockResolvedValue({ html: '', headers: new Headers() });
-    originalOpenProject = window.OpenProject;
-    window.OpenProject = {
-      getPluginContext: () => Promise.resolve({ services: { turboRequests: { requestStream } } }),
-    } as unknown as typeof window.OpenProject;
+    stubPluginContext({ services: { turboRequests: { requestStream } } });
 
     ctx = await setupStimulusTest({
       controllers: { 'work-packages--activities-tab--lazy-page': LazyPageController },
@@ -58,7 +54,6 @@ describe('Activities tab lazy page controller', () => {
   afterEach(() => {
     vi.useRealTimers();
     ctx.dispose();
-    window.OpenProject = originalOpenProject;
     vi.restoreAllMocks();
   });
 
@@ -99,10 +94,7 @@ describe('Activities tab lazy page controller', () => {
   });
 
   it('does not load when disconnected before the context resolves', async () => {
-    let resolveContext!:(context:unknown) => void;
-    window.OpenProject = {
-      getPluginContext: () => new Promise((resolve) => { resolveContext = resolve; }),
-    } as unknown as typeof window.OpenProject;
+    const resolveContext = stubPendingPluginContext();
 
     const controller = await renderPage();
     const root = ctx.container.querySelector('[data-controller="work-packages--activities-tab--lazy-page"]')!;

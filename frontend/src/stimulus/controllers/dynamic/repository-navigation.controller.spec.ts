@@ -29,14 +29,13 @@ import { waitFor } from '@testing-library/dom';
 import { of } from 'rxjs';
 import { vi, type Mock } from 'vitest';
 
-import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import { setupStimulusTest, type StimulusTestContext, stubPendingPluginContext, stubPluginContext } from 'core-stimulus/test-helpers';
 import type RepositoryNavigationControllerType from './repository-navigation.controller';
 
 describe('Repository navigation controller', () => {
   let ctx:StimulusTestContext;
   let RepositoryNavigationController:typeof RepositoryNavigationControllerType;
   let get:Mock;
-  let originalOpenProject:typeof window.OpenProject;
 
   beforeAll(async () => {
     ({ default: RepositoryNavigationController } = await import('./repository-navigation.controller'));
@@ -44,10 +43,7 @@ describe('Repository navigation controller', () => {
 
   beforeEach(async () => {
     get = vi.fn().mockReturnValue(of('<div class="loaded-entry"></div>'));
-    originalOpenProject = window.OpenProject;
-    window.OpenProject = {
-      getPluginContext: () => Promise.resolve({ services: { http: { get } } }),
-    } as unknown as typeof window.OpenProject;
+    stubPluginContext({ services: { http: { get } } });
 
     ctx = await setupStimulusTest({
       controllers: { 'repository-navigation': RepositoryNavigationController },
@@ -56,7 +52,6 @@ describe('Repository navigation controller', () => {
 
   afterEach(() => {
     ctx.dispose();
-    window.OpenProject = originalOpenProject;
     vi.restoreAllMocks();
   });
 
@@ -137,10 +132,7 @@ describe('Repository navigation controller', () => {
   });
 
   it('does not load when disconnected before the context resolves', async () => {
-    let resolveContext!:(context:unknown) => void;
-    window.OpenProject = {
-      getPluginContext: () => new Promise((resolve) => { resolveContext = resolve; }),
-    } as unknown as typeof window.OpenProject;
+    const resolveContext = stubPendingPluginContext();
 
     const controller = await renderBrowser();
     const root = ctx.container.querySelector('[data-controller="repository-navigation"]')!;
