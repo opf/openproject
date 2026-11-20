@@ -38,18 +38,30 @@ module Projects
         end
 
         def tabs
-          [
-            {
+          tabs = []
+
+          if User.current.allowed_in_project?(:edit_project, @project)
+            tabs << {
+              name: :time_tracking,
+              path: helpers.project_settings_time_tracking_path(@project),
+              label: I18n.t("cost_types.settings.time_tracking.heading")
+            }
+          end
+
+          if User.current.allowed_in_project?(:manage_project_activities, @project)
+            tabs << {
               name: :time_entry_activities,
               path: helpers.project_settings_time_entry_activities_path(@project),
               label: I18n.t("cost_types.settings.time_entry_activities.heading")
-            },
-            {
+            }
+            tabs << {
               name: :cost_types,
               path: helpers.project_settings_cost_types_path(@project),
               label: I18n.t("cost_types.settings.cost_types.heading")
             }
-          ]
+          end
+
+          tabs
         end
 
         def page_title

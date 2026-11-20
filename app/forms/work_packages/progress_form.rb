@@ -71,8 +71,8 @@ class WorkPackages::ProgressForm < ApplicationForm
         hidden_touched_field(group, name: :estimated_hours)
       else
         text_field(group, name: :estimated_hours, label: I18n.t(:label_work))
-        text_field(group, name: :remaining_hours, label: I18n.t(:label_remaining_work))
-        text_field(group, name: :done_ratio, label: I18n.t(:label_percent_complete))
+        writable_text_field(group, name: :remaining_hours, label: I18n.t(:label_remaining_work))
+        writable_text_field(group, name: :done_ratio, label: I18n.t(:label_percent_complete))
 
         hidden_touched_field(group, name: :estimated_hours)
         hidden_touched_field(group, name: :remaining_hours)
@@ -132,16 +132,34 @@ class WorkPackages::ProgressForm < ApplicationForm
 
   def text_field(group,
                  name:,
-                 label:)
+                 label:,
+                 disabled: false,
+                 caption: nil)
     text_field_options = default_field_options(name).merge(
       name:,
       value: field_value(name),
       label:,
-      caption: field_hint_message(name),
-      validation_message: validation_message(name)
+      caption: field_hint_message(name) || caption,
+      validation_message: validation_message(name),
+      disabled:
     )
 
     group.text_field(**text_field_options)
+  end
+
+  def writable_text_field(group, name:, label:)
+    if writable?(name)
+      text_field(group, name:, label:)
+    else
+      text_field(group, name:, label:, disabled: true, caption: I18n.t("work_package.progress.read_only_hint"))
+    end
+  end
+
+  def writable?(name)
+    return true if work_package.new_record?
+
+    @update_contract ||= WorkPackages::UpdateContract.new(work_package, User.current)
+    @update_contract.writable?(name)
   end
 
   def readonly_text_field(group,
