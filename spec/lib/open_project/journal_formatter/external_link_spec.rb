@@ -99,4 +99,18 @@ RSpec.describe OpenProject::JournalFormatter::ExternalLink, with_settings: { jou
         .to eq("Title of external link Roadmap changed from Release plan to Roadmap")
     end
   end
+
+  context "when the description of a link is set" do
+    before do
+      change_external_links { external_link.update!(description: "Plan for the next release") }
+    end
+
+    it "renders a link to the diff instead of the description" do
+      expect(render(:description)).to eq(
+        "<strong>Description of external link Release plan</strong> set " \
+        "(<a target=\"_top\" class=\"diff-details\" " \
+        "href=\"/journals/#{journal.id}/diff/external_links_#{external_link.id}_description\">Details</a>)"
+      )
+    end
+  end
 end

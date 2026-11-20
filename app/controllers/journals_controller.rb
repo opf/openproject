@@ -117,7 +117,8 @@ class JournalsController < ApplicationController
     case field_param
     when "description",
          "status_explanation",
-         /\Aagenda_items_\d+_notes\z/
+         /\Aagenda_items_\d+_notes\z/,
+         /\Aexternal_links_\d+_description\z/
       # no additional checks
     when /\Acustom_fields_(?<cf_id>\d+)\z/
       ensure_custom_value_valid_for_diffing(Regexp.last_match(:cf_id))

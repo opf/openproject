@@ -34,6 +34,8 @@ class OpenProject::JournalFormatter::ExternalLink < JournalFormatter::Base
   def render(key, values, options = { html: true })
     if added_or_removed_link?(key, values)
       render_added_or_removed_link(key, values, options)
+    elsif key_attribute(key) == "description"
+      diff_formatter.render(key, values, options)
     else
       super
     end
@@ -42,6 +44,10 @@ class OpenProject::JournalFormatter::ExternalLink < JournalFormatter::Base
   private
 
   def label(key) = attribute_label(key)
+
+  def diff_formatter
+    @diff_formatter ||= Diff.new(@journal)
+  end
 
   def added_or_removed_link?(key, values)
     key_attribute(key) == "url" && values.include?(nil)
