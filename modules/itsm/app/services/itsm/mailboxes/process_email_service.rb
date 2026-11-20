@@ -64,7 +64,7 @@ module ITSM
         email = InboundEmail.new(raw)
 
         Rails.logger.tagged("email #{email.headers.message_id}") do
-          route(email)
+          one_at_a_time_in_project { route(email) }
         end
       rescue *DATABASE_ERRORS => e
         log("Not processed (#{e.class.name})", level: :error, exception: e)
@@ -76,16 +76,33 @@ module ITSM
       def route(email)
         ignore_reason = InboundEmails::IgnoreRules.new(email).reason
         return remove("Ignored (#{ignore_reason})") if ignore_reason
-        return mark_seen("Not processed (reply)", level: :info) if reply?(email)
         return work_package_not_created("no help desk user") if helpdesk_user.nil?
 
-        create_work_package(email)
+        thread = InboundEmails::ReplyThread.find(email, project)
+        thread ? add_reply(thread, email) : create_work_package(email)
+      end
+
+      # Mailboxes of a project are fetched in parallel. One email at a time keeps an email received by two mailboxes
+      # from being added twice, and a reply from being matched while the email it answers is being added.
+      def one_at_a_time_in_project(&)
+        OpenProject::Mutex.with_advisory_lock(Project, "itsm_inbound_emails_#{project.id}", &)
       end
 
       def helpdesk_user = @helpdesk_user ||= ITSM.helpdesk_user
 
-      def reply?(email)
-        EmailMessage.in_project(project).exists?(message_id: [email.headers.in_reply_to, *email.headers.references].compact)
+      def add_reply(thread, email)
+        case InboundEmails::AddReplyService.new(user: helpdesk_user).call(thread:, email:)
+        in { success: true, result: message }
+          if message.previously_new_record?
+            remove("Added as a comment to work package ##{thread.work_package_id}")
+          else
+            remove("Already in work package ##{thread.work_package_id}")
+          end
+        in { failure: true, result:, errors: } if project_setup_prevents?(result, errors)
+          not_added(:reply_not_added, "Comment not added (#{error_codes(errors)})")
+        in { failure: true, errors: }
+          mark_seen("Not processed (#{error_codes(errors)})", level: :warn)
+        end
       end
 
       def create_work_package(email)
@@ -103,9 +120,11 @@ module ITSM
         end
       end
 
-      def work_package_not_created(reason)
-        log("Work package not created (#{reason})", level: :warn)
-        failure(:work_package_not_created)
+      def work_package_not_created(reason) = not_added(:work_package_not_created, "Work package not created (#{reason})")
+
+      def not_added(code, outcome)
+        log(outcome, level: :warn)
+        failure(code)
       end
 
       def project_setup_prevents?(record, errors)

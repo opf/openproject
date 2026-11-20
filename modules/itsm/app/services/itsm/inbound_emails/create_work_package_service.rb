@@ -30,6 +30,8 @@
 module ITSM
   module InboundEmails
     class CreateWorkPackageService < ::BaseServices::BaseCallable
+      include ProcessedOnce
+
       Input = Data.define(:mailbox, :email) do
         delegate :project, to: :mailbox
         delegate :headers, to: :email
@@ -46,7 +48,7 @@ module ITSM
         @input = Input.new(**params)
         return missing_sender if headers.from_address.nil?
 
-        in_locked_transaction do
+        in_transaction do
           next processed_thread if processed_message
 
           create_work_package
@@ -60,21 +62,6 @@ module ITSM
       attr_reader :user, :input
 
       delegate :email, :project, :headers, to: :input
-
-      def in_locked_transaction
-        result = nil
-        OpenProject::Mutex.with_advisory_lock_transaction(project, "itsm_email_#{headers.message_id}") do
-          result = yield
-          raise ActiveRecord::Rollback if result.failure?
-        end
-        result
-      end
-
-      def processed_message
-        return @processed_message if defined?(@processed_message)
-
-        @processed_message = EmailMessage.in_project(project).find_by(message_id: headers.message_id)
-      end
 
       def processed_thread = ServiceResult.success(result: processed_message.thread)
 

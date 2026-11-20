@@ -32,6 +32,8 @@ module ITSM
     Headers = Data.define(:message_id, :in_reply_to, :references, :from_address, :from_name,
                           :to_addresses, :cc_addresses, :subject)
     DELIVERY_HEADERS = %w[Delivered-To X-Original-To].freeze
+    # A block of quoted "> " lines, with the line introducing it ("On … wrote:").
+    QUOTE = /^(?:[^\n]*\S:[ \t]*\n(?:[ \t]*\n)*)?(?:[ \t]*>[^\n]*(?:\n|\z))+/
 
     def initialize(raw)
       @raw = raw
@@ -49,7 +51,11 @@ module ITSM
     end
 
     def text
-      @text ||= body_text.gsub(/\r\n?/, "\n").strip
+      @text ||= normalized(body_text(quotes: true))
+    end
+
+    def reply_text
+      @reply_text ||= normalized(body_text(quotes: false))
     end
 
     def header_value(name) = valid_utf8(Array(mail.header[name]).first&.value)
@@ -85,22 +91,26 @@ module ITSM
       field.display_names.first if field.is_a?(Mail::FromField)
     end
 
-    def body_text
-      return part_text(mail) unless mail.multipart?
+    def normalized(text) = text.gsub(/\r\n?/, "\n").strip
+
+    def body_text(quotes:)
+      return part_text(mail, quotes:) unless mail.multipart?
 
       parts = body_parts("text/plain").presence || body_parts("text/html")
-      parts.map { part_text(it).strip }.compact_blank.join("\n\n")
+      parts.map { part_text(it, quotes:).strip }.compact_blank.join("\n\n")
     end
 
     def body_parts(mime_type) = mail.all_parts.select { it.mime_type == mime_type && !it.attachment? }
 
-    def part_text(part)
+    def part_text(part, quotes:)
       case part.mime_type
-      when nil, "text/plain" then valid_utf8(part.decoded.to_s)
-      when "text/html" then HtmlToText.call(valid_utf8(part.decoded))
+      when nil, "text/plain" then plain_text(valid_utf8(part.decoded.to_s), quotes:)
+      when "text/html" then HtmlToText.call(valid_utf8(part.decoded), quotes:)
       else ""
       end
     end
+
+    def plain_text(text, quotes:) = quotes ? text : text.gsub(/\r\n?/, "\n").gsub(QUOTE, "").gsub(/\n{3,}/, "\n\n")
 
     def content_based_message_id = "#{Digest::SHA256.hexdigest(raw)}@openproject.invalid"
 

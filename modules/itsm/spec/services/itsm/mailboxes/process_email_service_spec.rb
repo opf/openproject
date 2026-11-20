@@ -94,17 +94,54 @@ RSpec.describe ITSM::Mailboxes::ProcessEmailService do
 
   context "when the email replies to a message of the project" do
     let(:headers) { { in_reply_to: "<earlier@customer.example>" } }
+    let(:work_package) { create(:work_package, project:) }
 
     before do
       create(:itsm_email_message, message_id: "earlier@customer.example",
-                                  thread: create(:itsm_email_thread, work_package: create(:work_package, project:)))
+                                  thread: create(:itsm_email_thread, work_package:))
     end
 
-    it "marks it as seen and leaves it on the server" do
+    it "adds it as a comment of the help desk user and removes it from the server" do
       expect { result }.not_to change(WorkPackage, :count)
-      expect(imap).to have_received(:uid_store).with(7, "+FLAGS", [:Seen])
-      expect(imap).not_to have_received(:uid_expunge)
-      expect(logged).to include("Not processed (reply)")
+      expect(work_package.journals.reload.last).to have_attributes(user: ITSM.helpdesk_user,
+                                                                   notes: "```\nThe printer is broken.\n```")
+      expect(imap).to have_received(:uid_expunge).with(7)
+      expect(logged).to include("Added as a comment to work package ##{work_package.id}")
+    end
+
+    context "when it was already added" do
+      before { described_class.new(mailbox:, session:).call(uid: 7) }
+
+      it "removes it without adding another comment" do
+        expect { result }.not_to change(Journal, :count)
+        expect(imap).to have_received(:uid_expunge).with(7).twice
+        expect(logged).to include("Already in work package ##{work_package.id}")
+      end
+    end
+
+    context "when the help desk user may not comment on the work package" do
+      before { helpdesk_member.destroy }
+
+      it "fails and leaves the email untouched, to be tried again" do
+        expect { result }.not_to change(Journal, :count)
+        expect(result.failure.code).to eq(:reply_not_added)
+        expect(imap).not_to have_received(:uid_store)
+        expect(warned).to include(start_with("Comment not added"))
+      end
+    end
+  end
+
+  context "when a reply to the email was processed first" do
+    let(:work_package) { create(:work_package, project:) }
+
+    before do
+      create(:itsm_email_message, message_id: "reply@customer.example", in_reply_to: "request-1@customer.example",
+                                  thread: create(:itsm_email_thread, work_package:))
+    end
+
+    it "adds it to the reply's work package" do
+      expect { result }.not_to change(WorkPackage, :count)
+      expect(logged).to include("Added as a comment to work package ##{work_package.id}")
     end
   end
 

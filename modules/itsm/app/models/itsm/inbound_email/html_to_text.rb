@@ -31,11 +31,14 @@ module ITSM
   class InboundEmail
     class HtmlToText
       HIDDEN_LINK_TARGET = /\A(#|(javascript|vbscript|data|cid):)/i
+      QUOTES = "blockquote, .gmail_quote, .moz-cite-prefix"
 
-      def self.call(html) = new(html).call
+      def self.call(html, quotes: true) = new(html, quotes:).call
 
-      def initialize(html)
-        @document = Loofah.html5_document(html).scrub!(:prune)
+      def initialize(html, quotes: true)
+        @document = Loofah.html5_document(html)
+        document.css(QUOTES).each(&:remove) unless quotes
+        document.scrub!(:prune)
       end
 
       def call
