@@ -54,6 +54,7 @@ en:
       end_time: "End time"
       start_time: "Start time"
       title: "Your Cost Reports XLS export"
+    invalid_filters: "The export could not be generated: %{errors}"
     timesheet:
       button: "Export PDF timesheet"
       overview_per_user_day: "Overview: Hours per user per day"
@@ -62,6 +63,12 @@ en:
       time: "Time"
       timesheet: "Timesheet"
       title: "Your PDF timesheet export"
+
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    one: "%{filter} requires a value."
+    other: "%{filter} requires %{count} values."
 
   information_restricted_depending_on_permission: "Depending on your permissions this page might contain restricted information."
 
@@ -129,6 +136,3 @@ en:
   toggle_multiselect: "activate/deactivate multiselect"
 
   units: "Units"
-
-  validation_failure_date: "is not a valid date"
-  validation_failure_integer: "is not a valid integer"

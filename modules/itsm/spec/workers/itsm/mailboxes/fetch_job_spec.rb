@@ -34,7 +34,9 @@ RSpec.describe ITSM::Mailboxes::FetchJob, type: :job, with_flag: { helpdesk: tru
   subject(:perform) { described_class.perform_now(mailbox) }
 
   let(:mailbox) { create(:itsm_incoming_mailbox) }
-  let(:service) { instance_double(ITSM::Mailboxes::FetchService, call: ServiceResult.success(result: mailbox)) }
+  let(:processed) { 2 }
+  let(:fetched) { ITSM::Mailboxes::FetchService::Fetched.new(processed:) }
+  let(:service) { instance_double(ITSM::Mailboxes::FetchService, call: ServiceResult.success(result: fetched)) }
 
   before { allow(ITSM::Mailboxes::FetchService).to receive(:new).with(mailbox).and_return(service) }
 
@@ -43,6 +45,16 @@ RSpec.describe ITSM::Mailboxes::FetchJob, type: :job, with_flag: { helpdesk: tru
 
     expect(service).to have_received(:call)
     expect(described_class).not_to have_been_enqueued
+  end
+
+  context "when unseen emails are left after one batch" do
+    let(:processed) { ITSM::Mailboxes::FetchService::BATCH_SIZE }
+
+    it "fetches the mailbox again right away" do
+      perform
+
+      expect(described_class).to have_been_enqueued.with(mailbox)
+    end
   end
 
   context "when the fetch fails" do

@@ -31,9 +31,9 @@ module ITSM
   module Adapters
     module Queries
       class UnseenUids < BaseQuery
-        def call(session:, limit:)
-          request(session) { |imap| imap.uid_search(%w[UNSEEN UNDELETED]).sort.first(limit) }
-        end
+        private
+
+        def request(imap, limit:) = imap.uid_search(%w[UNSEEN UNDELETED]).sort.first(limit)
       end
     end
   end

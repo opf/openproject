@@ -57,6 +57,19 @@ RSpec.describe OpenProject::Avatars::InitialsSvg do
     end
   end
 
+  describe ".hue_for" do
+    # Shared with frontend/src/app/shared/components/colors/colors.service.spec.ts so both
+    # implementations are checked against the exact same inputs/outputs and can't drift apart
+    # unnoticed again.
+    let(:fixtures) { JSON.parse(Rails.root.join("modules/avatars/spec/fixtures/avatar_hue_parity.json").read) }
+
+    it "matches the frontend's valueHash in colors.service.ts" do
+      fixtures.each do |fixture|
+        expect(described_class.hue_for(fixture["value"])).to eq fixture["expectedHue"]
+      end
+    end
+  end
+
   describe ".color_for" do
     it "uses the user's custom avatar color when set" do
       user = build_stubbed(:user, id: 42, firstname: "Jane", lastname: "Doe")
