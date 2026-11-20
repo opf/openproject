@@ -105,7 +105,7 @@ The Forums module has been revived. Teams can follow discussions more easily, me
 
 **10. [GitLab integration](#gitlab-integration)**
 
-The reworked **Code** tab (formerly "GitLab") shows related issues, merge requests, and commits directly in the work package, and GitLab is now configured in the new Repositories section of the administration.
+The reworked **Code** tab (formerly "GitLab") shows related issues, merge requests, branches, and commits directly in the work package, and GitLab is now configured in the new Repositories section of the administration.
 
 **[More improvements](#more-improvements)**
 
