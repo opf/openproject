@@ -108,7 +108,7 @@ Please note: This will only display one hierarchy level below the displayed work
 
 Choose a meaningful title for your Board so that it is clear, e.g. for other team members, what you want to do.
 
-![boards title](boards-title-2111905.png)
+![boards title](boards-title.png)
 
 ## Add lists to your board
 
@@ -161,9 +161,9 @@ Apart from the Status board you can **update a work package's status** directly 
 
 ![boards-select-status-from-card](boards-select-status-from-card.png)
 
-A **double click on a card** will open the work package's **fullscreen view.** The **arrow** on top will bring you back to the boards view.
+A **double click on a card** will open the work package's **fullscreen view.** 
 
-![back-to-boards-view-button](back-to-boards-view-button.png)
+![](open-full-screen-view.png)
 
 Clicking on **Open details view** (the blue "**i**") will open the work package's [split screen view](../work-packages/work-package-views/#split-screen-view). You can close it by clicking on the **"x"** in its upper right corner.
 
@@ -183,11 +183,11 @@ Removing a card will not delete the work package, you can still add it back to t
 
 To **create new** boards, **open existing** boards, or **delete** boards, navigate to the main Boards menu item.
 
- ![OpenProject-manage-boards](OpenProject-manage-boards-1568640234856.png)
+ ![OpenProject-manage-boards](OpenProject-manage-boards.png)
 
 Verify and **update roles and permissions for boards** in the [system's administration](../../system-admin-guide/users-permissions/) if necessary.
 
-![roles and permissions](image-20201006120925442.png)
+![roles and permissions](update-roles-and-permissions-for-boards.png)
 
 ## Agile boards examples
 
@@ -220,4 +220,4 @@ Of course you don’t need to use groups as assignees, you can also use individu
 
 The Version board facilitates the planning of a product development in several iterations. With every iteration you can add and improve features and let your product become the best version for your customers. If a certain feature is e.g. too complex to be developed in one specific version because you have other features to develop with higher priority, just drag it to the next version and it will update automatically. This board gives you a perfect overview of what is coming and you can see at a glance if it fits your priorities. If not, adjust with drag and drop.
 
-![action-board-version-docs](action-board-version-docs.png)
+![action-board-version-docs](action-board-version-docs.png)8
