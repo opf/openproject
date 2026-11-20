@@ -225,7 +225,7 @@ module WorkPackageTypes
     end
 
     def enable_everywhere
-      projects = ::Project.where.not(id: @variant.projects.select(:id))
+      projects = ::Project.active.where.not(id: @variant.projects.select(:id))
       switching = switching_project_types(projects)
       if unconfirmed_switch?(switching)
         return ask_to_switch(switching, url: enable_all_variant_projects_path(@variant, value: "1", **wizard_params))
@@ -247,7 +247,7 @@ module WorkPackageTypes
     end
 
     def candidate_projects
-      scope = ::Project.order(:lft)
+      scope = ::Project.active.order(:lft)
       return scope.to_a if filter_term.blank?
 
       matching = Queries::Projects::Filters::NameAndIdentifierFilter
@@ -273,7 +273,7 @@ module WorkPackageTypes
     end
 
     def with_descendants(project_ids)
-      ::Project.where(id: project_ids).flat_map { |project| project.self_and_descendants.ids }.uniq
+      ::Project.where(id: project_ids).flat_map { |project| project.self_and_descendants.active.ids }.uniq
     end
 
     def aggregate_refusal_message(result)

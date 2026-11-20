@@ -105,6 +105,14 @@ RSpec.describe WorkPackageTypes::ProjectsTabController do
 
         expect(response.body).to include("Bookshop")
       end
+
+      it "leaves out archived projects" do
+        create(:project, name: "Shelved", active: false)
+
+        get :tree, params: { type_id: type.id, name: "project_ids" }
+
+        expect(response.body).not_to include("Shelved")
+      end
     end
 
     describe "POST link" do
@@ -123,6 +131,17 @@ RSpec.describe WorkPackageTypes::ProjectsTabController do
              format: :turbo_stream
 
         expect(child.reload.enabled_types).to include(type)
+      end
+
+      it "skips archived descendants when asked to include sub-items" do
+        archived_child = create(:project, parent: project, active: false)
+
+        post :link,
+             params: { type_id: type.id, project_ids: [node_payload(project)], include_sub_items: "1" },
+             format: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        expect(archived_child.reload.enabled_types).not_to include(type)
       end
 
       it "ignores a payload naming no project" do
@@ -221,6 +240,15 @@ RSpec.describe WorkPackageTypes::ProjectsTabController do
 
         expect(response).to have_http_status(:ok)
         expect(project.reload.type_variant(type)).to eq(type.default_variant)
+      end
+
+      it "leaves archived projects alone" do
+        archived = create(:project, active: false)
+
+        post :enable_all_projects, params: { type_id: type.id, value: "1" }, format: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        expect(archived.reload.enabled_types).not_to include(type)
       end
 
       it "drops the type everywhere when toggled off" do
