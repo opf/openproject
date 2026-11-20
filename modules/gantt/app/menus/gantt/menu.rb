@@ -40,6 +40,8 @@ module Gantt
     end
 
     def default_queries
+      return predefined_project_queries(:gantt) if project.present?
+
       query_generator = Gantt::DefaultQueryGeneratorService.new(with_project: project)
       Gantt::DefaultQueryGeneratorService::QUERY_OPTIONS.filter_map do |query_key|
         params = query_generator.call(query_key:)

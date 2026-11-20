@@ -135,6 +135,7 @@ Rails.application.reloader.to_prepare do
                        "projects/settings/general": %i[show update toggle_public toggle_public_dialog],
                        "projects/settings/storage": %i[show],
                        "projects/settings/work_packages": %i[show],
+                       "projects/settings/work_packages/filters": %i[show update],
                        "projects/settings/work_packages/internal_comments": %i[show update],
                        "projects/settings/creation_wizard": %i[show disable_dialog toggle refresh_submission_form
                                                                update_name_settings update_submission_settings
@@ -258,6 +259,16 @@ Rails.application.reloader.to_prepare do
                      {
                        admin: %i[index],
                        attribute_help_texts: %i[index new edit upsell create update destroy]
+                     },
+                     permissible_on: :global,
+                     require: :loggedin,
+                     grant_to_admin: true
+
+      map.permission :manage_filters,
+                     {
+                       admin: %i[index],
+                       "admin/predefined_work_package_filters": %i[index new create edit update destroy move projects
+                                                                   update_projects]
                      },
                      permissible_on: :global,
                      require: :loggedin,

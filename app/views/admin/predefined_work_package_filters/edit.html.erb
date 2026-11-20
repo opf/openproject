@@ -1,0 +1,53 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= render "header", projects: false %>
+<% errors = @filter.errors.full_messages + @query.errors.full_messages %>
+<% if errors.any? %>
+  <%= render(Primer::Alpha::Banner.new(scheme: :danger)) { errors.to_sentence } %>
+<% end %>
+
+<%= primer_form_with(model: @filter, url: @filter.persisted? ? admin_predefined_work_package_filter_path(@filter) : admin_predefined_work_package_filters_path) do |f| %>
+  <%= render(PredefinedWorkPackageFilters::ConfigurationForm.new(f, query: @query)) %>
+  <%= render(
+        Filters::FilterFormComponent.new(
+          builder: f, query: @query, wrap_with_controller: true,
+          hidden_input_name: "filters", output_format: :json
+        )
+      ) %>
+  <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary, mt: 3)) { t(:button_save) } %>
+<% end %>
+
+<% if @filter.persisted? %>
+  <%= primer_form_with(
+        url: admin_predefined_work_package_filter_path(@filter), method: :delete,
+        data: { turbo_confirm: t(:text_are_you_sure) }
+      ) do %>
+    <%= render(Primer::Beta::Button.new(type: :submit, scheme: :danger, mt: 3)) { t(:button_delete) } %>
+  <% end %>
+<% end %>

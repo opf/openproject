@@ -6056,6 +6056,7 @@ en:
   permission_manage_project_variants_explanation: >
     Select which variant the project uses and, if the type allows it, create project-specific variants that are only available to that project.
   permission_manage_public_bcf_queries: "Manage public BCF queries"
+  permission_manage_filters: "Manage filters"
   permission_manage_public_project_queries: "Manage public project lists"
   permission_manage_public_queries: "Manage public views"
   permission_manage_repository: "Manage repository"
@@ -8908,3 +8909,15 @@ en:
       can affect the start and finish days of all work packages and life cycles in all projects in this instance.
 
   you: you
+
+  predefined_work_package_filters:
+    title: "Filters"
+    new: "New filter"
+    empty: "No matching work packages"
+    move_up: "Move filter up"
+    move_down: "Move filter down"
+    group_by: "Group by"
+    placements:
+      project_overview: "Project overview"
+      work_packages: "Work packages"
+      gantt: "Gantt charts"
