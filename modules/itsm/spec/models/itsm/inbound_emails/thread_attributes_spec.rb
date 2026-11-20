@@ -54,6 +54,26 @@ RSpec.describe ITSM::InboundEmails::ThreadAttributes do
     end
   end
 
+  context "when the email reached the help desk through a forwarding address" do
+    let(:raw) do
+      Mail.new(from: "jane@customer.example", to: "team@company.example", cc: ["colleague@customer.example"],
+               "X-Original-To" => "team@company.example", "Delivered-To" => "support@example.com").to_s
+    end
+
+    it "does not take that address as a recipient" do
+      expect(attributes[:recipients]).to eq(["colleague@customer.example"])
+    end
+  end
+
+  context "when the email was forwarded within the company before it reached the help desk" do
+    let(:forwarded) { Mail.new(from: "jane@customer.example", to: "team@company.example", cc: ["colleague@customer.example"]) }
+    let(:raw) { "Delivered-To: support@example.com\r\nDelivered-To: team@company.example\r\n#{forwarded}" }
+
+    it "does not take any of the delivery addresses as a recipient" do
+      expect(attributes[:recipients]).to eq(["colleague@customer.example"])
+    end
+  end
+
   context "when used to create a thread" do
     let(:work_package) { create(:work_package) }
     let(:permissions) { %i[view_work_packages add_work_package_comments] }

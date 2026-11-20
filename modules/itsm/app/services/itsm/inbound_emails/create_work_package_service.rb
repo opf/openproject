@@ -73,9 +73,7 @@ module ITSM
       def processed_message
         return @processed_message if defined?(@processed_message)
 
-        @processed_message = EmailMessage
-          .joins(thread: :work_package)
-          .find_by(message_id: headers.message_id, work_packages: { project_id: project.id })
+        @processed_message = EmailMessage.in_project(project).find_by(message_id: headers.message_id)
       end
 
       def processed_thread = ServiceResult.success(result: processed_message.thread)

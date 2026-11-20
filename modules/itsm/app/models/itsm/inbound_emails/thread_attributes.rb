@@ -37,13 +37,10 @@ module ITSM
       def self.recipients(email)
         headers = email.headers
 
-        EmailAddress::NORMALIZE_ALL.call(headers.to_addresses + headers.cc_addresses) -
-          [EmailAddress::NORMALIZE.call(headers.from_address)] - own_addresses
+        (headers.to_addresses + headers.cc_addresses).uniq - [headers.from_address] - own_addresses(email)
       end
 
-      def self.own_addresses
-        IncomingMailbox.pluck(:email, :aliases).flatten + OutgoingMailbox.pluck(:sender_email)
-      end
+      def self.own_addresses(email) = ITSM.helpdesk_addresses + email.delivery_addresses
 
       private_class_method :recipients, :own_addresses
     end

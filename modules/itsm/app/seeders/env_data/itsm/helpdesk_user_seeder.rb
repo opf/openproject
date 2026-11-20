@@ -38,9 +38,7 @@ module EnvData
         Rails.logger.error("Help desk user not set up: #{result.message}")
       end
 
-      def applicable?
-        OpenProject::FeatureDecisions.helpdesk_active? && Setting.helpdesk_enabled?
-      end
+      def applicable? = ::ITSM.helpdesk_available?
     end
   end
 end

@@ -89,6 +89,19 @@ RSpec.describe ITSM::InboundEmail do
     end
   end
 
+  context "with addresses in mixed case" do
+    let(:raw) do
+      "From: Jane@Customer.example\r\nTo: Support@Example.com\r\n" \
+        "Cc: Colleague@Customer.example, colleague@customer.example\r\n\r\nHello"
+    end
+
+    it "normalizes them" do
+      expect(headers).to have_attributes(from_address: "jane@customer.example",
+                                         to_addresses: %w[support@example.com],
+                                         cc_addresses: %w[colleague@customer.example])
+    end
+  end
+
   context "with a recipient header that cannot be parsed" do
     let(:raw) do
       "From: jane@customer.example\r\n" \
@@ -154,6 +167,14 @@ RSpec.describe ITSM::InboundEmail do
 
       it "replaces them" do
         expect(text).to eq("��Printer")
+      end
+    end
+
+    context "with null bytes" do
+      let(:raw) { "From: jane@customer.example\r\n\r\nPrinter\u0000 broken" }
+
+      it "removes them, as the database cannot store them" do
+        expect(text).to eq("Printer broken")
       end
     end
 
@@ -295,6 +316,52 @@ RSpec.describe ITSM::InboundEmail do
       it "has no text" do
         expect(text).to eq("")
       end
+    end
+  end
+
+  describe "#header_value" do
+    let(:raw) { "From: jane@customer.example\r\nAuto-Submitted: auto-replied\r\nX-Bad: \xFFvalue\r\n\r\nHello".b }
+
+    it "returns a header's value as valid UTF-8, or nothing" do
+      expect(email.header_value("Auto-Submitted")).to eq("auto-replied")
+      expect(email.header_value("X-Bad")).to eq("�value")
+      expect(email.header_value("Precedence")).to be_nil
+    end
+  end
+
+  describe "#delivery_addresses" do
+    let(:raw) do
+      "Delivered-To: <Inbox@mail.example>\r\nX-Original-To: support@company.example\r\n" \
+        "Delivered-To: jane@customer.example\r\nFrom: jane@customer.example\r\n\r\nHello"
+    end
+
+    it "returns every address the mail servers delivered the email to" do
+      expect(email.delivery_addresses).to eq(%w[inbox@mail.example jane@customer.example support@company.example])
+    end
+
+    context "without delivery headers" do
+      let(:raw) { "From: jane@customer.example\r\n\r\nHello" }
+
+      it { expect(email.delivery_addresses).to be_empty }
+    end
+  end
+
+  describe "#report?" do
+    let(:content_type) { "multipart/report; report-type=delivery-status; boundary=report" }
+    let(:raw) { "From: mailer-daemon@example.com\r\nContent-Type: #{content_type}\r\n\r\n--report--" }
+
+    it { expect(email).to be_report }
+
+    context "with a read receipt" do
+      let(:content_type) { "multipart/report; report-type=disposition-notification; boundary=report" }
+
+      it { expect(email).to be_report }
+    end
+
+    context "with a normal email" do
+      let(:raw) { "From: jane@customer.example\r\n\r\nHello" }
+
+      it { expect(email).not_to be_report }
     end
   end
 end

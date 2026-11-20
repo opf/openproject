@@ -33,7 +33,10 @@ module ITSM
       include Dry::Monads[:result]
 
       BATCH_SIZE = 50
-      UNREADABLE_EMAIL_ERRORS = [Mail::Field::FieldError, Mail::UnknownEncodingType, ArgumentError, EncodingError].freeze
+
+      Fetched = Data.define(:processed) do
+        def complete? = processed < BATCH_SIZE
+      end
 
       def initialize(mailbox)
         super()
@@ -43,7 +46,7 @@ module ITSM
       protected
 
       def perform
-        return service_failure(:inactive, result: mailbox) unless mailbox.active?
+        return service_failure(:inactive, result: mailbox) unless fetchable?
 
         fetch_exclusively || service_failure(:fetch_in_progress, result: mailbox)
       end
@@ -51,6 +54,8 @@ module ITSM
       private
 
       attr_reader :mailbox
+
+      def fetchable? = ITSM.helpdesk_available? && IncomingMailbox.fetchable.exists?(mailbox.id)
 
       def fetch_exclusively
         OpenProject::Mutex.with_advisory_lock(IncomingMailbox, "itsm_mailbox_fetch_#{mailbox.id}", timeout_seconds: 0) do
@@ -61,7 +66,7 @@ module ITSM
       def fetch_emails
         result = Adapters::ImapSession.open(mail_server: mailbox.mail_server, auth_strategy:) do |session|
           Adapters::Queries::UnseenUids.call(session:, limit: BATCH_SIZE)
-            .bind { |uids| read_all(session, uids) }
+            .bind { |uids| process_all(session, uids) }
         end
 
         result.success? ? fetch_succeeded(result.value!) : fetch_failed(result.failure)
@@ -69,30 +74,19 @@ module ITSM
 
       def auth_strategy = Adapters::AuthenticationStrategies::BasicAuth.new(mailbox.credentials)
 
-      def read_all(session, uids)
-        raw_emails = []
-
+      def process_all(session, uids)
         uids.each do |uid|
-          raw_email = Adapters::Queries::RawEmail.call(session:, uid:)
-          return raw_email if raw_email.failure?
-
-          raw_emails << raw_email.value!
+          result = ProcessEmailService.new(mailbox:, session:).call(uid:)
+          return result if result.failure?
         end
 
-        Success(raw_emails.compact.filter_map { parse(it) })
+        Success(uids.size)
       end
 
-      def parse(raw)
-        InboundEmail.new(raw).headers
-      rescue *UNREADABLE_EMAIL_ERRORS => e
-        Rails.logger.warn { "Email not read: #{e.class.name}" }
-        nil
-      end
-
-      def fetch_succeeded(emails)
-        Rails.logger.info { "Read #{emails.size} unseen emails" }
+      def fetch_succeeded(processed)
+        Rails.logger.info { "Processed #{processed} unseen emails" }
         mailbox.fetch_succeeded!
-        ServiceResult.success(result: mailbox)
+        ServiceResult.success(result: Fetched.new(processed:))
       end
 
       def server_address = "#{mailbox.mail_server.host}:#{mailbox.mail_server.port}"
