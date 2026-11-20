@@ -71,6 +71,7 @@ module Projects
 
         def required_by_text
           I18n.t("projects.settings.modules.required_by",
+                 count: @required_by.size,
                  modules: @required_by.map { I18n.t("project_module_#{it}", default: it.humanize) }.to_sentence)
         end
 

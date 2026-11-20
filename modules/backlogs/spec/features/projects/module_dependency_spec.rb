@@ -44,6 +44,7 @@ RSpec.describe "Backlogs project module dependencies", :js do
 
     modules_settings_page.expect_flash type: :warning, message:
       I18n.t("projects.settings.modules.dependencies_enabled",
+             count: 1,
              dependencies: I18n.t("project_module_board_view"),
              module: I18n.t("project_module_backlogs"))
 
@@ -52,6 +53,26 @@ RSpec.describe "Backlogs project module dependencies", :js do
 
     expect(project.reload).to be_module_enabled("backlogs")
     expect(project).to be_module_enabled("board_view")
+  end
+
+  context "with no modules enabled yet" do
+    let!(:project) { create(:project, enabled_module_names: []) }
+
+    it "names every module it pulled in, in the plural" do
+      modules_settings_page.visit!
+
+      modules_settings_page.toggle_module("backlogs")
+
+      modules_settings_page.expect_flash type: :warning, message:
+        I18n.t("projects.settings.modules.dependencies_enabled",
+               count: 2,
+               dependencies: [I18n.t("project_module_work_package_tracking"),
+                              I18n.t("project_module_board_view")].to_sentence,
+               module: I18n.t("project_module_backlogs"))
+
+      modules_settings_page.expect_module_locked("work_package_tracking")
+      modules_settings_page.expect_lock_reason("work_package_tracking")
+    end
   end
 
   context "with both modules already enabled" do

@@ -41,12 +41,26 @@ RSpec.describe Admin::Settings::NewProjectSettingsController do
     render_views
 
     describe "default project modules" do
+      def module_check_box(name, checked: false, disabled: false)
+        [
+          "input[@name='settings[default_projects_modules][]'][@value='#{name}']",
+          ("[@checked='checked']" if checked),
+          ("[@disabled='disabled']" if disabled)
+        ].compact.join
+      end
+
+      def required_by_message(*modules)
+        I18n.t("projects.settings.modules.required_by",
+               count: modules.size,
+               modules: modules.map { I18n.t("project_module_#{it}") }.to_sentence)
+      end
+
       it "contains a check box for the activity module on the settings tab" do
         get "show", params: { tab: "settings" }
 
         expect(response).to be_successful
         expect(response).to render_template "admin/settings/new_project_settings/show"
-        expect(response.body).to have_css "input[@name='settings[default_projects_modules][]'][@value='activity']"
+        expect(response.body).to have_css module_check_box("activity")
       end
 
       context "without activated activity module" do
@@ -60,8 +74,7 @@ RSpec.describe Admin::Settings::NewProjectSettingsController do
           expect(response).to be_successful
           expect(response).to render_template "admin/settings/new_project_settings/show"
 
-          expect(response.body)
-            .to have_no_css "input[@name='settings[default_projects_modules][]'][@value='activity'][@checked='checked']"
+          expect(response.body).to have_no_css module_check_box("activity", checked: true)
         end
       end
 
@@ -75,8 +88,7 @@ RSpec.describe Admin::Settings::NewProjectSettingsController do
 
           expect(response).to be_successful
           expect(response).to render_template "admin/settings/new_project_settings/show"
-          expect(response.body)
-            .to have_css "input[@name='settings[default_projects_modules][]'][@value='activity'][@checked='checked']"
+          expect(response.body).to have_css module_check_box("activity", checked: true)
         end
       end
 
@@ -88,9 +100,25 @@ RSpec.describe Admin::Settings::NewProjectSettingsController do
         it "renders the dependency checked and locked" do
           get "show", params: { tab: "settings" }
 
-          expect(response.body)
-            .to have_css "input[@name='settings[default_projects_modules][]'][@value='board_view']" \
-                         "[@checked='checked'][@disabled='disabled']"
+          expect(response.body).to have_css module_check_box("board_view", checked: true, disabled: true)
+        end
+
+        it "explains which module requires it" do
+          get "show", params: { tab: "settings" }
+
+          expect(response.body).to have_text required_by_message("backlogs")
+        end
+      end
+
+      context "with several selected modules depending on the same one" do
+        before do
+          Setting.default_projects_modules = %w[backlogs board_view]
+        end
+
+        it "phrases the explanation in the plural" do
+          get "show", params: { tab: "settings" }
+
+          expect(response.body).to have_text required_by_message("backlogs", "board_view")
         end
       end
     end

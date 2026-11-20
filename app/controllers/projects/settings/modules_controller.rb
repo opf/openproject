@@ -79,6 +79,7 @@ class Projects::Settings::ModulesController < Projects::SettingsController
     return if dependencies.empty?
 
     I18n.t("projects.settings.modules.dependencies_enabled",
+           count: dependencies.size,
            dependencies: dependencies.map { module_label(it) }.to_sentence,
            module: module_label(toggled_module_name))
   end

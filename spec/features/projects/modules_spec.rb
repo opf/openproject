@@ -63,6 +63,7 @@ RSpec.describe "Projects module administration", :js do
 
     modules_settings_page.expect_flash type: :warning, message:
       I18n.t("projects.settings.modules.dependencies_enabled",
+             count: 1,
              dependencies: I18n.t("project_module_work_package_tracking"),
              module: I18n.t("project_module_calendar_view"))
 
