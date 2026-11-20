@@ -47,7 +47,7 @@ describe('ColorsService', () => {
         // hsl() hue is cyclic: JS's `%` keeps the dividend's sign (e.g. -69) while Ruby's
         // always returns a positive remainder (e.g. 291) for the same underlying hash. Both
         // render the identical color, so compare the normalized hue rather than the raw string.
-        expect(((hue % 360) + 360) % 360).toBe(fixture.expectedHue);
+        expect((hue + 360) % 360).toBe(fixture.expectedHue);
       });
     });
   });
