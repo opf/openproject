@@ -121,6 +121,23 @@ RSpec.describe ITSM::OutboundEmails::SendConfirmationJob, type: :job,
     end
   end
 
+  context "when sending failed unexpectedly" do
+    let(:email_message) do
+      create(:itsm_email_message, thread:, direction: "outbound", status: "failed", error_message: "NoMethodError")
+    end
+    let(:result) { ServiceResult.failure(result: email_message).tap { it.errors.add(:base, :unexpected_error) } }
+    let(:warned) { [] }
+
+    before { allow(Rails.logger).to receive(:warn) { |&message| warned << message.call } }
+
+    it "does not try again, as the error would come back" do
+      perform
+
+      expect(described_class).not_to have_been_enqueued
+      expect(warned).to include("Confirmation not sent (unexpected_error): NoMethodError")
+    end
+  end
+
   context "when the instance's email limits stopped the email" do
     let(:result) { ServiceResult.failure(result: thread).tap { it.errors.add(:base, :not_delivered) } }
 
