@@ -12,7 +12,11 @@ export interface ReadyAttribute {
   value:string;
 }
 
-export type ResolvedAttribute = { state:'loading' | 'unauthorized' | 'error' | 'missing' } | ReadyAttribute;
+export interface UnresolvedAttribute {
+  state:'loading' | 'unauthorized' | 'error' | 'missing';
+}
+
+export type ResolvedAttribute = UnresolvedAttribute | ReadyAttribute;
 
 export function useAttributeFormatOptions() {
   const { t, i18n } = useTranslation();

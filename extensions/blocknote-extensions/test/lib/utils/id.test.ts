@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { formatWorkPackageId } from '../../../lib/utils/id.ts';
+import { formatWorkPackageId, spokenWorkPackageId } from '../../../lib/utils/id.ts';
+import i18n from '../../../lib/services/i18n';
 
 describe('formatWorkPackageId', () => {
   it('prepends # to a purely numeric string', () => {
@@ -12,5 +13,17 @@ describe('formatWorkPackageId', () => {
     expect(formatWorkPackageId('DWPS-1')).toBe('DWPS-1');
     expect(formatWorkPackageId('ABC123')).toBe('ABC123');
     expect(formatWorkPackageId('PROJ-42')).toBe('PROJ-42');
+  });
+});
+
+describe('spokenWorkPackageId', () => {
+  const t = i18n.getFixedT('en');
+
+  it('spells out the dash of a semantic identifier', () => {
+    expect(spokenWorkPackageId(t, 'DP-2')).toBe('DP dash 2');
+  });
+
+  it('reads a numeric identifier as it is shown', () => {
+    expect(spokenWorkPackageId(t, '123')).toBe('#123');
   });
 });
