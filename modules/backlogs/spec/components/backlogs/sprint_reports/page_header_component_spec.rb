@@ -41,6 +41,23 @@ RSpec.describe Backlogs::SprintReports::PageHeaderComponent, type: :component do
     expect(rendered_component).to have_css(".PageHeader-title", text: "Sprint 42 report")
   end
 
+  it "truncates the title to a single line with an expander, using only inline elements inside the heading" do
+    expect(rendered_component).to have_css(
+      "h2.PageHeader-title.min-width-0 > span[data-controller='expandable-text'] > span.Truncate > span.Truncate-text",
+      text: "Sprint 42 report"
+    )
+    expect(rendered_component).to have_css("h2.PageHeader-title .hidden-text-expander", visible: :hidden)
+    expect(rendered_component).to have_no_css("h2.PageHeader-title div", visible: :all)
+  end
+
+  it "opens the full title in a dialog rendered outside the heading" do
+    expect(rendered_component).to have_css(
+      "h2.PageHeader-title button[data-show-dialog-id='sprint-report-title-dialog']", visible: :all
+    )
+    expect(rendered_component).to have_css("dialog#sprint-report-title-dialog", text: "Sprint 42 report", visible: :all)
+    expect(rendered_component).to have_no_css("h2.PageHeader-title dialog", visible: :all)
+  end
+
   describe "breadcrumbs" do
     it "links to the project overview" do
       expect(rendered_component).to have_link("Test Project", href: project_overview_path(project))

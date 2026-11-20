@@ -51,6 +51,10 @@ module Backlogs
       def title
         t("backlogs.sprint_reports.page_header_component.title", sprint: @sprint.name)
       end
+
+      def title_dialog_id
+        "sprint-report-title-dialog"
+      end
     end
   end
 end
