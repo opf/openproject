@@ -74,7 +74,7 @@ module OAuth
           label: Doorkeeper::Application.human_attribute_name(:scopes),
           visually_hide_label: true
         ) do |group|
-          Doorkeeper.configuration.scopes.each do |scope|
+          (Doorkeeper.configuration.scopes.to_a - OpenProject::Authentication.internal_oauth_scopes).each do |scope|
             checkbox_options = {
               name: :scopes,
               label: I18n.exists?(scope, scope: "oauth.scopes") ? "#{I18n.t(scope, scope: 'oauth.scopes')} (#{scope})" : scope,
