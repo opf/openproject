@@ -38,16 +38,17 @@ module Projects
 
           FRAME_ID = "project-types-list"
 
-          def initialize(project:, created_by_migration: false)
+          def initialize(project:, created_by_migration: false, expanded_type_id: nil)
             super()
 
             @project = project
             @created_by_migration = created_by_migration
+            @expanded_type_id = expanded_type_id
           end
 
           private
 
-          attr_reader :project, :created_by_migration
+          attr_reader :project, :created_by_migration, :expanded_type_id
 
           def migration_filter? = created_by_migration
 
@@ -100,7 +101,9 @@ module Projects
             project_type.variant.default?
           end
 
-          def collapsed?(project_type) = !migration_filter? && base_type_in_use?(project_type)
+          def collapsed?(project_type)
+            !migration_filter? && base_type_in_use?(project_type) && project_type.type.id != expanded_type_id
+          end
 
           def empty_state_arguments
             if migration_filter?
@@ -168,7 +171,14 @@ module Projects
 
           def edit_variant_path(variant) = variant_settings_path(project, variant)
 
-          def delete_variant_path(variant) = variant_path(project, variant)
+          def delete_variant_path(variant)
+            variant_path(project, variant,
+                         back_url: project_settings_work_packages_types_path(
+                           project,
+                           expand: variant.type_id,
+                           created_by_migration: (WorkPackageTypes::MigrationFilterComponent::MIGRATED if migration_filter?)
+                         ))
+          end
 
           def actionable?(project_type, variant)
             usable?(project_type, variant) || configurable?(variant)

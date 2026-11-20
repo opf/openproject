@@ -114,7 +114,10 @@ module WorkPackageTypes
       end
 
       def variant_menu_src(variant)
-        menu_type_variant_path(type_id: variant.type_id, id: variant.id)
+        menu_type_variant_path(
+          type_id: variant.type_id, id: variant.id,
+          back_url: types_path(**context_args, expand: variant.type_id)
+        )
       end
 
       def reorderable?(type)

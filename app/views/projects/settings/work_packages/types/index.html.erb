@@ -69,7 +69,8 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render(
         Projects::Settings::WorkPackages::Types::ListComponent.new(
           project: @project,
-          created_by_migration: @created_by_migration
+          created_by_migration: @created_by_migration,
+          expanded_type_id: @expanded_type_id
         )
       ) %>
 <% end %>
