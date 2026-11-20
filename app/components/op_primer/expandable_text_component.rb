@@ -71,6 +71,9 @@ module OpPrimer
     #   automatically) and the controller only manages the expander's visibility.
     # @param dialog_id [String] `id` for the dialog in `:dialog` mode; defaults to
     #   a generated value. The expander button is wired to this id automatically.
+    # @param render_dialog [Boolean] whether the component renders the dialog
+    #   itself. Pass `false` to render a dialog with `dialog_id` elsewhere, e.g.
+    #   when the component sits inside a heading, which cannot contain a dialog.
     # @param expander_arguments [Hash] system arguments forwarded to the
     #   `Primer::Alpha::HiddenTextExpander`.
     # @param tag [Symbol] wrapping element, also used for the multi-line
@@ -84,6 +87,7 @@ module OpPrimer
       lines: LINES_DEFAULT,
       expansion: EXPANSION_DEFAULT,
       dialog_id: "expandable-text-dialog-#{SecureRandom.hex(4)}",
+      render_dialog: true,
       expander_arguments: {},
       **system_arguments
     )
@@ -96,6 +100,7 @@ module OpPrimer
         fetch_or_fallback(EXPANSION_OPTIONS, expansion, EXPANSION_DEFAULT).to_s
       )
       @dialog_id = dialog_id
+      @render_dialog = render_dialog
 
       @system_arguments = system_arguments
       @system_arguments[:tag] = fetch_or_fallback(TAG_OPTIONS, tag, TAG_DEFAULT)
