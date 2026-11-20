@@ -68,7 +68,7 @@ A document has:
 
 ## Add a new document to the project 
 
-To create a new document, you can either click on the _+ Document_ button or click the plus icon in the header navigation.
+To create a new document, you can either click on the _+ Document_ button or click the **+ button** in the header navigation.
 
 - **Using the +Document button**
 
@@ -83,7 +83,7 @@ The uploaded documents are visible to all project members who have the necessary
 > [!NOTE]
 > There is no versioning of documents. An edit of any field or the contents of the document is visible to all members.
 
-- **Using the plus icon in the header navigation**
+- **Using the + button in the header navigation**
 
   ![Header navigation showing the plus button used to create a new document](openproject_user_guide_documents_create_new_from_header.png)
 
