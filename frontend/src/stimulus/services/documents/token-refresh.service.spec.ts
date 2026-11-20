@@ -33,7 +33,6 @@ const URL = '/documents/1/refresh_token';
 const SIGN_IN_PATH = '/op/login';
 const TOKEN = { encrypted_token: 'fresh', expires_in_seconds: 100 };
 const FIRST_REFRESH_MS = 8001; // 80% of a 10 second token, plus 1 ms of slack
-const RETRY_BUDGET_MS = 3 * 5000 + 1;
 
 // Plain object so the body resolves via microtasks, which fake timers can flush.
 const fakeResponse = (status:number):Response => ({
@@ -208,34 +207,45 @@ describe('TokenRefreshService', () => {
       expect(onFailure.mock.calls[0][0].isAccessDenied).toBe(true);
     });
 
-    it('retries transient failures, then reports once and stops', async () => {
+    it('keeps retrying transient failures with doubling delays capped at 30 seconds, without reporting', async () => {
       fetchSpy.mockResolvedValue(fakeResponse(503));
       service.scheduleRefresh(10);
 
-      await vi.advanceTimersByTimeAsync(FIRST_REFRESH_MS + RETRY_BUDGET_MS);
-      expect(fetchSpy).toHaveBeenCalledTimes(4);
-      expect(onFailure).toHaveBeenCalledOnce();
-      expect(onFailure.mock.calls[0][0].isAccessDenied).toBe(false);
+      await vi.advanceTimersByTimeAsync(FIRST_REFRESH_MS - 1);
+      expect(fetchSpy).toHaveBeenCalledTimes(1);
 
-      await vi.advanceTimersByTimeAsync(120000);
-      expect(fetchSpy).toHaveBeenCalledTimes(4);
-      expect(onFailure).toHaveBeenCalledOnce();
+      let expectedCalls = 1;
+      for (const delay of [5000, 10000, 20000, 30000, 30000, 30000]) {
+        await vi.advanceTimersByTimeAsync(delay - 1);
+        expect(fetchSpy).toHaveBeenCalledTimes(expectedCalls);
+
+        await vi.advanceTimersByTimeAsync(1);
+        expectedCalls += 1;
+        expect(fetchSpy).toHaveBeenCalledTimes(expectedCalls);
+      }
+
+      expect(onFailure).not.toHaveBeenCalled();
     });
 
-    it('gets a fresh retry budget when rescheduled after giving up', async () => {
-      fetchSpy.mockResolvedValue(fakeResponse(503));
+    it('resumes the normal schedule and restarts the retry delay after a success', async () => {
+      fetchSpy
+        .mockResolvedValueOnce(fakeResponse(503))
+        .mockResolvedValueOnce(fakeResponse(503))
+        .mockResolvedValueOnce(fakeResponse(200))
+        .mockResolvedValueOnce(fakeResponse(503))
+        .mockResolvedValue(fakeResponse(200));
       service.scheduleRefresh(10);
-      await vi.advanceTimersByTimeAsync(FIRST_REFRESH_MS + RETRY_BUDGET_MS);
-      expect(onFailure).toHaveBeenCalledOnce();
 
-      service.scheduleRefresh(10);
-      await vi.advanceTimersByTimeAsync(FIRST_REFRESH_MS);
+      await vi.advanceTimersByTimeAsync(FIRST_REFRESH_MS + 5000 + 10000);
+      expect(fetchSpy).toHaveBeenCalledTimes(3);
+      expect(onToken).toHaveBeenCalledOnce();
+
+      await vi.advanceTimersByTimeAsync(80001);
+      expect(fetchSpy).toHaveBeenCalledTimes(4);
+
+      await vi.advanceTimersByTimeAsync(5000);
       expect(fetchSpy).toHaveBeenCalledTimes(5);
-      expect(onFailure).toHaveBeenCalledOnce();
-
-      await vi.advanceTimersByTimeAsync(RETRY_BUDGET_MS);
-      expect(fetchSpy).toHaveBeenCalledTimes(8);
-      expect(onFailure).toHaveBeenCalledTimes(2);
+      expect(onFailure).not.toHaveBeenCalled();
     });
 
     it.each([200, 401])('stays silent when destroyed while a fetch is pending and then answers %i', async (status) => {
