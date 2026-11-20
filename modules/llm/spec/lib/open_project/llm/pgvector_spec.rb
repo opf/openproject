@@ -65,6 +65,42 @@ RSpec.describe OpenProject::Llm::Pgvector do
 
       expect(described_class.available?).to be(false)
     end
+
+    it "is false when the installed pgvector version is too old" do
+      allow(described_class).to receive(:version_supported?).and_return(false)
+
+      expect(described_class.available?).to be(false)
+    end
+  end
+
+  describe ".version_supported?" do
+    it "is true for the pgvector installed in the test database" do
+      expect(described_class.version_supported?).to be(true)
+    end
+
+    it "accepts the minimum version" do
+      allow(described_class).to receive(:extension_version).and_return("0.7.0")
+
+      expect(described_class.version_supported?).to be(true)
+    end
+
+    it "accepts newer versions" do
+      allow(described_class).to receive(:extension_version).and_return("0.8.1")
+
+      expect(described_class.version_supported?).to be(true)
+    end
+
+    it "rejects versions older than 0.7.0" do
+      allow(described_class).to receive(:extension_version).and_return("0.6.2")
+
+      expect(described_class.version_supported?).to be(false)
+    end
+
+    it "rejects a missing version" do
+      allow(described_class).to receive(:extension_version).and_return(nil)
+
+      expect(described_class.version_supported?).to be(false)
+    end
   end
 
   describe ".include_migrations_path_if_installable!" do
@@ -76,6 +112,29 @@ RSpec.describe OpenProject::Llm::Pgvector do
       allow(described_class).to receive(:extension_available?).and_return(false)
 
       expect(described_class.include_migrations_path_if_installable!).to have_attributes(reason: :unavailable)
+    end
+
+    it "reports an outdated installed pgvector version" do
+      allow(described_class).to receive(:extension_version).and_return("0.6.2")
+
+      expect(described_class.include_migrations_path_if_installable!)
+        .to have_attributes(reason: :outdated, detail: "0.6.2")
+    end
+
+    it "reports an outdated installable pgvector version when the extension is not installed yet" do
+      allow(described_class).to receive_messages(extension_installed?: false, installable_version: "0.5.1")
+
+      expect(described_class.include_migrations_path_if_installable!)
+        .to have_attributes(reason: :outdated, detail: "0.5.1")
+    end
+
+    it "does not include the migrations path when the pgvector version is too old" do
+      allow(described_class).to receive(:extension_version).and_return("0.6.2")
+      allow(described_class).to receive(:include_migrations_path!)
+
+      described_class.include_migrations_path_if_installable!
+
+      expect(described_class).not_to have_received(:include_migrations_path!)
     end
 
     context "when creating the extension fails" do
@@ -155,6 +214,19 @@ RSpec.describe OpenProject::Llm::Pgvector do
       expect(migration_context).to have_received(:migrate)
     end
 
+    context "when the installed pgvector version is too old" do
+      before { allow(described_class).to receive(:version_supported?).and_return(false) }
+
+      it "neither includes the migrations path nor migrates" do
+        allow(described_class).to receive(:include_migrations_path!)
+
+        described_class.migrate_pending_if_installable!
+
+        expect(described_class).not_to have_received(:include_migrations_path!)
+        expect(migration_context).not_to have_received(:migrate)
+      end
+    end
+
     context "when the extension is not installed yet" do
       before { allow(described_class).to receive(:extension_installed?).and_return(false) }
 
@@ -183,6 +255,15 @@ RSpec.describe OpenProject::Llm::Pgvector do
   end
 
   describe ".include_migrations_path_if_installed!" do
+    it "does not include the migrations path when the installed pgvector version is too old" do
+      allow(described_class).to receive(:version_supported?).and_return(false)
+      allow(described_class).to receive(:include_migrations_path!)
+
+      described_class.include_migrations_path_if_installed!
+
+      expect(described_class).not_to have_received(:include_migrations_path!)
+    end
+
     context "when optional migrations are skipped", with_env: { "OPENPROJECT_SKIP_OPTIONAL_MIGRATIONS" => "true" } do
       it "does not include the migrations path although the extension is installed" do
         allow(described_class).to receive(:include_migrations_path!)
@@ -207,6 +288,13 @@ RSpec.describe OpenProject::Llm::Pgvector do
       failure = described_class::Failure.new(reason: :insufficient_privilege, detail: nil)
 
       expect(described_class.warning(failure)).to include("The database user is not allowed to create the pgvector extension")
+    end
+
+    it "tells which pgvector version is required when the installed one is too old" do
+      failure = described_class::Failure.new(reason: :outdated, detail: "0.6.2")
+
+      expect(described_class.warning(failure))
+        .to include("version 0.6.2").and include("version 0.7.0 or newer is required")
     end
   end
 
