@@ -61,7 +61,7 @@ it:
         item_2:
           name: Gestori BIM
         item_3:
-          name: Progettisti BIM
+          name: BIM Modelers
         item_4:
           name: Capi coordinatori BIM
         item_5:
@@ -499,17 +499,17 @@ it:
               description: Questo tipo è gerarchicamente un genitore dei tipi "Scontro" e "Richiesta", quindi rappresenta una nota generale.
               children:
                 item_0:
-                  subject: Progettazione del modello BIM iniziale
+                  subject: Modeling initial BIM model
                   description: |-
-                    # Obiettivo
+                    # Goal
 
-                    *   Progettazione del modello BIM iniziale
-                    *   Creazione di un modello BIM per l'intero team di progetto
+                    *   Modeling the initial BIM model
+                    *   Creating a BIM model for the whole project team
 
-                    # Descrizione
+                    # Description
 
-                    *   In base ai dati raccolti dal cliente, verrà modellato il modello iniziale
-                    *   Il modello deve essere modellato secondo le matrici LOD e contenere le informazioni necessarie
+                    *   According to the gathered data from the customer, the initial model will be modeled
+                    *   The model shall be modeled according to the LOD Matrices and contain the information needed
                     *   ...
                 item_1:
                   subject: Verifica e revisione iniziale del modello interno
@@ -526,23 +526,23 @@ it:
                   subject: Invio del modello BIM iniziale
                   description: Questo tipo è gerarchicamente un genitore dei tipi "Scontro" e "Richiesta", quindi rappresenta una nota generale.
             item_4:
-              subject: Modellazione, primo ciclo
+              subject: Modeling, first cycle
               description: Questo tipo è gerarchicamente un genitore dei tipi "Scontro" e "Richiesta", quindi rappresenta una nota generale.
               children:
                 item_0:
                   subject: Riferimento a modelli BIM esterni
                   description: |-
-                    # Obiettivo
+                    # Goal
 
-                    *   Avere una base per sviluppare il modello interno e offrire risposte
-                    *   Utilizzo del modello esterno per sviluppare il modello interno
+                    *   Having a foundation for developing the internal model/ offering answers
+                    *   Using the external model to develop the internal model
 
-                    # Descrizione
+                    # Description
 
-                    *   Il modello esterno sarà referenziato nella piattaforma BIM, quindi utilizzato per la progettazione del modello interno
+                    *   The external model will be referenced in the BIM platform, thus used for modeling the internal model
                     *   ...
                 item_1:
-                  subject: Progettazione del modello BIM
+                  subject: Modeling the BIM model
                   description: |-
                     # Obiettivo
 
@@ -590,19 +590,19 @@ it:
                   subject: Coordinamento finale, primo ciclo
                   description: Questo tipo è gerarchicamente un genitore dei tipi "Scontro" e "Richiesta", quindi rappresenta una nota generale.
             item_6:
-              subject: Modellazione e coordinamento, secondo ciclo
+              subject: Modeling & coordinating, second cycle
               description: "## Obiettivo\r\n\r\n*   ...\r\n\r\n## Descrizione\r\n\r\n* \\  ..."
             item_7:
-              subject: Modellazione e coordinamento, ... ciclo
+              subject: Modeling & coordinating, ... cycle
               description: Questo tipo è gerarchicamente un genitore dei tipi "Scontro" e "Richiesta", quindi rappresenta una nota generale.
             item_8:
-              subject: Modellazione e coordinamento, (n-1esimo) ciclo
+              subject: Modeling & coordinating, (n-th minus 1) cycle
               description: "## Obiettivo\r\n\r\n*   ...\r\n\r\n## Descrizione\r\n\r\n* \\  ..."
             item_9:
-              subject: Modellazione e coordinamento, n-esimo ciclo
+              subject: Modeling & coordinating n-th cycle
               description: Questo tipo è gerarchicamente un genitore dei tipi "Scontro" e "Richiesta", quindi rappresenta una nota generale.
             item_10:
-              subject: Finitura modellazione e coordinamento, n-esimo ciclo
+              subject: Finishing modeling & coordinating, n-th cycle
               description: Questo tipo è gerarchicamente un genitore dei tipi "Scontro" e "Richiesta", quindi rappresenta una nota generale.
             item_11:
               subject: Uso del modello per la fase di costruzione

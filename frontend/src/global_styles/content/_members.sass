@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -30,44 +29,3 @@
 #members_add_form
   display: none
   margin-bottom: 1rem
-  .-flex
-    display: flex
-    align-items: flex-end
-
-    .form--field,
-    #member-add-submit-button--container
-      margin-bottom: 1px
-      flex-basis: 50%
-
-    &:not(.-with-button)
-      .form--field
-        overflow: hidden
-
-  // Override default margin to allow correct vertical alignment
-  #add-member--submit-button
-    margin-bottom: 0
-    margin-left: 1rem
-    // Necessary so that button and select box have the same height
-    line-height: 0.6rem
-
-@media screen and (max-width: $breakpoint-sm)
-  #members_add_form .-flex
-    align-items: flex-start
-
-    &.-with-button
-      flex-direction: column
-      // Workaround for safari and IE
-      // They are not able to get the correct height with flex-direction: column
-      height: 120px
-
-    #add-member--submit-button
-      margin-left: 0
-    .form--field
-      margin-bottom: 1rem
-
-@media screen and (max-width: $breakpoint-xl) and (min-width: $breakpoint-sm)
-  #members_add_form .-flex.-with-button
-    .form--field
-      max-width: 60%
-      select
-        max-width: 60%

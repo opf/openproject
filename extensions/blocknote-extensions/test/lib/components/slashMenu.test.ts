@@ -1,0 +1,106 @@
+// @vitest-environment jsdom
+
+import { describe, it, expect, beforeEach, afterAll, vi } from 'vitest';
+import { CodeSquareIcon } from '@primer/octicons-react';
+import { getOpenProjectSlashMenuItems } from '../../../lib/components/SlashMenu';
+import { probeCreateWorkPackagePermission } from '../../../lib/services/openProjectApi';
+import i18n from '../../../lib/services/i18n';
+
+const setLang = async (lang:string) => i18n.changeLanguage(lang);
+
+function answerPermissionProbeWith(status:number):Promise<boolean> {
+  vi.stubGlobal('fetch', () => Promise.resolve({
+    ok: status < 400,
+    status,
+    statusText: 'stubbed',
+    json: () => Promise.resolve({}),
+  }));
+  return probeCreateWorkPackagePermission();
+}
+
+describe('getOpenProjectSlashMenuItems', () => {
+  const linkItem = () => getOpenProjectSlashMenuItems({} as any)[0];
+  const createItem = () => getOpenProjectSlashMenuItems({} as any)[1];
+
+  beforeEach(() => answerPermissionProbeWith(200));
+
+  afterAll(() => vi.unstubAllGlobals());
+
+  it('is translated to German', async () => {
+    await setLang('de');
+    const slashMenu = linkItem();
+    expect(slashMenu.title).toBe('Vorhandenes Arbeitspaket verlinken');
+  });
+
+  it('is translated to English', async () => {
+    await setLang('en');
+    const slashMenu = linkItem();
+    expect(slashMenu.title).toBe('Link existing work package');
+  });
+
+  it('calculates all possible aliases for the slash menu', async () => {
+    await setLang('en');
+    const slashMenu = linkItem();
+    const actual = slashMenu.aliases;
+    const expected = [
+      'openproject work package link', 'openproject workpackage link', 'openproject wp link',
+      'op work package link', 'op workpackage link', 'op wp link',
+      'openproject link work package', 'openproject link workpackage', 'openproject link wp',
+      'op link work package', 'op link workpackage', 'op link wp',
+      'work package openproject link', 'work package op link',
+      'workpackage openproject link', 'workpackage op link',
+      'wp openproject link', 'wp op link',
+      'work package link openproject', 'work package link op',
+      'workpackage link openproject', 'workpackage link op',
+      'wp link openproject', 'wp link op',
+      'link work package openproject', 'link work package op',
+      'link workpackage openproject', 'link workpackage op',
+      'link wp openproject', 'link wp op',
+      'link openproject work package', 'link openproject workpackage', 'link openproject wp',
+      'link op work package', 'link op workpackage', 'link op wp',
+    ];
+    expect(actual.sort()).toEqual(expected.sort());
+  });
+
+  it('keeps English aliases even when language is German', async () => {
+    await setLang('de');
+    const slashMenu = linkItem();
+    const actual = slashMenu.aliases;
+
+    expect(actual).toContain('openproject work package link');
+    expect(actual).toContain('openproject Arbeitspaket link');
+    expect(actual).toContain('openproject wp link');
+    expect(actual).toContain('openproject ap link');
+
+    await setLang('en');
+  });
+
+  const titles = () => getOpenProjectSlashMenuItems({} as any).map((item) => item.title);
+
+  it('offers the create item next to the link item', async () => {
+    await setLang('en');
+
+    expect(titles()).toEqual(['Link existing work package', 'Create new work package', 'Work package attribute']);
+    expect(createItem().aliases).toContain('openproject work package create');
+  });
+
+  it('drops the create item for a user who may not create work packages', async () => {
+    await setLang('en');
+    await answerPermissionProbeWith(403);
+
+    expect(titles()).toEqual(['Link existing work package', 'Work package attribute']);
+  });
+
+  it('finds the attribute item by its aliases', async () => {
+    await setLang('en');
+    const attributeItem = getOpenProjectSlashMenuItems({} as any).at(-1)!;
+
+    expect(attributeItem.aliases).toContain('openproject work package attribute');
+    expect(attributeItem.aliases).toContain('wp attribute op');
+  });
+
+  it('shows the attribute item with the code-square icon', () => {
+    const attributeItem = getOpenProjectSlashMenuItems({} as any).at(-1)!;
+    expect(attributeItem.icon.type).toBe(CodeSquareIcon);
+  });
+});

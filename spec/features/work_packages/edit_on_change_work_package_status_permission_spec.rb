@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -82,6 +81,43 @@ RSpec.describe "edit work package", :js do
 
       subject_field = wp_page.work_package_field("subject")
       subject_field.expect_read_only
+    end
+  end
+
+  context "when using the status menu" do
+    it "opens from the keyboard, moves with the arrow keys and returns focus to the button" do
+      send_keys_without_click(find(:button, accessible_name: "Status New"), :enter)
+
+      within(:menu, "Status") do
+        expect(page).to have_selector(:menuitem, "New", focused: true)
+        page.driver.browser.keyboard.type(:down)
+        expect(page).to have_selector(:menuitem, "Done", focused: true)
+      end
+
+      page.driver.browser.keyboard.type(:escape)
+      expect(page).to have_no_menu
+      expect(page).to have_button(accessible_name: "Status New", focused: true)
+
+      send_keys_without_click(find(:button, accessible_name: "Status New"), :enter)
+      within(:menu, "Status") do
+        find(:menuitem, "Done", exact: true).click
+      end
+
+      wp_page.expect_toast(message: "Successful update")
+      expect(page).to have_button(accessible_name: "Status Done", focused: true)
+    end
+
+    it "shows the previous status again when the save is rejected" do
+      click_button(accessible_name: "Status New")
+      within(:menu, "Status") do
+        expect(page).to have_selector(:menuitem, "Done")
+        workflow.update_columns(new_status_id: create(:status, name: "Rejected").id)
+        find(:menuitem, "Done", exact: true).click
+      end
+
+      wp_page.expect_toast(type: :error, message: "Status is invalid because no valid transition exists")
+      expect(page).to have_button(accessible_name: "Status New")
+      expect(work_package.reload.status).to eq(status_new)
     end
   end
 

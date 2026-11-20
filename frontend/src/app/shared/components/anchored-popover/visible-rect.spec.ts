@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -74,7 +73,7 @@ describe('visibleRect', () => {
   it('cuts the part hidden behind a scroller edge', () => {
     const { container, target } = mount(`
       <div data-container style="position: relative; width: 200px; height: 100px; overflow: auto;">
-        <div style="position: relative; width: 400px; height: 100px;">
+        <div style="position: relative; width: 400px; height: 40px;">
           <div data-target style="position: absolute; left: 150px; top: 10px; width: 100px; height: 20px;"></div>
         </div>
       </div>

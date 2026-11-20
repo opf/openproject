@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,6 +30,12 @@
 class CustomField < ApplicationRecord
   include CustomField::OrderStatements
   include CustomField::CalculatedValue
+  include CustomField::ProjectSpecificValues
+  include Lists::MoveAfterAnchor
+
+  SORTABLE_LIST_TYPE = "custom_field"
+  ATTRIBUTE_NAME_PATTERN = /\Acustom_field_(?<id>\d+)\z/
+  COLUMN_NAME_PATTERN = /\Acf_(?<id>\d+)\z/
 
   normalizes :name, with: OpenProject::RemoveInvisibleCharacters
 
@@ -104,7 +109,7 @@ class CustomField < ApplicationRecord
 
   # make sure int, float, date, and bool are not searchable
   def check_searchability
-    self.searchable = false if %w(int float date bool user version).include?(field_format)
+    self.searchable = false if %w(int float date datetime bool user version).include?(field_format)
     true
   end
 
@@ -264,7 +269,7 @@ class CustomField < ApplicationRecord
     items.value_or([])
   end
 
-  def cast_value(value)
+  def cast_value(value) # rubocop:disable Metrics/AbcSize
     return if value.blank?
 
     case field_format
@@ -273,6 +278,12 @@ class CustomField < ApplicationRecord
     when "date"
       begin
         value.to_date
+      rescue StandardError
+        nil
+      end
+    when "datetime"
+      begin
+        ActiveSupport::TimeZone["UTC"].iso8601(value)
       rescue StandardError
         nil
       end
@@ -309,7 +320,25 @@ class CustomField < ApplicationRecord
   end
 
   def self.custom_field_attribute?(attribute_name)
-    /\Acustom_field_\d+\z/.match?(attribute_name.to_s)
+    ATTRIBUTE_NAME_PATTERN.match?(attribute_name.to_s)
+  end
+
+  def self.id_from_attribute_name(attribute_name)
+    match = ATTRIBUTE_NAME_PATTERN.match(attribute_name.to_s)
+    match[:id].to_i if match
+  end
+
+  def self.column_name?(name)
+    COLUMN_NAME_PATTERN.match?(name.to_s)
+  end
+
+  def self.id_from_column_name(name)
+    match = COLUMN_NAME_PATTERN.match(name.to_s)
+    match[:id].to_i if match
+  end
+
+  def self.column_name_pattern_for(ids)
+    /\Acf_(?<id>#{ids.map(&:to_i).join('|')})\z/
   end
 
   # to move in project_custom_field
@@ -402,7 +431,7 @@ class CustomField < ApplicationRecord
   end
 
   def multi_value_possible?
-    format_definition&.multi_value_possible?
+    format_definition&.multi_value_possible?(self.class.customized_class&.name)
   end
 
   def numeric_bounds_possible?

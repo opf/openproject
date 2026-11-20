@@ -20,13 +20,25 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { createPointCB, getClientRect as getRect, pointInside } from 'dom-plane';
+import {
+  type ClientRect,
+  createPointCB,
+  getClientRect as getRect,
+  type Point,
+  pointInside,
+} from 'dom-plane';
+
+export interface DomAutoscrollParams {
+  maxSpeed?:number;
+  margin?:number;
+  scrollWhenOutside?:boolean;
+  autoScroll:() => boolean|undefined;
+}
 
 export class DomAutoscrollService {
   public elements:Element[];
@@ -37,7 +49,7 @@ export class DomAutoscrollService {
 
   public scrollWhenOutside:boolean;
 
-  public autoScroll:() => boolean;
+  public autoScroll:() => boolean|undefined;
 
   public maxSpeed:number;
 
@@ -51,20 +63,20 @@ export class DomAutoscrollService {
 
   public outerScrollContainer:HTMLElement;
 
-  public point:any;
+  public point:Point;
 
-  public pointCB:any;
+  public pointCB:(event:Event) => void;
 
   private abortController:AbortController;
 
   constructor(elements:Element[],
-    params:any) {
+    params:DomAutoscrollParams) {
     this.elements = elements;
     this.maxSpeed = params.maxSpeed || 5;
     this.margin = params.margin || 10;
     this.scrollWhenOutside = params.scrollWhenOutside || false;
     this.autoScroll = params.autoScroll;
-    this.point = {};
+    this.point = {} as Point;
     this.pointCB = createPointCB(this.point);
 
     this.init();
@@ -115,9 +127,9 @@ export class DomAutoscrollService {
     cancelAnimationFrame(this.windowAnimationFrame);
   }
 
-  public setScroll(e:any) {
-    for (let i = 0; i < this.elements.length; i++) {
-      if (this.elements[i] === e.target) {
+  public setScroll(e:Event) {
+    for (const element of this.elements) {
+      if (element === e.target) {
         this.scrolling = true;
         break;
       }
@@ -157,7 +169,7 @@ export class DomAutoscrollService {
     return underPoint;
   }
 
-  public onMove(event:any) {
+  public onMove(event:Event & { dispatched?:boolean }) {
     if (!this.autoScroll()) {
       return;
     }
@@ -259,7 +271,7 @@ export class DomAutoscrollService {
     }
   }
 
-  public inside(point:any, el:Element, rect?:any) {
+  public inside(point:Pick<Point, 'x'|'y'>, el:Element, rect?:ClientRect) {
     if (!rect) {
       return pointInside(point, el);
     }

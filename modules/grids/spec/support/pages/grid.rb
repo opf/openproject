@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,7 +32,7 @@ module Pages
     def add_widget(row_number, column_number, location, name)
       within_add_widget_modal(row_number, column_number, location) do
         expect(page)
-          .to have_content(I18n.t("js.grid.add_widget"))
+          .to have_text(I18n.t("js.grid.add_widget"))
 
         SeleniumHubWaiter.wait unless using_cuprite?
 
@@ -56,7 +55,7 @@ module Pages
 
     def expect_add_widget_enterprise_edition_notice(row_number, column_number, location)
       within_add_widget_modal(row_number, column_number, location) do
-        expect(page).to have_content(I18n.t("js.grid.add_widget"))
+        expect(page).to have_text(I18n.t("js.grid.add_widget"))
         expect(page).to have_text "Available starting with the Basic enterprise plan"
       end
     end
@@ -97,7 +96,7 @@ module Pages
     def expect_specific_widget_unaddable(row_number, column_number, location, name)
       within_add_widget_modal(row_number, column_number, location) do
         expect(page)
-          .to have_content(I18n.t("js.grid.add_widget"))
+          .to have_text(I18n.t("js.grid.add_widget"))
 
         expect(page)
           .to have_no_css('[data-test-selector="op-grid--addable-widget"]', text: Regexp.new("^#{name}$"))

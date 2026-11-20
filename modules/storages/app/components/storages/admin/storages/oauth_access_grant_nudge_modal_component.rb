@@ -22,12 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
 
 module Storages
   module Admin
@@ -60,7 +58,7 @@ module Storages
         def provider_type = I18n.t("storages.provider_types.#{storage}.name")
 
         def login_button_aria_label
-          I18n.t("storages.oauth_grant_nudge_modal.login_button_aria_label", storage: storage.name)
+          I18n.t("storages.oauth_grant_nudge_modal.login_button_accessible_name", provider_type:, storage: storage.name)
         end
 
         def confirm_button_url

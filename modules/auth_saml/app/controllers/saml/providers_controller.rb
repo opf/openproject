@@ -1,5 +1,32 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 module Saml
   class ProvidersController < ::ApplicationController
     include OpTurbo::ComponentStream
@@ -9,8 +36,10 @@ module Saml
 
     before_action :require_admin
     before_action :check_ee, except: %i[index]
-    before_action :find_provider, only: %i[show edit import_metadata update confirm_destroy destroy]
-    before_action :check_provider_writable, only: %i[update import_metadata]
+    before_action :find_provider,
+                  only: %i[show edit import_metadata refresh_metadata apply_metadata update confirm_destroy destroy]
+    before_action :check_provider_writable, only: %i[update import_metadata refresh_metadata apply_metadata]
+    before_action :check_metadata_url, only: %i[refresh_metadata apply_metadata]
     before_action :set_edit_state, only: %i[create edit update import_metadata]
 
     def index
@@ -70,6 +99,29 @@ module Saml
       end
     end
 
+    def refresh_metadata
+      call = Saml::UpdateMetadataService.new(provider: @provider, user: User.current).call
+
+      if call.success?
+        prepare_metadata_preview
+      else
+        flash[:error] = call.message
+        redirect_to saml_provider_path(@provider)
+      end
+    end
+
+    def apply_metadata
+      preview = metadata_verifier.verified(params[:metadata_token], purpose: metadata_token_purpose)
+
+      if (error = metadata_preview_error(preview))
+        flash[:error] = error
+      else
+        apply_metadata_options(preview["options"])
+      end
+
+      redirect_to saml_provider_path(@provider)
+    end
+
     def update
       call = Saml::Providers::UpdateService
         .new(model: @provider, user: User.current)
@@ -103,6 +155,50 @@ module Saml
     end
 
     private
+
+    def prepare_metadata_preview
+      @metadata_changes = @provider.options.filter do |key, value|
+        key != "last_metadata_update" && value != @provider.options_in_database[key]
+      end
+      @metadata_token = metadata_verifier.generate(
+        {
+          "provider_version" => @provider.cache_key_with_version,
+          "options" => @metadata_changes.merge("last_metadata_update" => @provider.last_metadata_update)
+        },
+        purpose: metadata_token_purpose,
+        expires_in: 15.minutes
+      )
+    end
+
+    def metadata_preview_error(preview)
+      if preview.nil?
+        t(".expired")
+      elsif preview["provider_version"] != @provider.cache_key_with_version
+        t(".provider_changed")
+      end
+    end
+
+    def apply_metadata_options(options)
+      call = Saml::Providers::UpdateService.new(model: @provider, user: User.current).call(options:)
+
+      if call.success?
+        flash[:notice] = I18n.t("saml.metadata_parser.success")
+      else
+        flash[:error] = call.message
+      end
+    end
+
+    def check_metadata_url
+      render_404 if @provider.metadata_url.blank?
+    end
+
+    def metadata_verifier
+      Rails.application.message_verifier("saml_metadata_refresh")
+    end
+
+    def metadata_token_purpose
+      "apply_metadata/#{@provider.id}"
+    end
 
     def successful_save_response
       if @new_mode && !@next_edit_state

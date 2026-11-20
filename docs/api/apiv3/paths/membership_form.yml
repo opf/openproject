@@ -2,7 +2,7 @@
 ---
 post:
   summary: Form update membership
-  operationId: form_update_membership
+  operationId: validate_membership_update_form
   tags:
     - Memberships
   description: |-

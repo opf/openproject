@@ -29,19 +29,18 @@ allOf:
             items:
               $ref: './project_storage_model.yml'
 
-example:
-  _type: Collection
-  total: 2
-  count: 2
-  _links:
-    self:
-      href: '/api/v3/project_storages?filters=%5B%7B%22storage%22%3A%7B%22operator%22%3A%22%3D%22%2C%22values%22%3A%5B%2281%22%5D%7D%7D%5D'
-  _embedded:
-    elements:
-      - id: 1337
-        _type: ProjectStorage
-        _abbreviated: project storage resource shortened for brevity
-      - id: 1338
-        _type: ProjectStorage
-        _abbreviated: File Link resource shortened for brevity
-
+examples:
+  - _type: Collection
+    total: 2
+    count: 2
+    _links:
+      self:
+        href: '/api/v3/project_storages?filters=%5B%7B%22storage%22%3A%7B%22operator%22%3A%22%3D%22%2C%22values%22%3A%5B%2281%22%5D%7D%7D%5D'
+    _embedded:
+      elements:
+        - id: 1337
+          _type: ProjectStorage
+          _abbreviated: project storage resource shortened for brevity
+        - id: 1338
+          _type: ProjectStorage
+          _abbreviated: File Link resource shortened for brevity

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -43,6 +42,7 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
   include Exports::PDF::Artefact::Toc
   include Exports::PDF::Artefact::Lifecycle
   include Exports::PDF::Artefact::Budgets
+  include Exports::PDF::Artefact::WikiPages
   include WorkPackage::PDFExport::Common::MarkdownField
   include WorkPackage::PDFExport::Wp::Attributes
 
@@ -207,6 +207,7 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
     write_artefact_lifecycle if with_lifecycle?
     write_artefact_budgets if with_budget?
     write_artefact_wp_attributes
+    write_artefact_wiki_pages
   end
 
   def with_toc?
@@ -235,7 +236,8 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
     build_project_attributes_toc_entries +
       build_lifecycle_toc_entries +
       build_budget_toc_entries +
-      build_wp_attribute_group_toc_entries
+      build_wp_attribute_group_toc_entries +
+      build_wiki_page_toc_entries
   end
 
   def build_project_attributes_toc_entries
@@ -259,8 +261,8 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
   end
 
   def build_wp_attribute_group_toc_entries
-    work_package.type_variant.attribute_groups.map do |group|
-      toc_entry("wp_group_#{group.key}", group.translated_key)
+    form_configuration(work_package).groups.map do |group|
+      toc_entry("wp_group_#{group.key}", group.title)
     end
   end
 
@@ -321,7 +323,7 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
   def write_group_title(group, with_hr: true) # rubocop:disable Lint/UnusedMethodArgument
     write_optional_page_break
     record_toc_page!("wp_group_#{group.key}")
-    write_section_title(group.translated_key)
+    write_section_title(group.title)
   end
 
   def page_orientation_landscape?

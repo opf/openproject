@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,7 +33,7 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component do
   shared_let(:type_feature) { create(:type_feature) }
   shared_let(:project) { create(:project, types: [type_feature]) }
 
-  let(:menu_src) { "/backlogs/work_packages/#{work_package.id}/menu" }
+  let(:menu_src) { "/backlogs/work_packages/menu?ids%5B%5D=#{work_package.id}&invoker_id=#{work_package.id}" }
   let(:work_package) do
     create(:work_package,
            project:,
@@ -44,7 +43,7 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component do
   end
 
   subject(:rendered_component) do
-    render_inline(described_class.new(work_package:, menu_src:))
+    render_inline(described_class.new(work_package:, project:, menu_src:))
   end
 
   it "renders the common work package card" do
@@ -52,13 +51,84 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component do
     expect(rendered_component).to have_text("##{work_package.id}")
   end
 
+  context "with a visible parent" do
+    let(:parent) { create(:work_package, project:, type: type_feature, subject: "Parent epic") }
+    let(:work_package) do
+      create(:work_package, project:, type: type_feature, subject: "Backlogs card", parent:)
+    end
+
+    before { allow(work_package.parent).to receive(:visible?).and_return(true) }
+
+    it "renders the subject and the parent as text, not links", :aggregate_failures do
+      expect(rendered_component).to have_text("Backlogs card")
+      expect(rendered_component).to have_text("Parent epic")
+      expect(rendered_component).to have_no_element(:a, text: "Backlogs card")
+      expect(rendered_component).to have_no_element(:a, text: "Parent epic")
+    end
+  end
+
   it "renders story points as the card metric" do
     expect(rendered_component).to have_css("span", text: "5", aria: { hidden: true })
     expect(rendered_component).to have_css(".sr-only", text: "5 story points")
   end
 
+  it "never dereferences work_package.project, relying on the caller-supplied project instead" do
+    unloaded_work_package = WorkPackage.find(work_package.id)
+    expect(unloaded_work_package.association(:project).loaded?).to be false
+
+    render_inline(described_class.new(work_package: unloaded_work_package, project:, menu_src:))
+
+    expect(unloaded_work_package.association(:project).loaded?).to be false
+  end
+
+  context "when the project's estimation unit is time", with_flag: { project_settings_estimation_unit: true } do
+    before { project.update!(estimation_unit: "time") }
+
+    let(:work_package) do
+      create(:work_package,
+             project:,
+             type: type_feature,
+             story_points: 5,
+             estimated_hours: 8,
+             subject: "Backlogs card")
+    end
+
+    it "renders the estimated hours as the card metric instead of story points" do
+      expect(rendered_component).to have_no_css(".sr-only", text: "5 story points")
+      expect(rendered_component).to have_css(".sr-only", text: "Work")
+    end
+
+    context "when estimated_hours is blank" do
+      let(:work_package) do
+        create(:work_package, project:, type: type_feature, story_points: 5, estimated_hours: nil, subject: "Backlogs card")
+      end
+
+      it "shows no metric at all" do
+        expect(rendered_component).to have_no_css(".op-work-package-card_with-metric")
+      end
+    end
+
+    context "when estimated_hours is zero" do
+      let(:work_package) do
+        create(:work_package, project:, type: type_feature, story_points: 5, estimated_hours: 0, subject: "Backlogs card")
+      end
+
+      it "shows no metric at all" do
+        expect(rendered_component).to have_no_css(".op-work-package-card_with-metric")
+      end
+    end
+  end
+
+  context "when the project's estimation unit is none", with_flag: { project_settings_estimation_unit: true } do
+    before { project.update!(estimation_unit: "none") }
+
+    it "shows no metric at all" do
+      expect(rendered_component).to have_no_css(".op-work-package-card_with-metric")
+    end
+  end
+
   it "supports caller-provided metric content" do
-    rendered = render_inline(described_class.new(work_package:, menu_src:)) do |card|
+    rendered = render_inline(described_class.new(work_package:, project:, menu_src:)) do |card|
       card.with_metric { "Custom metric" }
     end
 
@@ -66,19 +136,20 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component do
     expect(rendered).to have_no_css(".sr-only", text: "5 story points")
   end
 
-  it "passes the menu source to the common card" do
-    expect(rendered_component).to have_element "include-fragment",
-                                               src: menu_src
+  it "puts the menu source on the action menu, where a client can refresh it" do
+    expect(rendered_component).to have_element "action-menu", src: menu_src
   end
 
   it "forwards extra system arguments to the common card root" do
-    rendered = render_inline(described_class.new(work_package:, menu_src:, data: { controller: "backlogs--work-package" }))
+    rendered = render_inline(
+      described_class.new(work_package:, project:, menu_src:, data: { controller: "backlogs--work-package" })
+    )
 
     expect(rendered).to have_css("article[data-controller='backlogs--work-package']")
   end
 
   it "supports inline menu items through the menu slot" do
-    rendered = render_inline(described_class.new(work_package:, menu_src:)) do |card|
+    rendered = render_inline(described_class.new(work_package:, project:, menu_src:)) do |card|
       card.with_menu(button_aria_label: "Backlogs card actions") do |menu|
         menu.with_item(label: "Open", href: "/work_packages/#{work_package.id}")
       end
@@ -89,7 +160,7 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component do
       "work_package_#{work_package.id}_menu-button",
       accessible_name: "Backlogs card actions"
     )
-    expect(rendered).to have_no_element "include-fragment"
+    expect(rendered).to have_no_css "action-menu[src]"
     expect(rendered).to have_css("span", text: "5", aria: { hidden: true })
     expect(rendered).to have_css(".sr-only", text: "5 story points")
   end

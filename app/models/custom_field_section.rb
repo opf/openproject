@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -50,23 +49,17 @@ class CustomFieldSection < ApplicationRecord
     overview == OVERVIEW__MAIN_AREA_KEY
   end
 
-  # Append key to the end of the ordered list (or at a specific 1-indexed position).
+  # Append key to the end of the ordered list.
   # Idempotent: removes any existing occurrence first.
-  def add_to_order(key, position: nil)
-    keys = attribute_order.reject { |k| k == key }
-    if position && position > 0
-      keys.insert(position - 1, key)
-    else
-      keys << key
-    end
-    update_column(:attribute_order, keys)
+  def add_to_order(key)
+    update_column(:attribute_order, attribute_order.reject { |k| k == key } << key)
   end
 
   # Insert key directly after prev_key in the ordered list, or at the head
   # for a blank prev_key. Idempotent for key (any existing occurrence is
   # removed first). Returns false without mutating when prev_key does not
   # resolve to another key in the order.
-  def insert_after_key(key, prev_key) # rubocop:disable Naming/PredicateMethod -- verb command, not a query
+  def insert_after_key(key, prev_key)
     keys = attribute_order.reject { |k| k == key }
 
     if prev_key.blank?

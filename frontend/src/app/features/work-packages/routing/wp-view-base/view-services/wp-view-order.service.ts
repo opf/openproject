@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,56 +32,50 @@ import { States } from 'core-app/core/states/states.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { QuerySchemaResource } from 'core-app/features/hal/resources/query-schema-resource';
-import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
-import { MAX_ORDER, buildDelta } from 'core-app/shared/helpers/drag-and-drop/reorder-delta-builder';
+import { MAX_ORDER, buildDelta, buildMoveDelta, buildOrderDelta } from 'core-app/shared/helpers/drag-and-drop/reorder-delta-builder';
 import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
-import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
+import { ApiV3QueryOrder, QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
 import { WorkPackageQueryStateService } from './wp-view-base.service';
 import { firstValueFrom } from 'rxjs';
+
+export interface PreparedQueryOrder {
+  readonly order:readonly string[];
+  persist():Promise<void>;
+}
 
 @Injectable()
 export class WorkPackageViewOrderService extends WorkPackageQueryStateService<QueryOrder> {
   protected readonly apiV3Service = inject(ApiV3Service);
   protected readonly states = inject(States);
-  protected readonly causedUpdates = inject(CausedUpdatesService);
   protected readonly wpTableSortBy = inject(WorkPackageViewSortByService);
   protected readonly pathHelper = inject(PathHelperService);
 
-  public initialize(query:QueryResource, results:WorkPackageCollectionResource, schema?:QuerySchemaResource):Promise<unknown> {
+  private positionsOwner?:QueryResource;
+
+  private readonly pendingPositions = new WeakMap<QueryResource, Promise<QueryOrder>>();
+
+  public initialize(query:QueryResource):void {
     // Take over our current value if the query is not saved
     if (!isPersistedResource(query) && this.positions.hasValue()) {
       this.applyToQuery(query);
     }
 
     if (this.wpTableSortBy.isManualSortingMode) {
-      return this.withLoadedPositions();
+      void this.withLoadedPositions().catch((error:unknown) => console.error('Query order initialization failed', error));
     }
-
-    return Promise.resolve();
   }
 
   /**
    * Move an item in the list
    *
-   * Rejects an index it cannot honour before touching `order`: a negative
+   * Rejects an index it cannot honor before touching `order`: a negative
    * `fromIndex` or `toIndex` would splice from the END of the list, silently
    * displacing an unrelated work package and persisting a position for it.
    */
   public async move(order:string[], wpId:string, toIndex:number):Promise<string[]> {
-    // Find index of the work package
-    const fromIndex:number = order.findIndex((id) => id === wpId);
-
-    if (fromIndex === -1) {
-      throw new Error(`Cannot move work package ${wpId}: not in the current order.`);
-    }
-
-    if (!Number.isInteger(toIndex) || toIndex < 0 || toIndex >= order.length) {
-      throw new Error(`Cannot move work package ${wpId} to index ${toIndex}: out of bounds.`);
-    }
+    const fromIndex = this.validateMove(order, wpId, toIndex);
 
     order.splice(fromIndex, 1);
     order.splice(toIndex, 0, wpId);
@@ -104,16 +97,16 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
   /**
    * Pull an item from the rendered list and await the update
    */
-  public async removePersisted(order:string[], wpId:string):Promise<string[]> {
+  public async removePersisted(order:string[], wpId:string, query = this.currentQuery):Promise<string[]> {
     const filteredOrder = this.filterOrder(order, wpId);
-    await this.update({ [wpId]: -1 });
+    await this.update({ [wpId]: -1 }, query);
     return filteredOrder;
   }
 
   /**
    * Add an item to the list
    */
-  public async add(order:string[], wpId:string, toIndex = -1):Promise<string[]> {
+  public async add(order:string[], wpId:string, toIndex = -1, query = this.currentQuery):Promise<string[]> {
     if (toIndex === -1) {
       order.push(wpId);
       toIndex = order.length - 1;
@@ -121,7 +114,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
       order.splice(toIndex, 0, wpId);
     }
 
-    await this.assignPosition(order, wpId, toIndex);
+    await this.assignPosition(order, wpId, toIndex, null, query);
 
     return order;
   }
@@ -140,11 +133,13 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
    * @param wpId The work package ID that was moved
    * @param toIndex The id of the work package in order
    */
-  protected async assignPosition(order:string[], wpId:string, toIndex:number, fromIndex:number|null = null) {
-    const positions = await this.withLoadedPositions();
+  protected async assignPosition(
+    order:string[], wpId:string, toIndex:number, fromIndex:number|null, query = this.currentQuery,
+  ) {
+    const positions = await this.positionsFor(query);
     const delta = buildDelta(order, positions, wpId, toIndex, fromIndex);
 
-    await this.update(delta);
+    await this.update(delta, query);
   }
 
   protected get positions():InputState<QueryOrder> {
@@ -154,60 +149,169 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
   /**
    * Update the order state
    */
-  public async update(delta:QueryOrder) {
-    const current = this.positions.getValueOr({});
-    this.positions.putValue({ ...current, ...delta });
-
-    // Push the update if the query is saved
-    if (isPersistedResource(this.currentQuery)) {
-      const updatedAt = await this
-        .apiV3Service
-        .queries.id(this.currentQuery)
-        .order
-        .update(delta);
-
-      this.currentQuery.updatedAt = updatedAt;
-
-      // Remember that we caused this update
-      this.causedUpdates.add(this.currentQuery);
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  public async update(delta:QueryOrder, query = this.currentQuery) {
+    if (this.currentQuery === query && (!isPersistedResource(query) || this.positionsOwner === query)) {
+      const current = this.positions.getValueOr({});
+      this.positions.putValue({ ...current, ...delta });
     }
 
-    // Push into the query object
-    this.applyToQuery(this.currentQuery);
+    // Push the update if the query is saved
+    if (isPersistedResource(query)) {
+      await this.persistOrder(query, delta, this.apiV3Service.queries.id(query).order);
+    }
 
-    // Update the query
-    this.querySpace.query.putValue(this.currentQuery);
+    if (this.currentQuery === query) {
+      if (!isPersistedResource(query) || this.positionsOwner === query) this.applyToQuery(query);
+      this.querySpace.query.putValue(query);
+    }
+  }
+
+  private async persistOrder(query:QueryResource, delta:QueryOrder, endpoint:ApiV3QueryOrder):Promise<void> {
+    const { previousUpdatedAt, t } = await endpoint.update(delta);
+
+    // An intervening write leaves this list stale until it receives fresh query results.
+    if (previousUpdatedAt && query.updatedAt === previousUpdatedAt) {
+      query.updatedAt = t;
+    }
   }
 
   /**
    * Initialize (or load if persisted) the order for the query space
    */
   public withLoadedPositions():Promise<QueryOrder> {
-    if (isPersistedResource(this.currentQuery)) {
-      const { value } = this.positions;
-
-      // Remove empty or stale values given we can reload them
-      if (((value == null || Object.keys(value).length === 0) || this.positions.isValueOlderThan(60000))) {
-        this.positions.clear('Clearing old positions value');
-      }
-
-      // Load the current order from backend
-      this.positions.putFromPromiseIfPristine(
-        () => this
-          .apiV3Service
-          .queries.id(this.currentQuery)
-          .order
-          .get(),
-      );
-    } else if (this.positions.isPristine()) {
-      // Insert an empty fallback in case we have no data yet
-      this.positions.putValue({});
-    }
-
+    const query = this.currentQuery;
+    if (isPersistedResource(query)) return this.positionsFor(query);
+    if (this.positions.isPristine()) this.positions.putValue({});
     return firstValueFrom(this.positions.values$());
   }
 
-  public valueFromQuery(query:QueryResource) {
+  public positionsFor(query:QueryResource):Promise<QueryOrder> {
+    const positionsState = this.positions;
+    const isCurrent = this.querySpace.query.value === query;
+    if (!isPersistedResource(query)) {
+      return Promise.resolve({
+        ...query.orderedWorkPackages as QueryOrder,
+        ...(isCurrent ? positionsState.getValueOr({}) : {}),
+      });
+    }
+
+    const { value } = positionsState;
+    if (isCurrent && this.positionsOwner === query && value && Object.keys(value).length > 0 && !positionsState.isValueOlderThan(60000)) {
+      return Promise.resolve({ ...value });
+    }
+
+    const existing = this.pendingPositions.get(query);
+    if (existing) return existing.then((positions) => ({ ...positions }));
+    const endpoint = this.apiV3Service.queries.id(query);
+    if (isCurrent) {
+      this.positionsOwner = query;
+      positionsState.clear('Clearing old positions value');
+    }
+    const beforeLoad = positionsState.value;
+    const loading = endpoint.order.get().then((positions) => {
+      if (this.querySpace.query.value === query && positionsState.value === beforeLoad) {
+        positionsState.putValue({ ...positions });
+      }
+      return positions;
+    }).finally(() => this.pendingPositions.delete(query));
+    this.pendingPositions.set(query, loading);
+    return loading.then((positions) => ({ ...positions }));
+  }
+
+  public async prepareMove(
+    query:QueryResource,
+    order:readonly string[],
+    wpId:string,
+    toIndex:number,
+    isCurrent:() => boolean,
+  ):Promise<PreparedQueryOrder> {
+    const fromIndex = this.validateMove(order, wpId, toIndex);
+    const reordered = [...order];
+    reordered.splice(fromIndex, 1);
+    reordered.splice(toIndex, 0, wpId);
+    return this.prepareOrder(query, reordered, isCurrent, (positions) => buildMoveDelta(reordered, positions, wpId, toIndex, fromIndex));
+  }
+
+  private validateMove(order:readonly string[], wpId:string, toIndex:number):number {
+    const fromIndex = order.findIndex((id) => id === wpId);
+    if (fromIndex === -1) {
+      throw new Error(`Cannot move work package ${wpId}: not in the current order.`);
+    }
+    if (!Number.isInteger(toIndex) || toIndex < 0 || toIndex >= order.length) {
+      throw new Error(`Cannot move work package ${wpId} to index ${toIndex}: out of bounds.`);
+    }
+    return fromIndex;
+  }
+
+  public async prepareAdd(
+    query:QueryResource,
+    order:readonly string[],
+    wpId:string,
+    isCurrent:() => boolean,
+    toIndex = -1,
+  ):Promise<PreparedQueryOrder> {
+    const index = toIndex === -1 ? order.length : toIndex;
+    if (!Number.isInteger(index) || index < 0 || index > order.length) {
+      throw new Error(`Cannot add work package ${wpId} to index ${index}: out of bounds.`);
+    }
+    const reordered = [...order];
+    reordered.splice(index, 0, wpId);
+    return this.prepareOrder(query, reordered, isCurrent, (positions) => buildMoveDelta(reordered, positions, wpId, index, null));
+  }
+
+  public async prepareBlockMove(
+    query:QueryResource,
+    order:readonly string[],
+    block:readonly string[],
+    target:number,
+    isCurrent:() => boolean,
+  ):Promise<PreparedQueryOrder> {
+    const selected = new Set(block);
+    const members = order.filter((id) => selected.has(id));
+    const reordered = order.filter((id) => !selected.has(id));
+    if (members.length < 2 || members.length !== block.length || !Number.isInteger(target) || target < 0 || target > reordered.length) {
+      throw new Error('Invalid selection or target for a block move.');
+    }
+    reordered.splice(target, 0, ...members);
+    return this.prepareOrder(query, reordered, isCurrent, (positions) => buildOrderDelta(reordered, positions));
+  }
+
+  private async prepareOrder(
+    query:QueryResource,
+    reordered:string[],
+    isCurrent:() => boolean,
+    deltaFor:(positions:QueryOrder) => QueryOrder,
+  ):Promise<PreparedQueryOrder> {
+    const endpoint = isPersistedResource(query) ? this.apiV3Service.queries.id(query).order : undefined;
+    const querySpace = this.querySpace;
+    const positionsState = this.positions;
+    let positions = await this.positionsFor(query);
+    let delta = deltaFor(positions);
+    const ranksOthers = Object.keys(delta).some((id) => !reordered.includes(id));
+    if (endpoint && ranksOthers) {
+      positions = await endpoint.get();
+      if (isCurrent() && querySpace.query.value === query) positionsState.putValue({ ...positions });
+      delta = deltaFor(positions);
+    }
+    const updatedPositions = { ...positions, ...delta };
+    return {
+      order: reordered,
+      persist: async () => {
+        if (endpoint) {
+          await this.persistOrder(query, delta, endpoint);
+        }
+        query.orderedWorkPackages = updatedPositions;
+        if (isCurrent() && querySpace.query.value === query) {
+          this.positionsOwner = query;
+          positionsState.putValue(updatedPositions);
+          querySpace.query.putValue(query);
+        }
+      },
+    };
+  }
+
+  public valueFromQuery(_query:QueryResource) {
     return undefined;
   }
 
@@ -227,7 +331,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
     const positions = this.positions.value!;
     return sortBy(upstreamOrder, (wp) => {
       const pos = positions[wp.id!];
-      return pos !== undefined ? pos : MAX_ORDER;
+      return pos ?? MAX_ORDER;
     });
   }
 
@@ -236,7 +340,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
     return false;
   }
 
-  hasChanged(query:QueryResource):boolean {
+  hasChanged(_query:QueryResource):boolean {
     return false;
   }
 

@@ -1,0 +1,56 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+.op-whats-new-menu
+  &::after
+    position: absolute
+    top: calc(var(--borderWidth-thin) - var(--base-size-6) * 0.7071)
+    right: calc(var(--base-size-32) - var(--base-size-6) * 0.7071)
+    box-sizing: border-box
+    width: calc(var(--base-size-6) * 1.4142)
+    height: calc(var(--base-size-6) * 1.4142)
+    content: ""
+    background: var(--overlay-bgColor)
+    border-top: var(--borderWidth-thin) solid var(--borderColor-default)
+    border-left: var(--borderWidth-thin) solid var(--borderColor-default)
+    rotate: 45deg
+
+  .Overlay
+    border: var(--borderWidth-thin) solid var(--borderColor-default)
+    border-radius: var(--borderRadius-medium)
+    box-shadow: var(--shadow-floating-legacy)
+
+  &--badge
+    position: absolute
+    top: 15px
+    right: 8px
+    background: var(--display-red-bgColor-emphasis)
+    pointer-events: none
+
+  &--item-badge
+    color: var(--display-red-bgColor-emphasis)

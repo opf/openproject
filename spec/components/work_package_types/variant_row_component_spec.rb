@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,11 +39,11 @@ RSpec.describe WorkPackageTypes::VariantRowComponent, type: :component do
 
   it "links the variant to its settings page" do
     expect(rendered_component)
-      .to have_link("Hardware", href: type_settings_path(type_id: type.id, variant_id: variant.id))
+      .to have_link("Hardware", href: type_variant_settings_path(type_id: type.id, variant_id: variant.id))
   end
 
   it "names no project for a variant every project may use" do
-    expect(rendered_component).to have_no_link("Hardware", href: /in-project/)
+    expect(rendered_component).to have_no_link("Hardware", href: %r{/projects/})
   end
 
   it "leaves out the caption unless one is given" do
@@ -88,5 +87,16 @@ RSpec.describe WorkPackageTypes::VariantRowComponent, type: :component do
 
     expect(rendered).to have_text("Hardware")
     expect(rendered).to have_no_link("Hardware")
+  end
+
+  it "renders the variant description when present" do
+    variant.update!(description: "Hardware-specific variant")
+
+    expect(rendered_component).to have_text("Hardware-specific variant")
+  end
+
+  it "renders nothing for a blank description" do
+    expect(variant.description).to be_blank
+    expect(rendered_component).to have_no_css("[data-controller~='expandable-text']")
   end
 end

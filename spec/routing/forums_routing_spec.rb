@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -86,17 +85,15 @@ RSpec.describe ForumsController do
                                                                                  id: "44")
   }
 
-  it "connects GET /projects/:project/forums/:forum/move to forums#move" do
-    expect(get("/projects/1/forums/1/move")).to route_to(controller: "forums",
+  it "connects PUT /projects/:project/forums/:forum/move to forums#move" do
+    expect(put("/projects/1/forums/1/move")).to route_to(controller: "forums",
                                                          action: "move",
                                                          project_id: "1",
                                                          id: "1")
   end
 
-  it "connects POST /projects/:project/forums/:forum/move to forums#move" do
-    expect(post("/projects/1/forums/1/move")).to route_to(controller: "forums",
-                                                          action: "move",
-                                                          project_id: "1",
-                                                          id: "1")
+  it "routes no other verb to forums#move" do
+    expect(get("/projects/1/forums/1/move")).not_to be_routable
+    expect(post("/projects/1/forums/1/move")).not_to be_routable
   end
 end

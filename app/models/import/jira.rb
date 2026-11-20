@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,12 +31,19 @@ module Import
   class Jira < ApplicationRecord
     self.table_name = "jiras"
 
+    enum :auth_method, { bearer: "bearer", basic: "basic" }, default: :bearer, prefix: true
+    store_attribute :options, :exclude_resolution_fields, :boolean, default: false
+
     has_many :jira_imports, dependent: :destroy
 
     validate :url_must_be_http_or_https
 
     def client
-      Import::JiraClient.new(url:, personal_access_token:)
+      Import::JiraClient.new(url:,
+                             auth_method:,
+                             personal_access_token:,
+                             basic_auth_username:,
+                             basic_auth_password:)
     end
 
     private

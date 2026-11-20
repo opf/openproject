@@ -29,7 +29,7 @@ You can get an SSL certificate for free via Let's Encrypt.
 
 This requires your OpenProject server to be reachable using a domain name (e.g. openproject.mydomain.com), with port 443 or 80 open. If you don't have anything running on port 80 or 443, we recommend that you first configure OpenProject without SSL support, and only then execute the steps outlined below.
 
-1. Go to [certbot.eff.org](https://certbot.eff.org), and select "Apache" and your Linux distribution (e.g. Ubuntu 20.04) to get access to the installation instructions for your specific OS.
+1. Go to [certbot.eff.org](https://certbot.eff.org), and select "Apache" and your Linux distribution (e.g. Ubuntu 22.04) to get access to the installation instructions for your specific OS.
 2. Follow the installation instructions to get the `certbot` CLI installed.
 3. Run the `certbot` CLI to generate the certificate (and only the certificate):
 

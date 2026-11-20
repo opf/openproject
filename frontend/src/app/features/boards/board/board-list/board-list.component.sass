@@ -23,6 +23,13 @@ $board-list-max-width: 300px
     align-items: center
     max-height: 52px
 
+    &.-large-header
+      // Fixed (not max) height,
+      // so that headers which don't need the full height, still align with the other columns
+      max-height: none
+      height: 68px
+      align-items: start
+
     editable-toolbar-title
       flex: 1
       margin-bottom: 0

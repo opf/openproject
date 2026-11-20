@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -98,9 +97,9 @@ RSpec.describe Wikis::Adapters::Providers::Internal::Commands::CreatePage do
   context "when user is not allowed to create wiki pages" do
     let(:permissions) { %i[view_wiki_pages] }
 
-    it "returns a :forbidden error" do
+    it "returns an :unauthorized error" do
       expect(result).to be_failure
-      expect(result.failure.code).to eq(:forbidden)
+      expect(result.failure.code).to eq(:unauthorized)
     end
 
     it "does not create a page" do

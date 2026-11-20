@@ -1,5 +1,4 @@
 <%#-- copyright
-
 OpenProject is an open source project management software.
 Copyright (C) the OpenProject GmbH
 
@@ -21,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -30,15 +28,19 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(Primer::BaseComponent.new(**@system_arguments)) do %>
   <div class="op-widget-box--header-title title-container">
-    <h3 class="editable-toolbar-title--fixed">
+    <%= render(Primer::BaseComponent.new(tag: :h3, id:, classes: "editable-toolbar-title--fixed", display: :inline_flex, align_items: :center)) do %>
       <% if @attribute_label_args %>
-        <%= render OpenProject::Common::AttributeLabelComponent.new(**@attribute_label_args) do %>
+        <%= render OpPrimer::AttributeLabelComponent.new(**@attribute_label_args) do %>
           <%= title %>
         <% end %>
       <% else %>
         <%= title %>
       <% end %>
-    </h3>
+
+      <% if counter? %>
+        <%= counter %>
+      <% end %>
+    <% end %>
   </div>
   <%= action %>
 <% end %>

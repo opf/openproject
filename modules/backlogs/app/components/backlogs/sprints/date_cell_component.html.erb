@@ -1,0 +1,4 @@
+<%= format_date_tag(date) %>
+<% if planned? %>
+  <%= render(Primer::Beta::Text.new(color: :muted)) { t(".planned") } %>
+<% end %>

@@ -1,5 +1,32 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require_relative "../../spec_helper"
 require_relative "../shared_two_factor_examples"
 
@@ -32,7 +59,7 @@ RSpec.describe "Login with 2FA remember cookie",
 
     first_login_step
 
-    expect(page).to have_css("input#remember_me")
+    expect(page).to have_field("remember_me")
     SeleniumHubWaiter.wait
     check "remember_me"
 
@@ -43,7 +70,7 @@ RSpec.describe "Login with 2FA remember cookie",
   def expect_no_autologin
     first_login_step
 
-    expect(page).to have_css("input#otp")
+    expect(page).to have_field("otp")
     expect_not_logged_in
   end
 
@@ -56,7 +83,7 @@ RSpec.describe "Login with 2FA remember cookie",
           } do
     it "does not show the save form" do
       first_login_step
-      expect(page).to have_no_css("input#remember_me")
+      expect(page).to have_no_field("remember_me")
     end
   end
 

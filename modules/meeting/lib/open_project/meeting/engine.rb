@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -41,12 +40,15 @@ module OpenProject::Meeting
              author_url: "https://www.openproject.org",
              bundled: true do
       project_module :meetings do
+        enabled_by_default!
+
         permission :view_meetings,
                    {
                      meetings: %i[index show check_for_updates download_ics
                                   presentation generate_pdf_dialog history project_items],
                      "meetings/filters": %i[show],
                      "meetings/menus": %i[show],
+                     meeting_agenda_item_votes: %i[create],
                      work_package_meetings_tab: %i[index count],
                      recurring_meetings: %i[index show new create download_ics]
                    },
@@ -67,7 +69,8 @@ module OpenProject::Meeting
         permission :edit_meetings,
                    {
                      meetings: %i[edit cancel_edit update update_title change_state change_sharing toggle_notifications_dialog
-                                  details_dialog update_details toggle_notifications exit_draft_mode_dialog exit_draft_mode],
+                                  details_dialog update_details toggle_notifications exit_draft_mode_dialog exit_draft_mode
+                                  agenda_sorting_dialog update_agenda_sorting],
                      recurring_meetings: %i[edit cancel_edit update update_title details_dialog update_details
                                             notify end_series end_series_dialog],
                      work_package_meetings_tab: %i[add_work_package_to_meeting_dialog add_work_package_to_meeting refresh_form],
@@ -175,8 +178,8 @@ module OpenProject::Meeting
 
     activity_provider :meetings, class_name: "Activities::MeetingActivityProvider", default: false
 
-    patches %i[Project Journal]
-    patch_with_namespace :BasicData, :SettingSeeder
+    patches %i[Project Journal WorkPackage]
+    patch_with_namespace :Principals, :DeleteJob
 
     replace_principal_references "Meeting" => %i[author_id],
                                  "MeetingAgendaItem" => %i[author_id presenter_id],
@@ -206,19 +209,19 @@ module OpenProject::Meeting
 
       Journals::CreateService::Association.register(:AgendaItemable)
       Journals::CreateService::Association.register(:Participatable)
+      Journals::CreateService::Association.register(:Sectionable)
+      Journals::CreateService::Association.register(:Outcomable)
     end
 
-    add_api_path :meetings do
-      "#{root}/meetings"
+    initializer "meetings.resource_colors" do
+      Rails.application.reloader.to_prepare do
+        ::Highlighting::Registry.register_static(key: "meeting_status", values: ::Meetings::Statuses::AVAILABLE)
+      end
     end
 
-    add_api_path :meeting do |id|
-      "#{root}/meetings/#{id}"
-    end
+    add_api_resource_paths :meeting
 
-    add_api_path :meeting_content do |id|
-      "#{root}/meeting_contents/#{id}"
-    end
+    add_api_resource_paths :meeting_content, only: :show
 
     add_api_path :meeting_agenda do |id|
       meeting_content(id)
@@ -230,18 +233,6 @@ module OpenProject::Meeting
 
     add_api_path :attachments_by_meeting do |id|
       "#{meeting(id)}/attachments"
-    end
-
-    add_api_path :meeting_schema do
-      "#{root}/meetings/schema"
-    end
-
-    add_api_path :create_meeting_form do
-      "#{root}/meetings/form"
-    end
-
-    add_api_path :meeting_form do |id|
-      "#{root}/meetings/#{id}/form"
     end
 
     add_api_path :meeting_agenda_items do |meeting_id: nil|
@@ -268,13 +259,19 @@ module OpenProject::Meeting
       "#{meeting_agenda_item(agenda_item_id, meeting_id:)}/outcomes"
     end
 
-    add_api_path :meeting_outcomes do
-      "#{root}/meeting_outcomes"
+    add_api_path :meeting_agenda_item_move_to_next_meeting do |id, meeting_id: nil|
+      "#{meeting_agenda_item(id, meeting_id:)}/move_to_next_meeting"
     end
 
-    add_api_path :meeting_outcome do |id|
-      "#{root}/meeting_outcomes/#{id}"
+    add_api_path :meeting_agenda_item_upvote do |id, meeting_id: nil|
+      "#{meeting_agenda_item(id, meeting_id:)}/upvote"
     end
+
+    add_api_path :meeting_agenda_item_downvote do |id, meeting_id: nil|
+      "#{meeting_agenda_item(id, meeting_id:)}/downvote"
+    end
+
+    add_api_resource_paths :meeting_outcome, only: %i[index show]
 
     add_api_path :meeting_agenda_item_outcome do |id, agenda_item_id:, meeting_id: nil|
       "#{meeting_agenda_item_outcomes(agenda_item_id, meeting_id:)}/#{id}"
@@ -296,13 +293,7 @@ module OpenProject::Meeting
       end
     end
 
-    add_api_path :recurring_meetings do
-      "#{root}/recurring_meetings"
-    end
-
-    add_api_path :recurring_meeting do |id|
-      "#{root}/recurring_meetings/#{id}"
-    end
+    add_api_resource_paths :recurring_meeting, only: %i[index show]
 
     add_api_path :recurring_meeting_occurrences_upcoming do |id|
       "#{recurring_meeting(id)}/occurrences/upcoming"

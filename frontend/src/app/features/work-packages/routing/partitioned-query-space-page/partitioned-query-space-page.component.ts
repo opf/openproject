@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -41,20 +40,21 @@ import { HalResourceNotificationService } from 'core-app/features/hal/services/h
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { QueryParamListenerService } from 'core-app/features/work-packages/components/wp-query/query-param-listener.service';
 import { ComponentType } from '@angular/cdk/overlay';
-import { Ng2StateDeclaration } from '@uirouter/angular';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { WorkPackageFilterContainerComponent } from 'core-app/features/work-packages/components/filters/filter-container/filter-container.directive';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
-import { UIRouterGlobals } from '@uirouter/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { firstValueFrom } from 'rxjs';
+import { defer, firstValueFrom, Observable } from 'rxjs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
+import { BreadcrumbItem } from 'core-app/shared/components/breadcrumbs/op-breadcrumbs.component';
+import { EventHandler } from 'ng-dynamic-component';
 
 export interface DynamicComponentDefinition {
-  component:ComponentType<any>;
-  inputs?:Record<string, any>;
-  outputs?:Record<string, Function>;
+  component:ComponentType<unknown>;
+  inputs?:Record<string, unknown>;
+  outputs?:Record<string, EventHandler>;
 }
 
 export interface ToolbarButtonComponentDefinition extends DynamicComponentDefinition {
@@ -86,7 +86,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
   readonly opModalService = inject(OpModalService);
 
-  readonly uiRouterGlobals = inject(UIRouterGlobals);
+  readonly urlParams = inject(UrlParamsService);
 
   readonly configuration = inject(ConfigurationService);
 
@@ -109,10 +109,6 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   /** Do we currently have query props ? */
   showToolbarSaveButton:boolean;
 
-  /** Listener callbacks */
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  removeTransitionSubscription:Function;
-
   /** Determine when query is initially loaded */
   showToolbar = false;
 
@@ -133,22 +129,22 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   ngOnInit():void {
     super.ngOnInit();
 
-    this.showToolbarSaveButton = !!this.$state.params.query_props;
-    this.setPartition(this.$state.current);
-    this.removeTransitionSubscription = this.$transitions.onSuccess({}, (transition):any => {
-      const params = transition.params('to');
-      const toState = transition.to();
-      this.showToolbarSaveButton = !!params.query_props;
-      this.setPartition(toState);
+    this.showToolbarSaveButton = !!this.urlParams.get('query_props');
+    this.setPartition();
+    this.urlParams.changed$
+      .pipe(this.untilDestroyed())
+      .subscribe(():void => {
+        this.showToolbarSaveButton = !!this.urlParams.get('query_props');
+        this.setPartition();
 
-      const query = this.querySpace.query.value;
-      if (query && this.shouldUpdateHtmlTitle()) {
-        // Update the title if we're in the list state alone
-        this.titleService.setFirstPart(this.queryTitle(query));
-      }
+        const query = this.querySpace.query.value;
+        if (query && this.shouldUpdateHtmlTitle()) {
+          // Update the title if we're in the list state alone
+          this.titleService.setFirstPart(this.queryTitle(query));
+        }
 
-      this.cdRef.detectChanges();
-    });
+        this.cdRef.detectChanges();
+      });
 
     // Load the query. If it hasn't been loaded before, do that visibly.
     this.loadInitialQuery();
@@ -175,7 +171,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
       });
   }
 
-  breadcrumbItems() {
+  breadcrumbItems():BreadcrumbItem[] {
     throw new Error('Not implemented');
   }
 
@@ -188,11 +184,9 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   /**
    * We need to set the current partition to the grid to ensure
    * either side gets expanded to full width if we're not in '-split' mode.
-   *
-   * @param state The current or entering state
    */
-  protected setPartition(state:Ng2StateDeclaration):void {
-    this.currentPartition = (state.data?.partition) ? state.data.partition : '-split';
+  protected setPartition():void {
+    this.currentPartition = '-split';
   }
 
   protected setupInformationLoadedListener():void {
@@ -209,7 +203,6 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
   ngOnDestroy():void {
     super.ngOnDestroy();
-    this.removeTransitionSubscription();
     this.queryParamListener.removeQueryChangeListener();
   }
 
@@ -251,42 +244,39 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   }
 
   refresh(visibly = false, firstPage = false):void {
-    let promise = this.loadQuery(firstPage);
+    const applied = this.reloads.apply(
+      this.loadQuery$(this.returningToFirstPage(firstPage)),
+      (loadedQuery) => {
+        this.reloadApplied();
+        this.wpStatesInitialization.initialize(loadedQuery, loadedQuery.results);
+      },
+    );
 
     if (visibly) {
-      promise = promise.then((loadedQuery:QueryResource) => {
-        this.wpStatesInitialization.initialize(loadedQuery, loadedQuery.results);
-        return this.additionalLoadingTime()
-          .then(() => loadedQuery);
-      });
-
-      this.loadingIndicator = promise;
+      this.loadingIndicator = applied.then(() => this.additionalLoadingTime());
     } else {
-      void promise.then((loadedQuery:QueryResource) => {
-        this.wpStatesInitialization.initialize(loadedQuery, loadedQuery.results);
-      });
+      void applied;
     }
   }
 
   protected loadQuery(firstPage = false):Promise<QueryResource> {
-    let promise:Promise<QueryResource>;
-    const query = this.currentQuery;
-
-    if (firstPage || !query) {
-      promise = this.loadFirstPage();
-    } else {
-      const pagination = this.wpListService.getPaginationInfo();
-      promise = firstValueFrom(this.wpListService.loadQueryFromExisting(query, pagination, this.projectIdentifier));
-    }
-
-    return promise;
+    return firstValueFrom(this.loadQuery$(firstPage));
   }
 
-  protected loadFirstPage():Promise<QueryResource> {
-    if (this.currentQuery) {
-      return firstValueFrom(this.wpListService.reloadQuery(this.currentQuery, this.projectIdentifier));
+  protected loadQuery$(firstPage = false):Observable<QueryResource> {
+    const query = this.currentQuery;
+
+    if (!query) {
+      return defer(() => this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier));
     }
-    return this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
+
+    if (firstPage) {
+      // Kept as an observable, so that a reload superseding it also cancels its request.
+      return defer(() => this.wpListService.reloadQuery(query, this.projectIdentifier));
+    }
+
+    const pagination = this.wpListService.getPaginationInfo();
+    return this.wpListService.loadQueryFromExisting(query, pagination, this.projectIdentifier);
   }
 
   protected additionalLoadingTime():Promise<unknown> {
@@ -295,6 +285,10 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
   protected set loadingIndicator(promise:Promise<unknown>) {
     this.loadingIndicatorService.table.promise = promise;
+  }
+
+  protected get loadingIndicatorElement():HTMLElement|null {
+    return this.loadingIndicatorService.table.indicator;
   }
 
   protected shouldUpdateHtmlTitle():boolean {

@@ -22,8 +22,15 @@
 ---
 fa:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
     models:
       cost_query:
+        one: گزارش هزینه
+        other: گزارش‌های هزینه
+      cost_report:
         one: گزارش هزینه
         other: گزارش‌های هزینه
   button_save_report_as: ذخیره گزارش با نام...
@@ -99,7 +106,6 @@ fa:
   plugin_openproject_reporting:
     description: این افزونه به شما امکان ایجاد گزارش‌های سفارشی هزینه با فیلتر کردن و گروه‌بندی ایجاد شده توسط افزونه زمان و هزینه اوپن‌پروژه را می‌دهد.
     name: گزارش OpenProject
-  project_module_reporting_module: گزارش‌های هزینه
   reporting:
     group_by:
       selected_columns: ستون‌های انتخاب‌شده

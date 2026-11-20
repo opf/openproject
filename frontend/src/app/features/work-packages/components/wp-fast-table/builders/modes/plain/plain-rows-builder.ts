@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -30,7 +29,7 @@ import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { WorkPackageTable } from '../../../wp-fast-table';
-import { PrimaryRenderPass } from '../../primary-render-pass';
+import type { PrimaryRenderPass, RenderPassOptions } from '../../primary-render-pass';
 import { SingleRowBuilder } from '../../rows/single-row-builder';
 import { RowsBuilder } from '../rows-builder';
 import { PlainRenderPass } from './plain-render-pass';
@@ -47,8 +46,8 @@ export class PlainRowsBuilder extends RowsBuilder {
   /**
    * Rebuild the entire grouped tbody from the given table
    */
-  public buildRows():PrimaryRenderPass {
+  public buildRows(options:RenderPassOptions):PrimaryRenderPass {
     const builder = new SingleRowBuilder(this.injector, this.workPackageTable);
-    return new PlainRenderPass(this.injector, this.workPackageTable, builder).render();
+    return new PlainRenderPass(this.injector, this.workPackageTable, builder).render(options);
   }
 }

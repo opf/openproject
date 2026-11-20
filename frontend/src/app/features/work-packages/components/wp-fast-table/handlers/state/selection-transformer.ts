@@ -20,26 +20,21 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Injector } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
-import { takeUntil } from 'rxjs/operators';
+import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
-import {
-  WorkPackageViewSelectionService,
-  WorkPackageViewSelectionState,
-} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
-import { tableRowClassName } from '../../builders/rows/single-row-builder';
-import { checkedClassName, pressedClassName } from '../../builders/ui-state-link-builder';
-import { locateTableRow, scrollTableRowIntoView } from '../../helpers/wp-table-row-helpers';
 import { WorkPackageTable } from '../../wp-fast-table';
+import { selectionGesture } from './selection-feedback';
+import { registerWorkPackageDeselectAll } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/wp-selection-keyboard';
 
 export class SelectionTransformer {
   @LazyInject() public wpTableSelection:WorkPackageViewSelectionService;
@@ -48,74 +43,70 @@ export class SelectionTransformer {
 
   @LazyInject() public querySpace:IsolatedQuerySpace;
 
-  @LazyInject() public FocusHelper:FocusHelperService;
-
   constructor(public readonly injector:Injector,
     public readonly table:WorkPackageTable) {
-    // Focus a single selection when active
+    const destroyRef = table.destroyRef;
+
+    const { selectionFeedback } = table;
+
     this.querySpace.tableRendered.values$()
       .pipe(
-        takeUntil(this.querySpace.stopAllSubscriptions),
+        takeUntilDestroyed(destroyRef),
       )
-      .subscribe(() => {
-        this.wpTableFocus.ifShouldFocus((wpId:string) => {
-          const element = locateTableRow(wpId);
-          if (element) {
-            scrollTableRowIntoView(wpId);
-            this.FocusHelper.focus(element);
-          }
-        });
+      .subscribe((rows) => {
+        if (table.ledger.generation > 0) {
+          selectionFeedback.prune(() => this.wpTableSelection.retainRendered(rows));
+        }
+        this.painted = this.currentMarkers();
       });
 
-    // Update selection state
     this.wpTableSelection.live$()
       .pipe(
-        takeUntil(this.querySpace.stopAllSubscriptions),
+        takeUntilDestroyed(destroyRef),
       )
-      .subscribe((state:WorkPackageViewSelectionState) => {
-        this.renderSelectionState(state);
-      });
+      .subscribe(() => this.paintRows());
 
-    // Update pressed state when the focused (details-panel) WP changes
     this.wpTableFocus.whenChanged()
       .pipe(
-        takeUntil(this.querySpace.stopAllSubscriptions),
+        takeUntilDestroyed(destroyRef),
       )
-      .subscribe((focusedId:string) => {
-        this.renderPressedState(focusedId);
-      });
+      .subscribe(() => this.paintRows());
 
-    this.wpTableSelection.registerSelectAllListener(() => table.renderedRows);
-    this.wpTableSelection.registerDeselectAllListener();
-  }
-
-  /**
-   * Update all currently visible rows to match the selection state.
-   */
-  private renderSelectionState(state:WorkPackageViewSelectionState) {
-    const context = this.table.tableAndTimelineContainer;
-
-    context.querySelectorAll(`.${tableRowClassName}.${checkedClassName}`).forEach((el) => el.classList.remove(checkedClassName));
-
-    Object.entries(state.selected).forEach(([workPackageId, selected]) => {
-      context.querySelectorAll(`.${tableRowClassName}[data-work-package-id="${workPackageId}"]`).forEach((el) => {
-        el.classList.toggle(checkedClassName, selected);
-      });
+    const unregisterDeselectAll = registerWorkPackageDeselectAll({
+      root: table.tableAndTimelineContainer,
+      hasState: () => this.wpTableSelection.hasSelectionState,
+      clear: () => selectionGesture(table, 'selection', () => this.wpTableSelection.reset()),
     });
+    onDestroySafely(destroyRef, unregisterDeselectAll);
   }
 
-  /**
-   * Update the pressed state to reflect the currently focused (details-panel) row.
-   */
-  private renderPressedState(focusedId:string|null) {
-    const context = this.table.tableAndTimelineContainer;
+  private painted:SelectionMarkers = { selected: new Set(), focused: null };
 
-    context.querySelectorAll(`.${tableRowClassName}.${pressedClassName}`).forEach((el) => el.classList.remove(pressedClassName));
-
-    if (focusedId) {
-      context.querySelectorAll(`.${tableRowClassName}[data-work-package-id="${focusedId}"]`).forEach((el) => {
-        el.classList.add(pressedClassName);
-      });
+  /** Repaints the rows whose selection or focus marker changed since the last paint; the render path paints every row, so a render resets the baseline. */
+  private paintRows():void {
+    if (this.table.ledger.generation === 0) return;
+    const current = this.currentMarkers();
+    const changed = new Set<string>();
+    this.painted.selected.forEach((id) => { if (!current.selected.has(id)) changed.add(id); });
+    current.selected.forEach((id) => { if (!this.painted.selected.has(id)) changed.add(id); });
+    if (this.painted.focused !== current.focused) {
+      [this.painted.focused, current.focused].forEach((id) => { if (id) changed.add(id); });
     }
+    this.painted = current;
+    const keys = this.table.ledger.keysOfAll(changed);
+    if (keys.size === 0) return;
+    this.table.mutate(keys.size > this.table.ledger.size / 2 ? 'all' : keys, () => undefined);
   }
+
+  private currentMarkers():SelectionMarkers {
+    return {
+      selected: new Set(this.wpTableSelection.getSelectedWorkPackageIds()),
+      focused: this.wpTableFocus.explicitlyFocusedWorkPackage,
+    };
+  }
+}
+
+interface SelectionMarkers {
+  readonly selected:ReadonlySet<string>;
+  readonly focused:string|null;
 }

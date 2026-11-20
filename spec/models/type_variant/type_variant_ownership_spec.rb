@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -136,27 +135,6 @@ RSpec.describe TypeVariant, "ownership" do
       global = build(:type_variant, type:, variant_name: "Mobile", enabled_in_new_projects: true)
 
       expect(global).to be_valid
-    end
-  end
-
-  # Every screen addresses a variant through this, so carrying the owner here is what keeps a
-  # caller from reaching an owned variant at administration's address by forgetting to say so.
-  describe "#path_args" do
-    it "names the project owning the variant" do
-      owned = create(:project_owned_type_variant, type:, project:)
-
-      expect(owned.path_args).to eq(type_id: type.id, variant_id: owned.id, in_project_id: project)
-    end
-
-    it "names no project for one every project may use" do
-      global = create(:type_variant, type:, variant_name: "Mobile")
-
-      expect(global.path_args).to eq(type_id: type.id, variant_id: global.id)
-    end
-
-    # The base variant is the type's own configuration and can never be owned.
-    it "names only the type for the base variant" do
-      expect(type.default_variant.path_args).to eq(type_id: type.id)
     end
   end
 

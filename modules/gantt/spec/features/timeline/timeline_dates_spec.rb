@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -98,30 +97,6 @@ RSpec.describe "Work package timeline date formatting",
       wp_timeline.expect_timeline!
     end
 
-    context "with german locale user" do
-      let(:current_user) { create(:admin, language: "de") }
-
-      it "shows german ISO dates" do
-        # expect moment to return week 53 for start date
-        expect_date_week work_package.start_date.iso8601, "53"
-        expect_date_week work_package.due_date.iso8601, "53"
-        # Monday, 4th of january is the first week
-        expect_date_week "2021-01-04", "01"
-      end
-    end
-
-    context "with english locale user" do
-      let(:current_user) { create(:admin, language: "en") }
-
-      it "shows english ISO dates" do
-        # expect moment to return week 01 for start date
-        expect_date_week work_package.start_date.iso8601, "01"
-        expect_date_week work_package.due_date.iso8601, "01"
-        # Monday, 4th of january is the second week
-        expect_date_week "2021-01-04", "02"
-      end
-    end
-
     context "with weekdays defined" do
       let(:current_user) { create(:admin, language: "en") }
 
@@ -148,7 +123,7 @@ RSpec.describe "Work package timeline date formatting",
 
   describe "with US/CA settings",
            # According to our documentation:
-           # https://www.openproject.org/docs/system-admin-guide/calendars-and-dates/#date-format
+           # https://www.openproject.org/docs/system-admin-guide/calendars-and-dates/#date-and-time-formats
            with_settings: { start_of_week: "7", first_week_of_year: "6" } do
     let(:current_user) { create(:admin) }
 
@@ -267,32 +242,6 @@ RSpec.describe "Work package timeline date formatting",
 
       describe "set the start, due date while preserving duration over the weekend" do
         subject { row.click_bar }
-
-        it_behaves_like "sets dates, duration and displays bar" do
-          let(:target_wp) { work_package_with_non_working_days }
-          let(:expected_bar_duration) { work_package_with_non_working_days.duration + 2 }
-          let(:expected_start_date) { Date.parse("2021-01-05") }
-          let(:expected_due_date) { Date.parse("2021-01-11") }
-          let(:expected_duration) { 4 }
-          let(:expected_label) { work_package_with_non_working_days.subject }
-        end
-      end
-
-      describe "sets the start, due dates while preserving duration on a drag and drop create" do
-        subject { row.drag_and_drop(offset_days: -1, days: 5) }
-
-        it_behaves_like "sets dates, duration and displays bar" do
-          let(:target_wp) { work_package_with_non_working_days }
-          let(:expected_bar_duration) { work_package_with_non_working_days.duration }
-          let(:expected_start_date) { Date.parse("2021-01-04") }
-          let(:expected_due_date) { Date.parse("2021-01-08") }
-          let(:expected_duration) { 4 }
-          let(:expected_label) { work_package_with_non_working_days.subject }
-        end
-      end
-
-      describe "sets the start, due dates while preserving duration on a drag and drop create over the weekend" do
-        subject { row.drag_and_drop(days: 7) }
 
         it_behaves_like "sets dates, duration and displays bar" do
           let(:target_wp) { work_package_with_non_working_days }

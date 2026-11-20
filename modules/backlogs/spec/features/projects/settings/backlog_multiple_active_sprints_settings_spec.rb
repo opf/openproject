@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,7 +31,7 @@ require "rails_helper"
 
 RSpec.describe "Backlogs project settings multiple active sprints", :js do
   let(:project) { create(:project) }
-  let(:permissions) { %i[create_sprints select_backlog_types_and_statuses share_sprint] }
+  let(:permissions) { %i[create_sprints manage_backlogs_configuration share_sprint] }
   let(:current_user) { create(:user, member_with_permissions: { project => permissions }) }
 
   before { login_as current_user }
@@ -47,7 +46,7 @@ RSpec.describe "Backlogs project settings multiple active sprints", :js do
   end
 
   context "without share_sprint permission" do
-    let(:permissions) { %i[create_sprints select_backlog_types_and_statuses] }
+    let(:permissions) { %i[create_sprints manage_backlogs_configuration] }
 
     it "does not show the multiple active sprints tab in the navigation" do
       visit project_settings_backlogs_path(project)

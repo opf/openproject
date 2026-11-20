@@ -20,93 +20,111 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= labelled_tabular_form_for(
-      :member, url: main_app.project_members_path,
-               method: :post,
-               html: { id: "members_add_form",
-                       class: "form -vertical -bordered -medium-compressed" },
-               data: {
-                 "members-form-target": "addMemberForm",
-                 controller: "user-limit",
-                 "user-limit-open-seats-value": OpenProject::Enterprise.open_seats_count,
-                 "user-limit-member-autocompleter-value": true
-               }
-    ) do |f| %>
-
-  <%=
-    render(
-      Primer::Beta::IconButton.new(
-        icon: :x,
-        scheme: :invisible,
-        classes: "hide-member-form-button form--close",
-        tooltip_direction: :se,
-        aria: { label: t("js.close_form_title") },
-        data: { action: "members-form#hideAddMemberForm" }
-      )
+<%=
+  render(
+    Primer::OpenProject::InsetBox.new(
+      id: "members_add_form",
+      data: {
+        "members-form-target": "addMemberForm",
+        controller: "user-limit",
+        "user-limit-open-seats-value": OpenProject::Enterprise.open_seats_count,
+        "user-limit-member-autocompleter-value": true
+      }
     )
-  %>
-    <div id="new-member-message"></div>
-    <div class="grid-block">
-      <div class="grid-content medium-5 small-12 collapse -flex">
-        <div
-          class="form--field"
-          data-user-limit-target="inviteUserForm">
-          <%
-            user_id_title = I18n.t(:label_principal_search)
+  ) do
+%>
+  <%= primer_form_with(
+        scope: :member,
+        url: main_app.project_members_path,
+        method: :post,
+        class: "form -vertical"
+      ) do |f| %>
 
-            if current_user.admin?
-              user_id_title = "#{user_id_title}#{I18n.t(:label_principal_invite_via_email)}"
-            end
-          %>
-          <%= styled_label_tag :member_user_ids, user_id_title %>
+      <div id="new-member-message"></div>
+      <%
+        user_id_title = I18n.t(:label_principal_search)
 
-          <%= angular_component_tag "opce-members-autocompleter",
-                                    inputs: {
-                                      inputName: "member[user_ids]",
-                                      inputBindValue: "id",
-                                      url: "#{autocomplete_for_member_project_members_path}.json",
-                                      multiple: true
-                                    } %>
-        </div>
-      </div>
-      <div class="grid-content medium-8 small-12 -flex -with-button">
-        <div class="form--field">
-          <%= styled_label_tag :member_role_ids, title: t(:label_role_search) do
-                render OpenProject::Common::AttributeLabelComponent.new(
-                  attribute: "members",
-                  model: Project,
-                  tag: nil
-                ) do
-                  render(Primer::Beta::Text.new) { t(:label_role_search) }
+        if current_user.admin?
+          user_id_title = "#{user_id_title}#{I18n.t(:label_principal_invite_via_email)}"
+        end
+      %>
+      <% preview_role_permissions = Roles::PermissionsDialogComponent.visible_to?(current_user) %>
+      <%= render_inline_form(f) do |form|
+            form.group(
+              layout: :horizontal,
+              direction: %i[column column column row],
+              classes: "row-gap-3",
+              data: { controller: ("roles--permissions-preview" if preview_role_permissions) }
+            ) do |group|
+              group.autocompleter(
+                name: :user_ids,
+                label: user_id_title,
+                wrapper_data_attributes: { "user-limit-target": "inviteUserForm" },
+                autocomplete_options: {
+                  component: "opce-members-autocompleter",
+                  inputBindValue: "id",
+                  url: "#{helpers.autocomplete_for_member_project_members_path}.json",
+                  multiple: true
+                }
+              )
+
+              group.select_list(
+                name: "member[role_ids][]",
+                scope_name_to_model: false,
+                id: "member_role_ids",
+                input_width: :medium,
+                label: render(OpPrimer::AttributeLabelComponent.new(attribute: "members", model: Project, tag: nil)) do
+                  render(Primer::Beta::Text.new) { helpers.t(:label_role_search) }
+                end,
+                caption: (
+                  if preview_role_permissions
+                    render(
+                      Primer::Beta::Button.new(
+                        scheme: :link,
+                        type: :button,
+                        font_size: :small,
+                        data: { action: "roles--permissions-preview#open" },
+                        test_selector: "op-members--role-preview-link"
+                      )
+                    ) { helpers.t("roles.permissions_dialog.preview_action") }
+                  end
+                ),
+                data: { "roles--permissions-preview-target": "select" }
+              ) do |select|
+                roles.each do |role|
+                  select.option(
+                    label: role.name,
+                    value: role.id,
+                    data: { permissions_dialog_path: helpers.role_permissions_dialog_path(role) }
+                  )
                 end
-              end %>
-          <div class="form--field-container">
-            <div class="form--select-container -auto">
-              <% options = roles.collect { |obj| [obj.name, obj.id] } %>
-              <%= select_tag "member[role_ids][]", options_for_select(options),
-                             multiple: false,
-                             no_label: true,
-                             title: t(:label_role_search),
-                             tabIndex: 0,
-                             class: "form--select",
-                             id: "member_role_ids" %>
-            </div>
-          </div>
-        </div>
-        <div id="member-add-submit-button--container">
-          <%= f.button t(:button_add),
-                       class: "button -primary -with-icon icon-checkmark",
-                       id: "add-member--submit-button" %>
-        </div>
-      </div>
-    </div>
+              end
+            end
+
+            form.group(
+              layout: :horizontal
+            ) do |group|
+              group.button(
+                name: :cancel,
+                label: helpers.t(:button_cancel),
+                data: { action: "members-form#hideAddMemberForm" }
+              )
+
+              group.submit(
+                name: :submit,
+                label: helpers.t(:button_add),
+                scheme: :primary,
+                id: "add-member--submit-button"
+              )
+            end
+          end %>
+  <% end %>
 
   <% if OpenProject::Enterprise.user_limit.present? %>
     <%=
@@ -114,6 +132,7 @@ See COPYRIGHT and LICENSE files for more details.
         Primer::Alpha::Banner.new(
           scheme: :warning,
           icon: :alert,
+          mt: 2,
           classes: "d-none",
           data: { "user-limit-target": "limitWarning" }
         )
@@ -121,11 +140,10 @@ See COPYRIGHT and LICENSE files for more details.
     %>
       <%=
         link_translate(
-          "warning_user_limit_reached#{'_admin' if current_user.admin?}",
+          "warning_user_limit_reached#{'_admin_html' if current_user.admin?}",
           links: { upgrade_url: OpenProject::Enterprise.upgrade_url }
         )
       %>
     <% end %>
   <% end %>
-
 <% end %>

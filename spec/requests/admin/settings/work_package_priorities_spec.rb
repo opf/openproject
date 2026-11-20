@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -91,11 +90,29 @@ RSpec.describe "Work package priorities",
   end
 
   describe "PUT /admin/settings/work_package_priorities/:id/move" do
-    it "moves the category to the bottom" do
-      put move_admin_settings_work_package_priority_path(priority), params: { move_to: "lowest" }, as: :turbo_stream
+    let!(:first_record) { create(:issue_priority, name: "Alpha") }
+    let!(:second_record) { create(:issue_priority, name: "Beta") }
+    let!(:third_record) { create(:issue_priority, name: "Gamma") }
+    let!(:sibling_record) { create(:time_entry_activity) }
+    let(:list_type) { "issue_priority" }
+    let(:morph_target) { "admin-enumerations-index-component" }
 
-      expect(response).to have_http_status(:ok)
-      expect(priority.reload.position).to be > other_priority.reload.position
+    def move_path(record)
+      move_admin_settings_work_package_priority_path(record)
     end
+
+    def ordered_names
+      IssuePriority.reorder(:position).where(name: %w[Alpha Beta Gamma]).pluck(:name)
+    end
+
+    before do
+      third_record.move_to_top
+      second_record.move_to_top
+      first_record.move_to_top
+    end
+
+    it_behaves_like "an anchor-only enumeration move endpoint"
+    # IssuePriority and TimeEntryActivity are STI siblings on the enumerations table.
+    it_behaves_like "an enumeration move endpoint refusing sibling-class anchors"
   end
 end

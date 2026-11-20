@@ -1,0 +1,521 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+require "spec_helper"
+
+RSpec.describe Sprints::WorkPackageBreakdown do
+  # Backdates a journalized attribute change, mirroring the helper in burndown_spec.rb
+  def set_attribute_journalized(work_package, attribute, value, changed_at)
+    work_package.reload
+    work_package.send(attribute, value)
+    work_package.save!
+    if work_package.journals.many?
+      work_package.journals[-2].update_columns(validity_period: work_package.journals[-2].created_at...changed_at)
+    end
+    work_package.journals[-1].update_columns(created_at: changed_at, updated_at: changed_at,
+                                             validity_period: changed_at..Float::INFINITY)
+  end
+
+  def backdate_creation_journal(work_package)
+    work_package.last_journal.update_columns(
+      created_at: work_package.created_at,
+      updated_at: work_package.created_at,
+      validity_period: work_package.created_at..Float::INFINITY
+    )
+  end
+
+  let(:project) { create(:project) }
+  let(:role) { create(:project_role, permissions: [:view_work_packages]) }
+  let(:type_feature) { create(:type_feature) }
+  let(:issue_open) { create(:status, name: "Open", is_default: true) }
+  let(:issue_closed) { create(:status, name: "Closed", category: "closed") }
+
+  current_user { create(:user, member_with_roles: { project => role }) }
+
+  subject(:breakdown) { described_class.new(sprint:, project:) }
+
+  around do |example|
+    travel_to(Time.zone.local(2024, 6, 20, 12, 0)) { example.run }
+  end
+
+  describe "#reference_start and #reference_finish" do
+    let(:start_date) { 10.days.ago.to_date }
+    let(:finish_date) { 4.days.from_now.to_date }
+    let(:started_at) { nil }
+    let(:completed_at) { nil }
+    let(:sprint) { create(:sprint, project:, start_date:, finish_date:, started_at:, completed_at:) }
+    let(:timeframe) { Sprints::Timeframe.new(sprint) }
+
+    context "when the sprint was not started" do
+      it "wraps the sprint's timeframe as timestamps", :aggregate_failures do
+        expect(breakdown.reference_start).to eq Timestamp.new(timeframe.effective_start)
+        expect(breakdown.reference_finish).to eq Timestamp.new(timeframe.effective_finish)
+      end
+    end
+
+    context "when the sprint was started" do
+      let(:started_at) { 7.days.ago }
+
+      it "uses the current timestamp for reference_finish", :aggregate_failures do
+        expect(breakdown.reference_start).to eq Timestamp.new(timeframe.effective_start)
+        expect(breakdown.reference_finish).to eq Timestamp.now
+      end
+    end
+
+    context "when the sprint was completed" do
+      let(:started_at) { 7.days.ago }
+      let(:completed_at) { 1.day.ago }
+
+      it "wraps the sprint's timeframe as timestamps", :aggregate_failures do
+        expect(breakdown.reference_start).to eq Timestamp.new(timeframe.effective_start)
+        expect(breakdown.reference_finish).to eq Timestamp.new(timeframe.effective_finish)
+      end
+    end
+  end
+
+  describe "a sprint that has not started" do
+    let(:sprint) do
+      create(:sprint, project:, start_date: Time.zone.today + 3.days, finish_date: Time.zone.today + 10.days)
+    end
+
+    let!(:planned_work_package) do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 5,
+                            estimated_hours: 8)
+    end
+
+    it "reports the sprint's current state, since neither reference date has actually happened yet" do
+      expect(breakdown.initially_planned).to have_attributes(work_package_count: 1, story_points: 5, estimated_hours: 8)
+      expect(breakdown.completed).to have_attributes(work_package_count: 0, story_points: 0, estimated_hours: 0)
+      expect(breakdown.unfinished).to have_attributes(work_package_count: 1, story_points: 5, estimated_hours: 8)
+      expect(breakdown.changed_after_start).to have_attributes(
+        added_count: 0, removed_count: 0, added_story_points: 0, removed_story_points: 0,
+        added_estimated_hours: 0, removed_estimated_hours: 0
+      )
+      expect(breakdown.added_after_start_ids).to be_empty
+      expect(breakdown.removed_after_start_ids).to be_empty
+    end
+  end
+
+  describe "work packages without estimates" do
+    let(:sprint) do
+      create(:sprint, project:, start_date: Time.zone.today + 3.days, finish_date: Time.zone.today + 10.days)
+    end
+
+    before do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: nil,
+                            estimated_hours: nil)
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 5,
+                            estimated_hours: 8)
+    end
+
+    it "counts them without adding to the sums" do
+      expect(breakdown.initially_planned).to have_attributes(work_package_count: 2, story_points: 5, estimated_hours: 8)
+    end
+  end
+
+  describe "#initially_planned, #completed and #unfinished" do
+    let(:sprint) do
+      create(:sprint, project:,
+                      start_date: Time.zone.today - 10.days,
+                      finish_date: Time.zone.today + 4.days,
+                      started_at: 10.days.ago)
+    end
+
+    let!(:open_work_package) do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 5,
+                            estimated_hours: 10,
+                            created_at: sprint.start_date - 1.day, updated_at: sprint.start_date - 1.day)
+    end
+
+    let!(:closed_work_package) do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_closed, story_points: 3,
+                            estimated_hours: 6,
+                            created_at: sprint.start_date - 1.day, updated_at: sprint.start_date - 1.day)
+    end
+
+    let!(:other_project_work_package) do
+      create(:work_package, type: type_feature, status: issue_open, story_points: 100, estimated_hours: 200,
+                            created_at: sprint.start_date - 1.day, updated_at: sprint.start_date - 1.day)
+    end
+
+    before do
+      [open_work_package, closed_work_package, other_project_work_package].each { |wp| backdate_creation_journal(wp) }
+    end
+
+    it "counts the work packages assigned to the sprint at the reference date, excluding other projects" do
+      expect(breakdown.initially_planned.work_package_count).to eq(2)
+      expect(breakdown.initially_planned.story_points).to eq(8)
+      expect(breakdown.initially_planned.estimated_hours).to eq(16)
+    end
+
+    it "splits completed vs. unfinished by the project's done statuses" do
+      expect(breakdown.completed.work_package_count).to eq(1)
+      expect(breakdown.completed.story_points).to eq(3)
+      expect(breakdown.completed.estimated_hours).to eq(6)
+      expect(breakdown.unfinished.work_package_count).to eq(1)
+      expect(breakdown.unfinished.story_points).to eq(5)
+      expect(breakdown.unfinished.estimated_hours).to eq(10)
+    end
+  end
+
+  describe "#status_counts" do
+    let(:issue_in_progress) { create(:status, name: "In progress") }
+    let(:sprint) do
+      create(:sprint, project:,
+                      start_date: Time.zone.today - 10.days,
+                      finish_date: Time.zone.today + 4.days,
+                      started_at: 10.days.ago)
+    end
+
+    let!(:open_work_package) do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_open,
+                            journals: { 11.days.ago => {} })
+    end
+
+    let!(:in_progress_work_package) do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_in_progress,
+                            journals: { 11.days.ago => {} })
+    end
+
+    let!(:closed_work_package) do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_closed,
+                            journals: { 11.days.ago => {} })
+    end
+
+    let!(:other_project_work_package) do
+      create(:work_package, type: type_feature, status: issue_open, journals: { 11.days.ago => {} })
+    end
+
+    it "counts the sprint's work packages by status, excluding other projects" do
+      expect(breakdown.status_counts)
+        .to eq(issue_open.id => 1, issue_in_progress.id => 1, issue_closed.id => 1)
+    end
+
+    context "when every work package has left the sprint" do
+      let!(:open_work_package) do
+        create(:work_package, project:, type: type_feature, status: issue_open,
+                              journals: { 11.days.ago => { sprint_id: sprint.id }, 9.days.ago => {} })
+      end
+      let!(:in_progress_work_package) { nil }
+      let!(:closed_work_package) { nil }
+
+      it "is empty" do
+        expect(breakdown.status_counts).to be_empty
+      end
+    end
+
+    context "when the sprint has been completed" do
+      let(:sprint) do
+        create(:sprint, project:,
+                        start_date: Time.zone.today - 10.days,
+                        finish_date: Time.zone.today - 2.days,
+                        started_at: 10.days.ago,
+                        completed_at: 2.days.ago)
+      end
+
+      let!(:open_work_package) do
+        create(:work_package, project:, sprint:, type: type_feature, status: issue_closed,
+                              journals: { 11.days.ago => { status_id: issue_open.id }, 1.day.ago => {} })
+      end
+
+      it "reports the statuses the work packages held at completion, not since" do
+        expect(breakdown.status_counts)
+          .to eq(issue_open.id => 1, issue_in_progress.id => 1, issue_closed.id => 1)
+      end
+    end
+  end
+
+  describe "#changed_after_start" do
+    let(:sprint) do
+      create(:sprint, project:,
+                      start_date: Time.zone.today - 10.days,
+                      finish_date: Time.zone.today + 4.days,
+                      started_at: 10.days.ago)
+    end
+
+    let!(:stable_work_package) do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 5,
+                            estimated_hours: 9,
+                            created_at: sprint.start_date - 1.day, updated_at: sprint.start_date - 1.day)
+    end
+
+    before { backdate_creation_journal(stable_work_package) }
+
+    context "when more work packages were added than removed" do
+      let!(:added_work_package_one) do
+        create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 2,
+                              estimated_hours: 3,
+                              created_at: sprint.start_date + 3.days, updated_at: sprint.start_date + 3.days)
+      end
+
+      let!(:added_work_package_two) do
+        create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 3,
+                              estimated_hours: 4,
+                              created_at: sprint.start_date + 3.days, updated_at: sprint.start_date + 3.days)
+      end
+
+      before { [added_work_package_one, added_work_package_two].each { |wp| backdate_creation_journal(wp) } }
+
+      it "counts the additions, unaffected by the unchanged stable work package" do
+        result = breakdown.changed_after_start
+        expect(result.added_count).to eq(2)
+        expect(result.removed_count).to eq(0)
+        expect(result.added_story_points).to eq(2 + 3)
+        expect(result.removed_story_points).to eq(0)
+        expect(result.added_estimated_hours).to eq(3 + 4)
+        expect(result.removed_estimated_hours).to eq(0)
+      end
+    end
+
+    context "when a work package was removed and none were added" do
+      let!(:removed_work_package) do
+        create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 4,
+                              estimated_hours: 9,
+                              created_at: sprint.start_date - 1.day, updated_at: sprint.start_date - 1.day)
+      end
+
+      before do
+        backdate_creation_journal(removed_work_package)
+        set_attribute_journalized(removed_work_package, :sprint_id=, nil, sprint.start_date + 2.days)
+      end
+
+      it "counts the removal" do
+        result = breakdown.changed_after_start
+        expect(result.added_count).to eq(0)
+        expect(result.removed_count).to eq(1)
+        expect(result.added_story_points).to eq(0)
+        expect(result.removed_story_points).to eq(4)
+        expect(result.added_estimated_hours).to eq(0)
+        expect(result.removed_estimated_hours).to eq(9)
+      end
+    end
+
+    context "when a work package is removed and re-added, ending up back where it started" do
+      let!(:flipping_work_package) do
+        create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 1,
+                              estimated_hours: 2,
+                              created_at: sprint.start_date - 1.day, updated_at: sprint.start_date - 1.day)
+      end
+
+      before do
+        backdate_creation_journal(flipping_work_package)
+        set_attribute_journalized(flipping_work_package, :sprint_id=, nil, sprint.start_date + 1.day)
+        set_attribute_journalized(flipping_work_package, :sprint_id=, sprint.id, sprint.start_date + 2.days)
+      end
+
+      it "reports no change at all, matching how the 'View all' baseline comparison would show it" do
+        result = breakdown.changed_after_start
+        expect(result.added_count).to eq(0)
+        expect(result.removed_count).to eq(0)
+        expect(result.added_story_points).to eq(0)
+        expect(result.removed_story_points).to eq(0)
+        expect(result.added_estimated_hours).to eq(0)
+        expect(result.removed_estimated_hours).to eq(0)
+      end
+    end
+
+    context "when a work package flips an odd number of times, ending outside the sprint" do
+      let!(:flipping_work_package) do
+        create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 6,
+                              estimated_hours: 11,
+                              created_at: sprint.start_date - 1.day, updated_at: sprint.start_date - 1.day)
+      end
+
+      before do
+        backdate_creation_journal(flipping_work_package)
+        set_attribute_journalized(flipping_work_package, :sprint_id=, nil, sprint.start_date + 1.day)
+        set_attribute_journalized(flipping_work_package, :sprint_id=, sprint.id, sprint.start_date + 2.days)
+        set_attribute_journalized(flipping_work_package, :sprint_id=, nil, sprint.start_date + 3.days)
+      end
+
+      it "counts it once as removed, based on its final state rather than its three events" do
+        result = breakdown.changed_after_start
+        expect(result.added_count).to eq(0)
+        expect(result.removed_count).to eq(1)
+        expect(result.added_story_points).to eq(0)
+        expect(result.removed_story_points).to eq(6)
+        expect(result.added_estimated_hours).to eq(0)
+        expect(result.removed_estimated_hours).to eq(11)
+      end
+    end
+
+    context "when work packages staying in the sprint were re-estimated" do
+      let(:before_start) { sprint.start_date - 1.day }
+      let(:during_sprint) { sprint.start_date + 2.days }
+
+      let!(:increased_work_package) do
+        create(:work_package, project:, sprint:, type: type_feature, status: issue_open,
+                              story_points: 8, estimated_hours: 6.5,
+                              journals: {
+                                before_start => { story_points: 3, estimated_hours: 4.25 },
+                                during_sprint => {}
+                              })
+      end
+
+      let!(:decreased_work_package) do
+        create(:work_package, project:, sprint:, type: type_feature, status: issue_closed,
+                              story_points: 5, estimated_hours: 7,
+                              journals: {
+                                before_start => { story_points: 8, estimated_hours: 10 },
+                                during_sprint => {}
+                              })
+      end
+
+      let!(:newly_estimated_work_package) do
+        create(:work_package, project:, sprint:, type: type_feature, status: issue_open,
+                              story_points: 1, estimated_hours: 2,
+                              journals: {
+                                before_start => { story_points: nil, estimated_hours: nil },
+                                during_sprint => {}
+                              })
+      end
+
+      let!(:unestimated_work_package) do
+        create(:work_package, project:, sprint:, type: type_feature, status: issue_open,
+                              story_points: nil, estimated_hours: nil,
+                              journals: {
+                                before_start => { story_points: 2, estimated_hours: 1.5 },
+                                during_sprint => {}
+                              })
+      end
+
+      let!(:added_work_package) do
+        create(:work_package, project:, sprint:, type: type_feature, status: issue_open,
+                              story_points: 2, estimated_hours: 3,
+                              journals: { during_sprint => {} })
+      end
+
+      let!(:removed_work_package) do
+        create(:work_package, project:, type: type_feature, status: issue_open,
+                              story_points: 4, estimated_hours: 6,
+                              journals: {
+                                before_start => { sprint_id: sprint.id },
+                                during_sprint => {}
+                              })
+      end
+
+      it "counts increases as added and decreases as removed, ignoring the unchanged stable work package" do
+        expect(breakdown.changed_after_start).to have_attributes(
+          added_count: 1,
+          removed_count: 1,
+          added_story_points: 2 + (8 - 3) + 1,
+          removed_story_points: 4 + (8 - 5) + 2,
+          added_estimated_hours: be_within(0.001).of(3 + (6.5 - 4.25) + 2),
+          removed_estimated_hours: be_within(0.001).of(6 + (10 - 7) + 1.5)
+        )
+      end
+
+      it "reconciles the initially planned scope and its change with the completed and unfinished work" do
+        change = breakdown.changed_after_start
+        finished = [breakdown.completed, breakdown.unfinished]
+
+        expect(breakdown.initially_planned.story_points + change.added_story_points - change.removed_story_points)
+          .to eq(finished.sum(&:story_points))
+        expect(breakdown.initially_planned.estimated_hours + change.added_estimated_hours - change.removed_estimated_hours)
+          .to be_within(0.001).of(finished.sum(&:estimated_hours))
+      end
+    end
+  end
+
+  describe "#added_after_start_ids and #removed_after_start_ids" do
+    let(:sprint) do
+      create(:sprint, project:,
+                      start_date: Time.zone.today - 10.days,
+                      finish_date: Time.zone.today + 4.days,
+                      started_at: 10.days.ago)
+    end
+
+    let!(:stable_work_package) do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 5,
+                            created_at: sprint.start_date - 1.day, updated_at: sprint.start_date - 1.day)
+    end
+
+    let!(:added_work_package) do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 2,
+                            created_at: sprint.start_date + 3.days, updated_at: sprint.start_date + 3.days)
+    end
+
+    let!(:removed_work_package) do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 4,
+                            created_at: sprint.start_date - 1.day, updated_at: sprint.start_date - 1.day)
+    end
+
+    let!(:flipping_work_package) do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 1,
+                            created_at: sprint.start_date - 1.day, updated_at: sprint.start_date - 1.day)
+    end
+
+    before do
+      [stable_work_package, added_work_package, removed_work_package, flipping_work_package].each do |wp|
+        backdate_creation_journal(wp)
+      end
+
+      set_attribute_journalized(removed_work_package, :sprint_id=, nil, sprint.start_date + 2.days)
+      set_attribute_journalized(flipping_work_package, :sprint_id=, nil, sprint.start_date + 1.day)
+      set_attribute_journalized(flipping_work_package, :sprint_id=, sprint.id, sprint.start_date + 2.days)
+    end
+
+    it "returns the ids of the work packages that entered the sprint" do
+      expect(breakdown.added_after_start_ids).to contain_exactly(added_work_package.id)
+    end
+
+    it "returns the ids of the work packages that left the sprint" do
+      expect(breakdown.removed_after_start_ids).to contain_exactly(removed_work_package.id)
+    end
+  end
+
+  describe "a running sprint while the clock moves on" do
+    let(:sprint) do
+      create(:sprint, project:, status: "active",
+                      start_date: Time.zone.today - 10.days,
+                      finish_date: Time.zone.today + 4.days,
+                      started_at: 10.days.ago)
+    end
+
+    let!(:closed_work_package) do
+      create(:work_package, project:, sprint:, type: type_feature, status: issue_closed, story_points: 3,
+                            created_at: sprint.start_date - 1.day, updated_at: sprint.start_date - 1.day)
+        .tap { backdate_creation_journal(it) }
+    end
+
+    before do
+      # Each call to `Time.zone.now` will advance one second on top of the original time => Simulate a timing issue
+      # that happens when start and finish instants are not memoized properly and reference_finish is called
+      # twice in a row.
+      # If that happens close to a full second, the time might have moved on and the two timestamps won't match.
+      # This spec provokes this behavior, so it fails every time if the memoization is removed from the implementation.
+      seconds = 0
+      allow(Time.zone).to(receive(:now).and_wrap_original { |original| original.call + (seconds += 1).seconds })
+    end
+
+    it "samples and reads the finish at the same instant" do
+      expect(breakdown.completed).to have_attributes(work_package_count: 1, story_points: 3)
+    end
+  end
+end

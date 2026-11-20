@@ -26,12 +26,12 @@ sv:
         select: Välj filer
         select_all: Välj alla
         selection:
-          zero: Välj filer att länka
-          one: Länka 1 fil
-          other: Länka %{count} filer
+          none: Select files to link
+          one: Link %{count} file
+          other: Link %{count} files
         success_create:
-          one: Skapade 1 fillänk.
-          other: Skapades framgångsrikt %{count} fillänkar.
+          one: Successfully created %{count} file link.
+          other: Successfully created %{count} file links.
         tooltip:
           not_found: Den här filen kunde inte hittas.
           not_logged_in: Logga in på lagringsutrymmet för att komma åt filen.

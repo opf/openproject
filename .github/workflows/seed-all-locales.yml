@@ -18,6 +18,7 @@ jobs:
     if: github.repository == 'opf/openproject'
     name: Prepare
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     outputs:
       locales: ${{ steps.list.outputs.locales }}
       ref: ${{ steps.use_input_or_find_latest_release.outputs.ref }}
@@ -41,7 +42,7 @@ jobs:
           fi
 
       - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        uses: actions/checkout@v7.0.1
         with:
           ref: ${{ steps.use_input_or_find_latest_release.outputs.ref }}
           persist-credentials: false
@@ -73,7 +74,7 @@ jobs:
         edition: [standard, bim]
     services:
       postgres:
-        image: postgres:16
+        image: pgvector/pgvector:pg16-trixie
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -89,7 +90,7 @@ jobs:
       RAILS_ENV: development
     steps:
       - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        uses: actions/checkout@v7.0.1
         with:
           ref: ${{ needs.prepare.outputs.ref }}
           persist-credentials: false
@@ -98,7 +99,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y libpq-dev
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@f9c4492e86def3e644ab32a0ef185eda5b0c20d0 # v1.342.0
+        uses: ruby/setup-ruby@v1.342.0
         with:
           bundler-cache: true
 

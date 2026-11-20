@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -46,7 +45,8 @@ RSpec.describe "API v3 Time Entries resource",
     create(:user, member_with_permissions: { project => permissions }, preferences: { time_zone: "Europe/Berlin" })
   end
   let(:japanese_user) do
-    create(:user, member_with_permissions: { project => [:view_project] }, preferences: { time_zone: "Asia/Tokyo" })
+    create(:user, member_with_permissions: { project => %i[view_project view_work_packages] },
+                  preferences: { time_zone: "Asia/Tokyo" })
   end
 
   let(:path) { api_v3_paths.time_entries }

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,10 +28,7 @@
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3DayPaths } from 'core-app/core/apiv3/endpoints/days/api-v3-day-paths';
 import { IDay } from 'core-app/core/state/days/day.model';
-import {
-  ApiV3GettableResource,
-  ApiV3ResourceCollection,
-} from 'core-app/core/apiv3/paths/apiv3-resource';
+import { ApiV3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
 
 export class ApiV3DaysPaths extends ApiV3ResourceCollection<IDay, ApiV3DayPaths> {
   // Base path

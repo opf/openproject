@@ -64,7 +64,7 @@ ka:
       label_add_new: Add new webhook
       label_edit: ვებჰუკის ჩასწორება
       label_x_events:
-        one: 1 event
+        one: "%{count} event"
         other: "%{count} events"
         zero: No events
       no_results_table: No webhooks have been defined yet.

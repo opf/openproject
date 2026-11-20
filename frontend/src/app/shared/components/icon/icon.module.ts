@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -93,6 +92,7 @@ import {
   OpFileTextIconComponent,
   OpFilePresentationIconComponent,
   OpPdfIconComponent,
+  OpWhiteboardsIconComponent,
   CloudIconComponent,
   DownloadIconComponent,
   FileDirectoryFillIconComponent,
@@ -126,7 +126,8 @@ import {
   ChevronDownIconComponent,
   VersionsIconComponent,
   BriefcaseIconComponent,
-  CircleSlashIconComponent
+  CircleSlashIconComponent,
+  OpIncludeProjectsIconComponent,
 } from '@openproject/octicons-angular';
 
 @NgModule({
@@ -170,6 +171,7 @@ import {
     OpGridMenuIconComponent,
     OpGroupIconComponent,
     OpHierarchyIconComponent,
+    OpIncludeProjectsIconComponent,
     OpNoHierarchyIconComponent,
     OpMarkNextcloudIconComponent,
     OpOrthographicPerspectiveIconComponent,
@@ -183,6 +185,7 @@ import {
     OpViewFitToIconComponent,
     OpViewModalIconComponent,
     OpViewThreedIconComponent,
+    OpWhiteboardsIconComponent,
     PackageIconComponent,
     PaperclipIconComponent,
     PersonIconComponent,
@@ -278,6 +281,7 @@ import {
     OpGridMenuIconComponent,
     OpGroupIconComponent,
     OpHierarchyIconComponent,
+    OpIncludeProjectsIconComponent,
     OpNoHierarchyIconComponent,
     OpMarkNextcloudIconComponent,
     OpOrthographicPerspectiveIconComponent,
@@ -291,6 +295,7 @@ import {
     OpViewFitToIconComponent,
     OpViewModalIconComponent,
     OpViewThreedIconComponent,
+    OpWhiteboardsIconComponent,
     PackageIconComponent,
     PaperclipIconComponent,
     PersonIconComponent,

@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -56,7 +55,17 @@ module API
         property :time_zone,
                  render_nil: true
 
+        property :date_format,
+                 getter: ->(*) { date_format.presence },
+                 render_nil: true
+
+        property :time_format,
+                 getter: ->(*) { time_format.presence },
+                 render_nil: true
+
         property :disable_keyboard_shortcuts
+
+        property :require_double_click_for_inline_edit
 
         property :warn_on_leaving_unsaved
         property :comments_in_reverse_order,

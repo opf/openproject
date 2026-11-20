@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -258,9 +257,11 @@ RSpec.describe "List project custom fields", :js do
       describe "deleting custom fields" do
         it "allows to delete a custom field" do
           within_project_custom_field_menu(boolean_project_custom_field) do
-            accept_confirm do
-              click_on("Delete")
-            end
+            click_on("Delete")
+          end
+
+          within_dialog("Delete custom field #{boolean_project_custom_field.name}") do
+            click_on "Delete"
           end
 
           expect(page).to have_no_css("[data-test-selector='project-custom-field-container-#{boolean_project_custom_field.id}']")
@@ -268,9 +269,10 @@ RSpec.describe "List project custom fields", :js do
 
         it "prevents deletion of custom field used in a calculated value custom fields" do
           within_project_custom_field_menu(integer_project_custom_field) do
-            accept_confirm do
-              click_on("Delete")
-            end
+            click_on("Delete")
+          end
+          within_dialog("Delete custom field #{integer_project_custom_field.name}") do
+            click_on "Delete"
           end
           page.within(find_flash_element(type: :error)) do
             expect(page).to have_cf_admin_link(calculated_from_int_project_custom_field)
@@ -284,9 +286,10 @@ RSpec.describe "List project custom fields", :js do
           expect(page).to have_css("[data-test-selector='project-custom-field-container-#{integer_project_custom_field.id}']")
 
           within_project_custom_field_menu(float_project_custom_field) do
-            accept_confirm do
-              click_on("Delete")
-            end
+            click_on("Delete")
+          end
+          within_dialog("Delete custom field #{float_project_custom_field.name}") do
+            click_on "Delete"
           end
           page.within(find_flash_element(type: :error)) do
             expect(page).to have_cf_admin_link(calculated_from_int_and_float_project_custom_field)
@@ -299,9 +302,10 @@ RSpec.describe "List project custom fields", :js do
 
           # Can delete calculated value field
           within_project_custom_field_menu(calculated_from_int_and_float_project_custom_field) do
-            accept_confirm do
-              click_on("Delete")
-            end
+            click_on("Delete")
+          end
+          within_dialog("Delete custom field #{calculated_from_int_and_float_project_custom_field.name}") do
+            click_on "Delete"
           end
           expect(page).to have_no_css(
             "[data-test-selector='project-custom-field-container-#{calculated_from_int_and_float_project_custom_field.id}']"
@@ -309,9 +313,10 @@ RSpec.describe "List project custom fields", :js do
 
           # Can delete used custom field afterwards
           within_project_custom_field_menu(float_project_custom_field) do
-            accept_confirm do
-              click_on("Delete")
-            end
+            click_on("Delete")
+          end
+          within_dialog("Delete custom field #{float_project_custom_field.name}") do
+            click_on "Delete"
           end
           expect(page).to have_no_css("[data-test-selector='project-custom-field-container-#{float_project_custom_field.id}']")
         end

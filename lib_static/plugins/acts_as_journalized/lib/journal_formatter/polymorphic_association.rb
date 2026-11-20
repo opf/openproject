@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -68,7 +67,7 @@ module JournalFormatter
       global_id = GlobalID.parse(gid)
       return if global_id.nil?
 
-      JournalFormatterCache.fetch(global_id.model_name, global_id.model_id) do # rubocop:disable Lint/UselessDefaultValueArgument
+      JournalFormatterCache.fetch(global_id.model_name, global_id.model_id) do
         locate(global_id)
       end
     end

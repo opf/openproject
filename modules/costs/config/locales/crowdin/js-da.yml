@@ -23,10 +23,15 @@
 da:
   js:
     button_log_costs: Registrer enhedsomkostninger
+    costs:
+      widgets:
+        actual_costs:
+          chart_label: Diagram over faktiske omkostninger efter måned
+          chart_month: "%{month}: %{values}"
+          chart_summary: 'Faktiske omkostninger efter måned: %{months}.'
+          chart_value: "%{label}: %{value}"
     label_hour: time
     label_hours: timer
-    myTimeTracking:
-      noSpecificTime: Intet specifikt tidspunkt
     text_are_you_sure: Er du sikker?
     work_packages:
       properties:

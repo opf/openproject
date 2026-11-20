@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -55,6 +54,8 @@ RSpec.describe "Backlog bucket creation", :js do
       fill_in "Name", with: "Discovery work"
       click_on "Create"
     end
+
+    backlogs_page.expect_loading_skeleton
 
     expect_and_dismiss_flash type: :success, exact_message: "Successful creation."
     backlogs_page.expect_bucket_names_in_order("Discovery work")

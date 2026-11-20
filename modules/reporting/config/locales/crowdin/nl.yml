@@ -22,8 +22,15 @@
 ---
 nl:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
     models:
       cost_query:
+        one: Cost report
+        other: Cost reports
+      cost_report:
         one: Cost report
         other: Cost reports
   button_save_report_as: Rapport opslaan als...
@@ -99,7 +106,6 @@ nl:
   plugin_openproject_reporting:
     description: Deze plugin maakt het mogelijk om aangepaste kostenrapporten te maken met filtering en groepering gemaakt door de OpenProject Tijd en Kosten plugin.
     name: OpenProject Rapportage
-  project_module_reporting_module: Kostenrapporten
   reporting:
     group_by:
       selected_columns: Geselecteerde kolommen

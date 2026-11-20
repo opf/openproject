@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -30,12 +29,32 @@
 require "cost_query/operator"
 
 module OpenProject::Reporting
+  # A chain host for the engine specs. A CostReport builds its chain from its own
+  # filters and axes and injects the permission filter, where these specs want an
+  # empty chain they assemble themselves.
+  class BareChain
+    include CostReports::EngineChain
+
+    def minimal_chain!
+      engine::Filter.all && engine::GroupBy.all
+
+      @chain = engine::Filter::NoFilter.new
+    end
+
+    def build_new_chain
+      minimal_chain!
+      engine.chain_initializer.each { |block| block.call self }
+
+      self
+    end
+  end
+
   module QueryHelper
     def minimal_query
-      let(:query) { CostQuery.new }
+      let(:query) { BareChain.new }
 
       before do
-        query.send(:minimal_chain!)
+        query.minimal_chain!
       end
     end
   end

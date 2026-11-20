@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,7 +39,7 @@ RSpec.describe Principals::DeleteJob, "ResourceAllocation", type: :model do
     let!(:allocation) { create(:resource_allocation, principal:) }
     let!(:other_allocation) { create(:resource_allocation, principal: create(:user)) }
     let!(:unassigned_allocation) do
-      create(:resource_allocation, principal: nil, principal_explicit: false, filter_name: "Devs")
+      create(:resource_allocation, :with_user_filter, filter_name: "Devs")
     end
 
     it "rewrites the principal to the deleted user placeholder" do
@@ -58,9 +57,37 @@ RSpec.describe Principals::DeleteJob, "ResourceAllocation", type: :model do
     end
   end
 
-  context "with a resource allocation requested or reviewed by the principal" do
+  context "with a stored schedule of the principal" do
+    let(:other_user) { create(:user) }
+
+    let!(:principal_working_hours) { create(:user_working_hours, user: principal, valid_from: Date.current - 1.year) }
+    let!(:other_working_hours) { create(:user_working_hours, user: other_user, valid_from: Date.current - 1.year) }
+    let!(:allocation) { create(:resource_allocation, principal:) }
+    let!(:other_allocation) { create(:resource_allocation, principal: other_user) }
+
+    it "removes the principal's schedule" do
+      expect { job }
+        .to change { ResourceAllocations::ScheduledEntry.where(user_id: principal.id).count }
+        .from(be_positive).to(0)
+    end
+
+    it "does not move the schedule to the deleted user placeholder" do
+      job
+
+      expect(ResourceAllocations::ScheduledEntry.where(user: deleted_user)).to be_empty
+    end
+
+    it "keeps the schedules of other users" do
+      expect { job }.not_to change { ResourceAllocations::ScheduledEntry.where(user: other_user).pluck(:id) }
+    end
+  end
+
+  context "with a resource allocation requested, reviewed or staffed by the principal" do
     let!(:requested_allocation) { create(:resource_allocation, requested_by: principal) }
     let!(:reviewed_allocation) { create(:resource_allocation, reviewed_by: principal) }
+    let!(:staffed_allocation) do
+      create(:resource_allocation, :with_user_filter, principal: create(:user), principal_assigned_by: principal)
+    end
 
     it "rewrites requested_by to the deleted user placeholder" do
       job
@@ -72,6 +99,12 @@ RSpec.describe Principals::DeleteJob, "ResourceAllocation", type: :model do
       job
 
       expect(reviewed_allocation.reload.reviewed_by).to eq deleted_user
+    end
+
+    it "rewrites principal_assigned_by to the deleted user placeholder" do
+      job
+
+      expect(staffed_allocation.reload.principal_assigned_by).to eq deleted_user
     end
   end
 end

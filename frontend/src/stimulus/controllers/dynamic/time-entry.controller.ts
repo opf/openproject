@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -143,11 +142,11 @@ export default class TimeEntryController extends Controller {
     //  - We have start & end time and no hours
     //  - We have start & end time and we have triggered the change from the end time field
     if (startTimeInMinutes && endTimeInMinutes && (hoursInMinutes === 0 || initiatedBy === this.endTimeInputTarget)) {
-      let exisitingDayGap = 0;
+      let existingDayGap = 0;
 
       // when we already had hours set, and they were above 24 hours, we would most likely want to stay on that end date
       if (hoursInMinutes >= 24 * 60) {
-        exisitingDayGap = Math.floor(hoursInMinutes / (24 * 60)) * (60 * 24);
+        existingDayGap = Math.floor(hoursInMinutes / (24 * 60)) * (60 * 24);
       }
 
       hoursInMinutes = endTimeInMinutes - startTimeInMinutes;
@@ -155,7 +154,7 @@ export default class TimeEntryController extends Controller {
         hoursInMinutes += 24 * 60;
       }
 
-      hoursInMinutes += exisitingDayGap;
+      hoursInMinutes += existingDayGap;
 
       this.hoursInputTarget.value = formattedHour(hoursInMinutes * 60);
       this.setHoursPrecise(hoursInMinutes / 60);
@@ -214,7 +213,7 @@ export default class TimeEntryController extends Controller {
       const diffInDays = Math.floor((startTimeInMinutes + hoursInMinutes) / (60 * 24));
       const span = document.createElement('span');
       span.className = 'FormControl-caption';
-      span.innerText = `+${diffInDays === 1 ? I18n.t('js.units.day.one') : I18n.t('js.units.day.other', { count: diffInDays })}`;
+      span.innerText = `+${I18n.t('js.units.day', { count: diffInDays })}`;
       formControl.append(span);
     }
   }

@@ -24,11 +24,11 @@ es:
         select: Seleccionar archivos
         select_all: Seleccionar todo
         selection:
-          zero: Seleccionar archivos a enlazar
-          one: Enlazar 1 archivo
+          none: Seleccionar archivos a enlazar
+          one: Link %{count} file
           other: Enlazar %{count} archivos
         success_create:
-          one: Se ha creado correctamente 1 enlace de fichero.
+          one: Successfully created %{count} file link.
           other: Se han creado correctamente %{count} enlaces de fichero.
         tooltip:
           not_found: No se ha encontrado este archivo.

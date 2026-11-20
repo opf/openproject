@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -52,12 +51,12 @@ module Members::Scopes
         where(id: visible_member_ids)
       end
 
-      # Project-wide memberships in projects where the user may view or manage members.
+      # Project-wide memberships in projects where the user may view members,
+      # and view_members permission is implied for manage_members.
       def visible_project_members(user)
         view_members = Project.allowed_to(user, :view_members)
-        manage_members = Project.allowed_to(user, :manage_members)
 
-        where(project_id: view_members.or(manage_members).select(:id), entity_type: nil)
+        where(project_id: view_members.select(:id), entity_type: nil)
       end
 
       # Work package shares the user may list, limited to entities they can view.

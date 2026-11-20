@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -45,8 +44,7 @@ RSpec.describe "Projects copy", :js,
                optional_project_custom_field.id => "some optional text cf",
                optional_project_custom_field_with_default.id => "foo"
              }).tap do |p|
-        p.work_package_custom_fields << wp_custom_field
-        p.enabled_variants.first.custom_fields << wp_custom_field
+        p.enabled_variants.first.custom_field_ids |= [wp_custom_field.id]
 
         # Enable the project custom field mappings
         p.project_custom_field_project_mappings
@@ -88,9 +86,6 @@ RSpec.describe "Projects copy", :js,
     let!(:wp_custom_field) do
       create(:text_wp_custom_field)
     end
-    let!(:inactive_wp_custom_field) do
-      create(:text_wp_custom_field)
-    end
     let(:active_types) do
       create_list(:type, 2)
     end
@@ -108,7 +103,6 @@ RSpec.describe "Projects copy", :js,
          add_subprojects
          manage_types
          view_work_packages
-         select_custom_fields
          manage_files_in_project
          manage_file_links
          work_package_assigned
@@ -189,7 +183,7 @@ RSpec.describe "Projects copy", :js,
       end
 
       it "renders only required project attribute" do
-        expect(page).to have_heading "Copy project \"#{project.name}\""
+        expect(page).to have_heading "Duplicate project \"#{project.name}\""
 
         expect(page).to have_text "Required Foo"
         expect(page).to have_text "Required User"
@@ -204,7 +198,7 @@ RSpec.describe "Projects copy", :js,
       end
 
       it "enables the same project custom fields as activated on the source project if untouched" do
-        expect(page).to have_heading "Copy project \"#{project.name}\""
+        expect(page).to have_heading "Duplicate project \"#{project.name}\""
 
         expect(project.project_custom_field_ids).to contain_exactly(
           project_custom_field.id,
@@ -243,7 +237,7 @@ RSpec.describe "Projects copy", :js,
         general_settings_page.visit!
         general_settings_page.click_copy_action
 
-        expect(page).to have_heading "Copy project \"#{project.name}\""
+        expect(page).to have_heading "Duplicate project \"#{project.name}\""
 
         fill_in "Name", with: "Copied project"
 
@@ -276,7 +270,7 @@ RSpec.describe "Projects copy", :js,
         end
 
         it "does not enable optional project custom fields with default values when not enabled in source project" do
-          expect(page).to have_heading "Copy project \"#{project.name}\""
+          expect(page).to have_heading "Duplicate project \"#{project.name}\""
 
           # the optional boolean and string fields are not activated in the source project
           expect(project.project_custom_field_ids).to contain_exactly(
@@ -324,7 +318,7 @@ RSpec.describe "Projects copy", :js,
         let(:user) { create(:admin) }
 
         it "shows invisible fields in the form and allows their activation" do
-          expect(page).to have_heading "Copy project \"#{project.name}\""
+          expect(page).to have_heading "Duplicate project \"#{project.name}\""
 
           expect(page).to have_text "Text for Admins only"
 
@@ -351,7 +345,7 @@ RSpec.describe "Projects copy", :js,
 
       context "with non-admin user" do
         it "does not show invisible fields in the form but still activates them" do
-          expect(page).to have_heading "Copy project \"#{project.name}\""
+          expect(page).to have_heading "Duplicate project \"#{project.name}\""
 
           expect(page).to have_no_text "Text for Admins only"
 
@@ -409,7 +403,7 @@ RSpec.describe "Projects copy", :js,
       end
 
       it "can create a project" do
-        expect(page).to have_heading "Copy project \"#{project.name}\""
+        expect(page).to have_heading "Duplicate project \"#{project.name}\""
 
         fill_in "Name", with: "Copied project"
 
@@ -437,7 +431,6 @@ RSpec.describe "Projects copy", :js,
            add_subprojects
            manage_types
            view_work_packages
-           select_custom_fields
            manage_files_in_project
            manage_file_links
            work_package_assigned
@@ -448,7 +441,7 @@ RSpec.describe "Projects copy", :js,
         general_settings_page.visit!
         general_settings_page.click_copy_action
 
-        expect(page).to have_heading "Copy project \"#{project.name}\""
+        expect(page).to have_heading "Duplicate project \"#{project.name}\""
 
         fill_in "Name", with: "Copied project"
         click_on "Copy"
@@ -479,7 +472,7 @@ RSpec.describe "Projects copy", :js,
       general_settings_page.visit!
       general_settings_page.click_copy_action
 
-      expect(page).to have_heading "Copy project \"#{project.name}\""
+      expect(page).to have_heading "Duplicate project \"#{project.name}\""
 
       fill_in "Name", with: "Copied project"
 
@@ -502,22 +495,15 @@ RSpec.describe "Projects copy", :js,
       # has the parent of the original project
       parent_field.expect_selected parent_project.name
 
-      # has wp custom fields of original project active
-      copied_settings_wp_cf_page = Pages::Projects::Settings::WorkPackageCustomFields.new(copied_project)
-      copied_settings_wp_cf_page.visit!
-
-      copied_settings_wp_cf_page.expect_active(wp_custom_field)
-      copied_settings_wp_cf_page.expect_inactive(inactive_wp_custom_field)
-
       # has types of original project active
-      copied_settings_type_page = Pages::Projects::Settings::Type.new(copied_project)
+      copied_settings_type_page = Pages::Projects::Settings::WorkPackageTypes.new(copied_project)
       copied_settings_type_page.visit!
 
       active_types.each do |type|
-        copied_settings_type_page.expect_type_active(type)
+        copied_settings_type_page.expect_type_row(type.default_variant)
       end
 
-      copied_settings_type_page.expect_type_inactive(inactive_type)
+      copied_settings_type_page.expect_no_type_row(inactive_type.default_variant)
 
       # Expect wiki was copied
       expect(copied_project.wiki.pages.count).to eq(project.wiki.pages.count)
@@ -605,7 +591,7 @@ RSpec.describe "Projects copy", :js,
       general_settings_page.visit!
       general_settings_page.click_copy_action
 
-      expect(page).to have_heading "Copy project \"#{project.name}\""
+      expect(page).to have_heading "Duplicate project \"#{project.name}\""
 
       fill_in "Name", with: "Copied project"
       click_on "Copy"
@@ -664,7 +650,7 @@ RSpec.describe "Projects copy", :js,
       general_settings_page.visit!
       general_settings_page.click_copy_action
 
-      expect(page).to have_heading "Copy project \"#{project.name}\""
+      expect(page).to have_heading "Duplicate project \"#{project.name}\""
 
       fill_in "Name", with: "Copied project"
       click_on "Copy"

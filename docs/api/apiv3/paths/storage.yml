@@ -47,7 +47,7 @@ get:
         Returned if the storage does not exist or the client does not have sufficient permissions to see it.
 
         **Required permission:** view file links
-        
+
 patch:
   summary: Update a storage
   operationId: update_storage

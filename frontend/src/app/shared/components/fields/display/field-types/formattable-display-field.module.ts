@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -30,11 +29,14 @@ import { DisplayField } from 'core-app/shared/components/fields/display/display-
 import { ApplicationRef } from '@angular/core';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { ExpressionService } from 'core-app/core/expression/expression.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 export class FormattableDisplayField extends DisplayField {
   @LazyInject() readonly appRef:ApplicationRef;
 
-  public render(element:HTMLElement, displayText:string, options:any = {}):void {
+  @LazyInject() readonly configurationService:ConfigurationService;
+
+  public render(element:HTMLElement, displayText:string, options:Record<string, unknown> = {}):void {
     const div = document.createElement('div');
 
     div.classList.add(
@@ -56,7 +58,9 @@ export class FormattableDisplayField extends DisplayField {
 
   get placeholder():string {
     if (this.name === 'description') {
-      return this.I18n.t('js.placeholders.description');
+      return this.configurationService.requireDoubleClickForInlineEdit()
+        ? this.I18n.t('js.placeholders.description_double_click')
+        : this.I18n.t('js.placeholders.description');
     }
 
     return super.placeholder;
@@ -70,7 +74,7 @@ export class FormattableDisplayField extends DisplayField {
     if (!this.schema) {
       return null;
     }
-    const element = this.resource[this.name];
+    const element = this.resource[this.name] as api.v3.Formattable|null|undefined;
     if (!(element?.html)) {
       return '';
     }

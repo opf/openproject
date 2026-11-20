@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -173,6 +172,34 @@ RSpec.describe "edit users", :js do
       visit edit_user_path(another_admin)
 
       expect(page).to have_visible_tab("General")
+    end
+
+    context "when changing their own email", with_config: { internal_password_confirmation: true } do
+      let(:dialog) { Components::PasswordConfirmationDialog.new }
+      let!(:previous_mail) { admin.mail }
+
+      before do
+        visit edit_user_path(admin)
+        fill_in "user[mail]", with: "admin-new@example.com"
+      end
+
+      it "requires the password" do
+        click_on "Save"
+        dialog.confirm_flow_with("adminADMIN!")
+
+        expect_flash(message: I18n.t(:notice_successful_update))
+        expect(admin.reload.mail).to eq("admin-new@example.com")
+      end
+
+      it "declines the change with an invalid password" do
+        click_on "Save"
+        dialog.expect_open
+        fill_in "password_confirmation", with: "wrong"
+        dialog.submit_button.click
+
+        expect(page).to have_text("Current password is invalid")
+        expect(admin.reload.mail).to eq(previous_mail)
+      end
     end
   end
 

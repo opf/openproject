@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,6 +37,22 @@ module WorkPackageTypes
       # readers dedupe on the way out, but there is no reason to store it twice.
       def updated_elements(current, requested)
         current | requested
+      end
+
+      def rejection_reason(aspect)
+        return unless aspect == TypeVariant::FORM_CONFIGURATION
+        return unless elements_param.any? { |element| required_custom_field?(element) }
+
+        I18n.t("types.edit.reuse_mode.exclusions.required")
+      end
+
+      private
+
+      def required_custom_field?(element)
+        return false unless CustomField.custom_field_attribute?(element)
+
+        variant.required_attributes.include?(element) ||
+          WorkPackageCustomField.exists?(id: CustomField.id_from_attribute_name(element), is_required: true)
       end
     end
   end

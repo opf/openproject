@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -60,6 +59,29 @@ RSpec.describe Backlogs::FinishSprintDialogComponent, type: :component do
     render_component
 
     expect(page).to have_no_css("form[action*='all=']", visible: :all)
+  end
+
+  context "without another sprint" do
+    it "selects only the top-of-backlog action" do
+      render_component
+
+      expect(page).to have_checked_field("Move them to the top of the backlog")
+      expect(page).to have_unchecked_field("Move them to the bottom of the backlog")
+      expect(page).to have_field("Move them to another sprint", disabled: true)
+    end
+  end
+
+  context "with another sprint" do
+    let(:available_sprints) { [create(:sprint, project:, name: "Sprint 2")] }
+
+    it "selects only the move-to-sprint action" do
+      render_component
+
+      expect(page).to have_unchecked_field("Move them to the top of the backlog")
+      expect(page).to have_unchecked_field("Move them to the bottom of the backlog")
+      expect(page).to have_checked_field("Move them to another sprint")
+      expect(page).to have_select("Select sprint", options: ["Sprint 2"])
+    end
   end
 
   context "when params[:all] is true" do

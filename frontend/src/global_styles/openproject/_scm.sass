@@ -1,29 +1,29 @@
-/*-- copyright
- * OpenProject is an open source project management software.
- * Copyright (C) the OpenProject GmbH
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 3.
- *
- * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
- * Copyright (C) 2006-2013 Jean-Philippe Lang
- * Copyright (C) 2010-2013 the ChiliProject Team
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * See COPYRIGHT and LICENSE files for more details. ++*/
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
 
 $repository-entry-filename-margin-left: 24px
 
@@ -56,7 +56,7 @@ li.change
 
   .copied-from
     font-style: italic
-    color: #999
+    color: var(--fgColor-muted)
     font-size: 0.9em
     &:before
       content: " - "
@@ -111,14 +111,14 @@ table.filecontent
   border: 1px solid var(--borderColor-default)
   border-collapse: collapse
   width: 98%
-  background-color: #fafafa
+  background-color: var(--bgColor-default)
   line-height: initial
 
   th
     border: 1px solid var(--borderColor-default)
-    background-color: #eee
+    background-color: var(--bgColor-muted)
     &.filename
-      background-color: #e4e4d4
+      background-color: var(--bgColor-neutral-muted)
       text-align: left
       padding: 0.2em
   tr.spacing
@@ -126,15 +126,14 @@ table.filecontent
       text-align: center
     td
       height: 0.4em
-      background: #EAF2F5
+      background: var(--diffBlob-hunkLine-bgColor)
 
   th.line-num
-    border: 1px solid #d7d7d7
     font-size: 0.8em
     text-align: right
     width: 2%
     padding-right: 3px
-    color: #999
+    color: var(--codeMirror-lineNumber-fgColor)
     a
       text-decoration: none
       color: inherit
@@ -146,14 +145,18 @@ table.filecontent
     white-space: -o-pre-wrap
 
   td.diff_in pre
-    background: #DDFFDD
+    color: var(--diffBlob-additionLine-fgColor)
+    background: var(--diffBlob-additionLine-bgColor)
     span
-      background: #AAFFAA
+      color: var(--diffBlob-additionWord-fgColor)
+      background: var(--diffBlob-additionWord-bgColor)
 
   td.diff_out pre
-    background: #FFDDDD
+    color: var(--diffBlob-deletionLine-fgColor)
+    background: var(--diffBlob-deletionLine-bgColor)
     span
-      background: #FFAAAA
+      color: var(--diffBlob-deletionWord-fgColor)
+      background: var(--diffBlob-deletionWord-bgColor)
 
   pre
     overflow: hidden
@@ -162,29 +165,29 @@ table.filecontent
 table.annotate
   tr
     &.bloc-0
-      background: #FFFFBF
+      background: var(--data-lemon-color-muted)
     &.bloc-1
-      background: #EABFFF
+      background: var(--data-plum-color-muted)
     &.bloc-2
-      background: #BFFFFF
+      background: var(--data-teal-color-muted)
     &.bloc-3
-      background: #FFD9BF
+      background: var(--data-orange-color-muted)
     &.bloc-4
-      background: #E6FFBF
+      background: var(--data-lime-color-muted)
     &.bloc-5
-      background: #BFCFFF
+      background: var(--data-blue-color-muted)
     &.bloc-6
-      background: #FFBFEF
+      background: var(--data-pink-color-muted)
     &.bloc-7
-      background: #FFE6BF
+      background: var(--data-coral-color-muted)
     &.bloc-8
-      background: #FFE680
+      background: var(--data-yellow-color-muted)
     &.bloc-9
-      background: #AA80FF
+      background: var(--data-purple-color-muted)
     &.bloc-10
-      background: #FFBFDC
+      background: var(--data-red-color-muted)
     &.bloc-11
-      background: #BFE4FF
+      background: var(--data-pine-color-muted)
 
   td
     &.revision
@@ -195,7 +198,7 @@ table.annotate
 
     &.author
       text-align: center
-      border-right: 1px solid #d7d7d7
+      border-right: 1px solid var(--borderColor-default)
       white-space: nowrap
       padding-left: 1em
       padding-right: 1em
@@ -205,15 +208,7 @@ table.annotate
 
 
     &.line-code
-      background-color: #fafafa
-
-div
-  &.action_M
-    background: #fd8
-  &.action_D
-    background: #f88
-  &.action_A
-    background: #bfb
+      background-color: var(--bgColor-default)
 
 tr.dir
   a

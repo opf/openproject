@@ -26,13 +26,11 @@ uk:
         select: Виберіть файли
         select_all: Вибрати все
         selection:
-          zero: Виберіть файли, які потрібно зв‘язати
-          one: Зв’язати 1 файл
-          few: Зв’язати %{count} файли
-          many: Зв’язати %{count} файлів
+          none: Виберіть файли, які потрібно зв‘язати
+          one: Link %{count} file
           other: Зв’язати %{count} файлу
         success_create:
-          one: Створено посилання на 1 файл
+          one: Successfully created %{count} file link.
           few: Створено посилання на %{count} файли
           many: Створено посилання на %{count} файлів
           other: Створено посилання на %{count} файлу

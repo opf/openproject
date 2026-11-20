@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -31,10 +30,11 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { Injectable, inject } from '@angular/core';
 import {
   ICKEditorContext,
+  ICKEditorInstance,
   ICKEditorStatic,
-  ICKEditorWatchdog,
+  OpenProjectEditorConfig,
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
-import { Constructor } from '@angular/cdk/schematics';
+import type { ToolbarConfigItem } from '@ckeditor/ckeditor5-core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 export type ICKEditorType = 'full'|'constrained';
@@ -58,7 +58,6 @@ declare global {
   interface Window {
     OPConstrainedEditor:ICKEditorStatic;
     OPClassicEditor:ICKEditorStatic;
-    OPEditorWatchdog:Constructor<ICKEditorWatchdog>;
   }
 }
 
@@ -82,18 +81,16 @@ export class CKEditorSetupService {
    * Create a CKEditor instance of the given type on the wrapper element.
    * Pass a ICKEditorContext object that will be used to decide active plugins.
    *
-   * Returns a Watchdog instance that has access to the editor and monitors its state.
-   *
    * @param {HTMLElement} wrapper
    * @param {ICKEditorContext} context
-   * @param {string|null} initialData
-   * @returns {Promise<ICKEditorWatchdog>}
+   * @param {string} initialData
+   * @returns {Promise<ICKEditorInstance>}
    */
   public async create(
     wrapper:HTMLElement,
     context:ICKEditorContext,
-    initialData:string|null = null,
-  ):Promise<ICKEditorWatchdog> {
+    initialData = '',
+  ):Promise<ICKEditorInstance> {
     // Load the bundle and the matching locale, if found.
     await this.prefetch;
 
@@ -108,10 +105,13 @@ export class CKEditorSetupService {
     }
     const config = this.createConfig(context, initialData);
 
-    return this
-      .createWatchdog(editorClass, contentWrapper, config)
-      .then((watchdog:ICKEditorWatchdog) => {
-        const { editor } = watchdog;
+    return editorClass
+      .createCustomized(contentWrapper, config)
+      .then((editor:ICKEditorInstance) => {
+        const toolbar = editor.ui.view.toolbar.element;
+        if (!toolbar) {
+          throw new Error('CKEditor toolbar has not been rendered.');
+        }
         const updateLastUpdated = () => {
           const editable = wrapper.querySelector<HTMLElement>('.ck-editor__editable_inline');
           if (!editable) {
@@ -120,12 +120,11 @@ export class CKEditorSetupService {
 
           editable.dataset.lastUpdated = String(new Date().getTime());
         };
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        toolbarWrapper.appendChild(editor.ui.view.toolbar.element);
+        toolbarWrapper.appendChild(toolbar);
 
         // Allow custom events on wrapper to set/get data for debugging
         wrapper.addEventListener('op:ckeditor:autosave', () => {
-          editor.config.get('autosave').save(editor);
+          void editor.config.get('autosave')?.save?.(editor);
         });
         wrapper.addEventListener('op:ckeditor:setData', (event:CustomEvent<string>) => {
           editor.setData(event.detail);
@@ -136,22 +135,40 @@ export class CKEditorSetupService {
           updateLastUpdated();
         });
         wrapper.addEventListener('op:ckeditor:getData', (event:CustomEvent<(data:string) => void>) => {
-          event.detail(editor.getData({ trim: false }));
+          event.detail(editor.getData({ trim: 'none' }));
         });
 
-        return watchdog;
+        return editor;
       });
   }
 
-  private createConfig(context:ICKEditorContext, initialData:string|null) {
+  /**
+   * Call the callback for each unhandled error of the given editor.
+   * The editor keeps running with its content after such an error.
+   *
+   * Returns a function that removes the callback.
+   */
+  public onEditorError(editor:ICKEditorInstance, callback:(error:Error) => void):() => void {
+    // The registry is page-wide, so the static method of either editor class covers all editors.
+    return window.OPClassicEditor.onEditorError(({ error, source }) => {
+      if (source === editor) {
+        callback(error);
+      }
+    });
+  }
+
+  private createConfig(context:ICKEditorContext, initialData:string):OpenProjectEditorConfig {
     const uiLocale = this.loadedLocale;
     const contentLanguage = context.options?.rtl ? 'ar' : 'en';
-    const resolvedContext:ICKEditorContext = { ...context, macros: this.resolveMacros(context.macros) };
+    const macros = this.resolveMacros(context.macros);
+    const resolvedContext:ICKEditorContext = { ...context, macros };
 
-    const config = {
+    const config:OpenProjectEditorConfig = {
       openProject: this.createContext(resolvedContext),
       removePlugins: context.removePlugins,
-      initialData,
+      root: {
+        initialData,
+      },
       ui: {
         poweredBy: {
           side: 'left',
@@ -163,10 +180,7 @@ export class CKEditorSetupService {
       },
       link: {},
       storageKey: context.storageKey,
-      // Constrained editors have no macro dropdown by default; add one when macros are present.
-      ...(context.type === 'constrained' && Array.isArray(resolvedContext.macros)
-        ? { toolbar: { items: this.constrainedToolbarWithMacroList() } }
-        : {}),
+      ...this.toolbarConfig(context, macros),
     };
 
     const allowedLinkProtocols = this.configurationService.allowedLinkProtocols;
@@ -178,38 +192,12 @@ export class CKEditorSetupService {
   }
 
   /**
-   * Build the given editor class with a watchdog around it, returning the watchdog.
-   *
-   * @param editorClass
-   * @param contentWrapper
-   * @param config
-   * @private
-   */
-  private createWatchdog(
-    editorClass:ICKEditorStatic,
-    contentWrapper:HTMLElement,
-    config:unknown,
-  ):Promise<ICKEditorWatchdog> {
-    const watchdog = new window.OPEditorWatchdog();
-
-    watchdog.setCreator(() => editorClass.createCustomized(contentWrapper, config));
-    watchdog.setDestructor((editor) => editor.destroy());
-
-    return watchdog
-      .create(contentWrapper, {})
-      .then(() => watchdog);
-  }
-
-  /**
    * Load the ckeditor asset
    */
   private async load():Promise<void> {
-    // untyped modules cannot be dynamically imported
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     const loadEditorScript = import('core-vendor/ckeditor/ckeditor');
 
-    const promises = [loadEditorScript];
+    const promises:Promise<unknown>[] = [loadEditorScript];
 
     if (I18n.locale !== 'en') {
       promises.push(this.loadLocale());
@@ -227,7 +215,7 @@ export class CKEditorSetupService {
     }
   }
 
-  private createContext(context:ICKEditorContext):unknown {
+  private createContext(context:ICKEditorContext):OpenProjectEditorConfig['openProject'] {
     return {
       context,
       helpURL: this.PathHelper.textFormattingHelp(),
@@ -235,17 +223,39 @@ export class CKEditorSetupService {
     };
   }
 
-  // Splice `macroList` into the constrained editor's own toolbar (which omits it by default).
-  private constrainedToolbarWithMacroList():string[] {
-    const items = [...(window.OPConstrainedEditor.defaultConfig?.toolbar?.items ?? [])];
+  private toolbarConfig(context:ICKEditorContext, macros:ICKEditorResolvedMacros):Pick<OpenProjectEditorConfig, 'toolbar'> {
+    const additionalItems = context.additionalToolbarItems ?? [];
+    // Constrained editors have no macro dropdown by default; add one when macros are present.
+    const withMacroList = context.type === 'constrained' && Array.isArray(macros);
 
-    if (!items.includes('macroList')) {
-      const anchor = items.indexOf('blockQuote');
-      const insertAt = anchor === -1 ? items.length : anchor + 1;
-      items.splice(insertAt, 0, '|', 'macroList');
+    if (!withMacroList && additionalItems.length === 0) {
+      return {};
     }
 
-    return items;
+    const items = withMacroList ? this.constrainedToolbarWithMacroList() : this.defaultToolbarItems(context.type);
+
+    return { toolbar: { items: this.insertAfterBlockQuote(items, additionalItems) } };
+  }
+
+  private defaultToolbarItems(type:ICKEditorType):ToolbarConfigItem[] {
+    const editorClass = type === 'constrained' ? window.OPConstrainedEditor : window.OPClassicEditor;
+    const toolbar = editorClass.defaultConfig?.toolbar;
+
+    return [...(Array.isArray(toolbar) ? toolbar : toolbar?.items ?? [])];
+  }
+
+  // Splice `macroList` into the constrained editor's own toolbar (which omits it by default).
+  private constrainedToolbarWithMacroList():ToolbarConfigItem[] {
+    const items = this.defaultToolbarItems('constrained');
+
+    return items.includes('macroList') ? items : this.insertAfterBlockQuote(items, ['|', 'macroList']);
+  }
+
+  private insertAfterBlockQuote(items:ToolbarConfigItem[], newItems:ToolbarConfigItem[]):ToolbarConfigItem[] {
+    const anchor = items.indexOf('blockQuote');
+    const insertAt = anchor === -1 ? items.length : anchor + 1;
+
+    return [...items.slice(0, insertAt), ...newItems, ...items.slice(insertAt)];
   }
 
   // Expand macro tokens and add/withhold the wiki macros based on `wikisAvailable`.

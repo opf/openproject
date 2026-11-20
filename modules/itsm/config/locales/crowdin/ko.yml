@@ -1,0 +1,111 @@
+---
+ko:
+  activerecord:
+    attributes:
+      itsm/email_message:
+        direction: 방향
+        from_address: 시작
+        message_id: Message ID
+        status: 상태
+        subject: 제목
+      itsm/email_thread:
+        recipients: Recipients
+        requester_email: Requester email
+        requester_name: Requester name
+        work_package: 작업 패키지
+      itsm/incoming_mailbox:
+        active: 활성
+        aliases: Known email addresses
+        email: 이메일 주소
+        mail_server: IMAP server
+        password: 암호
+        project: 프로젝트
+        username: 사용자 이름
+      itsm/mail_server:
+        encryption: Encryption
+        host: Server name
+        incoming_mailboxes: Incoming mailboxes
+        name: 이름
+        outgoing_mailboxes: Outgoing mailboxes
+        port: 포트
+        protocol: 프로토콜
+      itsm/outgoing_mailbox:
+        mail_server: SMTP 서버
+        password: 암호
+        project: 프로젝트
+        sender_email: Sender email
+        sender_name: Sender name
+        username: 사용자 이름
+    errors:
+      models:
+        itsm/email_message:
+          delivery_failed: The email could not be sent.
+          delivery_rejected: The SMTP server rejected the email.
+          not_delivered: The email was not sent because all recipients are blocked or the email limit is reached.
+        itsm/email_thread:
+          address_not_allowed: The SMTP server address is not allowed.
+          no_outgoing_mailbox: The project has no outgoing mailbox.
+          too_many_confirmations: Too many confirmations were sent to the requester recently.
+          unreachable: The SMTP server could not be reached.
+        itsm/incoming_mailbox:
+          attributes:
+            base:
+              address_not_allowed: The mail server resolves to a blocked address. If it runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable.
+              authentication_failed: 'The mail server rejected the login: %{server_message}'
+              fetch_in_progress: The mailbox is already being checked.
+              inactive: The mailbox is paused.
+              server_error: 'The mail server returned an error: %{server_message}'
+              timeout: The mail server stopped responding.
+              tls_failed: No secure connection to the mail server could be established. Check its certificate.
+              unreachable: The mail server could not be reached.
+    models:
+      itsm/email_message:
+        other: Email messages
+      itsm/email_thread:
+        other: Email threads
+      itsm/helpdesk_role:
+        other: Help desk roles
+      itsm/incoming_mailbox:
+        other: Incoming mailboxes
+      itsm/mail_server:
+        other: Mail servers
+      itsm/outgoing_mailbox:
+        other: Outgoing mailboxes
+  itsm:
+    admin:
+      description: Enables the functionality to create work packages by sending emails using an IMAP server and reply to those using an SMTP server.
+      enable_helpdesk: Enable help desk in this instance
+      helpdesk_not_enabled: 'The help desk could not be turned on, because its role or user could not be created: %{reason}'
+      helpdesk_set_by_environment: The help desk feature is set by an environment variable and not changeable here.
+      imap_server_configuration_component:
+        description: Configure the IMAP server to transform incoming emails to work packages.
+        edit: Edit IMAP server configuration
+        title: IMAP server configuration
+      mail_servers: Mail servers
+      port: Port
+      server_configuration_form:
+        encryption: Encryption
+        imap:
+          instruction: 'Configure the IMAP server to transform incoming emails to work packages. Note that OpenProject has no mechanism to stop email spoofing, please, ensure that the configured mail server performs SPF, DKIM, and DMARC checks, and quarantines emails that fail them.
+
+            '
+          title: IMAP server configuration
+        name: Server name
+        port: Server port
+        smtp:
+          instruction: Configure the SMTP server to reply emails directly from the work packages activity.
+          title: SMTP server configuration
+      smtp_server_configuration_component:
+        description: Configure the SMTP server to reply emails directly from the work packages activity.
+        edit: Edit SMTP server configuration
+        title: SMTP server configuration
+    helpdesk_mailer:
+      confirmation:
+        greeting: Hello %{name},
+        received: we have received your request "%{subject}" and recorded it as %{id}.
+        reply: To add information to your request, reply to this email.
+  label_helpdesk: Help desk
+  label_helpdesk_role: Help desk
+  label_helpdesk_user: Help desk
+  permission_manage_helpdesk: Manage help desk
+  project_module_helpdesk: Help desk

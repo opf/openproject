@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -70,6 +69,26 @@ RSpec.describe "Work package project include", :js, :selenium do
       page.refresh
 
       work_package_view.expect_work_package_listed(task, other_task, sub_bug, sub_sub_bug, other_other_task)
+    end
+
+    it "closes when the Create menu is opened next to it" do
+      dropdown.toggle!
+      dropdown.expect_open
+
+      click_button("Create", class: "add-work-package")
+
+      expect(page).to have_selector(:menuitem)
+      dropdown.expect_closed
+    end
+
+    it "closes when the More actions menu is opened next to the baseline drop modal" do
+      click_button("Baseline")
+      expect(page).to have_field("Show changes since")
+
+      find(:button, accessible_name: "More actions").click
+
+      expect(page).to have_selector(:menu, "More actions")
+      expect(page).to have_no_field("Show changes since")
     end
 
     it "creates new work packages in the host project of the work package view (regression #42271)" do

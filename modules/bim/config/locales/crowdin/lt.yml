@@ -114,7 +114,7 @@ lt:
     not_recommended: nerekomenduojama
     recommended: rekomenduojama
     x_bcf_issues:
-      one: Viena BCF problema
+      one: "%{count} BCF issue"
       other: "%{count} BCF problemos"
       zero: Nėra BCF trūkumų
   bim:
@@ -152,8 +152,10 @@ lt:
       processing_default: 'Tokie numatytieji IFC modeliai dar yra apdorojami ir todėl dar nėra pasiekiami:'
   oauth:
     scopes:
-      bcf_v2_1: Pilna prieiga prie BCF v2.1 API
+      bcf_v2_1: Access to the BCF v2.1 API
       bcf_v2_1_text: Aplikacija gaus pilną skaitymo ir rašymo prieigą prie OpenProject BCF API v2.1 vykdyti veiksmus jūsų vardu.
+      explanations_admin:
+        bcf_v2_1: Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on the user's behalf.
   permission_delete_bcf: Pašalinti BCF trūkumus
   permission_manage_bcf: Įkelti ir valdyti BCF trūkumus
   permission_manage_bcf_explanation: |

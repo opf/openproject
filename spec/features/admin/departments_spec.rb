@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,6 +32,8 @@ require "support/pages/admin/departments"
 
 RSpec.describe "Departments admin",
                :js do
+  include Components::Autocompleter::NgSelectAutocompleteHelpers
+
   shared_let(:admin) { create(:admin) }
 
   let(:departments_page) { Pages::Admin::Departments.new }
@@ -92,13 +93,12 @@ RSpec.describe "Departments admin",
       expect(page).to have_current_path("/admin/departments/#{child.id}")
 
       page.go_back
-      wait_for_network_idle
 
       # Without the patch the URL reverts but the frame keeps the Backend
       # content, leaving three breadcrumbs; the exact-match assertion below
       # fails in that case and only passes once the parent frame is restored.
       expect(page).to have_current_path("/admin/departments/#{parent.id}")
-      departments_page.expect_breadcrumbs(organization_name, "Engineering")
+      departments_page.expect_breadcrumbs(organization_name, "Engineering", wait: 10)
       departments_page.tree_view.should_have_active_item("Engineering")
     end
   end
@@ -129,6 +129,26 @@ RSpec.describe "Departments admin",
       departments_page.cancel_add_department
 
       expect(page).to have_no_field(I18n.t("departments.add_department_form.name_placeholder"))
+    end
+  end
+
+  describe "adding a project membership" do
+    shared_let(:department) { create(:department, lastname: "Engineering") }
+    shared_let(:target_project) { create(:project, name: "Alpha Initiative", identifier: "zulu-target") }
+    shared_let(:other_project) { create(:project, name: "Beta Initiative", identifier: "yankee-other") }
+
+    it_behaves_like "a project picker searchable by identifier" do
+      let(:control_project) { other_project }
+
+      before do
+        visit edit_admin_department_path(department, tab: :memberships)
+      end
+
+      def search_project(query)
+        search_autocomplete(page.find_test_selector("membership_project_id"),
+                            query:,
+                            results_selector: "body")
+      end
     end
   end
 

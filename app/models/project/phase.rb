@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -49,6 +48,8 @@ class Project::Phase < ApplicationRecord
            to: :definition
 
   attr_readonly :definition_id
+
+  enum :status, { open: "open", in_progress: "in_progress", completed: "completed" }, validate: true
 
   scope :active, -> { where(active: true) }
   scope :with_timeline_content, -> {

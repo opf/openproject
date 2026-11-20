@@ -48,7 +48,7 @@ de:
   documents:
     active_editors: Aktive Bearbeiter
     active_editors_count:
-      one: Ein aktiver Bearbeiter
+      one: "%{count} aktiver Bearbeiter"
       other: "%{count} aktive Bearbeiter"
     admin:
       collaboration_settings:
@@ -64,9 +64,9 @@ de:
           invalid_scheme: Muss ein WebSocket-Protokoll (ws:// oder wss://) verwenden.
           label: Hokuspokus-Server-URL
         page_header:
-          description: |-
+          description_html: |-
             Wenn die Echtzeit-Kollaboration aktiviert ist, können mehrere Personen ein Dokument zur gleichen Zeit bearbeiten.
-            Sie erfordert einen funktionierenden %{hocuspocus_server_link}, um zu funktionieren.
+            Sie erfordert einen funktionierenden [Hocuspocus server](hocuspocus_server_link).
       disable_text_collaboration_dialog:
         confirmation_checkbox_message: Ich verstehe, dass ich Daten dauerhaft verlieren könnte
         confirmation_message: |-
@@ -83,6 +83,12 @@ de:
         primary_action: Echtzeit-Kollaboration aktivieren
         success: Echtzeit-Kollaboration wurde aktiviert.
     button_add_type: Typ hinzufügen
+    collaboration_token:
+      errors:
+        collaboration_disabled: Real-time collaboration is not enabled.
+        collaboration_token_not_allowed: Requests authenticated with a collaboration token cannot request collaboration tokens.
+        invalid_previous_token: The previous collaboration token is invalid, already revoked, or does not belong to this document and user.
+        not_collaborative: The document does not support real-time collaboration.
     delete_dialog:
       confirmation_message_html: Dadurch werden dieses Dokument und seine Anhänge endgültig gelöscht. Sind Sie sicher, dass Sie dies tun möchten?
       heading: Dieses Dokument löschen?
@@ -118,7 +124,7 @@ de:
       currently_offline: Sie sind derzeit offline.
     label_attachment_author: Autor des Dokuments
     label_categories: Kategorien
-    last_updated_at: Zuletzt gespeichert %{time}.
+    last_updated_at_html: Zuletzt gespeichert %{time}.
     menu:
       all: Alle Dokumente
       collaboration_settings: Echtzeit-Kollaboration

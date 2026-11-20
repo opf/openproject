@@ -8,6 +8,9 @@
         [wrapperClasses]="'work-packages--type-selector work-packages--subject-element -no-label'"
         [fieldName]="'type'" />
     </div>
+
+    <h2 class="sr-only">{{ workPackage.subject }}</h2>
+
     <div class="work-packages--details--subject work-packages--subject-element">
       <op-editable-attribute-field [resource]="workPackage"
         [wrapperClasses]="'work-packages--details--subject work-packages--subject-element -no-label'"

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -162,6 +161,10 @@ module UsersHelper
   #   TabularFormBuilder rendered inside the same form, so existing plugins keep
   #   submitting their fields. It is only rendered (and the deprecation logged)
   #   when a listener is actually registered.
+  def user_form_data_attributes(user, data)
+    user == current_user ? password_confirmation_data_attribute(data) : data
+  end
+
   def render_user_form_hooks(user:, form:)
     safe_join([
       call_hook(:view_users_primer_form, user:, form:),

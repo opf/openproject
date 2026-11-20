@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -53,9 +52,9 @@ RSpec.describe "Real-time collaboration with Hocuspocus for documents",
       it "shows the editor" do
         visit document_path(document)
         expect(page).to have_test_selector("blocknote-document-description")
-        expect(page).to have_no_content("Armin Admin")
+        expect(page).to have_no_text("Armin Admin")
         page.find_link("1 active editor").click
-        expect(page).to have_content("Armin Admin")
+        expect(page).to have_text("Armin Admin")
       end
 
       it "renders a collaborative document and saves changes to the database" do
@@ -81,7 +80,7 @@ RSpec.describe "Real-time collaboration with Hocuspocus for documents",
         document.update!(content_binary: binary, description: "Hello Hocuspocus\n")
         visit document_path(document)
         expect(page).to have_test_selector("blocknote-document-description")
-        wait_for { editor.content }.to have_content("Hello Hocuspocus")
+        wait_for { editor.content }.to have_text("Hello Hocuspocus")
         editor.fill_in("Nothing changes")
         # Hocuspocus takes some time before saving. It's hard to wait for
         # something to not change, so this sleeps, although it's bad to do that in tests.

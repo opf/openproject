@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,6 +37,7 @@ RSpec.describe Queries::WorkPackages::Filter::AncestorFilter do
 
   it_behaves_like "basic query filter" do
     let(:class_key) { :ancestor }
+    let(:values) { ["1"] }
     let(:type) { :list }
 
     before do
@@ -308,6 +308,29 @@ RSpec.describe Queries::WorkPackages::Filter::AncestorFilter do
           expect(scope).to contain_exactly(another_wp, grandparent, parent)
         end
       end
+    end
+  end
+
+  describe "with a semantic identifier as value" do
+    let!(:ancestor) { create(:work_package) }
+    let!(:child) { create(:work_package, parent: ancestor) }
+    let!(:grandchild) { create(:work_package, parent: child) }
+    let!(:other_wp) { create(:work_package) }
+
+    let(:instance) do
+      described_class.create!(name: :ancestor, context: build_stubbed(:query, project: nil), operator: "=", values: ["ANC-1"])
+    end
+
+    before { create(:work_package_semantic_alias, work_package: ancestor, identifier: "ANC-1") }
+
+    current_user { create(:admin) }
+
+    it "is valid" do
+      expect(instance).to be_valid
+    end
+
+    it "returns the descendants" do
+      expect(WorkPackage.where(instance.where)).to contain_exactly(child, grandchild)
     end
   end
 end

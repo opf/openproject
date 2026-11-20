@@ -1,17 +1,46 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require "rails_helper"
 
 RSpec.describe WorkPackageTypes::FormConfiguration::ExclusionToggleComponent, type: :component do
+  include_context "with variant scope"
+
   let(:type) { create(:type) }
-  let(:variant) { type.default_variant }
+  let(:variant) { create(:type_variant, type:) }
 
   def exclusion_state(effective: [])
-    WorkPackageTypes::ExclusionState.new(variant:, own: effective, effective:)
+    WorkPackageTypes::ExclusionState.new(variant:, excluded: effective)
   end
 
-  def component(exclusions: exclusion_state, element_key: "assignee", label: "Inherit Assignee")
-    described_class.new(exclusions:, element_key:, label:)
+  def component(exclusions: exclusion_state, element_key: "assignee", label: "Inherit Assignee", enabled: true)
+    described_class.new(exclusions:, element_key:, label:, enabled:)
   end
 
   describe "#render?" do
@@ -39,6 +68,12 @@ RSpec.describe WorkPackageTypes::FormConfiguration::ExclusionToggleComponent, ty
       expect(toggle["src"]).to eq(
         "/types/#{type.id}/variants/#{variant.id}/exclusions/form_configuration/toggle?element=assignee"
       )
+    end
+
+    it "is disabled when asked to" do
+      render_inline(component(enabled: false))
+
+      expect(toggle.find("button")).to be_disabled
     end
 
     it "is off when the element is excluded" do

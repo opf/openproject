@@ -1,3 +1,4 @@
+---
 description: |-
   A simple form response example.
 value:
@@ -16,7 +17,7 @@ value:
         principal:
           href: '/api/v3/users/14'
           title: Mara Jade
-        roles: [ ]
+        roles: []
     schema:
       _type: Schema
       _abbreviated: Schema resource shortened for brevity

@@ -22,16 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
 
-RSpec.describe "Work package show with a linked form configuration", :js,
-               with_flag: { type_variants: true } do
+RSpec.describe "Work package show with a linked form configuration", :js do
   shared_let(:admin) { create(:admin) }
 
   shared_let(:kept_field) { create(:issue_custom_field, :integer, name: "KeptNumber", is_for_all: true) }
@@ -51,13 +49,12 @@ RSpec.describe "Work package show with a linked form configuration", :js,
       variant.save!
     end
   end
-  let(:leaf_type) { create(:type) }
-  let(:leaf) { leaf_type.default_variant }
-  let(:project) { create(:project, types: [owner_type, leaf_type]) }
+  let(:variant) { create(:type_variant, type: owner.type, variant_name: "Leaf") }
+  let(:project) { create(:project, types: [variant]) }
   let(:work_package) do
     create(:work_package,
            project:,
-           type: leaf_type,
+           type: owner_type,
            custom_values: {
              kept_field.id => 1,
              excluded_field.id => 2,
@@ -66,8 +63,9 @@ RSpec.describe "Work package show with a linked form configuration", :js,
   end
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
 
-  def link(variant, source:, excluded: [])
-    variant.update!("#{aspect}_source": source, "#{aspect}_excluded_elements": excluded)
+  def link(variant, excluded: [])
+    link_configuration(variant, aspect:)
+    variant.update!("#{aspect}_excluded_elements" => excluded) if excluded.any?
   end
 
   before { login_as(admin) }
@@ -94,7 +92,7 @@ RSpec.describe "Work package show with a linked form configuration", :js,
 
   context "when linked without exclusions" do
     before do
-      link(leaf, source: owner)
+      link(variant)
     end
 
     it "renders the owning type's groups and fields" do
@@ -116,8 +114,8 @@ RSpec.describe "Work package show with a linked form configuration", :js,
 
   context "when the link excludes a field and empties a group" do
     before do
-      link(leaf, source: owner, excluded: [excluded_field.attribute_name,
-                                           solo_field.attribute_name])
+      link(variant, excluded: [excluded_field.attribute_name,
+                               solo_field.attribute_name])
     end
 
     it "renders only what remains, dropping the emptied group" do
@@ -136,8 +134,9 @@ RSpec.describe "Work package show with a linked form configuration", :js,
     end
 
     it "keeps rendering everything on the owning type itself" do
+      owner_project = create(:project, types: [owner_type])
       owner_work_package = create(:work_package,
-                                  project:,
+                                  project: owner_project,
                                   type: owner_type,
                                   custom_values: {
                                     kept_field.id => 1,
@@ -158,27 +157,6 @@ RSpec.describe "Work package show with a linked form configuration", :js,
     end
   end
 
-  context "when the exclusions accumulate over a chain" do
-    let(:middle) { create(:type).default_variant }
-
-    before do
-      link(middle, source: owner, excluded: [excluded_field.attribute_name])
-      link(leaf, source: middle, excluded: [solo_field.attribute_name])
-    end
-
-    it "renders the leaf without either ancestor's excluded fields" do
-      wp_page.visit!
-      wp_page.ensure_page_loaded
-
-      wp_page.expect_group("Numbers") do
-        expect_field(kept_field, "1")
-      end
-
-      expect_no_field(excluded_field)
-      expect_no_section("Solo")
-    end
-  end
-
   context "with a query group in the owning type's configuration" do
     let(:embedded_query) { create(:query, project:, user: admin, name: "Embedded list") }
 
@@ -194,7 +172,7 @@ RSpec.describe "Work package show with a linked form configuration", :js,
     # all, so the absence asserted there is the exclusion doing its job.
     context "when the query is not excluded" do
       before do
-        link(leaf, source: owner)
+        link(variant)
       end
 
       it "renders the query group section" do
@@ -208,7 +186,7 @@ RSpec.describe "Work package show with a linked form configuration", :js,
 
     context "when the link excludes the query" do
       before do
-        link(leaf, source: owner, excluded: ["query_#{embedded_query.id}"])
+        link(variant, excluded: ["query_#{embedded_query.id}"])
       end
 
       it "drops the whole query group section" do
@@ -221,48 +199,6 @@ RSpec.describe "Work package show with a linked form configuration", :js,
 
         expect_no_section("Related")
       end
-    end
-
-    context "when an ancestor's link excludes the query" do
-      let(:middle) { create(:type).default_variant }
-
-      before do
-        link(middle, source: owner, excluded: ["query_#{embedded_query.id}"])
-        link(leaf, source: middle)
-      end
-
-      it "drops it for the leaf as well" do
-        wp_page.visit!
-        wp_page.ensure_page_loaded
-
-        wp_page.expect_group("Numbers") do
-          expect_field(kept_field, "1")
-        end
-
-        expect_no_section("Related")
-      end
-    end
-  end
-
-  context "with the flag off", with_flag: { type_variants: false } do
-    before do
-      leaf.attribute_groups = [["Own", [kept_field.attribute_name]]]
-      leaf.custom_field_ids = [kept_field.id]
-      leaf.save!
-
-      link(leaf, source: owner, excluded: [kept_field.attribute_name])
-    end
-
-    it "still resolves the link and its exclusions" do
-      wp_page.visit!
-      wp_page.ensure_page_loaded
-
-      wp_page.expect_group("Numbers") do
-        expect_field(excluded_field, "2")
-      end
-
-      expect_no_section("Own")
-      expect_no_field(kept_field)
     end
   end
 end

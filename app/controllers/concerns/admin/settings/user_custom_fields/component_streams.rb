@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -43,11 +42,13 @@ module Admin
             )
           end
 
-          def update_section_via_turbo_stream(user_custom_field_section:)
+          def update_section_via_turbo_stream(user_custom_field_section:, sections:)
             update_via_turbo_stream(
               component: ::Settings::UserCustomFieldSections::ShowComponent.new(
-                user_custom_field_section:
-              )
+                user_custom_field_section:,
+                sections:
+              ),
+              method: :morph
             )
           end
 
@@ -63,7 +64,8 @@ module Admin
             replace_via_turbo_stream(
               component: ::Settings::UserCustomFieldSections::IndexComponent.new(
                 user_custom_field_sections:
-              )
+              ),
+              method: :morph
             )
           end
         end

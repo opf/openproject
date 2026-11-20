@@ -57,19 +57,19 @@ properties:
               The project resource, that is the container of this phase.
 
               **Resource**: Project
-example:
-  _type: 'ProjectPhase'
-  id: 1337
-  name: 'Initiating'
-  active: true
-  createdAt: '2023-01-20T14:30:00.368Z'
-  updatedAt: '2023-05-23T11:57:48.618Z'
-  _links:
-    self:
-      href: '/api/v3/project_phases/23'
-    definition:
-      title: 'Initiating'
-      href: '/api/v3/project_definitions/11'
-    project:
-      title: 'Death Star 3.0'
-      href: '/api/v3/projects/11'
+examples:
+  - _type: 'ProjectPhase'
+    id: 1337
+    name: 'Initiating'
+    active: true
+    createdAt: '2023-01-20T14:30:00.368Z'
+    updatedAt: '2023-05-23T11:57:48.618Z'
+    _links:
+      self:
+        href: '/api/v3/project_phases/23'
+      definition:
+        title: 'Initiating'
+        href: '/api/v3/project_definitions/11'
+      project:
+        title: 'Death Star 3.0'
+        href: '/api/v3/projects/11'

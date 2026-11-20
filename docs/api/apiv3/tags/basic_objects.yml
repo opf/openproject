@@ -138,9 +138,6 @@ description: |-
   * `urn:openproject-org:api:v3:errors:InvalidQuery` (**HTTP 400**)
   The query contained a value that did not match the servers expectation
 
-  * `urn:openproject-org:api:v3:errors:InvalidRenderContext` (**HTTP 400**)
-  The client specified a rendering context that does not exist
-
   * `urn:openproject-org:api:v3:errors:InvalidRequestBody` (**HTTP 400**)
   The format of the request body did not match the servers expectation
 

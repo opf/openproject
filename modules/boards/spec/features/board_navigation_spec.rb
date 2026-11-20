@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -20,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,8 +32,7 @@ require_relative "support/board_index_page"
 require_relative "support/board_page"
 
 RSpec.describe "Work Package boards spec",
-               :js,
-               :selenium do
+               :js do
   let(:user) do
     create(:user,
            member_with_roles: { project => role })
@@ -54,6 +54,25 @@ RSpec.describe "Work Package boards spec",
     login_as(user)
     project
     login_as(admin)
+  end
+
+  it "opens the work package context menu on a card and returns focus to the card on Escape" do
+    board_index.visit!
+    board_page = board_index.open_board board_view
+    board_page.expect_query "List 1", editable: true
+    board_page.add_card "List 1", "Task 1"
+    board_page.expect_and_dismiss_toaster message: I18n.t(:notice_successful_create)
+    wp = WorkPackage.last
+    context_menu = Components::WorkPackages::ContextMenu.new
+
+    page.find(".op-wp-single-card-#{wp.id} span", text: "Task 1", match: :first).right_click
+
+    context_menu.expect_open
+    expect(page).to have_selector(:menuitem, "Open details view", focused: true)
+
+    context_menu.press_escape
+    context_menu.expect_closed
+    expect(page).to have_css(".op-wp-single-card-#{wp.id}", focused: true)
   end
 
   it "navigates from boards to the WP full view and back" do
@@ -82,7 +101,7 @@ RSpec.describe "Work Package boards spec",
 
     # Open the details page with the info icon
     card = board_page.card_for(wp)
-    split_view = card.open_details_view(primerized: true)
+    split_view = card.open_details_view
     split_view.expect_subject
 
     expect(page).to have_current_path /details\/#{wp.id}/
@@ -139,7 +158,7 @@ RSpec.describe "Work Package boards spec",
     expect(wp.subject).to eq "Task 1"
     # Open the details page with the info icon
     card = board_page.card_for(wp)
-    split_view = card.open_details_view(primerized: true)
+    split_view = card.open_details_view
     split_view.expect_subject
     split_view.switch_to_tab tab: :relations
     expect(page).to have_current_path /details\/#{wp.id}\/relations/
@@ -170,7 +189,7 @@ RSpec.describe "Work Package boards spec",
     expect(wp.subject).to eq "Task 1"
     # Open the details page with the info icon
     card = board_page.card_for(wp)
-    split_view = card.open_details_view(primerized: true)
+    split_view = card.open_details_view
     split_view.expect_subject
 
     page.driver.refresh
@@ -195,14 +214,13 @@ RSpec.describe "Work Package boards spec",
 
     # Open the details page with the info icon
     card = board_page.card_for(wp)
-    split_view = card.open_details_view(primerized: true)
+    split_view = card.open_details_view
     split_view.expect_subject
 
     # Go to full view of WP
     split_view.switch_to_fullscreen
     split_view.wait_for_activity_tab
-    find_by_id("action-show-more-dropdown-menu").click
-    click_link(I18n.t("js.button_delete"))
+    split_view.select_from_context_menu("Delete")
 
     # Delete the WP
     destroy_modal.expect_listed(wp)

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -149,6 +148,25 @@ RSpec.describe ApplicationController do
 
         @controller.send :handle_unverified_request
       end
+    end
+  end
+
+  describe "CSRF token stored in the session", with_settings: { login_required: false } do
+    around do |example|
+      state = ActionController::Base.allow_forgery_protection
+      ActionController::Base.allow_forgery_protection = true
+      example.run
+    ensure
+      ActionController::Base.allow_forgery_protection = state
+    end
+
+    it "is rejected" do
+      token = SecureRandom.urlsafe_base64(32)
+      session[:_csrf_token] = token
+
+      post :index, params: { authenticity_token: token }
+
+      expect(response).to have_http_status(422)
     end
   end
 

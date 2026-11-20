@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,20 +22,22 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module Sprints::Scopes::Assignable
   extend ActiveSupport::Concern
 
   class_methods do
+    # Sprints that work packages of the project can be assigned to.
+    # Viewing sprints in the project covers all of its sprints, including the ones
+    # shared into it, so there is no need for the more expensive .visible scope.
     def assignable(project:, user: User.current)
-      for_project(project)
-        .visible(user)
-        .not_completed
+      return none unless user.allowed_in_project?(:view_sprints, project)
+
+      for_project(project).not_completed
     end
   end
 end

@@ -1,3 +1,4 @@
+---
 type: object
 required:
   - _links
@@ -11,11 +12,11 @@ properties:
       - schema
     properties:
       filter:
-        "$ref": "./link.yml"
+        $ref: "./link.yml"
       schema:
-        "$ref": "./link.yml"
+        $ref: "./link.yml"
       operator:
-        "$ref": "./link.yml"
+        $ref: "./link.yml"
   _type:
     type: string
   name:

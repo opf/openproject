@@ -9,6 +9,7 @@ jobs:
   setup:
     if: github.repository == 'opf/openproject'
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     outputs:
       previous_release_branch: ${{ steps.find_release_branches.outputs.previous_branch }}
       latest_release_branch: ${{ steps.find_release_branches.outputs.latest_branch }}
@@ -47,7 +48,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        uses: actions/checkout@v7.0.1
         with:
           ref: ${{ env.RELEASE_BRANCH }}
 

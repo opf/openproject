@@ -12,5 +12,7 @@ rules:
       - cla.yml
   cache-poisoning:
     ignore:
+      # release/* pushes run tests here; this workflow does not publish release artifacts.
+      - test-core.yml
       # Frontend unit tests cache npm packages; only triggered on push/PR from trusted branches
       - test-frontend-unit.yml

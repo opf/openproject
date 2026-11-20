@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -68,6 +67,10 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
 
   @Input() public scope:'all'|'current_project'|'';
 
+  @Input() public searchMode:'semantic'|'text' = 'text';
+
+  @Input() public semanticSearchAvailable = false;
+
   public queryProps:Partial<QueryRequestParams>;
 
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -95,7 +98,17 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
   }
 
   ngOnInit():void {
+    this.wpTableFilters.semanticSearchAvailable = this.semanticSearchAvailable;
+    this.wpTableFilters.semanticSearchEnabled = this.isSemanticSearch;
     this.setQueryProps();
+  }
+
+  public get isSemanticSearch():boolean {
+    return this.searchMode === 'semantic';
+  }
+
+  private get useSemanticSearch():boolean {
+    return this.isSemanticSearch && this.semanticSearchAvailable;
   }
 
   private setQueryProps():void {
@@ -112,7 +125,7 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
       });
     } else if (this.searchTerm.length > 0) {
       filters.push({
-        search: {
+        [this.useSemanticSearch ? 'semanticSearch' : 'search']: {
           operator: '**',
           values: [this.searchTerm],
         },
@@ -141,7 +154,7 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
     this.queryProps = {
       'columns[]': columns,
       filters: JSON.stringify(filters),
-      sortBy: JSON.stringify([['updatedAt', 'desc']]),
+      sortBy: JSON.stringify(this.useSemanticSearch ? [['semanticSimilarity', 'asc']] : [['updatedAt', 'desc']]),
       showHierarchies: false,
     };
   }

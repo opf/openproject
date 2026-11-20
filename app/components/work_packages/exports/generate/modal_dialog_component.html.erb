@@ -54,7 +54,11 @@
               safe_join(
                 [
                   hidden_field_tag(:template, "artefact", id: nil),
-                  render(WorkPackages::Exports::Generate::Templates::ArtefactSettingsComponent.new(settings: artefact_settings))
+                  render(
+                    WorkPackages::Exports::Generate::Templates::ArtefactSettingsComponent.new(
+                      settings: artefact_settings, context: :export
+                    )
+                  )
                 ]
               )
             end

@@ -1,0 +1,165 @@
+---
+fr:
+  activerecord:
+    attributes:
+      repositories/gitlab_provider:
+        gitlab_user: Webhook user
+        url: GitLab URL
+        webhook_secret: Secret du webhook
+      repositories/provider:
+        created_at: Créé
+        name: Nom
+    errors:
+      models: {}
+    models:
+      repositories/gitlab_provider:
+        one: GitLab provider
+        other: GitLab providers
+      repositories/provider:
+        one: Repository provider
+        other: Repository providers
+  permission_show_repository_content: Show repository content
+  project_module_repositories: Dépôts
+  repositories:
+    admin:
+      buttons:
+        save_and_continue: Enregistrer et continuer
+      destroy_confirmation_dialog_component:
+        delete_result:
+          branches_and_commits: All branches and commits received from this provider and their links to work packages.
+          issues: All issues received from this provider and their links to work packages.
+          merge_requests: All merge requests and pipelines received from this provider and their links to work packages.
+        description_html: 'The repository provider %{provider} will be deleted together with all data OpenProject received from it. This includes:'
+        heading: Permanently delete this repository provider?
+        title: Delete repository provider
+      gitlab_integration:
+        go_to_repositories: Go to Repositories
+        moved_notice: GitLab is now configured as a repository provider in the new Repositories section of the administration.
+      index_description: Connect repository providers to show issues, merge requests, branches and commits in the work packages they reference.
+      label_add_new: Add new repository provider
+      label_new_provider: New %{provider_type} provider
+      label_provider: Repository provider
+      menu: Dépôts
+      open_provider: Ouverte
+      regenerate_webhook_secret_dialog_component:
+        confirm_button: Regenerate secret
+        description: The current webhook secret will stop working immediately. You have to enter the new secret in all webhooks of this provider.
+        heading: Regenerate the webhook secret?
+        title: Regenerate webhook secret
+      sections:
+        general_information: Informations générales
+        webhook: Webhook
+      steps:
+        general_information:
+          edit: Edit provider configuration
+          name_caption: Give the provider a name so that users can tell multiple providers apart.
+          title: Provider configuration
+          url_caption: The address of your GitLab instance, including the https://. Webhooks are accepted for all projects below this address.
+        webhook:
+          description_configured: The webhook secret is configured.
+          description_pending: No webhook secret is configured. Requests to the webhook are accepted without verification, which may allow unauthorized actors to forge events.
+          edit: Show webhook configuration
+          form_description: Create a webhook in your GitLab projects or groups with the following URL and secret token.
+          regenerate_secret: Regenerate secret
+          secret: Secret token
+          secret_caption: Copy this value into the "Secret token" field of the GitLab webhook.
+          title: Webhook configuration
+          url: URL
+          url_caption: Replace %{placeholder} with an API key of the webhook user.
+        webhook_user:
+          caption: When set, webhook requests authenticated with any other user's API key are rejected.
+          description_any_user: Webhooks may be sent with the API key of any user.
+          description_pending: No webhook user has been chosen yet.
+          description_user: Webhooks have to be sent with an API key of %{name}.
+          edit: Edit webhook user
+          form_description: The OpenProject user whose API key authenticates webhook requests. This user also posts automated comments on work packages and needs permission to view and comment on them.
+          title: Webhook user
+      table:
+        blank_description: Add a repository provider to see its activity in work packages.
+        blank_title: No repository providers configured yet
+        provider_type: Fournisseur
+    branch_component:
+      copy_name: Copier le nom de la branche
+      create_merge_request: Créer une requête de fusion
+      updated_at: Mis à jour le %{date_time}.
+      updated_by: Dernière mise à jour par %{name}.
+    commit_component:
+      authored_at: Publié sur %{date_time}.
+      copy_sha: Copier l'URL dans le presse-papiers
+      created_by: Créé par %{name}.
+      empty_message: "<empty commit message>"
+    git_snippets_dialog_component:
+      branch_name: Nom de la branche
+      commit_message: Message de commit
+      copy_branch_name: Copier le nom de la branche
+      copy_commit_message: Copier le message de commit
+      copy_create_branch_command: Copier la commande pour créer une branche avec un commit vide
+      create_branch_with_empty_commit: Créer une branche avec un commit vide
+      title: Extraits de code Git rapides
+    gitlab:
+      issue_closed_referenced_comment: "**Ticket fermé :** Le ticket %{issue_number} [%{issue_title}](%{issue_url}) pour [%{repository}](%{repository_url}) a été fermé par [%{gitlab_user}](%{gitlab_user_url}).\n"
+      issue_opened_referenced_comment: "**Ticket ouvert :** Le ticket %{issue_number} [%{issue_title}](%{issue_url}) pour [%{repository}](%{repository_url}) a été ouvert par [%{gitlab_user}](%{gitlab_user_url}).\n"
+      issue_reopened_referenced_comment: "**Ticket rouvert :** Le ticket %{issue_number} [%{issue_title}](%{issue_url}) pour [%{repository}](%{repository_url}) a été rouvert par [%{gitlab_user}](%{gitlab_user_url}).\n"
+      merge_request_closed_comment: "**MR fermée :** La requête de fusion %{mr_number} [%{mr_title}](%{mr_url}) pour [%{repository}](%{repository_url}) a été fermée par [%{gitlab_user}](%{gitlab_user_url}).\n"
+      merge_request_merged_comment: "**MR fusionnée :** La requête de fusion %{mr_number} [%{mr_title}](%{mr_url}) pour [%{repository}](%{repository_url}) a été fusionnée par [%{gitlab_user}](%{gitlab_user_url}).\n"
+      merge_request_opened_comment: "**MR ouverte :** La requête de fusion %{mr_number} [%{mr_title}](%{mr_url}) pour [%{repository}](%{repository_url}) a été ouverte par [%{gitlab_user}](%{gitlab_user_url}).\n"
+      merge_request_reopened_comment: "**MR rouverte :** La requête de fusion %{mr_number} [%{mr_title}](%{mr_url}) pour [%{repository}](%{repository_url}) a été rouverte par [%{gitlab_user}](%{gitlab_user_url}).\n"
+      note_commit_referenced_comment: "**Mentionné dans un commit :** [%{gitlab_user}](%{gitlab_user_url}) a mentionné ce WP dans une note de commit [%{commit_id}](%{commit_url}) sur [%{repository}](%{repository_url}) : %{commit_note}\n"
+      note_issue_commented_comment: "**Commentaire dans un ticket :**[%{gitlab_user}](%{gitlab_user_url}) a commenté ce WP dans le ticket %{issue_number} [%{issue_title}](%{issue_url}) sur [%{repository}](%{repository_url}) : %{issue_note}\n"
+      note_issue_referenced_comment: "**Mentionné dans un ticket :**[%{gitlab_user}](%{gitlab_user_url}) a mentionné ce WP dans le ticket %{issue_number} [%{issue_title}](%{issue_url}) sur [%{repository}](%{repository_url}) : %{issue_note}\n"
+      note_mr_commented_comment: "**Commentaire dans une MR :**[%{gitlab_user}](%{gitlab_user_url}) a commenté ce WP dans la requête de fusion %{mr_number} [%{mr_title}](%{mr_url}) sur [%{repository}](%{repository_url}) : %{mr_note}\n"
+      note_mr_referenced_comment: "**Mentionné dans une MR :**[%{gitlab_user}](%{gitlab_user_url}) a mentionné ce WP dans la demande de fusion %{mr_number} [%{mr_title}](%{mr_url}) sur [%{repository}](%{repository_url}) : %{mr_note}\n"
+      note_snippet_referenced_comment: "**Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note} %{commit_note} %{commit_note}\n"
+      push_single_commit_comment_with_ref: "**Push dans %{reference} :** [%{gitlab_user}](%{gitlab_user_url}) a fait un push de [%{commit_number}](%{commit_url}) vers [%{repository}](%{repository_url}) à %{commit_timestamp} : %{commit_note}\n"
+    issue_component:
+      states:
+        closed: Fermée
+        opened: Ouverte
+      updated_at: Mis à jour le %{date_time}.
+      updated_by: Dernière mise à jour par %{name}.
+    merge_request_component:
+      pipeline_statuses:
+        canceled: Annulé
+        canceling: Annulation
+        created: Créé
+        failed: Échoué
+        manual: Manuel
+        pending: En attente
+        preparing: Préparation
+        running: En cours
+        scheduled: Planifiée
+        skipped: Manqué
+        success: Réussi
+        waiting_for_callback: En attente de rappel
+        waiting_for_resource: En attente de ressources
+      states:
+        closed: Fermée
+        locked: Bloqué
+        merged: Fusionné
+        opened: Ouverte
+      updated_at: Mis à jour le %{date_time}.
+      updated_by: Dernière mise à jour par %{name}.
+    provider_types:
+      gitlab:
+        name: GitLab
+    work_package_tab_component:
+      blank_slates:
+        branches:
+          description_html: Pour créer un lien vers une branche, nommez-la de manière à ce qu'elle commence par « %{code} » ou uniquement par « %{identifier}».
+          title: Aucune branche
+        commits:
+          description_html: Link a commit by adding the code %{code} or the URL %{url} to the commit message.
+          title: Aucun commit
+        issues:
+          description_html: Pour créer un lien vers un ticket, ajoutez le code %{code} au titre ou à la description.
+          title: Aucun ticket
+        merge_requests:
+          description_html: Pour créer une requête de fusion, ajoutez le code %{code} au titre ou à la description.
+          title: Aucune requête de fusion
+      branches: Branches
+      commits: Actes accomplis
+      description_html: Pour créer un élément GitLab existant, ajoutez le code %{code} au titre ou à la description.
+      git_snippets: Extraits de code Git
+      issues: Tickets
+      merge_requests: Requêtes de fusion
+      snippets_button_label: Extraits de code Git

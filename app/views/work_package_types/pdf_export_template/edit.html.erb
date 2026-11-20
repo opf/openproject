@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -33,10 +32,11 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(
       WorkPackageTypes::ReloadableConfigurationFrameComponent.new(
-        reload_url: edit_type_pdf_export_template_index_path(**@variant.path_args)
+        reload_url: edit_variant_pdf_export_template_index_path(variant_scope_project, @variant)
       )
     ) do %>
   <%= render(WorkPackageTypes::ReuseMode::SectionComponent.new(variant: @variant, aspect: TypeVariant::PDF_EXPORT)) %>
+  <%= render(WorkPackageTypes::AspectDescriptionComponent.new(variant: @variant, aspect: :pdf)) %>
 
   <%= render WorkPackageTypes::ExportConfigurationComponent.new(
         @variant,
