@@ -32,6 +32,13 @@ module PredefinedWorkPackageFilters
     columns :name, :configured_filters
     main_column :name
 
+    def initialize(rows:, reorderable: true)
+      super(rows:)
+      @reorderable = reorderable
+    end
+
+    def reorderable? = @reorderable
+
     def headers
       [[:name, { caption: t(:label_name) }], [:configured_filters, { caption: t(:label_filter_plural) }]]
     end
@@ -43,6 +50,8 @@ module PredefinedWorkPackageFilters
     def container_id = "predefined-work-package-filters-table"
 
     def container_data
+      return {} unless reorderable?
+
       {
         controller: "sortable-lists sortable-lists--list",
         sortable_lists_move_url_template_value: move_url_template,

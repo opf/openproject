@@ -26,9 +26,9 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render "header", active_tab: :configuration %>
+<%= render "admin/predefined_work_package_filters/header", active_tab: :configuration %>
 <% errors = @filter.errors.full_messages + @query.errors.full_messages %>
-<%= render "errors", errors: %>
+<%= render "admin/predefined_work_package_filters/errors", errors: %>
 
 <%=
   primer_form_with(
@@ -53,7 +53,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 
   <%= render(Primer::BaseComponent.new(tag: :div, id: "predefined-filter-query-summary", mb: 3)) do %>
-    <%= render "query_summary", query: @query %>
+    <%= render "admin/predefined_work_package_filters/query_summary", query: @query %>
   <% end %>
 
   <%=

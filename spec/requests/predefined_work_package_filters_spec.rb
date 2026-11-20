@@ -30,7 +30,7 @@
 require "spec_helper"
 
 RSpec.describe "Predefined work package filters", :skip_csrf, type: :rails_request do
-  let!(:project) { create(:project, enabled_module_names: %w[work_package_tracking]) }
+  let!(:project) { create(:project, enabled_module_names: %w[work_package_tracking calendar_view]) }
   let(:other_project) { create(:project) }
   let(:admin) { create(:admin) }
   let!(:filter) do
@@ -111,9 +111,67 @@ RSpec.describe "Predefined work package filters", :skip_csrf, type: :rails_reque
     document = response.parsed_body
     selector = document.at_css('select[name="predefined_work_package_filter[placement]"]')
     expect(selector["multiple"]).to be_nil
-    expect(selector.css("option[selected]").map(&:text)).to eq(["Project overview"])
+    expect(selector.at_css('option[value="calendar"]').text).to eq(I18n.t(:label_calendar))
+    expect(selector.css("option[selected]").map(&:text)).to eq([PredefinedWorkPackageFilter.placement_label(filter.placement)])
     expect(document.at_css('input[name="query_props"]')).to be_nil
-    expect(document.css("a").map { |link| link.text.strip }).to include("Settings")
+    expect(document.css("a").map { |link| link.text.strip }).to include(I18n.t(:label_setting_plural))
+  end
+
+  it "combines display and case-insensitive name filters in the list", :aggregate_failures do
+    login_as(admin)
+    calendar_filter = PredefinedWorkPackageFilter.create!(name: "Upcoming milestones", placement: :calendar)
+    gantt_filter = PredefinedWorkPackageFilter.create!(name: "Plan milestones", placement: :gantt)
+    other_calendar_filter = PredefinedWorkPackageFilter.create!(name: "Release dates", placement: :calendar)
+
+    get admin_predefined_work_package_filters_path, params: {
+      filters: [
+        { placement: { operator: "=", values: ["calendar"] } },
+        { name: { operator: "~", values: ["MILESTONES"] } }
+      ].to_json
+    }
+
+    expect(response).to have_http_status(:ok)
+    table = response.parsed_body.at_css("turbo-frame#predefined-work-package-filter-list #predefined-work-package-filters-table")
+    expect(table.at_css("#predefined_work_package_filter_#{calendar_filter.id}")).to be_present
+    expect(table.at_css("#predefined_work_package_filter_#{gantt_filter.id}")).to be_nil
+    expect(table.at_css("#predefined_work_package_filter_#{other_calendar_filter.id}")).to be_nil
+    expect(table["data-controller"]).to be_nil
+  end
+
+  it "finds a built-in filter by its displayed name", :aggregate_failures do
+    login_as(admin)
+    builtin = PredefinedWorkPackageFilter.find_by!(builtin_key: "assigned_to_me")
+
+    get admin_predefined_work_package_filters_path,
+        params: { filters: [{ name: { operator: "~", values: [builtin.display_name.downcase] } }].to_json }
+
+    expect(response).to have_http_status(:ok)
+    expect(response.parsed_body.at_css("#predefined_work_package_filter_#{builtin.id}")).to be_present
+  end
+
+  it "opens a project calendar with the configured filter only after activation", :aggregate_failures do
+    login_as(admin)
+    status_filters = [{ "n" => "status", "o" => "o", "v" => [] }]
+    filter.update!(query_properties: { "f" => status_filters })
+
+    patch admin_predefined_work_package_filter_path(filter),
+          params: { predefined_work_package_filter: { placement: "calendar" } }
+    expect(response).to have_http_status(:see_other)
+    expect(filter.reload.placement).to eq("calendar")
+
+    get menu_project_calendars_path(project)
+    expect(response.body).not_to include(filter.display_name)
+    filter.set_active_in!(project, active: true)
+
+    get menu_project_calendars_path(project, name: "predefined_filter_#{filter.id}")
+    expect(response).to have_http_status(:ok)
+    link = response.parsed_body.css("a").find { |anchor| anchor.text.strip == filter.display_name }
+    url = URI.parse(link["href"])
+    expect(url.path).to eq(new_project_calendar_path(project))
+    expect(JSON.parse(Rack::Utils.parse_query(url.query).fetch("query_props")).fetch("f")).to eq(status_filters)
+    get link["href"]
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include("opce-calendar-view")
   end
 
   it "rejects invalid placement values" do
@@ -141,8 +199,9 @@ RSpec.describe "Predefined work package filters", :skip_csrf, type: :rails_reque
     get path
     expect(response).to have_http_status(:ok)
     document = response.parsed_body
-    expect(document.at_css('button[type="submit"][disabled]').text.strip).to eq("Save")
-    expect(document.at_css('button[data-action="admin--predefined-filter-query#edit"]').text.strip).to eq("Edit query")
+    expect(document.at_css('button[type="submit"][disabled]').text.strip).to eq(I18n.t(:button_save))
+    edit_button = document.at_css('button[data-action="admin--predefined-filter-query#edit"]')
+    expect(edit_button.text.strip).to eq(I18n.t("types.edit.form_configuration.edit_query"))
     summary = document.at_css("#predefined-filter-query-summary")
     expect(summary.text).to include("Columns", "Subject", "Filters", "Ready for delivery",
                                     "Sorting", "Descending", "Group by")

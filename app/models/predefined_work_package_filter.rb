@@ -34,7 +34,8 @@ class PredefinedWorkPackageFilter < ApplicationRecord
   enum :placement, {
     project_overview: "project_overview",
     work_packages: "work_packages",
-    gantt: "gantt"
+    gantt: "gantt",
+    calendar: "calendar"
   }, validate: { allow_nil: true }, scopes: false
 
   has_many :project_settings,
@@ -52,6 +53,10 @@ class PredefinedWorkPackageFilter < ApplicationRecord
   scope :available, -> { where(deleted_at: nil) }
   scope :ordered, -> { order(:position, :id) }
   scope :at, ->(placement) { placements.key?(placement) ? where(placement:) : none }
+
+  def self.placement_label(placement)
+    I18n.t(placement == "calendar" ? :label_calendar : "predefined_work_package_filters.placements.#{placement}")
+  end
 
   def self.active_in(project)
     ids = PredefinedWorkPackageFilterProject.where(project:).select(:filter_id)

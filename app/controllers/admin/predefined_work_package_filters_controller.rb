@@ -41,7 +41,8 @@ class Admin::PredefinedWorkPackageFiltersController < ApplicationController
   before_action :find_filter, except: %i[index new create query_summary]
 
   def index
-    @filters = PredefinedWorkPackageFilter.available.ordered
+    @query = ParamsToQueryService.new(PredefinedWorkPackageFilter, current_user).call(params.permit(:filters))
+    @filters = @query.results
   end
 
   def new

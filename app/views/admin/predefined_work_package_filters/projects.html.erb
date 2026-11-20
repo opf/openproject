@@ -26,7 +26,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render "header", active_tab: :projects %>
+<%= render "admin/predefined_work_package_filters/header", active_tab: :projects %>
 
 <% if @candidate_projects.exists? %>
   <%= render(Primer::OpenProject::SubHeader.new) do |subheader| %>

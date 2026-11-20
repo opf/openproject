@@ -36,6 +36,8 @@ module PredefinedWorkPackageFilters
     def row_css_id = dom_id(filter)
 
     def row_data
+      return {} unless table.reorderable?
+
       {
         controller: "sortable-lists--item",
         sortable_lists__item_target: "preview",
@@ -47,9 +49,11 @@ module PredefinedWorkPackageFilters
 
     def name
       flex_layout(align_items: :center) do |flex|
-        flex.with_column(mr: 2) do
-          render(Primer::OpenProject::DragHandle.new(classes: "hide-when-print",
-                                                     data: { sortable_lists__item_target: "handle" }))
+        if table.reorderable?
+          flex.with_column(mr: 2) do
+            render(Primer::OpenProject::DragHandle.new(classes: "hide-when-print",
+                                                       data: { sortable_lists__item_target: "handle" }))
+          end
         end
         flex.with_column(classes: "ellipsis") do
           render(Primer::Beta::Link.new(href: edit_admin_predefined_work_package_filter_path(filter), underline: false)) do
@@ -82,7 +86,7 @@ module PredefinedWorkPackageFilters
           "aria-label": t("predefined_work_package_filters.actions", name: filter.display_name)
         )
         with_item_group(menu) { navigation_items(menu) }
-        with_item_group(menu) { with_move_items(menu, dom_key: filter) }
+        with_item_group(menu) { with_move_items(menu, dom_key: filter) } if table.reorderable?
         with_item_group(menu) { delete_item(menu) }
       end
     end

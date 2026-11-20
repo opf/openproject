@@ -26,8 +26,8 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render "header", active_tab: :general %>
-<%= render "errors", errors: @filter.errors.full_messages %>
+<%= render "admin/predefined_work_package_filters/header", active_tab: :general %>
+<%= render "admin/predefined_work_package_filters/errors", errors: @filter.errors.full_messages %>
 
 <%= primer_form_with(model: @filter, url: @filter.persisted? ? admin_predefined_work_package_filter_path(@filter) : admin_predefined_work_package_filters_path) do |f| %>
   <%= render(PredefinedWorkPackageFilters::ConfigurationForm.new(f)) %>

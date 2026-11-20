@@ -37,17 +37,12 @@ module WorkPackages
     end
 
     def build
-      properties = editor_properties
-      Query.new(project:, name: filter.display_name, include_subprojects: false).tap do |query|
-        apply_grouping(query, properties["g"])
-        apply_sorting(query, properties["t"])
-        apply_filters(query, properties["f"])
-      end
+      build_query(editor_properties)
     end
 
     def configuration_query
       properties = editor_properties
-      build.tap do |query|
+      build_query(properties).tap do |query|
         query.column_names = Array(properties["c"]).grep(String).map do |column|
           API::Utilities::WpPropertyNameConverter.to_ar_name(column)
         end
@@ -68,6 +63,14 @@ module WorkPackages
     end
 
     private
+
+    def build_query(properties)
+      Query.new(project:, name: filter.display_name, include_subprojects: false).tap do |query|
+        apply_grouping(query, properties["g"])
+        apply_sorting(query, properties["t"])
+        apply_filters(query, properties["f"])
+      end
+    end
 
     def configuration_timestamps(value)
       Timestamp.parse_multiple(value)
@@ -113,30 +116,29 @@ module WorkPackages
     end
 
     def builtin_properties(placement)
-      source = builtin_params(placement).to_h[:query_props] || builtin_params(:work_packages).to_h[:query_props]
+      source = builtin_params(placement).to_h[:query_props]
+      source ||= builtin_params(:work_packages).to_h[:query_props] if %i[gantt calendar].include?(placement)
       source ? JSON.parse(source) : {}
     end
 
     def builtin_params(placement)
       return unless filter.builtin?
 
-      generator =
-        if placement == :gantt
-          Gantt::DefaultQueryGeneratorService
-        else
-          WorkPackages::DefaultQueryGeneratorService
-        end
-      generator.new(with_project: project).call(query_key: filter.builtin_key.to_sym)
+      builtin_generator(placement)&.new(with_project: project)&.call(query_key: filter.builtin_key.to_sym)
     end
 
     def unavailable_builtin?(placement)
-      options =
-        if placement == :gantt
-          Gantt::DefaultQueryGeneratorService::QUERY_OPTIONS
-        else
-          WorkPackages::DefaultQueryGeneratorService::QUERY_OPTIONS
-        end
-      options.include?(filter.builtin_key.to_sym)
+      generator = builtin_generator(placement)
+      generator && generator::QUERY_OPTIONS.include?(filter.builtin_key.to_sym)
+    end
+
+    def builtin_generator(placement)
+      case placement
+      when :work_packages, :project_overview
+        WorkPackages::DefaultQueryGeneratorService
+      when :gantt
+        Gantt::DefaultQueryGeneratorService
+      end
     end
   end
 end

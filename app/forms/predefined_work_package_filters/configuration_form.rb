@@ -35,7 +35,7 @@ module PredefinedWorkPackageFilters
       f.select_list(name: :placement, label: I18n.t(:label_display), input_width: :medium) do |list|
         list.option(value: "", label: I18n.t(:label_none_parentheses), selected: model.placement.nil?)
         PredefinedWorkPackageFilter.placements.each_key do |placement|
-          list.option(value: placement, label: I18n.t("predefined_work_package_filters.placements.#{placement}"),
+          list.option(value: placement, label: PredefinedWorkPackageFilter.placement_label(placement),
                       selected: model.placement == placement)
         end
       end
