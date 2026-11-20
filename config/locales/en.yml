@@ -296,6 +296,9 @@ en:
         parent: "Parent view"
         public: "Public"
         query: "Query"
+      predefined_work_package_filter:
+        name: "Name"
+        placement: "Display"
       project:
         active_value:
           false: "archived"
@@ -8915,6 +8918,8 @@ en:
     new: "New filter"
     empty: "No matching work packages"
     actions: "Actions for %{name}"
+    projects:
+      empty: "No projects are using this filter"
     placements:
       project_overview: "Project overview"
       work_packages: "Work packages"

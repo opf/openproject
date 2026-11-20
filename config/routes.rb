@@ -942,7 +942,8 @@ Rails.application.routes.draw do
         get :configuration
         patch :configuration, action: :update_configuration
         get :projects
-        patch :projects, action: :update_projects
+        post :projects, action: :add_projects
+        delete "projects/:project_id", action: :remove_project, as: :project
         put :move
       end
     end

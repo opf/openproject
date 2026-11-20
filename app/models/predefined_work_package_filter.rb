@@ -31,7 +31,11 @@ class PredefinedWorkPackageFilter < ApplicationRecord
   include Lists::MoveAfterAnchor
 
   SORTABLE_LIST_TYPE = "predefined-work-package-filter"
-  PLACEMENTS = %i[project_overview work_packages gantt].freeze
+  enum :placement, {
+    project_overview: "project_overview",
+    work_packages: "work_packages",
+    gantt: "gantt"
+  }, validate: { allow_nil: true }, scopes: false
 
   has_many :project_settings,
            class_name: "PredefinedWorkPackageFilterProject",
@@ -47,7 +51,7 @@ class PredefinedWorkPackageFilter < ApplicationRecord
 
   scope :available, -> { where(deleted_at: nil) }
   scope :ordered, -> { order(:position, :id) }
-  scope :at, ->(placement) { PLACEMENTS.include?(placement) ? where(placement => true) : none }
+  scope :at, ->(placement) { placements.key?(placement) ? where(placement:) : none }
 
   def self.active_in(project)
     ids = PredefinedWorkPackageFilterProject.where(project:).select(:filter_id)
@@ -64,8 +68,7 @@ class PredefinedWorkPackageFilter < ApplicationRecord
 
     position = available.maximum(:position).to_i
     rows = missing_keys.map.with_index(position + 1) do |key, index|
-      { builtin_key: key.to_s, position: index, work_packages: work_package_keys.include?(key),
-        gantt: gantt_keys.include?(key) }
+      { builtin_key: key.to_s, position: index, placement: work_package_keys.include?(key) ? :work_packages : :gantt }
     end
     insert_all(rows, unique_by: :builtin_key)
   end
@@ -96,6 +99,13 @@ class PredefinedWorkPackageFilter < ApplicationRecord
 
     setting = project_settings.find_by(project:)
     setting ? setting.active? : builtin?
+  end
+
+  def active_projects
+    active = Project.active.where(id: project_settings.where(active: true).select(:project_id))
+    return active unless builtin?
+
+    active.or(Project.active.where.not(id: project_settings.select(:project_id)))
   end
 
   def set_active_in!(project, active:)

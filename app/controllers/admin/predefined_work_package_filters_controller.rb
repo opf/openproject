@@ -29,6 +29,7 @@
 
 class Admin::PredefinedWorkPackageFiltersController < ApplicationController
   include OpTurbo::ComponentStream
+  include PaginationHelper
   include SortableLists::DropRequestValidation
 
   configure_drop_request list_type: PredefinedWorkPackageFilter::SORTABLE_LIST_TYPE, list_id_scoped: false
@@ -116,17 +117,22 @@ class Admin::PredefinedWorkPackageFiltersController < ApplicationController
   end
 
   def projects
-    @projects = Project.active.order(:name)
-    @active_project_ids = @filter.project_settings.pluck(:project_id, :active).to_h
+    active_projects = @filter.active_projects
+    @projects = active_projects.order(:name, :id).paginate(page: page_param, per_page: per_page_param)
+    @candidate_projects = Project.active.where.not(id: active_projects.select(:id))
   end
 
-  def update_projects
-    selections = params.key?(:projects) ? params.expect(projects: {}) : {}
+  def add_projects
+    projects = Project.active.where(id: selected_project_ids)
     @filter.with_lock do
-      Project.active.where(id: selections.keys).find_each do |project|
-        @filter.set_active_in!(project, active: selections[project.id.to_s] == "1")
-      end
+      projects.find_each { |project| @filter.set_active_in!(project, active: true) }
     end
+    redirect_to projects_admin_predefined_work_package_filter_path(@filter), status: :see_other
+  end
+
+  def remove_project
+    project = Project.active.find(params.expect(:project_id))
+    @filter.with_lock { @filter.set_active_in!(project, active: false) }
     redirect_to projects_admin_predefined_work_package_filter_path(@filter), status: :see_other
   end
 
@@ -143,7 +149,16 @@ class Admin::PredefinedWorkPackageFiltersController < ApplicationController
   end
 
   def filter_attributes
-    params.expect(predefined_work_package_filter: %i[name project_overview work_packages gantt])
+    params.expect(predefined_work_package_filter: %i[name placement])
+  end
+
+  def selected_project_ids
+    Array(params.permit(project_ids: [])[:project_ids]).filter_map do |value|
+      node = JSON.parse(value)
+      Integer(node["nodeId"], exception: false) if node.is_a?(Hash)
+    rescue JSON::ParserError, TypeError
+      nil
+    end
   end
 
   def submitted_query_properties

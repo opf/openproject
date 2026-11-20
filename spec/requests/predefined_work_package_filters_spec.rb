@@ -34,7 +34,7 @@ RSpec.describe "Predefined work package filters", :skip_csrf, type: :rails_reque
   let(:other_project) { create(:project) }
   let(:admin) { create(:admin) }
   let!(:filter) do
-    PredefinedWorkPackageFilter.create!(name: "Artefacts", project_overview: true, work_packages: true,
+    PredefinedWorkPackageFilter.create!(name: "Artefacts", placement: :project_overview,
                                         query_properties: { "g" => "status", "f" => [] })
   end
 
@@ -50,12 +50,26 @@ RSpec.describe "Predefined work package filters", :skip_csrf, type: :rails_reque
 
     get projects_admin_predefined_work_package_filter_path(filter)
     expect(response).to have_http_status(:ok)
-    expect(response.body).to include("projects[#{project.id}]")
+    expect(response.parsed_body.at_css("#predefined-filter-add-projects-dialog")).to be_present
+  end
 
-    patch projects_admin_predefined_work_package_filter_path(filter), params: { projects: { project.id => "1" } }
-    expect(response).to have_http_status(:see_other)
+  it "lets a filter manager add and remove projects through the Projects tab", :aggregate_failures do
+    role = create(:global_role, permissions: [:manage_filters])
+    login_as(create(:user, global_roles: [role]))
+    path = projects_admin_predefined_work_package_filter_path(filter)
+
+    post path, params: { project_ids: [{ nodeId: project.id }.to_json] }
+    expect(response).to redirect_to(path)
     expect(filter).to be_active_in(project)
     expect(filter).not_to be_active_in(other_project)
+
+    get path
+    expect(response).to have_http_status(:ok)
+    expect(response.parsed_body.at_css('[role="table"]').text).to include(project.name)
+
+    delete project_admin_predefined_work_package_filter_path(filter, project)
+    expect(response).to redirect_to(path)
+    expect(filter).not_to be_active_in(project)
   end
 
   it "lets a non-administrator with Manage filters configure and reorder filters" do
@@ -71,7 +85,7 @@ RSpec.describe "Predefined work package filters", :skip_csrf, type: :rails_reque
     expect(response.parsed_body.at_css('input[name="query_props"]')).to be_nil
 
     post admin_predefined_work_package_filters_path,
-         params: { predefined_work_package_filter: { name: "Delivery", work_packages: "1", gantt: "1" } }
+         params: { predefined_work_package_filter: { name: "Delivery", placement: "gantt" } }
     expect(response).to have_http_status(:see_other)
     created = PredefinedWorkPackageFilter.find_by!(name: "Delivery")
     expect(response).to redirect_to(configuration_admin_predefined_work_package_filter_path(created))
@@ -88,15 +102,28 @@ RSpec.describe "Predefined work package filters", :skip_csrf, type: :rails_reque
     expect(PredefinedWorkPackageFilter.exists?(created.id)).to be false
   end
 
-  it "shows display settings under General separately from the query configuration", :aggregate_failures do
+  it "shows a single display selector in Settings separately from the query configuration", :aggregate_failures do
     login_as(admin)
 
     get edit_admin_predefined_work_package_filter_path(filter)
 
     expect(response).to have_http_status(:ok)
-    expect(response.parsed_body.at_css("fieldset legend").text).to eq("Display")
-    expect(response.parsed_body.at_css('input[name="query_props"]')).to be_nil
-    expect(response.body).to include(configuration_admin_predefined_work_package_filter_path(filter))
+    document = response.parsed_body
+    selector = document.at_css('select[name="predefined_work_package_filter[placement]"]')
+    expect(selector["multiple"]).to be_nil
+    expect(selector.css("option[selected]").map(&:text)).to eq(["Project overview"])
+    expect(document.at_css('input[name="query_props"]')).to be_nil
+    expect(document.css("a").map { |link| link.text.strip }).to include("Settings")
+  end
+
+  it "rejects invalid placement values" do
+    login_as(admin)
+
+    patch admin_predefined_work_package_filter_path(filter),
+          params: { predefined_work_package_filter: { placement: "unknown" } }
+
+    expect(response).to have_http_status(:unprocessable_entity)
+    expect(filter.reload.placement).to eq("project_overview")
   end
 
   it "lets a non-administrator with Manage filters save and view a complete query configuration", :aggregate_failures do
@@ -157,6 +184,9 @@ RSpec.describe "Predefined work package filters", :skip_csrf, type: :rails_reque
     expect(response).to have_http_status(:forbidden)
 
     patch configuration_admin_predefined_work_package_filter_path(filter), params: { query_props: { f: [] }.to_json }
+    expect(response).to have_http_status(:forbidden)
+
+    delete project_admin_predefined_work_package_filter_path(filter, project)
     expect(response).to have_http_status(:forbidden)
 
     patch project_settings_work_packages_filters_path(project), params: { filters: { filter.id => "1" } }

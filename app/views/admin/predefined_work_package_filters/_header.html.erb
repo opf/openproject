@@ -52,7 +52,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
     <% header.with_tab_nav(label: t("predefined_work_package_filters.title")) do |nav| %>
       <% nav.with_tab(href: edit_admin_predefined_work_package_filter_path(@filter), selected: active_tab == :general) do |tab| %>
-        <% tab.with_text { t(:label_general) } %>
+        <% tab.with_text { t(:label_setting_plural) } %>
       <% end %>
       <% nav.with_tab(href: configuration_admin_predefined_work_package_filter_path(@filter), selected: active_tab == :configuration) do |tab| %>
         <% tab.with_text { t(:label_configuration).upcase_first } %>

@@ -34,19 +34,19 @@ RSpec.describe PredefinedWorkPackageFilter do
   shared_let(:other_project) { create(:project) }
 
   it "only publishes a new filter to selected projects and configured locations" do
-    filter = described_class.create!(name: "Artefacts", project_overview: true, gantt: true)
+    filter = described_class.create!(name: "Artefacts", placement: :project_overview)
 
     expect(described_class.active_in(project)).not_to include(filter)
     filter.set_active_in!(project, active: true)
 
     expect(described_class.active_in(project).at(:project_overview)).to include(filter)
-    expect(described_class.active_in(project).at(:gantt)).to include(filter)
+    expect(described_class.active_in(project).at(:gantt)).not_to include(filter)
     expect(described_class.active_in(project).at(:work_packages)).not_to include(filter)
     expect(described_class.active_in(other_project)).not_to include(filter)
   end
 
-  it "lists the same activated filter in both configured project modules" do
-    filter = described_class.create!(name: "Artefacts", work_packages: true, gantt: true,
+  it "moves an activated filter between project modules when its placement changes" do
+    filter = described_class.create!(name: "Artefacts", placement: :work_packages,
                                      query_properties: { "g" => "status", "f" => [] })
     filter.set_active_in!(project, active: true)
 
@@ -54,6 +54,11 @@ RSpec.describe PredefinedWorkPackageFilter do
     gantt = Gantt::Menu.new(project:, params: ActionController::Parameters.new)
 
     expect(work_packages.default_queries.map(&:title)).to include("Artefacts")
+    expect(gantt.default_queries.map(&:title)).not_to include("Artefacts")
+
+    filter.update!(placement: :gantt)
+
+    expect(work_packages.default_queries.map(&:title)).not_to include("Artefacts")
     expect(gantt.default_queries.map(&:title)).to include("Artefacts")
     expect(WorkPackages::Menu.new(project: other_project, params: ActionController::Parameters.new)
       .default_queries.map(&:title)).not_to include("Artefacts")
@@ -71,7 +76,7 @@ RSpec.describe PredefinedWorkPackageFilter do
 
   it "keeps the built-in filters enabled by default and permits project overrides" do
     filter = described_class.find_or_create_by!(builtin_key: "assigned_to_me") do |builtin|
-      builtin.work_packages = true
+      builtin.placement = :work_packages
     end
     expect(described_class.active_in(project).at(:work_packages)).to include(filter)
 
