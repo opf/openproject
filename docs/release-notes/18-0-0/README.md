@@ -350,13 +350,13 @@ Working with agenda items has also become easier:
 
 ![Meeting agenda in OpenProject sorted by votes, with vote counts shown next to each agenda item](openproject_release_notes_18.0_meeting_agenda_voting.png)
 
-Read more: [Agenda voting user guide](../../user-guide/meetings/one-time-meetings/#sort-agenda-items-and-vote), [Blog article on agenda voting](https://www.openproject.org/blog/voting-agenda-items/)
+Read more: [Agenda voting user guide](../../user-guide/meetings/meeting-features/meeting-agenda/#sort-agenda-items-and-vote), [Blog article on agenda voting](https://www.openproject.org/blog/voting-agenda-items/)
 
 #### Presentation mode
 
 Long agenda items can now be **split into multiple slides** with a horizontal rule, so you no longer need to scroll during a presentation. You can also move agenda items to the next meeting directly from presentation mode. A small avatar next to the previews of the previous and next agenda items shows when the presenter changes, and agenda items use more of the available width.
 
-Read more: [Presentation mode user guide](../../user-guide/meetings/one-time-meetings/#present-a-meeting)
+Read more: [Presentation mode user guide](../../user-guide/meetings/meeting-features/meeting-modes/#present-a-meeting)
 
 #### Finding and managing meetings
 
