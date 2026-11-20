@@ -234,8 +234,29 @@ gem "yabeda-rails"
 
 # opentelemetry
 gem "opentelemetry-exporter-otlp", "~> 0.37.0", require: false
-gem "opentelemetry-instrumentation-all", "~> 0.99.0", require: false
-gem "opentelemetry-sdk", "~> 1.13", require: false
+gem "opentelemetry-sdk", require: false
+# opentelemetry instrumentations, see config/initializers/opentelemetry.rb
+# Available Ruby instrumentations can be found here:
+# https://github.com/open-telemetry/opentelemetry-ruby-contrib/tree/main/instrumentation
+gem "opentelemetry-instrumentation-action_mailer", require: false
+gem "opentelemetry-instrumentation-action_pack", require: false
+gem "opentelemetry-instrumentation-action_view", require: false
+gem "opentelemetry-instrumentation-active_job", require: false
+gem "opentelemetry-instrumentation-active_record", require: false
+gem "opentelemetry-instrumentation-active_storage", require: false
+gem "opentelemetry-instrumentation-active_support", require: false
+gem "opentelemetry-instrumentation-aws_sdk", require: false
+gem "opentelemetry-instrumentation-dalli", require: false
+gem "opentelemetry-instrumentation-excon", require: false
+gem "opentelemetry-instrumentation-faraday", require: false
+gem "opentelemetry-instrumentation-grape", require: false
+gem "opentelemetry-instrumentation-httpx", require: false
+gem "opentelemetry-instrumentation-net_http", require: false
+gem "opentelemetry-instrumentation-pg", require: false
+gem "opentelemetry-instrumentation-rack", require: false
+gem "opentelemetry-instrumentation-rails", require: false
+gem "opentelemetry-instrumentation-rake", require: false
+gem "opentelemetry-instrumentation-redis", require: false
 
 gem "openproject-octicons", "~>19.38.0"
 gem "openproject-octicons_helper", "~>19.38.0"
