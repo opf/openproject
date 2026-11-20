@@ -85,7 +85,8 @@ export const PROVIDER_AUTH_ERROR_EVENT = 'op:provider-auth-error';
  *   │  [5xx error] retry up to 3x          │                                   │
  *   │── POST /refresh_token ──────────────►│                                   │
  *   │                                      │                                   │
- *   │  [401/403/404] stop - access denied  │                                   │
+ *   │  [401/403/404 or redirect to sign-in]│                                   │
+ *   │  stop - access denied                │                                   │
  *   │  [4xx] stop - non-retryable          │                                   │
  * ```
  */
@@ -99,6 +100,7 @@ export class TokenRefreshService {
   constructor(
     private readonly provider:HocuspocusProvider,
     private readonly refreshUrl:string,
+    private readonly signInPath:string,
     private readonly onTokenRefreshed:(token:string) => void,
     private readonly onFailure:(error:RefreshError) => void,
   ) {}
@@ -126,7 +128,7 @@ export class TokenRefreshService {
     return this.pendingAcquire;
   }
 
-  static async fetchToken(refreshUrl:string):Promise<TokenResponse> {
+  static async fetchToken(refreshUrl:string, signInPath:string):Promise<TokenResponse> {
     let response:Response;
     try {
       response = await fetch(refreshUrl, {
@@ -140,6 +142,10 @@ export class TokenRefreshService {
       });
     } catch (error) {
       throw new RefreshError('unavailable', error instanceof Error ? error.message : 'Network error');
+    }
+
+    if (response.redirected && new URL(response.url).pathname === signInPath) {
+      throw new RefreshError('access_denied', 'Redirected to sign-in', response.status);
     }
 
     if (response.status === 401 || response.status === 403 || response.status === 404) {
@@ -175,7 +181,7 @@ export class TokenRefreshService {
     if (this.destroyed) return;
 
     try {
-      const data = await TokenRefreshService.fetchToken(this.refreshUrl);
+      const data = await TokenRefreshService.fetchToken(this.refreshUrl, this.signInPath);
       if (this.destroyed) return;
 
       this.onTokenRefreshed(data.encrypted_token);
@@ -211,7 +217,7 @@ export class TokenRefreshService {
       try {
         if (this.destroyed) throw destroyedError();
 
-        const data = await TokenRefreshService.fetchToken(this.refreshUrl);
+        const data = await TokenRefreshService.fetchToken(this.refreshUrl, this.signInPath);
         if (this.destroyed) throw destroyedError();
 
         this.scheduleRefresh(data.expires_in_seconds);

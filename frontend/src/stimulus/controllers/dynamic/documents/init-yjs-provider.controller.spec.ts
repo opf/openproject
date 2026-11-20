@@ -42,6 +42,7 @@ describe('InitYjsProviderController token denial', () => {
   let cache:{ evict:ReturnType<typeof vi.fn>; close:ReturnType<typeof vi.fn> };
   let provider:HocuspocusProvider;
   let authErrors:CustomEvent<{ kind:string }>[];
+  let originalOpenProject:typeof window.OpenProject;
 
   const recordAuthError = (event:Event) => authErrors.push(event as CustomEvent<{ kind:string }>);
 
@@ -49,6 +50,13 @@ describe('InitYjsProviderController token denial', () => {
     authErrors = [];
     cache = { evict: vi.fn().mockResolvedValue(undefined), close: vi.fn() };
     document.addEventListener(PROVIDER_AUTH_ERROR_EVENT, recordAuthError);
+
+    originalOpenProject = window.OpenProject;
+    window.OpenProject = {
+      getPluginContext: () => Promise.resolve({
+        services: { pathHelperService: { loginPath: () => '/op/login' } },
+      }),
+    } as unknown as typeof window.OpenProject;
 
     vi.spyOn(DocumentCache, 'open').mockResolvedValue(cache as unknown as DocumentCache);
     vi.spyOn(HocuspocusProviderWebsocket.prototype, 'connect').mockResolvedValue(undefined);
@@ -76,14 +84,16 @@ describe('InitYjsProviderController token denial', () => {
       document.removeEventListener(PROVIDER_AUTH_ERROR_EVENT, recordAuthError);
       vi.useRealTimers();
       vi.restoreAllMocks();
+      window.OpenProject = originalOpenProject;
     }
   });
 
   it('evicts the offline copy and announces the denial once, and refuses later token requests', async () => {
-    vi.spyOn(TokenRefreshService, 'fetchToken').mockRejectedValue(new RefreshError('access_denied', 'HTTP 403', 403));
+    const fetchToken = vi.spyOn(TokenRefreshService, 'fetchToken').mockRejectedValue(new RefreshError('access_denied', 'HTTP 403', 403));
 
     await vi.advanceTimersByTimeAsync(8000);
 
+    expect(fetchToken).toHaveBeenCalledWith('/documents/1/refresh_token', '/op/login');
     expect(cache.evict).toHaveBeenCalledOnce();
     expect(authErrors.map((event) => event.detail.kind)).toEqual(['access_denied']);
 
@@ -92,5 +102,33 @@ describe('InitYjsProviderController token denial', () => {
 
     expect(cache.evict).toHaveBeenCalledOnce();
     expect(authErrors).toHaveLength(1);
+  });
+
+  it('opens nothing while waiting for the app services, so a disconnect cannot leave the offline copy open', async () => {
+    let resolveContext:(context:unknown) => void = () => {};
+    window.OpenProject = {
+      getPluginContext: () => new Promise((resolve) => { resolveContext = resolve; }),
+    } as unknown as typeof window.OpenProject;
+    const open = vi.spyOn(DocumentCache, 'open').mockClear();
+    const initialize = vi.spyOn(LiveCollaborationManager, 'initializeYjsProvider').mockClear();
+
+    await ctx.mount(`
+      <div id="pending-editor"
+           data-controller="init-yjs-provider"
+           data-init-yjs-provider-hocuspocus-url-value="ws://collab.test"
+           data-init-yjs-provider-token-payload-value="initial-token"
+           data-init-yjs-provider-document-name-value="document-2"
+           data-init-yjs-provider-token-expires-in-seconds-value="10"
+           data-init-yjs-provider-refresh-url-value="/documents/2/refresh_token"></div>
+    `);
+
+    ctx.container.querySelector('#pending-editor')!.remove();
+    await ctx.nextFrame();
+
+    resolveContext({ services: { pathHelperService: { loginPath: () => '/op/login' } } });
+    await ctx.nextFrame();
+
+    expect(open).not.toHaveBeenCalled();
+    expect(initialize).not.toHaveBeenCalled();
   });
 });

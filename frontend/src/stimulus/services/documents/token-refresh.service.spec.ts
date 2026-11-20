@@ -30,6 +30,7 @@ import type { HocuspocusProvider } from '@hocuspocus/provider';
 import { RefreshError, TokenRefreshService } from './token-refresh.service';
 
 const URL = '/documents/1/refresh_token';
+const SIGN_IN_PATH = '/op/login';
 const TOKEN = { encrypted_token: 'fresh', expires_in_seconds: 100 };
 const FIRST_REFRESH_MS = 8001; // 80% of a 10 second token, plus 1 ms of slack
 const RETRY_BUDGET_MS = 3 * 5000 + 1;
@@ -44,7 +45,7 @@ const fakeResponse = (status:number):Response => ({
 
 const classify = async ():Promise<RefreshError> => {
   try {
-    await TokenRefreshService.fetchToken(URL);
+    await TokenRefreshService.fetchToken(URL, SIGN_IN_PATH);
   } catch (error) {
     return error as RefreshError;
   }
@@ -123,11 +124,40 @@ describe('TokenRefreshService', () => {
       expect(error.isRetryable).toBe(false);
     });
 
+    describe('when the request was redirected', () => {
+      const redirectedTo = (url:string, status:number, body:BodyInit):Response => {
+        const response = new Response(body, { status });
+        Object.defineProperties(response, {
+          redirected: { value: true },
+          url: { value: url },
+        });
+        return response;
+      };
+
+      it('treats landing on the sign-in page as access denied, whatever its status', async () => {
+        fetchSpy.mockResolvedValue(
+          redirectedTo('https://example.test/op/login?back_url=%2Fop%2Fdocuments%2F1', 410, ''),
+        );
+
+        const error = await classify();
+
+        expect(error.isAccessDenied).toBe(true);
+        expect(error.isRetryable).toBe(false);
+        expect(error.status).toBe(410);
+      });
+
+      it('keeps a redirect outside the sign-in path of this installation on the usual handling', async () => {
+        fetchSpy.mockResolvedValue(redirectedTo('https://example.test/login', 200, JSON.stringify(TOKEN)));
+
+        await expect(TokenRefreshService.fetchToken(URL, SIGN_IN_PATH)).resolves.toEqual(TOKEN);
+      });
+    });
+
     it('sends the Accept and CSRF headers', async () => {
       document.head.insertAdjacentHTML('beforeend', '<meta name="csrf-token" content="csrf-123">');
       fetchSpy.mockResolvedValue(new Response(JSON.stringify(TOKEN), { status: 200 }));
 
-      await TokenRefreshService.fetchToken(URL);
+      await TokenRefreshService.fetchToken(URL, SIGN_IN_PATH);
 
       const headers = fetchSpy.mock.calls[0][1]?.headers as Record<string, string>;
       expect(headers.Accept).toBe('application/json');
@@ -148,7 +178,7 @@ describe('TokenRefreshService', () => {
       provider = { sendToken } as unknown as HocuspocusProvider;
       onToken = vi.fn<(token:string) => void>();
       onFailure = vi.fn<(error:RefreshError) => void>();
-      service = new TokenRefreshService(provider, URL, onToken, onFailure);
+      service = new TokenRefreshService(provider, URL, SIGN_IN_PATH, onToken, onFailure);
     });
 
     afterEach(() => service.destroy());

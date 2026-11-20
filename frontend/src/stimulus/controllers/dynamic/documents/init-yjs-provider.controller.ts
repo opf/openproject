@@ -28,6 +28,7 @@
 import { HocuspocusProvider } from '@hocuspocus/provider';
 import { Controller } from '@hotwired/stimulus';
 import { LiveCollaborationManager } from 'core-stimulus/helpers/live-collaboration-helpers';
+import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 import { DocumentCache } from 'core-stimulus/services/documents/document-cache.service';
 import {
   PROVIDER_AUTH_ERROR_EVENT,
@@ -38,6 +39,8 @@ import {
 import * as Y from 'yjs';
 
 export default class extends Controller {
+  static services:ServiceKey[] = ['pathHelperService'];
+
   static values = {
     hocuspocusUrl: String,
     tokenPayload: String,
@@ -52,6 +55,8 @@ export default class extends Controller {
   declare readonly tokenExpiresInSecondsValue:number;
   declare readonly refreshUrlValue:string;
 
+  declare services:Promise<PickedServices<'pathHelperService'>>;
+
   private tokenRefreshService:TokenRefreshService | null = null;
   private ownedProvider:HocuspocusProvider | null = null;
   private cache:DocumentCache | null = null;
@@ -59,6 +64,10 @@ export default class extends Controller {
   private canUseCachedToken = true;
   private accessDenied = false;
   private run:AbortController | null = null;
+
+  initialize():void {
+    useAngularServices(this);
+  }
 
   connect():void {
     if (this.hasLiveSession()) {
@@ -109,6 +118,9 @@ export default class extends Controller {
    * document when the editor first renders.
    */
   private async setUp(signal:AbortSignal):Promise<void> {
+    const { pathHelperService } = await this.services;
+    const signInPath = pathHelperService.loginPath();
+
     const doc = new Y.Doc();
     let cache:DocumentCache | null = null;
 
@@ -126,16 +138,16 @@ export default class extends Controller {
         return;
       }
 
-      this.startSession(doc, cache, signal);
+      this.startSession(doc, cache, signInPath, signal);
     } catch (error) {
       this.releaseUnlessHandedOver(doc, cache);
       this.reportSetUpFailure(error);
     }
   }
 
-  private startSession(doc:Y.Doc, cache:DocumentCache | null, signal:AbortSignal):void {
+  private startSession(doc:Y.Doc, cache:DocumentCache | null, signInPath:string, signal:AbortSignal):void {
     const provider = this.createProvider(doc, signal);
-    const refreshService = this.createTokenRefreshService(provider);
+    const refreshService = this.createTokenRefreshService(provider, signInPath);
 
     this.cache = cache;
     this.accessDenied = false;
@@ -196,10 +208,11 @@ export default class extends Controller {
     }
   }
 
-  private createTokenRefreshService(provider:HocuspocusProvider):TokenRefreshService {
+  private createTokenRefreshService(provider:HocuspocusProvider, signInPath:string):TokenRefreshService {
     return new TokenRefreshService(
       provider,
       this.refreshUrlValue,
+      signInPath,
       (newToken) => {
         this.currentToken = newToken;
         this.canUseCachedToken = true;
