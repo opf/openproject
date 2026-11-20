@@ -109,6 +109,7 @@ fil:
         maintained_with_changes: Maintained with changes
         no_longer_meets_filter_criteria: No longer meets filter criteria
         now_meets_filter_criteria: Now meets filter criteria
+        state_at: State at
       show_changes_since: Show changes since
       time: Oras
       time_description: 'In your local time: %{datetime}'
@@ -772,8 +773,10 @@ fil:
       create_new: Create new
       group_by_relation_type: Grupo sa pamamagitan ng uri ng pakikipag-ugnayan
       group_by_wp_type: Grupo sa pamamagitan ng uri ng work package
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Indent hierarchy
       hierarchy_outdent: Outdent hierarchy
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Alisin ang relasyon
       remove_child: Alisin ang bata
       remove_parent: Alisin ang magulang
@@ -1012,6 +1015,7 @@ fil:
         label_pagination: Pindutin dito upang lagpasan ang mga talaan ng work package at pumunta sa pagination.
         pagination: Dumiretso sa talaan ng pagination
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Pagsamahin ang dropdown na patlang: Piliin na may mga arrow key, kumpirmahin ang pinili gamit ang enter, burahin gamit ang backspace'
       label_disable_multi_select: Hindi pinagana ang maraming pagpipilian
       label_enable_multi_select: Paganahin ang mga pagpipilian

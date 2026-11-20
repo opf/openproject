@@ -89,9 +89,9 @@ fr:
         item_7:
           label: Key points
         item_8:
-          label: List
+          label: Liste
         item_9:
-          label: Table
+          label: Tableau
         item_10:
           label: Suggest subject
     standard:
@@ -133,13 +133,13 @@ fr:
           name: Assurance qualité
       labels:
         item_0:
-          name: Website
+          name: Site Web
         item_1:
           name: Marketing
         item_2:
           name: Speakers
         item_3:
-          name: Security
+          name: Sécurité
         item_4:
           name: UX
       projects:

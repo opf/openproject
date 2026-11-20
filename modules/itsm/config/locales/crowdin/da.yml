@@ -36,6 +36,28 @@ da:
         sender_email: Afsenderens e-mail
         sender_name: Afsenderens navn
         username: Brugernavn
+    errors:
+      models:
+        itsm/email_message:
+          delivery_failed: The email could not be sent.
+          delivery_rejected: The SMTP server rejected the email.
+          not_delivered: The email was not sent because all recipients are blocked or the email limit is reached.
+        itsm/email_thread:
+          address_not_allowed: The SMTP server address is not allowed.
+          no_outgoing_mailbox: The project has no outgoing mailbox.
+          too_many_confirmations: Too many confirmations were sent to the requester recently.
+          unreachable: The SMTP server could not be reached.
+        itsm/incoming_mailbox:
+          attributes:
+            base:
+              address_not_allowed: Mailserveren peger på en blokeret adresse. Hvis den kører på et internt netværk, så tillad dens IP-adresse via miljøvariablen OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.
+              authentication_failed: 'Mailserveren afviste login: %{server_message}'
+              fetch_in_progress: Postkassen bliver allerede tjekket.
+              inactive: Postkassen er sat på pause.
+              server_error: 'Mailserveren returnerede en fejl: %{server_message}'
+              timeout: Mailserveren holdt op med at svare.
+              tls_failed: Der kunne ikke oprettes en sikker forbindelse til mailserveren. Tjek dens certifikat.
+              unreachable: Mailserveren kunne ikke nås.
     models:
       itsm/email_message:
         one: E-mail
@@ -43,6 +65,9 @@ da:
       itsm/email_thread:
         one: E-mailtråd
         other: E-mailtråde
+      itsm/helpdesk_role:
+        one: Helpdesk-rolle
+        other: Helpdesk-roller
       itsm/incoming_mailbox:
         one: Indgående postkasse
         other: Indgående postkasser
@@ -56,16 +81,37 @@ da:
     admin:
       description: Gør det muligt at oprette arbejdspakker ved at sende e-mails via en IMAP-server og at besvare dem via en SMTP-server.
       enable_helpdesk: Slå helpdesk til i denne installation
+      helpdesk_not_enabled: 'Helpdesken kunne ikke slås til, fordi dens rolle eller bruger ikke kunne oprettes: %{reason}'
       helpdesk_set_by_environment: Helpdesk-funktionen er angivet med en miljøvariabel og kan ikke ændres her.
       imap_server_configuration_component:
         description: Konfigurer IMAP-serveren til at omdanne indgående e-mails til arbejdspakker.
         edit: Rediger konfigurationen af IMAP-serveren
         title: Konfiguration af IMAP-server
       mail_servers: Mailservere
+      port: Port
+      server_configuration_form:
+        encryption: Kryptering
+        imap:
+          instruction: 'Konfigurer IMAP-serveren til at omdanne indgående e-mails til arbejdspakker. OpenProject har ingen mekanisme, der forhindrer forfalskede afsendere (spoofing). Sørg derfor for, at den konfigurerede mailserver udfører SPF-, DKIM- og DMARC-kontrol og sætter e-mails, der ikke består, i karantæne.
+
+            '
+          title: Konfiguration af IMAP-server
+        name: Servernavn
+        port: Serverport
+        smtp:
+          instruction: Konfigurer SMTP-serveren til at besvare e-mails direkte fra arbejdspakkens aktivitet.
+          title: Konfiguration af SMTP-server
       smtp_server_configuration_component:
         description: Konfigurer SMTP-serveren til at besvare e-mails direkte fra arbejdspakkens aktivitet.
         edit: Rediger konfigurationen af SMTP-serveren
         title: Konfiguration af SMTP-server
+    helpdesk_mailer:
+      confirmation:
+        greeting: Hello %{name},
+        received: we have received your request "%{subject}" and recorded it as %{id}.
+        reply: To add information to your request, reply to this email.
   label_helpdesk: Helpdesk
+  label_helpdesk_role: Helpdesk
+  label_helpdesk_user: Helpdesk
   permission_manage_helpdesk: Administrer helpdesk
   project_module_helpdesk: Helpdesk

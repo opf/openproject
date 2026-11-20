@@ -5,6 +5,7 @@
   [disabled]="disabled"
   [tabindex]="tabindex"
   [ngModel]="checked"
+  [ngModelOptions]="{ standalone: true }"
   [value]="checked"
   (ngModelChange)="onToggle($event)"
   #input

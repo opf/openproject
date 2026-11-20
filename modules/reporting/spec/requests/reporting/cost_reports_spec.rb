@@ -235,6 +235,98 @@ RSpec.describe "Cost reports", :aggregate_failures, type: :rails_request do
       expect(response.body).to include("generic-table")
       expect(response.body).not_to include(I18n.t(:no_results_title_text))
     end
+
+    context "when a date range lacks its end" do
+      let(:filters) { 'spent_on <>d "2026-10-01"' }
+      let(:errors_stream_selector) { "turbo-stream[action='replace'][target='filter_errors']" }
+
+      it "shows the error in the filters section instead of the table" do
+        get global_reporting_cost_reports_path, params: { filters: }
+
+        expect(response).to have_http_status(:ok)
+        expect(response.parsed_body.at_css("#filter_errors").text).to include("Date (Spent) requires 2 values.")
+        expect(response.body).not_to include(I18n.t(:no_results_title_text))
+      end
+
+      [
+        'spent_on <>d "2026-10-01" & created_on <>d ["2026-01-01","2026-12-31"]',
+        'created_on <>d ["2026-01-01","2026-12-31"] & spent_on <>d "2026-10-01"'
+      ].each do |both_filters|
+        it "shows the error next to a valid filter with the same operator (#{both_filters})" do
+          get global_reporting_cost_reports_path, params: { filters: both_filters }
+
+          expect(response).to have_http_status(:ok)
+          expect(response.parsed_body.at_css("#filter_errors").text).to include("Date (Spent) requires 2 values.")
+        end
+      end
+
+      it "streams the error into the filters section when only the result table frame reloads" do
+        get global_reporting_cost_reports_path, params: { filters: }, headers: { "Turbo-Frame" => "result-table" }
+
+        expect(response.parsed_body.at_css(errors_stream_selector).inner_html)
+          .to include("Date (Spent) requires 2 values.")
+      end
+
+      it "clears the error once the filters are valid again" do
+        get global_reporting_cost_reports_path,
+            params: { filters: 'spent_on <>d ["2026-10-01","2026-10-31"]' },
+            headers: { "Turbo-Frame" => "result-table" }
+
+        expect(response.parsed_body.at_css(errors_stream_selector).inner_html)
+          .not_to include(I18n.t(:filter_error_missing_values, filter: "Date (Spent)", count: 2))
+      end
+    end
+  end
+
+  describe "grouping on a single axis" do
+    let(:work_package) { create(:work_package, project:, subject: "Grouped work package") }
+
+    before { create(:time_entry, entity: work_package, project:, user:, hours: 2) }
+
+    it "renders a row per group when only rows are grouped" do
+      get project_reporting_cost_reports_path(project), params: { filters: "", rows: "work_package_id" }
+
+      expect(response.parsed_body.at_css("table.report tbody th").text).to include(work_package.subject)
+    end
+
+    it "renders a column per group when only columns are grouped" do
+      get project_reporting_cost_reports_path(project), params: { filters: "", columns: "work_package_id" }
+
+      expect(response.parsed_body.at_css("table.report thead").text).to include(work_package.subject)
+    end
+
+    it "labels the row dimensions in the table header when only rows are grouped" do
+      get project_reporting_cost_reports_path(project), params: { filters: "", rows: "spent_on,work_package_id" }
+
+      expect(response.parsed_body.css("table.report thead th").map { |th| th.text.strip })
+        .to include(CostQuery::GroupBy::SpentOn.label, CostQuery::GroupBy::WorkPackageId.label)
+    end
+
+    it "labels the column dimensions in the table header when only columns are grouped" do
+      get project_reporting_cost_reports_path(project), params: { filters: "", columns: "spent_on,work_package_id" }
+
+      expect(response.parsed_body.css("table.report thead tr").map { |tr| tr.at_css("th").text.strip })
+        .to eq([CostQuery::GroupBy::SpentOn.label, CostQuery::GroupBy::WorkPackageId.label])
+    end
+
+    it "does not show the filler for the empty axis as a group by" do
+      get project_reporting_cost_reports_path(project), params: { filters: "", rows: "work_package_id" }
+
+      expect(response.parsed_body.at_css("#group-by--columns")["data-initially-selected"]).to eq("[]")
+    end
+  end
+
+  describe "grouping on both axes" do
+    let(:work_package) { create(:work_package, project:) }
+
+    before { create(:time_entry, entity: work_package, project:, user:, hours: 2) }
+
+    it "labels the column and the row dimensions in separate header rows" do
+      get project_reporting_cost_reports_path(project), params: { filters: "", rows: "work_package_id", columns: "spent_on" }
+
+      expect(response.parsed_body.css("table.report thead tr").map { |tr| tr.at_css("th").text.strip })
+        .to eq([CostQuery::GroupBy::SpentOn.label, CostQuery::GroupBy::WorkPackageId.label])
+    end
   end
 
   describe "saving a report with a custom field", :skip_csrf do
@@ -329,6 +421,30 @@ RSpec.describe "Cost reports", :aggregate_failures, type: :rails_request do
             headers: { "Accept" => "application/json" }
       end.to have_enqueued_job(CostReports::PDF::ExportTimesheetJob)
         .with(hash_including(options: hash_including(report_name: nil)))
+    end
+
+    context "with an invalid filter" do
+      let(:filters) { 'spent_on <>d "2026-10-01"' }
+
+      it "refuses an export requested as json" do
+        expect do
+          get project_reporting_cost_reports_path(export_project, format: :xls, filters:),
+              headers: { "Accept" => "application/json" }
+        end.not_to have_enqueued_job(CostReports::XLS::ExportJob)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body)
+          .to eq({ message: "The export could not be generated: Date (Spent) requires 2 values." }.to_json)
+      end
+
+      it "redirects with an error when the export link is opened directly" do
+        expect do
+          get project_reporting_cost_reports_path(export_project, format: :pdf, filters:)
+        end.not_to have_enqueued_job(CostReports::PDF::ExportTimesheetJob)
+
+        expect(response).to redirect_to(project_reporting_cost_reports_path(export_project))
+        expect(flash[:error]).to eq("The export could not be generated: Date (Spent) requires 2 values.")
+      end
     end
 
     context "with a saved report" do

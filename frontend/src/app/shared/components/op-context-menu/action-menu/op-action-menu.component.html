@@ -52,9 +52,9 @@
                 aria-haspopup="menu"
                 [attr.aria-disabled]="item.disabled || null"
                 class="ActionListContent"
-                [class.ActionListContent--visual16]="item.octicon || item.icon">
+                [class.ActionListContent--visual16]="item.octicon || item.icon || item.dotClass">
                 <ng-container *ngTemplateOutlet="leadingVisual; context: { item: item }" />
-                <span class="ActionListItem-label">{{ item.linkText }}</span>
+                <ng-container *ngTemplateOutlet="itemLabel; context: { item: item }" />
                 <span class="ActionListItem-visual ActionListItem-visual--trailing">
                   <svg octicon size="small" icon="chevron-right"></svg>
                 </span>
@@ -90,10 +90,10 @@
                   [attr.aria-label]="item.ariaLabel || null"
                   [attr.title]="item.title || null"
                   class="ActionListContent"
-                  [class.ActionListContent--visual16]="item.octicon || item.icon"
+                  [class.ActionListContent--visual16]="item.octicon || item.icon || item.dotClass"
                   (click)="handleClick(item, $event)">
                   <ng-container *ngTemplateOutlet="leadingVisual; context: { item: item }" />
-                  <span class="ActionListItem-label">{{ item.linkText }}</span>
+                  <ng-container *ngTemplateOutlet="itemLabel; context: { item: item }" />
                 </a>
               } @else {
                 <button type="button"
@@ -104,10 +104,10 @@
                   [attr.aria-label]="item.ariaLabel || null"
                   [attr.title]="item.title || null"
                   class="ActionListContent"
-                  [class.ActionListContent--visual16]="item.octicon || item.icon"
+                  [class.ActionListContent--visual16]="item.octicon || item.icon || item.dotClass"
                   (click)="handleClick(item, $event)">
                   <ng-container *ngTemplateOutlet="leadingVisual; context: { item: item }" />
-                  <span class="ActionListItem-label">{{ item.linkText }}</span>
+                  <ng-container *ngTemplateOutlet="itemLabel; context: { item: item }" />
                 </button>
               }
             </li>
@@ -126,11 +126,25 @@
   }
   @if (item.octicon) {
     <span class="ActionListItem-visual ActionListItem-visual--leading">
-      <svg octicon size="small" [icon]="item.octicon"></svg>
+      <svg octicon size="small" [icon]="item.octicon" [class]="item.octiconClass"></svg>
     </span>
   } @else if (item.icon) {
     <span class="ActionListItem-visual ActionListItem-visual--leading">
       <op-icon [icon-classes]="item.icon" />
     </span>
+  } @else if (item.dotClass) {
+    <span class="ActionListItem-visual ActionListItem-visual--leading">
+      <span [class]="item.dotClass"></span>
+    </span>
   }
+</ng-template>
+
+<ng-template #itemLabel let-item="item">
+  <span class="ActionListItem-label">
+    @if (item.labelClass) {
+      <span [class]="item.labelClass">{{ item.linkText }}</span>
+    } @else {
+      {{ item.linkText }}
+    }
+  </span>
 </ng-template>

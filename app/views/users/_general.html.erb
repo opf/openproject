@@ -40,11 +40,14 @@ See COPYRIGHT and LICENSE files for more details.
     url: { controller: "/users", action: "update", tab: nil },
     method: :put,
     html: { autocomplete: "off" },
-    data: {
-      controller: "admin--users",
-      turbo: false,
-      "admin--users-password-auth-selected-value": @user.ldap_auth_source_id.blank?
-    }
+    data: user_form_data_attributes(
+      @user,
+      {
+        controller: "admin--users",
+        turbo: false,
+        "admin--users-password-auth-selected-value": @user.ldap_auth_source_id.blank?
+      }
+    )
   ) do |f|
     render(Users::FormComponent.new(builder: f, user: @user, contract: @contract))
   end

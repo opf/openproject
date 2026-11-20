@@ -5,10 +5,10 @@ ko:
       repositories/gitlab_provider:
         gitlab_user: Webhook user
         url: GitLab URL
-        webhook_secret: Webhook secret
+        webhook_secret: Webhook 비밀번호
       repositories/provider:
-        created_at: Created
-        name: Name
+        created_at: 생성됨
+        name: 이름
     errors:
       models: {}
     models:
@@ -17,11 +17,11 @@ ko:
       repositories/provider:
         other: Repository providers
   permission_show_repository_content: Show repository content
-  project_module_repositories: Repositories
+  project_module_repositories: 리포지토리
   repositories:
     admin:
       buttons:
-        save_and_continue: Save and continue
+        save_and_continue: 저장 및 계속
       destroy_confirmation_dialog_component:
         delete_result:
           branches_and_commits: All branches and commits received from this provider and their links to work packages.
@@ -37,15 +37,15 @@ ko:
       label_add_new: Add new repository provider
       label_new_provider: New %{provider_type} provider
       label_provider: Repository provider
-      menu: Repositories
-      open_provider: Open
+      menu: 리포지토리
+      open_provider: 열림
       regenerate_webhook_secret_dialog_component:
         confirm_button: Regenerate secret
         description: The current webhook secret will stop working immediately. You have to enter the new secret in all webhooks of this provider.
         heading: Regenerate the webhook secret?
         title: Regenerate webhook secret
       sections:
-        general_information: General information
+        general_information: 일반 정보
         webhook: Webhook
       steps:
         general_information:
@@ -62,7 +62,7 @@ ko:
           secret: Secret token
           secret_caption: Copy this value into the "Secret token" field of the GitLab webhook.
           title: Webhook configuration
-          url: URL
+          url: 주소
           url_caption: Replace %{placeholder} with an API key of the webhook user.
         webhook_user:
           caption: When set, webhook requests authenticated with any other user's API key are rejected.
@@ -75,68 +75,68 @@ ko:
       table:
         blank_description: Add a repository provider to see its activity in work packages.
         blank_title: No repository providers configured yet
-        provider_type: Provider
+        provider_type: 공급자
     branch_component:
-      copy_name: Copy branch name
-      create_merge_request: Create merge request
-      updated_at: Updated on %{date_time}.
-      updated_by: Last updated by %{name}.
+      copy_name: 브랜치 이름 복사
+      create_merge_request: 병합 요청 만들기
+      updated_at: "%{date_time} 에 수정됨."
+      updated_by: "%{name}에 의해 마지막으로 수정됨."
     commit_component:
-      authored_at: Authored on %{date_time}.
-      copy_sha: Copy SHA to clipboard
-      created_by: Created by %{name}.
+      authored_at: "%{date_time} 에 작성됨."
+      copy_sha: SHA를 클립보드에 복사
+      created_by: "%{name}에 의해 생성됨."
       empty_message: "<empty commit message>"
     git_snippets_dialog_component:
-      branch_name: Branch name
-      commit_message: Commit message
-      copy_branch_name: Copy branch name
-      copy_commit_message: Copy commit message
+      branch_name: 브랜치 이름
+      commit_message: 커밋 메시지
+      copy_branch_name: 브랜치 이름 복사
+      copy_commit_message: 커밋 메시지 복사
       copy_create_branch_command: Copy command to create a branch with empty commit
-      create_branch_with_empty_commit: Create branch with empty commit
+      create_branch_with_empty_commit: 빈 커밋으로 브랜치 만들기
       title: Git quick snippets
     gitlab:
-      issue_closed_referenced_comment: "**Issue Closed:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been closed by [%{gitlab_user}](%{gitlab_user_url}).\n"
-      issue_opened_referenced_comment: "**Issue Opened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been opened by [%{gitlab_user}](%{gitlab_user_url}).\n"
-      issue_reopened_referenced_comment: "**Issue Reopened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been reopened by [%{gitlab_user}](%{gitlab_user_url}).\n"
-      merge_request_closed_comment: "**MR Closed:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been closed by [%{gitlab_user}](%{gitlab_user_url}).\n"
-      merge_request_merged_comment: "**MR Merged:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been merged by [%{gitlab_user}](%{gitlab_user_url}).\n"
-      merge_request_opened_comment: "**MR Opened:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been opened by [%{gitlab_user}](%{gitlab_user_url}).\n"
-      merge_request_reopened_comment: "**MR Reopened:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been reopened by [%{gitlab_user}](%{gitlab_user_url}).\n"
-      note_commit_referenced_comment: "**Referenced in Commit:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in a Commit Note [%{commit_id}](%{commit_url}) on [%{repository}](%{repository_url}): %{commit_note}\n"
-      note_issue_commented_comment: "**Commented in Issue:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in Issue %{issue_number} [%{issue_title}](%{issue_url}) on [%{repository}](%{repository_url}): %{issue_note}\n"
-      note_issue_referenced_comment: "**Referenced in Issue:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Issue %{issue_number} [%{issue_title}](%{issue_url}) on [%{repository}](%{repository_url}): %{issue_note}\n"
-      note_mr_commented_comment: "**Commented in MR:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in Merge Request %{mr_number} [%{mr_title}](%{mr_url}) on [%{repository}](%{repository_url}): %{mr_note}\n"
-      note_mr_referenced_comment: "**Referenced in MR:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Merge Request %{mr_number} [%{mr_title}](%{mr_url}) on [%{repository}](%{repository_url}): %{mr_note}\n"
+      issue_closed_referenced_comment: "**이슈 닫힘:** [%{repository}](%{repository_url})에 대한 이슈 %{issue_number} [%{issue_title}](%{issue_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 닫혔습니다.\n"
+      issue_opened_referenced_comment: "**이슈 열림:** [%{repository}](%{repository_url})에 대한 이슈 %{issue_number} [%{issue_title}](%{issue_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 열렸습니다.\n"
+      issue_reopened_referenced_comment: "**이슈 다시 열림:** [%{repository}](%{repository_url})에 대한 이슈 %{issue_number} [%{issue_title}](%{issue_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 다시 열렸습니다.\n"
+      merge_request_closed_comment: "**MR 닫힘:** [%{repository}](%{repository_url})에 대한 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 닫혔습니다.\n"
+      merge_request_merged_comment: "**MR 병합됨:** [%{repository}](%{repository_url})에 대한 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 병합되었습니다.\n"
+      merge_request_opened_comment: "**MR 열림:** [%{repository}](%{repository_url})에 대한 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 열렸습니다.\n"
+      merge_request_reopened_comment: "**MR 다시 열림:** [%{repository}](%{repository_url})에 대한 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})이(가) [%{gitlab_user}](%{gitlab_user_url}) 님에 의해 다시 열렸습니다.\n"
+      note_commit_referenced_comment: "**커밋에서 참조됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 커밋 메모 [%{commit_id}](%{commit_url})에서 이 WP를 참조했습니다: %{commit_note}\n"
+      note_issue_commented_comment: "**이슈에서 코멘트 작성됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 이슈 %{issue_number} [%{issue_title}](%{issue_url})에서 이 WP에 대해 코멘트를 작성했습니다: %{issue_note}\n"
+      note_issue_referenced_comment: "**이슈에서 참조됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 이슈 %{issue_number} [%{issue_title}](%{issue_url})에서 이 WP를 참조했습니다: %{issue_note}\n"
+      note_mr_commented_comment: "**MR에서 코멘트 작성됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})에서 이 WP에 대해 코멘트를 작성했습니다: %{mr_note}\n"
+      note_mr_referenced_comment: "**MR에서 참조됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})에서 이 WP를 참조했습니다: %{mr_note}\n"
       note_snippet_referenced_comment: "**Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note} %{commit_note} %{commit_note}\n"
-      push_single_commit_comment_with_ref: "**Pushed in %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}\n"
+      push_single_commit_comment_with_ref: "**%{reference}에서 푸시됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{commit_number}](%{commit_url})을(를) %{commit_timestamp}, [%{repository}](%{repository_url})에 푸시했습니다: %{commit_note}\n"
     issue_component:
       states:
-        closed: Closed
-        opened: Open
-      updated_at: Updated on %{date_time}.
-      updated_by: Last updated by %{name}.
+        closed: 닫음
+        opened: 열림
+      updated_at: "%{date_time} 에 수정됨."
+      updated_by: "%{name}에 의해 마지막으로 수정됨."
     merge_request_component:
       pipeline_statuses:
-        canceled: Canceled
-        canceling: Canceling
-        created: Created
-        failed: Failed
-        manual: Manual
-        pending: Pending
+        canceled: 취소됨
+        canceling: 취소 중
+        created: 생성됨
+        failed: 실패
+        manual: 수동
+        pending: 대기 중
         preparing: Preparing
-        running: Running
-        scheduled: Scheduled
-        skipped: Skipped
-        success: Success
+        running: 실행 중
+        scheduled: 예약됨
+        skipped: 건너뜀
+        success: 성공
         waiting_for_callback: Waiting for callback
         waiting_for_resource: Waiting for resource
       states:
-        closed: Closed
-        locked: Locked
-        merged: Merged
-        opened: Open
-      updated_at: Updated on %{date_time}.
-      updated_by: Last updated by %{name}.
+        closed: 닫음
+        locked: 잠김
+        merged: 병합 됨
+        opened: 열림
+      updated_at: "%{date_time} 에 수정됨."
+      updated_by: "%{name}에 의해 마지막으로 수정됨."
     provider_types:
       gitlab:
         name: GitLab
@@ -154,10 +154,10 @@ ko:
         merge_requests:
           description_html: Link a merge request by adding the code %{code} to the title or description.
           title: No merge requests
-      branches: Branches
-      commits: Commits
+      branches: 브랜치
+      commits: 커밋
       description_html: Link an existing GitLab element by adding the code %{code} to the title or description.
-      git_snippets: Git snippets
-      issues: Issues
-      merge_requests: Merge requests
-      snippets_button_label: Git snippets
+      git_snippets: Git 코드 조각
+      issues: 이슈
+      merge_requests: 병합 요청
+      snippets_button_label: Git 코드 조각

@@ -3,14 +3,14 @@ zh-CN:
   activerecord:
     attributes:
       squashtm_integration/project_link:
-        project: Project
+        project: 项目
         squashtm_project: SquashTM project
       squashtm_integration/server:
-        api_token: API token
+        api_token: API 令牌
         base_url: SquashTM URL
       squashtm_integration/work_package_link:
         squashtm_requirement: SquashTM requirement
-        work_package: Work package
+        work_package: 工作包
     errors:
       models:
         squashtm_integration/project_link:
@@ -80,20 +80,20 @@ zh-CN:
         update:
           connection_warning: 'The settings were saved, but the connection to SquashTM failed: %{reason}'
     execution_statuses:
-      blocked: Blocked
-      cancelled: Cancelled
-      error: Error
-      failure: Failed
+      blocked: 已阻止
+      cancelled: 已取消
+      error: 错误
+      failure: 失败
       not_executed: Not executed
       not_found: Not found
       not_run: Not run
       ready: Ready
-      running: Running
+      running: 运行中
       settled: Settled
-      skipped: Skipped
-      success: Passed
+      skipped: 跳过
+      success: 通过
       untestable: Untestable
-      warning: Warning
+      warning: 警告
     project_settings:
       delete_project_link_dialog_component:
         confirm: Unlink

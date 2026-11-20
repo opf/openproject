@@ -33,7 +33,6 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Component({
   templateUrl: './subproject-board-header.html',
-  styleUrls: ['./subproject-board-header.sass'],
   host: { class: 'title-container -small' },
   standalone: false,
   // TODO: This component has been partially migrated to be zoneless-compatible.
