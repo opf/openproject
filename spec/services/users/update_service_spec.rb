@@ -71,7 +71,7 @@ RSpec.describe Users::UpdateService do
     end
 
     context "when another attribute of the admin changes" do
-      let(:attributes) { { mail: "new@example.org" } }
+      let(:attributes) { { firstname: "New" } }
 
       it "does not end the elevations of the user", :aggregate_failures do
         expect(subject).to be_success

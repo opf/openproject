@@ -69,7 +69,7 @@ If you lose a token, you will need to delete it and create a new one.
 Under **Scopes** you choose what the token can be used for. A token needs at least one scope:
 
 - **API v3**: access the [REST API](../../../api/).
-- **MCP**: access the [MCP server](../../../system-admin-guide/integrations/mcp-server/), e.g. from AI assistants.
+- **MCP**: access the [MCP server](../../../system-admin-guide/ai/mcp-server/), e.g. from AI assistants.
 - **Webhooks**: deliver incoming webhooks, e.g. from the [GitHub](../../../system-admin-guide/integrations/github-integration/) or [GitLab](../../../system-admin-guide/integrations/gitlab-integration/) integration.
 - **Admin elevation**: only available to administrators when administrators are required to elevate their privileges. Without this scope, the token only has the permissions of your project memberships. With it, the token acts with full administrator permissions in every project.
 

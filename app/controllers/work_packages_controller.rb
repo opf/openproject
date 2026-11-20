@@ -40,7 +40,7 @@ class WorkPackagesController < ApplicationController
   UPDATED_EVENT_NAME = "op-dispatched:work-packages:updated"
 
   accept_rss_key_auth :index, :show
-  accept_api_key_auth :show
+  accept_api_key_auth :show, scope: OpenProject::Authentication::Scope::API_V3
 
   before_action :authorize_on_work_package,
                 :project, only: %i[show generate_pdf_dialog generate_pdf]
