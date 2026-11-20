@@ -179,6 +179,25 @@ RSpec.describe JournalsController do
       end
     end
 
+    context "for work package external link description", with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:work_package) do
+        create(:work_package, type: project.enabled_types.first, author: user, project:)
+      end
+      shared_let(:external_link) { create(:external_link, work_package:) }
+
+      let(:params) do
+        { id: work_package.last_journal.id.to_s, field: "external_links_#{external_link.id}_description", format: "js" }
+      end
+
+      before do
+        work_package.save_journals
+        external_link.update!(description: "description\nmore changes")
+        work_package.save_journals
+      end
+
+      include_examples "the diff is shown", "description<br/>more changes"
+    end
+
     context "for project custom field" do
       let(:params) { { id: project.last_journal.id.to_s, field: "custom_fields_#{custom_field.id}", format: "js" } }
       let(:custom_field) { create(factory_name, admin_only:, projects: [project]) }
