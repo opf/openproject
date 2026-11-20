@@ -233,7 +233,7 @@ Read more: [Text assistant system admin guide](../../system-admin-guide/ai/text-
 > [!TIP]
 > **Good news for Community users:** You can now connect external AI assistants to OpenProject through the [MCP Server](../../system-admin-guide/ai/mcp-server/) and let them create and update work packages based on your form configuration.
 
-A new MCP tool lets AI assistants read the form of a new or existing work package: which fields exist, which are required, and which values and statuses are allowed. As a result, work packages that an assistant creates or updates use the right custom fields and follow your configuration. The MCP Server settings can now be found in the new **AI** section of the administration.
+A new MCP tool lets AI assistants read the form of a new or existing work package: which fields exist, which are required, and which values and statuses are allowed. This means assistants can create and update work packages with fewer round trips and less guesswork.
 
 Read more: [MCP Server system admin guide](../../system-admin-guide/ai/mcp-server/)
 
