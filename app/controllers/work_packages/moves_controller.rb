@@ -31,11 +31,12 @@ class WorkPackages::MovesController < ApplicationController
   include WorkPackages::BulkErrorMessage
   include WorkPackages::IdListNormalization
   include OpTurbo::ComponentStream
+  include WorkPackages::Shared::MovePlanning
 
   default_search_scope :work_packages
   before_action :find_work_packages, :check_project_uniqueness
   before_action :authorize_move_or_copy
-  authorization_checked! :new, :create, :refresh_form
+  authorization_checked! :new, :create, :refresh_form, :move_dialog, :confirm_move
 
   def new
     prepare_for_work_package_move
@@ -57,7 +58,38 @@ class WorkPackages::MovesController < ApplicationController
     respond_with_turbo_streams
   end
 
+  def move_dialog
+    if has_visible_descendants?
+      respond_with_dialog move_dialog_component
+    else
+      # A plain browser navigation, not a Turbo visit: the move form's Angular
+      # project autocompleter does not expect to be reached via a soft nav and
+      # ends up rendering twice (two elements sharing id="new_project_id").
+      render turbo_stream: turbo_stream.redirect_to(move_form_redirect_path, turbo: false)
+    end
+  end
+
+  def confirm_move
+    redirect_to move_form_redirect_path(move_descendants: params[:move_descendants])
+  end
+
   private
+
+  def move_roots = @work_packages.to_a
+
+  def move_user = current_user
+
+  def move_form_redirect_path(**)
+    new_move_work_packages_path(ids: @work_packages.map(&:id), back_url: params[:back_url], **)
+  end
+
+  def move_dialog_component
+    if @work_packages.one?
+      WorkPackages::MoveDialogComponent.new(work_package: @work_packages.first, back_url: params[:back_url])
+    else
+      WorkPackages::BulkMoveDialogComponent.new(work_packages: @work_packages, back_url: params[:back_url])
+    end
+  end
 
   def authorize_move_or_copy
     permission = params.has_key?(:copy) ? :copy_work_packages : :move_work_packages
@@ -144,6 +176,8 @@ class WorkPackages::MovesController < ApplicationController
     end
     @target_project ||= @project
     @notes = params[:notes] || ""
+    # Absent means cascade, consistent with WorkPackages::UpdateService's default.
+    @move_descendants = ActiveModel::Type::Boolean.new.cast(params.fetch(:move_descendants, true))
   end
 
   def allowed_target_projects

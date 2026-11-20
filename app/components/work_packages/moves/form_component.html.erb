@@ -41,6 +41,7 @@ See COPYRIGHT and LICENSE files for more details.
       <%= hidden_field_tag "ids[]", wp.id %>
     <% end %>
     <%= back_url_hidden_field_tag %>
+    <%= hidden_field_tag "move_descendants", selected_values[:move_descendants] %>
     <section class="form--section">
       <fieldset class="form--fieldset">
         <legend class="form--fieldset-legend"><%= t(:label_change_properties) %></legend>

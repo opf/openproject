@@ -411,6 +411,12 @@ export class PathHelperService {
     return `${this.workPackagesBulkMovePath()}?copy=true`;
   }
 
+  public workPackagesMoveDialogPath(ids:string[], backUrl?:string) {
+    const params = ids.map((id) => `ids[]=${encodeURIComponent(id)}`).join('&');
+    const backParam = backUrl ? `&back_url=${encodeURIComponent(backUrl)}` : '';
+    return `${this.workPackagesPath(null)}/move/dialog?${params}${backParam}`;
+  }
+
   public workPackagesBulkDeletePath() {
     return `${this.workPackagesPath(null)}/bulk`;
   }

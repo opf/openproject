@@ -30,6 +30,7 @@
 module WorkPackages
   class UpdateContract < BaseContract
     include UnchangedProject
+    include ::WorkPackages::Shared::MovePlanning
 
     class << self
       def update_allowed?(user:, work_package:)
@@ -73,6 +74,8 @@ module WorkPackages
 
     validate :user_allowed_to_move_from_source_project
 
+    validate :descendants_can_follow_or_none_exist
+
     validate :can_move_to_milestone
 
     default_attribute_permission :edit_work_packages
@@ -102,6 +105,28 @@ module WorkPackages
           errors.add :project_id, :error_readonly
         end
       end
+    end
+
+    def move_roots = [model]
+
+    def move_user = user
+
+    # Without cross-project relations, every descendant must stay in the same project
+    # as its ancestor. WorkPackages::UpdateService only moves the descendants the user
+    # is allowed to move (see WorkPackages::Shared::MovePlanning). Reject the save if
+    # any descendant got left out, whether by choice or for lack of permission, since
+    # it would end up in a different project than its parent.
+    def descendants_can_follow_or_none_exist
+      return if Setting.cross_project_work_package_relations?
+      return unless model.project_id_changed?
+
+      if !move_descendants_requested? || immovable_descendants.any?
+        errors.add :project_id, :descendants_would_cross_projects
+      end
+    end
+
+    def move_descendants_requested?
+      ActiveModel::Type::Boolean.new.cast(options.fetch(:move_descendants, true))
     end
 
     def user_allowed_to_access
