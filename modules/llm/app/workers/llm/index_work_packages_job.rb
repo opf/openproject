@@ -50,7 +50,7 @@ module Llm
       return fail_indexing(semantic_index, :model_missing) unless offers_embedding_model?(semantic_index.model_id)
 
       batch.add do
-        WorkPackage.find_in_batches(batch_size: 100) do |work_packages|
+        WorkPackage.find_in_batches(batch_size: semantic_index.batch_size) do |work_packages|
           Llm::EmbedWorkPackagesJob.perform_later(semantic_index_id, work_packages.map(&:id))
         end
       end

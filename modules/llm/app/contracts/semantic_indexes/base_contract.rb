@@ -33,6 +33,7 @@ module SemanticIndexes
 
     attribute :title
     attribute :description
+    attribute :batch_size
     attribute :model_id, writable: -> { model.new_record? }
     attribute :embedding_vector_dimensions, writable: -> { model.new_record? }
     attribute :context_token_length, writable: -> { model.new_record? }

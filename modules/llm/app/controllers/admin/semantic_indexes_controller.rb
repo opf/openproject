@@ -178,7 +178,12 @@ module Admin
     end
 
     def semantic_index_params
-      params.expect(semantic_index: %i[title description model_id embedding_vector_dimensions context_token_length])
+      params.expect(semantic_index: %i[title
+                                       description
+                                       model_id
+                                       embedding_vector_dimensions
+                                       context_token_length
+                                       batch_size])
     end
   end
 end
