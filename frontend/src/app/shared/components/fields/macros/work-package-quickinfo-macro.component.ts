@@ -35,6 +35,7 @@ import {
 } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import {
   CombinedDateDisplayField,
@@ -97,6 +98,11 @@ export class WorkPackageQuickinfoMacroComponent implements OnInit {
       .pipe(
         tap({ error: (_e) => this.markError(this.text.not_found) }),
       );
+  }
+
+  isClosed(workPackage:WorkPackageResource):boolean {
+    const status = workPackage.status as StatusResource|undefined;
+    return !!status?.isClosed;
   }
 
   markError(message:string) {
