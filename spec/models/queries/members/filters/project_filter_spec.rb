@@ -71,5 +71,33 @@ RSpec.describe Queries::Members::Filters::ProjectFilter do
 
       it { expect(instance).not_to be_valid }
     end
+
+    context "when combined with a project identifier" do
+      let(:project) { create(:project) }
+      let(:values) { [described_class::GLOBAL_VALUE, project.identifier] }
+
+      before do
+        allow(Project).to receive(:visible).and_return(Project.all)
+      end
+
+      it { expect(instance).to be_valid }
+
+      it "matches that project as well as the global memberships" do
+        expect(instance.where).to eq("members.project_id IS NULL OR members.project_id IN ('#{project.id}')")
+      end
+    end
+
+    context "when a visible project has the identifier of the sentinel" do
+      let(:values) { [described_class::GLOBAL_VALUE] }
+
+      before do
+        create(:project, identifier: described_class::GLOBAL_VALUE)
+        allow(Project).to receive(:visible).and_return(Project.all)
+      end
+
+      it "still matches memberships without a project" do
+        expect(instance.where).to eq("members.project_id IS NULL")
+      end
+    end
   end
 end

@@ -91,6 +91,30 @@ RSpec.describe "API v3 Project resource index", content_type: :json do
     end
   end
 
+  context "when filtering by id with a semantic project identifier",
+          with_settings: { work_packages_identifier: "semantic" } do
+    let(:project) { create(:project, identifier: "SDT", public: false) }
+    let(:project2) { create(:project, members: { current_user => [role] }) }
+    let(:projects) { [project, project2, other_project] }
+    let(:filters) { [{ id: { operator: "=", values: ["sdt", project2.id.to_s] } }] }
+    let(:get_path) { api_v3_paths.path_for :projects, filters:, sort_by: { id: :asc } }
+
+    it_behaves_like "API V3 collection response", 2, 2, "Project" do
+      let(:elements) { [project, project2] }
+    end
+
+    context "with the identifier of a project the user cannot see" do
+      let(:filters) { [{ id: { operator: "=", values: [other_project.identifier] } }] }
+
+      it "rejects the filter" do
+        expect(response).to have_http_status(:bad_request)
+        expect(response.body)
+          .to be_json_eql("urn:openproject-org:api:v3:errors:InvalidQuery".to_json)
+          .at_path("errorIdentifier")
+      end
+    end
+  end
+
   context "when filtering for project by ancestor" do
     let(:projects) { [project, other_project, parent_project] }
 
