@@ -74,7 +74,12 @@ module Backlogs
     end
 
     def disable_start_sprint_action?
-      sprint.in_planning? && !(sprint.date_range_set? && project_is_allowed_to_activate_sprint?)
+      sprint.in_planning? &&
+        !(sprint.date_range_set? && !finish_date_in_past? && project_is_allowed_to_activate_sprint?)
+    end
+
+    def finish_date_in_past?
+      ::Backlogs::Sprints::StartContract.finish_date_in_past?(user: current_user, sprint:)
     end
 
     def start_sprint_button_arguments
@@ -189,6 +194,8 @@ module Backlogs
         t(".start_sprint_disabled_reason_receiving_shared_sprints")
       elsif !sprint.date_range_set?
         t(".start_sprint_disabled_reason_missing_dates")
+      elsif finish_date_in_past?
+        t(".start_sprint_disabled_reason_finish_date_in_past")
       elsif sprint.owned_by?(project) || project_has_another_active_visible_sprint?
         t(".start_sprint_disabled_reason_active_sprint")
       else
