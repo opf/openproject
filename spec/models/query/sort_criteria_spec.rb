@@ -141,7 +141,7 @@ RSpec.describe Query::SortCriteria do
 
       it "adds the order handling (and the default order by id)" do
         expect(subject)
-          .to eq [["name DESC"],
+          .to eq [["#{available_criteria['category']} DESC"],
                   ["work_packages.start_date"],
                   ["work_packages.id DESC"]]
       end
