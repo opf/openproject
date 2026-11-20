@@ -99,10 +99,8 @@ class Backlogs::Sprints::FinishService < BaseServices::BaseContracted
   # start and completion. Merged into a journal written before then, a move would rewrite that
   # history and the work package would vanish from the sprint altogether.
   def move(work_package, contract_class:, **)
-    work_package.journal_skip_aggregation = true
-
     ::WorkPackages::UpdateService
       .new(user:, model: work_package, contract_class:)
-      .call(**)
+      .call(**, journal_skip_aggregation: true)
   end
 end
