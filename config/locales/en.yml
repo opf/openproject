@@ -2990,7 +2990,7 @@ en:
         remember_items_and_projects: "Remember to set values for this custom field, and to make sure it is used in at least one project."
       projects:
         additional_values_disabled_notice: "Project admins can no longer add values to this custom field. Existing project-specific values stay available."
-        additional_values_disabled_project_notice: "Project admins can no longer add values to this custom field. However, existing project-specific values are still available and can be enabled or disabled."
+        additional_values_disabled_project_notice: "Project admins can no longer add values to this custom field. However, existing project-specific values stay available."
         available_values: "Available values"
         configure: "Configure project-specific values for %{project}"
         delete_value_dialog:
