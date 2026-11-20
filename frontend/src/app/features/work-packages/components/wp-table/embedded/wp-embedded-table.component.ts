@@ -135,8 +135,9 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     );
   }
 
-  public async openConfigurationModal(onUpdated:() => void):Promise<void> {
+  public async openConfigurationModal(onUpdated:() => void, onReady?:() => void):Promise<void> {
     await this.querySpace.query.valuesPromise();
+    onReady?.();
 
     const target = document.querySelector('opce-custom-modal-overlay') ? PortalOutletTarget.Custom : PortalOutletTarget.Default;
     this.opModalService

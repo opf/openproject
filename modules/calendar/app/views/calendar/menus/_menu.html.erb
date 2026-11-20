@@ -1,5 +1,5 @@
   <%= turbo_frame_tag "calendar_sidemenu",
-                      src: menu_project_calendars_path(@project, **params.permit(:id)),
+                      src: menu_project_calendars_path(@project, **params.permit(:id, :name)),
                       target: "_top",
                       data: { turbo: false, query_param: "id" },
                       loading: :lazy %>

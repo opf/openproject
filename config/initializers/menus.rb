@@ -454,8 +454,14 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :users_and_permissions
 
   menu.push :admin_work_packages,
-            { controller: "/work_package_types/types" },
-            if: ->(_) { User.current.admin? },
+            ->(_) {
+              if User.current.admin?
+                { controller: "/work_package_types/types" }
+              else
+                { controller: "/admin/predefined_work_package_filters", action: "index" }
+              end
+            },
+            if: ->(_) { User.current.allowed_globally?(:manage_filters) },
             caption: :label_work_package_plural,
             icon: "op-view-list"
 
@@ -469,6 +475,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: "/admin/settings/work_packages_general", action: :show },
             if: ->(_) { User.current.admin? },
             caption: :label_general,
+            parent: :admin_work_packages
+
+  menu.push :predefined_work_package_filters,
+            { controller: "/admin/predefined_work_package_filters", action: "index" },
+            if: ->(_) { User.current.allowed_globally?(:manage_filters) },
+            caption: :"predefined_work_package_filters.title",
             parent: :admin_work_packages
 
   menu.push :form_configurations,

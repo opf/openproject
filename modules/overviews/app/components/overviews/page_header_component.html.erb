@@ -128,11 +128,22 @@
     header.with_tab_nav(label: nil, test_selector: "overview-tabs") do |tab_nav|
       tab_nav.with_tab(
         test_selector: "project-overview-tab",
-        selected: current_page?(project_overview_path),
+        selected: params[:predefined_filter_id].blank? && current_page?(project_overview_path),
         href: helpers.project_overview_path
       ) do |t|
         t.with_icon(icon: :"op-view-split")
         t.with_text { I18n.t("overviews.label_overview") }
+      end
+
+      if current_user.allowed_in_project?(:view_work_packages, project)
+        PredefinedWorkPackageFilter.active_in(project).at(:project_overview).ordered.each do |filter|
+          tab_nav.with_tab(
+            selected: params[:predefined_filter_id] == filter.id.to_s,
+            href: project_overview_path(project, predefined_filter_id: filter.id)
+          ) do |tab|
+            tab.with_text { filter.display_name }
+          end
+        end
       end
 
       if current_user.allowed_in_project?(:view_project, project)

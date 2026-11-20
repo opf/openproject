@@ -1,0 +1,55 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= render "admin/predefined_work_package_filters/header", active_tab: :projects %>
+
+<% if @candidate_projects.exists? %>
+  <%= render(Primer::OpenProject::SubHeader.new) do |subheader| %>
+    <% subheader.with_action_button(
+         scheme: :primary,
+         leading_icon: :"op-include-projects",
+         label: t(:label_add_projects),
+         data: { "show-dialog-id": "predefined-filter-add-projects-dialog" }
+       ) { t(:label_add_projects) } %>
+  <% end %>
+
+  <%= render(Primer::Alpha::Dialog.new(id: "predefined-filter-add-projects-dialog", title: t(:label_add_projects), size: :medium_portrait)) do |dialog| %>
+    <% dialog.with_header(variant: :large) %>
+    <% dialog.with_body do %>
+      <%= primer_form_with(url: projects_admin_predefined_work_package_filter_path(@filter), method: :post, id: "predefined-filter-add-projects-form") do |form| %>
+        <%= render(PredefinedWorkPackageFilters::AddProjectsForm.new(form, projects: @candidate_projects)) %>
+      <% end %>
+    <% end %>
+    <% dialog.with_footer do %>
+      <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": "predefined-filter-add-projects-dialog" })) { t(:button_cancel) } %>
+      <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit, form: "predefined-filter-add-projects-form")) { t(:button_add) } %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= render(PredefinedWorkPackageFilters::ProjectsTableComponent.new(rows: @projects, filter: @filter)) %>

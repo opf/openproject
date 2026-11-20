@@ -40,11 +40,13 @@ module Calendar
     end
 
     def default_queries
-      []
+      project ? predefined_project_queries(:calendar) : []
     end
 
     def selected?(query_params)
-      query_params[:id].to_s == params[:id]
+      return query_params[:id].to_s == params[:id] if query_params.key?(:id)
+
+      params[:id].blank? && query_params[:name] == params[:name]
     end
 
     def query_params(id)
@@ -52,7 +54,11 @@ module Calendar
     end
 
     def query_path(query_params)
-      project_calendar_path(project, query_params)
+      if query_params.key?(:query_props)
+        new_project_calendar_path(project, query_params)
+      else
+        project_calendar_path(project, query_params)
+      end
     end
   end
 end
