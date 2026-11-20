@@ -46,11 +46,11 @@ You can create as many Agile boards in a project as you need and configure them 
 
 Another way to create a board is by clicking the **+ (Plus)** button in the top right corner of the header navigation. 
 
-![](OpenProject_user_guide_boards_project_header.png)
+![Project header showing the plus button used to create a new board](OpenProject_user_guide_boards_project_header.png)
 
 ## Choose between board types
 
-Choose the **Board type** and **Title**. If you are creating the board using the + button in the header, you will be required to select the **Project** from a dropdown display.
+Choose the **Board type** and enter a **Title**. If you create the board using the plus button in the header, you also need to select a **Project** from the dropdown menu.
 
 ![Create a new board in OpenProject](choose-board-type.png)
 
@@ -163,7 +163,7 @@ Apart from the Status board you can **update a work package's status** directly 
 
 A **double click on a card** will open the work package's **fullscreen view.** 
 
-![](open-full-screen-view.png)
+![Work package opened in full-screen view from an Agile board](open-full-screen-view.png)
 
 Clicking on **Open details view** (the blue "**i**") will open the work package's [split screen view](../work-packages/work-package-views/#split-screen-view). You can close it by clicking on the **"x"** in its upper right corner.
 
@@ -220,4 +220,4 @@ Of course you don’t need to use groups as assignees, you can also use individu
 
 The Version board facilitates the planning of a product development in several iterations. With every iteration you can add and improve features and let your product become the best version for your customers. If a certain feature is e.g. too complex to be developed in one specific version because you have other features to develop with higher priority, just drag it to the next version and it will update automatically. This board gives you a perfect overview of what is coming and you can see at a glance if it fits your priorities. If not, adjust with drag and drop.
 
-![action-board-version-docs](action-board-version-docs.png)8
+![action-board-version-docs](action-board-version-docs.png)
