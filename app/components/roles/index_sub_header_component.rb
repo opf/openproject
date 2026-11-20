@@ -48,8 +48,13 @@ module Roles
         controller: "filter--filters-form",
         "filter--filters-form-output-format-value": "json",
         "filter--filters-form-turbo-frame-request-value": Roles::IndexComponent::FRAME_ID,
-        "filter--filters-form-clear-button-id-value": clear_button_id
+        "filter--filters-form-clear-button-id-value": clear_button_id,
+        "filter--filters-form-current-filters-value": serialized_filters
       }
+    end
+
+    def serialized_filters
+      OpPrimer::QuickFilter.serialize(query.filters).to_json
     end
 
     # turbo_permanent carries the live input across the frame render this component is part

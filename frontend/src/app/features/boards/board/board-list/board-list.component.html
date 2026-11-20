@@ -18,8 +18,8 @@
         <ndc-dynamic [ndcDynamicComponent]="headerComponent"
           [ndcDynamicInputs]="{ resource: actionResource }" />
       }
-      <h3 class="toolbar-title--container">
-        @if (!headerComponent) {
+      @if (!headerComponent) {
+        <h3 class="toolbar-title--container">
           <editable-toolbar-title [title]="query.name"
             [smallHeader]="true"
             [inFlight]="inFlight"
@@ -27,8 +27,8 @@
             [editable]="canRename"
             [initialFocus]="initiallyFocused"
             class="-small" />
-        }
-      </h3>
+        </h3>
+      }
       <board-list-menu class="op-board-list--menu"
         data-test-selector="op-board-list--menu"
         [board]="board"

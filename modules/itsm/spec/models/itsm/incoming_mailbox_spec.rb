@@ -50,6 +50,25 @@ RSpec.describe ITSM::IncomingMailbox do
     expect(mailbox.inspect).not_to include("imap-password")
   end
 
+  describe ".receiving_for" do
+    let!(:second) { create(:itsm_incoming_mailbox, project:) }
+    let!(:first) { create(:itsm_incoming_mailbox, project:, id: second.id - 1) }
+    let!(:inactive) { create(:itsm_incoming_mailbox, project:, active: false) }
+    let!(:foreign) { create(:itsm_incoming_mailbox) }
+
+    it "lists the project's active mailboxes, oldest first" do
+      expect(described_class.receiving_for(project)).to eq([first, second])
+    end
+  end
+
+  describe "#addresses" do
+    let(:aliases) { ["help@example.com"] }
+
+    it "lists the email and the aliases" do
+      expect(mailbox.addresses).to eq(%w[support@example.com help@example.com])
+    end
+  end
+
   context "without a username" do
     let(:username) { "" }
 
@@ -138,6 +157,57 @@ RSpec.describe ITSM::IncomingMailbox do
       project.destroy
 
       expect(described_class).not_to exist(mailbox.id)
+    end
+  end
+
+  describe "#fetch_succeeded!", freeze_time: Time.current.change(usec: 0) do
+    subject(:mailbox) { create(:itsm_incoming_mailbox, consecutive_failures: 3, last_error: "unreachable") }
+
+    it "records the check and stays due for the next scheduled run" do
+      mailbox.fetch_succeeded!
+
+      expect(mailbox.reload).to have_attributes(last_fetched_at: Time.current,
+                                                next_fetch_at: nil,
+                                                consecutive_failures: 0,
+                                                last_error: nil)
+    end
+  end
+
+  describe "#fetch_failed!", freeze_time: Time.current.change(usec: 0) do
+    subject(:mailbox) { create(:itsm_incoming_mailbox, consecutive_failures:, last_fetched_at: 1.day.ago) }
+
+    let(:consecutive_failures) { 0 }
+
+    it "records the failure and retries later" do
+      mailbox.fetch_failed!(:unreachable)
+
+      expect(mailbox.reload).to have_attributes(consecutive_failures: 1,
+                                                last_error: "unreachable",
+                                                next_fetch_at: 30.minutes.from_now,
+                                                last_fetched_at: 1.day.ago)
+    end
+
+    context "with many failures in a row" do
+      let(:consecutive_failures) { 10 }
+
+      it "retries at most every 6 hours" do
+        mailbox.fetch_failed!(:unreachable)
+
+        expect(mailbox.reload.next_fetch_at).to eq(6.hours.from_now)
+      end
+    end
+  end
+
+  describe ".due_for_fetch", :freeze_time, with_flag: { helpdesk: true } do
+    let!(:never_fetched) { create(:itsm_incoming_mailbox, next_fetch_at: nil) }
+    let!(:due) { create(:itsm_incoming_mailbox, next_fetch_at: 1.minute.ago) }
+    let!(:not_yet_due) { create(:itsm_incoming_mailbox, next_fetch_at: 1.minute.from_now) }
+    let!(:paused) { create(:itsm_incoming_mailbox, active: false, next_fetch_at: nil) }
+    let!(:in_archived_project) { create(:itsm_incoming_mailbox, project: create(:project, active: false)) }
+    let!(:help_desk_disabled) { create(:itsm_incoming_mailbox, project: create(:project, disable_modules: :helpdesk)) }
+
+    it "returns the active mailboxes of help desk projects whose next check is due" do
+      expect(described_class.due_for_fetch).to contain_exactly(never_fetched, due)
     end
   end
 end

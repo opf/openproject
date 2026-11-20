@@ -51,6 +51,9 @@ See COPYRIGHT and LICENSE files for more details.
         <%= render(Primer::Beta::Text.new(tag: :div)) do %>
           <%= project_type.project.name %>
           <%= render(Primer::Beta::Text.new(color: :subtle)) { project_type.variant.display_name } %>
+          <% if project_type.variant.default? %>
+            <%= render(Primer::Beta::Text.new(color: :muted)) { t("types.edit.reuse_mode.parent_suffix").strip } %>
+          <% end %>
         <% end %>
       <% end %>
     <% end %>

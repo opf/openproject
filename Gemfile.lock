@@ -383,8 +383,8 @@ GEM
     awesome_nested_set (3.9.0)
       activerecord (>= 4.0.0, < 8.2)
     aws-eventstream (1.4.1)
-    aws-partitions (1.1300.0)
-    aws-sdk-core (3.261.0)
+    aws-partitions (1.1305.0)
+    aws-sdk-core (3.264.0)
       aws-eventstream (~> 1, >= 1.4.1)
       aws-partitions (~> 1, >= 1.992.0)
       aws-sigv4 (~> 1.9)
@@ -393,15 +393,15 @@ GEM
       jmespath (~> 1, >= 1.6.1)
       logger
       rexml (~> 3.4, >= 3.4.2)
-    aws-sdk-kms (1.135.0)
-      aws-sdk-core (~> 3, >= 3.260.0)
+    aws-sdk-kms (1.139.0)
+      aws-sdk-core (~> 3, >= 3.264.0)
       aws-sigv4 (~> 1.5)
-    aws-sdk-s3 (1.235.0)
-      aws-sdk-core (~> 3, >= 3.258.0)
+    aws-sdk-s3 (1.238.0)
+      aws-sdk-core (~> 3, >= 3.264.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.5)
-    aws-sdk-sns (1.124.1)
-      aws-sdk-core (~> 3, >= 3.260.0)
+    aws-sdk-sns (1.127.0)
+      aws-sdk-core (~> 3, >= 3.264.0)
       aws-sigv4 (~> 1.5)
     aws-sigv4 (1.12.1)
       aws-eventstream (~> 1, >= 1.0.2)
@@ -468,6 +468,8 @@ GEM
     color_conversion (0.1.2)
     colored (1.2)
     colored2 (4.0.3)
+    commonmarker (2.10.1)
+      rb_sys (~> 0.9)
     commonmarker (2.10.1-aarch64-linux)
     commonmarker (2.10.1-aarch64-linux-musl)
     commonmarker (2.10.1-arm-linux-gnu)
@@ -887,6 +889,7 @@ GEM
     mini_magick (5.4.0)
       logger
     mini_mime (1.1.5)
+    mini_portile2 (2.8.9)
     minitest (6.0.6)
       drb (~> 2.0)
       prism (~> 1.5)
@@ -911,6 +914,9 @@ GEM
     net-smtp (0.5.2)
       net-protocol
     nio4r (2.7.5)
+    nokogiri (1.19.7)
+      mini_portile2 (~> 2.8.2)
+      racc (~> 1.4)
     nokogiri (1.19.7-aarch64-linux-gnu)
       racc (~> 1.4)
     nokogiri (1.19.7-aarch64-linux-musl)
@@ -1381,7 +1387,7 @@ GEM
     rinku (2.0.6)
     roar (1.2.0)
       representable (~> 3.1)
-    rotp (6.3.0)
+    rotp (6.4.0)
     rouge (5.1.0)
       strscan (~> 3.1)
     rspec (3.13.2)
@@ -1667,8 +1673,8 @@ DEPENDENCIES
   appsignal (~> 5.0)
   auto_strip_attributes (~> 3.0)
   awesome_nested_set (~> 3.9.0)
-  aws-sdk-core (~> 3.261)
-  aws-sdk-s3 (~> 1.233)
+  aws-sdk-core (~> 3.264)
+  aws-sdk-s3 (~> 1.238)
   axe-core-rspec
   bcrypt (~> 3.1.22)
   brakeman (~> 8.1.0)
@@ -1919,11 +1925,11 @@ CHECKSUMS
   auto_strip_attributes (3.0.0) sha256=a8612fe3e877247813b8429eac47938177115896efbea4f9b1a2029fa7d535d8
   awesome_nested_set (3.9.0) sha256=3ce99e816550f97f4de118e621630070aacf24928b920fe4a68846578a8daaed
   aws-eventstream (1.4.1) sha256=ceb6a99c61df4bb00344e54aed0351574beca24f87a0d1487d1d2ed80929ce96
-  aws-partitions (1.1300.0) sha256=e3cc87a4ffe875d7326e6b9f5fe696ff9a59632227f3252061dcba1782664924
-  aws-sdk-core (3.261.0) sha256=db5499a701378d1113458e1d6ea3e9d61436f998d0449b67298821bcdcd2eab6
-  aws-sdk-kms (1.135.0) sha256=8879a194c716a9ee0df14b59c6bf27c7b6879fc251e206262a781d49a8455475
-  aws-sdk-s3 (1.235.0) sha256=e42c1d4ee18014fe0b7d92267e97f20bb02634e35aa604443f76869255be5660
-  aws-sdk-sns (1.124.1) sha256=f78499f39780b680284b3105982d9abeb67c090c220787c740821448fb42adb0
+  aws-partitions (1.1305.0) sha256=dbcf06fd557d111f8bba82180b8f32317f756516c40f3df72bdf94851ffbfa96
+  aws-sdk-core (3.264.0) sha256=57c42dfa45f874e6b5e39c0cd9b1565cb4a506bb0900a88324d7fa58148f5af1
+  aws-sdk-kms (1.139.0) sha256=23406b8124f560d792f013689ec1cf28aa88f017f2fde4741f93285ccaa8e884
+  aws-sdk-s3 (1.238.0) sha256=7cb7a003051e02549caa3bef7f25ab5537fcf83d2e0bf1ec51c557db94ddaa18
+  aws-sdk-sns (1.127.0) sha256=7e2e18251dfe4ed36db274b9891eb40b548fa2bb9d2d4e8ef5a0690764f09afd
   aws-sigv4 (1.12.1) sha256=6973ff95cb0fd0dc58ba26e90e9510a2219525d07620c8babeb70ef831826c00
   axe-core-api (4.14.0) sha256=61fa8065b6643d3faa82527220fafff5b80d3beed4a19c198782f415d8ad8ac0
   axe-core-rspec (4.14.0) sha256=c4dc9afc16a82bcbb4351955f12c4ff60ceb9a71307d9b56226ee2f692e06c6d
@@ -1955,6 +1961,7 @@ CHECKSUMS
   color_conversion (0.1.2) sha256=99bea5fa412e1527a11389975aa6ad445ff8528ebae202c11d08c45ea2b94c96
   colored (1.2) sha256=9d82b47ac589ce7f6cab64b1f194a2009e9fd00c326a5357321f44afab2c1d2c
   colored2 (4.0.3) sha256=63e1038183976287efc43034f5cca17fb180b4deef207da8ba78d051cbce2b37
+  commonmarker (2.10.1) sha256=924a972223dab8701cd01ed66bb5fda208ad17a4a566c0b7cdc4a78772e9f845
   commonmarker (2.10.1-aarch64-linux) sha256=3ab9e7027d2350364bdc541680cc28e21011b2950abf7d08ac29093fa691bdc3
   commonmarker (2.10.1-aarch64-linux-musl) sha256=98e6d1a03ba708438d804702e3c25f3423bff21a1e9975280eb265d889677dfc
   commonmarker (2.10.1-arm-linux-gnu) sha256=dc1ce6cfe5547d2814351ef306d5d1dd05f9c08ad405c76baa94748326c83b7f
@@ -2120,6 +2127,7 @@ CHECKSUMS
   mime-types-data (3.2026.1020) sha256=6b3bcc776c1e3591267727700467e02fb9c12b503fcce4e0e964516d7c1e0d06
   mini_magick (5.4.0) sha256=f120af581d9ed4ec52c57f35a67a605d112bb1d8f582d1415b147fda42d11d78
   mini_mime (1.1.5) sha256=8681b7e2e4215f2a159f9400b5816d85e9d8c6c6b491e96a12797e798f8bccef
+  mini_portile2 (2.8.9) sha256=0cd7c7f824e010c072e33f68bc02d85a00aeb6fce05bb4819c03dfd3c140c289
   minitest (6.0.6) sha256=153ea36d1d987a62942382b61075745042a2b3123b1cd48f4c3675af9cc7d6f1
   msgpack (1.8.7) sha256=dfefec761b5f9047e6e8d95d2c7f8af4b3725d984a01942adc533aa819a2df33
   multi_json (1.21.2) sha256=245531eaf54bdba57aba515ff08b4503505c5e09911daa89c5a561e2f85bea8e
@@ -2134,6 +2142,7 @@ CHECKSUMS
   net-protocol (0.4.0) sha256=f9f90c8c6f64794a45160bf422177a336db12809de3beeeaa26b88fcd2e8c853
   net-smtp (0.5.2) sha256=35103cc04d6b2d94632f9928ede07483c24b70b9c0db1f231fea43909b678f3c
   nio4r (2.7.5) sha256=6c90168e48fb5f8e768419c93abb94ba2b892a1d0602cb06eef16d8b7df1dca1
+  nokogiri (1.19.7) sha256=abe94507c54cb18f872777b16bdca4aad32b1abdc4c52fe843f1c80fbdf992b8
   nokogiri (1.19.7-aarch64-linux-gnu) sha256=8f5e15d299602456406e1f03a9f3456cceb33a0722811e818d2ee2214eb4c84a
   nokogiri (1.19.7-aarch64-linux-musl) sha256=efe0c3602e6e54521bc21c681930ce5568e2d11203de17400710b2b3ca2e4cb4
   nokogiri (1.19.7-arm-linux-gnu) sha256=7fd1907125691aa89e838cc91161761c758b4e17bb32f0dd9b5515a82cc759af
@@ -2332,7 +2341,7 @@ CHECKSUMS
   rexml (3.4.4) sha256=19e0a2c3425dfbf2d4fc1189747bdb2f849b6c5e74180401b15734bc97b5d142
   rinku (2.0.6) sha256=8b60670e3143f3db2b37efa262971ce3619ec23092045498ef9f077d82828d7d
   roar (1.2.0) sha256=8db4d1ca79c57a5fb746c16c0d5661d7c3e0de3d9553dc016a88d2dba2929d08
-  rotp (6.3.0) sha256=75d40087e65ed0d8022c33055a6306c1c400d1c12261932533b5d6cbcd868854
+  rotp (6.4.0) sha256=e2de8e0dfda5729b430f384e6233432bf0402c4f57ca270fa0cc1b5a42ed49f2
   rouge (5.1.0) sha256=b77c632842ab7f5147940212f0345808cccfbce864fd5b631d7d12a35ac85452
   rspec (3.13.2) sha256=206284a08ad798e61f86d7ca3e376718d52c0bc944626b2349266f239f820587
   rspec-core (3.13.6) sha256=a8823c6411667b60a8bca135364351dda34cd55e44ff94c4be4633b37d828b2d
@@ -2440,7 +2449,7 @@ CHECKSUMS
   zeitwerk (2.8.3) sha256=2c85125a8467ce069e20123d1e709a08955c9d29c118c25b46b7b7fafdbb92e5
 
 RUBY VERSION
-  ruby 4.0.9
+  ruby 4.0.10
 
 BUNDLED WITH
   4.0.24

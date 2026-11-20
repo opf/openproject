@@ -263,5 +263,31 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
         expect(page).to have_field("custom_field_allow_additional_project_values_allow", disabled: true)
       end
     end
+
+    context "with values projects have added", with_ee: %i[project_specific_list_values] do
+      let(:model) do
+        create(:list_wp_custom_field, :project_specific_blocklist, possible_values: %w[A], allow_additional_project_values:)
+          .tap do |custom_field|
+            project = create(:project)
+            custom_field.custom_options.create!(value: "Own", project:)
+            custom_field.custom_options.create!(value: "Other", project:)
+            custom_field.custom_options.create!(value: "Foreign", project: create(:project))
+          end
+      end
+
+      it "warns that the values remain while project admins can no longer add values" do
+        expect(page).to have_css("[data-test-selector='remaining-project-values-warning']",
+                                 text: "2 projects already have 3 project-specific values.",
+                                 count: 1)
+      end
+
+      context "when project admins can add values" do
+        let(:allow_additional_project_values) { true }
+
+        it "does not warn" do
+          expect(page).to have_no_css("[data-test-selector='remaining-project-values-warning']", visible: :all)
+        end
+      end
+    end
   end
 end

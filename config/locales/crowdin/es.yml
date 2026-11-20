@@ -542,6 +542,7 @@ es:
         ancestor: Descendientes de
         begin_deletion: Inicio de la eliminación
         begin_insertion: Inicio de la inserción
+        categories: Categories
         children: Subelementos
         derived_done_ratio: "% total completado"
         derived_remaining_hours: Trabajo restante total
@@ -734,6 +735,7 @@ es:
             required:
               cannot_be_true: no se puede establecer como verdadero.
             value:
+              parent_only_in_project: cannot be made available to all projects, as its parent is only available in this project.
               required_by_project_values: cannot be disabled, as the project added values below it.
           previous_custom_field_recalculation_unprocessed: El recálculo de los cambios anteriores para este campo personalizado aún no se ha aplicado. Inténtalo de nuevo en unos minutos.
           referenced_in_other_fields_html:
@@ -806,8 +808,6 @@ es:
             name:
               blank: es obligatorio. Por favor, seleccione un nombre.
               not_unique: ya está en uso. Por favor, seleccione otro nombre.
-        jira:
-          invalid_protocol: Proporcione un protocolo válido (http o https)
         label:
           attributes:
             name:
@@ -1122,6 +1122,8 @@ es:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: no puede ser un hito porque este paquete de trabajo tiene elementos secundarios.
+          categories_only_allow_single_value: Categories can only hold a single value.
+          category_and_categories_mutually_exclusive: Category and categories cannot be set to different values at the same time.
           is_not_a_valid_target_for_time_entries: 'Paquete de trabajo #%{id} no es un objetivo válido para reasignar las entradas de tiempo.'
           readonly_status: El paquete de trabajo está en un estado de sólo lectura por lo que sus atributos no se pueden cambiar.
           target_versions_only_allow_single_value: Las versiones de destino solo pueden tener un único valor.
@@ -1462,7 +1464,6 @@ es:
           description: Su comentario será visible para cualquier persona que pueda acceder a este paquete de trabajo. ¿Seguro que desea hacerlo?
           heading: "¿Hacer público este comentario?"
           title: "¿Hacer público este comentario?"
-        internal_journal: Los comentarios internos son visibles para un grupo limitado de miembros.
         label_activity_hide_meetings: Ocultar las actualizaciones de las reuniones
         label_activity_show_all: Mostrar todo
         label_activity_show_only_changes: Mostrar solo los cambios
@@ -1643,7 +1644,7 @@ es:
         contribution_callout: 'Le rogamos que nos ayude a mejorar el Migrador de Jira con sus comentarios y aportando datos privados. Puede [unirse a la comunidad de desarrollo](link) del Migrador de Jira.
 
           '
-        description: Este Migrador de Jira se encuentra actualmente en fase beta. En este momento solo es compatible con las versiones 10.x y 11.x de Jira Server/Data Center. Por el momento, no es compatible con instancias en la nube.
+        description: The Jira Migrator is currently in beta. We support Jira Server/Data Center versions 8.x, 9.x, 10.x and 11.x. Cloud instances are not supported at this time.
         title: Beta - ¡Pruébelo!
       basic_auth_password_deleted: Basic auth password was successfully deleted.
       blank:
@@ -1657,7 +1658,6 @@ es:
         connection_timeout: 'La conexión con el servidor de Jira ha expirado: %{message}'
         parse_error: 'Error al analizar la respuesta de la API de Jira: %{message}'
         ssl_error: 'Error SSL al conectarse al servidor de Jira: %{message}'
-        ssrf_block_doc_link: Consulta nuestra [documentación](docs_url).
         ssrf_blocked: 'Conexión bloqueada: el servidor de Jira corresponde a una dirección IP privada. Si tu instancia de Jira se ejecuta en una red interna, permite su IP mediante la variable de entorno OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
         unsupported_endpoint: La API de Jira no tiene ningún punto de conexión en %{path} (estado %{status})
       columns:
@@ -1670,6 +1670,45 @@ es:
       configuration:
         new: Nueva configuración
         title: Configuración de Jira
+      connection_check:
+        authorization:
+          administrator: Jira administrator
+          credentials_accepted: Credentials accepted
+          header: Authorization
+        configuration:
+          credentials_present: Credentials
+          header: Configuration
+          url_valid: Jira URL
+        dialog:
+          button_continue: Continue anyway
+          button_fix: Fix configuration
+          failure:
+            description_html: The configuration is saved, but the check <strong>%{check}</strong> failed. You can continue, but fetching data will fail until this is fixed.
+            title: Connection check failed
+        errors:
+          api_error: Jira answered with HTTP status %{status}. Check the URL and that Jira is running.
+          basic_auth_password_missing: No password is entered for basic auth.
+          basic_auth_username_missing: No username is entered for basic auth.
+          credentials_rejected: Jira rejected the credentials. Check that they are correct and have not expired.
+          invalid_response: The server at this URL did not answer with JSON. Check the URL.
+          invalid_url: Enter a valid URL that starts with http:// or https://.
+          not_administrator: The Jira user behind these credentials is not a Jira administrator. Use the credentials of a Jira administrator.
+          not_found: The server at this URL has no Jira API. Check the URL.
+          not_jira: The server at this URL did not answer like Jira. Check the URL.
+          personal_access_token_missing: No personal access token is entered.
+          ssl_error: The secure connection to Jira failed. Check that the Jira certificate is valid and trusted by OpenProject.
+          ssrf_blocked: The Jira host resolves to a private IP address, which OpenProject blocks. If Jira runs on an internal network, add its IP address to the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable and restart OpenProject.
+          timeout: Jira did not answer in time. Check the URL and that OpenProject can reach the Jira server.
+          unexpected_error: Jira answered in a way OpenProject did not expect. Check that the URL points to Jira.
+          unreachable: Jira could not be reached. Check the URL and that OpenProject can reach the Jira server.
+        form_values_checked: Checked the values in the form. They are not saved yet.
+        last_check: 'Last check: %{datetime}'
+        not_checked: Not checked yet.
+        server:
+          header: Jira server
+          reachable: Server reachable
+          responds_as_jira: Responds as Jira
+        title: Connection check
       description: Utilice esta herramienta para importar datos desde su instancia de Jira. Puede configurar varios hosts de Jira y elegir qué importar en cada ejecución de importación.
       errors:
         cannot_delete_with_imports: No se puede eliminar el host de Jira con importaciones existentes
@@ -1714,6 +1753,7 @@ es:
         blank:
           description: Cree una ejecución de importación para comenzar a importar información de esta instancia de Jira
           title: Aún no se han configurado ejecuciones de importación
+        connection_check_error: The connection check failed, so no data was fetched. The side panel shows what failed.
         history: Historial
         import_blocked_error: Actualmente hay otra importación de Jira en curso o pendiente de revisión. Complétela o revierta antes de iniciar una nueva importación.
         index:
@@ -1771,9 +1811,6 @@ es:
             title: Fetching meta data about selected projects
           JiraRevertImportJob:
             title: Reverting this Jira import run
-        not_administrator_error:
-          basic: Jira configuration uses a basic auth user without administrator permissions. Migration needs a Jira administrator to run successfully. Please edit configuration with an administrator's credentials and try again.
-          bearer: Jira configuration uses a user Personal Access Token. Migration needs an admin Personal Access Token to run successfully. Please edit configuration with an admin token and try again.
         project_identifier_taken: 'Estás intentando importar un proyecto con un identificador que ya está en uso: %{taken_identifier}. Actualiza el identificador del proyecto en Jira y, a continuación, haz clic en «Reintentar».'
         remove_error: No se puede eliminar una importación de Jira mientras se está ejecutando
         side_panel:
@@ -1925,17 +1962,22 @@ es:
                 other: "%{count} proyectos seleccionados como ámbito"
               description: Seleccione los datos que desea importar de entre los datos disponibles obtenidos de la instancia de host de Jira.
               elements:
+                configuration_mapping: Configuration & Mapping options
                 custom_fields: Un subconjunto de campos personalizados
                 issue_details: Issue identifiers, description, history, comments and attachments
                 issues: Incidencias
                 logged_time: Logged time
                 permissions: Permisos
+                plugin_migration: Plug-in migration
                 project_details: Project identifiers, description and versions
+                project_specific_custom_fields: Project-specific custom fields
                 projects: Proyectos
                 relations: Relaciones entre incidencias
                 schemes: Esquemas
+                security_level: Security Level
                 sprints: Sprints and sprint assignments
                 users: Usuarios y grupos implicados
+                workflow_migration: Workflow migration
                 workflows: Flujos de trabajo a nivel de proyecto
               label_coming_later: Más tarde
               label_coming_soon: Próximamente
@@ -1994,19 +2036,9 @@ es:
               rest_line_text: Creating parent-child relations from subtasks for %{projects_number} more projects
               title: Create parent-child relations from subtasks
       test:
-        api_error: Jira API returned error status %{status}. Please check your Jira instance URL and credentials.
         basic_auth_password_invalid: Invalid basic auth password. Please check your credentials in the configuration.
         basic_auth_username_invalid: Invalid basic auth username. Please check your credentials in the configuration.
-        connection_error: 'Error de conexión: %{message}'
-        error: Se ha producido un error inesperado al probar la conexión
-        failed: 'Error de conexión: no se ha podido recuperar la información del servidor'
-        invalid_url: Proporcione una URL válida
-        not_administrator:
-          basic: Basic auth user must be a Jira administrator.
-          bearer: Personal Access Token must be an admin token.
-        parse_error: Error al analizar la respuesta del servidor. Puede que el servidor no sea una instancia válida de Jira.
         personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
-        success: Se ha conectado con éxito a %{server} (versión %{version})
       title: Migrador Jira
       user:
         unknown_name: Desconocido
@@ -2412,6 +2444,8 @@ es:
     quarantined_message: Se ha detectado un virus en el archivo «%{filename}». Se ha puesto en cuarentena y no está disponible para su descarga.
   api_v3:
     attributes:
+      category:
+        deprecated: 'Deprecated: this single-valued field is being replaced by `categories`. Read and write `categories` instead. While multiple categories is not enabled, `categories` accepts at most one value and must not be written together with `category` in the same request.'
       property: Propiedad
       version:
         deprecated: 'Obsoleto: este campo de valor único se sustituirá por ''targetVersions''. Utiliza ''targetVersions'' para leer y escribir. Mientras no esté habilitada la opción de versiones múltiples, ''targetVersions'' solo admite un valor como máximo y no se debe incluir junto con ''version'' en la misma solicitud.'
@@ -2895,13 +2929,17 @@ es:
       notice:
         remember_items_and_projects: Remember to set values for this custom field, and to make sure it is used in at least one project.
       projects:
-        changes_heading: Important changes
-        changes_text: 'Starting version 18.0, custom fields are no longer enabled or disabled at a project level. They are included in forms, which are then used in different types and variants. The following list shows projects that use types or variants using forms including this custom field.
-
-          '
+        additional_values_disabled_notice: Project admins can no longer add values to this custom field. Existing project-specific values stay available.
+        additional_values_disabled_project_notice: Project admins can no longer add values to this custom field. However, existing project-specific values are still available and can be enabled or disabled.
         configure: Configure project-specific values for %{project}
+        delete_value_dialog:
+          description: This action will irreversibly remove the value from %{project}. Any assigned values will be permanently deleted.
+          heading: Delete project-specific value?
+          title: Delete project-specific value
         disable_all: Desactivar todo
-        editing_values_notice: You are currently editing the list of values visible for this custom field in the project [%{project}](project_url).
+        edit_value: Edit value
+        editing_values_notice_html: You are editing the values of <strong>%{custom_field}</strong> in [%{project}](project_url).
+        editing_values_project_admins_notice: Project admins of this project can change these values too.
         empty_state:
           description: Add this custom field to the form of a type that is used in a project.
           title: No project uses this custom field
@@ -2914,10 +2952,25 @@ es:
         filter_no_results:
           description: Change the filters to see more projects.
           title: No projects match this filter
+        global_values_column: Global values
+        make_available_to_all_projects: Make available to all projects
+        make_available_to_all_projects_confirm: Make “%{value}” available to all projects?
+        new_value: Value
+        project_admins_manage_notice: Project admins can manage the values of this custom field in their projects. You can review and adjust any project below.
+        project_specific_values_column: Project-specific values
         quick_filter:
           all: Todos los proyectos
           with_project_specific_values: With project-specific values
         types_column: Displayed in type
+        value_actions: Value actions
+        value_dialog:
+          edit_title: Edit value
+          name: Name
+          name_caption: Only available in %{project}.
+          parent: Add to parent
+          title: Add project-specific value
+          title_with_parent: Add project-specific value to “%{parent}”
+          top_level: Top level
         values_empty_state:
           description: Add values to this custom field to choose which of them are available in this project.
           title: This custom field has no values yet
@@ -3005,6 +3058,12 @@ es:
       label_with_project: 'Project-specific: %{project}'
       project_admins:
         additional_values_caption: Added values are only available in the project they were created in. You can make them available to all projects later.
+        remaining_values_count:
+          one: 1 project-specific value
+          other: "%{count} project-specific values"
+        remaining_values_warning:
+          one: 1 project already has %{values}. They remain available in that project but project admins can no longer add new ones unless ‘%{setting}’ is checked.
+          other: "%{count} projects already have %{values}. They remain available in those projects but project admins can no longer add new ones unless ‘%{setting}’ is checked."
         value_management_caption: Project admins can enable or disable certain values for their project. All global values will be visible to them.
       switch_warning:
         all: All values will be available in all projects.
@@ -3742,7 +3801,7 @@ es:
           caption: Use an existing form for this type with a pre-defined set of attribute groups.
           label: Use an existing form
         new:
-          caption: Arrange the attribute groups of a new form for this type.
+          caption: Manually define a new set of sections and fields to display for this variant.
           label: Configure a new form
   forums:
     index:
@@ -5845,6 +5904,10 @@ es:
   permission_manage_user: Editar usuarios
   permission_manage_versions: Administrar versiones
   permission_manage_wiki: Administrar wiki
+  permission_manage_work_package_custom_field_values: Manage work package custom field values
+  permission_manage_work_package_custom_field_values_explanation: 'Select which values of work package custom fields are available in the project and, if the custom field allows it, add values that are only available to that project.
+
+    '
   permission_manage_work_package_relations: Gestionar las relaciones del paquete de trabajo
   permission_manage_working_times: Gestiona los horarios de trabajo de todos los usuarios
   permission_manage_working_times_explanation: 'Permite gestionar los horarios de trabajo de todos los usuarios, incluidos los días libres personales.
@@ -6040,7 +6103,7 @@ es:
     phase_status:
       description:
         completed: Marking a phase as complete will complete all previous phases.
-        in_progress: Marking a phase as complete will complete all previous phases.
+        in_progress: Marking a phase as in progress will complete all previous phases and open all future phases.
         open: Re-opening a phase will also open all future phases.
       title:
         completed: Completado
@@ -7280,8 +7343,8 @@ es:
           type: These are the fields project members see when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
           variant: These are the fields project members see when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
         new:
-          type: These are the fields project members see when creating or editing a work package of this type. Arrange and group them in any order you like.
-          variant: These are the fields project members see when creating or editing a work package of this variant. Arrange and group them in any order you like.
+          type: These are the fields that a project member sees when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
+          variant: These are the fields that a project member sees when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
       pdf: Choose which PDF templates are available when generating the PDF of work packages that use these settings. Each template defines the layout and which attributes appear in the PDF. The first template in the list is the default.
       project_attributes: Choose which project attributes appear in work packages. Project members with permission can view and edit them in the work package's Project attributes tab.
       projects:

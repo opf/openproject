@@ -30,5 +30,11 @@
 module Meetings
   class DeleteContract < ::DeleteContract
     delete_permission :delete_meetings
+
+    protected
+
+    def authorized?
+      super && !(model.is_a?(Meeting) && model.series_template?)
+    end
   end
 end

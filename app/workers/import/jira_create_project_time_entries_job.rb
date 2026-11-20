@@ -114,8 +114,8 @@ module Import
 
     def project_user(jira_user_key)
       @project_users[jira_user_key] ||= begin
-        user = find_user(jira_user_key)
-        create_member(@project, user) unless user.is_a?(DeletedUser)
+        user = find_user(jira_user_key) || deleted_user(jira_user_key)
+        create_member(@project, user)
         user
       end
     end

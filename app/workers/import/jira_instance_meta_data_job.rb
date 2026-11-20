@@ -49,16 +49,19 @@ module Import
     def perform(jira_import_id)
       @jira_import = Import::JiraImport.find(jira_import_id)
       jira = @jira_import.jira
+      connection_check = Import::Jiras::CheckConnectionService.new(jira).call
+      return stop_after_failed_connection_check(@jira_import, connection_check.result) if connection_check.failure?
+
       @client = jira.client
-      ensure_administrator_credentials!(jira)
       @jira_import.update!(available: collect_metadata)
       @jira_import.transition_to!(:instance_meta_done)
     end
 
-    def ensure_administrator_credentials!(jira)
-      return if @client.administrator?
-
-      raise I18n.t(:"admin.jira.run.not_administrator_error.#{jira.auth_method}")
+    def stop_after_failed_connection_check(jira_import, report)
+      Rails.logger.warn "Fetching instance meta data stopped by the failed connection check"
+      jira_import.transition_to!(:instance_meta_error,
+                                 error: I18n.t(:"admin.jira.run.connection_check_error"),
+                                 failed_connection_check_id: report.id)
     end
 
     def collect_metadata

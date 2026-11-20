@@ -109,6 +109,7 @@ de:
         maintained_with_changes: Änderungen erhalten
         no_longer_meets_filter_criteria: Erfüllt Filterkriterien nicht mehr
         now_meets_filter_criteria: Erfüllt nun die Filterkriterien
+        state_at: State at
       show_changes_since: Änderungen anzeigen ab
       time: Zeit
       time_description: 'In Ihrer Ortszeit: %{datetime}'

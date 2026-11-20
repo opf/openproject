@@ -33,6 +33,9 @@ module Import
 
     self.jira_object_type = "user"
 
+    # Wiki markup fields that are migrated, so their mentions have to resolve to imported users.
+    MENTION_SOURCE_FIELDS = %w[description environment].freeze
+
     def text
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
     end
@@ -70,7 +73,7 @@ module Import
       payload
         .slice("creator", "reporter", "assignee")
         .each_value { |v| user_keys << v["key"] if v.present? }
-      collect_markup_mentions(payload["description"], mention_usernames)
+      MENTION_SOURCE_FIELDS.each { |field| collect_markup_mentions(payload[field], mention_usernames) }
     end
 
     def collect_comment_user_keys(user_keys, mention_usernames, payload)

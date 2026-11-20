@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -28,6 +30,7 @@
 module Costs
   class QueryCurrencySelect < Queries::WorkPackages::Selects::WorkPackageSelect
     include ActionView::Helpers::NumberHelper
+
     alias :super_value :value
 
     def initialize(name, options = {})
@@ -50,7 +53,7 @@ module Costs
         summable: ->(query, grouped) {
           scope = WorkPackage::MaterialCosts
                   .new(user: User.current)
-                  .add_to_work_package_collection(WorkPackage.where(id: query.results.work_packages))
+                  .add_own_costs_to_work_package_collection(WorkPackage.where(id: query.results.work_packages))
                   .except(:order, :select)
 
           Queries::WorkPackages::Selects::WorkPackageSelect
@@ -64,7 +67,7 @@ module Costs
         summable: ->(query, grouped) {
           scope = WorkPackage::LaborCosts
                   .new(user: User.current)
-                  .add_to_work_package_collection(WorkPackage.where(id: query.results.work_packages))
+                  .add_own_costs_to_work_package_collection(WorkPackage.where(id: query.results.work_packages))
                   .except(:order, :select)
 
           Queries::WorkPackages::Selects::WorkPackageSelect

@@ -176,14 +176,22 @@ Rails.application.routes.draw do
       resource :projects, controller: "projects_tab", only: %i[edit] do
         collection do
           post :enable_all, to: "projects_tab#enable_all_projects"
+        end
 
-          get :new_link
-          get :tree
-          post :link
-          delete :unlink
+        scope module: :projects_tab do
+          resource :link, only: %i[new create destroy] do
+            scope module: :links do
+              resource :deletion, only: %i[new]
+              resources :candidates, only: %i[index]
+            end
+          end
 
-          get :new_switch
-          post :switch
+          resource :switch, only: %i[new create] do
+            resource :confirmation, only: %i[new], module: :switches
+            resource :impact, only: %i[create], module: :switches
+          end
+
+          resource :menu, only: %i[show]
         end
       end
     end
@@ -599,6 +607,7 @@ Rails.application.routes.draw do
           resources :types, only: %i[index new create destroy] do
             resource :switch, only: %i[new create], controller: "types/switches" do
               resource :impact, only: :create, controller: "types/switches/impacts"
+              resource :confirmation, only: :new, controller: "types/switches/confirmations"
             end
           end
           resource :categories, only: %i[show update]
@@ -1085,15 +1094,26 @@ Rails.application.routes.draw do
 
           get :list_items
           get :projects
-          get "projects/:project_id", action: :project_values, as: :project_values
-          post "projects/:project_id/values/:value_id", action: :toggle_project_value, as: :toggle_project_value
-          post "projects/:project_id/enable_all", action: :enable_all_project_values, as: :enable_all_project_values
-          post "projects/:project_id/disable_all", action: :disable_all_project_values, as: :disable_all_project_values
 
           get :forms
           get :types_and_variants
 
           get :deletion_dialog
+        end
+
+        resources :project_specific_values,
+                  path: "projects/:project_id",
+                  controller: "/admin/settings/work_package_custom_fields/project_specific_values",
+                  only: %i[index new create edit update destroy] do
+          member do
+            post :toggle
+            post :make_global
+            get :deletion_dialog
+          end
+          collection do
+            post :enable_all
+            post :disable_all
+          end
         end
       end
 
@@ -1158,6 +1178,7 @@ Rails.application.routes.draw do
           post :test_connection
         end
         member do
+          patch :test_connection
           delete :clear_credential
         end
         resources :run, controller: "/admin/import/jira/import_runs", module: :jiras, except: %i[new index] do
