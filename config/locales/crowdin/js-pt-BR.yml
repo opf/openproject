@@ -109,6 +109,7 @@ pt-BR:
         maintained_with_changes: Mantido com alterações
         no_longer_meets_filter_criteria: Não atende mais aos critérios de filtro
         now_meets_filter_criteria: Agora atende aos critérios de filtro
+        state_at: State at
       show_changes_since: Exibir alterações desde
       time: Hora
       time_description: 'Em seu horário local: %{datetime}'

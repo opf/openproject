@@ -109,6 +109,7 @@ ms:
         maintained_with_changes: Dikekalkan dengan perubahan
         no_longer_meets_filter_criteria: Tidak lagi memenuhi kriteria penyaring
         now_meets_filter_criteria: Kini memenuhi kriteria penyaring
+        state_at: State at
       show_changes_since: Paparkan perubahan sejak
       time: Masa
       time_description: 'Dalam masa tempatan anda: %{datetime}'
