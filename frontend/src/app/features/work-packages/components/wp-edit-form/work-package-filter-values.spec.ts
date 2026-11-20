@@ -178,6 +178,76 @@ describe('WorkPackageFilterValues', () => {
     });
   });
 
+  describe('when a category filter is present', () => {
+    function addCategoryFilter(operator = '=') {
+      const category = halResourceService.createHalResourceOfClass(
+        HalResource,
+        { _type: 'Category', id: '7', _links: { self: { href: '/api/v3/categories/7', name: 'Backend' } } },
+      );
+
+      filters.push({
+        id: 'category',
+        operator: { id: operator },
+        values: operator === '=' ? [category] : [],
+      });
+    }
+
+    describe('with no categories on the work package', () => {
+      beforeEach(() => {
+        source = {
+          _type: 'WorkPackage',
+          id: '1234',
+          _links: {
+            type: { href: '/api/v3/types/1', name: 'Task' },
+          },
+        };
+
+        setupTestBed();
+      });
+
+      it('writes the multi-valued categories attribute instead of the deprecated category', () => {
+        addCategoryFilter();
+        subject.applyDefaultsFromFilters(changeset);
+
+        expect(changeset.changedAttributes).toContain('categories');
+        expect(changeset.changedAttributes).not.toContain('category');
+
+        const written = changeset.value<HalResource[]>('categories');
+        expect(written.length).toEqual(1);
+        expect(written[0].href).toEqual('/api/v3/categories/7');
+      });
+    });
+
+    describe('with the category already assigned', () => {
+      beforeEach(() => {
+        source = {
+          _type: 'WorkPackage',
+          id: '1234',
+          _links: {
+            type: { href: '/api/v3/types/1', name: 'Task' },
+            categories: [{ href: '/api/v3/categories/7', name: 'Backend' }],
+          },
+        };
+
+        setupTestBed();
+      });
+
+      it('does not change the work package', () => {
+        addCategoryFilter();
+        subject.applyDefaultsFromFilters(changeset);
+
+        expect(changeset.changedAttributes.length).toEqual(0);
+      });
+
+      it('clears the categories for a none filter', () => {
+        addCategoryFilter('!*');
+        subject.applyDefaultsFromFilters(changeset);
+
+        expect(changeset.value<HalResource[]>('categories')).toEqual([]);
+      });
+    });
+  });
+
   describe('when a filter value already exists in values', () => {
     describe('with the first type applied', () => {
       beforeEach(() => {

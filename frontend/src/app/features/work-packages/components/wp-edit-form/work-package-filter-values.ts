@@ -45,6 +45,9 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
  *   * "targetVersion" is the APIv3 name of the target_version_id filter key.
  *     PropertyNameConverter strips the _id suffix, so the filter id is singular
  *     even though the attribute it writes is a collection.
+ *
+ * The category filter writes the multi-valued categories attribute, as the
+ * single category attribute is absent from the schema with multiple categories.
  */
 export function attributeNameForFilter(filterId:string):string {
   switch (filterId) {
@@ -55,6 +58,8 @@ export function attributeNameForFilter(filterId:string):string {
       return 'targetVersions';
     case 'observedInVersion':
       return 'observedInVersions';
+    case 'category':
+      return 'categories';
     default:
       return filterId;
   }
@@ -210,6 +215,6 @@ export class WorkPackageFilterValues {
   }
 
   private isMultiValueAttribute(attributeName:string):boolean {
-    return attributeName === 'targetVersions' || attributeName === 'observedInVersions';
+    return ['targetVersions', 'observedInVersions', 'categories'].includes(attributeName);
   }
 }
