@@ -112,7 +112,7 @@ To add a new color to the default colors, click the green **+ Add** button at th
 
 Add a name for your new color, and enter the Hexcode. A contrast preview of your newly defined color appears on the right side to show you how the color appears in the **light mode**, **dark mode**, when used as a **foreground**, and as a **background**.
 
-At the bottom of each section of the contrast preview, a green check is displayed if it passes the readability test, while an x Fail icon indicates poor text readability. Edit the Hexcode to your desired color and Click **Save**.
+At the bottom of each section of the contrast preview, a green **Pass** check is displayed if it passes the readability test, while a red **x Fail** indicates poor text readability. Edit the Hexcode to your desired color and Click **Save**.
 
 > [!NOTE]
 >
