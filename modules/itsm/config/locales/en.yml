@@ -115,8 +115,8 @@ en:
     helpdesk_mailer:
       confirmation:
         greeting: Hello %{name},
+        next_steps: We will get back to you as soon as possible.
         received: 'we have received your request "%{subject}" and recorded it as %{id}.'
-        reply: To add information to your request, reply to this email.
   label_email_without_subject: "(no subject)"
   label_helpdesk: Help desk
   label_helpdesk_role: Help desk
