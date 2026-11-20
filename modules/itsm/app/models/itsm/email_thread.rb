@@ -38,6 +38,9 @@ module ITSM
     validates :work_package, uniqueness: true
     validates :requester_email, presence: true
 
+    scope :in_project, ->(project) { joins(:work_package).where(work_packages: { project_id: project.id }) }
+    scope :with_participant, ->(address) { where(requester_email: address).or(where("? = ANY(recipients)", address)) }
+
     def sent_confirmation = messages.outbound.sent.order(:id).first
 
     def unsent_confirmation = messages.outbound.where.not(status: :sent).order(:id).first_or_initialize
