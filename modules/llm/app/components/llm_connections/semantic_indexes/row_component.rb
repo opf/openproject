@@ -208,7 +208,7 @@ module LlmConnections
         end
       end
 
-      def delete_locked? = active? || semantic_index.indexing?
+      def delete_locked? = semantic_index.indexing?
 
       def delete_item(menu)
         return locked_delete_item(menu) if delete_locked?
@@ -234,14 +234,8 @@ module LlmConnections
           content_arguments: { data: { controller: "async-dialog" } }
         ) do |item|
           item.with_leading_visual_icon(icon: :trash)
-          item.with_tooltip(text: locked_delete_tooltip)
+          item.with_tooltip(text: I18n.t("admin.semantic_indexes.menu.locked_while_indexing"))
         end
-      end
-
-      def locked_delete_tooltip
-        return I18n.t("admin.semantic_indexes.menu.locked_while_active") if active?
-
-        I18n.t("admin.semantic_indexes.menu.locked_while_indexing")
       end
     end
   end

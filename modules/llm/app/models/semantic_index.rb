@@ -32,7 +32,7 @@ class SemanticIndex < ApplicationRecord
 
   INDEXABLE_STATES = %w[not_indexed failed ready].freeze
 
-  has_many :llm_feature_bindings, dependent: :restrict_with_error
+  has_many :llm_feature_bindings, dependent: :nullify
 
   enum :state, {
     not_indexed: "not_indexed",

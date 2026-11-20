@@ -312,7 +312,7 @@ RSpec.describe "Admin semantic indexes", :skip_csrf,
       expect(candidate_row).to have_test_selector("llm-semantic-index--activate-#{candidate.id}")
     end
 
-    it "names both Semantic Indexes in the confirmation dialog" do
+    it "names both semantic indexes in the confirmation dialog" do
       get activation_dialog_semantic_index_path(candidate), headers: turbo_headers
 
       expect(response).to have_http_status(:ok)
@@ -328,11 +328,14 @@ RSpec.describe "Admin semantic indexes", :skip_csrf,
       expect(SemanticIndex.semantic_search_binding.semantic_index).to eq(candidate)
     end
 
-    it "refuses to delete the active semantic index" do
+    it "deletes the active semantic index and switches off semantic search" do
       delete semantic_index_path(current)
 
-      expect(flash[:error]).to include(I18n.t("activerecord.errors.models.semantic_index.attributes.base.active"))
-      expect(SemanticIndex.exists?(current.id)).to be(true)
+      expect(response).to redirect_to(llm_feature_bindings_path)
+      expect(flash[:notice]).to eq(I18n.t(:notice_successful_delete))
+      expect(SemanticIndex.exists?(current.id)).to be(false)
+      expect(SemanticIndex.active).to be_nil
+      expect(connection.feature_bindings.find_by(feature_key: "semantic_search").semantic_index_id).to be_nil
     end
   end
 
