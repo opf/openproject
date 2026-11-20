@@ -41,9 +41,14 @@ module ITSM
       @headers ||= begin
         values = header_values.transform_values { valid_utf8(it) }
         Headers.new(**values,
+                    from_address: email_addresses(Array(values[:from_address])).first,
                     to_addresses: email_addresses(values[:to_addresses]),
                     cc_addresses: email_addresses(values[:cc_addresses]))
       end
+    end
+
+    def text
+      @text ||= body_text.gsub(/\r\n?/, "\n").strip
     end
 
     private
@@ -68,6 +73,23 @@ module ITSM
     def from_name
       field = mail[:from]&.field
       field.display_names.first if field.is_a?(Mail::FromField)
+    end
+
+    def body_text
+      return part_text(mail) unless mail.multipart?
+
+      parts = body_parts("text/plain").presence || body_parts("text/html")
+      parts.map { part_text(it).strip }.compact_blank.join("\n\n")
+    end
+
+    def body_parts(mime_type) = mail.all_parts.select { it.mime_type == mime_type && !it.attachment? }
+
+    def part_text(part)
+      case part.mime_type
+      when nil, "text/plain" then valid_utf8(part.decoded.to_s)
+      when "text/html" then HtmlToText.call(valid_utf8(part.decoded))
+      else ""
+      end
     end
 
     def email_addresses(addresses) = addresses.select { EmailValidator.valid?(it) }
