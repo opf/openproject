@@ -124,7 +124,7 @@ module Activities
 
       Journal
         .includes(:data, :customizable_journals, :attachable_journals, :target_version_journals, :label_journals,
-                  :observed_in_version_journals, :bcf_comment)
+                  :external_link_journals, :observed_in_version_journals, :bcf_comment)
         .find(journal_ids)
         .then { |journals| ::API::V3::Activities::ActivityEagerLoadingWrapper.wrap(journals) }
         .index_by(&:id)
