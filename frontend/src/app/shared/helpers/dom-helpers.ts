@@ -307,8 +307,12 @@ export function setInputFiles(input:HTMLInputElement, file:File):void {
  * @param fallback returned when the property is not set, as it is not in a document that has yet
  *   to be styled.
  */
-export function getCSSVariable(variable:string, fallback = ''):string {
-  return getComputedStyle(document.body).getPropertyValue(variable).trim() || fallback;
+export function getCSSVariable(
+  variable:string,
+  fallback = '',
+  styles = getComputedStyle(document.body),
+):string {
+  return styles.getPropertyValue(variable).trim() || fallback;
 }
 
 /**
