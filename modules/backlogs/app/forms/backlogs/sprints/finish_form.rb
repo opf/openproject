@@ -88,7 +88,7 @@ module Backlogs
                             input_width: :medium,
                             label: label("select_sprint_label")) do |select|
             available_sprints.each do |s|
-              select.option(label: s.name, value: s.id)
+              select.option(label: helpers.truncate(s.name, length: 50), value: s.id, title: s.name, "aria-label": s.name)
             end
           end
         end
