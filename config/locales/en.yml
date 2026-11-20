@@ -1431,6 +1431,7 @@ en:
       activity_tab:
         changed: "changed"
         changed_on: "changed on"
+        comment_mode: "Comment type"
         commented: "commented"
         created: "created"
         created_on: "created this on"
@@ -1452,6 +1453,7 @@ en:
         label_who: Who?
         no_results_description_text: 'Choose "Show everything" to show all activity and comments'
         no_results_title_text: No activity to display
+        public_comment: Public comment
         unsaved_changes_confirmation_message: "Are you sure you want to dismiss your comment? The content that you have written will be lost."
 
   activity:

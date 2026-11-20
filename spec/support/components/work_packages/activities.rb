@@ -102,14 +102,16 @@ module Components
       end
 
       def expect_internal_comment_checked
-        page.within_test_selector("op-work-package-journal-form-element") do
-          expect(page).to have_checked_field("Internal comment")
-        end
+        expect_comment_mode("Internal comment")
       end
 
       def expect_internal_comment_unchecked
-        page.within_test_selector("op-work-package-journal-form-element") do
-          expect(page).to have_no_checked_field("Internal comment")
+        expect_comment_mode("Public comment")
+      end
+
+      def expect_comment_mode(label)
+        page.within_test_selector("op-work-package-journal-comment-mode") do
+          expect(page).to have_button(label)
         end
       end
 
@@ -368,13 +370,18 @@ module Components
       end
 
       def check_internal_comment_checkbox
-        expect(page).to have_test_selector("op-work-package-journal-internal-comment-checkbox")
-        page.check("Internal comment")
+        select_comment_mode("Internal comment")
       end
 
       def uncheck_internal_comment_checkbox
-        expect(page).to have_test_selector("op-work-package-journal-internal-comment-checkbox")
-        page.uncheck("Internal comment")
+        select_comment_mode("Public comment")
+      end
+
+      def select_comment_mode(label)
+        page.within_test_selector("op-work-package-journal-comment-mode") do
+          page.find("button[aria-haspopup]").click
+          page.find("[role=menuitemradio]", text: label).click
+        end
       end
 
       def dismiss_comment_editor_with_esc

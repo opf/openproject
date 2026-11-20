@@ -34,6 +34,9 @@ module WorkPackages
     # flags. Callers handle the returned ServiceResult; this owns how a comment is
     # written.
     class CommentService
+      PUBLIC_MODE = "public"
+      INTERNAL_MODE = "internal"
+
       def initialize(work_package:, user:, params:)
         @work_package = work_package
         @user = user
@@ -44,6 +47,7 @@ module WorkPackages
         AddWorkPackageNoteService
           .new(user:, work_package:)
           .call(note_body(internal:), send_notifications:, internal:)
+          .on_success { channel&.deliver(it.result) }
       end
 
       def update(journal)
@@ -65,7 +69,15 @@ module WorkPackages
       end
 
       def internal
-        to_boolean(journal_params[:internal], false)
+        mode == INTERNAL_MODE
+      end
+
+      def channel
+        WorkPackages::CommentChannels.find(mode)
+      end
+
+      def mode
+        journal_params[:mode].presence || PUBLIC_MODE
       end
 
       def send_notifications
@@ -73,7 +85,7 @@ module WorkPackages
       end
 
       def journal_params
-        params.expect(journal: %i[notes internal])
+        params.expect(journal: %i[notes mode])
       end
 
       def to_boolean(value, default)

@@ -113,6 +113,9 @@ en:
         greeting: Hello %{name},
         received: 'we have received your request "%{subject}" and recorded it as %{id}.'
         reply: To add information to your request, reply to this email.
+    reply_channel:
+      delivered_label: Sent to the recipients by email
+      label: Reply to recipients
   label_helpdesk: Help desk
   label_helpdesk_role: Help desk
   label_helpdesk_user: Help desk

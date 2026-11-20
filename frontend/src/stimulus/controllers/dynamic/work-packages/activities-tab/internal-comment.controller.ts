@@ -34,12 +34,13 @@ export default class InternalCommentController extends BaseController {
   declare readonly workPackagesActivitiesTabEditorOutlet:EditorController;
   private get editorOutlet() { return this.workPackagesActivitiesTabEditorOutlet; }
 
-  static targets = ['confirmationDialog', 'internalCheckbox', 'formContainer', 'learnMoreLink'];
+  static targets = ['confirmationDialog', 'modeMenu', 'formContainer', 'learnMoreLink'];
   declare readonly confirmationDialogTarget:HTMLDialogElement;
-  declare readonly internalCheckboxTarget:HTMLInputElement;
+  declare readonly modeMenuTarget:HTMLElement;
   declare readonly formContainerTarget:HTMLElement;
   declare readonly learnMoreLinkTarget:HTMLAnchorElement;
-  declare hasInternalCheckboxTarget:boolean;
+  declare hasModeMenuTarget:boolean;
+  declare hasLearnMoreLinkTarget:boolean;
 
   static classes = ['highlight', 'hidden'];
   declare readonly highlightClass:string;
@@ -62,23 +63,26 @@ export default class InternalCommentController extends BaseController {
   }
 
   onSubmitEnd(_event:CustomEvent):void {
-    this.updateInternalState({ persist: false });
+    this.selectMode(this.modeItems[0]);
   }
 
   updateInternalState({ persist = true } = {}):void {
-    if (!this.hasInternalCheckboxTarget) return;
-
-    const isChecked = this.internalCheckboxTarget.checked;
+    const mode = this.selectedMode;
+    if (!mode) return;
 
     if (persist) {
-      this.setInternalStateWithPersistence(isChecked);
+      this.setInternalStateWithPersistence(mode);
     } else {
-      this.setInternalStateWithoutPersistence(isChecked);
+      this.setInternalStateWithoutPersistence(mode);
     }
 
-    if (isChecked) {
+    if (this.isInternal(mode)) {
       void this.sanitizeInternalMentions();
     }
+  }
+
+  selectInternalMode():void {
+    this.selectMode(this.modeItems.find((mode) => this.isInternal(mode)));
   }
 
   async isInternalValueChanged(currentValue:boolean, previousValue:boolean):Promise<void> {
@@ -94,20 +98,49 @@ export default class InternalCommentController extends BaseController {
         if (confirmed) {
           this.editorOutlet.focusEditor();
         } else {
-          this.internalCheckboxTarget.checked = true;
-          this.setInternalStateWithPersistence(this.internalCheckboxTarget.checked);
+          this.selectInternalMode();
           this.editorOutlet.focusEditor();
         }
       }
     }
   }
 
-  private setInternalStateWithPersistence(isChecked:boolean):void {
-    this.setInternalStateWithoutPersistence(isChecked);
-    this.persistInternalState(isChecked);
+  private get modeItems():HTMLElement[] {
+    if (!this.hasModeMenuTarget) return [];
+
+    return Array.from(this.modeMenuTarget.querySelectorAll<HTMLElement>('[role="menuitemradio"]'));
+  }
+
+  private get selectedMode():HTMLElement|undefined {
+    return this.modeItems.find((mode) => mode.getAttribute('aria-checked') === 'true');
+  }
+
+  private isInternal(mode:HTMLElement):boolean {
+    return mode.dataset.internal === 'true';
+  }
+
+  private highlightClassOf(mode:HTMLElement):string|undefined {
+    return this.isInternal(mode) ? this.highlightClass : mode.dataset.highlightClass;
+  }
+
+  private selectMode(mode:HTMLElement|undefined):void {
+    if (mode && mode !== this.selectedMode) mode.click();
+  }
+
+  private showIconOf(mode:HTMLElement):void {
+    const icon = mode.querySelector('.ActionListItem-visual--leading svg');
+    const buttonVisual = this.modeMenuTarget.querySelector('.Button-leadingVisual');
+
+    if (icon && buttonVisual) buttonVisual.replaceChildren(icon.cloneNode(true));
+  }
+
+  private setInternalStateWithPersistence(mode:HTMLElement):void {
+    this.setInternalStateWithoutPersistence(mode);
+    this.persistInternalState(mode);
   }
 
   private toggleLearnMoreLink(isChecked:boolean):void {
+    if (!this.hasLearnMoreLinkTarget) return;
     if (this.isMobile()) return; // hidden on mobile
 
     this.learnMoreLinkTarget.classList.toggle(this.hiddenClass, !isChecked);
@@ -160,29 +193,28 @@ export default class InternalCommentController extends BaseController {
     });
   }
 
-  private persistInternalState(isChecked:boolean):void {
+  private persistInternalState(mode:HTMLElement):void {
     try {
-      localStorage.setItem(this.storageKey, JSON.stringify(isChecked));
+      localStorage.setItem(this.storageKey, JSON.stringify(mode.dataset.value));
     } catch (error) {
       window.ErrorReporter.captureException(error as Error);
     }
   }
 
   private rescueInternalState():void {
-    if (!this.hasInternalCheckboxTarget) return;
+    if (!this.selectedMode) return;
 
-    this.persistInternalState(this.internalCheckboxTarget.checked);
+    this.persistInternalState(this.selectedMode);
   }
 
   private restoreInternalState():void {
-    if (!this.hasInternalCheckboxTarget) return;
+    if (!this.hasModeMenuTarget) return;
 
     try {
       const storedState = localStorage.getItem(this.storageKey);
       if (storedState !== null) {
-        const isChecked = JSON.parse(storedState) as boolean;
-        this.internalCheckboxTarget.checked = isChecked;
-        this.setInternalStateWithoutPersistence(isChecked);
+        const storedMode = JSON.parse(storedState) as unknown;
+        this.selectMode(this.modeItems.find((mode) => mode.dataset.value === storedMode));
         // Remove the stored state after restoration to ensure the internal comment state
         // is only persisted temporarily (e.g., across a single navigation or reload).
         // This prevents stale state from being applied unintentionally in future sessions.
@@ -193,10 +225,14 @@ export default class InternalCommentController extends BaseController {
     }
   }
 
-  private setInternalStateWithoutPersistence(isChecked:boolean):void {
-    this.formContainerTarget.classList.toggle(this.highlightClass, isChecked);
-    this.toggleLearnMoreLink(isChecked);
-    this.isInternalValue = isChecked;
+  private setInternalStateWithoutPersistence(mode:HTMLElement):void {
+    this.modeItems.forEach((other) => {
+      const highlightClass = this.highlightClassOf(other);
+      if (highlightClass) this.formContainerTarget.classList.toggle(highlightClass, other === mode);
+    });
+    this.showIconOf(mode);
+    this.toggleLearnMoreLink(this.isInternal(mode));
+    this.isInternalValue = this.isInternal(mode);
   }
 
   private get ckEditorInstance() {

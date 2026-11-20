@@ -27,18 +27,43 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackages::ActivitiesTab::Journals
-  class InternalNoteForm < ApplicationForm
-    form do |notes_form|
-      notes_form.check_box(
-        name: :internal,
-        label: I18n.t("activities.work_packages.activity_tab.internal_comment"),
-        checked: false,
-        data: {
-          "work-packages--activities-tab--internal-comment-target": "internalCheckbox",
-          action: "input->work-packages--activities-tab--internal-comment#updateInternalState"
-        }
-      )
+module ITSM
+  module OutboundEmails
+    class ReplyAvailability
+      # Will be turned on in ITSM-55 when a backend is implemented.
+      # https://community.openproject.org/wp/ITSM-55
+      BACKEND_IMPLEMENTED = false
+
+      def initialize(work_package:, user:)
+        @work_package = work_package
+        @user = user
+      end
+
+      def available?
+        BACKEND_IMPLEMENTED && helpdesk_enabled? && user_allowed? && email_thread? && outgoing_mailbox?
+      end
+
+      private
+
+      attr_reader :work_package, :user
+
+      delegate :project, to: :work_package
+
+      def helpdesk_enabled?
+        OpenProject::FeatureDecisions.helpdesk_active? && project.module_enabled?(:helpdesk)
+      end
+
+      def user_allowed?
+        user.allowed_in_work_package?(:add_work_package_comments, work_package)
+      end
+
+      def email_thread?
+        EmailThread.exists?(work_package:)
+      end
+
+      def outgoing_mailbox?
+        project.helpdesk_outgoing_mailboxes.exists?
+      end
     end
   end
 end

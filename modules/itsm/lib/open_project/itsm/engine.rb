@@ -87,6 +87,10 @@ module OpenProject::ITSM
 
     include_module "Projects::HelpdeskMailboxes", into: "Project"
 
+    config.to_prepare do
+      WorkPackages::CommentChannels.register(ITSM::OutboundEmails::ReplyChannel.new)
+    end
+
     add_cron_jobs do
       {
         "ITSM::Mailboxes::ScheduleFetchesJob": {

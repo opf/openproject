@@ -90,6 +90,20 @@
                     end
                   end
 
+                  if delivery_channel
+                    header_end_container.with_column(mr: 2) do
+                      render(
+                        Primer::Beta::Octicon.new(
+                          delivery_channel.icon,
+                          size: :small,
+                          aria: { label: delivery_channel.delivered_label },
+                          data: { test_selector: "op-journal-delivered-icon" },
+                          color: :severe
+                        )
+                      )
+                    end
+                  end
+
                   header_end_container.with_column(
                     ml: 1,
                     classes: "work-packages-activities-tab-journals-item-component--action-menu"

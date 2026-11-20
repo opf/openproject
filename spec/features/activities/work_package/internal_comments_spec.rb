@@ -146,7 +146,7 @@ RSpec.describe "Work package internal comments",
         page.find_test_selector("op-wp-journal-#{created_comment.id}-edit").click
 
         page.within_test_selector("op-work-package-journal-form-element") do
-          expect(page).not_to have_test_selector("op-work-package-journal-internal-comment-checkbox")
+          expect(page).not_to have_test_selector("op-work-package-journal-comment-mode")
           activity_tab.get_editor_form_field_element.set_value("Edited comment by member")
           page.find_test_selector("op-submit-work-package-journal-form").click
         end
@@ -196,14 +196,10 @@ RSpec.describe "Work package internal comments",
       end
 
       activity_tab.quote_comment(first_comment)
-      page.within_test_selector("op-work-package-journal-form-element") do
-        expect(page).to have_checked_field("Internal comment")
-      end
+      activity_tab.expect_internal_comment_checked
 
       activity_tab.quote_comment(external_comment)
-      page.within_test_selector("op-work-package-journal-form-element") do
-        expect(page).to have_checked_field("Internal comment")
-      end
+      activity_tab.expect_internal_comment_checked
     end
   end
 
@@ -275,6 +271,7 @@ RSpec.describe "Work package internal comments",
         activity_tab.check_internal_comment_checkbox
 
         page.within_test_selector("op-work-package-journal-form-element") do
+          expect(page).to have_css("a.mention", count: 1)
           expect(page.all("a.mention").map(&:text))
             .to contain_exactly("@Internal Viewer")
 
