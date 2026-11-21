@@ -43,7 +43,7 @@ describe('CreatedResolvedComponent', () => {
     t(key:string, options:Record<string, string|number> = {}) {
       const translations:Record<string, string> = {
         'js.created_resolved_chart.chart_label': 'Created vs. resolved chart',
-        'js.created_resolved_chart.chart_summary': `${options.from} – ${options.to}. ${options.values}.`,
+        'js.created_resolved_chart.chart_summary': `Created vs. resolved chart data: ${options.from} – ${options.to}. ${options.values}.`,
         'js.created_resolved_chart.chart_value': `${options.label}: ${options.value}`,
       };
 
@@ -137,7 +137,7 @@ describe('CreatedResolvedComponent', () => {
 
     expect(canvas).toHaveRole('img');
     expect(canvas).toHaveAccessibleName('Created vs. resolved chart');
-    expect(canvas).toHaveAccessibleDescription('10/12/2026 – 10/23/2026. Created: 5, Resolved: 1.');
+    expect(canvas).toHaveAccessibleDescription('Created vs. resolved chart data: 10/12/2026 – 10/23/2026. Created: 5, Resolved: 1.');
   });
 
   it('shows no results when every series is empty', () => {
