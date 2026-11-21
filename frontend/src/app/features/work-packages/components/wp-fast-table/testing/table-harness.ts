@@ -116,6 +116,9 @@ import { isNavigableColumn, navigableCellClassName } from '../handlers/state/key
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { EditFieldService } from 'core-app/shared/components/fields/edit/edit-field.service';
+import { initializeCoreEditFields } from 'core-app/shared/components/fields/edit/edit-field.initializer';
+import { SelectAutocompleterRegisterService } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-autocompleter-register.service';
 
 /** A relation column: `relationType` builds an `ofType` column, `children: true` the child relations column. */
 export type RelationColumnSpec = { id:string, relationType:string }|{ id:string, children:true };
@@ -162,9 +165,10 @@ export interface TableHarnessOptions {
   onDropComplete?:(success:boolean) => void;
   /**
    * Makes `fields` (default `subject`) inline-editable; `formWritable: false` has the loaded form refuse them.
+   * `types` gives a field its schema type (default `String`), which picks the production edit field class.
    * `save` stands in for the changeset save; without it every submit is an unchanged one.
    */
-  editing?:{ formWritable?:boolean; fields?:string[]; save?:() => Promise<{ resource:WorkPackageResource; wasNew:boolean }> };
+  editing?:{ formWritable?:boolean; fields?:string[]; types?:Record<string, string>; save?:() => Promise<{ resource:WorkPackageResource; wasNew:boolean }> };
   requireDoubleClickForInlineEdit?:boolean;
   /** The application-wide resource cache; pass one instance to tables that share a page. */
   states?:States;
@@ -320,9 +324,15 @@ const sumsSchemaHref = '/api/v3/work_packages/schemas/sums';
 export function buildTable(options:TableHarnessOptions):TableHarness {
   const dragService = new FakeDragAndDropService();
   const injector = createEnvironmentInjector([...harnessProviders(dragService, options), ...(options.providers ?? [])], TestBed.inject(EnvironmentInjector));
-  injector.get(DisplayFieldService)
+  const displayFields = injector.get(DisplayFieldService);
+  displayFields.defaultFieldType = 'text';
+  displayFields
     .addFieldType(TextDisplayField, 'text', ['String'])
     .addFieldType(IntegerDisplayField, 'integer', ['Integer']);
+  const editFields = injector.get(EditFieldService);
+  if (editFields instanceof EditFieldService) {
+    initializeCoreEditFields(editFields, injector.get(SelectAutocompleterRegisterService))();
+  }
   const querySpace = injector.get(IsolatedQuerySpace);
   const states = injector.get(States);
   const dom = options.dom ?? buildDom({ productionMarkup: options.productionMarkup });
@@ -621,7 +631,7 @@ class FakeEditingPortalService {
     input.className = activeFieldClassName;
     formElement.append(label, input);
     wrapper.append(formElement);
-    container.appendChild(wrapper);
+    container.replaceChildren(wrapper);
     const handler = new HalResourceEditFieldHandler(injector, form, fieldName, schema, container, injector.get(PathHelperService), errors, destroyRef);
     input.id = handler.htmlId;
     input.addEventListener('keydown', (event) => { void handler.handleUserKeydown(event); });
@@ -646,11 +656,12 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
   const editable = !!options.editing;
   const formWritable = options.editing?.formWritable ?? true;
   const editableFields = options.editing?.fields ?? ['subject'];
+  const editableTypes = options.editing?.types ?? {};
   const fieldSchema = (name:string, writable:boolean) => {
     if (name === 'id') {
       return { type: 'Integer', name: 'ID', writable: false };
     }
-    return editableFields.includes(name) ? { type: 'String', name, writable } : undefined;
+    return editableFields.includes(name) ? { type: editableTypes[name] ?? 'String', name, writable } : undefined;
   };
   const sumsSchema = buildSumsSchema(options.groups ?? []);
 
@@ -716,7 +727,8 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
         typedState: () => ({ hasValue: () => false, value: undefined }),
         stopEditing: () => undefined,
         save: options.editing?.save,
-        changeFor: () => ({
+        changeFor: (resource:WorkPackageResource) => ({
+          pristineResource: resource,
           schema: { ofProperty: (attribute:string) => fieldSchema(attribute, formWritable) ?? null },
           getForm: () => Promise.resolve(),
           reset: () => undefined,

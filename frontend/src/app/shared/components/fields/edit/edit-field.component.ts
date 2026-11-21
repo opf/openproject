@@ -44,6 +44,8 @@ export const editModeClassName = '-editing';
 
 @Directive()
 export abstract class EditFieldComponent extends Field implements OnInit, OnDestroy {
+  static readonly survivesRender:boolean = false;
+
   readonly I18n = inject(I18nService);
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   protected change = inject<ResourceChangeset<HalResource>>(OpEditingPortalChangesetToken);

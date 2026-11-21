@@ -212,7 +212,7 @@ export class SingleRowBuilder {
 
     this.augmentedColumns.forEach((column:QueryColumn) => {
       const oldTd = oldCells.find((cell) => cell.classList.contains(column.id));
-      if (oldTd && (this.retainsOnRefresh(column) || this.isColumnBeingEdited(workPackage, column, oldTd))) {
+      if (oldTd && (this.retainsOnRefresh(column) || this.isColumnBeingEdited(workPackage, column.id, oldTd))) {
         retained.set(column.id, oldTd);
       }
     });
@@ -247,10 +247,10 @@ export class SingleRowBuilder {
 
   protected isColumnBeingEdited(
     workPackage:WorkPackageResource,
-    column:QueryColumn,
+    attribute:string,
     cell:HTMLTableCellElement,
   ):boolean {
-    const field = this.workPackageTable.editing.forms[workPackage.id!]?.activeFields[column.id];
+    const field = this.workPackageTable.editing.forms[workPackage.id!]?.activeFields[attribute];
 
     return field?.element !== undefined && cell.contains(field.element);
   }
@@ -268,7 +268,7 @@ export class SingleRowBuilder {
 
       change.changedAttributes.forEach((attribute:string) => {
         const oldCell = oldRow?.querySelector<HTMLTableCellElement>(`.${tdClassName}.${attribute}`);
-        if (oldCell) {
+        if (oldCell && !this.isColumnBeingEdited(workPackage, attribute, oldCell)) {
           cells[attribute] = oldCell;
         }
       });
