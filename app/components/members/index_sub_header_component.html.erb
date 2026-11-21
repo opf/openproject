@@ -8,7 +8,7 @@
         I18n.t(:button_all_filters)
       end
 
-      if authorize_for(:members, :new)
+      if show_add_button?
         subheader.with_action_button(
           scheme: :primary,
           leading_icon: :plus,
