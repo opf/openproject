@@ -11,6 +11,7 @@ keywords: edit work packages, reminders, work package reminders, attachment, int
 | Feature                                                      | Documentation for                                            |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Update a work package](#update-a-work-package)              | How to make a change to an existing work package.            |
+| [Add a label to a work package](#add-a-label)                | How to add, create, and remove labels in work packages.      |
 | [Link to or create a new Wiki page](#link-to-or-create-a-wiki-page) | How to link a work package to an existing wiki page or create a new wiki page. |
 | [Add an internal comment (Enterprise add-on)](#internal-comments-enterprise-add-on) | How to leave work package comments with limited visibility.  |
 | [Update a work package in a table view](#update-a-work-package-in-a-work-package-table-view) | How to use the quick context menu in the work package table view. |
@@ -48,6 +49,32 @@ All changes of a work package are documented in the work package [Activity](../.
 
 > [!NOTE]
 > There is no possibility to undo changes to work packages by using Ctrl+Z combination.
+
+### Add a label
+
+Labels help you categorize work packages and are shared across all projects.
+
+To add a label, open a work package and click the **Labels** field in the work package details. Start typing to select an existing label.
+
+![Labels field in a work package showing existing labels and autocomplete suggestions](openproject_user_guide_wp_labels.png)
+
+You can assign multiple labels to a work package.
+
+#### Create a new label
+
+If the label does not exist, enter a new name in the **Labels** field and select the option to create it.
+
+> [!NOTE]
+> Creating new labels requires the appropriate permissions.
+
+![Creating a new label directly in a work package using the Labels field](openproject_user_guide_wp_labels_create.png)
+
+
+#### Remove a label
+
+To remove a label, open the **Labels** field and remove the label from the work package.
+
+For global label management, see the [system administration guide](../../../system-admin-guide/labels/).
 
 ### Link to or create a wiki page
 
