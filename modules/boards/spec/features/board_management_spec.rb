@@ -188,7 +188,7 @@ RSpec.describe "Board management spec", :js, :selenium do
 
       # Create new list
       board_page.add_list
-      board_page.rename_list "Unnamed list", "Second"
+      board_page.rename_list "Unnamed list", "Customer's requests"
 
       # Add item
       board_page.add_card "First", "Task 1"
@@ -196,7 +196,7 @@ RSpec.describe "Board management spec", :js, :selenium do
       # Expect added to query
       queries = board_page.board(reload: true).contained_queries
       first = queries.find_by(name: "First")
-      second = queries.find_by(name: "Second")
+      second = queries.find_by(name: "Customer's requests")
       expect(first.ordered_work_packages.count).to eq(1)
       expect(second.ordered_work_packages).to be_empty
 
@@ -204,10 +204,10 @@ RSpec.describe "Board management spec", :js, :selenium do
       subjects = WorkPackage.where(id: first.ordered_work_packages.pluck(:work_package_id)).pluck(:subject)
       expect(subjects).to contain_exactly("Task 1")
 
-      # Move item to Second list
-      board_page.move_card(0, from: "First", to: "Second")
+      # Move item to the second list
+      board_page.move_card(0, from: "First", to: "Customer's requests")
       board_page.expect_card("First", "Task 1", present: false)
-      board_page.expect_card("Second", "Task 1", present: true)
+      board_page.expect_card("Customer's requests", "Task 1", present: true)
 
       # Expect work package to be saved in query second
       sleep 2
@@ -220,9 +220,9 @@ RSpec.describe "Board management spec", :js, :selenium do
       expect(subjects).to contain_exactly("Task 1")
 
       # Reference an existing work package
-      board_page.reference("Second", work_package)
+      board_page.reference("Customer's requests", work_package)
       sleep 2
-      board_page.expect_card("Second", work_package.subject)
+      board_page.expect_card("Customer's requests", work_package.subject)
 
       subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject)
       expect(subjects).to contain_exactly(work_package.subject, "Task 1")
@@ -235,8 +235,8 @@ RSpec.describe "Board management spec", :js, :selenium do
 
       # Expect task to match, work_package invisible
       board_page.expect_card("First", "Task 1", present: false)
-      board_page.expect_card("Second", "Task 1", present: true)
-      board_page.expect_card("Second", work_package.subject, present: false)
+      board_page.expect_card("Customer's requests", "Task 1", present: true)
+      board_page.expect_card("Customer's requests", work_package.subject, present: false)
 
       filters.quick_filter ""
       sleep 2
@@ -244,10 +244,10 @@ RSpec.describe "Board management spec", :js, :selenium do
       expect(page).to be_axe_clean.within(".op-wp-single-card--inline-buttons")
 
       # Remove card again
-      board_page.remove_card "Second", work_package.subject, 0
+      board_page.remove_card "Customer's requests", work_package.subject, 0
 
       # Remove query
-      board_page.remove_list "Second"
+      board_page.remove_list "Customer's requests"
       queries = board_page.board(reload: true).contained_queries
       expect(queries.count).to eq(1)
       expect(queries.first.name).to eq "First"
