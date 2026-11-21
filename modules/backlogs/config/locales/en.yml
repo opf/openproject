@@ -317,11 +317,8 @@ en:
         epic_progress:
           blankslate:
             no_epics:
-              description: "The epic progress chart will appear here once the sprint has received a work package tied to an epic."
+              description: "The epic progress chart will appear here once the sprint contains work packages tied to an epic."
               heading: "No epics to display"
-            no_work:
-              description: "The epic progress chart will appear here once the sprint has received a work package tied to an epic."
-              heading: "No work to display"
           card:
             progress:
               story_points:
