@@ -43,6 +43,7 @@ en:
           delivery_failed: The email could not be sent.
           delivery_rejected: The SMTP server rejected the email.
           not_delivered: The email was not sent because all recipients are blocked or the email limit is reached.
+          unexpected_error: The email could not be sent because of an unexpected error.
         itsm/email_thread:
           address_not_allowed: The SMTP server address is not allowed.
           no_outgoing_mailbox: The project has no outgoing mailbox.
@@ -114,8 +115,8 @@ en:
     helpdesk_mailer:
       confirmation:
         greeting: Hello %{name},
+        next_steps: We will get back to you as soon as possible.
         received: 'we have received your request "%{subject}" and recorded it as %{id}.'
-        reply: To add information to your request, reply to this email.
   label_email_without_subject: "(no subject)"
   label_helpdesk: Help desk
   label_helpdesk_role: Help desk

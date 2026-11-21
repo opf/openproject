@@ -90,12 +90,11 @@ module ITSM
 
       def create_work_package(email)
         case InboundEmails::CreateWorkPackageService.new(user: helpdesk_user).call(mailbox:, email:)
+        in { success: true, result: thread } if thread.previously_new_record?
+          OutboundEmails::SendConfirmationJob.perform_later(thread)
+          remove("Added to work package ##{thread.work_package_id}")
         in { success: true, result: thread }
-          if thread.previously_new_record?
-            remove("Added to work package ##{thread.work_package_id}")
-          else
-            remove("Already in work package ##{thread.work_package_id}")
-          end
+          remove("Already in work package ##{thread.work_package_id}")
         in { failure: true, result:, errors: } if project_setup_prevents?(result, errors)
           work_package_not_created(error_codes(errors))
         in { failure: true, errors: }

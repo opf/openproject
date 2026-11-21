@@ -34,6 +34,8 @@ module ITSM
 
   def self.helpdesk_available? = OpenProject::FeatureDecisions.helpdesk_active? && Setting.helpdesk_enabled?
 
+  def self.helpdesk_available_in?(project) = helpdesk_available? && project.active? && project.module_enabled?(:helpdesk)
+
   def self.helpdesk_user = ServiceAccountAssociation.find_by(service: helpdesk_role)&.service_account
 
   def self.helpdesk_role = HelpdeskRole.first
