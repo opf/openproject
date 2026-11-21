@@ -289,17 +289,26 @@ module ApplicationHelper
     service_worker = pwa_service_worker_attributes
 
     {
-      controller: ["application auto-theme-switcher hover-card-trigger beforeunload external-links highlight-target-element",
-                   service_worker[:controller],
-                   stimulus_body_controller].compact.join(" "),
+      controller: body_stimulus_controllers(service_worker),
       relative_url_root: root_path,
       overflowing_identifier: ".__overflowing_body",
       external_links_enabled_value: Setting.capture_external_links?,
+      hotkeys_enabled_value: keyboard_shortcuts_enabled?,
       rendered_at: Time.zone.now.iso8601,
       turbo: local_assigns[:turbo_opt_out] ? "false" : nil
     }.merge(user_theme_data_attributes)
      .merge(service_worker.except(:controller))
      .compact
+  end
+
+  def body_stimulus_controllers(service_worker)
+    ["application auto-theme-switcher hover-card-trigger beforeunload external-links hotkeys highlight-target-element",
+     service_worker[:controller],
+     stimulus_body_controller].compact.join(" ")
+  end
+
+  def keyboard_shortcuts_enabled?
+    !User.current.pref.disable_keyboard_shortcuts?
   end
 
   def pwa_service_worker_attributes

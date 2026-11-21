@@ -11,47 +11,27 @@ OpenProject (since version 3.0) offers useful keyboard shortcuts to  enhance you
 
 ## Shortcuts
 
-### Regular Shortcuts
-
-- Global Search: s
-- Project Search: p
-- Go to: My page: g m
-- Open Help Page: –
-- Open regular shortcuts List: ?
-- Go to: Overview: g o
-- Go to: Work Packages: g w p
-- Go to: Wiki: g w i
-- Go to: Activity: g a
-- Go to: Calendar: g c
-- Go to: News: g n
-- Go to: Timelines: g t
-- New: Work Package: n w p
-- Go to: Edit (only on certain detail pages): g e
-- Open ‘More’ Menu (only on certain detail pages): m
-- Go to: Preview (only on edit pages): g p
-- Select previous list item (only on some lists): j
-- Select next list item (only on some lists): k
-
-### Access Keys
-
-- Global Search: 4
-- Project Search: 5
-- Go to: My page: –
-- Open Help Page: 6
-- Open regular shortcuts List: –
-- Go to: Overview: –
-- Go to: Work Packages: –
-- Go to: Wiki: –
-- Go to: Activity: –
-- Go to: Calendar: –
-- Go to: News: –
-- Go to: Timelines: –
-- New: Work Package: 2
-- Go to: Edit (only on certain detail pages): 3
-- Open ‘More’ Menu (only on certain detail pages): 7
-- Go to: Preview (only on edit pages): 1
-- Select previous list item (only on some lists): –
-- Select next list item (only on some lists): –
+| Action | Shortcut | Access key | Inside a project | Outside a project |
+| ------ | -------- | ---------- | ---------------- | ----------------- |
+| Global search | s | 4 | Focus global search | Focus global search |
+| Project search | p | 5 | Open the project select | Open the project select |
+| Go to My page | g m | – | My page | My page |
+| Open shortcuts help | ? | – | Open this page | Open this page |
+| Open help menu | – | 6 | Open the help menu | Open the help menu |
+| Go to Overview | g o | – | Project overview | Nothing |
+| Go to Work packages | g w p | – | Project work packages | Nothing |
+| Go to Wiki | g w i | – | Project wiki | Nothing |
+| Go to Activity | g a | – | Project activity | Nothing |
+| Go to Calendar | g c | – | Project calendars | Nothing |
+| Go to News | g n | – | Project news | Nothing |
+| Go to Timelines | g t | – | Nothing | Nothing |
+| New work package | n w p | 2 | n w p: new work package form. 2: open the Create menu (work package list only) | n w p: nothing. 2: open the Create menu (work package list only) |
+| Edit | g e | 3 | Nothing | Edit (placeholder user page only) |
+| Open the More menu | m | 7 | Work package full view and split view | Work package full view and split view |
+| Preview | g p | 1 | Nothing | Nothing |
+| Toggle the details view | d w p | 8 | Work package list | Work package list |
+| Select the next list item | j | – | Work package tables | Work package tables |
+| Select the previous list item | k | – | Work package tables | Work package tables |
 
 ------
 

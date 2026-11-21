@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { isTextEditable } from './interactive-element-helper';
+import { isFocusableField, isTextEditable } from './interactive-element-helper';
 
 function inputOfType(type:string):HTMLInputElement {
   const input = document.createElement('input');
@@ -83,5 +83,35 @@ describe('isTextEditable', () => {
     expect(isTextEditable(document.createElement('button'))).toBe(false);
     expect(isTextEditable(document.createElement('span'))).toBe(false);
     expect(isTextEditable(null)).toBe(false);
+  });
+});
+
+describe('isFocusableField', () => {
+  it.each(['text', 'search', 'button', 'range', 'hidden'])('focuses input type %s', (type) => {
+    expect(isFocusableField(inputOfType(type))).toBe(true);
+  });
+
+  it.each(['checkbox', 'radio', 'submit', 'reset', 'file'])('clicks input type %s', (type) => {
+    expect(isFocusableField(inputOfType(type))).toBe(false);
+  });
+
+  it('focuses a textarea and a select', () => {
+    expect(isFocusableField(document.createElement('textarea'))).toBe(true);
+    expect(isFocusableField(document.createElement('select'))).toBe(true);
+  });
+
+  it('focuses a contenteditable element', () => {
+    const editable = document.createElement('div');
+    editable.contentEditable = 'true';
+    document.body.appendChild(editable);
+
+    expect(isFocusableField(editable)).toBe(true);
+
+    editable.remove();
+  });
+
+  it('clicks a button and a link', () => {
+    expect(isFocusableField(document.createElement('button'))).toBe(false);
+    expect(isFocusableField(document.createElement('a'))).toBe(false);
   });
 });

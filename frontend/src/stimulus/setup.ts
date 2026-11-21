@@ -74,6 +74,7 @@ import { OpenProjectStimulusApplication } from 'core-stimulus/openproject-stimul
 import { Application } from '@hotwired/stimulus';
 import { BeforeunloadController } from './controllers/beforeunload.controller';
 import ExternalLinksController from './controllers/external-links.controller';
+import HotkeysController from './controllers/hotkeys.controller';
 import DisableWhenClickedController from 'core-stimulus/controllers/disable-when-clicked.controller';
 import HighlightTargetElementController from 'core-stimulus/controllers/highlight-target-element.controller';
 import SelectAutosizeController from 'core-stimulus/controllers/select-autosize.controller';
@@ -127,6 +128,7 @@ OpenProjectStimulusApplication.preregister('auto-theme-switcher', AutoThemeSwitc
 OpenProjectStimulusApplication.preregister('pwa-service-worker', PwaServiceWorkerController);
 OpenProjectStimulusApplication.preregister('theme-selector', ThemeSelectorController);
 OpenProjectStimulusApplication.preregister('external-links', ExternalLinksController);
+OpenProjectStimulusApplication.preregister('hotkeys', HotkeysController);
 OpenProjectStimulusApplication.preregister('highlight-target-element', HighlightTargetElementController);
 OpenProjectStimulusApplication.preregister('select-autosize', SelectAutosizeController);
 OpenProjectStimulusApplication.preregister('editable-page-header-title', EditablePageHeaderTitleController);

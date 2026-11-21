@@ -106,13 +106,17 @@ export function closestDragBlockingElement(el:Element|null, stopAt:Element|null 
   return null;
 }
 
-const nonTextInputTypes = new Set([
+const clickActivatedInputTypes = new Set([
   'checkbox',
   'radio',
-  'button',
   'submit',
   'reset',
   'file',
+]);
+
+const nonTextInputTypes = new Set([
+  ...clickActivatedInputTypes,
+  'button',
   'range',
   'color',
   'image',
@@ -125,6 +129,15 @@ export function isTextEditable(el:EventTarget|null):boolean {
   if (el instanceof HTMLTextAreaElement) return !el.disabled;
 
   return el.isContentEditable;
+}
+
+/** Whether a hotkey or access key focuses the element instead of clicking it, as `@github/hotkey` decides. */
+export function isFocusableField(el:HTMLElement):boolean {
+  if (el instanceof HTMLInputElement) return !clickActivatedInputTypes.has(el.type);
+
+  return el instanceof HTMLTextAreaElement
+    || el instanceof HTMLSelectElement
+    || el.isContentEditable;
 }
 
 export function isInsideDisabledControl(el:Element|null):boolean {
