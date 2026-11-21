@@ -612,9 +612,25 @@ RSpec.describe "Hierarchy item management", :skip_csrf, type: :rails_request do
           end
         end
 
-        context "with project items" do
+        context "with project items",
+                with_ee: %i[custom_field_hierarchies weighted_item_lists project_specific_list_values] do
           let(:project) { create(:project) }
           let!(:chewie) { create(:hierarchy_item, parent: root, label: "Chewie", project:) }
+
+          before { custom_field.update!(allow_additional_project_values: true) }
+
+          context "when moving a project item while projects may not add values" do
+            let(:moved_item) { chewie }
+            let(:new_parent) { leia }
+
+            before { custom_field.update!(allow_additional_project_values: false) }
+
+            it "keeps the item in place" do
+              change_parent_request
+
+              expect(chewie.reload.parent).to eq(root)
+            end
+          end
 
           context "when moving a global item to a parent with project children" do
             let(:moved_item) { mara }

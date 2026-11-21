@@ -28,8 +28,11 @@
 #++
 
 module CustomOptions
-  class CreateContract < ::ModelContract
-    include RequiresAdminGuard
+  class CreateContract < BaseContract
+    include RequiresEnterpriseGuard
+
+    self.enterprise_action = :project_specific_list_values
+    self.enterprise_condition = -> { model.project_id.present? }
 
     attribute :custom_field_id do
       errors.add(:custom_field, :blank) if model.custom_field.nil?
@@ -38,17 +41,7 @@ module CustomOptions
     attribute :position
     attribute :default_value
     attribute :project_id do
-      validate_additional_project_values_allowed
-    end
-
-    private
-
-    def validate_additional_project_values_allowed
-      return if model.project_id.nil? || model.custom_field.nil?
-
-      unless model.custom_field.allow_additional_project_values
-        errors.add(:project_id, :additional_values_not_allowed)
-      end
+      validate_additional_values_allowed
     end
   end
 end

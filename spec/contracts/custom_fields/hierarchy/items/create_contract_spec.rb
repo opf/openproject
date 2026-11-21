@@ -32,7 +32,7 @@ require "contracts/shared/model_contract_shared_context"
 
 RSpec.describe CustomFields::Hierarchy::Items::CreateContract,
                :check_errors_i18n,
-               with_ee: %i[custom_field_hierarchies weighted_item_lists] do
+               with_ee: %i[custom_field_hierarchies weighted_item_lists project_specific_list_values] do
   include_context "ModelContract shared context"
 
   let(:current_user) { build_stubbed(:admin) }
@@ -138,6 +138,48 @@ RSpec.describe CustomFields::Hierarchy::Items::CreateContract,
       let(:parent) { create(:hierarchy_item, parent: root, label: "Jabba", project: create(:project)) }
 
       it_behaves_like "contract is invalid", parent: :other_project
+    end
+  end
+
+  context "without the enterprise feature", with_ee: %i[custom_field_hierarchies] do
+    it_behaves_like "contract is valid"
+
+    context "for a project" do
+      let(:item_project) { project }
+
+      it_behaves_like "contract is invalid", base: :error_enterprise_only
+    end
+  end
+
+  context "as a user allowed to manage custom field values in the project" do
+    let(:current_user) { build_stubbed(:user) }
+
+    before do
+      mock_permissions_for(current_user) do |mock|
+        mock.allow_in_project :manage_work_package_custom_field_values, project:
+      end
+    end
+
+    context "with a value of the project" do
+      let(:item_project) { project }
+
+      it_behaves_like "contract is valid"
+
+      context "when the custom field does not allow additional project values" do
+        let(:custom_field) { create(:hierarchy_wp_custom_field, allow_additional_project_values: false) }
+
+        it_behaves_like "contract is invalid", base: :error_unauthorized, project_id: :additional_values_not_allowed
+      end
+    end
+
+    context "with a value of another project" do
+      let(:item_project) { create(:project) }
+
+      it_behaves_like "contract user is unauthorized"
+    end
+
+    context "with a global value" do
+      it_behaves_like "contract user is unauthorized"
     end
   end
 

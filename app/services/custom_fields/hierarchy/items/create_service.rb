@@ -49,7 +49,7 @@ module CustomFields
 
         def after_perform(service_result)
           item = service_result.result
-          service_result.merge!(RebuildPositionCacheService.new(user:, model: item).call)
+          service_result.merge!(RebuildPositionCacheService.new(user:, model: item, contract_class: EmptyContract).call)
           return service_result if item.project.nil?
 
           service_result.merge!(

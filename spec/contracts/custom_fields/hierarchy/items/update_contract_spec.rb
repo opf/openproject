@@ -32,11 +32,12 @@ require "contracts/shared/model_contract_shared_context"
 
 RSpec.describe CustomFields::Hierarchy::Items::UpdateContract,
                :check_errors_i18n,
-               with_ee: %i[custom_field_hierarchies weighted_item_lists] do
+               with_ee: %i[custom_field_hierarchies weighted_item_lists project_specific_list_values] do
   include_context "ModelContract shared context"
 
   let(:current_user) { build_stubbed(:admin) }
-  let(:custom_field) { create(:hierarchy_wp_custom_field) }
+  let(:allow_additional_project_values) { true }
+  let(:custom_field) { create(:hierarchy_wp_custom_field, allow_additional_project_values:) }
   let(:root) { custom_field.hierarchy_root }
   let(:project) { create(:project) }
   let!(:luke) { create(:hierarchy_item, parent: root, label: "Luke", short: "LS") }
@@ -158,6 +159,56 @@ RSpec.describe CustomFields::Hierarchy::Items::UpdateContract,
 
       it_behaves_like "contract is invalid", parent: :other_project
     end
+
+    context "without the enterprise feature", with_ee: %i[custom_field_hierarchies] do
+      it_behaves_like "contract is invalid", base: :error_enterprise_only
+    end
+
+    context "when the custom field does not allow additional project values" do
+      let(:allow_additional_project_values) { false }
+
+      it_behaves_like "contract is invalid", project_id: :additional_values_not_allowed
+    end
+
+    context "as a user allowed to manage custom field values in the project" do
+      let(:current_user) { build_stubbed(:user) }
+
+      before do
+        mock_permissions_for(current_user) do |mock|
+          mock.allow_in_project :manage_work_package_custom_field_values, project:
+        end
+      end
+
+      it_behaves_like "contract is valid"
+
+      context "when the custom field does not allow additional project values" do
+        let(:allow_additional_project_values) { false }
+
+        it_behaves_like "contract user is unauthorized"
+      end
+
+      context "without the permission in the item's project" do
+        let(:item) { create(:hierarchy_item, parent: root, label: "Chewie", project: create(:project)) }
+
+        it_behaves_like "contract user is unauthorized"
+      end
+    end
+  end
+
+  context "without the enterprise feature", with_ee: %i[custom_field_hierarchies weighted_item_lists] do
+    it_behaves_like "contract is valid"
+  end
+
+  context "as a user allowed to manage custom field values in a project" do
+    let(:current_user) { build_stubbed(:user) }
+
+    before do
+      mock_permissions_for(current_user) do |mock|
+        mock.allow_in_project :manage_work_package_custom_field_values, project:
+      end
+    end
+
+    it_behaves_like "contract user is unauthorized"
   end
 
   context "for a weighted item list" do
