@@ -29,6 +29,7 @@
 
 class Admin::DashboardPagesController < ApplicationController
   include PaginationHelper
+  include OpTurbo::ComponentStream
 
   layout "admin"
   menu_item :standard_dashboards
@@ -37,10 +38,10 @@ class Admin::DashboardPagesController < ApplicationController
   before_action :find_dashboard, except: %i[index new create]
 
   def index
-    @dashboards = ::Grids::DashboardPage.central.includes(:dashboard_page_assignments).order(:name, :id)
-    if params[:name].present?
-      @dashboards = @dashboards.where("grids.name ILIKE ?", "%#{ActiveRecord::Base.sanitize_sql_like(params[:name].to_s)}%")
-    end
+    @query = ParamsToQueryService.new(
+      ::Grids::DashboardPage, current_user, query_class: Queries::DashboardPages::DashboardPageQuery
+    ).call(params.permit(:filters))
+    @dashboards = @query.results.paginate(page: page_param, per_page: per_page_param)
   end
 
   def new
@@ -52,11 +53,32 @@ class Admin::DashboardPagesController < ApplicationController
 
   def create
     @dashboard = ::Grids::DashboardPage.new(row_count: 1, column_count: 1)
-    save_dashboard
+    if @dashboard.update(dashboard_attributes)
+      redirect_to edit_admin_dashboard_page_path(@dashboard), status: :see_other, notice: t(:notice_successful_create)
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   def update
-    save_dashboard
+    if @dashboard.update(dashboard_attributes)
+      redirect_to edit_admin_dashboard_page_path(@dashboard), status: :see_other, notice: t(:notice_successful_update)
+    else
+      render_rename_dialog(status: :unprocessable_entity)
+    end
+  end
+
+  def destroy
+    @dashboard.destroy!
+    redirect_to admin_dashboard_pages_path, status: :see_other, notice: t(:notice_successful_delete)
+  end
+
+  def rename_dialog
+    render_rename_dialog
+  end
+
+  def deletion_dialog
+    respond_with_dialog Overviews::DeleteStandardDashboardDialogComponent.new(dashboard: @dashboard)
   end
 
   def projects
@@ -93,11 +115,19 @@ class Admin::DashboardPagesController < ApplicationController
     @dashboard = ::Grids::DashboardPage.central.find(params.expect(:id))
   end
 
-  def save_dashboard
-    @dashboard.update!(params.expect(dashboard_page: [:name]))
+  def dashboard_attributes
+    params.expect(dashboard_page: [:name])
+  end
 
-    redirect_to edit_admin_dashboard_page_path(@dashboard), status: :see_other, notice: t(:notice_successful_update)
-  rescue ActiveRecord::RecordInvalid
-    render :edit, status: :unprocessable_entity
+  def render_rename_dialog(status: :ok)
+    dialog = Overviews::DashboardNameDialogComponent.new(
+      dashboard: @dashboard,
+      url: admin_dashboard_page_path(@dashboard),
+      title: t("overviews.dashboards.rename"),
+      submit: t(:button_rename)
+    )
+    respond_with_dialog(dialog, status:) do |format|
+      format.html { render :rename, status: }
+    end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,12 +28,11 @@
 #++
 
 module Overviews
-  class NewDashboardDialogComponent < ApplicationComponent
-    include OpTurbo::Streamable
-
-    def initialize(dashboard:)
-      super()
-      @dashboard = dashboard
+  class StandardDashboardRowComponent < OpPrimer::BorderBoxRowComponent
+    def name
+      render(Primer::Beta::Link.new(href: edit_admin_dashboard_page_path(model), underline: false)) { model.name }
     end
+
+    def projects = model.dashboard_page_assignments.size
   end
 end

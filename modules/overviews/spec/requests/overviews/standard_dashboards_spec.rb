@@ -53,7 +53,9 @@ RSpec.describe "Standard dashboard administration", :skip_csrf, type: :rails_req
     expect(response.body).to include("opce-dashboard")
     document = response.parsed_body
     expect(document.at_css("a[href='#{projects_admin_dashboard_page_path(dashboard)}']").text.strip).to eq("Projects")
-    expect(document.at_css("select[multiple]")).to be_nil
+    expect(document.at_css('input[name="dashboard_page[name]"]')).to be_nil
+    expect(document.at_css("a[href='#{rename_dialog_admin_dashboard_page_path(dashboard)}']")).to be_present
+    expect(document.at_css("a[href='#{deletion_dialog_admin_dashboard_page_path(dashboard)}']")).to be_present
     expect(document.at_css("#op-header-project-frame")["src"]).not_to include("jump=")
   end
 
@@ -107,12 +109,59 @@ RSpec.describe "Standard dashboard administration", :skip_csrf, type: :rails_req
     expect(Grids::DashboardPage.in_project(project)).not_to include(dashboard)
   end
 
+  it "filters the dashboard list using the name quick filter" do
+    overview = Grids::DashboardPage.create!(name: "Overview", row_count: 1, column_count: 1)
+    report = Grids::DashboardPage.create!(name: "Progress Report", row_count: 1, column_count: 1)
+    filters = [{ name: { operator: "~", values: ["progress"] } }]
+
+    get admin_dashboard_pages_path, params: { filters: filters.to_json }
+
+    expect(response).to have_http_status(:ok)
+    frame = response.parsed_body.at_css("turbo-frame#standard-dashboard-list")
+    expect(frame.at_css("#standard-dashboard-name-search")["value"]).to eq("progress")
+    expect(frame.at_css("a[href='#{edit_admin_dashboard_page_path(report)}']")).to be_present
+    expect(frame.at_css("a[href='#{edit_admin_dashboard_page_path(overview)}']")).to be_nil
+  end
+
+  it "uses the rename dialog and keeps validation errors in that dialog" do
+    dashboard = Grids::DashboardPage.create!(name: "Progress Report", row_count: 1, column_count: 1)
+    headers = { "Accept" => Mime[:turbo_stream].to_s }
+
+    get(rename_dialog_admin_dashboard_page_path(dashboard), headers:)
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include("rename-dashboard-dialog", dashboard.name)
+
+    patch(admin_dashboard_page_path(dashboard), params: { dashboard_page: { name: "" } }, headers:)
+    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response.body).to include("rename-dashboard-dialog")
+    expect(dashboard.reload.name).to eq("Progress Report")
+  end
+
+  it "deletes a dashboard and its assignments after confirmation" do
+    dashboard = Grids::DashboardPage.create!(name: "Progress Report", row_count: 1, column_count: 1)
+    assignment = dashboard.dashboard_page_assignments.create!(project:)
+
+    get deletion_dialog_admin_dashboard_page_path(dashboard), headers: { "Accept" => Mime[:turbo_stream].to_s }
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include("Delete dashboard", dashboard.name)
+
+    delete admin_dashboard_page_path(dashboard)
+    expect(response).to redirect_to(admin_dashboard_pages_path)
+    expect(Grids::DashboardPage.exists?(dashboard.id)).to be(false)
+    expect(DashboardPageAssignment.exists?(assignment.id)).to be(false)
+  end
+
   context "when the user has only the project permission" do
     let(:user) { create(:user, member_with_permissions: { project => %i[manage_dashboards] }) }
 
     it "denies dashboard administration" do
       get admin_dashboard_pages_path
       expect(response).to have_http_status(:forbidden)
+
+      dashboard = Grids::DashboardPage.create!(name: "Progress Report", row_count: 1, column_count: 1)
+      delete admin_dashboard_page_path(dashboard)
+      expect(response).to have_http_status(:forbidden)
+      expect(dashboard.reload).to be_persisted
     end
   end
 end

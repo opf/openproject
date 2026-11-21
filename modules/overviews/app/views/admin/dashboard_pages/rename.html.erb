@@ -1,0 +1,11 @@
+<% title = t("overviews.dashboards.rename") %>
+<% html_title(title) %>
+<%= render(Primer::OpenProject::PageHeader.new) do |header| %>
+  <% header.with_title { title } %>
+  <% header.with_breadcrumbs([{ href: admin_dashboard_pages_path, text: t("overviews.dashboards.title") }, title]) %>
+<% end %>
+
+<%= primer_form_with(model: @dashboard, scope: :dashboard_page, url: admin_dashboard_page_path(@dashboard)) do |form| %>
+  <%= render(Overviews::DashboardNameForm.new(form)) %>
+  <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary)) { t(:button_rename) } %>
+<% end %>

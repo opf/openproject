@@ -5,11 +5,9 @@
 <% end %>
 
 <% action = params[:id] ? copy_project_dashboard_page_path(@project, @dashboard) : project_copy_original_dashboard_path(@project) %>
-<%= form_with model: @copy, scope: :dashboard_page, url: action, method: :post do |form| %>
-  <%= render "overviews/dashboard_pages/name_field", form:, dashboard: @copy %>
-  <div class="form-control">
-    <%= form.label :project_id, t(:label_project), class: "form-control-label" %>
-    <%= form.collection_select :project_id, @target_projects, :id, :name, {}, class: "form-select", required: true %>
-  </div>
+<%= primer_form_with(model: @copy, scope: :dashboard_page, url: action, method: :post) do |form| %>
+  <%= error_messages_for(@copy) %>
+  <%= render(Overviews::DashboardNameForm.new(form)) %>
+  <%= render(Overviews::DashboardCopyForm.new(form, projects: @target_projects)) %>
   <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary)) { t(:button_save) } %>
 <% end %>

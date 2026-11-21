@@ -1,0 +1,15 @@
+<% dialog_id = @dashboard.persisted? ? "rename-dashboard-dialog" : "new-dashboard-dialog" %>
+<% form_id = @dashboard.persisted? ? "rename-dashboard-form" : "new-dashboard-form" %>
+
+<%= render(Primer::Alpha::Dialog.new(id: dialog_id, title: @title, size: :medium, data: { keep_open_on_submit: true })) do |dialog| %>
+  <% dialog.with_header(variant: :large) %>
+  <% dialog.with_body do %>
+    <%= primer_form_with(model: @dashboard, scope: :dashboard_page, id: form_id, url: @url) do |form| %>
+      <%= render(Overviews::DashboardNameForm.new(form)) %>
+    <% end %>
+  <% end %>
+  <% dialog.with_footer do %>
+    <%= render(Primer::Beta::Button.new(data: { close_dialog_id: dialog_id })) { t(:button_cancel) } %>
+    <%= render(Primer::Beta::Button.new(type: :submit, form: form_id, scheme: :primary)) { @submit } %>
+  <% end %>
+<% end %>

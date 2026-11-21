@@ -61,8 +61,10 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :dashboard_pages, path: "dashboards", only: %i[index new create edit update] do
+    resources :dashboard_pages, path: "dashboards", only: %i[index new create edit update destroy] do
       member do
+        get :rename_dialog
+        get :deletion_dialog
         get :projects
         post :projects, action: :add_projects
         delete "projects/:project_id", action: :remove_project, as: :project

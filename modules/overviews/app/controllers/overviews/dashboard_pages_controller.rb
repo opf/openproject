@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -41,13 +43,13 @@ module Overviews
       render_new_dialog
     end
 
+    def edit
+      raise ActiveRecord::RecordNotFound unless @dashboard.is_a?(::Grids::DashboardPage) && !@dashboard.central?
+    end
+
     def create
       @dashboard = ::Grids::DashboardPage.new(project: @project, row_count: 1, column_count: 1, **dashboard_attributes)
       save_dashboard(notice: :notice_successful_create) { render_new_dialog(status: :unprocessable_entity) }
-    end
-
-    def edit
-      raise ActiveRecord::RecordNotFound unless @dashboard.is_a?(::Grids::DashboardPage) && !@dashboard.central?
     end
 
     def update
@@ -95,7 +97,7 @@ module Overviews
 
     def activate
       if params[:id]
-        ::Grids::DashboardPage.in_project(@project).find(params[:id]).set_active_in!(@project, active: true)
+        ::Grids::DashboardPage.in_project(@project).find(params.expect(:id)).set_active_in!(@project, active: true)
       else
         ::Grids::Overview.find_by!(project: @project).update!(disabled: false)
       end
@@ -107,7 +109,7 @@ module Overviews
 
     def find_active_dashboard
       @dashboard = if params[:id]
-                     ::Grids::DashboardPage.active_in(@project).find(params[:id])
+                     ::Grids::DashboardPage.active_in(@project).find(params.expect(:id))
                    else
                      ::Grids::Overview.find_by!(project: @project, disabled: false)
                    end
@@ -130,7 +132,8 @@ module Overviews
     end
 
     def render_new_dialog(status: :ok)
-      respond_with_dialog(NewDashboardDialogComponent.new(dashboard: @dashboard), status:) do |format|
+      dialog = DashboardNameDialogComponent.new(dashboard: @dashboard, url: project_dashboard_pages_path(@project))
+      respond_with_dialog(dialog, status:) do |format|
         format.html { render :edit, status: }
       end
     end

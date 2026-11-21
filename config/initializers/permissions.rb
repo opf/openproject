@@ -267,7 +267,8 @@ Rails.application.reloader.to_prepare do
       map.permission :manage_standard_dashboards,
                      {
                        admin: %i[index],
-                       "admin/dashboard_pages": %i[index new create edit update projects add_projects remove_project]
+                       "admin/dashboard_pages": %i[index new create edit update destroy rename_dialog deletion_dialog
+                                                   projects add_projects remove_project]
                      },
                      permissible_on: :global,
                      require: :loggedin,

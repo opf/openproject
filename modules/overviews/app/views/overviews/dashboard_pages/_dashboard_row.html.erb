@@ -8,7 +8,9 @@
   <td><%= t(active ? "overviews.dashboards.active" : "overviews.dashboards.inactive") %></td>
   <td>
     <% if !active && activate_path %>
-      <%= button_to t("overviews.dashboards.activate"), activate_path, method: :patch, class: "Button" %>
+      <%= form_with url: activate_path, method: :patch do %>
+        <%= render(Primer::Beta::Button.new(type: :submit)) { t("overviews.dashboards.activate") } %>
+      <% end %>
     <% end %>
   </td>
 </tr>
