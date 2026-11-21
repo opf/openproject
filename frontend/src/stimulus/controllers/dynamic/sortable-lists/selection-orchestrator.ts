@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { BatchSelection, type SelectionAnchor } from 'core-common/batch-selection';
+import { BatchSelection, type SelectionAnchor, type SelectionKey } from 'core-common/batch-selection';
 import { resolveItemId, resolveItemType } from './list-dom';
 import {
   applySelectionPresentation,
@@ -58,6 +58,7 @@ export interface SelectionHost {
   // Must be the container moves use, so ranges and moves agree on what a
   // list's rows are.
   ownerRowsContainer(itemElement:HTMLElement):HTMLElement|null;
+  selectionPresented():void;
 }
 
 export type ActionScope =
@@ -460,7 +461,12 @@ export class SelectionOrchestrator {
       ...[...current].filter((key) => !baseline.has(key)),
     ]);
 
-    applySelectionPresentation(this.host.rootElement, current, this.host.descriptionId, changedKeys);
+    this.present(current, changedKeys);
+  }
+
+  private present(keys:ReadonlySet<SelectionKey>, changedKeys?:ReadonlySet<SelectionKey>):void {
+    applySelectionPresentation(this.host.rootElement, keys, this.host.descriptionId, changedKeys);
+    this.host.selectionPresented();
   }
 
   private announceSelection(key:'selected'|'cleared'|'not_selectable'|'range_unavailable'|'range_blocked'|'range_restarted'):void {
@@ -497,7 +503,7 @@ export class SelectionOrchestrator {
   // Presentation only: a restored page brings its markup back under a fresh
   // orchestrator, whose model and render baseline are already empty.
   clearPresentation():void {
-    applySelectionPresentation(this.host.rootElement, new Set(), this.host.descriptionId);
+    this.present(new Set());
   }
 
   teardown():void {
