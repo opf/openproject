@@ -63,6 +63,7 @@ import type { ActionScope } from './selection-orchestrator';
 import type { DestinationIdentity } from './list-dom';
 import { type SelectionItem } from 'core-common/batch-selection';
 import { DragSession, type DragSessionHost } from './drag-session';
+import { usePlatform } from 'core-common/testing/platform';
 import { type Mock } from 'vitest';
 
 // The method is a mock property rather than a method signature, so tests
@@ -1290,6 +1291,108 @@ describe('Sortable lists item controller', () => {
 
       const badge = previewContainer.querySelector('.op-sortable-lists-drag-preview-batch-badge');
       expect(badge?.textContent).toEqual('3');
+    });
+
+    describe('where the platform may badge the drag URLs itself', () => {
+      const pretendPlatform = usePlatform('macOS');
+      const chromium152 = [{ brand: 'Chromium', version: '152' }];
+
+      function mateWithUrl(id:string, url:string|null):HTMLElement {
+        const mate = document.createElement('li');
+        if (url) {
+          mate.setAttribute('data-sortable-lists--item-external-url-value', url);
+        }
+        mate.setAttribute('data-sortable-lists--item-id-value', id);
+        return mate;
+      }
+
+      async function renderBatchPreview(
+        mateUrls:(string|null)[],
+        { urlAfterConnect = false } = {},
+      ):Promise<HTMLElement> {
+        const { row, article } = renderBacklogsRow();
+        const sourceUrl = 'http://example.org/work_packages/123';
+        if (!urlAfterConnect) {
+          row.setAttribute('data-sortable-lists--item-external-url-value', sourceUrl);
+        }
+        const previewContainer = document.createElement('div');
+
+        vi.spyOn(article, 'getBoundingClientRect').mockReturnValue({
+          x: 0, y: 0, top: 0, left: 0, right: 320, bottom: 64, width: 320, height: 64, toJSON: vi.fn(),
+        });
+
+        await ctx.nextFrame();
+
+        if (urlAfterConnect) {
+          row.setAttribute('data-sortable-lists--item-external-url-value', sourceUrl);
+        }
+
+        const mates = mateUrls.map((url, index) => mateWithUrl(`${124 + index}`, url));
+        const controller = ctx.getController<InstanceType<typeof ItemControllerType>>('sortable-lists--item', row);
+        const root = fakeRoot(row, {
+          prospectiveMembers: () => [row, ...mates],
+          frozenMembers: () => ['123', ...mates.map((_, index) => `${124 + index}`)]
+            .map((id) => ({ type: 'work_package', id })),
+        });
+        controller.connectRoot(root);
+        permitDrag(row, root);
+
+        const dragArgs = vi.mocked(draggable).mock.lastCall?.[0];
+        dragArgs?.getInitialDataForExternal?.(draggableArgs(row));
+        dragArgs?.onGenerateDragPreview?.({
+          ...dragEventPayload(article),
+          nativeSetDragImage: vi.fn(),
+        });
+
+        const previewOptions = vi.mocked(setCustomNativeDragPreview).mock.lastCall?.[0] as {
+          render:({ container }:{ container:HTMLElement }) => void;
+        };
+        previewOptions.render({ container: previewContainer });
+
+        return previewContainer;
+      }
+
+      it('omits the batch badge when the platform badges the drag URLs itself', async () => {
+        pretendPlatform('macOS', chromium152);
+
+        const previewContainer = await renderBatchPreview([
+          'http://example.org/work_packages/124',
+          'http://example.org/work_packages/125',
+        ]);
+
+        expect(previewContainer).toContainElement(previewContainer.querySelector('[data-preview]'));
+        expect(within(previewContainer).queryByText('3')).toBeNull();
+      });
+
+      it('keeps the batch badge on platforms without a native count', async () => {
+        pretendPlatform('Windows', chromium152);
+
+        const previewContainer = await renderBatchPreview([
+          'http://example.org/work_packages/124',
+          'http://example.org/work_packages/125',
+        ]);
+
+        expect(within(previewContainer).getByText('3')).toHaveClass('op-sortable-lists-drag-preview-batch-badge');
+      });
+
+      it('keeps the batch badge when not every member carries a URL', async () => {
+        pretendPlatform('macOS', chromium152);
+
+        const previewContainer = await renderBatchPreview(['http://example.org/work_packages/124', null]);
+
+        expect(within(previewContainer).getByText('3')).toHaveClass('op-sortable-lists-drag-preview-batch-badge');
+      });
+
+      it('keeps the batch badge when the drag supplied no URLs to the platform', async () => {
+        pretendPlatform('macOS', chromium152);
+
+        const previewContainer = await renderBatchPreview([
+          'http://example.org/work_packages/124',
+          'http://example.org/work_packages/125',
+        ], { urlAfterConnect: true });
+
+        expect(within(previewContainer).getByText('3')).toHaveClass('op-sortable-lists-drag-preview-batch-badge');
+      });
     });
 
     it('offsets the preview so the pointer keeps its grab position on the card', async () => {
