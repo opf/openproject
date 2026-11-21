@@ -28,28 +28,10 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render "admin/predefined_work_package_filters/header", active_tab: :projects %>
 
-<% if @candidate_projects.exists? %>
-  <%= render(Primer::OpenProject::SubHeader.new) do |subheader| %>
-    <% subheader.with_action_button(
-         scheme: :primary,
-         leading_icon: :"op-include-projects",
-         label: t(:label_add_projects),
-         data: { "show-dialog-id": "predefined-filter-add-projects-dialog" }
-       ) { t(:label_add_projects) } %>
-  <% end %>
-
-  <%= render(Primer::Alpha::Dialog.new(id: "predefined-filter-add-projects-dialog", title: t(:label_add_projects), size: :medium_portrait)) do |dialog| %>
-    <% dialog.with_header(variant: :large) %>
-    <% dialog.with_body do %>
-      <%= primer_form_with(url: projects_admin_predefined_work_package_filter_path(@filter), method: :post, id: "predefined-filter-add-projects-form") do |form| %>
-        <%= render(PredefinedWorkPackageFilters::AddProjectsForm.new(form, projects: @candidate_projects)) %>
-      <% end %>
-    <% end %>
-    <% dialog.with_footer do %>
-      <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": "predefined-filter-add-projects-dialog" })) { t(:button_cancel) } %>
-      <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit, form: "predefined-filter-add-projects-form")) { t(:button_add) } %>
-    <% end %>
-  <% end %>
-<% end %>
-
-<%= render(PredefinedWorkPackageFilters::ProjectsTableComponent.new(rows: @projects, filter: @filter)) %>
+<%= render "projects/assignments",
+           id: "predefined-filter",
+           candidates: @candidate_projects,
+           rows: @projects,
+           add_path: projects_admin_predefined_work_package_filter_path(@filter),
+           remove_path: ->(project) { project_admin_predefined_work_package_filter_path(@filter, project) },
+           empty_title: t("predefined_work_package_filters.projects.empty") %>

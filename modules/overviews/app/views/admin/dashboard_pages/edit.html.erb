@@ -1,24 +1,8 @@
-<% title = @dashboard.persisted? ? @dashboard.name : t("overviews.dashboards.new") %>
-<% html_title(t(:label_administration), t("overviews.dashboards.title"), title) %>
-
-<%= render(Primer::OpenProject::PageHeader.new) do |header| %>
-  <% header.with_title { title } %>
-  <% header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
-                              t(:label_project_plural),
-                              { href: admin_dashboard_pages_path, text: t("overviews.dashboards.title") },
-                              title]) %>
-<% end %>
+<%= render "admin/dashboard_pages/header", active_tab: :settings %>
 
 <% action = @dashboard.persisted? ? admin_dashboard_page_path(@dashboard) : admin_dashboard_pages_path %>
 <%= form_with model: @dashboard, scope: :dashboard_page, url: action do |form| %>
   <%= render "overviews/dashboard_pages/name_field", form:, dashboard: @dashboard %>
-  <div class="form-control">
-    <%= form.label :project_ids, t(:label_project_plural), class: "form-control-label" %>
-    <%= form.collection_select :project_ids, @projects, :id, :name,
-                               { selected: @dashboard.dashboard_page_assignments.pluck(:project_id) },
-                               multiple: true, class: "form-select" %>
-  </div>
-  <p class="mb-3"><%= t("overviews.dashboards.assignments_help") %></p>
   <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary)) { t(:button_save) } %>
 <% end %>
 

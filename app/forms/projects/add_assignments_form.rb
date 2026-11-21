@@ -27,8 +27,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module PredefinedWorkPackageFilters
-  class AddProjectsForm < ApplicationForm
+module Projects
+  class AddAssignmentsForm < ApplicationForm
+    def self.selected_ids(values)
+      Array(values).filter_map do |value|
+        node = JSON.parse(value)
+        Integer(node["nodeId"], exception: false) if node.is_a?(Hash)
+      rescue JSON::ParserError, TypeError
+        nil
+      end
+    end
+
     def initialize(projects:)
       super()
       @nodes = Project.build_projects_hierarchy(projects)

@@ -1,0 +1,9 @@
+<%= render "admin/dashboard_pages/header", active_tab: :projects %>
+
+<%= render "projects/assignments",
+           id: "standard-dashboard",
+           candidates: @candidate_projects,
+           rows: @projects,
+           add_path: projects_admin_dashboard_page_path(@dashboard),
+           remove_path: ->(project) { project_admin_dashboard_page_path(@dashboard, project) },
+           empty_title: t("overviews.dashboards.projects_empty") %>

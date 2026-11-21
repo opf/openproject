@@ -141,12 +141,7 @@ class Admin::PredefinedWorkPackageFiltersController < ApplicationController
   end
 
   def selected_project_ids
-    Array(params.permit(project_ids: [])[:project_ids]).filter_map do |value|
-      node = JSON.parse(value)
-      Integer(node["nodeId"], exception: false) if node.is_a?(Hash)
-    rescue JSON::ParserError, TypeError
-      nil
-    end
+    Projects::AddAssignmentsForm.selected_ids(params.permit(project_ids: [])[:project_ids])
   end
 
   def submitted_query_properties

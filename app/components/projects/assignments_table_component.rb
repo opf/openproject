@@ -27,21 +27,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module PredefinedWorkPackageFilters
-  class ProjectsTableComponent < OpPrimer::BorderBoxTableComponent
+module Projects
+  class AssignmentsTableComponent < OpPrimer::BorderBoxTableComponent
     columns :name
     main_column :name
 
-    attr_reader :filter
+    attr_reader :remove_path
 
-    def initialize(rows:, filter:)
+    def initialize(rows:, remove_path:, empty_title:)
       super(rows:)
-      @filter = filter
+      @remove_path = remove_path
+      @empty_title = empty_title
     end
 
     def headers = [[:name, { caption: Project.model_name.human }]]
 
-    def row_class = ProjectRowComponent
+    def row_class = AssignmentRowComponent
 
     def has_actions? = true
 
@@ -49,6 +50,6 @@ module PredefinedWorkPackageFilters
 
     def blank_icon = :project
 
-    def blank_title = t("predefined_work_package_filters.projects.empty")
+    def blank_title = @empty_title
   end
 end

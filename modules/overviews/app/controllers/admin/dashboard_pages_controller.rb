@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,12 +28,13 @@
 #++
 
 class Admin::DashboardPagesController < ApplicationController
+  include PaginationHelper
+
   layout "admin"
   menu_item :standard_dashboards
 
   before_action :authorize_global
-  before_action :find_dashboard, only: %i[edit update]
-  before_action :load_projects, only: %i[new create edit update]
+  before_action :find_dashboard, except: %i[index new create]
 
   def index
     @dashboards = ::Grids::DashboardPage.central.includes(:dashboard_page_assignments).order(:name, :id)
@@ -45,47 +48,56 @@ class Admin::DashboardPagesController < ApplicationController
     render :edit
   end
 
+  def edit; end
+
   def create
     @dashboard = ::Grids::DashboardPage.new(row_count: 1, column_count: 1)
     save_dashboard
   end
 
-  def edit; end
-
   def update
     save_dashboard
+  end
+
+  def projects
+    assigned_projects = Project.where(id: @dashboard.dashboard_page_assignments.select(:project_id))
+    @projects = assigned_projects.order(:name, :id).paginate(page: page_param, per_page: per_page_param)
+    @candidate_projects = Project.active.where.not(id: assigned_projects.select(:id))
+  end
+
+  def add_projects
+    ids = Projects::AddAssignmentsForm.selected_ids(params.permit(project_ids: [])[:project_ids])
+    projects = Project.active.where(id: ids)
+
+    @dashboard.with_lock do
+      projects.find_each do |project|
+        @dashboard.dashboard_page_assignments.find_or_create_by!(project:)
+      end
+    end
+
+    redirect_to projects_admin_dashboard_page_path(@dashboard), status: :see_other
+  end
+
+  def remove_project
+    project = Project.find(params.expect(:project_id))
+    @dashboard.with_lock do
+      @dashboard.dashboard_page_assignments.find_by!(project:).destroy!
+    end
+
+    redirect_to projects_admin_dashboard_page_path(@dashboard), status: :see_other
   end
 
   private
 
   def find_dashboard
-    @dashboard = ::Grids::DashboardPage.central.find(params[:id])
-  end
-
-  def load_projects
-    @projects = Project.active.order(:name, :id)
+    @dashboard = ::Grids::DashboardPage.central.find(params.expect(:id))
   end
 
   def save_dashboard
-    attributes = params.expect(dashboard_page: [:name, { project_ids: [] }])
-    @dashboard.with_lock do
-      @dashboard.update!(name: attributes[:name])
-      update_assignments(attributes[:project_ids])
-    end
+    @dashboard.update!(params.expect(dashboard_page: [:name]))
 
     redirect_to edit_admin_dashboard_page_path(@dashboard), status: :see_other, notice: t(:notice_successful_update)
   rescue ActiveRecord::RecordInvalid
     render :edit, status: :unprocessable_entity
-  end
-
-  def update_assignments(project_ids)
-    selected_ids = @projects.where(id: Array(project_ids).compact_blank).pluck(:id)
-    assignments = @dashboard.dashboard_page_assignments
-    assignments.where(project_id: @projects).where.not(project_id: selected_ids).delete_all
-    assigned_ids = assignments.pluck(:project_id)
-
-    (selected_ids - assigned_ids).each do |project_id|
-      assignments.create!(project_id:)
-    end
   end
 end

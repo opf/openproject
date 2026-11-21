@@ -1,0 +1,24 @@
+<% title = @dashboard.persisted? ? @dashboard.name : t("overviews.dashboards.new") %>
+<% html_title(t(:label_administration), t("overviews.dashboards.title"), title) %>
+
+<%= render(Primer::OpenProject::PageHeader.new) do |header| %>
+  <% header.with_title { title } %>
+  <% header.with_breadcrumbs(
+       [
+         { href: admin_index_path, text: t(:label_administration) },
+         t(:label_project_plural),
+         { href: admin_dashboard_pages_path, text: t("overviews.dashboards.title") },
+         title
+       ]
+     ) %>
+  <% if @dashboard.persisted? %>
+    <% header.with_tab_nav(label: t("overviews.dashboards.title")) do |nav| %>
+      <% nav.with_tab(href: edit_admin_dashboard_page_path(@dashboard), selected: active_tab == :settings) do |tab| %>
+        <% tab.with_text { t(:label_setting_plural) } %>
+      <% end %>
+      <% nav.with_tab(href: projects_admin_dashboard_page_path(@dashboard), selected: active_tab == :projects) do |tab| %>
+        <% tab.with_text { t(:label_project_plural) } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

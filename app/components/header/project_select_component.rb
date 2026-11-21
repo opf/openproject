@@ -47,12 +47,18 @@ module Header
     def tree_src
       frame_header_projects_path(
         current_project_id: @current_project&.id,
-        jump: @current_menu_item.presence
+        jump: project_menu_jump
       )
     end
 
     def can_create_projects?
       @current_user.allowed_globally?(:add_project)
+    end
+
+    private
+
+    def project_menu_jump
+      @current_menu_item if Redmine::MenuManager.items(:project_menu).any? { |item| item.name == @current_menu_item }
     end
   end
 end

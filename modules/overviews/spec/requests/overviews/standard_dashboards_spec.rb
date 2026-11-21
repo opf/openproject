@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -28,12 +30,12 @@
 require "rails_helper"
 
 RSpec.describe "Standard dashboard administration", :skip_csrf, type: :rails_request do
-  let(:project) { create(:project, public: false) }
+  let!(:project) { create(:project, public: false) }
   let(:user) { create(:user, global_permissions: [:manage_standard_dashboards]) }
 
   current_user { user }
 
-  it "lets a global dashboard manager publish a template and edit its widget layout" do
+  it "lets a global dashboard manager create a template and open its settings" do
     get admin_index_path
     expect(response).to redirect_to(admin_dashboard_pages_path)
 
@@ -42,18 +44,24 @@ RSpec.describe "Standard dashboard administration", :skip_csrf, type: :rails_req
     get new_admin_dashboard_page_path
     expect(response).to have_http_status(:ok)
 
-    post admin_dashboard_pages_path, params: { dashboard_page: { name: "Progress Report", project_ids: [project.id] } }
+    post admin_dashboard_pages_path, params: { dashboard_page: { name: "Progress Report" } }
 
     dashboard = Grids::DashboardPage.central.find_by!(name: "Progress Report")
     expect(response).to redirect_to(edit_admin_dashboard_page_path(dashboard))
-    expect(Grids::DashboardPage.active_in(project)).to include(dashboard)
     follow_redirect!
     expect(response).to have_http_status(:ok)
     expect(response.body).to include("opce-dashboard")
+    document = response.parsed_body
+    expect(document.at_css("a[href='#{projects_admin_dashboard_page_path(dashboard)}']").text.strip).to eq("Projects")
+    expect(document.at_css("select[multiple]")).to be_nil
+    expect(document.at_css("#op-header-project-frame")["src"]).not_to include("jump=")
+  end
 
+  it "lets a global dashboard manager update the widget layout" do
+    dashboard = Grids::DashboardPage.create!(name: "Progress Report", row_count: 1, column_count: 1)
     get "/api/v3/grids/#{dashboard.id}"
     expect(response).to have_http_status(:ok)
-    expect(JSON.parse(response.body).fetch("_links")).to have_key("updateImmediately")
+    expect(response.body).to have_json_path("_links/updateImmediately")
 
     token = create(:api_token, user:)
     patch "/api/v3/grids/#{dashboard.id}",
@@ -72,11 +80,31 @@ RSpec.describe "Standard dashboard administration", :skip_csrf, type: :rails_req
     assignment = dashboard.dashboard_page_assignments.create!(project:, active: false)
 
     patch admin_dashboard_page_path(dashboard),
-          params: { dashboard_page: { name: "Updated", project_ids: [project.id] } }
+          params: { dashboard_page: { name: "Updated" } }
 
     expect(response).to redirect_to(edit_admin_dashboard_page_path(dashboard))
     expect(assignment.reload).not_to be_active
     expect(dashboard.reload.name).to eq("Updated")
+  end
+
+  it "adds and removes project assignments in the Projects tab" do
+    dashboard = Grids::DashboardPage.create!(name: "Progress Report", row_count: 1, column_count: 1)
+    path = projects_admin_dashboard_page_path(dashboard)
+
+    get path
+    expect(response).to have_http_status(:ok)
+    expect(response.parsed_body.at_css("#standard-dashboard-add-projects-dialog")).to be_present
+
+    post path, params: { project_ids: [{ nodeId: project.id }.to_json] }
+    expect(response).to redirect_to(path)
+    expect(Grids::DashboardPage.active_in(project)).to include(dashboard)
+
+    follow_redirect!
+    expect(response.parsed_body.at_css('[role="table"]').text).to include(project.name)
+
+    delete project_admin_dashboard_page_path(dashboard, project)
+    expect(response).to redirect_to(path)
+    expect(Grids::DashboardPage.in_project(project)).not_to include(dashboard)
   end
 
   context "when the user has only the project permission" do

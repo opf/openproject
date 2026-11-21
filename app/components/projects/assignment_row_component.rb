@@ -27,8 +27,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module PredefinedWorkPackageFilters
-  class ProjectRowComponent < OpPrimer::BorderBoxRowComponent
+module Projects
+  class AssignmentRowComponent < OpPrimer::BorderBoxRowComponent
     alias_method :project, :model
 
     def name
@@ -42,7 +42,7 @@ module PredefinedWorkPackageFilters
         menu.with_item(
           label: t(:button_remove),
           tag: :button,
-          href: project_admin_predefined_work_package_filter_path(table.filter, project),
+          href: table.remove_path.call(project),
           form_arguments: { method: :delete }
         ) do |item|
           item.with_leading_visual_icon(icon: :unlink)

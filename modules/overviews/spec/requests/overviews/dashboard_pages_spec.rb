@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -32,11 +34,12 @@ RSpec.describe "Project dashboard pages", :skip_csrf, type: :rails_request do
   let(:destination) { create(:project, public: false) }
   let(:restricted) { create(:project, public: false) }
   let(:user) do
-    create(:user, member_with_permissions: {
-      project => %i[manage_dashboards],
-      destination => %i[manage_dashboards],
-      restricted => %i[]
-    })
+    create(:user,
+           member_with_permissions: {
+             project => %i[manage_dashboards],
+             destination => %i[manage_dashboards],
+             restricted => %i[]
+           })
   end
 
   let(:standard) { Grids::DashboardPage.create!(name: "Progress Report", row_count: 1, column_count: 1) }
@@ -52,8 +55,9 @@ RSpec.describe "Project dashboard pages", :skip_csrf, type: :rails_request do
   end
 
   it "adds a local dashboard tab without changing Project Overview" do
-    get new_project_dashboard_page_path(project)
+    get new_project_dashboard_page_path(project), headers: { "Accept" => Mime[:turbo_stream].to_s }
     expect(response).to have_http_status(:ok)
+    expect(response.body).to include("new-dashboard-dialog", 'name="dashboard_page[name]"')
 
     post project_dashboard_pages_path(project), params: { dashboard_page: { name: "Delivery" } }
 
@@ -85,12 +89,12 @@ RSpec.describe "Project dashboard pages", :skip_csrf, type: :rails_request do
   it "keeps the standard configuration read-only for a project manager" do
     get project_dashboard_page_path(project, standard)
     expect(response).to have_http_status(:ok)
-    expect(response.body).to include("Default dashboard", "Save as")
-    expect(response.body).not_to include("Configure dashboard")
+    expect(response.body).to include("Save as")
+    expect(response.body).not_to include("Default dashboard", "Configure dashboard")
 
     get "/api/v3/grids/#{standard.id}"
     expect(response).to have_http_status(:ok)
-    expect(JSON.parse(response.body).fetch("_links")).not_to have_key("updateImmediately")
+    expect(response.body).not_to have_json_path("_links/updateImmediately")
 
     patch project_dashboard_page_path(project, standard), params: { dashboard_page: { name: "Changed" } }
     expect(response).to have_http_status(:not_found)

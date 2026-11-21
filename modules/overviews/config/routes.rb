@@ -61,7 +61,13 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :dashboard_pages, path: "dashboards", only: %i[index new create edit update]
+    resources :dashboard_pages, path: "dashboards", only: %i[index new create edit update] do
+      member do
+        get :projects
+        post :projects, action: :add_projects
+        delete "projects/:project_id", action: :remove_project, as: :project
+      end
+    end
   end
 
   resources :project_phases, controller: "overviews/project_phases", only: %i[edit update] do

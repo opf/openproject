@@ -3,7 +3,7 @@
   <% dialog.with_body do %>
     <%= form_with model: @dashboard, scope: :dashboard_page, id: "new-dashboard-form",
                   url: project_dashboard_pages_path(@dashboard.project) do |form| %>
-      <%= render "overviews/dashboard_pages/name_field", form:, dashboard: @dashboard %>
+      <%= render partial: "overviews/dashboard_pages/name_field", formats: [:html], locals: { form:, dashboard: @dashboard } %>
     <% end %>
   <% end %>
   <% dialog.with_footer do %>
