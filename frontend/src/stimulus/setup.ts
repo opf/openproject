@@ -149,5 +149,12 @@ window.Stimulus = instance;
 
 instance.debug = !environment.production;
 instance.handleError = (error, message, detail) => {
+  // Reported rather than thrown, so the failing controller does not stop
+  // Stimulus from connecting the others, while feature specs still see it.
+  if (['development', 'test'].includes(window.OpenProject.environment)) {
+    reportError(error);
+    return;
+  }
+
   console.warn(error, message, detail);
 };

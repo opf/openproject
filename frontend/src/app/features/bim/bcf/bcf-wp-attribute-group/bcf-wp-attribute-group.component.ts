@@ -28,7 +28,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { NgxGalleryComponent, NgxGalleryImage, NgxGalleryOptions } from '@kolkov/ngx-gallery';
+import { INgxGalleryAction, NgxGalleryComponent, NgxGalleryImage, NgxGalleryOptions } from '@kolkov/ngx-gallery';
 import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -43,6 +43,10 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { BcfViewService } from 'core-app/features/bim/ifc_models/pages/viewer/bcf-view.service';
 import { filter, take } from 'rxjs/operators';
 import * as Turbo from '@hotwired/turbo';
+
+export interface GalleryActionOptions {
+  closePreview:boolean;
+}
 
 @Component({
   templateUrl: './bcf-wp-attribute-group.component.html',
@@ -109,8 +113,8 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
       arrowNextIcon: 'icon-arrow-right2',
       closeIcon: 'icon-close',
       downloadIcon: 'icon-download',
-      thumbnailActions: this.actions(),
-      actions: this.actions(),
+      thumbnailActions: this.actions({ closePreview: false }),
+      actions: this.actions({ closePreview: true }),
     },
     // max-width 800
     {
@@ -229,7 +233,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
     }
   }
 
-  protected deleteViewpoint(workPackage:WorkPackageResource, index:number):void {
+  protected deleteViewpoint(workPackage:WorkPackageResource, index:number, { closePreview }:GalleryActionOptions):void {
     if (!window.confirm(this.text.text_are_you_sure)) {
       return;
     }
@@ -238,7 +242,9 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
       .deleteViewPoint$(workPackage, index)
       .subscribe(() => {
         this.toastService.addSuccess(this.text.notice_successful_delete);
-        this.gallery.preview.close();
+        if (closePreview) {
+          this.gallery.preview.close();
+        }
       });
   }
 
@@ -274,19 +280,21 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
   }
 
   // Gallery functionality
-  protected actions() {
+  protected actions({ closePreview }:GalleryActionOptions):INgxGalleryAction[] {
     return [
       {
         icon: 'icon-view-model',
         onClick: (evt:Event, index:number) => {
           this.showViewpoint(this.workPackage, index);
-          this.gallery.preview.close();
+          if (closePreview) {
+            this.gallery.preview.close();
+          }
         },
         titleText: this.text.show_viewpoint,
       },
       {
         icon: 'icon-delete',
-        onClick: (evt:Event, index:number) => this.deleteViewpoint(this.workPackage, index),
+        onClick: (evt:Event, index:number) => this.deleteViewpoint(this.workPackage, index, { closePreview }),
         titleText: this.text.delete_viewpoint,
       },
     ];

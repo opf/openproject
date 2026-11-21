@@ -29,9 +29,53 @@
 
 require "capybara/cuprite"
 
+# Every Cuprite driver and session in the process logs its CDP traffic into
+# one sink, so examples that open named sessions are checked as well.
 module CupriteCdpLogger
+  # Ferrum writes from its WebSocket threads while examples read from the main
+  # thread, so every access goes through the mutex.
+  class Sink
+    Entry = Data.define(:sequence, :text)
+
+    def initialize
+      @mutex = Mutex.new
+      @entries = []
+      @last_sequence = 0
+    end
+
+    def puts(*lines)
+      @mutex.synchronize do
+        lines.each { |line| @entries << Entry.new(sequence: @last_sequence += 1, text: line.to_s) }
+      end
+      nil
+    end
+
+    def cursor
+      @mutex.synchronize { @last_sequence }
+    end
+
+    def since(cursor)
+      @mutex.synchronize { @entries.select { it.sequence > cursor } }
+    end
+
+    def drain
+      @mutex.synchronize do
+        entries = @entries
+        @entries = []
+        entries
+      end
+    end
+  end
+
   class << self
-    attr_accessor :logger
+    def logger
+      @logger ||= Sink.new
+    end
+
+    def clear
+      logger.drain
+      nil
+    end
   end
 end
 
@@ -80,7 +124,6 @@ def register_better_cuprite(language, name: :"better_cuprite_#{language}")
 
     options = configure_remote_chrome(options)
 
-    CupriteCdpLogger.logger = StringIO.new
     options = options.merge(logger: CupriteCdpLogger.logger)
 
     browser_options = {

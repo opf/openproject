@@ -31,6 +31,8 @@ require "spec_helper"
 
 RSpec.describe "Logout",
                :js do
+  # My page's default widgets filter by status, which needs a status to exist.
+  shared_let(:default_status) { create(:default_status) }
   let(:user_password) { "b0B" * 4 }
   let(:user) do
     create(:user,

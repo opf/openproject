@@ -50,11 +50,13 @@ export default class BulkSelectionController extends Controller {
 
   // Checkboxes
   declare readonly toggleAllTarget:HTMLInputElement;
+  declare readonly hasToggleAllTarget:boolean;
   declare readonly shareCheckboxTargets:HTMLInputElement[];
 
   // Counters
   declare readonly sharedCounterTarget:HTMLElement;
   declare readonly selectedCounterTarget:HTMLElement;
+  declare readonly hasSelectedCounterTarget:boolean;
 
   // Bulk Forms
   declare readonly bulkFormTargets:HTMLFormElement[];
@@ -67,6 +69,7 @@ export default class BulkSelectionController extends Controller {
   // Permission Buttons
   declare readonly userRowRoleTargets:HTMLButtonElement[];
   declare readonly bulkUpdateRoleLabelTarget:HTMLButtonElement;
+  declare readonly hasBulkUpdateRoleLabelTarget:boolean;
 
   // Refresh when a user is invited
   shareCheckboxTargetConnected() {
@@ -101,6 +104,10 @@ export default class BulkSelectionController extends Controller {
   }
 
   bulkUpdateRoleLabelValueChanged(current:string, _old:string) {
+    if (!this.hasBulkUpdateRoleLabelTarget) {
+      return;
+    }
+
     const label = this.bulkUpdateRoleLabelTarget.querySelector('.Button-label')!;
     label.textContent = current;
   }
@@ -122,10 +129,8 @@ export default class BulkSelectionController extends Controller {
   refresh() {
     const checkedSharesCount = this.checked.length;
     const sharesCount = this.shareCheckboxTargets.length;
-    if (sharesCount === 0) {
-      this.toggleAllTarget.checked = false;
-    } else {
-      this.toggleAllTarget.checked = checkedSharesCount === sharesCount;
+    if (this.hasToggleAllTarget) {
+      this.toggleAllTarget.checked = sharesCount > 0 && checkedSharesCount === sharesCount;
     }
 
     if (this.checked.length === 0) {
@@ -162,10 +167,12 @@ export default class BulkSelectionController extends Controller {
   }
 
   private updateCounter() {
-    if (this.checked.length === 0) {
-      this.showSharedCounter();
-    } else {
-      this.showSelectedCounter();
+    if (this.hasSelectedCounterTarget) {
+      if (this.checked.length === 0) {
+        this.showSharedCounter();
+      } else {
+        this.showSelectedCounter();
+      }
     }
 
     this.repopulateHiddenShares();

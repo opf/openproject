@@ -26,7 +26,11 @@
 //++
 
 import { AfterViewInit, ChangeDetectionStrategy, Component } from '@angular/core';
-import { BcfWpAttributeGroupComponent } from 'core-app/features/bim/bcf/bcf-wp-attribute-group/bcf-wp-attribute-group.component';
+import { INgxGalleryAction } from '@kolkov/ngx-gallery';
+import {
+  BcfWpAttributeGroupComponent,
+  GalleryActionOptions,
+} from 'core-app/features/bim/bcf/bcf-wp-attribute-group/bcf-wp-attribute-group.component';
 import { switchMap, take } from 'rxjs/operators';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { forkJoin } from 'rxjs';
@@ -63,14 +67,16 @@ export class BcfNewWpAttributeGroupComponent extends BcfWpAttributeGroupComponen
       .pipe(
         this.untilDestroyed(),
         take(1),
-        switchMap((wp:WorkPackageResource) => this.viewpointsService.setBcfTopic$(wp), (wp) => wp),
         switchMap((wp:WorkPackageResource) => {
           this.workPackage = wp;
-          const observables = this.galleryViewpoints
-            .filter((viewPointItem) => !viewPointItem.href && viewPointItem.viewpoint)
-            .map((viewPointItem) => this.viewpointsService.saveViewpoint$(this.workPackage, viewPointItem.viewpoint));
 
-          return forkJoin(observables);
+          return this.viewpointsService.setBcfTopic$(wp).pipe(
+            switchMap(() => forkJoin(
+              this.galleryViewpoints
+                .filter((viewPointItem) => !viewPointItem.href && viewPointItem.viewpoint)
+                .map((viewPointItem) => this.viewpointsService.saveViewpoint$(wp, viewPointItem.viewpoint)),
+            )),
+          );
         }),
       )
       .subscribe(() => {
@@ -84,7 +90,7 @@ export class BcfNewWpAttributeGroupComponent extends BcfWpAttributeGroupComponen
 
   }
 
-  deleteViewpoint(workPackage:WorkPackageResource, index:number):void {
+  override deleteViewpoint(_workPackage:WorkPackageResource, index:number, _options:GalleryActionOptions):void {
     this.galleryViewpoints = this.galleryViewpoints.filter((_, i) => i !== index);
 
     this.setViewpointsOnGallery(this.galleryViewpoints);
@@ -116,10 +122,10 @@ export class BcfNewWpAttributeGroupComponent extends BcfWpAttributeGroupComponen
     return this.createAllowed && this.viewerVisible;
   }
 
-  protected actions():{ icon:string, onClick:(evt:unknown, index:number) => void, titleText:string }[] {
+  protected override actions(options:GalleryActionOptions):INgxGalleryAction[] {
     // Show only delete button
     return super
-      .actions()
+      .actions(options)
       .filter((el) => el.icon === 'icon-delete');
   }
 }

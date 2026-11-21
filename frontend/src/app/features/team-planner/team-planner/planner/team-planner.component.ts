@@ -427,8 +427,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
     this.calendar.resize$
       .pipe(
-        this.untilDestroyed(),
         debounceTime(50),
+        this.untilDestroyed(),
       )
       .subscribe(() => {
         this.ucCalendar.getApi().updateSize();

@@ -110,19 +110,11 @@ module Pages
     end
 
     def click_row_action!(row, action)
-      action_menu_button = row.find(:link_or_button) { it.has_selector?("svg.octicon-kebab-horizontal") }
+      row.click_button(accessible_name: I18n.t(:button_actions))
 
-      action_menu_button.click
-
-      # quick and dirty fix for popover element not recognized as visible (and then as interactible)
-      # https://github.com/teamcapybara/capybara/issues/2755
-      # https://github.com/SeleniumHQ/selenium/issues/13700
-      anchored_position = action_menu_button.find(:xpath, "./ancestor::action-menu//anchored-position")
-      anchored_position.execute_script("this.removeAttribute('popover')")
-
-      row.click_on(action)
-
-      anchored_position.execute_script("this.setAttribute('popover', 'auto')")
+      within(:menu) do
+        find(:menuitem, action, exact: true).click
+      end
     end
 
     def find_dialog(title)
