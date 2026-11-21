@@ -42,6 +42,7 @@ import { HalResourceSortingService } from 'core-app/features/hal/services/hal-re
 import { EditFieldComponent } from '../../edit-field.component';
 import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 import { EventHandler } from 'ng-dynamic-component';
+import { closeOnOverflowContainerScroll } from 'core-app/shared/components/fields/edit/field-types/close-on-overflow-container-scroll';
 
 export interface ValueOption {
   name:string;
@@ -97,8 +98,6 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   protected valuesLoaded = false;
 
   protected _autocompleterComponent:CreateAutocompleterComponent;
-
-  private hiddenOverflowContainer = '.__hidden_overflow_container';
 
   /** Remember the values loading promise which changes as soon as the changeset is updated
    * (e.g., project or type is changed).
@@ -219,10 +218,8 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     this.handler.handleUserSubmit();
   }
 
-  public onOpen() {
-    document.querySelector(this.hiddenOverflowContainer)!.addEventListener('scroll', () => {
-      this._autocompleterComponent.closeSelect();
-    }, { once: true });
+  public onOpen():void {
+    closeOnOverflowContainerScroll(() => this._autocompleterComponent.closeSelect());
   }
 
   public onClose() {
