@@ -225,6 +225,42 @@ RSpec.describe Projects::SetAttributesService, type: :model do
         end
       end
 
+      describe "enabled_module_names dependencies" do
+        context "with a provided module depending on others" do
+          let(:call_attributes) do
+            {
+              enabled_module_names: %w(backlogs)
+            }
+          end
+
+          it "appends the dependencies" do
+            expect(subject.result.enabled_module_names)
+              .to contain_exactly("backlogs", "board_view", "work_package_tracking")
+          end
+        end
+
+        context "with the dependencies already provided" do
+          let(:call_attributes) do
+            {
+              enabled_module_names: %w(backlogs board_view work_package_tracking)
+            }
+          end
+
+          it "does not duplicate them" do
+            expect(subject.result.enabled_module_names)
+              .to contain_exactly("backlogs", "board_view", "work_package_tracking")
+          end
+        end
+
+        context "with the default modules depending on others",
+                with_settings: { default_projects_modules: ["backlogs"] } do
+          it "appends the dependencies" do
+            expect(subject.result.enabled_module_names)
+              .to contain_exactly("backlogs", "board_view", "work_package_tracking")
+          end
+        end
+      end
+
       describe "types default value" do
         # Persisted rather than stubbed: the service resolves what new projects start with by
         # querying TypeVariant.enabled_in_new_projects, so the flag has to be in the database.

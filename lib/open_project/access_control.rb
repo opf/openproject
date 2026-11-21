@@ -174,6 +174,31 @@ module OpenProject
         permissions.select { |p| p.project_module.nil? || modules.include?(p.project_module.to_s) }
       end
 
+      # Returns the given module names plus every module they depend on, resolved transitively
+      def modules_with_dependencies_appended(names)
+        dependencies = module_dependencies
+
+        resolved = []
+        pending = Array(names).map(&:to_s).compact_blank
+
+        while (name = pending.shift)
+          next if resolved.include?(name)
+
+          resolved << name
+          pending.concat(dependencies.fetch(name, []))
+        end
+
+        resolved
+      end
+
+      # Maps each module onto those of the given modules that depend on it, directly or
+      # transitively. Modules nothing depends on are absent from the map.
+      def modules_required_by(names)
+        Array(names).each_with_object(Hash.new { |map, key| map[key] = [] }) do |name, map|
+          (modules_with_dependencies_appended([name]) - [name]).each { map[it] << name }
+        end
+      end
+
       def module_enterprise_feature?(name)
         current_module = modules.find { |m| m[:name] == name }
 
@@ -224,9 +249,14 @@ module OpenProject
         @public_permissions = nil
         @disabled_permissions = nil
         @permissions = nil
+        @module_dependencies = nil
       end
 
       private
+
+      def module_dependencies
+        @module_dependencies ||= modules.to_h { |mod| [mod[:name].to_s, Array(mod[:dependencies]).map(&:to_s)] }
+      end
 
       def normalized_controller_action_string(action)
         controller = if action[:controller]&.to_s&.starts_with?("/")
