@@ -27,4 +27,4 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= render(Overviews::PageHeaderComponent.new(project: @project, current_user:)) %>
-<%= render(Overviews::PredefinedFilterListComponent.new(query: @filter_query, project: @project, current_user:)) %>
+<%= render(Overviews::PredefinedFilterListComponent.new(filter: @predefined_filter, query: @filter_query, project: @project, current_user:)) %>

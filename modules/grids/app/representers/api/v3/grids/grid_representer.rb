@@ -135,6 +135,8 @@ module API
         end
 
         def scope_path
+          return represented.grid_scope_path if represented.respond_to?(:grid_scope_path)
+
           path = ::Grids::Configuration.to_scope(represented.class,
                                                  scope_path_attributes)
 

@@ -26,10 +26,22 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<div class="op-grid-page">
-  <% if allowed_to_manage? %>
+<div id="dashboard-widgets" class="op-grid-page">
+  <% if dashboard&.central? && project %>
+    <div class="grid-mx mb-2">
+      <%= render(Primer::Beta::Label.new(scheme: :secondary)) { t("overviews.dashboards.standard") } %>
+      <span class="ml-2"><%= t("overviews.dashboards.standard_help") %></span>
+    </div>
+  <% end %>
+
+  <% if allowed_to_manage? || (project && configure_path) %>
     <%=
       render(Primer::OpenProject::SubHeader.new(classes: "grid-mx")) do |subheader|
+        if project && (path = configure_path)
+          label = t("overviews.dashboards.configure")
+          subheader.with_action_button(tag: :a, href: path, leading_icon: :gear, label:) { label }
+        end
+
         subheader.with_action_button(
           scheme: :primary,
           leading_icon: :plus,
@@ -41,10 +53,18 @@ See COPYRIGHT and LICENSE files for more details.
           test_selector: "overview--add-widgets-button"
         ) do
           Grids::Widget.model_name.human
-        end
+        end if allowed_to_manage?
       end
     %>
   <% end %>
 
-  <%= angular_component_tag("opce-dashboard", inputs: { projectIdentifier: @project.identifier }) %>
+  <%= angular_component_tag(
+        "opce-dashboard",
+        inputs: {
+          projectIdentifier: project&.identifier,
+          gridId: dashboard&.id,
+          layoutOnly: dashboard&.central? && @configuration,
+          readOnly: dashboard.present? && !@configuration
+        }.compact
+      ) %>
 </div>

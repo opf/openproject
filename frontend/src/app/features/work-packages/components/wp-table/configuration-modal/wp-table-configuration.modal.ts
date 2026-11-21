@@ -77,7 +77,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
     columnsLabel: this.I18n.t('js.label_columns'),
     selectedColumns: this.I18n.t('js.description_selected_columns'),
     multiSelectLabel: this.I18n.t('js.work_packages.label_column_multiselect'),
-    applyButton: this.I18n.t('js.modals.button_apply'),
+    applyButton: this.I18n.t(this.locals.saveOnApply ? 'js.button_save' : 'js.modals.button_apply'),
     cancelButton: this.I18n.t('js.modals.button_cancel'),
   };
 

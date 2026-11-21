@@ -41,4 +41,35 @@ module QueriesHelper
 
     query
   end
+
+  def predefined_filter_view_data(project, placement)
+    filter = predefined_filter_for_view(project, placement)
+    return {} unless filter
+
+    data = { predefined_filter_key: params[:name].to_s, predefined_filter_title: filter.display_name }
+    if current_user.allowed_globally?(:manage_filters)
+      data[:predefined_filter_configuration_path] = configuration_admin_predefined_work_package_filter_path(filter)
+    end
+    data
+  end
+
+  private
+
+  def predefined_filter_for_view(project, placement)
+    return if project.nil? || params[:query_id].present?
+
+    filters = PredefinedWorkPackageFilter.active_in(project).at(placement)
+    case (name = params[:name])
+    when /\Apredefined_filter_\d+\z/
+      filters.find_by(id: name.delete_prefix("predefined_filter_"))
+    when String
+      filters.find_by(builtin_key: name)
+    when nil
+      default_predefined_filter(filters, placement)
+    end
+  end
+
+  def default_predefined_filter(filters, placement)
+    filters.find_by(builtin_key: "all_open") if placement == :work_packages && params[:query_props].blank?
+  end
 end

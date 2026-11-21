@@ -1,0 +1,14 @@
+<tr>
+  <td>
+    <%= name %>
+    <% if badge %>
+      <%= render(Primer::Beta::Label.new(scheme: :secondary, ml: 2)) { badge } %>
+    <% end %>
+  </td>
+  <td><%= t(active ? "overviews.dashboards.active" : "overviews.dashboards.inactive") %></td>
+  <td>
+    <% if !active && activate_path %>
+      <%= button_to t("overviews.dashboards.activate"), activate_path, method: :patch, class: "Button" %>
+    <% end %>
+  </td>
+</tr>

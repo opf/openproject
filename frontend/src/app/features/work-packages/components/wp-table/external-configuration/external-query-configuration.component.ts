@@ -45,6 +45,7 @@ export interface QueryConfigurationLocals {
   disabledTabs?:Record<string, string>|string[];
   hideDisabledTabs?:boolean;
   includeInitialQuery?:boolean;
+  saveOnApply?:boolean;
   callback:(newQuery:unknown, initialQuery?:string) => void;
 }
 
@@ -98,7 +99,7 @@ export class ExternalQueryConfigurationComponent implements OnInit, AfterViewIni
         if (this.locals.urlParams && this.locals.includeInitialQuery) {
           initialQuery = this.embeddedTable.buildUrlParams();
         }
-      });
+      }, this.locals.saveOnApply);
       this.cdRef.detectChanges();
     });
   }

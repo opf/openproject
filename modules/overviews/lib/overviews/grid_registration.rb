@@ -113,6 +113,10 @@ module Overviews
     }
 
     class << self
+      def visible(user = User.current)
+        super.where(disabled: false)
+      end
+
       def writable?(grid, user)
         # New records are allowed to be saved by everybody. Other parts
         # of the application prevent a user from saving arbitrary pages.

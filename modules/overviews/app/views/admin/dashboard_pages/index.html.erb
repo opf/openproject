@@ -1,0 +1,41 @@
+<% html_title(t(:label_administration), t("overviews.dashboards.title")) %>
+
+<%= render(Primer::OpenProject::PageHeader.new) do |header| %>
+  <% header.with_title { t("overviews.dashboards.title") } %>
+  <% header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                              t(:label_project_plural),
+                              t("overviews.dashboards.title")]) %>
+<% end %>
+
+<%= render(Primer::OpenProject::SubHeader.new) do |subheader| %>
+  <% label = t("overviews.dashboards.new") %>
+  <% subheader.with_action_button(tag: :a, href: new_admin_dashboard_page_path,
+                                  scheme: :primary, leading_icon: :plus, label:) { label } %>
+<% end %>
+
+<%= form_with url: admin_dashboard_pages_path, method: :get, class: "mb-3" do |form| %>
+  <%= form.label :name, t(:label_search_by_name), class: "sr-only" %>
+  <%= form.search_field :name, value: params[:name], placeholder: t(:label_search_by_name), class: "form-control" %>
+  <%= render(Primer::Beta::Button.new(type: :submit)) { t(:label_search) } %>
+<% end %>
+
+<% if @dashboards.empty? %>
+  <%= render(Primer::Beta::Blankslate.new) { |component| component.with_heading(tag: :h2) { t(:label_no_data) } } %>
+<% else %>
+  <table class="generic-table">
+    <thead>
+      <tr>
+        <th scope="col"><%= t(:label_name) %></th>
+        <th scope="col"><%= t(:label_project_plural) %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @dashboards.each do |dashboard| %>
+        <tr>
+          <td><%= link_to dashboard.name, edit_admin_dashboard_page_path(dashboard) %></td>
+          <td><%= dashboard.dashboard_page_assignments.size %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

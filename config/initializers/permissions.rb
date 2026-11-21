@@ -264,12 +264,20 @@ Rails.application.reloader.to_prepare do
                      require: :loggedin,
                      grant_to_admin: true
 
+      map.permission :manage_standard_dashboards,
+                     {
+                       admin: %i[index],
+                       "admin/dashboard_pages": %i[index new create edit update]
+                     },
+                     permissible_on: :global,
+                     require: :loggedin,
+                     grant_to_admin: true
+
       map.permission :manage_filters,
                      {
                        admin: %i[index],
                        "admin/predefined_work_package_filters": %i[index new create edit update destroy move projects
-                                                                   add_projects remove_project configuration update_configuration
-                                                                   query_summary]
+                                                                   add_projects remove_project configuration update_configuration]
                      },
                      permissible_on: :global,
                      require: :loggedin,

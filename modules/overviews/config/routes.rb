@@ -35,12 +35,33 @@ Rails.application.routes.draw do
           get :dashboard, on: :member
         end
 
+        resources :dashboard_pages, path: "dashboards", except: %i[index destroy] do
+          member do
+            get :save_as
+            post :copy
+            patch :deactivate
+            patch :activate
+          end
+          get :settings, on: :collection, path: "settings"
+        end
+
+        controller :dashboard_pages do
+          get "dashboard/save_as", action: :save_as, as: :save_as_original_dashboard
+          post "dashboard/copy", action: :copy, as: :copy_original_dashboard
+          patch "dashboard/deactivate", action: :deactivate, as: :deactivate_original_dashboard
+          patch "dashboard/activate", action: :activate, as: :activate_original_dashboard
+        end
+
         controller :overviews do
           get "project_custom_fields_sidebar" => :project_custom_fields_sidebar, as: :custom_fields_sidebar
           get "project_life_cycle_sidebar" => :project_life_cycle_sidebar, as: :life_cycle_sidebar
         end
       end
     end
+  end
+
+  namespace :admin do
+    resources :dashboard_pages, path: "dashboards", only: %i[index new create edit update]
   end
 
   resources :project_phases, controller: "overviews/project_phases", only: %i[edit update] do

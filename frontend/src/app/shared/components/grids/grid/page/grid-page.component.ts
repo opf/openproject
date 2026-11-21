@@ -46,12 +46,14 @@ export abstract class GridPageComponent implements OnInit, OnDestroy {
   readonly configurationService = inject(ConfigurationService);
 
   public grid:GridResource;
+  public layoutOnly = false;
+  public readOnly = false;
 
   ngOnInit() {
     this.renderer.addClass(document.body, 'widget-grid-layout');
     this
       .gridInitialization
-      .initialize(this.gridScopePath())
+      .initialize(this.gridScopePath(), this.gridId)
       .subscribe((grid) => {
         this.grid = grid;
         this.cdRef.detectChanges();
@@ -61,6 +63,8 @@ export abstract class GridPageComponent implements OnInit, OnDestroy {
   ngOnDestroy():void {
     this.renderer.removeClass(document.body, 'widget-grid-layout');
   }
+
+  protected gridId?:number;
 
   protected abstract gridScopePath():string;
 }

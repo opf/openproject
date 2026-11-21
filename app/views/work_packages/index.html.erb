@@ -39,7 +39,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% end %>
 
 <% content_for :content_body do %>
-  <%= angular_component_tag "opce-work-packages-view" %>
+  <%= angular_component_tag "opce-work-packages-view", data: predefined_filter_view_data(project, :work_packages) %>
 <% end %>
 
 <% content_for :content_body_right do %>

@@ -5,7 +5,20 @@ en:
       grids/overview:
         one: "Overview"
         other: "Overviews"
+  permission_manage_standard_dashboards: "Manage dashboards"
   overviews:
+    dashboards:
+      title: "Dashboards"
+      new: "New dashboard"
+      configure: "Configure dashboard"
+      deactivate: "Deactivate dashboard"
+      activate: "Activate dashboard"
+      active: "Active"
+      inactive: "Inactive"
+      standard: "Default dashboard"
+      standard_help: "Default dashboards are configured in Administration. Use Save as to create an editable copy."
+      assignments_help: "Changes to this dashboard take effect immediately in projects where it is active."
+      copy_widgets_error: "One or more widgets could not be copied to the selected project."
     label_dashboard: "Dashboard"
     label_home: "%{workspace_type} home"
     label_overview: "Overview"

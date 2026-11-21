@@ -31,25 +31,20 @@ import { isEqual } from 'lodash-es';
 import type { OpenProjectPluginContext } from 'core-app/features/plugins/plugin-context';
 import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 
-export default class PredefinedFilterQueryController extends Controller {
-  static services:ServiceKey[] = ['externalQueryConfiguration', 'notifications', 'turboRequests'];
-  static targets = ['input', 'submit'];
-  static values = { summaryUrl: String };
+export default class PredefinedFilterQueryController extends Controller<HTMLFormElement> {
+  static services:ServiceKey[] = ['externalQueryConfiguration', 'notifications'];
+  static targets = ['input'];
 
   declare readonly inputTarget:HTMLInputElement;
-  declare readonly submitTarget:HTMLButtonElement;
-  declare readonly summaryUrlValue:string;
-  declare services:Promise<PickedServices<'externalQueryConfiguration'|'notifications'|'turboRequests'>>;
+  declare services:Promise<PickedServices<'externalQueryConfiguration'|'notifications'>>;
   declare pluginContext:Promise<OpenProjectPluginContext>;
-
-  private savedQuery:string|undefined;
 
   initialize() {
     useAngularServices(this);
   }
 
   async edit():Promise<void> {
-    const [{ externalQueryConfiguration, notifications, turboRequests }, { injector }] = await Promise.all([this.services, this.pluginContext]);
+    const [{ externalQueryConfiguration, notifications }, { injector }] = await Promise.all([this.services, this.pluginContext]);
 
     try {
       await injector.get(ApplicationInitStatus).donePromise;
@@ -59,19 +54,13 @@ export default class PredefinedFilterQueryController extends Controller {
         currentQuery: this.inputTarget.value,
         urlParams: true,
         includeInitialQuery: true,
+        saveOnApply: true,
         callback: (queryProps:unknown, initialQuery?:string) => {
           if (!this.element.isConnected || typeof queryProps !== 'string' || initialQuery === undefined) return;
           if (this.sameQuery(queryProps, initialQuery)) return;
 
-          if (this.submitTarget.disabled) this.savedQuery = initialQuery;
-
           this.inputTarget.value = queryProps;
-          this.submitTarget.disabled = this.savedQuery !== undefined && this.sameQuery(queryProps, this.savedQuery);
-          void turboRequests.request(this.summaryUrlValue, {
-            method: 'POST',
-            headers: { Accept: 'text/vnd.turbo-stream.html' },
-            body: new URLSearchParams({ query_props: queryProps }),
-          }, false, this.summaryUrlValue).catch(() => undefined);
+          this.element.requestSubmit();
         },
       });
     } catch (error) {

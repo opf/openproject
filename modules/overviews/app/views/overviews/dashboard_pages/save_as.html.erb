@@ -1,0 +1,15 @@
+<% html_title(t(:button_save_as)) %>
+<%= render(Primer::OpenProject::PageHeader.new) do |header| %>
+  <% header.with_title { t(:button_save_as) } %>
+  <% header.with_breadcrumbs([{ href: project_overview_path(@project), text: @project.name }, t(:button_save_as)]) %>
+<% end %>
+
+<% action = params[:id] ? copy_project_dashboard_page_path(@project, @dashboard) : project_copy_original_dashboard_path(@project) %>
+<%= form_with model: @copy, scope: :dashboard_page, url: action, method: :post do |form| %>
+  <%= render "overviews/dashboard_pages/name_field", form:, dashboard: @copy %>
+  <div class="form-control">
+    <%= form.label :project_id, t(:label_project), class: "form-control-label" %>
+    <%= form.collection_select :project_id, @target_projects, :id, :name, {}, class: "form-select", required: true %>
+  </div>
+  <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary)) { t(:button_save) } %>
+<% end %>

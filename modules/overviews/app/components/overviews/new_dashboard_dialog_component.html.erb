@@ -1,0 +1,12 @@
+<%= render(Primer::Alpha::Dialog.new(id: "new-dashboard-dialog", title: t("overviews.dashboards.new"))) do |dialog| %>
+  <% dialog.with_header(variant: :large) %>
+  <% dialog.with_body do %>
+    <%= form_with model: @dashboard, scope: :dashboard_page, id: "new-dashboard-form",
+                  url: project_dashboard_pages_path(@dashboard.project) do |form| %>
+      <%= render "overviews/dashboard_pages/name_field", form:, dashboard: @dashboard %>
+    <% end %>
+  <% end %>
+  <% dialog.with_footer do %>
+    <%= render(Primer::Beta::Button.new(type: :submit, form: "new-dashboard-form", scheme: :primary)) { t(:button_save) } %>
+  <% end %>
+<% end %>

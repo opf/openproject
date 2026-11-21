@@ -43,6 +43,12 @@ module ::Overviews
       render :predefined_filter
     end
 
+    def dashboard
+      raise ActiveRecord::RecordNotFound if ::Grids::Overview.exists?(project: @project, disabled: true)
+
+      render :dashboard
+    end
+
     def project_custom_fields_sidebar
       render :project_custom_fields_sidebar, layout: false
     end

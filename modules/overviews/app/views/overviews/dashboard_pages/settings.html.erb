@@ -1,0 +1,31 @@
+<% html_title(t(:label_project_settings), t("overviews.dashboards.title")) %>
+<%= render(Primer::OpenProject::PageHeader.new) do |header| %>
+  <% header.with_title { t("overviews.dashboards.title") } %>
+  <% header.with_breadcrumbs([{ href: project_overview_path(@project), text: @project.name },
+                              t(:label_project_settings),
+                              t("overviews.dashboards.title")]) %>
+<% end %>
+
+<table class="generic-table">
+  <thead>
+    <tr>
+      <th scope="col"><%= t(:label_name) %></th>
+      <th scope="col"><%= t(:label_status) %></th>
+      <th scope="col"><%= t(:label_actions) %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render "dashboard_row",
+               name: t("overviews.label_dashboard"),
+               badge: nil,
+               active: !@original_dashboard&.disabled?,
+               activate_path: @original_dashboard && project_activate_original_dashboard_path(@project) %>
+    <% @dashboards.each do |dashboard| %>
+      <%= render "dashboard_row",
+                 name: dashboard.name,
+                 badge: dashboard.central? ? t("overviews.dashboards.standard") : nil,
+                 active: @active_ids.include?(dashboard.id),
+                 activate_path: activate_project_dashboard_page_path(@project, dashboard) %>
+    <% end %>
+  </tbody>
+</table>

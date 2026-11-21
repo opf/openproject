@@ -937,7 +937,6 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :predefined_work_package_filters, path: "work_package_filters", except: :show do
-      post :query_summary, on: :collection
       member do
         get :configuration
         patch :configuration, action: :update_configuration

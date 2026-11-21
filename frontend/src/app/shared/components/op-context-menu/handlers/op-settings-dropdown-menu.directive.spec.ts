@@ -100,6 +100,7 @@ describe('OpSettingsMenuDirective', () => {
           toolbar: {
             settings: {
               configure_view: 'Configure view',
+              configure_filter: 'Configure filter',
               sort_by: 'Sort by',
               group_by: 'Group by',
               page_settings: 'Rename view',
@@ -166,6 +167,17 @@ describe('OpSettingsMenuDirective', () => {
     expect(within(menu).getByRole('menuitem', { name: 'Configure view' }).querySelector('svg')).toHaveClass('octicon-gear');
     expect(within(menu).getByRole('menuitem', { name: 'Delete' }).querySelector('svg')).toHaveClass('octicon-trash');
     expect(menu.querySelector('.op-icon, [class^="icon-"], [class*=" icon-"]')).toBeNull();
+  });
+
+  it('links to the predefined filter configuration even for calendar views', async () => {
+    const configurationPath = '/admin/work_package_filters/42/configuration';
+    Object.assign(TestBed.inject(StaticQueriesService), { currentPredefinedFilter: { configurationPath } });
+    await createHost({ hideTableOptions: true });
+
+    const menu = await openMenu();
+
+    expect(within(menu).getByRole('menuitem', { name: 'Configure filter' })).toHaveAttribute('href', configurationPath);
+    expect(names(menu)).not.toContain('Configure view');
   });
 
   it('sets Delete apart as the last, dangerous action', async () => {

@@ -49,7 +49,10 @@ module Overviews
           .controller_actions
           .push(
             "overviews/overviews/show",
-            "overviews/overviews/dashboard"
+            "overviews/overviews/dashboard",
+            "overviews/dashboard_pages/show",
+            "overviews/dashboard_pages/save_as",
+            "overviews/dashboard_pages/copy"
           )
 
         OpenProject::AccessControl.permission(:view_project_attributes)
@@ -89,7 +92,10 @@ module Overviews
         OpenProject::AccessControl.map do |ac_map|
           ac_map.project_module nil do |map|
             map.permission :manage_dashboards,
-                           { "overviews/overviews": %i[show dashboard] },
+                           {
+                             "overviews/overviews": %i[show dashboard],
+                             "overviews/dashboard_pages": %i[new create edit update deactivate settings activate]
+                           },
                            permissible_on: :project,
                            require: :member
           end
@@ -100,11 +106,12 @@ module Overviews
     initializer "overviews.conversion" do
       require Rails.root.join("config/constants/ar_to_api_conversions")
 
-      Constants::ARToAPIConversions.add("grids/overview": "grid")
+      Constants::ARToAPIConversions.add("grids/dashboard_page": "grid", "grids/overview": "grid")
     end
 
     config.to_prepare do
       Overviews::GridRegistration.register!
+      Overviews::DashboardPageRegistration.register!
     end
   end
 end

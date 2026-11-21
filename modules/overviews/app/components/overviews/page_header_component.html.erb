@@ -20,6 +20,26 @@
       menu_arguments: { anchor_align: :end },
       button_arguments: { icon: "kebab-horizontal", "aria-label": t(:label_menu) }
     ) do |menu|
+      if dashboard_view
+        with_item_group(menu) do
+          if (path = dashboard_save_as_path)
+            menu.with_item(tag: :a, href: path, label: t(:button_save_as)) do |item|
+              item.with_leading_visual_icon(icon: :duplicate)
+            end
+          end
+          if (path = dashboard_deactivate_path)
+            menu.with_item(
+              tag: :a,
+              href: path,
+              label: t("overviews.dashboards.deactivate"),
+              content_arguments: { data: { turbo_method: :patch, turbo_confirm: t(:text_are_you_sure) } }
+            ) do |item|
+              item.with_leading_visual_icon(icon: :eye)
+            end
+          end
+        end
+      end
+
       with_item_group(menu) do
         if allowed_to_add_subprojects?
           menu.with_item(
@@ -146,7 +166,8 @@
         end
       end
 
-      if current_user.allowed_in_project?(:view_project, project)
+      if current_user.allowed_in_project?(:view_project, project) &&
+         !::Grids::Overview.exists?(project:, disabled: true)
         tab_nav.with_tab(
           test_selector: "project-dashboard-tab",
           selected: current_page?(dashboard_project_overview_path),
@@ -154,6 +175,21 @@
         ) do |t|
           t.with_icon(icon: :"op-view-list")
           t.with_text { I18n.t("overviews.label_dashboard") }
+        end
+      end
+
+      ::Grids::DashboardPage.active_in(project).order(:name, :id).each do |dashboard|
+        path = project_dashboard_page_path(project, dashboard)
+        tab_nav.with_tab(selected: current_page?(path), href: path) { dashboard.name }
+      end
+
+      if current_user.allowed_in_project?(:manage_dashboards, project)
+        tab_nav.with_tab(
+          href: new_project_dashboard_page_path(project),
+          "aria-label": t("overviews.dashboards.new"),
+          data: { controller: "async-dialog" }
+        ) do
+          render(Primer::Beta::Octicon.new(icon: :plus, size: :medium))
         end
       end
     end

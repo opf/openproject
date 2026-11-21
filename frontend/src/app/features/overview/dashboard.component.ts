@@ -49,6 +49,10 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
 export class DashboardComponent extends GridPageComponent implements OnInit {
   @Input() projectIdentifier:string;
 
+  @Input() override gridId?:number;
+  @Input() override layoutOnly = false;
+  @Input() override readOnly = false;
+
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   ngOnInit() {

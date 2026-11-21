@@ -30,7 +30,7 @@
 require "spec_helper"
 
 RSpec.describe "Predefined work package filters", :skip_csrf, type: :rails_request do
-  let!(:project) { create(:project, enabled_module_names: %w[work_package_tracking calendar_view]) }
+  let!(:project) { create(:project, enabled_module_names: %w[work_package_tracking calendar_view gantt]) }
   let(:other_project) { create(:project) }
   let(:admin) { create(:admin) }
   let!(:filter) do
@@ -114,6 +114,7 @@ RSpec.describe "Predefined work package filters", :skip_csrf, type: :rails_reque
     expect(selector.at_css('option[value="calendar"]').text).to eq(I18n.t(:label_calendar))
     expect(selector.css("option[selected]").map(&:text)).to eq([PredefinedWorkPackageFilter.placement_label(filter.placement)])
     expect(document.at_css('input[name="query_props"]')).to be_nil
+    expect(document.at_css('button[type="submit"]').text.strip).to eq(I18n.t(:button_save))
     expect(document.css("a").map { |link| link.text.strip }).to include(I18n.t(:label_setting_plural))
   end
 
@@ -199,7 +200,7 @@ RSpec.describe "Predefined work package filters", :skip_csrf, type: :rails_reque
     get path
     expect(response).to have_http_status(:ok)
     document = response.parsed_body
-    expect(document.at_css('button[type="submit"][disabled]').text.strip).to eq(I18n.t(:button_save))
+    expect(document.at_css('form[data-controller="admin--predefined-filter-query"] button[type="submit"]')).to be_nil
     edit_button = document.at_css('button[data-action="admin--predefined-filter-query#edit"]')
     expect(edit_button.text.strip).to eq(I18n.t("types.edit.form_configuration.edit_query"))
     summary = document.at_css("#predefined-filter-query-summary")
@@ -208,18 +209,51 @@ RSpec.describe "Predefined work package filters", :skip_csrf, type: :rails_reque
     expect(summary.text).not_to include("Relation type")
   end
 
-  it "previews filter conditions without saving the filter" do
+  {
+    work_packages: [:project_work_packages_path, "opce-work-packages-view"],
+    gantt: [:project_gantt_index_path, "opce-work-packages-view"],
+    calendar: [:new_project_calendar_path, "opce-calendar-view"]
+  }.each do |placement, (route, component)|
+    it "offers the active #{placement} filter configuration only to filter managers", :aggregate_failures do
+      filter.update!(placement:)
+      settings_path = configuration_admin_predefined_work_package_filter_path(filter)
+      view_path = public_send(route, project, **WorkPackages::PredefinedFilterQuery.new(filter, project:).menu_params(placement))
+      permissions = %i[view_project view_work_packages view_calendar]
+      member = create(:user, member_with_permissions: { project => permissions })
+      role = create(:global_role, permissions: [:manage_filters])
+      manager = create(:user, global_roles: [role], member_with_permissions: { project => permissions })
+
+      login_as(manager)
+      get view_path
+      expect(response.parsed_body.at_css(component)["data-predefined-filter-configuration-path"]).to be_nil
+
+      filter.set_active_in!(project, active: true)
+      get view_path
+      entry = response.parsed_body.at_css(component)
+      expect(entry["data-predefined-filter-title"]).to eq(filter.display_name)
+      expect(entry["data-predefined-filter-configuration-path"]).to eq(settings_path)
+
+      login_as(member)
+      get view_path
+      entry = response.parsed_body.at_css(component)
+      expect(entry["data-predefined-filter-title"]).to eq(filter.display_name)
+      expect(entry["data-predefined-filter-configuration-path"]).to be_nil
+    end
+  end
+
+  it "offers the overview filter configuration even when the filter has no results" do
+    filter.set_active_in!(project, active: true)
+    path = project_overview_path(project, predefined_filter_id: filter.id)
+    settings_path = configuration_admin_predefined_work_package_filter_path(filter)
+    selector = "a[href='#{settings_path}']"
+
     login_as(admin)
-    status = create(:status, name: "Ready for delivery")
-    original_properties = filter.query_properties
+    get path
+    expect(response.parsed_body.at_css(selector).text.strip).to eq(I18n.t("js.toolbar.settings.configure_filter"))
 
-    post query_summary_admin_predefined_work_package_filters_path,
-         params: { query_props: { f: [{ n: "status", o: "=", v: [status.id.to_s] }] }.to_json },
-         headers: { "Accept" => "text/vnd.turbo-stream.html" }
-
-    expect(response).to have_http_status(:ok)
-    expect(response.body).to include('target="predefined-filter-query-summary"', "Ready for delivery")
-    expect(filter.reload.query_properties).to eq(original_properties)
+    login_as(create(:user, member_with_permissions: { project => %i[view_project view_work_packages] }))
+    get path
+    expect(response.parsed_body.at_css(selector)).to be_nil
   end
 
   it "lets project editors update activation for their project" do
@@ -240,9 +274,6 @@ RSpec.describe "Predefined work package filters", :skip_csrf, type: :rails_reque
     login_as(create(:user))
 
     patch admin_predefined_work_package_filter_path(filter)
-    expect(response).to have_http_status(:forbidden)
-
-    post query_summary_admin_predefined_work_package_filters_path, params: { query_props: { f: [] }.to_json }
     expect(response).to have_http_status(:forbidden)
 
     patch configuration_admin_predefined_work_package_filter_path(filter), params: { query_props: { f: [] }.to_json }

@@ -135,13 +135,13 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     );
   }
 
-  public async openConfigurationModal(onUpdated:() => void, onReady?:() => void):Promise<void> {
+  public async openConfigurationModal(onUpdated:() => void, onReady?:() => void, saveOnApply = false):Promise<void> {
     await this.querySpace.query.valuesPromise();
     onReady?.();
 
     const target = document.querySelector('opce-custom-modal-overlay') ? PortalOutletTarget.Custom : PortalOutletTarget.Default;
     this.opModalService
-      .show(WpTableConfigurationModalComponent, this.injector, {}, false, false, target)
+      .show(WpTableConfigurationModalComponent, this.injector, { saveOnApply }, false, false, target)
       // Detach this component when the modal closes and pass along the query data
       .subscribe((modal) => modal.onDataUpdated.subscribe(onUpdated));
   }

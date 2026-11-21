@@ -949,6 +949,7 @@ en:
       settings:
         columns: "Columns"
         configure_view: "Configure view"
+        configure_filter: "Configure filter"
         delete: "Delete"
         display_hierarchy: "Display hierarchy"
         display_sums: "Display sums"
@@ -1064,6 +1065,7 @@ en:
         in_progress: "In progress"
         latest_activity: "Latest activity"
         manually_sorted: "New manually sorted query"
+        milestones: "Milestones"
         overdue: "Overdue"
         recently_created: "Recently created"
         shared_with_me: "Shared with me"

@@ -38,7 +38,7 @@ class Admin::PredefinedWorkPackageFiltersController < ApplicationController
   menu_item :predefined_work_package_filters
 
   before_action :authorize_global
-  before_action :find_filter, except: %i[index new create query_summary]
+  before_action :find_filter, except: %i[index new create]
 
   def index
     @query = ParamsToQueryService.new(PredefinedWorkPackageFilter, current_user).call(params.permit(:filters))
@@ -85,19 +85,6 @@ class Admin::PredefinedWorkPackageFiltersController < ApplicationController
     else
       render :configuration, status: :unprocessable_entity
     end
-  rescue JSON::ParserError, KeyError, TypeError
-    head :bad_request
-  end
-
-  def query_summary
-    filter = PredefinedWorkPackageFilter.new(query_properties: parse_query_properties(params.expect(:query_props)))
-    query = WorkPackages::PredefinedFilterQuery.new(filter).configuration_query
-
-    render turbo_stream: turbo_stream.update(
-      "predefined-filter-query-summary",
-      partial: "query_summary",
-      locals: { query: }
-    )
   rescue JSON::ParserError, KeyError, TypeError
     head :bad_request
   end

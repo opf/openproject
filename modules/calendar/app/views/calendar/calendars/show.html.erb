@@ -29,7 +29,8 @@ See COPYRIGHT and LICENSE files for more details.
 <% html_title(@view&.name.presence || t(:label_calendar_plural)) -%>
 
 <% content_for :content_body do %>
-  <%= angular_component_tag "opce-calendar-view", inputs: { queryId: @view&.id.to_s } %>
+  <% filter_data = @view&.id ? {} : predefined_filter_view_data(@project, :calendar) %>
+  <%= angular_component_tag "opce-calendar-view", inputs: { queryId: @view&.id.to_s }, data: filter_data %>
 <% end %>
 
 <% content_for :content_body_right do %>

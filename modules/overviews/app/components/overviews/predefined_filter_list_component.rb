@@ -29,8 +29,9 @@
 
 module Overviews
   class PredefinedFilterListComponent < ApplicationComponent
-    def initialize(query:, project:, current_user:)
+    def initialize(filter:, query:, project:, current_user:)
       super()
+      @filter = filter
       @query = query
       @project = project
       @current_user = current_user

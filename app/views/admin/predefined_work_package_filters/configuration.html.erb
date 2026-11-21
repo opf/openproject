@@ -34,10 +34,7 @@ See COPYRIGHT and LICENSE files for more details.
   primer_form_with(
     url: configuration_admin_predefined_work_package_filter_path(@filter),
     method: :patch,
-    data: {
-      controller: "admin--predefined-filter-query",
-      admin__predefined_filter_query_summary_url_value: query_summary_admin_predefined_work_package_filters_path
-    }
+    data: { controller: "admin--predefined-filter-query" }
   ) do
 %>
   <%= hidden_field_tag :query_props, @query_editor_properties.to_json, data: { admin__predefined_filter_query_target: "input" } %>
@@ -55,15 +52,4 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render(Primer::BaseComponent.new(tag: :div, id: "predefined-filter-query-summary", mb: 3)) do %>
     <%= render "admin/predefined_work_package_filters/query_summary", query: @query %>
   <% end %>
-
-  <%=
-    render(
-      Primer::Beta::Button.new(
-        type: :submit,
-        scheme: :primary,
-        disabled: errors.empty?,
-        data: { admin__predefined_filter_query_target: "submit" }
-      )
-    ) { t(:button_save) }
-  %>
 <% end %>

@@ -224,12 +224,13 @@ RSpec.describe Overviews::PageHeaderComponent, type: :component do
         expect(rendered_component).to have_css ".PageHeader-tabNavBar"
       end
 
-      it "renders 2 tabs", :aggregate_failures do
+      it "renders the base tabs and the dashboard creation action for the administrator", :aggregate_failures do
         expect(rendered_component).to have_list class: "tabnav-tabs" do |list|
-          expect(list).to have_list_item count: 2
+          expect(list).to have_list_item count: 3
           expect(list).to have_list_item "Overview"
           expect(list).to have_list_item "Dashboard"
         end
+        expect(rendered_component).to have_css('a[aria-label="New dashboard"][data-controller="async-dialog"]')
       end
 
       it "renders Overview tab link", :aggregate_failures do

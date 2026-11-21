@@ -26,12 +26,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% grouped_work_packages = groups %>
-<% if grouped_work_packages.empty? %>
-  <%= render(Primer::Beta::Blankslate.new) do |blankslate| %>
-    <% blankslate.with_heading(tag: :h2) { t("predefined_work_package_filters.empty") } %>
-  <% end %>
-<% end %>
+<% grouped_work_packages = groups.presence || { @filter.display_name => [] } %>
 
 <% grouped_work_packages.each_with_index do |(group, work_packages), index| %>
   <%= render(
@@ -40,7 +35,22 @@ See COPYRIGHT and LICENSE files for more details.
           current_user: @current_user, scheme: :transparent, padding: :condensed, header_padding: :condensed, mb: 3
         )
       ) do |list| %>
-    <% list.with_header(title: group_label(group), count: work_packages.size, count_arguments: { scheme: :secondary }) %>
+    <% list.with_header(title: group_label(group), count: work_packages.size, count_arguments: { scheme: :secondary }) do |header| %>
+      <% if @current_user.allowed_globally?(:manage_filters) %>
+        <% header.with_menu do |menu| %>
+          <% menu.with_item(
+               tag: :a,
+               href: configuration_admin_predefined_work_package_filter_path(@filter),
+               label: t("js.toolbar.settings.configure_filter")
+             ) do |item| %>
+            <% item.with_leading_visual_icon(icon: :gear) %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <% if work_packages.empty? %>
+      <% list.with_empty_state(title: t("predefined_work_package_filters.empty")) %>
+    <% end %>
     <% work_packages.each do |work_package| %>
       <% list.with_work_package_item(work_package:, project: @project) %>
     <% end %>
