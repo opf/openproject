@@ -66,12 +66,11 @@ import {
   rowOf,
   rowsRemainAt,
   sortableListsBusyAttribute,
-  sortableScopeCountAttribute,
-  sortableScopeIdsAttribute,
   type DestinationIdentity,
   type MoveAvailability,
   type MoveDirection,
 } from './sortable-lists/list-dom';
+import type { RenderedMenuScope } from './sortable-lists/rendered-menu-scope';
 import { SelectionOrchestrator, type ActionScope, type SelectionHost } from './sortable-lists/selection-orchestrator';
 import { itemElementsByKey, itemIdentity } from './sortable-lists/selection';
 import { relativeUrl } from './sortable-lists/url';
@@ -83,17 +82,6 @@ type MoveResult = { ok:true }|{ ok:false; showToast:boolean };
 // items is null on the single-item contract, the batch on the collection one.
 interface DropRoute { url:string; items:SelectionItem[]|null }
 interface MoveAnnouncementContext { label:string|null; listName:string|null; crossList:boolean }
-
-function parseScopeIds(raw:string|null):string[]|null {
-  if (!raw) return null;
-
-  try {
-    const parsed:unknown = JSON.parse(raw);
-    return Array.isArray(parsed) && parsed.every((entry):entry is string => typeof entry === 'string') ? parsed : null;
-  } catch {
-    return null;
-  }
-}
 
 export default class SortableListsController extends Controller<HTMLElement> implements SortableListsRoot, SelectionHost, DragSessionHost {
   static outlets = ['sortable-lists--list', 'sortable-lists--item', 'sortable-lists--scrollable', 'sortable-lists--menu-source'];
@@ -486,7 +474,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     void this.submitDestinationMove(form);
   }
 
-  moveInDirection(itemElement:HTMLElement, direction:MoveDirection, scopeOwner:HTMLElement|null = null):void {
+  moveInDirection(itemElement:HTMLElement, direction:MoveDirection, renderedScope:RenderedMenuScope|null = null):void {
     // The menu is rendered server-side from a permission check that does not
     // know about per-work-package movability, so a stale or over-permissive
     // menu must not execute a move the server will refuse.
@@ -495,7 +483,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     }
 
     const { items: scopeItems } = this.actionScopeFor(itemElement);
-    if (!this.menuScopeMatches(scopeOwner, scopeItems)) {
+    if (renderedScope && !renderedScope.matches(scopeItems)) {
       void announce(I18n.t(`${this.moveAnnouncementScopeValue}.menu_scope_changed`), { politeness: 'assertive' });
       return;
     }
@@ -534,18 +522,6 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       moveUrl,
       collapseSelectionOnto: itemElement,
     });
-  }
-
-  private menuScopeMatches(scopeOwner:HTMLElement|null, items:HTMLElement[]):boolean {
-    if (!scopeOwner?.hasAttribute(sortableScopeCountAttribute)) return true;
-
-    const rendered = parseScopeIds(scopeOwner.getAttribute(sortableScopeIdsAttribute));
-    if (!rendered || rendered.length === 0 || new Set(rendered).size !== rendered.length) return false;
-
-    const live = [...items]
-      .sort((left, right) => (left.compareDocumentPosition(right) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1))
-      .map((item) => resolveItemId(item));
-    return rendered.length === live.length && rendered.every((id, index) => id !== '' && id === live[index]);
   }
 
   private moveBlockInDirection(itemElement:HTMLElement, scopeItems:HTMLElement[], direction:MoveDirection):void {
