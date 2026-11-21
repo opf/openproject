@@ -374,6 +374,18 @@ RSpec.describe "Work package internal comments",
         localStorage.setItem = Storage.prototype.setItem;
       JS
     end
+
+    it "ignores and forgets a corrupt saved state" do
+      key = "work-package-#{work_package.id}-internal-comment-state"
+      page.execute_script("localStorage.setItem(arguments[0], '{')", key)
+
+      wp_page.visit!
+      wp_page.wait_for_activity_tab
+
+      activity_tab.open_new_comment_editor
+      activity_tab.expect_internal_comment_unchecked
+      expect(page.evaluate_script("localStorage.getItem(#{key.to_json})")).to be_nil
+    end
   end
 
   describe "making internal comments public" do
