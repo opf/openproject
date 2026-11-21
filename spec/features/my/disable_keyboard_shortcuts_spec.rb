@@ -66,4 +66,51 @@ RSpec.describe "My account disable keyboard shortcuts setting", :js do
     page.driver.send_keys("s")
     global_search.expect_closed
   end
+
+  describe "navigating to another page after disabling" do
+    let(:project) { create(:project, enabled_module_names: %w[work_package_tracking]) }
+    let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+    let(:work_package) { create(:work_package, project:) }
+    let(:split_view) { Pages::SplitWorkPackage.new(work_package, project) }
+    let(:user) { create(:admin) }
+
+    def settle
+      wait_for_network_idle
+      page.evaluate_async_script("requestAnimationFrame(() => requestAnimationFrame(arguments[0]))")
+    end
+
+    before do
+      user.pref.update!(disable_keyboard_shortcuts: true)
+      work_package
+    end
+
+    it "fires no hotkeys on pages reached by a link click" do
+      visit project_path(project)
+      click_on "Work packages"
+      wp_table.expect_work_package_listed(work_package)
+
+      page.send_keys("m")
+      settle
+      expect(page).to have_no_menu
+
+      page.send_keys("d", "w", "p")
+      settle
+      split_view.expect_closed
+      expect(page).to have_current_path(project_work_packages_path(project), ignore_query: true)
+
+      page.send_keys("g", "m")
+      settle
+      expect(page).to have_current_path(project_work_packages_path(project), ignore_query: true)
+    end
+
+    it "gives native key 7 to the details More in the split view" do
+      split_view.visit!
+      split_view.expect_open
+      expect(page).to have_button(accessible_name: "More actions")
+      expect(page).to have_button(accessible_name: "More", exact: true)
+
+      expect(page).to have_element(accesskey: "7", count: 1, visible: :all)
+      expect(page).to have_element(:button, accesskey: "7", accessible_name: "More", exact: true)
+    end
+  end
 end

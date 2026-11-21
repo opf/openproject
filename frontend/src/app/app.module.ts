@@ -50,7 +50,6 @@ import {
   OpenprojectWorkPackageGraphsModule,
 } from 'core-app/shared/components/work-package-graphs/openproject-work-package-graphs.module';
 import { OpenprojectMyPageModule } from 'core-app/features/my-page/openproject-my-page.module';
-import { KeyboardShortcutService } from 'core-app/shared/directives/a11y/keyboard-shortcut.service';
 import { CopyToClipboardService } from 'core-app/shared/components/copy-to-clipboard/copy-to-clipboard.service';
 import {
   OpenprojectMembersModule,
@@ -220,7 +219,6 @@ import { ProjectTimelineGraphComponent } from './shared/components/project-timel
 export function initializeServices(injector:Injector) {
   return () => {
     const topMenuService = injector.get(TopMenuService);
-    const keyboardShortcuts = injector.get(KeyboardShortcutService);
     const contextMenu = injector.get(OPContextMenuService);
     const currentProject = injector.get(CurrentProjectService);
     const timeEntryTimerService = injector.get(TimeEntryTimerService);
@@ -239,8 +237,6 @@ export function initializeServices(injector:Injector) {
     // Register on turbo:render, turbo:load
     document.addEventListener('turbo:render', runOnRenderAndLoad);
     document.addEventListener('turbo:load', runOnRenderAndLoad);
-
-    keyboardShortcuts.register();
 
     const configuration = injector.get(ConfigurationService).initialize();
     void configuration.then(() => injector.get(AppBadgeService).initialize()).catch(() => undefined);

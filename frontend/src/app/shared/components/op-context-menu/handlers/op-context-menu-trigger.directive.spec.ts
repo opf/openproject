@@ -95,6 +95,18 @@ describe('OpContextMenuTrigger', () => {
     expect(contextMenu.show).toHaveBeenCalledTimes(2);
   });
 
+  it('ignores F10 without both Shift and Alt once enabled', async () => {
+    fixture.componentInstance.disabled.set(false);
+    await fixture.whenStable();
+
+    const button = screen.getByRole('button', { name: 'Open menu' });
+
+    fireEvent.keyDown(button, { key: 'F10', code: 'F10', shiftKey: true });
+    fireEvent.keyDown(button, { key: 'F10', code: 'F10', altKey: true });
+
+    expect(contextMenu.show).not.toHaveBeenCalled();
+  });
+
   it('keeps the resting background on hover while aria-disabled', async () => {
     const button = screen.getByRole('button', { name: 'Open menu' });
     button.style.transition = 'none';

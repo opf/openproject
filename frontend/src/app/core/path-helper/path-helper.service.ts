@@ -113,10 +113,6 @@ export class PathHelperService {
     return `${this.projectForumPath(projectIdentifier)}/${forumIdentifier}`;
   }
 
-  public keyboardShortcutsHelpPath() {
-    return `${this.staticBase}/help/keyboard_shortcuts`;
-  }
-
   public messagePath(messageIdentifier:string) {
     return `${this.staticBase}/topics/${messageIdentifier}`;
   }
