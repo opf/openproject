@@ -29,7 +29,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { fireEvent, within } from '@testing-library/dom';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -40,6 +40,7 @@ import { OpIconComponent } from 'core-app/shared/components/icon/icon.component'
 import { ViewerBridgeService } from '../bcf-viewer-bridge/viewer-bridge.service';
 import { BcfAuthorizationService } from '../api/bcf-authorization.service';
 import { ViewpointsService } from '../helper/viewpoints.service';
+import { CreateBcfViewpointData } from '../api/bcf-api.model';
 import { BcfWpAttributeGroupComponent } from './bcf-wp-attribute-group.component';
 import { BcfNewWpAttributeGroupComponent } from './bcf-new-wp-attribute-group.component';
 
@@ -54,6 +55,9 @@ describe('BCF attribute group save integration', () => {
   const getViewpoint$ = vi.fn(() => of({ snapshot: { snapshot_data: 'data:image/png;base64,c25hcHNob3Q=' } }));
   const showViewpoint = vi.fn<ViewerBridgeService['showViewpoint']>();
   const deleteViewPoint$ = vi.fn<ViewpointsService['deleteViewPoint$']>(() => of(undefined));
+  const setBcfTopic$ = vi.fn<ViewpointsService['setBcfTopic$']>(() => of('topic-uuid'));
+  const resetBcfTopic = vi.fn<ViewpointsService['resetBcfTopic']>();
+  let newWorkPackage$:Subject<WorkPackageResource>;
 
   afterEach(() => vi.restoreAllMocks());
 
@@ -63,6 +67,9 @@ describe('BCF attribute group save integration', () => {
     getViewpoint$.mockClear();
     showViewpoint.mockClear();
     deleteViewPoint$.mockClear();
+    setBcfTopic$.mockReset();
+    resetBcfTopic.mockClear();
+    newWorkPackage$ = new Subject<WorkPackageResource>();
     TestBed.configureTestingModule({
       imports: [NgxGalleryModule, OpenprojectHalModule, OpTooltipDirective],
       declarations: [BcfWpAttributeGroupComponent, BcfNewWpAttributeGroupComponent, OpIconComponent],
@@ -73,14 +80,14 @@ describe('BCF attribute group save integration', () => {
         { provide: UrlParamsService, useValue: { get: () => null } },
         { provide: BcfAuthorizationService, useValue: {} },
         { provide: ApiV3Service, useValue: {} },
-        { provide: WorkPackageCreateService, useValue: {} },
+        { provide: WorkPackageCreateService, useValue: { onNewWorkPackage: () => newWorkPackage$ } },
         { provide: ToastService, useValue: { addSuccess: () => {} } },
         { provide: ChangeDetectorRef, useValue: { detectChanges: () => {} } },
         { provide: ViewerBridgeService, useValue: { viewerVisible$: new BehaviorSubject(true), getViewpoint$, showViewpoint } },
-        { provide: ViewpointsService, useValue: { saveViewpoint$, deleteViewPoint$ } },
+        { provide: ViewpointsService, useValue: { saveViewpoint$, deleteViewPoint$, setBcfTopic$, resetBcfTopic } },
       ],
     });
-    TestBed.overrideComponent(BcfWpAttributeGroupComponent, { set: { providers: [{ provide: ViewpointsService, useValue: { saveViewpoint$, deleteViewPoint$ } }] } });
+    TestBed.overrideComponent(BcfWpAttributeGroupComponent, { set: { providers: [{ provide: ViewpointsService, useValue: { saveViewpoint$, deleteViewPoint$, setBcfTopic$, resetBcfTopic } }] } });
   });
 
   it('saves the current persisted work package from the shared template', () => {
@@ -165,6 +172,59 @@ describe('BCF attribute group save integration', () => {
 
       expect(deleteViewPoint$).toHaveBeenCalledExactlyOnceWith(component.workPackage, 0);
       expect(region(host, 'ngx-gallery-preview')).not.toHaveClass('ngx-gallery-active');
+    });
+  });
+
+  describe('when the new work package is created', () => {
+    const viewpoint:CreateBcfViewpointData = {
+      index: null,
+      guid: 'viewpoint-guid',
+      orthogonal_camera: null,
+      perspective_camera: null,
+      lines: null,
+      clipping_planes: null,
+      bitmaps: null,
+      snapshot: { snapshot_type: 'png', snapshot_data: 'data:image/png;base64,c25hcHNob3Q=' },
+      components: {
+        coloring: [],
+        selection: [],
+        visibility: { default_visibility: true, exceptions: [], view_setup_hints: null },
+      },
+    };
+
+    function watchCreation(galleryViewpoints:BcfNewWpAttributeGroupComponent['galleryViewpoints']) {
+      const component = TestBed.runInInjectionContext(() => new BcfNewWpAttributeGroupComponent());
+      const halResources = TestBed.inject(HalResourceService);
+      component.workPackage = halResources.createHalResource<WorkPackageResource>({ _type: 'WorkPackage', id: 'new' });
+      component.viewerVisible = true;
+      component.galleryViewpoints = galleryViewpoints;
+      component.ngAfterViewInit();
+
+      return halResources.createHalResource<WorkPackageResource>({ _type: 'WorkPackage', id: '42' });
+    }
+
+    it('sets the BCF topic without viewpoints to save', () => {
+      const created = watchCreation([]);
+
+      newWorkPackage$.next(created);
+
+      expect(setBcfTopic$).toHaveBeenCalledExactlyOnceWith(created);
+      expect(saveViewpoint$).not.toHaveBeenCalled();
+    });
+
+    it('saves the unsaved viewpoints once the BCF topic is set', () => {
+      const topic$ = new Subject<string>();
+      setBcfTopic$.mockReturnValue(topic$);
+      const created = watchCreation([{ snapshotURL: viewpoint.snapshot.snapshot_data, viewpoint }]);
+
+      newWorkPackage$.next(created);
+
+      expect(setBcfTopic$).toHaveBeenCalledExactlyOnceWith(created);
+      expect(saveViewpoint$).not.toHaveBeenCalled();
+
+      topic$.next('topic-uuid');
+
+      expect(saveViewpoint$).toHaveBeenCalledExactlyOnceWith(created, viewpoint);
     });
   });
 
