@@ -49,6 +49,7 @@ uk:
       end_time: Час завершення
       start_time: Час початку
       title: Експорт звітів про витрати у форматі XLS
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: Експортувати табель обліку часу в PDF
       overview_per_user_day: 'Огляд: «Годин на користувача в день»'
@@ -57,6 +58,13 @@ uk:
       time: Час
       timesheet: Табель обліку часу
       title: Ваші табелі обліку часу, експортовані в PDF
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    one: "%{filter} requires a value."
+    few: "%{filter} requires %{count} values."
+    many: "%{filter} requires %{count} values."
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: Залежно від ваших дозволів ця сторінка може містити обмежену інформацію.
   label_click_to_edit: Натисніть для редагування.
   label_closed: зачинено
@@ -117,5 +125,3 @@ uk:
   text_costs_are_rounded_note: Відображені значення округлюються. Всі розрахунки базуються на неокруглених значеннях.
   toggle_multiselect: активувати/деактивувати мультивибір
   units: Одиниці
-  validation_failure_date: є недійсною датою
-  validation_failure_integer: не є дійсним цілим числом

@@ -5963,7 +5963,7 @@ da:
     phase_status:
       description:
         completed: Når en fase markeres som afsluttet, afsluttes alle tidligere faser.
-        in_progress: Marking a phase as in progress will complete all previous phases and open all future phases.
+        in_progress: Når en fase markeres som i gang, afsluttes alle tidligere faser, og alle senere faser åbnes.
         open: Når en fase genåbnes, åbnes alle senere faser også.
       title:
         completed: Afsluttet

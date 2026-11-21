@@ -5,6 +5,7 @@ da:
       itsm/email_message:
         direction: Retning
         from_address: Fra
+        journal: Journal
         message_id: Besked-id
         status: Status
         subject: Emne
@@ -39,14 +40,14 @@ da:
     errors:
       models:
         itsm/email_message:
-          delivery_failed: The email could not be sent.
-          delivery_rejected: The SMTP server rejected the email.
-          not_delivered: The email was not sent because all recipients are blocked or the email limit is reached.
+          delivery_failed: E-mailen kunne ikke sendes.
+          delivery_rejected: SMTP-serveren afviste e-mailen.
+          not_delivered: E-mailen blev ikke sendt, fordi alle modtagere er blokeret, eller grænsen for e-mails er nået.
         itsm/email_thread:
-          address_not_allowed: The SMTP server address is not allowed.
-          no_outgoing_mailbox: The project has no outgoing mailbox.
-          too_many_confirmations: Too many confirmations were sent to the requester recently.
-          unreachable: The SMTP server could not be reached.
+          address_not_allowed: SMTP-serverens adresse er ikke tilladt.
+          no_outgoing_mailbox: Projektet har ingen udgående postkasse.
+          too_many_confirmations: Der er for nylig sendt for mange bekræftelser til anmoderen.
+          unreachable: SMTP-serveren kunne ikke nås.
         itsm/incoming_mailbox:
           attributes:
             base:
@@ -54,10 +55,12 @@ da:
               authentication_failed: 'Mailserveren afviste login: %{server_message}'
               fetch_in_progress: Postkassen bliver allerede tjekket.
               inactive: Postkassen er sat på pause.
+              processing_failed: The emails could not be processed. They stay in the mailbox and are tried again. Check the OpenProject worker logs for details.
               server_error: 'Mailserveren returnerede en fejl: %{server_message}'
               timeout: Mailserveren holdt op med at svare.
               tls_failed: Der kunne ikke oprettes en sikker forbindelse til mailserveren. Tjek dens certifikat.
               unreachable: Mailserveren kunne ikke nås.
+              work_package_not_created: No work package could be created from an email, for example because of a required custom field without a default value. The email stays in the mailbox and is tried again. Check the OpenProject worker logs for details.
     models:
       itsm/email_message:
         one: E-mail
@@ -107,9 +110,10 @@ da:
         title: Konfiguration af SMTP-server
     helpdesk_mailer:
       confirmation:
-        greeting: Hello %{name},
-        received: we have received your request "%{subject}" and recorded it as %{id}.
-        reply: To add information to your request, reply to this email.
+        greeting: Hej %{name}
+        received: Vi har modtaget din henvendelse "%{subject}" og registreret den som %{id}.
+        reply: Svar på denne e-mail for at tilføje oplysninger til din henvendelse.
+  label_email_without_subject: "(no subject)"
   label_helpdesk: Helpdesk
   label_helpdesk_role: Helpdesk
   label_helpdesk_user: Helpdesk
