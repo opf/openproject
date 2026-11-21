@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { within } from '@testing-library/dom';
 import { renderDragPreview, sanitizePreview } from './preview';
 
 describe('sortable lists drag preview', () => {
@@ -57,14 +58,14 @@ describe('sortable lists drag preview', () => {
 
       sanitizePreview(element);
 
-      expect(element.hasAttribute('data-controller')).toBe(false);
-      expect(element.hasAttribute('data-action')).toBe(false);
-      expect(element.hasAttribute('data-sortable-lists--item-target')).toBe(false);
-      expect(element.hasAttribute('data-dragging')).toBe(false);
-      expect(element.hasAttribute('data-drop-position')).toBe(false);
-      expect(element.hasAttribute('data-drop-position-owner')).toBe(false);
-      expect(element.hasAttribute('aria-current')).toBe(false);
-      expect(element.hasAttribute('aria-roledescription')).toBe(false);
+      expect(element).not.toHaveAttribute('data-controller');
+      expect(element).not.toHaveAttribute('data-action');
+      expect(element).not.toHaveAttribute('data-sortable-lists--item-target');
+      expect(element).not.toHaveAttribute('data-dragging');
+      expect(element).not.toHaveAttribute('data-drop-position');
+      expect(element).not.toHaveAttribute('data-drop-position-owner');
+      expect(element).not.toHaveAttribute('aria-current');
+      expect(element).not.toHaveAttribute('aria-roledescription');
     });
 
     it('strips dynamic target attributes from descendants', () => {
@@ -113,8 +114,8 @@ describe('sortable lists drag preview', () => {
       expect(preview).not.toBe(target);
       expect(preview.tagName).toEqual('ARTICLE');
       expect(preview.style.width).toEqual('320px');
-      expect(preview.hasAttribute('data-preview')).toBe(true);
-      expect(preview.hasAttribute('data-controller')).toBe(false);
+      expect(preview).toHaveAttribute('data-preview');
+      expect(preview).not.toHaveAttribute('data-controller');
     });
 
     it('zeroes the clone margin so source spacing utilities render no whitespace', () => {
@@ -150,8 +151,8 @@ describe('sortable lists drag preview', () => {
 
       renderDragPreview({ previewTarget: target, sourceElement: target, container });
 
-      expect(container.classList.contains('Box--condensed')).toBe(true);
-      expect(container.classList.contains('Box--spacious')).toBe(false);
+      expect(container).toHaveClass('Box--condensed');
+      expect(container).not.toHaveClass('Box--spacious');
     });
 
     it('adds no density class when the Box carries none', () => {
@@ -164,12 +165,11 @@ describe('sortable lists drag preview', () => {
 
       renderDragPreview({ previewTarget: target, sourceElement: target, container });
 
-      expect(container.classList.contains('Box--condensed')).toBe(false);
-      expect(container.classList.contains('Box--spacious')).toBe(false);
+      expect(container).not.toHaveClass('Box--condensed');
+      expect(container).not.toHaveClass('Box--spacious');
     });
 
     describe('batch count badge', () => {
-      const badgeSelector = '.op-sortable-lists-drag-preview-batch-badge';
 
       it('adds no badge for a single-card drag (the default)', () => {
         const target = withWidth(previewTarget(), 320);
@@ -177,7 +177,7 @@ describe('sortable lists drag preview', () => {
 
         renderDragPreview({ previewTarget: target, sourceElement: target, container });
 
-        expect(container.querySelector(badgeSelector)).toBeNull();
+        expect(within(container).queryByText('1')).toBeNull();
         expect(container.style.paddingTop).toEqual('');
         expect(container.style.paddingRight).toEqual('');
         expect(container.style.paddingBottom).toEqual('');
@@ -191,7 +191,7 @@ describe('sortable lists drag preview', () => {
           previewTarget: target, sourceElement: target, container, batchSize: 1,
         });
 
-        expect(container.querySelector(badgeSelector)).toBeNull();
+        expect(within(container).queryByText('1')).toBeNull();
       });
 
       it('adds a badge with the batch count inside the container for a multi-card drag', () => {
@@ -202,11 +202,7 @@ describe('sortable lists drag preview', () => {
           previewTarget: target, sourceElement: target, container, batchSize: 3,
         });
 
-        const badge = container.querySelector(badgeSelector);
-
-        expect(badge).not.toBeNull();
-        expect(badge?.textContent).toEqual('3');
-        expect(container.contains(badge)).toBe(true);
+        expect(container).toContainElement(within(container).getByText('3'));
       });
 
       it('carries the Primer Counter classes and the batch-badge class', () => {
@@ -217,11 +213,8 @@ describe('sortable lists drag preview', () => {
           previewTarget: target, sourceElement: target, container, batchSize: 3,
         });
 
-        const badge = container.querySelector(badgeSelector);
-
-        expect(badge?.classList.contains('Counter')).toBe(true);
-        expect(badge?.classList.contains('Counter--primary')).toBe(true);
-        expect(badge?.classList.contains('op-sortable-lists-drag-preview-batch-badge')).toBe(true);
+        expect(within(container).getByText('3'))
+          .toHaveClass('Counter', 'Counter--primary', 'op-sortable-lists-drag-preview-batch-badge');
       });
 
       it('anchors the badge to the container without disturbing the already-appended preview clone', () => {
@@ -232,15 +225,10 @@ describe('sortable lists drag preview', () => {
           previewTarget: target, sourceElement: target, container, batchSize: 3,
         });
 
-        const preview = container.querySelector('[data-preview]');
-        const badge = container.querySelector(badgeSelector);
-
         // The preview clone survives lit-html's render() alongside the badge:
         // both are present in the container at once.
-        expect(preview).not.toBeNull();
-        expect(badge).not.toBeNull();
-        expect(container.contains(preview)).toBe(true);
-        expect(container.contains(badge)).toBe(true);
+        expect(container).toContainElement(container.querySelector('[data-preview]'));
+        expect(container).toContainElement(within(container).getByText('3'));
       });
 
       // The padding holds the badge's overhang inside the container's border
@@ -266,9 +254,7 @@ describe('sortable lists drag preview', () => {
     });
 
     describe('batch stack', () => {
-      const stackDepth = (container:HTMLElement) => container
-        .querySelector('[data-preview]')
-        ?.getAttribute('data-stack-depth');
+      const previewIn = (container:HTMLElement) => container.querySelector('[data-preview]');
 
       it('leaves the clone unstacked for a single-card drag (the default)', () => {
         const target = withWidth(previewTarget(), 320);
@@ -276,7 +262,7 @@ describe('sortable lists drag preview', () => {
 
         renderDragPreview({ previewTarget: target, sourceElement: target, container });
 
-        expect(stackDepth(container)).toBeNull();
+        expect(previewIn(container)).not.toHaveAttribute('data-stack-depth');
       });
 
       it('leaves the clone unstacked when batchSize is explicitly 1', () => {
@@ -287,7 +273,7 @@ describe('sortable lists drag preview', () => {
           previewTarget: target, sourceElement: target, container, batchSize: 1,
         });
 
-        expect(stackDepth(container)).toBeNull();
+        expect(previewIn(container)).not.toHaveAttribute('data-stack-depth');
       });
 
       it.each([
@@ -302,7 +288,7 @@ describe('sortable lists drag preview', () => {
           previewTarget: target, sourceElement: target, container, batchSize,
         });
 
-        expect(stackDepth(container)).toEqual(depth);
+        expect(previewIn(container)).toHaveAttribute('data-stack-depth', depth);
       });
 
       // Capping how deep the stack draws belongs to the stylesheet, which
@@ -315,7 +301,7 @@ describe('sortable lists drag preview', () => {
           previewTarget: target, sourceElement: target, container, batchSize: 27,
         });
 
-        expect(stackDepth(container)).toEqual('26');
+        expect(previewIn(container)).toHaveAttribute('data-stack-depth', '26');
       });
 
       it('stacks the clone for a multi-card drag without disturbing its own classes', () => {
@@ -327,8 +313,8 @@ describe('sortable lists drag preview', () => {
           previewTarget: target, sourceElement: target, container, batchSize: 3,
         });
 
-        expect(stackDepth(container)).toEqual('2');
-        expect(container.querySelector('[data-preview]')?.classList.contains('op-card')).toBe(true);
+        expect(previewIn(container)).toHaveAttribute('data-stack-depth', '2');
+        expect(previewIn(container)).toHaveClass('op-card');
       });
 
       it('adds no element for the layers, so the container holds only the clone and the badge', () => {
