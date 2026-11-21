@@ -26,7 +26,8 @@
 //++
 
 import { OpenProjectModule } from 'core-app/app.module';
-import { enableProdMode, provideZonelessChangeDetection } from '@angular/core';
+import { wasReported } from 'core-app/features/hal/services/hal-aware-error-handler';
+import { enableProdMode, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
 
 import 'core-app/core/setup/init-js-patches';
 
@@ -68,5 +69,11 @@ void initializeLocale()
     initializeGlobalListeners();
 
     // Due to the behavior of the Edge browser we need to wait for 'DOM ready'
-    void platformBrowser().bootstrapModule(OpenProjectModule, { applicationProviders: [provideZonelessChangeDetection()], });
+    platformBrowser().bootstrapModule(OpenProjectModule, { applicationProviders: [provideZonelessChangeDetection(), provideBrowserGlobalErrorListeners()], })
+      .catch((error:unknown) => {
+        // A failing initializer has already gone through the ErrorHandler.
+        if (!wasReported(error)) {
+          window.ErrorReporter.captureException(error);
+        }
+      });
   });
