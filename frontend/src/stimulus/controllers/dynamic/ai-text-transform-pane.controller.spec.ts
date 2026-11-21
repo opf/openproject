@@ -542,6 +542,19 @@ describe('AiTextTransformPaneController', () => {
       expect(isInScrollView(byTestId('error'))).toBe(true);
     });
 
+    it('keeps the reading position when polling gives up after the user scrolled up', async () => {
+      const state = `<span hidden data-ai-text-transform-pane-target="state" data-state="generating" data-seq="0"
+        data-poll-url="/ai/text_transform_panes/run?request_id=request&scope=document"></span>`;
+      vi.spyOn(window, 'fetch').mockResolvedValue(new Response(null, { status: 404 }));
+      await mountScrollArea('', `${banner('data-testid="error" data-ai-text-transform-pane-target="error" hidden')}${state}`);
+      await showLines(20);
+      await scrollTo(100);
+      await vi.waitFor(() => expect(byTestId('error')).toBeVisible(), { timeout: 2000 });
+
+      expect(isInScrollView(byTestId('error'))).toBe(false);
+      expect(scrollArea().scrollTop).toBeGreaterThan(0);
+    });
+
     it('reveals a notice that arrives above followed output', async () => {
       await mountScrollArea();
       await showLines(20);

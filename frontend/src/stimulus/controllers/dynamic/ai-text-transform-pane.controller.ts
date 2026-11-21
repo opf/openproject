@@ -89,6 +89,7 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
 
   declare readonly paneTarget:HTMLElement;
   declare readonly scrollTarget:HTMLElement;
+  declare readonly hasScrollTarget:boolean;
   declare readonly errorTarget:HTMLElement;
   declare readonly errorMessageTarget:HTMLElement;
   declare readonly hasErrorTarget:boolean;
@@ -430,7 +431,10 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     const transient = !response || response.ok || response.status >= 500;
     this.pollFailures += 1;
     if (!transient || this.pollFailures > POLL_RETRIES) {
-      this.showError(this.requestFailedValue);
+      if (this.hasScrollTarget) {
+        this.catchUpWithUnseenScroll();
+      }
+      this.showError(this.requestFailedValue, this.followsOutput);
       return;
     }
 
@@ -461,11 +465,13 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     this.buttonsOf(formId).forEach((button) => { button.disabled = disabled; });
   }
 
-  private showError(message:string):void {
+  private showError(message:string, revealBanner = true):void {
     if (this.hasErrorTarget) {
       this.errorMessageTarget.textContent = message;
       this.errorTarget.hidden = false;
-      this.reveal(this.errorTarget);
+      if (revealBanner) {
+        this.reveal(this.errorTarget);
+      }
     }
   }
 
