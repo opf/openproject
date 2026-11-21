@@ -346,7 +346,7 @@ class ApplicationController < ActionController::Base
     if params[:format].nil?
       %w(application/xml application/json).include? request.format.to_s
     else
-      %w(xml json).include? params[:format]
+      %w(xml json).include? params[:format].to_s
     end
   end
 
