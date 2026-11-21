@@ -38,7 +38,7 @@ import { HalResourceEditingService } from '../services/hal-resource-editing.serv
 import { EditableAttributeFieldComponent } from './editable-attribute-field.component';
 
 describe('EditableAttributeFieldComponent activation events', () => {
-  function setup(doubleClick = false) {
+  function setup(doubleClick = false, editable = true) {
     const activate = vi.fn().mockResolvedValue(undefined);
     const close = vi.fn();
     TestBed.configureTestingModule({
@@ -47,7 +47,7 @@ describe('EditableAttributeFieldComponent activation events', () => {
       providers: [
         { provide: ConfigurationService, useValue: { requireDoubleClickForInlineEdit: () => doubleClick } },
         { provide: I18nService, useValue: {} },
-        { provide: SchemaCacheService, useValue: { of: () => ({ isAttributeEditable: () => true }) } },
+        { provide: SchemaCacheService, useValue: { of: () => ({ isAttributeEditable: () => editable }) } },
         { provide: States, useValue: {} },
         { provide: OPContextMenuService, useValue: { close } },
         { provide: EditFormComponent, useValue: { register: vi.fn(), activate } },
@@ -74,6 +74,13 @@ describe('EditableAttributeFieldComponent activation events', () => {
     expect(activate).toHaveBeenCalledExactlyOnceWith('subject', false);
     expect(close).toHaveBeenCalledExactlyOnceWith();
     expect(event.defaultPrevented).toBe(true);
+  });
+
+  it('leaves a read-only field inactive when the form activates it', async () => {
+    const { fixture, activate } = setup(false, false);
+
+    await expect(fixture.componentInstance.activateOnForm(true)).resolves.toBeUndefined();
+    expect(activate).not.toHaveBeenCalled();
   });
 
   it('keeps double-click configuration and ignores links', () => {
