@@ -156,12 +156,6 @@ export class OpActionMenuComponent implements AfterContentChecked, AfterViewInit
 
   private reason:OpContextMenuCloseReason = 'outside';
 
-  private externalFocus?:AbortController;
-
-  private lastExternalFocus?:HTMLElement;
-
-  private invokerRefocused = false;
-
   private disabledObserver?:MutationObserver;
 
   constructor() {
@@ -175,7 +169,6 @@ export class OpActionMenuComponent implements AfterContentChecked, AfterViewInit
     });
     this.destroyRef.onDestroy(() => {
       this.listeners.abort();
-      this.externalFocus?.abort();
       this.disabledObserver?.disconnect();
     });
   }
@@ -313,22 +306,16 @@ export class OpActionMenuComponent implements AfterContentChecked, AfterViewInit
 
   private onOpening():void {
     this.reason = 'outside';
-    this.lastExternalFocus = undefined;
-    this.invokerRefocused = false;
-    this.trackExternalFocus();
     this.closeWhenInvokerDisabled();
   }
 
   private onClosed():void {
-    this.externalFocus?.abort();
-    this.externalFocus = undefined;
     this.disabledObserver?.disconnect();
     this.disabledObserver = undefined;
     this.invoker?.setAttribute('aria-expanded', 'false');
 
     const { reason } = this;
     this.reason = 'outside';
-    this.restoreExternalFocus();
     this.closed.emit(reason);
   }
 
@@ -372,35 +359,5 @@ export class OpActionMenuComponent implements AfterContentChecked, AfterViewInit
       }
     });
     this.disabledObserver.observe(invoker, { attributes: true, attributeFilter: ['disabled', 'aria-disabled'] });
-  }
-
-  private trackExternalFocus():void {
-    this.externalFocus?.abort();
-    this.externalFocus = new AbortController();
-    this.host.nativeElement.ownerDocument.addEventListener('focusin', (event) => {
-      if (this.invokerRefocused || !(event.target instanceof HTMLElement)) {
-        return;
-      }
-      if (event.target === this.menuElement.invokerElement) {
-        this.invokerRefocused = true;
-      } else if (!this.menuElement.contains(event.target)) {
-        this.lastExternalFocus = event.target;
-      }
-    }, { capture: true, signal: this.externalFocus.signal });
-  }
-
-  // The opf Primer fork's `action-menu` focuses its invoker on every close of
-  // the primary overlay (`#handleToggleEvent`), without checking whether the
-  // close was a click or a Tab onto another control, and listeners reacting
-  // to that refocus (the table moving focus to the header cell) may move it
-  // on again. Once the refocus was seen, hand focus back to the element that
-  // held it before. Tracked as DREAM-987; drop once the fork guards the
-  // refocus.
-  private restoreExternalFocus():void {
-    const target = this.lastExternalFocus;
-    this.lastExternalFocus = undefined;
-    if (this.invokerRefocused && target?.isConnected) {
-      target.focus();
-    }
   }
 }
