@@ -38,6 +38,9 @@ import { EditableToolbarTitleComponent } from 'core-app/shared/components/editab
 import { GridAreaService } from 'core-app/shared/components/grids/grid/area.service';
 import { GridDragAndDropService } from 'core-app/shared/components/grids/grid/drag-and-drop.service';
 import { WidgetHeaderComponent } from 'core-app/shared/components/grids/widgets/header/header.component';
+import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { of, Subject } from 'rxjs';
 import { WidgetWpTableComponent } from './wp-table.component';
 
 @Component({
@@ -93,5 +96,51 @@ describe('WidgetWpTableComponent heading', () => {
 
     expect(headingId()).toBe(before);
     expect(tableConfiguration().labelledBy).toBe(before);
+  });
+});
+
+describe('WidgetWpTableComponent initial query', () => {
+  let fixture:ComponentFixture<WidgetWpTableComponent>;
+  let form$:Subject<[QueryFormResource, QueryResource]>;
+  const post = vi.fn((query:QueryResource) => of(query));
+
+  beforeEach(() => {
+    form$ = new Subject<[QueryFormResource, QueryResource]>();
+    post.mockClear();
+
+    TestBed.configureTestingModule({
+      imports: [CommonModule, FormsModule],
+      declarations: [WidgetWpTableComponent, WidgetHeaderComponent, EditableToolbarTitleComponent, EmbeddedTableStubComponent],
+      schemas: [NO_ERRORS_SCHEMA],
+      providers: [
+        { provide: GridAreaService, useValue: { isEditable: false } },
+        { provide: GridDragAndDropService, useValue: { isDraggable: false } },
+        { provide: ApiV3Service, useValue: { queries: { form: { loadWithParams: () => form$ }, post } } },
+        { provide: CurrentProjectService, useValue: { id: null } },
+        { provide: I18nService, useValue: { t: (key:string, options?:{ defaultValue?:string }) => options?.defaultValue ?? key } },
+      ],
+    });
+
+    fixture = TestBed.createComponent(WidgetWpTableComponent);
+    fixture.componentInstance.resource = { identifier: 'work_packages_table', options: { name: 'Assigned to me', queryProps: {} } } as unknown as GridWidgetResource;
+    vi.spyOn(fixture.componentInstance as unknown as { setChangesetOptions:() => unknown }, 'setChangesetOptions').mockReturnValue({});
+    fixture.detectChanges();
+  });
+
+  const formLoaded = () => form$.next([{} as QueryFormResource, { id: '7' } as QueryResource]);
+
+  it('creates the query once its form has loaded', () => {
+    formLoaded();
+
+    expect(post).toHaveBeenCalledOnce();
+    expect(fixture.componentInstance.queryId).toBe('7');
+  });
+
+  it('does not create the query when the widget is gone before its form loads', () => {
+    fixture.destroy();
+
+    formLoaded();
+
+    expect(post).not.toHaveBeenCalled();
   });
 });

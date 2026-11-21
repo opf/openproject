@@ -79,6 +79,7 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent implements O
     if (!this.resource.options.queryId) {
       this
         .createInitial()
+        .pipe(this.untilDestroyed())
         .subscribe((query) => {
           const changeset = this.setChangesetOptions({ queryId: query.id });
 
