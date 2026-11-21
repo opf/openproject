@@ -67,14 +67,16 @@ export class BcfNewWpAttributeGroupComponent extends BcfWpAttributeGroupComponen
       .pipe(
         this.untilDestroyed(),
         take(1),
-        switchMap((wp:WorkPackageResource) => this.viewpointsService.setBcfTopic$(wp), (wp) => wp),
         switchMap((wp:WorkPackageResource) => {
           this.workPackage = wp;
-          const observables = this.galleryViewpoints
-            .filter((viewPointItem) => !viewPointItem.href && viewPointItem.viewpoint)
-            .map((viewPointItem) => this.viewpointsService.saveViewpoint$(this.workPackage, viewPointItem.viewpoint));
 
-          return forkJoin(observables);
+          return this.viewpointsService.setBcfTopic$(wp).pipe(
+            switchMap(() => forkJoin(
+              this.galleryViewpoints
+                .filter((viewPointItem) => !viewPointItem.href && viewPointItem.viewpoint)
+                .map((viewPointItem) => this.viewpointsService.saveViewpoint$(wp, viewPointItem.viewpoint)),
+            )),
+          );
         }),
       )
       .subscribe(() => {
@@ -88,7 +90,7 @@ export class BcfNewWpAttributeGroupComponent extends BcfWpAttributeGroupComponen
 
   }
 
-  deleteViewpoint(workPackage:WorkPackageResource, index:number):void {
+  override deleteViewpoint(_workPackage:WorkPackageResource, index:number, _options:GalleryActionOptions):void {
     this.galleryViewpoints = this.galleryViewpoints.filter((_, i) => i !== index);
 
     this.setViewpointsOnGallery(this.galleryViewpoints);
@@ -120,7 +122,7 @@ export class BcfNewWpAttributeGroupComponent extends BcfWpAttributeGroupComponen
     return this.createAllowed && this.viewerVisible;
   }
 
-  protected actions(options:GalleryActionOptions):INgxGalleryAction[] {
+  protected override actions(options:GalleryActionOptions):INgxGalleryAction[] {
     // Show only delete button
     return super
       .actions(options)

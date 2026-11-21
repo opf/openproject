@@ -32,7 +32,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { BcfViewpointPaths } from 'core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.paths';
 import { ViewerBridgeService } from 'core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { forkJoin, Observable, of } from 'rxjs';
+import { EMPTY, forkJoin, Observable, of } from 'rxjs';
 import { BcfTopicResource } from 'core-app/features/bim/bcf/api/topics/bcf-topic.resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
@@ -122,6 +122,12 @@ export class ViewpointsService {
       return of(this.topicUUID);
     }
     const topicHref = (workPackage.bcfTopic as HalResource)?.href;
+    // Without the permission to manage BCF the work package has neither a
+    // topic nor the link to create one.
+    if (!topicHref && !workPackage.convertBCF) {
+      return EMPTY;
+    }
+
     const topicUUID$ = topicHref
       ? of(this.bcfApi.parse<BcfViewpointPaths>(topicHref)!.id)
       : this.createBcfTopic$(workPackage);
