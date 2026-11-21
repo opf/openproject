@@ -31,6 +31,8 @@ require "spec_helper"
 
 RSpec.describe "Top menu items", :js do
   shared_let(:project) { create(:project, public: true) }
+  # My page's default widgets filter by status, which needs a status to exist.
+  shared_let(:default_status) { create(:default_status) }
   let(:user) { create(:user) }
   let(:open_menu) { true }
 
