@@ -54,6 +54,15 @@ export function samePosition(a:FocusPosition|null, b:FocusPosition|null):boolean
   return a === b || (!!a && !!b && a.key === b.key && a.cell === b.cell);
 }
 
+export interface PositionMove {
+  readonly previous:FocusPosition;
+  readonly current:FocusPosition;
+}
+
+export function movedPosition(position:FocusPosition|null, moves:readonly PositionMove[]):FocusPosition|null {
+  return moves.find(({ previous }) => samePosition(previous, position))?.current ?? null;
+}
+
 export type NavResult =
   | { type:'move', position:FocusPosition }
   | { type:'expand', row:NavigableRow }

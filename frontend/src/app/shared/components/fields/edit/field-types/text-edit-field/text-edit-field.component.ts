@@ -37,6 +37,8 @@ import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-
   changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class TextEditFieldComponent extends EditFieldComponent {
+  static override readonly survivesRender:boolean = true;
+
   // ToDo: Work package specific
   public shouldFocus = this.name === 'subject' && this.handler.allowsAutofocus();
 }

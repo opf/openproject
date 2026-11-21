@@ -35,6 +35,7 @@ import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanu
 import { isApplePlatform } from 'core-common/platform';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
+import { focusIsUnclaimed } from 'core-app/shared/helpers/focus-helpers';
 import type { WorkPackageTable } from '../../../wp-fast-table';
 import type { MutationExit, PaintScope } from '../../../row-mutations';
 import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
@@ -45,8 +46,8 @@ import type { RowRecord, RowRecordKind } from '../../../semantics/row-classifier
 import { headerRowKey, type RowKey, totalsRowKey } from '../../../row-keys';
 import { headerRowOf, totalsRowOf } from '../../../helpers/structural-rows';
 import {
-  FocusPosition, initialPosition, NavigableRow, nearestPosition, computeNextPosition, reconcilePosition, ROW_KINDS, RowKind, rowPosition,
-  samePosition,
+  FocusPosition, initialPosition, movedPosition, NavigableRow, nearestPosition, computeNextPosition, PositionMove, reconcilePosition, ROW_KINDS,
+  RowKind, rowPosition, samePosition,
 } from './focus-position';
 import { isSelectableOccurrence, selectableOccurrences } from 'core-app/features/work-packages/routing/wp-view-base/view-services/rendered-occurrences';
 import { KeyboardSelection } from './keyboard-selection';
@@ -92,6 +93,11 @@ export interface KeyboardNavigation {
   focusPosition(position:FocusPosition):void;
   /** Remembers the position without painting or focusing it. */
   recordPosition(position:FocusPosition):void;
+  /**
+   * Maps the cursor and the user position once onto retained editors' cells: each moves when it rested on a previous origin.
+   * Focus in a retained editor takes the cursor to `focused` without recording a user move.
+   */
+  followRetained(moves:readonly PositionMove[], focused:FocusPosition|null):void;
   rememberWorkPackageAfterRender(workPackageId:string):void;
   /** Focuses the origin again, or the row hiding it, unless the user has since moved elsewhere, an editor is open or focus rests on a live control; true when it focused. */
   returnFocus(origin:FocusPosition, closing?:EditFieldHandler):boolean;
@@ -239,6 +245,17 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     this.cursor.land(position, { user: true, paint: false });
   }
 
+  public followRetained(moves:readonly PositionMove[], focused:FocusPosition|null):void {
+    if (this.table.destroyed) return;
+    const position = focused ?? movedPosition(this.cursor.position, moves);
+    const user = movedPosition(this.cursor.userPosition, moves);
+    const remembered = this.rememberedAfterRender;
+    const requestedFrom = remembered && movedPosition(remembered.requestedFrom, moves);
+    if (remembered && requestedFrom) this.rememberedAfterRender = { ...remembered, requestedFrom };
+    if (user) this.cursor.noteUserMove(user);
+    if (position) this.cursor.reconcile(position);
+  }
+
   public rememberWorkPackageAfterRender(workPackageId:string):void {
     if (this.table.destroyed) return;
     this.rememberedAfterRender = {
@@ -366,14 +383,14 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     const rows = buildNavigableRows(this.table);
     this.rendered = { rows, groupBy: this.groupBy() };
 
-    if (requested && this.elementAt(requested)) {
+    if (requested && this.elementAt(requested) && !this.table.editing.owns(document.activeElement)) {
       this.cursor.noteUserMove(requested);
       this.focusPosition(requested);
       return;
     }
 
     const remembered = this.rememberedAfterRender;
-    if (remembered && this.cursor.userMovedSince(remembered.requestedFrom)) {
+    if (remembered && (this.cursor.userMovedSince(remembered.requestedFrom) || this.table.editing.owns(document.activeElement))) {
       this.rememberedAfterRender = null;
     } else if (remembered && this.elementAt(remembered.position)) {
       this.rememberedAfterRender = null;
@@ -424,10 +441,8 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
 
   private focusAtRest(closing?:EditFieldHandler, menuCell?:FocusPosition):boolean {
     const active = document.activeElement;
-    return !active
-      || active === document.body
-      || !active.isConnected
-      || !!closing?.owns(active)
+    if (!active || focusIsUnclaimed()) return true;
+    return !!closing?.owns(active)
       || (menuCell !== undefined && (this.elementAt(menuCell)?.contains(active) ?? false))
       || (insideGridContent(this.table.scrollContainer, active) && this.hiddenOrUnlisted(active));
   }

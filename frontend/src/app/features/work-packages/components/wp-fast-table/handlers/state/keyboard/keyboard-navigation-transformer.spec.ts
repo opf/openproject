@@ -1376,6 +1376,42 @@ describe('KeyboardNavigationTransformer', () => {
       expect(focusHelper).not.toHaveBeenCalled();
     });
 
+    it('an explicit focus request does not take focus from the engaged editor', async () => {
+      const table = await mount({ editing: {} });
+      cell(table.row('1'), 1).focus();
+      pressActive('Enter');
+      await waitFor(() => expect(table.table.editing.forms['1'].activeFields.subject).toBeDefined());
+      const input = within(table.row('1')).getByRole('textbox');
+      await waitFor(() => expect(input).toHaveFocus());
+
+      table.focus.updateFocus('3', true);
+      await table.render();
+
+      expect(input).toHaveFocus();
+      expect(table.table.editing.forms['1'].activeFields.subject).toBeDefined();
+    });
+
+    it('a remembered work package does not take the cursor from the engaged editor', async () => {
+      const table = await mount({ editing: {} });
+      const editorCell = cell(table.row('1'), 1);
+      editorCell.focus();
+      pressActive('Enter');
+      await waitFor(() => expect(table.table.editing.forms['1'].activeFields.subject).toBeDefined());
+      const input = within(table.row('1')).getByRole('textbox');
+      await waitFor(() => expect(input).toHaveFocus());
+
+      navigation(table).rememberWorkPackageAfterRender('2');
+      const rendered = table.nextRender();
+      table.table.redrawTable();
+      await rendered;
+
+      expect(input).toHaveFocus();
+      const freshCell = cell(table.row('1'), 1);
+      expect(Array.from(table.table.scrollContainer.querySelectorAll('[tabindex="0"]'))).toEqual([freshCell]);
+      press(input, 'Escape');
+      await waitFor(() => expect(freshCell).toHaveFocus());
+    });
+
     it('a group header position survives an earlier group disappearing', async () => {
       const table = await mount(grouped);
       const identifier = table.groupHeader(1).dataset.groupIdentifier;
