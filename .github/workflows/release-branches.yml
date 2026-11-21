@@ -1,0 +1,59 @@
+name: release-branches
+
+on:
+  workflow_call:
+    inputs:
+      count:
+        description: "How many of the latest release branches to return"
+        type: number
+        default: 1
+    outputs:
+      branches:
+        description: "JSON array of the latest release branches, oldest first"
+        value: ${{ jobs.find.outputs.branches }}
+      latest:
+        description: "The latest release branch"
+        value: ${{ jobs.find.outputs.latest }}
+      previous:
+        description: "The release branch before the latest one, if count is at least 2"
+        value: ${{ jobs.find.outputs.previous }}
+
+permissions: {}
+
+jobs:
+  find:
+    name: Find release branches
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    outputs:
+      branches: ${{ steps.find.outputs.branches }}
+      latest: ${{ steps.find.outputs.latest }}
+      previous: ${{ steps.find.outputs.previous }}
+    steps:
+      - id: find
+        env:
+          GH_TOKEN: ${{ github.token }}
+          COUNT: ${{ inputs.count }}
+        run: |
+          set -euo pipefail
+
+          branches=$(gh api --paginate \
+            "repos/$GITHUB_REPOSITORY/branches?protected=true&per_page=100" \
+            --jq '.[] | select(.name | startswith("release/")) | .name' | \
+            sort --version-sort | tail -n "$COUNT"
+          )
+          if [ -z "$branches" ]; then
+            echo "No protected release branch found." >&2
+            exit 1
+          fi
+
+          echo "Found release branches:"
+          echo "$branches"
+
+          {
+            echo "branches=$(jq -Rnc '[inputs]' <<< "$branches")"
+            echo "latest=$(tail -n 1 <<< "$branches")"
+            echo "previous=$(tail -n 2 <<< "$branches" | sed '$d')"
+          } >> "$GITHUB_OUTPUT"

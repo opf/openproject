@@ -1,0 +1,189 @@
+name: bundle audit fix
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "45 4,13 * * *" # Daily at 04:45 and 13:45 UTC
+
+env:
+  BRANCH_PREFIX: bundle-audit-fix
+
+permissions: {}
+
+concurrency:
+  group: bundle-audit-fix
+  cancel-in-progress: false
+
+jobs:
+  release-branches:
+    if: github.repository == 'opf/openproject'
+    permissions:
+      contents: read
+    uses: $/.github/workflows/release-branches.yml
+    with:
+      count: 2
+
+  audit-fix:
+    name: bundle audit fix (${{ matrix.branch }})
+    needs: release-branches
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    permissions:
+      contents: write # for git push
+      pull-requests: write # for creating pull requests
+
+    strategy:
+      fail-fast: false
+      matrix:
+        branch: ${{ fromJSON(needs.release-branches.outputs.branches) }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ matrix.branch }}
+          token: ${{ secrets.OPENPROJECTCI_GH_CORE_PAT }}
+          persist-credentials: false
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@f9c4492e86def3e644ab32a0ef185eda5b0c20d0 # v1.342.0
+
+      - name: Required git config
+        run: |
+          git config user.name "OpenProject Actions CI"
+          git config user.email "operations+ci@openproject.com"
+
+      - name: Run bundle audit fix
+        id: audit_fix
+        run: |
+          set -euo pipefail
+
+          mkdir -p reports
+          gem install bundler-audit -v 0.9.3 --no-document
+          bundle-audit update
+
+          audit() {
+            local report="$1"
+            local label="$2"
+
+            set +e
+            bundle-audit check --format json --output "$report"
+            set -e
+
+            echo "::group::bundle audit ${label}"
+            jq -r '.results[] | select(.type == "unpatched_gem")
+              | "\(.gem.name) \(.gem.version): \(.advisory.id) (\(.advisory.criticality // "unrated"))"' "$report"
+            echo "::endgroup::"
+          }
+
+          audit reports/bundle-audit-before.json "before fix"
+
+          mapfile -t gems < <(
+            jq -r '[.results[] | select(.type == "unpatched_gem") | .gem.name] | unique | .[]' \
+              reports/bundle-audit-before.json
+          )
+
+          if [ "${#gems[@]}" -eq 0 ]; then
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            echo "bundle audit found no vulnerable gems."
+            exit 0
+          fi
+
+          echo "::group::bundle lock --update ${gems[*]}"
+          bundle lock --update "${gems[@]}" --conservative --cooldown 0
+          echo "::endgroup::"
+
+          audit reports/bundle-audit-after.json "after fix"
+
+          if git diff --quiet -- Gemfile.lock; then
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            echo "bundle audit fix produced no lockfile changes."
+          else
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+            echo "bundle audit fix produced lockfile changes."
+          fi
+
+      - name: Show diff
+        if: steps.audit_fix.outputs.has_changes == 'true'
+        run: git diff -- Gemfile.lock
+
+      - name: Create pull request
+        if: steps.audit_fix.outputs.has_changes == 'true'
+        env:
+          BASE_BRANCH: ${{ matrix.branch }}
+          GITHUB_TOKEN: ${{ secrets.OPENPROJECTCI_GH_CORE_PAT }}
+        run: |
+          set -euo pipefail
+
+          pr_numbers=$(gh pr list \
+            --base "$BASE_BRANCH" \
+            --state open \
+            --limit 100 \
+            --json number,headRefName \
+            --jq '.[] | select(.headRefName | startswith("'"$BRANCH_PREFIX"'-")) | .number')
+
+          gh auth setup-git
+
+          for pr_number in $pr_numbers; do
+            head_ref=$(gh pr view "$pr_number" --json headRefName --jq .headRefName)
+            git fetch --depth=1 origin "$head_ref"
+            if git diff --quiet FETCH_HEAD -- Gemfile.lock; then
+              echo "PR #$pr_number already contains these changes."
+              exit 0
+            fi
+          done
+
+          for pr_number in $pr_numbers; do
+            gh pr close "$pr_number" --delete-branch
+          done
+
+          pr_body_file=$(mktemp)
+
+          {
+            echo 'Created by GitHub action.'
+            echo
+            echo '## Fixed advisories'
+            echo
+            jq -r --slurpfile after reports/bundle-audit-after.json '
+              ($after[0].results | map(.advisory.id)) as $open
+              | .results[]
+              | select(.type == "unpatched_gem" and (.advisory.id as $id | $open | index($id) | not))
+              | "- `\(.gem.name)` \(.gem.version): \(.advisory.id) (\(.advisory.criticality // "unrated"))"
+            ' reports/bundle-audit-before.json
+
+            open=$(jq -r '.results[]
+              | select(.type == "unpatched_gem")
+              | "- `\(.gem.name)` \(.gem.version): \(.advisory.id), needs \(.advisory.patched_versions | join(" or "))"
+            ' reports/bundle-audit-after.json)
+            if [ -n "$open" ]; then
+              echo
+              echo '## Still open (blocked by the Gemfile constraints)'
+              echo
+              echo "$open"
+            fi
+
+            for pr_number in $pr_numbers; do
+              if [ "$pr_number" = "$(echo "$pr_numbers" | head -1)" ]; then
+                echo
+                echo '## Replaced PRs'
+                echo
+              fi
+              echo "Replaces #$pr_number"
+            done
+          } > "$pr_body_file"
+
+          temp_branch="$BRANCH_PREFIX-${BASE_BRANCH#release/}-$(date "+%Y%m%d%H%M%S")"
+
+          git switch -c "$temp_branch"
+          git add -- Gemfile.lock
+          git commit -m "Run bundle audit fix"
+          git push origin "$temp_branch"
+
+          gh pr create \
+            --base "$BASE_BRANCH" \
+            --head "$temp_branch" \
+            --title "Run bundle audit fix on $BASE_BRANCH" \
+            --body-file "$pr_body_file"
+
+          echo "Created a PR with bundle audit fixes (${temp_branch}) against ${BASE_BRANCH}"
