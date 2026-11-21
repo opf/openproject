@@ -26,7 +26,7 @@
 //++
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { vi } from 'vitest';
+import { onTestFinished, vi } from 'vitest';
 
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
@@ -71,6 +71,24 @@ describe('CkeditorAugmentedTextareaComponent', () => {
     form.dispatchEvent(new Event('refresh-on-form-changes:beforeSnapshot'));
 
     expect(sync).toHaveBeenCalledTimes(1);
+  });
+
+  it('labels the editor by the label of a textarea whose id is not a CSS identifier', () => {
+    const container = document.createElement('div');
+    container.innerHTML = `
+      <label for="meeting_agenda_item.notes">Notes</label>
+      <textarea id="meeting_agenda_item.notes"></textarea>
+      <div id="editor"><div class="ck-content" aria-label="Rich text editor"></div></div>
+    `;
+    document.body.append(container);
+    onTestFinished(() => container.remove());
+    component.element = container.querySelector('#editor')!;
+    component.textAreaId = 'meeting_agenda_item.notes';
+    component.wrappedTextArea = container.querySelector('textarea')!;
+
+    (component as unknown as { setLabel():void }).setLabel();
+
+    expect(container.querySelector('.ck-content')).toHaveAccessibleName('Notes');
   });
 
   describe('form submit interception', () => {
