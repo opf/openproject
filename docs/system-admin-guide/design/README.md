@@ -24,7 +24,7 @@ Under the **Branding** tab you can also [upload a custom desktop and/or mobile l
 
 ![Branding settings in OpenProject administration](openproject_system_guide_design_branding.png)
 
-Under **Default colors** you can configure a set of predefined colors which you can use e.g. to [set colors for work package types](../manage-work-packages/work-package-types) or for attribute highlighting, e.g. for [status](../manage-work-packages/work-package-status).
+Under **Default colors** you can configure a set of predefined colors which you can use e.g. to [set colors for work package types](../manage-work-packages/work-package-types) or for attribute highlighting, e.g. for [status](../manage-work-packages/work-package-status). You can click on each color to display its contrast preview against different backgrounds.
 
 ![Default colors settings in OpenProject administration](openproject_system_guide_design_default_colors.png)
 
@@ -110,7 +110,13 @@ To add a new color to the default colors, click the green **+ Add** button at th
 
 ![Add button for new color in OpenProject design settings](openproject_system_guide_design_add_color_button.png)
 
-Add a  name for your new color, enter the hexcode and click the **Save** button.
+Add a name for your new color, and enter the Hexcode. A contrast preview of your newly defined color appears on the right side to show you how the color appears in the **light mode**, **dark mode**, when used as a **foreground**, and as a **background**.
+
+At the bottom of each section of the contrast preview, a green **Pass** check is displayed if it passes the readability test, while a red **x Fail** indicates poor text readability. Edit the Hexcode to your desired color and Click **Save**.
+
+> [!NOTE]
+>
+> A display of the Fail icon does not prevent the user from saving the new color.
 
 ![Add and save new color in OpenProject design settings](openproject_system_guide_design_add_new_color.png)
 
