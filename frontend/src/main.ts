@@ -69,11 +69,15 @@ void initializeLocale()
     initializeGlobalListeners();
 
     // Due to the behavior of the Edge browser we need to wait for 'DOM ready'
-    platformBrowser().bootstrapModule(OpenProjectModule, { applicationProviders: [provideZonelessChangeDetection(), provideBrowserGlobalErrorListeners()], })
-      .catch((error:unknown) => {
-        // A failing initializer has already gone through the ErrorHandler.
-        if (!wasReported(error)) {
-          window.ErrorReporter.captureException(error);
-        }
-      });
+    platformBrowser().bootstrapModule(OpenProjectModule, {
+      applicationProviders: [
+        provideZonelessChangeDetection(),
+        provideBrowserGlobalErrorListeners(),
+      ],
+    }).catch((error:unknown) => {
+      // A failing initializer has already gone through the ErrorHandler.
+      if (!wasReported(error)) {
+        window.ErrorReporter.captureException(error);
+      }
+    });
   });
