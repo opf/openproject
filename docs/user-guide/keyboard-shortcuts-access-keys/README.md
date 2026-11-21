@@ -25,8 +25,9 @@ OpenProject (since version 3.0) offers useful keyboard shortcuts to  enhance you
 | Go to Calendar | g c | – | Project calendars | Calendars |
 | Go to News | g n | – | Project news | News |
 | Go to Timelines | g t | – | Nothing | Nothing |
-| New work package | n w p | 2 | n w p: new work package form. 2: open the Create menu (work package list only) | n w p: nothing. 2: open the Create menu (work package list only) |
-| Edit | g e | 3 | Nothing | Edit (placeholder user page only) |
+| New work package | n w p | – | New work package form | New work package form |
+| Open the Create menu | – | 2 | Open the Create menu (work package list), otherwise the new work package form | Open the Create menu (work package list), otherwise the new work package form |
+| Edit | g e | 3 | Edit button of a wiki page, wiki annotate page or news item. On BIM IFC models, access key 3 (no **g e**) sits on the first editable model row and on the notice shown when there is no default model | Edit button of a user or placeholder user |
 | Open the More menu | m | 7 | Work package full view and split view | Work package full view and split view |
 | Preview | g p | 1 | Nothing | Nothing |
 | Toggle the details view | d w p | 8 | Work package list | Work package list |

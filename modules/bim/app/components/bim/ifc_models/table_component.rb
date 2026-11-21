@@ -48,6 +48,10 @@ module Bim
         end
       end
 
+      def first_editable?(ifc_model)
+        rows.to_a.first == ifc_model
+      end
+
       def empty_row_message
         I18n.t "ifc_models.no_results"
       end

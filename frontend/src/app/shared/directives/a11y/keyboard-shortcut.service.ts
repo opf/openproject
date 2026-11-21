@@ -27,8 +27,6 @@
 
 import { Injectable, inject } from '@angular/core';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import Mousetrap from 'mousetrap';
 
@@ -50,21 +48,14 @@ const accessibleListSelector = 'table.keyboard-accessible-list';
   providedIn: 'root',
 })
 export class KeyboardShortcutService {
-  private readonly PathHelper = inject(PathHelperService);
   private readonly FocusHelper = inject(FocusHelperService);
-  private readonly currentProject = inject(CurrentProjectService);
   private readonly configurationService = inject(ConfigurationService);
 
   // maybe move it to a .constant
   private shortcuts:Record<string, () => void> = {
-    '?': () => this.showHelpModal(),
-    'n w p': this.projectScoped('projectWorkPackageNewPath'),
-
-    'g e': this.accessKey('edit'),
     'g p': this.accessKey('preview'),
     'd w p': this.accessKey('details'),
     'm': this.accessKey('moreMenu'),
-    'p': this.accessKey('projectSearch'),
     's': this.accessKey('quickSearch'),
     'k': () => this.focusPrevItem(),
     'j': () => this.focusNextItem(),
@@ -104,15 +95,6 @@ export class KeyboardShortcutService {
     };
   }
 
-  public projectScoped(action:keyof PathHelperService) {
-    return ():void => {
-      const projectIdentifier = this.currentProject.identifier;
-      if (projectIdentifier) {
-        window.location.href = (this.PathHelper[action] as (identifier:string|null) => string)(projectIdentifier);
-      }
-    };
-  }
-
   clickLink(link:HTMLAnchorElement):void {
     const event = new MouseEvent('click', {
       view: window,
@@ -124,10 +106,6 @@ export class KeyboardShortcutService {
     if (!cancelled) {
       window.location.href = link.href;
     }
-  }
-
-  showHelpModal():void {
-    window.open(this.PathHelper.keyboardShortcutsHelpPath());
   }
 
   focusItemOffset(offset:number):void {

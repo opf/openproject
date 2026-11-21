@@ -49,8 +49,7 @@
             href: copy_project_path(@project),
             content_arguments: {
               data: { turbo: false },
-              test_selector: "project-settings--copy",
-              accesskey: helpers.accesskey(:copy)
+              test_selector: "project-settings--copy"
             }
           ) do |item|
             item.with_leading_visual_icon(icon: :duplicate)
@@ -96,10 +95,8 @@
             label: t(:button_archive),
             href: helpers.dialog_project_archive_path(project),
             content_arguments: {
-              data: {
-                turbo_stream: true,
-                test_selector: "project-settings--archive"
-              }
+              data: { turbo_stream: true },
+              test_selector: "project-settings--archive"
             }
           ) do |item|
             item.with_leading_visual_icon(icon: :archive)

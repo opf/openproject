@@ -78,6 +78,36 @@ RSpec.describe "Navigation keyboard shortcuts", :js do
     end
   end
 
+  context "when the start page menu item was removed but another main item remains" do
+    before do
+      project.wiki.wiki_menu_items.destroy_all
+      MenuItems::WikiMenuItem.create!(navigatable_id: project.wiki.id, title: "Other page", name: "other-page")
+      visit project_path(project)
+    end
+
+    it "still opens the wiki start page for g w i" do
+      page.send_keys("g", "w", "i")
+      expect(page).to have_current_path(%r{\A/projects/#{project.identifier}/wiki/wiki})
+    end
+  end
+
+  context "when another page's menu item carries the start page caption" do
+    before do
+      create(:wiki_page, wiki: project.wiki, title: project.wiki.start_page, text: "# Start page heading")
+      create(:wiki_page, wiki: project.wiki, title: "Other page", text: "# Other page heading")
+      project.wiki.wiki_menu_items.destroy_all
+      MenuItems::WikiMenuItem.create!(navigatable_id: project.wiki.id, title: project.wiki.start_page, name: "other-page")
+      visit project_path(project)
+    end
+
+    it "opens the wiki start page for g w i" do
+      page.send_keys("g", "w", "i")
+
+      expect(page).to have_heading("Start page heading")
+      expect(page).to have_current_path(%r{\A/projects/#{project.identifier}/wiki/wiki\z})
+    end
+  end
+
   context "on the My page" do
     before { visit my_page_path }
 

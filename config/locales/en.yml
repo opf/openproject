@@ -3860,6 +3860,14 @@ en:
   gui_validation_error: "1 error"
   gui_validation_error_plural: "%{count} errors"
 
+  hotkeys:
+    fallback_links_component:
+      new_work_package: "New work package"
+      next_list_item: "Next list item"
+      previous_list_item: "Previous list item"
+      shortcuts_help: "Keyboard shortcuts"
+      wiki: "Wiki"
+
   header:
     project_select_component:
       all_projects: "All projects"

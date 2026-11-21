@@ -91,6 +91,7 @@ See COPYRIGHT and LICENSE files for more details.
         <%= render_top_menu_right %>
       </div>
     </header>
+    <%= render Hotkeys::FallbackLinksComponent.new(project: @project, user: User.current) %>
   <% end %>
   <div id="main"
        class="<%= initial_classes %>"

@@ -43,6 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
         accesskey: accesskey(:edit),
         href: edit_placeholder_user_path(@placeholder_user),
         aria: { label: I18n.t(:button_edit) },
+        data: { hotkey: OpenProject::Hotkeys.for_action(:edit) },
         title: I18n.t(:button_edit)
       ) do |button|
         button.with_leading_visual_icon(icon: :pencil)

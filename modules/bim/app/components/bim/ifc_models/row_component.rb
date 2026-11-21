@@ -114,7 +114,7 @@ module Bim
         link_to "",
                 edit_bcf_project_ifc_model_path(model.project, model),
                 class: "icon icon-edit",
-                accesskey: helpers.accesskey(:edit),
+                accesskey: (helpers.accesskey(:edit) if table.first_editable?(model)),
                 title: I18n.t(:button_edit)
       end
     end

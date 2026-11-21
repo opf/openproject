@@ -34,7 +34,7 @@
           menu.with_item(
             label: t(:button_duplicate),
             href: helpers.copy_project_path(project),
-            content_arguments: { data: { turbo: false }, accesskey: helpers.accesskey(:copy) }
+            content_arguments: { data: { turbo: false } }
           ) do |item|
             item.with_leading_visual_icon(icon: :duplicate)
           end
