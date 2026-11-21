@@ -198,7 +198,7 @@ export class ScrollableTabsComponent extends UntilDestroyedMixin implements Afte
   }
 
   private scrollIntoVisibleArea(tabId:string) {
-    const tab = this.pane.querySelector<HTMLElement>(`[data-tab-id=${tabId}]`);
+    const tab = this.pane.querySelector<HTMLElement>(`[data-tab-id="${CSS.escape(tabId)}"]`);
     if (!tab) {
       return;
     }
