@@ -82,6 +82,20 @@ checking that makes the isolated test worth writing. Reach for this only when th
 behavior is worth testing apart from its markup — a controller tested solely this way can pass while
 being unusable from HTML.
 
+**Stub the Angular services.** Controllers using the `useAngularServices` mixin read their services
+from `window.OpenProject.getPluginContext()`. `stubPluginContext` installs a context that resolves
+immediately, and `stubPendingPluginContext` installs one that stays pending until the returned
+function is called, for testing a disconnect before the services arrive. Both restore
+`window.OpenProject` when the test finishes, so no `afterEach` is needed:
+
+```typescript
+stubPluginContext({ services: { notifications: { addError } } });
+
+const resolveContext = stubPendingPluginContext();
+// ...
+resolveContext({ services: { notifications: { addError } } });
+```
+
 ## Angular components
 
 Angular's own [testing guide](https://angular.dev/guide/testing) applies. Note that specs run
