@@ -39,6 +39,7 @@ import Options = flatpickr.Options;
 import FlatpickrOptions = flatpickr.Options.Options;
 import DateOption = Options.DateOption;
 import { DayResourceService } from 'core-app/core/state/days/day.service';
+import { asapScheduler, observeOn, Subscription } from 'rxjs';
 
 export class DatePicker {
   private datepickerFormat = 'Y-m-d';
@@ -53,7 +54,7 @@ export class DatePicker {
 
   @LazyInject() I18n:I18nService;
 
-  private weekdaysPromise:Promise<unknown>;
+  private weekdaysSubscription?:Subscription;
 
   constructor(
     readonly injector:Injector,
@@ -66,16 +67,6 @@ export class DatePicker {
   }
 
   private initialize(options:FlatpickrOptions) {
-    this.weekdaysPromise = this
-      .weekdaysService
-      .loadWeekdays()
-      .toPromise()
-      .then(() => {
-        if (this.datepickerInstance) {
-          this.datepickerInstance.redraw();
-        }
-      });
-
     const mergedOptions = Object.assign({}, this.defaultOptions, options);
 
     let datePickerInstances:Instance|Instance[];
@@ -86,6 +77,14 @@ export class DatePicker {
     }
 
     this.datepickerInstance = Array.isArray(datePickerInstances) ? datePickerInstances[0] : datePickerInstances;
+
+    // Cached weekdays emit synchronously, before the caller has assigned this
+    // date picker, so the redraw waits until construction has finished.
+    this.weekdaysSubscription = this
+      .weekdaysService
+      .loadWeekdays()
+      .pipe(observeOn(asapScheduler))
+      .subscribe(() => this.datepickerInstance.redraw());
   }
 
   public async isNonWorkingDay(day:Date):Promise<boolean> {
@@ -97,6 +96,7 @@ export class DatePicker {
   }
 
   public destroy():void {
+    this.weekdaysSubscription?.unsubscribe();
     this.hide();
     this.datepickerInstance?.destroy();
   }
