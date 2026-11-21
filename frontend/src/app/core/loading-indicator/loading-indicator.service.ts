@@ -69,7 +69,7 @@ export class LoadingIndicator {
       </div>
    `;
 
-  constructor(public indicator:HTMLElement) {
+  constructor(public indicator:HTMLElement|null) {
   }
 
   public set promise(promise:Promise<unknown>) {
@@ -86,7 +86,7 @@ export class LoadingIndicator {
   public start() {
     // If we're currently having an active indicator, remove that one
     this.stop();
-    this.indicator.insertAdjacentHTML('afterbegin', this.indicatorTemplate);
+    this.indicator?.insertAdjacentHTML('afterbegin', this.indicatorTemplate);
   }
 
   public delayedStop(time = 25) {
@@ -94,7 +94,7 @@ export class LoadingIndicator {
   }
 
   public stop() {
-    this.indicator.querySelector('.loading-indicator--background')?.remove();
+    this.indicator?.querySelector('.loading-indicator--background')?.remove();
   }
 }
 
@@ -121,14 +121,12 @@ export class LoadingIndicatorService {
 
   // Return an indicator by name or element
   public indicator(indicator:string|HTMLElement):LoadingIndicator {
-    if (typeof indicator === 'string') {
-      indicator = this.getIndicatorAt(indicator);
-    }
+    const element = typeof indicator === 'string' ? this.getIndicatorAt(indicator) : indicator;
 
-    return new LoadingIndicator(indicator);
+    return new LoadingIndicator(element);
   }
 
-  private getIndicatorAt(name:string):HTMLElement {
-    return document.querySelector(`${indicatorLocationSelector}[data-indicator-name="${name}"]`)!;
+  private getIndicatorAt(name:string):HTMLElement|null {
+    return document.querySelector(`${indicatorLocationSelector}[data-indicator-name="${name}"]`);
   }
 }
