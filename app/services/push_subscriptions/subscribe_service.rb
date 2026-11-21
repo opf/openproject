@@ -40,7 +40,11 @@ module PushSubscriptions
 
     def call(endpoint:, resume: false)
       (1..ATTEMPTS).each do |attempt|
-        result = register(endpoint, resume)
+        subscription = lookup(endpoint, resume)
+        return missing if subscription.nil?
+        return refused(subscription) if held_by_another_user?(subscription)
+
+        result = replace_session_subscription(subscription)
         return result unless endpoint_taken?(result) && attempt < ATTEMPTS
       rescue ActiveRecord::RecordNotUnique
         raise if attempt == ATTEMPTS
@@ -50,18 +54,6 @@ module PushSubscriptions
     private
 
     attr_reader :user, :session_id, :device
-
-    def register(endpoint, resume)
-      subscription = lookup(endpoint, resume)
-
-      if subscription.nil?
-        missing
-      elsif held_by_another_user?(subscription)
-        refused(subscription)
-      else
-        replace_session_subscription(subscription)
-      end
-    end
 
     def endpoint_taken?(result)
       result.failure? && result.errors.of_kind?(:endpoint, :taken)
