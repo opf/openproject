@@ -31,20 +31,13 @@ import { WorkPackageViewSelectionService } from 'core-app/features/work-packages
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { isSelectableOccurrence } from 'core-app/features/work-packages/routing/wp-view-base/view-services/rendered-occurrences';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
+import { setOrRemove } from 'core-common/dom-attributes';
 import { baselineStatusName } from '../builders/baseline/baseline-column-builder';
 import { paintRowSelection } from '../builders/rows/row-selection-painter';
 import { expansionStateOf } from '../helpers/row-expansion';
 import { occurrenceRowKind, type OccurrenceRowKind } from '../helpers/structural-rows';
 import type { RenderedOccurrence } from '../rendered-occurrence-ledger';
 import type { WorkPackageTable } from '../wp-fast-table';
-
-export function setOrRemove(element:Element, name:string, value:string|null):void {
-  if (value === null) {
-    if (element.hasAttribute(name)) element.removeAttribute(name);
-  } else if (element.getAttribute(name) !== value) {
-    element.setAttribute(name, value);
-  }
-}
 
 export function paintRowRole(
   row:HTMLTableRowElement,

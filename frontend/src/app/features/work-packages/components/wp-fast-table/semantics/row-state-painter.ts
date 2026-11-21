@@ -25,10 +25,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { setOrRemove } from 'core-common/dom-attributes';
 import type { RenderDraft } from '../rendered-occurrence-ledger';
 import type { WorkPackageTable } from '../wp-fast-table';
 import { TableRowPositions, type RowPositionEvidence } from './table-row-positions';
-import { paintRowRole, paintSectionExposure, setOrRemove, TreegridSemantics } from './treegrid-semantics';
+import { paintRowRole, paintSectionExposure, TreegridSemantics } from './treegrid-semantics';
 
 import type { PaintScope } from '../row-mutations';
 

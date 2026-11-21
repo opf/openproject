@@ -33,10 +33,10 @@ import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/
 import type { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
+import { setOrRemove } from 'core-common/dom-attributes';
 import { groupOccurrenceKey, placeholderOccurrenceKey, wpOccurrenceKey, type RenderDraft } from '../rendered-occurrence-ledger';
 import type { WorkPackageTable } from '../wp-fast-table';
 import { classifyRow, isExposedRow } from '../helpers/structural-rows';
-import { setOrRemove } from './treegrid-semantics';
 import { bodyRowPositions, draftAgrees, type BodyRowPositions, type PositionGroup } from './body-row-positions';
 
 export interface CapturedRowPositions {
