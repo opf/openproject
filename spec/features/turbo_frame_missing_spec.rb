@@ -73,9 +73,11 @@ RSpec.describe "Turbo frame-missing fallback", :js do
       body: "<html><body><h1>Internal error</h1></body></html>"
     }
 
-    inject_frame(id: "op-20215-frame", src: failing_path)
+    expect_browser_errors(/did not contain the expected <turbo-frame id="op-20215-frame">/) do
+      inject_frame(id: "op-20215-frame", src: failing_path)
 
-    expect(page).to have_css("turbo-frame#op-20215-frame", text: "Content missing")
+      expect(page).to have_css("turbo-frame#op-20215-frame", text: "Content missing")
+    end
     expect(page).to have_heading "Active projects"
     expect(page).to have_current_path(projects_path)
     expect(requests[failing_path]).to eq(1)
@@ -105,9 +107,11 @@ RSpec.describe "Turbo frame-missing fallback", :js do
     inject_frame(id: "op-20215-frame", src: new_project_path)
     expect(page).to have_heading "New project"
 
-    inject_frame(id: "op-20215-second-frame", src: new_project_path)
+    expect_browser_errors(/did not contain the expected <turbo-frame id="op-20215-second-frame">/) do
+      inject_frame(id: "op-20215-second-frame", src: new_project_path)
 
-    expect(page).to have_css("turbo-frame#op-20215-second-frame", text: "Content missing")
+      expect(page).to have_css("turbo-frame#op-20215-second-frame", text: "Content missing")
+    end
     expect(page).to have_heading "New project"
     expect(page).to have_current_path(new_project_path)
     expect(requests[new_project_path]).to eq(2)
