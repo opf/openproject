@@ -51,6 +51,7 @@ module AI
       TEXT = %i[text escaped].freeze
       HTML = %i[html_inline html_block].freeze
       CODE = %i[code code_block].freeze
+      CODE_ELEMENTS = OpenProject::TextFormatting::PreformattedBlocks::BLOCKS
       OPENER = /<[!?]/
       MAX_PASSES = 3
 
@@ -239,8 +240,42 @@ module AI
         Nokogiri::HTML5.fragment(Commonmarker.to_html(markdown, options: RENDER_OPTIONS))
       end
 
+      # Code stays code, since its text would otherwise turn into links and macros, such as wiki page links.
+      # Escaping hides mentions that the editor unescapes again, so text is converted before it is escaped.
       def plain_text(rendered)
-        escape(@mentions.convert(rendered.text.strip))
+        runs = plain_parts(rendered).chunk_while { |node, following| !node.element? && !following.element? }
+        @mentions.convert(runs.map { plain_markdown(it) }.join).strip
+      end
+
+      def plain_markdown(nodes)
+        code = nodes.first
+        return escape(@mentions.convert(nodes.map(&:text).join)) unless code.element?
+
+        code.name == "pre" ? code_block(code.text) : code_span(code.text)
+      end
+
+      def plain_parts(node)
+        return [node] if node.text? || node.cdata? || CODE_ELEMENTS.include?(node.name)
+
+        node.children.flat_map { plain_parts(it) }
+      end
+
+      def code_span(code)
+        code = code.gsub(LINE_BREAK, " ")
+        return code if code.blank?
+
+        fence = "`" * (longest_backtick_run(code) + 1)
+        padding = code.match?(/\A[` ]|[` ]\z/) ? " " : ""
+        "#{fence}#{padding}#{code}#{padding}#{fence}"
+      end
+
+      def code_block(code)
+        fence = "`" * [3, longest_backtick_run(code) + 1].max
+        "\n#{fence}\n#{code.chomp}\n#{fence}\n"
+      end
+
+      def longest_backtick_run(code)
+        code.scan(/`+/).map(&:size).max.to_i
       end
 
       def plain_content(node)

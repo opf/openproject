@@ -226,6 +226,27 @@ RSpec.describe AI::TextTransforms::ApplicableText do
     expect(applicable(text)).to eq(text)
   end
 
+  describe "falling back to plain text" do
+    it "keeps code spans and blocks as code, so that their content does not turn into links or macros" do
+      expect(applicable("<image src=x>\n\n`[[[1:Example]]]`")).to eq("`[[[1:Example]]]`")
+      expect(applicable("<image src=x>\n\n```\n[[[1:Example]]] ###12\n```\n")).to eq("```\n[[[1:Example]]] ###12\n```")
+    end
+
+    it "keeps code that contains backticks or starts with a space as it is" do
+      text = "<image src=x> a(b) ``x`y`` and `` `z` ``\n\n````\n```\n````\n"
+
+      html = rendered(applicable(text))
+
+      expect(html.css("code").map(&:text)).to eq(["x`y", "`z`", "```\n"])
+      expect(html.text).to include("a(b)")
+    end
+
+    it "converts new mentions in code and across code as well" do
+      expect(applicable(%(<image src=x> `user#2` <b>data-id="5"</b> `x` data-type="user">)))
+        .to eq(%(`user 2` data-id="5" `x`\\>))
+    end
+  end
+
   describe "mentions" do
     shared_let(:user) { create(:user, login: "ann") }
     let(:ann) { %(<mention class="mention" data-id="#{user.id}" data-type="user" data-text="@Ann">@Ann</mention>) }

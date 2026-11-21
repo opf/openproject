@@ -318,6 +318,17 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
       expect(response.body).to include("&lt;!-- note", "Heading", "Text after.")
     end
 
+    it "keeps code as code when it shows the text without its markup" do
+      text = "<image src=x>\n\n`[[[1:Example]]]`\n\n```\n[[[1:Example]]]\n```\n"
+      run = run_with_events(:succeeded, ["completed", { "text" => text }])
+
+      get ai_text_transform_pane_path(run.uuid, **pane_params), headers: stream
+
+      expect(response.body).to include('<code class="op-uc-code">[[[1:Example]]]</code>')
+        .and match(%r{<pre class="op-uc-code-block">(?:<code[^>]*>)?\[\[\[1:Example\]\]\]})
+      expect(response.body).not_to include("wiki-page-link")
+    end
+
     it "shows the stopped state for a blocked response" do
       run = run_with_events(:failed, ["error", { "reason" => "blocked", "message" => "Blocked." }])
 
@@ -453,6 +464,16 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
 
       detail = JSON.parse(Nokogiri::HTML5.fragment(response.body).at("turbo-stream")["detail"])
       expect(detail["text"]).to eq(%(Ask group 3 and user: "ann".))
+    end
+
+    it "hands over code as code when it hands over the text without its markup" do
+      text = "<image src=x>\n\n`[[[1:Example]]]`\n\n```\n[[[1:Example]]]\n```\n"
+      run = run_with_events(:succeeded, ["completed", { "text" => text }])
+
+      post apply_ai_text_transform_pane_path(run.uuid), params: pane_params, headers: stream
+
+      detail = JSON.parse(Nokogiri::HTML5.fragment(response.body).at("turbo-stream")["detail"])
+      expect(detail["text"]).to eq("`[[[1:Example]]]`\n\n```\n[[[1:Example]]]\n```")
     end
 
     context "without the permission to edit the work package any more" do
