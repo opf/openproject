@@ -75,10 +75,17 @@ en:
       chart_label: "Created vs. resolved chart"
       work_packages: "Work packages"
     sprint_charts:
+      column_with_unit: "%{label} (%{unit})"
       description_summary: "%{from} – %{to}. %{values}."
       description_value: "%{label}: %{value}"
       # Shared by every sprint chart that paints the non-working-days plugin's bands.
       non_working_day: "Non-working day"
+      unit:
+        story_points: "story points"
+      value_with_unit:
+        story_points:
+          one: "%{value} story point"
+          other: "%{value} story points"
       y_axis_title:
         story_points: "Story points"
         time: "Estimated time"

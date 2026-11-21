@@ -157,6 +157,9 @@ export abstract class SeriesChartComponent<Key extends string> {
 
   protected abstract readonly chartLabel:string;
 
+  // Series whose label already names the unit, which the description would otherwise repeat.
+  protected readonly seriesNamingUnit:ReadonlySet<string> = new Set();
+
   protected abstract readonly interaction:ChartOptions<'line'>['interaction'];
 
   protected readonly parsedInput = computed(() => JSON.parse(this.chartData()) as SeriesChartData<Key>);
@@ -255,7 +258,7 @@ export abstract class SeriesChartComponent<Key extends string> {
     const period = this.periodOf();
     const latest = described.map((series) => this.i18n.t('js.sprint_charts.description_value', {
       label: series.label,
-      value: this.formatValue(series.data[series.data.length - 1].y),
+      value: this.describedValue(series, series.data[series.data.length - 1].y),
     }));
 
     return {
@@ -269,7 +272,7 @@ export abstract class SeriesChartComponent<Key extends string> {
         caption: this.i18n.t('js.chart.description.caption', { label }),
         columns: [
           this.i18n.t(PERIOD_COLUMN_KEYS[period]),
-          ...described.map((series) => series.label),
+          ...described.map((series) => this.columnHeader(series)),
         ],
         rows: this.periodRows(described, period),
       },
@@ -284,6 +287,28 @@ export abstract class SeriesChartComponent<Key extends string> {
 
   protected tooltipLabel(item:TooltipItem<'line'>):string {
     return `${item.dataset.label ?? ''}: ${this.formatValue(item.parsed.y ?? 0)}`;
+  }
+
+  private namesUnitFor(series:ChartSeries<Key|NonWorkingKey>):boolean {
+    return this.parsedInput().unit === 'story_points' && !this.seriesNamingUnit.has(series.id);
+  }
+
+  private columnHeader(series:ChartSeries<Key|NonWorkingKey>):string {
+    if (!this.namesUnitFor(series)) {
+      return series.label;
+    }
+
+    const unit = this.i18n.t('js.sprint_charts.unit.story_points');
+
+    return this.i18n.t('js.sprint_charts.column_with_unit', { label: series.label, unit });
+  }
+
+  private describedValue(series:ChartSeries<Key|NonWorkingKey>, value:number):string {
+    if (!this.namesUnitFor(series)) {
+      return this.formatValue(value);
+    }
+
+    return this.i18n.t('js.sprint_charts.value_with_unit.story_points', { count: value, value: this.formatValue(value) });
   }
 
   private formatValue(value:number):string {

@@ -52,6 +52,8 @@ describe('VelocityChartComponent', () => {
     t(key:string, options:Record<string, string|number> = {}) {
       const translations:Record<string, string> = {
         'js.chart.description.caption': `${options.label}: data`,
+        'js.sprint_charts.column_with_unit': `${options.label} (${options.unit})`,
+        'js.sprint_charts.unit.story_points': 'story points',
         'js.velocity_chart.chart_label': 'Velocity chart',
         'js.velocity_chart.sprint_column': 'Sprint',
       };
@@ -113,7 +115,7 @@ describe('VelocityChartComponent', () => {
     it('tabulates one row per sprint', () => {
       const table = within(element).getByRole('table', { name: 'Velocity chart: data' });
 
-      expect(tableColumns(table)).toEqual(['Sprint', 'Committed', 'Completed']);
+      expect(tableColumns(table)).toEqual(['Sprint', 'Committed (story points)', 'Completed (story points)']);
       expect(tableRows(table)).toEqual([
         ['Sprint 1', '21', '20'],
         ['A sprint with a very long name', '13', '9'],
@@ -255,6 +257,10 @@ describe('VelocityChartComponent', () => {
         ],
       }));
       fixture.detectChanges();
+    });
+
+    it('leaves the unit to the tabulated durations', () => {
+      expect(tableColumns(within(element).getByRole('table'))).toEqual(['Sprint', 'Committed', 'Completed']);
     });
 
     it('steps the y axis ticks in multiples of a working day', () => {

@@ -79,9 +79,9 @@ RSpec.describe "Burndown chart widget", :js, with_flag: :sprint_reports do
         "Burndown chart: data",
         visible: :all,
         data_rows: [
-          { "Date" => "11/02/2026", "Remaining story points" => "3", "Guideline" => "2" },
-          { "Date" => "11/03/2026", "Remaining story points" => "3", "Guideline" => "1" },
-          { "Date" => "11/04/2026", "Remaining story points" => "", "Guideline" => "0" }
+          { "Date" => "11/02/2026", "Remaining story points" => "3", "Guideline (story points)" => "2" },
+          { "Date" => "11/03/2026", "Remaining story points" => "3", "Guideline (story points)" => "1" },
+          { "Date" => "11/04/2026", "Remaining story points" => "", "Guideline (story points)" => "0" }
         ]
       )
     end

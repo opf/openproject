@@ -79,9 +79,24 @@ RSpec.describe "Burnup chart widget", :js, with_flag: :sprint_reports do
         "Burnup chart: data",
         visible: :all,
         data_rows: [
-          { "Date" => "11/02/2026", "Completed work" => "0", "Total work scope" => "3", "Guideline" => "1" },
-          { "Date" => "11/03/2026", "Completed work" => "0", "Total work scope" => "3", "Guideline" => "2" },
-          { "Date" => "11/04/2026", "Completed work" => "", "Total work scope" => "", "Guideline" => "3" }
+          {
+            "Date" => "11/02/2026",
+            "Completed work (story points)" => "0",
+            "Total work scope (story points)" => "3",
+            "Guideline (story points)" => "1"
+          },
+          {
+            "Date" => "11/03/2026",
+            "Completed work (story points)" => "0",
+            "Total work scope (story points)" => "3",
+            "Guideline (story points)" => "2"
+          },
+          {
+            "Date" => "11/04/2026",
+            "Completed work (story points)" => "",
+            "Total work scope (story points)" => "",
+            "Guideline (story points)" => "3"
+          }
         ]
       )
     end

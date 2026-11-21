@@ -82,7 +82,7 @@ export class VelocityChartComponent {
       summary,
       table: {
         caption: this.i18n.t('js.chart.description.caption', { label }),
-        columns: [this.i18n.t('js.velocity_chart.sprint_column'), ...datasets.map((dataset) => dataset.label)],
+        columns: [this.i18n.t('js.velocity_chart.sprint_column'), ...datasets.map((dataset) => this.columnHeader(dataset.label))],
         rows: labels.map((sprint, index) => ({
           header: sprint,
           cells: datasets.map((dataset) => this.formatValue(dataset.data[index])),
@@ -193,6 +193,16 @@ export class VelocityChartComponent {
       },
     };
   });
+
+  private columnHeader(label:string):string {
+    if (this.parsedData().unit !== 'story_points') {
+      return label;
+    }
+
+    const unit = this.i18n.t('js.sprint_charts.unit.story_points');
+
+    return this.i18n.t('js.sprint_charts.column_with_unit', { label, unit });
+  }
 
   formatValue(value:number):string {
     if (this.parsedData().unit === 'time') {

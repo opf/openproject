@@ -49,7 +49,10 @@ describe('BurnupChartComponent', () => {
         'js.chart.description.date': 'Date',
         'js.chart.description.week': 'Week of',
         'js.sprint_charts.description_summary': `${options.from} – ${options.to}. ${options.values}.`,
+        'js.sprint_charts.column_with_unit': `${options.label} (${options.unit})`,
         'js.sprint_charts.description_value': `${options.label}: ${options.value}`,
+        'js.sprint_charts.unit.story_points': 'story points',
+        'js.sprint_charts.value_with_unit.story_points': `${options.value} story point${options.count === 1 ? '' : 's'}`,
         'js.sprint_charts.y_axis_title.story_points': 'Story points',
         'js.sprint_charts.y_axis_title.time': 'Estimated time',
         'js.sprint_charts.non_working_day': 'Non-working day',
@@ -144,7 +147,7 @@ describe('BurnupChartComponent', () => {
 
     expect(within(element).getByRole('img', {
       name: 'Burnup chart',
-      description: '10/12/2026 – 10/23/2026. Completed work: 3, Total work scope: 12.',
+      description: '10/12/2026 – 10/23/2026. Completed work: 3 story points, Total work scope: 12 story points.',
     })).toBeInTheDocument();
   });
 
@@ -153,7 +156,7 @@ describe('BurnupChartComponent', () => {
 
     const table = within(element).getByRole('table', { name: 'Burnup chart: data' });
 
-    expect(tableColumns(table)).toEqual(['Date', 'Completed work', 'Total work scope']);
+    expect(tableColumns(table)).toEqual(['Date', 'Completed work (story points)', 'Total work scope (story points)']);
     expect(tableRows(table)).toEqual([
       ['10/12/2026', '3', '10'],
       ['10/13/2026', '', '12'],
@@ -254,6 +257,7 @@ describe('BurnupChartComponent', () => {
     });
 
     it('tabulates durations in estimated time', () => {
+      expect(tableColumns(describedTable())).toEqual(['Date', 'Completed work', 'Total work scope']);
       expect(tableRows(describedTable())).toEqual([['10/12/2026', '2.5h', '20h']]);
     });
   });

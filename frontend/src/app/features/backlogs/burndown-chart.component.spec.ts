@@ -50,7 +50,10 @@ describe('BurndownChartComponent', () => {
         'js.chart.description.date': 'Date',
         'js.chart.description.week': 'Week of',
         'js.sprint_charts.description_summary': `${options.from} – ${options.to}. ${options.values}.`,
+        'js.sprint_charts.column_with_unit': `${options.label} (${options.unit})`,
         'js.sprint_charts.description_value': `${options.label}: ${options.value}`,
+        'js.sprint_charts.unit.story_points': 'story points',
+        'js.sprint_charts.value_with_unit.story_points': `${options.value} story point${options.count === 1 ? '' : 's'}`,
         'js.sprint_charts.y_axis_title.story_points': 'Story points',
         'js.sprint_charts.y_axis_title.time': 'Estimated time',
       };
@@ -178,7 +181,7 @@ describe('BurndownChartComponent', () => {
 
     expect(within(element).getByRole('img', {
       name: 'Burndown chart',
-      description: '10/12/2026 – 10/23/2026. Story points: 3, Guideline: 4.',
+      description: '10/12/2026 – 10/23/2026. Story points: 3, Guideline: 4 story points.',
     })).toBeInTheDocument();
   });
 
@@ -187,7 +190,7 @@ describe('BurndownChartComponent', () => {
 
     const table = within(element).getByRole('table', { name: 'Burndown chart: data' });
 
-    expect(tableColumns(table)).toEqual(['Date', 'Story points', 'Guideline']);
+    expect(tableColumns(table)).toEqual(['Date', 'Story points', 'Guideline (story points)']);
     expect(tableRows(table)).toEqual([
       ['10/12/2026', '5', '6'],
       ['10/13/2026', '3', '4'],
@@ -200,7 +203,7 @@ describe('BurndownChartComponent', () => {
       { id: 'projection', label: 'Projection', data: [point('2026-10-13T12:00:00.000Z', 3)] },
     ]);
 
-    expect(tableColumns(describedTable())).toEqual(['Date', 'Story points', 'Projection', 'Guideline']);
+    expect(tableColumns(describedTable())).toEqual(['Date', 'Story points', 'Projection', 'Guideline (story points)']);
   });
 
   // Havana repeats 00:00 on 2026-11-01, so the first two points share a local date.

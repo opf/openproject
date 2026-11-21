@@ -89,8 +89,8 @@ RSpec.describe "Velocity chart widget", :js, with_flag: :sprint_reports do
         "Velocity chart: data",
         visible: :all,
         data_rows: [
-          { "Sprint" => "Sprint 1", "Committed" => "3", "Completed" => "3" },
-          { "Sprint" => "Sprint 2", "Committed" => "5", "Completed" => "5" }
+          { "Sprint" => "Sprint 1", "Committed (story points)" => "3", "Completed (story points)" => "3" },
+          { "Sprint" => "Sprint 2", "Committed (story points)" => "5", "Completed (story points)" => "5" }
         ]
       )
     end
@@ -106,7 +106,7 @@ RSpec.describe "Velocity chart widget", :js, with_flag: :sprint_reports do
         "Velocity chart: data",
         visible: :all,
         data_rows: [
-          { "Sprint" => "Sprint 1", "Committed" => "3", "Completed" => "3" }
+          { "Sprint" => "Sprint 1", "Committed (story points)" => "3", "Completed (story points)" => "3" }
         ]
       )
       expect(page).to have_no_text("Average")

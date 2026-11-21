@@ -105,6 +105,8 @@ export class BurndownChartComponent extends SeriesChartComponent<SeriesKey> {
 
   protected readonly seriesStyle = SERIES_STYLE;
 
+  protected override readonly seriesNamingUnit:ReadonlySet<string> = new Set<SeriesKey>(['remaining', 'projection']);
+
   protected readonly interaction:ChartOptions<'line'>['interaction'] = { mode: 'series-at-x', intersect: false };
 
   // For ongoing sprints, the remaining data series does not cover the whole of the graph.
