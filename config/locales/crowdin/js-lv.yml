@@ -906,6 +906,26 @@ lv:
       unselected_title: Darba pieteikums
     two_factor_authentication:
       label_two_factor_authentication: Two-factor authentication
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            zero: Actions for %{count} selected projects
+            one: Project actions
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            zero: Could not extend the range. %{count} projects selected.
+            one: Could not extend the range. %{count} project selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            zero: "%{count} projects selected."
+            one: "%{count} project selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         zero: "%{count} work package children"

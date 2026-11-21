@@ -45,6 +45,7 @@ hu:
       end_time: Befejezés ideje
       start_time: Kezdés
       title: Költségjelentés készítése XLS formában
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: PDF munkaidő-nyilvántartás exportálása
       overview_per_user_day: 'Áttekintés: Felhasználónként és naponta'
@@ -53,6 +54,11 @@ hu:
       time: Idő
       timesheet: Munkaidő-nyilvántartás
       title: Saját PDF munkaidő-nyilvántartás exportálása
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    one: "%{filter} requires a value."
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: Ez az oldal engedélyektől függően korlátozott adatokat tartalmazhat.
   label_click_to_edit: Szerkesztéséhez kattintson ide.
   label_closed: lezárt
@@ -113,5 +119,3 @@ hu:
   text_costs_are_rounded_note: A megjelenített értékek kerekítettek. Minden számítás alapját a pontos értékek képzik.
   toggle_multiselect: többes kijelölés be-/kikapcsolása
   units: Egységek
-  validation_failure_date: nem érvényes dátum
-  validation_failure_integer: nem érvényes egész szám

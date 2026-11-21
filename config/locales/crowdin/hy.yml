@@ -871,8 +871,8 @@ hy:
               cannot_assign_multiple_variants_of_parent: Նախագծում հնարավոր է միացնել Տեսակի միայն մեկ տարատեսակ
               cannot_assign_variant_and_parent: 'Հնարավոր չէ միաժամանակ նշանակել տարատեսակը և դրա ծնողը '
               in_use_by_work_packages: դեռ օգտագործվում են աշխատանքային փաթեթների կողմից՝ %{types}
-              switch_target_blank: Select the variant to switch to
-              switch_target_identical: The target type must be different from the type the project uses now
+              switch_target_blank: Choose a type or variant the project can use.
+              switch_target_identical: The project already uses this type or variant.
               switch_target_not_in_family: Can only switch to another type of the same family
           cannot_be_assigned_to_artefact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: Ոչ հետնորդ նախագծերի աշխատանքային փաթեթները հղում են կատարում այս նախագծի կամ դրա հետնորդների տարբերակներին։
@@ -1644,7 +1644,7 @@ hy:
         contribution_callout: 'Խնդրում ենք օգնել մեզ բարելավել Jira Migrator-ը Ձեր արձագանքներով և մասնավոր տվյալների նվիրաբերմամբ։ Դուք կարող եք միանալ Jira Migrator-ի [մշակման համայնքին](link)։
 
           '
-        description: The Jira Migrator is currently in beta. We support Jira Server/Data Center versions 8.x, 9.x, 10.x and 11.x. Cloud instances are not supported at this time.
+        description: The Jira Migrator is currently in beta. We support Jira Server/Data Center versions 8.x, 9.x, 10.x and 11.x. Jira 8 requires basic auth. Cloud instances are not supported at this time.
         title: Բետա - Փորձեք այն։
       basic_auth_password_deleted: Basic auth password was successfully deleted.
       blank:
@@ -1685,9 +1685,13 @@ hy:
           failure:
             description_html: The configuration is saved, but the check <strong>%{check}</strong> failed. You can continue, but fetching data will fail until this is fixed.
             title: Connection check failed
+          warning:
+            description_html: The configuration is saved, but the check <strong>%{check}</strong> reported a warning. The import might not work as expected. Proceed at your own risk.
+            title: Connection check warning
         errors:
           api_error: Jira answered with HTTP status %{status}. Check the URL and that Jira is running.
           basic_auth_password_missing: No password is entered for basic auth.
+          basic_auth_required: The Jira Migrator needs basic auth for Jira %{version}. Select basic auth and enter the username and password of a Jira administrator.
           basic_auth_username_missing: No username is entered for basic auth.
           credentials_rejected: Jira rejected the credentials. Check that they are correct and have not expired.
           invalid_response: The server at this URL did not answer with JSON. Check the URL.
@@ -1700,14 +1704,18 @@ hy:
           ssrf_blocked: The Jira host resolves to a private IP address, which OpenProject blocks. If Jira runs on an internal network, add its IP address to the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable and restart OpenProject.
           timeout: Jira did not answer in time. Check the URL and that OpenProject can reach the Jira server.
           unexpected_error: Jira answered in a way OpenProject did not expect. Check that the URL points to Jira.
+          unknown_version: OpenProject could not determine the Jira version. The import might not work as expected. Proceed at your own risk.
           unreachable: Jira could not be reached. Check the URL and that OpenProject can reach the Jira server.
+          unsupported_version: Jira %{version} is not a supported version. The import might not work as expected. Proceed at your own risk.
         form_values_checked: Checked the values in the form. They are not saved yet.
         last_check: 'Last check: %{datetime}'
         not_checked: Not checked yet.
         server:
+          auth_method_supported: Authentication method
           header: Jira server
           reachable: Server reachable
           responds_as_jira: Responds as Jira
+          version_supported: Supported version
         title: Connection check
       description: Օգտագործեք այս գործիքը Ձեր Jira համակարգից տվյալներ ներմուծելու համար։ Դուք կարող եք կազմաձևել մի քանի Jira հոսթ և ընտրել, թե ինչ ներմուծել յուրաքանչյուր ներմուծման գործարկման ընթացքում։
       errors:
@@ -1753,7 +1761,7 @@ hy:
         blank:
           description: Ստեղծեք ներմուծման գործարկում՝ այս Jira համակարգից տեղեկությունների ներմուծումը սկսելու համար
           title: Դեռևս ներմուծման գործարկումներ կազմաձևված չեն
-        connection_check_error: The connection check failed, so no data was fetched. The side panel shows what failed.
+        connection_check_error: The connection check failed, so no data was fetched. Fix any failed checks shown in the side panel, then retry.
         history: Պատմություն
         import_blocked_error: Jira-ի մեկ այլ ներմուծման գործարկում ընթացքի մեջ է կամ սպասում է վերանայման։ Խնդրում ենք ավարտել կամ հետ շրջել այն՝ նախքան նոր ներմուծում սկսելը։
         index:
@@ -6247,7 +6255,13 @@ hy:
         project_specific_variant: Project-specific variant
         remove_from_project: Հեռացնել նախագծից
         switch:
-          apply: Apply
+          confirm_description: Switching to %{type} hides the fields it does not include. Their values are kept, but will no longer be visible.
+          confirm_submit: Switch
+          confirm_title: Switch type variant?
+          confirmation: I understand that fields the new variant does not include will be hidden, along with their values
+          identical:
+            one: The project already uses this type or variant.
+            other: The selected projects already use this type or variant.
           impact:
             hidden_description: The variant you have selected does not include these fields. Any values these fields previously had will no longer be visible.
             hidden_heading: Fields that will be removed
@@ -6266,8 +6280,17 @@ hy:
             work_packages:
               one: "%{count} work package will use the new configuration"
               other: "%{count} work packages will use the new configuration"
-          success: The project now uses %{type}.
-          target_label: Variant
+          invalid_target:
+            one: Choose a type or variant the project can use.
+            other: Choose a type or variant every selected project can use.
+          listed_projects:
+            one: 'The following project will switch:'
+            other: 'The following projects will switch:'
+          submit: Apply
+          success:
+            one: The project now uses %{type}.
+            other: The selected projects now use %{type}.
+          target_label: New type or variant
           title: "%{type}: Switch variant"
         type_not_found: Ընտրված տեսակը չհաջողվեց գտնել։
         use_in_project: Use in this project
@@ -7595,12 +7618,23 @@ hy:
       project_specific_variant_suffix: "(Project-specific variant)"
       projects:
         actions:
-          confirm_remove: Remove the type %{type} from %{project}?
-          remove_from_project: Remove from project
+          remove_from_project: Remove type from this project
+          remove_from_projects: Remove type from these projects
           switch_variant: Switch variant
         add_dialog:
           no_projects_selected: Please select at least one project.
           search_placeholder: Search projects
+        bulk_remove:
+          confirmation:
+            one: I understand that this type will no longer be available in this project
+            other: I understand that this type will no longer be available in the selected projects
+          description:
+            one: This type will no longer be available in the following project, unless it still has work packages of this type.
+            other: This type will no longer be available in the following projects. Projects that still have work packages of this type keep it.
+          submit: Remove
+          title:
+            one: Remove type '%{type}' from this project?
+            other: Remove type '%{type}' from these projects?
         disable_all: Disable for all projects
         empty_state:
           description: Add a project to use this configuration there.
