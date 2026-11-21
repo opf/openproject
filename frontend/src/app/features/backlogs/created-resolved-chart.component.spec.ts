@@ -49,7 +49,7 @@ describe('CreatedResolvedComponent', () => {
         'js.chart.description.caption': `${options.label}: data`,
         'js.chart.description.date': 'Date',
         'js.chart.description.week': 'Week of',
-        'js.sprint_charts.description_summary': `${options.from} – ${options.to}. ${options.values}.`,
+        'js.sprint_charts.description_summary': `${options.label} data: ${options.from} – ${options.to}. ${options.values}.`,
         'js.sprint_charts.description_value': `${options.label}: ${options.value}`,
       };
 

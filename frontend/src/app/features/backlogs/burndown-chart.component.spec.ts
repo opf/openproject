@@ -49,7 +49,7 @@ describe('BurndownChartComponent', () => {
         'js.chart.description.caption': `${options.label}: data`,
         'js.chart.description.date': 'Date',
         'js.chart.description.week': 'Week of',
-        'js.sprint_charts.description_summary': `${options.from} – ${options.to}. ${options.values}.`,
+        'js.sprint_charts.description_summary': `${options.label} data: ${options.from} – ${options.to}. ${options.values}.`,
         'js.sprint_charts.column_with_unit': `${options.label} (${options.unit})`,
         'js.sprint_charts.description_value': `${options.label}: ${options.value}`,
         'js.sprint_charts.unit.story_points': 'story points',
@@ -181,7 +181,7 @@ describe('BurndownChartComponent', () => {
 
     expect(within(element).getByRole('img', {
       name: 'Burndown chart',
-      description: '10/12/2026 – 10/23/2026. Story points: 3, Guideline: 4 story points.',
+      description: 'Burndown chart data: 10/12/2026 – 10/23/2026. Story points: 3, Guideline: 4 story points.',
     })).toBeInTheDocument();
   });
 

@@ -264,6 +264,7 @@ export abstract class SeriesChartComponent<Key extends string> {
     return {
       label,
       summary: this.i18n.t('js.sprint_charts.description_summary', {
+        label,
         from: this.formattedDay(from),
         to: this.formattedDay(to),
         values: latest.join(', '),

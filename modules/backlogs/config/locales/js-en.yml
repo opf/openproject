@@ -76,7 +76,7 @@ en:
       work_packages: "Work packages"
     sprint_charts:
       column_with_unit: "%{label} (%{unit})"
-      description_summary: "%{from} – %{to}. %{values}."
+      description_summary: "%{label} data: %{from} – %{to}. %{values}."
       description_value: "%{label}: %{value}"
       # Shared by every sprint chart that paints the non-working-days plugin's bands.
       non_working_day: "Non-working day"

@@ -48,7 +48,7 @@ describe('BurnupChartComponent', () => {
         'js.chart.description.caption': `${options.label}: data`,
         'js.chart.description.date': 'Date',
         'js.chart.description.week': 'Week of',
-        'js.sprint_charts.description_summary': `${options.from} – ${options.to}. ${options.values}.`,
+        'js.sprint_charts.description_summary': `${options.label} data: ${options.from} – ${options.to}. ${options.values}.`,
         'js.sprint_charts.column_with_unit': `${options.label} (${options.unit})`,
         'js.sprint_charts.description_value': `${options.label}: ${options.value}`,
         'js.sprint_charts.unit.story_points': 'story points',
@@ -147,7 +147,7 @@ describe('BurnupChartComponent', () => {
 
     expect(within(element).getByRole('img', {
       name: 'Burnup chart',
-      description: '10/12/2026 – 10/23/2026. Completed work: 3 story points, Total work scope: 12 story points.',
+      description: 'Burnup chart data: 10/12/2026 – 10/23/2026. Completed work: 3 story points, Total work scope: 12 story points.',
     })).toBeInTheDocument();
   });
 
