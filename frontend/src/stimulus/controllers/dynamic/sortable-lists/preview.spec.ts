@@ -251,6 +251,31 @@ describe('sortable lists drag preview', () => {
         expect(container.style.paddingBottom).toEqual('var(--op-drag-stack-overhang)');
         expect(container.style.paddingLeft).toEqual('0px');
       });
+
+      it('omits the badge when showBatchBadge is false', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 3, showBatchBadge: false,
+        });
+
+        expect(within(container).queryByText('3')).toBeNull();
+      });
+
+      it('keeps the stack and badge overhang without the badge', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 3, showBatchBadge: false,
+        });
+
+        expect(container.querySelector('[data-preview]')).toHaveAttribute('data-stack-depth', '2');
+        expect(container.style.paddingTop).toEqual('var(--op-drag-badge-overhang)');
+        expect(container.style.paddingRight).toEqual('var(--op-drag-stack-overhang)');
+        expect(container.style.paddingBottom).toEqual('var(--op-drag-stack-overhang)');
+      });
     });
 
     describe('batch stack', () => {
