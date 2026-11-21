@@ -26,7 +26,11 @@
 //++
 
 import { AfterViewInit, ChangeDetectionStrategy, Component } from '@angular/core';
-import { BcfWpAttributeGroupComponent } from 'core-app/features/bim/bcf/bcf-wp-attribute-group/bcf-wp-attribute-group.component';
+import { INgxGalleryAction } from '@kolkov/ngx-gallery';
+import {
+  BcfWpAttributeGroupComponent,
+  GalleryActionOptions,
+} from 'core-app/features/bim/bcf/bcf-wp-attribute-group/bcf-wp-attribute-group.component';
 import { switchMap, take } from 'rxjs/operators';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { forkJoin } from 'rxjs';
@@ -116,10 +120,10 @@ export class BcfNewWpAttributeGroupComponent extends BcfWpAttributeGroupComponen
     return this.createAllowed && this.viewerVisible;
   }
 
-  protected actions():{ icon:string, onClick:(evt:unknown, index:number) => void, titleText:string }[] {
+  protected actions(options:GalleryActionOptions):INgxGalleryAction[] {
     // Show only delete button
     return super
-      .actions()
+      .actions(options)
       .filter((el) => el.icon === 'icon-delete');
   }
 }
