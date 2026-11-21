@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "@angular-builders/custom-esbuild": "^22.0.0",
-    "@angular/build": "22.1.9",
+    "@angular/build": "22.3.0",
     "@angular/language-service": "22.2.6",
     "@ckeditor/ckeditor5-autosave": "49.0.1",
     "@ckeditor/ckeditor5-core": "49.0.1",
