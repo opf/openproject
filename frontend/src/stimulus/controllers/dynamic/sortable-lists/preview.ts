@@ -77,6 +77,7 @@ export function renderDragPreview({
   sourceElement,
   container,
   batchSize = 1,
+  showBatchBadge = true,
 }:{
   previewTarget:HTMLElement;
   sourceElement:HTMLElement;
@@ -84,6 +85,9 @@ export function renderDragPreview({
   // A batch larger than one card adds a count badge, so a multi-card drag
   // reads differently from a single one.
   batchSize?:number;
+  // Off where the platform already shows the count; the stack still marks
+  // the drag as a batch.
+  showBatchBadge?:boolean;
 }):void {
   const previewWidth = previewTarget.getBoundingClientRect().width;
   const preview = previewTarget.cloneNode(true) as HTMLElement;
@@ -121,7 +125,9 @@ export function renderDragPreview({
     container.style.paddingTop = BATCH_BADGE_OVERHANG;
     container.style.paddingRight = DRAG_STACK_OVERHANG;
     container.style.paddingBottom = DRAG_STACK_OVERHANG;
-    renderBatchBadge(container, batchSize);
+    if (showBatchBadge) {
+      renderBatchBadge(container, batchSize);
+    }
   }
 }
 
