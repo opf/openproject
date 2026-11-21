@@ -19,11 +19,11 @@ OpenProject (since version 3.0) offers useful keyboard shortcuts to  enhance you
 | Open shortcuts help | ? | – | Open this page | Open this page |
 | Open help menu | – | 6 | Open the help menu | Open the help menu |
 | Go to Overview | g o | – | Project overview | Nothing |
-| Go to Work packages | g w p | – | Project work packages | Nothing |
-| Go to Wiki | g w i | – | Project wiki | Nothing |
-| Go to Activity | g a | – | Project activity | Nothing |
-| Go to Calendar | g c | – | Project calendars | Nothing |
-| Go to News | g n | – | Project news | Nothing |
+| Go to Work packages | g w p | – | Project work packages | Work packages |
+| Go to Wiki | g w i | – | Project wiki start page | Wikis |
+| Go to Activity | g a | – | Project activity | Activity |
+| Go to Calendar | g c | – | Project calendars | Calendars |
+| Go to News | g n | – | Project news | News |
 | Go to Timelines | g t | – | Nothing | Nothing |
 | New work package | n w p | 2 | n w p: new work package form. 2: open the Create menu (work package list only) | n w p: nothing. 2: open the Create menu (work package list only) |
 | Edit | g e | 3 | Nothing | Edit (placeholder user page only) |

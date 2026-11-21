@@ -209,13 +209,15 @@ module Redmine::MenuManager::MenuHelper
     html_options = item.html_options(selected:)
     html_options[:title] ||= selected ? t(:description_current_position) + caption : caption
     html_options[:class] = "#{html_options[:class]} #{menu_class}--item-action"
+    hotkey = OpenProject::Hotkeys.for_project_menu_item(item.name) if shown_in_main_menu && project
     html_options["data-test-selector"] = "#{menu_class}--item-action"
     if item.icon_after.present? && item.icon_after == "link-external"
       html_options["target"] = "_blank"
       html_options["data-allow-external-link"] = "true"
     end
 
-    link_to link_text, url, html_options
+    link_options = hotkey ? html_options.merge(data: (html_options[:data] || {}).merge(hotkey:)) : html_options
+    link_to link_text, url, link_options
   end
 
   def current_menu_item_part_of_menu?(menu, project = nil)

@@ -685,4 +685,15 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
       end
     end
   end
+
+  describe "#render_single_menu_node hotkeys" do
+    let(:project) { build_stubbed(:project) }
+    let(:item) { Redmine::MenuManager::MenuItem.new(:overview, "/test", caption: "Overview") }
+
+    it "does not leak the project hotkey into a later render without a project" do
+      expect(render_single_menu_node(item, project)).to have_element(:a, "data-hotkey": "g o")
+      expect(render_single_menu_node(item, nil)).to have_no_element(:a, "data-hotkey": true)
+      expect(item.html_options).not_to have_key(:data)
+    end
+  end
 end

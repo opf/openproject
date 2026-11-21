@@ -58,13 +58,6 @@ export class KeyboardShortcutService {
   // maybe move it to a .constant
   private shortcuts:Record<string, () => void> = {
     '?': () => this.showHelpModal(),
-    'g m': this.globalAction('myPagePath'),
-    'g o': this.projectScoped('projectPath'),
-    'g w p': this.projectScoped('workPackagesPath'),
-    'g w i': this.projectScoped('projectWikiPath'),
-    'g a': this.projectScoped('projectActivityPath'),
-    'g c': this.projectScoped('projectCalendarPath'),
-    'g n': this.projectScoped('projectNewsPath'),
     'n w p': this.projectScoped('projectWorkPackageNewPath'),
 
     'g e': this.accessKey('edit'),
@@ -108,12 +101,6 @@ export class KeyboardShortcutService {
       } else {
         elem.click();
       }
-    };
-  }
-
-  public globalAction(action:keyof PathHelperService) {
-    return ():void => {
-      window.location.href = (this.PathHelper[action] as () => string)();
     };
   }
 

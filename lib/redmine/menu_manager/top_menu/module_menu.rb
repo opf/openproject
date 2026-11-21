@@ -86,18 +86,21 @@ module Redmine::MenuManager::TopMenu::ModuleMenu
           item.caption
         end
 
-      content_arguments = {}
-      content_arguments[:data] = item.html_options[:data] if item.html_options[:data].present?
-
       list.with_item(
         href: url_for(item.url),
         label:,
         test_selector: "op-menu--item-action",
-        content_arguments:
+        content_arguments: menu_item_content_arguments(item)
       ) do |menu_item|
         menu_item.with_leading_visual_icon(icon: item.icon) if item.icon
       end
     end
+  end
+
+  def menu_item_content_arguments(item)
+    hotkey = OpenProject::Hotkeys.for_modules_menu_item(item.name, @project)
+    data = (item.html_options[:data] || {}).merge(hotkey ? { hotkey: } : {})
+    data.present? ? { data: } : {}
   end
 
   def upsell_icon

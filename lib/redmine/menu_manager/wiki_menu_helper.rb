@@ -32,20 +32,25 @@ module Redmine::MenuManager::WikiMenuHelper
     project_wiki = project.wiki
     return if project_wiki.nil? || project.wiki.disabled?
 
+    start_page_slug = project_wiki.find_or_new_page(project_wiki.start_page).slug
+
     wiki_main_items(project_wiki).reverse_each do |main_item|
       Redmine::MenuManager.loose :project_menu do |menu|
-        push_wiki_main_menu(menu, main_item, project)
+        push_wiki_main_menu(menu, main_item, project, start_page_slug:)
       end
     end
   end
 
-  def push_wiki_main_menu(menu, main_item, project)
-    menu.push main_item.menu_identifier,
+  def push_wiki_main_menu(menu, main_item, project, start_page_slug: nil)
+    html = { class: "wiki-menu--main-item" }
+    html[:data] = { hotkey: "g w i" } if main_item.slug == start_page_slug
+
+    menu.push(main_item.menu_identifier,
               { controller: "/wiki", action: "show", id: main_item.slug },
               caption: main_item.title,
               after: :meetings,
               icon: "book",
-              html: { class: "wiki-menu--main-item" }
+              html:)
 
     if project.wiki.pages.any?
       push_wiki_menu_partial(main_item, menu)
