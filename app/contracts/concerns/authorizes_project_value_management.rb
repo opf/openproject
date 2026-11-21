@@ -50,8 +50,10 @@ module AuthorizesProjectValueManagement
   end
 
   def project_value_manageable?
-    model.project_id.present? &&
-      custom_field&.allow_additional_project_values? &&
-      user.allowed_in_project?(:manage_work_package_custom_field_values, model.project)
+    project_value_permitted? && custom_field&.allow_additional_project_values?
+  end
+
+  def project_value_permitted?
+    model.project_id.present? && user.allowed_in_project?(:manage_work_package_custom_field_values, model.project)
   end
 end

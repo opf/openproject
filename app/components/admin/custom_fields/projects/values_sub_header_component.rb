@@ -31,11 +31,10 @@ module Admin
   module CustomFields
     module Projects
       class ValuesSubHeaderComponent < ApplicationComponent
-        def initialize(custom_field:, project:)
+        def initialize(custom_field:)
           super()
 
           @custom_field = custom_field
-          @project = project
         end
 
         def render?
@@ -44,7 +43,7 @@ module Admin
 
         private
 
-        attr_reader :custom_field, :project
+        attr_reader :custom_field
       end
     end
   end

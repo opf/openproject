@@ -36,8 +36,13 @@ RSpec.describe Admin::CustomFields::Projects::DeleteValueDialogComponent, type: 
   let(:project) { build_stubbed(:project, name: "Scrum project") }
   let(:custom_field) { build_stubbed(:list_wp_custom_field) }
   let(:value) { build_stubbed(:custom_option, custom_field:, project:) }
+  let(:vc_test_controller_class) { Admin::Settings::WorkPackageCustomFields::ProjectSpecificValuesController }
 
-  subject(:rendered) { render_inline(described_class.new(custom_field:, project:, value:)) }
+  subject(:rendered) { render_inline(described_class.new(project:, value:)) }
+
+  before do
+    allow(vc_test_controller).to receive_messages(custom_field:, configured_project: project)
+  end
 
   it "deletes the value of the project after confirmation" do
     form = rendered.css("form")

@@ -34,8 +34,13 @@ RSpec.describe Admin::CustomFields::Projects::ValuesSubHeaderComponent, type: :c
   include Rails.application.routes.url_helpers
 
   let(:project) { build_stubbed(:project) }
+  let(:vc_test_controller_class) { Admin::Settings::WorkPackageCustomFields::ProjectSpecificValuesController }
 
-  subject(:rendered) { render_inline(described_class.new(custom_field:, project:)) }
+  subject(:rendered) { render_inline(described_class.new(custom_field:)) }
+
+  before do
+    allow(vc_test_controller).to receive_messages(custom_field:, configured_project: project)
+  end
 
   context "when projects may add values" do
     let(:custom_field) { build_stubbed(:list_wp_custom_field, allow_additional_project_values: true) }
