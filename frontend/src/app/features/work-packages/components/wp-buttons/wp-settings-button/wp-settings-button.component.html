@@ -6,6 +6,9 @@
   <button id="work-packages-settings-button"
           opActionMenuTrigger
           type="button"
+          [attr.data-hotkey]="listShortcuts() ? 'm' : null"
+          [attr.data-hotkey-fallback]="listShortcuts() ? '' : null"
+          [attr.accesskey]="listShortcuts() ? 7 : null"
           opTooltip
           [label]="text.more_actions"
           class="button last work-packages-settings-button toolbar-icon">

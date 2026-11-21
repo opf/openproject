@@ -265,30 +265,4 @@ describe('KeyboardShortcutService', () => {
       expect(second.row('6')).toHaveFocus();
     });
   });
-
-  describe('accessKey', () => {
-    it('clicks the element with the matching access key', () => {
-      const moreButton = outsideButton();
-      moreButton.setAttribute('accesskey', '7');
-      const onClick = vi.fn();
-      moreButton.addEventListener('click', onClick);
-      document.body.append(moreButton);
-
-      service.accessKey('moreMenu')();
-
-      expect(onClick).toHaveBeenCalledOnce();
-    });
-
-    it('logs instead of throwing when no element has the access key', () => {
-      const log = vi.spyOn(console, 'log').mockImplementation(() => undefined);
-
-      try {
-        expect(() => service.accessKey('moreMenu')()).not.toThrow();
-
-        expect(log).toHaveBeenCalledWith('No element with access key 7 (moreMenu)');
-      } finally {
-        log.mockRestore();
-      }
-    });
-  });
 });

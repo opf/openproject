@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, Input, OnDestroy, ViewChild, ViewEncapsulation, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, ElementRef, HostListener, Injector, Input, OnDestroy, ViewChild, ViewEncapsulation, afterNextRender, inject } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
 import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
@@ -51,6 +51,7 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { announce } from '@primer/live-region-element';
 import { NgOption } from '@ng-select/ng-select';
+import { registerHotkeyAction } from 'core-common/hotkeys/hotkey-dispatcher';
 
 interface SearchOptionItem {
   projectScope:string;
@@ -94,6 +95,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   readonly cdRef = inject(ChangeDetectorRef);
   readonly halNotification = inject(HalResourceNotificationService);
   readonly recentItemsService = inject(RecentItemsService);
+  private readonly injector = inject(Injector);
 
   @Input() public placeholder:string;
 
@@ -154,6 +156,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   constructor() {
     populateInputsFromDataset(this);
+    inject(DestroyRef).onDestroy(registerHotkeyAction('activate-global-search', () => this.activateFromShortcut()));
   }
 
   ngAfterViewInit():void {
@@ -189,9 +192,11 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     // handle click on search button
     if (insideOrSelf(this.btn.nativeElement, event.target as HTMLElement)) {
       if (this.deviceService.isTablet) {
-        this.toggleMobileSearch();
-        // open ng-select menu on default
-        document.querySelector<HTMLInputElement>('.ng-input input')?.focus();
+        if (this.expanded) {
+          this.toggleMobileSearch();
+        } else {
+          this.activateFromShortcut();
+        }
         // only for mobile and not for all devices!
         // See https://github.com/opf/openproject/commit/a2eb0cd6025f2ecaca00f4ed81c4eb8e9399bd86
         event.stopPropagation();
@@ -201,6 +206,15 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
         this.submitNonEmptySearch('');
       }
     }
+  }
+
+  public activateFromShortcut():void {
+    this._searchTermInitialized = true;
+    this.clearSearch();
+    this.expanded = true;
+    this.toggleTopMenuClass();
+    this.cdRef.markForCheck();
+    afterNextRender(() => this.ngSelectComponent.ngSelectInstance.focus(), { injector: this.injector });
   }
 
   // open or close mobile search

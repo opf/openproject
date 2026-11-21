@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject, input } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
@@ -39,6 +39,8 @@ export class WorkPackageSettingsButtonComponent {
   @Input() hideTableOptions = false;
 
   @Input() showCalendarSharingOption = false;
+
+  readonly listShortcuts = input(false);
 
   public text = {
     more_actions: this.I18n.t('js.button_more_actions'),

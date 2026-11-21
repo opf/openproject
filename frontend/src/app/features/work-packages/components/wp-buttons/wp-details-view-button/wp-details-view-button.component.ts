@@ -59,6 +59,8 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
 
   public accessKey = 8;
 
+  public hotkey = 'd w p';
+
   public buttonId = 'work-packages-details-view-button';
 
   public buttonClass = 'toolbar-icon';

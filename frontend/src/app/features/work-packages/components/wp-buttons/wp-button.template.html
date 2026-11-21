@@ -6,6 +6,7 @@
         opTooltip
         [label]="label"
         [attr.accesskey]="accessKey"
+        [attr.data-hotkey]="hotkey"
         (click)="performAction($event)">
   <op-icon icon-classes="{{ iconClass }} button--icon" />
 </button>

@@ -13,23 +13,17 @@
   }
   <button
     type="button"
-    #btn
-    id="top-menu-search-button"
-    class="top-menu-search--button search-form-normal"
-    opTooltip
-    [label]="text.search"
-    [class.-input-focused]="expanded"
-    (click)="handleClick($event)"
-    tabindex="-1"
+    hidden
+    data-hotkey="s"
+    data-hotkey-action="activate-global-search"
     >
-    <op-icon icon-classes="icon5 icon-search ellipsis" />
+    {{ text.search }}
   </button>
   <op-autocompleter
     #select
     [defaultData]="false"
     [name]="'global-search-input'"
     [id]="'global-search-input'"
-    [accesskey]="4"
     [markFirst]="false"
     class="global-search"
     [placeholder]="effectivePlaceholder"
@@ -37,7 +31,7 @@
     [appendTo]="'#global-search-input'"
     [dropdownPosition]="'bottom'"
     [classes]="{'top-menu-search--input': true, '-markable': markable, '-expanded': expanded, 'ng-select--primerized': true }"
-    [inputAttrs]="{ 'class': 'global-search--input', 'name': 'global-search--input', autocomplete: 'off'}"
+    [inputAttrs]="{ 'class': 'global-search--input', 'name': 'global-search--input', autocomplete: 'off', accesskey: '4' }"
     [openOnEnter]="true"
     [deferFetchUntilOpened]="true"
     [labelRequired]="false"
@@ -91,4 +85,18 @@
       }
     </ng-template>
   </op-autocompleter>
+  <button
+    type="button"
+    #btn
+    id="top-menu-search-button"
+    class="top-menu-search--button search-form-normal"
+    opTooltip
+    [label]="text.search"
+    [class.-input-focused]="expanded"
+    (click)="handleClick($event)"
+    tabindex="-1"
+    accesskey="4"
+    >
+    <op-icon icon-classes="icon5 icon-search ellipsis" />
+  </button>
 </div>

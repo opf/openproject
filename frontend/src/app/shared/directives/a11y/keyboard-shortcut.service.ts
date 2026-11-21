@@ -26,20 +26,8 @@
 //++
 
 import { Injectable, inject } from '@angular/core';
-import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import Mousetrap from 'mousetrap';
-
-const accessKeys = {
-  preview: 1,
-  newWorkPackage: 2,
-  edit: 3,
-  quickSearch: 4,
-  projectSearch: 5,
-  help: 6,
-  moreMenu: 7,
-  details: 8,
-};
 
 // this could be extracted into a separate component if it grows
 const accessibleListSelector = 'table.keyboard-accessible-list';
@@ -48,15 +36,10 @@ const accessibleListSelector = 'table.keyboard-accessible-list';
   providedIn: 'root',
 })
 export class KeyboardShortcutService {
-  private readonly FocusHelper = inject(FocusHelperService);
   private readonly configurationService = inject(ConfigurationService);
 
   // maybe move it to a .constant
   private shortcuts:Record<string, () => void> = {
-    'g p': this.accessKey('preview'),
-    'd w p': this.accessKey('details'),
-    'm': this.accessKey('moreMenu'),
-    's': this.accessKey('quickSearch'),
     'k': () => this.focusPrevItem(),
     'j': () => this.focusNextItem(),
   };
@@ -70,42 +53,6 @@ export class KeyboardShortcutService {
         Object.entries(this.shortcuts).forEach(([key, action]) => Mousetrap.bind(key, action));
       }
     });
-  }
-
-  public accessKey(keyName:'preview'|'newWorkPackage'|'edit'|'quickSearch'|'projectSearch'|'help'|'moreMenu'|'details'):() => void {
-    const key = accessKeys[keyName];
-
-    return () => {
-      const elem = document.querySelector<HTMLElement>(`[accesskey="${key}"]`);
-      if (!elem) {
-        // eslint-disable-next-line no-console
-        console.log(`No element with access key ${key} (${keyName})`);
-        return;
-      }
-
-      if (elem instanceof HTMLInputElement || elem.getAttribute('id') === 'global-search-input') {
-        // timeout with delay so that the key is not
-        // triggered on the input
-        setTimeout(() => this.FocusHelper.focus(elem), 200);
-      } else if (elem instanceof HTMLAnchorElement) {
-        this.clickLink(elem);
-      } else {
-        elem.click();
-      }
-    };
-  }
-
-  clickLink(link:HTMLAnchorElement):void {
-    const event = new MouseEvent('click', {
-      view: window,
-      bubbles: true,
-      cancelable: true,
-    });
-    const cancelled = !link.dispatchEvent(event);
-
-    if (!cancelled) {
-      window.location.href = link.href;
-    }
   }
 
   focusItemOffset(offset:number):void {

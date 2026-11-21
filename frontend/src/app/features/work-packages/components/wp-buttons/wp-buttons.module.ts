@@ -44,6 +44,8 @@ export abstract class AbstractWorkPackageButtonComponent extends UntilDestroyedM
 
   public accessKey:number;
 
+  public hotkey?:string;
+
   public isActive = false;
 
   protected text:ButtonControllerText;

@@ -36,7 +36,7 @@ import { CommonModule } from '@angular/common';
 import { provideHttpClient, withXhr } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { of } from 'rxjs';
-import { screen, waitFor } from '@testing-library/dom';
+import { fireEvent, screen, waitFor } from '@testing-library/dom';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { States } from 'core-app/core/states/states.service';
 import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
@@ -44,6 +44,7 @@ import { RecentItemsService } from 'core-app/core/recent-items.service';
 import { OpenprojectAutocompleterModule } from 'core-app/shared/components/autocompleter/openproject-autocompleter.module';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
+import { HotkeyDispatcher } from 'core-common/hotkeys/hotkey-dispatcher';
 
 @Component({
   templateUrl: './global-search-input.component.html',
@@ -90,6 +91,75 @@ describe('global search projected options', () => {
 
     expect(await screen.findByText('Needle in a thread')).toHaveClass('op-autocompleter--wp-subject');
     expect(await screen.findByText('All projects', { exact: false })).toHaveClass('global-search--project-scope');
+  });
+});
+
+describe('GlobalSearchInputComponent#activateFromShortcut', () => {
+  let header:HTMLElement;
+
+  beforeEach(() => {
+    header = document.createElement('header');
+    header.className = 'op-app-header';
+    document.body.append(header);
+  });
+
+  afterEach(() => {
+    header.remove();
+  });
+
+  async function render() {
+    await TestBed.configureTestingModule({
+      imports: [TestGlobalSearchComponent],
+      providers: [
+        States, provideHttpClient(withXhr()), provideHttpClientTesting(),
+        { provide: HalResourceNotificationService, useValue: {} },
+        { provide: GlobalSearchService, useValue: {} },
+        { provide: RecentItemsService, useValue: { recentItems$: of([]) } },
+      ],
+    }).compileComponents();
+    const fixture = TestBed.createComponent(TestGlobalSearchComponent);
+    fixture.componentInstance.autocompleterOptions.getOptionsFn = () => of([]);
+    fixture.detectChanges();
+    await waitFor(() => expect(fixture.componentInstance.ngSelectComponent.ngSelectInstance).toBeDefined());
+    return fixture;
+  }
+
+  const input = () => screen.getByRole('combobox');
+
+  it('expands the search and focuses the input with an empty query', async () => {
+    const fixture = await render();
+    fixture.componentInstance.ngSelectComponent.ngSelectInstance.filter('earlier');
+
+    fixture.componentInstance.activateFromShortcut();
+
+    await waitFor(() => expect(input()).toHaveFocus());
+    expect(input()).toHaveValue('');
+    expect(fixture.componentInstance.expanded).toBe(true);
+    expect(header).toHaveClass('op-app-header_search-open');
+  });
+
+  it('puts access key 4 on the search input, then on the search toggle', async () => {
+    const fixture = await render();
+    const toggle = (fixture.nativeElement as HTMLElement).querySelector('#top-menu-search-button');
+
+    expect(Array.from((fixture.nativeElement as HTMLElement).querySelectorAll('[accesskey]')))
+      .toEqual([input(), toggle]);
+    expect(input()).toHaveAttribute('accesskey', '4');
+    expect(toggle).toHaveAttribute('accesskey', '4');
+  });
+
+  it('is activated by its s hotkey', async () => {
+    await render();
+    const dispatcher = new HotkeyDispatcher(document.body);
+    dispatcher.setEnabled(true);
+    dispatcher.start();
+
+    try {
+      fireEvent.keyDown(document.body, { key: 's' });
+      await waitFor(() => expect(input()).toHaveFocus());
+    } finally {
+      dispatcher.stop();
+    }
   });
 });
 

@@ -12,9 +12,22 @@
     <h2 class="sr-only">{{ workPackage.subject }}</h2>
 
     <div class="work-packages--details--subject work-packages--subject-element">
-      <op-editable-attribute-field [resource]="workPackage"
+      <op-editable-attribute-field #subjectField
+        [resource]="workPackage"
         [wrapperClasses]="'work-packages--details--subject work-packages--subject-element -no-label'"
         [fieldName]="'subject'" />
+      @if (subjectField.isEditable) {
+        <button
+          type="button"
+          class="sr-only"
+          tabindex="-1"
+          data-hotkey="g e"
+          accesskey="3"
+          (click)="subjectField.handleUserActivate(null)"
+          >
+          {{ text.edit }}
+        </button>
+      }
     </div>
   </div>
 }

@@ -88,8 +88,31 @@ describe('WorkPackageCreateButtonComponent', () => {
     fixture.destroy();
   });
 
-  it('has the new work package access key', () => {
-    expect(button()).toHaveAttribute('accesskey', '2');
+  it('carries no shortcut by default', () => {
+    expect(button()).not.toHaveAttribute('accesskey');
+    expect(button()).not.toHaveAttribute('data-hotkey');
+  });
+
+  describe('with list shortcuts', () => {
+    beforeEach(() => {
+      fixture.componentRef.setInput('listShortcuts', true);
+      fixture.detectChanges();
+    });
+
+    it('owns n w p and the new work package access key', () => {
+      expect(button()).toHaveAttribute('data-hotkey', 'n w p');
+      expect(button()).toHaveAttribute('accesskey', '2');
+    });
+
+    it('keeps them while the create pane is open, so the fallback link cannot take over', async () => {
+      createPaneOpen = true;
+      allowed$.next(true);
+      await fixture.whenStable();
+
+      expect(button()).toBeDisabled();
+      expect(button()).toHaveAttribute('data-hotkey', 'n w p');
+      expect(button()).toHaveAttribute('accesskey', '2');
+    });
   });
 
   it('stays enabled until the create permission is known', () => {
