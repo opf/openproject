@@ -27,6 +27,7 @@
 
 import { ChangeDetectorRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { fireEvent, within } from '@testing-library/dom';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { BehaviorSubject, of } from 'rxjs';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -51,6 +52,8 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 describe('BCF attribute group save integration', () => {
   const saveViewpoint$ = vi.fn(() => of(undefined));
   const getViewpoint$ = vi.fn(() => of({ snapshot: { snapshot_data: 'data:image/png;base64,c25hcHNob3Q=' } }));
+  const showViewpoint = vi.fn<ViewerBridgeService['showViewpoint']>();
+  const deleteViewPoint$ = vi.fn<ViewpointsService['deleteViewPoint$']>(() => of(undefined));
 
   afterEach(() => vi.restoreAllMocks());
 
@@ -58,6 +61,8 @@ describe('BCF attribute group save integration', () => {
     vi.spyOn(BcfWpAttributeGroupComponent.prototype, 'ngAfterViewInit').mockImplementation(() => {});
     saveViewpoint$.mockClear();
     getViewpoint$.mockClear();
+    showViewpoint.mockClear();
+    deleteViewPoint$.mockClear();
     TestBed.configureTestingModule({
       imports: [NgxGalleryModule, OpenprojectHalModule, OpTooltipDirective],
       declarations: [BcfWpAttributeGroupComponent, BcfNewWpAttributeGroupComponent, OpIconComponent],
@@ -71,11 +76,11 @@ describe('BCF attribute group save integration', () => {
         { provide: WorkPackageCreateService, useValue: {} },
         { provide: ToastService, useValue: { addSuccess: () => {} } },
         { provide: ChangeDetectorRef, useValue: { detectChanges: () => {} } },
-        { provide: ViewerBridgeService, useValue: { viewerVisible$: new BehaviorSubject(true), getViewpoint$ } },
-        { provide: ViewpointsService, useValue: { saveViewpoint$ } },
+        { provide: ViewerBridgeService, useValue: { viewerVisible$: new BehaviorSubject(true), getViewpoint$, showViewpoint } },
+        { provide: ViewpointsService, useValue: { saveViewpoint$, deleteViewPoint$ } },
       ],
     });
-    TestBed.overrideComponent(BcfWpAttributeGroupComponent, { set: { providers: [{ provide: ViewpointsService, useValue: { saveViewpoint$ } }] } });
+    TestBed.overrideComponent(BcfWpAttributeGroupComponent, { set: { providers: [{ provide: ViewpointsService, useValue: { saveViewpoint$, deleteViewPoint$ } }] } });
   });
 
   it('saves the current persisted work package from the shared template', () => {
@@ -88,6 +93,79 @@ describe('BCF attribute group save integration', () => {
     fixture.detectChanges();
     fixture.nativeElement.querySelector('button').click();
     expect(saveViewpoint$).toHaveBeenCalledWith(workPackage);
+  });
+
+  describe('gallery actions', () => {
+    async function renderGallery() {
+      const fixture = TestBed.createComponent(BcfWpAttributeGroupComponent);
+      const component = fixture.componentInstance;
+      component.workPackage = TestBed.inject(HalResourceService).createHalResource<WorkPackageResource>({ _type: 'WorkPackage', id: '42' });
+      component.viewAllowed = true;
+      component.createAllowed = true;
+      component.viewerVisible = true;
+      component.galleryImages = [{ small: 'data:image/png;base64,c25hcHNob3Q=', big: 'data:image/png;base64,c25hcHNob3Q=' }];
+      fixture.autoDetectChanges();
+      await fixture.whenStable();
+
+      return { fixture, component, host: fixture.nativeElement as HTMLElement };
+    }
+
+    function region(host:HTMLElement, selector:string):HTMLElement {
+      const element = host.querySelector<HTMLElement>(selector);
+      if (!element) {
+        throw new Error(`${selector} is not rendered`);
+      }
+
+      return element;
+    }
+
+    it('shows the viewpoint from a thumbnail without opening the preview', async () => {
+      const { fixture, component, host } = await renderGallery();
+
+      fireEvent.click(within(region(host, 'ngx-gallery-thumbnails')).getByTitle('js.bcf.show_viewpoint'));
+      await fixture.whenStable();
+
+      expect(showViewpoint).toHaveBeenCalledExactlyOnceWith(component.workPackage, 0);
+      expect(region(host, 'ngx-gallery-preview')).not.toHaveClass('ngx-gallery-active');
+    });
+
+    it('closes the preview when the viewpoint is shown from it', async () => {
+      const { fixture, component, host } = await renderGallery();
+
+      fireEvent.click(region(host, '.ngx-gallery-thumbnail'));
+      await fixture.whenStable();
+      expect(region(host, 'ngx-gallery-preview')).toHaveClass('ngx-gallery-active');
+
+      fireEvent.click(within(region(host, 'ngx-gallery-preview')).getByTitle('js.bcf.show_viewpoint'));
+      await fixture.whenStable();
+
+      expect(showViewpoint).toHaveBeenCalledExactlyOnceWith(component.workPackage, 0);
+      expect(region(host, 'ngx-gallery-preview')).not.toHaveClass('ngx-gallery-active');
+    });
+
+    it('deletes the viewpoint from a thumbnail without opening the preview', async () => {
+      vi.spyOn(window, 'confirm').mockReturnValue(true);
+      const { fixture, component, host } = await renderGallery();
+
+      fireEvent.click(within(region(host, 'ngx-gallery-thumbnails')).getByTitle('js.bcf.delete_viewpoint'));
+      await fixture.whenStable();
+
+      expect(deleteViewPoint$).toHaveBeenCalledExactlyOnceWith(component.workPackage, 0);
+      expect(region(host, 'ngx-gallery-preview')).not.toHaveClass('ngx-gallery-active');
+    });
+
+    it('closes the preview when the viewpoint is deleted from it', async () => {
+      vi.spyOn(window, 'confirm').mockReturnValue(true);
+      const { fixture, component, host } = await renderGallery();
+
+      fireEvent.click(region(host, '.ngx-gallery-thumbnail'));
+      await fixture.whenStable();
+      fireEvent.click(within(region(host, 'ngx-gallery-preview')).getByTitle('js.bcf.delete_viewpoint'));
+      await fixture.whenStable();
+
+      expect(deleteViewPoint$).toHaveBeenCalledExactlyOnceWith(component.workPackage, 0);
+      expect(region(host, 'ngx-gallery-preview')).not.toHaveClass('ngx-gallery-active');
+    });
   });
 
   it('retains a new work package snapshot in the gallery without persisting it', () => {
