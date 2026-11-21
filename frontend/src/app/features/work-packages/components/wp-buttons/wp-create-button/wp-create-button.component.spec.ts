@@ -88,6 +88,10 @@ describe('WorkPackageCreateButtonComponent', () => {
     fixture.destroy();
   });
 
+  it('has the new work package access key', () => {
+    expect(button()).toHaveAttribute('accesskey', '2');
+  });
+
   it('stays enabled until the create permission is known', () => {
     expect(button()).not.toHaveAttribute('aria-disabled');
     expect(button()).toBeEnabled();

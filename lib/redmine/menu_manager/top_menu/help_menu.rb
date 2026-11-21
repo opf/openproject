@@ -44,6 +44,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
                                             pl: 1,
                                             test_selector: "header-help-button",
                                             aria: { label: I18n.t(:label_help) },
+                                            accesskey: accesskey(:help),
                                             data: { allow_external_link: true },
                                             **item.html_options))
       else
@@ -65,6 +66,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
                             scheme: :invisible,
                             classes: "op-app-header--primer-button",
                             test_selector: "header-help-button",
+                            accesskey: accesskey(:help),
                             "aria-label": I18n.t(:label_help))
 
       add_onboarding_item(menu)
