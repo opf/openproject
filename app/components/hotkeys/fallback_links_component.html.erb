@@ -57,13 +57,13 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render(
         Primer::Beta::Button.new(
           type: :button,
-          data: { hotkey_action: "next-list-item" }
+          data: { hotkey: "j", hotkey_action: "next-list-item", hotkey_repeat: true }
         )
       ) { t(".next_list_item") } %>
   <%= render(
         Primer::Beta::Button.new(
           type: :button,
-          data: { hotkey_action: "previous-list-item" }
+          data: { hotkey: "k", hotkey_action: "previous-list-item", hotkey_repeat: true }
         )
       ) { t(".previous_list_item") } %>
 <% end %>

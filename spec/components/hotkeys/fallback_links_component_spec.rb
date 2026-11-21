@@ -148,10 +148,18 @@ RSpec.describe Hotkeys::FallbackLinksComponent, type: :component do
       expect(page).to have_element(:button, "data-hotkey-action": "previous-list-item", visible: :hidden)
     end
 
-    it "does not bind keys yet" do
+    it "binds j to the next and k to the previous item" do
       render_component(project:)
 
-      expect(page).to have_no_element(:button, "data-hotkey": "j", visible: :all)
+      expect(page).to have_element(:button, "data-hotkey": "j", "data-hotkey-action": "next-list-item", visible: :hidden)
+      expect(page).to have_element(:button, "data-hotkey": "k", "data-hotkey-action": "previous-list-item", visible: :hidden)
+    end
+
+    it "lets j and k repeat while held" do
+      render_component(project:)
+
+      expect(page).to have_element(:button, "data-hotkey": "j", "data-hotkey-repeat": true, visible: :hidden)
+      expect(page).to have_element(:button, "data-hotkey": "k", "data-hotkey-repeat": true, visible: :hidden)
     end
   end
 end

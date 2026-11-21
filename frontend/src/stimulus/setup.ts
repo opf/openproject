@@ -74,6 +74,8 @@ import { OpenProjectStimulusApplication } from 'core-stimulus/openproject-stimul
 import { Application } from '@hotwired/stimulus';
 import { BeforeunloadController } from './controllers/beforeunload.controller';
 import ExternalLinksController from './controllers/external-links.controller';
+import { registerHotkeyAction } from 'core-common/hotkeys/hotkey-dispatcher';
+import { focusWorkPackageTableRowOffset } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/work-package-table-row-navigation';
 import HotkeysController from './controllers/hotkeys.controller';
 import DisableWhenClickedController from 'core-stimulus/controllers/disable-when-clicked.controller';
 import HighlightTargetElementController from 'core-stimulus/controllers/highlight-target-element.controller';
@@ -153,3 +155,6 @@ instance.debug = !environment.production;
 instance.handleError = (error, message, detail) => {
   console.warn(error, message, detail);
 };
+
+registerHotkeyAction('next-list-item', () => focusWorkPackageTableRowOffset(1));
+registerHotkeyAction('previous-list-item', () => focusWorkPackageTableRowOffset(-1));

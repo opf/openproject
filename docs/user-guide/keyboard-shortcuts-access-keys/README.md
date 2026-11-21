@@ -30,8 +30,7 @@ OpenProject (since version 3.0) offers useful keyboard shortcuts to  enhance you
 | Open the More menu | m | 7 | Work package list, full view and split view | Work package list, full view and split view |
 | Preview | g p | 1 | Nothing | Nothing |
 | Toggle the details view | d w p | 8 | Work package list | Work package list |
-| Select the next list item | j | – | Work package tables | Work package tables |
-| Select the previous list item | k | – | Work package tables | Work package tables |
+| Select the next list item (**j**) or previous list item (**k**) | j / k | – | Work package tables | Work package tables |
 
 ------
 

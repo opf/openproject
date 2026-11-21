@@ -26,16 +26,10 @@
 //++
 
 import { fireEvent, waitFor } from '@testing-library/dom';
-import { TestBed } from '@angular/core/testing';
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { buildTable, TableHarness, TableHarnessOptions } from 'core-app/features/work-packages/components/wp-fast-table/testing/table-harness';
-import { KeyboardShortcutService } from './keyboard-shortcut.service';
+import { focusWorkPackageTableRowOffset } from './work-package-table-row-navigation';
 
-describe('KeyboardShortcutService', () => {
-  let service:KeyboardShortcutService;
+describe('focusWorkPackageTableRowOffset', () => {
   const harnesses:TableHarness[] = [];
   const outsideButtons:HTMLButtonElement[] = [];
 
@@ -58,30 +52,18 @@ describe('KeyboardShortcutService', () => {
     return table;
   };
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        { provide: PathHelperService, useValue: {} },
-        { provide: FocusHelperService, useValue: {} },
-        { provide: CurrentProjectService, useValue: {} },
-        { provide: ConfigurationService, useValue: {} },
-      ],
-    });
-    service = TestBed.inject(KeyboardShortcutService);
-  });
-
   afterEach(async () => {
     await Promise.all(harnesses.splice(0).map((table) => table.destroy()));
     outsideButtons.splice(0).forEach((button) => button.remove());
   });
 
-  describe('focusNextItem', () => {
+  describe('moving down', () => {
     it('moves within the table that holds focus', async () => {
       await mountTable(['1', '2', '3']);
       const second = await mountTable(['4', '5', '6']);
       second.row('4').focus();
 
-      service.focusNextItem();
+      focusWorkPackageTableRowOffset(1);
 
       expect(second.row('5')).toHaveFocus();
       expect(second.row('5')).toHaveAttribute('tabindex', '0');
@@ -92,7 +74,7 @@ describe('KeyboardShortcutService', () => {
       await mountTable(['4', '5', '6']);
       document.body.focus();
 
-      service.focusNextItem();
+      focusWorkPackageTableRowOffset(1);
 
       expect(first.row('1')).toHaveFocus();
     });
@@ -104,7 +86,7 @@ describe('KeyboardShortcutService', () => {
       first.tbody.closest('table')!.after(between);
       between.focus();
 
-      service.focusNextItem();
+      focusWorkPackageTableRowOffset(1);
 
       expect(second.row('4')).toHaveFocus();
     });
@@ -118,7 +100,7 @@ describe('KeyboardShortcutService', () => {
       first.tbody.closest('table')!.after(between);
       between.focus();
 
-      service.focusNextItem();
+      focusWorkPackageTableRowOffset(1);
 
       expect(third.row('7')).toHaveFocus();
     });
@@ -130,7 +112,7 @@ describe('KeyboardShortcutService', () => {
       document.body.append(after);
       after.focus();
 
-      service.focusNextItem();
+      focusWorkPackageTableRowOffset(1);
 
       expect(first.row('1')).toHaveFocus();
     });
@@ -142,7 +124,7 @@ describe('KeyboardShortcutService', () => {
       expect(createRow).toBeVisible();
       first.row('3').focus();
 
-      service.focusNextItem();
+      focusWorkPackageTableRowOffset(1);
 
       expect(first.row('3')).toHaveFocus();
     });
@@ -155,11 +137,11 @@ describe('KeyboardShortcutService', () => {
       totalsCell.tabIndex = -1;
 
       totalsCell.focus();
-      service.focusPrevItem();
+      focusWorkPackageTableRowOffset(-1);
       expect(table.row('3')).toHaveFocus();
 
       totalsCell.focus();
-      service.focusNextItem();
+      focusWorkPackageTableRowOffset(1);
       expect(totalsCell).toHaveFocus();
     });
   });
@@ -189,7 +171,7 @@ describe('KeyboardShortcutService', () => {
       expect(sumsRow).toBeVisible();
       table.row('1').focus();
 
-      service.focusNextItem();
+      focusWorkPackageTableRowOffset(1);
 
       expect(table.groupHeader(1)).toHaveFocus();
     });
@@ -206,11 +188,11 @@ describe('KeyboardShortcutService', () => {
       sumsCell.tabIndex = -1;
 
       sumsCell.focus();
-      service.focusNextItem();
+      focusWorkPackageTableRowOffset(1);
       expect(table.groupHeader(1)).toHaveFocus();
 
       sumsCell.focus();
-      service.focusPrevItem();
+      focusWorkPackageTableRowOffset(-1);
       expect(table.row('1')).toHaveFocus();
     });
 
@@ -220,23 +202,23 @@ describe('KeyboardShortcutService', () => {
       fireEvent.keyDown(document.activeElement!, { key: 'ArrowLeft' });
       await waitFor(() => expect(table.row('1')).not.toBeVisible());
 
-      service.focusNextItem();
+      focusWorkPackageTableRowOffset(1);
 
       expect(table.groupHeader(1)).toHaveFocus();
 
-      service.focusPrevItem();
+      focusWorkPackageTableRowOffset(-1);
 
       expect(table.groupHeader(0)).toHaveFocus();
     });
   });
 
-  describe('focusPrevItem', () => {
+  describe('moving up', () => {
     it('moves up within the table that holds focus', async () => {
       await mountTable(['1', '2', '3']);
       const second = await mountTable(['4', '5', '6']);
       second.row('6').focus();
 
-      service.focusPrevItem();
+      focusWorkPackageTableRowOffset(-1);
 
       expect(second.row('5')).toHaveFocus();
     });
@@ -248,7 +230,7 @@ describe('KeyboardShortcutService', () => {
       first.tbody.closest('table')!.after(between);
       between.focus();
 
-      service.focusPrevItem();
+      focusWorkPackageTableRowOffset(-1);
 
       expect(first.row('3')).toHaveFocus();
     });
@@ -260,7 +242,7 @@ describe('KeyboardShortcutService', () => {
       document.body.append(after);
       after.focus();
 
-      service.focusPrevItem();
+      focusWorkPackageTableRowOffset(-1);
 
       expect(second.row('6')).toHaveFocus();
     });
