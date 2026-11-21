@@ -31,6 +31,8 @@ require "spec_helper"
 
 RSpec.describe "Main menu initial state" do
   shared_let(:user) { create(:user) }
+  # My page's default widgets filter by status, which needs a status to exist.
+  shared_let(:default_status) { create(:default_status) }
   let(:user_menu) { Components::UserMenu.new }
 
   context "when rendered on the server" do
