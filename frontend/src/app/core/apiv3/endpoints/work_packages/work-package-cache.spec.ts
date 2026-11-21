@@ -116,4 +116,13 @@ describe('WorkPackageCache', () => {
     expect(values).toHaveLength(3);
     expect(values.map((wp) => wp.id)).toEqual(['1', '1', '1']);
   });
+
+  it('leaves a work package out of the cache when its schema cannot be loaded', async () => {
+    vi.spyOn(schemaCacheService, 'ensureLoaded').mockRejectedValue(new Error('schema unavailable'));
+
+    workPackageCache.updateWorkPackageList(dummyWorkPackages);
+    await new Promise((resolve) => { setTimeout(resolve); });
+
+    expect(workPackageCache.state('1').hasValue()).toBe(false);
+  });
 });
