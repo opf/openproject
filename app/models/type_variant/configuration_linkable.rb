@@ -163,6 +163,13 @@ class TypeVariant
       source.export_templates_disabled
     end
 
+    def export_templates_enabled
+      source = source_for(TypeVariant::PDF_EXPORT)
+      return super if source.nil?
+
+      source.export_templates_enabled
+    end
+
     def export_templates_order
       source = source_for(TypeVariant::PDF_EXPORT)
       return super if source.nil?

@@ -5978,6 +5978,11 @@ en:
     template_contract:
       caption: Work package details formatted to the standard German contract form.
       label: "Contract"
+    template_status_report:
+      caption: A project status report with the work packages selected in its embedded tables.
+      label: "Status Report"
+      project_attributes: Project attributes
+      no_related_work_packages: No related work packages
   permission_add_internal_comments: "Write internal comments"
   permission_add_messages: "Post messages"
   permission_add_portfolios: "Create portfolios"

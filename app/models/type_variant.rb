@@ -54,6 +54,7 @@ class TypeVariant < ApplicationRecord
   attribute :patterns, WorkPackageTypes::Patterns::CollectionType.new
 
   store_attribute :pdf_export_templates_config, :export_templates_disabled, :json
+  store_attribute :pdf_export_templates_config, :export_templates_enabled, :json
   store_attribute :pdf_export_templates_config, :export_templates_order, :json
   store_attribute :pdf_export_templates_config, :artefact_export_mode, :string
   store_attribute :pdf_export_templates_config, :export_templates_settings, :json

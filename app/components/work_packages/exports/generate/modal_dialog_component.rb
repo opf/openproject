@@ -72,6 +72,10 @@ module WorkPackages
           template_settings("artefact")
         end
 
+        def status_report_settings
+          template_settings("status_report")
+        end
+
         def hyphenation_default
           hyphenation_language_by_locale || hyphenation_options[0]
         end

@@ -175,6 +175,10 @@ class WorkPackagesController < ApplicationController
   def work_package_exporter
     template_id = params[:template]
     template = work_package.type_variant.pdf_export_templates.find(template_id)
+    if template_id == "status_report" && !template&.enabled
+      raise ::Exports::ExportError, I18n.t("api_v3.errors.bad_request.pdf_export_template_not_enabled", template: template_id)
+    end
+
     exporter = template&.exporter || WorkPackage::PDFExport::WorkPackageToPdf
 
     exporter.new(work_package, params)

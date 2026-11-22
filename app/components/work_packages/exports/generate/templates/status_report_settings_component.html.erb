@@ -1,0 +1,8 @@
+<%= render(
+      WorkPackages::Exports::Generate::Templates::HyphenationFieldsComponent.new(
+        template_id: TEMPLATE_ID,
+        enabled: hyphenation_enabled,
+        language: hyphenation_language,
+        disabled: disabled
+      )
+    ) %>
