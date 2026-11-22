@@ -91,7 +91,7 @@ export const en = {
       'inlineSizeLabel': "Størrelse i linjen",
       'blockSizeLabel': "Størrelse som blok",
       'chipAriaLabel': "Arbejdspakke {{id}}",
-      'idDash': 'dash'
+      'idDash': "bindestreg"
     },
     'preview': {
       'showAriaLabel': "Vis detaljer om arbejdspakke {{id}}"
@@ -143,7 +143,7 @@ export const en = {
         'menuAriaLabel': "Valgmuligheder for {{attribute}} i arbejdspakke {{id}}",
         'removeAriaLabel': "Fjern arbejdspakkeattribut",
         'selectedDescription': "{{attribute}} i arbejdspakke {{id}}",
-        'selectedValueDescription': '{{attribute}} of work package {{id}}: {{value}}'
+        'selectedValueDescription': "{{attribute}} i arbejdspakke {{id}}: {{value}}"
       },
       'dialog': {
         'title': "Indsæt arbejdspakkeattribut",
