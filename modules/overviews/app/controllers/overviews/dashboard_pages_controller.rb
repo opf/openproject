@@ -35,7 +35,7 @@ module Overviews
     configure_drop_request list_type: DashboardTabs::SORTABLE_LIST_TYPE, list_id_scoped: false
 
     menu_item :overview
-    menu_item :settings_dashboards, only: %i[settings activate edit move toggle_standard]
+    menu_item :settings_dashboards, only: %i[settings activate edit move toggle]
 
     before_action :find_active_dashboard, only: %i[show save_as copy deactivate]
     before_action :find_owned_dashboard, only: %i[update destroy rename_dialog deletion_dialog]
@@ -103,8 +103,8 @@ module Overviews
     def deactivate
       if @dashboard.is_a?(::Grids::Overview)
         @dashboard.update!(disabled: true)
-      else
-        @dashboard.set_active_in!(@project, active: false)
+      elsif !@dashboard.set_active_in!(@project, active: false)
+        return head :forbidden
       end
 
       redirect_to project_overview_path(@project), status: :see_other, notice: t(:notice_successful_update)
@@ -116,11 +116,11 @@ module Overviews
       render layout: !turbo_frame_request?
     end
 
-    def toggle_standard
+    def toggle
       value = params.expect(:value).to_s
       return head :bad_request unless value.in?(%w[true false 1 0])
 
-      set_standard_dashboard_activation(active: value.in?(%w[true 1]))
+      return head :forbidden unless set_dashboard_activation(active: value.in?(%w[true 1]))
 
       if request.format.turbo_stream?
         update_via_turbo_stream(component: dashboard_settings_table, method: :morph)
@@ -152,11 +152,16 @@ module Overviews
 
     private
 
-    def set_standard_dashboard_activation(active:)
-      dashboard = ::Grids::DashboardPage.central.find(params.expect(:id))
-      dashboard.with_lock do
-        assignment = dashboard.dashboard_page_assignments.find_or_initialize_by(project: @project)
-        assignment.update!(active:) if active || assignment.persisted?
+    def set_dashboard_activation(active:)
+      if params[:id]
+        dashboard = ::Grids::DashboardPage.where(project_id: [nil, @project.id]).find(params.expect(:id))
+        dashboard.set_active_in!(@project, active:)
+      else
+        @project.with_lock do
+          dashboard = ::Grids::Overview.find_by(project: @project)
+          dashboard ||= ::Grids::Factory.build(project_overview_path(@project), current_user)
+          dashboard.update!(disabled: !active)
+        end
       end
     end
 

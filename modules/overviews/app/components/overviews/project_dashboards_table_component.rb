@@ -56,6 +56,8 @@ module Overviews
     def can_manage_standard? = current_user.allowed_globally?(:manage_standard_dashboards)
 
     def projects_count(dashboard)
+      return (@all_projects_count ||= Project.active.count) if dashboard.active_in_all_projects?
+
       projects_counts.fetch(dashboard.id, 0)
     end
 

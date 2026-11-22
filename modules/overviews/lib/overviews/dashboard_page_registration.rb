@@ -79,7 +79,12 @@ module Overviews
         central = Grids::Grid.where(type: grid_class, project_id: nil)
         return local.or(central) if user.allowed_globally?(:manage_standard_dashboards)
 
-        local.or(central.where(id: DashboardPageAssignment.where(project: projects, active: true).select(:grid_id)))
+        visible = local.or(central.where(id: DashboardPageAssignment.where(project: projects, active: true).select(:grid_id)))
+        if Project.allowed_to(user, :view_project).exists?
+          visible.or(central.where(active_in_all_projects: true))
+        else
+          visible
+        end
       end
 
       def writable?(grid, user)

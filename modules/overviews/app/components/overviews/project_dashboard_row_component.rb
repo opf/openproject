@@ -64,11 +64,20 @@ module Overviews
     end
 
     def status
-      return standard_toggle if entry.standard?
-
-      render(Primer::Beta::Text.new(color: :subtle)) do
-        t(entry.active ? "overviews.dashboards.active" : "overviews.dashboards.inactive")
-      end
+      render(
+        Primer::Alpha::ToggleSwitch.new(
+          src: toggle_path,
+          checked: entry.active,
+          enabled: !entry.required?,
+          turbo: true,
+          size: :small,
+          status_label_position: :start,
+          on_label: (t("overviews.dashboards.all_projects") if entry.required?),
+          aria: { label: t("overviews.dashboards.toggle", name: display_name) },
+          classes: "op-primer-adjustments__toggle-switch--hidden-loading-indicator",
+          data: { test_selector: "toggle-dashboard-#{entry.key}" }
+        )
+      )
     end
 
     def projects
@@ -78,7 +87,7 @@ module Overviews
     end
 
     def button_links
-      return [] unless activatable? || manageable? || reorderable?
+      return [] unless manageable? || reorderable?
 
       [action_menu]
     end
@@ -87,20 +96,14 @@ module Overviews
 
     def reorderable? = entry.assigned && table.reorderable?
 
-    def standard_toggle
-      render(
-        Primer::Alpha::ToggleSwitch.new(
-          src: toggle_standard_project_dashboard_page_path(project, dashboard, dashboard_type:, filters:),
-          csrf_token: helpers.form_authenticity_token,
-          checked: entry.active,
-          turbo: true,
-          size: :small,
-          status_label_position: :start,
-          aria: { label: t("overviews.dashboards.toggle_standard", name: display_name) },
-          classes: "op-primer-adjustments__toggle-switch--hidden-loading-indicator",
-          data: { test_selector: "toggle-standard-dashboard-#{dashboard.id}" }
-        )
-      )
+    def toggle_path
+      return if entry.required?
+
+      if entry.original?
+        project_toggle_original_dashboard_path(project, dashboard_type:, filters:)
+      else
+        toggle_project_dashboard_page_path(project, dashboard, dashboard_type:, filters:)
+      end
     end
 
     def dashboard_name
@@ -133,14 +136,11 @@ module Overviews
     def action_menu
       render(Primer::Alpha::ActionMenu.new) do |menu|
         menu.with_show_button(icon: :"kebab-horizontal", scheme: :invisible, "aria-label": t(:label_actions))
-        activate_item(menu) if activatable?
         rename_item(menu) if manageable?
         with_move_submenu(menu) if reorderable?
         delete_item(menu) if manageable? && !entry.original?
       end
     end
-
-    def activatable? = !entry.active && !entry.standard?
 
     def manageable? = dashboard.present? && !entry.standard?
 
@@ -161,21 +161,6 @@ module Overviews
                      href: deletion_dialog_project_dashboard_page_path(project, dashboard, from_settings: "1"),
                      content_arguments: { data: { controller: "async-dialog" } }) do |item|
         item.with_leading_visual_icon(icon: :trash)
-      end
-    end
-
-    def activate_item(menu)
-      menu.with_item(label: t("overviews.dashboards.activate"), tag: :button, href: activate_path,
-                     form_arguments: { method: :patch }) do |item|
-        item.with_leading_visual_icon(icon: :eye)
-      end
-    end
-
-    def activate_path
-      if entry.original?
-        project_activate_original_dashboard_path(project, dashboard_type:, filters:)
-      else
-        activate_project_dashboard_page_path(project, dashboard, dashboard_type:, filters:)
       end
     end
   end

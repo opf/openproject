@@ -7,8 +7,9 @@ en:
         other: "Overviews"
   overviews:
     dashboards:
-      activate: "Activate dashboard"
-      active: "Active"
+      active_in_all_projects: "Activate in all projects"
+      active_in_all_projects_caption: "Includes future projects. Project managers cannot turn this dashboard off."
+      all_projects: "All projects"
       configure: "Configure dashboard"
       copy_widgets_error: "One or more widgets could not be copied to the selected project."
       deactivate_in_project: "Deactivate dashboard in this project"
@@ -18,12 +19,11 @@ en:
       delete_project_description: "Deleting this dashboard removes it from this project."
       edit_project: "Edit dashboard in project settings"
       edit_standard: "Edit standard dashboard in administration"
-      inactive: "Inactive"
       new: "New dashboard"
       projects_empty: "No projects are assigned to this dashboard"
       rename: "Rename dashboard"
       title: "Dashboards"
-      toggle_standard: "Activate %{name} in this project"
+      toggle: "Activate %{name} in this project"
       types:
         all: "All"
         project_specific: "Project specific"

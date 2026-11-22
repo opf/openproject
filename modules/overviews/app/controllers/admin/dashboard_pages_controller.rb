@@ -87,6 +87,11 @@ class Admin::DashboardPagesController < ApplicationController
     @candidate_projects = Project.active.where.not(id: assigned_projects.select(:id))
   end
 
+  def update_activation
+    @dashboard.update!(params.expect(dashboard_page: [:active_in_all_projects]))
+    redirect_to projects_admin_dashboard_page_path(@dashboard), status: :see_other, notice: t(:notice_successful_update)
+  end
+
   def add_projects
     ids = Projects::AddAssignmentsForm.selected_ids(params.permit(project_ids: [])[:project_ids])
     projects = Project.active.where(id: ids)

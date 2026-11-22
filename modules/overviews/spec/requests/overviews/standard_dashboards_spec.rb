@@ -78,6 +78,26 @@ RSpec.describe "Standard dashboard administration", :skip_csrf, type: :rails_req
     expect(dashboard.reload.widgets.sole.identifier).to eq("project_description")
   end
 
+  it "manages mandatory activation and restores individual assignments when it is turned off" do
+    dashboard = Grids::DashboardPage.create!(name: "Progress Report", row_count: 1, column_count: 1)
+    assignment = dashboard.dashboard_page_assignments.create!(project:, active: false)
+    projects_path = projects_admin_dashboard_page_path(dashboard)
+    activation_path = project_activation_admin_dashboard_page_path(dashboard)
+
+    get projects_path
+    expect(response.parsed_body.at_css("input[type='checkbox'][name='dashboard_page[active_in_all_projects]']")).to be_present
+
+    patch activation_path, params: { dashboard_page: { active_in_all_projects: "1" } }
+    expect(response).to redirect_to(projects_path)
+    expect(Grids::DashboardPage.active_in(project)).to include(dashboard)
+    expect(Grids::DashboardPage.active_in(create(:project))).to include(dashboard)
+    expect(assignment.reload).not_to be_active
+
+    patch activation_path, params: { dashboard_page: { active_in_all_projects: "0" } }
+    expect(response).to redirect_to(projects_path)
+    expect(Grids::DashboardPage.active_in(project)).not_to include(dashboard)
+  end
+
   it "preserves a project's deactivation when saving global changes" do
     dashboard = Grids::DashboardPage.create!(name: "Progress Report", row_count: 1, column_count: 1)
     assignment = dashboard.dashboard_page_assignments.create!(project:, active: false)

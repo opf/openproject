@@ -268,7 +268,7 @@ Rails.application.reloader.to_prepare do
                      {
                        admin: %i[index],
                        "admin/dashboard_pages": %i[index new create edit update destroy rename_dialog deletion_dialog
-                                                   projects add_projects remove_project]
+                                                   projects add_projects remove_project update_activation]
                      },
                      permissible_on: :global,
                      require: :loggedin,

@@ -33,6 +33,12 @@ module Overviews
       render(Primer::Beta::Link.new(href: edit_admin_dashboard_page_path(model), underline: false)) { model.name }
     end
 
-    def projects = model.dashboard_page_assignments.size
+    def projects
+      if model.active_in_all_projects?
+        t("overviews.dashboards.all_projects")
+      else
+        model.dashboard_page_assignments.size
+      end
+    end
   end
 end

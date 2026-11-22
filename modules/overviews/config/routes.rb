@@ -43,7 +43,7 @@ Rails.application.routes.draw do
             post :copy
             patch :deactivate
             patch :activate
-            post :toggle_standard
+            post :toggle
           end
           get :settings, on: :collection, path: "settings"
         end
@@ -58,6 +58,7 @@ Rails.application.routes.draw do
           post "dashboard/copy", action: :copy, as: :copy_original_dashboard
           patch "dashboard/deactivate", action: :deactivate, as: :deactivate_original_dashboard
           patch "dashboard/activate", action: :activate, as: :activate_original_dashboard
+          post "dashboard/toggle", action: :toggle, as: :toggle_original_dashboard
         end
 
         controller :overviews do
@@ -75,6 +76,7 @@ Rails.application.routes.draw do
         get :deletion_dialog
         get :projects
         post :projects, action: :add_projects
+        patch "projects/activation", action: :update_activation, as: :project_activation
         delete "projects/:project_id", action: :remove_project, as: :project
       end
     end

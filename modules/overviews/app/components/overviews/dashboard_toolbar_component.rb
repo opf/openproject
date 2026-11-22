@@ -70,6 +70,7 @@ module Overviews
 
     def deactivate_path
       return unless @can_manage_project && @dashboard_exists
+      return if @dashboard&.active_in_all_projects?
 
       if @dashboard
         deactivate_project_dashboard_page_path(@project, @dashboard)

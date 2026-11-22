@@ -36,6 +36,8 @@ module Overviews
 
       def standard? = !original? && dashboard.central?
 
+      def required? = standard? && dashboard.active_in_all_projects?
+
       def display_name
         original? ? (dashboard&.display_name || I18n.t("overviews.label_dashboard")) : dashboard.name
       end

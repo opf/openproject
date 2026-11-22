@@ -40,11 +40,12 @@ module Grids
                                    delete_permission: :manage_dashboards
 
     scope :central, -> { where(project_id: nil) }
+    scope :required_in_all_projects, -> { central.where(active_in_all_projects: true) }
     scope :in_project, ->(project) {
-      where(project:).or(central.where(id: DashboardPageAssignment.where(project:).select(:grid_id)))
+      where(project:).or(required_in_all_projects).or(central.where(id: DashboardPageAssignment.where(project:).select(:grid_id)))
     }
     scope :active_in, ->(project) {
-      where(project:, disabled: false)
+      where(project:, disabled: false).or(required_in_all_projects)
         .or(central.where(id: DashboardPageAssignment.where(project:, active: true).select(:grid_id)))
     }
 
@@ -63,7 +64,13 @@ module Grids
 
     def set_active_in!(project, active:)
       if central?
-        dashboard_page_assignments.find_by!(project:).update!(active:)
+        with_lock do
+          next active if active_in_all_projects?
+
+          assignment = dashboard_page_assignments.find_or_initialize_by(project:)
+          assignment.update!(active:) if active || assignment.persisted?
+          true
+        end
       else
         raise ActiveRecord::RecordNotFound unless project.id == project_id
 
@@ -78,7 +85,11 @@ module Grids
       return true if user.allowed_globally?(:manage_standard_dashboards)
       return false unless permissions == :view_project
 
-      dashboard_page_assignments.exists?(active: true, project: Project.visible(user))
+      if active_in_all_projects?
+        Project.allowed_to(user, :view_project).exists?
+      else
+        dashboard_page_assignments.exists?(active: true, project: Project.visible(user))
+      end
     end
   end
 end
