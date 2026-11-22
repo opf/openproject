@@ -270,10 +270,10 @@ module Pages
     def click_list_dropdown(list_name, action)
       within_list(list_name) do
         page.find('[data-test-selector="op-board-list--header"]').hover
-        page.find('[data-test-selector="op-board-list--menu"] a').click
+        click_on accessible_name: I18n.t("js.label_open_menu")
       end
 
-      page.find(".dropdown-menu").click_button(action)
+      within(:menu, I18n.t("js.label_open_menu")) { find(:menuitem, action).click }
     end
 
     def card_for(work_package)

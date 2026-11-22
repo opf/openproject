@@ -163,6 +163,30 @@ RSpec.describe "Board management spec", :js, :selenium do
       expect(WorkPackage.where(subject: ["Discarded card", "Kept card"]).pluck(:subject)).to contain_exactly("Kept card")
     end
 
+    it "opens the list menu by keyboard and returns focus to its button" do
+      board_view
+      board_index.visit!
+
+      board_page = board_index.open_board board_view
+
+      board_page.within_list("List 1") do
+        find("editable-toolbar-title input").click
+        page.send_keys(:tab)
+        expect(page).to have_button(accessible_name: "Open menu", focused: true)
+        page.send_keys(:enter)
+      end
+
+      within(:menu, "Open menu") do
+        expect(page).to have_selector(:menuitem, "Delete list")
+        page.send_keys(:escape)
+      end
+
+      expect(page).to have_no_selector(:menu, "Open menu")
+      board_page.within_list("List 1") do
+        expect(page).to have_button(accessible_name: "Open menu", focused: true)
+      end
+    end
+
     it "allows management of boards" do
       board_view
       board_index.visit!

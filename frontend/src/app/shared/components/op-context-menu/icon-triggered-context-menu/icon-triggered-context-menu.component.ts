@@ -25,55 +25,20 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, Input, inject } from '@angular/core';
+import { booleanAttribute, Component, inject, input } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import {
-  OpContextMenuTrigger,
-} from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
-import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'icon-triggered-context-menu',
   templateUrl: './icon-triggered-context-menu.component.html',
-  styleUrls: ['./icon-triggered-context-menu.component.sass'],
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
-export class IconTriggeredContextMenuComponent extends OpContextMenuTrigger {
-  readonly opModalService = inject(OpModalService);
-  readonly injector = inject(Injector);
-  readonly cdRef = inject(ChangeDetectorRef);
+export class IconTriggeredContextMenuComponent {
   readonly I18n = inject(I18nService);
 
-  override readonly placement = 'bottom-end';
-
-  @Input() menuItemsFactory:() => Promise<OpContextMenuItem[]>;
-  @Input() customAriaLabel:string = this.I18n.t('js.label_open_menu');
-
-  protected open(evt:Event):void {
-    void this.openContextMenu(evt);
-  }
-
-  private async openContextMenu(evt:Event):Promise<void> {
-    this.items = await this.buildItems();
-    this.cdRef.markForCheck();
-    this.opContextMenu.show(this, evt);
-  }
-
-  private async buildItems() {
-    const items:OpContextMenuItem[] = [];
-
-    // Add action specific menu entries
-    if (this.menuItemsFactory) {
-      const additional = await this.menuItemsFactory();
-      return items.concat(additional);
-    }
-
-    return items;
-  }
+  readonly menuItemsFactory = input.required<() => Promise<OpContextMenuItem[]>>();
+  readonly customAriaLabel = input(this.I18n.t('js.label_open_menu'));
+  readonly showTooltip = input(true, { transform: booleanAttribute });
 }

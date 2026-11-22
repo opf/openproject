@@ -8,9 +8,10 @@ $board-list-max-width: 300px
   display: flex
   flex-direction: column
 
-  &:hover
+  &:hover,
+  &:focus-within
     .op-board-list--menu
-      visibility: visible
+      opacity: 1
 
   &--action-bar
     width: calc(100% - 30px)
@@ -53,7 +54,11 @@ $board-list-max-width: 300px
       background-color: #cccccc50
 
   &--menu
-    visibility: hidden
+    @media (hover: hover)
+      opacity: 0
+
+    &:has(:popover-open)
+      opacity: 1
 
   &--query-container
     // 100% - board header height

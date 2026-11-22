@@ -74,27 +74,28 @@ module Components
 
       def open_menu
         area.hover
-        area.find("icon-triggered-context-menu").click
+        menu_button.click
       end
 
       def click_menu_item(text)
         # Ensure there are no active toasters
         dismiss_toaster!
 
+        name = menu_button.accessible_name
         open_menu
 
-        SeleniumHubWaiter.wait
-        click_link_or_button text
+        within(:menu, name) { find(:menuitem, text).click }
       end
 
       def expect_menu_item(text)
         # Ensure there are no active toasters
         dismiss_toaster!
 
+        name = menu_button.accessible_name
         open_menu
 
-        within("ul.dropdown-menu") do |element|
-          expect(element).to have_css("span", text:)
+        within(:menu, name) do
+          expect(page).to have_selector(:menuitem, text)
         end
       end
 
@@ -178,12 +179,21 @@ module Components
 
         within area do
           expect(page)
-            .to have_no_css(".icon-show-more-horizontal")
+            .to have_no_button(accessible_name: menu_button_name)
         end
       end
 
       def area
         page.find(*area_selector)
+      end
+
+      def menu_button
+        area.find(:button, accessible_name: menu_button_name)
+      end
+
+      def menu_button_name
+        label = I18n.t("js.grid.widget_menu_label", widgetName: "WIDGET_NAME")
+        /\A#{Regexp.escape(label).sub('WIDGET_NAME', '.+')}\z/
       end
 
       def grid_value_for(element, style_name)

@@ -108,6 +108,30 @@ RSpec.describe "Status action board",
       board_page.expect_list "Closed"
     end
 
+    it "reaches the list menu by keyboard from the board toolbar" do
+      board_index.visit!
+      board_page = board_index.create_board action: "Kanban"
+      board_page.expect_list "Open"
+
+      within(".toolbar-container") { find_field("editable-toolbar-title").click }
+      4.times { page.send_keys(:tab) }
+
+      board_page.within_list("Open") do
+        expect(page).to have_button(accessible_name: "Open menu", focused: true)
+      end
+      page.send_keys(:enter)
+
+      within(:menu, "Open menu") do
+        expect(page).to have_selector(:menuitem, "Delete list")
+      end
+      page.send_keys(:escape)
+
+      expect(page).to have_no_selector(:menu, "Open menu")
+      board_page.within_list("Open") do
+        expect(page).to have_button(accessible_name: "Open menu", focused: true)
+      end
+    end
+
     it "keeps a moved card in place and still shows changes made elsewhere (OP-20534)" do
       create(:work_package, project:, type:, subject: "Task 1", status: open_status)
       board_index.visit!

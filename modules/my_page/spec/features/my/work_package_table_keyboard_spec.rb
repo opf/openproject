@@ -58,14 +58,14 @@ RSpec.describe "Work package table widgets keyboard navigation on my page", :js 
   let(:wp_table) do
     Pages::EmbeddedWorkPackagesTable.new(
       find(".grid--area.-widgeted:nth-of-type(1)"),
-      entry_control: -> { find(:link, accessible_name: "Show menu options for #{assigned_title} widget") },
+      entry_control: -> { find(:button, accessible_name: "Show menu options for #{assigned_title} widget") },
       table_name: assigned_title
     )
   end
   let(:created_table) do
     Pages::EmbeddedWorkPackagesTable.new(
       find(".grid--area.-widgeted:nth-of-type(2)"),
-      entry_control: -> { find(:link, accessible_name: "Show menu options for #{created_title} widget") },
+      entry_control: -> { find(:button, accessible_name: "Show menu options for #{created_title} widget") },
       table_name: created_title
     )
   end
