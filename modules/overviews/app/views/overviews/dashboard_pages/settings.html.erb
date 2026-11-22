@@ -17,7 +17,7 @@
   </thead>
   <tbody>
     <%= render "dashboard_row",
-               name: t("overviews.label_dashboard"),
+               name: @original_dashboard&.display_name || t("overviews.label_dashboard"),
                badge: nil,
                edit_path: nil,
                active: !@original_dashboard&.disabled?,

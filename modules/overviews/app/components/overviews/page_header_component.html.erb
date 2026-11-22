@@ -147,7 +147,7 @@
       end
 
       if current_user.allowed_in_project?(:view_project, project) &&
-         !::Grids::Overview.exists?(project:, disabled: true)
+         !original_dashboard&.disabled?
         tab_nav.with_dashboard_tab(
           test_selector: "project-dashboard-tab",
           selected: current_page?(dashboard_project_overview_path),
@@ -155,7 +155,7 @@
           menu: dashboard_tab_menu
         ) do |t|
           t.with_icon(icon: :"op-view-list")
-          t.with_text { I18n.t("overviews.label_dashboard") }
+          t.with_text { original_dashboard&.display_name || t("overviews.label_dashboard") }
         end
       end
 

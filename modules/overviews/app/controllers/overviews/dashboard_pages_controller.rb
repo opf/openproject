@@ -35,7 +35,7 @@ module Overviews
     menu_item :settings_dashboards, only: %i[settings activate edit]
 
     before_action :find_active_dashboard, only: %i[show edit update destroy rename_dialog deletion_dialog save_as copy deactivate]
-    before_action :require_local_dashboard, only: %i[edit update destroy rename_dialog deletion_dialog]
+    before_action :require_project_dashboard, only: %i[edit update destroy rename_dialog deletion_dialog]
 
     def show; end
 
@@ -62,6 +62,7 @@ module Overviews
     end
 
     def rename_dialog
+      @dashboard.name = @dashboard.display_name if @dashboard.is_a?(::Grids::Overview)
       render_rename_dialog
     end
 
@@ -117,19 +118,24 @@ module Overviews
 
     private
 
-    def require_local_dashboard
-      raise ActiveRecord::RecordNotFound unless @dashboard.is_a?(::Grids::DashboardPage) && !@dashboard.central?
+    def require_project_dashboard
+      raise ActiveRecord::RecordNotFound unless @dashboard.project_id == @project.id
     end
 
     def render_rename_dialog(status: :ok)
+      action = if @dashboard.is_a?(::Grids::Overview)
+                 project_rename_original_dashboard_path(@project)
+               else
+                 project_dashboard_page_path(@project, @dashboard)
+               end
       dialog = DashboardNameDialogComponent.new(
         dashboard: @dashboard,
-        url: project_dashboard_page_path(@project, @dashboard),
+        url: action,
         title: t("overviews.dashboards.rename"),
         submit: t(:button_rename)
       )
       respond_with_dialog(dialog, status:) do |format|
-        format.html { render :edit, status: }
+        format.html { render :rename, locals: { action: }, status: }
       end
     end
 
@@ -151,7 +157,12 @@ module Overviews
 
     def save_dashboard(notice:)
       if @dashboard.save
-        redirect_to project_dashboard_page_path(@project, @dashboard), status: :see_other, notice: t(notice)
+        path = if @dashboard.is_a?(::Grids::Overview)
+                 dashboard_project_overview_path(@project)
+               else
+                 project_dashboard_page_path(@project, @dashboard)
+               end
+        redirect_to path, status: :see_other, notice: t(notice)
       else
         yield
       end

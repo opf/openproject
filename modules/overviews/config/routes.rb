@@ -49,6 +49,8 @@ Rails.application.routes.draw do
 
         controller :dashboard_pages do
           get "settings/dashboards/:id/edit", action: :edit, as: :edit_settings_dashboard_page
+          get "dashboard/rename_dialog", action: :rename_dialog, as: :rename_original_dashboard_dialog
+          patch "dashboard/rename", action: :update, as: :rename_original_dashboard
           get "dashboard/save_as", action: :save_as, as: :save_as_original_dashboard
           post "dashboard/copy", action: :copy, as: :copy_original_dashboard
           patch "dashboard/deactivate", action: :deactivate, as: :deactivate_original_dashboard

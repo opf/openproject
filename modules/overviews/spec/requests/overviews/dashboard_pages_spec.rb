@@ -144,6 +144,28 @@ RSpec.describe "Project dashboard pages", :skip_csrf, type: :rails_request do
     expect(Grids::DashboardPage.exists?(dashboard.id)).to be(false)
   end
 
+  it "renames the original project dashboard in its tab menu" do
+    dashboard = create(:overview, project:)
+    rename_dialog_path = project_rename_original_dashboard_dialog_path(project)
+    rename_path = project_rename_original_dashboard_path(project)
+
+    get dashboard_project_overview_path(project)
+    tab = response.parsed_body.at_css('[data-test-selector="project-dashboard-tab"]').at_xpath("ancestor::li")
+    expect(tab.at_css("a[href='#{rename_dialog_path}']")).to be_present
+    expect(tab.at_css("svg.octicon-triangle-down")).to be_present
+
+    get rename_dialog_path, headers: { "Accept" => Mime[:turbo_stream].to_s }
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include("rename-dashboard-dialog", 'value="Dashboard"')
+
+    patch rename_path, params: { dashboard_page: { name: "Project report" } }
+    expect(response).to redirect_to(dashboard_project_overview_path(project))
+    expect(dashboard.reload.name).to eq("Project report")
+
+    follow_redirect!
+    expect(response.parsed_body.at_css('[data-test-selector="project-dashboard-tab"]').text).to include("Project report")
+  end
+
   it "protects standard dashboards from deletion through project routes" do
     delete project_dashboard_page_path(project, standard)
 
@@ -174,6 +196,10 @@ RSpec.describe "Project dashboard pages", :skip_csrf, type: :rails_request do
 
       expect(response).to have_http_status(:ok)
       expect(response.parsed_body.at_css('[data-test-selector="dashboard-tab-menu"]')).to be_nil
+
+      create(:overview, project:)
+      patch project_rename_original_dashboard_path(project), params: { dashboard_page: { name: "Changed" } }
+      expect(response).to have_http_status(:forbidden)
     end
   end
 

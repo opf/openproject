@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -28,6 +30,12 @@
 module Grids
   class Overview < Grid
     belongs_to :project
+
+    validates :name, presence: true, length: { maximum: 255 }, allow_nil: true, if: :will_save_change_to_name?
+
+    def display_name
+      name.presence || I18n.t("overviews.label_dashboard")
+    end
 
     set_acts_as_attachable_options view_permission: :view_project,
                                    delete_permission: :manage_dashboards,

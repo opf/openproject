@@ -11,9 +11,8 @@
      ) %>
 <% end %>
 
-<% if @dashboard.new_record? || @dashboard.errors.any? %>
-  <% action = @dashboard.persisted? ? project_dashboard_page_path(@project, @dashboard) : project_dashboard_pages_path(@project) %>
-  <%= primer_form_with(model: @dashboard, scope: :dashboard_page, url: action) do |form| %>
+<% if @dashboard.new_record? %>
+  <%= primer_form_with(model: @dashboard, scope: :dashboard_page, url: project_dashboard_pages_path(@project)) do |form| %>
     <%= render(Overviews::DashboardNameForm.new(form)) %>
     <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary)) { t(:button_save) } %>
   <% end %>

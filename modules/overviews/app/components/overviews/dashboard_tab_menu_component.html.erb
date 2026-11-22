@@ -1,6 +1,7 @@
 <%= render(Primer::Alpha::ActionMenu.new(anchor_align: :start)) do |menu| %>
   <% menu.with_show_button(
-       icon: :"kebab-horizontal", scheme: :invisible, size: :small,
+       icon: :"triangle-down", scheme: :default, size: :small,
+       classes: "op-dashboard-tab--menu-button",
        aria: { label: t("overviews.dashboards.tab_actions", name:) },
        test_selector: "dashboard-tab-menu"
      ) %>

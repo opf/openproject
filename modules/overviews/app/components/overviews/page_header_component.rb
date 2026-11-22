@@ -61,8 +61,15 @@ module Overviews
       project.name
     end
 
+    def original_dashboard
+      return @original_dashboard if defined?(@original_dashboard)
+
+      @original_dashboard = ::Grids::Overview.find_by(project:)
+    end
+
     def dashboard_tab_menu(dashboard = nil)
-      menu = DashboardTabMenuComponent.new(project:, current_user:, dashboard:)
+      menu = DashboardTabMenuComponent.new(project:, current_user:, dashboard:,
+                                           original_dashboard: dashboard ? nil : original_dashboard)
       menu if menu.render?
     end
 

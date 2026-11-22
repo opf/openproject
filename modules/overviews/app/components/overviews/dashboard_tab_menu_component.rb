@@ -29,11 +29,12 @@
 
 module Overviews
   class DashboardTabMenuComponent < ApplicationComponent
-    def initialize(project:, current_user:, dashboard: nil)
+    def initialize(project:, current_user:, dashboard: nil, original_dashboard: nil)
       super()
       @project = project
       @dashboard = dashboard
-      @dashboard_exists = dashboard.present? || ::Grids::Overview.exists?(project:, disabled: false)
+      @original_dashboard = original_dashboard
+      @dashboard_exists = dashboard.present? || original_dashboard.present?
       @can_manage_project = current_user.allowed_in_project?(:manage_dashboards, project)
       @can_manage_standard = dashboard&.central? && current_user.allowed_globally?(:manage_standard_dashboards)
       @can_copy = current_user.allowed_in_any_project?(:manage_dashboards)
@@ -46,7 +47,7 @@ module Overviews
     private
 
     def name
-      @dashboard&.name || t("overviews.label_dashboard")
+      @dashboard&.name || @original_dashboard&.display_name || t("overviews.label_dashboard")
     end
 
     def edit_path
@@ -92,6 +93,8 @@ module Overviews
         rename_dialog_admin_dashboard_page_path(@dashboard)
       elsif local_dashboard_manager?
         rename_dialog_project_dashboard_page_path(@project, @dashboard)
+      elsif @can_manage_project && @original_dashboard
+        project_rename_original_dashboard_dialog_path(@project)
       end
     end
 
