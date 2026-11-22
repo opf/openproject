@@ -268,15 +268,16 @@ RSpec.describe "Project dashboard pages", :skip_csrf, type: :rails_request do
       create(:user, global_permissions: [:manage_standard_dashboards], member_with_permissions: { project => [] })
     end
 
-    it "links to standard dashboard administration and global rename and delete dialogs" do
+    it "offers a link to administration and keeps the dashboard read-only in the project" do
       get project_dashboard_page_path(project, standard)
 
       document = response.parsed_body
       toolbar = document.at_css('[data-test-selector="dashboard-toolbar"]')
-      expect(toolbar.at_css("a[href='#{edit_admin_dashboard_page_path(standard)}']")).to be_present
-      expect(toolbar.at_css("a[href='#{rename_dialog_admin_dashboard_page_path(standard)}']")).to be_present
-      expect(toolbar.at_css("a[href='#{deletion_dialog_admin_dashboard_page_path(standard)}']")).to be_present
-      expect(toolbar.text).not_to include("Deactivate dashboard", "Edit dashboard in project settings")
+      expect(toolbar.at_css("a[href='#{edit_admin_dashboard_page_path(standard)}']").text.strip)
+        .to eq("Edit standard dashboard in administration")
+      expect(toolbar.text).not_to include("Rename", "Delete", "Deactivate dashboard", "Edit dashboard in project settings")
+      expect(toolbar.at_css('[data-test-selector="overview--add-widgets-button"]')).to be_nil
+      expect(document.at_css("opce-dashboard")["data-read-only"]).to eq("true")
     end
   end
 

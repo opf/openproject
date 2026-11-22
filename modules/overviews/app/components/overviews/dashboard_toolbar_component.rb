@@ -79,9 +79,7 @@ module Overviews
     end
 
     def rename_path
-      if @can_manage_standard
-        rename_dialog_admin_dashboard_page_path(@dashboard)
-      elsif local_dashboard_manager?
+      if local_dashboard_manager?
         rename_dialog_project_dashboard_page_path(@project, @dashboard)
       elsif @can_manage_project && @dashboard_exists && @dashboard.nil?
         project_rename_original_dashboard_dialog_path(@project)
@@ -89,11 +87,9 @@ module Overviews
     end
 
     def deletion_path
-      if @can_manage_standard
-        deletion_dialog_admin_dashboard_page_path(@dashboard)
-      elsif local_dashboard_manager?
-        deletion_dialog_project_dashboard_page_path(@project, @dashboard)
-      end
+      return unless local_dashboard_manager?
+
+      deletion_dialog_project_dashboard_page_path(@project, @dashboard)
     end
 
     def local_dashboard_manager?

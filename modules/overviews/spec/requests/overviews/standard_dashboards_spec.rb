@@ -56,6 +56,7 @@ RSpec.describe "Standard dashboard administration", :skip_csrf, type: :rails_req
     expect(document.at_css('input[name="dashboard_page[name]"]')).to be_nil
     expect(document.at_css("a[href='#{rename_dialog_admin_dashboard_page_path(dashboard)}']")).to be_present
     expect(document.at_css("a[href='#{deletion_dialog_admin_dashboard_page_path(dashboard)}']")).to be_present
+    expect(document.at_css('[data-test-selector="overview--add-widgets-button"]')).to be_present
     expect(document.at_css("#op-header-project-frame")["src"]).not_to include("jump=")
   end
 
