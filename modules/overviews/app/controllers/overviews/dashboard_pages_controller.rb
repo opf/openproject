@@ -32,9 +32,10 @@ module Overviews
     include OpTurbo::ComponentStream
 
     menu_item :overview
-    menu_item :settings_dashboards, only: %i[settings activate]
+    menu_item :settings_dashboards, only: %i[settings activate edit]
 
-    before_action :find_active_dashboard, only: %i[show edit update save_as copy deactivate]
+    before_action :find_active_dashboard, only: %i[show edit update destroy rename_dialog deletion_dialog save_as copy deactivate]
+    before_action :require_local_dashboard, only: %i[edit update destroy rename_dialog deletion_dialog]
 
     def show; end
 
@@ -43,9 +44,7 @@ module Overviews
       render_new_dialog
     end
 
-    def edit
-      raise ActiveRecord::RecordNotFound unless @dashboard.is_a?(::Grids::DashboardPage) && !@dashboard.central?
-    end
+    def edit; end
 
     def create
       @dashboard = ::Grids::DashboardPage.new(project: @project, row_count: 1, column_count: 1, **dashboard_attributes)
@@ -53,10 +52,21 @@ module Overviews
     end
 
     def update
-      raise ActiveRecord::RecordNotFound unless @dashboard.is_a?(::Grids::DashboardPage) && !@dashboard.central?
-
       @dashboard.assign_attributes(dashboard_attributes)
-      save_dashboard(notice: :notice_successful_update) { render :edit, status: :unprocessable_entity }
+      save_dashboard(notice: :notice_successful_update) { render_rename_dialog(status: :unprocessable_entity) }
+    end
+
+    def destroy
+      @dashboard.destroy!
+      redirect_to project_overview_path(@project), status: :see_other, notice: t(:notice_successful_delete)
+    end
+
+    def rename_dialog
+      render_rename_dialog
+    end
+
+    def deletion_dialog
+      respond_with_dialog DeleteDashboardDialogComponent.new(dashboard: @dashboard, project: @project)
     end
 
     def save_as
@@ -106,6 +116,22 @@ module Overviews
     end
 
     private
+
+    def require_local_dashboard
+      raise ActiveRecord::RecordNotFound unless @dashboard.is_a?(::Grids::DashboardPage) && !@dashboard.central?
+    end
+
+    def render_rename_dialog(status: :ok)
+      dialog = DashboardNameDialogComponent.new(
+        dashboard: @dashboard,
+        url: project_dashboard_page_path(@project, @dashboard),
+        title: t("overviews.dashboards.rename"),
+        submit: t(:button_rename)
+      )
+      respond_with_dialog(dialog, status:) do |format|
+        format.html { render :edit, status: }
+      end
+    end
 
     def find_active_dashboard
       @dashboard = if params[:id]

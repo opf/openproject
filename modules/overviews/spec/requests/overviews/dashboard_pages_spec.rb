@@ -65,17 +65,17 @@ RSpec.describe "Project dashboard pages", :skip_csrf, type: :rails_request do
     expect(response).to redirect_to(project_dashboard_page_path(project, page))
     follow_redirect!
     expect(response).to have_http_status(:ok)
-    expect(response.body).to include("Delivery", "Progress Report", "Configure dashboard")
+    expect(response.body).to include("Delivery", "Progress Report", "Edit dashboard in project settings")
   end
 
-  it "renders the name form and widget editor when configuring a project dashboard" do
+  it "renders the widget editor in project settings" do
     dashboard = Grids::DashboardPage.create!(project:, name: "Delivery", row_count: 1, column_count: 1)
 
-    get edit_project_dashboard_page_path(project, dashboard)
+    get project_edit_settings_dashboard_page_path(project, dashboard)
 
     expect(response).to have_http_status(:ok)
     document = response.parsed_body
-    expect(document.at_css('input[name="dashboard_page[name]"]')["value"]).to eq(dashboard.name)
+    expect(document.at_css('input[name="dashboard_page[name]"]')).to be_nil
     expect(document.at_css("opce-dashboard[data-grid-id='#{dashboard.id}']")).to be_present
   end
 
@@ -101,7 +101,11 @@ RSpec.describe "Project dashboard pages", :skip_csrf, type: :rails_request do
     get project_dashboard_page_path(project, standard)
     expect(response).to have_http_status(:ok)
     expect(response.body).to include("Save as")
-    expect(response.body).not_to include("Default dashboard", "Configure dashboard")
+    document = response.parsed_body
+    tab = document.at_css("a[href='#{project_dashboard_page_path(project, standard)}']").at_xpath("ancestor::li")
+    expect(tab.at_css("a[href='#{deactivate_project_dashboard_page_path(project, standard)}']")).to be_present
+    expect(tab.text).not_to include("Default dashboard", "Edit standard dashboard", "Rename", "Delete")
+    expect(document.at_css("#dashboard-widgets sub-header")).to be_nil
 
     get "/api/v3/grids/#{standard.id}"
     expect(response).to have_http_status(:ok)
@@ -110,6 +114,41 @@ RSpec.describe "Project dashboard pages", :skip_csrf, type: :rails_request do
     patch project_dashboard_page_path(project, standard), params: { dashboard_page: { name: "Changed" } }
     expect(response).to have_http_status(:not_found)
     expect(standard.reload.name).to eq("Progress Report")
+  end
+
+  it "renames and deletes a local dashboard from its tab menu" do
+    dashboard = Grids::DashboardPage.create!(project:, name: "Delivery", row_count: 1, column_count: 1)
+    rename_path = rename_dialog_project_dashboard_page_path(project, dashboard)
+    delete_path = deletion_dialog_project_dashboard_page_path(project, dashboard)
+    headers = { "Accept" => Mime[:turbo_stream].to_s }
+
+    get project_overview_path(project)
+    tab = response.parsed_body.at_css("a[href='#{project_dashboard_page_path(project, dashboard)}']").at_xpath("ancestor::li")
+    expect(tab.at_css("a[href='#{rename_path}']")).to be_present
+    expect(tab.at_css("a[href='#{delete_path}']")).to be_present
+
+    get(rename_path, headers:)
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include("rename-dashboard-dialog", 'value="Delivery"')
+
+    patch project_dashboard_page_path(project, dashboard), params: { dashboard_page: { name: "Updated" } }
+    expect(response).to redirect_to(project_dashboard_page_path(project, dashboard))
+    expect(dashboard.reload.name).to eq("Updated")
+
+    get(delete_path, headers:)
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include("Deleting this dashboard removes it from this project.")
+
+    delete project_dashboard_page_path(project, dashboard)
+    expect(response).to redirect_to(project_overview_path(project))
+    expect(Grids::DashboardPage.exists?(dashboard.id)).to be(false)
+  end
+
+  it "protects standard dashboards from deletion through project routes" do
+    delete project_dashboard_page_path(project, standard)
+
+    expect(response).to have_http_status(:not_found)
+    expect(standard.reload).to be_persisted
   end
 
   it "copies a dashboard and its widgets into a permitted target" do
@@ -125,6 +164,34 @@ RSpec.describe "Project dashboard pages", :skip_csrf, type: :rails_request do
     expect(response).to redirect_to(project_dashboard_page_path(destination, copy))
     expect(copy.widgets.sole.options).to eq(standard.widgets.sole.options)
     expect(copy.widgets.sole.id).not_to eq(standard.widgets.sole.id)
+  end
+
+  context "without dashboard management rights" do
+    let(:user) { create(:user, member_with_permissions: { project => [] }) }
+
+    it "shows the standard dashboard tab without a menu" do
+      get project_dashboard_page_path(project, standard)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body.at_css('[data-test-selector="dashboard-tab-menu"]')).to be_nil
+    end
+  end
+
+  context "with global dashboard management rights only" do
+    let(:user) do
+      create(:user, global_permissions: [:manage_standard_dashboards], member_with_permissions: { project => [] })
+    end
+
+    it "links to standard dashboard administration and global rename and delete dialogs" do
+      get project_dashboard_page_path(project, standard)
+
+      document = response.parsed_body
+      tab = document.at_css("a[href='#{project_dashboard_page_path(project, standard)}']").at_xpath("ancestor::li")
+      expect(tab.at_css("a[href='#{edit_admin_dashboard_page_path(standard)}']")).to be_present
+      expect(tab.at_css("a[href='#{rename_dialog_admin_dashboard_page_path(standard)}']")).to be_present
+      expect(tab.at_css("a[href='#{deletion_dialog_admin_dashboard_page_path(standard)}']")).to be_present
+      expect(tab.text).not_to include("Deactivate dashboard", "Edit dashboard in project settings")
+    end
   end
 
   it "rejects a forged destination" do

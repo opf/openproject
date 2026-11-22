@@ -78,7 +78,7 @@ class Admin::DashboardPagesController < ApplicationController
   end
 
   def deletion_dialog
-    respond_with_dialog Overviews::DeleteStandardDashboardDialogComponent.new(dashboard: @dashboard)
+    respond_with_dialog Overviews::DeleteDashboardDialogComponent.new(dashboard: @dashboard)
   end
 
   def projects

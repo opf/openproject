@@ -27,14 +27,9 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <div id="dashboard-widgets" class="op-grid-page">
-  <% if allowed_to_manage? || (project && configure_path) %>
+  <% if allowed_to_manage? %>
     <%=
       render(Primer::OpenProject::SubHeader.new(classes: "grid-mx")) do |subheader|
-        if project && (path = configure_path)
-          label = t("overviews.dashboards.configure")
-          subheader.with_action_button(tag: :a, href: path, leading_icon: :gear, label:) { label }
-        end
-
         if allowed_to_manage?
           subheader.with_action_button(
             scheme: :primary,

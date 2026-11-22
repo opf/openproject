@@ -28,12 +28,23 @@
 #++
 
 module Overviews
-  class DeleteStandardDashboardDialogComponent < ApplicationComponent
+  class DeleteDashboardDialogComponent < ApplicationComponent
     include OpTurbo::Streamable
 
-    def initialize(dashboard:)
+    def initialize(dashboard:, project: nil)
       super()
       @dashboard = dashboard
+      @project = project
+    end
+
+    private
+
+    def destroy_path
+      @project ? project_dashboard_page_path(@project, @dashboard) : admin_dashboard_page_path(@dashboard)
+    end
+
+    def description
+      t(@project ? "overviews.dashboards.delete_project_description" : "overviews.dashboards.delete_description")
     end
   end
 end

@@ -59,19 +59,5 @@ module Overviews
     def can_manage_in_project?
       project && current_user.allowed_in_project?(:manage_dashboards, project)
     end
-
-    def configure_path
-      return if @configuration
-
-      if dashboard&.central?
-        edit_admin_dashboard_page_path(dashboard) if current_user.allowed_globally?(:manage_standard_dashboards)
-      elsif can_manage_in_project?
-        if dashboard
-          edit_project_dashboard_page_path(project, dashboard)
-        else
-          "#dashboard-widgets"
-        end
-      end
-    end
   end
 end

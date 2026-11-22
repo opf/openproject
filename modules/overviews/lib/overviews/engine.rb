@@ -94,7 +94,8 @@ module Overviews
             map.permission :manage_dashboards,
                            {
                              "overviews/overviews": %i[show dashboard],
-                             "overviews/dashboard_pages": %i[new create edit update deactivate settings activate]
+                             "overviews/dashboard_pages": %i[new create edit update destroy rename_dialog deletion_dialog
+                                                             deactivate settings activate]
                            },
                            permissible_on: :project,
                            require: :member

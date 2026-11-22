@@ -1,0 +1,41 @@
+<%= render(Primer::Alpha::ActionMenu.new(anchor_align: :start)) do |menu| %>
+  <% menu.with_show_button(
+       icon: :"kebab-horizontal", scheme: :invisible, size: :small,
+       aria: { label: t("overviews.dashboards.tab_actions", name:) },
+       test_selector: "dashboard-tab-menu"
+     ) %>
+  <% if (path = edit_path) %>
+    <% menu.with_item(tag: :a, href: path, label: edit_label) do |item| %>
+      <% item.with_leading_visual_icon(icon: :gear) %>
+    <% end %>
+  <% end %>
+  <% if (path = rename_path) %>
+    <% menu.with_item(
+         tag: :a, href: path, label: t(:button_rename),
+         content_arguments: { data: { controller: "async-dialog" } }
+       ) do |item| %>
+      <% item.with_leading_visual_icon(icon: :pencil) %>
+    <% end %>
+  <% end %>
+  <% if (path = save_as_path) %>
+    <% menu.with_item(tag: :a, href: path, label: t(:button_save_as)) do |item| %>
+      <% item.with_leading_visual_icon(icon: :duplicate) %>
+    <% end %>
+  <% end %>
+  <% if (path = deactivate_path) %>
+    <% menu.with_item(
+         tag: :a, href: path, label: t("overviews.dashboards.deactivate_in_project"),
+         content_arguments: { data: { turbo_method: :patch, turbo_confirm: t(:text_are_you_sure) } }
+       ) do |item| %>
+      <% item.with_leading_visual_icon(icon: :eye) %>
+    <% end %>
+  <% end %>
+  <% if (path = deletion_path) %>
+    <% menu.with_item(
+         tag: :a, href: path, label: t(:button_delete), scheme: :danger,
+         content_arguments: { data: { controller: "async-dialog" } }
+       ) do |item| %>
+      <% item.with_leading_visual_icon(icon: :trash) %>
+    <% end %>
+  <% end %>
+<% end %>

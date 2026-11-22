@@ -2,13 +2,21 @@
 <% html_title(title) %>
 <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
   <% header.with_title { title } %>
-  <% header.with_breadcrumbs([{ href: project_overview_path(@project), text: @project.name }, title]) %>
+  <% header.with_breadcrumbs(
+       [
+         { href: project_overview_path(@project), text: @project.name },
+         *(@dashboard.persisted? ? [{ href: settings_project_dashboard_pages_path(@project), text: t("overviews.dashboards.title") }] : []),
+         title
+       ]
+     ) %>
 <% end %>
 
-<% action = @dashboard.persisted? ? project_dashboard_page_path(@project, @dashboard) : project_dashboard_pages_path(@project) %>
-<%= primer_form_with(model: @dashboard, scope: :dashboard_page, url: action) do |form| %>
-  <%= render(Overviews::DashboardNameForm.new(form)) %>
-  <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary)) { t(:button_save) } %>
+<% if @dashboard.new_record? || @dashboard.errors.any? %>
+  <% action = @dashboard.persisted? ? project_dashboard_page_path(@project, @dashboard) : project_dashboard_pages_path(@project) %>
+  <%= primer_form_with(model: @dashboard, scope: :dashboard_page, url: action) do |form| %>
+    <%= render(Overviews::DashboardNameForm.new(form)) %>
+    <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary)) { t(:button_save) } %>
+  <% end %>
 <% end %>
 
 <% if @dashboard.persisted? %>

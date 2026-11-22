@@ -1,9 +1,10 @@
 <% html_title(t(:label_project_settings), t("overviews.dashboards.title")) %>
 <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
   <% header.with_title { t("overviews.dashboards.title") } %>
-  <% header.with_breadcrumbs([{ href: project_overview_path(@project), text: @project.name },
-                              t(:label_project_settings),
-                              t("overviews.dashboards.title")]) %>
+  <% header.with_breadcrumbs(
+       [{ href: project_overview_path(@project), text: @project.name },
+        t(:label_project_settings), t("overviews.dashboards.title")]
+     ) %>
 <% end %>
 
 <table class="generic-table">
@@ -18,6 +19,7 @@
     <%= render "dashboard_row",
                name: t("overviews.label_dashboard"),
                badge: nil,
+               edit_path: nil,
                active: !@original_dashboard&.disabled?,
                activate_path: @original_dashboard && project_activate_original_dashboard_path(@project) %>
     <% @dashboards.each do |dashboard| %>
@@ -25,6 +27,7 @@
                  name: dashboard.name,
                  badge: dashboard.central? ? t("overviews.dashboards.standard") : nil,
                  active: @active_ids.include?(dashboard.id),
+                 edit_path: (project_edit_settings_dashboard_page_path(@project, dashboard) unless dashboard.central?),
                  activate_path: activate_project_dashboard_page_path(@project, dashboard) %>
     <% end %>
   </tbody>

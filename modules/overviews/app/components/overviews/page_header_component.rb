@@ -38,8 +38,6 @@ module Overviews
 
     option :project
     option :current_user, default: -> { User.current }
-    option :dashboard_view, default: -> { false }
-    option :dashboard, optional: true
 
     private
 
@@ -63,24 +61,9 @@ module Overviews
       project.name
     end
 
-    def dashboard_save_as_path
-      return unless current_user.allowed_in_any_project?(:manage_dashboards)
-
-      if dashboard
-        save_as_project_dashboard_page_path(project, dashboard)
-      else
-        project_save_as_original_dashboard_path(project)
-      end
-    end
-
-    def dashboard_deactivate_path
-      return unless current_user.allowed_in_project?(:manage_dashboards, project)
-
-      if dashboard
-        deactivate_project_dashboard_page_path(project, dashboard)
-      else
-        project_deactivate_original_dashboard_path(project)
-      end
+    def dashboard_tab_menu(dashboard = nil)
+      menu = DashboardTabMenuComponent.new(project:, current_user:, dashboard:)
+      menu if menu.render?
     end
 
     def favorited?

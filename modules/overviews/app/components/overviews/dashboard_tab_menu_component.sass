@@ -1,0 +1,14 @@
+.op-dashboard-tab
+  align-items: center
+  padding-inline-end: var(--base-size-8)
+  border: var(--borderWidth-thin) solid transparent
+  border-bottom: 0
+  border-radius: var(--borderRadius-medium) var(--borderRadius-medium) 0 0
+
+  &:has(> .tabnav-tab[aria-current])
+    background-color: var(--bgColor-default)
+    border-color: var(--borderColor-default)
+
+  > .tabnav-tab
+    padding-inline-end: var(--base-size-4)
+    border: 0

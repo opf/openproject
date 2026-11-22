@@ -35,8 +35,10 @@ Rails.application.routes.draw do
           get :dashboard, on: :member
         end
 
-        resources :dashboard_pages, path: "dashboards", except: %i[index destroy] do
+        resources :dashboard_pages, path: "dashboards", except: %i[index] do
           member do
+            get :rename_dialog
+            get :deletion_dialog
             get :save_as
             post :copy
             patch :deactivate
@@ -46,6 +48,7 @@ Rails.application.routes.draw do
         end
 
         controller :dashboard_pages do
+          get "settings/dashboards/:id/edit", action: :edit, as: :edit_settings_dashboard_page
           get "dashboard/save_as", action: :save_as, as: :save_as_original_dashboard
           post "dashboard/copy", action: :copy, as: :copy_original_dashboard
           patch "dashboard/deactivate", action: :deactivate, as: :deactivate_original_dashboard
