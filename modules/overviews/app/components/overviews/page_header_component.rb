@@ -61,10 +61,14 @@ module Overviews
       project.name
     end
 
-    def original_dashboard
-      return @original_dashboard if defined?(@original_dashboard)
+    def dashboard_tabs
+      return [] unless current_user.allowed_in_project?(:view_project, project)
 
-      @original_dashboard = ::Grids::Overview.find_by(project:)
+      DashboardTabs.new(project).entries.select(&:active)
+    end
+
+    def allowed_to_manage_dashboards?
+      current_user.allowed_in_project?(:manage_dashboards, project)
     end
 
     def favorited?

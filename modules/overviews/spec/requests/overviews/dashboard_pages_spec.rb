@@ -68,6 +68,35 @@ RSpec.describe "Project dashboard pages", :skip_csrf, type: :rails_request do
     expect(response.body).to include("Delivery", "Progress Report", "Edit dashboard in project settings")
   end
 
+  it "links to dashboard settings and applies the saved tab order only in the current project" do
+    local = Grids::DashboardPage.create!(project:, name: "Delivery", row_count: 1, column_count: 1)
+    settings_path = settings_project_dashboard_pages_path(project)
+
+    get dashboard_project_overview_path(project)
+    expect(response).to have_http_status(:ok)
+    expect(response.parsed_body.at_css("page-header a[href='#{settings_path}']")).to be_present
+
+    patch project_move_dashboard_tab_path(project, local.id), params: { direction: "up" }
+    expect(response).to redirect_to(settings_path)
+    patch project_move_dashboard_tab_path(project, standard.id), params: { direction: "up" }
+    expect(response).to redirect_to(settings_path)
+
+    follow_redirect!
+    expect(response).to have_http_status(:ok)
+    keys = response.parsed_body.css("[data-dashboard-tab-key]").pluck("data-dashboard-tab-key")
+    expect(keys).to eq([local.id.to_s, standard.id.to_s, "original"])
+
+    get project_overview_path(project)
+    paths = [project_dashboard_page_path(project, local), project_dashboard_page_path(project, standard),
+             dashboard_project_overview_path(project)]
+    links = response.parsed_body.css('[data-test-selector="overview-tabs"] a').pluck("href")
+    expect(links.intersection(paths)).to eq(paths)
+
+    get settings_project_dashboard_pages_path(destination)
+    keys = response.parsed_body.css("[data-dashboard-tab-key]").pluck("data-dashboard-tab-key")
+    expect(keys).to eq(["original", standard.id.to_s])
+  end
+
   it "renders the widget editor in project settings" do
     dashboard = Grids::DashboardPage.create!(project:, name: "Delivery", row_count: 1, column_count: 1)
 
@@ -196,6 +225,11 @@ RSpec.describe "Project dashboard pages", :skip_csrf, type: :rails_request do
 
       expect(response).to have_http_status(:ok)
       expect(response.parsed_body.at_css('[data-test-selector="dashboard-toolbar"]')).to be_nil
+      settings_path = settings_project_dashboard_pages_path(project)
+      expect(response.parsed_body.at_css("a[href='#{settings_path}']")).to be_nil
+
+      patch project_move_dashboard_tab_path(project, standard.id), params: { direction: "up" }
+      expect(response).to have_http_status(:forbidden)
 
       create(:overview, project:)
       patch project_rename_original_dashboard_path(project), params: { dashboard_page: { name: "Changed" } }

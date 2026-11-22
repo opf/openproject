@@ -32,7 +32,7 @@ module Overviews
     include OpTurbo::ComponentStream
 
     menu_item :overview
-    menu_item :settings_dashboards, only: %i[settings activate edit]
+    menu_item :settings_dashboards, only: %i[settings activate edit move]
 
     before_action :find_active_dashboard, only: %i[show edit update destroy rename_dialog deletion_dialog save_as copy deactivate]
     before_action :require_project_dashboard, only: %i[edit update destroy rename_dialog deletion_dialog]
@@ -101,9 +101,15 @@ module Overviews
     end
 
     def settings
-      @original_dashboard = ::Grids::Overview.find_by(project: @project)
-      @dashboards = ::Grids::DashboardPage.in_project(@project).order(:name, :id)
-      @active_ids = ::Grids::DashboardPage.active_in(@project).pluck(:id).to_set
+      @dashboard_tabs = DashboardTabs.new(@project).entries
+    end
+
+    def move
+      offset = { "up" => -1, "down" => 1 }[params.expect(:direction)]
+      return head :bad_request unless offset
+
+      DashboardTabs.new(@project).move!(params.expect(:tab_key), offset)
+      redirect_to settings_project_dashboard_pages_path(@project), status: :see_other
     end
 
     def activate

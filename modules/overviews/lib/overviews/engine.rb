@@ -95,7 +95,7 @@ module Overviews
                            {
                              "overviews/overviews": %i[show dashboard],
                              "overviews/dashboard_pages": %i[new create edit update destroy rename_dialog deletion_dialog
-                                                             deactivate settings activate]
+                                                             deactivate settings activate move]
                            },
                            permissible_on: :project,
                            require: :member

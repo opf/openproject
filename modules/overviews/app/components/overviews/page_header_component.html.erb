@@ -42,6 +42,16 @@
       end
 
       with_item_group(menu) do
+        if allowed_to_manage_dashboards?
+          menu.with_item(
+            tag: :a,
+            label: t(:permission_manage_dashboards),
+            href: settings_project_dashboard_pages_path(project)
+          ) do |item|
+            item.with_leading_visual_icon(icon: :gear)
+          end
+        end
+
         if allowed_to_select_project_custom_fields?
           menu.with_item(
             label: t(:label_project_attribute_manage_link),
@@ -146,24 +156,20 @@
         end
       end
 
-      if current_user.allowed_in_project?(:view_project, project) &&
-         !original_dashboard&.disabled?
-        tab_nav.with_tab(
-          test_selector: "project-dashboard-tab",
-          selected: current_page?(dashboard_project_overview_path),
-          href: helpers.dashboard_project_overview_path
-        ) do |t|
-          t.with_icon(icon: :"op-view-list")
-          t.with_text { original_dashboard&.display_name || t("overviews.label_dashboard") }
+      dashboard_tabs.each do |entry|
+        if entry.original?
+          path = dashboard_project_overview_path(project)
+          tab_nav.with_tab(test_selector: "project-dashboard-tab", selected: current_page?(path), href: path) do |tab|
+            tab.with_icon(icon: :"op-view-list")
+            tab.with_text { entry.dashboard&.display_name || t("overviews.label_dashboard") }
+          end
+        else
+          path = project_dashboard_page_path(project, entry.dashboard)
+          tab_nav.with_tab(selected: current_page?(path), href: path) { entry.dashboard.name }
         end
       end
 
-      ::Grids::DashboardPage.active_in(project).order(:name, :id).each do |dashboard|
-        path = project_dashboard_page_path(project, dashboard)
-        tab_nav.with_tab(selected: current_page?(path), href: path) { dashboard.name }
-      end
-
-      if current_user.allowed_in_project?(:manage_dashboards, project)
+      if allowed_to_manage_dashboards?
         tab_nav.with_tab(
           href: new_project_dashboard_page_path(project),
           "aria-label": t("overviews.dashboards.new"),

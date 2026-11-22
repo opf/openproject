@@ -12,23 +12,16 @@
     <tr>
       <th scope="col"><%= t(:label_name) %></th>
       <th scope="col"><%= t(:label_status) %></th>
+      <th scope="col"><%= t(:label_sort) %></th>
       <th scope="col"><%= t(:label_actions) %></th>
     </tr>
   </thead>
   <tbody>
-    <%= render "dashboard_row",
-               name: @original_dashboard&.display_name || t("overviews.label_dashboard"),
-               badge: nil,
-               edit_path: nil,
-               active: !@original_dashboard&.disabled?,
-               activate_path: @original_dashboard && project_activate_original_dashboard_path(@project) %>
-    <% @dashboards.each do |dashboard| %>
+    <% @dashboard_tabs.each_with_index do |entry, index| %>
       <%= render "dashboard_row",
-                 name: dashboard.name,
-                 badge: dashboard.central? ? t("overviews.dashboards.standard") : nil,
-                 active: @active_ids.include?(dashboard.id),
-                 edit_path: (project_edit_settings_dashboard_page_path(@project, dashboard) unless dashboard.central?),
-                 activate_path: activate_project_dashboard_page_path(@project, dashboard) %>
+                 entry:,
+                 first: index.zero?,
+                 last: index == @dashboard_tabs.length - 1 %>
     <% end %>
   </tbody>
 </table>

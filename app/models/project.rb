@@ -123,6 +123,7 @@ class Project < ApplicationRecord
   accepts_nested_attributes_for :available_phases
   validates_associated :available_phases, on: :saving_phases
 
+  store_attribute :settings, :dashboard_tab_order, :json, default: []
   store_attribute :settings, :deactivate_work_package_attachments, :boolean
   store_attribute :settings, :enabled_internal_comments, :boolean
   store_attribute :settings, :excluded_role_ids_on_copy, :json, default: []

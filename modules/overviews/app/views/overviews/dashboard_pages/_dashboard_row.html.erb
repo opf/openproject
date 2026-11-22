@@ -1,18 +1,45 @@
-<tr>
+<% dashboard = entry.dashboard %>
+<% name = entry.original? ? (dashboard&.display_name || t("overviews.label_dashboard")) : dashboard.name %>
+<%= tag.tr(data: { dashboard_tab_key: entry.key }) do %>
   <td>
     <%= name %>
-    <% if badge %>
-      <%= render(Primer::Beta::Label.new(scheme: :secondary, ml: 2)) { badge } %>
+    <% if !entry.original? && dashboard.central? %>
+      <%= render(Primer::Beta::Label.new(scheme: :secondary, ml: 2)) { t("overviews.dashboards.standard") } %>
     <% end %>
   </td>
-  <td><%= t(active ? "overviews.dashboards.active" : "overviews.dashboards.inactive") %></td>
+  <td><%= t(entry.active ? "overviews.dashboards.active" : "overviews.dashboards.inactive") %></td>
   <td>
-    <% if active && edit_path %>
-      <%= render(Primer::Beta::Button.new(tag: :a, href: edit_path)) { t(:button_edit) } %>
-    <% elsif !active && activate_path %>
+    <%= form_with url: project_move_dashboard_tab_path(@project, entry.key), method: :patch, class: "d-flex gap-1" do %>
+      <%= render(
+            Primer::Beta::IconButton.new(
+              icon: :"chevron-up",
+              type: :submit,
+              name: :direction,
+              value: "up",
+              disabled: first,
+              "aria-label": t(:label_sort_higher)
+            )
+          ) %>
+      <%= render(
+            Primer::Beta::IconButton.new(
+              icon: :"chevron-down",
+              type: :submit,
+              name: :direction,
+              value: "down",
+              disabled: last,
+              "aria-label": t(:label_sort_lower)
+            )
+          ) %>
+    <% end %>
+  </td>
+  <td>
+    <% if entry.active && !entry.original? && !dashboard.central? %>
+      <%= render(Primer::Beta::Button.new(tag: :a, href: project_edit_settings_dashboard_page_path(@project, dashboard))) { t(:button_edit) } %>
+    <% elsif !entry.active %>
+      <% activate_path = entry.original? ? project_activate_original_dashboard_path(@project) : activate_project_dashboard_page_path(@project, dashboard) %>
       <%= form_with url: activate_path, method: :patch do %>
         <%= render(Primer::Beta::Button.new(type: :submit)) { t("overviews.dashboards.activate") } %>
       <% end %>
     <% end %>
   </td>
-</tr>
+<% end %>
