@@ -52,13 +52,13 @@ RSpec.describe "PDF export template move", :skip_csrf, type: :rails_request do
   it "moves the template below the anchor" do
     move("attributes", { list_type:, list_id: "", prev_id: "artefact" })
     expect(response).to have_http_status(:ok)
-    expect(ordered_ids).to eq(%w[contract artefact attributes])
+    expect(ordered_ids).to eq(%w[contract artefact attributes status_report])
   end
 
   it "moves the template to the top for a blank prev_id" do
     move("artefact", { list_type:, list_id: "", prev_id: "" })
     expect(response).to have_http_status(:ok)
-    expect(ordered_ids).to eq(%w[artefact attributes contract])
+    expect(ordered_ids).to eq(%w[artefact attributes contract status_report])
   end
 
   it_behaves_like "a sortable list drop endpoint", list_id_scoped: false do
@@ -67,7 +67,7 @@ RSpec.describe "PDF export template move", :skip_csrf, type: :rails_request do
 
     def send_drop(params) = move(dragged_id, params)
 
-    def expect_unmoved = expect(ordered_ids).to eq(%w[attributes contract artefact])
+    def expect_unmoved = expect(ordered_ids).to eq(%w[attributes contract artefact status_report])
   end
 
   it "renders the invalid-anchor error message on failure" do
@@ -78,7 +78,7 @@ RSpec.describe "PDF export template move", :skip_csrf, type: :rails_request do
 
   it "does not move an unknown template id" do
     move("bogus", { list_type:, list_id: "", prev_id: "" })
-    expect(ordered_ids).to eq(%w[attributes contract artefact])
+    expect(ordered_ids).to eq(%w[attributes contract artefact status_report])
     expect(response).to have_http_status(:not_found)
   end
 
@@ -87,7 +87,7 @@ RSpec.describe "PDF export template move", :skip_csrf, type: :rails_request do
 
     it "is forbidden" do
       move("attributes", { list_type:, list_id: "", prev_id: "artefact" })
-      expect(ordered_ids).to eq(%w[attributes contract artefact])
+      expect(ordered_ids).to eq(%w[attributes contract artefact status_report])
       expect(response).to have_http_status(:forbidden)
     end
   end

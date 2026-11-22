@@ -407,12 +407,12 @@ RSpec.describe Type do
     end
 
     it "round-trips settings through #update_settings/#settings_for for each template" do
-      %w[attributes contract artefact].each do |template_id|
+      %w[attributes contract artefact status_report].each do |template_id|
         type.pdf_export_templates.update_settings(template_id, "hyphenation" => "true")
       end
       type.save!
 
-      %w[attributes contract artefact].each do |template_id|
+      %w[attributes contract artefact status_report].each do |template_id|
         expect(type.reload.pdf_export_templates.settings_for(template_id)).to eq(hyphenation: "true")
       end
     end
@@ -523,19 +523,19 @@ RSpec.describe Type do
         type.pdf_export_templates.move_after_anchor("attributes", "artefact")
         type.save!
 
-        expect(type.reload.pdf_export_templates.list.map(&:id)).to eq(%w[contract artefact attributes])
+        expect(type.reload.pdf_export_templates.list.map(&:id)).to eq(%w[contract artefact attributes status_report])
       end
 
       it "moves a template to the top for a blank prev_id" do
         type.pdf_export_templates.move_after_anchor("artefact", nil)
         type.save!
 
-        expect(type.reload.pdf_export_templates.list.map(&:id)).to eq(%w[artefact attributes contract])
+        expect(type.reload.pdf_export_templates.list.map(&:id)).to eq(%w[artefact attributes contract status_report])
       end
 
       it "returns false without mutating for an unknown anchor" do
         expect(type.pdf_export_templates.move_after_anchor("attributes", "bogus")).to be(false)
-        expect(type.pdf_export_templates.list.map(&:id)).to eq(%w[attributes contract artefact])
+        expect(type.pdf_export_templates.list.map(&:id)).to eq(%w[attributes contract artefact status_report])
       end
 
       it "returns false without mutating for an unknown template" do
