@@ -35,6 +35,7 @@ import {
   OnInit,
   QueryList,
   ViewChild,
+  viewChild,
   ViewChildren,
 } from '@angular/core';
 import { EMPTY, Observable, Subscription } from 'rxjs';
@@ -47,8 +48,9 @@ import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { BoardService } from 'core-app/features/boards/board/board.service';
 import { OpSortableListsDirective } from 'core-app/shared/directives/sortable-lists/sortable-lists.directive';
 import { QueryUpdatedService } from 'core-app/features/boards/board/query-updated/query-updated.service';
+import { RemovalFocus } from 'core-app/shared/helpers/removal-focus';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { Board, BoardWidgetOption } from 'core-app/features/boards/board/board';
+import { Board, BoardWidgetOption, boardWidgetQueryId } from 'core-app/features/boards/board/board';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
 import {
@@ -132,6 +134,8 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   /** Reference all query children to extract current actions */
   @ViewChildren(BoardListComponent) lists:QueryList<BoardListComponent>;
 
+  private readonly addListControl = viewChild<ElementRef<HTMLElement>>('addListControl');
+
   trackByQueryId = (index:number, widget:GridWidgetResource) => widget.options.queryId;
 
   board$:Observable<Board>;
@@ -182,9 +186,30 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
     this.saveBoard(board);
   }
 
-  removeList(board:Board, query:GridWidgetResource) {
-    board.removeQuery(query);
-    this.saveBoard(board);
+  deleteList(board:Board, widget:GridWidgetResource) {
+    const focus = this.removalFocusFor(widget);
+
+    this
+      .apiV3Service
+      .queries
+      .id(boardWidgetQueryId(widget))
+      .delete()
+      .subscribe({
+        next: () => this.removeList(board, widget, focus),
+        error: (error:unknown) => {
+          focus?.cancel();
+          this.halNotification.handleRawError(error);
+        },
+      });
+  }
+
+  removeList(board:Board, widget:GridWidgetResource, focus = this.removalFocusFor(widget)) {
+    board.removeQuery(widget);
+    this.saveBoard(
+      board,
+      () => focus?.focusSuccessorAfterRender(),
+      () => focus?.cancel(),
+    );
   }
 
   addList(board:Board):Promise<unknown>|undefined {
@@ -210,12 +235,13 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
     }
   }
 
-  saveBoard(board:Board):void {
+  saveBoard(board:Board, afterSave?:() => void, afterFailure?:() => void):void {
     this.Boards
       .save(board)
       .pipe(
         catchError((error) => {
           this.halNotification.handleRawError(error);
+          afterFailure?.();
           return EMPTY;
         }),
         finalize(() => {
@@ -224,7 +250,20 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
         }),
       ).subscribe(() => {
         this.toastService.addSuccess(this.text.updateSuccessful);
+        afterSave?.();
       });
+  }
+
+  private removalFocusFor(widget:GridWidgetResource):RemovalFocus<BoardListComponent>|undefined {
+    const removed = this.lists.find((list) => list.resource === widget);
+    return removed && new RemovalFocus({
+      removed,
+      removedElement: removed.indicator.nativeElement,
+      items: () => this.lists.toArray(),
+      control: (list) => list.menuTrigger,
+      fallback: () => [this.addListControl()?.nativeElement],
+      injector: this.injector,
+    });
   }
 
   private setupQueryUpdatedMonitoring(board:Board) {
@@ -236,7 +275,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
 
     this.currentQueryUpdatedMonitoring = this
       .QueryUpdated
-      .monitor(board.queries.map((widget) => widget.options.queryId as string))
+      .monitor(board.queries.map(boardWidgetQueryId))
       .pipe(
         this.untilDestroyed(),
       )
@@ -253,7 +292,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
         .lists
         .filter((listComponent) => {
           const id = query.id!.toString();
-          const listId = (listComponent.resource.options.queryId as string|number).toString();
+          const listId = boardWidgetQueryId(listComponent.resource);
 
           return id === listId;
         })

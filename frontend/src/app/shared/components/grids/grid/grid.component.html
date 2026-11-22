@@ -65,7 +65,7 @@
       [cdkDropListData]="area"
       [cdkDropListConnectedTo]="layout.gridAreaIds">
       @if (add.isAllowed) {
-        <div class="grid--widget-add"
+        <div #addWidgetControl class="grid--widget-add"
           [title]="add.addText"
           tabindex="0"
           (click)="addWidget(area)"
@@ -97,7 +97,7 @@
       (mouseover)="layout.setMousedOverArea(gap)"
       (focus)="layout.setMousedOverArea(gap)">
       @if (add.isAllowed) {
-        <div class="grid--widget-add -gap"
+        <div #addWidgetControl class="grid--widget-add -gap"
           [title]="add.addText"
           tabindex="0"
           (click)="addWidget(gap)"

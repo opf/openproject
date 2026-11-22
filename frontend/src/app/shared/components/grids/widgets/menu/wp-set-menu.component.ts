@@ -49,15 +49,13 @@ export abstract class WidgetWpSetMenuComponent extends WidgetAbstractMenuCompone
   @Output() onConfigured = new EventEmitter<unknown>();
 
   protected async buildItems():Promise<OpContextMenuItem[]> {
-    const items = [
-      this.removeItem,
-    ];
+    const items:OpContextMenuItem[] = [];
 
     if (await this.configurationAllowed()) {
       items.push(this.configureItem);
     }
 
-    return items;
+    return this.withRemoveLast(items);
   }
 
   protected get configureItem() {

@@ -87,7 +87,7 @@ describe('WidgetTimeEntriesProjectComponent rendering', () => {
         { provide: TurboRequestsService, useValue: { request } },
         { provide: GridAreaService, useValue: { isEditable: false } },
         { provide: GridDragAndDropService, useValue: {} },
-        { provide: GridRemoveWidgetService, useValue: {} },
+        { provide: GridRemoveWidgetService, useValue: { registerMenu: () => () => undefined } },
       ],
     });
     TestBed.overrideTemplate(WidgetHeaderComponent, '');

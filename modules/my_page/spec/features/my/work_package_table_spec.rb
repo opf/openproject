@@ -92,6 +92,8 @@ RSpec.describe "Arbitrary WorkPackage query table widget on my page",
       my_page.expect_and_dismiss_all_toasters message: I18n.t("js.notice_successful_update")
 
       created_by_me_area.remove
+      expect(page).to have_no_button(accessible_name: "Show menu options for Work packages created by me widget")
+      expect(page).to have_button(accessible_name: "Show menu options for Work packages table widget", focused: true)
       my_page.expect_and_dismiss_all_toasters message: I18n.t("js.notice_successful_update")
       assigned_to_me_area.remove
       my_page.expect_and_dismiss_all_toasters message: I18n.t("js.notice_successful_update")

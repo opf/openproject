@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { booleanAttribute, Component, inject, input } from '@angular/core';
+import { booleanAttribute, Component, ElementRef, inject, input, viewChild } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 
@@ -41,4 +41,10 @@ export class IconTriggeredContextMenuComponent {
   readonly menuItemsFactory = input.required<() => Promise<OpContextMenuItem[]>>();
   readonly customAriaLabel = input(this.I18n.t('js.label_open_menu'));
   readonly showTooltip = input(true, { transform: booleanAttribute });
+
+  private readonly triggerRef = viewChild.required<string, ElementRef<HTMLElement>>('trigger', { read: ElementRef });
+
+  get trigger():HTMLElement {
+    return this.triggerRef().nativeElement;
+  }
 }

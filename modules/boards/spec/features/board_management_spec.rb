@@ -187,6 +187,41 @@ RSpec.describe "Board management spec", :js, :selenium do
       end
     end
 
+    it "moves focus to a surviving list control after deleting a list by keyboard" do
+      board_view
+      board_index.visit!
+
+      board_page = board_index.open_board board_view
+      board_page.add_list
+      board_page.rename_list "Unnamed list", "List 2"
+
+      board_page.within_list("List 1") do
+        find("editable-toolbar-title input").click
+        page.send_keys(:tab)
+        page.send_keys(:enter)
+      end
+
+      within(:menu, "Open menu") do
+        expect(page).to have_selector(:menuitem, "Delete list", focused: true)
+        page.send_keys(:enter)
+      end
+      board_page.accept_alert_dialog!
+
+      expect(page).to have_no_selector(board_page.list_selector("List 1"))
+      board_page.within_list("List 2") do
+        expect(page).to have_button(accessible_name: "Open menu", focused: true)
+        page.send_keys(:enter)
+      end
+
+      within(:menu, "Open menu") do
+        expect(page).to have_selector(:menuitem, "Delete list", focused: true)
+        page.send_keys(:enter)
+      end
+      board_page.accept_alert_dialog!
+
+      expect(page).to have_button("Add list", focused: true)
+    end
+
     it "allows management of boards" do
       board_view
       board_index.visit!

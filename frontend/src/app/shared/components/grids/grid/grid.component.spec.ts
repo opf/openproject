@@ -56,7 +56,7 @@ describe('GridComponent', () => {
         { provide: GridResizeService, useValue: resize },
         { provide: GridAreaService, useValue: {} },
         { provide: GridAddWidgetService, useValue: {} },
-        { provide: GridRemoveWidgetService, useValue: {} },
+        { provide: GridRemoveWidgetService, useValue: { registerAddControls: () => undefined } },
         { provide: GridWidgetsService, useValue: {} },
         { provide: BrowserDetector, useValue: {} },
       ],

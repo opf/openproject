@@ -43,7 +43,7 @@ describe('IconTriggeredContextMenuComponent', () => {
   let onClickSpy:Mock<() => void>;
 
   const mount = async (factory:() => Promise<OpContextMenuItem[]>, showTooltip?:boolean) => {
-    fixture = TestBed.createComponent(IconTriggeredContextMenuComponent);
+    fixture = TestBed.createComponent(IconTriggeredContextMenuComponent, { inferTagName: true });
     fixture.componentRef.setInput('customAriaLabel', 'Widget menu');
     fixture.componentRef.setInput('menuItemsFactory', factory);
     if (showTooltip !== undefined) {
@@ -84,10 +84,14 @@ describe('IconTriggeredContextMenuComponent', () => {
       const menu = await openMenu();
 
       expect(menu).toBeVisible();
-      expect(within(menu).getAllByRole('menuitem').map((item) => item.textContent?.trim())).toEqual([
-        'Configure view',
-        'Remove widget',
-      ]);
+      const items = within(menu).getAllByRole('menuitem');
+      expect(items).toHaveLength(2);
+      expect(items[0]).toHaveAccessibleName('Configure view');
+      expect(items[1]).toHaveAccessibleName('Remove widget');
+    });
+
+    it('exposes its menu button', () => {
+      expect(fixture.componentInstance.trigger).toBe(trigger());
     });
 
     it('calls the chosen item', async () => {

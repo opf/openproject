@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, HostListener, Input, OnDestroy, OnInit, Type, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, ElementRef, HostListener, Input, OnDestroy, OnInit, Type, inject, viewChildren } from '@angular/core';
 import { GridResource } from 'core-app/features/hal/resources/grid-resource';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GridWidgetsService } from 'core-app/shared/components/grids/widgets/widgets.service';
@@ -88,6 +88,12 @@ export class GridComponent implements OnDestroy, OnInit {
   public component = WidgetWpGraphComponent;
 
   @Input() grid:GridResource;
+
+  private readonly addWidgetControls = viewChildren<string, ElementRef<HTMLElement>>('addWidgetControl', { read: ElementRef });
+
+  constructor() {
+    this.remove.registerAddControls(() => this.addWidgetControls().map((control) => control.nativeElement));
+  }
 
   ngOnInit() {
     this.layout.gridResource = this.grid;
