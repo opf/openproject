@@ -93,11 +93,12 @@ module Overviews
           src: toggle_standard_project_dashboard_page_path(project, dashboard, dashboard_type:, filters:),
           csrf_token: helpers.form_authenticity_token,
           checked: entry.active,
+          turbo: true,
           size: :small,
           status_label_position: :start,
           aria: { label: t("overviews.dashboards.toggle_standard", name: display_name) },
           classes: "op-primer-adjustments__toggle-switch--hidden-loading-indicator",
-          data: { turbo_method: :put, turbo_stream: true, test_selector: "toggle-standard-dashboard-#{dashboard.id}" }
+          data: { test_selector: "toggle-standard-dashboard-#{dashboard.id}" }
         )
       )
     end

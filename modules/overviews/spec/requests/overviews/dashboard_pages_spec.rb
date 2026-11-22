@@ -189,16 +189,18 @@ RSpec.describe "Project dashboard pages", :skip_csrf, type: :rails_request do
     get settings_path
     expect(response).to have_http_status(:ok)
     switch = response.parsed_body.at_css("[data-test-selector='toggle-standard-dashboard-#{standard.id}']")
-    expect(switch).to be_present
+    expect(switch["src"]).to eq(toggle_path)
+    expect(switch["data-turbo"]).to eq("true")
+    expect(switch.at_css("button")["aria-pressed"]).to eq("false")
     expect(Grids::DashboardPage.active_in(project)).not_to include(standard)
 
-    put(toggle_path, params: { value: "true" }, headers:)
+    post(toggle_path, params: { value: "1" }, headers:)
     expect(response).to have_http_status(:ok)
     expect(response.body).to include("<turbo-stream", "project-dashboard-#{standard.id}")
     get project_dashboard_page_path(project, standard)
     expect(response).to have_http_status(:ok)
 
-    put(toggle_path, params: { value: "false" }, headers:)
+    post(toggle_path, params: { value: "0" }, headers:)
     expect(response).to have_http_status(:ok)
     get project_dashboard_page_path(project, standard)
     expect(response).to have_http_status(:not_found)
@@ -360,7 +362,7 @@ RSpec.describe "Project dashboard pages", :skip_csrf, type: :rails_request do
           params: { list_type: Overviews::DashboardTabs::SORTABLE_LIST_TYPE, prev_id: "" }
       expect(response).to have_http_status(:forbidden)
 
-      put toggle_standard_project_dashboard_page_path(project, standard), params: { value: "false" }
+      post toggle_standard_project_dashboard_page_path(project, standard), params: { value: "0" }
       expect(response).to have_http_status(:forbidden)
       expect(Grids::DashboardPage.active_in(project)).to include(standard)
 

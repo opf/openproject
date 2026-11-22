@@ -43,7 +43,7 @@ Rails.application.routes.draw do
             post :copy
             patch :deactivate
             patch :activate
-            put :toggle_standard
+            post :toggle_standard
           end
           get :settings, on: :collection, path: "settings"
         end
