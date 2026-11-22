@@ -31,6 +31,8 @@ module Overviews
   class DashboardTabs
     Entry = Data.define(:key, :dashboard, :active) do
       def original? = key == "original"
+
+      def standard? = !original? && dashboard.central?
     end
 
     def initialize(project)

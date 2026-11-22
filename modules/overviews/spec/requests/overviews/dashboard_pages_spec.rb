@@ -97,6 +97,34 @@ RSpec.describe "Project dashboard pages", :skip_csrf, type: :rails_request do
     expect(keys).to eq(["original", standard.id.to_s])
   end
 
+  it "links to active dashboards and filters the list by type" do
+    local = Grids::DashboardPage.create!(project:, name: "Delivery", row_count: 1, column_count: 1)
+    inactive = Grids::DashboardPage.create!(project:, name: "Archived report", row_count: 1, column_count: 1, disabled: true)
+
+    get settings_project_dashboard_pages_path(project)
+
+    document = response.parsed_body
+    expect(document.css("segmented-control a").map { |link| link.text.strip }).to eq(["All", "Standard", "Project specific"])
+    expect(document.at_css("[data-dashboard-tab-key='original'] a[href='#{dashboard_project_overview_path(project)}']"))
+      .to be_present
+    expect(document.at_css("[data-dashboard-tab-key='#{local.id}'] a[href='#{project_dashboard_page_path(project, local)}']"))
+      .to be_present
+    standard_row = document.at_css("[data-dashboard-tab-key='#{standard.id}']")
+    expect(standard_row.at_css("a[href='#{project_dashboard_page_path(project, standard)}']")).to be_present
+    expect(standard_row.at_css(".Label").text).to eq("Standard")
+    expect(document.at_css("[data-dashboard-tab-key='#{inactive.id}'] [role='rowheader'] a")).to be_nil
+
+    get settings_project_dashboard_pages_path(project, dashboard_type: "standard")
+    document = response.parsed_body
+    expect(document.css("[data-dashboard-tab-key]").pluck("data-dashboard-tab-key")).to eq([standard.id.to_s])
+    expect(document.at_css("segmented-control .SegmentedControl-item--selected").text.strip).to eq("Standard")
+    expect(document.at_css("form[action='#{project_move_dashboard_tab_path(project, standard.id)}']")).to be_nil
+
+    get settings_project_dashboard_pages_path(project, dashboard_type: "project")
+    expect(response.parsed_body.css("[data-dashboard-tab-key]").pluck("data-dashboard-tab-key"))
+      .to contain_exactly("original", local.id.to_s, inactive.id.to_s)
+  end
+
   it "renders the widget editor in project settings" do
     dashboard = Grids::DashboardPage.create!(project:, name: "Delivery", row_count: 1, column_count: 1)
 

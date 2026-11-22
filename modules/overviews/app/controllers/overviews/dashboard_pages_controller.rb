@@ -100,7 +100,13 @@ module Overviews
     end
 
     def settings
-      @dashboard_tabs = DashboardTabs.new(@project).entries
+      @dashboard_type = dashboard_type
+      entries = DashboardTabs.new(@project).entries
+      @dashboard_tabs = case @dashboard_type
+                        when "standard" then entries.select(&:standard?)
+                        when "project" then entries.reject(&:standard?)
+                        else entries
+                        end
     end
 
     def move
@@ -118,10 +124,15 @@ module Overviews
         ::Grids::Overview.find_by!(project: @project).update!(disabled: false)
       end
 
-      redirect_to settings_project_dashboard_pages_path(@project), status: :see_other, notice: t(:notice_successful_update)
+      redirect_to settings_project_dashboard_pages_path(@project, dashboard_type:),
+                  status: :see_other, notice: t(:notice_successful_update)
     end
 
     private
+
+    def dashboard_type
+      params.permit(:dashboard_type)[:dashboard_type].presence_in(%w[standard project])
+    end
 
     def require_project_dashboard
       raise ActiveRecord::RecordNotFound unless @dashboard.project_id == @project.id

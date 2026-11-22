@@ -22,8 +22,11 @@ en:
       new: "New dashboard"
       projects_empty: "No projects are assigned to this dashboard"
       rename: "Rename dashboard"
-      standard: "Default dashboard"
       title: "Dashboards"
+      types:
+        all: "All"
+        project_specific: "Project specific"
+        standard: "Standard"
     label_dashboard: "Dashboard"
     label_home: "%{workspace_type} home"
     label_overview: "Overview"

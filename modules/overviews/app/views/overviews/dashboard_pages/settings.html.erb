@@ -1,27 +1,30 @@
 <% html_title(t(:label_project_settings), t("overviews.dashboards.title")) %>
-<%= render(Primer::OpenProject::PageHeader.new) do |header| %>
-  <% header.with_title { t("overviews.dashboards.title") } %>
-  <% header.with_breadcrumbs(
-       [{ href: project_overview_path(@project), text: @project.name },
-        t(:label_project_settings), t("overviews.dashboards.title")]
-     ) %>
-<% end %>
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t("overviews.dashboards.title") }
+    header.with_breadcrumbs(
+      [{ href: project_overview_path(@project), text: @project.name },
+       { href: project_settings_general_path(@project), text: t(:label_project_settings) },
+       t("overviews.dashboards.title")]
+    )
+  end
+%>
 
-<table class="generic-table">
-  <thead>
-    <tr>
-      <th scope="col"><%= t(:label_name) %></th>
-      <th scope="col"><%= t(:label_status) %></th>
-      <th scope="col"><%= t(:label_sort) %></th>
-      <th scope="col"><%= t(:label_actions) %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @dashboard_tabs.each_with_index do |entry, index| %>
-      <%= render "dashboard_row",
-                 entry:,
-                 first: index.zero?,
-                 last: index == @dashboard_tabs.length - 1 %>
-    <% end %>
-  </tbody>
-</table>
+<%=
+  render(Primer::OpenProject::SubHeader.new) do |subheader|
+    subheader.with_quick_filter do
+      render(Primer::Alpha::SegmentedControl.new("aria-label": t(:label_filter_plural), full_width: false)) do |control|
+        { nil => :all, "standard" => :standard, "project" => :project_specific }.each do |value, type|
+          control.with_item(
+            tag: :a,
+            href: settings_project_dashboard_pages_path(@project, dashboard_type: value),
+            label: t("overviews.dashboards.types.#{type}"),
+            selected: @dashboard_type == value
+          )
+        end
+      end
+    end
+  end
+%>
+
+<%= render(Overviews::ProjectDashboardsTableComponent.new(rows: @dashboard_tabs, project: @project, dashboard_type: @dashboard_type)) %>
