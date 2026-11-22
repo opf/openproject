@@ -1,13 +1,14 @@
 <%= render(Primer::OpenProject::SubHeader.new(classes: "grid-mx", test_selector: "dashboard-toolbar")) do |toolbar| %>
-  <% if (path = edit_path) %>
-    <% toolbar.with_action_button(icon_only: true, leading_icon: :gear, label: edit_label, tag: :a, href: path) %>
-  <% end %>
-
   <% if menu_actions? %>
     <% toolbar.with_action_menu(
-         icon_only: true, leading_icon: :"kebab-horizontal", label: t(:label_more),
+         icon_only: true, leading_icon: :gear, label: t("overviews.dashboards.configure"),
          anchor_align: :end
        ) do |menu| %>
+      <% if (path = edit_path) %>
+        <% menu.with_item(tag: :a, href: path, label: edit_label) do |item| %>
+          <% item.with_leading_visual_icon(icon: :gear) %>
+        <% end %>
+      <% end %>
       <% if (path = rename_path) %>
         <% menu.with_item(
              tag: :a, href: path, label: t(:button_rename),
@@ -17,7 +18,10 @@
         <% end %>
       <% end %>
       <% if (path = save_as_path) %>
-        <% menu.with_item(tag: :a, href: path, label: t(:button_save_as)) do |item| %>
+        <% menu.with_item(
+             tag: :a, href: path, label: t(:button_save_as),
+             content_arguments: { data: { controller: "async-dialog" } }
+           ) do |item| %>
           <% item.with_leading_visual_icon(icon: :duplicate) %>
         <% end %>
       <% end %>

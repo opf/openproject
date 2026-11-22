@@ -203,10 +203,18 @@ RSpec.describe "Project dashboard pages", :skip_csrf, type: :rails_request do
   end
 
   it "copies a dashboard and its widgets into a permitted target" do
-    get save_as_project_dashboard_page_path(project, standard)
+    path = save_as_project_dashboard_page_path(project, standard)
+    get project_dashboard_page_path(project, standard)
+    toolbar = response.parsed_body.at_css('[data-test-selector="dashboard-toolbar"]')
+    expect(toolbar.at_css("a[href='#{path}'][data-controller='async-dialog']")).to be_present
+
+    get path, headers: { "Accept" => Mime[:turbo_stream].to_s }
     expect(response).to have_http_status(:ok)
-    expect(response.body).to include(destination.name)
-    expect(response.body).not_to include(restricted.name)
+    dialog = Nokogiri::HTML.fragment(response.body).at_css("#save-dashboard-as-dialog")
+    options = dialog.css("select[name='dashboard_page[project_id]'] option")
+    expect(options.pluck("value")).to contain_exactly(project.id.to_s, destination.id.to_s)
+    expect(options.map(&:text)).to contain_exactly(project.name, destination.name)
+    expect(dialog.at_css("option[selected]")["value"]).to eq(project.id.to_s)
 
     post copy_project_dashboard_page_path(project, standard),
          params: { dashboard_page: { project_id: destination.id, name: "Local report" } }
@@ -215,6 +223,24 @@ RSpec.describe "Project dashboard pages", :skip_csrf, type: :rails_request do
     expect(response).to redirect_to(project_dashboard_page_path(destination, copy))
     expect(copy.widgets.sole.options).to eq(standard.widgets.sole.options)
     expect(copy.widgets.sole.id).not_to eq(standard.widgets.sole.id)
+  end
+
+  it "keeps the original dashboard's Save as dialog open when the name is invalid" do
+    original = create(:overview, project:)
+    headers = { "Accept" => Mime[:turbo_stream].to_s }
+    copy_path = project_copy_original_dashboard_path(project)
+
+    get(project_save_as_original_dashboard_path(project), headers:)
+    expect(response).to have_http_status(:ok)
+    dialog = Nokogiri::HTML.fragment(response.body).at_css("#save-dashboard-as-dialog")
+    expect(dialog.at_css("form")["action"]).to eq(copy_path)
+    expect(dialog.at_css("input[name='dashboard_page[name]']")["value"]).to eq(original.display_name)
+
+    post(copy_path, params: { dashboard_page: { project_id: destination.id, name: "" } }, headers:)
+    expect(response).to have_http_status(:unprocessable_entity)
+    dialog = Nokogiri::HTML.fragment(response.body).at_css("#save-dashboard-as-dialog")
+    expect(dialog.at_css("option[selected]")["value"]).to eq(destination.id.to_s)
+    expect(dialog.text).to include("can't be blank")
   end
 
   context "without dashboard management rights" do

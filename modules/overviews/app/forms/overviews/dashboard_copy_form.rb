@@ -35,7 +35,11 @@ module Overviews
     end
 
     form do |f|
-      f.select_list(name: :project_id, label: I18n.t(:label_project), values: @projects.pluck(:name, :id), required: true)
+      f.select_list(name: :project_id, label: I18n.t(:label_project), required: true) do |list|
+        @projects.each do |project|
+          list.option(label: project.name, value: project.id, selected: project.id == model.project_id)
+        end
+      end
     end
   end
 end

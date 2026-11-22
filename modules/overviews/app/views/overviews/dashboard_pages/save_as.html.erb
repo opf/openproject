@@ -4,7 +4,6 @@
   <% header.with_breadcrumbs([{ href: project_overview_path(@project), text: @project.name }, t(:button_save_as)]) %>
 <% end %>
 
-<% action = params[:id] ? copy_project_dashboard_page_path(@project, @dashboard) : project_copy_original_dashboard_path(@project) %>
 <%= primer_form_with(model: @copy, scope: :dashboard_page, url: action, method: :post) do |form| %>
   <%= error_messages_for(@copy) %>
   <%= render(Overviews::DashboardNameForm.new(form)) %>

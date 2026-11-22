@@ -71,9 +71,9 @@ module Overviews
     end
 
     def save_as
-      @target_projects = target_projects.order(:name, :id)
       @copy = ::Grids::DashboardPage.new(name: @dashboard.name.presence || t("overviews.label_dashboard"),
                                          project: @project)
+      render_save_as_dialog
     end
 
     def copy
@@ -85,8 +85,7 @@ module Overviews
       if @copy.persisted?
         redirect_to project_dashboard_page_path(destination, @copy), status: :see_other, notice: t(:notice_successful_create)
       else
-        @target_projects = target_projects.order(:name, :id)
-        render :save_as, status: :unprocessable_entity
+        render_save_as_dialog(status: :unprocessable_entity)
       end
     end
 
@@ -151,6 +150,19 @@ module Overviews
                    else
                      ::Grids::Overview.find_by!(project: @project, disabled: false)
                    end
+    end
+
+    def render_save_as_dialog(status: :ok)
+      @target_projects = target_projects.order(:name, :id)
+      action = if @dashboard.is_a?(::Grids::Overview)
+                 project_copy_original_dashboard_path(@project)
+               else
+                 copy_project_dashboard_page_path(@project, @dashboard)
+               end
+      dialog = SaveDashboardAsDialogComponent.new(dashboard: @copy, url: action, projects: @target_projects)
+      respond_with_dialog(dialog, status:) do |format|
+        format.html { render :save_as, locals: { action: }, status: }
+      end
     end
 
     def target_projects
