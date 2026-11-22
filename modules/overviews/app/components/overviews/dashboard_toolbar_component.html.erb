@@ -1,0 +1,55 @@
+<%= render(Primer::OpenProject::SubHeader.new(classes: "grid-mx", test_selector: "dashboard-toolbar")) do |toolbar| %>
+  <% if (path = edit_path) %>
+    <% toolbar.with_action_button(icon_only: true, leading_icon: :gear, label: edit_label, tag: :a, href: path) %>
+  <% end %>
+
+  <% if menu_actions? %>
+    <% toolbar.with_action_menu(
+         icon_only: true, leading_icon: :"kebab-horizontal", label: t(:label_more),
+         anchor_align: :end
+       ) do |menu| %>
+      <% if (path = rename_path) %>
+        <% menu.with_item(
+             tag: :a, href: path, label: t(:button_rename),
+             content_arguments: { data: { controller: "async-dialog" } }
+           ) do |item| %>
+          <% item.with_leading_visual_icon(icon: :pencil) %>
+        <% end %>
+      <% end %>
+      <% if (path = save_as_path) %>
+        <% menu.with_item(tag: :a, href: path, label: t(:button_save_as)) do |item| %>
+          <% item.with_leading_visual_icon(icon: :duplicate) %>
+        <% end %>
+      <% end %>
+      <% if (path = deactivate_path) %>
+        <% menu.with_item(
+             tag: :a, href: path, label: t("overviews.dashboards.deactivate_in_project"),
+             content_arguments: { data: { turbo_method: :patch, turbo_confirm: t(:text_are_you_sure) } }
+           ) do |item| %>
+          <% item.with_leading_visual_icon(icon: :eye) %>
+        <% end %>
+      <% end %>
+      <% if (path = deletion_path) %>
+        <% menu.with_item(
+             tag: :a, href: path, label: t(:button_delete), scheme: :danger,
+             content_arguments: { data: { controller: "async-dialog" } }
+           ) do |item| %>
+          <% item.with_leading_visual_icon(icon: :trash) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <% if @add_widgets %>
+    <% toolbar.with_action_button(
+         scheme: :primary,
+         leading_icon: :plus,
+         label: t(:label_widget_new),
+         data: {
+           controller: "overview--add-widgets",
+           action: "click->overview--add-widgets#addWidget"
+         },
+         test_selector: "overview--add-widgets-button"
+       ) { Grids::Widget.model_name.human } %>
+  <% end %>
+<% end %>

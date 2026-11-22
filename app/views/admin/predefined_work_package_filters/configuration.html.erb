@@ -27,8 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= render "admin/predefined_work_package_filters/header", active_tab: :configuration %>
-<% errors = @filter.errors.full_messages + @query.errors.full_messages %>
-<%= render "admin/predefined_work_package_filters/errors", errors: %>
+<%= render "admin/predefined_work_package_filters/errors", errors: @filter.errors.full_messages + @query.errors.full_messages %>
 
 <%=
   primer_form_with(

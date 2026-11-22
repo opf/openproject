@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -76,7 +78,7 @@ module Grids
       return true if user.allowed_globally?(:manage_standard_dashboards)
       return false unless permissions == :view_project
 
-      dashboard_page_assignments.where(active: true, project: Project.visible(user)).exists?
+      dashboard_page_assignments.exists?(active: true, project: Project.visible(user))
     end
   end
 end

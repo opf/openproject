@@ -131,7 +131,7 @@ export class GridComponent implements OnDestroy, OnInit {
   }
 
   public widgetTitle(area:GridWidgetArea):string {
-    return this.widgetsService.registered.find(({ identifier }) => identifier === area.widget.identifier)?.title || '';
+    return this.widgetsService.registered.find(({ identifier }) => identifier === area.widget.identifier)?.title ?? '';
   }
 
   public widgetComponent(area:GridWidgetArea) {

@@ -67,12 +67,6 @@ module Overviews
       @original_dashboard = ::Grids::Overview.find_by(project:)
     end
 
-    def dashboard_tab_menu(dashboard = nil)
-      menu = DashboardTabMenuComponent.new(project:, current_user:, dashboard:,
-                                           original_dashboard: dashboard ? nil : original_dashboard)
-      menu if menu.render?
-    end
-
     def favorited?
       project.favorited_by?(current_user)
     end

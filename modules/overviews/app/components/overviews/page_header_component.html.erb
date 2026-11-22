@@ -1,5 +1,5 @@
 <%=
-  render(Overviews::DashboardPageHeaderComponent.new) do |header|
+  render(Primer::OpenProject::PageHeader.new) do |header|
     header.with_title(variant: :medium) { page_title }
     header.with_breadcrumbs(breadcrumb_items)
 
@@ -125,8 +125,8 @@
       end
     end
 
-    header.with_dashboard_tab_nav(label: nil, test_selector: "overview-tabs") do |tab_nav|
-      tab_nav.with_dashboard_tab(
+    header.with_tab_nav(label: nil, test_selector: "overview-tabs") do |tab_nav|
+      tab_nav.with_tab(
         test_selector: "project-overview-tab",
         selected: params[:predefined_filter_id].blank? && current_page?(project_overview_path),
         href: helpers.project_overview_path
@@ -137,7 +137,7 @@
 
       if current_user.allowed_in_project?(:view_work_packages, project)
         PredefinedWorkPackageFilter.active_in(project).at(:project_overview).ordered.each do |filter|
-          tab_nav.with_dashboard_tab(
+          tab_nav.with_tab(
             selected: params[:predefined_filter_id] == filter.id.to_s,
             href: project_overview_path(project, predefined_filter_id: filter.id)
           ) do |tab|
@@ -148,11 +148,10 @@
 
       if current_user.allowed_in_project?(:view_project, project) &&
          !original_dashboard&.disabled?
-        tab_nav.with_dashboard_tab(
+        tab_nav.with_tab(
           test_selector: "project-dashboard-tab",
           selected: current_page?(dashboard_project_overview_path),
-          href: helpers.dashboard_project_overview_path,
-          menu: dashboard_tab_menu
+          href: helpers.dashboard_project_overview_path
         ) do |t|
           t.with_icon(icon: :"op-view-list")
           t.with_text { original_dashboard&.display_name || t("overviews.label_dashboard") }
@@ -161,11 +160,11 @@
 
       ::Grids::DashboardPage.active_in(project).order(:name, :id).each do |dashboard|
         path = project_dashboard_page_path(project, dashboard)
-        tab_nav.with_dashboard_tab(selected: current_page?(path), href: path, menu: dashboard_tab_menu(dashboard)) { dashboard.name }
+        tab_nav.with_tab(selected: current_page?(path), href: path) { dashboard.name }
       end
 
       if current_user.allowed_in_project?(:manage_dashboards, project)
-        tab_nav.with_dashboard_tab(
+        tab_nav.with_tab(
           href: new_project_dashboard_page_path(project),
           "aria-label": t("overviews.dashboards.new"),
           data: { controller: "async-dialog" }

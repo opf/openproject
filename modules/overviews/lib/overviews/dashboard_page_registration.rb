@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -58,9 +60,10 @@ module Overviews
     end
 
     validations :update, ->(*_args) {
-      if model.central? && model.widgets.reject(&:marked_for_destruction?).any? { |widget| !PORTABLE_WIDGETS.include?(widget.identifier) }
-        errors.add(:widgets, :inclusion)
-      end
+      next unless model.central?
+
+      widgets = model.widgets.reject(&:marked_for_destruction?)
+      errors.add(:widgets, :inclusion) if widgets.any? { |widget| PORTABLE_WIDGETS.exclude?(widget.identifier) }
     }
 
     class << self

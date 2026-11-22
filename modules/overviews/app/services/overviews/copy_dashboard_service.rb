@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -34,9 +36,16 @@ module Overviews
     end
 
     def call(name:)
-      dashboard = ::Grids::DashboardPage.new(name:, project: @project, row_count: @source.row_count,
-                                              column_count: @source.column_count, options: @source.options.deep_dup)
+      dashboard = ::Grids::DashboardPage.new(
+        name:, project: @project,
+        row_count: @source.row_count, column_count: @source.column_count, options: @source.options.deep_dup
+      )
+      persist_copy(dashboard)
+    end
 
+    private
+
+    def persist_copy(dashboard)
       dashboard.transaction do
         dashboard.save!
         @source.widgets.each { |widget| copy_widget(widget, dashboard) }
@@ -48,27 +57,25 @@ module Overviews
       dashboard
     end
 
-    private
-
     def copy_widget(widget, dashboard)
       copy = widget.dup
       copy.grid = dashboard
       copy.options = widget.options.deep_dup
 
       if (query_id = copy.options["queryId"])
-        query = ::Query.find_by(id: query_id)
-        unless query && QueryPolicy.new(@user).allowed?(query, :show) &&
-               Grids::Configuration.allowed_widget?(dashboard.class, widget.identifier, @user, @project)
-          raise ActiveRecord::RecordInvalid, copy
-        end
-
-        copy.options["queryId"] = copy_query(query).id
+        copy.options["queryId"] = copy_widget_query(copy, query_id).id
       end
 
       copy.save!
     end
 
-    def copy_query(query)
+    def copy_widget_query(widget, query_id)
+      query = ::Query.find_by(id: query_id)
+      unless query && QueryPolicy.new(@user).allowed?(query, :show) &&
+             Grids::Configuration.allowed_widget?(widget.grid.class, widget.identifier, @user, @project)
+        raise ActiveRecord::RecordInvalid, widget
+      end
+
       copy = query.dup
       copy.assign_attributes(project: @project, user: @user, public: true)
       copy.save!

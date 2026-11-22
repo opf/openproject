@@ -948,8 +948,8 @@ en:
       search_query_label: "Search saved views"
       settings:
         columns: "Columns"
-        configure_view: "Configure view"
         configure_filter: "Configure filter"
+        configure_view: "Configure view"
         delete: "Delete"
         display_hierarchy: "Display hierarchy"
         display_sums: "Display sums"

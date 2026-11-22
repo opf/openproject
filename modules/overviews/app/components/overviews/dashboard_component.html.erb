@@ -27,26 +27,15 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <div id="dashboard-widgets" class="op-grid-page">
-  <% if allowed_to_manage? %>
-    <%=
-      render(Primer::OpenProject::SubHeader.new(classes: "grid-mx")) do |subheader|
-        if allowed_to_manage?
-          subheader.with_action_button(
-            scheme: :primary,
-            leading_icon: :plus,
-            label: t(:label_widget_new),
-            data: {
-              controller: "overview--add-widgets",
-              action: "click->overview--add-widgets#addWidget"
-            },
-            test_selector: "overview--add-widgets-button"
-          ) do
-            Grids::Widget.model_name.human
-          end
-        end
-      end
-    %>
-  <% end %>
+  <%= render(
+        Overviews::DashboardToolbarComponent.new(
+          project:,
+          dashboard:,
+          current_user:,
+          show_actions: project.present? && !@configuration,
+          add_widgets: allowed_to_manage?
+        )
+      ) %>
 
   <%= angular_component_tag(
         "opce-dashboard",

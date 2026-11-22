@@ -28,48 +28,38 @@
 #++
 
 module Overviews
-  class DashboardTabMenuComponent < ApplicationComponent
-    def initialize(project:, current_user:, dashboard: nil, original_dashboard: nil)
+  class DashboardToolbarComponent < ApplicationComponent
+    def initialize(project:, dashboard:, current_user:, show_actions:, add_widgets:)
       super()
       @project = project
       @dashboard = dashboard
-      @original_dashboard = original_dashboard
-      @dashboard_exists = dashboard.present? || original_dashboard.present?
-      @can_manage_project = current_user.allowed_in_project?(:manage_dashboards, project)
-      @can_manage_standard = dashboard&.central? && current_user.allowed_globally?(:manage_standard_dashboards)
-      @can_copy = current_user.allowed_in_any_project?(:manage_dashboards)
+      @add_widgets = add_widgets
+      @can_manage_project = show_actions && current_user.allowed_in_project?(:manage_dashboards, project)
+      @can_manage_standard = show_actions && dashboard&.central? && current_user.allowed_globally?(:manage_standard_dashboards)
+      @can_copy = show_actions && current_user.allowed_in_any_project?(:manage_dashboards)
+      @dashboard_exists = dashboard.present? || (show_actions && ::Grids::Overview.exists?(project:, disabled: false))
     end
 
     def render?
-      @can_manage_project || @can_manage_standard || (@can_copy && @dashboard_exists)
+      @add_widgets || menu_actions?
     end
 
     private
 
-    def name
-      @dashboard&.name || @original_dashboard&.display_name || t("overviews.label_dashboard")
+    def menu_actions?
+      @dashboard_exists && (@can_manage_project || @can_manage_standard || @can_copy)
     end
 
     def edit_path
       if @can_manage_standard
         edit_admin_dashboard_page_path(@dashboard)
-      elsif @can_manage_project && !@dashboard&.central?
-        if @dashboard
-          project_edit_settings_dashboard_page_path(@project, @dashboard)
-        else
-          dashboard_project_overview_path(@project, anchor: "dashboard-widgets")
-        end
+      elsif local_dashboard_manager?
+        project_edit_settings_dashboard_page_path(@project, @dashboard)
       end
     end
 
     def edit_label
-      if @can_manage_standard
-        t("overviews.dashboards.edit_standard")
-      elsif @dashboard
-        t("overviews.dashboards.edit_project")
-      else
-        t("overviews.dashboards.configure")
-      end
+      t(@can_manage_standard ? "overviews.dashboards.edit_standard" : "overviews.dashboards.edit_project")
     end
 
     def save_as_path
@@ -93,7 +83,7 @@ module Overviews
         rename_dialog_admin_dashboard_page_path(@dashboard)
       elsif local_dashboard_manager?
         rename_dialog_project_dashboard_page_path(@project, @dashboard)
-      elsif @can_manage_project && @original_dashboard
+      elsif @can_manage_project && @dashboard_exists && @dashboard.nil?
         project_rename_original_dashboard_dialog_path(@project)
       end
     end
