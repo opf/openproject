@@ -25,81 +25,64 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Directive, Injector, Input, inject } from '@angular/core';
+import { Directive, Injector, inject, input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
+import { OpActionMenuItems } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu-items';
+import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { Board } from 'core-app/features/boards/board/board';
 import { BoardConfigurationModalComponent } from 'core-app/features/boards/board/configuration-modal/board-configuration.modal';
-import { BoardService } from 'core-app/features/boards/board/board.service';
-import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { selectableTitleIdentifier, triggerEditingEvent } from 'core-app/shared/components/editable-toolbar-title/editable-toolbar-title.component';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[boardsToolbarMenu]',
-  standalone: false,
 })
-export class BoardsToolbarMenuDirective extends OpContextMenuTrigger {
+export class BoardsToolbarMenuDirective extends OpActionMenuItems {
   readonly opModalService = inject(OpModalService);
-  readonly boardService = inject(BoardService);
-  readonly Notifications = inject(ToastService);
   readonly injector = inject(Injector);
   readonly I18n = inject(I18nService);
   readonly http = inject(HttpClient);
 
   // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('boardsToolbarMenu-resource') public board:Board;
+  readonly board = input.required<Board>({ alias: 'boardsToolbarMenu-resource' });
 
-  public get locals() {
-    return {
-      contextMenuId: 'boardsToolbarMenu',
-      items: this.items,
-    };
-  }
-
-  protected open(evt:Event) {
-    this.buildItems();
-    this.opContextMenu.show(this, evt);
-  }
-
-  private buildItems() {
-    this.items = [
+  protected buildItems():OpContextMenuItem[] {
+    return [
       {
-        // Configuration modal
         linkText: this.I18n.t('js.toolbar.settings.configure_view'),
-        icon: 'icon-settings',
+        octicon: 'gear',
         onClick: () => {
-          this.opContextMenu.close();
-          this.opModalService.show(BoardConfigurationModalComponent, this.injector, { board: this.board });
+          this.opModalService.show(BoardConfigurationModalComponent, this.injector, { board: this.board() });
 
           return true;
         },
       },
       {
-        // Rename query shortcut
         linkText: this.I18n.t('js.toolbar.settings.page_settings'),
-        icon: 'icon-edit',
+        octicon: 'pencil',
         onClick: () => {
-          if (this.board.grid.updateImmediately) {
+          if (this.board().grid.updateImmediately) {
             document.querySelector(selectableTitleIdentifier)?.dispatchEvent(new CustomEvent(triggerEditingEvent, { bubbles: true }));
           }
 
           return true;
         },
       },
+      { divider: true },
       {
-        // Delete query
         linkText: this.I18n.t('js.toolbar.settings.delete'),
-        icon: 'icon-delete',
+        octicon: 'trash',
+        scheme: 'danger',
         onClick: () => {
-          if (this.board.id
-            && this.board.grid.delete
+          const board = this.board();
+          if (board.id
+            && board.grid.delete
             && window.confirm(this.I18n.t('js.text_query_destroy_confirmation'))) {
             void this.http
               .delete(
-                `/projects/${this.board.projectId}/boards/${this.board.id}`,
+                `/projects/${board.projectId}/boards/${board.id}`,
                 { responseType: 'json' },
               )
               .subscribe(

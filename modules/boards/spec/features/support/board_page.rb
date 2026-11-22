@@ -351,8 +351,8 @@ module Pages
     end
 
     def click_dropdown_entry(name)
-      click_on accessible_name: "More", exact: true
-      page.find(".menu-item", text: name).click
+      click_on accessible_name: I18n.t("js.button_more"), exact: true
+      within(:menu, I18n.t("js.button_more")) { find(:menuitem, name).click }
     end
 
     def rename_list(from, to)

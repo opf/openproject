@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element.js';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -51,7 +52,8 @@ import { BoardsToolbarMenuDirective } from './toolbar-menu/boards-toolbar-menu.d
 import { BoardService } from './board.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
-import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { OpActionMenuComponent } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.component';
+import { OpActionMenuTriggerDirective } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu-trigger.directive';
 
 describe('board template contracts', () => {
   const locals:{ board?:Board } = {};
@@ -59,8 +61,8 @@ describe('board template contracts', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, FormsModule, OpenprojectHalModule, OpTooltipDirective],
-      declarations: [VersionBoardHeaderComponent, BoardHighlightingTabComponent, BoardsMenuButtonComponent, BoardsToolbarMenuDirective, OpIconComponent],
+      imports: [CommonModule, FormsModule, OpenprojectHalModule, OpTooltipDirective, OpActionMenuComponent, OpActionMenuTriggerDirective, BoardsToolbarMenuDirective],
+      declarations: [VersionBoardHeaderComponent, BoardHighlightingTabComponent, BoardsMenuButtonComponent, OpIconComponent],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
@@ -70,7 +72,6 @@ describe('board template contracts', () => {
         { provide: OpModalService, useValue: {} },
         { provide: BoardService, useValue: {} },
         { provide: ToastService, useValue: {} },
-        { provide: OPContextMenuService, useValue: {} },
       ],
     });
     versionShowPath.mockClear();
@@ -152,6 +153,6 @@ describe('board template contracts', () => {
     boards.next(resource);
     fixture.detectChanges();
     const menu = fixture.debugElement.query(By.directive(BoardsToolbarMenuDirective));
-    expect(menu.injector.get(BoardsToolbarMenuDirective).board).toBe(resource);
+    expect(menu.injector.get(BoardsToolbarMenuDirective).board()).toBe(resource);
   });
 });

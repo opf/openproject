@@ -40,6 +40,8 @@ import { AddCardDropdownMenuDirective } from 'core-app/features/boards/board/add
 import { BoardFilterComponent } from 'core-app/features/boards/board/board-filter/board-filter.component';
 import { BoardListMenuComponent } from 'core-app/features/boards/board/board-list/board-list-menu.component';
 import { VersionBoardHeaderComponent } from 'core-app/features/boards/board/board-actions/version/version-board-header.component';
+import { OpActionMenuComponent } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.component';
+import { OpActionMenuTriggerDirective } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu-trigger.directive';
 import { DynamicModule } from 'ng-dynamic-component';
 import { BoardPartitionedPageComponent } from 'core-app/features/boards/board/board-partitioned-page/board-partitioned-page.component';
 import { BoardListContainerComponent } from 'core-app/features/boards/board/board-partitioned-page/board-list-container.component';
@@ -60,6 +62,9 @@ import { OpenprojectEnterpriseModule } from 'core-app/features/enterprise/openpr
     OpenprojectAutocompleterModule,
     OpenprojectEnterpriseModule,
     OpTooltipDirective,
+    OpActionMenuComponent,
+    OpActionMenuTriggerDirective,
+    BoardsToolbarMenuDirective,
 
     // Dynamic Module for actions
     DynamicModule,
@@ -73,7 +78,6 @@ import { OpenprojectEnterpriseModule } from 'core-app/features/enterprise/openpr
     BoardInlineAddAutocompleterComponent,
     BoardHighlightingTabComponent,
     BoardConfigurationModalComponent,
-    BoardsToolbarMenuDirective,
     BoardsMenuButtonComponent,
     AddListModalComponent,
     AddCardDropdownMenuDirective,
