@@ -29,9 +29,6 @@ import { ApplicationRef, DoBootstrap, inject, Injector, NgModule, provideAppInit
 import { A11yModule } from '@angular/cdk/a11y';
 import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
-import {
-  OpContextMenuTrigger,
-} from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { States } from 'core-app/core/states/states.service';
 import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
 import { OpSharedModule } from 'core-app/shared/shared.module';
@@ -250,8 +247,6 @@ export function initializeServices(injector:Injector) {
 
 @NgModule({
   declarations: [
-    OpContextMenuTrigger,
-
     // Modals
     ConfirmDialogModalComponent,
     DynamicContentModalComponent,
