@@ -65,6 +65,7 @@ class Journal < ApplicationRecord
   register_journal_formatter OpenProject::JournalFormatter::ProjectPhaseActive
   register_journal_formatter OpenProject::JournalFormatter::ProjectPhaseDates
   register_journal_formatter OpenProject::JournalFormatter::ProjectPhaseDefinition
+  register_journal_formatter OpenProject::JournalFormatter::ProjectPhaseStatus
   register_journal_formatter OpenProject::JournalFormatter::ProjectStatusCode
   register_journal_formatter OpenProject::JournalFormatter::PublicNamedAssociation
   register_journal_formatter OpenProject::JournalFormatter::ScheduleManually
@@ -106,6 +107,11 @@ class Journal < ApplicationRecord
     meeting_outcome_recorded
   ].freeze
 
+  SQUASHTM_CAUSE_TYPES = %w[
+    squashtm_requirement_linked
+    squashtm_requirement_unlinked
+  ].freeze
+
   VALID_CAUSE_TYPES = (%w[
     comment_retracted
     default_attribute_written
@@ -125,7 +131,7 @@ class Journal < ApplicationRecord
     work_package_related_changed_times
     work_package_duplicate_closed
     working_days_changed
-  ] + MEETING_CAUSE_TYPES).freeze
+  ] + MEETING_CAUSE_TYPES + SQUASHTM_CAUSE_TYPES).freeze
 
   # Make sure each journaled model instance only has unique version ids
   validates :version, uniqueness: { scope: %i[journable_id journable_type] }

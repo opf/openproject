@@ -25,10 +25,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import type { Mock } from 'vitest';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { screen } from '@testing-library/dom';
+import { By } from '@angular/platform-browser';
+import { fireEvent, screen } from '@testing-library/dom';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageRelationsHierarchyService } from 'core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
@@ -43,10 +46,12 @@ const translations:Record<string, string> = {
 
 describe('WorkPackageBreadcrumbParentComponent', () => {
   let fixture:ComponentFixture<WorkPackageBreadcrumbParentComponent>;
+  let changeParent:Mock<(workPackage:WorkPackageResource, parentId:string|null) => Promise<void>>;
 
   const parent = { id: '2', name: 'Parent package', displayId: '2', project: { identifier: 'demo' } };
 
   beforeEach(async () => {
+    changeParent = vi.fn(() => Promise.resolve());
     await TestBed
       .configureTestingModule({
         imports: [OpTooltipDirective],
@@ -55,7 +60,7 @@ describe('WorkPackageBreadcrumbParentComponent', () => {
         providers: [
           { provide: I18nService, useValue: { t: (key:string) => translations[key] ?? key } },
           { provide: PathHelperService, useValue: { genericWorkPackagePath: () => '/wp/2' } },
-          { provide: WorkPackageRelationsHierarchyService, useValue: {} },
+          { provide: WorkPackageRelationsHierarchyService, useValue: { changeParent } },
           { provide: WorkPackageNotificationService, useValue: {} },
         ],
       })
@@ -89,5 +94,32 @@ describe('WorkPackageBreadcrumbParentComponent', () => {
     expect(screen.getByRole('button', { name: 'Set parent' })).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Remove parent' })).not.toBeInTheDocument();
     expect(fixture.nativeElement.querySelectorAll('tool-tip')).toHaveLength(0);
+  });
+
+  it('removes the parent', () => {
+    fireEvent.click(screen.getByRole('button', { name: 'Remove parent' }));
+
+    expect(changeParent).toHaveBeenCalledExactlyOnceWith(fixture.componentInstance.workPackage, null);
+  });
+
+  function chooseInAutocomplete(choice:unknown) {
+    fireEvent.click(screen.getByRole('button', { name: 'Change parent' }));
+    fixture.detectChanges();
+    fixture.debugElement.query(By.css('wp-relations-autocomplete')).triggerEventHandler('change', choice);
+  }
+
+  it('changes the parent to the chosen work package', () => {
+    const chosen = Object.create(WorkPackageResource.prototype) as WorkPackageResource;
+    chosen.$source = { id: 3, _links: {}, _embedded: {} };
+
+    chooseInAutocomplete(chosen);
+
+    expect(changeParent).toHaveBeenCalledExactlyOnceWith(fixture.componentInstance.workPackage, '3');
+  });
+
+  it('ignores a change event that carries no work package', () => {
+    chooseInAutocomplete(new Event('change'));
+
+    expect(changeParent).not.toHaveBeenCalled();
   });
 });

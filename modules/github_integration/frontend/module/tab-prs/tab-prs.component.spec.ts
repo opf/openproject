@@ -71,6 +71,7 @@ describe('TabPrsComponent', () => {
     {
       id: 1,
       title: 'title 1',
+      state: 'open',
       githubUpdatedAt: 'githubUser 1 githubUpdatedAt',
       htmlUrl: 'githubUser 1 htmlUrl',
       repository: 'githubUser 1 repository',
@@ -111,6 +112,7 @@ describe('TabPrsComponent', () => {
     {
       id: 2,
       title: 'title 2',
+      state: 'open',
       githubUpdatedAt: 'githubUser 2 githubUpdatedAt',
       htmlUrl: 'githubUser 2 htmlUrl',
       repository: 'githubUser 2 repository',

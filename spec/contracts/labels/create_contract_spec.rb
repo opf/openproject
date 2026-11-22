@@ -59,6 +59,21 @@ RSpec.describe Labels::CreateContract do
     it_behaves_like "contract user is unauthorized"
   end
 
+  context "when a work package is shared with the user with edit rights" do
+    let(:current_user) do
+      create(:user).tap do |user|
+        create(:work_package_member,
+               principal: user,
+               entity: create(:work_package, project:),
+               roles: [create(:edit_work_package_role)])
+      end
+    end
+
+    it "is valid" do
+      expect_contract_valid
+    end
+  end
+
   include_examples "contract reuses the model errors" do
     let(:current_user) { create(:admin) }
   end

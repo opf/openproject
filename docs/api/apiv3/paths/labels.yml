@@ -33,7 +33,7 @@ get:
   tags:
     - Labels
   description: Returns a paginated collection of labels, sorted by name.
-  operationId: List_all_Labels
+  operationId: list_all_labels
   summary: List all Labels
   parameters:
     - name: filters
@@ -89,7 +89,7 @@ post:
       description: |-
         Returned if the client does not have sufficient permissions.
 
-        **Required permission:** edit work packages (on any project)
+        **Required permission:** edit work packages (on any project or work package)
     '406':
       $ref: "../components/responses/missing_content_type.yml"
     '415':

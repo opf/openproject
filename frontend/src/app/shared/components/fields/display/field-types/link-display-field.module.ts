@@ -48,7 +48,7 @@ export class LinkDisplayField extends DisplayField {
   }
 
   private appendEditLink(element:HTMLElement) {
-    if (this.resource.updateImmediately) {
+    if (this.resource.updateImmediately && this.context.options.writable !== false) {
       const editLink = document.createElement('a');
       editLink.classList.add('icon', 'icon-edit', displayTriggerLink);
       editLink.setAttribute('href', '#');

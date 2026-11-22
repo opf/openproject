@@ -59,16 +59,7 @@ export class OpContextMenuTrigger extends OpContextMenuHandler implements AfterV
     this.element.addEventListener('click', (evt) => {
       evt.preventDefault();
 
-      if (this.isAriaDisabled) {
-        return;
-      }
-
-      // When clicking the same trigger twice, close the element instead.
-      if (this.opContextMenu.isActive(this)) {
-        this.opContextMenu.close();
-      } else {
-        this.open(evt);
-      }
+      if (!this.isAriaDisabled) this.toggle(evt);
     });
 
     // Open with keyboard combination as well
@@ -77,6 +68,14 @@ export class OpContextMenuTrigger extends OpContextMenuHandler implements AfterV
         this.open(evt);
       }
     });
+  }
+
+  protected toggle(evt:MouseEvent):void {
+    if (this.opContextMenu.isActive(this)) {
+      this.opContextMenu.close();
+    } else {
+      this.open(evt);
+    }
   }
 
   public computePosition(floating:HTMLElement, _openerEvent:Event):Promise<ComputePositionReturn> {

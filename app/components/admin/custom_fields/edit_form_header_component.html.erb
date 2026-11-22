@@ -32,6 +32,6 @@ See COPYRIGHT and LICENSE files for more details.
 
     header.with_breadcrumbs(breadcrumbs_items, selected_item_font_weight: :normal)
 
-    helpers.render_tab_header_nav(header, tabs, test_selector: :custom_field_detail_header)
+    helpers.render_tab_header_nav(header, tabs, selected: @selected, test_selector: :custom_field_detail_header)
   end
 %>

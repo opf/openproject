@@ -15,7 +15,7 @@
         opTooltip
         [label]="crumb.text"
         tooltipWhenTruncated=".spot-breadcrumbs--crumb-action-item-text"
-        (click)="crumb.navigate()"
+        (click)="crumb.navigate?.()"
       >
         @if (crumb.icon) {
           <ng-container [ngTemplateOutlet]="crumbIcon" [ngTemplateOutletContext]="{icon:crumb.icon}" />

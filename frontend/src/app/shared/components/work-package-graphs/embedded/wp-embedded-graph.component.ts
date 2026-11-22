@@ -27,7 +27,7 @@
 
 import { ChangeDetectionStrategy, Component, Input, SimpleChanges, OnChanges, inject } from '@angular/core';
 import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
-import { ChartOptions, Plugin } from 'chart.js';
+import { ChartOptions, ChartType, Plugin } from 'chart.js';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
 import { generateId } from 'core-app/shared/helpers/dom-helpers';
@@ -35,7 +35,7 @@ import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 import PrimerColorsPlugin from './../plugin.primer-colors';
-import { chartTypeLocaleKey } from './../chart-type';
+import { ChartTypeIdentifier, chartTypeLocaleKey, normalizeChartType } from './../chart-type';
 import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
 
 export interface WorkPackageEmbeddedGraphDataset {
@@ -75,7 +75,7 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
 
   @Input() public chartOptions:ChartOptions;
 
-  @Input() chartType = 'bar';
+  @Input({ transform: normalizeChartType }) chartType:ChartTypeIdentifier = 'bar';
 
   public configuration:WorkPackageTableConfiguration;
 
@@ -229,7 +229,7 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
     return this.chartData.length > 0 && this.chartData.some((set) => set.data.length > 0);
   }
 
-  public get mappedChartType():string {
+  public get mappedChartType():ChartType {
     return this.chartType === 'horizontalBar' ? 'bar' : this.chartType;
   }
 

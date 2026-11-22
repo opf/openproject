@@ -49,16 +49,10 @@ class CustomFieldSection < ApplicationRecord
     overview == OVERVIEW__MAIN_AREA_KEY
   end
 
-  # Append key to the end of the ordered list (or at a specific 1-indexed position).
+  # Append key to the end of the ordered list.
   # Idempotent: removes any existing occurrence first.
-  def add_to_order(key, position: nil)
-    keys = attribute_order.reject { |k| k == key }
-    if position && position > 0
-      keys.insert(position - 1, key)
-    else
-      keys << key
-    end
-    update_column(:attribute_order, keys)
+  def add_to_order(key)
+    update_column(:attribute_order, attribute_order.reject { |k| k == key } << key)
   end
 
   # Insert key directly after prev_key in the ordered list, or at the head

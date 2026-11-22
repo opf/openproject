@@ -21,7 +21,7 @@
 
     if @show_status
       flex.with_column(ml: 2, classes: "op-wp-info-line--status") do
-        render WorkPackages::StatusBadgeComponent.new(status: @work_package.status, scheme: @status_scheme)
+        render WorkPackages::StatusLabelComponent.new(status: @work_package.status, scheme: @status_scheme)
       end
     end
 

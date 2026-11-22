@@ -1,11 +1,31 @@
 # /api/v3/documents/{id}/collaboration_token
 ---
 post:
+  summary: Create collaboration token
+  operationId: create_document_collaboration_token
+  tags:
+    - Documents
+  description: |-
+    Creates a short-lived token for the real-time collaboration (Hocuspocus) server for the document.
+
+    The endpoint is only available when the feature flag `documents_collaboration_token_api` is active.
+
+    The token is issued for the requesting user. Users who may only view documents receive a read-only token.
+    Requests authenticated with a token issued to the collaboration server are rejected.
+
+    To revoke the previous token while creating a new one, send it as `token` in the request body. The request
+    is authorized by the client's own credentials, exactly like creating a token without one. The previous token
+    only identifies which token to revoke, so it may be expired. This allows clients to recover after sleep or
+    offline periods. The previous token must not be revoked (i.e. must not have been sent before), otherwise
+    the request is rejected.
+
+    The previous token is revoked 30 seconds after the new token is created. Clients should hand the new token
+    to the collaboration server right away, e.g. by calling `sendToken()` on the Hocuspocus provider.
   parameters:
-    - description: Document id
+    - name: id
+      description: Document id
       example: 1
       in: path
-      name: id
       required: true
       schema:
         type: integer
@@ -52,9 +72,8 @@ post:
                   collaborationServer:
                     href: "wss://hocuspocus.example.com"
           schema:
-            "$ref": "../components/schemas/collaboration_token_model.yml"
+            $ref: "../components/schemas/collaboration_token_model.yml"
       description: "Created. The response must not be cached (`Cache-Control: no-store`)."
-      headers: {}
     '403':
       content:
         application/hal+json:
@@ -69,7 +88,6 @@ post:
       description: |-
         Returned if the request is authenticated with a collaboration token, i.e. the OAuth access token
         inside it. Such tokens can not request further tokens.
-      headers: {}
     '404':
       content:
         application/hal+json:
@@ -86,7 +104,6 @@ post:
         feature flag `documents_collaboration_token_api` is off.
 
         **Required permission** `view documents` in the project the document belongs to
-      headers: {}
     '422':
       content:
         application/hal+json:
@@ -113,7 +130,6 @@ post:
         Returned if the document is not collaborative, if real-time collaboration is disabled, or if the
         previous token is invalid, was issued for another document, belongs to another user or is already
         revoked. Nothing is created or revoked in that case.
-      headers: {}
     '500':
       content:
         application/hal+json:
@@ -126,24 +142,3 @@ post:
                 errorIdentifier: urn:openproject-org:api:v3:errors:InternalServerError
                 message: An internal error has occurred.
       description: Returned if the token could not be issued. Nothing is revoked in that case.
-      headers: {}
-  tags:
-    - Documents
-  description: |-
-    Creates a short-lived token for the real-time collaboration (Hocuspocus) server for the document.
-
-    The endpoint is only available when the feature flag `documents_collaboration_token_api` is active.
-
-    The token is issued for the requesting user. Users who may only view documents receive a read-only token.
-    Requests authenticated with a token issued to the collaboration server are rejected.
-
-    To revoke the previous token while creating a new one, send it as `token` in the request body. The request
-    is authorized by the client's own credentials, exactly like creating a token without one. The previous token
-    only identifies which token to revoke, so it may be expired. This allows clients to recover after sleep or
-    offline periods. The previous token must not be revoked (i.e. must not have been sent before), otherwise
-    the request is rejected.
-
-    The previous token is revoked 30 seconds after the new token is created. Clients should hand the new token
-    to the collaboration server right away, e.g. by calling `sendToken()` on the Hocuspocus provider.
-  operationId: Create_document_collaboration_token
-  summary: Create collaboration token

@@ -169,6 +169,15 @@ RSpec.describe OpPrimer::WorkPackageCardComponent, type: :component do
         it "does not render Undisclosed" do
           expect(rendered_component).to have_no_text("Undisclosed")
         end
+
+        context "with link_parent: false" do
+          let(:component) { described_class.new(work_package:, menu_src:, show_parent: true, link_parent: false) }
+
+          it "renders the parent as text" do
+            expect(rendered_component).to have_text("Parent subject")
+            expect(rendered_component).to have_no_link("Parent subject")
+          end
+        end
       end
 
       context "when the work package has a non-visible parent" do

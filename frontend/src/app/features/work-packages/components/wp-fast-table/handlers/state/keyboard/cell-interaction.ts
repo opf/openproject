@@ -39,7 +39,7 @@ import { headerRowKey } from '../../../row-keys';
 import type { ActiveTableField } from '../../../wp-table-editing';
 import { destructiveControlAttribute } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
 
-const controlSelector = 'a[href], button, input, select, textarea, [role="button"]';
+export const controlSelector = 'a[href], button, input, select, textarea, [role="button"]';
 const editorTabStopSelector = 'a[href], button, input, select, textarea, [tabindex]';
 const originalTabindex = 'data-op-original-tabindex';
 

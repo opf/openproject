@@ -50,7 +50,7 @@ services:
       - "./Caddyfile:/etc/caddy/Caddyfile:ro"
 
   db:
-    image: postgres:17
+    image: pgvector/pgvector:pg17-trixie
     environment:
       POSTGRES_USER: app
       POSTGRES_PASSWORD: p4ssw0rd

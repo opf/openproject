@@ -25,14 +25,17 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { WorkPackageStateLinkEvent } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   EventEmitter, inject,
   Input,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
 import {
   uiStateLinkClass,
@@ -75,7 +78,9 @@ import {
 import { matchesRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { isInsideDisabledControl } from 'core-common/interactive-element-helper';
+import { isInsideDisabledControl, isInsideMenuControl } from 'core-common/interactive-element-helper';
+import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
+import { whenOutside } from 'core-app/shared/directives/focus/contain-helpers';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -116,10 +121,14 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   @Input() public showAsGhost = false;
 
+  @ViewChild('newCardEditForm') newCardEditForm?:EditFormComponent;
+
+  @ViewChild('newCardEditForm', { read: ElementRef }) newCardEditFormElement?:ElementRef<HTMLElement>;
+
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onRemove = new EventEmitter<WorkPackageResource>();
 
-  @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
+  @Output() stateLinkClicked = new EventEmitter<WorkPackageStateLinkEvent>();
 
   @Output() cardClicked = new EventEmitter<{ workPackageId:string, event:MouseEvent|KeyboardEvent }>();
 
@@ -222,12 +231,28 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     };
   }
 
-  public activateCard(event:MouseEvent|KeyboardEvent):void {
-    if (event.target instanceof Element && isInsideDisabledControl(event.target)) {
+  public activateCard(event:Event):void {
+    if (this.workPackage.id === null || !(event instanceof MouseEvent || event instanceof KeyboardEvent)) {
       return;
     }
 
-    this.cardClicked.emit({ workPackageId: this.workPackage.id!, event });
+    if (this.isOnMenuOrDisabledControl(event)) {
+      return;
+    }
+
+    this.cardClicked.emit({ workPackageId: this.workPackage.id, event });
+  }
+
+  public emitPointerEvent(output:EventEmitter<{ workPackageId:string, event:MouseEvent }>, event:MouseEvent):void {
+    if (this.workPackage.id === null || this.isOnMenuOrDisabledControl(event)) {
+      return;
+    }
+
+    output.emit({ workPackageId: this.workPackage.id, event });
+  }
+
+  private isOnMenuOrDisabledControl(event:Event):boolean {
+    return event.target instanceof Element && (isInsideDisabledControl(event.target) || isInsideMenuControl(event.target));
   }
 
   cardTitle():string {
@@ -265,6 +290,20 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   public onRemoved(wp:WorkPackageResource):void {
     this.onRemove.emit(wp);
+  }
+
+  public saveNewCardOnFocusOut():void {
+    const element = this.newCardEditFormElement?.nativeElement;
+    if (!element) {
+      return;
+    }
+
+    whenOutside(element, () => {
+      const form = this.newCardEditForm;
+      if (form && form.editMode && !form.change.inFlight) {
+        void form.submit();
+      }
+    });
   }
 
   public cardCoverImageShown(wp:WorkPackageResource):boolean {

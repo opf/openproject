@@ -48,7 +48,7 @@ delete:
 
 get:
   summary: View user
-  operationId: view_user
+  operationId: get_user
   description: ''
   tags:
     - Users
@@ -96,6 +96,10 @@ patch:
     When calling this endpoint the client provides a single object, containing at least the properties and links that are required, in the body.
 
     Password updates for self-service account changes require both `password` and `currentPassword`.
+
+    Email updates for self-service account changes require `currentPassword`
+    when password confirmation is enabled (the default).
+    After an email change, all sessions, remember-me tokens, password reset links, and invitation links of the user become invalid.
   parameters:
     - description: User id. Use `me` to reference current user, if any.
       example: '1'

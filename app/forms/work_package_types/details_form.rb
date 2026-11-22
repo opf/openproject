@@ -41,6 +41,15 @@ module WorkPackageTypes
         caption: name_caption
       )
 
+      details_form.text_area(
+        name: :description,
+        value: model.description,
+        label: Type.human_attribute_name(:description),
+        caption: I18n.t("types.edit.details.description_caption"),
+        rows: 3,
+        character_limit: Type::DESCRIPTION_MAX_LENGTH
+      )
+
       details_form.color_select_list(
         name: :color_id,
         label: Color.model_name.human,

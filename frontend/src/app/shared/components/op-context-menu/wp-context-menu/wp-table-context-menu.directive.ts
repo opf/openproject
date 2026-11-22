@@ -32,7 +32,10 @@ import { PositionArgs, WorkPackageViewContextMenu } from 'core-app/shared/compon
 import { WorkPackageViewHierarchyIdentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { FocusPosition } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/focus-position';
-import { OpContextMenuCloseReason } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import { OpContextMenuCloseReason, OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import { wpMenuOcticon } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-menu-octicons';
+import { MoveDirection } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/row-mover';
+import type { DynamicIconName } from 'core-app/shared/components/primer/dynamic-icon-map';
 import { forgetKeyboardMenuOpen } from 'core-app/features/work-packages/components/wp-fast-table/handlers/context-menu/context-menu-handler';
 
 export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
@@ -47,13 +50,58 @@ export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
     protected table:WorkPackageTable) {
     super(injector, workPackageId, element, additionalPositionArgs, true);
     this.origin = table.keyboardNavigation.originForControl(element);
+    // Added here: the base class builds its items before `table` is assigned.
+    this.addMoveItems();
+  }
+
+  protected override menuItem(item:OpContextMenuItem):OpContextMenuItem {
+    return { ...item, octicon: wpMenuOcticon(item.icon) };
+  }
+
+  private addMoveItems():void {
+    const selection = this.selectedWorkPackages.length === 1
+      ? [this.workPackageId]
+      : this.selectedWorkPackages.flatMap((wp) => wp.id ?? []);
+    const mover = this.table.rowMover;
+    const directions = mover?.movableDirections(selection);
+    if (!mover || !directions) return;
+
+    const entries:{ direction:MoveDirection, linkText:string, octicon:DynamicIconName }[] = [
+      { direction: 'top', linkText: I18n.t('js.label_sort_highest'), octicon: 'move-to-top' },
+      { direction: 'up', linkText: I18n.t('js.label_sort_higher'), octicon: 'chevron-up' },
+      { direction: 'down', linkText: I18n.t('js.label_sort_lower'), octicon: 'chevron-down' },
+      { direction: 'bottom', linkText: I18n.t('js.label_sort_lowest'), octicon: 'move-to-bottom' },
+    ];
+    this.itemGroups.prepend('organize', {
+      linkText: I18n.t('js.button_move_to_position'),
+      octicon: 'op-arrow-in',
+      children: entries.map(({ direction, linkText, octicon }) => ({
+        linkText,
+        octicon,
+        disabled: !directions.has(direction),
+        onClick: () => {
+          mover.move(selection, direction);
+          return true;
+        },
+      })),
+    });
+    this.items = this.itemGroups.items;
+  }
+
+  // The table is inert while the change runs, which drops the focus that closing the menu returned to it.
+  private returnFocusAfter(change:Promise<unknown>):void {
+    const returnFocus = () => {
+      if (this.origin) this.table.keyboardNavigation.returnFocusFromMenu(this.origin);
+    };
+
+    void change.then(returnFocus, returnFocus);
   }
 
   public override onClose(focus = true, reason?:OpContextMenuCloseReason):void {
     forgetKeyboardMenuOpen(this.table);
 
-    if (this.origin && (reason === 'escape' || reason === 'action')) {
-      this.table.keyboardNavigation.returnFocusFromMenu(this.origin);
+    if (this.origin && (reason === 'escape' || reason === 'action' || reason === 'scroll')) {
+      this.table.keyboardNavigation.returnFocusFromMenu(this.origin, this.origin, { reveal: reason !== 'scroll' });
       return;
     }
 
@@ -77,11 +125,11 @@ export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
         break;
 
       case 'hierarchy-indent':
-        void this.wpViewIndentation.indent(this.workPackage);
+        this.returnFocusAfter(this.wpViewIndentation.indent(this.workPackage));
         break;
 
       case 'hierarchy-outdent':
-        void this.wpViewIndentation.outdent(this.workPackage);
+        this.returnFocusAfter(this.wpViewIndentation.outdent(this.workPackage));
         break;
 
       default:

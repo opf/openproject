@@ -118,7 +118,10 @@ Rails.application.reloader.to_prepare do
                      require: :loggedin
 
       map.permission :view_project,
-                     { projects: %i[show list_row_menu] },
+                     {
+                       projects: %i[show list_row_menu],
+                       "projects/hover_card": %i[show]
+                     },
                      permissible_on: :project,
                      public: true
 
@@ -191,7 +194,7 @@ Rails.application.reloader.to_prepare do
                      dependencies: :view_project
 
       map.permission :edit_project_phases,
-                     {},
+                     { "project_phases/status": :update },
                      permissible_on: :project,
                      require: :member,
                      dependencies: :view_project_phases,

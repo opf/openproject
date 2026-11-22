@@ -17,3 +17,24 @@ bundle exec rake 'copyright:update_typescript[path/to/directory]'
 The JavaScript task covers `.js`, `.mjs`, and `.cjs`; the TypeScript task covers `.ts` and `.tsx`. Both generate the canonical compact line-comment header, including its markers and the blank line before the source code. For frontend files covered by the copyright header rule, `npx eslint --fix path/to/file` from `frontend/` can also repair the notice.
 
 If neither tool can add a missing notice for the file type, manually copy one from a first-party OpenProject file of the same type and use the appropriate comment syntax. This includes file types whose Rake task only updates existing notices, such as CSS and HTML ERB. Preserve third-party copyright notices.
+
+## Code comments
+
+Write for readers who know Ruby, Rails, TypeScript, and the patterns used in OpenProject.
+Write self-explanatory code instead of comments.
+
+- Default to zero comments. Sparse is the goal, not thorough coverage.
+- Never restate what the code plainly does (`# increments the counter` above `counter += 1`).
+  These get flagged in review.
+- Never justify the chosen approach. If a comment names a rejected alternative
+  ("EXISTS rather than a join because…"), delete it — that reasoning belongs in the commit
+  message or PR description, not the source.
+- Do comment to explain a constraint the code cannot express itself: a workaround for an
+  upstream bug, a non-obvious edge case, an ordering requirement, an invariant the caller
+  must uphold. Link the work package or upstream issue when there is one.
+- Don't add YARD/JSDoc headers to self-descriptive methods. Only where generated
+  documentation is actually consumed.
+- More than a handful of comments in a file is a smell: extract better-named methods,
+  variables, and objects so the code explains itself.
+- When in doubt, delete the comment rather than shortening it.
+- Use en-us spelling.

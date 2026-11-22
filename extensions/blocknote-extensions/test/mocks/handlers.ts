@@ -1,4 +1,16 @@
 import { http, HttpResponse } from 'msw';
+import {
+  mockAttributeSchema,
+  mockAttributeWorkPackage,
+  mockMilestoneSchema,
+  mockMilestoneWorkPackage,
+} from './workPackageAttributes';
+
+// A single red pixel.
+const MIRA_AVATAR = Uint8Array.from(
+  atob('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP4z8DwHwAFAAH/q842iQAAAABJRU5ErkJggg=='),
+  (character) => character.charCodeAt(0),
+);
 
 export const mockWorkPackage = {
   id: 123,
@@ -221,6 +233,8 @@ function sortsByHierarchy(request:Request):boolean {
 
 /*  Any other id answers as a copy of the first work package, as with the single resource.  */
 export function workPackageFor(id:string) {
+  if (id === '321' || id === 'PROJ-321') return mockAttributeWorkPackage;
+  if (id === '654' || id === 'PROJ-654') return mockMilestoneWorkPackage;
   if (id === '999') return mockCreatedWorkPackage;
   if (id === '789' || id === 'DWPS-1') return mockWorkPackageWithSemanticId;
   if (id === '456') return mockWorkPackage2;
@@ -232,8 +246,22 @@ export function requestedWorkPackageIds(request:Request):string[] | undefined {
   return filterValues(request, 'id');
 }
 
-export function workPackageCollection(elements:{ id:number }[]) {
-  return HttpResponse.json({ total: elements.length, count: elements.length, _embedded: { elements } });
+const mockSchemas = [mockAttributeSchema, mockMilestoneSchema];
+
+interface MockWorkPackage {
+  id:number;
+  _links?:{ schema?:{ href:string } } | null;
+}
+
+export function workPackageCollection(elements:MockWorkPackage[]) {
+  const schemaHrefs = new Set(elements.map((element) => element._links?.schema?.href));
+  const schemas = mockSchemas.filter((schema) => schemaHrefs.has(schema._links.self.href));
+
+  return HttpResponse.json({
+    total: elements.length,
+    count: elements.length,
+    _embedded: { elements, schemas: { _type: 'Collection', _embedded: { elements: schemas } } },
+  });
 }
 
 const demoParent = { href: '/api/v3/projects/1', title: 'Demo project' };
@@ -339,6 +367,24 @@ export const handlers = [
         ],
       },
     })
+  ),
+
+  http.get('http://localhost:3000/api/v3/priorities', () =>
+    HttpResponse.json({
+      _embedded: {
+        elements: [
+          { id: '8', color: '#F1C40F' },
+          { id: '9', color: '#E74C3C' },
+        ],
+      },
+    })
+  ),
+
+  // Only Mira Hofmann has a picture; everyone else answers as OpenProject does without one.
+  http.get('http://localhost:3000/api/v3/users/:id/avatar', ({ params }) =>
+    params.id === '3'
+      ? new HttpResponse(MIRA_AVATAR, { headers: { 'Content-Type': 'image/png' } })
+      : new HttpResponse(null, { status: 404 })
   ),
 
   http.get('http://localhost:3000/api/v3/work_packages/:id', ({ params }) =>

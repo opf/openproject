@@ -38,9 +38,8 @@ import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packag
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { WorkPackageContextMenuHelperService } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
-import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
-import { OpContextMenuHandler } from 'core-app/shared/components/op-context-menu/op-context-menu-handler';
-import { registerContextMenu } from 'core-app/shared/components/op-context-menu/testing/register-context-menu';
+import { OpActionMenuService } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.service';
+import { OpActionMenuHost } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import { internalContextMenuColumn, internalSortColumn } from '../../../builders/internal-sort-columns';
@@ -49,6 +48,7 @@ import {
 } from '../../../testing/table-harness';
 import { buildGroup, buildWorkPackage } from '../../../testing/work-package-fixture';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { WorkPackageStateLinkEvent } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
 import {
   OpEditingPortalChangesetToken,
@@ -217,7 +217,7 @@ describe('KeyboardNavigationTransformer', () => {
       new TableHandlerRegistry(harness.injector).attachTo({
         workPackageTable: fresh,
         itemClicked: new EventEmitter<{ workPackageId:string, double:boolean }>(),
-        stateLinkClicked: new EventEmitter<{ workPackageId:string, requestedState:string }>(),
+        stateLinkClicked: new EventEmitter<WorkPackageStateLinkEvent>(),
       });
       await harness.render();
       fresh.keyboardNavigation.focusPosition({ key: wpOccurrenceKey('2'), cell: 0, desiredColumn: 0 });
@@ -562,12 +562,12 @@ describe('KeyboardNavigationTransformer', () => {
     expect(collapsedGroups.config.state[identifier]).toBeFalsy();
   });
 
-  it('Enter on a header cell clicks its sort link; on the configuration cell clicks the button', async () => {
+  it('Enter on a header cell clicks its menu button; on the configuration cell clicks the button', async () => {
     const table = await mount({ configuration: { columnMenuEnabled: true } });
     const [idHeader, , configurationHeader] = table.headerCells();
-    const linkClicked = vi.fn((event:Event) => event.preventDefault());
+    const menuClicked = vi.fn();
     const buttonClicked = vi.fn();
-    idHeader.querySelector('a')!.addEventListener('click', linkClicked);
+    idHeader.querySelector('button')!.addEventListener('click', menuClicked);
     configurationHeader.querySelector('button')!.addEventListener('click', buttonClicked);
 
     idHeader.focus();
@@ -575,17 +575,16 @@ describe('KeyboardNavigationTransformer', () => {
     configurationHeader.focus();
     expect(pressActive('Enter')).toBe(false);
 
-    expect(linkClicked).toHaveBeenCalledOnce();
+    expect(menuClicked).toHaveBeenCalledOnce();
     expect(buttonClicked).toHaveBeenCalledOnce();
   });
 
-  it('Enter on a non-sortable column header clicks its link without an href', async () => {
+  it('Enter on a non-sortable column header still clicks its menu button', async () => {
     const table = await mount({ columns: ['id', { id: 'subject', sortable: false }] });
     const [, subjectHeader] = table.headerCells();
-    const link = subjectHeader.querySelector('a')!;
-    expect(link).not.toHaveAttribute('href');
+    const button = subjectHeader.querySelector('button')!;
     const clicked = vi.fn();
-    link.addEventListener('click', clicked);
+    button.addEventListener('click', clicked);
 
     subjectHeader.focus();
     expect(pressActive('Enter')).toBe(false);
@@ -667,7 +666,7 @@ describe('KeyboardNavigationTransformer', () => {
     });
     const subjectHeader = table.headerCells()[1];
 
-    focusFromOutside(within(subjectHeader).getByRole('link'));
+    focusFromOutside(within(subjectHeader).getByRole('button'));
 
     expect(subjectHeader).toHaveFocus();
     expect(subjectHeader).toHaveAttribute('tabindex', '0');
@@ -700,7 +699,7 @@ describe('KeyboardNavigationTransformer', () => {
 
   it.each(['row', 'cell'])('Tab into a control preserves its %s walk origin', async (entry) => {
     const table = await mount({ configuration: { actionsColumnEnabled: true } });
-    const link = within(table.row('1')).getByRole('link', { name: 'js.label_open_context_menu' });
+    const link = within(table.row('1')).getByRole('button', { name: 'js.label_open_context_menu' });
     const originElement = entry === 'row' ? table.row('1') : link.closest<HTMLElement>('td')!;
     originElement.focus();
     const origin = navigation(table).position;
@@ -783,6 +782,123 @@ describe('KeyboardNavigationTransformer', () => {
     expect(selectedIds(table)).toEqual(['2', '3']);
   });
 
+  it('PageDown and PageUp move by the rows that fit the viewport', async () => {
+    const table = await mount({ workPackages: ['1', '2', '3', '4', '5', '6'].map((id) => ({ id })) });
+    const rowHeight = vi.spyOn(HTMLTableRowElement.prototype, 'getBoundingClientRect').mockReturnValue({ height: 20 } as DOMRect);
+    Object.defineProperty(table.table.scrollContainer, 'clientHeight', { configurable: true, value: 60 });
+    try {
+      table.row('1').focus();
+
+      expect(pressActive('PageDown')).toBe(false);
+      expect(table.row('4')).toHaveFocus();
+      expect(pressActive('PageUp')).toBe(false);
+      expect(table.row('1')).toHaveFocus();
+    } finally {
+      rowHeight.mockRestore();
+    }
+  });
+
+  it('PageDown with every group collapsed moves one group header', async () => {
+    const table = await mount(grouped);
+    const collapsedGroups = table.injector.get(WorkPackageViewCollapsedGroupsService);
+    [0, 1].forEach((index) => collapsedGroups.toggleGroupCollapseState(table.groupHeader(index).dataset.groupIdentifier!));
+    await waitFor(() => expect(table.row('3')).not.toBeVisible());
+    table.groupHeader(0).focus();
+
+    pressActive('PageDown');
+
+    expect(table.groupHeader(1)).toHaveFocus();
+  });
+
+  it('leaves Enter on a group sums row to the browser', async () => {
+    const table = await mount({
+      ...grouped,
+      groups: grouped.groups!.map((group) => ({ ...group, sums: { estimatedTime: 'PT1H' } as never })),
+    });
+    const collapsedGroups = table.injector.get(WorkPackageViewCollapsedGroupsService);
+    const sumsRow = table.groupSums(0);
+    sumsRow.focus();
+
+    expect(press(sumsRow, 'Enter')).toBe(true);
+
+    expect(selectedIds(table)).toEqual([]);
+    expect(Object.values(collapsedGroups.config.state)).not.toContain(true);
+    expect(sumsRow).toHaveFocus();
+  });
+
+  it('adoptOverlay keeps the return path for an overlay that already holds focus', async () => {
+    const table = await mount();
+    const origin = { key: wpOccurrenceKey('1'), cell: null, desiredColumn: null };
+    navigation(table).focusPosition(origin);
+    const overlay = document.createElement('div');
+    const button = document.createElement('button');
+    overlay.append(button);
+    document.body.append(overlay);
+    try {
+      button.focus();
+      navigation(table).adoptOverlay(overlay);
+      overlay.remove();
+
+      expect(navigation(table).returnFocus(origin)).toBe(true);
+      expect(table.row('1')).toHaveFocus();
+    } finally {
+      overlay.remove();
+    }
+  });
+
+  it('returnFocus leaves focus on the scroll container itself', async () => {
+    const table = await mount();
+    const origin = { key: wpOccurrenceKey('2'), cell: null, desiredColumn: null };
+    navigation(table).focusPosition(origin);
+    const container = table.table.scrollContainer;
+    container.focus();
+
+    expect(navigation(table).returnFocus(origin)).toBe(false);
+    expect(container).toHaveFocus();
+  });
+
+  it('returnFocus takes focus back from a row the table did not render', async () => {
+    const table = await mount();
+    const origin = { key: wpOccurrenceKey('2'), cell: null, desiredColumn: null };
+    navigation(table).focusPosition(origin);
+    const emptyBody = document.createElement('tbody');
+    emptyBody.innerHTML = '<tr tabindex="-1"><td>No results</td></tr>';
+    table.table.tbody.after(emptyBody);
+    try {
+      emptyBody.querySelector<HTMLTableRowElement>('tr')!.focus();
+
+      expect(navigation(table).returnFocus(origin)).toBe(true);
+      expect(table.row('2')).toHaveFocus();
+    } finally {
+      emptyBody.remove();
+    }
+  });
+
+  it('repaintCurrentPosition before any focus keeps the first row as the Tab stop', async () => {
+    const table = await mount();
+
+    navigation(table).repaintCurrentPosition();
+
+    expect(table.row('1')).toHaveAttribute('tabindex', '0');
+    expect(table.row('2')).toHaveAttribute('tabindex', '-1');
+  });
+
+  it('focusPosition on an unrendered cell leaves focus and scroll alone', async () => {
+    const table = await mount();
+    const unrendered = { key: wpOccurrenceKey('1'), cell: 99, desiredColumn: 99 };
+    table.row('1').focus();
+    const scroll = vi.spyOn(Element.prototype, 'scrollIntoView');
+    try {
+      navigation(table).focusPosition(unrendered);
+
+      expect(navigation(table).elementAt(unrendered)).toBeNull();
+      expect(table.row('1')).toHaveFocus();
+      expect(scroll).not.toHaveBeenCalled();
+    } finally {
+      scroll.mockRestore();
+    }
+  });
+
   it('returnFocus ignores a vanished origin and focus that left the table', async () => {
     const table = await mount();
     const origin = { key: wpOccurrenceKey('2'), cell: 1, desiredColumn: 1 };
@@ -838,8 +954,36 @@ describe('KeyboardNavigationTransformer', () => {
     expect(input).toHaveFocus();
   });
 
+  describe('header cell activation', () => {
+    it('activates the header cell button with Enter', async () => {
+      const table = await mount({ configuration: { columnMenuEnabled: true } });
+      const th = table.headerCells()[1];
+      const button = th.querySelector('button')!;
+      const click = vi.fn();
+      button.addEventListener('click', click);
+      navigation(table).focusPosition({ key: headerRowKey, cell: 1, desiredColumn: 1 });
+
+      pressActive('Enter');
+
+      expect(click).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe('returnFocusFromMenu', () => {
     const origin = { key: wpOccurrenceKey('2'), cell: 1, desiredColumn: 1 };
+
+    it('returns focus from a control inside the origin cell', async () => {
+      const table = await mount();
+      const control = document.createElement('button');
+      cell(table.row('2'), 1).append(control);
+      cell(table.row('2'), 1).focus();
+      control.focus();
+      expect(control).toHaveFocus();
+
+      navigation(table).returnFocusFromMenu(origin);
+
+      expect(cell(table.row('2'), 1)).toHaveFocus();
+    });
 
     const visitMenu = (table:TableHarness) => {
       const menuItem = document.createElement('button');
@@ -1040,8 +1184,8 @@ describe('KeyboardNavigationTransformer', () => {
     it('closing the context menu opened by right-click on a display field returns focus to its cell', async () => {
       const table = await mount({ configuration: { contextMenuEnabled: true } });
       vi.spyOn(table.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions').mockReturnValue([]);
-      let menu:OpContextMenuHandler|undefined;
-      vi.spyOn(table.injector.get(OPContextMenuService), 'show').mockImplementation((handler) => { menu = handler; });
+      let menu:OpActionMenuHost|undefined;
+      vi.spyOn(table.injector.get(OpActionMenuService), 'show').mockImplementation((handler) => { menu = handler; });
       const subjectCell = table.row('1').querySelector<HTMLTableCellElement>(':scope > .wp-table--cell-td.subject')!;
       const field = subjectCell.querySelector<HTMLElement>('.inline-edit--display-field')!;
 
@@ -1593,7 +1737,7 @@ describe('KeyboardNavigationTransformer', () => {
     ])('opens the context menu on %s only for the BCF list', async (_chord, init) => {
       const table = await mountConsumer();
       vi.spyOn(table.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions').mockReturnValue([]);
-      const show = vi.spyOn(table.injector.get(OPContextMenuService), 'show').mockImplementation(() => undefined);
+      const show = vi.spyOn(table.injector.get(OpActionMenuService), 'show').mockImplementation(() => undefined);
       table.row('1').focus();
 
       fireEvent.keyDown(table.row('1'), init);
@@ -1614,7 +1758,7 @@ describe('KeyboardNavigationTransformer', () => {
   describe('two consumer tables on one page', () => {
     const mountPair = async (options:Partial<TableHarnessOptions> = {}) => {
       const states = new States();
-      const first = await mount({ states, providers: [OPContextMenuService], configuration: consumerConfiguration('bcf'), ...options });
+      const first = await mount({ states, configuration: consumerConfiguration('bcf'), ...options });
       const second = await mount({ states, configuration: consumerConfiguration('bcf'), ...options });
       return [first, second] as const;
     };
@@ -1653,7 +1797,6 @@ describe('KeyboardNavigationTransformer', () => {
       const page = document.createElement('div');
       page.id = 'wrapper';
       document.body.append(page);
-      const unregister = registerContextMenu(first.injector.get(OPContextMenuService));
       vi.spyOn(first.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions')
         .mockReturnValue([{ key: 'test-action', text: 'Test action', link: '#' }]);
       try {
@@ -1661,10 +1804,10 @@ describe('KeyboardNavigationTransformer', () => {
         second.click('2');
         first.row('1').focus();
         fireEvent.keyDown(first.row('1'), { key: 'F10', shiftKey: true });
-        await waitFor(() => expect(document.querySelector('.op-context-menu--overlay .menu-item')).toHaveFocus());
+        await waitFor(() => expect(document.querySelector('op-action-menu [role="menuitem"]')).toHaveFocus());
 
         fireEvent.keyDown(document.activeElement!, { key: 'Escape' });
-        await waitFor(() => expect(document.querySelector('.op-context-menu--overlay .menu-item')).toBeNull());
+        await waitFor(() => expect(document.querySelector('op-action-menu [role="menuitem"]')).toBeNull());
 
         expect(selectedIds(first)).toEqual(['1']);
         expect(selectedIds(second)).toEqual(['2']);
@@ -1674,8 +1817,7 @@ describe('KeyboardNavigationTransformer', () => {
         expect(selectedIds(first)).toEqual([]);
         expect(selectedIds(second)).toEqual([]);
       } finally {
-        first.injector.get(OPContextMenuService).close();
-        unregister();
+        first.injector.get(OpActionMenuService).close();
         page.remove();
       }
     });

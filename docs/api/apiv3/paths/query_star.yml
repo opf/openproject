@@ -153,5 +153,5 @@ patch:
   tags:
     - Queries
   description: ''
-  operationId: Star_query
+  operationId: star_query
   summary: Star query

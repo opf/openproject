@@ -145,8 +145,8 @@ RSpec.describe "Relation query group keyboard navigation", :js do
   it "keeps repeated unlink hints distinct and working after adding a child" do
     rows.each do |child|
       wp_table.row(child).hover
-      expect(wp_table.row(child)).to have_selector(:link, accessible_name: "Remove child", accessible_description: "",
-                                                          exact: true)
+      expect(wp_table.row(child)).to have_selector(:button, accessible_name: "Remove child", accessible_description: "",
+                                                            exact: true)
       expect(wp_table.row(child)).to have_link(child.id.to_s, accessible_description: "", exact: true)
     end
 
@@ -162,7 +162,7 @@ RSpec.describe "Relation query group keyboard navigation", :js do
     wp_table.reference_work_package(orphan)
     wp_table.expect_work_package_listed(*rows, orphan)
     wp_table.row(rows.first).hover
-    replacement = wp_table.row(rows.first).find(:link, accessible_name: "Remove child", exact: true)
+    replacement = wp_table.row(rows.first).find(:button, accessible_name: "Remove child", exact: true)
     replacement.hover
     expect(page).to have_element(:"tool-tip", text: "Remove child", count: 1)
     wp_table.press_keys(:escape)
@@ -209,7 +209,7 @@ RSpec.describe "Relation query group keyboard navigation", :js do
     wp_table.press_keys(:right)
 
     wp_table.expect_focus_on_cell(rows.first, :id)
-    expect(wp_table.table_container).to have_no_css(".hierarchy-header--icon")
+    expect(wp_table.table_container).to have_no_octicon("op-hierarchy")
     expect(wp_table.treegrid).to have_no_selector(:element, "tr", "aria-expanded": /./, visible: :all)
     wp_table.ensure_work_package_not_listed!(grandchild)
   end

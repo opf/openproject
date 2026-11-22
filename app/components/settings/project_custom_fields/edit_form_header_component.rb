@@ -33,6 +33,7 @@ module Settings
       def initialize(custom_field:, selected:)
         super
         @custom_field = custom_field
+        @selected = selected
       end
 
       def tabs

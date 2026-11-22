@@ -5,6 +5,7 @@ import type {
   WorkPackagePayload,
   WorkPackageSchema,
 } from '../../openProjectTypes';
+import type { AllowedValue, ListedValue } from '../Shared/options';
 
 export type FieldKind =
   | 'text'
@@ -18,21 +19,6 @@ export type FieldKind =
   | 'multiSelect'
   | 'generated'
   | 'unsupported';
-
-export interface AllowedValue {
-  href:string;
-  label:string;
-  favored?:boolean;
-  ancestors?:string[];
-}
-
-export interface ListedValue extends AllowedValue {
-  depth:number;
-  hasChildren:boolean;
-  expanded:boolean;
-  position:number;
-  levelSize:number;
-}
 
 export interface FormField {
   key:string;

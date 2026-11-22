@@ -2,7 +2,7 @@
 ---
 get:
   summary: View a week day
-  operationId: view_week_day
+  operationId: get_week_day
   tags:
     - Work Schedule
   description: |-

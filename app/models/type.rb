@@ -28,6 +28,8 @@
 #++
 
 class Type < ApplicationRecord
+  DESCRIPTION_MAX_LENGTH = 1000
+
   include ::Scopes::Scoped
 
   before_validation :ensure_base_variant, on: :create
@@ -52,6 +54,7 @@ class Type < ApplicationRecord
             presence: true,
             uniqueness: { case_sensitive: false },
             length: { maximum: 255 }
+  validates :description, length: { maximum: DESCRIPTION_MAX_LENGTH }
 
   scopes :milestone
 

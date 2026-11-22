@@ -34,5 +34,5 @@ get:
     - Actions & Capabilities
   description: Returns the global capability context. This context is necessary to
     consistently link to a context even if the context is not a project.
-  operationId: View_global_context
+  operationId: get_global_context
   summary: View global context

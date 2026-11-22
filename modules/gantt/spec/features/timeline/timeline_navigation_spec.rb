@@ -157,9 +157,9 @@ RSpec.describe "Work package timeline navigation",
       wp_timeline.ensure_work_package_not_listed! work_package
 
       retry_block do
+        context_menu.close_if_open
         find(".wp-row-#{work_package2.id}-timeline").right_click
-        find(".menu-item", text: "Add predecessor")
-        find(".menu-item", text: "Add successor")
+        context_menu.expect_options "Add predecessor", "Add successor"
       end
     end
   end
@@ -389,7 +389,7 @@ RSpec.describe "Work package timeline navigation",
 
       # The button to fold/expand all groups is only present when grouping
       expect(page)
-        .to have_no_button("wp-fold-toggle-button")
+        .to have_no_button(accessible_name: "Collapse or expand groups", exact: true)
 
       group_by.enable_via_menu "Project"
 
@@ -414,11 +414,25 @@ RSpec.describe "Work package timeline navigation",
 
       expect(page).to have_no_css(".-group-row .timeline-element")
 
-      click_button("wp-fold-toggle-button")
-      click_button(I18n.t("js.button_collapse_all"))
+      click_button(accessible_name: "Collapse or expand groups", exact: true)
+      within(:menu, "Collapse or expand groups") do
+        find(:menuitem, "Collapse all", exact: true).click
+      end
 
       # Will again fold all rows so the milestone elements should again be present
       expect(page).to have_css(".-group-row .timeline-element.milestone")
+    end
+
+    it "opens the fold menu from the keyboard and returns focus to its button on Escape" do
+      wp_table.visit_query(query)
+      group_by.enable_via_menu "Project"
+
+      send_keys_without_click(find(:button, accessible_name: "Collapse or expand groups", exact: true), :enter)
+      expect(page).to have_selector(:menuitem, "Collapse all", focused: true)
+
+      Components::WorkPackages::ContextMenu.new.press_escape
+      expect(page).to have_no_menu
+      expect(page).to have_button(accessible_name: "Collapse or expand groups", exact: true, focused: true)
     end
   end
 end

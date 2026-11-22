@@ -5,6 +5,12 @@ $blocknote-side-menu-gutter: 48px // Left lane for BlockNote's side menu (drag h
   .ck-content
     min-height: 30vh
 
+// BlockNote's mobile formatting toolbar and its dropdowns portal into `document.body`, where the
+// sticky mobile page header (`--main-menu-toggler-z-index`) would cover them.
+body > .block-note-editor-container
+  position: relative
+  z-index: calc(var(--main-menu-toggler-z-index) + 1)
+
 // BlockNote stamps `.block-note-editor-container` (the className we pass to
 // <BlockNoteView>) onto an inner wrapper as well, hence `.bn-container`.
 // No `gap` here: since 0.55 BlockNote mounts empty siblings next to

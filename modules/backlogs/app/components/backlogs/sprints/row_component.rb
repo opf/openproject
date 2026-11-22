@@ -46,15 +46,15 @@ module Backlogs
       end
 
       def status
-        render(SprintStatusBadgeComponent.new(sprint:))
+        render(SprintStatusLabelComponent.new(sprint:))
       end
 
       def start_date
-        format_date(sprint.start_date) if sprint.start_date
+        render(DateCellComponent.new(displayed_dates.start, planned: displayed_dates.start_planned?))
       end
 
       def finish_date
-        format_date(sprint.finish_date) if sprint.finish_date
+        render(DateCellComponent.new(displayed_dates.finish, planned: displayed_dates.finish_planned?))
       end
 
       def work_package_count
@@ -72,6 +72,10 @@ module Backlogs
       end
 
       private
+
+      def displayed_dates
+        @displayed_dates ||= ::Sprints::DisplayedDates.new(sprint)
+      end
 
       def action_menu
         render(Primer::Alpha::ActionMenu.new) do |menu|

@@ -97,9 +97,9 @@ RSpec.describe Wikis::Adapters::Providers::Internal::Commands::CreatePage do
   context "when user is not allowed to create wiki pages" do
     let(:permissions) { %i[view_wiki_pages] }
 
-    it "returns a :forbidden error" do
+    it "returns an :unauthorized error" do
       expect(result).to be_failure
-      expect(result.failure.code).to eq(:forbidden)
+      expect(result.failure.code).to eq(:unauthorized)
     end
 
     it "does not create a page" do

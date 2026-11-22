@@ -53,8 +53,9 @@ export class CellBuilder {
   private readonly historicFieldRenderer:DisplayFieldRenderer;
 
   constructor(public injector:Injector, private readonly configuration:WorkPackageTableConfiguration) {
-    this.fieldRenderer = new DisplayFieldRenderer(this.injector, 'table', { tabbable: false });
-    this.historicFieldRenderer = new DisplayFieldRenderer(this.injector, 'table', { tabbable: false, historic: true });
+    const writable = configuration.inlineEditEnabled;
+    this.fieldRenderer = new DisplayFieldRenderer(this.injector, 'table', { tabbable: false, writable });
+    this.historicFieldRenderer = new DisplayFieldRenderer(this.injector, 'table', { tabbable: false, writable, historic: true });
   }
 
   public build(workPackage:WorkPackageResource, column:QueryColumn, isRowHeader = false):HTMLTableCellElement {

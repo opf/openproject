@@ -12,7 +12,7 @@ This guide covers observed nuances with the docker runtime on MacOS. Please ensu
 
 ## Apple Silicon (M1, M2, M3, M4)
 
-Apple transitioned from Intel to Apple Silicon (ARM64) architecture starting in 2020. As a result, some Docker images — particularly those involving browsers like chrome and opera — still do not support ARM64 natively and require emulation via the linux/amd64 platform. However, other components like firefox, and chromium now have official ARM64-compatible images.
+Apple transitioned from Intel to Apple Silicon (ARM64) architecture starting in 2020. As a result, some Docker images — particularly those involving browsers like chrome — still do not support ARM64 natively and require emulation via the linux/amd64 platform. However, other components like firefox, and chromium now have official ARM64-compatible images.
 
 To ensure compatibility and improve performance on Apple Silicon, you can create a local `docker-compose.override.yml` file that selectively configures platform support:
 
@@ -24,10 +24,7 @@ services:
     platform: linux/arm64
   firefox:
     platform: linux/arm64
-  opera:
-    platform: linux/amd64
   chrome:
-    image: selenium/node-chrome
     platform: linux/amd64
 ```
 

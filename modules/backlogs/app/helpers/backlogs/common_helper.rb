@@ -68,6 +68,14 @@ module Backlogs
       backlog_filters.to_h
     end
 
+    # A morph refresh only reloads the container frame in place when its src is unchanged, character
+    # for character. The filters form sets it client-side, and re-encoding the params here would
+    # differ (e.g. `~` vs `%7E`), so keep the query exactly as the browser sent it. This will make
+    # Turbo to reload the frame in place instead of replacing the whole frame, losing scroll position.
+    def backlogs_container_src(project)
+      [project_backlogs_backlog_path(project), request.query_string.presence].compact.join("?")
+    end
+
     def all_sprints_for(project)
       Sprint.assignable(project:).order_by_date
     end

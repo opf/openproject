@@ -30,8 +30,8 @@
 require "rails_helper"
 
 RSpec.describe Projects::CopyService, "backlogs settings", type: :model do
-  shared_let(:open_status) { create(:status, is_closed: false) }
-  shared_let(:closed_status) { create(:status, is_closed: true) }
+  shared_let(:to_do_status) { create(:status, category: "to_do") }
+  shared_let(:closed_status) { create(:status, category: "closed") }
   shared_let(:type_story) { create(:type, name: "Story") }
   shared_let(:type_task) { create(:type, name: "Task") }
 
@@ -51,7 +51,7 @@ RSpec.describe Projects::CopyService, "backlogs settings", type: :model do
       create(:project,
              enabled_module_names: %w[backlogs work_package_tracking],
              types: [type_story, type_task]) do |p|
-        p.done_statuses = [open_status, closed_status]
+        p.done_statuses = [to_do_status, closed_status]
         p.backlog_excluded_types = [type_task]
       end
     end
@@ -61,7 +61,7 @@ RSpec.describe Projects::CopyService, "backlogs settings", type: :model do
     end
 
     it "copies the done_statuses to the new project" do
-      expect(result.result.done_statuses).to contain_exactly(open_status, closed_status)
+      expect(result.result.done_statuses).to contain_exactly(to_do_status, closed_status)
     end
 
     it "copies the backlog_excluded_types to the new project" do

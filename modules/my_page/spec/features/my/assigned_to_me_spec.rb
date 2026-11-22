@@ -92,35 +92,19 @@ RSpec.describe "Assigned to me embedded query on my page", :js do
              assigned_to: user)
     end
 
-    it "can toggle hierarchy mode in embedded tables (Regression test #29578)" do
+    it "shows hierarchy mode in embedded tables (Regression test #29578)" do
       my_page.visit!
 
       # exists as default
       assigned_area.expect_to_exist
 
       page.within(assigned_area.area) do
-        # expect hierarchy in child
         hierarchies.expect_mode_enabled
 
         hierarchies.expect_hierarchy_at assigned_work_package
         hierarchies.expect_leaf_at assigned_work_package_child
 
-        # toggle parent
         hierarchies.toggle_row assigned_work_package
-        hierarchies.expect_hierarchy_at assigned_work_package, collapsed: true
-
-        # disable
-        hierarchies.disable_via_header
-        hierarchies.expect_no_hierarchies
-
-        sleep(0.2)
-
-        # re-enable
-        hierarchies.enable_via_header
-
-        sleep(0.2)
-
-        hierarchies.expect_mode_enabled
         hierarchies.expect_hierarchy_at assigned_work_package, collapsed: true
       end
     end

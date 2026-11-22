@@ -39,9 +39,9 @@
               </div>
             }
             <div [ngClass]="{ '-hidden': !show && canBeHidden }">
-              @if (data && data.length > 0) {
+              @if (uploads.length > 0) {
                 <ul class="op-toast--uploads">
-                  @for (upload of data; track upload) {
+                  @for (upload of uploads; track upload) {
                     <op-toasters-upload-progress [file]="upload[0]"
                       [upload]="upload[1]"
                       (uploadSuccess)="onUploadSuccess()"
@@ -58,7 +58,7 @@
         @case ('error') {
           <div>
             <ul class="op-toast--errors">
-              @for (error of data; track error) {
+              @for (error of errors; track error) {
                 <li [textContent]="error"></li>
               }
             </ul>

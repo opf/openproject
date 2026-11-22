@@ -2,7 +2,7 @@
 ---
 delete:
   summary: Delete query
-  operationId: Delete_query
+  operationId: delete_query
   tags:
     - Queries
   description: Delete the query identified by the id parameter
@@ -56,7 +56,7 @@ delete:
       headers: {}
 get:
   summary: View query
-  operationId: View_query
+  operationId: get_query
   tags:
     - Queries
   description: Retrieve an individual query as identified by the id parameter. Then
@@ -236,7 +236,7 @@ get:
       headers: {}
 patch:
   summary: Edit Query
-  operationId: Edit_Query
+  operationId: update_query
   tags:
     - Queries
   description: |-

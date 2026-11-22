@@ -72,5 +72,5 @@ get:
   tags:
     - Categories
   description: 'List all categories of a project'
-  operationId: List_categories_of_a_workspace
+  operationId: list_categories_of_a_workspace
   summary: List categories of a workspace

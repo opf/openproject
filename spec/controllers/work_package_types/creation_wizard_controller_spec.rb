@@ -58,6 +58,12 @@ RSpec.describe WorkPackageTypes::CreationWizardController do
         expect(response).to redirect_to(type_creation_wizard_path(type, step: :defaults))
       end
 
+      it "persists the description entered in the wizard" do
+        post :create, params: { type: { name: "Critical", description: "For urgent work" } }
+
+        expect(Type.find_by!(name: "Critical").description).to eq("For urgent work")
+      end
+
       context "with invalid params" do
         it "does not create and re-renders the details step" do
           expect do
@@ -107,6 +113,12 @@ RSpec.describe WorkPackageTypes::CreationWizardController do
 
           expect(type.reload.name).to eq("Blocker")
           expect(response).to redirect_to(type_creation_wizard_path(type, step: :defaults))
+        end
+
+        it "persists the description" do
+          patch :update, params: { type_id: type.id, step: :details, type: { name: "Blocker", description: "Blocks work" } }
+
+          expect(type.reload.description).to eq("Blocks work")
         end
       end
 
@@ -209,6 +221,17 @@ RSpec.describe WorkPackageTypes::CreationWizardController do
         end
 
         it { expect(response).to have_http_status(:not_found) }
+      end
+    end
+
+    describe "POST create" do
+      it "persists the description entered in the wizard" do
+        expect do
+          post :create, params: { project_id: project.id, type_id: type.id,
+                                  type_variant: { variant_name: "Rush", description: "Needs it yesterday" } }
+        end.to change(TypeVariant, :count).by(1)
+
+        expect(TypeVariant.find_by!(variant_name: "Rush").description).to eq("Needs it yesterday")
       end
     end
   end

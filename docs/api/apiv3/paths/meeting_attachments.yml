@@ -79,7 +79,7 @@ get:
   tags:
     - Attachments
   description: ''
-  operationId: List_attachments_by_meeting
+  operationId: list_attachments_by_meeting
   summary: List attachments by meeting
 post:
   parameters:
@@ -256,5 +256,5 @@ post:
   description: |-
     Adds an attachment with the meeting as its container.
 
-  operationId: Add_attachment_to_meeting
+  operationId: add_attachment_to_meeting
   summary: Add attachment to meeting

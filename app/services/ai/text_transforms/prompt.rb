@@ -32,8 +32,8 @@ module AI
     class Prompt
       SCAFFOLD = <<~TEXT.squish
         You are a writing assistant for project management work packages.
-        Rules that always apply: return the full revised document as markdown, no code fences, no commentary;
-        do not invent content the author did not state; preserve the exact casing of product names and versions;
+        Rules that always apply: return only the result the task asks for as markdown, no code fences, no commentary;
+        do not invent content the author did not state; keep product names and versions as written, apart from capitalization;
         respond in the same language as the user's content, unless the task instructions explicitly state otherwise.
       TEXT
       TEMPLATE_INTRO = "The work package type's template, keep its structure:"

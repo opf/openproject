@@ -57,7 +57,7 @@ See COPYRIGHT and LICENSE files for more details.
         <% end %>
 
         <%= render(Primer::Alpha::Stack.new(direction: :horizontal, align: :center)) do %>
-          <%= render(Backlogs::SprintStatusBadgeComponent.new(sprint:)) %>
+          <%= render(Backlogs::SprintStatusLabelComponent.new(sprint:)) %>
 
           <% if show_velocity? %>
             <%= render(Primer::Beta::Text.new(classes: "velocity", aria: { live: "polite" })) do %>
@@ -65,10 +65,10 @@ See COPYRIGHT and LICENSE files for more details.
             <% end %>
           <% end %>
 
-          <% if sprint.date_range_set? %>
+          <% if displayed_dates.any? %>
             <%= render(Primer::Beta::Text.new(role: :group, ml: :auto, mr: 2)) do %>
               <%= render(Primer::Beta::Octicon.new(:calendar, size: :small, mr: 1)) %>
-              <%= format_date_range([sprint.start_date, sprint.finish_date]) %>
+              <%= format_date_range(displayed_dates.range) %>
             <% end %>
           <% end %>
         <% end %>

@@ -28,12 +28,7 @@
 #++
 
 module Backlogs::Concerns
-  # Decides whether a card may offer to move its work package.
-  #
-  # The card row and the card menu are separate components that each render a
-  # way to move it, so the decision lives here and both consume it: a
-  # surface that answered the question for itself would be free to drift out of
-  # step with the other, which is the defect this exists to prevent.
+  # Decides whether a card row may offer to move its work package.
   #
   # Requires `work_package`, `project` and `current_user` in the including
   # component; `project` and `current_user` are what {#sortable?} resolves the

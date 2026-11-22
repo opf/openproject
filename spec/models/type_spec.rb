@@ -598,4 +598,19 @@ RSpec.describe Type do
       end
     end
   end
+
+  describe "description length" do
+    it "accepts a description up to the maximum length" do
+      type.description = "a" * Type::DESCRIPTION_MAX_LENGTH
+
+      expect(type).to be_valid
+    end
+
+    it "rejects a description longer than the maximum length" do
+      type.description = "a" * (Type::DESCRIPTION_MAX_LENGTH + 1)
+
+      expect(type).not_to be_valid
+      expect(type.errors[:description]).to be_present
+    end
+  end
 end

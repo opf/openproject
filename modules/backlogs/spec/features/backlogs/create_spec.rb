@@ -85,6 +85,8 @@ RSpec.describe "Create", :js do
         click_on "Create"
       end
 
+      planning_page.expect_loading_skeleton
+
       expect_and_dismiss_flash(exact_message: "Successful creation.")
       planning_page.expect_sprint_names_in_order(initial_sprint.name, "Created sprint")
 

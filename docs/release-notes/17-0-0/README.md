@@ -88,7 +88,7 @@ A banner clearly indicates draft mode, and invitations are only sent once the me
 
 ![OpenProject meeting draft mode, indicated by a "Draft" status and a banner explaining draft mode. There is a green button "Open meeting in the upper right corner".](openproject-17-0-meeting-draft-mode.png)
 
-See our user guide to [learn more about meeting draft mode in OpenProject](../../user-guide/meetings/one-time-meetings/#meeting-draft-mode).
+See our user guide to [learn more about meeting draft mode in OpenProject](../../user-guide/meetings/meeting-features/meeting-modes/#meeting-draft-mode).
 
 #### Full-screen presentation mode
 
@@ -99,7 +99,7 @@ The new **presentation mode** offers a distraction-free, full-screen view that f
 
 Unlike the standard view, changes made by participants are reflected **live** in presentation mode, so moderators and attendees always see the current state of the agenda without additional pop-ups. Keyboard navigation using arrow keys is possible.
 
-See our user guide to [learn how to present a meeting in OpenProject](../../user-guide/meetings/one-time-meetings/#present-a-meeting).
+See our user guide to [learn how to present a meeting in OpenProject](../../user-guide/meetings/meeting-features/meeting-modes/#present-a-meeting).
 
 #### Multiple text-based outcomes per agenda item
 

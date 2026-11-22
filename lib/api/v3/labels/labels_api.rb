@@ -45,7 +45,7 @@ module API
                  .mount
 
           post do
-            authorize_in_any_project(:edit_work_packages)
+            authorize_in_any_work_package(:edit_work_packages)
 
             attributes = ::API::V3::ParseResourceParamsService
                            .new(current_user, model: Label)

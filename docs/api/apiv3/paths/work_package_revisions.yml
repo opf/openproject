@@ -118,5 +118,5 @@ get:
   description: |-
     Gets a list of revisions that are linked to this work package, e.g., because it is referenced in the commit message of the revision.
     Only linked revisions from repositories are shown if the user has the view changesets permission in the defining project.
-  operationId: Revisions
+  operationId: list_work_package_revisions
   summary: Revisions

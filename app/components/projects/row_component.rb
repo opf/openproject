@@ -195,7 +195,7 @@ module Projects
     def project_status
       return nil unless user_can_view_project_attributes?
 
-      render(Projects::StatusBadgeComponent.new(project:))
+      render(Projects::StatusLabelComponent.new(project:))
     end
 
     def status_explanation

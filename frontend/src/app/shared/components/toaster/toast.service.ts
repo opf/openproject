@@ -41,6 +41,8 @@ export function removeSuccessFlashMessages():void {
   document.querySelectorAll('.op-toast.-success').forEach((flashMessage) => flashMessage.remove());
 }
 
+export type ToastUpload = [File, Observable<HttpEvent<unknown>>];
+
 export type ToastType = 'success'|'error'|'warning'|'info'|'upload'|'loading';
 
 export interface IToast {
@@ -139,7 +141,7 @@ export class ToastService {
     return this.add(this.createToast(message, 'info'));
   }
 
-  public addUpload(message:string, uploads:[File, Observable<HttpEvent<unknown>>][]):IToast {
+  public addUpload(message:string, uploads:ToastUpload[]):IToast {
     if (!uploads.length) {
       throw new Error('Cannot create an upload toast without uploads!');
     }

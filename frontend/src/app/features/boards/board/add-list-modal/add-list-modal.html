@@ -30,8 +30,8 @@
             [getOptionsFn]=autocompleterOptions.getOptionsFn
             (change)="onModelChange($event)"
             >
-            @if (autocompleterOptions.resource==='version'; as search) {
-              <ng-template op-autocompleter-footer-tmp let-search>
+            @if (autocompleterOptions.resource === 'version') {
+              <ng-template op-autocompleter-footer-tmp>
                 <button
                   class="op-select-footer--label"
                   type="button"

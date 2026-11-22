@@ -47,7 +47,7 @@ delete:
 
 get:
   summary: View placeholder user
-  operationId: view_placeholder_user
+  operationId: get_placeholder_user
   description: Return the placeholder user resource.
   tags:
     - Principals

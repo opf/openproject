@@ -32,11 +32,11 @@ Take a look at our release video showing the most important features introduced 
 
 Meeting organization becomes even easier with OpenProject 16.0: Meeting backlogs allow users to collect, manage, and prepare agenda items more flexibly — both for one-time meetings and for recurring meeting series.
 
-In one-time meetings, the new [**Agenda backlog**](../../../user-guide/meetings/one-time-meetings/#agenda-backlogs) stores topics that are not yet assigned to the current meeting but may be added later.
+In one-time meetings, the new [**Agenda backlog**](../../../user-guide/meetings/meeting-features/meeting-agenda/#agenda-backlogs) stores topics that are not yet assigned to the current meeting but may be added later.
 
 ![A one-time meeting in OpenProject with an Agenda backlog and info to 'Drag items here or create a new one'.](openproject-16-0-meeting-backlogs-one-time-highlighted.png)
 
-In recurring meetings, the shared [**Series backlog**](../../../user-guide/meetings/recurring-meetings/#meeting-backlogs-for-recurring-meetings) helps track open points across all meeting occurrences and move items between them as priorities change.
+In recurring meetings, the shared [**Series backlog**](../../../user-guide/meetings/meeting-types/recurring-meetings/#meeting-backlogs-for-recurring-meetings) helps track open points across all meeting occurrences and move items between them as priorities change.
 
 ![A recurring meeting in OpenProject with a Series backlog and and options to Edit, add notes, Move to current meeting or Remove from agenda.](openproject-16-0-meeting-backlogs-recurring-options.png)
 
@@ -78,7 +78,7 @@ Get an [introduction in the user guide](../../../user-guide/work-packages/automa
 
 ## Separate time tracking module with calendar view
 
-OpenProject 16.0 offers a separate time tracking module with a calendar view. It is accessible from the global view and listed in the left side bar navigation called [My time tracking](../../../user-guide/time-and-costs/my-work/). There, users can view and edit their logged time with start and end times. Users can switch between daily, weekly, work week and monthly views and also log new time entries directly by clicking in the calendar.
+OpenProject 16.0 offers a separate time tracking module with a calendar view. It is accessible from the global view and listed in the left side bar navigation called [My time tracking](../../../user-guide/time-and-costs/my-time/). There, users can view and edit their logged time with start and end times. Users can switch between daily, weekly, work week and monthly views and also log new time entries directly by clicking in the calendar.
 
 Each day shows the sum of the tracked time, and in the weekly and monthly views, the total tracked time is displayed in the lower right corner.
 
@@ -86,7 +86,7 @@ Each day shows the sum of the tracked time, and in the weekly and monthly views,
 
 Please note that this module has to be activated by an administrator first. Navigate to _Administration → Time and costs → Defaults_ and check the box next to 'Allow exact time tracking' to enable tracking start and finish dates. If 'Allow exact time tracking' is enabled, the calendar becomes the default view for the My time tracking module. If 'Require exact times' is checked, users must provide both start and end times when logging time. Otherwise, the list view remains the default. In the calendar view, all entries are then displayed at the top of the respective day column.
 
-Learn more about My time tracking module in [this user guide](../../../user-guide/time-and-costs/my-work/) and [this blog article](https://www.openproject.org/blog/time-tracking-module/).
+Learn more about My time tracking module in [this user guide](../../../user-guide/time-and-costs/my-time/) and [this blog article](https://www.openproject.org/blog/time-tracking-module/).
 
 ### Time entries with legally required mandatory fields: start time and finish time
 
