@@ -50,6 +50,15 @@ class WorkPackageFormHostComponent {
   saved:WorkPackageResource|undefined;
 }
 
+@Component({
+  template: '<edit-form [resource]="resource" [autofocusAllowed]="autofocusAllowed" />',
+  imports: [OpenprojectFieldsModule],
+})
+class AutofocusFormHostComponent {
+  resource:WorkPackageResource;
+  autofocusAllowed = () => true;
+}
+
 describe('EditFormComponent resource output', () => {
   beforeEach(async () => {
     TestBed.overrideModule(OpenprojectFieldsModule, {
@@ -84,5 +93,42 @@ describe('EditFormComponent resource output', () => {
 
     expect(output).toHaveBeenCalledWith({ savedResource: saved, isInitial: true });
     expect(fixture.componentInstance.saved).toBe(saved);
+  });
+});
+
+describe('EditFormComponent field autofocus', () => {
+  beforeEach(async () => {
+    TestBed.overrideModule(OpenprojectFieldsModule, {
+      set: { declarations: [EditFormComponent], exports: [EditFormComponent], imports: [], providers: [], schemas: [] },
+    });
+    await TestBed.configureTestingModule({
+      imports: [AutofocusFormHostComponent, WorkPackageFormHostComponent],
+      providers: [
+        provideHttpClient(), provideHttpClientTesting(),
+        { provide: EditingPortalService, useValue: {} },
+        { provide: GlobalEditFormChangesTrackerService, useValue: { addToActiveForms: vi.fn(), removeFromActiveForms: vi.fn() } },
+        { provide: SchemaCacheService, useValue: {} },
+        { provide: I18nService, useValue: {} },
+      ],
+    }).compileComponents();
+  });
+
+  it.each([true, false])('lets its fields autofocus as the host allows (%s)', (allowed) => {
+    const fixture = TestBed.createComponent(AutofocusFormHostComponent);
+    fixture.componentInstance.autofocusAllowed = () => allowed;
+    fixture.detectChanges();
+    const form = fixture.debugElement.query(By.directive(EditFormComponent)).injector.get(EditFormComponent);
+
+    expect(form.allowsFieldAutofocus('subject')).toBe(allowed);
+    expect(form.keepsFieldAutofocus('subject')).toBe(allowed);
+  });
+
+  it('lets its fields autofocus when the host does not decide', () => {
+    const fixture = TestBed.createComponent(WorkPackageFormHostComponent);
+    fixture.detectChanges();
+    const form = fixture.debugElement.query(By.directive(EditFormComponent)).injector.get(EditFormComponent);
+
+    expect(form.allowsFieldAutofocus('subject')).toBe(true);
+    expect(form.keepsFieldAutofocus('subject')).toBe(true);
   });
 });

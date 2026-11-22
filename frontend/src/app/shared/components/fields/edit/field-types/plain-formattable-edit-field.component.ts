@@ -37,8 +37,10 @@ import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-
   changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class PlainFormattableEditFieldComponent extends EditFieldComponent {
-  // only exists because the template is reused and the property is required there.
+  // only exist because the template is reused and the properties are required there.
   public shouldFocus = false;
+
+  public keepsFocus = () => true;
 
   public get value() {
     if (!this.schema) {

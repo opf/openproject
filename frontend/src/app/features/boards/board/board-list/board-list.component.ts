@@ -382,7 +382,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   public addNewCard() {
-    this.cardView.addNewCard();
+    this.cardView.addNewCard(this.indicator.nativeElement);
   }
 
   public deleteList() {

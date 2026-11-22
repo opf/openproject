@@ -65,6 +65,7 @@ import { OpenprojectEnterpriseModule } from 'core-app/features/enterprise/openpr
     OpActionMenuComponent,
     OpActionMenuTriggerDirective,
     BoardsToolbarMenuDirective,
+    AddCardDropdownMenuDirective,
 
     // Dynamic Module for actions
     DynamicModule,
@@ -80,7 +81,6 @@ import { OpenprojectEnterpriseModule } from 'core-app/features/enterprise/openpr
     BoardConfigurationModalComponent,
     BoardsMenuButtonComponent,
     AddListModalComponent,
-    AddCardDropdownMenuDirective,
     BoardListMenuComponent,
     BoardFilterComponent,
     VersionBoardHeaderComponent,

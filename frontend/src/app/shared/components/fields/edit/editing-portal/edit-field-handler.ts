@@ -38,6 +38,10 @@ export abstract class EditFieldHandler extends UntilDestroyedMixin {
     return true;
   }
 
+  public keepsAutofocus():boolean {
+    return true;
+  }
+
   public readonly element?:HTMLElement;
 
   public get overlays():ReadonlySet<HTMLElement> {

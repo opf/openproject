@@ -84,14 +84,14 @@ RSpec.describe "Board management spec", :js, :selenium do
         click_on accessible_name: "Add card"
       end
 
-      page.find(".menu-item", text: "Add new card").click
+      within(:menu, "Add card") { find(:menuitem, "Add new card").click }
 
       # Open in list 2
       board_page.within_list("List 2") do
         click_on accessible_name: "Add card"
       end
 
-      page.find(".menu-item", text: "Add new card").click
+      within(:menu, "Add card") { find(:menuitem, "Add new card").click }
 
       board_page.within_list("List 2") do
         subject = page.find_by_id("wp-new-inline-edit--field-subject")
@@ -118,7 +118,7 @@ RSpec.describe "Board management spec", :js, :selenium do
       board_page.within_list("List 1") do
         click_on accessible_name: "Add card"
       end
-      page.find(".menu-item", text: "Add new card").click
+      within(:menu, "Add card") { find(:menuitem, "Add new card").click }
 
       board_page.within_list("List 1") do
         subject = page.find_by_id("wp-new-inline-edit--field-subject")
@@ -144,7 +144,7 @@ RSpec.describe "Board management spec", :js, :selenium do
       board_page.within_list("List 1") do
         click_on accessible_name: "Add card"
       end
-      page.find(".menu-item", text: "Add new card").click
+      within(:menu, "Add card") { find(:menuitem, "Add new card").click }
 
       board_page.within_list("List 1") do
         subject = page.find_by_id("wp-new-inline-edit--field-subject")

@@ -81,11 +81,11 @@ module Pages
 
     def add_card(list_name, card_title)
       within_list(list_name) do
-        click_on accessible_name: "Add card"
+        click_on accessible_name: I18n.t("js.boards.add_card")
       end
 
       # Add item in dropdown
-      page.find(".menu-item", text: "Add new card").click
+      within(:menu, I18n.t("js.boards.add_card")) { find(:menuitem, I18n.t("js.card.add_new")).click }
 
       subject = page.find_by_id("wp-new-inline-edit--field-subject")
       subject.set card_title
@@ -107,10 +107,10 @@ module Pages
 
     def reference(list_name, work_package)
       within_list(list_name) do
-        click_on accessible_name: "Add card"
+        click_on accessible_name: I18n.t("js.boards.add_card")
       end
 
-      page.find(".menu-item", text: "Add existing").click
+      within(:menu, I18n.t("js.boards.add_card")) { find(:menuitem, I18n.t("js.relation_buttons.add_existing")).click }
 
       select_autocomplete(page.find("ng-select.wp-inline-create--reference-autocompleter"),
                           query: work_package.subject,
@@ -122,10 +122,10 @@ module Pages
 
     def expect_not_referencable(list_name, work_package)
       within_list(list_name) do
-        click_on accessible_name: "Add card"
+        click_on accessible_name: I18n.t("js.boards.add_card")
       end
 
-      page.find(".menu-item", text: "Add existing").click
+      within(:menu, I18n.t("js.boards.add_card")) { find(:menuitem, I18n.t("js.relation_buttons.add_existing")).click }
 
       target_dropdown = search_autocomplete(page.find("ng-select.wp-inline-create--reference-autocompleter"),
                                             query: work_package.subject,

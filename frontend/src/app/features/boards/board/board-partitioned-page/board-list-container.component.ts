@@ -69,6 +69,9 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { States } from 'core-app/core/states/states.service';
+import {
+  AddCardPermissionsService,
+} from 'core-app/features/boards/board/add-card-dropdown/add-card-permissions.service';
 import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 
 @Component({
@@ -78,6 +81,7 @@ import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-p
   styleUrls: ['./board-list-container.component.sass'],
   providers: [
     BoardListCrossSelectionService,
+    AddCardPermissionsService,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,

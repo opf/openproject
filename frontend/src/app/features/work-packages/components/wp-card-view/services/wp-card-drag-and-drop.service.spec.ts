@@ -25,11 +25,14 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element.js';
 import {
-  Component, inject, input, signal,
+  Component, CUSTOM_ELEMENTS_SCHEMA, Directive, ElementRef, inject, input, signal,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { screen, waitFor, within } from '@testing-library/dom';
+import { userEvent } from 'vitest/browser';
 import { Observable, of, throwError } from 'rxjs';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
@@ -54,6 +57,12 @@ import type {
   SortableListsDropEvent,
   SortableListsRemovedEvent,
 } from 'core-app/shared/directives/sortable-lists/sortable-lists.directive';
+import { FocusModule } from 'core-app/shared/directives/focus/focus.module';
+import { OpActionMenuComponent } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.component';
+import { OpActionMenuItems } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu-items';
+import {
+  OpActionMenuTriggerDirective,
+} from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu-trigger.directive';
 import { WorkPackageCardDragAndDropService } from './wp-card-drag-and-drop.service';
 
 // The list id this service instance owns in every unit-level (non-DOM) test
@@ -161,6 +170,52 @@ function buildRemovedEvent(overrides:{
   };
 }
 
+@Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
+  selector: '[op-testMenuItems]',
+})
+class TestMenuItemsDirective extends OpActionMenuItems {
+  protected buildItems() {
+    return [{ linkText: 'Item', onClick: () => true }];
+  }
+}
+
+@Component({
+  selector: 'op-test-new-card',
+  imports: [FocusModule],
+  template: '<span>New card</span><input aria-label="Subject" [opAutofocus]="shouldFocus" [opAutofocusWhile]="keepsFocus" />',
+})
+class NewCardDoubleComponent {
+  private readonly card = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+
+  private readonly cardDragDrop = inject(WorkPackageCardDragAndDropService);
+
+  readonly keepsFocus = () => this.cardDragDrop.allowsNewCardAutofocus(this.card);
+
+  readonly shouldFocus = this.keepsFocus();
+}
+
+@Component({
+  imports: [OpActionMenuComponent, OpActionMenuTriggerDirective, TestMenuItemsDirective, NewCardDoubleComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  template: `
+    <section aria-label="List A">
+      <op-action-menu op-testMenuItems label="More in A">
+        <button opActionMenuTrigger type="button">More in A</button>
+      </op-action-menu>
+      @if (newCardOpen()) {
+        <op-test-new-card />
+      }
+    </section>
+    <op-action-menu op-testMenuItems label="More in B">
+      <button opActionMenuTrigger type="button">More in B</button>
+    </op-action-menu>
+  `,
+})
+class NewCardBoardHostComponent {
+  readonly newCardOpen = signal(false);
+}
+
 describe('WorkPackageCardDragAndDropService', () => {
   let service:WorkPackageCardDragAndDropService;
   let states:States;
@@ -172,6 +227,7 @@ describe('WorkPackageCardDragAndDropService', () => {
     orderedWorkPackages:ReturnType<typeof vi.fn>;
   };
   let notificationStub:{ handleRawError:ReturnType<typeof vi.fn> };
+  let wpCreateStub:{ createOrContinueWorkPackage:ReturnType<typeof vi.fn> };
   let apiV3ServiceStub:{ work_packages:{ id:ReturnType<typeof vi.fn> } };
   let cardView:{
     cdRef:{ detectChanges:ReturnType<typeof vi.fn> };
@@ -198,6 +254,7 @@ describe('WorkPackageCardDragAndDropService', () => {
       orderedWorkPackages: vi.fn().mockReturnValue([]),
     };
     notificationStub = { handleRawError: vi.fn() };
+    wpCreateStub = { createOrContinueWorkPackage: vi.fn() };
     apiV3ServiceStub = { work_packages: { id: vi.fn((id:string) => ({ get: () => of(buildWp(id)) })) } };
 
     await TestBed.configureTestingModule({
@@ -205,7 +262,7 @@ describe('WorkPackageCardDragAndDropService', () => {
         States,
         { provide: WorkPackageViewOrderService, useValue: reorderServiceStub },
         { provide: WorkPackageNotificationService, useValue: notificationStub },
-        { provide: WorkPackageCreateService, useValue: { createOrContinueWorkPackage: vi.fn() } },
+        { provide: WorkPackageCreateService, useValue: wpCreateStub },
         { provide: WorkPackageInlineCreateService, useValue: { newInlineWorkPackageCreated: { next: vi.fn() } } },
         { provide: ApiV3Service, useValue: apiV3ServiceStub },
         { provide: CurrentProjectService, useValue: { identifier: 'test-project' } },
@@ -760,6 +817,156 @@ describe('WorkPackageCardDragAndDropService', () => {
       expect(result).toBe(true);
       expect(idsOf(service.workPackages)).toEqual(['x', 'a']);
       expect(notificationStub.handleRawError).toHaveBeenCalledWith(addError, expect.anything());
+    });
+  });
+
+  describe('addNewCard — subject autofocus', () => {
+    let list:HTMLElement;
+    let elsewhere:HTMLButtonElement;
+    let form:ReturnType<typeof deferred<unknown>>;
+
+    beforeEach(() => {
+      document.body.innerHTML = `
+        <div data-list="A"><button type="button">Add card in A</button></div>
+        <button type="button">Add new card in B</button>
+      `;
+      list = document.querySelector<HTMLElement>('[data-list="A"]')!;
+      elsewhere = document.querySelector<HTMLButtonElement>('body > button')!;
+      form = deferred();
+      wpCreateStub.createOrContinueWorkPackage.mockReturnValue(form.promise);
+      service.workPackages = [];
+    });
+
+    afterEach(() => {
+      document.body.innerHTML = '';
+    });
+
+    const openNewCard = async () => {
+      form.resolve({ projectedResource: buildWp('new') });
+      await flush();
+    };
+
+    it('focuses the subject while focus stays in the list', async () => {
+      list.querySelector('button')!.focus();
+      service.addNewCard(list);
+
+      await openNewCard();
+
+      expect(service.allowsNewCardAutofocus()).toBe(true);
+    });
+
+    it('focuses the subject when focus fell back to the page', async () => {
+      service.addNewCard(list);
+      (document.activeElement as HTMLElement|null)?.blur();
+
+      await openNewCard();
+
+      expect(service.allowsNewCardAutofocus()).toBe(true);
+    });
+
+    it('leaves focus where the user moved it while the card was loading', async () => {
+      list.querySelector('button')!.focus();
+      service.addNewCard(list);
+      elsewhere.focus();
+
+      await openNewCard();
+
+      expect(service.allowsNewCardAutofocus()).toBe(false);
+    });
+
+    it('stops tracking the request when the new card fails to load', async () => {
+      const unhandled = (event:PromiseRejectionEvent) => event.preventDefault();
+      window.addEventListener('unhandledrejection', unhandled);
+      onTestFinished(() => window.removeEventListener('unhandledrejection', unhandled));
+      list.querySelector('button')!.focus();
+      service.addNewCard(list);
+
+      form.reject(new Error('form failed'));
+      await flush();
+      elsewhere.focus();
+
+      expect(service.allowsNewCardAutofocus()).toBe(true);
+    });
+
+    describe('next to an open menu', () => {
+      let fixture:ComponentFixture<NewCardBoardHostComponent>;
+
+      const listA = () => screen.getByRole('region', { name: 'List A' });
+
+      const showNewCard = () => {
+        fixture.componentInstance.newCardOpen.set(true);
+        fixture.detectChanges();
+      };
+
+      const showNewCardWithFakeTimers = async () => {
+        await openNewCard();
+        vi.useFakeTimers({ toFake: ['setTimeout'] });
+        showNewCard();
+      };
+
+      const openMenu = async (name:string) => {
+        await userEvent.click(screen.getByRole('button', { name }));
+        fixture.detectChanges();
+        const menu = screen.getByRole('menu', { name });
+        const item = within(menu).getByRole('menuitem', { name: 'Item' });
+        item.focus();
+        return { menu, item };
+      };
+
+      beforeEach(async () => {
+        fixture = TestBed.createComponent(NewCardBoardHostComponent);
+        await fixture.whenStable();
+      });
+
+      afterEach(() => {
+        vi.useRealTimers();
+        fixture.destroy();
+        service.destroy();
+      });
+
+      it('focuses the subject of a new card created without interruption', async () => {
+        screen.getByRole('button', { name: 'More in A' }).focus();
+        service.addNewCard(listA());
+
+        await openNewCard();
+        showNewCard();
+
+        await waitFor(() => expect(screen.getByRole('textbox', { name: 'Subject' })).toHaveFocus());
+      });
+
+      it('keeps open the menu of another list opened before the subject takes focus', async () => {
+        screen.getByRole('button', { name: 'More in A' }).focus();
+        service.addNewCard(listA());
+
+        await showNewCardWithFakeTimers();
+        const { menu, item } = await openMenu('More in B');
+        vi.advanceTimersByTime(20);
+
+        expect(menu).toBeVisible();
+        expect(item).toHaveFocus();
+      });
+
+      it('keeps open a menu of the same list opened while the new card loads', async () => {
+        screen.getByRole('button', { name: 'More in A' }).focus();
+        service.addNewCard(listA());
+
+        const { menu, item } = await openMenu('More in A');
+        await showNewCardWithFakeTimers();
+        vi.advanceTimersByTime(20);
+
+        expect(menu).toBeVisible();
+        expect(item).toHaveFocus();
+      });
+
+      it('focuses the subject after a click elsewhere in the new card', async () => {
+        service.addNewCard(listA());
+
+        await showNewCardWithFakeTimers();
+        await userEvent.click(screen.getByText('New card'));
+        vi.advanceTimersByTime(20);
+
+        expect(screen.getByRole('textbox', { name: 'Subject' })).toHaveFocus();
+      });
     });
   });
 
