@@ -5983,6 +5983,10 @@ en:
       label: "Status Report"
       no_related_work_packages: No related work packages
       project_attributes: Project attributes
+      project_status: Project status
+      report_details: Report details
+      status_summary: Status summary
+      workflow_status: Workflow status
   permission_add_internal_comments: "Write internal comments"
   permission_add_messages: "Post messages"
   permission_add_portfolios: "Create portfolios"

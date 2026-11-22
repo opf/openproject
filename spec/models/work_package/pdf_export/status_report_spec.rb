@@ -51,8 +51,17 @@ RSpec.describe WorkPackage::PDFExport::StatusReport do
       I18n.t("activerecord.attributes.project.status_codes.at_risk"),
       "Electrical installation",
       "November Status Report",
-      "Status at the cutoff"
+      "Status summary",
+      "Status at the cutoff",
+      "Report details",
+      "Workflow status"
     )
+  end
+
+  it "separates the project status from the report workflow" do
+    expect(pdf_text.index("Project status")).to be < pdf_text.index("Project attributes")
+    expect(pdf_text.index("Report details")).to be < pdf_text.index("Workflow status")
+    expect(pdf_text.scan("Project attributes").length).to eq(1)
   end
 
   context "with an embedded table" do
