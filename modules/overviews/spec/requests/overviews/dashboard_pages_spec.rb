@@ -68,6 +68,17 @@ RSpec.describe "Project dashboard pages", :skip_csrf, type: :rails_request do
     expect(response.body).to include("Delivery", "Progress Report", "Configure dashboard")
   end
 
+  it "renders the name form and widget editor when configuring a project dashboard" do
+    dashboard = Grids::DashboardPage.create!(project:, name: "Delivery", row_count: 1, column_count: 1)
+
+    get edit_project_dashboard_page_path(project, dashboard)
+
+    expect(response).to have_http_status(:ok)
+    document = response.parsed_body
+    expect(document.at_css('input[name="dashboard_page[name]"]')["value"]).to eq(dashboard.name)
+    expect(document.at_css("opce-dashboard[data-grid-id='#{dashboard.id}']")).to be_present
+  end
+
   it "lets project managers deactivate and reactivate a standard dashboard for one project" do
     patch deactivate_project_dashboard_page_path(project, standard)
     expect(response).to redirect_to(project_overview_path(project))
