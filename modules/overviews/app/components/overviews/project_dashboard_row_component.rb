@@ -29,14 +29,28 @@
 
 module Overviews
   class ProjectDashboardRowComponent < OpPrimer::BorderBoxRowComponent
-    alias_method :entry, :model
-    delegate :project, :dashboard_type, to: :table
-    delegate :dashboard, to: :entry
+    include SortableLists::MoveMenu
 
-    def row_data = { dashboard_tab_key: entry.key }
+    alias_method :entry, :model
+    delegate :project, :dashboard_type, :filters, :reorderable?, to: :table
+    delegate :dashboard, :display_name, to: :entry
+
+    def row_data
+      data = { dashboard_tab_key: entry.key }
+      return data unless reorderable?
+
+      data.merge(
+        controller: "sortable-lists--item",
+        sortable_lists__item_target: "preview",
+        sortable_lists__item_id_value: entry.key,
+        sortable_lists__item_type_value: DashboardTabs::SORTABLE_LIST_TYPE,
+        sortable_lists__item_label_value: display_name
+      )
+    end
 
     def name
       flex_layout(align_items: :center) do |flex|
+        flex.with_column(mr: 2) { drag_handle } if reorderable?
         flex.with_column { dashboard_name }
 
         if entry.standard?
@@ -53,8 +67,14 @@ module Overviews
       end
     end
 
+    def projects
+      return table.projects_count(dashboard) if entry.standard?
+
+      entry.active ? 1 : 0
+    end
+
     def button_links
-      return [] unless editable? || !entry.active || reorderable?
+      return [] if entry.active && !manageable? && !reorderable?
 
       [action_menu]
     end
@@ -62,69 +82,76 @@ module Overviews
     private
 
     def dashboard_name
-      if entry.active
-        render(Primer::Beta::Link.new(href: dashboard_path, underline: false, font_weight: :bold)) { display_name }
+      if (path = edit_path)
+        render(Primer::Beta::Link.new(href: path, underline: false, font_weight: :bold)) { display_name }
       else
         render(Primer::Beta::Text.new(font_weight: :bold)) { display_name }
       end
     end
 
-    def display_name
-      entry.original? ? (dashboard&.display_name || t("overviews.label_dashboard")) : dashboard.name
+    def edit_path
+      return standard_edit_path if entry.standard?
+      return unless entry.active
+
+      if entry.original?
+        project_edit_settings_original_dashboard_path(project)
+      else
+        project_edit_settings_dashboard_page_path(project, dashboard)
+      end
     end
 
-    def dashboard_path
-      entry.original? ? dashboard_project_overview_path(project) : project_dashboard_page_path(project, dashboard)
+    def standard_edit_path
+      edit_admin_dashboard_page_path(dashboard) if table.can_manage_standard?
     end
 
-    def editable? = entry.active && !entry.original? && !entry.standard?
-
-    def reorderable? = table.reorderable? && table.rows.size > 1
+    def drag_handle
+      render(Primer::OpenProject::DragHandle.new(data: { sortable_lists__item_target: "handle" }))
+    end
 
     def action_menu
       render(Primer::Alpha::ActionMenu.new) do |menu|
         menu.with_show_button(icon: :"kebab-horizontal", scheme: :invisible, "aria-label": t(:label_actions))
-
-        with_item_group(menu) { dashboard_action(menu) }
-        with_item_group(menu) { move_actions(menu) } if reorderable?
+        activate_item(menu) unless entry.active
+        rename_item(menu) if manageable?
+        with_move_submenu(menu) if reorderable?
+        delete_item(menu) if manageable? && !entry.original?
       end
     end
 
-    def dashboard_action(menu)
-      if editable?
-        menu.with_item(label: t(:button_edit),
-                       tag: :a,
-                       href: project_edit_settings_dashboard_page_path(project, dashboard)) do |item|
-          item.with_leading_visual_icon(icon: :pencil)
-        end
-      elsif !entry.active
-        menu.with_item(label: t("overviews.dashboards.activate"),
-                       tag: :button,
-                       href: activate_path,
-                       form_arguments: { method: :patch }) do |item|
-          item.with_leading_visual_icon(icon: :eye)
-        end
+    def manageable? = dashboard.present? && !entry.standard?
+
+    def rename_item(menu)
+      path = if entry.original?
+               project_rename_original_dashboard_dialog_path(project, from_settings: "1")
+             else
+               rename_dialog_project_dashboard_page_path(project, dashboard, from_settings: "1")
+             end
+      menu.with_item(label: t(:button_rename), tag: :a, href: path,
+                     content_arguments: { data: { controller: "async-dialog" } }) do |item|
+        item.with_leading_visual_icon(icon: :pencil)
       end
     end
 
-    def move_actions(menu)
-      move_item(menu, "up", t(:label_sort_higher), :"chevron-up") unless entry == table.rows.first
-      move_item(menu, "down", t(:label_sort_lower), :"chevron-down") unless entry == table.rows.last
+    def delete_item(menu)
+      menu.with_item(label: t(:button_delete), tag: :a, scheme: :danger,
+                     href: deletion_dialog_project_dashboard_page_path(project, dashboard, from_settings: "1"),
+                     content_arguments: { data: { controller: "async-dialog" } }) do |item|
+        item.with_leading_visual_icon(icon: :trash)
+      end
+    end
+
+    def activate_item(menu)
+      menu.with_item(label: t("overviews.dashboards.activate"), tag: :button, href: activate_path,
+                     form_arguments: { method: :patch }) do |item|
+        item.with_leading_visual_icon(icon: :eye)
+      end
     end
 
     def activate_path
       if entry.original?
-        project_activate_original_dashboard_path(project, dashboard_type:)
+        project_activate_original_dashboard_path(project, dashboard_type:, filters:)
       else
-        activate_project_dashboard_page_path(project, dashboard, dashboard_type:)
-      end
-    end
-
-    def move_item(menu, direction, label, icon)
-      menu.with_item(label:, tag: :button,
-                     href: project_move_dashboard_tab_path(project, entry.key),
-                     form_arguments: { method: :patch, inputs: [{ name: "direction", value: direction }] }) do |item|
-        item.with_leading_visual_icon(icon:)
+        activate_project_dashboard_page_path(project, dashboard, dashboard_type:, filters:)
       end
     end
   end

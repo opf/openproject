@@ -76,13 +76,18 @@ RSpec.describe "Project dashboard pages", :skip_csrf, type: :rails_request do
     expect(response).to have_http_status(:ok)
     expect(response.parsed_body.at_css("page-header a[href='#{settings_path}']")).to be_present
 
-    patch project_move_dashboard_tab_path(project, local.id), params: { direction: "up" }
-    expect(response).to redirect_to(settings_path)
-    patch project_move_dashboard_tab_path(project, standard.id), params: { direction: "up" }
-    expect(response).to redirect_to(settings_path)
+    type = Overviews::DashboardTabs::SORTABLE_LIST_TYPE
+    put project_move_dashboard_tab_path(project, local.id), params: { list_type: type, prev_id: "" }
+    expect(response).to have_http_status(:no_content)
+    put project_move_dashboard_tab_path(project, standard.id), params: { list_type: type, prev_id: local.id }
+    expect(response).to have_http_status(:no_content)
 
-    follow_redirect!
-    expect(response).to have_http_status(:ok)
+    put project_move_dashboard_tab_path(project, standard.id),
+        params: { list_type: type, prev_id: standard.id },
+        headers: { "Accept" => Mime[:turbo_stream].to_s }
+    expect(response).to have_http_status(:unprocessable_entity)
+
+    get settings_path
     keys = response.parsed_body.css("[data-dashboard-tab-key]").pluck("data-dashboard-tab-key")
     expect(keys).to eq([local.id.to_s, standard.id.to_s, "original"])
 
@@ -97,7 +102,7 @@ RSpec.describe "Project dashboard pages", :skip_csrf, type: :rails_request do
     expect(keys).to eq(["original", standard.id.to_s])
   end
 
-  it "links to active dashboards and filters the list by type" do
+  it "links to dashboard editors and shows project counts and types" do
     local = Grids::DashboardPage.create!(project:, name: "Delivery", row_count: 1, column_count: 1)
     inactive = Grids::DashboardPage.create!(project:, name: "Archived report", row_count: 1, column_count: 1, disabled: true)
 
@@ -105,24 +110,41 @@ RSpec.describe "Project dashboard pages", :skip_csrf, type: :rails_request do
 
     document = response.parsed_body
     expect(document.css("segmented-control a").map { |link| link.text.strip }).to eq(["All", "Standard", "Project specific"])
-    expect(document.at_css("[data-dashboard-tab-key='original'] a[href='#{dashboard_project_overview_path(project)}']"))
-      .to be_present
-    expect(document.at_css("[data-dashboard-tab-key='#{local.id}'] a[href='#{project_dashboard_page_path(project, local)}']"))
-      .to be_present
+    expect(document.at_css("input#project-dashboard-name-search")).to be_present
+    original_row = document.at_css("[data-dashboard-tab-key='original']")
+    expect(original_row.at_css("a[href='#{project_edit_settings_original_dashboard_path(project)}']")).to be_present
+    local_row = document.at_css("[data-dashboard-tab-key='#{local.id}']")
+    expect(local_row.at_css("a[href='#{project_edit_settings_dashboard_page_path(project, local)}']")).to be_present
+    expect(local_row.at_css("[data-sortable-lists--item-target='handle']")).to be_present
+    expect(local_row.at_css("[role='cell'].projects").text.split.last).to eq("1")
     standard_row = document.at_css("[data-dashboard-tab-key='#{standard.id}']")
-    expect(standard_row.at_css("a[href='#{project_dashboard_page_path(project, standard)}']")).to be_present
+    expect(standard_row.at_css("[role='rowheader'] a")).to be_nil
     expect(standard_row.at_css(".Label").text).to eq("Standard")
+    expect(standard_row.at_css("[role='cell'].projects").text.split.last).to eq("2")
     expect(document.at_css("[data-dashboard-tab-key='#{inactive.id}'] [role='rowheader'] a")).to be_nil
+  end
+
+  it "combines the dashboard type filter with the name quick filter" do
+    local = Grids::DashboardPage.create!(project:, name: "Delivery", row_count: 1, column_count: 1)
+    inactive = Grids::DashboardPage.create!(project:, name: "Archived report", row_count: 1, column_count: 1, disabled: true)
 
     get settings_project_dashboard_pages_path(project, dashboard_type: "standard")
     document = response.parsed_body
     expect(document.css("[data-dashboard-tab-key]").pluck("data-dashboard-tab-key")).to eq([standard.id.to_s])
     expect(document.at_css("segmented-control .SegmentedControl-item--selected").text.strip).to eq("Standard")
-    expect(document.at_css("form[action='#{project_move_dashboard_tab_path(project, standard.id)}']")).to be_nil
+    expect(document.at_css("[data-sortable-lists--item-target='handle']")).to be_nil
 
     get settings_project_dashboard_pages_path(project, dashboard_type: "project")
     expect(response.parsed_body.css("[data-dashboard-tab-key]").pluck("data-dashboard-tab-key"))
       .to contain_exactly("original", local.id.to_s, inactive.id.to_s)
+
+    filters = [{ name: { operator: "~", values: ["DELIVE"] } }].to_json
+    get settings_project_dashboard_pages_path(project, dashboard_type: "project", filters:),
+        headers: { "Turbo-Frame" => "project-dashboard-list" }
+    document = response.parsed_body
+    expect(document.at_css("turbo-frame#project-dashboard-list")).to be_present
+    expect(document.css("[data-dashboard-tab-key]").pluck("data-dashboard-tab-key")).to eq([local.id.to_s])
+    expect(document.at_css("[data-sortable-lists--item-target='handle']")).to be_nil
   end
 
   it "renders the widget editor in project settings" do
@@ -134,6 +156,10 @@ RSpec.describe "Project dashboard pages", :skip_csrf, type: :rails_request do
     document = response.parsed_body
     expect(document.at_css('input[name="dashboard_page[name]"]')).to be_nil
     expect(document.at_css("opce-dashboard[data-grid-id='#{dashboard.id}']")).to be_present
+
+    get project_edit_settings_original_dashboard_path(project)
+    expect(response).to have_http_status(:ok)
+    expect(response.parsed_body.at_css("opce-dashboard")["data-project-identifier"]).to eq(project.identifier.to_json)
   end
 
   it "lets project managers deactivate and reactivate a standard dashboard for one project" do
@@ -198,6 +224,28 @@ RSpec.describe "Project dashboard pages", :skip_csrf, type: :rails_request do
 
     delete project_dashboard_page_path(project, dashboard)
     expect(response).to redirect_to(project_overview_path(project))
+    expect(Grids::DashboardPage.exists?(dashboard.id)).to be(false)
+  end
+
+  it "renames and deletes an inactive project dashboard from the settings list" do
+    dashboard = Grids::DashboardPage.create!(project:, name: "Delivery", row_count: 1, column_count: 1, disabled: true)
+    origin = { from_settings: "1" }
+    settings_path = settings_project_dashboard_pages_path(project)
+    rename_path = rename_dialog_project_dashboard_page_path(project, dashboard, **origin)
+    delete_path = deletion_dialog_project_dashboard_page_path(project, dashboard, **origin)
+
+    get settings_path
+    row = response.parsed_body.at_css("[data-dashboard-tab-key='#{dashboard.id}']")
+    expect(row.at_css("a[href='#{rename_path}'][data-controller='async-dialog']")).to be_present
+    expect(row.at_css("a[href='#{delete_path}'][data-controller='async-dialog']")).to be_present
+
+    action = project_dashboard_page_path(project, dashboard, **origin)
+    patch action, params: { dashboard_page: { name: "Updated" } }
+    expect(response).to redirect_to(settings_path)
+    expect(dashboard.reload.name).to eq("Updated")
+
+    delete action
+    expect(response).to redirect_to(settings_path)
     expect(Grids::DashboardPage.exists?(dashboard.id)).to be(false)
   end
 
@@ -282,7 +330,8 @@ RSpec.describe "Project dashboard pages", :skip_csrf, type: :rails_request do
       settings_path = settings_project_dashboard_pages_path(project)
       expect(response.parsed_body.at_css("a[href='#{settings_path}']")).to be_nil
 
-      patch project_move_dashboard_tab_path(project, standard.id), params: { direction: "up" }
+      put project_move_dashboard_tab_path(project, standard.id),
+          params: { list_type: Overviews::DashboardTabs::SORTABLE_LIST_TYPE, prev_id: "" }
       expect(response).to have_http_status(:forbidden)
 
       create(:overview, project:)
@@ -306,6 +355,11 @@ RSpec.describe "Project dashboard pages", :skip_csrf, type: :rails_request do
       expect(toolbar.text).not_to include("Rename", "Delete", "Deactivate dashboard", "Edit dashboard in project settings")
       expect(toolbar.at_css('[data-test-selector="overview--add-widgets-button"]')).to be_nil
       expect(document.at_css("opce-dashboard")["data-read-only"]).to eq("true")
+    end
+
+    it "does not allow opening the project dashboard settings list" do
+      get settings_project_dashboard_pages_path(project)
+      expect(response).to have_http_status(:forbidden)
     end
   end
 

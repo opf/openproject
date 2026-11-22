@@ -29,10 +29,16 @@
 
 module Overviews
   class DashboardTabs
+    SORTABLE_LIST_TYPE = "project-dashboard-tabs"
+
     Entry = Data.define(:key, :dashboard, :active) do
       def original? = key == "original"
 
       def standard? = !original? && dashboard.central?
+
+      def display_name
+        original? ? (dashboard&.display_name || I18n.t("overviews.label_dashboard")) : dashboard.name
+      end
     end
 
     def initialize(project)
@@ -45,16 +51,14 @@ module Overviews
       ordered + by_key.values
     end
 
-    def move!(key, offset)
+    def move_after(key, previous_key)
       @project.with_lock do
         keys = entries.map(&:key)
-        index = keys.index(key)
-        raise ActiveRecord::RecordNotFound if index.nil?
+        next false unless keys.delete(key)
+        next false if previous_key && keys.exclude?(previous_key)
 
-        target = index + offset
-        next unless target.between?(0, keys.length - 1)
-
-        keys[index], keys[target] = keys[target], keys[index]
+        position = previous_key ? keys.index(previous_key) + 1 : 0
+        keys.insert(position, key)
         @project.update!(dashboard_tab_order: keys)
       end
     end

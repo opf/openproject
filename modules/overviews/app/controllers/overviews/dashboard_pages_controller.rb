@@ -30,12 +30,15 @@
 module Overviews
   class DashboardPagesController < ::Grids::BaseInProjectController
     include OpTurbo::ComponentStream
+    include SortableLists::DropRequestValidation
+
+    configure_drop_request list_type: DashboardTabs::SORTABLE_LIST_TYPE, list_id_scoped: false
 
     menu_item :overview
     menu_item :settings_dashboards, only: %i[settings activate edit move]
 
-    before_action :find_active_dashboard, only: %i[show edit update destroy rename_dialog deletion_dialog save_as copy deactivate]
-    before_action :require_project_dashboard, only: %i[edit update destroy rename_dialog deletion_dialog]
+    before_action :find_active_dashboard, only: %i[show save_as copy deactivate]
+    before_action :find_owned_dashboard, only: %i[update destroy rename_dialog deletion_dialog]
 
     def show; end
 
@@ -44,7 +47,13 @@ module Overviews
       render_new_dialog
     end
 
-    def edit; end
+    def edit
+      if params[:id]
+        @dashboard = ::Grids::DashboardPage.where(project: @project, disabled: false).find(params.expect(:id))
+      elsif ::Grids::Overview.exists?(project: @project, disabled: true)
+        raise ActiveRecord::RecordNotFound
+      end
+    end
 
     def create
       @dashboard = ::Grids::DashboardPage.new(project: @project, row_count: 1, column_count: 1, **dashboard_attributes)
@@ -58,7 +67,8 @@ module Overviews
 
     def destroy
       @dashboard.destroy!
-      redirect_to project_overview_path(@project), status: :see_other, notice: t(:notice_successful_delete)
+      path = from_settings? ? settings_project_dashboard_pages_path(@project) : project_overview_path(@project)
+      redirect_to path, status: :see_other, notice: t(:notice_successful_delete)
     end
 
     def rename_dialog
@@ -67,7 +77,8 @@ module Overviews
     end
 
     def deletion_dialog
-      respond_with_dialog DeleteDashboardDialogComponent.new(dashboard: @dashboard, project: @project)
+      dialog = DeleteDashboardDialogComponent.new(dashboard: @dashboard, project: @project, from_settings: from_settings?)
+      respond_with_dialog(dialog)
     end
 
     def save_as
@@ -101,20 +112,20 @@ module Overviews
 
     def settings
       @dashboard_type = dashboard_type
-      entries = DashboardTabs.new(@project).entries
-      @dashboard_tabs = case @dashboard_type
-                        when "standard" then entries.select(&:standard?)
-                        when "project" then entries.reject(&:standard?)
-                        else entries
-                        end
+      @dashboard_name = dashboard_name_filter
+      @dashboard_filters = [{ name: { operator: "~", values: [@dashboard_name] } }].to_json if @dashboard_name
+      @dashboard_tabs = filtered_dashboard_tabs
+
+      render layout: !turbo_frame_request?
     end
 
     def move
-      offset = { "up" => -1, "down" => 1 }[params.expect(:direction)]
-      return head :bad_request unless offset
-
-      DashboardTabs.new(@project).move!(params.expect(:tab_key), offset)
-      redirect_to settings_project_dashboard_pages_path(@project), status: :see_other
+      if valid_drop_request? && DashboardTabs.new(@project).move_after(params.expect(:tab_key), drop_params[:prev_id].presence)
+        head :no_content
+      else
+        render_error_flash_message_via_turbo_stream(message: t(:error_invalid_list_move_anchor))
+        respond_with_turbo_streams(status: :unprocessable_entity)
+      end
     end
 
     def activate
@@ -124,25 +135,56 @@ module Overviews
         ::Grids::Overview.find_by!(project: @project).update!(disabled: false)
       end
 
-      redirect_to settings_project_dashboard_pages_path(@project, dashboard_type:),
+      redirect_to settings_project_dashboard_pages_path(@project, dashboard_type:, filters: params.permit(:filters)[:filters]),
                   status: :see_other, notice: t(:notice_successful_update)
     end
 
     private
 
+    def filtered_dashboard_tabs
+      entries = DashboardTabs.new(@project).entries
+      entries = entries.select(&:standard?) if @dashboard_type == "standard"
+      entries = entries.reject(&:standard?) if @dashboard_type == "project"
+      return entries unless @dashboard_name
+
+      term = @dashboard_name.downcase
+      entries.select { |entry| entry.display_name.downcase.include?(term) }
+    end
+
+    def dashboard_name_filter
+      raw_filter = params.permit(:filters)[:filters]
+      return if raw_filter.blank?
+
+      filter = Queries::ParamsParser::APIV3FiltersParser.parse(raw_filter).find do |candidate|
+        candidate[:attribute] == "name" && candidate[:operator] == "~"
+      end
+      Array(filter&.fetch(:values)).grep(String).first&.strip.presence
+    rescue Queries::ParamsParser::MalformedParameterError
+      nil
+    end
+
+    def from_settings?
+      params.permit(:from_settings)[:from_settings] == "1"
+    end
+
     def dashboard_type
       params.permit(:dashboard_type)[:dashboard_type].presence_in(%w[standard project])
     end
 
-    def require_project_dashboard
-      raise ActiveRecord::RecordNotFound unless @dashboard.project_id == @project.id
+    def find_owned_dashboard
+      @dashboard = if params[:id]
+                     ::Grids::DashboardPage.where(project: @project).find(params.expect(:id))
+                   else
+                     ::Grids::Overview.find_by!(project: @project)
+                   end
     end
 
     def render_rename_dialog(status: :ok)
+      origin = from_settings? ? "1" : nil
       action = if @dashboard.is_a?(::Grids::Overview)
-                 project_rename_original_dashboard_path(@project)
+                 project_rename_original_dashboard_path(@project, from_settings: origin)
                else
-                 project_dashboard_page_path(@project, @dashboard)
+                 project_dashboard_page_path(@project, @dashboard, from_settings: origin)
                end
       dialog = DashboardNameDialogComponent.new(
         dashboard: @dashboard,
@@ -186,7 +228,9 @@ module Overviews
 
     def save_dashboard(notice:)
       if @dashboard.save
-        path = if @dashboard.is_a?(::Grids::Overview)
+        path = if from_settings?
+                 settings_project_dashboard_pages_path(@project)
+               elsif @dashboard.is_a?(::Grids::Overview)
                  dashboard_project_overview_path(@project)
                else
                  project_dashboard_page_path(@project, @dashboard)
