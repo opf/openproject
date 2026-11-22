@@ -55,12 +55,12 @@ da:
               authentication_failed: 'Mailserveren afviste login: %{server_message}'
               fetch_in_progress: Postkassen bliver allerede tjekket.
               inactive: Postkassen er sat på pause.
-              processing_failed: The emails could not be processed. They stay in the mailbox and are tried again. Check the OpenProject worker logs for details.
+              processing_failed: E-mailene kunne ikke behandles. De bliver i postkassen og forsøges igen. Se detaljer i OpenProjects worker-log.
               server_error: 'Mailserveren returnerede en fejl: %{server_message}'
               timeout: Mailserveren holdt op med at svare.
               tls_failed: Der kunne ikke oprettes en sikker forbindelse til mailserveren. Tjek dens certifikat.
               unreachable: Mailserveren kunne ikke nås.
-              work_package_not_created: No work package could be created from an email, for example because of a required custom field without a default value. The email stays in the mailbox and is tried again. Check the OpenProject worker logs for details.
+              work_package_not_created: Der kunne ikke oprettes en arbejdspakke ud fra en e-mail, fx fordi et obligatorisk brugerdefineret felt mangler en standardværdi. E-mailen bliver i postkassen og forsøges igen. Se detaljer i OpenProjects worker-log.
     models:
       itsm/email_message:
         one: E-mail
@@ -113,7 +113,7 @@ da:
         greeting: Hej %{name}
         received: Vi har modtaget din henvendelse "%{subject}" og registreret den som %{id}.
         reply: Svar på denne e-mail for at tilføje oplysninger til din henvendelse.
-  label_email_without_subject: "(no subject)"
+  label_email_without_subject: "(intet emne)"
   label_helpdesk: Helpdesk
   label_helpdesk_role: Helpdesk
   label_helpdesk_user: Helpdesk

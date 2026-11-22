@@ -871,8 +871,8 @@ da:
               cannot_assign_multiple_variants_of_parent: Der kan kun aktiveres én variant af en type i projektet
               cannot_assign_variant_and_parent: 'En variant og dens overordnede type kan ikke tildeles samtidig '
               in_use_by_work_packages: 'bruges stadig af arbejdspakker: %{types}'
-              switch_target_blank: Choose a type or variant the project can use.
-              switch_target_identical: The project already uses this type or variant.
+              switch_target_blank: Vælg en type eller variant, som projektet kan bruge.
+              switch_target_identical: Projektet bruger allerede denne type eller variant.
               switch_target_not_in_family: Der kan kun skiftes til en anden type i samme familie
           cannot_be_assigned_to_artefact_work_package: Den valgte bruger må ikke få tildelt arbejdspakker.
           foreign_wps_reference_version: Arbejdspakker i ikke-efterkommerprojekter refererer til versioner af projektet eller dets efterkommere.
@@ -1644,7 +1644,7 @@ da:
         contribution_callout: 'Hjælp os med at forbedre Jira-migreringen med din feedback og ved at donere private data. Du kan [blive en del af udviklingsfællesskabet](link) bag Jira-migreringen.
 
           '
-        description: The Jira Migrator is currently in beta. We support Jira Server/Data Center versions 8.x, 9.x, 10.x and 11.x. Jira 8 requires basic auth. Cloud instances are not supported at this time.
+        description: Jira-migreringen er i beta. Vi understøtter Jira Server/Data Center version 8.x, 9.x, 10.x og 11.x. Jira 8 kræver basic auth. Cloud-installationer understøttes ikke endnu.
         title: Beta – prøv det!
       basic_auth_password_deleted: Adgangskoden til basic auth er slettet.
       blank:
@@ -1686,12 +1686,12 @@ da:
             description_html: Konfigurationen er gemt, men tjekket <strong>%{check}</strong> mislykkedes. Du kan fortsætte, men det vil mislykkes at hente data, indtil fejlen er rettet.
             title: Forbindelsestjekket mislykkedes
           warning:
-            description_html: The configuration is saved, but the check <strong>%{check}</strong> reported a warning. The import might not work as expected. Proceed at your own risk.
-            title: Connection check warning
+            description_html: Konfigurationen er gemt, men tjekket <strong>%{check}</strong> gav en advarsel. Importen fungerer måske ikke som forventet. Fortsæt på eget ansvar.
+            title: Advarsel fra forbindelsestjekket
         errors:
           api_error: Jira svarede med HTTP-status %{status}. Kontrollér URL'en, og at Jira kører.
           basic_auth_password_missing: Der er ikke angivet nogen adgangskode til basic auth.
-          basic_auth_required: The Jira Migrator needs basic auth for Jira %{version}. Select basic auth and enter the username and password of a Jira administrator.
+          basic_auth_required: Jira-migreringen kræver basic auth til Jira %{version}. Vælg basic auth, og angiv brugernavn og adgangskode for en Jira-administrator.
           basic_auth_username_missing: Der er ikke angivet noget brugernavn til basic auth.
           credentials_rejected: Jira afviste legitimationsoplysningerne. Kontrollér, at de er korrekte og ikke er udløbet.
           invalid_response: Serveren på denne URL svarede ikke med JSON. Kontrollér URL'en.
@@ -1704,18 +1704,18 @@ da:
           ssrf_blocked: Jira-værten peger på en privat IP-adresse, som OpenProject blokerer. Hvis Jira kører på et internt netværk, så føj dens IP-adresse til miljøvariablen OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST, og genstart OpenProject.
           timeout: Jira svarede ikke i tide. Kontrollér URL'en, og at OpenProject kan nå Jira-serveren.
           unexpected_error: Jira svarede på en måde, som OpenProject ikke forventede. Kontrollér, at URL'en peger på Jira.
-          unknown_version: OpenProject could not determine the Jira version. The import might not work as expected. Proceed at your own risk.
+          unknown_version: OpenProject kunne ikke finde ud af, hvilken version af Jira der kører. Importen fungerer måske ikke som forventet. Fortsæt på eget ansvar.
           unreachable: Jira kunne ikke nås. Kontrollér URL'en, og at OpenProject kan nå Jira-serveren.
-          unsupported_version: Jira %{version} is not a supported version. The import might not work as expected. Proceed at your own risk.
+          unsupported_version: Jira %{version} er ikke en understøttet version. Importen fungerer måske ikke som forventet. Fortsæt på eget ansvar.
         form_values_checked: Værdierne i formularen er tjekket. De er endnu ikke gemt.
         last_check: 'Seneste tjek: %{datetime}'
         not_checked: Endnu ikke tjekket.
         server:
-          auth_method_supported: Authentication method
+          auth_method_supported: Godkendelsesmetode
           header: Jira-server
           reachable: Serveren kan nås
           responds_as_jira: Svarer som Jira
-          version_supported: Supported version
+          version_supported: Understøttet version
         title: Forbindelsestjek
       description: Brug dette værktøj til at importere data fra din Jira-installation. Du kan konfigurere flere Jira-værter og vælge, hvad der skal importeres i hver importkørsel.
       errors:
@@ -1761,7 +1761,7 @@ da:
         blank:
           description: Opret en importkørsel for at begynde at importere oplysninger fra denne Jira-installation
           title: Der er endnu ikke oprettet nogen importkørsler
-        connection_check_error: The connection check failed, so no data was fetched. Fix any failed checks shown in the side panel, then retry.
+        connection_check_error: Forbindelsestjekket mislykkedes, så der blev ikke hentet nogen data. Ret de mislykkede tjek i sidepanelet, og prøv igen.
         history: Historik
         import_blocked_error: En anden importkørsel fra Jira er i gang eller venter på gennemsyn. Gør den færdig, eller tilbagefør den, før du starter en ny import.
         index:
@@ -6258,13 +6258,13 @@ da:
         project_specific_variant: Projektspecifik variant
         remove_from_project: Fjern fra projekt
         switch:
-          confirm_description: Switching to %{type} hides the fields it does not include. Their values are kept, but will no longer be visible.
-          confirm_submit: Switch
-          confirm_title: Switch type variant?
-          confirmation: I understand that fields the new variant does not include will be hidden, along with their values
+          confirm_description: Når der skiftes til %{type}, skjules de felter, som den ikke indeholder. Deres værdier bevares, men vises ikke længere.
+          confirm_submit: Skift
+          confirm_title: Vil du skifte typevariant?
+          confirmation: Jeg forstår, at felter, som den nye variant ikke indeholder, skjules sammen med deres værdier
           identical:
-            one: The project already uses this type or variant.
-            other: The selected projects already use this type or variant.
+            one: Projektet bruger allerede denne type eller variant.
+            other: De valgte projekter bruger allerede denne type eller variant.
           impact:
             hidden_description: Den valgte variant indeholder ikke disse felter. Eventuelle værdier, som felterne havde, vises ikke længere.
             hidden_heading: Felter, der fjernes
@@ -6284,16 +6284,16 @@ da:
               one: "%{count} arbejdspakke kommer til at bruge den nye konfiguration"
               other: "%{count} arbejdspakker kommer til at bruge den nye konfiguration"
           invalid_target:
-            one: Choose a type or variant the project can use.
-            other: Choose a type or variant every selected project can use.
+            one: Vælg en type eller variant, som projektet kan bruge.
+            other: Vælg en type eller variant, som alle de valgte projekter kan bruge.
           listed_projects:
-            one: 'The following project will switch:'
-            other: 'The following projects will switch:'
-          submit: Apply
+            one: 'Følgende projekt skifter:'
+            other: 'Følgende projekter skifter:'
+          submit: Anvend
           success:
-            one: The project now uses %{type}.
-            other: The selected projects now use %{type}.
-          target_label: New type or variant
+            one: Projektet bruger nu %{type}.
+            other: De valgte projekter bruger nu %{type}.
+          target_label: Ny type eller variant
           title: "%{type}: Skift variant"
         type_not_found: Den valgte type blev ikke fundet.
         use_in_project: Brug i dette projekt
@@ -7615,23 +7615,23 @@ da:
       project_specific_variant_suffix: "(Projektspecifik variant)"
       projects:
         actions:
-          remove_from_project: Remove type from this project
-          remove_from_projects: Remove type from these projects
+          remove_from_project: Fjern typen fra dette projekt
+          remove_from_projects: Fjern typen fra disse projekter
           switch_variant: Skift variant
         add_dialog:
           no_projects_selected: Vælg mindst ét projekt.
           search_placeholder: Søg efter projekter
         bulk_remove:
           confirmation:
-            one: I understand that this type will no longer be available in this project
-            other: I understand that this type will no longer be available in the selected projects
+            one: Jeg forstår, at typen ikke længere er tilgængelig i dette projekt
+            other: Jeg forstår, at typen ikke længere er tilgængelig i de valgte projekter
           description:
-            one: This type will no longer be available in the following project, unless it still has work packages of this type.
-            other: This type will no longer be available in the following projects. Projects that still have work packages of this type keep it.
-          submit: Remove
+            one: Typen er ikke længere tilgængelig i følgende projekt, medmindre det stadig har arbejdspakker af denne type.
+            other: Typen er ikke længere tilgængelig i følgende projekter. Projekter, der stadig har arbejdspakker af denne type, beholder den.
+          submit: Fjern
           title:
-            one: Remove type '%{type}' from this project?
-            other: Remove type '%{type}' from these projects?
+            one: Vil du fjerne typen '%{type}' fra dette projekt?
+            other: Vil du fjerne typen '%{type}' fra disse projekter?
         disable_all: Deaktiver for alle projekter
         empty_state:
           description: Tilføj et projekt for at bruge konfigurationen dér.

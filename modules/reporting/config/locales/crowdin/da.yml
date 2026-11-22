@@ -45,7 +45,7 @@ da:
       end_time: Sluttidspunkt
       start_time: Starttidspunkt
       title: Din XLS-eksport af omkostningsrapporter
-    invalid_filters: 'The export could not be generated: %{errors}'
+    invalid_filters: 'Eksporten kunne ikke dannes: %{errors}'
     timesheet:
       button: Eksporter PDF-timeseddel
       overview_per_user_day: 'Oversigt: Timer pr. bruger pr. dag'
@@ -54,11 +54,11 @@ da:
       time: Tidspunkt
       timesheet: Timeseddel
       title: Eksport af din PDF-timeseddel
-  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
-  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_invalid_date: "%{filter}: %{value} er ikke en gyldig dato."
+  filter_error_invalid_integer: "%{filter}: %{value} er ikke et gyldigt heltal."
   filter_error_missing_values:
-    one: "%{filter} requires a value."
-    other: "%{filter} requires %{count} values."
+    one: "%{filter} kræver en værdi."
+    other: "%{filter} kræver %{count} værdier."
   information_restricted_depending_on_permission: Afhængigt af dine tilladelser kan denne side indeholde oplysninger du ikke kan se.
   label_click_to_edit: Klik for at redigere.
   label_closed: lukket
