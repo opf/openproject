@@ -32,7 +32,8 @@ import { fireEvent, screen, waitFor, within } from '@testing-library/dom';
 import { userEvent } from 'vitest/browser';
 import { of } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ChangeDetectorRef, CUSTOM_ELEMENTS_SCHEMA, ElementRef } from '@angular/core';
+import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
 import { settlePopover } from 'core-common/testing/timing';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
@@ -113,6 +114,48 @@ describe('WorkPackageSingleCardComponent', () => {
     card.activateCard(eventOn('button[aria-disabled] span'));
 
     expect(activated).toEqual([]);
+  });
+
+  describe('new card losing focus', () => {
+    beforeEach(() => {
+      vi.useFakeTimers({ toFake: ['setTimeout'] });
+      card.newCardEditFormElement = new ElementRef(document.querySelector<HTMLElement>('.op-wp-single-card')!);
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    const editNewCard = (subject:string|null) => {
+      const submit = vi.fn().mockResolvedValue(undefined);
+      card.newCardEditForm = {
+        editMode: true,
+        change: { inFlight: false, value: () => subject },
+        submit,
+      } as unknown as EditFormComponent;
+      return submit;
+    };
+
+    const loseFocus = () => {
+      card.saveNewCardOnFocusOut();
+      vi.runAllTimers();
+    };
+
+    it('saves the card when it has a subject', () => {
+      const submit = editNewCard('New card');
+
+      loseFocus();
+
+      expect(submit).toHaveBeenCalledOnce();
+    });
+
+    it.each(['  ', null])('keeps a card with subject %j open', (subject) => {
+      const submit = editNewCard(subject);
+
+      loseFocus();
+
+      expect(submit).not.toHaveBeenCalled();
+    });
   });
 });
 

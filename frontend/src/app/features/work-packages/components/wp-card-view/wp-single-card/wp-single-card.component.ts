@@ -300,7 +300,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
     whenOutside(element, () => {
       const form = this.newCardEditForm;
-      if (form && form.editMode && !form.change.inFlight) {
+      if (form && form.editMode && !form.change.inFlight && form.change.value<string|null>('subject')?.trim()) {
         void form.submit();
       }
     });
