@@ -5981,8 +5981,8 @@ en:
     template_status_report:
       caption: A project status report with the work packages selected in its embedded tables.
       label: "Status Report"
-      project_attributes: Project attributes
       no_related_work_packages: No related work packages
+      project_attributes: Project attributes
   permission_add_internal_comments: "Write internal comments"
   permission_add_messages: "Post messages"
   permission_add_portfolios: "Create portfolios"

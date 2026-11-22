@@ -45,10 +45,20 @@ class WorkPackage::PDFExport::StatusReport < WorkPackage::PDFExport::Artefact
   def write_core_project_attributes
     write_optional_page_break
     write_section_title(I18n.t("pdf_generator.template_status_report.project_attributes"))
-    write_project_attribute(project.name, Project.human_attribute_name(:name))
-    write_project_attribute(project.identifier, Project.human_attribute_name(:identifier))
-    write_project_attribute(project_status, Project.human_attribute_name(:status_code))
-    write_project_markdown(project, project.description, Project.human_attribute_name(:description)) if project.description.present?
+    core_project_attributes.each do |attribute, value|
+      write_project_attribute(value, Project.human_attribute_name(attribute))
+    end
+    write_project_description
+  end
+
+  def core_project_attributes
+    { name: project.name, identifier: project.identifier, status_code: project_status }
+  end
+
+  def write_project_description
+    return if project.description.blank?
+
+    write_project_markdown(project, project.description, Project.human_attribute_name(:description))
   end
 
   def project_status
@@ -62,10 +72,13 @@ class WorkPackage::PDFExport::StatusReport < WorkPackage::PDFExport::Artefact
     related = group.work_packages.select { |candidate| related_work_package_ids.include?(candidate.id) }
     if related.empty?
       write_inline_hint(I18n.t("pdf_generator.template_status_report.no_related_work_packages"))
-      return
+    else
+      write_related_table(group.query, related)
     end
+  end
 
-    columns = limit_table_columns_objects(group.query)
+  def write_related_table(query, related)
+    columns = limit_table_columns_objects(query)
     return if columns.empty?
 
     rows = [build_header_row(columns), *related.map { |candidate| build_table_row(candidate, columns) }]
@@ -77,6 +90,11 @@ class WorkPackage::PDFExport::StatusReport < WorkPackage::PDFExport::Artefact
   end
 
   def related_work_package_ids
-    @related_work_package_ids ||= work_package.relations.visible(current_user).pluck(:from_id, :to_id).flatten.to_set - [work_package.id]
+    @related_work_package_ids ||= work_package.relations
+                                              .visible(current_user)
+                                              .pluck(:from_id, :to_id)
+                                              .flatten
+                                              .to_set
+                                              .delete(work_package.id)
   end
 end
