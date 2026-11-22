@@ -35,7 +35,7 @@ module Overviews
     configure_drop_request list_type: DashboardTabs::SORTABLE_LIST_TYPE, list_id_scoped: false
 
     menu_item :overview
-    menu_item :settings_dashboards, only: %i[settings activate edit move]
+    menu_item :settings_dashboards, only: %i[settings activate edit move toggle_standard]
 
     before_action :find_active_dashboard, only: %i[show save_as copy deactivate]
     before_action :find_owned_dashboard, only: %i[update destroy rename_dialog deletion_dialog]
@@ -111,12 +111,23 @@ module Overviews
     end
 
     def settings
-      @dashboard_type = dashboard_type
-      @dashboard_name = dashboard_name_filter
-      @dashboard_filters = [{ name: { operator: "~", values: [@dashboard_name] } }].to_json if @dashboard_name
-      @dashboard_tabs = filtered_dashboard_tabs
+      @dashboard_table = dashboard_settings_table
 
       render layout: !turbo_frame_request?
+    end
+
+    def toggle_standard
+      value = params.expect(:value).to_s
+      return head :bad_request unless value.in?(%w[true false 1 0])
+
+      set_standard_dashboard_activation(active: value.in?(%w[true 1]))
+
+      if request.format.turbo_stream?
+        update_via_turbo_stream(component: dashboard_settings_table, method: :morph)
+        respond_with_turbo_streams
+      else
+        render json: {}
+      end
     end
 
     def move
@@ -141,8 +152,25 @@ module Overviews
 
     private
 
+    def set_standard_dashboard_activation(active:)
+      dashboard = ::Grids::DashboardPage.central.find(params.expect(:id))
+      dashboard.with_lock do
+        assignment = dashboard.dashboard_page_assignments.find_or_initialize_by(project: @project)
+        assignment.update!(active:) if active || assignment.persisted?
+      end
+    end
+
+    def dashboard_settings_table
+      @dashboard_type = dashboard_type
+      @dashboard_name = dashboard_name_filter
+      @dashboard_filters = [{ name: { operator: "~", values: [@dashboard_name] } }].to_json if @dashboard_name
+
+      ProjectDashboardsTableComponent.new(rows: filtered_dashboard_tabs, project: @project, dashboard_type: @dashboard_type,
+                                          filters: @dashboard_filters, current_user:)
+    end
+
     def filtered_dashboard_tabs
-      entries = DashboardTabs.new(@project).entries
+      entries = DashboardTabs.new(@project).settings_entries
       entries = entries.select(&:standard?) if @dashboard_type == "standard"
       entries = entries.reject(&:standard?) if @dashboard_type == "project"
       return entries unless @dashboard_name

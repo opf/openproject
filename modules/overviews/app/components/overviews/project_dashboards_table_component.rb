@@ -47,7 +47,7 @@ module Overviews
 
     def has_actions? = true
 
-    def reorderable? = dashboard_type.nil? && filters.nil? && rows.size > 1
+    def reorderable? = dashboard_type.nil? && filters.nil? && rows.count(&:assigned) > 1
 
     def mobile_title = t("overviews.dashboards.title")
 

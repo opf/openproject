@@ -23,6 +23,7 @@ en:
       projects_empty: "No projects are assigned to this dashboard"
       rename: "Rename dashboard"
       title: "Dashboards"
+      toggle_standard: "Activate %{name} in this project"
       types:
         all: "All"
         project_specific: "Project specific"

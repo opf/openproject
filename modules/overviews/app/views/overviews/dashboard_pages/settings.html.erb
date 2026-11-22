@@ -56,13 +56,5 @@
     end
   %>
 
-  <%= render(
-        Overviews::ProjectDashboardsTableComponent.new(
-          rows: @dashboard_tabs,
-          project: @project,
-          dashboard_type: @dashboard_type,
-          filters: @dashboard_filters,
-          current_user:
-        )
-      ) %>
+  <%= render(@dashboard_table) %>
 <% end %>

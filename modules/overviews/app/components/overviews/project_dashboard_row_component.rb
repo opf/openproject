@@ -32,8 +32,10 @@ module Overviews
     include SortableLists::MoveMenu
 
     alias_method :entry, :model
-    delegate :project, :dashboard_type, :filters, :reorderable?, to: :table
+    delegate :project, :dashboard_type, :filters, to: :table
     delegate :dashboard, :display_name, to: :entry
+
+    def row_css_id = "project-dashboard-#{entry.key}"
 
     def row_data
       data = { dashboard_tab_key: entry.key }
@@ -62,6 +64,8 @@ module Overviews
     end
 
     def status
+      return standard_toggle if entry.standard?
+
       render(Primer::Beta::Text.new(color: :subtle)) do
         t(entry.active ? "overviews.dashboards.active" : "overviews.dashboards.inactive")
       end
@@ -74,12 +78,29 @@ module Overviews
     end
 
     def button_links
-      return [] if entry.active && !manageable? && !reorderable?
+      return [] unless activatable? || manageable? || reorderable?
 
       [action_menu]
     end
 
     private
+
+    def reorderable? = entry.assigned && table.reorderable?
+
+    def standard_toggle
+      render(
+        Primer::Alpha::ToggleSwitch.new(
+          src: toggle_standard_project_dashboard_page_path(project, dashboard, dashboard_type:, filters:),
+          csrf_token: helpers.form_authenticity_token,
+          checked: entry.active,
+          size: :small,
+          status_label_position: :start,
+          aria: { label: t("overviews.dashboards.toggle_standard", name: display_name) },
+          classes: "op-primer-adjustments__toggle-switch--hidden-loading-indicator",
+          data: { turbo_method: :put, turbo_stream: true, test_selector: "toggle-standard-dashboard-#{dashboard.id}" }
+        )
+      )
+    end
 
     def dashboard_name
       if (path = edit_path)
@@ -111,12 +132,14 @@ module Overviews
     def action_menu
       render(Primer::Alpha::ActionMenu.new) do |menu|
         menu.with_show_button(icon: :"kebab-horizontal", scheme: :invisible, "aria-label": t(:label_actions))
-        activate_item(menu) unless entry.active
+        activate_item(menu) if activatable?
         rename_item(menu) if manageable?
         with_move_submenu(menu) if reorderable?
         delete_item(menu) if manageable? && !entry.original?
       end
     end
+
+    def activatable? = !entry.active && !entry.standard?
 
     def manageable? = dashboard.present? && !entry.standard?
 

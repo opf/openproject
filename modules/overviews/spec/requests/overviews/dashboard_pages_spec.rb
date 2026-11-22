@@ -173,11 +173,37 @@ RSpec.describe "Project dashboard pages", :skip_csrf, type: :rails_request do
 
     get settings_project_dashboard_pages_path(project)
     expect(response).to have_http_status(:ok)
-    expect(response.body).to include("Activate dashboard")
+    expect(response.parsed_body.at_css("[data-test-selector='toggle-standard-dashboard-#{standard.id}']")).to be_present
 
     patch activate_project_dashboard_page_path(project, standard)
     expect(response).to redirect_to(settings_project_dashboard_pages_path(project))
     expect(Grids::DashboardPage.active_in(project)).to include(standard)
+  end
+
+  it "enables an available standard dashboard and disables it only for the current project" do
+    standard.dashboard_page_assignments.find_by!(project:).destroy!
+    settings_path = settings_project_dashboard_pages_path(project, dashboard_type: "standard")
+    toggle_path = toggle_standard_project_dashboard_page_path(project, standard, dashboard_type: "standard")
+    headers = { "Accept" => Mime[:turbo_stream].to_s }
+
+    get settings_path
+    expect(response).to have_http_status(:ok)
+    switch = response.parsed_body.at_css("[data-test-selector='toggle-standard-dashboard-#{standard.id}']")
+    expect(switch).to be_present
+    expect(Grids::DashboardPage.active_in(project)).not_to include(standard)
+
+    put(toggle_path, params: { value: "true" }, headers:)
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include("<turbo-stream", "project-dashboard-#{standard.id}")
+    get project_dashboard_page_path(project, standard)
+    expect(response).to have_http_status(:ok)
+
+    put(toggle_path, params: { value: "false" }, headers:)
+    expect(response).to have_http_status(:ok)
+    get project_dashboard_page_path(project, standard)
+    expect(response).to have_http_status(:not_found)
+    expect(Grids::DashboardPage.active_in(destination)).to include(standard)
+    expect(standard.dashboard_page_assignments.where(project:).count).to eq(1)
   end
 
   it "keeps the standard configuration read-only for a project manager" do
@@ -333,6 +359,10 @@ RSpec.describe "Project dashboard pages", :skip_csrf, type: :rails_request do
       put project_move_dashboard_tab_path(project, standard.id),
           params: { list_type: Overviews::DashboardTabs::SORTABLE_LIST_TYPE, prev_id: "" }
       expect(response).to have_http_status(:forbidden)
+
+      put toggle_standard_project_dashboard_page_path(project, standard), params: { value: "false" }
+      expect(response).to have_http_status(:forbidden)
+      expect(Grids::DashboardPage.active_in(project)).to include(standard)
 
       create(:overview, project:)
       patch project_rename_original_dashboard_path(project), params: { dashboard_page: { name: "Changed" } }

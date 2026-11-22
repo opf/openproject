@@ -31,7 +31,7 @@ module Overviews
   class DashboardTabs
     SORTABLE_LIST_TYPE = "project-dashboard-tabs"
 
-    Entry = Data.define(:key, :dashboard, :active) do
+    Entry = Data.define(:key, :dashboard, :active, :assigned) do
       def original? = key == "original"
 
       def standard? = !original? && dashboard.central?
@@ -49,6 +49,15 @@ module Overviews
       by_key = default_entries.index_by(&:key)
       ordered = Array(@project.dashboard_tab_order).filter_map { |key| by_key.delete(key) }
       ordered + by_key.values
+    end
+
+    def settings_entries
+      assigned = entries
+      assigned_ids = assigned.filter_map { |entry| entry.dashboard.id if entry.standard? }
+      available = ::Grids::DashboardPage.central.where.not(id: assigned_ids).order(:name, :id).map do |dashboard|
+        Entry.new(key: dashboard.id.to_s, dashboard:, active: false, assigned: false)
+      end
+      assigned + available
     end
 
     def move_after(key, previous_key)
@@ -69,10 +78,10 @@ module Overviews
       original = ::Grids::Overview.find_by(project: @project)
       active_ids = ::Grids::DashboardPage.active_in(@project).pluck(:id).to_set
       dashboards = ::Grids::DashboardPage.in_project(@project).order(:name, :id).map do |dashboard|
-        Entry.new(key: dashboard.id.to_s, dashboard:, active: active_ids.include?(dashboard.id))
+        Entry.new(key: dashboard.id.to_s, dashboard:, active: active_ids.include?(dashboard.id), assigned: true)
       end
 
-      [Entry.new(key: "original", dashboard: original, active: !original&.disabled?), *dashboards]
+      [Entry.new(key: "original", dashboard: original, active: !original&.disabled?, assigned: true), *dashboards]
     end
   end
 end
