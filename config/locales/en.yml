@@ -308,6 +308,7 @@ en:
         parent: "Subproject of"
         portfolio: "Portfolio"
         program: "Program"
+        progress_percent: "Project progress (%)"
         project_creation_wizard_assignee_custom_field: "Assignee when submitted"
         project_creation_wizard_enabled: "Project initiation request"
         project_creation_wizard_notification_text: "Notification text"
@@ -5983,6 +5984,7 @@ en:
       label: "Status Report"
       no_related_work_packages: No related work packages
       project_attributes: Project attributes
+      project_progress: Project progress
       project_status: Project status
       report_details: Report details
       status_summary: Status summary
@@ -6294,7 +6296,7 @@ en:
         no_results_title_text: There are currently no activities available.
       button_update_details: Update details
       button_update_parent_project: Update parent project
-      button_update_status_description: Update status description
+      button_update_status: Update status
       categories:
         no_results_content_text: Create a new work package category
         no_results_title_text: There are currently no work package categories.

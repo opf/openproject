@@ -32,7 +32,12 @@ require "spec_helper"
 RSpec.describe WorkPackage::PDFExport::StatusReport do
   let(:type) { create(:type, name: "Status Report") }
   let(:project) do
-    create(:project, types: [type], name: "Site Project", description: "Electrical installation", status_code: :at_risk)
+    create(:project,
+           types: [type],
+           name: "Site Project",
+           description: "Electrical installation",
+           status_code: :at_risk,
+           progress_percent: 60)
   end
   let(:report) { create(:work_package, project:, type:, subject: "November Status Report", description: "Status at the cutoff") }
   let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages export_work_packages] }) }
@@ -53,6 +58,8 @@ RSpec.describe WorkPackage::PDFExport::StatusReport do
       "November Status Report",
       "Status summary",
       "Status at the cutoff",
+      "Project progress",
+      "60 %",
       "Report details",
       "Workflow status"
     )

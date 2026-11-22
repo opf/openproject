@@ -48,6 +48,7 @@ module Projects
       validate_status_code_included
     end
     attribute :status_explanation
+    attribute :progress_percent
     attribute :templated do
       validate_templated_set_by_admin
     end

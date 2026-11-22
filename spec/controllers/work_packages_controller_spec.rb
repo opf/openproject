@@ -41,6 +41,52 @@ RSpec.describe WorkPackagesController do
 
   let(:current_user) { create(:user) }
 
+  describe "#status_report_json" do
+    let(:permissions) { %i[view_work_packages export_work_packages] }
+    let(:current_user) { create(:user, member_with_permissions: { project => permissions }) }
+
+    context "when the type variant has enabled the Status Report template" do
+      before do
+        variant = type.default_variant
+        variant.pdf_export_templates.toggle("status_report")
+        variant.save!
+        project.update!(progress_percent: 0, status_code: :on_track)
+      end
+
+      it "downloads the work package as a versioned JSON attachment" do
+        get :status_report_json, params: { id: work_package.id }
+
+        expect(response).to have_http_status(:ok)
+        expect(response.media_type).to eq("application/json")
+        expect(response.headers["Content-Disposition"]).to include("attachment", "status-report-#{work_package.id}.json")
+        body = response.parsed_body
+        expect(body).to include(
+          "format" => "openreport",
+          "formatVersion" => "0.1",
+          "source" => { "system" => "OpenProject", "namespace" => "urn:uuid:#{Setting.installation_uuid}" },
+          "project" => hash_including("id" => project.id.to_s, "status" => "on_track", "progressPercent" => 0),
+          "report" => hash_including("id" => work_package.id.to_s, "title" => work_package.subject)
+        )
+      end
+
+      context "without the permission to export" do
+        let(:permissions) { %i[view_work_packages] }
+
+        it "rejects a direct request" do
+          get :status_report_json, params: { id: work_package.id }
+
+          expect(response).to have_http_status(:forbidden)
+        end
+      end
+    end
+
+    it "returns not found when the template is disabled" do
+      get :status_report_json, params: { id: work_package.id }
+
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
   def self.requires_permission_in_project(permissions: %i[view_work_packages], &)
     describe "w/o the permission to see the project/work_package" do
       before do

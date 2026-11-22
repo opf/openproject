@@ -294,6 +294,7 @@ class PermittedParams
                                                 :templated,
                                                 :status_code,
                                                 :status_explanation,
+                                                :progress_percent,
                                                 enabled_module_names: [],
                                                 custom_comments: {})
 

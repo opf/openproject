@@ -1305,6 +1305,7 @@ Rails.application.routes.draw do
 
     get "generate_pdf_dialog" => "work_packages#generate_pdf_dialog", on: :member
     post "generate_pdf" => "work_packages#generate_pdf", on: :member
+    get "status_report_json" => "work_packages#status_report_json", on: :member
 
     post "assign_to_me" => "work_packages#assign_to_me", on: :member
 

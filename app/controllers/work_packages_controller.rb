@@ -43,8 +43,8 @@ class WorkPackagesController < ApplicationController
   accept_api_key_auth :show
 
   before_action :authorize_on_work_package,
-                :project, only: %i[show generate_pdf_dialog generate_pdf]
-  before_action :authorize_export_on_work_package, only: %i[generate_pdf_dialog generate_pdf]
+                :project, only: %i[show generate_pdf_dialog generate_pdf status_report_json]
+  before_action :authorize_export_on_work_package, only: %i[generate_pdf_dialog generate_pdf status_report_json]
   before_action :check_allowed_export,
                 :protect_from_unauthorized_export, only: %i[index export_dialog]
 
@@ -52,7 +52,7 @@ class WorkPackagesController < ApplicationController
   before_action :authorize, only: %i[show_conflict_flash_message share_upsell]
   # assign_to_me is authorized by the contract of the update service it calls.
   authorization_checked! :index, :show, :new, :copy, :export_dialog, :generate_pdf_dialog, :generate_pdf,
-                         :split_view, :split_create, :assign_to_me
+                         :status_report_json, :split_view, :split_create, :assign_to_me
 
   before_action :load_and_validate_query, only: %i[index copy], unless: -> { request.format.html? }
 
@@ -170,6 +170,13 @@ class WorkPackagesController < ApplicationController
   rescue ::Exports::ExportError => e
     flash[:error] = e.message
     redirect_back(fallback_location: work_package_path(work_package))
+  end
+
+  def status_report_json
+    return head :not_found unless WorkPackage::Exports::StatusReportData.enabled_for?(work_package)
+
+    exporter = WorkPackage::Exports::StatusReportJson.new(work_package, current_user:)
+    send_data JSON.pretty_generate(exporter.export), type: "application/json", filename: exporter.filename
   end
 
   def work_package_exporter

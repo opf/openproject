@@ -66,7 +66,7 @@ class WorkPackage::PDFExport::StatusReport < WorkPackage::PDFExport::Artefact
       write_header_text(report_period, size: 10)
     end
     pdf.move_down 16
-    write_status_card
+    write_status_indicators
   end
 
   def write_artefact_description
@@ -79,9 +79,7 @@ class WorkPackage::PDFExport::StatusReport < WorkPackage::PDFExport::Artefact
   def write_artefact
     write_project_details
     write_report_details
-    form_configuration(work_package).groups.grep(WorkPackage::Exports::FormConfiguration::QueryGroup).each do |group|
-      write_query_group(group)
-    end
+    status_report_data.query_groups.each { |group| write_query_group(group) }
   end
 
   private
@@ -95,20 +93,32 @@ class WorkPackage::PDFExport::StatusReport < WorkPackage::PDFExport::Artefact
     [work_package.start_date, work_package.due_date].compact.uniq.map { |date| format_date(date) }.join(" – ")
   end
 
-  def write_status_card
-    return if project.status_code.blank?
+  def write_status_indicators
+    indicators = [project_status_indicator, project_progress_indicator].compact
+    return if indicators.empty?
 
-    background, foreground = STATUS_COLORS.fetch(project.status_code, %w[F0F0F0 414D5F])
-    pdf.table([[status_card_content(foreground)]],
-              column_widths: [pdf.bounds.width / 3],
-              cell_style: { background_color: background, borders: [], padding: 10, inline_format: true })
+    pdf.table([indicators], column_widths: Array.new(indicators.size, pdf.bounds.width / 3))
     pdf.move_down 12
   end
 
-  def status_card_content(color)
-    label = escape_tags(report_label(:project_status))
-    value = escape_tags(I18n.t("activerecord.attributes.project.status_codes.#{project.status_code}"))
-    %(<font color="#{color}"><b>#{label}</b><br/><font size="18"><b>#{value}</b></font></font>)
+  def project_status_indicator
+    return if project.status_code.blank?
+
+    background, foreground = STATUS_COLORS.fetch(project.status_code, %w[F0F0F0 414D5F])
+    status = I18n.t("activerecord.attributes.project.status_codes.#{project.status_code}")
+    status_indicator(report_label(:project_status), status, background, foreground)
+  end
+
+  def project_progress_indicator
+    return if project.progress_percent.nil?
+
+    status_indicator(report_label(:project_progress), "#{project.progress_percent} %", "F4F9FF", "175A8E")
+  end
+
+  def status_indicator(label, value, background, foreground)
+    content = %(<font color="#{foreground}"><b>#{escape_tags(label)}</b><br/>) +
+              %(<font size="18"><b>#{escape_tags(value)}</b></font></font>)
+    pdf.make_cell(content, background_color: background, borders: [], padding: 10, inline_format: true)
   end
 
   def write_project_details
@@ -145,7 +155,9 @@ class WorkPackage::PDFExport::StatusReport < WorkPackage::PDFExport::Artefact
   end
 
   def report_attribute_parts
-    form_configuration(work_package).groups.grep(WorkPackage::Exports::FormConfiguration::AttributeGroup).flat_map(&:parts)
+    status_report_data.form_configuration.groups
+                      .grep(WorkPackage::Exports::FormConfiguration::AttributeGroup)
+                      .flat_map(&:parts)
   end
 
   def write_populated_report_attributes(part)
@@ -161,7 +173,7 @@ class WorkPackage::PDFExport::StatusReport < WorkPackage::PDFExport::Artefact
 
   def write_query_group(group)
     write_group_title(group)
-    related = group.work_packages.select { |candidate| related_work_package_ids.include?(candidate.id) }
+    related = status_report_data.related_work_packages(group)
     if related.empty?
       write_inline_hint(I18n.t("pdf_generator.template_status_report.no_related_work_packages"))
     else
@@ -186,12 +198,7 @@ class WorkPackage::PDFExport::StatusReport < WorkPackage::PDFExport::Artefact
     columns.map { |column| pdf.make_cell(column.caption || "", header_style) }
   end
 
-  def related_work_package_ids
-    @related_work_package_ids ||= work_package.relations
-                                              .visible(current_user)
-                                              .pluck(:from_id, :to_id)
-                                              .flatten
-                                              .to_set
-                                              .delete(work_package.id)
+  def status_report_data
+    @status_report_data ||= WorkPackage::Exports::StatusReportData.new(work_package, current_user:)
   end
 end

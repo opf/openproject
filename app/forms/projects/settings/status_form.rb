@@ -35,6 +35,15 @@ module Projects
       option :hide_label, default: -> { false }
 
       form do |f|
+        f.text_field(
+          name: :progress_percent,
+          label: attribute_name(:progress_percent),
+          type: :number,
+          min: 0,
+          max: 100,
+          step: 1,
+          input_width: :small
+        )
         f.rich_text_area(
           name: :status_explanation,
           label: attribute_name(:status_explanation),
