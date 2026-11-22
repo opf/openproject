@@ -39,6 +39,18 @@ export const bcfTableViewIdentifier = 'table';
 
 export type BcfViewState = 'cards'|'viewer'|'splitTable'|'splitCards'|'table';
 
+const bcfViewStates:readonly unknown[] = [
+  bcfCardsViewIdentifier,
+  bcfViewerViewIdentifier,
+  bcfSplitViewTableIdentifier,
+  bcfSplitViewCardsIdentifier,
+  bcfTableViewIdentifier,
+] satisfies BcfViewState[];
+
+export function isBcfViewState(value:unknown):value is BcfViewState {
+  return bcfViewStates.includes(value);
+}
+
 @Injectable()
 export class BcfViewService extends WorkPackageQueryStateService<BcfViewState> {
   private readonly I18n = inject(I18nService);
@@ -61,30 +73,48 @@ export class BcfViewService extends WorkPackageQueryStateService<BcfViewState> {
   };
 
   hasChanged(query:QueryResource):boolean {
-    return this.current !== query.displayRepresentation;
+    const saved = query.displayRepresentation;
+    return this.current !== (isBcfViewState(saved) ? this.effectiveState(saved) : saved);
   }
 
   applyToQuery(query:QueryResource):boolean {
-    query.displayRepresentation = this.current;
+    if (this.hasChanged(query)) {
+      query.displayRepresentation = this.current;
+    }
     return true;
   }
 
   public valueFromQuery(query:QueryResource):BcfViewState|undefined {
-    const dr = query.displayRepresentation;
+    const saved = query.displayRepresentation;
 
-    switch (dr) {
-      case 'splitCards':
-      case 'splitTable':
-      case 'cards':
-      case 'table':
-      case 'viewer':
-        return dr;
-      default:
-        return this.viewerBridgeService.shouldShowViewer ? 'splitCards' : 'cards';
+    if (isBcfViewState(saved)) {
+      return this.effectiveState(saved);
     }
+
+    return this.viewerBridgeService.shouldShowViewer ? 'splitCards' : 'cards';
+  }
+
+  public update(value:BcfViewState):void {
+    super.update(this.effectiveState(value));
   }
 
   public currentViewerState():BcfViewState|undefined {
     return this.current;
+  }
+
+  private effectiveState(state:BcfViewState):BcfViewState {
+    if (this.viewerBridgeService.shouldShowViewer) {
+      return state;
+    }
+
+    switch (state) {
+      case 'viewer':
+      case 'splitCards':
+        return 'cards';
+      case 'splitTable':
+        return 'table';
+      default:
+        return state;
+    }
   }
 }
