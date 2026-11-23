@@ -137,6 +137,17 @@ RSpec.describe "API v3 Meeting Agenda Item move to next meeting", content_type: 
       end
     end
 
+    context "when the section is another series' backlog" do
+      let(:other_series) { create(:recurring_meeting, project:, author:) }
+      let(:other_meeting) { create(:recurring_meeting_occurrence, recurring_meeting: other_series) }
+      let(:chosen_section) { other_meeting.backlog }
+
+      it "returns an unprocessable error without moving the item" do
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(agenda_item.reload.meeting_id).to eq(current_meeting.id)
+      end
+    end
+
     context "when the section belongs to a different occurrence of the same series" do
       let!(:other_occurrence) do
         create(:recurring_meeting_occurrence, recurring_meeting: series,

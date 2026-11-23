@@ -99,7 +99,7 @@ module MeetingAgendaItems
     end
 
     def validate_chosen_section(target_meeting, meeting_section)
-      if meeting_section.backlog? || meeting_section.meeting_id == target_meeting.id
+      if meeting_section == target_meeting.backlog || meeting_section.meeting_id == target_meeting.id
         return ServiceResult.success(result: meeting_section)
       end
 
