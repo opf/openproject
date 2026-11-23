@@ -30,6 +30,7 @@
 class WorkPackageEmbedding < ApplicationRecord
   DIMENSIONS = 4000
   MAX_SEARCH_DISTANCE = 0.5
+  SEARCH_LIMIT = 40
 
   belongs_to :semantic_index
   belongs_to :work_package
@@ -48,11 +49,13 @@ class WorkPackageEmbedding < ApplicationRecord
     super(self.class.vector_literal(vector))
   end
 
-  def self.work_package_ids_within_search_distance_sql(vector_literal, semantic_index_id:)
-    sanitize_sql_array([<<~SQL.squish, { semantic_index_id:, vector_literal: }])
+  def self.work_package_ids_within_search_distance_sql(vector_literal, semantic_index_id:, limit: SEARCH_LIMIT)
+    sanitize_sql_array([<<~SQL.squish, { semantic_index_id:, vector_literal:, limit: limit.to_i }])
       SELECT work_package_id FROM #{table_name}
       WHERE semantic_index_id = :semantic_index_id
         AND embedding <=> :vector_literal < #{MAX_SEARCH_DISTANCE}
+      ORDER BY embedding <=> :vector_literal
+      LIMIT :limit
     SQL
   end
 

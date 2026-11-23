@@ -63,4 +63,46 @@ RSpec.describe WorkPackageEmbedding do
 
     expect(described_class.count).to eq(2)
   end
+
+  describe ".work_package_ids_within_search_distance_sql" do
+    let(:semantic_index) { create(:semantic_index) }
+    let(:vector) { described_class.vector_literal([0.1, 0.2, 0.3]) }
+
+    it "follows the ORDER BY distance + LIMIT shape required for the HNSW index" do
+      sql = described_class.work_package_ids_within_search_distance_sql(vector,
+                                                                        semantic_index_id: semantic_index.id,
+                                                                        limit: 10)
+
+      expect(sql).to include("ORDER BY embedding <=> ")
+      expect(sql).to match(/LIMIT 10\z/)
+    end
+
+    it "returns the work package ids within the search distance, most similar first" do
+      closest = create(:work_package)
+      farther = create(:work_package)
+      outside = create(:work_package)
+      create(:work_package_embedding, work_package: closest, semantic_index:, embedding: [0.1, 0.2, 0.3])
+      create(:work_package_embedding, work_package: farther, semantic_index:, embedding: [0.2, 0.2, 0.2])
+      create(:work_package_embedding, work_package: outside, semantic_index:, embedding: [-0.1, -0.2, -0.3])
+      # Same distance as the closest, but in another index: must not leak in.
+      create(:work_package_embedding, work_package: outside, embedding: [0.1, 0.2, 0.3])
+
+      sql = described_class.work_package_ids_within_search_distance_sql(vector, semantic_index_id: semantic_index.id)
+
+      expect(described_class.connection.select_values(sql)).to eq [closest.id, farther.id]
+    end
+
+    it "caps the candidates at the given limit, keeping the most similar" do
+      closest = create(:work_package)
+      farther = create(:work_package)
+      create(:work_package_embedding, work_package: closest, semantic_index:, embedding: [0.1, 0.2, 0.3])
+      create(:work_package_embedding, work_package: farther, semantic_index:, embedding: [0.2, 0.2, 0.2])
+
+      sql = described_class.work_package_ids_within_search_distance_sql(vector,
+                                                                        semantic_index_id: semantic_index.id,
+                                                                        limit: 1)
+
+      expect(described_class.connection.select_values(sql)).to eq [closest.id]
+    end
+  end
 end

@@ -43,7 +43,7 @@ class Queries::WorkPackages::Filter::SemanticSearchFilter <
     return "1=0" if vector.nil?
 
     "#{WorkPackage.table_name}.id IN (" \
-      "#{WorkPackageEmbedding.work_package_ids_within_search_distance_sql(vector, semantic_index_id:)})"
+      "#{WorkPackageEmbedding.work_package_ids_within_search_distance_sql(vector, semantic_index_id:, limit: search_limit)})"
   end
 
   protected
@@ -66,5 +66,9 @@ class Queries::WorkPackages::Filter::SemanticSearchFilter <
 
   def semantic_index_id
     Llm::WorkPackages::SemanticSearch.active_semantic_index&.id
+  end
+
+  def search_limit
+    WorkPackageEmbedding::SEARCH_LIMIT
   end
 end

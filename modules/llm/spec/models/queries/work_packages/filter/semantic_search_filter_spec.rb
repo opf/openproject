@@ -76,6 +76,11 @@ RSpec.describe Queries::WorkPackages::Filter::SemanticSearchFilter do
       expect(WorkPackage.where(instance.where)).to contain_exactly(similar_open, similar_closed)
     end
 
+    it "builds the ORDER BY distance + LIMIT shape required for the HNSW index" do
+      expect(instance.where).to include("ORDER BY embedding <=> ")
+      expect(instance.where).to include("LIMIT #{WorkPackageEmbedding::SEARCH_LIMIT}")
+    end
+
     it "matches nothing when the query cannot be embedded" do
       allow(Llm::WorkPackages::SemanticSearch).to receive(:query_vector).and_return(nil)
 
