@@ -55,15 +55,15 @@ module Exports::PDF::Common::Text
   end
 
   def optical_top_offset(line_count, height, size)
-    ascender, descender, cap_height = font_metrics(size)
-    ink_height = cap_height + ((line_count - 1) * @pdf.font.height_at(size)) + (descender / 2)
+    ascender, cap_height = font_metrics(size)
+    ink_height = cap_height + ((line_count - 1) * @pdf.font.height_at(size))
     ((height - ink_height) / 2) - (ascender - cap_height)
   end
 
   def font_metrics(size)
     font = @pdf.font
     scale = size / @pdf.font_size.to_f
-    [font.ascender * scale, font.descender * scale, cap_height_ratio(font) * size]
+    [font.ascender * scale, cap_height_ratio(font) * size]
   end
 
   def cap_height_ratio(font)

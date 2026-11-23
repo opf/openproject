@@ -66,12 +66,11 @@ RSpec.describe Exports::PDF::Common::Text do
     text_painter.paint_fitted_text(text, 0.0, cell_top, cell_width, cell_height, size: font_size, max_lines: 2, **)
   end
 
-  # Vertical center of the visible text: cap height of the first line to half the descender of the last
+  # Vertical center of the visible text: cap height of the first line to the baseline of the last
   def ink_center
     ttf = pdf.font.ttf
     cap_height = ttf.os2.cap_height.to_f / ttf.header.units_per_em * font_size
-    descender = -ttf.horizontal_header.descent.to_f / ttf.header.units_per_em * font_size
-    (baselines.max + cap_height + baselines.min - (descender / 2)) / 2
+    (baselines.max + cap_height + baselines.min) / 2
   end
 
   def cell_center
@@ -226,7 +225,7 @@ RSpec.describe Exports::PDF::Common::Text do
   end
 
   describe "#font_metrics" do
-    it "scales ascender, descender and cap height with the size" do
+    it "scales ascender and cap height with the size" do
       expect(text_painter.font_metrics(16)).to eq(text_painter.font_metrics(8).map { |value| value * 2 })
     end
   end
