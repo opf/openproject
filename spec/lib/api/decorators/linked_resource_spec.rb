@@ -256,6 +256,25 @@ RSpec.describe API::Decorators::LinkedResource do
     end
   end
 
+  describe "#parse_new_record_titles_from_fragment" do
+    subject(:titles) { representer.new(represented, current_user:).send(:parse_new_record_titles_from_fragment, fragment) }
+
+    let(:fragment) do
+      [
+        { "href" => "/api/v3/users/1", "title" => "Existing" },
+        { "href" => nil, "title" => "First" },
+        { "title" => { "a" => 1 } },
+        { "href" => "", "title" => "Second" },
+        { "href" => nil, "title" => " " },
+        { "href" => nil }
+      ]
+    end
+
+    it "returns the titles of href-less entries with a non-blank string title, in order" do
+      expect(titles).to eq(%w[First Second])
+    end
+  end
+
   describe "#from_hash" do
     subject { representer.new(represented, current_user:).from_hash(input_hash) }
 
