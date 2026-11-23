@@ -28,6 +28,7 @@
 import type { HocuspocusProvider, onAwarenessUpdateParameters } from '@hocuspocus/provider';
 import { LiveCollaborationManager } from 'core-stimulus/helpers/live-collaboration-helpers';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import type { MockInstance } from 'vitest';
 import LiveEventsController from './live-events.controller';
 
 type AwarenessListener = (data:onAwarenessUpdateParameters) => void;
@@ -43,6 +44,7 @@ describe('LiveEventsController', () => {
   let awarenessListener:AwarenessListener;
   let pendingRequests:Map<string, PendingRequest>;
   let streamRenders:string[];
+  let fetchSpy:MockInstance<typeof window.fetch>;
 
   const recordStreamRender = (event:Event) => {
     streamRenders.push((event.target as Element).querySelector('template')!.content.textContent);
@@ -73,10 +75,9 @@ describe('LiveEventsController', () => {
     pendingRequests = new Map();
     streamRenders = [];
     document.addEventListener('turbo:before-stream-render', recordStreamRender);
-    vi.spyOn(window, 'fetch').mockImplementation((input, init) => {
+    fetchSpy = vi.spyOn(window, 'fetch').mockImplementation((input) => {
       const userIds = new URL(input as string, window.location.origin).searchParams.getAll('user_ids[]').join(',');
       return new Promise((resolve, reject) => {
-        init?.signal?.addEventListener('abort', () => reject(new DOMException('Aborted', 'AbortError')));
         pendingRequests.set(userIds, {
           resolve: (body) => resolve(new Response(body, { status: 200 })),
           reject,
@@ -147,5 +148,41 @@ describe('LiveEventsController', () => {
     respond('1,2,3');
 
     await vi.waitFor(() => expect(renderedUsers()).toBe('1,2,3'));
+  });
+
+  it('does not request the same users again while their request is pending', async () => {
+    emitAwareness([userA, userB]);
+    flushDebounce();
+    emitAwareness([userA, userB]);
+    flushDebounce();
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+
+    respond('1,2');
+    await vi.waitFor(() => expect(renderedUsers()).toBe('1,2'));
+
+    emitAwareness([userA, userB]);
+    flushDebounce();
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('requests the users again when they come back after leaving before the debounce fired', async () => {
+    emitAwareness([userA]);
+    flushDebounce();
+    respond('1');
+    await vi.waitFor(() => expect(renderedUsers()).toBe('1'));
+
+    emitAwareness([userA, userB]);
+    emitAwareness([userA]);
+    flushDebounce();
+    respond('1');
+    await vi.waitFor(() => expect(streamRenders).toEqual(['1', '1']));
+
+    emitAwareness([userA, userB]);
+    flushDebounce();
+    respond('1,2');
+
+    await vi.waitFor(() => expect(renderedUsers()).toBe('1,2'));
   });
 });

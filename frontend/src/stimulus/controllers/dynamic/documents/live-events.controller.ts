@@ -41,9 +41,9 @@ export default class extends ApplicationController {
 
   private provider:HocuspocusProvider|null = null;
   private readyCallback:((provider:HocuspocusProvider) => void) | null = null;
-  private currentUsers = new Map<number, LiveUser>();
-  private avatarsRequest:AbortController|null = null;
-  private avatarsOutdated = false;
+  private latestUserIds:string|null = null;
+  private requestedUserIds:string|null = null;
+  private renderedUserIds:string|null = null;
 
   connect() {
     this.readyCallback = (provider:HocuspocusProvider) => {
@@ -63,10 +63,9 @@ export default class extends ApplicationController {
       this.readyCallback = null;
     }
 
-    this.currentUsers.clear();
-    this.avatarsRequest?.abort();
-    this.avatarsRequest = null;
-    this.avatarsOutdated = false;
+    this.latestUserIds = null;
+    this.requestedUserIds = null;
+    this.renderedUserIds = null;
 
     this.provider?.off('awarenessUpdate', this.onAwarenessUpdate);
     this.provider?.off('stateless', this.onStateless);
@@ -93,64 +92,59 @@ export default class extends ApplicationController {
 
     if (awarenessStates.length === 0) return;
 
-    const changed = this.updateUsers(awarenessStates);
-    if (changed || this.avatarsOutdated) {
+    this.latestUserIds = this.userIdsParams(awarenessStates);
+
+    if (this.latestUserIds !== this.renderedUserIds && this.latestUserIds !== this.requestedUserIds) {
+      this.requestedUserIds = this.latestUserIds;
       this.triggerUpdateUsersUI();
     }
   };
 
   private onStateless = (data:onStatelessParameters) => {
     if (data.payload == 'storeEvent') {
-      this.fetchTemplate(`${window.location.pathname}/render_last_saved_at`).catch(() => undefined);
+      this.fetchTemplate(`${window.location.pathname}/render_last_saved_at`)
+        .then((html) => Turbo.renderStreamMessage(html))
+        .catch(() => undefined);
     }
   };
 
-  private updateUsers(states:onAwarenessUpdateParameters['states']) {
-    const nextState = new Map<number, LiveUser>();
+  private userIdsParams(states:onAwarenessUpdateParameters['states']) {
+    const params = new URLSearchParams();
 
     states.forEach((state) => {
       if (state.user) {
-        nextState.set(state.clientId, state.user as LiveUser);
+        params.append('user_ids[]', (state.user as LiveUser).id);
       }
     });
 
-    const previousUsers = [...this.currentUsers.keys()];
-    const nextUsers = [...nextState.keys()];
-
-    this.currentUsers = nextState;
-
-    return (
-      previousUsers.length !== nextUsers.length || previousUsers.some(id => !nextUsers.includes(id))
-    );
+    return params.toString();
   }
 
   private triggerUpdateUsersUI() {
-    const params = new URLSearchParams();
+    const userIds = this.latestUserIds;
+    if (userIds === null) return;
 
-    for (const user of this.currentUsers.values()) {
-      params.append('user_ids[]', user.id);
-    }
+    this.requestedUserIds = userIds;
+    this.fetchTemplate(`${window.location.pathname}/render_avatars?${userIds}`)
+      .then((html) => {
+        if (userIds !== this.latestUserIds) return;
 
-    this.avatarsRequest?.abort();
-    const request = new AbortController();
-    this.avatarsRequest = request;
-    this.avatarsOutdated = false;
-
-    this.fetchTemplate(`${window.location.pathname}/render_avatars?${params}`, request.signal)
+        Turbo.renderStreamMessage(html);
+        this.renderedUserIds = userIds;
+      })
       .catch(() => {
-        if (!request.signal.aborted) {
-          this.avatarsOutdated = true;
+        if (userIds === this.requestedUserIds) {
+          this.requestedUserIds = null;
         }
       });
   }
 
-  private fetchTemplate(url:string, signal?:AbortSignal):Promise<void> {
+  private fetchTemplate(url:string):Promise<string> {
     return fetch(url, {
       method: 'GET',
       headers: {
         Accept: 'text/vnd.turbo-stream.html',
       },
-      signal,
     })
       .then((response:Response) => {
         if (response.ok) {
@@ -158,17 +152,9 @@ export default class extends ApplicationController {
         }
         return Promise.reject(new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`));
       })
-      .then((html:string) => {
-        if (!signal?.aborted) {
-          Turbo.renderStreamMessage(html);
-        }
-      })
       .catch((error:Error) => {
-        if (!signal?.aborted) {
-          console.error('Error:', error);
-        }
+        console.error('Error:', error);
         throw error;
       });
   }
 }
-
