@@ -174,8 +174,7 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
     this.cdRef.detectChanges();
   }
 
-  // setFirstPart is not idempotent, and a semantic route param makes the
-  // work package arrive from both its semantic and its numeric cache slot.
+  // setFirstPart is not idempotent, and the same work package can be emitted twice.
   protected applyTitle(force = false):void {
     const title = this.workPackage.subjectWithType(-1);
     if (force || title !== this.appliedTitle) {

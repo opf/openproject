@@ -77,8 +77,6 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
     this.storeService.reload();
   }
 
-  // Opening the split view is a Turbo frame visit with `action: 'advance'`, which can render
-  // the page snapshot taken before the visit. That snapshot carries the list's <title>.
   @HostListener('document:turbo:render')
   restoreTitle():void {
     if (this.workPackage && this.elementRef.nativeElement.isConnected) {
