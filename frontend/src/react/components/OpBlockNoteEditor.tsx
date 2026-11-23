@@ -32,10 +32,9 @@ import { CollaborationCursorLabelFitExtension } from '../extensions/collaboratio
 import { HeadingLinkExtension } from '../extensions/heading-link';
 import { filterSuggestionItems } from '@blocknote/core/extensions';
 import { withCollaboration } from '@blocknote/core/yjs';
-import { BlockNoteView } from '@blocknote/mantine';
-import { getDefaultReactSlashMenuItems, SuggestionMenuController, useCreateBlockNote } from '@blocknote/react';
+import { primerEditorComponents } from './primerEditorComponents';
+import { BlockNoteViewRaw, ComponentsContext, getDefaultReactSlashMenuItems, GridSuggestionMenuController, SuggestionMenuController, useCreateBlockNote } from '@blocknote/react';
 import { HocuspocusProvider } from '@hocuspocus/provider';
-import { createTheme, MantineProvider } from '@mantine/core';
 import {
   initializeOpBlockNoteExtensions,
   openProjectWorkPackageBlockSpec,
@@ -43,7 +42,6 @@ import {
   openProjectWorkPackageAttributeInlineSpec,
   openProjectWorkPackageAttributeBlockSpec,
   getOpenProjectSlashMenuItems,
-  OpenProjectFormattingToolbar,
   OpenProjectHashMenu,
 } from '@openproject/blocknote-extensions';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
@@ -51,15 +49,17 @@ import * as Y from 'yjs';
 import { useBlockNoteAttachments } from '../hooks/useBlockNoteAttachments';
 import { useBlockNoteLocale } from '../hooks/useBlockNoteLocale';
 import { useOpTheme } from '../hooks/useOpTheme';
+import { enablePrimerDialogs } from '@openproject/blocknote-extensions/primer';
+import { BlockNoteFormResourcePicker } from './BlockNoteFormResourcePicker';
+import { BlockNoteWorkPackagePicker } from './BlockNoteWorkPackagePicker';
+import { PrimerTableHandles } from './PrimerTableHandles';
+import { PrimerEmojiPicker } from './PrimerEmojiPicker';
+import { PrimerFilePanel } from './PrimerFilePanel';
+import { PrimerLinkToolbar } from './PrimerLinkToolbar';
+import { PrimerFormattingToolbar } from './PrimerFormattingToolbar';
+import { PrimerSideMenuController } from './PrimerSideMenu';
+import { PrimerSlashMenu } from './PrimerSlashMenu';
 import { tableBlockSpec } from '../blocks/table';
-
-// Mantine >= 9.3 locks a popover's first placement and falls back to it when neither side fits,
-// so on mobile the block type menu opens behind the virtual keyboard (COMMS-1102).
-const mantineTheme = createTheme({
-  components: {
-    Popover: { defaultProps: { preventPositionChangeWhenVisible: false } },
-  },
-});
 
 export interface OpBlockNoteEditorProps {
   activeUser:User;
@@ -104,6 +104,7 @@ export function OpBlockNoteEditor({
   const { enabled: attachmentsEnabled, uploadFile } = useBlockNoteAttachments(attachmentsCollectionKey, attachmentsUploadUrl);
 
   useEffect(() => {
+    enablePrimerDialogs({ WorkPackagePicker: BlockNoteWorkPackagePicker, FormResourcePicker: BlockNoteFormResourcePicker });
     initializeOpBlockNoteExtensions({ baseUrl: openProjectUrl, locale: localeString, projectId });
   }, [openProjectUrl, localeString, projectId]);
 
@@ -170,26 +171,34 @@ export function OpBlockNoteEditor({
   ], []);
 
   return (
-    <MantineProvider
-      theme={mantineTheme}
-      withCssVariables={false}
-      getRootElement={() => undefined}
-    >
-      <BlockNoteView
+    <ComponentsContext.Provider value={primerEditorComponents}>
+      <BlockNoteViewRaw
         editor={editor}
         slashMenu={false}
+        sideMenu={false}
+        tableHandles={false}
         formattingToolbar={false}
+        linkToolbar={false}
+        filePanel={false}
+        emojiPicker={false}
         theme={theme}
         editable={!readOnly}
         className={'block-note-editor-container'}
       >
-        <OpenProjectFormattingToolbar />
+        <PrimerFormattingToolbar />
+        <PrimerLinkToolbar />
+        {!readOnly && <PrimerFilePanel />}
+        <PrimerSideMenuController />
+        <PrimerTableHandles />
         <SuggestionMenuController
           triggerCharacter="/"
+          suggestionMenuComponent={PrimerSlashMenu}
           getItems={async (query:string) => Promise.resolve(filterSuggestionItems(getCustomSlashMenuItems(editor), query))}
         />
+        {!readOnly && <GridSuggestionMenuController triggerCharacter=":" columns={10} minQueryLength={2}
+          gridSuggestionMenuComponent={PrimerEmojiPicker} />}
         <OpenProjectHashMenu />
-      </BlockNoteView>
-    </MantineProvider>
+      </BlockNoteViewRaw>
+    </ComponentsContext.Provider>
   );
 }

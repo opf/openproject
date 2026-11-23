@@ -63,7 +63,7 @@ module FormFields
       end
 
       def select_to_line_start
-        page.driver.browser.action.key_down(:shift).send_keys(:home).key_up(:shift).perform
+        page.execute_script("window.getSelection().modify('extend', 'backward', 'lineboundary')")
       end
 
       # Forward Delete via the W3C actions API; pair with a selection helper.

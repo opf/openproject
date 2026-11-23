@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { getPrimerDialogs } from '../../services/dialogComponents';
 import { useTranslation } from 'react-i18next';
 import { AlertIcon } from '@primer/octicons-react';
 import { colorOfType } from '../../services/colors';
@@ -6,6 +7,7 @@ import { hrefsOf } from './formSchema';
 import type { FieldValue, FormField, ValueProblem } from './formSchema';
 import { AllowedValuesSelect } from '../Shared/AllowedValuesSelect';
 import { AllowedValuesTypeahead } from './AllowedValuesTypeahead';
+import { TypeActionMenu } from './TypeActionMenu';
 import { DatePicker } from './DatePicker';
 import { MultiValueTypeahead } from './MultiValueTypeahead';
 import { ProjectPicker } from './ProjectPicker';
@@ -65,8 +67,9 @@ export const FormFieldControl = ({
   const id = controlIdOf(field.key);
   // What was just typed speaks before what the API said about an earlier value.
   const message = problem ? t(PROBLEM_MESSAGES[problem]) : error;
-  const errorId = message ? `${id}-error` : undefined;
-  const hintId = hint ? `${id}-hint` : undefined;
+  const primer = getPrimerDialogs();
+  const errorId = message ? `${id}-${primer ? 'validationMessage' : 'error'}` : undefined;
+  const hintId = hint ? `${id}-${primer ? 'caption' : 'hint'}` : undefined;
   const describedBy = [errorId, hintId].filter(Boolean).join(' ') || undefined;
   const invalid = { 'aria-invalid': message ? true : undefined, 'aria-describedby': describedBy };
   const textValue = typeof value === 'string' ? value : '';
@@ -85,10 +88,13 @@ export const FormFieldControl = ({
     </FieldRow>
   );
 
+  const CheckboxControl = primer?.Checkbox ?? 'input';
+  const Area = primer?.Textarea ?? TextAreaControl;
+
   if (field.kind === 'checkbox') {
     return withMessages(
       <CheckboxRow>
-        <input
+        <CheckboxControl
           id={id}
           type="checkbox"
           checked={value === true}
@@ -100,35 +106,29 @@ export const FormFieldControl = ({
     );
   }
 
-  const textInput = (type:string, extra?:Partial<React.ComponentProps<typeof TextControl>>) => (
-    <TextControl
-      id={id}
-      type={type}
-      placeholder={placeholder}
-      value={textValue}
-      onChange={(event) => onChange(event.target.value)}
-      {...invalid}
-      {...extra}
-    />
-  );
+  const textInput = (type:string, extra?:Pick<React.ComponentProps<'input'>, 'autoComplete' | 'maxLength' | 'inputMode'>) => {
+    const props = {
+      id, type, placeholder, value: textValue,
+      onChange: (event:React.ChangeEvent<HTMLInputElement>) => onChange(event.target.value),
+      ...invalid, ...extra,
+    };
+    return primer ? <primer.TextInput block {...extra} type={type} placeholder={placeholder} value={textValue} onChange={props.onChange} />
+      : <TextControl {...props} />;
+  };
 
   let control:ReactNode;
   switch (field.kind) {
-    case 'select':
-      control = (
-        <AllowedValuesSelect
-          id={id}
-          label={field.label}
-          options={field.allowedValues ?? []}
-          value={textValue}
-          placeholder={placeholder ?? t('createWorkPackage.selectPlaceholder')}
-          colorOf={field.key === 'type' ? colorOfType : undefined}
-          invalid={Boolean(message)}
-          describedBy={errorId}
-          onChange={onChange}
-        />
-      );
+    case 'select': {
+      const select = {
+        id, label: field.label, options: field.allowedValues ?? [], value: textValue,
+        placeholder: placeholder ?? t('createWorkPackage.selectPlaceholder'),
+        invalid: Boolean(message), describedBy, onChange,
+      };
+      control = primer && field.key === 'type'
+        ? <TypeActionMenu {...select} primer={primer} />
+        : <AllowedValuesSelect {...select} colorOf={field.key === 'type' ? colorOfType : undefined} />;
       break;
+    }
     case 'typeahead': {
       const picker = {
         id,
@@ -141,6 +141,11 @@ export const FormFieldControl = ({
         describedBy,
         onChange,
       };
+
+      if (primer?.FormResourcePicker && (field.key === PROJECT_KEY || field.key === 'assignee')) {
+        control = <primer.FormResourcePicker key={picker.href} resource={field.key} {...picker} />;
+        break;
+      }
 
       control = field.key === PROJECT_KEY
         ? <ProjectPicker {...picker} />
@@ -176,7 +181,8 @@ export const FormFieldControl = ({
     }
     case 'textarea':
       control = (
-        <TextAreaControl
+        <Area
+          {...(primer && { block: true })}
           id={id}
           maxLength={field.maxLength}
           autoComplete="off"
@@ -224,6 +230,17 @@ export const FormFieldControl = ({
           </Notice>
         </FieldRow>
       );
+  }
+
+  if (primer) {
+    return (
+      <primer.FormControl id={id} required={field.required} className="op-bn-dialog-field">
+        <primer.FormControl.Label htmlFor={id}>{field.label}</primer.FormControl.Label>
+        {control}
+        {message && <primer.FormControl.Validation variant="error">{message}</primer.FormControl.Validation>}
+        {hint && <primer.FormControl.Caption>{hint}</primer.FormControl.Caption>}
+      </primer.FormControl>
+    );
   }
 
   return withMessages(

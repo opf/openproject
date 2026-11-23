@@ -107,6 +107,8 @@ Where the host has toolbar items of its own to place, compose the toolbar by han
 
 Where the host builds the `#` menu itself, `useHashWpMenu(editor)` hands back the pieces instead: `getHashItems`, `HashWpMenu` and `shouldOpenHashMenu`. All three belong on the `SuggestionMenuController` - the last one is what keeps a run longer than `####` from searching.
 
+Hosts using Primer React can call `enablePrimerDialogs()` from `@openproject/blocknote-extensions/primer` during editor setup to use Primer for the create and attribute dialogs. A host can supply its own work package search control with `enablePrimerDialogs({ WorkPackagePicker })`. The extension loads the selected work package and its schema for the attribute preview.
+
 The create form is built from the work package form endpoint of the API, so the attributes it asks for - and their labels - come from the OpenProject instance: subject, project, type, assignee, plus every other attribute the selected type requires. Attributes the API already has a default for (status and priority, for instance) are left to it and are not shown, required or not.
 
 Include everything in a `BlockNoteView`:

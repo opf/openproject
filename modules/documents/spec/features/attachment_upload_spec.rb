@@ -159,8 +159,8 @@ RSpec.describe "Upload attachment to documents",
 
   shared_examples "with non-whitelisted file types" do
     context "with an incompatible attachment allowlist",
-            with_settings: { attachment_whitelist: %w[image/jpg] } do
-      it "shows a nice error" do
+            with_settings: { attachment_whitelist: %w[image/webp] } do
+      it "shows why an upload failed and accepts a retry from the same panel" do
         editor.open_add_image_dialog
         expect do
           editor.attach_file(image_fixture.path)
@@ -168,6 +168,12 @@ RSpec.describe "Upload attachment to documents",
                                            value: "image/png")
           expect(editor.element).to have_no_css("img[alt='image.png']")
         end.not_to change { document.attachments.count }
+
+        expect(editor.shadow_root).to have_css("[role='alert']", text: "Error: Upload failed")
+        expect do
+          editor.attach_file(Rails.root.join("spec/fixtures/files/image.webp").to_s)
+          expect(editor.element).to have_css("img[alt='image.webp'][src*='/api/v3/attachments/']")
+        end.to change { document.attachments.count }.by(1)
       end
     end
   end
@@ -213,6 +219,34 @@ RSpec.describe "Upload attachment to documents",
       visit document_path(document)
       expect(page).to have_css("op-block-note") # rubocop:disable RSpec/ExpectInHook
       expect(page).to have_no_element("opce-ckeditor-augmented-textarea") # rubocop:disable RSpec/ExpectInHook
+    end
+
+    it "replaces an existing image and saves its caption and display name" do
+      editor.open_add_image_dialog
+      editor.attach_file(image_fixture.path)
+      editor.element.find("img[alt='image.png']").click
+      editor.click_formatting_toolbar_button("Replace image")
+      editor.attach_file(Rails.root.join("spec/fixtures/files/airplane-wing-over-cloudy-sky.jpg").to_s)
+
+      expect(editor.element).to have_css("img[alt='airplane-wing-over-cloudy-sky.jpg']")
+      page.refresh
+      editor.element.find("img[alt='airplane-wing-over-cloudy-sky.jpg']").click
+      editor.click_formatting_toolbar_button("Edit caption")
+      within(:dialog, "Edit caption") do
+        fill_in "Edit caption", with: "Project overview"
+        find_field("Edit caption").send_keys(:enter)
+      end
+
+      editor.element.find("img[alt='airplane-wing-over-cloudy-sky.jpg']").click
+      editor.click_formatting_toolbar_button("Rename image")
+      within(:dialog, "Rename image") do
+        fill_in "Rename image", with: "Overview.jpg"
+        click_on "Close"
+      end
+
+      page.refresh
+      expect(editor.element).to have_css("img[alt='Overview.jpg']", count: 1)
+      expect(editor.element).to have_text("Project overview")
     end
 
     context "with internal uploads" do

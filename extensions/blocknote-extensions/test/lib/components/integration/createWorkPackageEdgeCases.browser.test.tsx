@@ -455,7 +455,7 @@ describe('Create work package - form and editor boundaries', () => {
     const [header, bodyContent, footer] = [
       panel.firstElementChild!,
       panel.querySelector('form > div > div')!,
-      panel.querySelector('form > div:last-child')!,
+      panel.lastElementChild!,
     ];
     expect([header, bodyContent, footer].map((part) => getComputedStyle(part).padding))
       .toEqual(['8px 16px', '16px', '8px 16px']);

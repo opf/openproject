@@ -26,6 +26,7 @@ export default defineConfig({
       '@blocknote/mantine',
       'styled-components',
       '@primer/octicons-react',
+      '@primer/react',
       'i18next',
       'react-i18next',
       'msw/browser',

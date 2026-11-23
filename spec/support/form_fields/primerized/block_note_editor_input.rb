@@ -75,7 +75,7 @@ module FormFields
       end
 
       def click_formatting_toolbar_button(label)
-        shadow_root.find("button[aria-label='#{label}']").click
+        page.find(".op-primer-formatting-toolbar").click_button(accessible_name: label)
       end
 
       def insert_table
@@ -85,38 +85,36 @@ module FormFields
 
       def open_table_row_menu
         shadow_root.first("table td, table th").hover
-        shadow_root.find(".bn-table-handle:not([style*='rotate'])").click
+        page.click_button(accessible_name: "Row actions")
       end
 
       def open_table_cell_menu(cell)
         handle = page.document.synchronize do
           cell.hover
-          shadow_root.find(".bn-table-cell-handle", wait: 0).tap do |current|
+          page.find_button(accessible_name: "Cell actions", wait: 0).tap do |current|
             raise Capybara::ExpectationNotMet, "Cell handle is not on the hovered cell" unless horizontally_within?(current, cell)
           end
         end
         handle.click
       end
 
-      # The colors menu lists the text colors first, then the background colors, with the same names.
       def pick_table_cell_color(name, background: false)
-        click_table_menu_item("Colors", hover: true)
-        shadow_root.all("[role='menuitem']", text: /#{name}\z/, minimum: 2)[background ? 1 : 0].click
-        send_keys(:escape)
+        page.find("[role='menuitem']", exact_text: "Colors").send_keys(:right)
+        group = background ? "Background" : "Text"
+        page.find("[role='group'][aria-label='#{group}'] [role='menuitemradio']", text: /#{Regexp.escape(name)}\z/).click
       end
 
-      def click_table_menu_item(text, hover: false)
-        item = shadow_root.find(".bn-menu-item", exact_text: text)
-        hover ? item.hover : item.click
+      def click_table_menu_item(text)
+        page.find("[role='menuitemcheckbox']", exact_text: text).click
       end
 
       def create_work_package_form
-        page.find("[data-testid='create-wp-modal']")
+        page.find(:dialog, "Create new work package")
       end
 
       # Portalled out of the editor like the create form, so it is in the light DOM.
       def insert_attribute_dialog
-        page.find("[role='dialog'][aria-label='Insert work package attribute']")
+        page.find(:dialog, "Insert work package attribute")
       end
 
       def fill_in(content)
@@ -126,7 +124,7 @@ module FormFields
       def attach_file(path)
         # find_field queries by XPath, which WebDriver does not support inside shadow roots
         input = shadow_root.find("input[type='file']", visible: :all) # rubocop:disable Capybara/SpecificFinders
-        input.attach_file(path, make_visible: true)
+        input.set(path)
       end
 
       def search_work_package(text)
@@ -232,7 +230,7 @@ module FormFields
         end
       end
 
-      # Triggers undo in the editor by dispatching a synthetic Ctrl-Z keydown event
+      # Triggers undo in the editor by dispatching a synthetic undo keydown event
       # directly to the shadow-DOM contenteditable element. Selenium's send_keys does
       # not reliably deliver modifier-key chords to elements inside a shadow DOM, so
       # we use execute_script instead. ProseMirror processes all keydown events on
@@ -245,7 +243,7 @@ module FormFields
           element.dispatchEvent(new KeyboardEvent('keydown', {
             key: 'z',
             code: 'KeyZ',
-            ctrlKey: true,
+            #{BrowserPlatform.apple?(page) ? 'metaKey' : 'ctrlKey'}: true,
             bubbles: true,
             cancelable: true,
             composed: true

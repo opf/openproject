@@ -36,7 +36,7 @@ const referenceTitle = (workPackage:WorkPackage):string =>
     .filter(Boolean)
     .join(' · ');
 
-interface WorkPackagePickerProps {
+export interface WorkPackagePickerProps {
   id:string;
   label:string;
   selected?:WorkPackage | null;

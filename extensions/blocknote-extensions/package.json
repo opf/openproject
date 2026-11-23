@@ -25,6 +25,11 @@
       "import": "./dist/blocknote-extensions.es.js",
       "require": "./dist/blocknote-extensions.cjs.js"
     },
+    "./primer": {
+      "types": "./dist/primer.d.ts",
+      "import": "./dist/blocknote-extensions-primer.es.js",
+      "require": "./dist/blocknote-extensions-primer.cjs.js"
+    },
     "./server": {
       "types": "./dist/server.d.ts",
       "import": "./dist/blocknote-extensions-server.es.js",
@@ -35,6 +40,7 @@
     "dist"
   ],
   "buildExternals": [
+    "@primer/react",
     "react",
     "react-dom",
     "@blocknote/core",
@@ -64,6 +70,7 @@
     "@mantine/core": "^9.6.2",
     "@mantine/hooks": "^9.4.1",
     "@mantine/utils": "^6.0.22",
+    "@primer/react": "38.46.0",
     "@stylistic/eslint-plugin": "^5.10.0",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.7",
@@ -95,6 +102,7 @@
     "vitest-browser-react": "^2.3.0"
   },
   "peerDependencies": {
+    "@primer/react": "^38.46.0",
     "@blocknote/core": ">=0.54.2",
     "@blocknote/mantine": ">=0.54.2",
     "@blocknote/react": ">=0.54.2",
@@ -102,6 +110,7 @@
     "prosemirror-state": "^1.4.4"
   },
   "peerDependenciesMeta": {
+    "@primer/react": { "optional": true },
     "@blocknote/mantine": { "optional": true },
     "@blocknote/react": { "optional": true }
   },

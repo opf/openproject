@@ -1,5 +1,7 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, onTestFinished } from 'vitest';
 import { page } from 'vitest/browser';
+import { enablePrimerDialogs } from '../../../../lib/primer';
+import { setPrimerDialogs } from '../../../../lib/services/dialogComponents';
 import { renderEditor } from '../../../helpers/renderEditor';
 import {
   openEditorAndType,
@@ -13,7 +15,7 @@ async function settled(selector:string):Promise<Element> {
   return document.querySelector(selector)!;
 }
 
-const chip = () => settled('.op-bn-inline-wp:has([aria-haspopup="menu"])');
+const chip = () => settled('.op-bn-inline-wp:has([aria-expanded])');
 const blockCard = () => settled('[data-testid="block-card"]');
 
 describe('Single tap activation', () => {
@@ -37,14 +39,24 @@ describe('Single tap activation', () => {
     await expect.element(page.getByTestId('popover-content')).toBeVisible();
   });
 
-  it('opens the size menu and picks a size, one tap each', async () => {
+  it.each(['default', 'Primer'])('opens the %s size menu and picks a size, one tap each', async (skin) => {
+    if (skin === 'Primer') {
+      enablePrimerDialogs();
+      onTestFinished(() => setPrimerDialogs());
+    }
     renderEditor();
     await insertInlineWorkPackageViaHash('#');
     tapElement(await chip());
 
-    tapElement(await settled('button[title="Change size"]'));
-    await expect.element(page.getByTestId('size-menu')).toBeVisible();
-
+    const trigger = skin === 'Primer' ? page.getByRole('button', { name: 'Show', exact: true }) : page.getByTitle('Change size');
+    await expect.element(trigger).toBeVisible();
+    tapElement(trigger.element());
+    const menu = page.getByTestId('size-menu');
+    await expect.element(menu).toBeVisible();
+    const overlay = menu.element();
+    expect(overlay.getAttribute('data-component')).toBe(skin === 'Primer' ? 'ActionMenu.Overlay' : null);
+    const scroller = overlay.querySelector('[data-overflow-auto]') ?? overlay;
+    expect(scroller.scrollWidth).toBeLessThanOrEqual(scroller.clientWidth + 1);
     tapElement(page.getByLabelText('Compact', { exact: true }).element());
 
     // Compact (xs) is the first size that spells the subject out on the chip.

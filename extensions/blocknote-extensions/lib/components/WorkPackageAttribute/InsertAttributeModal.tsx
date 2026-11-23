@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { getPrimerDialogs } from '../../services/dialogComponents';
 import { useTranslation } from 'react-i18next';
 import { AlertIcon, HistoryIcon } from '@primer/octicons-react';
 import type { WorkPackage } from '../../openProjectTypes';
@@ -7,13 +8,12 @@ import { useWorkPackage } from '../../hooks/useWorkPackage';
 import { cachedWorkPackageSchema } from '../../services/workPackageLoader';
 import { formatWorkPackageId } from '../../utils/id';
 import { Modal, ModalBody } from '../Shared/modal';
-import { Button } from '../Shared/Button';
+import { DialogButton as Button } from '../Shared/DialogButton';
 import { AllowedValuesSelect } from '../Shared/AllowedValuesSelect';
 import {
   FieldHint,
   FieldLabel,
   FieldRow,
-  Footer,
   RequiredMark,
 } from '../Shared/atoms';
 import {
@@ -28,6 +28,7 @@ import { ATTRIBUTE_DISPLAYS, DEFAULT_ATTRIBUTE_DISPLAY, type AttributeDisplay } 
 import type { AttributeChoice } from './types';
 import { WorkPackageAttributeBlockView, WorkPackageAttributeView } from './WorkPackageAttributeView';
 import { useAttributeFormatOptions, type ReadyAttribute } from './useWorkPackageAttribute';
+import { PrimerAttributePicker } from './PrimerAttributePicker';
 import { WorkPackagePicker } from './WorkPackagePicker';
 import {
   AttributeSurface,
@@ -97,7 +98,7 @@ export const InsertAttributeModal = ({ anchorEl, prefill, offersLongText, onInse
   } = useWorkPackage(wantedId);
   // Until the load of another work package settles, the hook still holds the previous one.
   const loadedWanted = loaded && loaded.id === wantedId ? loaded : null;
-  const workPackage = picked ?? loadedWanted;
+  const workPackage = loadedWanted ?? picked;
   const schema = loadedWanted ? cachedWorkPackageSchema(loadedWanted) : undefined;
   const schemaError = unauthorized || !!error || (!!loadedWanted && !schema);
   // What was prefilled is nothing the user would miss.
@@ -151,35 +152,72 @@ export const InsertAttributeModal = ({ anchorEl, prefill, offersLongText, onInse
     }, selected.block ? 'block' : 'inline');
   };
 
-  const attributeControl = workPackage && schema
-    ? (
+  const primer = getPrimerDialogs();
+  const Picker = primer?.WorkPackagePicker ?? WorkPackagePicker;
+
+  const changeDisplay = (choice:AttributeDisplay) => {
+    setTouched(true);
+    setDisplay(choice);
+  };
+
+  const chooseAttribute = (reference:string) => {
+    setTouched(true);
+    setAttribute(reference);
+    setAttributeLabel(attributes.find((option) => option.reference === reference)?.label ?? reference);
+    setNotice(null);
+  };
+
+  const attributeControl = () => {
+    if (!workPackage || !schema) {
+      const props = {
+        id: ATTRIBUTE_CONTROL_ID, disabled: true, readOnly: true,
+        placeholder: !workPackage
+          ? t('workPackageAttribute.dialog.attributeDisabled')
+          : t(schemaError ? 'workPackageAttribute.dialog.attributeUnavailable' : 'workPackageAttribute.dialog.attributeLoading'),
+      };
+      return primer ? <primer.TextInput block {...props} /> : <DisabledControl {...props} />;
+    }
+    const placeholder = t('workPackageAttribute.dialog.attributePlaceholder');
+    const value = selected?.reference ?? '';
+    return primer ? (
+      <PrimerAttributePicker
+        primer={primer}
+        key={workPackage.id}
+        id={ATTRIBUTE_CONTROL_ID}
+        label={t('workPackageAttribute.dialog.attribute')}
+        placeholder={placeholder}
+        attributes={attributes}
+        locale={formatOptions.locale}
+        selected={selected}
+        onPick={chooseAttribute}
+      />
+    ) : (
       <AllowedValuesSelect
         id={ATTRIBUTE_CONTROL_ID}
         label={t('workPackageAttribute.dialog.attribute')}
         options={attributes.map((option) => ({ href: option.reference, label: option.label }))}
-        value={selected?.reference ?? ''}
-        placeholder={t('workPackageAttribute.dialog.attributePlaceholder')}
-        onChange={(reference) => {
-          setTouched(true);
-          setAttribute(reference);
-          setAttributeLabel(attributes.find((option) => option.reference === reference)?.label ?? reference);
-          setNotice(null);
-        }}
-      />
-    )
-    : (
-      <DisabledControl
-        id={ATTRIBUTE_CONTROL_ID}
-        disabled
-        readOnly
-        placeholder={!workPackage
-          ? t('workPackageAttribute.dialog.attributeDisabled')
-          : t(schemaError ? 'workPackageAttribute.dialog.attributeUnavailable' : 'workPackageAttribute.dialog.attributeLoading')}
+        value={value}
+        placeholder={placeholder}
+        onChange={chooseAttribute}
       />
     );
+  };
 
   return (
     <Modal
+      footer={(
+        <>
+          <Button type="button" onClick={onCancel}>{t('createWorkPackage.cancel')}</Button>
+          <Button
+            type="button"
+            $primary
+            disabled={!workPackage || !selected}
+            onClick={insert}
+          >
+            {t('workPackageAttribute.dialog.insert')}
+          </Button>
+        </>
+      )}
       anchorEl={anchorEl}
       carriedVariables={PREVIEW_EDITOR_VARIABLES}
       panelRef={panelRef}
@@ -199,14 +237,14 @@ export const InsertAttributeModal = ({ anchorEl, prefill, offersLongText, onInse
         )}
 
         <FieldRow>
-          <FieldLabel htmlFor={WORK_PACKAGE_CONTROL_ID}>
+          <FieldLabel id={`${WORK_PACKAGE_CONTROL_ID}-label`} htmlFor={WORK_PACKAGE_CONTROL_ID}>
             {t('workPackageAttribute.dialog.workPackage')}
             <RequiredMark> *</RequiredMark>
           </FieldLabel>
-          <WorkPackagePicker
+          <Picker
             id={WORK_PACKAGE_CONTROL_ID}
             label={t('workPackageAttribute.dialog.workPackage')}
-            selected={workPackage}
+            selected={picked ?? workPackage}
             autoFocus={!prefilled}
             onPick={pickWorkPackage}
             onDeselect={deselectWorkPackage}
@@ -218,7 +256,7 @@ export const InsertAttributeModal = ({ anchorEl, prefill, offersLongText, onInse
             {t('workPackageAttribute.dialog.attribute')}
             <RequiredMark> *</RequiredMark>
           </AttributeFieldLabel>
-          {attributeControl}
+          {attributeControl()}
           {workPackage && schemaError && (
             <FieldHint $error role="alert">
               <AlertIcon size={14} />
@@ -240,21 +278,31 @@ export const InsertAttributeModal = ({ anchorEl, prefill, offersLongText, onInse
           <FieldLabel as="div" id={DISPLAY_LABEL_ID}>
             {t('workPackageAttribute.dialog.show')}
           </FieldLabel>
-          <DisplayOptions aria-labelledby={DISPLAY_LABEL_ID}>
-            {ATTRIBUTE_DISPLAYS.map((option) => (
-              <DisplayOption
-                key={option}
-                $active={display === option}
-                aria-checked={display === option}
-                onClick={() => {
-                  setTouched(true);
-                  setDisplay(option);
-                }}
-              >
-                {t(`workPackageAttribute.display.${option}`)}
-              </DisplayOption>
-            ))}
-          </DisplayOptions>
+          {primer ? (
+            <primer.SegmentedControl
+              aria-labelledby={DISPLAY_LABEL_ID}
+              onChange={(index) => changeDisplay(ATTRIBUTE_DISPLAYS[index])}
+            >
+              {ATTRIBUTE_DISPLAYS.map((option) => (
+                <primer.SegmentedControl.Button key={option} selected={display === option}>
+                  {t(`workPackageAttribute.display.${option}`)}
+                </primer.SegmentedControl.Button>
+              ))}
+            </primer.SegmentedControl>
+          ) : (
+            <DisplayOptions aria-labelledby={DISPLAY_LABEL_ID}>
+              {ATTRIBUTE_DISPLAYS.map((option) => (
+                <DisplayOption
+                  key={option}
+                  $active={display === option}
+                  aria-checked={display === option}
+                  onClick={() => changeDisplay(option)}
+                >
+                  {t(`workPackageAttribute.display.${option}`)}
+                </DisplayOption>
+              ))}
+            </DisplayOptions>
+          )}
         </FieldRow>
 
         <PreviewLabel>{t('workPackageAttribute.dialog.preview')}</PreviewLabel>
@@ -274,18 +322,6 @@ export const InsertAttributeModal = ({ anchorEl, prefill, offersLongText, onInse
             : <PreviewPlaceholder>{t('workPackageAttribute.dialog.previewEmpty')}</PreviewPlaceholder>}
         </PreviewBox>
       </ModalBody>
-
-      <Footer>
-        <Button type="button" onClick={onCancel}>{t('createWorkPackage.cancel')}</Button>
-        <Button
-          type="button"
-          $primary
-          disabled={!workPackage || !selected}
-          onClick={insert}
-        >
-          {t('workPackageAttribute.dialog.insert')}
-        </Button>
-      </Footer>
     </Modal>
   );
 };

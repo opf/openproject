@@ -4,6 +4,8 @@ import { linkToWorkPackage } from '../../../services/openProjectApi';
 import styled from 'styled-components';
 import { defaultWpVariables, menuItemFocusStyles, menuSurfaceStyles } from '../../WorkPackage/atoms';
 import { useAnchoredPopover, PopoverPortal } from '../../WorkPackage/anchoredPopover';
+import { getPrimerDialogs } from '../../../services/dialogComponents';
+import { PrimerOptionsMenu } from './PrimerOptionsMenu';
 import { SizeMenu } from './SizeMenu';
 import type { SizeGroup } from './types';
 import { FLOATING_Z_INDEX } from '../../../utils/zIndex';
@@ -58,7 +60,7 @@ const PopBtn = styled.button<{ $danger?:boolean }>`
   font-size: 0.82em;
   color: ${({ $danger }) =>
     $danger
-      ? 'var(--mantine-color-red-8)'
+      ? 'var(--fgColor-danger, #d1242f)'
       : 'var(--bn-colors-editor-text, #333)'};
   display: flex;
   align-items: center;
@@ -78,7 +80,7 @@ const PopBtn = styled.button<{ $danger?:boolean }>`
 const Divider = styled.div.attrs({ role: 'separator', 'aria-orientation': 'vertical' as const })`
   width: 1px;
   height: 18px;
-  background: var(--mantine-color-default-border);
+  background: var(--borderColor-muted, #d1d9e0);
   margin: 0 2px;
 `;
 
@@ -92,7 +94,7 @@ const IcOpen = () => <LinkExternalIcon size={13} />;
 const IcDelete = () => <TrashIcon size={13} />;
 const IcChevron = () => <ChevronDownIcon size={10} />;
 
-export const OptionsPopover = ({
+const LegacyOptionsPopover = ({
   ariaLabel,
   openId,
   activeSize,
@@ -260,3 +262,8 @@ export const OptionsPopover = ({
 
   return <PopoverPortal anchorEl={anchorEl}>{content}</PopoverPortal>;
 };
+
+export function OptionsPopover(props:OptionsPopoverProps) {
+  const primer = getPrimerDialogs();
+  return primer ? <PrimerOptionsMenu {...props} primer={primer} /> : <LegacyOptionsPopover {...props} />;
+}

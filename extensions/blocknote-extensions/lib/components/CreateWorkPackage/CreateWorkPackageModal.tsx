@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useId, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AlertIcon, SyncIcon } from '@primer/octicons-react';
 import type { WorkPackage } from '../../openProjectTypes';
@@ -10,8 +10,8 @@ import type { FormField } from './formSchema';
 import { controlIdOf, FormFieldControl, SUBJECT_KEY } from './FormFieldControl';
 import { useCreateWorkPackageForm } from './useCreateWorkPackageForm';
 import { Modal, ModalBody } from '../Shared/modal';
-import { Button } from '../Shared/Button';
-import { Footer, Notice } from '../Shared/atoms';
+import { DialogButton as Button } from '../Shared/DialogButton';
+import { Notice } from '../Shared/atoms';
 import {
   Divider,
   FooterStatus,
@@ -39,6 +39,7 @@ export interface CreateWorkPackageModalProps {
 
 export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, onCancel }:CreateWorkPackageModalProps) => {
   const { t } = useTranslation();
+  const formId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
   const focusGiven = useRef(false);
   useColors();
@@ -111,6 +112,26 @@ export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, on
 
   return (
     <Modal
+      footer={(
+        <>
+          {loading && (
+            <FooterStatus data-testid="create-wp-loading">
+              <Spinner><SyncIcon size={14} /></Spinner>
+              {t('createWorkPackage.loading')}
+            </FooterStatus>
+          )}
+          <Button type="button" style={{ marginInlineStart: 'auto' }} onClick={onCancel}>{t('createWorkPackage.cancel')}</Button>
+          <Button
+            type="submit"
+            form={formId}
+            $primary
+            data-testid="create-wp-submit"
+            disabled={!submitEnabled}
+          >
+            {submitting ? t('createWorkPackage.creating') : t('createWorkPackage.create')}
+          </Button>
+        </>
+      )}
       anchorEl={anchorEl}
       panelRef={panelRef}
       title={t('createWorkPackage.title')}
@@ -118,6 +139,8 @@ export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, on
       onCancel={onCancel}
     >
       <Form
+        noValidate
+        id={formId}
         onSubmit={(event) => {
           event.preventDefault();
           if (!submitEnabled) return;
@@ -157,24 +180,6 @@ export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, on
             </Notice>
           )}
         </ModalBody>
-
-        <Footer>
-          {loading && (
-            <FooterStatus data-testid="create-wp-loading">
-              <Spinner><SyncIcon size={14} /></Spinner>
-              {t('createWorkPackage.loading')}
-            </FooterStatus>
-          )}
-          <Button type="button" onClick={onCancel}>{t('createWorkPackage.cancel')}</Button>
-          <Button
-            type="submit"
-            $primary
-            data-testid="create-wp-submit"
-            disabled={!submitEnabled}
-          >
-            {submitting ? t('createWorkPackage.creating') : t('createWorkPackage.create')}
-          </Button>
-        </Footer>
       </Form>
     </Modal>
   );

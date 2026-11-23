@@ -2,8 +2,10 @@ import { createContext, useContext, useEffect, useMemo, useRef, type ReactNode, 
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { StyleSheetManager } from 'styled-components';
+import styled from 'styled-components';
+import { getPrimerDialogs } from '../../services/dialogComponents';
 import { XIcon } from '@primer/octicons-react';
-import { Body, BodyContent, Header, HeaderTitle, IconButton, Overlay, Panel } from './atoms';
+import { Body, BodyContent, dialogVariables, Footer, Header, HeaderTitle, IconButton, Overlay, Panel } from './atoms';
 import { useGrowthTransition } from './useGrowthTransition';
 
 const FOCUSABLE_SELECTOR = [
@@ -102,6 +104,7 @@ const ModalBodyContext = createContext<ModalBodyRefs | null>(null);
 
 export const ModalBody = ({ children }:{ children:ReactNode }) => {
   const refs = useContext(ModalBodyContext);
+  if (getPrimerDialogs()) return <>{children}</>;
 
   return (
     <Body ref={refs?.bodyRef}>
@@ -116,17 +119,19 @@ interface ModalProps {
   panelRef:RefObject<HTMLDivElement | null>;
   title:string;
   // Once something is filled in, only the buttons close it, so a stray click or Escape loses nothing.
+  footer:ReactNode;
   dismissible:boolean;
   onCancel:() => void;
   children:ReactNode;
 }
 
-export const Modal = ({
+const LegacyModal = ({
   anchorEl,
   carriedVariables,
   panelRef,
   title,
   dismissible,
+  footer,
   onCancel,
   children,
 }:ModalProps) => {
@@ -163,8 +168,40 @@ export const Modal = ({
             </IconButton>
           </Header>
           <ModalBodyContext.Provider value={bodyRefs}>{children}</ModalBodyContext.Provider>
+          <Footer>{footer}</Footer>
         </Panel>
       </Overlay>
     </FullPagePortal>
+  );
+};
+
+const PrimerContent = styled.div`
+  ${dialogVariables}
+`;
+
+export const Modal = (props:ModalProps) => {
+  const primer = getPrimerDialogs();
+  if (!primer) return <LegacyModal {...props} />;
+
+  const { anchorEl, carriedVariables = [], title, panelRef, children, dismissible, footer, onCancel } = props;
+  const scheme = colorSchemeOf(anchorEl);
+  return (
+    <StyleSheetManager target={document.head}>
+      <primer.PortalContext.Provider value={{}}>
+        <primer.Dialog
+          ref={panelRef}
+          className="op-bn-create-wp"
+          title={title}
+          width="large"
+          style={{ ...variablesOf(anchorEl, carriedVariables), fontFamily: fontFamilyOf(anchorEl) }}
+          onClose={(gesture) => { if (dismissible || gesture === 'close-button') onCancel(); }}
+        >
+          <primer.Dialog.Body>
+            <PrimerContent data-color-scheme={scheme}>{children}</PrimerContent>
+          </primer.Dialog.Body>
+          <primer.Dialog.Footer>{footer}</primer.Dialog.Footer>
+        </primer.Dialog>
+      </primer.PortalContext.Provider>
+    </StyleSheetManager>
   );
 };
