@@ -47,7 +47,16 @@ As CKEditor5 currently does not provide support for code blocks, OpenProject can
 
 ### Tables
 
-The GFM extension of the CommonMark specs adds a definition for table syntax, which the CKEditor of OpenProject supports. This definition requires all tables to have a heading row. For tables created with CKEditor without heading rows, a HTML table is output instead. This matches the behavior of, e.g., GitHub.
+The GFM extension of the CommonMark specs adds a definition for table syntax, which the CKEditor of OpenProject supports. New tables start with a heading row.
+
+Simple tables are saved as Markdown tables, so they stay readable when you switch to the Markdown source view. A table is saved as HTML instead when Markdown cannot represent it without losing something:
+
+- it has no heading row
+- it has merged cells, or a heading column
+- a cell contains several paragraphs, line breaks, lists, images, or other block content
+- it uses table or cell properties such as colors, borders, sizes, vertical alignment, or a non-centered table position
+
+Horizontal text alignment is kept in Markdown as long as all cells of a column share it.
 
 ### Emojis
 

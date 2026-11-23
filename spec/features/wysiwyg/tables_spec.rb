@@ -63,6 +63,13 @@ RSpec.describe "Wysiwyg tables", :js do
             td.send_keys values[i]
             sleep 0.5
           end
+
+          # New tables start with a header row, so turn it off
+          tds.first.click
+          editor.click_hover_toolbar_button "Row"
+          find(".ck-switchbutton", text: "Header row").find(".ck-button__toggle").click
+
+          expect(editable).to have_no_css("th")
         end
 
         # Save wiki page
@@ -76,6 +83,9 @@ RSpec.describe "Wysiwyg tables", :js do
           expect(page).to have_css("table td", text: "c1")
           expect(page).to have_css("table td", text: "c&2")
         end
+
+        # Tables without a header row cannot be expressed in markdown
+        expect(WikiPage.last.text).to include("<table")
       end
 
       it "can add tables with headers" do
@@ -95,18 +105,7 @@ RSpec.describe "Wysiwyg tables", :js do
             sleep 0.5
           end
 
-          # Make first row th
-          tds.first.click
-          tds.first.send_keys :tab
-
-          # Click row toolbar
-          editor.click_hover_toolbar_button "Row"
-
-          # Enable header row
-          header_button = find(".ck-switchbutton", text: "Header row")
-          header_button.find(".ck-button__toggle").click
-
-          # Table should now have header
+          # New tables start with a header row
           expect(editable).to have_css("th", count: 2)
           expect(editable).to have_css("td", count: 2)
           expect(editable).to have_css("th", text: "h1")
@@ -126,6 +125,8 @@ RSpec.describe "Wysiwyg tables", :js do
           expect(page).to have_css("td", text: "a")
         end
 
+        expect(WikiPage.last.text).to eq("| h1 | h2 |\n| --- | --- |\n| a |  |")
+
         SeleniumHubWaiter.wait
         # Edit again
         click_on "Edit"
@@ -138,6 +139,33 @@ RSpec.describe "Wysiwyg tables", :js do
           expect(editable).to have_css("th", text: "h2")
           expect(editable).to have_css("td", text: "a")
         end
+      end
+
+      it "keeps a markdown table as markdown after editing it in the WYSIWYG editor" do
+        markdown = <<~MARKDOWN.strip
+          | Month | Savings |
+          | --- | ---: |
+          | January | $250 |
+          | February | $80 |
+        MARKDOWN
+
+        editor.set_markdown(markdown)
+
+        editor.in_editor do |_container, editable|
+          expect(editable).to have_css("th", text: "Month")
+          expect(editable).to have_css("td", text: "$250")
+        end
+
+        click_on "Create"
+
+        expect_and_dismiss_flash(message: "Successful creation.")
+
+        within("#content") do
+          expect(page).to have_css("table th", text: "Savings")
+          expect(page).to have_css("table td", text: "February")
+        end
+
+        expect(WikiPage.last.text).to eq(markdown)
       end
 
       it "can add styled tables" do
@@ -158,8 +186,8 @@ RSpec.describe "Wysiwyg tables", :js do
             sleep 0.5
           end
 
-          # style first td
-          tds.first.click
+          # style the first body cell
+          tds[2].click
 
           # Click row toolbar
           editor.click_hover_toolbar_button "Cell properties"
@@ -189,6 +217,9 @@ RSpec.describe "Wysiwyg tables", :js do
           expect(page).to have_css('td[style*="text-align:center"]')
           expect(page).to have_css('td[style*="vertical-align:top"]')
         end
+
+        # Styled tables keep their HTML so no formatting is lost
+        expect(WikiPage.last.text).to include("<table")
 
         SeleniumHubWaiter.wait
         # Edit again
@@ -282,8 +313,8 @@ RSpec.describe "Wysiwyg tables", :js do
             sleep 0.5
           end
 
-          # style first td
-          tds.first.click
+          # style the first body cell
+          tds[2].click
 
           # Click row toolbar
           editor.click_hover_toolbar_button "Cell properties"
@@ -303,6 +334,8 @@ RSpec.describe "Wysiwyg tables", :js do
         within("#content") do
           expect(page).to have_css('td[style*="width:250px"]')
         end
+
+        expect(WikiPage.last.text).to include("<table")
 
         SeleniumHubWaiter.wait
         # Edit again
@@ -378,6 +411,13 @@ RSpec.describe "Wysiwyg tables", :js do
           expect(editable).to have_css("table td", text: "c3")
           expect(editable).to have_css("table td", text: "c4")
         end
+
+        click_on "Save"
+
+        expect_and_dismiss_flash(message: "Successful update.")
+
+        expect(wiki_page.reload.text).to include("| A | B |\n| --- | --- |\n| c1 | c2 |\n| c3 | c4 |")
+        expect(wiki_page.text).not_to include("<table")
       end
     end
   end

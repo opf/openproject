@@ -37,6 +37,8 @@ The `CommonMarkDataProcessor` class (`src/commonmark/commonmarkdataprocessor.ts`
 - Its `toView` method turns Markdown into HTML using [markdown-it](https://github.com/markdown-it/markdown-it) (with task list support).
 - Its `toData` method turns the HTML output of CKEditor back into Markdown using [Turndown](https://github.com/mixmark-io/turndown) and the `turndown-plugin-gfm` plugin.
 
+Tables are written as GFM pipe tables only when Markdown can represent them losslessly; `isMarkdownRepresentableTable` (`src/commonmark/utils/markdown-tables.ts`) decides this. All other tables (no heading row, merged cells, block content in cells, styling beyond uniform column alignment, a positioned or custom-classed figure, or a `\|` inside inline code or a link target, which markdown-it and the server's comrak parse differently) are kept as HTML so their formatting survives. Text in tables kept as HTML is not HTML-escaped, so it may contain raw markup.
+
 Because some elements needed in the editor (macros, mentions...) are not standard Markdown elements, they are not converted to Markdown but placed as HTML strings in the Markdown (`<macro class="embedded-table" data-query-props="..."></macro>`). The conversion from Markdown to HTML will just skip converting them and CKEditor will handle them properly.
 
 ## CKEditor mental model
