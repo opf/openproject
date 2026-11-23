@@ -2,114 +2,126 @@
 sidebar_navigation:
   title: Types
   priority: 900
-description: Configure work package types in OpenProject.
-keywords: work package types, work package form, related work package, work package table, relations, pdf export, automatic subject, workflows
+description: Create and manage work package types and variants in OpenProject, including their configuration, workflows, forms, and project availability.
+keywords: work package types, type variants, work package configuration, reusable forms, workflows, migrated variants, project-specific configuration
 ---
 
 # Manage work package types
 
-In OpenProject, you can create and manage as many work package types as needed, such as Tasks, Bugs, Ideas, Risks, and Features.
+> [!NOTE]
+> [OpenProject 18.0](https://www.openproject.org/docs/release-notes/18-0-0/) introduced type variants and reusable forms and workflows, changing how work package types are configured. Existing configurations are preserved during the upgrade, and variants may be created automatically to retain project-specific settings.
 
-To add or modify work package types, navigate to _Administration → Work packages → Types_.
+Work package types help you organize different kinds of work in OpenProject, such as tasks, bugs, features, and milestones. Each type has its own configuration, including default values, forms, workflows, and other settings.
 
-Here, you will see a list of all existing work package types.
+You can also create **variants** of a type to adapt its configuration to the needs of individual projects without creating an entirely new work package type.
 
-1. Click on a work package type name to **edit an existing type**.
-2. Use the up and down arrows to **reorder work package types**. The type at the top of the list becomes the default and is automatically selected when creating a new work package.
-3. Click the delete icon to **remove a work package type**.
+To manage types and variants, navigate to *Administration → Work packages → Types*.
 
-![System-admin-work-packages-types](openproject_system_guide_work_package_types.png)
+## When to create a type or a variant
 
-## Workflow summary
+Create a **new type** when you need to represent a different kind of work, such as a Bug, Feature, or Risk. If you want to keep the same type but use a different configuration in certain projects, create a **variant** instead.
 
-On the work package types overview page, click the **(...)** menu in the upper-right corner and select **Workflow summary** to open an overview of the configured workflows.
+For example, two projects might both use the *Bug* type but require different forms, workflows, or default values. Rather than creating two separate bug types, you can create variants of the existing Bug type. These variants retain their parent type's identity, allowing work packages to be grouped and filtered by type across projects.
 
-![Workflow summary option on the work package types overview page](openproject_system_guide_work_package_types_workflow_summary.png)
+Variants are optional. If the same configuration works for all projects, you can continue using the original type without creating any variants. For more information, see [Manage type variants](variants/).
 
-For more information, see [Configure workflows](../work-package-workflows/#workflow-summary).
+## Overview of types and variants
 
-## Create new work package type
+The Types overview displays all work package types and their variants. Each type appears as an expandable group, allowing you to see its variants and add new ones. The number beside a type indicates how many variants it has.
 
-Click the green **+ Type** button to add a new work package type in the system, e.g. Risk.
+![Types overview showing work package types, their variants, and migrated variants](openproject_system_guide_work_package_types_overview.png)
 
-1. Give the new work package type a **name** that easily identifies what kind of work should be tracked.
-2. Choose a **color** from the drop-down list which should be used for this work package type in the Gantt chart. You can configure new colors [here](../../design/#set-a-new-color).
-3. Choose whether the type should be a **milestone**, e.g. displayed as a milestone in the Gantt chart with the same start and finish date.
-4. Choose whether the type should be displayed in the [roadmap](../../../user-guide/roadmap/) by default.
-5. Select if the work package type should be **active in new projects by default**. This way work package types will not need to be [activated in the project settings](../../../user-guide/projects/project-settings/work-packages/#work-package-types) but will be available for every project.
-6. You can **copy a workflow** from an existing type.
-7. Click the **Save** button to add the new type.
+You can search for types and variants or use the **Migrated** filter to display variants created during migration. To open the configuration of a type or variant, click its name in the list.
 
-![Create a new work package type in OpenProject administration](openproject_system_guide_new_work_package_typ.png)
+### Create a type or variant
 
-## Edit a work package type
+To create a new work package type, click **+ Type** in the upper-right corner. To create a variant, expand the relevant type and click **+ Add a variant to [type]**, or select **Add variant** from the type's **More (three dots)** menu.
 
-To edit an existing work package type, select it from the list of work package types.
+Both actions open an eight-step configuration wizard, where you can define the details, defaults, form, workflow, project attributes, project availability, and PDF export settings.
 
-The configuration of a work package type is divided into seven tabs:
+For step-by-step instructions, see [Create a work package type or variant](create-type-or-variant/).
 
-- **Details** — configure the basic settings of the work package type.
-- **Defaults** — configure default text and automatic subjects for new work packages of this type.
-- **Form configuration** — configure which attributes are displayed in the work package form and how they are arranged.
-- **Workflows** — configure available statuses and status transitions for different roles. 
-- **Project attributes** — configure which project attributes are displayed in work packages of this types.
-- **Projects** — select the projects in which the work package type is activated. 
-- **Generate PDF** — configure how work packages of this type are exported as PDF.
+### Manage existing types and variants
 
-![Work package type settings showing the available configuration tabs](openproject_system_guide_work_package_type_tabs.png)
+You can manage types and variants using the **More (three dots)** menu beside each entry.
 
-### Details
+For a **type**, the menu provides options to configure it, activate it in new projects, add or compare variants, duplicate it, change its position in the list, or delete it. You can also reorder types directly using the drag-and-drop handles beside their names.
 
-The **Details** tab contains the basic settings of the work package type. These are the same settings that are available when creating a new work package type.
+![Actions menu for managing a work package type](openproject_system_guide_work_package_types_actions.png)
 
-### Defaults
+For a **variant**, the menu allows you to configure it, activate it in new projects, or delete it. Additional information about inheritance, comparing variants, and project assignments is available in [Manage type variants](variants/).
 
-The **Defaults** tab allows you to configure **default text for the work package description field**. This text is automatically displayed in the **Description** field when a user creates a new work package of this type. This way, you can easily create work package templates, e.g. for risk management or bug tracking, that already contain certain required information in the description.
+![Actions menu for managing a work package variant](openproject_system_guide_work_package_variants_actions.png)
+
+### Migrated variants
+
+When upgrading to OpenProject 18.0, OpenProject may automatically create variants to preserve project-specific custom field configurations. These variants are labeled **Migrated** in the overview, making them easy to identify.
+
+Before deleting a migrated variant, make sure the affected projects have been configured to use another type or variant. See [Manage type variants](variants/) for more information.
+
+## Configure a type or variant
+
+To configure an existing type or variant, click its name in the overview or select **Configure** from its **More (three dots)** menu.
+
+The configuration is organized into the following tabs:
+
+| Tab | Description |
+| --- | --- |
+| **Details** | Configure the basic properties of the type or variant. |
+| **Defaults** | Configure default values and, where available, automatically generated subjects. |
+| **Variants** | View and manage variants of a type. |
+| **Form** | Select or configure the reusable form associated with the type or variant. |
+| **Workflow** | Select or configure the reusable workflow associated with the type or variant. |
+| **Project attributes** | Configure which project attributes are displayed in work packages. |
+| **Projects** | Manage the projects in which the type or variant is available. |
+| **Generate PDF** | Configure PDF export settings. |
+
+![Work package type configuration showing the available tabs](openproject_system_guide_work_package_type_tabs.png)
+
+### Details and defaults
+
+The **Details** tab contains the basic properties of a work package type or variant, while **Defaults** lets you define content that should be available when users create new work packages. For example, you can add default text to the description field to provide a consistent template for bug reports or risk assessments.
 
 In the Enterprise edition, you can also configure automatically generated work package subjects.
 
 [feature: work_package_subject_generation ]
 
-Please refer to [this guide](automatic-subjects) for a detailed description of automatically generated work package subjects in OpenProject.
+For detailed instructions, see [Configure automatic work package subjects](automatic-subjects/).
 
-### Form configuration
+### Variants
 
-You can customize the work package form for each work package type to display the attributes most relevant to your team's workflow. Attributes can be added, removed, and arranged within the form as needed.
+The **Variants** tab allows you to manage alternative configurations of a work package type. A variant can inherit settings from its parent type or use an independent configuration. When a setting is inherited, changes to the parent type are automatically reflected in the variant.
 
-In the Enterprise edition, you can also create and rename sections and add a related work packages table.
+For details about inheritance and managing variants, see [Manage type variants](variants/).
 
-[feature: edit_attribute_groups ]
+### Form and workflow
 
-To configure the work package form for a type, open the **Form configuration** tab.
+Forms determine which attributes and sections are displayed when viewing or editing work packages, while workflows define which status transitions are available to users with different project roles.
 
-For detailed instructions, see [Configure the work package form](form-configuration).
+In OpenProject 18.0, forms and workflows are standalone objects that can be reused across multiple types and variants. The **Form** and **Workflow** tabs let you select or configure the objects associated with a particular type or variant.
 
-### Workflows
+For detailed instructions, see [Manage work package forms](../work-package-forms/) and [Configure workflows](../work-package-workflows/).
 
-A workflow defines the status transitions that are available for a work package type and role.
+### Project attributes and projects
 
-To configure the workflow for a type, open the **Workflows** tab.
+The **Project attributes** tab lets you configure which [project attributes](../../projects/project-attributes/) are displayed in work packages. This makes it possible to access project-level information directly from a work package, provided the user has the necessary permissions.
 
-For detailed instructions, including default transitions, transitions when the user is the author or assignee, and the workflow summary, see [Configure workflows](../work-package-workflows/).
-
-### Project attributes
-
-You can display **[project attributes](../../projects/project-attributes/)** in a dedicated tab within work packages. This allows editing project-level information directly from a work package.
-
-Please note that only users with necessary permissions can see or edit the project attributes within a work package.
-
-To configure this, open the **Project attributes** tab.
-
-For detailed instructions, see [Display project attributes in work package forms](project-attributes).
-
-### Projects
-
-The **Projects** tab allows you to select for which projects a work package type should be activated.
-
-For detailed instructions, see [Activate work package types for projects](projects).
+The **Projects** tab controls where a type or variant is available. For detailed instructions, see [Display project attributes in work packages](project-attributes/) and [Activate work package types for projects](projects/).
 
 ### Generate PDF
 
-The **Generate PDF** tab allows you to configure how a single work package of this type is exported as a PDF.
+The **Generate PDF** tab lets you configure how work packages of a particular type or variant are exported as PDF documents. For detailed instructions, see [Configure PDF exports for work package types](pdf-export/).
 
-For detailed instructions, see [Configure PDF exports for work package types](pdf-export).
+## Workflow summary
+
+You can access the workflow summary directly from the Types overview by opening the **More (three dots)** menu in the upper-right corner and selecting **Workflow summary**. This provides an overview of the configured status transitions for work package types and project roles.
+
+For more information, see [Workflow summary](../work-package-workflows/#workflow-summary).
+
+## Further reading
+
+For additional explanations, examples, and tutorials about configuring work package types and variants, see:
+
+1. **Video (Introduction):** [Project-specific workflows and forms through type variants](https://www.youtube.com/watch?v=FvT0_uS_LJY)
+2. **Video (Tutorial):** [Project-specific workflows and forms through type variants](https://www.youtube.com/watch?v=gvvXmlisLo8)
+3. **Blog article:** [Project-specific workflows and forms for work package types and their variants](https://www.openproject.org/blog/type-variants-workflows-forms/)
