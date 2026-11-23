@@ -101,12 +101,13 @@ module Backlogs
 
     def add_existing
       work_package = WorkPackage.visible.where(project: @project).find(params.expect(:work_package_id))
+      source_target = Backlogs::Target.for_work_package(work_package)
 
       call = ::Backlogs::WorkPackages::UpdateService
         .new(user: current_user, work_package:)
         .call(list_type: params.expect(:list_type), list_id: params[:list_id])
 
-      render_update_turbo_streams(call)
+      render_update_turbo_streams(call, source_target)
     end
 
     def move
@@ -124,7 +125,7 @@ module Backlogs
         # lock refresh.
         dispatch_event_via_turbo_stream(
           WORK_PACKAGE_MOVED_EVENT,
-          detail: { work_package_id: call.result.id }
+          detail: member_move_event_detail(call.result, source_target)
         )
         return respond_with_turbo_streams(status: call)
       end
@@ -133,7 +134,7 @@ module Backlogs
         render_move_announcement(call.result)
       end
 
-      render_update_turbo_streams(call)
+      render_update_turbo_streams(call, source_target)
     end
 
     def move_collection # rubocop:disable Metrics/AbcSize
@@ -156,22 +157,22 @@ module Backlogs
       if optimistic_same_list_batch_move?(call, source_targets)
         dispatch_event_via_turbo_stream(
           WORK_PACKAGE_MOVED_EVENT,
-          detail: { work_package_ids: call.result.map(&:id) }
+          detail: collection_move_event_detail(call.result, source_targets)
         )
         return respond_with_turbo_streams(status: call)
       end
 
-      render_update_collection_turbo_streams(call)
+      render_update_collection_turbo_streams(call, source_targets)
     end
 
     private
 
-    def render_update_collection_turbo_streams(call)
+    def render_update_collection_turbo_streams(call, source_targets)
       if call.success?
         reload_frame_via_turbo_stream("backlogs_container")
         dispatch_event_via_turbo_stream(
           WORK_PACKAGE_MOVED_EVENT,
-          detail: { work_package_ids: call.result.map(&:id) }
+          detail: collection_move_event_detail(call.result, source_targets)
         )
         render_collection_move_feedback(call.result)
       else
@@ -181,6 +182,22 @@ module Backlogs
       end
 
       respond_with_turbo_streams(status: call)
+    end
+
+    def collection_move_event_detail(results, source_targets)
+      { work_package_ids: results.map(&:id), **move_destination_detail(results.first, source_targets.values) }
+    end
+
+    def member_move_event_detail(result, source_target)
+      { work_package_id: result.id, **move_destination_detail(result, [source_target]) }
+    end
+
+    def move_destination_detail(result, sources)
+      destination = Backlogs::Target.for_work_package(result)
+      {
+        destination_changed: sources.any? { |source| source != destination },
+        destination: { list_type: destination.list_type, list_id: destination.list_id }
+      }
     end
 
     def render_collection_move_feedback(results)
@@ -234,7 +251,7 @@ module Backlogs
       move_collection_params.to_h.symbolize_keys.except(:ids).compact
     end
 
-    def render_update_turbo_streams(call)
+    def render_update_turbo_streams(call, source_target)
       if call.success?
         reload_frame_via_turbo_stream("backlogs_container")
 
@@ -243,7 +260,7 @@ module Backlogs
         # on the next edit. Covers both drag-and-drop and the move-to-sprint/bucket dialogs.
         dispatch_event_via_turbo_stream(
           WORK_PACKAGE_MOVED_EVENT,
-          detail: { work_package_id: call.result.id }
+          detail: member_move_event_detail(call.result, source_target)
         )
 
         render_invisible_after_move_flash(call.result)

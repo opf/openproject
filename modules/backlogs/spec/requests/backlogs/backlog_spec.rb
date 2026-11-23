@@ -96,11 +96,17 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
       )
     end
 
-    it "points the card menu source at the menu endpoint on the backlogs turbo frame" do
+    it "wires card menus and destination reveal on the owning frame" do
       get "/projects/#{project.identifier}/backlogs/backlog"
 
-      expect(response.body).to include(
-        'data-controller="backlogs--list-refresh backlogs--split-view-sync sortable-lists sortable-lists--menu-source"'
+      frame = response.parsed_body.at_css("#backlogs_container")
+      expect(frame["data-controller"].split).to include(
+        "backlogs--list-refresh", "backlogs--split-view-sync", "backlogs--destination-reveal",
+        "sortable-lists", "sortable-lists--menu-source"
+      )
+      expect(frame["data-action"].split).to include(
+        "#{Backlogs::WorkPackagesController::WORK_PACKAGE_MOVED_EVENT}@document->backlogs--destination-reveal#onWorkPackageMoved",
+        "turbo:frame-load->backlogs--destination-reveal#onFrameLoad"
       )
       expect(response.body).to include(
         %(data-sortable-lists--menu-source-url-value="/projects/#{project.identifier}/backlogs/work_packages/menu")

@@ -81,6 +81,7 @@ module Backlogs
         # singular menu is still worth reaching contextually.
         controller: "backlogs--work-package contextual-action-menu",
         backlogs__work_package_id_value: work_package.id,
+        backlogs__destination_reveal_target: "card",
         backlogs__work_package_display_id_value: work_package.display_id,
         backlogs__work_package_split_url_value: split_url,
         backlogs__work_package_full_url_value: full_url,
