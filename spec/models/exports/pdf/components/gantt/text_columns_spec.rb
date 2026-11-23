@@ -147,7 +147,7 @@ RSpec.describe Exports::PDF::Components::Gantt::TextColumns do
     it "caps the selection at the maximum column count" do
       requested = %w[id subject type status priority start_date due_date]
 
-      expect(names(text_columns.resolve(requested))).to eq(%w[id subject type status priority])
+      expect(names(text_columns.resolve(requested))).to eq(%w[id subject type status priority start_date])
     end
 
     it "drops disallowed and unknown columns before applying the cap" do

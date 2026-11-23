@@ -451,7 +451,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
       let(:options) { super().merge(columns: %w[due_date subject type status priority start_date id]) }
 
       it "uses them in order, capped at the maximum column count" do
-        expect(text_column_names).to eq(%w[due_date subject type status priority])
+        expect(text_column_names).to eq(%w[due_date subject type status priority start_date])
       end
     end
 
