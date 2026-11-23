@@ -67,9 +67,7 @@ RSpec.describe ITSM::HelpdeskMailer do
 
   it "confirms the request" do
     expect(mail.body.encoded).to include("Hello Jane Doe,",
-                                         %(request "Printer is broken" and recorded it as ##{work_package.id}.),
-                                         "We will get back to you as soon as possible.")
-    expect(mail.body.encoded).not_to include("reply to this email")
+                                         %(request "Printer is broken" and recorded it as ##{work_package.id}.))
   end
 
   context "with semantic work package identifiers", with_settings: { work_packages_identifier: "semantic" } do

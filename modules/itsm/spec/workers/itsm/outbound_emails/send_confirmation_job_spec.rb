@@ -30,9 +30,7 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe ITSM::OutboundEmails::SendConfirmationJob, type: :job,
-                                                          with_flag: { helpdesk: true },
-                                                          with_settings: { helpdesk_enabled: true } do
+RSpec.describe ITSM::OutboundEmails::SendConfirmationJob, type: :job do
   subject(:perform) { described_class.perform_now(thread) }
 
   let(:thread) { create(:itsm_email_thread) }
@@ -162,44 +160,16 @@ RSpec.describe ITSM::OutboundEmails::SendConfirmationJob, type: :job,
     end
   end
 
-  context "when the help desk was turned off before the job ran", with_settings: { helpdesk_enabled: false } do
-    it "sends nothing" do
-      perform
-
-      expect(ITSM::OutboundEmails::SendConfirmationService).not_to have_received(:new)
-    end
-  end
-
-  context "when the project no longer uses the help desk" do
-    let(:thread) do
-      create(:itsm_email_thread, work_package: create(:work_package, project: create(:project, disable_modules: :helpdesk)))
-    end
-
-    it "sends nothing" do
-      perform
-
-      expect(ITSM::OutboundEmails::SendConfirmationService).not_to have_received(:new)
-    end
-  end
-
-  context "when the project was archived" do
-    let(:thread) { create(:itsm_email_thread, work_package: create(:work_package, project: create(:project, active: false))) }
-
-    it "sends nothing" do
-      perform
-
-      expect(ITSM::OutboundEmails::SendConfirmationService).not_to have_received(:new)
-    end
-  end
-
-  context "when the thread was deleted before the job ran" do
+  context "when the thread cannot be found when the job runs" do
     before do
       described_class.perform_later(thread)
       thread.destroy
     end
 
-    it "drops the job" do
-      expect { perform_enqueued_jobs }.not_to raise_error
+    it "tries again later, as the thread may not be committed yet" do
+      perform_enqueued_jobs
+
+      expect(described_class).to have_been_enqueued
       expect(ITSM::OutboundEmails::SendConfirmationService).not_to have_received(:new)
     end
   end

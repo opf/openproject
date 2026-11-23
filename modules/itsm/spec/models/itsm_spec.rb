@@ -49,30 +49,6 @@ RSpec.describe ITSM do
     end
   end
 
-  describe ".helpdesk_available_in?", with_flag: { helpdesk: true }, with_settings: { helpdesk_enabled: true } do
-    subject { described_class.helpdesk_available_in?(project) }
-
-    let(:project) { create(:project, enabled_module_names: %w[helpdesk]) }
-
-    it { is_expected.to be(true) }
-
-    context "when the help desk is turned off", with_settings: { helpdesk_enabled: false } do
-      it { is_expected.to be(false) }
-    end
-
-    context "when the project does not use the help desk" do
-      let(:project) { create(:project, enabled_module_names: %w[work_package_tracking]) }
-
-      it { is_expected.to be(false) }
-    end
-
-    context "when the project is archived" do
-      let(:project) { create(:project, active: false, enabled_module_names: %w[helpdesk]) }
-
-      it { is_expected.to be(false) }
-    end
-  end
-
   describe ".helpdesk_addresses" do
     before do
       create(:itsm_incoming_mailbox, email: "support@example.com", aliases: ["help@example.com"])

@@ -34,7 +34,7 @@ module ITSM
 
       class DeliveryFailed < StandardError; end
 
-      RETRIED_ERRORS = %i[delivery_failed unreachable].freeze
+      DELIVERY_ERROR_CODES = %i[delivery_failed unreachable].freeze
 
       queue_with_priority :notification
 
@@ -47,11 +47,9 @@ module ITSM
         Rails.logger.warn { "Confirmation for email thread #{job.arguments.first.id} not sent after #{job.executions} attempts" }
       end
 
-      discard_on ActiveJob::DeserializationError
+      retry_on ActiveJob::DeserializationError, attempts: 3
 
       def perform(thread)
-        return unless ITSM.helpdesk_available_in?(thread.work_package.project)
-
         Rails.logger.tagged("ITSM", "email thread #{thread.id}") do
           SendConfirmationService.new.call(thread:).on_failure { not_sent(it) }
         end
@@ -62,7 +60,7 @@ module ITSM
       def not_sent(result)
         codes = result.errors.symbols_for(:base)
         reason = ["Confirmation not sent (#{codes.join(', ')})", server_message(result.result)].compact.join(": ")
-        raise DeliveryFailed, reason if codes.intersect?(RETRIED_ERRORS)
+        raise DeliveryFailed, reason if codes.intersect?(DELIVERY_ERROR_CODES)
 
         Rails.logger.warn { reason }
       end
