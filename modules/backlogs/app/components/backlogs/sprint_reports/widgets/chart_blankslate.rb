@@ -49,7 +49,7 @@ module Backlogs
 
           render(Primer::Beta::Blankslate.new(spacious: true)) do |blankslate|
             blankslate.with_visual_icon(icon: ICONS.fetch(reason))
-            blankslate.with_heading(tag: :h3).with_content(t(".blankslate.#{reason}.heading"))
+            blankslate.with_heading(tag: :h4).with_content(t(".blankslate.#{reason}.heading"))
             blankslate.with_description_content(t(".blankslate.#{reason}.description"))
           end
         end

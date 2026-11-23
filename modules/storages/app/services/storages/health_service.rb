@@ -73,6 +73,13 @@ module Storages
       schedule_mail_job(@storage)
     end
 
+    def reset
+      @storage.update(health_status: "pending",
+                      health_changed_at: Time.now.utc,
+                      health_checked_at: Time.now.utc,
+                      health_reason: nil)
+    end
+
     private
 
     def notify_healthy_admin_users(reason)

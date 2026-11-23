@@ -39,7 +39,7 @@ module Backlogs
         def blankslate_reason
           if too_long_to_chart?
             :too_long
-          elsif !start_reached?
+          elsif !sprint_begun?
             :not_started
           elsif !anything_to_chart?
             :"no_#{estimate_column}"
@@ -48,7 +48,7 @@ module Backlogs
 
         def estimate_column = project.estimation_unit_time? ? :estimated_hours : :story_points
 
-        def start_reached? = sprint.started_at? || current_user.today >= sprint.start_date
+        def sprint_begun? = ::Sprints::Timeframe.new(sprint, zone: current_user.time_zone).begun?
       end
     end
   end

@@ -48,11 +48,12 @@ RSpec.describe "Burnup chart widget", :js, with_flag: :sprint_reports do
   context "when the sprint has a date range set" do
     shared_let(:sprint) do
       create(:sprint,
+             :active,
              project:,
              name: "Sprint 42",
              start_date: Date.yesterday,
-             finish_date: Date.tomorrow,
-             status: :active)
+             started_at: 1.day.ago,
+             finish_date: Date.tomorrow)
     end
     shared_let(:work_package) { create(:work_package, project:, sprint:, story_points: 3) }
 
@@ -72,11 +73,12 @@ RSpec.describe "Burnup chart widget", :js, with_flag: :sprint_reports do
     let(:project) { create(:project, estimation_unit: "none") }
     let(:sprint) do
       create(:sprint,
+             :active,
              project:,
              name: "Sprint 42",
              start_date: Date.yesterday,
-             finish_date: Date.tomorrow,
-             status: :active)
+             started_at: 1.day.ago,
+             finish_date: Date.tomorrow)
     end
 
     it "does not render the burnup chart widget" do

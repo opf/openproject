@@ -45,6 +45,10 @@ module Roles
 
     def turbo_frame_request = Roles::IndexComponent::FRAME_ID
 
+    def serialized_filters
+      OpPrimer::QuickFilter.serialize(query.filters).to_json
+    end
+
     # turbo_permanent carries the live input across the frame render this component is part
     # of, so typing keeps both its focus and its caret.
     def filter_input_data_attributes

@@ -109,6 +109,7 @@ hy:
         maintained_with_changes: Պահպանվել է փոփոխություններով
         no_longer_meets_filter_criteria: Այլևս չի համապատասխանում զտիչի չափանիշներին
         now_meets_filter_criteria: Այժմ համապատասխանում է զտիչի չափանիշներին
+        state_at: State at
       show_changes_since: Ցուցադրել փոփոխությունները սկսած
       time: Ժամ
       time_description: Ձեր տեղական ժամանակով՝ %{datetime}
@@ -772,8 +773,10 @@ hy:
       create_new: Ստեղծել նոր
       group_by_relation_type: Խմբավորել ըստ կապի տեսակի
       group_by_wp_type: Խմբավորել ըստ աշխատանքային փաթեթի տեսակի
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Իջեցնել հիերարխիայի մակարդակը
       hierarchy_outdent: Բարձրացնել հիերարխիայի մակարդակը
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Հեռացնել կապը
       remove_child: Հեռացնել դուստր տարրը
       remove_parent: Հեռացնել ծնողը
@@ -900,6 +903,23 @@ hy:
       unselected_title: Աշխատանքային փաթեթ
     two_factor_authentication:
       label_two_factor_authentication: Երկգործոն նույնականացում
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Project actions
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            one: Could not extend the range. %{count} project selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            one: "%{count} project selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         one: "%{count} child work package"
@@ -1012,6 +1032,7 @@ hy:
         label_pagination: Սեղմեք այստեղ՝ աշխատանքային փաթեթների աղյուսակը բաց թողնելու և էջերի նավարկմանն անցնելու համար
         pagination: Անցնել աղյուսակի էջերի նավարկմանը
       key_value: "%{key}՝ %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: Համակցված բացվող դաշտ՝ ընտրեք սլաքների ստեղներով, հաստատեք ընտրությունը enter-ով, ջնջեք backspace-ով
       label_disable_multi_select: Անջատել բազմակի ընտրությունը
       label_enable_multi_select: Միացնել բազմակի ընտրությունը

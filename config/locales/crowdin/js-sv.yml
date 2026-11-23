@@ -109,6 +109,7 @@ sv:
         maintained_with_changes: Upprätthålls med förändringar
         no_longer_meets_filter_criteria: Uppfyller inte längre filterkriterierna
         now_meets_filter_criteria: Uppfyller nu filterkriterierna
+        state_at: State at
       show_changes_since: Visa ändringar sedan
       time: Tid
       time_description: 'I din lokala tid: %{datetime}'
@@ -772,8 +773,10 @@ sv:
       create_new: Skapa ny
       group_by_relation_type: Gruppera efter relationstyp
       group_by_wp_type: Gruppera efter arbetspakettyp
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Öka indrag för hierarki
       hierarchy_outdent: Minska indrag för hierarki
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Radera relation
       remove_child: Ta bort underordnad
       remove_parent: Ta bort överordnad
@@ -900,6 +903,23 @@ sv:
       unselected_title: Arbetspaket
     two_factor_authentication:
       label_two_factor_authentication: Tvåfaktorsautentisering
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Project actions
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            one: Could not extend the range. %{count} project selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            one: "%{count} project selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         one: "%{count} child work package"
@@ -1012,6 +1032,7 @@ sv:
         label_pagination: Klicka här för att hoppa över arbetspaketstabellen och gå till sidnavigeringen
         pagination: Gå till tabellens sidnavigering
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Kombinerade nedrullningsbara fält: Markera med piltangenterna, bekräfta val med RETUR, ta bort med BACKSTEG'
       label_disable_multi_select: Inaktivera multival
       label_enable_multi_select: Aktivera multival

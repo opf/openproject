@@ -122,6 +122,14 @@ export function isOrderableItem(itemElement:Element):boolean {
   return itemMobility(itemElement) !== 'fixed';
 }
 
+export const sortableListsDragDisabledAttribute = 'data-sortable-lists-drag-disabled';
+
+// Read from the DOM rather than from the root controller: an item registers on
+// connect, before its root outlet has been wired to it.
+export function dragDisabledByRoot(itemElement:Element):boolean {
+  return itemElement.closest(sortableListsRootSelector)?.hasAttribute(sortableListsDragDisabledAttribute) ?? false;
+}
+
 // A destination an item may be moved to: a list, identified by type and id
 // (null for the type's unlisted bucket).
 export interface DestinationIdentity {

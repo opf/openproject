@@ -69,29 +69,18 @@ RSpec.describe "Projects step of the type creation wizard", :skip_csrf, type: :r
     expect(response.media_type).to eq("text/html")
   end
 
-  it "routes the tab's actions back to the wizard" do
+  it "lets links in the step leave the wizard's frame" do
     get type_creation_wizard_path(type, step: :projects)
 
-    %w[type-projects-add-button type-projects-enable-all].each do |selector|
-      hrefs = page.all(:test_id, selector).pluck(:href)
-
-      expect(hrefs).to be_present.and(all(satisfy { |href| query_of(href)["wizard"] == "true" }))
-    end
+    expect(page.find("turbo-frame#type-configuration-frame")[:target]).to eq("_top")
   end
 
-  describe "a change made through the tab from the wizard" do
-    it "reloads the wizard step instead of streaming in the tab's table" do
-      delete unlink_type_projects_path(type_id: type.id, project_id: plant.id, wizard: true), as: :turbo_stream
+  describe "a change made through the tab's actions" do
+    it "reloads the listing where it is shown rather than streaming in a table" do
+      delete type_projects_link_path(type_id: type.id, project_ids: [plant.id]), as: :turbo_stream
 
-      expect(response.body).to include("dispatchEvent")
+      expect(response.body).to include(WorkPackageTypes::ReloadableConfigurationFrameComponent::RELOAD_EVENT_NAME)
       expect(response.body).not_to include("project-table")
-    end
-
-    it "keeps the tab streaming its own table" do
-      delete unlink_type_projects_path(type_id: type.id, project_id: plant.id), as: :turbo_stream
-
-      expect(response.body).to include("project-table")
-      expect(response.body).not_to include("dispatchEvent")
     end
   end
 end

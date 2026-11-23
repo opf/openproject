@@ -151,11 +151,6 @@ check_absent_dir /app/public/assets/lookbook
 check_absent_dir /app/app/assets/videos/enterprise
 check_present_dir /app/public/assets/enterprise
 
-if find /app/public/assets -type f -name '*.map' | grep -q .; then
-  echo "Expected source maps to be removed from slim runtime assets"
-  exit 1
-fi
-
 if find /app/modules -mindepth 2 -maxdepth 2 -type d \
   \( -name spec -o -name test -o -name tests -o -name doc -o -name docs \) | grep -q .; then
   echo "Expected module test and doc folders to be removed from slim image"

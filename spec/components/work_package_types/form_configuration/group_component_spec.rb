@@ -146,12 +146,26 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupComponent, type: :compo
   end
 
   context "with an empty group" do
-    let(:group) { { key: "details", name: "Details", type: :attribute, attributes: [], query: nil } }
+    let(:group) { { id: record.id, key: "details", name: "Details", type: :attribute, attributes: [], query: nil } }
 
     it "shows the drag hint in editable mode" do
       render_group
 
       expect(page).to have_text("Drag attributes here")
+    end
+
+    it "omits the drag hint while temporary" do
+      group.merge!(id: nil, temporary: true)
+      render_group(edit_mode: true)
+
+      expect(page).to have_no_text("Drag attributes here")
+    end
+
+    it "omits the drag hint without a group record" do
+      group[:id] = nil
+      render_group
+
+      expect(page).to have_no_text("Drag attributes here")
     end
   end
 

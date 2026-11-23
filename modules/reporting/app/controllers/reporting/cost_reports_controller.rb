@@ -191,6 +191,8 @@ module Reporting
     end
 
     def export(format)
+      return refuse_export if @report.filter_errors.any?
+
       job_id = ::CostReports::ScheduleExportService
                  .new(user: current_user)
                  .call(format:,
@@ -200,11 +202,26 @@ module Reporting
                        cost_types: @cost_types)
                  .result
 
-      if request.headers["Accept"]&.include?("application/json")
+      if json_requested?
         render json: { job_id: }
       else
         redirect_to job_status_path(job_id)
       end
+    end
+
+    def refuse_export
+      message = I18n.t("export.invalid_filters", errors: @report.filter_errors.join(" "))
+
+      if json_requested?
+        render json: { message: }, status: :unprocessable_entity
+      else
+        flash[:error] = message
+        redirect_back_or_to reports_path
+      end
+    end
+
+    def json_requested?
+      request.headers["Accept"]&.include?("application/json")
     end
 
     def redirect_to_report

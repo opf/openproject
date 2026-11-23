@@ -43,7 +43,7 @@ jobs:
           npm ci --ignore-scripts
           npm ci --prefix frontend
       - name: Run ESLint
-        uses: reviewdog/action-eslint@v1.36.1
+        uses: reviewdog/action-eslint@v1.37.0
         with:
           reporter: github-pr-annotations
           fail_level: any
@@ -51,7 +51,7 @@ jobs:
           eslint_flags: 'src/'
       - name: Run ESLint on JSON
         if: ${{ !cancelled() && steps.install.outcome == 'success' }}
-        uses: reviewdog/action-eslint@v1.36.1
+        uses: reviewdog/action-eslint@v1.37.0
         with:
           reporter: github-pr-annotations
           fail_level: any

@@ -9,15 +9,9 @@ import { dependencyOf, writable } from './formSchema';
 import type { FormField } from './formSchema';
 import { controlIdOf, FormFieldControl, SUBJECT_KEY } from './FormFieldControl';
 import { useCreateWorkPackageForm } from './useCreateWorkPackageForm';
-import { useGrowthTransition } from './useGrowthTransition';
-import { Modal } from '../Shared/modal';
+import { Modal, ModalBody } from '../Shared/modal';
 import { Button } from '../Shared/Button';
-import {
-  Body,
-  BodyContent,
-  Footer,
-  Notice,
-} from '../Shared/atoms';
+import { Footer, Notice } from '../Shared/atoms';
 import {
   Divider,
   FooterStatus,
@@ -47,9 +41,6 @@ export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, on
   const { t } = useTranslation();
   const panelRef = useRef<HTMLDivElement>(null);
   const focusGiven = useRef(false);
-  const bodyRef = useRef<HTMLDivElement>(null);
-  const bodyContentRef = useRef<HTMLDivElement>(null);
-  useGrowthTransition({ panelRef, bodyRef, contentRef: bodyContentRef });
   useColors();
   const {
     primaryFields,
@@ -135,39 +126,37 @@ export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, on
           if (blocking) showField(blocking);
         }}
       >
-        <Body ref={bodyRef}>
-          <BodyContent ref={bodyContentRef}>
-            {notAllowed && <Alert>{t('createWorkPackage.notAllowed')}</Alert>}
+        <ModalBody>
+          {notAllowed && <Alert>{t('createWorkPackage.notAllowed')}</Alert>}
 
-            {loadError && <Alert>{t('createWorkPackage.loadFailed', { message: loadError })}</Alert>}
+          {loadError && <Alert>{t('createWorkPackage.loadFailed', { message: loadError })}</Alert>}
 
-            {formError && <Alert data-testid="create-wp-error">{formError}</Alert>}
+          {formError && <Alert data-testid="create-wp-error">{formError}</Alert>}
 
-            {primaryFields
-              .filter((field) => !initializing || !dependencyOf(field.key))
-              .map(renderField)}
+          {primaryFields
+            .filter((field) => !initializing || !dependencyOf(field.key))
+            .map(renderField)}
 
-            {!initializing && extraFields.length > 0 && <Divider data-testid="create-wp-divider" />}
+          {!initializing && extraFields.length > 0 && <Divider data-testid="create-wp-divider" />}
 
-            {!initializing && extraFields.map(renderField)}
+          {!initializing && extraFields.map(renderField)}
 
-            {!initializing && unsupportedFields.length > 0 && (
-              <Notice>
-                <AlertIcon size={14} />
-                <span>
-                  {t('createWorkPackage.unsupportedRequired')}{' '}
-                  <NoticeLink
-                    href={linkToNewWorkPackage(projectIdFromHref(projectHref))}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {t('createWorkPackage.createInOpenProject')}
-                  </NoticeLink>
-                </span>
-              </Notice>
-            )}
-          </BodyContent>
-        </Body>
+          {!initializing && unsupportedFields.length > 0 && (
+            <Notice>
+              <AlertIcon size={14} />
+              <span>
+                {t('createWorkPackage.unsupportedRequired')}{' '}
+                <NoticeLink
+                  href={linkToNewWorkPackage(projectIdFromHref(projectHref))}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {t('createWorkPackage.createInOpenProject')}
+                </NoticeLink>
+              </span>
+            </Notice>
+          )}
+        </ModalBody>
 
         <Footer>
           {loading && (

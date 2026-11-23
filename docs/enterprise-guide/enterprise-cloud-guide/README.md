@@ -22,7 +22,9 @@ For the Enterprise cloud edition, installation and maintenance are managed by Op
 | [Sign in](./sign-in/)                                        | Sign in to your OpenProject Enterprise cloud edition.        |
 | [Create quote](./create-quote-cloud/)                        | How to create a quote within your Enterprise cloud instance. |
 | [Invoices and billing history](./invoices-and-billing-history/) | How to see your payment history and download invoices.       |
-| [Upgrade, downgrade or cancel subscription](./manage-cloud-subscription/#upgrade-or-downgrade-subscription) | How to upgrade your plan, downgrade or cancel your subscription for the Enterprise cloud edition. |
+| [Change the number of users](./manage-cloud-subscription/#increase-or-decrease-the-number-of-users) | How to increase or decrease the number of users in your Enterprise cloud subscription. |
+| [Change your subscription plan](./manage-cloud-subscription/#change-your-subscription-plan) | How to upgrade to a higher Enterprise cloud plan. |
+| [Cancel subscription](./manage-cloud-subscription/#cancel-subscription) | How to cancel your Enterprise cloud subscription. |
 | [Manage your subscription](./manage-cloud-subscription/)     | How to change billing address and add or edit credit card details. |
 | [Subscribe](./book-cloud/)                                   | How to book Enterprise cloud.                                |
 | [Backups](./backups/)                                        | How backups work in the cloud.                               |

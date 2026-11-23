@@ -47,6 +47,7 @@ ro:
       end_time: Ora de încheiere
       start_time: Dată început
       title: Exportul tău de rapoarte de costuri XLS
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: Exportă fișier PDF de timp
       overview_per_user_day: 'Prezentare: Ore pe utilizator pe zi'
@@ -55,6 +56,12 @@ ro:
       time: Timp
       timesheet: Foi de pontaj
       title: Export foi de timp PDF
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    one: "%{filter} requires a value."
+    few: "%{filter} requires %{count} values."
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: În funcție de permisiunile dumneavoastră, această pagină poate conține informații restricționate.
   label_click_to_edit: Click pentru editare.
   label_closed: închis
@@ -115,5 +122,3 @@ ro:
   text_costs_are_rounded_note: Valorile afișate sunt rotunjite. Toate calculele sunt bazate pe valorile nerotunjite.
   toggle_multiselect: activare/dezactivare selecție multiplă
   units: Unități
-  validation_failure_date: nu e o dată validă
-  validation_failure_integer: nu e un întreg valid

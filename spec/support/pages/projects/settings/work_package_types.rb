@@ -71,13 +71,14 @@ module Pages
           open_switch_dialog(variant)
           choose_switch_target(target)
           apply_switch
+          confirm_switch
         end
 
         def open_switch_dialog(variant)
           open_type_menu(variant)
           click_on "Use in this project"
 
-          expect(switch_dialog).to have_select("Variant")
+          expect(switch_dialog).to have_select("New type or variant")
         end
 
         # The type's own menu, not one of the variant rows below it: both live inside the group.
@@ -86,11 +87,19 @@ module Pages
         end
 
         def choose_switch_target(target)
-          wait_for_turbo_stream { within(switch_dialog) { select target, from: "Variant" } }
+          wait_for_turbo_stream { within(switch_dialog) { select target, from: "New type or variant" } }
         end
 
         def apply_switch
           wait_for_turbo_stream { within(switch_dialog) { click_on "Apply" } }
+        end
+
+        def confirm_switch
+          wait_for_size_animation_completion("#type-variant-switch-confirm-dialog")
+          within("#type-variant-switch-confirm-dialog") do
+            check "I understand that fields the new variant does not include will be hidden, along with their values"
+            click_on "Switch"
+          end
         end
 
         def expect_switch_impact(text)
@@ -102,7 +111,7 @@ module Pages
         end
 
         def switch_dialog
-          page.find_by_id("project-types-switch-dialog")
+          page.find_by_id("type-variant-switch-dialog")
         end
 
         def expect_no_switch_action(variant)

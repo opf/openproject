@@ -30,26 +30,24 @@
 module Import
   class JiraFetchStatusesJob < ApplicationJob
     include JiraJobUtils
+    include JiraJobLogging
+
+    self.jira_object_type = "status"
 
     def text
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
     end
 
     def perform(jira_import_id)
-      tagged_log("jira_import_id:#{jira_import_id}",
-                 "jira_object_type:status") do
-        Rails.logger.debug "Fetching statuses started"
-        prepare_jira_import_ivars(jira_import_id)
-        fetch_data
-        Rails.logger.debug "Fetching statuses finished"
-      end
+      prepare_jira_import_ivars(jira_import_id)
+      fetch_data
     end
 
     private
 
     def fetch_data
       statuses_upsert_data = @jira_client.statuses.map do |status|
-        Rails.logger.tagged("jira_object_id_or_name:#{status['name']}") do
+        with_log_context(jira_object_id_or_name: status["name"]) do
           Rails.logger.debug "Fetched status"
         end
         {

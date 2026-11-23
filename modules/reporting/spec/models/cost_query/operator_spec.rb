@@ -403,4 +403,24 @@ RSpec.describe CostQuery::Operator, :reporting_query_helper do
       it("#{o} should take #{a} values") { expect(o.to_operator.arity).to eq(a) }
     end
   end
+
+  describe "#validate" do
+    let(:operator) { "<>d".to_operator }
+
+    it "accepts both dates" do
+      expect(operator.validate(["2026-10-01", "2026-10-31"])).to be_empty
+    end
+
+    it "accepts no values at all" do
+      expect(operator.validate([])).to be_empty
+    end
+
+    it "rejects a single date" do
+      expect(operator.validate(["2026-10-01"])).to eq(missing_values: [2])
+    end
+
+    it "rejects a blank second date" do
+      expect(operator.validate(["2026-10-01", ""])).to eq(missing_values: [2])
+    end
+  end
 end
