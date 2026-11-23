@@ -114,4 +114,4 @@ After clicking **Finish**, the new type or variant appears in the Types overview
 
 ![Detailed configuration view of a work package type showing the Details, Defaults, Variants, Form, Workflow, Project attributes, Projects, and Generate PDF tabs](openproject_system_guide_work_package_type_configuration_tabs.png)
 
-You can return to this view at any time to adjust the configuration. To learn more about managing existing types and variants, see [Manage work package types](../) and [Manage type variants](../variants/).
+You can return to this view at any time to adjust the configuration. To learn more about managing existing types and variants, see [Manage work package types](../).
