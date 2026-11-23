@@ -53,6 +53,31 @@ RSpec.describe "GET project overview", type: :rails_request do
     include_examples "includes canonical link tag"
   end
 
+  describe "the project progress widget" do
+    let(:project) { create(:project, progress_percent:) }
+    let(:progress_percent) { nil }
+    let(:page) { Capybara.string(response.body) }
+    let(:widget) { page.find_by_id("grids-widgets-project-progress-box") }
+
+    before { get "/projects/#{project.identifier}" }
+
+    it "shows that the project progress is unset" do
+      expect(widget).to have_text("Project progress has not been set.")
+      expect(widget).to have_no_css("[role='progressbar']")
+    end
+
+    [0, 60, 100].each do |percentage|
+      context "with project progress set to #{percentage}%" do
+        let(:progress_percent) { percentage }
+
+        it "shows the project progress as a percentage and a progress bar" do
+          expect(widget).to have_text("#{percentage}%")
+          expect(widget).to have_css("[role='progressbar'][aria-label='Project progress'][aria-valuenow='#{percentage}']")
+        end
+      end
+    end
+  end
+
   context "in semantic instance mode", with_settings: { work_packages_identifier: "semantic" } do
     let(:project) { create(:project, identifier: "PROJ") }
 
