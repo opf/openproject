@@ -142,7 +142,8 @@ class WorkPackagesController < ApplicationController
   def export_dialog
     respond_with_dialog WorkPackages::Exports::ModalDialogComponent.new(query: @query,
                                                                         project: @query.project,
-                                                                        title: params[:title])
+                                                                        title: params[:title],
+                                                                        pdf_export_type: params[:pdf_export_type])
   end
 
   def assign_to_me

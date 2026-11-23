@@ -45,6 +45,14 @@ RSpec.describe "Gantt routing" do
                      work_package_split_view: true)
     end
 
+    it "connects GET /projects/:project_id/gantt/export_dialog to work_packages#export_dialog with the Gantt PDF type" do
+      expect(get("/projects/1/gantt/export_dialog"))
+        .to route_to(controller: "work_packages",
+                     action: "export_dialog",
+                     project_id: "1",
+                     pdf_export_type: "gantt")
+    end
+
     it "connects GET /projects/:project_id/gantt/create_new to gantt#split_create" do
       expect(get("/projects/1/gantt/create_new"))
         .to route_to(controller: "gantt/gantt",
@@ -68,6 +76,13 @@ RSpec.describe "Gantt routing" do
                      work_package_id: "5",
                      tab: "overview",
                      work_package_split_view: true)
+    end
+
+    it "connects GET /gantt/export_dialog to work_packages#export_dialog with the Gantt PDF type" do
+      expect(get("/gantt/export_dialog"))
+        .to route_to(controller: "work_packages",
+                     action: "export_dialog",
+                     pdf_export_type: "gantt")
     end
 
     it "connects GET /gantt/create_new to gantt#split_create" do

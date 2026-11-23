@@ -37,7 +37,7 @@ module WorkPackages
 
       attr_reader :query, :project, :query_params
 
-      def initialize(query:, project:, title:)
+      def initialize(query:, project:, title:, pdf_export_type: nil)
         super
 
         @query = query

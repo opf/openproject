@@ -45,7 +45,7 @@
               ) do %>
             <input type="hidden" name="query" value="<%= query_params %>">
             <input type="hidden" name="format" value="<%= format[:id] %>">
-            <%= render(format[:component].new(query)) %>
+            <%= render(format[:component].new(query, pdf_export_type: options[:pdf_export_type])) %>
           <% end %>
         <% end %>
       <% end %>

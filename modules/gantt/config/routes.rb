@@ -33,7 +33,7 @@ Rails.application.routes.draw do
       collection do
         # The menu route has to be above the state routes! Otherwise, the menu will be interpreted as another state
         get "menu" => "gantt/menus#show"
-        get "/export_dialog" => "work_packages#export_dialog"
+        get "/export_dialog" => "work_packages#export_dialog", defaults: { pdf_export_type: "gantt" }
 
         get "details/:work_package_id(/:tab)" => "gantt/gantt#split_view", as: :details,
             defaults: { tab: "overview" }, work_package_split_view: true,
@@ -46,7 +46,7 @@ Rails.application.routes.draw do
 
   resources :gantt, controller: "gantt/gantt", only: [:index] do
     collection do
-      get "/export_dialog" => "work_packages#export_dialog"
+      get "/export_dialog" => "work_packages#export_dialog", defaults: { pdf_export_type: "gantt" }
 
       get "details/:work_package_id(/:tab)" => "gantt/gantt#split_view", as: :details,
           defaults: { tab: "overview" }, work_package_split_view: true,
