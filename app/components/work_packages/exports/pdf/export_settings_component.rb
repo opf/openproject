@@ -32,7 +32,11 @@ module WorkPackages
     module PDF
       class ExportSettingsComponent < BaseExportSettingsComponent
         def current_pdf_export_type
-          "table"
+          @current_pdf_export_type ||=
+            query.export_settings
+                 .where(format: pdf_export_types.reject { |entry| entry[:disabled] }.map { |entry| "pdf_#{entry[:value]}" })
+                 .order(updated_at: :desc)
+                 .first&.format&.delete_prefix("pdf_") || "table"
         end
 
         def gantt_chart_allowed?

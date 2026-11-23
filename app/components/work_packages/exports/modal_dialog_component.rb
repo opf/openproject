@@ -68,15 +68,18 @@ module WorkPackages
         [
           { id: "pdf", icon: :"op-pdf",
             label: I18n.t("export.dialog.format.options.pdf.label"),
-            component: WorkPackages::Exports::PDF::ExportSettingsComponent,
-            selected: true },
+            component: WorkPackages::Exports::PDF::ExportSettingsComponent },
           { id: "xls", icon: :"op-xls",
             label: I18n.t("export.dialog.format.options.xls.label"),
             component: WorkPackages::Exports::XLS::ExportSettingsComponent },
           { id: "csv", icon: :"op-file-csv",
             label: I18n.t("export.dialog.format.options.csv.label"),
             component: WorkPackages::Exports::CSV::ExportSettingsComponent }
-        ]
+        ].map { |format| format.merge(selected: format[:id] == selected_format) }
+      end
+
+      def selected_format
+        @selected_format ||= @query.export_settings.order(updated_at: :desc).first&.format&.sub(/_.*/, "") || "pdf"
       end
     end
   end

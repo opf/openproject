@@ -292,6 +292,8 @@ class WorkPackagesController < ApplicationController
 
     export_settings = @query.export_settings_for(user_settings[:format])
     export_settings.settings = user_settings
+    return export_settings.touch unless export_settings.changed?
+
     export_settings.save
   end
 
