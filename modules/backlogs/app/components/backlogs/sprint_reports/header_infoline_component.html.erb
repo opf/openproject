@@ -1,17 +1,15 @@
 <%= render(Primer::BaseComponent.new(tag: :div, mb: 2, classes: "op-sprint-report-infoline")) do %>
   <%= render(Backlogs::SprintStatusLabelComponent.new(sprint:)) %>
 
-  <% if displayed_dates.any? %>
-    <% if displayed_dates.actual? %>
-      <%= render(Primer::Beta::Text.new(ml: 2, font_weight: :bold)) do %>
-        <%= t(".started_at") if sprint.active? %>
-        <%= actual_dates %>
-      <% end %>
+  <% if displayed_dates.actual? %>
+    <%= render(Primer::Beta::Text.new(ml: 2, font_weight: :bold)) do %>
+      <%= t(".started_at") if sprint.active? %>
+      <%= actual_dates %>
     <% end %>
-    <% if displayed_dates.planned? %>
-      <%= render(Primer::Beta::Text.new(ml: 2)) do %>
-        <%= t(".planned_html", range: format_date_range(displayed_dates.planned_range)) %>
-      <% end %>
+  <% end %>
+  <% if displayed_dates.planned? %>
+    <%= render(Primer::Beta::Text.new(ml: 2)) do %>
+      <%= t(".planned_html", range: format_date_range(displayed_dates.planned_range)) %>
     <% end %>
   <% end %>
 <% end %>
