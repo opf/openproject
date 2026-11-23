@@ -95,7 +95,7 @@ workflows:
     '.github/workflows/test-core.yml':
         - 'actions/cache@v6.1.0'
         - 'actions/checkout@v7.0.1'
-        - 'runs-on/action@v2.5.0'
+        - 'runs-on/action@v2.7.1'
     '.github/workflows/test-frontend-unit.yml':
         - 'actions/checkout@v7.0.1'
         - 'actions/setup-node@v7.1.0'
@@ -210,9 +210,9 @@ dependencies:
         commit: 'sha1-f9c4492e86def3e644ab32a0ef185eda5b0c20d0'
         owner_id: 210414
         repo_id: 231208785
-    'runs-on/action@v2.5.0':
-        ref: 'v2.5.0'
-        commit: 'sha1-17b59092eb37ebfdbb034460892887c09100eaa3'
+    'runs-on/action@v2.7.1':
+        ref: 'v2.7.1'
+        commit: 'sha1-4a3bfc79f21a9b97e972e2ba75a2b0b1e9688670'
         owner_id: 150241074
         repo_id: 905733180
     'zizmorcore/zizmor-action@v0.8.1':
