@@ -260,7 +260,7 @@ RSpec.describe "Board management spec", :js, :selenium do
       queries = board_page.board(reload: true).contained_queries
       first = queries.find_by(name: "First")
       second = queries.find_by(name: "Second")
-      expect(first.ordered_work_packages.count).to eq(1)
+      wait_for { first.reload.ordered_work_packages.count }.to eq(1)
       expect(second.ordered_work_packages).to be_empty
 
       # Expect work package to be saved in query first
