@@ -245,7 +245,8 @@ RSpec.describe Exports::PDF::Components::Gantt::GanttBuilder do
         it "keeps the text area within its limit and at least one date column on page 0" do
           page = first_pages.first
 
-          expect(text_area_width(page)).to be <= (page_width * 0.6) + 0.001
+          expect(text_area_width(page))
+            .to be <= (page_width * Exports::PDF::Components::Gantt::GanttTextColumnLayout::TEXT_AREA_MAX_RATIO) + 0.001
           expect(page.columns).not_to be_empty
           expect(date_column_widths(pages).size).to eq(1)
         end

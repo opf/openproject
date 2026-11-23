@@ -91,9 +91,30 @@ RSpec.describe Exports::PDF::Components::Gantt::GanttTextColumnLayout do
 
     context "with a very long subject" do
       let(:subject_text) { "A very long subject " * 20 }
+      let(:short_subject_layout) do
+        short_work_package = build_stubbed(:work_package, subject: "Short", start_date: work_packages.first.start_date,
+                                                          due_date: work_packages.first.due_date)
+        described_class.new(pdf, query, query_columns, cell_value:)
+                       .measure([short_work_package])
+                       .tap { |other| other.fit(page_width, date_column_width) }
+      end
 
-      it "caps the subject at its max width" do
-        expect(width_of(:subject)).to eq(described_class::MAX_WIDTHS[:subject])
+      it "gives the subject all the space the other columns leave" do
+        expect(layout.total_width).to be_within(0.001).of(page_width * described_class::TEXT_AREA_MAX_RATIO)
+      end
+
+      it "keeps the narrow columns at their natural width" do
+        short_widths = short_subject_layout.columns.to_h { |column| [column.column.name, column.width] }
+
+        expect(width_of(:start_date)).to eq(short_widths[:start_date])
+        expect(width_of(:id)).to eq(short_widths[:id])
+      end
+
+      it "uses more width on a larger page" do
+        a4_width = width_of(:subject)
+        layout.fit(page_width * 1.4, date_column_width)
+
+        expect(width_of(:subject)).to be > a4_width
       end
     end
 
@@ -119,19 +140,22 @@ RSpec.describe Exports::PDF::Components::Gantt::GanttTextColumnLayout do
         expect(layout.total_width).to be <= (page_width * 0.3) + 0.001
       end
 
-      it "shrinks the subject before the fixed columns" do
-        expect(width_of(:subject)).to be < described_class::MAX_WIDTHS[:subject]
+      it "trims only the widest column" do
+        expect(width_of(:subject)).to be > width_of(:start_date)
         expect(width_of(:start_date)).to be > min_width
       end
     end
 
-    context "when even the stretchable columns cannot absorb the excess" do
+    context "when trimming the widest column is not enough" do
       let(:layout_options) { { max_area_ratio: 0.2 } }
       let(:subject_text) { "A very long subject " * 20 }
 
-      it "also shrinks fixed columns, down to the minimum" do
+      it "trims all wider columns to the same width, keeping the minimum" do
+        trimmed = widths.max
+
         expect(layout.total_width).to be <= (page_width * 0.2) + 0.001
         expect(widths).to all(be >= min_width - 0.001)
+        expect(widths.count { |width| (width - trimmed).abs < 0.001 }).to be > 1
       end
     end
 

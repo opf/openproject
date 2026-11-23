@@ -30,7 +30,6 @@
 module Exports::PDF::Components::Gantt
   class GanttTextColumnLayout
     TEXT_AREA_MAX_RATIO = 0.8
-    MAX_WIDTHS = { subject: 200.0, simple_text: 120.0, fixed: 80.0 }.freeze
     MIN_COLUMN_WIDTH = 30.0
     PADDING_H = 3.0
     # Prawn's line wrapping needs a little room beyond the measured width, or exact fits wrap
@@ -61,9 +60,11 @@ module Exports::PDF::Components::Gantt
       self
     end
 
+    # Columns keep their natural width when all fit; otherwise only the widest columns are
+    # trimmed, all to the same width, so the text area fits into its share of the page.
     def fit(page_width, date_column_width)
-      columns.zip(@natural_widths).each { |column, width| column.width = width }
-      shrink_to(max_area(page_width, date_column_width))
+      level = trim_level(max_area(page_width, date_column_width))
+      columns.zip(@natural_widths).each { |column, width| column.width = [width, level].min }
       update_lefts
     end
 
@@ -87,14 +88,14 @@ module Exports::PDF::Components::Gantt
     private
 
     def natural_width(layout_column, work_packages)
-      max_width = MAX_WIDTHS.fetch(layout_column.kind)
+      measure_limit = @pdf.bounds.width * @max_area_ratio
       width = header_width(layout_column.caption)
       work_packages.each do |work_package|
-        break if width >= max_width
+        break if width >= measure_limit
 
         width = [width, cell_width(value(work_package, layout_column.column))].max
       end
-      width.clamp(MIN_COLUMN_WIDTH, max_width)
+      width.clamp(MIN_COLUMN_WIDTH, [measure_limit, MIN_COLUMN_WIDTH].max)
     end
 
     def header_width(caption)
@@ -115,20 +116,17 @@ module Exports::PDF::Components::Gantt
       [page_width * @max_area_ratio, page_width - date_column_width].min
     end
 
-    def shrink_to(max_area)
-      excess = total_width - max_area
-      stretchable, fixed = columns.partition { |column| stretchable?(column) }
-      excess = shrink(stretchable, excess) if excess.positive?
-      shrink(fixed, excess) if excess.positive?
-    end
+    # The width all wider columns are trimmed to, so the sum of widths fits into max_area
+    def trim_level(max_area)
+      remaining = max_area
+      sorted_widths = @natural_widths.sort
+      sorted_widths.each_with_index do |width, index|
+        wider_count = sorted_widths.size - index
+        return [remaining / wider_count, MIN_COLUMN_WIDTH].max if width * wider_count > remaining
 
-    def shrink(layout_columns, excess)
-      shrinkable = layout_columns.sum { |column| column.width - MIN_COLUMN_WIDTH }
-      return excess unless shrinkable.positive?
-
-      ratio = [excess / shrinkable, 1.0].min
-      layout_columns.each { |column| column.width -= (column.width - MIN_COLUMN_WIDTH) * ratio }
-      excess - (shrinkable * ratio)
+        remaining -= width
+      end
+      Float::INFINITY
     end
 
     def update_lefts
