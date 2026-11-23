@@ -112,6 +112,17 @@ opce-ckeditor-augmented-textarea .op-ckeditor--attachments
         max-width: 100%
         flex-wrap: wrap
 
+  // In narrow toolbars the Assistant shows only its icon, leaving room for the formatting buttons.
+  @container (max-width: 40rem)
+    > .op-ai-actions .ck-splitbutton__action
+      padding: var(--ck-button-padding)
+
+      > .ck-button__icon
+        margin-inline: 0
+
+      > .ck-button__label
+        display: none
+
 // CKEditor caps dropdown panels at 75vw, but its list items keep a fixed minimum
 // width and their labels never wrap. On narrow screens, long translations would
 // overflow the panel instead of being truncated (AA-238).
