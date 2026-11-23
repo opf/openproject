@@ -116,11 +116,15 @@ function FormInput({ name, value, onChange, autoFocus, placeholder }:Form['TextI
   const t = useEditorTranslation();
   const live = useContext(LiveForm);
   const ref = useAutoFocus<HTMLInputElement>(autoFocus);
+  useLayoutEffect(() => {
+    // Primer TextInput exposes required via ARIA. Set the native constraint for form submission (SE-661).
+    if (ref.current) ref.current.required = name === 'url';
+  }, [name, ref]);
   return (
-    <FormControl>
+    <FormControl required={name === 'url'}>
       <FormControl.Label>{live ? placeholder : t(name === 'url' ? 'js.blocknote.link_url' : 'js.blocknote.link_text')}</FormControl.Label>
       <TextInput block name={name} value={value} onChange={onChange} ref={ref}
-        placeholder={placeholder} required={name === 'url'} autoComplete="off" />
+        placeholder={placeholder} pattern={name === 'url' ? '.*\\S.*' : undefined} autoComplete="off" />
     </FormControl>
   );
 }

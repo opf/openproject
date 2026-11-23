@@ -108,7 +108,8 @@ function FloatingLinkToolbar() {
       if (!anchor || anchor.contains(event.relatedTarget instanceof Node ? event.relatedTarget : null)) return;
       window.clearTimeout(timer);
       timer = window.setTimeout(() => {
-        if (!anchor.matches(':hover') || !element?.contains(anchor) || links.getLinkAtSelection()) return;
+        if (!anchor.matches(':hover') || !element?.contains(anchor)) return;
+        if (open && active?.source === 'selection') return;
         const link = links.getLinkAtElement(anchor);
         if (link) activate(link, 'hover');
       }, 250);
@@ -123,7 +124,7 @@ function FloatingLinkToolbar() {
       offSelection();
       offChange();
     };
-  }, [active, editor, element, frozen, links]);
+  }, [active, editor, element, frozen, links, open]);
 
   if (!active || !editor.isEditable) return null;
   const controls = { url: active.url, text: active.text, range: active.range, setToolbarOpen: setOpen, setToolbarPositionFrozen: setFrozen };

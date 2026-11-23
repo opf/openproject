@@ -85,6 +85,8 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
     editor.click_formatting_toolbar_button("Create link")
 
     within(:dialog, "Create link") do
+      find_field("URL").send_keys(:enter)
+      expect(page).to have_css("input[name=url]:required:invalid")
       fill_in "URL", with: "https://example.org/handbook"
       click_on "Save"
     end
@@ -100,7 +102,10 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
       find_field("URL").send_keys(:enter)
     end
 
-    expect(editor.element).to have_link("Team handbook", href: "https://example.org/team", count: 1)
+    edited_link = editor.element.find_link("Team handbook", href: "https://example.org/team")
+    expect(page).to have_no_button("Edit link")
+    page.driver.browser.action(duration: 0).move_to(edited_link.native).perform
+    expect(page).to have_button("Edit link")
     page.refresh
     expect(editor.element).to have_link("Team handbook", href: "https://example.org/team", count: 1)
   end
