@@ -59,7 +59,7 @@ The activity of each imported work package shows an entry **Imported by CSV** wi
 
 ## Column reference
 
-The header line decides what is imported. Column order is free, and you only need the columns you want to fill in. The header line is checked before any line is read; see [Problems with the header line](#problems-with-the-header-line).
+The header line decides what is imported. Column order is free, and you only need the columns you want to fill in. The header line is checked before any line is read; see [how the header line is read](#how-the-header-line-is-handled).
 
 | Column           | Content                           | Required | Format and matching                                                                                                                                       |
 |------------------|-----------------------------------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
