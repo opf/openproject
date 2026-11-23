@@ -147,6 +147,24 @@ RSpec.describe Projects::CopyService, "with project-specific custom field values
     end
   end
 
+  context "for a multi-value list custom field with an option added by the project" do
+    let(:custom_field) { create(:list_wp_custom_field, types: [type], possible_values: %w[A], multi_value: true) }
+    let(:option_a) { custom_field.custom_options.find_by!(value: "A") }
+    let!(:own_option) { create(:custom_option, custom_field:, value: "Own", project: source) }
+    let(:copied_option) { custom_field.custom_options.find_by(project: target) }
+
+    before do
+      create(:work_package, project: source, type:,
+                            custom_values: { custom_field.id => [option_a.id.to_s, own_option.id.to_s] })
+    end
+
+    it "sets the copied work packages to the global option and the copied option" do
+      expect(service_call).to be_success
+      expect(target.work_packages.sole.custom_values.pluck(:value))
+        .to contain_exactly(option_a.id.to_s, copied_option.id.to_s)
+    end
+  end
+
   context "for a hierarchy custom field with items added by the project", with_ee: [:custom_field_hierarchies] do
     let(:custom_field) { create(:hierarchy_wp_custom_field, types: [type]) }
     let!(:acme) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Acme") }
