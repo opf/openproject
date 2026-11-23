@@ -29,24 +29,22 @@
 
 module WorkPackages
   module Shared
-    # Splits the descendants of the work package(s) being moved into:
-    #  - ones the user may see and move, so they follow their root to the new project
-    #  - the rest, left behind in their current project
+    # Previews, before anything is actually saved, which descendants of the work
+    # package(s) being moved the user may see and move versus which would be left
+    # behind. WorkPackages::UpdateDependentContract is what actually enforces this
+    # per descendant when the move is saved; this module exists for callers that need
+    # to know the answer upfront: the move dialogs (to decide what to show), and
+    # WorkPackages::UpdateContract (to reject the whole move outright when cross-project
+    # relations are disabled and something would otherwise get left behind).
     #
-    # Each descendant is checked on its own, by its own visibility and permission --
-    # not by whether its own parent is moving too. A visible grandchild can therefore
-    # follow even when its own (hidden) parent stays behind; the user could have moved
-    # that grandchild on its own anyway, so nothing is gained by holding it back.
-    #
-    # Used by WorkPackages::UpdateService to pick which descendants to cascade the move
-    # onto, and by the move dialogs to preview and warn about what gets left behind.
+    # Each descendant is judged on its own, by its own visibility and permission, not
+    # by whether its own parent is moving too. A visible grandchild can therefore count
+    # as movable even when its own (hidden) parent would stay behind; the user could
+    # have moved that grandchild on its own anyway, so nothing is gained by holding it
+    # back.
     module MovePlanning
       def has_visible_descendants?
         visible_descendant_ids.any?
-      end
-
-      def movable_descendants
-        descendants_of_move_roots.select { |descendant| movable?(descendant) }
       end
 
       def immovable_descendants

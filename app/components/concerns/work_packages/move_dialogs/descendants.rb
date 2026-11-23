@@ -29,27 +29,16 @@
 
 module WorkPackages
   module MoveDialogs
-    # Module to include for the single and bulk move dialogs.
-    #
-    # The dialogs provide +move_roots+ and +i18n_scope+ to use the correct set of work packages
-    # as input, and the respective I18n keys. They are only rendered when
-    # +has_visible_descendants?+, the controller falls through straight to the move form
-    # otherwise.
+    # Module to include for the single and bulk move dialogs. The dialogs provide
+    # +i18n_scope+ to use the correct I18n keys. They are only rendered when
+    # WorkPackages::Shared::MovePlanning#has_visible_descendants?,
+    # which falls through straight to the move form otherwise.
     module Descendants
       extend ActiveSupport::Concern
-
-      # MovePlanning is the module that computes the movable/immovable descendants.
-      # We need this here for the preview, and WorkPackages::UpdateService later uses its own
-      # inclusion to actually perform the cascade.
-      include ::WorkPackages::Shared::MovePlanning
 
       TARGET_NAME = "move_descendants"
 
       private
-
-      def move_user
-        User.current
-      end
 
       def cross_project_relations_allowed?
         Setting.cross_project_work_package_relations?

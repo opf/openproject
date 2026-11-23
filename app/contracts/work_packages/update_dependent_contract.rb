@@ -27,13 +27,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Disables all validations but still allows to be queried for assignable_* (e.g. statuses)
-# that are necessary whenever a dependent (e.g. descendant of a work package) is moved to a project
-# where the type is switched.
+# Disables ordinary attribute validations (a descendant's type/status/custom fields may no
+# longer fit the project it is cascaded into) but still allows to be queried for assignable_*
+# (e.g. statuses) that are necessary whenever a dependent (e.g. descendant of a work package)
+# is moved to a project where the type is switched.
+#
+# Authorization is not skipped, though: the descendant must still be visible to the user, and
+# they still need move_work_packages in its current (not yet saved) project. This is what
+# WorkPackages::UpdateService relies on to decide which descendants actually get cascaded.
 module WorkPackages
   class UpdateDependentContract < UpdateContract
     def validate
-      true
+      user_allowed_to_access
+      user_allowed_to_move_from_source_project
+      errors.empty?
     end
   end
 end

@@ -46,8 +46,6 @@ module WorkPackages
 
     def i18n_scope = "work_packages.bulk_move_dialog"
 
-    def move_roots = work_packages.to_a
-
     def title = t_shared("descendants_choice.title")
 
     def description = t_dialog("descendants_choice.heading")
