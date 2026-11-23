@@ -13,7 +13,7 @@ import { BlockCard } from './BlockCard';
 import { UnavailableCard } from '../WorkPackage/UnavailableCard';
 import { WpOptionsPopover } from '../WorkPackage/OptionsPopover';
 import { PendingWorkPackagePopover } from '../WorkPackage/PendingWorkPackagePopover';
-import { defaultWpVariables, nonSelectableStyles } from '../WorkPackage/atoms';
+import { defaultWpVariables, hideBlockNoteSelectionOverlay, nonSelectableStyles } from '../WorkPackage/atoms';
 import { CHIP_STYLES } from '../WorkPackage/tokens';
 import { moveCursorAfterBlock } from '../../utils/cursor';
 import { hideSafariPhantomSelection, selectBlockNode } from '../../utils/selection';
@@ -36,10 +36,7 @@ const Block = styled.div.attrs({ className: 'op-bn-extensions', 'data-testid': '
   border-radius: var(--bn-border-radius);
   box-shadow: ${({ $selected }) => ($selected ? CHIP_STYLES.focusShadow : 'none')};
   ${({ $pending }) => $pending && 'position: relative;'}
-
-  .ProseMirror-selectednode > .bn-block-content > &::after {
-    content: none;
-  }
+  ${hideBlockNoteSelectionOverlay}
 `;
 
 const BlockCardWrapper = styled.div`
