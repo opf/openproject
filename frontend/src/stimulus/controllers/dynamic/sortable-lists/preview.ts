@@ -119,13 +119,14 @@ export function renderDragPreview({
     // anything past the layers it draws.
     preview.setAttribute('data-stack-depth', `${batchSize - 1}`);
 
-    // Anchors the badge to the container rather than whatever ancestor
-    // Pragmatic mounts it under. Nothing paints past the card's left edge.
-    container.style.position = 'relative';
-    container.style.paddingTop = BATCH_BADGE_OVERHANG;
+    // Nothing paints past the card's left edge.
     container.style.paddingRight = DRAG_STACK_OVERHANG;
     container.style.paddingBottom = DRAG_STACK_OVERHANG;
     if (showBatchBadge) {
+      // Anchors the badge to the container rather than whatever ancestor
+      // Pragmatic mounts it under.
+      container.style.position = 'relative';
+      container.style.paddingTop = BATCH_BADGE_OVERHANG;
       renderBatchBadge(container, batchSize);
     }
   }

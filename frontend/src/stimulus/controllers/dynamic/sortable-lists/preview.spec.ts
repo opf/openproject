@@ -263,16 +263,18 @@ describe('sortable lists drag preview', () => {
         expect(within(container).queryByText('3')).toBeNull();
       });
 
-      it('keeps the stack and badge overhang without the badge', () => {
+      it('keeps the stack without the badge overhang when showBatchBadge is false', () => {
         const target = withWidth(previewTarget(), 320);
         const container = document.createElement('div');
+        container.style.padding = '0';
 
         renderDragPreview({
           previewTarget: target, sourceElement: target, container, batchSize: 3, showBatchBadge: false,
         });
 
         expect(container.querySelector('[data-preview]')).toHaveAttribute('data-stack-depth', '2');
-        expect(container.style.paddingTop).toEqual('var(--op-drag-badge-overhang)');
+        expect(container.style.position).toEqual('');
+        expect(container.style.paddingTop).toEqual('0px');
         expect(container.style.paddingRight).toEqual('var(--op-drag-stack-overhang)');
         expect(container.style.paddingBottom).toEqual('var(--op-drag-stack-overhang)');
       });
