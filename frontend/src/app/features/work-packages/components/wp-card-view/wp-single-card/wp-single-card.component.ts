@@ -125,6 +125,8 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   @ViewChild('newCardEditForm', { read: ElementRef }) newCardEditFormElement?:ElementRef<HTMLElement>;
 
+  @ViewChild('cardElement', { static: true }) cardElement?:ElementRef<HTMLElement>;
+
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onRemove = new EventEmitter<WorkPackageResource>();
 
@@ -294,11 +296,16 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   public saveNewCardOnFocusOut():void {
     const element = this.newCardEditFormElement?.nativeElement;
-    if (!element) {
+    const cardElement = this.cardElement?.nativeElement;
+    if (!element || !cardElement) {
       return;
     }
 
-    whenOutside(element, () => {
+    whenOutside(cardElement, () => {
+      if (!element.isConnected) {
+        return;
+      }
+
       const form = this.newCardEditForm;
       if (form && form.editMode && !form.change.inFlight && form.change.value<string|null>('subject')?.trim()) {
         void form.submit();

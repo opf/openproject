@@ -156,7 +156,11 @@ RSpec.describe "Board management spec", :js, :selenium do
       end
 
       expect(page).to have_no_css('[data-test-selector="op-wp-single-card--content-subject"]', text: "Discarded card")
-      expect(WorkPackage.where(subject: "Discarded card")).not_to exist
+
+      board_page.add_card("List 1", "Kept card")
+
+      board_page.expect_card("List 1", "Discarded card", present: false)
+      expect(WorkPackage.where(subject: ["Discarded card", "Kept card"]).pluck(:subject)).to contain_exactly("Kept card")
     end
 
     it "allows management of boards" do
