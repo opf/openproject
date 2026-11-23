@@ -56,7 +56,7 @@ module OpPrimer
         @query = query
 
         data = set_quick_filter_attributes(clear_button_id, output_format, turbo_frame_request, turbo_stream_request,
-                                             url_path_name, display_filters, reset_params, query)
+                                           url_path_name, display_filters, reset_params, query)
 
         system_arguments[:data] = merge_data(system_arguments, { data: })
 
