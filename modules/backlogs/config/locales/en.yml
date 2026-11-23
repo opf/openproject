@@ -47,7 +47,6 @@ en:
         origin_source: "Origin source"
         origin_url: "Origin URL"
         sharing: "Sharing"
-        started_at: "Start time"
         statuses:
           active: "Active"
           completed: "Completed"
