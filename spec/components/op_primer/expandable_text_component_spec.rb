@@ -154,6 +154,11 @@ RSpec.describe OpPrimer::ExpandableTextComponent, type: :component do
       expect(page).to have_no_css("#my-dialog", visible: :all)
       expect(page).to have_element("button", "data-show-dialog-id": "my-dialog", visible: :all)
     end
+
+    it "requires a dialog_id when render_dialog is false" do
+      expect { render_component(expansion: :dialog, render_dialog: false) { "Full content" } }
+        .to raise_error(ArgumentError, /dialog_id/)
+    end
   end
 
   describe "tag" do
