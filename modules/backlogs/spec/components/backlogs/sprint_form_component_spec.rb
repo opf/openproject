@@ -53,6 +53,10 @@ RSpec.describe Backlogs::SprintFormComponent, type: :component do
     expect(rendered_component).to have_css("form##{described_class::FORM_ID}")
   end
 
+  it "disables autocomplete for the sprint name" do
+    expect(rendered_component).to have_css('input[name="sprint[name]"][autocomplete="off"][data-1p-ignore="true"]')
+  end
+
   it "renders base errors" do
     expect(rendered_component).to have_text("Sprint failed")
   end

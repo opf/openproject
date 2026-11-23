@@ -32,6 +32,8 @@ See COPYRIGHT and LICENSE files for more details.
   <div class="form--field -required">
     <%= f.text_field :name,
                      label: t(:label_title),
+                     autocomplete: "off",
+                     data: { "1p-ignore": true },
                      required: true,
                      size: 60,
                      container_class: "-wide" %>
