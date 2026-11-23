@@ -42,8 +42,6 @@ module Bim::Bcf
     validates_presence_of :uuid
     validates_uniqueness_of :uuid, scope: [:issue_id]
 
-    scope :public_only, -> { joins(:journal).where(journals: { restricted: false }) }
-
     def self.has_uuid?(uuid, issue_id)
       exists?(uuid:, issue_id:)
     end

@@ -31,7 +31,7 @@ module Bim::Bcf::API::V2_1
       resources :comments do
         helpers do
           def all_comments
-            @issue.comments.includes(:journal, :issue, :viewpoint).public_only
+            @issue.comments.includes(:journal, :issue, :viewpoint)
           end
 
           def get_viewpoint_by_uuid(viewpoint_uuid)
