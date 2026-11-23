@@ -201,8 +201,15 @@ RSpec.describe API::V3::WorkPackages::EagerLoading::Checksum do
         .not_to eql orig_checksum
     end
 
-    it "produces a different checksum on changes to the category id" do
-      WorkPackage.where(id: work_package.id).update_all(category_id: 0)
+    it "produces a different checksum when a category is added to the work package" do
+      create(:work_package_category, work_package:)
+
+      expect(new_checksum)
+        .not_to eql orig_checksum
+    end
+
+    it "produces a different checksum when a category is removed from the work package" do
+      WorkPackageCategory.where(work_package:).delete_all
 
       expect(new_checksum)
         .not_to eql orig_checksum

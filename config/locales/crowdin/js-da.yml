@@ -109,6 +109,7 @@ da:
         maintained_with_changes: Bevaret med ændringer
         no_longer_meets_filter_criteria: Opfylder ikke længere filterkriterierne
         now_meets_filter_criteria: Opfylder nu filterkriterierne
+        state_at: Tilstand pr.
       show_changes_since: Vis ændringer siden
       time: Tidspunkt
       time_description: 'I din lokale tid: %{datetime}'
@@ -902,6 +903,23 @@ da:
       unselected_title: Arbejdspakke
     two_factor_authentication:
       label_two_factor_authentication: To-faktor-godkendelse
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Handlinger for projektet
+            other: Handlinger for %{count} valgte projekter
+        selection:
+          cleared: Markeringen er ryddet.
+          not_selectable: Markeringen er uændret. Projektet kan ikke vælges.
+          range_blocked: Markeringen er uændret. Området indeholder et projekt, der ikke kan vælges.
+          range_restarted:
+            one: Området kunne ikke udvides. %{count} projekt valgt.
+            other: Området kunne ikke udvides. %{count} projekter valgt.
+          range_unavailable: Markeringen er uændret. Fold listen ud for at vælge området.
+          selected:
+            one: "%{count} projekt valgt."
+            other: "%{count} projekter valgt."
     units:
       child_work_packages:
         one: "%{count} underordnet arbejdspakke"

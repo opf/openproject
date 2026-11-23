@@ -27,6 +27,8 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { within } from '@testing-library/dom';
+import { tableColumns, tableRows } from 'core-app/shared/components/charts/description/testing/chart-description-table';
 import { CartesianScaleOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -42,10 +44,15 @@ describe('BurnupChartComponent', () => {
     locale: 'en',
     t(key:string, options:Record<string, string|number> = {}) {
       const translations:Record<string, string> = {
-        'js.burnup_chart.chart_day': `Day ${options.day}: ${options.values}`,
         'js.burnup_chart.chart_label': 'Burnup chart',
-        'js.burnup_chart.chart_summary': `Burnup chart data: ${options.days}.`,
-        'js.burnup_chart.chart_value': `${options.label}: ${options.value}`,
+        'js.chart.description.caption': `${options.label}: data`,
+        'js.chart.description.date': 'Date',
+        'js.chart.description.week': 'Week of',
+        'js.sprint_charts.description_summary': `${options.label} data: ${options.from} – ${options.to}. ${options.values}.`,
+        'js.sprint_charts.column_with_unit': `${options.label} (${options.unit})`,
+        'js.sprint_charts.description_value': `${options.label}: ${options.value}`,
+        'js.sprint_charts.unit.story_points': 'story points',
+        'js.sprint_charts.value_with_unit.story_points': `${options.value} story point${options.count === 1 ? '' : 's'}`,
         'js.sprint_charts.y_axis_title.story_points': 'Story points',
         'js.sprint_charts.y_axis_title.time': 'Estimated time',
         'js.sprint_charts.non_working_day': 'Non-working day',
@@ -108,11 +115,7 @@ describe('BurnupChartComponent', () => {
 
   const yAxisTitle = () => (fixture.componentInstance.lineChartOptions().scales!.y as CartesianScaleOptions).title.text;
 
-  const describedBy = (host:HTMLElement) => {
-    const id = host.querySelector('canvas')!.getAttribute('aria-describedby')!;
-
-    return host.querySelector<HTMLElement>(`#${id}`)!;
-  };
+  const describedTable = () => within(element).getByRole('table');
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -128,24 +131,36 @@ describe('BurnupChartComponent', () => {
     element = fixture.nativeElement as HTMLElement;
   });
 
-  it('describes each day by the value its series closed at', () => {
-    renderWith([
-      {
-        ...completed,
-        data: [point('2026-10-12T09:00:00.000Z', 0), point('2026-10-12T23:59:59.999Z', 3)],
-      },
-      {
-        ...scope,
-        data: [point('2026-10-12T23:59:59.999Z', 10), point('2026-10-13T12:00:00.000Z', 12)],
-      },
+  const sampledSeries = () => [
+    {
+      ...completed,
+      data: [point('2026-10-12T09:00:00.000Z', 0), point('2026-10-12T23:59:59.999Z', 3)],
+    },
+    {
+      ...scope,
+      data: [point('2026-10-12T23:59:59.999Z', 10), point('2026-10-13T12:00:00.000Z', 12)],
+    },
+  ];
+
+  it('names the chart and summarizes the range and latest values', () => {
+    renderWith(sampledSeries());
+
+    expect(within(element).getByRole('img', {
+      name: 'Burnup chart',
+      description: 'Burnup chart data: 10/12/2026 – 10/23/2026. Completed work: 3 story points, Total work scope: 12 story points.',
+    })).toBeInTheDocument();
+  });
+
+  it('tabulates one row per day by the value each series closed at', () => {
+    renderWith(sampledSeries());
+
+    const table = within(element).getByRole('table', { name: 'Burnup chart: data' });
+
+    expect(tableColumns(table)).toEqual(['Date', 'Completed work (story points)', 'Total work scope (story points)']);
+    expect(tableRows(table)).toEqual([
+      ['10/12/2026', '3', '10'],
+      ['10/13/2026', '', '12'],
     ]);
-
-    const canvas = element.querySelector('canvas')!;
-
-    expect(canvas).toHaveAccessibleName('Burnup chart');
-    expect(describedBy(element)).toHaveTextContent(
-      'Burnup chart data: Day 1: Completed work: 3, Total work scope: 10; Day 2: Total work scope: 12.',
-    );
   });
 
   it('reads the legend in the order of the mockup', () => {
@@ -241,10 +256,9 @@ describe('BurnupChartComponent', () => {
         .toEqual('Total work scope: 21.25h');
     });
 
-    it('describes each day in durations', () => {
-      expect(describedBy(element)).toHaveTextContent(
-        'Burnup chart data: Day 1: Completed work: 2.5h, Total work scope: 20h.',
-      );
+    it('tabulates durations in estimated time', () => {
+      expect(tableColumns(describedTable())).toEqual(['Date', 'Completed work', 'Total work scope']);
+      expect(tableRows(describedTable())).toEqual([['10/12/2026', '2.5h', '20h']]);
     });
   });
 
@@ -252,6 +266,7 @@ describe('BurnupChartComponent', () => {
     renderWith([]);
 
     expect(element.querySelector('canvas')).toBeNull();
-    expect(element.querySelector(`#${fixture.componentInstance.chartDescriptionId}`)).toBeNull();
+    expect(within(element).queryByRole('img')).not.toBeInTheDocument();
+    expect(within(element).queryByRole('table')).not.toBeInTheDocument();
   });
 });

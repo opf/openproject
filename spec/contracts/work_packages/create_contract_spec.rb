@@ -81,6 +81,23 @@ RSpec.describe WorkPackages::CreateContract do
 
       it_behaves_like "contract is invalid", base: :error_unauthorized
     end
+
+    context "with a pending label name for a user who may edit work packages only in another project" do
+      let(:user) do
+        create(:user, member_with_permissions: { persisted_project => %i[add_work_packages],
+                                                 persisted_other_project => %i[edit_work_packages] })
+      end
+
+      before do
+        work_package.label_name_replacements = ["Brand new"]
+      end
+
+      it "is invalid with error_unauthorized on labels" do
+        contract.validate
+
+        expect(contract.errors.symbols_for(:labels)).to include(:error_unauthorized)
+      end
+    end
   end
 
   describe "writing read-only attributes" do

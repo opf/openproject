@@ -171,6 +171,48 @@ RSpec.describe Backlogs::Sprints::FinishService do
     end
   end
 
+  context "when the unfinished work package was last changed by the finishing user within the aggregation time",
+          with_settings: { journal_aggregation_time_minutes: 5 } do
+    let(:target_sprint) { create(:sprint, project:, status: "in_planning") }
+    let!(:open_wp) do
+      User.execute_as(user) { create(:work_package, project:, sprint:, status: to_do_status) }
+    end
+
+    def journaled_sprint_ids
+      open_wp.journals.reload.order(:version).map { it.data.sprint_id }
+    end
+
+    context "when moving to the top of the backlog" do
+      let(:call_params) { { unfinished_action: "move_to_top_of_backlog" } }
+
+      it "keeps the journal showing the work package in the sprint" do
+        expect(result).to be_success
+
+        expect(journaled_sprint_ids).to eq([sprint.id, nil])
+      end
+    end
+
+    context "when moving to the bottom of the backlog" do
+      let(:call_params) { { unfinished_action: "move_to_bottom_of_backlog" } }
+
+      it "keeps the journal showing the work package in the sprint" do
+        expect(result).to be_success
+
+        expect(journaled_sprint_ids).to eq([sprint.id, nil])
+      end
+    end
+
+    context "when moving to another sprint" do
+      let(:call_params) { { unfinished_action: "move_to_sprint", move_to_sprint_id: target_sprint.id } }
+
+      it "keeps the journal showing the work package in the sprint" do
+        expect(result).to be_success
+
+        expect(journaled_sprint_ids).to eq([sprint.id, target_sprint.id])
+      end
+    end
+  end
+
   context "when the sprint has multiple unfinished work packages also in other projects and a target sprint is given" do
     let(:target_sprint) { create(:sprint, project:, status: "in_planning") }
     # Permissions are not necessary for this. The change is carried out regardless.

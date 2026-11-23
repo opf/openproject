@@ -26,16 +26,18 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title h(work_package.to_fs(:caption)) %>
+<% html_title work_package.to_fs(:caption) %>
 
 <% content_for :sidebar do %>
-  <%= render partial: 'sidebar' %>
+  <%= render partial: "sidebar" %>
 <% end %>
 
 <% content_for :header_tags do %>
-  <%= auto_discovery_link_tag(:atom,
-                              { format: 'atom', key: User.current.rss_key },
-                              title: "#{work_package.project} - #{work_package.to_s}") %>
+  <%= auto_discovery_link_tag(
+        :atom,
+        { format: "atom", key: User.current.rss_key },
+        title: "#{work_package.project} - #{work_package}"
+      ) %>
   <%= auto_discovery_link_tag(
         :md,
         work_package_url(work_package, tab: nil, format: :md),

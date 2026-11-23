@@ -1,0 +1,21 @@
+<p [id]="summaryId()">{{ description().summary }}</p>
+<table>
+  <caption>{{ description().table.caption }}</caption>
+  <thead>
+    <tr>
+      @for (column of description().table.columns; track $index) {
+        <th scope="col">{{ column }}</th>
+      }
+    </tr>
+  </thead>
+  <tbody>
+    @for (row of description().table.rows; track $index) {
+      <tr>
+        <th scope="row">{{ row.header }}</th>
+        @for (cell of row.cells; track $index) {
+          <td>{{ cell }}</td>
+        }
+      </tr>
+    }
+  </tbody>
+</table>

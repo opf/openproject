@@ -77,6 +77,12 @@
     padding-top: var(--main-menu-toggler-top-spacing)
     margin-top: calc(var(--main-menu-toggler-top-spacing) * -1)
 
+  .PageHeader-parentLink
+    min-width: 0
+    overflow: hidden
+    white-space: nowrap
+    text-overflow: ellipsis
+
   // Hide the header, when the content-bodyRight is shown, because it has it's own header.
   // Otherwise, the sticky header would lay on top of the split screen
   @include split-pane-active

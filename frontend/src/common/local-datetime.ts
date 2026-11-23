@@ -49,3 +49,29 @@ export function wallClockDateToISO(date:Date, timeZone:string):string|null {
     .toUTC()
     .toISO({ suppressMilliseconds: true });
 }
+
+export function calendarDate(instant:string, timeZone:string):string|null {
+  return DateTime.fromISO(instant, { zone: timeZone }).toISODate();
+}
+
+// Luxon numbers Sunday 7; the first day of the week may come as 0 or 7 for Sunday.
+export function weekStartDate(date:string, firstDayOfWeek:number):string|null {
+  const day = DateTime.fromISO(date, { zone: 'utc' });
+
+  if (!day.isValid) {
+    return null;
+  }
+
+  return day.minus({ days: (day.weekday - firstDayOfWeek + 7) % 7 }).toISODate();
+}
+
+export function calendarDaysSpanned(fromDate:string, toDate:string):number|null {
+  const from = DateTime.fromISO(fromDate, { zone: 'utc' });
+  const to = DateTime.fromISO(toDate, { zone: 'utc' });
+
+  if (!from.isValid || !to.isValid) {
+    return null;
+  }
+
+  return to.diff(from, 'days').days + 1;
+}

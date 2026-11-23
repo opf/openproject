@@ -202,6 +202,50 @@ RSpec.describe MemberMailer do
         end
       end
     end
+
+    describe "with a custom message referencing a work package the recipient cannot see",
+             with_settings: { work_packages_identifier: "classic" } do
+      shared_let(:view_role) { create(:project_role, permissions: %i[view_work_packages]) }
+      shared_let(:shared_project) { create(:project, public: false) }
+      shared_let(:private_project) { create(:project, public: false) }
+      shared_let(:inviter) do
+        create(:user, member_with_roles: { shared_project => view_role, private_project => view_role })
+      end
+      shared_let(:referenced_type) { create(:type, name: "OrchidType") }
+      shared_let(:referenced_status) { create(:status, name: "OrchidStatus") }
+      shared_let(:referenced_work_package) do
+        create(:work_package,
+               project: private_project,
+               type: referenced_type,
+               status: referenced_status,
+               subject: "Orchid bridge subject")
+      end
+
+      let(:message) { "please review #{'###'}#{referenced_work_package.id}" }
+      let(:member) { create(:member, principal: recipient, project: shared_project, roles: [view_role]) }
+      let(:body) { described_class.added_project(inviter, member, message).html_part.body.to_s }
+
+      context "when the recipient cannot view the referenced work package" do
+        let(:recipient) { create(:user) }
+
+        it "keeps a bare reference and omits subject, type, and status" do
+          expect(body).to include("##{referenced_work_package.id}")
+          expect(body).not_to include(referenced_work_package.subject)
+          expect(body).not_to include(referenced_type.name)
+          expect(body).not_to include(referenced_status.name)
+        end
+      end
+
+      context "when the recipient can view the referenced work package" do
+        let(:recipient) { create(:user, member_with_roles: { private_project => view_role }) }
+
+        it "expands subject, type, and status" do
+          expect(body).to include(referenced_work_package.subject)
+          expect(body).to include(referenced_type.name)
+          expect(body).to include(referenced_status.name)
+        end
+      end
+    end
   end
 
   describe "#updated_project" do

@@ -109,6 +109,7 @@ nl:
         maintained_with_changes: Behoud met wijzigingen
         no_longer_meets_filter_criteria: Voldoet niet langer aan filtercriteria
         now_meets_filter_criteria: Voldoet nu aan filtercriteria
+        state_at: State at
       show_changes_since: Toon wijzigingen sinds
       time: Tijd
       time_description: 'In uw lokale tijd: %{datetime}'
@@ -902,6 +903,23 @@ nl:
       unselected_title: Werkpakket
     two_factor_authentication:
       label_two_factor_authentication: Twee-staps authenticatie
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Project actions
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            one: Could not extend the range. %{count} project selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            one: "%{count} project selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         one: "%{count} child work package"

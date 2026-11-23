@@ -8,11 +8,13 @@
     </span>
   }
 </span>
-<div class="op-baseline-legends--details hidden-for-mobile">
-  <svg op-arrow-in-icon size="small" class="op-baseline-legends--details-icon-added"></svg>
-  <span class="op-baseline-legends--details-added">{{text.now_meets_filter_criteria}}</span>
-  <svg reply-icon size="small" class="op-baseline-legends--details-icon-removed"></svg>
-  <span class="op-baseline-legends--details-removed">{{text.no_longer_meets_filter_criteria}}</span>
-  <svg op-triangle-delta-icon size="small" class="op-baseline-legends--details-icon-changed"></svg>
-  <span class="op-baseline-legends--details-changed">{{text.maintained_with_changes}}</span>
-</div>
+@if (!isSnapshot) {
+  <div class="op-baseline-legends--details hidden-for-mobile">
+    <svg op-arrow-in-icon size="small" class="op-baseline-legends--details-icon-added"></svg>
+    <span class="op-baseline-legends--details-added">{{text.now_meets_filter_criteria}}</span>
+    <svg reply-icon size="small" class="op-baseline-legends--details-icon-removed"></svg>
+    <span class="op-baseline-legends--details-removed">{{text.no_longer_meets_filter_criteria}}</span>
+    <svg op-triangle-delta-icon size="small" class="op-baseline-legends--details-icon-changed"></svg>
+    <span class="op-baseline-legends--details-changed">{{text.maintained_with_changes}}</span>
+  </div>
+}

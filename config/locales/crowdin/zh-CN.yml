@@ -735,6 +735,7 @@ zh-CN:
             required:
               cannot_be_true: 无法设置为 true。
             value:
+              parent_only_in_project: cannot be made available to all projects, as its parent is only available in this project.
               required_by_project_values: cannot be disabled, as the project added values below it.
           previous_custom_field_recalculation_unprocessed: 尚未对此自定义字段的先前更改进行重新计算，请几分钟后再试。
           referenced_in_other_fields_html:
@@ -806,8 +807,6 @@ zh-CN:
             name:
               blank: 是强制性的。请选择一个名称。
               not_unique: 已被使用。请另选一个名称。
-        jira:
-          invalid_protocol: 请提供有效的协议（http 或 https）
         label:
           attributes:
             name:
@@ -871,8 +870,8 @@ zh-CN:
               cannot_assign_multiple_variants_of_parent: 只能在项目上启用一个类型的单个变体
               cannot_assign_variant_and_parent: 无法指定变体及其父项
               in_use_by_work_packages: '仍在使用的工作包: %{types}'
-              switch_target_blank: 选择要切换到的变体
-              switch_target_identical: 目标类型必须不同于项目现在使用的类型
+              switch_target_blank: Choose a type or variant the project can use.
+              switch_target_identical: The project already uses this type or variant.
               switch_target_not_in_family: 只能切换到同一品类的其他类型
           cannot_be_assigned_to_artefact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: 非子级项目中的工作包会引用此项目或其子级的版本。
@@ -1357,7 +1356,6 @@ zh-CN:
           description: 您的评论将对任何能够访问此工作包的人可见。您确定要这样做吗？
           heading: 公开此评论吗？
           title: 公开此评论吗？
-        internal_journal: 内部评论仅对有限的成员组可见。
         label_activity_hide_meetings: 隐藏会议动态
         label_activity_show_all: 显示所有
         label_activity_show_only_changes: 仅显示更改
@@ -1536,7 +1534,7 @@ zh-CN:
         contribution_callout: '请通过提供您的反馈和捐赠您的私有数据，帮助我们改进 Jira Migrator。您可以[加入 Jira Migrator 的开发社区](link)。
 
           '
-        description: 此 Jira Migrator 目前处于测试阶段。我们目前仅支持 Jira Server/Data Center 版本 10.x 和 11.x。目前不支持云实例。
+        description: The Jira Migrator is currently in beta. We support Jira Server/Data Center versions 8.x, 9.x, 10.x and 11.x. Jira 8 requires basic auth. Cloud instances are not supported at this time.
         title: 测试版 - 试试吧！
       basic_auth_password_deleted: Basic auth password was successfully deleted.
       blank:
@@ -1550,7 +1548,6 @@ zh-CN:
         connection_timeout: 与 Jira 服务器的连接超时：%{message}
         parse_error: 无法解析 Jira API 响应：%{message}
         ssl_error: 连接到 Jira 服务器时发生 SSL 错误：%{message}
-        ssrf_block_doc_link: 请参阅我们的[文档](docs_url)。
         ssrf_blocked: 连接被阻止：Jira 主机解析到一个私有 IP 地址。如果 Jira 实例在内部网络上运行，请通过 OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST 环境变量允许其 IP。
         unsupported_endpoint: Jira API 在 %{path} 处没有端点（状态 %{status}）
       columns:
@@ -1563,6 +1560,53 @@ zh-CN:
       configuration:
         new: 新配置
         title: Jira 配置
+      connection_check:
+        authorization:
+          administrator: Jira administrator
+          credentials_accepted: Credentials accepted
+          header: Authorization
+        configuration:
+          credentials_present: Credentials
+          header: Configuration
+          url_valid: Jira URL
+        dialog:
+          button_continue: Continue anyway
+          button_fix: Fix configuration
+          failure:
+            description_html: The configuration is saved, but the check <strong>%{check}</strong> failed. You can continue, but fetching data will fail until this is fixed.
+            title: Connection check failed
+          warning:
+            description_html: The configuration is saved, but the check <strong>%{check}</strong> reported a warning. The import might not work as expected. Proceed at your own risk.
+            title: Connection check warning
+        errors:
+          api_error: Jira answered with HTTP status %{status}. Check the URL and that Jira is running.
+          basic_auth_password_missing: No password is entered for basic auth.
+          basic_auth_required: The Jira Migrator needs basic auth for Jira %{version}. Select basic auth and enter the username and password of a Jira administrator.
+          basic_auth_username_missing: No username is entered for basic auth.
+          credentials_rejected: Jira rejected the credentials. Check that they are correct and have not expired.
+          invalid_response: The server at this URL did not answer with JSON. Check the URL.
+          invalid_url: Enter a valid URL that starts with http:// or https://.
+          not_administrator: The Jira user behind these credentials is not a Jira administrator. Use the credentials of a Jira administrator.
+          not_found: The server at this URL has no Jira API. Check the URL.
+          not_jira: The server at this URL did not answer like Jira. Check the URL.
+          personal_access_token_missing: No personal access token is entered.
+          ssl_error: The secure connection to Jira failed. Check that the Jira certificate is valid and trusted by OpenProject.
+          ssrf_blocked: The Jira host resolves to a private IP address, which OpenProject blocks. If Jira runs on an internal network, add its IP address to the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable and restart OpenProject.
+          timeout: Jira did not answer in time. Check the URL and that OpenProject can reach the Jira server.
+          unexpected_error: Jira answered in a way OpenProject did not expect. Check that the URL points to Jira.
+          unknown_version: OpenProject could not determine the Jira version. The import might not work as expected. Proceed at your own risk.
+          unreachable: Jira could not be reached. Check the URL and that OpenProject can reach the Jira server.
+          unsupported_version: Jira %{version} is not a supported version. The import might not work as expected. Proceed at your own risk.
+        form_values_checked: Checked the values in the form. They are not saved yet.
+        last_check: 'Last check: %{datetime}'
+        not_checked: Not checked yet.
+        server:
+          auth_method_supported: Authentication method
+          header: Jira server
+          reachable: Server reachable
+          responds_as_jira: Responds as Jira
+          version_supported: Supported version
+        title: Connection check
       description: 使用此工具从您的 Jira 实例中导入数据。您可以配置多个 Jira 主机，并选择每次导入运行要导入的内容。
       errors:
         cannot_delete_with_imports: 无法删除具有现有导入的 Jira 主机
@@ -1607,6 +1651,7 @@ zh-CN:
         blank:
           description: 创建导入运行，开始从此 Jira 实例中导入信息
           title: 尚未设置导入运行
+        connection_check_error: The connection check failed, so no data was fetched. Fix any failed checks shown in the side panel, then retry.
         history: 历史记录
         import_blocked_error: 另一个 Jira 导入运行当前正在执行或等待审核。请先完成或撤消当前运行，然后再开始新的导入。
         index:
@@ -1664,9 +1709,6 @@ zh-CN:
             title: Fetching meta data about selected projects
           JiraRevertImportJob:
             title: Reverting this Jira import run
-        not_administrator_error:
-          basic: Jira configuration uses a basic auth user without administrator permissions. Migration needs a Jira administrator to run successfully. Please edit configuration with an administrator's credentials and try again.
-          bearer: Jira configuration uses a user Personal Access Token. Migration needs an admin Personal Access Token to run successfully. Please edit configuration with an admin token and try again.
         project_identifier_taken: 您尝试导入的项目所使用的标识符 %{taken_identifier} 已经用过。请在 Jira 中更新项目标识符，然后点击“重试”。
         remove_error: 无法移除正在运行的 Jira 导入运行
         side_panel:
@@ -1809,17 +1851,22 @@ zh-CN:
                 other: "%{count} 个项目被选作范围"
               description: 在从主机 Jira 实例获取的可用数据中选择要导入的数据。
               elements:
+                configuration_mapping: Configuration & Mapping options
                 custom_fields: 自定义字段的子集
                 issue_details: Issue identifiers, description, history, comments and attachments
                 issues: 问题
                 logged_time: Logged time
                 permissions: 权限
+                plugin_migration: Plug-in migration
                 project_details: Project identifiers, description and versions
+                project_specific_custom_fields: Project-specific custom fields
                 projects: 项目
                 relations: 问题之间的关系
                 schemes: 方案
+                security_level: Security Level
                 sprints: Sprints and sprint assignments
                 users: 参与的用户和组
+                workflow_migration: Workflow migration
                 workflows: 项目级工作流
               label_coming_later: 稍后推出
               label_coming_soon: 临近
@@ -1878,19 +1925,9 @@ zh-CN:
               rest_line_text: Creating parent-child relations from subtasks for %{projects_number} more projects
               title: Create parent-child relations from subtasks
       test:
-        api_error: Jira API returned error status %{status}. Please check your Jira instance URL and credentials.
         basic_auth_password_invalid: Invalid basic auth password. Please check your credentials in the configuration.
         basic_auth_username_invalid: Invalid basic auth username. Please check your credentials in the configuration.
-        connection_error: 连接错误：%{message}
-        error: 测试连接时发生意外错误
-        failed: 连接失败：无法检索服务器信息
-        invalid_url: 请提供有效的 URL
-        not_administrator:
-          basic: Basic auth user must be a Jira administrator.
-          bearer: Personal Access Token must be an admin token.
-        parse_error: 服务器响应解析失败。服务器可能不是有效的 Jira 实例。
         personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
-        success: 成功连接到 %{server}（版本 %{version}）
       title: Jira Migrator
       user:
         unknown_name: 未知
@@ -2292,6 +2329,8 @@ zh-CN:
     quarantined_message: 在文件 "%{filename}"中检测到病毒。该文件已被隔离，无法下载。
   api_v3:
     attributes:
+      category:
+        deprecated: 'Deprecated: this single-valued field is being replaced by `categories`. Read and write `categories` instead. While multiple categories is not enabled, `categories` accepts at most one value and must not be written together with `category` in the same request.'
       property: 属性
       version:
         deprecated: 已弃用：此单值字段将被 `targetVersions` 取代。请改为读写 `targetVersions`。虽然未启用多版本，但 `targetVersions` 最多接受一个值，并且不得在同一请求中与 `version` 一起写入。
@@ -2777,13 +2816,17 @@ zh-CN:
       notice:
         remember_items_and_projects: Remember to set values for this custom field, and to make sure it is used in at least one project.
       projects:
-        changes_heading: Important changes
-        changes_text: 'Starting version 18.0, custom fields are no longer enabled or disabled at a project level. They are included in forms, which are then used in different types and variants. The following list shows projects that use types or variants using forms including this custom field.
-
-          '
+        additional_values_disabled_notice: Project admins can no longer add values to this custom field. Existing project-specific values stay available.
+        additional_values_disabled_project_notice: Project admins can no longer add values to this custom field. However, existing project-specific values are still available and can be enabled or disabled.
         configure: Configure project-specific values for %{project}
+        delete_value_dialog:
+          description: This action will irreversibly remove the value from %{project}. Any assigned values will be permanently deleted.
+          heading: Delete project-specific value?
+          title: Delete project-specific value
         disable_all: 全部禁用
-        editing_values_notice: You are currently editing the list of values visible for this custom field in the project [%{project}](project_url).
+        edit_value: Edit value
+        editing_values_notice_html: You are editing the values of <strong>%{custom_field}</strong> in [%{project}](project_url).
+        editing_values_project_admins_notice: Project admins of this project can change these values too.
         empty_state:
           description: Add this custom field to the form of a type that is used in a project.
           title: No project uses this custom field
@@ -2796,10 +2839,25 @@ zh-CN:
         filter_no_results:
           description: Change the filters to see more projects.
           title: No projects match this filter
+        global_values_column: Global values
+        make_available_to_all_projects: Make available to all projects
+        make_available_to_all_projects_confirm: Make “%{value}” available to all projects?
+        new_value: Value
+        project_admins_manage_notice: Project admins can manage the values of this custom field in their projects. You can review and adjust any project below.
+        project_specific_values_column: Project-specific values
         quick_filter:
           all: 所有项目
           with_project_specific_values: With project-specific values
         types_column: Displayed in type
+        value_actions: Value actions
+        value_dialog:
+          edit_title: Edit value
+          name: Name
+          name_caption: Only available in %{project}.
+          parent: Add to parent
+          title: Add project-specific value
+          title_with_parent: Add project-specific value to “%{parent}”
+          top_level: Top level
         values_empty_state:
           description: Add values to this custom field to choose which of them are available in this project.
           title: This custom field has no values yet
@@ -2887,6 +2945,10 @@ zh-CN:
       label_with_project: 'Project-specific: %{project}'
       project_admins:
         additional_values_caption: Added values are only available in the project they were created in. You can make them available to all projects later.
+        remaining_values_count:
+          other: "%{count} project-specific values"
+        remaining_values_warning:
+          other: "%{count} projects already have %{values}. They remain available in those projects but project admins can no longer add new ones unless ‘%{setting}’ is checked."
         value_management_caption: Project admins can enable or disable certain values for their project. All global values will be visible to them.
       switch_warning:
         all: All values will be available in all projects.
@@ -3600,7 +3662,7 @@ zh-CN:
           caption: Use an existing form for this type with a pre-defined set of attribute groups.
           label: Use an existing form
         new:
-          caption: Arrange the attribute groups of a new form for this type.
+          caption: Manually define a new set of sections and fields to display for this variant.
           label: Configure a new form
   forums:
     index:
@@ -5683,6 +5745,10 @@ zh-CN:
   permission_manage_user: 编辑用户
   permission_manage_versions: 管理版本
   permission_manage_wiki: 管理维基
+  permission_manage_work_package_custom_field_values: Manage work package custom field values
+  permission_manage_work_package_custom_field_values_explanation: 'Select which values of work package custom fields are available in the project and, if the custom field allows it, add values that are only available to that project.
+
+    '
   permission_manage_work_package_relations: 管理工作包的关系
   permission_manage_working_times: 管理所有用户的工作时间
   permission_manage_working_times_explanation: '允许用户管理所有用户的工作时间，包括个人非工作日。
@@ -5877,7 +5943,7 @@ zh-CN:
     phase_status:
       description:
         completed: Marking a phase as complete will complete all previous phases.
-        in_progress: Marking a phase as complete will complete all previous phases.
+        in_progress: Marking a phase as in progress will complete all previous phases and open all future phases.
         open: Re-opening a phase will also open all future phases.
       title:
         completed: 已完成
@@ -6016,7 +6082,12 @@ zh-CN:
         project_specific_variant: 项目特定变体
         remove_from_project: 从项目中移除
         switch:
-          apply: 应用
+          confirm_description: Switching to %{type} hides the fields it does not include. Their values are kept, but will no longer be visible.
+          confirm_submit: Switch
+          confirm_title: Switch type variant?
+          confirmation: I understand that fields the new variant does not include will be hidden, along with their values
+          identical:
+            other: The selected projects already use this type or variant.
           impact:
             hidden_description: The variant you have selected does not include these fields. Any values these fields previously had will no longer be visible.
             hidden_heading: Fields that will be removed
@@ -6032,8 +6103,14 @@ zh-CN:
               other: "%{count} 个工作包具有值"
             work_packages:
               other: "%{count} 个工作包将使用新配置"
-          success: 项目现在使用 %{type}。
-          target_label: 变体
+          invalid_target:
+            other: Choose a type or variant every selected project can use.
+          listed_projects:
+            other: 'The following projects will switch:'
+          submit: Apply
+          success:
+            other: The selected projects now use %{type}.
+          target_label: New type or variant
           title: "%{type}：切换变体"
         type_not_found: 找不到所选类型。
         use_in_project: 在此项目中使用
@@ -7102,8 +7179,8 @@ zh-CN:
           type: These are the fields project members see when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
           variant: These are the fields project members see when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
         new:
-          type: These are the fields project members see when creating or editing a work package of this type. Arrange and group them in any order you like.
-          variant: These are the fields project members see when creating or editing a work package of this variant. Arrange and group them in any order you like.
+          type: These are the fields that a project member sees when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
+          variant: These are the fields that a project member sees when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
       pdf: Choose which PDF templates are available when generating the PDF of work packages that use these settings. Each template defines the layout and which attributes appear in the PDF. The first template in the list is the default.
       project_attributes: Choose which project attributes appear in work packages. Project members with permission can view and edit them in the work package's Project attributes tab.
       projects:
@@ -7340,12 +7417,20 @@ zh-CN:
       project_specific_variant_suffix: "(Project-specific variant)"
       projects:
         actions:
-          confirm_remove: 是否从 %{project} 中移除类型“%{type}”？
-          remove_from_project: 从项目中移除
+          remove_from_project: Remove type from this project
+          remove_from_projects: Remove type from these projects
           switch_variant: 切换变体
         add_dialog:
           no_projects_selected: 请至少选择一个项目。
           search_placeholder: 搜索项目
+        bulk_remove:
+          confirmation:
+            other: I understand that this type will no longer be available in the selected projects
+          description:
+            other: This type will no longer be available in the following projects. Projects that still have work packages of this type keep it.
+          submit: Remove
+          title:
+            other: Remove type '%{type}' from these projects?
         disable_all: 对所有项目禁用
         empty_state:
           description: 添加一个项目以在其中使用此配置。

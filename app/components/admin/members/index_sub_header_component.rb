@@ -44,13 +44,10 @@ module Admin
 
       def filter_input_id = "admin-members-filter-name"
 
-      def sub_header_data_attributes
-        {
-          controller: "filter--filters-form",
-          "filter--filters-form-output-format-value": "json",
-          "filter--filters-form-turbo-frame-request-value": IndexComponent::FRAME_ID,
-          "filter--filters-form-clear-button-id-value": clear_button_id
-        }
+      def turbo_frame_request = IndexComponent::FRAME_ID
+
+      def serialized_filters
+        OpPrimer::QuickFilter.serialize(query.filters).to_json
       end
 
       # turbo_permanent carries the live input across the frame render this component is part

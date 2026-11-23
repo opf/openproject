@@ -542,7 +542,7 @@ da:
         ancestor: Underordnet af
         begin_deletion: Start på sletning
         begin_insertion: Start på indsættelse
-        categories: Categories
+        categories: Kategorier
         children: Underelementer
         derived_done_ratio: Samlet % færdigt
         derived_remaining_hours: Samlet resterende arbejde
@@ -735,6 +735,7 @@ da:
             required:
               cannot_be_true: kan ikke slås til.
             value:
+              parent_only_in_project: kan ikke gøres tilgængelig for alle projekter, fordi dens overordnede værdi kun er tilgængelig i dette projekt.
               required_by_project_values: kan ikke slås fra, fordi projektet har tilføjet værdier under den.
           previous_custom_field_recalculation_unprocessed: Genberegningen af tidligere ændringer i dette brugerdefinerede felt er endnu ikke anvendt. Prøv igen om et par minutter.
           referenced_in_other_fields_html:
@@ -807,8 +808,6 @@ da:
             name:
               blank: er påkrævet. Vælg et navn.
               not_unique: er allerede i brug. Vælg et andet navn.
-        jira:
-          invalid_protocol: Angiv en gyldig protokol (http eller https)
         label:
           attributes:
             name:
@@ -872,8 +871,8 @@ da:
               cannot_assign_multiple_variants_of_parent: Der kan kun aktiveres én variant af en type i projektet
               cannot_assign_variant_and_parent: 'En variant og dens overordnede type kan ikke tildeles samtidig '
               in_use_by_work_packages: 'bruges stadig af arbejdspakker: %{types}'
-              switch_target_blank: Vælg den variant, der skal skiftes til
-              switch_target_identical: Måltypen skal være en anden end den type, projektet bruger nu
+              switch_target_blank: Vælg en type eller variant, som projektet kan bruge.
+              switch_target_identical: Projektet bruger allerede denne type eller variant.
               switch_target_not_in_family: Der kan kun skiftes til en anden type i samme familie
           cannot_be_assigned_to_artefact_work_package: Den valgte bruger må ikke få tildelt arbejdspakker.
           foreign_wps_reference_version: Arbejdspakker i ikke-efterkommerprojekter refererer til versioner af projektet eller dets efterkommere.
@@ -1123,8 +1122,8 @@ da:
               error_readonly: kan ikke angives, fordi du ikke har tilladelse til at tildele versioner i dette projekt.
             type:
               cannot_be_milestone_due_to_children: kan ikke være en milepæl, fordi arbejdspakken har underordnede.
-          categories_only_allow_single_value: Categories can only hold a single value.
-          category_and_categories_mutually_exclusive: Category and categories cannot be set to different values at the same time.
+          categories_only_allow_single_value: Kategorier kan kun indeholde én værdi.
+          category_and_categories_mutually_exclusive: Kategori og kategorier kan ikke sættes til forskellige værdier på samme tid.
           is_not_a_valid_target_for_time_entries: 'Arbejdspakke # %{id} er ikke et gyldig mål for tildeling af tider.'
           readonly_status: Arbejdspakken har en skrivebeskyttet status, så dens attributter kan ikke ændres.
           target_versions_only_allow_single_value: Målversioner kan kun indeholde én værdi.
@@ -1465,7 +1464,6 @@ da:
           description: Din kommentar bliver synlig for alle, der har adgang til arbejdspakken. Er du sikker på, at du vil gøre det?
           heading: Vil du gøre kommentaren offentlig?
           title: Vil du gøre kommentaren offentlig?
-        internal_journal: Interne kommentarer er synlige for en begrænset gruppe medlemmer.
         label_activity_hide_meetings: Skjul opdateringer fra møder
         label_activity_show_all: Vis alt
         label_activity_show_only_changes: Vis kun ændringer
@@ -1646,7 +1644,7 @@ da:
         contribution_callout: 'Hjælp os med at forbedre Jira-migreringen med din feedback og ved at donere private data. Du kan [blive en del af udviklingsfællesskabet](link) bag Jira-migreringen.
 
           '
-        description: Jira-migreringen er i beta. Vi understøtter i øjeblikket kun Jira Server/Data Center version 10.x og 11.x. Cloud-installationer understøttes ikke endnu.
+        description: Jira-migreringen er i beta. Vi understøtter Jira Server/Data Center version 8.x, 9.x, 10.x og 11.x. Jira 8 kræver basic auth. Cloud-installationer understøttes ikke endnu.
         title: Beta – prøv det!
       basic_auth_password_deleted: Adgangskoden til basic auth er slettet.
       blank:
@@ -1660,7 +1658,6 @@ da:
         connection_timeout: 'Tidsgrænsen for forbindelsen til Jira-serveren blev overskredet: %{message}'
         parse_error: 'Svaret fra Jiras API kunne ikke fortolkes: %{message}'
         ssl_error: 'SSL-fejl ved forbindelse til Jira-serveren: %{message}'
-        ssrf_block_doc_link: Se vores [dokumentation](docs_url).
         ssrf_blocked: 'Forbindelsen er blokeret: Jira-værten peger på en privat IP-adresse. Hvis din Jira-installation kører på et internt netværk, kan du tillade dens IP-adresse med miljøvariablen OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
         unsupported_endpoint: Jiras API har intet slutpunkt på %{path} (status %{status})
       columns:
@@ -1673,6 +1670,53 @@ da:
       configuration:
         new: Ny konfiguration
         title: Jira-konfiguration
+      connection_check:
+        authorization:
+          administrator: Jira-administrator
+          credentials_accepted: Legitimationsoplysningerne er godkendt
+          header: Autorisation
+        configuration:
+          credentials_present: Legitimationsoplysninger
+          header: Konfiguration
+          url_valid: Jira-URL
+        dialog:
+          button_continue: Fortsæt alligevel
+          button_fix: Ret konfigurationen
+          failure:
+            description_html: Konfigurationen er gemt, men tjekket <strong>%{check}</strong> mislykkedes. Du kan fortsætte, men det vil mislykkes at hente data, indtil fejlen er rettet.
+            title: Forbindelsestjekket mislykkedes
+          warning:
+            description_html: Konfigurationen er gemt, men tjekket <strong>%{check}</strong> gav en advarsel. Importen fungerer måske ikke som forventet. Fortsæt på eget ansvar.
+            title: Advarsel fra forbindelsestjekket
+        errors:
+          api_error: Jira svarede med HTTP-status %{status}. Kontrollér URL'en, og at Jira kører.
+          basic_auth_password_missing: Der er ikke angivet nogen adgangskode til basic auth.
+          basic_auth_required: Jira-migreringen kræver basic auth til Jira %{version}. Vælg basic auth, og angiv brugernavn og adgangskode for en Jira-administrator.
+          basic_auth_username_missing: Der er ikke angivet noget brugernavn til basic auth.
+          credentials_rejected: Jira afviste legitimationsoplysningerne. Kontrollér, at de er korrekte og ikke er udløbet.
+          invalid_response: Serveren på denne URL svarede ikke med JSON. Kontrollér URL'en.
+          invalid_url: Angiv en gyldig URL, der starter med http:// eller https://.
+          not_administrator: Jira-brugeren bag legitimationsoplysningerne er ikke Jira-administrator. Brug en Jira-administrators legitimationsoplysninger.
+          not_found: Serveren på denne URL har intet Jira-API. Kontrollér URL'en.
+          not_jira: Serveren på denne URL svarede ikke som Jira. Kontrollér URL'en.
+          personal_access_token_missing: Der er ikke angivet noget personligt adgangstoken.
+          ssl_error: Den sikre forbindelse til Jira mislykkedes. Kontrollér, at Jiras certifikat er gyldigt, og at OpenProject har tillid til det.
+          ssrf_blocked: Jira-værten peger på en privat IP-adresse, som OpenProject blokerer. Hvis Jira kører på et internt netværk, så føj dens IP-adresse til miljøvariablen OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST, og genstart OpenProject.
+          timeout: Jira svarede ikke i tide. Kontrollér URL'en, og at OpenProject kan nå Jira-serveren.
+          unexpected_error: Jira svarede på en måde, som OpenProject ikke forventede. Kontrollér, at URL'en peger på Jira.
+          unknown_version: OpenProject kunne ikke finde ud af, hvilken version af Jira der kører. Importen fungerer måske ikke som forventet. Fortsæt på eget ansvar.
+          unreachable: Jira kunne ikke nås. Kontrollér URL'en, og at OpenProject kan nå Jira-serveren.
+          unsupported_version: Jira %{version} er ikke en understøttet version. Importen fungerer måske ikke som forventet. Fortsæt på eget ansvar.
+        form_values_checked: Værdierne i formularen er tjekket. De er endnu ikke gemt.
+        last_check: 'Seneste tjek: %{datetime}'
+        not_checked: Endnu ikke tjekket.
+        server:
+          auth_method_supported: Godkendelsesmetode
+          header: Jira-server
+          reachable: Serveren kan nås
+          responds_as_jira: Svarer som Jira
+          version_supported: Understøttet version
+        title: Forbindelsestjek
       description: Brug dette værktøj til at importere data fra din Jira-installation. Du kan konfigurere flere Jira-værter og vælge, hvad der skal importeres i hver importkørsel.
       errors:
         cannot_delete_with_imports: En Jira-vært med eksisterende importer kan ikke slettes
@@ -1717,6 +1761,7 @@ da:
         blank:
           description: Opret en importkørsel for at begynde at importere oplysninger fra denne Jira-installation
           title: Der er endnu ikke oprettet nogen importkørsler
+        connection_check_error: Forbindelsestjekket mislykkedes, så der blev ikke hentet nogen data. Ret de mislykkede tjek i sidepanelet, og prøv igen.
         history: Historik
         import_blocked_error: En anden importkørsel fra Jira er i gang eller venter på gennemsyn. Gør den færdig, eller tilbagefør den, før du starter en ny import.
         index:
@@ -1774,9 +1819,6 @@ da:
             title: Henter metadata om de valgte projekter
           JiraRevertImportJob:
             title: Tilbagefører denne importkørsel fra Jira
-        not_administrator_error:
-          basic: Jira-konfigurationen bruger en basic auth-bruger uden administratortilladelser. Migreringen kræver en Jira-administrator for at kunne gennemføres. Rediger konfigurationen med en administrators legitimationsoplysninger, og prøv igen.
-          bearer: Jira-konfigurationen bruger en almindelig brugers personlige adgangstoken. Migreringen kræver et personligt adgangstoken fra en administrator for at kunne gennemføres. Rediger konfigurationen med et administratortoken, og prøv igen.
         project_identifier_taken: 'Du forsøger at importere et projekt med et id, der allerede er i brug: %{taken_identifier}. Ret projektets id i Jira, og klik så på Prøv igen.'
         remove_error: En importkørsel fra Jira kan ikke fjernes, mens den kører
         side_panel:
@@ -1928,17 +1970,22 @@ da:
                 other: "%{count} projekter valgt som omfang"
               description: Vælg, hvilke af de data, der er hentet fra Jira-installationen, du vil importere.
               elements:
+                configuration_mapping: Konfiguration og tilknytning
                 custom_fields: Et udvalg af brugerdefinerede felter
                 issue_details: Id'er, beskrivelse, historik, kommentarer og vedhæftede filer for sager
                 issues: Sager
                 logged_time: Registreret tid
                 permissions: Tilladelser
+                plugin_migration: Migrering af plugins
                 project_details: Id'er, beskrivelse og versioner for projekter
+                project_specific_custom_fields: Projektspecifikke brugerdefinerede felter
                 projects: Projekter
                 relations: Relationer mellem sager
                 schemes: Skemaer
+                security_level: Sikkerhedsniveau
                 sprints: Sprints og tildelinger til sprints
                 users: Involverede brugere og grupper
+                workflow_migration: Migrering af arbejdsgange
                 workflows: Arbejdsgange på projektniveau
               label_coming_later: Kommer senere
               label_coming_soon: Kommer snart
@@ -1997,19 +2044,9 @@ da:
               rest_line_text: Opretter overordnet-underordnet-relationer ud fra underopgaver for %{projects_number} projekter mere
               title: Opret overordnet-underordnet-relationer ud fra underopgaver
       test:
-        api_error: Jiras API returnerede fejlstatus %{status}. Kontrollér URL'en til din Jira-installation og legitimationsoplysningerne.
         basic_auth_password_invalid: Ugyldig adgangskode til basic auth. Kontrollér legitimationsoplysningerne i konfigurationen.
         basic_auth_username_invalid: Ugyldigt brugernavn til basic auth. Kontrollér legitimationsoplysningerne i konfigurationen.
-        connection_error: 'Forbindelsesfejl: %{message}'
-        error: Der opstod en uventet fejl under test af forbindelsen
-        failed: 'Forbindelsen mislykkedes: Serveroplysningerne kunne ikke hentes'
-        invalid_url: Angiv en gyldig URL
-        not_administrator:
-          basic: Basic auth-brugeren skal være Jira-administrator.
-          bearer: Det personlige adgangstoken skal være et administratortoken.
-        parse_error: Svaret fra serveren kunne ikke fortolkes. Serveren er måske ikke en gyldig Jira-installation.
         personal_access_token_invalid: Ugyldigt personligt adgangstoken (PAT). Kontrollér legitimationsoplysningerne i konfigurationen.
-        success: Forbundet til %{server} (version %{version})
       title: Jira-migrering
       user:
         unknown_name: Ukendt
@@ -2415,6 +2452,8 @@ da:
     quarantined_message: Der blev fundet virus i filen '%{filename}'. Den er sat i karantæne og kan ikke hentes.
   api_v3:
     attributes:
+      category:
+        deprecated: 'Forældet: Dette felt med én værdi erstattes af `categories`. Læs og skriv `categories` i stedet. Så længe flere kategorier ikke er aktiveret, tager `categories` højst én værdi og må ikke skrives sammen med `category` i samme forespørgsel.'
       property: Egenskab
       version:
         deprecated: 'Forældet: Dette felt med én værdi erstattes af `targetVersions`. Læs og skriv `targetVersions` i stedet. Så længe flere versioner ikke er aktiveret, tager `targetVersions` højst én værdi og må ikke skrives sammen med `version` i samme forespørgsel.'
@@ -2902,13 +2941,17 @@ da:
       notice:
         remember_items_and_projects: Husk at angive værdier for det brugerdefinerede felt og at sørge for, at det bruges i mindst ét projekt.
       projects:
-        changes_heading: Vigtige ændringer
-        changes_text: 'Fra version 18.0 bliver brugerdefinerede felter ikke længere aktiveret eller deaktiveret på projektniveau. De indgår i formularer, som derefter bruges i forskellige typer og varianter. Listen nedenfor viser projekter, der bruger typer eller varianter med formularer, som indeholder dette brugerdefinerede felt.
-
-          '
+        additional_values_disabled_notice: Projektadministratorer kan ikke længere tilføje værdier til dette brugerdefinerede felt. Eksisterende projektspecifikke værdier er stadig tilgængelige.
+        additional_values_disabled_project_notice: Projektadministratorer kan ikke længere tilføje værdier til dette brugerdefinerede felt. Eksisterende projektspecifikke værdier er dog stadig tilgængelige og kan slås til eller fra.
         configure: Konfigurer projektspecifikke værdier for %{project}
+        delete_value_dialog:
+          description: Handlingen fjerner værdien fra %{project}, og det kan ikke fortrydes. Alle tildelte værdier slettes permanent.
+          heading: Vil du slette den projektspecifikke værdi?
+          title: Slet projektspecifik værdi
         disable_all: Deaktiver alle
-        editing_values_notice: Du redigerer listen over værdier, der er synlige for dette brugerdefinerede felt i projektet [%{project}](project_url).
+        edit_value: Rediger værdi
+        editing_values_notice_html: Du redigerer værdierne i <strong>%{custom_field}</strong> i [%{project}](project_url).
+        editing_values_project_admins_notice: Projektadministratorer i dette projekt kan også ændre værdierne.
         empty_state:
           description: Føj dette brugerdefinerede felt til formularen for en type, der bruges i et projekt.
           title: Intet projekt bruger dette brugerdefinerede felt
@@ -2921,10 +2964,25 @@ da:
         filter_no_results:
           description: Skift filtrene for at se flere projekter.
           title: Ingen projekter matcher filteret
+        global_values_column: Globale værdier
+        make_available_to_all_projects: Gør tilgængelig for alle projekter
+        make_available_to_all_projects_confirm: Vil du gøre »%{value}« tilgængelig for alle projekter?
+        new_value: Værdi
+        project_admins_manage_notice: Projektadministratorer kan administrere værdierne i dette brugerdefinerede felt i deres projekter. Du kan gennemgå og justere ethvert projekt nedenfor.
+        project_specific_values_column: Projektspecifikke værdier
         quick_filter:
           all: Alle projekter
           with_project_specific_values: Med projektspecifikke værdier
         types_column: Vises i typen
+        value_actions: Handlinger for værdi
+        value_dialog:
+          edit_title: Rediger værdi
+          name: Navn
+          name_caption: Kun tilgængelig i %{project}.
+          parent: Tilføj til overordnet
+          title: Tilføj projektspecifik værdi
+          title_with_parent: Tilføj projektspecifik værdi til »%{parent}«
+          top_level: Øverste niveau
         values_empty_state:
           description: Tilføj værdier til dette brugerdefinerede felt for at vælge, hvilke af dem der er tilgængelige i dette projekt.
           title: Dette brugerdefinerede felt har endnu ingen værdier
@@ -3012,6 +3070,12 @@ da:
       label_with_project: 'Projektspecifik: %{project}'
       project_admins:
         additional_values_caption: Tilføjede værdier er kun tilgængelige i det projekt, de er oprettet i. Du kan senere gøre dem tilgængelige for alle projekter.
+        remaining_values_count:
+          one: 1 projektspecifik værdi
+          other: "%{count} projektspecifikke værdier"
+        remaining_values_warning:
+          one: 1 projekt har allerede %{values}. De er stadig tilgængelige i projektet, men projektadministratorer kan ikke tilføje nye, medmindre »%{setting}« er markeret.
+          other: "%{count} projekter har allerede %{values}. De er stadig tilgængelige i projekterne, men projektadministratorer kan ikke tilføje nye, medmindre »%{setting}« er markeret."
         value_management_caption: Projektadministratorer kan slå bestemte værdier til eller fra for deres projekt. De kan se alle globale værdier.
       switch_warning:
         all: Alle værdier bliver tilgængelige i alle projekter.
@@ -3753,7 +3817,7 @@ da:
           caption: Brug en eksisterende formular til typen med et foruddefineret sæt attributgrupper.
           label: Brug en eksisterende formular
         new:
-          caption: Sæt attributgrupperne sammen i en ny formular til typen.
+          caption: Angiv manuelt et nyt sæt afsnit og felter, der skal vises for denne variant.
           label: Konfigurer en ny formular
   forums:
     index:
@@ -5856,6 +5920,10 @@ da:
   permission_manage_user: Rediger brugere
   permission_manage_versions: Administrer versioner
   permission_manage_wiki: Administrer wiki
+  permission_manage_work_package_custom_field_values: Administrer værdier i brugerdefinerede felter til arbejdspakker
+  permission_manage_work_package_custom_field_values_explanation: 'Vælg, hvilke værdier i brugerdefinerede felter til arbejdspakker der er tilgængelige i projektet, og tilføj værdier, der kun er tilgængelige i projektet, hvis det brugerdefinerede felt tillader det.
+
+    '
   permission_manage_work_package_relations: Administrer relationer mellem arbejdspakker
   permission_manage_working_times: Administrer arbejdstid for alle brugere
   permission_manage_working_times_explanation: 'Giver brugerne mulighed for at administrere arbejdstiden for alle brugere, også personlige arbejdsfrie dage.
@@ -6051,7 +6119,7 @@ da:
     phase_status:
       description:
         completed: Når en fase markeres som afsluttet, afsluttes alle tidligere faser.
-        in_progress: Når en fase markeres som afsluttet, afsluttes alle tidligere faser.
+        in_progress: Når en fase markeres som i gang, afsluttes alle tidligere faser, og alle senere faser åbnes.
         open: Når en fase genåbnes, åbnes alle senere faser også.
       title:
         completed: Afsluttet
@@ -6190,7 +6258,13 @@ da:
         project_specific_variant: Projektspecifik variant
         remove_from_project: Fjern fra projekt
         switch:
-          apply: Anvend
+          confirm_description: Når der skiftes til %{type}, skjules de felter, som den ikke indeholder. Deres værdier bevares, men vises ikke længere.
+          confirm_submit: Skift
+          confirm_title: Vil du skifte typevariant?
+          confirmation: Jeg forstår, at felter, som den nye variant ikke indeholder, skjules sammen med deres værdier
+          identical:
+            one: Projektet bruger allerede denne type eller variant.
+            other: De valgte projekter bruger allerede denne type eller variant.
           impact:
             hidden_description: Den valgte variant indeholder ikke disse felter. Eventuelle værdier, som felterne havde, vises ikke længere.
             hidden_heading: Felter, der fjernes
@@ -6209,8 +6283,17 @@ da:
             work_packages:
               one: "%{count} arbejdspakke kommer til at bruge den nye konfiguration"
               other: "%{count} arbejdspakker kommer til at bruge den nye konfiguration"
-          success: Projektet bruger nu %{type}.
-          target_label: Variant
+          invalid_target:
+            one: Vælg en type eller variant, som projektet kan bruge.
+            other: Vælg en type eller variant, som alle de valgte projekter kan bruge.
+          listed_projects:
+            one: 'Følgende projekt skifter:'
+            other: 'Følgende projekter skifter:'
+          submit: Anvend
+          success:
+            one: Projektet bruger nu %{type}.
+            other: De valgte projekter bruger nu %{type}.
+          target_label: Ny type eller variant
           title: "%{type}: Skift variant"
         type_not_found: Den valgte type blev ikke fundet.
         use_in_project: Brug i dette projekt
@@ -7293,8 +7376,8 @@ da:
           type: Det er de felter, som projektets medlemmer ser, når de opretter eller redigerer en arbejdspakke af denne type. Du kan deaktivere felter, som du vil skjule.
           variant: Det er de felter, som projektets medlemmer ser, når de opretter eller redigerer en arbejdspakke af denne variant. Du kan deaktivere felter, som du vil skjule.
         new:
-          type: Det er de felter, som projektets medlemmer ser, når de opretter eller redigerer en arbejdspakke af denne type. Du bestemmer selv rækkefølgen og grupperingen.
-          variant: Det er de felter, som projektets medlemmer ser, når de opretter eller redigerer en arbejdspakke af denne variant. Du bestemmer selv rækkefølgen og grupperingen.
+          type: Det er de felter, som et projektmedlem ser, når det opretter eller redigerer en arbejdspakke af denne type. Du kan slå felter fra, som du vil skjule.
+          variant: Det er de felter, som et projektmedlem ser, når det opretter eller redigerer en arbejdspakke af denne variant. Du kan slå felter fra, som du vil skjule.
       pdf: Vælg, hvilke PDF-skabeloner der er tilgængelige, når der dannes PDF'er af arbejdspakker, der bruger disse indstillinger. Hver skabelon bestemmer layoutet, og hvilke attributter der står i PDF'en. Den første skabelon på listen er standard.
       project_attributes: Vælg, hvilke projektattributter der vises i arbejdspakker. Projektmedlemmer med tilladelse kan se og redigere dem på arbejdspakkens fane Projektattributter.
       projects:
@@ -7532,12 +7615,23 @@ da:
       project_specific_variant_suffix: "(Projektspecifik variant)"
       projects:
         actions:
-          confirm_remove: Vil du fjerne typen %{type} fra %{project}?
-          remove_from_project: Fjern fra projekt
+          remove_from_project: Fjern typen fra dette projekt
+          remove_from_projects: Fjern typen fra disse projekter
           switch_variant: Skift variant
         add_dialog:
           no_projects_selected: Vælg mindst ét projekt.
           search_placeholder: Søg efter projekter
+        bulk_remove:
+          confirmation:
+            one: Jeg forstår, at typen ikke længere er tilgængelig i dette projekt
+            other: Jeg forstår, at typen ikke længere er tilgængelig i de valgte projekter
+          description:
+            one: Typen er ikke længere tilgængelig i følgende projekt, medmindre det stadig har arbejdspakker af denne type.
+            other: Typen er ikke længere tilgængelig i følgende projekter. Projekter, der stadig har arbejdspakker af denne type, beholder den.
+          submit: Fjern
+          title:
+            one: Vil du fjerne typen '%{type}' fra dette projekt?
+            other: Vil du fjerne typen '%{type}' fra disse projekter?
         disable_all: Deaktiver for alle projekter
         empty_state:
           description: Tilføj et projekt for at bruge konfigurationen dér.

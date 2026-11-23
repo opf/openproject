@@ -525,8 +525,10 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
             .to receive(:in_state?).with(:import_aborting).and_return(true)
         end
 
-        it "stops iterating and reports the abortion" do
+        it "reports the abortion and still updates the project work package sequence counter" do
           expect { create_work_packages }.to raise_error(Import::ProgressableJob::AbortionError)
+
+          expect(Project.find_by!(identifier: jira_project_key).wp_sequence_counter).to eq(6)
         end
       end
 
@@ -551,6 +553,43 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
           expect(Rails.logger).to have_received(:warn).with(
             /Import::JiraUser with jira_user_key JIRAUSER10000 not found! Using DeletedUser instead\./
           ).at_least(:once)
+        end
+
+        it "adds no project member for the deleted user" do
+          create_work_packages
+
+          expect(Project.find_by!(identifier: jira_project_key).users).to be_empty
+        end
+      end
+
+      context "when jira provides no author for a comment" do
+        let(:jira_issue_payload) do
+          super().tap { |payload| payload["fields"]["comment"]["comments"].first.delete("author") }
+        end
+
+        it "attributes the comment to the system user" do
+          create_work_packages
+
+          journal = WorkPackage.find("DPPP-6").journals.find_by(notes: "Demo comment 1\n\n")
+          expect(journal.user).to eq(User.system)
+        end
+
+        it "adds no project member for the comment" do
+          create_work_packages
+
+          expect(Project.find_by!(identifier: jira_project_key).users).to contain_exactly(op_user)
+        end
+      end
+
+      context "when jira provides no author for an attachment" do
+        let(:jira_issue_payload) do
+          super().tap { |payload| payload["fields"]["attachment"].sole.delete("author") }
+        end
+
+        it "attributes the attachment to the system user" do
+          create_work_packages
+
+          expect(WorkPackage.find("DPPP-6").attachments.sole.author).to eq(User.system)
         end
       end
 

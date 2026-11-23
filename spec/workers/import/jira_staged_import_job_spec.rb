@@ -396,6 +396,15 @@ RSpec.describe Import::JiraStagedImportJob, with_good_job_batches: [Import::Jira
 
         expect(jira_import.reload.current_state).to eq("imported")
       end
+
+      it "logs how long the import took" do
+        started_at = jira_import.state_machine.last_transition_to(:importing).created_at
+        allow(Rails.logger).to receive(:info).and_call_original
+
+        travel_to(started_at + 1.hour + 5.seconds, with_usec: true) { run_callback }
+
+        expect(Rails.logger).to have_received(:info).with("Import finished in 1 hour and 5 seconds")
+      end
     end
   end
 
@@ -411,6 +420,16 @@ RSpec.describe Import::JiraStagedImportJob, with_good_job_batches: [Import::Jira
       run_callback
 
       expect(jira_import.reload.current_state).to eq("import_error")
+    end
+
+    it "logs the failed stage and how long the import ran" do
+      started_at = jira_import.state_machine.last_transition_to(:importing).created_at
+      allow(Rails.logger).to receive(:error).and_call_original
+
+      travel_to(started_at + 25.minutes + 3.seconds, with_usec: true) { run_callback }
+
+      expect(Rails.logger).to have_received(:error)
+        .with("Import failed in stage 3 after 25 minutes and 3 seconds, one or more jobs failed")
     end
   end
 end
