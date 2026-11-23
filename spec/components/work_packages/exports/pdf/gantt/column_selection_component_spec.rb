@@ -48,7 +48,7 @@ RSpec.describe WorkPackages::Exports::PDF::Gantt::ColumnSelectionComponent, type
     end
 
     it "restores them in the saved order, capped at the maximum" do
-      expect(ids(component.selected_columns)).to eq(%w[due_date subject type status priority])
+      expect(ids(component.selected_columns)).to eq(%w[due_date subject type status priority start_date])
     end
   end
 
@@ -67,13 +67,13 @@ RSpec.describe WorkPackages::Exports::PDF::Gantt::ColumnSelectionComponent, type
     expect(ids(component.available_columns)).to include("subject", "start_date")
   end
 
-  it "renders an optional picker limited to the maximum column count" do
+  it "renders a required picker limited to the maximum column count" do
     render_inline(component)
 
     picker = page.find("opce-draggable-autocompleter", visible: :all)
 
-    expect(picker["data-max-items"]).to eq("5")
-    expect(picker["data-required"]).to eq("false")
+    expect(picker["data-max-items"]).to eq("6")
+    expect(picker["data-required"]).to eq("true")
     expect(picker["data-name"]).to eq('"columns"')
   end
 end

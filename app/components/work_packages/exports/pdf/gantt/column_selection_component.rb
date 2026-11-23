@@ -39,7 +39,6 @@ module WorkPackages
               I18n.t("export.dialog.columns.input_caption_gantt",
                      count: ::Exports::PDF::Components::Gantt::TextColumns::MAX_COLUMNS),
               I18n.t("export.dialog.columns.input_label_gantt"),
-              required: false,
               max_columns: ::Exports::PDF::Components::Gantt::TextColumns::MAX_COLUMNS
             )
           end
