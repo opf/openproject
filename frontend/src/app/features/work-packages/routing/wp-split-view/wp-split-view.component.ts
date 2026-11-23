@@ -80,7 +80,7 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
   @HostListener('document:turbo:render')
   restoreTitle():void {
     if (this.workPackage && this.elementRef.nativeElement.isConnected) {
-      this.applyTitle(true);
+      this.applyTitle();
     }
   }
 

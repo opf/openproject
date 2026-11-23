@@ -101,6 +101,7 @@ RSpec.describe "Notification center uses displayId when navigating to the work p
 
     center.click_item(notification)
     split_screen.expect_open
+    wait_for_network_idle
 
     html_title.expect_first_segment work_package.to_fs(:caption)
   end
