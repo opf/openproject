@@ -33,6 +33,7 @@ import { KeyboardAwareScrollExtension } from './keyboard-aware-scroll';
 const KEYBOARD_HEIGHT = 300;
 const LINE_HEIGHT = 24;
 const PARAGRAPHS = 80;
+const TOOLBAR_HEIGHT = 60;
 
 // A keyboard cannot be summoned in a test; all it does is shrink the visual viewport.
 class StandInViewport extends EventTarget {
@@ -49,6 +50,15 @@ class StandInViewport extends EventTarget {
 }
 
 const keyboardTop = () => window.innerHeight - KEYBOARD_HEIGHT;
+const toolbarTop = () => keyboardTop() - TOOLBAR_HEIGHT;
+
+function dockToolbarOnKeyboard():HTMLElement {
+  const toolbar = document.createElement('div');
+  toolbar.className = 'bn-mobile-formatting-toolbar';
+  toolbar.setAttribute('style', `position: fixed; left: 0; right: 0; top: ${toolbarTop()}px; height: ${TOOLBAR_HEIGHT}px`);
+  document.body.appendChild(toolbar);
+  return toolbar;
+}
 
 function nextFrame():Promise<void> {
   return new Promise((resolve) => { requestAnimationFrame(() => resolve()); });
@@ -221,6 +231,39 @@ describe('KeyboardAwareScrollExtension', () => {
       await nextFrame();
 
       expect(scroller.scrollTop).toBe(0);
+    });
+  });
+
+  describe('with the mobile formatting toolbar docked on the keyboard', () => {
+    let toolbar:HTMLElement|undefined;
+
+    const placeCaretUnderToolbar = () => placeCaretBetween(toolbarTop(), keyboardTop());
+
+    afterEach(() => {
+      toolbar?.remove();
+      toolbar = undefined;
+    });
+
+    it('lifts a caret the reader types at above the toolbar', async () => {
+      mountEditor();
+      raiseKeyboard();
+      toolbar = dockToolbarOnKeyboard();
+      placeCaretUnderToolbar();
+
+      await userEvent.keyboard('x');
+
+      expect(caretBottom()).toBeLessThanOrEqual(toolbarTop());
+    });
+
+    it('keeps a caret the keyboard covers above the toolbar that follows it', async () => {
+      mountEditor();
+      placeCaretUnderKeyboard();
+
+      raiseKeyboard();
+      toolbar = dockToolbarOnKeyboard();
+      await nextFrame();
+
+      expect(caretBottom()).toBeLessThanOrEqual(toolbarTop());
     });
   });
 

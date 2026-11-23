@@ -44,6 +44,13 @@ function keyboardTop():number {
   return Math.min(viewport.height, window.innerHeight);
 }
 
+function visibleBottom(keyboardEdge:number):number {
+  if (keyboardEdge >= window.innerHeight) return keyboardEdge;
+
+  const toolbar = document.querySelector('.bn-mobile-formatting-toolbar');
+  return keyboardEdge - (toolbar?.getBoundingClientRect().height ?? 0);
+}
+
 function parentOf(element:Element):Element|null {
   if (element.parentElement) return element.parentElement;
 
@@ -68,7 +75,7 @@ function liftAboveKeyboard(view:EditorView):void {
   const keyboardEdge = keyboardTop();
   if (keyboardEdge >= window.innerHeight) return;
 
-  const limit = keyboardEdge - SCROLL_MARGIN;
+  const limit = visibleBottom(keyboardEdge) - SCROLL_MARGIN;
   let { top, bottom } = caretRect(view);
 
   for (const container of scrollContainersAround(view.dom)) {
@@ -88,18 +95,26 @@ function liftAboveKeyboard(view:EditorView):void {
 function followKeyboard(view:EditorView) {
   const viewport = window.visualViewport;
   let lastKeyboardTop = keyboardTop();
+  let pendingLift = 0;
 
   // Only a caret the keyboard just covered; one the reader scrolled away from stays put.
+  // The lift waits a frame for the mobile formatting toolbar, which mounts after the resize.
   const onResize = ():void => {
     const previous = lastKeyboardTop;
     lastKeyboardTop = keyboardTop();
-    if (lastKeyboardTop < previous && view.hasFocus() && caretRect(view).bottom <= previous) liftAboveKeyboard(view);
+    if (lastKeyboardTop < previous && view.hasFocus() && caretRect(view).bottom <= visibleBottom(previous)) {
+      cancelAnimationFrame(pendingLift);
+      pendingLift = requestAnimationFrame(() => liftAboveKeyboard(view));
+    }
   };
 
   viewport?.addEventListener('resize', onResize);
 
   return {
-    destroy: () => viewport?.removeEventListener('resize', onResize),
+    destroy: () => {
+      cancelAnimationFrame(pendingLift);
+      viewport?.removeEventListener('resize', onResize);
+    },
   };
 }
 
