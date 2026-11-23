@@ -31,8 +31,8 @@ module FormConfigurations
   module EditorRecords
     private
 
-    def reconcile_editor_records
-      ::WorkPackageTypes::FormConfiguration::ReconcileEditorRecordsService.new(@form_configuration).call
+    def reconcile_editor_records(form = @form_configuration)
+      ::WorkPackageTypes::FormConfiguration::ReconcileEditorRecordsService.new(form).call
     end
   end
 end

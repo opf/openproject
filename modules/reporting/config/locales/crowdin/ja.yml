@@ -43,6 +43,7 @@ ja:
       end_time: 終了時間
       start_time: 開始時間
       title: あなたのコストレポートXLSのエクスポート
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: PDFタイムシートをエクスポート
       overview_per_user_day: 概要:日ごとのユーザー当たりの合計時間
@@ -51,6 +52,10 @@ ja:
       time: 時間
       timesheet: タイムシート
       title: PDFタイムシートのエクスポート
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: アクセス権に応じて、このページでは情報を制限されている場合があります。
   label_click_to_edit: クリックして編集
   label_closed: 完了
@@ -111,5 +116,3 @@ ja:
   text_costs_are_rounded_note: 表示されている数字は四捨五入されています。すべての計算は四捨五入前の値に基づいています。
   toggle_multiselect: 複数選択を有効/無効にする
   units: 単位
-  validation_failure_date: は有効な日付ではありません。
-  validation_failure_integer: は有効な整数ではありません。

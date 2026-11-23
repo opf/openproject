@@ -6,19 +6,23 @@ import { useColors } from '../../services/colors';
 import { useWorkPackage } from '../../hooks/useWorkPackage';
 import { cachedWorkPackageSchema } from '../../services/workPackageLoader';
 import { formatWorkPackageId } from '../../utils/id';
-import { Modal } from '../Shared/modal';
+import { Modal, ModalBody } from '../Shared/modal';
 import { Button } from '../Shared/Button';
 import { AllowedValuesSelect } from '../Shared/AllowedValuesSelect';
 import {
-  Body,
-  BodyContent,
   FieldHint,
   FieldLabel,
   FieldRow,
   Footer,
   RequiredMark,
 } from '../Shared/atoms';
-import { findAttribute, formatAttributeValue, listAttributes, type WorkPackageAttribute } from './attributes';
+import {
+  findAttribute,
+  formatAttributeValue,
+  listAttributes,
+  sortByLabel,
+  type WorkPackageAttribute,
+} from './attributes';
 import type { AttributeNodeKind } from './externalHtml';
 import { ATTRIBUTE_DISPLAYS, DEFAULT_ATTRIBUTE_DISPLAY, type AttributeDisplay } from './display';
 import type { AttributeChoice } from './types';
@@ -100,8 +104,10 @@ export const InsertAttributeModal = ({ anchorEl, prefill, offersLongText, onInse
   const isDirty = touched && (wantedId !== undefined || attribute !== '' || display !== DEFAULT_ATTRIBUTE_DISPLAY);
 
   const attributes = useMemo(
-    () => (schema ? listAttributes(schema).filter((option) => isOffered(option, offersLongText)) : []),
-    [schema, offersLongText],
+    () => (schema
+      ? sortByLabel(listAttributes(schema).filter((option) => isOffered(option, offersLongText)), formatOptions.locale)
+      : []),
+    [schema, offersLongText, formatOptions.locale],
   );
   const found = schema && attribute ? findAttribute(schema, attribute) : undefined;
   const selected = found && isOffered(found, offersLongText) ? found : undefined;
@@ -181,95 +187,93 @@ export const InsertAttributeModal = ({ anchorEl, prefill, offersLongText, onInse
       dismissible={!isDirty}
       onCancel={onCancel}
     >
-      <Body>
-        <BodyContent>
-          {prefilled && (
-            <PrefillNote>
+      <ModalBody>
+        {prefilled && (
+          <PrefillNote>
+            <span>
+              <HistoryIcon size={14} />
+              {t('workPackageAttribute.dialog.prefilled')}
+            </span>
+            <LinkButton onClick={clearPrefill}>{t('createWorkPackage.clear')}</LinkButton>
+          </PrefillNote>
+        )}
+
+        <FieldRow>
+          <FieldLabel htmlFor={WORK_PACKAGE_CONTROL_ID}>
+            {t('workPackageAttribute.dialog.workPackage')}
+            <RequiredMark> *</RequiredMark>
+          </FieldLabel>
+          <WorkPackagePicker
+            id={WORK_PACKAGE_CONTROL_ID}
+            label={t('workPackageAttribute.dialog.workPackage')}
+            selected={workPackage}
+            autoFocus={!prefilled}
+            onPick={pickWorkPackage}
+            onDeselect={deselectWorkPackage}
+          />
+        </FieldRow>
+
+        <FieldRow>
+          <AttributeFieldLabel htmlFor={ATTRIBUTE_CONTROL_ID} $disabled={!workPackage}>
+            {t('workPackageAttribute.dialog.attribute')}
+            <RequiredMark> *</RequiredMark>
+          </AttributeFieldLabel>
+          {attributeControl}
+          {workPackage && schemaError && (
+            <FieldHint $error role="alert">
+              <AlertIcon size={14} />
               <span>
-                <HistoryIcon size={14} />
-                {t('workPackageAttribute.dialog.prefilled')}
+                {t('workPackageAttribute.dialog.loadFailed', { id: formatWorkPackageId(workPackage.displayId) })}{' '}
+                <LinkButton onClick={retrySchema}>{t('workPackageAttribute.dialog.retry')}</LinkButton>
               </span>
-              <LinkButton onClick={clearPrefill}>{t('createWorkPackage.clear')}</LinkButton>
-            </PrefillNote>
+            </FieldHint>
           )}
+          {notice && (
+            <FieldHint role="status">
+              <AlertIcon size={14} />
+              <span>{notice}</span>
+            </FieldHint>
+          )}
+        </FieldRow>
 
-          <FieldRow>
-            <FieldLabel htmlFor={WORK_PACKAGE_CONTROL_ID}>
-              {t('workPackageAttribute.dialog.workPackage')}
-              <RequiredMark> *</RequiredMark>
-            </FieldLabel>
-            <WorkPackagePicker
-              id={WORK_PACKAGE_CONTROL_ID}
-              label={t('workPackageAttribute.dialog.workPackage')}
-              selected={workPackage}
-              autoFocus={!prefilled}
-              onPick={pickWorkPackage}
-              onDeselect={deselectWorkPackage}
-            />
-          </FieldRow>
+        <FieldRow>
+          <FieldLabel as="div" id={DISPLAY_LABEL_ID}>
+            {t('workPackageAttribute.dialog.show')}
+          </FieldLabel>
+          <DisplayOptions aria-labelledby={DISPLAY_LABEL_ID}>
+            {ATTRIBUTE_DISPLAYS.map((option) => (
+              <DisplayOption
+                key={option}
+                $active={display === option}
+                aria-checked={display === option}
+                onClick={() => {
+                  setTouched(true);
+                  setDisplay(option);
+                }}
+              >
+                {t(`workPackageAttribute.display.${option}`)}
+              </DisplayOption>
+            ))}
+          </DisplayOptions>
+        </FieldRow>
 
-          <FieldRow>
-            <AttributeFieldLabel htmlFor={ATTRIBUTE_CONTROL_ID} $disabled={!workPackage}>
-              {t('workPackageAttribute.dialog.attribute')}
-              <RequiredMark> *</RequiredMark>
-            </AttributeFieldLabel>
-            {attributeControl}
-            {workPackage && schemaError && (
-              <FieldHint $error role="alert">
-                <AlertIcon size={14} />
-                <span>
-                  {t('workPackageAttribute.dialog.loadFailed', { id: formatWorkPackageId(workPackage.displayId) })}{' '}
-                  <LinkButton onClick={retrySchema}>{t('workPackageAttribute.dialog.retry')}</LinkButton>
-                </span>
-              </FieldHint>
-            )}
-            {notice && (
-              <FieldHint role="status">
-                <AlertIcon size={14} />
-                <span>{notice}</span>
-              </FieldHint>
-            )}
-          </FieldRow>
-
-          <FieldRow>
-            <FieldLabel as="div" id={DISPLAY_LABEL_ID}>
-              {t('workPackageAttribute.dialog.show')}
-            </FieldLabel>
-            <DisplayOptions aria-labelledby={DISPLAY_LABEL_ID}>
-              {ATTRIBUTE_DISPLAYS.map((option) => (
-                <DisplayOption
-                  key={option}
-                  $active={display === option}
-                  aria-checked={display === option}
-                  onClick={() => {
-                    setTouched(true);
-                    setDisplay(option);
-                  }}
-                >
-                  {t(`workPackageAttribute.display.${option}`)}
-                </DisplayOption>
-              ))}
-            </DisplayOptions>
-          </FieldRow>
-
-          <PreviewLabel>{t('workPackageAttribute.dialog.preview')}</PreviewLabel>
-          <PreviewBox data-testid="insert-attribute-preview">
-            {workPackage && selected
-              ? (
-                <AttributePreview
-                  resolved={{
-                    state: 'ready',
-                    workPackage,
-                    attribute: selected,
-                    value: formatAttributeValue(workPackage, selected, formatOptions),
-                  }}
-                  display={display}
-                />
-              )
-              : <PreviewPlaceholder>{t('workPackageAttribute.dialog.previewEmpty')}</PreviewPlaceholder>}
-          </PreviewBox>
-        </BodyContent>
-      </Body>
+        <PreviewLabel>{t('workPackageAttribute.dialog.preview')}</PreviewLabel>
+        <PreviewBox data-testid="insert-attribute-preview">
+          {workPackage && selected
+            ? (
+              <AttributePreview
+                resolved={{
+                  state: 'ready',
+                  workPackage,
+                  attribute: selected,
+                  value: formatAttributeValue(workPackage, selected, formatOptions),
+                }}
+                display={display}
+              />
+            )
+            : <PreviewPlaceholder>{t('workPackageAttribute.dialog.previewEmpty')}</PreviewPlaceholder>}
+        </PreviewBox>
+      </ModalBody>
 
       <Footer>
         <Button type="button" onClick={onCancel}>{t('createWorkPackage.cancel')}</Button>

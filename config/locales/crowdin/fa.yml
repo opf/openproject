@@ -706,6 +706,8 @@ fa:
         custom_field:
           at_least_one_custom_option: حداقل یک گزینه باید در دسترس باشد.
           attributes:
+            admin_only:
+              cannot_be_true: is not supported for this type of custom field.
             formula:
               blank: فرمول نمی‌تواند خالی باشد.
               format: "%{message}"
@@ -1422,7 +1424,6 @@ fa:
           description: دیدگاه شما برای هر کسی که به این بسته کاری دسترسی داشته باشد قابل مشاهده خواهد بود. مطمئنید می‌خواهید این کار را انجام دهید؟
           heading: این دیدگاه عمومی شود؟
           title: این دیدگاه عمومی شود؟
-        internal_journal: دیدگاه‌های داخلی فقط برای گروه محدودی از اعضا قابل مشاهده هستند.
         label_activity_hide_meetings: پنهان‌کردن به‌روزرسانی‌های جلسات
         label_activity_show_all: نمایش همه موارد
         label_activity_show_only_changes: فقط نمایش تغییرات
@@ -1603,7 +1604,7 @@ fa:
         contribution_callout: 'لطفاً با بازخورد و اهدای خصوصی داده به بهبود Jira Migrator کمک کنید. می‌توانید به [جامعه توسعه](link) Jira Migrator بپیوندید.
 
           '
-        description: این Jira Migrator در حال حاضر نسخه Beta است. فعلاً فقط Jira Server/Data Center نسخه‌های 10.x و 11.x پشتیبانی می‌شوند و نمونه‌های Cloud در این زمان پشتیبانی نمی‌شوند.
+        description: The Jira Migrator is currently in beta. We support Jira Server/Data Center versions 8.x, 9.x, 10.x and 11.x. Cloud instances are not supported at this time.
         title: Beta - امتحانش کنید!
       basic_auth_password_deleted: گذرواژه احراز هویت پایه با موفقیت حذف شد.
       blank:
@@ -1885,17 +1886,22 @@ fa:
                 other: "%{count} پروژه برای محدوده انتخاب شدند"
               description: از داده‌های موجود دریافت‌شده از نمونه میزبان Jira، موارد موردنظر برای Import را انتخاب کنید.
               elements:
+                configuration_mapping: Configuration & Mapping options
                 custom_fields: زیرمجموعه‌ای از فیلدهای سفارشی
                 issue_details: Issue identifiers, description, history, comments and attachments
                 issues: Issueها
                 logged_time: زمان ثبت‌شده
                 permissions: مجوزها
+                plugin_migration: Plug-in migration
                 project_details: Project identifiers, description and versions
+                project_specific_custom_fields: Project-specific custom fields
                 projects: پروژه‌ها
                 relations: روابط بین Issueها
                 schemes: Schemaها
+                security_level: Security Level
                 sprints: Sprints and sprint assignments
                 users: کاربران و گروه‌های درگیر
+                workflow_migration: Workflow migration
                 workflows: گردش‌کارهای سطح پروژه
               label_coming_later: بعداً اضافه می‌شود
               label_coming_soon: به‌زودی
@@ -3669,7 +3675,7 @@ fa:
           caption: برای این نوع، از فرم موجودی استفاده کنید که گروه‌های ویژگی آن از پیش تعریف شده‌اند.
           label: استفاده از فرم موجود
         new:
-          caption: گروه‌های ویژگی فرم جدید را برای این نوع مرتب کنید.
+          caption: Manually define a new set of sections and fields to display for this variant.
           label: پیکربندی فرم جدید
   forums:
     index:
@@ -4728,13 +4734,13 @@ fa:
     one: "%{count} فایل"
     other: "%{count} فایل"
     zero: بدون فایل
+  label_x_forms:
+    one: "%{count} form"
+    other: "%{count} forms"
   label_x_in_progress_work_packages_abbr:
     one: 1 in progress
     other: "%{count} in progress"
     zero: 0 in progress
-  label_x_forms:
-    one: "%{count} form"
-    other: "%{count} forms"
   label_x_items:
     one: "%{count} مورد"
     other: "%{count} مورد"
@@ -5954,7 +5960,7 @@ fa:
     phase_status:
       description:
         completed: Marking a phase as complete will complete all previous phases.
-        in_progress: Marking a phase as complete will complete all previous phases.
+        in_progress: Marking a phase as in progress will complete all previous phases and open all future phases.
         open: Re-opening a phase will also open all future phases.
       title:
         completed: Completed
@@ -7179,8 +7185,8 @@ fa:
           type: این فیلدها هنگام ایجاد یا ویرایش بسته کاری از این نوع به اعضای پروژه نمایش داده می‌شوند. می‌توانید فیلدهایی را که می‌خواهید پنهان شوند غیرفعال کنید.
           variant: این فیلدها هنگام ایجاد یا ویرایش بسته کاری از این گونه به اعضای پروژه نمایش داده می‌شوند. می‌توانید فیلدهایی را که می‌خواهید پنهان شوند غیرفعال کنید.
         new:
-          type: این فیلدها هنگام ایجاد یا ویرایش بسته کاری از این نوع به اعضای پروژه نمایش داده می‌شوند. آن‌ها را به ترتیب دلخواه مرتب و گروه‌بندی کنید.
-          variant: این فیلدها هنگام ایجاد یا ویرایش بسته کاری از این گونه به اعضای پروژه نمایش داده می‌شوند. آن‌ها را به ترتیب دلخواه مرتب و گروه‌بندی کنید.
+          type: These are the fields that a project member sees when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
+          variant: These are the fields that a project member sees when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
       pdf: الگوهای PDF قابل استفاده هنگام تولید PDF بسته‌های کاری با این تنظیمات را انتخاب کنید. هر الگو چیدمان و ویژگی‌های قابل نمایش در PDF را مشخص می‌کند. نخستین الگوی فهرست، پیش‌فرض است.
       project_attributes: مشخص کنید کدام ویژگی‌های پروژه در بسته‌های کاری نمایش داده شوند. اعضای دارای مجوز می‌توانند آن‌ها را در زبانه ویژگی‌های پروژه در بسته کاری ببینند و ویرایش کنند.
       projects:

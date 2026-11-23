@@ -109,6 +109,60 @@ RSpec.describe "Board management spec", :js, :selenium do
       board_page.expect_card("List 2", "New card 1")
     end
 
+    it "saves a newly created card once it loses focus, without pressing Enter" do
+      board_view
+      board_index.visit!
+
+      board_page = board_index.open_board board_view
+
+      board_page.within_list("List 1") do
+        click_on accessible_name: "Add card"
+      end
+      page.find(".menu-item", text: "Add new card").click
+
+      board_page.within_list("List 1") do
+        subject = page.find_by_id("wp-new-inline-edit--field-subject")
+        subject.set "Autosaved card"
+      end
+
+      # Blur the field to make it lose focus.
+      # The card must be saved.
+      page.execute_script("document.activeElement.blur()")
+
+      board_page.expect_card("List 1", "Autosaved card")
+
+      subjects = WorkPackage.where(subject: "Autosaved card").pluck(:subject)
+      expect(subjects).to contain_exactly("Autosaved card")
+    end
+
+    it "does not save a card that is cancelled while it still has focus" do
+      board_view
+      board_index.visit!
+
+      board_page = board_index.open_board board_view
+
+      board_page.within_list("List 1") do
+        click_on accessible_name: "Add card"
+      end
+      page.find(".menu-item", text: "Add new card").click
+
+      board_page.within_list("List 1") do
+        subject = page.find_by_id("wp-new-inline-edit--field-subject")
+        subject.set "Discarded card"
+
+        page.find(".op-wp-single-card_new")
+          .find(:button, accessible_name: I18n.t("js.card.remove_from_list"))
+          .click
+      end
+
+      expect(page).to have_no_css('[data-test-selector="op-wp-single-card--content-subject"]', text: "Discarded card")
+
+      board_page.add_card("List 1", "Kept card")
+
+      board_page.expect_card("List 1", "Discarded card", present: false)
+      expect(WorkPackage.where(subject: ["Discarded card", "Kept card"]).pluck(:subject)).to contain_exactly("Kept card")
+    end
+
     it "allows management of boards" do
       board_view
       board_index.visit!

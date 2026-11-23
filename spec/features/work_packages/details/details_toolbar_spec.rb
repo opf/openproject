@@ -65,4 +65,60 @@ RSpec.describe "Work package details toolbar", :js do
       expect(page).to be_axe_clean.within(".work-packages--details-toolbar")
     end
   end
+
+  describe "More menu" do
+    let(:user) { create(:admin) }
+    let(:split_view) { Pages::SplitWorkPackage.new(work_package, project) }
+    let(:more_button) { find(:button, accessible_name: /\AMore\z/) }
+
+    def press_keys(*keys)
+      page.driver.browser.keyboard.type(*keys)
+    end
+
+    before do
+      login_as(user)
+      work_packages_page.visit_index(work_package)
+      split_view.expect_open
+    end
+
+    it "opens with Enter, moves with arrow keys and returns focus to the button on Escape" do
+      send_keys_without_click(more_button, :enter)
+
+      within(:menu, "More") do
+        expect(page).to have_selector(:menuitem, "Copy link to clipboard", focused: true)
+
+        press_keys(:down, :down)
+        expect(page).to have_selector(:menuitem, "Log time", focused: true)
+      end
+
+      press_keys(:escape)
+      expect(page).to have_no_menu
+      expect(page).to have_button(accessible_name: /\AMore\z/, focused: true)
+    end
+
+    it "opens with the m shortcut and moves with arrow keys" do
+      press_keys("m")
+
+      within(:menu, "More") do
+        expect(page).to have_selector(:menuitem, "Copy link to clipboard", focused: true)
+
+        press_keys(:down)
+        expect(page).to have_selector(:menuitem, "Copy work package ID", focused: true)
+      end
+    end
+
+    it "moves focus into the Delete dialog and back to the button on cancel" do
+      more_button.click
+      within(:menu, "More") do
+        find(:menuitem, "Delete", exact: true).click
+      end
+
+      within_dialog do
+        expect(page).to have_css(":focus")
+        click_on "Cancel"
+      end
+
+      expect(page).to have_button(accessible_name: /\AMore\z/, focused: true)
+    end
+  end
 end

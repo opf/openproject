@@ -54,9 +54,7 @@ module Backlogs
         private
 
         def blankslate_reason
-          return if relevant_epics.any?
-
-          work_packages_in_sprint.exists? ? :no_epics : :no_work
+          :no_epics if relevant_epics.none?
         end
 
         def relevant_epics
