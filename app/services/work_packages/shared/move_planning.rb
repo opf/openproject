@@ -47,8 +47,26 @@ module WorkPackages
         visible_descendant_ids.any?
       end
 
+      def movable_descendants
+        descendants_of_move_roots.select { |descendant| movable?(descendant) }
+      end
+
       def immovable_descendants
         descendants_of_move_roots.reject { |descendant| movable?(descendant) }
+      end
+
+      # How many movable descendants each root has, keyed by the root's id. A single
+      # bulk query, so previews (e.g. the move form's "(+N descendants)" hint) don't
+      # need to run their own per-root permission check.
+      def movable_descendant_counts_by_root
+        movable_ids = movable_descendants.map(&:id)
+        return Hash.new(0) if movable_ids.empty?
+
+        ancestor_ids = WorkPackageHierarchy
+          .where(ancestor_id: move_root_ids, descendant_id: movable_ids)
+          .pluck(:ancestor_id)
+
+        Hash.new(0).merge(ancestor_ids.tally)
       end
 
       private

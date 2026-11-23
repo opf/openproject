@@ -62,6 +62,21 @@ RSpec.describe "Work package moves", :webmock, type: :rails_request do
 
       expect(response.body).to include(I18n.t("work_packages.x_descendants", count: 1))
     end
+
+    context "when the child is in a project invisible to the user" do
+      let(:mover_role) { create(:project_role, permissions: %i[view_work_packages move_work_packages]) }
+      let(:mover) { create(:user, member_with_roles: { source => mover_role }) }
+      let(:other_project) { create(:project, types: [type]) }
+      let!(:child) { create(:work_package, project: other_project, parent: work_package, type:) }
+
+      before { login_as(mover) }
+
+      it "does not count it, since it will not actually move along" do
+        visit_new_move_page
+
+        expect(response.body).not_to include(I18n.t("work_packages.x_descendants", count: 1))
+      end
+    end
   end
 
   describe "POST refresh_form" do

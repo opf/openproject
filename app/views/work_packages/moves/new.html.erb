@@ -46,8 +46,8 @@ See COPYRIGHT and LICENSE files for more details.
   <% @work_packages.each do |work_package| -%>
     <li>
       <%= link_to_work_package work_package %>
-      <% descendant_count = work_package.descendants.size %>
-      <% if descendant_count > 0 && (@copy || @move_descendants) %>
+      <% descendant_count = @descendant_counts[work_package.id] %>
+      <% if descendant_count > 0 %>
         <span class="contextual-info -small">(+ <%= t("work_packages.x_descendants", count: descendant_count) %>)</span>
       <% end %>
     </li>

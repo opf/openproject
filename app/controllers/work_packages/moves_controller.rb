@@ -41,6 +41,7 @@ class WorkPackages::MovesController < ApplicationController
   def new
     prepare_for_work_package_move
 
+    @descendant_counts = descendant_counts
     @move_form_component = move_form_component
   end
 
@@ -81,6 +82,21 @@ class WorkPackages::MovesController < ApplicationController
 
   def move_form_redirect_path(**)
     new_move_work_packages_path(ids: @work_packages.map(&:id), back_url: params[:back_url], **)
+  end
+
+  # Only descendants the move would actually cascade onto -- same rule, same bulk
+  # query WorkPackages::Shared::MovePlanning already uses for the dialog -- count
+  # here, or the preview would overstate how many work packages are affected.
+  # Copying is unaffected: it already has its own per-descendant permission check,
+  # so it always counts the full subtree.
+  def descendant_counts
+    if @copy
+      @work_packages.to_h { |wp| [wp.id, wp.descendants.size] }
+    elsif @move_descendants
+      movable_descendant_counts_by_root
+    else
+      Hash.new(0)
+    end
   end
 
   def move_dialog_component
