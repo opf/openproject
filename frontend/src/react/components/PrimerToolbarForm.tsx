@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ComponentProps, ComponentsContext, useAutoFocus, useBlockNoteEditor, useComponentsContext } from '@blocknote/react';
+import { ComponentProps, useAutoFocus, useBlockNoteEditor } from '@blocknote/react';
 import { AnchoredOverlay, Button, FormControl, PortalContext, registerPortalRoot, TextInput } from '@primer/react';
 import { cloneElement, createContext, isValidElement, useContext, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { ComponentPropsWithRef, PropsWithChildren, RefObject } from 'react';
@@ -122,15 +122,9 @@ function FormInput({ name, value, onChange, autoFocus, placeholder }:Form['TextI
   );
 }
 
+export const primerForm = { Root: ToolbarForm, TextInput: FormInput };
+export const primerPopover = { Root: FormPopover, Trigger: FormTrigger, Content: FormContent };
+
 export function PrimerToolbarForm({ children, live = false }:PropsWithChildren<{ live?:boolean }>) {
-  const components = useComponentsContext()!;
-  const value = useMemo(() => ({
-    ...components,
-    Generic: {
-      ...components.Generic,
-      Popover: { Root: FormPopover, Trigger: FormTrigger, Content: FormContent },
-      Form: { Root: ToolbarForm, TextInput: FormInput },
-    },
-  }), [components]);
-  return <LiveForm.Provider value={live}><ComponentsContext.Provider value={value}>{children}</ComponentsContext.Provider></LiveForm.Provider>;
+  return <LiveForm.Provider value={live}>{children}</LiveForm.Provider>;
 }

@@ -1,4 +1,4 @@
-@import "@blocknote/mantine/style.css";
+@import "@blocknote/react/style.css";
 @import "../node_modules/@primer/react/dist/experimental/UnderlinePanels/UnderlinePanels-162f9aed.css";
 @import "../node_modules/@primer/react/dist/internal/components/UnderlineTabbedInterface-a5cd75c0.css";
 @import "../node_modules/@primer/react/dist/FilteredActionList/FilteredActionList-6808e67a.css";
@@ -133,7 +133,7 @@
 }
 
 .op-blocknote-link-toolbar,
-.bn-mantine .op-primer-formatting-toolbar {
+.bn-root .op-primer-formatting-toolbar {
   background: var(--overlay-bgColor);
   border: 1px solid var(--borderColor-muted);
   box-shadow: var(--shadow-floating-medium);
@@ -159,6 +159,41 @@
   display: none;
 }
 
+.bn-side-menu {
+  display: flex;
+  align-items: center;
+}
+
+.bn-side-menu [draggable="true"], .bn-table-handle[draggable="true"] {
+  cursor: grab;
+}
+
+.bn-root :is(.bn-table-handle, .bn-table-cell-handle, .bn-extend-button) {
+  background-color: var(--overlay-bgColor);
+  border: 1px solid var(--borderColor-muted);
+  border-radius: var(--borderRadius-small);
+  box-shadow: var(--shadow-resting-small);
+  padding: 0;
+}
+
+.bn-root .bn-table-cell-handle {
+  padding-inline: 4px;
+}
+
+.bn-root .bn-extend-button-add-remove-columns {
+  height: 100%;
+  width: 18px;
+  margin-left: 4px;
+  cursor: col-resize;
+}
+
+.bn-root .bn-extend-button-add-remove-rows {
+  height: 18px;
+  width: 100%;
+  margin-top: 4px;
+  cursor: row-resize;
+}
+
 .bn-side-menu [data-component="IconButton"] > svg {
   flex-shrink: 0;
 }
@@ -172,6 +207,12 @@
 .op-primer-formatting-toolbar button[aria-pressed="true"] {
   background: var(--control-transparent-bgColor-selected);
   color: var(--fgColor-accent);
+}
+
+.bn-mobile-formatting-toolbar .op-primer-formatting-toolbar {
+  width: fit-content;
+  flex-wrap: nowrap;
+  overflow-x: auto;
 }
 
 .bn-mobile-formatting-toolbar .op-primer-formatting-toolbar button {

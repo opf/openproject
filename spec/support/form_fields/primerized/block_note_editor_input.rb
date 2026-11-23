@@ -230,7 +230,7 @@ module FormFields
         end
       end
 
-      # Triggers undo in the editor by dispatching a synthetic Ctrl-Z keydown event
+      # Triggers undo in the editor by dispatching a synthetic undo keydown event
       # directly to the shadow-DOM contenteditable element. Selenium's send_keys does
       # not reliably deliver modifier-key chords to elements inside a shadow DOM, so
       # we use execute_script instead. ProseMirror processes all keydown events on
@@ -243,7 +243,7 @@ module FormFields
           element.dispatchEvent(new KeyboardEvent('keydown', {
             key: 'z',
             code: 'KeyZ',
-            ctrlKey: true,
+            #{BrowserPlatform.apple?(page) ? 'metaKey' : 'ctrlKey'}: true,
             bubbles: true,
             cancelable: true,
             composed: true

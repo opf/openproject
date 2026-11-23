@@ -27,16 +27,15 @@
 
 import { LinkToolbarExtension } from '@blocknote/core/extensions';
 import {
-  ComponentProps, ComponentsContext, DeleteLinkButton, EditLinkButton, GenericPopover, LinkToolbar, LinkToolbarProps, OpenLinkButton, PortalElementOverride, preventFocusOnTap,
-  useBlockNoteEditor, useComponentsContext, useEditorDOMElement, useExtension,
+  ComponentProps, DeleteLinkButton, EditLinkButton, GenericPopover, LinkToolbar, LinkToolbarProps, OpenLinkButton, PortalElementOverride, preventFocusOnTap,
+  useBlockNoteEditor, useEditorDOMElement, useExtension,
 } from '@blocknote/react';
 import { flip, offset, safePolygon } from '@floating-ui/react';
 import { LinkExternalIcon, UnlinkIcon } from '@primer/octicons-react';
 import { Button, IconButton, Stack } from '@primer/react';
 import {
-  createContext, useContext, useEffect, useMemo, useState,
+  createContext, useContext, useEffect, useState,
 } from 'react';
-import type { PropsWithChildren } from 'react';
 
 import { PrimerToolbarForm } from './PrimerToolbarForm';
 import { PrimerMenuPortal } from './PrimerActionMenus';
@@ -55,14 +54,7 @@ function LinkButton({ children, label, mainTooltip, icon, isSelected: _isSelecte
         variant="invisible" disabled={isDisabled} onMouseDown={preventFocusOnTap} />;
 }
 
-function PrimerLinkControls({ children }:PropsWithChildren) {
-  const components = useComponentsContext()!;
-  const value = useMemo(() => ({
-    ...components,
-    LinkToolbar: { ...components.LinkToolbar, Root: LinkToolbarRoot, Button: LinkButton },
-  }), [components]);
-  return <ComponentsContext.Provider value={value}>{children}</ComponentsContext.Provider>;
-}
+export const primerLinkToolbar = { Root: LinkToolbarRoot, Button: LinkButton };
 
 type ActiveLink = Pick<LinkToolbarProps, 'url' | 'text' | 'range'> & {
   reference:{ element:HTMLAnchorElement };
@@ -161,7 +153,7 @@ export function PrimerLinkToolbar() {
     <PrimerMenuPortal>
       <PrimerToolbarForm>
         <PortalElementOverride target={document.body}>
-          <PrimerLinkControls><FloatingLinkToolbar /></PrimerLinkControls>
+          <FloatingLinkToolbar />
         </PortalElementOverride>
       </PrimerToolbarForm>
     </PrimerMenuPortal>

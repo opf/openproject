@@ -26,9 +26,9 @@
 //++
 
 import {
-  AddCommentButton, AddTiptapCommentButton, BasicTextStyleButton, blockTypeSelectItems, BlockTypeSelect as BlockNoteBlockTypeSelect, ComponentProps, ComponentsContext, CreateLinkButton, FileCaptionButton, FileDeleteButton, FileDownloadButton, FilePreviewButton, FileRenameButton, FileReplaceButton, NestBlockButton,
+  AddCommentButton, AddTiptapCommentButton, BasicTextStyleButton, blockTypeSelectItems, BlockTypeSelect as BlockNoteBlockTypeSelect, ComponentProps, CreateLinkButton, FileCaptionButton, FileDeleteButton, FileDownloadButton, FilePreviewButton, FileRenameButton, FileReplaceButton, NestBlockButton,
   PortalElementOverride, preventFocusOnTap, TableCellMergeButton, TextAlignButton, UnnestBlockButton,
-  useBlockNoteEditor, useComponentsContext, usePortalElement, useUIMode,
+  useBlockNoteEditor, usePortalElement, useUIMode,
 } from '@blocknote/react';
 import { OpenProjectFormattingToolbar } from '@openproject/blocknote-extensions';
 import {
@@ -206,21 +206,13 @@ function BlockTypeSelect({ items, isDisabled, preventFocusOnOpen }:Toolbar['Sele
   );
 }
 
-export function PrimerFormattingToolbar() {
-  const components = useComponentsContext()!;
-  const value = useMemo(() => ({
-    ...components,
-    FormattingToolbar: {
-      Root: ToolbarRoot,
-      Button: ToolbarButton,
-      Select: BlockTypeSelect,
-    },
-  }), [components]);
+export const primerFormattingToolbar = { Root: ToolbarRoot, Button: ToolbarButton, Select: BlockTypeSelect };
 
+export function PrimerFormattingToolbar() {
   return (
     <PortalElementOverride target={document.body}>
       <PrimerMenuPortal>
-        <ComponentsContext.Provider value={value}><OpenProjectFormattingToolbar /></ComponentsContext.Provider>
+        <OpenProjectFormattingToolbar />
       </PrimerMenuPortal>
     </PortalElementOverride>
   );

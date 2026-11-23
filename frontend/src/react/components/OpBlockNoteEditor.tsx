@@ -32,10 +32,9 @@ import { CollaborationCursorLabelFitExtension } from '../extensions/collaboratio
 import { HeadingLinkExtension } from '../extensions/heading-link';
 import { filterSuggestionItems } from '@blocknote/core/extensions';
 import { withCollaboration } from '@blocknote/core/yjs';
-import { BlockNoteView } from '@blocknote/mantine';
-import { getDefaultReactSlashMenuItems, GridSuggestionMenuController, SuggestionMenuController, useCreateBlockNote } from '@blocknote/react';
+import { primerEditorComponents } from './primerEditorComponents';
+import { BlockNoteViewRaw, ComponentsContext, getDefaultReactSlashMenuItems, GridSuggestionMenuController, SuggestionMenuController, useCreateBlockNote } from '@blocknote/react';
 import { HocuspocusProvider } from '@hocuspocus/provider';
-import { createTheme, MantineProvider } from '@mantine/core';
 import {
   initializeOpBlockNoteExtensions,
   openProjectWorkPackageBlockSpec,
@@ -61,14 +60,6 @@ import { PrimerFormattingToolbar } from './PrimerFormattingToolbar';
 import { PrimerSideMenuController } from './PrimerSideMenu';
 import { PrimerSlashMenu } from './PrimerSlashMenu';
 import { tableBlockSpec } from '../blocks/table';
-
-// Mantine >= 9.3 locks a popover's first placement and falls back to it when neither side fits,
-// so on mobile the block type menu opens behind the virtual keyboard (COMMS-1102).
-const mantineTheme = createTheme({
-  components: {
-    Popover: { defaultProps: { preventPositionChangeWhenVisible: false } },
-  },
-});
 
 export interface OpBlockNoteEditorProps {
   activeUser:User;
@@ -180,12 +171,8 @@ export function OpBlockNoteEditor({
   ], []);
 
   return (
-    <MantineProvider
-      theme={mantineTheme}
-      withCssVariables={false}
-      getRootElement={() => undefined}
-    >
-      <BlockNoteView
+    <ComponentsContext.Provider value={primerEditorComponents}>
+      <BlockNoteViewRaw
         editor={editor}
         slashMenu={false}
         sideMenu={false}
@@ -211,7 +198,7 @@ export function OpBlockNoteEditor({
         {!readOnly && <GridSuggestionMenuController triggerCharacter=":" columns={10} minQueryLength={2}
           gridSuggestionMenuComponent={PrimerEmojiPicker} />}
         <OpenProjectHashMenu />
-      </BlockNoteView>
-    </MantineProvider>
+      </BlockNoteViewRaw>
+    </ComponentsContext.Provider>
   );
 }

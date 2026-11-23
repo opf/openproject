@@ -147,11 +147,22 @@ function TabPanel({ children }:Panel['TabPanel']) {
   return <div className="op-blocknote-file-content">{children}</div>;
 }
 
+export const primerPanel = {
+  FileInput, TextInput: EmbedInput, Button: PanelButton, TabPanel,
+  Root: ({ tabs, openTab, setOpenTab, loading }:Panel['Root']) => (
+    <div aria-busy={loading} inert={loading}>
+      <UnderlinePanels aria-label={window.I18n.t('js.blocknote.file_source')} value={openTab} onChange={({ value }) => setOpenTab(value)}>
+        {tabs.map(({ name }) => <UnderlinePanels.Tab key={name} value={name}>{name}</UnderlinePanels.Tab>)}
+        {tabs.map(({ name, tabPanel }) => <UnderlinePanels.Panel key={name} value={name}>{tabPanel}</UnderlinePanels.Panel>)}
+      </UnderlinePanels>
+    </div>
+  ),
+};
+
 export function PrimerFilePanel() {
   const components = useComponentsContext()!;
   const value = useMemo(() => ({
     ...components,
-    FilePanel: { ...components.FilePanel, TextInput: EmbedInput, Button: PanelButton, TabPanel },
     Generic: { ...components.Generic, Form: { ...components.Generic.Form, Root: EmbedForm } },
   }), [components]);
   return <ComponentsContext.Provider value={value}><FilePanelController filePanel={MediaPanel} /></ComponentsContext.Provider>;

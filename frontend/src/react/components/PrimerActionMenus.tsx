@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ComponentProps, ComponentsContext, preventFocusOnTap, useBlockNoteEditor, useComponentsContext, useDictionary } from '@blocknote/react';
+import { ComponentProps, preventFocusOnTap, useBlockNoteEditor, useDictionary } from '@blocknote/react';
 import { GrabberIcon, PlusIcon } from '@primer/octicons-react';
 import { ActionList, ActionMenu, AnchoredOverlay, IconButton, PortalContext, registerPortalRoot } from '@primer/react';
 import { Children, cloneElement, createContext, forwardRef, Fragment, isValidElement, PropsWithChildren, ReactElement, useContext, useEffect, useId, useMemo, useState } from 'react';
@@ -196,22 +196,18 @@ export function PrimerMenuPortal({ children }:PropsWithChildren) {
   return <PortalContext.Provider value={value}>{children}</PortalContext.Provider>;
 }
 
-export function PrimerActionMenus({ children, label, returnFocusToEditor = false }:PropsWithChildren<{ label?:string, returnFocusToEditor?:boolean }>) {
-  const components = useComponentsContext()!;
-  const value = useMemo(() => ({
-    ...components,
-    SideMenu: { ...components.SideMenu, Button: SideMenuButton },
-    TableHandle: { ...components.TableHandle, Root: HandleButton, ExtendButton: HandleButton },
-    Generic: {
-      ...components.Generic,
-      Menu: { ...components.Generic.Menu, Root, Trigger, Dropdown, Item, Label, Button: HandleButton },
-    },
-  }), [components]);
+export const primerSideMenu = {
+  Root: (props:ComponentProps['SideMenu']['Root']) => <div {...props} />,
+  Button: SideMenuButton,
+};
+export const primerTableHandle = { Root: HandleButton, ExtendButton: HandleButton };
+export const primerMenu = { Root, Trigger, Dropdown, Divider: ActionList.Divider, Item, Label, Button: HandleButton };
 
+export function PrimerActionMenus({ children, label, returnFocusToEditor = false }:PropsWithChildren<{ label?:string, returnFocusToEditor?:boolean }>) {
   return (
     <ReturnFocusToEditor.Provider value={returnFocusToEditor}>
       <AnchorLabel.Provider value={label}>
-        <ComponentsContext.Provider value={value}>{children}</ComponentsContext.Provider>
+        {children}
       </AnchorLabel.Provider>
     </ReturnFocusToEditor.Provider>
   );
