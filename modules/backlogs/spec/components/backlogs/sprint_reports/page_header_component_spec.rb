@@ -52,9 +52,13 @@ RSpec.describe Backlogs::SprintReports::PageHeaderComponent, type: :component do
 
   it "opens the full title in a dialog rendered outside the heading" do
     expect(rendered_component).to have_css(
-      "h2.PageHeader-title button[data-show-dialog-id='sprint-report-title-dialog']", visible: :all
+      "h2.PageHeader-title button[data-show-dialog-id='sprint-#{sprint.id}-report-title-dialog']", visible: :all
     )
-    expect(rendered_component).to have_css("dialog#sprint-report-title-dialog", text: "Sprint 42 report", visible: :all)
+    expect(rendered_component).to have_css(
+      "dialog#sprint-#{sprint.id}-report-title-dialog",
+      text: "Sprint 42 report",
+      visible: :all
+    )
     expect(rendered_component).to have_no_css("h2.PageHeader-title dialog", visible: :all)
   end
 

@@ -53,7 +53,7 @@ module Backlogs
       end
 
       def title_dialog_id
-        "sprint-report-title-dialog"
+        "sprint-#{@sprint.id}-report-title-dialog"
       end
     end
   end
