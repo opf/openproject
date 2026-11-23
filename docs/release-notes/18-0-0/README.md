@@ -3,23 +3,537 @@ title: OpenProject 18.0.0
 sidebar_navigation:
     title: 18.0.0
 release_version: 18.0.0
-release_date: 2026-11-02
+release_date: 2026-12-02
 ---
 
 # OpenProject 18.0.0
 
-Release date: 2026-11-02
+Release date: 2026-12-02
 
-We released [OpenProject 18.0.0](https://community.openproject.org/versions/2250).
-The release contains several bug fixes and we recommend updating to the newest version.
-In these Release Notes, we will give an overview of important feature changes. At the end, you will find a complete list of all changes and bug fixes.
-## Important feature changes
+We released [OpenProject 18.0.0](https://community.openproject.org/versions/2250). The release contains several bug fixes and we recommend updating to the newest version.
 
-<!-- Inform about the major features in this section -->
+Take a look at our release video showing the most important features introduced in OpenProject 18.0:
+
+![Release video of OpenProject 18.0](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject_18_0_release.mp4)
+
+## How to navigate these release notes
+
+OpenProject 18.0 is a particularly feature-rich release, introducing substantial improvements across project management, agile planning, resource management, collaboration, and administration. To make it easier to find the changes most relevant to you, we have organized the release notes into feature areas rather than presenting every improvement individually. At the end, you will find a complete list of all changes and bug fixes.
+
+The overview below introduces the ten main feature areas and provides direct links to individual improvements. Select a feature area to jump to its detailed description, or follow the links to a specific feature. Each detailed section explains what has changed and, where relevant, provides links to the updated OpenProject documentation.
+
+> [!TIP]
+> **Upgrading from an earlier version?** Review the [important updates and breaking changes](#important-updates-and-breaking-changes) before upgrading.
+
+## Overview of important feature changes
+
+**1. [Work package types and variants, workflows, and forms](#work-package-types-and-variants-workflows-and-forms)**
+
+OpenProject 18.0 introduces more flexibility in configuring work package types, workflows, and forms to match the needs of different teams and projects. Type variants let projects work with their own version of a type. Forms and workflows can now be reused across types. In addition, project-specific values for work package custom fields are available as a new Enterprise add-on.
+
+This includes:
+
+- [Type variants](#type-variants)
+- [Reusable forms and workflows](#reusable-forms-and-workflows)
+- [Project-specific values for work package custom fields](#project-specific-values-for-work-package-custom-fields)
+
+**2. [Agile planning and reporting](#agile-planning-and-reporting)**
+
+New agile reporting capabilities make it easier to track sprint progress, evaluate team performance, and understand changes in scope. The sprint report page with burndown and burnup charts is available in the Community edition. Velocity, Created vs. Resolved, and Epic progress charts, as well as detailed work package tables, provide deeper insights in the Professional plan. Improvements to backlog and sprint planning complement these reporting features.
+
+This includes:
+
+- [Sprint report page with burndown and burnup charts](#sprint-report-page-with-burndown-and-burnup-charts)
+- [Velocity, Created vs. Resolved, Epic progress charts, and work package tables](#velocity-created-vs-resolved-epic-progress-charts-and-work-package-tables)
+- [Backlog and sprint planning improvements](#backlog-and-sprint-planning-improvements)
+
+**3. [AI Text Assistant and MCP Server](#ai-text-assistant-and-mcp-server)**
+
+The new AI Text Assistant helps users proofread, rewrite, and structure text directly in OpenProject. Available in the Professional plan, it supports more efficient content creation and editing without switching between applications. Administrators connect their own LLM in the new AI administration. In addition, the MCP Server is now available in the **Community edition** and can create and update work packages based on your form configuration.
+
+This includes:
+
+- [AI Text Assistant](#ai-text-assistant)
+- [MCP Server is now part of the Community edition](#mcp-server-is-now-part-of-the-community-edition)
+
+**4. [Labels for work packages](#labels-for-work-packages)**
+
+Labels provide a new way to categorize and organize work packages across projects. They help users identify related work, add context beyond existing work package attributes, and find relevant items more easily through filtering.
+
+**5. [Resource management and personal planning](#resource-management-and-personal-planning)**
+
+The Resource management module, available in the Premium plan, gets major extensions in OpenProject 18.0. Global resource planners support planning across projects. Placeholder users can be used to define criteria, so you can plan work before you know who will do it. Allocations are now visible directly in work packages, and users see the work allocated to them in My time.
+
+This includes:
+
+- [Global resource planners](#global-resource-planners)
+- [Placeholder users and staffing](#placeholder-users-and-staffing)
+- [Resource allocations in work packages](#resource-allocations-in-work-packages)
+- [Personal allocations in My time](#personal-allocations-in-my-time)
+
+**6. [Accessibility](#accessibility)**
+
+This release improves accessibility across OpenProject, with a particular focus on keyboard navigation and screen reader support. Work package tables and Backlogs are much easier to use with the keyboard and screen readers, charts get accessible descriptions, and administrators can check the contrast of highlighting colors.
+
+This includes:
+
+- [Keyboard and screen reader support in work package tables and Backlogs](#keyboard-and-screen-reader-support-in-work-package-tables-and-backlogs)
+- [Color contrast check](#color-contrast-check)
+
+**7. [Meetings](#meetings)**
+
+OpenProject 18.0 includes several improvements to meeting preparation, presentation, and follow-up. Participants can vote on agenda items, presentation mode gets more flexible, and meetings and minutes are easier to find.
+
+This includes:
+
+- [Agenda voting and agenda items](#agenda-voting-and-agenda-items)
+- [Presentation mode](#presentation-mode)
+- [Finding and managing meetings](#finding-and-managing-meetings)
+
+**8. [Jira Migrator and CSV import](#jira-migrator-and-csv-import)**
+
+Moving to OpenProject gets considerably easier. The Jira Migrator makes major progress: it now officially supports Jira Server and migrates nearly all issue data. In addition, a new CSV import brings in work packages from spreadsheets and other tools.
+
+This includes:
+
+- [Jira Migrator: major progress toward a complete migration](#jira-migrator-major-progress-toward-a-complete-migration)
+- [Work package import from CSV](#work-package-import-from-csv)
+
+**9. [Forums](#forums)**
+
+The Forums module has been revived. Teams can follow discussions more easily, mention colleagues, mark topics as solved, and turn conversations directly into work packages.
+
+**10. [GitLab integration](#gitlab-integration)**
+
+The reworked **Code** tab (formerly "GitLab") shows related issues, merge requests, branches, and commits directly in the work package, and GitLab is now configured in the new Repositories section of the administration.
+
+**[More improvements](#more-improvements)**
+
+Beyond the major feature areas, OpenProject 18.0 introduces a wide range of improvements to everyday project work and administration, including:
+
+- [Work package management: status categories, date and time fields, and more](#work-package-management)
+- [Documents: work package links, tables, and section anchors](#documents)
+- [SquashTM integration: first version for test management](#squashtm-integration)
+- [Time tracking and costs: stacked view in My time and rates for placeholder users](#time-tracking-costs-and-budgets)
+- [Project portfolio and administration: life cycle states, memberships overview, and permission preview](#project-portfolio-and-administration)
+- [Application redesign: new header and refreshed look](#application-redesign)
+- [Avatars: emoji, custom letters, and group avatars](#avatars)
+- [What's new menu: new features at a glance](#whats-new-menu)
+
+## Important feature changes in detail
+
+### Work package types and variants, workflows, and forms
+
+Until now, a work package type's fields and workflow were configured once and applied the same way in every project that used the type. If one team needed a slightly different process, administrators had to create a separate type, and keeping many similar types in sync quickly became a maintenance burden.
+
+OpenProject 18.0 introduces a new configuration model. **Workflows and forms become standalone objects**: you define them once, give them a clear name, and use them in as many types as needed. On top of that, **type variants** let you create versions of a type with small differences, for example a different workflow or other fields for a specific team, while the type itself stays the same across all projects. Teams moving from Jira will find familiar concepts here: what Jira handles with workflow schemes, screen schemes, and field configuration schemes now maps to reusable workflows, forms, and per-type field settings in OpenProject.
+
+Existing types keep working after the upgrade. Only where projects used project-specific custom field configurations does OpenProject create variants to preserve them. See [migration to type variants](#migration-of-project-specific-work-package-configurations-to-type-variants) for details.
+
+Read more: [Work package types system admin guide](../../system-admin-guide/manage-work-packages/work-package-types/), [Blog article on type variants, workflows, and forms](https://www.openproject.org/blog/type-variants-workflows-forms/)
+
+#### Type variants
+
+A variant is a version of a type with its own configuration. It can use its parent type's workflow and form, pick another existing one, or get its own. Settings such as default description, project attributes, and PDF export template are either taken over from the parent type or configured for the variant.
+
+Each project uses one version of a type at a time: the type itself or one of its variants. Because a variant can have its own workflow and form, projects can follow different processes while still working with the same type. All variants keep their type's name, so work packages can still be grouped and filtered by type across all projects, regardless of the variant.
+
+Instance administrators decide per type whether project administrators may create their own variants. If allowed, project administrators can add variants that are only available in their project, so large organizations can delegate configuration without losing oversight. When switching a project to another variant, a preview shows what will change. If a project-specific variant turns out to be useful elsewhere, an instance administrator can make it available to other projects.
+
+![Creating a new variant of a work package type in the OpenProject administration](openproject_release_notes_18.0_create_type_variant.png)
+
+Read more: [Work package types system admin guide](../../system-admin-guide/manage-work-packages/work-package-types/)
+
+#### Reusable forms and workflows
+
+A form defines which fields appear on a work package, including custom fields.
+
+Workflows and forms are no longer bound to a single type. They are created under **Work packages** in the administration and can be used by any number of types and variants. When configuring a type or variant, you either use an existing workflow or form, which stays connected so that changes apply everywhere it is used, or configure a new one, starting from a copy or from scratch.
+
+Without changing the shared form itself, you can still switch individual fields on or off for a type or variant. Whether a field is required is set separately for each type and variant, so it is not inherited from the type.
+
+The new **workflow and form libraries** list all workflows and forms in your instance, the types and variants that use them, and the number of projects they are active in. Before building something new, you can check whether a suitable one already exists.
+
+![Work package forms list in the OpenProject work package administration, showing work package forms with their assigned types, variants, and projects](openproject_release_notes_18.0_forms_library.png)
+
+Read more: [Work package forms system admin guide](../../system-admin-guide/manage-work-packages/work-package-forms/), [Work package workflows system admin guide](../../system-admin-guide/manage-work-packages/work-package-workflows/)
+
+#### Project-specific values for work package custom fields
+
+[feature: project_specific_list_values ]
+
+For work package custom fields of the formats List, Hierarchy, and Weighted item list, administrators can now choose which values are available in which project. With an **allow filter**, projects only get the values you activate. With a **block filter**, all values are available except those you deactivate. This way, one custom field can serve the whole organization while each project only sees the values that apply, for example its own departments or product lines.
+
+![Settings of the work package custom field Product line in the OpenProject administration, with the allow filter and block filter options for project-specific values](openproject_release_notes_18.0_project_specific_values.png)
+
+Read more: [Custom fields system admin guide](../../system-admin-guide/custom-fields/)
+
+### Agile planning and reporting
+
+Sprint reviews and retrospectives depend on understanding what actually happened during a sprint: how much work was completed, what was added or removed along the way, and whether the team is keeping up. OpenProject 18.0 brings this information together on a new **sprint report page** for every sprint.
+
+The page and its core charts are available in the Community edition, while the Professional plan adds charts for longer-term insights. Backlog and sprint planning get easier as well.
+
+Read more: [Backlogs and agile user guide](../../user-guide/backlogs-scrum/)
+
+#### Sprint report page with burndown and burnup charts
+
+Each sprint now has its own report page, showing the sprint's status and dates, the sprint goal, an overview of its work packages, and a graph of how they are distributed. You can navigate between sprint reports in chronological order to compare sprints.
+
+The **burndown chart** has been reworked to make sprint progress easier to read. The new **burnup chart** additionally shows the sprint's scope as its own line, so you can see at a glance when work was added to or removed from a sprint. Scope changes are also reflected in the work package overview, including changes to story points.
+
+Under **Project settings → Backlogs**, you can choose the default unit for velocity, effort, and capacity: story points, work time estimate, or none. This setting affects both backlog cards and sprint report charts. If you select **None**, charts use the number of work packages instead, and some sprint report charts are not displayed.
+
+> [!TIP]
+> **Reports are frozen once a sprint is completed.** Changing a work package's status, estimate, or sprint afterwards no longer affects the report. This keeps reports reliable for sprint reviews and for looking back over longer periods.
+
+![Sprint report page in OpenProject with sprint goal, work package overview, and burnup chart](openproject_release_notes_18.0_sprint_report.png)
+
+Read more: [Sprint reports user guide](../../user-guide/backlogs-scrum/sprint-reports/)
+
+#### Velocity, Created vs. Resolved, Epic progress charts, and work package tables
+
+[feature: sprint_report_pro_widgets ]
+
+In addition to the core charts, the sprint report offers more insights for planning beyond a single sprint:
+
+- **Velocity chart:** Shows the completed work of the current sprint and the six sprints before it, so teams can use their average velocity for future sprint planning.
+- **Created vs. Resolved chart:** Compares how many work packages were added and how many were resolved over time. It shows whether work is piling up, the team is keeping pace, or the backlog is shrinking.
+- **Epic progress chart:** Shows the progress of the epics that the sprint's work packages belong to, so you can see how sprint work contributes to larger goals.
+- **Work package tables:** The sprint report lists completed, unfinished, added, and removed work packages in separate tables.
+
+#### Backlog and sprint planning improvements
+
+During backlog refinement and sprint planning, you can now **select multiple cards** and move them to a sprint or back to the backlog in one step, using the same selection rules as in the work package table.
+
+Further improvements include a loading state when the backlog is filtered or refreshed, the display of actual start and finish dates, and blank states for reporting charts without data.
+
+Read more: [Backlogs project settings user guide](../../user-guide/projects/project-settings/backlogs-settings/)
+
+### AI Text Assistant and MCP Server
+
+Planning, reporting, and collaboration are only as good as the information in your work packages. Writing complete, well-structured descriptions takes time, and unstructured notes often never make it into a proper work package. The new **AI Text Assistant** helps close that gap.
+
+The AI Text Assistant works directly in OpenProject's text editors. It can proofread text, rewrite it in a different tone, or turn rough notes into a structured description that follows your organization's templates. The assistant runs on an LLM that administrators connect themselves, so organizations stay in control of where their data is processed. In addition, the MCP Server, which connects external AI assistants to OpenProject, gets a new tool and is now available in the Community edition.
+
+Read more: [AI system admin guide](../../system-admin-guide/ai/), [Blog article on the AI Text Assistant](https://www.openproject.org/blog/ai-text-assistant/)
+
+#### AI Text Assistant
+
+[feature: text_assistant ]
+
+Every rich text editor shows an **Assistant** button. The main part of the button runs the action you used last, and the arrow lists all available actions. In work package descriptions, this includes actions configured for that work package type. In other editors, such as comments, wiki pages, forums, and meetings, you see the actions available everywhere. The result appears in a popover, where you can review it before applying it to your text.
+
+![AI Text Assistant result popover with a suggested rewrite of a work package description in OpenProject](openproject_release_notes_18.0_ai_text_assistant_in_action.png)
+
+To set up the assistant, administrators use the new **AI** section in the administration, which brings all AI settings together. There, they connect OpenProject to an LLM provider and choose which model each AI feature uses, so AI features run on infrastructure your organization chooses. They also manage the **text actions**: which actions are available in every editor, which only apply to the descriptions of specific work package types, and how they match your organization's templates and writing standards.
+
+![Setup of a new text action for the AI Text Assistant in OpenProject administration](openproject_release_notes_18.0_ai_text_assistant_settings.png)
+
+Read more: [Text assistant system admin guide](../../system-admin-guide/ai/text-assistant/)
+
+#### MCP Server is now part of the Community edition
+
+> [!TIP]
+> **Good news for Community users:** You can now connect external AI assistants to OpenProject through the [MCP Server](../../system-admin-guide/ai/mcp-server/) and let them create and update work packages based on your form configuration.
+
+A new MCP tool lets AI assistants read the form of a new or existing work package: which fields exist, which are required, and which values and statuses are allowed. This means assistants can create and update work packages with fewer round trips and less guesswork.
+
+Read more: [MCP Server system admin guide](../../system-admin-guide/ai/mcp-server/)
+
+### Labels for work packages
+
+Sometimes you need to group work packages across types and projects, for example by customer request, security topic, or initiative, without creating a new custom field or asking an administrator. **Labels** make this possible.
+
+Any project member who can edit a work package can add one or more labels to it. Labels are available across the instance and suggested as you type, so teams naturally reuse the same labels. Labels appear on the work package page, in the work package table, in exports, and in Gantt charts, and you can filter by them. They are also supported when copying, moving, and bulk editing work packages, and label changes are shown in the activity and in baseline comparisons. Administrators can manage existing labels in the administration. Labels are also available through the API and the MCP Server, and the Jira Migrator now migrates labels from Jira.
+
+![Work package table in OpenProject showing labels assigned to work packages](openproject_release_notes_18.0_labels_work_package_table.png)
+
+Read more: [Labels system admin guide](../../system-admin-guide/labels/), [Blog article on labels](https://www.openproject.org/blog/labels-work-packages/)
+
+### Resource management and personal planning
+
+[feature: resource_management ]
+
+Planning resources rarely stops at project boundaries. People work on several projects at the same time, and resource managers need to see the full picture to avoid overloading anyone. Often, they also need to plan work before it is clear who will do it. And team members want to know what is expected of them.
+
+With OpenProject 18.0, the **Resource management** module covers all of this. Resource managers can plan across projects with **global resource planners**, use **placeholder users** to define criteria and plan work before it is clear who will do it, and later assign a matching team member in the new **Staffing** view. Project managers see allocations directly in work packages, and users see the work allocated to them in **My time**.
+
+Read more: [Resource management user guide](../../user-guide/resource-management/), [Blog article on resource management](https://www.openproject.org/blog/resource-management-capacity-planning/)
+
+#### Global resource planners
+
+Besides resource planners within a project, you can now create **global resource planners** to plan resources and allocations across several projects. You find them under **Resource management** in the global modules menu.
+
+Global resource planners work like project resource planners, with a few differences: work package views can be filtered by project and show an additional project column, and user views can include any user you are allowed to see, not only members of one project. Allocations always belong to the project of the work package, so only members of that project can be selected. You only see the projects, users, and allocations you have permission to see. Two new global permissions control who can use global resource planners and who can manage public ones.
+
+Read more: [Global resource planners user guide](../../user-guide/resource-management/#global-resource-planners)
+
+#### Placeholder users and staffing
+
+[feature: placeholder_users ]
+
+[Placeholder users](../../system-admin-guide/users-permissions/placeholder-users/) can now be used to **define criteria** and let you **plan work before you know who will do it**. Criteria describe the kind of person needed, for example a job title, key skills, or spoken languages. You allocate the work to such a placeholder user and assign a matching team member later. If no suitable placeholder user exists yet, you can create one with criteria directly from the allocation dialog.
+
+The updated **Staffing** view lists allocations to placeholder users that don't have a user assigned yet. It is now available both per project and globally across projects. When assigning a user, OpenProject suggests project members who match the placeholder user's criteria, together with their available hours in that period. The placeholder user stays recorded on the allocation, so you can still see what was originally requested.
+
+![Staffing view in OpenProject listing allocations to placeholder users with suggested matching team members](openproject_release_notes_18.0_resource_management_staffing.png)
+
+Read more: [Staffing user guide](../../user-guide/resource-management/#staffing), [Placeholder user criteria system admin guide](../../system-admin-guide/users-permissions/placeholder-users/#placeholder-user-criteria)
+
+#### Resource allocations in work packages
+
+If the Resource management module is activated in a project, the **Estimates and progress** section of a work package shows two new attributes:
+
+- **Allocated:** the allocated hours compared to the work of the work package. The bar turns green when exactly the planned work is allocated and red when more is allocated.
+- **Allocated resources:** the users and placeholder users the work is allocated to.
+
+Selecting one of these attributes opens the allocation dialog, where you can create, edit, or delete allocations. You can also allocate resources from the work package's more menu or from the context menu in a work package table.
+
+Read more: [Allocations in work packages user guide](../../user-guide/resource-management/#allocations-in-work-packages)
+
+#### Personal allocations in My time
+
+Work allocated to you now appears in all views of **My time**. OpenProject distributes the hours of an allocation over your working days within the allocated dates and subtracts the time you have already logged on the work package, so you see how many hours are still expected each day. If an allocation exceeds your working hours because a resource planner confirmed it as overtime, the extra time is still shown, so no allocated time is silently dropped. From an allocation, you can open the work package, assign it to yourself, or log time with the work package, date, and remaining hours already filled in.
+
+**My time** also remembers your last selected view (Stack, Calendar, or List) and time range (day, workweek, week, or month), so you can pick up where you left off when you return.
+
+Read more: [Resource allocations in My time user guide](../../user-guide/time-and-costs/my-time/#resource-allocations-in-my-time)
+
+### Accessibility
+
+Everyone should be able to use OpenProject, regardless of their abilities or the technologies they rely on. OpenProject 18.0 continues this work with a focus on keyboard navigation, contrast and screen reader support.
+
+The biggest change is in the **work package table**: keyboard and screen reader users can now navigate it, select work packages, and use all context actions without a mouse. Administrators can also check the contrast of highlighting colors before using them. In addition, key areas such as the work package list and details, Backlogs, Boards, and Meetings have been audited with the AXe accessibility testing tool.
+
+Further improvements include:
+
+- **Accessible chart descriptions:** Charts in dashboard widgets and Backlogs now have descriptions for screen reader users.
+- **Work packages in documents:** Improved keyboard navigation and screen reader support for work packages embedded in documents.
+- **Theme-specific logos:** Administrators can now upload different logos for light, dark, and high contrast modes.
+
+Read more: [Blog article on accessibility in OpenProject 18.0](https://www.openproject.org/blog/accessibility-18-0/)
+
+#### Keyboard and screen reader support in work package tables and Backlogs
+
+Keyboard and screen reader users can now move through rows and cells of the work package table, select one or several work packages, and open their context actions without a pointer. This makes bulk work such as moving, copying, changing the status, or deleting work packages possible in the same way as for mouse users. The table follows the same selection rules as Backlogs, and new context menu actions let you move work packages within the table.
+
+Editable cells can be opened with **Enter** or **F2**. To clear a selection, press **Escape** instead of Ctrl/Cmd+D. If a menu or editor is open, Escape closes it first, and pressing it again clears the selection.
+
+Read more: [Keyboard shortcuts and access keys user guide](../../user-guide/keyboard-shortcuts-access-keys/)
+
+#### Color contrast check
+
+When creating or editing highlighting colors, administrators now see a **preview** of how the color looks in light and dark modes, together with a **contrast check**. This helps choose colors that remain readable for people with visual impairments or color vision deficiencies.
+
+![Highlighting color settings in OpenProject with a light and dark mode preview and contrast check](openproject_release_notes_18.0_color_contrast_preview.png)
+
+Read more: [Color settings system admin guide](../../system-admin-guide/design/#set-a-new-color)
+
+### Meetings
+
+Good meetings start with a clear agenda and end with clear outcomes. OpenProject 18.0 brings many improvements to the Meetings module, from deciding which topics come first to presenting the agenda and finding past discussions.
+
+The highlights are **vote-based ranking of agenda items**, a more flexible **presentation mode**, and **full-text search in meeting minutes**. Many smaller improvements make preparing and following up on meetings smoother.
+
+Read more: [Meetings user guide](../../user-guide/meetings/)
+
+#### Agenda voting and agenda items
+
+Meeting participants can now **vote on agenda items**. In vote-based sorting mode, items within each section are ranked by their votes, so the most important topics come first. Each participant has one vote per item.
+
+Working with agenda items has also become easier:
+
+- Add a new item directly **above or below** an existing one.
+- When copying agenda items to subsequent meetings, you can now **include their outcomes**.
+- When moving an agenda item to the next meeting, OpenProject tries to place it in a **matching section**.
+
+![Meeting agenda in OpenProject sorted by votes, with vote counts shown next to each agenda item](openproject_release_notes_18.0_meeting_agenda_voting.png)
+
+Read more: [Agenda voting user guide](../../user-guide/meetings/meeting-features/meeting-agenda/#sort-agenda-items-and-vote), [Blog article on agenda voting](https://www.openproject.org/blog/voting-agenda-items/)
+
+#### Presentation mode
+
+Long agenda items can now be **split into multiple slides** with a horizontal rule, so you no longer need to scroll during a presentation. You can also move agenda items to the next meeting directly from presentation mode. A small avatar next to the previews of the previous and next agenda items shows when the presenter changes, and agenda items use more of the available width.
+
+Read more: [Presentation mode user guide](../../user-guide/meetings/meeting-features/meeting-modes/#present-a-meeting)
+
+#### Finding and managing meetings
+
+Meeting contents are now included in the **global search**, so you can look up whether and when a topic was discussed. The "Past" page of My meetings shows all past meetings instead of only five, and you can filter past meetings by status.
+
+When cancelling a meeting, organizers can add a **reason** that participants can see. You can also copy a link to a specific meeting section, and the meeting sidebar sections have been reordered.
+
+Read more: [Meetings filters user guide](../../user-guide/meetings/#meetings-filters)
+
+### Jira Migrator and CSV import
+
+Many organizations are moving away from Jira, and a move only works if project data comes along. OpenProject 18.0 makes major progress here: the **Jira Migrator** now officially supports Jira Server and moves nearly all issue data to OpenProject, so teams can continue working with the history and context they are used to. For data from spreadsheets or tools without a dedicated migrator, the new **CSV import** brings work packages into OpenProject as well.
+
+Read more: [Jira migration guide](../../installation-and-operations/jira-migration/), [Jira Migrator overview](https://www.openproject.org/jira-migrator/)
+
+#### Jira Migrator: major progress toward a complete migration
+
+The Jira Migrator now keeps the context your teams rely on: how issues relate to each other, who worked on what, how much time was spent, which sprint an issue belonged to, and how it was resolved. New in this release, the Jira Migrator migrates:
+
+- Issue links, which become relations between work packages
+- Sub-tasks, which become child work packages, so the hierarchy is preserved
+- Sprint assignments, with the required sprints and sprint attributes
+- Labels
+- Watchers
+- Tracked time (spent time)
+- Resolution and Resolution date fields
+- Custom datetime fields
+
+Each imported work package keeps the original Jira issue key and internal ID, so you can always trace it back to its source. Jira Server is now officially supported. Connecting to Jira has also become more flexible with Basic Auth support, and the connection test now checks that the token belongs to a Jira administrator. Importing Resolution fields changes how statuses are created. See [breaking changes](#jira-migrator-changed-import-of-resolution-fields).
+
+Read more: [Jira migration guide](../../installation-and-operations/jira-migration/), [Jira field mapping guide](../../installation-and-operations/jira-migration/field-mapping/), [Jira Migrator overview](https://www.openproject.org/jira-migrator/)
+
+#### Work package import from CSV
+
+You can now **import work packages from CSV files**. This helps teams move data from spreadsheets or from tools without a dedicated migrator into OpenProject. OpenProject detects the encoding and separator automatically, provides a downloadable template, and lists any problems so you can fix them before importing.
+
+![Work packages import under project settings in OpenProject](openproject_release_notes_18.0_wp_import.png)
+
+Read more: [Work package import user guide](../../user-guide/work-packages/importing/)
+
+### Forums
+
+The Forums module has been revived. A new browsing experience with pagination makes it easier to follow discussions. You can **mention** team members, **mark a topic as solved**, and **create a work package** directly from a conversation, turning discussions into action.
+
+![A discussion thread in the Forums module in OpenProject](openproject_release_notes_18.0_forum.png)
+
+Read more: [Forums user guide](../../user-guide/forums/), [Blog article on the revived Forums](https://www.openproject.org/blog/passion-project-forums-module/)
+
+### GitLab integration
+
+What should be implemented is defined in work packages, while the implementation lives in GitLab. The reworked **Code** tab (formerly "GitLab") shows the related issues, merge requests, branches, and commits directly in the work package. Developers can find code to review, project managers can see whether work is merged, and QA can see where to test.
+
+GitLab is now configured in the new **Repositories** section of the administration, which also supports connecting multiple GitLab instances. The GitHub integration is still configured under **Integrations**.
+
+Placeholder for the screenshot alt-text: Code tab of a work package in OpenProject showing related GitLab merge requests and commits (openproject_release_notes_18.0_code_tab_gitlab.png )
+
+Read more: [GitLab integration system admin guide](../../system-admin-guide/integrations/gitlab-integration/), [Repositories system admin guide](../../system-admin-guide/repositories/), [GitLab integration overview](https://www.openproject.org/integrations/gitlab/)
+
+### More improvements
+
+Besides the major feature areas, OpenProject 18.0 contains many improvements to everyday work. Documents gain new ways to work with work packages, the SquashTM integration is available in a first version, creating and editing XWiki pages from OpenProject has become easier, and time tracking gets a clearer overview.
+
+For administrators, there are new portfolio features, a central overview of memberships, and more transparency about permissions. The application also gets a refreshed design with a new header, and users have more freedom in designing their avatars.
+
+Read more: [OpenProject user guide](../../user-guide/), [XWiki integration system admin guide](../../system-admin-guide/integrations/xwiki/)
+
+#### Work package management
+
+**Status categories** add a common meaning to your statuses, however they are named. Administrators assign each status to one of three categories:
+
+- **To-do:** Work that has not yet started.
+- **In progress:** Work that is actively being worked on.
+- **Closed:** Work that has been completed.
+
+A new custom field format, **Date and time**, lets you record exact points in time such as deadlines, appointments, or deployment windows. Values are shown in each user's time zone and format.
+
+Further improvements include:
+
+- Copy a work package's ID from its more menu.
+- Filter work packages by their semantic identifier (e.g. PROJ-42) in API v3.
+- Work package descriptions can be rendered as Markdown.
+- The Relations tab scrolls to a newly created child automatically.
+- A new user setting lets inline fields open for editing only on double click.
+
+Read more: [Date and time custom field system admin guide](../../system-admin-guide/custom-fields/#date-and-time-custom-field)
+
+#### Documents
+
+Documents get several new ways to work with work packages: insert **work package attributes** with a slash command, create **work package link blocks** with the #### command, and **create new work packages** from a search in a document. Documents also support **advanced tables** and **anchors at headings**, so you can copy a link to a specific section and share it. New documents, as well as meetings and boards, can now be created directly from the **+** button in the header.
+
+![Form to insert a work package attribute into a document via a slash command in the OpenProject Documents module](openproject_release_notes_18.0_documents_insert_wp_attribute.png)
+
+Read more: [Documents user guide](../../user-guide/documents/)
+
+#### SquashTM integration
+
+OpenProject 18.0 includes a first version of the integration with the test management tool **SquashTM**. Administrators set up the connection and enable it per project, and work packages get a new SquashTM tab.
+
+Read more: [SquashTM integration system admin guide](../../system-admin-guide/integrations/squashtm/)
+
+#### Time tracking, costs, and budgets
+
+My time has a new **stacked view** that lists each day's time entries, which is especially helpful if you don't log start and end times. The My spent time widget on My page has been replaced with the same modern calendar.
+
+Placeholder users can now have **hourly rates** and can be selected in the planned costs of a budget, so you can plan costs before staffing is final. The time log form has been refined, and cost reports use a new standard query.
+
+Read more: [My time user guide](../../user-guide/time-and-costs/my-time/#stack-view), [Placeholder user hourly rates system admin guide](../../system-admin-guide/users-permissions/placeholder-users/#hourly-rates)
+
+#### Project portfolio and administration
+
+**[Project life cycle phases](../../user-guide/projects/project-home/project-life-cycle/)** now have a state: Open, In progress, or Completed. The state is set manually on the project overview and shows which phase is currently active. It does not change the phase dates.
+
+**[Weighted item lists](../../system-admin-guide/custom-fields/#weighted-item-list-custom-field-enterprise-add-on)** used as project attributes now support multiple selections. Calculated values can process them with the new MUL and COUNT functions, for example to score projects by several strategic reasons at once.
+
+For projects following PMflex, **wiki pages** can now be included in artefact exports. In addition, the new **project hover card** and a redesigned project status badge make it easier to identify projects.
+
+For administrators:
+
+- A new **Memberships** page lists all memberships across projects, including archived ones, and can be filtered.
+- A **permission preview** shows what a role grants wherever roles are assigned.
+- When deleting a role, OpenProject shows which members still use it.
+- Creating **OAuth applications** has been improved.
+
+Read more: [Project life cycle user guide](../../user-guide/projects/project-home/project-life-cycle/), [Weighted item list project attributes system admin guide](../../system-admin-guide/projects/project-attributes/#weighted-item-list-project-attribute-enterprise-add-on), [PM² and PMflex use case](../../use-cases/project-management-pm2-pmflex/), [Roles and permissions system admin guide](../../system-admin-guide/users-permissions/roles-permissions/)
+
+#### Application redesign
+
+OpenProject has a refreshed look: the **application header** uses the new primary blue, and UI elements in the work package view have aligned rounded corners. The login screen has been modernized as well. In addition, many administration pages have been migrated to our Primer design system for a more consistent interface.
+
+#### Avatars
+
+Users can now choose an **emoji or custom letters** as their avatar, with a background color of their choice. Administrators can also give **groups** an avatar, which makes them easier to recognize.
+
+![Avatar settings in OpenProject with an emoji avatar and a custom background color](openproject_release_notes_18.0_avatars_emoji.png)
+
+Read more: [Avatars system admin guide](../../system-admin-guide/users-permissions/avatars/)
+
+#### What's new menu
+
+A new **gift icon** in the header opens the **What's new** menu, which lists the most important features of the current release with links to the documentation, blog posts, or the release video. A red dot on the icon shows when a new release is available, so users learn about new features right after an upgrade.
+
+![What's new teaser popover in OpenProject](openproject_release_notes_18.0_whats_new.png)
+
+Read more: [What's new user guide](../../user-guide/home/#whats-new), [Blog article on What's new](https://www.openproject.org/blog/passion-project-whats-new-release/)
 
 ## Important updates and breaking changes
 
-<!-- Remove this section if empty, add to it in pull requests linking to tickets and provide information -->
+OpenProject 18.0 introduces changes to existing configuration options, administration terminology, and certain technical interfaces. While many improvements are available immediately after upgrading, some changes may require administrators to review their configurations or update existing integrations. We recommend reviewing the following information before upgrading, particularly if your organization uses project-specific work package configurations, the Jira Migrator, or integrations with the OpenProject API.
+
+### Migration of project-specific work package configurations to type variants
+
+With the introduction of work package type variants, OpenProject 18.0 changes how project-specific work package configurations are managed. During the upgrade, OpenProject automatically creates variants where necessary to preserve existing project-specific custom field configurations. These variants are marked as **Migrated** in the work package type administration. Administrators should review them after upgrading. A migrated variant can be removed once no project uses it anymore: switch the affected projects to a different variant or type, then delete the migrated variant.
+
+Read more: [Work package types system admin guide](../../system-admin-guide/manage-work-packages/work-package-types/)
+
+### Set up status categories
+
+With OpenProject 18.0, every work package status belongs to a category: To-do, In progress, or Closed. During the upgrade, closed statuses are assigned to the Closed category automatically. All other statuses remain without a category until an administrator assigns one. A system message reminds administrators to complete this setup.
+
+Read more: [Work package status system admin guide](../../system-admin-guide/manage-work-packages/work-package-status/)
+
+### Jira Migrator: changed import of Resolution fields
+
+The Jira Migrator now maps each combination of Jira status and resolution to its own closed status in OpenProject (for example, "Done - Fixed" and "Done - Rejected"). As a result, imports create more statuses than before. A new administration setting restores the previous behavior.
+
+Read more: [Jira field mapping guide](../../installation-and-operations/jira-migration/field-mapping/)
+
+### Changes to existing configuration and interfaces
+
+- **Custom fields** are now managed in the area of the administration they belong to, for example work package custom fields under **Work packages**. The **Custom fields** section remains, but only offers an overview with links to these areas.
+- The **Copy to other types** workflow action has been removed. Workflows can now be reused across types and variants instead.
+- The **Boards** module is now enabled automatically when Backlogs is enabled in a project.
+- The **Meetings API** now returns durations in ISO 8601 format instead of numbers. Integrations that read meeting durations need to be updated.
+
+Several existing features have also been renamed. **Custom actions** are now called **Automations**, **Form configuration** is now **Form**, **My time tracking** is now **My time**, and the **GitLab** tab in work packages is now called **Code**.
+
+Read more: [Work package forms system admin guide](../../system-admin-guide/manage-work-packages/work-package-forms/), [Work package automations system admin guide](../../system-admin-guide/manage-work-packages/work-package-automations/), [API documentation](../../api/)
 
 <!-- BEGIN SECURITY FIXES AUTOMATED SECTION -->
 
@@ -29,6 +543,7 @@ In these Release Notes, we will give an overview of important feature changes. A
 ## Bug fixes and changes
 
 <!-- Warning: Anything within the below lines will be automatically removed by the release script -->
+
 <!-- BEGIN AUTOMATED SECTION -->
 
 - Feature: Burndown chart \[[#40132](https://community.openproject.org/wp/40132)\]
@@ -451,4 +966,3 @@ Last but not least, we are very grateful for our very engaged translation contri
 Would you like to help out with translations yourself?
 Then take a look at our translation guide and find out exactly how you can contribute.
 It is very much appreciated!
-
