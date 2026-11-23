@@ -86,7 +86,8 @@ being unusable from HTML.
 from `window.OpenProject.getPluginContext()`. `stubPluginContext` installs a context that resolves
 immediately, and `stubPendingPluginContext` installs one that stays pending until the returned
 function is called, for testing a disconnect before the services arrive. Both restore
-`window.OpenProject` when the test finishes, so no `afterEach` is needed:
+`window.OpenProject` when the test finishes, so no `afterEach` is needed. Call them from `beforeEach`
+or inside a test, not from `beforeAll`, because the restore is registered on the running test:
 
 ```typescript
 stubPluginContext({ services: { notifications: { addError } } });

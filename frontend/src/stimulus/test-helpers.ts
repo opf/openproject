@@ -29,6 +29,7 @@ import { Application, Controller } from '@hotwired/stimulus';
 import { type ControllerConstructor } from '@hotwired/stimulus/dist/types/core/controller';
 import { getQueriesForElement, queries, type BoundFunctions } from '@testing-library/dom';
 import { nextFrame } from 'core-common/testing/timing';
+import { type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 import { onTestFinished } from 'vitest';
 
 export interface StimulusTestContext {
@@ -116,17 +117,25 @@ export function createControllerInstance<T extends Controller>(
   return Object.create(ControllerClass.prototype) as T;
 }
 
-export function stubPluginContext(context:unknown):void {
+interface PluginContextStub {
+  services?:Partial<Record<ServiceKey, unknown>>;
+  classes?:Record<string, unknown>;
+  helpers?:Record<string, unknown>;
+  injector?:{ get:(token:unknown) => unknown };
+}
+
+export function stubPluginContext(context:PluginContextStub):void {
   installOpenProjectStub(() => Promise.resolve(context));
 }
 
-export function stubPendingPluginContext():(context:unknown) => void {
-  let resolveContext!:(context:unknown) => void;
-  installOpenProjectStub(() => new Promise((resolve) => { resolveContext = resolve; }));
-  return (context) => { resolveContext(context); };
+export function stubPendingPluginContext():(context:PluginContextStub) => void {
+  let resolveContext!:(context:PluginContextStub) => void;
+  const context = new Promise<PluginContextStub>((resolve) => { resolveContext = resolve; });
+  installOpenProjectStub(() => context);
+  return resolveContext;
 }
 
-function installOpenProjectStub(getPluginContext:() => Promise<unknown>):void {
+function installOpenProjectStub(getPluginContext:() => Promise<PluginContextStub>):void {
   const original = window.OpenProject;
   window.OpenProject = { getPluginContext } as unknown as typeof window.OpenProject;
   onTestFinished(() => { window.OpenProject = original; });
