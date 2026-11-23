@@ -100,9 +100,9 @@ There is no way to say "explicitly empty" in a CSV file, so a value that is set 
 
 A line that holds more cells than the header line is reported rather than cut short.
 
-### Problems with the header line
+### How the header line is handled
 
-The header line is checked once, before any line is read. A column without a name, an unknown column, a duplicate column and an ambiguous column are each reported with the column letter it has in your spreadsheet application. For an unknown column, the report suggests the column you may have meant ("Did you mean …?").
+The header line is checked once, before any line is read. A column without a name, an unknown column, a duplicate column and an ambiguous column are each reported with the column letter it has in your spreadsheet application. 
 
 The following are not reported:
 
