@@ -296,7 +296,7 @@ RSpec.describe WorkPackageTypes::ProjectsTabController do
         end
       end
 
-      context "when work packages stand in the way in a project the admin cannot see" do
+      context "when an archived project holds work packages of the type" do
         let(:archived_project) { create(:project, :archived) }
 
         before do
@@ -308,11 +308,15 @@ RSpec.describe WorkPackageTypes::ProjectsTabController do
           post :enable_all_projects, params: { type_id: type.id, value: "0" }, format: :turbo_stream
         end
 
-        it "says some projects are hidden" do
-          expect(sanitize_string(response.body)).to include("There are also work packages in projects you cannot see.")
+        it "leaves the type on it" do
+          expect(archived_project.reload.enabled_types).to include(type)
         end
 
-        it "links only to the work packages of the project the admin can see" do
+        it "does not count it among the blocked projects" do
+          expect(sanitize_string(response.body)).not_to include("There are also work packages in projects you cannot see.")
+        end
+
+        it "links only to the work packages of the active project" do
           link_to = ->(blocked) do
             CGI.escapeHTML(work_packages_path(query_props: { f: [
               { n: "type", o: "=", v: [type.id] },

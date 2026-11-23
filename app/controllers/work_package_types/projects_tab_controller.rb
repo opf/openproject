@@ -111,7 +111,7 @@ module WorkPackageTypes
       if params[:value] == "1"
         enable_everywhere
       else
-        respond_to_bulk_change(remove_from(@variant.projects))
+        respond_to_bulk_change(remove_from(@variant.projects.active))
       end
     end
 
