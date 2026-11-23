@@ -21,8 +21,13 @@
     popover="auto"
     data-view-component="true">
     <div class="Overlay Overlay--size-auto">
+      @if (showHeading()) {
+        <div class="Overlay-header">
+          <h2 class="Overlay-title" [id]="menuId + '-heading'">{{ label() }}</h2>
+        </div>
+      }
       <div class="Overlay-body Overlay-body--paddingNone">
-        <ng-container *ngTemplateOutlet="list; context: { items: visibleItems(), id: menuId + '-list', prefix: menuId + '-sub', label: label(), labelledBy: null }" />
+        <ng-container *ngTemplateOutlet="list; context: { items: visibleItems(), id: menuId + '-list', prefix: menuId + '-sub', label: label(), labelledBy: showHeading() ? menuId + '-heading' : null }" />
       </div>
     </div>
   </anchored-position>
@@ -33,7 +38,7 @@
     <div>
       <ul [id]="id"
         role="menu"
-        [attr.data-target]="labelledBy ? null : 'action-menu.list'"
+        [attr.data-target]="id === menuId + '-list' ? 'action-menu.list' : null"
         [attr.aria-label]="labelledBy ? null : (label || null)"
         [attr.aria-labelledby]="labelledBy"
         class="ActionListWrap ActionListWrap--inset"
