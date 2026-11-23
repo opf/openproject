@@ -28,15 +28,17 @@ const defaultSchema = BlockNoteSchema.create().extend({
 });
 
 interface EditorOptions {
+  tables?:NonNullable<Parameters<typeof useCreateBlockNote>[0]>['tables'];
   onEditor?:(editor:any) => void;
   schema?:any;
   editable?:boolean;
   initialContent?:any[];
 }
 
-function Editor({ onEditor, schema, editable = true, initialContent }:EditorOptions) {
+function Editor({ onEditor, schema, editable = true, initialContent, tables }:EditorOptions) {
   const editor = useCreateBlockNote({
     schema: schema ?? defaultSchema,
+    tables,
     ...(initialContent ? { initialContent } : {}),
   });
   onEditor?.(editor);

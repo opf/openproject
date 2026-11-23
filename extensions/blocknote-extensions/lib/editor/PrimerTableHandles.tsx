@@ -28,17 +28,17 @@
 import { useEditorTranslation } from './editorTranslations';
 import { ExtendButton, type ExtendButtonProps, TableCellButton, type TableCellButtonProps, TableHandle, type TableHandleProps, TableHandlesController } from '@blocknote/react';
 import { GrabberIcon, PlusIcon, TriangleDownIcon } from '@primer/octicons-react';
-import { PrimerActionMenus, PrimerMenuPortal } from './PrimerActionMenus';
+import { PrimerActionMenus, PrimerMenuPortal, PrimerTableActionMenu } from './PrimerActionMenus';
 
 function PrimerTableHandle(props:TableHandleProps) {
   const t = useEditorTranslation();
   const label = props.orientation === 'row' ? t('js.blocknote.row_actions') : t('js.blocknote.column_actions');
-  return <PrimerActionMenus returnFocusToEditor label={label}><TableHandle {...props}><GrabberIcon size={20} data-test="tableHandle" /></TableHandle></PrimerActionMenus>;
+  return <PrimerTableActionMenu label={label}><TableHandle {...props}><GrabberIcon size={20} data-test="tableHandle" /></TableHandle></PrimerTableActionMenu>;
 }
 
 function PrimerCellHandle(props:TableCellButtonProps) {
   const t = useEditorTranslation();
-  return <PrimerActionMenus returnFocusToEditor label={t('js.blocknote.cell_actions')}><TableCellButton {...props}><TriangleDownIcon size={12} data-test="tableCellHandle" /></TableCellButton></PrimerActionMenus>;
+  return <PrimerTableActionMenu label={t('js.blocknote.cell_actions')}><TableCellButton {...props}><TriangleDownIcon size={12} data-test="tableCellHandle" /></TableCellButton></PrimerTableActionMenu>;
 }
 
 function PrimerExtendButton(props:ExtendButtonProps) {

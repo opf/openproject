@@ -37,6 +37,8 @@ function Trigger({ children }:Menu['Trigger']) {
 }
 
 const MenuSide = createContext<'outside-left' | 'outside-right' | 'outside-bottom'>('outside-bottom');
+const InTableMenu = createContext(false);
+const CloseTableMenu = createContext<(() => void) | undefined>(undefined);
 const ReturnFocusToEditor = createContext(false);
 const AnchorLabel = createContext<string | undefined>(undefined);
 
@@ -68,9 +70,12 @@ export function TouchToolbarMenu({ anchor, children }:PropsWithChildren<{ anchor
 function Root({ children, onOpenChange, portalElement, position, sub, preventFocusOnOpen }:Menu['Root']) {
   const { portalContainerName } = useContext(PortalContext);
   const label = useContext(AnchorLabel);
+  const tableMenu = useContext(InTableMenu);
+  const [isOpen, setOpen] = useState(false);
   const side = position === 'left' ? 'outside-left' : position === 'right' ? 'outside-right' : 'outside-bottom';
   const changeOpen = (open:boolean) => {
     if (open && portalElement && portalContainerName) registerPortalRoot(portalElement, portalContainerName);
+    if (tableMenu) setOpen(open);
     onOpenChange?.(open);
   };
   const slots = Children.toArray(children).filter(isValidElement).map((child) => {
@@ -97,7 +102,11 @@ function Root({ children, onOpenChange, portalElement, position, sub, preventFoc
   }
   return (
     <ReturnFocusToEditor.Provider value={returnFocusToEditor && !sub}>
-      <MenuSide.Provider value={side}><ActionMenu onOpenChange={changeOpen}>{slots}</ActionMenu></MenuSide.Provider>
+      <MenuSide.Provider value={side}>
+        <CloseTableMenu.Provider value={tableMenu ? () => changeOpen(false) : undefined}>
+          <ActionMenu open={tableMenu ? isOpen : undefined} onOpenChange={changeOpen}>{slots}</ActionMenu>
+        </CloseTableMenu.Provider>
+      </MenuSide.Provider>
     </ReturnFocusToEditor.Provider>
   );
 }
@@ -126,6 +135,7 @@ function MenuContents({ children, className }:Menu['Dropdown']) {
 
 function Dropdown({ children, className }:Menu['Dropdown']) {
   const side = useContext(MenuSide);
+  const closeTableMenu = useContext(CloseTableMenu);
   const editor = useBlockNoteEditor();
   const returnFocusToEditor = useContext(ReturnFocusToEditor);
   const editorRef = useMemo(() => ({ current: editor.domElement ?? null }), [editor]);
@@ -133,6 +143,17 @@ function Dropdown({ children, className }:Menu['Dropdown']) {
     <ActionMenu.Overlay
       className="op-blocknote-action-menu"
       side={side}
+      onKeyDown={(event) => {
+        if (!closeTableMenu) return;
+        if (event.key === 'Escape') {
+          // Floating UI swallows Escape before Primer's document listener (SE-661).
+          event.stopPropagation();
+          event.preventDefault();
+          closeTableMenu();
+        } else if (event.key === 'Tab') {
+          closeTableMenu();
+        }
+      }}
       overflow="auto"
       maxHeight="large"
       {...(returnFocusToEditor && { returnFocusRef: editorRef })}
@@ -151,7 +172,12 @@ function Item({ children, icon, checked, onClick, subTrigger, ...rest }:Menu['It
       role={inColorGroup ? 'menuitemradio' : undefined}
       selected={checked}
       aria-keyshortcuts={inColorGroup && typeof children === 'string' ? children[0]?.toLowerCase() : undefined}
-      onSelect={subTrigger ? undefined : () => { onClick?.(); close?.(); }}
+      onSelect={subTrigger ? undefined : (event) => {
+        // Cancel Enter's editor default while allowing Primer's afterSelect to close the menu (SE-661).
+        if ('key' in event && event.key === 'Enter') event.nativeEvent.preventDefault();
+        onClick?.();
+        close?.();
+      }}
     >
       {icon && <ActionList.LeadingVisual aria-hidden>{icon}</ActionList.LeadingVisual>}
       {children}
@@ -210,5 +236,13 @@ export function PrimerActionMenus({ children, label, returnFocusToEditor = false
         {children}
       </AnchorLabel.Provider>
     </ReturnFocusToEditor.Provider>
+  );
+}
+
+export function PrimerTableActionMenu({ children, label }:PropsWithChildren<{ label:string }>) {
+  return (
+    <InTableMenu.Provider value>
+      <PrimerActionMenus returnFocusToEditor label={label}>{children}</PrimerActionMenus>
+    </InTableMenu.Provider>
   );
 }
