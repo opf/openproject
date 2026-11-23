@@ -52,10 +52,10 @@ class StandInViewport extends EventTarget {
 const keyboardTop = () => window.innerHeight - KEYBOARD_HEIGHT;
 const toolbarTop = () => keyboardTop() - TOOLBAR_HEIGHT;
 
-function dockToolbarOnKeyboard():HTMLElement {
+function dockToolbarOnKeyboard(top = toolbarTop()):HTMLElement {
   const toolbar = document.createElement('div');
   toolbar.className = 'bn-mobile-formatting-toolbar';
-  toolbar.setAttribute('style', `position: fixed; left: 0; right: 0; top: ${toolbarTop()}px; height: ${TOOLBAR_HEIGHT}px`);
+  toolbar.setAttribute('style', `position: fixed; left: 0; right: 0; top: ${top}px; height: ${TOOLBAR_HEIGHT}px`);
   document.body.appendChild(toolbar);
   return toolbar;
 }
@@ -264,6 +264,18 @@ describe('KeyboardAwareScrollExtension', () => {
       await nextFrame();
 
       expect(caretBottom()).toBeLessThanOrEqual(toolbarTop());
+    });
+
+    it('lifts the caret above a toolbar that sits higher than the keyboard', async () => {
+      const raisedToolbarTop = toolbarTop() - 3 * LINE_HEIGHT;
+      mountEditor();
+      raiseKeyboard();
+      toolbar = dockToolbarOnKeyboard(raisedToolbarTop);
+      placeCaretBetween(raisedToolbarTop, raisedToolbarTop + TOOLBAR_HEIGHT);
+
+      await userEvent.keyboard('x');
+
+      expect(caretBottom()).toBeLessThanOrEqual(raisedToolbarTop);
     });
   });
 

@@ -47,8 +47,10 @@ function keyboardTop():number {
 function visibleBottom(keyboardEdge:number):number {
   if (keyboardEdge >= window.innerHeight) return keyboardEdge;
 
-  const toolbar = document.querySelector('.bn-mobile-formatting-toolbar');
-  return keyboardEdge - (toolbar?.getBoundingClientRect().height ?? 0);
+  const toolbar = document.querySelector('.bn-mobile-formatting-toolbar')?.getBoundingClientRect();
+  if (!toolbar) return keyboardEdge;
+
+  return Math.min(keyboardEdge - toolbar.height, toolbar.top);
 }
 
 function parentOf(element:Element):Element|null {
