@@ -104,7 +104,7 @@ module ITSM
         delivery_error(:delivery_failed, e.message)
       rescue StandardError => e
         OpenProject.logger.error("Email message #{message.id} failed (#{e.class.name})", exception: e)
-        delivery_error(:delivery_failed, e.class.name)
+        delivery_error(:unexpected_error, e.class.name)
       end
 
       def deliver_confirmation(message, mailbox, addresses) = HelpdeskMailer.confirmation(message, mailbox, addresses).deliver_now
