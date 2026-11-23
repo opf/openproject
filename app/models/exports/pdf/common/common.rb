@@ -34,6 +34,7 @@ module Exports::PDF::Common::Common
   include ActionView::Helpers::NumberHelper
   include CustomFieldsHelper
   include OpenProject::TextFormatting
+  include Exports::PDF::Common::Text
 
   # Languages supported by the hyphenation library https://rubygems.org/gems/text-hyphen
   # The labels are the language names in the language itself (NOT to be put I18n)
@@ -154,45 +155,6 @@ module Exports::PDF::Common::Common
     pdf.table(data, options.merge({ column_widths: }), &) unless data.empty?
   end
 
-  def draw_header_text_multilines(lines, left, top, text_style)
-    starting_position = top
-    lines.each do |line|
-      starting_position -= draw_text_multiline_part(line, text_style, left, starting_position)
-    end
-  end
-
-  def draw_text_multiline_center(text:, text_style:, left:, available_width:, top:, max_lines:)
-    lines = wrap_to_lines(text, available_width, text_style, max_lines)
-    starting_position = top
-    lines.reverse_each do |line|
-      line_width = measure_text_width(line, text_style)
-      line_x = (available_width - line_width) / 2
-      starting_position += draw_text_multiline_part(line, text_style, left + line_x, starting_position)
-    end
-  end
-
-  def draw_header_text_multiline_left(text:, text_style:, available_width:, top:, max_lines:)
-    lines = wrap_to_lines(text, available_width, text_style, max_lines)
-    starting_position = top
-    lines.each do |line|
-      starting_position -= draw_text_multiline_part(line, text_style, 0, starting_position)
-    end
-  end
-
-  def draw_footer_text_multiline_left(text:, text_style:, available_width:, top:, max_lines:)
-    lines = wrap_to_lines(text, available_width, text_style, max_lines)
-    starting_position = top
-    lines.reverse_each do |line|
-      starting_position += draw_text_multiline_part(line, text_style, 0, starting_position)
-    end
-  end
-
-  def formatted_text_box_measured(formatted_text_array, options)
-    features_box = ::Prawn::Text::Formatted::Box.new(formatted_text_array, options.merge({ document: pdf }))
-    features_box.render
-    features_box.height
-  end
-
   def draw_horizontal_line(top, left, right, height, color)
     previous_color = pdf.stroke_color
     previous_line_width = pdf.line_width
@@ -203,99 +165,6 @@ module Exports::PDF::Common::Common
     end
     pdf.stroke_color = previous_color
     pdf.line_width = previous_line_width
-  end
-
-  def draw_styled_text(text, opts)
-    color_before = pdf.fill_color
-    @pdf.save_font do
-      @pdf.font(opts[:font], opts) if opts[:font]
-      @pdf.fill_color = opts[:color] if opts[:color]
-      opts[:style] = opts[:styles][0] if opts[:styles]
-      @pdf.draw_text(text, opts)
-    end
-    pdf.fill_color = color_before
-  end
-
-  def draw_text_centered(text, text_style, top)
-    text_width = measure_text_width(text, text_style)
-    text_x = (pdf.bounds.width - text_width) / 2
-    draw_styled_text text, text_style.merge({ at: [text_x, top] })
-    [text_x, text_width]
-  end
-
-  def draw_text_left(text, text_style, top)
-    text_width = measure_text_width(text, text_style)
-    draw_styled_text text, text_style.merge({ at: [0, top] })
-    text_width
-  end
-
-  def draw_text_right(text, text_style, top)
-    text_width = measure_text_width(text, text_style)
-    draw_styled_text text, text_style.merge({ at: [pdf.bounds.width - text_width, top] })
-    text_width
-  end
-
-  def draw_text_multiline_part(line, text_style, x_position, y_position)
-    draw_styled_text line, text_style.merge({ at: [x_position, y_position] })
-    measure_text_height(line, text_style)
-  end
-
-  def ellipsis_if_longer(text, available_width, text_style)
-    title_text_width = measure_text_width(text, text_style)
-    return text if title_text_width < available_width
-
-    truncate_ellipsis(text, available_width, text_style)
-  end
-
-  def truncate_ellipsis(text, available_width, text_style)
-    line = text.dup
-    while line.present? && (measure_text_width("#{line}...", text_style) > available_width)
-      line = line.chop
-    end
-    "#{line}..."
-  end
-
-  def split_wrapped_lines(text, available_width, text_style)
-    split_text = text.dup
-    lines = []
-    arranger = Prawn::Text::Formatted::Arranger.new(pdf)
-    line_wrapper = Prawn::Text::Formatted::LineWrap.new
-    until split_text.blank?
-      arranger.format_array = [text_style.merge({ text: split_text })]
-      single_line = line_wrapper.wrap_line(arranger:, width: available_width, document: pdf)
-      lines << single_line
-      split_text.slice!(single_line)
-    end
-    lines
-  end
-
-  def wrap_to_lines(text, available_width, text_style, max_lines)
-    split_text = text.dup
-    title_text_width = measure_text_width(split_text, text_style)
-    if title_text_width < available_width
-      [split_text]
-    else
-      lines = split_wrapped_lines(text, available_width, text_style)
-      if lines.length > max_lines
-        lines[max_lines - 1] = truncate_ellipsis(lines[max_lines - 1], available_width, text_style)
-        lines = lines.first(max_lines)
-      end
-      lines
-    end
-  end
-
-  def measure_text_width(text, opts)
-    @pdf.save_font do
-      @pdf.font(opts[:font], opts)
-      @pdf.width_of(text, opts)
-    end
-  end
-
-  def measure_text_height(text, opts)
-    @pdf.save_font do
-      @pdf.font(opts[:font], opts)
-      @pdf.height_of(text, opts)
-    end
   end
 
   def text_column?(column)
@@ -412,19 +281,19 @@ module Exports::PDF::Common::Common
     value
   end
 
-  def prawn_draw_horizontal_border(color, width, left, right, at)
+  def prawn_draw_horizontal_border(color, width, left, right, at_y)
     pdf.save_graphics_state do
       pdf.stroke_color color if color
       pdf.line_width width if width
-      pdf.stroke_horizontal_line left, right, at: at
+      pdf.stroke_horizontal_line left, right, at: at_y
     end
   end
 
-  def prawn_draw_vertical_border(color, width, bottom, top, at)
+  def prawn_draw_vertical_border(color, width, bottom, top, at_y)
     pdf.save_graphics_state do
       pdf.stroke_color color if color
       pdf.line_width width if width
-      pdf.stroke_vertical_line bottom, top, at: at
+      pdf.stroke_vertical_line bottom, top, at: at_y
     end
   end
 
