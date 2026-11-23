@@ -23,7 +23,7 @@ Create a **new type** when you need to represent a different kind of work, such 
 
 For example, two projects might both use the *Bug* type but require different forms, workflows, or default values. Rather than creating two separate bug types, you can create variants of the existing Bug type. These variants retain their parent type's identity, allowing work packages to be grouped and filtered by type across projects.
 
-Variants are optional. If the same configuration works for all projects, you can continue using the original type without creating any variants. For more information, see [Manage type variants](variants/).
+Variants are optional. If the same configuration works for all projects, you can continue using the original type without creating any variants.
 
 ## Overview of types and variants
 
@@ -49,15 +49,31 @@ For a **type**, the menu provides options to configure it, activate it in new pr
 
 ![Actions menu for managing a work package type](openproject_system_guide_work_package_types_actions.png)
 
-For a **variant**, the menu allows you to configure it, activate it in new projects, or delete it. Additional information about inheritance, comparing variants, and project assignments is available in [Manage type variants](variants/).
+For a **variant**, the menu allows you to configure it, activate it in new projects, or delete it.
 
 ![Actions menu for managing a work package variant](openproject_system_guide_work_package_variants_actions.png)
+
+### Compare variants
+
+When a type has multiple variants, you can compare their configurations to understand how they differ.
+
+In the Types overview, open the parent type's **More (three dots)** menu and select **Compare variants**. This opens a comparison view that helps you review the configurations of the variants belonging to that type.
+
+Comparing variants can be useful when deciding whether separate configurations are still needed or when reviewing differences introduced during migration.
+
+### Delete a variant
+
+If a variant is no longer needed, open its **More (three dots)** menu and select **Delete**.
+
+Before deleting a variant, check which projects use it and make sure those projects have been assigned another suitable type or variant. This helps avoid removing a configuration that is still needed.
 
 ### Migrated variants
 
 When upgrading to OpenProject 18.0, OpenProject may automatically create variants to preserve project-specific custom field configurations. These variants are labeled **Migrated** in the overview, making them easy to identify.
 
-Before deleting a migrated variant, make sure the affected projects have been configured to use another type or variant. See [Manage type variants](variants/) for more information.
+You can use the **Migrated** filter to find these variants and review their configurations alongside manually created variants.
+
+Migrated variants help preserve existing project settings during the upgrade. Before changing or deleting one, check which projects use it and whether they still need its configuration.
 
 ## Configure a type or variant
 
@@ -78,9 +94,13 @@ The configuration is organized into the following tabs:
 
 ![Work package type configuration showing the available tabs](openproject_system_guide_work_package_type_tabs.png)
 
-### Details and defaults
+### Details
 
-The **Details** tab contains the basic properties of a work package type or variant, while **Defaults** lets you define content that should be available when users create new work packages. For example, you can add default text to the description field to provide a consistent template for bug reports or risk assessments.
+The **Details** tab contains the basic properties of a work package type or variant. You can use it to review and update the information that identifies the type or variant.
+
+### Defaults
+
+The **Defaults** tab lets you define content that should be available when users create new work packages. For example, you can add default text to the description field to provide a consistent template for bug reports or risk assessments.
 
 In the Enterprise edition, you can also configure automatically generated work package subjects.
 
@@ -90,9 +110,19 @@ For detailed instructions, see [Configure automatic work package subjects](autom
 
 ### Variants
 
-The **Variants** tab allows you to manage alternative configurations of a work package type. A variant can inherit settings from its parent type or use an independent configuration. When a setting is inherited, changes to the parent type are automatically reflected in the variant.
+The **Variants** tab allows you to view and manage alternative configurations of a work package type.
 
-For details about inheritance and managing variants, see [Manage type variants](variants/).
+When creating a variant, you can choose whether it should inherit its configuration from the parent type or use independent settings.
+
+With **Use same settings as type**, the variant follows the parent type's configuration. Changes to inherited settings on the parent type are automatically reflected in the variant. This is useful when several projects should use the same configuration without maintaining separate copies.
+
+With **Manual configuration**, the variant uses its own settings, which can be initialized from an existing configuration or created from scratch. Later changes to the parent type are not automatically applied to independently configured settings.
+
+For example, a software development project and a support project might both use the *Bug* type but need different forms or workflows. Each project can use a suitable variant while retaining the shared work package type.
+
+To manage where a variant is available, open its **Projects** tab. You can also use **Activate in new projects** from the variant's **More (three dots)** menu to control its availability in newly created projects.
+
+For more information, see [Activate work package types for projects](projects/).
 
 ### Form and workflow
 
