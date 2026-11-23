@@ -278,6 +278,37 @@ describe('sortable lists drag preview', () => {
         expect(container.style.paddingRight).toEqual('var(--op-drag-stack-overhang)');
         expect(container.style.paddingBottom).toEqual('var(--op-drag-stack-overhang)');
       });
+
+      it('anchors the badge to the grab point when badgeAnchor is provided', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target,
+          sourceElement: target,
+          container,
+          batchSize: 3,
+          badgeAnchor: { x: 40, y: 30 },
+        });
+
+        const badge = within(container).getByText('3');
+        expect(badge).toHaveAttribute('data-cursor-anchored');
+        expect(badge.style.getPropertyValue('--op-drag-badge-x')).toEqual('40px');
+        expect(badge.style.getPropertyValue('--op-drag-badge-y')).toEqual('30px');
+      });
+
+      it('leaves the badge unanchored when badgeAnchor is omitted', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 3,
+        });
+
+        const badge = within(container).getByText('3');
+        expect(badge).not.toHaveAttribute('data-cursor-anchored');
+        expect(badge).not.toHaveAttribute('style');
+      });
     });
 
     describe('batch stack', () => {
