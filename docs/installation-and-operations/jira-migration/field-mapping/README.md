@@ -53,7 +53,7 @@ Every migrated project is created **private** and **active**, with no parent —
 | Summary                                            | Subject                   | -                                                            |
 | Votes                                              | **Not migrated**          | Does not exist in OpenProject (workaround planned: [JIM-207](https://community.openproject.org/projects/JIM/work_packages/JIM-207)) |
 | Watchers                                           | Watchers                  | Users who only watch an issue are imported as well. All users are added as watchers without receiving a notification. |
-| Web link                                           | **Not migrated**          | - (planned: [JIM-206](https://community.openproject.org/projects/JIM/work_packages/JIM-206))  |
+| Web links (remote links)                           | External links            | Each web link, for example to a Confluence page or a website, keeps its URL, title, description and application type, in the order of Jira. Links whose URL is not an http(s) URL are kept and shown as plain text. Jira's relationship (e.g. "mentioned in"), icon and status of a link aren't kept. When links were added or removed in Jira shows in the imported change history. |
 
 
 ## Sprints

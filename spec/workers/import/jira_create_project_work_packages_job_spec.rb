@@ -285,6 +285,59 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
         end
       end
 
+      describe "remote links" do
+        let(:work_package) { WorkPackage.find("DPPP-6") }
+        let(:notes_link) do
+          {
+            "id" => 10100,
+            "application" => {},
+            "relationship" => "links to",
+            "object" => { "url" => "notes://server/database", "title" => "Customer database" }
+          }
+        end
+        let(:confluence_link) do
+          {
+            "id" => 10101,
+            "application" => { "type" => "com.atlassian.confluence", "name" => "Confluence" },
+            "relationship" => "Wiki Page",
+            "object" => {
+              "url" => "https://confluence.example.com/pages/viewpage.action?pageId=1",
+              "title" => "Design notes",
+              "summary" => "Decisions on the wing design"
+            }
+          }
+        end
+        let(:remote_links) { [notes_link, confluence_link] }
+        let(:jira_issue_payload) { super().merge("remote_links" => remote_links) }
+
+        it "imports them as external links in the order of Jira and records them in every journal" do
+          create_work_packages
+
+          expect(work_package.external_links.pluck(:url, :title, :description, :application_type)).to eq(
+            [
+              ["notes://server/database", "Customer database", nil, nil],
+              ["https://confluence.example.com/pages/viewpage.action?pageId=1", "Design notes",
+               "Decisions on the wing design", "com.atlassian.confluence"]
+            ]
+          )
+          expect(work_package.journals.map { it.external_link_journals.pluck(:url) })
+            .to all(contain_exactly("notes://server/database", "https://confluence.example.com/pages/viewpage.action?pageId=1"))
+        end
+
+        context "with a remote link without a URL" do
+          let(:remote_links) { [notes_link, confluence_link.deep_merge("object" => { "url" => nil })] }
+
+          before { allow(Rails.logger).to receive(:warn) }
+
+          it "imports the work package without that link and logs a warning" do
+            create_work_packages
+
+            expect(work_package.external_links.pluck(:url)).to eq(["notes://server/database"])
+            expect(Rails.logger).to have_received(:warn).with("Skipping remote link without a URL")
+          end
+        end
+      end
+
       context "when another issue of the import shares the type, status and priority" do
         before do
           create(:jira_issue,

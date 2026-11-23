@@ -315,6 +315,30 @@ module Import
       @labels_by_name ||= Hash.new { |cache, name| cache[name] = Label.named(name).first }
     end
 
+    def external_links(jira_issue)
+      remote_links = jira_issue.payload.fetch("remote_links", [])
+      with_url, without_url = remote_links.partition { it.dig("object", "url").present? }
+      without_url.each { log_remote_link_without_url(it) }
+
+      with_url.map { external_link(it) }
+    end
+
+    def external_link(remote_link)
+      linked_object = remote_link["object"]
+      ExternalLink.new(
+        url: linked_object["url"],
+        title: linked_object["title"],
+        description: linked_object["summary"],
+        application_type: remote_link.dig("application", "type")
+      )
+    end
+
+    def log_remote_link_without_url(remote_link)
+      with_log_context(jira_object_type: "remoteLink", jira_object_id_or_name: remote_link["id"]) do
+        Rails.logger.warn "Skipping remote link without a URL"
+      end
+    end
+
     def update_workflows(type)
       with_log_context(jira_object_type: "issueType", jira_object_id_or_name: type.name) do
         call = Workflows::BulkUpdateService
@@ -400,6 +424,7 @@ module Import
             remaining_hours: (remaining_estimate_seconds / 3600.0 if remaining_estimate_seconds),
             skip_semantic_id_allocation: true,
             **label_attrs(jira_issue),
+            external_links: external_links(jira_issue),
             **custom_field_attrs
           )
       raise service_call.message unless service_call.success?

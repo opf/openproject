@@ -168,6 +168,33 @@ RSpec.describe Import::JiraClient do
     end
   end
 
+  describe "#issue_remote_links", :webmock do
+    include_context "with ssrf stubs"
+
+    let(:issue_key) { "OP-10" }
+    let(:issue_remote_links_url) { "#{url}/rest/api/2/issue/#{issue_key}/remotelink" }
+    let(:headers) { { "Content-Type" => "application/json" } }
+    let(:body) do
+      [
+        {
+          "id" => 10100,
+          "application" => { "type" => "com.atlassian.confluence", "name" => "Confluence" },
+          "relationship" => "Wiki Page",
+          "object" => {
+            "url" => "https://confluence.example.com/pages/viewpage.action?pageId=1",
+            "title" => "Design notes",
+            "summary" => "Decisions on the wing design"
+          }
+        }
+      ]
+    end
+
+    it "returns the remote links of the given issue" do
+      stub_request(:get, issue_remote_links_url).to_return(status: 200, body: body.to_json, headers:)
+      expect(client.issue_remote_links(issue_key)).to eq(body)
+    end
+  end
+
   describe "#resolutions", :webmock do
     include_context "with ssrf stubs"
 
