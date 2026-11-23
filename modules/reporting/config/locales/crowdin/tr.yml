@@ -45,6 +45,7 @@ tr:
       end_time: Bitiş zamanı
       start_time: Başlangıç tarihi
       title: Maliyet Raporlarınızın XLS çıktısı
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: PDF zaman çizelgesini dışa aktar
       overview_per_user_day: 'Genel bakış: Kullanıcı başına günlük saat'
@@ -53,6 +54,11 @@ tr:
       time: Zaman
       timesheet: Zaman Çizelgesi
       title: PDF zaman çizelgenizin dışa aktarımı
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    one: "%{filter} requires a value."
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: İzinlerinize bağlı olarak bu sayfa kısıtlı bilgileri içerebilir.
   label_click_to_edit: Düzenlemek için tıkla.
   label_closed: kapalı
@@ -115,5 +121,3 @@ tr:
   text_costs_are_rounded_note: Gösterilen değerler yuvarlanmıştır. Bütün hesaplamalar yuvarlanmamış değerlere göre yapılır.
   toggle_multiselect: çoklu seçimi etkinleştir/devre dışı bırak
   units: Birimler
-  validation_failure_date: geçerli bir tarih değil
-  validation_failure_integer: geçerli bir tamsayı değil

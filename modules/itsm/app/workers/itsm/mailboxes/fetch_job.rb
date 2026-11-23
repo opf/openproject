@@ -43,7 +43,9 @@ module ITSM
       discard_on ActiveJob::DeserializationError
 
       def perform(mailbox)
-        FetchService.new(mailbox).call
+        FetchService.new(mailbox).call.on_success do |fetch|
+          self.class.perform_later(mailbox) unless fetch.result.complete?
+        end
       end
     end
   end

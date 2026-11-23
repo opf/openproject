@@ -50,6 +50,10 @@ class Widget::Table < Widget::Base
     end
   end
 
+  def render?
+    @subject.filter_errors.none?
+  end
+
   def call
     if @subject.result.count <= 0
       content_tag(:div, "", class: "generic-table--no-results-container") do

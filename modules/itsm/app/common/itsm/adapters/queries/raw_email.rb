@@ -31,9 +31,9 @@ module ITSM
   module Adapters
     module Queries
       class RawEmail < BaseQuery
-        def call(session:, uid:)
-          request(session) { |imap| imap.uid_fetch(uid, "BODY.PEEK[]")&.first&.message }
-        end
+        private
+
+        def request(imap, uid:) = imap.uid_fetch(uid, "BODY.PEEK[]")&.first&.message
       end
     end
   end

@@ -5,6 +5,7 @@ da:
       itsm/email_message:
         direction: Retning
         from_address: Fra
+        journal: Journal
         message_id: Besked-id
         status: Status
         subject: Emne
@@ -38,17 +39,28 @@ da:
         username: Brugernavn
     errors:
       models:
+        itsm/email_message:
+          delivery_failed: E-mailen kunne ikke sendes.
+          delivery_rejected: SMTP-serveren afviste e-mailen.
+          not_delivered: E-mailen blev ikke sendt, fordi alle modtagere er blokeret, eller grænsen for e-mails er nået.
+        itsm/email_thread:
+          address_not_allowed: SMTP-serverens adresse er ikke tilladt.
+          no_outgoing_mailbox: Projektet har ingen udgående postkasse.
+          too_many_confirmations: Der er for nylig sendt for mange bekræftelser til anmoderen.
+          unreachable: SMTP-serveren kunne ikke nås.
         itsm/incoming_mailbox:
           attributes:
             base:
-              address_not_allowed: The mail server resolves to a blocked address. If it runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable.
-              authentication_failed: 'The mail server rejected the login: %{server_message}'
-              fetch_in_progress: The mailbox is already being checked.
-              inactive: The mailbox is paused.
-              server_error: 'The mail server returned an error: %{server_message}'
-              timeout: The mail server stopped responding.
-              tls_failed: No secure connection to the mail server could be established. Check its certificate.
-              unreachable: The mail server could not be reached.
+              address_not_allowed: Mailserveren peger på en blokeret adresse. Hvis den kører på et internt netværk, så tillad dens IP-adresse via miljøvariablen OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.
+              authentication_failed: 'Mailserveren afviste login: %{server_message}'
+              fetch_in_progress: Postkassen bliver allerede tjekket.
+              inactive: Postkassen er sat på pause.
+              processing_failed: E-mailene kunne ikke behandles. De bliver i postkassen og forsøges igen. Se detaljer i OpenProjects worker-log.
+              server_error: 'Mailserveren returnerede en fejl: %{server_message}'
+              timeout: Mailserveren holdt op med at svare.
+              tls_failed: Der kunne ikke oprettes en sikker forbindelse til mailserveren. Tjek dens certifikat.
+              unreachable: Mailserveren kunne ikke nås.
+              work_package_not_created: Der kunne ikke oprettes en arbejdspakke ud fra en e-mail, fx fordi et obligatorisk brugerdefineret felt mangler en standardværdi. E-mailen bliver i postkassen og forsøges igen. Se detaljer i OpenProjects worker-log.
     models:
       itsm/email_message:
         one: E-mail
@@ -96,6 +108,12 @@ da:
         description: Konfigurer SMTP-serveren til at besvare e-mails direkte fra arbejdspakkens aktivitet.
         edit: Rediger konfigurationen af SMTP-serveren
         title: Konfiguration af SMTP-server
+    helpdesk_mailer:
+      confirmation:
+        greeting: Hej %{name}
+        received: Vi har modtaget din henvendelse "%{subject}" og registreret den som %{id}.
+        reply: Svar på denne e-mail for at tilføje oplysninger til din henvendelse.
+  label_email_without_subject: "(intet emne)"
   label_helpdesk: Helpdesk
   label_helpdesk_role: Helpdesk
   label_helpdesk_user: Helpdesk

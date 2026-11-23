@@ -165,7 +165,7 @@ describe('Pasting work package attribute macros from CKEditor', () => {
     await vi.waitFor(() => expect(blocks(editor()).slice(0, 3)).toEqual([
       'Before ',
       `[${ATTRIBUTE_BLOCK}]`,
-      ' after',
+      'after',
     ]));
   });
 
@@ -202,7 +202,7 @@ describe('Pasting work package attribute macros from CKEditor', () => {
 
     await vi.waitFor(() => expect(blocks(editor())[1]).toBe(`[${ATTRIBUTE_BLOCK}]`));
     await userEvent.keyboard('Y');
-    expect(blocks(editor()).slice(0, 3)).toEqual(['XYBefore ', `[${ATTRIBUTE_BLOCK}]`, ' after']);
+    expect(blocks(editor()).slice(0, 3)).toEqual(['XYBefore ', `[${ATTRIBUTE_BLOCK}]`, 'after']);
   });
 
   it('converts the macros pasted together with a work package link', async () => {

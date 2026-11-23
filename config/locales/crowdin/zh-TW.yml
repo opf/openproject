@@ -2591,11 +2591,11 @@ zh-TW:
     contrast:
       background: Background
       caption: Based on the WCAG AA minimum contrast ratio of 4.5:1 for normal text.
-      dark: Dark mode
+      dark: 深色主題
       description: These colors highlight information such as work package types and statuses in tables and backlogs. The previews show how your color looks when used as text or as a background in the standard light and dark themes.
       fail: Fail
       foreground: Foreground
-      light: Light mode
+      light: 淺色主題
       pass: Pass
       ratio: Contrast ratio
       sample: Sample text
@@ -5793,7 +5793,7 @@ zh-TW:
     phase_status:
       description:
         completed: Marking a phase as complete will complete all previous phases.
-        in_progress: Marking a phase as complete will complete all previous phases.
+        in_progress: Marking a phase as in progress will complete all previous phases and open all future phases.
         open: Re-opening a phase will also open all future phases.
       title:
         completed: Completed

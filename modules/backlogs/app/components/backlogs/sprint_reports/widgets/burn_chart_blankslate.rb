@@ -41,25 +41,25 @@ module Backlogs
           return :too_long if too_long_to_chart?
 
           if estimated_work?
-            :not_started unless start_reached?
-          elsif start_reached?
+            :not_started unless sprint_begun?
+          elsif sprint_begun?
             :"no_#{estimate_column}"
           else
             :"not_started_without_#{estimate_column}"
           end
         end
 
-        # Before the sprint opens nothing has been measured, so what the sprint holds now has to
+        # Before the sprint begins nothing has been measured, so what the sprint holds now has to
         # answer in the series' place.
         def estimated_work?
-          return anything_to_chart? if start_reached?
+          return anything_to_chart? if sprint_begun?
 
           chartable_work_packages.where(WorkPackage.arel_table[estimate_column].gt(0)).exists?
         end
 
         def estimate_column = project.estimation_unit_time? ? :estimated_hours : :story_points
 
-        def start_reached? = sprint.started_at? || current_user.today >= sprint.start_date
+        def sprint_begun? = ::Sprints::Timeframe.new(sprint, zone: current_user.time_zone).begun?
       end
     end
   end
