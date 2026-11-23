@@ -124,10 +124,32 @@ interface PluginContextStub {
   injector?:{ get:(token:unknown) => unknown };
 }
 
+/**
+ * Stands in for the Angular plugin context that controllers using the `useAngularServices` mixin
+ * read their services from. The original is restored when the test finishes.
+ *
+ * **Call from `beforeEach` or inside a test, never from `beforeAll` or at describe level.** The
+ * restore is registered on the running test, so outside one this throws.
+ *
+ * @example
+ * stubPluginContext({ services: { notifications: { addError } } });
+ */
 export function stubPluginContext(context:PluginContextStub):void {
   installOpenProjectStub(() => Promise.resolve(context));
 }
 
+/**
+ * Like `stubPluginContext`, but the context stays pending until the returned function is called,
+ * for testing a controller that disconnects before its services arrive.
+ *
+ * **Call from `beforeEach` or inside a test, never from `beforeAll` or at describe level.** The
+ * restore is registered on the running test, so outside one this throws.
+ *
+ * @example
+ * const resolveContext = stubPendingPluginContext();
+ * element.remove();
+ * resolveContext({ services: { notifications: { addError } } });
+ */
 export function stubPendingPluginContext():(context:PluginContextStub) => void {
   let resolveContext!:(context:PluginContextStub) => void;
   const context = new Promise<PluginContextStub>((resolve) => { resolveContext = resolve; });

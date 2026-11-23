@@ -82,20 +82,9 @@ checking that makes the isolated test worth writing. Reach for this only when th
 behavior is worth testing apart from its markup — a controller tested solely this way can pass while
 being unusable from HTML.
 
-**Stub the Angular services.** Controllers using the `useAngularServices` mixin read their services
-from `window.OpenProject.getPluginContext()`. `stubPluginContext` installs a context that resolves
-immediately, and `stubPendingPluginContext` installs one that stays pending until the returned
-function is called, for testing a disconnect before the services arrive. Both restore
-`window.OpenProject` when the test finishes, so no `afterEach` is needed. Call them from `beforeEach`
-or inside a test, not from `beforeAll`, because the restore is registered on the running test:
-
-```typescript
-stubPluginContext({ services: { notifications: { addError } } });
-
-const resolveContext = stubPendingPluginContext();
-// ...
-resolveContext({ services: { notifications: { addError } } });
-```
+**Stub the Angular services.** For controllers using the `useAngularServices` mixin,
+`stubPluginContext` and `stubPendingPluginContext` in `test-helpers.ts` stand in for the plugin
+context. Call them from `beforeEach` or inside a test, never from `beforeAll`.
 
 ## Angular components
 
