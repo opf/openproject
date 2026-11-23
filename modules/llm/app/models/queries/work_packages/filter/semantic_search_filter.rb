@@ -69,6 +69,6 @@ class Queries::WorkPackages::Filter::SemanticSearchFilter <
   end
 
   def search_limit
-    WorkPackageEmbedding::SEARCH_LIMIT
+    [Setting.semantic_search_results_limit.to_i, 1].max
   end
 end

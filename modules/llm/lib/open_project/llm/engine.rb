@@ -97,6 +97,20 @@ module OpenProject::Llm
                                  default: false
     end
 
+    # to_prepare so the model constant is autoloadable; Definition.add is idempotent.
+    # Instance-level only (not in the administration UI): settable via
+    # OPENPROJECT_SEMANTIC_SEARCH_RESULTS_LIMIT or config/configuration.yml.
+    config.to_prepare do
+      ::Settings::Definition.add :semantic_search_results_limit,
+                                 description: "How many work package candidates the semantic search similarity query " \
+                                              "(ORDER BY embedding distance + LIMIT) retrieves before the other filters " \
+                                              "and pagination are applied. Should overfetch so that paging within " \
+                                              "the semantic results keeps working.",
+                                 format: :integer,
+                                 writable: false,
+                                 default: WorkPackageEmbedding::SEARCH_LIMIT
+    end
+
     initializer "openproject_llm.features" do
       # The description assistant rewrites work package text on explicit user action.
       # Streamed plain chat completions only: no tools, no JSON mode. Individual

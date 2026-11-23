@@ -81,6 +81,12 @@ RSpec.describe Queries::WorkPackages::Filter::SemanticSearchFilter do
       expect(instance.where).to include("LIMIT #{WorkPackageEmbedding::SEARCH_LIMIT}")
     end
 
+    it "uses the configured semantic_search_results_limit setting" do
+      allow(Setting).to receive(:semantic_search_results_limit).and_return(7)
+
+      expect(instance.where).to include("LIMIT 7")
+    end
+
     it "matches nothing when the query cannot be embedded" do
       allow(Llm::WorkPackages::SemanticSearch).to receive(:query_vector).and_return(nil)
 
