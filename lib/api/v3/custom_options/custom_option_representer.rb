@@ -37,6 +37,13 @@ module API
           "CustomOption"
         end
 
+        link :project do
+          project = represented.project
+          next if project.nil?
+
+          { href: api_v3_paths.project(project.id), title: project.name }
+        end
+
         property :id
 
         property :value

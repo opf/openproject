@@ -190,6 +190,31 @@ RSpec.describe "API v3 project-specific custom field values", :webmock, content_
           expect(last_response).to have_http_status(:ok)
           expect(elements.pluck("id")).to eq([root.id, acme.id, own_item.id])
         end
+
+        context "without a project" do
+          let(:path) { api_v3_paths.custom_field_items(custom_field.id) }
+
+          it "only links the items to the projects the user sees work packages in" do
+            expect(last_response).to have_http_status(:ok)
+            expect(elements.filter_map { it.dig("_links", "project") })
+              .to eq([{ "href" => api_v3_paths.project(project.id), "title" => project.name }])
+            expect(last_response.body).not_to include(other_project.name)
+          end
+        end
+
+        context "for an admin without a project" do
+          let(:path) { api_v3_paths.custom_field_items(custom_field.id) }
+
+          current_user { create(:admin) }
+
+          it "loads the projects of the items at once" do
+            recorder = ActiveRecord::QueryRecorder.new { last_response }
+
+            expect(elements.filter_map { it.dig("_links", "project", "title") })
+              .to contain_exactly(project.name, other_project.name)
+            expect(recorder.log.grep(/FROM "projects" WHERE "projects"\."id"/)).to be_one
+          end
+        end
       end
     end
 
@@ -203,6 +228,11 @@ RSpec.describe "API v3 project-specific custom field values", :webmock, content_
           let(:path) { api_v3_paths.custom_option(own_option.id) }
 
           it_behaves_like "successful response"
+
+          it "links the option to its project" do
+            expect(body.dig("_links", "project"))
+              .to eq({ "href" => api_v3_paths.project(project.id), "title" => project.name })
+          end
         end
 
         context "for an option of another project" do
