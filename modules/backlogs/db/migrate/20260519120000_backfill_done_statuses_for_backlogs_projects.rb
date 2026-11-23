@@ -35,7 +35,7 @@ class BackfillDoneStatusesForBacklogsProjects < ActiveRecord::Migration[8.1]
       FROM projects
       JOIN enabled_modules ON enabled_modules.project_id = projects.id AND enabled_modules.name = 'backlogs'
       CROSS JOIN statuses
-      WHERE statuses.is_closed = true
+      WHERE statuses.is_closed
         AND NOT EXISTS (
           SELECT 1
           FROM done_statuses_for_project existing
