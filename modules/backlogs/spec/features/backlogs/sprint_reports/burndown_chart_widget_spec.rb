@@ -46,25 +46,44 @@ RSpec.describe "Burndown chart widget", :js, with_flag: :sprint_reports do
   end
 
   context "when the sprint has a date range set" do
-    shared_let(:sprint) do
-      create(:sprint,
-             :active,
-             project:,
-             name: "Sprint 42",
-             start_date: Date.yesterday,
-             started_at: 1.day.ago,
-             finish_date: Date.tomorrow)
+    around { |example| travel_to(Time.zone.local(2026, 11, 3, 12)) { example.run } }
+
+    let!(:sprint) do
+      create(
+        :sprint,
+        :active,
+        project:,
+        name: "Sprint 42",
+        start_date: Date.new(2026, 11, 2),
+        started_at: Time.zone.local(2026, 11, 2),
+        finish_date: Date.new(2026, 11, 4)
+      )
     end
-    shared_let(:work_package) { create(:work_package, project:, sprint:, story_points: 3) }
+    let!(:work_package) do
+      create(
+        :work_package,
+        :created_in_past,
+        created_at: Time.zone.local(2026, 11, 1, 12),
+        project:,
+        sprint:,
+        story_points: 3
+      )
+    end
 
     it "renders the burndown chart" do
       visit_sprint_report(sprint)
 
       expect(page).to have_element(:"opce-burndown-chart")
-      canvas = find("opce-burndown-chart canvas[role='img']", wait: 20, aria: { label: "Burndown chart" })
-
-      description_id = canvas["aria-describedby"]
-      expect(canvas.find("##{description_id}", visible: :all).text(:all)).to include("Burndown chart data")
+      expect(page).to have_css("opce-burndown-chart canvas", accessible_name: "Burndown chart", wait: 20)
+      expect(page).to have_table(
+        "Burndown chart: data",
+        visible: :all,
+        data_rows: [
+          { "Date" => "11/02/2026", "Remaining story points" => "3", "Guideline (story points)" => "2" },
+          { "Date" => "11/03/2026", "Remaining story points" => "3", "Guideline (story points)" => "1" },
+          { "Date" => "11/04/2026", "Remaining story points" => "", "Guideline (story points)" => "0" }
+        ]
+      )
     end
   end
 
