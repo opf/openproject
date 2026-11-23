@@ -62,7 +62,7 @@ module WorkPackageCustomFields::Scopes
             #{form_join}
             JOIN form_configuration_attributes fca
               ON fca.form_configuration_id = #{form_configuration_id}
-             AND fca.custom_field_id = custom_fields.id
+           WHERE fca.custom_field_id = custom_fields.id
              AND fca.form_configuration_group_id IS NOT NULL
              AND #{exclusion}
           )
