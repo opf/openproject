@@ -44,7 +44,14 @@ module API
 
             def flat_tree(item, depth, visible_ids)
               limit_depth = depth + 1 if depth
-              HierarchicalItemAggregate.from_tree(item.hash_tree(limit_depth:), visible_ids:)
+              tree = item.hash_tree(limit_depth:)
+              ActiveRecord::Associations::Preloader.new(records: tree_items(tree), associations: :project).call
+
+              HierarchicalItemAggregate.from_tree(tree, visible_ids:)
+            end
+
+            def tree_items(tree)
+              tree.flat_map { |item, children| [item, *tree_items(children)] }
             end
 
             def get_hierarchy_root(query)

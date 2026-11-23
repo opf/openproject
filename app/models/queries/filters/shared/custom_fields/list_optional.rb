@@ -55,11 +55,11 @@ module Queries::Filters::Shared
       end
 
       def visible_custom_options
-        custom_field.visible_values_for(::User.current, within: projects_of_query)
+        custom_field.visible_values_for(::User.current, within: projects_of_query).preload(:project)
       end
 
       def visible_option_values
-        options = visible_custom_options.includes(:project).to_a
+        options = visible_custom_options.to_a
         name_projects = values_of_several_projects?(options)
 
         options.map do |option|

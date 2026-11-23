@@ -34,13 +34,7 @@ RSpec.describe API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresente
 
   let(:project) { build_stubbed(:project) }
   let(:query) { build_stubbed(:query, project:) }
-  let(:custom_field) do
-    cf = build_stubbed(:list_wp_custom_field)
-
-    custom_options = [build_stubbed(:custom_option), build_stubbed(:custom_option)]
-    allow(cf).to receive_messages(custom_options:, visible_values_for: custom_options)
-    cf
-  end
+  let(:custom_field) { create(:list_wp_custom_field, possible_values: %w[A B]) }
   let(:filter) do
     Queries::WorkPackages::Filter::CustomFieldFilter.from_custom_field! custom_field:,
                                                                         context: query
@@ -124,6 +118,19 @@ RSpec.describe API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresente
         expect(JSON.parse(other_json).dig("values", "_links", "allowedValues").pluck("href"))
           .to eq([api_v3_paths.custom_option(option_b.id)])
       end
+      it "loads the options and their projects once for the cache key and the rendering" do
+        custom_field.custom_options.create!(value: "Own", project:)
+
+        recorder = ActiveRecord::QueryRecorder.new do
+          User.execute_as(member) do
+            API::V3::Queries::Schemas::FilterDependencyRepresenterFactory.create(filter, operator, form_embedded: true).to_json
+          end
+        end
+
+        expect(recorder.log.grep(/SELECT "custom_options"\.\* FROM "custom_options"/)).to be_one
+        expect(recorder.log.grep(/SELECT "projects"\.\* FROM "projects" WHERE "projects"\."id"/)).to be_one
+      end
+
     end
 
     describe "caching" do
