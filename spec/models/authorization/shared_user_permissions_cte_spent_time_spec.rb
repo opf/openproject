@@ -102,6 +102,36 @@ RSpec.describe "shared_user_permissions_cte on the spent-time query", :aggregate
     expect(legacy).to eq(5.0)
   end
 
+  # A descendant the user may not see must not contribute its hours, even when its own time
+  # entries are visible. That check lives in the `hours` projection
+  # (WorkPackages::Scopes::LeftJoinSelfAndDescendants#sum_over_visible_descendants), which is
+  # why compute_spent_hours reads the scope's aggregate instead of re-projecting the sum.
+  context "with a descendant the user may not see" do
+    shared_let(:hidden_project) { create(:project) }
+    shared_let(:time_entries_only_role) { create(:project_role, permissions: %i[view_time_entries]) }
+    shared_let(:hidden_member) do
+      create(:member, project: hidden_project, principal: user, roles: [time_entries_only_role])
+    end
+    shared_let(:hidden_child) { create(:work_package, project: hidden_project, parent: work_package) }
+    shared_let(:hidden_child_time_entry) do
+      create(:time_entry, entity: hidden_child, project: hidden_project, hours: 7.0)
+    end
+
+    it "leaves its hours out under both flag states" do
+      expect(TimeEntry.visible(user)).to include(hidden_child_time_entry)
+      expect(WorkPackage.visible(user)).not_to include(hidden_child)
+
+      with_flags(shared_user_permissions_cte: false)
+      legacy = WorkPackage.find(work_package.id).spent_hours(user)
+
+      with_flags(shared_user_permissions_cte: true)
+      collapsed = WorkPackage.find(work_package.id).spent_hours(user)
+
+      expect(legacy).to eq(5.0)
+      expect(collapsed).to eq(5.0)
+    end
+  end
+
   it "embeds as a subquery the way the eager-loading wrapper does" do
     with_flags(shared_user_permissions_cte: true)
     time_scope = collector_for(spent_time_relation)
