@@ -163,6 +163,10 @@ module OpenProject::Llm
       OpenProject::Llm::Pgvector.register_active_record_type
     end
 
+    initializer "openproject_llm.pgvector_hnsw_session_settings" do
+      OpenProject::Llm::Pgvector.register_hnsw_session_settings
+    end
+
     config.to_prepare do
       OpenProject::Llm::Hooks
     end

@@ -54,11 +54,44 @@ module OpenProject
         end
       end
 
+      # hnsw.iterative_scan is a user-context GUC of the vector extension: settable per
+      # server, database, role, session or transaction, and only consulted by HNSW index
+      # scans that combine a WHERE filter with ORDER BY distance + LIMIT. Setting it on
+      # every new connection (instead of SET LOCAL per query) makes filtered k-NN queries
+      # iterate until the LIMIT is filled instead of returning post-filtered shortfalls.
+      # https://community.openproject.org/projects/openproject/work_packages/SD-25
+      module SessionSettings
+        def configure_connection
+          super
+          Pgvector.apply_hnsw_session_settings(self)
+        end
+      end
+
+      ITERATIVE_SCAN_MODE = "relaxed_order"
+
       class << self
         def register_active_record_type
           ActiveSupport.on_load(:active_record_postgresqladapter) do
             singleton_class.prepend(TypeRegistration)
           end
+        end
+
+        def register_hnsw_session_settings
+          ActiveSupport.on_load(:active_record_postgresqladapter) do
+            prepend(SessionSettings)
+          end
+        end
+
+        def apply_hnsw_session_settings(connection)
+          return unless extension_installed_on?(connection)
+
+          connection.execute("SET hnsw.iterative_scan = '#{ITERATIVE_SCAN_MODE}'", "SCHEMA")
+        end
+
+        # Checked on the connection being configured; Pgvector.extension_installed? would
+        # go through ActiveRecord::Base.connection and recurse into configure_connection.
+        def extension_installed_on?(connection)
+          connection.select_value("SELECT 1 FROM pg_extension WHERE extname = '#{EXTENSION}'").present?
         end
 
         def available?

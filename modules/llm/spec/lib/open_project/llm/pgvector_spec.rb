@@ -49,6 +49,38 @@ RSpec.describe OpenProject::Llm::Pgvector do
     end
   end
 
+  describe ".register_hnsw_session_settings" do
+    it "sets hnsw.iterative_scan to relaxed_order on pool connections" do
+      ActiveRecord::Base.connection_pool.with_connection do |connection|
+        connection.select_value("SELECT '[1]'::halfvec") # load the extension so the GUC exists
+
+        expect(connection.select_value("SHOW hnsw.iterative_scan")).to eq("relaxed_order")
+      end
+    end
+  end
+
+  describe ".apply_hnsw_session_settings" do
+    let(:connection) { instance_double(ActiveRecord::ConnectionAdapters::PostgreSQLAdapter) }
+
+    it "sets relaxed_order whenever the vector extension is installed" do
+      allow(connection).to receive(:select_value).with(/pg_extension/).and_return(1)
+      allow(connection).to receive(:execute)
+
+      described_class.apply_hnsw_session_settings(connection)
+
+      expect(connection).to have_received(:execute).with("SET hnsw.iterative_scan = 'relaxed_order'", "SCHEMA")
+    end
+
+    it "does nothing when the extension is not installed" do
+      allow(connection).to receive(:select_value).with(/pg_extension/).and_return(nil)
+      allow(connection).to receive(:execute)
+
+      described_class.apply_hnsw_session_settings(connection)
+
+      expect(connection).not_to have_received(:execute)
+    end
+  end
+
   describe ".available?" do
     it "is true when the extension is installed and its migrations have run" do
       expect(described_class.available?).to be(true)
