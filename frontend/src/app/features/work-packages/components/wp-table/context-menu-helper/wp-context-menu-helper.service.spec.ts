@@ -34,6 +34,7 @@ import { UrlParamsHelperService } from 'core-app/features/work-packages/componen
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
 import { WorkPackageViewHierarchyIdentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service';
 import { WorkPackageViewDisplayRepresentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
+import { PERMITTED_CONTEXT_MENU_ACTIONS } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-static-context-menu-actions';
 import { WorkPackageContextMenuHelperService } from './wp-context-menu-helper.service';
 
 describe('WorkPackageContextMenuHelperService', () => {
@@ -51,21 +52,49 @@ describe('WorkPackageContextMenuHelperService', () => {
     atom: { href: '/work_packages/14.atom' },
   } as unknown as WorkPackageResource;
 
+  const timeline = { isVisible: false };
   let service:WorkPackageContextMenuHelperService;
 
   beforeEach(() => {
+    timeline.isVisible = false;
     TestBed.configureTestingModule({
       providers: [
         WorkPackageContextMenuHelperService,
         { provide: PathHelperService, useValue: pathHelper },
-        { provide: HookService, useValue: {} },
+        { provide: HookService, useValue: { call: () => [] } },
         { provide: UrlParamsHelperService, useValue: {} },
         { provide: WorkPackageViewDisplayRepresentationService, useValue: {} },
-        { provide: WorkPackageViewTimelineService, useValue: {} },
+        { provide: WorkPackageViewTimelineService, useValue: timeline },
         { provide: WorkPackageViewHierarchyIdentationService, useValue: {} },
       ],
     });
     service = TestBed.inject(WorkPackageContextMenuHelperService);
+  });
+
+  it('keeps the Gantt actions in workflow order while the regular list retains editing actions', () => {
+    const link = { href: '/wp/14' };
+    const wp = {
+      ...workPackage,
+      move: link,
+      copy: link,
+      delete: link,
+      markdown: link,
+      addChild: link,
+      addRelation: link,
+      relations: link,
+    } as unknown as WorkPackageResource;
+    const keys = () => service.getPermittedActionLinks(wp, PERMITTED_CONTEXT_MENU_ACTIONS, true).map(({ key }) => key);
+
+    expect(keys()).toEqual(expect.arrayContaining(['duplicate', 'change_project', 'view_markdown', 'delete']));
+    timeline.isVisible = true;
+    expect(keys()).toEqual([
+      'copy_link_to_clipboard',
+      'copy_alphanumeric_id_to_clipboard',
+      'relation-precedes',
+      'relation-follows',
+      'relation-new-child',
+      'relations',
+    ]);
   });
 
   it('resolves view_markdown to the short path with the md format', () => {

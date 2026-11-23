@@ -47,6 +47,17 @@ export interface WorkPackageAction {
   turboRequest?:boolean;
 }
 
+const GANTT_ACTION_ORDER = [
+  'copy_link_to_clipboard',
+  'copy_alphanumeric_id_to_clipboard',
+  'hierarchy-outdent',
+  'hierarchy-indent',
+  'relation-precedes',
+  'relation-follows',
+  'relation-new-child',
+  'relations',
+];
+
 @Injectable()
 export class WorkPackageContextMenuHelperService {
   private HookService = inject(HookService);
@@ -84,33 +95,22 @@ export class WorkPackageContextMenuHelperService {
   ];
 
   public getPermittedActionLinks(workPackage:WorkPackageResource, permittedActionConstants:WorkPackageAction[], allowSplitScreenActions:boolean):WorkPackageAction[] {
-    const singularPermittedActions:WorkPackageAction[] = [];
+    const allowedActions = [
+      ...this.getAllowedActions(workPackage, permittedActionConstants),
+      ...this.getAllowedParentActions(workPackage),
+      ...this.getAllowedRelationActions(workPackage, allowSplitScreenActions),
+    ];
+    const orderedActions = this.wpViewTimeline.isVisible
+      ? GANTT_ACTION_ORDER.flatMap((key) => allowedActions.filter((action) => action.key === key))
+      : sortContextMenuActions(allowedActions);
 
-    let allowedActions = this.getAllowedActions(workPackage, permittedActionConstants);
-
-    allowedActions = allowedActions.concat(this.getAllowedParentActions(workPackage));
-
-    // remove some actions on Gantt
-    if (this.wpViewTimeline.isVisible) {
-      allowedActions = allowedActions.filter((el) => {
-        const ganttNotAllowedActions = ['log_time', 'copy', 'copy_to_other_project', 'export-pdf', 'generate_pdf', 'export-atom', 'log_costs', 'allocate_resource'];
-        return !(ganttNotAllowedActions.includes(el.key));
-      });
-    }
-
-    allowedActions = allowedActions.concat(this.getAllowedRelationActions(workPackage, allowSplitScreenActions));
-
-    sortContextMenuActions(allowedActions).forEach((allowedAction) => {
-      singularPermittedActions.push({
-        key: allowedAction.key,
-        text: allowedAction.text,
-        icon: allowedAction.icon,
-        link: this.linkForAction(workPackage, allowedAction),
-        turboRequest: allowedAction.turboRequest,
-      });
-    });
-
-    return singularPermittedActions;
+    return orderedActions.map((action) => ({
+      key: action.key,
+      text: action.text,
+      icon: action.icon,
+      link: this.linkForAction(workPackage, action),
+      turboRequest: action.turboRequest,
+    }));
   }
 
   public linkForAction(workPackage:WorkPackageResource, action:WorkPackageAction):string|undefined {
@@ -171,7 +171,9 @@ export class WorkPackageContextMenuHelperService {
 
     actions.forEach((action) => {
       if (action.link && workPackage[action.link] !== undefined) {
-        action.text = action.text || I18n.t(`js.button_${action.key}`);
+        if (action.text === undefined || action.text === '') {
+          action.text = I18n.t(`js.button_${action.key}`);
+        }
         allowedActions.push(action);
       }
     });
