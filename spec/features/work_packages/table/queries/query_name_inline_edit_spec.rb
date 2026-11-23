@@ -143,7 +143,7 @@ RSpec.describe "Query name inline edit", :js do
 
     modal.open!
     modal.switch_to "Columns"
-    expect(page).to be_axe_clean.within(".wp-table--configuration-modal .op-scrollable-tabs")
+    expect(page).to be_axe_clean.within(".wp-table--configuration-modal op-scrollable-tabs")
 
     columns.assume_opened
     columns.uncheck_all save_changes: false

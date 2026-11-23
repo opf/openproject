@@ -28,6 +28,7 @@
 import {
   checkIconData,
   chevronDownIconData,
+  chevronLeftIconData,
   chevronRightIconData,
   chevronUpIconData,
   circleSlashIconData,
@@ -89,6 +90,7 @@ import {
 export const ICON_MAP = {
   'check': checkIconData,
   'chevron-down': chevronDownIconData,
+  'chevron-left': chevronLeftIconData,
   'chevron-right': chevronRightIconData,
   'chevron-up': chevronUpIconData,
   'circle-slash': circleSlashIconData,

@@ -25,7 +25,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ApplicationRef, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, InjectionToken, Injector, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { ApplicationRef, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, InjectionToken, Injector, OnDestroy, OnInit, ViewChild, inject, viewChild } from '@angular/core';
+import { ScrollableTabsComponent } from 'core-app/shared/components/tabs/scrollable-tabs/scrollable-tabs.component';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { WpTableConfigurationService } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.service';
@@ -87,6 +88,8 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
 
   // Get the view child we'll use as the portal host
   @ViewChild('tabContentOutlet', { static: true }) tabContentOutlet:ElementRef<HTMLElement>;
+
+  readonly scrollableTabs = viewChild(ScrollableTabsComponent);
 
   // And a reference to the actual portal host interface
   public tabPortalHost:TabPortalOutlet;

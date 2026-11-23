@@ -1,77 +1,67 @@
-<div class="op-scrollable-tabs" [ngClass]="classes">
-  <div
-    #scrollContainer
-    class="op-scrollable-tabs--tab-container"
-    >
-    <ul
-      #scrollPane
-      class="op-tab-row"
-      role="tablist"
-      (scroll)="onScroll()"
-      >
-      @for (tab of tabs; track tab.id) {
-        <li
-          class="op-tab-row--tab"
-          role="presentation"
-          (dragenter)="startDebouncedTabActivation(tab)"
-          (dragleave)="cancelDebouncedTabActivation()"
-          [attr.data-tab-id]="tab.id"
-          [attr.data-qa-tab-id]="tab.id"
-          [attr.data-qa-tab-selected]="tab.id === currentTabId || undefined"
-          [attr.data-qa-tab-disabled]="tab.disable || undefined"
-          >
-          <a
-            [href]="tab.path"
-            class="op-tab-row--link"
-            role="tab"
-            [class.op-tab-row--link_selected]="tab.id === currentTabId"
-            [class.op-tab-row--link_disabled]="tab.disable !== undefined"
-            [attr.aria-selected]="tab.id === currentTabId"
-            [attr.aria-disabled]="tab.disable !== undefined || null"
-            [attr.tabindex]="tab.disable !== undefined && !tab.path ? 0 : null"
-            (click)="clickTab(tab, $event)"
-            opTooltip
-            [description]="disabledReason(tab)"
-            >
-            <span [textContent]="tab.name"></span>
-            @if (counter(tab) | async; as tabCounter) {
-              @if (tab.showCountAsBubble) {
-              <op-tab-count [count]="tabCounter"
-                            [attr.data-test-selector]="'tab-counter-' + tab.name"
-              />
-              }
-              @if (tabCounter > 0 && !tab.showCountAsBubble) {
-              <span
-                data-test-selector="tab-count"
-              > ({{ tabCounter }})</span>
-              }
-            }
-          </a>
-        </li>
-      }
-    </ul>
-    <button
-      #scrollLeftBtn
-      type="button"
-      class="op-scrollable-tabs--button op-scrollable-tabs--button_left"
-      [hidden]="hideLeftButton"
-      (click)="scrollLeft()"
-      [attr.aria-label]="text.scrollLeft"
-      >
-      <span class="icon-arrow-left2"></span>
-    </button>
-    <button
-      #scrollRightBtn
-      type="button"
-      class="op-scrollable-tabs--button op-scrollable-tabs--button_right"
-      [hidden]="hideRightButton"
-      (click)="scrollRight()"
-      [attr.aria-label]="text.scrollRight"
-      >
-      <span class="icon-arrow-right2"></span>
-    </button>
+<div #scrollContainer class="op-scrollable-tabs--container">
+  <div class="op-scrollable-tabs--scroll" [class.op-scrollable-tabs--scroll_hidden]="hideLeftButton()">
+    <primer-icon-button
+      scheme="invisible"
+      icon="chevron-left"
+      [label]="text.scrollLeft"
+      (clicked)="scrollLeft()"
+    />
   </div>
-  <ul class="op-scrollable-tabs--actions">
-    <ng-content select="[slot=actions]" />
-  </ul>
+  <tab-container class="op-scrollable-tabs--tabs" (tab-container-change)="$event.preventDefault()">
+    <div #scrollPane class="UnderlineNav" (scroll)="onScroll()">
+      <ul
+        class="UnderlineNav-body list-style-none"
+        role="tablist"
+        [attr.aria-label]="label()"
+      >
+        @for (tab of tabs(); track tab.id) {
+          <li
+            class="d-inline-flex"
+            role="presentation"
+            [attr.data-tab-id]="tab.id"
+            [attr.data-qa-tab-id]="tab.id"
+            [attr.data-qa-tab-selected]="tab.id === currentTabId() || undefined"
+            [attr.data-qa-tab-disabled]="tab.disable || undefined"
+            (dragenter)="startDebouncedTabActivation(tab)"
+            (dragleave)="cancelDebouncedTabActivation()"
+          >
+            <button
+              type="button"
+              role="tab"
+              class="UnderlineNav-item"
+              [id]="tabElementId(tab.id)"
+              [attr.aria-controls]="panelId()"
+              [attr.aria-selected]="tab.id === currentTabId()"
+              [attr.aria-disabled]="tab.disable !== undefined || null"
+              [attr.tabindex]="tab.id === focusableTabId() ? 0 : -1"
+              (click)="activate(tab)"
+              (keydown)="onKeydown($event, $index)"
+              opTooltip
+              [description]="disabledReason(tab)"
+            >
+              <span [textContent]="tab.name"></span>
+              @if (counter(tab) | async; as tabCounter) {
+                <primer-counter
+                  [count]="tabCounter"
+                  [hide-if-zero]="true"
+                  [attr.data-test-selector]="'tab-counter-' + tab.name"
+                />
+              }
+            </button>
+          </li>
+        }
+      </ul>
+      <div class="UnderlineNav-actions">
+        <ng-content select="[slot=actions]" />
+      </div>
+    </div>
+  </tab-container>
+  <div class="op-scrollable-tabs--scroll" [class.op-scrollable-tabs--scroll_hidden]="hideRightButton()">
+    <primer-icon-button
+      scheme="invisible"
+      icon="chevron-right"
+      [label]="text.scrollRight"
+      (clicked)="scrollRight()"
+    />
+  </div>
 </div>
