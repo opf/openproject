@@ -45,6 +45,7 @@ es:
       end_time: Hora de finalización
       start_time: Hora de inicio
       title: Su exportación de informes de costes XLS
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: Exportar registro horario en PDF
       overview_per_user_day: 'Resumen: Horas por usuario al día'
@@ -53,6 +54,11 @@ es:
       time: Tiempo
       timesheet: Registro horario
       title: Su exportación de registro horario en PDF
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    one: "%{filter} requires a value."
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: Dependiendo de sus permisos esta página podría contener información restringida.
   label_click_to_edit: Clic para editar.
   label_closed: cerrado
@@ -113,5 +119,3 @@ es:
   text_costs_are_rounded_note: Los valores mostrados se han redondeado. Todos los cálculos se basan en valores no redondeados.
   toggle_multiselect: activar/desactivar selección múltiple
   units: Unidades
-  validation_failure_date: no es una fecha válida
-  validation_failure_integer: no es un entero válido

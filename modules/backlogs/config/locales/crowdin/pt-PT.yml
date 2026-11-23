@@ -58,6 +58,7 @@ pt-PT:
       messages:
         cannot_start_while_receiving_shared_sprints: não pode ser iniciado enquanto o projeto estiver a receber sprints partilhados.
         dates_required: As datas de início e de fim são necessárias para iniciar o sprint.
+        finish_date_in_past: cannot be started as long as the planned finish date is in the past.
         must_be_in_planning: deve estar no planeamento para começar.
         only_one_active_sprint_allowed: só é permitido um sprint ativo por projeto.
       models:
@@ -206,6 +207,7 @@ pt-PT:
       label_complete_sprint: Concluir sprint
       label_start_sprint: Iniciar sprint
       start_sprint_disabled_reason_active_sprint: Outro sprint já está ativo.
+      start_sprint_disabled_reason_finish_date_in_past: The planned finish date is in the past. Correct the sprint dates first.
       start_sprint_disabled_reason_missing_dates: As datas de início e de fim são necessárias para iniciar o sprint.
       start_sprint_disabled_reason_receiving_shared_sprints: Os sprints próprios deste projeto não podem ser iniciados enquanto este estiver a receber sprints partilhados.
       start_sprint_disabled_reason_shared_sprint: Este sprint pertence a outro projeto que não é compatível com vários sprints ativos.
