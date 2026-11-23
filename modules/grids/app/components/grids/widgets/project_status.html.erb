@@ -46,6 +46,48 @@ See COPYRIGHT and LICENSE files for more details.
           )
         end
 
+        flex.with_row(mt: 3) do
+          flex_layout do |progress|
+            progress.with_row(mb: 1) do
+              render OpPrimer::AttributeLabelComponent.new(
+                attribute: :progress_percent,
+                model: project,
+                id: "project-progress-label"
+              ) do
+                render(Primer::Beta::Text.new(font_weight: :bold)) { t("grids.widgets.project_progress.label") }
+              end
+            end
+
+            if project.progress_percent.nil?
+              progress.with_row do
+                render(Primer::Beta::Text.new(color: :muted)) { t("grids.widgets.project_progress.not_set") }
+              end
+            else
+              progress.with_row(mb: 1, aria: { hidden: true }) do
+                render(Primer::Beta::Text.new) do
+                  number_to_percentage(project.progress_percent, precision: 0)
+                end
+              end
+
+              progress.with_row do
+                render(
+                  Primer::Beta::ProgressBar.new(
+                    role: "progressbar",
+                    aria: {
+                      labelledby: "project-progress-label",
+                      valuenow: project.progress_percent,
+                      valuemin: 0,
+                      valuemax: 100
+                    }
+                  )
+                ) do |bar|
+                  bar.with_item(percentage: project.progress_percent)
+                end
+              end
+            end
+          end
+        end
+
         if project.project_creation_wizard_enabled
           flex.with_row(mt: 2) do
             render(Projects::CreationWizardStatusComponent.new(project:, current_user:))

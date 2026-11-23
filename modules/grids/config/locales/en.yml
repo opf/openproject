@@ -39,8 +39,8 @@ en:
         no_results: "Nothing new to report."
       not_available: "This widget is not available."
       project_progress:
+        label: "Progress"
         not_set: "Project progress has not been set."
-        title: "Project progress"
       project_timeline:
         footer_actions_label: "See more details"
         gantt_link: "Milestones Gantt"
