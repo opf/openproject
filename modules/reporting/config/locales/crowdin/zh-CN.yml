@@ -43,6 +43,7 @@ zh-CN:
       end_time: 结束时间
       start_time: 开始时间
       title: 您的成本报告 XLS 导出
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: 导出 PDF 时间表
       overview_per_user_day: 概览：每个用户每日工时数
@@ -51,6 +52,10 @@ zh-CN:
       time: 时间
       timesheet: 时间表
       title: 您的 PDF 时间表导出
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: 根据您的权限，此页面可能包含受限的信息。
   label_click_to_edit: 点击编辑。
   label_closed: 已关闭
@@ -111,5 +116,3 @@ zh-CN:
   text_costs_are_rounded_note: 显示的数值已进行四舍五入。所有计算都基于非四舍五入的数值。
   toggle_multiselect: 激活/取消激活多选
   units: 单位
-  validation_failure_date: 不是有效的日期
-  validation_failure_integer: 不是有效的整数

@@ -47,6 +47,7 @@ he:
       end_time: End time
       start_time: Start time
       title: Your Cost Reports XLS export
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: Export PDF timesheet
       overview_per_user_day: 'Overview: Hours per user per day'
@@ -55,6 +56,12 @@ he:
       time: זמן
       timesheet: Timesheet
       title: Your PDF timesheet export
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    one: "%{filter} requires a value."
+    two: "%{filter} requires %{count} values."
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: בהתאם להרשאות שלך, דף זה עשוי להכיל מידע מוגבל.
   label_click_to_edit: לחץ לעריכה.
   label_closed: סגור
@@ -115,5 +122,3 @@ he:
   text_costs_are_rounded_note: הערכים המוצגים מעוגלים. כל החישובים מבוססים על ערכים שאינם מעוגלים.
   toggle_multiselect: הפעל/בטל הפעלה של בחירה מרובה
   units: יחידות
-  validation_failure_date: אינו תאריך בר תוקף
-  validation_failure_integer: אינו מספר שלם חוקי

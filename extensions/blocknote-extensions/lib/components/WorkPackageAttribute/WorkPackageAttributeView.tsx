@@ -1,11 +1,12 @@
 import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { TFunction } from 'i18next';
 import { formatWorkPackageId } from '../../utils/id';
 import { priorityColor, statusColor, typeColor } from '../../services/colors';
 import { WorkPackageType } from '../WorkPackage/atoms';
 import { EMPTY_VALUE, formattedHtmlOf, principalsOf, valueKindOf } from './attributes';
 import { normalizeDisplay } from './display';
-import type { ReadyAttribute, ResolvedAttribute } from './useWorkPackageAttribute';
+import type { ReadyAttribute, ResolvedAttribute, UnresolvedAttribute } from './useWorkPackageAttribute';
 import { PrincipalAvatar } from './PrincipalAvatar';
 import {
   AttributeBlockBody,
@@ -54,11 +55,7 @@ export function WorkPackageAttributeView({ resolved, display, reference }:{
 }) {
   const { t } = useTranslation();
 
-  if (resolved.state !== 'ready') {
-    if (resolved.state === 'loading') return <MutedText>{reference}…</MutedText>;
-    if (resolved.state === 'missing') return <MutedText>{t('workPackageAttribute.missing', { attribute: reference })}</MutedText>;
-    return <MutedText>{t(`unavailableWorkPackage.${resolved.state}.short_message`)}</MutedText>;
-  }
+  if (resolved.state !== 'ready') return <MutedText>{unresolvedAttributeText(t, resolved, reference)}</MutedText>;
 
   const shown = normalizeDisplay(display);
   if (shown === 'label') return <AttributeLabelText>{resolved.attribute.label}</AttributeLabelText>;
@@ -89,6 +86,12 @@ export function WorkPackageAttributeBlockView({ resolved, display, reference }:{
         : <MutedText>{EMPTY_VALUE}</MutedText>)}
     </>
   );
+}
+
+export function unresolvedAttributeText(t:TFunction, resolved:UnresolvedAttribute, reference:string):string {
+  if (resolved.state === 'loading') return `${reference}…`;
+  if (resolved.state === 'missing') return t('workPackageAttribute.missing', { attribute: reference });
+  return t(`unavailableWorkPackage.${resolved.state}.short_message`);
 }
 
 export function attributeIdentity(resolved:ResolvedAttribute, displayId:string, reference:string) {

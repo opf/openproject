@@ -45,6 +45,7 @@ sv:
       end_time: Sluttid
       start_time: Starttid
       title: Exportera dina kostnadsrapporter till XLS
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: Exportera PDF-tidtabell
       overview_per_user_day: 'Översikt: Timmar per användare och dag'
@@ -53,6 +54,11 @@ sv:
       time: Tid
       timesheet: Tidrapport
       title: Exportera PDF-tidrapport
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    one: "%{filter} requires a value."
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: Beroende på dina behörigheter kan denna sida innehålla begränsad information.
   label_click_to_edit: Klicka för att ändra.
   label_closed: stängd
@@ -113,5 +119,3 @@ sv:
   text_costs_are_rounded_note: Visade värden är avrundade. Alla beräkningar är baserade på de icke-avrundade värdena.
   toggle_multiselect: aktivera/avaktivera multival
   units: Enheter
-  validation_failure_date: inte är ett giltigt datum
-  validation_failure_integer: är inte ett giltigt heltal

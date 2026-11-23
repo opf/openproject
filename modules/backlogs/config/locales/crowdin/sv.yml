@@ -58,6 +58,7 @@ sv:
       messages:
         cannot_start_while_receiving_shared_sprints: kan inte startas medan projektet tar emot delade sprintar.
         dates_required: Start- och slutdatum krävs för att starta sprinten.
+        finish_date_in_past: cannot be started as long as the planned finish date is in the past.
         must_be_in_planning: måste vara under planering för att kunna startas.
         only_one_active_sprint_allowed: endast en aktiv sprint är tillåten per projekt.
       models:
@@ -206,6 +207,7 @@ sv:
       label_complete_sprint: Slutför sprint
       label_start_sprint: Starta sprint
       start_sprint_disabled_reason_active_sprint: En annan sprint är redan aktiv.
+      start_sprint_disabled_reason_finish_date_in_past: The planned finish date is in the past. Correct the sprint dates first.
       start_sprint_disabled_reason_missing_dates: Start- och slutdatum krävs för att starta sprinten.
       start_sprint_disabled_reason_receiving_shared_sprints: Projektets egna sprintar kan inte startas medan det tar emot delade sprintar.
       start_sprint_disabled_reason_shared_sprint: Den här sprinten kommer från ett annat projekt som inte stöder flera aktiva sprintar.

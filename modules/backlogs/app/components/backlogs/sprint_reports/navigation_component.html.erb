@@ -40,7 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
         <% button.with_leading_visual_icon(icon: :"chevron-left") %>
         <%= t(".previous") %>
       <% end %>
-      <%= render(Primer::Beta::Text.new(color: :muted, pl: 3, mt: 2, test_selector: "sprint-report-previous-name")) do %>
+      <%= render(Primer::Beta::Text.new(color: :muted, pl: 3, test_selector: "sprint-report-previous-name")) do %>
         <%= previous_sprint.name %>
       <% end %>
     <% end %>
@@ -59,7 +59,7 @@ See COPYRIGHT and LICENSE files for more details.
         <% button.with_trailing_visual_icon(icon: :"chevron-right") %>
         <%= t(".next") %>
       <% end %>
-      <%= render(Primer::Beta::Text.new(color: :muted, text_align: :right, pr: 3, mt: 2, test_selector: "sprint-report-next-name")) do %>
+      <%= render(Primer::Beta::Text.new(color: :muted, text_align: :right, pr: 3, test_selector: "sprint-report-next-name")) do %>
         <%= next_sprint.name %>
       <% end %>
     <% end %>
