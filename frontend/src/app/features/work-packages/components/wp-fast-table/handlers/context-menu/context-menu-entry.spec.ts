@@ -303,6 +303,23 @@ describe('Context menu entry', () => {
       ]);
     });
 
+    it('groups bulk editing actions before positioning and deletion', () => {
+      vi.spyOn(harness.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions').mockReturnValue([
+        { key: 'edit', text: 'Bulk edit' },
+        { key: 'move', text: 'Bulk change of project' },
+        { key: 'copy', text: 'Bulk duplicate' },
+        { key: 'delete', text: 'Bulk delete' },
+      ]);
+      harness.click('1');
+      harness.click('2', { shiftKey: true });
+
+      openFromKeyboard('2');
+
+      expect(menuItems().map((item) => (item.divider ? '---' : item.linkText))).toEqual([
+        'Bulk edit', 'Bulk change of project', 'Bulk duplicate', '---', 'Move to position', '---', 'Bulk delete',
+      ]);
+    });
+
     it('offers the bulk move submenu with selection-wide edges', () => {
       harness.click('1');
       harness.click('2', { shiftKey: true });

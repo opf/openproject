@@ -93,10 +93,8 @@ export const PERMITTED_CONTEXT_MENU_ACTIONS:WorkPackageAction[] = [
 const GROUPED_ACTION_KEYS = {
   open: ['copy_link_to_clipboard', 'copy_alphanumeric_id_to_clipboard'],
   log: ['log_time', 'start_timer', 'stop_timer', 'log_costs', 'allocate_resource'],
+  bulk: ['edit', 'move', 'copy'],
   organize: [
-    'edit',
-    'move',
-    'copy',
     'change_project',
     'duplicate',
     'copy_to_other_project',
@@ -141,6 +139,7 @@ export class ContextMenuItemGroups {
   private readonly groups:Record<ContextMenuGroup, OpContextMenuItem[]> = {
     open: [],
     log: [],
+    bulk: [],
     organize: [],
     export: [],
     configure: [],
