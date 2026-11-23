@@ -6,7 +6,7 @@ export type FormResourcePickerProps = import('../components/CreateWorkPackage/Pr
 };
 
 export type PrimerDialogComponents = Pick<typeof import('@primer/react'),
-  'ActionMenu' | 'ActionList' | 'Button' | 'Checkbox' | 'Dialog' | 'FormControl' | 'PortalContext' | 'SegmentedControl' | 'SelectPanel' | 'TextInput' | 'Textarea'> & {
+  'ActionMenu' | 'ActionList' | 'IconButton' | 'Button' | 'Checkbox' | 'Dialog' | 'FormControl' | 'PortalContext' | 'SegmentedControl' | 'SelectPanel' | 'TextInput' | 'Textarea'> & {
   FormResourcePicker?:ComponentType<FormResourcePickerProps>;
   WorkPackagePicker?:ComponentType<WorkPackagePickerProps>;
 };

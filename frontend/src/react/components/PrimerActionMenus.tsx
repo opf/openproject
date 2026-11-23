@@ -25,10 +25,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ComponentProps, ComponentsContext, useBlockNoteEditor, useComponentsContext, useDictionary, useUIMode } from '@blocknote/react';
+import { ComponentProps, ComponentsContext, preventFocusOnTap, useBlockNoteEditor, useComponentsContext, useDictionary } from '@blocknote/react';
 import { GrabberIcon, PlusIcon } from '@primer/octicons-react';
-import { ActionList, ActionMenu, IconButton, PortalContext, registerPortalRoot } from '@primer/react';
-import { Children, cloneElement, createContext, forwardRef, Fragment, isValidElement, PropsWithChildren, useContext, useEffect, useId, useMemo } from 'react';
+import { ActionList, ActionMenu, AnchoredOverlay, IconButton, PortalContext, registerPortalRoot } from '@primer/react';
+import { Children, cloneElement, createContext, forwardRef, Fragment, isValidElement, PropsWithChildren, ReactElement, useContext, useEffect, useId, useMemo, useState } from 'react';
 
 type Menu = ComponentProps['Generic']['Menu'];
 
@@ -40,7 +40,32 @@ const MenuSide = createContext<'outside-left' | 'outside-right' | 'outside-botto
 const ReturnFocusToEditor = createContext(false);
 const AnchorLabel = createContext<string | undefined>(undefined);
 
-function Root({ children, onOpenChange, portalElement, position, sub }:Menu['Root']) {
+export const CloseTouchMenu = createContext<(() => void) | undefined>(undefined);
+
+export function TouchToolbarMenu({ anchor, children }:PropsWithChildren<{ anchor:ReactElement<React.HTMLAttributes<HTMLElement>> }>) {
+  const [openedBy, setOpenedBy] = useState<'touch' | 'keyboard'>();
+  const keepFocus = openedBy === 'touch';
+  return (
+    <AnchoredOverlay
+      open={!!openedBy}
+      onOpen={(gesture) => setOpenedBy(gesture === 'anchor-key-press' ? 'keyboard' : 'touch')}
+      onClose={() => setOpenedBy(undefined)}
+      renderAnchor={(props) => cloneElement<React.HTMLAttributes<HTMLElement>>(anchor, { ...props, onMouseDown: preventFocusOnTap })}
+      side="outside-top"
+      displayInViewport
+      focusTrapSettings={{ disabled: !openedBy || keepFocus }}
+      focusZoneSettings={{ disabled: !openedBy || keepFocus }}
+      overlayProps={{
+        className: 'op-blocknote-action-menu op-blocknote-touch-menu',
+        preventFocusOnOpen: keepFocus, preventFocusOnClose: keepFocus, onMouseDown: preventFocusOnTap, overflow: 'auto',
+      }}
+    >
+      <CloseTouchMenu.Provider value={() => setOpenedBy(undefined)}>{children}</CloseTouchMenu.Provider>
+    </AnchoredOverlay>
+  );
+}
+
+function Root({ children, onOpenChange, portalElement, position, sub, preventFocusOnOpen }:Menu['Root']) {
   const { portalContainerName } = useContext(PortalContext);
   const label = useContext(AnchorLabel);
   const side = position === 'left' ? 'outside-left' : position === 'right' ? 'outside-right' : 'outside-bottom';
@@ -56,6 +81,20 @@ function Root({ children, onOpenChange, portalElement, position, sub }:Menu['Roo
   });
 
   const returnFocusToEditor = useContext(ReturnFocusToEditor);
+  if (preventFocusOnOpen) {
+    const parts = Children.toArray(children);
+    const trigger = parts.find(child => isValidElement(child) && child.type === Trigger);
+    const dropdown = parts.find(child => isValidElement(child) && child.type === Dropdown);
+    if (isValidElement<Menu['Trigger']>(trigger) && isValidElement<React.HTMLAttributes<HTMLElement> & { label?:string }>(trigger.props.children) && isValidElement<Menu['Dropdown']>(dropdown)) {
+      return (
+        <TouchToolbarMenu anchor={trigger.props.children}>
+          <ActionList role="menu" aria-label={trigger.props.children.props.label} disableFocusZone>
+            <MenuContents {...dropdown.props} />
+          </ActionList>
+        </TouchToolbarMenu>
+      );
+    }
+  }
   return (
     <ReturnFocusToEditor.Provider value={returnFocusToEditor && !sub}>
       <MenuSide.Provider value={side}><ActionMenu onOpenChange={changeOpen}>{slots}</ActionMenu></MenuSide.Provider>
@@ -105,12 +144,14 @@ function Dropdown({ children, className }:Menu['Dropdown']) {
 
 function Item({ children, icon, checked, onClick, subTrigger, ...rest }:Menu['Item']) {
   const inColorGroup = useContext(InColorGroup);
+  const close = useContext(CloseTouchMenu);
   const item = (
     <ActionList.Item
       {...rest}
+      role={inColorGroup ? 'menuitemradio' : undefined}
       selected={checked}
       aria-keyshortcuts={inColorGroup && typeof children === 'string' ? children[0]?.toLowerCase() : undefined}
-      onSelect={subTrigger ? undefined : onClick}
+      onSelect={subTrigger ? undefined : () => { onClick?.(); close?.(); }}
     >
       {icon && <ActionList.LeadingVisual aria-hidden>{icon}</ActionList.LeadingVisual>}
       {children}
@@ -157,7 +198,6 @@ export function PrimerMenuPortal({ children }:PropsWithChildren) {
 
 export function PrimerActionMenus({ children, label, returnFocusToEditor = false }:PropsWithChildren<{ label?:string, returnFocusToEditor?:boolean }>) {
   const components = useComponentsContext()!;
-  const mode = useUIMode();
   const value = useMemo(() => ({
     ...components,
     SideMenu: { ...components.SideMenu, Button: SideMenuButton },
@@ -171,7 +211,7 @@ export function PrimerActionMenus({ children, label, returnFocusToEditor = false
   return (
     <ReturnFocusToEditor.Provider value={returnFocusToEditor}>
       <AnchorLabel.Provider value={label}>
-        <ComponentsContext.Provider value={mode === 'mobile' ? components : value}>{children}</ComponentsContext.Provider>
+        <ComponentsContext.Provider value={value}>{children}</ComponentsContext.Provider>
       </AnchorLabel.Provider>
     </ReturnFocusToEditor.Provider>
   );

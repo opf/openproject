@@ -1,3 +1,4 @@
+import { getPrimerDialogs } from '../../services/dialogComponents';
 import { useState } from 'react';
 import type { BlockNoteEditor } from '@blocknote/core';
 import { isPendingWpid } from '../../utils/pending';
@@ -56,7 +57,7 @@ function ResolvedAttributeInline({ content, editor, contentRef, onDisplayChange 
       }}
       title={attributeTitle(resolved, displayId)}
       role="button"
-      aria-haspopup="menu"
+      aria-haspopup={getPrimerDialogs() ? undefined : 'menu'}
       aria-expanded={options.isOpen}
       $selected={options.isOpen || inSelection}
       data-drag-handle

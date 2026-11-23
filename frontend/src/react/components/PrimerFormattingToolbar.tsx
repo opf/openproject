@@ -33,12 +33,12 @@ import {
 import { OpenProjectFormattingToolbar } from '@openproject/blocknote-extensions';
 import {
   BoldIcon, CodeIcon, CommentIcon, DownloadIcon, EyeIcon, ItalicIcon, LinkIcon, ListOrderedIcon, ListUnorderedIcon,
-  NoteIcon, PencilIcon, QuoteIcon, StrikethroughIcon, TasklistIcon, TrashIcon, TypographyIcon,
+  NoteIcon, PencilIcon, QuoteIcon, StrikethroughIcon, TasklistIcon, TriangleDownIcon, TrashIcon, TypographyIcon,
 } from '@primer/octicons-react';
 import { ActionBar, ActionList, ActionMenu, Button, IconButton, PortalContext, registerPortalRoot, Stack } from '@primer/react';
 import { PrimerReplaceButton } from './PrimerFilePanel';
 import { PrimerToolbarForm } from './PrimerToolbarForm';
-import { PrimerActionMenus, PrimerMenuPortal } from './PrimerActionMenus';
+import { CloseTouchMenu, PrimerActionMenus, PrimerMenuPortal, TouchToolbarMenu } from './PrimerActionMenus';
 import { Children, createContext, isValidElement, ReactElement, ReactNode, useContext, useLayoutEffect, useMemo } from 'react';
 
 type Toolbar = ComponentProps['FormattingToolbar'];
@@ -172,31 +172,36 @@ function ToolbarButton({
   );
 }
 
-function BlockTypeSelect({ items, isDisabled }:Toolbar['Select']) {
+function BlockChoices({ items, label }:Pick<Toolbar['Select'], 'items'> & { label:string }) {
+  const close = useContext(CloseTouchMenu);
+  return (
+    <ActionList selectionVariant="single" role="menu" aria-label={label} disableFocusZone={!!close}>
+      {items.map((item) => (
+        <ActionList.Item key={item.text} role="menuitemradio" selected={item.isSelected} disabled={item.isDisabled} onSelect={() => { item.onClick(); close?.(); }}>
+          <ActionList.LeadingVisual>{item.icon}</ActionList.LeadingVisual>
+          {item.text}
+        </ActionList.Item>
+      ))}
+    </ActionList>
+  );
+}
+
+function BlockTypeSelect({ items, isDisabled, preventFocusOnOpen }:Toolbar['Select']) {
   const selectedItem = items.find((item) => item.isSelected);
   if (!selectedItem) return null;
-
+  const label = `${window.I18n.t('js.blocknote.block_type')}: ${selectedItem.text}`;
+  const choices = <BlockChoices items={items} label={label} />;
+  const anchor = (
+    <Button size="small" variant="invisible" disabled={isDisabled} aria-label={label} onMouseDown={preventFocusOnTap}
+      trailingAction={TriangleDownIcon}>
+      {selectedItem.text}
+    </Button>
+  );
+  if (preventFocusOnOpen) return <TouchToolbarMenu anchor={anchor}>{choices}</TouchToolbarMenu>;
   return (
     <ActionMenu>
-      <ActionMenu.Button
-        size="small"
-        variant="invisible"
-        disabled={isDisabled}
-        onMouseDown={preventFocusOnTap}
-        aria-label={`${window.I18n.t('js.blocknote.block_type')}: ${selectedItem.text}`}
-      >
-        {selectedItem.text}
-      </ActionMenu.Button>
-      <ActionMenu.Overlay className="op-blocknote-action-menu" maxHeight="medium" overflow="auto">
-        <ActionList selectionVariant="single">
-          {items.map((item) => (
-            <ActionList.Item key={item.text} selected={item.isSelected} disabled={item.isDisabled} onSelect={item.onClick}>
-              <ActionList.LeadingVisual>{item.icon}</ActionList.LeadingVisual>
-              {item.text}
-            </ActionList.Item>
-          ))}
-        </ActionList>
-      </ActionMenu.Overlay>
+      <ActionMenu.Anchor>{anchor}</ActionMenu.Anchor>
+      <ActionMenu.Overlay className="op-blocknote-action-menu" maxHeight="medium" overflow="auto">{choices}</ActionMenu.Overlay>
     </ActionMenu>
   );
 }
@@ -208,9 +213,7 @@ export function PrimerFormattingToolbar() {
     FormattingToolbar: {
       Root: ToolbarRoot,
       Button: ToolbarButton,
-      Select: (props:Toolbar['Select']) => props.preventFocusOnOpen
-        ? <components.FormattingToolbar.Select {...props} />
-        : <BlockTypeSelect {...props} />,
+      Select: BlockTypeSelect,
     },
   }), [components]);
 

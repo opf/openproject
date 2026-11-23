@@ -1,3 +1,5 @@
+import { enablePrimerDialogs } from '../../../../lib/primer';
+import { setPrimerDialogs } from '../../../../lib/services/dialogComponents';
 import { describe, it, expect, onTestFinished } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { http } from 'msw';
@@ -217,17 +219,27 @@ describe('Work package keyboard access - the options menu of an inline chip', ()
     await expect.element(page.getByRole('textbox')).toHaveFocus();
   });
 
-  it('changes the size from the keyboard', async () => {
-    await openOptionsWithKeyboard();
+  it.each(['default', 'Primer'])('changes the %s size from the keyboard', async (skin) => {
+    if (skin === 'Primer') {
+      enablePrimerDialogs();
+      onTestFinished(() => setPrimerDialogs());
+    }
+    await selectChipWithKeyboard();
+    await userEvent.keyboard('{Enter}');
+    const openButton = skin === 'Primer' ? page.getByRole('button', { name: 'Open work package #123 in new tab' }) : openItem();
+    await expect.element(openButton).toHaveFocus();
     await userEvent.keyboard('{ArrowRight}');
-    await expect.element(sizeItem()).toHaveAccessibleName('Change size: Regular');
-
+    const trigger = skin === 'Primer' ? page.getByRole('button', { name: 'Show' }) : sizeItem();
+    await expect.element(trigger).toHaveFocus();
+    await userEvent.keyboard('{Enter}');
+    await userEvent.keyboard('{Escape}');
+    await expect.element(trigger).toHaveFocus();
     await userEvent.keyboard('{Enter}');
     const regular = page.getByRole('menuitemradio', { name: 'Regular' });
-    await expect.element(regular).toHaveFocus();
+    const initial = skin === 'Primer' ? page.getByRole('menuitemradio', { name: 'Tiny' }) : regular;
+    await expect.element(initial).toHaveFocus();
     await expect.element(regular).toHaveAttribute('aria-checked', 'true');
-
-    await userEvent.keyboard('{ArrowUp}{Enter}');
+    await userEvent.keyboard(skin === 'Primer' ? '{ArrowDown}{Enter}' : '{ArrowUp}{Enter}');
 
     await expect.element(optionsMenu()).not.toBeInTheDocument();
     await expect.element(page.getByText('In Progress', { exact: true })).not.toBeInTheDocument();

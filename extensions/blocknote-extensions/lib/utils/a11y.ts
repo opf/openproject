@@ -1,10 +1,12 @@
 import type { KeyboardEvent as ReactKeyboardEvent, MouseEvent as ReactMouseEvent } from 'react';
 
+import { getPrimerDialogs } from '../services/dialogComponents';
+
 export function menuButtonProps(label:string, expanded:boolean) {
   return {
     role: 'button' as const,
     'aria-label': label,
-    'aria-haspopup': 'menu' as const,
+    'aria-haspopup': getPrimerDialogs() ? undefined : 'menu' as const,
     'aria-expanded': expanded,
   };
 }

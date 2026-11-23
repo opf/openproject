@@ -37,7 +37,7 @@ const MenuLabel = styled.div`
 
 const MenuDivider = styled.div.attrs({ role: 'separator' })`
   height: 1px;
-  background: var(--mantine-color-default-border);
+  background: var(--borderColor-muted, #d1d9e0);
   margin: var(--spacer-s) 0;
 `;
 

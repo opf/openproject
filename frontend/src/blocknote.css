@@ -234,3 +234,7 @@
     appearance: auto;
   }
 }
+
+.op-blocknote-touch-menu {
+  max-height: min(20rem, calc(var(--bn-vv-height, 100dvh) - 4rem));
+}
