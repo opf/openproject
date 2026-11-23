@@ -573,5 +573,16 @@ RSpec.describe Journable::HistoricActiveRecordRelation do
         expect(subject).to eq 0
       end
     end
+
+    describe "for the semantic identifier", with_settings: { work_packages_identifier: "semantic" } do
+      subject(:historic_work_package) { historic_relation.first }
+
+      before { work_package.update_columns(identifier: "PROJ-7", sequence_number: 7) }
+
+      it "exposes the current semantic identifier", :aggregate_failures do
+        expect(historic_work_package.display_id).to eq "PROJ-7"
+        expect(historic_work_package.to_param).to eq "PROJ-7"
+      end
+    end
   end
 end
