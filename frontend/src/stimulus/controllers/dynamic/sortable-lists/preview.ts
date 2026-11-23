@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { html, render } from 'lit-html';
+import { html, nothing, render } from 'lit-html';
 
 // Builds the custom native drag preview for a sortable item: a sanitized clone
 // of the item's preview target, sized to match and carrying the originating
@@ -72,12 +72,18 @@ const BATCH_BADGE_CLASS = 'op-sortable-lists-drag-preview-batch-badge';
 const BATCH_BADGE_OVERHANG = 'var(--op-drag-badge-overhang)';
 const DRAG_STACK_OVERHANG = 'var(--op-drag-stack-overhang)';
 
+export interface DragBadgeAnchor {
+  x:number;
+  y:number;
+}
+
 export function renderDragPreview({
   previewTarget,
   sourceElement,
   container,
   batchSize = 1,
   showBatchBadge = true,
+  badgeAnchor,
 }:{
   previewTarget:HTMLElement;
   sourceElement:HTMLElement;
@@ -88,6 +94,8 @@ export function renderDragPreview({
   // Off where the platform already shows the count; the stack still marks
   // the drag as a batch.
   showBatchBadge?:boolean;
+  // Grab point relative to previewTarget so the badge sits near the cursor.
+  badgeAnchor?:DragBadgeAnchor;
 }):void {
   const previewWidth = previewTarget.getBoundingClientRect().width;
   const preview = previewTarget.cloneNode(true) as HTMLElement;
@@ -127,19 +135,30 @@ export function renderDragPreview({
       // Pragmatic mounts it under.
       container.style.position = 'relative';
       container.style.paddingTop = BATCH_BADGE_OVERHANG;
-      renderBatchBadge(container, batchSize);
+      renderBatchBadge(container, batchSize, badgeAnchor);
     }
   }
 }
 
-// Absolutely positioned over the card clone's top-right corner; the
-// container's padding is the overhang it sits in (drag_and_drop.sass).
+// Positioned inside the container's padded bounds (drag_and_drop.sass), either
+// bottom-right of the grab point when anchored or on the card's top-right corner.
 //
 // render() is safe on a container that already holds the preview clone: it
 // inserts a marker before its own end node and manages content from there
 // on, rather than clearing pre-existing children.
-function renderBatchBadge(container:HTMLElement, batchSize:number):void {
-  render(html`<span class="Counter Counter--primary ${BATCH_BADGE_CLASS}">${batchSize}</span>`, container);
+function renderBatchBadge(
+  container:HTMLElement,
+  batchSize:number,
+  badgeAnchor?:DragBadgeAnchor,
+):void {
+  render(
+    html`<span
+      class="Counter Counter--primary ${BATCH_BADGE_CLASS}"
+      ?data-cursor-anchored=${badgeAnchor !== undefined}
+      style=${badgeAnchor ? `--op-drag-badge-x: ${badgeAnchor.x}px; --op-drag-badge-y: ${badgeAnchor.y}px` : nothing}
+    >${batchSize}</span>`,
+    container,
+  );
 }
 
 export function sanitizePreview(element:HTMLElement):void {

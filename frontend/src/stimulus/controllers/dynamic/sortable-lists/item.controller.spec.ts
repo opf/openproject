@@ -1499,6 +1499,10 @@ describe('Sortable lists item controller', () => {
         previewOptions.render({ container });
 
         expect(previewOptions.getOffset({ container })).toEqual({ x: 40, y: 38 });
+        const badge = within(container).getByText('3');
+        expect(badge).toHaveAttribute('data-cursor-anchored');
+        expect(badge.style.getPropertyValue('--op-drag-badge-x')).toEqual('40px');
+        expect(badge.style.getPropertyValue('--op-drag-badge-y')).toEqual('30px');
       } finally {
         container.remove();
       }

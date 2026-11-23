@@ -305,6 +305,13 @@ export default class ItemController extends Controller<HTMLElement> implements R
         }
 
         const showBatchBadge = batchSize === 1 || !this.platformBadgesBatch(batchSize);
+        const sourceRect = this.previewTarget.getBoundingClientRect();
+        const badgeAnchor = batchSize > 1 && showBatchBadge
+          ? {
+            x: Math.max(0, Math.min(location.current.input.clientX - sourceRect.left, sourceRect.width)),
+            y: Math.max(0, Math.min(location.current.input.clientY - sourceRect.top, sourceRect.height)),
+          }
+          : undefined;
 
         setCustomNativeDragPreview({
           nativeSetDragImage,
@@ -331,6 +338,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
             container,
             batchSize,
             showBatchBadge,
+            badgeAnchor,
           }),
         });
       },
