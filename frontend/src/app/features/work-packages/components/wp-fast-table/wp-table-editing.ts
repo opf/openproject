@@ -101,6 +101,15 @@ export class WorkPackageTableEditingContext {
     this.forms = {};
   }
 
+  public stopEditing(workPackageId:string):void {
+    const form = this.forms[workPackageId];
+    if (!form) return;
+
+    delete this.forms[workPackageId];
+    if (this.table.destroyed) runCleanup(() => form.stop());
+    else form.stop();
+  }
+
   public change(workPackage:WorkPackageResource):WorkPackageChangeset|undefined {
     return this.halEditing.typedState<WorkPackageResource, WorkPackageChangeset>(workPackage).value;
   }

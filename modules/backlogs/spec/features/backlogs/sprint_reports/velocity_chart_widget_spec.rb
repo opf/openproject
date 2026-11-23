@@ -84,7 +84,15 @@ RSpec.describe "Velocity chart widget", :js, with_flag: :sprint_reports do
     within("#backlogs-sprint-reports-widgets-velocity-chart-box") do
       expect(page).to have_text("Sprint 2: 5 SP")
       expect(page).to have_text("Average of previous sprint: 3 SP")
-      expect(page).to have_css("opce-velocity-chart canvas")
+      expect(page).to have_css("opce-velocity-chart canvas", accessible_name: "Velocity chart")
+      expect(page).to have_table(
+        "Velocity chart: data",
+        visible: :all,
+        data_rows: [
+          { "Sprint" => "Sprint 1", "Committed (story points)" => "3", "Completed (story points)" => "3" },
+          { "Sprint" => "Sprint 2", "Committed (story points)" => "5", "Completed (story points)" => "5" }
+        ]
+      )
     end
   end
 
@@ -93,7 +101,14 @@ RSpec.describe "Velocity chart widget", :js, with_flag: :sprint_reports do
 
     within("#backlogs-sprint-reports-widgets-velocity-chart-box") do
       expect(page).to have_text("Sprint 1: 3 SP")
-      expect(page).to have_css("opce-velocity-chart canvas")
+      expect(page).to have_css("opce-velocity-chart canvas", accessible_name: "Velocity chart")
+      expect(page).to have_table(
+        "Velocity chart: data",
+        visible: :all,
+        data_rows: [
+          { "Sprint" => "Sprint 1", "Committed (story points)" => "3", "Completed (story points)" => "3" }
+        ]
+      )
       expect(page).to have_no_text("Average")
     end
   end

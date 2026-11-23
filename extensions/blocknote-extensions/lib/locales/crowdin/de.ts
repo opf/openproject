@@ -80,7 +80,7 @@ export const en = {
     },
     'options': {
       'openInNewTab': "In neuer Registerkarte öffnen",
-      'open': "Öffnen",
+      'openWorkPackage': 'Open {{id}}',
       'changeSize': "Größe ändern",
       'changeSizeAriaLabel': 'Change size: {{size}}',
       'menuAriaLabel': 'Options for work package {{id}}',
@@ -90,7 +90,8 @@ export const en = {
       'openAriaLabel': "Öffnen Sie das Arbeitspaket {{id}} in einer neuen Registerkarte",
       'inlineSizeLabel': "Inline Größe",
       'blockSizeLabel': "Blockgröße",
-      'chipAriaLabel': "Arbeitspaket {{id}}"
+      'chipAriaLabel': "Arbeitspaket {{id}}",
+      'idDash': 'dash'
     },
     'preview': {
       'showAriaLabel': 'Show details of work package {{id}}'
@@ -137,6 +138,12 @@ export const en = {
         'label': 'Label',
         'value': 'Value',
         'both': 'Label + value'
+      },
+      'options': {
+        'menuAriaLabel': 'Options for {{attribute}} of work package {{id}}',
+        'removeAriaLabel': 'Remove work package attribute',
+        'selectedDescription': '{{attribute}} of work package {{id}}',
+        'selectedValueDescription': '{{attribute}} of work package {{id}}: {{value}}'
       },
       'dialog': {
         'title': 'Insert work package attribute',

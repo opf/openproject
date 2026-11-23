@@ -34,6 +34,7 @@ import { States } from 'core-app/core/states/states.service';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
+import { WorkPackageViewHierarchyIdentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service';
 import { WorkPackageContextMenuHelperService } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 import { QUERY_SORT_BY_DESC } from 'core-app/features/hal/resources/query-sort-by-resource';
 import { OpActionMenuService } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.service';
@@ -1212,5 +1213,93 @@ describe('Context menu focus return', () => {
 
       await waitFor(() => expect(harness.row('1')).toHaveFocus());
     });
+  });
+});
+
+describe('Context menu hierarchy actions', () => {
+  let harness:TableHarness;
+  let operation:{ resolve:() => void, reject:(reason:Error) => void };
+  let menu:WorkPackageTableContextMenu;
+  let container:HTMLElement;
+  let menuItem:HTMLButtonElement;
+  const indentation = { indent: vi.fn(), outdent: vi.fn() };
+  const rowPosition = { key: wpOccurrenceKey('1'), cell: null, desiredColumn: null };
+
+  beforeEach(async () => {
+    harness = buildTable({
+      workPackages: [{ id: '1' }, { id: '2' }],
+      productionMarkup: true,
+      configuration: { contextMenuEnabled: true },
+      providers: [{ provide: WorkPackageViewHierarchyIdentationService, useValue: indentation }],
+    });
+    await harness.render();
+    container = harness.table.scrollContainer;
+    harness.table.keyboardNavigation.focusPosition(rowPosition);
+    menu = new WorkPackageTableContextMenu(harness.injector, '1', harness.row('1'), {}, harness.table);
+    menuItem = document.body.appendChild(document.createElement('button'));
+    menuItem.focus();
+
+    // As in the app: the view makes the table inert for as long as the published operation runs,
+    // and the service hands its caller a promise that settles after that one.
+    const running = () => {
+      const published = new Promise<void>((resolve, reject) => {
+        operation = { resolve, reject };
+      });
+      const release = () => { container.inert = false; };
+      container.inert = true;
+      void published.then(release, release);
+      return published.then(() => undefined);
+    };
+    indentation.indent.mockImplementation(running);
+    indentation.outdent.mockImplementation(running);
+  });
+
+  afterEach(() => harness.destroy());
+
+  // Choosing an item runs its action and then closes the menu, which removes the focused item.
+  const choose = (key:string) => {
+    menu.triggerContextMenuAction({ key });
+    menu.onClose(true, 'action');
+    menuItem.remove();
+  };
+
+  it.each(['hierarchy-indent', 'hierarchy-outdent'])('returns focus to the row once %s has finished', async (key) => {
+    choose(key);
+    expect(harness.row('1')).not.toHaveFocus();
+
+    operation.resolve();
+
+    await waitFor(() => expect(harness.row('1')).toHaveFocus());
+  });
+
+  it('returns focus to the row when the change fails', async () => {
+    choose('hierarchy-indent');
+    expect(harness.row('1')).not.toHaveFocus();
+
+    operation.reject(new Error('conflict'));
+
+    await waitFor(() => expect(harness.row('1')).toHaveFocus());
+  });
+
+  it('leaves focus where the user moved it outside the table', async () => {
+    const elsewhere = document.body.appendChild(document.createElement('button'));
+    choose('hierarchy-indent');
+    elsewhere.focus();
+
+    operation.resolve();
+    await waitFor(() => expect(container.inert).toBe(false));
+
+    expect(elsewhere).toHaveFocus();
+    elsewhere.remove();
+  });
+
+  it('does nothing once the table is gone', async () => {
+    choose('hierarchy-indent');
+    await harness.destroy();
+
+    operation.resolve();
+    await waitFor(() => expect(container.inert).toBe(false));
+
+    expect(harness.row('1')).not.toHaveFocus();
   });
 });

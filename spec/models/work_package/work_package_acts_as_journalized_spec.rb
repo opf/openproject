@@ -395,6 +395,26 @@ RSpec.describe WorkPackage do
                        expect_new_journal: true
     end
 
+    context "on changes within aggregation time with aggregation skipped" do
+      shared_let(:journable) do
+        create(:work_package,
+               description: "Initial description",
+               journals: {
+                 4.minutes.ago => { user: }
+               })
+      end
+
+      include_examples "journaled values for",
+                       new_values_set: {
+                         "description" => "Changed description",
+                         "journal_skip_aggregation" => true
+                       },
+                       expected_values: {
+                         "description" => ["Initial description", "Changed description"]
+                       },
+                       expect_new_journal: true
+    end
+
     context "on changes with aggregation disabled", with_settings: { journal_aggregation_time_minutes: 0 } do
       shared_let(:journable) do
         create(:work_package,

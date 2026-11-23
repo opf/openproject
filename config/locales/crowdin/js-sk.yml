@@ -109,6 +109,7 @@ sk:
         maintained_with_changes: Maintained with changes
         no_longer_meets_filter_criteria: No longer meets filter criteria
         now_meets_filter_criteria: Now meets filter criteria
+        state_at: State at
       show_changes_since: Show changes since
       time: Čas
       time_description: 'In your local time: %{datetime}'
@@ -774,8 +775,10 @@ sk:
       create_new: Vytvoriť nový
       group_by_relation_type: Zoskupiť podľa typu vzťahu
       group_by_wp_type: Zoskupiť podľa typu pracovného balíčka
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Indent hierarchy
       hierarchy_outdent: Outdent hierarchy
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Odstrániť vzťah
       remove_child: Zmazať podradený
       remove_parent: Odstrániť nadradený
@@ -906,6 +909,29 @@ sk:
       unselected_title: Pracovný balíček
     two_factor_authentication:
       label_two_factor_authentication: Dvojfaktorové overenie (2FA)
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Project actions
+            few: Actions for %{count} selected projects
+            many: Actions for %{count} selected projects
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            one: Could not extend the range. %{count} project selected.
+            few: Could not extend the range. %{count} projects selected.
+            many: Could not extend the range. %{count} projects selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            one: "%{count} project selected."
+            few: "%{count} projects selected."
+            many: "%{count} projects selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         one: "%{count} child work package"
@@ -1024,6 +1050,7 @@ sk:
         label_pagination: Kliknite sem pre preskočenie tabuľky pracovných balíčkov a zobrazenie stránkovania
         pagination: Prejsť na stránkovanie tabuľky
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Kombinované rozbaľovacie pole: vyberte pomocou klávesov so šípkami, potvrďte stlačením ENTER, odstraňujte stlačením BACKSPACE'
       label_disable_multi_select: Zakázať hromadný výber
       label_enable_multi_select: Povoliť hromadný výber

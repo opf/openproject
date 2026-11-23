@@ -87,6 +87,23 @@ RSpec.describe Sprints::ChartWindow do
         expect(described_class.new(sprint, opening_sprint: opening).measured_until).to eq now
       end
     end
+
+    context "when the sprint has not been started although its planned start has passed" do
+      let(:started_at) { nil }
+
+      it "has measured nothing, since nobody has started it" do
+        expect(window.measured_until).to be_nil
+      end
+    end
+
+    context "when the sprint was never started and its planned finish has passed" do
+      let(:started_at) { nil }
+      let(:now) { second_friday.in_time_zone + 3.days }
+
+      it "measures over its planned timeframe" do
+        expect(window.measured_until).to eq second_friday.in_time_zone.end_of_day
+      end
+    end
   end
 
   describe "an opening sprint of its own" do

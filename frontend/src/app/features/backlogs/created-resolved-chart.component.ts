@@ -30,6 +30,7 @@ import { ChartOptions } from 'chart.js';
 import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
 import { SeriesChartComponent, SeriesStyle } from 'core-app/shared/components/charts/component.series-chart';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { ChartDescriptionDirective } from 'core-app/shared/components/charts/description/chart-description.directive';
 import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 
 type SeriesKey = 'created'|'resolved';
@@ -75,11 +76,13 @@ function paleGreen():string {
 @Component({
   selector: 'op-created-resolved-chart',
   templateUrl: './created-resolved-chart.component.html',
-  imports: [BaseChartDirective, NoResultsComponent],
+  imports: [BaseChartDirective, ChartDescriptionDirective, NoResultsComponent],
   providers: [provideCharts(withDefaultRegisterables())],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreatedResolvedComponent extends SeriesChartComponent<SeriesKey> {
+  protected readonly chartLabel = this.i18n.t('js.created_resolved_chart.chart_label');
+
   protected readonly seriesStyle = SERIES_STYLE;
 
   protected override get yAxisTitle():string {

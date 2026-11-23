@@ -58,6 +58,7 @@ nl:
       messages:
         cannot_start_while_receiving_shared_sprints: kan niet worden gestart zolang het project nog deelneemt aan gedeelde sprints.
         dates_required: Start- en einddata zijn vereist om de sprint te starten.
+        finish_date_in_past: cannot be started as long as the planned finish date is in the past.
         must_be_in_planning: moet in de planning staan om te beginnen.
         only_one_active_sprint_allowed: per project is slechts één actieve sprint toegestaan.
       models:
@@ -206,6 +207,7 @@ nl:
       label_complete_sprint: Voltooi sprint
       label_start_sprint: Start sprint
       start_sprint_disabled_reason_active_sprint: Er is al een sprint actief.
+      start_sprint_disabled_reason_finish_date_in_past: The planned finish date is in the past. Correct the sprint dates first.
       start_sprint_disabled_reason_missing_dates: Start and finish dates are required in order to start the sprint.
       start_sprint_disabled_reason_receiving_shared_sprints: This project's own sprints cannot be started while it is receiving shared sprints.
       start_sprint_disabled_reason_shared_sprint: This sprint is from another project that doesn't support multiple active sprints.

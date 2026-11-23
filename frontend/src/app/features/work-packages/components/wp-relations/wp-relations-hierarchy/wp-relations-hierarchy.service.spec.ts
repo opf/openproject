@@ -71,4 +71,25 @@ describe('WorkPackageRelationsHierarchyService failure reporting', () => {
     expect(notification.showSave).toHaveBeenCalledExactlyOnceWith(saved);
     expect(events.push).toHaveBeenCalledExactlyOnceWith(wp, { eventType: 'association', relatedWorkPackage: '2', relationType: 'parent' });
   });
+
+  it('skips the save notification with notify: false and still updates the cache and pushes the event', async () => {
+    const saved = {} as WorkPackageResource;
+    const wp = { lockVersion: 4, changeParent: () => Promise.resolve(saved) } as unknown as WorkPackageResource;
+
+    await service.changeParent(wp, '2', { notify: false });
+
+    expect(notification.showSave).not.toHaveBeenCalled();
+    expect(cache.updateWorkPackage).toHaveBeenCalledExactlyOnceWith(saved);
+    expect(events.push).toHaveBeenCalledExactlyOnceWith(wp, { eventType: 'association', relatedWorkPackage: '2', relationType: 'parent' });
+  });
+
+  it('tags the association event with the given origin', async () => {
+    const origin = {};
+    const wp = { lockVersion: 4, changeParent: () => Promise.resolve({}) } as unknown as WorkPackageResource;
+
+    await service.changeParent(wp, null, { origin });
+
+    const [, event] = events.push.mock.calls[0] as [unknown, { origin?:unknown }];
+    expect(event.origin).toBe(origin);
+  });
 });

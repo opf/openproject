@@ -130,3 +130,7 @@ export function isTextEditable(el:EventTarget|null):boolean {
 export function isInsideDisabledControl(el:Element|null):boolean {
   return el?.closest('[aria-disabled="true"]') != null;
 }
+
+export function isInsideMenuControl(el:Element|null):boolean {
+  return el?.closest('[role="menu"], [aria-haspopup="menu"]') != null;
+}

@@ -31,5 +31,16 @@ module ITSM
   module EmailAddress
     NORMALIZE = ->(address) { address.strip.downcase }
     NORMALIZE_ALL = ->(addresses) { addresses.compact.map(&NORMALIZE).compact_blank.uniq }
+
+    def self.parse_all(values)
+      NORMALIZE_ALL.call(values.compact.flat_map { addresses_in(it) }.select { EmailValidator.valid?(it) })
+    end
+
+    def self.addresses_in(value)
+      Mail::AddressList.new(value).addresses.filter_map(&:address)
+    rescue Mail::Field::ParseError
+      []
+    end
+    private_class_method :addresses_in
   end
 end

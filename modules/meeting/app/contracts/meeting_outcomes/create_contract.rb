@@ -29,5 +29,6 @@
 
 module MeetingOutcomes
   class CreateContract < BaseContract
+    attribute :meeting_agenda_item
   end
 end

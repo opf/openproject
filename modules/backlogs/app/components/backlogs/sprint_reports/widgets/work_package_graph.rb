@@ -55,9 +55,7 @@ module Backlogs
             labels: bars.map(&:label),
             data: bars.map(&:count),
             colors: bars.map(&:color),
-            summary:,
-            statusColumnTitle: WorkPackage.human_attribute_name(:status),
-            countColumnTitle: WorkPackage.model_name.human(count: 2)
+            summary:
           }.to_json
         end
 

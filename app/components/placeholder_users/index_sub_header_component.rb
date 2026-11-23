@@ -40,14 +40,6 @@ module PlaceholderUsers
       @query.find_active_filter(:any_name_attribute)&.values&.first
     end
 
-    def sub_header_data_attributes
-      {
-        controller: "filter--filters-form",
-        "filter--filters-form-turbo-stream-request-value": true,
-        "filter--filters-form-clear-button-id-value": clear_button_id
-      }
-    end
-
     def filter_input_data_attributes
       {
         "filter-name": "any_name_attribute",

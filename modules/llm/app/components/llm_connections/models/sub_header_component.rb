@@ -41,15 +41,7 @@ module LlmConnections
 
       def clear_button_id = "llm-models-filter-clear"
 
-      def sub_header_data_attributes
-        {
-          controller: "filter--filters-form",
-          "filter--filters-form-turbo-stream-request-value": true,
-          "filter--filters-form-output-format-value": "json",
-          "filter--filters-form-url-path-name-value": helpers.search_llm_models_path,
-          "filter--filters-form-clear-button-id-value": clear_button_id
-        }
-      end
+      def url_path_name = helpers.search_llm_models_path
 
       def filter_input_data_attributes
         {

@@ -37,12 +37,12 @@ module ITSM
 
       menu_item :helpdesk
 
-      before_action :require_feature
+      guard_feature_flag :helpdesk
+
       before_action :require_admin
 
       def show
         @helpdesk_enabled = Setting.helpdesk_enabled?
-        @helpdesk_feature_writable = Setting.helpdesk_enabled_writable?
 
         @wizard = wizard
       end
@@ -62,14 +62,16 @@ module ITSM
 
       def enable_helpdesk
         enabled = ActiveModel::Type::Boolean.new.cast(params[:value])
-        Setting.helpdesk_enabled = enabled
+        result = enabled ? HelpdeskUsers::SetUpService.new.call : ServiceResult.success
 
-        update_via_turbo_stream(component: ITSM::Admin::HelpdeskSettingsComponent.new(enabled:, wizard:))
+        result
+          .on_success { Setting.helpdesk_enabled = enabled }
+          .on_failure { helpdesk_not_enabled(it) }
+
+        update_via_turbo_stream(
+          component: ITSM::Admin::HelpdeskSettingsComponent.new(enabled: Setting.helpdesk_enabled?, wizard:)
+        )
         respond_with_turbo_streams
-      end
-
-      def require_feature
-        render_404 unless OpenProject::FeatureDecisions.helpdesk_active?
       end
 
       def edit_server_configuration
@@ -88,6 +90,11 @@ module ITSM
       end
 
       private
+
+      def helpdesk_not_enabled(result)
+        update_via_turbo_stream(component: ITSM::Admin::HelpdeskToggleComponent.new)
+        render_error_flash_message_via_turbo_stream(message: I18n.t("itsm.admin.helpdesk_not_enabled", reason: result.message))
+      end
 
       def wizard
         ITSM::Wizard.new(model: nil)

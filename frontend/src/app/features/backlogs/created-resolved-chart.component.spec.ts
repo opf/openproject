@@ -27,6 +27,8 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { within } from '@testing-library/dom';
+import { tableColumns, tableRows } from 'core-app/shared/components/charts/description/testing/chart-description-table';
 import { BaseChartDirective } from 'ng2-charts';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
@@ -37,10 +39,22 @@ describe('CreatedResolvedComponent', () => {
   let fixture:ComponentFixture<CreatedResolvedComponent>;
   let element:HTMLElement;
   let zone:string;
+  let weekStart:number;
 
   const i18nStub = {
     locale: 'en',
-    t: (key:string) => key,
+    t(key:string, options:Record<string, string|number> = {}) {
+      const translations:Record<string, string> = {
+        'js.created_resolved_chart.chart_label': 'Created vs. resolved chart',
+        'js.chart.description.caption': `${options.label}: data`,
+        'js.chart.description.date': 'Date',
+        'js.chart.description.week': 'Week of',
+        'js.sprint_charts.description_summary': `${options.label} data: ${options.from} – ${options.to}. ${options.values}.`,
+        'js.sprint_charts.description_value': `${options.label}: ${options.value}`,
+      };
+
+      return translations[key] ?? key;
+    },
   };
 
   // The real TimezoneService, stubbed only at its configuration, so that these examples exercise
@@ -52,10 +66,11 @@ describe('CreatedResolvedComponent', () => {
     dateFormat: () => 'MM/DD/YYYY',
     timeFormatPresent: () => true,
     timeFormat: () => 'hh:mm A',
+    startOfWeek: () => weekStart,
   };
 
   // The window is the server's, not the series' extent, so it is stated rather than derived.
-  const range = { from: '2026-10-12T00:00:00.000Z', to: '2026-10-23T23:59:59.999Z' };
+  let range = { from: '2026-10-12T00:00:00.000Z', to: '2026-10-23T23:59:59.999Z' };
 
   // Non-working days are not part of this chart's payload, which spans too many sprints for them
   // to read as anything but hatching.
@@ -65,6 +80,8 @@ describe('CreatedResolvedComponent', () => {
 
   beforeEach(async () => {
     zone = 'UTC';
+    weekStart = 1;
+    range = { from: '2026-10-12T00:00:00.000Z', to: '2026-10-23T23:59:59.999Z' };
 
     await TestBed.configureTestingModule({
       imports: [CreatedResolvedComponent],
@@ -113,6 +130,98 @@ describe('CreatedResolvedComponent', () => {
     renderWith(bothSeries());
 
     expect(element.querySelector('canvas')).not.toBeNull();
+  });
+
+  const describedTable = () => within(element).getByRole('table');
+
+  it('names the chart', () => {
+    renderWith(bothSeries());
+
+    expect(within(element).getByRole('img', { name: 'Created vs. resolved chart' })).toBeInTheDocument();
+  });
+
+  // 2026-11-02 and 2026-11-09 are Mondays, the week start the configuration names.
+  it('rolls up to weeks beyond 31 days', () => {
+    range = { from: '2026-10-01T00:00:00.000Z', to: '2026-11-15T23:59:59.999Z' };
+
+    renderWith([
+      {
+        id: 'created',
+        label: 'Created',
+        data: [
+          point('2026-11-03T12:00:00.000Z', 2),
+          point('2026-11-08T12:00:00.000Z', 5),
+          point('2026-11-09T12:00:00.000Z', 6),
+        ],
+      },
+    ]);
+
+    expect(tableColumns(describedTable())).toEqual(['Week of', 'Created']);
+    expect(tableRows(describedTable())).toEqual([
+      ['11/02/2026', '5'],
+      ['11/09/2026', '6'],
+    ]);
+  });
+
+  it('keeps days at exactly 31 days', () => {
+    range = { from: '2026-10-01T00:00:00.000Z', to: '2026-10-31T23:59:59.999Z' };
+
+    renderWith([
+      { id: 'created', label: 'Created', data: [point('2026-10-03T12:00:00.000Z', 2)] },
+    ]);
+
+    expect(tableColumns(describedTable())).toEqual(['Date', 'Created']);
+    expect(tableRows(describedTable())).toEqual([['10/03/2026', '2']]);
+  });
+
+  // Berlin leaves summer time inside this October, so the month is an hour longer than 31 days.
+  it('keeps days for a 31-day range across a daylight saving change', () => {
+    zone = 'Europe/Berlin';
+    range = { from: '2026-09-30T22:00:00.000Z', to: '2026-10-31T22:59:59.999Z' };
+
+    renderWith([
+      { id: 'created', label: 'Created', data: [point('2026-10-03T12:00:00.000Z', 2)] },
+    ]);
+
+    expect(tableColumns(describedTable())).toEqual(['Date', 'Created']);
+    expect(tableRows(describedTable())).toEqual([['10/03/2026', '2']]);
+  });
+
+  // Havana skips 00:00 on Sunday 2026-03-08 and repeats it on Sunday 2026-11-01.
+  it('keeps a week across a skipped local midnight in one row', () => {
+    zone = 'America/Havana';
+    range = { from: '2026-02-01T05:00:00.000Z', to: '2026-03-31T03:59:59.999Z' };
+
+    renderWith([{
+      id: 'created',
+      label: 'Created',
+      data: [point('2026-03-04T15:00:00.000Z', 2), point('2026-03-08T15:00:00.000Z', 4)],
+    }]);
+
+    expect(tableRows(describedTable())).toEqual([['03/02/2026', '4']]);
+  });
+
+  it.each([0, 7])('keeps a Sunday week across a repeated local midnight in one row (week start %i)', (sunday) => {
+    weekStart = sunday;
+    zone = 'America/Havana';
+    range = { from: '2026-10-01T04:00:00.000Z', to: '2026-11-30T04:59:59.999Z' };
+
+    renderWith([{
+      id: 'created',
+      label: 'Created',
+      data: [point('2026-11-01T04:59:59.999Z', 8), point('2026-11-01T05:59:59.999Z', 7)],
+    }]);
+
+    expect(tableRows(describedTable())).toEqual([['11/01/2026', '7']]);
+  });
+
+  it('rolls up a 32-day range starting on a skipped midnight to weeks', () => {
+    zone = 'America/Havana';
+    range = { from: '2026-03-08T05:00:00.000Z', to: '2026-04-09T03:59:59.999Z' };
+
+    renderWith([{ id: 'created', label: 'Created', data: [point('2026-03-10T12:00:00.000Z', 2)] }]);
+
+    expect(tableColumns(describedTable())).toEqual(['Week of', 'Created']);
   });
 
   it('shows no results when every series is empty', () => {

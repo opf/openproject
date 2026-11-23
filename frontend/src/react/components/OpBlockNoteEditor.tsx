@@ -35,6 +35,7 @@ import { withCollaboration } from '@blocknote/core/yjs';
 import { BlockNoteView } from '@blocknote/mantine';
 import { getDefaultReactSlashMenuItems, SuggestionMenuController, useCreateBlockNote } from '@blocknote/react';
 import { HocuspocusProvider } from '@hocuspocus/provider';
+import { createTheme, MantineProvider } from '@mantine/core';
 import {
   initializeOpBlockNoteExtensions,
   openProjectWorkPackageBlockSpec,
@@ -51,6 +52,14 @@ import { useBlockNoteAttachments } from '../hooks/useBlockNoteAttachments';
 import { useBlockNoteLocale } from '../hooks/useBlockNoteLocale';
 import { useOpTheme } from '../hooks/useOpTheme';
 import { tableBlockSpec } from '../blocks/table';
+
+// Mantine >= 9.3 locks a popover's first placement and falls back to it when neither side fits,
+// so on mobile the block type menu opens behind the virtual keyboard (COMMS-1102).
+const mantineTheme = createTheme({
+  components: {
+    Popover: { defaultProps: { preventPositionChangeWhenVisible: false } },
+  },
+});
 
 export interface OpBlockNoteEditorProps {
   activeUser:User;
@@ -161,7 +170,11 @@ export function OpBlockNoteEditor({
   ], []);
 
   return (
-    <>
+    <MantineProvider
+      theme={mantineTheme}
+      withCssVariables={false}
+      getRootElement={() => undefined}
+    >
       <BlockNoteView
         editor={editor}
         slashMenu={false}
@@ -177,6 +190,6 @@ export function OpBlockNoteEditor({
         />
         <OpenProjectHashMenu />
       </BlockNoteView>
-    </>
+    </MantineProvider>
   );
 }

@@ -275,6 +275,25 @@ RSpec.describe "new work package", :js do
       details_subject = wp_table.edit_field(new_wp, :subject)
       details_subject.expect_state_text new_subject
     end
+
+    context "with semantic identifiers", with_settings: { work_packages_identifier: "semantic" } do
+      let(:semantic_project) { create(:project, identifier: "SPLITNEW", types:) }
+      let(:user) { create(:user, member_with_permissions: { semantic_project => permissions }) }
+      let(:wp_table) { Pages::WorkPackagesTable.new(semantic_project) }
+
+      it "opens the new work package by its semantic ID and selects its row" do
+        create_work_package(type_task)
+        expect(page).to have_selector(safeguard_selector, wait: 10)
+
+        wp_page.subject_field.set("new work package")
+        save_work_package!
+        wp_page.dismiss_toaster!
+
+        new_wp = WorkPackage.last
+        expect(page).to have_current_path(%r{/details/#{new_wp.identifier}})
+        expect(page).to have_css("#{wp_table.row_selector(new_wp)}.-checked")
+      end
+    end
   end
 
   context "full screen" do
@@ -505,6 +524,37 @@ RSpec.describe "new work package", :js do
       split_create_page.expect_attributes(combinedDate: "no start date - #{parent.due_date.strftime('%m/%d/%Y')}")
 
       expect(split_create_page).to have_test_selector("op-wp-breadcrumb", text: "Parent:\n#{parent.subject}")
+    end
+  end
+
+  context "with the settings menu on the full create page" do
+    let(:user) { create(:admin) }
+    let(:wp_page) { Pages::FullWorkPackageCreate.new(project:) }
+
+    before do
+      wp_page.visit!
+    end
+
+    it "lists the form configuration link and returns focus to the button" do
+      wp_page.expect_current_path
+      click_button(accessible_name: "Settings", exact: true)
+
+      within(:menu, "Settings") do
+        expect(page).to have_selector(:menuitem, "Configure form", focused: true)
+      end
+
+      page.driver.browser.keyboard.type(:escape)
+      expect(page).to have_no_menu
+      expect(page).to have_button(accessible_name: "Settings", exact: true, focused: true)
+    end
+
+    it "leads to the form configuration of the type" do
+      click_button(accessible_name: "Settings", exact: true)
+      within(:menu, "Settings") do
+        find(:menuitem, "Configure form", exact: true).click
+      end
+
+      expect(page).to have_current_path(%r{/types/\d+/form_configuration/edit})
     end
   end
 end

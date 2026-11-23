@@ -168,6 +168,12 @@ RSpec.describe Settings::Definition, :settings_reset do
         expect(all[:api_tokens_enabled].value).to be false
       end
 
+      it "allows disabling autologin from ENV",
+         with_env: { "OPENPROJECT_AUTOLOGIN" => "0" } do
+        reset(:autologin)
+        expect(all[:autologin].value).to eq 0
+      end
+
       it "overriding symbol configuration having allowed values from ENV will cast the value before validation check",
          with_env: { "OPENPROJECT_RAILS__CACHE__STORE" => "memcache" } do
         reset(:rails_cache_store)

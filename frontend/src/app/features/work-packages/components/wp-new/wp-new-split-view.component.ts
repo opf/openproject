@@ -117,7 +117,7 @@ export class WorkPackageNewSplitViewComponent extends WorkPackageCreateComponent
 
     // Open the newly created WP in the split panel.
     const basePath = this.urlParams.basePathWithoutDetails();
-    Turbo.visit(`${basePath}/details/${savedResource.id}${window.location.search}`, {
+    Turbo.visit(`${basePath}/details/${savedResource.displayId}${window.location.search}`, {
       frame: 'content-bodyRight',
       action: 'advance',
     });

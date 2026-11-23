@@ -51,6 +51,12 @@ class WorkPackage
       add_costs_to wp_collection_scope
     end
 
+    def add_own_costs_to_work_package_collection(wp_collection_scope)
+      wp_collection_scope
+        .joins(own_costs_arel(wp_collection_scope).join_sources)
+        .select(costs_sum_alias)
+    end
+
     ##
     # For the given work packages calculates the sum of all costs.
     #
@@ -107,7 +113,7 @@ class WorkPackage
     end
 
     def costs_sum
-      "SUM(#{costs_value})"
+      WorkPackage.sum_over_visible_descendants(user, costs_value)
     end
 
     def costs_value
@@ -134,7 +140,7 @@ class WorkPackage
     def sum_subselect(base_scope)
       base_scope
         .dup
-        .left_join_self_and_descendants(user)
+        .left_join_self_and_descendants
         .except(:select)
         .select("#{costs_sum} AS #{costs_sum_alias}")
         .select(wp_table[:id])
@@ -144,14 +150,25 @@ class WorkPackage
         .group(wp_table[:id])
     end
 
-    def wp_table
-      WorkPackage.arel_table
+    def own_costs_arel(base_scope)
+      subselect = own_costs_subselect(base_scope)
+                  .arel
+                  .as(subselect_alias)
+      wp_table
+        .outer_join(subselect)
+        .on(subselect[:entity_id].eq(wp_table[:id]))
     end
 
-    def wp_table_descendants
-      # Relies on a table called descendants to exist in the scope
-      # which is provided by left_join_self_and_descendants
-      wp_table.alias "descendants"
+    def own_costs_subselect(base_scope)
+      own_entries = costs_model.where(entity_type: "WorkPackage", entity_id: base_scope.select(:id))
+
+      filter_authorized(own_entries)
+        .group(:entity_id)
+        .select(:entity_id, "SUM(#{costs_value}) AS #{costs_sum_alias}")
+    end
+
+    def wp_table
+      WorkPackage.arel_table
     end
 
     def ce_table
@@ -159,10 +176,12 @@ class WorkPackage
     end
 
     def ce_table_join_condition
-      authorization_scope = filter_authorized costs_model.all
-      authorization_where = authorization_scope.arel.ast.cores.last.wheres.last
+      ce_table[:entity_type].eq("WorkPackage").and(ce_table[:entity_id].eq(WorkPackage.wp_descendants_table[:id])
+                                                                       .and(ce_authorization))
+    end
 
-      ce_table[:entity_type].eq("WorkPackage").and(ce_table[:entity_id].eq(wp_table_descendants[:id]).and(authorization_where))
+    def ce_authorization
+      filter_authorized(costs_model.all).arel.ast.cores.last.wheres.last
     end
 
     def projects_table
