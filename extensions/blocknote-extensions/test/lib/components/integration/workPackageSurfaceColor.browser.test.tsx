@@ -51,6 +51,7 @@ describe('Work package surface color', () => {
     renderEditor();
     await insertInlineWorkPackageViaSlashMenu();
     await convertToCompactCard();
+    delete document.documentElement.dataset.colorMode;
     switchToDarkScheme();
 
     expect(surfaceOf('[data-testid="block-wp-wrapper"]')).toBe(PRIMER_MUTED_DARK);

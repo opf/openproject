@@ -25,10 +25,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ComponentProps, preventFocusOnTap, useBlockNoteEditor, useDictionary } from '@blocknote/react';
+import { type ComponentProps, preventFocusOnTap, useBlockNoteEditor, useDictionary } from '@blocknote/react';
 import { GrabberIcon, PlusIcon } from '@primer/octicons-react';
 import { ActionList, ActionMenu, AnchoredOverlay, IconButton, PortalContext, registerPortalRoot } from '@primer/react';
-import { Children, cloneElement, createContext, forwardRef, Fragment, isValidElement, PropsWithChildren, ReactElement, useContext, useEffect, useId, useMemo, useState } from 'react';
+import { Children, cloneElement, createContext, forwardRef, Fragment, isValidElement, type PropsWithChildren, type ReactElement, useContext, useEffect, useId, useMemo, useState } from 'react';
 
 type Menu = ComponentProps['Generic']['Menu'];
 

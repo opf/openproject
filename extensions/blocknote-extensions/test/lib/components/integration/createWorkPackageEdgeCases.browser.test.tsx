@@ -396,6 +396,7 @@ describe('Create work package - form and editor boundaries', () => {
   it('takes the editor theme with it and keeps its own shape', async () => {
     renderEditor();
     await expect.element(page.getByRole('textbox')).toBeVisible();
+    delete document.documentElement.dataset.colorMode;
     page.getByRole('textbox').element().closest('[data-color-scheme]')!
       .setAttribute('data-color-scheme', 'dark');
 

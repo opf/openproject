@@ -11,6 +11,9 @@ import { whenCreateWorkPackagePermissionKnown } from '../lib/services/openProjec
 import { DESKTOP } from './helpers/createWorkPackageHelpers';
 
 beforeEach(async () => {
+  document.documentElement.dataset.colorMode = 'light';
+  document.documentElement.dataset.lightTheme = 'light';
+  document.documentElement.dataset.darkTheme = 'dark';
   await page.viewport(DESKTOP.width, DESKTOP.height);
   clearWorkPackageCache();
   createWorkPackageChoice.forgetChoice();

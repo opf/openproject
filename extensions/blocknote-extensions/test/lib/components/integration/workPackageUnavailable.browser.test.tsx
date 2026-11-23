@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { InlineWorkPackageChip } from '../../../../lib/components/InlineWorkPackage/InlineWorkPackageChip';
 import { worker } from '../../../mocks/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
-import { insertBlockWorkPackageViaSlashMenu } from '../../../helpers/editorHelpers';
+import { editorShortcut, insertBlockWorkPackageViaSlashMenu } from '../../../helpers/editorHelpers';
 import { loadServerErrorWorkPackages, loadUnavailableWorkPackages } from '../../../helpers/requestHelpers';
 
 afterEach(() => {
@@ -139,10 +139,10 @@ describe('Inline chip - unavailable work package', () => {
       return base ? getComputedStyle(base).boxShadow : '';
     }).toContain('inset');
 
-    await userEvent.keyboard('{Control>}c{/Control}');
-    await userEvent.keyboard('{Control>}{End}{/Control}');
+    await editorShortcut('c');
+    await editorShortcut('end');
     await userEvent.keyboard('{Enter}');
-    await userEvent.keyboard('{Control>}v{/Control}');
+    await editorShortcut('v');
 
     await vi.waitFor(() => {
       expect(document.querySelectorAll('.op-bn-inline-wp').length).toBe(2);

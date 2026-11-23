@@ -25,7 +25,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ComponentProps, useAutoFocus, useBlockNoteEditor } from '@blocknote/react';
+import { useEditorTranslation } from './editorTranslations';
+import { type ComponentProps, useAutoFocus, useBlockNoteEditor } from '@blocknote/react';
 import { AnchoredOverlay, Button, FormControl, PortalContext, registerPortalRoot, TextInput } from '@primer/react';
 import { cloneElement, createContext, isValidElement, useContext, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { ComponentPropsWithRef, PropsWithChildren, RefObject } from 'react';
@@ -98,6 +99,7 @@ function FormContent({ children }:Popover['Content']) {
 }
 
 function ToolbarForm({ children, onSubmit }:Form['Root']) {
+  const t = useEditorTranslation();
   const live = useContext(LiveForm);
   return (
     <form className="op-blocknote-toolbar-form" onSubmit={(event) => {
@@ -105,17 +107,18 @@ function ToolbarForm({ children, onSubmit }:Form['Root']) {
       onSubmit?.();
     }}>
       {children}
-      <Button type="submit" variant="primary">{window.I18n.t(live ? 'js.button_close' : 'js.button_save')}</Button>
+      <Button type="submit" variant="primary">{t(live ? 'js.button_close' : 'js.button_save')}</Button>
     </form>
   );
 }
 
 function FormInput({ name, value, onChange, autoFocus, placeholder }:Form['TextInput']) {
+  const t = useEditorTranslation();
   const live = useContext(LiveForm);
   const ref = useAutoFocus<HTMLInputElement>(autoFocus);
   return (
     <FormControl>
-      <FormControl.Label>{live ? placeholder : window.I18n.t(name === 'url' ? 'js.blocknote.link_url' : 'js.blocknote.link_text')}</FormControl.Label>
+      <FormControl.Label>{live ? placeholder : t(name === 'url' ? 'js.blocknote.link_url' : 'js.blocknote.link_text')}</FormControl.Label>
       <TextInput block name={name} value={value} onChange={onChange} ref={ref}
         placeholder={placeholder} required={name === 'url'} autoComplete="off" />
     </FormControl>

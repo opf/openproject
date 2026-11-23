@@ -3,7 +3,7 @@
 // Importing from "@openproject/blocknote-extensions/server" gives consumers (e.g. a
 // hocuspocus server using @blocknote/server-util) the pieces they need to
 // reconstruct a BlockNote schema and run markdown export without dragging
-// @blocknote/react / @blocknote/mantine into the Node import graph.
+// the editor UI into the Node import graph.
 //
 // The block config and the external-HTML helpers are the same ones the
 // React variant uses, so client copy-to-clipboard and server save-as-markdown

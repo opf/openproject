@@ -2,7 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
 
-import mantineStyles from '@blocknote/mantine/style.css?url';
+import editorStyles from './editor.css?inline';
 import { ShadowDomWrapper } from '../lib';
 
 class BlockNoteElement extends HTMLElement {
@@ -16,10 +16,9 @@ class BlockNoteElement extends HTMLElement {
     this.mount = document.createElement('div');
     shadowRoot.appendChild(this.mount);
 
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = mantineStyles;
-    shadowRoot.appendChild(link);
+    const style = document.createElement('style');
+    style.textContent = editorStyles;
+    shadowRoot.appendChild(style);
   }
 
   connectedCallback() {

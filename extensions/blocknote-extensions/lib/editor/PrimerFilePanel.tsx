@@ -25,10 +25,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { useEditorTranslation } from './editorTranslations';
 import { FilePanelExtension } from '@blocknote/core/extensions';
 import { ArrowSwitchIcon } from '@primer/octicons-react';
 import {
-  ComponentProps, ComponentsContext, EmbedTab, FilePanelController, FilePanelProps,
+  type ComponentProps, ComponentsContext, EmbedTab, FilePanelController, type FilePanelProps,
   preventFocusOnTap, useBlockNoteEditor, useComponentsContext, useDictionary, useEditorState, useExtension,
 } from '@blocknote/react';
 import { Button, FormControl, IconButton, Spinner, TextInput } from '@primer/react';
@@ -38,6 +39,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 type Panel = ComponentProps['FilePanel'];
 
 function MediaPanel({ blockId }:FilePanelProps) {
+  const t = useEditorTranslation();
   const editor = useBlockNoteEditor();
   const dict = useDictionary().file_panel;
   const [tab, setTab] = useState(dict.upload.title);
@@ -78,7 +80,7 @@ function MediaPanel({ blockId }:FilePanelProps) {
   return (
     <div ref={panelRef} className="op-blocknote-file-panel" aria-busy={loading}>
       <div inert={loading}>
-        <UnderlinePanels aria-label={window.I18n.t('js.blocknote.file_source')} value={tab} onChange={({ value }) => setTab(value)}>
+        <UnderlinePanels aria-label={t('js.blocknote.file_source')} value={tab} onChange={({ value }) => setTab(value)}>
           {[dict.upload.title, dict.embed.title].map((title) => (
             <UnderlinePanels.Tab key={title} value={title} data-test={`${title.toLowerCase()}-tab`}>{title}</UnderlinePanels.Tab>
           ))}
@@ -92,7 +94,7 @@ function MediaPanel({ blockId }:FilePanelProps) {
           <UnderlinePanels.Panel value={dict.embed.title}>{embed}</UnderlinePanels.Panel>
         </UnderlinePanels>
       </div>
-      {loading && <div className="op-blocknote-file-progress"><Spinner srText={window.I18n.t('js.label_loading')} /></div>}
+      {loading && <div className="op-blocknote-file-progress"><Spinner srText={t('js.label_loading')} /></div>}
     </div>
   );
 }
@@ -118,9 +120,10 @@ function requireUrl(input:HTMLInputElement | null) {
 }
 
 function EmbedInput({ placeholder, value, onChange, onKeyDown }:Panel['TextInput']) {
+  const t = useEditorTranslation();
   return (
     <FormControl required>
-      <FormControl.Label>{window.I18n.t('js.blocknote.link_url')}</FormControl.Label>
+      <FormControl.Label>{t('js.blocknote.link_url')}</FormControl.Label>
       <TextInput ref={requireUrl} block inputMode="url" autoComplete="url" data-test="embed-input"
         placeholder={placeholder} value={value} onChange={onChange} onKeyDown={onKeyDown} />
     </FormControl>
@@ -149,14 +152,17 @@ function TabPanel({ children }:Panel['TabPanel']) {
 
 export const primerPanel = {
   FileInput, TextInput: EmbedInput, Button: PanelButton, TabPanel,
-  Root: ({ tabs, openTab, setOpenTab, loading }:Panel['Root']) => (
-    <div aria-busy={loading} inert={loading}>
-      <UnderlinePanels aria-label={window.I18n.t('js.blocknote.file_source')} value={openTab} onChange={({ value }) => setOpenTab(value)}>
-        {tabs.map(({ name }) => <UnderlinePanels.Tab key={name} value={name}>{name}</UnderlinePanels.Tab>)}
-        {tabs.map(({ name, tabPanel }) => <UnderlinePanels.Panel key={name} value={name}>{tabPanel}</UnderlinePanels.Panel>)}
-      </UnderlinePanels>
-    </div>
-  ),
+  Root: ({ tabs, openTab, setOpenTab, loading }:Panel['Root']) => {
+    const t = useEditorTranslation();
+    return (
+      <div aria-busy={loading} inert={loading}>
+        <UnderlinePanels aria-label={t('js.blocknote.file_source')} value={openTab} onChange={({ value }) => setOpenTab(value)}>
+          {tabs.map(({ name }) => <UnderlinePanels.Tab key={name} value={name}>{name}</UnderlinePanels.Tab>)}
+          {tabs.map(({ name, tabPanel }) => <UnderlinePanels.Panel key={name} value={name}>{tabPanel}</UnderlinePanels.Panel>)}
+        </UnderlinePanels>
+      </div>
+    );
+  },
 };
 
 export function PrimerFilePanel() {

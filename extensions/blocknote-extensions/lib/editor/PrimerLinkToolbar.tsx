@@ -27,14 +27,14 @@
 
 import { LinkToolbarExtension } from '@blocknote/core/extensions';
 import {
-  ComponentProps, DeleteLinkButton, EditLinkButton, GenericPopover, LinkToolbar, LinkToolbarProps, OpenLinkButton, PortalElementOverride, preventFocusOnTap,
+  type ComponentProps, DeleteLinkButton, EditLinkButton, GenericPopover, LinkToolbar, type LinkToolbarProps, OpenLinkButton, PortalElementOverride, preventFocusOnTap,
   useBlockNoteEditor, useEditorDOMElement, useExtension,
 } from '@blocknote/react';
 import { flip, offset, safePolygon } from '@floating-ui/react';
 import { LinkExternalIcon, UnlinkIcon } from '@primer/octicons-react';
 import { Button, IconButton, Stack } from '@primer/react';
 import {
-  createContext, useContext, useEffect, useState,
+  createContext, type ReactElement, useContext, useEffect, useState,
 } from 'react';
 
 import { PrimerToolbarForm } from './PrimerToolbarForm';
@@ -44,13 +44,13 @@ function LinkToolbarRoot({ children }:ComponentProps['LinkToolbar']['Root']) {
   return <Stack className="op-blocknote-link-toolbar" direction="horizontal" gap="none">{children}</Stack>;
 }
 
-const LinkIcon = createContext<typeof LinkExternalIcon | undefined>(undefined);
+const LinkIcon = createContext<ReactElement | null>(null);
 
 function LinkButton({ children, label, mainTooltip, icon, isSelected: _isSelected, isDisabled, ...props }:ComponentProps['LinkToolbar']['Button']) {
-  const Icon = useContext(LinkIcon);
+  const overrideIcon = useContext(LinkIcon);
   return children
     ? <Button {...props} variant="invisible" size="medium" disabled={isDisabled} onMouseDown={preventFocusOnTap}>{children}</Button>
-    : <IconButton {...props} icon={Icon ? <Icon /> : icon} aria-label={label ?? mainTooltip ?? ''} size="medium"
+    : <IconButton {...props} icon={overrideIcon ?? icon} aria-label={label ?? mainTooltip ?? ''} size="medium"
         variant="invisible" disabled={isDisabled} onMouseDown={preventFocusOnTap} />;
 }
 
@@ -141,8 +141,8 @@ function FloatingLinkToolbar() {
       focusManagerProps={{ disabled: true }} elementProps={{ style: { zIndex: 50 } }}>
       <LinkToolbar {...controls}>
         <EditLinkButton {...controls} />
-        <LinkIcon.Provider value={LinkExternalIcon}><OpenLinkButton url={active.url} /></LinkIcon.Provider>
-        <LinkIcon.Provider value={UnlinkIcon}><DeleteLinkButton range={active.range} setToolbarOpen={setOpen} /></LinkIcon.Provider>
+        <LinkIcon.Provider value={<LinkExternalIcon />}><OpenLinkButton url={active.url} /></LinkIcon.Provider>
+        <LinkIcon.Provider value={<UnlinkIcon />}><DeleteLinkButton range={active.range} setToolbarOpen={setOpen} /></LinkIcon.Provider>
       </LinkToolbar>
     </GenericPopover>
   );

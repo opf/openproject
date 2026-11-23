@@ -1,8 +1,6 @@
 import { BlockNoteSchema } from '@blocknote/core';
-import { BlockNoteView } from '@blocknote/mantine';
-import { useCreateBlockNote, SuggestionMenuController, getDefaultReactSlashMenuItems } from '@blocknote/react';
-import { filterSuggestionItems } from '@blocknote/core/extensions';
-import { useCallback } from 'react';
+import { PrimerEditorView } from '../../lib/primer';
+import { useCreateBlockNote } from '@blocknote/react';
 import { createPortal } from 'react-dom';
 import { onTestFinished } from 'vitest';
 import { render } from 'vitest-browser-react';
@@ -11,15 +9,12 @@ import {
   openProjectWorkPackageInlineSpec,
   openProjectWorkPackageAttributeInlineSpec,
   openProjectWorkPackageAttributeBlockSpec,
-  getOpenProjectSlashMenuItems,
-  OpenProjectFormattingToolbar,
-  OpenProjectHashMenu,
   ShadowDomWrapper,
 } from '../../lib';
 
 import '@blocknote/core/fonts/inter.css';
-import '@blocknote/mantine/style.css';
-import mantineStylesUrl from '@blocknote/mantine/style.css?url';
+import '../../src/editor.css';
+import editorStyles from '../../src/editor.css?inline';
 
 const defaultSchema = BlockNoteSchema.create().extend({
   blockSpecs: {
@@ -46,25 +41,9 @@ function Editor({ onEditor, schema, editable = true, initialContent }:EditorOpti
   });
   onEditor?.(editor);
 
-  const getSlashItems = useCallback(
-    async (query:string) =>
-      filterSuggestionItems(
-        [
-          ...getDefaultReactSlashMenuItems(editor),
-          ...getOpenProjectSlashMenuItems(editor as any),
-        ],
-        query
-      ),
-    [editor]
-  );
-
   return (
     <div style={{ paddingTop: 100, height: 500 }}>
-    <BlockNoteView editor={editor} slashMenu={false} formattingToolbar={false} editable={editable}>
-      <OpenProjectFormattingToolbar />
-      <SuggestionMenuController triggerCharacter="/" getItems={getSlashItems} />
-      <OpenProjectHashMenu />
-    </BlockNoteView>
+      <PrimerEditorView editor={editor} editable={editable} />
     </div>
   );
 }
@@ -82,14 +61,9 @@ export async function renderEditorInShadowDom(opts?:EditorOptions) {
   const mount = document.createElement('div');
   shadowRoot.appendChild(mount);
 
-  await new Promise<void>((resolve, reject) => {
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = mantineStylesUrl;
-    link.onload = () => resolve();
-    link.onerror = () => reject(new Error('Failed to load BlockNote styles into the shadow root'));
-    shadowRoot.appendChild(link);
-  });
+  const style = document.createElement('style');
+  style.textContent = editorStyles;
+  shadowRoot.appendChild(style);
 
   const renderResult = await render(
     createPortal(

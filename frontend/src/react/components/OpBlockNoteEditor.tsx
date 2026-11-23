@@ -30,10 +30,8 @@ import { ExternalLinkA11yExtension } from '../extensions/external-link-a11y';
 import { ExternalLinkCaptureExtension } from '../extensions/external-link-capture';
 import { CollaborationCursorLabelFitExtension } from '../extensions/collaboration-cursor-label-fit';
 import { HeadingLinkExtension } from '../extensions/heading-link';
-import { filterSuggestionItems } from '@blocknote/core/extensions';
 import { withCollaboration } from '@blocknote/core/yjs';
-import { primerEditorComponents } from './primerEditorComponents';
-import { BlockNoteViewRaw, ComponentsContext, getDefaultReactSlashMenuItems, GridSuggestionMenuController, SuggestionMenuController, useCreateBlockNote } from '@blocknote/react';
+import { useCreateBlockNote } from '@blocknote/react';
 import { HocuspocusProvider } from '@hocuspocus/provider';
 import {
   initializeOpBlockNoteExtensions,
@@ -41,24 +39,15 @@ import {
   openProjectWorkPackageInlineSpec,
   openProjectWorkPackageAttributeInlineSpec,
   openProjectWorkPackageAttributeBlockSpec,
-  getOpenProjectSlashMenuItems,
-  OpenProjectHashMenu,
 } from '@openproject/blocknote-extensions';
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import * as Y from 'yjs';
 import { useBlockNoteAttachments } from '../hooks/useBlockNoteAttachments';
 import { useBlockNoteLocale } from '../hooks/useBlockNoteLocale';
 import { useOpTheme } from '../hooks/useOpTheme';
-import { enablePrimerDialogs } from '@openproject/blocknote-extensions/primer';
+import { enablePrimerDialogs, PrimerEditorView } from '@openproject/blocknote-extensions/primer';
 import { BlockNoteFormResourcePicker } from './BlockNoteFormResourcePicker';
 import { BlockNoteWorkPackagePicker } from './BlockNoteWorkPackagePicker';
-import { PrimerTableHandles } from './PrimerTableHandles';
-import { PrimerEmojiPicker } from './PrimerEmojiPicker';
-import { PrimerFilePanel } from './PrimerFilePanel';
-import { PrimerLinkToolbar } from './PrimerLinkToolbar';
-import { PrimerFormattingToolbar } from './PrimerFormattingToolbar';
-import { PrimerSideMenuController } from './PrimerSideMenu';
-import { PrimerSlashMenu } from './PrimerSlashMenu';
 import { tableBlockSpec } from '../blocks/table';
 
 export interface OpBlockNoteEditorProps {
@@ -149,7 +138,6 @@ export function OpBlockNoteEditor({
   // the editor (wiping `Y.UndoManager` history) whenever a fresh `activeUser` reference
   // reached this component, e.g. on Stimulus reconnect / Turbo morph.
   const editor = useCreateBlockNote(editorParams, []);
-  type EditorType = typeof editor;
   const theme = useOpTheme();
 
   // Works around a BlockNote/Yjs bootstrap race (COMMS-909): the initial sync leaves BlockNote's
@@ -165,40 +153,12 @@ export function OpBlockNoteEditor({
     editor.transact((tr) => tr.setMeta('addToHistory', false));
   }, [editor, hocuspocusProvider]);
 
-  const getCustomSlashMenuItems = useCallback((editorInstance:EditorType) => [
-    ...getDefaultReactSlashMenuItems(editorInstance),
-    ...getOpenProjectSlashMenuItems(editorInstance),
-  ], []);
-
   return (
-    <ComponentsContext.Provider value={primerEditorComponents}>
-      <BlockNoteViewRaw
-        editor={editor}
-        slashMenu={false}
-        sideMenu={false}
-        tableHandles={false}
-        formattingToolbar={false}
-        linkToolbar={false}
-        filePanel={false}
-        emojiPicker={false}
-        theme={theme}
-        editable={!readOnly}
-        className={'block-note-editor-container'}
-      >
-        <PrimerFormattingToolbar />
-        <PrimerLinkToolbar />
-        {!readOnly && <PrimerFilePanel />}
-        <PrimerSideMenuController />
-        <PrimerTableHandles />
-        <SuggestionMenuController
-          triggerCharacter="/"
-          suggestionMenuComponent={PrimerSlashMenu}
-          getItems={async (query:string) => Promise.resolve(filterSuggestionItems(getCustomSlashMenuItems(editor), query))}
-        />
-        {!readOnly && <GridSuggestionMenuController triggerCharacter=":" columns={10} minQueryLength={2}
-          gridSuggestionMenuComponent={PrimerEmojiPicker} />}
-        <OpenProjectHashMenu />
-      </BlockNoteViewRaw>
-    </ComponentsContext.Provider>
+    <PrimerEditorView
+      editor={editor}
+      editable={!readOnly}
+      theme={theme}
+      translate={(key, options) => window.I18n.t(key, options)}
+    />
   );
 }

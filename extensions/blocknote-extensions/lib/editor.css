@@ -1,0 +1,301 @@
+@import "@blocknote/react/style.css";
+@import "../node_modules/@primer/react/dist/experimental/UnderlinePanels/UnderlinePanels-162f9aed.css";
+@import "../node_modules/@primer/react/dist/internal/components/UnderlineTabbedInterface-a5cd75c0.css";
+@import "../node_modules/@primer/react/dist/FilteredActionList/FilteredActionList-6808e67a.css";
+@import "../node_modules/@primer/react/dist/FilteredActionList/FilteredActionListLoaders-bdda3d7e.css";
+@import "../node_modules/@primer/react/dist/FormControl/FormControl-fa33984d.css";
+@import "../node_modules/@primer/react/dist/FormControl/FormControlCaption-f58db5f7.css";
+@import "../node_modules/@primer/react/dist/FormControl/FormControlLeadingVisual-e217df71.css";
+@import "../node_modules/@primer/react/dist/SelectPanel/SelectPanel-00796bf3.css";
+@import "../node_modules/@primer/react/dist/Dialog/Dialog-b7da369a.css";
+@import "../node_modules/@primer/react/dist/ScrollableRegion/ScrollableRegion-c1018dbe.css";
+@import "../node_modules/@primer/react/dist/TextInput/TextInput-dff8f842.css";
+@import "../node_modules/@primer/react/dist/Textarea/TextArea-2dc51d35.css";
+@import "../node_modules/@primer/react/dist/Checkbox/Checkbox-7476a7ba.css";
+@import "../node_modules/@primer/react/dist/Checkbox/shared-edc41e16.css";
+@import "../node_modules/@primer/react/dist/SegmentedControl/SegmentedControl-99b8e34e.css";
+@import "../node_modules/@primer/react/dist/internal/components/TextInputWrapper-b2f7f9fa.css";
+@import "../node_modules/@primer/react/dist/internal/components/UnstyledTextInput-8270f063.css";
+@import "../node_modules/@primer/react/dist/ActionBar/ActionBar-3767d551.css";
+@import "../node_modules/@primer/react/dist/ActionList/ActionList-64885d7a.css";
+@import "../node_modules/@primer/react/dist/ActionList/Group-d89306a8.css";
+@import "../node_modules/@primer/react/dist/ActionMenu/ActionMenu-c4e2a589.css";
+@import "../node_modules/@primer/react/dist/AnchoredOverlay/AnchoredOverlay-83281f45.css";
+@import "../node_modules/@primer/react/dist/Overlay/Overlay-214d10dd.css";
+@import "../node_modules/@primer/react/dist/KeybindingHint/KeybindingHint-0856c11b.css";
+@import "../node_modules/@primer/react/dist/KeybindingHint/components/Chord-d4edcc89.css";
+@import "../node_modules/@primer/react/dist/Text/Text-d649cda5.css";
+@import "../node_modules/@primer/react/dist/Spinner/Spinner-2dbceeca.css";
+@import "../node_modules/@primer/react/dist/_VisuallyHidden-1f156b61.css";
+
+@import "../node_modules/@primer/react/dist/Button/ButtonBase-c8dab214.css";
+@import "../node_modules/@primer/react/dist/Stack/Stack-1790a166.css";
+@import "../node_modules/@primer/react/dist/TooltipV2/Tooltip-dd983e5b.css";
+
+[data-component="Portal"]:has(.op-bn-create-wp, .op-bn-picker-options) {
+  z-index: 10000 !important;
+}
+
+.op-bn-dialog-field {
+  margin-block-end: var(--base-size-16);
+}
+
+.op-blocknote-action-menu {
+  width: max-content;
+}
+
+.op-blocknote-action-menu :not(.op-blocknote-toggle-group) + .op-blocknote-toggle-group,
+.op-blocknote-action-menu .op-blocknote-toggle-group + :not(.op-blocknote-toggle-group) {
+  border-block-start: var(--borderWidth-thin) solid var(--borderColor-muted);
+  padding-block-start: var(--base-size-4);
+}
+
+.op-blocknote-action-menu [data-component="ActionList.Item.Label"] {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.op-blocknote-emoji-picker {
+  width: min(21rem, calc(100vw - var(--base-size-16)));
+  max-height: inherit;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: var(--base-size-4);
+  background: var(--overlay-bgColor);
+  border: var(--borderWidth-thin) solid var(--borderColor-muted);
+  border-radius: var(--borderRadius-large);
+  box-shadow: var(--shadow-floating-medium);
+}
+
+.op-blocknote-emoji-picker [role="grid"] {
+  max-height: 16rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.op-blocknote-emoji-row {
+  display: grid;
+}
+
+.op-blocknote-emoji-row [role="gridcell"] {
+  min-width: 0;
+  padding-inline: 0;
+  font-size: var(--text-title-size-medium, 1.25rem);
+}
+
+.op-blocknote-emoji-row [aria-selected="true"] {
+  background-color: var(--control-transparent-bgColor-selected);
+  outline: var(--borderWidth-thin) solid var(--focus-outlineColor);
+  outline-offset: -1px;
+}
+
+.op-blocknote-file-panel {
+  position: relative;
+  width: min(20rem, calc(100vw - var(--base-size-32)));
+  background: var(--overlay-bgColor);
+  border: var(--borderWidth-thin) solid var(--borderColor-muted);
+  border-radius: var(--borderRadius-large);
+  box-shadow: var(--shadow-floating-medium);
+}
+
+.op-blocknote-file-content {
+  padding: var(--base-size-16);
+}
+
+.op-blocknote-embed-form {
+  display: grid;
+  gap: var(--base-size-12);
+}
+
+.op-blocknote-embed-form > button {
+  justify-self: end;
+}
+
+.op-blocknote-file-progress {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--overlay-bgColor);
+  border-radius: inherit;
+}
+
+.op-blocknote-toolbar-form {
+  display: grid;
+  gap: var(--base-size-12);
+  padding: var(--base-size-16);
+}
+
+.op-blocknote-toolbar-form > button {
+  justify-self: end;
+}
+
+.op-blocknote-link-toolbar,
+.bn-root .op-primer-formatting-toolbar {
+  background: var(--overlay-bgColor);
+  border: 1px solid var(--borderColor-muted);
+  box-shadow: var(--shadow-floating-medium);
+  border-radius: var(--borderRadius-large);
+  padding: var(--base-size-4);
+  max-width: calc(100vw - 16px);
+}
+
+.op-primer-formatting-toolbar > * {
+  flex-shrink: 0;
+}
+
+.op-primer-formatting-toolbar > [data-component="ActionBar"] {
+  flex-shrink: 1;
+  min-width: var(--control-medium-size);
+}
+
+.op-primer-formatting-toolbar > [data-component="ActionBar"]:not(:has([data-test])) {
+  display: none;
+}
+
+.op-primer-formatting-toolbar [data-more-button-inactive="true"] {
+  display: none;
+}
+
+.bn-side-menu {
+  display: flex;
+  align-items: center;
+}
+
+.bn-side-menu [draggable="true"], .bn-table-handle[draggable="true"] {
+  cursor: grab;
+}
+
+.bn-root :is(.bn-table-handle, .bn-table-cell-handle, .bn-extend-button) {
+  background-color: var(--overlay-bgColor);
+  border: 1px solid var(--borderColor-muted);
+  border-radius: var(--borderRadius-small);
+  box-shadow: var(--shadow-resting-small);
+  padding: 0;
+}
+
+.bn-root .bn-table-cell-handle {
+  padding-inline: 4px;
+}
+
+.bn-root .bn-extend-button-add-remove-columns {
+  height: 100%;
+  width: 18px;
+  margin-left: 4px;
+  cursor: col-resize;
+}
+
+.bn-root .bn-extend-button-add-remove-rows {
+  height: 18px;
+  width: 100%;
+  margin-top: 4px;
+  cursor: row-resize;
+}
+
+.bn-side-menu [data-component="IconButton"] > svg {
+  flex-shrink: 0;
+}
+
+.bn-side-menu [data-component="IconButton"] > svg,
+.op-primer-formatting-toolbar [data-component="IconButton"] > svg {
+  width: var(--base-size-20, 20px);
+  height: var(--base-size-20, 20px);
+}
+
+.op-primer-formatting-toolbar button[aria-pressed="true"] {
+  background: var(--control-transparent-bgColor-selected);
+  color: var(--fgColor-accent);
+}
+
+.bn-mobile-formatting-toolbar .op-primer-formatting-toolbar {
+  width: fit-content;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.bn-mobile-formatting-toolbar .op-primer-formatting-toolbar button {
+  min-width: 40px;
+  min-height: 40px;
+}
+
+.op-primer-slash-menu {
+  background: var(--overlay-bgColor, white);
+  border: 1px solid var(--borderColor-muted);
+  border-radius: var(--borderRadius-large, 8px);
+  box-shadow: var(--shadow-floating-medium);
+  width: min(22rem, calc(100vw - 20px));
+  max-height: inherit;
+  overflow-y: auto;
+}
+
+.op-primer-slash-menu [aria-selected="true"] {
+  background: var(--control-transparent-bgColor-hover);
+}
+
+.block-note-editor-container .bn-block-content[data-content-type="checkListItem"] > div > input {
+  appearance: none;
+  display: inline-grid;
+  place-content: center;
+  vertical-align: middle;
+  width: 16px;
+  height: 16px;
+  margin-inline: 4px 8px;
+  background: var(--bgColor-default);
+  border: 1px solid var(--control-borderColor-emphasis);
+  border-radius: var(--borderRadius-small, 3px);
+}
+
+.block-note-editor-container .bn-block-content[data-content-type="checkListItem"] input:checked {
+  background: var(--control-checked-bgColor-rest);
+  border-color: var(--control-checked-bgColor-rest);
+}
+
+.block-note-editor-container [data-content-type="checkListItem"] input:checked::after {
+  content: "";
+  width: 8px;
+  height: 4px;
+  border: solid var(--fgColor-onEmphasis);
+  border-width: 0 0 2px 2px;
+  transform: translateY(-1px) rotate(-45deg);
+}
+
+.block-note-editor-container [data-content-type="checkListItem"] input:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.block-note-editor-container [data-content-type="checkListItem"] input:focus-visible {
+  box-shadow: 0 0 0 2px var(--bgColor-default), 0 0 0 4px var(--focus-outlineColor);
+}
+
+@media (forced-colors: active) {
+  .block-note-editor-container .bn-block-content[data-content-type="checkListItem"] > div > input {
+    appearance: auto;
+  }
+}
+
+.op-blocknote-touch-menu {
+  max-height: min(20rem, calc(var(--bn-vv-height, 100dvh) - 4rem));
+}
+
+.op-blocknote-underline-icon {
+  border-block-end: 1px solid currentColor;
+}
+
+.bn-editor.ProseMirror {
+  white-space: break-spaces;
+}
+
+.op-blocknote-merge-horizontal {
+  rotate: 90deg;
+}
+
+.octicon-three-bars:is([data-text-alignment="left"], [data-text-alignment="center"], [data-text-alignment="right"]) {
+  mask: linear-gradient(#000 0 0) var(--line-alignment, center) / 60% 100% no-repeat,
+        linear-gradient(to bottom, #000 32%, transparent 32% 65%, #000 65%);
+}
+
+.octicon-three-bars[data-text-alignment="left"] { --line-alignment: left; }
+.octicon-three-bars[data-text-alignment="right"] { --line-alignment: right; }

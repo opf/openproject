@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { useEditorTranslation } from './editorTranslations';
 import { BlockNoteViewRaw, type Components, useDictionary } from '@blocknote/react';
 import { ActionList, Button, Spinner } from '@primer/react';
 import { primerMenu, primerSideMenu, primerTableHandle } from './PrimerActionMenus';
@@ -34,7 +35,8 @@ import { primerLinkToolbar } from './PrimerLinkToolbar';
 import { primerForm, primerPopover } from './PrimerToolbarForm';
 
 function Loading() {
-  return <Spinner size="small" srText={window.I18n.t('js.label_loading')} />;
+  const t = useEditorTranslation();
+  return <Spinner size="small" srText={t('js.label_loading')} />;
 }
 
 const Comment:Components['Comments']['Comment'] = ({ className, authorInfo, timeString, edited, actions, showActions, children }) => {

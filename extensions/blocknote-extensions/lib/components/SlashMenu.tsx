@@ -1,4 +1,3 @@
-import type { BlockNoteEditor } from '@blocknote/core';
 import { CodeSquareIcon, LinkIcon, PlusIcon } from '@primer/octicons-react';
 import i18n from '../services/i18n.ts';
 import { getAliases } from '../services/slashMenuAliases';
@@ -34,8 +33,7 @@ function insertPendingWorkPackage(editor:AnyEditor, mode:PendingMode):void {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const workPackageSlashMenu = (editor:BlockNoteEditor<any>) => ({
+const workPackageSlashMenu = (editor:AnyEditor) => ({
   title: i18n.t('slashMenu.title'),
   onItemClick: () => insertPendingWorkPackage(editor, 'link'),
   aliases: [...getAliases('link')],
@@ -44,8 +42,7 @@ const workPackageSlashMenu = (editor:BlockNoteEditor<any>) => ({
   subtext: i18n.t('slashMenu.subtext'),
 });
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const createWorkPackageSlashMenu = (editor:BlockNoteEditor<any>) => ({
+const createWorkPackageSlashMenu = (editor:AnyEditor) => ({
   title: i18n.t('slashMenu.create.title'),
   onItemClick: () => insertPendingWorkPackage(editor, 'create'),
   aliases: [...getAliases('create')],
@@ -54,8 +51,7 @@ const createWorkPackageSlashMenu = (editor:BlockNoteEditor<any>) => ({
   subtext: i18n.t('slashMenu.create.subtext'),
 });
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const workPackageAttributeSlashMenu = (editor:BlockNoteEditor<any>) => ({
+const workPackageAttributeSlashMenu = (editor:AnyEditor) => ({
   title: i18n.t('slashMenu.attribute.title'),
   onItemClick: () => insertPendingAttribute(editor),
   aliases: [...getAliases('attribute')],
@@ -64,8 +60,7 @@ const workPackageAttributeSlashMenu = (editor:BlockNoteEditor<any>) => ({
   subtext: i18n.t('slashMenu.attribute.subtext'),
 });
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const getOpenProjectSlashMenuItems = (editor:BlockNoteEditor<any>) => [
+export const getOpenProjectSlashMenuItems = (editor:AnyEditor) => [
   workPackageSlashMenu(editor),
   ...(canCreateWorkPackages() ? [createWorkPackageSlashMenu(editor)] : []),
   workPackageAttributeSlashMenu(editor),

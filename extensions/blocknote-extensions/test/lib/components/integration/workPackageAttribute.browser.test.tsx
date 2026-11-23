@@ -1,3 +1,4 @@
+import { editorShortcut } from '../../../helpers/editorHelpers';
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { http } from 'msw';
@@ -140,7 +141,7 @@ describe('Inline work package attribute', () => {
     window.addEventListener('copy', onCopy);
 
     await userEvent.click(page.getByText('Mira Hofmann'));
-    await userEvent.keyboard('{Control>}c{/Control}');
+    await editorShortcut('c');
     window.removeEventListener('copy', onCopy);
 
     expect(copied?.trim()).toBe('workPackageValue:PROJ-321:"assignee"');

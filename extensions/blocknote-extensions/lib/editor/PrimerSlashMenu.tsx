@@ -25,16 +25,27 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { DefaultReactSuggestionItem, SuggestionMenuProps, useDictionary } from '@blocknote/react';
+import type { DefaultSuggestionItem } from '@blocknote/core/extensions';
+import { type DefaultReactSuggestionItem, type SuggestionMenuProps, useDictionary } from '@blocknote/react';
 import {
-  CodeSquareIcon, FileIcon, HorizontalRuleIcon, ImageIcon, ListOrderedIcon, ListUnorderedIcon, QuoteIcon,
+  CodeSquareIcon, FileIcon, HeadingIcon, TriangleRightIcon, HorizontalRuleIcon, ImageIcon, ListOrderedIcon, ListUnorderedIcon, QuoteIcon,
   SmileyIcon, TableIcon, TasklistIcon, TypographyIcon, UnmuteIcon, VideoIcon,
 } from '@primer/octicons-react';
 import { ActionList, Spinner } from '@primer/react';
 import { KeybindingHint } from '@primer/react/experimental';
 import { useEffect, useRef } from 'react';
 
-const commandIcons:Partial<Record<string, typeof FileIcon>> = {
+const commandIcons = {
+  heading: HeadingIcon,
+  heading_2: HeadingIcon,
+  heading_3: HeadingIcon,
+  heading_4: HeadingIcon,
+  heading_5: HeadingIcon,
+  heading_6: HeadingIcon,
+  toggle_heading: HeadingIcon,
+  toggle_heading_2: HeadingIcon,
+  toggle_heading_3: HeadingIcon,
+  toggle_list: TriangleRightIcon,
   audio: UnmuteIcon,
   bullet_list: ListUnorderedIcon,
   check_list: TasklistIcon,
@@ -48,11 +59,11 @@ const commandIcons:Partial<Record<string, typeof FileIcon>> = {
   quote: QuoteIcon,
   table: TableIcon,
   video: VideoIcon,
-};
+} satisfies Record<DefaultSuggestionItem['key'], typeof FileIcon>;
 
-function commandIcon(item:DefaultReactSuggestionItem) {
-  const Icon = 'key' in item && typeof item.key === 'string' ? commandIcons[item.key] : undefined;
-  return Icon ? <Icon /> : item.icon;
+export function withPrimerIcon(item:DefaultSuggestionItem):DefaultReactSuggestionItem {
+  const Icon = commandIcons[item.key];
+  return { ...item, icon: <Icon /> };
 }
 
 export function PrimerSlashMenu({ items, selectedIndex, onItemClick, loadingState }:SuggestionMenuProps<DefaultReactSuggestionItem>) {
@@ -82,12 +93,12 @@ export function PrimerSlashMenu({ items, selectedIndex, onItemClick, loadingStat
               tabIndex={-1}
               onSelect={() => onItemClick?.(item)}
             >
-              {item.icon && <ActionList.LeadingVisual>{commandIcon(item)}</ActionList.LeadingVisual>}
+              {item.icon && <ActionList.LeadingVisual>{item.icon}</ActionList.LeadingVisual>}
               {item.title}
               {item.subtext && <ActionList.Description variant="block">{item.subtext}</ActionList.Description>}
               {item.badge && (
                 <ActionList.TrailingVisual>
-                  <KeybindingHint keys={item.badge.replace(/^(⌘|Ctrl)-/, 'Mod-').replaceAll('-', '+')} />
+                  <KeybindingHint keys={item.badge.replace(/^(⌘|Ctrl)-/, 'Mod-').replace(/-/g, '+')} />
                 </ActionList.TrailingVisual>
               )}
             </ActionList.Item>

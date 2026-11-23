@@ -3,6 +3,14 @@ import { page, userEvent } from 'vitest/browser';
 
 export const SEARCH_PLACEHOLDER = 'Search by work package ID or subject';
 
+export function editorShortcut(key:'a' | 'c' | 'v' | 'z' | 'redo' | 'end') {
+  const mac = navigator.platform.includes('Mac');
+  const mod = mac ? 'Meta' : 'Control';
+  const chord = key === 'end' ? (mac ? '{ArrowDown}' : '{End}')
+    : key === 'redo' ? (mac ? '{Shift>}z{/Shift}' : 'y') : key;
+  return userEvent.keyboard(`{${mod}>}${chord}{/${mod}}`);
+}
+
 // BlockNote leaves an empty display:none toolbar container in the DOM when
 // closed, so presence alone is not enough - only a rendered one counts.
 export const formattingToolbarVisible = () =>

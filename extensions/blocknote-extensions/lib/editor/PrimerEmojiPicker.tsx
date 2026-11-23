@@ -25,7 +25,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { DefaultReactGridSuggestionItem, GridSuggestionMenuProps, useBlockNoteContext, useDictionary } from '@blocknote/react';
+import { useEditorTranslation } from './editorTranslations';
+import { type DefaultReactGridSuggestionItem, type GridSuggestionMenuProps, useBlockNoteContext, useDictionary } from '@blocknote/react';
 import { Button, Spinner } from '@primer/react';
 import { memo, useEffect, useLayoutEffect, useRef } from 'react';
 
@@ -47,6 +48,7 @@ const EmojiRow = memo(function EmojiRow({
 });
 
 export function PrimerEmojiPicker({ items, columns, selectedIndex, onItemClick, loadingState }:EmojiGridProps) {
+  const t = useEditorTranslation();
   const dict = useDictionary();
   const setEditorProps = useBlockNoteContext()?.setContentEditableProps;
   const grid = useRef<HTMLDivElement>(null);
@@ -77,7 +79,7 @@ export function PrimerEmojiPicker({ items, columns, selectedIndex, onItemClick, 
       <div ref={grid} id="bn-suggestion-menu" role="grid" aria-label={dict.slash_menu.emoji.title} aria-busy={loadingState !== 'loaded'}>
         {rows}
       </div>
-      {loadingState !== 'loaded' && <Spinner size="small" srText={window.I18n.t('js.label_loading')} />}
+      {loadingState !== 'loaded' && <Spinner size="small" srText={t('js.label_loading')} />}
       {loadingState === 'loaded' && !items.length && <div role="status">{dict.suggestion_menu.no_items_title}</div>}
     </div>
   );

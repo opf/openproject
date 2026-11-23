@@ -23,7 +23,6 @@ export default defineConfig({
     include: [
       '@blocknote/core',
       '@blocknote/react',
-      '@blocknote/mantine',
       'styled-components',
       '@primer/octicons-react',
       '@primer/react',
