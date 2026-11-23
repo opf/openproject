@@ -1,0 +1,72 @@
+# Unauthenticated container registry for local demo clusters (e.g. KinD). Do not use it on shared clusters.
+#
+# Push from your machine through a port forward (Docker allows plain HTTP for localhost):
+#   kubectl -n registry port-forward svc/registry 30500:5000
+#   docker push localhost:30500/<image>
+# Pods reference the image as localhost:30500/<image>, which reaches the registry through the NodePort on each node.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: registry
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: registry
+  namespace: registry
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: registry
+  namespace: registry
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: registry
+  template:
+    metadata:
+      labels:
+        app: registry
+    spec:
+      containers:
+        - name: registry
+          image: registry:2.8.3
+          ports:
+            - containerPort: 5000
+          env:
+            - name: REGISTRY_STORAGE_DELETE_ENABLED
+              value: "true"
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/registry
+          readinessProbe:
+            httpGet:
+              path: /v2/
+              port: 5000
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: registry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: registry
+  namespace: registry
+spec:
+  type: NodePort
+  selector:
+    app: registry
+  ports:
+    - port: 5000
+      targetPort: 5000
+      nodePort: 30500

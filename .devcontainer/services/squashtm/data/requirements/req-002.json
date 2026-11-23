@@ -1,0 +1,13 @@
+{
+  "_type": "requirement",
+  "current_version": {
+    "_type": "requirement-version",
+    "name": "Users can reset their password",
+    "reference": "REQ-002",
+    "criticality": "MINOR",
+    "category": { "code": "CAT_FUNCTIONAL" },
+    "status": "WORK_IN_PROGRESS",
+    "description": "<p>Users who forgot their password can request a reset link.</p>"
+  },
+  "verified_by": []
+}

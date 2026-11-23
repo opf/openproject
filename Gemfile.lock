@@ -161,6 +161,11 @@ PATH
     openproject-job_status (1.0.0)
 
 PATH
+  remote: modules/json_forms
+  specs:
+    openproject-json_forms (1.0.0)
+
+PATH
   remote: modules/ldap_departments
   specs:
     openproject-ldap_departments (1.0.0)
@@ -252,6 +257,7 @@ PATH
   remote: modules/webhooks
   specs:
     openproject-webhooks (1.0.0)
+      openproject-json_forms
 
 PATH
   remote: modules/wikis
@@ -1769,6 +1775,7 @@ DEPENDENCIES
   openproject-gitlab_integration!
   openproject-itsm!
   openproject-job_status!
+  openproject-json_forms!
   openproject-ldap_departments!
   openproject-ldap_groups!
   openproject-llm!
@@ -2165,6 +2172,7 @@ CHECKSUMS
   openproject-gitlab_integration (3.0.0)
   openproject-itsm (1.0.0)
   openproject-job_status (1.0.0)
+  openproject-json_forms (1.0.0)
   openproject-ldap_departments (1.0.0)
   openproject-ldap_groups (1.0.0)
   openproject-llm (1.0.0)

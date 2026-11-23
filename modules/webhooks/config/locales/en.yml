@@ -20,7 +20,9 @@ en:
         event_names: "Events"
         image: "Container image"
         button_label: "Action label"
+        environment_variables: "Environment variables"
         input_schema: "Input form (JSON Schema)"
+        ui_schema: "Form layout (UI schema)"
         manual: "Can be run manually from work packages"
         kubernetes_connection: "Kubernetes connection"
         timeout_seconds: "Timeout (seconds)"
@@ -36,6 +38,13 @@ en:
         projects: 'Enabled projects'
         secret: 'Signature secret'
         url: 'Payload URL'
+    errors:
+      models:
+        webhooks/kubernetes_script:
+          environment_variable_duplicate_name: "The environment variable %{name} is defined more than once."
+          environment_variable_invalid_name: "The environment variable name %{name} is invalid. Use letters, digits and underscores, and do not start with a digit."
+          environment_variable_missing_value: "Please enter a value for the environment variable %{name}."
+          environment_variable_reserved_name: "The environment variable name %{name} is reserved. Names starting with %{prefix} are set by OpenProject."
     models:
       webhooks/kubernetes_connection:
         one: "Kubernetes connection"
@@ -113,7 +122,15 @@ en:
           events: "Events this script can handle. Projects that enable the script will run it for these events."
           image: "Container image to run the script in, e.g. python:3.13-slim."
           button_label: "Shown in the Actions menu of work packages. Defaults to the script name."
-          input_schema: "Fields users fill in before the script runs, as a JSON Schema object. Supported: string (formats textarea, date, op-user, op-work-package, op-version), integer, number, boolean, enum or oneOf with const, and arrays of enums. Leave empty for scripts without input. The values are passed to the script as \"input\" in the payload."
+          input_schema: "Fields users fill in before the script runs, as a JSON Schema object. Nested objects and arrays are supported, as are the formats textarea, date, email, uri, op-user, op-work-package and op-version. Leave empty for scripts without input. The values are passed to the script as \"input\" in the payload."
+          ui_schema: "Optional JSON Forms UI schema to arrange the fields: VerticalLayout, HorizontalLayout, Group, Label and Control elements, including rules to show, hide, enable or disable fields. Values of hidden fields are not passed to the script. Leave empty to list all fields one below the other."
+          environment_variables: "Passed to the script's container, e.g. API keys. The values are handed to Kubernetes as a secret for each run and are not displayed again after saving. Leave a value empty to keep it."
+          environment_variables_legend: "Environment variables"
+          environment_variable_add: "Add variable"
+          environment_variable_name: "Name"
+          environment_variable_remove: "Remove variable %{name}"
+          environment_variable_saved: "Saved value (hidden)"
+          environment_variable_value: "Value"
           manual_explanation: "Manual scripts appear in the Actions menu of work packages in projects that enable the script. Users need the permission \"Run scripts manually\"."
           manual_legend: "Manual run"
           type_ids: "Only offer the script for these types. Leave all unchecked to offer it for every type."
@@ -125,9 +142,6 @@ en:
           description: "How the saved input form appears when users run the script from a work package. Save to update the preview."
           no_fields: "The script takes no input. Users only confirm the run."
           title: "Input form preview"
-        schema_errors:
-          root: "must be an object schema with \"type\": \"object\" and \"properties\"."
-          unsupported: "property \"%{name}\" uses a type or format that the form cannot display."
         permissions:
           dependencies_added: "Required permissions were added as well: %{permissions}."
           global_explanation: "Granted instance-wide to the script's service accounts in every project that enables the script."

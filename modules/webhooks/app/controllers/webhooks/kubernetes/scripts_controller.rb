@@ -143,9 +143,9 @@ module Webhooks
       def permitted_params
         params
           .expect(kubernetes_script: [:name, :description, :kubernetes_connection_id, :image, :command, :body,
-                                      :timeout_seconds, :manual, :button_label, :input_schema,
-                                      { event_names: [], type_ids: [] }])
-          .with_defaults(event_names: [], type_ids: [])
+                                      :timeout_seconds, :manual, :button_label, :input_schema, :ui_schema,
+                                      { event_names: [], type_ids: [], environment_variable_rows: [%i[name value]] }])
+          .with_defaults(event_names: [], type_ids: [], environment_variable_rows: [])
       end
 
       def default_body

@@ -23,6 +23,7 @@ group :opf_plugins do
   gem "openproject-backlogs",                  path: 'modules/backlogs'
   gem 'openproject-avatars',                   path: 'modules/avatars'
   gem 'openproject-two_factor_authentication', path: 'modules/two_factor_authentication'
+  gem 'openproject-json_forms',                path: 'modules/json_forms'
   gem 'openproject-webhooks',                  path: 'modules/webhooks'
   gem 'openproject-github_integration',        path: 'modules/github_integration'
   gem 'openproject-gitlab_integration',        path: 'modules/gitlab_integration'

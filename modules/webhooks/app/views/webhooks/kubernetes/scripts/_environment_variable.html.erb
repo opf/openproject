@@ -1,0 +1,28 @@
+<%= render(
+      Primer::Box.new(
+        display: :flex, align_items: :center, mb: 2, style: "gap: var(--stack-gap-condensed)",
+        data: { webhooks__environment_variables_target: "row", test_selector: "environment-variable" }
+      )
+    ) do %>
+  <%= text_field_tag(
+        "kubernetes_script[environment_variable_rows][][name]", name,
+        class: "form--text-field -monospace", style: "flex: 1 1 0",
+        placeholder: t("webhooks.kubernetes.scripts.form.environment_variable_name"),
+        aria: { label: t("webhooks.kubernetes.scripts.form.environment_variable_name") },
+        spellcheck: false, autocomplete: "off"
+      ) %>
+  <%= password_field_tag(
+        "kubernetes_script[environment_variable_rows][][value]", saved ? nil : value,
+        class: "form--text-field -monospace", style: "flex: 2 1 0",
+        placeholder: t("webhooks.kubernetes.scripts.form.environment_variable_#{saved ? 'saved' : 'value'}"),
+        aria: { label: t("webhooks.kubernetes.scripts.form.environment_variable_value") },
+        autocomplete: "new-password"
+      ) %>
+  <%= render(
+        Primer::Beta::IconButton.new(
+          icon: :trash, scheme: :invisible,
+          aria: { label: t("webhooks.kubernetes.scripts.form.environment_variable_remove", name:) },
+          data: { action: "webhooks--environment-variables#remove" }
+        )
+      ) %>
+<% end %>

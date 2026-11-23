@@ -41,7 +41,7 @@ module Webhooks
       end
 
       def call
-        render(Primer::Alpha::Dialog.new(id: DIALOG_ID, title: @script.label, size: :large,
+        render(Primer::Alpha::Dialog.new(id: DIALOG_ID, title: @script.label, size: :xlarge,
                                          test_selector: DIALOG_ID, data: { keep_open_on_submit: true })) do |dialog|
           dialog.with_header(variant: :large)
           render(BodyComponent.new(script: @script, work_package: @work_package))

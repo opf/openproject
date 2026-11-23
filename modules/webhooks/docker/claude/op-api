@@ -1,0 +1,63 @@
+#!/bin/bash
+# Calls the OpenProject API as the script's service account.
+#
+# Usage: op-api METHOD PATH [BODY]
+#   PATH is relative to /api/v3 (e.g. work_packages/42) or an href from an API response.
+#   BODY is a JSON string, or - to read it from stdin.
+set -euo pipefail
+
+if [ $# -lt 2 ]; then
+  echo "Usage: op-api METHOD PATH [BODY]" >&2
+  exit 2
+fi
+
+method=$1
+path=$2
+base=${OP_API_URL%/}
+root_path=$(sed -E 's#^https?://[^/]+##' <<<"$base")
+origin=${base%"$root_path"}
+
+if [[ $path == http://* || $path == https://* ]]; then
+  if [[ $path != "$origin"/* ]]; then
+    echo "op-api only calls $origin" >&2
+    exit 2
+  fi
+  url=$path
+elif [[ -n $root_path && $path == "$root_path"/api/* ]]; then
+  url=$origin$path
+elif [[ $path == /api/* ]]; then
+  url=$base$path
+else
+  url=$base/api/v3/${path#/}
+fi
+
+# Encodes characters that filter JSON in query strings contains but servers reject unencoded.
+url=${url//\"/%22}
+url=${url// /%20}
+url=${url//\{/%7B}
+url=${url//\}/%7D}
+url=${url//\[/%5B}
+url=${url//\]/%5D}
+
+args=(--silent --show-error --fail-with-body --globoff --request "$method"
+      --header "Authorization: Bearer $(<"$OP_API_TOKEN_FILE")"
+      --header "Accept: application/hal+json")
+# curl resolves every *.localhost name to the loopback interface instead of asking the system resolver.
+host=$(sed -E 's#^https?://([^/:]+).*#\1#' <<<"$origin")
+if [[ $host == *.localhost ]]; then
+  port=$(sed -nE 's#^https?://[^/:]+:([0-9]+).*#\1#p' <<<"$origin")
+  [ -z "$port" ] && { [[ $origin == https://* ]] && port=443 || port=80; }
+  ip=$(getent hosts "$host" | awk '{ print $1; exit }' || true)
+  [ -n "$ip" ] && args+=(--resolve "$host:$port:$ip")
+fi
+if [ -n "${OP_CA_FILE:-}" ]; then
+  args+=(--cacert "$OP_CA_FILE")
+fi
+if [ $# -ge 3 ]; then
+  data=$3
+  [ "$data" = "-" ] && data=@-
+  args+=(--header "Content-Type: application/json" --data-binary "$data")
+fi
+
+curl "${args[@]}" "$url"
+echo

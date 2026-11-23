@@ -30,6 +30,7 @@
 module Webhooks
   class ManualScriptsController < ::ApplicationController
     include OpTurbo::ComponentStream
+    include ::JsonForms::SubmittedInput
 
     layout false
 
@@ -37,7 +38,7 @@ module Webhooks
     before_action :authorize, except: :menu
     # The menu checks the permission itself and renders an empty frame without it.
     authorization_checked! :menu
-    before_action :find_script, only: %i[new create]
+    before_action :find_script, only: %i[new create refresh]
 
     def menu
       allowed = current_user.allowed_in_work_package?(:run_manual_scripts, @work_package)
@@ -45,7 +46,7 @@ module Webhooks
       @frame_id = request.headers["Turbo-Frame"].presence || "wp-manual-scripts-menu"
     end
 
-    def show
+    def show # rubocop:disable Metrics/AbcSize
       runs = ::Webhooks::KubernetesScriptRun.trigger_manual.where(work_package: @work_package)
       runs = runs.where(triggered_by: current_user) unless current_user.admin?
       run = runs.find(params.expect(:id))
@@ -61,20 +62,23 @@ module Webhooks
       respond_with_dialog ManualScripts::DialogComponent.new(script: @script, work_package: @work_package)
     end
 
+    # Re-renders the input form with the entered values, after a change that a rule depends on or an Add/Remove button.
+    def refresh
+      values = json_forms_refreshed_input(@script.form_schema.schema)
+      update_via_turbo_stream(component: body_component(values:, errors: json_forms_refresh_errors, state: json_forms_state),
+                              method: :morph)
+      respond_with_turbo_streams
+    end
+
     def create
-      schema = @script.form_schema
-      raw = params.fetch(:input, {}).permit!.to_h
-      input = schema.coerce(raw)
-      errors = schema.validate(input)
+      input = json_forms_input(@script.form_schema.schema)
+      errors = @script.form_schema.validate(input)
 
       if errors.any?
-        update_via_turbo_stream(
-          component: ManualScripts::BodyComponent.new(script: @script, work_package: @work_package, values: raw, errors:),
-          status: :unprocessable_entity
-        )
+        update_via_turbo_stream(component: body_component(values: input, errors:, state: json_forms_state),
+                                status: :unprocessable_entity)
       else
-        run = start_run(input)
-        update_via_turbo_stream(component: ManualScripts::BodyComponent.new(script: @script, work_package: @work_package, run:))
+        update_via_turbo_stream(component: body_component(run: start_run(input)))
       end
       respond_with_turbo_streams
     end
@@ -88,6 +92,10 @@ module Webhooks
 
     def find_script
       @script = ::Webhooks::KubernetesScript.manual_for(@work_package).find(params.expect(:script_id))
+    end
+
+    def body_component(**)
+      ManualScripts::BodyComponent.new(script: @script, work_package: @work_package, **)
     end
 
     def start_run(input)

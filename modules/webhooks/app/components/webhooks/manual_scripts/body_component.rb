@@ -38,8 +38,9 @@ module Webhooks
       RESULT_MARKER = "::op-result::"
       POLL_INTERVAL_MS = 1000
 
-      def initialize(script:, work_package:, values: {}, errors: {}, run: nil)
+      def initialize(script:, work_package:, values: nil, errors: {}, run: nil, state: {})
         super
+        @state = state
         @script = script
         @work_package = work_package
         @values = values
@@ -51,23 +52,21 @@ module Webhooks
 
       attr_reader :script, :work_package, :run
 
-      def fields
-        @fields ||= script.form_schema.fields
+      def form_config
+        ::JsonForms::InputForm.form_arguments(url: work_package_manual_scripts_path(work_package, script_id: script.id),
+                                              refresh_url:)
       end
 
-      def form_config
-        {
-          model: ManualScriptInputForm.model_for(fields, @values),
-          scope: :input,
-          url: work_package_manual_scripts_path(work_package, script_id: script.id),
-          method: :post,
-          data: { turbo_stream: true }
-        }
+      def refresh_url
+        refresh_work_package_manual_scripts_path(work_package, script_id: script.id)
       end
 
       def input_form(form)
-        ManualScriptInputForm.new(form, fields:, work_package:, values: @values, errors: @errors,
-                                        dialog_id:)
+        schema = script.form_schema.schema
+        ::JsonForms::InputForm.new(form, schema:, ui_schema: script.ui_schema,
+                                         data: @values || ::JsonForms::FormData.apply_defaults(schema, {}),
+                                         errors: @errors, context: { work_package:, overlay_id: dialog_id }, refresh_url:,
+                                         state: @state)
       end
 
       def dialog_id

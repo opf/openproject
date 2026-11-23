@@ -1,0 +1,89 @@
+networks:
+  openproject:
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24
+
+include:
+  - services/keycloak/docker-compose.yaml
+  - services/stepca/docker-compose.yaml
+  - services/traefik/docker-compose.yaml
+  - services/squashtm/docker-compose.yaml
+
+services:
+  openproject:
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      ca-bundle:
+        condition: service_completed_successfully
+      keycloak_client_setup:
+        required: false
+        condition: service_completed_successfully
+      squashtm-seed:
+        required: false
+        condition: service_completed_successfully
+    labels:
+      - "traefik.enable=true"
+
+      - "traefik.http.routers.openproject-assets.rule=Host(`openproject.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}`) && PathPrefix(`/assets/frontend`)"
+      - "traefik.http.routers.openproject-assets.entrypoints=websecure"
+      - "traefik.http.routers.openproject-assets.service=openproject-assets"
+      - "traefik.http.services.openproject-assets.loadbalancer.server.port=4200"
+
+      - "traefik.http.routers.openproject.rule=Host(`openproject.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}`)"
+      - "traefik.http.routers.openproject.entrypoints=websecure"
+      - "traefik.http.routers.openproject.service=openproject"
+      - "traefik.http.services.openproject.loadbalancer.server.port=3000"
+    build:
+      context: ../
+      dockerfile: .devcontainer/Dockerfile
+    command: sleep infinity
+    networks:
+      openproject:
+        ipv4_address: 172.30.0.21
+    volumes:
+      - ../:/home/dev/openproject
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - cacert:/tls:ro
+    environment:
+      SSL_CERT_FILE: /tls/ca-certificates.crt
+
+      DISPLAY: ${DISPLAY}
+      OPENPROJECT_DEV_EXTRA_HOSTS: openproject.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}
+      OPENPROJECT_FE_DOMAIN: openproject.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}
+      FE_HOST: 0.0.0.0
+      NG_SERVE_EXTRA_ARGS: --allowed-hosts=openproject.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}
+      NG_ALLOWED_HOSTS: openproject.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}
+      __VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS: openproject.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}
+      OPENPROJECT_HOST__NAME: openproject.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}
+      OPENPROJECT_HTTPS: true
+      OPENPROJECT_CLI_PROXY: "https://openproject.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}"
+      OPENPROJECT_DB_URL: postgres://openproject:openproject@postgresql:5432/openproject
+      OPENPROJECT_SSRF_PROTECTION_IP_ALLOWLIST: 172.30.0.10
+      OPENPROJECT_OPENID__CONNECT_KEYCLOAK_DISPLAY__NAME: Keycloak
+      OPENPROJECT_OPENID__CONNECT_KEYCLOAK_HOST: keycloak.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}
+      OPENPROJECT_OPENID__CONNECT_KEYCLOAK_IDENTIFIER: https://openproject.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}
+      OPENPROJECT_OPENID__CONNECT_KEYCLOAK_SECRET: openproject
+      OPENPROJECT_OPENID__CONNECT_KEYCLOAK_ISSUER: https://keycloak.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}/realms/master
+      OPENPROJECT_OPENID__CONNECT_KEYCLOAK_AUTHORIZATION__ENDPOINT: /realms/master/protocol/openid-connect/auth
+      OPENPROJECT_OPENID__CONNECT_KEYCLOAK_TOKEN__ENDPOINT: /realms/master/protocol/openid-connect/token
+      OPENPROJECT_OPENID__CONNECT_KEYCLOAK_USERINFO__ENDPOINT: /realms/master/protocol/openid-connect/userinfo
+      OPENPROJECT_OPENID__CONNECT_KEYCLOAK_END__SESSION__ENDPOINT: https://keycloak.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}/realms/master/protocol/openid-connect/logout
+  postgresql:
+    image: postgres:17.11
+    restart: always
+    shm_size: 128mb
+    networks:
+      openproject:
+        ipv4_address: 172.30.0.20
+    environment:
+      POSTGRES_USER: openproject
+      POSTGRES_PASSWORD: openproject
+      POSTGRES_DB: openproject
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s

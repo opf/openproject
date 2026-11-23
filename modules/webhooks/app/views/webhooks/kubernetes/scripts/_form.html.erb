@@ -1,4 +1,4 @@
-<fieldset class="form--fieldset" data-controller="webhooks--code-editor">
+<fieldset class="form--fieldset" data-controller="code-editor">
   <div class="form--field -required">
     <%= f.text_field :name, required: true, container_class: "-middle" %>
   </div>
@@ -27,8 +27,8 @@
                      required: true,
                      container_class: "-middle",
                      data: {
-                       webhooks__code_editor_target: "command",
-                       action: "input->webhooks--code-editor#updateMode"
+                       code_editor_target: "command",
+                       action: "input->code-editor#updateMode"
                      } %>
     <div class="form--field-instructions">
       <%= t("webhooks.kubernetes.scripts.form.command") %>
@@ -45,11 +45,37 @@
                     container_class: "-xxwide",
                     class: "-monospace",
                     spellcheck: false,
-                    data: { webhooks__code_editor_target: "textarea" } %>
+                    data: { code_editor_target: "textarea" } %>
     <div class="form--field-instructions">
       <%= t("webhooks.kubernetes.scripts.form.body") %>
     </div>
   </div>
+</fieldset>
+
+<fieldset class="form--fieldset" data-controller="webhooks--environment-variables">
+  <legend class="form--fieldset-legend">
+    <%= t("webhooks.kubernetes.scripts.form.environment_variables_legend") %>
+  </legend>
+  <p><%= t("webhooks.kubernetes.scripts.form.environment_variables") %></p>
+
+  <div data-webhooks--environment-variables-target="list">
+    <% @script.environment_variable_form_rows.each do |row| %>
+      <%= render partial: "environment_variable", locals: row %>
+    <% end %>
+  </div>
+  <template data-webhooks--environment-variables-target="template">
+    <%= render partial: "environment_variable", locals: { name: "", value: nil, saved: false } %>
+  </template>
+
+  <%= render(
+        Primer::Beta::Button.new(
+          size: :small,
+          data: { action: "webhooks--environment-variables#add", test_selector: "environment-variable-add" }
+        )
+      ) do |button| %>
+    <% button.with_leading_visual_icon(icon: :plus) %>
+    <%= t("webhooks.kubernetes.scripts.form.environment_variable_add") %>
+  <% end %>
 </fieldset>
 
 <fieldset class="form--fieldset" data-controller="checkable">
@@ -115,17 +141,33 @@
     </div>
   </div>
 
-  <div class="form--field" data-controller="webhooks--code-editor" data-webhooks--code-editor-mode-value="json"
-       data-webhooks--code-editor-height-value="20rem">
+  <div class="form--field" data-controller="code-editor" data-code-editor-mode-value="json"
+       data-code-editor-height-value="20rem">
     <%= f.text_area :input_schema,
                     value: @script.input_schema_text,
                     rows: 14,
                     container_class: "-xxwide",
                     class: "-monospace",
                     spellcheck: false,
-                    data: { webhooks__code_editor_target: "textarea" } %>
+                    data: { code_editor_target: "textarea" } %>
     <div class="form--field-instructions">
       <%= t("webhooks.kubernetes.scripts.form.input_schema") %>
+      <%= link_to t("json_forms.docs.json_schema"), JsonForms::Schema::DOCS_URL, target: "_blank", rel: "noopener noreferrer" %>
+    </div>
+  </div>
+
+  <div class="form--field" data-controller="code-editor" data-code-editor-mode-value="json"
+       data-code-editor-height-value="14rem">
+    <%= f.text_area :ui_schema,
+                    value: @script.ui_schema_text,
+                    rows: 10,
+                    container_class: "-xxwide",
+                    class: "-monospace",
+                    spellcheck: false,
+                    data: { code_editor_target: "textarea" } %>
+    <div class="form--field-instructions">
+      <%= t("webhooks.kubernetes.scripts.form.ui_schema") %>
+      <%= link_to t("json_forms.docs.ui_schema"), JsonForms::UiSchema::DOCS_URL, target: "_blank", rel: "noopener noreferrer" %>
     </div>
   </div>
 </fieldset>

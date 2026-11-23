@@ -31,6 +31,8 @@ class KubernetesScriptJob < ApplicationJob
   JOB_TTL_SECONDS = 600
   TOKEN_GRACE_SECONDS = 120
   MOUNT_PATH = "/openproject"
+  MOUNTED_FILES = %w[script payload.json api_token ca.crt].freeze
+  ENVIRONMENT_KEY_PREFIX = "env."
 
   attr_reader :run
 
@@ -101,7 +103,7 @@ class KubernetesScriptJob < ApplicationJob
             restartPolicy: "Never",
             automountServiceAccountToken: false,
             containers: [container_spec],
-            volumes: [{ name: "openproject", secret: { secretName: job_name } }]
+            volumes: [{ name: "openproject", secret: { secretName: job_name, items: mounted_files } }]
           }
         }
       }
@@ -121,10 +123,22 @@ class KubernetesScriptJob < ApplicationJob
         { name: "OP_SCRIPT_RUN_ID", value: run.id.to_s },
         { name: "OP_API_URL", value: connection.effective_openproject_url },
         { name: "OP_API_TOKEN_FILE", value: "#{MOUNT_PATH}/api_token" },
-        *([{ name: "OP_CA_FILE", value: "#{MOUNT_PATH}/ca.crt" }] if connection.openproject_ca_cert.present?)
+        *([{ name: "OP_CA_FILE", value: "#{MOUNT_PATH}/ca.crt" }] if connection.openproject_ca_cert.present?),
+        *environment_variable_refs
       ],
       volumeMounts: [{ name: "openproject", mountPath: MOUNT_PATH, readOnly: true }]
     }
+  end
+
+  def environment_variable_refs
+    script.environment_variable_names.map do |name|
+      { name:, valueFrom: { secretKeyRef: { name: job_name, key: "#{ENVIRONMENT_KEY_PREFIX}#{name}" } } }
+    end
+  end
+
+  # Only the files are mounted, the environment variable values of the same secret are not.
+  def mounted_files
+    MOUNTED_FILES.filter_map { |key| { key:, path: key } unless key == "ca.crt" && connection.openproject_ca_cert.blank? }
   end
 
   def secret_manifest(job_uid, payload, api_token)
@@ -142,7 +156,7 @@ class KubernetesScriptJob < ApplicationJob
         "payload.json" => payload,
         "api_token" => api_token,
         "ca.crt" => connection.openproject_ca_cert
-      }.compact_blank
+      }.compact_blank.merge(script.environment_variables.transform_keys { "#{ENVIRONMENT_KEY_PREFIX}#{it}" })
     }
   end
 end

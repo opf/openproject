@@ -28,8 +28,9 @@
   </p>
 <% end %>
 
-<% saved_schema = Webhooks::ManualScriptSchema.new(@script.attribute_in_database(:input_schema)) %>
-<% if @script.manual_in_database && saved_schema.errors.empty? %>
+<% saved_script = Webhooks::KubernetesScript.find(@script.id) %>
+<% saved_schema = saved_script.form_schema %>
+<% if saved_script.manual? && saved_schema.errors.empty? %>
   <%=
     render(Primer::Beta::Subhead.new(mt: 6)) do |subhead|
       subhead.with_heading(tag: :h3, size: :medium) { t("webhooks.kubernetes.scripts.preview.title") }
@@ -40,12 +41,21 @@
     render(Primer::Beta::BorderBox.new(test_selector: "manual-script-form-preview")) do |box|
       box.with_header { @script.label }
       box.with_body do
-        if saved_schema.fields.empty?
+        if saved_schema.empty?
           render(Primer::Beta::Text.new(color: :muted)) { t("webhooks.kubernetes.scripts.preview.no_fields") }
         else
-          primer_form_with(model: Webhooks::ManualScriptInputForm.model_for(saved_schema.fields),
-                           url: "#", scope: :input, html: { onsubmit: "return false" }) do |form|
-            render(Webhooks::ManualScriptInputForm.new(form, fields: saved_schema.fields))
+          primer_form_with(
+            model: JsonForms::InputForm::ValuelessModel.new, scope: :input, url: "#",
+            html: { onsubmit: "return false" }
+          ) do |form|
+            render(
+              JsonForms::InputForm.new(
+                form,
+                schema: saved_schema.schema,
+                ui_schema: saved_script.ui_schema,
+                data: JsonForms::FormData.apply_defaults(saved_schema.schema, {})
+              )
+            )
           end
         end
       end

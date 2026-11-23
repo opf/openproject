@@ -42,7 +42,7 @@
             if script.description.present?
               concat(render(Primer::Beta::Text.new(tag: :p, color: :muted)) { script.description })
             end
-            if fields.empty?
+            if script.form_schema.empty?
               concat(render(Primer::Beta::Text.new(tag: :p)) { t("webhooks.kubernetes.manual_runs.confirm") })
             else
               concat(render(input_form(form)))

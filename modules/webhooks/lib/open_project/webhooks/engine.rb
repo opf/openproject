@@ -66,7 +66,7 @@ module OpenProject::Webhooks
 
       project_module :work_package_tracking do
         permission :run_manual_scripts,
-                   { "webhooks/manual_scripts": %i[menu new create show] },
+                   { "webhooks/manual_scripts": %i[menu new create show refresh] },
                    permissible_on: %i[work_package project],
                    dependencies: %i[view_work_packages]
       end

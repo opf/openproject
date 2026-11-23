@@ -1,0 +1,48 @@
+en:
+  json_forms:
+    docs:
+      json_schema: "Learn more about JSON Schema"
+      ui_schema: "Learn more about JSON Forms UI schemas"
+    errors:
+      blank: "This field is required."
+      greater_than: "The value must be greater than %{count}."
+      greater_than_or_equal_to: "The value must be %{count} or more."
+      inclusion: "The value is not one of the allowed options."
+      invalid: "The value is not valid."
+      invalid_schema: "The JSON Schema is not valid: %{details}"
+      less_than: "The value must be less than %{count}."
+      less_than_or_equal_to: "The value must be %{count} or less."
+      max_items:
+        one: "The list must not have more than one entry."
+        other: "The list must not have more than %{count} entries."
+      max_length:
+        one: "The text must not be longer than one character."
+        other: "The text must not be longer than %{count} characters."
+      min_items:
+        one: "The list must have at least one entry."
+        other: "The list must have at least %{count} entries."
+      min_length:
+        one: "The text must be at least one character long."
+        other: "The text must be at least %{count} characters long."
+      not_a_number: "The value must be a number."
+      not_an_integer: "The value must be a whole number."
+      property_name_blank: "Enter a name for the new property."
+      property_name_invalid: "The name must not contain dots or square brackets."
+      property_name_mismatch: "The name is not allowed by the schema."
+      property_name_taken: "A property with this name already exists."
+      root: "The JSON Schema must describe an object, with \"type\": \"object\"."
+    form:
+      add: "Add"
+      add_property: "Add property"
+      category_has_errors: "This tab contains errors."
+      no_items: "No entries yet."
+      property_name: "Property name"
+      remove: "Remove"
+      select_prompt: "Please select"
+    playground:
+      description: "Edit the JSON Schema and the optional JSON Forms UI schema to see the form they produce. Available in development only."
+      result: "Submitted data"
+      schema: "JSON Schema"
+      submit: "Submit"
+      title: "JSON Forms playground"
+      ui_schema: "UI schema (optional)"

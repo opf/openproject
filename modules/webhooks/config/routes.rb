@@ -57,6 +57,7 @@ Rails.application.routes.draw do
   scope "work_packages/:work_package_id", as: "work_package" do
     resources :manual_scripts, only: %i[new create show], controller: "webhooks/manual_scripts" do
       get :menu, on: :collection
+      post :refresh, on: :collection
     end
   end
 

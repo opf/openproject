@@ -29,6 +29,9 @@
 
 module Webhooks
   class KubernetesScript < ApplicationRecord
+    ENVIRONMENT_VARIABLE_NAME = /\A[A-Za-z_][A-Za-z0-9_]*\z/
+    RESERVED_ENVIRONMENT_PREFIX = "OP_"
+
     belongs_to :kubernetes_connection, class_name: "::Webhooks::KubernetesConnection"
     belongs_to :project_role, class_name: "::ProjectRole", optional: true
     belongs_to :global_role, class_name: "::GlobalRole", optional: true
@@ -42,7 +45,7 @@ module Webhooks
     validates :name, presence: true, uniqueness: { case_sensitive: false }
     validates :image, :command, :body, presence: true
     validates :timeout_seconds, numericality: { only_integer: true, greater_than: 0 }
-    validate :validate_input_schema
+    validate :validate_input_schema, :validate_ui_schema, :validate_environment_variables
 
     after_create :ensure_api_identity!
     after_update :rename_api_identity, if: :saved_change_to_name?
@@ -119,24 +122,45 @@ module Webhooks
       super(Array(ids).compact_blank.map(&:to_i))
     end
 
-    def input_schema=(value)
-      @input_schema_text = nil
-      @input_schema_parse_error = nil
-      if value.is_a?(String)
-        @input_schema_text = value
-        value = value.blank? ? nil : JSON.parse(value)
+    %i[input_schema ui_schema].each do |attribute|
+      define_method(:"#{attribute}=") do |value|
+        json_texts.delete(attribute)
+        json_parse_errors.delete(attribute)
+        if value.is_a?(String)
+          json_texts[attribute] = value
+          value = value.blank? ? nil : JSON.parse(value)
+        end
+        super(value)
+      rescue JSON::ParserError => e
+        json_parse_errors[attribute] = e.message
       end
-      super
-    rescue JSON::ParserError => e
-      @input_schema_parse_error = e.message
+
+      define_method(:"#{attribute}_text") do
+        json_texts[attribute] || (self[attribute] && JSON.pretty_generate(self[attribute])) || ""
+      end
     end
 
-    def input_schema_text
-      @input_schema_text || (input_schema && JSON.pretty_generate(input_schema)) || ""
+    # Rows submitted from the admin form. A row with an empty value keeps the stored value of that name,
+    # rows that are not submitted are removed.
+    def environment_variable_rows=(rows)
+      rows = rows.values if rows.respond_to?(:each_pair)
+      @environment_variable_rows = Array(rows).filter_map { environment_variable_row(it) }
+      self.environment_variables = @environment_variable_rows.to_h { [it[:name], it[:value]] }
+    end
+
+    def environment_variable_names
+      environment_variables.keys
+    end
+
+    # Values are only part of a row if they are not saved yet, so that saved values never reach the browser.
+    def environment_variable_form_rows
+      saved = attribute_in_database(:environment_variables) || {}
+      rows = @environment_variable_rows || environment_variables.sort.map { |name, value| { name:, value: } }
+      rows.map { |row| saved.key?(row[:name]) ? { name: row[:name], saved: true } : row.merge(saved: false) }
     end
 
     def form_schema
-      ManualScriptSchema.new(input_schema)
+      ::JsonForms::Schema.new(input_schema)
     end
 
     def label
@@ -145,11 +169,44 @@ module Webhooks
 
     private
 
+    def json_texts
+      @json_texts ||= {}
+    end
+
+    def json_parse_errors
+      @json_parse_errors ||= {}
+    end
+
     def validate_input_schema
-      if @input_schema_parse_error
-        errors.add(:input_schema, :invalid_json, message: @input_schema_parse_error)
-      elsif input_schema.present?
-        form_schema.errors.each { |message| errors.add(:input_schema, message) }
+      json_parse_errors.each { |attribute, message| errors.add(attribute, :invalid_json, message:) }
+      return if json_parse_errors.key?(:input_schema) || input_schema.blank?
+
+      form_schema.errors.each { |message| errors.add(:base, message) }
+    end
+
+    def validate_ui_schema
+      return if json_parse_errors.key?(:ui_schema) || ui_schema.blank?
+
+      errors.add(:ui_schema, :invalid) unless ui_schema.is_a?(Hash) && ui_schema["type"].present?
+    end
+
+    def environment_variable_row(row)
+      name = row[:name].to_s.strip
+      { name:, value: row[:value].to_s.presence || environment_variables[name] } if name.present?
+    end
+
+    def validate_environment_variables
+      Array(@environment_variable_rows).group_by { it[:name] }.each do |name, rows|
+        error = environment_variable_error(name, rows)
+        errors.add(:base, :"environment_variable_#{error}", name:, prefix: RESERVED_ENVIRONMENT_PREFIX) if error
+      end
+    end
+
+    def environment_variable_error(name, rows)
+      if !ENVIRONMENT_VARIABLE_NAME.match?(name) then :invalid_name
+      elsif name.upcase.start_with?(RESERVED_ENVIRONMENT_PREFIX) then :reserved_name
+      elsif rows.many? then :duplicate_name
+      elsif rows.first[:value].blank? then :missing_value
       end
     end
 
