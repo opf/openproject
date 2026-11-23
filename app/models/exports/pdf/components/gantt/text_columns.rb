@@ -29,7 +29,7 @@
 
 module Exports::PDF::Components::Gantt
   class TextColumns
-    MAX_COLUMNS = 5
+    MAX_COLUMNS = 6
     DEFAULT_COLUMN_NAMES = %w[id subject start_date due_date].freeze
     FALLBACK_COLUMN_NAMES = %w[subject].freeze
 
