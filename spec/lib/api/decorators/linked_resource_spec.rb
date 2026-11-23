@@ -125,13 +125,13 @@ RSpec.describe API::Decorators::LinkedResource do
         Class.new(API::Decorators::Single) do
           include API::Decorators::LinkedResource
 
-          associated_resources :included_things, v3_path: :user, representer: klass
+          associated_resources :effective_included_things, as: :included_things, v3_path: :user, representer: klass
           associated_resources :excluded_things, v3_path: :user, representer: klass
         end
       end
       let(:model) do
         Struct
-          .new(:included_things, :excluded_things)
+          .new(:effective_included_things, :excluded_things)
           .new([included_thing], [excluded_thing])
       end
 
