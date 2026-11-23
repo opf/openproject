@@ -27,18 +27,9 @@
 
 module Report::Validation
   module Integers
-    def validate_integers(*values)
-      values = values.flatten
-      return true if values.empty?
-
-      values.flatten.all? do |val|
-        if val.to_i.to_s == val.to_s
-          true
-        else
-          errors[:int] << val
-          validate_integers(values - [val])
-          false
-        end
+    def validate_integers(values, errors)
+      values.each do |val|
+        errors[:int] << val unless val.to_i.to_s == val.to_s
       end
     end
   end

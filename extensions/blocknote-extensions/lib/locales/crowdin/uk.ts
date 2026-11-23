@@ -80,7 +80,7 @@ export const en = {
     },
     'options': {
       'openInNewTab': "Відкрити у новій вкладці",
-      'open': "Відкрити",
+      'openWorkPackage': 'Open {{id}}',
       'changeSize': "Змінити розмір",
       'changeSizeAriaLabel': 'Change size: {{size}}',
       'menuAriaLabel': 'Options for work package {{id}}',
@@ -90,7 +90,8 @@ export const en = {
       'openAriaLabel': "Відкрити робочий пакет {{id}} у новій вкладці",
       'inlineSizeLabel': "Вбудований розмір",
       'blockSizeLabel': "Розмір блоку",
-      'chipAriaLabel': "Робочий пакет {{id}}"
+      'chipAriaLabel': "Робочий пакет {{id}}",
+      'idDash': 'dash'
     },
     'preview': {
       'showAriaLabel': "Показати деталі для робочого пакету {{id}}"
@@ -137,6 +138,12 @@ export const en = {
         'label': "Мітка",
         'value': "Значення",
         'both': 'Label + value'
+      },
+      'options': {
+        'menuAriaLabel': 'Options for {{attribute}} of work package {{id}}',
+        'removeAriaLabel': 'Remove work package attribute',
+        'selectedDescription': '{{attribute}} of work package {{id}}',
+        'selectedValueDescription': '{{attribute}} of work package {{id}}: {{value}}'
       },
       'dialog': {
         'title': 'Insert work package attribute',

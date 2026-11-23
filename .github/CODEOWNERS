@@ -30,3 +30,12 @@
 /app/models/user_password.rb @opf/security
 /app/models/user_password/ @opf/security
 /app/models/token/ @opf/security
+
+/modules/bim @opf/titan
+/modules/github_integration @opf/titan
+/modules/gitlab_integration @opf/titan
+/modules/openid_connect @opf/titan
+/modules/repositories @opf/titan
+/modules/storages @opf/titan
+/modules/webhooks @opf/titan
+/modules/wikis @opf/titan

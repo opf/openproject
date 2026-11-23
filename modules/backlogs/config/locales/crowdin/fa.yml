@@ -58,6 +58,7 @@ fa:
       messages:
         cannot_start_while_receiving_shared_sprints: تا زمانی که پروژه اسپرینت‌های اشتراکی دریافت می‌کند، قابل شروع نیست.
         dates_required: برای شروع اسپرینت، تاریخ شروع و پایان الزامی است.
+        finish_date_in_past: cannot be started as long as the planned finish date is in the past.
         must_be_in_planning: برای شروع باید در وضعیت برنامه‌ریزی باشد.
         only_one_active_sprint_allowed: برای هر پروژه فقط یک اسپرینت فعال مجاز است.
       models:
@@ -206,6 +207,7 @@ fa:
       label_complete_sprint: تکمیل اسپرینت
       label_start_sprint: شروع اسپرینت
       start_sprint_disabled_reason_active_sprint: یک اسپرینت دیگر از قبل فعال است.
+      start_sprint_disabled_reason_finish_date_in_past: The planned finish date is in the past. Correct the sprint dates first.
       start_sprint_disabled_reason_missing_dates: برای شروع اسپرینت، تاریخ شروع و پایان الزامی است.
       start_sprint_disabled_reason_receiving_shared_sprints: تا زمانی که این پروژه اسپرینت‌های اشتراکی دریافت می‌کند، اسپرینت‌های خود پروژه قابل شروع نیستند.
       start_sprint_disabled_reason_shared_sprint: این اسپرینت متعلق به پروژه دیگری است که از چند اسپرینت فعال پشتیبانی نمی‌کند.

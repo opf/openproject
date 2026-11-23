@@ -1,6 +1,10 @@
-import { useEffect } from 'react';
+import { createContext, useContext, useEffect, useMemo, useRef, type ReactNode, type RefObject } from 'react';
 import { createPortal } from 'react-dom';
+import { useTranslation } from 'react-i18next';
 import { StyleSheetManager } from 'styled-components';
+import { XIcon } from '@primer/octicons-react';
+import { Body, BodyContent, Header, HeaderTitle, IconButton, Overlay, Panel } from './atoms';
+import { useGrowthTransition } from './useGrowthTransition';
 
 const FOCUSABLE_SELECTOR = [
   'a[href]',
@@ -17,7 +21,7 @@ interface FullPagePortalProps {
   children:React.ReactNode;
 }
 
-export const FullPagePortal = ({ anchorEl, carriedVariables = [], children }:FullPagePortalProps) => createPortal(
+const FullPagePortal = ({ anchorEl, carriedVariables = [], children }:FullPagePortalProps) => createPortal(
   <StyleSheetManager target={document.head}>
     <div
       data-color-scheme={colorSchemeOf(anchorEl)}
@@ -53,7 +57,7 @@ function variablesOf(anchorEl:HTMLElement | null | undefined, names:string[]):Re
   return carried;
 }
 
-export function usePageScrollLock():void {
+function usePageScrollLock():void {
   useEffect(() => {
     const { style } = document.body;
     const previous = { overflow: style.overflow, paddingRight: style.paddingRight };
@@ -69,7 +73,7 @@ export function usePageScrollLock():void {
   }, []);
 }
 
-export function keepFocusInside(panel:HTMLElement | null, event:React.KeyboardEvent):void {
+function keepFocusInside(panel:HTMLElement | null, event:React.KeyboardEvent):void {
   if (!panel) return;
 
   const focusable = Array.from(panel.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR))
@@ -88,3 +92,79 @@ export function keepFocusInside(panel:HTMLElement | null, event:React.KeyboardEv
     first.focus();
   }
 }
+
+interface ModalBodyRefs {
+  bodyRef:RefObject<HTMLDivElement | null>;
+  contentRef:RefObject<HTMLDivElement | null>;
+}
+
+const ModalBodyContext = createContext<ModalBodyRefs | null>(null);
+
+export const ModalBody = ({ children }:{ children:ReactNode }) => {
+  const refs = useContext(ModalBodyContext);
+
+  return (
+    <Body ref={refs?.bodyRef}>
+      <BodyContent ref={refs?.contentRef}>{children}</BodyContent>
+    </Body>
+  );
+};
+
+interface ModalProps {
+  anchorEl?:HTMLElement | null;
+  carriedVariables?:string[];
+  panelRef:RefObject<HTMLDivElement | null>;
+  title:string;
+  // Once something is filled in, only the buttons close it, so a stray click or Escape loses nothing.
+  dismissible:boolean;
+  onCancel:() => void;
+  children:ReactNode;
+}
+
+export const Modal = ({
+  anchorEl,
+  carriedVariables,
+  panelRef,
+  title,
+  dismissible,
+  onCancel,
+  children,
+}:ModalProps) => {
+  const { t } = useTranslation();
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const bodyRefs = useMemo(() => ({ bodyRef, contentRef }), []);
+  usePageScrollLock();
+  useGrowthTransition({ panelRef, bodyRef, contentRef });
+  useEffect(() => { panelRef.current?.focus(); }, [panelRef]);
+
+  const dismiss = () => {
+    if (dismissible) onCancel();
+  };
+
+  return (
+    <FullPagePortal anchorEl={anchorEl} carriedVariables={carriedVariables}>
+      <Overlay onMouseDown={dismiss}>
+        <Panel
+          ref={panelRef}
+          tabIndex={-1}
+          aria-label={title}
+          onMouseDown={(event) => event.stopPropagation()}
+          onKeyDown={(event) => {
+            event.stopPropagation();
+            if (event.key === 'Escape') dismiss();
+            if (event.key === 'Tab') keepFocusInside(panelRef.current, event);
+          }}
+        >
+          <Header>
+            <HeaderTitle>{title}</HeaderTitle>
+            <IconButton type="button" aria-label={t('createWorkPackage.close')} onClick={onCancel}>
+              <XIcon size={16} />
+            </IconButton>
+          </Header>
+          <ModalBodyContext.Provider value={bodyRefs}>{children}</ModalBodyContext.Provider>
+        </Panel>
+      </Overlay>
+    </FullPagePortal>
+  );
+};

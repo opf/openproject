@@ -73,6 +73,17 @@ RSpec.describe "API v3 project-specific custom field values", :webmock, content_
           expect(acme_element.dig("_links", "children").pluck("title")).to eq(["Traffic lights"])
           expect(traffic_lights_element.dig("_links", "children")).to be_empty
         end
+
+        context "with a visible item below a hidden one" do
+          let!(:spider_sense) { create(:hierarchy_item, parent: oscorp, label: "Spider sense") }
+
+          before { create(:project_specific_value_restriction, project:, hierarchy_item: spider_sense) }
+
+          it "skips the visible item together with its hidden parent" do
+            expect(last_response).to have_http_status(:ok)
+            expect(elements.pluck("id")).to eq([root.id, acme.id, traffic_lights.id])
+          end
+        end
       end
 
       context "with a project" do

@@ -86,10 +86,14 @@ module Redmine::MenuManager::TopMenu::ModuleMenu
           item.caption
         end
 
+      content_arguments = {}
+      content_arguments[:data] = item.html_options[:data] if item.html_options[:data].present?
+
       list.with_item(
         href: url_for(item.url),
         label:,
-        test_selector: "op-menu--item-action"
+        test_selector: "op-menu--item-action",
+        content_arguments:
       ) do |menu_item|
         menu_item.with_leading_visual_icon(icon: item.icon) if item.icon
       end

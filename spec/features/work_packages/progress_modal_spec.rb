@@ -449,6 +449,19 @@ RSpec.describe "Progress modal", :js do
             done_ratio: 40
           )
         end
+
+        it "opens the popover of another progress field clicked while one is open" do
+          work_package_create_page.visit!
+
+          work_edit_field = ProgressEditField.new("#content", :estimatedTime)
+          remaining_work_edit_field = ProgressEditField.new("#content", :remainingTime)
+
+          work_edit_field.trigger_element.click
+          work_edit_field.expect_modal_field_in_focus
+
+          remaining_work_edit_field.trigger_element.click
+          remaining_work_edit_field.expect_modal_field_in_focus
+        end
       end
 
       context "with % complete set and setting long decimal values in modal" do

@@ -43,6 +43,24 @@ RSpec.describe Meetings::DeleteContract do
     end
 
     it_behaves_like "contract is valid"
+
+    context "when the meeting is a series template" do
+      let(:meeting) { create(:recurring_meeting, project:).template }
+
+      it_behaves_like "contract is invalid", base: :error_unauthorized
+    end
+
+    context "when the meeting is a one-time template" do
+      let(:meeting) { create(:onetime_template, project:) }
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "when deleting the entire series" do
+      let(:meeting) { create(:recurring_meeting, project:) }
+
+      it_behaves_like "contract is valid"
+    end
   end
 
   context "without permission" do

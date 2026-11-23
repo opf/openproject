@@ -30,7 +30,7 @@ Included in this release are administrative UI support for configuring the MCP S
 
 ![Model context protocol settings in OpenProject administration](openproject_system_guide_new_mcp.png)
 
-See the [**MCP Server documentation**](../../system-admin-guide/integrations/mcp-server/) for setup and examples.  
+See the [**MCP Server documentation**](../../system-admin-guide/ai/mcp-server/) for setup and examples.  
 
 ### Reusable meeting templates (Enterprise add-on)
 
@@ -44,7 +44,7 @@ When creating a new one-time meeting, users can choose from the available templa
 
 ![Meetings templates listed in an OpenProject project](openproject_release_notes_17-2-0_meetings_template.png)
 
-For more details, please refer to the [Meetings documentation](../../user-guide/meetings/one-time-meetings/).
+For more details, please refer to the [Meetings documentation](../../user-guide/meetings/meeting-features/meeting-templates/).
 
 ### Allow requiring to be logged in to open external links (Enterprise add-on)
 

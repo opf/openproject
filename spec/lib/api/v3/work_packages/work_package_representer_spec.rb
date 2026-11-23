@@ -961,7 +961,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       context "with caching where the first user is allowed and the second is not allowed to see the reference" do
         let(:permissions) { all_permissions - [:view_project_phases] }
         let(:admin) { build_stubbed(:admin) }
-        let(:cache_enabled) { true }
 
         before do
           described_class
@@ -973,7 +972,9 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
-    describe "category" do
+    describe "category",
+             with_flag: { work_package_multiple_categories: false },
+             with_settings: { work_package_multiple_categories: false } do
       let(:embedded_path) { "_embedded/category" }
       let(:href_path) { "_links/category/href" }
 
@@ -987,7 +988,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         let!(:category) { build_stubbed(:category) }
 
         before do
-          work_package.category = category
+          allow(work_package).to receive(:categories).and_return([category])
         end
 
         it_behaves_like "has a titled link" do
@@ -1000,6 +1001,83 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           expect(subject).to have_json_type(Hash).at_path("_embedded/category")
           expect(subject).to be_json_eql("Category".to_json).at_path("#{embedded_path}/_type")
           expect(subject).to be_json_eql(category.name.to_json).at_path("#{embedded_path}/name")
+        end
+      end
+
+      context "when more than one category is set" do
+        let!(:backend) { create(:category, name: "Backend") }
+        let!(:api) { create(:category, name: "api") }
+
+        before do
+          allow(work_package).to receive(:categories).and_return([backend, api])
+        end
+
+        it_behaves_like "has a titled link" do
+          let(:link) { "category" }
+          let(:href) { api_v3_paths.category(api.id) }
+          let(:title) { api.name }
+        end
+      end
+
+      context "when multiple categories is active",
+              with_flag: { work_package_multiple_categories: true },
+              with_settings: { work_package_multiple_categories: true } do
+        let(:category) { build_stubbed(:category) }
+
+        before do
+          allow(work_package).to receive(:categories).and_return([category])
+        end
+
+        it "renders neither the deprecated category link nor the embedded resource" do
+          expect(subject).not_to have_json_path("_links/category")
+          expect(subject).not_to have_json_path("_embedded/category")
+        end
+      end
+    end
+
+    describe "categories" do
+      context "when no category is set" do
+        it "renders an empty links collection and an empty embedded collection" do
+          expect(subject).to have_json_size(0).at_path("_links/categories")
+          expect(subject).to have_json_size(0).at_path("_embedded/categories")
+        end
+      end
+
+      context "when categories are set" do
+        let(:backend) { build_stubbed(:category, name: "Backend") }
+        let(:api) { build_stubbed(:category, name: "api") }
+
+        before do
+          allow(work_package).to receive(:categories).and_return([api, backend])
+        end
+
+        it "lists the categories in the links collection" do
+          expect(subject).to have_json_size(2).at_path("_links/categories")
+          expect(subject).to be_json_eql(api_v3_paths.category(api.id).to_json).at_path("_links/categories/0/href")
+          expect(subject).to be_json_eql(api.name.to_json).at_path("_links/categories/0/title")
+          expect(subject).to be_json_eql(api_v3_paths.category(backend.id).to_json).at_path("_links/categories/1/href")
+        end
+
+        it "lists the categories in the embedded collection" do
+          expect(subject).to have_json_size(2).at_path("_embedded/categories")
+          expect(subject).to be_json_eql("Category".to_json).at_path("_embedded/categories/0/_type")
+          expect(subject).to be_json_eql(api.name.to_json).at_path("_embedded/categories/0/name")
+        end
+      end
+
+      context "when categories are assigned but not yet persisted" do
+        let(:project) { create(:project) }
+        let!(:backend) { create(:category, project:, name: "Backend") }
+        let!(:api) { create(:category, project:, name: "api") }
+
+        before do
+          work_package.category_ids_replacements = [api.id, backend.id]
+        end
+
+        it "renders the pending categories ordered by id" do
+          expect(subject).to have_json_size(2).at_path("_links/categories")
+          expect(subject).to be_json_eql(api_v3_paths.category(backend.id).to_json).at_path("_links/categories/0/href")
+          expect(subject).to be_json_eql(api_v3_paths.category(api.id).to_json).at_path("_links/categories/1/href")
         end
       end
     end
@@ -1502,12 +1580,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
       context "with format weighted item list" do
         let(:custom_field) { build_stubbed(:weighted_item_list_wp_custom_field) }
-        let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
-        let(:contract_class) { CustomFields::Hierarchy::InsertWeightedItemContract }
         let(:weighted_item) do
-          service
-            .insert_item(contract_class:, parent: custom_field.hierarchy_root, label: "TIE Fighter", weight: 16.7)
-            .value!
+          create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "TIE Fighter", weight: 16.7)
         end
         let(:value) { weighted_item.id }
 
@@ -1520,12 +1594,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
       context "with format hierarchy" do
         let(:custom_field) { build_stubbed(:hierarchy_wp_custom_field) }
-        let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
-        let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
         let(:item) do
-          service
-            .insert_item(contract_class:, parent: custom_field.hierarchy_root, label: "TIE Fighter", short: "TF")
-            .value!
+          create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "TIE Fighter", short: "TF")
         end
         let(:value) { item.id }
 
@@ -2003,6 +2073,49 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
       expect(OpenProject::Cache)
         .to have_received(:fetch).with(representer.json_cache_key)
+    end
+
+    context "with an admin-only custom field" do
+      let(:admin) { build_stubbed(:admin) }
+      let(:public_custom_field) { build_stubbed(:string_wp_custom_field) }
+      let(:admin_only_custom_field) { build_stubbed(:string_wp_custom_field, admin_only: true) }
+      let(:available_custom_fields) { [public_custom_field, admin_only_custom_field] }
+      let(:custom_field_values) do
+        [
+          build_stubbed(:custom_value, custom_field: public_custom_field, value: "public value"),
+          build_stubbed(:custom_value, custom_field: admin_only_custom_field, value: "admin-only value")
+        ]
+      end
+      let(:admin_representer) { described_class.create(work_package, current_user: admin, embed_links:) }
+
+      context "when an admin's response is cached before a non-admin reads it" do
+        before do
+          admin_representer.to_json
+        end
+
+        it "does not disclose the admin-only custom field to the non-admin" do
+          expect(subject).not_to have_json_path(admin_only_custom_field.attribute_name(:camel_case))
+          expect(subject).not_to include("admin-only value")
+        end
+
+        it "renders the public custom field to the non-admin" do
+          expect(subject)
+            .to be_json_eql("public value".to_json)
+                  .at_path(public_custom_field.attribute_name(:camel_case))
+        end
+      end
+
+      context "when a non-admin's response is cached before an admin reads it" do
+        before do
+          representer.to_json
+        end
+
+        it "renders the admin-only custom field to the admin" do
+          expect(admin_representer.to_json)
+            .to be_json_eql("admin-only value".to_json)
+                  .at_path(admin_only_custom_field.attribute_name(:camel_case))
+        end
+      end
     end
 
     describe "#json_cache_key" do

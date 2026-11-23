@@ -229,6 +229,18 @@ RSpec.describe "Work package table keyboard navigation", :js do
     wp_table.expect_focus_on_cell(sibling, :subject)
   end
 
+  it "opens the More actions menu from the keyboard and returns focus to its button on Escape" do
+    send_keys_without_click(find(:button, accessible_name: "More actions"), :enter)
+
+    within(:menu, "More actions") do
+      expect(page).to have_selector(:menuitem, "Configure view", focused: true)
+    end
+
+    wp_table.press_keys(:escape)
+    expect(page).to have_no_menu
+    expect(page).to have_button(accessible_name: "More actions", focused: true)
+  end
+
   context "as a flat table" do
     let!(:query) do
       create(:query, user:, project:, column_names: %w[id subject],

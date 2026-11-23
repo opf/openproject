@@ -80,7 +80,7 @@ export const en = {
     },
     'options': {
       'openInNewTab': 'Open in new tab',
-      'open': 'Open',
+      'openWorkPackage': 'Open {{id}}',
       'changeSize': 'Change size',
       'changeSizeAriaLabel': 'Change size: {{size}}',
       'menuAriaLabel': 'Options for work package {{id}}',
@@ -91,6 +91,7 @@ export const en = {
       'inlineSizeLabel': 'Inline size',
       'blockSizeLabel': 'Block size',
       'chipAriaLabel': 'Work package {{id}}',
+      'idDash': 'dash',
     },
     'preview': {
       'showAriaLabel': 'Show details of work package {{id}}'
@@ -119,6 +120,12 @@ export const en = {
         'label': 'Label',
         'value': 'Value',
         'both': 'Label + value'
+      },
+      'options': {
+        'menuAriaLabel': 'Options for {{attribute}} of work package {{id}}',
+        'removeAriaLabel': 'Remove work package attribute',
+        'selectedDescription': '{{attribute}} of work package {{id}}',
+        'selectedValueDescription': '{{attribute}} of work package {{id}}: {{value}}'
       },
       'dialog': {
         'title': 'Insert work package attribute',

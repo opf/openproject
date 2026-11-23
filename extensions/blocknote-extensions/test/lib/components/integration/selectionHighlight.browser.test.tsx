@@ -5,6 +5,7 @@ import { renderEditor } from '../../../helpers/renderEditor';
 import {
   insertBlockWorkPackageViaSlashMenu,
   insertInlineWorkPackageViaSlashMenu,
+  openBlockWorkPackageSearch,
   openInlineWorkPackagePopover,
 } from '../../../helpers/editorHelpers';
 import { hideSafariPhantomSelection } from '../../../../lib/utils/selection';
@@ -40,6 +41,19 @@ describe('Block WP – blue border on focus (BNE-95)', () => {
 
     await userEvent.click(page.getByTestId('block-wp-wrapper'));
     await expect.poll(blockIsSelected).toBe(true);
+  });
+});
+
+const blockSelectionRing = () =>
+  getComputedStyle(document.querySelector('[data-testid="block-wp-wrapper"]')!).boxShadow;
+
+describe('Block WP – no selection ring without a card (BNE-181)', () => {
+  it('draws no ring while the own search is still open', async () => {
+    renderEditor();
+    await openBlockWorkPackageSearch();
+
+    await expect.poll(blockIsSelected).toBe(true);
+    expect(blockSelectionRing()).toBe('none');
   });
 });
 

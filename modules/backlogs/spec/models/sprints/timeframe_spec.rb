@@ -139,5 +139,59 @@ RSpec.describe Sprints::Timeframe do
     it "falls back to the end of the planned finish date" do
       expect(timeframe.effective_finish).to eq sprint.finish_date.in_time_zone.end_of_day
     end
+
+    it "has not begun" do
+      expect(timeframe).not_to be_begun
+    end
+  end
+
+  context "when the sprint has not been started although its planned start has passed" do
+    let(:sprint) do
+      build_stubbed(:sprint, start_date: 3.days.ago.to_date, finish_date: 10.days.from_now.to_date)
+    end
+
+    it "starts now, since it cannot have started any earlier" do
+      freeze_time do
+        expect(timeframe.effective_start).to eq Time.current
+      end
+    end
+
+    it "has not begun" do
+      expect(timeframe).not_to be_begun
+    end
+
+    it "falls back to the end of the planned finish date" do
+      expect(timeframe.effective_finish).to eq sprint.finish_date.in_time_zone.end_of_day
+    end
+  end
+
+  context "when the sprint has not been started although its planned start is today" do
+    let(:sprint) do
+      build_stubbed(:sprint, start_date: Time.zone.today, finish_date: 10.days.from_now.to_date)
+    end
+
+    it "starts now rather than at the beginning of the day" do
+      freeze_time do
+        expect(timeframe.effective_start).to eq Time.current
+      end
+    end
+  end
+
+  context "when the sprint was never started and its planned finish has passed" do
+    let(:sprint) do
+      build_stubbed(:sprint, start_date: 20.days.ago.to_date, finish_date: 10.days.ago.to_date)
+    end
+
+    it "falls back to the beginning of the planned start date" do
+      expect(timeframe.effective_start).to eq sprint.start_date.in_time_zone.beginning_of_day
+    end
+
+    it "falls back to the end of the planned finish date" do
+      expect(timeframe.effective_finish).to eq sprint.finish_date.in_time_zone.end_of_day
+    end
+
+    it "has begun, its planned timeframe standing in for the history it never had" do
+      expect(timeframe).to be_begun
+    end
   end
 end

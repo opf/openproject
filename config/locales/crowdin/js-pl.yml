@@ -109,6 +109,7 @@ pl:
         maintained_with_changes: Zachowano ze zmianami
         no_longer_meets_filter_criteria: Już nie spełnia kryteriów filtrowania
         now_meets_filter_criteria: Teraz spełnia kryteria filtrowania
+        state_at: State at
       show_changes_since: Pokaż zmiany od
       time: Godzina
       time_description: 'W Twoim czasie lokalnym: %{datetime}'
@@ -774,8 +775,10 @@ pl:
       create_new: Utwórz nową
       group_by_relation_type: Grupuj wg typu relacji
       group_by_wp_type: Grupuj wg typu zadań
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Wcinaj hierarchię
       hierarchy_outdent: Wsuwaj hierarchię
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Usuń relację
       remove_child: Usuń podrzędny
       remove_parent: Usuń nadrzędny
@@ -906,6 +909,29 @@ pl:
       unselected_title: Zadanie
     two_factor_authentication:
       label_two_factor_authentication: Uwierzytelnianie dwuskładnikowe
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Project actions
+            few: Actions for %{count} selected projects
+            many: Actions for %{count} selected projects
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            one: Could not extend the range. %{count} project selected.
+            few: Could not extend the range. %{count} projects selected.
+            many: Could not extend the range. %{count} projects selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            one: "%{count} project selected."
+            few: "%{count} projects selected."
+            many: "%{count} projects selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         one: "%{count} child work package"
@@ -1024,6 +1050,7 @@ pl:
         label_pagination: Kliknij tutaj, aby pominąć tablicę zadań i przejść do stronicowania
         pagination: Przejdź do stronicowania tabeli
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Łączone pole rozwijane: Wybierz za pomocą klawiszy strzałek, potwierdź wybór klawiszem enter, usuń klawiszem backspace'
       label_disable_multi_select: Wyłącz wybór wielokrotny
       label_enable_multi_select: Włącz wybór wielokrotny

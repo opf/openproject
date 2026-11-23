@@ -30,7 +30,7 @@ jobs:
           persist-credentials: false
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1.336.0
+        uses: ruby/setup-ruby@v1.342.0
 
       - name: Verify work package fields are set (linked version matches core version and Enterprise field is set)
         id: work-package-check
@@ -127,7 +127,7 @@ jobs:
 
       - name: Add comment if a feature targets a frozen release branch
         if: steps.work-package-check.outputs.frozen_release_feature == 'true'
-        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
+        uses: marocchino/sticky-pull-request-comment@v3.0.5
         with:
           header: frozen-release-feature-comment
           message: |
@@ -160,7 +160,7 @@ jobs:
 
       - name: Frozen release branch check passed
         if: steps.work-package-check.outputs.frozen_release_feature != 'true'
-        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
+        uses: marocchino/sticky-pull-request-comment@v3.0.5
         with:
           header: frozen-release-feature-comment
           delete: true

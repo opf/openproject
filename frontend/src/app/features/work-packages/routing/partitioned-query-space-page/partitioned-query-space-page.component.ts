@@ -44,7 +44,7 @@ import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { WorkPackageFilterContainerComponent } from 'core-app/features/work-packages/components/filters/filter-container/filter-container.directive';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { firstValueFrom } from 'rxjs';
+import { defer, firstValueFrom, Observable } from 'rxjs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
@@ -244,42 +244,39 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   }
 
   refresh(visibly = false, firstPage = false):void {
-    let promise = this.loadQuery(firstPage);
+    const applied = this.reloads.apply(
+      this.loadQuery$(this.returningToFirstPage(firstPage)),
+      (loadedQuery) => {
+        this.reloadApplied();
+        this.wpStatesInitialization.initialize(loadedQuery, loadedQuery.results);
+      },
+    );
 
     if (visibly) {
-      promise = promise.then((loadedQuery:QueryResource) => {
-        this.wpStatesInitialization.initialize(loadedQuery, loadedQuery.results);
-        return this.additionalLoadingTime()
-          .then(() => loadedQuery);
-      });
-
-      this.loadingIndicator = promise;
+      this.loadingIndicator = applied.then(() => this.additionalLoadingTime());
     } else {
-      void promise.then((loadedQuery:QueryResource) => {
-        this.wpStatesInitialization.initialize(loadedQuery, loadedQuery.results);
-      });
+      void applied;
     }
   }
 
   protected loadQuery(firstPage = false):Promise<QueryResource> {
-    let promise:Promise<QueryResource>;
-    const query = this.currentQuery;
-
-    if (firstPage || !query) {
-      promise = this.loadFirstPage();
-    } else {
-      const pagination = this.wpListService.getPaginationInfo();
-      promise = firstValueFrom(this.wpListService.loadQueryFromExisting(query, pagination, this.projectIdentifier));
-    }
-
-    return promise;
+    return firstValueFrom(this.loadQuery$(firstPage));
   }
 
-  protected loadFirstPage():Promise<QueryResource> {
-    if (this.currentQuery) {
-      return firstValueFrom(this.wpListService.reloadQuery(this.currentQuery, this.projectIdentifier));
+  protected loadQuery$(firstPage = false):Observable<QueryResource> {
+    const query = this.currentQuery;
+
+    if (!query) {
+      return defer(() => this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier));
     }
-    return this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
+
+    if (firstPage) {
+      // Kept as an observable, so that a reload superseding it also cancels its request.
+      return defer(() => this.wpListService.reloadQuery(query, this.projectIdentifier));
+    }
+
+    const pagination = this.wpListService.getPaginationInfo();
+    return this.wpListService.loadQueryFromExisting(query, pagination, this.projectIdentifier);
   }
 
   protected additionalLoadingTime():Promise<unknown> {
@@ -288,6 +285,10 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
   protected set loadingIndicator(promise:Promise<unknown>) {
     this.loadingIndicatorService.table.promise = promise;
+  }
+
+  protected get loadingIndicatorElement():HTMLElement|null {
+    return this.loadingIndicatorService.table.indicator;
   }
 
   protected shouldUpdateHtmlTitle():boolean {

@@ -25,16 +25,16 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ChartOptions, TooltipItem } from 'chart.js';
 import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
-import { generateId } from 'core-app/shared/helpers/dom-helpers';
 import NonWorkingDaysPlugin, { nonWorkingDaysColor } from 'core-app/shared/components/charts/plugin.non-working-days';
 import 'core-app/shared/components/charts/interaction.series-at-x';
 import {
   NON_WORKING_KEY, NonWorkingKey, SeriesChartComponent, SeriesStyle,
 } from 'core-app/shared/components/charts/component.series-chart';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { ChartDescriptionDirective } from 'core-app/shared/components/charts/description/chart-description.directive';
 import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 
 type SeriesKey = 'remaining'|'guideline'|'projection';
@@ -96,23 +96,18 @@ function guidelineColor():string {
 @Component({
   selector: 'op-burndown-chart',
   templateUrl: './burndown-chart.component.html',
-  imports: [BaseChartDirective, NoResultsComponent],
+  imports: [BaseChartDirective, ChartDescriptionDirective, NoResultsComponent],
   providers: [provideCharts(withDefaultRegisterables(NonWorkingDaysPlugin))],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BurndownChartComponent extends SeriesChartComponent<SeriesKey> {
-  readonly chartDescriptionId = generateId('burndown-chart-description');
-  readonly chartLabel = this.i18n.t('js.burndown_chart.chart_label');
+  protected readonly chartLabel = this.i18n.t('js.burndown_chart.chart_label');
 
   protected readonly seriesStyle = SERIES_STYLE;
 
-  protected readonly interaction:ChartOptions<'line'>['interaction'] = { mode: 'series-at-x', intersect: false };
+  protected override readonly seriesNamingUnit:ReadonlySet<string> = new Set<SeriesKey>(['remaining', 'projection']);
 
-  readonly chartDescription = computed(() => this.describedByDay({
-    summary: 'js.burndown_chart.chart_summary',
-    day: 'js.burndown_chart.chart_day',
-    value: 'js.burndown_chart.chart_value',
-  }));
+  protected readonly interaction:ChartOptions<'line'>['interaction'] = { mode: 'series-at-x', intersect: false };
 
   // For ongoing sprints, the remaining data series does not cover the whole of the graph.
   // There is a junction where the projection series takes over.

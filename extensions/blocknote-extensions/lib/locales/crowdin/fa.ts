@@ -80,7 +80,7 @@ export const en = {
     },
     'options': {
       'openInNewTab': "بازکردن در زبانه جدید",
-      'open': "باز",
+      'openWorkPackage': 'Open {{id}}',
       'changeSize': "تغییر اندازه",
       'changeSizeAriaLabel': "تغییر اندازه: {{size}}",
       'menuAriaLabel': "گزینه‌های بسته کاری {{id}}",
@@ -90,7 +90,8 @@ export const en = {
       'openAriaLabel': "بازکردن بسته کاری {{id}} در زبانه جدید",
       'inlineSizeLabel': "اندازه درون‌خطی",
       'blockSizeLabel': "اندازه بلوکی",
-      'chipAriaLabel': "بسته کاری {{id}}"
+      'chipAriaLabel': "بسته کاری {{id}}",
+      'idDash': 'dash'
     },
     'preview': {
       'showAriaLabel': "نمایش جزئیات بسته کاری {{id}}"
@@ -137,6 +138,12 @@ export const en = {
         'label': 'Label',
         'value': 'Value',
         'both': 'Label + value'
+      },
+      'options': {
+        'menuAriaLabel': 'Options for {{attribute}} of work package {{id}}',
+        'removeAriaLabel': 'Remove work package attribute',
+        'selectedDescription': '{{attribute}} of work package {{id}}',
+        'selectedValueDescription': '{{attribute}} of work package {{id}}: {{value}}'
       },
       'dialog': {
         'title': 'Insert work package attribute',

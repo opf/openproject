@@ -321,6 +321,53 @@ describe('Sortable lists item controller', () => {
     expect(element.getAttribute('data-drop-target-for-element')).toEqual('true');
   });
 
+  it('suspends dragging while a text field in the item has focus', () => {
+    const element = document.createElement('li');
+    const input = document.createElement('input');
+    input.type = 'text';
+    element.appendChild(input);
+    connectedControllerFor(element);
+
+    fireEvent.focusIn(input);
+
+    expect(element).toHaveAttribute('draggable', 'false');
+
+    fireEvent.focusOut(input, { relatedTarget: null });
+
+    expect(element).toHaveAttribute('draggable', 'true');
+  });
+
+  it('stays suspended when re-registered while a text field has focus', () => {
+    const element = document.createElement('li');
+    const input = document.createElement('input');
+    input.type = 'text';
+    element.appendChild(input);
+    document.body.appendChild(element);
+    const controller = connectedControllerFor(element);
+    input.focus();
+    expect(input).toHaveFocus();
+
+    controller.reregister();
+
+    expect(element).toHaveAttribute('draggable', 'false');
+
+    element.remove();
+  });
+
+  it('does not restore the draggable attribute after disconnect', () => {
+    const element = document.createElement('li');
+    const input = document.createElement('input');
+    input.type = 'text';
+    element.appendChild(input);
+    const controller = connectedControllerFor(element);
+
+    fireEvent.focusIn(input);
+    controller.disconnect();
+    fireEvent.pointerDown(input);
+
+    expect(element).not.toHaveAttribute('draggable');
+  });
+
   it('marks the closest edge while dragging over an item', () => {
     const element = document.createElement('article');
     const controller = controllerFor(element);
@@ -2042,7 +2089,11 @@ describe('Sortable lists item controller', () => {
     // default; the root's tabindex stands in for a consumer that makes the
     // row itself focusable.
     async function renderItem(
-      { mobility, withFocusTarget = false }:{ mobility?:string; withFocusTarget?:boolean } = {},
+      { mobility, withFocusTarget = false, rootDragDisabled }:{
+        mobility?:string;
+        withFocusTarget?:boolean;
+        rootDragDisabled?:boolean;
+      } = {},
     ):Promise<HTMLElement> {
       ctx = await setupStimulusTest({
         controllers: {
@@ -2055,14 +2106,17 @@ describe('Sortable lists item controller', () => {
         ? '<button type="button" data-sortable-lists--item-target="focus">Focus me</button>'
         : '';
 
-      await ctx.mount(`
+      const item = `
         <li
           tabindex="0"
           data-controller="sortable-lists--item"
           data-sortable-lists--item-id-value="1"
           data-sortable-lists--item-type-value="work_package"${mobilityAttr}
         >${focusTargetHtml}</li>
-      `);
+      `;
+      await ctx.mount(rootDragDisabled === undefined
+        ? item
+        : `<ul data-controller="sortable-lists"${rootDragDisabled ? ' data-sortable-lists-drag-disabled' : ''}>${item}</ul>`);
 
       return ctx.container.querySelector<HTMLElement>('[data-controller="sortable-lists--item"]')!;
     }
@@ -2089,6 +2143,18 @@ describe('Sortable lists item controller', () => {
       const item = await renderItem({ mobility: 'fixed' });
 
       expect(item.hasAttribute('data-drop-target-for-element')).toBe(true);
+    });
+
+    it('does not register a draggable when its root disables dragging', async () => {
+      const item = await renderItem({ mobility: 'free', rootDragDisabled: true });
+
+      expect(item).not.toHaveAttribute('draggable');
+    });
+
+    it('registers a draggable when its root leaves dragging enabled', async () => {
+      const item = await renderItem({ mobility: 'free', rootDragDisabled: false });
+
+      expect(item).toHaveAttribute('draggable');
     });
 
     it('treats a missing mobility attribute as free', async () => {

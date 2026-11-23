@@ -80,7 +80,7 @@ export const en = {
     },
     'options': {
       'openInNewTab': "Åbn i ny fane",
-      'open': "Åbn",
+      'openWorkPackage': "Åbn {{id}}",
       'changeSize': "Skift størrelse",
       'changeSizeAriaLabel': "Skift størrelse: {{size}}",
       'menuAriaLabel': "Valgmuligheder for arbejdspakke {{id}}",
@@ -90,7 +90,8 @@ export const en = {
       'openAriaLabel': "Åbn arbejdspakke {{id}} i ny fane",
       'inlineSizeLabel': "Størrelse i linjen",
       'blockSizeLabel': "Størrelse som blok",
-      'chipAriaLabel': "Arbejdspakke {{id}}"
+      'chipAriaLabel': "Arbejdspakke {{id}}",
+      'idDash': "bindestreg"
     },
     'preview': {
       'showAriaLabel': "Vis detaljer om arbejdspakke {{id}}"
@@ -137,6 +138,12 @@ export const en = {
         'label': "Betegnelse",
         'value': "Værdi",
         'both': "Betegnelse + værdi"
+      },
+      'options': {
+        'menuAriaLabel': "Valgmuligheder for {{attribute}} i arbejdspakke {{id}}",
+        'removeAriaLabel': "Fjern arbejdspakkeattribut",
+        'selectedDescription': "{{attribute}} i arbejdspakke {{id}}",
+        'selectedValueDescription': "{{attribute}} i arbejdspakke {{id}}: {{value}}"
       },
       'dialog': {
         'title': "Indsæt arbejdspakkeattribut",

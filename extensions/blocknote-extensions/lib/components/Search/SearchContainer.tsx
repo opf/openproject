@@ -80,6 +80,19 @@ export const SearchMessage = styled.div.attrs({
   color: var(--bn-colors-highlights-gray-text, #888);
 `;
 
+export const SearchResults = styled.div.attrs({
+  className: 'op-bn-search--results',
+})`
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacer-m);
+  min-height: 0;
+
+  &:empty {
+    display: none;
+  }
+`;
+
 export const DropdownList = styled.div`
   min-height: 0;
   overflow-y: auto;

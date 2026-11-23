@@ -324,7 +324,7 @@ fa:
   meeting:
     agenda_sorting:
       change: تغییر روش مرتب‌سازی
-      current_mode: در حال حاضر در حالت %{mode}
+      current_mode: Currently in %{mode} mode.
       invalid_reaction: برای موارد دستور جلسه فقط رأی مثبت و منفی مجاز است.
       manual: دستی
       manual_description: می‌توانید موارد دستور جلسه را با کشیدن و رهاکردن به بالا یا پایین، به ترتیب دلخواه مرتب کنید.

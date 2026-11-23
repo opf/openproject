@@ -39,6 +39,7 @@ import { preventUnhandled } from '@atlaskit/pragmatic-drag-and-drop/prevent-unha
 import { type Input } from '@atlaskit/pragmatic-drag-and-drop/types';
 import { Controller, type ActionEvent } from '@hotwired/stimulus';
 import type { ActionMenuElement } from '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element';
+import { suspendDraggableWhileEditing } from 'core-common/drag-and-drop/suspend-draggable-while-editing';
 import { closestDragBlockingElement } from 'core-stimulus/helpers/interactive-element-helper';
 import {
   clearDragSource,
@@ -53,6 +54,7 @@ import {
   type SortableListsRoot,
 } from './drag-and-drop';
 import {
+  dragDisabledByRoot,
   isMoveDirection,
   isOrderableItem,
   itemMobility,
@@ -220,8 +222,9 @@ export default class ItemController extends Controller<HTMLElement> implements R
   private register():void {
     this.cleanupFn = combine(
       // A non-movable item registers no draggable but stays a drop target:
-      // its movable neighbors still anchor on it.
-      isOrderableItem(this.element) ? this.registerDraggable() : () => undefined,
+      // its movable neighbors still anchor on it. Nor does any item of a root
+      // that only selects.
+      isOrderableItem(this.element) && !dragDisabledByRoot(this.element) ? this.registerDraggable() : () => undefined,
       this.registerDropTarget(),
     );
   }
@@ -246,7 +249,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
   }
 
   private registerDraggable():CleanupFn {
-    return draggable({
+    const draggableCleanup = draggable({
       element: this.element,
       ...(this.hasHandleTarget ? { dragHandle: this.handleTarget } : {}),
       // Native drag data for consumers outside this window (other browser
@@ -326,6 +329,8 @@ export default class ItemController extends Controller<HTMLElement> implements R
         });
       },
     });
+
+    return combine(suspendDraggableWhileEditing(this.element), draggableCleanup);
   }
 
   private registerDropTarget():CleanupFn {

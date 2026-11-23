@@ -58,6 +58,7 @@ zh-TW:
       messages:
         cannot_start_while_receiving_shared_sprints: 當專案正在接收共享衝刺時，無法啟動。
         dates_required: 要開始衝刺，必須要有開始和結束日期。
+        finish_date_in_past: cannot be started as long as the planned finish date is in the past.
         must_be_in_planning: 必須在規劃中開始。
         only_one_active_sprint_allowed: 每個專案只允許一個活動衝刺。
       models:
@@ -199,6 +200,7 @@ zh-TW:
       label_complete_sprint: 完成衝刺
       label_start_sprint: 開始衝刺
       start_sprint_disabled_reason_active_sprint: 另一個衝刺已經展開。
+      start_sprint_disabled_reason_finish_date_in_past: The planned finish date is in the past. Correct the sprint dates first.
       start_sprint_disabled_reason_missing_dates: 必須填寫開始和結束日期，才能啟動衝刺。
       start_sprint_disabled_reason_receiving_shared_sprints: 當此專案正在接收共用衝刺時，其自身的衝刺將無法啟動。
       start_sprint_disabled_reason_shared_sprint: 此衝刺來自另一個不支援同時進行多個衝刺的專案。

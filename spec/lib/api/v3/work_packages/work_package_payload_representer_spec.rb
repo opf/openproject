@@ -333,11 +333,13 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         end
       end
 
-      describe "category" do
+      describe "category",
+               with_flag: { work_package_multiple_categories: false },
+               with_settings: { work_package_multiple_categories: false } do
         let(:category) { build_stubbed(:category) }
 
         before do
-          work_package.category = category
+          allow(work_package).to receive(:categories).and_return([category])
         end
 
         it_behaves_like "linked property" do
@@ -345,7 +347,14 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           let(:link) { "/api/v3/categories/#{category.id}" }
         end
 
-        it_behaves_like "linked property with 0 value", :category
+        context "when multiple categories is active",
+                with_flag: { work_package_multiple_categories: true },
+                with_settings: { work_package_multiple_categories: true } do
+          it "does not offer the deprecated property as writable" do
+            expect(representer.writable_attributes).not_to include("category")
+            expect(subject).not_to have_json_path("_links/category")
+          end
+        end
       end
 
       describe "priority" do
@@ -621,16 +630,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         it_behaves_like "linked resource" do
           let(:path) { api_v3_paths.group(id) }
         end
-      end
-    end
-
-    describe "category" do
-      before do
-        work_package.category_id = 1
-      end
-
-      it_behaves_like "linked resource" do
-        let(:attribute_name) { "category" }
       end
     end
 

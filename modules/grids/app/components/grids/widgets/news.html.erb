@@ -30,7 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
     if newest.empty?
       render(Primer::Beta::Blankslate.new(test_selector: "news-widget-empty")) do |component|
         component.with_visual_icon(icon: :megaphone)
-        component.with_heading(tag: :h3).with_content(title)
+        component.with_heading(tag: :h4).with_content(title)
         component.with_description { t("grids.widgets.empty") }
 
         if project_scoped? && can_manage_news?

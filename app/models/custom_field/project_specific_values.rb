@@ -61,6 +61,16 @@ module CustomField::ProjectSpecificValues
     is_a?(WorkPackageCustomField) && (list? || hierarchical_list?)
   end
 
+  # The global ancestors of the values the project added, which have to stay usable in the project.
+  def required_value_ids_in(project)
+    return [] unless hierarchical_list?
+
+    own_item_ids = restrictable_values.where(project_id: project.id).select(:id)
+    ancestor_ids = CustomField::Hierarchy::ItemHierarchy.where(descendant_id: own_item_ids).select(:ancestor_id)
+
+    restrictable_values.where(id: ancestor_ids, project_id: nil).pluck(:id)
+  end
+
   def usable_value_id?(project, value_id)
     return true unless project_specific_values_supported?
 
@@ -74,10 +84,18 @@ module CustomField::ProjectSpecificValues
     values.is_a?(Array) ? values & usable_ids : values.presence_in(usable_ids)
   end
 
-  def usable_value_counts_in(projects)
-    count_sql = usable_values_in_reach("SELECT projects.id").unscope(:order).select(Arel.star.count).to_sql
+  def usable_global_value_counts_in(projects)
+    count_sql = usable_values_in_reach("SELECT projects.id")
+                  .where(project_id: nil)
+                  .unscope(:order)
+                  .select(Arel.star.count)
+                  .to_sql
 
     projects.unscope(:order).pluck(:id, Arel.sql("(#{count_sql})")).to_h
+  end
+
+  def project_value_counts
+    restrictable_values.where.not(project_id: nil).unscope(:order).group(:project_id).count
   end
 
   # SQL condition on whether the value with the id given by value_id_sql is usable in the project

@@ -26,120 +26,100 @@
 //++
 
 import '@openproject/primer-view-components/app/components/primer/alpha/tool_tip.js';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { screen, waitFor } from '@testing-library/dom';
-import { PrimerIconButtonComponent } from './icon-button.component';
+import { Component, signal } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { fireEvent, screen, waitFor } from '@testing-library/dom';
+import { PrimerIconButtonComponent, PrimerIconButtonScheme } from './icon-button.component';
+
+@Component({
+  imports: [PrimerIconButtonComponent],
+  template: `
+    <button
+      primerIconButton
+      icon="star"
+      class="consumer-class"
+      [id]="id()"
+      [label]="label()"
+      [description]="description()"
+      [showTooltip]="showTooltip()"
+      [scheme]="scheme()"
+      (click)="clicks.set(clicks() + 1)"
+    ></button>
+  `,
+})
+class HostComponent {
+  readonly id = signal('star-button');
+  readonly label = signal('Star');
+  readonly description = signal<string|undefined>(undefined);
+  readonly showTooltip = signal(true);
+  readonly scheme = signal<PrimerIconButtonScheme>('default');
+  readonly clicks = signal(0);
+}
 
 describe('PrimerIconButtonComponent', () => {
-  let component:PrimerIconButtonComponent;
-  let fixture:ComponentFixture<PrimerIconButtonComponent>;
+  const mount = async (configure:(host:HostComponent) => void = () => undefined) => {
+    const fixture = TestBed.createComponent(HostComponent);
+    configure(fixture.componentInstance);
+    await fixture.whenStable();
+    return fixture;
+  };
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({imports: [PrimerIconButtonComponent]}).compileComponents();
+  it('renders the icon inside the host button without a wrapper', async () => {
+    const fixture = await mount();
+    const button = screen.getByRole('button');
+
+    expect(button.parentElement).toBe(fixture.nativeElement);
+    expect(button).toHaveClass('Button', 'Button--iconOnly', 'Button--medium', 'Button--secondary', 'consumer-class');
+    expect(button).toHaveAttribute('type', 'button');
+    expect(button.querySelector('svg.Button-visual')).not.toBeNull();
   });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(PrimerIconButtonComponent);
-    component = fixture.componentInstance;
+  it('applies the scheme', async () => {
+    await mount((host) => host.scheme.set('invisible'));
+
+    expect(screen.getByRole('button')).toHaveClass('Button--invisible');
+    expect(screen.getByRole('button')).not.toHaveClass('Button--secondary');
   });
 
-  it('should create', () => {
-    fixture.componentRef.setInput('icon', 'star');
-    fixture.componentRef.setInput('label', 'Star');
-    fixture.detectChanges();
+  it('names the button by its label tooltip', async () => {
+    const fixture = await mount();
+    const tooltip = (fixture.nativeElement as HTMLElement).querySelector('tool-tip')!;
 
-    expect(component).toBeDefined();
-  });
-
-  it('renders', () => {
-    fixture.componentRef.setInput('icon', 'star');
-    fixture.componentRef.setInput('label', 'Star');
-    fixture.detectChanges();
-
-    const container:HTMLElement = fixture.nativeElement;
-    const button = container.querySelector('.Button.Button--iconOnly');
-
-    expect(button).not.toBeNull();
-    expect(button?.querySelector('.Button-visual')).not.toBeNull();
-
-    const tooltip = container.querySelector('tool-tip');
-
-    expect(tooltip).not.toBeNull();
-    expect(tooltip?.textContent).toEqual('Star');
-
-    const tooltipId = tooltip!.id;
-
-    expect(container.querySelector(`.Button.Button--iconOnly[aria-labelledby='${tooltipId}']`)).not.toBeNull();
-  });
-
-  it('renders description tooltip', () => {
-    fixture.componentRef.setInput('icon', 'star');
-    fixture.componentRef.setInput('label', 'Star');
-    fixture.componentRef.setInput('description', 'Star this repository');
-    fixture.detectChanges();
-
-    const container:HTMLElement = fixture.nativeElement;
-
-    const tooltip = container.querySelector('tool-tip');
-
-    expect(tooltip).not.toBeNull();
-    expect(tooltip?.textContent).toEqual('Star this repository');
-
-    const tooltipId = tooltip!.id;
-
-    expect(container.querySelector(`.Button.Button--iconOnly[aria-describedby='${tooltipId}']`)).not.toBeNull();
-  });
-
-  it('allows hiding tooltip', () => {
-    fixture.componentRef.setInput('icon', 'star');
-    fixture.componentRef.setInput('label', 'Star');
-    fixture.componentRef.setInput('showTooltip', false);
-    fixture.detectChanges();
-
-    const container:HTMLElement = fixture.nativeElement;
-
-    const tooltip = container.querySelector('tool-tip');
-
-    expect(tooltip).toBeNull();
-  });
-
-  it('sets aria-label when tooltips are hidden', () => {
-    fixture.componentRef.setInput('icon', 'star');
-    fixture.componentRef.setInput('label', 'Star');
-    fixture.componentRef.setInput('showTooltip', false);
-    fixture.detectChanges();
-
-    const container:HTMLElement = fixture.nativeElement;
-
-    const button = container.querySelector('[aria-label=\'Star\']');
-
-    expect(button).not.toBeNull();
+    expect(tooltip).toHaveTextContent('Star');
+    expect(tooltip).toHaveAttribute('for', 'star-button');
+    await waitFor(() => expect(screen.getByRole('button')).toHaveAccessibleName('Star'));
   });
 
   it('keeps its label as name when a description is given', async () => {
-    fixture.componentRef.setInput('icon', 'star');
-    fixture.componentRef.setInput('label', 'Star');
-    fixture.componentRef.setInput('description', 'Add to favorites');
-    await fixture.whenStable();
-
-    const button = screen.getByRole('button');
-
-    expect(button).toHaveAccessibleName('Star');
-    expect(button).toHaveAccessibleDescription('Add to favorites');
-  });
-
-  it('follows a buttonId change', async () => {
-    fixture.componentRef.setInput('icon', 'star');
-    fixture.componentRef.setInput('label', 'Star');
-    fixture.componentRef.setInput('buttonId', 'first-id');
-    await fixture.whenStable();
-
-    fixture.componentRef.setInput('buttonId', 'second-id');
-    await fixture.whenStable();
+    await mount((host) => host.description.set('Add to favorites'));
 
     await waitFor(() => {
-      expect(screen.getByRole('button').id).toBe('second-id');
-      expect(fixture.nativeElement.querySelector('tool-tip')).toHaveAttribute('for', 'second-id');
+      expect(screen.getByRole('button')).toHaveAccessibleName('Star');
+      expect(screen.getByRole('button')).toHaveAccessibleDescription('Add to favorites');
     });
+  });
+
+  it('uses aria-label when the tooltip is hidden', async () => {
+    const fixture = await mount((host) => host.showTooltip.set(false));
+
+    expect((fixture.nativeElement as HTMLElement).querySelector('tool-tip')).toBeNull();
+    expect(screen.getByRole('button')).toHaveAccessibleName('Star');
+  });
+
+  it('follows an id change', async () => {
+    const fixture = await mount();
+
+    fixture.componentInstance.id.set('second-id');
+    await fixture.whenStable();
+
+    await waitFor(() => expect((fixture.nativeElement as HTMLElement).querySelector('tool-tip')).toHaveAttribute('for', 'second-id'));
+  });
+
+  it('handles native clicks', async () => {
+    const fixture = await mount();
+
+    fireEvent.click(screen.getByRole('button'));
+
+    expect(fixture.componentInstance.clicks()).toBe(1);
   });
 });

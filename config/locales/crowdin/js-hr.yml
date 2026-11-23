@@ -109,6 +109,7 @@ hr:
         maintained_with_changes: Maintained with changes
         no_longer_meets_filter_criteria: No longer meets filter criteria
         now_meets_filter_criteria: Now meets filter criteria
+        state_at: State at
       show_changes_since: Show changes since
       time: Vrijeme
       time_description: 'In your local time: %{datetime}'
@@ -773,8 +774,10 @@ hr:
       create_new: Create new
       group_by_relation_type: Grupisanje po tipu odnosa
       group_by_wp_type: Group by work package type
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Indent hierarchy
       hierarchy_outdent: Outdent hierarchy
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Izbriši relaciju
       remove_child: Remove child
       remove_parent: Remove parent
@@ -903,6 +906,26 @@ hr:
       unselected_title: Radni paket
     two_factor_authentication:
       label_two_factor_authentication: Two-factor authentication
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Project actions
+            few: Actions for %{count} selected projects
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            one: Could not extend the range. %{count} project selected.
+            few: Could not extend the range. %{count} projects selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            one: "%{count} project selected."
+            few: "%{count} projects selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         one: "%{count} child work package"
@@ -1018,6 +1041,7 @@ hr:
         label_pagination: Click here to skip over the work packages table and go to pagination
         pagination: Skok na numeriranje stranica tabele
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Kombinirano padajuće polje: odaberite sa strelicama na tipkovnici, potvrdite izbor sa enter tipkom, a izbrišite s backspace tipkom'
       label_disable_multi_select: Onemogući multiodabir
       label_enable_multi_select: Omogući multiodabir
