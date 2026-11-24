@@ -261,6 +261,15 @@ RSpec.describe AI::TextTransformRun do
       expect(run.events.last.payload).to include("reason" => "interrupted")
     end
 
+    it "ends a stalled run as cancelled when its cancellation was requested, even though that touches the run" do
+      run = create(:ai_text_transform_run, :running, created_at: quiet.ago, updated_at: quiet.ago)
+      run.request_cancel!
+
+      expect(run.reload.fail_if_stalled!).to be(true)
+      expect(run.reload).to be_cancelled
+      expect(run.events).to be_empty
+    end
+
     it "leaves a run alone that is still active" do
       run = create(:ai_text_transform_run, :running, updated_at: 1.minute.ago)
 

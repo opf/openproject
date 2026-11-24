@@ -119,7 +119,7 @@ module AI
     end
 
     def stalled?
-      running? && [updated_at, events.maximum(:created_at)].compact.max < STALLED_AFTER.ago
+      running? && last_activity < STALLED_AFTER.ago
     end
 
     # The job takes the row lock for every write, so a job that started or wrote since the run was loaded keeps it.
@@ -128,11 +128,15 @@ module AI
 
       transaction do
         lock!
-        stalled? && fail!(:interrupted)
+        stalled? && (cancel_requested? ? finish!("cancelled") : fail!(:interrupted))
       end
     end
 
     private
+
+    def last_activity
+      [(updated_at unless cancel_requested?), events.maximum(:created_at)].compact.max || created_at
+    end
 
     # A live job and a poll that took it for dead may both try to end the run, so only one transition may win.
     def transition!(from:, **attributes)
