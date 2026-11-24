@@ -178,11 +178,16 @@ module Users::PermissionChecks
                          .to_set
   end
 
+  def security_level_ids
+    @security_level_ids ||= SecurityLevel.ids_for(self)
+  end
+
   def reset_permission_caches
     @user_permissible_service = nil
     @user_allowed_service = nil
     @project_role_cache = nil
     @held_role_ids = nil
+    @security_level_ids = nil
   end
 
   private

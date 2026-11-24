@@ -198,7 +198,7 @@ module Type::Attributes
   # If a project context is given, that context is passed
   # to the constraint validator.
   def passes_attribute_constraint?(attribute, project: nil)
-    # Check other constraints (none in the core, but costs/backlogs adds constraints)
+    # Constraints registered by the core (security levels) and modules (e.g. costs, backlogs)
     constraint = attribute_constraints[attribute.to_sym]
     constraint.nil? || constraint.call(self, project:)
   end

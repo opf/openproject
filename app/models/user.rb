@@ -479,12 +479,7 @@ class User < Principal
     @time_format ||= pref.time_format.presence || Setting.time_format.to_s
   end
 
-  def security_level_ids
-    @security_level_ids ||= SecurityLevel.ids_for(self)
-  end
-
   def reload(*)
-    @security_level_ids = nil
     @time_zone = nil
     @date_format = nil
     @time_format = nil

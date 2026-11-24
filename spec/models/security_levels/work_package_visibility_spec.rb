@@ -154,5 +154,15 @@ RSpec.describe "Work package visibility with security levels" do # rubocop:disab
 
       expect(level_queries.size).to eq 1
     end
+
+    it "forgets the cached levels when the permission caches are reset" do
+      expect(user.security_level_ids).to contain_exactly(internal.id)
+
+      SecurityLevelPrincipal.create!(security_level: management, principal: user)
+      expect(user.security_level_ids).to contain_exactly(internal.id)
+
+      user.reset_permission_caches
+      expect(user.security_level_ids).to contain_exactly(internal.id, management.id)
+    end
   end
 end
