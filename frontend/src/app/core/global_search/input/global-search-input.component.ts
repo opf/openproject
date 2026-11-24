@@ -150,6 +150,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     close_search: this.I18n.t('js.global_search.close_search'),
     current_project_and_all_descendants: this.I18n.t('js.global_search.current_project_and_all_descendants'),
     current_project: this.I18n.t('js.global_search.current_project'),
+    open_search: this.I18n.t('js.global_search.open_search'),
     recently_viewed: this.I18n.t('js.global_search.recently_viewed'),
     search: this.I18n.t('js.autocompleter.search'),
   };

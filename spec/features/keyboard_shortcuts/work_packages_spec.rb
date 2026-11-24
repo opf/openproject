@@ -112,7 +112,7 @@ RSpec.describe "Work package keyboard shortcuts", :js do
     end
 
     it "g e edits the subject" do
-      within(".work-packages--subject-type-row") { expect(page).to have_button("Edit", exact: true) }
+      within(".work-packages--subject-type-row") { expect(page).to have_button("Edit subject", exact: true) }
       page.send_keys("g", "e")
 
       split_view.edit_field(:subject).expect_active!
@@ -139,7 +139,7 @@ RSpec.describe "Work package keyboard shortcuts", :js do
     end
 
     it "g e edits the subject and typing appends to it" do
-      within(".work-packages--subject-type-row") { expect(page).to have_button("Edit", exact: true) }
+      within(".work-packages--subject-type-row") { expect(page).to have_button("Edit subject", exact: true) }
       page.send_keys("g", "e")
       subject_field = full_view.edit_field(:subject)
       subject_field.expect_active!
@@ -155,7 +155,7 @@ RSpec.describe "Work package keyboard shortcuts", :js do
       end
 
       it "g e still edits the subject" do
-        within(".work-packages--subject-type-row") { expect(page).to have_button("Edit", exact: true) }
+        within(".work-packages--subject-type-row") { expect(page).to have_button("Edit subject", exact: true) }
         page.send_keys("g", "e")
 
         full_view.edit_field(:subject).expect_active!

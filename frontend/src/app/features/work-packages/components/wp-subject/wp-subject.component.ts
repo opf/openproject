@@ -50,7 +50,7 @@ export class WorkPackageSubjectComponent extends UntilDestroyedMixin {
   @Input() workPackage:WorkPackageResource;
 
   public readonly text = {
-    edit: this.I18n.t('js.button_edit'),
+    edit: this.I18n.t('js.work_packages.button_edit_subject'),
   };
 
   public readonly uniqueElementIdentifier = `work-packages--subject-type-row-${randomString(16)}`;
