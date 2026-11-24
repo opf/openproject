@@ -139,7 +139,6 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
         const query = this.querySpace.query.value;
         if (query && this.shouldUpdateHtmlTitle()) {
-          // Update the title if we're in the list state alone
           this.titleService.setFirstPart(this.queryTitle(query));
         }
 
@@ -237,7 +236,6 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
     this.titleEditingEnabled = this.authorisationService.can('query', 'updateImmediately');
 
-    // Update the title if we're in the list state alone
     if (this.shouldUpdateHtmlTitle()) {
       this.titleService.setFirstPart(this.selectedTitle);
     }
