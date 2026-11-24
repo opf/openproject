@@ -61,6 +61,8 @@ In the Types overview, open the parent type's **More (three dots)** menu and sel
 
 Comparing variants can be useful when deciding whether separate configurations are still needed or when reviewing differences introduced during migration.
 
+![Example of a comparison for variants of a work package type User story](openproject_system_guide_work_package_variants_comparison.png)
+
 ### Delete a variant
 
 If a variant is no longer needed, open its **More (three dots)** menu and select **Delete**.
