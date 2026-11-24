@@ -16,8 +16,15 @@
     &:active
       cursor: grabbing
 
-  &--more-below
-    box-shadow: inset 0 calc(-1 * var(--base-size-8)) var(--base-size-8) calc(-1 * var(--base-size-6)) var(--borderColor-emphasis)
+  &--more-below::after
+    content: ""
+    display: block
+    position: sticky
+    bottom: 0
+    height: var(--base-size-8)
+    margin-top: calc(-1 * var(--base-size-8))
+    pointer-events: none
+    background: linear-gradient(to top, color-mix(in srgb, var(--borderColor-emphasis) 40%, transparent), transparent)
 
   // Forced colors drop box shadows; the border keeps one width so the cue never resizes the scroll area.
   @media (forced-colors: active)
