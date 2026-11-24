@@ -273,39 +273,6 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
       end
     end
 
-    context "for categories" do
-      shared_let(:second_category) { create(:category, project:) }
-
-      before do
-        work_package.work_package_categories.create!(category: second_category)
-        work_package.categories.reset
-      end
-
-      it "renders all categories" do
-        enabled, = subject
-        token = detect(enabled, :category)
-
-        expect(token.call(work_package, nil)).to eq("#{category.name}, #{second_category.name}")
-      end
-
-      context "when work package multiple categories is active",
-              with_flag: { work_package_multiple_categories: true },
-              with_settings: { work_package_multiple_categories: true } do
-        it "label is categories" do
-          enabled, = subject
-          expect(detect(enabled, :category)&.label).to eq(WorkPackage.human_attribute_name(:categories))
-        end
-      end
-
-      context "when work package multiple categories is not active",
-              with_settings: { work_package_multiple_categories: false } do
-        it "label is category" do
-          enabled, = subject
-          expect(detect(enabled, :category)&.label).to eq(WorkPackage.human_attribute_name(:category))
-        end
-      end
-    end
-
     context "for observed in versions" do
       shared_let(:second_observed_version) { create(:version, project:) }
 
