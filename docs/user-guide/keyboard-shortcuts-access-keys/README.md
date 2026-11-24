@@ -9,6 +9,9 @@ keywords: keyboard shortcuts and access keys
 
 OpenProject (since version 3.0) offers useful keyboard shortcuts to  enhance your productivity. We use both access keys and regular  shortcuts. When using access keys, press the modifier keys and the  access key number. For the regular shortcuts just type the listed keys  on any OpenProject page.
 
+> [!TIP]
+> You can turn keyboard shortcuts off: open the user menu, navigate to **Account settings** → **Interface** and select **Disable keyboard shortcuts** (see [Disable keyboard shortcuts](../account-settings/interface/#disable-keyboard-shortcuts)). Access keys keep working.
+
 ## Shortcuts
 
 | Action | Shortcut | Access key | Inside a project | Outside a project |
