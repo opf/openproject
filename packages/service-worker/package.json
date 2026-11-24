@@ -9,8 +9,7 @@
   },
   "scripts": {
     "build": "node build.mjs",
-    "serve": "node build.mjs --dev --watch",
-    "build:watch": "node build.mjs --dev --watch --outdir=../../public/assets/frontend",
+    "build:watch": "node build.mjs --watch",
     "test": "vitest run",
     "typecheck": "tsc --noEmit -p tsconfig.app.json && tsc --noEmit -p tsconfig.spec.json",
     "lint": "eslint ."

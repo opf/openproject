@@ -42,16 +42,6 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
     expect { get "/service-worker.js" }.to raise_error(ActionController::RoutingError)
   end
 
-  it "imports the hashed bundle when the manifest has one" do
-    allow(FrontendAssetHelper).to receive(:assets_proxied?).and_return(false)
-    allow(OpenProject::Assets).to receive(:lookup_asset).and_call_original
-    allow(OpenProject::Assets).to receive(:lookup_asset).with("service-worker.js").and_return("service-worker-abc123.js")
-
-    get "/service-worker"
-
-    expect(response.body).to include('importScripts("/assets/frontend/service-worker-abc123.js")')
-  end
-
   describe "GET /service-worker", with_settings: { login_required: true } do
     before { get "/service-worker" }
 
@@ -74,8 +64,14 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
       expect(response.headers["Set-Cookie"]).to be_blank
     end
 
-    it "imports the worker logic from the frontend bundle" do
-      expect(response.body).to match(%r{importScripts\("[^"]*/assets/frontend/service-worker[^"]*\.js"\)})
+    it "inlines the worker bundle after its configuration" do
+      expect(response.body.lstrip).to start_with('"use strict";')
+
+      push_handler = response.body.index('addEventListener("push"')
+
+      expect(push_handler).to be > response.body.index("self.OP_SW =")
+      expect(response.body).to include('addEventListener("notificationclick"')
+      expect(response.body).not_to include("importScripts")
     end
 
     it "hands the bundle its configuration" do
@@ -94,14 +90,11 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
     end
 
     context "when served under a path prefix", with_config: { rails_relative_url_root: "/openproject" } do
-      it "prefixes the configured paths and the bundle" do
-        allow(Rails.application.config).to receive(:relative_url_root).and_return("/openproject")
-
+      it "prefixes the configured paths" do
         get "/service-worker", env: { "SCRIPT_NAME" => "/openproject" }
 
         expect(worker_config["urls"]).to include("offline" => "/openproject/offline",
                                                  "push" => "/openproject/api/v3/notifications/summary")
-        expect(response.body).to match(%r{importScripts\("[^"]*/openproject/assets/frontend/service-worker})
       end
     end
   end
@@ -157,7 +150,7 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
       expect(response.body).to include("openproject-offline-", "unregister")
       expect(response.body).to include(%(const CACHE_PREFIX = "#{ApplicationController.helpers.pwa_cache_prefix}";))
       expect(response.body.scan("const CACHE_PREFIX").size).to eq(1)
-      expect(response.body).not_to include("importScripts", "OP_SW")
+      expect(response.body).not_to include("OP_SW", 'addEventListener("push"')
     end
 
     it "registers no worker" do

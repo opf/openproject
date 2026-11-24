@@ -26,54 +26,26 @@
 //++
 
 import { build, context } from 'esbuild';
-import { existsSync, readdirSync, rmSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const packageDir = path.dirname(fileURLToPath(import.meta.url));
-const devOutdir = path.resolve(packageDir, '../../frontend/tmp/service-worker');
-const releaseOutdir = path.resolve(packageDir, '../../public/assets/frontend');
-const args = process.argv.slice(2);
-const dev = args.includes('--dev');
-const watch = args.includes('--watch');
-const outdirArg = args.find((arg) => arg.startsWith('--outdir='))?.slice('--outdir='.length);
-
-if (watch && !dev) {
-  console.error('--watch requires --dev');
-  process.exit(1);
-}
-
-const unhashed = dev || outdirArg !== undefined;
-const outdir = outdirArg
-  ? path.resolve(process.cwd(), outdirArg)
-  : dev
-    ? devOutdir
-    : releaseOutdir;
-
-if (!dev && !outdirArg && !existsSync(outdir)) {
-  console.error(`${outdir} does not exist. Run the Angular build (ng build) before building the service worker.`);
-  process.exit(1);
-}
-
-function removeStaleBundles(dir) {
-  for (const file of readdirSync(dir)) {
-    if (/^service-worker-.+\.js$/.test(file)) rmSync(path.join(dir, file));
-  }
-}
-
-if (!unhashed) removeStaleBundles(outdir);
+const watch = process.argv.slice(2).includes('--watch');
 
 const options = {
+  absWorkingDir: packageDir,
   entryPoints: [path.join(packageDir, 'src/main.ts')],
   bundle: true,
   format: 'iife',
   platform: 'browser',
   target: 'es2022',
   tsconfig: path.join(packageDir, 'tsconfig.app.json'),
-  outdir,
-  entryNames: unhashed ? 'service-worker' : 'service-worker-[hash]',
-  minify: !dev,
-  sourcemap: dev ? 'inline' : false,
+  outfile: path.resolve(packageDir, '../../app/views/pwa/_service_worker_bundle.js'),
+  minify: false,
+  sourcemap: false,
+  banner: {
+    js: '// Generated from packages/service-worker; do not edit by hand. Rebuild with `npm run build` in that folder.',
+  },
   logLevel: 'info',
 };
 

@@ -25,10 +25,12 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
+"use strict";
+
 const CACHE_PREFIX = <%== pwa_cache_prefix.to_json %>;
 <% if OpenProject::FeatureDecisions.progressive_web_app_active? %>
   self.OP_SW = <%== pwa_service_worker_config.to_json %>;
-  importScripts(<%== raw_variable_asset_path("service-worker.js").to_json %>);
+  <%== render partial: "pwa/service_worker_bundle", formats: :js %>
 <% else %>
   self.addEventListener("install", (event) => {
     event.waitUntil(self.skipWaiting());

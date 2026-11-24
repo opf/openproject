@@ -4,6 +4,7 @@ on:
     types: [opened, reopened, synchronize]
     paths:
       - 'packages/service-worker/**'
+      - 'app/views/pwa/_service_worker_bundle.js'
       - '.github/workflows/service-worker-test.yml'
       - 'COPYRIGHT_short'
 
@@ -47,8 +48,9 @@ jobs:
         if: ${{ !cancelled() && steps.npm-ci.outcome == 'success' }}
         run: CI=1 npm test
 
-      - name: Build
+      - name: Build and verify committed service worker bundle is up to date
         if: ${{ !cancelled() && steps.npm-ci.outcome == 'success' }}
         run: |
-          mkdir -p ../../public/assets/frontend
           npm run build
+          git add --intent-to-add ../../app/views/pwa/_service_worker_bundle.js
+          git diff --exit-code -- ../../app/views/pwa/_service_worker_bundle.js
