@@ -17,6 +17,8 @@ OpenProject is a large Rails + TypeScript monorepo. The officially supported dev
 ### Prerequisites
 - Windows 11 with **WSL 2** (Ubuntu) and **Docker Desktop**
 - Docker Desktop → *Settings → Resources → WSL integration* → enable **Ubuntu**
+
+  ![Docker Desktop WSL integration](docs/praskla/screenshots/00-docker-wsl-integration.png)
 - At least 6 GB RAM for WSL. Add this to `C:\Users\<you>\.wslconfig` and run `wsl --shutdown`:
   ```ini
   [wsl2]
