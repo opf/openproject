@@ -1,0 +1,30 @@
+.op-my-productivity--summary
+  display: grid
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr))
+  gap: var(--stack-gap-normal)
+
+.op-my-productivity--columns
+  column-gap: var(--stack-gap-normal)
+
+  .op-my-productivity--section
+    flex: 1 1 420px
+    min-width: 0
+
+.op-my-productivity--week-label
+  width: 90px
+
+.op-my-productivity--table
+  width: 100%
+  border-collapse: collapse
+
+  th, td
+    padding: var(--base-size-8) var(--base-size-16)
+    text-align: left
+    border-bottom: 1px solid var(--borderColor-muted)
+
+  th
+    color: var(--fgColor-muted)
+    font-weight: var(--base-text-weight-semibold)
+
+  tr:last-child td
+    border-bottom: none

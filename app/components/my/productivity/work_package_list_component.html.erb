@@ -1,0 +1,35 @@
+<%= render(Primer::Beta::BorderBox.new(mb: 4, classes: "op-my-productivity--section", test_selector:)) do |box| %>
+  <% box.with_header do |header| %>
+    <% header.with_title(tag: :h3) { title } %>
+  <% end %>
+
+  <% if work_packages.empty? %>
+    <% box.with_body do %>
+      <%= render(Primer::Beta::Text.new(color: :muted)) { blankslate } %>
+    <% end %>
+  <% else %>
+    <% work_packages.each do |work_package| %>
+      <% box.with_row do %>
+        <%= render(Primer::Box.new(display: :flex, justify_content: :space_between, align_items: :center)) do %>
+          <%= render(Primer::Box.new(classes: "ellipsis")) do %>
+            <%= helpers.link_to_work_package(work_package, link_subject: true) %>
+            <%= render(Primer::Beta::Text.new(tag: :div, color: :muted, font_size: :small)) do %>
+              <%= work_package.project.name %> · <%= work_package.status.name %>
+            <% end %>
+          <% end %>
+          <%= render(
+                Primer::Beta::Text.new(
+                  color: overdue?(work_package) ? :danger : :muted, ml: 3,
+                  classes: "no-wrap"
+                )
+              ) do %>
+            <%= formatted_date(work_package) %>
+            <% if overdue?(work_package) %>
+              <%= render(Primer::Beta::Label.new(scheme: :danger, ml: 1)) { t("my_productivity.due.overdue") } %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
