@@ -112,14 +112,14 @@ const clickActivatedInputTypes = new Set([
   'submit',
   'reset',
   'file',
+  'button',
+  'image',
 ]);
 
 const nonTextInputTypes = new Set([
   ...clickActivatedInputTypes,
-  'button',
   'range',
   'color',
-  'image',
   'hidden',
 ]);
 
@@ -131,7 +131,7 @@ export function isTextEditable(el:EventTarget|null):boolean {
   return el.isContentEditable;
 }
 
-/** Whether a hotkey or access key focuses the element instead of clicking it, as `@github/hotkey` decides. */
+/** Whether a hotkey focuses the element instead of clicking it; button-like inputs are clicked. */
 export function isFocusableField(el:HTMLElement):boolean {
   if (el instanceof HTMLInputElement) return !clickActivatedInputTypes.has(el.type);
 

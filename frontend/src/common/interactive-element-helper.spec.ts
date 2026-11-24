@@ -87,11 +87,11 @@ describe('isTextEditable', () => {
 });
 
 describe('isFocusableField', () => {
-  it.each(['text', 'search', 'button', 'range', 'hidden'])('focuses input type %s', (type) => {
+  it.each(['text', 'search', 'range', 'hidden'])('focuses input type %s', (type) => {
     expect(isFocusableField(inputOfType(type))).toBe(true);
   });
 
-  it.each(['checkbox', 'radio', 'submit', 'reset', 'file'])('clicks input type %s', (type) => {
+  it.each(['checkbox', 'radio', 'submit', 'reset', 'file', 'button', 'image'])('clicks input type %s', (type) => {
     expect(isFocusableField(inputOfType(type))).toBe(false);
   });
 
