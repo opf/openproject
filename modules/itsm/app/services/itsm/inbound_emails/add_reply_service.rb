@@ -48,19 +48,32 @@ module ITSM
       def perform
         @input = Input.new(**params)
 
-        in_user_context do
-          processed = EmailMessage.in_project(project).find_by(message_id: headers.message_id)
-          next ServiceResult.success(result: processed) if processed
+        processed = processed_message
+        return ServiceResult.success(result: processed) if processed
 
-          add_comment.bind { |journal| create_email_message(journal) }
-        end
+        @uploads = UploadAttachmentsService.new(user:).call(email:, work_package:).result
+        in_user_context { add_reply }
+      ensure
+        uploads&.remove_unclaimed
       end
 
       private
 
-      attr_reader :user, :input
+      attr_reader :user, :input, :uploads
 
       delegate :thread, :email, :work_package, :project, :headers, to: :input
+
+      def processed_message = EmailMessage.in_project(project).find_by(message_id: headers.message_id)
+
+      def add_reply
+        attach_uploads
+        add_comment.bind { |journal| create_email_message(journal) }
+      end
+
+      # Attached before the comment is journalized, so that the comment's activity entry lists them.
+      def attach_uploads
+        ::Attachment.where(id: uploads.ids).update_all(container_id: work_package.id, container_type: WorkPackage.name)
+      end
 
       def add_comment
         work_package.journal_cause = Journal::CausedByEmail.new(sender_address: headers.from_address)
@@ -70,8 +83,8 @@ module ITSM
       end
 
       def notes
-        CodeBlock.call(email.reply_text.presence || email.text.presence ||
-                       I18n.t(:label_email_without_text, locale: Setting.default_language))
+        uploads.with_note(CodeBlock.call(email.reply_text.presence || email.text.presence ||
+                                         I18n.t(:label_email_without_text, locale: Setting.default_language)))
       end
 
       def create_email_message(journal)

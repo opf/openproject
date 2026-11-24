@@ -34,14 +34,17 @@ RSpec.describe ITSM::InboundEmails::AddReplyService do
   subject(:result) { described_class.new(user:).call(thread: request, email: ITSM::InboundEmail.new(raw)) }
 
   let(:project) { create(:project) }
-  let(:permissions) { %i[view_work_packages add_work_package_comments] }
+  let(:permissions) { %i[view_work_packages add_work_package_comments add_work_package_attachments] }
   let(:user) { create(:user, member_with_permissions: { project => permissions }) }
   let(:work_package) { create(:work_package, project:) }
   let(:request) { create(:itsm_email_thread, work_package:, requester_email: "jane@customer.example") }
   let(:body) { "It works again.\n\nOn Fri, Help desk wrote:\n> we have received your request." }
+  let(:files) { {} }
   let(:raw) do
     Mail.new(message_id: "<reply@customer.example>", in_reply_to: "<confirmation@example.com>",
-             from: "jane@customer.example", to: "support@example.com", subject: "Re: [DP-25] Printer broken", body:).to_s
+             from: "jane@customer.example", to: "support@example.com", subject: "Re: [DP-25] Printer broken", body:)
+      .tap { |mail| files.each { |filename, content| mail.add_file(filename:, content:) } }
+      .to_s
   end
   let(:comment) { work_package.journals.reload.last }
 
@@ -61,6 +64,36 @@ RSpec.describe ITSM::InboundEmails::AddReplyService do
     expect(result.result).to have_attributes(thread: request, journal: comment, direction: "inbound", status: "processed",
                                              message_id: "reply@customer.example", in_reply_to: "confirmation@example.com")
     expect(result.result).to be_previously_new_record
+  end
+
+  context "with attachments" do
+    let(:files) { { "report.txt" => "The report." } }
+
+    it "adds them to the work package, in the comment's activity entry" do
+      expect { result }.to change { work_package.journals.count }.by(1)
+      expect(work_package.attachments.map(&:filename)).to eq(["report.txt"])
+      expect(comment.attachable_journals.map(&:filename)).to eq(["report.txt"])
+    end
+
+    context "when the user may not add attachments" do
+      let(:permissions) { %i[view_work_packages add_work_package_comments] }
+
+      it "adds the comment and notes the skipped files below it" do
+        expect(result).to be_success
+        expect(work_package.attachments).to be_empty
+        expect(comment.notes)
+          .to eq("```\nIt works again.\n```\n\nNot attached: `report.txt` (attachments not allowed on this work package)")
+      end
+    end
+
+    context "when the comment is not added" do
+      let(:permissions) { %i[view_work_packages add_work_package_attachments] }
+
+      it "deletes them, as the email is kept to be tried again" do
+        expect(result).to be_failure
+        expect(Attachment.count).to eq(0)
+      end
+    end
   end
 
   context "when the reply was already added" do

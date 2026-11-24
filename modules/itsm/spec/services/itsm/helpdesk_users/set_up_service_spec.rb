@@ -42,11 +42,12 @@ RSpec.describe ITSM::HelpdeskUsers::SetUpService do
     expect(user).to have_attributes(name: "Help desk", admin: false, status: "active")
   end
 
-  it "creates a role that can create and comment on work packages" do
+  it "creates a role that can create, comment on and attach files to work packages" do
     result
 
     expect(role).to have_attributes(name: "Help desk")
-    expect(role.permissions).to match_array(%i[view_work_packages add_work_packages add_work_package_comments])
+    expect(role.permissions)
+      .to match_array(%i[view_work_packages add_work_packages add_work_package_comments add_work_package_attachments])
   end
 
   it "links the account to the role as its service" do

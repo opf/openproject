@@ -65,6 +65,21 @@ RSpec.describe ITSM::Mailboxes::ProcessEmailService do
     expect(imap).not_to have_received(:uid_expunge)
   end
 
+  context "with an attachment" do
+    let(:raw) do
+      Mail.new(message_id: "<request-1@customer.example>", from: "jane@customer.example", to: "support@example.com",
+               subject: "Printer broken", body: "The printer is broken.")
+        .tap { it.add_file(filename: "report.txt", content: "The report.") }
+        .to_s
+    end
+
+    it "adds it to the work package" do
+      result
+
+      expect(WorkPackage.last.attachments.map(&:filename)).to eq(["report.txt"])
+    end
+  end
+
   it "queues the confirmation for the new work package" do
     result
 

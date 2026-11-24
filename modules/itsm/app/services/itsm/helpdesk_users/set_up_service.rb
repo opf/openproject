@@ -30,7 +30,7 @@
 module ITSM
   module HelpdeskUsers
     class SetUpService < ::BaseServices::BaseCallable
-      PERMISSIONS = %i[view_work_packages add_work_packages add_work_package_comments].freeze
+      PERMISSIONS = %i[view_work_packages add_work_packages add_work_package_comments add_work_package_attachments].freeze
 
       protected
 

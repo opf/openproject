@@ -428,4 +428,35 @@ RSpec.describe ITSM::InboundEmail do
       it { expect(email).not_to be_report }
     end
   end
+
+  describe "#attachments" do
+    subject(:attachments) { email.attachments }
+
+    let(:raw) do
+      Mail.new(from: "jane@customer.example", body: "The printer is broken.").tap do |mail|
+        mail.add_file(filename: "Drücker.pdf", content: "%PDF-1.4 report")
+        mail.attachments.inline["logo.png"] = "\x89PNG\r\n\x1A\n".b
+      end.to_s
+    end
+
+    it "lists the attached files and the images embedded in the text" do
+      expect(attachments.map(&:filename)).to eq(%w[Drücker.pdf logo.png])
+      expect(attachments.map(&:content_type)).to eq(%w[application/pdf image/png])
+      expect(attachments.first.content).to eq("%PDF-1.4 report")
+    end
+
+    it "keeps them out of the text" do
+      expect(email.text).to eq("The printer is broken.")
+    end
+
+    it "keeps the content out of inspect" do
+      expect(attachments.first.inspect).not_to include("PDF")
+    end
+
+    context "without attachments" do
+      let(:raw) { "From: jane@customer.example\r\n\r\nHello" }
+
+      it { is_expected.to be_empty }
+    end
+  end
 end

@@ -118,6 +118,13 @@ en:
         greeting: Hello %{name},
         received: 'we have received your request "%{subject}" and recorded it as %{id}.'
         reply: To add information to your request, reply to this email.
+    inbound_emails:
+      not_attached: "Not attached: %{files}"
+      not_attached_reasons:
+        failed: could not be saved
+        file_too_large: larger than %{size}
+        not_allowed: attachments not allowed on this work package
+        not_allowlisted: file type not allowed
   label_email_without_subject: "(no subject)"
   label_email_without_text: "(no text)"
   label_helpdesk: Help desk

@@ -52,6 +52,8 @@ module ITSM
 
     def reply_text = @reply_text ||= body.reply_text
 
+    def attachments = @attachments ||= mail.attachments.map { Attachment.new(it) }
+
     def header_value(name) = Utf8Text.call(Array(mail.header[name]).first&.value)
 
     def delivery_addresses
