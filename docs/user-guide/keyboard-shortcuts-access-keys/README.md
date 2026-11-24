@@ -13,24 +13,24 @@ OpenProject (since version 3.0) offers useful keyboard shortcuts to  enhance you
 
 | Action | Shortcut | Access key | Inside a project | Outside a project |
 | ------ | -------- | ---------- | ---------------- | ----------------- |
-| Global search | s | 4 | Focus global search | Focus global search |
-| Project search | p | 5 | Open the project select | Open the project select |
-| Go to My page | g m | – | My page | My page |
-| Open shortcuts help | ? | – | Open keyboard shortcuts docs (this page) | Open keyboard shortcuts docs (this page) |
-| Open help menu | – | 6 | Open the help menu | Open the help menu |
-| Go to Overview | g o | – | Project overview | – |
-| Go to Work packages | g w p | – | Project work packages | Work packages |
-| Go to Wiki | g w i | – | Project wiki start page | Wikis |
-| Go to Activity | g a | – | Project activity | Activity |
-| Go to Calendar | g c | – | Project calendars | Calendars |
-| Go to News | g n | – | Project news | News |
-| New work package | n w p | 2 | Open the Create menu (work package list), otherwise the new work package form | Open the Create menu (work package list), otherwise the new work package form |
-| Edit | g e | 3 | Work package subject; Edit button of a wiki page, wiki annotate page or news item; first BIM IFC model (access key only) | Work package subject; Edit button of a user or placeholder user |
-| Open the More menu | m | 7 | Work package list, full view and split view | Work package list, full view and split view |
-| Toggle the details view | d w p | 8 | Work package list | Work package list |
-| Select the next list item (**j**) or previous list item (**k**) | j / k | – | Work package tables | Work package tables |
+| Global search | <kbd>s</kbd> | <kbd>4</kbd> | Focus global search | Focus global search |
+| Project search | <kbd>p</kbd> | <kbd>5</kbd> | Open the project select | Open the project select |
+| Go to My page | <kbd>g</kbd> <kbd>m</kbd> | – | My page | My page |
+| Open shortcuts help | <kbd>?</kbd> | – | Open keyboard shortcuts docs (this page) | Open keyboard shortcuts docs (this page) |
+| Open help menu | – | <kbd>6</kbd> | Open the help menu | Open the help menu |
+| Go to Overview | <kbd>g</kbd> <kbd>o</kbd> | – | Project overview | – |
+| Go to Work packages | <kbd>g</kbd> <kbd>w</kbd> <kbd>p</kbd> | – | Project work packages | Work packages |
+| Go to Wiki | <kbd>g</kbd> <kbd>w</kbd> <kbd>i</kbd> | – | Project wiki start page | Wikis |
+| Go to Activity | <kbd>g</kbd> <kbd>a</kbd> | – | Project activity | Activity |
+| Go to Calendar | <kbd>g</kbd> <kbd>c</kbd> | – | Project calendars | Calendars |
+| Go to News | <kbd>g</kbd> <kbd>n</kbd> | – | Project news | News |
+| New work package | <kbd>n</kbd> <kbd>w</kbd> <kbd>p</kbd> | <kbd>2</kbd> | Open the Create menu (work package list), otherwise the new work package form | Open the Create menu (work package list), otherwise the new work package form |
+| Edit | <kbd>g</kbd> <kbd>e</kbd> | <kbd>3</kbd> | Work package subject; Edit button of a wiki page, wiki annotate page or news item; first BIM IFC model (access key only) | Work package subject; Edit button of a user or placeholder user |
+| Open the More menu | <kbd>m</kbd> | <kbd>7</kbd> | Work package list, full view and split view | Work package list, full view and split view |
+| Toggle the details view | <kbd>d</kbd> <kbd>w</kbd> <kbd>p</kbd> | <kbd>8</kbd> | Work package list | Work package list |
+| Select the next list item (<kbd>j</kbd>) or previous list item (<kbd>k</kbd>) | <kbd>j</kbd> / <kbd>k</kbd> | – | Work package tables | Work package tables |
 
-On narrow screens, Firefox does not react to access key 3 on pages whose header has only an Edit action; use **g e** there.
+On narrow screens, Firefox does not react to access key <kbd>3</kbd> on pages whose header has only an Edit action; use <kbd>g</kbd> <kbd>e</kbd> there.
 
 ------
 
@@ -38,23 +38,23 @@ On narrow screens, Firefox does not react to access key 3 on pages whose header 
 
 ### Windows
 
-- Firefox: Alt + Shift + &lt;access key number&gt;
-- Google Chrome and Microsoft Edge: Alt + &lt;access key number&gt;
+- Firefox: <kbd>Alt</kbd> + <kbd>Shift</kbd> + access key
+- Google Chrome and Microsoft Edge: <kbd>Alt</kbd> + access key
 
 ------
 
 ### Linux
 
-- Firefox: Alt + Shift + &lt;access key number&gt;
-- Google Chrome: Alt + &lt;access key number&gt;
+- Firefox: <kbd>Alt</kbd> + <kbd>Shift</kbd> + access key
+- Google Chrome: <kbd>Alt</kbd> + access key
 
 ------
 
 ### macOS
 
-- Firefox:  Ctrl + Opt + &lt;access key number&gt;
-- Google Chrome: Ctrl + Opt + &lt;access key number&gt;
-- Safari: Ctrl + Opt + &lt;access key number&gt;
+- Firefox: <kbd>Ctrl</kbd> + <kbd>Opt</kbd> + access key
+- Google Chrome: <kbd>Ctrl</kbd> + <kbd>Opt</kbd> + access key
+- Safari: <kbd>Ctrl</kbd> + <kbd>Opt</kbd> + access key
 
 ------
 
@@ -64,14 +64,14 @@ To quickly save changes in a rich text editor (for example a work package descri
 
 | Shortcut (Windows / Linux) | Shortcut (Mac) | Action                                                       |
 | -------------------------- | -------------- | ------------------------------------------------------------ |
-| CTRL + ENTER               | CMD + ENTER    | **Save changes.**<br>For inline-editable fields, save the field and close it.<br>For pages with a full WYSIWYG (meetings, wiki pages), submit the form. |
+| <kbd>Ctrl</kbd> + <kbd>Enter</kbd> | <kbd>Cmd</kbd> + <kbd>Enter</kbd> | **Save changes.**<br>For inline-editable fields, save the field and close it.<br>For pages with a full WYSIWYG (meetings, wiki pages), submit the form. |
 
 Please also refer to documentation  on [working in Rich text editor in OpenProject](../wysiwyg).
 
 ## Clear a work package selection
 
-Escape clears every work package selection on the page, in tables and card views alike, wherever the focus is. An open menu, dialog or editable field receives the Escape first, so one keypress never both dismisses something and clears the selection.
+<kbd>Esc</kbd> clears every work package selection on the page, in tables and card views alike, wherever the focus is. An open menu, dialog or editable field receives the <kbd>Esc</kbd> first, so one keypress never both dismisses something and clears the selection.
 
 | Shortcut (Windows / Linux) | Shortcut (Mac) | Action                                             |
 | -------------------------- | -------------- | -------------------------------------------------- |
-| ESC                        | ESC            | **Clear the selection** in every table and card view on the page. |
+| <kbd>Esc</kbd> | <kbd>Esc</kbd> | **Clear the selection** in every table and card view on the page. |
