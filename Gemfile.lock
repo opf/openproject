@@ -481,7 +481,7 @@ GEM
     compare-xml (1.0.1)
       nokogiri (>= 1.6)
     concurrent-ruby (1.3.8)
-    connection_pool (3.0.2)
+    connection_pool (3.0.3)
     cookiejar (0.3.4)
     cork (0.2.0)
       colored (~> 1.2)
@@ -1591,7 +1591,7 @@ DEPENDENCIES
   colored2
   commonmarker (~> 2.10.0)
   compare-xml (~> 1.0)
-  connection_pool (~> 3.0.2)
+  connection_pool (~> 3.0.3)
   costs!
   counter_culture (~> 3.14)
   csv (~> 3.3)
@@ -1890,7 +1890,7 @@ CHECKSUMS
   commonmarker (2.10.1-x86_64-linux-musl) sha256=afa9e0dc1fef554b7779d815a574d1cb602a9ff9b548dd8be80d66ac69f83866
   compare-xml (1.0.1) sha256=1cdd25ebf30a3f5df91b1230b045c1ef7ee18614cd00e74e0029ccb6bf09768a
   concurrent-ruby (1.3.8) sha256=b2f1be836e968ccc78ccfce277ea79c72a88633f22306782c16ff23fb415d1e1
-  connection_pool (3.0.2) sha256=33fff5ba71a12d2aa26cb72b1db8bba2a1a01823559fb01d29eb74c286e62e0a
+  connection_pool (3.0.3) sha256=e0f8ee3ee0039396753e06e8a2dde0ef028e40f7df29e97f57da7577c489cb5e
   cookiejar (0.3.4) sha256=11b16acfc4baf7a0f463c21a6212005e04e25f5554d4d9f24d97f3492dfda0df
   cork (0.2.0) sha256=d0d5688bf9fbd9e07d4f77524306d59ce4d9453dcf586cf01700903bf897e0f1
   cose (1.3.1) sha256=d5d4dbcd6b035d513edc4e1ab9bc10e9ce13b4011c96e3d1b8fe5e6413fd6de5

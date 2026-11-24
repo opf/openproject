@@ -44,7 +44,7 @@ gem "responders", "~> 3.2"
 
 gem "ffi", "~> 1.17"
 
-gem "connection_pool", "~> 3.0.2"
+gem "connection_pool", "~> 3.0.3"
 
 gem "rdoc", ">= 2.4.2"
 
