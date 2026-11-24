@@ -151,7 +151,7 @@ module Pages
     def expect_group(name, &)
       expect(page).to have_css(".attributes-group--header-text", text: name.upcase)
       if block_given?
-        page.within(".attributes-group[data-group-name='#{name}']", &)
+        page.within(:element, class: "attributes-group", "data-group-name": name, &)
       end
     end
 
