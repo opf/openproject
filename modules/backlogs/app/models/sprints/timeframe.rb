@@ -38,6 +38,8 @@
 # off one of them answers in the same calendar the reader is reading.
 module Sprints
   class Timeframe
+    delegate :date_range_set?, to: :sprint
+
     def initialize(sprint, zone: Time.zone)
       @sprint = sprint
       @zone = zone
@@ -70,6 +72,15 @@ module Sprints
     def begun?
       sprint.started_at? || planned_finish < now
     end
+
+    # A sprint whose planned timeframe passed without it ever being started was never executed.
+    # There is no history to report on it, and none will be recorded for those dates.
+    def never_executed?
+      !sprint.started_at? && planned_finish < now
+    end
+
+    # Whether the sprint's reports have an interval to cover at all.
+    def reportable? = date_range_set? && !never_executed?
 
     # The point in time up until which the sprint is expected to finish.
     # The expectations change depending on what is currently known.
