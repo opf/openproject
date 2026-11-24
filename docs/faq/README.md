@@ -146,7 +146,7 @@ You can do this as a system administrator in the [System settings](../system-adm
 
 ### How can I add a RACI matrix in OpenProject?
 
-You can add [project custom fields](../system-admin-guide/custom-fields/#add-a-custom-field-to-one-or-multiple-projects) of the type "user" to your projects and track the respective persons there.
+You can add [project custom fields](../system-admin-guide/projects/project-attributes/) of the type "user" to your projects and track the respective persons there.
 
 On a work package level you could use "Assignee" for "Responsible", "Accountable" for "Accountable" and [add custom fields](../system-admin-guide/custom-fields/) for "Consulted" and "Informed". For the latter one you could also just set the person as watcher instead.
 

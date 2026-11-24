@@ -66,7 +66,7 @@ Here is an example of a new status that triggers a % Complete of 73%:
 
 ![Screenshot showing the OpenProject administration for a new status with % Complete 73%](openproject-14-4-status-percentage-complete.png)
 
-For more details on status-based progress reporting, see our [system admin guide](../../../system-admin-guide/manage-work-packages/work-package-status/).
+For more details on status-based progress reporting, see our [system admin guide](../../../system-admin-guide/manage-work-packages/work-package-statuses/).
 
 ### Nextcloud storages: Connection validation
 
