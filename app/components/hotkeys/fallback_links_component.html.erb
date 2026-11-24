@@ -27,43 +27,31 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <% new_work_package_href = new_work_package_path_for_user %>
 <% if new_work_package_href %>
-  <%= render(
-        Primer::Beta::Link.new(
-          href: new_work_package_href,
-          accesskey: new_work_package_access_key,
-          tabindex: -1,
-          data: { hotkey: new_work_package_key, hotkey_fallback: true },
-          classes: "sr-only"
-        )
-      ) { t(".new_work_package") } %>
+  <%= link_to(
+        t(".new_work_package"),
+        new_work_package_href,
+        accesskey: new_work_package_access_key,
+        tabindex: -1,
+        class: "sr-only",
+        data: { hotkey: new_work_package_key, hotkey_fallback: true }
+      ) %>
 <% end %>
-<%= render(Primer::Box.new(hidden: true)) do %>
+<div hidden>
   <% wiki_start_href = wiki_start_path %>
   <% if wiki_start_href %>
-    <%= render(
-          Primer::Beta::Link.new(
-            href: wiki_start_href,
-            data: { hotkey: wiki_key }
-          )
-        ) { t(".wiki") } %>
+    <%= link_to t(".wiki"), wiki_start_href, data: { hotkey: wiki_key } %>
   <% end %>
-  <%= render(
-        Primer::Beta::Link.new(
-          href: keyboard_shortcuts_help_path,
-          target: "_blank",
-          data: { hotkey: shortcuts_help_key }
-        )
-      ) { t(".shortcuts_help") } %>
-  <%= render(
-        Primer::Beta::Button.new(
-          type: :button,
-          data: { hotkey: "j", hotkey_action: "next-list-item", hotkey_repeat: true }
-        )
-      ) { t(".next_list_item") } %>
-  <%= render(
-        Primer::Beta::Button.new(
-          type: :button,
-          data: { hotkey: "k", hotkey_action: "previous-list-item", hotkey_repeat: true }
-        )
-      ) { t(".previous_list_item") } %>
-<% end %>
+  <%= link_to(
+        t(".shortcuts_help"),
+        keyboard_shortcuts_help_path,
+        target: "_blank",
+        rel: "noopener",
+        data: { hotkey: shortcuts_help_key }
+      ) %>
+  <button type="button" data-hotkey="j" data-hotkey-action="next-list-item" data-hotkey-repeat>
+    <%= t(".next_list_item") %>
+  </button>
+  <button type="button" data-hotkey="k" data-hotkey-action="previous-list-item" data-hotkey-repeat>
+    <%= t(".previous_list_item") %>
+  </button>
+</div>
