@@ -25,10 +25,12 @@ OpenProject (since version 3.0) offers useful keyboard shortcuts to  enhance you
 | Go to Calendar | g c | – | Project calendars | Calendars |
 | Go to News | g n | – | Project news | News |
 | New work package | n w p | 2 | Open the Create menu (work package list), otherwise the new work package form | Open the Create menu (work package list), otherwise the new work package form |
-| Edit | g e | 3 | Edit the work package subject, or the Edit button of a wiki page, wiki annotate page or news item. On BIM IFC models, access key 3 (no **g e**) sits on the first editable model row and on the notice shown when there is no default model | Edit the work package subject, or the Edit button of a user or placeholder user |
+| Edit | g e | 3 | Work package subject; Edit button of a wiki page, wiki annotate page or news item; first BIM IFC model (access key only) | Work package subject; Edit button of a user or placeholder user |
 | Open the More menu | m | 7 | Work package list, full view and split view | Work package list, full view and split view |
 | Toggle the details view | d w p | 8 | Work package list | Work package list |
 | Select the next list item (**j**) or previous list item (**k**) | j / k | – | Work package tables | Work package tables |
+
+On narrow screens, Firefox does not react to access key 3 on pages whose header has only an Edit action; use **g e** there.
 
 ------
 
@@ -36,17 +38,15 @@ OpenProject (since version 3.0) offers useful keyboard shortcuts to  enhance you
 
 ### Windows
 
-- Internet Explorer: Alt + &lt;access key number&gt;
 - Firefox: Alt + Shift + &lt;access key number&gt;
-- Google Chrome: Alt + &lt;access key number&gt;
-- Safari: Alt + &lt;access key number&gt;
+- Google Chrome and Microsoft Edge: Alt + &lt;access key number&gt;
 
 ------
 
 ### Linux
 
 - Firefox: Alt + Shift + &lt;access key number&gt;
-- Google Chrome: Alt + Mod + &lt;access key number&gt;
+- Google Chrome: Alt + &lt;access key number&gt;
 
 ------
 
