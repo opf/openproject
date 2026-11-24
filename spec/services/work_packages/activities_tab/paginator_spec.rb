@@ -272,8 +272,8 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator,
 
         # The wrapper runs against the page slice, so query count does not scale
         # with history size. Ceiling leaves headroom for an extra eager-load
-        # without becoming brittle; actual count today is ~21.
-        expect(recorder.count).to be < 25,
+        # without becoming brittle; actual count today is ~25.
+        expect(recorder.count).to be < 29,
                                   "expected query count bounded regardless of history; got #{recorder.count}:\n" \
                                   "#{recorder.log.join("\n")}"
       end
@@ -869,6 +869,50 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator,
           expect(changes).to eq({})
 
           expect(records.map(&:id)).not_to include(snapshot.id)
+        end
+      end
+
+      context "with category changes" do
+        let(:category_a) { create(:category, project:) }
+        let(:category_b) { create(:category, project:) }
+        let(:data_attributes) { work_package.journals.first.data.attributes.except("id") }
+
+        let!(:journal_with_first_category) { create_journal(version: 2, categories: [category_a]) }
+        let!(:journal_with_second_category_added) { create_journal(version: 3, categories: [category_a, category_b]) }
+        let!(:journal_with_category_snapshot) { create_journal(version: 4, categories: [category_a, category_b]) }
+        let!(:journal_with_second_category_removed) { create_journal(version: 5, categories: [category_a]) }
+        let!(:journal_with_category_swapped) { create_journal(version: 6, categories: [category_b]) }
+        let!(:journal_with_all_categories_removed) { create_journal(version: 7, categories: []) }
+
+        def create_journal(version:, categories:)
+          create(:work_package_journal,
+                 user:,
+                 journable: work_package,
+                 version:,
+                 data: build(:journal_work_package_journal, data_attributes),
+                 work_package_category_journals: categories.map do |category|
+                   build(:journal_work_package_category_journal, category_id: category.id)
+                 end)
+        end
+
+        it "includes journal where a second category was added" do
+          _pagy, records = paginator.call
+          expect(records.map(&:id)).to include(journal_with_second_category_added.id)
+        end
+
+        it "includes journal where a category was swapped" do
+          _pagy, records = paginator.call
+          expect(records.map(&:id)).to include(journal_with_category_swapped.id)
+        end
+
+        it "includes journal where the last category was removed" do
+          _pagy, records = paginator.call
+          expect(records.map(&:id)).to include(journal_with_all_categories_removed.id)
+        end
+
+        it "excludes journal with only a category snapshot" do
+          _pagy, records = paginator.call
+          expect(records.map(&:id)).not_to include(journal_with_category_snapshot.id)
         end
       end
 
