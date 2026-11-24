@@ -93,6 +93,22 @@ describe('Create work package - prefilled from previous choices', () => {
     await expect.element(page.getByLabelText('Supervisor *')).toBeVisible();
   });
 
+  it.each([
+    ['portfolio', { id: 11, name: 'Portfolio 11', _links: { self: { href: '/api/v3/portfolios/11' } } }],
+    ['program', { id: 12, name: 'Program 12', _links: { self: { href: '/api/v3/programs/12' } } }],
+  ])('opens on the %s the editor is rendered in', async (_kind, workspace) => {
+    worker.use(http.get('http://localhost:3000/api/v3/work_packages/available_projects', () =>
+      HttpResponse.json({ _embedded: { elements: [workspace] } })
+    ));
+    initEditorContext({ projectId: workspace.id });
+
+    renderEditor();
+    await openCreateModal();
+
+    await expect.element(page.getByLabelText('Project *')).toHaveValue(workspace.name);
+    await expect.element(page.getByLabelText('Type *')).toHaveValue('Task');
+  });
+
   it('opens on the project last created in rather than the one it is rendered in', async () => {
     remember({ project: { href: '/api/v3/projects/1', label: 'Demo project' } });
     initEditorContext({ projectId: 2 });
