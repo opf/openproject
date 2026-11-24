@@ -29,8 +29,11 @@
 
 module Llm
   class EmbedWorkPackagesJob < ApplicationJob
+    include GoodJob::ActiveJobExtensions::Concurrency
+
     queue_with_priority :low
     retry_on Llm::Errors::RateLimitedError, wait: :polynomially_longer, attempts: 10
+    good_job_control_concurrency_with(perform_limit: 5)
 
     def perform(semantic_index_id, work_package_ids)
       return unless OpenProject::Llm::Features[:semantic_search].available?
