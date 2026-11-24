@@ -42,3 +42,4 @@ fc42dd2cef3f1e43af19f6455011cdd5d298aef5:config/email.yml.example:generic-passwo
 5cc94350e245fae8f9fe55c1fd64fb4f5ecc191e:.devcontainer/docker-compose.yaml:generic-password:253
 828077b01c5647bfa0094fa01b2e1e6956cb802f:.devcontainer/services/keycloak/docker-compose.yaml:generic-password:91
 ff306e0535f312d412fe6f1c08d46d280389cb62:.devcontainer/keycloak/docker-compose.yaml:generic-password:111
+45219b97ceeac0691ac0c4943a4365f05f9f0ebd:app/controllers/projects/admin_elevation_controller.rb:generic-password:82

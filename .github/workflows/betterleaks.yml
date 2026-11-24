@@ -41,8 +41,7 @@ jobs:
           betterleaks git . \
             --config .betterleaks.toml \
             --log-opts="$BASE_SHA..$HEAD_SHA" \
-            --report-path=betterleaks-report.sarif \
-            --report-format=sarif \
+            --report-path=betterleaks-report.json \
             --redact
 
       - name: Scan complete history for tokens, passwords, and other secrets
@@ -50,8 +49,7 @@ jobs:
         run: |
           betterleaks git . \
             --config .betterleaks.toml \
-            --report-path=betterleaks-report.sarif \
-            --report-format=sarif \
+            --report-path=betterleaks-report.json \
             --redact
 
       - name: Upload scan report
@@ -59,6 +57,6 @@ jobs:
         uses: actions/upload-artifact@v7.0.2
         with:
           name: betterleaks-report
-          path: betterleaks-report.sarif
+          path: betterleaks-report.json
           if-no-files-found: warn
           retention-days: 30
