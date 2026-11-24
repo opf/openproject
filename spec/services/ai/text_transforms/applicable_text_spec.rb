@@ -241,6 +241,16 @@ RSpec.describe AI::TextTransforms::ApplicableText do
       expect(html.text).to include("a(b)")
     end
 
+    it "keeps adjacent code elements from merging their fences into the text after them" do
+      payload = %(b` ![x](https://evil.test/p.png) <macro class="toc"></macro>)
+      text = "<image src=x>\n\n<div><code>a</code><code>#{payload.gsub('<', '&lt;')}</code></div>"
+
+      html = rendered(applicable(text))
+
+      expect(html.css("img, macro")).to be_empty
+      expect(html.css("code").map(&:text).join).to eq("a#{payload}")
+    end
+
     it "converts new mentions in code and across code as well" do
       expect(applicable(%(<image src=x> `user#2` <b>data-id="5"</b> `x` data-type="user">)))
         .to eq(%(`user 2` data-id="5" `x`\\>))

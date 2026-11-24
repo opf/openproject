@@ -243,15 +243,18 @@ module AI
       # Code stays code, since its text would otherwise turn into links and macros, such as wiki page links.
       # Escaping hides mentions that the editor unescapes again, so text is converted before it is escaped.
       def plain_text(rendered)
-        runs = plain_parts(rendered).chunk_while { |node, following| !node.element? && !following.element? }
+        runs = plain_parts(rendered).slice_when { |node, following| node.name == "pre" || run_kind(node) != run_kind(following) }
         @mentions.convert(runs.map { plain_markdown(it) }.join).strip
       end
 
+      def run_kind(node) = node.element? ? node.name : "text"
+
       def plain_markdown(nodes)
         code = nodes.first
-        return escape(@mentions.convert(nodes.map(&:text).join)) unless code.element?
+        text = nodes.map(&:text).join
+        return escape(@mentions.convert(text)) unless code.element?
 
-        code.name == "pre" ? code_block(code.text) : code_span(code.text)
+        code.name == "pre" ? code_block(text) : code_span(text)
       end
 
       def plain_parts(node)
