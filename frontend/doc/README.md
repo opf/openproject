@@ -11,7 +11,7 @@ The OpenProject frontend is located at `frontend/src` and uses the Angular CLI (
 
 ## Angular frontend
 
-When developing, `npm run serve` starts the Angular CLI dev server (Vite) on `http://localhost:4200`, serving frontend assets from memory. It is not a general-purpose proxy: it forwards only `/api` and `/assets/frontend/media` to Rails, as configured in `frontend/src/proxy.conf.mjs`. The service worker has its own watcher, `npm -C packages/service-worker run serve` from the repository root, which `bin/dev` and docker compose start for you.
+When developing, `npm run serve` starts the Angular CLI dev server (Vite) on `http://localhost:4200`, serving frontend assets from memory. It is not a general-purpose proxy: it forwards only `/api` and `/assets/frontend/media` to Rails, as configured in `frontend/src/proxy.conf.mjs`.
 
 Application pages are reached through Rails at `http://localhost:3000`, which forwards frontend asset requests to the dev server unless `OPENPROJECT_CLI_PROXY=''` is passed to it.
 
@@ -24,8 +24,11 @@ To learn more about how this behavior works in detail, see the asset helper at `
 
 Production builds are triggered either through the `rake assets:precompile` rake task, which compiles
 the frontend along with the rest of the assets, or by running `npm run build` manually. That script
-builds with `--configuration production`, which enables ahead-of-time compilation. It does not include
-the service worker or the asset manifest; `rake assets:angular` builds both and rebuilds the manifest. To do it by hand, run `npm -C packages/service-worker run build` from the repository root, then `bundle exec rake assets:rebuild_manifest`.
+builds with `--configuration production`, which enables ahead-of-time compilation.
+
+## Service worker
+
+The service worker source lives in `packages/service-worker` and is not part of the Angular build. After changing it, run `npm ci` and `npm run build` in that folder and commit the regenerated `app/views/pwa/_service_worker_bundle.js`; CI fails when the committed file differs from a fresh build. Use `npm run build:watch` to rebuild on every change, and `npm test`, `npm run typecheck` and `npm run lint` to check your work. A dependency update that changes the build output, for example an esbuild bump, needs the same rebuild and commit.
 
 ## Tests
 
