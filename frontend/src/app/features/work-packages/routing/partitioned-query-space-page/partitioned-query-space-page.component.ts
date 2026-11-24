@@ -291,6 +291,9 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     return this.loadingIndicatorService.table.indicator;
   }
 
+  // While a work package is open in the split view, the work package sets the page title.
+  // When the split view is opened by URL, the list loads after the work package. Setting the
+  // list name here would then replace the work package title.
   protected shouldUpdateHtmlTitle():boolean {
     return this.urlParams.currentDetailsRouteParams() === null;
   }

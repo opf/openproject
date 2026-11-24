@@ -53,6 +53,7 @@ RSpec.describe "Notification center uses displayId when navigating to the work p
 
   let(:center) { Pages::Notifications::Center.new }
   let(:split_screen) { Pages::PrimerizedSplitWorkPackage.new(work_package) }
+  let(:html_title) { Components::HtmlTitle.new }
 
   current_user { recipient }
 
@@ -96,14 +97,12 @@ RSpec.describe "Notification center uses displayId when navigating to the work p
 
   it "shows the same html title as in classic mode when opening the split view" do
     visit notifications_path
-    Components::HtmlTitle.new.expect_first_segment "Notifications"
+    html_title.expect_first_segment "Notifications"
 
     center.click_item(notification)
     split_screen.expect_open
+    wait_for_network_idle
 
-    work_package.reload
-    Components::HtmlTitle.new.expect_first_segment(
-      "#{work_package.type.name}: #{work_package.subject} (#{work_package.formatted_id})"
-    )
+    html_title.expect_first_segment work_package.to_fs(:caption)
   end
 end

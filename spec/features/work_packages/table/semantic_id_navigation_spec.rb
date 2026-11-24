@@ -68,6 +68,15 @@ RSpec.describe "Work package table semantic ID navigation",
     expect(page).to have_css("#{wp_table.row_selector(work_package)}.-checked")
   end
 
+  it "keeps the work package html title after the table of a split view opened by URL has loaded" do
+    visit details_project_work_packages_path(project, work_package.reload.identifier)
+
+    wp_table.expect_work_package_listed(work_package)
+    wait_for_network_idle
+
+    Components::HtmlTitle.new(project).expect_first_segment work_package.to_fs(:caption)
+  end
+
   context "with a hierarchy query that matches only the child" do
     let(:parent) { create(:work_package, project:, subject: "Semantic nav parent") }
     let!(:child) { create(:work_package, project:, parent:, subject: "Semantic nav child") }

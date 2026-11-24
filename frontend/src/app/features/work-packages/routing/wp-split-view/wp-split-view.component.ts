@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, HostListener, Input, OnInit, Type, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, OnInit, Type, inject } from '@angular/core';
 import {
   WorkPackageViewFocusService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
@@ -63,6 +63,7 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
   recentItemsService = inject(RecentItemsService);
   readonly urlParams = inject(UrlParamsService);
   readonly wpTabs = inject(WorkPackageTabsService);
+  private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   @Input() showTabs = true;
 
@@ -76,12 +77,10 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
     this.storeService.reload();
   }
 
-  // Opening the split view is a Turbo frame visit with `action: 'advance'`, which can render
-  // the page snapshot taken before the visit. That snapshot carries the list's <title>.
   @HostListener('document:turbo:render')
   restoreTitle():void {
-    if (this.workPackage) {
-      this.applyTitle(true);
+    if (this.workPackage && this.elementRef.nativeElement.isConnected) {
+      this.applyTitle();
     }
   }
 

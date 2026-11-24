@@ -107,8 +107,6 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   // Work package resource to be loaded from the cache
   public workPackage:WorkPackageResource;
 
-  private appliedTitle?:string;
-
   public projectIdentifier:string;
 
   public focusAnchorLabel:string;
@@ -174,12 +172,10 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
     this.cdRef.detectChanges();
   }
 
-  // setFirstPart is not idempotent, and a semantic route param makes the
-  // work package arrive from both its semantic and its numeric cache slot.
-  protected applyTitle(force = false):void {
+  // setFirstPart is not idempotent, and the same work package can be emitted twice.
+  protected applyTitle():void {
     const title = this.workPackage.subjectWithType(-1);
-    if (force || title !== this.appliedTitle) {
-      this.appliedTitle = title;
+    if (!this.titleService.current.startsWith(title)) {
       this.titleService.setFirstPart(title);
     }
   }
