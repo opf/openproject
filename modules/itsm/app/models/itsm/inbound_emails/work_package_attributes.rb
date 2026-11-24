@@ -36,7 +36,7 @@ module ITSM
         cut_subject = subject_line(full_subject) if subject != full_subject
 
         new(subject:,
-            description: fenced([cut_subject, email.text].compact_blank.join("\n\n")),
+            description: CodeBlock.call([cut_subject, email.text].compact_blank.join("\n\n")),
             journal_cause: Journal::CausedByEmail.new(sender_address: email.headers.from_address))
       end
 
@@ -44,14 +44,7 @@ module ITSM
         "#{WorkPackage.human_attribute_name(:subject, locale: Setting.default_language)}: #{full_subject}"
       end
 
-      def self.fenced(content)
-        return "" if content.empty?
-
-        fence = "`" * [3, content.scan(/`+/).map(&:length).max.to_i + 1].max
-        "#{fence}\n#{content}\n#{fence}"
-      end
-
-      private_class_method :subject_line, :fenced
+      private_class_method :subject_line
     end
   end
 end
