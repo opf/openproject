@@ -57,7 +57,7 @@ RSpec.describe Projects::PhaseStatusButtonComponent, type: :component do
     it_behaves_like "renders nothing"
   end
 
-  shared_examples "renders a disabled button without a menu" do |label = "Open"|
+  shared_examples "renders a disabled button without a menu" do |label = "Not started"|
     it "renders a disabled button" do
       expect(subject).to have_button label, aria: { disabled: true }
     end
@@ -111,8 +111,8 @@ RSpec.describe Projects::PhaseStatusButtonComponent, type: :component do
     end
 
     context "with the default status" do
-      it "renders an enabled button for the open status" do
-        expect(subject).to have_button "Open", disabled: false
+      it "renders an enabled button for the not started status" do
+        expect(subject).to have_button "Not started", disabled: false
       end
 
       it "renders a Primer ActionMenu (single variant)" do
@@ -125,7 +125,7 @@ RSpec.describe Projects::PhaseStatusButtonComponent, type: :component do
 
         expect(page).to have_menu do
           expect(page).to have_selector :menuitem, count: 3
-          expect(page).to have_selector :menuitem, text: "Open", aria: { current: true }
+          expect(page).to have_selector :menuitem, text: "Not started", aria: { current: true }
           expect(page).to have_selector :menuitem, text: "In progress"
           expect(page).to have_selector :menuitem, text: "Completed"
         end
@@ -135,7 +135,7 @@ RSpec.describe Projects::PhaseStatusButtonComponent, type: :component do
         subject
 
         expect(page).to have_menu do
-          { "Open" => "open", "In progress" => "in_progress", "Completed" => "completed" }.each do |label, code|
+          { "Not started" => "open", "In progress" => "in_progress", "Completed" => "completed" }.each do |label, code|
             expect(page).to have_selector(:menuitem, text: label) do |link|
               expect(link[:"data-turbo-method"]).to eq "put"
               expect(link[:href]).to eq(project_phase_status_path(phase, status: code))
@@ -157,7 +157,7 @@ RSpec.describe Projects::PhaseStatusButtonComponent, type: :component do
 
         expect(page).to have_menu do
           expect(page).to have_selector :menuitem, text: "In progress", aria: { current: true }
-          expect(page).to have_no_selector :menuitem, text: "Open", aria: { current: true }
+          expect(page).to have_no_selector :menuitem, text: "Not started", aria: { current: true }
           expect(page).to have_no_selector :menuitem, text: "Completed", aria: { current: true }
         end
       end
@@ -175,7 +175,7 @@ RSpec.describe Projects::PhaseStatusButtonComponent, type: :component do
 
         expect(page).to have_menu do
           expect(page).to have_selector :menuitem, text: "Completed", aria: { current: true }
-          expect(page).to have_no_selector :menuitem, text: "Open", aria: { current: true }
+          expect(page).to have_no_selector :menuitem, text: "Not started", aria: { current: true }
         end
       end
     end

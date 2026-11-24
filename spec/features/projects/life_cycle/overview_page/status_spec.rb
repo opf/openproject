@@ -62,7 +62,7 @@ RSpec.describe "Change project phase status on project overview page", :js do
     context "with permission to edit project phases" do
       it "shows enabled status buttons" do
         overview_page.within_life_cycle_sidebar do
-          expect(page).to have_button("Open", disabled: false, count: 4)
+          expect(page).to have_button("Not started", disabled: false, count: 4)
         end
       end
     end
@@ -73,7 +73,7 @@ RSpec.describe "Change project phase status on project overview page", :js do
       it "shows the phases with disabled status buttons" do
         overview_page.within_life_cycle_sidebar do
           expect(page).to have_text(life_cycle_initiating.name)
-          expect(page).to have_button("Open", aria: { disabled: "true" })
+          expect(page).to have_button("Not started", aria: { disabled: "true" })
           expect(page).to have_no_css("action-menu")
         end
       end
@@ -85,7 +85,7 @@ RSpec.describe "Change project phase status on project overview page", :js do
       it "shows the phases with disabled status buttons" do
         overview_page.within_life_cycle_sidebar do
           expect(page).to have_text(life_cycle_initiating.name)
-          expect(page).to have_button("Open", aria: { disabled: "true" })
+          expect(page).to have_button("Not started", aria: { disabled: "true" })
           expect(page).to have_no_css("action-menu")
         end
       end
@@ -95,10 +95,10 @@ RSpec.describe "Change project phase status on project overview page", :js do
   describe "changing the status of a phase" do
     context "when setting a phase to in progress" do
       it "completes the earlier phases, opens the later ones and refreshes all buttons" do
-        overview_page.change_phase_status(life_cycle_executing, from: "Open", to: "In progress")
+        overview_page.change_phase_status(life_cycle_executing, from: "Not started", to: "In progress")
 
         expect_flash(message: I18n.t(:notice_successful_update))
-        expect_phase_status_buttons("Completed", "Completed", "In progress", "Open")
+        expect_phase_status_buttons("Completed", "Completed", "In progress", "Not started")
         expect(stored_statuses).to eq %w[completed completed in_progress open]
       end
     end
@@ -107,22 +107,22 @@ RSpec.describe "Change project phase status on project overview page", :js do
       let(:initial_statuses) { %w[completed in_progress open open] }
 
       it "completes the earlier phases and leaves the later ones untouched" do
-        overview_page.change_phase_status(life_cycle_executing, from: "Open", to: "Completed")
+        overview_page.change_phase_status(life_cycle_executing, from: "Not started", to: "Completed")
 
         expect_flash(message: I18n.t(:notice_successful_update))
-        expect_phase_status_buttons("Completed", "Completed", "Completed", "Open")
+        expect_phase_status_buttons("Completed", "Completed", "Completed", "Not started")
         expect(stored_statuses).to eq %w[completed completed completed open]
       end
     end
 
-    context "when setting a phase to open" do
+    context "when setting a phase to not started" do
       let(:initial_statuses) { %w[completed completed in_progress open] }
 
       it "reopens the later phases and leaves the earlier ones untouched" do
-        overview_page.change_phase_status(life_cycle_planning, from: "Completed", to: "Open")
+        overview_page.change_phase_status(life_cycle_planning, from: "Completed", to: "Not started")
 
         expect_flash(message: I18n.t(:notice_successful_update))
-        expect_phase_status_buttons("Completed", "Open", "Open", "Open")
+        expect_phase_status_buttons("Completed", "Not started", "Not started", "Not started")
         expect(stored_statuses).to eq %w[completed open open open]
       end
     end
@@ -131,7 +131,7 @@ RSpec.describe "Change project phase status on project overview page", :js do
       let(:inactive_phases) { [life_cycle_planning] }
 
       it "does not change the inactive phase" do
-        overview_page.change_phase_status(life_cycle_closing, from: "Open", to: "In progress")
+        overview_page.change_phase_status(life_cycle_closing, from: "Not started", to: "In progress")
 
         expect_flash(message: I18n.t(:notice_successful_update))
         expect(stored_statuses).to eq %w[completed open completed in_progress]
@@ -144,16 +144,16 @@ RSpec.describe "Change project phase status on project overview page", :js do
     let(:activity_page) { Pages::Projects::Activity.new(project) }
 
     it "lists the status change of every affected phase in a single entry" do
-      overview_page.change_phase_status(life_cycle_executing, from: "Open", to: "In progress")
+      overview_page.change_phase_status(life_cycle_executing, from: "Not started", to: "In progress")
       expect_flash(message: I18n.t(:notice_successful_update))
 
       activity_page.visit!
       activity_page.show_details
 
       activity_page.within_journal(number: 1) do
-        activity_page.expect_activity("Initiating phase changed from Open to Completed")
-        activity_page.expect_activity("Planning phase changed from Open to Completed")
-        activity_page.expect_activity("Executing phase changed from Open to In progress")
+        activity_page.expect_activity("Initiating phase changed from Not started to Completed")
+        activity_page.expect_activity("Planning phase changed from Not started to Completed")
+        activity_page.expect_activity("Executing phase changed from Not started to In progress")
 
         activity_page.expect_no_activity("Closing phase changed")
       end
