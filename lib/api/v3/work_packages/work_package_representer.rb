@@ -531,27 +531,10 @@ module API
                               represented.category_ids = parse_link_ids_from_fragment([fragment], :category).compact
                             end
 
-        associated_resources :categories,
+        associated_resources :effective_categories,
+                             as: :categories,
                              v3_path: :category,
                              representer: ::API::V3::Categories::CategoryRepresenter,
-                             getter: ->(*) {
-                               next unless embed_link?(:categories)
-
-                               represented.effective_categories.map do |category|
-                                 ::API::V3::Categories::CategoryRepresenter.create(category, current_user:)
-                               end
-                             },
-                             link: ->(*) {
-                               represented.effective_categories.map do |category|
-                                 ::API::Decorators::LinkObject
-                                   .new(category,
-                                        property_name: :itself,
-                                        path: :category,
-                                        getter: :id,
-                                        title_attribute: :name)
-                                   .to_hash
-                               end
-                             },
                              setter: ->(fragment:, **) do
                                represented.category_ids = parse_link_ids_from_fragment(fragment, :category).compact
                              end
@@ -665,80 +648,36 @@ module API
                               represented.target_version_ids = parse_link_ids_from_fragment([fragment], :version).compact
                             end
 
-        associated_resources :target_versions,
+        associated_resources :effective_target_versions,
+                             as: :target_versions,
                              v3_path: :version,
                              representer: ::API::V3::Versions::VersionRepresenter,
-                             getter: ->(*) {
-                               next unless embed_link?(:target_versions)
-
-                               represented.effective_target_versions.map do |version|
-                                 ::API::V3::Versions::VersionRepresenter.create(version, current_user:)
-                               end
-                             },
-                             link: ->(*) {
-                               represented.effective_target_versions.map do |version|
-                                 ::API::Decorators::LinkObject
-                                   .new(version,
-                                        property_name: :itself,
-                                        path: :version,
-                                        getter: :id,
-                                        title_attribute: :name)
-                                   .to_hash
-                               end
-                             },
                              setter: ->(fragment:, **) do
                                represented.target_version_ids = parse_link_ids_from_fragment(fragment, :version).compact
                              end
 
-        associated_resources :observed_in_versions,
+        associated_resources :effective_observed_in_versions,
+                             as: :observed_in_versions,
                              v3_path: :version,
                              representer: ::API::V3::Versions::VersionRepresenter,
-                             getter: ->(*) {
-                               next unless embed_link?(:observed_in_versions)
-
-                               represented.effective_observed_in_versions.map do |version|
-                                 ::API::V3::Versions::VersionRepresenter.create(version, current_user:)
-                               end
-                             },
-                             link: ->(*) {
-                               represented.effective_observed_in_versions.map do |version|
-                                 ::API::Decorators::LinkObject
-                                   .new(version,
-                                        property_name: :itself,
-                                        path: :version,
-                                        getter: :id,
-                                        title_attribute: :name)
-                                   .to_hash
-                               end
-                             },
                              setter: ->(fragment:, **) do
                                represented.observed_in_version_ids = parse_link_ids_from_fragment(fragment, :version).compact
                              end
 
-        associated_resources :labels,
+        associated_resources :effective_labels,
+                             as: :labels,
+                             v3_path: :label,
                              getter: ->(*) {
                                next unless embed_link?(:labels)
 
-                               represented.effective_labels.reject(&:new_record?).map do |label|
+                               represented.effective_labels.select(&:persisted?).map do |label|
                                  ::API::V3::Labels::LabelRepresenter.create(label, current_user:)
                                end
                              },
-                             link: ->(*) {
-                               represented.effective_labels.map do |label|
-                                 ::API::Decorators::LinkObject
-                                   .new(label,
-                                        property_name: :itself,
-                                        path: :label,
-                                        getter: :id,
-                                        title_attribute: :name)
-                                   .to_hash
-                               end
-                             },
                              setter: ->(fragment:, **) do
-                               with_href, without_href = fragment.partition { |link| link["href"].present? }
+                               with_href, without_href = fragment.partition { it["href"].present? }
                                represented.label_ids = parse_link_ids_from_fragment(with_href, :label)
-
-                               names = without_href.filter_map { |link| link["title"].presence if link["title"].is_a?(String) }
+                               names = parse_new_record_titles_from_fragment(without_href)
                                represented.label_names = names if names.any?
                              end
 
