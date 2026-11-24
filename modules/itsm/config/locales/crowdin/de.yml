@@ -69,8 +69,8 @@ de:
         one: Email thread
         other: Email threads
       itsm/helpdesk_role:
-        one: Help desk role
-        other: Help desk roles
+        one: Helpdesk-Rolle
+        other: Helpdesk-Rollen
       itsm/incoming_mailbox:
         one: Incoming mailbox
         other: Incoming mailboxes
@@ -88,34 +88,34 @@ de:
       helpdesk_set_by_environment: The help desk feature is set by an environment variable and not changeable here.
       imap_server_configuration_component:
         description: Configure the IMAP server to transform incoming emails to work packages.
-        edit: Edit IMAP server configuration
-        title: IMAP server configuration
+        edit: IMAP-Server-Konfiguration bearbeiten
+        title: IMAP-Server-Konfiguration
       mail_servers: Mail servers
       port: Port
       server_configuration_form:
-        encryption: Encryption
+        encryption: Verschlüsselung
         imap:
           instruction: 'Configure the IMAP server to transform incoming emails to work packages. Note that OpenProject has no mechanism to stop email spoofing, please, ensure that the configured mail server performs SPF, DKIM, and DMARC checks, and quarantines emails that fail them.
 
             '
-          title: IMAP server configuration
+          title: IMAP-Server-Konfiguration
         name: Server name
-        port: Server port
+        port: Server-Port
         smtp:
           instruction: Configure the SMTP server to reply emails directly from the work packages activity.
-          title: SMTP server configuration
+          title: SMTP-Server-Konfiguration
       smtp_server_configuration_component:
         description: Configure the SMTP server to reply emails directly from the work packages activity.
-        edit: Edit SMTP server configuration
-        title: SMTP server configuration
+        edit: SMTP-Server-Konfiguration bearbeiten
+        title: SMTP-Server-Konfiguration
     helpdesk_mailer:
       confirmation:
-        greeting: Hello %{name},
-        received: we have received your request "%{subject}" and recorded it as %{id}.
-        reply: To add information to your request, reply to this email.
+        greeting: Hallo %{name},
+        received: Wir haben Ihre Anfrage "%{subject}" erhalten und unter der Kennzeichnung "%{id}" erfasst.
+        reply: Um Ihrer Anfrage weitere Informationen hinzuzufügen, antworten Sie auf diese E-Mail.
   label_email_without_subject: "(no subject)"
   label_helpdesk: Help desk
-  label_helpdesk_role: Help desk
-  label_helpdesk_user: Help desk
+  label_helpdesk_role: Helpdesk
+  label_helpdesk_user: Helpdesk
   permission_manage_helpdesk: Manage help desk
   project_module_helpdesk: Help desk

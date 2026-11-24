@@ -70,7 +70,6 @@ module Import
     def handle_member_creation_failure(service_call)
       return if service_call.errors.any? { |error| error.type == :taken }
 
-      Rails.logger.error service_call.message
       raise service_call.message
     end
 
@@ -83,21 +82,17 @@ module Import
     def find_imported_user(jira_user_key)
       return if jira_user_key.blank?
 
-      with_user_log_tags(jira_user_key) do
+      with_log_context(jira_object_type: "user", jira_object_id_or_name: jira_user_key) do
         jira_user = Import::JiraUser.find_by(origin_id: jira_user_key, jira_import: @jira_import)
         @jira_import.find_op_leg!(jira_user) if jira_user
       end
     end
 
     def deleted_user(jira_user_key)
-      with_user_log_tags(jira_user_key) do
+      with_log_context(jira_object_type: "user", jira_object_id_or_name: jira_user_key) do
         Rails.logger.warn "Import::JiraUser with jira_user_key #{jira_user_key} not found! Using DeletedUser instead."
         DeletedUser.first
       end
-    end
-
-    def with_user_log_tags(jira_user_key, &)
-      Rails.logger.tagged("jira_object_type:user", "jira_object_id_or_name:#{jira_user_key}", &)
     end
   end
 end

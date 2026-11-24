@@ -26,6 +26,9 @@
 //++
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { within } from '@testing-library/dom';
+import { tableColumns, tableRows } from 'core-app/shared/components/charts/description/testing/chart-description-table';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { SprintWorkPackageGraphComponent } from './sprint-work-package-graph.component';
 
 describe('SprintWorkPackageGraphComponent', () => {
@@ -34,9 +37,24 @@ describe('SprintWorkPackageGraphComponent', () => {
 
   const summary = 'Bar chart showing work packages which are 3 New; 1 In progress; 2 Closed.';
 
+  const i18nStub = {
+    locale: 'en',
+    t(key:string, options:Record<string, string|number> = {}) {
+      const translations:Record<string, string> = {
+        'js.chart.description.caption': `${options.label}: data`,
+        'js.sprint_work_package_graph.chart_label': 'Work packages by status chart',
+        'js.sprint_work_package_graph.status_column': 'Status',
+        'js.sprint_work_package_graph.count_column': 'Work packages',
+      };
+
+      return translations[key] ?? key;
+    },
+  };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SprintWorkPackageGraphComponent],
+      providers: [{ provide: I18nService, useValue: i18nStub }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SprintWorkPackageGraphComponent);
@@ -47,8 +65,6 @@ describe('SprintWorkPackageGraphComponent', () => {
       data: [3, 1, 2],
       colors: ['#1A67A3', '#FFA500', null],
       summary,
-      statusColumnTitle: 'Status',
-      countColumnTitle: 'Work packages',
     }));
     fixture.detectChanges();
   });
@@ -92,50 +108,20 @@ describe('SprintWorkPackageGraphComponent', () => {
   });
 
   describe('accessibility', () => {
-    const canvas = () => element.querySelector('canvas')!;
-    const referenced = (attribute:string) => document.getElementById(canvas().getAttribute(attribute)!)!;
-
-    it('exposes the canvas as an image named by the summary', () => {
-      expect(canvas()).toHaveRole('img');
-      expect(referenced('aria-labelledby')).toHaveTextContent(summary);
+    it('names the chart and uses the server summary as its description', () => {
+      expect(within(element).getByRole('img', { name: 'Work packages by status chart', description: summary }))
+        .toBeInTheDocument();
     });
 
-    it('describes the canvas with a data table of all statuses', () => {
-      const table = referenced('aria-describedby');
-      const rows = Array.from(table.querySelectorAll('tr'))
-        .map((row) => Array.from(row.children).map((cell) => cell.textContent.trim()));
+    it('tabulates one row per status', () => {
+      const table = within(element).getByRole('table', { name: 'Work packages by status chart: data' });
 
-      expect(table.tagName).toBe('TABLE');
-      expect(rows).toEqual([
-        ['Status', 'Work packages'],
+      expect(tableColumns(table)).toEqual(['Status', 'Work packages']);
+      expect(tableRows(table)).toEqual([
         ['New', '3'],
         ['In progress', '1'],
         ['Closed', '2'],
       ]);
-    });
-
-    it('marks up the table headers for screen readers', () => {
-      const table = referenced('aria-describedby');
-
-      expect(Array.from(table.querySelectorAll('thead th')).map((th) => th.getAttribute('scope')))
-        .toEqual(['col', 'col']);
-      expect(Array.from(table.querySelectorAll('tbody th')).map((th) => th.getAttribute('scope')))
-        .toEqual(['row', 'row', 'row']);
-    });
-
-    it('hides the summary and table visually', () => {
-      expect(referenced('aria-labelledby')).toHaveClass('sr-only');
-      expect(referenced('aria-describedby')).toHaveClass('sr-only');
-    });
-
-    it('gives every chart instance its own ids', () => {
-      const other = TestBed.createComponent(SprintWorkPackageGraphComponent);
-      other.componentRef.setInput('chartData', fixture.componentRef.instance.chartData());
-      other.detectChanges();
-
-      const otherCanvas = (other.nativeElement as HTMLElement).querySelector('canvas')!;
-      expect(otherCanvas).not.toHaveAttribute('aria-labelledby', canvas().getAttribute('aria-labelledby'));
-      expect(otherCanvas).not.toHaveAttribute('aria-describedby', canvas().getAttribute('aria-describedby'));
     });
   });
 });

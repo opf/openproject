@@ -1,0 +1,58 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= render(
+      Primer::OpenProject::DangerDialog.new(
+        id: DIALOG_ID,
+        title: t("projects.settings.types.switch.confirm_title"),
+        size: :large,
+        classes: "Overlay--size-large-portrait",
+        confirm_button_text: t("projects.settings.types.switch.confirm_submit"),
+        form_arguments:
+      )
+    ) do |dialog| %>
+  <% dialog.with_confirmation_message do |message| %>
+    <% message.with_heading(tag: :h2) { t("projects.settings.types.switch.confirm_title") } %>
+    <% message.with_description do %>
+      <%= t("projects.settings.types.switch.confirm_description", type: target.composite_name) %>
+    <% end %>
+  <% end %>
+
+  <% dialog.with_additional_details(display: :block) do %>
+    <% if listed_projects.any? %>
+      <%= render(Primer::Beta::Text.new(tag: :p)) do %>
+        <%= t("projects.settings.types.switch.listed_projects", count: listed_projects.size) %>
+      <% end %>
+      <%= render(Projects::Types::ProjectListComponent.new(projects: listed_projects, type: target.type)) %>
+    <% end %>
+    <%= hidden_field_tag(:target_id, target.id, id: nil) %>
+    <%= render(Projects::Types::Switch::HiddenParamsComponent.new(params:)) %>
+  <% end %>
+
+  <% dialog.with_confirmation_check_box_content(t("projects.settings.types.switch.confirmation")) %>
+<% end %>

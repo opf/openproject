@@ -89,8 +89,6 @@ module Import
 
       message = "Reference was expected to be found, but it was not. #{jira_leg.class} with id #{jira_leg.id}"
 
-      Rails.logger.error message
-
       raise ActiveRecord::RecordNotFound, message
     end
 
@@ -105,6 +103,10 @@ module Import
 
     def project_ids
       (projects || []).pluck("id")
+    end
+
+    def last_changed_at
+      last_transition&.created_at || updated_at
     end
 
     # rubocop:disable-next Metrics/AbcSize

@@ -1,13 +1,13 @@
 <% unless check_all_button? %>
-  <% with_check_all_button { I18n.t(:button_check_all) } # set the default %>
+  <% with_check_all_button { I18n.t(:button_check_all) } %>
 <% end %>
 
 <% unless uncheck_all_button? %>
-  <% with_uncheck_all_button { I18n.t(:button_uncheck_all) } # set the default %>
+  <% with_uncheck_all_button { I18n.t(:button_uncheck_all) } %>
 <% end %>
 
 <% unless separator? %>
-  <% with_separator { "|" } # set the default %>
+  <% with_separator { "|" } %>
 <% end %>
 
 <%= render(Primer::BaseComponent.new(**@system_arguments)) do %>

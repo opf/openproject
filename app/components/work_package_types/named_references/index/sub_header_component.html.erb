@@ -28,9 +28,11 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= component_wrapper do %>
   <%= render(
-        Primer::OpenProject::SubHeader.new(
+        OpPrimer::QuickFilter::SubHeader.new(
           test_selector: "#{dom_class(model_class)}s-sub-header",
-          data: filters_form_attributes
+          query:,
+          clear_button_id:,
+          turbo_stream_request: true
         )
       ) do |sub_header| %>
     <%

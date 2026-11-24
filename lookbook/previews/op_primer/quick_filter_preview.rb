@@ -59,6 +59,13 @@ module OpPrimer
       render_with_template(locals: { query: })
     end
 
+    # @label Within a SubHeader
+    def sub_header
+      query = meeting_query
+      query.where("time", "=", ["future"])
+      render_with_template(locals: { query: })
+    end
+
     private
 
     def meeting_query

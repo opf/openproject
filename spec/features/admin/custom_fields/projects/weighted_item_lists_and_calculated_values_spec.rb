@@ -78,13 +78,13 @@ RSpec.describe "Weighted item lists and calculated values", :js, with_ee: %i[cal
       end
 
       it "when updating a weight" do
-        click_on "Items"
+        click_on "Values"
 
         open_action_menu(one)
         click_on "Edit"
 
-        expect(page).to have_field("weight", with: "1.0")
-        fill_in("weight", with: "2.0")
+        expect(page).to have_field("Weight", with: "1.0")
+        fill_in("Weight", with: "2.0")
         click_on "Save"
 
         # ensure the processing finished
@@ -94,7 +94,7 @@ RSpec.describe "Weighted item lists and calculated values", :js, with_ee: %i[cal
       end
 
       it "when deleting an item" do
-        click_on "Items"
+        click_on "Values"
 
         open_action_menu(one)
         click_on "Delete"

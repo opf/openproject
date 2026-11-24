@@ -42,4 +42,4 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= render(Admin::Import::Jira::FormComponent.new(@jira)) %>
+<%= render(partial: "admin/import/jira/configuration_form", locals: { jira: @jira }) %>

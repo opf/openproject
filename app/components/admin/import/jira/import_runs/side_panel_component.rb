@@ -38,5 +38,9 @@ module Admin::Import::Jira::ImportRuns
 
       @jira_import = jira_import
     end
+
+    private
+
+    def imported? = @jira_import.state_equal_or_after?(:imported)
   end
 end

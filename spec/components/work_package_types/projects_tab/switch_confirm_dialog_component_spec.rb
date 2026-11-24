@@ -41,7 +41,7 @@ RSpec.describe WorkPackageTypes::ProjectsTab::SwitchConfirmDialogComponent, type
   shared_let(:depot) { create(:project, name: "Depot") }
 
   let(:switching) { ProjectType.where(type:, project: [laboratory, bookshop]) }
-  let(:link_path) { link_type_variant_projects_path(type_id: type.id, variant_id: hardware.id) }
+  let(:link_path) { type_variant_projects_link_path(type_id: type.id, variant_id: hardware.id) }
   let(:url) { link_path }
   let(:project_ids) { [laboratory.id, bookshop.id, depot.id] }
 
@@ -60,7 +60,8 @@ RSpec.describe WorkPackageTypes::ProjectsTab::SwitchConfirmDialogComponent, type
     list = page.find(:test_id, "type-projects-switching")
 
     expect(list).to have_text("Laboratory").and have_text("Firmware")
-    expect(list).to have_text("Bookshop").and have_text("Bug")
+    expect(list).to have_text("Bookshop").and have_text("Bug (parent)", normalize_ws: true)
+    expect(list).to have_no_text("Firmware (parent)", normalize_ws: true)
     expect(list).to have_no_text("Depot")
   end
 

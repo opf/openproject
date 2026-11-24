@@ -32,17 +32,7 @@ require "spec_helper"
 RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progressive_web_app: true } do
   include CspHelper
 
-  shared_context "with a relative url root" do
-    around do |example|
-      previous = OpenProject::Configuration["rails_relative_url_root"]
-      OpenProject::Configuration["rails_relative_url_root"] = "/openproject"
-      example.run
-    ensure
-      OpenProject::Configuration["rails_relative_url_root"] = previous
-    end
-  end
-
-  let(:controller_selector) { 'body[data-controller~="pwa-service-worker"]' }
+  let(:controller_selector) { 'body[data-controller~="pwa--service-worker"]' }
 
   it "does not route a format suffix" do
     expect { get "/service-worker.js" }.to raise_error(ActionController::RoutingError)
@@ -74,17 +64,20 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
       expect(response.body).to include("skipWaiting", "clients.claim")
     end
 
+    it "serves the push and notification click handlers fetching the notification summary" do
+      expect(response.body).to include('addEventListener("push"', 'addEventListener("notificationclick"',
+                                       '"/api/v3/notifications/summary"')
+    end
+
     it "precaches the offline page under the configured cache name" do
       expect(response.body).to include(ApplicationController.helpers.pwa_cache_name, '"/offline"')
     end
 
-    context "when served under a path prefix" do
-      include_context "with a relative url root"
-
-      it "points at the prefixed offline page" do
+    context "when served under a path prefix", with_config: { rails_relative_url_root: "/openproject" } do
+      it "points at the prefixed offline page and notification summary" do
         get "/service-worker", env: { "SCRIPT_NAME" => "/openproject" }
 
-        expect(response.body).to include('"/openproject/offline"')
+        expect(response.body).to include('"/openproject/offline"', '"/openproject/api/v3/notifications/summary"')
       end
     end
   end
@@ -115,14 +108,12 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
       expect(page).to have_css(controller_selector, visible: :all)
     end
 
-    context "when served under a path prefix" do
-      include_context "with a relative url root"
-
+    context "when served under a path prefix", with_config: { rails_relative_url_root: "/openproject" } do
       it "registers the prefixed worker and scope" do
         get "/my/page", env: { "SCRIPT_NAME" => "/openproject" }
 
-        expect(page).to have_css('body[data-pwa-service-worker-url-value="/openproject/service-worker"]', visible: :all)
-        expect(page).to have_css('body[data-pwa-service-worker-scope-value="/openproject/"]', visible: :all)
+        expect(page).to have_css('body[data-pwa--service-worker-url-value="/openproject/service-worker"]', visible: :all)
+        expect(page).to have_css('body[data-pwa--service-worker-scope-value="/openproject/"]', visible: :all)
       end
     end
   end
@@ -141,6 +132,8 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
       expect(response.media_type).to eq("text/javascript")
       expect(response.body).to include("openproject-offline-", "unregister")
       expect(response.body).not_to include('addEventListener("fetch"')
+      expect(response.body).not_to include('addEventListener("push"', 'addEventListener("notificationclick"',
+                                           "/api/v3/notifications/summary", "New activity in OpenProject")
     end
 
     it "registers no worker" do

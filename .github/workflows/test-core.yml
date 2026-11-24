@@ -35,7 +35,7 @@ jobs:
       DOCKER_BUILDKIT: 1
       CI_RETRY_COUNT: 3
     steps:
-    - uses: runs-on/action@v2.5.0
+    - uses: runs-on/action@v2.7.1
     - uses: actions/checkout@v7.0.1
       with:
         persist-credentials: false
@@ -122,7 +122,7 @@ jobs:
         ls -al cache/ || true
         du -sh cache/* || true
 
-# github.head_ref is only availabe in PR context and if it is absent then github.run_id
+# github.head_ref is only available in PR context and if it is absent then github.run_id
 # is used . And github.run_id is unique for each workflow run. So, this option makes
 # sure that there is only one build running for a pull request and the build is attached
 # to the last commit of the PR.

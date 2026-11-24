@@ -142,7 +142,7 @@ module Exports::PDF::Common::ProjectAttributes
   end
 
   def custom_field?(field)
-    field[:key]&.start_with?("cf_")
+    CustomField.column_name?(field[:key])
   end
 
   def custom_comment?(field)

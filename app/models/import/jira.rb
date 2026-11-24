@@ -31,32 +31,43 @@ module Import
   class Jira < ApplicationRecord
     self.table_name = "jiras"
 
+    CONNECTION_ATTRIBUTES = %w[url auth_method personal_access_token basic_auth_username basic_auth_password].freeze
+
     enum :auth_method, { bearer: "bearer", basic: "basic" }, default: :bearer, prefix: true
     store_attribute :options, :exclude_resolution_fields, :boolean, default: false
 
     has_many :jira_imports, dependent: :destroy
+    has_many :health_reports, as: :subject, dependent: :delete_all
+    has_one :latest_health_report, -> { order(created_at: :desc, id: :desc) },
+            as: :subject, class_name: "HealthReport", inverse_of: false, dependent: nil
+
+    normalizes :url, with: ->(url) { url.strip }
+    normalizes :basic_auth_username, with: ->(username) { username.presence }
 
     validate :url_must_be_http_or_https
 
     def client
-      Import::JiraClient.new(url:,
-                             auth_method:,
-                             personal_access_token:,
-                             basic_auth_username:,
-                             basic_auth_password:)
+      connection_attributes = slice(*CONNECTION_ATTRIBUTES).symbolize_keys
+      Import::JiraClient.new(**connection_attributes)
+    end
+
+    def http_url?
+      uri = URI.parse(url.to_s)
+      uri.is_a?(URI::HTTP) && uri.host.present?
+    rescue URI::InvalidURIError
+      false
+    end
+
+    def saved_change_to_connection?
+      saved_changes.keys.intersect?(CONNECTION_ATTRIBUTES)
     end
 
     private
 
     def url_must_be_http_or_https
-      return if url.blank?
+      return if url.blank? || http_url?
 
-      uri = URI.parse(url)
-      unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
-        errors.add(:url, :invalid_protocol)
-      end
-    rescue URI::InvalidURIError
-      errors.add(:url, :invalid)
+      errors.add(:url, :invalid_url)
     end
   end
 end

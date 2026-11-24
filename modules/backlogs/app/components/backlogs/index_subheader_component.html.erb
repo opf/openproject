@@ -29,11 +29,15 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   component_wrapper do
     render(
-      Primer::OpenProject::SubHeader.new(
-        data: sub_header_data_attributes,
+      OpPrimer::QuickFilter::SubHeader.new(
         mb: 0,
         pb: 3,
-        classes: "border-bottom"
+        classes: "border-bottom",
+        clear_button_id:,
+        turbo_frame_request: "backlogs_container",
+        reset_params: %w[page all],
+        url_path_name:,
+        display_filters: filters_expanded?
       )
     ) do |subheader|
       subheader.with_filter_input(
