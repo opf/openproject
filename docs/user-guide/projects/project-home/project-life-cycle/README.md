@@ -22,11 +22,11 @@ On each project's **home page**, you can find a section called **project life cy
 
 ![Project life cycle phases displayed on a project home page in OpenProject](openproject_user_guide_project_home_page_project_lifecycle.png)
 
-Each phase of a project's lifecycle contains three statuses: Open, In progress, and Completed.
+Each phase of a project's lifecycle contains three statuses: Not started, In progress, and Completed.
 
-- **Open**: this is the default status set for each phase. Setting a phase to this status will open all existing future or subsequent phases 
-- **In progress**: this will complete all previous phases and set existing future phases to "Open"
-- **Completed**: this will complete all previous phases, but not automatically open the next phase or phases.
+- **Not started**: this is the default status set for each phase. Setting a phase to this status will mark all subsequent phases as not started as well.
+- **In progress**: this will complete all previous phases and set existing future phases to "Not started"
+- **Completed**: this will complete all previous phases, but not automatically set the next phase to "in progress".
 
 > [!NOTE]
 >
