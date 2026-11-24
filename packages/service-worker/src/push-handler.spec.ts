@@ -25,10 +25,15 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { SIGN_OUT_TIMEOUT_MS } from './constants';
+import type { Notifications as NotificationsType } from './notifications';
 import type { PushHandler as PushHandlerType } from './push-handler';
+import type { PushState as PushStateType } from './push-state';
 
 describe('PushHandler badge', () => {
   let PushHandler:typeof PushHandlerType;
+  let Notifications:typeof NotificationsType;
+  let PushState:typeof PushStateType;
   let handler:PushHandlerType;
   const setAppBadge = vi.fn().mockResolvedValue(undefined);
   const clearAppBadge = vi.fn().mockResolvedValue(undefined);
@@ -47,6 +52,8 @@ describe('PushHandler badge', () => {
     });
     vi.stubGlobal('navigator', { setAppBadge, clearAppBadge });
     ({ PushHandler } = await import('./push-handler'));
+    ({ Notifications } = await import('./notifications'));
+    ({ PushState } = await import('./push-state'));
   });
 
   beforeEach(() => {
@@ -203,6 +210,83 @@ describe('PushHandler badge', () => {
       expect(reconcile).not.toHaveBeenCalled();
       expect(switchAccount).not.toHaveBeenCalled();
       expect(waitUntil).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('sign-out', () => {
+    let shown:ReturnType<typeof notification>[];
+    let clearState:ReturnType<typeof vi.spyOn>;
+    let showFallback:ReturnType<typeof vi.spyOn>;
+
+    const deferred = <T>() => {
+      let resolve:(value:T) => void = () => undefined;
+      const promise = new Promise<T>((done) => { resolve = done; });
+      return { promise, resolve };
+    };
+
+    beforeEach(() => {
+      vi.useFakeTimers();
+      shown = [];
+      vi.stubGlobal('registration', { getNotifications: vi.fn(() => Promise.resolve([...shown])) });
+      clearState = vi.spyOn(PushState, 'clear');
+      showFallback = vi.spyOn(Notifications, 'showFallback').mockImplementation(() => {
+        shown.push(notification('openproject-unread'));
+        return Promise.resolve();
+      });
+    });
+
+    afterEach(() => vi.useRealTimers());
+
+    it('clears open notifications, remembered push state and the badge once it settles', async () => {
+      const previous = notification('openproject-1-wp-9');
+      shown.push(previous);
+
+      await handler.signOut(Promise.resolve());
+
+      expect(previous.close).toHaveBeenCalled();
+      expect(clearState).toHaveBeenCalled();
+      expect(clearAppBadge).toHaveBeenCalled();
+    });
+
+    it('leaves nothing of the previous account behind when a push was already in flight', async () => {
+      const summary = deferred<Response>();
+      const navigation = deferred<undefined>();
+      fetchSpy.mockImplementation(() => summary.promise);
+
+      handler.onPush({ waitUntil: vi.fn() } as unknown as ExtendableEvent);
+      await vi.advanceTimersByTimeAsync(0);
+      const signedOut = handler.signOut(navigation.promise);
+
+      summary.resolve(new Response(JSON.stringify({ count: 2, groups: [{ workPackageId: 9 }] })));
+      await vi.advanceTimersByTimeAsync(0);
+
+      expect(showFallback).toHaveBeenCalledTimes(1);
+      expect(setAppBadge).not.toHaveBeenCalled();
+      expect(shown).toHaveLength(1);
+
+      navigation.resolve(undefined);
+      await signedOut;
+
+      const [fallback] = shown;
+      expect(fallback.close).toHaveBeenCalled();
+      expect(clearState).toHaveBeenCalled();
+      expect(clearAppBadge.mock.invocationCallOrder.at(-1)).toBeGreaterThan(showFallback.mock.invocationCallOrder[0]);
+    });
+
+    it.each([
+      ['rejects', () => Promise.reject(new Error('offline'))],
+      ['never settles', () => new Promise<never>(() => undefined)],
+    ])('still clears everything when the logout navigation %s', async (_case, navigate) => {
+      const signedOut = handler.signOut(navigate());
+      const late = notification('openproject-1-wp-9');
+      shown.push(late);
+
+      await vi.advanceTimersByTimeAsync(SIGN_OUT_TIMEOUT_MS);
+      await signedOut;
+
+      expect(late.close).toHaveBeenCalled();
+      expect(clearState).toHaveBeenCalled();
+      expect(clearAppBadge).toHaveBeenCalledTimes(2);
     });
   });
 
