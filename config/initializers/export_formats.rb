@@ -54,6 +54,7 @@ Rails.application.configure do |application|
       formatter WorkPackage, WorkPackage::Exports::Formatters::PDF::Hours
       formatter WorkPackage, WorkPackage::Exports::Formatters::Id
       formatter WorkPackage, WorkPackage::Exports::Formatters::Labels
+      formatter WorkPackage, WorkPackage::Exports::Formatters::Categories
       formatter WorkPackage, WorkPackage::Exports::Formatters::XLS::Id
       formatter WorkPackage, WorkPackage::Exports::Formatters::ProjectPhase
       formatter WorkPackage, WorkPackage::Exports::Formatters::TargetVersions
