@@ -41,10 +41,10 @@ RSpec.describe MigrateCostQueriesToCostReports, type: :model do
     let(:deleted_project_id) { project.id }
 
     let!(:orphaned_cost_query) do
-      described_class::CostQuery.create!(name: "Orphaned", user_id: user.id, project_id: deleted_project_id, serialized:)
+      described_class::MigrationCostQuery.create!(name: "Orphaned", user_id: user.id, project_id: deleted_project_id, serialized:)
     end
     let!(:valid_cost_query) do
-      described_class::CostQuery.create!(name: "Valid", user_id: user.id, project_id: create(:project).id, serialized:)
+      described_class::MigrationCostQuery.create!(name: "Valid", user_id: user.id, project_id: create(:project).id, serialized:)
     end
 
     before { Project.where(id: deleted_project_id).delete_all }
@@ -64,10 +64,10 @@ RSpec.describe MigrateCostQueriesToCostReports, type: :model do
     let(:deleted_user_id) { user.id + 1 }
 
     let!(:orphaned_cost_query) do
-      described_class::CostQuery.create!(name: "Orphaned", user_id: deleted_user_id, project_id: project.id, serialized:)
+      described_class::MigrationCostQuery.create!(name: "Orphaned", user_id: deleted_user_id, project_id: project.id, serialized:)
     end
     let!(:valid_cost_query) do
-      described_class::CostQuery.create!(name: "Valid", user_id: user.id, project_id: project.id, serialized:)
+      described_class::MigrationCostQuery.create!(name: "Valid", user_id: user.id, project_id: project.id, serialized:)
     end
 
     it "does not fail" do
