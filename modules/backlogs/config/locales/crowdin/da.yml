@@ -325,6 +325,9 @@ da:
               one: Søjlediagram over planlagt og færdig anslået tid i den seneste sprint.
               other: Søjlediagram over planlagt og færdig anslået tid i de seneste %{count} sprints.
           summary_average: 'Gennemsnitlig hastighed: %{average}.'
+          summary_story_points:
+            one: "%{value} story point"
+            other: "%{value} story points"
           title: Hastighedsdiagram
           velocity: "%{sprint}:"
           y_axis_title:

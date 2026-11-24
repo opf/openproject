@@ -177,6 +177,10 @@ ko:
       remove_from_list: 목록에서 카드 제거
     chart:
       axis_criteria: 축 기준
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: 그래프를 표시하기 위한 데이터를 로드할 수 없습니다. 필요한 권한이 부족할 수 있습니다.
       modal_title: 작업 패키지 그래프 구성

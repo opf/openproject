@@ -3740,6 +3740,7 @@ fa:
       save_title: Save form
     index:
       actions:
+        create: Form
         edit: ویرایش فرم
         menu: عملیات مربوط به %{name}
         rename: ویرایش نام و توضیحات

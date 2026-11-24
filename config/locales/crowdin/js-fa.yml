@@ -177,6 +177,10 @@ fa:
       remove_from_list: حذف کارت از فهرست
     chart:
       axis_criteria: معیار محور
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: داده‌های لازم برای نمایش نمودار بارگذاری نشدند. ممکن است مجوزهای لازم وجود نداشته باشند.
       modal_title: پیکربندی نمودار بسته کاری

@@ -177,6 +177,10 @@ pt-BR:
       remove_from_list: Remover cartão da lista
     chart:
       axis_criteria: Critérios do eixo
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Os dados para exibir o gráfico não puderam ser carregados. As permissões necessárias podem estar faltando.
       modal_title: Configuração do gráfico do pacote de trabalho

@@ -177,6 +177,10 @@ ru:
       remove_from_list: Удалить карту из списка
     chart:
       axis_criteria: Критерии осей
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Данные для отображения диаграммы не могут быть загружены. Могут отсутствовать необходимые разрешения.
       modal_title: Настройки диаграммы пакетов работ

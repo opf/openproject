@@ -177,6 +177,10 @@ cs:
       remove_from_list: Odstranit kartu ze seznamu
     chart:
       axis_criteria: Kritéria osy
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Data k zobrazení grafu nelze načíst. Možná chybí potřebná oprávnění.
       modal_title: Konfigurace grafu pracovních balíčků

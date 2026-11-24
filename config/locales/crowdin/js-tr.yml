@@ -177,6 +177,10 @@ tr:
       remove_from_list: Kartı listeden çıkar
     chart:
       axis_criteria: Eksen kriterleri
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Grafiği görüntülemek için veri yüklenemedi. Gerekli izinler eksik olabilir.
       modal_title: İş paketi grafik konfigürasyonu

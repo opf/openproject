@@ -3744,6 +3744,7 @@ da:
       save_title: Gem formular
     index:
       actions:
+        create: Form
         edit: Rediger formular
         menu: Handlinger for %{name}
         rename: Rediger navn og beskrivelse

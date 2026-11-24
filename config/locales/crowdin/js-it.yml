@@ -177,6 +177,10 @@ it:
       remove_from_list: Rimuovi la carta dall'elenco
     chart:
       axis_criteria: Criteri dell'asse
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: I dati per visualizzare il grafico non possono essere caricati. Potrebbero mancare i permessi necessari.
       modal_title: Configurazione grafico macro-attività

@@ -177,6 +177,10 @@ hy:
       remove_from_list: Հեռացնել քարտը ցանկից
     chart:
       axis_criteria: Առանցքի չափանիշներ
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Գծապատկերը ցուցադրելու համար անհրաժեշտ տվյալները չհաջողվեց բեռնել։ Հնարավոր է՝ բացակայում են անհրաժեշտ թույլտվությունները։
       modal_title: Աշխատանքային փաթեթների գծապատկերի կազմաձևում

@@ -177,6 +177,10 @@ pl:
       remove_from_list: Usuń kartę z listy
     chart:
       axis_criteria: Kryteria osi
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Nie można załadować danych potrzebnych do wyświetlenia wykresu. Być może brakuje niezbędnych uprawnień.
       modal_title: Konfiguracja wykresu pakietów roboczych

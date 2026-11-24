@@ -177,6 +177,10 @@ lt:
       remove_from_list: Išimti kortelę iš sąrašo
     chart:
       axis_criteria: Ašies kriterijus
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Nepavyko įkelti duomenų rodymui. Galbūt trūksta reikiamų teisių.
       modal_title: Darbo paketo grafo konfigūracija

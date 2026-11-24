@@ -175,6 +175,10 @@ es:
       remove_from_list: Eliminar tarjeta de la lista
     chart:
       axis_criteria: Criterios del eje
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: No se pueden cargar los datos necesarios para mostrar el gráfico. Puede que falten los permisos necesarios.
       modal_title: Configuración del gráfico del paquete de trabajo

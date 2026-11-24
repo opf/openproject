@@ -177,6 +177,10 @@ zh-CN:
       remove_from_list: 从列表中移除卡
     chart:
       axis_criteria: 轴条件
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: 无法加载用于显示图表的数据。可能缺少必要的权限。
       modal_title: 工作包图配置

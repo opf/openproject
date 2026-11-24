@@ -177,6 +177,10 @@ de:
       remove_from_list: Karte aus Liste entfernen
     chart:
       axis_criteria: Achsen-Kriterien
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Die Daten, die das Diagramm ausmachen, konnten nicht geladen werden. Die erforderlichen Berechtigungen fehlen möglicherweise.
       modal_title: Konfiguration des Arbeitspaket-Graphen

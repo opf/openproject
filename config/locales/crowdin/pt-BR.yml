@@ -3744,6 +3744,7 @@ pt-BR:
       save_title: Save form
     index:
       actions:
+        create: Form
         edit: Edit form
         menu: Ações para %{name}
         rename: Editar nome e descrição

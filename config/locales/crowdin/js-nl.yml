@@ -177,6 +177,10 @@ nl:
       remove_from_list: Verwijder kaart uit lijst
     chart:
       axis_criteria: As criteria
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Kon gegevens om de grafiek weer te geven niet laden. Mogelijk ontbreken de benodigde machtigingen.
       modal_title: Werkpakket grafiek configuratie

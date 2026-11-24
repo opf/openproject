@@ -177,6 +177,10 @@ vi:
       remove_from_list: Xóa thẻ khỏi danh sách
     chart:
       axis_criteria: Tiêu chí trục
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Không thể tải dữ liệu để hiển thị biểu đồ. Các quyền cần thiết có thể bị thiếu.
       modal_title: Cấu hình biểu đồ gói công việc

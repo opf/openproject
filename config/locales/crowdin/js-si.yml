@@ -177,6 +177,10 @@ si:
       remove_from_list: ලැයිස්තුවෙන් කාඩ් ඉවත් කරන්න
     chart:
       axis_criteria: අක්ෂ නිර්ණායක
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: ප්රස්ථාරය ප්රදර්ශනය කිරීම සඳහා දත්ත පටවා ගත නොහැකි විය. අවශ්ය අවසරයන් නොමැති විය හැකිය.
       modal_title: වැඩ පැකේජය ප්රස්ථාර වින්යාසය

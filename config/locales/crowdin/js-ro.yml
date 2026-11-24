@@ -177,6 +177,10 @@ ro:
       remove_from_list: Alege intervalul din listă
     chart:
       axis_criteria: Primul criteriu de sortare
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Datele pentru afișarea graficului nu au putut fi încărcate. Este posibil să nu aveți permisiunile necesare.
       modal_title: pachet de lucru

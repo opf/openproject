@@ -177,6 +177,10 @@ bg:
       remove_from_list: Remove card from list
     chart:
       axis_criteria: Критерии за ос
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Данните за показване на графиката не можаха да се заредят. Може да липсват необходимите разрешения.
       modal_title: Конфигурация на графиката на работния пакет

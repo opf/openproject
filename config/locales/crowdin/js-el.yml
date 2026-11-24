@@ -177,6 +177,10 @@ el:
       remove_from_list: Αφαίρεση κάρτας από τη λίστα
     chart:
       axis_criteria: Κριτήρια άξονα
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Τα δεδομένα για εμφάνιση στο διάγραμμα δεν μπόρεσαν να φορτωθούν. Μπορεί να λείπουν τα απαραίτητα δικαιώματα.
       modal_title: Διαμόρφωση του διαγράμματος πακέτων εργασίας

@@ -185,6 +185,10 @@ hu:
       remove_from_list: Kártya eltávolítása a listából
     chart:
       axis_criteria: Tengely kritérium
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: A grafikon megjelenítéséhez szükséges adatokat nem lehetett betölteni. Hiányozhatnak a szükséges engedélyek.
       modal_title: Munkacsomag grafikon beállítás

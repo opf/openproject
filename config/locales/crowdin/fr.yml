@@ -3742,6 +3742,7 @@ fr:
       save_title: Save form
     index:
       actions:
+        create: Form
         edit: Éditer un formulaire
         menu: Actions for %{name}
         rename: Modifier le nom et la description

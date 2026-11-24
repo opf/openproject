@@ -177,6 +177,10 @@ sv:
       remove_from_list: Ta bort kort från listan
     chart:
       axis_criteria: Axelkriterier
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Data för att visa grafen kunde inte laddas. De nödvändiga behörigheterna kan saknas.
       modal_title: Konfiguration av graf för arbetspaket

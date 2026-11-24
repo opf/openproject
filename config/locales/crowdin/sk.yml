@@ -4042,6 +4042,7 @@ sk:
       save_title: Save form
     index:
       actions:
+        create: Form
         edit: Edit form
         menu: Actions for %{name}
         rename: Edit name and description

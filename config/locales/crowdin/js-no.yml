@@ -177,6 +177,10 @@
       remove_from_list: Fjern oppgavelapp fra listen
     chart:
       axis_criteria: Akse- kriterier
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Data for visning av grafen kan ikke lastes. De nødvendige tillatelsene kan være mangler.
       modal_title: Konfigurering av arbeidspakkediagram

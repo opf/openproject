@@ -177,6 +177,10 @@ sl:
       remove_from_list: Odstrani s seznama
     chart:
       axis_criteria: Merila osi
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Podatkov za prikaz grafa ni bilo mogoče naložiti. Morda primankuje potrebno dovoljenje.
       modal_title: Konfiguracija grafa delovnega paketa

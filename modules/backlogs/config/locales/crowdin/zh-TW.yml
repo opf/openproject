@@ -311,6 +311,8 @@ zh-TW:
             time:
               other: Bar chart of committed and completed estimated time of the last %{count} sprints.
           summary_average: 'Average velocity: %{average}.'
+          summary_story_points:
+            other: "%{value} story points"
           title: Velocity chart
           velocity: "%{sprint}:"
           y_axis_title:

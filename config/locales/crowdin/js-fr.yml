@@ -177,6 +177,10 @@ fr:
       remove_from_list: Supprimer la carte de la liste
     chart:
       axis_criteria: Critères de l'axe
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Les données pour afficher le graphique n'ont pas pu être chargées. Les permissions nécessaires peuvent être manquantes.
       modal_title: Configuration du graphique des lots de travaux

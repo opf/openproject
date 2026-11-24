@@ -177,6 +177,10 @@ ja:
       remove_from_list: リストからカードを削除
     chart:
       axis_criteria: 座標条件
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: グラフを表示するデータを読み込みできませんでした。 必要な権限が不足している可能性があります。
       modal_title: ワークパッケージグラフの設定

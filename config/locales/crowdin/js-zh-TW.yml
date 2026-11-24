@@ -177,6 +177,10 @@ zh-TW:
       remove_from_list: 從清單列表中移除
     chart:
       axis_criteria: 軸條件
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: 無法加載用於顯示圖表的數據。可能缺少必要的權限。
       modal_title: 工作套件圖表設定

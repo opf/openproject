@@ -177,6 +177,10 @@ ms:
       remove_from_list: Keluarkan kad dari senarai
     chart:
       axis_criteria: Kriteria paksi
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Data untuk paparkan graf tidak dapat dimuatkan. Kebenaran yang diperlukan mungkin kurang.
       modal_title: Konfigurasi graf pakej kerja

@@ -177,6 +177,10 @@ ca:
       remove_from_list: Suprimeix la targeta de la llista
     chart:
       axis_criteria: Criteri d'eix
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Les dades mostrades al gràfic no es poden carregar. Pot ser que faltin els permisos necessaris.
       modal_title: Configuració gràfica de paquet de treball

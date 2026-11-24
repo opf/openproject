@@ -177,6 +177,10 @@ uk:
       remove_from_list: Вилучити зі списку
     chart:
       axis_criteria: Умови осі
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Не вдалося завантажити дані для діаграми. Необхідні дозволи можуть бути відсутні.
       modal_title: Конфігурація діаграми пакетів робіт
