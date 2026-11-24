@@ -64,11 +64,12 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
 
   public getBaselineDates(renderInfo:RenderInfo):{ start:Moment, due:Moment }|null {
     const baseline = renderInfo.workPackage.attributesByTimestamp?.[0];
-    if (!baseline || !baseline._meta.exists || !baseline.date) {
+    if (!baseline?._meta.exists) {
       return null;
     }
 
-    const date = moment(baseline.date);
+    const rawDate = Object.prototype.hasOwnProperty.call(baseline, 'date') ? baseline.date : renderInfo.change.projectedResource.date;
+    const date = moment(rawDate);
     return { start: date, due: date };
   }
 

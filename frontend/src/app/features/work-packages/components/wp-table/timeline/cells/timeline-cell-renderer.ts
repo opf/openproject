@@ -118,13 +118,22 @@ export class TimelineCellRenderer {
     return noStartAndDueValues;
   }
 
+  /**
+   * The API only includes a date in `attributesByTimestamp` when it actually changed since
+   * the baseline; an absent key means the date is unchanged, so it falls back to the current
+   * value. An explicit `null` means the work package genuinely had no date at the baseline.
+   */
   public getBaselineDates(renderInfo:RenderInfo):{ start:Moment, due:Moment }|null {
     const baseline = renderInfo.workPackage.attributesByTimestamp?.[0];
-    if (!baseline || !baseline._meta.exists || !baseline.startDate || !baseline.dueDate) {
+    if (!baseline?._meta.exists) {
       return null;
     }
 
-    return { start: moment(baseline.startDate), due: moment(baseline.dueDate) };
+    const { projectedResource } = renderInfo.change;
+    const startDate = Object.prototype.hasOwnProperty.call(baseline, 'startDate') ? baseline.startDate : projectedResource.startDate;
+    const dueDate = Object.prototype.hasOwnProperty.call(baseline, 'dueDate') ? baseline.dueDate : projectedResource.dueDate;
+
+    return { start: moment(startDate), due: moment(dueDate) };
   }
 
   public displayPlaceholderUnderCursor(ev:MouseEvent, renderInfo:RenderInfo):HTMLElement {
@@ -604,18 +613,32 @@ export class TimelineCellRenderer {
       return;
     }
 
+    let { start, due } = dates;
     const baselineBar = document.createElement('div');
     baselineBar.classList.add('baseline-bar');
-    this.setElementPositionAndSize(baselineBar, renderInfo, dates.start, dates.due);
+
+    // Only a start date, fade the bar out to the right, same as the current bar.
+    if (Number.isNaN(due.valueOf()) && !Number.isNaN(start.valueOf())) {
+      due = moment();
+      baselineBar.setAttribute('style', 'background-image: linear-gradient(90deg, rgba(255,255,255,0) 0%, #F1F1F1 100%) !important');
+    }
+
+    // Only a due date, fade the bar out to the left, same as the current bar.
+    if (Number.isNaN(start.valueOf()) && !Number.isNaN(due.valueOf())) {
+      start = due.clone();
+      baselineBar.setAttribute('style', 'background-image: linear-gradient(90deg, #F1F1F1 0%, rgba(255,255,255,0) 80%) !important');
+    }
+
+    this.setElementPositionAndSize(baselineBar, renderInfo, start, due);
 
     row.insertBefore(baselineBar, element);
 
-    if (dates.due.isBefore(currentStart, 'day')) {
+    if (due.isBefore(currentStart, 'day')) {
       // Baseline lies fully in the past, connect its end to the current bar's start
-      this.renderBaselineConnector(renderInfo, row, dates.due, currentStart);
-    } else if (currentDue.isBefore(dates.start, 'day')) {
+      this.renderBaselineConnector(renderInfo, row, due, currentStart);
+    } else if (currentDue.isBefore(start, 'day')) {
       // Baseline lies fully in the future, connect the current bar's end to its start
-      this.renderBaselineConnector(renderInfo, row, currentDue, dates.start);
+      this.renderBaselineConnector(renderInfo, row, currentDue, start);
     }
   }
 

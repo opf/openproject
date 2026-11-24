@@ -300,5 +300,57 @@ describe('TimelineCellRenderer', () => {
       expect(mount.side.querySelector('.baseline-bar')).toBeNull();
       expect(mount.side.querySelector('.baseline-connector')).toBeNull();
     });
+
+    it('fades the baseline bar towards today when only a start date is present', () => {
+      activateBaseline();
+      const renderInfo = baselineInfo({ startDate: '2026-10-10', dueDate: null });
+      const element = renderer.render(renderInfo);
+      mount.side.appendChild(element);
+
+      renderer.update(element, null, renderInfo);
+
+      const baselineBar = mount.side.querySelector<HTMLElement>('.baseline-bar')!;
+      expect(baselineBar).not.toBeNull();
+      expect(baselineBar.style.backgroundImage).toContain('linear-gradient');
+      expect(baselineBar.style.left).toBe(`${9 * 30}px`);
+      expect(parseFloat(baselineBar.style.width)).toBeGreaterThan(0);
+    });
+
+    it('fades the baseline bar towards its missing start when only a due date is present', () => {
+      activateBaseline();
+      const renderInfo = baselineInfo({ startDate: null, dueDate: '2026-10-05' });
+      const element = renderer.render(renderInfo);
+      mount.side.appendChild(element);
+
+      renderer.update(element, null, renderInfo);
+
+      const baselineBar = mount.side.querySelector<HTMLElement>('.baseline-bar')!;
+      expect(baselineBar.style.backgroundImage).toContain('linear-gradient');
+      expect(baselineBar.style.left).toBe(`${4 * 30}px`);
+      expect(baselineBar.style.width).toBe('30px');
+
+      const connector = mount.side.querySelector<HTMLElement>('.baseline-connector')!;
+      expect(connector).not.toBeNull();
+      expect(connector.style.left).toBe(`${5 * 30}px`);
+      expect(connector.style.width).toBe(`${(32 - 5) * 30}px`);
+    });
+
+    it('falls back to the current date for a field that did not change, instead of fading it', () => {
+      activateBaseline();
+      // startDate is omitted entirely, as the API only includes dates that changed since the
+      // baseline; here only dueDate changed, so the baseline bar keeps the current start date.
+      const renderInfo = baselineInfo({ dueDate: '2026-11-03' });
+      const element = renderer.render(renderInfo);
+      mount.side.appendChild(element);
+
+      renderer.update(element, null, renderInfo);
+
+      const baselineBar = mount.side.querySelector<HTMLElement>('.baseline-bar')!;
+      expect(baselineBar).not.toBeNull();
+      expect(baselineBar.style.backgroundImage).toBe('');
+      expect(baselineBar.style.left).toBe(`${32 * 30}px`);
+      expect(baselineBar.style.width).toBe(`${2 * 30}px`);
+      expect(mount.side.querySelector('.baseline-connector')).toBeNull();
+    });
   });
 });
