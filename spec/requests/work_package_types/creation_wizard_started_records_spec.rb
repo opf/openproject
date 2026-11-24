@@ -40,6 +40,11 @@ RSpec.describe "Forms and workflows started in the creation wizard", :skip_csrf,
 
   def page = Capybara.string(response.body)
 
+  # The autocompleter carries its options as JSON rather than as option elements.
+  def copy_source_names
+    JSON.parse(streamed_page.find("[data-test-selector$='-copy-source']", visible: :all)["data-items"]).pluck("name")
+  end
+
   def step_url(step, **) = type_creation_wizard_path(type_id: type.id, step:, **)
 
   def streamed_page = Capybara.string(response.body[%r{<template>(.*)</template>}m, 1].to_s)
@@ -59,6 +64,15 @@ RSpec.describe "Forms and workflows started in the creation wizard", :skip_csrf,
 
       expect(response.body).to include("Standard choice")
       expect(response.body).not_to include("Started choice")
+    end
+
+    it "leaves it out of the sources a new one can be copied from" do
+      assign(other)
+
+      get public_send(:"start_dialog_type_#{route_key}_path", **wizard_params), headers: turbo
+
+      expect(copy_source_names).to include("Standard choice")
+      expect(copy_source_names).not_to include("Started choice")
     end
 
     it "offers every one outside the wizard" do
@@ -89,9 +103,9 @@ RSpec.describe "Forms and workflows started in the creation wizard", :skip_csrf,
 
     def wizard_params(previous_id = previous.id) = { type_id: type.id, back_url: step_url(step), started_key => previous_id }
 
-    def start_again(previous_id = previous.id, **params)
+    def start_again(previous_id = previous.id)
       post public_send(:"start_type_#{route_key}_path", **wizard_params(previous_id)),
-           params: { start: "scratch", confirmed: "true", **params }
+           params: { start: "scratch", confirmed: "true" }
     end
 
     def started_now = variant.reload.public_send(foreign_key.to_s.delete_suffix("_id"))
@@ -118,23 +132,6 @@ RSpec.describe "Forms and workflows started in the creation wizard", :skip_csrf,
       start_again
 
       expect(started_now.name).to eq(previous.name)
-    end
-
-    it "copies the one abandoned before, then deletes it" do
-      assign(other)
-
-      start_again(start: "copy", copy_from_id: previous.id)
-
-      expect(started_now).not_to eq(other)
-      expect(model_class).not_to exist(previous.id)
-    end
-
-    it "deletes the one it replaces" do
-      assign(previous)
-
-      expect { start_again }.not_to change(model_class, :count)
-
-      expect(model_class).not_to exist(previous.id)
     end
 
     it "never deletes one another variant uses" do

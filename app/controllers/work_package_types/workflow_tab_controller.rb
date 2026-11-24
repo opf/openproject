@@ -81,18 +81,17 @@ module WorkPackageTypes
       redirect_to edit_workflow_path(service_call.result), status: :see_other
     end
 
-    def start # rubocop:disable Metrics/AbcSize
+    def start
       if copying_without_a_source?
         return reject_missing_copy_source(start_variant_workflow_path(@variant, **dialog_params))
       end
       return confirm_new_workflow if new_workflow_needs_confirmation?
 
-      discard_previously_started unless copying_previously_started?
+      discard_previously_started
       service_call = start_workflow
       return render_form_errors(service_call.result) unless service_call.success?
 
       assign(service_call.result)
-      discard_previously_started
       redirect_to return_to(service_call.result), status: :see_other
     end
 
@@ -191,12 +190,10 @@ module WorkPackageTypes
       uri.to_s
     end
 
-    # Discarded before starting so that the next one takes over its name, unless it is copied from.
+    # Discarded before starting so that the next one takes over its name.
     def discard_previously_started
       NamedReferences::DiscardStartedService.new(model_class: ::Workflow).call(started_id)
     end
-
-    def copying_previously_started? = chosen_copy_from_id.present? && chosen_copy_from_id.to_i == started_id
 
     def start_workflow
       ::Workflows::CreateService.new(user: current_user)
@@ -232,7 +229,7 @@ module WorkPackageTypes
       NamedReferences::StartDialogComponent.new(
         model_class: ::Workflow,
         url:,
-        candidates: Workflow.in_display_order.to_a,
+        candidates: Workflow.in_display_order.where.not(id: started_id).to_a,
         error:,
         type_record_id: @variant.type_reference_id(Workflow.variant_reflection)
       )

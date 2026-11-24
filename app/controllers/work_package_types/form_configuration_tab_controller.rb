@@ -93,12 +93,11 @@ module WorkPackageTypes
         return reject_missing_copy_source(start_variant_form_configuration_path(@variant, **dialog_params))
       end
 
-      discard_previously_started unless copying_previously_started?
+      discard_previously_started
       service_call = start_form
       return render_name_errors(service_call.result) unless service_call.success?
 
       assign(service_call.result)
-      discard_previously_started
       redirect_to return_to(service_call.result), status: :see_other
     end
 
@@ -106,10 +105,8 @@ module WorkPackageTypes
 
     def model_class = ::FormConfiguration
 
-    # Discarded before starting so that the next one takes over its name, unless it is copied from.
+    # Discarded before starting so that the next one takes over its name.
     def discard_previously_started = NamedReferences::DiscardStartedService.new(model_class:).call(started_id)
-
-    def copying_previously_started? = chosen_copy_from_id.present? && chosen_copy_from_id.to_i == started_id
 
     def start_form
       ::FormConfigurations::CreateService.new(user: current_user)
@@ -157,7 +154,7 @@ module WorkPackageTypes
       NamedReferences::StartDialogComponent.new(
         model_class:,
         url:,
-        candidates: ::FormConfiguration.in_display_order.to_a,
+        candidates: ::FormConfiguration.in_display_order.where.not(id: started_id).to_a,
         error:,
         type_record_id: @variant.type_form_configuration&.id
       )
