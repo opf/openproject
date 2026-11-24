@@ -73,12 +73,17 @@ RSpec.describe Hotkeys::FallbackLinksComponent, type: :component do
   end
 
   describe "wiki start link" do
-    it "links to the project wiki start page with the fallback marker" do
+    it "links to the project wiki root, which shows the start page" do
       render_component(project:)
 
-      expect(page).to have_element(
-        :a, "data-hotkey": "g w i", "data-hotkey-fallback": true, visible: :hidden
-      )
+      expect(page).to have_link("Wiki", href: "/projects/#{project.identifier}/wiki", visible: :hidden)
+      expect(page).to have_element(:a, "data-hotkey": "g w i", visible: :hidden)
+    end
+
+    it "links to the wiki root from another wiki page" do
+      with_request_url("/projects/#{project.identifier}/wiki/other-page") { render_component(project:) }
+
+      expect(page).to have_link("Wiki", href: "/projects/#{project.identifier}/wiki", visible: :hidden)
     end
 
     it "is absent when the wiki module is disabled" do

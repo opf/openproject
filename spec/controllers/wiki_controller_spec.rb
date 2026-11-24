@@ -261,6 +261,41 @@ RSpec.describe WikiController do
         end
       end
 
+      context "when querying for no specific page while the start page does not exist, without edit permissions" do
+        let(:get_page) do
+          project.wiki.update_column(:start_page, "Missing start page")
+
+          get :show, params: { project_id: project }
+        end
+
+        it "redirects to index" do
+          expect(response).to redirect_to action: :index
+        end
+      end
+
+      context "when querying for a non existing page by title without edit permissions" do
+        let(:get_page) { get :show, params: { project_id: project, title: "Missing page" } }
+
+        it "returns 404" do
+          expect(response).to have_http_status(:not_found)
+        end
+      end
+
+      context "when querying for no specific page whose start page keeps a legacy localized slug",
+              with_settings: { default_language: "de" } do
+        let!(:start_page) { create(:wiki_page, wiki: project.wiki, title: "Übersicht") }
+        let(:get_page) do
+          start_page.update_column(:slug, "uebersicht")
+          project.wiki.update_column(:start_page, "Übersicht")
+
+          get :show, params: { project_id: project }
+        end
+
+        it "assigns the start page" do
+          expect(assigns[:page]).to eql start_page
+        end
+      end
+
       context "when querying for a non existing page without edit permissions" do
         let(:get_page) { get :show, params: { project_id: project, id: "new_page" } }
 

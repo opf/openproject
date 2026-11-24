@@ -399,12 +399,16 @@ class WikiController < ApplicationController
       return render_403 unless load_page_for_edit
 
       render action: :new, layout: "no_menu"
-    elsif params[:id] == "wiki"
+    elsif wiki_root_requested?
       flash[:info] = I18n.t("wiki.page_not_editable_index")
       redirect_to action: :index
     else
       render_404
     end
+  end
+
+  def wiki_root_requested?
+    wiki_page_title.blank? || params[:id] == "wiki"
   end
 
   # Loads @page for the edit action and the new_child-like fallback in handle_new_wiki_page.

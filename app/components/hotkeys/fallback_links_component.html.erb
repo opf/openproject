@@ -43,7 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
     <%= render(
           Primer::Beta::Link.new(
             href: wiki_start_href,
-            data: { hotkey: wiki_key, hotkey_fallback: true }
+            data: { hotkey: wiki_key }
           )
         ) { t(".wiki") } %>
   <% end %>

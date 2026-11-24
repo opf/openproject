@@ -39,7 +39,10 @@ RSpec.describe "Navigation keyboard shortcuts", :js do
   before { login_as(user) }
 
   context "in a project" do
-    before { visit project_work_packages_path(project) }
+    before do
+      create(:wiki_page, wiki: project.wiki, title: project.wiki.start_page, text: "# Start page heading")
+      visit project_work_packages_path(project)
+    end
 
     it "navigates to the project pages" do
       page.send_keys("g", "o")
@@ -49,7 +52,8 @@ RSpec.describe "Navigation keyboard shortcuts", :js do
       expect(page).to have_current_path(project_work_packages_path(project))
 
       page.send_keys("g", "w", "i")
-      expect(page).to have_current_path(%r{\A/projects/#{project.identifier}/wiki/})
+      expect(page).to have_heading("Start page heading")
+      expect(page).to have_current_path(%r{\A/projects/#{project.identifier}/wiki\z})
 
       page.send_keys("g", "a")
       expect(page).to have_current_path(%r{\A#{project_activity_index_path(project)}})
@@ -78,8 +82,36 @@ RSpec.describe "Navigation keyboard shortcuts", :js do
     end
   end
 
+  context "with a wiki whose start page does not exist yet" do
+    before { visit project_path(project) }
+
+    it "opens the wiki page index for g w i" do
+      page.send_keys("g", "w", "i")
+      expect(page).to have_text("The requested page does not (yet) exist.")
+      expect(page).to have_current_path(%r{\A/projects/#{project.identifier}/wiki/index\z})
+    end
+  end
+
+  context "on a wiki page other than the start page" do
+    before do
+      create(:wiki_page, wiki: project.wiki, title: project.wiki.start_page, text: "# Start page heading")
+      other = create(:wiki_page, wiki: project.wiki, title: "Other page", text: "# Other page heading")
+      visit project_wiki_path(project, other.slug)
+    end
+
+    it "opens the wiki start page for g w i" do
+      expect(page).to have_heading("Other page heading")
+
+      page.send_keys("g", "w", "i")
+
+      expect(page).to have_heading("Start page heading")
+      expect(page).to have_current_path(%r{\A/projects/#{project.identifier}/wiki\z})
+    end
+  end
+
   context "when the start page menu item was removed but another main item remains" do
     before do
+      create(:wiki_page, wiki: project.wiki, title: project.wiki.start_page, text: "# Start page heading")
       project.wiki.wiki_menu_items.destroy_all
       MenuItems::WikiMenuItem.create!(navigatable_id: project.wiki.id, title: "Other page", name: "other-page")
       visit project_path(project)
@@ -87,7 +119,8 @@ RSpec.describe "Navigation keyboard shortcuts", :js do
 
     it "still opens the wiki start page for g w i" do
       page.send_keys("g", "w", "i")
-      expect(page).to have_current_path(%r{\A/projects/#{project.identifier}/wiki/wiki})
+      expect(page).to have_heading("Start page heading")
+      expect(page).to have_current_path(%r{\A/projects/#{project.identifier}/wiki\z})
     end
   end
 
@@ -104,7 +137,7 @@ RSpec.describe "Navigation keyboard shortcuts", :js do
       page.send_keys("g", "w", "i")
 
       expect(page).to have_heading("Start page heading")
-      expect(page).to have_current_path(%r{\A/projects/#{project.identifier}/wiki/wiki\z})
+      expect(page).to have_current_path(%r{\A/projects/#{project.identifier}/wiki\z})
     end
   end
 

@@ -47,10 +47,9 @@ module Hotkeys
     def wiki_start_path
       return unless @project && Wikis::InternalProvider.enabled?
 
-      wiki = @project.wiki
-      return unless wiki&.visible?(@user)
+      return unless @project.wiki&.visible?(@user)
 
-      project_wiki_path(@project, wiki.find_or_new_page(wiki.start_page).slug)
+      url_for(controller: "/wiki", action: "show", project_id: @project, id: nil)
     end
 
     def new_work_package_key = OpenProject::Hotkeys.for_action(:new_work_package)
