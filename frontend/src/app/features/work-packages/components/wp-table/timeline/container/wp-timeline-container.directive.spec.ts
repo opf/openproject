@@ -28,8 +28,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { Subject } from 'rxjs';
+import moment from 'moment';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { clearSelectionOnEscape } from 'core-common/selection-escape';
+import { States } from 'core-app/core/states/states.service';
+import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { buildWorkPackage } from '../../../wp-fast-table/testing/work-package-fixture';
 import { WorkPackageTimelineCellsRenderer } from '../cells/wp-timeline-cells-renderer';
 import { WorkPackageTimelineCell } from '../cells/wp-timeline-cell';
@@ -215,4 +218,40 @@ describe('Timeline attachment ownership', () => {
     expect(refresh).not.toHaveBeenCalled();
   });
 
+  describe('baseline date range', () => {
+    function renderWorkPackageWithBaseline(m:ReturnType<typeof mountTimeline>, baselineAttributes:Record<string, unknown>) {
+      const states = m.injector.get(States);
+      const wp = buildWorkPackage({ id: '1', attributes: {
+        injector: m.injector, startDate: '2026-06-01', dueDate: '2026-06-04',
+        attributesByTimestamp: [{ $links: {}, _meta: { exists: true, matchesFilters: true, timestamp: '' }, ...baselineAttributes }],
+      } });
+      states.workPackages.get('1').putValue(wp);
+      m.querySpace.tableRendered.putValue([{ workPackageId: '1', classIdentifier: 'wp-row-1', hidden: false }]);
+      m.finishDays();
+    }
+
+    it('widens the visible range to include a baseline date lying far in the past, only while the filter is active', async () => {
+      const m = mount();
+      renderWorkPackageWithBaseline(m, { startDate: '2025-01-01', dueDate: '2025-01-05' });
+      await waitFor(() => expect(m.controller.workPackageCells('1')).toHaveLength(1));
+      expect(m.controller.viewParameters.dateDisplayStart.isAfter(moment('2025-06-01'))).toBe(true);
+
+      vi.spyOn(m.injector.get(WorkPackageViewBaselineService), 'isActive').mockReturnValue(true);
+      m.controller.refreshView();
+      await waitFor(() => expect(m.controller.viewParameters.dateDisplayStart.isSameOrBefore(moment('2025-01-01'))).toBe(true));
+    });
+
+    it('widens the visible range to include a baseline date lying far in the future, only while the filter is active', async () => {
+      const m = mount();
+      // Far enough out that the default right-hand viewport margin (derived from the
+      // container width) cannot reach it on its own, isolating the baseline's effect.
+      renderWorkPackageWithBaseline(m, { startDate: '2030-01-01', dueDate: '2030-01-05' });
+      await waitFor(() => expect(m.controller.workPackageCells('1')).toHaveLength(1));
+      expect(m.controller.viewParameters.dateDisplayEnd.isBefore(moment('2029-01-01'))).toBe(true);
+
+      vi.spyOn(m.injector.get(WorkPackageViewBaselineService), 'isActive').mockReturnValue(true);
+      m.controller.refreshView();
+      await waitFor(() => expect(m.controller.viewParameters.dateDisplayEnd.isSameOrAfter(moment('2030-01-05'))).toBe(true));
+    });
+  });
 });

@@ -46,6 +46,7 @@ import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-
 import { WorkPackageTimelineCellsRenderer } from 'core-app/features/work-packages/components/wp-table/timeline/cells/wp-timeline-cells-renderer';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
+import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { WorkPackageRelationsService } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { WorkPackageTimelineCell } from 'core-app/features/work-packages/components/wp-table/timeline/cells/wp-timeline-cell';
@@ -110,6 +111,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
   wpTableComponent = inject(WorkPackagesTableComponent);
   private toastService = inject(ToastService);
   private wpTableTimeline = inject(WorkPackageViewTimelineService);
+  private wpTableBaseline = inject(WorkPackageViewBaselineService);
   private notificationService = inject(WorkPackageNotificationService);
   private wpRelations = inject(WorkPackageRelationsService);
   private wpTableHierarchies = inject(WorkPackageViewHierarchiesService);
@@ -519,12 +521,21 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
       const dueDate = workPackage.dueDate ? moment(workPackage.dueDate) : currentParams.now;
       const date = workPackage.date ? moment(workPackage.date) : currentParams.now;
 
+      // Also include the baseline comparison dates, so a baseline bar lying before/after
+      // the work package's current dates stays within the rendered/scrollable range.
+      const baseline = this.wpTableBaseline.isActive() ? workPackage.attributesByTimestamp?.[0] : undefined;
+      const baselineStart = baseline?._meta.exists ? (baseline.startDate ?? baseline.date) : undefined;
+      const baselineDue = baseline?._meta.exists ? (baseline.dueDate ?? baseline.date) : undefined;
+      const baselineStartDate = baselineStart ? moment(baselineStart) : currentParams.now;
+      const baselineDueDate = baselineDue ? moment(baselineDue) : currentParams.now;
+
       // start date
       newParams.dateDisplayStart = moment.min(
         newParams.dateDisplayStart,
         currentParams.now,
         startDate,
         date,
+        baselineStartDate,
       ).clone(); // clone because currentParams.now should not be changed
 
       // finish date
@@ -533,6 +544,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
         currentParams.now,
         dueDate,
         date,
+        baselineDueDate,
       ).clone(); // clone because currentParams.now should not be changed
     });
 

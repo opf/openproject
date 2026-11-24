@@ -62,6 +62,16 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     return Number.isNaN(date.valueOf());
   }
 
+  public getBaselineDates(renderInfo:RenderInfo):{ start:Moment, due:Moment }|null {
+    const baseline = renderInfo.workPackage.attributesByTimestamp?.[0];
+    if (!baseline || !baseline._meta.exists || !baseline.date) {
+      return null;
+    }
+
+    const date = moment(baseline.date);
+    return { start: date, due: date };
+  }
+
   public canMoveDates(wp:WorkPackageResource) {
     const schema = this.schemaCache().of(wp);
     return (schema.date as IOPFieldSchema).writable && schema.isAttributeEditable('date');
@@ -171,6 +181,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     }
 
     this.checkForActiveSelectionMode(renderInfo, diamond);
+    this.renderBaselineBar(renderInfo, element, date, date);
 
     return true;
   }

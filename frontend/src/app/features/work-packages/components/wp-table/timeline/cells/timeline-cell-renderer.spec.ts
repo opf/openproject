@@ -30,6 +30,7 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
+import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { buildWorkPackage } from '../../../wp-fast-table/testing/work-package-fixture';
 import { configureTimelineTesting, mountTimeline } from '../testing/timeline-harness';
@@ -174,5 +175,130 @@ describe('TimelineCellRenderer', () => {
 
     renderer.update(element, null, info({ isLeaf: false, scheduleManually: true }));
     expect(element.querySelector('.timeline-element--bg')).not.toHaveClass('-readonly');
+  });
+
+  describe('baseline bar', () => {
+    function baselineTimestamp(attributes:Record<string, unknown>, exists = true) {
+      return { $links: {}, _meta: { exists, matchesFilters: exists, timestamp: '' }, ...attributes };
+    }
+
+    function baselineInfo(timestamp:Record<string, unknown>|null, attributes:Record<string, unknown> = {}):RenderInfo {
+      const renderInfo = info({
+        ...attributes,
+        attributesByTimestamp: timestamp ? [baselineTimestamp(timestamp)] : [],
+      });
+      // Widen the visible range so bars well before/after the current dates stay at positive pixels.
+      renderInfo.viewParams.dateDisplayStart = moment('2026-10-01');
+      renderInfo.viewParams.dateDisplayEnd = moment('2026-12-01');
+      return renderInfo;
+    }
+
+    function activateBaseline() {
+      vi.spyOn(mount.injector.get(WorkPackageViewBaselineService), 'isActive').mockReturnValue(true);
+    }
+
+    it('does not draw a baseline bar while the baseline filter is inactive', () => {
+      const renderInfo = baselineInfo({ startDate: '2026-10-10', dueDate: '2026-10-15' });
+      const element = renderer.render(renderInfo);
+      mount.side.appendChild(element);
+
+      renderer.update(element, null, renderInfo);
+
+      expect(mount.side.querySelector('.baseline-bar')).toBeNull();
+      expect(mount.side.querySelector('.baseline-connector')).toBeNull();
+    });
+
+    it('does not draw a baseline bar when the work package did not exist at the baseline timestamp', () => {
+      activateBaseline();
+      const renderInfo = baselineInfo(null);
+      renderInfo.workPackage.attributesByTimestamp = [baselineTimestamp({ startDate: '2026-10-10', dueDate: '2026-10-15' }, false)] as never;
+      const element = renderer.render(renderInfo);
+      mount.side.appendChild(element);
+
+      renderer.update(element, null, renderInfo);
+
+      expect(mount.side.querySelector('.baseline-bar')).toBeNull();
+    });
+
+    it('draws a baseline bar without a connector when it overlaps the current bar', () => {
+      activateBaseline();
+      const renderInfo = baselineInfo({ startDate: '2026-11-03', dueDate: '2026-11-06' });
+      const element = renderer.render(renderInfo);
+      mount.side.appendChild(element);
+
+      renderer.update(element, null, renderInfo);
+
+      const baselineBar = mount.side.querySelector<HTMLElement>('.baseline-bar')!;
+      expect(baselineBar).not.toBeNull();
+      expect(baselineBar.style.left).toBe(`${33 * 30}px`);
+      expect(baselineBar.style.width).toBe(`${4 * 30}px`);
+      expect(mount.side.querySelector('.baseline-connector')).toBeNull();
+    });
+
+    it('connects the baseline bar to the current bar when the baseline lies fully in the past', () => {
+      activateBaseline();
+      const renderInfo = baselineInfo({ startDate: '2026-10-10', dueDate: '2026-10-15' });
+      const element = renderer.render(renderInfo);
+      mount.side.appendChild(element);
+
+      renderer.update(element, null, renderInfo);
+
+      const baselineBar = mount.side.querySelector<HTMLElement>('.baseline-bar')!;
+      expect(baselineBar.style.left).toBe(`${9 * 30}px`);
+      expect(baselineBar.style.width).toBe(`${6 * 30}px`);
+
+      const connector = mount.side.querySelector<HTMLElement>('.baseline-connector')!;
+      expect(connector).not.toBeNull();
+      expect(connector.style.left).toBe(`${15 * 30}px`);
+      expect(connector.style.width).toBe(`${(32 - 15) * 30}px`);
+    });
+
+    it('connects the current bar to the baseline bar when the baseline lies fully in the future', () => {
+      activateBaseline();
+      const renderInfo = baselineInfo({ startDate: '2026-11-20', dueDate: '2026-11-25' });
+      const element = renderer.render(renderInfo);
+      mount.side.appendChild(element);
+
+      renderer.update(element, null, renderInfo);
+
+      const baselineBar = mount.side.querySelector<HTMLElement>('.baseline-bar')!;
+      expect(baselineBar.style.left).toBe(`${50 * 30}px`);
+      expect(baselineBar.style.width).toBe(`${6 * 30}px`);
+
+      const connector = mount.side.querySelector<HTMLElement>('.baseline-connector')!;
+      expect(connector).not.toBeNull();
+      expect(connector.style.left).toBe(`${35 * 30}px`);
+      expect(connector.style.width).toBe(`${(50 - 35) * 30}px`);
+    });
+
+    it('does not draw a connector when the baseline bar touches the current bar without a gap', () => {
+      activateBaseline();
+      const renderInfo = baselineInfo({ startDate: '2026-10-27', dueDate: '2026-11-01' });
+      const element = renderer.render(renderInfo);
+      mount.side.appendChild(element);
+
+      renderer.update(element, null, renderInfo);
+
+      expect(mount.side.querySelector('.baseline-bar')).not.toBeNull();
+      expect(mount.side.querySelector('.baseline-connector')).toBeNull();
+    });
+
+    it('removes a stale baseline bar and connector once the baseline filter is deactivated', () => {
+      const baselineService = mount.injector.get(WorkPackageViewBaselineService);
+      const isActive = vi.spyOn(baselineService, 'isActive').mockReturnValue(true);
+      const renderInfo = baselineInfo({ startDate: '2026-10-10', dueDate: '2026-10-15' });
+      const element = renderer.render(renderInfo);
+      mount.side.appendChild(element);
+
+      renderer.update(element, null, renderInfo);
+      expect(mount.side.querySelector('.baseline-bar')).not.toBeNull();
+      expect(mount.side.querySelector('.baseline-connector')).not.toBeNull();
+
+      isActive.mockReturnValue(false);
+      renderer.update(element, null, renderInfo);
+
+      expect(mount.side.querySelector('.baseline-bar')).toBeNull();
+      expect(mount.side.querySelector('.baseline-connector')).toBeNull();
+    });
   });
 });

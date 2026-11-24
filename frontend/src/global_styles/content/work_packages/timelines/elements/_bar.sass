@@ -56,6 +56,22 @@
     &~.rightHandle
       cursor: not-allowed !important
 
+.baseline-bar
+  position: absolute
+  top: 1.8em
+  height: 4px
+  background-color: var(--data-gray-color-emphasis)
+  filter: grayscale(1)
+  border-radius: var(--borderRadius-small)
+  pointer-events: none
+
+.baseline-connector
+  position: absolute
+  top: calc(1.8em + 2px)
+  height: 0
+  border-top: 2px dotted var(--data-gray-color-emphasis)
+  pointer-events: none
+
 .active-selection-mode
 
   .timeline-element.bar.selection-start

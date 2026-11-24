@@ -32,6 +32,7 @@ import { Injector } from '@angular/core';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { HierarchyRenderPass } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/hierarchy/hierarchy-render-pass';
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
+import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { lazyInject } from 'core-app/shared/helpers/angular/lazy-inject';
 import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
@@ -76,6 +77,8 @@ export const classNameRightHandle = 'rightHandle';
 export class TimelineCellRenderer {
   readonly wpTableTimeline = lazyInject(WorkPackageViewTimelineService, { injector: () => this.injector });
 
+  readonly wpTableBaseline = lazyInject(WorkPackageViewBaselineService, { injector: () => this.injector });
+
   readonly weekdayService = lazyInject(WeekdayService, { injector: () => this.injector });
 
   readonly schemaCache = lazyInject(SchemaCacheService, { injector: () => this.injector });
@@ -113,6 +116,15 @@ export class TimelineCellRenderer {
     const due = moment(wp.dueDate);
     const noStartAndDueValues = Number.isNaN(start.valueOf()) && Number.isNaN(due.valueOf());
     return noStartAndDueValues;
+  }
+
+  public getBaselineDates(renderInfo:RenderInfo):{ start:Moment, due:Moment }|null {
+    const baseline = renderInfo.workPackage.attributesByTimestamp?.[0];
+    if (!baseline || !baseline._meta.exists || !baseline.startDate || !baseline.dueDate) {
+      return null;
+    }
+
+    return { start: moment(baseline.startDate), due: moment(baseline.dueDate) };
   }
 
   public displayPlaceholderUnderCursor(ev:MouseEvent, renderInfo:RenderInfo):HTMLElement {
@@ -301,6 +313,7 @@ export class TimelineCellRenderer {
     this.checkForActiveSelectionMode(renderInfo, bar);
     this.checkForSpecialDisplaySituations(renderInfo, bar);
     this.applyTypeColor(renderInfo, bar);
+    this.renderBaselineBar(renderInfo, element, start, due);
 
     return true;
   }
@@ -565,6 +578,67 @@ export class TimelineCellRenderer {
       // Restore the previous cursor set by onMouseDown
       this.workPackageTimeline.forceCursor(this.mouseDownCursorType);
     }
+  }
+
+  /**
+   * Draw a gray bar beneath the work package's bar showing where it was at the
+   * baseline comparison timestamp, when the baseline filter is active. If the
+   * baseline bar does not overlap with the current bar, a dotted line is drawn
+   * connecting the two, bridging whichever gap lies between them.
+   */
+  protected renderBaselineBar(renderInfo:RenderInfo, element:HTMLElement, currentStart:Moment, currentDue:Moment) {
+    const row = element.parentElement!;
+    const previousBaselineBar = row.querySelector('.baseline-bar');
+    const previousConnector = row.querySelector('.baseline-connector');
+    const dates = this.wpTableBaseline().isActive() ? this.getBaselineDates(renderInfo) : null;
+
+    if (previousBaselineBar) {
+      previousBaselineBar.remove();
+    }
+
+    if (previousConnector) {
+      previousConnector.remove();
+    }
+
+    if (!dates) {
+      return;
+    }
+
+    const baselineBar = document.createElement('div');
+    baselineBar.classList.add('baseline-bar');
+    this.setElementPositionAndSize(baselineBar, renderInfo, dates.start, dates.due);
+
+    row.insertBefore(baselineBar, element);
+
+    if (dates.due.isBefore(currentStart, 'day')) {
+      // Baseline lies fully in the past, connect its end to the current bar's start
+      this.renderBaselineConnector(renderInfo, row, dates.due, currentStart);
+    } else if (currentDue.isBefore(dates.start, 'day')) {
+      // Baseline lies fully in the future, connect the current bar's end to its start
+      this.renderBaselineConnector(renderInfo, row, currentDue, dates.start);
+    }
+  }
+
+  /**
+   * Draw a dotted line bridging the gap between the end of one bar (`from`) and
+   * the start of another (`to`), used when the baseline bar and the current bar
+   * do not overlap.
+   */
+  protected renderBaselineConnector(renderInfo:RenderInfo, row:HTMLElement, from:Moment, to:Moment) {
+    const { viewParams } = renderInfo;
+    const left = calculatePositionValueForDayCountingPx(viewParams, from.clone().add(1, 'day').diff(viewParams.dateDisplayStart, 'days'));
+    const right = calculatePositionValueForDayCountingPx(viewParams, to.diff(viewParams.dateDisplayStart, 'days'));
+
+    if (right <= left) {
+      return;
+    }
+
+    const connector = document.createElement('div');
+    connector.classList.add('baseline-connector');
+    connector.style.left = `${left}px`;
+    connector.style.width = `${right - left}px`;
+
+    row.appendChild(connector);
   }
 
   protected updateLabels(activeDragNDrop:boolean,
