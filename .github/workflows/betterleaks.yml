@@ -62,9 +62,3 @@ jobs:
           path: betterleaks-report.sarif
           if-no-files-found: warn
           retention-days: 30
-
-      - name: Upload SARIF to GitHub Security overview
-        if: false # Replace with `always()` if we want to publish the report in the GitHub Security and quality overview
-        uses: github/codeql-action/upload-sarif@v4.39.3
-        with:
-          sarif_file: betterleaks-report.sarif
