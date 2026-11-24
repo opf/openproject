@@ -542,6 +542,7 @@ it:
         ancestor: Discendenti di
         begin_deletion: Inizio cancellazione
         begin_insertion: Inizio inserimento
+        categories: Categories
         children: Sottoelementi
         derived_done_ratio: Totale % completato
         derived_remaining_hours: Lavoro residuo totale
@@ -1124,6 +1125,8 @@ it:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: non può essere un traguardo, perché questa macro-attività ha figli.
+          categories_only_allow_single_value: Categories can only hold a single value.
+          category_and_categories_mutually_exclusive: Category and categories cannot be set to different values at the same time.
           is_not_a_valid_target_for_time_entries: 'La macro-attività #%{id} non può essere utilizzata per riassegnare la cronologia.'
           readonly_status: La macro-attività è in uno stato di sola lettura perciò i suoi attributi non possono essere modificati.
           target_versions_only_allow_single_value: Le versioni obiettivo possono contenere un solo valore.

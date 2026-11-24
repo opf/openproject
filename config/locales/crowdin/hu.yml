@@ -544,6 +544,7 @@ hu:
         ancestor: Descendants of
         begin_deletion: Törlés kezdete
         begin_insertion: Beillesztés kezdete
+        categories: Categories
         children: Alelemek
         derived_done_ratio: Eddig befejezve %-ban
         derived_remaining_hours: Teljes hátralévő munka
@@ -1156,6 +1157,8 @@ hu:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: nem lehet mérföldkő, mert ez a feladatcsoport gyermekekkel rendelkezik.
+          categories_only_allow_single_value: Categories can only hold a single value.
+          category_and_categories_mutually_exclusive: Category and categories cannot be set to different values at the same time.
           is_not_a_valid_target_for_time_entries: 'A  #%{id} feladatcsoport nem érvényes cél az idő bejegyzések ismételt hozzárendeléséhez.'
           readonly_status: A munkacsomag írásvédett, ezért a tulajdonságai nem módosíthatók.
           target_versions_only_allow_single_value: Target Versions can only hold a single value.

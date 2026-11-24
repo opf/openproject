@@ -542,6 +542,7 @@ zh-TW:
         ancestor: 子工作項
         begin_deletion: 開始刪除
         begin_insertion: 開始插入
+        categories: Categories
         children: 子項
         derived_done_ratio: 完成百分比
         derived_remaining_hours: 剩餘時數
@@ -1120,6 +1121,8 @@ zh-TW:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: 不可以是里程碑，因為這個工作套件有子套件。
+          categories_only_allow_single_value: Categories can only hold a single value.
+          category_and_categories_mutually_exclusive: Category and categories cannot be set to different values at the same time.
           is_not_a_valid_target_for_time_entries: '工作套件 #%{id} 不是重新分配時間項目有效的目標。'
           readonly_status: 工作套件處於唯讀狀態，因此無法變更其屬性。
           target_versions_only_allow_single_value: Target Versions can only hold a single value.

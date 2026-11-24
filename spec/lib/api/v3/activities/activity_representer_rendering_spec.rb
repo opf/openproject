@@ -161,6 +161,45 @@ RSpec.describe API::V3::Activities::ActivityRepresenter, "rendering" do
         end
       end
 
+      context "with a permission-gated change rendered for readers with different permissions" do
+        let(:phase_definition) { create(:project_phase_definition) }
+        let(:changes) { { project_phase_definition_id: [nil, phase_definition.id] } }
+        let(:permissions) { %i(view_project_phases) }
+        let(:unprivileged_user) { build_stubbed(:user) }
+        let(:denied_message) { "_#{I18n.t(:text_journal_permission_denied)}_" }
+
+        before do
+          allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache::MemoryStore.new)
+
+          mock_permissions_for(unprivileged_user) do |mock|
+            mock.allow_in_project :view_work_packages, project: work_package.project
+          end
+        end
+
+        def rendered_details_for(user)
+          login_as(user)
+          described_class.new(journal, current_user: user).to_json
+        end
+
+        it "does not replay the permitted details to a reader lacking the permission" do
+          expect(rendered_details_for(current_user)).to include(phase_definition.name)
+
+          rendered_details_for(unprivileged_user).tap do |details|
+            expect(details).not_to include(phase_definition.name)
+            expect(details).to include(denied_message)
+          end
+        end
+
+        it "does not replay the denial to a reader having the permission" do
+          expect(rendered_details_for(unprivileged_user)).to include(denied_message)
+
+          rendered_details_for(current_user).tap do |details|
+            expect(details).to include(phase_definition.name)
+            expect(details).not_to include(denied_message)
+          end
+        end
+      end
+
       context "when a label deletion cause already explains the removed label" do
         let(:label) { build_stubbed(:label) }
         let(:journal) do

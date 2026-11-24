@@ -542,6 +542,7 @@ sv:
         ancestor: Underordnade till
         begin_deletion: Början av raderingen
         begin_insertion: Början av införandet
+        categories: Categories
         children: Underelement
         derived_done_ratio: Totalt % klart
         derived_remaining_hours: Totalt återstående arbete
@@ -1122,6 +1123,8 @@ sv:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: kan inte vara en milstolpe eftersom detta arbetspaket har barn.
+          categories_only_allow_single_value: Categories can only hold a single value.
+          category_and_categories_mutually_exclusive: Category and categories cannot be set to different values at the same time.
           is_not_a_valid_target_for_time_entries: 'Arbetspaket #%{id} är inte ett giltigt mål för omfördelning av tidrapporterna.'
           readonly_status: Arbetspaketet har en skrivskyddad status och dess attribut kan därför inte ändras.
           target_versions_only_allow_single_value: Målversioner kan endast innehålla ett enda värde.

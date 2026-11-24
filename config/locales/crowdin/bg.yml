@@ -542,6 +542,7 @@ bg:
         ancestor: Descendants of
         begin_deletion: Начало на изтриване
         begin_insertion: Начало на вмъкване
+        categories: Categories
         children: Поделементи
         derived_done_ratio: Total % complete
         derived_remaining_hours: Total remaining work
@@ -1122,6 +1123,8 @@ bg:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: не може да бъде крайъгълен камък, защото този работен пакет има под-пакети.
+          categories_only_allow_single_value: Categories can only hold a single value.
+          category_and_categories_mutually_exclusive: Category and categories cannot be set to different values at the same time.
           is_not_a_valid_target_for_time_entries: 'Работен пакет #%{id} не е валидна цел за преразпределяне на времевите записи.'
           readonly_status: Работният пакет е в състояние само за четене, така че атрибутите му не могат да бъдат променяни.
           target_versions_only_allow_single_value: Target Versions can only hold a single value.

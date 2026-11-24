@@ -542,6 +542,7 @@ da:
         ancestor: Underordnet af
         begin_deletion: Start på sletning
         begin_insertion: Start på indsættelse
+        categories: Categories
         children: Underelementer
         derived_done_ratio: Samlet % færdigt
         derived_remaining_hours: Samlet resterende arbejde
@@ -719,7 +720,7 @@ da:
           at_least_one_custom_option: Der skal være mindst én valgmulighed.
           attributes:
             admin_only:
-              cannot_be_true: is not supported for this type of custom field.
+              cannot_be_true: understøttes ikke for denne type brugerdefineret felt.
             formula:
               blank: Formlen må ikke være tom.
               format: "%{message}"
@@ -734,7 +735,7 @@ da:
             required:
               cannot_be_true: kan ikke slås til.
             value:
-              required_by_project_values: cannot be disabled, as the project added values below it.
+              required_by_project_values: kan ikke slås fra, fordi projektet har tilføjet værdier under den.
           previous_custom_field_recalculation_unprocessed: Genberegningen af tidligere ændringer i dette brugerdefinerede felt er endnu ikke anvendt. Prøv igen om et par minutter.
           referenced_in_other_fields_html:
             one: "%{name} bruges i beregningen af projektattributten %{links}."
@@ -1122,6 +1123,8 @@ da:
               error_readonly: kan ikke angives, fordi du ikke har tilladelse til at tildele versioner i dette projekt.
             type:
               cannot_be_milestone_due_to_children: kan ikke være en milepæl, fordi arbejdspakken har underordnede.
+          categories_only_allow_single_value: Categories can only hold a single value.
+          category_and_categories_mutually_exclusive: Category and categories cannot be set to different values at the same time.
           is_not_a_valid_target_for_time_entries: 'Arbejdspakke # %{id} er ikke et gyldig mål for tildeling af tider.'
           readonly_status: Arbejdspakken har en skrivebeskyttet status, så dens attributter kan ikke ændres.
           target_versions_only_allow_single_value: Målversioner kan kun indeholde én værdi.

@@ -542,6 +542,7 @@ ko:
         ancestor: 하위 항목
         begin_deletion: 삭제 시작
         begin_insertion: 삽입 시작
+        categories: Categories
         children: 하위 요소
         derived_done_ratio: 총 완료 %
         derived_remaining_hours: 총 남은 작업
@@ -1120,6 +1121,8 @@ ko:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: "- 마일스톤일 수 없습니다. 이 작업 패키지에는 자식 항목이 있기 때문입니다."
+          categories_only_allow_single_value: Categories can only hold a single value.
+          category_and_categories_mutually_exclusive: Category and categories cannot be set to different values at the same time.
           is_not_a_valid_target_for_time_entries: '작업 패키지 #%{id}은(는) 시간 항목 재할당에 올바른 대상이 아닙니다.'
           readonly_status: 작업 패키지가 읽기 전용 상태이므로 해당 속성을 변경할 수 없습니다.
           target_versions_only_allow_single_value: 대상 버전은 단일 값만 가질 수 있습니다.

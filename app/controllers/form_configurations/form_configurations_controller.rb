@@ -64,7 +64,7 @@ module FormConfigurations
         flash[:error] = service_call.errors.full_messages.to_sentence
       end
 
-      redirect_to edit_form_configuration_path(@form_configuration), status: :see_other
+      redirect_back_or_to edit_form_configuration_path(@form_configuration), status: :see_other
     end
 
     def edit_dialog
