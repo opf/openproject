@@ -28,7 +28,38 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(Settings::ProjectWorkPackages::HeaderComponent.new(@project)) %>
 
-<%= primer_form_with(url: project_settings_work_packages_filters_path(@project), method: :patch) do |f| %>
-  <% rows = @filters.map { |filter| [filter.id, filter.display_name, @active_ids.include?(filter.id)] } %>
-  <%= render(PredefinedWorkPackageFilters::ActivationForm.new(f, parameter: :filters, rows:)) %>
+<%= turbo_frame_tag "project-filter-list", target: "_top" do %>
+  <%=
+    render(
+      Primer::OpenProject::SubHeader.new(
+        data: {
+          controller: "filter--filters-form",
+          filter__filters_form_output_format_value: "json",
+          filter__filters_form_turbo_frame_request_value: "project-filter-list",
+          filter__filters_form_current_filters_value: OpPrimer::QuickFilter.serialize(@query.filters).to_json,
+          filter__filters_form_clear_button_id_value: "project-filters-clear-search"
+        }
+      )
+    ) do |subheader|
+      subheader.with_filter_input(
+        name: :name,
+        id: "project-filters-name-search",
+        label: t(:label_search_by_name),
+        placeholder: t(:label_search_by_name),
+        value: @query.find_active_filter(:name)&.values&.first,
+        leading_visual: { icon: :search, size: :small },
+        show_clear_button: true,
+        clear_button_id: "project-filters-clear-search",
+        data: {
+          turbo_permanent: true,
+          filter_name: "name",
+          filter_type: "string",
+          filter_operator: "~",
+          filter__filters_form_target: "simpleFilter filterValueContainer simpleValue"
+        }
+      )
+    end
+  %>
+
+  <%= render(PredefinedWorkPackageFilters::ProjectTableComponent.new(rows: @filters, project: @project, active_ids: @active_ids)) %>
 <% end %>

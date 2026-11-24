@@ -6181,6 +6181,7 @@ en:
     projects:
       empty: "No projects are using this filter"
     title: "Filters"
+    toggle: "Activate %{name} in this project"
   present_access_key_value: "Your %{key_name} is: %{value}"
   priorities:
     edit:

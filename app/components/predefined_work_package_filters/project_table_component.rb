@@ -28,18 +28,25 @@
 #++
 
 module PredefinedWorkPackageFilters
-  class ActivationForm < ApplicationForm
-    def initialize(parameter:, rows:)
-      super()
-      @parameter = parameter
-      @rows = rows
+  class ProjectTableComponent < OpPrimer::BorderBoxTableComponent
+    columns :name, :placement, :status
+    main_column :name
+    mobile_labels :placement, :status
+
+    options :project, :active_ids
+
+    def headers
+      [
+        [:name, { caption: t(:label_name) }],
+        [:placement, { caption: t(:label_display) }],
+        [:status, { caption: t(:label_status) }]
+      ]
     end
 
-    form do |f|
-      @rows.each do |id, name, active|
-        f.check_box(name: :"#{@parameter}[#{id}]", label: name, checked: active)
-      end
-      f.submit(name: :submit, label: I18n.t(:button_save), scheme: :primary)
-    end
+    def row_class = ProjectRowComponent
+
+    def mobile_title = t("predefined_work_package_filters.title")
+
+    def blank_title = t(:label_no_data)
   end
 end

@@ -64,6 +64,14 @@
 
         if allowed_to_edit_project?
           menu.with_item(
+            tag: :a,
+            label: t(:permission_manage_filters),
+            href: project_settings_work_packages_filters_path(project)
+          ) do |item|
+            item.with_leading_visual_icon(icon: :filter)
+          end
+
+          menu.with_item(
             label: t("projects.settings.change_identifier"),
             href: helpers.identifier_update_dialog_project_identifier_path(project_id: project),
             content_arguments: { data: { turbo_stream: true } }

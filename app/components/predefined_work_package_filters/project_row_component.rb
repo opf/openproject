@@ -1,0 +1,59 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+module PredefinedWorkPackageFilters
+  class ProjectRowComponent < OpPrimer::BorderBoxRowComponent
+    alias_method :filter, :model
+
+    def row_css_id = dom_id(filter)
+
+    def name
+      render(Primer::Beta::Text.new(font_weight: :bold)) { filter.display_name }
+    end
+
+    def placement
+      render(Primer::Beta::Text.new(color: :subtle)) do
+        filter.placement ? PredefinedWorkPackageFilter.placement_label(filter.placement) : t(:label_none)
+      end
+    end
+
+    def status
+      render(
+        Primer::Alpha::ToggleSwitch.new(
+          src: toggle_project_settings_work_packages_filters_path(table.project, filter),
+          checked: table.active_ids.include?(filter.id),
+          size: :small,
+          status_label_position: :start,
+          aria: { label: t("predefined_work_package_filters.toggle", name: filter.display_name) },
+          classes: "op-primer-adjustments__toggle-switch--hidden-loading-indicator"
+        )
+      )
+    end
+  end
+end

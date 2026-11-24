@@ -148,7 +148,7 @@ RSpec.describe Overviews::PageHeaderComponent, type: :component do
 
       it "renders action menu items", :aggregate_failures do
         expect(rendered_component).to have_menu do |menu|
-          expect(menu).to have_selector :menuitem, count: 10
+          expect(menu).to have_selector :menuitem, count: 11
           expect(menu).to have_selector :menuitem, text: "Add to favorites"
           expect(menu).to have_selector :menuitem, text: "Add subproject"
           expect(menu).to have_selector :menuitem, text: "Duplicate"
@@ -185,6 +185,7 @@ RSpec.describe Overviews::PageHeaderComponent, type: :component do
           expect(menu).to have_selector :menuitem, text: "Add subproject"
           expect(menu).to have_selector :menuitem, text: "Duplicate"
           expect(menu).to have_selector :menuitem, text: "Manage project attributes"
+          expect(menu).to have_selector :menuitem, text: "Manage filters"
           expect(menu).to have_selector :menuitem, text: "Change identifier"
           expect(menu).to have_selector :menuitem, text: "Make public"
           expect(menu).to have_selector :menuitem, text: "Export Project creation wizard as PDF"
@@ -200,8 +201,9 @@ RSpec.describe Overviews::PageHeaderComponent, type: :component do
 
       it "renders all actions", :aggregate_failures do
         expect(rendered_component).to have_menu do |menu|
-          expect(menu).to have_selector :menuitem, count: 11
+          expect(menu).to have_selector :menuitem, count: 12
           expect(menu).to have_selector :menuitem, text: "Manage dashboards"
+          expect(menu).to have_selector :menuitem, text: "Manage filters"
           expect(menu).to have_selector :menuitem, text: "Add to favorites"
           expect(menu).to have_selector :menuitem, text: "Add subproject"
           expect(menu).to have_selector :menuitem, text: "Duplicate"

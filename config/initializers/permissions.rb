@@ -135,7 +135,7 @@ Rails.application.reloader.to_prepare do
                        "projects/settings/general": %i[show update toggle_public toggle_public_dialog],
                        "projects/settings/storage": %i[show],
                        "projects/settings/work_packages": %i[show],
-                       "projects/settings/work_packages/filters": %i[show update],
+                       "projects/settings/work_packages/filters": %i[show update toggle],
                        "projects/settings/work_packages/internal_comments": %i[show update],
                        "projects/settings/creation_wizard": %i[show disable_dialog toggle refresh_submission_form
                                                                update_name_settings update_submission_settings

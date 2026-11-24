@@ -603,7 +603,9 @@ Rails.application.routes.draw do
         get :categories, to: redirect("projects/%{project_id}/settings/work_packages/categories")
         resource :work_packages, only: %i[show]
         namespace :work_packages do
-          resource :filters, only: %i[show update]
+          resource :filters, only: %i[show update] do
+            post ":id/toggle", action: :toggle, as: :toggle
+          end
           resource :internal_comments, only: %i[show update]
           resources :types, only: %i[index new create destroy] do
             resource :switch, only: %i[new create], controller: "types/switches" do

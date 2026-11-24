@@ -31,8 +31,20 @@ class Projects::Settings::WorkPackages::FiltersController < Projects::SettingsCo
   menu_item :settings_work_packages
 
   def show
-    @filters = PredefinedWorkPackageFilter.available.ordered
+    @query = ParamsToQueryService.new(PredefinedWorkPackageFilter, current_user).call(params.permit(:filters))
+    @filters = @query.results
     @active_ids = PredefinedWorkPackageFilter.active_in(@project).ids.to_set
+
+    render layout: !turbo_frame_request?
+  end
+
+  def toggle
+    value = params.expect(:value)
+    return head :bad_request unless value.in?(%w[0 1])
+
+    filter = PredefinedWorkPackageFilter.available.find(params.expect(:id))
+    @project.with_lock { filter.set_active_in!(@project, active: value == "1") }
+    render json: {}
   end
 
   def update

@@ -256,18 +256,38 @@ RSpec.describe "Predefined work package filters", :skip_csrf, type: :rails_reque
     expect(response.parsed_body.at_css(selector)).to be_nil
   end
 
-  it "lets project editors update activation for their project" do
-    editor = create(:user, member_with_permissions: { project => %i[view_project edit_project] })
-    login_as(editor)
+  it "lets project editors switch an individual filter on and off immediately" do
+    login_as(create(:user, member_with_permissions: { project => %i[view_project edit_project] }))
+    toggle_path = toggle_project_settings_work_packages_filters_path(project, filter)
 
     get project_settings_work_packages_filters_path(project)
     expect(response).to have_http_status(:ok)
-    expect(response.body).to include("filters[#{filter.id}]")
+    row = response.parsed_body.at_css("#predefined_work_package_filter_#{filter.id}")
+    expect(row.text).to include("Artefacts", "Project overview")
+    expect(row.at_css("toggle-switch")["src"]).to eq(toggle_path)
+    expect(row.at_css("button")["aria-pressed"]).to eq("false")
 
-    patch project_settings_work_packages_filters_path(project), params: { filters: { filter.id => "1" } }
-    expect(response).to have_http_status(:see_other)
+    post toggle_path, params: { value: "1" }
+    expect(response).to have_http_status(:ok)
     expect(filter).to be_active_in(project)
     expect(filter).not_to be_active_in(other_project)
+
+    post toggle_path, params: { value: "0" }
+    expect(response).to have_http_status(:ok)
+    expect(filter).not_to be_active_in(project)
+  end
+
+  it "filters the project activation table by display name" do
+    login_as(admin)
+    PredefinedWorkPackageFilter.create!(name: "Milestones", placement: :gantt)
+    filters = [{ name: { operator: "~", values: ["ARTE"] } }].to_json
+
+    get project_settings_work_packages_filters_path(project, filters:), headers: { "Turbo-Frame" => "project-filter-list" }
+
+    expect(response).to have_http_status(:ok)
+    frame = response.parsed_body.at_css("turbo-frame#project-filter-list")
+    expect(frame.at_css("#project-filters-name-search")["value"]).to eq("ARTE")
+    expect(frame.css("[role='rowheader']").map { |cell| cell.text.strip }).to eq(["Artefacts"])
   end
 
   it "rejects global and project writes from a user without the required permissions" do
@@ -283,6 +303,9 @@ RSpec.describe "Predefined work package filters", :skip_csrf, type: :rails_reque
     expect(response).to have_http_status(:forbidden)
 
     patch project_settings_work_packages_filters_path(project), params: { filters: { filter.id => "1" } }
+    expect(response).to have_http_status(:not_found)
+
+    post toggle_project_settings_work_packages_filters_path(project, filter), params: { value: "1" }
     expect(response).to have_http_status(:not_found)
     expect(filter).not_to be_active_in(project)
   end
