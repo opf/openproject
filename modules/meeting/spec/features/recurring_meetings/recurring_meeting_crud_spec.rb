@@ -264,7 +264,7 @@ RSpec.describe "Recurring meetings CRUD",
     it "does not allow to act on the recurring meeting, except for downloading the ical event" do
       show_page.visit!
 
-      expect(page).to have_no_button "Open"
+      expect(page).to have_no_button "Open", exact: true
       show_page.expect_open_meeting date: "12/31/2024 01:30 PM"
 
       within_row("12/31/2024 01:30 PM") do
