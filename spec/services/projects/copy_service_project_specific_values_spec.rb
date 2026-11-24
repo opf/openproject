@@ -35,6 +35,8 @@ RSpec.describe Projects::CopyService, "with project-specific custom field values
   shared_let(:type) { create(:type) }
   shared_let(:source) { create(:project, types: [type]) }
 
+  current_user { admin }
+
   let(:target) { service_call.result }
 
   subject(:service_call) do
@@ -111,6 +113,7 @@ RSpec.describe Projects::CopyService, "with project-specific custom field values
 
   context "for a list custom field with an option added by the project" do
     let(:custom_field) { create(:list_wp_custom_field, types: [type], possible_values: %w[A]) }
+    let(:option_a) { custom_field.custom_options.find_by!(value: "A") }
     let!(:own_option) { create(:custom_option, custom_field:, value: "Own", project: source) }
     let(:copied_option) { custom_field.custom_options.find_by(project: target) }
 
@@ -143,6 +146,27 @@ RSpec.describe Projects::CopyService, "with project-specific custom field values
       it "copies the option into the copy" do
         expect(service_call).to be_success
         expect(copied_option).to have_attributes(value: "Own")
+      end
+    end
+
+    context "with a view filtering on the option" do
+      subject(:service_call) do
+        described_class.new(source:, user: admin)
+                       .call(target_project_params: { name: "Copy", identifier: "copy" }, only: %w[queries])
+      end
+
+      before do
+        query = build(:query, project: source, user: admin, name: "Global and own value")
+        query.add_filter(custom_field.column_name, "=", [option_a.id.to_s, own_option.id.to_s])
+        query.save!
+        create(:view_work_packages_table, query:)
+      end
+
+      it "copies the view filtering on the global option and the copied option" do
+        expect(service_call).to be_success
+        expect(service_call.errors).to be_empty
+        expect(target.queries.sole.filters.find { it.name == custom_field.column_name.to_sym }.values)
+          .to eq([option_a.id.to_s, copied_option.id.to_s])
       end
     end
   end
@@ -205,6 +229,27 @@ RSpec.describe Projects::CopyService, "with project-specific custom field values
         expect(service_call).to be_success
         expect(copied_item).to have_attributes(parent: acme, short: "OW")
         expect(copied_child).to have_attributes(parent: copied_item)
+      end
+    end
+
+    context "with a view filtering on the items" do
+      subject(:service_call) do
+        described_class.new(source:, user: admin)
+                       .call(target_project_params: { name: "Copy", identifier: "copy" }, only: %w[queries])
+      end
+
+      before do
+        query = build(:query, project: source, user: admin, name: "Own values only")
+        query.add_filter(custom_field.column_name, "=", [own_item.id.to_s, acme.id.to_s])
+        query.save!
+        create(:view_work_packages_table, query:)
+      end
+
+      it "copies the view filtering on the copied item and the global item" do
+        expect(service_call).to be_success
+        expect(service_call.errors).to be_empty
+        expect(target.queries.sole.filters.find { it.name == custom_field.column_name.to_sym }.values)
+          .to eq([copied_item.id.to_s, acme.id.to_s])
       end
     end
   end
