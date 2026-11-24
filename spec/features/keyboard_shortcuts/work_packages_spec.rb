@@ -31,6 +31,11 @@ require "spec_helper"
 require "features/work_packages/work_packages_page"
 
 RSpec.describe "Work package keyboard shortcuts", :js do
+  def settle
+    wait_for_network_idle
+    page.evaluate_async_script("requestAnimationFrame(() => requestAnimationFrame(arguments[0]))")
+  end
+
   shared_let(:project) { create(:project_with_types, enabled_module_names: %w[work_package_tracking calendar_view]) }
   shared_let(:work_package) { create(:work_package, project:, subject: "Keyboard subject") }
 
@@ -171,7 +176,7 @@ RSpec.describe "Work package keyboard shortcuts", :js do
       expect(page).to have_button(accessible_name: "More actions")
 
       page.send_keys("m")
-      sleep 0.5
+      settle
 
       expect(page).to have_no_menu
     end

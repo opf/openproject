@@ -30,6 +30,11 @@
 require "spec_helper"
 
 RSpec.describe "Navigation keyboard shortcuts", :js do
+  def settle
+    wait_for_network_idle
+    page.evaluate_async_script("requestAnimationFrame(() => requestAnimationFrame(arguments[0]))")
+  end
+
   let(:project) do
     create(:project, :with_internal_wiki, enabled_module_names: %w[work_package_tracking news wiki activity calendar_view]).reload
   end
@@ -77,7 +82,7 @@ RSpec.describe "Navigation keyboard shortcuts", :js do
       expect(page).to have_current_path(project_work_packages_path(project))
 
       page.send_keys("g", "n")
-      sleep 0.5
+      settle
       expect(page).to have_current_path(project_work_packages_path(project))
     end
   end
@@ -146,7 +151,7 @@ RSpec.describe "Navigation keyboard shortcuts", :js do
 
     it "navigates to the global pages" do
       page.send_keys("g", "o")
-      sleep 0.5
+      settle
       expect(page).to have_current_path(my_page_path)
 
       page.send_keys("g", "w", "p")

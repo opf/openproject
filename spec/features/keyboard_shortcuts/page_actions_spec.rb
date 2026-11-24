@@ -30,6 +30,11 @@
 require "spec_helper"
 
 RSpec.describe "Page action keyboard shortcuts", :js do
+  def settle
+    wait_for_network_idle
+    page.evaluate_async_script("requestAnimationFrame(() => requestAnimationFrame(arguments[0]))")
+  end
+
   let(:project) do
     create(:project, :with_internal_wiki, enabled_module_names: %w[work_package_tracking news wiki]).reload
   end
@@ -63,7 +68,9 @@ RSpec.describe "Page action keyboard shortcuts", :js do
       window = window_opened_by { page.send_keys([:shift, "?"]) }
 
       expect(page.windows.size).to eq(2)
-      window.close
+      within_window(window) { expect(page).to have_current_path(my_page_path) }
+    ensure
+      window&.close
     end
   end
 
@@ -156,7 +163,7 @@ RSpec.describe "Page action keyboard shortcuts", :js do
         visit project_path(project)
 
         page.send_keys("n", "w", "p")
-        sleep 0.5
+        settle
         top_menu.expect_closed
 
         page.send_keys("p")
