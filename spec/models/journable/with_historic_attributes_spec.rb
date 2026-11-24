@@ -922,4 +922,102 @@ RSpec.describe Journable::WithHistoricAttributes,
       end
     end
   end
+
+  describe "categories" do
+    shared_let(:category_a) { create(:category, project:, name: "Alpha") }
+    shared_let(:category_b) { create(:category, project:, name: "Bravo") }
+
+    let(:work_package) do
+      create(:work_package,
+             subject: "The categorised work package",
+             project:,
+             category: category_a,
+             journals: {
+               created_at => {},
+               1.day.ago => {}
+             })
+    end
+    let(:baseline) { Timestamp.parse("2022-01-01T00:00:00Z") }
+    let(:after_update) { Timestamp.parse(1.hour.from_now.iso8601) }
+
+    subject { described_class.wrap(work_package, timestamps:) }
+
+    def update_categories(*categories)
+      work_package.category_ids_replacements = categories.map(&:id)
+      work_package.save!
+    end
+
+    describe "#at_timestamp" do
+      context "when the multiple categories gate is active",
+              with_flag: { work_package_multiple_categories: true },
+              with_settings: { work_package_multiple_categories: true } do
+        it "returns the categories from the journal snapshot, not the current ones" do
+          update_categories(category_a, category_b)
+
+          expect(subject.at_timestamp(baseline).categories).to contain_exactly(category_a)
+          expect(work_package.reload.categories).to contain_exactly(category_a, category_b)
+        end
+
+        it "omits snapshotted categories that were deleted since" do
+          update_categories(category_a, category_b)
+          category_b.destroy!
+
+          expect(subject.at_timestamp(after_update).categories).to contain_exactly(category_a)
+        end
+      end
+
+      it "returns the single category from the journal snapshot when the gate is inactive" do
+        work_package.update!(category: category_b)
+
+        historic = subject.at_timestamp(baseline)
+
+        expect(historic.effective_category).to eq(category_a)
+        expect(work_package.reload.effective_category).to eq(category_b)
+      end
+    end
+
+    describe "#changed_at_timestamp" do
+      context "when the single category was swapped" do
+        it "marks both the category and the categories as changed" do
+          work_package.update!(category: category_b)
+
+          expect(subject.changed_at_timestamp(baseline))
+            .to contain_exactly("category_id", "categories")
+          expect(subject.send(:changes_at_timestamp, baseline))
+            .to include("category_id" => [category_b.id, category_a.id],
+                        "categories" => [category_a.id.to_s, category_b.id.to_s])
+        end
+      end
+
+      context "when a category was added alongside the existing one",
+              with_flag: { work_package_multiple_categories: true },
+              with_settings: { work_package_multiple_categories: true } do
+        it "marks only the categories as changed" do
+          update_categories(category_a, category_b)
+
+          expect(subject.changed_at_timestamp(baseline)).to contain_exactly("categories")
+          expect(subject.send(:changes_at_timestamp, baseline)["categories"])
+            .to eq([category_a.id.to_s, [category_a.id, category_b.id].sort.join(",")])
+        end
+      end
+
+      context "when the single category was removed" do
+        it "marks both the category and the categories as changed" do
+          work_package.update!(category: nil)
+
+          expect(subject.at_timestamp(baseline).categories).to contain_exactly(category_a)
+          expect(work_package.reload.categories).to be_empty
+          expect(subject.send(:changes_at_timestamp, baseline))
+            .to include("category_id" => [nil, category_a.id],
+                        "categories" => [category_a.id.to_s, nil])
+        end
+      end
+
+      context "when the categories are unchanged" do
+        it "reports no category change" do
+          expect(subject.changed_at_timestamp(baseline)).to be_empty
+        end
+      end
+    end
+  end
 end

@@ -49,6 +49,8 @@ module API
 
         SUPPORTED_LINK_PROPERTIES = %w[
           assignee
+          categories
+          category
           labels
           observed_in_versions
           parent
@@ -62,6 +64,7 @@ module API
         ].freeze
 
         MULTI_VALUED_LINK_PROPERTIES = %w[
+          categories
           labels
           observed_in_versions
           target_versions

@@ -53,6 +53,9 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
   let(:label_a) { build_stubbed(:label) }
   let(:label_b) { build_stubbed(:label) }
   let(:labels) { [label_a, label_b] }
+  let(:category_a) { build_stubbed(:category) }
+  let(:category_b) { build_stubbed(:category) }
+  let(:categories) { [category_a, category_b] }
   let(:parent) do
     build_stubbed(:work_package).tap do |wp|
       allow(wp)
@@ -105,7 +108,9 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
                              custom_field_values: [custom_value],
                              effective_target_versions: target_versions,
                              effective_observed_in_versions: observed_in_versions,
-                             effective_labels: labels)
+                             effective_labels: labels,
+                             effective_categories: categories,
+                             effective_category: category_a)
     end
   end
   let(:timestamp) { Timestamp.new(1.day.ago) }
@@ -186,6 +191,10 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
               "title" => version.name
             }
           ],
+          "category" => {
+            "href" => api_v3_paths.category(category_a.id),
+            "title" => category_a.name
+          },
           "parent" => {
             "displayId" => parent.display_id.to_s,
             "href" => api_v3_paths.work_package(parent.id),
@@ -379,6 +388,33 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
 
     it "does not render the labels" do
       expect(subject).not_to have_json_path("_links/labels")
+    end
+  end
+
+  context "with only the category changed" do
+    let(:attributes_changed_to_baseline) { %w[category_id] }
+
+    it "renders the historic category" do
+      expect(subject)
+        .to be_json_eql({ "href" => api_v3_paths.category(category_a.id), "title" => category_a.name }.to_json)
+        .at_path("_links/category")
+      expect(subject).not_to have_json_path("_links/categories")
+    end
+  end
+
+  context "with only the categories changed",
+          with_flag: { work_package_multiple_categories: true },
+          with_settings: { work_package_multiple_categories: true } do
+    let(:attributes_changed_to_baseline) { %w[categories] }
+
+    it "renders the historic categories" do
+      expect(subject)
+        .to be_json_eql([
+          { "href" => api_v3_paths.category(category_a.id), "title" => category_a.name },
+          { "href" => api_v3_paths.category(category_b.id), "title" => category_b.name }
+        ].to_json)
+        .at_path("_links/categories")
+      expect(subject).not_to have_json_path("_links/category")
     end
   end
 
@@ -668,7 +704,15 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, "render
             { "href" => api_v3_paths.label(label_a.id), "title" => label_a.name },
             { "href" => api_v3_paths.label(label_b.id), "title" => label_b.name }
           ],
+          "categories" => [
+            { "href" => api_v3_paths.category(category_a.id), "title" => category_a.name },
+            { "href" => api_v3_paths.category(category_b.id), "title" => category_b.name }
+          ],
           "observedInVersions" => [],
+          "category" => {
+            "href" => api_v3_paths.category(category_a.id),
+            "title" => category_a.name
+          },
           "parent" => {
             "displayId" => parent.display_id.to_s,
             "href" => api_v3_paths.work_package(parent.id),
