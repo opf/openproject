@@ -175,7 +175,7 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   // setFirstPart is not idempotent, and the same work package can be emitted twice.
   protected applyTitle():void {
     const title = this.workPackage.subjectWithType(-1);
-    if (!this.titleService.current.startsWith(title)) {
+    if (!this.titleService.hasFirstPart(title)) {
       this.titleService.setFirstPart(title);
     }
   }
