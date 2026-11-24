@@ -907,7 +907,7 @@ de:
       label_two_factor_authentication: Zwei-Faktor-Authentifizierung
     units:
       child_work_packages:
-        one: "%{count} child work package"
+        one: "%{count} untergeordnetes Arbeitspaket"
         other: "%{count} untergeordnete Arbeitspakete"
       day:
         one: "%{count} Tag"
@@ -919,7 +919,7 @@ de:
         zero: 0 h
       hour_string: "%{hours} h"
       word:
-        one: "%{count} word"
+        one: "%{count} Wort"
         other: "%{count} Wörter"
       workPackage:
         one: Arbeitspaket

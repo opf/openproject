@@ -1831,6 +1831,7 @@ es:
               label_import_data: Importando
               label_progress: Importando...
               label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
+              label_sprint_explanation: Sprints that contain at least one issue
               label_users_import_explanation: Usuarios que participan en los proyectos seleccionados (miembros de grupos incluidos)
               title: Importar datos
             fetch_data:
@@ -5954,13 +5955,13 @@ es:
       shared: Listas de proyectos compartidas
     phase_status:
       description:
-        completed: Marking a phase as complete will complete all previous phases.
-        in_progress: Marking a phase as in progress will complete all previous phases and open all future phases.
-        open: Re-opening a phase will also open all future phases.
+        completed: This will also mark all previous phases as complete.
+        in_progress: This will complete all previous phases and mark future phases as not started.
+        open: This will mark all future phases as not started.
       title:
         completed: Completado
         in_progress: En curso
-        open: Abierta
+        open: Not started
     settings:
       actions:
         label_disable_all: Desactivar todo

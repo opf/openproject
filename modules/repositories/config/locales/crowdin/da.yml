@@ -109,7 +109,7 @@ da:
       note_issue_referenced_comment: "**Henvist til i issue:** [%{gitlab_user}](%{gitlab_user_url}) henviste til denne arbejdspakke i issue %{issue_number} [%{issue_title}](%{issue_url}) i [%{repository}](%{repository_url}): %{issue_note}\n"
       note_mr_commented_comment: "**Kommenteret i MR:** [%{gitlab_user}](%{gitlab_user_url}) kommenterede denne arbejdspakke i merge request %{mr_number} [%{mr_title}](%{mr_url}) i [%{repository}](%{repository_url}): %{mr_note}\n"
       note_mr_referenced_comment: "**Henvist til i MR:** [%{gitlab_user}](%{gitlab_user_url}) henviste til denne arbejdspakke i merge request %{mr_number} [%{mr_title}](%{mr_url}) i [%{repository}](%{repository_url}): %{mr_note}\n"
-      note_snippet_referenced_comment: "**Henvist til i snippet:** [%{gitlab_user}](%{gitlab_user_url}) henviste til denne arbejdspakke i snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) i [%{repository}](%{repository_url}): %{snippet_note} %{commit_note} %{commit_note}\n"
+      note_snippet_referenced_comment: "**Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note}\n"
       push_single_commit_comment_with_ref: "**Pushet i %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushede [%{commit_number}](%{commit_url}) til [%{repository}](%{repository_url}) %{commit_timestamp}: %{commit_note}\n"
     issue_component:
       states:

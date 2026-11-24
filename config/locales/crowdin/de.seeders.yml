@@ -73,27 +73,27 @@ de:
           name: Globale Standardrolle
       ai_text_actions:
         item_0:
-          label: Structure
+          label: Struktur
         item_1:
-          label: Proofread
+          label: Korrekturlesen
         item_2:
-          label: Rewrite
+          label: Umschreiben
         item_3:
-          label: Friendly
+          label: Freundlich
         item_4:
-          label: Professional
+          label: Professionell
         item_5:
-          label: Concise
+          label: Prägnant
         item_6:
-          label: Summarize
+          label: Zusammenfassen
         item_7:
-          label: Key points
+          label: Hauptpunkte
         item_8:
-          label: List
+          label: Liste
         item_9:
-          label: Table
+          label: Tabelle
         item_10:
-          label: Suggest subject
+          label: Betreff vorschlagen
     standard:
       project_phases:
         item_0:
@@ -133,13 +133,13 @@ de:
           name: Qualitätssicherung
       labels:
         item_0:
-          name: Website
+          name: Webseite
         item_1:
           name: Marketing
         item_2:
-          name: Speakers
+          name: Vortragende
         item_3:
-          name: Security
+          name: Sicherheit
         item_4:
           name: UX
       projects:

@@ -25,13 +25,13 @@ de:
     backlogs:
       action_menu:
         menu_label:
-          one: Work package actions
-          other: Actions for %{count} selected work packages
+          one: Arbeitspaket-Aktion
+          other: Aktionen für %{count} ausgewählte Arbeitspakete
       announcements:
         batch_too_large: Es ist nicht möglich, %{count} Arbeitspakete auf einmal zu verschieben. Wählen Sie nicht mehr als %{max} aus.
         fallback_item_label: Arbeitspaket
         fallback_list_name: andere Liste
-        menu_scope_changed: The menu selection has changed. Reopen the menu before moving work packages.
+        menu_scope_changed: Die Menüauswahl hat sich geändert. Öffnen Sie das Menü erneut, bevor Sie Arbeitspakete verschieben.
         move_failed_check_position: Verschieben fehlgeschlagen. Überprüfen Sie die aktuelle Position des Arbeitspakets.
         move_failed_check_positions_batch:
           other: Verschieben fehlgeschlagen. Überprüfen Sie die aktuelle Position des Arbeitspakets.
@@ -50,7 +50,7 @@ de:
         not_selectable: Auswahl unverändert. Dieses Arbeitspaket hat keinen Einfluss auf die Reihenfolge dieser Liste.
         range_blocked: Auswahl unverändert. Sie enthält ein Arbeitspaket ohne Einfluss auf die Reihenfolge dieser Liste.
         range_restarted:
-          one: Could not extend the range. %{count} work package selected.
+          one: Die Auswahl konnte nicht erweitert werden. %{count} Arbeitspakete ausgewählt.
           other: Die Auswahl konnte nicht erweitert werden. %{count} Arbeitspakete ausgewählt.
         range_unavailable: Auswahl unverändert. Erweitern Sie diese Liste, um diesen Bereich auszuwählen.
         selected:
@@ -63,19 +63,19 @@ de:
       chart_value: "%{label}: %{value}"
     burnup_chart:
       chart_day: 'Day %{day}: %{values}'
-      chart_label: Burnup chart
+      chart_label: Burnup-Diagramm
       chart_summary: 'Burnup chart data: %{days}.'
       chart_value: "%{label}: %{value}"
     created_resolved_chart:
-      chart_label: Created vs. resolved chart
+      chart_label: "„Neu vs. abgeschlossen“-Diagramm"
       chart_summary: 'Created vs. resolved chart data: %{from} – %{to}. %{values}.'
       chart_value: "%{label}: %{value}"
       work_packages: Arbeitspakete
     sprint_charts:
       non_working_day: Arbeitsfreier Tag
       y_axis_title:
-        story_points: Story points
-        time: Estimated time
+        story_points: Story-Points
+        time: Geschätzter Aufwand
     work_packages:
       properties:
         storyPoints: Story Punkte

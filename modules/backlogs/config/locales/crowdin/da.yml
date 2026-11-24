@@ -220,7 +220,7 @@ da:
     sprint_reports:
       header_infoline_component:
         planned_html: 'Planlagt: %{range}'
-        started_at: 'Start time:'
+        started_at: 'Starttidspunkt:'
       missing_dates_blankslate_component:
         description: Sprinten skal have en start- og slutdato, før rapporten kan vises.
         heading: Sprintens datoer mangler
@@ -286,7 +286,7 @@ da:
         epic_progress:
           blankslate:
             no_epics:
-              description: The epic progress chart will appear here once the sprint contains work packages tied to an epic.
+              description: Diagrammet over fremdrift for epics vises her, når sprinten indeholder arbejdspakker, der hører til en epic.
               heading: Der er ingen epics at vise
           card:
             progress:

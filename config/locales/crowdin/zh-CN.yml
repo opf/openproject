@@ -1713,6 +1713,7 @@ zh-CN:
               label_import_data: 当前正在导入
               label_progress: 正在导入…
               label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
+              label_sprint_explanation: Sprints that contain at least one issue
               label_users_import_explanation: 参与所选项目的用户（包括群组成员资格）
               title: 导入数据
             fetch_data:
@@ -5788,13 +5789,13 @@ zh-CN:
       shared: 共享项目列表
     phase_status:
       description:
-        completed: Marking a phase as complete will complete all previous phases.
-        in_progress: Marking a phase as in progress will complete all previous phases and open all future phases.
-        open: Re-opening a phase will also open all future phases.
+        completed: This will also mark all previous phases as complete.
+        in_progress: This will complete all previous phases and mark future phases as not started.
+        open: This will mark all future phases as not started.
       title:
         completed: 已完成
         in_progress: 进行中
-        open: 打开
+        open: Not started
     settings:
       actions:
         label_disable_all: 全部禁用

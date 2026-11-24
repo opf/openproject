@@ -38,7 +38,7 @@ da:
               format: URL til discovery-endepunkt %{message}
               response_is_not_json: " returnerer ikke en JSON-brødtekst."
               response_is_not_successful: " svarer med %{status}."
-              response_misses_required_attributes: " returnerer ikke de påkrævede attributter. Disse attributter mangler: %{missing_attributes}."
+              response_misses_required_attributes: " returnerer ikke de obligatoriske attributter. Disse attributter mangler: %{missing_attributes}."
           invalid_claims_essential: definerer ikke en boolesk værdi ved %{attribute}.
           invalid_claims_location: 'indeholder placeringer, der ikke understøttes: %{invalid}. Understøttede placeringer er: %{supported}.'
           invalid_claims_values: definerer ikke et array ved %{attribute}.

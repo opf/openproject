@@ -67,8 +67,8 @@ da:
       chart_summary: 'Data i burnup-diagrammet: %{days}.'
       chart_value: "%{label}: %{value}"
     created_resolved_chart:
-      chart_label: Created vs. resolved chart
-      chart_summary: 'Created vs. resolved chart data: %{from} – %{to}. %{values}.'
+      chart_label: Diagram over oprettede og løste arbejdspakker
+      chart_summary: 'Data i diagrammet over oprettede og løste arbejdspakker: %{from} – %{to}. %{values}.'
       chart_value: "%{label}: %{value}"
       work_packages: Arbejdspakker
     sprint_charts:

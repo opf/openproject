@@ -107,7 +107,7 @@ ko:
       note_issue_referenced_comment: "**이슈에서 참조됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 이슈 %{issue_number} [%{issue_title}](%{issue_url})에서 이 WP를 참조했습니다: %{issue_note}\n"
       note_mr_commented_comment: "**MR에서 코멘트 작성됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})에서 이 WP에 대해 코멘트를 작성했습니다: %{mr_note}\n"
       note_mr_referenced_comment: "**MR에서 참조됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{repository}](%{repository_url})의 병합 요청 %{mr_number} [%{mr_title}](%{mr_url})에서 이 WP를 참조했습니다: %{mr_note}\n"
-      note_snippet_referenced_comment: "**Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note} %{commit_note} %{commit_note}\n"
+      note_snippet_referenced_comment: "**Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note}\n"
       push_single_commit_comment_with_ref: "**%{reference}에서 푸시됨:** [%{gitlab_user}](%{gitlab_user_url}) 님이 [%{commit_number}](%{commit_url})을(를) %{commit_timestamp}, [%{repository}](%{repository_url})에 푸시했습니다: %{commit_note}\n"
     issue_component:
       states:
