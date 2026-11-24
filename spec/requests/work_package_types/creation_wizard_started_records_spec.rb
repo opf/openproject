@@ -42,6 +42,8 @@ RSpec.describe "Forms and workflows started in the creation wizard", :skip_csrf,
 
   def step_url(step, **) = type_creation_wizard_path(type_id: type.id, step:, **)
 
+  def streamed_page = Capybara.string(response.body[%r{<template>(.*)</template>}m, 1].to_s)
+
   shared_examples "a started reference kept out of the existing ones" do
     let!(:other) { create(factory, name: "Standard choice") }
     let(:started) { create(factory, name: "Started choice") }
@@ -79,6 +81,82 @@ RSpec.describe "Forms and workflows started in the creation wizard", :skip_csrf,
     end
   end
 
+  shared_examples "a started reference discarded when starting again" do
+    let!(:other) { create(factory, name: "Standard choice") }
+    let!(:previous) { create(factory, name: "Previous choice") }
+
+    def assign(record, to: variant) = to.update!(foreign_key => record.id)
+
+    def wizard_params(previous_id = previous.id) = { type_id: type.id, back_url: step_url(step), started_key => previous_id }
+
+    def start_again(previous_id = previous.id, **params)
+      post public_send(:"start_type_#{route_key}_path", **wizard_params(previous_id)),
+           params: { start: "scratch", confirmed: "true", **params }
+    end
+
+    def started_now = variant.reload.public_send(foreign_key.to_s.delete_suffix("_id"))
+
+    it "carries it on to the address the start dialog submits to" do
+      get public_send(:"start_dialog_type_#{route_key}_path", **wizard_params), headers: turbo
+
+      expect(streamed_page).to have_css("form[action*='#{started_key}=#{previous.id}']")
+    end
+
+    it "deletes the one abandoned before" do
+      assign(other)
+
+      expect { start_again }.not_to change(model_class, :count)
+
+      expect(model_class).not_to exist(previous.id)
+      expect(response).to redirect_to(/#{started_key}=#{variant.reload[foreign_key]}/)
+    end
+
+    it "hands the name of the one abandoned before to the next" do
+      previous.update!(name: model_class.implicit_name(variant.composite_name))
+      assign(other)
+
+      start_again
+
+      expect(started_now.name).to eq(previous.name)
+    end
+
+    it "copies the one abandoned before, then deletes it" do
+      assign(other)
+
+      start_again(start: "copy", copy_from_id: previous.id)
+
+      expect(started_now).not_to eq(other)
+      expect(model_class).not_to exist(previous.id)
+    end
+
+    it "deletes the one it replaces" do
+      assign(previous)
+
+      expect { start_again }.not_to change(model_class, :count)
+
+      expect(model_class).not_to exist(previous.id)
+    end
+
+    it "never deletes one another variant uses" do
+      assign(other)
+      assign(previous, to: create(:type, name: "Feature").default_variant)
+
+      expect { start_again }.to change(model_class, :count).by(1)
+
+      expect(model_class).to exist(previous.id)
+    end
+
+    it "ignores one already gone" do
+      assign(other)
+      gone_id = previous.id
+      previous.destroy!
+
+      expect { start_again(gone_id) }.to change(model_class, :count).by(1)
+
+      expect(response).to redirect_to(/#{started_key}=#{variant.reload[foreign_key]}/)
+    end
+  end
+
   describe "choosing an existing form" do
     it_behaves_like "a started reference kept out of the existing ones" do
       let(:factory) { :form_configuration }
@@ -89,8 +167,30 @@ RSpec.describe "Forms and workflows started in the creation wizard", :skip_csrf,
     end
   end
 
+  describe "starting a form again" do
+    it_behaves_like "a started reference discarded when starting again" do
+      let(:model_class) { FormConfiguration }
+      let(:factory) { :form_configuration }
+      let(:route_key) { "form_configuration" }
+      let(:step) { :form_configuration }
+      let(:foreign_key) { :form_configuration_id }
+      let(:started_key) { :started_form_configuration_id }
+    end
+  end
+
   describe "choosing an existing workflow" do
     it_behaves_like "a started reference kept out of the existing ones" do
+      let(:factory) { :named_workflow }
+      let(:route_key) { "workflow" }
+      let(:step) { :workflows }
+      let(:foreign_key) { :workflow_id }
+      let(:started_key) { :started_workflow_id }
+    end
+  end
+
+  describe "starting a workflow again" do
+    it_behaves_like "a started reference discarded when starting again" do
+      let(:model_class) { Workflow }
       let(:factory) { :named_workflow }
       let(:route_key) { "workflow" }
       let(:step) { :workflows }
