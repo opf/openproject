@@ -14,11 +14,11 @@ To manage work package custom fields, navigate to *Administration → Work packa
 
 ## Overview of work package custom fields
 
-The Custom fields overview lists all existing work package custom fields, their formats, and where they are used. You can see at a glance whether a field is required, how many projects it is activated for, and how many forms contain it.
+The Custom fields overview lists all existing work package custom fields, their formats, and where they are used. You can see at a glance whether a field is required, how many projects it is used in, and how many forms contain it.
 
-![Work package custom fields overview showing field formats, required fields, project activation, and form assignments](openproject_system_guide_work_package_custom_fields_overview.png)
+![Work package custom fields overview showing field formats, required fields, project usage, and form assignments](openproject_system_guide_work_package_custom_fields_overview.png)
 
-The **Used in projects** and **Contained in** columns help you identify custom fields that are not yet in use. If a field has not been activated for any projects or added to any forms, a warning icon is displayed in the corresponding column.
+The **Used in projects** and **Contained in** columns help you identify custom fields that are not yet in use. If a field is not used in any projects or has not been added to any forms, a warning icon is displayed in the corresponding column.
 
 Click a custom field's name to edit its settings. To delete a custom field, use the delete icon at the end of its row.
 
@@ -36,7 +36,7 @@ The following example shows the configuration options for a custom field of the 
 
 For more information about the available formats and their configuration options, see [Custom field formats](../../custom-fields/#custom-field-formats).
 
-### Project-specific values (Enterprise add-on)
+## Project-specific values (Enterprise add-on)
 
 [feature: project_specific_list_values ]
 
@@ -48,32 +48,65 @@ Under **Project-specific values**, select one of the following options:
 - **Allow filter: Manually choose which values to activate for each project:** Only the values you activate for a project are available.
 - **Block filter: Manually choose which values to deactivate for each project:** All values are available except those you deactivate for a project.
 
-You can manage the available values for individual projects in the custom field's **Projects** tab. These settings determine which values users can select, independently of whether the custom field itself is activated for a project.
+### Configure values for individual projects
+
+To manage the available values for individual projects, open the custom field's **Projects** tab. Use the search option to find a specific project and click the **Configure project-specific values** button at the end of the corresponding project's row.
+
+![Configure project-specific values for a work package custom field](openproject_system_guide_work_package_custom_field_project_specific_values.png)
+
+Use the toggle next to each item to enable or disable individual values for the selected project. You can also use **Enable all** or **Disable all** to change the availability of all values at once.
+
+The following example shows the configuration of project-specific values for a custom field of the **Hierarchy** format.
+
+![Enable or disable individual hierarchy items for a specific project](openproject_system_guide_work_package_custom_field_project_specific_values_items.png)
+
+When you return to the **Projects** tab, the **Project-specific values** column reflects your changes. If all values are available in a project, the column displays **All**. Otherwise, it shows the number of enabled values out of the total number of values, for example, **10 of 11**.
+
+![Projects overview showing the number of enabled custom field values for individual projects](openproject_system_guide_work_package_custom_field_project_specific_values_overview.png)
+
+You can switch between **All projects** and **With project-specific values** to review all projects using the custom field or only those with customized values.
+
+These settings determine which values users can select in a project, rather than whether the custom field itself is available. Changes to the available values in one project do not affect other projects.
+
+## Configure an existing custom field
+
+To review or update the configuration of a custom field, click its name in the Custom fields overview.
+
+Work package custom fields have five tabs: **Details**, **Projects**, **Help text**, **Forms**, and **Types and variants**. Custom fields with selectable items, such as List, Hierarchy, and Weighted item list, also have an **Items** tab immediately after **Details**, where you can manage the available values.
+
+![Configuration tabs for a work package custom field](openproject_system_guide_work_package_custom_field_tabs.png)
+
+You can find detailed instructions on configuring custom field formats, validation rules, selectable values, and help text in the general [Custom fields guide](../../custom-fields/).
 
 ## Make custom fields available in work packages
 
-Creating a custom field does not automatically make it available in work packages. The field must be included in the form used by the relevant work package type or variant and activated for the projects in which it should be available.
+Starting with OpenProject 18.0, custom fields are no longer activated or deactivated individually for each project. Instead, their availability is determined by the forms used by work package types and variants.
+
+Creating a custom field does not automatically make it available in work packages. The field must be included in a form used by a work package type or variant. It will then be available in all projects where the corresponding type or variant is enabled.
 
 ### Add a custom field to a form
 
-The **Contained in** column in the Custom fields overview shows how many forms contain each field. If a custom field has not yet been added to a form, click **Add this field to a form**.
+Navigate to *Administration → Work packages → Forms* and open the relevant form. Drag the custom field from the available attributes into the appropriate section of the form.
 
-You can also add custom fields directly through *Administration → Work packages → Forms*. Open the relevant form and drag the custom field from the available attributes into the appropriate section.
+Since forms are reusable, adding a custom field to a shared form affects all types and variants using that form.
 
-Since forms are reusable, adding a custom field to a shared form makes it part of the layout for all types and variants using that form. If you only want the field to appear for a particular type or variant, consider using a separate form.
+For detailed instructions, see [Configure a work package form](../work-package-forms/#configure-a-work-package-form).
 
-For more information on configuring form layouts, see [Manage work package forms](../work-package-forms/).
+### Review where a custom field is used
 
-### Activate a custom field for projects
+The **Used in projects** and **Contained in** columns in the Custom fields overview show how many projects and forms use each custom field. To review these associations in more detail, open the custom field and select one of the following tabs:
 
-Custom fields can be activated for all projects or only for selected projects. This allows you to use the same form across several projects while making certain custom fields available only where they are needed.
+- **Forms:** Shows the forms that contain the custom field.
 
-If the custom field is configured for all projects, no additional project-level activation is necessary. Otherwise, you can activate it for individual projects through their project settings or for multiple projects at once through the custom field's **Projects** tab.
+  ![Forms tab in the work package custom field configuration](openproject_system_guide_work_package_custom_field_forms.png)
 
-For detailed instructions, see [Add a custom field to one or multiple projects](../../custom-fields/#add-a-custom-field-to-one-or-multiple-projects).
+- **Types and variants:** Shows the work package types and variants that use a form containing the custom field.
 
-> [!IMPORTANT]
-> Adding a custom field to a form does not automatically activate it for the projects using that form. Both conditions must be met for the custom field to be available in a work package.
+  ![Types and variants tab in the work package custom field configuration](openproject_system_guide_work_package_custom_field_types_and_variants.png)
+
+- **Projects:** Shows the projects in which the custom field is available and the work package types and variants through which it is used. You can search for specific projects. For supported custom field formats, you can also [configure project-specific values](#configure-values-for-individual-projects) directly from this tab.
+
+  ![Projects tab in the work package custom field configuration](openproject_system_guide_work_package_custom_field_projects.png)
 
 ## Required custom fields
 

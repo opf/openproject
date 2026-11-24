@@ -24,8 +24,6 @@ Each row shows the form's name, the number of types and variants using it, and t
 
 You can search for a particular form or narrow the list using the **Type**, **Projects**, and **All filters** controls. Click a form's name to open its configuration.
 
-Click a form's name to open its configuration.
-
 ### Manage existing forms
 
 To manage an existing form, open its **More (three dots)** menu in the Forms overview.
@@ -53,7 +51,7 @@ For more information, see [Manage work package types](../work-package-types/) an
 
 ## Configure a work package form
 
-The form editor lets you decide which attributes and custom fields appear in a work package and how they are arranged. The current form layout is displayed in sections, while available attributes and [custom fields](../../custom-fields/) that are not yet included can be added as needed.
+The form editor lets you decide which attributes and custom fields appear in a work package and how they are arranged. The current form layout is displayed in sections, while available attributes and [custom fields](../work-package-custom-fields/) that are not yet included can be added as needed.
 
 Built-in attributes and user-created custom fields are distinguished by their labels, making it easier to identify the fields you want to use.
 
@@ -65,11 +63,11 @@ You can drag attributes and custom fields into the appropriate sections of the f
 
 Removing a built-in attribute from the form does not delete it. It remains available in the list of attributes and can be added again later. If you use custom fields, remember that they must also be activated for the relevant projects before users can work with them.
 
-### Organize attributes into sections
+### Organize attributes into sections (Enterprise add-on)
 
 [feature: edit_attribute_groups ]
 
-In the Enterprise edition, you can create and rename sections to group related attributes. To add a section, click **+ Add**, select **Section**, and enter a name. You can then drag attributes into the new section and rearrange the sections as needed.
+You can create and rename sections to group related attributes. To add a section, click **+ Add**, select **Section**, and enter a name. You can then drag attributes into the new section and rearrange the sections as needed.
 
 ![Add menu for creating a section in a work package form](openproject_system_guide_work_package_form_add_section.png)
 
@@ -77,12 +75,13 @@ In the Enterprise edition, you can create and rename sections to group related a
 
 If you want to return to the default layout, click **Reset form**. This resets the form configuration, including its sections and attribute assignments. Changes to the form layout are saved automatically.
 
-
 ## Custom fields in work package forms
 
 Custom fields can be added to a form alongside built-in attributes and arranged in the same way. Adding a custom field to a form determines where it appears, while its settings determine how users interact with it, including whether a value is required.
 
-For instructions on creating, configuring, and making custom fields mandatory for specific work package types, see [Manage custom fields](../custom-fields/).
+For a custom field to be available in a work package, it must be included in the form used by the corresponding type or variant and activated for the relevant project.
+
+For instructions on creating, configuring, and activating custom fields, see [Manage work package custom fields](../work-package-custom-fields/).
 
 ## Add a table of related work packages (Enterprise add-on)
 
@@ -109,7 +108,7 @@ For more information about configuring work packages, see:
 - [Manage work package types](../work-package-types/)
 - [Create a type or variant](../work-package-types/create-type-or-variant/)
 - [Configure workflows](../work-package-workflows/)
-- [Manage custom fields](../work-package-custom-fields/)
+- [Manage work package custom fields](../work-package-custom-fields/)
 
 Watch the following video for an introduction to customizing work package forms and custom fields:
 
