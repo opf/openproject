@@ -63,14 +63,7 @@ class Sprint < ApplicationRecord
          :visible,
          :native_to_sprint_source
 
-  enum :status,
-       {
-         in_planning: "in_planning",
-         active: "active",
-         completed: "completed"
-       },
-       default: "in_planning",
-       validate: true
+  self.ignored_columns += %i[status]
 
   validates :name, :project, presence: true
   validates :start_date, :finish_date, presence: true, if: :active?
