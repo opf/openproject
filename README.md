@@ -1,4 +1,7 @@
 # OpenProject
+
+> **Praskla Technology internship submission:** the project task statistics and the personal productivity dashboard added in this fork are documented in [PRASKLA_SUBMISSION.md](PRASKLA_SUBMISSION.md).
+
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/opf/openproject)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/opf/openproject)
 ![GitHub branch checks state](https://img.shields.io/github/checks-status/opf/openproject/dev)
