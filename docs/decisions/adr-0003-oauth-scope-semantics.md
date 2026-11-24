@@ -1,9 +1,8 @@
 ---
 status: "accepted"
-date: 2026-11-20 (TBD)
+date: 2026-11-24
 decision-makers:
-  - "Jan Sandbrink (TBD: am I? Who is decision maker and who is consulted? Maybe Team Titan because integration???)"
-  - ...
+  - Team Titan
 consulted:
   - Klaus Zanders
   - Eric Schubert
@@ -80,11 +79,11 @@ is undefined,** but it's suggested that we raise an API error in this case.
 
 ```
 # a token capable of reading any work package via MCP
-op:api:mcp op:resource:work_package:read op:location:*
+op:api:mcp op:resource:work_packages:read op:location:*
 
 # a token capable of reading and writing work packages in a certain resource location (e.g. project) via APIv3
 # Note: Exact naming scheme and features of location scope is out-of-scope for this ADR
-op:api:v3 op:resource:work_package:write op:location:project:42
+op:api:api_v3 op:resource:work_packages:write op:location:project:42
 
 # a token capable of reading any resource over any protocol in any location
 op:api:* op:resource:*:read op:location:*
@@ -93,7 +92,7 @@ op:api:* op:resource:*:read op:location:*
 op:api:* op:resource:* op:location:*
 
 # a token capable of writing work packages and reading meetings over any protocol in any location
-op:api:* op:resource:work_package:write op:resource:meeting:read op:location:*
+op:api:* op:resource:work_packages:write op:resource:meetings:read op:location:*
 ```
 
 All dimensions of token access are carried in an extra kind of scope, no two dimensions are conflated in the same kind.
@@ -112,11 +111,11 @@ A scope can use wildcards to allow any value in the omitted part(s). A trailing 
 
 ```
 # a token capable of reading any work package via MCP
-op:mcp:work_package:read
+op:mcp:work_packages:read
 
 # a token capable of reading and writing work packages in a certain resource location (e.g. project) via APIv3
 # Note: Exact naming scheme and features of parts following "write" are out-of-scope for this ADR
-op:api_v3:work_package:write:project:42
+op:api_v3:work_packages:write:project:42
 
 # a token capable of reading any resource over any protocol in any location
 op:*:*:read
@@ -126,7 +125,7 @@ op
 
 # a token capable of writing work packages via APIv3 in a certain resource location and reading meetings over MCP in any location
 # Note: Exact naming scheme and features of parts following "write" are out-of-scope for this ADR
-op:api_v3:work_package:write:project:42 op:mcp:meeting:read
+op:api_v3:work_packages:write:project:42 op:mcp:meetings:read
 ```
 
 A single scope carries all dimensions of token access. A scope can use wildcards to allow any value in the omitted part(s).
@@ -149,11 +148,11 @@ locations later on, while staying compatible with our decision of today.
 
 ```
 # a token capable of reading any work package via MCP
-op:api:mcp op:resource:work_package:read
+op:api:mcp op:resource:work_packages:read
 
 # a token capable of reading and writing work packages in a certain resource location (e.g. project) via APIv3
 # Note: Exact naming scheme and features of parts following "write" are out-of-scope for this ADR
-op:api:v3 op:resource:work_package:write:project:42
+op:api:api_v3 op:resource:work_packages:write:project:42
 
 # a token capable of reading any resource over any protocol in any location
 op:api op:resource:*:read
@@ -163,7 +162,7 @@ op:api op:resource
 
 # a token capable of writing work packages in a certain resource location and reading meetings in any location
 # Note: Exact naming scheme and features of parts following "write" are out-of-scope for this ADR
-op:api op:resource:work_package:write:project:42 op:resource:meeting:read
+op:api op:resource:work_packages:write:project:42 op:resource:meetings:read
 ```
 
 The protocol dimension is carried in a separate kind of scope, but resource class and location are expressed in the same scope.
@@ -214,29 +213,29 @@ A trailing `:*` can be omitted. This requires that all current and future uses o
 than leaving them out.
 
 A wildcard is not allowed in the first and second part of a scope. So neither `op`, nor `op:*`, nor `*` are valid scopes.
+Rationale: If a wildcard was allowed in either of these, it would hurt forward compatibility, because we can't yet know what other kinds of
+scopes could even mean. And the `op` in the first part literally means "OpenProject", so there is no other first part we'd ever want
+to accept.
 
-### API scopes
+### API scopes (e.g. `op:api:<name>`)
 
-API scopes replace the existing legacy scopes. They grant access to OpenProject via specific protocols, but contrary to the existing
+API scopes will replace the existing legacy scopes. They grant access to OpenProject via specific protocols, but contrary to the existing
 legacy scopes do not grant access to any resources themselves. Resource access has to be granted separately using at least one
 resource scope.
 
 Their kind is `api`. The third part specifies the name of the API endpoint class granted access to.
 The exhaustive list of planned API scopes at the time of writing this ADR is:
 
-* `op:api:v3` (TODO: or `op:api:api_v3`)
+* `op:api:api_v3`
 * `op:api:scim_v2`
 * `op:api:mcp`
 * `op:api:bcf_v2_1`
 
-TODO: are version numbers for things like BCF and SCIM relevant?
-
-### Resource scopes
+### Resource scopes (e.g. `op:resource:<name>:<action>`)
 
 Resource scopes grant access to a class of resources. Their kind is `resource`, followed by a part naming the resource class in
-singular and another part naming the action performed on the resource. The most typical actions are `read` and `write`, however
-certain resources might define and document additional actions. Unless documented otherwise for a resource, `write` includes `read`.
-Implementation and decision on implementation details for generic resource scopes is still pending.
+plural and another part naming the action performed on the resource. Decisions on implementation details and naming for
+generic resource scopes are still pending.
 
 Allowing to scope down access to resources further by their logical location in OpenProject is explicitly intended to be supported
 in the future by the addition of further (optional) parts to the resource scope. Their exact schema, naming and capabilities are
