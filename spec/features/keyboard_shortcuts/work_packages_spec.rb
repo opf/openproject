@@ -188,8 +188,6 @@ RSpec.describe "Work package keyboard shortcuts", :js do
       page.send_keys("a", "b", "c")
 
       expect(global_search.input.value).to eq("abc")
-      expect(page).to have_element(accesskey: "4", count: 1, visible: :all)
-      expect(global_search.input["accesskey"]).to eq("4")
     end
 
     it "focuses global search with an empty query" do
@@ -208,31 +206,37 @@ RSpec.describe "Work package keyboard shortcuts", :js do
     end
   end
 
-  describe "access key 4 with keyboard shortcuts disabled" do
-    before { user.pref.update!(disable_keyboard_shortcuts: true) }
-
-    it "is owned by the search toggle at a narrow viewport" do
-      page.current_window.resize_to(500, 900)
-      visit project_path(project)
-
+  describe "access key 4" do
+    # A native access key activation clicks its owner, the visually hidden button behind the s hotkey.
+    def activate_search_access_key
       expect(page).to have_element(accesskey: "4", count: 1, visible: :all)
-      toggle = find(:element, accesskey: "4", visible: :visible)
-      expect(toggle).to match_selector("#top-menu-search-button")
-
-      toggle.click
-
-      expect(global_search.input).to match_selector(":focus")
-      page.send_keys("a", "b", "c")
-      expect(global_search.input.value).to eq("abc")
-    ensure
-      page.current_window.resize_to(1920, 1080)
+      find(:element, :button, accesskey: "4", "data-hotkey": "s", visible: :all).execute_script("this.click()")
     end
 
-    it "is owned by the search input at desktop width" do
-      visit project_path(project)
+    it "focuses global search and keeps the current query at desktop width" do
+      visit search_path(q: "earlier")
 
-      expect(page).to have_element(accesskey: "4", count: 1, visible: :all)
-      expect(global_search.input["accesskey"]).to eq("4")
+      activate_search_access_key
+
+      expect(global_search.input).to match_selector(":focus")
+      expect(global_search.input.value).to eq("earlier")
+    end
+
+    context "with keyboard shortcuts disabled" do
+      before { user.pref.update!(disable_keyboard_shortcuts: true) }
+
+      it "opens global search at a narrow viewport" do
+        page.current_window.resize_to(500, 900)
+        visit project_path(project)
+
+        activate_search_access_key
+
+        expect(global_search.input).to match_selector(":focus")
+        page.send_keys("a", "b", "c")
+        expect(global_search.input.value).to eq("abc")
+      ensure
+        page.current_window.resize_to(1920, 1080)
+      end
     end
   end
 

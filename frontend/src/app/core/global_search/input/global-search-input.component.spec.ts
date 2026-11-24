@@ -31,7 +31,8 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { GlobalSearchInputComponent } from './global-search-input.component';
 
 import { TestBed } from '@angular/core/testing';
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { DeviceService } from 'core-app/core/browser/device.service';
 import { CommonModule } from '@angular/common';
 import { provideHttpClient, withXhr } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
@@ -138,14 +139,35 @@ describe('GlobalSearchInputComponent#activateFromShortcut', () => {
     expect(header).toHaveClass('op-app-header_search-open');
   });
 
-  it('puts access key 4 on the search input, then on the search toggle', async () => {
-    const fixture = await render();
-    const toggle = (fixture.nativeElement as HTMLElement).querySelector('#top-menu-search-button');
+  const shortcut = () => document.querySelector<HTMLButtonElement>('[data-hotkey="s"]')!;
 
-    expect(Array.from((fixture.nativeElement as HTMLElement).querySelectorAll('[accesskey]')))
-      .toEqual([input(), toggle]);
-    expect(input()).toHaveAttribute('accesskey', '4');
-    expect(toggle).toHaveAttribute('accesskey', '4');
+  it('puts access key 4 only on the search shortcut button', async () => {
+    const fixture = await render();
+
+    expect(Array.from((fixture.nativeElement as HTMLElement).querySelectorAll('[accesskey]'))).toEqual([shortcut()]);
+    expect(shortcut()).toHaveAttribute('accesskey', '4');
+  });
+
+  it('focuses the input and keeps the query when access key 4 activates on a wide screen', async () => {
+    const fixture = await render();
+    vi.spyOn(TestBed.inject(DeviceService), 'isTablet', 'get').mockReturnValue(false);
+    fixture.componentInstance.ngSelectComponent.ngSelectInstance.filter('earlier');
+
+    shortcut().click();
+
+    await waitFor(() => expect(input()).toHaveFocus());
+    expect(input()).toHaveValue('earlier');
+  });
+
+  it('expands the search when access key 4 activates on a narrow screen', async () => {
+    const fixture = await render();
+    vi.spyOn(TestBed.inject(DeviceService), 'isTablet', 'get').mockReturnValue(true);
+
+    shortcut().click();
+
+    await waitFor(() => expect(input()).toHaveFocus());
+    expect(fixture.componentInstance.expanded).toBe(true);
+    expect(header).toHaveClass('op-app-header_search-open');
   });
 
   it('is activated by its s hotkey', async () => {

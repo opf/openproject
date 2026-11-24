@@ -44,8 +44,12 @@ const KNOWN_SEQUENCES = [
 
 const KNOWN_SEQUENCE_SET:ReadonlySet<string> = new Set(KNOWN_SEQUENCES.map((sequence) => normalizeSequence(sequence)));
 
-const TARGET_SELECTOR = '[data-hotkey], [accesskey], [data-hotkey-yielded-accesskey]';
 const YIELDED_ACCESSKEY = 'data-hotkey-yielded-accesskey';
+const ACCESS_KEY_SELECTOR = `[accesskey], [${YIELDED_ACCESSKEY}]`;
+const BINDING_SELECTOR = '[data-hotkey]';
+const TARGET_SELECTOR = `${BINDING_SELECTOR}, ${ACCESS_KEY_SELECTOR}`;
+const ACCESS_KEY_ATTRIBUTES:ReadonlySet<string> = new Set(['accesskey', YIELDED_ACCESSKEY, 'data-hotkey-fallback']);
+const BINDING_ATTRIBUTES:ReadonlySet<string> = new Set(['data-hotkey', 'data-hotkey-fallback']);
 
 const actions = new Map<string, (el:HTMLElement) => void>();
 
@@ -61,6 +65,41 @@ export function registerHotkeyAction(name:string, fn:(el:HTMLElement) => void):(
       actions.delete(name);
     }
   };
+}
+
+function containsTarget(node:Node, selector:string):boolean {
+  return node instanceof Element && (node.matches(selector) || node.querySelector(selector) !== null);
+}
+
+interface Changes {
+  accessKeys:boolean;
+  bindings:boolean;
+}
+
+// One selector pass per added or removed node; only the rare nodes holding a target are checked per kind.
+function addNodeChanges(nodes:NodeList, changes:Changes):void {
+  for (const node of nodes) {
+    if (containsTarget(node, TARGET_SELECTOR)) {
+      changes.accessKeys ||= containsTarget(node, ACCESS_KEY_SELECTOR);
+      changes.bindings ||= containsTarget(node, BINDING_SELECTOR);
+    }
+  }
+}
+
+function changesOf(records:readonly MutationRecord[]):Changes {
+  const changes:Changes = { accessKeys: false, bindings: false };
+  for (const record of records) {
+    if (record.type === 'attributes') {
+      const name = record.attributeName ?? '';
+      changes.accessKeys ||= ACCESS_KEY_ATTRIBUTES.has(name);
+      changes.bindings ||= BINDING_ATTRIBUTES.has(name);
+    } else {
+      addNodeChanges(record.addedNodes, changes);
+      addNodeChanges(record.removedNodes, changes);
+    }
+    if (changes.accessKeys && changes.bindings) break;
+  }
+  return changes;
 }
 
 function isTypingElement(element:Element):boolean {
@@ -88,14 +127,26 @@ function accessKeysOf(element:HTMLElement):string[] {
   return key ? [key] : [];
 }
 
-function pickOwner(elements:HTMLElement[]):HTMLElement {
+function withoutFallbacks(elements:readonly HTMLElement[]):readonly HTMLElement[] {
   const primary = elements.filter((element) => !element.hasAttribute('data-hotkey-fallback'));
-  const candidates = primary.length > 0 ? primary : elements;
+  return primary.length > 0 ? primary : elements;
+}
+
+function pickHotkeyOwner(elements:readonly HTMLElement[]):HTMLElement {
+  const candidates = withoutFallbacks(elements);
   if (candidates.length === 1) return candidates[0];
   return candidates.find((element) => element.checkVisibility()) ?? candidates[0];
 }
 
-function groupBy(elements:HTMLElement[], keysOf:(element:HTMLElement) => string[]):Map<string, HTMLElement[]> {
+// Browsers give a native access key to the last (Chrome) or first (Safari) duplicate whatever its visibility, and
+// visibility changes are not observable, so ownership is structural. The last copy wins because Primer's page header
+// renders the mobile copy of a single action before the desktop one.
+function pickAccessKeyOwner(elements:readonly HTMLElement[]):HTMLElement {
+  const candidates = withoutFallbacks(elements);
+  return candidates[candidates.length - 1];
+}
+
+function groupBy(elements:readonly HTMLElement[], keysOf:(element:HTMLElement) => string[]):Map<string, HTMLElement[]> {
   const groups = new Map<string, HTMLElement[]>();
   elements.forEach((element) => {
     keysOf(element).forEach((key) => {
@@ -121,21 +172,28 @@ function properPrefixes(sequence:string):string[] {
 }
 
 interface Bindings {
-  readonly owners:ReadonlyMap<string, HTMLElement>;
+  readonly candidates:ReadonlyMap<string, readonly HTMLElement[]>;
   readonly prefixes:ReadonlySet<string>;
 }
 
-const noBindings:Bindings = { owners: new Map(), prefixes: new Set() };
+const noBindings:Bindings = { candidates: new Map(), prefixes: new Set() };
 
 function bindingsFor(elements:HTMLElement[]):Bindings {
-  const owners = new Map(Array.from(groupBy(elements, hotkeyAlternatives), ([sequence, group]) => [sequence, pickOwner(group)]));
-  const prefixes = new Set([...owners.keys(), ...KNOWN_SEQUENCE_SET].flatMap(properPrefixes));
-  return { owners, prefixes };
+  const candidates = groupBy(elements, hotkeyAlternatives);
+  const prefixes = new Set([...candidates.keys(), ...KNOWN_SEQUENCE_SET].flatMap(properPrefixes));
+  return { candidates, prefixes };
+}
+
+// Picked when the key is pressed, so CSS that swaps which candidate is visible needs no reconcile.
+function ownerIn(bindings:Bindings, sequence:string):HTMLElement|undefined {
+  const candidates = bindings.candidates.get(sequence);
+  return candidates ? pickHotkeyOwner(candidates) : undefined;
 }
 
 /**
- * Gives every `data-hotkey` sequence and every `accesskey` under the root one owner, preferring the first visible
- * element without `data-hotkey-fallback`; the others keep their access key in `data-hotkey-yielded-accesskey`.
+ * Gives every `data-hotkey` sequence under the root one owner when it is pressed, preferring the first visible element
+ * without `data-hotkey-fallback`. Every `accesskey` gets one owner, the last element without `data-hotkey-fallback`;
+ * the others keep their access key in `data-hotkey-yielded-accesskey`.
  * A hotkey runs its owner's `data-hotkey-action`, focuses an owner that is a form field, or clicks the owner.
  * Held keys repeat only single-key hotkeys whose owner carries `data-hotkey-repeat`.
  */
@@ -147,6 +205,8 @@ export class HotkeyDispatcher {
   private enabled = false;
 
   private listener?:AbortController;
+
+  private bindingsStale = false;
 
   constructor(
     private readonly root:HTMLElement,
@@ -172,22 +232,35 @@ export class HotkeyDispatcher {
     this.listener = undefined;
     this.tracker.reset();
     this.bindings = noBindings;
+    this.bindingsStale = true;
+  }
+
+  /**
+   * Hands over native access keys at once, since the browser activates them without a keydown this dispatcher sees;
+   * hotkey bindings are rebuilt on the next keydown.
+   */
+  mutated(records:readonly MutationRecord[]):void {
+    const changes = changesOf(records);
+    if (changes.accessKeys) {
+      this.reconcileAccessKeys(this.accessKeyElements());
+    }
+    this.bindingsStale ||= changes.bindings;
   }
 
   reconcile():void {
     const elements = Array.from(this.root.querySelectorAll<HTMLElement>(TARGET_SELECTOR));
-
-    groupBy(elements, accessKeysOf).forEach((group, key) => {
-      const owner = pickOwner(group);
-      group.forEach((element) => moveAccessKey(element, key, element === owner));
-    });
-
+    this.reconcileAccessKeys(elements);
     this.bindings = this.enabled ? bindingsFor(elements) : noBindings;
+    this.bindingsStale = false;
   }
 
   private readonly onKeydown = (event:KeyboardEvent):void => {
     if (!this.enabled || event.defaultPrevented || event.isComposing || isTypingTarget(event)) {
       return;
+    }
+    if (this.bindingsStale) {
+      this.bindings = bindingsFor(Array.from(this.root.querySelectorAll<HTMLElement>(BINDING_SELECTOR)));
+      this.bindingsStale = false;
     }
     if (event.repeat) {
       this.repeat(event);
@@ -202,10 +275,23 @@ export class HotkeyDispatcher {
     }
   };
 
+  private accessKeyElements():HTMLElement[] {
+    return Array.from(this.root.querySelectorAll<HTMLElement>(ACCESS_KEY_SELECTOR));
+  }
+
+  private reconcileAccessKeys(elements:readonly HTMLElement[]):void {
+    for (const [key, group] of groupBy(elements, accessKeysOf)) {
+      const owner = pickAccessKeyOwner(group);
+      for (const element of group) {
+        moveAccessKey(element, key, element === owner);
+      }
+    }
+  }
+
   private repeat(event:KeyboardEvent):void {
     if (this.tracker.path.length > 0) return;
 
-    const owner = this.bindings.owners.get(eventToHotkeyString(event));
+    const owner = ownerIn(this.bindings, eventToHotkeyString(event));
     if (owner?.hasAttribute('data-hotkey-repeat')) {
       event.preventDefault();
       this.fire(owner);
@@ -214,7 +300,7 @@ export class HotkeyDispatcher {
 
   private match(event:KeyboardEvent):boolean {
     const candidate = this.tracker.path.join(' ');
-    const owner = this.bindings.owners.get(candidate);
+    const owner = ownerIn(this.bindings, candidate);
 
     if (owner) {
       event.preventDefault();

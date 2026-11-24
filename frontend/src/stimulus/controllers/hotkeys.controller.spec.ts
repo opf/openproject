@@ -26,7 +26,7 @@
 //++
 
 import { Application } from '@hotwired/stimulus';
-import { fireEvent, waitFor, within } from '@testing-library/dom';
+import { fireEvent, within } from '@testing-library/dom';
 import { nextTask } from 'core-common/testing/timing';
 import HotkeysController from './hotkeys.controller';
 
@@ -80,19 +80,44 @@ describe('HotkeysController', () => {
     expect(clicked).toHaveBeenCalledOnce();
   });
 
-  it('reconciles after the element resizes', async () => {
+  it('fires a target added just before the key press', async () => {
+    element('body').insertAdjacentHTML('beforeend', '<button data-testid="late" data-hotkey="x">Late</button>');
+    const clicked = clicks('late');
+    await Promise.resolve();
+
+    press('x');
+
+    expect(clicked).toHaveBeenCalledOnce();
+  });
+
+  it('reconciles when the owner of a hotkey is removed', async () => {
     element('body').insertAdjacentHTML('beforeend', `
-      <button data-testid="wide" accesskey="9">Wide</button>
-      <button data-testid="narrow" accesskey="9" style="display:none">Narrow</button>
+      <div data-testid="row"><button data-hotkey="y">Row</button></div>
+      <button data-testid="fallback" data-hotkey="y" data-hotkey-fallback>Fallback</button>
     `);
-    await waitFor(() => expect(element('narrow')).not.toHaveAttribute('accesskey'));
+    const clicked = clicks('fallback');
+    await nextTask();
 
-    element('wide').style.display = 'none';
-    element('narrow').style.display = '';
-    element('body').style.width = '200px';
+    element('row').remove();
+    await Promise.resolve();
+    press('y');
 
-    await waitFor(() => expect(element('narrow')).toHaveAttribute('accesskey', '9'));
-    expect(element('wide')).not.toHaveAttribute('accesskey');
+    expect(clicked).toHaveBeenCalledOnce();
+  });
+
+  it('hands a removed owner\'s access key to the fallback at once', async () => {
+    element('body').dataset.hotkeysEnabledValue = 'false';
+    element('body').insertAdjacentHTML('beforeend', `
+      <div data-testid="toolbar"><button accesskey="2">Create</button></div>
+      <a data-testid="fallback" href="#" accesskey="2" data-hotkey-fallback>New work package</a>
+    `);
+    await nextTask();
+    expect(element('fallback')).not.toHaveAttribute('accesskey');
+
+    element('toolbar').remove();
+    await Promise.resolve();
+
+    expect(element('fallback')).toHaveAttribute('accesskey', '2');
   });
 
   it('stops on disconnect', async () => {
@@ -105,10 +130,8 @@ describe('HotkeysController', () => {
     expect(clicked).not.toHaveBeenCalled();
   });
 
-  it('keeps one mutation and one resize observer across reconnects on the same element', async () => {
+  it('fires each key once across reconnects on the same element', async () => {
     const host = element('body');
-    const observeMutations = vi.spyOn(MutationObserver.prototype, 'observe');
-    const observeResizes = vi.spyOn(ResizeObserver.prototype, 'observe');
 
     for (let cycle = 1; cycle <= 3; cycle += 1) {
       host.removeAttribute('data-controller');
@@ -123,18 +146,6 @@ describe('HotkeysController', () => {
 
       expect(clicked).toHaveBeenCalledOnce();
     }
-
-    const hotkeyMutationObservers = observeMutations.mock.calls
-      .map(([target, options], index) => ({ target, options, observer: observeMutations.mock.contexts[index] }))
-      .filter(({ target, options }) => target === host && options?.attributeFilter?.includes('data-hotkey'))
-      .map(({ observer }) => observer);
-    const hostResizeObservers = observeResizes.mock.calls
-      .map(([target], index) => ({ target, observer: observeResizes.mock.contexts[index] }))
-      .filter(({ target }) => target === host)
-      .map(({ observer }) => observer);
-
-    expect(new Set(hotkeyMutationObservers).size).toBe(1);
-    expect(new Set(hostResizeObservers).size).toBe(1);
   });
 
   it('follows data-hotkeys-enabled-value changes on the same element', async () => {

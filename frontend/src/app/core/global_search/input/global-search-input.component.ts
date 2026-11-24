@@ -208,6 +208,15 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  // Access key 4 used to sit on the input on wide screens and on the search toggle on narrow ones; this keeps both.
+  public activateFromAccessKey():void {
+    if (this.deviceService.isTablet) {
+      this.activateFromShortcut();
+    } else {
+      this.ngSelectComponent.ngSelectInstance.focus();
+    }
+  }
+
   public activateFromShortcut():void {
     this._searchTermInitialized = true;
     this.clearSearch();

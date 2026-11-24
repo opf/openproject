@@ -169,7 +169,7 @@ describe('HotkeyDispatcher', () => {
   });
 
   describe('ownership', () => {
-    it('picks the first visible non-fallback owner', () => {
+    it('fires the first visible non-fallback hotkey owner', () => {
       mount(`
         <a data-testid="hidden" href="#" data-hotkey="g e" accesskey="3" style="display:none">Edit</a>
         <a data-testid="visible" href="#" data-hotkey="g e" accesskey="3">Edit</a>
@@ -182,9 +182,6 @@ describe('HotkeyDispatcher', () => {
 
       expect(visibleClicked).toHaveBeenCalledOnce();
       expect(hiddenClicked).not.toHaveBeenCalled();
-      expect(element('visible').getAttribute('accesskey')).toBe('3');
-      expect(element('hidden').hasAttribute('accesskey')).toBe(false);
-      expect(element('hidden').dataset.hotkeyYieldedAccesskey).toBe('3');
     });
 
     it('fallback yields hotkey and accesskey while an owner is connected', () => {
@@ -231,14 +228,34 @@ describe('HotkeyDispatcher', () => {
       expect(fallback.dataset.hotkeyYieldedAccesskey).toBe('7');
     });
 
-    it('applies the owner rule to access keys without a hotkey', () => {
+    it('gives a shared access key to the last candidate and parks it on the others', () => {
       mount(`
-        <button data-testid="first" accesskey="3">Edit</button>
-        <button data-testid="second" accesskey="3">Edit</button>
+        <a data-testid="mobile" href="#" accesskey="3" style="display:none">Edit</a>
+        <a data-testid="desktop" href="#" accesskey="3">Edit</a>
       `);
       start();
 
-      expect(Array.from(fixture.querySelectorAll('[accesskey="3"]'))).toEqual([element('first')]);
+      expect(Array.from(fixture.querySelectorAll('[accesskey="3"]'))).toEqual([element('desktop')]);
+      expect(element('mobile').dataset.hotkeyYieldedAccesskey).toBe('3');
+    });
+
+    it('fires the hotkey owner that is visible when the key is pressed', () => {
+      mount(`
+        <style>.list > .details-more, .details > .list-more { display: none }</style>
+        <div data-testid="view" class="list">
+          <button data-testid="list-more" class="list-more" data-hotkey="m">More</button>
+          <button data-testid="details-more" class="details-more" data-hotkey="m">More</button>
+        </div>
+      `);
+      const listClicked = clicks('list-more');
+      const detailsClicked = clicks('details-more');
+      start();
+
+      element('view').className = 'details';
+      press('m');
+
+      expect(detailsClicked).toHaveBeenCalledOnce();
+      expect(listClicked).not.toHaveBeenCalled();
     });
 
     it('follows a changed data-hotkey value', () => {
@@ -433,7 +450,19 @@ describe('HotkeyDispatcher', () => {
       `);
       start({ enabled: false });
 
-      expect(Array.from(fixture.querySelectorAll('[accesskey="7"]'))).toEqual([element('first')]);
+      expect(Array.from(fixture.querySelectorAll('[accesskey="7"]'))).toEqual([element('second')]);
+    });
+
+    it('rebuilds its bindings when restarted after stop', () => {
+      mount('<button data-testid="more" data-hotkey="m">More</button>');
+      const clicked = clicks('more');
+      const dispatcher = start();
+
+      dispatcher.stop();
+      dispatcher.start();
+      press('m');
+
+      expect(clicked).toHaveBeenCalledOnce();
     });
 
     it('stop resets a half-typed sequence', () => {

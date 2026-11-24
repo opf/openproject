@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ApplicationController, useDebounce, useMutation, useResize } from 'stimulus-use';
+import { ApplicationController, useMutation } from 'stimulus-use';
 import { HotkeyDispatcher } from 'core-common/hotkeys/hotkey-dispatcher';
 
 export default class HotkeysController extends ApplicationController<HTMLElement> {
@@ -33,32 +33,27 @@ export default class HotkeysController extends ApplicationController<HTMLElement
     enabled: Boolean,
   };
 
-  static debounces = [{ name: 'resize', wait: 200 }];
-
   declare readonly enabledValue:boolean;
 
   private dispatcher?:HotkeyDispatcher;
 
-  private observers:(() => void)[] = [];
+  private observeMutations?:() => void;
 
   initialize() {
-    useDebounce(this);
-    const [observeMutations] = useMutation(this, {
+    [this.observeMutations] = useMutation(this, {
       childList: true,
       subtree: true,
       attributes: true,
       attributeFilter: ['data-hotkey', 'data-hotkey-fallback', 'accesskey', 'data-hotkey-yielded-accesskey'],
       dispatchEvent: false,
     });
-    const [observeResizes] = useResize(this, { dispatchEvent: false });
-    this.observers = [observeMutations, observeResizes];
   }
 
   connect() {
     this.dispatcher = new HotkeyDispatcher(this.element);
     this.dispatcher.setEnabled(this.enabledValue);
     this.dispatcher.start();
-    this.observers.forEach((observe) => observe());
+    this.observeMutations?.();
   }
 
   disconnect() {
@@ -66,12 +61,8 @@ export default class HotkeysController extends ApplicationController<HTMLElement
     this.dispatcher = undefined;
   }
 
-  mutate() {
-    this.dispatcher?.reconcile();
-  }
-
-  resize() {
-    this.dispatcher?.reconcile();
+  mutate(records:readonly MutationRecord[]) {
+    this.dispatcher?.mutated(records);
   }
 
   enabledValueChanged() {

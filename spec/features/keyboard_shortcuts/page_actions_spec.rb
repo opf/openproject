@@ -107,14 +107,13 @@ RSpec.describe "Page action keyboard shortcuts", :js do
         expect(page).to have_current_path(edit_user_path(user))
       end
 
-      it "keeps exactly one visible Edit link with access key 3 across a resize" do
+      it "keeps access key 3 on the desktop Edit link and edits with g e at a narrow viewport" do
         visit user_path(user)
         expect(page).to have_element(:a, accesskey: "3", count: 1, visible: :all)
         expect(page).to have_element(:a, accesskey: "3", visible: :visible)
 
         page.current_window.resize_to(500, 900)
         expect(page).to have_element(:a, accesskey: "3", count: 1, visible: :all)
-        expect(page).to have_element(:a, accesskey: "3", visible: :visible)
 
         page.send_keys("g", "e")
         expect(page).to have_current_path(edit_user_path(user))
