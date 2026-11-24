@@ -1122,15 +1122,15 @@ de:
               error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: kann kein Meilenstein werden, da dieses Arbeitspaket Unterelemente besitzt.
-          categories_only_allow_single_value: Categories can only hold a single value.
-          category_and_categories_mutually_exclusive: Category and categories cannot be set to different values at the same time.
+          categories_only_allow_single_value: Kategorien können nur einen einzigen Wert enthalten.
+          category_and_categories_mutually_exclusive: "„Category“ und „Categories“ können nicht gleichzeitig auf unterschiedliche Werte gesetzt werden."
           is_not_a_valid_target_for_time_entries: 'Arbeitspaket #%{id} ist kein gültiges Ziel für die Zuordnung der Zeiterfassungseinträge.'
           readonly_status: Das Arbeitspaket befindet sich in einem schreibgeschützten Status, so dass seine Attribute nicht geändert werden können.
           target_versions_only_allow_single_value: Zielversionen können nur einen einzigen Wert enthalten.
       template:
         body: 'Bitte überprüfen Sie die folgenden Felder:'
         header:
-          one: "%{count} error prohibited this %{model} from being saved"
+          one: "%{count} Fehler verhinderte das Speichern von %{model}"
           other: "%{count} Fehler haben das Speichern dieses %{model} verhindert"
     models:
       action:
@@ -1522,7 +1522,7 @@ de:
       phase_and_both_gates: "%{phase_message}. %{start_gate_message} und %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}. %{gate_message}"
       removed_date: Datum gelöscht %{date}
-      status_changed: phase changed from %{from} to %{to}
+      status_changed: Projektphase von %{from} zu %{to} geändert
   admin:
     banners:
       environment_configured_readonly: Diese Werte werden über Umgebungsvariablen konfiguriert und können hier nicht bearbeitet werden.
@@ -2331,32 +2331,32 @@ de:
       form:
         injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
         label_caption: This is the name that will be visible to users in the editor.
-        select_types: Select types
+        select_types: Typen auswählen
         types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
         usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
         description: The text assistant gives users LLM-powered actions to help them write, organize and review their work package description text. Here, you can create new actions using your own prompts and instructions.
-        label_add_action: Action
-        label_aria_add_action: Add action
-        section_title: Actions
+        label_add_action: Aktion
+        label_aria_add_action: Aktion hinzufügen
+        section_title: Aktionen
       index_component:
         blank_slate:
-          description: Add an action to see it here
+          description: Fügen Sie eine Aktion hinzu, um sie hier anzuzeigen
           title: No actions configured yet
         disabled_warning: All text actions are disabled. The text editor will not show the text action options at all.
-        label_disable_all: Disable all
-        label_enable_all: Enable all
-        title: Action
+        label_disable_all: Alle deaktivieren
+        label_enable_all: Alle aktivieren
+        title: Aktion
       new:
-        title: New text action
+        title: Neue Textaktion
       row_component:
-        label_actions: Action menu
-        label_toggle: Toggle %{label}
+        label_actions: Aktionsmenü
+        label_toggle: "%{label} umschalten"
         scope_specific_work_package_types:
-          one: "%{count} work package type"
-          other: "%{count} work package types"
+          one: "%{count} Arbeitspakettyp"
+          other: "%{count} Arbeitspakettypen"
       usage_scopes:
-        all_work_package_types: All work package types
+        all_work_package_types: Alle Arbeitspakettypen
         everywhere: Everywhere
         specific_work_package_types: Specific work package types
     workflows:
@@ -2425,13 +2425,13 @@ de:
         discard: Verwerfen
         editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
         failed_title: Generation failed
-        generating: Generating…
+        generating: Wird erstellt...
         mentions_converted: New mentions in the AI suggestion were turned into plain text so no one is notified unintentionally. After Replace, you can mention them again in the editor.
         replace: Ersetzen
         request_failed: The request failed. Close the result and try again.
         selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
         stopped_description: The response was blocked before it finished, so the partial text was discarded.
-        stopped_title: Generation stopped
+        stopped_title: Erzeugung gestoppt
         title: KI-Ergebnis
         try_again: Noch einmal versuchen
   announcements:
@@ -2443,7 +2443,7 @@ de:
     deleted_by_admin: Die unter Quarantäne gestellte Datei '%{filename}' wurde von einem Administrator gelöscht.
     deleted_message: In der Datei '%{filename}' wurde ein Virus entdeckt. Die Datei wurde gelöscht.
     not_processed_yet_message: Das Herunterladen ist blockiert, da die Datei noch nicht auf Viren gescannt wurde. Bitte versuchen Sie es später noch einmal.
-    overridden_by_admin: The quarantine for file '%{filename}' has been removed by %{user}. The file can now be accessed.
+    overridden_by_admin: Die Quarantäne für die Datei '%{filename}' wurde von %{user} entfernt. Auf die Datei kann nun zugegriffen werden.
     quarantined_attachments:
       container: Container
       delete: Unter Quarantäne gestellte Datei löschen
@@ -2453,7 +2453,7 @@ de:
   api_v3:
     attributes:
       category:
-        deprecated: 'Deprecated: this single-valued field is being replaced by `categories`. Read and write `categories` instead. While multiple categories is not enabled, `categories` accepts at most one value and must not be written together with `category` in the same request.'
+        deprecated: 'Deprecated: Dieses unäre Feld wird durch `categories` ersetzt. Verwenden Sie stattdessen `categories` zum Lesen und Schreiben. Solange die Unterstützung mehrerer Versionen nicht aktiviert ist, akzeptiert `categories` höchstens einen Wert und darf nicht zusammen mit `category` in derselben Anfrage angegeben werden.'
       property: Eigenschaft
       version:
         deprecated: 'Deprecated: Dieses unäre Feld wird durch `targetVersions` ersetzt. Verwenden Sie stattdessen `targetVersions` zum Lesen und Schreiben. Solange die Unterstützung mehrerer Versionen nicht aktiviert ist, akzeptiert `targetVersions` höchstens einen Wert und darf nicht zusammen mit `version` in derselben Anfrage angegeben werden.'
@@ -2705,8 +2705,8 @@ de:
   button_actions: Aktionen
   button_add: Hinzufügen
   button_add_comment: Kommentar hinzufügen
-  button_add_item_above: Add value above
-  button_add_item_below: Add value below
+  button_add_item_above: Wert oberhalb hinzufügen
+  button_add_item_below: Wert unterhalb hinzufügen
   button_add_member: Mitglied hinzufügen
   button_add_menu_entry: Menüpunkt hinzufügen
   button_add_non_working_time: Freie Zeit
@@ -2812,7 +2812,7 @@ de:
       disabled_value: Das Attribut "%{custom_field_name}" wird für diesen Berechneten Wert benötigt, ist aber leer.
       mathematical: Die mathematische Formel führt zu einem Fehler. Bitte überprüfen Sie das Attribut der Projektberechnung und versuchen Sie es erneut.
       missing_value: Das Attribut "%{custom_field_name}" wird für diesen Berechneten Wert benötigt, ist aber leer.
-      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
+      multi_value_list: Das Attribut „%{custom_field_name}“ lässt mehrere Werte zu und kann nur innerhalb einer Aggregatfunktion verwendet werden. Bitte überprüfen Sie die Formel für diesen berechneten Wert.
       unknown: Ein unbekannter Fehler ist aufgetreten. Bitte überprüfen Sie die Formel für diesen Berechneten Wert.
   colors:
     contrast:
@@ -3015,7 +3015,7 @@ de:
         all: Das Attribut ist nur für Administratoren sichtbar. Nutzer ohne Adminrechte können dieses Attribut nicht sehen oder bearbeiten.
         project: Das Attribut ist nur für Administratoren sichtbar. Nutzer ohne Adminrechte können dieses Attribut nicht sehen oder bearbeiten.
       formula:
-        project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
+        project: Geben Sie numerische Werte ein oder tippen Sie „/“, um nach einem Attribut, einem Operator, einer Funktion oder einem anderen Token zu suchen. Weitere Informationen finden Sie in der [Dokumentation zur Formelsyntax](docs_url).
       has_comment:
         project: Ermöglicht es dem Benutzer, zusätzlich einen Kommentar zum Projektattribut hinzuzufügen, wenn der Wert in der Projektübersicht ausgewählt wird.
       is_filter:
@@ -3739,10 +3739,10 @@ de:
       name:
         caption: Wählen Sie einen Namen, anhand dessen Sie dieses Formular später an anderer Stelle wiedererkennen können.
         label: Formularname
-      save_title: Save form
+      save_title: Formular speichern
     index:
       actions:
-        create: Form
+        create: Formular
         edit: Formular bearbeiten
         menu: Aktionen für %{name}
         rename: Name und Beschreibung bearbeiten
@@ -3913,9 +3913,9 @@ de:
       no_favorite_projects: Sie haben keine favorisierten Projekte.
       title: Projekte
     whats_new:
-      title: What's new in %{version}
+      title: Was ist neu in %{version}
       unread: Ungelesen
-      view_release_video: View release video
+      view_release_video: Release Video anzeigen
   health_reports:
     common:
       checks:
@@ -3971,11 +3971,11 @@ de:
               title: Typvarianten
               url: https://www.openproject.org/docs/release-notes/18-0-0/
             line_1:
-              description: Sprint reports, including many new charts
-              title: Agile Reporting
+              description: Sprint-Berichte, inklusive zahlreicher neuer Diagramme
+              title: Berichte für Agile
               url: https://www.openproject.org/docs/release-notes/18-0-0/
             line_2:
-              description: Summarize text, change formats, base it on templates
+              description: Text zusammenfassen, Formatierung ändern, auf Vorlagen basieren
               title: KI-Textaktionen
               url: https://www.openproject.org/docs/release-notes/18-0-0/
             line_3:
@@ -4079,11 +4079,11 @@ de:
           working: "%{day} ist jetzt ein Arbeitstag"
     caused_changes:
       budget_deleted: Budget wurde gelöscht
-      comment_retracted: Comment retracted
+      comment_retracted: Kommentar zurückgezogen
       dates_changed: Datum geändert
       default_attribute_written: Nur-Lese-Attribute wurde geschrieben
       email_html: "<strong>Via email</strong> from %{sender}"
-      forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
+      forum_message_html: "<strong>Aus einem Forumsbeitrag erstellt</strong> %{message_information}"
       import: Importiert
       label_deleted: 'Label removed:'
       meeting_agenda_item_added_html: "<strong>Zur Besprechung hinzugefügt</strong> %{meeting_title_information}"
@@ -4121,7 +4121,7 @@ de:
   label_active_in_new_projects: Aktiv in neuen Projekten
   label_activity: Aktivität
   label_add_another_file: Eine weitere Datei hinzufügen
-  label_add_column: Add columns
+  label_add_column: Spalten hinzufügen
   label_add_columns: Ausgewählte Spalten hinzufügen
   label_add_edit_translations: Hinzufügen und Bearbeiten von Übersetzungen
   label_add_note: Kommentar hinzufügen
@@ -4136,7 +4136,7 @@ de:
   label_additional_workflow_transitions_for_author: Zusätzliche Workflow-Übergänge wenn der Nutzer der Autor des Arbeitspakets ist
   label_administration: Administration
   label_age: Geändert vor
-  label_aggregate_function_plural: Aggregate functions
+  label_aggregate_function_plural: Aggregatfunktionen
   label_ago: vor (Tage)
   label_all: alle
   label_all_open_wps: Alle offenen
@@ -4284,9 +4284,9 @@ de:
   label_delete_user: Benutzer löschen
   label_deleted: gelöscht
   label_deleted_custom_field: "(gelöschtes benutzerdefiniertes Feld)"
-  label_deleted_custom_item: "(deleted value)"
+  label_deleted_custom_item: "(gelöschter Wert)"
   label_deleted_custom_option: "(gelöschte Option)"
-  label_deleted_label: "(deleted label)"
+  label_deleted_label: "(gelöschte Bezeichnung)"
   label_deleted_version: "(gelöschte Version)"
   label_departments: Organisation
   label_departments_description_html: 'Definieren Sie die Struktur Ihres Unternehmens, indem Sie Abteilungen und Unterabteilungen in hierarchischer Form anlegen. So können Sie Berichtslinien abbilden und einen klaren, strukturierten Überblick über Ihre Organisation in OpenProject behalten. Sie können auch eine bestehende Organisationsstruktur über [eine synchronisierte LDAP-Abteilung](ldap_docs_article) importieren.
@@ -4351,7 +4351,7 @@ de:
   label_filter: Filter
   label_filter_add: Filter hinzufügen
   label_filter_any_name_attribute: Namensattribute
-  label_filter_by_column: Filter by %{column}
+  label_filter_by_column: Nach %{column} filtern
   label_filter_plural: Filter
   label_filters_toggle: Filter ein-/ausblenden
   label_float: Gleitkommazahl
@@ -4402,7 +4402,7 @@ de:
   label_in: an
   label_in_less_than: in weniger als
   label_in_more_than: in mehr als
-  label_in_progress_work_packages: in progress
+  label_in_progress_work_packages: in Bearbeitung
   label_inactive: Inaktiv
   label_include_sub_projects: Unterprojekte einbeziehen
   label_includes: enthält
@@ -4451,7 +4451,7 @@ de:
   label_list: Liste
   label_loading: Lade...
   label_locale: Sprache und Region
-  label_locale_based: Use default for user locale
+  label_locale_based: Standard für Benutzersprache verwenden
   label_lock_user: Benutzer sperren
   label_locked: gesperrt
   label_logged_as: Angemeldet als
@@ -4759,7 +4759,7 @@ de:
   label_time_entry_plural: Aufgewendete Zeit
   label_timer_since: Begonnen um %{time}
   label_title: Titel
-  label_to_do_work_packages: to-do
+  label_to_do_work_packages: To-Do
   label_today: heute
   label_today_as_date: Heute als Datum wählen.
   label_today_as_due_date: Heute als Enddatum wählen.
@@ -4878,9 +4878,9 @@ de:
     one: "%{count} Formular"
     other: "%{count} Formulare"
   label_x_in_progress_work_packages_abbr:
-    one: 1 in progress
-    other: "%{count} in progress"
-    zero: 0 in progress
+    one: 1 in Bearbeitung
+    other: "%{count} in Bearbeitung"
+    zero: 0 in Bearbeitung
   label_x_items:
     one: "%{count} Element"
     other: "%{count} Elemente"
@@ -4897,9 +4897,9 @@ de:
     other: "%{count} Projekte"
     zero: Keine Projekte
   label_x_to_do_work_packages_abbr:
-    one: 1 to-do
-    other: "%{count} to-do"
-    zero: 0 to-do
+    one: 1 To-Do
+    other: "%{count} To-Do"
+    zero: 0 To-Do
   label_x_work_packages:
     one: "%{count} Arbeitspaket"
     other: "%{count} Arbeitspakete"
@@ -5019,8 +5019,8 @@ de:
       you_have: Sie haben
     logo_alt_text: Logo
     mention:
-      message_body: "%{user_name} mentioned you:"
-      message_subject: "%{user_name} mentioned you in %{subject}"
+      message_body: "%{user_name} erwähnte Sie:"
+      message_subject: "%{user_name} erwähnte Sie in %{subject}"
       subject: "%{user_name} erwähnte Sie in %{id} - %{subject}"
     notification:
       center: Zur Benachrichtigungszentrale
@@ -5751,7 +5751,7 @@ de:
       blueprint: Blaupause für Muster
       depth: Tiefe
       enabled: Aktiviert
-      item: Value
+      item: Wert
       label: Bezeichnung
       parent: Übergeordnetes Arbeitspaket
       short: Kurzname
@@ -6127,9 +6127,9 @@ de:
         in_progress: Marking a phase as in progress will complete all previous phases and open all future phases.
         open: Re-opening a phase will also open all future phases.
       title:
-        completed: Completed
-        in_progress: In progress
-        open: Open
+        completed: Abgeschlossen
+        in_progress: In Durchführung
+        open: Offen
     settings:
       actions:
         label_disable_all: Alles deaktivieren
@@ -6329,9 +6329,9 @@ de:
       body: "%{app_title} reloads automatically as soon as your connection returns."
       headline: You’re offline
       headline_online: You’re back online
-      reloading: Reloading…
+      reloading: Nachladen...
       retry: Erneut versuchen
-      retrying: Retrying…
+      retrying: Erneuter Versuch...
       status_checking: Checking your connection…
       status_restored: Connection restored. Reloading…
       status_still: Still offline. We’ll try again in a moment.
@@ -6368,19 +6368,19 @@ de:
           description: Ordnen Sie %{plural} nach einem oder mehreren Sortierkriterien. Die vorherige Sortierung geht dabei verloren.
           heading: Automatisch
     filter_summary:
-      between: "%{field} %{operator} %{lower} and %{upper}"
+      between: "%{field} %{operator} %{lower} und %{upper}"
       current_work_package: current work package
-      from: "%{field} is on or after %{date}"
+      from: "%{field} ist an oder nach %{date}"
       relative:
-        ago: "%{field} is %{duration} ago"
-        in: "%{field} is in %{duration}"
-        in_less_than: "%{field} is in less than %{duration}"
-        in_more_than: "%{field} is in more than %{duration}"
-        less_than_ago: "%{field} is less than %{duration} ago"
-        more_than_ago: "%{field} is more than %{duration} ago"
-      unavailable_filter: Unavailable filter
-      unavailable_value: Unavailable value
-      until: "%{field} is on or before %{date}"
+        ago: "%{field} vor %{duration}"
+        in: "%{field} ist in %{duration}"
+        in_less_than: "%{field} ist in weniger als %{duration}"
+        in_more_than: "%{field} ist in mehr als %{duration}"
+        less_than_ago: "%{field} ist vor weniger als %{duration}"
+        more_than_ago: "%{field} ist vor mehr als %{duration}"
+      unavailable_filter: Nicht verfügbarer Filter
+      unavailable_value: Nicht verfügbarer Wert
+      until: "%{field} ist an oder vor %{date}"
       with_values: "%{field} %{operator} %{values}"
       without_values: "%{field} %{operator}"
   query:
@@ -7151,8 +7151,8 @@ de:
         <br>
         <strong>Hinweis</strong>: Vererbte Attribute (z.B. von Unteraufgaben oder Relationen) werden auch auf Arbeitspakete in diesen Status angewandt.
       used_by_workflows:
-        one: This status is used by %{count} workflow.
-        other: This status is used by %{count} workflows.
+        one: Dieser Status wird von %{count} Workflow verwendet.
+        other: Dieser Status wird von %{count} Workflows verwendet.
       view_workflows_button: View workflows
     index:
       could_not_be_moved: Status konnte nicht verschoben werden.
@@ -7164,8 +7164,8 @@ de:
       no_results_title_text: Derzeit gibt es keine Arbeitspaket-Status.
       status_actions: Statusaktionen
       workflows_count:
-        one: "%{count} workflow"
-        other: "%{count} workflows"
+        one: "%{count} Workflow"
+        other: "%{count} Workflows"
   support:
     array:
       sentence_connector: und
@@ -7337,8 +7337,8 @@ de:
       short: "%e. %b %H:%M"
       time: "%H:%M"
     pm: nachmittags
-    relative_ago: "%{time} ago"
-    relative_at: "%{relative} at %{time}"
+    relative_ago: vor %{time}
+    relative_at: "%{relative} um %{time}"
     with_utc_offset: "%{time} (UTC%{offset})"
   timeframe:
     end: bis
@@ -7732,8 +7732,8 @@ de:
           title: "%{name} löschen"
           unused:
             description: The variant will be deleted permanently. This action cannot be undone.
-            heading: Delete variant '%{name}'?
-            title: Delete variant
+            heading: Variante "%{name}" löschen?
+            title: Variante löschen
         filter: Nach Text filtern
         filter_no_results: Keine Varianten entsprechen diesem Filter
         global_section:
@@ -8365,21 +8365,21 @@ de:
             subtitle: Zugewiesen, Verantwortlich und Autor
           dated:
             label: Zeilen mit Datumsangaben
-            subtitle: a start or finish date
+            subtitle: ein Start- oder Enddatum
           types:
             label: Typen
             subtitle: in dieser Datei verwendet
           work_packages:
             label: Arbeitspakete
-            subtitle: one for every line
+            subtitle: eines für jede Zeile
         imported:
           again: Weitere Datei importieren
-          heading: Import summary
+          heading: Import-Zusammenfassung
           link:
             one: Importiertes Arbeitspaket ansehen
             other: "%{count} importierte Arbeitspakete ansehen"
-          notifications: Notifications were not sent for these work packages.
-          text_html: Imported from %{filename} on %{date} at %{time}.
+          notifications: Benachrichtigungen wurden für diese Arbeitspakete nicht gesendet.
+          text_html: Importiert von %{filename} am %{date} um %{time}.
           title: "%{work_packages} erstellt"
         problems:
           all:
@@ -8388,7 +8388,7 @@ de:
           capped: "%{count} Probleme, wobei zunächst %{shown} aufgeführt wird. Laden Sie die Liste mit allen Problemen herunter."
           heading: Probleme
         rows_rejected:
-          text: Everything was rolled back. Correct the lines below and upload the file again.
+          text: Es wurde alles zurückgesetzt. Bitte korrigieren Sie die folgenden Zeilen und laden Sie die Datei erneut hoch.
           title: 'Es wurde nichts importiert: %{problems} in %{lines}'
         table:
           attribute: Spalte
@@ -8405,8 +8405,8 @@ de:
         x_problems:
           one: "%{count} Problem"
           other: "%{count} Probleme"
-      run_failed: This run did not finish, and nothing was created. Upload the file again.
-      running_note: This runs in the background. Please do not close the page.
+      run_failed: Dieser Vorgang ist nicht beendet und es wurde nichts erstellt. Laden Sie die Datei erneut hoch.
+      running_note: Dies läuft im Hintergrund. Bitte schließen Sie die Seite nicht.
       title: Arbeitspakete importieren
     move:
       bulk_current_type_not_available_in_target_project: 'Die Typen der Arbeitspakete oder deren Unterelemente sind im Zielprojekt nicht aktiviert. Bitte aktivieren Sie die fehlenden Typen im Zielprojekt, wenn Sie möchten, dass diese unverändert bleiben. Andernfalls wählen Sie bitte einen im Zielprojekt verfügbaren Typ aus der Liste aus.

@@ -40,26 +40,27 @@ de:
     errors:
       models:
         itsm/email_message:
-          delivery_failed: The email could not be sent.
-          delivery_rejected: The SMTP server rejected the email.
-          not_delivered: The email was not sent because all recipients are blocked or the email limit is reached.
+          delivery_failed: Die E-Mail konnte nicht gesendet werden.
+          delivery_rejected: Der SMTP-Server hat die E-Mail abgelehnt.
+          not_delivered: Die E-Mail wurde nicht versendet, weil alle Empfänger blockiert sind oder das E-Mail-Limit erreicht wurde.
+          unexpected_error: Die E-Mail konnte aufgrund eines unerwarteten Fehlers nicht gesendet werden.
         itsm/email_thread:
-          address_not_allowed: The SMTP server address is not allowed.
-          no_outgoing_mailbox: The project has no outgoing mailbox.
-          too_many_confirmations: Too many confirmations were sent to the requester recently.
-          unreachable: The SMTP server could not be reached.
+          address_not_allowed: Die SMTP-Server-Adresse ist nicht erlaubt.
+          no_outgoing_mailbox: Das Projekt hat kein Postausgangsfach.
+          too_many_confirmations: Kürzlich wurden zu viele Bestätigungen an den Anfragenden verschickt.
+          unreachable: Der SMTP-Server konnte nicht erreicht werden.
         itsm/incoming_mailbox:
           attributes:
             base:
-              address_not_allowed: The mail server resolves to a blocked address. If it runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable.
-              authentication_failed: 'The mail server rejected the login: %{server_message}'
-              fetch_in_progress: The mailbox is already being checked.
-              inactive: The mailbox is paused.
+              address_not_allowed: Der Mail-Server verweist auf eine blockierte Adresse. Wenn er in einem internen Netzwerk läuft, muss seine IP mit der Umgebungsvariable OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST erlaubt werden.
+              authentication_failed: 'Der Mail-Server hat den Login abgelehnt: %{server_message}'
+              fetch_in_progress: Das Postfach wird bereits überprüft.
+              inactive: Das Postfach ist pausiert.
               processing_failed: The emails could not be processed. They stay in the mailbox and are tried again. Check the OpenProject worker logs for details.
-              server_error: 'The mail server returned an error: %{server_message}'
-              timeout: The mail server stopped responding.
-              tls_failed: No secure connection to the mail server could be established. Check its certificate.
-              unreachable: The mail server could not be reached.
+              server_error: 'Der Mail-Server hat einen Fehler zurückgegeben: %{server_message}'
+              timeout: Der Mail-Server reagiert nicht mehr.
+              tls_failed: Es konnte keine sichere Verbindung zum Mail-Server hergestellt werden. Überprüfen Sie das Zertifikat.
+              unreachable: Der Mail-Server konnte nicht erreicht werden.
               work_package_not_created: No work package could be created from an email, for example because of a required custom field without a default value. The email stays in the mailbox and is tried again. Check the OpenProject worker logs for details.
     models:
       itsm/email_message:
@@ -82,30 +83,30 @@ de:
         other: Outgoing mailboxes
   itsm:
     admin:
-      description: Enables the functionality to create work packages by sending emails using an IMAP server and reply to those using an SMTP server.
-      enable_helpdesk: Enable help desk in this instance
-      helpdesk_not_enabled: 'The help desk could not be turned on, because its role or user could not be created: %{reason}'
-      helpdesk_set_by_environment: The help desk feature is set by an environment variable and not changeable here.
+      description: Aktiviert die Funktionalität Arbeitspakte durch das Versenden von E-Mails über einen IMAP-Server anzulegen, und darauf mithilfe eines SMTP-Servers zu antworten.
+      enable_helpdesk: Helpdesk in dieser Instanz aktivieren
+      helpdesk_not_enabled: 'Der Helpdesk konnte nicht aktiviert werden, weil die entsprechende Rolle oder der entsprechende Benutzer nicht angelegt werden konnte: %{reason}'
+      helpdesk_set_by_environment: Die Helpdesk-Funktion wird über eine Umgebungsvariable festgelegt und kann hier nicht geändert werden.
       imap_server_configuration_component:
-        description: Configure the IMAP server to transform incoming emails to work packages.
+        description: Konfigurieren Sie den IMAP-Server, um eingehende E-Mails in Arbeitspakete umzuwandeln.
         edit: IMAP-Server-Konfiguration bearbeiten
         title: IMAP-Server-Konfiguration
-      mail_servers: Mail servers
+      mail_servers: Mail-Server
       port: Port
       server_configuration_form:
         encryption: Verschlüsselung
         imap:
-          instruction: 'Configure the IMAP server to transform incoming emails to work packages. Note that OpenProject has no mechanism to stop email spoofing, please, ensure that the configured mail server performs SPF, DKIM, and DMARC checks, and quarantines emails that fail them.
+          instruction: 'Konfigurieren Sie den IMAP-Server, um eingehende E-Mails in Arbeitspakete umzuwandeln. Beachten Sie, dass OpenProject über keine Mechanismen zur Verhinderung von E-Mail-Spoofing verfügt. Stellen Sie sicher, dass der konfigurierte Mail-Server SPF-, DKIM- und DMARC-Prüfungen durchführt und E-Mails, die nicht bestehen, in Quarantäne versetzt.
 
             '
           title: IMAP-Server-Konfiguration
-        name: Server name
+        name: Server-Name
         port: Server-Port
         smtp:
-          instruction: Configure the SMTP server to reply emails directly from the work packages activity.
+          instruction: Konfigurieren Sie den SMTP-Server, um E-Mails direkt im Aktivitätsreiter eines Arbeitspakets zu beantworten.
           title: SMTP-Server-Konfiguration
       smtp_server_configuration_component:
-        description: Configure the SMTP server to reply emails directly from the work packages activity.
+        description: Konfigurieren Sie den SMTP-Server, um E-Mails direkt im Aktivitätsreiter eines Arbeitspakets zu beantworten.
         edit: SMTP-Server-Konfiguration bearbeiten
         title: SMTP-Server-Konfiguration
     helpdesk_mailer:
