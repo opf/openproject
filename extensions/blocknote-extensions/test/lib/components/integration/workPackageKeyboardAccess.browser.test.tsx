@@ -115,6 +115,24 @@ describe('Work package keyboard access - selecting an inline chip', () => {
       .toBe('Work package #123, Bug, In Progress, Fix login bug. Press Enter to open its options.');
   });
 
+  it('spells out the dash of a semantic identifier, while its menu button keeps the shown name', async () => {
+    let editor:any;
+    renderEditor({
+      initialContent: [{
+        type: 'paragraph',
+        content: ['before ', { type: 'openProjectWorkPackageInline', props: { wpid: '789', size: 's', displayId: 'DWPS-1' } }],
+      }],
+      onEditor: (created) => { editor = created; },
+    });
+    await expect.element(page.getByRole('button', { name: 'Work package DWPS-1' })).toBeVisible();
+
+    putCaretBehindChip(editor);
+    await userEvent.keyboard('{ArrowLeft}');
+
+    await expect.poll(() => liveRegion()?.textContent)
+      .toBe('Work package DWPS dash 1, Feature, Open, Semantic ID work package. Press Enter to open its options.');
+  });
+
   it('keeps the formatting toolbar closed while the chip is selected', async () => {
     await selectChipWithKeyboard();
     await expect.poll(() => liveRegion()?.textContent).not.toBe('');

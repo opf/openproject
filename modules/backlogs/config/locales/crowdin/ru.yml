@@ -58,6 +58,7 @@ ru:
       messages:
         cannot_start_while_receiving_shared_sprints: не может быть запущен, пока проект получает общие спринты.
         dates_required: Для начала спринта необходимы даты начала и окончания.
+        finish_date_in_past: cannot be started as long as the planned finish date is in the past.
         must_be_in_planning: для начала работы необходимо выполнить планирование.
         only_one_active_sprint_allowed: для каждого проекта допускается только один активный спринт.
       models:
@@ -220,6 +221,7 @@ ru:
       label_complete_sprint: Завершить спринт
       label_start_sprint: Начать спринт
       start_sprint_disabled_reason_active_sprint: Другой спринт уже активен.
+      start_sprint_disabled_reason_finish_date_in_past: The planned finish date is in the past. Correct the sprint dates first.
       start_sprint_disabled_reason_missing_dates: Для начала спринта необходимы даты начала и окончания.
       start_sprint_disabled_reason_receiving_shared_sprints: Спринты данного проекта не могут быть запущены, пока он принимает общие спринты.
       start_sprint_disabled_reason_shared_sprint: Это спринт из другого проекта, который не поддерживает несколько активных спринтов.
@@ -351,6 +353,11 @@ ru:
               many: Bar chart of committed and completed estimated time of the last %{count} sprints.
               other: Bar chart of committed and completed estimated time of the last %{count} sprints.
           summary_average: 'Average velocity: %{average}.'
+          summary_story_points:
+            one: "%{value} story point"
+            few: "%{value} story points"
+            many: "%{value} story points"
+            other: "%{value} story points"
           title: Velocity chart
           velocity: "%{sprint}:"
           y_axis_title:

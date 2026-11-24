@@ -58,6 +58,7 @@ cs:
       messages:
         cannot_start_while_receiving_shared_sprints: nelze spustit, dokud projekt přijímá sdílené sprinty.
         dates_required: Pro zahájení sprintu je nutné datum zahájení a ukončení.
+        finish_date_in_past: cannot be started as long as the planned finish date is in the past.
         must_be_in_planning: musí být v plánu pro zahájení.
         only_one_active_sprint_allowed: na jeden projekt je povolen pouze jeden aktivní sprint.
       models:
@@ -220,6 +221,7 @@ cs:
       label_complete_sprint: Dokončit sprint
       label_start_sprint: Zahájit sprint
       start_sprint_disabled_reason_active_sprint: Jiný sprint je již aktivní.
+      start_sprint_disabled_reason_finish_date_in_past: The planned finish date is in the past. Correct the sprint dates first.
       start_sprint_disabled_reason_missing_dates: Pro zahájení sprintu je nutné datum zahájení a ukončení.
       start_sprint_disabled_reason_receiving_shared_sprints: This project's own sprints cannot be started while it is receiving shared sprints.
       start_sprint_disabled_reason_shared_sprint: Tento sprint pochází z jiného projektu, který nepodporuje více aktivních sprintů.
@@ -351,6 +353,11 @@ cs:
               many: Bar chart of committed and completed estimated time of the last %{count} sprints.
               other: Bar chart of committed and completed estimated time of the last %{count} sprints.
           summary_average: 'Average velocity: %{average}.'
+          summary_story_points:
+            one: "%{value} story point"
+            few: "%{value} story points"
+            many: "%{value} story points"
+            other: "%{value} story points"
           title: Velocity chart
           velocity: "%{sprint}:"
           y_axis_title:

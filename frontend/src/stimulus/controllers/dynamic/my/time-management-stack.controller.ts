@@ -89,6 +89,7 @@ export default class MyTimeManagementStackController extends Controller {
     workingHours: Object,
     startOfWeek: Number,
     timeZone: String,
+    height: String,
   };
 
   declare readonly stackTarget:HTMLElement;
@@ -104,6 +105,7 @@ export default class MyTimeManagementStackController extends Controller {
   declare readonly workingHoursValue:Record<string, number>;
   declare readonly startOfWeekValue:number;
   declare readonly timeZoneValue:string;
+  declare readonly heightValue:string;
 
   private calendar:Calendar;
   private entryMenus = new EntryMenus(this.element);
@@ -196,7 +198,7 @@ export default class MyTimeManagementStackController extends Controller {
       firstDay: this.startOfWeekValue,
       hiddenDays: this.hiddenDays(),
       headerToolbar: false,
-      height: '100%',
+      height: this.heightValue,
       expandRows: true,
       editable: false,
       allDaySlot: false,

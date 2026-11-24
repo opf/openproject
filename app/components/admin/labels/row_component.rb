@@ -43,6 +43,7 @@ module Admin
             test_selector: "label-name",
             classes: "ellipsis",
             w: :fit,
+            vertical_align: :top,
             title: label.name
           )
         ) { label.name }
@@ -76,7 +77,7 @@ module Admin
 
       def action_menu
         render(Primer::Alpha::ActionMenu.new(anchor_align: :end, test_selector: "label-row-menu")) do |menu|
-          menu.with_show_button(icon: "kebab-horizontal", "aria-label": t(:label_more), scheme: :invisible)
+          menu.with_show_button(icon: "kebab-horizontal", "aria-label": t(:label_more), scheme: :invisible, size: :small)
 
           menu.with_item(
             label: t(:button_rename),

@@ -54,7 +54,7 @@ module WorkPackageTypes
       if params[:value] == "1"
         enable_everywhere
       else
-        respond_to_bulk_change(project_assignments.remove(@variant.projects))
+        respond_to_bulk_change(project_assignments.remove(@variant.projects.active))
       end
     end
 
@@ -63,7 +63,7 @@ module WorkPackageTypes
     def project_assignments = ProjectAssignments.new(user: current_user, variant: @variant)
 
     def enable_everywhere
-      projects = ::Project.where.not(id: @variant.projects.select(:id))
+      projects = ::Project.active.where.not(id: @variant.projects.select(:id))
       switching = switching_project_types(projects)
       if unconfirmed_switch?(switching)
         return ask_to_switch(switching, url: enable_all_variant_projects_path(@variant, value: "1"))

@@ -870,8 +870,8 @@ ko:
               cannot_assign_multiple_variants_of_parent: 프로젝트에서는 유형의 단일 변형만 활성화할 수 있습니다
               cannot_assign_variant_and_parent: '변형 및 해당 부모를 할당할 수 없습니다 '
               in_use_by_work_packages: '아직 작업 패키지에 사용됨: %{types}'
-              switch_target_blank: 전환할 변형을 선택하세요
-              switch_target_identical: 대상 유형은 프로젝트에서 현재 사용하는 유형과 달라야 합니다
+              switch_target_blank: Choose a type or variant the project can use.
+              switch_target_identical: The project already uses this type or variant.
               switch_target_not_in_family: 동일한 패밀리의 다른 유형으로만 전환할 수 있습니다
           cannot_be_assigned_to_artefact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: 하위가 아닌 프로젝트의 작업 패키지는 해당 프로젝트 또는 하위 프로젝트의 버전을 참조합니다.
@@ -1534,7 +1534,7 @@ ko:
         contribution_callout: '피드백 및 개인 데이터 기부를 통해 Jira Migator를 개선할 수 있도록 도와주세요. Jira Migator의 [개발 커뮤니티에 참여](link)할 수 있습니다.
 
           '
-        description: The Jira Migrator is currently in beta. We support Jira Server/Data Center versions 8.x, 9.x, 10.x and 11.x. Cloud instances are not supported at this time.
+        description: The Jira Migrator is currently in beta. We support Jira Server/Data Center versions 8.x, 9.x, 10.x and 11.x. Jira 8 requires basic auth. Cloud instances are not supported at this time.
         title: 베타 - 사용해 보세요!
       basic_auth_password_deleted: Basic auth password was successfully deleted.
       blank:
@@ -1575,9 +1575,13 @@ ko:
           failure:
             description_html: The configuration is saved, but the check <strong>%{check}</strong> failed. You can continue, but fetching data will fail until this is fixed.
             title: Connection check failed
+          warning:
+            description_html: The configuration is saved, but the check <strong>%{check}</strong> reported a warning. The import might not work as expected. Proceed at your own risk.
+            title: Connection check warning
         errors:
           api_error: Jira answered with HTTP status %{status}. Check the URL and that Jira is running.
           basic_auth_password_missing: No password is entered for basic auth.
+          basic_auth_required: The Jira Migrator needs basic auth for Jira %{version}. Select basic auth and enter the username and password of a Jira administrator.
           basic_auth_username_missing: No username is entered for basic auth.
           credentials_rejected: Jira rejected the credentials. Check that they are correct and have not expired.
           invalid_response: The server at this URL did not answer with JSON. Check the URL.
@@ -1590,14 +1594,18 @@ ko:
           ssrf_blocked: The Jira host resolves to a private IP address, which OpenProject blocks. If Jira runs on an internal network, add its IP address to the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable and restart OpenProject.
           timeout: Jira did not answer in time. Check the URL and that OpenProject can reach the Jira server.
           unexpected_error: Jira answered in a way OpenProject did not expect. Check that the URL points to Jira.
+          unknown_version: OpenProject could not determine the Jira version. The import might not work as expected. Proceed at your own risk.
           unreachable: Jira could not be reached. Check the URL and that OpenProject can reach the Jira server.
+          unsupported_version: Jira %{version} is not a supported version. The import might not work as expected. Proceed at your own risk.
         form_values_checked: Checked the values in the form. They are not saved yet.
         last_check: 'Last check: %{datetime}'
         not_checked: Not checked yet.
         server:
+          auth_method_supported: Authentication method
           header: Jira server
           reachable: Server reachable
           responds_as_jira: Responds as Jira
+          version_supported: Supported version
         title: Connection check
       description: 이 도구를 사용하여 Jira 인스턴스에서 데이터를 가져옵니다. 여러 Jira 호스트를 구성하고 가져오기 실행 각각에서 가져올 항목을 선택할 수 있습니다.
       errors:
@@ -1643,7 +1651,7 @@ ko:
         blank:
           description: 가져오기 실행을 만들어서 이 Jira 인스턴스에서 정보 가져오기를 시작하세요
           title: 가져오기 실행이 아직 설정되지 않음
-        connection_check_error: The connection check failed, so no data was fetched. The side panel shows what failed.
+        connection_check_error: The connection check failed, so no data was fetched. Fix any failed checks shown in the side panel, then retry.
         history: 기록
         import_blocked_error: 다른 Jira 가져오기 실행이 현재 진행 중이거나 검토를 기다리는 중입니다. 새 가져오기를 시작하기 전에 완료하거나 되돌리세요.
         index:
@@ -3600,6 +3608,7 @@ ko:
       save_title: Save form
     index:
       actions:
+        create: Form
         edit: Edit form
         menu: Actions for %{name}
         rename: Edit name and description
@@ -6089,7 +6098,12 @@ ko:
         project_specific_variant: 프로젝트별 변형
         remove_from_project: 프로젝트에서 제거
         switch:
-          apply: 적용
+          confirm_description: Switching to %{type} hides the fields it does not include. Their values are kept, but will no longer be visible.
+          confirm_submit: Switch
+          confirm_title: Switch type variant?
+          confirmation: I understand that fields the new variant does not include will be hidden, along with their values
+          identical:
+            other: The selected projects already use this type or variant.
           impact:
             hidden_description: The variant you have selected does not include these fields. Any values these fields previously had will no longer be visible.
             hidden_heading: Fields that will be removed
@@ -6105,8 +6119,14 @@ ko:
               other: "%{count}개 작업 패키지에 값이 있습니다"
             work_packages:
               other: "%{count}개 작업 패키지가 새로운 구성을 사용할 것입니다"
-          success: 지금 이 프로젝트는 %{type}을(를) 사용합니다.
-          target_label: 변형
+          invalid_target:
+            other: Choose a type or variant every selected project can use.
+          listed_projects:
+            other: 'The following projects will switch:'
+          submit: Apply
+          success:
+            other: The selected projects now use %{type}.
+          target_label: New type or variant
           title: "%{type}: 변형 전환"
         type_not_found: 선택한 유형을 찾을 수 없습니다.
         use_in_project: 이 프로젝트에서 사용
@@ -7416,12 +7436,20 @@ ko:
       project_specific_variant_suffix: "(Project-specific variant)"
       projects:
         actions:
-          confirm_remove: "%{project}에서 %{type} 유형을 제거하시겠습니까?"
-          remove_from_project: 프로젝트에서 제거
+          remove_from_project: Remove type from this project
+          remove_from_projects: Remove type from these projects
           switch_variant: 변형 전환
         add_dialog:
           no_projects_selected: 프로젝트를 하나 이상 선택하세요.
           search_placeholder: 프로젝트 검색
+        bulk_remove:
+          confirmation:
+            other: I understand that this type will no longer be available in the selected projects
+          description:
+            other: This type will no longer be available in the following projects. Projects that still have work packages of this type keep it.
+          submit: Remove
+          title:
+            other: Remove type '%{type}' from these projects?
         disable_all: 모든 프로젝트에 대해 비활성화
         empty_state:
           description: 이 구성을 사용하려면 프로젝트를 추가하세요.

@@ -27,23 +27,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Header
-  class WhatsNewItemComponent < ApplicationComponent
-    with_collection_parameter :item
-
-    def initialize(item:, item_iteration:, unread_keys:)
-      super()
-      @item = item
-      @first = item_iteration.first?
-      @unread = unread_keys.include?(item.key)
-    end
-
-    def divider?
-      !@first
-    end
-
-    def unread?
-      @unread
-    end
+class RemoveBcfCommentsForInternalJournals < ActiveRecord::Migration[8.1]
+  def up
+    execute <<~SQL.squish
+      DELETE FROM bcf_comments
+      USING journals
+      WHERE bcf_comments.journal_id = journals.id
+        AND journals.restricted IS TRUE
+    SQL
   end
 end

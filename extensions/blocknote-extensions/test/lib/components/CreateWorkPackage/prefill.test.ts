@@ -54,12 +54,12 @@ function assigneesResponse(...people:{ id:number; name:string }[]):Response {
   } as Partial<Response> as Response;
 }
 
-function projectsResponse(...projects:{ id:number; name:string }[]):Response {
+function projectsResponse(...projects:{ id:number; name:string; href?:string }[]):Response {
   return {
     ok: true,
     json: async () => ({
       _embedded: {
-        elements: projects.map(({ id, name }) => ({ id, name, _links: { self: { href: `/api/v3/projects/${id}` } } })),
+        elements: projects.map(({ id, name, href = `/api/v3/projects/${id}` }) => ({ id, name, _links: { self: { href } } })),
       },
     }),
   } as Partial<Response> as Response;
@@ -166,6 +166,30 @@ describe('create work package prefill', () => {
       expect(prefill.values).toEqual({ project: '/api/v3/projects/2' });
       expect(prefill.labels).toEqual({ project: 'Scrum project' });
       expect(String(fetchSpy.mock.calls[0][0])).toContain('%22id%22');
+    });
+
+    it.each([
+      ['portfolio', '/api/v3/portfolios/2'],
+      ['program', '/api/v3/programs/2'],
+    ])('opens on the %s the editor is rendered in', async (_kind, href) => {
+      initEditorContext({ projectId: 2 });
+      vi.spyOn(global, 'fetch').mockResolvedValue(projectsResponse({ id: 2, name: 'Portfolio 11', href }));
+
+      const prefill = await projectPrefill(projectField);
+
+      expect(prefill.values).toEqual({ project: href });
+      expect(prefill.labels).toEqual({ project: 'Portfolio 11' });
+    });
+
+    it('is outranked by the portfolio of the last creation', async () => {
+      initEditorContext({ projectId: 2 });
+      rememberChoice({ project: { href: '/api/v3/portfolios/1', label: 'Portfolio 11' } });
+      vi.spyOn(global, 'fetch')
+        .mockResolvedValue(projectsResponse({ id: 1, name: 'Portfolio 11', href: '/api/v3/portfolios/1' }));
+
+      const prefill = await projectPrefill(projectField);
+
+      expect(prefill.values.project).toBe('/api/v3/portfolios/1');
     });
 
     it('is outranked by the project of the last creation', async () => {

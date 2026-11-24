@@ -67,15 +67,28 @@ module Journable::Timestamps
     # of the work_packages table.
     #
     def column_names_missing_in_journal
-      column_names - journal_class.column_names - ["created_at", "updated_at"]
+      column_names - journal_class.column_names - ["updated_at"] - column_names_from_current_record
+    end
+
+    # Columns that exist on the journable but not in its journal data. Historic versions read
+    # them from the current record, so only list columns whose value never changes, such as a
+    # stable identifier.
+    #
+    #     historic_columns_from_current_record :identifier
+    #
+    def historic_columns_from_current_record(*columns)
+      self.column_names_from_current_record += columns.map(&:to_s)
     end
   end
 
   prepended do
+    # Columns that are not journalized but stay valid for every historic version of a record.
+    class_attribute :column_names_from_current_record, default: %w[created_at].freeze, instance_writer: false
+
     if ActiveRecord::Base.connected? and not ActiveRecord::Base.connection.pool.migration_context.needs_migration?
       column_names_missing_in_journal.each do |missing_column_name|
         define_method missing_column_name do
-          if historic?
+          if historic? && self.class.column_names_from_current_record.exclude?(missing_column_name)
             Rails.logger.warn "Accessing missing column '#{missing_column_name}' on historic data. " \
                               "The column is not present in the '#{self.class.journal_class.table_name}' table."
           end
@@ -109,16 +122,13 @@ module Journable::Timestamps
   private
 
   def historic_attributes(journal, timestamp)
-    attributes = journal.data.attributes.merge(
+    journal.data.attributes.merge(
       "id" => id,
-      "created_at" => created_at,
       "updated_at" => journal.updated_at,
       "timestamp" => timestamp,
-      "journal_id" => journal.id
+      "journal_id" => journal.id,
+      **self.class.column_names_missing_in_journal.index_with(nil),
+      **attributes.slice(*self.class.column_names_from_current_record)
     )
-    self.class.column_names_missing_in_journal.each do |missing_column_name|
-      attributes[missing_column_name] = nil
-    end
-    attributes
   end
 end

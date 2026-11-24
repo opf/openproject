@@ -96,7 +96,8 @@ RSpec.describe Backlogs::SprintReports::HeaderInfolineComponent, type: :componen
     context "when the sprint is active" do
       let(:sprint) { build_stubbed(:sprint, status: :active, start_date:, finish_date:, started_at:) }
 
-      it "shows when it was started on its own, followed by the planned range" do
+      it "shows the labeled start time, followed by the planned range" do
+        expect(rendered_component).to have_css(".text-bold", text: /Start time:.*09:30 AM/m)
         expect(rendered_component).to have_element(:time, datetime: "2025-01-16T09:30:00Z", text: "09:30 AM")
         expect(rendered_component).to have_text(/09:30 AM\s+Planned:/)
         expect(rendered_component).to have_element(:time, datetime: "2025-01-15")
@@ -108,6 +109,7 @@ RSpec.describe Backlogs::SprintReports::HeaderInfolineComponent, type: :componen
 
         it "shows only the planned range" do
           expect(rendered_component).to have_text("Planned:")
+          expect(rendered_component).to have_no_text("Start time:")
           expect(rendered_component).to have_element(:time, count: 2)
           expect(rendered_component).to have_no_text(/\d{2}:\d{2}/)
         end
@@ -119,7 +121,9 @@ RSpec.describe Backlogs::SprintReports::HeaderInfolineComponent, type: :componen
         build_stubbed(:sprint, status: :completed, start_date:, finish_date:, started_at:, completed_at:)
       end
 
-      it "shows when it was started and completed, followed by the planned range" do
+      it "shows when it was started and completed without a label, followed by the planned range" do
+        expect(rendered_component).to have_css(".text-bold", text: /09:30 AM.*05:45 PM/m)
+        expect(rendered_component).to have_no_text("Start time:")
         expect(rendered_component).to have_element(:time, datetime: "2025-01-16T09:30:00Z", text: "09:30 AM")
         expect(rendered_component).to have_element(:time, datetime: "2025-01-30T17:45:00Z", text: "05:45 PM")
         expect(rendered_component).to have_text("Planned:")

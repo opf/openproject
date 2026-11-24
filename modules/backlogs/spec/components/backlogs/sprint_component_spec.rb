@@ -363,6 +363,37 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
         end
       end
 
+      context "when the sprint is in planning with a finish date in the past" do
+        let(:sprint) do
+          create(:sprint, project:, name: "Sprint 1",
+                          start_date: 2.weeks.ago.to_date, finish_date: Date.yesterday,
+                          status: "in_planning")
+        end
+
+        it "renders the start-sprint button as disabled" do
+          expect(rendered_component).to have_selector(:link_or_button, "Start sprint", aria: { disabled: true })
+        end
+
+        it "gives the past-finish-date reason" do
+          expect(rendered_component).to have_element(
+            "tool-tip",
+            text: I18n.t("backlogs.sprint_component.start_sprint_disabled_reason_finish_date_in_past")
+          )
+        end
+      end
+
+      context "when the sprint is in planning and finishes today" do
+        let(:sprint) do
+          create(:sprint, project:, name: "Sprint 1",
+                          start_date: 2.weeks.ago.to_date, finish_date: Time.zone.today,
+                          status: "in_planning")
+        end
+
+        it "renders the start-sprint link enabled" do
+          expect(rendered_component).to have_link("Start sprint")
+        end
+      end
+
       context "when the sprint is active" do
         let(:sprint) do
           create(:sprint, project:, name: "Sprint 1",

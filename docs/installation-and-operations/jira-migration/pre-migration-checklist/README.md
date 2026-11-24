@@ -11,7 +11,7 @@ Actions to take in Jira, in OpenProject and in your migration planning before yo
 
 ## Jira/instance-side prerequisites
 
-- [ ] Confirm your Jira instance is Server/Data Center version 8.x, 9.x, 10.x or 11.x. On Jira 8, use basic auth instead of a personal access token. Other versions are not supported, but may still work: the Jira Migrator warns you and lets you continue at your own risk. Cloud is not supported at the moment — plan a different route if you're on Cloud.
+- [ ] Confirm your Jira instance is Server/Data Center version 8.x, 9.x, 10.x or 11.x. Cloud is not supported at the moment — plan a different route if you're on Cloud.
 - [ ] If your organization logs into OpenProject via LDAP, check whether Jira usernames match your LDAP login names. If they do, flag this to your team now — those users' real LDAP passwords will stop working right after migration until an admin fixes each affected account (see [Post-Migration checklist](../post-migration-checklist/)). Not relevant if you only use local/password accounts.
 - [ ] Sync your external user directories (LDAP/AD) in Jira before migrating (Administration → User Management → User Directories → Sync). The migrator reads user data (email, display name) directly from Jira at the time of migration — if the sync is stale, that stale data gets carried over.
 - [ ] Run Jira's built-in **Database Integrity Checker** (Administration → System → Integrity Checker) and/or the **Integrity Check for Jira** Marketplace app before migrating. These catch broken/orphaned data (e.g. required fields with no value, dangling references) that could otherwise cause unexpected errors partway through the import.
@@ -27,12 +27,12 @@ Review this against how your teams actually use Jira. If anything here would be 
 
 **Not migrated at all, for any issue:**
 
-- [ ] Reporter (Jira's Reporter and Creator become the same thing in OpenProject: only Creator/Author survives)
-- [ ] Web links (workaround planned: [JIM-206](https://community.openproject.org/projects/JIM/work_packages/JIM-206)).
+- [ ] Reporter (Planned: [JIM-270](https://community.openproject.org/projects/JIM/work_packages/JIM-270))
+- [ ] Web links (Planned: [JIM-206](https://community.openproject.org/projects/JIM/work_packages/JIM-206))
 - [ ] Votes (workaround planned: [JIM-207](https://community.openproject.org/projects/JIM/work_packages/JIM-207), open feature request: [OP-3251](https://community.openproject.org/projects/OP/work_packages/OP-3251))
-- [ ] Environment
-- [ ] Security Level
-- [ ] Components (planned: [JIM-107](https://community.openproject.org/projects/JIM/work_packages/JIM-107))
+- [ ] Security Level (Planned: [JIM-219](https://community.openproject.org/projects/JIM/work_packages/JIM-219)) - **Note: The Security Level is currently ignored. Thus, issues with a Security Level set will be imported as regular work packages at this point.**
+- [ ] Components (Planned: [JIM-107](https://community.openproject.org/projects/JIM/work_packages/JIM-107))
+- [ ] Visibility settings of comments
 - [ ] Archived issues (skipped entirely, don't appear in OpenProject in any form)
 
 **Not migrated, specific to custom fields:**
@@ -64,7 +64,7 @@ For anything on this list your teams actually rely on, decide now how you'll han
 
 ## OpenProject-side prerequisites
 
-- [ ] Confirm your Jira instance is reachable from OpenProject by using [the connection check](../#connection-check).
+- [ ] Confirm your Jira instance is reachable from OpenProject by using [the connection test](../#test-configuration).
 - [ ] If you're on an OpenProject Enterprise plan, check your available user seats against the number of currently-active Jira users you're about to migrate. Not relevant if you're on the free Community edition. Increase your seat count before the migration.
 - [ ] **Enable project-based semantic identifiers** in OpenProject.
 - [ ] **Disable "Use current date as start date for new work packages" setting** in OpenProject. This is currently needed due to a [known issue](https://community.openproject.org/projects/JIM/work_packages/JIM-155/activity) in the importer.
