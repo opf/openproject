@@ -34,7 +34,7 @@ const Block = styled.div.attrs({ className: 'op-bn-extensions', 'data-testid': '
   background-color: ${({ $pending }) => ($pending ? 'transparent' : 'var(--op-chip-bg)')};
   ${nonSelectableStyles}
   border-radius: var(--bn-border-radius);
-  box-shadow: ${({ $selected }) => ($selected ? CHIP_STYLES.focusShadow : 'none')};
+  box-shadow: ${({ $selected, $pending }) => ($selected && !$pending ? CHIP_STYLES.focusShadow : 'none')};
   ${({ $pending }) => $pending && 'position: relative;'}
   ${hideBlockNoteSelectionOverlay}
 `;

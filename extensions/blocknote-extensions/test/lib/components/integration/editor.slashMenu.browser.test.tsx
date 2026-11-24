@@ -74,4 +74,19 @@ describe('Slash menu - pending block between cards (BNE-179)', () => {
       .map((wrapper) => wrapper.hasAttribute('data-selected'));
     expect(selectedFlags).toEqual([false, true, false]);
   });
+
+  it('does not outline the pending block before a work package is picked', async () => {
+    const { shadowRoot } = await renderEditorInShadowDom({
+      initialContent: [card, { type: 'paragraph' }, card],
+    });
+    await expect.poll(() => shadowRoot.querySelectorAll('[data-testid="block-card"]').length).toBe(2);
+
+    await userEvent.click(shadowRoot.querySelector('[data-content-type="paragraph"]')!);
+    await userEvent.keyboard('/');
+    await userEvent.click(page.getByText('Link existing work package').first());
+    await expect.poll(() => shadowRoot.activeElement?.id).toBe('op-bn-wp-search-input');
+
+    const pendingBlock = shadowRoot.querySelectorAll('[data-testid="block-wp-wrapper"]')[1];
+    expect(getComputedStyle(pendingBlock).boxShadow).toBe('none');
+  });
 });
