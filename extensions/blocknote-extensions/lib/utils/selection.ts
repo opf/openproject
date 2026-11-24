@@ -1,4 +1,4 @@
-import { NodeSelection } from 'prosemirror-state';
+import { NodeSelection, TextSelection } from 'prosemirror-state';
 import type { Node as ProsemirrorNode } from 'prosemirror-model';
 import type { AnyEditor } from '../editorTypes';
 import { WORK_PACKAGE_NODE_TYPES } from './nodeTypes';
@@ -92,6 +92,12 @@ export function selectedWorkPackageDom(editor:AnyEditor):Node | null {
   if (!WORK_PACKAGE_NODE_TYPES.includes(selection.node.type.name)) return null;
 
   return editor.prosemirrorView?.nodeDOM(selection.from) ?? null;
+}
+
+/** A gap cursor sits between two blocks, yet BlockNote reports the block after it as the one holding the cursor. */
+export function isGapCursor(editor:AnyEditor):boolean {
+  const { selection } = editor.prosemirrorState;
+  return selection.empty && !(selection instanceof TextSelection);
 }
 
 export function isWorkPackageNodeSelected(editor:AnyEditor, element:Element | null):boolean {

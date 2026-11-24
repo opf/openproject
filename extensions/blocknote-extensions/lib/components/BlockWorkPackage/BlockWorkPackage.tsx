@@ -16,7 +16,7 @@ import { PendingWorkPackagePopover } from '../WorkPackage/PendingWorkPackagePopo
 import { defaultWpVariables, hideBlockNoteSelectionOverlay, nonSelectableStyles } from '../WorkPackage/atoms';
 import { CHIP_STYLES } from '../WorkPackage/tokens';
 import { moveCursorAfterBlock } from '../../utils/cursor';
-import { hideSafariPhantomSelection, selectBlockNode } from '../../utils/selection';
+import { hideSafariPhantomSelection, isGapCursor, selectBlockNode } from '../../utils/selection';
 import { pendingBlockRegistry } from './pendingBlockRegistry';
 import { useSuppressFormattingToolbar } from '../../hooks/useSuppressFormattingToolbar';
 import { usePressOutside } from '../../hooks/usePressOutside';
@@ -74,7 +74,7 @@ export const BlockWorkPackageComponent = ({
   // as a TextSelection at the end of that paragraph rather than a NodeSelection on the block. The class is never applied
   // and the highlight never appears. So we draw the border ourselves and hide BlockNote's highlight on the block.
   const selectedBlocks = useSelectedBlocks(editor);
-  const isBlockSelected = selectedBlocks.some((b) => b.id === block.id);
+  const isBlockSelected = !isGapCursor(editor) && selectedBlocks.some((b) => b.id === block.id);
   const options = useOptionsMenu();
 
   useEffect(() => {
