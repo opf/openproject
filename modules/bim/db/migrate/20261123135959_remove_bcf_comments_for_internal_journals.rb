@@ -33,7 +33,7 @@ class RemoveBcfCommentsForInternalJournals < ActiveRecord::Migration[8.1]
       DELETE FROM bcf_comments
       USING journals
       WHERE bcf_comments.journal_id = journals.id
-        AND journals.restricted = TRUE
+        AND journals.restricted IS TRUE
     SQL
   end
 end
