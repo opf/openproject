@@ -85,6 +85,17 @@ RSpec.describe Project, "acts_as_journalized" do
     it { expect { project.save! }.not_to change(Journal, :count) }
   end
 
+  context "when a categorized work package shares the project's id" do
+    before do
+      create(:work_package, id: project.id, category: create(:category))
+    end
+
+    it "does not journal categories for an unchanged project save" do
+      expect { project.save! }.not_to change(Journal, :count)
+      expect(Journal::WorkPackageCategoryJournal.where(journal: project.journals)).to be_empty
+    end
+  end
+
   describe "on project update", with_settings: { journal_aggregation_time_minutes: 0 } do
     shared_let(:parent_project) { create(:project) }
 

@@ -593,6 +593,59 @@ RSpec.describe WorkPackage do
       end
     end
 
+    context "on category changes", with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:project) { create(:project) }
+      shared_let(:category) { create(:category, project:, name: "Alpha") }
+      shared_let(:other_category) { create(:category, project:, name: "Beta") }
+
+      let(:journable) { create(:work_package, project:, category:) }
+
+      def snapshot_category_ids(journal)
+        Journal::WorkPackageCategoryJournal.where(journal:).pluck(:category_id)
+      end
+
+      it "snapshots the category on creation" do
+        expect(snapshot_category_ids(journable.last_journal)).to contain_exactly(category.id)
+      end
+
+      it "creates a journal with a matching snapshot when the category changes" do
+        expect { journable.update!(category: other_category) }
+          .to change { journable.journals.count }.by(1)
+
+        expect(snapshot_category_ids(journable.last_journal)).to contain_exactly(other_category.id)
+      end
+
+      it "creates no journal on an unrelated save" do
+        journable
+
+        expect { journable.update!(subject: journable.subject) }
+          .not_to change { journable.journals.count }
+      end
+
+      context "with multiple categories enabled",
+              with_flag: { work_package_multiple_categories: true },
+              with_settings: { work_package_multiple_categories: true } do
+        def set_categories(categories)
+          journable.category_ids_replacements = categories.map(&:id)
+          journable.save!
+        end
+
+        it "snapshots all live categories" do
+          expect { set_categories([category, other_category]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(snapshot_category_ids(journable.last_journal))
+            .to contain_exactly(category.id, other_category.id)
+        end
+
+        it "creates a journal when only an additional category changes" do
+          expect { set_categories([category, other_category]) }
+            .to change { journable.journals.count }.by(1)
+          expect(journable.category_id).to eq(category.id)
+        end
+      end
+    end
+
     context "on label changes", with_settings: { journal_aggregation_time_minutes: 0 } do
       shared_let(:label) { create(:label) }
       shared_let(:other_label) { create(:label) }
