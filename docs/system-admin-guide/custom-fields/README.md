@@ -10,7 +10,7 @@ keywords: manage custom fields, custom field, custom fields, custom field format
 
 Custom fields allow you to extend OpenProject with additional attributes that reflect your organization's needs. You can use them to record information such as customer references in work packages, budget information in projects, or additional details about users.
 
-Depending on the resource and custom field format, you can define default values, restrict allowed values, make fields mandatory, and use them to filter and organize information.
+Depending on the custom field format and where the field is used, you can define default values, restrict allowed values, make fields mandatory, and use them to filter and organize information.
 
 ## Where to manage custom fields
 
@@ -35,14 +35,13 @@ The following example shows the settings for a work package custom field of the 
 
 ![Create a Text custom field in OpenProject administration](openproject_system_guide_new_custom_field_new.png)
 
-Depending on the resource and format, you can configure the following settings:
+Depending on the selected format and where the custom field is used, you can configure the following settings:
 
 - **Name:** The name displayed alongside the custom field.
 - **Minimum and maximum length:** Restrict the number of characters users can enter. A value of `0` means that no length restriction is applied.
 - **Regular expression:** Restrict input to values matching a specified pattern.
-- **Default value:** Define a value that is initially provided when creating a resource.
-- **Required:** Make the custom field mandatory when creating new resources.
-- **For all projects:** Activate the custom field for all projects without having to activate it individually.
+- **Default value:** Define a value that is initially entered in the custom field.
+- **Required:** Make the custom field mandatory when creating new entries.
 - **Used as a filter:** Make the custom field available as a filter.
 - **Searchable:** Include custom field values in the global search.
 
@@ -70,11 +69,11 @@ OpenProject supports the following custom field formats. The available formats d
 | **Float** | A numerical value that can contain decimal places. |
 | **Hierarchy (Enterprise add-on)** | One or more values selected from a hierarchical structure. |
 | **Integer** | A whole number. |
-| **Link (URL)** | A URL linking to an external or internal resource. |
+| **Link (URL)** | A link to an internal or external web address. |
 | **List** | One or more values selected from a predefined flat list. |
 | **Text** | Text that can be subject to length restrictions and validation rules. |
 | **Long text** | Longer text, such as detailed notes or descriptions. |
-| **User** | One or more users who have access to the resource containing the custom field. |
+| **User** | One or more users selected from a list of available users. |
 | **Version** | One or more versions. |
 | **Weighted item list (Enterprise add-on)** | One or more items from a hierarchical structure, with an underlying numerical weight assigned to each item. |
 
@@ -131,7 +130,7 @@ You can add further items and levels as needed. To navigate between levels, use 
 
 ![Navigation path for nested Hierarchy custom field items](openproject_system_guide_new_custom_field_path.png)
 
-Once you have configured the hierarchy, make the custom field available for the relevant resources. For work packages, see [Make custom fields available in work packages](../manage-work-packages/work-package-custom-fields/#make-custom-fields-available-in-work-packages).
+If you are configuring a hierarchy custom field for work packages, you must also add it to a form used by the relevant work package types or variants. For detailed instructions, see [Make custom fields available in work packages](../manage-work-packages/work-package-custom-fields/#make-custom-fields-available-in-work-packages).
 
 ### Weighted item list custom field (Enterprise add-on)
 
@@ -147,9 +146,9 @@ The underlying numerical values can be used in calculations, for example when ev
 
 ## Required custom fields
 
-You can make a custom field mandatory by selecting the **Required** checkbox in its settings. Users must then provide a value when creating new resources to which the custom field applies.
+You can make a custom field mandatory by selecting the **Required** checkbox in its settings. Users must then provide a value when creating new entries to which the custom field applies.
 
-If you make an existing custom field required, resources that do not yet contain a value can still be updated without filling in the field. This allows you to introduce new requirements without interrupting ongoing work.
+For work package custom fields, making an existing field required does not prevent users from updating work packages that do not yet contain a value. This allows you to introduce new requirements without interrupting ongoing work.
 
 > [!NOTE]
 > Boolean custom fields cannot be marked as required.
@@ -169,6 +168,14 @@ When filling in a multi-select custom field, users can select several values. To
 ## Edit or remove a custom field
 
 To edit an existing custom field, navigate to the administration section where it is managed and click its name. You can then update its available settings.
+
+The available tabs depend on where the custom field is used and its format. For custom fields with selectable items, such as List, Hierarchy, and Weighted item list, the **Items** tab allows you to manage the available values.
+
+Work package custom fields have two additional tabs, **Forms** and **Types and variants**, which show where the custom field is used. The **Projects** tab shows the projects in which the custom field is available.
+
+For work package custom fields of the List, Hierarchy, and Weighted item list formats, you can also configure [project-specific values (Enterprise add-on)](../manage-work-packages/work-package-custom-fields/#project-specific-values-enterprise-add-on).
+
+For more information, see [Manage work package custom fields](../manage-work-packages/work-package-custom-fields/).
 
 To remove a custom field that is no longer needed, use the delete action in the corresponding custom fields overview.
 

@@ -12,25 +12,24 @@ keywords: custom field FAQ, project custom field, create own attribute, required
 
 Starting with OpenProject 18.0, custom fields are managed directly within the relevant sections of the system administration rather than in a central Custom fields overview.
 
-For an overview of the available custom field formats, configuration options, and where to manage custom fields, see [Manage custom fields](../).
+For an overview of the available custom field formats and configuration options, see [Manage custom fields](../).
 
 For instructions on managing custom fields in different areas of OpenProject, see the following guides:
 
-- [Work package custom fields](../manage-work-packages/work-package-custom-fields/)
-- [Version custom fields](../manage-work-packages/version-custom-fields/)
-- [Project attributes](../projects/project-attributes/)
-- [User attributes](../users-permissions/user-attributes/)
-- [Time and costs](../time-and-costs/)
-- [Groups](../users-permissions/groups/)
+- [Work package custom fields](../../manage-work-packages/work-package-custom-fields/)
+- [Version custom fields](../../manage-work-packages/version-custom-fields/)
+- [Project attributes](../../projects/project-attributes/)
+- [User attributes](../../users-permissions/user-attributes/)
+- [Time and costs](../../time-and-costs/)
+- [Groups](../../users-permissions/groups/)
 
-## Is there a limit to how many values can be added to a work package custom field of the type List?
+## Is there a limit to how many values can be added to a work package custom field of the List format?
 
-There is no hard limit. However, the following factors may affect usability:
+There is no hard limit. However, a large number of selectable values may affect performance, particularly on the custom field administration page where these values are maintained.
 
-- **Performance:** Large numbers of selectable values may affect performance, particularly on the custom field administration page where these values are maintained.
-- **Usability:** Managing a very large number of values can become difficult. For example, there is currently no way to sort values automatically. If you need to enter and manually sort thousands of values (for example, 4,000), maintaining the list can become time-consuming.
+Large lists can also be difficult to maintain and navigate. When defining the available values, consider how easily users can find and select the information they need.
 
-## Is it possible to set a custom field as required after it is already in use? What happens to existing work packages where the custom field is enabled?
+## Can I make an existing custom field required? What happens to existing work packages?
 
 Yes. If you make an existing custom field required, users must provide a value when creating new work packages to which the custom field applies. Existing work packages that do not yet contain a value remain unchanged and can still be updated without filling in the field.
 
@@ -38,17 +37,23 @@ Yes. If you make an existing custom field required, users must provide a value w
 
 You can find them by opening an existing document category or creating a new one in the system administration.
 
-## Can I activate a custom field for multiple projects at the same time?
+## How do I make a work package custom field available in multiple projects?
 
-Yes. Navigate to *Administration → Work packages → Custom fields*, open the relevant custom field, and select the **Projects** tab. Click **Add projects** to activate the custom field for multiple projects at once.
+Starting with OpenProject 18.0, work package custom fields are no longer activated or deactivated individually for each project. Instead, their availability is determined by the forms used by work package types and variants.
 
-For more information, see [Activate a custom field for projects](../../manage-work-packages/work-package-custom-fields/#activate-a-custom-field-for-projects).
+Navigate to *Administration → Work packages → Forms*, open the relevant form, and add the custom field to it. The custom field will then be available in all projects where the types or variants using that form are enabled.
+
+To review where an existing custom field is used, navigate to *Administration → Work packages → Custom fields* and open the field. The **Forms**, **Types and variants**, and **Projects** tabs show the corresponding associations.
+
+For more information, see [Make custom fields available in work packages](../../manage-work-packages/work-package-custom-fields/#make-custom-fields-available-in-work-packages).
 
 ## Can I make different custom field values available in different projects?
 
 Yes. Starting with OpenProject 18.0, you can configure project-specific values for work package custom fields of the **List**, **Hierarchy**, and **Weighted item list** formats.
 
-Using an allow filter or a block filter, you can control which values are available in individual projects without having to create separate custom fields for each project.
+Using an allow filter or a block filter, you can choose which values to enable or disable for individual projects without having to create separate custom fields. To configure the available values for a particular project, open the custom field's **Projects** tab.
+
+These settings control which values users can select, not whether the custom field itself is available in a project.
 
 This functionality is an Enterprise add-on. For more information, see [Project-specific values](../../manage-work-packages/work-package-custom-fields/#project-specific-values-enterprise-add-on).
 

@@ -10,7 +10,7 @@ keywords: work package forms, reusable forms, form configuration, attributes, cu
 
 Work package forms determine which attributes and sections are displayed when users create, view, or edit work packages. By customizing a form, you can organize the information users need and adapt the layout to different kinds of work.
 
-In OpenProject 18.0, forms are standalone, reusable objects. The same form can be used by several work package types or variants, so you no longer need to maintain separate copies of an identical configuration. Changes to a shared form are reflected wherever that form is used.
+In OpenProject 18.0, forms are standalone and reusable. The same form can be used by several work package types or variants, so you no longer need to maintain separate copies of an identical configuration. Changes to a shared form are reflected wherever that form is used.
 
 To manage forms, navigate to *Administration → Work packages → Forms*.
 
@@ -39,13 +39,15 @@ The menu provides the following actions:
 
 Because forms can be shared, changing a form's layout may affect several types and variants. Before making changes, check the **Types and variants** column to understand where the form is used.
 
-## Forms and work package types
+## Create and assign forms to types and variants
 
-Every work package type or variant uses a form to determine how its attributes are displayed. Several types can share the same form, while others may need a separate layout to accommodate different requirements.
+Every work package type or variant uses a form to determine which attributes are available and how they are displayed. Several types and variants can share the same form, while others may need a separate layout to accommodate different requirements.
 
 For example, different types might use a common form with standard project information, while a Bug variant uses a more detailed form with additional fields for reporting issues.
 
-To review or change the form associated with a type or variant, navigate to *Administration → Work packages → Types*, select the relevant type or variant, and open the **Form** tab. You can also select a form when creating a type or variant using the configuration wizard.
+New forms are created through the configuration of work package types and variants rather than directly from the Forms overview.
+
+To create a new form or change the form associated with a type or variant, navigate to *Administration → Work packages → Types*, select the relevant type or variant, and open the **Form** tab. You can also select a form when creating a type or variant using the configuration wizard.
 
 For more information, see [Manage work package types](../work-package-types/) and [Create a type or variant](../work-package-types/create-type-or-variant/).
 
@@ -61,9 +63,9 @@ Built-in attributes and user-created custom fields are distinguished by their la
 
 You can drag attributes and custom fields into the appropriate sections of the form, rearrange them using drag and drop, or use the available move options in the **More (three dots)** menu. To remove an attribute from the layout, open its menu and select the corresponding removal option.
 
-Removing a built-in attribute from the form does not delete it. It remains available in the list of attributes and can be added again later. If you use custom fields, remember that they must also be activated for the relevant projects before users can work with them.
+Removing an attribute or custom field from a form does not delete the field itself. It remains available in the list of attributes and can be added again later.
 
-### Organize attributes into sections (Enterprise add-on)
+### Edit attribute groups (Enterprise add-on)
 
 [feature: edit_attribute_groups ]
 
@@ -77,11 +79,13 @@ If you want to return to the default layout, click **Reset form**. This resets t
 
 ## Custom fields in work package forms
 
-Custom fields can be added to a form alongside built-in attributes and arranged in the same way. Adding a custom field to a form determines where it appears, while its settings determine how users interact with it, including whether a value is required.
+Custom fields can be added to a form alongside built-in attributes and arranged in the same way. The form determines which custom fields appear and where they are displayed, while the individual custom field settings determine how users interact with them, including whether a value is required.
 
-For a custom field to be available in a work package, it must be included in the form used by the corresponding type or variant and activated for the relevant project.
+Starting with OpenProject 18.0, custom fields are no longer activated or deactivated individually for each project. Adding a custom field to a form makes it available to all types and variants using that form, across the projects in which those types and variants are enabled.
 
-For instructions on creating, configuring, and activating custom fields, see [Manage work package custom fields](../work-package-custom-fields/).
+If you need different custom fields for different types or variants, you can configure separate forms to accommodate these requirements.
+
+For instructions on creating and configuring custom fields, reviewing where they are used, and managing project-specific values, see [Manage work package custom fields](../work-package-custom-fields/).
 
 ## Add a table of related work packages (Enterprise add-on)
 
@@ -109,7 +113,3 @@ For more information about configuring work packages, see:
 - [Create a type or variant](../work-package-types/create-type-or-variant/)
 - [Configure workflows](../work-package-workflows/)
 - [Manage work package custom fields](../work-package-custom-fields/)
-
-Watch the following video for an introduction to customizing work package forms and custom fields:
-
-<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Forms-and-Custom-Fields-1.mp4"></video>
