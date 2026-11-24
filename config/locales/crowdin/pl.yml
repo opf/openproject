@@ -7717,6 +7717,7 @@ pl:
         delete_group: Usuń sekcję
         drag_to_activate: Aby aktywować pola, przeciągaj je stąd
         drag_to_reorder: Przeciągnij, aby zmienić kolejność
+        edit_custom_field: Edit custom field
         edit_query: Edytuj zapytanie
         empty_group_hint: Przeciągnij atrybuty tutaj
         exclusions:

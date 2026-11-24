@@ -7351,6 +7351,7 @@ fr:
         delete_group: Supprimer la section
         drag_to_activate: Faites glisser les champs à partir d'ici pour les activer
         drag_to_reorder: Faire glisser
+        edit_custom_field: Edit custom field
         edit_query: Modifier la requête
         empty_group_hint: Faites glisser les attributs ici
         exclusions:

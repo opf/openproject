@@ -7342,6 +7342,7 @@ pt-BR:
         delete_group: Excluir seção
         drag_to_activate: Arraste os campos daqui para ativá-los
         drag_to_reorder: Arraste para reordenar
+        edit_custom_field: Edit custom field
         edit_query: Editar consulta
         empty_group_hint: Arraste os atributos para cá
         exclusions:

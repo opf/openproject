@@ -7732,6 +7732,7 @@ uk:
         delete_group: Видалити розділ
         drag_to_activate: Перетягніть поля звідси, щоб активувати їх
         drag_to_reorder: Перетягніть, щоб змінити порядок
+        edit_custom_field: Edit custom field
         edit_query: Редагувати запит
         empty_group_hint: Перетягніть атрибути сюди
         exclusions:

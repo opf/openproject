@@ -7159,6 +7159,7 @@ zh-CN:
         delete_group: 删除小节
         drag_to_activate: 从此处拖动字段，以将其激活
         drag_to_reorder: 拖动以重新排序
+        edit_custom_field: Edit custom field
         edit_query: 编辑查询
         empty_group_hint: 将特性拖动到此处
         exclusions:

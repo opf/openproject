@@ -7352,6 +7352,7 @@ it:
         delete_group: Elimina sezione
         drag_to_activate: Trascina i campi da qui per attivarli
         drag_to_reorder: Trascina per riordinare
+        edit_custom_field: Edit custom field
         edit_query: Modifica query
         empty_group_hint: Trascina qui gli attributi
         exclusions:

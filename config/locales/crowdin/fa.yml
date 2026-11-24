@@ -7354,6 +7354,7 @@ fa:
         delete_group: حذف بخش
         drag_to_activate: برای فعال‌کردن، فیلدها را از اینجا Drag کنید
         drag_to_reorder: برای تغییر ترتیب Drag کنید
+        edit_custom_field: Edit custom field
         edit_query: ویرایش Query
         empty_group_hint: ویژگی‌ها را اینجا Drag کنید
         exclusions:

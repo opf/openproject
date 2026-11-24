@@ -7177,6 +7177,7 @@ ko:
         delete_group: 섹션 삭제
         drag_to_activate: 여기에서 필드를 드래그하여 활성화
         drag_to_reorder: 드래그하여 재정렬
+        edit_custom_field: Edit custom field
         edit_query: 쿼리 편집
         empty_group_hint: 속성을 여기로 드래그하세요
         exclusions:

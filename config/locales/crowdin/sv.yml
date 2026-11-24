@@ -7338,6 +7338,7 @@ sv:
         delete_group: Ta bort avsnitt
         drag_to_activate: Dra fält härifrån för att aktivera dem
         drag_to_reorder: Dra för att ändra ordning
+        edit_custom_field: Edit custom field
         edit_query: Redigera fråga
         empty_group_hint: Dra attribut hit
         exclusions:

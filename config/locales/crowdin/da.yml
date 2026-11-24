@@ -7349,6 +7349,7 @@ da:
         delete_group: Slet afsnit
         drag_to_activate: Træk felter herfra for at aktivere dem
         drag_to_reorder: Træk for at ændre rækkefølgen
+        edit_custom_field: Edit custom field
         edit_query: Rediger forespørgsel
         empty_group_hint: Træk attributter hertil
         exclusions:

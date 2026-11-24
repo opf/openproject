@@ -7339,6 +7339,7 @@ es:
         delete_group: Eliminar sección
         drag_to_activate: Arrastra campos desde aquí para activarlos
         drag_to_reorder: Arrastra para reordenar
+        edit_custom_field: Edit custom field
         edit_query: Editar consulta
         empty_group_hint: Arrastra los atributos aquí
         exclusions:

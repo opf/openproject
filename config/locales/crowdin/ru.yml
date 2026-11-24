@@ -7713,6 +7713,7 @@ ru:
         delete_group: Удалить секцию
         drag_to_activate: Чтобы включить поля, перетащите их отсюда
         drag_to_reorder: Перетащите, чтобы изменить порядок
+        edit_custom_field: Edit custom field
         edit_query: Редактировать представление
         empty_group_hint: Перетащите атрибуты сюда
         exclusions:

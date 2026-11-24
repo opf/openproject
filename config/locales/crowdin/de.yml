@@ -7356,6 +7356,7 @@ de:
         delete_group: Abschnitt löschen
         drag_to_activate: Felder aus diesem Bereich herausziehen, um sie zu aktivieren
         drag_to_reorder: Ziehen zum Neuordnen
+        edit_custom_field: Edit custom field
         edit_query: Abfrage bearbeiten
         empty_group_hint: Attribute hierher ziehen
         exclusions:
