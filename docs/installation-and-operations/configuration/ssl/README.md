@@ -20,8 +20,8 @@ You will be prompted with the same dialogs than on the [initial configuration](.
 
 The current Docker image does not use SSL by default. Usually you would already have an existing Apache or NginX server (container) on your host, with SSL configured, which you could use to set up a simple ProxyPass rule to direct traffic to the container. Or one of the myriad of other tools (e.g. Traefik) offered by the Docker community to handle this aspect.
 
-If you really want to enable SSL from within the container, you could try mounting a custom apache2 directory when you launch the container with `-v
-my/apache2/conf:/etc/apache2`. This would entirely replace the configuration we're using.
+If you really want to enable SSL from within the container, you could try mounting a custom Caddyfile when you launch the container with `-v
+my/Caddyfile:/etc/caddy/Caddyfile`. This would entirely replace the configuration we're using.
 
 ## Create a free SSL certificate using let's encrypt
 
