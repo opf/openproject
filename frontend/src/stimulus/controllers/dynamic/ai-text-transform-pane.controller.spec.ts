@@ -359,6 +359,9 @@ describe('AiTextTransformPaneController', () => {
     const banner = (attributes:string) =>
       `<div style="height: 20px;" ${attributes}><span data-ai-text-transform-pane-target="errorMessage"></span></div>`;
 
+    const runState = (state:string) => `<span hidden data-ai-text-transform-pane-target="state" data-state="${state}" data-seq="0"
+      data-poll-url="/ai/text_transform_panes/run?request_id=request&scope=document"></span>`;
+
     async function mountScrollArea(output = '', banners = ''):Promise<void> {
       pane().insertAdjacentHTML('beforeend', `
         <div data-testid="scroll-area" data-ai-text-transform-pane-target="scroll" style="overflow: auto; height: 100px;">
@@ -489,8 +492,9 @@ describe('AiTextTransformPaneController', () => {
       expect(scrollArea()).toHaveClass('op-ai-result-pane--more-below');
     });
 
-    it('follows output that grows without new nodes', async () => {
-      await mountScrollArea(lines(20) + details(false, 10));
+    it('follows output that grows without new nodes while the run generates', async () => {
+      vi.spyOn(window, 'fetch').mockReturnValue(new Promise(() => {}));
+      await mountScrollArea(lines(20) + details(false, 10), runState('generating'));
       await scrollTo(scrollArea().scrollHeight);
       ctx.container.querySelector('details')!.open = true;
       await ctx.nextFrame();
@@ -498,8 +502,42 @@ describe('AiTextTransformPaneController', () => {
       expect(distanceToEnd()).toBe(0);
     });
 
-    it('follows output that grows without new nodes after the output was replaced', async () => {
+    it('keeps a finished result where it is when its content grows without new nodes', async () => {
+      await mountScrollArea(lines(20) + details(false, 10), runState('done'));
+      await scrollTo(scrollArea().scrollHeight);
+      ctx.container.querySelector('details')!.open = true;
+      await ctx.nextFrame();
+
+      expect(isInScrollView(ctx.container.querySelector('summary')!)).toBe(true);
+      expect(scrollArea()).toHaveClass('op-ai-result-pane--more-below');
+    });
+
+    it('keeps following a finished result when the scroll area itself is resized at its end', async () => {
+      await mountScrollArea(lines(20), runState('done'));
+      await scrollTo(scrollArea().scrollHeight);
+      scrollArea().style.height = '60px';
+      await ctx.nextFrame();
+
+      expect(distanceToEnd()).toBe(0);
+    });
+
+    it('keeps watching the current scroll area when an earlier one disconnects', async () => {
       await mountScrollArea();
+      const earlier = scrollArea();
+      pane().insertAdjacentHTML('beforeend', `
+        <div data-testid="current" data-ai-text-transform-pane-target="scroll" style="overflow: auto; height: 100px;"></div>`);
+      await ctx.nextFrame();
+      earlier.remove();
+      await ctx.nextFrame();
+      byTestId('current').innerHTML = lines(20);
+      await ctx.nextFrame();
+
+      expect(byTestId('current').scrollHeight - byTestId('current').scrollTop - byTestId('current').clientHeight).toBe(0);
+    });
+
+    it('follows output that grows without new nodes after the output was replaced', async () => {
+      vi.spyOn(window, 'fetch').mockReturnValue(new Promise(() => {}));
+      await mountScrollArea('', runState('generating'));
       byTestId('output').outerHTML = `<div data-testid="output">${lines(20)}${details(false, 10)}</div>`;
       await ctx.nextFrame();
       await scrollTo(scrollArea().scrollHeight);
@@ -536,6 +574,16 @@ describe('AiTextTransformPaneController', () => {
     it('reveals the error banner above followed output', async () => {
       await mountScrollArea('', `${banner('data-testid="error" data-ai-text-transform-pane-target="error" hidden')}<form id="apply"></form>`);
       await showLines(20);
+      document.getElementById('apply')!.dispatchEvent(new CustomEvent('turbo:submit-end', { bubbles: true, detail: { success: false } }));
+      await ctx.nextFrame();
+
+      expect(isInScrollView(byTestId('error'))).toBe(true);
+    });
+
+    it('reveals the error banner of a failed Replace even when the user scrolled up', async () => {
+      await mountScrollArea('', `${banner('data-testid="error" data-ai-text-transform-pane-target="error" hidden')}<form id="apply"></form>`);
+      await showLines(20);
+      await scrollTo(100);
       document.getElementById('apply')!.dispatchEvent(new CustomEvent('turbo:submit-end', { bubbles: true, detail: { success: false } }));
       await ctx.nextFrame();
 

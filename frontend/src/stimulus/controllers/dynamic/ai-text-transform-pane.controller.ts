@@ -101,7 +101,7 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
   private dragOffset:{ x:number; y:number }|null = null;
   private resizeStart:ResizeStart|null = null;
   private pointerListeners:AbortController|null = null;
-  private scrollWatch:{ mutations:MutationObserver; resizes:ResizeObserver; listeners:AbortController }|null = null;
+  private scrollWatch:{ element:HTMLElement; mutations:MutationObserver; resizes:ResizeObserver; listeners:AbortController }|null = null;
   private followsOutput = true;
   private knownScroll = { top: 0, height: 0, viewport: 0 };
 
@@ -138,7 +138,7 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
   scrollTargetConnected(element:HTMLElement):void {
     this.unwatchScroll();
     const listeners = new AbortController();
-    const resizes = new ResizeObserver(() => this.scrollAreaResized());
+    const resizes = new ResizeObserver((entries) => this.scrollAreaResized(entries.some((entry) => entry.target === element)));
     const mutations = new MutationObserver((records) => {
       this.observeContentResizes(resizes, element, records);
       this.outputChanged();
@@ -147,17 +147,23 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     resizes.observe(element);
     Array.from(element.children).forEach((child) => resizes.observe(child));
     element.addEventListener('scroll', () => this.scrolled(), { passive: true, signal: listeners.signal });
-    this.scrollWatch = { mutations, resizes, listeners };
+    this.scrollWatch = { element, mutations, resizes, listeners };
     this.followsOutput = this.scrolledToEnd;
     this.rememberScrollPosition();
     this.showMoreBelow();
   }
 
-  scrollTargetDisconnected():void {
-    this.unwatchScroll();
+  scrollTargetDisconnected(element:HTMLElement):void {
+    if (this.scrollWatch?.element === element) {
+      this.unwatchScroll();
+    }
   }
 
   noticeTargetConnected(element:HTMLElement):void {
+    if (!this.hasScrollTarget) {
+      return;
+    }
+
     this.catchUpWithUnseenScroll();
     if (this.followsOutput) {
       this.reveal(element);
@@ -357,8 +363,12 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     element.scrollIntoView({ block: 'nearest' });
   }
 
-  private scrollAreaResized():void {
-    this.outputChanged();
+  private scrollAreaResized(viewportChanged:boolean):void {
+    if (viewportChanged || this.run.state === 'generating') {
+      this.outputChanged();
+    } else {
+      this.scrolled();
+    }
     this.followsOutput = this.scrolledToEnd;
   }
 
