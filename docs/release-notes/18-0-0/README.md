@@ -516,7 +516,7 @@ Read more: [Work package types system admin guide](../../system-admin-guide/mana
 
 With OpenProject 18.0, every work package status belongs to a category: To-do, In progress, or Closed. During the upgrade, closed statuses are assigned to the Closed category automatically. All other statuses remain without a category until an administrator assigns one. A system message reminds administrators to complete this setup.
 
-Read more: [Work package status system admin guide](../../system-admin-guide/manage-work-packages/work-package-status/)
+Read more: [Work package statuses system admin guide](../../system-admin-guide/manage-work-packages/work-package-statuses/)
 
 ### Jira Migrator: changed import of Resolution fields
 
