@@ -118,6 +118,8 @@ export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, on
       onCancel={onCancel}
     >
       <Form
+        // flatpickr steps its minute input by 5, so the browser would reject other minutes and block the submit.
+        noValidate
         onSubmit={(event) => {
           event.preventDefault();
           if (!submitEnabled) return;
