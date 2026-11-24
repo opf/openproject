@@ -383,8 +383,8 @@ GEM
     awesome_nested_set (3.9.0)
       activerecord (>= 4.0.0, < 8.2)
     aws-eventstream (1.4.1)
-    aws-partitions (1.1305.0)
-    aws-sdk-core (3.264.0)
+    aws-partitions (1.1306.0)
+    aws-sdk-core (3.266.0)
       aws-eventstream (~> 1, >= 1.4.1)
       aws-partitions (~> 1, >= 1.992.0)
       aws-sigv4 (~> 1.9)
@@ -393,15 +393,15 @@ GEM
       jmespath (~> 1, >= 1.6.1)
       logger
       rexml (~> 3.4, >= 3.4.2)
-    aws-sdk-kms (1.139.0)
-      aws-sdk-core (~> 3, >= 3.264.0)
+    aws-sdk-kms (1.141.0)
+      aws-sdk-core (~> 3, >= 3.266.0)
       aws-sigv4 (~> 1.5)
-    aws-sdk-s3 (1.238.0)
-      aws-sdk-core (~> 3, >= 3.264.0)
+    aws-sdk-s3 (1.240.0)
+      aws-sdk-core (~> 3, >= 3.266.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.5)
-    aws-sdk-sns (1.127.0)
-      aws-sdk-core (~> 3, >= 3.264.0)
+    aws-sdk-sns (1.129.0)
+      aws-sdk-core (~> 3, >= 3.266.0)
       aws-sigv4 (~> 1.5)
     aws-sigv4 (1.12.1)
       aws-eventstream (~> 1, >= 1.0.2)
@@ -1673,8 +1673,8 @@ DEPENDENCIES
   appsignal (~> 5.0)
   auto_strip_attributes (~> 3.0)
   awesome_nested_set (~> 3.9.0)
-  aws-sdk-core (~> 3.264)
-  aws-sdk-s3 (~> 1.238)
+  aws-sdk-core (~> 3.266)
+  aws-sdk-s3 (~> 1.240)
   axe-core-rspec
   bcrypt (~> 3.1.22)
   brakeman (~> 8.1.0)
@@ -1925,11 +1925,11 @@ CHECKSUMS
   auto_strip_attributes (3.0.0) sha256=a8612fe3e877247813b8429eac47938177115896efbea4f9b1a2029fa7d535d8
   awesome_nested_set (3.9.0) sha256=3ce99e816550f97f4de118e621630070aacf24928b920fe4a68846578a8daaed
   aws-eventstream (1.4.1) sha256=ceb6a99c61df4bb00344e54aed0351574beca24f87a0d1487d1d2ed80929ce96
-  aws-partitions (1.1305.0) sha256=dbcf06fd557d111f8bba82180b8f32317f756516c40f3df72bdf94851ffbfa96
-  aws-sdk-core (3.264.0) sha256=57c42dfa45f874e6b5e39c0cd9b1565cb4a506bb0900a88324d7fa58148f5af1
-  aws-sdk-kms (1.139.0) sha256=23406b8124f560d792f013689ec1cf28aa88f017f2fde4741f93285ccaa8e884
-  aws-sdk-s3 (1.238.0) sha256=7cb7a003051e02549caa3bef7f25ab5537fcf83d2e0bf1ec51c557db94ddaa18
-  aws-sdk-sns (1.127.0) sha256=7e2e18251dfe4ed36db274b9891eb40b548fa2bb9d2d4e8ef5a0690764f09afd
+  aws-partitions (1.1306.0) sha256=a81c504476036b27b2cadc6ca40fc338aa91d70f42cbda183145e216aa75fefd
+  aws-sdk-core (3.266.0) sha256=a7358fd7dc4a2f51777d61842990c8379f826e1205caab3625ab3ffa4f7ca05b
+  aws-sdk-kms (1.141.0) sha256=62b9e0873e640190c7ecb60fdb9a425dd7a621a92d3e8956d94582fed946e0ff
+  aws-sdk-s3 (1.240.0) sha256=3fd872761fa068a0dd1454e6477fe6ef2f21a0e45c9972b4f47e03293cd140a5
+  aws-sdk-sns (1.129.0) sha256=0005a645d7b0c292b4933961680f6ac1f178f6f58c28082529228a1d09086775
   aws-sigv4 (1.12.1) sha256=6973ff95cb0fd0dc58ba26e90e9510a2219525d07620c8babeb70ef831826c00
   axe-core-api (4.14.0) sha256=61fa8065b6643d3faa82527220fafff5b80d3beed4a19c198782f415d8ad8ac0
   axe-core-rspec (4.14.0) sha256=c4dc9afc16a82bcbb4351955f12c4ff60ceb9a71307d9b56226ee2f692e06c6d
