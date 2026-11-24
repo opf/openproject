@@ -30,21 +30,22 @@
 
 FactoryBot.define do
   factory :repository_pipeline, class: "Repositories::Pipeline" do
+    transient do
+      merge_request { association :repository_merge_request, provider: }
+    end
+
     provider factory: :repository_provider
-    merge_request { association :repository_merge_request, provider: }
     repository_user { association :repository_user, provider: }
-
-    sequence(:external_id)
+    sequence(:external_id, &:to_s)
     sequence(:external_project_id, &:to_s)
-
     web_url { "https://gitlab.com/test_user/test_repo/-/pipelines/#{external_id}" }
     details_url { "https://gitlab.com/test_user/test_repo/-/pipelines/#{external_id}/builds" }
     status { "pending" }
     started_at { 1.hour.ago }
     completed_at { nil }
 
-    ci_details do
-      build_list(:repository_pipeline_ci_detail, 3)
+    after(:build) do |pipeline, evaluator|
+      pipeline.merge_requests = [evaluator.merge_request] if evaluator.merge_request
     end
 
     trait :complete do
@@ -61,21 +62,15 @@ FactoryBot.define do
     end
   end
 
-  factory :repository_pipeline_ci_detail, class: "Hash" do
-    skip_create
-
-    initialize_with { attributes }
-
-    stage { %w[test build deploy].sample }
+  factory :repository_pipeline_job, class: "Repositories::PipelineJob" do
+    pipeline factory: :repository_pipeline
+    sequence(:external_id, &:to_s)
+    external_source_id { "gitlab" }
     sequence(:name) { |n| "job_#{n}" }
+    stage { "test" }
     status { "success" }
+    web_url { "https://gitlab.com/test_user/test_repo/-/jobs/#{external_id}" }
     started_at { 1.hour.ago }
-    created_at { started_at }
-    finished_at { nil }
-    duration { nil }
-    queued_duration { nil }
-    failure_reason { nil }
-    manual { false }
-    allow_failure { false }
+    completed_at { nil }
   end
 end

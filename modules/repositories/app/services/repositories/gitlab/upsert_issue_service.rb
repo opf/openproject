@@ -63,6 +63,7 @@ module Repositories::Gitlab
         state: payload.object_attributes.state,
         title: payload.object_attributes.title.to_s,
         description: payload.object_attributes.description.to_s,
+        external_project_id: payload.project.id.to_s,
         project_name: payload.repository.name,
         labels: labels(payload.labels)
       }

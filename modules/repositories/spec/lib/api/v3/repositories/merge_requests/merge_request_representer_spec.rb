@@ -36,7 +36,7 @@ RSpec.describe API::V3::Repositories::MergeRequests::MergeRequestRepresenter do
                   repository_user:,
                   labels: [{ "title" => "feature", "color" => "#00ff00", "id" => 7 }])
   end
-  let(:latest_pipeline) { build_stubbed(:repository_pipeline, :complete, merge_request:) }
+  let(:latest_pipeline) { build_stubbed(:repository_pipeline, :complete) }
   let(:representer) { described_class.new(merge_request, current_user: build_stubbed(:user)) }
 
   subject(:generated) { representer.to_json }

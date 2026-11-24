@@ -52,6 +52,7 @@ module Repositories::Gitlab
 
     def assign_event_attributes(commit, payload, provider)
       commit.repository_user = pusher(payload, provider)
+      commit.external_project_id = payload.project_id.to_s
       commit.project_name = payload.repository.name
     end
   end
