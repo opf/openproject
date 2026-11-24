@@ -27,13 +27,22 @@
 
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { Injectable, inject } from '@angular/core';
+import { ElementRef, Injectable, InjectionToken, inject } from '@angular/core';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
+
+interface PredefinedFilter {
+  key:string;
+  title:string;
+  configurationPath?:string;
+}
+
+const PREDEFINED_FILTER = new InjectionToken<PredefinedFilter>('Predefined work package filter');
 
 @Injectable()
 export class StaticQueriesService {
   private readonly I18n = inject(I18nService);
   private readonly urlParams = inject(UrlParamsService);
+  private readonly predefinedFilter = inject(PREDEFINED_FILTER, { optional: true });
 
 
   public text = {
@@ -41,11 +50,19 @@ export class StaticQueriesService {
     all_open: this.I18n.t('js.work_packages.default_queries.all_open'),
   };
 
+  public get currentPredefinedFilter():PredefinedFilter|null {
+    return this.predefinedFilter?.key === (this.urlParams.get('name') ?? '') ? this.predefinedFilter : null;
+  }
+
   public getStaticName(query:QueryResource):string {
+    const filter = this.currentPredefinedFilter;
+    if (filter) return filter.title;
+
     if (this.urlParams.has('query_props')) {
       const nameKey = this.urlParams.get('name');
       if (nameKey) {
-        return this.I18n.t(`js.work_packages.default_queries.${nameKey}`);
+        const title = this.I18n.t(`js.work_packages.default_queries.${nameKey}`, { defaultValue: '' });
+        if (title) return title;
       }
     }
 
@@ -60,3 +77,17 @@ export class StaticQueriesService {
     return this.text.work_packages;
   }
 }
+
+export const predefinedFilterProviders = [
+  StaticQueriesService,
+  {
+    provide: PREDEFINED_FILTER,
+    useFactory: ():PredefinedFilter|null => {
+      const { dataset } = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+      const { predefinedFilterKey, predefinedFilterTitle, predefinedFilterConfigurationPath } = dataset;
+      if (predefinedFilterKey === undefined || !predefinedFilterTitle) return null;
+
+      return { key: predefinedFilterKey, title: predefinedFilterTitle, configurationPath: predefinedFilterConfigurationPath };
+    },
+  },
+];

@@ -1,0 +1,14 @@
+<%= render(
+      Primer::OpenProject::DangerDialog.new(
+        title: t("overviews.dashboards.delete"),
+        confirm_button_text: t(:button_delete),
+        cancel_button_text: t(:button_cancel),
+        form_arguments: { action: destroy_path, method: :delete }
+      )
+    ) do |dialog| %>
+  <% dialog.with_confirmation_message do |message| %>
+    <% message.with_heading(tag: :h2) { @dashboard.name } %>
+    <% message.with_description_content(description) %>
+  <% end %>
+  <% dialog.with_confirmation_check_box_content(t("overviews.dashboards.delete_confirmation")) %>
+<% end %>

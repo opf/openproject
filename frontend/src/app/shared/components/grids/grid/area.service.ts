@@ -435,8 +435,10 @@ export class GridAreaService {
     this.numColumns = this.resource.columnCount;
   }
 
+  public readOnly = false;
+
   public get isEditable() {
-    return this.gridResource.updateImmediately !== undefined;
+    return !this.readOnly && this.gridResource.updateImmediately !== undefined;
   }
 
   private buildGridAreaIds() {

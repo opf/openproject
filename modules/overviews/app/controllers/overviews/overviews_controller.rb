@@ -29,9 +29,25 @@
 
 module ::Overviews
   class OverviewsController < ::Grids::BaseInProjectController
-    before_action :jump_to_project_menu_item, only: [:show] # rubocop:disable Rails/LexicallyScopedActionFilter
+    before_action :jump_to_project_menu_item, only: [:show]
 
     menu_item :overview
+
+    def show
+      return super if params[:predefined_filter_id].blank?
+      return render_403 unless current_user.allowed_in_project?(:view_work_packages, @project)
+
+      @predefined_filter = PredefinedWorkPackageFilter.active_in(@project).at(:project_overview)
+        .find(params.expect(:predefined_filter_id))
+      @filter_query = WorkPackages::PredefinedFilterQuery.new(@predefined_filter, project: @project).build
+      render :predefined_filter
+    end
+
+    def dashboard
+      raise ActiveRecord::RecordNotFound if ::Grids::Overview.exists?(project: @project, disabled: true)
+
+      render :dashboard
+    end
 
     def project_custom_fields_sidebar
       render :project_custom_fields_sidebar, layout: false

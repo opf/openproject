@@ -1,0 +1,60 @@
+<% html_title(t(:label_project_settings), t("overviews.dashboards.title")) %>
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t("overviews.dashboards.title") }
+    header.with_breadcrumbs(
+      [{ href: project_overview_path(@project), text: @project.name },
+       { href: project_settings_general_path(@project), text: t(:label_project_settings) },
+       t("overviews.dashboards.title")]
+    )
+  end
+%>
+
+<%= turbo_frame_tag "project-dashboard-list", target: "_top" do %>
+  <%=
+    render(
+      Primer::OpenProject::SubHeader.new(
+        data: {
+          controller: "filter--filters-form",
+          filter__filters_form_output_format_value: "json",
+          filter__filters_form_turbo_frame_request_value: "project-dashboard-list",
+          filter__filters_form_current_filters_value: @dashboard_filters || "[]",
+          filter__filters_form_clear_button_id_value: "project-dashboard-clear-search"
+        }
+      )
+    ) do |subheader|
+      subheader.with_filter_input(
+        name: :name,
+        id: "project-dashboard-name-search",
+        label: t(:label_search_by_name),
+        placeholder: t(:label_search_by_name),
+        value: @dashboard_name,
+        leading_visual: { icon: :search, size: :small },
+        show_clear_button: true,
+        clear_button_id: "project-dashboard-clear-search",
+        data: {
+          turbo_permanent: true,
+          filter_name: "name",
+          filter_type: "string",
+          filter_operator: "~",
+          filter__filters_form_target: "simpleFilter filterValueContainer simpleValue"
+        }
+      )
+
+      subheader.with_quick_filter do
+        render(Primer::Alpha::SegmentedControl.new("aria-label": t(:label_filter_plural), full_width: false)) do |control|
+          { nil => :all, "standard" => :standard, "project" => :project_specific }.each do |value, type|
+            control.with_item(
+              tag: :a,
+              href: settings_project_dashboard_pages_path(@project, dashboard_type: value, filters: @dashboard_filters),
+              label: t("overviews.dashboards.types.#{type}"),
+              selected: @dashboard_type == value
+            )
+          end
+        end
+      end
+    end
+  %>
+
+  <%= render(@dashboard_table) %>
+<% end %>

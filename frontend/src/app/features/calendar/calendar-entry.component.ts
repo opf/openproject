@@ -27,12 +27,14 @@
 
 import { ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, inject } from '@angular/core';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+import { predefinedFilterProviders } from 'core-app/shared/components/op-view-select/op-static-queries.service';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
 } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
 
 @Component({
   hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
+  providers: predefinedFilterProviders,
   template: '<op-wp-calendar-page [queryId]="queryId"><op-wp-calendar /></op-wp-calendar-page>',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,

@@ -61,6 +61,16 @@ module Overviews
       project.name
     end
 
+    def dashboard_tabs
+      return [] unless current_user.allowed_in_project?(:view_project, project)
+
+      DashboardTabs.new(project).entries.select(&:active)
+    end
+
+    def allowed_to_manage_dashboards?
+      current_user.allowed_in_project?(:manage_dashboards, project)
+    end
+
     def favorited?
       project.favorited_by?(current_user)
     end

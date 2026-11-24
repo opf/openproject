@@ -135,6 +135,7 @@ Rails.application.reloader.to_prepare do
                        "projects/settings/general": %i[show update toggle_public toggle_public_dialog],
                        "projects/settings/storage": %i[show],
                        "projects/settings/work_packages": %i[show],
+                       "projects/settings/work_packages/filters": %i[show update toggle],
                        "projects/settings/work_packages/internal_comments": %i[show update],
                        "projects/settings/creation_wizard": %i[show disable_dialog toggle refresh_submission_form
                                                                update_name_settings update_submission_settings
@@ -258,6 +259,26 @@ Rails.application.reloader.to_prepare do
                      {
                        admin: %i[index],
                        attribute_help_texts: %i[index new edit upsell create update destroy]
+                     },
+                     permissible_on: :global,
+                     require: :loggedin,
+                     grant_to_admin: true
+
+      map.permission :manage_standard_dashboards,
+                     {
+                       admin: %i[index],
+                       "admin/dashboard_pages": %i[index new create edit update destroy rename_dialog deletion_dialog
+                                                   projects add_projects remove_project update_activation]
+                     },
+                     permissible_on: :global,
+                     require: :loggedin,
+                     grant_to_admin: true
+
+      map.permission :manage_filters,
+                     {
+                       admin: %i[index],
+                       "admin/predefined_work_package_filters": %i[index new create edit update destroy move projects
+                                                                   add_projects remove_project configuration update_configuration]
                      },
                      permissible_on: :global,
                      require: :loggedin,

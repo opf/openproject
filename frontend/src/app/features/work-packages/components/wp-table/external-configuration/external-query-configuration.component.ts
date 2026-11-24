@@ -44,7 +44,9 @@ export interface QueryConfigurationLocals {
   urlParams?:boolean;
   disabledTabs?:Record<string, string>|string[];
   hideDisabledTabs?:boolean;
-  callback:(newQuery:unknown) => void;
+  includeInitialQuery?:boolean;
+  saveOnApply?:boolean;
+  callback:(newQuery:unknown, initialQuery?:string) => void;
 }
 
 @Component({
@@ -80,6 +82,7 @@ export class ExternalQueryConfigurationComponent implements OnInit, AfterViewIni
     // Open the configuration modal in an asynchronous step
     // to avoid nesting components in the view initialization.
     setTimeout(() => {
+      let initialQuery:string|undefined;
       void this.embeddedTable.openConfigurationModal(() => {
         // The modal emits onDataUpdated immediately after tab onSave hooks run.
         // Defer reading query props by a tick so the embedded query space reflects
@@ -87,12 +90,16 @@ export class ExternalQueryConfigurationComponent implements OnInit, AfterViewIni
         setTimeout(() => {
           this.service.detach();
           if (this.locals.urlParams) {
-            this.locals.callback(this.embeddedTable.buildUrlParams());
+            this.locals.callback(this.embeddedTable.buildUrlParams(), initialQuery);
           } else {
             this.locals.callback(this.embeddedTable.buildQueryProps());
           }
         });
-      });
+      }, () => {
+        if (this.locals.urlParams && this.locals.includeInitialQuery) {
+          initialQuery = this.embeddedTable.buildUrlParams();
+        }
+      }, this.locals.saveOnApply);
       this.cdRef.detectChanges();
     });
   }

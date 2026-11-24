@@ -38,6 +38,8 @@ module WorkPackages
     end
 
     def default_queries
+      return predefined_project_queries(:work_packages) if project.present?
+
       query_generator = WorkPackages::DefaultQueryGeneratorService.new(with_project: project)
       WorkPackages::DefaultQueryGeneratorService::QUERY_OPTIONS.filter_map do |query_key|
         params = query_generator.call(query_key:)
@@ -74,7 +76,7 @@ module WorkPackages
 
     def highlight_on_work_packages?(query_params)
       query_params[:work_package_default] &&
-        (%i[filters query_props query_id name].none? { |k| params.key? k }) &&
+        %i[filters query_props query_id name].none? { |k| params.key? k } &&
         params[:on_work_package_path] == "true"
     end
 

@@ -24,9 +24,17 @@
         (cdkDragStarted)="drag.start(area)"
         (cdkDragDropped)="drag.drop()"
         [cdkDragDisabled]="isMobileDevice || !drag.isDraggable">
-        <ndc-dynamic [ndcDynamicComponent]="widgetComponent(area)"
-                     [ndcDynamicInputs]="widgetComponentInput(area)"
-                     [ndcDynamicOutputs]="widgetComponentOutput(area)"/>
+        @if (layoutOnly && area.widget.identifier !== 'custom_text') {
+          <widget-header [headingId]="'widget-' + area.guid"
+                         [name]="widgetTitle(area)"
+                         [editable]="false">
+            <widget-menu slot="menu" [resource]="area.widget" />
+          </widget-header>
+        } @else {
+          <ndc-dynamic [ndcDynamicComponent]="widgetComponent(area)"
+                       [ndcDynamicInputs]="widgetComponentInput(area)"
+                       [ndcDynamicOutputs]="widgetComponentOutput(area)"/>
+        }
       </div>
       @if (resize.isResizable) {
         <op-resizer

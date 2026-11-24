@@ -75,6 +75,16 @@ class Submenu
     raise SubclassResponsibilityError
   end
 
+  def predefined_project_queries(placement)
+    PredefinedWorkPackageFilter.active_in(project).at(placement).ordered.filter_map do |filter|
+      query_params = WorkPackages::PredefinedFilterQuery.new(filter, project:).menu_params(placement)
+      next unless query_params
+
+      menu_item(title: filter.display_name, query_params:,
+                show_enterprise_icon: query_params[:show_enterprise_icon].present?)
+    end
+  end
+
   def global_queries
     base_query
       .where("starred" => "f")

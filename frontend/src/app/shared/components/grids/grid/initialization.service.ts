@@ -45,7 +45,11 @@ export class GridInitializationService {
   // that page will be used to initialized the grid.
   // If it does not exist, fetch the form and then create a new resource.
   // The created resource is then used to initialize the grid.
-  public initialize(path:string):Observable<GridResource> {
+  public initialize(path:string, gridId?:number):Observable<GridResource> {
+    if (gridId !== undefined) {
+      return this.apiV3Service.grids.id(gridId).get();
+    }
+
     return this
       .apiV3Service
       .grids

@@ -144,7 +144,7 @@ export class WorkPackagesCalendarPageComponent extends PartitionedQuerySpacePage
   }
 
   protected staticQueryName(_query:QueryResource):string {
-    return this.text.unsaved_title;
+    return this.opStaticQueries.currentPredefinedFilter?.title ?? this.text.unsaved_title;
   }
 
   /**

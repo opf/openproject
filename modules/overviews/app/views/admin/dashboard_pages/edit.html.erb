@@ -1,0 +1,10 @@
+<%= render "admin/dashboard_pages/header", active_tab: :settings %>
+
+<% if @dashboard.persisted? %>
+  <%= render(Overviews::DashboardComponent.new(project: nil, current_user:, dashboard: @dashboard, configuration: true)) %>
+<% else %>
+  <%= primer_form_with(model: @dashboard, scope: :dashboard_page, url: admin_dashboard_pages_path) do |form| %>
+    <%= render(Overviews::DashboardNameForm.new(form)) %>
+    <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary)) { t(:button_save) } %>
+  <% end %>
+<% end %>

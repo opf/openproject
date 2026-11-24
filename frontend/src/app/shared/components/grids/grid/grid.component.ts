@@ -88,8 +88,11 @@ export class GridComponent implements OnDestroy, OnInit {
   public component = WidgetWpGraphComponent;
 
   @Input() grid:GridResource;
+  @Input() layoutOnly = false;
+  @Input() readOnly = false;
 
   ngOnInit() {
+    this.layout.readOnly = this.readOnly;
     this.layout.gridResource = this.grid;
   }
 
@@ -125,6 +128,10 @@ export class GridComponent implements OnDestroy, OnInit {
 
   public resizeEnd(area:GridWidgetArea) {
     this.detectChangesAfter(this.resize.end(area));
+  }
+
+  public widgetTitle(area:GridWidgetArea):string {
+    return this.widgetsService.registered.find(({ identifier }) => identifier === area.widget.identifier)?.title ?? '';
   }
 
   public widgetComponent(area:GridWidgetArea) {

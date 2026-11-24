@@ -35,19 +35,29 @@ module Overviews
     include AngularHelper
     include Turbo::FramesHelper
 
-    attr_reader :project, :current_user
+    attr_reader :project, :current_user, :dashboard
 
-    def initialize(project:, current_user:)
+    def initialize(project:, current_user:, dashboard: nil, configuration: false)
       super()
 
       @project = project
       @current_user = current_user
+      @dashboard = dashboard
+      @configuration = configuration
     end
 
     private
 
     def allowed_to_manage?
-      current_user.allowed_in_project?(:manage_dashboards, project)
+      if dashboard&.central?
+        @configuration && current_user.allowed_globally?(:manage_standard_dashboards)
+      else
+        can_manage_in_project? && (dashboard.nil? || @configuration)
+      end
+    end
+
+    def can_manage_in_project?
+      project && current_user.allowed_in_project?(:manage_dashboards, project)
     end
   end
 end

@@ -42,6 +42,16 @@
       end
 
       with_item_group(menu) do
+        if allowed_to_manage_dashboards?
+          menu.with_item(
+            tag: :a,
+            label: t(:permission_manage_dashboards),
+            href: settings_project_dashboard_pages_path(project)
+          ) do |item|
+            item.with_leading_visual_icon(icon: :gear)
+          end
+        end
+
         if allowed_to_select_project_custom_fields?
           menu.with_item(
             label: t(:label_project_attribute_manage_link),
@@ -53,6 +63,14 @@
         end
 
         if allowed_to_edit_project?
+          menu.with_item(
+            tag: :a,
+            label: t(:permission_manage_filters),
+            href: project_settings_work_packages_filters_path(project)
+          ) do |item|
+            item.with_leading_visual_icon(icon: :filter)
+          end
+
           menu.with_item(
             label: t("projects.settings.change_identifier"),
             href: helpers.identifier_update_dialog_project_identifier_path(project_id: project),
@@ -128,21 +146,44 @@
     header.with_tab_nav(label: nil, test_selector: "overview-tabs") do |tab_nav|
       tab_nav.with_tab(
         test_selector: "project-overview-tab",
-        selected: current_page?(project_overview_path),
+        selected: params[:predefined_filter_id].blank? && current_page?(project_overview_path),
         href: helpers.project_overview_path
       ) do |t|
         t.with_icon(icon: :"op-view-split")
         t.with_text { I18n.t("overviews.label_overview") }
       end
 
-      if current_user.allowed_in_project?(:view_project, project)
+      if current_user.allowed_in_project?(:view_work_packages, project)
+        PredefinedWorkPackageFilter.active_in(project).at(:project_overview).ordered.each do |filter|
+          tab_nav.with_tab(
+            selected: params[:predefined_filter_id] == filter.id.to_s,
+            href: project_overview_path(project, predefined_filter_id: filter.id)
+          ) do |tab|
+            tab.with_text { filter.display_name }
+          end
+        end
+      end
+
+      dashboard_tabs.each do |entry|
+        if entry.original?
+          path = dashboard_project_overview_path(project)
+          tab_nav.with_tab(test_selector: "project-dashboard-tab", selected: current_page?(path), href: path) do |tab|
+            tab.with_icon(icon: :"op-view-list")
+            tab.with_text { entry.dashboard&.display_name || t("overviews.label_dashboard") }
+          end
+        else
+          path = project_dashboard_page_path(project, entry.dashboard)
+          tab_nav.with_tab(selected: current_page?(path), href: path) { entry.dashboard.name }
+        end
+      end
+
+      if allowed_to_manage_dashboards?
         tab_nav.with_tab(
-          test_selector: "project-dashboard-tab",
-          selected: current_page?(dashboard_project_overview_path),
-          href: helpers.dashboard_project_overview_path
-        ) do |t|
-          t.with_icon(icon: :"op-view-list")
-          t.with_text { I18n.t("overviews.label_dashboard") }
+          href: new_project_dashboard_page_path(project),
+          "aria-label": t("overviews.dashboards.new"),
+          data: { controller: "async-dialog" }
+        ) do
+          render(Primer::Beta::Octicon.new(icon: :plus, size: :medium))
         end
       end
     end

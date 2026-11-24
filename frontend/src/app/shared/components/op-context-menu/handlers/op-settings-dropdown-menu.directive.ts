@@ -164,6 +164,10 @@ export class OpSettingsMenuDirective extends OpActionMenuItems implements AfterV
   }
 
   private menuItems():OpContextMenuItem[] {
+    const configureFilterPath = isPersistedResource(this.query)
+      ? undefined
+      : this.opStaticQueries.currentPredefinedFilter?.configurationPath;
+
     return [
       {
         // Configuration modal
@@ -176,6 +180,12 @@ export class OpSettingsMenuDirective extends OpActionMenuItems implements AfterV
 
           return true;
         },
+      },
+      {
+        href: configureFilterPath,
+        hidden: !configureFilterPath,
+        linkText: this.I18n.t('js.toolbar.settings.configure_filter'),
+        icon: 'icon-settings',
       },
       {
         // Insert columns. Left out on mobile rather than hidden by a class,

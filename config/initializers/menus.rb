@@ -454,8 +454,14 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :users_and_permissions
 
   menu.push :admin_work_packages,
-            { controller: "/work_package_types/types" },
-            if: ->(_) { User.current.admin? },
+            ->(_) {
+              if User.current.admin?
+                { controller: "/work_package_types/types" }
+              else
+                { controller: "/admin/predefined_work_package_filters", action: "index" }
+              end
+            },
+            if: ->(_) { User.current.allowed_globally?(:manage_filters) },
             caption: :label_work_package_plural,
             icon: "op-view-list"
 
@@ -469,6 +475,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: "/admin/settings/work_packages_general", action: :show },
             if: ->(_) { User.current.admin? },
             caption: :label_general,
+            parent: :admin_work_packages
+
+  menu.push :predefined_work_package_filters,
+            { controller: "/admin/predefined_work_package_filters", action: "index" },
+            if: ->(_) { User.current.allowed_globally?(:manage_filters) },
+            caption: :"predefined_work_package_filters.title",
             parent: :admin_work_packages
 
   menu.push :form_configurations,
@@ -528,10 +540,22 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :admin_work_packages
 
   menu.push :admin_projects_settings,
-            { controller: "/admin/settings/project_phase_definitions", action: :index },
-            if: ->(_) { User.current.admin? },
+            ->(*) {
+              if User.current.admin?
+                { controller: "/admin/settings/project_phase_definitions", action: :index }
+              else
+                { controller: "/admin/dashboard_pages", action: :index }
+              end
+            },
+            if: ->(_) { User.current.allowed_globally?(:manage_standard_dashboards) },
             caption: :label_project_plural,
             icon: "project"
+
+  menu.push :standard_dashboards,
+            { controller: "/admin/dashboard_pages", action: :index },
+            if: ->(_) { User.current.allowed_globally?(:manage_standard_dashboards) },
+            caption: :"overviews.dashboards.title",
+            parent: :admin_projects_settings
 
   menu.push :project_phase_definitions_settings,
             { controller: "/admin/settings/project_phase_definitions", action: :index },
@@ -889,6 +913,11 @@ Redmine::MenuManager.map :project_menu do |menu|
       caption: :"settings.project_initiation_request.name.options.project_initiation_request"
     },
     modules: { caption: :label_module_plural },
+    dashboards: {
+      caption: :"overviews.dashboards.title",
+      controller: "/overviews/dashboard_pages",
+      action: :settings
+    },
     template: { caption: :"projects.settings.template.menu_title" },
     subitems: { caption: :label_subitems },
     work_packages: {

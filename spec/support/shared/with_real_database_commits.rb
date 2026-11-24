@@ -45,6 +45,7 @@ RSpec.shared_context "with real database commits" do
     ensure
       ActiveRecord::Tasks::DatabaseTasks.truncate_all("test")
       Setting.insert_all!(settings_rows) if settings_rows.any?
+      PredefinedWorkPackageFilter.seed_builtin_filters!
       Setting.clear_cache
       Rails.cache.clear
       RequestStore.clear!

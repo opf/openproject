@@ -608,6 +608,9 @@ Rails.application.routes.draw do
         get :categories, to: redirect("projects/%{project_id}/settings/work_packages/categories")
         resource :work_packages, only: %i[show]
         namespace :work_packages do
+          resource :filters, only: %i[show update] do
+            post ":id/toggle", action: :toggle, as: :toggle
+          end
           resource :internal_comments, only: %i[show update]
           resources :types, only: %i[index new create destroy] do
             resource :switch, only: %i[new create], controller: "types/switches" do
@@ -940,6 +943,17 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    resources :predefined_work_package_filters, path: "work_package_filters", except: :show do
+      member do
+        get :configuration
+        patch :configuration, action: :update_configuration
+        get :projects
+        post :projects, action: :add_projects
+        delete "projects/:project_id", action: :remove_project, as: :project
+        put :move
+      end
+    end
+
     namespace :settings do
       resource :general, controller: "/admin/settings/general_settings", only: %i[show update]
       resource :languages, controller: "/admin/settings/languages_settings", only: %i[show update]

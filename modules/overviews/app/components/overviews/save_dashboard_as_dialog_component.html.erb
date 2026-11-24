@@ -1,0 +1,28 @@
+<%= render(
+      Primer::Alpha::Dialog.new(
+        id: "save-dashboard-as-dialog",
+        title: t(:button_save_as),
+        size: :medium,
+        data: { keep_open_on_submit: true }
+      )
+    ) do |dialog| %>
+  <% dialog.with_header(variant: :large) %>
+  <% dialog.with_body do %>
+    <% if @dashboard.errors[:base].present? %>
+      <%= render(Primer::Alpha::Banner.new(mb: 3, icon: :stop, scheme: :danger)) { @dashboard.errors[:base].join("\n") } %>
+    <% end %>
+
+    <%= primer_form_with(model: @dashboard, scope: :dashboard_page, id: "save-dashboard-as-form", url: @url, method: :post) do |form| %>
+      <%= render(
+            Primer::Forms::FormList.new(
+              Overviews::DashboardNameForm.new(form),
+              Overviews::DashboardCopyForm.new(form, projects: @projects)
+            )
+          ) %>
+    <% end %>
+  <% end %>
+  <% dialog.with_footer do %>
+    <%= render(Primer::Beta::Button.new(data: { close_dialog_id: "save-dashboard-as-dialog" })) { t(:button_cancel) } %>
+    <%= render(Primer::Beta::Button.new(type: :submit, form: "save-dashboard-as-form", scheme: :primary)) { t(:button_save) } %>
+  <% end %>
+<% end %>

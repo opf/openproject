@@ -26,6 +26,7 @@
 //++
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { predefinedFilterProviders } from 'core-app/shared/components/op-view-select/op-static-queries.service';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
 } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
@@ -39,6 +40,7 @@ import {
  */
 @Component({
   hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
+  providers: predefinedFilterProviders,
   standalone: false,
   template: `
     <wp-view-page>
