@@ -651,7 +651,7 @@ module Settings
       },
       web_push_enabled: {
         format: :boolean,
-        default: true
+        default: false
       },
       web_push_vapid_private_key: {
         description: "The VAPID private key used to sign browser notification pushes, given as the " \
