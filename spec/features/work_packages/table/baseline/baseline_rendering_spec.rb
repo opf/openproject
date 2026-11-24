@@ -89,6 +89,8 @@ RSpec.describe "baseline rendering",
 
   shared_let(:version_a) { create(:version, project:, name: "Version A") }
   shared_let(:version_b) { create(:version, project:, name: "Version B") }
+  shared_let(:category_a) { create(:category, project:, name: "Category A") }
+  shared_let(:category_b) { create(:category, project:, name: "Category B") }
 
   shared_let(:wp_bug) do
     create(:work_package,
@@ -118,6 +120,7 @@ RSpec.describe "baseline rendering",
                            assigned_to: assignee,
                            responsible: assignee,
                            priority: default_priority,
+                           category: category_a,
                            subject: "Old subject",
                            start_date: "2023-05-01",
                            due_date: "2023-05-02",
@@ -137,6 +140,7 @@ RSpec.describe "baseline rendering",
           assigned_to: user,
           responsible: user,
           priority: high_priority,
+          category: category_b,
           target_version_ids: [version_b.id],
           estimated_hours: 8
         )
@@ -266,7 +270,7 @@ RSpec.describe "baseline rendering",
     query.timestamps = ["P-2d", "PT0S"]
     query.add_filter("type_id", "=", [type_task.id, type_milestone.id])
     query.column_names =
-      %w[id subject status type start_date due_date version priority assigned_to responsible estimated_hours] +
+      %w[id subject status type start_date due_date version category priority assigned_to responsible estimated_hours] +
         CustomField.pluck(:id).map { |id| "cf_#{id}" }
 
     query
@@ -309,6 +313,7 @@ RSpec.describe "baseline rendering",
                                          startDate: ["2023-05-01", (today - 2.days).iso8601],
                                          dueDate: ["2023-05-02", (today - 1.day).iso8601],
                                          version: ["Version A", "Version B"],
+                                         category: ["Category A", "Category B"],
                                          priority: ["Default", "High priority"],
                                          assignee: ["Assigned User", "Itsa Me"],
                                          responsible: ["Assigned User", "Itsa Me"],
@@ -338,6 +343,9 @@ RSpec.describe "baseline rendering",
                                            (today - 5.days).iso8601,
                                            (today + 1.day).iso8601
                                          ]
+
+      expect(wp_table.table_container)
+        .to have_no_element(:span, title: I18n.t("js.work_packages.baseline.column_incompatible"))
 
       baseline.expect_unchanged_attributes wp_task_changed, :type
       baseline.expect_unchanged_attributes wp_task,

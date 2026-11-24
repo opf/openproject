@@ -50,7 +50,6 @@ export const BASELINE_INCOMPATIBLE_FILTERS = [
 ];
 
 export const BASELINE_INCOMPATIBLE_COLUMNS = [
-  'category',
   'updatedAt',
   'remainingTime',
   'spentTime',
