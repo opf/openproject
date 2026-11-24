@@ -60,7 +60,7 @@ module OpenProject
       end
 
       def for_modules_menu_item(name, project)
-        ALWAYS[name.to_sym] || (project.nil? ? GLOBAL_FALLBACK[name.to_sym] : nil)
+        ALWAYS[name.to_sym] || (project&.persisted? ? nil : GLOBAL_FALLBACK[name.to_sym])
       end
 
       def for_action(name)

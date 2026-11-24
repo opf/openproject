@@ -30,7 +30,7 @@
 require "spec_helper"
 
 RSpec.describe OpenProject::Hotkeys do
-  let(:project) { build(:project) }
+  let(:project) { build_stubbed(:project) }
 
   describe ".for_modules_menu_item" do
     it "always maps My page" do
@@ -39,6 +39,10 @@ RSpec.describe OpenProject::Hotkeys do
 
     it "does not map the global fallbacks inside a project" do
       expect(described_class.for_modules_menu_item(:work_packages, project)).to be_nil
+    end
+
+    it "maps the global fallbacks for a project that is not saved yet" do
+      expect(described_class.for_modules_menu_item(:work_packages, build(:project))).to eq("g w p")
     end
 
     it "maps the global fallbacks outside a project" do
