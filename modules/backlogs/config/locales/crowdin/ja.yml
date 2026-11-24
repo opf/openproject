@@ -58,6 +58,7 @@ ja:
       messages:
         cannot_start_while_receiving_shared_sprints: プロジェクトが共有スプリントを受信している間は、開始できません。
         dates_required: スプリントを開始するには、開始日と終了日の指定が必要です。
+        finish_date_in_past: cannot be started as long as the planned finish date is in the past.
         must_be_in_planning: 開始に向けた計画が立てられているに違いない。
         only_one_active_sprint_allowed: 1つのプロジェクトにつき、アクティブなスプリントは1つまでです。
       models:
@@ -199,6 +200,7 @@ ja:
       label_complete_sprint: スプリントを完了する
       label_start_sprint: スプリントの開始
       start_sprint_disabled_reason_active_sprint: すでに別のスプリントが進行中です。
+      start_sprint_disabled_reason_finish_date_in_past: The planned finish date is in the past. Correct the sprint dates first.
       start_sprint_disabled_reason_missing_dates: スプリントを開始するには、開始日と終了日の指定が必要です。
       start_sprint_disabled_reason_receiving_shared_sprints: このプロジェクトは、共有スプリントを受信している間は、独自のスプリントを開始することはできません。
       start_sprint_disabled_reason_shared_sprint: このスプリントは、複数のアクティブなスプリントに対応していない別のプロジェクトからのものです。
@@ -309,6 +311,8 @@ ja:
             time:
               other: Bar chart of committed and completed estimated time of the last %{count} sprints.
           summary_average: 'Average velocity: %{average}.'
+          summary_story_points:
+            other: "%{value} story points"
           title: Velocity chart
           velocity: "%{sprint}:"
           y_axis_title:

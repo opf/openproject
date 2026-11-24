@@ -109,6 +109,7 @@ it:
         maintained_with_changes: Mantenuto con le modifiche
         no_longer_meets_filter_criteria: Non soddisfa più i criteri del filtro
         now_meets_filter_criteria: Ora soddisfa i criteri del filtro
+        state_at: State at
       show_changes_since: Mostra le modifiche da
       time: Ora
       time_description: 'Nella tua ora locale: %{datetime}'
@@ -176,6 +177,10 @@ it:
       remove_from_list: Rimuovi la carta dall'elenco
     chart:
       axis_criteria: Criteri dell'asse
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: I dati per visualizzare il grafico non possono essere caricati. Potrebbero mancare i permessi necessari.
       modal_title: Configurazione grafico macro-attività
@@ -902,6 +907,23 @@ it:
       unselected_title: Macro-attività
     two_factor_authentication:
       label_two_factor_authentication: Autenticazione a due fattori
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Project actions
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            one: Could not extend the range. %{count} project selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            one: "%{count} project selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         one: "%{count} child work package"

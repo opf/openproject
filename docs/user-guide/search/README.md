@@ -69,6 +69,8 @@ When you type more than one text, the search will only show results where **all 
 
 The OpenProject search bar is configured for full-text search. This means you can search not only headings but also content such as wiki pages or work package descriptions and attachments.
 
+Since OpenProject 18.0, the contents of [meetings](../meetings/), such as agenda items and their notes, can also be found using the search. This allows you to look up whether and when a topic was discussed in a meeting.
+
 The title and the description of a work package can also be found by [filtering by text](../work-packages/work-package-table-configuration/#filter-by-text).
 Aside from full-text search, you can [search work packages based on their attached file name or even within the content of an attachment](../work-packages/work-package-table-configuration/#filter-for-attachment-file-name-and-content).
 

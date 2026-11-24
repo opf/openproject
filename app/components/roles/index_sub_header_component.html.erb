@@ -1,4 +1,4 @@
-<%= render(Primer::OpenProject::SubHeader.new(data: sub_header_data_attributes)) do |subheader| %>
+<%= render(OpPrimer::QuickFilter::SubHeader.new(query:, clear_button_id:, output_format: "json", turbo_frame_request:)) do |subheader| %>
   <% subheader.with_filter_input(
        name: "name",
        id: filter_input_id,

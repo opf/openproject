@@ -58,6 +58,7 @@ de:
       messages:
         cannot_start_while_receiving_shared_sprints: kann nicht gestartet werden, wenn das Projekt Sprints von einem anderen Projekt erhält.
         dates_required: Start- und Enddatum sind erforderlich, um den Sprint zu starten.
+        finish_date_in_past: cannot be started as long as the planned finish date is in the past.
         must_be_in_planning: muss in Planung sein, um zu beginnen.
         only_one_active_sprint_allowed: pro Projekt ist nur ein aktiver Sprint erlaubt.
       models:
@@ -206,6 +207,7 @@ de:
       label_complete_sprint: Sprint abschließen
       label_start_sprint: Sprint starten
       start_sprint_disabled_reason_active_sprint: Ein anderer Sprint ist bereits aktiv.
+      start_sprint_disabled_reason_finish_date_in_past: The planned finish date is in the past. Correct the sprint dates first.
       start_sprint_disabled_reason_missing_dates: Start- und Enddatum sind erforderlich, um den Sprint zu starten.
       start_sprint_disabled_reason_receiving_shared_sprints: Die eigenen Sprints dieses Projekts können nicht gestartet werden, solange es geteilte Sprints erhält.
       start_sprint_disabled_reason_shared_sprint: Dieser Sprint stammt aus einem anderen Projekt, das mehrere aktive Sprints nicht zulässt.
@@ -323,6 +325,9 @@ de:
               one: Bar chart of committed and completed estimated time of the last sprint.
               other: Bar chart of committed and completed estimated time of the last %{count} sprints.
           summary_average: 'Average velocity: %{average}.'
+          summary_story_points:
+            one: "%{value} story point"
+            other: "%{value} story points"
           title: Velocity-Diagramm
           velocity: "%{sprint}:"
           y_axis_title:

@@ -100,7 +100,7 @@ module Sprints
     private
 
     def timeframe
-      @timeframe ||= Timeframe.new(@sprint)
+      @timeframe ||= Timeframe.new(@sprint, zone: @user.time_zone)
     end
 
     def start_ids

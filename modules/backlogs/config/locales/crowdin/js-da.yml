@@ -57,22 +57,33 @@ da:
           one: "%{count} arbejdspakke valgt."
           other: "%{count} arbejdspakker valgt."
     burndown_chart:
-      chart_day: 'Dag %{day}: %{values}'
       chart_label: Burndown-diagram
-      chart_summary: 'Data i burndown-diagrammet: %{days}.'
-      chart_value: "%{label}: %{value}"
     burnup_chart:
-      chart_day: 'Dag %{day}: %{values}'
       chart_label: Burnup-diagram
-      chart_summary: 'Data i burnup-diagrammet: %{days}.'
-      chart_value: "%{label}: %{value}"
     created_resolved_chart:
+      chart_label: Created vs. resolved chart
       work_packages: Arbejdspakker
     sprint_charts:
+      column_with_unit: "%{label} (%{unit})"
+      description_summary: "%{label} data: %{from} – %{to}. %{values}."
+      description_value: "%{label}: %{value}"
       non_working_day: Arbejdsfri dag
+      unit:
+        story_points: story points
+      value_with_unit:
+        story_points:
+          one: "%{value} story point"
+          other: "%{value} story points"
       y_axis_title:
         story_points: Story points
         time: Anslået tid
+    sprint_work_package_graph:
+      chart_label: Work packages by status chart
+      count_column: Work packages
+      status_column: Status
+    velocity_chart:
+      chart_label: Velocity chart
+      sprint_column: Sprint
     work_packages:
       properties:
         storyPoints: Story points

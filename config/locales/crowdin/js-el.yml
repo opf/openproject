@@ -109,6 +109,7 @@ el:
         maintained_with_changes: Maintained with changes
         no_longer_meets_filter_criteria: No longer meets filter criteria
         now_meets_filter_criteria: Now meets filter criteria
+        state_at: State at
       show_changes_since: Show changes since
       time: Ώρα
       time_description: 'In your local time: %{datetime}'
@@ -176,6 +177,10 @@ el:
       remove_from_list: Αφαίρεση κάρτας από τη λίστα
     chart:
       axis_criteria: Κριτήρια άξονα
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Τα δεδομένα για εμφάνιση στο διάγραμμα δεν μπόρεσαν να φορτωθούν. Μπορεί να λείπουν τα απαραίτητα δικαιώματα.
       modal_title: Διαμόρφωση του διαγράμματος πακέτων εργασίας
@@ -902,6 +907,23 @@ el:
       unselected_title: Εργασία
     two_factor_authentication:
       label_two_factor_authentication: Ταυτοποίηση δύο παραγόντων
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Project actions
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            one: Could not extend the range. %{count} project selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            one: "%{count} project selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         one: "%{count} child work package"

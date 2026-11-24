@@ -107,6 +107,7 @@ es:
         maintained_with_changes: Mantenido con cambios
         no_longer_meets_filter_criteria: Ya no cumple con los criterios de filtro
         now_meets_filter_criteria: Ahora cumple con los criterios de filtro
+        state_at: State at
       show_changes_since: Mostrar cambios desde
       time: Tiempo
       time_description: 'En tu hora local: %{datetime}'
@@ -174,6 +175,10 @@ es:
       remove_from_list: Eliminar tarjeta de la lista
     chart:
       axis_criteria: Criterios del eje
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: No se pueden cargar los datos necesarios para mostrar el gráfico. Puede que falten los permisos necesarios.
       modal_title: Configuración del gráfico del paquete de trabajo
@@ -900,6 +905,23 @@ es:
       unselected_title: Paquete de trabajo
     two_factor_authentication:
       label_two_factor_authentication: Autenticación de dos factores
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Project actions
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            one: Could not extend the range. %{count} project selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            one: "%{count} project selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         one: "%{count} child work package"

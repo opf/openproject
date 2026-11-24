@@ -137,11 +137,11 @@ class Report::Filter
     end
 
     def valid?
-      @operator ? @operator.validate(values) : true
+      errors.empty?
     end
 
     def errors
-      @operator ? @operator.errors : []
+      @operator ? @operator.validate(values) : {}
     end
 
     def group_by_fields

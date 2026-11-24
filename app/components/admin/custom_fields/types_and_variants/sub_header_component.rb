@@ -41,16 +41,6 @@ module Admin
           @query = query
         end
 
-        def filters_form_attributes
-          {
-            controller: "filter--filters-form",
-            "filter--filters-form-turbo-stream-request-value": true,
-            "filter--filters-form-output-format-value": "json",
-            "filter--filters-form-clear-button-id-value": clear_button_id,
-            "filter--filters-form-current-filters-value": serialized_filters
-          }
-        end
-
         def name_filter_attributes
           {
             "filter-name": name_filter_key,
@@ -63,8 +53,6 @@ module Admin
         def name_filter_key = ::Queries::TypeVariants::Filters::NameFilter.key.to_s
 
         def name_filter_value = @query.find_active_filter(name_filter_key.to_sym)&.values&.first
-
-        def serialized_filters = OpPrimer::QuickFilter.serialize(@query.filters).to_json
 
         def clear_button_id = "custom-field-types-and-variants-filters-clear-button"
       end

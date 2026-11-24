@@ -6,9 +6,8 @@
         size="mini"
        />
     }
-    <h2 class="editable-toolbar-title--fixed">
+    <h2 class="op-board-list--header-title editable-toolbar-title--fixed">
       <small [textContent]="text.assignee"></small>
-      <br/>
       @if (user.id) {
         <a
           [href]="pathHelper.userPath(user.id)"

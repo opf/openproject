@@ -32,11 +32,11 @@ Take a look at our release video showing the most important features introduced 
 
 Meeting organization becomes even easier with OpenProject 16.0: Meeting backlogs allow users to collect, manage, and prepare agenda items more flexibly — both for one-time meetings and for recurring meeting series.
 
-In one-time meetings, the new [**Agenda backlog**](../../../user-guide/meetings/one-time-meetings/#agenda-backlogs) stores topics that are not yet assigned to the current meeting but may be added later.
+In one-time meetings, the new [**Agenda backlog**](../../../user-guide/meetings/meeting-features/meeting-agenda/#agenda-backlogs) stores topics that are not yet assigned to the current meeting but may be added later.
 
 ![A one-time meeting in OpenProject with an Agenda backlog and info to 'Drag items here or create a new one'.](openproject-16-0-meeting-backlogs-one-time-highlighted.png)
 
-In recurring meetings, the shared [**Series backlog**](../../../user-guide/meetings/recurring-meetings/#meeting-backlogs-for-recurring-meetings) helps track open points across all meeting occurrences and move items between them as priorities change.
+In recurring meetings, the shared [**Series backlog**](../../../user-guide/meetings/meeting-types/recurring-meetings/#meeting-backlogs-for-recurring-meetings) helps track open points across all meeting occurrences and move items between them as priorities change.
 
 ![A recurring meeting in OpenProject with a Series backlog and and options to Edit, add notes, Move to current meeting or Remove from agenda.](openproject-16-0-meeting-backlogs-recurring-options.png)
 

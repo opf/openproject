@@ -49,7 +49,7 @@ gem "connection_pool", "~> 3.0.2"
 gem "rdoc", ">= 2.4.2"
 
 gem "doorkeeper", "~> 5.9.9"
-gem "omniauth", "~> 2.1"
+gem "omniauth", "~> 2.2"
 gem "omniauth-rails_csrf_protection", "~> 2.0"
 gem "request_store", "~> 1.7.0"
 
@@ -154,7 +154,7 @@ gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.3"
 
-gem "mcp", "~> 1.8.2"
+gem "mcp", "~> 1.9.0"
 
 gem "meta-tags", "~> 2.24.0"
 
@@ -176,7 +176,7 @@ gem "ice_cube", "~> 0.17.0"
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.6+
-  gem "dalli", "~> 5.2.2"
+  gem "dalli", "~> 5.3.2"
   gem "redis", "~> 6.0.0"
 end
 
@@ -201,9 +201,9 @@ gem "fog-aws"
 gem "ssrf_filter", "~> 1.6"
 gem "web-push", "~> 3.1"
 
-gem "aws-sdk-core", "~> 3.261"
+gem "aws-sdk-core", "~> 3.264"
 # File upload via fog + screenshots on travis
-gem "aws-sdk-s3", "~> 1.233"
+gem "aws-sdk-s3", "~> 1.238"
 
 gem "openproject-token", "~> 8.17.0"
 

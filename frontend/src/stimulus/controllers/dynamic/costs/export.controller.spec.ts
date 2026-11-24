@@ -87,6 +87,19 @@ describe('Costs export controller', () => {
     });
   });
 
+  it('reports the server message when the export is refused', async () => {
+    vi.spyOn(window, 'fetch').mockResolvedValue(
+      new Response(JSON.stringify({ message: 'Date (Spent) requires 2 values.' }), { status: 422 }),
+    );
+    const controller = await renderLink();
+
+    controller.download(new CustomEvent('click'));
+
+    await waitFor(() => {
+      expect(addError).toHaveBeenCalledWith(new Error('Date (Spent) requires 2 values.'));
+    });
+  });
+
   it('does not notify when disconnected before the plugin context resolves', async () => {
     let resolveContext!:(context:unknown) => void;
     window.OpenProject = {

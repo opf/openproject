@@ -58,6 +58,7 @@ uk:
       messages:
         cannot_start_while_receiving_shared_sprints: не можна розпочати, поки проєкт отримує спринти, до яких надано спільний доступ.
         dates_required: Щоб запустити спринт, необхідно вказати дату початку й завершення.
+        finish_date_in_past: cannot be started as long as the planned finish date is in the past.
         must_be_in_planning: має бути на етапі планування, перш ніж його можна буде почати.
         only_one_active_sprint_allowed: дозволяється лише один активний спринт для кожного проєкту.
       models:
@@ -220,6 +221,7 @@ uk:
       label_complete_sprint: Завершити спринт
       label_start_sprint: Почати спринт
       start_sprint_disabled_reason_active_sprint: Інший спринт уже розпочато.
+      start_sprint_disabled_reason_finish_date_in_past: The planned finish date is in the past. Correct the sprint dates first.
       start_sprint_disabled_reason_missing_dates: Щоб запустити спринт, необхідно вказати дату початку й завершення.
       start_sprint_disabled_reason_receiving_shared_sprints: Власні спринти цього проєкту не можна розпочати, поки він отримує спринти, до яких надано спільний доступ.
       start_sprint_disabled_reason_shared_sprint: Це спринт з іншого проєкту, який не підтримує використання кількох активних спринтів.
@@ -351,6 +353,11 @@ uk:
               many: Bar chart of committed and completed estimated time of the last %{count} sprints.
               other: Bar chart of committed and completed estimated time of the last %{count} sprints.
           summary_average: 'Average velocity: %{average}.'
+          summary_story_points:
+            one: "%{value} story point"
+            few: "%{value} story points"
+            many: "%{value} story points"
+            other: "%{value} story points"
           title: Velocity chart
           velocity: "%{sprint}:"
           y_axis_title:

@@ -109,6 +109,7 @@ hy:
         maintained_with_changes: Պահպանվել է փոփոխություններով
         no_longer_meets_filter_criteria: Այլևս չի համապատասխանում զտիչի չափանիշներին
         now_meets_filter_criteria: Այժմ համապատասխանում է զտիչի չափանիշներին
+        state_at: State at
       show_changes_since: Ցուցադրել փոփոխությունները սկսած
       time: Ժամ
       time_description: Ձեր տեղական ժամանակով՝ %{datetime}
@@ -176,6 +177,10 @@ hy:
       remove_from_list: Հեռացնել քարտը ցանկից
     chart:
       axis_criteria: Առանցքի չափանիշներ
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Գծապատկերը ցուցադրելու համար անհրաժեշտ տվյալները չհաջողվեց բեռնել։ Հնարավոր է՝ բացակայում են անհրաժեշտ թույլտվությունները։
       modal_title: Աշխատանքային փաթեթների գծապատկերի կազմաձևում
@@ -902,6 +907,23 @@ hy:
       unselected_title: Աշխատանքային փաթեթ
     two_factor_authentication:
       label_two_factor_authentication: Երկգործոն նույնականացում
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Project actions
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            one: Could not extend the range. %{count} project selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            one: "%{count} project selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         one: "%{count} child work package"

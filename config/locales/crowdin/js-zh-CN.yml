@@ -109,6 +109,7 @@ zh-CN:
         maintained_with_changes: 保持更改
         no_longer_meets_filter_criteria: 不再符合过滤条件
         now_meets_filter_criteria: 现在符合过滤条件
+        state_at: State at
       show_changes_since: 显示更改自
       time: 时间
       time_description: '在您的本地时间: %{datetime}'
@@ -176,6 +177,10 @@ zh-CN:
       remove_from_list: 从列表中移除卡
     chart:
       axis_criteria: 轴条件
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: 无法加载用于显示图表的数据。可能缺少必要的权限。
       modal_title: 工作包图配置
@@ -899,6 +904,20 @@ zh-CN:
       unselected_title: 工作包
     two_factor_authentication:
       label_two_factor_authentication: 双因子认证
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         other: "%{count} 子工作包"

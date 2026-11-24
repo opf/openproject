@@ -109,6 +109,7 @@ fr:
         maintained_with_changes: Maintenu avec les modifications
         no_longer_meets_filter_criteria: Ne répond plus aux critères de filtrage
         now_meets_filter_criteria: Répond désormais aux critères de filtrage
+        state_at: State at
       show_changes_since: Afficher les modifications depuis
       time: Heure 
       time_description: 'Dans votre fuseau horaire : %{datetime}'
@@ -176,6 +177,10 @@ fr:
       remove_from_list: Supprimer la carte de la liste
     chart:
       axis_criteria: Critères de l'axe
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Les données pour afficher le graphique n'ont pas pu être chargées. Les permissions nécessaires peuvent être manquantes.
       modal_title: Configuration du graphique des lots de travaux
@@ -902,6 +907,23 @@ fr:
       unselected_title: Lot de travaux
     two_factor_authentication:
       label_two_factor_authentication: Authentification à deux facteurs
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Project actions
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            one: Could not extend the range. %{count} project selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            one: "%{count} project selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         one: "%{count} child work package"
