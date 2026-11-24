@@ -45,7 +45,8 @@ export function addTurboEventListeners(doc:Document = document, signal?:AbortSig
       const dialog = target.closest('dialog')!;
 
       if (dialog) {
-        if (dialog.dataset.keepOpenOnSubmit !== 'true') {
+        const keepOpen = target.closest<HTMLElement>('[data-keep-open-on-submit="true"]');
+        if (!keepOpen || !dialog.contains(keepOpen)) {
           dialog.close('close-event-already-dispatched');
           doc.dispatchEvent(new CustomEvent<DialogCloseDetail>('dialog:close', { detail: { dialog, submitted: true } }));
         }

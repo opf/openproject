@@ -743,3 +743,87 @@ describe('AiTextTransformPaneController', () => {
     });
   });
 });
+
+describe('AiTextTransformPaneController inside a modal dialog', () => {
+  let ctx:StimulusTestContext;
+
+  const PANE_HTML = `
+<div id="ai-pane" data-controller="ai-text-transform-pane"
+     data-action="keydown.esc->ai-text-transform-pane#close">
+  <div data-ai-text-transform-pane-target="pane" role="dialog" aria-label="AI result" tabindex="-1"
+       style="position: fixed; top: 40px; right: 16px; width: 340px; height: 260px;">
+    <button type="button">Replace</button>
+  </div>
+</div>`;
+
+  const dialog = () => ctx.container.querySelector('dialog')!;
+  const panes = () => document.querySelectorAll<HTMLElement>('#ai-pane');
+  const pane = () => document.querySelector<HTMLElement>('[data-ai-text-transform-pane-target="pane"]')!;
+
+  async function mountPane():Promise<void> {
+    ctx.appendHTML(PANE_HTML);
+    await ctx.nextFrame();
+    await ctx.nextFrame();
+  }
+
+  beforeEach(async () => {
+    ctx = await setupStimulusTest({ controllers: { 'ai-text-transform-pane': AiTextTransformPaneController } });
+    ctx.appendHTML('<dialog><input aria-label="Editor"></dialog>');
+    dialog().showModal();
+    ctx.screen.getByRole('textbox', { name: 'Editor', hidden: true }).focus();
+  });
+
+  afterEach(() => {
+    ctx.dispose();
+  });
+
+  it('moves into the open dialog and shows above it, interactive and focused', async () => {
+    await mountPane();
+
+    expect(dialog()).toContainElement(panes()[0]);
+    expect(pane()).toHaveAttribute('popover', 'manual');
+    expect(pane().matches(':popover-open')).toBe(true);
+    expect(pane()).toHaveFocus();
+
+    const { left, top, width, height } = pane().getBoundingClientRect();
+    expect(pane()).toContainElement(document.elementFromPoint(left + width / 2, top + height / 2) as HTMLElement);
+  });
+
+  it('replaces an older pane already in the dialog', async () => {
+    await mountPane();
+    await mountPane();
+
+    expect(panes()).toHaveLength(1);
+    expect(dialog()).toContainElement(panes()[0]);
+  });
+
+  it('cancels the Escape keydown so the dialog stays open', async () => {
+    await mountPane();
+    pane().focus();
+
+    const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true });
+    pane().dispatchEvent(event);
+
+    expect(event.defaultPrevented).toBe(true);
+    expect(dialog().open).toBe(true);
+  });
+
+  it('goes away when the dialog closes', async () => {
+    await mountPane();
+
+    dialog().close();
+    await ctx.nextFrame();
+
+    expect(panes()).toHaveLength(0);
+  });
+
+  it('stays in place without a popover when no dialog is open', async () => {
+    dialog().close();
+    dialog().remove();
+
+    await mountPane();
+
+    expect(panes()[0].parentElement).toBe(ctx.container);
+    expect(pane()).not.toHaveAttribute('popover');
+  });
+});

@@ -205,4 +205,42 @@ RSpec.describe "Editor Assistant result pane",
     expect(AI::TextTransformRun.sole.cancel_requested).to be(true)
     description.ckeditor.expect_value("Login page dont work.")
   end
+
+  context "with an editor inside the new work package dialog" do
+    shared_let(:status) { create(:default_status) }
+    shared_let(:priority) { create(:default_priority) }
+    shared_let(:forum) { create(:forum, project:) }
+    shared_let(:topic) { create(:message, forum:, subject: "Login", content: "Login page dont work.") }
+
+    let(:dialog_description) { Components::WysiwygEditor.new("#create-work-package-dialog") }
+
+    before do
+      visit project_forum_topic_path(project, forum, topic)
+      within_test_selector("message-actions-#{topic.id}") do
+        click_on accessible_name: "Message actions"
+        click_on "Add new work package"
+      end
+      page.find("#create-work-package-dialog .ck-content", text: "Login page dont work.")
+    end
+
+    it "shows the pane above the dialog and replaces the description from it" do
+      run_assistant(within: page.find_by_id("create-work-package-dialog"))
+
+      finish_run
+      replace
+
+      dialog_description.expect_value("Login page does not work.")
+      expect(page).to have_css("#create-work-package-dialog[open]")
+    end
+
+    it "closes the pane on Escape and keeps the dialog open" do
+      run_assistant(within: page.find_by_id("create-work-package-dialog"))
+
+      page.find(".op-ai-result-pane").send_keys(:escape)
+
+      expect(page).not_to have_test_selector("ai-text-transform-result")
+      expect(page).to have_css("#create-work-package-dialog[open]")
+      expect(AI::TextTransformRun.sole.cancel_requested).to be(true)
+    end
+  end
 end

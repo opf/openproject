@@ -108,8 +108,20 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
   private closing = false;
   private abandoned = false;
   private focusToRestore:{ form:string }|null = null;
+  private dialogListeners:AbortController|null = null;
+  private moving = false;
 
   connect():void {
+    const dialog = this.hostDialog();
+    if (dialog && !dialog.contains(this.element)) {
+      this.moveInto(dialog);
+      return;
+    }
+    this.moving = false;
+    if (dialog) {
+      this.liftAbove(dialog);
+    }
+
     if (rememberedGeometry) {
       Object.assign(this.paneTarget.style, rememberedGeometry);
       this.keepInViewport();
@@ -118,10 +130,14 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
   }
 
   disconnect():void {
+    this.dialogListeners?.abort();
+    this.dialogListeners = null;
     this.endPointerAction();
     this.stopPolling();
     this.clearApplyTimer();
-    rememberedGeometry = this.pinned ? this.geometry() : null;
+    if (!this.moving) {
+      rememberedGeometry = this.pinned ? this.geometry() : null;
+    }
     if (!this.element.isConnected) {
       this.abandon();
     }
@@ -265,12 +281,41 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
 
   close(event?:Event):void {
     event?.stopPropagation();
+    // An Escape keydown that is not canceled also closes the modal dialog the pane is in.
+    event?.preventDefault();
     const form = document.getElementById(this.closeFormValue);
     if (form instanceof HTMLFormElement) {
       form.requestSubmit();
     } else {
       this.element.remove();
     }
+  }
+
+  // Everything outside the topmost modal dialog is inert, so only the dialog the action was started in can host the pane.
+  private hostDialog():HTMLDialogElement|null {
+    const focused = document.activeElement?.closest<HTMLDialogElement>('dialog[open]');
+    const open = document.querySelectorAll<HTMLDialogElement>('dialog[open]');
+    return focused ?? open[open.length - 1] ?? null;
+  }
+
+  // Turbo only replaces an older pane with the same id among the direct children of body.
+  private moveInto(dialog:HTMLDialogElement):void {
+    const stale = dialog.querySelector(`#${CSS.escape(this.element.id)}`);
+    if (this.element.id && stale) {
+      stale.remove();
+    }
+    this.moving = true;
+    dialog.append(this.element);
+  }
+
+  private liftAbove(dialog:HTMLDialogElement):void {
+    if (typeof this.paneTarget.showPopover === 'function') {
+      this.paneTarget.popover = 'manual';
+      this.paneTarget.showPopover();
+    }
+
+    this.dialogListeners = new AbortController();
+    dialog.addEventListener('close', () => this.element.remove(), { signal: this.dialogListeners.signal });
   }
 
   private get pinned():boolean {
