@@ -55,6 +55,8 @@ module AI
       OPENER = /<[!?]/
       MAX_PASSES = 3
 
+      class TooDeep < StandardError; end
+
       def self.call(text, input: "") = new(text, input:).call
 
       def initialize(text, input: "")
@@ -67,6 +69,8 @@ module AI
           result = rewritten_until_stable
           rendered = render(result)
           active_markup_in?(rendered) ? plain_text(rendered) : result
+        rescue TooDeep
+          escape(@mentions.convert(@text))
         end
       end
 
@@ -212,10 +216,25 @@ module AI
         return if @macro
 
         case node.type
-        when :image then edit(range, markdown_image_link(node))
+        when :image then edit_image(node, range)
         when :link then rewrite_link(node, range)
         when *TEXT then rewrite_text(node, range) unless TEXT.include?(node.previous_sibling&.type)
         end
+      end
+
+      # The link that replaces an image would be an image again after a "!" that is not escaped.
+      def edit_image(node, range)
+        link = markdown_image_link(node)
+        return edit(range, link) unless link.start_with?("[") && unescaped_bang_before?(range.begin)
+
+        edit((range.begin - 1)...range.end, "\\!#{link}")
+      end
+
+      def unescaped_bang_before?(offset)
+        return false unless offset > covered_until && @text.getbyte(offset - 1) == 0x21
+
+        backslashes = @text.b[0...(offset - 1)][/\\*\z/].size
+        backslashes.even?
       end
 
       # Escaped characters split a text into several nodes, so they are read as one.
@@ -238,6 +257,10 @@ module AI
 
       def render(markdown)
         Nokogiri::HTML5.fragment(Commonmarker.to_html(markdown, options: RENDER_OPTIONS))
+      rescue ArgumentError => e
+        raise unless e.message.include?("depth limit")
+
+        raise TooDeep
       end
 
       # Code stays code, since its text would otherwise turn into links and macros, such as wiki page links.

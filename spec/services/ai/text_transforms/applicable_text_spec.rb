@@ -356,6 +356,20 @@ RSpec.describe AI::TextTransforms::ApplicableText do
       .to eq("[Image: chart](https://example.com/t.png) [Image: a \\[b\\]](x.png)\n\n[1]: https://example.com/t.png\n")
   end
 
+  it "keeps an exclamation mark before a replaced image from turning the link into an image again" do
+    expect(applicable("Look!![c](u)")).to eq("Look\\![Image: c](u)")
+    expect(applicable("See this!!![c](u)\n\n# Heading")).to eq("See this!\\![Image: c](u)\n\n# Heading")
+    expect(applicable("Look\\!![c](u)")).to eq("Look\\![Image: c](u)")
+    expect(applicable("Look\\\\!![c](u)")).to eq("Look\\\\\\![Image: c](u)")
+  end
+
+  it "escapes output nested deeper than the HTML parser allows" do
+    text = "#{'> ' * 450}quoted <macro class=\"toc\"></macro>"
+
+    expect { applicable(text) }.not_to raise_error
+    expect(rendered(applicable(text)).css("blockquote, macro")).to be_empty
+  end
+
   it "keeps decoded alt text as text when the link is parsed again" do
     group = %(&lt;mention data-type="group" data-id="3"&gt;@Devs&lt;/mention&gt;)
     replaced = applicable(%(![&lt;img src=x&gt;](https://example.com/a.png) ![#{group}](b.png) ![*a* &amp;lt;](<c d.png>)))
