@@ -31,20 +31,17 @@ module Hotkeys
   class FallbackLinksComponent < ApplicationComponent
     include OpenProject::StaticRouting::UrlHelpers
 
-    def initialize(project:, user:)
+    def initialize(project:, user:, can_add_work_packages:)
       super()
       @project = project
       @user = user
+      @can_add_work_packages = can_add_work_packages
     end
 
     def new_work_package_path_for_user
-      if @project
-        if @project.module_enabled?(:work_package_tracking) && @user.allowed_in_project?(:add_work_packages, @project)
-          new_project_work_packages_path(@project)
-        end
-      elsif @user.allowed_in_any_project?(:add_work_packages)
-        new_work_package_path
-      end
+      return unless @can_add_work_packages
+
+      @project ? new_project_work_packages_path(@project) : new_work_package_path
     end
 
     def wiki_start_path

@@ -38,12 +38,12 @@ RSpec.describe Hotkeys::FallbackLinksComponent, type: :component do
   let(:permissions) { %i[add_work_packages view_wiki_pages] }
   let(:user) { create(:user, member_with_permissions: { project => permissions }) }
 
-  def render_component(project:, user: self.user)
-    render_inline(described_class.new(project:, user:))
+  def render_component(project:, user: self.user, can_add_work_packages: true)
+    render_inline(described_class.new(project:, user:, can_add_work_packages:))
   end
 
   describe "new work package link" do
-    it "links to the project form for a permitted user" do
+    it "links to the project form" do
       render_component(project:)
 
       expect(page).to have_link("New work package", href: new_project_work_packages_path(project))
@@ -58,37 +58,17 @@ RSpec.describe Hotkeys::FallbackLinksComponent, type: :component do
       expect(page).to have_element(:a, accesskey: "2", class: "sr-only", tabindex: "-1", visible: :visible)
     end
 
-    it "is absent when the work package module is disabled" do
-      project.enabled_module_names = %w[wiki]
+    it "links to the global form without a project" do
+      render_component(project: nil)
 
-      render_component(project:)
-
-      expect(page).to have_no_link("New work package", visible: :all)
+      expect(page).to have_link("New work package", href: new_work_package_path)
+      expect(page).to have_element(:a, accesskey: "2")
     end
 
-    it "is absent without the add permission" do
-      user = create(:user, member_with_permissions: { project => %i[view_work_packages] })
-
-      render_component(project:, user:)
+    it "is absent when the user may not add work packages" do
+      render_component(project:, can_add_work_packages: false)
 
       expect(page).to have_no_link("New work package", visible: :all)
-    end
-
-    context "without a project" do
-      let(:user) { create(:user, member_with_permissions: { project => permissions }) }
-
-      it "links to the global form when the user may add work packages anywhere" do
-        render_component(project: nil)
-
-        expect(page).to have_link("New work package", href: new_work_package_path)
-        expect(page).to have_element(:a, accesskey: "2")
-      end
-
-      it "is absent when the user may not add work packages anywhere" do
-        render_component(project: nil, user: create(:user))
-
-        expect(page).to have_no_link("New work package", visible: :all)
-      end
     end
   end
 
