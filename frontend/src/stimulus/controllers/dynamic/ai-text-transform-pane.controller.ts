@@ -416,7 +416,6 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     return Math.max(0, header?.getBoundingClientRect().bottom ?? 0) + EDGE_MARGIN;
   }
 
-  // A pane taller than the minimum height shrinks to the room below its top, so only that much has to stay visible.
   private pinInViewport(left:number, top:number):void {
     const { width, height } = this.paneTarget.getBoundingClientRect();
     const { minTop } = this;
@@ -426,7 +425,6 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     this.pin(clamp(left, EDGE_MARGIN, maxLeft), clamp(top, minTop, maxTop));
   }
 
-  // The stylesheet's max-height assumes the default top, so a pinned pane growing with its result would leave the window.
   private pin(left:number, top:number):void {
     Object.assign(this.paneTarget.style, {
       left: `${left}px`,
