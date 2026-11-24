@@ -177,6 +177,10 @@ da:
       remove_from_list: Fjern kort fra listen
     chart:
       axis_criteria: Aksekriterier
+      description:
+        caption: "%{label}: data"
+        date: Dato
+        week: Uge fra
       errors:
         could_not_load: Dataene til grafen kunne ikke indlæses. Der mangler måske de nødvendige tilladelser.
       modal_title: Konfiguration af arbejdspakkegraf
@@ -903,6 +907,23 @@ da:
       unselected_title: Arbejdspakke
     two_factor_authentication:
       label_two_factor_authentication: To-faktor-godkendelse
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Handlinger for projektet
+            other: Handlinger for %{count} valgte projekter
+        selection:
+          cleared: Markeringen er ryddet.
+          not_selectable: Markeringen er uændret. Projektet kan ikke vælges.
+          range_blocked: Markeringen er uændret. Området indeholder et projekt, der ikke kan vælges.
+          range_restarted:
+            one: Området kunne ikke udvides. %{count} projekt valgt.
+            other: Området kunne ikke udvides. %{count} projekter valgt.
+          range_unavailable: Markeringen er uændret. Fold listen ud for at vælge området.
+          selected:
+            one: "%{count} projekt valgt."
+            other: "%{count} projekter valgt."
     units:
       child_work_packages:
         one: "%{count} underordnet arbejdspakke"

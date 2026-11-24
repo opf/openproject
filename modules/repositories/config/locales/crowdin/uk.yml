@@ -113,7 +113,7 @@ uk:
       note_issue_referenced_comment: "**Додано посилання на задачу:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав посилання на WP в задачі %{issue_number} [%{issue_title}](%{issue_url}) у [%{repository}](%{repository_url}): %{issue_note}\n"
       note_mr_commented_comment: "**Додано коментар у MR:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав коментар до WP в запиті на злиття %{mr_number} [%{mr_title}](%{mr_url}) у [%{repository}](%{repository_url}): %{mr_note}\n"
       note_mr_referenced_comment: "**Додано посилання в MR:** користувач [%{gitlab_user}](%{gitlab_user_url}) додав посилання на WP у запиті на злиття %{mr_number} [%{mr_title}](%{mr_url}) у [%{repository}](%{repository_url}): %{mr_note}\n"
-      note_snippet_referenced_comment: "**Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note}\n"
+      note_snippet_referenced_comment: "**Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note} %{commit_note} %{commit_note}\n"
       push_single_commit_comment_with_ref: "**Внесено дані в %{reference}:** користувач [%{gitlab_user}](%{gitlab_user_url}) вніс дані [%{commit_number}](%{commit_url}) в [%{repository}](%{repository_url}) о %{commit_timestamp}: %{commit_note}\n"
     issue_component:
       states:

@@ -113,7 +113,7 @@ pl:
       note_issue_referenced_comment: "**Odniesienia w problemie:** użytkownik [%{gitlab_user}](%{gitlab_user_url}) odniósł się do tego WP w problemie %{issue_number} [%{issue_title}](%{issue_url}) na [%{repository}](%{repository_url}): %{issue_note}\n"
       note_mr_commented_comment: "**Komentarz w MR:** użytkownik [%{gitlab_user}](%{gitlab_user_url}) skomentował WP w żądaniu scalenia %{mr_number} [%{mr_title}](%{mr_url}) na [%{repository}](%{repository_url}): %{mr_note}\n"
       note_mr_referenced_comment: "**Odniesienie w MR:** użytkownik [%{gitlab_user}](%{gitlab_user_url}) odniósł się do tego WP w żądaniu scalenia %{mr_number} [%{mr_title}](%{mr_url}) na [%{repository}](%{repository_url}): %{mr_note}\n"
-      note_snippet_referenced_comment: "**Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note}\n"
+      note_snippet_referenced_comment: "**Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note} %{commit_note} %{commit_note}\n"
       push_single_commit_comment_with_ref: "**Wypchnięto w %{reference}:** użytkownik [%{gitlab_user}](%{gitlab_user_url}) wypchnął [%{commit_number}](%{commit_url}) do [%{repository}](%{repository_url}) o %{commit_timestamp}: %{commit_note}\n"
     issue_component:
       states:

@@ -43,7 +43,6 @@ da:
           delivery_failed: E-mailen kunne ikke sendes.
           delivery_rejected: SMTP-serveren afviste e-mailen.
           not_delivered: E-mailen blev ikke sendt, fordi alle modtagere er blokeret, eller grænsen for e-mails er nået.
-          unexpected_error: E-mailen kunne ikke sendes på grund af en uventet fejl.
         itsm/email_thread:
           address_not_allowed: SMTP-serverens adresse er ikke tilladt.
           no_outgoing_mailbox: Projektet har ingen udgående postkasse.

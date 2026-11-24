@@ -177,6 +177,10 @@ hi:
       remove_from_list: Remove card from list
     chart:
       axis_criteria: Axis criteria
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: The data to display the graph could not be loaded. The necessary permissions may be lacking.
       modal_title: Work package graph configuration
@@ -903,6 +907,23 @@ hi:
       unselected_title: कार्य पैकेज
     two_factor_authentication:
       label_two_factor_authentication: Two-factor authentication
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Project actions
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            one: Could not extend the range. %{count} project selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            one: "%{count} project selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         one: "%{count} child work package"

@@ -109,7 +109,7 @@ it:
       note_issue_referenced_comment: "**Citazione nel problema:** [%{gitlab_user}](%{gitlab_user_url}) ha inserito un riferimento a questa macro-attività nel problema %{issue_number} [%{issue_title}](%{issue_url}) su [%{repository}](%{repository_url}): %{issue_note}\n"
       note_mr_commented_comment: "**Commento in MR:** [%{gitlab_user}](%{gitlab_user_url}) ha commentato questa macro-attività nella richiesta di merge %{mr_number} [%{mr_title}](%{mr_url}) su [%{repository}](%{repository_url}): %{mr_note}\n"
       note_mr_referenced_comment: "**Citazione in MR:** [%{gitlab_user}](%{gitlab_user_url}) ha inserito un riferimento a questa macro-attività nella richiesta di merge %{mr_number} [%{mr_title}](%{mr_url}) su [%{repository}](%{repository_url}): %{mr_note}\n"
-      note_snippet_referenced_comment: "**Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note}\n"
+      note_snippet_referenced_comment: "**Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note} %{commit_note} %{commit_note}\n"
       push_single_commit_comment_with_ref: "**Push in %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) ha effettuato un push [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) il %{commit_timestamp}: %{commit_note}\n"
     issue_component:
       states:

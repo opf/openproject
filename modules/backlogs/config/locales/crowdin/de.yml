@@ -58,7 +58,7 @@ de:
       messages:
         cannot_start_while_receiving_shared_sprints: kann nicht gestartet werden, wenn das Projekt Sprints von einem anderen Projekt erhält.
         dates_required: Start- und Enddatum sind erforderlich, um den Sprint zu starten.
-        finish_date_in_past: cannot be started as long as the planned finish date is in the past.
+        finish_date_in_past: kann nicht begonnen werden, solange das geplante Enddatum in der Vergangenheit liegt.
         must_be_in_planning: muss in Planung sein, um zu beginnen.
         only_one_active_sprint_allowed: pro Projekt ist nur ein aktiver Sprint erlaubt.
       models:
@@ -142,7 +142,7 @@ de:
       title: Backlog Bucket löschen?
     created_resolved_chart:
       series:
-        created: Created
+        created: Erstellt
         resolved: Resolved
     estimation_unit: Stücke
     excluded_work_package_types_caption: 'Wählen Sie, welche Arbeitspaket-Typen Sie aus dem Backlog ausblenden möchten. Elemente der ausgewählten Typen erscheinen nicht automatisch im Backlog und sind so auf die Arbeit konzentriert, die für Ihr Team wichtig ist. Typen wie Epics oder Milestones, die auf einer höheren Ebene verwaltet werden, können beispielsweise ausgeblendet werden, damit sich das Backlog auf umsetzbare Aufgaben konzentriert.
@@ -220,7 +220,6 @@ de:
     sprint_reports:
       header_infoline_component:
         planned_html: 'Geplant: %{range}'
-        started_at: 'Start time:'
       missing_dates_blankslate_component:
         description: Für die Anzeige des Berichts sind Start- und Endtermine notwendig.
         heading: Fehlende Sprinttermine
@@ -243,7 +242,7 @@ de:
               description: Das Burndown-Diagramm wird hier angezeigt, sobald der Sprint beginnt.
               heading: Nichts anzuzeigen
             too_long:
-              description: Die Sprintdauer überschreitet die einjährige Begrenzung des Zeitraums im Burndown-Diagramm.
+              description: Die Sprintdauer überschritt die einjährige Begrenzung des Zeitraums im Burndown-Diagramm.
               heading: Nichts anzuzeigen
           series:
             guideline: Richtlinie
@@ -260,13 +259,13 @@ de:
               description: Das Burnup-Diagramm wird hier angezeigt, sobald der Sprint ein Arbeitspaket mit einer geschätzten Arbeitszeit enthält.
               heading: Nichts anzuzeigen
             no_story_points:
-              description: Das Burnup-Diagramm wird hier angezeigt, sobald der Sprint ein Arbeitspaket mit geschätzten Story-Points enthält.
+              description: The burnup chart will appear here once the sprint has received a work package with estimated story points.
               heading: Nichts anzuzeigen
             not_started:
-              description: Das Burnup-Diagramm wird hier angezeigt, sobald der Sprint beginnt.
+              description: The burnup chart will appear here after the sprint starts.
               heading: Nichts anzuzeigen
             too_long:
-              description: Die Sprintdauer überschreitet die einjährige Begrenzung des Zeitraums im Burnup-Diagramm.
+              description: The sprint duration exceeded the 1-year limit of the burnup chart's timespan.
               heading: Nichts anzuzeigen
           series:
             completed: Abgeschlossene Arbeit
@@ -277,17 +276,20 @@ de:
         created_resolved_chart:
           blankslate:
             no_work:
-              description: Die Übersicht „Erstellt vs. Abgeschlossen“ wird hier angezeigt, sobald ein Arbeitspaket innerhalb des Sprints erstellt oder abgeschlossen wurde.
+              description: The created vs resolved chart will appear here once a work package has been created or resolved within the sprint.
               heading: Nichts anzuzeigen
             too_long:
-              description: Die Sprintdauer überschreitet die einjährige Begrenzung des Zeitraums im "Erstellt vs. Abgeschlossen"-Diagramm.
+              description: The sprint duration exceeded the 1-year limit of the created vs resolved chart's timespan.
               heading: Nichts anzuzeigen
-          title: Created vs resolved work packages
+          title: Erstellte vs. abgeschlossene Arbeitspakete
         epic_progress:
           blankslate:
             no_epics:
-              description: The epic progress chart will appear here once the sprint contains work packages tied to an epic.
+              description: The epic progress chart will appear here once the sprint has received a work package tied to an epic.
               heading: Keine Epics zum Anzeigen
+            no_work:
+              description: The epic progress chart will appear here once the sprint has received a work package tied to an epic.
+              heading: Nichts anzuzeigen
           card:
             progress:
               story_points:
@@ -323,6 +325,9 @@ de:
               one: Bar chart of committed and completed estimated time of the last sprint.
               other: Bar chart of committed and completed estimated time of the last %{count} sprints.
           summary_average: 'Durchschnittsgeschwindigkeit: %{average}.'
+          summary_story_points:
+            one: "%{value} Story-Point"
+            other: "%{value} Story-Points"
           title: Velocity-Diagramm
           velocity: "%{sprint}:"
           y_axis_title:
@@ -352,10 +357,10 @@ de:
           breakdown_block:
             blocks:
               show_all: Alle anzeigen
-              show_all_label: 'View all: %{heading}'
+              show_all_label: 'Alle anzeigen: %{heading}'
           closed_work_packages: Abgeschlossene Arbeitspakete
-          completed_estimated_time: Completed estimated time
-          completed_story_points: Completed story points
+          completed_estimated_time: Erledigter Aufwand (gemäß Schätzung)
+          completed_story_points: Abgeschlossene Story-Points
           progress_summary:
             story_points:
               one: "%{percentage} (%{resolved} von %{count} Story-Point)"
@@ -448,6 +453,10 @@ de:
         unexpected_failure: Die Arbeitspakete konnten nicht verschoben werden. Bitte versuchen Sie es erneut.
       move:
         moved_announcement: "%{label} verschoben nach %{list}, Position %{position} von %{total}"
+      move_to_bucket_dialog:
+        no_available_destinations: There are no available backlog buckets for these work packages.
+      move_to_sprint_dialog:
+        no_available_destinations: There are no available sprints for these work packages.
       move_collection:
         invalid_ids: Die Liste der zu verschiebenden Arbeitspakete ist ungültig.
         member_failed: "%{work_package}: %{reason}"
@@ -456,10 +465,6 @@ de:
           other: "%{count} work packages moved to %{list}, positions %{first} through %{last} of %{total}"
         too_many_work_packages: Es können nicht mehr als %{max} Arbeitspakete gleichzeitig verschoben werden.
         work_packages_not_found: In diesem Projekt konnte mindestens ein Arbeitspaket nicht gefunden werden.
-      move_to_bucket_dialog:
-        no_available_destinations: There are no available backlog buckets for these work packages.
-      move_to_sprint_dialog:
-        no_available_destinations: There are no available sprints for these work packages.
       update_service:
         invalid_target_type: "„list_type“ muss einer der folgenden Werte sein: „backlog_bucket“ mit einer „list_id“, „sprint“ mit einer „list_id“ oder „inbox“ ohne „list_id“."
         missing_target: "„list_type“ oder „list_id“ muss vorhanden sein."
