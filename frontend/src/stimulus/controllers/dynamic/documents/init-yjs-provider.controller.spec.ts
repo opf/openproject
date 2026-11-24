@@ -34,7 +34,12 @@ import {
   RefreshError,
   TokenRefreshService,
 } from 'core-stimulus/services/documents/token-refresh.service';
-import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import {
+  setupStimulusTest,
+  stubPendingPluginContext,
+  stubPluginContext,
+  type StimulusTestContext,
+} from 'core-stimulus/test-helpers';
 import InitYjsProviderController from './init-yjs-provider.controller';
 
 describe('InitYjsProviderController token denial', () => {
@@ -42,7 +47,6 @@ describe('InitYjsProviderController token denial', () => {
   let cache:{ evict:ReturnType<typeof vi.fn>; close:ReturnType<typeof vi.fn> };
   let provider:HocuspocusProvider;
   let authErrors:CustomEvent<{ kind:string }>[];
-  let originalOpenProject:typeof window.OpenProject;
 
   const recordAuthError = (event:Event) => authErrors.push(event as CustomEvent<{ kind:string }>);
 
@@ -51,12 +55,7 @@ describe('InitYjsProviderController token denial', () => {
     cache = { evict: vi.fn().mockResolvedValue(undefined), close: vi.fn() };
     document.addEventListener(PROVIDER_AUTH_ERROR_EVENT, recordAuthError);
 
-    originalOpenProject = window.OpenProject;
-    window.OpenProject = {
-      getPluginContext: () => Promise.resolve({
-        services: { pathHelperService: { loginPath: () => '/op/login' } },
-      }),
-    } as unknown as typeof window.OpenProject;
+    stubPluginContext({ services: { pathHelperService: { loginPath: () => '/op/login' } } });
 
     vi.spyOn(DocumentCache, 'open').mockResolvedValue(cache as unknown as DocumentCache);
     vi.spyOn(HocuspocusProviderWebsocket.prototype, 'connect').mockResolvedValue(undefined);
@@ -84,7 +83,6 @@ describe('InitYjsProviderController token denial', () => {
       document.removeEventListener(PROVIDER_AUTH_ERROR_EVENT, recordAuthError);
       vi.useRealTimers();
       vi.restoreAllMocks();
-      window.OpenProject = originalOpenProject;
     }
   });
 
@@ -105,10 +103,7 @@ describe('InitYjsProviderController token denial', () => {
   });
 
   it('opens nothing while waiting for the app services, so a disconnect cannot leave the offline copy open', async () => {
-    let resolveContext:(context:unknown) => void = () => {};
-    window.OpenProject = {
-      getPluginContext: () => new Promise((resolve) => { resolveContext = resolve; }),
-    } as unknown as typeof window.OpenProject;
+    const resolveContext = stubPendingPluginContext();
     const open = vi.spyOn(DocumentCache, 'open').mockClear();
     const initialize = vi.spyOn(LiveCollaborationManager, 'initializeYjsProvider').mockClear();
 
