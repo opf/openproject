@@ -44,7 +44,7 @@ module WorkPackageTypes
     before_action :find_variant, only: %i[show update projects]
     before_action :set_current_step, only: %i[show update]
     before_action :set_back_url
-    before_action :set_started_form_configuration_id
+    before_action :set_started_ids
 
     def show
       load_query if @current_step == :projects
@@ -286,10 +286,17 @@ module WorkPackageTypes
       @back_url = RedirectPolicy.new(params[:back_url], hostname: request.host, default: nil).redirect_url
     end
 
-    def carried_params = { back_url: @back_url, started_form_configuration_id: @started_form_configuration_id }.compact
+    def carried_params
+      {
+        back_url: @back_url,
+        started_form_configuration_id: @started_form_configuration_id,
+        started_workflow_id: @started_workflow_id
+      }.compact
+    end
 
-    def set_started_form_configuration_id
+    def set_started_ids
       @started_form_configuration_id = params[:started_form_configuration_id].presence&.to_i
+      @started_workflow_id = params[:started_workflow_id].presence&.to_i
     end
 
     # @variant is the type itself while a type is being created until there is a variant to be used
