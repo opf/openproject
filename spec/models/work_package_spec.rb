@@ -614,6 +614,23 @@ RSpec.describe WorkPackage do
       let(:groups) { described_class.by_category(project) }
 
       it_behaves_like "group by"
+
+      context "with a work package assigned to multiple categories" do
+        shared_let(:multi_category_work_package) do
+          create(:work_package, project:, type:, category: category1)
+            .tap { |wp| wp.work_package_categories.create!(category: category2) }
+        end
+
+        def total_for(category)
+          groups.select { |row| row["category_id"].to_i == category.id }
+                .sum { |row| row["total"].to_i }
+        end
+
+        it "counts the work package under each of its categories" do
+          expect(total_for(category1)).to eq(2)
+          expect(total_for(category2)).to eq(2)
+        end
+      end
     end
 
     describe "by assigned to" do

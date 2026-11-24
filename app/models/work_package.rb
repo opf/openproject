@@ -444,9 +444,19 @@ class WorkPackage < ApplicationRecord
   end
 
   def self.by_category(project)
-    count_and_group_by project:,
-                       field: "category_id",
-                       joins: Category.table_name
+    sql = sanitize_sql_array(
+      ["SELECT s.id AS status_id,
+               COALESCE(s.category = 'closed', false) AS closed,
+               wpc.category_id AS category_id,
+               COUNT(i.id) AS total
+          FROM #{WorkPackage.table_name} i
+          INNER JOIN #{Status.table_name} s ON i.status_id = s.id
+          INNER JOIN #{WorkPackageCategory.table_name} wpc ON wpc.work_package_id = i.id
+         WHERE i.project_id = :project_id
+         GROUP BY s.id, s.category, wpc.category_id",
+       { project_id: project.id }]
+    )
+    ActiveRecord::Base.connection.select_all(sql).to_a
   end
 
   def self.by_assigned_to(project)
