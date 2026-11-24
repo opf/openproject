@@ -441,10 +441,7 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     const transient = !response || response.ok || response.status >= 500;
     this.pollFailures += 1;
     if (!transient || this.pollFailures > POLL_RETRIES) {
-      if (this.hasScrollTarget) {
-        this.catchUpWithUnseenScroll();
-      }
-      this.showError(this.requestFailedValue, this.followsOutput);
+      this.showError(this.requestFailedValue);
       return;
     }
 
@@ -475,13 +472,10 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     this.buttonsOf(formId).forEach((button) => { button.disabled = disabled; });
   }
 
-  private showError(message:string, revealBanner = true):void {
+  private showError(message:string):void {
     if (this.hasErrorTarget) {
       this.errorMessageTarget.textContent = message;
       this.errorTarget.hidden = false;
-      if (revealBanner) {
-        this.reveal(this.errorTarget);
-      }
     }
   }
 

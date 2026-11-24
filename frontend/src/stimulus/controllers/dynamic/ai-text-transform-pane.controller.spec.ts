@@ -571,36 +571,35 @@ describe('AiTextTransformPaneController', () => {
       expect(distanceToEnd()).toBe(0);
     });
 
-    it('reveals the error banner above followed output', async () => {
-      await mountScrollArea('', `${banner('data-testid="error" data-ai-text-transform-pane-target="error" hidden')}<form id="apply"></form>`);
-      await showLines(20);
-      document.getElementById('apply')!.dispatchEvent(new CustomEvent('turbo:submit-end', { bubbles: true, detail: { success: false } }));
-      await ctx.nextFrame();
+    const mountErrorBanner = () => pane().insertAdjacentHTML('beforeend', `
+      <div data-testid="error" data-ai-text-transform-pane-target="error" style="height: 20px;" hidden>
+        <span data-ai-text-transform-pane-target="errorMessage"></span>
+      </div>
+      <form id="apply"></form>`);
 
-      expect(isInScrollView(byTestId('error'))).toBe(true);
-    });
-
-    it('reveals the error banner of a failed Replace even when the user scrolled up', async () => {
-      await mountScrollArea('', `${banner('data-testid="error" data-ai-text-transform-pane-target="error" hidden')}<form id="apply"></form>`);
+    it('shows the error banner of a failed Replace outside the scroll area, leaving the reading position', async () => {
+      mountErrorBanner();
+      await mountScrollArea();
       await showLines(20);
       await scrollTo(100);
       document.getElementById('apply')!.dispatchEvent(new CustomEvent('turbo:submit-end', { bubbles: true, detail: { success: false } }));
       await ctx.nextFrame();
 
-      expect(isInScrollView(byTestId('error'))).toBe(true);
+      expect(byTestId('error')).toBeVisible();
+      expect(scrollArea()).not.toContainElement(byTestId('error'));
+      expect(scrollArea().scrollTop).toBe(100);
     });
 
-    it('keeps the reading position when polling gives up after the user scrolled up', async () => {
-      const state = `<span hidden data-ai-text-transform-pane-target="state" data-state="generating" data-seq="0"
-        data-poll-url="/ai/text_transform_panes/run?request_id=request&scope=document"></span>`;
+    it('shows the error banner outside the scroll area when polling gives up after the user scrolled up', async () => {
       vi.spyOn(window, 'fetch').mockResolvedValue(new Response(null, { status: 404 }));
-      await mountScrollArea('', `${banner('data-testid="error" data-ai-text-transform-pane-target="error" hidden')}${state}`);
+      mountErrorBanner();
+      await mountScrollArea('', runState('generating'));
       await showLines(20);
       await scrollTo(100);
       await vi.waitFor(() => expect(byTestId('error')).toBeVisible(), { timeout: 2000 });
 
-      expect(isInScrollView(byTestId('error'))).toBe(false);
-      expect(scrollArea().scrollTop).toBeGreaterThan(0);
+      expect(scrollArea()).not.toContainElement(byTestId('error'));
+      expect(scrollArea().scrollTop).toBe(100);
     });
 
     it('reveals a notice that arrives above followed output', async () => {

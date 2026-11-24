@@ -53,13 +53,6 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent::Body, type: :component d
     it "has no visible banners" do
       expect(subject).to have_no_css(".Banner")
     end
-
-    it "prepares a hidden error banner for the pane controller" do
-      expect(subject).to have_css("[data-test-selector='ai-text-transform-pane-error']" \
-                                  "[data-ai-text-transform-pane-target='error'] " \
-                                  ".Banner--error [data-ai-text-transform-pane-target='errorMessage']",
-                                  visible: :hidden)
-    end
   end
 
   context "when done" do
@@ -116,17 +109,6 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent::Body, type: :component d
     it "shows the warning banner without text" do
       expect(subject).to have_css(".Banner--warning", text: "Generation stopped")
       expect(subject).to have_no_css(".op-uc-container")
-    end
-  end
-
-  context "when rejected" do
-    let(:pane) do
-      AI::TextTransforms::ResultPaneState.rejected(message: "Too long", label: "Fix grammar", scope:,
-                                                   request_id: SecureRandom.uuid)
-    end
-
-    it "has no error banner for the pane controller" do
-      expect(subject).to have_no_test_selector("ai-text-transform-pane-error", visible: :all)
     end
   end
 
