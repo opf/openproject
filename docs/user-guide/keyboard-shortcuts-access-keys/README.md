@@ -16,9 +16,9 @@ OpenProject (since version 3.0) offers useful keyboard shortcuts to  enhance you
 | Global search | s | 4 | Focus global search | Focus global search |
 | Project search | p | 5 | Open the project select | Open the project select |
 | Go to My page | g m | – | My page | My page |
-| Open shortcuts help | ? | – | Open this page | Open this page |
+| Open shortcuts help | ? | – | Open keyboard shortcuts docs (this page) | Open keyboard shortcuts docs (this page) |
 | Open help menu | – | 6 | Open the help menu | Open the help menu |
-| Go to Overview | g o | – | Project overview | Nothing |
+| Go to Overview | g o | – | Project overview | – |
 | Go to Work packages | g w p | – | Project work packages | Work packages |
 | Go to Wiki | g w i | – | Project wiki start page | Wikis |
 | Go to Activity | g a | – | Project activity | Activity |
