@@ -67,6 +67,78 @@ RSpec.describe OpenProject::Llm::Pgvector do
     end
   end
 
+  context "when pgvector is not opted in", with_env: { "OPENPROJECT_WITH_PGVECTOR" => nil } do
+    it "is not available without checking the database" do
+      allow(described_class).to receive(:extension_installed?)
+      allow(described_class).to receive(:migrations_applied?)
+
+      expect(described_class.available?).to be(false)
+      expect(described_class).not_to have_received(:extension_installed?)
+      expect(described_class).not_to have_received(:migrations_applied?)
+    end
+
+    it "does not include the migrations path although the extension is installed" do
+      allow(described_class).to receive(:extension_installed?)
+      allow(described_class).to receive(:include_migrations_path!)
+
+      described_class.include_migrations_path_if_installed!
+
+      expect(described_class).not_to have_received(:extension_installed?)
+      expect(described_class).not_to have_received(:include_migrations_path!)
+    end
+
+    it "neither checks installability nor includes the migrations path nor reports a failure" do
+      allow(described_class).to receive(:check_if_installable)
+      allow(described_class).to receive(:include_migrations_path!)
+
+      expect(described_class.include_migrations_path_if_installable!).to be_nil
+      expect(described_class).not_to have_received(:check_if_installable)
+      expect(described_class).not_to have_received(:include_migrations_path!)
+    end
+
+    it "does not migrate" do
+      migration_context = instance_double(ActiveRecord::MigrationContext, migrate: nil)
+      allow(described_class).to receive(:migration_context).and_return(migration_context)
+      allow(described_class).to receive(:extension_installed?)
+
+      described_class.migrate_pending_if_installable!
+
+      expect(described_class).not_to have_received(:extension_installed?)
+      expect(migration_context).not_to have_received(:migrate)
+    end
+  end
+
+  context "when both OPENPROJECT_SKIP_OPTIONAL_MIGRATIONS and OPENPROJECT_WITH_PGVECTOR are set",
+          with_env: { "OPENPROJECT_WITH_PGVECTOR" => "true", "OPENPROJECT_SKIP_OPTIONAL_MIGRATIONS" => "true" } do
+    it "does not include the migrations path" do
+      allow(described_class).to receive(:extension_installed?)
+      allow(described_class).to receive(:include_migrations_path!)
+
+      described_class.include_migrations_path_if_installed!
+
+      expect(described_class).not_to have_received(:extension_installed?)
+      expect(described_class).not_to have_received(:include_migrations_path!)
+    end
+
+    it "does not check installability" do
+      allow(described_class).to receive(:check_if_installable)
+      allow(described_class).to receive(:include_migrations_path!)
+
+      expect(described_class.include_migrations_path_if_installable!).to be_nil
+      expect(described_class).not_to have_received(:check_if_installable)
+      expect(described_class).not_to have_received(:include_migrations_path!)
+    end
+
+    it "does not migrate" do
+      migration_context = instance_double(ActiveRecord::MigrationContext, migrate: nil)
+      allow(described_class).to receive(:migration_context).and_return(migration_context)
+
+      described_class.migrate_pending_if_installable!
+
+      expect(migration_context).not_to have_received(:migrate)
+    end
+  end
+
   describe ".include_migrations_path_if_installable!" do
     it "succeeds when the extension can be created on this database" do
       expect(described_class.include_migrations_path_if_installable!).to be_nil

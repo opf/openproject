@@ -31,6 +31,9 @@ module OpenProject
   module Llm
     # pgvector is optional while installations catch up on installing it.
     #
+    # It requires opt-in by setting OPENPROJECT_WITH_PGVECTOR=true.
+    # Skipping with OPENPROJECT_SKIP_OPTIONAL_MIGRATIONS has higher priority.
+    #
     # Migrations that need it live in db/migrate_optional/pgvector, which is only added to
     # the migration paths once the extension is installed or can be created. Until then they are
     # neither run nor reported as pending, and a later db:migrate picks them up.
@@ -42,6 +45,7 @@ module OpenProject
     # db/structure.sql that does not depend on the extension regardless of the database used.
     module Pgvector
       EXTENSION = "vector"
+      OPT_IN_ENV_VAR = "OPENPROJECT_WITH_PGVECTOR"
       SKIP_ENV_VAR = "OPENPROJECT_SKIP_OPTIONAL_MIGRATIONS"
       DOCS_URL = "https://www.openproject.org/docs/installation-and-operations/system-requirements/#pgvector"
 
@@ -66,6 +70,7 @@ module OpenProject
         end
 
         def available?
+          return false unless opted_in?
           return @available if defined?(@available)
 
           @available = extension_installed? && migrations_applied?
@@ -87,8 +92,12 @@ module OpenProject
           ENV[SKIP_ENV_VAR] == "true"
         end
 
+        def opted_in?
+          ENV[OPT_IN_ENV_VAR] == "true"
+        end
+
         def include_migrations_path_if_installed!
-          return if migrations_skipped?
+          return if migrations_skipped? || !opted_in?
 
           include_migrations_path! if extension_installed?
         rescue ActiveRecord::ConnectionNotEstablished, ActiveRecord::NoDatabaseError
@@ -96,7 +105,7 @@ module OpenProject
         end
 
         def include_migrations_path_if_installable!
-          return if migrations_skipped?
+          return if migrations_skipped? || !opted_in?
 
           failure = check_if_installable
           include_migrations_path! if failure.nil?
@@ -106,7 +115,7 @@ module OpenProject
         # The extension lives in pg_catalog, so once installed it is shared by every schema
         # and need not be checked for installability again.
         def migrate_pending_if_installable!
-          return if migrations_skipped?
+          return if migrations_skipped? || !opted_in?
 
           if extension_installed?
             include_migrations_path!
