@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import * as Turbo from '@hotwired/turbo';
 import { addTurboGlobalListeners } from './turbo-global-listeners';
 
 describe('addTurboGlobalListeners — OPCE custom element morph guard', () => {
@@ -134,6 +135,53 @@ describe('addTurboGlobalListeners — page visits', () => {
     controller.abort();
 
     visit();
+
+    expect(pageVisits).toBe(0);
+  });
+});
+
+// isRenderingVisit reads Turbo internals: the navigator's currentVisit and the
+// willRender option that turbo-navigation-patch.ts passes for promoted frame
+// visits. Real Turbo visits turn an upgrade that drops either into a red test.
+interface InternalNavigator {
+  startVisit:(location:string, restorationIdentifier:string, options:Record<string, unknown>) => void;
+  stop:() => void;
+}
+
+describe('addTurboGlobalListeners — page visits with the installed Turbo', () => {
+  const navigator = Turbo.navigator as unknown as InternalNavigator;
+  let controller:AbortController;
+  let pageVisits:number;
+  const countPageVisit = () => { pageVisits += 1; };
+  const stopVisit = () => { navigator.stop(); };
+
+  beforeEach(() => {
+    pageVisits = 0;
+    controller = new AbortController();
+    addTurboGlobalListeners(document, controller.signal);
+    document.addEventListener('op:page-visit', countPageVisit);
+    document.addEventListener('turbo:visit', stopVisit);
+  });
+
+  afterEach(() => {
+    document.removeEventListener('turbo:visit', stopVisit);
+    document.removeEventListener('op:page-visit', countPageVisit);
+    controller.abort();
+  });
+
+  const startVisit = (options:Record<string, unknown>) => {
+    const response = { statusCode: 200, redirected: false, responseHTML: '<html><body></body></html>' };
+    navigator.startVisit(window.location.href, 'tripwire', { response, updateHistory: false, ...options });
+  };
+
+  it('dispatches op:page-visit for a rendering visit', () => {
+    startVisit({});
+
+    expect(pageVisits).toBe(1);
+  });
+
+  it('ignores visits started without rendering', () => {
+    startVisit({ willRender: false });
 
     expect(pageVisits).toBe(0);
   });
