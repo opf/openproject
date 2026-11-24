@@ -93,7 +93,7 @@ export class WorkPackageCache extends StateCacheService<WorkPackageResource> {
         }
 
         state.putValue(wp);
-      }).catch(() => undefined);
+      }).catch((error:unknown) => console.error(`Failed to load the schema of work package ${workPackageId}`, error));
     });
   }
 

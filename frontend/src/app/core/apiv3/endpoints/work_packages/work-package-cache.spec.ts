@@ -92,6 +92,10 @@ describe('WorkPackageCache', () => {
     dummyWorkPackages = [workPackage1 as any];
   });
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('returns a work package after the list has been initialized', async () => {
     const emittedWorkPackage = firstValueFrom(
       workPackageCache.state('1').values$().pipe(take(1)),
@@ -118,11 +122,14 @@ describe('WorkPackageCache', () => {
   });
 
   it('leaves a work package out of the cache when its schema cannot be loaded', async () => {
-    vi.spyOn(schemaCacheService, 'ensureLoaded').mockRejectedValue(new Error('schema unavailable'));
+    const error = new Error('schema unavailable');
+    vi.spyOn(schemaCacheService, 'ensureLoaded').mockRejectedValue(error);
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined);
 
     workPackageCache.updateWorkPackageList(dummyWorkPackages);
     await new Promise((resolve) => { setTimeout(resolve); });
 
     expect(workPackageCache.state('1').hasValue()).toBe(false);
+    expect(consoleError).toHaveBeenCalledWith('Failed to load the schema of work package 1', error);
   });
 });
