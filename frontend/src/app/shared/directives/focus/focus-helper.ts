@@ -30,8 +30,11 @@ import { findAllFocusableElementsWithin } from 'core-app/shared/helpers/focus-he
 
 @Injectable({ providedIn: 'root' })
 export class FocusHelperService {
-  public focus(element:HTMLElement):void {
+  public focus(element:HTMLElement, stillWanted:() => boolean = () => true):void {
     setTimeout(() => {
+      if (!stillWanted()) {
+        return;
+      }
       const focusable = findAllFocusableElementsWithin(element)[0] || element;
       focusable?.focus();
     }, 20);

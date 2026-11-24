@@ -37,6 +37,10 @@ export interface BoardWidgetOption {
   filters:ApiV3Filter[];
 }
 
+export function boardWidgetQueryId(widget:GridWidgetResource):string {
+  return (widget.options.queryId as string|number).toString();
+}
+
 export class Board {
   constructor(public grid:GridResource) {
   }

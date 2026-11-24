@@ -33,13 +33,18 @@ import { Observable } from 'rxjs';
 @Component({
   template: `
     @if (board$ | async; as board) {
-      <button opTooltip
-              [label]="text.button_more"
-              class="button last board--settings-dropdown toolbar-icon"
-              boardsToolbarMenu
-              [boardsToolbarMenu-resource]="board">
-        <op-icon icon-classes="button--icon icon-show-more" />
-      </button>
+      <op-action-menu boardsToolbarMenu
+                      [boardsToolbarMenu-resource]="board"
+                      [label]="text.button_more"
+                      align="end">
+        <button opActionMenuTrigger
+                type="button"
+                opTooltip
+                [label]="text.button_more"
+                class="button last board--settings-dropdown toolbar-icon">
+          <op-icon icon-classes="button--icon icon-show-more" />
+        </button>
+      </op-action-menu>
     }
   `,
   standalone: false,

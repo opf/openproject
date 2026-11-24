@@ -53,6 +53,11 @@ export abstract class EditForm<T extends HalResource = HalResource> {
     return true;
   }
 
+  /** Whether a field allowed to autofocus still takes focus once it is ready to. */
+  public keepsFieldAutofocus(_fieldName:string):boolean {
+    return true;
+  }
+
   // Injections
   @LazyInject() states:States;
 

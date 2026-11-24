@@ -69,6 +69,8 @@ export class EditFormComponent<T extends HalResource = HalResource> extends Edit
 
   @Input() skippedFields:string[] = [];
 
+  @Input() autofocusAllowed:() => boolean = () => true;
+
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix, @angular-eslint/no-output-rename
   @Output('onSaved') onSavedEmitter = new EventEmitter<{ savedResource:T, isInitial:boolean }>();
 
@@ -94,6 +96,14 @@ export class EditFormComponent<T extends HalResource = HalResource> extends Edit
 
   ngOnDestroy() {
     this.globalEditFormChangesTrackerService.removeFromActiveForms(this);
+  }
+
+  public override allowsFieldAutofocus(_fieldName:string):boolean {
+    return this.autofocusAllowed();
+  }
+
+  public override keepsFieldAutofocus(_fieldName:string):boolean {
+    return this.autofocusAllowed();
   }
 
   public async activateField(form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<EditFieldHandler> {

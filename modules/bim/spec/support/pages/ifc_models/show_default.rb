@@ -112,23 +112,41 @@ module Pages
       end
 
       def switch_view(value)
-        retry_block do
-          click_on "bcf-view-toggle-button"
-          within("#bcf-view-context-menu") do
-            click_on value, exact: true
-          end
+        view_toggle.click
+        within(:menu, I18n.t("js.bcf.view_select")) do
+          find(:role, "menuitemradio", exact_text: value).click
         end
       end
 
       def expect_view_toggle_at(value)
-        expect(page).to have_css("#bcf-view-toggle-button", text: value)
+        expect(page).to have_button(accessible_name: value, exact: true)
       end
 
-      def has_no_menu_item_with_text?(value)
-        expect(page).to have_no_css(".menu-item", text: value)
+      def expect_view_options(*values, checked:)
+        view_toggle.click
+        within(:menu, I18n.t("js.bcf.view_select")) do
+          expect(page).to have_selector(:role, "menuitemradio", count: values.size)
+          values.each { |value| expect(page).to have_selector(:role, "menuitemradio", exact_text: value) }
+          expect(page).to have_selector(:role, "menuitemradio", exact_text: checked, aria: { checked: true })
+        end
+        page.send_keys(:escape)
       end
 
       private
+
+      def view_toggle
+        find(:button, accessible_name: /\A#{Regexp.union(view_names)}\z/)
+      end
+
+      def view_names
+        [
+          I18n.t("js.ifc_models.views.viewer"),
+          I18n.t("js.views.card"),
+          I18n.t("js.ifc_models.views.split_cards"),
+          I18n.t("js.ifc_models.views.split"),
+          I18n.t("js.views.list")
+        ]
+      end
 
       def toolbar_items
         ["IFC models"]

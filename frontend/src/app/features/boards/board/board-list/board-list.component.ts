@@ -38,6 +38,8 @@ import {
   OnInit,
   Output,
   ViewChild,
+  output,
+  viewChild,
 } from '@angular/core';
 import {
   LoadingIndicatorService,
@@ -48,7 +50,7 @@ import { BoardInlineCreateService } from 'core-app/features/boards/board/board-l
 import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { Board } from 'core-app/features/boards/board/board';
+import { Board, boardWidgetQueryId } from 'core-app/features/boards/board/board';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import {
@@ -164,6 +166,9 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onRemove = new EventEmitter<void>();
 
+  /** Output fired once the user confirmed deleting the list's query */
+  readonly deleteRequested = output<void>();
+
   /* Output fired after it is assured whether a user has the right to see the list */
   @Output() visibilityChange = new EventEmitter<boolean>();
 
@@ -175,6 +180,12 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   /** Access to the card view */
   @ViewChild(WorkPackageCardViewComponent) cardView:WorkPackageCardViewComponent;
+
+  private readonly listMenu = viewChild(BoardListMenuComponent);
+
+  public get menuTrigger():HTMLElement|undefined {
+    return this.listMenu()?.trigger;
+  }
 
   /** The query resource being loaded */
   public query:QueryResource;
@@ -371,22 +382,13 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   public addNewCard() {
-    this.cardView.addNewCard();
+    this.cardView.addNewCard(this.indicator.nativeElement);
   }
 
-  public deleteList(query?:QueryResource) {
-    query = query ?? this.query;
-
-    if (!window.confirm(this.text.areYouSure)) {
-      return;
+  public deleteList() {
+    if (window.confirm(this.text.areYouSure)) {
+      this.deleteRequested.emit();
     }
-
-    this
-      .apiv3Service
-      .queries
-      .id(query)
-      .delete()
-      .subscribe(() => this.onRemove.emit());
   }
 
   public renameQuery(query:QueryResource, value:string) {
@@ -513,7 +515,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   private get queryId():string {
-    return (this.resource.options.queryId as number|string).toString();
+    return boardWidgetQueryId(this.resource);
   }
 
   /** Stable id for this list's wp-card-view under the shared board sortable root */

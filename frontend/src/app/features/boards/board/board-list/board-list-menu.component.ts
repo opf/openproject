@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, inject, viewChild } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
@@ -35,6 +35,9 @@ import { BoardActionsRegistryService } from 'core-app/features/boards/board/boar
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import { BoardService } from 'core-app/features/boards/board/board.service';
 import { BoardActionService } from 'core-app/features/boards/board/board-actions/board-action.service';
+import {
+  IconTriggeredContextMenuComponent,
+} from 'core-app/shared/components/op-context-menu/icon-triggered-context-menu/icon-triggered-context-menu.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -59,28 +62,31 @@ export class BoardListMenuComponent {
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onRemove = new EventEmitter<void>();
 
-  public get menuItems() {
-    return async () => {
-      const items:OpContextMenuItem[] = [
-        {
-          disabled: !this.canDelete,
-          linkText: this.I18n.t('js.boards.lists.delete'),
-          onClick: () => {
-            this.onRemove.emit();
-            return true;
-          },
-        },
-      ];
+  private readonly contextMenu = viewChild(IconTriggeredContextMenuComponent);
 
-      // Add action specific menu entries
-      if (this.board.isAction) {
-        const additional = await this.actionService.getAdditionalListMenuItems(this.query);
-        return items.concat(additional);
-      }
-
-      return items;
-    };
+  public get trigger():HTMLElement|undefined {
+    return this.contextMenu()?.trigger;
   }
+
+  readonly menuItems = async ():Promise<OpContextMenuItem[]> => {
+    const deleteItem:OpContextMenuItem = {
+      linkText: this.I18n.t('js.boards.lists.delete'),
+      scheme: 'danger',
+      onClick: () => {
+        this.onRemove.emit();
+        return true;
+      },
+    };
+
+    if (this.board.isAction) {
+      const additional = await this.actionService.getAdditionalListMenuItems(this.query);
+      if (additional.length) {
+        return [...additional, { divider: true }, deleteItem];
+      }
+    }
+
+    return [deleteItem];
+  };
 
   private get actionService():BoardActionService {
     return this.boardActionRegistry.get(this.board.actionAttribute!);

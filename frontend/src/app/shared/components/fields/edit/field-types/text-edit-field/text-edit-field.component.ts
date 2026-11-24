@@ -39,4 +39,6 @@ import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-
 export class TextEditFieldComponent extends EditFieldComponent {
   // ToDo: Work package specific
   public shouldFocus = this.name === 'subject' && this.handler.allowsAutofocus();
+
+  public keepsFocus = () => this.handler.keepsAutofocus();
 }

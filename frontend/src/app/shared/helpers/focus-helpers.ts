@@ -49,3 +49,7 @@ export const FOCUSABLE_ELEMENT_SELECTORS = [
 export function findAllFocusableElementsWithin(container:HTMLElement):NodeListOf<HTMLElement> {
   return container.querySelectorAll(FOCUSABLE_ELEMENT_SELECTORS.toString());
 }
+
+export function isRendered(element:HTMLElement|null|undefined):element is HTMLElement {
+  return !!element && element.checkVisibility({ visibilityProperty: true });
+}

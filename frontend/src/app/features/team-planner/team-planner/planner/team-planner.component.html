@@ -23,17 +23,24 @@
         data-test-selector="add-existing-pane"
          />
     }
-    <button
-      type="button"
-      class="button op-team-planner--view-select-dropdown"
+    <op-action-menu
+      class="op-team-planner--view-select-dropdown"
       opTeamPlannerViewSelectDropdown
+      [label]="text.select_view"
+      align="end"
       [viewOptions]="viewOptions"
-      (viewSelected)="switchView($event)"
-      data-test-selector="op-team-planner--view-select-dropdown">
-      <span class="button--text ellipsis"
-        [textContent]="currentViewTitle"></span>
-      <svg triangle-down-icon size="small" class="hidden-for-mobile"></svg>
-    </button>
+      [currentView]="currentViewKey"
+      (viewSelected)="switchView($event)">
+      <button
+        opActionMenuTrigger
+        type="button"
+        class="button"
+        data-test-selector="op-team-planner--view-select-dropdown">
+        <span class="button--text ellipsis"
+          [textContent]="currentViewTitle"></span>
+        <svg triangle-down-icon size="small" class="hidden-for-mobile"></svg>
+      </button>
+    </op-action-menu>
   }
 
   <div

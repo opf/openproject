@@ -48,6 +48,8 @@ import { IfcModelsDataService } from 'core-app/features/bim/ifc_models/pages/vie
 import { OpenprojectBcfModule } from 'core-app/features/bim/bcf/openproject-bcf.module';
 import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
 import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
+import { OpActionMenuComponent } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.component';
+import { OpActionMenuTriggerDirective } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu-trigger.directive';
 import { IFCViewerComponent } from './ifc-viewer/ifc-viewer.component';
 import { BcfSplitLeftComponent } from 'core-app/features/bim/ifc_models/bcf/split/left/bcf-split-left.component';
 import { BcfSplitRightComponent } from 'core-app/features/bim/ifc_models/bcf/split/right/bcf-split-right.component';
@@ -64,6 +66,9 @@ import {
     OpenprojectWorkPackagesModule,
     IconModule,
     OpTooltipDirective,
+    OpActionMenuComponent,
+    OpActionMenuTriggerDirective,
+    BcfViewToggleDropdownDirective,
   ],
   providers: [
     IFCViewerService,
@@ -83,7 +88,6 @@ import {
     // Toolbar
     BimManageIfcModelsButtonComponent,
     BcfViewToggleButtonComponent,
-    BcfViewToggleDropdownDirective,
 
     IFCViewerComponent,
   ],

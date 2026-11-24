@@ -78,7 +78,7 @@ describe('WidgetCustomTextComponent editing attachments', () => {
         { provide: TimezoneService, useValue: {} },
         { provide: GridAreaService, useValue: { isEditable: true } },
         { provide: GridDragAndDropService, useValue: {} },
-        { provide: GridRemoveWidgetService, useValue: {} },
+        { provide: GridRemoveWidgetService, useValue: { registerMenu: () => () => undefined } },
         { provide: EditFieldService, useValue: { getSpecificClassFor: () => undefined } },
         { provide: OpUploadService, useValue: {} },
         { provide: ToastService, useValue: {} },

@@ -68,6 +68,8 @@ export class WorkPackageCardDragAndDropService {
   /** Whether the card view has an active inline created wp */
   public activeInlineCreateWp?:WorkPackageResource;
 
+  private newCardRequest?:{ scope:HTMLElement, interactions:Set<EventTarget>, listening:AbortController };
+
   /** A reference to the component in use, to have access to the current input variables */
   public cardView:WorkPackageCardViewComponent;
 
@@ -80,6 +82,7 @@ export class WorkPackageCardDragAndDropService {
 
   public destroy() {
     this.destroyed = true;
+    this.forgetNewCardRequest();
   }
 
   /**
@@ -348,14 +351,23 @@ export class WorkPackageCardDragAndDropService {
   /**
    * Inline create a new card
    */
-  public addNewCard() {
+  public addNewCard(focusScope?:HTMLElement) {
+    const request = this.rememberNewCardRequest(focusScope);
     void this.wpCreate
       .createOrContinueWorkPackage(this.currentProject.identifier)
-      .then((changeset:WorkPackageChangeset) => {
-        this.activeInlineCreateWp = changeset.projectedResource;
-        this.workPackages = [...this.workPackages];
-        this.cardView.cdRef.detectChanges();
-      });
+      .then(
+        (changeset:WorkPackageChangeset) => {
+          this.activeInlineCreateWp = changeset.projectedResource;
+          this.workPackages = [...this.workPackages];
+          this.cardView.cdRef.detectChanges();
+        },
+        (error:unknown) => {
+          if (this.newCardRequest === request) {
+            this.forgetNewCardRequest();
+          }
+          throw error;
+        },
+      );
   }
 
   /**
@@ -428,6 +440,43 @@ export class WorkPackageCardDragAndDropService {
   }
 
   /**
+   * Whether the new card may focus its subject: only while focus stays
+   * where the user asked for it, and not once they clicked or typed
+   * anywhere outside the new card after asking for it.
+   */
+  public allowsNewCardAutofocus(newCard?:HTMLElement):boolean {
+    const request = this.newCardRequest;
+    if (!request) {
+      return true;
+    }
+    const movedOn = [...request.interactions].some((target) => !(target instanceof Node && newCard?.contains(target)));
+    const { activeElement } = document;
+    return !movedOn && (!activeElement || activeElement === document.body || request.scope.contains(activeElement));
+  }
+
+  private rememberNewCardRequest(scope?:HTMLElement) {
+    this.forgetNewCardRequest();
+    if (!scope) {
+      return undefined;
+    }
+    const request = { scope, interactions: new Set<EventTarget>(), listening: new AbortController() };
+    const remember = ({ target }:Event) => {
+      if (target) {
+        request.interactions.add(target);
+      }
+    };
+    document.addEventListener('pointerdown', remember, { capture: true, signal: request.listening.signal });
+    document.addEventListener('keydown', remember, { capture: true, signal: request.listening.signal });
+    this.newCardRequest = request;
+    return request;
+  }
+
+  private forgetNewCardRequest() {
+    this.newCardRequest?.listening.abort();
+    this.newCardRequest = undefined;
+  }
+
+  /**
    * Remove the new card
    */
   public removeReferenceWorkPackageForm() {
@@ -440,6 +489,7 @@ export class WorkPackageCardDragAndDropService {
     const index = this.workPackages.indexOf(wp);
     this.workPackages.splice(index, 1);
     this.activeInlineCreateWp = undefined;
+    this.forgetNewCardRequest();
 
     if (!isNewResource(wp)) {
       const newOrder = this.reorderService.remove(this.currentOrder, wp.id!);
@@ -456,6 +506,7 @@ export class WorkPackageCardDragAndDropService {
 
     if (index !== -1) {
       this.activeInlineCreateWp = undefined;
+      this.forgetNewCardRequest();
 
       const before = this.currentOrder;
       const newOrder = [...before];

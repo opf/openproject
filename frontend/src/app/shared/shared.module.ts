@@ -86,6 +86,7 @@ import { PrimerIconButtonComponent } from './components/primer/icon-button.compo
 import { OpTooltipDirective } from './components/primer/tooltip.directive';
 import { OpActionMenuComponent } from './components/op-context-menu/action-menu/op-action-menu.component';
 import { OpActionMenuTriggerDirective } from './components/op-context-menu/action-menu/op-action-menu-trigger.directive';
+import { OpActionMenuFactoryDirective } from './components/op-context-menu/action-menu/op-action-menu-factory.directive';
 import { DynamicIconDirective } from './components/primer/dynamic-icon.directive';
 
 export function bootstrapModule(injector:Injector):void {
@@ -131,6 +132,7 @@ export function bootstrapModule(injector:Injector):void {
     OpTooltipDirective,
     OpActionMenuComponent,
     OpActionMenuTriggerDirective,
+    OpActionMenuFactoryDirective,
     DynamicIconDirective,
   ],
   exports: [

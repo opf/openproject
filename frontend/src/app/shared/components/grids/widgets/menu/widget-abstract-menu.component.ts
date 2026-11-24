@@ -25,35 +25,51 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Directive, Injector, Input, inject } from '@angular/core';
+import { DestroyRef, Directive, ElementRef, Injector, Input, inject, viewChild } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
-import { GridRemoveWidgetService } from 'core-app/shared/components/grids/grid/remove-widget.service';
+import { GridRemoveWidgetService, GridWidgetMenu } from 'core-app/shared/components/grids/grid/remove-widget.service';
+import {
+  IconTriggeredContextMenuComponent,
+} from 'core-app/shared/components/op-context-menu/icon-triggered-context-menu/icon-triggered-context-menu.component';
 import { GridAreaService } from 'core-app/shared/components/grids/grid/area.service';
 
 @Directive()
-export abstract class WidgetAbstractMenuComponent {
+export abstract class WidgetAbstractMenuComponent implements GridWidgetMenu {
   readonly injector = inject(Injector);
   readonly i18n = inject(I18nService);
   protected readonly remove = inject(GridRemoveWidgetService);
   protected readonly layout = inject(GridAreaService);
+  readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+  private readonly iconMenu = viewChild(IconTriggeredContextMenuComponent);
 
   @Input() resource:GridWidgetResource;
 
-  public get menuItemsFactory():() => Promise<OpContextMenuItem[]> {
-    return this.buildItems.bind(this);
+  readonly menuItemsFactory = ():Promise<OpContextMenuItem[]> => this.buildItems();
+
+  constructor() {
+    inject(DestroyRef).onDestroy(this.remove.registerMenu(this));
+  }
+
+  get menuTrigger():HTMLElement|undefined {
+    return this.iconMenu()?.trigger;
   }
 
   protected async buildItems():Promise<OpContextMenuItem[]> {
     return [this.removeItem];
   }
 
+  protected withRemoveLast(items:OpContextMenuItem[]):OpContextMenuItem[] {
+    return items.length ? [...items, { divider: true }, this.removeItem] : [this.removeItem];
+  }
+
   protected get removeItem():OpContextMenuItem {
     return {
       linkText: this.i18n.t('js.grid.remove'),
+      scheme: 'danger',
       onClick: () => {
-        this.remove.widget(this.resource);
+        void this.remove.widgetFromMenu(this.resource, this);
         return true;
       },
     };

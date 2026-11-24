@@ -23,6 +23,7 @@
         <board-list [resource]="boardWidget"
           [board]="board"
           (onRemove)="removeList(board, boardWidget)"
+          (deleteRequested)="deleteList(board, boardWidget)"
           (visibilityChange)="changeVisibilityOfList(board, boardWidget, $event)" />
       </div>
     }
@@ -40,6 +41,7 @@
     }
     @if (board.editable) {
       <div class="boards-list--add-item -no-text-select"
+        #addListControl
         role="button"
         tabindex="0"
         (click)="addList(board)"

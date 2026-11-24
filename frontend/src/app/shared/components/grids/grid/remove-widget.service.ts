@@ -25,16 +25,25 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectorRef, Injectable, inject } from '@angular/core';
+import { ChangeDetectorRef, Injectable, Injector, inject } from '@angular/core';
 import { GridWidgetArea } from 'core-app/shared/components/grids/areas/grid-widget-area';
 import { GridAreaService } from 'core-app/shared/components/grids/grid/area.service';
 import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
 import { GridResource } from 'core-app/features/hal/resources/grid-resource';
+import { RemovalFocus } from 'core-app/shared/helpers/removal-focus';
+
+export interface GridWidgetMenu {
+  readonly host:HTMLElement;
+  readonly menuTrigger:HTMLElement|undefined;
+}
 
 @Injectable()
 export class GridRemoveWidgetService {
   readonly cdRef = inject(ChangeDetectorRef);
   readonly layout = inject(GridAreaService);
+  private readonly injector = inject(Injector);
+  private readonly menus = new Set<GridWidgetMenu>();
+  private addControls:() => readonly HTMLElement[] = () => [];
 
   public area(area:GridWidgetArea) {
     return this.widget(area.widget);
@@ -44,5 +53,36 @@ export class GridRemoveWidgetService {
     return this.layout
       .removeWidget(widget)
       .finally(() => this.cdRef.detectChanges());
+  }
+
+  public registerMenu(menu:GridWidgetMenu):() => void {
+    this.menus.add(menu);
+    return () => this.menus.delete(menu);
+  }
+
+  public registerAddControls(controls:() => readonly HTMLElement[]):void {
+    this.addControls = controls;
+  }
+
+  public widgetFromMenu(widget:GridWidgetResource, menu:GridWidgetMenu):Promise<void> {
+    const focus = new RemovalFocus({
+      removed: menu,
+      removedElement: menu.host,
+      items: () => this.menusInDocumentOrder(),
+      control: (item) => item.menuTrigger,
+      fallback: () => this.addControls(),
+      injector: this.injector,
+    });
+
+    return this.widget(widget).then(
+      () => focus.focusSuccessorAfterRender(),
+      () => focus.cancel(),
+    );
+  }
+
+  private menusInDocumentOrder():GridWidgetMenu[] {
+    return [...this.menus].sort((a, b) => (
+      a.host.compareDocumentPosition(b.host) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1
+    ));
   }
 }

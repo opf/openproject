@@ -317,6 +317,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     assignee: this.I18n.t('js.label_assignee'),
     add_assignee: this.I18n.t('js.team_planner.add_assignee'),
     remove_assignee: this.I18n.t('js.team_planner.remove_assignee'),
+    select_view: this.I18n.t('js.team_planner.label_view_select'),
     noData: this.I18n.t('js.team_planner.no_data'),
     work_week: this.I18n.t('js.team_planner.work_week'),
     two_weeks: this.I18n.t('js.team_planner.two_weeks'),
@@ -644,8 +645,17 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     this.ucCalendar.getApi().changeView(key);
   }
 
+  public get currentViewKey():TeamPlannerViewOptionKey {
+    const type = this.ucCalendar?.getApi().view.type || this.initialCalendarView;
+    return this.isViewOptionKey(type) ? type : 'resourceTimelineWorkWeek';
+  }
+
+  private isViewOptionKey(type:string):type is TeamPlannerViewOptionKey {
+    return Object.hasOwn(this.viewOptions, type);
+  }
+
   public get currentViewTitle():string {
-    return this.viewOptions[(this.ucCalendar?.getApi().view.type || this.initialCalendarView) as TeamPlannerViewOptionKey].buttonText as string;
+    return this.viewOptions[this.currentViewKey].buttonText as string;
   }
 
   /**

@@ -270,8 +270,8 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
     this.cdRef.detectChanges();
   }
 
-  public addNewCard() {
-    this.cardDragDrop.addNewCard();
+  public addNewCard(focusScope?:HTMLElement) {
+    this.cardDragDrop.addNewCard(focusScope);
   }
 
   public removeCard(wp:WorkPackageResource) {

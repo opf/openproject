@@ -25,32 +25,37 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { BcfViewService } from 'core-app/features/bim/ifc_models/pages/viewer/bcf-view.service';
 
 @Component({
   template: `
     @if ((view$ | async); as current) {
-      <button class="button"
-        id="bcf-view-toggle-button"
-        opBcfViewDropdown>
-        <op-icon icon-classes="button--icon {{bcfView.icon[current]}}" />
-        <span class="button--text"
-          aria-hidden="true"
-          [textContent]="bcfView.text[current]">
-        </span>
-        <svg triangle-down-icon size="small"></svg>
-      </button>
+      <op-action-menu opBcfViewDropdown [label]="text.view_select">
+        <button class="button"
+          id="bcf-view-toggle-button"
+          opActionMenuTrigger
+          type="button">
+          <op-icon icon-classes="button--icon {{bcfView.icon[current]}}" />
+          <span class="button--text"
+            [textContent]="bcfView.text[current]">
+          </span>
+          <svg triangle-down-icon size="small"></svg>
+        </button>
+      </op-action-menu>
     }
     `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'op-bcf-view-toggle-button',
   standalone: false,
 })
 export class BcfViewToggleButtonComponent {
   readonly I18n = inject(I18nService);
   readonly bcfView = inject(BcfViewService);
+
+  text = {
+    view_select: this.I18n.t('js.bcf.view_select'),
+  };
 
   view$ = this.bcfView.live$();
 }

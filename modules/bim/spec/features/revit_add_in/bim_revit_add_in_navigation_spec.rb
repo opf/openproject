@@ -62,7 +62,7 @@ RSpec.describe "BIM Revit Add-in navigation spec", :js,
       # shows a toolbar' do
       model_page.page_has_a_toolbar
       # menu has no viewer options
-      model_page.has_no_menu_item_with_text? "Viewer"
+      model_page.expect_view_options "Cards", "Table", checked: "Cards"
     end
 
     it "the user menu has an option to go to the add-in settings" do
@@ -122,6 +122,21 @@ RSpec.describe "BIM Revit Add-in navigation spec", :js,
           have_current_path(/bcf\/details\/#{last_work_package.id}$/, ignore_query: true)
         )
       end
+    end
+  end
+
+  context "with a saved query in the viewer view" do
+    let(:query) { create(:query, user:, project:, display_representation: "viewer") }
+    let(:card_view) { Pages::WorkPackageCards.new(project) }
+
+    it "shows the cards of the query" do
+      login_as(user)
+      model_page.visit_query(query)
+
+      model_page.expect_view_toggle_at "Cards"
+      model_page.model_viewer_visible false
+      expect(page).to have_test_selector("op-wp-card-view")
+      card_view.expect_work_package_listed work_package
     end
   end
 

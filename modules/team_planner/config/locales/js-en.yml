@@ -13,6 +13,7 @@ en:
       eight_weeks: '8-week'
       four_weeks: '4-week'
       label_team_planner_plural: 'Team planners'
+      label_view_select: 'Select view'
       modify:
         errors:
           fallback: 'This work package cannot be edited.'

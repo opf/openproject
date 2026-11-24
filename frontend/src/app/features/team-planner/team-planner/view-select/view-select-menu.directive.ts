@@ -25,13 +25,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  Directive,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
-import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
+import { Directive, input, output } from '@angular/core';
+import { OpActionMenuItems } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu-items';
 import {
   TeamPlannerViewOptionKey,
   TeamPlannerViewOptions,
@@ -40,30 +35,30 @@ import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op
 
 @Directive({
   selector: '[opTeamPlannerViewSelectDropdown]',
-  standalone: false,
 })
-export class TeamPlannerViewSelectMenuDirective extends OpContextMenuTrigger {
-  @Input() public viewOptions:NonNullable<TeamPlannerViewOptions>;
+export class TeamPlannerViewSelectMenuDirective extends OpActionMenuItems {
+  readonly viewOptions = input.required<TeamPlannerViewOptions>();
 
-  @Output() public viewSelected = new EventEmitter<TeamPlannerViewOptionKey>();
+  readonly currentView = input.required<TeamPlannerViewOptionKey>();
 
-  public get locals():{ showAnchorRight?:boolean, contextMenuId?:string, items:OpContextMenuItem[] } {
-    return {
-      items: this.buildItems(),
-      contextMenuId: 'op-team-planner--view-select-dropdown',
-    };
-  }
+  readonly viewSelected = output<TeamPlannerViewOptionKey>();
 
-  private selected(key:TeamPlannerViewOptionKey):boolean {
-    this.viewSelected.emit(key);
-    // Done to satisfy the interface.
-    return true;
-  }
+  protected buildItems():OpContextMenuItem[] {
+    const options = this.viewOptions();
+    const current = this.currentView();
+    const keys = Object.keys(options) as TeamPlannerViewOptionKey[];
 
-  private buildItems():OpContextMenuItem[] {
-    return Object.entries(this.viewOptions).map(([key, viewOption]) => ({
-      linkText: viewOption.buttonText as string,
-      onClick: () => this.selected(key as TeamPlannerViewOptionKey),
+    return keys.map((key) => ({
+      linkText: options[key].buttonText as string,
+      checked: key === current,
+      radio: true,
+      onClick: () => {
+        if (key !== current) {
+          this.viewSelected.emit(key);
+        }
+
+        return true;
+      },
     }));
   }
 }

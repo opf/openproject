@@ -38,14 +38,17 @@
       [ngClass]="{ '-with-create-button': board.isAction || showAddButton }">
       <div class="op-board-list--button-container">
         @if (showAddButton) {
-          <button opTooltip
-            [label]="text.addCard"
-            data-test-selector="op-board-list--card-dropdown-add-button"
-            data-tour-selector="op-board-list--card-dropdown-add-button"
-            class="op-board-list--add-button op-board-list--card-dropdown-button button"
-            op-addCardDropdown>
-            <op-icon icon-classes="icon-small icon-add" />
-          </button>
+          <op-action-menu op-addCardDropdown [label]="text.addCard">
+            <button opActionMenuTrigger
+              type="button"
+              opTooltip
+              [label]="text.addCard"
+              data-test-selector="op-board-list--card-dropdown-add-button"
+              data-tour-selector="op-board-list--card-dropdown-add-button"
+              class="op-board-list--add-button op-board-list--card-dropdown-button button">
+              <op-icon icon-classes="icon-small icon-add" />
+            </button>
+          </op-action-menu>
         }
       </div>
       <wp-card-view [dragOutOfHandler]="canDragOutOfHandler"

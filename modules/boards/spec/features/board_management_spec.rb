@@ -84,14 +84,14 @@ RSpec.describe "Board management spec", :js, :selenium do
         click_on accessible_name: "Add card"
       end
 
-      page.find(".menu-item", text: "Add new card").click
+      within(:menu, "Add card") { find(:menuitem, "Add new card").click }
 
       # Open in list 2
       board_page.within_list("List 2") do
         click_on accessible_name: "Add card"
       end
 
-      page.find(".menu-item", text: "Add new card").click
+      within(:menu, "Add card") { find(:menuitem, "Add new card").click }
 
       board_page.within_list("List 2") do
         subject = page.find_by_id("wp-new-inline-edit--field-subject")
@@ -118,7 +118,7 @@ RSpec.describe "Board management spec", :js, :selenium do
       board_page.within_list("List 1") do
         click_on accessible_name: "Add card"
       end
-      page.find(".menu-item", text: "Add new card").click
+      within(:menu, "Add card") { find(:menuitem, "Add new card").click }
 
       board_page.within_list("List 1") do
         subject = page.find_by_id("wp-new-inline-edit--field-subject")
@@ -144,7 +144,7 @@ RSpec.describe "Board management spec", :js, :selenium do
       board_page.within_list("List 1") do
         click_on accessible_name: "Add card"
       end
-      page.find(".menu-item", text: "Add new card").click
+      within(:menu, "Add card") { find(:menuitem, "Add new card").click }
 
       board_page.within_list("List 1") do
         subject = page.find_by_id("wp-new-inline-edit--field-subject")
@@ -161,6 +161,65 @@ RSpec.describe "Board management spec", :js, :selenium do
 
       board_page.expect_card("List 1", "Discarded card", present: false)
       expect(WorkPackage.where(subject: ["Discarded card", "Kept card"]).pluck(:subject)).to contain_exactly("Kept card")
+    end
+
+    it "opens the list menu by keyboard and returns focus to its button" do
+      board_view
+      board_index.visit!
+
+      board_page = board_index.open_board board_view
+
+      board_page.within_list("List 1") do
+        find("editable-toolbar-title input").click
+        page.send_keys(:tab)
+        expect(page).to have_button(accessible_name: "Open menu", focused: true)
+        page.send_keys(:enter)
+      end
+
+      within(:menu, "Open menu") do
+        expect(page).to have_selector(:menuitem, "Delete list")
+        page.send_keys(:escape)
+      end
+
+      expect(page).to have_no_selector(:menu, "Open menu")
+      board_page.within_list("List 1") do
+        expect(page).to have_button(accessible_name: "Open menu", focused: true)
+      end
+    end
+
+    it "moves focus to a surviving list control after deleting a list by keyboard" do
+      board_view
+      board_index.visit!
+
+      board_page = board_index.open_board board_view
+      board_page.add_list
+      board_page.rename_list "Unnamed list", "List 2"
+
+      board_page.within_list("List 1") do
+        find("editable-toolbar-title input").click
+        page.send_keys(:tab)
+        page.send_keys(:enter)
+      end
+
+      within(:menu, "Open menu") do
+        expect(page).to have_selector(:menuitem, "Delete list", focused: true)
+        page.send_keys(:enter)
+      end
+      board_page.accept_alert_dialog!
+
+      expect(page).to have_no_selector(board_page.list_selector("List 1"))
+      board_page.within_list("List 2") do
+        expect(page).to have_button(accessible_name: "Open menu", focused: true)
+        page.send_keys(:enter)
+      end
+
+      within(:menu, "Open menu") do
+        expect(page).to have_selector(:menuitem, "Delete list", focused: true)
+        page.send_keys(:enter)
+      end
+      board_page.accept_alert_dialog!
+
+      expect(page).to have_button("Add list", focused: true)
     end
 
     it "allows management of boards" do
@@ -201,7 +260,7 @@ RSpec.describe "Board management spec", :js, :selenium do
       queries = board_page.board(reload: true).contained_queries
       first = queries.find_by(name: "First")
       second = queries.find_by(name: "Second")
-      expect(first.ordered_work_packages.count).to eq(1)
+      wait_for { first.reload.ordered_work_packages.count }.to eq(1)
       expect(second.ordered_work_packages).to be_empty
 
       # Expect work package to be saved in query first

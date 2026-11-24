@@ -154,7 +154,7 @@ RSpec.describe "Dashboard page managing", :js do
       rows = [created_work_package, assigned_work_package].sort_by(&:id)
       wp_table = Pages::EmbeddedWorkPackagesTable.new(
         find(".grid--area.-widgeted:nth-of-type(1)"),
-        entry_control: -> { find(:link, accessible_name: "Show menu options for Work packages table widget") },
+        entry_control: -> { find(:button, accessible_name: "Show menu options for Work packages table widget") },
         table_name: "Work packages table"
       )
       wp_table.expect_work_package_listed(*rows)

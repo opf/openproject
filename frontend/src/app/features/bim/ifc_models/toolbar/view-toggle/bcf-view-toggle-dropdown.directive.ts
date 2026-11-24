@@ -26,8 +26,7 @@
 //++
 
 import { Directive, inject } from '@angular/core';
-import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { OpActionMenuItems } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu-items';
 import {
   bcfCardsViewIdentifier,
   bcfSplitViewCardsIdentifier,
@@ -35,6 +34,7 @@ import {
   bcfTableViewIdentifier,
   bcfViewerViewIdentifier,
   BcfViewService,
+  BcfViewState,
 } from 'core-app/features/bim/ifc_models/pages/viewer/bcf-view.service';
 import { ViewerBridgeService } from 'core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
 import { WorkPackageFiltersService } from 'core-app/features/work-packages/components/filters/wp-filters/wp-filters.service';
@@ -42,55 +42,33 @@ import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op
 
 @Directive({
   selector: '[opBcfViewDropdown]',
-  standalone: false,
 })
-export class BcfViewToggleDropdownDirective extends OpContextMenuTrigger {
+export class BcfViewToggleDropdownDirective extends OpActionMenuItems {
   readonly bcfView = inject(BcfViewService);
-  readonly I18n = inject(I18nService);
   readonly wpFiltersService = inject(WorkPackageFiltersService);
   readonly viewerBridgeService = inject(ViewerBridgeService);
 
-  protected open(evt:Event):void {
-    this.buildItems();
-    this.opContextMenu.show(this, evt);
-  }
-
-  public get locals():{ showAnchorRight?:boolean, contextMenuId?:string, items:OpContextMenuItem[] } {
-    return {
-      items: this.items,
-      contextMenuId: 'bcf-view-context-menu',
-    };
-  }
-
-  private buildItems() {
-    const items = this.viewerBridgeService.shouldShowViewer
+  protected buildItems():OpContextMenuItem[] {
+    const keys:BcfViewState[] = this.viewerBridgeService.shouldShowViewer
       ? [bcfViewerViewIdentifier, bcfCardsViewIdentifier, bcfSplitViewCardsIdentifier, bcfSplitViewTableIdentifier, bcfTableViewIdentifier]
       : [bcfCardsViewIdentifier, bcfTableViewIdentifier];
+    const current = this.bcfView.currentViewerState();
 
-    this.items = items
-      .map((key) => ({
-        hidden: key === this.bcfView.currentViewerState(),
-        linkText: this.bcfView.text[key],
-        icon: this.bcfView.icon[key],
-        onClick: () => {
-          // Close filter section
+    return keys.map((key) => ({
+      checked: key === current,
+      radio: true,
+      linkText: this.bcfView.text[key],
+      onClick: () => {
+        if (key !== current) {
           if (this.wpFiltersService.visible) {
             this.wpFiltersService.toggleVisibility();
           }
 
-          switch (key) {
-            case 'cards':
-            case 'table':
-            case 'viewer':
-            case 'splitCards':
-            case 'splitTable':
-              this.bcfView.update(key);
-              break;
-            default:
-          }
+          this.bcfView.update(key);
+        }
 
-          return true;
-        },
-      }));
+        return true;
+      },
+    }));
   }
 }

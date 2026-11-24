@@ -25,39 +25,68 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectorRef, Directive, Injector, inject } from '@angular/core';
+import { Directive, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
-import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
-import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { OpActionMenuItems } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu-items';
+import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
 import { BoardListComponent } from 'core-app/features/boards/board/board-list/board-list.component';
+import {
+  AddCardPermission,
+  AddCardPermissionsService,
+} from 'core-app/features/boards/board/add-card-dropdown/add-card-permissions.service';
+
+const settled = (allowed:boolean):AddCardPermission => ({
+  known: allowed,
+  current: allowed,
+  settle: () => Promise.resolve(),
+});
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[op-addCardDropdown]',
-  standalone: false,
 })
-export class AddCardDropdownMenuDirective extends OpContextMenuTrigger {
-  readonly opModalService = inject(OpModalService);
-  readonly authorisationService = inject(AuthorisationService);
+export class AddCardDropdownMenuDirective extends OpActionMenuItems {
   readonly wpInlineCreate = inject(WorkPackageInlineCreateService);
   readonly boardList = inject(BoardListComponent);
-  readonly injector = inject(Injector);
-  readonly querySpace = inject(IsolatedQuerySpace);
-  readonly cdRef = inject(ChangeDetectorRef);
   readonly I18n = inject(I18nService);
 
-  protected open(evt:Event) {
-    this.items = this.buildItems();
-    this.opContextMenu.show(this, evt);
+  private readonly permissions = inject(AddCardPermissionsService);
+
+  private readonly canAdd = this.permissions.permission('add', () => this.wpInlineCreate.canAdd);
+
+  private readonly canUpdateWorkPackages = this.permissions.permission('reference', () => this.wpInlineCreate.canReference);
+
+  constructor() {
+    super();
+    void this.canAdd.settle();
+    void this.canReference.settle();
   }
 
-  private buildItems() {
+  protected buildItems():OpContextMenuItem[]|Promise<OpContextMenuItem[]> {
+    const add = this.canAdd;
+    const reference = this.canReference;
+    if (add.known !== undefined && reference.known !== undefined) {
+      return this.itemsFor(add.known, reference.known);
+    }
+    return Promise
+      .all([add.settle(), reference.settle()])
+      .then(() => this.itemsFor(add.current, this.canReference.current));
+  }
+
+  // A free board only adds the card to the list's order, which saving the
+  // query grants; an action board also changes the card.
+  private get canReference():AddCardPermission {
+    if (this.boardList.board.isAction) {
+      return this.canUpdateWorkPackages;
+    }
+    return settled(!!this.boardList.query?.updateImmediately);
+  }
+
+  private itemsFor(canAdd:boolean, canReference:boolean):OpContextMenuItem[] {
     return [
       {
-        disabled: !this.wpInlineCreate.canAdd,
+        disabled: !canAdd,
         linkText: this.I18n.t('js.card.add_new'),
         onClick: () => {
           this.boardList.addNewCard();
@@ -65,7 +94,7 @@ export class AddCardDropdownMenuDirective extends OpContextMenuTrigger {
         },
       },
       {
-        disabled: !this.wpInlineCreate.canReference,
+        disabled: !canReference,
         linkText: this.I18n.t('js.relation_buttons.add_existing'),
         onClick: () => {
           this.boardList.addReferenceCard();

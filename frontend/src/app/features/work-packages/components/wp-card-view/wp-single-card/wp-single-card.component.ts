@@ -81,6 +81,7 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { isInsideDisabledControl, isInsideMenuControl } from 'core-common/interactive-element-helper';
 import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
 import { whenOutside } from 'core-app/shared/directives/focus/contain-helpers';
+import { WorkPackageCardDragAndDropService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-drag-and-drop.service';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -150,6 +151,10 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   readonly schemaCache = inject(SchemaCacheService);
   readonly keepTabService = inject(KeepTabService);
   readonly urlParams = inject(UrlParamsService);
+
+  private readonly cardDragDrop = inject(WorkPackageCardDragAndDropService, { optional: true });
+
+  readonly allowsNewCardAutofocus = ():boolean => this.cardDragDrop?.allowsNewCardAutofocus(this.cardElement?.nativeElement) ?? true;
 
   public uiStateLinkClass:string = uiStateLinkClass;
 

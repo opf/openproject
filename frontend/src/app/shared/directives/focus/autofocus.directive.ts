@@ -38,6 +38,8 @@ export class AutofocusDirective implements AfterViewInit {
 
   @Input('opAutofocus') public condition:string|boolean = true;
 
+  @Input() public opAutofocusWhile:() => boolean = () => true;
+
   ngAfterViewInit():void {
     this.updateFocus();
   }
@@ -49,7 +51,7 @@ export class AutofocusDirective implements AfterViewInit {
     // <my-input opAutofocus />
     //
     if (this.condition || this.condition === '') {
-      this.FocusHelper.focus(this.elementRef.nativeElement);
+      this.FocusHelper.focus(this.elementRef.nativeElement, this.opAutofocusWhile);
     }
   }
 }

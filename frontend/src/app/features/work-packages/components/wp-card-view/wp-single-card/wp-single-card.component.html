@@ -65,6 +65,7 @@
     <edit-form #newCardEditForm
       [resource]="workPackage"
       [inEditMode]="isNewResource(workPackage)"
+      [autofocusAllowed]="allowsNewCardAutofocus"
       >
       <div class="op-wp-single-card-content -new">
         <op-editable-attribute-field [resource]="workPackage"

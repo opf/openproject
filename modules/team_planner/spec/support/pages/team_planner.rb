@@ -85,11 +85,18 @@ module Pages
     end
 
     def switch_view_mode(text)
-      expect(page).to have_no_css("#op-team-planner--view-select-dropdown")
-      find('[data-test-selector="op-team-planner--view-select-dropdown"]').click
-      find("#op-team-planner--view-select-dropdown .menu-item", exact_text: text).click
+      view_select.click
+      within(:menu, I18n.t("js.team_planner.label_view_select")) { find(:role, "menuitemradio", exact_text: text).click }
 
       expect_view_mode(text)
+    end
+
+    def view_select
+      find(:button, accessible_name: /\A#{Regexp.union(view_names)}\z/)
+    end
+
+    def view_names
+      %w[work_week one_week two_weeks four_weeks eight_weeks].map { |key| I18n.t("js.team_planner.#{key}") }
     end
 
     def expect_assignee(user, present: true)

@@ -41,6 +41,8 @@ import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import { AddExistingPaneComponent } from './add-work-packages/add-existing-pane.component';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
+import { OpActionMenuComponent } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.component';
+import { OpActionMenuTriggerDirective } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu-trigger.directive';
 import { TeamPlannerViewSelectMenuDirective } from 'core-app/features/team-planner/team-planner/view-select/view-select-menu.directive';
 
 @NgModule({
@@ -50,7 +52,6 @@ import { TeamPlannerViewSelectMenuDirective } from 'core-app/features/team-plann
     TeamPlannerEntryComponent,
     AddAssigneeComponent,
     AddExistingPaneComponent,
-    TeamPlannerViewSelectMenuDirective,
   ],
   imports: [
     OpSharedModule,
@@ -64,6 +65,9 @@ import { TeamPlannerViewSelectMenuDirective } from 'core-app/features/team-plann
     OpenprojectAutocompleterModule,
     OpenprojectContentLoaderModule,
     OpTooltipDirective,
+    OpActionMenuComponent,
+    OpActionMenuTriggerDirective,
+    TeamPlannerViewSelectMenuDirective,
   ],
 })
 export class TeamPlannerModule {}
