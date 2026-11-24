@@ -1352,10 +1352,13 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
 
   context "when the change was caused by discussing the work package in a meeting" do
     shared_let(:meeting) { create(:meeting, title: "Weekly sync") }
+    let(:outcome) { create(:meeting_outcome) }
+
     subject(:cause) do
       {
         "type" => "meeting_agenda_item_discussed",
-        "meeting_id" => meeting.id
+        "meeting_id" => meeting.id,
+        "outcome_id" => outcome.id
       }
     end
 
@@ -1370,14 +1373,71 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
         I18n.t("journals.caused_changes.meeting_agenda_item_discussed_html", meeting_title_information: link)
       )
     end
+
+    context "when the outcome has since been deleted" do
+      before { outcome.destroy }
+
+      it "renders nothing, hiding the stale discussion entry" do
+        expect(cause).to render_html_variant("")
+        expect(cause).to render_raw_variant("")
+      end
+    end
+
+    context "when the cause predates outcome tracking (legacy data with no outcome_id)" do
+      subject(:cause) { { "type" => "meeting_agenda_item_discussed", "meeting_id" => meeting.id } }
+
+      it "still renders, since the referenced outcome is unknown" do
+        link = link_to("#{meeting.title} – #{format_time(meeting.start_time)}", meeting_path(meeting))
+        expect(cause).to render_html_variant(
+          I18n.t("journals.caused_changes.meeting_agenda_item_discussed_html", meeting_title_information: link)
+        )
+      end
+    end
+
+    context "when the outcome was deleted and a later one added (add → delete → add)" do
+      it "hides only the entry of the deleted outcome, keeping the later one" do
+        deleted_outcome = create(:meeting_outcome)
+        later_outcome = create(:meeting_outcome)
+        deleted_outcome.destroy
+
+        stale_cause = { "type" => "meeting_agenda_item_discussed", "meeting_id" => meeting.id,
+                        "outcome_id" => deleted_outcome.id }
+        later_cause = { "type" => "meeting_agenda_item_discussed", "meeting_id" => meeting.id,
+                        "outcome_id" => later_outcome.id }
+
+        expect(stale_cause).to render_html_variant("")
+
+        link = link_to("#{meeting.title} – #{format_time(meeting.start_time)}", meeting_path(meeting))
+        expect(later_cause).to render_html_variant(
+          I18n.t("journals.caused_changes.meeting_agenda_item_discussed_html", meeting_title_information: link)
+        )
+      end
+    end
+
+    context "when the whole meeting was deleted, cascading the outcome" do
+      before do
+        outcome.destroy
+        allow(Meeting).to receive(:find_by).with(id: meeting.id).and_return(nil)
+      end
+
+      it "keeps the entry with a generic label instead of hiding it" do
+        expect(cause).to render_html_variant(
+          I18n.t("journals.caused_changes.meeting_agenda_item_discussed_html",
+                 meeting_title_information: I18n.t("journals.cause_descriptions.meeting_deleted"))
+        )
+      end
+    end
   end
 
   context "when the change was caused by adding a work package outcome in a meeting" do
     shared_let(:meeting) { create(:meeting, title: "Weekly sync") }
+    let(:outcome) { create(:meeting_outcome) }
+
     subject(:cause) do
       {
         "type" => "meeting_outcome_recorded",
-        "meeting_id" => meeting.id
+        "meeting_id" => meeting.id,
+        "outcome_id" => outcome.id
       }
     end
 
@@ -1391,6 +1451,26 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       expect(cause).to render_html_variant(
         I18n.t("journals.caused_changes.meeting_outcome_recorded_html", meeting_title_information: link)
       )
+    end
+
+    context "when the outcome has since been deleted" do
+      before { outcome.destroy }
+
+      it "renders nothing, hiding the stale outcome entry" do
+        expect(cause).to render_html_variant("")
+        expect(cause).to render_raw_variant("")
+      end
+    end
+
+    context "when the cause predates outcome tracking (legacy data with no outcome_id)" do
+      subject(:cause) { { "type" => "meeting_outcome_recorded", "meeting_id" => meeting.id } }
+
+      it "still renders, since the referenced outcome is unknown" do
+        link = link_to("#{meeting.title} – #{format_time(meeting.start_time)}", meeting_path(meeting))
+        expect(cause).to render_html_variant(
+          I18n.t("journals.caused_changes.meeting_outcome_recorded_html", meeting_title_information: link)
+        )
+      end
     end
   end
 
