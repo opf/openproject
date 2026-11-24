@@ -94,8 +94,8 @@ erDiagram
 
 | Table | Purpose | Columns used in this work |
 |---|---|---|
-| `projects` | Workspaces (projects, programs, portfolios). The hierarchy is a nested set: `parent_id`, `lft`, `rgt` | `id`, `name`, `active` |
-| `work_packages` | Tasks, bugs, features, milestones | `project_id`, `status_id`, `assigned_to_id`, `due_date`, `done_ratio` |
+| `projects` | Workspaces (projects, programs, portfolios). The hierarchy is a nested set: `parent_id`, `lft`, `rgt` | `id`, `name` |
+| `work_packages` | Tasks, bugs, features, milestones | `id`, `project_id`, `status_id`, `assigned_to_id`, `due_date` |
 | `statuses` | Workflow states. **`category`** is one of `to_do`, `in_progress`, `closed` (it recently replaced the old `is_closed` boolean) | `category` |
 | `members`, `member_roles`, `roles`, `role_permissions` | Who belongs to which project with which permissions | used through `WorkPackage.visible(user)` |
 | `journals` | Version history of every journalized object: `journable_type`, `journable_id`, `version`, `user_id`, `created_at`, `data_type`, `data_id` | to find *when* a work package was closed |
@@ -137,6 +137,7 @@ Design decisions:
 - Counts respect permissions (`WorkPackage.visible(user)`), so a user without access never learns how many work packages a project has.
 - The closed category comes from `Status.categories[:closed]` and "today" from `User#today`. Nothing is hard-coded.
 - The extra SQL runs only when a statistic column is selected, so the default list is exactly as fast as before.
+- Completion is *closed ÷ total work packages*, not an average of the work packages' `done_ratio` (% Complete). The column counts finished work, and it doesn't depend on how each team estimates progress.
 
 ---
 
