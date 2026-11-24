@@ -187,6 +187,30 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
     end
   end
 
+  context "with the categories column",
+          with_flag: { work_package_multiple_categories: true },
+          with_settings: { work_package_multiple_categories: true } do
+    let(:backend) { create(:category, project:, name: "Backend") }
+    let(:frontend) { create(:category, project:, name: "Frontend") }
+    let!(:work_package) do
+      create(:work_package, project:, type: type_a).tap do |wp|
+        wp.category_ids_replacements = [backend.id, frontend.id]
+        wp.save!
+      end
+    end
+    let(:options) { {} }
+    let(:query) do
+      create(:query, project:, user:, column_names: %i(subject categories))
+    end
+
+    it "exports the joined category names" do
+      headers, values = CSV.parse instance.export!.content
+      pairs = headers.zip(values).to_h
+
+      expect(pairs["Categories"]).to eq "Backend; Frontend"
+    end
+  end
+
   context "with the deprecated version column (multiple versions feature off)",
           with_settings: { work_package_multiple_versions: false } do
     let(:version_one) { create(:version, project:, name: "1.0") }

@@ -495,6 +495,32 @@ RSpec.describe Exports::PDF::Common::Macro do
       end
     end
 
+    describe "with categories" do
+      let(:backend) { create(:category, project:, name: "Backend") }
+      let(:frontend) { create(:category, project:, name: "Frontend") }
+
+      before do
+        create(:work_package_category, work_package:, category: backend)
+        create(:work_package_category, work_package:, category: frontend)
+      end
+
+      describe "with categories attribute" do
+        let(:markdown) { "workPackageValue:#{work_package.id}:categories" }
+
+        it "outputs all categories" do
+          expect(formatted).to eq("Backend, Frontend")
+        end
+      end
+
+      describe "with legacy category attribute" do
+        let(:markdown) { "workPackageValue:#{work_package.id}:category" }
+
+        it "outputs all categories" do
+          expect(formatted).to eq("Backend, Frontend")
+        end
+      end
+    end
+
     describe "with specific work package ID and attribute" do
       let(:markdown) { "workPackageValue:#{work_package.id}:subject" }
 
