@@ -57,7 +57,7 @@ RSpec.describe "Editor Assistant result pane",
   end
 
   def run_assistant(within:)
-    within.find(".op-ai-actions .ck-splitbutton__action", text: "Fix grammar").click
+    within.find(".op-ai-actions .ck-splitbutton__action", text: "Fix grammar", visible: :all).click
     expect(page).to have_test_selector("ai-text-transform-result", text: "Generating…")
   end
 

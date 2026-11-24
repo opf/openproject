@@ -27,23 +27,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Header
-  class WhatsNewItemComponent < ApplicationComponent
-    with_collection_parameter :item
+require "rails_helper"
 
-    def initialize(item:, item_iteration:, unread_keys:)
-      super()
-      @item = item
-      @first = item_iteration.first?
-      @unread = unread_keys.include?(item.key)
+RSpec.describe WorkPackageTypes::ProjectsTab::SubHeaderComponent, type: :component do
+  shared_let(:type) { create(:type) }
+  shared_let(:project) { create(:project, types: [type]) }
+  shared_let(:archived) { create(:project, active: false) }
+
+  let(:query) { ProjectQuery.new(name: "type-projects") }
+
+  before { render_inline(described_class.new(type:, variant: type.default_variant, query:)) }
+
+  context "when every active project uses the type" do
+    it "offers to disable it for all projects" do
+      expect(page).to have_test_selector("type-projects-enable-all", text: "Disable for all projects")
     end
+  end
 
-    def divider?
-      !@first
-    end
+  context "when an active project does not use the type" do
+    shared_let(:other) { create(:project) }
 
-    def unread?
-      @unread
+    it "offers to enable it for all projects" do
+      expect(page).to have_test_selector("type-projects-enable-all", text: "Enable for all projects")
     end
   end
 end

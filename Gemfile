@@ -260,7 +260,7 @@ gem "opentelemetry-instrumentation-redis", require: false
 
 gem "openproject-octicons", "~>19.38.0"
 gem "openproject-octicons_helper", "~>19.38.0"
-gem "openproject-primer_view_components", "~> 0.96.0"
+gem "openproject-primer_view_components", "~> 0.97.0"
 gem "view_component", "~> 4.16.0"
 
 # Lookbook
