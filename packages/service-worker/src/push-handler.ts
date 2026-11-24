@@ -84,6 +84,8 @@ export class PushHandler {
   }
 
   onMessage(event:ExtendableMessageEvent):void {
+    if (event.origin !== sw.location.origin) return;
+
     const { type, userId } = (event.data ?? {}) as { type?:string; userId?:string|number };
     if (type === 'reconcile') {
       event.waitUntil(this.requestReconcile());

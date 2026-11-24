@@ -96,7 +96,7 @@ describe('PushHandler badge', () => {
     const MIN_INTERVAL_MS = 10000;
     const send = () => {
       const waitUntil = vi.fn();
-      handler.onMessage({ data: { type: 'reconcile' }, waitUntil } as unknown as ExtendableMessageEvent);
+      handler.onMessage({ data: { type: 'reconcile' }, origin: 'https://openproject.test', waitUntil } as unknown as ExtendableMessageEvent);
       return waitUntil;
     };
     const unread = () => new Response(JSON.stringify({ count: 2, groups: [] }));
@@ -187,6 +187,22 @@ describe('PushHandler badge', () => {
       await vi.advanceTimersByTimeAsync(0);
 
       expect(fetchSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('messages from another origin', () => {
+    it('triggers neither a reconcile nor an account switch', () => {
+      const reconcile = vi.spyOn(handler, 'requestReconcile');
+      const switchAccount = vi.spyOn(handler, 'switchAccount');
+      const waitUntil = vi.fn();
+
+      [{ type: 'reconcile' }, { type: 'account', userId: 1 }].forEach((data) => {
+        handler.onMessage({ data, origin: 'https://evil.test', waitUntil } as unknown as ExtendableMessageEvent);
+      });
+
+      expect(reconcile).not.toHaveBeenCalled();
+      expect(switchAccount).not.toHaveBeenCalled();
+      expect(waitUntil).not.toHaveBeenCalled();
     });
   });
 

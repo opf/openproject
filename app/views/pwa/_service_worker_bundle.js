@@ -327,6 +327,7 @@
       event.waitUntil(this.enqueue(() => this.showUnread()));
     }
     onMessage(event) {
+      if (event.origin !== sw.location.origin) return;
       const { type, userId } = event.data ?? {};
       if (type === "reconcile") {
         event.waitUntil(this.requestReconcile());
