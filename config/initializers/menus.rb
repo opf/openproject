@@ -441,6 +441,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_role_and_permissions,
             parent: :users_and_permissions
 
+  menu.push :security_level_schemes,
+            { controller: "/admin/security_level_schemes" },
+            if: ->(_) { User.current.admin? },
+            caption: :label_security_level_scheme_plural,
+            parent: :users_and_permissions
+
   menu.push :permissions_report,
             { controller: "/roles", action: "report" },
             if: ->(_) { User.current.admin? },

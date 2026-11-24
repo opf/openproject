@@ -54,7 +54,7 @@ module API
             end
 
             def checksum_associations
-              @checksum_associations ||= %i[status author responsible assigned_to priority type]
+              @checksum_associations ||= %i[status author responsible assigned_to priority type security_level]
             end
 
             # Only singular associations (belongs_to/has_one) are supported, as a has_many

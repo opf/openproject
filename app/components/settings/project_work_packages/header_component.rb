@@ -96,6 +96,12 @@ module Settings
           title_label: internal_comments_translation
         }
 
+        tabs << {
+          name: "security_levels",
+          path: project_settings_work_packages_security_levels_path,
+          label: SecurityLevel.model_name.human(count: 2)
+        }
+
         tabs
       end
 

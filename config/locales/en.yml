@@ -297,6 +297,7 @@ en:
         public: "Public"
         query: "Query"
       project:
+        security_level_scheme: "Security level scheme"
         active_value:
           false: "archived"
           true: "unarchived"
@@ -554,6 +555,7 @@ en:
         begin_insertion: "Begin of the insertion"
         categories: "Categories"
         children: "Subelements"
+        security_level: "Security level"
         derived_done_ratio: "Total % complete"
         derived_remaining_hours: "Total remaining work"
         derived_remaining_time: "Total remaining work"
@@ -1070,6 +1072,10 @@ en:
             category:
               does_not_exist: "The specified category does not exist."
               only_same_project_categories_allowed: "The category of a work package must be within the same project as the work package."
+            security_level:
+              does_not_exist: "The specified security level does not exist."
+              inclusion: "can only be set to a security level you belong to."
+              not_in_project_scheme: "must belong to the security level scheme of the project."
             done_ratio:
               cannot_be_set_when_work_is_zero: "cannot be set when Work is 0h"
               does_not_match_work_and_remaining_work: "does not match Work and Remaining work"
@@ -1329,6 +1335,12 @@ en:
       project:
         one: "Project"
         other: "Projects"
+      security_level:
+        one: "Security level"
+        other: "Security levels"
+      security_level_scheme:
+        one: "Security level scheme"
+        other: "Security level schemes"
       project/phase:
         one: "Project phase"
         other: "Project phases"
@@ -2179,6 +2191,23 @@ en:
       released_notice: 'Identifier "%{identifier}" has been unreserved.'
       reserved_ago: "%{time} ago"
       title: "Reserved project identifiers"
+    security_level_schemes:
+      blankslate_title: "No security level schemes yet"
+      delete_confirmation: "Deleting the scheme deletes its security levels. Work packages with one of these levels become visible to everyone who can see their project. Continue?"
+      description: >
+        Security levels restrict who can see individual work packages. A project uses at most one scheme;
+        a work package of that project can be given one of the scheme's levels and is then only visible to the users and groups of that level.
+      new: "New security level scheme"
+      no_projects: "No project uses this scheme yet. Select it in the work package settings of a project."
+      summary: "Levels: %{levels} · Projects: %{projects}"
+    security_levels:
+      add_member: "Add user or group"
+      delete_confirmation: "Work packages with this level become visible to everyone who can see their project. Continue?"
+      members: "Users and groups"
+      members_description: "Only these users and groups, and administrators, can see work packages with this security level."
+      new: "New security level"
+      no_members: "No users or groups belong to this level."
+      none: "This scheme has no security levels yet."
     scim_clients:
       authentication_methods:
         oauth2_client: "OAuth 2.0 client credentials"
@@ -4809,6 +4838,7 @@ en:
   label_roadmap_no_work_packages: "No work packages for this version"
   label_roadmap_overdue: "%{value} late"
   label_role_and_permissions: "Roles and permissions"
+  label_security_level_scheme_plural: "Security level schemes"
   label_role_grantable: "Grantable role"
   label_role_missing_permissions: "%{role} (missing required permissions)"
   label_role_new: "New role"
@@ -5994,6 +6024,7 @@ en:
   permission_add_work_packages: "Add work packages"
   permission_archive_project: "Archive project"
   permission_assign_versions: "Assign versions"
+  permission_set_work_package_security_level: "Set work package security level"
   permission_browse_repository: "Read-only access to repository (browse and checkout)"
   permission_change_work_package_status: "Change work package status"
   permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
@@ -7264,6 +7295,11 @@ en:
           Internal comments allow an internal team to communicate amongst themselves privately.
           These are only visible to selected roles that have the necessary permissions and will not be visible publicly.
           [Click here to learn more](docs_url)
+      security_levels:
+        no_scheme: "No security levels"
+        scheme_caption: >
+          Work packages of this project can be given one of the scheme's security levels.
+          A work package with a security level is only visible to the users and groups of that level.
 
       not_allowed_text: "You do not have the necessary permissions to view this page."
       work_package_identifier: "Work package identifiers"

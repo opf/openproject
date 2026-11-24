@@ -58,12 +58,25 @@ module WorkPackages::Scopes
 
       def anonymous_allowed_to(user, permissions)
         where(project_id: Project.allowed_to(user, permissions))
+          .where(security_level_condition(user))
       end
 
       def logged_in_non_admin_allowed_to(user, permissions)
         project_ids, work_package_ids = member_project_and_work_package_ids(user, permissions)
 
         where(arel_table[:project_id].in(project_ids).or(arel_table[:id].in(work_package_ids)))
+          .where(security_level_condition(user))
+      end
+
+      # The user's level ids are plucked (they are few and cached on the user) so the
+      # condition stays a plain row filter PostgreSQL can evaluate without a join.
+      def security_level_condition(user)
+        return nil if SecurityLevel.bypassed_by?(user)
+
+        unrestricted = arel_table[:security_level_id].eq(nil)
+        level_ids = user.security_level_ids
+
+        level_ids.empty? ? unrestricted : unrestricted.or(arel_table[:security_level_id].in(level_ids))
       end
 
       def member_project_and_work_package_ids(user, permissions)

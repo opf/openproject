@@ -136,6 +136,7 @@ Rails.application.reloader.to_prepare do
                        "projects/settings/storage": %i[show],
                        "projects/settings/work_packages": %i[show],
                        "projects/settings/work_packages/internal_comments": %i[show update],
+                       "projects/settings/work_packages/security_levels": %i[show update],
                        "projects/settings/creation_wizard": %i[show disable_dialog toggle refresh_submission_form
                                                                update_name_settings update_submission_settings
                                                                update_artefact_export_settings
@@ -545,6 +546,12 @@ Rails.application.reloader.to_prepare do
                      {},
                      permissible_on: :project,
                      dependencies: :view_work_packages
+
+      wpt.permission :set_work_package_security_level,
+                     {},
+                     permissible_on: :project,
+                     require: :member,
+                     dependencies: :edit_work_packages
 
       # WP status can be changed with :edit_work_packages, this permission allows it without Edit WP as well.
       wpt.permission :change_work_package_status,

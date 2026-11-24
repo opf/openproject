@@ -69,6 +69,8 @@ class Principal < ApplicationRecord
            class_name: "Member",
            foreign_key: "user_id"
   has_many :projects, through: :memberships
+  has_many :security_level_principals, dependent: :delete_all
+  has_many :security_levels, through: :security_level_principals
   has_many :categories, foreign_key: "assigned_to_id", dependent: :nullify, inverse_of: :assigned_to
   has_many :user_auth_provider_links,
            dependent: :destroy,

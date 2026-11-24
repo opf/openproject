@@ -68,6 +68,7 @@ module API
       mount ::API::V3::Posts::PostsAPI
       mount ::API::V3::Principals::PrincipalsAPI
       mount ::API::V3::Priorities::PrioritiesAPI
+      mount ::API::V3::SecurityLevels::SecurityLevelsAPI
       mount ::API::V3::Programs::ProgramsAPI
       mount ::API::V3::Projects::ProjectsAPI
       mount ::API::V3::ProjectPhaseDefinitions::ProjectPhaseDefinitionsAPI

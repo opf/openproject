@@ -58,6 +58,7 @@ module API
                    :assignable_target_versions,
                    :assignable_observed_in_versions,
                    :assignable_budgets,
+                   :assignable_security_levels,
                    :assignable_project_phases,
                    to: :contract
 

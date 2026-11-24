@@ -1,0 +1,97 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<% html_title t(:label_administration), t(:label_security_level_scheme_plural), @scheme.name_was %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { @scheme.name_was }
+    header.with_breadcrumbs(
+      [{ href: admin_index_path, text: t(:label_administration) },
+       { href: admin_security_level_schemes_path, text: t(:label_security_level_scheme_plural) },
+       @scheme.name_was]
+    )
+  end
+%>
+
+<%= error_messages_for @scheme %>
+
+<%= primer_form_with(model: @scheme, url: admin_security_level_scheme_path(@scheme), method: :patch) do |f| %>
+  <%= render(Admin::SecurityLevelSchemes::Form.new(f)) %>
+<% end %>
+
+<%=
+  render(Primer::OpenProject::SubHeader.new(mt: 6)) do |subheader|
+    subheader.with_text { render(Primer::Beta::Heading.new(tag: :h3)) { SecurityLevel.model_name.human(count: 2) } }
+    subheader.with_action_button(
+      scheme: :primary, leading_icon: :plus, tag: :a,
+      href: new_admin_security_level_scheme_security_level_path(@scheme),
+      label: t("admin.security_levels.new"),
+      test_selector: "add-security-level"
+    ) do
+      SecurityLevel.model_name.human
+    end
+  end
+%>
+
+<%= render(Primer::Beta::BorderBox.new(test_selector: "security-levels")) do |box|
+      if @scheme.security_levels.empty?
+        box.with_body { t("admin.security_levels.none") }
+      end
+
+      @scheme.security_levels.each do |level|
+        box.with_row(display: :flex, align_items: :center) do %>
+          <div class="flex-auto">
+            <%= render(Primer::Beta::Link.new(href: edit_admin_security_level_scheme_security_level_path(@scheme, level), font_weight: :bold)) { level.name } %>
+            <%= render(Primer::Beta::Text.new(tag: :div, color: :subtle, font_size: :small)) { level.description } %>
+          </div>
+          <%= render(
+                Primer::Beta::IconButton.new(
+                  icon: :trash, scheme: :danger, tag: :a,
+                  href: admin_security_level_scheme_security_level_path(@scheme, level),
+                  aria: { label: t(:button_delete) },
+                  data: { turbo_method: :delete,
+                          turbo_confirm: t("admin.security_levels.delete_confirmation") }
+                )
+              ) %>
+        <% end
+      end
+    end %>
+
+<%= render(Primer::Beta::Heading.new(tag: :h3, mt: 6, mb: 2)) { Project.model_name.human(count: 2) } %>
+<% projects = @scheme.projects.order(:name) %>
+<% if projects.empty? %>
+  <%= render(Primer::Beta::Text.new(tag: :p, color: :subtle)) { t("admin.security_level_schemes.no_projects") } %>
+<% else %>
+  <%= render(Primer::Beta::BorderBox.new(test_selector: "security-level-scheme-projects")) do |box|
+        projects.each do |project|
+          box.with_row do
+            render(Primer::Beta::Link.new(href: project_settings_work_packages_security_levels_path(project))) { project.name }
+          end
+        end
+      end %>
+<% end %>

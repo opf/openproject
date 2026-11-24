@@ -140,6 +140,10 @@ module WorkPackages
 
     attribute :budget
 
+    attribute :security_level_id,
+              permission: :set_work_package_security_level,
+              writable: ->(*) { model.project&.security_level_scheme_id.present? }
+
     attribute :labels
 
     validates :subject,
@@ -176,6 +180,8 @@ module WorkPackages
     validate :validate_category_and_categories_consistent
 
     validate :validate_assigned_to_exists
+
+    validate :validate_security_level
 
     validates :duration,
               # only_integer: true, cannot be used as that will not compare with the value
@@ -242,6 +248,15 @@ module WorkPackages
       model.project&.budgets
     end
 
+    # Only levels the user holds, so nobody can lock themselves out of a work package.
+    def assignable_security_levels
+      scheme = model.project&.security_level_scheme
+      return SecurityLevel.none unless scheme
+
+      levels = scheme.security_levels
+      SecurityLevel.bypassed_by?(user) ? levels : levels.where(id: user.security_level_ids)
+    end
+
     def assignable_assignees
       if model.persisted?
         Principal.possible_assignee(model)
@@ -283,6 +298,19 @@ module WorkPackages
       # Checks that the issue can not be added/moved to a disabled type
       if type_context_changed? && model.project.project_types.none? { |pt| pt.type_id == model.type_id }
         errors.add :type_id, :inclusion
+      end
+    end
+
+    def validate_security_level
+      return if model.security_level_id.nil?
+      return unless model.security_level_id_changed? || model.project_id_changed?
+
+      if model.security_level.nil?
+        errors.add :security_level, :does_not_exist
+      elsif model.security_level.security_level_scheme_id != model.project&.security_level_scheme_id
+        errors.add :security_level, :not_in_project_scheme
+      elsif changed_by_user.include?("security_level_id") && assignable_security_levels.exclude?(model.security_level)
+        errors.add :security_level, :inclusion
       end
     end
 

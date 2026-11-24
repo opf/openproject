@@ -135,6 +135,7 @@ module WorkPackage::Journalized
                                       :priority_id,
                                       # version_id is no longer written. To be dropped with the db column.
                                       :category_id, :version_id,
+                                      :security_level_id,
                                       formatter_key: :named_association
     # People are named in the attribute table of the same work package, so the
     # journal does not withhold them from readers outside their projects.

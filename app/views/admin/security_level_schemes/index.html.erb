@@ -1,0 +1,86 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<% html_title t(:label_administration), t(:label_security_level_scheme_plural) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:label_security_level_scheme_plural) }
+    header.with_description { t("admin.security_level_schemes.description") }
+    header.with_breadcrumbs(
+      [{ href: admin_index_path, text: t(:label_administration) },
+       t(:label_security_level_scheme_plural)]
+    )
+  end
+%>
+
+<%=
+  render(Primer::OpenProject::SubHeader.new) do |subheader|
+    subheader.with_action_button(
+      scheme: :primary, leading_icon: :plus, tag: :a,
+      href: new_admin_security_level_scheme_path,
+      label: t("admin.security_level_schemes.new"),
+      test_selector: "add-security-level-scheme"
+    ) do
+      SecurityLevelScheme.model_name.human
+    end
+  end
+%>
+
+<% if @schemes.empty? %>
+  <%= render(Primer::Beta::Blankslate.new(border: true)) do |slate|
+        slate.with_visual_icon(icon: :lock)
+        slate.with_heading(tag: :h2).with_content(t("admin.security_level_schemes.blankslate_title"))
+        slate.with_description { t("admin.security_level_schemes.description") }
+      end %>
+<% else %>
+  <%= render(Primer::Beta::BorderBox.new(test_selector: "security-level-schemes")) do |box|
+        @schemes.each do |scheme|
+          box.with_row(display: :flex, align_items: :center) do %>
+            <div class="flex-auto">
+              <%= render(Primer::Beta::Link.new(href: edit_admin_security_level_scheme_path(scheme), font_weight: :bold)) { scheme.name } %>
+              <%= render(Primer::Beta::Text.new(tag: :div, color: :subtle, font_size: :small)) do
+                    t(
+                      "admin.security_level_schemes.summary",
+                      levels: scheme.security_levels.map(&:name).to_sentence.presence || "-",
+                      projects: @project_counts.fetch(scheme.id, 0)
+                    )
+                  end %>
+            </div>
+            <%= render(
+                  Primer::Beta::IconButton.new(
+                    icon: :trash, scheme: :danger, tag: :a,
+                    href: admin_security_level_scheme_path(scheme),
+                    aria: { label: t(:button_delete) },
+                    data: { turbo_method: :delete,
+                            turbo_confirm: t("admin.security_level_schemes.delete_confirmation") }
+                  )
+                ) %>
+          <% end
+        end
+      end %>
+<% end %>

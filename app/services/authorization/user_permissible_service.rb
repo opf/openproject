@@ -127,6 +127,7 @@ module Authorization
       return false if entity.nil?
       return false if entity.project.nil?
       return false unless entity.project.active? || entity.project.being_archived?
+      return false unless security_level_visible?(entity)
 
       permissions_filtered_for_project = permissions_by_enabled_project_modules(entity.project, permissions)
 
@@ -162,6 +163,12 @@ module Authorization
 
     def allowed_in_any_standalone_entity?(permissions, entity_class)
       entity_class.allowed_to(user, permissions).exists?
+    end
+
+    def security_level_visible?(entity)
+      return true unless entity.is_a?(WorkPackage)
+
+      SecurityLevel.visible_to?(user, entity.security_level_id_in_database)
     end
 
     def admin_and_all_granted_to_admin?(permissions)

@@ -609,6 +609,7 @@ Rails.application.routes.draw do
         resource :work_packages, only: %i[show]
         namespace :work_packages do
           resource :internal_comments, only: %i[show update]
+          resource :security_levels, only: %i[show update]
           resources :types, only: %i[index new create destroy] do
             resource :switch, only: %i[new create], controller: "types/switches" do
               resource :impact, only: :create, controller: "types/switches/impacts"
@@ -1237,6 +1238,12 @@ Rails.application.routes.draw do
       collection do
         put :enable_all
         put :disable_all
+      end
+    end
+
+    resources :security_level_schemes, except: :show do
+      resources :security_levels, except: %i[index show] do
+        resources :members, only: %i[create destroy], controller: "security_level_members"
       end
     end
 

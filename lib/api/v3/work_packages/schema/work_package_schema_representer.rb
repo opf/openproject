@@ -398,6 +398,18 @@ module API
                                          required: true,
                                          has_default: true
 
+          schema_with_allowed_collection :security_level,
+                                         type: "SecurityLevel",
+                                         required: false,
+                                         value_representer: SecurityLevels::SecurityLevelRepresenter,
+                                         link_factory: ->(security_level) {
+                                           {
+                                             href: api_v3_paths.security_level(security_level.id),
+                                             title: security_level.name
+                                           }
+                                         },
+                                         show_if: ->(*) { represented.project&.security_level_scheme_id.present? }
+
           schema_with_allowed_collection :budget,
                                          type: "Budget",
                                          required: false,

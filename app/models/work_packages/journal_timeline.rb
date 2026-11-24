@@ -91,6 +91,17 @@ class WorkPackages::JournalTimeline
     journals
       .where(project_id: Project.allowed_to(user, :view_work_packages))
       .or(journals.where(work_package_id: WorkPackage.allowed_to_via_share_only(user, :view_work_packages)))
+      .then { |visible| restrict_to_security_levels(visible) }
+  end
+
+  # A security level hides the whole history of a work package: the level it has today
+  # applies to every journal row, the level a row had back then applies to that row.
+  def restrict_to_security_levels(journals)
+    return journals if SecurityLevel.bypassed_by?(user)
+
+    journals
+      .where(security_level_id: [nil, *user.security_level_ids])
+      .where.not(work_package_id: SecurityLevel.hidden_work_packages_for(user).select(:id))
   end
 
   def filtered_journals

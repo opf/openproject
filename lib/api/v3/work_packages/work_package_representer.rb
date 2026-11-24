@@ -543,6 +543,12 @@ module API
 
         associated_resource :priority
 
+        associated_resource :security_level,
+                            skip_render: ->(*) {
+                              represented.security_level_id.nil? &&
+                                represented.project&.security_level_scheme_id.nil?
+                            }
+
         associated_project
 
         resource :project_phase,
@@ -862,6 +868,7 @@ module API
         # Attachments need to be eager loaded for the description
         self.to_eager_load = %i[parent
                                 priority
+                                security_level
                                 type
                                 watchers
                                 attachments

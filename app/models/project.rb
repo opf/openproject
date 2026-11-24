@@ -110,6 +110,7 @@ class Project < ApplicationRecord
   has_many :recurring_meetings, dependent: :destroy
 
   belongs_to :template, class_name: "Project", optional: true
+  belongs_to :security_level_scheme, optional: true
 
   has_many :templated_projects,
            class_name: "Project",

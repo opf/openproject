@@ -318,6 +318,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     model.change_by_system do
       clear_unassignable_versions
       reassign_category
+      reassign_security_level
       set_parent_to_nil
       clear_semantic_identifier
 
@@ -453,6 +454,16 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
 
       work_package.category = category
     end
+  end
+
+  # A level not found by name in the target project's scheme is kept, so the contract rejects
+  # the move instead of silently making the work package visible to everybody.
+  def reassign_security_level
+    level = work_package.security_level
+    return if level.nil? || level.security_level_scheme_id == work_package.project.security_level_scheme_id
+
+    replacement = work_package.project.security_level_scheme&.security_levels&.find_by(name: level.name)
+    work_package.security_level = replacement if replacement
   end
 
   def assign_default_type

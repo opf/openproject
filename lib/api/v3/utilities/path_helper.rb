@@ -388,6 +388,8 @@ module API
           index :priorities
           show :priority
 
+          show :security_level
+
           class << self
             alias :issue_priorities :priorities
             alias :issue_priority :priority

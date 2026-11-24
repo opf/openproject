@@ -106,6 +106,7 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
         'Version',
         'TimeEntriesActivity',
         'Category',
+        'SecurityLevel',
         'BacklogBucket',
         'Sprint',
         'CustomOption',
