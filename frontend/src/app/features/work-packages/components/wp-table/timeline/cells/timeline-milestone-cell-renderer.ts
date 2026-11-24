@@ -240,7 +240,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     labelHoverLeft.classList.add(classNameLeftHoverLabel, classNameShowOnHover, classNameHoverStyle);
     element.appendChild(labelHoverLeft);
 
-    const labels = new WorkPackageCellLabels(null, labelLeft, labelHoverLeft, labelRight, labelHoverRight, labelFarRight, renderInfo.withAlternativeLabels);
+    const labels = new WorkPackageCellLabels(labelLeft, labelHoverLeft, labelRight, labelHoverRight, labelFarRight, renderInfo.withAlternativeLabels);
     this.updateLabels(false, labels, renderInfo.change);
 
     return labels;

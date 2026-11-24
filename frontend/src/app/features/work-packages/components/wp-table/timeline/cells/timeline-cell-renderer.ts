@@ -72,7 +72,6 @@ export const classNameShowOnHover = 'show-on-hover';
 export const classNameHideOnHover = 'hide-on-hover';
 export const classNameLeftHandle = 'leftHandle';
 export const classNameRightHandle = 'rightHandle';
-export const classNameBarLabel = 'bar-label';
 
 export class TimelineCellRenderer {
   readonly wpTableTimeline = lazyInject(WorkPackageViewTimelineService, { injector: () => this.injector });
@@ -415,12 +414,6 @@ export class TimelineCellRenderer {
   }
 
   createAndAddLabels(renderInfo:RenderInfo, element:HTMLElement):WorkPackageCellLabels {
-    // create center label
-    const labelCenter = document.createElement('div');
-    labelCenter.classList.add(classNameBarLabel);
-    this.applyTypeColor(renderInfo, labelCenter);
-    element.appendChild(labelCenter);
-
     // create left label
     const labelLeft = document.createElement('div');
     labelLeft.classList.add(classNameLeftLabel, classNameHideOnHover);
@@ -451,7 +444,7 @@ export class TimelineCellRenderer {
     labelHoverRight.classList.add(classNameRightHoverLabel, classNameShowOnHover, classNameHoverStyle);
     element.appendChild(labelHoverRight);
 
-    const labels = new WorkPackageCellLabels(labelCenter, labelLeft, labelHoverLeft, labelRight, labelHoverRight, labelFarRight);
+    const labels = new WorkPackageCellLabels(labelLeft, labelHoverLeft, labelRight, labelHoverRight, labelFarRight);
     this.updateLabels(false, labels, renderInfo.change);
 
     return labels;

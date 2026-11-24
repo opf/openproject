@@ -26,7 +26,7 @@
 //++
 
 export class WorkPackageCellLabels {
-  constructor(public readonly center:HTMLDivElement|null,
+  constructor(
     public readonly left:HTMLDivElement,
     public readonly leftHover:HTMLDivElement|null,
     public readonly right:HTMLDivElement,
