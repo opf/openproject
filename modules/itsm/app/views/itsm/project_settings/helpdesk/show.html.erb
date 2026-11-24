@@ -39,3 +39,9 @@ See COPYRIGHT and LICENSE files for more details.
     )
   end
 %>
+
+<%=
+  content_tag("turbo-frame", id: "project_settings_helpdesk_content") do
+    render(ITSM::ProjectSettings::HelpdeskComponent.new(@project, wizard: @wizard))
+  end
+%>

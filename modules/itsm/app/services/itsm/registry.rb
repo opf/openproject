@@ -27,14 +27,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ITSM
-  class Wizard < ::Wizard
-    step :imap_server_configuration,
-         section: :mail_servers,
-         completed_if: -> { MailServer.imap.exists? }
+require "dry/core/container"
 
-    step :smtp_server_configuration,
-         section: :mail_servers,
-         completed_if: -> { MailServer.smtp.exists? }
+module ITSM
+  class Registry
+    extend Dry::Core::Container::Mixin
+
+    class Resolver < Dry::Core::Container::Resolver
+      def call(container, key)
+        Rails.logger.tagged("ITSM::Registry") do
+          Rails.logger.info "Resolving #{key}"
+          super
+        end
+      rescue Dry::Core::Container::KeyError => e
+        Rails.logger.tagged("ITSM::Registry") { Rails.logger.error e.message }
+        raise
+      end
+    end
+
+    config.resolver = Resolver.new
+
+    import Helpdesk::Registry
   end
 end

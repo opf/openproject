@@ -68,9 +68,7 @@ module ITSM
           .on_success { Setting.helpdesk_enabled = enabled }
           .on_failure { helpdesk_not_enabled(it) }
 
-        update_via_turbo_stream(
-          component: ITSM::Admin::HelpdeskSettingsComponent.new(enabled: Setting.helpdesk_enabled?, wizard:)
-        )
+        update_via_turbo_stream(component: HelpdeskSettingsComponent.new(enabled: Setting.helpdesk_enabled?, wizard:))
         respond_with_turbo_streams
       end
 
@@ -92,12 +90,12 @@ module ITSM
       private
 
       def helpdesk_not_enabled(result)
-        update_via_turbo_stream(component: ITSM::Admin::HelpdeskToggleComponent.new)
+        update_via_turbo_stream(component: HelpdeskToggleComponent.new)
         render_error_flash_message_via_turbo_stream(message: I18n.t("itsm.admin.helpdesk_not_enabled", reason: result.message))
       end
 
       def wizard
-        ITSM::Wizard.new(model: nil)
+        MailServerWizard.new(model: nil)
       end
 
       def allowed_params
@@ -131,9 +129,9 @@ module ITSM
       def close_server_configuration_form(protocol:)
         case protocol
         when "imap"
-          update_via_turbo_stream(component: ITSM::Admin::ImapServerConfigurationComponent.new)
+          update_via_turbo_stream(component: ImapServerConfigurationComponent.new)
         when "smtp"
-          update_via_turbo_stream(component: ITSM::Admin::SmtpServerConfigurationComponent.new)
+          update_via_turbo_stream(component: SmtpServerConfigurationComponent.new)
         end
 
         respond_with_turbo_streams
