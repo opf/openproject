@@ -106,6 +106,8 @@ module AI
       end
 
       def fail_run(reason)
+        return unless AI::TextTransformRun.exists?(run.id)
+
         run.fail!(reason)
       end
     end

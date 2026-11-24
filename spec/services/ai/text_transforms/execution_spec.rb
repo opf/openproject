@@ -211,6 +211,18 @@ RSpec.describe AI::TextTransforms::Execution,
     expect(AI::TextTransformRun.exists?(run.id)).to be(false)
   end
 
+  it "stops silently when the user and with them the run were deleted before the upstream error" do
+    gateway = AI::TextTransforms::FakeGateway.new(deltas: %w[a b],
+                                                  error: AI::TextTransforms::Errors::Upstream.new("detail"),
+                                                  raise_after: 1,
+                                                  before_each: lambda {
+                                                    NotificationSetting.where(user_id: run.user_id).delete_all
+                                                    User.where(id: run.user_id).delete_all
+                                                  })
+
+    expect { described_class.new(AI::TextTransformRun.find(run.id), gateway:, clock:).call }.not_to raise_error
+  end
+
   it "fails with timeout when the budget is exceeded" do
     gateway = AI::TextTransforms::FakeGateway.new(deltas: %w[a b], before_each: -> { advance.call(200) })
 
