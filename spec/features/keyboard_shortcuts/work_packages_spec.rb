@@ -222,6 +222,18 @@ RSpec.describe "Work package keyboard shortcuts", :js do
       expect(global_search.input.value).to eq("earlier")
     end
 
+    it "opens global search and keeps the current query at a narrow viewport" do
+      page.current_window.resize_to(500, 900)
+      visit search_path(q: "earlier")
+
+      activate_search_access_key
+
+      expect(global_search.input).to match_selector(":focus")
+      expect(global_search.input.value).to eq("earlier")
+    ensure
+      page.current_window.resize_to(1920, 1080)
+    end
+
     context "with keyboard shortcuts disabled" do
       before { user.pref.update!(disable_keyboard_shortcuts: true) }
 
@@ -237,6 +249,34 @@ RSpec.describe "Work package keyboard shortcuts", :js do
       ensure
         page.current_window.resize_to(1920, 1080)
       end
+    end
+  end
+
+  describe "the search magnifier at a narrow viewport" do
+    before { page.current_window.resize_to(500, 900) }
+    after { page.current_window.resize_to(1920, 1080) }
+
+    def magnifier = find_by_id("top-menu-search-button")
+
+    it "opens search with the current query" do
+      visit search_path(q: "earlier")
+
+      magnifier.click
+
+      expect(global_search.input).to match_selector(":focus")
+      expect(global_search.input.value).to eq("earlier")
+    end
+
+    it "keeps typed text when search closes and opens again" do
+      visit project_path(project)
+      magnifier.click
+      expect(global_search.input).to match_selector(":focus")
+      page.send_keys("typed-before-close")
+
+      find(:button, class: "top-menu-search--back-button").click
+      magnifier.click
+
+      expect(global_search.input.value).to eq("typed-before-close")
     end
   end
 

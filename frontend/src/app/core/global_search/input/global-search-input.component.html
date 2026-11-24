@@ -13,6 +13,19 @@
   }
   <button
     type="button"
+    #btn
+    id="top-menu-search-button"
+    class="top-menu-search--button search-form-normal"
+    opTooltip
+    [label]="text.search"
+    [class.-input-focused]="expanded"
+    (click)="handleClick($event)"
+    tabindex="-1"
+    >
+    <op-icon icon-classes="icon5 icon-search ellipsis" />
+  </button>
+  <button
+    type="button"
     class="sr-only"
     tabindex="-1"
     accesskey="4"
@@ -88,17 +101,4 @@
       }
     </ng-template>
   </op-autocompleter>
-  <button
-    type="button"
-    #btn
-    id="top-menu-search-button"
-    class="top-menu-search--button search-form-normal"
-    opTooltip
-    [label]="text.search"
-    [class.-input-focused]="expanded"
-    (click)="handleClick($event)"
-    tabindex="-1"
-    >
-    <op-icon icon-classes="icon5 icon-search ellipsis" />
-  </button>
 </div>

@@ -141,6 +141,10 @@ describe('GlobalSearchInputComponent#activateFromShortcut', () => {
 
   const shortcut = () => document.querySelector<HTMLButtonElement>('[data-hotkey="s"]')!;
 
+  const originalUrl = window.location.href;
+  const visitSearchPage = (query:string) => window.history.replaceState(null, '', `?q=${query}`);
+  afterEach(() => window.history.replaceState(null, '', originalUrl));
+
   it('puts access key 4 only on the search shortcut button', async () => {
     const fixture = await render();
 
@@ -149,9 +153,9 @@ describe('GlobalSearchInputComponent#activateFromShortcut', () => {
   });
 
   it('focuses the input and keeps the query when access key 4 activates on a wide screen', async () => {
-    const fixture = await render();
+    await render();
     vi.spyOn(TestBed.inject(DeviceService), 'isTablet', 'get').mockReturnValue(false);
-    fixture.componentInstance.ngSelectComponent.ngSelectInstance.filter('earlier');
+    visitSearchPage('earlier');
 
     shortcut().click();
 
@@ -159,15 +163,20 @@ describe('GlobalSearchInputComponent#activateFromShortcut', () => {
     expect(input()).toHaveValue('earlier');
   });
 
-  it('expands the search when access key 4 activates on a narrow screen', async () => {
+  it.each([
+    ['access key 4', () => shortcut()],
+    ['the magnifier', () => document.querySelector<HTMLButtonElement>('#top-menu-search-button')!],
+  ])('expands the search and keeps the query when %s activates on a narrow screen', async (_name, trigger) => {
     const fixture = await render();
     vi.spyOn(TestBed.inject(DeviceService), 'isTablet', 'get').mockReturnValue(true);
+    visitSearchPage('earlier');
 
-    shortcut().click();
+    trigger().click();
 
     await waitFor(() => expect(input()).toHaveFocus());
     expect(fixture.componentInstance.expanded).toBe(true);
     expect(header).toHaveClass('op-app-header_search-open');
+    expect(input()).toHaveValue('earlier');
   });
 
   it('is activated by its s hotkey', async () => {

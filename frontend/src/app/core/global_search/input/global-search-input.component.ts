@@ -195,7 +195,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
         if (this.expanded) {
           this.toggleMobileSearch();
         } else {
-          this.activateFromShortcut();
+          this.openSearch();
         }
         // only for mobile and not for all devices!
         // See https://github.com/opf/openproject/commit/a2eb0cd6025f2ecaca00f4ed81c4eb8e9399bd86
@@ -211,7 +211,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   // Access key 4 used to sit on the input on wide screens and on the search toggle on narrow ones; this keeps both.
   public activateFromAccessKey():void {
     if (this.deviceService.isTablet) {
-      this.activateFromShortcut();
+      this.openSearch();
     } else {
       this.ngSelectComponent.ngSelectInstance.focus();
     }
@@ -220,6 +220,11 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   public activateFromShortcut():void {
     this._searchTermInitialized = true;
     this.clearSearch();
+    this.openSearch();
+  }
+
+  // Keeps the query, like focusing the input does: the current search page's query or text typed before closing.
+  public openSearch():void {
     this.expanded = true;
     this.toggleTopMenuClass();
     this.cdRef.markForCheck();
