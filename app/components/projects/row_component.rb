@@ -31,6 +31,9 @@ module Projects
   class RowComponent < ::RowComponent
     include CalculatedValues::ErrorsHelper
 
+    COMPLETION_DONE_PERCENTAGE = 100
+    COMPLETION_WARNING_PERCENTAGE = 50
+
     delegate :identifier, to: :project
     delegate :favorited_project_ids,
              :project_phase_by_definition,
@@ -145,6 +148,50 @@ module Projects
       return "" unless project.required_disk_space.to_i > 0
 
       number_to_human_size(project.required_disk_space, precision: 2)
+    end
+
+    def work_packages_total
+      project.work_packages_total.to_s
+    end
+
+    def work_packages_open
+      project.work_packages_open.to_s
+    end
+
+    def work_packages_closed
+      project.work_packages_closed.to_s
+    end
+
+    def work_packages_overdue
+      count = project.work_packages_overdue
+
+      render(Primer::Beta::Text.new(color: count.positive? ? :danger : :muted)) { count.to_s }
+    end
+
+    def work_packages_completion
+      return "" if project.work_packages_total.zero?
+
+      percentage = project.work_packages_completion
+
+      render(Primer::Box.new(display: :flex, align_items: :center)) do
+        safe_join([
+                    render(Primer::Beta::ProgressBar.new(size: :small, flex: 1, mr: 2, style: "min-width: 80px;",
+                                                         aria: { label: "#{percentage}%" })) do |bar|
+                      bar.with_item(percentage:, bg: completion_color(percentage))
+                    end,
+                    "#{percentage}%"
+                  ])
+      end
+    end
+
+    def completion_color(percentage)
+      if percentage >= COMPLETION_DONE_PERCENTAGE
+        :success_emphasis
+      elsif percentage >= COMPLETION_WARNING_PERCENTAGE
+        :accent_emphasis
+      else
+        :attention_emphasis
+      end
     end
 
     def id

@@ -174,6 +174,8 @@ module Projects
                   .with_latest_activity
       end
 
+      scope = with_work_package_statistics(scope)
+
       if has_custom_field_column?
         scope = scope
                   .includes(:custom_values,
@@ -183,6 +185,12 @@ module Projects
       scope
         .includes(:enabled_modules)
         .paginate(page: helpers.page_param(params), per_page: helpers.per_page_param(params))
+    end
+
+    def with_work_package_statistics(scope)
+      return scope unless Queries::Projects::Selects::WorkPackageStatistic.selected_in?(query)
+
+      scope.with_work_package_statistics
     end
 
     def projects_with_levels_order_sensitive(projects, &)

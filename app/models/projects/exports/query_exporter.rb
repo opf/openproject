@@ -54,6 +54,10 @@ module Projects::Exports
         .with_latest_activity
         .includes(:custom_values, :custom_comments)
 
+      if Queries::Projects::Selects::WorkPackageStatistic.selected_in?(query)
+        scope = scope.with_work_package_statistics
+      end
+
       # Mirror ProjectQuery#default_scope: admins see (and may export) archived
       # projects, which Project.allowed_to would otherwise filter out since
       # :export_projects is only permissible on active projects.
