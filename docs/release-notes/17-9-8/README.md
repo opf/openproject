@@ -81,11 +81,18 @@ For more information, please see the [GitHub advisory #GHSA-xvh8-793v-rp59](http
 <!-- END SECURITY FIXES AUTOMATED SECTION -->
 <!--more-->
 
+### Ruby 4.0.10
+
+OpenProject now uses Ruby 4.0.10, which addresses [multiple vulnerabilities in Regexp and String case conversion](https://www.ruby-lang.org/en/news/2026/11/18/multiple-vulnerabilities-in-regexp-and-string/). Some of them can potentially be used to trigger remote code execution.
+
+This includes the publicly reported [Ruby2Shell (CVE-2026-132825)](https://verialabs.com/ruby2shell/) vulnerability.
+
 ## Bug fixes and changes
 
 <!-- Warning: Anything within the below lines will be automatically removed by the release script -->
 <!-- BEGIN AUTOMATED SECTION -->
 
+No other bug fixes included.
 
 <!-- END AUTOMATED SECTION -->
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
