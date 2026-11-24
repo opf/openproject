@@ -27,11 +27,11 @@ Review this against how your teams actually use Jira. If anything here would be 
 
 **Not migrated at all, for any issue:**
 
-- [ ] Reporter (Jira's Reporter and Creator become the same thing in OpenProject: only Creator/Author survives)
-- [ ] Web links (workaround planned: [JIM-206](https://community.openproject.org/projects/JIM/work_packages/JIM-206)).
+- [ ] Reporter (Planned: [JIM-270](https://community.openproject.org/projects/JIM/work_packages/JIM-270))
+- [ ] Web links (Planned: [JIM-206](https://community.openproject.org/projects/JIM/work_packages/JIM-206))
 - [ ] Votes (workaround planned: [JIM-207](https://community.openproject.org/projects/JIM/work_packages/JIM-207), open feature request: [OP-3251](https://community.openproject.org/projects/OP/work_packages/OP-3251))
-- [ ] Environment
-- [ ] Security Level
+- [ ] Environment (Planned: [JIM-257](https://community.openproject.org/projects/JIM/work_packages/JIM-257))
+- [ ] Security Level (Planned: [JIM-219](https://community.openproject.org/projects/JIM/work_packages/JIM-219))
 - [ ] Components (planned: [JIM-107](https://community.openproject.org/projects/JIM/work_packages/JIM-107))
 - [ ] Archived issues (skipped entirely, don't appear in OpenProject in any form)
 
