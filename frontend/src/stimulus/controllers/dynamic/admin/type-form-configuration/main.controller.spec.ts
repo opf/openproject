@@ -30,7 +30,7 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import { Controller } from '@hotwired/stimulus';
 import { vi, type Mock } from 'vitest';
 
-import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import { setupStimulusTest, type StimulusTestContext, stubPendingPluginContext, stubPluginContext } from 'core-stimulus/test-helpers';
 import type { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import type { QueryConfigurationLocals } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-query-configuration.component';
 import type TypeFormConfigurationControllerType from './main.controller';
@@ -47,7 +47,6 @@ describe('Type form configuration controller', () => {
   let applicationInitStatus:{ donePromise:Promise<void> };
   let getService:Mock<(token:unknown) => unknown>;
   let addError:Mock<(message:string) => void>;
-  let originalOpenProject:typeof window.OpenProject;
   const filterLists = vi.fn();
 
   class FilterListStub extends Controller {
@@ -67,19 +66,16 @@ describe('Type form configuration controller', () => {
     applicationInitStatus = { donePromise: Promise.resolve() };
     getService = vi.fn().mockReturnValue(applicationInitStatus);
     addError = vi.fn();
-    originalOpenProject = window.OpenProject;
-    window.OpenProject = {
-      getPluginContext: () => Promise.resolve({
-        injector: { get: getService },
-        services: {
-          notifications: { addError },
-          configurationService: { initialize: initializeConfiguration },
-          apiV3Service: { configuration: { get: fetchConfiguration } },
-          turboRequests: { request },
-          externalRelationQueryConfiguration: { show },
-        },
-      }),
-    } as unknown as typeof window.OpenProject;
+    stubPluginContext({
+      injector: { get: getService },
+      services: {
+        notifications: { addError },
+        configurationService: { initialize: initializeConfiguration },
+        apiV3Service: { configuration: { get: fetchConfiguration } },
+        turboRequests: { request },
+        externalRelationQueryConfiguration: { show },
+      },
+    });
 
     ctx = await setupStimulusTest({
       controllers: {
@@ -91,7 +87,6 @@ describe('Type form configuration controller', () => {
 
   afterEach(() => {
     ctx.dispose();
-    window.OpenProject = originalOpenProject;
     vi.restoreAllMocks();
   });
 
@@ -413,10 +408,7 @@ describe('Type form configuration controller', () => {
   });
 
   it('does not open the query editor when disconnected before the context resolves', async () => {
-    let resolveContext!:(context:unknown) => void;
-    window.OpenProject = {
-      getPluginContext: () => new Promise((resolve) => { resolveContext = resolve; }),
-    } as unknown as typeof window.OpenProject;
+    const resolveContext = stubPendingPluginContext();
 
     const controller = await renderConfiguration();
 
