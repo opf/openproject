@@ -161,7 +161,7 @@ RUN ./docker/prod/setup/postinstall-onprem.sh && \
   ln -sf ../lib/node_modules/corepack/dist/corepack.js /usr/local/bin/corepack && \
   ln -s /app/docker/prod/setup/.irbrc /root/
 
-# Expose ports for caddy and postgres
+# Expose ports for caddy
 EXPOSE 80
 
 # Expose the postgres data directory and OpenProject data directory as volumes
