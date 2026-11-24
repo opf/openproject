@@ -24,7 +24,7 @@ On each project's **home page**, you can find a section called **project life cy
 
 Each phase of a project's lifecycle contains three statuses: Open, In progress, and Completed.
 
-- **Open**: this is the default status set for each phase. Setting a phase to this status will Open all existing future or subsequent phases 
+- **Open**: this is the default status set for each phase. Setting a phase to this status will open all existing future or subsequent phases 
 - **In progress**: this will complete all previous phases and set existing future phases to "Open"
 - **Completed**: this will complete all previous phases, but not automatically open the next phase or phases.
 
