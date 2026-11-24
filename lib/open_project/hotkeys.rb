@@ -66,6 +66,10 @@ module OpenProject
       def for_action(name)
         ACTIONS.fetch(name.to_sym)
       end
+
+      def for_wiki
+        GLOBAL_FALLBACK.fetch(:wikis)
+      end
     end
   end
 end

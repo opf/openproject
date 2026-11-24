@@ -67,4 +67,10 @@ RSpec.describe OpenProject::Hotkeys do
       expect(described_class.for_action(:shortcuts_help)).to eq("?,Shift+?")
     end
   end
+
+  describe ".for_wiki" do
+    it "returns the wiki hotkey" do
+      expect(described_class.for_wiki).to eq("g w i")
+    end
+  end
 end

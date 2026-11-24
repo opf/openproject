@@ -58,6 +58,6 @@ module Hotkeys
 
     def shortcuts_help_key = OpenProject::Hotkeys.for_action(:shortcuts_help)
 
-    def wiki_key = OpenProject::Hotkeys::GLOBAL_FALLBACK.fetch(:wikis)
+    def wiki_key = OpenProject::Hotkeys.for_wiki
   end
 end
