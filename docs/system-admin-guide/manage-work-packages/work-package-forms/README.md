@@ -20,7 +20,9 @@ The Forms overview lists all named forms in your OpenProject instance, along wit
 
 ![Forms overview showing reusable work package forms, associated types and variants, and projects](openproject_system_guide_work_package_forms_overview.png)
 
-Each row shows the form's name, the number of types and variants using it, and the number of associated projects. The instance's default form is identified by a **Default** label. You can search for a particular form or narrow the list using the **Type**, **Projects**, and **All filters** controls.
+Each row shows the form's name, the number of types and variants using it, and the number of associated projects. The instance's default form is identified by a **Default** label.
+
+You can search for a particular form or narrow the list using the **Type**, **Projects**, and **All filters** controls. Click a form's name to open its configuration.
 
 Click a form's name to open its configuration.
 
@@ -75,18 +77,12 @@ In the Enterprise edition, you can create and rename sections to group related a
 
 If you want to return to the default layout, click **Reset form**. This resets the form configuration, including its sections and attribute assignments. Changes to the form layout are saved automatically.
 
-## Required custom fields
 
-Administrators can define which custom fields are mandatory for a work package type. To make a custom field required, open its **More (three dots)** menu and select **Require in this type**.
+## Custom fields in work package forms
 
-![More menu for a work package custom field with the Require in this type option](openproject_system_guide_work_package_form_require_custom_field.png)
+Custom fields can be added to a form alongside built-in attributes and arranged in the same way. Adding a custom field to a form determines where it appears, while its settings determine how users interact with it, including whether a value is required.
 
-The custom field is then labeled **Required in this type**, making it clear that users must provide a value when working with work packages of that type.
-
-![Work package custom field with the Required in this type label](openproject_system_guide_work_package_form_required_custom_field.png)
-
-> [!NOTE]
-> The previous documentation identified this feature as available on the Dev branch. Its availability and behavior in OpenProject 18.0 still need to be verified.
+For instructions on creating, configuring, and making custom fields mandatory for specific work package types, see [Manage custom fields](../custom-fields/).
 
 ## Add a table of related work packages (Enterprise add-on)
 
@@ -113,7 +109,7 @@ For more information about configuring work packages, see:
 - [Manage work package types](../work-package-types/)
 - [Create a type or variant](../work-package-types/create-type-or-variant/)
 - [Configure workflows](../work-package-workflows/)
-- [Manage custom fields](../../custom-fields/)
+- [Manage custom fields](../work-package-custom-fields/)
 
 Watch the following video for an introduction to customizing work package forms and custom fields:
 
