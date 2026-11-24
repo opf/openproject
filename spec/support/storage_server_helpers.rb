@@ -33,7 +33,7 @@ module StorageServerHelpers
                                         response_headers: nil,
                                         response_body: nil,
                                         timeout: false,
-                                        response_nextcloud_major_version: NextcloudCompatibleHostValidator::MINIMAL_NEXTCLOUD_VERSION)
+                                        response_nextcloud_major_version: minimal_nextcloud_version)
     response_code ||= 200
     response_headers ||= {
       "Content-Type" => "application/json; charset=utf-8"
@@ -165,6 +165,11 @@ module StorageServerHelpers
       normalize_url("#{storage.host}/remote.php/dav/files/OpenProject/OpenProject/" \
                     "Project%20name%20without%20sequence%20(#{project.id})")
     ).to_return(status: 200, body: "", headers: {})
+  end
+
+  def minimal_nextcloud_version
+    YAML.load_file(Rails.root.join("modules/storages/config/nextcloud_dependencies.yml"))
+        .dig("dependencies", "nextcloud_server", "min_version")
   end
 
   def normalize_url(url)

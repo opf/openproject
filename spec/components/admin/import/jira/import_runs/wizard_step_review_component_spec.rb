@@ -140,4 +140,22 @@ RSpec.describe Admin::Import::Jira::ImportRuns::WizardStepReviewComponent, type:
       expect(stats.pluck(:url)).to all(be_nil)
     end
   end
+
+  context "when finalizing the import failed" do
+    let(:run_path) { "/admin/import/jira/#{jira.id}/run/#{jira_import.id}" }
+
+    before do
+      allow(Import::JiraImportStateMachine).to receive(:enqueued_job_id).and_return("stubbed-job-id")
+
+      %i[instance_meta_fetching instance_meta_done configuring projects_meta_fetching projects_meta_done
+         importing imported finalizing finalizing_error].each { jira_import.transition_to!(it) }
+
+      render_inline(component)
+    end
+
+    it "offers to retry finalizing or to revert the import" do
+      expect(page).to have_link("Retry", href: "#{run_path}/continue?step=finalize")
+      expect(page).to have_link("Revert import", href: "#{run_path}/revert_modal")
+    end
+  end
 end
