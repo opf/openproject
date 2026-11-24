@@ -17,7 +17,7 @@ OpenProject (since version 3.0) offers useful keyboard shortcuts to  enhance you
 | Project search | <kbd>p</kbd> | <kbd>5</kbd> | Open the project select | Open the project select |
 | Go to My page | <kbd>g</kbd> <kbd>m</kbd> | – | My page | My page |
 | Open shortcuts help | <kbd>?</kbd> | – | Open keyboard shortcuts docs (this page) | Open keyboard shortcuts docs (this page) |
-| Open help menu | – | <kbd>6</kbd> | Open the help menu | Open the help menu |
+| Open help menu | – | <kbd>6</kbd> | Open the help menu, or the custom help link if your administrator set one | Open the help menu, or the custom help link if your administrator set one |
 | Go to Overview | <kbd>g</kbd> <kbd>o</kbd> | – | Project overview | – |
 | Go to Work packages | <kbd>g</kbd> <kbd>w</kbd> <kbd>p</kbd> | – | Project work packages | Work packages |
 | Go to Wiki | <kbd>g</kbd> <kbd>w</kbd> <kbd>i</kbd> | – | Project wiki start page | Wikis |
