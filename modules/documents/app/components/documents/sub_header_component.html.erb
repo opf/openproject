@@ -1,5 +1,13 @@
 <%=
-  render(Primer::OpenProject::SubHeader.new(data: sub_header_data_attributes)) do |subheader|
+  render(
+    OpPrimer::QuickFilter::SubHeader.new(
+      test_selector: "documents-sub-header",
+      clear_button_id:,
+      turbo_stream_request: true,
+      output_format: "json",
+      url_path_name:
+    )
+  ) do |subheader|
     subheader.with_filter_input(
       name: :title,
       label: I18n.t("documents.subheader.filter.label"),

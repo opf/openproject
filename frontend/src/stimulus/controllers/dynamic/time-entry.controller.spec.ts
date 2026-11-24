@@ -28,7 +28,7 @@
 import { waitFor } from '@testing-library/dom';
 import { vi, type Mock } from 'vitest';
 
-import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import { setupStimulusTest, type StimulusTestContext, stubPendingPluginContext, stubPluginContext } from 'core-stimulus/test-helpers';
 import type TimeEntryControllerType from './time-entry.controller';
 
 describe('Time entry controller', () => {
@@ -36,7 +36,6 @@ describe('Time entry controller', () => {
   let TimeEntryController:typeof TimeEntryControllerType;
   let request:Mock;
   let timeEntriesUserTimezoneCaption:Mock;
-  let originalOpenProject:typeof window.OpenProject;
 
   beforeAll(async () => {
     ({ default: TimeEntryController } = await import('./time-entry.controller'));
@@ -45,15 +44,12 @@ describe('Time entry controller', () => {
   beforeEach(async () => {
     request = vi.fn().mockResolvedValue({ html: '', headers: new Headers() });
     timeEntriesUserTimezoneCaption = vi.fn().mockReturnValue('/time_entries/user_timezone_caption/5');
-    originalOpenProject = window.OpenProject;
-    window.OpenProject = {
-      getPluginContext: () => Promise.resolve({
-        services: {
-          turboRequests: { request },
-          pathHelperService: { timeEntriesUserTimezoneCaption },
-        },
-      }),
-    } as unknown as typeof window.OpenProject;
+    stubPluginContext({
+      services: {
+        turboRequests: { request },
+        pathHelperService: { timeEntriesUserTimezoneCaption },
+      },
+    });
 
     ctx = await setupStimulusTest({
       controllers: { 'time-entry': TimeEntryController },
@@ -62,7 +58,6 @@ describe('Time entry controller', () => {
 
   afterEach(() => {
     ctx.dispose();
-    window.OpenProject = originalOpenProject;
     vi.restoreAllMocks();
   });
 
@@ -98,10 +93,7 @@ describe('Time entry controller', () => {
   });
 
   it('does not request when disconnected before the context resolves', async () => {
-    let resolveContext!:(context:unknown) => void;
-    window.OpenProject = {
-      getPluginContext: () => new Promise((resolve) => { resolveContext = resolve; }),
-    } as unknown as typeof window.OpenProject;
+    const resolveContext = stubPendingPluginContext();
 
     const controller = await renderForm();
     const root = ctx.container.querySelector('[data-controller="time-entry"]')!;

@@ -86,11 +86,6 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageGraph, type: :compon
     end
   end
 
-  it "passes the headers of the accessible data table" do
-    expect(chart_data["statusColumnTitle"]).to eq "Status"
-    expect(chart_data["countColumnTitle"]).to eq "Work packages"
-  end
-
   context "when a status has been deleted since" do
     let(:status_counts) { { status_new.id => 3, status_closed.id => 2, 0 => 1 } }
 

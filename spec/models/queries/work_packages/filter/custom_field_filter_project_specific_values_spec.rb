@@ -193,6 +193,19 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter, "with project-s
     end
   end
 
+  context "for a list custom field with options added by projects" do
+    let(:custom_field) { create(:list_wp_custom_field, types: [type], possible_values: %w[A]) }
+    let(:option_a) { custom_field.custom_options.find_by!(value: "A") }
+    let!(:own_option) { create(:custom_option, custom_field:, value: "Own", project:) }
+    let!(:subproject_option) { create(:custom_option, custom_field:, value: "Sub", project: subproject) }
+    let!(:foreign_option) { create(:custom_option, custom_field:, value: "Foreign", project: other_project) }
+
+    it "allows the global options and the options of the project and its visible subprojects" do
+      expect(filter.allowed_values)
+        .to contain_exactly(["A", option_a.id.to_s], ["Own", own_option.id.to_s], ["Sub", subproject_option.id.to_s])
+    end
+  end
+
   context "for a hierarchy custom field", with_ee: [:custom_field_hierarchies] do
     it_behaves_like "filtering by visible hierarchical items", :hierarchy_wp_custom_field
   end

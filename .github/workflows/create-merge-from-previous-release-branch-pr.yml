@@ -51,6 +51,7 @@ jobs:
         uses: actions/checkout@v7.0.1
         with:
           ref: ${{ env.RELEASE_BRANCH }}
+          token: ${{ secrets.OPENPROJECTCI_GH_CORE_PAT }}
 
       - name: Fetch both release branches with sufficient history
         run: |

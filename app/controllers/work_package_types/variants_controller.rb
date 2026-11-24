@@ -69,7 +69,7 @@ module WorkPackageTypes
       variant = named_variant
 
       update_via_turbo_stream(
-        component: ::Projects::Settings::WorkPackages::Types::SwitchImpactComponent.new(
+        component: Projects::Types::Switch::ImpactComponent.new(
           impact: deletion_impact(variant, chosen_target(variant))
         )
       )

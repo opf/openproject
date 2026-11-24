@@ -27,14 +27,13 @@
 
 import { vi, type Mock } from 'vitest';
 
-import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import { setupStimulusTest, type StimulusTestContext, stubPendingPluginContext, stubPluginContext } from 'core-stimulus/test-helpers';
 import type JiraImportControllerType from './jira-import.controller';
 
 describe('Admin JIRA import controller', () => {
   let ctx:StimulusTestContext;
   let JiraImportController:typeof JiraImportControllerType;
   let addError:Mock;
-  let originalOpenProject:typeof window.OpenProject;
 
   beforeAll(async () => {
     ({ default: JiraImportController } = await import('./jira-import.controller'));
@@ -44,10 +43,7 @@ describe('Admin JIRA import controller', () => {
     vi.useFakeTimers({ toFake: ['setInterval', 'clearInterval'] });
 
     addError = vi.fn();
-    originalOpenProject = window.OpenProject;
-    window.OpenProject = {
-      getPluginContext: () => Promise.resolve({ services: { notifications: { addError } } }),
-    } as unknown as typeof window.OpenProject;
+    stubPluginContext({ services: { notifications: { addError } } });
 
     ctx = await setupStimulusTest({
       controllers: { 'admin--jira-import': JiraImportController },
@@ -57,7 +53,6 @@ describe('Admin JIRA import controller', () => {
   afterEach(() => {
     vi.useRealTimers();
     ctx.dispose();
-    window.OpenProject = originalOpenProject;
     vi.restoreAllMocks();
   });
 
@@ -89,10 +84,7 @@ describe('Admin JIRA import controller', () => {
   });
 
   it('does not notify when disconnected before the plugin context resolves', async () => {
-    let resolveContext!:(context:unknown) => void;
-    window.OpenProject = {
-      getPluginContext: () => new Promise((resolve) => { resolveContext = resolve; }),
-    } as unknown as typeof window.OpenProject;
+    const resolveContext = stubPendingPluginContext();
 
     vi.spyOn(window, 'fetch').mockRejectedValue(new Error('network down'));
     await renderPolling();

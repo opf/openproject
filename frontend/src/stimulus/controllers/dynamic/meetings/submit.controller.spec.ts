@@ -28,14 +28,13 @@
 import { waitFor } from '@testing-library/dom';
 import { vi, type Mock } from 'vitest';
 
-import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import { setupStimulusTest, type StimulusTestContext, stubPendingPluginContext, stubPluginContext } from 'core-stimulus/test-helpers';
 import type SubmitControllerType from './submit.controller';
 
 describe('Meetings submit controller', () => {
   let ctx:StimulusTestContext;
   let SubmitController:typeof SubmitControllerType;
   let request:Mock;
-  let originalOpenProject:typeof window.OpenProject;
 
   beforeAll(async () => {
     ({ default: SubmitController } = await import('./submit.controller'));
@@ -43,10 +42,7 @@ describe('Meetings submit controller', () => {
 
   beforeEach(async () => {
     request = vi.fn().mockResolvedValue({ html: '', headers: new Headers() });
-    originalOpenProject = window.OpenProject;
-    window.OpenProject = {
-      getPluginContext: () => Promise.resolve({ services: { turboRequests: { request } } }),
-    } as unknown as typeof window.OpenProject;
+    stubPluginContext({ services: { turboRequests: { request } } });
 
     ctx = await setupStimulusTest({
       controllers: { 'meetings--submit': SubmitController },
@@ -55,7 +51,6 @@ describe('Meetings submit controller', () => {
 
   afterEach(() => {
     ctx.dispose();
-    window.OpenProject = originalOpenProject;
     vi.restoreAllMocks();
   });
 
@@ -95,10 +90,7 @@ describe('Meetings submit controller', () => {
   });
 
   it('does not send when disconnected before the context resolves', async () => {
-    let resolveContext!:(context:unknown) => void;
-    window.OpenProject = {
-      getPluginContext: () => new Promise((resolve) => { resolveContext = resolve; }),
-    } as unknown as typeof window.OpenProject;
+    const resolveContext = stubPendingPluginContext();
 
     const controller = await renderActions();
     const root = ctx.container.querySelector('[data-controller="meetings--submit"]')!;

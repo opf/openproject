@@ -35,6 +35,8 @@ class UserCustomField < CustomField
 
   enum :semantic_key, { job_title: "job_title" }, prefix: true
 
+  store_attribute :settings, :user_self_editable, :boolean, default: true
+
   validates :semantic_key, uniqueness: { scope: :type }, allow_nil: true
 
   scopes :visible

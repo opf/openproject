@@ -58,7 +58,7 @@ module Settings
           selected: Setting.autologin == 0
         )
 
-        Settings::Definition[:autologin].allowed.each do |days|
+        Settings::Definition[:autologin].allowed.without(0).each do |days|
           select.option(
             value: days,
             label: I18n.t("datetime.distance_in_words.x_days", count: days),

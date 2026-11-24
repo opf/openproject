@@ -60,8 +60,7 @@ module Backlogs
             average: velocity.average&.round(estimation_unit_time? ? 2 : 1),
             averageLabel: t(".average_legend"),
             yAxisTitle: t(".y_axis_title.#{unit}"),
-            summary:,
-            sprintColumnTitle: Sprint.model_name.human
+            summary:
           }.to_json
         end
 
@@ -89,7 +88,7 @@ module Backlogs
           if estimation_unit_time?
             DurationConverter.output(velocity.average)
           else
-            story_points(helpers.number_with_precision(velocity.average, precision: 1, strip_insignificant_zeros: true))
+            story_points(rounded_average)
           end
         end
 
@@ -116,7 +115,17 @@ module Backlogs
 
         def summary
           chart = t(".summary.#{unit}", count: velocity.sprints.size)
-          average? ? "#{chart} #{t('.summary_average', average: formatted_average)}" : chart
+          average? ? "#{chart} #{t('.summary_average', average: summarized_average)}" : chart
+        end
+
+        def summarized_average
+          return formatted_average if estimation_unit_time?
+
+          t(".summary_story_points", count: velocity.average, value: rounded_average)
+        end
+
+        def rounded_average
+          helpers.number_with_precision(velocity.average, precision: 1, strip_insignificant_zeros: true)
         end
 
         def story_points(value)
