@@ -38,6 +38,8 @@ module Hotkeys
       @can_add_work_packages = can_add_work_packages
     end
 
+    private
+
     def new_work_package_path_for_user
       return unless @can_add_work_packages
 
