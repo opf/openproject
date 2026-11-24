@@ -70,7 +70,7 @@ module Import
     transition from: IMPORT_ERROR,           to: [IMPORTING, REVERTING]
     transition from: IMPORTED,               to: [FINALIZING, REVERTING]
     transition from: FINALIZING,             to: [FINALIZING_ERROR, FINALIZING_DONE]
-    transition from: FINALIZING_ERROR,       to: [FINALIZING]
+    transition from: FINALIZING_ERROR,       to: [FINALIZING, REVERTING]
     transition from: REVERTING,              to: [REVERTED, REVERT_ERROR]
     transition from: REVERT_ERROR,           to: [REVERTING]
 
@@ -182,7 +182,7 @@ module Import
     end
 
     def deletable?
-      !running? && !in_state?(IMPORTED, IMPORT_ERROR, REVERT_ERROR)
+      !running? && !can_transition_to?(REVERTING)
     end
   end
 end

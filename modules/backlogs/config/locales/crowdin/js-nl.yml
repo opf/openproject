@@ -67,6 +67,9 @@ nl:
       chart_summary: 'Burnup chart data: %{days}.'
       chart_value: "%{label}: %{value}"
     created_resolved_chart:
+      chart_label: Created vs. resolved chart
+      chart_summary: 'Created vs. resolved chart data: %{from} – %{to}. %{values}.'
+      chart_value: "%{label}: %{value}"
       work_packages: Work packages
     sprint_charts:
       non_working_day: Non-working day

@@ -5,10 +5,6 @@ sidebar_navigation:
 description: How to create many work packages at once from a CSV file
 keywords: work package import, CSV import, import work packages, bulk create
 ---
-
-> [!IMPORTANT]
-> This import functionality is available on our Dev branch.
-
 # Import work packages from a CSV file
 
 You can create many work packages at once by uploading a CSV file. Existing work packages are never changed by an import, and no notifications are sent for the work packages it creates.
@@ -27,6 +23,7 @@ You can create many work packages at once by uploading a CSV file. Existing work
 
 > [!NOTE]
 > You need the **Import work packages** permission in order to import work packages into a project. It can be assigned to a role in the [roles and permissions](../../../system-admin-guide/users-permissions/roles-permissions/) administration, together with the **Add work packages** permission it requires.
+> When the import was introduced, the permission was given to every role that already had both **Edit project** and **Add work packages**. Of the default roles, that is only **Project admin**.
 
 To open the import page, go to **Project settings** in your project and select **Work packages importer** in the sidebar.
 
@@ -36,48 +33,52 @@ The file must be a UTF-8 or UTF-16 encoded `.csv` file. Comma, semicolon and tab
 
 ## Import a file
 
-1. Select the file under **CSV file**.
+1. Drag the file onto **CSV file**, or select it there with the file picker. The file size is checked in the browser before the upload, and the button stays disabled until a file is chosen.
 2. Leave **Check the file first, without importing** selected. Every line is then validated and reported, but nothing is created.
 3. Select **Check file**.
-4. Read the report. If the file has problems, each one is listed with the line it is on, the column, the value and what is wrong with it. A file with a many problems shows the first 500 on the page; the CSV download beside the list always contains all of them, so you can work through them in your spreadsheet application.”
+4. Read the report. If the file has problems, each one is listed with the line it is on, the column, the value and what is wrong with it. A file with many problems shows the first 500 on the page; the CSV download beside the list always contains all of them, so you can work through them in your spreadsheet application.
 5. Correct the file and check it again, until the report shows no problems.
 6. Select the **Import** button, which names how many work packages will be created, to create them.
 
+The check and the import run in the background. The page announces the result once it is ready.
+
 The summary shown after a successful check tells you how many lines were read, how many accounts the file named in its `Assignee`, `Accountable` and `Author` columns, and which types, statuses, priorities and categories the lines use, so you can see that the file was understood the way you meant it before anything is created.
 
-Once the import has run, the report links to the work packages it created. The link opens a view named **CSV import on** the date and time of the run, saved privately for you, which also appears under your own views in the sidebar of the work packages module. Delete it as you would any other view once you no longer need it.
+Once the import has run, the report links to the work packages it created. The link opens a view named **CSV import on** the date and time of the run, saved privately for you, which also appears under your own views in the sidebar of the work packages module. Delete it as you would any other view once you no longer need it. The view is only created by an import, not by a check.
 
 **Clear** puts the report away and gives you the empty form back. It is offered beside the button in every state, so a report you have finished with, or a file that was refused, never has to be left on the page.
 
 > [!TIP]
-> The checked file is kept for a few hours, so you do not need to upload it again when importing. If you come back to the report later and the file has expired, upload it again. It is checked once more before anything is created.
+> A file that passed the check is kept for 180 minutes by default, so you do not need to upload it again when importing. If you come back to the report later and the file has expired, upload it again. It is checked once more before anything is created. In every other case the file is discarded.
 
 You can clear the **Check the file first, without importing** checkbox to import straight away. The button then reads **Import file**, so it always names what will happen.
 
 An import is all or nothing. If any line cannot be created, nothing is created, and the report lists every problem in the file rather than stopping at the first one. You are recorded as the author of every work package the import creates, unless the file names someone else in the `Author` column.
 
+The activity of each imported work package shows an entry **Imported by CSV** with the date and time of the import, made by the user **System**.
+
 ## Column reference
 
-The header line decides what is imported. Column order is free, and you only need the columns you want to fill in. A header that is not in the table below stops the import before any line is read, as does the same attribute appearing twice.
+The header line decides what is imported. Column order is free, and you only need the columns you want to fill in. The header line is checked before any line is read; see [how the header line is read](#how-the-header-line-is-handled).
 
 | Column           | Content                           | Required | Format and matching                                                                                                                                       |
 |------------------|-----------------------------------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `Subject`        | The name of the work package      | Yes      | Text                                                                                                                                                      |
 | `Description`    | The description                   | No       | Text. A value containing line breaks has to be quoted.                                                                                                    |
-| `Type`           | Task, Milestone, Phase and so on  | No       | Matched by name, upper and lower case ignored. The type must be enabled in this project.                                                                  |
-| `Status`         | The status                        | No       | Matched by name, upper and lower case ignored. The status must exist.                                                                                     |
-| `Priority`       | The priority                      | No       | Matched by name, upper and lower case ignored. The priority must exist and be active.                                                                     |
-| `Category`       | The category                      | No       | Matched by name, upper and lower case ignored. The category must exist in this project.                                                                   |
-| `Version`        | The version                       | No       | Matched by name, upper and lower case ignored. The version must be open and available in this project. Only one version is supported in the cell.         |
+| `Type`           | Task, Milestone, Phase and so on  | No       | Matched by name, upper and lower case and whitespace ignored. The type must be enabled in this project.                                                  |
+| `Status`         | The status                        | No       | Matched by name, upper and lower case and whitespace ignored. The status must exist.                                                                     |
+| `Priority`       | The priority                      | No       | Matched by name, upper and lower case and whitespace ignored. The priority must exist and be active.                                                     |
+| `Category`       | The category                      | No       | Matched by name, upper and lower case and whitespace ignored. The category must exist in this project.                                                   |
+| `Version`        | The version                       | No       | Matched by name, upper and lower case and whitespace ignored. The version must be open and available in this project. Only one version is supported in the cell. |
 | `Assignee`       | The assignee                      | No       | Matched by the email address the user signs in with, upper and lower case ignored. The user must be allowed to be assigned work packages in this project. |
 | `Accountable`    | The accountable                   | No       | Matched the same way as `Assignee`.                                                                                                                       |
-| `Author`         | Who created the work package      | No       | Matched by email address. Leave it empty, or leave the column out, and you are recorded as the author.                                                    |
-| `Start date`     | The start date                    | No       | `YYYY-MM-DD`, for example `2026-03-17`.                                                                                                                   |
+| `Author`         | Who created the work package      | No       | Matched by email address. Any account other than a built-in one can be named. Leave it empty, or leave the column out, and you are recorded as the author. |
+| `Start date`     | The start date                    | No       | `YYYY-MM-DD`, for example `2026-03-17`. See [How dates are read](#how-dates-are-read).                                                                    |
 | `Finish date`    | The finish date                   | No       | `YYYY-MM-DD`.                                                                                                                                             |
 | `Work`           | The estimated work                | No       | Hours as a number, for example `8` or `7.5`, or a duration such as `1h 30m`.                                                                              |
 | `Remaining work` | The work still to do              | No       | Written like `Work`. Not available while progress is calculated from the status.                                                                          |
 | `% Complete`     | The progress                      | No       | A whole number from 0 to 100, with or without a percent sign. Not available while progress is calculated from the status.                                 |
-| `Created on`     | When the work package was created | No       | `YYYY-MM-DDTHH:MM:SSZ`, for example `2025-11-04T09:30:00Z`. Not in the future.                                                                            |
+| `Created on`     | When the work package was created | No       | `YYYY-MM-DDTHH:MM:SSZ`, for example `2025-11-04T09:30:00Z`. Not in the future. See [How dates are read](#how-dates-are-read).                             |
 | `Updated on`     | When it was last updated          | No       | `YYYY-MM-DDTHH:MM:SSZ`. Not in the future, and not earlier than `Created on`.                                                                             |
 
 A value that cannot be matched is reported with the line it is on, and the report lists the values that would have been accepted, so a misspelled type or status is quick to correct.
@@ -96,6 +97,18 @@ a finish date before the start date, a type that has no such status in its workf
 
 An empty cell means "not given", and the work package is created with whatever the project and the type would give it.
 There is no way to say "explicitly empty" in a CSV file, so a value that is set by default cannot be cleared by leaving its cell blank.
+
+A line that holds more cells than the header line is reported rather than cut short.
+
+### How the header line is handled
+
+The header line is checked once, before any line is read. A column without a name, an unknown column, a duplicate column and an ambiguous column are each reported with the column letter it has in your spreadsheet application. 
+
+The following are not reported:
+
+- Empty lines before the header line and between the lines below it are skipped.
+- Empty header cells at the end of the header line are ignored.
+- An apostrophe at the start of a header is removed.
 
 ### How dates are read
 
@@ -163,6 +176,7 @@ Split a larger import across several files. The import page states the limits th
 
 Both limits are configurable. The file size limit is the one that applies to every attachment,
 so an administrator can change it under [Administration, Files, Attachments](../../../system-admin-guide/files/attachments/).
+The list of allowed attachment file types does not apply to the import.
 The line limit is not in the administration: it is set for the instance with the `OPENPROJECT_WORK__PACKAGE__IMPORT__MAX__ROWS` [environment variable](../../../installation-and-operations/configuration/environment/),
 which needs access to the server the instance runs on.
 
@@ -171,8 +185,15 @@ which needs access to the server the instance runs on.
 A CSV import creates work packages. It currently does not do any of the following.
 
 - **Change existing work packages**: Every line creates a new work package. There is no way to address one that already exists.
+- **Import a CSV export**: A file from the [CSV export](../exporting/csv/) cannot be imported again.
+- **Create fields, types or statuses**: They have to exist before the import. Creating them needs administrator rights.
+- **Map columns**: Columns are recognized by their headers only. You cannot choose which column means what.
+- **Import a history**: Several lines cannot describe different states of the same work package.
 - **Create hierarchies**: Parents and children have to be set after the import.
 - **Create relations**: Predecessors, successors and the other relation types are not read.
 - **Fill custom fields**: Only the columns listed above are accepted. A type that requires a custom field is imported regardless.
 - **Set watchers or attachments**: Neither is read from the file.
 - **Read spreadsheet files**: Save an `.xlsx` or `.ods` file as CSV first.
+- **Show progress or be cancelled**: A running check or import cannot be followed or stopped.
+- **Fix problems on the page**: Problems have to be corrected in the file, which is then uploaded again.
+- **Import through the API**: There is no API endpoint for the import.

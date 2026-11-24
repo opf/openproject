@@ -94,7 +94,13 @@ export class HalResourceService {
     return this.http.request(method, href, config)
       .pipe(
         map((response:unknown) => this.createHalResource<T>(response)),
-        catchError((error:HttpErrorResponse) => {
+        catchError((error:unknown) => {
+          // Only a failed request is a HAL error; an error building the
+          // resource from a response is a bug and stays as it is.
+          if (!(error instanceof HttpErrorResponse)) {
+            return throwError(() => error);
+          }
+
           whenDebugging(() => console.error(`Failed to ${method} ${href}: ${error.name}`));
           return this.createErrorObservable(error);
         }),

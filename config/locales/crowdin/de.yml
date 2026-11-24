@@ -391,14 +391,14 @@ de:
         authentication_method: Authentifizierungsmethode
         jwt_sub: Subject claim
       status:
-        category: Category
+        category: Kategorie
         default_done_ratio: "% abgeschlossen"
         excluded_from_totals: Von der Berechnung der Gesamtsumme in der Hierarchie ausschließen
         is_readonly: Arbeitspakete schreibgeschützt
       status/category:
-        closed: Closed
-        in_progress: In progress
-        to_do: To-do
+        closed: Geschlossen
+        in_progress: In Durchführung
+        to_do: To-Do
       subproject_template_assignment:
         workspace_type: Arbeitsbereichstyp
       time_entry:
@@ -417,7 +417,7 @@ de:
       type:
         allow_project_variants: Projektspezifische Varianten erlauben
         color: Farbe
-        description: Description
+        description: Beschreibung
         is_in_roadmap: In Roadmap standardmäßig angezeigt
         is_milestone: Ist ein Meilenstein
         project_types: Projekte
@@ -427,7 +427,7 @@ de:
       type_variant:
         attribute_groups: Formular
         default_work_package_description: Standardtext für Beschreibung
-        description: Description
+        description: Beschreibung
         enabled_in_new_projects: Aktiv in neuen Projekten
         linked_aspects: Vererbte Konfiguration
         patterns: Muster
@@ -550,11 +550,11 @@ de:
         labels: Labels
         notify: Benachrichtigung
         observed_in_versions: Festgestellt in Versionen
-        origin: Origin
-        origin_host: Origin host
-        origin_id: Origin ID
-        origin_source: Origin source
-        origin_url: Origin URL
+        origin: Ursprung
+        origin_host: Ursprungs-Host
+        origin_id: Ursprungs-ID
+        origin_source: Ursprung
+        origin_url: Ursprungs-URL
         parent: Übergeordnetes Arbeitspaket
         parent_issue: Übergeordnetes Arbeitspaket
         parent_work_package: Übergeordnetes Arbeitspaket
@@ -1092,7 +1092,7 @@ de:
       template:
         body: 'Bitte überprüfen Sie die folgenden Felder:'
         header:
-          one: "%{count} error prohibited this %{model} from being saved"
+          one: "%{count} Fehler verhinderte das Speichern von %{model}"
           other: "%{count} Fehler haben das Speichern dieses %{model} verhindert"
     models:
       action:
@@ -1484,7 +1484,7 @@ de:
       phase_and_both_gates: "%{phase_message}. %{start_gate_message} und %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}. %{gate_message}"
       removed_date: Datum gelöscht %{date}
-      status_changed: phase changed from %{from} to %{to}
+      status_changed: Projektphase von %{from} zu %{to} geändert
   admin:
     banners:
       environment_configured_readonly: Diese Werte werden über Umgebungsvariablen konfiguriert und können hier nicht bearbeitet werden.
@@ -1601,14 +1601,14 @@ de:
         button_edit: Konfiguration bearbeiten
         button_open: Offene Importe
       api_client:
-        unknown_auth_method: Unknown authentication method. Please use 'bearer' or 'basic'.
+        unknown_auth_method: Unbekannte Authentifizierungsmethode. Bitte verwenden Sie „bearer“ oder „basic“.
       banner:
         contribution_callout: 'Bitte helfen Sie uns, den Jira Migrator mit Ihrem Feedback und Ihren privaten Datenspenden zu verbessern. Sie können [der Entwicklergemeinschaft](link) des Jira Migrator beitreten.
 
           '
         description: The Jira Migrator is currently in beta. We support Jira Server/Data Center versions 8.x, 9.x, 10.x and 11.x. Cloud instances are not supported at this time.
         title: Beta - Probieren Sie es aus!
-      basic_auth_password_deleted: Basic auth password was successfully deleted.
+      basic_auth_password_deleted: Das Passwort für die Basic-Authentifizierung wurde erfolgreich gelöscht.
       blank:
         description: Konfigurieren Sie einen Jira-Host, um mit dem Import von Elementen aus Jira in diese OpenProject-Instanz zu beginnen.
         title: Noch keine Jira-Hosts konfiguriert
@@ -1643,13 +1643,13 @@ de:
       form:
         auth_method:
           basic:
-            caption: Use basic auth if you are using a Jira Server version 8 or the instance is configured behind a proxy.
-            label: Basic auth
+            caption: Verwenden Sie die Basic-Authentifizierung, wenn Sie Jira Server Version 8 einsetzen oder die Instanz hinter einem Proxy konfiguriert ist.
+            label: Basic-Authentifizierung
           bearer:
-            caption: We recommend using this authentication method.
-            label: Personal access token (PAT)
+            caption: Wir empfehlen die Verwendung dieser Authentifizierungsmethode.
+            label: Persönliches Zugriffstoken (PAT)
         button_add: Konfiguration hinzufügen
-        button_delete_basic_auth_password: Delete basic auth password
+        button_delete_basic_auth_password: Passwort für die Basic-Authentifizierung löschen
         button_delete_personal_access_token: PAT löschen
         button_save: Konfiguration speichern
         button_test_connection: Verbindung testen
@@ -1657,19 +1657,19 @@ de:
           administrator: The user must be a Jira administrator.
           project_member: The user must be a member of every Jira project you want to migrate.
           title: Requirements for the Jira user behind the credentials
-        delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
-        delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
-        exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
+        delete_basic_auth_password_confirm: Sind Sie sicher, dass Sie das Passwort für die Basic-Authentifizierung löschen möchten? Dadurch wird die Jira-Verbindung deaktiviert.
+        delete_personal_access_token_confirm: Sind Sie sicher, dass Sie das persönliche Zugriffstoken (PAT) löschen möchten? Dadurch wird die Jira-Verbindung deaktiviert.
+        exclude_resolution_fields_caption: Sie können die Felder „Lösung“ und „Erledigt“ (Resolution) beim Import für diese Konfiguration ausschließen.
         fields:
           basic_auth_password: Passwort
           basic_auth_username: Benutzername
-          exclude_resolution_fields: Exclude resolution fields for this configuration
+          exclude_resolution_fields: Felder für Lösung/Erledigt für diese Konfiguration ausschließen
           name: Name
-          personal_access_token: Personal access token (PAT)
+          personal_access_token: Persönliches Zugriffstoken (PAT)
           url: Jira Server/Datencenter URL
         label_testing: Teste Konfiguration...
         personal_access_token_caption: The token must belong to a Jira administrator.
-      personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
+      personal_access_token_deleted: Das persönliche Zugriffstoken (PAT) wurde erfolgreich gelöscht.
       run:
         actions:
           button_edit: Import bearbeiten
@@ -1687,53 +1687,53 @@ de:
           JiraCreateCustomFieldsJob:
             title: Benutzerdefinierte Felder erstellen
           JiraCreateLabelsJob:
-            title: Create labels
+            title: Labels erstellen
           JiraCreateParentChildRelationsFromSubtasksJob:
-            title: Create parent-child relations for '%{jira_project_name}'
+            title: Eltern-Kindbeziehungen für '%{jira_project_name}' erstellen
           JiraCreateProjectJob:
             title: Projekt ‚%{jira_project_name}‘ erstellen
           JiraCreateProjectRoleJob:
             title: Projektrolle ‚JiraMember‘ erstellen
           JiraCreateProjectTimeEntriesJob:
-            title: Create time entries for '%{jira_project_name}'
+            title: Zeiteinträge für '%{jira_project_name}' erstellen
           JiraCreateProjectVersionsJob:
             title: Versionen für ‚%{jira_project_name}‘ erstellen
           JiraCreateProjectWorkPackagesJob:
             title: Arbeitspakete für ‚%{jira_project_name}‘ erstellen
           JiraCreateRelationsJob:
-            title: Create relations for '%{jira_project_name}'
+            title: Beziehungen für '%{jira_project_name} ' erstellen
           JiraCreateSprintsJob:
-            title: Create sprints
+            title: Sprints erstellen
           JiraCreateUsersJob:
             title: Benutzer erstellen
           JiraDownloadProjectWorkPackageAttachmentsJob:
-            title: Download work package attachments for '%{jira_project_name}'
+            title: Lade Anhänge des Arbeitspakets für '%{jira_project_name} ' herunter
           JiraFetchCustomFieldJob:
             title: Benutzerdefinierte Felder abrufen
           JiraFetchIssueTypesJob:
-            title: Fetch issue types
+            title: Ticket-Typen abrufen
           JiraFetchPrioritiesJob:
             title: Prioritäten abrufen
           JiraFetchProjectBoardsJob:
-            title: Fetch boards for project '%{jira_project_name}'
+            title: Boards für Projekt '%{jira_project_name} ' abrufen
           JiraFetchProjectIssuesJob:
-            title: Fetch issues for project '%{jira_project_name}'
+            title: Tickets für Projekt '%{jira_project_name} ' abrufen
           JiraFetchProjectVersionsJob:
             title: Versionen für das Projekt ‚%{jira_project_name}‘ abrufen
           JiraFetchProjectsJob:
             title: Projekte abrufen
           JiraFetchSprintsJob:
-            title: Fetch sprints
+            title: Sprints abrufen
           JiraFetchStatusesJob:
             title: Status abrufen
           JiraFetchUsersJob:
             title: Benutzer abrufen
           JiraInstanceMetaDataJob:
-            title: Fetching instance meta data
+            title: Laden von Instanz-Metadaten
           JiraProjectsMetaDataJob:
-            title: Fetching meta data about selected projects
+            title: Meta-Daten der ausgewählten Projekte abrufen
           JiraRevertImportJob:
-            title: Reverting this Jira import run
+            title: Import wird rückgängig gemacht
         not_administrator_error:
           basic: Jira configuration uses a basic auth user without administrator permissions. Migration needs a Jira administrator to run successfully. Please edit configuration with an administrator's credentials and try again.
           bearer: Jira configuration uses a user Personal Access Token. Migration needs an admin Personal Access Token to run successfully. Please edit configuration with an admin token and try again.
@@ -1758,24 +1758,24 @@ de:
           instance_meta_fetching: Abrufen von Metadaten
           projects_meta_done: Daten erfasst
           projects_meta_error: Fehler beim Abrufen von Projektdaten
-          projects_meta_fetching: Abrufen von Projektdaten
+          projects_meta_fetching: Projektdaten abrufen
           revert_error: Fehler beim Revertieren
           reverted: Rückgängig gemacht
           reverting: Rückgängig machen
         step_not_available: Diese Aktion ist für den aktuellen Status des Importvorgangs nicht verfügbar.
         title: Importlauf
         wizard:
-          application_trace: Application trace
+          application_trace: Anwendungsablauf
           button_abort: Abbrechen
           button_retry: Erneut versuchen
-          copy_application_trace: Copy application trace
-          copy_full_trace: Copy full trace
+          copy_application_trace: Anwendungsverlauf kopieren
+          copy_full_trace: Gesamten Trace kopieren
           finalize_dialog:
             confirm: Ich verstehe, dass diese Aktion nicht rückgängig gemacht werden kann
             confirm_button: Verstanden
             description: Sobald der Import bestätigt ist, kann er nicht mehr rückgängig gemacht werden. Alle importierten Daten werden dann dauerhaft übernommen.
             title: Diesen Import bestätigen?
-          full_trace: Full trace
+          full_trace: Vollständiger Trace
           groups:
             configuration:
               title: Import konfigurieren
@@ -1791,10 +1791,10 @@ de:
           parts:
             issues:
               one: "%{count} Ticket"
-              other: "%{count} issues"
+              other: "%{count} Tickets"
             jobs:
-              one: "%{count} job"
-              other: "%{count} jobs"
+              one: "%{count} Job"
+              other: "%{count} Jobs"
             projects:
               one: "%{count} Projekt"
               other: "%{count} Projekte"
@@ -1802,8 +1802,8 @@ de:
               one: "%{count} resolution"
               other: "%{count} resolutions"
             statuses:
-              one: "%{count} status"
-              other: "%{count} Statusse"
+              one: "%{count} Status"
+              other: "%{count} Status"
             types:
               one: "%{count} Typ"
               other: "%{count} Typen"
@@ -1831,6 +1831,7 @@ de:
               label_import_data: Wird gerade importiert
               label_progress: Import läuft...
               label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
+              label_sprint_explanation: Sprints that contain at least one issue
               label_users_import_explanation: Nutzer, die an ausgewählten Projekten beteiligt sind (einschließlich Gruppenmitgliedschaften)
               title: Daten importieren
             fetch_data:
@@ -1865,17 +1866,17 @@ de:
                   subtitle: Als Umfang ausgewählt
                 sprints:
                   label: Sprints
-                  subtitle: With goals and work package assignments
+                  subtitle: Mit Zielen und Arbeitspaketzuweisungen
                 title: Daten importiert
                 users_and_groups:
                   label: Benutzer & Gruppen
-                  subtitle: Involved in imported projects
+                  subtitle: An importierten Projekten beteiligt
                 versions:
-                  label: Versions
-                  subtitle: Of the imported projects
+                  label: Versionen
+                  subtitle: Von den importierten Projekten
                 work_packages:
                   label: Arbeitspakete
-                  subtitle: With attachments and logged time
+                  subtitle: Mit Anhängen und erfasster Arbeitszeit
               title: Importlauf-Ergebnisse
             import_scope:
               button_continue: Fortfahren
@@ -1884,24 +1885,24 @@ de:
               caption: Wählen Sie, was Sie in OpenProject importieren möchten
               caption_done: Abgeschlossen
               caption_done_description:
-                one: "%{count} project selected as scope"
-                other: "%{count} Projekte als Anwendungsbereich ausgewählt"
+                one: "%{count} Projekt als Umfang ausgewählt"
+                other: "%{count} Projekte als Umfang ausgewählt"
               description: Wählen Sie aus den verfügbaren Daten, die Sie aus der Host-Jira-Instanz abrufen, die Daten aus, die Sie importieren möchten.
               elements:
                 configuration_mapping: Configuration & Mapping options
                 custom_fields: Ein Teil der benutzerdefinierten Felder
-                issue_details: Issue identifiers, description, history, comments and attachments
+                issue_details: Ticket-Bezeichner, Beschreibung, Verlauf, Kommentare und Anhänge
                 issues: Tickets
                 logged_time: Erfasste Zeit
                 permissions: Berechtigungen
                 plugin_migration: Plug-in migration
-                project_details: Project identifiers, description and versions
+                project_details: Projektbezeichner, Beschreibung und Versionen
                 project_specific_custom_fields: Project-specific custom fields
                 projects: Projekte
                 relations: Beziehungen zwischen Tickets
                 schemes: Schemas
                 security_level: Security Level
-                sprints: Sprints and sprint assignments
+                sprints: Sprints und Sprint-Zuweisungen
                 users: Beteiligte Benutzer und Gruppen
                 workflow_migration: Workflow migration
                 workflows: Workflows auf Projektebene
@@ -1929,20 +1930,20 @@ de:
               rest_line_text: ''
               title: Jira-Konfiguration abrufen
             '10':
-              rest_line_text: Creating relations for %{projects_number} more projects
-              title: Create relations
+              rest_line_text: Beziehungen für %{projects_number} weitere Projekte erstellen
+              title: Beziehungen erstellen
             '11':
-              rest_line_text: Creating time entries for %{projects_number} more projects
-              title: Create time entries
+              rest_line_text: Zeiteinträge für %{projects_number} weitere Projekte erstellen
+              title: Zeiteinträge erstellen
             '12':
-              rest_line_text: Downloading attachments for %{projects_number} more projects
-              title: Download attachments
+              rest_line_text: Anhänge für %{projects_number} weitere Projekte herunterladen
+              title: Anhänge herunterladen
             '2':
-              rest_line_text: Fetching issues, boards and versions for %{projects_number} more projects
-              title: Fetch project issues, boards and versions
+              rest_line_text: Issues, Boards und Versionen für %{projects_number} weitere Projekte abrufen
+              title: Projekt-Issues, Boards und Versionen abrufen
             '3':
               rest_line_text: ''
-              title: Fetch users, sprints and custom fields
+              title: Benutzer, Sprints und benutzerdefinierte Felder abrufen
             '4':
               rest_line_text: ''
               title: Benutzer, Gruppen und Mitgliedschaften erstellen
@@ -1953,18 +1954,18 @@ de:
               rest_line_text: "%{projects_number} weitere Projekte erstellen"
               title: Projekte erstellen
             '7':
-              rest_line_text: Creating versions and sprints for %{projects_number} more projects
-              title: Create project versions and sprints
+              rest_line_text: Versionen und Sprints für %{projects_number} weitere Projekte erstellen
+              title: Projektversionen und Sprints erstellen
             '8':
-              rest_line_text: Creating work packages for %{projects_number} more projects
+              rest_line_text: Arbeitspaketen für %{projects_number} weitere Projekte erstellen
               title: Arbeitspakete erstellen
             '9':
-              rest_line_text: Creating parent-child relations from subtasks for %{projects_number} more projects
-              title: Create parent-child relations from subtasks
+              rest_line_text: Eltern-Kind-Beziehungen für %{projects_number} weitere Projekte erstellen
+              title: Eltern-Kind-Beziehungen aus Unteraufgaben erstellen
       test:
         api_error: Jira API returned error status %{status}. Please check your Jira instance URL and credentials.
-        basic_auth_password_invalid: Invalid basic auth password. Please check your credentials in the configuration.
-        basic_auth_username_invalid: Invalid basic auth username. Please check your credentials in the configuration.
+        basic_auth_password_invalid: Ungültiges Passwort für die Basic-Authentifizierung. Bitte überprüfen Sie Ihre Anmeldedaten in der Konfiguration.
+        basic_auth_username_invalid: Ungültiger Nutzername für die Basic-Authentifizierung. Bitte überprüfen Sie Ihre Anmeldedaten in der Konfiguration.
         connection_error: 'Verbindungsfehler: %{message}'
         error: Beim Testen der Verbindung ist ein unerwarteter Fehler aufgetreten
         failed: 'Verbindung fehlgeschlagen: Serverinformationen können nicht abgerufen werden'
@@ -1973,7 +1974,7 @@ de:
           basic: Basic auth user must be a Jira administrator.
           bearer: Personal Access Token must be an admin token.
         parse_error: Die Antwort des Servers konnte nicht gelesen werden. Der Server ist möglicherweise keine gültige Jira-Instanz.
-        personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
+        personal_access_token_invalid: Ungültiges persönliches Zugriffstoken (PAT). Bitte überprüfen Sie Ihre Anmeldedaten in der Konfiguration.
         success: Erfolgreich verbunden mit %{server} (Version %{version})
       title: Jira Migrator
       user:
@@ -2051,8 +2052,8 @@ de:
         title: Mitgliedschaften
     placeholder_users:
       index:
-        blank_description: No placeholder user matches the current filter.
-        blank_title: No placeholder users
+        blank_description: Keine Platzhalter-Nutzer entspricht dem aktuellen Filter.
+        blank_title: Keine Platzhalter-Nutzer
     plugins:
       no_results_content_text: Weitere Informationen finden Sie auf unserer Seite für Integrationen und Plugins.
       no_results_title_text: Es sind derzeit keine Plugins installiert.
@@ -2260,8 +2261,8 @@ de:
       blankslate:
         description: Status hinzufügen, um mit der Konfiguration von Arbeitsabläufen für diese Rolle zu beginnen
         linked_description: Dieser Typ übernimmt die Workflows seines verknüpften Quelltyps, für den keine Statusübergänge konfiguriert sind
-        readonly_description: Select other roles to view configured transitions
-        readonly_title: No status transitions configured for the selected roles
+        readonly_description: Wählen Sie weitere Rollen aus, um die konfigurierten Übergänge anzuzeigen
+        readonly_title: Für die ausgewählten Rollen sind keine Statusübergänge konfiguriert
         title: Keine Statusübergänge konfiguriert
       leave_confirmation:
         description: Sie sind dabei, diese Seite zu verlassen, haben aber noch nicht gespeicherte Änderungen. Möchten Sie diese vor dem Fortfahren speichern?
@@ -2322,13 +2323,13 @@ de:
         discard: Verwerfen
         editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
         failed_title: Generation failed
-        generating: Generating…
+        generating: Wird erstellt...
         mentions_converted: New mentions in the AI suggestion were turned into plain text so no one is notified unintentionally. After Replace, you can mention them again in the editor.
         replace: Ersetzen
         request_failed: The request failed. Close the result and try again.
         selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
         stopped_description: The response was blocked before it finished, so the partial text was discarded.
-        stopped_title: Generation stopped
+        stopped_title: Erzeugung gestoppt
         title: KI-Ergebnis
         try_again: Noch einmal versuchen
   announcements:
@@ -2340,7 +2341,7 @@ de:
     deleted_by_admin: Die unter Quarantäne gestellte Datei '%{filename}' wurde von einem Administrator gelöscht.
     deleted_message: In der Datei '%{filename}' wurde ein Virus entdeckt. Die Datei wurde gelöscht.
     not_processed_yet_message: Das Herunterladen ist blockiert, da die Datei noch nicht auf Viren gescannt wurde. Bitte versuchen Sie es später noch einmal.
-    overridden_by_admin: The quarantine for file '%{filename}' has been removed by %{user}. The file can now be accessed.
+    overridden_by_admin: Die Quarantäne für die Datei '%{filename}' wurde von %{user} entfernt. Auf die Datei kann nun zugegriffen werden.
     quarantined_attachments:
       container: Container
       delete: Unter Quarantäne gestellte Datei löschen
@@ -2706,7 +2707,7 @@ de:
       disabled_value: Das Attribut "%{custom_field_name}" wird für diesen Berechneten Wert benötigt, ist aber leer.
       mathematical: Die mathematische Formel führt zu einem Fehler. Bitte überprüfen Sie das Attribut der Projektberechnung und versuchen Sie es erneut.
       missing_value: Das Attribut "%{custom_field_name}" wird für diesen Berechneten Wert benötigt, ist aber leer.
-      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
+      multi_value_list: Das Attribut „%{custom_field_name}“ lässt mehrere Werte zu und kann nur innerhalb einer Aggregatfunktion verwendet werden. Bitte überprüfen Sie die Formel für diesen berechneten Wert.
       unknown: Ein unbekannter Fehler ist aufgetreten. Bitte überprüfen Sie die Formel für diesen Berechneten Wert.
   colors:
     contrast:
@@ -2881,7 +2882,7 @@ de:
         warning: Je nach der unten ausgewählten Rolle kann der Benutzer, der diesem Projektattribut zugewiesen ist, wesentlich mehr Berechtigungen erhalten, als er zuvor hatte. Dies könnte bedeuten, dass er seine eigene Rolle und verknüpfte Berechtigungen ausweitet.
     calculated_field_not_editable: Nicht editierbares Attribut. Dieser Wert wird automatisch berechnet.
     confirm_destroy_option: Löschen eines Werts entfernt alle bereits gesetzten Werte (z.B. bei Arbeitspaketen). Sind Sie sicher, dass Sie den Wert löschen möchten?
-    contained_in: Contained in
+    contained_in: Enthalten in
     enabled_in_project: Im Projekt aktiviert
     instructions:
       admin_only:
@@ -2890,7 +2891,7 @@ de:
       editable:
         all: Feld darf von Benutzern ohne Administratorrechte bearbeitet werden.
       formula:
-        project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
+        project: Geben Sie numerische Werte ein oder tippen Sie „/“, um nach einem Attribut, einem Operator, einer Funktion oder einem anderen Token zu suchen. Weitere Informationen finden Sie in der [Dokumentation zur Formelsyntax](docs_url).
       has_comment:
         project: Ermöglicht es dem Benutzer, zusätzlich einen Kommentar zum Projektattribut hinzuzufügen, wenn der Wert in der Projektübersicht ausgewählt wird.
       is_filter:
@@ -3601,7 +3602,7 @@ de:
       name:
         caption: Wählen Sie einen Namen, anhand dessen Sie dieses Formular später an anderer Stelle wiedererkennen können.
         label: Formularname
-      save_title: Save form
+      save_title: Formular speichern
     index:
       actions:
         edit: Formular bearbeiten
@@ -3694,22 +3695,22 @@ de:
         newest: Neueste
         oldest: Älteste
         oldest_activity: Älteste Aktivität
-        recent_activity: Recent activity
+        recent_activity: Letzte Aktivität
       topic: Thema
     topic:
       accept_as_solution: Als Lösung akzeptieren
       accepted_solution: Akzeptierte Lösung
       accepted_solutions_banner:
         one: 'Akzeptierte Lösung:'
-        other: 'Accepted solutions:'
+        other: 'Akzeptierte Lösungen:'
       add_work_package: Neues Arbeitspaket hinzufügen
       edit_message: Nachricht bearbeiten
       gap:
         load_previous:
-          one: Load previous reply
-          other: Load previous %{count} replies
-        load_previous_page: Load previous %{count} replies (out of %{total})
-      message_actions: Message actions
+          one: Vorherige Antwort laden
+          other: Vorherige %{count} Antworten laden
+        load_previous_page: Vorherige %{count} Antworten laden (von %{total})
+      message_actions: Nachrichtenaktionen
       participants:
         one: 1 Teilnehmer
         other: "%{count} Teilnehmer"
@@ -3719,7 +3720,7 @@ de:
         one: 1 Antwort
         other: "%{count} Antworten"
         zero: Noch keine Antworten
-      started_html: Started %{time}
+      started_html: Begonnen um %{time}
       view_work_package: "%{id} ansehen"
       with_accepted_solution: Mit akzeptierter Lösung
   general_csv_decimal_separator: ","
@@ -3774,9 +3775,9 @@ de:
       no_favorite_projects: Sie haben keine favorisierten Projekte.
       title: Projekte
     whats_new:
-      title: What's new in %{version}
+      title: Was ist neu in %{version}
       unread: Ungelesen
-      view_release_video: View release video
+      view_release_video: Release Video anzeigen
   health_reports:
     common:
       checks:
@@ -3832,11 +3833,11 @@ de:
               title: Typvarianten
               url: https://www.openproject.org/docs/release-notes/18-0-0/
             line_1:
-              description: Sprint reports, including many new charts
-              title: Agile Reporting
+              description: Sprint-Berichte, inklusive zahlreicher neuer Diagramme
+              title: Berichte für Agile
               url: https://www.openproject.org/docs/release-notes/18-0-0/
             line_2:
-              description: Summarize text, change formats, base it on templates
+              description: Text zusammenfassen, Formatierung ändern, auf Vorlagen basieren
               title: KI-Textaktionen
               url: https://www.openproject.org/docs/release-notes/18-0-0/
             line_3:
@@ -3940,11 +3941,11 @@ de:
           working: "%{day} ist jetzt ein Arbeitstag"
     caused_changes:
       budget_deleted: Budget wurde gelöscht
-      comment_retracted: Comment retracted
+      comment_retracted: Kommentar zurückgezogen
       dates_changed: Datum geändert
       default_attribute_written: Nur-Lese-Attribute wurde geschrieben
       email_html: "<strong>Via email</strong> from %{sender}"
-      forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
+      forum_message_html: "<strong>Aus einem Forumsbeitrag erstellt</strong> %{message_information}"
       import: Importiert
       label_deleted: 'Label removed:'
       meeting_agenda_item_added_html: "<strong>Zur Besprechung hinzugefügt</strong> %{meeting_title_information}"
@@ -3982,7 +3983,7 @@ de:
   label_active_in_new_projects: Aktiv in neuen Projekten
   label_activity: Aktivität
   label_add_another_file: Eine weitere Datei hinzufügen
-  label_add_column: Add columns
+  label_add_column: Spalten hinzufügen
   label_add_columns: Ausgewählte Spalten hinzufügen
   label_add_edit_translations: Hinzufügen und Bearbeiten von Übersetzungen
   label_add_note: Kommentar hinzufügen
@@ -3997,7 +3998,7 @@ de:
   label_additional_workflow_transitions_for_author: Zusätzliche Workflow-Übergänge wenn der Nutzer der Autor des Arbeitspakets ist
   label_administration: Administration
   label_age: Geändert vor
-  label_aggregate_function_plural: Aggregate functions
+  label_aggregate_function_plural: Aggregatfunktionen
   label_ago: vor (Tage)
   label_all: alle
   label_all_open_wps: Alle offenen
@@ -4147,7 +4148,7 @@ de:
   label_deleted_custom_field: "(gelöschtes benutzerdefiniertes Feld)"
   label_deleted_custom_item: "(gelöschter Eintrag)"
   label_deleted_custom_option: "(gelöschte Option)"
-  label_deleted_label: "(deleted label)"
+  label_deleted_label: "(gelöschte Bezeichnung)"
   label_deleted_version: "(gelöschte Version)"
   label_departments: Organisation
   label_departments_description_html: 'Definieren Sie die Struktur Ihres Unternehmens, indem Sie Abteilungen und Unterabteilungen in hierarchischer Form anlegen. So können Sie Berichtslinien abbilden und einen klaren, strukturierten Überblick über Ihre Organisation in OpenProject behalten. Sie können auch eine bestehende Organisationsstruktur über [eine synchronisierte LDAP-Abteilung](ldap_docs_article) importieren.
@@ -4212,7 +4213,7 @@ de:
   label_filter: Filter
   label_filter_add: Filter hinzufügen
   label_filter_any_name_attribute: Namensattribute
-  label_filter_by_column: Filter by %{column}
+  label_filter_by_column: Nach %{column} filtern
   label_filter_plural: Filter
   label_filters_toggle: Filter ein-/ausblenden
   label_float: Gleitkommazahl
@@ -4263,7 +4264,7 @@ de:
   label_in: an
   label_in_less_than: in weniger als
   label_in_more_than: in mehr als
-  label_in_progress_work_packages: in progress
+  label_in_progress_work_packages: in Bearbeitung
   label_inactive: Inaktiv
   label_include_sub_projects: Unterprojekte einbeziehen
   label_includes: enthält
@@ -4281,7 +4282,7 @@ de:
   label_interface_colors_description: 'Diese Farben bestimmen, wie die Anwendung aussieht. Änderungen dieser Farben wirken sich auf das Design aus, aber wir können dadurch nicht mehr garantieren, dass die Mindestanforderungen an die Barrierefreiheit (WCAG 2.1) eingehalten werden. '
   label_internal: Intern
   label_introduction_video: Einführungsvideo
-  label_invalid_file_type: This file type is not supported.
+  label_invalid_file_type: Dieser Dateityp wird nicht unterstützt.
   label_invitation: Einladung
   label_invite_user: Nutzer einladen
   label_item: Element
@@ -4314,7 +4315,7 @@ de:
   label_list: Liste
   label_loading: Lade...
   label_locale: Sprache und Region
-  label_locale_based: Use default for user locale
+  label_locale_based: Standard für Benutzersprache verwenden
   label_lock_user: Benutzer sperren
   label_locked: gesperrt
   label_logged_as: Angemeldet als
@@ -4622,7 +4623,7 @@ de:
   label_time_entry_plural: Aufgewendete Zeit
   label_timer_since: Begonnen um %{time}
   label_title: Titel
-  label_to_do_work_packages: to-do
+  label_to_do_work_packages: To-Do
   label_today: heute
   label_today_as_date: Heute als Datum wählen.
   label_today_as_due_date: Heute als Enddatum wählen.
@@ -4737,12 +4738,12 @@ de:
     other: "%{count} Dateien"
     zero: keine Dateien
   label_x_forms:
-    one: "%{count} form"
-    other: "%{count} forms"
+    one: "%{count} Formular"
+    other: "%{count} Formulare"
   label_x_in_progress_work_packages_abbr:
-    one: 1 in progress
-    other: "%{count} in progress"
-    zero: 0 in progress
+    one: 1 in Bearbeitung
+    other: "%{count} in Bearbeitung"
+    zero: 0 in Bearbeitung
   label_x_items:
     one: "%{count} Element"
     other: "%{count} Elemente"
@@ -4759,9 +4760,9 @@ de:
     other: "%{count} Projekte"
     zero: Keine Projekte
   label_x_to_do_work_packages_abbr:
-    one: 1 to-do
-    other: "%{count} to-do"
-    zero: 0 to-do
+    one: 1 To-Do
+    other: "%{count} To-Do"
+    zero: 0 To-Do
   label_x_work_packages:
     one: "%{count} Arbeitspaket"
     other: "%{count} Arbeitspakete"
@@ -4881,8 +4882,8 @@ de:
       you_have: Sie haben
     logo_alt_text: Logo
     mention:
-      message_body: "%{user_name} mentioned you:"
-      message_subject: "%{user_name} mentioned you in %{subject}"
+      message_body: "%{user_name} erwähnte Sie:"
+      message_subject: "%{user_name} erwähnte Sie in %{subject}"
       subject: "%{user_name} erwähnte Sie in %{id} - %{subject}"
     notification:
       center: Zur Benachrichtigungszentrale
@@ -5437,15 +5438,15 @@ de:
       client_credentials: Anmeldeinformationen des Clients
       confidential: Vertraulich
       instructions:
-        client_credential_user_id: Optional user ID to impersonate when clients use the client credentials flow to obtain an access token. Leave empty to only allow authorization code flow.
-        confidential: Check if the application is able to keep a client secret confidential. Native mobile apps and Single Page Apps are usually not able to do this, but web applications can.
-        enabled: Enable this application, allowing it to obtain access tokens.
-        name: The name of your application. This will be displayed to users upon authorization.
-        page_description: OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users.
-        redirect_uri_html: 'The allowed URLs authorized users can be redirected to. One entry per line. If your application does not need a redirect URL, use the following URL:
+        client_credential_user_id: Optionale Benutzer-ID, die verwendet wird, wenn sich Clients mit dem Client Credentials Flow authentifizieren. Lassen Sie dieses Feld leer um nur den Authorization Code Flow zu aktivieren.
+        confidential: Aktivieren Sie dieses Feld, wenn die Applikation Geheimnisse schützen kann. Handyapplikationen und Single Page Apps können dies in der Regel nicht. Webapplikationen mit einer Serverkomponente haben diese Möglichkeit.
+        enabled: Applikation aktivieren. Dies ermöglicht das Erstellen von Access Tokens.
+        name: Der Name Ihrer Applikation. Wird beim Anmelden den Benutzern angezeigt.
+        page_description: OAuth ermöglicht die Integration einer Appilkation mit OpenProject. Die Applikation kann mittels Access Tokens im Namen der Benutzer mit OpenProject interagieren.
+        redirect_uri_html: 'Die Liste der Adressen, auf die Benutzer weitergeleitet werden können. Ein Eintrag pro Zeile. Falls Ihre Applikation keine Redirect URL benötigt, verwenden Sie bitte folgenden Wert:
 
           '
-        scopes: Select the scopes you want to allow for the application. If no scope is checked, api_v3 is assumed.
+        scopes: Wählen Sie die Scopes aus, die Sie der Applikation gewähren wollen. Wenn keine Scopes ausgewählt sind, ist der Standardwert api_v3.
       named: OAuth-Anwendung '%{name}'
       new: Neue OAuth-Anwendung
       non_confidential: Nicht vertraulich
@@ -5462,7 +5463,7 @@ de:
         '
     authorization_error: Ein Autorisierungsfehler ist aufgetreten.
     client_credentials: Benutzer für Client-Credentials Anmeldefluss
-    client_credentials_impersonation: 'By default, OpenProject provides OAuth 2.0 authorization via [authorization code flow](authorization_code). You can optionally enable [client credentials flow](client_credentials), but you must provide a user on whose behalf requests will be performed.
+    client_credentials_impersonation: 'In einer Standardkonfiguration erlaubt OpenProject nur den [Authorization Code Flow](authorization_code) mittels OAuth 2.0. Sie können optional auch den [Client Credentials Flow](client_credentials) aktivieren, indem Sie einen Benutzer angeben, in dessen Namen die Applikation handeln kann.
 
       '
     client_credentials_impersonation_set_to: Client Credentials User-ID gesetzt auf
@@ -5488,12 +5489,12 @@ de:
       other_applications: Andere OAuth-Anwendungen
     my_registered_applications: Registrierte OAuth-Anwendungen
     scopes:
-      api_v3: Access to APIv3
+      api_v3: Zugriff auf APIv3
       api_v3_text: Die Anwendung erhält vollen Lese- und Schreibzugriff auf die OpenProject API v3, um Aktionen in Ihrem Namen durchzuführen.
       explanations_admin:
-        api_v3: Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf.
+        api_v3: Die Applikation erhält volle Lese- und Schreibrechte über die OpenProject API v3 um im Namen des Benutzers zu interagieren.
         mcp: Die Anwendung erhält Zugriff auf die OpenProject-MCP-Endpunkte. Dabei handelt es sich um eine Untermenge von APIv3 Endpunkten, die speziell für die Verwendung mit KI-Agenten ausgelegt ist.
-      mcp: Access to Model Context Protocol
+      mcp: Zugriff auf das Model Context Protocol
       mcp_text: Die Anwendung erhält Zugriff auf die OpenProject-MCP-Endpunkte. Dabei handelt es sich um eine Untermenge von APIv3 Endpunkten, die speziell für die Verwendung mit KI-Agenten ausgelegt ist.
   oauth_client:
     errors:
@@ -5551,11 +5552,11 @@ de:
       ai_text_transform_pane:
         rules:
           project_id:
-            with_work_package: must not be combined with a work package.
+            with_work_package: darf nicht mit einem Arbeitspaket kombiniert werden.
           retry_of:
-            with_action: must not be combined with an action or input.
+            with_action: darf nicht mit einer Aktion oder einer Eingabe kombiniert werden.
           type_id:
-            without_project: must be given together with a project.
+            without_project: muss zusammen mit einem Projekt angegeben werden.
       array?: muss ein Array sein.
       decimal?: muss eine Dezimalzahl sein.
       defined: darf nicht definiert werden.
@@ -5665,14 +5666,14 @@ de:
         caption: Fügen Sie ein Inhaltsverzeichnis ein, in dem die Überschriften der Abschnitte aufgeführt sind.
         label: Inhaltsverzeichnis
       wiki_pages:
-        add: Add wiki pages
-        caption: You can add one or more wiki pages that will be included at the end of the exported PDF.
-        dialog_subtitle: Select the wiki page you would like to add
-        dialog_title: Add existing wiki page
-        manage_label: Manage and reorder wiki pages
-        placeholder: Select a wiki page
-        unavailable: Unavailable wiki page (%{reference})
-        visibility_warning: Adding a wiki page makes its content visible to everyone who can export this artefact, even if they cannot access the wiki page itself.
+        add: Wiki-Seite hinzufügen
+        caption: Sie können eine oder mehrere Wiki-Seiten hinzufügen, die am Ende der exportierten PDF-Datei eingefügt werden.
+        dialog_subtitle: Wählen Sie die Wiki-Seite aus, die Sie hinzufügen möchten
+        dialog_title: Vorhandene Wiki-Seite hinzufügen
+        manage_label: Wiki-Seiten verwalten und neu anordnen
+        placeholder: Bitte wählen Sie eine Wiki-Seite aus
+        unavailable: Wiki-Seite nicht verfügbar (%{reference})
+        visibility_warning: Durch das Hinzufügen einer Wiki-Seite wird deren Inhalt für alle sichtbar, die dieses Artefakt exportieren können, auch wenn sie keinen Zugriff auf die Wiki-Seite selbst haben.
     page_nr_footer: Seite %{page} von %{total}
     template_artefact:
       caption: Work package details rendered as a PMflex Artefact.
@@ -5966,13 +5967,13 @@ de:
       shared: Geteilte Projektlisten
     phase_status:
       description:
-        completed: Marking a phase as complete will complete all previous phases.
-        in_progress: Marking a phase as in progress will complete all previous phases and open all future phases.
-        open: Re-opening a phase will also open all future phases.
+        completed: This will also mark all previous phases as complete.
+        in_progress: This will complete all previous phases and mark future phases as not started.
+        open: This will mark all future phases as not started.
       title:
-        completed: Completed
-        in_progress: In progress
-        open: Open
+        completed: Abgeschlossen
+        in_progress: In Durchführung
+        open: Not started
     settings:
       actions:
         label_disable_all: Alles deaktivieren
@@ -6108,12 +6109,12 @@ de:
         switch:
           apply: Anwenden
           impact:
-            hidden_description: The variant you have selected does not include these fields. Any values these fields previously had will no longer be visible.
-            hidden_heading: Fields that will be removed
-            missing_statuses_description: The workflow you have selected has no transitions out of the following statuses. Users will not be able to transition to a new status.
-            missing_statuses_heading: Work packages without transitions
-            new_description: The variant you have selected has these additional fields. They will be added to all relevant work packages with an empty value.
-            new_heading: Fields that will be added
+            hidden_description: Die von Ihnen ausgewählte Variante enthält diese Felder nicht. Alle Werte, die zuvor in diesen Feldern eingetragen waren, sind nun nicht mehr sichtbar.
+            hidden_heading: Felder, die entfernt werden
+            missing_statuses_description: Der von Ihnen ausgewählte Workflow enthält keine Übergänge aus den folgenden Status. Nutzer werden nicht in einen neuen Status außer dem Standardstatus wechseln können.
+            missing_statuses_heading: Arbeitspakete ohne Übergänge
+            new_description: Die von Ihnen ausgewählte Variante verfügt über diese zusätzlichen Felder. Sie werden in allen relevanten Arbeitspaketen mit einem leeren Wert hinzugefügt.
+            new_heading: Felder, die hinzugefügt werden
             nothing_affected: Es sind keine Felder oder Status betroffen.
             status_count:
               one: "%{count} Arbeitspaket"
@@ -6157,9 +6158,9 @@ de:
       body: "%{app_title} reloads automatically as soon as your connection returns."
       headline: You’re offline
       headline_online: You’re back online
-      reloading: Reloading…
+      reloading: Nachladen...
       retry: Erneut versuchen
-      retrying: Retrying…
+      retrying: Erneuter Versuch...
       status_checking: Checking your connection…
       status_restored: Connection restored. Reloading…
       status_still: Still offline. We’ll try again in a moment.
@@ -7306,7 +7307,7 @@ de:
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
         allow_project_variants_caption: Für Projektadministratoren, die über die Berechtigung zur Verwaltung von Varianten verfügen, kann dieser Typ innerhalb eines Projekts erweitert oder geändert werden.
-        description_caption: Add context or hints. Shown to administrators in the types and variants list.
+        description_caption: Dieser Hinweis wird Administratoren in der Liste der Typen und Varianten angezeigt.
         inherited_from_type_html: Vom übergeordneten Typ <b>%{type}</b> gesetzt.
         tab: Details
         type_color_text: |-
@@ -7356,6 +7357,7 @@ de:
         delete_group: Abschnitt löschen
         drag_to_activate: Felder aus diesem Bereich herausziehen, um sie zu aktivieren
         drag_to_reorder: Ziehen zum Neuordnen
+        edit_custom_field: Edit custom field
         edit_query: Abfrage bearbeiten
         empty_group_hint: Attribute hierher ziehen
         exclusions:
@@ -7428,7 +7430,7 @@ de:
         actions:
           confirm_remove: Den Typ %{type} von %{project} entfernen?
           remove_from_project: Aus dem Projekt entfernen
-          switch_variant: Switch variant
+          switch_variant: Variante wechseln
         add_dialog:
           no_projects_selected: Bitte wählen Sie mindestens ein Projekt.
           search_placeholder: Projekte suchen
@@ -7497,14 +7499,14 @@ de:
           mode_label: Diese Seite manuell konfigurieren
           modes:
             copy:
-              caption: Start with a one-time copy of the settings of the parent type.
-              label: Copy existing settings
+              caption: Beginnen Sie mit einer einmaligen Kopie der Einstellungen des übergeordneten Typs.
+              label: Vorhandene Einstellungen kopieren
             default:
               caption: Standardeinstellungen für neue Typen verwenden.
               label: Standardeinstellungen
             empty:
               caption: Richten Sie alles von Grund auf ein, beginnend mit einer leeren Konfiguration.
-              label: Start from scratch
+              label: Von Grund auf neu beginnen
           success: Der Konfigurationsmodus wurde gewechselt.
           title: Manuelle Konfiguration
         parent_suffix: " (übergeordneter Typ)"
@@ -7559,7 +7561,7 @@ de:
           one: 'Der Typ wird aus %{count} Projekt entfernt:'
           other: 'Der Typ wird aus %{count} Projekten entfernt:'
         title: Typ löschen
-      description: 'Create and configure different work package types. Each type has its own default template and a set of custom fields, a workflow and other settings. If you need project-specific configurations, you can also create slightly different variants for each type according to the needs of each project.
+      description: 'Erstellen und konfigurieren Sie verschiedene Arten von Arbeitspaketen. Jede Art verfügt über eine eigene Standardvorlage sowie eine Reihe von benutzerdefinierten Feldern, einen Workflow und weitere Einstellungen. Sollten Sie projektspezifische Konfigurationen benötigen, können Sie für jede Art auch leicht abweichende Varianten erstellen, die auf die jeweiligen Projektanforderungen zugeschnitten sind.
 
         '
       duplicate_name: Kopie von %{name}
@@ -7590,11 +7592,11 @@ de:
     milestone_indicator: Meilenstein
     patterns:
       formats:
-        hierarchy_default: Default (label and short)
+        hierarchy_default: Standard (Bezeichnung und Kurzform)
         hierarchy_label: Nur Bezeichnung
-        hierarchy_short: Short only
+        hierarchy_short: Nur Kurzform
         weighted_item_list_default: Standard (Bezeichnung und Gewichtung)
-        weighted_item_list_weight: Weight only
+        weighted_item_list_weight: Nur Gewicht
   unsupported_browser:
     close_warning: Diese Warnung ignorieren.
     message: Sie werden deshalb auf dieser Seite eventuell Fehler feststellen oder Ihr Benutzererlebnis wird eingeschränkt sein.
@@ -8065,112 +8067,112 @@ de:
         other: Sie können %{count} Unteraufgaben nicht löschen, da Ihnen die erforderlichen Berechtigungen in %{projects} fehlen. Sie bleiben erhalten, deren Verknüpfungen zum Elternelement werden jedoch entfernt.
     import:
       check_file: Datei prüfen
-      checking_file: Checking %{filename}
+      checking_file: Überprüfe %{filename}
       clear: Zurücksetzen
       csv:
         file:
           empty: Diese Datei ist leer.
           expired: Diese Datei ist nicht mehr verfügbar. Laden Sie sie erneut hoch.
-          expired_named: "%{filename} is no longer available. A checked file is kept for a few hours, so this one has to be uploaded again. It is checked once more before anything is created."
-          invalid_encoding: Line %{line} contains bytes that are not valid UTF-8 or UTF-16. Save the file again as CSV (UTF-8/UTF-16) and upload that file instead.
-          malformed: This file could not be read as CSV. Line %{line} opens a quote that is never closed.
+          expired_named: "%{filename} ist nicht mehr verfügbar. Eine geprüfte Datei wird einige Stunden lang aufbewahrt, daher muss diese erneut hochgeladen werden. Sie wird noch einmal geprüft, bevor etwas erstellt wird."
+          invalid_encoding: Die Zeile „ %{line} “ enthält Bytes, die nicht dem UTF-8- oder UTF-16-Standard entsprechen. Speichern Sie die Datei erneut als CSV (UTF-8/UTF-16) und laden Sie stattdessen diese Datei hoch.
+          malformed: Diese Datei konnte nicht als CSV-Datei gelesen werden. In Zeile %{line} wird ein Anführungszeichen geöffnet, das nie geschlossen wird.
           missing: Wählen Sie eine CSV-Datei zum Hochladen aus.
-          no_rows: This file has column headers but no lines underneath them.
-          too_large: This file is %{size}. The largest file this instance accepts is %{limit}. Split the lines across several files, or ask an administrator to raise the limit.
-          too_large_before_upload: This file is larger than the %{limit} this instance accepts. Split the lines across several files, or ask an administrator to raise the limit.
-          too_many_rows: This file has more lines than can be imported at once. The most is %{limit}.
+          no_rows: Diese Datei enthält Spaltenüberschriften, jedoch keine Zeilen darunter.
+          too_large: Diese Datei ist %{size}. Die größte Datei, die diese Instanz akzeptiert, ist %{limit}. Teilen Sie die Zeilen über mehrere Dateien, oder fragen Sie einen Administrator, das Limit zu erhöhen.
+          too_large_before_upload: Diese Datei ist größer als das Limit %{limit} das diese Instanz akzeptiert. Teilen Sie die Zeilen über mehrere Dateien oder bitten Sie einen Administrator, das Limit zu erhöhen.
+          too_many_rows: Diese Datei hat mehr Zeilen, als auf einmal importiert werden können. Das Limit ist %{limit}.
         format:
-          unknown: This is not a UTF-8/UTF-16 CSV file. If it came from a spreadsheet, save it again as CSV (UTF-8/UTF-16) and upload that file instead.
-          wrong_encoding: This file is %{encoding} encoded, not UTF-8 or UTF-16. Choose the CSV UTF-8/UTF-16 format when saving, then upload it again.
+          unknown: Dies ist keine CSV-Datei im UTF-8-/UTF-16-Format. Falls die Datei aus einer Tabellenkalkulation stammt, speichern Sie sie bitte erneut als CSV (UTF-8/UTF-16) und laden Sie stattdessen diese Datei hoch.
+          wrong_encoding: Diese Datei ist im Format „ %{encoding} “ kodiert, nicht im UTF-8- oder UTF-16-Format. Wählen Sie beim Speichern das CSV-Format „UTF-8/UTF-16“ aus und laden Sie die Datei anschließend erneut hoch.
         header:
-          ambiguous: and %{other} both mean %{attribute}. Keep one of them.
-          duplicate: appears more than once. Keep one of them.
-          status_based: cannot be imported while progress is calculated from the status. An administrator changes this under Administration, Work packages, Progress tracking.
+          ambiguous: und %{other} beide bedeuten %{attribute}. Behalten Sie eine der beiden Adressen bei.
+          duplicate: erscheint mehr als einmal. Behalten Sie eines davon.
+          status_based: kann nicht importiert werden, solange der Fortschritt anhand des Status berechnet wird. Ein Administrator kann dies unter „Verwaltung“, „Arbeitspakete“, „Fortschrittsverfolgung“ ändern.
           unknown: kann nicht importiert werden.
-          unknown_with_suggestion: cannot be imported. Did you mean %{suggestion}?
-          unnamed: This column has no name. Name it or remove the column.
+          unknown_with_suggestion: kann nicht importiert werden. Meinten Sie %{suggestion}?
+          unnamed: Diese Spalte hat keinen Namen. Benennen Sie sie oder entfernen Sie die Spalte.
         job:
-          checking: Checking the file
-          importing: Importing the file
+          checking: Überprüfung der Datei
+          importing: Importieren der Datei
         row:
-          created_after_updated: must not be later than the value in Updated on.
-          fractional_percentage: must be a whole number of percent, for example 50.
+          created_after_updated: darf nicht später als der Wert in Aktualisiert sein.
+          fractional_percentage: muss eine ganze Zahl in Prozent sein, zum Beispiel 50.
           future_timestamp: darf nicht in der Zukunft liegen.
-          invalid_date: must be a date written as YYYY-MM-DD.
-          invalid_timestamp: must be a date and time written as YYYY-MM-DDTHH:MM:SSZ.
-          not_created: could not be created, and no reason was reported.
-          too_many_cells: has %{count} cells but the header has %{expected}. A value containing the separator has to be quoted.
+          invalid_date: Es muss sich um ein Datum im Format YYYY-MM-DD handeln.
+          invalid_timestamp: Es muss sich um ein Datum und eine Uhrzeit im Format YYYY-MM-DDTHH:MM:SSZ handeln.
+          not_created: konnte nicht erstellt werden, und es wurde kein Grund gemeldet.
+          too_many_cells: hat %{count} Zellen, aber der Header hat %{expected}. Ein Wert, der das Trennzeichen enthält, muss in Anführungszeichen gesetzt werden.
           unknown: existiert nicht.
           unknown_in_project: existiert in diesem Projekt nicht.
-          unknown_user: does not match a user. Use the email address the user signs in with.
+          unknown_user: stimmt nicht mit einem Benutzer überein. Verwenden Sie die E-Mail-Adresse, mit der sich der Benutzer anmeldet.
         template:
           example_category: Dokumentation
           example_version: '1.0'
           examples:
             one:
-              description: Explain what the new page has to do.
-              subject: Write the documentation
+              description: Erläutern Sie, welchen Zweck die neue Seite erfüllt.
+              subject: Erstellen Sie die Dokumentation
             two:
-              description: The error appears after a failed password reset.
-              subject: Fix the login error
+              description: Der Fehler tritt nach einer fehlgeschlagenen Passwortzurücksetzung auf.
+              subject: Beheben Sie den Anmeldefehler
         view_name: CSV-Import um %{datetime}
       download_template: Vorlage herunterladen
-      drop_or_click: Drop a CSV file here or click to select one.
-      dry_run_caption: Every line is validated and reported, but nothing is created. Recommended for a file you have not imported before.
-      dry_run_label: Check the file first, without importing
+      drop_or_click: Ziehen Sie hierher eine CSV-Datei oder klicken Sie um eine auszuwählen.
+      dry_run_caption: Jede Zeile wird überprüft und protokolliert, es wird jedoch nichts erstellt. Empfohlen für eine Datei, die Sie zuvor noch nicht importiert haben.
+      dry_run_label: Datei zuerst prüfen ohne zu importieren
       file_label: CSV-Datei
       guidance:
-        column_reference: Find more here
-        columns_html: "%{link} containing the correct column headers needed for the import to succeed and fill it with the work package data."
-        limits_html: The CSV file imported must be exported in UTF-8/UTF-16 with a limit of %{lines} lines and a size of %{size}.
-        names_html: The column headers and values inside each work package attribute must match existing values. User attributes must match an existing email address. %{link}
+        column_reference: Weitere Informationen finden Sie hier
+        columns_html: "%{link} enthält die richtigen Spaltenüberschriften für den Import und das Ausfüllen mit den Arbeitspaketdaten."
+        limits_html: Die importierte CSV-Datei muss im UTF-8/UTF-16-Format exportiert werden, wobei die Zeilenzahl auf %{lines} und die Dateigröße auf %{size} begrenzt sein muss.
+        names_html: Die Spaltenüberschriften und Werte innerhalb jedes Arbeitspaket-Attributs müssen mit den vorhandenen Werten übereinstimmen. Benutzerattribute müssen mit einer vorhandenen E-Mail-Adresse übereinstimmen. %{link}
         title: Bevor Sie beginnen
       import_file: Datei importieren
-      importing_file: Importing %{filename}
-      intro: Create many work packages at once from a CSV file. Existing work packages are not changed.
-      menu_title: Work packages importer
+      importing_file: Importiere %{filename}
+      intro: Erstellen Sie mehrere Arbeitspakete gleichzeitig aus einer CSV-Datei. Vorhandene Arbeitspakete werden dabei nicht verändert.
+      menu_title: Arbeitspakete importieren
       report:
         announcement:
           checked: Die Datei wurde überprüft. Der Bericht ist unten aufgeführt.
-          file_rejected: The file was not imported. The report says what is wrong with its column headers.
+          file_rejected: Die Datei wurde nicht importiert. Im Bericht wird erläutert, welche Fehler bei den Spaltenüberschriften vorliegen.
           imported: Der Import ist abgeschlossen. Der Bericht ist unten aufgeführt.
-          rows_rejected: Nothing was imported. The report lists the problems.
+          rows_rejected: Es wurde nichts importiert. Der Bericht listet die Probleme auf.
         checked:
           heading: Bereit zum Importieren
           import: "%{work_packages} importieren"
-          kept: The checked file is kept for a few hours, so importing it does not need a second upload.
-          text: Nothing has been created yet. Review the summary below, then import.
+          kept: Die geprüfte Datei wird einige Stunden lang gespeichert, sodass für den Import kein erneuter Upload erforderlich ist.
+          text: Es wurde noch nichts erstellt. Sehen Sie sich die nachstehende Zusammenfassung an und führen Sie anschließend den Import durch.
           title:
-            one: "%{count} line checked, no problems found"
+            one: "%{count} Zeile geprüft, keine Probleme festgestellt"
             other: "%{count} Zeilen geprüft, keine Probleme festgestellt"
         download_problems: Als CSV herunterladen
         file_rejected:
           heading: Kopfzeile
           line: Zeile 1 von %{filename}
-          nothing: Nothing was imported. Correct the file and upload it again.
-          text: Correct the headers in the file and upload it again.
+          nothing: Es wurde nichts importiert. Bitte korrigieren Sie die Datei und laden Sie sie erneut hoch.
+          text: Bitte korrigieren Sie die Kopfzeilen in der Datei und laden Sie diese erneut hoch.
           title: Die Spaltenüberschriften konnten nicht gelesen werden
         headline:
           accounts:
             label: Konten
-            subtitle: assignee, accountable and author
+            subtitle: Zugewiesen, Verantwortlich und Autor
           dated:
             label: Zeilen mit Datumsangaben
-            subtitle: a start or finish date
+            subtitle: ein Start- oder Enddatum
           types:
             label: Typen
             subtitle: in dieser Datei verwendet
           work_packages:
             label: Arbeitspakete
-            subtitle: one for every line
+            subtitle: eines für jede Zeile
         imported:
           again: Weitere Datei importieren
-          heading: Import summary
+          heading: Import-Zusammenfassung
           link:
             one: Importiertes Arbeitspaket ansehen
             other: "%{count} importierte Arbeitspakete ansehen"
-          notifications: Notifications were not sent for these work packages.
-          text_html: Imported from %{filename} on %{date} at %{time}.
+          notifications: Benachrichtigungen wurden für diese Arbeitspakete nicht gesendet.
+          text_html: Importiert von %{filename} am %{date} um %{time}.
           title: "%{work_packages} erstellt"
         problems:
           all:
@@ -8179,7 +8181,7 @@ de:
           capped: "%{count} Probleme, wobei zunächst %{shown} aufgeführt wird. Laden Sie die Liste mit allen Problemen herunter."
           heading: Probleme
         rows_rejected:
-          text: Everything was rolled back. Correct the lines below and upload the file again.
+          text: Es wurde alles zurückgesetzt. Bitte korrigieren Sie die folgenden Zeilen und laden Sie die Datei erneut hoch.
           title: 'Es wurde nichts importiert: %{problems} in %{lines}'
         table:
           attribute: Spalte
@@ -8196,8 +8198,8 @@ de:
         x_problems:
           one: "%{count} Problem"
           other: "%{count} Probleme"
-      run_failed: This run did not finish, and nothing was created. Upload the file again.
-      running_note: This runs in the background. Please do not close the page.
+      run_failed: Dieser Vorgang ist nicht beendet und es wurde nichts erstellt. Laden Sie die Datei erneut hoch.
+      running_note: Dies läuft im Hintergrund. Bitte schließen Sie die Seite nicht.
       title: Arbeitspakete importieren
     move:
       bulk_current_type_not_available_in_target_project: 'Die Typen der Arbeitspakete oder deren Unterelemente sind im Zielprojekt nicht aktiviert. Bitte aktivieren Sie die fehlenden Typen im Zielprojekt, wenn Sie möchten, dass diese unverändert bleiben. Andernfalls wählen Sie bitte einen im Zielprojekt verfügbaren Typ aus der Liste aus.
@@ -8235,16 +8237,16 @@ de:
   workflows:
     change:
       confirm:
-        consequence: Existing work packages with these statuses will not be affected. They will remain in the current status but transitions to these statuses will no longer be possible.
-        description: 'The following statuses don’t exist in the workflow you have selected ("%{name}"):'
+        consequence: Bereits bestehende Arbeitspakete mit diesen Status werden davon nicht betroffen sein. Sie verbleiben im aktuellen Status, ein Wechsel in diese Status ist jedoch nicht mehr möglich.
+        description: 'Die folgenden Status sind in dem von Ihnen ausgewählten Workflow („%{name} “) nicht vorhanden:'
         description_blank: Der neue Workflow hat keine Übergänge. Alle Statusübergänge von %{type} werden entfernt.
         description_empty: Der ausgewählte Workflow ("%{name}") hat keine Übergänge. Alle Statusübergänge von %{type} werden entfernt.
-        title: Use a different workflow for %{name}?
+        title: Einen anderen Workflow für %{name} verwenden?
       select:
         caption: Der Typ verwendet die Statusübergänge des Workflows, den Sie hier auswählen.
         label: Workflow
-        placeholder: Select a workflow…
-      title: Change workflow
+        placeholder: Workflow auswählen…
+      title: Workflow ändern
     copies:
       form:
         target_role_ids:
@@ -8258,22 +8260,22 @@ de:
       body_in_use:
         one: Dieser Workflow wird derzeit von %{count} Typ oder der Variante verwendet. Bitte wählen Sie einen neuen Workflow aus, durch den dieser ersetzt werden soll.
         other: Dieser Workflow wird derzeit von %{count} Typen und Varianten verwendet. Bitte wählen Sie einen neuen Workflow aus, durch den dieser ersetzt werden soll.
-      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
-      button: Delete workflow
+      body_not_in_use: Dieser Workflow wird endgültig gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.
+      button: Workflow löschen
       confirmation_checkbox_label: Ich verstehe, dass diese Aktion nicht rückgängig gemacht werden kann.
-      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
+      no_replacement: Dieser Workflow ist in Verwendung und kann nicht gelöscht werden, da es keinen anderen Workflow gibt, durch den er ersetzt werden könnte.
       replace_caption: Der ausgewählte Workflow wird auf alle oben aufgeführten Typen und Varianten angewendet.
-      replace_label: Replace with workflow
-      replace_placeholder: Select a workflow
-      title: Delete workflow %{name}?
+      replace_label: Durch Workflow ersetzen
+      replace_placeholder: Workflow auswählen
+      title: Workflow %{name} löschen?
     form:
       copy_from:
-        caption: The new workflow starts with a copy of that workflow's status transitions.
+        caption: Der neue Workflow beginnt mit einer Kopie der Statusübergänge dieses Workflows.
         label: Kopieren von
-        placeholder: Select a workflow…
-      copy_title: Copy workflow %{name}
+        placeholder: Workflow auswählen…
+      copy_title: Workflow %{name} kopieren
       description:
-        caption: Add a short description about where and how will this workflow be used.
+        caption: Fügen Sie eine kurze Beschreibung hinzu, wo und wie dieser Workflow verwendet wird.
         label: Beschreibung
       edit_title: Workflow bearbeiten
       matrix_caption: Workflow-Matrix
@@ -8285,9 +8287,9 @@ de:
       matrix_checkbox_label: Übergang von %{old_status} zu %{new_status} erlauben
       matrix_uncheck_all_label: Alle Übergänge verbieten
       name:
-        caption: Pick a name that will let you identify this workflow later in other places.
-        label: Workflow name
-      save_title: Save workflow
+        caption: Wählen Sie einen Namen, anhand dessen Sie dieses Formular später an anderer Stelle wiedererkennen können.
+        label: Name des Workflows
+      save_title: Workflow speichern
     index:
       actions:
         create: Workflow
@@ -8296,18 +8298,18 @@ de:
         rename: Name und Beschreibung bearbeiten
       blank_slate:
         description: Erstellen Sie einen Workflow, um die Statusübergänge zu definieren, die ein Typ oder eine Variante nutzen kann.
-        filtered_description: No workflow matches the current filters.
-        filtered_title: No matching workflows
-        title: No workflows
+        filtered_description: Kein Workflow entspricht dem aktuellen Filter.
+        filtered_title: Keine passenden Workflows gefunden
+        title: Keine Workflows
       columns:
-        name: Workflow name
+        name: Name des Workflows
         projects: Projekte
         roles: Rollen
         types_and_variants: Typen und Varianten
       description: Alle verfügbaren Arbeitspaketformulare und die zugehörigen Typen und Varianten, in denen das Formular verwendet wird.
       filters:
         name: Workflow
-        name_placeholder: Filter by workflow name or description…
+        name_placeholder: Workflow nach Name oder Beschreibung filtern…
         projects_placeholder: Projekte filtern …
       projects_count:
         one: "%{count} Projekt"
@@ -8336,12 +8338,12 @@ de:
       title: Workflow wählen
     start:
       copy:
-        caption: Start with an existing workflow, change it as you wish and save it as a new workflow.
-        label: Start with a copy of an existing workflow
-        missing: Select the workflow to copy, or start from scratch instead.
+        caption: Beginnen Sie mit einem vorhandenen Workflow, passen Sie es nach Belieben an und speichern es als neuen Workflow.
+        label: Beginnen Sie mit einer Kopie eines vorhandenen Workflows
+        missing: Wählen Sie den Workflow aus, das Sie kopieren möchten, oder beginnen Sie stattdessen von Neuem.
       label: Startpunkt
       scratch:
-        caption: Start with a blank workflow and build it manually.
+        caption: Beginnen Sie mit einem leeren Workflow.
         label: Von Grund auf neu beginnen
       title: Neuer Workflow
     usage:
@@ -8363,10 +8365,10 @@ de:
       choice:
         existing:
           caption: Verwenden Sie für diesen Typ einen bestehenden Workflow mit vordefinierten Statusübergängen für eine Reihe von Rollen.
-          label: Use an existing workflow
+          label: Verwenden Sie ein vorhandenen Workflow
         new:
           caption: Erstellen Sie einen neuen Workflow für diesen Typ, indem Sie festlegen, welche Statusübergänge für welche Rollen zulässig sind.
-          label: Configure a new workflow
+          label: Einen neuen Workflow konfigurieren
   working_days:
     change_button: Arbeitstage ändern
     dialog:

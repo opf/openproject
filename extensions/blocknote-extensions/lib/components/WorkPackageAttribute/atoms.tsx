@@ -1,6 +1,13 @@
 import styled, { css } from 'styled-components';
 import { CHIP_STYLES } from '../WorkPackage/tokens';
-import { colorDotStyles, defaultWpVariables, nonSelectableStyles, WorkPackageId, WorkPackageType } from '../WorkPackage/atoms';
+import {
+  colorDotStyles,
+  defaultWpVariables,
+  hideBlockNoteSelectionOverlay,
+  nonSelectableStyles,
+  WorkPackageId,
+  WorkPackageType,
+} from '../WorkPackage/atoms';
 import { FieldLabel, PickerControl, roomForActions, truncateStyles } from '../Shared/atoms';
 
 // Drawn inward, so that it adds nothing to the height.
@@ -37,6 +44,7 @@ export const AttributeInline = styled(AttributeSurface).attrs({ contentEditable:
   position: relative;
   cursor: pointer;
   box-shadow: ${({ $selected }) => ($selected ? CHIP_STYLES.inlineFocusShadow : ATTRIBUTE_BORDER)};
+  ${hideBlockNoteSelectionOverlay}
 `;
 
 export const AttributeLabelText = styled.span`
@@ -206,6 +214,7 @@ export const AttributeBlockFrame = styled.div.attrs({
   color: var(--bn-colors-editor-text);
   cursor: pointer;
   box-shadow: ${({ $selected }) => ($selected ? CHIP_STYLES.focusShadow : 'none')};
+  ${hideBlockNoteSelectionOverlay}
 `;
 
 export const AttributeBlockTitle = styled.div`

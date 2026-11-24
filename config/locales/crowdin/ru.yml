@@ -2067,6 +2067,7 @@ ru:
               label_import_data: Сейчас импортируется
               label_progress: Идёт импорт...
               label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
+              label_sprint_explanation: Sprints that contain at least one issue
               label_users_import_explanation: Пользователи, участвующие в выбранных проектах (с учетом членства в группах)
               title: Импорт данных
             fetch_data:
@@ -6310,13 +6311,13 @@ ru:
       shared: Общедоступные проекты
     phase_status:
       description:
-        completed: Marking a phase as complete will complete all previous phases.
-        in_progress: Marking a phase as in progress will complete all previous phases and open all future phases.
-        open: Re-opening a phase will also open all future phases.
+        completed: This will also mark all previous phases as complete.
+        in_progress: This will complete all previous phases and mark future phases as not started.
+        open: This will mark all future phases as not started.
       title:
         completed: Completed
         in_progress: In progress
-        open: Open
+        open: Not started
     settings:
       actions:
         label_disable_all: Выключить всё
@@ -7713,6 +7714,7 @@ ru:
         delete_group: Удалить секцию
         drag_to_activate: Чтобы включить поля, перетащите их отсюда
         drag_to_reorder: Перетащите, чтобы изменить порядок
+        edit_custom_field: Edit custom field
         edit_query: Редактировать представление
         empty_group_hint: Перетащите атрибуты сюда
         exclusions:

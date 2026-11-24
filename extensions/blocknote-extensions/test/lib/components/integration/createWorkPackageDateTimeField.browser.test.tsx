@@ -13,6 +13,8 @@ const GO_LIVE = 'Go-live *';
 
 const TYPED = '21.10.2026 08:15';
 const TYPED_INSTANT = '2026-10-20T18:15:00Z';
+const TYPED_OFF_STEP = '21.10.2026 12:44';
+const TYPED_OFF_STEP_INSTANT = '2026-10-20T22:44:00Z';
 
 function withRequiredDateTimeField() {
   worker.use(
@@ -77,6 +79,18 @@ describe('a required date and time in the create form', () => {
 
     await expect.element(page.getByTestId('block-card')).toBeVisible();
     expect(creation.body?.customField9).toBe(TYPED_INSTANT);
+  });
+
+  it('is submitted with minutes off the arrow step of its calendar', async () => {
+    const creation = capturingCreation();
+    await openFormWithDateTimeField();
+
+    await userEvent.fill(page.getByLabelText(GO_LIVE), TYPED_OFF_STEP);
+    await userEvent.keyboard('{Tab}');
+    await userEvent.click(page.getByTestId('create-wp-submit'));
+
+    await expect.element(page.getByTestId('block-card')).toBeVisible();
+    expect(creation.body?.customField9).toBe(TYPED_OFF_STEP_INSTANT);
   });
 
   it('holds the form back while it is empty', async () => {

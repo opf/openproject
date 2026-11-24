@@ -1831,6 +1831,7 @@ sv:
               label_import_data: Importerar för närvarande
               label_progress: Import pågår...
               label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
+              label_sprint_explanation: Sprints that contain at least one issue
               label_users_import_explanation: Användare som är involverade i de valda projekten (inklusive gruppmedlemskap)
               title: Importera data
             fetch_data:
@@ -5959,13 +5960,13 @@ sv:
       shared: Delade projektlistor
     phase_status:
       description:
-        completed: Marking a phase as complete will complete all previous phases.
-        in_progress: Marking a phase as in progress will complete all previous phases and open all future phases.
-        open: Re-opening a phase will also open all future phases.
+        completed: This will also mark all previous phases as complete.
+        in_progress: This will complete all previous phases and mark future phases as not started.
+        open: This will mark all future phases as not started.
       title:
         completed: Completed
         in_progress: In progress
-        open: Open
+        open: Not started
     settings:
       actions:
         label_disable_all: Inaktivera alla
@@ -7338,6 +7339,7 @@ sv:
         delete_group: Ta bort avsnitt
         drag_to_activate: Dra fält härifrån för att aktivera dem
         drag_to_reorder: Dra för att ändra ordning
+        edit_custom_field: Edit custom field
         edit_query: Redigera fråga
         empty_group_hint: Dra attribut hit
         exclusions:
