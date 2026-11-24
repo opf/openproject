@@ -3357,8 +3357,8 @@ en:
       capture_external_links:
         description: "Prevent social engineering attacks by capturing and warning about external links before users visit them."
       custom_actions:
-        description: "Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project."
-        title: "Custom actions"
+        description: "Automations are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project."
+        title: "Automations"
       custom_field_hierarchies:
         description: "Hierarchy custom fields allow organizing hierarchical structures in work packages and projects by making use of multi-level select lists."
       customize_life_cycle:
