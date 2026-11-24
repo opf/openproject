@@ -48,10 +48,10 @@ See COPYRIGHT and LICENSE files for more details.
         rel: "noopener",
         data: { hotkey: shortcuts_help_key }
       ) %>
-  <button type="button" data-hotkey="j" data-hotkey-action="next-list-item" data-hotkey-repeat>
+  <button type="button" data-hotkey="<%= next_list_item_key %>" data-hotkey-action="next-list-item" data-hotkey-repeat>
     <%= t(".next_list_item") %>
   </button>
-  <button type="button" data-hotkey="k" data-hotkey-action="previous-list-item" data-hotkey-repeat>
+  <button type="button" data-hotkey="<%= previous_list_item_key %>" data-hotkey-action="previous-list-item" data-hotkey-repeat>
     <%= t(".previous_list_item") %>
   </button>
 </div>

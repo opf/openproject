@@ -8,7 +8,7 @@
     <button
       opActionMenuTrigger
       class="button -primary add-work-package"
-      [attr.data-hotkey]="listShortcuts() ? 'n w p' : null"
+      [attr.data-hotkey]="listShortcuts() ? hotkeys.new_work_package : null"
       [attr.accesskey]="listShortcuts() ? 2 : null"
       type="button"
       [disabled]="createPaneOpen"

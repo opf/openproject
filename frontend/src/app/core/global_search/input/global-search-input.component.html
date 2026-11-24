@@ -29,7 +29,7 @@
     class="sr-only"
     tabindex="-1"
     accesskey="4"
-    data-hotkey="s"
+    [attr.data-hotkey]="hotkeys.global_search"
     data-hotkey-action="activate-global-search"
     (click)="activateFromAccessKey()"
     >

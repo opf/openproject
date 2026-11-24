@@ -37,6 +37,7 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import {
   GlobalEditFormChangesTrackerService,
 } from 'core-app/shared/components/fields/edit/services/global-edit-form-changes-tracker/global-edit-form-changes-tracker.service';
+import { HOTKEYS } from 'core-common/hotkeys/hotkeys';
 
 @Component({
   templateUrl: '../wp-button.template.html',
@@ -59,7 +60,7 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
 
   public accessKey = 8;
 
-  public hotkey = 'd w p';
+  public readonly hotkey = HOTKEYS.toggle_details;
 
   public buttonId = 'work-packages-details-view-button';
 

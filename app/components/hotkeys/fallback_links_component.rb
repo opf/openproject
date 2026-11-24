@@ -61,5 +61,9 @@ module Hotkeys
     def shortcuts_help_key = OpenProject::Hotkeys.for_action(:shortcuts_help)
 
     def wiki_key = OpenProject::Hotkeys.for_wiki
+
+    def next_list_item_key = OpenProject::Hotkeys.for_action(:next_list_item)
+
+    def previous_list_item_key = OpenProject::Hotkeys.for_action(:previous_list_item)
   end
 end

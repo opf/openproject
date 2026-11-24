@@ -27,6 +27,7 @@
 
 import { ChangeDetectionStrategy, Component, Input, inject, input } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { HOTKEYS } from 'core-common/hotkeys/hotkeys';
 
 @Component({
   templateUrl: './wp-settings-button.component.html',
@@ -34,6 +35,8 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
   standalone: false,
 })
 export class WorkPackageSettingsButtonComponent {
+  public readonly hotkeys = HOTKEYS;
+
   readonly I18n = inject(I18nService);
 
   @Input() hideTableOptions = false;

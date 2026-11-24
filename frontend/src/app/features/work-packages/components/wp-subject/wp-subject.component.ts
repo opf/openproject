@@ -31,6 +31,7 @@ import { randomString } from 'core-app/shared/helpers/random-string';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { HOTKEYS } from 'core-common/hotkeys/hotkeys';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -43,6 +44,8 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
   changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WorkPackageSubjectComponent extends UntilDestroyedMixin {
+  public readonly hotkeys = HOTKEYS;
+
   protected apiV3Service = inject(ApiV3Service);
 
   private readonly I18n = inject(I18nService);

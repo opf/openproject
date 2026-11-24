@@ -27,22 +27,8 @@
 
 import { eventToHotkeyString, normalizeSequence, SequenceTracker } from '@github/hotkey';
 import { setOrRemove } from 'core-common/dom-attributes';
+import { KNOWN_SEQUENCES } from 'core-common/hotkeys/hotkeys';
 import { isFocusableField } from 'core-common/interactive-element-helper';
-
-const KNOWN_SEQUENCES = [
-  'g m',
-  'g o',
-  'g w p',
-  'g w i',
-  'g a',
-  'g c',
-  'g n',
-  'g e',
-  'n w p',
-  'd w p',
-] as const satisfies readonly string[];
-
-const KNOWN_SEQUENCE_SET:ReadonlySet<string> = new Set(KNOWN_SEQUENCES.map((sequence) => normalizeSequence(sequence)));
 
 const YIELDED_ACCESSKEY = 'data-hotkey-yielded-accesskey';
 const ACCESS_KEY_SELECTOR = `[accesskey], [${YIELDED_ACCESSKEY}]`;
@@ -180,7 +166,7 @@ const noBindings:Bindings = { candidates: new Map(), prefixes: new Set() };
 
 function bindingsFor(elements:HTMLElement[]):Bindings {
   const candidates = groupBy(elements, hotkeyAlternatives);
-  const prefixes = new Set([...candidates.keys(), ...KNOWN_SEQUENCE_SET].flatMap(properPrefixes));
+  const prefixes = new Set([...candidates.keys(), ...KNOWN_SEQUENCES].flatMap(properPrefixes));
   return { candidates, prefixes };
 }
 
@@ -311,7 +297,7 @@ export class HotkeyDispatcher {
     if (this.bindings.prefixes.has(candidate)) {
       return true;
     }
-    if (KNOWN_SEQUENCE_SET.has(candidate)) {
+    if (KNOWN_SEQUENCES.has(candidate)) {
       event.preventDefault();
       this.tracker.reset();
       return true;

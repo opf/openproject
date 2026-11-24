@@ -35,6 +35,7 @@ import {
   HalResourceEditingService,
 } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { Observable, of } from 'rxjs';
+import { HOTKEYS } from 'core-common/hotkeys/hotkeys';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -44,6 +45,8 @@ import { Observable, of } from 'rxjs';
   standalone: false,
 })
 export class WorkPackageSplitViewToolbarComponent implements OnInit {
+  public readonly hotkeys = HOTKEYS;
+
   readonly I18n = inject(I18nService);
   readonly halEditing = inject(HalResourceEditingService);
   readonly configurationService = inject(ConfigurationService);

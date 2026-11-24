@@ -52,6 +52,7 @@ import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter
 import { announce } from '@primer/live-region-element';
 import { NgOption } from '@ng-select/ng-select';
 import { registerHotkeyAction } from 'core-common/hotkeys/hotkey-dispatcher';
+import { HOTKEYS } from 'core-common/hotkeys/hotkeys';
 
 interface SearchOptionItem {
   projectScope:string;
@@ -84,6 +85,8 @@ function isWorkPackage(item:unknown):item is WorkPackageResource {
   standalone: false,
 })
 export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
+  public readonly hotkeys = HOTKEYS;
+
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly I18n = inject(I18nService);
   readonly apiV3Service = inject(ApiV3Service);

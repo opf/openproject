@@ -70,6 +70,11 @@ RSpec.describe OpenProject::Hotkeys do
     it "returns the action hotkey" do
       expect(described_class.for_action(:shortcuts_help)).to eq("?,Shift+?")
     end
+
+    it "reads the hotkeys the frontend binds from the shared definitions" do
+      expect(described_class.for_action(:toggle_details)).to eq("d w p")
+      expect(described_class.for_action(:next_list_item)).to eq("j")
+    end
   end
 
   describe ".for_wiki" do

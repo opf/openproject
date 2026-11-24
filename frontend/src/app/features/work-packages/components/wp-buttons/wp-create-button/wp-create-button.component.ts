@@ -33,6 +33,7 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { take } from 'rxjs/operators';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
+import { HOTKEYS } from 'core-common/hotkeys/hotkeys';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -42,6 +43,8 @@ import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
   standalone: false,
 })
 export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implements OnInit {
+  public readonly hotkeys = HOTKEYS;
+
   readonly currentUser = inject(CurrentUserService);
   readonly currentProject = inject(CurrentProjectService);
   readonly authorisationService = inject(AuthorisationService);

@@ -1,0 +1,30 @@
+{
+  "project_menu": {
+    "overview": "g o",
+    "work_packages": "g w p",
+    "activity": "g a",
+    "calendar_view": "g c",
+    "news": "g n"
+  },
+  "always": {
+    "my_page": "g m"
+  },
+  "global_fallback": {
+    "work_packages": "g w p",
+    "activity": "g a",
+    "calendar_view": "g c",
+    "news": "g n",
+    "wikis": "g w i"
+  },
+  "actions": {
+    "edit": "g e",
+    "global_search": "s",
+    "more_menu": "m",
+    "new_work_package": "n w p",
+    "next_list_item": "j",
+    "previous_list_item": "k",
+    "project_search": "p",
+    "shortcuts_help": "?,Shift+?",
+    "toggle_details": "d w p"
+  }
+}

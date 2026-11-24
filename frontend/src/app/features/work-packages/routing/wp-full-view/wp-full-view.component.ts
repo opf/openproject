@@ -37,6 +37,7 @@ import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-
 import { WorkPackageSingleViewBase } from 'core-app/features/work-packages/routing/wp-view-base/work-package-single-view.base';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { Observable, of } from 'rxjs';
+import { HOTKEYS } from 'core-common/hotkeys/hotkeys';
 
 @Component({
   templateUrl: './wp-full-view.html',
@@ -51,6 +52,8 @@ import { Observable, of } from 'rxjs';
   standalone: false,
 })
 export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase implements OnInit {
+  public readonly hotkeys = HOTKEYS;
+
   recentItemsService = inject(RecentItemsService);
   readonly currentUserService = inject(CurrentUserService);
   readonly cdRef = inject(ChangeDetectorRef);

@@ -21,7 +21,7 @@
           type="button"
           class="sr-only"
           tabindex="-1"
-          data-hotkey="g e"
+          [attr.data-hotkey]="hotkeys.edit"
           accesskey="3"
           (click)="subjectField.handleUserActivate(null)"
           >

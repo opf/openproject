@@ -29,30 +29,12 @@
 
 module OpenProject
   module Hotkeys
-    PROJECT_MENU = {
-      overview: "g o",
-      work_packages: "g w p",
-      activity: "g a",
-      calendar_view: "g c",
-      news: "g n"
-    }.freeze
+    DEFINITIONS = JSON.parse(Rails.root.join("config/hotkeys.json").read, symbolize_names: true, freeze: true)
 
-    ALWAYS = { my_page: "g m" }.freeze
-
-    GLOBAL_FALLBACK = {
-      work_packages: "g w p",
-      activity: "g a",
-      calendar_view: "g c",
-      news: "g n",
-      wikis: "g w i"
-    }.freeze
-
-    ACTIONS = {
-      edit: "g e",
-      project_search: "p",
-      shortcuts_help: "?,Shift+?",
-      new_work_package: "n w p"
-    }.freeze
+    PROJECT_MENU = DEFINITIONS.fetch(:project_menu)
+    ALWAYS = DEFINITIONS.fetch(:always)
+    GLOBAL_FALLBACK = DEFINITIONS.fetch(:global_fallback)
+    ACTIONS = DEFINITIONS.fetch(:actions)
 
     class << self
       def for_project_menu_item(name)
