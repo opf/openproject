@@ -41,13 +41,13 @@ RSpec.describe "Push Notifications Settings",
 
   describe "GET /admin/settings/push_notifications" do
     context "with the feature flag on", with_flag: { progressive_web_app: true } do
-      it "shows the intro, allows browser notifications by default and shows the reachability panel" do
+      it "shows the intro, disallows browser notifications by default and shows the reachability panel" do
         get "/admin/settings/push_notifications"
 
         expect(response).to have_http_status(:ok)
         expect(page).to have_text(I18n.t("admin.settings.push_notifications.description"))
-        expect(page).to have_checked_field(I18n.t(:setting_web_push_enabled_true))
-        expect(page).to have_unchecked_field(I18n.t(:setting_web_push_enabled_false))
+        expect(page).to have_checked_field(I18n.t(:setting_web_push_enabled_false))
+        expect(page).to have_unchecked_field(I18n.t(:setting_web_push_enabled_true))
         expect(page).to have_button(I18n.t(:button_save))
         expect(page).to have_test_selector("push-reachability-panel", visible: :visible)
         expect(page).to have_text(I18n.t("admin.settings.push_notifications.hosts_intro"))
@@ -59,12 +59,12 @@ RSpec.describe "Push Notifications Settings",
         expect(page).to have_no_text(I18n.t("admin.settings.push_notifications.key_unreadable"))
       end
 
-      context "with browser notifications disallowed", with_settings: { web_push_enabled: false } do
-        it "checks the disallow option and still offers the reachability check" do
+      context "with browser notifications allowed", with_settings: { web_push_enabled: true } do
+        it "checks the allow option and still offers the reachability check" do
           get "/admin/settings/push_notifications"
 
-          expect(page).to have_checked_field(I18n.t(:setting_web_push_enabled_false))
-          expect(page).to have_unchecked_field(I18n.t(:setting_web_push_enabled_true))
+          expect(page).to have_checked_field(I18n.t(:setting_web_push_enabled_true))
+          expect(page).to have_unchecked_field(I18n.t(:setting_web_push_enabled_false))
           expect(page).to have_test_selector("push-reachability-panel", visible: :visible)
           expect(page).to have_button(I18n.t("admin.settings.push_notifications.verify_reachability"))
           expect(page).to have_link(I18n.t("admin.settings.push_notifications.renew_key"))
@@ -86,7 +86,7 @@ RSpec.describe "Push Notifications Settings",
         end
       end
 
-      context "when the key is unreadable" do
+      context "when the key is unreadable", with_settings: { web_push_enabled: true } do
         before { allow(OpenProject::WebPush).to receive(:key_readable?).and_return(false) }
 
         it "shows the danger banner with the renew link" do
