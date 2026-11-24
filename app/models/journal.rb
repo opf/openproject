@@ -50,6 +50,7 @@ class Journal < ApplicationRecord
   register_journal_formatter OpenProject::JournalFormatter::AgendaItemTitle
   register_journal_formatter OpenProject::JournalFormatter::AllocatedTime
   register_journal_formatter OpenProject::JournalFormatter::Attachment
+  register_journal_formatter OpenProject::JournalFormatter::Categories
   register_journal_formatter OpenProject::JournalFormatter::Cause
   register_journal_formatter OpenProject::JournalFormatter::CustomComment
   register_journal_formatter OpenProject::JournalFormatter::CustomField

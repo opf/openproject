@@ -86,7 +86,7 @@ RSpec.describe WorkPackage do
                          "status_id" => [nil, :status],
                          "priority_id" => [nil, :priority],
                          "project_id" => [nil, :project],
-                         "category_id" => [nil, :category],
+                         "categories" => [nil, -> { category.id.to_s }],
                          "target_versions" => [nil, -> { version.id.to_s }],
                          "start_date" => [nil, Date.new(2013, 1, 24)],
                          "due_date" => [nil, Date.new(2013, 1, 31)],
@@ -199,7 +199,7 @@ RSpec.describe WorkPackage do
                          "status_id" => %i[status other_status],
                          "priority_id" => %i[priority other_priority],
                          "project_id" => %i[project other_project],
-                         "category_id" => [nil, :category],
+                         "categories" => [nil, -> { category.id.to_s }],
                          "target_versions" => [-> { version.id.to_s }, -> { other_version.id.to_s }],
                          "start_date" => [Date.new(2026, 1, 9), Date.new(2013, 1, 24)],
                          "due_date" => [nil, Date.new(2013, 1, 31)],
@@ -275,7 +275,7 @@ RSpec.describe WorkPackage do
                          "status_id" => [nil, :other_status],
                          "priority_id" => [nil, :other_priority],
                          "project_id" => [nil, :other_project],
-                         "category_id" => [nil, :category],
+                         "categories" => [nil, -> { category.id.to_s }],
                          "target_versions" => [nil, -> { other_version.id.to_s }],
                          "start_date" => [nil, Date.new(2013, 1, 24)],
                          "due_date" => [nil, Date.new(2013, 1, 31)],
@@ -354,7 +354,7 @@ RSpec.describe WorkPackage do
                          "status_id" => %i[status other_status],
                          "priority_id" => %i[priority other_priority],
                          "project_id" => %i[project other_project],
-                         "category_id" => [nil, :category],
+                         "categories" => [nil, -> { category.id.to_s }],
                          "target_versions" => [-> { version.id.to_s }, -> { other_version.id.to_s }],
                          "start_date" => [Date.new(2026, 1, 9), Date.new(2013, 1, 24)],
                          "due_date" => [nil, Date.new(2013, 1, 31)],
@@ -622,6 +622,33 @@ RSpec.describe WorkPackage do
           .not_to change { journable.journals.count }
       end
 
+      it "records the change as a single categories detail without a category_id detail" do
+        journable.update!(category: other_category)
+
+        expect(journable.last_journal.details)
+          .to eq("categories" => [category.id.to_s, other_category.id.to_s])
+      end
+
+      context "when the old category has been destroyed" do
+        current_user { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
+
+        let(:journal) { journable.last_journal }
+
+        before do
+          journable.update!(category: other_category)
+          category.destroy
+        end
+
+        it "renders a placeholder for the old category and the name of the new one" do
+          expect(journal.render_detail(["categories", [category.id.to_s, other_category.id.to_s]]))
+            .to eq(I18n.t(:text_journal_changed_plain,
+                          label: "<strong>Category</strong>",
+                          linebreak: nil,
+                          old: "<i>(deleted category)</i>",
+                          new: "<i>Beta</i>"))
+        end
+      end
+
       context "with multiple categories enabled",
               with_flag: { work_package_multiple_categories: true },
               with_settings: { work_package_multiple_categories: true } do
@@ -642,6 +669,13 @@ RSpec.describe WorkPackage do
           expect { set_categories([category, other_category]) }
             .to change { journable.journals.count }.by(1)
           expect(journable.category_id).to eq(category.id)
+        end
+
+        it "records both categories on the new side of the categories detail" do
+          set_categories([category, other_category])
+
+          expect(journable.last_journal.details)
+            .to eq("categories" => [category.id.to_s, [category.id, other_category.id].sort.join(",")])
         end
       end
     end
