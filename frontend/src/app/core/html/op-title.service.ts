@@ -52,6 +52,10 @@ export class OpTitleService {
     return this.titleParts[this.titleParts.length - 1];
   }
 
+  public hasFirstPart(value:string):boolean {
+    return this.current.startsWith(`${value}${titlePartsSeparator}`);
+  }
+
   public setFirstPart(value:string) {
     if (this.current.includes(this.base) && this.current.includes(titlePartsSeparator)) {
       const parts = this.titleParts;
