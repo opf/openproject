@@ -45,6 +45,7 @@ class Reports::CategoryReport < Reports::Report
   end
 
   def title
-    @title ||= WorkPackage.human_attribute_name(:category)
+    attribute = Setting::WorkPackageMultipleCategories.active? ? :categories : :category
+    @title ||= WorkPackage.human_attribute_name(attribute)
   end
 end
