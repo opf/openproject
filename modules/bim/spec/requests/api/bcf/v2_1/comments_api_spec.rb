@@ -64,9 +64,7 @@ RSpec.describe "BCF 2.1 comments resource", content_type: :json do
 
   let(:bcf_comment) { create(:bcf_comment, issue: bcf_issue, author: view_only_user) }
   let(:bcf_answer) { create(:bcf_comment, issue: bcf_issue, reply_to: bcf_comment, author: assignee) }
-  let(:bcf_comment_to_viewpoint) do
-    create(:bcf_comment, issue: bcf_issue, viewpoint:, author: edit_user)
-  end
+  let(:bcf_comment_to_viewpoint) { create(:bcf_comment, issue: bcf_issue, viewpoint:, author: edit_user) }
 
   subject(:response) { last_response }
 
