@@ -157,10 +157,62 @@ RSpec.describe "Forms and workflows started in the creation wizard", :skip_csrf,
     end
   end
 
+  shared_examples "a started reference discarded on continuing" do
+    let!(:other) { create(factory, name: "Standard choice") }
+    let!(:started) { create(factory, name: "Started choice") }
+
+    # A record no other variant uses would be named on continuing, as if it were started.
+    before { create(:type, name: "Feature").default_variant.update!(foreign_key => other.id) }
+
+    def assign(record) = variant.update!(foreign_key => record.id)
+
+    def continue(started_id = started.id)
+      patch type_creation_wizard_path(type_id: type.id, step:, started_key => started_id), headers: turbo
+    end
+
+    it "deletes the started one once another is chosen" do
+      assign(other)
+
+      continue
+
+      expect(model_class).not_to exist(started.id)
+      expect(response).to have_http_status(:see_other)
+    end
+
+    it "keeps the started one in use and asks for its name" do
+      assign(started)
+
+      continue
+
+      expect(model_class).to exist(started.id)
+      expect(response.body).to include("Started choice")
+    end
+
+    it "ignores one already gone" do
+      assign(other)
+      gone_id = started.id
+      started.destroy!
+
+      continue(gone_id)
+
+      expect(response).to have_http_status(:see_other)
+    end
+  end
+
   describe "choosing an existing form" do
     it_behaves_like "a started reference kept out of the existing ones" do
       let(:factory) { :form_configuration }
       let(:route_key) { "form_configuration" }
+      let(:step) { :form_configuration }
+      let(:foreign_key) { :form_configuration_id }
+      let(:started_key) { :started_form_configuration_id }
+    end
+  end
+
+  describe "continuing from the form step" do
+    it_behaves_like "a started reference discarded on continuing" do
+      let(:model_class) { FormConfiguration }
+      let(:factory) { :form_configuration }
       let(:step) { :form_configuration }
       let(:foreign_key) { :form_configuration_id }
       let(:started_key) { :started_form_configuration_id }
@@ -182,6 +234,16 @@ RSpec.describe "Forms and workflows started in the creation wizard", :skip_csrf,
     it_behaves_like "a started reference kept out of the existing ones" do
       let(:factory) { :named_workflow }
       let(:route_key) { "workflow" }
+      let(:step) { :workflows }
+      let(:foreign_key) { :workflow_id }
+      let(:started_key) { :started_workflow_id }
+    end
+  end
+
+  describe "continuing from the workflow step" do
+    it_behaves_like "a started reference discarded on continuing" do
+      let(:model_class) { Workflow }
+      let(:factory) { :named_workflow }
       let(:step) { :workflows }
       let(:foreign_key) { :workflow_id }
       let(:started_key) { :started_workflow_id }

@@ -206,6 +206,7 @@ module WorkPackageTypes
     def update_form_configuration
       return advance if @variant.project_owned?
 
+      discard_abandoned(::FormConfiguration, @started_form_configuration_id)
       form = @variant.form_configuration
       return name_reference(form, ::FormConfigurations::UpdateService) if params[:form_configuration].present?
       return advance unless form&.used_by_one_variant?
@@ -216,12 +217,17 @@ module WorkPackageTypes
     def update_workflows
       return advance if @variant.project_owned?
 
+      discard_abandoned(::Workflow, @started_workflow_id)
       workflow = @variant.workflow
       return name_reference(workflow, ::Workflows::UpdateService) if params[:workflow].present?
       return advance unless workflow&.used_by_one_variant?
       return render :show, status: :unprocessable_entity unless update_matrix.success?
 
       ask_for_name(workflow)
+    end
+
+    def discard_abandoned(model_class, started_id)
+      NamedReferences::DiscardStartedService.new(model_class:).call(started_id)
     end
 
     def ask_for_name(record)
