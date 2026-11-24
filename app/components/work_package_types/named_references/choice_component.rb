@@ -95,18 +95,25 @@ module WorkPackageTypes
 
       def record_id = variant[model_class.variant_reflection.foreign_key]
 
-      def started_id = helpers.params[:"started_#{model_class.variant_reflection.foreign_key}"].presence&.to_i
+      def started_id = helpers.params[DiscardStartedService.param_key(model_class)].presence&.to_i
 
       def candidates
         @candidates ||= begin
-          scope = model_class.in_display_order
+          scope = model_class.in_display_order.where.not(id: started_id)
           scope = scope.where.not(id: record_id) unless reuses_existing?
           scope.to_a
         end
       end
 
       def dialog_path(action)
-        variant_reference_path(helpers.variant_scope_project, variant, model_class, action:, **{ back_url: }.compact)
+        variant_reference_path(helpers.variant_scope_project, variant, model_class, action:, **dialog_params)
+      end
+
+      def dialog_params
+        {
+          back_url:,
+          DiscardStartedService.param_key(model_class) => started_id
+        }.compact
       end
     end
   end

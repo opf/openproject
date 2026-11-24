@@ -41,9 +41,9 @@ module WorkPackageTypes
     end
 
     def change_dialog
-      respond_with_dialog NamedReferences::ChangeDialogComponent.new(variant: @variant,
-                                                                     model_class: ::Workflow,
-                                                                     back_url:)
+      respond_with_dialog NamedReferences::ChangeDialogComponent.new(
+        variant: @variant, model_class: ::Workflow, back_url:, excluded_id: started_id
+      )
     end
 
     def change
@@ -185,7 +185,7 @@ module WorkPackageTypes
 
       uri = URI.parse(back_url)
       uri.query = Rack::Utils.parse_nested_query(uri.query.to_s)
-                             .merge("started_workflow_id" => workflow.id).to_query
+                             .merge(NamedReferences::DiscardStartedService.param_key(::Workflow).to_s => workflow.id).to_query
       uri.to_s
     end
 
@@ -203,6 +203,8 @@ module WorkPackageTypes
 
       flash[:notice] = t(:notice_successful_update) if back_url.nil?
     end
+
+    def started_id = params[NamedReferences::DiscardStartedService.param_key(::Workflow)].presence&.to_i
 
     def back_url
       @back_url ||= RedirectPolicy.new(params[:back_url], hostname: request.host, default: nil).redirect_url

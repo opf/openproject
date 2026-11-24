@@ -51,7 +51,9 @@ module WorkPackageTypes
     end
 
     def change_dialog
-      respond_with_dialog NamedReferences::ChangeDialogComponent.new(variant: @variant, model_class:, back_url:)
+      respond_with_dialog NamedReferences::ChangeDialogComponent.new(
+        variant: @variant, model_class:, back_url:, excluded_id: started_id
+      )
     end
 
     def change
@@ -119,9 +121,11 @@ module WorkPackageTypes
 
       uri = URI.parse(back_url)
       uri.query = Rack::Utils.parse_nested_query(uri.query.to_s)
-                             .merge("started_form_configuration_id" => form.id).to_query
+                             .merge(NamedReferences::DiscardStartedService.param_key(model_class).to_s => form.id).to_query
       uri.to_s
     end
+
+    def started_id = params[NamedReferences::DiscardStartedService.param_key(model_class)].presence&.to_i
 
     def back_url
       @back_url ||= RedirectPolicy.new(params[:back_url], hostname: request.host, default: nil).redirect_url

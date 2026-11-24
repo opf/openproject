@@ -58,7 +58,7 @@ module WorkPackageTypes
       end
 
       def form_mode
-        started_id = helpers.params[:started_form_configuration_id].presence&.to_i
+        started_id = helpers.params[NamedReferences::DiscardStartedService.param_key(::FormConfiguration)].presence&.to_i
         model.form_configuration_id == started_id ? :new : :existing
       end
 

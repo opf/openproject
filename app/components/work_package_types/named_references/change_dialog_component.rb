@@ -39,17 +39,18 @@ module WorkPackageTypes
 
       def self.form_id(model_class) = "change-#{ActionView::RecordIdentifier.dom_class(model_class)}-form"
 
-      def initialize(variant:, model_class:, back_url: nil)
+      def initialize(variant:, model_class:, back_url: nil, excluded_id: nil)
         super()
 
         @variant = variant
         @model_class = model_class
         @back_url = back_url
+        @excluded_id = excluded_id
       end
 
       private
 
-      attr_reader :variant, :model_class, :back_url
+      attr_reader :variant, :model_class, :back_url, :excluded_id
 
       def dialog_id = self.class.dialog_id(model_class)
 

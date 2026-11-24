@@ -33,11 +33,12 @@ module WorkPackageTypes
       include Translatable
       include ActionView::RecordIdentifier
 
-      def initialize(variant:, model_class:)
+      def initialize(variant:, model_class:, excluded_id: nil)
         super()
 
         @variant = variant
         @model_class = model_class
+        @excluded_id = excluded_id
       end
 
       form do |change_form|
@@ -63,11 +64,11 @@ module WorkPackageTypes
 
       private
 
-      attr_reader :variant, :model_class
+      attr_reader :variant, :model_class, :excluded_id
 
       def current_id = variant[model_class.variant_reflection.foreign_key]
 
-      def candidates = @candidates ||= model_class.in_display_order.to_a
+      def candidates = @candidates ||= model_class.in_display_order.where.not(id: excluded_id).to_a
     end
   end
 end
