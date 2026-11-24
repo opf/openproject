@@ -67,6 +67,14 @@ export const nonSelectableStyles = css`
   -webkit-touch-callout: none;
 `;
 
+// BlockNote's node selection overlay would show up as a second ring inside our own.
+export const hideBlockNoteSelectionOverlay = css`
+  .ProseMirror-selectednode > .bn-block-content > &::after,
+  .ProseMirror-selectednode:has(> .bn-inline-content-section > &)::after {
+    content: none;
+  }
+`;
+
 export const WorkPackageId = styled.span.attrs({
   className: 'op-bn-work-package--id',
 })<{ $compact?:boolean }>`
