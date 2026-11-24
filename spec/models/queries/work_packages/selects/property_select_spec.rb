@@ -112,7 +112,7 @@ RSpec.describe Queries::WorkPackages::Selects::PropertySelect do
       end
     end
 
-    describe "labels column", with_flag: { work_package_labels: true } do
+    describe "labels column" do
       it "is displayable, sortable and groupable" do
         column = described_class.instances.find { it.name == :labels }
 
@@ -129,12 +129,6 @@ RSpec.describe Queries::WorkPackages::Selects::PropertySelect do
         expect(Array(column.sortable)).to all include("labelable_type = 'WorkPackage'")
         expect(column.groupable).to include("labelings")
         expect(column.groupable).to include("labelable_type = 'WorkPackage'")
-      end
-
-      context "when the feature flag is inactive", with_flag: { work_package_labels: false } do
-        it "is not offered" do
-          expect(described_class.instances.map(&:name)).not_to include :labels
-        end
       end
     end
   end

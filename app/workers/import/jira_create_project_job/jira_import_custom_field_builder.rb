@@ -182,10 +182,10 @@ module Import
 
       # Converts a single raw Jira field value (as found in `issue.payload["fields"][field_key]`)
       # into the value to assign to the OP custom field attribute.
-      def convert_value(raw_value, custom_field)
+      def convert_value(raw_value, custom_field, attachment_paths_by_name: {})
         case format
         when "bool" then convert_multicheckbox_bool_value(raw_value)
-        when "text" then JiraWikiMarkupConverter.new(raw_value.to_s).convert
+        when "text" then JiraWikiMarkupConverter.new(raw_value.to_s, attachment_paths_by_name:).convert
         when "list" then convert_list_value(raw_value, custom_field)
         when "user" then convert_user_value(raw_value)
         when "hierarchy" then convert_hierarchy_value(raw_value, custom_field)
@@ -342,11 +342,7 @@ module Import
         root = custom_field.hierarchy_root
         return [] if root.nil?
 
-        CustomFields::Hierarchy::HierarchicalItemService
-          .new
-          .get_descendants(item: root, include_self: false)
-          .fmap { |items| items.map(&:ancestry_path) }
-          .value_or([])
+        root.descendants_preordered.map(&:ancestry_path)
       end
 
       def unique_custom_field_name
@@ -427,29 +423,26 @@ module Import
         root = custom_field.hierarchy_root
         return unless root
 
-        service = CustomFields::Hierarchy::HierarchicalItemService.new
-        contract = CustomFields::Hierarchy::InsertListItemContract
-
         context_group_allowed_values.each do |parent_option|
-          insert_hierarchy_option(service, contract, root, parent_option)
+          insert_hierarchy_option(root, parent_option)
         end
       end
 
-      def insert_hierarchy_option(service, contract, parent, option)
+      def insert_hierarchy_option(parent, option)
         label = option_label(option["value"])
         return if label.blank?
 
-        item = insert_hierarchy_item(service, contract, parent, label)
+        item = insert_hierarchy_item(parent, label)
         return unless item
 
         Array(option["children"]).each do |child_option|
-          insert_hierarchy_option(service, contract, item, child_option)
+          insert_hierarchy_option(item, child_option)
         end
       end
 
-      def insert_hierarchy_item(service, contract, parent, label)
-        result = service.insert_item(contract_class: contract, parent:, label:)
-        result.success? ? result.value! : nil
+      def insert_hierarchy_item(parent, label)
+        call = CustomFields::Hierarchy::Items::CreateService.new(user: User.system).call(parent:, label:)
+        call.result if call.success?
       end
 
       # Fallback for scalar formats. Hash values (e.g. cascading selects without

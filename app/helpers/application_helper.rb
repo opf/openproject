@@ -286,11 +286,11 @@ module ApplicationHelper
   end
 
   def body_data_attributes(local_assigns)
-    service_worker = pwa_service_worker_attributes
+    pwa = pwa_body_attributes
 
     {
       controller: ["application auto-theme-switcher hover-card-trigger beforeunload external-links highlight-target-element",
-                   service_worker[:controller],
+                   pwa[:controller],
                    stimulus_body_controller].compact.join(" "),
       relative_url_root: root_path,
       overflowing_identifier: ".__overflowing_body",
@@ -298,18 +298,41 @@ module ApplicationHelper
       rendered_at: Time.zone.now.iso8601,
       turbo: local_assigns[:turbo_opt_out] ? "false" : nil
     }.merge(user_theme_data_attributes)
-     .merge(service_worker.except(:controller))
+     .merge(pwa.except(:controller))
      .compact
+  end
+
+  def pwa_body_attributes
+    attributes = [pwa_service_worker_attributes, pwa_push_resume_attributes]
+    controllers = attributes.filter_map { it[:controller] }
+
+    attributes.reduce(:merge).merge(controller: controllers.join(" ").presence)
   end
 
   def pwa_service_worker_attributes
     return {} unless OpenProject::FeatureDecisions.progressive_web_app_active?
 
     {
-      controller: "pwa-service-worker",
-      pwa_service_worker_url_value: pwa_service_worker_path,
-      pwa_service_worker_scope_value: root_path
+      controller: "pwa--service-worker",
+      "pwa--service-worker-url-value": pwa_service_worker_path,
+      "pwa--service-worker-scope-value": root_path
     }
+  end
+
+  def pwa_push_resume_attributes
+    return {} unless pwa_push_resume?
+
+    {
+      controller: "pwa--push-resume",
+      "pwa--push-resume-url-value": my_push_subscriptions_path,
+      "pwa--push-resume-session-value": Digest::SHA256.hexdigest(session.id.private_id).first(16)
+    }
+  end
+
+  def pwa_push_resume?
+    OpenProject::WebPush.enabled? &&
+      User.current.logged? &&
+      session.id.present?
   end
 
   def user_theme_data_attributes
@@ -327,12 +350,21 @@ module ApplicationHelper
       theme_options[:auto_theme_switcher_force_light_contrast_value] = pref.force_light_theme_contrast?
       theme_options[:auto_theme_switcher_force_dark_contrast_value] = pref.force_dark_theme_contrast?
     else
-      theme_options[:color_mode] = theme
-      theme_options[:"#{theme}_theme"] = theme
-      theme_options[:auto_theme_switcher_increase_contrast_value] = pref.increase_theme_contrast?
+      theme_options.merge!(explicit_theme_data_attributes(pref))
     end
 
     theme_options
+  end
+
+  def explicit_theme_data_attributes(pref)
+    theme = pref.theme
+    high_contrast = pref.increase_theme_contrast?
+
+    {
+      color_mode: theme,
+      "#{theme}_theme": high_contrast ? "#{theme}_high_contrast" : theme,
+      auto_theme_switcher_increase_contrast_value: high_contrast
+    }
   end
 
   def labelled_tabular_form_for(record, options = {}, &)

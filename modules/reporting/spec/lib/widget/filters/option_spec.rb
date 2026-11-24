@@ -45,4 +45,19 @@ RSpec.describe Widget::Filters::Option, type: :component do
   it "renders options" do
     expect(rendered_component).to have_element :option
   end
+
+  context "with a project" do
+    let(:project) { build_stubbed(:project) }
+    let(:options) { { project: } }
+
+    before do
+      allow(CostQuery::Filter::Tyear).to receive(:available_values).and_call_original
+    end
+
+    it "asks the filter for the values available in the project" do
+      rendered_component
+
+      expect(CostQuery::Filter::Tyear).to have_received(:available_values).with(project:)
+    end
+  end
 end

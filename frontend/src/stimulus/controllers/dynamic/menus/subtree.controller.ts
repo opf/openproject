@@ -36,7 +36,7 @@ export default class MenusSubtreeController extends Controller {
 
   public connect() {
     if (this.selectedValue !== '') {
-      const selected = this.element.querySelector<HTMLElement>(`[slug="${this.selectedValue}"]`);
+      const selected = this.element.querySelector<HTMLElement>(`[slug="${CSS.escape(this.selectedValue)}"]`);
       if (selected) {
         selected.classList.add('-selected');
         selected.scrollIntoView();

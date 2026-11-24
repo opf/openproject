@@ -55,7 +55,23 @@ RSpec.describe "The variant switch dialog",
     open_dialog(target_id: delivery.id)
 
     expect(response).to have_http_status(:ok)
-    expect(dialog).to have_select("Variant", selected: delivery.composite_name)
+    expect(dialog).to have_select("New type or variant", selected: delivery.composite_name)
+  end
+
+  it "previews the switch to the variant it was asked about" do
+    create(:work_package, project:, type: epic)
+
+    open_dialog(target_id: delivery.id)
+
+    expect(dialog).to have_text("1 work package will use the new configuration")
+  end
+
+  it "previews nothing when it opens on the variant in use" do
+    create(:work_package, project:, type: epic)
+
+    open_dialog
+
+    expect(dialog).to have_no_text("will use the new configuration")
   end
 
   it "does not ask the reader to choose a variant" do
@@ -67,18 +83,18 @@ RSpec.describe "The variant switch dialog",
   it "opens on the project's own variant when that is the one asked about" do
     open_dialog(target_id: ours.id)
 
-    expect(dialog).to have_select("Variant", selected: ours.composite_name)
+    expect(dialog).to have_select("New type or variant", selected: ours.composite_name)
   end
 
   it "opens on the variant in use when asked about none" do
     open_dialog
 
-    expect(dialog).to have_select("Variant", selected: epic.default_variant.composite_name)
+    expect(dialog).to have_select("New type or variant", selected: epic.default_variant.composite_name)
   end
 
   it "ignores a variant another project owns" do
     open_dialog(target_id: theirs.id)
 
-    expect(dialog).to have_select("Variant", selected: epic.default_variant.composite_name)
+    expect(dialog).to have_select("New type or variant", selected: epic.default_variant.composite_name)
   end
 end

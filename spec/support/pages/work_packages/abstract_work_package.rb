@@ -52,10 +52,14 @@ module Pages
       visit path(tab)
     end
 
+    def open_more_menu
+      find(:button, accessible_name: /\AMore\z/).click
+      find(:menu, "More")
+    end
+
     def select_from_context_menu(item)
-      find("button[wpsinglecontextmenu]").click
-      within(".op-context-menu--overlay") do
-        click_link item
+      within(open_more_menu) do
+        find(:menuitem, item, exact: true).click
       end
     end
 
@@ -133,7 +137,7 @@ module Pages
     def ensure_page_loaded
       expect_angular_frontend_initialized
 
-      expect(page).to have_no_selector("content-loader", wait: 10)
+      expect(page).to have_no_css("content-loader", wait: 10)
 
       nil
     end
@@ -147,7 +151,7 @@ module Pages
     def expect_group(name, &)
       expect(page).to have_css(".attributes-group--header-text", text: name.upcase)
       if block_given?
-        page.within(".attributes-group[data-group-name='#{name}']", &)
+        page.within(:element, class: "attributes-group", "data-group-name": name, &)
       end
     end
 
@@ -159,7 +163,7 @@ module Pages
       attribute_expectations.each do |label_name, value|
         label = label_name.to_s
         if label == "status"
-          expect(page).to have_css("[data-test-selector='op-wp-status-button'] .button", text: value)
+          expect(page).to have_css("[data-test-selector='op-wp-status-button'] button", text: value)
         else
           expect(page).to have_css(".inline-edit--container.#{label.camelize(:lower)}", text: value)
         end
@@ -315,7 +319,7 @@ module Pages
       expect_angular_frontend_initialized
       find(".add-work-package:not([disabled])", text: "Create").click
 
-      find("#types-context-menu .menu-item", text: type.name.upcase, wait: 30).click
+      find(:menuitem, type.name, exact: true, wait: 30).click
     end
 
     def subject_field

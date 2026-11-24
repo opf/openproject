@@ -23,10 +23,15 @@
 es:
   js:
     backlogs:
+      action_menu:
+        menu_label:
+          one: Acciones del paquete de trabajo
+          other: Actions for %{count} selected work packages
       announcements:
         batch_too_large: No se pueden trasladar %{count} paquetes de trabajo a la vez. Seleccione no más de %{max}.
         fallback_item_label: Paquete de trabajo
         fallback_list_name: otra lista
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving work packages.
         move_failed_check_position: No se pudo trasladar. Compruebe la posición actual del paquete de trabajo.
         move_failed_check_positions_batch:
           other: No se pudo trasladar. Compruebe las posiciones actuales de los paquetes de trabajo.
@@ -46,20 +51,39 @@ es:
         range_blocked: La selección no ha cambiado. Ese rango contiene un paquete de trabajo que no influye en el orden de esta lista.
         range_restarted:
           one: Could not extend the range. %{count} work package selected.
-          other: Could not extend the range. %{count} work packages selected.
+          other: No se pudo ampliar el rango. Se seleccionaron %{count} paquetes de trabajo.
         range_unavailable: La selección no ha cambiado. Amplíe esta lista para seleccionar ese rango.
         selected:
           one: "%{count} work package selected."
-          other: "%{count} work packages selected."
+          other: Se han seleccionado %{count} paquetes de trabajo.
     burndown_chart:
-      chart_day: 'Day %{day}: %{values}'
-      chart_label: Burndown chart
-      chart_summary: 'Burndown chart data: %{days}.'
-      chart_value: "%{label}: %{value}"
-      non_working_day: Non-working day
-      story_points: Story points
-    created_resolved:
-      work_packages: Work packages
+      chart_label: Diagrama Burndown
+    burnup_chart:
+      chart_label: Burnup chart
+    created_resolved_chart:
+      chart_label: Created vs. resolved chart
+      work_packages: Paquetes de trabajo
+    sprint_charts:
+      column_with_unit: "%{label} (%{unit})"
+      description_summary: "%{label} data: %{from} – %{to}. %{values}."
+      description_value: "%{label}: %{value}"
+      non_working_day: Día no laborable
+      unit:
+        story_points: story points
+      value_with_unit:
+        story_points:
+          one: "%{value} story point"
+          other: "%{value} story points"
+      y_axis_title:
+        story_points: Puntos de historia
+        time: Tiempo estimado
+    sprint_work_package_graph:
+      chart_label: Work packages by status chart
+      count_column: Work packages
+      status_column: Status
+    velocity_chart:
+      chart_label: Velocity chart
+      sprint_column: Sprint
     work_packages:
       properties:
         storyPoints: Puntos de Historia

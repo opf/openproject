@@ -37,10 +37,6 @@ RSpec.describe WorkPackageTypes::ProjectsTabController do
     login_as user
   end
 
-  def node_payload(project)
-    { path: [project.name], nodeId: project.id.to_s }.to_json
-  end
-
   context "without admin access" do
     let(:user) { create :user }
 
@@ -65,306 +61,6 @@ RSpec.describe WorkPackageTypes::ProjectsTabController do
       it { expect(response).to render_template "edit" }
     end
 
-    describe "PUT update" do
-      let(:project_ids) { [project.id.to_s] }
-      let(:params) do
-        {
-          "type_id" => type.id,
-          "type" => { "project_ids" => project_ids.to_json }
-        }
-      end
-
-      def update_projects
-        put :update, params:
-      end
-
-      it "redirects to the projects tab" do
-        update_projects
-
-        expect(response).to redirect_to(edit_type_projects_path(type_id: type.id))
-      end
-
-      context "if the project id does not exist" do
-        let(:project_ids) { ["not_here"] }
-
-        # The ids come from the project tree the form rendered, so an id naming no project is a
-        # malformed request rather than something to report on. It selects no project to act on.
-        it "ignores it" do
-          update_projects
-
-          expect(response).to redirect_to(edit_type_projects_path(type_id: type.id))
-        end
-      end
-
-      context "if the project contains work packages of the type" do
-        let(:project) { create(:project, types: [type]) }
-        let!(:work_package) { create(:work_package, project:, type:) }
-        let(:project_ids) { [] }
-
-        before do
-          update_projects
-        end
-
-        it { expect(response).to have_http_status(:unprocessable_entity) }
-
-        it "shows an error message with a link to the affected work packages" do
-          refusal = %(Unable to remove "#{type.name}" from project "#{project.name}" \
-because it's still in use by work packages)
-
-          expect(sanitize_string(flash[:error])).to include(refusal)
-          expect(flash[:error])
-            .to include(work_packages_path(query_props: { f: [
-              { n: "type", o: "=", v: [type.id] },
-              { n: "project", o: "=", v: [project.id.to_s] }
-            ] }.to_json))
-        end
-
-        it "keeps the type active in the project" do
-          expect(project.enabled_types).to include(type)
-        end
-      end
-
-      context "if visible and invisible projects contain work packages of the type" do
-        let(:project) { create(:project, types: [type]) }
-        let(:archived_project) { create(:project, :archived, types: [type]) }
-        let!(:work_package) { create(:work_package, project:, type:) }
-        let!(:archived_work_package) { create(:work_package, project: archived_project, type:) }
-        let(:project_ids) { [] }
-
-        before do
-          update_projects
-        end
-
-        it "does not include invisible project ids in the work packages link" do
-          expect(flash[:error])
-            .to include(work_packages_path(query_props: { f: [
-              { n: "type", o: "=", v: [type.id] },
-              { n: "project", o: "=", v: [project.id.to_s] }
-            ] }.to_json))
-        end
-
-        it "informs the user that some projects are not visible" do
-          expect(flash[:error])
-            .to include(I18n.t(:error_can_not_deactivate_type_invisible_projects))
-        end
-      end
-
-      # A ticked project is one applying the variant the tab addresses, so where the project
-      # stands on the type decides which service runs for it.
-      context "on a named variant's tab" do
-        let(:variant) { create(:type_variant, type:, variant_name: "Hardware") }
-        let(:params) do
-          {
-            "type_id" => type.id,
-            "variant_id" => variant.id,
-            "type" => { "project_ids" => project_ids.to_json }
-          }
-        end
-
-        it "redirects to the variant's own projects tab" do
-          update_projects
-
-          expect(response).to redirect_to(edit_type_variant_projects_path(type_id: type.id, variant_id: variant.id))
-        end
-
-        it "puts a project that does not use the type on this variant" do
-          update_projects
-
-          expect(project.reload.type_variant(type)).to eq(variant)
-        end
-
-        context "when the project applies another variant of the type" do
-          let(:other_variant) { create(:type_variant, type:, variant_name: "Firmware") }
-
-          before { create(:project_type, project:, type:, variant: other_variant) }
-
-          it "switches it over rather than adding a second row" do
-            update_projects
-
-            expect(project.project_types.where(type_id: type.id).count).to eq(1)
-            expect(project.reload.type_variant(type)).to eq(variant)
-          end
-        end
-
-        context "when a project applying this variant is unticked" do
-          let(:project_ids) { [] }
-
-          before { create(:project_type, project:, type:, variant:) }
-
-          it "drops the type from the project" do
-            update_projects
-
-            expect(project.enabled_types).not_to include(type)
-          end
-        end
-
-        context "when another variant's project holds work packages of the type" do
-          let(:other_variant) { create(:type_variant, type:, variant_name: "Firmware") }
-          let(:sibling_project) { create(:project) }
-
-          before do
-            create(:project_type, project: sibling_project, type:, variant: other_variant)
-            create(:work_package, project: sibling_project, type:)
-          end
-
-          it "leaves it alone" do
-            update_projects
-
-            expect(response).to redirect_to(edit_type_variant_projects_path(type_id: type.id, variant_id: variant.id))
-            expect(sibling_project.reload.type_variant(type)).to eq(other_variant)
-          end
-        end
-      end
-    end
-
-    describe "GET new_link" do
-      it "opens the add projects dialog" do
-        get :new_link, params: { type_id: type.id }, format: :turbo_stream
-
-        expect(response).to have_http_status(:ok)
-        expect(response.body).to include(WorkPackageTypes::ProjectsTab::AddFormComponent::DIALOG_ID)
-      end
-    end
-
-    describe "GET tree" do
-      let!(:child) { create(:project, name: "Child", parent: project) }
-
-      it "renders the project tree the dialog picks from" do
-        get :tree, params: { type_id: type.id, name: "project_ids" }
-
-        expect(response).to have_http_status(:ok)
-        expect(response.body).to include(project.name).and include(child.name)
-      end
-
-      it "narrows to the matches and the branches leading to them" do
-        get :tree, params: { type_id: type.id, name: "project_ids", query: "Child" }
-
-        expect(response.body).to include(child.name).and include(project.name)
-      end
-
-      it "leaves out projects that match nothing" do
-        other = create(:project, name: "Unrelated")
-
-        get :tree, params: { type_id: type.id, name: "project_ids", query: "Child" }
-
-        expect(response.body).not_to include(other.name)
-      end
-
-      it "matches a project by its identifier" do
-        create(:project, name: "Bookshop", identifier: "libris-nova")
-
-        get :tree, params: { type_id: type.id, name: "project_ids", query: "libris" }
-
-        expect(response.body).to include("Bookshop")
-      end
-    end
-
-    describe "POST link" do
-      it "puts the chosen projects on the variant" do
-        post :link, params: { type_id: type.id, project_ids: [node_payload(project)] }, format: :turbo_stream
-
-        expect(response).to have_http_status(:ok)
-        expect(project.reload.type_variant(type)).to eq(type.default_variant)
-      end
-
-      it "reaches the descendants too when asked to include sub-items" do
-        child = create(:project, parent: project)
-
-        post :link,
-             params: { type_id: type.id, project_ids: [node_payload(project)], include_sub_items: "1" },
-             format: :turbo_stream
-
-        expect(child.reload.enabled_types).to include(type)
-      end
-
-      it "ignores a payload naming no project" do
-        post :link, params: { type_id: type.id, project_ids: ["not json"] }, format: :turbo_stream
-
-        expect(response).to have_http_status(:bad_request)
-      end
-
-      it "refuses an empty selection" do
-        post :link, params: { type_id: type.id, project_ids: [] }, format: :turbo_stream
-
-        expect(response).to have_http_status(:bad_request)
-        expect(response.body).to include(I18n.t("types.edit.projects.add_dialog.no_projects_selected"))
-      end
-
-      context "when a project already applies another variant" do
-        let(:variant) { create(:type_variant, type:, variant_name: "Hardware") }
-        let(:other_variant) { create(:type_variant, type:, variant_name: "Firmware") }
-
-        before { create(:project_type, project:, type:, variant: other_variant) }
-
-        it "switches it over rather than adding a second row" do
-          post :link,
-               params: { type_id: type.id, variant_id: variant.id, project_ids: [node_payload(project)],
-                         confirm_switch: "1" },
-               format: :turbo_stream
-
-          expect(project.project_types.where(type_id: type.id).count).to eq(1)
-          expect(project.reload.type_variant(type)).to eq(variant)
-        end
-      end
-    end
-
-    describe "DELETE unlink" do
-      before { create(:project_type, project:, type:) }
-
-      it "drops the type from the project" do
-        delete :unlink, params: { type_id: type.id, project_id: project.id }, format: :turbo_stream
-
-        expect(response).to have_http_status(:ok)
-        expect(project.reload.enabled_types).not_to include(type)
-      end
-
-      context "when the project holds work packages of the type" do
-        before { create(:work_package, project:, type:) }
-
-        it "refuses and names the affected work packages" do
-          delete :unlink, params: { type_id: type.id, project_id: project.id }, format: :turbo_stream
-
-          expect(response).to have_http_status(:unprocessable_entity)
-          expect(project.reload.enabled_types).to include(type)
-        end
-
-        it "links to the work packages standing in the way" do
-          delete :unlink, params: { type_id: type.id, project_id: project.id }, format: :turbo_stream
-
-          expect(response.body)
-            .to include(CGI.escapeHTML(work_packages_path(query_props: { f: [
-              { n: "type", o: "=", v: [type.id] },
-              { n: "project", o: "=", v: [project.id.to_s] }
-            ] }.to_json)))
-        end
-      end
-    end
-
-    describe "the switch flow" do
-      let(:variant) { create(:type_variant, type:, variant_name: "Hardware") }
-      let(:target) { create(:type_variant, type:, variant_name: "Firmware") }
-
-      before { create(:project_type, project:, type:, variant:) }
-
-      it "opens the switch dialog for the row's project" do
-        get :new_switch, params: { type_id: type.id, variant_id: variant.id, project_id: project.id },
-                         format: :turbo_stream
-
-        expect(response).to have_http_status(:ok)
-        expect(response.body)
-          .to include(Projects::Settings::WorkPackages::Types::SwitchDialogComponent::DIALOG_ID)
-      end
-
-      it "moves the project to the chosen variant" do
-        post :switch, params: { type_id: type.id, variant_id: variant.id,
-                                project_id: project.id, target_id: target.id },
-                      format: :turbo_stream
-
-        expect(response).to have_http_status(:ok)
-        expect(project.reload.type_variant(type)).to eq(target)
-      end
-    end
-
     describe "POST enable_all" do
       before { project }
 
@@ -373,6 +69,15 @@ because it's still in use by work packages)
 
         expect(response).to have_http_status(:ok)
         expect(project.reload.type_variant(type)).to eq(type.default_variant)
+      end
+
+      it "leaves archived projects alone" do
+        archived = create(:project, active: false)
+
+        post :enable_all_projects, params: { type_id: type.id, value: "1" }, format: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        expect(archived.reload.enabled_types).not_to include(type)
       end
 
       it "drops the type everywhere when toggled off" do
@@ -415,8 +120,57 @@ because it's still in use by work packages)
             ] }.to_json)))
         end
 
-        it "re-renders the projects table" do
-          expect(response.body).to include(%(target="#{WorkPackageTypes::ProjectsTab::TableComponent.wrapper_key}"))
+        it "reloads the projects listing" do
+          expect(response.body).to include(WorkPackageTypes::ReloadableConfigurationFrameComponent::RELOAD_EVENT_NAME)
+        end
+      end
+
+      context "when an archived project holds work packages of the type" do
+        let(:archived_project) { create(:project, :archived) }
+
+        before do
+          create(:project_type, project:, type:)
+          create(:project_type, project: archived_project, type:)
+          create(:work_package, project:, type:)
+          create(:work_package, project: archived_project, type:)
+
+          post :enable_all_projects, params: { type_id: type.id, value: "0" }, format: :turbo_stream
+        end
+
+        it "leaves the type on it" do
+          expect(archived_project.reload.enabled_types).to include(type)
+        end
+
+        it "does not count it among the blocked projects" do
+          expect(sanitize_string(response.body)).not_to include("There are also work packages in projects you cannot see.")
+        end
+
+        it "links only to the work packages of the active project" do
+          link_to = ->(blocked) do
+            CGI.escapeHTML(work_packages_path(query_props: { f: [
+              { n: "type", o: "=", v: [type.id] },
+              { n: "project", o: "=", v: [blocked.id.to_s] }
+            ] }.to_json))
+          end
+
+          expect(response.body).to include(link_to[project])
+          expect(response.body).not_to include(link_to[archived_project])
+        end
+      end
+
+      context "when another variant's project holds work packages of the type" do
+        let(:other_variant) { create(:type_variant, type:, variant_name: "Firmware") }
+
+        before do
+          create(:project_type, project:, type:, variant: other_variant)
+          create(:work_package, project:, type:)
+
+          post :enable_all_projects, params: { type_id: type.id, value: "0" }, format: :turbo_stream
+        end
+
+        it "leaves it on its variant" do
+          expect(response).to have_http_status(:ok)
+          expect(project.reload.type_variant(type)).to eq(other_variant)
         end
       end
     end

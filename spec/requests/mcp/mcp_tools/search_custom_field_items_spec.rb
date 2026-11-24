@@ -59,22 +59,14 @@ RSpec.describe McpTools::SearchCustomFieldItems do
 
   let!(:custom_field) do
     create(:wp_custom_field, :hierarchy).tap do |cf|
-      service = CustomFields::Hierarchy::HierarchicalItemService.new
-      root = cf.hierarchy_root
-      hierarchy_items.each do |label|
-        service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract, parent: root, label:)
-      end
+      hierarchy_items.each { |label| create(:hierarchy_item, parent: cf.hierarchy_root, label:) }
     end
   end
   let(:hierarchy_items) { ["the green item", "the red item", "the yellow item"] }
 
   let!(:other_custom_field) do
     create(:wp_custom_field, :hierarchy).tap do |cf|
-      service = CustomFields::Hierarchy::HierarchicalItemService.new
-      root = cf.hierarchy_root
-      unrelated_items.each do |label|
-        service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract, parent: root, label:)
-      end
+      unrelated_items.each { |label| create(:hierarchy_item, parent: cf.hierarchy_root, label:) }
     end
   end
   let(:unrelated_items) { %w[unrelated_1 unrelated_2] }
@@ -89,7 +81,7 @@ RSpec.describe McpTools::SearchCustomFieldItems do
     tool_config.save!
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server custom_field_hierarchies] do
+  context "when the custom field hierarchies enterprise feature is enabled", with_ee: %i[custom_field_hierarchies] do
     it_behaves_like "MCP text tool"
 
     it "finds all items of the custom field" do
@@ -178,13 +170,6 @@ RSpec.describe McpTools::SearchCustomFieldItems do
         mcp_request
         expect(parsed_results.dig("structuredContent", "items").size).to eq(0)
       end
-    end
-  end
-
-  context "when the mcp_server enterprise feature is disabled", with_ee: %i[custom_field_hierarchies] do
-    it "responds in a 404" do
-      mcp_request
-      expect(last_response).to have_http_status(404)
     end
   end
 end

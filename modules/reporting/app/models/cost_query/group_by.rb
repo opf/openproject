@@ -38,6 +38,7 @@ class CostQuery::GroupBy < Report::GroupBy
       CostQuery::GroupBy::SpentOn,
       CostQuery::GroupBy::SingletonValue,
       CostQuery::GroupBy::Tmonth,
+      CostQuery::GroupBy::Tweek,
       CostQuery::GroupBy::TypeId,
       CostQuery::GroupBy::Tyear,
       CostQuery::GroupBy::UserId,

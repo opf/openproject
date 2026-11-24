@@ -2,8 +2,8 @@
 ---
 type: object
 required:
-- id
-- name
+  - id
+  - name
 properties:
   id:
     type: string
@@ -12,17 +12,17 @@ properties:
   name:
     type: string
     description: QuerySortBy name
-example:
-  _type: QuerySortBy
-  id: status-asc
-  name: Status (Ascending)
-  _links:
-    self:
-      href: "/api/v3/queries/sort_bys/status-asc"
-      title: Status (Ascending)
-    column:
-      href: "/api/v3/queries/columns/status"
-      title: Status
-    direction:
-      href: urn:openproject-org:api:v3:queries:directions:asc
-      title: Ascending
+examples:
+  - _type: QuerySortBy
+    id: status-asc
+    name: Status (Ascending)
+    _links:
+      self:
+        href: "/api/v3/queries/sort_bys/status-asc"
+        title: Status (Ascending)
+      column:
+        href: "/api/v3/queries/columns/status"
+        title: Status
+      direction:
+        href: urn:openproject-org:api:v3:queries:directions:asc
+        title: Ascending

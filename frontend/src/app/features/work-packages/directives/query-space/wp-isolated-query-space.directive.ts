@@ -105,7 +105,6 @@ import {
 import {
   WorkPackageViewOrderService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
-import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
 import {
   WorkPackageCardViewService,
 } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-view.service';
@@ -172,7 +171,6 @@ import {
     WorkPackageViewOrderService,
     WorkPackageViewHierarchyIdentationService,
     WorkPackageViewBaselineService,
-    CausedUpdatesService,
 
     WorkPackageService,
     WorkPackageRelationsHierarchyService,

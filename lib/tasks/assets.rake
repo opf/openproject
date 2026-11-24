@@ -61,12 +61,22 @@ namespace :assets do
 
     puts "Building angular frontend"
     Dir.chdir Rails.root.join("frontend") do
-      sh("npm run build") do |ok, res|
+      sh("npm run build -- --stats-json") do |ok, res|
         raise "Failed to compile angular frontend: #{res.exitstatus}" if !ok
       end
     end
 
+    stats_path = OpenProject::Assets.frontend_asset_path.join("stats.json")
+    begin
+      OpenProject::Plugins::FrontendLinking.verify_bundle!(stats_path)
+    ensure
+      FileUtils.rm_f(stats_path)
+    end
+
     Rake::Task["assets:rebuild_manifest"].invoke
+
+    puts "Compressing angular frontend assets"
+    sh("node", Rails.root.join("frontend/compress-assets.mjs").to_s, OpenProject::Assets.frontend_asset_path.to_s)
   end
 
   desc "Write angular assets manifest"

@@ -127,6 +127,32 @@ RSpec.describe RecurringMeeting,
     end
   end
 
+  describe "non-positive interval" do
+    subject do
+      build(:recurring_meeting,
+            start_time: Time.zone.tomorrow + 10.hours,
+            frequency: "weekly",
+            interval: 0,
+            end_after: "never")
+    end
+
+    it "does not cause an error when trying the schedule methods" do
+      expect(subject.schedule).to be_nil
+      expect(subject.ical_schedule).to be_nil
+      expect(subject.first_occurrence).to be_nil
+      expect(subject.actual_start_differs?).to be(false)
+      expect(subject.human_frequency_schedule).to be_nil
+      expect(subject.scheduled_occurrences(limit: 1)).to eq([])
+    end
+
+    it "does not count occurrences for an end date" do
+      subject.end_after = "specific_date"
+      subject.end_date = Time.zone.tomorrow + 1.week
+
+      expect(subject.occurrence_count_until_end_date).to be_nil
+    end
+  end
+
   describe "daily schedule" do
     subject do
       build(:recurring_meeting,

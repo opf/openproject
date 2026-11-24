@@ -392,8 +392,8 @@ RSpec.describe EnterpriseEdition::BannerComponent, type: :component do
       expect(component[:class]).not_to include("op-enterprise-banner_large")
 
       expect(component).to have_css(".op-enterprise-banner--dismiss")
-      expect(component).to have_content("Buy now")
-      expect(component).to have_content("This feature is included in your active Enterprise trial.")
+      expect(component).to have_text("Buy now")
+      expect(component).to have_text("This feature is included in your active Enterprise trial.")
     end
   end
 end

@@ -34,12 +34,12 @@ module Projects
         form do |f|
           f.select_list(
             name: :project_creation_wizard_artifact_name,
-            label: I18n.t("settings.project_initiation_request.name.artifact_name"),
-            caption: I18n.t("settings.project_initiation_request.name.artifact_name_caption"),
+            label: I18n.t("settings.project_initiation_request.name.artefact_name"),
+            caption: I18n.t("settings.project_initiation_request.name.artefact_name_caption"),
             required: true,
             input_width: :large
           ) do |list|
-            ::Projects::CreationWizard::ARTIFACT_NAME_OPTIONS.each do |id|
+            ::Projects::CreationWizard::ARTEFACT_NAME_OPTIONS.each do |id|
               list.option(
                 value: id,
                 label: I18n.t("settings.project_initiation_request.name.options.#{id}"),

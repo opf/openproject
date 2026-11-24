@@ -92,7 +92,13 @@ export class KeyboardShortcutService {
     const key = accessKeys[keyName];
 
     return () => {
-      const elem = document.querySelector<HTMLElement>(`[accesskey="${key}"]`)!;
+      const elem = document.querySelector<HTMLElement>(`[accesskey="${key}"]`);
+      if (!elem) {
+        // eslint-disable-next-line no-console
+        console.log(`No element with access key ${key} (${keyName})`);
+        return;
+      }
+
       if (elem instanceof HTMLInputElement || elem.getAttribute('id') === 'global-search-input') {
         // timeout with delay so that the key is not
         // triggered on the input
@@ -138,16 +144,34 @@ export class KeyboardShortcutService {
   }
 
   focusItemOffset(offset:number):void {
-    const list = document.querySelector(accessibleListSelector);
+    const active = document.activeElement;
+    const enclosing = active?.closest(accessibleListSelector) ?? null;
+    const list = enclosing ?? this.nearestList(active, offset);
     if (!list) {
       return;
     }
 
-    const rows = Array.from(list.querySelectorAll<HTMLElement>('tbody > tr'))
+    const rows = Array.from(list.querySelectorAll<HTMLTableRowElement>('tbody.work-package--results-tbody > tr, tbody > tr.wp-table--sums-row'))
       .filter((row) => row.checkVisibility());
-    const current = document.activeElement?.closest<HTMLElement>('tr') ?? null;
+    const current = enclosing ? active?.closest('tr') ?? null : null;
     const index = current ? rows.indexOf(current) : -1;
-    rows[index + offset]?.focus();
+    const start = !enclosing && offset < 0 ? rows.length : index;
+    for (let next = start + offset; next >= 0 && next < rows.length; next += offset) {
+      if (!rows[next].classList.contains('wp-table--sums-row')) {
+        rows[next].focus();
+        return;
+      }
+    }
+  }
+
+  private nearestList(active:Element|null, offset:number):Element|null {
+    const lists = Array.from(document.querySelectorAll(accessibleListSelector)).filter((list) => list.checkVisibility());
+    const side = offset > 0 ? Node.DOCUMENT_POSITION_FOLLOWING : Node.DOCUMENT_POSITION_PRECEDING;
+    const onSide = active ? lists.filter((list) => (active.compareDocumentPosition(list) & side) !== 0) : [];
+
+    return offset > 0
+      ? onSide[0] ?? lists[0] ?? null
+      : onSide.at(-1) ?? lists.at(-1) ?? null;
   }
 
   focusNextItem():void {

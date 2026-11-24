@@ -44,9 +44,11 @@ da:
       delete_confirmation: 'Er du sikker på, at du vil slette denne fil? Handlingen kan ikke fortrydes.
 
         '
-      draggable_hint: 'Træk på redigeringsfelt for at indsætte billede eller referencevedhæftning. Lukkede redigeringsfelter åbnes, mens du fortsætter med at trække.
+      draggable_hint: 'Træk til et redigeringsfelt for at indsætte et billede i teksten eller henvise til den vedhæftede fil. Lukkede redigeringsfelter åbnes, mens du trækker.
 
         '
+      import_failed_hint: Filen kunne ikke importeres. Den kan ikke hentes.
+      import_prepared_hint: Filen er ved at blive importeret. Den kan ikke hentes endnu.
       quarantined_hint: Filen er sat i karantæne, fordi der blev fundet en virus. Den kan ikke hentes.
     autocomplete_ng_select:
       add_tag: Tilføj element
@@ -107,6 +109,7 @@ da:
         maintained_with_changes: Bevaret med ændringer
         no_longer_meets_filter_criteria: Opfylder ikke længere filterkriterierne
         now_meets_filter_criteria: Opfylder nu filterkriterierne
+        state_at: Tilstand pr.
       show_changes_since: Vis ændringer siden
       time: Tidspunkt
       time_description: 'I din lokale tid: %{datetime}'
@@ -128,11 +131,11 @@ da:
     button_configure-form: Konfigurer formularen
     button_confirm: Bekræft
     button_continue: Fortsæt
-    button_copy: Kopier
+    button_copy: Kopiér
     button_copy_link_to_clipboard: Kopiér link til udklipsholderen
-    button_copy_numeric_id_to_clipboard: Kopiér numerisk id til udklipsholderen
     button_copy_to_clipboard: Kopiér til udklipsholderen
     button_copy_to_other_project: Dupliker i et andet projekt
+    button_copy_work_package_id: Kopiér arbejdspakkens id
     button_create: Opret
     button_custom-fields: Brugerdefinerede felter
     button_delete: Slet
@@ -148,6 +151,7 @@ da:
     button_log_time: Registrer tid
     button_more: Mere
     button_more_actions: Flere handlinger
+    button_move_to_position: Flyt til placering
     button_open_details: Åbn detaljevisning
     button_open_fullscreen: Åbn fuldskærmsvisning
     button_quote: Citer
@@ -173,6 +177,10 @@ da:
       remove_from_list: Fjern kort fra listen
     chart:
       axis_criteria: Aksekriterier
+      description:
+        caption: "%{label}: data"
+        date: Dato
+        week: Uge fra
       errors:
         could_not_load: Dataene til grafen kunne ikke indlæses. Der mangler måske de nødvendige tilladelser.
       modal_title: Konfiguration af arbejdspakkegraf
@@ -190,22 +198,25 @@ da:
         radar: Radar
     clipboard:
       browser_error: 'Din browser understøtter ikke kopiering til udklipsholderen. Kopiér det manuelt: %{content}'
-      copied_successful: Kopieret til udklipsholder!
+      copied_successful: Kopieret til udklipsholderen!
     close_filter_title: Luk filter
     close_form_title: Luk formular
-    close_popup_title: Luk popup
+    close_popup_title: Luk pop op-vindue
     custom_actions:
       date:
         current_date: Aktuel dato
-        specific: på
+        specific: den
     description_available_columns: Tilgængelige kolonner
     description_current_position: 'Du er her: '
     description_select_work_package: 'Vælg arbejdspakke #%{id}'
     description_subwork_package: 'Underordnet arbejdspakke #%{id}'
     editor:
+      ai_actions:
+        caption: Assistent
+        start_failed: Assistenten kunne ikke starte. Prøv igen.
       ckeditor_error: Der opstod en fejl i CKEditor
       ckeditor_error_reload: Editoren holdt op med at virke. Din tekst er her stadig, men du kan ikke ændre den. Kopiér den tekst, som du vil beholde, og genindlæs derefter siden.
-      error_saving_failed: 'Lagring af dokumentet mislykkedes med følgende fejl: %{error}'
+      error_saving_failed: 'Dokumentet kunne ikke gemmes på grund af følgende fejl: %{error}'
       macro:
         attribute_reference:
           aria_label_project_attribute: En dynamisk projektattribut, der er indsat med en makro.
@@ -227,7 +238,7 @@ da:
         code_block:
           button: Indsæt kodestykke
           language: Formateringssprog
-          language_hint: Indtast det formateringssprog, der skal bruges til at fremhæve (hvis det understøttes).
+          language_hint: Angiv det formateringssprog, der skal bruges til fremhævning (hvis det understøttes).
           title: Indsæt / rediger kodestykke
         embedded_calendar:
           text: "[Pladsholder] Indlejret kalender"
@@ -240,16 +251,16 @@ da:
         toc: Indholdsfortegnelse
         toolbar_help: Klik for at vælge widgetten og vise værktøjslinjen. Dobbeltklik for at redigere widgetten
         wiki_page_include:
-          button: Medtag indholdet af en anden wikiside
+          button: Medtag indholdet af en anden wiki-side
           hint: |
-            Medtag indholdet af en anden wikiside ved at angive dens titel eller URL-navn.
-            Du kan medtage en wikiside fra et andet projekt ved at adskille dem med kolon som i følgende eksempel.
+            Medtag indholdet af en anden wiki-side ved at angive dens titel eller URL-navn.
+            Du kan medtage en wiki-side fra et andet projekt ved at adskille dem med kolon som i følgende eksempel.
           not_set: "(Siden er endnu ikke angivet)"
           page: Wiki-side
-          text: "[Pladsholder] Medtaget wikiside fra"
+          text: "[Pladsholder] Medtaget wiki-side fra"
         work_package_button:
           button: Indsæt knap til oprettelse af arbejdspakke
-          button_style: Brug knappestil
+          button_style: Brug knapstil
           button_style_hint: 'Valgfrit: Markér for at vise makroen som en knap i stedet for et link.'
           type: Arbejdspakketype
           with_type: 'Opret arbejdspakke (Type: %{typename})'
@@ -265,7 +276,7 @@ da:
     enumeration_doc_categories: Dokumentkategorier
     enumeration_work_package_priorities: Prioriteter for arbejdspakker
     error:
-      cannot_save_changes_with_message: 'Kan ikke gemme dine ændringer på grund af følgende fejl: %{error}'
+      cannot_save_changes_with_message: 'Dine ændringer kunne ikke gemmes på grund af følgende fejl: %{error}'
       embedded_table_loading: 'Den indlejrede visning kunne ikke indlæses: %{message}'
       internal: Der opstod en intern fejl.
       query_saving: Visningen kunne ikke gemmes.
@@ -344,6 +355,8 @@ da:
       direct_hit_available: Der blev fundet en arbejdspakke med præcis dette id. Tryk på Enter for at åbne den.
       items_available: "%{count} elementer tilgængelige"
       recently_viewed: Senest vist
+      search_by_meaning: Søg ud fra betydning
+      search_mode: Søgetilstand
       search_placeholder_expanded: Søg efter arbejdspakker på emne, projekt, type, status eller id
       title:
         all_projects: alle projekter
@@ -434,13 +447,12 @@ da:
     label_assignee: Tildelt
     label_assignee_alt_text: Arbejdspakken er tildelt %{name}
     label_attachments: Vedhæftede filer
-    label_author: 'Forfatter: %{user}'
     label_avatar: Avatar
     label_between: mellem
     label_board: Tavle
     label_board_locked: Låst
     label_board_plural: Tavler
-    label_board_sticky: Fremhævet
+    label_board_sticky: Fastgjort
     label_cancel_comment: Annuller kommentar
     label_change: Ændring
     label_children_derived_duration: Varighed beregnet ud fra arbejdspakkens underordnede
@@ -448,7 +460,7 @@ da:
     label_collapse: Fold sammen
     label_collapse_all: Fold alle sammen
     label_collapse_text: Fold tekst sammen
-    label_collapsed: sammenfoldet
+    label_collapsed: foldet sammen
     label_columns: Kolonner
     label_comment: Kommentér
     label_contains: indeholder
@@ -460,7 +472,7 @@ da:
     label_custom_queries: Private
     label_date: Dato
     label_date_with_format: 'Angiv %{date_attribute} i dette format: %{format}'
-    label_deactivate: Deaktivér
+    label_deactivate: Deaktiver
     label_default_queries: Standard
     label_descending: Faldende
     label_description: Beskrivelse
@@ -477,7 +489,7 @@ da:
     label_expand_all: Fold alle ud
     label_expand_project_menu: Fold projektmenuen ud
     label_expand_text: Vis hele teksten
-    label_expanded: udfoldet
+    label_expanded: foldet ud
     label_export: Eksportér
     label_export_preparing: Eksporten forberedes og hentes om lidt.
     label_favorites: Favoritter
@@ -486,7 +498,7 @@ da:
     label_filesize: Størrelse
     label_formattable_attachment_hint: Vedhæft og link filer ved at slippe dem i feltet eller indsætte dem fra udklipsholderen.
     label_general: Generelle
-    label_global_queries: Offentlig
+    label_global_queries: Offentlige
     label_greater_or_equal: ">="
     label_group: Gruppe
     label_group_by: Gruppér efter
@@ -498,6 +510,7 @@ da:
     label_in: i
     label_in_less_than: om mindre end
     label_in_more_than: om mere end
+    label_in_progress_work_packages: i gang
     label_incoming_emails: Indkommende e-mails
     label_infinity: Uendelig
     label_information_plural: Information
@@ -530,6 +543,10 @@ da:
     label_open_context_menu: Åbn genvejsmenu
     label_open_menu: Åbn menuen
     label_open_work_packages: åbne
+    label_origin: Kilde
+    label_origin_id: Id
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Kildesystem
     label_password: Adgangskode
     label_per_page: 'Pr. side:'
     label_please_wait: Vent et øjeblik
@@ -563,7 +580,9 @@ da:
     label_show_in_menu: Vis visningen i menuen
     label_sort_by: Sortér efter
     label_sort_higher: Flyt op
+    label_sort_highest: Flyt til toppen
     label_sort_lower: Flyt ned
+    label_sort_lowest: Flyt til bunden
     label_sorted_by: sorteret efter
     label_sorting: Sortering
     label_spent_time: Anvendt tid
@@ -574,9 +593,10 @@ da:
     label_sum_for: Sum for
     label_this_week: denne uge
     label_time_entry_plural: Anvendt tid
+    label_to_do_work_packages: ikke startet
     label_today: I dag
     label_total_amount: 'I alt: %{amount}'
-    label_total_progress: 'Samlet fremskridt: %{percent}%'
+    label_total_progress: 'Samlet fremdrift: %{percent} %'
     label_total_sum: I alt
     label_unwatch: Stop med at følge
     label_unwatch_work_package: Stop med at følge arbejdspakke
@@ -659,7 +679,7 @@ da:
       no_unread: Ingen ulæste notifikationer
       reasons:
         assigned: Tildelt
-        commented: Kommenterede
+        commented: Kommenteret
         created: Oprettet
         dateAlert: Datopåmindelse
         mentioned: Omtalt
@@ -757,8 +777,10 @@ da:
       create_new: Opret ny
       group_by_relation_type: Gruppér efter relationstype
       group_by_wp_type: Gruppér efter arbejdspakketype
+      hierarchy_change_timed_out: Hierarkiet kunne ikke ændres, fordi serveren ikke svarede. Prøv igen.
       hierarchy_indent: Ryk et niveau ind
       hierarchy_outdent: Ryk et niveau ud
+      hierarchy_refresh_failed: Tabellen kunne ikke opdateres. Det er ikke muligt at rykke ind eller ud, før den er indlæst igen.
       remove: Fjern relation
       remove_child: Fjern underordnet
       remove_parent: Fjern overordnet
@@ -773,14 +795,14 @@ da:
       blocks: Blokerer
       child: Underordnet
       children: Underordnede
-      duplicated: Dublet oprettet af
-      duplicates: Dubletter
+      duplicated: Dubleret af
+      duplicates: Dublerer
       follows: Efterfølger
       includes: Omfatter
       parent: Overordnet
       partof: Del af
       precedes: Efterfølges af
-      relates: Knyttet til
+      relates: Relateret til
       relation_type: relationstype
       required: Krævet af
       requires: Kræver
@@ -815,6 +837,7 @@ da:
         batch_too_large: "%{count} elementer kan ikke flyttes på én gang. Vælg højst %{max}."
         fallback_item_label: Element
         fallback_list_name: en anden liste
+        menu_scope_changed: Markeringen i menuen er ændret. Åbn menuen igen, før du flytter elementer.
         move_failed_check_position: Flytningen mislykkedes. Tjek elementets aktuelle placering.
         move_failed_check_positions_batch:
           other: Flytningen mislykkedes. Tjek elementernes aktuelle placeringer.
@@ -851,7 +874,7 @@ da:
     text_user_wrote: "%{value} skrev:"
     text_work_packages_destroy_confirmation: Er du sikker på, at du vil slette de valgte arbejdspakker?
     time_entry:
-      title: Tidsregistrering
+      title: Registrer tid
       work_package_required: Kræver, at du først vælger en arbejdspakke.
     timer:
       button_stop: Stop aktuel tidtagning
@@ -884,6 +907,23 @@ da:
       unselected_title: Arbejdspakke
     two_factor_authentication:
       label_two_factor_authentication: To-faktor-godkendelse
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Handlinger for projektet
+            other: Handlinger for %{count} valgte projekter
+        selection:
+          cleared: Markeringen er ryddet.
+          not_selectable: Markeringen er uændret. Projektet kan ikke vælges.
+          range_blocked: Markeringen er uændret. Området indeholder et projekt, der ikke kan vælges.
+          range_restarted:
+            one: Området kunne ikke udvides. %{count} projekt valgt.
+            other: Området kunne ikke udvides. %{count} projekter valgt.
+          range_unavailable: Markeringen er uændret. Fold listen ud for at vælge området.
+          selected:
+            one: "%{count} projekt valgt."
+            other: "%{count} projekter valgt."
     units:
       child_work_packages:
         one: "%{count} underordnet arbejdspakke"
@@ -958,6 +998,7 @@ da:
         all_open: Alle åbne
         assigned_to_me: Tildelt til mig
         created_by_me: Oprettet af mig
+        in_progress: I gang
         latest_activity: Seneste aktivitet
         manually_sorted: Ny manuelt sorteret visning
         overdue: Forfaldne
@@ -965,6 +1006,7 @@ da:
         shared_with_me: Delt med mig
         shared_with_users: Delt med brugere
         summary: Opsummering
+        to_do: Ikke startet
       description_enter_text: Indtast tekst
       description_filter: Filter
       description_options_hide: Skjul muligheder
@@ -994,9 +1036,10 @@ da:
         label_pagination: Klik her for at springe tabellen med arbejdspakker over og gå til sidenavigationen
         pagination: Gå til tabellens sidenavigation
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Fold grupper sammen eller ud
       label_column_multiselect: 'Kombineret rullemenu: Vælg med piletasterne, bekræft valget med Enter, og slet med Backspace'
-      label_disable_multi_select: Slå multimarkeringer fra
-      label_enable_multi_select: Tillad multimarkeringer
+      label_disable_multi_select: Slå flervalg fra
+      label_enable_multi_select: Slå flervalg til
       label_filter_add: Tilføj filter
       label_filter_by_text: Filtrer efter tekst
       label_options: Muligheder
@@ -1052,6 +1095,7 @@ da:
         other: Andet
         people: Personer
       query:
+        add_columns: Tilføj kolonner
         click_to_edit_query_name: Klik for at redigere visningens titel.
         column_names: Kolonner
         confirm_edit_cancel: Er du sikker på, at du vil annullere redigeringen af visningens navn? Titlen nulstilles til den tidligere værdi.
@@ -1061,20 +1105,19 @@ da:
           not_found: Visningen findes ikke
           unretrievable_query: Visningen kunne ikke hentes fra URL'en
         filters: Filtre
-        group: Gruppér efter
         group_by: Gruppér resultater efter
+        group_by_column: Gruppér efter %{column}
         group_by_disabled_by_hierarchy: Gruppering er slået fra, fordi hierarkitilstand er aktiv.
-        hide_column: Skjul kolonne
         hierarchy_disabled_by_group_by: Hierarkitilstand er slået fra, fordi resultaterne er grupperet efter %{column}.
-        insert_columns: Indsæt kolonner
         move_column_left: Flyt kolonne til venstre
         move_column_right: Flyt kolonne til højre
         public_text: 'Offentliggør visningen, så andre brugere kan få adgang til den. Brugere med tilladelsen ''Administrer offentlige visninger'' kan ændre eller fjerne offentlige visninger. Det påvirker ikke, hvilke arbejdspakker der kan ses i visningen, og afhængigt af deres tilladelser kan brugerne se forskellige resultater.
 
           '
+        remove_column: Fjern kolonne
         rename_query_placeholder: Navn på visningen
-        sort_ascending: Sorter stigende
-        sort_descending: Sorter faldende
+        sort_ascending: Sortér stigende
+        sort_descending: Sortér faldende
         star_text: Markér visningen som favorit, og føj den til de gemte visninger i sidepanelet til venstre.
         text_no_results: Der blev ikke fundet nogen visninger, der matcher.
       reminders:
@@ -1092,15 +1135,26 @@ da:
       scheduling:
         is_parent: Arbejdspakkens datoer udledes automatisk af dens underordnede. Aktivér 'Manuel planlægning' for at angive datoerne.
         is_switched_from_manual_to_automatic: Arbejdspakkens datoer skal måske beregnes igen, efter at du har skiftet fra manuel til automatisk planlægning, fordi den har relationer til andre arbejdspakker.
+      selection:
+        all_selected:
+          one: Alle arbejdspakker på siden er valgt (%{count}).
+          other: Alle %{count} arbejdspakker på siden er valgt.
+        cleared: Markeringen er ryddet.
+        selected:
+          one: "%{count} arbejdspakke valgt."
+          other: "%{count} arbejdspakker valgt."
       sharing:
         show_all_users: Vis alle brugere, som arbejdspakken er delt med
         title: Del arbejdspakke
       table:
         configure_button: Konfigurer tabellen med arbejdspakker
-        summary: Tabel med arbejdspakker som rækker og deres attributter som kolonner.
-        text_inline_edit: De fleste celler i tabellen er knapper, der gør det muligt at redigere attributten direkte i tabellen.
-        text_select_hint: Rullelister åbnes med 'ALT' og piletasterne.
-        text_sort_hint: Med linkene i tabeloverskrifterne kan du sortere, gruppere, flytte, fjerne og tilføje tabelkolonner.
+        grid_actions_header: Handlinger
+        grid_baseline_header: Sammenligningsstatus
+        relations_button: Relationer i %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} stigende"
+        sort_criterion_descending: "%{column} faldende"
+        sorted_by: Sorteret efter %{criteria}.
+        sorted_manually: Sorteret manuelt.
       table_configuration:
         button: Konfigurer denne tabel med arbejdspakker
         choose_display_mode: Vis arbejdspakker som
@@ -1109,7 +1163,6 @@ da:
         default_mode: Flad liste
         display_settings: Visningsindstillinger
         display_sums_hint: Vis summen af alle attributter, der kan summeres, i en række under tabellens resultater.
-        embedded_tab_disabled: Fanen er ikke tilgængelig for den indlejrede visning, som du redigerer.
         hierarchy_hint: Alle filtrerede resultater i tabellen suppleres med deres overordnede. Hierarkier kan foldes ud og sammen.
         hierarchy_mode: Hierarki
         highlighting: Fremhævning

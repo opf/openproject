@@ -136,7 +136,7 @@ RSpec.describe "multi version custom field", :js do
 
       cf_edit_field.set_value "Version Future"
 
-      click_on "Fix version: Save"
+      click_on accessible_name: "Fix version: Save"
       wp_page.expect_and_dismiss_toaster(message: "Successful update.")
       # .customField<ID> above is required to ignore Assignee and Accountable which are not interesting for us.
       expect(page).to have_css(".customField#{custom_field.id} .custom-option", count: 2)

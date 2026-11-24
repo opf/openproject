@@ -47,6 +47,8 @@ lt:
       draggable_hint: 'Tempkite į redagavimo lauką, kad įtrauktumėte piešinį ar paminėtumėte priedą. Uždari redaktoriaus laukai bus atidaryti, kol jūs tempsite.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: Failas patalpintas į karantiną, nes rastas virusas. Jo atsisiųsti negalima.
     autocomplete_ng_select:
       add_tag: Pridėti elementą
@@ -107,6 +109,7 @@ lt:
         maintained_with_changes: Palaikoma su pakeitimais
         no_longer_meets_filter_criteria: Nebeatitinka filtro kriterijaus
         now_meets_filter_criteria: Dabar atitinka filtro kriterijų
+        state_at: State at
       show_changes_since: Rodyti pakeitimus nuo
       time: Laikas
       time_description: 'Jūsų lokaliu laiku: %{datetime}'
@@ -129,10 +132,10 @@ lt:
     button_confirm: Patvirtinti
     button_continue: Tęsti
     button_copy: Kopijuoti
-    button_copy_link_to_clipboard: Kopijuoti nuorodą į iškarpinę
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: Kopijuoti į iškarpinę
     button_copy_to_other_project: Duplicate in another project
+    button_copy_work_package_id: Copy work package ID
     button_create: Kurti
     button_custom-fields: Pritaikyti laukai
     button_delete: Trinti
@@ -148,6 +151,7 @@ lt:
     button_log_time: Registruoti laiką
     button_more: Daugiau
     button_more_actions: Daugiau veiksmų
+    button_move_to_position: Move to position
     button_open_details: Atverti detalų vaizdą
     button_open_fullscreen: Atverti pilno ekrano vaizdą
     button_quote: Cituoti
@@ -173,6 +177,10 @@ lt:
       remove_from_list: Išimti kortelę iš sąrašo
     chart:
       axis_criteria: Ašies kriterijus
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Nepavyko įkelti duomenų rodymui. Galbūt trūksta reikiamų teisių.
       modal_title: Darbo paketo grafo konfigūracija
@@ -203,6 +211,9 @@ lt:
     description_select_work_package: 'Pasirinkite darbų paketą #%{id}'
     description_subwork_package: 'Darbų paketo vaikas #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: CKEditor'iuje įvyko klaida
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Dokumento išsaugoti nepavyko. Klaida: %{error}'
@@ -344,6 +355,8 @@ lt:
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} items available"
       recently_viewed: Neseniai žiūrėtos
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: visi projektai
@@ -434,7 +447,6 @@ lt:
     label_assignee: Paskirtas
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Priedai
-    label_author: 'Autorius: %{user}'
     label_avatar: Nuotrauka
     label_between: tarp
     label_board: Lenta
@@ -498,6 +510,7 @@ lt:
     label_in: " "
     label_in_less_than: mažiau nei
     label_in_more_than: daugiau nei
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Gauti el. laiškai
     label_infinity: Infinity
     label_information_plural: Informacija
@@ -530,6 +543,10 @@ lt:
     label_open_context_menu: Atverti kontekstinį meniu
     label_open_menu: Atidaryti meniu
     label_open_work_packages: atidarytas
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Slaptažodis
     label_per_page: 'Puslapyje:'
     label_please_wait: Prašome palaukti
@@ -563,7 +580,9 @@ lt:
     label_show_in_menu: Rodyti vaizdą meniu
     label_sort_by: Rikiuoti pagal
     label_sort_higher: Aukštyn
+    label_sort_highest: Move to top
     label_sort_lower: Žemyn
+    label_sort_lowest: Move to bottom
     label_sorted_by: surikiuota pagal
     label_sorting: Rikiavimas
     label_spent_time: Praleista laiko
@@ -574,6 +593,7 @@ lt:
     label_sum_for: Suma
     label_this_week: ši savaitė
     label_time_entry_plural: Praleista laiko
+    label_to_do_work_packages: to-do
     label_today: Šiandien
     label_total_amount: 'Iš viso: %{amount}'
     label_total_progress: "%{percent} % įvykdyta"
@@ -759,8 +779,10 @@ lt:
       create_new: Sukurti naują
       group_by_relation_type: Grupuoti pagal ryšio tipą
       group_by_wp_type: Grupuoti pagal darbų paketo tipą
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Paslinkti hierarchiją
       hierarchy_outdent: Atslinkti hierarchiją
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Pašalinti ryšį
       remove_child: Pašalinti vaiką
       remove_parent: Pašalinti tėvą
@@ -817,6 +839,7 @@ lt:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.
@@ -890,6 +913,29 @@ lt:
       unselected_title: Darbų paketas
     two_factor_authentication:
       label_two_factor_authentication: Dviejų veiksnių autentifikavimas
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Project actions
+            few: Actions for %{count} selected projects
+            many: Actions for %{count} selected projects
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            one: Could not extend the range. %{count} project selected.
+            few: Could not extend the range. %{count} projects selected.
+            many: Could not extend the range. %{count} projects selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            one: "%{count} project selected."
+            few: "%{count} projects selected."
+            many: "%{count} projects selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         one: "%{count} child work package"
@@ -970,6 +1016,7 @@ lt:
         all_open: Visi atviri
         assigned_to_me: Priskirti man
         created_by_me: Sukūriau pats
+        in_progress: In progress
         latest_activity: Paskutinė veikla
         manually_sorted: New manually sorted query
         overdue: Vėluojama
@@ -977,6 +1024,7 @@ lt:
         shared_with_me: Bendrinama su manimi
         shared_with_users: Bendrinamas su naudotojais
         summary: Santrauka
+        to_do: To-do
       description_enter_text: Įveskite tekstą
       description_filter: Filtras
       description_options_hide: Slėpti parinktis
@@ -1006,6 +1054,7 @@ lt:
         label_pagination: Paspauskite čia, kad praleistumėte darbų paketų lentelės peržiūrą ir patektumėte į atvaizdavimą puslapiais
         pagination: Pereiti į lentelės laužymą puslapiais
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Kombinuotas išplečiamojo sąrašo laukas: pasirinkite rodyklių mygtukais, patvirtinkite pasirinkimą su Enter mygtuku, ištrinkite su Backspace'
       label_disable_multi_select: Išjungti daugybinį pažymėjimą
       label_enable_multi_select: Įgalinti daugybinį pažymėjimą
@@ -1064,6 +1113,7 @@ lt:
         other: Kita
         people: Žmonės
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Paspauskite norėdami keisti vaizdo pavadinimą.
         column_names: Stulpeliai
         confirm_edit_cancel: Ar tikrai norite atšaukti pavadinimo pakeitimus? Pavadinimas bus atstatytas į prieš tai buvusį tekstą.
@@ -1073,17 +1123,16 @@ lt:
           not_found: Nėra tokio vaizdo
           unretrievable_query: Nepavyksta gauti vaizdo iš URL
         filters: Filtrai
-        group: Grupuoti pagal
         group_by: Grupuoti rezultatus pagal
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Grupavimas išjungtas dėl aktyvaus hierarchijos režimo.
-        hide_column: Slėpti stulpelį
         hierarchy_disabled_by_group_by: Hierarchijos režimas išjungtas dėl rezultatų, kurie sugrupuoti pagal stulpelį, pavadinimu %{column}.
-        insert_columns: Įterpti stulpelius
         move_column_left: Perkelti stulpelį į kairę
         move_column_right: Perkelti stulpelį į dešinę
         public_text: 'Publikuoti šį vaizdą, leidžiant kitiems naudotojams prieigą prie jūsų vaizdo. Naudotojai su teise „Valdyti viešus vaizdus“ galės keisti ar išimti viešą užklausą. Tai neįtakoja darbo paketo rezultatų matomumo vaizde ir priklausomai nuo teisių, naudotojai gali matyti kitokius rezultatus.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Vaizdo pavadinimas
         sort_ascending: Rikiuoti didėjančiai
         sort_descending: Rikiuoti mažėjančiai
@@ -1104,15 +1153,30 @@ lt:
       scheduling:
         is_parent: Šio darbų paketo datos yra automatiškai nustatomos pagal jo vaikų datas. Norėdami nustatyti kitokias datas įjunkite „Rankinį tvarkaraščio parinkimą“
         is_switched_from_manual_to_automatic: Po perjungimo iš rankinio į automatinį tvarkaraščio parinkimą, šio darbų paketo datas gali reikėti perskaičiuoti, nes yra sąryšių su kitais darbų paketais.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          few: All %{count} work packages on this page selected.
+          many: All %{count} work packages on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          few: "%{count} work packages selected."
+          many: "%{count} work packages selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Rodyti visus naudotojus, su kuriais bendrinamas šis darbo paketas
         title: Dalintis darbo paketu
       table:
         configure_button: Sukonfigūruokite darbų paketo lentelę
-        summary: Lentelė su eilutėmis, sudarytomis iš darbų paketų, ir stulpeliais, sudarytais iš darbų paketų atributų.
-        text_inline_edit: Dauguma langelių šioje lentelėje yra mygtukai, kurie aktyvuoja to atributo redagavimą eilutėje.
-        text_select_hint: Pažymėjimo langeliai turi būti atidaryti nuspaudus 'Alt' ir krypčių rodykles.
-        text_sort_hint: Su nuorodomis lentelės antraštėje galima rikiavimo, grupuoti, perdėlioti, šalinti ir pridėti lentelės stulpelius.
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: Konfigūruokite šią darbų paketo lentelę
         choose_display_mode: Parodyti darbų paketą kaip
@@ -1121,7 +1185,6 @@ lt:
         default_mode: Paprastas sąrašas
         display_settings: Rodymo nustatymai
         display_sums_hint: Rodyti visų sumuotinų atributų sumas eilutėje lentelės apačioje po rezultatais.
-        embedded_tab_disabled: Ši konfigūracijos kortelė nerodoma įterpiamam vaizdui, kurį jūs redaguojate.
         hierarchy_hint: Visi filtruoti lentelės rezultatai bus papildyti savo tėvais. Hierarchijas galima išplėsti ir sutraukti.
         hierarchy_mode: Hierarchija
         highlighting: Paryškinimai

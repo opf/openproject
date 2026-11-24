@@ -33,7 +33,9 @@ module Import
 
     class AbortionError < StandardError; end
 
-    on_complete do
+    # Raised in on_shutdown rather than on_complete, so an aborted job skips on_complete and doesn't log "finished".
+    # A subclass's on_shutdown runs before this one, so work that must also run on abort belongs there.
+    on_shutdown do
       raise AbortionError, "Job was aborted" if @aborted
     end
 

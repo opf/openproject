@@ -49,7 +49,7 @@ module Meetings
           readonly: !edit_enabled? || @meeting.draft?,
           disabled: !edit_enabled? || @meeting.draft?,
           button_arguments: {
-            title: t("label_meeting_state"),
+            description: t("label_meeting_state"),
             size: @size
           },
           menu_arguments: { size: :small }
@@ -60,8 +60,7 @@ module Meetings
     private
 
     def edit_enabled?
-      User.current.allowed_in_project?(:manage_agendas, @project) ||
-        User.current.allowed_in_project?(:edit_meetings, @project)
+      User.current.allowed_in_project?(:edit_meetings, @project)
     end
 
     def current_status

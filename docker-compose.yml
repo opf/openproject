@@ -113,7 +113,7 @@ services:
       - "${FE_PORT:-4200}:4200"
 
   db:
-    image: postgres:17
+    image: pgvector/pgvector:pg17-trixie
     <<: *restart_policy
     stop_grace_period: "3s"
     volumes:
@@ -145,7 +145,7 @@ services:
   ######### Testing stuff below ############
 
   db-test:
-    image: postgres:17
+    image: pgvector/pgvector:pg17-trixie
     stop_grace_period: "3s"
     volumes:
       - "pgdata-test:/var/lib/postgresql/data"
@@ -270,8 +270,6 @@ services:
       NODE_MAX_SESSION: "${CI_JOBS:-4}"
 
   cuprite-chrome:
-    # Currently, Apple M1 is only supported in unnumbered "latest" versions.
-    # See https://github.com/browserless/chrome/issues/1393
     image: ghcr.io/browserless/chrome:latest
     networks:
       - testing

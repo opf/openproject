@@ -194,7 +194,8 @@ RSpec.describe "OAuth authorization code flow", :js do
       find('input.button[value="Authorize"]').click
 
       # Expect redirect to stubbed URL
-      expect(page).to have_current_path(/#{Regexp.escape(redirect_uri)}\?code=.+$/, url: true)
+      expect(page).to have_current_path(redirect_uri, ignore_query: true)
+      expect(page).to have_current_query_params("code" => be_present)
       expect(page).to have_text "Welcome to stubbed response"
 
       # Get auth token from URL query
@@ -211,7 +212,8 @@ RSpec.describe "OAuth authorization code flow", :js do
       login_with user.login, "adminADMIN!", visit_signin_path: false
 
       # Expect redirect to stubbed URL
-      expect(page).to have_current_path(/#{Regexp.escape(redirect_uri)}\?code=.+$/, url: true)
+      expect(page).to have_current_path(redirect_uri, ignore_query: true)
+      expect(page).to have_current_query_params("code" => be_present)
       expect(page).to have_text "Welcome to stubbed response"
 
       # Get auth token from URL query

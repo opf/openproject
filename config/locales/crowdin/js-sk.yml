@@ -47,6 +47,8 @@ sk:
       draggable_hint: 'Pre vloženie obrázka alebo referenčnej prílohy presuňte súbor do editovateľného poľa. Uzavreté pole editora sa bude otvárať počas nepretržitého ťahania.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: The file is quarantined, as a virus was found. It is not available for download.
     autocomplete_ng_select:
       add_tag: Add item
@@ -107,6 +109,7 @@ sk:
         maintained_with_changes: Maintained with changes
         no_longer_meets_filter_criteria: No longer meets filter criteria
         now_meets_filter_criteria: Now meets filter criteria
+        state_at: State at
       show_changes_since: Show changes since
       time: Čas
       time_description: 'In your local time: %{datetime}'
@@ -130,9 +133,9 @@ sk:
     button_continue: Pokračovať
     button_copy: Kopírovať
     button_copy_link_to_clipboard: Copy link to clipboard
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_to_clipboard: Kopírovať do schránky
     button_copy_to_other_project: Duplicate in another project
+    button_copy_work_package_id: Copy work package ID
     button_create: Vytvoriť
     button_custom-fields: Vlastné polia
     button_delete: Odstrániť
@@ -148,6 +151,7 @@ sk:
     button_log_time: Zaprotokoluj čas
     button_more: Viac
     button_more_actions: More actions
+    button_move_to_position: Move to position
     button_open_details: Zobraziť podrobnosti
     button_open_fullscreen: Otvorené zobrazenie na celú obrazovku
     button_quote: Citovať
@@ -173,6 +177,10 @@ sk:
       remove_from_list: Odstrániť kartu zo zoznamu
     chart:
       axis_criteria: Axis criteria
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: The data to display the graph could not be loaded. The necessary permissions may be lacking.
       modal_title: Work package graph configuration
@@ -203,6 +211,9 @@ sk:
     description_select_work_package: 'Vyberte pracovný balík #%{id}'
     description_subwork_package: 'Podradený pracovný balík #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: An error occurred within CKEditor
       ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Uloženie dokumentu zlyhalo s nasledujúcou chybou: %{error}'
@@ -344,6 +355,8 @@ sk:
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} items available"
       recently_viewed: Recently viewed
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: všetky projekty
@@ -434,7 +447,6 @@ sk:
     label_assignee: Priradené
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Prílohy
-    label_author: 'Autor: %{user}'
     label_avatar: Avatar
     label_between: medzi
     label_board: Nástenka
@@ -498,6 +510,7 @@ sk:
     label_in: v
     label_in_less_than: v menej ako
     label_in_more_than: vo viac ako
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Prichádzajúce e-maily
     label_infinity: Infinity
     label_information_plural: Informácie
@@ -530,6 +543,10 @@ sk:
     label_open_context_menu: Otvoriť kontextové menu
     label_open_menu: Otvorte menu
     label_open_work_packages: otvorené
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Heslo
     label_per_page: 'Na stranu:'
     label_please_wait: Prosím, čakajte
@@ -563,7 +580,9 @@ sk:
     label_show_in_menu: Zobraziť pohľad v menu
     label_sort_by: Zoradiť podľa
     label_sort_higher: Presunúť vyššie
+    label_sort_highest: Move to top
     label_sort_lower: Presunúť nižšie
+    label_sort_lowest: Move to bottom
     label_sorted_by: zoradené podľa
     label_sorting: Zoradenie
     label_spent_time: Strávený čas
@@ -574,6 +593,7 @@ sk:
     label_sum_for: Súčet pre
     label_this_week: tento týždeň
     label_time_entry_plural: Strávený čas
+    label_to_do_work_packages: to-do
     label_today: Dnes
     label_total_amount: 'Celkom: %{amount}'
     label_total_progress: "%{percent}% celkový priebeh"
@@ -759,8 +779,10 @@ sk:
       create_new: Vytvoriť nový
       group_by_relation_type: Zoskupiť podľa typu vzťahu
       group_by_wp_type: Zoskupiť podľa typu pracovného balíčka
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Indent hierarchy
       hierarchy_outdent: Outdent hierarchy
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Odstrániť vzťah
       remove_child: Zmazať podradený
       remove_parent: Odstrániť nadradený
@@ -817,6 +839,7 @@ sk:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.
@@ -890,6 +913,29 @@ sk:
       unselected_title: Pracovný balíček
     two_factor_authentication:
       label_two_factor_authentication: Dvojfaktorové overenie (2FA)
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Project actions
+            few: Actions for %{count} selected projects
+            many: Actions for %{count} selected projects
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            one: Could not extend the range. %{count} project selected.
+            few: Could not extend the range. %{count} projects selected.
+            many: Could not extend the range. %{count} projects selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            one: "%{count} project selected."
+            few: "%{count} projects selected."
+            many: "%{count} projects selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         one: "%{count} child work package"
@@ -970,6 +1016,7 @@ sk:
         all_open: Všetky otvorené
         assigned_to_me: Priradené mne
         created_by_me: Vytvorené mnou
+        in_progress: In progress
         latest_activity: Posledná aktivita
         manually_sorted: New manually sorted query
         overdue: Overdue
@@ -977,6 +1024,7 @@ sk:
         shared_with_me: Shared with me
         shared_with_users: Shared with users
         summary: Zhrnutie
+        to_do: To-do
       description_enter_text: Zadajte text
       description_filter: Filtrovať
       description_options_hide: Skryť možnosti
@@ -1006,6 +1054,7 @@ sk:
         label_pagination: Kliknite sem pre preskočenie tabuľky pracovných balíčkov a zobrazenie stránkovania
         pagination: Prejsť na stránkovanie tabuľky
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Kombinované rozbaľovacie pole: vyberte pomocou klávesov so šípkami, potvrďte stlačením ENTER, odstraňujte stlačením BACKSPACE'
       label_disable_multi_select: Zakázať hromadný výber
       label_enable_multi_select: Povoliť hromadný výber
@@ -1064,6 +1113,7 @@ sk:
         other: Ostatné
         people: Ľudia
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Kliknutím upravíte názov tohto zobrazenia.
         column_names: Stĺpce
         confirm_edit_cancel: Naozaj chcete zrušiť premenovanie tohto zobrazenia? Názov sa obnoví na poslednú uloženú hodnotu.
@@ -1073,17 +1123,16 @@ sk:
           not_found: Toto zobrazenie sa nepodarilo nájsť
           unretrievable_query: Nepodarilo sa načítať zobrazenie z adresy URL
         filters: Filtre
-        group: Zoskupiť podľa
         group_by: zoskupiť výsledky podľa
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Skupina je zakázaná v dôsledku aktívneho režimu hierarchie.
-        hide_column: Skryť stĺpec
         hierarchy_disabled_by_group_by: Režim hierarchie je zakázaný, pretože výsledky sú zoskupené podľa %{column}.
-        insert_columns: Insert columns
         move_column_left: Presunúť stĺpec vľavo
         move_column_right: Premiestniť stĺpec vpravo
         public_text: 'Publish this view, allowing other users to access your view. Users with the ''Manage public views'' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Názov tohto zobrazenia
         sort_ascending: Zoradiť vzostupne
         sort_descending: Zoradiť zostupne
@@ -1104,15 +1153,30 @@ sk:
       scheduling:
         is_parent: The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates.
         is_switched_from_manual_to_automatic: The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages.
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          few: All %{count} work packages on this page selected.
+          many: All %{count} work packages on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          few: "%{count} work packages selected."
+          many: "%{count} work packages selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Show all users with whom the work package has been shared with
         title: Share work package
       table:
         configure_button: Konfigurovať tabuľku pracovného balíčka
-        summary: Tabuľka s riadkami pracovného balíka a so stĺpcami pracovného balíka atribútov.
-        text_inline_edit: Väčšina buniek tabuľky sú tlačidlá, ktoré aktivujú funkcionalitu inline editácie tohto atribútu.
-        text_select_hint: Výber polí by sa mal otvoriť pomocou klávesov "ALT" a šípkami.
-        text_sort_hint: Pomocou odkazov v záhlaví tabuľky môžete zoradiť, zoskupiť, rozmiestniť, odstrániť alebo pridať stĺpce.
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: Konfigurovať tabuľku tohoto pracovného balíčka
         choose_display_mode: Zobraziť pracovné balíčky ako
@@ -1121,7 +1185,6 @@ sk:
         default_mode: Plochý zoznam
         display_settings: Zobraziť nastavenia
         display_sums_hint: Zobraziť súčty všetkých sčitateľných atribútov v riadku pod tabuľkou výsledkov.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: Všetky filtrované výsledky z tabuľky budú rozšírené o ich predkov. Hierarchie je možné rozbaliť a zbaliť.
         hierarchy_mode: Hierarchia
         highlighting: Zvýraznenie

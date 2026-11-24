@@ -67,7 +67,7 @@ RSpec.describe "Upload attachment to meetings", :js do
 
     click_on "Save"
     expect(page).to have_css("#meeting-agenda-items-list-component img", count: 1)
-    expect(page).to have_content("Image uploaded the first time")
+    expect(page).to have_text("Image uploaded the first time")
     attachment_list.expect_attached("image.png")
   end
 end

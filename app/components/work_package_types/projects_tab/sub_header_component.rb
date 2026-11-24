@@ -34,21 +34,17 @@ module WorkPackageTypes
       include OpTurbo::Streamable
       include WorkPackageTypes::VariantRoutes
 
-      def initialize(type:, variant:, query:)
+      def initialize(type:, variant:, query:, wizard: false)
         super()
 
         @type = type
         @variant = variant
         @query = query
+        @wizard = wizard
       end
 
-      def filters_form_attributes
-        {
-          controller: "filter--filters-form",
-          "filter--filters-form-turbo-stream-request-value": true,
-          "filter--filters-form-clear-button-id-value": clear_button_id,
-          "filter--filters-form-current-filters-value": serialized_filters
-        }
+      def url_path_name
+        variant_creation_wizard_projects_path(variant) if wizard?
       end
 
       def name_filter_attributes
@@ -62,15 +58,12 @@ module WorkPackageTypes
 
       def name_filter_key = ::Queries::Projects::Filters::NameAndIdentifierFilter.key.to_s
 
-      def serialized_filters
-        OpPrimer::QuickFilter.serialize(query.filters).to_json
-      end
-
       def name_filter_value = query.find_active_filter(name_filter_key.to_sym)&.values&.first
 
       def clear_button_id = "type-projects-filters-clear-button"
 
-      def variant_filter_available? = variant.default?
+      # A type still being created has no other variant to filter by.
+      def variant_filter_available? = variant.default? && !wizard?
 
       def variant_filter_component
         VariantFilterComponent.new(type:, variant:, query:)
@@ -80,7 +73,9 @@ module WorkPackageTypes
 
       attr_reader :type, :variant, :query
 
-      def add_path = new_link_variant_projects_path(variant)
+      def wizard? = @wizard
+
+      def add_path = new_variant_projects_link_path(variant)
 
       def toggle_all_path
         enable_all_variant_projects_path(variant, value: enabled_everywhere? ? "0" : "1")
@@ -97,7 +92,7 @@ module WorkPackageTypes
       def enabled_everywhere?
         return @enabled_everywhere unless @enabled_everywhere.nil?
 
-        @enabled_everywhere = ProjectType.where(variant_id: variant.id).count == ::Project.count
+        @enabled_everywhere = variant.projects.active.count == ::Project.active.count
       end
     end
   end

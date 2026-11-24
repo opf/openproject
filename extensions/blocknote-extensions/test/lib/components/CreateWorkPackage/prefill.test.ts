@@ -1,10 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { prefillFor, projectPrefill, selectionToRemember } from '../../../../lib/components/CreateWorkPackage/prefill';
+import { choiceToRemember, prefillFor, projectPrefill } from '../../../../lib/components/CreateWorkPackage/prefill';
 import {
-  forgetLastSelection,
-  lastSelection,
-  rememberSelection,
-} from '../../../../lib/components/CreateWorkPackage/lastSelection';
+  forgetChoice,
+  lastChoice,
+  rememberChoice,
+} from '../../../../lib/components/CreateWorkPackage/lastChoice';
 import type { FormField } from '../../../../lib/components/CreateWorkPackage/formSchema';
 import { initOpenProjectApi } from '../../../../lib/services/openProjectApi';
 import { initEditorContext } from '../../../../lib/services/editorContext';
@@ -41,7 +41,7 @@ const projectField:FormField = {
 
 const fields = [typeField, assigneeField];
 
-const elifSelection = { href: '/api/v3/users/5', label: 'Elif Yildiz' };
+const elifAssignee = { href: '/api/v3/users/5', label: 'Elif Yildiz' };
 
 function assigneesResponse(...people:{ id:number; name:string }[]):Response {
   return {
@@ -54,12 +54,12 @@ function assigneesResponse(...people:{ id:number; name:string }[]):Response {
   } as Partial<Response> as Response;
 }
 
-function projectsResponse(...projects:{ id:number; name:string }[]):Response {
+function projectsResponse(...projects:{ id:number; name:string; href?:string }[]):Response {
   return {
     ok: true,
     json: async () => ({
       _embedded: {
-        elements: projects.map(({ id, name }) => ({ id, name, _links: { self: { href: `/api/v3/projects/${id}` } } })),
+        elements: projects.map(({ id, name, href = `/api/v3/projects/${id}` }) => ({ id, name, _links: { self: { href } } })),
       },
     }),
   } as Partial<Response> as Response;
@@ -69,7 +69,7 @@ describe('create work package prefill', () => {
   beforeEach(() => {
     initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
     initEditorContext({});
-    forgetLastSelection();
+    forgetChoice();
   });
 
   afterEach(() => {
@@ -91,7 +91,7 @@ describe('create work package prefill', () => {
     });
 
     it('prefers the type of the last creation over the default', async () => {
-      rememberSelection({ type: { href: '/api/v3/types/2', label: 'Bug' } });
+      rememberChoice({ type: { href: '/api/v3/types/2', label: 'Bug' } });
 
       const prefill = await prefillFor(fields, { _links: { type: { href: '/api/v3/types/1' } } });
 
@@ -99,7 +99,7 @@ describe('create work package prefill', () => {
     });
 
     it('falls back to the default for a type the project does not offer', async () => {
-      rememberSelection({ type: { href: '/api/v3/types/9', label: 'Milestone' } });
+      rememberChoice({ type: { href: '/api/v3/types/9', label: 'Milestone' } });
 
       const prefill = await prefillFor(fields, { _links: { type: { href: '/api/v3/types/2' } } });
 
@@ -116,7 +116,7 @@ describe('create work package prefill', () => {
     });
 
     it('prefills a remembered assignee the project still offers, by their current name', async () => {
-      rememberSelection({ assignee: { ...elifSelection, label: 'Elif Y.' } });
+      rememberChoice({ assignee: { ...elifAssignee, label: 'Elif Y.' } });
       const fetchSpy = vi.spyOn(global, 'fetch')
         .mockResolvedValue(assigneesResponse({ id: 5, name: 'Elif Yildiz' }));
 
@@ -128,7 +128,7 @@ describe('create work package prefill', () => {
     });
 
     it('leaves the assignee empty when the project cannot assign them', async () => {
-      rememberSelection({ assignee: elifSelection });
+      rememberChoice({ assignee: elifAssignee });
       vi.spyOn(global, 'fetch').mockResolvedValue(assigneesResponse({ id: 6, name: 'Bianca Fuchs' }));
 
       const prefill = await prefillFor(fields, {});
@@ -137,7 +137,7 @@ describe('create work package prefill', () => {
     });
 
     it('leaves the assignee empty when the check cannot be made', async () => {
-      rememberSelection({ assignee: elifSelection });
+      rememberChoice({ assignee: elifAssignee });
       vi.spyOn(global, 'fetch').mockRejectedValue(new Error('Boom.'));
       vi.spyOn(console, 'error').mockImplementation(() => {});
 
@@ -147,7 +147,7 @@ describe('create work package prefill', () => {
     });
 
     it('prefills nothing the form does not ask for', async () => {
-      rememberSelection({ type: { href: '/api/v3/types/2', label: 'Bug' }, assignee: elifSelection });
+      rememberChoice({ type: { href: '/api/v3/types/2', label: 'Bug' }, assignee: elifAssignee });
 
       const prefill = await prefillFor([], {});
 
@@ -168,9 +168,33 @@ describe('create work package prefill', () => {
       expect(String(fetchSpy.mock.calls[0][0])).toContain('%22id%22');
     });
 
+    it.each([
+      ['portfolio', '/api/v3/portfolios/2'],
+      ['program', '/api/v3/programs/2'],
+    ])('opens on the %s the editor is rendered in', async (_kind, href) => {
+      initEditorContext({ projectId: 2 });
+      vi.spyOn(global, 'fetch').mockResolvedValue(projectsResponse({ id: 2, name: 'Portfolio 11', href }));
+
+      const prefill = await projectPrefill(projectField);
+
+      expect(prefill.values).toEqual({ project: href });
+      expect(prefill.labels).toEqual({ project: 'Portfolio 11' });
+    });
+
+    it('is outranked by the portfolio of the last creation', async () => {
+      initEditorContext({ projectId: 2 });
+      rememberChoice({ project: { href: '/api/v3/portfolios/1', label: 'Portfolio 11' } });
+      vi.spyOn(global, 'fetch')
+        .mockResolvedValue(projectsResponse({ id: 1, name: 'Portfolio 11', href: '/api/v3/portfolios/1' }));
+
+      const prefill = await projectPrefill(projectField);
+
+      expect(prefill.values.project).toBe('/api/v3/portfolios/1');
+    });
+
     it('is outranked by the project of the last creation', async () => {
       initEditorContext({ projectId: 2 });
-      rememberSelection({ project: { href: '/api/v3/projects/1', label: 'Demo project' } });
+      rememberChoice({ project: { href: '/api/v3/projects/1', label: 'Demo project' } });
       vi.spyOn(global, 'fetch').mockResolvedValue(projectsResponse({ id: 1, name: 'Demo project' }));
 
       const prefill = await projectPrefill(projectField);
@@ -180,7 +204,7 @@ describe('create work package prefill', () => {
 
     it('stands in with the project it is rendered in when the remembered one is gone', async () => {
       initEditorContext({ projectId: 2 });
-      rememberSelection({ project: { href: '/api/v3/projects/1', label: 'Demo project' } });
+      rememberChoice({ project: { href: '/api/v3/projects/1', label: 'Demo project' } });
       vi.spyOn(global, 'fetch')
         .mockResolvedValueOnce(projectsResponse())
         .mockResolvedValueOnce(projectsResponse({ id: 2, name: 'Scrum project' }));
@@ -210,7 +234,7 @@ describe('create work package prefill', () => {
     });
 
     it('takes the project of the last creation where the application says none', async () => {
-      rememberSelection({ project: { href: '/api/v3/projects/1', label: 'Demo p.' } });
+      rememberChoice({ project: { href: '/api/v3/projects/1', label: 'Demo p.' } });
       vi.spyOn(global, 'fetch').mockResolvedValue(projectsResponse({ id: 1, name: 'Demo project' }));
 
       const prefill = await projectPrefill(projectField);
@@ -220,7 +244,7 @@ describe('create work package prefill', () => {
     });
 
     it('leaves a remembered project that is no longer on offer empty', async () => {
-      rememberSelection({ project: { href: '/api/v3/projects/1', label: 'Demo project' } });
+      rememberChoice({ project: { href: '/api/v3/projects/1', label: 'Demo project' } });
       vi.spyOn(global, 'fetch').mockResolvedValue(projectsResponse());
 
       const prefill = await projectPrefill(projectField);
@@ -270,9 +294,9 @@ describe('create work package prefill', () => {
     });
   });
 
-  describe('selectionToRemember', () => {
-    it('remembers a selection by what it reads as', () => {
-      const selection = selectionToRemember(
+  describe('choiceToRemember', () => {
+    it('remembers a choice by what it reads as', () => {
+      const choice = choiceToRemember(
         [projectField, ...fields],
         {
           subject: 'Fix the header',
@@ -283,31 +307,31 @@ describe('create work package prefill', () => {
         { project: 'Demo project', assignee: 'Elif Yildiz' }
       );
 
-      expect(selection).toEqual({
+      expect(choice).toEqual({
         project: { href: '/api/v3/projects/1', label: 'Demo project' },
         type: { href: '/api/v3/types/2', label: 'Bug' },
-        assignee: elifSelection,
+        assignee: elifAssignee,
       });
     });
 
     it('remembers nothing of a value it cannot name', () => {
-      const selection = selectionToRemember(fields, { assignee: '/api/v3/users/5' }, {});
+      const choice = choiceToRemember(fields, { assignee: '/api/v3/users/5' }, {});
 
-      expect(selection.assignee).toBeUndefined();
+      expect(choice.assignee).toBeUndefined();
     });
 
     it('remembers nothing of an attribute the creation left empty', () => {
-      const selection = selectionToRemember(fields, { type: '/api/v3/types/1', assignee: '' }, {});
+      const choice = choiceToRemember(fields, { type: '/api/v3/types/1', assignee: '' }, {});
 
-      expect(selection).toEqual({ type: { href: '/api/v3/types/1', label: 'Task' } });
+      expect(choice).toEqual({ type: { href: '/api/v3/types/1', label: 'Task' } });
     });
 
     it('replaces what an earlier creation left behind', () => {
-      rememberSelection({ type: { href: '/api/v3/types/2', label: 'Bug' }, assignee: elifSelection });
+      rememberChoice({ type: { href: '/api/v3/types/2', label: 'Bug' }, assignee: elifAssignee });
 
-      rememberSelection(selectionToRemember(fields, { type: '/api/v3/types/1' }, {}));
+      rememberChoice(choiceToRemember(fields, { type: '/api/v3/types/1' }, {}));
 
-      expect(lastSelection()).toEqual({ type: { href: '/api/v3/types/1', label: 'Task' } });
+      expect(lastChoice()).toEqual({ type: { href: '/api/v3/types/1', label: 'Task' } });
     });
   });
 });

@@ -35,6 +35,7 @@ module CostReports
   # `rows` and `columns`, the selected unit as `unit`.
   class ParamsToReport
     CONFIGURATION_PARAMS = %i[filters rows columns unit].freeze
+    LEGACY_CUSTOM_FIELD = /\Acustom_field(\d+)\z/
 
     def initialize(params, project: nil, user: User.current)
       @params = params
@@ -64,7 +65,7 @@ module CostReports
       report.query.filters = []
 
       filter_definitions.each do |definition|
-        report.query.where(definition[:attribute].to_s, definition[:operator], Array(definition[:values]))
+        report.query.where(attribute_for(definition[:attribute]), definition[:operator], Array(definition[:values]))
       end
     end
 
@@ -88,7 +89,13 @@ module CostReports
     def axis(name)
       return default_axis(name) unless configured?
 
-      params[name].to_s.split(",").compact_blank
+      params[name].to_s.split(",").compact_blank.map { |dimension| attribute_for(dimension) }
+    end
+
+    # Urls created before OP-20742 address custom fields as custom_field<id>.
+    # TODO: Remove this translation in a future major version.
+    def attribute_for(name)
+      name.to_s.sub(LEGACY_CUSTOM_FIELD, 'cf_\1')
     end
 
     def configured?

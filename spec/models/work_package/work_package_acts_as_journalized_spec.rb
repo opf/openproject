@@ -395,6 +395,26 @@ RSpec.describe WorkPackage do
                        expect_new_journal: true
     end
 
+    context "on changes within aggregation time with aggregation skipped" do
+      shared_let(:journable) do
+        create(:work_package,
+               description: "Initial description",
+               journals: {
+                 4.minutes.ago => { user: }
+               })
+      end
+
+      include_examples "journaled values for",
+                       new_values_set: {
+                         "description" => "Changed description",
+                         "journal_skip_aggregation" => true
+                       },
+                       expected_values: {
+                         "description" => ["Initial description", "Changed description"]
+                       },
+                       expect_new_journal: true
+    end
+
     context "on changes with aggregation disabled", with_settings: { journal_aggregation_time_minutes: 0 } do
       shared_let(:journable) do
         create(:work_package,
@@ -1098,10 +1118,7 @@ RSpec.describe WorkPackage do
 
       include_examples "journaled values for",
                        new_values_set: {
-                         "journal_cause" => {
-                           "type" => "The good cause",
-                           "some_reference" => 42
-                         }
+                         "journal_cause" => CauseOfChange::Base.new("The good cause", "some_reference" => 42)
                        },
                        expected_values: {},
                        expected_cause: {
@@ -1115,16 +1132,16 @@ RSpec.describe WorkPackage do
       shared_let(:journable) do
         create(:work_package,
                journals: {
-                 4.minutes.ago => { user:, cause: "XYZ" }
+                 4.minutes.ago => { user:, cause: { "type" => "import" } }
                })
       end
 
       include_examples "journaled values for",
                        new_values_set: {
-                         "journal_cause" => "ABC"
+                         "journal_cause" => CauseOfChange::Base.new("system_update")
                        },
                        expected_values: {},
-                       expected_cause: "ABC",
+                       expected_cause: { "type" => "system_update" },
                        expect_new_journal: true
     end
 
@@ -1134,20 +1151,20 @@ RSpec.describe WorkPackage do
                subject: "Initial subject",
                journals: {
                  10.minutes.ago => { user: },
-                 4.minutes.ago => { user:, cause: "ABC" }
+                 4.minutes.ago => { user:, cause: { "type" => "system_update" } }
                })
       end
 
       # Adding the change to subject here to show that the whole change is aggregated
       include_examples "journaled values for",
                        new_values_set: {
-                         "journal_cause" => "ABC",
+                         "journal_cause" => CauseOfChange::Base.new("system_update"),
                          "subject" => "Changed subject"
                        },
                        expected_values: {
                          "subject" => ["Initial subject", "Changed subject"]
                        },
-                       expected_cause: "ABC",
+                       expected_cause: { "type" => "system_update" },
                        expect_new_journal: false
     end
 
@@ -1157,7 +1174,7 @@ RSpec.describe WorkPackage do
                subject: "Initial subject",
                journals: {
                  10.minutes.ago => { user: },
-                 4.minutes.ago => { user:, cause: "ABC" }
+                 4.minutes.ago => { user:, cause: { "type" => "system_update" } }
                })
       end
 
@@ -1174,7 +1191,46 @@ RSpec.describe WorkPackage do
         journable.subject = "Changed subject"
         journable.save!
 
-        expect(journable.journals.reload[-2].cause).to eq("ABC")
+        expect(journable.journals.reload[-2].cause).to eq("type" => "system_update")
+      end
+    end
+
+    context "on consecutive label deletions within aggregation time", with_settings: { journal_aggregation_time_minutes: 5 } do
+      shared_let(:journable) do
+        create(:work_package, journals: { 10.minutes.ago => { user: } })
+      end
+
+      def journalize(cause)
+        Journals::CreateService.new(journable, user).call(cause:)
+      end
+
+      before do
+        journalize(Journal::CausedByLabelDeletion.new(label_ids: [1], label_names: ["A"]))
+      end
+
+      it "aggregates consecutive label deletions into one journal listing every label" do
+        expect { journalize(Journal::CausedByLabelDeletion.new(label_ids: [2], label_names: ["B"])) }
+          .not_to change { journable.journals.count }
+
+        expect(journable.journals.reload.last.cause)
+          .to eq("type" => "label_deleted", "label_ids" => [1, 2], "label_names" => %w[A B])
+      end
+
+      it "keeps one name per deleted label when labels share a name" do
+        journalize(Journal::CausedByLabelDeletion.new(label_ids: [2], label_names: ["A"]))
+
+        expect(journable.journals.reload.last.cause)
+          .to eq("type" => "label_deleted", "label_ids" => [1, 2], "label_names" => %w[A A])
+      end
+
+      it "does not aggregate an unrelated cause into the label deletion journal" do
+        expect { journalize(Journal::CausedByWorkPackageParentDeletion.new) }
+          .to change { journable.journals.count }.by(1)
+
+        expect(journable.journals.reload[-2].cause)
+          .to eq("type" => "label_deleted", "label_ids" => [1], "label_names" => ["A"])
+        expect(journable.journals.reload.last.cause)
+          .to eq(Journal::CausedByWorkPackageParentDeletion.new.to_hash)
       end
     end
 
@@ -1219,10 +1275,7 @@ RSpec.describe WorkPackage do
                        new_values_set: {
                          "subject" => "Changed subject",
                          "journal_notes" => "Some notes",
-                         "journal_cause" => {
-                           "type" => "The good cause",
-                           "some_reference" => 42
-                         }
+                         "journal_cause" => CauseOfChange::Base.new("The good cause", "some_reference" => 42)
                        },
                        expected_values: {
                          "subject" => ["Initial subject", "Changed subject"]
@@ -1249,10 +1302,7 @@ RSpec.describe WorkPackage do
                        new_values_set: {
                          "subject" => "Changed subject",
                          "journal_notes" => "Some notes",
-                         "journal_cause" => {
-                           "type" => "The good cause",
-                           "some_reference" => 42
-                         }
+                         "journal_cause" => CauseOfChange::Base.new("The good cause", "some_reference" => 42)
                        },
                        expected_values: {
                          "subject" => ["Initial subject", "Changed subject"]
@@ -1279,10 +1329,7 @@ RSpec.describe WorkPackage do
                        new_values_set: {
                          "subject" => "Changed subject",
                          "journal_notes" => "Some notes",
-                         "journal_cause" => {
-                           "type" => "The good cause",
-                           "some_reference" => 42
-                         }
+                         "journal_cause" => CauseOfChange::Base.new("The good cause", "some_reference" => 42)
                        },
                        expected_values: {
                          "subject" => ["Initial subject", "Changed subject"]
@@ -1344,10 +1391,10 @@ RSpec.describe WorkPackage do
 
       include_examples "journaled values for",
                        new_values_set: {
-                         "journal_cause" => "ABC"
+                         "journal_cause" => CauseOfChange::Base.new("system_update")
                        },
                        expected_values: {},
-                       expected_cause: "ABC",
+                       expected_cause: { "type" => "system_update" },
                        expect_new_journal: true
     end
 
@@ -1363,10 +1410,10 @@ RSpec.describe WorkPackage do
 
       include_examples "journaled values for",
                        new_values_set: {
-                         "journal_cause" => "ABC"
+                         "journal_cause" => CauseOfChange::Base.new("system_update")
                        },
                        expected_values: {},
-                       expected_cause: "ABC",
+                       expected_cause: { "type" => "system_update" },
                        expect_new_journal: true,
                        expect_journable_update_at_changed: false
     end
@@ -1698,6 +1745,46 @@ RSpec.describe WorkPackage do
       it "does not return the internal journal regardless of permissions and project setting" do
         expect(journals.map(&:id)).not_to include(internal_note.id)
         expect(journals.map(&:id)).to include(public_note.id)
+      end
+    end
+  end
+
+  describe "#last_loaded_visible_journal", with_ee: %i[internal_comments] do
+    let(:project) { create(:project, enabled_internal_comments: true) }
+    let(:work_package) { create(:work_package, project:) }
+
+    subject(:journal) { described_class.includes(:journals).find(work_package.id).last_loaded_visible_journal(user) }
+
+    before do
+      work_package.add_journal(user: create(:admin), notes: "A public comment", internal: false)
+      work_package.save!(validate: false)
+      work_package.add_journal(user: create(:admin), notes: "An internal comment", internal: true)
+      work_package.save!(validate: false)
+    end
+
+    context "when the user is not allowed to see internal comments" do
+      let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
+
+      it "returns the latest public journal" do
+        expect(journal.notes).to eq("A public comment")
+      end
+    end
+
+    context "when the user is allowed to see internal comments" do
+      let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages view_internal_comments] }) }
+
+      it "returns the latest internal journal" do
+        expect(journal.notes).to eq("An internal comment")
+      end
+    end
+
+    context "when the journals are not loaded" do
+      let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages view_internal_comments] }) }
+
+      subject(:journal) { described_class.find(work_package.id).last_loaded_visible_journal(user) }
+
+      it "returns nil" do
+        expect(journal).to be_nil
       end
     end
   end

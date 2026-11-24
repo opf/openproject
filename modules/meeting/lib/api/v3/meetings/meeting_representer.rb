@@ -31,7 +31,6 @@ module API
   module V3
     module Meetings
       class MeetingRepresenter < ::API::Decorators::Single
-        include API::Decorators::LinkedResource
         include API::V3::Workspaces::LinkedResource
         include API::Caching::CachedRepresenter
         include API::V3::Attachments::AttachableRepresenterMixin
@@ -68,6 +67,7 @@ module API
 
         link :delete,
              cache_if: -> { current_user.allowed_in_project?(:delete_meetings, represented.project) } do
+          next if represented.series_template?
           {
             href: api_v3_paths.meeting(represented.id),
             method: :delete

@@ -76,13 +76,13 @@ class MyController < ApplicationController
   def account; end
 
   def update_account
-    write_settings
+    write_settings(user_params.merge(current_password_input: params[:_password_confirmation]))
   end
 
   def locale; end
 
   def update_settings
-    write_settings
+    write_settings(user_params.except("mail"))
   end
 
   def update_email_alerts
@@ -162,10 +162,11 @@ class MyController < ApplicationController
     false
   end
 
-  def write_settings
+  def write_settings(attributes)
     result = Users::UpdateService
                .new(user: current_user, model: current_user)
-               .call(user_params)
+               .with_state(session:)
+               .call(attributes)
 
     if result&.success
       flash[:notice] = notice_account_updated
@@ -178,11 +179,7 @@ class MyController < ApplicationController
   end
 
   def handle_email_changes
-    # If mail changed, expire all other sessions
     if @user.previous_changes["mail"]
-      Users::DropTokensService.new(current_user: @user).call!
-      Sessions::DropOtherSessionsService.call!(@user, session)
-
       flash[:info] = "#{flash[:notice]} #{t(:notice_account_other_session_expired)}"
       flash.delete :notice
     end
@@ -197,13 +194,13 @@ class MyController < ApplicationController
   end
 
   # On the self-service account page only custom fields the user is allowed to
-  # edit themselves (editable: true) may be changed. Drop the rest so a crafted
+  # edit themselves (user_self_editable: true) may be changed. Drop the rest so a crafted
   # request cannot persist values the UI renders read-only.
   def drop_non_editable_custom_field_values(attributes)
     values = attributes["custom_field_values"]
     return attributes if values.blank?
 
-    editable_ids = current_user.available_custom_fields.select(&:editable?).map { |cf| cf.id.to_s }
+    editable_ids = current_user.available_custom_fields.select(&:user_self_editable?).map { |cf| cf.id.to_s }
     attributes["custom_field_values"] = values.slice(*editable_ids)
     attributes
   end

@@ -49,9 +49,6 @@ import {
   OpTypesContextMenuDirective,
 } from 'core-app/shared/components/op-context-menu/handlers/op-types-context-menu.directive';
 import {
-  OpColumnsContextMenu,
-} from 'core-app/shared/components/op-context-menu/handlers/op-columns-context-menu.directive';
-import {
   OpSettingsMenuDirective,
 } from 'core-app/shared/components/op-context-menu/handlers/op-settings-dropdown-menu.directive';
 import {
@@ -225,9 +222,6 @@ import {
 import {
   WorkPackagesTableConfigMenuComponent,
 } from 'core-app/features/work-packages/components/wp-table/config-menu/config-menu.component';
-import {
-  WorkPackageViewDropdownMenuDirective,
-} from 'core-app/shared/components/op-context-menu/handlers/wp-view-dropdown-menu.directive';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import {
   WorkPackageNotificationService,
@@ -303,6 +297,7 @@ import { WorkPackagesGridComponent } from 'core-app/features/work-packages/compo
 import { OpSortableListsDirective } from 'core-app/shared/directives/sortable-lists/sortable-lists.directive';
 import { OpSortableListsListDirective } from 'core-app/shared/directives/sortable-lists/sortable-lists-list.directive';
 import { OpSortableListsItemDirective } from 'core-app/shared/directives/sortable-lists/sortable-lists-item.directive';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import {
   WorkPackageSplitViewToolbarComponent,
 } from 'core-app/features/work-packages/components/wp-details/wp-details-toolbar.component';
@@ -414,10 +409,19 @@ import {
 } from 'core-app/features/work-packages/routing/wp-split-create/wp-split-create-entry.component';
 import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work-packages/components/wp-single-view-tabs/project-attributes-tab/op-project-attributes-tab.component';
 
+import { PrimerButtonComponent } from 'core-app/shared/components/primer/button.component';
+
 @NgModule({
   imports: [
     // Commons
     OpSharedModule,
+    WorkPackageSingleContextMenuDirective,
+    OpTypesContextMenuDirective,
+    OpSettingsMenuDirective,
+    WorkPackageReminderContextMenuDirective,
+    WorkPackageGroupToggleDropdownMenuDirective,
+    WorkPackageCreateSettingsMenuDirective,
+    WorkPackageStatusDropdownDirective,
     NgSelectModule,
     // Display + Edit field functionality
     OpenprojectFieldsModule,
@@ -446,6 +450,8 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
     OpSortableListsDirective,
     OpSortableListsListDirective,
     OpSortableListsItemDirective,
+    OpTooltipDirective,
+    PrimerButtonComponent,
   ],
   providers: [
     // Notification service
@@ -544,16 +550,6 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
     WorkPackageFilterContainerComponent,
     WorkPackageFilterButtonComponent,
 
-    // Context menus
-    OpTypesContextMenuDirective,
-    OpColumnsContextMenu,
-    OpSettingsMenuDirective,
-    WorkPackageStatusDropdownDirective,
-    WorkPackageCreateSettingsMenuDirective,
-    WorkPackageSingleContextMenuDirective,
-    WorkPackageViewDropdownMenuDirective,
-    WorkPackageGroupToggleDropdownMenuDirective,
-
     // Timeline
     WorkPackageTimelineButtonComponent,
     WorkPackageTimelineHeaderController,
@@ -608,7 +604,6 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
     WorkPackageSplitViewToolbarComponent,
     WorkPackageWatcherButtonComponent,
     WorkPackageReminderButtonComponent,
-    WorkPackageReminderContextMenuDirective,
     WorkPackageShareButtonComponent,
     WorkPackageSubjectComponent,
 

@@ -52,9 +52,9 @@ post:
     '415':
       $ref: "../components/responses/unsupported_media_type.yml"
   tags:
-  - Time Entries
+    - Time Entries
   description: ''
-  operationId: Time_entry_update_form
+  operationId: validate_time_entry_update_form
   requestBody:
     content:
       application/json:

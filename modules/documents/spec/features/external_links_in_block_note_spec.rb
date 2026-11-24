@@ -166,7 +166,7 @@ RSpec.describe "External links in BlockNote editor",
 
       new_window = (page.windows - [original_window]).first
       within_window new_window do
-        expect(page.current_url).to include("/external_redirect")
+        expect(page).to have_current_path(%r{\A/external_redirect\b})
       end
     ensure
       (page.windows - [original_window]).each do |w|

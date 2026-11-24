@@ -26,16 +26,11 @@
 //++
 
 import { Injector } from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { States } from 'core-app/core/states/states.service';
-import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
-import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { tdClassName } from 'core-app/features/work-packages/components/wp-fast-table/builders/cell-builder';
 import { internalContextMenuColumn } from 'core-app/features/work-packages/components/wp-fast-table/builders/internal-sort-columns';
 import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
-import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { WorkPackageTable } from '../wp-fast-table/wp-fast-table';
 import { rowId } from '../wp-fast-table/helpers/wp-table-row-helpers';
 import {
@@ -43,29 +38,22 @@ import {
   SingleRowBuilder,
   tableRowClassName,
 } from '../wp-fast-table/builders/rows/single-row-builder';
+import { InlineCreateCancelButton } from './inline-create-cancel-button';
 
 export const inlineCreateRowClassName = 'wp-inline-create-row';
-export const inlineCreateCancelClassName = 'wp-table--cancel-create-link';
+const cancelLinkHostClassName = 'wp-table--cancel-create-host';
 
 export class InlineCreateRowBuilder extends SingleRowBuilder {
-  // Injections
-  @LazyInject() public states:States;
-
-  @LazyInject() public wpTableSelection:WorkPackageViewSelectionService;
-
-  @LazyInject() public wpTableColumns:WorkPackageViewColumnsService;
-
-  @LazyInject() public I18n:I18nService;
-
-  protected text:{ cancelButton:string };
-
-  constructor(public readonly injector:Injector,
-    workPackageTable:WorkPackageTable) {
+  constructor(
+    public readonly injector:Injector,
+    workPackageTable:WorkPackageTable,
+    private readonly cancelButton:InlineCreateCancelButton,
+  ) {
     super(injector, workPackageTable);
+  }
 
-    this.text = {
-      cancelButton: this.I18n.t('js.button_cancel'),
-    };
+  protected override get rowHeaderColumn():'subject'|'id'|null {
+    return null;
   }
 
   public buildCell(workPackage:WorkPackageResource, column:QueryColumn):HTMLTableCellElement|null {
@@ -82,6 +70,43 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     const [row, hidden] = this.buildEmpty(workPackage);
 
     return [row, hidden];
+  }
+
+  public buildEmpty(workPackage:WorkPackageResource):[HTMLTableRowElement, boolean] {
+    const [row, hidden] = super.buildEmpty(workPackage);
+    this.placeCancelLink(row);
+
+    return [row, hidden];
+  }
+
+  public refreshRow(workPackage:WorkPackageResource, row:HTMLTableRowElement):HTMLTableRowElement {
+    const refreshed = super.refreshRow(workPackage, row);
+    this.placeCancelLink(refreshed);
+
+    return refreshed;
+  }
+
+  private placeCancelLink(row:HTMLTableRowElement):void {
+    const host = this.cancelLinkHost(row);
+
+    row.querySelectorAll<HTMLTableCellElement>(`td.${cancelLinkHostClassName}`).forEach((cell) => {
+      if (cell !== host) {
+        cell.classList.remove(cancelLinkHostClassName);
+      }
+    });
+    if (host && this.cancelButton.element.parentElement !== host) {
+      host.classList.add(cancelLinkHostClassName);
+      host.append(this.cancelButton.element);
+    }
+  }
+
+  private cancelLinkHost(row:HTMLTableRowElement):HTMLTableCellElement|null {
+    if (this.augmentedColumns.includes(internalContextMenuColumn)) {
+      return null;
+    }
+
+    const lastColumn = this.augmentedColumns.at(-1)!;
+    return row.querySelector<HTMLTableCellElement>(`td.${lastColumn.id}`);
   }
 
   /**
@@ -108,13 +133,7 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     const td = document.createElement('td');
     td.classList.add(tdClassName, 'wp-table--cancel-create-td');
 
-    td.innerHTML = `
-    <a
-       href="#"
-       class="${inlineCreateCancelClassName} icon icon-cancel"
-       aria-label="${this.text.cancelButton}">
-    </a>
-   `;
+    td.append(this.cancelButton.element);
 
     return td;
   }

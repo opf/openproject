@@ -2,7 +2,7 @@
 ---
 type: object
 required:
-- title
+  - title
 properties:
   id:
     type: integer
@@ -17,30 +17,30 @@ properties:
     properties:
       addAttachment:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            Attach a file to the wiki page
+          - $ref: "./link.yml"
+          - description: |-
+              Attach a file to the wiki page
 
-            # Conditions
+              # Conditions
 
-            **Permission**: edit wiki page
-          readOnly: true
-example:
-  _type: WikiPage
-  id: 72
-  title: A wiki page with a name
-  _embedded:
-    project:
-      _type: Project...
-      id: 12
-  _links:
-    self:
-      href: "/api/v3/wiki_pages/72"
-    attachments:
-      href: "/api/v3/wiki_pages/72/attachments"
-    addAttachment:
-      href: "/api/v3/wiki_pages/72/attachments"
-      method: post
-    project:
-      href: "/api/v3/projects/12"
-      title: some project
+              **Permission**: edit wiki page
+            readOnly: true
+examples:
+  - _type: WikiPage
+    id: 72
+    title: A wiki page with a name
+    _embedded:
+      project:
+        _type: Project...
+        id: 12
+    _links:
+      self:
+        href: "/api/v3/wiki_pages/72"
+      attachments:
+        href: "/api/v3/wiki_pages/72/attachments"
+      addAttachment:
+        href: "/api/v3/wiki_pages/72/attachments"
+        method: post
+      project:
+        href: "/api/v3/projects/12"
+        title: some project

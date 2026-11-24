@@ -261,34 +261,6 @@ RSpec.describe TypeVariant do
     end
   end
 
-  describe "the workflow a variant references" do
-    shared_let(:project) { create(:project) }
-    shared_let(:other_project) { create(:project) }
-
-    it "may be a global workflow" do
-      variant = build(:project_owned_type_variant, type: bug, project:, variant_name: "Internal",
-                                                   workflow: create(:named_workflow))
-
-      expect(variant).to be_valid
-    end
-
-    it "may not belong to another project" do
-      variant = build(:project_owned_type_variant, type: bug, project:, variant_name: "Internal",
-                                                   workflow: create(:project_owned_workflow, project: other_project))
-
-      expect(variant).not_to be_valid
-      expect(variant.errors).to be_added(:workflow, :not_available_to_this_variant)
-    end
-
-    it "may not belong to a project when the variant is global" do
-      variant = build(:type_variant, type: bug, variant_name: "Hardware",
-                                     workflow: create(:project_owned_workflow, project:))
-
-      expect(variant).not_to be_valid
-      expect(variant.errors).to be_added(:workflow, :not_available_to_this_variant)
-    end
-  end
-
   describe "destroying a variant" do
     shared_let(:role) { create(:project_role) }
     shared_let(:old_status) { create(:status) }
@@ -345,6 +317,23 @@ RSpec.describe TypeVariant do
       user = create(:user, member_with_permissions: { project => %i[manage_types] })
 
       expect(create(:project_owned_type_variant, type:, project:)).not_to be_configurable_by(user)
+    end
+  end
+
+  describe "description length" do
+    it "accepts a description up to the maximum length" do
+      variant = build(:type_variant, type: bug, variant_name: "Hardware",
+                                     description: "a" * Type::DESCRIPTION_MAX_LENGTH)
+
+      expect(variant).to be_valid
+    end
+
+    it "rejects a description longer than the maximum length" do
+      variant = build(:type_variant, type: bug, variant_name: "Hardware",
+                                     description: "a" * (Type::DESCRIPTION_MAX_LENGTH + 1))
+
+      expect(variant).not_to be_valid
+      expect(variant.errors[:description]).to be_present
     end
   end
 end

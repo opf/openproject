@@ -37,6 +37,7 @@ module Backlogs
     def build_card
       WorkPackageCardComponent.new(
         work_package:,
+        project:,
         menu_src:,
         **card_arguments
       )
@@ -57,7 +58,7 @@ module Backlogs
     end
 
     def menu_src
-      url_helpers.menu_project_backlogs_work_package_path(project, work_package)
+      url_helpers.menu_project_backlogs_work_packages_path(project, ids: [work_package.id], invoker_id: work_package.id)
     end
 
     # @return [Hash] card arguments carrying the Backlogs-only keyboard wiring.

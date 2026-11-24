@@ -35,13 +35,12 @@ import {
   OnInit,
 } from '@angular/core';
 import { take } from 'rxjs/operators';
-import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
 import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
 import {
   WorkPackageViewDisplayRepresentationService,
   wpDisplayCardRepresentation,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
-import { WorkPackageTableConfigurationObject } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
+import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -57,8 +56,10 @@ import { WorkPackageViewBaselineService } from '../wp-view-base/view-services/wp
 import { combineLatest } from 'rxjs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { States } from 'core-app/core/states/states.service';
-import { resolveNumericId, resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
-import { isSemanticWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
+import {
+  matchesRoutingId,
+  resolveRoutingId,
+} from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import {
   GlobalEditFormChangesTrackerService,
@@ -75,7 +76,6 @@ import { WorkPackageViewSelectionService } from 'core-app/features/work-packages
   providers: [
     { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
     DragAndDropService,
-    CausedUpdatesService,
   ],
   standalone: false,
 })
@@ -119,10 +119,9 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   public baselineEnabled:boolean;
 
   /** */
-  readonly wpTableConfiguration:WorkPackageTableConfigurationObject = {
+  readonly wpTableConfiguration = new WorkPackageTableConfiguration({
     dragAndDropEnabled: true,
-    keyboardNavigationEnabled: true,
-  };
+  });
 
   ngOnInit() {
     // If a work package is open in the split view (per the URL), select its row.
@@ -131,14 +130,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     // WorkPackageSplitViewComponent#init did this via a shared query space/injector.
     const details = this.urlParams.currentDetailsRouteParams();
     if (details) {
-      // Plain numeric ids need no lookup; resolving a semantic id needs the
-      // work package cached already, which may not be the case yet this early.
-      const numericId = isSemanticWorkPackageId(details.routingId)
-        ? resolveNumericId(this.states, details.routingId)
-        : details.routingId;
-      if (numericId) {
-        this.wpTableSelection.initializeSelection([numericId]);
-      }
+      this.selectSplitViewRow(details.routingId);
     }
 
     // Mark tableInformationLoaded when initially loading done
@@ -225,6 +217,25 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     } else {
       this.handleWorkPackageClicked(event);
     }
+  }
+
+  // The work package cache is keyed by numeric id, so a semantic id from a deep link can
+  // only be matched against the loaded results. Their ancestors count too: hierarchy mode
+  // renders a row for them even though the query itself does not match them.
+  private selectSplitViewRow(routingId:string):void {
+    this
+      .querySpace
+      .results
+      .values$()
+      .pipe(take(1), this.untilDestroyed())
+      .subscribe((results) => {
+        const candidates = results.elements.flatMap((element) => [element, ...element.getAncestors()]);
+        const id = candidates.find((candidate) => matchesRoutingId(candidate, routingId))?.id;
+
+        if (id) {
+          this.wpTableSelection.initializeSelection([id]);
+        }
+      });
   }
 
   protected openInFullView(workPackageId:string) {

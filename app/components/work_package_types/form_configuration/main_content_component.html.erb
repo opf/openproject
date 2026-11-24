@@ -58,10 +58,13 @@
       end
 
       main.with_row do
-        content_tag(
-          :div,
-          id: "type-form-configuration-groups-container",
-          data: groups_container_data
+        render(
+          Primer::Alpha::Stack.new(
+            id: "type-form-configuration-groups-container",
+            gap: :normal,
+            my: 3,
+            data: groups_container_data
+          )
         ) do
           if @group_components.empty?
             render(WorkPackageTypes::FormConfiguration::BlankslateComponent.new)

@@ -39,4 +39,12 @@ describe("decryptToken", () => {
     expect(decrypted.readonly).toBe(false);
     expect(decrypted.expires_at).toBe("2030-01-01T00:00:00.000Z");
   });
+
+  test("surfaces the underlying error when decryption fails", () => {
+    const encrypted = createTestToken({ expires_at: "2030-01-01T00:00:00.000Z" });
+    const [token, iv] = encrypted.split("--");
+    const tampered = `${token}--${iv}--${Buffer.alloc(16).toString("base64")}`;
+
+    expect(() => decryptToken(tampered)).toThrowError("Unsupported state or unable to authenticate data");
+  });
 });

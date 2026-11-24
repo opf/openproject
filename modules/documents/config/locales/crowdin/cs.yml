@@ -88,6 +88,12 @@ cs:
         primary_action: Povolit spolupráci v reálném čase
         success: Spolupráce v reálném čase byla povolena.
     button_add_type: Type
+    collaboration_token:
+      errors:
+        collaboration_disabled: Real-time collaboration is not enabled.
+        collaboration_token_not_allowed: Requests authenticated with a collaboration token cannot request collaboration tokens.
+        invalid_previous_token: The previous collaboration token is invalid, already revoked, or does not belong to this document and user.
+        not_collaborative: The document does not support real-time collaboration.
     delete_dialog:
       confirmation_message_html: Tímto bude trvale odstraněn tento dokument a všechny přílohy. Opravdu to chcete udělat?
       heading: Smazat tento dokument?

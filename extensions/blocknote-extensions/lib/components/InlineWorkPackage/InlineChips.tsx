@@ -17,7 +17,7 @@ import {
 } from '../WorkPackage/atoms';
 import { formatWorkPackageId } from '../../utils/id';
 import { PreviewIndicator } from './PreviewIndicator';
-import { buttonActivationProps } from '../../utils/a11y';
+import type { MenuButtonProps } from '../../utils/a11y';
 import type { WorkPackagePreview } from '../../hooks/useWorkPackagePreview';
 
 const resolvedDisplayId = (wp:WorkPackage) => wp.displayId ?? String(wp.id);
@@ -28,18 +28,15 @@ const titleLinkProps = (wp:WorkPackage) => ({
   $compact: true,
 });
 
-// XXS — "#ID"
-export const WpChipXXS = ({ wp, preview, actionLabel }:{
+interface WpChipProps {
   wp:WorkPackage;
-  preview:WorkPackagePreview;
-  actionLabel:string;
-}) => (
+  menuButton?:MenuButtonProps;
+}
+
+// XXS — "#ID"
+export const WpChipXXS = ({ wp, menuButton, preview }:WpChipProps & { preview:WorkPackagePreview }) => (
   <ChipBaseXXS>
-    <WorkPackageId
-      as="span"
-      $compact
-      {...(preview.indicatorProps ? buttonActivationProps(actionLabel) : {})}
-    >
+    <WorkPackageId as="span" $compact {...menuButton}>
       {formatWorkPackageId(resolvedDisplayId(wp))}
     </WorkPackageId>
     <PreviewIndicator preview={preview} displayId={resolvedDisplayId(wp)} />
@@ -47,9 +44,9 @@ export const WpChipXXS = ({ wp, preview, actionLabel }:{
 );
 
 // XS — "#ID TYPE subject"
-export const WpChipXS = ({ wp }:{ wp:WorkPackage }) => (
+export const WpChipXS = ({ wp, menuButton }:WpChipProps) => (
   <ChipBaseXS>
-    <WorkPackageId as="span" $compact>{formatWorkPackageId(resolvedDisplayId(wp))}</WorkPackageId>
+    <WorkPackageId as="span" $compact {...menuButton}>{formatWorkPackageId(resolvedDisplayId(wp))}</WorkPackageId>
     {WRAP_OPPORTUNITY}
     {wp._links?.type?.title && (
       <WorkPackageType as="span" $compact $color={typeColor(wp)}>
@@ -64,9 +61,9 @@ export const WpChipXS = ({ wp }:{ wp:WorkPackage }) => (
 );
 
 // S — "#ID TYPE [Status] subject"
-export const WpChipS = ({ wp }:{ wp:WorkPackage }) => (
+export const WpChipS = ({ wp, menuButton }:WpChipProps) => (
   <ChipBaseS>
-    <WorkPackageId as="span" $compact>{formatWorkPackageId(resolvedDisplayId(wp))}</WorkPackageId>
+    <WorkPackageId as="span" $compact {...menuButton}>{formatWorkPackageId(resolvedDisplayId(wp))}</WorkPackageId>
     {WRAP_OPPORTUNITY}
     {wp._links?.type?.title && (
       <WorkPackageType as="span" $compact $color={typeColor(wp)}>

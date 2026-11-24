@@ -72,6 +72,7 @@ RSpec.describe "wiki pages", :js, with_settings: { journal_aggregation_time_minu
   it "adding, editing and history" do
     visit project_settings_wiki_path(project)
 
+    expect(page).to have_test_selector("project-settings-enable-wiki")
     expect(page).to have_no_css(".menu-sidebar .main-item-wrapper", text: "Wiki")
 
     page.find_test_selector("project-settings-enable-wiki").click

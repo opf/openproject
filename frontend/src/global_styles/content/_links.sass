@@ -28,24 +28,6 @@
 a
   img
     border: 0
-  &.sort
-    padding-right: 16px
-    background-position: 100% 50%
-    background-repeat: no-repeat
-    &.asc:after
-      @include icon-font-common
-      @include icon-mixin-sort-ascending
-      margin-left: 5px
-      font-size: 1.2em
-      vertical-align: text-bottom
-
-    &.desc:after
-      @include icon-font-common
-      @include icon-mixin-sort-descending
-      margin-left: 5px
-      font-size: 1.2em
-      vertical-align: text-bottom
-
   &.issue.closed, &.issue.closed:hover,
   &.work_package.closed, &.work_package.closed:hover
     text-decoration: line-through

@@ -30,7 +30,7 @@
 require "rails_helper"
 
 RSpec.describe AI::TextTransforms::ResultPaneComponent::Title, type: :component do
-  let(:action) { build(:ai_text_transform_action, label: "Fix grammar") }
+  let(:action) { build(:ai_text_action, label: "Fix grammar") }
   let(:run) { build(:ai_text_transform_run, action:) }
   let(:pane) { AI::TextTransforms::ResultPaneState.new(run:, scope: "document", request_id: SecureRandom.uuid) }
 
@@ -42,5 +42,12 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent::Title, type: :component 
   it "shows the AI icon and the action label as heading" do
     expect(subject).to have_css(".octicon-sparkle")
     expect(subject).to have_css("h2", text: "Fix grammar")
+  end
+
+  it "shows a grip in front of the AI icon" do
+    icons = subject.all(".octicon-grabber, .octicon-sparkle").map { |icon| icon[:class][/octicon-(grabber|sparkle)/, 1] }
+
+    expect(subject).to have_css(".op-ai-result-pane--grip .octicon-grabber")
+    expect(icons).to eq(%w[grabber sparkle])
   end
 end

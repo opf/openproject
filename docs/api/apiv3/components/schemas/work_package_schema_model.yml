@@ -3,7 +3,7 @@
 type: object
 description: |-
   A schema for a work package. This schema defines the attributes of a work package.
-  
+
   TODO: Incomplete, needs to be updated with the real behavior of schemas (when does which attribute appear?).
 properties:
   _type:
@@ -90,6 +90,8 @@ properties:
     $ref: './schema_property_model.yml'
   category:
     $ref: './schema_property_model.yml'
+  categories:
+    $ref: './schema_property_model.yml'
   version:
     $ref: './schema_property_model.yml'
   targetVersions:
@@ -104,5 +106,5 @@ properties:
           - $ref: './link.yml'
           - description: |-
               This work package schema
-              
+
               **Resource**: Schema

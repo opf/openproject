@@ -38,14 +38,12 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
                   due_date: Time.zone.today.to_datetime,
                   created_at: DateTime.now,
                   updated_at: DateTime.now,
-                  budget:,
                   type: build_stubbed(:type)) do |wp|
       allow(wp)
         .to receive(:available_custom_fields)
         .and_return(available_custom_fields)
     end
   end
-  let(:budget) { build_stubbed(:budget) }
   let(:representer) do
     described_class
       .create(work_package, current_user: user)
@@ -335,11 +333,13 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         end
       end
 
-      describe "category" do
+      describe "category",
+               with_flag: { work_package_multiple_categories: false },
+               with_settings: { work_package_multiple_categories: false } do
         let(:category) { build_stubbed(:category) }
 
         before do
-          work_package.category = category
+          allow(work_package).to receive(:categories).and_return([category])
         end
 
         it_behaves_like "linked property" do
@@ -347,7 +347,14 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           let(:link) { "/api/v3/categories/#{category.id}" }
         end
 
-        it_behaves_like "linked property with 0 value", :category
+        context "when multiple categories is active",
+                with_flag: { work_package_multiple_categories: true },
+                with_settings: { work_package_multiple_categories: true } do
+          it "does not offer the deprecated property as writable" do
+            expect(representer.writable_attributes).not_to include("category")
+            expect(subject).not_to have_json_path("_links/category")
+          end
+        end
       end
 
       describe "priority" do
@@ -386,35 +393,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           it_behaves_like "linked property" do
             let(:property) { :parent }
             let(:link) { nil }
-          end
-        end
-      end
-
-      describe "budgets" do
-        context "without a cost object assigned" do
-          let(:budget) { nil }
-
-          it_behaves_like "linked property" do
-            let(:property) { :budget }
-            let(:link) { nil }
-          end
-        end
-
-        context "with a cost object assigned" do
-          it_behaves_like "linked property" do
-            let(:property) { :budget }
-            let(:link) { api_v3_paths.budget(budget.id) }
-          end
-        end
-
-        context "without necessary permissions" do
-          before do
-            mock_permissions_for(user, &:forbid_everything)
-          end
-
-          it "has no href" do
-            expect(subject)
-              .not_to have_json_path("_links/budget")
           end
         end
       end
@@ -652,16 +630,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         it_behaves_like "linked resource" do
           let(:path) { api_v3_paths.group(id) }
         end
-      end
-    end
-
-    describe "category" do
-      before do
-        work_package.category_id = 1
-      end
-
-      it_behaves_like "linked resource" do
-        let(:attribute_name) { "category" }
       end
     end
 

@@ -1,16 +1,18 @@
 ---
 sidebar_navigation:
-  title: Configuring a custom database server
+  title: Database
   priority: 6
 ---
 
-# Configuring a custom database server
+# Database
 
-## Package-based installation
+## Custom Database Server
+
+### Package-based installation
 
 Simply run `sudo openproject reconfigure`, and when the database wizard is displayed, select the **Use an existing PostgreSQL database** option and fill in the required details ([cf the initial configuration section](../../installation/packaged/#step-2-postgresql-database-configuration)).
 
-### Setting a custom database URL
+#### Setting a custom database URL
 
 In some cases, you need flexibility in how you define the URL (e.g., specifying more options specific to PostgreSQL or using SSL certificates). In that case, you can pass the database URL as an environment variable instead:
 
@@ -20,7 +22,7 @@ openproject config:set DATABASE_URL=postgres://user:pass@host:port/dbname
 
 Then, you need to run `openproject reconfigure` and select "Skip" for the database wizard. Otherwise the wizard will override your DATABASE_URL environment variable again.
 
-## Docker-based installation
+### Docker-based installation
 
 If you run the all-in-one container, you can simply pass a custom `DATABASE_URL` environment variable on the docker command-line, which could
 point to an external database.
@@ -28,7 +30,7 @@ point to an external database.
 Example:
 
 ```shell
-docker run -d ... -e DATABASE_URL=postgres://user:pass@host:port/dbname openproject/openproject:17
+docker run -d ... -e DATABASE_URL=postgres://user:pass@host:port/dbname openproject/openproject:18
 ```
 
 Best practice is using the file `docker-compose.override.yml`. If you run the Compose based docker stack, you can simply override the `DATABASE_URL` environment variable, and remove the `db` service from the `docker-compose.yml` file, but because by pulling a new version `docker-compose.yml` might get replaced. Then you can restart the stack with:
@@ -40,7 +42,7 @@ docker-compose up -d
 
 In both cases the seeder will be run when you (re)launch OpenProject to make sure that the database gets the migrations and demo data as well.
 
-## Setting DATABASE_URL and options separately
+### Setting DATABASE_URL and options separately
 
 OpenProject will merge the settings from `DATABASE_URL` with manually specified environment options. Here are the supported options:
 
@@ -67,7 +69,7 @@ OpenProject will merge the settings from `DATABASE_URL` with manually specified 
 | OPENPROJECT_DB_SSLCOMPRESSION           | Uses libpq default | https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNECT-SSLCOMPRESSION |                                                              |
 | OPENPROJECT_DB_SSL_MIN_PROTOCOL_VERSION | Uses libpq default | https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNECT-SSL-MIN-PROTOCOL-VERSION |                                                              |
 
-## Using SSL/TLS with a PostgreSQL database
+### Using SSL/TLS with a PostgreSQL database
 
 By default, the packaged installation installs a local database and does not use SSL encryption. If you provide a custom PostgreSQL database that supports SSL/TLS connections for servers and/or clients, you can pass the options as part of the DATABASE_URL. See the above guides on how to set this environment variable for Docker or packaged installations.
 
@@ -101,3 +103,30 @@ Alternatively, for better readability, you can set these parameters with separat
 ```
 
 PostgreSQL supports a wide variety of options in its connection string. This is not specific to OpenProject or Rails. See this [guide](https://www.postgresql.org/docs/13/libpq-connect.html#LIBPQ-PARAMKEYWORDS) for more information.
+
+## PostgreSQL Tuning
+
+> [!IMPORTANT]
+> Tuning PostgreSQL can be complicated and cause unindented side-effects. **Blindly implementing recommendations may even exacerbate an existing problem!**
+>
+> Keep in mind that these suggestions are generic and cannot consider all possible deployment variants of PostgreSQL (from self-hosted on bare metal with fast NVMe storage to Cloud-based, fully-managed Database as a Service products).
+
+Under normal conditions OpenProject is designed to work without applying special PostgreSQL tuning. In special use cases, or for large installation, some performance improvements can be achieved by applying tuning parameters.
+
+Before considering applying any suggestions, please consult our [system requirements for scaling](../../system-requirements/). Please also consult the PostgreSQL documentation and wiki regarding general [Performance Optimizations](https://wiki.postgresql.org/wiki/Performance_Optimization) and coordinate with your in-house database specialists and operation teams.
+
+
+### Slow Notification Center
+
+OpenProject instances with a lot of activity can produce significant churn in the `notifications` table which drives the notification center. Tuning [`autovacuum_analyze_scale_factor`](https://www.postgresql.org/docs/18/runtime-config-autovacuum.html#GUC-AUTOVACUUM-ANALYZE-SCALE-FACTOR) and [`autovacuum_analyze_threshold`](https://www.postgresql.org/docs/18/runtime-config-autovacuum.html#GUC-AUTOVACUUM-ANALYZE-THRESHOLD) can help to keep the [notification center](../../../user-guide/notifications/) fast. Applying should generally be safe and can easily be reverted.
+
+
+```sql
+ALTER TABLE notifications SET (autovacuum_analyze_scale_factor = 0.02, autovacuum_analyze_threshold = 200)
+```
+
+Reset to PostgreSQL defaults:
+
+```sql
+ALTER TABLE notifications RESET (autovacuum_analyze_scale_factor, autovacuum_analyze_threshold)
+```

@@ -58,8 +58,14 @@ a.button
     text-decoration: none
 
   &:disabled,
-  &.-disabled
+  &.-disabled,
+  &[aria-disabled="true"]
     @include button-disabled
+
+  &[aria-disabled="true"]
+    pointer-events: auto
+    --button--background-hover-color: var(--button--background-color)
+    --button--primary-background-hover-color: var(--button--primary-background-color)
 
   &.-with-icon
     &::before
@@ -134,7 +140,11 @@ a.button
   &.-narrow
     margin-bottom: 0em
     margin-right: 0.25rem
-    padding: 0.3128em 0.55555em
+    height: var(--control-small-size)
+    padding: 0 var(--control-small-paddingInline-condensed)
+    font-size: var(--text-body-size-small)
+    font-weight: var(--base-text-weight-medium)
+    line-height: calc(var(--control-small-size) - 2 * var(--borderWidth-thin))
 
   &_no-margin
     margin: 0
@@ -170,20 +180,6 @@ html.-browser-windows.-browser-chrome
   .button--icon
     vertical-align: -1px
 
-.button--dropdown-indicator
-  @include icon-common
-  padding: 0 0 0 3px
-  font-size: rem-calc(13px)
-  @extend .icon-small
-  @extend .icon-pulldown
-
-// hack around the old markup (icon class applied on <a>)
-// which is used for toolbar-items to add space after icons inside buttons
-.toolbar-item
-  .button[class*='icon-']
-    &:before
-      margin-right: $button--text-icon-spacing
-
 // Button class to use as a link-like submit button
 .button--link
   color: var(--accent-color)
@@ -200,7 +196,8 @@ html.-browser-windows.-browser-chrome
   &:hover
     text-decoration: underline
 
-  &[disabled], &[disabled]:hover
+  &[disabled], &[disabled]:hover,
+  &[aria-disabled="true"], &[aria-disabled="true"]:hover
     cursor: not-allowed
     background: none
     color: var(--fgColor-muted)

@@ -416,12 +416,35 @@ allOf:
 
                   **Permission** view cost objects
           category:
+            deprecated: true
             allOf:
               - $ref: "./link.yml"
               - description: |-
-                  The category of the work package
+                  The category of the work package. If the work package has more than one category,
+                  this is the first one in case-insensitive alphabetical order.
 
                   **Resource**: Category
+
+                  # Conditions
+
+                  **Deprecated**: this single-valued field is being replaced by `categories`.
+                  Read and write `categories` instead. While multiple categories is not enabled,
+                  `category` must not be written together with `categories` in the same request.
+                  Removed when multiple categories is enabled.
+          categories:
+            type: array
+            items:
+              $ref: "./link.yml"
+            description: |-
+              List of categories associated to the work package
+
+              **Resource**: Collection of Category
+
+              # Conditions
+
+              - Transitioning from single to multiple category support
+              - (Temporary) Only allows a single value while multiple categories is not enabled
+              - (Temporary) Must not be written together with `category` in the same request
           children:
             type: array
             items:
@@ -453,6 +476,42 @@ allOf:
                   # Conditions
 
                   **Permission**: view_file_links
+          repositoryIssues:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  Gets the collection of repository issues linked to this work package
+
+                  # Conditions
+
+                  **Permission**: show_repository_content
+          repositoryMergeRequests:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  Gets the collection of repository merge requests linked to this work package
+
+                  # Conditions
+
+                  **Permission**: show_repository_content
+          repositoryBranches:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  Gets the collection of repository branches linked to this work package
+
+                  # Conditions
+
+                  **Permission**: show_repository_content
+          repositoryCommits:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  Gets the collection of repository commits linked to this work package
+
+                  # Conditions
+
+                  **Permission**: show_repository_content
           labels:
             type: array
             items:

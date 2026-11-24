@@ -13,6 +13,12 @@
   border-bottom-color: var(--header-border-bottom-color)
   width: 100vw
 
+  --focus-outlineColor: var(--header-item-font-color)
+
+  .Overlay,
+  .ng-dropdown-panel
+    --focus-outlineColor: var(--borderColor-accent-emphasis)
+
   @media screen and (max-width: $breakpoint-md)
     grid-template-columns: minmax(0, auto) 1fr auto
 
@@ -113,4 +119,6 @@
         padding-right: 1rem
 
   &.op-app-header_development
-    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='20'><text x='0' y='1em' fill='rgba(0, 0, 0, 0.5)'>development</text></svg>")
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='32' fill='black'><text dominant-baseline='middle' font-family='Courier, mono' font-size='14px'><tspan x='0' y='8'>development</tspan><tspan x='-60' y='24'>development</tspan><tspan x='60' y='24'>development</tspan></text></svg>")
+    background-position: center
+    background-blend-mode: overlay

@@ -749,7 +749,7 @@ RSpec.describe "API v3 Work package resource",
         end
       end
 
-      describe "labels", with_flag: :work_package_labels do
+      describe "labels" do
         let(:label) { create(:label) }
         let(:label_links) { [{ href: api_v3_paths.label(label.id) }] }
         let(:params) { valid_params.merge(_links: { labels: label_links }) }
@@ -804,7 +804,7 @@ RSpec.describe "API v3 Work package resource",
           end
         end
 
-        context "with a new title from a user who may edit the work package but not create labels" do
+        context "with a new title from a user the work package is shared with with edit rights" do
           let(:label_links) { [{ href: nil, title: "Needs triage" }] }
           let(:current_user) do
             create(:user).tap do |user|
@@ -817,16 +817,10 @@ RSpec.describe "API v3 Work package resource",
 
           include_context "patch request"
 
-          it { expect(response).to have_http_status(:unprocessable_entity) }
+          it { expect(response).to have_http_status(:ok) }
 
-          it "reports the labels as unauthorized" do
-            expect(response.body)
-              .to be_json_eql("Labels #{I18n.t('activerecord.errors.messages.error_unauthorized')}".to_json)
-                    .at_path("message")
-          end
-
-          it "creates no label" do
-            expect(Label.count).to eq(0)
+          it "creates the label and assigns it" do
+            expect(work_package.reload.labels).to contain_exactly(Label.find_by!(name: "Needs triage"))
           end
         end
 
@@ -888,18 +882,6 @@ RSpec.describe "API v3 Work package resource",
           end
         end
 
-        context "with the feature flag off", with_flag: { work_package_labels: false } do
-          let(:label_links) { [{ href: nil, title: "Needs triage" }] }
-
-          include_context "patch request"
-
-          it { expect(response).to have_http_status(:ok) }
-
-          it "creates no label" do
-            expect(Label.count).to eq(0)
-          end
-        end
-
         context "with a null href and no title" do
           let(:label_links) { [{ href: nil }] }
 
@@ -948,7 +930,9 @@ RSpec.describe "API v3 Work package resource",
         end
       end
 
-      context "category" do
+      context "when setting the category",
+              with_flag: { work_package_multiple_categories: false },
+              with_settings: { work_package_multiple_categories: false } do
         let(:target_category) { create(:category, project:) }
         let(:category_link) { api_v3_paths.category target_category.id }
         let(:category_parameter) { { _links: { category: { href: category_link } } } }
@@ -968,6 +952,98 @@ RSpec.describe "API v3 Work package resource",
           end
 
           it_behaves_like "lock version updated"
+        end
+      end
+
+      describe "categories" do
+        let(:backend) { create(:category, project:, name: "Backend") }
+        let(:api) { create(:category, project:, name: "api") }
+        let(:categories_links) { [{ href: api_v3_paths.category(backend.id) }] }
+        let(:params) { valid_params.merge(_links: { categories: categories_links }) }
+
+        before { allow(User).to receive(:current).and_return current_user }
+
+        context "with a single category" do
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:ok) }
+
+          it "assigns the category and mirrors it into category_id" do
+            expect(work_package.reload).to have_attributes(categories: [backend], category_id: backend.id)
+          end
+
+          it "responds with the category link" do
+            expect(response.body)
+              .to be_json_eql(api_v3_paths.category(backend.id).to_json)
+                    .at_path("_links/categories/0/href")
+          end
+
+          it_behaves_like "lock version updated"
+        end
+
+        context "with an empty collection" do
+          let!(:existing) { create(:work_package_category, work_package:, category: backend) }
+          let(:categories_links) { [] }
+
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:ok) }
+
+          it "clears the categories" do
+            expect(work_package.reload.categories).to be_empty
+          end
+        end
+
+        context "with more than one category while multiple categories is disabled",
+                with_flag: { work_package_multiple_categories: false },
+                with_settings: { work_package_multiple_categories: false } do
+          let(:categories_links) do
+            [{ href: api_v3_paths.category(backend.id) },
+             { href: api_v3_paths.category(api.id) }]
+          end
+
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:unprocessable_entity) }
+
+          it "rejects the update with a single-value error" do
+            expect(response.body).to include("Categories can only hold a single value")
+          end
+
+          it "does not assign any category" do
+            expect(work_package.reload.categories).to be_empty
+          end
+        end
+
+        context "with more than one category while multiple categories is enabled",
+                with_flag: { work_package_multiple_categories: true },
+                with_settings: { work_package_multiple_categories: true } do
+          let(:categories_links) do
+            [{ href: api_v3_paths.category(backend.id) },
+             { href: api_v3_paths.category(api.id) }]
+          end
+
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:ok) }
+
+          it "assigns all categories" do
+            expect(work_package.reload.categories).to contain_exactly(backend, api)
+          end
+
+          it "responds with a link per category ordered by id" do
+            hrefs = parse_json(response.body, "_links/categories").pluck("href")
+
+            expect(hrefs).to eq([backend, api].sort_by(&:id).map { api_v3_paths.category(it.id) })
+          end
+        end
+
+        context "with a category of another project" do
+          let(:categories_links) { [{ href: api_v3_paths.category(create(:category).id) }] }
+
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:unprocessable_entity) }
         end
       end
 

@@ -65,6 +65,20 @@ RSpec.describe "Work package type projects tab", :js do
     within("[data-controller='quick-filter--select-panel']") { click_link_or_button I18n.t(:button_apply) }
   end
 
+  def row(project) = find_test_selector("type-projects-row-#{project.id}")
+
+  def toggle(project)
+    row(project).click(BrowserPlatform.multi_select_modifier(page), x: 6, y: 6, offset: :position)
+  end
+
+  def open_menu_of(project)
+    row(project).right_click(x: 6, y: 6, offset: :position)
+  end
+
+  def choose_menu_item(label)
+    find(:menuitem, text: label, visible: :visible).click
+  end
+
   def expect_listed(*projects)
     within "#project-table" do
       projects.each { |project| expect(page).to have_text(project.name) }
@@ -75,8 +89,30 @@ RSpec.describe "Work package type projects tab", :js do
     end
   end
 
-  def current_url_filters
-    Rack::Utils.parse_query(URI(page.current_url).query).fetch("filters", "")
+  def url_filters_including(*names)
+    a_hash_including("filters" => a_string_including(*names.map { /\b#{Regexp.escape(it)}\b/ }))
+  end
+
+  def in_project_row(project, &)
+    page.within_test_selector("type-projects-row-#{project.id}", &)
+  end
+
+  def in_project_hover_card(project, &)
+    page.within_test_selector("project-hover-card-#{project.id}", wait: 5, &)
+  end
+
+  context "when showing hover cards" do
+    it "shows more information when hovering over a project name" do
+      visit edit_type_projects_path(type_id: type.id)
+
+      in_project_row(on_hardware) do |row|
+        row.find("a", text: on_hardware.name).hover
+      end
+
+      in_project_hover_card(on_hardware) do
+        expect(page).to have_heading(text: on_hardware.name, level: 2)
+      end
+    end
   end
 
   it "lists every variant's projects at type level and narrows to one inside a variant" do
@@ -94,7 +130,7 @@ RSpec.describe "Work package type projects tab", :js do
     search_projects("Labor")
 
     expect_listed(on_firmware)
-    expect(current_url_filters).to include("name_and_identifier")
+    expect(page).to have_current_query_params(url_filters_including("name_and_identifier"))
   end
 
   it "narrows the table to the variants picked in the quick filter" do
@@ -103,7 +139,7 @@ RSpec.describe "Work package type projects tab", :js do
     keep_only(firmware)
 
     expect_listed(on_firmware)
-    expect(current_url_filters).to include("type_variant_id")
+    expect(page).to have_current_query_params(url_filters_including("type_variant_id"))
   end
 
   # The two controls write the one filters param, so each has to narrow what the other left rather
@@ -119,7 +155,7 @@ RSpec.describe "Work package type projects tab", :js do
       expect(page).to have_text(I18n.t("types.edit.projects.empty_state.no_results"))
     end
     expect_listed
-    expect(current_url_filters).to include("name_and_identifier", "type_variant_id")
+    expect(page).to have_current_query_params(url_filters_including("name_and_identifier", "type_variant_id"))
   end
 
   it "keeps the typed name when a variant is picked afterwards" do
@@ -133,7 +169,7 @@ RSpec.describe "Work package type projects tab", :js do
     keep_only(firmware)
 
     expect_listed(on_firmware)
-    expect(current_url_filters).to include("name_and_identifier", "type_variant_id")
+    expect(page).to have_current_query_params(url_filters_including("name_and_identifier", "type_variant_id"))
   end
 
   it "keeps the picked variants when the name is cleared again" do
@@ -150,8 +186,8 @@ RSpec.describe "Work package type projects tab", :js do
     find_by_id("type-projects-filters-clear-button").click
 
     expect_listed(on_hardware)
-    expect(current_url_filters).to include("type_variant_id")
-    expect(current_url_filters).not_to include("name_and_identifier")
+    expect(page).to have_current_query_params(url_filters_including("type_variant_id"))
+    expect(page).to have_no_current_query_params(url_filters_including("name_and_identifier"))
   end
 
   it "says nothing matched rather than inviting an add, once a search has been made" do
@@ -290,5 +326,137 @@ RSpec.describe "Work package type projects tab", :js do
     expect_flash(message: I18n.t(:notice_successful_update))
     expect(page).to have_test_selector("type-projects-enable-all",
                                        text: I18n.t("types.edit.projects.disable_all"))
+  end
+
+  describe "acting on several projects at once" do
+    it "acts on the selection from a selected row's kebab, and on an unselected row alone" do
+      visit edit_type_projects_path(type_id: type.id)
+
+      toggle(on_base)
+      toggle(on_hardware)
+      within(row(on_hardware)) { click_button accessible_name: "Project actions" }
+
+      expect(page).to have_selector(:menuitem, text: "Remove type from these projects", visible: :visible)
+      expect(row(on_hardware))
+        .to have_css("tool-tip", visible: :all) { it.text(:all) == "Actions for 2 selected projects" }
+
+      row(on_base).click(x: 6, y: 6, offset: :position)
+      within(row(on_hardware)) { click_button accessible_name: "Project actions" }
+
+      expect(page).to have_selector(:menuitem, text: "Remove type from this project", visible: :visible)
+      expect(page).to have_no_selector(:menuitem, text: "Remove type from these projects", visible: :visible)
+    end
+
+    it "switches the selected projects to another variant" do
+      visit edit_type_projects_path(type_id: type.id)
+
+      toggle(on_base)
+      toggle(on_hardware)
+      open_menu_of(on_hardware)
+
+      expect(page).to have_selector(:menuitem, text: "Remove type from these projects", visible: :visible)
+      choose_menu_item("Switch variant")
+
+      within "#type-variant-switch-dialog" do
+        select "Bug: Firmware", from: "New type or variant"
+        click_button "Apply"
+      end
+
+      wait_for_size_animation_completion("#type-variant-switch-confirm-dialog")
+      within "#type-variant-switch-confirm-dialog" do
+        check "I understand that fields the new variant does not include will be hidden, along with their values"
+        click_button "Switch"
+      end
+
+      expect(page).to have_text("The selected projects now use Bug: Firmware.")
+      expect(row(on_base)).to have_text("Firmware")
+      expect(row(on_hardware)).to have_text("Firmware")
+    end
+
+    it "switches a single project after previewing the impact and confirming" do
+      create(:work_package, project: on_hardware, type:)
+      visit edit_type_projects_path(type_id: type.id)
+
+      open_menu_of(on_hardware)
+      choose_menu_item("Switch variant")
+
+      within "#type-variant-switch-dialog" do
+        select "Bug: Firmware", from: "New type or variant"
+        expect(page).to have_text("1 work package will use the new configuration")
+        click_button "Apply"
+      end
+
+      wait_for_size_animation_completion("#type-variant-switch-confirm-dialog")
+      within "#type-variant-switch-confirm-dialog" do
+        check "I understand that fields the new variant does not include will be hidden, along with their values"
+        click_button "Switch"
+      end
+
+      expect(page).to have_text("The project now uses Bug: Firmware.")
+      expect(row(on_hardware)).to have_text("Firmware")
+    end
+
+    it "refuses the variant a project already uses inside the switch dialog" do
+      visit edit_type_projects_path(type_id: type.id)
+
+      open_menu_of(on_hardware)
+      choose_menu_item("Switch variant")
+
+      within "#type-variant-switch-dialog" do
+        expect(page).to have_select("New type or variant", selected: "Bug: Hardware")
+        click_button "Apply"
+
+        expect(page).to have_text("The project already uses this type or variant.")
+      end
+      expect(page).to have_no_css("#type-variant-switch-confirm-dialog")
+    end
+
+    it "removes the type where it can and names the projects where it cannot" do
+      create(:work_package, project: on_base, type:)
+      visit edit_type_projects_path(type_id: type.id)
+
+      toggle(on_base)
+      toggle(on_firmware)
+      open_menu_of(on_firmware)
+      choose_menu_item("Remove type from these projects")
+
+      wait_for_size_animation_completion("#type-projects-bulk-remove-dialog")
+      within "#type-projects-bulk-remove-dialog" do
+        check "I understand that this type will no longer be available in the selected projects"
+        click_button "Remove"
+      end
+
+      within "#project-table" do
+        expect(page).to have_no_text("Laboratory")
+        expect(page).to have_text("Bookshop")
+        expect(page).to have_no_css("[data-batch-selected]")
+      end
+      expect(page).to have_css(".op-primer-flash--item", text: "Bookshop")
+    end
+  end
+
+  describe "the listing after a change", with_settings: { per_page_options: "1, 100" } do
+    shared_let(:mill) { create(:project, name: "Mill", types: [hardware]) }
+
+    it "keeps its filter and page once a project on that page has been removed" do
+      visit edit_type_projects_path(type_id: type.id, per_page: 1, page: 2,
+                                    filters: %(type_variant_id = "#{hardware.id}"))
+      expect_listed(on_hardware)
+
+      open_menu_of(on_hardware)
+      choose_menu_item("Remove type from this project")
+      wait_for_size_animation_completion("#type-projects-bulk-remove-dialog")
+      within "#type-projects-bulk-remove-dialog" do
+        check "I understand that this type will no longer be available in this project"
+        click_button "Remove"
+      end
+
+      within "#project-table" do
+        expect(page).to have_text("Mill")
+        expect(page).to have_no_text("Foundry")
+        expect(page).to have_no_text("Bookshop")
+      end
+      expect(page).to have_current_path(/page=2/)
+    end
   end
 end

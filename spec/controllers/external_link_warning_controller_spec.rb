@@ -38,23 +38,16 @@ RSpec.describe ExternalLinkWarningController do
         allow(Setting).to receive(:capture_external_links?).and_return(false)
       end
 
-      it "redirects directly to the external URL" do
+      it "renders the warning page anyways (immediately redirecting would be an open redirect)" do
         get :show, params: { url: "https://example.com" }
 
-        expect(response).to redirect_to("https://example.com")
-      end
-
-      it "unescapes the URL parameter before redirecting" do
-        encoded_url = CGI.escape("https://example.com/path?param=value")
-        get :show, params: { url: encoded_url }
-
-        expect(response).to redirect_to("https://example.com/path?param=value")
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include("Leaving OpenProject")
+        expect(response.body).to include("https://example.com")
       end
     end
 
-    context "when capture is enabled",
-            with_ee: %i[capture_external_links],
-            with_settings: { capture_external_links: true } do
+    context "when capture is enabled", with_settings: { capture_external_links: true } do
       it "renders the warning page" do
         get :show, params: { url: "https://example.com" }
 
@@ -70,18 +63,15 @@ RSpec.describe ExternalLinkWarningController do
         expect(response).to have_http_status(:success)
         expect(response.body).to include("https://example.com/path?param=value")
       end
-    end
 
-    context "with a percent-encoded unicode URL" do
-      before do
-        allow(Setting).to receive(:capture_external_links?).and_return(false)
-      end
+      context "with a percent-encoded unicode URL" do
+        it "handles URLs with percent-encoded UTF-8 characters" do
+          encoded_url = CGI.escape("https://example.com?ünicode=1")
+          get :show, params: { url: encoded_url }
 
-      it "handles URLs with percent-encoded UTF-8 characters" do
-        encoded_url = CGI.escape("https://example.com?ünicode=1")
-        get :show, params: { url: encoded_url }
-
-        expect(response).to redirect_to("https://example.com?ünicode=1")
+          expect(response).to have_http_status(:success)
+          expect(response.body).to include("https://example.com?ünicode=1")
+        end
       end
     end
 

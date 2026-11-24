@@ -39,7 +39,7 @@ module Admin::Import::Jira::ImportRuns
       ) do
         "#{I18n.t('admin.jira.run.title')} ##{model.id}"
       end +
-        render(Admin::Import::Jira::ImportRuns::StatusBadgeComponent.new(model.current_state))
+        render(Admin::Import::Jira::ImportRuns::StatusLabelComponent.new(model.current_state))
     end
 
     def creator
@@ -47,15 +47,7 @@ module Admin::Import::Jira::ImportRuns
     end
 
     def last_changed
-      helpers.format_time(last_changed_date)
-    end
-
-    def last_changed_date
-      if model.last_transition
-        model.last_transition.created_at
-      else
-        model.updated_at
-      end
+      helpers.format_time(model.last_changed_at)
     end
 
     def projects

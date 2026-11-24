@@ -100,7 +100,7 @@ RSpec.describe Budgets::AggregatedBudgets do
       let!(:labor_item) do
         create(:labor_budget_item,
                budget:,
-               user: user_with_rates,
+               principal: user_with_rates,
                hours: 100,
                amount: BigDecimal("5000"))
       end
@@ -189,7 +189,7 @@ RSpec.describe Budgets::AggregatedBudgets do
 
       # Create membership for user in portfolio and child projects
       [portfolio, child_project_one, child_project_two].each do |p|
-        create(:member, project: p, user:,
+        create(:member, project: p, principal: user,
                         roles: [create(:project_role, permissions: %i[view_budgets])])
       end
     end

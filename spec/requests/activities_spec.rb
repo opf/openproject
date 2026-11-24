@@ -1,0 +1,77 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+require "spec_helper"
+
+RSpec.describe "Activities", type: :rails_request, with_settings: { feeds_enabled: true } do
+  shared_let(:project) { create(:project, enabled_module_names: %w[activity work_package_tracking]) }
+  shared_let(:reader) do
+    create(:user, member_with_permissions: { project => %i[view_project_activity view_work_packages] })
+  end
+  shared_let(:fellow_member) do
+    create(:user, firstname: "Fellow", lastname: "Member",
+                  member_with_permissions: { project => %i[view_work_packages] })
+  end
+  shared_let(:unrelated_user) do
+    create(:user, firstname: "Quintessa", lastname: "Unrelatedperson",
+                  member_with_permissions: { create(:project, public: false) => %i[view_work_packages] })
+  end
+
+  before { login_as(reader) }
+
+  describe "filtering by author" do
+    it "shows the name of a visible user" do
+      get "/projects/#{project.identifier}/activity", params: { user_id: fellow_member.id }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Fellow Member")
+    end
+
+    it "404s for a user that is not visible on the project page" do
+      get "/projects/#{project.identifier}/activity", params: { user_id: unrelated_user.id }
+
+      expect(response).to have_http_status(:not_found)
+      expect(response.body).not_to include("Unrelatedperson")
+    end
+
+    it "404s for a user that is not visible in the atom feed" do
+      get "/projects/#{project.identifier}/activity.atom", params: { user_id: unrelated_user.id }
+
+      expect(response).to have_http_status(:not_found)
+      expect(response.body).not_to include("Unrelatedperson")
+    end
+
+    it "404s for a user that is not visible on the global page" do
+      get "/activity", params: { user_id: unrelated_user.id }
+
+      expect(response).to have_http_status(:not_found)
+      expect(response.body).not_to include("Unrelatedperson")
+    end
+  end
+end

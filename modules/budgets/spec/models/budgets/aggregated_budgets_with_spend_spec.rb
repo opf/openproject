@@ -83,7 +83,7 @@ RSpec.describe Budgets::AggregatedBudgetsWithSpend do
       before do
         work_package.update!(budget:)
         create(:hourly_rate,
-               user:,
+               principal: user,
                project:,
                rate: 50.0,
                valid_from: Date.current - 1.day)
@@ -282,7 +282,7 @@ RSpec.describe Budgets::AggregatedBudgetsWithSpend do
     let!(:labor_item) do
       create(:labor_budget_item,
              budget:,
-             user:,
+             principal: user,
              hours: 100,
              amount: BigDecimal("5000"))
     end
@@ -290,7 +290,7 @@ RSpec.describe Budgets::AggregatedBudgetsWithSpend do
     before do
       work_package.update!(budget:)
       create(:hourly_rate,
-             user:,
+             principal: user,
              project:,
              rate: 50.0,
              valid_from: Date.current - 1.day)

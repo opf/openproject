@@ -23,10 +23,15 @@
 de:
   js:
     backlogs:
+      action_menu:
+        menu_label:
+          one: Arbeitspaket-Aktion
+          other: Aktionen für %{count} ausgewählte Arbeitspakete
       announcements:
         batch_too_large: Es ist nicht möglich, %{count} Arbeitspakete auf einmal zu verschieben. Wählen Sie nicht mehr als %{max} aus.
         fallback_item_label: Arbeitspaket
         fallback_list_name: andere Liste
+        menu_scope_changed: Die Menüauswahl hat sich geändert. Öffnen Sie das Menü erneut, bevor Sie Arbeitspakete verschieben.
         move_failed_check_position: Verschieben fehlgeschlagen. Überprüfen Sie die aktuelle Position des Arbeitspakets.
         move_failed_check_positions_batch:
           other: Verschieben fehlgeschlagen. Überprüfen Sie die aktuelle Position des Arbeitspakets.
@@ -45,21 +50,40 @@ de:
         not_selectable: Auswahl unverändert. Dieses Arbeitspaket hat keinen Einfluss auf die Reihenfolge dieser Liste.
         range_blocked: Auswahl unverändert. Sie enthält ein Arbeitspaket ohne Einfluss auf die Reihenfolge dieser Liste.
         range_restarted:
-          one: Could not extend the range. %{count} work package selected.
-          other: Could not extend the range. %{count} work packages selected.
+          one: Die Auswahl konnte nicht erweitert werden. %{count} Arbeitspakete ausgewählt.
+          other: Die Auswahl konnte nicht erweitert werden. %{count} Arbeitspakete ausgewählt.
         range_unavailable: Auswahl unverändert. Erweitern Sie diese Liste, um diesen Bereich auszuwählen.
         selected:
-          one: "%{count} work package selected."
-          other: "%{count} work packages selected."
+          one: "%{count} Arbeitspaket ausgewählt."
+          other: "%{count} Arbeitspakete ausgewählt."
     burndown_chart:
-      chart_day: 'Day %{day}: %{values}'
-      chart_label: Burndown chart
-      chart_summary: 'Burndown chart data: %{days}.'
-      chart_value: "%{label}: %{value}"
-      non_working_day: Non-working day
-      story_points: Story points
-    created_resolved:
-      work_packages: Work packages
+      chart_label: Burndown-Diagramm
+    burnup_chart:
+      chart_label: Burnup-Diagramm
+    created_resolved_chart:
+      chart_label: "„Neu vs. abgeschlossen“-Diagramm"
+      work_packages: Arbeitspakete
+    sprint_charts:
+      column_with_unit: "%{label} (%{unit})"
+      description_summary: "%{label} Daten: %{from} – %{to}. %{values}."
+      description_value: "%{label}: %{value}"
+      non_working_day: Arbeitsfreier Tag
+      unit:
+        story_points: Story-Points
+      value_with_unit:
+        story_points:
+          one: "%{value} Story-Punkt"
+          other: "%{value} Story-Punkte"
+      y_axis_title:
+        story_points: Story-Points
+        time: Geschätzter Aufwand
+    sprint_work_package_graph:
+      chart_label: Arbeitspakete nach Statusdiagramm
+      count_column: Arbeitspakete
+      status_column: Status
+    velocity_chart:
+      chart_label: Velocity-Diagramm
+      sprint_column: Sprint
     work_packages:
       properties:
         storyPoints: Story Punkte

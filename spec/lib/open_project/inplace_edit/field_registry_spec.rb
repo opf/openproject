@@ -61,6 +61,50 @@ RSpec.describe OpenProject::InplaceEdit::FieldRegistry do
     end
   end
 
+  describe "#registered?" do
+    before do
+      registry.register(:description, rich_text_component)
+    end
+
+    it "is true for a registered attribute" do
+      expect(registry.registered?(:description)).to be(true)
+    end
+
+    it "is true for a registered attribute given as a string" do
+      expect(registry.registered?("description")).to be(true)
+    end
+
+    it "is false for an unregistered attribute" do
+      expect(registry.registered?(:destroy)).to be(false)
+    end
+  end
+
+  describe "#editable?" do
+    before do
+      registry.register(:description, rich_text_component)
+    end
+
+    it "is true for a registered attribute" do
+      expect(registry.editable?(:description)).to be(true)
+    end
+
+    it "is true for a custom field attribute" do
+      expect(registry.editable?(:custom_field_12)).to be(true)
+    end
+
+    it "is false for an unregistered attribute" do
+      expect(registry.editable?(:destroy)).to be(false)
+    end
+
+    it "is false for a custom comment attribute" do
+      expect(registry.editable?("custom_comment_12")).to be(false)
+    end
+
+    it "is false for a malformed custom field attribute" do
+      expect(registry.editable?("custom_field_12_foo")).to be(false)
+    end
+  end
+
   describe "#register_custom_field_format_mappings" do
     it "stores format-to-component mappings used by fetch_for_custom_field_format" do
       text_component = Class.new

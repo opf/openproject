@@ -253,15 +253,6 @@ describe('Inline chip - XXS preview indicator (touch)', () => {
     expect(id.getAttribute('aria-label')).toBe('Work package #123');
   });
 
-  it('opens the options popover from the id with the keyboard', async () => {
-    await renderChip();
-
-    page.getByText('#123').first().element()
-      .dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
-
-    await expect.element(page.getByTestId('popover-content')).toBeVisible();
-  });
-
   it('closes the preview when the user taps outside', async () => {
     await renderChip();
 

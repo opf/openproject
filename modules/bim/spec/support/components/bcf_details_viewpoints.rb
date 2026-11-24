@@ -60,7 +60,7 @@ module Components
     end
 
     def add_viewpoint
-      click_button "Viewpoint"
+      click_on accessible_name: "Viewpoint"
     end
   end
 end

@@ -54,6 +54,10 @@ module ::OpenProject::Plugins
         regenerate_angular_links
       end
 
+      def angular_frontend_plugin_names
+        all_angular_frontend_plugins.keys
+      end
+
       private
 
       ##

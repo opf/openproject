@@ -76,7 +76,7 @@ import {
 } from 'core-app/shared/components/grids/widgets/favorite-projects/widget-favorite-projects.component';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 import { OpenprojectEnterpriseModule } from 'core-app/features/enterprise/openproject-enterprise.module';
-import { ErrorBlankSlateComponent } from './widgets/error-blankslate/error-blankslate.component';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 
 @NgModule({
   imports: [
@@ -99,7 +99,7 @@ import { ErrorBlankSlateComponent } from './widgets/error-blankslate/error-blank
     OpenprojectFieldsModule,
     IconModule,
 
-    ErrorBlankSlateComponent,
+    OpTooltipDirective,
   ],
   providers: [
     GridWidgetsService,

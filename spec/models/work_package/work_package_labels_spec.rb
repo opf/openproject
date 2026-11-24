@@ -70,6 +70,14 @@ RSpec.describe WorkPackage, "labels" do
     end
   end
 
+  describe ".without_labels" do
+    it "returns only the work packages without any label" do
+      unlabeled = create(:work_package)
+
+      expect(described_class.without_labels).to contain_exactly(unlabeled)
+    end
+  end
+
   describe "#label_id_replacements=" do
     before { work_package.reload }
 

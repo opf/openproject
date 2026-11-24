@@ -51,20 +51,16 @@ module Report::Validation
     self
   end
 
-  def errors
-    @errors ||= Hash.new { |h, k| h[k] = [] }
-  end
-
   def validations
     @validations ||= []
   end
 
   def validate(*values)
-    errors.clear
-    return true if validations.empty?
+    values = values.flatten
+    errors = Hash.new { |h, k| h[k] = [] }
 
-    validations.all? do |validation|
-      values.empty? ? true : send(validation, *values)
-    end
+    validations.each { |validation| send(validation, values, errors) } if values.any?
+
+    errors
   end
 end

@@ -70,14 +70,14 @@ module Pages
       def edit_model_allowed(model_name, allowed)
         row = find_model_table_row model_name
         within row do
-          expect(page).to (allowed ? have_css(".icon-edit") : have_no_selector(".icon-edit"))
+          expect(page).to (allowed ? have_css(".icon-edit") : have_no_css(".icon-edit"))
         end
       end
 
       def delete_model_allowed(model_name, allowed)
         row = find_model_table_row model_name
         within row do
-          expect(page).to (allowed ? have_css(".icon-edit") : have_no_selector(".icon-edit"))
+          expect(page).to (allowed ? have_css(".icon-edit") : have_no_css(".icon-edit"))
         end
       end
 

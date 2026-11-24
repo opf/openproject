@@ -51,6 +51,20 @@ RSpec.describe TimeEntries::TimeEntryFormComponent, type: :component do
     end
   end
 
+  context "when the work package has an error" do
+    subject(:rendered_component) do
+      render_inline(described_class.new(time_entry:, show_work_package: true, show_user: false))
+    end
+
+    before do
+      time_entry.errors.add(:entity, :invalid)
+    end
+
+    it "shows the error on the work package field" do
+      expect(rendered_component).to have_css(".FormControl-inlineValidation", text: "is invalid.")
+    end
+  end
+
   describe "time fields layout" do
     let(:time_fields_row) { page.find(".FormControl-horizontalGroup") }
 
@@ -75,6 +89,15 @@ RSpec.describe TimeEntries::TimeEntryFormComponent, type: :component do
         expect(rendered_component).to have_no_field("time_entry[start_time]")
         expect(rendered_component).to have_no_field("time_entry[end_time]")
       end
+    end
+  end
+
+  context "when the time entry has no user", with_settings: { allow_tracking_start_and_end_times: true } do
+    let(:time_entry) { build(:time_entry, :with_start_and_end_time, entity: work_package, project:, user: nil) }
+
+    it "shows start and end time in the time zone of the time entry" do
+      expect(rendered_component).to have_field("time_entry[start_time]", with: "06:30")
+      expect(rendered_component).to have_field("time_entry[end_time]", with: "09:00")
     end
   end
 end

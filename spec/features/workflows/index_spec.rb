@@ -139,8 +139,8 @@ RSpec.describe "Workflows index", :js do
     end
   end
 
-  def current_url_filters
-    Rack::Utils.parse_query(URI(page.current_url).query).fetch("filters", "")
+  def url_filters_including(*names)
+    a_hash_including("filters" => a_string_including(*names.map { /\b#{Regexp.escape(it)}\b/ }))
   end
 
   def open_row_menu(name)
@@ -205,7 +205,7 @@ RSpec.describe "Workflows index", :js do
     search_workflows("Hardw")
 
     expect_listed("Hardware flow")
-    expect(current_url_filters).to include("name")
+    expect(page).to have_current_query_params(url_filters_including("name"))
   end
 
   it "keeps the workflow when filtering by a type that only references it" do
@@ -214,7 +214,7 @@ RSpec.describe "Workflows index", :js do
     keep_only_types(milestone)
 
     expect_listed("Bug flow")
-    expect(current_url_filters).to include("type_id")
+    expect(page).to have_current_query_params(url_filters_including("type_id"))
   end
 
   it "filters by the projects a workflow is active in" do
@@ -223,7 +223,7 @@ RSpec.describe "Workflows index", :js do
     filter_by_projects(on_hardware)
 
     expect_listed("Hardware flow")
-    expect(current_url_filters).to include("project_id")
+    expect(page).to have_current_query_params(url_filters_including("project_id"))
   end
 
   it "reaches a sub-project's workflow when picking its parent with sub-items" do
@@ -253,7 +253,7 @@ RSpec.describe "Workflows index", :js do
       within(".op-pagination") { click_link_or_button "2" }
 
       expect(page).to have_css("#{results} .name a", count: 1)
-      expect(current_url_filters).to include("name")
+      expect(page).to have_current_query_params(url_filters_including("name"))
     end
   end
 
@@ -266,18 +266,6 @@ RSpec.describe "Workflows index", :js do
     end
 
     expect(page).to have_current_path(workflow_summary_types_path)
-  end
-
-  it "marks a workflow a project owns and links to that project" do
-    create(:project_owned_workflow, project: on_bug, name: "Bookshop flow")
-
-    visit workflows_path
-
-    row = page.find(".Box-row", text: "Bookshop flow")
-    expect(row).to have_text("Created in Bookshop")
-    expect(row).to have_link("Bookshop", href: project_settings_work_packages_types_path(on_bug))
-
-    expect(page.find(".Box-row", text: "Bug flow")).to have_no_text("Created in")
   end
 
   it "opens a dialog listing and linking the dependent types" do

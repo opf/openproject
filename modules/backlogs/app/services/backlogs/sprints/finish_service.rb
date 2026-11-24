@@ -35,6 +35,16 @@ class Backlogs::Sprints::FinishService < BaseServices::BaseContracted
 
   protected
 
+  # Settled here, ahead of #before_perform moving the unfinished work out, rather than when the
+  # sprint row is written. The burndown reads the sprint up to completed_at, and the moves take
+  # that work out of the sprint as they are journalled, so a stamp taken afterward leaves every
+  # finished sprint reporting nothing remaining however much of it there was.
+  def validate_params
+    self.params = params.reverse_merge(completed_at: Time.zone.now)
+
+    super
+  end
+
   def before_perform(service_call)
     case params[:unfinished_action]
     when "move_to_sprint"
@@ -50,7 +60,7 @@ class Backlogs::Sprints::FinishService < BaseServices::BaseContracted
   end
 
   def persist(service_call)
-    model.update!(status: "completed", completed_at: Time.zone.now)
+    model.update!(status: "completed", completed_at: params[:completed_at])
     service_call
   end
 
@@ -66,9 +76,7 @@ class Backlogs::Sprints::FinishService < BaseServices::BaseContracted
 
   def move_to_sprint(target_sprint)
     open_work_packages.order(position: :desc).map do |wp|
-      ::WorkPackages::UpdateService
-        .new(user:, model: wp, contract_class: ::Backlogs::WorkPackages::MoveBetweenSprintsContract)
-        .call(sprint: target_sprint, position: 1)
+      move(wp, contract_class: ::Backlogs::WorkPackages::MoveBetweenSprintsContract, sprint: target_sprint, position: 1)
     end
   end
 
@@ -83,9 +91,16 @@ class Backlogs::Sprints::FinishService < BaseServices::BaseContracted
       # Moving the previous work package out of the sprint shifted this one's
       # position via update_all, leaving the loaded record stale.
       wp.reload
-      ::WorkPackages::UpdateService
-        .new(user:, model: wp, contract_class: ::Backlogs::WorkPackages::MoveToBacklogContract)
-        .call(**call_args)
+      move(wp, contract_class: ::Backlogs::WorkPackages::MoveToBacklogContract, **call_args)
     end
+  end
+
+  # The sprint reports read which work packages were in the sprint from the journals valid at its
+  # start and completion. Merged into a journal written before then, a move would rewrite that
+  # history and the work package would vanish from the sprint altogether.
+  def move(work_package, contract_class:, **)
+    ::WorkPackages::UpdateService
+      .new(user:, model: work_package, contract_class:)
+      .call(**, journal_skip_aggregation: true)
   end
 end

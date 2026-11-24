@@ -49,7 +49,7 @@ module WorkPackageTypes
 
       def options = offers_new? ? [existing_option, new_option] : [existing_option]
 
-      def offers_new? = model_class.project_owned? || variant.project_id.nil?
+      def offers_new? = variant.project_id.nil?
 
       def group_data
         { controller: "mode-switch-radio", action: "change->mode-switch-radio#select" }
@@ -99,7 +99,7 @@ module WorkPackageTypes
 
       def candidates
         @candidates ||= begin
-          scope = model_class.available_in(variant.project).in_display_order
+          scope = model_class.in_display_order
           scope = scope.where.not(id: record_id) unless reuses_existing?
           scope.to_a
         end

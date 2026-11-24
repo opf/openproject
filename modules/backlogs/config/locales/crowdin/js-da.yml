@@ -23,10 +23,15 @@
 da:
   js:
     backlogs:
+      action_menu:
+        menu_label:
+          one: Handlinger for arbejdspakken
+          other: Handlinger for %{count} valgte arbejdspakker
       announcements:
         batch_too_large: "%{count} arbejdspakker kan ikke flyttes på én gang. Vælg højst %{max}."
         fallback_item_label: Arbejdspakke
         fallback_list_name: en anden liste
+        menu_scope_changed: Markeringen i menuen er ændret. Åbn menuen igen, før du flytter arbejdspakker.
         move_failed_check_position: Flytningen mislykkedes. Tjek arbejdspakkens nuværende placering.
         move_failed_check_positions_batch:
           other: Flytningen mislykkedes. Tjek arbejdspakkernes nuværende placeringer.
@@ -52,14 +57,33 @@ da:
           one: "%{count} arbejdspakke valgt."
           other: "%{count} arbejdspakker valgt."
     burndown_chart:
-      chart_day: 'Dag %{day}: %{values}'
       chart_label: Burndown-diagram
-      chart_summary: 'Data i burndown-diagrammet: %{days}.'
-      chart_value: "%{label}: %{value}"
-      non_working_day: Arbejdsfri dag
-      story_points: Story points
-    created_resolved:
+    burnup_chart:
+      chart_label: Burnup-diagram
+    created_resolved_chart:
+      chart_label: Diagram over oprettede og løste arbejdspakker
       work_packages: Arbejdspakker
+    sprint_charts:
+      column_with_unit: "%{label} (%{unit})"
+      description_summary: 'Data i %{label}: %{from} – %{to}. %{values}.'
+      description_value: "%{label}: %{value}"
+      non_working_day: Arbejdsfri dag
+      unit:
+        story_points: story points
+      value_with_unit:
+        story_points:
+          one: "%{value} story point"
+          other: "%{value} story points"
+      y_axis_title:
+        story_points: Story points
+        time: Anslået tid
+    sprint_work_package_graph:
+      chart_label: Diagram over arbejdspakker efter status
+      count_column: Arbejdspakker
+      status_column: Status
+    velocity_chart:
+      chart_label: Hastighedsdiagram
+      sprint_column: Sprint
     work_packages:
       properties:
-        storyPoints: Historiepoint
+        storyPoints: Story points

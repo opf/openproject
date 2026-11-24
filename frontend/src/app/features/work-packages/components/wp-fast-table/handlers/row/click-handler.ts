@@ -37,6 +37,9 @@ import { activeFieldClassName } from 'core-app/shared/components/fields/edit/edi
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
+import { isLinkOrRowAction } from './row-click-target';
+import { selectionGesture } from '../state/selection-feedback';
+import { controlSelector } from '../state/keyboard/cell-interaction';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { KeepTabService } from '../../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
@@ -68,16 +71,22 @@ export class RowClickHandler implements TableEventHandler {
   public handleEvent(view:TableEventComponent, evt:MouseEvent) {
     const target = evt.target as HTMLElement;
 
-    // Ignore links
-    if (target instanceof HTMLAnchorElement || target.parentElement instanceof HTMLAnchorElement) {
+    if (isLinkOrRowAction(target)) {
       return true;
     }
 
     // Shortcut to any clicks within a cell
     // We don't want to handle these.
-    if (this.clickActivatesCell(target) || target.classList.contains(`${activeFieldClassName}`)) {
+    if (this.clickActivatesCell(view, target) || target.closest(`.${activeFieldClassName}`)) {
       debugLog('Skipping click on inner cell');
       return true;
+    }
+
+    if (!view.workPackageTable.configuration.selectionEnabled) {
+      if (!target.closest(controlSelector)) {
+        this.focusClickedCell(view, target);
+      }
+      return false;
     }
 
     // Locate the row from event
@@ -93,8 +102,20 @@ export class RowClickHandler implements TableEventHandler {
     return false;
   }
 
-  private clickActivatesCell(target:HTMLElement):boolean {
-    return target.classList.contains(displayClassName)
+  private focusClickedCell(view:TableEventComponent, target:HTMLElement):void {
+    const navigation = view.workPackageTable.keyboardNavigation;
+    const cell = target.closest<HTMLElement>('td, th') ?? target.closest(this.SELECTOR);
+    if (!cell) return;
+
+    const position = navigation.positionOfCell(cell);
+    if (position) {
+      navigation.focusPosition(position);
+    }
+  }
+
+  private clickActivatesCell(view:TableEventComponent, target:HTMLElement):boolean {
+    return view.workPackageTable.configuration.inlineEditEnabled
+      && target.classList.contains(displayClassName)
       && !this.configurationService.requireDoubleClickForInlineEdit();
   }
 }
@@ -111,11 +132,14 @@ export function activateRow(
   modifiers:SelectionModifiers = {},
 ):void {
   const { injector } = view.workPackageTable;
+  const modified = [modifiers.ctrlKey, modifiers.metaKey, modifiers.shiftKey].some(Boolean);
 
-  injector.get(WorkPackageViewSelectionGesturesService)
-    .handleClick(wpId, view.workPackageTable.renderedRows, modifiers, element.dataset.classIdentifier);
+  selectionGesture(view.workPackageTable, modified ? 'selection' : 'navigation', () => {
+    injector.get(WorkPackageViewSelectionGesturesService)
+      .handleClick(wpId, view.workPackageTable.renderedRows, modifiers, element.dataset.classIdentifier);
+  });
 
-  if (!(modifiers.ctrlKey || modifiers.metaKey || modifiers.shiftKey)) {
+  if (!modified) {
     view.itemClicked.emit({ workPackageId: wpId, double: false });
   }
 

@@ -55,6 +55,7 @@ module Admin::Import::Jira::ImportRuns
         projects_label(available_projects_count),
         issues_label(available_issues_count),
         statuses_label(available_statuses_count),
+        resolutions_label(available_resolutions_count),
         types_label(available_types_count),
         users_label(available_users_count)
       ].compact.map { |label| { label:, checked: true } }
@@ -70,6 +71,12 @@ module Admin::Import::Jira::ImportRuns
 
     def available_statuses_count
       model.available["total_statuses"]
+    end
+
+    def available_resolutions_count
+      return if model.exclude_resolution_fields?
+
+      model.available["total_resolutions"]
     end
 
     def available_types_count

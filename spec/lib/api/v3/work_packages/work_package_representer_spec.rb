@@ -55,7 +55,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
   let(:spent_hours) { 0 }
   let(:derived_start_date) { Time.zone.today - 4.days }
   let(:derived_due_date) { Time.zone.today - 5.days }
-  let(:budget) { build_stubbed(:budget, project: workspace) }
   let(:duration) { nil }
   let(:ignore_non_working_days) { true }
   let(:work_package) do
@@ -74,7 +73,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
                   responsible:,
                   estimated_hours:,
                   derived_estimated_hours:,
-                  budget:,
                   ignore_non_working_days:,
                   status:) do |wp|
       allow(wp).to receive_messages(available_custom_fields:,
@@ -852,6 +850,17 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
+    describe "labels" do
+      before { work_package.label_name_replacements = ["Needs triage"] }
+
+      it "links the pending label by title without an href and does not embed it" do
+        expect(subject).to have_json_size(1).at_path("_links/labels")
+        expect(subject).to be_json_eql(nil.to_json).at_path("_links/labels/0/href")
+        expect(subject).to be_json_eql("Needs triage".to_json).at_path("_links/labels/0/title")
+        expect(subject).to have_json_size(0).at_path("_embedded/labels")
+      end
+    end
+
     describe "project" do
       it_behaves_like "has workspace linked"
     end
@@ -918,7 +927,65 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
-    describe "category" do
+    describe "projectPhaseDefinition" do
+      let(:link) { "projectPhaseDefinition" }
+
+      context "with a phase being set" do
+        it_behaves_like "has a titled link" do
+          let(:href) { "/api/v3/project_phase_definitions/#{work_package.project_phase_definition_id}" }
+          let(:title) { work_package.project_phase_definition.name }
+        end
+      end
+
+      context "without a phase being set" do
+        before do
+          work_package.project_phase_definition = nil
+        end
+
+        it_behaves_like "has an untitled link" do
+          let(:href) { nil }
+        end
+      end
+
+      context "with the phase not existing in the project" do
+        let(:project_phases) { [other_project_phase] }
+
+        it_behaves_like "has an untitled link" do
+          let(:href) { nil }
+        end
+      end
+
+      context "with the phase being inactive in the project" do
+        let(:project_phase) { build_stubbed(:project_phase, active: false, definition: project_phase_definition) }
+
+        it_behaves_like "has an untitled link" do
+          let(:href) { nil }
+        end
+      end
+
+      context "without the user being allowed to see the reference" do
+        let(:permissions) { all_permissions - [:view_project_phases] }
+
+        it_behaves_like "has no link"
+      end
+
+      context "with caching where the first user is allowed and the second is not allowed to see the reference" do
+        let(:permissions) { all_permissions - [:view_project_phases] }
+        let(:admin) { build_stubbed(:admin) }
+
+        before do
+          described_class
+            .create(work_package, current_user: admin, embed_links:, timestamps:, query:)
+            .to_json
+        end
+
+        it_behaves_like "has no link"
+      end
+    end
+
+    describe "category",
+             with_flag: { work_package_multiple_categories: false },
+             with_settings: { work_package_multiple_categories: false } do
       let(:embedded_path) { "_embedded/category" }
       let(:href_path) { "_links/category/href" }
 
@@ -932,7 +999,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         let!(:category) { build_stubbed(:category) }
 
         before do
-          work_package.category = category
+          allow(work_package).to receive(:categories).and_return([category])
         end
 
         it_behaves_like "has a titled link" do
@@ -947,6 +1014,83 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           expect(subject).to be_json_eql(category.name.to_json).at_path("#{embedded_path}/name")
         end
       end
+
+      context "when more than one category is set" do
+        let!(:backend) { create(:category, name: "Backend") }
+        let!(:api) { create(:category, name: "api") }
+
+        before do
+          allow(work_package).to receive(:categories).and_return([backend, api])
+        end
+
+        it_behaves_like "has a titled link" do
+          let(:link) { "category" }
+          let(:href) { api_v3_paths.category(api.id) }
+          let(:title) { api.name }
+        end
+      end
+
+      context "when multiple categories is active",
+              with_flag: { work_package_multiple_categories: true },
+              with_settings: { work_package_multiple_categories: true } do
+        let(:category) { build_stubbed(:category) }
+
+        before do
+          allow(work_package).to receive(:categories).and_return([category])
+        end
+
+        it "renders neither the deprecated category link nor the embedded resource" do
+          expect(subject).not_to have_json_path("_links/category")
+          expect(subject).not_to have_json_path("_embedded/category")
+        end
+      end
+    end
+
+    describe "categories" do
+      context "when no category is set" do
+        it "renders an empty links collection and an empty embedded collection" do
+          expect(subject).to have_json_size(0).at_path("_links/categories")
+          expect(subject).to have_json_size(0).at_path("_embedded/categories")
+        end
+      end
+
+      context "when categories are set" do
+        let(:backend) { build_stubbed(:category, name: "Backend") }
+        let(:api) { build_stubbed(:category, name: "api") }
+
+        before do
+          allow(work_package).to receive(:categories).and_return([api, backend])
+        end
+
+        it "lists the categories in the links collection" do
+          expect(subject).to have_json_size(2).at_path("_links/categories")
+          expect(subject).to be_json_eql(api_v3_paths.category(api.id).to_json).at_path("_links/categories/0/href")
+          expect(subject).to be_json_eql(api.name.to_json).at_path("_links/categories/0/title")
+          expect(subject).to be_json_eql(api_v3_paths.category(backend.id).to_json).at_path("_links/categories/1/href")
+        end
+
+        it "lists the categories in the embedded collection" do
+          expect(subject).to have_json_size(2).at_path("_embedded/categories")
+          expect(subject).to be_json_eql("Category".to_json).at_path("_embedded/categories/0/_type")
+          expect(subject).to be_json_eql(api.name.to_json).at_path("_embedded/categories/0/name")
+        end
+      end
+
+      context "when categories are assigned but not yet persisted" do
+        let(:project) { create(:project) }
+        let!(:backend) { create(:category, project:, name: "Backend") }
+        let!(:api) { create(:category, project:, name: "api") }
+
+        before do
+          work_package.category_ids_replacements = [api.id, backend.id]
+        end
+
+        it "renders the pending categories ordered by id" do
+          expect(subject).to have_json_size(2).at_path("_links/categories")
+          expect(subject).to be_json_eql(api_v3_paths.category(backend.id).to_json).at_path("_links/categories/0/href")
+          expect(subject).to be_json_eql(api_v3_paths.category(api.id).to_json).at_path("_links/categories/1/href")
+        end
+      end
     end
 
     describe "priority" do
@@ -959,74 +1103,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       it "has the priority embedded" do
         expect(subject).to be_json_eql("Priority".to_json).at_path("_embedded/priority/_type")
         expect(subject).to be_json_eql(priority.name.to_json).at_path("_embedded/priority/name")
-      end
-    end
-
-    describe "budget" do
-      context "with the user having the view_budgets permission" do
-        let(:permissions) { [:view_budgets] }
-
-        it_behaves_like "has a titled link" do
-          let(:link) { "budget" }
-          let(:href) { "/api/v3/budgets/#{budget.id}" }
-          let(:title) { budget.subject }
-        end
-
-        it "has the budget embedded" do
-          expect(subject)
-            .to be_json_eql(budget.subject.to_json)
-                  .at_path("_embedded/budget/subject")
-        end
-
-        context "when a non-privileged user's response is cached before the current user reads it" do
-          let(:non_privileged_user) { build_stubbed(:user) }
-          let(:non_privileged_representer) do
-            described_class.create(work_package, current_user: non_privileged_user, embed_links:)
-          end
-
-          before do
-            # Non-privileged user renders first, warming the shared cache key
-            non_privileged_representer.to_json
-          end
-
-          it "still renders the budget link for the user having view_budgets (regression AGILE-296)" do
-            expect(subject).to have_json_path("_links/budget")
-          end
-        end
-      end
-
-      context "with the user lacking the view_budgets permission" do
-        it "has no link to the budget" do
-          expect(subject)
-            .not_to have_json_path("_links/budget")
-        end
-
-        it "has no budget embedded" do
-          expect(subject)
-            .not_to have_json_path("_embedded/budget")
-        end
-
-        it "does not instantiate a budget representer" do
-          allow(API::V3::Budgets::BudgetRepresenter).to receive(:create)
-          subject
-          expect(API::V3::Budgets::BudgetRepresenter).not_to have_received(:create)
-        end
-      end
-
-      context "when a privileged user's response is cached before the current user reads it" do
-        let(:privileged_user) { build_stubbed(:admin) }
-        let(:privileged_representer) do
-          described_class.create(work_package, current_user: privileged_user, embed_links:)
-        end
-
-        before do
-          # Privileged user renders first, warming the shared cache key
-          privileged_representer.to_json
-        end
-
-        it "does not leak the budget link to the user lacking view_budgets (regression AGILE-296)" do
-          expect(subject).not_to have_json_path("_links/budget")
-        end
       end
     end
 
@@ -1416,6 +1492,15 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
+    describe "exportPdf" do
+      it_behaves_like "has a titled action link" do
+        let(:link) { "exportPdf" }
+        let(:permission) { :export_work_packages }
+        let(:href) { api_v3_paths.work_package_pdf(work_package.id) }
+        let(:title) { "Export as PDF" }
+      end
+    end
+
     describe "atom" do
       context "with feeds enabled", with_settings: { feeds_enabled?: true } do
         it_behaves_like "has a titled action link" do
@@ -1506,12 +1591,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
       context "with format weighted item list" do
         let(:custom_field) { build_stubbed(:weighted_item_list_wp_custom_field) }
-        let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
-        let(:contract_class) { CustomFields::Hierarchy::InsertWeightedItemContract }
         let(:weighted_item) do
-          service
-            .insert_item(contract_class:, parent: custom_field.hierarchy_root, label: "TIE Fighter", weight: 16.7)
-            .value!
+          create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "TIE Fighter", weight: 16.7)
         end
         let(:value) { weighted_item.id }
 
@@ -1524,12 +1605,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
       context "with format hierarchy" do
         let(:custom_field) { build_stubbed(:hierarchy_wp_custom_field) }
-        let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
-        let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
         let(:item) do
-          service
-            .insert_item(contract_class:, parent: custom_field.hierarchy_root, label: "TIE Fighter", short: "TF")
-            .value!
+          create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "TIE Fighter", short: "TF")
         end
         let(:value) { item.id }
 
@@ -1644,7 +1721,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       it { is_expected.to be_json_eql(status.name.to_json).at_path("_embedded/status/name") }
 
       it {
-        expect(subject).to be_json_eql(status.is_closed.to_json).at_path("_embedded/status/isClosed")
+        expect(subject).to be_json_eql(status.closed?.to_json).at_path("_embedded/status/isClosed")
       }
     end
 
@@ -1777,54 +1854,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         let(:permissions) { all_permissions - [:view_project_phases] }
 
         it_behaves_like "has the resource not embedded"
-      end
-    end
-
-    describe "projectPhaseDefinition" do
-      context "with a phase being set" do
-        it_behaves_like "has a titled link" do
-          let(:link) { "projectPhaseDefinition" }
-          let(:href) { "/api/v3/project_phase_definitions/#{work_package.project_phase_definition_id}" }
-          let(:title) { work_package.project_phase_definition.name }
-        end
-      end
-
-      context "without a phase being set" do
-        before do
-          work_package.project_phase_definition = nil
-        end
-
-        it_behaves_like "has an untitled link" do
-          let(:link) { "projectPhaseDefinition" }
-          let(:href) { nil }
-        end
-      end
-
-      context "with the phase not existing in the project" do
-        let(:project_phases) { [other_project_phase] }
-
-        it_behaves_like "has an untitled link" do
-          let(:link) { "projectPhaseDefinition" }
-          let(:href) { nil }
-        end
-      end
-
-      context "with the phase being inactive in the project" do
-        let(:project_phase) { build_stubbed(:project_phase, active: false, definition: project_phase_definition) }
-
-        it_behaves_like "has an untitled link" do
-          let(:link) { "projectPhaseDefinition" }
-          let(:href) { nil }
-        end
-      end
-
-      context "without the user being allowed to see the reference" do
-        let(:permissions) { all_permissions - [:view_project_phases] }
-
-        it_behaves_like "has an untitled link" do
-          let(:link) { "projectPhaseDefinition" }
-          let(:href) { nil }
-        end
       end
     end
 
@@ -2055,6 +2084,49 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
       expect(OpenProject::Cache)
         .to have_received(:fetch).with(representer.json_cache_key)
+    end
+
+    context "with an admin-only custom field" do
+      let(:admin) { build_stubbed(:admin) }
+      let(:public_custom_field) { build_stubbed(:string_wp_custom_field) }
+      let(:admin_only_custom_field) { build_stubbed(:string_wp_custom_field, admin_only: true) }
+      let(:available_custom_fields) { [public_custom_field, admin_only_custom_field] }
+      let(:custom_field_values) do
+        [
+          build_stubbed(:custom_value, custom_field: public_custom_field, value: "public value"),
+          build_stubbed(:custom_value, custom_field: admin_only_custom_field, value: "admin-only value")
+        ]
+      end
+      let(:admin_representer) { described_class.create(work_package, current_user: admin, embed_links:) }
+
+      context "when an admin's response is cached before a non-admin reads it" do
+        before do
+          admin_representer.to_json
+        end
+
+        it "does not disclose the admin-only custom field to the non-admin" do
+          expect(subject).not_to have_json_path(admin_only_custom_field.attribute_name(:camel_case))
+          expect(subject).not_to include("admin-only value")
+        end
+
+        it "renders the public custom field to the non-admin" do
+          expect(subject)
+            .to be_json_eql("public value".to_json)
+                  .at_path(public_custom_field.attribute_name(:camel_case))
+        end
+      end
+
+      context "when a non-admin's response is cached before an admin reads it" do
+        before do
+          representer.to_json
+        end
+
+        it "renders the admin-only custom field to the admin" do
+          expect(admin_representer.to_json)
+            .to be_json_eql("admin-only value".to_json)
+                  .at_path(admin_only_custom_field.attribute_name(:camel_case))
+        end
+      end
     end
 
     describe "#json_cache_key" do

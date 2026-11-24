@@ -29,7 +29,7 @@ import { autoScrollForElements } from '@atlaskit/pragmatic-drag-and-drop-auto-sc
 import { Controller } from '@hotwired/stimulus';
 import {
   isItemFromRoot,
-  type RootAwareChild,
+  type RegisteredRootAwareChild,
   type SortableListsRoot,
 } from './drag-and-drop';
 
@@ -40,7 +40,7 @@ type AutoScrollMaxScrollSpeed = 'standard'|'fast';
 const allowedAxes = new Set<string>(['vertical', 'horizontal', 'all']);
 const maxScrollSpeeds = new Set<string>(['standard', 'fast']);
 
-export default class ScrollableController extends Controller<HTMLElement> implements RootAwareChild {
+export default class ScrollableController extends Controller<HTMLElement> implements RegisteredRootAwareChild {
   static values = {
     allowedAxis: { type: String, default: 'vertical' },
     maxScrollSpeed: { type: String, default: 'standard' },

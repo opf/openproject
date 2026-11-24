@@ -25,13 +25,14 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
 import {
   TriggerActionsEntryComponent,
 } from 'core-app/shared/components/time_entries/edit/trigger-actions-entry.component';
 import { TimeEntryTimerService } from 'core-app/shared/components/time_entries/services/time-entry-timer.service';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import { CommonModule } from '@angular/common';
 import {
   StopExistingTimerModalComponent,
@@ -43,6 +44,7 @@ import {
     CommonModule,
     OpSharedModule,
     OpenprojectModalModule,
+    OpTooltipDirective,
   ],
   declarations: [
     TriggerActionsEntryComponent,
@@ -51,7 +53,6 @@ import {
   providers: [
     TimeEntryTimerService,
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class OpenprojectTimeEntriesModule {
 }

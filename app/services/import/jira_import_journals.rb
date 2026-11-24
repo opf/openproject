@@ -35,8 +35,9 @@ module Import
 
     attr_reader :work_package
 
-    def initialize(work_package:)
+    def initialize(work_package:, attachment_paths_by_name: {})
       @work_package = work_package
+      @attachment_paths_by_name = attachment_paths_by_name
       @pending_entries = []
     end
 
@@ -64,22 +65,13 @@ module Import
       @pending_entries << { type: :comment, data: comment, user:, created: comment["created"] }
     end
 
-    def call(updated_at: nil)
+    def call
       monotonic_entries.each do |entry, date_time|
         case entry[:type]
         when :history then create_history_journal(entry[:data], date_time)
         when :comment then create_comment_journal(entry[:data], entry[:user], date_time)
         end
       end
-
-      restore_update_time(updated_at)
-    end
-
-    # Records the attachments in every existing journal, so that the import does not surface them
-    # as a change of its own: the replayed Jira changelog is the only record of them.
-    def backfill_attachments
-      rows = missing_attachable_rows
-      Journal::AttachableJournal.insert_all(rows) if rows.any?
     end
 
     def add_migration_entry(updated_at: nil)
@@ -91,25 +83,6 @@ module Import
     end
 
     private
-
-    def missing_attachable_rows
-      attachments = work_package.attachments.pluck(:id, :file)
-      return [] if attachments.empty?
-
-      journal_ids = work_package.journals.pluck(:id)
-      existing = recorded_attachable_pairs(journal_ids)
-
-      journal_ids.product(attachments).filter_map do |journal_id, (attachment_id, filename)|
-        { journal_id:, attachment_id:, filename: } unless existing.include?([journal_id, attachment_id])
-      end
-    end
-
-    def recorded_attachable_pairs(journal_ids)
-      Journal::AttachableJournal
-        .where(journal_id: journal_ids)
-        .pluck(:journal_id, :attachment_id)
-        .to_set
-    end
 
     # Journals::CreateService keeps the journals of a journable strictly ordered in time: a
     # timestamp that is not newer than the preceding journal's is discarded in favor of the
@@ -231,7 +204,7 @@ module Import
     def convert_rich_text(description)
       return "" if description.blank?
 
-      Import::JiraWikiMarkupConverter.new(description).convert
+      Import::JiraWikiMarkupConverter.new(description, attachment_paths_by_name: @attachment_paths_by_name).convert
     end
   end
 end

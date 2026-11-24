@@ -248,7 +248,7 @@ RSpec.describe MyController do
     context "with render_views" do
       render_views
       it "renders editable custom fields" do
-        expect(response.body).to have_content(custom_field.name)
+        expect(response.body).to have_text(custom_field.name)
       end
     end
   end
@@ -317,8 +317,8 @@ RSpec.describe MyController do
   end
 
   describe "updating custom field values" do
-    let!(:editable_cf) { create(:user_custom_field, :string, editable: true) }
-    let!(:readonly_cf) { create(:user_custom_field, :string, editable: false) }
+    let!(:editable_cf) { create(:user_custom_field, :string, user_self_editable: true) }
+    let!(:readonly_cf) { create(:user_custom_field, :string, user_self_editable: false) }
 
     it "persists editable custom fields but ignores non-editable ones" do
       as_logged_in_user user do
@@ -333,24 +333,27 @@ RSpec.describe MyController do
     end
   end
 
-  describe "changing changing mail" do
+  describe "changing changing mail", with_settings: { autologin: 1 } do
     let!(:recovery_token) { create(:recovery_token, user:) }
+    let!(:autologin_token) { create(:autologin_token, user:) }
     let!(:plain_session) { create(:user_session, user:, session_id: "internal_foobar") }
     let!(:user_session) { Sessions::UserSession.find_by(session_id: "internal_foobar") }
 
     let(:params) do
-      { user: { mail: "foo@example.org" } }
+      { user: { mail: "foo@example.org" }, _password_confirmation: "adminADMIN!" }
     end
 
     it "clears other sessions and removes tokens" do
       as_logged_in_user user do
-        patch :update_settings, params:
+        patch :update_account, params:
       end
 
+      expect(user.reload.mail).to eq("foo@example.org")
       expect(flash[:info]).to include(I18n.t(:notice_account_updated))
       expect(flash[:info]).to include(I18n.t(:notice_account_other_session_expired))
 
       expect(Token::Recovery.where(user:)).to be_empty
+      expect(Token::AutoLogin.where(user:)).to be_empty
       expect { user_session.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end

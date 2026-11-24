@@ -6,7 +6,7 @@ import {
   insertWpForTarget,
   removeTriggerBeforeChip,
 } from '../../../../lib/components/HashMenu/editorUtils';
-import { getPendingCallbacks } from '../../../../lib/components/InlineWorkPackage/callbacks';
+import { pendingWorkPackages } from '../../../../lib/components/InlineWorkPackage/pending';
 import { INLINE_WP_TYPE, BLOCK_WP_TYPE } from '../../../../lib/utils/nodeTypes';
 import type { WorkPackage } from '../../../../lib/openProjectTypes';
 import {
@@ -139,7 +139,7 @@ describe('insertWpForTarget', () => {
     insertWpForTarget(editor, workPackage, { kind: 'block', size: 'm' });
 
     expect(blockTypes(editor)).toEqual([BLOCK_WP_TYPE, 'paragraph']);
-    expect(blockText(editor, 1)).toBe(' World');
+    expect(blockText(editor, 1)).toBe('World');
   });
 
   it('splits the line, keeping the text before and after the trigger around the card', () => {
@@ -150,7 +150,7 @@ describe('insertWpForTarget', () => {
 
     expect(blockTypes(editor)).toEqual(['paragraph', BLOCK_WP_TYPE, 'paragraph']);
     expect(blockText(editor, 0)).toBe('Hello ');
-    expect(blockText(editor, 2)).toBe(' World');
+    expect(blockText(editor, 2)).toBe('World');
   });
 });
 
@@ -162,7 +162,7 @@ describe('createWpForTarget', () => {
     createWpForTarget(editor, query, target);
 
     const wpid = blockContent(editor).find((node) => node.type === INLINE_WP_TYPE)?.props?.wpid as string;
-    return { editor, pending: getPendingCallbacks(wpid)! };
+    return { editor, pending: pendingWorkPackages.get(wpid)! };
   }
 
   it('opens the create form named after the query', () => {
@@ -174,7 +174,7 @@ describe('createWpForTarget', () => {
   it('puts the created work package in the place of the trigger, at the size it asked for', () => {
     const { editor, pending } = pendingCreationAfter('Hello #', 'Redesign', { kind: 'inline', size: 'xs' });
 
-    pending.onSelect(workPackage);
+    pending.onResolve(workPackage);
 
     expect(blockContent(editor)).toMatchObject([
       { type: 'text', text: 'Hello ' },
@@ -186,7 +186,7 @@ describe('createWpForTarget', () => {
   it('puts a block card in the place of a block trigger', () => {
     const { editor, pending } = pendingCreationAfter('###', 'Redesign', { kind: 'block', size: 'm' });
 
-    pending.onSelect(workPackage);
+    pending.onResolve(workPackage);
 
     expect(blockTypes(editor)).toEqual([BLOCK_WP_TYPE, 'paragraph']);
     expect(editor.document[0].props).toMatchObject({ wpid: 1, size: 'm' });

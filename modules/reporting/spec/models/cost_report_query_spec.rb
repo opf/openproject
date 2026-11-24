@@ -51,8 +51,9 @@ RSpec.describe CostReportQuery do
       registered = Queries::Register.group_bys[described_class].map { |group_by| group_by.key.to_s }
 
       # SingletonValue is injected by the table widget when an axis is empty.
+      # Tweek groups by the week number across years, reports group by Week instead.
       engine = CostQuery::GroupBy.all
-                                 .reject { |group_by| group_by.name.to_s.match?(/CustomField\d+|SingletonValue/) }
+                                 .reject { |group_by| group_by.name.to_s.match?(/CustomField\d+|SingletonValue|Tweek/) }
                                  .map { |group_by| group_by.name.demodulize.underscore }
 
       expect(engine - registered).to be_empty

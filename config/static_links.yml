@@ -10,6 +10,8 @@ blog:
 blog_article_progress_changes:
   href: https://www.openproject.org/blog/updates-to-progress-tracking-in-14-4-based-on-user-feedback/
   label: Significant changes to progress and work estimates
+calculated_value_formula_docs:
+  href: https://www.openproject.org/docs/system-admin-guide/projects/project-attributes/#formula-syntax-reference
 chargebee:
   href: https://js.chargebee.com/v2/chargebee.js
 client_credentials_code_flow:
@@ -205,9 +207,9 @@ sysadmin_docs:
   ldap_group_sync:
     href: https://www.openproject.org/docs/system-admin-guide/authentication/ldap-connections/ldap-group-synchronization/
   mcp_resources:
-    href: https://www.openproject.org/docs/system-admin-guide/integrations/mcp-server/#resources
+    href: https://www.openproject.org/docs/system-admin-guide/ai/mcp-server/#resources
   mcp_tools:
-    href: https://www.openproject.org/docs/system-admin-guide/integrations/mcp-server/#tools
+    href: https://www.openproject.org/docs/system-admin-guide/ai/mcp-server/#tools
   oidc:
     href: https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/
   oidc_acr_values:
@@ -267,11 +269,17 @@ user_guide:
     import:
       columns:
         href: https://www.openproject.org/docs/user-guide/work-packages/importing/#column-reference
+wcag_contrast_minimum:
+  href: https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html
+  label: colors.contrast.wcag_rule
 webinar_videos:
   href: https://www.youtube.com/watch?v=un6zCm8_FT4
 website:
   href: https://www.openproject.org
   label: label_openproject_website
+jira_migration_docs:
+  connection_check:
+    href: https://www.openproject.org/docs/installation-and-operations/jira-migration/#connection-check
 jira_migrator_project:
   href: https://community.openproject.org/projects/jira-migration/dashboard
 backup_guide:

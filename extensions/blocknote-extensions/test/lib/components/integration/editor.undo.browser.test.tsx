@@ -97,13 +97,13 @@ describe('Undo (Ctrl+Z)', () => {
     await expect.element(page.getByTestId('block-card')).toBeVisible();
 
     await openBlockCardSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Regular', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Regular', exact: true }));
     await expect.element(page.getByTestId('block-card')).not.toBeInTheDocument();
 
     await ctrl_z();
 
     await expect.element(page.getByTestId('block-card')).toBeVisible();
-    await expect.element(page.getByText('Fix login bug')).toBeVisible();
+    await expect.element(page.getByText('Fix login bug', { exact: true })).toBeVisible();
   });
 
   it('undoes inline size change (S -> XS) — status is visible again', async () => {
@@ -112,7 +112,7 @@ describe('Undo (Ctrl+Z)', () => {
     await expect.element(page.getByText('In Progress')).toBeVisible();
     await new Promise(r => setTimeout(r, 600));
     await openInlineWorkPackageSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Compact', exact: true }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Compact', exact: true }));
     await expect.element(page.getByText('In Progress')).not.toBeInTheDocument();
 
     await ctrl_z();

@@ -112,9 +112,9 @@ RSpec.describe "My page",
 
     # The widgets load their respective contents
     expect(page)
-      .to have_content(created_work_package.subject)
+      .to have_text(created_work_package.subject)
     expect(page)
-      .to have_content(assigned_work_package.subject)
+      .to have_text(assigned_work_package.subject)
 
     # add widget above to right area
     my_page.add_widget(1, 1, :row, "Calendar")

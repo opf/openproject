@@ -36,21 +36,20 @@ source "https://rubygems.org", cooldown: 7
 ruby File.read(File.expand_path(".ruby-version", __dir__)).strip
 
 gem "actionpack-xml_parser", "~> 2.0.0"
-gem "activemodel-serializers-xml", "~> 1.0.1"
-gem "activerecord-import", "~> 2.3.0"
+gem "activerecord-import", "~> 3.0.1"
 gem "activerecord-session_store", "~> 2.3.0"
 gem "ox"
-gem "rails", "~> 8.1.3", ">= 8.1.3.1"
+gem "rails", "~> 8.1.4", ">= 8.1.4.1"
 gem "responders", "~> 3.2"
 
 gem "ffi", "~> 1.17"
 
-gem "connection_pool", "~> 3.0.2"
+gem "connection_pool", "~> 3.0.3"
 
 gem "rdoc", ">= 2.4.2"
 
 gem "doorkeeper", "~> 5.9.9"
-gem "omniauth", "~> 2.1"
+gem "omniauth", "~> 2.2"
 gem "omniauth-rails_csrf_protection", "~> 2.0"
 gem "request_store", "~> 1.7.0"
 
@@ -70,7 +69,7 @@ gem "awesome_nested_set", "~> 3.9.0"
 gem "closure_tree", "~> 9.8.0"
 gem "rubytree", "~> 2.2.2"
 
-gem "addressable", "~> 2.9.0"
+gem "addressable", "~> 2.9.1"
 
 # Remove whitespace from model input
 gem "auto_strip_attributes", "~> 3.0"
@@ -97,12 +96,9 @@ gem "escape_utils", "~> 1.3"
 # Syntax highlighting used in html-pipeline with rouge
 gem "rouge", "~> 5.1.0"
 # HTML sanitization used for html-pipeline
-gem "sanitize", "~> 7.0.0"
+gem "sanitize", "~> 7.0.2"
 # HTML autolinking for mails and urls (replaces autolink)
 gem "rinku", "~> 2.0.4", require: %w[rinku rails_rinku]
-# Version parsing with semver
-gem "semantic", "~> 1.6.1"
-
 # generates SVG Graphs
 # used for statistics on svn repositories
 gem "svg-graph", "~> 2.2.0"
@@ -110,7 +106,7 @@ gem "svg-graph", "~> 2.2.0"
 gem "date_validator", "~> 0.12.0"
 gem "email_validator", "~> 2.2.3"
 gem "json_schemer", "~> 2.5.0"
-gem "msgpack", "~> 1.8.4"
+gem "msgpack", "~> 1.8.7"
 gem "ruby-duration", "~> 3.2.0"
 
 gem "mail", "2.9.1"
@@ -124,7 +120,6 @@ gem "bcrypt", "~> 3.1.22"
 
 gem "multi_json", "~> 1.21.2"
 
-gem "daemons"
 gem "good_job", "~> 4.19.3" # update should be done manually in sync with saas-openproject version.
 
 gem "rack-protection", "~> 3.2.0"
@@ -159,14 +154,14 @@ gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.3"
 
-gem "mcp", "~> 1.7.0"
+gem "mcp", "~> 1.9.0"
 
 gem "meta-tags", "~> 2.24.0"
 
 gem "paper_trail", "~> 17.0.0"
 
 # State machine with audit trail
-gem "statesman", "~> 13.3.0"
+gem "statesman", "~> 13.4.0"
 
 gem "job-iteration"
 
@@ -181,13 +176,16 @@ gem "ice_cube", "~> 0.17.0"
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.6+
-  gem "dalli", "~> 5.2.2"
+  gem "dalli", "~> 5.3.2"
   gem "redis", "~> 6.0.0"
 end
 
 gem "i18n-js", "~> 4.2.4"
 gem "rails-i18n", "~> 8.1.0"
 
+# Binding json to a version below 3 as sprockets does not
+# limit the json version but fails with 3+.
+gem "json", "< 3"
 gem "sprockets", "~> 3.7.2" # lock sprockets below 4.0
 gem "sprockets-rails", "~> 3.5.1"
 
@@ -201,12 +199,13 @@ gem "carrierwave", "~> 2.2.7"
 gem "carrierwave_direct", "~> 3.0.0"
 gem "fog-aws"
 gem "ssrf_filter", "~> 1.6"
+gem "web-push", "~> 3.1"
 
-gem "aws-sdk-core", "~> 3.254"
+gem "aws-sdk-core", "~> 3.266"
 # File upload via fog + screenshots on travis
-gem "aws-sdk-s3", "~> 1.233"
+gem "aws-sdk-s3", "~> 1.240"
 
-gem "openproject-token", "~> 8.15.0"
+gem "openproject-token", "~> 8.17.0"
 
 gem "plaintext", "~> 0.4.0"
 
@@ -235,13 +234,34 @@ gem "yabeda-rails"
 
 # opentelemetry
 gem "opentelemetry-exporter-otlp", "~> 0.37.0", require: false
-gem "opentelemetry-instrumentation-all", "~> 0.98.0", require: false
-gem "opentelemetry-sdk", "~> 1.13", require: false
+gem "opentelemetry-sdk", require: false
+# opentelemetry instrumentations, see config/initializers/opentelemetry.rb
+# Available Ruby instrumentations can be found here:
+# https://github.com/open-telemetry/opentelemetry-ruby-contrib/tree/main/instrumentation
+gem "opentelemetry-instrumentation-action_mailer", require: false
+gem "opentelemetry-instrumentation-action_pack", require: false
+gem "opentelemetry-instrumentation-action_view", require: false
+gem "opentelemetry-instrumentation-active_job", require: false
+gem "opentelemetry-instrumentation-active_record", require: false
+gem "opentelemetry-instrumentation-active_storage", require: false
+gem "opentelemetry-instrumentation-active_support", require: false
+gem "opentelemetry-instrumentation-aws_sdk", require: false
+gem "opentelemetry-instrumentation-dalli", require: false
+gem "opentelemetry-instrumentation-excon", require: false
+gem "opentelemetry-instrumentation-faraday", require: false
+gem "opentelemetry-instrumentation-grape", require: false
+gem "opentelemetry-instrumentation-httpx", require: false
+gem "opentelemetry-instrumentation-net_http", require: false
+gem "opentelemetry-instrumentation-pg", require: false
+gem "opentelemetry-instrumentation-rack", require: false
+gem "opentelemetry-instrumentation-rails", require: false
+gem "opentelemetry-instrumentation-rake", require: false
+gem "opentelemetry-instrumentation-redis", require: false
 
-gem "openproject-octicons", "~>19.37.0"
-gem "openproject-octicons_helper", "~>19.37.0"
-gem "openproject-primer_view_components", "~>0.94.0"
-gem "view_component", "~> 4.15.0"
+gem "openproject-octicons", "~>19.38.0"
+gem "openproject-octicons_helper", "~>19.38.0"
+gem "openproject-primer_view_components", "~> 0.97.0"
+gem "view_component", "~> 4.16.0"
 
 # Lookbook
 gem "lookbook", "2.3.15"
@@ -256,15 +276,11 @@ gem "factory_bot_rails", "~> 6.5.0", require: false
 gem "turbo_power", "~> 0.8.0"
 gem "turbo-rails", "~> 2.0.20"
 
-gem "httpx", "~> 1.8.4"
-
-# Brings actual deep-freezing to most ruby objects
-gem "ice_nine"
+gem "httpx", "~> 1.9.0"
 
 group :test do
   gem "launchy", "~> 3.1.0"
   gem "rack-test", "~> 2.2.0"
-  gem "shoulda-context", "~> 2.0"
 
   # Test prof provides factories from code
   # and other niceties
@@ -302,7 +318,7 @@ group :test do
   gem "cuprite", "~> 0.19.0"
   gem "rspec-wait"
   gem "selenium-devtools"
-  gem "selenium-webdriver", "~> 4.51"
+  gem "selenium-webdriver", "~> 4.52"
 
   gem "fuubar", "~> 2.5.0", require: false
   gem "timecop", "~> 0.9.0"
@@ -376,16 +392,23 @@ group :development, :test do
 
   # erb linting
   gem "erb_lint", require: false
-  gem "erblint-github", require: false
-
-  # Brakeman scanner
-  gem "brakeman", "~> 8.1.0"
-
-  # i18n-tasks helps find and manage missing and unused translations.
-  gem "i18n-tasks", "~> 1.1.0", require: false
 
   # Active Record Doctor helps to keep the database in good shape.
   gem "active_record_doctor", "~> 2.1.0"
+end
+
+group :development, :test, :brakeman do
+  gem "brakeman", "~> 8.1.0"
+end
+
+group :development, :test, :i18n_tasks do
+  # i18n-tasks helps find and manage missing and unused translations.
+  gem "i18n-tasks", "~> 1.1.0", require: false
+end
+
+group :danger do
+  gem "danger", "~> 9.6.1", require: false
+  gem "git", "~> 5.7.1", require: false
 end
 
 # API gems
@@ -404,7 +427,8 @@ gem "googleauth", require: false
 gem "disposable", "~> 0.6.2"
 
 # Used for formula evaluation of calculated values
-gem "dentaku", "~> 3.5", git: "https://github.com/opf/dentaku", ref: "78eece45bf3f4ed021c05dd2f5411d1c3f9b168a"
+# Pinned to an unreleased commit that loads MUL. Switch back to a release once there is a new one.
+gem "dentaku", "~> 4.1.0", git: "https://github.com/rubysolo/dentaku", ref: "a43d9e328b800409a7af8f0c5ef072b9a0ae9fee"
 
 # Used for more powerful counter caches
 gem "counter_culture", "~> 3.14"

@@ -47,6 +47,8 @@ hu:
       draggable_hint: 'Húzza át a szerkesztőmezőt a beillesztett képre vagy hivatkozási mellékletre. Zárt szerkesztőmezők nyílnak meg, amíg húzza.
 
         '
+      import_failed_hint: The file could not be imported. It is not available for download.
+      import_prepared_hint: The file is still being imported. It is not available for download yet.
       quarantined_hint: The file is quarantined, as a virus was found. It is not available for download.
     autocomplete_ng_select:
       add_tag: Add item
@@ -113,6 +115,7 @@ hu:
         maintained_with_changes: Maintained with changes
         no_longer_meets_filter_criteria: No longer meets filter criteria
         now_meets_filter_criteria: Now meets filter criteria
+        state_at: State at
       show_changes_since: Show changes since
       time: Idő
       time_description: 'In your local time: %{datetime}'
@@ -135,10 +138,10 @@ hu:
     button_confirm: Jóváhagy
     button_continue: Folytatás
     button_copy: Másol
-    button_copy_link_to_clipboard: Hivatkozás másolása a vágólapra
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: Másolás a vágólapra
     button_copy_to_other_project: Duplicate in another project
+    button_copy_work_package_id: Copy work package ID
     button_create: Létrehoz
     button_custom-fields: Választható mezők
     button_delete: Törlés
@@ -154,6 +157,7 @@ hu:
     button_log_time: Eltöltött idő rögzítése
     button_more: További
     button_more_actions: More actions
+    button_move_to_position: Move to position
     button_open_details: Részletes nézet megnyitása
     button_open_fullscreen: Teljes képernyős nézet
     button_quote: Idéz
@@ -181,6 +185,10 @@ hu:
       remove_from_list: Kártya eltávolítása a listából
     chart:
       axis_criteria: Tengely kritérium
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: A grafikon megjelenítéséhez szükséges adatokat nem lehetett betölteni. Hiányozhatnak a szükséges engedélyek.
       modal_title: Munkacsomag grafikon beállítás
@@ -213,6 +221,9 @@ hu:
     description_select_work_package: 'Munkacsomag kiválasztás #%{id}'
     description_subwork_package: 'Munkacsomag gyermeke #%{id}'
     editor:
+      ai_actions:
+        caption: Assistant
+        start_failed: The Assistant could not start. Please try again.
       ckeditor_error: 'Hiba történt a CKEditorban
 
         '
@@ -360,6 +371,8 @@ hu:
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} items available"
       recently_viewed: Recently viewed
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: minden projekt
@@ -450,7 +463,6 @@ hu:
     label_assignee: Megbízott
     label_assignee_alt_text: This work package is assigned to %{name}
     label_attachments: Csatolmány
-    label_author: 'Szerző: %{user}'
     label_avatar: Profilkép
     label_between: között
     label_board: Tábla
@@ -514,6 +526,7 @@ hu:
     label_in: in
     label_in_less_than: kevesebb, mint
     label_in_more_than: több mint
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Bejövő e-mailek
     label_infinity: Infinity
     label_information_plural: Információk
@@ -546,6 +559,10 @@ hu:
     label_open_context_menu: Context menü megnyitása
     label_open_menu: Menü megnyitása
     label_open_work_packages: nyitott
+    label_origin: Origin
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Source
     label_password: Jelszó
     label_per_page: 'Oldalanként:'
     label_please_wait: Kérem várjon
@@ -579,7 +596,9 @@ hu:
     label_show_in_menu: Nézet megjelenítése a Menüben
     label_sort_by: Rendezés a következő szerint
     label_sort_higher: Mozgatás felfelé
+    label_sort_highest: Move to top
     label_sort_lower: Mozgás lefelé
+    label_sort_lowest: Move to bottom
     label_sorted_by: rendezve
     label_sorting: Rendezés
     label_spent_time: Eltöltött idő
@@ -590,6 +609,7 @@ hu:
     label_sum_for: Összeg
     label_this_week: ezen a héten
     label_time_entry_plural: Eltöltött idő
+    label_to_do_work_packages: to-do
     label_today: Ma
     label_total_amount: 'Teljes: %{amount}'
     label_total_progress: "%{percent}% a teljes folyamatban"
@@ -791,8 +811,10 @@ hu:
       create_new: Új létrehozása
       group_by_relation_type: Rendezés kapcsolati típusok szerint
       group_by_wp_type: Rendezés feladatcsoport típusai szerint
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Behúzási hierarchia
       hierarchy_outdent: Kihúzási hierarchia
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Kapcsolat eltávolítása
       remove_child: Gyermek kapcsolat törlése
       remove_parent: Szülő eltávolítása
@@ -849,6 +871,7 @@ hu:
         batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
+        menu_scope_changed: The menu selection has changed. Reopen the menu before moving items.
         move_failed_check_position: Move failed. Check the item's current position.
         move_failed_check_positions_batch:
           other: Move failed. Check the items' current positions.
@@ -918,6 +941,23 @@ hu:
       unselected_title: Feladatcsoport
     two_factor_authentication:
       label_two_factor_authentication: Kétlépcsős hitelesítés
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Project actions
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            one: Could not extend the range. %{count} project selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            one: "%{count} project selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         one: "%{count} child work package"
@@ -992,6 +1032,7 @@ hu:
         all_open: Nyitottak
         assigned_to_me: Hozzám rendelt
         created_by_me: Általam készített
+        in_progress: In progress
         latest_activity: Utolsó aktivitás
         manually_sorted: New manually sorted query
         overdue: Overdue
@@ -999,6 +1040,7 @@ hu:
         shared_with_me: Shared with me
         shared_with_users: Megosztás felhasználókkal
         summary: Összegzés
+        to_do: To-do
       description_enter_text: Írjon szöveget
       description_filter: Szűrő
       description_options_hide: Beállítások elrejtése
@@ -1028,6 +1070,7 @@ hu:
         label_pagination: Kattints ide, hogy átugorj a munkacsomag táblán és a lapszámozáshoz menj
         pagination: Ugrás a táblázat lapszámozásához
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Kombinált legördülő mező: Nyilakkal jelöljön ki, enter-el hagyja jóvá, és backspace-vel töröljön'
       label_disable_multi_select: Többszörös kijelölés tiltása
       label_enable_multi_select: Többszörös kijelölés engedélyezése
@@ -1086,6 +1129,7 @@ hu:
         other: Egyéb
         people: Személyek
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Kattints a nézet címének szerkesztéséhez
         column_names: Oszlopok
         confirm_edit_cancel: Biztosan meg kívánod szakítani a nézet nevének szerkesztését? Cím vissza lesz állítva a korábbi értékre.
@@ -1095,17 +1139,16 @@ hu:
           not_found: Nincs ilyen nézet
           unretrievable_query: Nem érhető el a nézet az URL-ből
         filters: Szürő
-        group: Csoportosítás a következők szerint
         group_by: Csoport szintű eredmények
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: A csoportosítás le van tiltva, mivel a hierarchia mód aktív.
-        hide_column: Oszlop elrejtése
         hierarchy_disabled_by_group_by: A hierarchia mód le van tiltva az eredmények csoportosítása e-szerint %{column}.
-        insert_columns: Insert columns
         move_column_left: Oszlop mozgatása balra
         move_column_right: Oszlop mozgatása jobbra
         public_text: 'Tegye közzé ezt a nézetet, lehetővé téve más felhasználók számára, hogy hozzáférjenek a nézethez. A „Nyilvános nézetek kezelése” engedéllyel rendelkező felhasználók módosíthatják vagy eltávolíthatják a nyilvános lekérdezéseket. Ez nem befolyásolja a munkacsomag-eredmények láthatóságát abban a nézetben, és engedélyüktől függően a felhasználók eltérő eredményeket láthatnak.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: A nézet neve
         sort_ascending: Növekvő sorrend
         sort_descending: Csökkenő sorrend
@@ -1128,15 +1171,26 @@ hu:
         is_switched_from_manual_to_automatic: 'Ennek a munkacsomagnak a dátumait újra kell kalkulálni, miután a kézi üzemmódról az automatikus ütemezésre váltott, más munkacsomagokkal való kapcsolat miatt.
 
           '
+      selection:
+        all_selected:
+          one: All %{count} work package on this page selected.
+          other: All %{count} work packages on this page selected.
+        cleared: Selection cleared.
+        selected:
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
       sharing:
         show_all_users: Minden felhasználó mutatása, akivel a munkacsomag megosztásra került
         title: Share work package
       table:
         configure_button: Feladatcsoport táblázat beállítása
-        summary: Táblázat melynek sorai munkacsomagok és oszlopai munkacsomag attribútumok.
-        text_inline_edit: A legtöbb mezője ennek a táblázatnak olyan gomb, mely aktiválja a soron belüli szerkesztését az attribútumnak.
-        text_select_hint: Válassza ki a megnyitni kíván mezőket és használja az "ALT" és nyílgombokat.
-        text_sort_hint: A táblázat fejlécében található hivatkozásokkal rendezhet, csoportosíthat, átsorolhat, törölhet és hozzáadhat oszlopokat.
+        grid_actions_header: Actions
+        grid_baseline_header: Comparison status
+        relations_button: Relations in %{column} for %{work_package}
+        sort_criterion_ascending: "%{column} ascending"
+        sort_criterion_descending: "%{column} descending"
+        sorted_by: Sorted by %{criteria}.
+        sorted_manually: Sorted manually.
       table_configuration:
         button: Ennek a feladatcsoportnak a beállítása
         choose_display_mode: Feladatcsoportok megjelenése
@@ -1147,7 +1201,6 @@ hu:
         display_sums_hint: 'Az összes összegezhető attribútum összegének megjelenítése a táblázat eredményei alatti sorban.
 
           '
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
         hierarchy_hint: 'Minden szűrt táblázat eredményei kiegészülnek az őseikkel. A hierarchiák kiterjeszthetők és összecsukhatók.
 
           '

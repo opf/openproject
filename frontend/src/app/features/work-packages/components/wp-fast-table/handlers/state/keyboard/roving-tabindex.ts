@@ -39,6 +39,8 @@ export const inlineCreateSelector = 'tbody[wpInlineCreate]';
 
 const nativeTabStopSelector = 'a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
+export const rovingStopSelector = 'tr[tabindex="0"], td[tabindex="0"], th[tabindex="0"]';
+
 /** Whether `node` is in the grid: inside `root` but not in the inline-create body. */
 export function insideGrid(root:HTMLElement, node:Node|null):boolean {
   if (!node || !root.contains(node)) {
@@ -49,8 +51,9 @@ export function insideGrid(root:HTMLElement, node:Node|null):boolean {
   return !element?.closest(inlineCreateSelector);
 }
 
-export function keyboardNavigationEnabled(configuration?:WorkPackageTableConfiguration):boolean {
-  return configuration?.keyboardNavigationEnabled ?? false;
+/** Whether `node` is grid content: inside `root` but not `root` itself, which a pointer focuses by clicking the space below the last row. */
+export function insideGridContent(root:HTMLElement, node:Node|null):boolean {
+  return node !== root && insideGrid(root, node);
 }
 
 export function isNavigableColumn(column:QueryColumn, configuration:WorkPackageTableConfiguration):boolean {
@@ -67,24 +70,34 @@ export function isNavigableColumn(column:QueryColumn, configuration:WorkPackageT
 
 /**
  * Makes `focused` the table's only Tab stop: it gets `tabindex="0"`, every
- * other row, navigable cell and native Tab stop under `root` gets `tabindex="-1"`.
+ * other row, navigable cell and native Tab stop in or under `within` gets `tabindex="-1"`.
  */
-export function paintRovingTabindex(root:HTMLElement, focused:HTMLElement|null):void {
-  root
-    .querySelectorAll<HTMLElement>(`tr, .${navigableCellClassName}`)
-    .forEach((element) => {
-      if (!element.closest(inlineCreateSelector)) {
-        element.setAttribute('tabindex', element === focused ? '0' : '-1');
-      }
-    });
+export function paintRovingTabindex(
+  within:HTMLElement|readonly HTMLElement[],
+  focused:HTMLElement|null,
+  engagedEditor:HTMLElement|null = null,
+):void {
+  const roots = within instanceof HTMLElement ? [within] : within;
+  matching(roots, `tr, .${navigableCellClassName}`).forEach((element) => {
+    if (!element.closest(inlineCreateSelector)) {
+      element.setAttribute('tabindex', element === focused ? '0' : '-1');
+    }
+  });
 
-  root
-    .querySelectorAll<HTMLElement>(nativeTabStopSelector)
-    .forEach((element) => {
-      if (element !== focused && !element.closest(inlineCreateSelector) && !element.closest(`.${activeFieldContainerClassName}`)) {
-        element.setAttribute('tabindex', '-1');
-      }
-    });
+  matching(roots, nativeTabStopSelector).forEach((element) => {
+    const activeField = element.closest<HTMLElement>(`.${activeFieldContainerClassName}`);
+    const exempt = engagedEditor !== null && activeField === engagedEditor;
+    if (element !== focused && !element.closest(inlineCreateSelector) && !exempt) {
+      element.setAttribute('tabindex', '-1');
+    }
+  });
+}
+
+function matching(roots:readonly HTMLElement[], selector:string):Set<HTMLElement> {
+  return new Set(roots.flatMap((root) => [
+    ...(root.matches(selector) ? [root] : []),
+    ...Array.from(root.querySelectorAll<HTMLElement>(selector)),
+  ]));
 }
 
 /** The cells of `row` that keyboard navigation can focus, in column order. */

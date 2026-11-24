@@ -603,6 +603,15 @@ RSpec.describe Journable::Timestamps do
           end
         end
 
+        describe "for the semantic identifier", with_settings: { work_packages_identifier: "semantic" } do
+          before { work_package.update_columns(identifier: "PROJ-7", sequence_number: 7) }
+
+          it "exposes the current semantic identifier", :aggregate_failures do
+            expect(subject.display_id).to eq "PROJ-7"
+            expect(subject.to_param).to eq "PROJ-7"
+          end
+        end
+
         context "with a custom field present" do
           let!(:custom_field) do
             create(:string_wp_custom_field,
@@ -676,26 +685,6 @@ RSpec.describe Journable::Timestamps do
 
         it "raises an error" do
           expect { subject }.to raise_error ActiveRecord::ReadOnlyRecord
-        end
-      end
-    end
-
-    describe "#rollback!" do
-      describe "when trying to rollback to a current (non-historic) record" do
-        subject { work_package.rollback! }
-
-        it "raises an error" do
-          expect { subject }.to raise_error ActiveRecord::RecordNotSaved
-        end
-      end
-
-      describe "when rolling back to historic data" do
-        subject { work_package.at_timestamp(wednesday).rollback! }
-
-        it "updates the journable records to its historic values" do
-          expect(work_package.reload.description).to eq "The work package as it is since Friday"
-          subject
-          expect(work_package.reload.description).to eq "The work package as it has been on Wednesday"
         end
       end
     end

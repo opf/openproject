@@ -133,7 +133,7 @@ module ResourceManagement
       return [] if filters_json.blank?
 
       ::Queries::ParamsParser::APIV3FiltersParser.parse(filters_json)
-    rescue JSON::ParserError
+    rescue ::Queries::ParamsParser::MalformedParameterError
       []
     end
 

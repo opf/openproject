@@ -78,6 +78,16 @@ RSpec.describe OpPrimer::InplaceEditFields::DisplayFields::DisplayFieldComponent
       expect(rendered_content).to have_no_css(".op-inplace-edit--display-field_clickable")
       expect(rendered_content).not_to include("click-&gt;inplace-edit#request")
     end
+
+    it "passes the system arguments as a signed token in the edit url" do
+      render_inline(described_class.new(model: project, attribute: :name, writable: true, truncated: false,
+                                        label: "Project name"))
+
+      edit_url = page.find("[data-inplace-edit-url-value]")["data-inplace-edit-url-value"]
+      token = Rack::Utils.parse_query(URI(edit_url).query)["system_arguments"]
+
+      expect(OpenProject::InplaceEdit::SystemArguments.verify(token)).to include(label: "Project name")
+    end
   end
 
   describe "activation event" do

@@ -37,6 +37,7 @@ module Labelable
     has_many :labels, -> { order(:id) }, through: :labelings
 
     scope :labeled_with, ->(label) { joins(:labelings).where(labelings: { label_id: label }) }
+    scope :without_labels, -> { where.not(id: Labeling.where(labelable_type: polymorphic_name).select(:labelable_id)) }
 
     before_save :abort_save_with_label_names
     after_save :persist_label_associations
@@ -87,7 +88,7 @@ module Labelable
   end
 
   def normalize_label_names(names)
-    Array.wrap(names).map { it.to_s.squish }.compact_blank.uniq(&:downcase)
+    Array.wrap(names).map { Label.normalize_value_for(:name, it.to_s) }.compact_blank.uniq(&:downcase)
   end
 
   def labels_for_names_to_assign

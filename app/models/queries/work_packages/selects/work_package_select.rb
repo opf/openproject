@@ -121,7 +121,7 @@ class Queries::WorkPackages::Selects::WorkPackageSelect
   end
 
   def value(model)
-    model.send name
+    model.send(@value_method || name)
   end
 
   def initialize(name, options = {})
@@ -142,6 +142,7 @@ class Queries::WorkPackages::Selects::WorkPackageSelect
       group_by_class_name
       null_handling
       default_order
+      value_method
     ].each do |attribute|
       instance_variable_set(:"@#{attribute}", options[attribute])
     end

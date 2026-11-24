@@ -52,7 +52,7 @@ RSpec.describe "hourly rates on user edit", :js do
   end
 
   context "with rates" do
-    let!(:rate) { create(:default_hourly_rate, user:, rate: 42) }
+    let!(:rate) { create(:default_hourly_rate, principal: user, rate: 42) }
 
     before do
       view_rates

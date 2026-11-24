@@ -16,6 +16,7 @@
               id: "overlay-#{journal.id}-#{reaction}",
               test_selector: "overlay-reaction-#{reaction}",
               tag: :a,
+              role: :menuitem,
               href: href(reaction:),
               data: {
                 turbo_stream: true,

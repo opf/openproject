@@ -12,7 +12,7 @@ import {
   selectOptionNamed,
 } from '../../../helpers/createWorkPackageHelpers';
 import { worker } from '../../../mocks/browser';
-import { rememberSelection } from '../../../../lib/components/CreateWorkPackage/lastSelection';
+import { rememberChoice } from '../../../../lib/components/CreateWorkPackage/lastChoice';
 import { initEditorContext } from '../../../../lib/services/editorContext';
 import { initializeOpBlockNoteExtensions } from '../../../../lib';
 
@@ -21,8 +21,8 @@ afterEach(() => {
   initEditorContext({});
 });
 
-function remember(selection:Record<string, { href:string; label:string }>) {
-  rememberSelection(selection);
+function remember(choice:Record<string, { href:string; label:string }>) {
+  rememberChoice(choice);
 }
 
 function heldFormLoad():() => void {
@@ -58,7 +58,7 @@ async function createBugAssignedToElif(subject:string) {
   await expect.element(page.getByTestId('block-card')).toBeVisible();
 }
 
-describe('Create work package - prefilled from previous selections', () => {
+describe('Create work package - prefilled from previous choices', () => {
   it('opens the type the project defaults to and asks for what it brings', async () => {
     renderEditor();
     await openCreateModal();
@@ -91,6 +91,22 @@ describe('Create work package - prefilled from previous selections', () => {
     await expect.element(page.getByLabelText('Project *')).toHaveValue('Scrum project');
     await expect.element(page.getByLabelText('Type *')).toHaveValue('Task');
     await expect.element(page.getByLabelText('Supervisor *')).toBeVisible();
+  });
+
+  it.each([
+    ['portfolio', { id: 11, name: 'Portfolio 11', _links: { self: { href: '/api/v3/portfolios/11' } } }],
+    ['program', { id: 12, name: 'Program 12', _links: { self: { href: '/api/v3/programs/12' } } }],
+  ])('opens on the %s the editor is rendered in', async (_kind, workspace) => {
+    worker.use(http.get('http://localhost:3000/api/v3/work_packages/available_projects', () =>
+      HttpResponse.json({ _embedded: { elements: [workspace] } })
+    ));
+    initEditorContext({ projectId: workspace.id });
+
+    renderEditor();
+    await openCreateModal();
+
+    await expect.element(page.getByLabelText('Project *')).toHaveValue(workspace.name);
+    await expect.element(page.getByLabelText('Type *')).toHaveValue('Task');
   });
 
   it('opens on the project last created in rather than the one it is rendered in', async () => {

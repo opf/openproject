@@ -1,4 +1,4 @@
-import type { BlockNoteEditor, SideMenuExtension } from '@blocknote/core';
+import type { BlockNoteEditor } from '@blocknote/core';
 import { useSelectedBlocks } from '@blocknote/react';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
@@ -13,13 +13,21 @@ import { BlockCard } from './BlockCard';
 import { UnavailableCard } from '../WorkPackage/UnavailableCard';
 import { WpOptionsPopover } from '../WorkPackage/OptionsPopover';
 import { PendingWorkPackagePopover } from '../WorkPackage/PendingWorkPackagePopover';
-import { defaultWpVariables, nonSelectableStyles } from '../WorkPackage/atoms';
+import { defaultWpVariables, hideBlockNoteSelectionOverlay, nonSelectableStyles } from '../WorkPackage/atoms';
 import { CHIP_STYLES } from '../WorkPackage/tokens';
 import { moveCursorAfterBlock } from '../../utils/cursor';
 import { hideSafariPhantomSelection, selectBlockNode } from '../../utils/selection';
 import { pendingBlockRegistry } from './pendingBlockRegistry';
 import { useSuppressFormattingToolbar } from '../../hooks/useSuppressFormattingToolbar';
+import { usePressOutside } from '../../hooks/usePressOutside';
+import { blockDragProps } from '../../utils/blockDrag';
 import { useTapActivation } from '../../utils/tapActivation';
+import { useOptionsHost } from '../../utils/optionsHost';
+import { isKeyboardClick, menuButtonProps } from '../../utils/a11y';
+import { useOptionsMenu } from '../../hooks/useOptionsMenu';
+import { useSelectionAnnouncement } from '../../hooks/useSelectionAnnouncement';
+import { describeLinkedWorkPackage, unavailableKindOf, workPackageLabel } from '../WorkPackage/description';
+import { useTranslation } from 'react-i18next';
 
 const Block = styled.div.attrs({ className: 'op-bn-extensions', 'data-testid': 'block-wp-wrapper' })<{ $pending?:boolean; $selected?:boolean }>`
   ${defaultWpVariables}
@@ -28,6 +36,7 @@ const Block = styled.div.attrs({ className: 'op-bn-extensions', 'data-testid': '
   border-radius: var(--bn-border-radius);
   box-shadow: ${({ $selected }) => ($selected ? CHIP_STYLES.focusShadow : 'none')};
   ${({ $pending }) => $pending && 'position: relative;'}
+  ${hideBlockNoteSelectionOverlay}
 `;
 
 const BlockCardWrapper = styled.div`
@@ -39,8 +48,6 @@ const UnavailableCardWrapper = styled(BlockCardWrapper)`
   display: block;
   cursor: pointer;
 `;
-
-type SideMenuInstance = NonNullable<ReturnType<ReturnType<typeof SideMenuExtension>>>;
 
 interface BlockProps {
   id:string;
@@ -55,19 +62,20 @@ export const BlockWorkPackageComponent = ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   editor:BlockNoteEditor<any>;
 }) => {
+  const { t } = useTranslation();
   const cardRef = useRef<HTMLDivElement>(null);
   const [blockEl, setBlockEl] = useState<HTMLDivElement | null>(null);
   // Fetch and cache colors.
   // The hook handles triggering re-renders when data arrives.
   useColors();
 
-  // BlockNote applies ProseMirror-selectednode (and its built-in outline CSS) only when ProseMirror creates a NodeSelection.
+  // BlockNote applies ProseMirror-selectednode (and its built-in highlight CSS) only when ProseMirror creates a NodeSelection.
   // When the cursor is in a paragraph above the WP block and the user clicks the block, ProseMirror resolves the click
   // as a TextSelection at the end of that paragraph rather than a NodeSelection on the block. The class is never applied
-  // and the outline never appears. So we set the outline ourselves.
+  // and the highlight never appears. So we draw the border ourselves and hide BlockNote's highlight on the block.
   const selectedBlocks = useSelectedBlocks(editor);
   const isBlockSelected = selectedBlocks.some((b) => b.id === block.id);
-  const [isOptionsOpen, setIsOptionsOpen] = useState(false);
+  const options = useOptionsMenu();
 
   useEffect(() => {
     if (!isBlockSelected) return;
@@ -75,13 +83,13 @@ export const BlockWorkPackageComponent = ({
     return editor.onSelectionChange(() => hideSafariPhantomSelection(editor));
   }, [isBlockSelected, editor]);
 
-  useSuppressFormattingToolbar(editor, isOptionsOpen);
+  useSuppressFormattingToolbar(editor, options.isOpen);
 
   const tapProps = useTapActivation();
   const toggleOptions = (event?:React.MouseEvent) => {
     event?.stopPropagation();
     selectBlockNode(editor, block.id);
-    setIsOptionsOpen((prev) => !prev);
+    options.toggle(isKeyboardClick(event));
   };
 
   const workPackageResult = useWorkPackage(block.props.wpid);
@@ -99,6 +107,17 @@ export const BlockWorkPackageComponent = ({
   // The stored displayId may be '' (schema default), so ?? is not enough here.
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const displayId = block.props.displayId || String(block.props.wpid);
+
+  const unavailableKind = unavailableKindOf(workPackageResult);
+  const hasOptions = Boolean(block.props.wpid && !workPackageResult.loading && (selectedWorkPackage ?? unavailableKind));
+
+  const optionsHostRef = useOptionsHost(() => {
+    if (hasOptions) options.open(true);
+  });
+
+  useSelectionAnnouncement(cardRef, editor, describeLinkedWorkPackage(t, displayId, cardSize, selectedWorkPackage, unavailableKind));
+
+  const menuButton = menuButtonProps(workPackageLabel(t, displayId), options.isOpen);
 
   // Read once into state: the registry entry is dropped on unmount, which
   // StrictMode simulates, and a remount must not lose a filled form.
@@ -131,31 +150,7 @@ export const BlockWorkPackageComponent = ({
     if (restored?.id) editor.setTextCursorPosition(restored.id, 'end');
   };
 
-  // Delegate the drag to the same mechanism the side menu uses internally,
-  // so dragging the block directly behaves identically to dragging via the handle.
-  const handleBlockDragStart = (e:React.DragEvent) => {
-    const sideMenu = editor.extensions.get('sideMenu') as SideMenuInstance | undefined;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
-    sideMenu?.blockDragStart(e.nativeEvent, block as any);
-  };
-
-  // Touch is listened for in its own right: a tap another element answers
-  // never becomes a mousedown.
-  useEffect(() => {
-    if (!isOptionsOpen) return;
-    const handlePressOutside = (e:Event) => {
-      const path = e.composedPath();
-      if (cardRef.current && !path.includes(cardRef.current)) {
-        setIsOptionsOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handlePressOutside);
-    document.addEventListener('touchstart', handlePressOutside);
-    return () => {
-      document.removeEventListener('mousedown', handlePressOutside);
-      document.removeEventListener('touchstart', handlePressOutside);
-    };
-  }, [isOptionsOpen]);
+  usePressOutside(cardRef, options.isOpen, options.close);
 
   const handleConvertToInline = (size:InlineWpSize) => {
     if (!block.props.wpid) return;
@@ -174,6 +169,7 @@ export const BlockWorkPackageComponent = ({
 
   const trackBlockElement = (node:HTMLDivElement | null) => {
     if (pendingMode !== undefined || node === null) setBlockEl(node);
+    optionsHostRef(node);
   };
 
   const optionsPopover = (
@@ -184,7 +180,9 @@ export const BlockWorkPackageComponent = ({
       currentBlockSize={cardSize}
       // eslint-disable-next-line react-hooks/refs
       anchorEl={cardRef.current}
-      onClose={() => setIsOptionsOpen(false)}
+      autoFocus={options.takesFocus}
+      onClose={options.close}
+      onRestoreFocus={() => editor.focus()}
       onConvertToInline={handleConvertToInline}
       onConvertToBlock={handleResizeBlock}
       onResizeBlock={handleResizeBlock}
@@ -193,7 +191,7 @@ export const BlockWorkPackageComponent = ({
   );
 
   return (
-    <Block ref={trackBlockElement} $pending={pendingMode !== undefined} $selected={isBlockSelected} data-selected={isBlockSelected || undefined} draggable="true" onDragStart={handleBlockDragStart}>
+    <Block ref={trackBlockElement} $pending={pendingMode !== undefined} $selected={isBlockSelected && Boolean(block.props.wpid)} data-selected={isBlockSelected || undefined} {...blockDragProps(editor, block.id)}>
       <div contentEditable={false}>
         {pendingMode && blockEl && (
           <PendingWorkPackagePopover
@@ -215,7 +213,6 @@ export const BlockWorkPackageComponent = ({
             {!workPackageResult.loading && (workPackageResult.error ?? workPackageResult.unauthorized) && (
               <UnavailableCardWrapper
                 ref={cardRef}
-                role="button"
                 {...tapProps(toggleOptions)}
               >
                 {workPackageResult.error ? (
@@ -224,6 +221,7 @@ export const BlockWorkPackageComponent = ({
                     headerKey="unavailableWorkPackage.error.header"
                     messageKey="unavailableWorkPackage.error.message"
                     displayId={displayId}
+                    menuButton={menuButton}
                   />
                 ) : (
                   <UnavailableCard
@@ -231,10 +229,11 @@ export const BlockWorkPackageComponent = ({
                     headerKey="unavailableWorkPackage.unauthorized.header"
                     messageKey="unavailableWorkPackage.unauthorized.message"
                     displayId={displayId}
+                    menuButton={menuButton}
                     linkHeader
                   />
                 )}
-                {isOptionsOpen && optionsPopover}
+                {options.isOpen && optionsPopover}
               </UnavailableCardWrapper>
             )}
             {!workPackageResult.loading &&
@@ -248,8 +247,9 @@ export const BlockWorkPackageComponent = ({
                     size={cardSize}
                     linkTitle
                     onActivation={tapProps(toggleOptions)}
+                    menuButton={menuButton}
                   />
-                  {isOptionsOpen && optionsPopover}
+                  {options.isOpen && optionsPopover}
                 </BlockCardWrapper>
               )}
           </>

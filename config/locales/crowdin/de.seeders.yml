@@ -71,15 +71,29 @@ de:
           name: Mitarbeiter und Projektmanager
         item_1:
           name: Globale Standardrolle
-      ai_text_transform_actions:
+      ai_text_actions:
         item_0:
-          label: Grammatik korrigieren
+          label: Struktur
         item_1:
-          label: Prägnant formulieren
+          label: Korrekturlesen
         item_2:
-          label: Ins Englische übersetzen
+          label: Umschreiben
         item_3:
-          label: In Vorlage sortieren
+          label: Freundlich
+        item_4:
+          label: Professionell
+        item_5:
+          label: Prägnant
+        item_6:
+          label: Zusammenfassen
+        item_7:
+          label: Hauptpunkte
+        item_8:
+          label: Liste
+        item_9:
+          label: Tabelle
+        item_10:
+          label: Betreff vorschlagen
     standard:
       project_phases:
         item_0:
@@ -117,6 +131,17 @@ de:
           name: Finanzen & Verwaltung
         item_6:
           name: Qualitätssicherung
+      labels:
+        item_0:
+          name: Webseite
+        item_1:
+          name: Marketing
+        item_2:
+          name: Vortragende
+        item_3:
+          name: Sicherheit
+        item_4:
+          name: UX
       projects:
         demo-project:
           name: Demo-Projekt

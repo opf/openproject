@@ -42,15 +42,6 @@ module WorkPackageTypes
           @model_class = model_class
         end
 
-        def filters_form_attributes
-          {
-            controller: "filter--filters-form",
-            "filter--filters-form-turbo-stream-request-value": true,
-            "filter--filters-form-clear-button-id-value": clear_button_id,
-            "filter--filters-form-current-filters-value": serialized_filters
-          }
-        end
-
         def wrapper_key = "#{dom_class(model_class)}s-index-sub-header-component"
 
         def name_filter_attributes
@@ -66,8 +57,6 @@ module WorkPackageTypes
 
         def name_filter_value = query.find_active_filter(name_filter_key.to_sym)&.values&.first
 
-        def serialized_filters = OpPrimer::QuickFilter.serialize(query.filters).to_json
-
         def clear_button_id = "#{dom_class(model_class)}s-filters-clear-button"
 
         def type_filter_component
@@ -76,6 +65,14 @@ module WorkPackageTypes
 
         def projects_filter_component
           ProjectsFilterComponent.new(query:, model_class:)
+        end
+
+        def filter_button_component
+          Filter::FilterButtonComponent.new(query:)
+        end
+
+        def filter_panel_component
+          FiltersComponent.new(query:)
         end
 
         private

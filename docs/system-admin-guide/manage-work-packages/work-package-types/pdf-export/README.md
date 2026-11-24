@@ -3,12 +3,12 @@ sidebar_navigation:
   title: Generate PDF
   priority: 400
 description: Configure PDF exports for a work package type in OpenProject.
-keywords: work package PDF, PDF export, work package types, PDF templates, PMflex Artifact, automatic artifact export
+keywords: work package PDF, PDF export, work package types, PDF templates, PMflex Artefact, automatic artefact export, wiki pages
 ---
 
 # Configure PDF exports for work package types
 
-Under **Administration → Work packages → Types**, select a work package type and open the **Generate PDF** tab to configure how a single work package of this type is exported as a PDF. The tab contains two sections: the available export templates and the automatic artifact export.
+Under **Administration → Work packages → Types**, select a work package type and open the **Generate PDF** tab to configure how a single work package of this type is exported as a PDF. The tab contains two sections: the available export templates and the automatic artefact export.
 
 ## Activate templates for PDF exports
 
@@ -31,7 +31,7 @@ The following templates are available:
 
 - **Attributes and description** – Work package attributes present in the current form together with the description.
 - **Contract** – Work package details formatted according to the standard German contract form.
-- **PMflex Artifact** – Work package details rendered as a PMflex Artifact.
+- **PMflex Artefact** – Work package details rendered as a PMflex Artefact.
 
 ### Configure a PDF export template
 
@@ -45,11 +45,31 @@ Click **Save** to apply your changes.
 
 Click **Reset to default** to restore the default settings for this template, or **Cancel** to leave the configuration page without saving your changes. 
 
-## Automatic artifact export
+### Include wiki pages in the PMflex Artefact
 
-![Generate PDF tab under work package types settings in OpenProject administration, showing automatic artifact export options](openproject_system_guide_work_package_types_pdf_tab_options.png)
+The configuration page of the **PMflex Artefact** template additionally lets you append wiki pages to every artefact of this work package type. Use it to keep recurring content such as legal information or data privacy terms in one place instead of repeating it in each work package.
 
-In addition to exporting on demand, OpenProject can generate a PMflex Artifact PDF automatically whenever the status of a work package of this type changes. Select one of the following options:
+Under **Add wiki pages**, click **Select a wiki page** to open the page picker. Search by name or browse the wikis of the projects you have access to, select a page and click **Add**. The page is appended to the list under **Manage and reorder wiki pages**. Add a further page by opening the picker again.
+
+Each entry in that list can be removed with the **×** next to its name, and dragging an entry changes its position. The order of the list is the order in which the pages are appended to the end of the exported PDF, each under its own title and, where the table of contents is enabled, listed in it.
+
+As with every other setting on this page, your changes take effect when you click **Save**. **Reset to default** also empties the list.
+
+> [!IMPORTANT]
+> Adding a wiki page here makes its content, embedded images included, visible to everyone who can export this artefact - including people who are not allowed to open that wiki page in OpenProject. Treat adding a page as granting access to it.
+
+A page that was deleted in the meantime, or whose project has been archived, is listed as unavailable. Such an entry is skipped when the PDF is generated; remove it and save to clean up the list.
+
+> [!NOTE]
+> Only pages of OpenProject's own wiki can be selected. The list applies to the PMflex Artefact template only, and the [automatic artefact export](#automatic-artefact-export) uses it unchanged.
+
+Users exporting a work package of this type see the configured pages prefilled in the Generate PDF dialog, where they can remove them, reorder them and add further pages they are allowed to read. Those changes affect that single export and are never written back here. See the [work package PDF export guide](../../../../user-guide/work-packages/exporting/work-package-pdf/#pmflex-artefact) for the user side.
+
+## Automatic artefact export
+
+![Generate PDF tab under work package types settings in OpenProject administration, showing automatic artefact export options](openproject_system_guide_work_package_types_pdf_tab_options.png)
+
+In addition to exporting on demand, OpenProject can generate a PMflex Artefact PDF automatically whenever the status of a work package of this type changes. Select one of the following options:
 
 - **Off** - no PDF is generated automatically. This is the default.
 - **Save as work package file attachment** - the generated PDF is saved as a file attachment to the work package. The new attachment is also recorded in the work package Activity.
@@ -58,4 +78,4 @@ In addition to exporting on demand, OpenProject can generate a PMflex Artifact P
 The selection is saved immediately.
 
 > [!NOTE]
-> The automatic export always uses the PMflex Artifact template, regardless of which templates are enabled for manual exports above.
+> The automatic export always uses the PMflex Artefact template, regardless of which templates are enabled for manual exports above.

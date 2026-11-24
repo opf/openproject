@@ -51,7 +51,7 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
     fill_in Type.human_attribute_name(:name), with: name
     click_on I18n.t(:button_continue)
 
-    expect(page).to have_current_path(/step=defaults/)
+    expect(page).to have_current_query_params("step" => "defaults")
     Type.find_by!(name:)
   end
 
@@ -83,7 +83,7 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
     type = create_type_through_wizard("Incident")
     click_on I18n.t(:button_continue)
 
-    expect(page).to have_current_path(/step=form_configuration/)
+    expect(page).to have_current_query_params("step" => "form_configuration")
     expect_chosen("existing")
     expect(page).to have_test_selector("form_configuration-selector", text: "Standard form")
     expect(type.default_variant.reload.form_configuration).to eq(existing)
@@ -100,14 +100,21 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
       click_on I18n.t(:button_continue)
     end
 
-    expect(page).to have_current_path(/started_form_configuration_id=#{type.default_variant.reload.form_configuration_id}/)
+    started_id = type.default_variant.reload.form_configuration_id.to_s
+    expect(page).to have_current_query_params(
+      "step" => "form_configuration",
+      "started_form_configuration_id" => started_id
+    )
     expect(type.default_variant.form_configuration).not_to eq(existing)
     expect_chosen("new")
     expect(page).to have_no_test_selector("form_configuration-selector")
 
     switch_to_existing("Standard")
 
-    expect(page).to have_current_path(/step=form_configuration/)
+    expect(page).to have_current_query_params(
+      "step" => "form_configuration",
+      "started_form_configuration_id" => started_id
+    )
     expect(type.default_variant.reload.form_configuration).to eq(existing)
     expect_chosen("existing")
     expect(page).to have_test_selector("form_configuration-selector", text: "Standard form")
@@ -125,22 +132,88 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
     expect_chosen("new")
 
     click_on I18n.t(:button_continue)
-    within_dialog I18n.t("form_configurations.form.edit_title") do
+    within_dialog I18n.t("form_configurations.form.save_title") do
       expect(page).to have_field("Form name", with: "Incident form")
       fill_in "Form name", with: "Incident intake"
       fill_in "Description", with: "Used by the support team"
       click_on I18n.t(:button_save)
     end
 
-    expect(page).to have_current_path(/step=project_attributes/)
+    expect(page).to have_current_query_params(
+      "step" => "workflows",
+      "started_form_configuration_id" => type.default_variant.reload.form_configuration_id.to_s
+    )
     form = type.default_variant.reload.form_configuration
     expect(form).not_to eq(existing)
     expect(form.name).to eq("Incident intake")
     expect(form.description).to eq("Used by the support team")
   end
 
+  it "edits a new form on the step before naming it", :aggregate_failures, with_ee: %i[edit_attribute_groups] do
+    type = create_type_through_wizard("Incident")
+    click_on I18n.t(:button_continue)
+
+    choose_option("new")
+    within_dialog I18n.t("form_configurations.start.title") do
+      choose_form_start("scratch")
+      click_on I18n.t(:button_continue)
+    end
+    expect_chosen("new")
+
+    form = Components::Admin::TypeConfigurationForm.new
+    expect(page).to have_no_test_selector("form-configuration-read-only")
+    form.add_attribute_group("Extra")
+    wait_for { type.default_variant.reload.form_configuration.attribute_groups.map(&:translated_key) }.to include("Extra")
+
+    click_on I18n.t(:button_continue)
+    within_dialog I18n.t("form_configurations.form.save_title") do
+      fill_in "Form name", with: "Incident intake"
+      click_on I18n.t(:button_save)
+    end
+
+    expect(page).to have_current_query_params(
+      "step" => "workflows",
+      "started_form_configuration_id" => type.default_variant.reload.form_configuration_id.to_s
+    )
+    named = type.default_variant.form_configuration
+    expect(named.name).to eq("Incident intake")
+    expect(named.attribute_groups.map(&:translated_key)).to include("Extra")
+    expect(existing.reload.attribute_groups.map(&:translated_key)).not_to include("Extra")
+  end
+
+  it "resets a new form without leaving the wizard", :aggregate_failures, with_ee: %i[edit_attribute_groups] do
+    type = create_type_through_wizard("Incident")
+    click_on I18n.t(:button_continue)
+
+    choose_option("new")
+    within_dialog I18n.t("form_configurations.start.title") do
+      choose_form_start("scratch")
+      click_on I18n.t(:button_continue)
+    end
+    expect_chosen("new")
+
+    form = Components::Admin::TypeConfigurationForm.new
+    form.add_attribute_group("Extra")
+    form.expect_group("Extra", "Extra")
+
+    form.reset_button.click
+    within_test_selector("type-form-configuration-reset-dialog") do
+      click_on I18n.t("button_reset")
+    end
+
+    expect_flash(message: I18n.t(:notice_successful_update))
+    expect(page).to have_current_path(/creation_wizard/)
+    expect(page).to have_current_query_params(
+      "step" => "form_configuration",
+      "started_form_configuration_id" => type.default_variant.reload.form_configuration_id.to_s
+    )
+    expect_chosen("new")
+    expect(page).to have_no_test_selector("type-form-configuration-groups-container", text: "Extra")
+    expect(type.default_variant.form_configuration.attribute_groups.map(&:translated_key)).not_to include("Extra")
+  end
+
   it "keeps asking until the new form has a name" do
-    create_type_through_wizard("Incident")
+    type = create_type_through_wizard("Incident")
     click_on I18n.t(:button_continue)
 
     choose_option("new")
@@ -151,14 +224,17 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
     expect_chosen("new")
 
     click_on I18n.t(:button_continue)
-    within_dialog I18n.t("form_configurations.form.edit_title") do
+    within_dialog I18n.t("form_configurations.form.save_title") do
       fill_in "Form name", with: ""
       click_on I18n.t(:button_save)
 
       expect(page).to have_text(I18n.t("activerecord.errors.messages.blank"))
     end
 
-    expect(page).to have_current_path(/step=form_configuration/)
+    expect(page).to have_current_query_params(
+      "step" => "form_configuration",
+      "started_form_configuration_id" => type.default_variant.reload.form_configuration_id.to_s
+    )
   end
 
   it "moves on without asking while reusing an existing form" do
@@ -168,7 +244,7 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
 
     click_on I18n.t(:button_continue)
 
-    expect(page).to have_current_path(/step=project_attributes/)
+    expect(page).to have_current_query_params("step" => "workflows")
     expect(page).to have_no_css("dialog[open]")
     expect(existing.reload.name).to eq("Standard form")
   end
@@ -193,7 +269,7 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
       type = create_type_through_wizard("Incident")
       click_on I18n.t(:button_continue)
 
-      expect(page).to have_current_path(/step=form_configuration/)
+      expect(page).to have_current_query_params("step" => "form_configuration")
       expect_chosen("existing")
       expect(page).to have_test_selector("form_configuration-selector",
                                          text: "Company form #{I18n.t('form_configurations.selector.default')}")
@@ -208,12 +284,10 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
       find_test_selector("form_configuration-selector").click
 
       within_test_selector("form_configuration-panel") do
-        expect(page).to have_css(".ActionListItem", text: "Company form") { |item|
-          item.has_css?(".ActionListItem-visual--trailing", text: I18n.t("form_configurations.selector.default"))
-        }
-        expect(page).to have_css(".ActionListItem", text: "Standard form") { |item|
-          item.has_no_css?(".ActionListItem-visual--trailing")
-        }
+        expect(page).to have_css(".ActionListItem-label",
+                                 text: "Company form #{I18n.t('form_configurations.selector.default')}")
+        expect(page).to have_no_css(".ActionListItem-visual--trailing")
+        expect(page).to have_css(".ActionListItem-label", text: "Standard form", exact_text: true)
       end
     end
 

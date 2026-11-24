@@ -29,13 +29,37 @@
 
 module Import
   class JiraClient
-    class Error < StandardError; end
+    class Error < StandardError
+      def retryable? = false
 
-    class ConnectionError < Error; end
+      def reason = :unexpected_error
 
-    class SsrfError < ConnectionError; end
+      def context = nil
+    end
 
-    class ParseError < Error; end
+    class ConnectionError < Error
+      def reason = :unreachable
+    end
+
+    class UnreachableError < ConnectionError
+      def retryable? = true
+    end
+
+    class SslError < UnreachableError
+      def reason = :ssl_error
+    end
+
+    class ConnectionTimeoutError < UnreachableError
+      def reason = :timeout
+    end
+
+    class SsrfError < ConnectionError
+      def reason = :ssrf_blocked
+    end
+
+    class ParseError < Error
+      def reason = :invalid_response
+    end
 
     class ApiError < Error
       attr_reader :status, :response_body, :response_headers
@@ -64,18 +88,41 @@ module Import
       def initialize(message, status:, response_body:, response_headers:)
         super(message)
         @status = status
-        @response_body = response_body
+        # Net::HTTP returns bodies as BINARY, whatever charset the response declares.
+        @response_body = response_body.to_s.dup.force_encoding(Encoding::UTF_8).scrub
         @response_headers = response_headers.slice(*SAFE_RESPONSE_HEADERS)
       end
 
       def to_s
         "#{super}. STATUS: #{@status} RESPONSE_BODY: #{@response_body} RESPONSE_HEADERS: #{@response_headers}"
       end
+
+      def retryable?
+        status == 401 || status == 429 || status >= 500
+      end
+
+      def reason
+        case status
+        when 401, 403 then :credentials_rejected
+        when 404 then :not_found
+        else :api_error
+        end
+      end
+
+      def context = { status: status.to_s }
     end
 
     # Raised when this Jira version does not provide the requested REST path at all, so we
     # can fall back to another route instead of failing the import.
     class UnsupportedEndpointError < Error; end
+
+    UNREACHABLE_ERRORS = [SsrfFilter::UnresolvedHostname, SocketError, Errno::ECONNREFUSED, Errno::ECONNRESET,
+                          Errno::ECONNABORTED, Errno::EPIPE, Errno::EHOSTUNREACH, Errno::EHOSTDOWN, Errno::ENETUNREACH,
+                          EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError].freeze
+
+    TIMEOUT_ERRORS = [Timeout::Error, Errno::ETIMEDOUT].freeze
+
+    CONNECTION_ERRORS = [SsrfFilter::Error, OpenSSL::SSL::SSLError, *TIMEOUT_ERRORS, *UNREACHABLE_ERRORS].freeze
 
     HTTP_OPTIONS = {
       open_timeout: 30,
@@ -83,6 +130,12 @@ module Import
     }.freeze
 
     UNSUPPORTED_ENDPOINT_STATUSES = [404, 405].freeze
+    # Jira answers every Agile route with 403 when the Jira Software license is missing or expired.
+    AGILE_UNSUPPORTED_ENDPOINT_STATUSES = [403, 404, 405].freeze
+
+    # Jira caps every Agile API page at 50 values, whatever maxResults asks for.
+    AGILE_PAGE_SIZE = 50
+    AGILE_PAGE_LIMIT = 1_000
 
     CUSTOM_FIELD_OPTIONS_PAGE_SIZE = 10_000
     CUSTOM_FIELD_OPTIONS_PAGE_LIMIT = 100
@@ -118,6 +171,10 @@ module Import
       get("/rest/api/2/mypermissions")
     end
 
+    def administrator?
+      mypermissions.dig("permissions", "ADMINISTER", "havePermission") == true
+    end
+
     def index_condition_summary
       get("/rest/api/2/index/summary")
     end
@@ -136,6 +193,10 @@ module Import
 
     def issue(issue_id, fields: "*all", expand: nil)
       get("/rest/api/2/issue/#{issue_id}", params: { fields:, expand: }.compact)
+    end
+
+    def issue_watchers(issue_id_or_key)
+      get("/rest/api/2/issue/#{issue_id_or_key}/watchers")
     end
 
     def issues(jql: nil, start_at: 0, max_results: 100, fields: "*all", expand: "changelog")
@@ -176,12 +237,7 @@ module Import
     end
 
     def issue_types_count
-      response = get_response("/rest/api/2/issuetype/page", params: { maxResults: 0 })
-      if response.is_a?(Net::HTTPSuccess)
-        parse_json(response)["total"]
-      else
-        issue_types.count
-      end
+      paged_total("/rest/api/2/issuetype/page") { issue_types.count }
     end
 
     def issue_types_schemes
@@ -201,12 +257,15 @@ module Import
     end
 
     def statuses_count
-      response = get_response("/rest/api/2/status/search", params: { maxResults: 0 })
-      if response.is_a?(Net::HTTPSuccess)
-        parse_json(response)["total"]
-      else
-        statuses.count
-      end
+      paged_total("/rest/api/2/status/search") { statuses.count }
+    end
+
+    def resolutions
+      get("/rest/api/2/resolution")
+    end
+
+    def resolutions_count
+      paged_total("/rest/api/2/resolution/page") { resolutions.count }
     end
 
     def status_categories
@@ -264,6 +323,11 @@ module Import
       get("/rest/api/2/issue/#{issue_id_or_key}/editmeta")
     end
 
+    # Jira returns all the issue's worklogs at once and ignores paging and filter params.
+    def issue_worklogs(issue_id_or_key)
+      get("/rest/api/2/issue/#{issue_id_or_key}/worklog")
+    end
+
     def users_search(username: ".", start_at: 0, max_results: 50)
       get("/rest/api/2/user/search", params:
         {
@@ -303,6 +367,34 @@ module Import
         })
     end
 
+    def boards(project_id_or_key:, start_at: 0, max_results: AGILE_PAGE_SIZE)
+      get_supported("/rest/agile/1.0/board",
+                    params: {
+                      projectKeyOrId: project_id_or_key,
+                      startAt: start_at,
+                      maxResults: max_results
+                    },
+                    unsupported_statuses: AGILE_UNSUPPORTED_ENDPOINT_STATUSES)
+    end
+
+    def board_sprints(board_id:, state: "future,active,closed", start_at: 0, max_results: AGILE_PAGE_SIZE)
+      get_supported("/rest/agile/1.0/board/#{board_id}/sprint",
+                    params: { state:, startAt: start_at, maxResults: max_results },
+                    unsupported_statuses: AGILE_UNSUPPORTED_ENDPOINT_STATUSES)
+    end
+
+    def board_pages(project_id_or_key:, start_at: 0)
+      agile_pages(start_at:) { |page_start_at| boards(project_id_or_key:, start_at: page_start_at) }
+    end
+
+    def board_sprint_pages(board_id:)
+      agile_pages { |start_at| board_sprints(board_id:, start_at:) }
+    end
+
+    def sprint(sprint_id)
+      get_supported("/rest/agile/1.0/sprint/#{sprint_id}", unsupported_statuses: AGILE_UNSUPPORTED_ENDPOINT_STATUSES)
+    end
+
     ##
     # Downloads a file from the given URL and saves it to a temporary file.
     #
@@ -315,16 +407,40 @@ module Import
     # @return [nil]
     # @raise [ConnectionError] If SSRF protection blocks the request or connection fails
     # @raise [ApiError] If the server returns a non-success response
-    def download_attachment(content_url, filename) # rubocop:disable Metrics/AbcSize
-      tempfile = nil
+    def download_attachment(content_url, filename)
+      Tempfile.create(filename, binmode: true) do |tempfile|
+        write_attachment(content_url, tempfile)
+        tempfile.rewind
+        yield tempfile
+      end
+
+      nil
+    end
+
+    private
+
+    def agile_pages(start_at: 0)
+      Enumerator.new do |pages|
+        limit_reached = AGILE_PAGE_LIMIT.times do
+          response = yield(start_at)
+          values = Array(response["values"])
+          break if values.empty?
+
+          start_at += values.size
+          pages << [values, response, start_at]
+          break if response["isLast"]
+        end
+        Rails.logger.warn "Stopped paging the Jira Agile API after #{AGILE_PAGE_LIMIT} pages" if limit_reached
+      end
+    end
+
+    def write_attachment(content_url, tempfile)
       OpenProject::SsrfProtection.get(content_url, headers: @headers, http_options: HTTP_OPTIONS, max_redirects: 0) do |response|
         case response
         when Net::HTTPSuccess
-          tempfile = Tempfile.create(filename, binmode: true)
           response.read_body do |chunk|
             tempfile.write chunk
           end
-          yield tempfile
         else
           status = response.code.to_i
           raise ApiError.new(I18n.t("admin.jira.client.api_error", status:),
@@ -333,23 +449,9 @@ module Import
                              response_headers: response.to_hash)
         end
       end
-      nil
-    rescue SsrfFilter::PrivateIPAddress
-      raise SsrfError, I18n.t("admin.jira.client.ssrf_blocked")
-    rescue SsrfFilter::Error => e
-      raise ConnectionError, I18n.t("admin.jira.client.connection_error", message: e.message)
-    rescue OpenSSL::SSL::SSLError => e
-      raise ConnectionError, I18n.t("admin.jira.client.ssl_error", message: e.message)
-    rescue Timeout::Error => e
-      raise ConnectionError, I18n.t("admin.jira.client.connection_timeout", message: e.message)
-    ensure
-      if tempfile
-        File.unlink(tempfile)
-        tempfile.close
-      end
+    rescue *CONNECTION_ERRORS => e
+      raise connection_error(e)
     end
-
-    private
 
     def paged_custom_field_options(custom_field_id, scope, options, total)
       collected = options.index_by { |option| custom_field_option_key(option) }
@@ -372,14 +474,8 @@ module Import
     end
 
     def custom_field_options_request(custom_field_id, project_ids:, issue_type_ids:, max_results: nil, page: nil)
-      path = "/rest/api/2/customFields/#{custom_field_id}/options"
-      response = get_response(path, params: custom_field_options_params(project_ids:, issue_type_ids:, max_results:, page:))
-      status = response.code.to_i
-      if UNSUPPORTED_ENDPOINT_STATUSES.include?(status)
-        raise UnsupportedEndpointError, I18n.t("admin.jira.client.unsupported_endpoint", path:, status:)
-      end
-
-      handle_response(response)
+      get_supported("/rest/api/2/customFields/#{custom_field_id}/options",
+                    params: custom_field_options_params(project_ids:, issue_type_ids:, max_results:, page:))
     end
 
     def custom_field_options_params(project_ids:, issue_type_ids:, max_results:, page:)
@@ -391,8 +487,27 @@ module Import
       params
     end
 
+    def paged_total(path)
+      response = get_response(path, params: { maxResults: 0 })
+      if response.is_a?(Net::HTTPSuccess)
+        parse_json(response)["total"]
+      else
+        yield
+      end
+    end
+
     def get(path, params: {})
       response = get_response(path, params:)
+      handle_response(response)
+    end
+
+    def get_supported(path, params: {}, unsupported_statuses: UNSUPPORTED_ENDPOINT_STATUSES)
+      response = get_response(path, params:)
+      status = response.code.to_i
+      if unsupported_statuses.include?(status)
+        raise UnsupportedEndpointError, I18n.t("admin.jira.client.unsupported_endpoint", path:, status:)
+      end
+
       handle_response(response)
     end
 
@@ -403,14 +518,23 @@ module Import
         params:,
         http_options: HTTP_OPTIONS
       )
-    rescue SsrfFilter::PrivateIPAddress
-      raise SsrfError, I18n.t("admin.jira.client.ssrf_blocked")
-    rescue SsrfFilter::Error, SocketError, Errno::ECONNREFUSED, Errno::EHOSTUNREACH => e
-      raise ConnectionError, I18n.t("admin.jira.client.connection_error", message: e.message)
-    rescue OpenSSL::SSL::SSLError => e
-      raise ConnectionError, I18n.t("admin.jira.client.ssl_error", message: e.message)
-    rescue Timeout::Error => e
-      raise ConnectionError, I18n.t("admin.jira.client.connection_timeout", message: e.message)
+    rescue *CONNECTION_ERRORS => e
+      raise connection_error(e)
+    end
+
+    def connection_error(error)
+      case error
+      when SsrfFilter::PrivateIPAddress
+        SsrfError.new(I18n.t("admin.jira.client.ssrf_blocked"))
+      when OpenSSL::SSL::SSLError
+        SslError.new(I18n.t("admin.jira.client.ssl_error", message: error.message))
+      when *TIMEOUT_ERRORS
+        ConnectionTimeoutError.new(I18n.t("admin.jira.client.connection_timeout", message: error.message))
+      when *UNREACHABLE_ERRORS
+        UnreachableError.new(I18n.t("admin.jira.client.connection_error", message: error.message))
+      else
+        ConnectionError.new(I18n.t("admin.jira.client.connection_error", message: error.message))
+      end
     end
 
     def handle_response(response)
@@ -421,7 +545,7 @@ module Import
         raise ApiError.new(
           I18n.t("admin.jira.client.#{status}_error", status:, default: :"admin.jira.client.api_error"),
           status:,
-          response_body: response.body.to_s,
+          response_body: response.body,
           response_headers: response.to_hash
         )
       end

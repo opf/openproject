@@ -37,7 +37,7 @@ RSpec.describe NoResultsHelper do
 
   describe "#no_results_box" do
     it "contains the just the title" do
-      expect(helper.no_results_box).to have_content "Nothing here!"
+      expect(helper.no_results_box).to have_text "Nothing here!"
       expect(helper.no_results_box).to have_no_link "Add some foo"
     end
 
@@ -45,7 +45,7 @@ RSpec.describe NoResultsHelper do
       no_results_box = helper.no_results_box(action_url: root_path,
                                              display_action: true)
 
-      expect(no_results_box).to have_content "Nothing here!"
+      expect(no_results_box).to have_text "Nothing here!"
       expect(no_results_box).to have_link "Add some foo", href: "/"
     end
 
@@ -55,7 +55,7 @@ RSpec.describe NoResultsHelper do
                                              custom_title: "This is a different title about foo",
                                              custom_action_text: "Link to nowhere")
 
-      expect(no_results_box).to have_content "This is a different title about foo"
+      expect(no_results_box).to have_text "This is a different title about foo"
       expect(no_results_box).to have_link "Link to nowhere", href: "/"
     end
   end

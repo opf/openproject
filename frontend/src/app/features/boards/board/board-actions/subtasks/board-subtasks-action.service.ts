@@ -44,7 +44,7 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 export class BoardSubtasksActionService extends BoardActionService {
   filterName = 'parent';
 
-  resourceName = 'parent-child';
+  resourceName = 'parent-child' as const;
 
   text = this.I18n.t('js.boards.board_type.board_type_title.subtasks');
 

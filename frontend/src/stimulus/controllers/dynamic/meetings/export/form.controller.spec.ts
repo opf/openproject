@@ -28,14 +28,13 @@
 import { waitFor } from '@testing-library/dom';
 import { vi, type Mock } from 'vitest';
 
-import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import { setupStimulusTest, type StimulusTestContext, stubPendingPluginContext, stubPluginContext } from 'core-stimulus/test-helpers';
 import type FormControllerType from './form.controller';
 
 describe('Meetings export form controller', () => {
   let ctx:StimulusTestContext;
   let FormController:typeof FormControllerType;
   let addError:Mock;
-  let originalOpenProject:typeof window.OpenProject;
 
   beforeAll(async () => {
     ({ default: FormController } = await import('./form.controller'));
@@ -43,10 +42,7 @@ describe('Meetings export form controller', () => {
 
   beforeEach(async () => {
     addError = vi.fn();
-    originalOpenProject = window.OpenProject;
-    window.OpenProject = {
-      getPluginContext: () => Promise.resolve({ services: { notifications: { addError } } }),
-    } as unknown as typeof window.OpenProject;
+    stubPluginContext({ services: { notifications: { addError } } });
 
     ctx = await setupStimulusTest({
       controllers: { 'meetings--export--form': FormController },
@@ -55,7 +51,6 @@ describe('Meetings export form controller', () => {
 
   afterEach(() => {
     ctx.dispose();
-    window.OpenProject = originalOpenProject;
     vi.restoreAllMocks();
   });
 
@@ -90,10 +85,7 @@ describe('Meetings export form controller', () => {
   });
 
   it('does not notify when disconnected before the plugin context resolves', async () => {
-    let resolveContext!:(context:unknown) => void;
-    window.OpenProject = {
-      getPluginContext: () => new Promise((resolve) => { resolveContext = resolve; }),
-    } as unknown as typeof window.OpenProject;
+    const resolveContext = stubPendingPluginContext();
 
     vi.spyOn(window, 'fetch').mockRejectedValue(new Error('network down'));
     const controller = await renderForm();

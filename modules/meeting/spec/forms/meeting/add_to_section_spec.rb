@@ -156,6 +156,10 @@ RSpec.describe Meeting::AddToSection, type: :forms do
     let(:item) { model }
     let(:params) { { occurrence: next_meeting, item:, move_to_section: false } }
 
+    it "offers only the next occurrence's sections" do
+      expect(section_option_names).to contain_exactly("Untitled section", "Intro", "Outro")
+    end
+
     it "preselects the section with the same title" do
       expect(preselected_section_name).to eq("Intro")
     end

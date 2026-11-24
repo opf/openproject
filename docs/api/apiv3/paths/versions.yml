@@ -43,6 +43,8 @@ get:
         application/hal+json:
           schema:
             $ref: "../components/schemas/version_collection_model.yml"
+    '400':
+      $ref: "../components/responses/invalid_query.yml"
 
 post:
   summary: Create version

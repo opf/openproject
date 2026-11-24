@@ -140,6 +140,16 @@ RSpec.describe WorkPackages::SetAttributesService,
     it_behaves_like "service call"
   end
 
+  context "when writing a read-only attribute via attributes" do
+    let(:call_attributes) { { created_at: 2.days.ago } }
+
+    it "journals the write as a default attribute written cause" do
+      instance.call(call_attributes)
+
+      expect(work_package.journal_cause).to be_an_instance_of(Journal::CausedByDefaultAttributeWritten)
+    end
+  end
+
   # Scenarios specified in https://community.openproject.org/wp/40749
   # Just checking that everything is correctly wired up. All other scenarios tested in:
   # - spec/services/work_packages/set_attributes_service/derive_progress_values_status_based_spec.rb
@@ -2382,6 +2392,26 @@ RSpec.describe WorkPackages::SetAttributesService,
 
       expect(work_package.target_version_ids_replacements).to eq []
       expect(work_package.override_target_versions?).to be true
+    end
+  end
+
+  describe "categories attributes" do
+    it "extracts category_ids into replacements" do
+      instance.call(category_ids: ["1", 2])
+
+      expect(work_package.category_ids_replacements).to eq [1, 2]
+    end
+
+    it "sets an empty array as override" do
+      instance.call(category_ids: [])
+
+      expect(work_package.category_ids_replacements).to eq []
+    end
+
+    it "leaves the categories untouched when category_ids is not passed" do
+      instance.call({})
+
+      expect(work_package.override_categories?).to be false
     end
   end
 

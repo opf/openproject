@@ -1,0 +1,124 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+require "spec_helper"
+
+RSpec.describe "Burnup chart widget", :js, with_flag: :sprint_reports do
+  include Rails.application.routes.url_helpers
+
+  let(:permissions) { %i[view_sprints view_work_packages show_board_views] }
+  let(:user) do
+    create(:user, member_with_permissions: { project => permissions })
+  end
+
+  shared_let(:project) { create(:project) }
+
+  current_user { user }
+
+  def visit_sprint_report(sprint)
+    visit project_backlogs_sprint_report_path(project, sprint)
+  end
+
+  context "when the sprint has a date range set" do
+    around { |example| travel_to(Time.zone.local(2026, 11, 3, 12)) { example.run } }
+
+    let!(:sprint) do
+      create(
+        :sprint,
+        :active,
+        project:,
+        name: "Sprint 42",
+        start_date: Date.new(2026, 11, 2),
+        started_at: Time.zone.local(2026, 11, 2),
+        finish_date: Date.new(2026, 11, 4)
+      )
+    end
+    let!(:work_package) do
+      create(
+        :work_package,
+        :created_in_past,
+        created_at: Time.zone.local(2026, 11, 1, 12),
+        project:,
+        sprint:,
+        story_points: 3
+      )
+    end
+
+    it "renders the burnup chart" do
+      visit_sprint_report(sprint)
+
+      expect(page).to have_element(:"opce-burnup-chart")
+      expect(page).to have_css("opce-burnup-chart canvas", accessible_name: "Burnup chart", wait: 20)
+      expect(page).to have_table(
+        "Burnup chart: data",
+        visible: :all,
+        data_rows: [
+          {
+            "Date" => "11/02/2026",
+            "Completed work (story points)" => "0",
+            "Total work scope (story points)" => "3",
+            "Guideline (story points)" => "1"
+          },
+          {
+            "Date" => "11/03/2026",
+            "Completed work (story points)" => "0",
+            "Total work scope (story points)" => "3",
+            "Guideline (story points)" => "2"
+          },
+          {
+            "Date" => "11/04/2026",
+            "Completed work (story points)" => "",
+            "Total work scope (story points)" => "",
+            "Guideline (story points)" => "3"
+          }
+        ]
+      )
+    end
+  end
+
+  context "when the project has no estimation unit set",
+          with_flag: { sprint_reports: true, project_settings_estimation_unit: true } do
+    let(:project) { create(:project, estimation_unit: "none") }
+    let(:sprint) do
+      create(:sprint,
+             :active,
+             project:,
+             name: "Sprint 42",
+             start_date: Date.yesterday,
+             started_at: 1.day.ago,
+             finish_date: Date.tomorrow)
+    end
+
+    it "does not render the burnup chart widget" do
+      visit_sprint_report(sprint)
+
+      expect(page).to have_no_element(:"opce-burnup-chart")
+    end
+  end
+end

@@ -14,8 +14,8 @@ es:
     label_local_avatar: Avatar personalizado
     label_option: Avatar option
     manage_gravatar: Manage your image on Gravatar
-    message_avatar_updated: Avatar changed successfully.
-    preview: Preview
+    message_avatar_updated: El avatar se ha cambiado correctamente.
+    preview: Vista preliminar
     randomize_color: Randomize color
     settings:
       enable_gravatars: Habilitar Gravatar de usuario
@@ -30,7 +30,7 @@ es:
         label: Gravatar
       image:
         description: A custom image you can upload to this instance
-        label: Image
+        label: Imagen
       initials:
         description: Use your name's initials or override them with up to two characters.
         label: Initials

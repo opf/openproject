@@ -35,6 +35,8 @@ class Workflows::StatusTransition < ApplicationRecord
 
   validates :role, :old_status, :new_status, :workflow, presence: true
 
+  scope :touching_statuses, ->(status_ids) { where(old_status_id: status_ids).or(where(new_status_id: status_ids)) }
+
   def self.count_by_workflow_and_role
     counts = counts_per_workflow_and_role
     roles = Role.order(Arel.sql("builtin, position"))

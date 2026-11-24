@@ -106,19 +106,19 @@ Please be aware that the actual installation of a specific Ruby version takes so
 ```
 
 We suggest you install the version we require in [.ruby-version](https://github.com/opf/openproject/blob/dev/.ruby-version).
-Read the first line e.g. `4.0.9` and install that version.
+Read the first line e.g. `4.0.10` and install that version.
 
 ```shell
-[openproject@host] rbenv install 4.0.9
+[openproject@host] rbenv install 4.0.10
 [openproject@host] rbenv rehash
-[openproject@host] rbenv global 4.0.9
+[openproject@host] rbenv global 4.0.10
 ```
 
 To check our Ruby installation we run `ruby --version`. It should output
 something very similar to:
 
 ```text
-ruby 4.0.9 (2026-10-23 revision 3e93b23afc) +PRISM [arm64-darwin25]
+ruby 4.0.10 (2026-11-19 revision a704b7cd95) +PRISM [arm64-darwin25]
 ```
 
 ## Installation of Node
@@ -155,7 +155,7 @@ with OpenProject. For more information, see [github.com/opf/openproject](https:/
 
 ```shell
 [openproject@host] cd ~
-[openproject@host] git clone https://github.com/opf/openproject.git --branch stable/17 --depth 1
+[openproject@host] git clone https://github.com/opf/openproject.git --branch stable/18 --depth 1
 [openproject@host] cd openproject
 # Ensure rubygems is up-to-date for bundler 2
 [openproject@host] gem update --system

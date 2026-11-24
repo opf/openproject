@@ -46,6 +46,9 @@ module WorkPackages
     attribute :type_id
     attribute :priority_id
     attribute :category_id
+    attribute :categories do
+      validate_categories_are_assignable
+    end
     attribute :target_versions,
               permission: :assign_versions do
       validate_target_versions_are_assignable
@@ -169,6 +172,8 @@ module WorkPackages
     validate :validate_priority_exists
 
     validate :validate_category
+    validate :validate_categories_length
+    validate :validate_category_and_categories_consistent
 
     validate :validate_assigned_to_exists
 
@@ -196,9 +201,7 @@ module WorkPackages
                end
 
       statuses = new_statuses_allowed_from(status)
-
       statuses = statuses.or(Status.where_default) if include_default
-
       statuses.order_by_position
     end
 
@@ -385,6 +388,28 @@ module WorkPackages
         errors.add :category, :does_not_exist
       elsif category_not_of_project?
         errors.add :category, :only_same_project_categories_allowed
+      end
+    end
+
+    def validate_categories_are_assignable
+      validate_version_ids_assignable(model.category_ids_replacements, :categories, assignable_categories)
+    end
+
+    def validate_categories_length
+      return unless model.override_categories?
+      return if Setting::WorkPackageMultipleCategories.active?
+
+      if model.category_ids_replacements.uniq.length > 1
+        errors.add :base, :categories_only_allow_single_value
+      end
+    end
+
+    def validate_category_and_categories_consistent
+      return unless model.override_categories?
+      return unless changed_by_user.include?("category_id")
+
+      if model.category_id != model.first_category_id_of(model.category_ids_replacements)
+        errors.add :base, :category_and_categories_mutually_exclusive
       end
     end
 
@@ -729,16 +754,14 @@ module WorkPackages
 
       return current_status if closed_version_and_status?(status)
 
-      statuses = new_statuses_by_workflow(status)
-                   .or(current_status)
-
-      statuses = statuses.where(is_closed: false) if model.blocked?
+      statuses = new_statuses_by_workflow(status).or(current_status)
+      statuses = statuses.not_closed if model.blocked?
 
       statuses
     end
 
     def closed_version_and_status?(status = model.status)
-      status&.is_closed? && model.effective_target_versions.any?(&:closed?)
+      status&.closed? && model.effective_target_versions.any?(&:closed?)
     end
 
     def new_statuses_by_workflow(status)

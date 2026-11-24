@@ -1,4 +1,122 @@
 ---
 de:
-  permission_manage_helpdesk: Manage helpdesk
-  project_module_helpdesk: Helpdesk
+  activerecord:
+    attributes:
+      itsm/email_message:
+        direction: Richtung
+        from_address: Von
+        journal: Journal
+        message_id: Message ID
+        status: Status
+        subject: Titel
+      itsm/email_thread:
+        recipients: Recipients
+        requester_email: Requester email
+        requester_name: Requester name
+        work_package: Arbeitspaket
+      itsm/incoming_mailbox:
+        active: Aktiv
+        aliases: Known email addresses
+        email: E-Mail-Adresse
+        mail_server: IMAP server
+        password: Passwort
+        project: Projekt
+        username: Benutzername
+      itsm/mail_server:
+        encryption: Encryption
+        host: Server name
+        incoming_mailboxes: Incoming mailboxes
+        name: Name
+        outgoing_mailboxes: Outgoing mailboxes
+        port: Port
+        protocol: Protokoll
+      itsm/outgoing_mailbox:
+        mail_server: SMTP-Server
+        password: Passwort
+        project: Projekt
+        sender_email: Sender email
+        sender_name: Sender name
+        username: Benutzername
+    errors:
+      models:
+        itsm/email_message:
+          delivery_failed: Die E-Mail konnte nicht gesendet werden.
+          delivery_rejected: Der SMTP-Server hat die E-Mail abgelehnt.
+          not_delivered: Die E-Mail wurde nicht versendet, weil alle Empfänger blockiert sind oder das E-Mail-Limit erreicht wurde.
+          unexpected_error: Die E-Mail konnte aufgrund eines unerwarteten Fehlers nicht gesendet werden.
+        itsm/email_thread:
+          address_not_allowed: Die SMTP-Server-Adresse ist nicht erlaubt.
+          no_outgoing_mailbox: Das Projekt hat kein Postausgangsfach.
+          too_many_confirmations: Kürzlich wurden zu viele Bestätigungen an den Anfragenden verschickt.
+          unreachable: Der SMTP-Server konnte nicht erreicht werden.
+        itsm/incoming_mailbox:
+          attributes:
+            base:
+              address_not_allowed: Der Mail-Server verweist auf eine blockierte Adresse. Wenn er in einem internen Netzwerk läuft, muss seine IP mit der Umgebungsvariable OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST erlaubt werden.
+              authentication_failed: 'Der Mail-Server hat den Login abgelehnt: %{server_message}'
+              fetch_in_progress: Das Postfach wird bereits überprüft.
+              inactive: Das Postfach ist pausiert.
+              processing_failed: The emails could not be processed. They stay in the mailbox and are tried again. Check the OpenProject worker logs for details.
+              server_error: 'Der Mail-Server hat einen Fehler zurückgegeben: %{server_message}'
+              timeout: Der Mail-Server reagiert nicht mehr.
+              tls_failed: Es konnte keine sichere Verbindung zum Mail-Server hergestellt werden. Überprüfen Sie das Zertifikat.
+              unreachable: Der Mail-Server konnte nicht erreicht werden.
+              work_package_not_created: No work package could be created from an email, for example because of a required custom field without a default value. The email stays in the mailbox and is tried again. Check the OpenProject worker logs for details.
+    models:
+      itsm/email_message:
+        one: Email message
+        other: Email messages
+      itsm/email_thread:
+        one: Email thread
+        other: Email threads
+      itsm/helpdesk_role:
+        one: Helpdesk-Rolle
+        other: Helpdesk-Rollen
+      itsm/incoming_mailbox:
+        one: Incoming mailbox
+        other: Incoming mailboxes
+      itsm/mail_server:
+        one: Mail server
+        other: Mail servers
+      itsm/outgoing_mailbox:
+        one: Outgoing mailbox
+        other: Outgoing mailboxes
+  itsm:
+    admin:
+      description: Aktiviert die Funktionalität Arbeitspakte durch das Versenden von E-Mails über einen IMAP-Server anzulegen, und darauf mithilfe eines SMTP-Servers zu antworten.
+      enable_helpdesk: Helpdesk in dieser Instanz aktivieren
+      helpdesk_not_enabled: 'Der Helpdesk konnte nicht aktiviert werden, weil die entsprechende Rolle oder der entsprechende Benutzer nicht angelegt werden konnte: %{reason}'
+      helpdesk_set_by_environment: Die Helpdesk-Funktion wird über eine Umgebungsvariable festgelegt und kann hier nicht geändert werden.
+      imap_server_configuration_component:
+        description: Konfigurieren Sie den IMAP-Server, um eingehende E-Mails in Arbeitspakete umzuwandeln.
+        edit: IMAP-Server-Konfiguration bearbeiten
+        title: IMAP-Server-Konfiguration
+      mail_servers: Mail-Server
+      port: Port
+      server_configuration_form:
+        encryption: Verschlüsselung
+        imap:
+          instruction: 'Konfigurieren Sie den IMAP-Server, um eingehende E-Mails in Arbeitspakete umzuwandeln. Beachten Sie, dass OpenProject über keine Mechanismen zur Verhinderung von E-Mail-Spoofing verfügt. Stellen Sie sicher, dass der konfigurierte Mail-Server SPF-, DKIM- und DMARC-Prüfungen durchführt und E-Mails, die nicht bestehen, in Quarantäne versetzt.
+
+            '
+          title: IMAP-Server-Konfiguration
+        name: Server-Name
+        port: Server-Port
+        smtp:
+          instruction: Konfigurieren Sie den SMTP-Server, um E-Mails direkt im Aktivitätsreiter eines Arbeitspakets zu beantworten.
+          title: SMTP-Server-Konfiguration
+      smtp_server_configuration_component:
+        description: Konfigurieren Sie den SMTP-Server, um E-Mails direkt im Aktivitätsreiter eines Arbeitspakets zu beantworten.
+        edit: SMTP-Server-Konfiguration bearbeiten
+        title: SMTP-Server-Konfiguration
+    helpdesk_mailer:
+      confirmation:
+        greeting: Hallo %{name},
+        received: Wir haben Ihre Anfrage "%{subject}" erhalten und unter der Kennzeichnung "%{id}" erfasst.
+        reply: Um Ihrer Anfrage weitere Informationen hinzuzufügen, antworten Sie auf diese E-Mail.
+  label_email_without_subject: "(no subject)"
+  label_helpdesk: Help desk
+  label_helpdesk_role: Helpdesk
+  label_helpdesk_user: Helpdesk
+  permission_manage_helpdesk: Manage help desk
+  project_module_helpdesk: Help desk

@@ -29,8 +29,7 @@ import { Injector } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { QueryColumn } from '../../wp-query/query-column';
 import { tdClassName } from './cell-builder';
-import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
-import { keyboardNavigationEnabled, navigableCellClassName } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
+import { navigableCellClassName } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
 import { removeTabStops } from 'core-app/shared/helpers/dom/remove-tab-stops';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
@@ -44,7 +43,7 @@ export class ShareCellbuilder {
 
   @LazyInject(I18nService) I18n:I18nService;
 
-  constructor(public readonly injector:Injector, private readonly configuration?:WorkPackageTableConfiguration) {
+  constructor(public readonly injector:Injector) {
   }
 
   public build(workPackage:WorkPackageResource, column:QueryColumn) {
@@ -52,10 +51,7 @@ export class ShareCellbuilder {
     td.classList.add(tdClassName, column.id);
     td.dataset.columnId = column.id;
 
-    const navigationEnabled = keyboardNavigationEnabled(this.configuration);
-    if (navigationEnabled) {
-      td.classList.add(navigableCellClassName);
-    }
+    td.classList.add(navigableCellClassName);
 
     const relevantShares = this
       .isolatedQuerySpace
@@ -76,9 +72,7 @@ export class ShareCellbuilder {
       td.setAttribute('title', this.I18n.t('js.work_packages.sharing.show_all_users'));
     }
 
-    if (navigationEnabled) {
-      removeTabStops(td);
-    }
+    removeTabStops(td);
 
     return td;
   }

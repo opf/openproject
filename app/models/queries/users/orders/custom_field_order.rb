@@ -39,7 +39,7 @@ class Queries::Users::Orders::CustomFieldOrder < Queries::Orders::Base
       scope.pluck(:id)
     end
 
-    /\Acf_(#{valid_ids.join('|')})\z/
+    CustomField.column_name_pattern_for(valid_ids)
   end
 
   def self.scope
@@ -49,7 +49,7 @@ class Queries::Users::Orders::CustomFieldOrder < Queries::Orders::Base
   def custom_field
     return @custom_field if defined?(@custom_field)
 
-    @custom_field = self.class.scope.find_by(id: attribute[/\Acf_(\d+)\z/, 1])
+    @custom_field = self.class.scope.find_by(id: CustomField.id_from_column_name(attribute))
   end
 
   def available?

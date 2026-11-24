@@ -39,7 +39,7 @@ RSpec.describe OpPrimer::WorkPackageCardComponent::Menu, type: :component do
   shared_let(:work_package) { create(:work_package, project:) }
 
   let(:menu_button_id) { "work_package_#{work_package.id}_menu-button" }
-  let(:src) { menu_project_backlogs_work_package_path(project, work_package) }
+  let(:src) { menu_project_backlogs_work_packages_path(project, ids: [work_package.id], invoker_id: work_package.id) }
   let(:system_arguments) { {} }
 
   subject(:rendered_component) do
@@ -61,9 +61,8 @@ RSpec.describe OpPrimer::WorkPackageCardComponent::Menu, type: :component do
     expect(rendered_component).to have_button(menu_button_id)
   end
 
-  it "loads the menu list deferred via include-fragment with the given src" do
-    expect(rendered_component).to have_element "include-fragment",
-                                               src:
+  it "renders the action menu with the given src" do
+    expect(rendered_component).to have_element "action-menu", src:
   end
 
   it "applies the hide-when-print class to the menu wrapper" do
@@ -83,8 +82,8 @@ RSpec.describe OpPrimer::WorkPackageCardComponent::Menu, type: :component do
       expect(rendered_component).to have_link "Edit", href: "/edit"
     end
 
-    it "does not render a deferred include-fragment" do
-      expect(rendered_component).to have_no_element "include-fragment"
+    it "does not set a source on the action menu" do
+      expect(rendered_component).to have_no_css "action-menu[src]"
     end
   end
 

@@ -89,9 +89,6 @@ table.generic-table
   thead
     height: var(--generic-table--header-height)
 
-    tr
-      &:hover
-        background: none
     th
       font-size: var(--generic-table--header-font-size)
       font-weight: var(--base-text-weight-bold)
@@ -100,9 +97,6 @@ table.generic-table
       line-height: 34px
       padding: 0
       border-bottom: 1px solid var(--borderColor-default)
-      // This is needed for a bug in FF as described here
-      // https://www.456bereastreet.com/archive/201305/firefox_and_the_magical_text-overflowellipsis_z-index/
-      z-index: 1
 
       action-menu
         text-transform: none
@@ -126,20 +120,10 @@ table.generic-table
         .generic-table--sort-header
           max-width: none
 
-    .sort
-      &.asc:after
-        @include icon-font-common
-        @include icon-mixin-sort-ascending
-        margin-left: 5px
-        font-size: 1.2em
-        vertical-align: text-bottom
-
-      &.desc:after
-        @include icon-font-common
-        @include icon-mixin-sort-descending
-        margin-left: 5px
-        font-size: 1.2em
-        vertical-align: text-bottom
+    .generic-table--sort-indicator
+      flex: 0 0 auto
+      margin-inline-start: var(--base-size-12)
+      vertical-align: text-bottom
 
   tfoot
     td
@@ -266,9 +250,10 @@ table.generic-table
         max-width: 800px //override the default max-width for appropriate text ellipsis
 
 // Enable sticky headers
-thead.-sticky th
+thead.-sticky tr
   position: sticky
   top: 0
+  z-index: 1
   background: var(--body-background)
 
 

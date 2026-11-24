@@ -45,6 +45,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     set_attachments_attributes(attributes)
     claim_attachments_referenced_in_description(attributes)
     set_versions_attributes(attributes)
+    set_categories_attributes(attributes)
     set_labels_attributes(attributes)
     set_static_attributes(attributes)
 
@@ -82,6 +83,12 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
 
     model.target_version_ids_replacements = Array(target_ids).map(&:to_i) if target_ids
     model.observed_in_version_ids_replacements = Array(observed_in_ids).map(&:to_i) if observed_in_ids
+  end
+
+  def set_categories_attributes(attributes)
+    category_ids = attributes.delete(:category_ids)
+
+    model.category_ids_replacements = Array(category_ids).map(&:to_i) if category_ids
   end
 
   def set_labels_attributes(attributes)
@@ -549,8 +556,6 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   def set_cause_for_readonly_attributes
     return unless work_package.changes.keys.intersect?(%w(created_at updated_at author))
 
-    work_package.journal_cause = {
-      "type" => "default_attribute_written"
-    }
+    work_package.journal_cause = Journal::CausedByDefaultAttributeWritten.new
   end
 end

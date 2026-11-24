@@ -28,13 +28,36 @@
 #++
 
 require_relative "../../lib_static/open_project/opentelemetry"
+require_relative "../../lib_static/open_project/opentelemetry/excon_hash_query"
 
 Rails.application.configure do
   if OpenProject::Configuration.opentelemetry_enabled?
 
     require "opentelemetry/sdk"
     require "opentelemetry-exporter-otlp"
-    require "opentelemetry-instrumentation-all"
+
+    # Available Ruby instrumentations can be found here:
+    # https://github.com/open-telemetry/opentelemetry-ruby-contrib/tree/main/instrumentation
+    require "opentelemetry-instrumentation-action_mailer" # rails
+    require "opentelemetry-instrumentation-action_pack" # rails
+    require "opentelemetry-instrumentation-action_view" # rails
+    require "opentelemetry-instrumentation-active_job" # rails
+    require "opentelemetry-instrumentation-active_record" # rails
+    require "opentelemetry-instrumentation-active_storage" # rails
+    require "opentelemetry-instrumentation-active_support" # rails
+    require "opentelemetry-instrumentation-aws_sdk" # direct dependency
+    require "opentelemetry-instrumentation-dalli" # memcached driver
+    require "opentelemetry-instrumentation-excon" # used by fog
+    require "opentelemetry-instrumentation-faraday" # indirect
+    require "opentelemetry-instrumentation-grape" # direct
+    require "opentelemetry-instrumentation-httpx" # direct dependency
+    require "opentelemetry-instrumentation-net_http" # used by faraday
+    require "opentelemetry-instrumentation-pg" # postgres driver
+    require "opentelemetry-instrumentation-rack"
+    require "opentelemetry-instrumentation-rails" # rails
+    require "opentelemetry-instrumentation-rake"
+    require "opentelemetry-instrumentation-redis"
+
     require "opentelemetry/semconv/incubating/deployment"
     require "opentelemetry/semconv/incubating/host"
     require "opentelemetry/semconv/incubating/service"
@@ -48,12 +71,6 @@ Rails.application.configure do
     end
 
     OpenTelemetry::SDK.configure do |c|
-      c.add_span_processor(
-        OpenTelemetry::SDK::Trace::Export::BatchSpanProcessor.new(
-          OpenTelemetry::Exporter::OTLP::Exporter.new
-        )
-      )
-
       c.resource = OpenTelemetry::SDK::Resources::Resource.create(
         {
           OpenTelemetry::SemConv::Incubating::DEPLOYMENT::DEPLOYMENT_ENVIRONMENT => Rails.env,
@@ -65,8 +82,21 @@ Rails.application.configure do
         }.transform_values(&:to_s)
       )
 
-      c.use_all
+      c.use_all(
+        "OpenTelemetry::Instrumentation::PG" => {
+          # SQL statements are included, but are obfuscated. If the query exceeds 2000 characters
+          # by default, it will be completely omitted. We're hitting the limit quite often, so let's
+          # increase it slightly so we get a bit more visibility.
+          obfuscation_limit: 4000,
+
+          # If available in PG::Result, include number of rows returned/affected.
+          db_response_returned_rows: true,
+          db_response_affected_rows: true
+        }
+      )
     end
+
+    OpenProject::OpenTelemetry::ExconHashQuery.apply!
 
     # Extend the core log delegator
     handler = OpenProject::OpenTelemetry.method(:exception_handler)

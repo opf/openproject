@@ -36,16 +36,14 @@ RSpec.describe "API v3 custom field items", :webmock, content_type: :json, with_
   shared_let(:project) { create(:project, types: [type]) }
 
   let(:custom_field) do
-    create(:wp_custom_field, field_format: "hierarchy", hierarchy_root: nil, types: [type])
+    create(:wp_custom_field, :hierarchy, types: [type])
   end
-  let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
-  let!(:root) { service.generate_root(custom_field).value! }
-  let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
-  let!(:luke) { service.insert_item(contract_class:, parent: root, label: "Luke", short: "LS").value! }
-  let!(:r2d2) { service.insert_item(contract_class:, parent: luke, label: "R2-D2", short: "R2").value! }
-  let!(:mouse) { service.insert_item(contract_class:, parent: r2d2, label: "Mouse Droid", short: "MD").value! }
-  let!(:c3po) { service.insert_item(contract_class:, parent: luke, label: "C-3PO", short: "3PO").value! }
-  let!(:mara) { service.insert_item(contract_class:, parent: root, label: "Mara", short: "MJ").value! }
+  let!(:root) { custom_field.hierarchy_root }
+  let!(:luke) { create(:hierarchy_item, parent: root, label: "Luke", short: "LS") }
+  let!(:r2d2) { create(:hierarchy_item, parent: luke, label: "R2-D2", short: "R2") }
+  let!(:mouse) { create(:hierarchy_item, parent: r2d2, label: "Mouse Droid", short: "MD") }
+  let!(:c3po) { create(:hierarchy_item, parent: luke, label: "C-3PO", short: "3PO") }
+  let!(:mara) { create(:hierarchy_item, parent: root, label: "Mara", short: "MJ") }
 
   subject(:last_response) { get path }
 

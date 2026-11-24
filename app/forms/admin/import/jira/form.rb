@@ -30,64 +30,21 @@
 module Admin::Import::Jira
   class Form < ApplicationForm
     # rubocop:disable-next Metrics/AbcSize
-    def credential_field(group, input_name:)
+    def credential_field(group, input_name:, caption: nil)
       if model.persisted? && model.public_send(input_name).present?
         group.html_content do
           render(Primer::BaseComponent.new(tag: :div, classes: "FormControl")) do
-            render(
-              Primer::OpenProject::FlexLayout.new(
-                align_items: :flex_end,
-                classes: "FormControl-input-wrap FormControl-input-width--large"
-              )
-            ) do |flex|
-              flex.with_column(flex: 1) do
-                render(
-                  Primer::Alpha::TextField.new(
-                    name: :"saved_#{input_name}",
-                    label: I18n.t("admin.jira.form.fields.#{input_name}"),
-                    input_width: :large,
-                    disabled: true,
-                    value: "*********"
-                  )
-                )
-              end
-              flex.with_column(ml: 2) do
-                render(
-                  Primer::Beta::IconButton.new(
-                    icon: :trash,
-                    scheme: :danger,
-                    size: :medium,
-                    tag: :a,
-                    href: url_helpers.clear_credential_admin_import_jira_path(model, field: input_name),
-                    "aria-label": I18n.t("admin.jira.form.button_delete_#{input_name}"),
-                    data: {
-                      "admin--jira-configuration-form-target": "button",
-                      turbo_method: :delete,
-                      turbo_confirm: I18n.t("admin.jira.form.delete_#{input_name}_confirm"),
-                      action: "click->admin--jira-configuration-form#disableButtons"
-                    }
-                  )
-                )
-              end
-            end
+            helpers.safe_join([credential_row(input_name), input_caption(caption)])
           end
         end
-
-        group.text_field(
-          name: input_name,
-          label: I18n.t("admin.jira.form.fields.#{input_name}"),
-          hidden: true,
-          value: "",
-          data: { "admin--jira-configuration-form-target": input_name.to_s.camelize(:lower) }
-        )
       else
         group.text_field(
           name: input_name,
           label: I18n.t("admin.jira.form.fields.#{input_name}"),
+          caption:,
           required: !model.persisted?,
           input_width: :large,
-          autocomplete: "off",
-          data: { "admin--jira-configuration-form-target": input_name.to_s.camelize(:lower) }
+          autocomplete: "off"
         )
       end
     end
@@ -105,16 +62,10 @@ module Admin::Import::Jira
         label: I18n.t("admin.jira.form.fields.url"),
         required: true,
         input_width: :large,
-        type: :url,
-        data: { "admin--jira-configuration-form-target": "url" }
+        type: :url
       )
 
-      f.radio_button_group(
-        name: :auth_method,
-        data: {
-          "admin--jira-configuration-form-target": "authMethodGroup"
-        }
-      ) do |group|
+      f.radio_button_group(name: :auth_method) do |group|
         group.radio_button(
           value: "bearer",
           label: I18n.t("admin.jira.form.auth_method.bearer.label"),
@@ -135,6 +86,18 @@ module Admin::Import::Jira
         )
       end
 
+      f.html_content do
+        requirements = [
+          I18n.t("admin.jira.form.credential_requirements.administrator"),
+          I18n.t("admin.jira.form.credential_requirements.project_member")
+        ]
+        render(
+          Primer::Alpha::Banner.new(scheme: :default, icon: :info, description: helpers.safe_join(requirements, helpers.tag.br))
+        ) do
+          I18n.t("admin.jira.form.credential_requirements.title")
+        end
+      end
+
       f.group(
         hidden: !model.auth_method_bearer?,
         data: {
@@ -143,7 +106,9 @@ module Admin::Import::Jira
           value: "bearer"
         }
       ) do |bearer_group|
-        credential_field(bearer_group, input_name: :personal_access_token)
+        credential_field(bearer_group,
+                         input_name: :personal_access_token,
+                         caption: I18n.t("admin.jira.form.personal_access_token_caption"))
       end
 
       f.group(
@@ -158,8 +123,7 @@ module Admin::Import::Jira
           name: :basic_auth_username,
           label: I18n.t("admin.jira.form.fields.basic_auth_username"),
           input_width: :large,
-          required: !model.persisted?,
-          data: { "admin--jira-configuration-form-target": "basicAuthUsername" }
+          required: !model.persisted?
         )
         credential_field(basic_group, input_name: :basic_auth_password)
       end
@@ -175,7 +139,10 @@ module Admin::Import::Jira
           name: :submit,
           label: model.persisted? ? I18n.t("admin.jira.form.button_save") : I18n.t("admin.jira.form.button_add"),
           scheme: :primary,
-          data: { "admin--jira-configuration-form-target": "button" }
+          data: {
+            "admin--jira-configuration-form-target": "button",
+            turbo_submits_with: I18n.t("admin.jira.form.label_testing")
+          }
         )
 
         button_group.button(
@@ -185,14 +152,54 @@ module Admin::Import::Jira
           tag: :a,
           href: url_helpers.admin_import_jira_index_path
         )
-
-        button_group.button(
-          name: :test_connection,
-          label: I18n.t("admin.jira.form.button_test_connection"),
-          scheme: :default,
-          data: { action: "click->admin--jira-configuration-form#testConnection" }
-        )
       end
+    end
+
+    private
+
+    def credential_row(input_name)
+      render(
+        Primer::OpenProject::FlexLayout.new(
+          align_items: :flex_end,
+          classes: "FormControl-input-wrap FormControl-input-width--large"
+        )
+      ) do |flex|
+        flex.with_column(flex: 1) do
+          render(
+            Primer::Alpha::TextField.new(
+              name: :"saved_#{input_name}",
+              label: I18n.t("admin.jira.form.fields.#{input_name}"),
+              input_width: :large,
+              disabled: true,
+              value: "*********"
+            )
+          )
+        end
+        flex.with_column(ml: 2) do
+          render(
+            Primer::Beta::IconButton.new(
+              icon: :trash,
+              scheme: :danger,
+              size: :medium,
+              tag: :a,
+              href: url_helpers.clear_credential_admin_import_jira_path(model, field: input_name),
+              "aria-label": I18n.t("admin.jira.form.button_delete_#{input_name}"),
+              data: {
+                "admin--jira-configuration-form-target": "button",
+                turbo_method: :delete,
+                turbo_confirm: I18n.t("admin.jira.form.delete_#{input_name}_confirm"),
+                action: "click->admin--jira-configuration-form#disableButtons"
+              }
+            )
+          )
+        end
+      end
+    end
+
+    def input_caption(caption)
+      return if caption.blank?
+
+      render(Primer::BaseComponent.new(tag: :span, classes: "FormControl-caption")) { caption }
     end
   end
 end

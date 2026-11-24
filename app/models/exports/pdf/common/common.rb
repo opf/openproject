@@ -28,6 +28,7 @@
 #++
 
 module Exports::PDF::Common::Common
+  include WorkPackage::Exports::Attributes
   include Redmine::I18n
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::NumberHelper
@@ -498,6 +499,8 @@ module Exports::PDF::Common::Common
   end
 
   def get_value_cell_by_column(work_package, column_name, format_subject)
+    return "" unless allowed_to_view_attribute?(work_package, column_name)
+
     value = get_column_value(work_package, column_name)
     return get_cf_link_cell(value) if value.is_a?(::Exports::Formatters::LinkFormatter)
     return get_id_column_cell(work_package) if column_name == :id

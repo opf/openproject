@@ -16,12 +16,12 @@ jobs:
       TYPOS_SHA256: 93c301fd4120ff076e2cc2a6d6a61cab4a4bdb81899287c0938b452e56d1f454
     steps:
       - name: Checkout code
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
       - name: Set up reviewdog
-        uses: reviewdog/action-setup@d8a7baabd7f3e8544ee4dbde3ee41d0011c3a93f # v1.5.0
+        uses: reviewdog/action-setup@v1.5.0
       - name: Install typos
         run: |
           archive="typos-${TYPOS_VERSION}-x86_64-unknown-linux-musl.tar.gz"

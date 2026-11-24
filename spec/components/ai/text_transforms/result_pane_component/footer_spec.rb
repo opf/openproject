@@ -30,7 +30,7 @@
 require "rails_helper"
 
 RSpec.describe AI::TextTransforms::ResultPaneComponent::Footer, type: :component do
-  let(:action) { build(:ai_text_transform_action, label: "Fix grammar") }
+  let(:action) { build(:ai_text_action, label: "Fix grammar") }
   let(:run) { build(:ai_text_transform_run, action:, status:) }
   let(:status) { "running" }
   let(:scope) { "document" }
@@ -51,10 +51,6 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent::Footer, type: :component
 
   before do
     run.events.build(kind: "text_delta", payload: { "delta" => "Login **works** again" }, seq: 1)
-  end
-
-  it "lets the grip drag the pane" do
-    expect(subject).to have_css(".op-ai-result-pane--grip[data-action='pointerdown->ai-text-transform-pane#beginDrag']")
   end
 
   it "renders the close form" do

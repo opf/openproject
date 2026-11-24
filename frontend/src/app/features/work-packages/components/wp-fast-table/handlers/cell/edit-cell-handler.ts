@@ -120,10 +120,10 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
   }
 }
 
-/** Opens the inline editor of an editable display field in a table row; false when the field has no name. */
+/** Opens the inline editor of an editable display field in a table row; false when the field has no name or the table disables inline editing. */
 export function activateTableField(table:WorkPackageTable, target:HTMLElement, positionOffset = 0):boolean {
   const fieldName = target.dataset.fieldName;
-  if (!fieldName) {
+  if (!fieldName || !table.configuration.inlineEditEnabled) {
     return false;
   }
 
@@ -131,7 +131,7 @@ export function activateTableField(table:WorkPackageTable, target:HTMLElement, p
   const workPackage = table.states.workPackages.get(rowElement.dataset.workPackageId!).value!;
   const form = table.editing.startEditing(workPackage, rowElement.dataset.classIdentifier!);
 
-  form.activate(fieldName)
+  form.activate(fieldName, false, true)
     .then((handler) => {
       if (table.destroyed) return;
       if (!handler) {

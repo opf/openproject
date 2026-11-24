@@ -26,6 +26,11 @@
 //++
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { within } from '@testing-library/dom';
+import { tableColumns, tableRows } from 'core-app/shared/components/charts/description/testing/chart-description-table';
+import { CartesianScaleOptions } from 'chart.js';
+import { BaseChartDirective } from 'ng2-charts';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
@@ -40,10 +45,17 @@ describe('BurndownChartComponent', () => {
     locale: 'en',
     t(key:string, options:Record<string, string|number> = {}) {
       const translations:Record<string, string> = {
-        'js.burndown_chart.chart_day': `Day ${options.day}: ${options.values}`,
         'js.burndown_chart.chart_label': 'Burndown chart',
-        'js.burndown_chart.chart_summary': `Burndown chart data: ${options.days}.`,
-        'js.burndown_chart.chart_value': `${options.label}: ${options.value}`,
+        'js.chart.description.caption': `${options.label}: data`,
+        'js.chart.description.date': 'Date',
+        'js.chart.description.week': 'Week of',
+        'js.sprint_charts.description_summary': `${options.label} data: ${options.from} – ${options.to}. ${options.values}.`,
+        'js.sprint_charts.column_with_unit': `${options.label} (${options.unit})`,
+        'js.sprint_charts.description_value': `${options.label}: ${options.value}`,
+        'js.sprint_charts.unit.story_points': 'story points',
+        'js.sprint_charts.value_with_unit.story_points': `${options.value} story point${options.count === 1 ? '' : 's'}`,
+        'js.sprint_charts.y_axis_title.story_points': 'Story points',
+        'js.sprint_charts.y_axis_title.time': 'Estimated time',
       };
 
       return translations[key] ?? key;
@@ -60,12 +72,23 @@ describe('BurndownChartComponent', () => {
     dateFormat: () => 'MM/DD/YYYY',
     timeFormatPresent: () => true,
     timeFormat: () => 'hh:mm A',
+    durationFormat: () => 'hours_only',
+    hoursPerDay: () => 8,
+    daysPerMonth: () => 20,
   };
 
-  const chartData = (series:unknown[], step:'day'|'hour' = 'hour') => JSON.stringify({
+  // The window is the server's, not the series' extent, so it is stated rather than derived.
+  const chartData = (
+    series:unknown[],
+    step:'day'|'hour' = 'hour',
+    nonWorkingIntervals:unknown[] = [],
+    unit:'story_points'|'time' = 'story_points',
+  ) => JSON.stringify({
+    unit,
     step,
+    range: { from: '2026-10-12T00:00:00.000Z', to: '2026-10-23T23:59:59.999Z' },
     series,
-    nonWorkingIntervals: [],
+    nonWorkingIntervals,
   });
 
   const point = (x:string, y:number) => ({ x, y });
@@ -86,8 +109,13 @@ describe('BurndownChartComponent', () => {
     element = fixture.nativeElement as HTMLElement;
   });
 
-  const renderWith = (series:unknown[], step:'day'|'hour' = 'hour') => {
-    fixture.componentRef.setInput('chartData', chartData(series, step));
+  const renderWith = (
+    series:unknown[],
+    step:'day'|'hour' = 'hour',
+    nonWorkingIntervals:unknown[] = [],
+    unit:'story_points'|'time' = 'story_points',
+  ) => {
+    fixture.componentRef.setInput('chartData', chartData(series, step, nonWorkingIntervals, unit));
     fixture.detectChanges();
   };
 
@@ -111,50 +139,99 @@ describe('BurndownChartComponent', () => {
     return title([{ datasetIndex: 0, parsed: { x: timestamp } }]);
   };
 
-  const describedBy = (host:HTMLElement) => {
-    const id = host.querySelector('canvas')!.getAttribute('aria-describedby')!;
+  // What chart.js put on the axis, rather than what it was asked for. ng2-charts builds the chart
+  // on an input change that follows its own ngOnInit, which one round of change detection does not
+  // reach, so it is asked to build it here.
+  const renderedYAxisLabels = () => {
+    const directive = fixture.debugElement.query(By.directive(BaseChartDirective))
+      .injector.get(BaseChartDirective);
 
-    return host.querySelector<HTMLElement>(`#${id}`)!;
+    return directive.render()!.scales.y.ticks.map((tick) => tick.value);
   };
+
+  const yAxisTitle = () => (fixture.componentInstance.lineChartOptions().scales!.y as CartesianScaleOptions).title.text;
+
+  const describedTable = () => within(element).getByRole('table');
 
   // Remaining is sampled hourly and the guideline once a day, so a day holds several values of the
   // one and a single value of the other. Each is reported by what it closed the day at.
-  it('describes each day by the value its series closed at', () => {
-    renderWith([
-      {
-        id: 'remaining',
-        label: 'Story points',
-        data: [
-          point('2026-10-12T09:00:00.000Z', 8),
-          point('2026-10-12T14:00:00.000Z', 7),
-          point('2026-10-12T23:59:59.999Z', 5),
-          point('2026-10-13T12:00:00.000Z', 3),
-        ],
-      },
-      {
-        id: 'guideline',
-        label: 'Guideline',
-        data: [
-          point('2026-10-12T23:59:59.999Z', 6),
-          point('2026-10-13T23:59:59.999Z', 4),
-        ],
-      },
-    ]);
+  const sampledSeries = () => [
+    {
+      id: 'remaining',
+      label: 'Story points',
+      data: [
+        point('2026-10-12T09:00:00.000Z', 8),
+        point('2026-10-12T14:00:00.000Z', 7),
+        point('2026-10-12T23:59:59.999Z', 5),
+        point('2026-10-13T12:00:00.000Z', 3),
+      ],
+    },
+    {
+      id: 'guideline',
+      label: 'Guideline',
+      data: [
+        point('2026-10-12T23:59:59.999Z', 6),
+        point('2026-10-13T23:59:59.999Z', 4),
+      ],
+    },
+  ];
 
-    const canvas = element.querySelector('canvas')!;
-    const description = describedBy(element);
+  it('names the chart and summarizes the range and latest values', () => {
+    renderWith(sampledSeries());
 
-    expect(canvas).toHaveAttribute('role', 'img');
-    expect(canvas).toHaveAccessibleName('Burndown chart');
-    expect(canvas).toContainElement(description);
-    expect(description).toHaveTextContent(
-      'Burndown chart data: Day 1: Story points: 5, Guideline: 6; Day 2: Story points: 3, Guideline: 4.',
-    );
-    expect(canvas).toHaveAccessibleDescription(description.textContent.trim());
-    expect(element.textContent.split(description.textContent.trim())).toHaveLength(2);
+    expect(within(element).getByRole('img', {
+      name: 'Burndown chart',
+      description: 'Burndown chart data: 10/12/2026 – 10/23/2026. Story points: 3, Guideline: 4 story points.',
+    })).toBeInTheDocument();
   });
 
-  it('omits a series from a day it has no value on', () => {
+  it('tabulates one row per day by the value each series closed at', () => {
+    renderWith(sampledSeries());
+
+    const table = within(element).getByRole('table', { name: 'Burndown chart: data' });
+
+    expect(tableColumns(table)).toEqual(['Date', 'Story points', 'Guideline (story points)']);
+    expect(tableRows(table)).toEqual([
+      ['10/12/2026', '5', '6'],
+      ['10/13/2026', '3', '4'],
+    ]);
+  });
+
+  it('orders the table columns the way the legend reads', () => {
+    renderWith([
+      ...sampledSeries(),
+      { id: 'projection', label: 'Projection', data: [point('2026-10-13T12:00:00.000Z', 3)] },
+    ]);
+
+    expect(tableColumns(describedTable())).toEqual(['Date', 'Story points', 'Projection', 'Guideline (story points)']);
+  });
+
+  // Havana repeats 00:00 on 2026-11-01, so the first two points share a local date.
+  it('keeps a repeated local midnight in one row', () => {
+    zone = 'America/Havana';
+
+    renderWith([{
+      id: 'remaining',
+      label: 'Story points',
+      data: [
+        point('2026-11-01T04:59:59.999Z', 8),
+        point('2026-11-01T05:59:59.999Z', 7),
+        point('2026-11-01T17:00:00.000Z', 3),
+      ],
+    }]);
+
+    expect(tableRows(describedTable())).toEqual([['11/01/2026', '3']]);
+  });
+
+  it("names each day in the viewer's zone west of UTC", () => {
+    zone = 'America/New_York';
+
+    renderWith([{ id: 'remaining', label: 'Story points', data: [point('2026-11-02T03:00:00.000Z', 5)] }]);
+
+    expect(tableRows(describedTable())).toEqual([['11/01/2026', '5']]);
+  });
+
+  it('leaves a cell empty for a period a series has no value in', () => {
     renderWith([
       { id: 'remaining', label: 'Story points', data: [point('2026-10-12T23:59:59.999Z', 8)] },
       {
@@ -164,14 +241,15 @@ describe('BurndownChartComponent', () => {
       },
     ]);
 
-    expect(describedBy(element)).toHaveTextContent(
-      'Burndown chart data: Day 1: Story points: 8, Guideline: 8; Day 2: Guideline: 4.',
-    );
+    expect(tableRows(describedTable())).toEqual([
+      ['10/12/2026', '8', '8'],
+      ['10/13/2026', '', '4'],
+    ]);
   });
 
   // The days are the reader's rather than UTC's: east of UTC these two instants fall either side
   // of a local midnight, so they are two days and not one.
-  it('groups days in the viewer time zone', () => {
+  it('buckets periods in the OpenProject zone', () => {
     zone = 'Asia/Kolkata';
 
     renderWith([
@@ -182,29 +260,56 @@ describe('BurndownChartComponent', () => {
       },
     ]);
 
-    expect(describedBy(element)).toHaveTextContent(
-      'Burndown chart data: Day 1: Story points: 8; Day 2: Story points: 5.',
-    );
+    expect(tableRows(describedTable())).toEqual([
+      ['10/12/2026', '8'],
+      ['10/13/2026', '5'],
+    ]);
   });
 
-  it('uses a unique description ID for each chart', () => {
-    renderWith([{ id: 'remaining', label: 'Story points', data: [point('2026-10-12T23:59:59.999Z', 8)] }]);
+  // Story points are whole, so the axis is labeled in whole ones -- a sprint holding a single
+  // point was otherwise drawn against fifths of one. The guideline divides those points across
+  // working days and does carry fractions, but it is a line between the labels rather than one
+  // of them, so it is left to the tooltip to report its decimal.
+  it('labels the axis in whole story points', () => {
+    renderWith([
+      { id: 'remaining', label: 'Story points', data: [point('2026-10-12T09:00:00.000Z', 1)] },
+      {
+        id: 'guideline',
+        label: 'Guideline',
+        data: [point('2026-10-12T23:59:59.999Z', 0.6), point('2026-10-13T23:59:59.999Z', 0.2)],
+      },
+    ]);
 
-    const secondFixture = TestBed.createComponent(BurndownChartComponent);
-    const secondElement = secondFixture.nativeElement as HTMLElement;
+    const labels = renderedYAxisLabels();
 
-    secondFixture.componentRef.setInput(
-      'chartData',
-      chartData([{ id: 'remaining', label: 'Story points', data: [point('2026-10-12T23:59:59.999Z', 5)] }]),
-    );
-    secondFixture.detectChanges();
+    expect(labels.length).toBeGreaterThan(1);
+    expect(labels.filter((label) => !Number.isInteger(label))).toEqual([]);
+  });
 
-    const firstDescriptionId = element.querySelector('canvas')!.getAttribute('aria-describedby');
-    const secondDescriptionId = secondElement.querySelector('canvas')!.getAttribute('aria-describedby');
+  // The lines that carry no background do not fill, and remaining still does.
+  it('fills the remaining area down to the axis and nothing else', () => {
+    renderWith([
+      { id: 'remaining', label: 'Story points', data: [point('2026-10-12T09:00:00.000Z', 8)] },
+      { id: 'guideline', label: 'Guideline', data: [point('2026-10-12T23:59:59.999Z', 6)] },
+    ]);
 
-    expect(firstDescriptionId).toEqual(fixture.componentInstance.chartDescriptionId);
-    expect(secondDescriptionId).toEqual(secondFixture.componentInstance.chartDescriptionId);
-    expect(firstDescriptionId).not.toEqual(secondDescriptionId);
+    expect(fixture.componentInstance.lineChartData().datasets.map((dataset) => dataset.fill))
+      .toEqual([true, false]);
+  });
+
+  it('adds a point-less series so the non-working days get a legend entry that toggles them', () => {
+    renderWith(seriesWithAPointAt('2026-10-12T09:00:00.000Z'), 'hour', [{ from: '2026-10-17', to: '2026-10-18' }]);
+
+    const standIn = fixture.componentInstance.lineChartData().datasets[1];
+
+    expect(standIn.data).toEqual([]);
+    expect(standIn.label).toEqual('js.sprint_charts.non_working_day');
+  });
+
+  it('leaves the non-working stand-in out when there are no bands to paint', () => {
+    renderWith(seriesWithAPointAt('2026-10-12T09:00:00.000Z'));
+
+    expect(fixture.componentInstance.lineChartData().datasets).toHaveLength(1);
   });
 
   // The axis places points using the OpenProject zone, so everything naming those points has to
@@ -272,10 +377,57 @@ describe('BurndownChartComponent', () => {
     });
   });
 
+  it('titles the y axis in story points', () => {
+    renderWith(seriesWithAPointAt('2026-10-12T09:00:00.000Z'));
+
+    expect(yAxisTitle()).toEqual('Story points');
+  });
+
+  describe('in estimated time', () => {
+    beforeEach(() => {
+      renderWith([
+        {
+          id: 'remaining',
+          label: 'Remaining estimated time',
+          data: [point('2026-10-12T09:00:00.000Z', 21.25), point('2026-10-12T23:59:59.999Z', 20)],
+        },
+      ], 'hour', [], 'time');
+    });
+
+    it('titles the y axis in estimated time', () => {
+      expect(yAxisTitle()).toEqual('Estimated time');
+    });
+
+    it('labels the axis in multiples of a working day', () => {
+      const labels = renderedYAxisLabels();
+
+      expect(labels.length).toBeGreaterThan(1);
+      expect(labels.filter((label) => label % 8 !== 0)).toEqual([]);
+    });
+
+    it('formats the axis labels as durations', () => {
+      const formatYTick = fixture.componentInstance.lineChartOptions().scales!.y!.ticks!.callback as unknown as (value:number) => string;
+
+      expect(formatYTick(16)).toEqual('16h');
+    });
+
+    it('formats the tooltip values as durations', () => {
+      const formatLabel = fixture.componentInstance.lineChartOptions().plugins!.tooltip!.callbacks!.label as unknown as (item:object) => string;
+
+      expect(formatLabel({ dataset: { label: 'Remaining estimated time' }, parsed: { y: 21.25 } }))
+        .toEqual('Remaining estimated time: 21.25h');
+    });
+
+    it('tabulates durations in estimated time', () => {
+      expect(tableRows(describedTable())).toEqual([['10/12/2026', '20h']]);
+    });
+  });
+
   it('does not render chart semantics without data', () => {
     renderWith([]);
 
     expect(element.querySelector('canvas')).toBeNull();
-    expect(element.querySelector(`#${fixture.componentInstance.chartDescriptionId}`)).toBeNull();
+    expect(within(element).queryByRole('img')).not.toBeInTheDocument();
+    expect(within(element).queryByRole('table')).not.toBeInTheDocument();
   });
 });

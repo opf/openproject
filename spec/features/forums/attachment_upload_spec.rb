@@ -65,7 +65,7 @@ RSpec.describe "Upload attachment to forum message", :js, :selenium do
     wait_for_network_idle
 
     expect(page).to have_css("#content .op-uc-container img", count: 1)
-    expect(page).to have_content("Image uploaded on creation")
+    expect(page).to have_text("Image uploaded on creation")
     attachments_list.expect_attached("image.png")
 
     within_test_selector("forum-post-#{Message.last.id}") do
@@ -83,8 +83,8 @@ RSpec.describe "Upload attachment to forum message", :js, :selenium do
     wait_for_network_idle
 
     expect(page).to have_css("#content .op-uc-container img", count: 2)
-    expect(page).to have_content("Image uploaded on creation")
-    expect(page).to have_content("Image uploaded the second time")
+    expect(page).to have_text("Image uploaded on creation")
+    expect(page).to have_text("Image uploaded the second time")
 
     attachments_list.expect_attached("image.png", count: 2)
   end

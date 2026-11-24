@@ -45,7 +45,7 @@ RSpec.describe "create placeholder users" do
 
         new_placeholder_user = PlaceholderUser.order(Arel.sql("id DESC")).first
 
-        expect(current_path).to eql(edit_placeholder_user_path(new_placeholder_user.id))
+        expect(page).to have_current_path(edit_placeholder_user_path(new_placeholder_user.id))
       end
     end
 

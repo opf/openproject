@@ -34,6 +34,7 @@ import {
   OpenprojectAutocompleterModule,
 } from 'core-app/shared/components/autocompleter/openproject-autocompleter.module';
 import { OpSharedModule } from 'core-app/shared/shared.module';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import { RecentItemsService } from 'core-app/core/recent-items.service';
 
 @NgModule({
@@ -41,6 +42,7 @@ import { RecentItemsService } from 'core-app/core/recent-items.service';
     OpSharedModule,
     OpenprojectWorkPackagesModule,
     OpenprojectAutocompleterModule,
+    OpTooltipDirective,
   ],
   providers: [
     GlobalSearchService,

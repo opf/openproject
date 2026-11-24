@@ -107,17 +107,6 @@ RSpec.describe "Workflows index", :skip_csrf, type: :rails_request do
     expect(row).to have_css(".projects a", text: I18n.t("workflows.index.projects_count", count: 5))
   end
 
-  it "marks a workflow a project owns with that project" do
-    owner = create(:project, name: "Bookshop")
-    create(:project_owned_workflow, project: owner, name: "Bookshop flow")
-
-    get workflows_path
-
-    row = row_for("Bookshop flow")
-    expect(row).to have_text("Created in Bookshop")
-    expect(row).to have_link("Bookshop", href: project_settings_work_packages_types_path(owner))
-  end
-
   it "leaves a global workflow unmarked" do
     get workflows_path
 
@@ -175,14 +164,43 @@ RSpec.describe "Workflows index", :skip_csrf, type: :rails_request do
       expect(page).to have_no_text("Spare flow")
     end
 
-    it "finds the workflows a project owns as well as the ones it uses" do
-      owner = create(:project, name: "Bookshop")
-      create(:project_owned_workflow, project: owner, name: "Bookshop flow")
+    it "keeps only workflows active in no project when the project filter is empty" do
       create(:named_workflow, name: "Spare flow")
 
-      get workflows_path(filters: %(project_id = "#{owner.id}"))
+      get workflows_path(filters: %(project_id !*))
 
-      expect(page).to have_text("Bookshop flow")
+      expect(page).to have_text("Spare flow")
+      expect(page).to have_no_text("Standard flow")
+    end
+
+    it "keeps only workflows active in some project when the project filter is not empty" do
+      create(:named_workflow, name: "Spare flow")
+
+      get workflows_path(filters: %(project_id *))
+
+      expect(page).to have_text("Standard flow")
+      expect(page).to have_no_text("Spare flow")
+    end
+
+    it "finds a workflow a status transitions from" do
+      origin = create(:status)
+      create(:status_transition, workflow: shared_workflow, old_status: origin)
+      create(:named_workflow, name: "Spare flow")
+
+      get workflows_path(filters: %(status_id = "#{origin.id}"))
+
+      expect(page).to have_text("Standard flow")
+      expect(page).to have_no_text("Spare flow")
+    end
+
+    it "finds a workflow a status transitions to" do
+      destination = create(:status)
+      create(:status_transition, workflow: shared_workflow, new_status: destination)
+      create(:named_workflow, name: "Spare flow")
+
+      get workflows_path(filters: %(status_id = "#{destination.id}"))
+
+      expect(page).to have_text("Standard flow")
       expect(page).to have_no_text("Spare flow")
     end
 

@@ -138,10 +138,11 @@ module OpPrimer
         model: model.class.name,
         id: model.id,
         attribute:,
-        system_arguments_json: @system_arguments
-          .except(:id)
-          .merge(page_component_id: @system_arguments[:id], writable: writable?)
-          .to_json
+        system_arguments: OpenProject::InplaceEdit::SystemArguments.sign(
+          @system_arguments
+            .except(:id)
+            .merge(page_component_id: @system_arguments[:id], writable: writable?)
+        )
       )
     end
 
@@ -229,13 +230,13 @@ module OpPrimer
     end
 
     def custom_field?
-      attribute.to_s.start_with?("custom_field_")
+      CustomField.custom_field_attribute?(attribute)
     end
 
     def custom_field
       return @custom_field if defined?(@custom_field)
 
-      @custom_field = CustomField.find_by(id: attribute.to_s.sub("custom_field_", "").to_i)
+      @custom_field = CustomField.find_by(id: CustomField.id_from_attribute_name(attribute))
     end
   end
 end

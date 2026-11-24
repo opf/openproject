@@ -35,19 +35,31 @@ import { withCollaboration } from '@blocknote/core/yjs';
 import { BlockNoteView } from '@blocknote/mantine';
 import { getDefaultReactSlashMenuItems, SuggestionMenuController, useCreateBlockNote } from '@blocknote/react';
 import { HocuspocusProvider } from '@hocuspocus/provider';
+import { createTheme, MantineProvider } from '@mantine/core';
 import {
   initializeOpBlockNoteExtensions,
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageInlineSpec,
+  openProjectWorkPackageAttributeInlineSpec,
+  openProjectWorkPackageAttributeBlockSpec,
   getOpenProjectSlashMenuItems,
   OpenProjectFormattingToolbar,
-  useHashWpMenu,
-} from '@openproject/op-blocknote-extensions';
+  OpenProjectHashMenu,
+} from '@openproject/blocknote-extensions';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import * as Y from 'yjs';
 import { useBlockNoteAttachments } from '../hooks/useBlockNoteAttachments';
 import { useBlockNoteLocale } from '../hooks/useBlockNoteLocale';
 import { useOpTheme } from '../hooks/useOpTheme';
+import { tableBlockSpec } from '../blocks/table';
+
+// Mantine >= 9.3 locks a popover's first placement and falls back to it when neither side fits,
+// so on mobile the block type menu opens behind the virtual keyboard (COMMS-1102).
+const mantineTheme = createTheme({
+  components: {
+    Popover: { defaultProps: { preventPositionChangeWhenVisible: false } },
+  },
+});
 
 export interface OpBlockNoteEditorProps {
   activeUser:User;
@@ -63,10 +75,13 @@ export interface OpBlockNoteEditorProps {
 
 const schema = BlockNoteSchema.create().extend({
   blockSpecs: {
+    table: tableBlockSpec,
     openProjectWorkPackageBlock: openProjectWorkPackageBlockSpec(),
+    openProjectWorkPackageAttributeBlock: openProjectWorkPackageAttributeBlockSpec(),
   },
   inlineContentSpecs: {
     openProjectWorkPackageInline: openProjectWorkPackageInlineSpec,
+    openProjectWorkPackageAttributeInline: openProjectWorkPackageAttributeInlineSpec,
   },
 });
 
@@ -153,10 +168,13 @@ export function OpBlockNoteEditor({
     ...getDefaultReactSlashMenuItems(editorInstance),
     ...getOpenProjectSlashMenuItems(editorInstance),
   ], []);
-  const { getHashItems, HashWpMenu } = useHashWpMenu(editor);
 
   return (
-    <>
+    <MantineProvider
+      theme={mantineTheme}
+      withCssVariables={false}
+      getRootElement={() => undefined}
+    >
       <BlockNoteView
         editor={editor}
         slashMenu={false}
@@ -170,12 +188,8 @@ export function OpBlockNoteEditor({
           triggerCharacter="/"
           getItems={async (query:string) => Promise.resolve(filterSuggestionItems(getCustomSlashMenuItems(editor), query))}
         />
-        <SuggestionMenuController
-          triggerCharacter="#"
-          getItems={getHashItems}
-          suggestionMenuComponent={HashWpMenu}
-        />
+        <OpenProjectHashMenu />
       </BlockNoteView>
-    </>
+    </MantineProvider>
   );
 }
