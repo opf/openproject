@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -65,6 +64,26 @@ module PermissionSpecs
           allow(controller).to receive_messages(controller_path: controller_name, action_name:)
 
           become_member(project, current_user)
+
+          expect(controller.send(:authorize)).to be_falsey
+        end
+      end
+
+      def self.check_global_permission_required_for(controller_action, permission)
+        controller_name, action_name = controller_action.split("#")
+
+        it "allows calling #{controller_action} when having the global permission #{permission}" do
+          allow(controller).to receive_messages(controller_path: controller_name, action_name:)
+
+          grant_global_permissions(current_user, permission)
+
+          expect(controller.send(:authorize)).to be_truthy
+        end
+
+        it "prevents calling #{controller_action} when not having the global permission #{permission}" do
+          allow(controller).to receive_messages(controller_path: controller_name, action_name:)
+
+          become_member_with_permissions(project, current_user, permission)
 
           expect(controller.send(:authorize)).to be_falsey
         end

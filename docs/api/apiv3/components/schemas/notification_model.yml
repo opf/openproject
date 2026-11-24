@@ -71,31 +71,31 @@ properties:
     properties:
       self:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               This notification
 
               **Resource**: Notification
       readIAN:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               Request to mark the notification as read. Only available if the notification is currently unread.
       unreadIAN:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               Request to mark the notification as unread. Only available if the notification is currently read.
       project:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               The workspace the notification originated in
 
               **Resource**: Workspace
       actor:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               The user that caused the notification. This might be null in
               case no user triggered the notification.
@@ -103,14 +103,14 @@ properties:
               **Resource**: User
       resource:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               The linked resource of the notification, if any.
 
               **Resource**: Polymorphic
       activity:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: "./link.yml"
           - description: |-
               The journal activity, if the notification originated from a journal entry. This might be null in
               case no activity triggered the notification.

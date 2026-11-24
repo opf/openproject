@@ -16,7 +16,7 @@
           id: QUERY_FORM_ID,
           data: { "turbo-stream" => false },
           method: :get
-        ) do |form| %>
+        ) do %>
       <% helpers.projects_query_params.except(:columns, :sortBy).each do |name, value| %>
         <%= hidden_field_tag name, value, data: { "sort-by-config-target" => name } %>
       <% end %>

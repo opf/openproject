@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "spec_helper"
 
 # These specs exist because cmark-gfm's :tagfilter extension is intentionally
@@ -77,25 +77,25 @@ RSpec.describe "Markdown security (tagfilter-equivalent protections)" do # ruboc
   end
 
   describe "classic XSS payloads" do
-    it "neutralises an inline <script> alert" do
+    it "neutralizes an inline <script> alert" do
       html = to_html("hello <script>alert('xss')</script> world")
       expect(html).not_to match(/<script\b/i)
       expect(html).not_to include("alert('xss')")
     end
 
-    it "neutralises a <script src=...> external loader" do
+    it "neutralizes a <script src=...> external loader" do
       html = to_html(%(<script src="https://evil.example.com/x.js"></script>))
       expect(html).not_to match(/<script\b/i)
       expect(html).not_to include("evil.example.com")
     end
 
-    it "neutralises an <iframe> pointing at javascript:" do
+    it "neutralizes an <iframe> pointing at javascript:" do
       html = to_html(%(<iframe src="javascript:alert(1)"></iframe>))
       expect(html).not_to match(/<iframe\b/i)
       expect(html).not_to match(/javascript:/i)
     end
 
-    it "neutralises <iframe srcdoc=...> HTML injection" do
+    it "neutralizes <iframe srcdoc=...> HTML injection" do
       html = to_html(%(<iframe srcdoc="<script>alert(1)</script>"></iframe>))
       expect(html).not_to match(/<iframe\b/i)
       expect(html).not_to match(/<script\b/i)
@@ -121,12 +121,12 @@ RSpec.describe "Markdown security (tagfilter-equivalent protections)" do # ruboc
       expect(html).to include("trailing paragraph")
     end
 
-    it "neutralises <title> document-title takeover" do
+    it "neutralizes <title> document-title takeover" do
       html = to_html("<title>Attacker Title</title>")
       expect(html).not_to match(/<title\b/i)
     end
 
-    it "neutralises <textarea> that would otherwise swallow following content" do
+    it "neutralizes <textarea> that would otherwise swallow following content" do
       markdown = <<~MD
         before
 
@@ -139,7 +139,7 @@ RSpec.describe "Markdown security (tagfilter-equivalent protections)" do # ruboc
       expect(html).to include("after")
     end
 
-    it "neutralises <xmp> raw-text takeover" do
+    it "neutralizes <xmp> raw-text takeover" do
       markdown = <<~MD
         before
 
@@ -204,7 +204,7 @@ RSpec.describe "Markdown security (tagfilter-equivalent protections)" do # ruboc
     end
   end
 
-  describe "regression: disabling tagfilter does not regress existing behaviour" do
+  describe "regression: disabling tagfilter does not regress existing behavior" do
     it "still escapes a bare '<script>' text token in inline flow" do
       html = to_html("this is a <script>")
       expect(html).not_to match(/<script\b/i)

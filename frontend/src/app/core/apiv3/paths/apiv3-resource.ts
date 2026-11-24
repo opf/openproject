@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -171,7 +170,7 @@ export class ApiV3ResourceCollection<V, T extends ApiV3GettableResource<V>> exte
    * Returns an observable response.
    *
    * @param filters filter object to filter with
-   * @param select The signalling parameters to request
+   * @param select The signaling parameters to request
    * @param params additional URL params to append
    */
   public signalled<R>(filters:ApiV3FilterBuilder, select:string[], params:Record<string, string> = {}):Observable<R> {

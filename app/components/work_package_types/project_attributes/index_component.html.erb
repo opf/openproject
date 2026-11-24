@@ -1,12 +1,6 @@
 <%=
   component_wrapper(data: wrapper_data_attributes) do
     flex_layout do |flex|
-      flex.with_row(mb: 3) do
-        render(Primer::Beta::Text.new(tag: :p, color: :muted)) do
-          t("types.edit.project_attributes.description")
-        end
-      end
-
       if visible_sections.empty?
         flex.with_row do
           render(Primer::Beta::Blankslate.new(border: true, test_selector: "type-project-attributes-blankslate")) do |blankslate|
@@ -17,7 +11,7 @@
         end
       else
         flex.with_row do
-          render(Primer::OpenProject::SubHeader.new(collapsed_search: false)) do |subheader|
+          render(Primer::OpenProject::SubHeader.new) do |subheader|
             subheader.with_filter_input(
               name: "border-box-filter",
               label: t("types.edit.project_attributes.filter"),

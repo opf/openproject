@@ -20,13 +20,25 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  computed,
+  DestroyRef,
+  ElementRef,
+  inject,
+  input,
+  signal,
+  viewChild,
+} from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map, merge, Subscription } from 'rxjs';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   QueryColumn, queryColumnTypes,
@@ -34,206 +46,193 @@ import {
   TypeRelationQueryColumn,
 } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
-import {
-  QUERY_SORT_BY_ASC,
-  QUERY_SORT_BY_DESC, QuerySortByDirection,
-} from 'core-app/features/hal/resources/query-sort-by-resource';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
 import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { WorkPackageViewRelationColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-relation-columns.service';
-import { combineLatest } from 'rxjs';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { onDestroySafely, runCleanup } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
+import { OpActionMenuComponent } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.component';
+import { OpContextMenuCloseReason, OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import { FocusPosition, samePosition } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/focus-position';
+import { primarySortDirection } from './primary-sort-direction';
+import { ColumnMenuHost, ColumnMenuItems } from './column-menu-items';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'sortHeader',
   templateUrl: './sort-header.directive.html',
+  providers: [ColumnMenuItems],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class SortHeaderDirective extends UntilDestroyedMixin implements AfterViewInit {
-  private wpTableHierarchies = inject(WorkPackageViewHierarchiesService);
-  private wpTableSortBy = inject(WorkPackageViewSortByService);
-  private wpTableGroupBy = inject(WorkPackageViewGroupByService);
-  private wpTableBaseline = inject(WorkPackageViewBaselineService);
-  private wpTableRelationColumns = inject(WorkPackageViewRelationColumnsService);
-  private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
-  private cdRef = inject(ChangeDetectorRef);
-  private I18n = inject(I18nService);
+export class SortHeaderDirective implements ColumnMenuHost {
+  private readonly wpTableHierarchies = inject(WorkPackageViewHierarchiesService);
+  private readonly wpTableSortBy = inject(WorkPackageViewSortByService);
+  private readonly wpTableGroupBy = inject(WorkPackageViewGroupByService);
+  private readonly querySpace = inject(IsolatedQuerySpace);
+  private readonly wpListService = inject(WorkPackagesListService);
+  private readonly wpTableBaseline = inject(WorkPackageViewBaselineService);
+  private readonly wpTableRelationColumns = inject(WorkPackageViewRelationColumnsService);
+  private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly cdRef = inject(ChangeDetectorRef);
+  private readonly I18n = inject(I18nService);
+  private readonly menuItems = inject(ColumnMenuItems);
+  private readonly destroyRef = inject(DestroyRef);
 
-  @Input() headerColumn:QueryColumn;
+  private readonly menu = viewChild(OpActionMenuComponent);
 
-  @Input() locale:string;
+  readonly headerColumn = input.required<QueryColumn>();
 
-  @Input() table:WorkPackageTable;
+  readonly locale = input<string>();
 
-  sortable:boolean;
+  readonly table = input<WorkPackageTable>();
 
-  directionClass:string;
+  readonly items = signal<OpContextMenuItem[]>([]);
 
-  public text = {
-    toggleHierarchy: this.I18n.t('js.work_packages.hierarchy.show'),
+  readonly headerCell = this.elementRef.nativeElement.closest('th') ?? undefined;
+
+  private origin:FocusPosition|null = null;
+
+  private menuCell:FocusPosition|null = null;
+
+  private focusHeader:HTMLElement|null = null;
+
+  private menuStreams?:Subscription;
+
+  readonly text = {
     openMenu: this.I18n.t('js.label_open_menu'),
     baselineIncompatible: this.I18n.t('js.work_packages.baseline.column_incompatible'),
   };
 
-  isHierarchyColumn:boolean;
+  private readonly sortState = toSignal(this.wpTableSortBy.live$().pipe(map(() => ({}))));
 
-  columnType:'hierarchy'|'relation'|'sort';
+  private readonly hierarchyEnabled = toSignal(
+    this.wpTableHierarchies.live$().pipe(map(() => this.wpTableHierarchies.isEnabled)),
+    { initialValue: this.wpTableHierarchies.isEnabled },
+  );
 
-  columnName:string;
+  private readonly baselineActive = toSignal(
+    this.wpTableBaseline.live$().pipe(map(() => this.wpTableBaseline.isActive())),
+    { initialValue: false },
+  );
 
-  hierarchyIcon:string;
+  readonly displayMenu = computed(() => this.table()?.configuration.columnMenuEnabled ?? false);
 
-  isHierarchyDisabled:boolean;
+  readonly directionClass = computed(() => {
+    this.sortState();
+    return primarySortDirection(this.wpTableSortBy.current, this.headerColumn()) ?? '';
+  });
 
-  baselineIncompatible = false;
+  readonly columnType = computed<'plain'|'hierarchy'|'relation'|'sort'>(() => {
+    const column = this.headerColumn();
+    if (column.id === 'subject') return 'hierarchy';
+    if (this.wpTableRelationColumns.relationColumnType(column) || column._type === queryColumnTypes.RELATION_CHILD) return 'relation';
+    if (column.id === 'sortHandle') return 'sort';
+    return 'plain';
+  });
 
-  private currentSortDirection:QuerySortByDirection|null;
+  readonly columnName = computed(() => {
+    const column = this.headerColumn();
+    switch (this.wpTableRelationColumns.relationColumnType(column)) {
+      case 'toType':
+        return (column as TypeRelationQueryColumn).type.name;
+      case 'ofType':
+        return this.I18n.t(`js.relation_labels.${(column as RelationQueryColumn).relationType}`);
+      default:
+        return column._type === queryColumnTypes.RELATION_CHILD ? column.name : '';
+    }
+  });
 
-  ngAfterViewInit() {
-    setTimeout(() => this.initialize());
+  readonly showHierarchyGlyph = computed(() => this.columnType() === 'hierarchy'
+    && (this.table()?.configuration.hierarchyToggleEnabled ?? false)
+    && this.hierarchyEnabled());
+
+  readonly baselineIncompatible = computed(() => this.baselineActive()
+    && this.wpTableBaseline.isIncompatibleColumn(this.headerColumn().id));
+
+  constructor() {
+    onDestroySafely(this.destroyRef, () => runCleanup(() => this.menuStreams?.unsubscribe()));
   }
 
-  private initialize():void {
-    combineLatest([
-      this.wpTableSortBy.onReadyWithAvailable(),
+  onMenuOpening():void {
+    const table = this.table();
+    if (!table) return;
+
+    const header = this.elementRef.nativeElement;
+    this.menuCell = table.keyboardNavigation.positionOfCell(header);
+    this.origin = this.menuCell;
+    this.focusHeader = header.closest('th');
+    this.items.set(this.buildItems(table, header));
+    this.cdRef.detectChanges();
+    this.menuStreams = merge(
       this.wpTableSortBy.live$(),
-    ])
-      .pipe(
-        this.untilDestroyed(),
-      )
-      .subscribe(() => {
-        const latestSortElement = this.wpTableSortBy.current[0];
-
-        if (this.headerColumn.href !== latestSortElement?.column.href) {
-          this.currentSortDirection = null;
-        } else {
-          this.currentSortDirection = latestSortElement.direction;
-        }
-        this.setActiveColumnClass();
-
-        this.sortable = this.wpTableSortBy.isSortable(this.headerColumn);
-
-        this.directionClass = this.getDirectionClass();
-
-        this.cdRef.detectChanges();
-      });
-
-    // Place the hierarchy icon left to the subject column
-    this.isHierarchyColumn = this.headerColumn.id === 'subject';
-
-    if (this.headerColumn.id === 'sortHandle') {
-      this.columnType = 'sort';
+      this.wpTableGroupBy.live$(),
+      this.wpTableHierarchies.live$(),
+      this.querySpace.available.sortBy.values$(),
+      this.querySpace.available.groupBy.values$(),
+    ).subscribe(() => this.refreshItems(table, header));
+    if (!this.querySpace.queryForm.hasValue()) {
+      this.wpListService.conditionallyLoadForm().catch(() => undefined);
     }
-    if (this.isHierarchyColumn) {
-      this.columnType = 'hierarchy';
-    } else if (this.wpTableRelationColumns.relationColumnType(this.headerColumn) === 'toType') {
-      this.columnType = 'relation';
-      this.columnName = (this.headerColumn as TypeRelationQueryColumn).type.name;
-    } else if (this.wpTableRelationColumns.relationColumnType(this.headerColumn) === 'ofType') {
-      this.columnType = 'relation';
-      this.columnName = I18n.t(`js.relation_labels.${(this.headerColumn as RelationQueryColumn).relationType}`);
-    } else if (this.headerColumn._type === queryColumnTypes.RELATION_CHILD) {
-      this.columnType = 'relation';
-      this.columnName = this.headerColumn.name;
+  }
+
+  onMenuClosed(reason:OpContextMenuCloseReason):void {
+    this.menuStreams?.unsubscribe();
+    this.menuStreams = undefined;
+    this.items.set([]);
+    const table = this.table();
+    if (table && this.origin && (reason === 'escape' || reason === 'action')) {
+      table.keyboardNavigation.returnFocusFromMenu(this.origin, this.menuCell ?? this.origin);
+    }
+  }
+
+  close():void {
+    this.menu()?.close();
+  }
+
+  private buildItems(table:WorkPackageTable, header:HTMLElement):OpContextMenuItem[] {
+    return this.menuItems.build(this.headerColumn(), table, header, this);
+  }
+
+  private refreshItems(table:WorkPackageTable, header:HTMLElement):void {
+    const items = this.buildItems(table, header);
+    const shape = (list:OpContextMenuItem[]) => list.map((item) => [item.linkText, item.hidden, item.disabled, item.checked]);
+    if (JSON.stringify(shape(items)) === JSON.stringify(shape(this.items()))) {
+      return;
     }
 
-    if (this.isHierarchyColumn) {
-      this.hierarchyIcon = 'icon-hierarchy';
-      this.isHierarchyDisabled = this.wpTableGroupBy.isEnabled;
-
-      // Disable hierarchy mode when group by is active
-      this.wpTableGroupBy
-        .live$()
-        .pipe(
-          this.untilDestroyed(),
-        )
-        .subscribe(() => {
-          this.isHierarchyDisabled = this.wpTableGroupBy.isEnabled;
-          this.cdRef.detectChanges();
-        });
-
-      // Update hierarchy icon when updated elsewhere
-      this.wpTableHierarchies
-        .live$()
-        .pipe(
-          this.untilDestroyed(),
-        )
-        .subscribe(() => {
-          this.setHierarchyIcon();
-          this.cdRef.detectChanges();
-        });
-
-      // Set initial icon
-      this.setHierarchyIcon();
-    }
-
-    this
-      .wpTableBaseline
-      .live$()
-      .pipe(
-        this.untilDestroyed(),
-      )
-      .subscribe(() => {
-        this.baselineIncompatible = this.wpTableBaseline.isActive() && this.wpTableBaseline.isIncompatibleColumn(this.headerColumn.id);
-      });
-
+    this.items.set(items);
     this.cdRef.detectChanges();
   }
 
-  public get displayDropdownIcon() {
-    return this.table && this.table.configuration.columnMenuEnabled;
-  }
+  followColumn(header:HTMLElement|null):void {
+    this.focusHeader = header;
+    const navigation = this.table()?.keyboardNavigation;
+    if (!navigation) return;
 
-  public get displayHierarchyIcon() {
-    return this.table && this.table.configuration.hierarchyToggleEnabled;
-  }
-
-  toggleHierarchy(evt:Event) {
-    if (this.wpTableHierarchies.toggleState()) {
-      this.wpTableGroupBy.disable();
+    const current = navigation.position;
+    const position = header && navigation.positionOfCell(header);
+    if (!this.origin || !position || !samePosition(current, this.origin)) {
+      return;
     }
 
-    this.setHierarchyIcon();
-
-    evt.stopPropagation();
-    return false;
+    navigation.recordPosition(position);
+    navigation.focusPosition(position);
+    this.origin = position;
   }
 
-  setHierarchyIcon() {
-    if (this.wpTableHierarchies.isEnabled) {
-      this.text.toggleHierarchy = I18n.t('js.work_packages.hierarchy.hide');
-      this.hierarchyIcon = 'icon-hierarchy';
-    } else {
-      this.text.toggleHierarchy = I18n.t('js.work_packages.hierarchy.show');
-      this.hierarchyIcon = 'icon-no-hierarchy';
-    }
-  }
-
-  private getDirectionClass():string {
-    if (!this.currentSortDirection) {
-      return '';
+  returnFocus():void {
+    const table = this.table();
+    if (table && this.origin) {
+      table.keyboardNavigation.returnFocusFromMenu(this.origin, this.menuCell ?? this.origin);
+      return;
     }
 
-    switch (this.currentSortDirection.href) {
-      case QUERY_SORT_BY_ASC:
-        return 'asc';
-      case QUERY_SORT_BY_DESC:
-        return 'desc';
-      default:
-        return '';
-    }
-  }
-
-  setActiveColumnClass() {
-    if (this.currentSortDirection) {
-      this.elementRef.nativeElement.classList.add('active-column');
-    } else {
-      this.elementRef.nativeElement.classList.remove('active-column');
-    }
+    const header = this.focusHeader;
+    setTimeout(() => header?.focus());
   }
 }

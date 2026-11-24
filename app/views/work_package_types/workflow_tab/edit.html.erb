@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -32,29 +31,11 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(
       WorkPackageTypes::ReloadableConfigurationFrameComponent.new(
-        reload_url: edit_type_workflow_path(**@variant.path_args)
+        reload_url: edit_variant_workflow_path(variant_scope_project, @variant)
       )
     ) do %>
-  <%= render(WorkPackageTypes::ReuseMode::SectionComponent.new(variant: @variant, aspect: TypeVariant::WORKFLOWS)) %>
-
+  <%= render(WorkPackageTypes::AspectDescriptionComponent.new(variant: @variant, aspect: :workflows)) %>
   <% if @type && @roles.any? %>
-    <%= form_tag(
-          type_workflow_matrix_path(**@variant.path_args),
-          method: :patch,
-          autocomplete: "off",
-          class: "workflow-table--pinned-save-bar"
-        ) do %>
-      <%= turbo_frame_tag "workflow-table", src: type_workflow_matrix_path(**@variant.path_args, tab: @current_tab, role_ids: @roles.map(&:id), status_ids: params[:status_ids]) %>
-
-      <% unless @variant.linked?(TypeVariant::WORKFLOWS) %>
-        <div class="workflow-save-bar">
-          <%=
-            render Primer::Beta::Button.new(scheme: :primary, type: :submit, mt: 3, ml: 3, mb: 4) do
-              t(:button_save)
-            end
-          %>
-        </div>
-      <% end %>
-    <% end %>
+    <%= turbo_frame_tag "workflow-table", src: variant_workflow_matrix_path(variant_scope_project, @variant, tab: @current_tab, role_ids: @roles.map(&:id), status_ids: params[:status_ids]) %>
   <% end %>
 <% end %>

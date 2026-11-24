@@ -61,7 +61,7 @@ sv:
         item_2:
           name: BIM-chefer
         item_3:
-          name: BIM-modellerare
+          name: BIM Modelers
         item_4:
           name: Ledande BIM-samordnare
         item_5:
@@ -511,17 +511,17 @@ sv:
               description: Denna typ är hierarkiskt överordnad typerna &quot;Clash&quot; och &quot;Request&quot;, och utgör således en allmän anmärkning.
               children:
                 item_0:
-                  subject: Modellera inledande BIM-modell
+                  subject: Modeling initial BIM model
                   description: |-
-                    # Mål
+                    # Goal
 
-                    *   Modellera den inledande BIM-modellen
-                    *   Skapa en BIM-modell för hela projektteamet
+                    *   Modeling the initial BIM model
+                    *   Creating a BIM model for the whole project team
 
-                    # Beskrivning
+                    # Description
 
-                    *   Utifrån insamlade kunddata modelleras den inledande modellen
-                    *   Modellen ska utformas enligt LOD-matriserna och innehålla nödvändig information
+                    *   According to the gathered data from the customer, the initial model will be modeled
+                    *   The model shall be modeled according to the LOD Matrices and contain the information needed
                     *   ...
                 item_1:
                   subject: Inledande intern modellkontroll och revidering
@@ -538,23 +538,23 @@ sv:
                   subject: Skicka inledande BIM-modell
                   description: Denna typ är hierarkiskt överordnad typerna &quot;Clash&quot; och &quot;Request&quot;, och utgör således en allmän anmärkning.
             item_4:
-              subject: Modellering, första cykeln
+              subject: Modeling, first cycle
               description: Denna typ är hierarkiskt överordnad typerna &quot;Clash&quot; och &quot;Request&quot;, och utgör således en allmän anmärkning.
               children:
                 item_0:
                   subject: Referera externa BIM-modeller
                   description: |-
-                    # Mål
+                    # Goal
 
-                    *   Ha en grund för att utveckla den interna modellen/ge svar
-                    *   Använda den externa modellen för att utveckla den interna modellen
+                    *   Having a foundation for developing the internal model/ offering answers
+                    *   Using the external model to develop the internal model
 
-                    # Beskrivning
+                    # Description
 
-                    *   Den externa modellen refereras i BIM-plattformen och används därmed för att modellera den interna modellen
+                    *   The external model will be referenced in the BIM platform, thus used for modeling the internal model
                     *   ...
                 item_1:
-                  subject: Modellera BIM-modellen
+                  subject: Modeling the BIM model
                   description: |-
                     # Mål
 
@@ -602,19 +602,19 @@ sv:
                   subject: Koordinering av slutbearbetning, första cykeln
                   description: Denna typ är hierarkiskt överordnad typerna &quot;Clash&quot; och &quot;Request&quot;, och utgör således en allmän anmärkning.
             item_6:
-              subject: Modellering och samordning, andra cykeln
+              subject: Modeling & coordinating, second cycle
               description: "## Mål\r\n\r\n* ...\r\n\r\n## Beskrivning\r\n\r\n* \\ ..."
             item_7:
-              subject: Modellering och samordning, ... cykel
+              subject: Modeling & coordinating, ... cycle
               description: Denna typ är hierarkiskt överordnad typerna &quot;Clash&quot; och &quot;Request&quot;, och utgör således en allmän anmärkning.
             item_8:
-              subject: Modellering och samordning, (n-te minus 1) cykel
+              subject: Modeling & coordinating, (n-th minus 1) cycle
               description: "## Mål\r\n\r\n* ...\r\n\r\n## Beskrivning\r\n\r\n* \\ ..."
             item_9:
-              subject: Modellering & koordinering av n-te cykel
+              subject: Modeling & coordinating n-th cycle
               description: Denna typ är hierarkiskt överordnad typerna &quot;Clash&quot; och &quot;Request&quot;, och utgör således en allmän anmärkning.
             item_10:
-              subject: Slutför modellering och samordning, n:te cykeln
+              subject: Finishing modeling & coordinating, n-th cycle
               description: Denna typ är hierarkiskt överordnad typerna &quot;Clash&quot; och &quot;Request&quot;, och utgör således en allmän anmärkning.
             item_11:
               subject: Använd modellen för byggfasen

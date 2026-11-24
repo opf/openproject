@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,11 +32,7 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
     merge_options = { only_path: true,
                       html: true }.merge(options)
 
-    if permission_granted?(merge_options.merge(key:))
-      render_ternary_detail_text(key, values.last, values.first, merge_options)
-    else
-      render_permission_denied_message(merge_options)
-    end
+    render_ternary_detail_text(key, values.last, values.first, merge_options)
   end
 
   private

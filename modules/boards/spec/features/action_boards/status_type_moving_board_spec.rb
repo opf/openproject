@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -55,7 +54,7 @@ RSpec.describe "Status action board",
 
   let!(:priority) { create(:default_priority) }
   let!(:open_status) { create(:default_status, name: "Open") }
-  let!(:closed_status) { create(:status, is_closed: true, name: "Closed") }
+  let!(:closed_status) { create(:status, category: "closed", name: "Closed") }
 
   let(:task_wp) do
     create(:work_package,

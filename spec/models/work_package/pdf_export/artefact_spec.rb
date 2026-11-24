@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -308,7 +307,7 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     let!(:cost_rate) { create(:cost_rate, cost_type:, rate: 1000.0, valid_from: 1.year.ago.to_date) }
     let(:labor_user) { create(:user, firstname: "Alice", lastname: "Anderson") }
     let!(:hourly_rate) do
-      create(:hourly_rate, user: labor_user, project:, rate: 400.0, valid_from: 1.year.ago.to_date)
+      create(:hourly_rate, principal: labor_user, project:, rate: 400.0, valid_from: 1.year.ago.to_date)
     end
     let(:budget) { create(:budget, project:, subject: "Phase 1 rollout", fixed_date: Date.current) }
     let!(:material_item) { create(:material_budget_item, budget:, cost_type:, units: 2.0) }
@@ -557,45 +556,63 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
         expect(pdf_strings.join(" ")).not_to include(I18n.t(:label_table_of_contents))
       end
     end
+
+    context "with a group whose attributes are all hidden" do
+      let(:type) do
+        type = create(:type_bug)
+        variant = type.default_variant
+        default_groups = variant.default_attribute_groups.map { |key, attributes| [key, attributes - %w(project_phase)] }
+        variant.attribute_groups = default_groups + [["Phases", %w(project_phase)]]
+        variant.save!
+        type
+      end
+
+      it "lists no contents entry for a group with only hidden attributes" do
+        expect(pdf_strings).not_to include("Phases")
+      end
+    end
   end
 
-  describe "linked form configuration", with_flag: { type_variants: true } do
-    let(:source_type) do
+  describe "inherited form configuration" do
+    let(:type) do
       create(:type_bug).tap do |t|
         variant = t.default_variant
-        variant.attribute_groups = variant.default_attribute_groups + [["borrowed_group", %w(assignee)]]
+        default_groups = variant.default_attribute_groups.map { |key, attributes| [key, attributes - %w(assignee)] }
+        variant.attribute_groups = default_groups + [["borrowed_group", %w(assignee)]]
         variant.save!
       end
     end
-    # type_bug is looked up by name (see the factory's initialize_with), so a second
-    # plain create(:type_bug) here would resolve to the SAME row as source_type and
-    # make link! reject itself as a cycle. A distinct name keeps it a separate type.
-    let(:type) do
-      create(:type_bug, name: "Bug (linked)").tap do |t|
-        link_configuration(t, source: source_type, aspect: TypeVariant::FORM_CONFIGURATION)
+    let(:variant) do
+      create(:type_variant, type:, variant_name: "Bug variant").tap do |v|
+        link_configuration(v, aspect: TypeVariant::FORM_CONFIGURATION)
       end
     end
+    let(:project) do
+      create(:project, name: "Artefact project", types: [variant], public: true, active: true)
+    end
 
-    it "renders the source type's groups for the linked type's work package" do
+    it "renders the base's groups for the inheriting variant's work package" do
       joined = pdf_strings.join(" ")
-      expect(joined).to include(source_type.default_variant.attribute_groups.find { |g|
+      expect(joined).to include(type.default_variant.attribute_groups.find { |g|
         g.key == "borrowed_group"
       }.translated_key)
     end
   end
 
-  describe "form configuration when the project resolves a variant", with_flag: { type_variants: true } do
+  describe "form configuration when the project resolves a variant" do
     let(:type) do
       create(:type_bug).tap do |t|
         variant = t.default_variant
-        variant.attribute_groups = variant.default_attribute_groups + [["root_group", %w(assignee)]]
+        default_groups = variant.default_attribute_groups.map { |key, attributes| [key, attributes - %w(assignee)] }
+        variant.attribute_groups = default_groups + [["root_group", %w(assignee)]]
         variant.save!
       end
     end
     let(:variant) do
       create(:type_variant, type:, variant_name: "Bug variant").tap do |v|
         unlink_configuration(v, aspect: TypeVariant::FORM_CONFIGURATION)
-        v.attribute_groups = v.default_attribute_groups + [["variant_group", %w(assignee)]]
+        default_groups = v.default_attribute_groups.map { |key, attributes| [key, attributes - %w(assignee)] }
+        v.attribute_groups = default_groups + [["variant_group", %w(assignee)]]
         v.save!
       end
     end

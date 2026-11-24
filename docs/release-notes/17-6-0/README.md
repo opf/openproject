@@ -111,7 +111,7 @@ Administrators can now unreserve old project-based (semantic) identifiers and ma
 
 ### Convert meeting agenda items into work packages
 
-OpenProject 17.6 adds a new [Convert to work package](../../user-guide/meetings/one-time-meetings/#convert-agenda-items-to-work-packages) action for meeting agenda items. This allows users to turn agenda items directly into work packages without leaving the meeting.
+OpenProject 17.6 adds a new [Convert to work package](../../user-guide/meetings/meeting-features/meeting-agenda/#convert-agenda-items-to-work-packages) action for meeting agenda items. This allows users to turn agenda items directly into work packages without leaving the meeting.
 
 The newly created work package remains linked to the agenda item, helping teams connect meeting discussions with follow-up work.
 
@@ -368,7 +368,7 @@ We'd like to thank the contributors of this report, [@GEONWOOHAN](https://github
 - Bugfix: Previous work package opens in detail view from the wp list \[[#75819](https://community.openproject.org/wp/75819)\]
 - Bugfix: Users filter does not display accurate results when all filters are removed \[[#75916](https://community.openproject.org/wp/75916)\]
 - Bugfix: Meeting not shown in &quot;All meetings&quot; in the meetings index page if there are no participants \[[#75957](https://community.openproject.org/wp/75957)\]
-- Bugfix: Harmonize behaviour between quick filters and &quot;All filters&quot; \[[#76128](https://community.openproject.org/wp/76128)\]
+- Bugfix: Harmonize behavior between quick filters and &quot;All filters&quot; \[[#76128](https://community.openproject.org/wp/76128)\]
 - Bugfix: Project selector is in the wrong color on BIM instances \[[#76131](https://community.openproject.org/wp/76131)\]
 - Bugfix: Wrong translation for Wiki Macro &quot;Links to child pages&quot; \[[#76231](https://community.openproject.org/wp/76231)\]
 - Bugfix: Move work package form: Changing project, type wipes most form fields \[[#76432](https://community.openproject.org/wp/76432)\]

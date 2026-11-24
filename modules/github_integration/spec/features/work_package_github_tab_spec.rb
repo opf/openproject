@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,8 +30,11 @@ require_relative "../support/pages/work_package_github_tab"
 
 RSpec.describe "Open the GitHub tab", :js do
   let(:user) do
-    create(:user,
-           member_with_roles: { project => role })
+    create(
+      :user,
+      member_with_roles: { project => role },
+      preferences: { warn_on_leaving_unsaved: false }
+    )
   end
   let(:role) do
     create(:project_role,
@@ -103,8 +105,8 @@ RSpec.describe "Open the GitHub tab", :js do
         work_package_page.visit!
         work_package_page.switch_to_tab(tab: "github")
         tabs.expect_no_counter(github_tab_element)
-        expect(page).to have_content("There are no pull requests")
-        expect(page).to have_content("Link an existing PR by using the code OP##{work_package.id}")
+        expect(page).to have_text("There are no pull requests")
+        expect(page).to have_text("Link an existing PR by using the code OP##{work_package.id}")
       end
     end
 
@@ -135,13 +137,6 @@ RSpec.describe "Open the GitHub tab", :js do
 
   describe "work package full view" do
     let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
-    let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }
-
-    it_behaves_like "a github tab"
-  end
-
-  describe "work package split view" do
-    let(:work_package_page) { Pages::SplitWorkPackage.new(work_package) }
     let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }
 
     it_behaves_like "a github tab"

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -68,7 +67,7 @@ RSpec.describe "News creation and commenting", :js do
       .to have_link("My new news")
 
     expect(page)
-      .to have_content "The news summary"
+      .to have_text "The news summary"
 
     # Creating the news will have sent out mails
     expect(ActionMailer::Base.deliveries.size)
@@ -94,7 +93,7 @@ RSpec.describe "News creation and commenting", :js do
 
     # The new comment is visible on the show page
     expect(page)
-      .to have_content "A new text"
+      .to have_text "A new text"
 
     # Creating the news comment will have sent out mails
     expect(ActionMailer::Base.deliveries.size)

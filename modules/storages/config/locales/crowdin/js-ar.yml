@@ -26,15 +26,12 @@ ar:
         select: Select files
         select_all: اختر الجميع
         selection:
-          zero: حدد الملفات لربطها
-          one: رابط الملف 1
-          two: ربط %{count} من الملفات
-          few: ربط %{count} من الملفات
-          many: ربط %{count} من الملفات
-          other: ربط %{count} من الملفات
+          none: Select files to link
+          one: Link %{count} file
+          other: Link %{count} files
         success_create:
           zero: Successfully created %{count} file links.
-          one: Successfully created 1 file link.
+          one: Successfully created %{count} file link.
           two: Successfully created %{count} file links.
           few: Successfully created %{count} file links.
           many: Successfully created %{count} file links.

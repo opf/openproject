@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -85,6 +84,37 @@ RSpec.describe Backlogs::Sprints::StartContract do
       let(:sprint) { create(:sprint, project:, status: sprint_status, finish_date: nil) }
 
       it_behaves_like "contract is invalid", base: :dates_required
+    end
+
+    context "when the sprint's finish date is in the past" do
+      let(:sprint) do
+        create(:sprint, project:, status: sprint_status,
+                        start_date: 2.weeks.ago.to_date, finish_date: Date.yesterday)
+      end
+
+      it_behaves_like "contract is invalid", status: :finish_date_in_past
+    end
+
+    context "when the sprint finishes today" do
+      let(:sprint) do
+        create(:sprint, project:, status: sprint_status,
+                        start_date: 2.weeks.ago.to_date, finish_date: Time.zone.today)
+      end
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "when the date is already past in the user's time zone but not in UTC" do
+      let(:user) { create(:user, preferences: { time_zone: "Pacific/Auckland" }) }
+      let(:sprint) do
+        create(:sprint, project:, status: sprint_status,
+                        start_date: Date.new(2026, 11, 5), finish_date: Date.new(2026, 11, 19))
+      end
+
+      # 2026-11-19 20:00 UTC is already 2026-11-20 in Auckland (UTC+13).
+      before { travel_to(Time.utc(2026, 11, 19, 20, 0)) }
+
+      it_behaves_like "contract is invalid", status: :finish_date_in_past
     end
 
     context "when another active sprint exists in the project" do

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -45,7 +44,7 @@ export function debugLog(message:string, ...args:unknown[]):void {
   whenDebugging(() => console.log(`[DEBUG] ${message}`, ...args));
 }
 
-export function timeOutput(msg:string, cb:() => void):any {
+export function timeOutput<T>(msg:string, cb:() => T):T {
   if (!environment.production) {
     const t0 = performance.now();
 
@@ -60,7 +59,7 @@ export function timeOutput(msg:string, cb:() => void):any {
   return cb();
 }
 
-export function asyncTimeOutput(msg:string, promise:Promise<any>):any {
+export function asyncTimeOutput(msg:string, promise:Promise<unknown>):Promise<unknown> {
   if (!environment.production) {
     const t0 = performance.now();
 

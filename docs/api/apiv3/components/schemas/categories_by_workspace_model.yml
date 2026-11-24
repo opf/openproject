@@ -1,7 +1,7 @@
 # Schema: Categories_by_WorkspaceModel
 ---
 allOf:
-  - "$ref": "./collection_model.yml"
+  - $ref: "./collection_model.yml"
   - type: object
     required:
       - _links
@@ -14,10 +14,10 @@ allOf:
         properties:
           self:
             allOf:
-              - "$ref": "./link.yml"
+              - $ref: "./link.yml"
               - description: |-
                   The categories collection
-                  
+
                   **Resource**: CategoriesCollection
                 readOnly: true
       _embedded:
@@ -28,5 +28,5 @@ allOf:
             readOnly: true
             items:
               allOf:
-                - "$ref": "./category_model.yml"
+                - $ref: "./category_model.yml"
                 - description: Collection of Categories

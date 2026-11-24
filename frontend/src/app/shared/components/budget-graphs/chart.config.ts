@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -134,7 +133,7 @@ function caretPoint<TType extends 'bar'|'pie'>(context:TooltipContext<TType>):DO
 }
 
 // Chart.js anchors a bar tooltip on the top edge of the hovered segment; the
-// segment's box lets anchored-position centre the popover on it instead.
+// segment's box lets anchored-position center the popover on it instead.
 function barBox(context:TooltipContext<'bar'>):DOMRect {
   const bar = context.tooltip.dataPoints[0]?.element as BarElement|undefined;
   const { x, y, base, width } = bar?.getProps(['x', 'y', 'base', 'width']) ?? {};

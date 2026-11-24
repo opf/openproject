@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -437,6 +436,45 @@ RSpec.describe MeetingMailer do
       User.execute_as(watcher1) do
         expect(mail.text_part.body).to include(added_names.first)
         expect(mail.text_part.body).to include(removed_names.first)
+      end
+    end
+  end
+
+  describe "cancelled" do
+    let(:reason) { "Room is double-booked" }
+    let(:mail) { described_class.cancelled(meeting, watcher1, author, reason:) }
+
+    it "includes the cancellation reason in the html and text body" do
+      expect(mail.html_part.body).to include(reason)
+      expect(mail.text_part.body).to include(reason)
+    end
+
+    context "without a reason" do
+      let(:mail) { described_class.cancelled(meeting, watcher1, author) }
+
+      it "omits the reason label" do
+        expect(mail.html_part.body).not_to include(I18n.t("meeting.email.cancelled.reason"))
+        expect(mail.text_part.body).not_to include(I18n.t("meeting.email.cancelled.reason"))
+      end
+    end
+  end
+
+  describe "cancelled_series" do
+    let(:series) { create(:recurring_meeting, project:, author:) }
+    let(:reason) { "Series is discontinued" }
+    let(:mail) { described_class.cancelled_series(series, watcher1, author, reason:) }
+
+    it "includes the cancellation reason in the html and text body" do
+      expect(mail.html_part.body).to include(reason)
+      expect(mail.text_part.body).to include(reason)
+    end
+
+    context "without a reason" do
+      let(:mail) { described_class.cancelled_series(series, watcher1, author) }
+
+      it "omits the reason label" do
+        expect(mail.html_part.body).not_to include(I18n.t("meeting.email.cancelled.reason"))
+        expect(mail.text_part.body).not_to include(I18n.t("meeting.email.cancelled.reason"))
       end
     end
   end

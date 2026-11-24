@@ -22,8 +22,15 @@
 ---
 'no':
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
     models:
       cost_query:
+        one: Cost report
+        other: Cost reports
+      cost_report:
         one: Cost report
         other: Cost reports
   button_save_report_as: Lagre rapport som...
@@ -38,6 +45,7 @@
       end_time: End time
       start_time: Starttid
       title: Din XLS-eksport av kostnadsrapporter
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: Export PDF timesheet
       overview_per_user_day: 'Overview: Hours per user per day'
@@ -46,6 +54,11 @@
       time: Tidspunkt
       timesheet: Timesheet
       title: Your PDF timesheet export
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    one: "%{filter} requires a value."
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: Avhengig av dine rettigheter kan denne siden inneholde begrenset informasjon.
   label_click_to_edit: Klikk for å redigere.
   label_closed: lukket
@@ -99,7 +112,6 @@
   plugin_openproject_reporting:
     description: Dette programtillegget gjør det mulig å lage egendefinerte kostnadsrapporter med filtrering og gruppering opprettet av OpenProject -utvidelsen Tid og kostnad.
     name: OpenProject rapportering
-  project_module_reporting_module: Kostnadsrapporter
   reporting:
     group_by:
       selected_columns: Valgte kolonner
@@ -107,5 +119,3 @@
   text_costs_are_rounded_note: Verdier som vises er avrundet. Alle beregninger er basert på ikke-avrundede verdier.
   toggle_multiselect: aktiv/deaktiver multivalg
   units: Enheter
-  validation_failure_date: er ikke en gyldig dato
-  validation_failure_integer: er ikke et gyldig heltall

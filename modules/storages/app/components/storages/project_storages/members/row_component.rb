@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -65,8 +64,11 @@ module Storages::ProjectStorages::Members
         warning_icon +
           content_tag(
             :span,
-            I18n.t("storages.member_connection_status.not_connected",
-                   link: link_to(I18n.t("link"), ensure_connection_url)).html_safe
+            helpers.link_translate(
+              "storages.member_connection_status.not_connected_html",
+              links: { storage_login: ensure_connection_url },
+              external: false
+            )
           )
       when :not_connected_sso
         content_tag(:span, I18n.t("storages.member_connection_status.not_connected_sso"))

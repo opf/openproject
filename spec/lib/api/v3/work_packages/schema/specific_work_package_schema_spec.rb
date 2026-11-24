@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -158,6 +157,20 @@ RSpec.describe API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
     it "is a list custom fields' possible values" do
       expect(subject.assignable_custom_field_values(list_cf))
         .to match_array list_cf.possible_values
+    end
+
+    context "for a list custom field with project-specific values" do
+      let(:project) { create(:project) }
+      let(:list_cf) { create(:list_wp_custom_field, :project_specific_allowlist, possible_values: %w[A B]) }
+      let(:option_a) { list_cf.custom_options.find_by!(value: "A") }
+
+      before do
+        create(:project_specific_value_restriction, project:, custom_option: option_a)
+      end
+
+      it "is the options usable in the work package's project" do
+        expect(subject.assignable_custom_field_values(list_cf)).to contain_exactly(option_a)
+      end
     end
 
     it "is a version custom fields' project values" do

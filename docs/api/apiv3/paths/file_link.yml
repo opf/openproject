@@ -2,7 +2,7 @@
 ---
 get:
   summary: Gets a file link.
-  operationId: view_file_link
+  operationId: get_file_link
   tags:
     - File links
   description: |-
@@ -43,7 +43,7 @@ delete:
     - File links
   description: |-
     Removes a file link on a work package.
-    
+
     The request contains only the file link identifier as a path parameter. No request body is needed.
   parameters:
     - name: id

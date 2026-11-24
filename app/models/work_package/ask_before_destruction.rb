@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,13 +32,13 @@ module WorkPackage::AskBeforeDestruction
 
   DestructionRegistration = Struct.new(:klass, :check, :action)
 
-  def self.included(base)
-    base.extend(ClassMethods)
-
-    base.class_attribute :registered_associated_to_ask_before_destruction
+  included do
+    cattr_accessor :registered_associated_to_ask_before_destruction,
+                   instance_accessor: false,
+                   default: []
   end
 
-  module ClassMethods
+  class_methods do
     def cleanup_action_required_before_destructing?(work_packages)
       !associated_to_ask_before_destruction_of(work_packages).empty?
     end
@@ -75,25 +74,22 @@ module WorkPackage::AskBeforeDestruction
     end
 
     def associated_to_ask_before_destruction(klass, check, action)
-      self.registered_associated_to_ask_before_destruction ||= []
-
-      registration = DestructionRegistration.new(klass, check, action)
-
-      self.registered_associated_to_ask_before_destruction << registration
+      registered_associated_to_ask_before_destruction << DestructionRegistration.new(klass, check, action)
     end
 
     def cleanup_each_associated_class(work_packages, user, to_do)
-      ret = false
+      all_succeeded = true
 
       transaction do
-        associated_to_ask_before_destruction_of(work_packages).each do |_klass, method|
-          ret = method.call(work_packages, user, to_do)
+        associated_to_ask_before_destruction_of(work_packages).each_value do |method|
+          succeeded = method.call(work_packages, user, to_do)
+          all_succeeded &&= succeeded
         end
 
-        raise ActiveRecord::Rollback unless ret
+        raise ActiveRecord::Rollback unless all_succeeded
       end
 
-      ret
+      all_succeeded
     end
   end
 end

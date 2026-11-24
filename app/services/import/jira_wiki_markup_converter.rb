@@ -22,21 +22,21 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Import
   class JiraWikiMarkupConverter
-    def initialize(text)
+    def initialize(text, attachment_paths_by_name: {})
       @text = text
+      @attachment_paths_by_name = attachment_paths_by_name
     end
 
     def convert
       ast = JiraWikiMarkup::Parser.new(@text).parse
-      JiraWikiMarkup::Renderer.new(ast).render
+      JiraWikiMarkup::Renderer.new(ast, attachment_paths_by_name: @attachment_paths_by_name).render
     end
   end
 end

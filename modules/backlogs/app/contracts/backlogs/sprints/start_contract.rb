@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -37,6 +36,7 @@ module Backlogs::Sprints
     # stop running the rest of validations in order to avoid stacking error messages.
     with_options if: -> { model.in_planning? } do
       validate :validate_dates_present
+      validate :validate_finish_date_not_in_past
       validate :validate_only_one_active_sprint, unless: -> { model.allow_multiple_active_sprints? }
       validate :validate_not_receiving_shared_sprints
     end
@@ -48,6 +48,10 @@ module Backlogs::Sprints
     def self.can_start?(user:, sprint:, project:)
       can_start_or_complete?(user:, sprint:) &&
         user.allowed_in_project?(:show_board_views, project)
+    end
+
+    def self.finish_date_in_past?(user:, sprint:)
+      sprint.finish_date? && sprint.finish_date < user.time_zone.today
     end
 
     private
@@ -68,6 +72,12 @@ module Backlogs::Sprints
       return if model.start_date? && model.finish_date?
 
       errors.add :base, :dates_required
+    end
+
+    def validate_finish_date_not_in_past
+      return unless self.class.finish_date_in_past?(user:, sprint: model)
+
+      errors.add :status, :finish_date_in_past
     end
 
     def validate_only_one_active_sprint

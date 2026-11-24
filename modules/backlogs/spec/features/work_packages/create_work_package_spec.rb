@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -193,6 +192,8 @@ RSpec.describe "Create work package", :js do
         fill_in "Subject", with: "The new item"
         click_on "Create"
       end
+
+      backlogs_page.expect_no_loading_skeleton
 
       expect_and_dismiss_flash type: :success, exact_message: "Successful creation."
 

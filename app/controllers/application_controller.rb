@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,10 +34,19 @@ require "doorkeeper/dashboard_helper"
 
 class ApplicationController < ActionController::Base
   class_attribute :_model_scope
-  class_attribute :accept_key_auth_actions
+  class_attribute :accept_rss_key_auth_actions
+  class_attribute :accept_api_key_auth_actions
 
   helper_method :render_to_string
   helper_method :gon
+
+  def self.accept_rss_key_auth(*actions)
+    self.accept_rss_key_auth_actions = actions.flatten.map(&:to_s)
+  end
+
+  def self.accept_api_key_auth(*actions)
+    self.accept_api_key_auth_actions = actions.flatten.map(&:to_s)
+  end
 
   protected
 
@@ -50,6 +58,7 @@ class ApplicationController < ActionController::Base
   include Accounts::UserLogin
   include Accounts::Authorization
   include Accounts::EnterpriseGuard
+  include Accounts::FeatureFlagGuard
   include Accounts::SessionLifetime
   include AdditionalUrlHelpers
   include OpenProjectErrorHelper
@@ -60,7 +69,7 @@ class ApplicationController < ActionController::Base
 
   layout "base"
 
-  protect_from_forgery
+  protect_from_forgery with: :exception, store: Sessions::CsrfTokenCookieStore.new
   # CSRF protection prevents two things. It prevents an attacker from using a
   # user's session to execute requests. It also prevents an attacker to log in
   # a user with the attacker's account. API requests each contain their own
@@ -198,7 +207,8 @@ class ApplicationController < ActionController::Base
   # Checks if the session cookie is missing.
   # This is useful only on a second request
   def openproject_cookie_missing?
-    request.cookies[OpenProject::Configuration["session_cookie_name"]].nil?
+    [OpenProject::Configuration["session_cookie_name"], Sessions::CsrfTokenCookieStore.cookie_name]
+      .none? { |name| request.cookies.key?(name) }
   end
 
   helper_method :openproject_cookie_missing?
@@ -207,7 +217,7 @@ class ApplicationController < ActionController::Base
   # Create CSRF issue
   def log_csrf_failure
     message = "CSRF validation error"
-    message += " (No session cookie present)" if openproject_cookie_missing?
+    message += " (No session or CSRF cookie present)" if openproject_cookie_missing?
 
     op_handle_error message, reference: :csrf_validation_failed
   end
@@ -319,13 +329,12 @@ class ApplicationController < ActionController::Base
     render template: "common/feed", layout: false, content_type: "application/atom+xml"
   end
 
-  def self.accept_key_auth(*actions)
-    actions = actions.flatten.map(&:to_s)
-    self.accept_key_auth_actions = actions
+  def accept_rss_key_auth_actions
+    self.class.accept_rss_key_auth_actions || []
   end
 
-  def accept_key_auth_actions
-    self.class.accept_key_auth_actions || []
+  def accept_api_key_auth_actions
+    self.class.accept_api_key_auth_actions || []
   end
 
   # Returns a string that can be used as filename value in Content-Disposition header
@@ -339,6 +348,14 @@ class ApplicationController < ActionController::Base
     else
       %w(xml json).include? params[:format]
     end
+  end
+
+  def api_key_auth_format?
+    api_request?
+  end
+
+  def api_key_authenticated?
+    @api_key_authenticated == true
   end
 
   # Returns the API key present in the request
@@ -380,7 +397,7 @@ class ApplicationController < ActionController::Base
         return view_paths.find_template(default_template_name(action_name), "api")
       rescue ::ActionView::MissingTemplate
         # the api template was not found
-        # fallback to the default behaviour
+        # fallback to the default behavior
       end
     end
     super
@@ -417,10 +434,6 @@ class ApplicationController < ActionController::Base
 
   def permitted_params
     @permitted_params ||= PermittedParams.new(params, current_user)
-  end
-
-  def session_expired?
-    current_user.logged? && session_ttl_expired?
   end
 
   def login_back_url_params

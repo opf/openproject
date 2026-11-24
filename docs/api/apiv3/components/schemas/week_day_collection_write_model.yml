@@ -31,32 +31,32 @@ properties:
                   allOf:
                     - $ref: './week_day_self_link_model.yml'
 
-example:
-  _type: Collection
-  _embedded:
-    elements:
-      - _type: WeekDay
-        working: true
-        _links:
-          self:
-            href: '/api/v3/days/week/1'
-      - _type: WeekDay
-        working: true
-        _links:
-          self:
-            href: '/api/v3/days/week/2'
-      - _type: WeekDay
-        working: true
-        _links:
-          self:
-            href: '/api/v3/days/week/4'
-      - _type: WeekDay
-        working: false
-        _links:
-          self:
-            href: '/api/v3/days/week/6'
-      - _type: WeekDay
-        working: false
-        _links:
-          self:
-            href: '/api/v3/days/week/7'
+examples:
+  - _type: Collection
+    _embedded:
+      elements:
+        - _type: WeekDay
+          working: true
+          _links:
+            self:
+              href: '/api/v3/days/week/1'
+        - _type: WeekDay
+          working: true
+          _links:
+            self:
+              href: '/api/v3/days/week/2'
+        - _type: WeekDay
+          working: true
+          _links:
+            self:
+              href: '/api/v3/days/week/4'
+        - _type: WeekDay
+          working: false
+          _links:
+            self:
+              href: '/api/v3/days/week/6'
+        - _type: WeekDay
+          working: false
+          _links:
+            self:
+              href: '/api/v3/days/week/7'

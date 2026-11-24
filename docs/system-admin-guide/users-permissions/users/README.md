@@ -26,7 +26,7 @@ In the Community edition there is no limit to the number of users. In Enterprise
 | [Filter users](#filter-users)                   | Filter users in the list.                                    |
 | [Configure view](#configure-view)               | Configure how user information is displayed.                 |
 | [Lock and unlock users](#lock-and-unlock-users) | Block a user permanently in the system or unlock a user.     |
-| [Create users](#create-users)                   | Invite or create new users. Resend or delete user invitations |
+| [Create users](#create-users)                   | Invite or create new users. Resend or delete user invitations. |
 | [Manage user settings](#manage-user-settings)   | Manage user details.                                         |
 | [Authentication](#authentication)               | Set and use authentication methods.                          |
 | [Delete users](#delete-users)                   | Delete a user from the system.                               |
@@ -117,6 +117,12 @@ The form consists of the following sections:
 
 Click **Create** to add the user. After the user has been created, their user details page opens automatically.
 
+### Invite a user via the header navigation
+
+You can invite new users to a project directly from the header navigation. Click the **+ button** and select **Invite user**.
+
+![Header navigation showing the plus button and the option to invite a user](openproject_system_guide_invite_user_from_header.png)
+
 ### Create user (via self-registration)
 
 To allow users to create their own user accounts enable self-registration in the [authentication settings](../../authentication/login-registration-settings/). A person can then create their own user from the home page by clicking on the **Sign in** button (top right), then on the **Create a new account** link in the sign in box.
@@ -182,9 +188,9 @@ The **General** tab is divided into several sections.
 
 ### Avatar
 
-The **Avatar** section displays the user's current avatar. By default, a generic icon is shown. You can upload a custom avatar image for the user.
+The **Avatar** section at the top of the **General** tab shows the user's current avatar. Click the avatar to open the **Edit avatar** dialog. There, you can change the avatar for the user in the same way users change their own avatar: use a [Gravatar](https://en.wikipedia.org/wiki/Gravatar), upload a custom image, or customize the initials and the background color. For more details, see [Set an avatar](../../../user-guide/account-settings/account/#set-an-avatar).
 
-If enabled, users can also use a [Gravatar](https://en.wikipedia.org/wiki/Gravatar), which they can manage in their [Account settings](../../../user-guide/account-settings/account/#set-an-avatar). Both custom avatars and Gravatar support can be disabled in the [Avatar settings](../avatars).
+The options available in the dialog depend on the [avatar settings](../avatars). The **Initials** option is always available.
 
 > [!TIP]
 > Hover over a user's avatar or name (for example, on the **Members** or **Activity** page) to view additional user information.
@@ -240,6 +246,7 @@ Available settings include:
 - **Time zone** – By default, the time zone is determined from the selected language but can be changed.
 - **Color mode** – Choose the preferred appearance. Some color modes override custom theme colors to improve accessibility and readability. Select **Light mode** for full compatibility with custom themes.
 - **Disable keyboard shortcuts** – Disable the default [keyboard shortcuts](../../../user-guide/keyboard-shortcuts-access-keys/?go_to_locale=en). This can be helpful when using a screen reader or to avoid triggering actions accidentally.
+- **Require double click to edit fields** – Only open editable fields on a double click instead of a single click, which makes it easier to select and copy text. See [Interface settings](../../../user-guide/account-settings/interface/#require-double-click-to-edit-fields) for details.
 
 Remember to **Save** your changes before leaving the page.
 
@@ -319,7 +326,7 @@ This tab shows whether a user has activated a device for two-factor authenticati
 
 ## Delete users
 
-Two [settings](../settings/#user-deletion) allow users to be deleted from the system:
+Two [settings](../settings/#deletion) allow users to be deleted from the system:
 
 - **User accounts deletable by admins** - if ticked, a **Delete** button is shown on the user details page.
 - **Users allowed to delete their accounts** - if ticked, a **Delete account** menu entry is shown in the **Account settings** page.

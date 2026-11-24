@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -133,6 +132,7 @@ RSpec.describe "Update ancestors", :js do
       context_menu = wp_table.open_context_menu_for(second_child)
       context_menu.choose_delete_and_confirm_deletion
 
+      wait_for { WorkPackage.exists?(second_child.id) }.to be(false)
       parent.reload
       expect(parent.derived_estimated_hours).to eq([parent, child].pluck(:estimated_hours).sum)
       expect(parent.derived_remaining_hours).to eq([parent, child].pluck(:remaining_hours).sum)

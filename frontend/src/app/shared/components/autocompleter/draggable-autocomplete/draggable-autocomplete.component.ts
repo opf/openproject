@@ -20,13 +20,12 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import {
@@ -53,9 +52,13 @@ export interface DraggableOption {
   standalone: false,
 })
 export class DraggableAutocompleteComponent implements OnInit, AfterViewInit {
+  /** Event a consumer dispatches on the element to add options from its own control. */
+  static readonly ADD_EVENT = 'op:draggable-autocompleter:add';
+
   readonly I18n = inject(I18nService);
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly alternativeSearchService = inject(AlternativeSearchService);
+  readonly changeDetectorRef = inject(ChangeDetectorRef);
 
   /** Options to show in the autocompleter */
   @Input() options:DraggableOption[];
@@ -65,6 +68,13 @@ export class DraggableAutocompleteComponent implements OnInit, AfterViewInit {
 
   /** List of options that are protected from being deleted. They can still be moved. */
   @Input() protected:DraggableOption[] = [];
+
+  /**
+   * Hides the autocompleter input, leaving only the drag & drop area. Consumers that set
+   * this render their own control for adding options and feed the component through the
+   * `op:draggable-autocompleter:add` event.
+   */
+  @Input() inputHidden = false;
 
   /** Should we focus the autocompleter ? */
   @Input() autofocus = true;
@@ -107,6 +117,7 @@ export class DraggableAutocompleteComponent implements OnInit, AfterViewInit {
   @Input() formControlId = 'op-draggable-autocomplete-container';
 
   /** Output when autocompleter changes values or items removed */
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onChange = new EventEmitter<DraggableOption[]>();
 
   /** List of items still available for selection */
@@ -122,9 +133,20 @@ export class DraggableAutocompleteComponent implements OnInit, AfterViewInit {
     this.updateAvailableOptions();
 
     this.appendTo = this.appendToComponent ? `#${this.formControlId}` : 'body';
+
+    // Bound by hand rather than with @HostListener, which reads the colon in the event
+    // name as a global event target.
+    this.elementRef.nativeElement.addEventListener(
+      DraggableAutocompleteComponent.ADD_EVENT,
+      (event) => this.addOptions(event as CustomEvent<DraggableOption[]>),
+    );
   }
 
   ngAfterViewInit():void {
+    if (!this.ngSelectComponent) {
+      return;
+    }
+
     if (this.autofocus) {
       this.ngSelectComponent.focus();
     }
@@ -134,6 +156,19 @@ export class DraggableAutocompleteComponent implements OnInit, AfterViewInit {
     if (input) {
       input.id = this.id;
     }
+  }
+
+  // The way in for consumers that replaced the autocompleter input with their own control.
+  addOptions(event:CustomEvent<DraggableOption[]>):void {
+    const additions = (event.detail || [])
+      .filter((option) => !this.selectedOptions.some((selected) => selected.id === option.id));
+
+    if (additions.length === 0) {
+      return;
+    }
+
+    this.selectedOptions = [...this.selectedOptions, ...additions];
+    this.changeDetectorRef.markForCheck();
   }
 
   reorder(event:SortableListsDropEvent):void {

@@ -1,0 +1,84 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+require "rails_helper"
+
+RSpec.describe Admin::Labels::RowComponent, type: :component do
+  include Rails.application.routes.url_helpers
+
+  let(:query) { Queries::Labels::LabelQuery.new }
+
+  subject(:rendered_component) do
+    with_request_url "/admin/labels" do
+      render_inline(Admin::Labels::TableComponent.new(rows: [label], query:))
+    end
+  end
+
+  context "with a used label" do
+    shared_let(:record) { create(:label, name: "Bug") }
+    shared_let(:labelings) { create_list(:labeling, 3, label: record) }
+
+    let(:label) { Label.with_usage_count.find(record.id) }
+
+    it "renders the name as a chip" do
+      expect(rendered_component).to have_test_selector("label-name", text: "Bug")
+    end
+
+    it "links the pluralized usage count to the work package table filtered by the label" do
+      query_props = { f: [{ n: "label", o: "=", v: [record.id.to_s] }] }.to_json
+
+      expect(rendered_component).to have_link("3 work packages", href: work_packages_path(query_props:), target: "_blank")
+    end
+  end
+
+  context "with an unused label" do
+    shared_let(:record) { create(:label, name: "Feature") }
+
+    let(:label) { Label.with_usage_count.find(record.id) }
+
+    it "renders a plain dash instead of a count" do
+      expect(rendered_component).to have_test_selector("label-usage", text: "-")
+      expect(rendered_component).to have_no_link("-")
+    end
+  end
+
+  context "with the actions menu" do
+    shared_let(:record) { create(:label, name: "Bug") }
+
+    let(:label) { Label.with_usage_count.find(record.id) }
+
+    it "links Rename to the edit dialog" do
+      expect(rendered_component).to have_selector(:async_dialog_trigger, "Rename", href: edit_dialog_admin_label_path(label))
+    end
+
+    it "links Delete to the deletion dialog" do
+      expect(rendered_component).to have_selector(:async_dialog_trigger, "Delete", href: deletion_dialog_admin_label_path(label))
+    end
+  end
+end

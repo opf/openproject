@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -30,14 +29,14 @@ import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation, inject }
 import { HttpClient } from '@angular/common/http';
 import { from } from 'rxjs';
 import {
-  EditFieldComponent,
-} from 'core-app/shared/components/fields/edit/edit-field.component';
+  AutocompleterEditFieldComponent,
+} from 'core-app/shared/components/fields/edit/field-types/autocompleter-edit-field.component';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { IProject } from 'core-app/core/state/projects/project.model';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { take, tap } from 'rxjs/operators';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 import { IAPIFilter } from 'core-app/shared/components/autocompleter/op-autocompleter/typings';
 import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 
@@ -48,12 +47,12 @@ import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-bui
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class ProjectEditFieldComponent extends EditFieldComponent implements OnInit {
+export class ProjectEditFieldComponent extends AutocompleterEditFieldComponent implements OnInit {
   readonly apiV3Service = inject(ApiV3Service);
   readonly http = inject(HttpClient);
   readonly halResourceService = inject(HalResourceService);
 
-  isNew = isNewResource(this.resource as { id:string | null });
+  isNew = isNewResource(this.resource);
 
   url:string;
 
@@ -65,7 +64,8 @@ export class ProjectEditFieldComponent extends EditFieldComponent implements OnI
     }
   }
 
-  public onModelChange(project?:IProject):unknown {
+  public onModelChange(project:unknown):unknown {
+    if (project !== undefined && (typeof project !== 'object' || Array.isArray(project))) { return; }
     if (project) {
       // We fake a HalResource here because we're using a plain JS object, but the schema loading and editing
       // is part of the older HalResource stack
@@ -85,7 +85,7 @@ export class ProjectEditFieldComponent extends EditFieldComponent implements OnI
     ];
 
     const type = this.change.value<{ href:string }|null>('type');
-    if (isNewResource(this.resource as { id:string | null }) && type) {
+    if (isNewResource(this.resource) && type) {
       const typeId = idFromLink(type.href);
       filters.push({ name: 'type_id', operator: '=', values: [typeId] });
     }
@@ -102,7 +102,6 @@ export class ProjectEditFieldComponent extends EditFieldComponent implements OnI
   }
 
   private setUrl():void {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    this.url = this.schema.allowedValues.$link.href as string;
+    this.url = (this.schema.allowedValues as CallableHalLink).$link.href!;
   }
 }

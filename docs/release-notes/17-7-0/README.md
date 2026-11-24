@@ -286,7 +286,7 @@ The Agenda API now supports retrieving agenda items by work package ID, making i
 - Bugfix: Members: Changing a group&#39;s role results in a 404 error \[[#77450](https://community.openproject.org/wp/77450)\]
 - Bugfix: Boolean calculated value is not properly formatted in input \[[#77487](https://community.openproject.org/wp/77487)\]
 - Bugfix: PDF Export: Empty hierarchy custom fields appear as &quot;not found&quot; in PDF instead of empty \[[#77684](https://community.openproject.org/wp/77684)\]
-- Bugfix: Fix \`XOR\` behaviour \[[#77740](https://community.openproject.org/wp/77740)\]
+- Bugfix: Fix \`XOR\` behavior \[[#77740](https://community.openproject.org/wp/77740)\]
 - Bugfix: Accidentally using a date for calculated value will cause either 500 or cause &quot;unknown error&quot; \[[#77789](https://community.openproject.org/wp/77789)\]
 - Bugfix: Booleans should be allowed as input for calculated values \[[#77830](https://community.openproject.org/wp/77830)\]
 - Bugfix: A \`CASE\` without default value causes an error on project and projects pages \[[#77874](https://community.openproject.org/wp/77874)\]

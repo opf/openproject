@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,7 +37,7 @@ class WorkPackages::BulkController < ApplicationController
   include QueriesHelper
 
   include WorkPackages::BulkErrorMessage
-  include WorkPackages::VersionIdsNormalization
+  include WorkPackages::IdListNormalization
   include OpTurbo::ComponentStream
 
   def delete_dialog
@@ -135,24 +134,20 @@ class WorkPackages::BulkController < ApplicationController
   end
 
   def setup_edit
-    @available_statuses = @projects.map { |p| Workflow.available_statuses(p) }.inject(&:&)
+    @available_statuses = @projects.map { |p| Workflows::StatusTransition.available_statuses(p) }.inject(&:&)
     @assignables = @responsibles = Principal.possible_assignee(@projects)
     @types = @projects.map { |project| project.enabled_types.to_a }.inject(&:&)
-    @custom_fields = editable_custom_fields
-  end
-
-  # Only the custom fields that are enabled on the projects and on the types too.
-  def editable_custom_fields
-    @projects.map(&:all_work_package_custom_fields).inject(&:&) & custom_fields_of_type_variants
+    @custom_fields = custom_fields_of_type_variants
   end
 
   # Each project applies its own variant of a type, so the variant is resolved per project
   # before #custom_fields follows the form configuration link from there.
   def custom_fields_of_type_variants
-    @projects.flat_map { |project| project.type_variants(*@types) }
-             .uniq
+    @projects.map do |project|
+      project.type_variants(*@types)
              .flat_map { |variant| variant.custom_fields.to_a }
              .uniq
+    end.inject(&:&) || []
   end
 
   # Deletion is not all or nothing: one work package may be deleted while another
@@ -197,18 +192,8 @@ class WorkPackages::BulkController < ApplicationController
     attributes = permitted_params.update_work_package
     attributes[:custom_field_values] = transform_attributes(attributes[:custom_field_values])
     attributes = attributes_with_normalized_parent_id(attributes)
-    # target_version_ids and observed_in_version_ids are array params and must not be
-    # run through the generic transform below (which is built for scalar "none"/blank
-    # magic values), so pull them out, normalize them separately, and merge the result back in.
-    version_ids = attributes_with_normalized_version_ids(attributes)
-    transform_attributes(attributes).merge(version_ids)
-  end
-
-  def attributes_with_normalized_version_ids(attributes)
-    {
-      target_version_ids: normalized_target_version_ids(attributes.delete(:target_version_ids)),
-      observed_in_version_ids: normalized_observed_in_version_ids(attributes.delete(:observed_in_version_ids))
-    }.compact
+    id_lists = extract_normalized_id_lists(attributes)
+    transform_attributes(attributes).merge(id_lists)
   end
 
   def attributes_with_normalized_parent_id(attributes)

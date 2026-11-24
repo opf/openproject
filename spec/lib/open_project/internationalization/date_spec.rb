@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 
@@ -68,6 +67,54 @@ RSpec.describe OpenProject::Internationalization::Date do
       it "returns :sunday" do
         expect(described_class.beginning_of_week).to eq(:sunday)
       end
+    end
+  end
+
+  describe ".first_day_of_week_index" do
+    context "when the first day of the week is Sunday", with_settings: { start_of_week: 7 } do
+      it "returns the index Date#wday gives Sunday" do
+        expect(described_class.first_day_of_week_index).to eq(0)
+        expect(described_class.first_day_of_week_index).to eq(Date.new(2026, 9, 20).wday)
+      end
+    end
+
+    context "when the first day of the week is Monday", with_settings: { start_of_week: 1 } do
+      it "returns the index Date#wday gives Monday" do
+        expect(described_class.first_day_of_week_index).to eq(1)
+        expect(described_class.first_day_of_week_index).to eq(Date.new(2026, 9, 21).wday)
+      end
+    end
+
+    context "when the first day of the week is Saturday", with_settings: { start_of_week: 6 } do
+      it "returns the index Date#wday gives Saturday" do
+        expect(described_class.first_day_of_week_index).to eq(6)
+        expect(described_class.first_day_of_week_index).to eq(Date.new(2026, 9, 26).wday)
+      end
+    end
+
+    context "when the first day of the week is not set and I18n states Monday", with_settings: { start_of_week: nil } do
+      before do
+        allow(I18n).to receive(:t).with(:general_first_day_of_week).and_return("1")
+      end
+
+      it "follows the language rather than defaulting to Sunday" do
+        expect(described_class.first_day_of_week_index).to eq(1)
+      end
+    end
+
+    context "when the first day of the week is not set and I18n states Sunday", with_settings: { start_of_week: nil } do
+      before do
+        allow(I18n).to receive(:t).with(:general_first_day_of_week).and_return("7")
+      end
+
+      it "follows the language rather than defaulting to Monday" do
+        expect(described_class.first_day_of_week_index).to eq(0)
+      end
+    end
+
+    it "names the same day as .beginning_of_week", with_settings: { start_of_week: 6 } do
+      expect(described_class::WEEKDAY_NAMES[described_class.first_day_of_week_index])
+        .to eq(described_class.beginning_of_week.to_s)
     end
   end
 

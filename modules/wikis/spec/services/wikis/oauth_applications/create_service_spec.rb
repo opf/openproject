@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -56,6 +55,27 @@ RSpec.describe Wikis::OAuthApplications::CreateService, type: :model do
 
     it "sets the redirect_uri to the XWiki OIDC callback path without double slashes" do
       expect(subject.result.redirect_uri).to eq("https://xwiki.example.com/oidc/authenticator/callback")
+    end
+
+    context "with a client id and secret given" do
+      subject { instance.call(client_id: "my-client-id", client_secret: "my-client-secret") }
+
+      it "uses the given client id" do
+        expect(subject.result.reload.uid).to eq("my-client-id")
+      end
+
+      it "stores the given client secret hashed" do
+        application = subject.result.reload
+
+        expect(application.secret).not_to eq("my-client-secret")
+        expect(application.secret_matches?("my-client-secret")).to be(true)
+      end
+
+      it "allows looking up the application by its credentials" do
+        application = subject.result
+
+        expect(Doorkeeper::Application.by_uid_and_secret("my-client-id", "my-client-secret")).to eq(application)
+      end
     end
   end
 end

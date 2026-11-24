@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -314,9 +313,7 @@ module API
           super(model, current_user:, embed_links:)
         end
 
-        self.to_eager_load = [:user,
-                              :views,
-                              { project: :work_package_custom_fields }]
+        self.to_eager_load = %i[user views]
 
         def _type
           "Query"
@@ -328,9 +325,6 @@ module API
           end
         end
 
-        # Assigned in one go: writing the filters collapses interchangeable filter
-        # keys (e.g. version and target version), so appending them one by one
-        # would list such a filter twice.
         def filters=(filters_hash)
           represented.filters = filters_hash.map { filter_from_hash(it) }
         end
@@ -360,7 +354,9 @@ module API
         end
 
         def filter_from_hash(filter_attributes)
-          name = get_filter_name(filter_attributes)
+          href = filter_attributes.dig("_links", "filter", "href")
+          id = id_from_href "queries/filters", href
+          name = ::API::Utilities::QueryFiltersNameConverter.to_ar_name(id, refer_to_ids: true) if id
 
           raise API::Errors::InvalidRequestBody, "Could not read filter from: #{filter_attributes}" if name.nil?
 
@@ -369,14 +365,6 @@ module API
           ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter
             .new(filter_class.create!(name:))
             .from_hash(filter_attributes)
-        end
-
-        def get_filter_name(filter_attributes)
-          href = filter_attributes.dig("_links", "filter", "href")
-          id = id_from_href "queries/filters", href
-          name = ::API::Utilities::QueryFiltersNameConverter.to_ar_name(id, refer_to_ids: true) if id
-
-          Query::DeprecatedVersionFilter.normalize_key(name)
         end
 
         def id_from_href(expected_namespace, href)

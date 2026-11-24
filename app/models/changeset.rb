@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -37,20 +36,22 @@ class Changeset < ApplicationRecord
 
   acts_as_journalized timestamp: :committed_on
 
-  acts_as_event title: Proc.new { |o|
-                         "#{I18n.t(:label_revision)} #{o.format_identifier}" + (o.short_comments.blank? ? "" : (": " + o.short_comments))
-                       },
-                description: :long_comments,
-                datetime: :committed_on,
-                url: Proc.new { |o|
-                  {
-                    controller: "/repositories",
-                    action: "revision",
-                    project_id: o.repository.project_id,
-                    rev: o.identifier
-                  }
-                },
-                author: Proc.new { |o| o.author }
+  acts_as_event(
+    title: Proc.new do |o|
+      "#{I18n.t(:label_revision)} #{o.format_identifier}" + (o.short_comments.blank? ? "" : ": #{o.short_comments}")
+    end,
+    description: :long_comments,
+    datetime: :committed_on,
+    url: Proc.new do |o|
+      {
+        controller: "/repositories",
+        action: "revision",
+        project_id: o.repository.project_id,
+        rev: o.identifier
+      }
+    end,
+    author: Proc.new { |o| o.author }
+  )
 
   acts_as_searchable columns: "comments",
                      include: { repository: :project },
@@ -69,7 +70,7 @@ class Changeset < ApplicationRecord
   }
 
   def revision=(r)
-    write_attribute :revision, (r.nil? ? nil : r.to_s)
+    write_attribute :revision, r&.to_s
   end
 
   # Returns the identifier of this changeset; depending on repository backends
@@ -101,9 +102,7 @@ class Changeset < ApplicationRecord
 
   # Delegate to a Repository's log encoding
   def repository_encoding
-    if repository.present?
-      repository.repo_log_encoding
-    end
+    repository.presence&.repo_log_encoding
   end
 
   # Committer of the Changeset
@@ -115,7 +114,7 @@ class Changeset < ApplicationRecord
   end
 
   before_create :sanitize_attributes
-  before_create :assign_openproject_user_from_comitter
+  before_create :assign_openproject_user_from_committer
   after_create :scan_comment_for_work_package_ids
 
   TIMELOG_RE = /
@@ -221,17 +220,18 @@ class Changeset < ApplicationRecord
         project.is_descendant_of?(work_package.project))
   end
 
+  # rubocop:disable-next Metrics/AbcSize
   def fix_work_package(work_package)
     status = Status.find_by(id: Setting.commit_fix_status_id.to_i)
     if status.nil?
-      logger.warn("No status matches commit_fix_status_id setting (#{Setting.commit_fix_status_id})") if logger
+      logger&.warn("No status matches commit_fix_status_id setting (#{Setting.commit_fix_status_id})")
       return work_package
     end
 
     # the work_package may have been updated by the closure of another one (eg. duplicate)
     work_package.reload
     # don't change the status if the work package is closed
-    return if work_package.status && work_package.status.is_closed?
+    return if work_package.status&.closed?
 
     call = WorkPackages::UpdateService
            .new(model: work_package,
@@ -249,7 +249,7 @@ class Changeset < ApplicationRecord
   end
 
   def log_time(work_package, hours)
-    unless user.present?
+    if user.blank?
       Rails.logger.warn("TimeEntry could not be created by changeset #{id}: #{committer} does not map to user")
       return
     end
@@ -277,12 +277,14 @@ class Changeset < ApplicationRecord
     self.comments  = self.class.normalize_comments(comments, repository.repo_log_encoding)
   end
 
-  def assign_openproject_user_from_comitter
+  def assign_openproject_user_from_committer
     self.user = repository.find_committer_user(committer)
     add_journal(user: user || User.anonymous, notes: comments)
   end
 
   # TODO: refactor to a standard helper method
+  # rubocop:disable-next Metrics/AbcSize
+  # rubocop:disable-next Metrics/PerceivedComplexity
   def self.to_utf8(str, encoding)
     return str if str.nil?
 
@@ -311,7 +313,7 @@ class Changeset < ApplicationRecord
         txtar += str.encode("UTF-8", normalized_encoding)
       rescue Encoding::InvalidByteSequenceError, Encoding::UndefinedConversionError
         txtar += $!.success
-        str = "?" + $!.failed[1, $!.failed.length]
+        str = "?#{$!.failed[1, $!.failed.length]}"
         retry
       rescue StandardError
         txtar += $!.success

@@ -1,0 +1,3 @@
+# explicitly mark lock files as generated to collapse in diffs
+Gemfile.lock linguist-generated
+package-lock.json linguist-generated

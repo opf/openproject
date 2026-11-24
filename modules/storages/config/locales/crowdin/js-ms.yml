@@ -26,10 +26,11 @@ ms:
         select: Pilih fail
         select_all: Pilih semua
         selection:
-          zero: Pilih fail untuk dipautkan
-          other: Pautkan %{count} fail
+          none: Select files to link
+          one: Link %{count} file
+          other: Link %{count} files
         success_create:
-          other: "%{count} pautan fail berjaya dicipta."
+          other: Successfully created %{count} file links.
         tooltip:
           not_found: Fail ini tidak dapat ditemui.
           not_logged_in: Sila log masuk ke dalam storan untuk mengakses fail ini.

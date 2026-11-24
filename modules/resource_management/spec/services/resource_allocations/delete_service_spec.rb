@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -49,6 +48,31 @@ RSpec.describe ResourceAllocations::DeleteService, type: :model do
     it "destroys the allocation" do
       expect { service_call }.to change(ResourceAllocation, :count).by(-1)
       expect(service_call).to be_success
+    end
+
+    describe "updating the schedule" do
+      let(:schedule_service) { instance_spy(ResourceAllocations::UpdateScheduleService) }
+
+      before { allow(ResourceAllocations::UpdateScheduleService).to receive(:new).and_return(schedule_service) }
+
+      it "recomputes the principal's schedule from the start date" do
+        service_call
+
+        expect(schedule_service).to have_received(:call)
+          .once.with(users: [owner], from: resource_allocation.start_date)
+      end
+
+      context "when the allocation is not allocated" do
+        let!(:resource_allocation) do
+          create(:resource_allocation, entity: work_package, principal: owner, state: "canceled")
+        end
+
+        it "does not recompute" do
+          service_call
+
+          expect(schedule_service).not_to have_received(:call)
+        end
+      end
     end
   end
 

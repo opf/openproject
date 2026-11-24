@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,7 +33,6 @@ class OAuthClientsController < ApplicationController
   before_action :require_login
   before_action :set_oauth_state, only: [:callback]
   before_action :find_oauth_client, only: [:callback]
-  before_action :set_redirect_uri, only: [:callback]
   before_action :set_code, only: [:callback]
   before_action :set_connection_manager, only: [:callback]
 
@@ -52,22 +50,27 @@ class OAuthClientsController < ApplicationController
   #   state=http%3A%2F%2Flocalhost%3A4200%2Fprojects%2Fdemo-project%2Foauth2_example&
   #   code=MQoOnUTJGFdAo5jBGD1SqnDH0PV6yioG7NoYM2zZZlK3g6LuKrGUmOxjIS1bIy7fHEfZy2WrgYcx
   def callback
+    redirect_uri = get_redirect_uri
+    if redirect_uri.blank?
+      # To protect against CSRF we cancel this request. There was either no
+      # state parameter given, or there was no corresponding cookie present.
+      flash[:error] = [I18n.t("oauth_client.errors.oauth_state_not_present"),
+                       I18n.t("oauth_client.errors.oauth_state_not_present_explanation")]
+      return redirect_to root_url
+    end
+
     # Exchange the code with a token using a HTTP call to the Authorization Server
     service_result = @connection_manager.code_to_token(@code)
 
     if service_result.success?
       # Redirect the user to the page that initially wanted to access the OAuth2 resource.
       # "state" is a nonce that identifies a cookie which holds that page's URL.
-      redirect_to @redirect_uri, op_modal: retrieve_callback_op_modal_flash
+      redirect_to redirect_uri, op_modal: retrieve_callback_op_modal_flash
     else
       # We got a list of errors from ::OAuthClients::ConnectionManager
       set_oauth_errors(service_result)
 
-      redirect_user_or_admin(@redirect_uri) do
-        # If the current user is an admin, we send her directly to the
-        # settings that she needs to edit.
-        redirect_to edit_admin_settings_storage_path(@oauth_client.integration)
-      end
+      redirect_to redirect_uri
     end
   end
 
@@ -116,7 +119,7 @@ class OAuthClientsController < ApplicationController
                      I18n.t("oauth_client.errors.oauth_client_not_found_explanation")]
 
     if User.current.admin?
-      redirect_to admin_settings_storages_path
+      redirect_to admin_index_path
     else
       redirect_to root_url
     end
@@ -162,33 +165,7 @@ class OAuthClientsController < ApplicationController
       flash[:error] = [I18n.t("oauth_client.errors.oauth_code_not_present"),
                        I18n.t("oauth_client.errors.oauth_code_not_present_explanation")]
 
-      redirect_user_or_admin(get_redirect_uri) do
-        # If the current user is an admin, we send her directly to the
-        # settings that she needs to edit/fix.
-        redirect_to edit_admin_settings_storage_path(@oauth_client.integration)
-      end
-    end
-  end
-
-  def set_redirect_uri
-    # redirect_uri is used by OpenProject to redirect to
-    # after receiving an OAuth2 access token. So it should not be blank.
-    service_result = ::OAuthClients::RedirectUriFromStateService
-                       .new(state: @oauth_state, cookies:)
-                       .call
-
-    if service_result.success?
-      @redirect_uri = service_result.result
-    else
-      # To protect against CSRF we cancel this request. There was either no
-      # state parameter given, or there was no corresponding cookie present.
-      flash[:error] = [I18n.t("oauth_client.errors.oauth_state_not_present"),
-                       I18n.t("oauth_client.errors.oauth_state_not_present_explanation")]
-
-      redirect_user_or_admin(nil) do
-        # Guide the user to the settings that she needs to edit/fix.
-        redirect_to edit_admin_settings_storage_path(@oauth_client.integration)
-      end
+      redirect_to(get_redirect_uri || root_url)
     end
   end
 
@@ -199,7 +176,7 @@ class OAuthClientsController < ApplicationController
     )
   end
 
-  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable-next Metrics/AbcSize
   def find_oauth_client
     oauth_client_from_cookie = -> do
       cookie = cookies["oauth_state_#{@oauth_state}"]
@@ -221,28 +198,12 @@ class OAuthClientsController < ApplicationController
       flash[:error] = [I18n.t("oauth_client.errors.oauth_client_not_found"),
                        I18n.t("oauth_client.errors.oauth_client_not_found_explanation")]
 
-      redirect_user_or_admin(get_redirect_uri) do
-        # Something must be wrong in the storage's setup
-        redirect_to admin_settings_storages_path
-      end
+      redirect_to(get_redirect_uri || root_url)
     end
   end
-
-  # rubocop:enable Metrics/AbcSize
 
   def oauth_integration
     @oauth_client&.integration
-  end
-
-  def redirect_user_or_admin(redirect_uri = nil)
-    # This needs to be modified as soon as we support more integration types.
-    if User.current.admin && redirect_uri && oauth_integration.try(:supports_oauth_redirect?)
-      yield
-    elsif redirect_uri
-      redirect_to redirect_uri
-    else
-      redirect_to root_url
-    end
   end
 
   def get_redirect_uri

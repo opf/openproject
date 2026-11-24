@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,8 +31,7 @@ require "spec_helper"
 
 RSpec.describe "Type variant switch impact",
                :skip_csrf,
-               type: :rails_request,
-               with_flag: { type_variants: true } do
+               type: :rails_request do
   shared_let(:admin) { create(:admin) }
 
   shared_let(:epic) { create(:type, name: "Epic") }
@@ -61,14 +59,14 @@ RSpec.describe "Type variant switch impact",
     request_impact(delivery)
 
     expect(response).to have_http_status(:ok)
-    expect(response.body).to include("Fields that will no longer be shown")
+    expect(response.body).to include("Fields that will be removed")
   end
 
   it "reports nothing for the variant the project already applies" do
     request_impact(epic.default_variant)
 
     expect(response).to have_http_status(:ok)
-    expect(response.body).not_to include("Fields that will no longer be shown")
+    expect(response.body).not_to include("Fields that will be removed")
   end
 
   # The select only offers members of this type, so this is only reachable by forging the
@@ -78,6 +76,6 @@ RSpec.describe "Type variant switch impact",
     request_impact(bug_variant)
 
     expect(response).to have_http_status(:ok)
-    expect(response.body).not_to include("Fields that will no longer be shown")
+    expect(response.body).not_to include("Fields that will be removed")
   end
 end

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -47,14 +46,7 @@ module Wikis
       Adapters::Registry.stub("internal.queries.page_info", query_class_double)
 
       build_inputs.each do |input|
-        allow(query_double).to receive(:call).with(input_data: input, auth_strategy: anything).and_return(
-          Success(
-            Adapters::Results::PageInfo.new(title: "Wikis, now with more cheese! Part #{input.identifier}",
-                                            identifier: input.identifier,
-                                            href: "totally_valid_url",
-                                            provider:)
-          )
-        )
+        allow(query_double).to receive(:call).with(input_data: input, auth_strategy: anything).and_return(build_result(input))
       end
     end
 
@@ -72,6 +64,12 @@ module Wikis
 
       page_links = service_result.result
       expect(page_links.first.title).to eq("Wikis, now with more cheese! Part #{page_links.first.identifier}")
+    end
+
+    it "returns all page links" do
+      actual_links = service.call.result
+
+      expect(actual_links.to_a.size).to eq(page_links.count)
     end
 
     context "when page links have the same identifier but different providers" do
@@ -117,10 +115,71 @@ module Wikis
       end
     end
 
+    context "when no identifier can be resolved to a wiki page" do
+      def build_result(input)
+        Failure("Can't find page for #{input.identifier}")
+      end
+
+      it "returns a relation without raising errors" do
+        service_result = service.call
+
+        expect(service_result).to be_success
+        expect(service_result.errors).to be_empty
+        expect(service_result.result).to be_an(ActiveRecord::Relation)
+      end
+
+      it "returns all page links" do
+        actual_links = service.call.result
+
+        expect(actual_links.to_a.size).to eq(page_links.count)
+      end
+
+      it "adds no title attribute to any page link" do
+        page_links = service.call.result
+        page_links.each do |link|
+          expect(link.identifier).to be_present
+          expect(link.title).to be_nil
+        end
+      end
+    end
+
+    context "when an identifier can't be resolved to a wiki page" do
+      def build_result(input)
+        return super if @succeed
+
+        @succeed = true
+        Failure("Can't find page for #{input.identifier}")
+      end
+
+      it "adds the title attribute to the metadata association, but skips failed fetches" do
+        service_result = service.call
+        expect(service_result).to be_success
+
+        page_links = service_result.result
+        expect(page_links.first.title).to be_nil
+        expect(page_links.second.title).to eq("Wikis, now with more cheese! Part #{page_links.second.identifier}")
+      end
+
+      it "returns all page links" do
+        actual_links = service.call.result
+
+        expect(actual_links.to_a.size).to eq(page_links.count)
+      end
+    end
+
     private
 
     def build_inputs(relation = page_links)
       relation.filter_map { Adapters::Input::PageInfo.build(identifier: it.identifier).value_or(nil) }
+    end
+
+    def build_result(input)
+      Success(
+        Adapters::Results::PageInfo.new(title: "Wikis, now with more cheese! Part #{input.identifier}",
+                                        identifier: input.identifier,
+                                        href: "totally_valid_url",
+                                        provider:)
+      )
     end
   end
 end

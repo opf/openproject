@@ -196,10 +196,10 @@ uk:
         all: Усі сторінки Wiki
         main: Основні сторінки Wiki
       sub_pages_count:
-        one: "%{count} підсторінка"
+        one: "%{count} sub-page"
         few: "%{count} підсторінки"
         many: "%{count} підсторінок"
-        other: "%{count} підсторінки"
+        other: "%{count} підсторінок"
     inline_wiki_page_dialog:
       title_add: Додати наявну сторінку Wiki
       title_create: Створити нову сторінку Wiki

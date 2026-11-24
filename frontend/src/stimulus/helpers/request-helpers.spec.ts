@@ -20,16 +20,72 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import type { FetchResponse } from '@rails/request.js';
+import type { FrameElement } from '@hotwired/turbo';
+import type { FetchRequest, FetchResponse } from '@rails/request.js';
 import { TurboHelpers } from 'core-turbo/helpers';
 
-import { withLoadingIndicator, withProgressBar } from './request-helpers';
+import {
+  frameResponded,
+  performTurboStreamRequest,
+  withLoadingIndicator,
+  withProgressBar
+} from './request-helpers';
+
+describe('performTurboStreamRequest', () => {
+  function requestFor(response:Partial<FetchResponse>):FetchRequest {
+    return {
+      perform: vi.fn().mockResolvedValue(response),
+    } as unknown as FetchRequest;
+  }
+
+  it.each([
+    ['successful', { ok: true, unprocessableEntity: false }],
+    ['unprocessable', { ok: false, unprocessableEntity: true }],
+  ])('leaves request.js to render a %s stream', async (_name, status) => {
+    const renderTurboStream = vi.fn();
+    const response = {
+      ...status,
+      isTurboStream: true,
+      renderTurboStream,
+    } as unknown as FetchResponse;
+
+    await expect(performTurboStreamRequest(requestFor(response))).resolves.toBe(response);
+    expect(renderTurboStream).not.toHaveBeenCalled();
+  });
+
+  it('renders another unsuccessful Turbo Stream exactly once', async () => {
+    const renderTurboStream = vi.fn().mockResolvedValue(undefined);
+    const response = {
+      ok: false,
+      unprocessableEntity: false,
+      isTurboStream: true,
+      renderTurboStream,
+    } as unknown as FetchResponse;
+
+    await performTurboStreamRequest(requestFor(response));
+    expect(renderTurboStream).toHaveBeenCalledOnce();
+  });
+
+  it('rejects a non-Turbo response without rendering it', async () => {
+    const renderTurboStream = vi.fn();
+    const response = {
+      ok: true,
+      unprocessableEntity: false,
+      isTurboStream: false,
+      statusCode: 500,
+      renderTurboStream,
+    } as unknown as FetchResponse;
+
+    await expect(performTurboStreamRequest(requestFor(response)))
+      .rejects.toMatchObject({ name: 'FetchRequestError', _errorCode: 500, message: 'Response is not a Turbo Stream' });
+    expect(renderTurboStream).not.toHaveBeenCalled();
+  });
+});
 
 describe('withLoadingIndicator', () => {
   let indicator:HTMLElement|null;
@@ -72,6 +128,14 @@ describe('withLoadingIndicator', () => {
     expect(element).not.toBeVisible();
   });
 
+  it('keeps the indicator visible when the caller no longer owns it', async () => {
+    const element = addIndicator();
+
+    await withLoadingIndicator(Promise.resolve(), () => false);
+
+    expect(element).toBeVisible();
+  });
+
   it('throws when the loading indicator is absent', () => {
     expect(() => withLoadingIndicator(Promise.resolve({} as FetchResponse))).toThrow();
   });
@@ -108,5 +172,31 @@ describe('withProgressBar', () => {
 
     await expect(wrapped).rejects.toBe(error);
     expect(TurboHelpers.hideProgressBar).toHaveBeenCalledOnce();
+  });
+});
+
+describe('frameResponded', () => {
+  let frame:FrameElement;
+
+  beforeEach(() => {
+    document.body.insertAdjacentHTML('beforeend', '<turbo-frame id="responding_frame" disabled><form></form></turbo-frame>');
+    frame = document.getElementById('responding_frame') as FrameElement;
+  });
+
+  afterEach(() => {
+    frame.remove();
+  });
+
+  it.each(['turbo:frame-load', 'turbo:frame-missing', 'turbo:fetch-request-error'])('settles on the frame\'s %s', async (eventName) => {
+    const responded = vi.fn();
+    void frameResponded(frame).then(responded);
+
+    frame.querySelector('form')!.dispatchEvent(new CustomEvent(eventName, { bubbles: true }));
+    await Promise.resolve();
+    expect(responded).not.toHaveBeenCalled();
+
+    frame.dispatchEvent(new CustomEvent(eventName, { bubbles: true }));
+
+    await vi.waitFor(() => expect(responded).toHaveBeenCalledOnce());
   });
 });

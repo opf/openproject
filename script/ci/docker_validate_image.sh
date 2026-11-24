@@ -112,15 +112,7 @@ ls /app/public/assets/frontend/*.js >/dev/null 2>&1 || {
   exit 1
 }
 
-for plugin in budgets costs openproject-avatars openproject-documents \
-  openproject-github_integration openproject-gitlab_integration openproject-meeting; do
-  grep -q -- "$plugin" /app/public/assets/frontend/*.js || {
-    echo "Expected plugin '${plugin}' to be present in compiled frontend assets"
-    exit 1
-  }
-done
-
-for plugin_dir in budgets costs avatars documents github_integration gitlab_integration meeting; do
+for plugin_dir in budgets costs documents meeting squashtm_integration; do
   [ -d "/app/modules/${plugin_dir}/frontend/module" ] || {
     echo "Expected plugin frontend module directory '/app/modules/${plugin_dir}/frontend/module'"
     exit 1
@@ -158,11 +150,6 @@ check_absent_dir /app/lookbook
 check_absent_dir /app/public/assets/lookbook
 check_absent_dir /app/app/assets/videos/enterprise
 check_present_dir /app/public/assets/enterprise
-
-if find /app/public/assets -type f -name '*.map' | grep -q .; then
-  echo "Expected source maps to be removed from slim runtime assets"
-  exit 1
-fi
 
 if find /app/modules -mindepth 2 -maxdepth 2 -type d \
   \( -name spec -o -name test -o -name tests -o -name doc -o -name docs \) | grep -q .; then
@@ -220,7 +207,7 @@ check_missing() {
   exit 1
 }
 
-for tool in node npm IfcConvert COLLADA2GLTF xeokit-metadata; do
+for tool in node npm IfcConvert COLLADA2GLTF web-ifc-xeokit-metadata; do
   check_present "$tool"
 done
 

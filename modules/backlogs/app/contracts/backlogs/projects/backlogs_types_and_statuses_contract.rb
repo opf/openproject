@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,7 +38,7 @@ module Backlogs::Projects
     private
 
     def validate_permissions
-      unless user.allowed_in_project?(:select_backlog_types_and_statuses, model)
+      unless user.allowed_in_project?(:manage_backlogs_configuration, model)
         errors.add :base, :error_unauthorized
       end
     end

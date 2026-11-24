@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -51,6 +50,7 @@ export default class TableHighlightingController extends Controller<HTMLTableEle
 
   disconnect():void {
     this.abortController?.abort();
+    this.colgroup?.querySelectorAll('col.hover').forEach((col) => col.classList.remove('hover'));
 
     this.thead = null;
     this.colgroup = null;
@@ -67,16 +67,11 @@ export default class TableHighlightingController extends Controller<HTMLTableEle
   };
 
   private resolveColumn(target:EventTarget|null):HTMLTableColElement|null {
-    if (!(target instanceof HTMLElement)) {
+    if (!(target instanceof HTMLTableCellElement && target.tagName === 'TH') || target.colSpan > 1 || !this.colgroup) {
       return null;
     }
 
-    const th = target.closest('th');
-    if (!th || !this.colgroup) {
-      return null;
-    }
-
-    const index = th.cellIndex;
+    const index = target.cellIndex;
     if (index < 0) {
       return null;
     }

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 
@@ -60,8 +59,7 @@ RSpec.describe CustomFields::Scopes::Visible do
       let!(:invisible_wp_cf) { create(:string_wp_custom_field) }
       let!(:project) do
         create(:project, types: [type], members: { current_user => create(:project_role) }) do |p|
-          p.work_package_custom_fields << visible_wp_cf
-          type.default_variant.custom_fields = [visible_wp_cf, invisible_wp_cf]
+          type.default_variant.custom_fields = [visible_wp_cf]
         end
       end
 

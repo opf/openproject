@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -110,7 +109,7 @@ RSpec.describe Rake::Task, :settings_reset do
   describe "setting:available_envs" do
     include_context "rake"
 
-    it "displays the environment variables exactly as rendered for the documentation" do
+    it "displays the environment variables as the plain text list" do
       expected = "#{OpenProject::EnvironmentVariablesDocumentation.rows.join("\n")}\n"
 
       expect { subject.invoke }

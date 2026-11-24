@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -70,19 +69,26 @@ RSpec.describe "Board management spec", :js, :selenium do
 
       board_page = board_index.open_board board_view
 
+      expect(page).to have_button(accessible_name: "More", exact: true)
+      expect(page).to be_axe_clean.within(".board--settings-dropdown")
+      board_page.within_list("List 1") do
+        expect(page).to have_button(accessible_name: "Add card")
+      end
+      expect(page).to be_axe_clean.within(".op-board-list--button-container")
+
       board_page.add_list
       board_page.rename_list "Unnamed list", "List 2"
 
       # Open in list 1
       board_page.within_list("List 1") do
-        page.find_test_selector("op-board-list--card-dropdown-add-button").click
+        click_on accessible_name: "Add card"
       end
 
       page.find(".menu-item", text: "Add new card").click
 
       # Open in list 2
       board_page.within_list("List 2") do
-        page.find_test_selector("op-board-list--card-dropdown-add-button").click
+        click_on accessible_name: "Add card"
       end
 
       page.find(".menu-item", text: "Add new card").click
@@ -101,6 +107,60 @@ RSpec.describe "Board management spec", :js, :selenium do
 
       board_page.expect_card("List 1", "New card 2")
       board_page.expect_card("List 2", "New card 1")
+    end
+
+    it "saves a newly created card once it loses focus, without pressing Enter" do
+      board_view
+      board_index.visit!
+
+      board_page = board_index.open_board board_view
+
+      board_page.within_list("List 1") do
+        click_on accessible_name: "Add card"
+      end
+      page.find(".menu-item", text: "Add new card").click
+
+      board_page.within_list("List 1") do
+        subject = page.find_by_id("wp-new-inline-edit--field-subject")
+        subject.set "Autosaved card"
+      end
+
+      # Blur the field to make it lose focus.
+      # The card must be saved.
+      page.execute_script("document.activeElement.blur()")
+
+      board_page.expect_card("List 1", "Autosaved card")
+
+      subjects = WorkPackage.where(subject: "Autosaved card").pluck(:subject)
+      expect(subjects).to contain_exactly("Autosaved card")
+    end
+
+    it "does not save a card that is cancelled while it still has focus" do
+      board_view
+      board_index.visit!
+
+      board_page = board_index.open_board board_view
+
+      board_page.within_list("List 1") do
+        click_on accessible_name: "Add card"
+      end
+      page.find(".menu-item", text: "Add new card").click
+
+      board_page.within_list("List 1") do
+        subject = page.find_by_id("wp-new-inline-edit--field-subject")
+        subject.set "Discarded card"
+
+        page.find(".op-wp-single-card_new")
+          .find(:button, accessible_name: I18n.t("js.card.remove_from_list"))
+          .click
+      end
+
+      expect(page).to have_no_css('[data-test-selector="op-wp-single-card--content-subject"]', text: "Discarded card")
+
+      board_page.add_card("List 1", "Kept card")
+
+      board_page.expect_card("List 1", "Discarded card", present: false)
+      expect(WorkPackage.where(subject: ["Discarded card", "Kept card"]).pluck(:subject)).to contain_exactly("Kept card")
     end
 
     it "allows management of boards" do
@@ -132,7 +192,7 @@ RSpec.describe "Board management spec", :js, :selenium do
 
       # Create new list
       board_page.add_list
-      board_page.rename_list "Unnamed list", "Second"
+      board_page.rename_list "Unnamed list", "Customer's requests"
 
       # Add item
       board_page.add_card "First", "Task 1"
@@ -140,7 +200,7 @@ RSpec.describe "Board management spec", :js, :selenium do
       # Expect added to query
       queries = board_page.board(reload: true).contained_queries
       first = queries.find_by(name: "First")
-      second = queries.find_by(name: "Second")
+      second = queries.find_by(name: "Customer's requests")
       expect(first.ordered_work_packages.count).to eq(1)
       expect(second.ordered_work_packages).to be_empty
 
@@ -148,10 +208,10 @@ RSpec.describe "Board management spec", :js, :selenium do
       subjects = WorkPackage.where(id: first.ordered_work_packages.pluck(:work_package_id)).pluck(:subject)
       expect(subjects).to contain_exactly("Task 1")
 
-      # Move item to Second list
-      board_page.move_card(0, from: "First", to: "Second")
+      # Move item to the second list
+      board_page.move_card(0, from: "First", to: "Customer's requests")
       board_page.expect_card("First", "Task 1", present: false)
-      board_page.expect_card("Second", "Task 1", present: true)
+      board_page.expect_card("Customer's requests", "Task 1", present: true)
 
       # Expect work package to be saved in query second
       sleep 2
@@ -164,9 +224,9 @@ RSpec.describe "Board management spec", :js, :selenium do
       expect(subjects).to contain_exactly("Task 1")
 
       # Reference an existing work package
-      board_page.reference("Second", work_package)
+      board_page.reference("Customer's requests", work_package)
       sleep 2
-      board_page.expect_card("Second", work_package.subject)
+      board_page.expect_card("Customer's requests", work_package.subject)
 
       subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject)
       expect(subjects).to contain_exactly(work_package.subject, "Task 1")
@@ -179,17 +239,19 @@ RSpec.describe "Board management spec", :js, :selenium do
 
       # Expect task to match, work_package invisible
       board_page.expect_card("First", "Task 1", present: false)
-      board_page.expect_card("Second", "Task 1", present: true)
-      board_page.expect_card("Second", work_package.subject, present: false)
+      board_page.expect_card("Customer's requests", "Task 1", present: true)
+      board_page.expect_card("Customer's requests", work_package.subject, present: false)
 
       filters.quick_filter ""
       sleep 2
 
+      expect(page).to be_axe_clean.within(".op-wp-single-card--inline-buttons")
+
       # Remove card again
-      board_page.remove_card "Second", work_package.subject, 0
+      board_page.remove_card "Customer's requests", work_package.subject, 0
 
       # Remove query
-      board_page.remove_list "Second"
+      board_page.remove_list "Customer's requests"
       queries = board_page.board(reload: true).contained_queries
       expect(queries.count).to eq(1)
       expect(queries.first.name).to eq "First"
@@ -294,6 +356,16 @@ RSpec.describe "Board management spec", :js, :selenium do
       board_page.back_to_index
 
       board_index.expect_board board_view.name
+    end
+
+    context "as an accessible page" do
+      it "is AXe clean" do
+        board_view
+        board_index.visit!
+        board_index.open_board board_view
+        expect(page).to have_test_selector("op-board-list", wait: 10)
+        expect(page).to be_axe_clean
+      end
     end
   end
 

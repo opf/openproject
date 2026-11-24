@@ -196,10 +196,10 @@ pl:
         all: Wszystkie strony wiki
         main: Główne strony wiki
       sub_pages_count:
-        one: 1 podstrona
+        one: "%{count} sub-page"
         few: "%{count} podstrony"
         many: "%{count} podstron"
-        other: "%{count} podstrony"
+        other: "%{count} podstron"
     inline_wiki_page_dialog:
       title_add: Dodaj istniejącą stronę wiki
       title_create: Utwórz nową stronę wiki

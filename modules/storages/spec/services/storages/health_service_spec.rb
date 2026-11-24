@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,34 +34,44 @@ RSpec.describe Storages::HealthService do
   let(:storage) { create(:nextcloud_storage) }
   let(:health_service) { described_class.new(storage:) }
 
-  describe "health attributes" do
-    it "can be marked as healthy or unhealthy" do
-      healthy_time = Time.parse "2021-03-14T15:17:00Z"
-      unhealthy_time = Time.parse "2023-03-14T15:17:00Z"
+  let(:healthy_time) { Time.parse "2021-03-14T15:17:00Z" }
+  let(:unhealthy_time) { Time.parse "2023-03-14T15:17:00Z" }
+  let(:reset_time) { Time.parse "2025-03-14T15:17:00Z" }
 
+  describe "health attributes" do
+    it "can be marked as healthy, unhealthy and be reset" do
       Timecop.freeze(healthy_time) do
-        expect do
-          health_service.healthy
-        end.to(change(storage, :health_changed_at).to(healthy_time)
-                                                  .and(change(storage, :health_status).from("pending").to("healthy")))
+        expect { health_service.healthy }.to(
+          change(storage, :health_changed_at).to(healthy_time).and(change(storage, :health_status).from("pending").to("healthy"))
+        )
         expect(storage.health_healthy?).to be(true)
         expect(storage.health_unhealthy?).to be(false)
       end
 
       Timecop.freeze(unhealthy_time) do
-        expect do
-          health_service.unhealthy(reason: "thou_shall_not_pass_error")
-        end.to(change(storage, :health_changed_at).from(healthy_time).to(unhealthy_time)
-                                                  .and(change(storage, :health_status).from("healthy").to("unhealthy"))
-                                                  .and(change(storage, :health_reason).from(nil).to("thou_shall_not_pass_error")))
+        expect { health_service.unhealthy(reason: "thou_shall_not_pass_error") }.to(
+          change(storage, :health_changed_at).from(healthy_time).to(unhealthy_time)
+            .and(change(storage, :health_status).from("healthy").to("unhealthy"))
+            .and(change(storage, :health_reason).from(nil).to("thou_shall_not_pass_error"))
+        )
       end
       expect(storage.health_healthy?).to be(false)
       expect(storage.health_unhealthy?).to be(true)
+
+      Timecop.freeze(reset_time) do
+        expect { health_service.reset }.to(
+          change(storage, :health_changed_at).from(unhealthy_time).to(reset_time)
+            .and(change(storage, :health_status).from("unhealthy").to("pending"))
+            .and(change(storage, :health_reason).from("thou_shall_not_pass_error").to(nil))
+        )
+      end
+
+      expect(storage.health_healthy?).to be(false)
+      expect(storage.health_unhealthy?).to be(false)
     end
 
-    # rubocop:disable RSpec/ExampleLength
+    # rubocop:disable-next RSpec/ExampleLength
     it "has the correct changed_at and checked_at attributes" do
-      healthy_time = Time.parse "2021-03-14T15:17:00Z"
       unhealthy_time_a = Time.parse "2023-03-14T00:00:00Z"
       unhealthy_time_b = Time.parse "2023-03-14T22:22:00Z"
       unhealthy_time_c = Time.parse "2023-03-14T11:11:00Z"
@@ -106,7 +115,6 @@ RSpec.describe Storages::HealthService do
                         .from(reason_a).to(reason_b)))
       end
     end
-    # rubocop:enable RSpec/ExampleLength
   end
 
   describe "Health notifications" do

@@ -20,13 +20,13 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ApplicationController, useDebounce } from 'stimulus-use';
+import { Controller } from '@hotwired/stimulus';
+import { useDebounce } from 'stimulus-use';
 import { FetchRequest } from '@rails/request.js';
 import { filterFormData } from 'core-stimulus/helpers/form-data-helper';
 
@@ -40,7 +40,7 @@ const TURBO_STREAM_REFRESH_DELAY = 50;
  * `data-refresh-on-form-changes-turbo-stream-url-value="..."`, and trigger it
  * from fields with `change->refresh-on-form-changes#triggerTurboStream`.
  */
-export default class RefreshOnFormChangesController extends ApplicationController {
+export default class RefreshOnFormChangesController extends Controller {
   static debounces = [
     { name: 'performTurboStreamRefresh', wait: TURBO_STREAM_REFRESH_DELAY },
   ];

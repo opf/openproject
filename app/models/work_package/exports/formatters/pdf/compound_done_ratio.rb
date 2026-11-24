@@ -22,17 +22,17 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module WorkPackage::Exports
   module Formatters
     module PDF
       class CompoundDoneRatio < ::Exports::Formatters::Default
         def self.apply?(name, export_format)
-          name.to_sym == :done_ratio && export_format == :pdf
+          name.to_sym == :done_ratio && export_format.in?(%i[pdf md])
         end
 
         def format(work_package, **)

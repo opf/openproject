@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -63,8 +62,14 @@ module Wikis
           owner: user,
           integration: wiki_provider,
           uid: client_id,
-          secret: client_secret
+          secret: stored_secret(client_secret)
         }.compact
+      end
+
+      def stored_secret(client_secret)
+        return if client_secret.nil?
+
+        Doorkeeper::Application.secret_strategy.transform_secret(client_secret)
       end
 
       def redirect_uri

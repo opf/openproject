@@ -2,6 +2,9 @@
   <% row.with_column(flex: 1, mr: 2) do %>
     <%= info_line %>
     <%= subject_link %>
+    <% if global? %>
+      <div><%= project_link %></div>
+    <% end %>
     <%= progress %>
   <% end %>
   <% row.with_column do %>

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -53,6 +52,24 @@ RSpec.describe "routes for old issue uris", type: :request do
     end
 
     it do
+      expect(last_response).to be_redirect
+      expect(last_response.location).to end_with "/work_packages/1234"
+    end
+
+    it "keeps a format suffix" do
+      get("/wp/1234.md")
+      expect(last_response).to be_redirect
+      expect(last_response.location).to end_with "/work_packages/1234.md"
+    end
+
+    it "drops a format suffix that is not alphanumeric" do
+      get("/wp/1234.m%20d")
+      expect(last_response).to be_redirect
+      expect(last_response.location).to end_with "/work_packages/1234"
+    end
+
+    it "drops a format suffix with a bracket" do
+      get("/wp/1234.md%5B")
       expect(last_response).to be_redirect
       expect(last_response.location).to end_with "/work_packages/1234"
     end

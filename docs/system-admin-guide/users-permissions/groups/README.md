@@ -6,21 +6,21 @@ description: Manage groups in OpenProject.
 keywords: manage groups, group, user, organization
 ---
 
-# Manage Groups
+# Manage groups
 
 <div class="glossary">
 
-A **Group** is defined as a list of users which can be assigned to a project with a selected role. New groups can be defined in **Administration -> Users and permissions -> Groups**.
+A **Group** is defined as a list of users who can be assigned to a project with a selected role. New groups can be defined in **Administration -> Users and permissions -> Groups**.
 
 </div>
 
-OpenProject allows creating tailored project member **groups**, which grant additional permissions to individual users within a project. Instead of adding individual users to a project you can add a user group, e.g. Marketing. You can edit existing groups, create new ones, add and remove users or delete groups.
+OpenProject allows creating tailored project member **groups**, which grant additional permissions to individual users within a project. Instead of adding individual users to a project, you can add a user group, e.g. Marketing. You can edit existing groups, create new ones, add and remove users or delete groups.
 
 Groups can also be structured using **subgroups**. By assigning a parent group, a group becomes part of that hierarchy. Members and permissions from the parent group are automatically applied to its subgroups. This helps organize groups more efficiently and reuse them across projects.
 
 ## Add a new group
 
-After selecting **Groups** from the administration menu a list of the existing groups is shown, or a prompt to create a group if none exist.
+After selecting **Groups** from the administration menu, a list of the existing groups is shown, or a prompt to create a group if none exist.
 
 Click the green **+ Group** button to create a new group.
 
@@ -36,9 +36,7 @@ Click the green **Create** button to finish.
 
 To add users to a group, edit or delete it, start by clicking the **name of the group**.
 
-![Edit or delete groups in OpenProject administration](openproject_system_guide_edit_delete_groups.png)
-
-You will then see the detailed view of the group, including following tabs: 
+You will then see the detailed view of the group, including the following tabs: 
 
 - General
 - Users
@@ -47,6 +45,20 @@ You will then see the detailed view of the group, including following tabs:
 - Synchronized groups
 
 ![Various tabs shown when editing an existing group in OpenProject administration](openproject_system_guide_edit_group_tabs.png)
+### Change the group avatar
+
+The group avatar is displayed wherever the group appears, for example as an assignee or in the list of project members.
+
+The current avatar is displayed at the top of the **General** tab. Click the avatar to open the **Edit avatar** dialog.
+
+The following avatar options are available for groups:
+
+- **Image**: Upload a custom image. This option is available only if custom avatars are enabled in the [avatar settings](../avatars).
+- **Initials**: Use the initials of the group name or enter up to two custom characters. You can also select a background color.
+
+Groups cannot use Gravatar. For more information about editing avatars, see [Set an avatar](../../../user-guide/account-settings/account/#set-an-avatar).
+
+![Edit group avatar dialog in OpenProject](openproject_system_guide_edit_group_avatar.png)
 
 ### Add users to a group
 
@@ -56,7 +68,7 @@ Select the **Users** tab. Select the users you want to add to this group from th
 
 Adding a user to a group also adds that user to the member list of **all** projects in which this group was assigned a [role](../roles-permissions) (e.g. Member).
 
-Removing a user from a group removes the role from that user in any project using that group. If the user has no other roles (i.e. who were only added as a member of this group and not individually) they are removed from the respective project completely.
+Removing a user from a group also removes the roles assigned to that user through the group in any projects where the group is a member. If the user has no other roles in a project (i.e., they were added only through the group and not individually), they are removed from that project entirely.
 
 ### Add a group to projects
 
@@ -68,7 +80,7 @@ Click the **Projects** tab. Select the projects you want to add this group to fr
 
 Click the **Global Roles** tab. Select the global roles you want to add to this group. Click the **Add** button.
 
-In order to add a global role to a group, at least one global role needs to be [created](../roles-permissions) in the system (a role with the **Global role** field ticked).
+To add a global role to a group, at least one global role needs to be [created](../roles-permissions) in the system (a role with the **Global role** field ticked).
 
 ### Synchronized groups 
 
@@ -78,7 +90,7 @@ Click the **Synchronized groups** tab to see if this group has been synchronized
 
 To delete a group click on the **delete** icon in the respective line of the group list.
 
-Deleting a group removes the role from the members of any project using that group. If a user has no other roles (i.e. who were only added as a member of this group and not individually) he/she is removed from the respective project completely.
+Deleting a group removes the role from the members of any project using that group. If a user has no other roles (i.e. who were only added as a member of this group and not individually) they are removed from the respective project completely.
 
 ## Impact of groups on project members
 

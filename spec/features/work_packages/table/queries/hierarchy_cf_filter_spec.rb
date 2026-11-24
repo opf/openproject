@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,8 +37,7 @@ RSpec.describe "Work package filtering by hierarchy custom field", :js, with_ee:
   let(:hierarchy_root) { create(:hierarchy_item) }
   let!(:hierarchy_cf) do
     create(:hierarchy_wp_custom_field, hierarchy_root:).tap do |cf|
-      type.default_variant.custom_fields << cf
-      project.work_package_custom_fields << cf
+      type.default_variant.custom_field_ids |= [cf.id]
     end
   end
   let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }

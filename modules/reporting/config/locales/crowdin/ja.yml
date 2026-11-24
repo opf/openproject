@@ -22,8 +22,14 @@
 ---
 ja:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
     models:
       cost_query:
+        other: Cost reports
+      cost_report:
         other: Cost reports
   button_save_report_as: 名前を付けてレポートの保存
   comments: コメント
@@ -37,6 +43,7 @@ ja:
       end_time: 終了時間
       start_time: 開始時間
       title: あなたのコストレポートXLSのエクスポート
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: PDFタイムシートをエクスポート
       overview_per_user_day: 概要:日ごとのユーザー当たりの合計時間
@@ -45,6 +52,10 @@ ja:
       time: 時間
       timesheet: タイムシート
       title: PDFタイムシートのエクスポート
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: アクセス権に応じて、このページでは情報を制限されている場合があります。
   label_click_to_edit: クリックして編集
   label_closed: 完了
@@ -98,7 +109,6 @@ ja:
   plugin_openproject_reporting:
     description: このプラグインは、OpenProject の時間とコストプラグインによって作成されたフィルタリングとグループ化でカスタムコストレポートを作成することができます。
     name: OpenProject レポート
-  project_module_reporting_module: コストレポート
   reporting:
     group_by:
       selected_columns: 選択された列
@@ -106,5 +116,3 @@ ja:
   text_costs_are_rounded_note: 表示されている数字は四捨五入されています。すべての計算は四捨五入前の値に基づいています。
   toggle_multiselect: 複数選択を有効/無効にする
   units: 単位
-  validation_failure_date: は有効な日付ではありません。
-  validation_failure_integer: は有効な整数ではありません。

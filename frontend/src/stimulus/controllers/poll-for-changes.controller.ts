@@ -20,14 +20,13 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { ApplicationController } from 'stimulus-use';
-import { renderStreamMessage } from '@hotwired/turbo';
+import { renderStreamMessage, visit } from '@hotwired/turbo';
 
 export default class PollForChangesController extends ApplicationController {
   static values = {
@@ -35,6 +34,7 @@ export default class PollForChangesController extends ApplicationController {
     interval: Number,
     reference: String,
     continuous: Boolean,
+    pausable: Boolean,
   };
 
   static targets = ['reference'];
@@ -46,6 +46,7 @@ export default class PollForChangesController extends ApplicationController {
   declare urlValue:string;
   declare intervalValue:number;
   declare continuousValue:boolean;
+  declare pausableValue:boolean;
 
   private interval:number;
 
@@ -72,14 +73,28 @@ export default class PollForChangesController extends ApplicationController {
     return this.referenceValue;
   }
 
-  triggerTurboStream() {
+  isPaused():boolean {
+    return this.pausableValue && !!this.element.querySelector('[data-poll-for-changes-pause]');
+  }
+
+  triggerTurboStream():Promise<void> {
+    if (this.isPaused()) {
+      return Promise.resolve();
+    }
+
     const url = new URL(this.urlValue, window.location.origin);
     const ref = this.buildReference();
     if (ref) url.searchParams.set('reference', ref);
 
-    void fetch(url.toString())
+    return fetch(url.toString())
       .then(async (r) => {
-      if (r.status === 200) {
+      if (r.redirected) {
+        clearInterval(this.interval);
+        visit(window.location.href);
+        return;
+      }
+
+      if (r.status === 200 && !this.isPaused()) {
         if (!this.continuousValue) {
           clearInterval(this.interval);
         }

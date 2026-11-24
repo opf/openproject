@@ -22,8 +22,14 @@
 ---
 ko:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: 행과 열은 함께 쿼리의 그룹화 기준을 정확하게 충족해야 합니다.
     models:
       cost_query:
+        other: 비용 보고서
+      cost_report:
         other: 비용 보고서
   button_save_report_as: 다른 이름으로 보고서로 저장...
   comments: 코멘트
@@ -37,6 +43,7 @@ ko:
       end_time: 종료 시간
       start_time: 시작 시간
       title: 비용 리포트 XML로 내보내기
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: PDF 타임시트 내보내기
       overview_per_user_day: '개요: 일별 사용자당 시간'
@@ -45,6 +52,10 @@ ko:
       time: 시간
       timesheet: 타임시트
       title: 내 PDF 타임시트 내보내기
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: 사용자 권한에 따라 이 페이지에 제한된 정보가 포함될 수 있습니다.
   label_click_to_edit: 편집하려면 클릭하세요.
   label_closed: 마감됨
@@ -98,7 +109,6 @@ ko:
   plugin_openproject_reporting:
     description: 이 플러그인을 사용하면 OpenProject 시간 및 비용 플러그인에서 생성된 필터링 및 그룹화를 사용하여 사용자 지정 비용 보고서를 생성할 수 있습니다.
     name: OpenProject 보고
-  project_module_reporting_module: 비용 보고서
   reporting:
     group_by:
       selected_columns: 선택된 열
@@ -106,5 +116,3 @@ ko:
   text_costs_are_rounded_note: 표시된 값은 반올림됩니다. 모든 계산은 반올림되지 않은 값을 기반으로 합니다.
   toggle_multiselect: 다중 선택 활성화/비활성화
   units: 단위
-  validation_failure_date: 은(는) 유효한 날짜가 아닙니다.
-  validation_failure_integer: 은(는) 유효한 정수가 아닙니다.

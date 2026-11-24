@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -178,7 +177,7 @@ RSpec.describe OpenProject::TextFormatting, "OpenProject allowed link protocols"
     end
   end
 
-  context "with data protocol allowed", with_settings: { allowed_link_protocols: %w[data] } do
+  context "when data is listed as an allowed link protocol", with_settings: { allowed_link_protocols: %w[data] } do
     it_behaves_like "format_text produces" do
       let(:raw) do
         <<~RAW
@@ -188,7 +187,7 @@ RSpec.describe OpenProject::TextFormatting, "OpenProject allowed link protocols"
 
       let(:expected) do
         <<~EXPECTED
-          <p class="op-uc-p">A link with <a href="data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==" rel="noopener noreferrer nofollow" target="_top" class="op-uc-link">data protocol</a></p>
+          <p class="op-uc-p">A link with <a rel="noopener noreferrer nofollow" target="_top" class="op-uc-link">data protocol</a></p>
         EXPECTED
       end
     end
@@ -202,7 +201,7 @@ RSpec.describe OpenProject::TextFormatting, "OpenProject allowed link protocols"
 
       let(:expected) do
         <<~EXPECTED
-          <p class="op-uc-p">An autolinked <a href="data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==" rel="noopener noreferrer nofollow" target="_top" class="op-uc-link">data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==</a>.</p>
+          <p class="op-uc-p">An autolinked data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==.</p>
         EXPECTED
       end
     end

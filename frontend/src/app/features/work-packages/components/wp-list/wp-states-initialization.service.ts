@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -114,7 +113,7 @@ export class WorkPackageStatesInitializationService {
    * @param form
    */
   public updateStatesFromForm(query:QueryResource, form:QueryFormResource) {
-    const schema:QuerySchemaResource = form.schema as any;
+    const schema = form.schema as QuerySchemaResource;
 
     schema.filtersSchemas.elements.forEach((schema) => {
       this.states.schemas.get(schema.href!).putValue(schema);
@@ -156,7 +155,7 @@ export class WorkPackageStatesInitializationService {
 
     this.wpTableAdditionalElements.initialize(query, results);
 
-    this.wpTableOrder.initialize(query, results);
+    this.wpTableOrder.initialize(query);
 
     this.wpDisplayRepresentation.initialize(query, results);
 

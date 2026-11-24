@@ -68,7 +68,7 @@ END LOOP;
 END;
 $$;
 
--- BEGIN: restore rows related to restrored rows above
+-- BEGIN: restore rows related to restored rows above
 --
 -- todo: This could probably be scripted to cover all relevant tables as well.
 --       But for now it's easier to just list them by hand. This is the only
@@ -101,7 +101,7 @@ CREATE TABLE missing_member_roles AS (
   select * from member_roles where member_id in (select id from missing_members)
 );
 
--- END: restore rows related to restrored rows above
+-- END: restore rows related to restored rows above
 
 -- create missing journals and journal data
 DO

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,9 +37,9 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
   let(:user) { build_stubbed(:user) }
   let(:project) { build_stubbed(:project) }
   let(:work_package) { build_stubbed(:work_package, project:, status: status_open) }
-  let(:status_open) { build_stubbed(:status, is_closed: false, name: "Open") }
-  let(:status_wip) { build_stubbed(:status, is_closed: false, name: "Work In Progress") }
-  let(:status_closed) { build_stubbed(:status, is_closed: true, name: "Closed") }
+  let(:status_open) { build_stubbed(:status, category: "to_do", name: "Open") }
+  let(:status_wip) { build_stubbed(:status, category: "in_progress", name: "Work In Progress") }
+  let(:status_closed) { build_stubbed(:status, category: "closed", name: "Closed") }
   let(:instance) { described_class.new(work_package) }
 
   context "given a work package with work, remaining work, and % complete being set" do

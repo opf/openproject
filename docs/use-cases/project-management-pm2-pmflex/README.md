@@ -38,7 +38,7 @@ The following sections focus on PM² concepts that require a specific mapping or
 
 | Aspect | Mapping and guidance |
 | --- | --- |
-| Meaning in PM² | [Project roles](../../project-management-guide/4-project-organisation-and-roles/#42-project-organisation-layers-and-roles) define the responsibilities and decision-making authority within the PM² governance model. |
+| Meaning in PM² | [Project roles](../../project-management-guide/4-project-organisation-and-roles/#42-project-organization-layers-and-roles) define the responsibilities and decision-making authority within the PM² governance model. |
 | Representation in OpenProject | [Project members with roles](../../user-guide/members/) |
 | System-wide configuration | Create project roles and assign permissions under [Administration → Users and permissions → Roles and permissions](../../system-admin-guide/users-permissions/roles-permissions/#customize-roles-with-individual-permissions). |
 | Project-specific configuration | Add members and assign the appropriate PM² role in the project's [Members module](../../user-guide/members/). |

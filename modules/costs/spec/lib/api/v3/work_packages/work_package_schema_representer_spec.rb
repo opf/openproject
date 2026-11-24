@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -43,10 +42,11 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:project) { work_package.project }
   let(:work_package) { build_stubbed(:work_package) }
   let(:current_user) { build_stubbed(:user) }
+  let(:permissions) { %i[edit_work_packages] }
 
   before do
     mock_permissions_for(current_user) do |mock|
-      mock.allow_in_project :edit_work_packages, project: work_package.project
+      mock.allow_in_project(*permissions, project: work_package.project)
     end
 
     login_as(current_user)
@@ -91,6 +91,38 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       it { is_expected.to have_json_path(json_path) }
+    end
+  end
+
+  describe "spentTime" do
+    context "with the view_time_entries permission" do
+      let(:permissions) { %i[edit_work_packages view_time_entries] }
+
+      it_behaves_like "has basic schema properties" do
+        let(:path) { "spentTime" }
+        let(:type) { "Duration" }
+        let(:name) { I18n.t("activerecord.attributes.work_package.spent_time") }
+        let(:required) { false }
+        let(:writable) { false }
+      end
+    end
+
+    context "with the view_own_time_entries permission" do
+      let(:permissions) { %i[edit_work_packages view_own_time_entries] }
+
+      it_behaves_like "has basic schema properties" do
+        let(:path) { "spentTime" }
+        let(:type) { "Duration" }
+        let(:name) { I18n.t("activerecord.attributes.work_package.spent_time") }
+        let(:required) { false }
+        let(:writable) { false }
+      end
+    end
+
+    context "without any view time_entries permission" do
+      it "has no spentTime attribute" do
+        expect(subject).not_to have_json_path("spentTime")
+      end
     end
   end
 

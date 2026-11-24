@@ -180,7 +180,6 @@ The [package-based installation](../installation/packaged) requires one of the f
 | Distribution (**64 bits only**) | End of life software package                                 |
 |---------------------------------| ------------------------------------------------------------ |
 | Ubuntu 22.04 Jammy              | _≈ 2027 Q2_                                                  |
-| Ubuntu 20.04 Focal              | 2025 Q3 - [OpenProject 16.2](https://community.openproject.org/wp/64078) |
 | Debian 12 Bookworm              | _≈ 2027 Q2_                                                  |
 | Debian 11 Bullseye              | _2026 Q3_                                                    |
 | CentOS/RHEL 9.x                 | _≈ 2027 Q2_                                                  |
@@ -212,9 +211,9 @@ We support the latest two [openDesk minor releases](https://gitlab.opencode.de/b
 
 #### Nextcloud Server
 
-- [Nextcloud 32](https://nextcloud.com/changelog/#latest32)
 - [Nextcloud 33](https://nextcloud.com/changelog/#latest33)
 - [Nextcloud 34](https://nextcloud.com/changelog/#latest34)
+- [Nextcloud 35](https://nextcloud.com/changelog/#latest35)
 
 > [!TIP]
 >
@@ -229,8 +228,7 @@ We support the latest two [openDesk minor releases](https://gitlab.opencode.de/b
 
 ##### OpenProject integration
 
-- [OpenProject Integration 3.1.0](https://github.com/nextcloud/integration_openproject/releases/tag/v3.1.0) — Nextcloud 33, 34 or higher
-- [OpenProject Integration 2.11.3](https://github.com/nextcloud/integration_openproject/releases/tag/v2.11.3) — Nextcloud 32
+- [OpenProject Integration 3.3.0](https://github.com/nextcloud/integration_openproject/releases/tag/v3.3.0) — Nextcloud 33, 34 or 35
 
 ##### Team folders
 

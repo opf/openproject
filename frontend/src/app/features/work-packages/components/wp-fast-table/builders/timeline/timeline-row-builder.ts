@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -53,20 +52,5 @@ export class TimelineRowBuilder {
     }
 
     return cell;
-  }
-
-  /**
-   * Build and insert a timeline row for the given work package using the additional classes.
-   * @param workPackage
-   * @param timelineBody
-   * @param rowClasses
-   */
-  public insert(workPackageId:string|null,
-    timelineBody:DocumentFragment|HTMLElement,
-    rowClasses:string[] = []) {
-    const cell = this.build(workPackageId);
-    cell.classList.add(...rowClasses);
-
-    timelineBody.appendChild(cell);
   }
 }

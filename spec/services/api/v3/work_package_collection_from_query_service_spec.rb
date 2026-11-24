@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -387,7 +386,7 @@ RSpec.describe API::V3::WorkPackageCollectionFromQueryService,
         end
 
         context "with a provided value" do
-          # It is imporant for the keys to be strings
+          # It is important for the keys to be strings
           # as that is what will come from the client
           let(:params) { { "offset" => 3 } }
 
@@ -411,7 +410,7 @@ RSpec.describe API::V3::WorkPackageCollectionFromQueryService,
         end
 
         context "with a provided value" do
-          # It is imporant for the keys to be strings
+          # It is important for the keys to be strings
           # as that is what will come from the client
           let(:params) { { "pageSize" => 100 } }
 

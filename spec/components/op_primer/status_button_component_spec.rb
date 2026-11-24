@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -41,14 +40,14 @@ RSpec.describe OpPrimer::StatusButtonComponent, type: :component do
 
   let(:items) { [] }
   let(:readonly) { false }
-  let(:title) { "foo" }
+  let(:description) { "Edit status" }
 
   subject(:component) do
     described_class.new(
       current_status:,
       items:,
       readonly:,
-      button_arguments: { title: }.compact
+      button_arguments: { description: }.compact
     )
   end
 
@@ -75,6 +74,13 @@ RSpec.describe OpPrimer::StatusButtonComponent, type: :component do
       expect(page).to have_css(".octicon-triangle-down")
     end
 
+    it "describes the button with a tooltip" do
+      render_inline(component)
+
+      expect(page).to have_element(:"tool-tip", text: "Edit status", "data-type": "description")
+      expect(page).to have_no_css("button[title]")
+    end
+
     it "renders menu items with icons" do
       render_inline(component)
 
@@ -87,6 +93,7 @@ RSpec.describe OpPrimer::StatusButtonComponent, type: :component do
 
   context "when readonly" do
     let(:readonly) { true }
+    let(:items) { [OpPrimer::StatusButtonOption.new(name: "Done", icon: "check", color: nil)] }
 
     it "does not render the dropdown or icon" do
       render_inline(component)
@@ -94,10 +101,17 @@ RSpec.describe OpPrimer::StatusButtonComponent, type: :component do
       expect(page).to have_no_css(".octicon-triangle-down")
       expect(page).to have_no_css(".ActionMenu")
     end
+
+    it "renders no tooltip" do
+      render_inline(component)
+
+      expect(page).to have_no_element(:"tool-tip")
+    end
   end
 
-  context "when title not provided" do
-    let(:title) { nil }
+  context "when description not provided" do
+    let(:description) { nil }
+    let(:items) { [OpPrimer::StatusButtonOption.new(name: "Done", icon: "check", color: nil)] }
 
     it "raises an exception" do
       expect { render_inline(component) }.to raise_error(SubclassResponsibilityError)

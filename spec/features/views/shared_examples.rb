@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -74,8 +73,7 @@ RSpec.shared_examples "module specific query view management" do
       query_menu.expect_item "My first query"
 
       # Delete a query
-      settings_menu.open_and_choose "Delete"
-      module_page.accept_alert_dialog!
+      accept_confirm { settings_menu.open_and_choose "Delete" }
 
       query_title.expect_title default_name
       query_menu.expect_no_item "My query planner (renamed)"

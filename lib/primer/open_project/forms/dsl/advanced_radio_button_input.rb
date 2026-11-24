@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,18 +33,43 @@ module Primer
       module Dsl
         # :nodoc:
         class AdvancedRadioButtonInput < Primer::Forms::Dsl::Input
-          attr_reader :name, :value, :label, :icon
+          attr_reader :name, :value, :label, :leading_icon, :trailing_image, :title_link, :action,
+                      :nested_content
 
-          def initialize(name:, value:, label:, icon: nil, **system_arguments)
+          # @param leading_icon [Symbol] octicon shown before the label.
+          # @param trailing_image [String] path to an SVG shown at the far end of the card.
+          # @param title_link [Hash] +text+ plus the arguments of a link, rendered after the label.
+          # @param action [Hash] +text+ plus the arguments of a button, rendered under the caption
+          #   while this option is the one selected.
+          # @param nested_content [Object] a renderable shown inside the card, below the label and
+          #   caption and outside the label element, so that clicking it does not toggle the radio.
+          def initialize(name:, value:, label:, leading_icon: nil, trailing_image: nil, title_link: nil,
+                         action: nil, nested_content: nil, **system_arguments)
             @name = name
             @value = value
             @label = label
-            @icon = icon
+            @leading_icon = leading_icon
+            @trailing_image = trailing_image
+            @title_link = title_link
+            @action = action
+            @nested_content = nested_content
 
             super(**system_arguments)
 
             yield(self) if block_given?
           end
+
+          def checked?
+            !!input_arguments[:checked]
+          end
+
+          def title_link_text = title_link&.dig(:text)
+
+          def title_link_arguments = title_link&.except(:text) || {}
+
+          def action_text = action&.dig(:text)
+
+          def action_arguments = action&.except(:text) || {}
 
           # radio buttons cannot be invalid, as both selected and unselected are valid states
           # :nocov:

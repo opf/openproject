@@ -1,4 +1,4 @@
-<%# -- copyright
+<%#-- copyright
 OpenProject is an open source project management software.
 Copyright (C) the OpenProject GmbH
 
@@ -20,15 +20,18 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
-++# %>
+++#%>
 
 <%# Attributes on this frame tag are ignored; only its children are reconciled — set them in show.html.erb. %>
 <%= turbo_frame_tag "backlogs_container" do %>
+  <%# Rendered once for the whole page: every selected card in either column
+      points its `aria-describedby` at this one element. %>
+  <%= render(Backlogs::SelectionDescriptionComponent.new) %>
+
   <div class="op-sprint-planning-container">
     <div id="owner_backlogs_container" class="op-sprint-planning-lists" data-controller="sortable-lists--scrollable">
       <%=

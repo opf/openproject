@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -54,6 +53,8 @@ module Groups
                     .sanitize(update_roles_cte,
                               member_id: member.id,
                               project_id: member.project_id,
+                              entity_type: member.entity_type,
+                              entity_id: member.entity_id,
                               role_ids: member.role_ids,
                               user_ids:)
 
@@ -69,6 +70,8 @@ module Groups
           FROM #{Member.table_name}
           WHERE user_id IN (:user_ids)
           AND project_id IS NOT DISTINCT FROM :project_id
+          AND entity_type IS NOT DISTINCT FROM :entity_type
+          AND entity_id IS NOT DISTINCT FROM :entity_id
         ),
         -- select all member roles the group has for the member
         group_member_roles AS (

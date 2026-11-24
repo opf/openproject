@@ -2,7 +2,7 @@
 description: |-
   Projects are one of the types of [workspaces](https://www.openproject.org/docs/api/endpoints/workspaces) in OpenProject structuring the information (e.g. work packages, wikis) into smaller sets. They can be used in a classic project management approach but also when structuring work by departments.
 
-  As containers, they also control behaviour of the elements within them. One of the most important aspects of this is that projects limit permissions by having members with a certain permission set (roles) assigned to them.
+  As containers, they also control behavior of the elements within them. One of the most important aspects of this is that projects limit permissions by having members with a certain permission set (roles) assigned to them.
 
   Prior to OpenProject 17.0, only projects existed and the concept of workspaces wasn't implemented in the API. With 17.0 the other workspace types (program and portfolio) exist and might be returned in places where before, only projects were.
 

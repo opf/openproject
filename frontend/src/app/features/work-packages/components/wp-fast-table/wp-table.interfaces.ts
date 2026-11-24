@@ -20,24 +20,15 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-/**
- * Interface of a single row instance handled by the table.
- * May contain references to the current inserted row (if present)
- * or the group it belonged to when initially rendered.
- */
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
+import type { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
 export interface WorkPackageTableRow {
   object:WorkPackageResource;
   workPackageId:string;
   position:number;
-  element?:HTMLElement;
-  group:GroupObject|null;
 }

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -84,10 +83,27 @@ class FogFileUploader < CarrierWave::Uploader::Base
     @remote_file || file
   end
 
+  DOWNLOADS_KEY = :fog_file_uploader_downloads
+
+  def self.discard_downloads
+    ActiveSupport::IsolatedExecutionState.delete(DOWNLOADS_KEY)&.each(&:discard_download)
+  end
+
   def local_file
     @remote_file ||= file
+    downloading = !cached?
     cache_stored_file!
+    remember_download if downloading
     super
+  end
+
+  def discard_download
+    return unless cached? && cache_id == @download_cache_id
+
+    FileUtils.rm_rf(cache_path(nil))
+    @file = @remote_file
+    @cache_id = @download_cache_id = nil
+    self.staged = false
   end
 
   ##
@@ -144,6 +160,13 @@ class FogFileUploader < CarrierWave::Uploader::Base
   end
 
   private
+
+  def remember_download
+    @download_cache_id = cache_id
+    return unless Rails.application.executor.active?
+
+    (ActiveSupport::IsolatedExecutionState[DOWNLOADS_KEY] ||= []) << self
+  end
 
   def fog_directory_files
     storage.connection.directories.new(key: fog_directory, public: fog_public).files

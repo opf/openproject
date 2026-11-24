@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -169,7 +168,7 @@ module OpenProject
       if show_icon && User.current.member_of?(project)
         label = ActiveSupport::SafeBuffer.new
         label << I18n.t(:description_my_project)
-        label << "&nbsp;".html_safe
+        label << "\u00A0"
 
         icon_wrapper("icon-context icon-star", label) + project.name
       else

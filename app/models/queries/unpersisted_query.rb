@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module Queries::UnpersistedQuery
   extend ActiveSupport::Concern
@@ -34,18 +33,18 @@ module Queries::UnpersistedQuery
   included do
     attr_accessor :filters,
                   :orders
-    attr_reader :group_by
+    attr_reader :group_bys
 
     def initialize(*args)
       @filters = []
       @orders = []
-      @group_by = nil
+      @group_bys = []
       @user = args.first[:user] if args&.first
     end
 
     protected
 
     attr_accessor :user
-    attr_writer :group_by
+    attr_writer :group_bys
   end
 end

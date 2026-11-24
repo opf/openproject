@@ -69,8 +69,10 @@ stdout_logfile = /dev/stdout
 stdout_logfile_maxbytes = 0
 stderr_logfile_maxbytes = 0
 
-[program:apache2]
+[program:caddy]
 priority=2
+user=app
+environment=HOME="/home/%(ENV_APP_USER)s",USER="%(ENV_APP_USER)s"
 directory=%(ENV_APP_PATH)s
 command=./docker/prod/proxy
 stderr_logfile = /dev/stderr

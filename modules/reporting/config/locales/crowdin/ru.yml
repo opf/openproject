@@ -22,8 +22,17 @@
 ---
 ru:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: Строки и столбцы в совокупности должны точно соответствовать критериям группировки запроса.
     models:
       cost_query:
+        one: Отчет о затратах
+        few: Cost reports
+        many: Cost reports
+        other: Отчеты о затратах
+      cost_report:
         one: Отчет о затратах
         few: Cost reports
         many: Cost reports
@@ -40,6 +49,7 @@ ru:
       end_time: Время окончания
       start_time: Время начала
       title: Экспорт ваших отчетов о затратах в XLS
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: Экспорт табеля учета рабочего времени в PDF
       overview_per_user_day: 'Обзор: Количество часов на пользователя в день'
@@ -48,6 +58,13 @@ ru:
       time: Время
       timesheet: Табель учета рабочего времени
       title: Ваши табели учета рабочего времени, экспортированные в PDF
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    one: "%{filter} requires a value."
+    few: "%{filter} requires %{count} values."
+    many: "%{filter} requires %{count} values."
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: В зависимости от вашего разрешения, эта страница может содержать закрытую информацию.
   label_click_to_edit: Щелкнуть для изменения.
   label_closed: закрыто
@@ -101,7 +118,6 @@ ru:
   plugin_openproject_reporting:
     description: Этот плагин позволяет создавать пользовательские отчеты о стоимости с фильтрацией и группировкой, созданной плагином OpenProject Time и затратами.
     name: Отчёт OpenProject
-  project_module_reporting_module: Отчет по стоимости
   reporting:
     group_by:
       selected_columns: Выбранные столбцы
@@ -109,5 +125,3 @@ ru:
   text_costs_are_rounded_note: При отображении значения округляются. В расчетах используются неокругляемые значения.
   toggle_multiselect: активировать/деактивировать множественный выбор
   units: Модули
-  validation_failure_date: не является допустимой датой
-  validation_failure_integer: не является допустимым целым числом
