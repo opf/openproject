@@ -54,13 +54,14 @@ module WorkPackage::Exports
     class Attributes < OpenProject::TextFormatting::Matchers::RegexMatcher
       extend WorkPackage::Exports::Attributes
 
+      LEGACY_WORK_PACKAGE_ATTRIBUTES = { "version" => "target_versions", "category" => "categories" }.freeze
       DISABLED_PROJECT_RICH_TEXT_FIELDS = %i[description status_explanation status_description].freeze
       DISABLED_WORK_PACKAGE_RICH_TEXT_FIELDS = %i[description].freeze
       PROJECT_ATTRIBUTES = %w[
         active description identifier name parent public status status_code status_explanation
       ].freeze
       WORK_PACKAGE_ATTRIBUTES = %w[
-        assigned_to author category created_at description done_ratio due_date estimated_hours parent priority
+        assigned_to author categories created_at description done_ratio due_date estimated_hours parent priority
         project project_phase remaining_hours responsible spent_hours start_date status subject target_versions
         type updated_at
       ].freeze
@@ -189,7 +190,7 @@ module WorkPackage::Exports
         custom_field = find_custom_field(obj, attribute)
 
         attribute_name = convert_to_attribute_name(custom_field, attribute, obj)
-        attribute_name = map_legacy_version(attribute_name, obj)
+        attribute_name = map_legacy_attribute(attribute_name, obj)
         return " " unless custom_field || allowed_attributes.include?(attribute_name)
         return " " unless can_view_attribute?(custom_field, obj, attribute_name)
 
@@ -197,15 +198,10 @@ module WorkPackage::Exports
         [format_attribute_value(attribute_name, obj.class, obj, is_rich_text, layout:), is_rich_text]
       end
 
-      ##
-      # The deprecated version attribute renders the work package's target
-      # versions.
-      def self.map_legacy_version(attribute_name, obj)
-        if obj.is_a?(WorkPackage) && attribute_name == "version"
-          "target_versions"
-        else
-          attribute_name
-        end
+      def self.map_legacy_attribute(attribute_name, obj)
+        return attribute_name unless obj.is_a?(WorkPackage)
+
+        LEGACY_WORK_PACKAGE_ATTRIBUTES.fetch(attribute_name, attribute_name)
       end
 
       def self.can_view_attribute?(custom_field, obj, attribute_name)
