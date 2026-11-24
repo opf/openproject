@@ -22,6 +22,18 @@ On each project's **home page**, you can find a section called **project life cy
 
 ![Project life cycle phases displayed on a project home page in OpenProject](openproject_user_guide_project_home_page_project_lifecycle.png)
 
+Each phase of a project's lifecycle contains three statuses: Open, In progress, and Completed.
+
+- **Open**: this is the default status set for each phase. Setting a phase to this status will Open all existing future or subsequent phases 
+- **In progress**: this will complete all previous phases and set existing future phases to "Open"
+- **Completed**: this will complete all previous phases, but not automatically open the next phase or phases.
+
+> [!NOTE]
+>
+> Only users with the necessary permissions to edit and view project lifecycle phases can change a status or view it. 
+
+![Status of project life cycle phases displayed on a project home page in OpenProject](openproject_user_guide_project_home_page_project_lifecycle_status.png)
+
 ## Schedule project phases
 
 Project phases must follow specific rules for setting and adjusting dates. The system automatically schedules phases based on the input provided, enforcing correct order, preventing overlaps and gaps, and preserving durations where possible. Each subsequent phase starts on the next working day after the previous one ends."
