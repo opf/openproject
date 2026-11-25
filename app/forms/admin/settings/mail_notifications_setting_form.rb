@@ -79,7 +79,7 @@ module Admin
             smtp.text_field(name: :smtp_port, type: :number, input_width: :xsmall)
             smtp.text_field(name: :smtp_domain, input_width: :medium)
             smtp.select_list(name: :smtp_authentication,
-                             values: %i[none plain login cram_md5].map { |m| [m.to_s, m] },
+                             values: %w[none plain login cram_md5].map { |m| [m, m] },
                              input_width: :small)
             smtp.text_field(name: :smtp_user_name, input_width: :medium)
             smtp.text_field(name: :smtp_password, input_width: :medium)
