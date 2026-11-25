@@ -12,7 +12,7 @@ keywords: AI, text assistant, writing assistance
 
 The AI Text Assistant offers a variety of actions right where you write tickets or comments. Among other things, these allow you to sort an unstructured block of text into the right work package template, make a message friendlier or summarize a text for you.
 
-## Writing ticket templates
+## Writing work package templates
 
 The `structure` action allows you to sort a block of text into the work package's underlying template. These templates should follow a few formatting rules:
 * Template sections should best be created using the headings.
