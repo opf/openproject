@@ -37,6 +37,12 @@ module WorkPackages
       end
 
       def truncated_user_name(user, hover_card: false)
+        if user.nil?
+          return render(Primer::Beta::Text.new(color: :subtle, font_weight: :bold)) do
+            I18n.t("activities.work_packages.activity_tab.deleted_user")
+          end
+        end
+
         helpers.primer_link_to_user(user, scheme: :primary, font_weight: :bold, hover_card:)
       end
 
