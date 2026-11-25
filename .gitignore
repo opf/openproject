@@ -81,6 +81,8 @@ npm-debug.log*
 /public/dispatch.*
 /public/plugin_assets
 /public/assets
+/app/assets/builds/*
+!/app/assets/builds/.keep
 /public/javascripts
 /tmp/*
 /tmp/cache/*

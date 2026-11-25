@@ -32,6 +32,11 @@ import * as path from 'node:path';
 const customConfigPlugin:Plugin = {
   name: 'custom-config',
   setup({ initialOptions: options }) {
+    // SPIKE: Propshaft leaves files named `-[hash].digested` alone, so chunk imports keep resolving.
+    if (typeof options.chunkNames === 'string' && options.chunkNames.endsWith('-[hash]')) {
+      options.chunkNames = `${options.chunkNames}.digested`;
+    }
+
     if (options.minifySyntax) {
       // Primer elements use Catalyst which gets their tag names from their class names.
       // Minification changes the class names and will break those imports.

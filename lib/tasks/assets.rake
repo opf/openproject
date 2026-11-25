@@ -27,7 +27,9 @@
 
 require "open_project/assets"
 
-Rake::Task["assets:precompile"].enhance(%w[assets:prepare_op])
+Rake::Task["assets:precompile"].enhance(%w[assets:prepare_op]) do
+  Rake::Task["assets:compress"].invoke
+end
 Rake::Task["assets:clean"].clear
 
 namespace :assets do
@@ -67,9 +69,12 @@ namespace :assets do
     end
 
     Rake::Task["assets:rebuild_manifest"].invoke
+  end
 
-    puts "Compressing angular frontend assets"
-    sh("node", Rails.root.join("frontend/compress-assets.mjs").to_s, OpenProject::Assets.frontend_asset_path.to_s)
+  desc "Compress the precompiled assets"
+  task compress: :environment do
+    puts "Compressing precompiled assets"
+    sh("node", Rails.root.join("frontend/compress-assets.mjs").to_s, Rails.application.config.assets.output_path.to_s)
   end
 
   desc "Write angular assets manifest"
