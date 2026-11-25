@@ -34,6 +34,9 @@ import { TableEditForm } from 'core-app/features/work-packages/components/wp-edi
 import { runCleanup } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
+import { HalResourceEditFieldHandler } from 'core-app/shared/components/fields/edit/field-handler/hal-resource-edit-field-handler';
+import { EditFieldService } from 'core-app/shared/components/fields/edit/edit-field.service';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { insideGrid } from './handlers/state/keyboard/roving-tabindex';
 
 export interface ActiveTableField {
@@ -50,6 +53,8 @@ function tableEditorOwnerId():string {
 
 export class WorkPackageTableEditingContext {
   @LazyInject() public halEditing:HalResourceEditingService;
+
+  @LazyInject() private editFieldService:EditFieldService;
 
   constructor(readonly table:WorkPackageTable,
     readonly injector:Injector) {
@@ -99,6 +104,41 @@ export class WorkPackageTableEditingContext {
 
     Object.values(this.forms).forEach((form) => form.destroy());
     this.forms = {};
+  }
+
+  public retains({ form, handler }:ActiveTableField):boolean {
+    if (isNewResource(form.resource)) return false;
+    if (!insideGrid(this.table.scrollContainer, handler.element ?? null)) return false;
+    if (handler.overlays.size > 0) return false;
+    if (!(handler instanceof HalResourceEditFieldHandler)) return false;
+
+    const componentClass = this.editFieldService.getSpecificClassFor(
+      this.change(form.resource)?.pristineResource._type ?? form.resource._type,
+      handler.fieldName,
+      handler.schema.type,
+    );
+    return componentClass.survivesRender;
+  }
+
+  public closeUnretainedFields():void {
+    if (this.table.destroyed) {
+      this.reset();
+      return;
+    }
+
+    this.activeTableFields()
+      .filter((field) => !this.retains(field))
+      .forEach(({ handler }) => handler.deactivate(false));
+
+    Object.keys(this.forms).forEach((workPackageId) => this.retireIfEmpty(workPackageId));
+  }
+
+  public retireIfEmpty(workPackageId:string):void {
+    const form = this.forms[workPackageId];
+    if (!form || form.hasActiveFields()) return;
+
+    delete this.forms[workPackageId];
+    form.destroy();
   }
 
   public stopEditing(workPackageId:string):void {

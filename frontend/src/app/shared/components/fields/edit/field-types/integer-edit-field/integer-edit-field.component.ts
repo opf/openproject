@@ -49,6 +49,8 @@ import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-
   changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class IntegerEditFieldComponent extends EditFieldComponent {
+  static override readonly survivesRender:boolean = true;
+
   public locale = I18n.locale;
 
   public parseIntegerInput(this:void, value:number|null, input:HTMLInputElement):number|string|null {

@@ -46,6 +46,7 @@ import { RowsBuilder } from './builders/modes/rows-builder';
 import type { PrimaryRenderPass, RenderPassOptions } from './builders/primary-render-pass';
 import { type OccurrenceKey, RenderedOccurrenceLedger } from './rendered-occurrence-ledger';
 import { WorkPackageTableEditingContext } from './wp-table-editing';
+import { RetainedEditors } from './retained-editors';
 import type { WorkPackageTableRow } from './wp-table.interfaces';
 import type { KeyboardNavigation } from './handlers/state/keyboard/keyboard-navigation-transformer';
 import type { RowMover } from './handlers/state/row-mover';
@@ -367,7 +368,7 @@ export class WorkPackageTable {
     this.navigation?.captureOwnership(this.mutations.depth > 0 || this.hasPendingRender);
     this.schedulingRender = true;
     try {
-      this.editing.reset();
+      this.editing.closeUnretainedFields();
       const promoted = timeline || this.pendingRender?.timeline === true;
       const pass = this.rowBuilder.buildRows({ timeline: promoted });
       const pending:PendingRender = { pass, timeline: promoted, positions: this.painter.capturePositions(pass.draft) };
@@ -384,6 +385,7 @@ export class WorkPackageTable {
       this.mutations.run('all', () => {
         this.pendingRender = null;
         const { pass } = pending;
+        const retained = RetainedEditors.capture(this);
         this.tbody.replaceChildren(pass.tableBody);
         const timelinePass = pending.timeline ? pass.timeline : null;
         if (timelinePass) {
@@ -392,6 +394,7 @@ export class WorkPackageTable {
         this.ledger.commit(pass.draft);
         this.painter.commitPositions(pending.positions);
         this.lastRenderPass = pass;
+        retained.restore();
         this.reapplyRefreshed();
       }, { rendered: true });
     } finally {

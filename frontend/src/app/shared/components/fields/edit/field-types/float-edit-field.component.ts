@@ -48,5 +48,7 @@ import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-
   changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class FloatEditFieldComponent extends EditFieldComponent {
+  static override readonly survivesRender:boolean = true;
+
   public locale = I18n.locale;
 }

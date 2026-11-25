@@ -30,6 +30,7 @@ import { AbstractFieldService, IFieldType } from 'core-app/shared/components/fie
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
 
 export interface IEditFieldType extends IFieldType<EditFieldComponent> {
+  readonly survivesRender:boolean;
   new():EditFieldComponent;
 }
 

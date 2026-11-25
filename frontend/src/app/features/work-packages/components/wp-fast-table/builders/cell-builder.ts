@@ -42,6 +42,8 @@ import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/
 
 export const tdClassName = 'wp-table--cell-td';
 export const editCellContainer = 'wp-table--cell-container';
+export const baselineContainerClassName = 'op-table-baseline--container';
+export const baselineLayoutClassNames = [editCellContainer, baselineContainerClassName] as const;
 
 export class CellBuilder {
   @LazyInject(SchemaCacheService) schemaCache:SchemaCacheService;
@@ -133,7 +135,7 @@ export class CellBuilder {
     base.$links.schema = base.$links.schema ?? workPackage.$links.schema;
     const span = this.historicFieldRenderer.render(base, attribute, null);
     span.classList.add('op-table-baseline--field', 'op-table-baseline--old-field');
-    container.classList.add('op-table-baseline--container');
+    container.classList.add(baselineContainerClassName);
     (container.parentElement as HTMLTableElement).classList.add('op-table-baseline--cell');
     container.classList.remove(editCellContainer);
     container.appendChild(span);

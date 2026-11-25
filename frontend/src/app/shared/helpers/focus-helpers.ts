@@ -49,3 +49,12 @@ export const FOCUSABLE_ELEMENT_SELECTORS = [
 export function findAllFocusableElementsWithin(container:HTMLElement):NodeListOf<HTMLElement> {
   return container.querySelectorAll(FOCUSABLE_ELEMENT_SELECTORS.toString());
 }
+
+/**
+ * Whether no element holds focus: the document reports none, the body, or an
+ * element that has since been removed.
+ */
+export function focusIsUnclaimed():boolean {
+  const active = document.activeElement;
+  return !active || active === document.body || !active.isConnected;
+}
