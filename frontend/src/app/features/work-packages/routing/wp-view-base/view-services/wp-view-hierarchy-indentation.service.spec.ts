@@ -443,19 +443,21 @@ describe('WorkPackageViewIndentation service', () => {
         await vi.waitFor(() => expect(service.canOutdent(child)).toBe(true));
       });
 
-      it('releases the table with a warning when that reload is not rendered in time', async () => {
+      it('keeps the table for as long as that reload takes', async () => {
         vi.useFakeTimers();
         outcome = outcomeOf(service.outdent(child));
 
-        await vi.advanceTimersByTimeAsync(10_000);
+        await vi.advanceTimersByTimeAsync(60_000);
 
-        expect(await outcome).toMatchObject({ message: 'conflict' });
-        expect(toasts.addWarning).toHaveBeenCalledTimes(1);
-        expect(service.canOutdent(child)).toBe(false);
+        expect(querySpace.tableOperation.hasValue()).toBe(true);
+        expect(toasts.addWarning).not.toHaveBeenCalled();
 
         reload.resolve();
-        await vi.advanceTimersByTimeAsync(0);
+
+        expect(await outcome).toMatchObject({ message: 'conflict' });
+        expect(querySpace.tableOperation.hasValue()).toBe(false);
         expect(service.canOutdent(child)).toBe(true);
+        expect(toasts.addWarning).not.toHaveBeenCalled();
       });
     });
 
@@ -529,23 +531,23 @@ describe('WorkPackageViewIndentation service', () => {
       });
     });
 
-    it('keeps hierarchy changes off while its reload has not been rendered in time', async () => {
+    it('keeps the table until its reload is rendered, however long that takes', async () => {
       vi.useFakeTimers();
       const done = service.outdent(child);
 
-      await vi.advanceTimersByTimeAsync(10_000);
-      await done;
+      await vi.advanceTimersByTimeAsync(60_000);
 
+      expect(querySpace.tableOperation.hasValue()).toBe(true);
       expect(notifications.showSave).not.toHaveBeenCalled();
-      expect(toasts.addWarning).toHaveBeenCalledTimes(1);
-      expect(querySpace.tableOperation.hasValue()).toBe(false);
-      expect(service.canOutdent(child)).toBe(false);
+      expect(toasts.addWarning).not.toHaveBeenCalled();
 
       reload.resolve();
-      await vi.advanceTimersByTimeAsync(0);
+      await done;
 
+      expect(notifications.showSave).toHaveBeenCalledTimes(1);
+      expect(toasts.addWarning).not.toHaveBeenCalled();
+      expect(querySpace.tableOperation.hasValue()).toBe(false);
       expect(service.canOutdent(child)).toBe(true);
-      expect(notifications.showSave).not.toHaveBeenCalled();
     });
 
     it('warns at once when its reload fails, and recovers with the next reload of the table', async () => {

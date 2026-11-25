@@ -29,13 +29,33 @@
 
 module Backlogs
   module SprintReports
-    class MissingDatesBlankslateComponent < ApplicationComponent
+    class ReportUnavailableBlankslateComponent < ApplicationComponent
+      def initialize(timeframe:)
+        super
+
+        @timeframe = timeframe
+      end
+
+      def render? = reason.present?
+
       def call
-        render(Primer::Beta::Blankslate.new(border: true, spacious: true)) do |blankslate|
-          blankslate.with_visual_icon(icon: :calendar)
-          blankslate.with_heading(tag: :h3).with_content(t(".heading"))
-          blankslate.with_description_content(t(".description"))
+        render(Primer::Box.new(mb: 3)) do
+          render(Primer::Beta::Blankslate.new(border: true, spacious: true)) do |blankslate|
+            blankslate.with_visual_icon(icon: :calendar)
+            blankslate.with_heading(tag: :h3).with_content(t(".#{reason}.heading"))
+            blankslate.with_description_content(t(".#{reason}.description"))
+          end
         end
+      end
+
+      private
+
+      attr_reader :timeframe
+
+      def reason
+        return :missing_dates unless timeframe.date_range_set?
+
+        :planned_dates_in_past if timeframe.never_executed?
       end
     end
   end
