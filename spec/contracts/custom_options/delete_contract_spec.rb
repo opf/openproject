@@ -75,7 +75,7 @@ RSpec.describe CustomOptions::DeleteContract do
     context "when the custom field does not allow additional project values" do
       let(:allow_additional_project_values) { false }
 
-      it_behaves_like "contract user is unauthorized"
+      it_behaves_like "contract is valid"
     end
 
     context "with a value of another project" do

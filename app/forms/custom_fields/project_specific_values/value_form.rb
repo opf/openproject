@@ -42,7 +42,7 @@ module CustomFields
         f.text_field(
           name: :label,
           label: I18n.t("custom_fields.admin.projects.value_dialog.name"),
-          caption: I18n.t("custom_fields.admin.projects.value_dialog.name_caption", project: @project.name),
+          caption: helpers.t("custom_fields.admin.projects.value_dialog.name_caption_html", project: @project.name),
           value: @values[:label],
           required: true,
           autofocus: true,
@@ -54,6 +54,7 @@ module CustomFields
           f.text_field(
             name: :short,
             label: I18n.t("custom_fields.admin.items.placeholder.short"),
+            caption: I18n.t("custom_fields.admin.projects.value_dialog.short_caption"),
             value: @values[:short],
             validation_message: validation_message_for(:short)
           )
@@ -63,6 +64,7 @@ module CustomFields
           f.text_field(
             name: :weight,
             label: I18n.t("custom_fields.admin.items.placeholder.weight"),
+            caption: I18n.t("custom_fields.admin.projects.value_dialog.weight_caption"),
             type: :number,
             step: :any,
             value: @values[:weight],
@@ -105,10 +107,14 @@ module CustomFields
       def item_options
         depths = { @custom_field.hierarchy_root.id => -1 }
 
-        parent_items.map do |item|
+        parent_items.filter_map do |item|
           depths[item.id] = depths.fetch(item.parent_id) + 1
-          ["#{INDENTATION * depths[item.id]}#{item.label}", item.id]
+          ["#{INDENTATION * depths[item.id]}#{item.label}", item.id] if selectable_parent?(item)
         end
+      end
+
+      def selectable_parent?(item)
+        @custom_field.values_toggleable_by?(User.current, @project) || @custom_field.usable_value_id?(@project, item.id)
       end
 
       def selected_parent_id

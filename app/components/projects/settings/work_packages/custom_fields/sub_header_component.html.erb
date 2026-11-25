@@ -50,5 +50,5 @@ See COPYRIGHT and LICENSE files for more details.
   <% sub_header.with_quick_filter { values_filter } %>
 
   <% sub_header.with_filter_component { render(Filter::FilterButtonComponent.new(query:)) } %>
-  <% sub_header.with_bottom_pane_component { render(Projects::Settings::WorkPackages::CustomFields::FiltersComponent.new(query:)) } %>
+  <% sub_header.with_bottom_pane_component(mt: 0) { render(Projects::Settings::WorkPackages::CustomFields::FiltersComponent.new(query:)) } %>
 <% end %>

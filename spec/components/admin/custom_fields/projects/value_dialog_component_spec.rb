@@ -39,8 +39,13 @@ RSpec.describe Admin::CustomFields::Projects::ValueDialogComponent, type: :compo
   let(:parent) { nil }
   let(:parent_options) { rendered.css("select[name='parent_id'] option").map { it.text.strip } }
   let(:field_names) { rendered.css("input:not([type='hidden']), select").pluck("name") }
+  let(:vc_test_controller_class) { Admin::Settings::WorkPackageCustomFields::ProjectSpecificValuesController }
 
   subject(:rendered) { render_inline(described_class.new(custom_field:, project:, value:, parent:)) }
+
+  before do
+    allow(vc_test_controller).to receive_messages(custom_field:, configured_project: project)
+  end
 
   context "for a list custom field" do
     let(:custom_field) { create(:list_wp_custom_field, allow_additional_project_values: true) }
@@ -48,9 +53,8 @@ RSpec.describe Admin::CustomFields::Projects::ValueDialogComponent, type: :compo
     it "asks for the name of the value in the project" do
       expect(rendered).to have_text(I18n.t("custom_fields.admin.projects.value_dialog.title"))
       expect(rendered).to have_field(I18n.t("custom_fields.admin.projects.value_dialog.name"))
-      expect(rendered).to have_text(
-        I18n.t("custom_fields.admin.projects.value_dialog.name_caption", project: "Scrum project")
-      )
+      expect(rendered).to have_text("Only available in Scrum project.")
+      expect(rendered).to have_css("strong", text: "Scrum project")
       expect(rendered.css("form").attr("action").value)
         .to eq(admin_settings_work_package_custom_field_project_specific_values_path(custom_field, project))
       expect(rendered).to have_button(I18n.t(:button_add))
@@ -89,6 +93,7 @@ RSpec.describe Admin::CustomFields::Projects::ValueDialogComponent, type: :compo
 
     it "asks for a short name before the parent" do
       expect(field_names).to eq(%w[label short parent_id])
+      expect(rendered).to have_text(I18n.t("custom_fields.admin.projects.value_dialog.short_caption"))
     end
 
     context "when adding a sub-value" do
@@ -118,12 +123,47 @@ RSpec.describe Admin::CustomFields::Projects::ValueDialogComponent, type: :compo
     end
   end
 
+  context "for a hierarchy custom field with an allowlist",
+          with_ee: %i[custom_field_hierarchies project_specific_list_values] do
+    let(:project_level_value_management) { false }
+    let(:custom_field) do
+      create(:hierarchy_wp_custom_field, :project_specific_allowlist,
+             allow_additional_project_values: true, project_level_value_management:)
+    end
+    let!(:enabled_item) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Enabled") }
+    let!(:enabled_child) { create(:hierarchy_item, parent: enabled_item, label: "Enabled child") }
+    let!(:disabled_item) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Disabled") }
+    let(:indented_child) { "#{CustomFields::ProjectSpecificValues::ValueForm::INDENTATION}Enabled child" }
+
+    current_user { create(:user, member_with_permissions: { project => %i[manage_work_package_custom_field_values] }) }
+
+    before do
+      create(:project_specific_value_restriction, project:, hierarchy_item: enabled_item, restriction: "allow")
+      create(:project_specific_value_restriction, project:, hierarchy_item: enabled_child, restriction: "allow")
+    end
+
+    it "only offers the values enabled in the project as parents" do
+      expect(parent_options)
+        .to eq([I18n.t("custom_fields.admin.projects.value_dialog.top_level"), "Enabled", indented_child])
+    end
+
+    context "when project admins may manage the values" do
+      let(:project_level_value_management) { true }
+
+      it "offers all values as parents" do
+        expect(parent_options)
+          .to eq([I18n.t("custom_fields.admin.projects.value_dialog.top_level"), "Enabled", indented_child, "Disabled"])
+      end
+    end
+  end
+
   context "for a weighted list custom field", with_ee: %i[weighted_item_lists] do
     let(:custom_field) { create(:weighted_item_list_wp_custom_field, allow_additional_project_values: true) }
 
     it "asks for a weight before the parent" do
       expect(field_names).to eq(%w[label weight parent_id])
       expect(rendered).to have_field(I18n.t("custom_fields.admin.items.placeholder.weight"), type: "number")
+      expect(rendered).to have_text(I18n.t("custom_fields.admin.projects.value_dialog.weight_caption"))
     end
   end
 end
