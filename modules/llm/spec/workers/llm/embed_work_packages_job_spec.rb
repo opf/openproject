@@ -68,4 +68,40 @@ RSpec.describe Llm::EmbedWorkPackagesJob, with_flag: { semantic_search: true } d
 
     expect(Llm::WorkPackages::EmbedService).not_to have_received(:new)
   end
+
+  describe "retry behavior" do
+    let(:service) { instance_double(Llm::WorkPackages::EmbedService) }
+
+    before do
+      allow(Llm::WorkPackages::EmbedService).to receive(:new).and_return(service)
+    end
+
+    it "retries transient errors" do
+      allow(service).to receive(:call).and_raise(Llm::Errors::ApiError.new("down", status: 503))
+
+      expect { described_class.perform_now(semantic_index.id, [work_package.id]) }
+        .to have_enqueued_job(described_class).with(semantic_index.id, [work_package.id])
+    end
+
+    it "does not retry permanent errors" do
+      allow(service).to receive(:call).and_raise(Llm::Errors::AuthenticationError.new("rejected"))
+
+      expect { described_class.perform_now(semantic_index.id, [work_package.id]) }
+        .to raise_error(Llm::Errors::AuthenticationError)
+      expect(described_class).not_to have_been_enqueued
+    end
+
+    it "gives up on transient errors after 10 attempts, keeping the original error as cause" do
+      allow(service).to receive(:call).and_raise(Llm::Errors::ApiError.new("down", status: 503))
+
+      job = described_class.new(semantic_index.id, [work_package.id])
+      9.times { job.perform_now }
+
+      expect { job.perform_now }
+        .to raise_error(described_class::TransientError) { |error|
+          expect(error.cause).to be_a(Llm::Errors::ApiError)
+        }
+      expect(service).to have_received(:call).exactly(10).times
+    end
+  end
 end
