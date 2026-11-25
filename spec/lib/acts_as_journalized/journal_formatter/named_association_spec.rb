@@ -252,6 +252,7 @@ RSpec.describe JournalFormatter::NamedAssociation do
       expect(journal.render_detail(["assigned_to_id", [nil, stranger.id]])).to include(stranger.name)
       expect(journal.render_detail(["responsible_id", [nil, stranger.id]])).to include(stranger.name)
       expect(journal.render_detail(["author_id", [nil, stranger.id]])).to include(stranger.name)
+      expect(journal.render_detail(["reporter_id", [nil, stranger.id]])).to include(stranger.name)
     end
   end
 end

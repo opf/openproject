@@ -225,17 +225,11 @@ module Import
     def find_or_create_resource(klass, name, jira_object_type:)
       with_log_context(jira_object_type:, jira_object_id_or_name: name) do
         resource = find_resource(klass, name)
-        if resource
-          Rails.logger.debug { "Found existing #{klass.name}" }
-          return [resource, true]
-        end
+        return [resource, true] if resource
 
         OpenProject::Mutex.with_advisory_lock(klass, resource_lock_key(klass, name), transaction: true) do
           resource = find_resource(klass, name)
-          if resource
-            Rails.logger.debug { "Found existing #{klass.name}" }
-            next [resource, true]
-          end
+          return [resource, true] if resource
 
           Rails.logger.debug { "Creating #{klass.name}" }
           [yield, false]
@@ -244,7 +238,9 @@ module Import
     end
 
     def find_resource(klass, name)
-      klass.find_by("LOWER(name) = LOWER(?)", name)
+      resource = klass.find_by("LOWER(name) = LOWER(?)", name)
+      Rails.logger.debug { "Found existing #{klass.name}" } if resource
+      resource
     end
 
     def resource_lock_key(klass, name)
@@ -345,12 +341,8 @@ module Import
       project.reload
 
       due_date = jira_issue.payload.dig("fields", "duedate")&.to_date
-      author_key = jira_issue.payload.dig("fields", "creator", "key")
-      author = find_user(author_key)
-      assignee_key = jira_issue.payload.dig("fields", "assignee", "key")
-      assigned_to = find_user(assignee_key)
-      [author, assigned_to].uniq.compact.each { |member| create_member(project, member) }
-
+      author, reporter, assigned_to = resolve_users(jira_issue:)
+      create_members(project, [author, reporter, assigned_to])
       custom_field_attrs = collect_custom_field_attributes(custom_field_registry, jira_issue, attachment_paths_by_name:)
                              .merge(system_field_cf_attrs(jira_issue, attachment_paths_by_name:))
 
@@ -390,6 +382,7 @@ module Import
             priority:,
             status:,
             assigned_to:,
+            reporter:,
             target_versions:,
             observed_in_versions:,
             sprint: sprint_for(jira_issue),
@@ -437,6 +430,16 @@ module Import
       create_work_package_history(work_package, jira_issue, project, attachment_paths_by_name)
       create_watchers(work_package, jira_issue, project)
       work_package
+    end
+
+    def resolve_users(jira_issue:)
+      author_key = jira_issue.payload.dig("fields", "creator", "key")
+      author = find_user(author_key)
+      reporter_key = jira_issue.payload.dig("fields", "reporter", "key")
+      reporter = find_user(reporter_key)
+      assignee_key = jira_issue.payload.dig("fields", "assignee", "key")
+      assigned_to = find_user(assignee_key)
+      [author, reporter, assigned_to]
     end
 
     def sprint_for(jira_issue)
@@ -487,7 +490,7 @@ module Import
     def prepare_attachment(jira_issue, project, payload)
       with_log_context(jira_object_type: "attachment", jira_object_id_or_name: payload["filename"]) do
         author = find_user(payload.dig("author", "key"))
-        create_member(project, author)
+        create_members(project, author)
         attachment = create_prepared_attachment(payload, author || @system_user)
 
         jira_attachment =
@@ -547,7 +550,7 @@ module Import
           key = comment.dig("author", "key")
           with_log_context(author: key) do
             author = find_user(key)
-            create_member(project, author)
+            create_members(project, author)
             journal_service.add_comment(comment:, user: author || User.system)
           end
         end
@@ -564,7 +567,7 @@ module Import
       users = watchers.filter_map { find_imported_user(it["key"]) }
       return unless users.any?
 
-      users.each { create_member(project, it) }
+      create_members(project, users)
       Watcher.insert_all(watchers_insert_data(users, work_package), unique_by: :index_watchers_on_user_id_and_watchable)
     end
 

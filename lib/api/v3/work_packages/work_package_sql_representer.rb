@@ -69,6 +69,8 @@ module API
 
         associated_user_link :author
 
+        associated_user_link :reporter
+
         associated_user_link :assignee,
                              column_name: :assigned_to_id
 

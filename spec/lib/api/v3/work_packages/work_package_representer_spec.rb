@@ -45,6 +45,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
   let(:parent) { nil }
   let(:priority) { build_stubbed(:priority, updated_at: Time.zone.now) }
   let(:assignee) { nil }
+  let(:reporter) { nil }
   let(:responsible) { nil }
   let(:schedule_manually) { nil }
   let(:start_date) { Time.zone.today.to_datetime }
@@ -70,6 +71,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
                   project_phase_definition:,
                   priority:,
                   assigned_to: assignee,
+                  reporter:,
                   responsible:,
                   estimated_hours:,
                   derived_estimated_hours:,
@@ -565,6 +567,18 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         let(:link) { "author" }
         let(:href) { "/api/v3/users/#{work_package.author.id}" }
         let(:title) { work_package.author.name }
+      end
+    end
+
+    describe "reporter" do
+      context "as a user" do
+        let(:reporter) { build_stubbed(:user) }
+
+        it_behaves_like "has a titled link" do
+          let(:link) { "reporter" }
+          let(:href) { "/api/v3/users/#{work_package.reporter.id}" }
+          let(:title) { work_package.reporter.name }
+        end
       end
     end
 
