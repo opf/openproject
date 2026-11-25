@@ -38,6 +38,7 @@ module Exports::PDF::Components::Gantt
       Bim::Queries::WorkPackages::Selects::BcfThumbnailSelect
     ].freeze
     FIXED_COLUMN_TYPES = %i[date datetime integer float decimal boolean].freeze
+    FIXED_COMPUTED_COLUMN_NAMES = %w[spent_hours material_costs labor_costs overall_costs].freeze
     FIXED_CUSTOM_FIELD_FORMATS = %w[int float date datetime bool calculated_value].freeze
 
     attr_reader :query
@@ -95,7 +96,8 @@ module Exports::PDF::Components::Gantt
       if custom_field_column?(column)
         FIXED_CUSTOM_FIELD_FORMATS.include?(column.custom_field.field_format)
       else
-        FIXED_COLUMN_TYPES.include?(WorkPackage.columns_hash[column.name.to_s]&.type)
+        FIXED_COMPUTED_COLUMN_NAMES.include?(column.name.to_s) ||
+          FIXED_COLUMN_TYPES.include?(WorkPackage.columns_hash[column.name.to_s]&.type)
       end
     end
   end

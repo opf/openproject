@@ -67,7 +67,7 @@ RSpec.describe Exports::PDF::Components::Gantt::TextColumns do
 
     it "classifies properties without a typed database column as simple text" do
       %i[project parent assigned_to author responsible category labels status type priority
-         spent_hours shared_with_users].each do |name|
+         shared_with_users].each do |name|
         expect(text_columns.kind(column(name))).to eq(:simple_text), "expected #{name} to be simple text"
       end
     end
@@ -77,6 +77,20 @@ RSpec.describe Exports::PDF::Components::Gantt::TextColumns do
          estimated_hours remaining_hours done_ratio duration].each do |name|
         expect(text_columns.kind(column(name))).to eq(:fixed), "expected #{name} to be fixed"
       end
+    end
+
+    it "classifies computed numeric properties as fixed" do
+      spent_hours = column(:spent_hours)
+      currency_columns = %i[material_costs labor_costs overall_costs]
+                           .map { |name| Queries::WorkPackages::Selects::WorkPackageSelect.new(name) }
+
+      expect([spent_hours, *currency_columns].map { |c| text_columns.kind(c) }).to all(eq(:fixed))
+    end
+
+    it "classifies the budget as simple text" do
+      budget = Queries::WorkPackages::Selects::WorkPackageSelect.new(:budget)
+
+      expect(text_columns.kind(budget)).to eq(:simple_text)
     end
 
     it "classifies simple text custom fields" do
