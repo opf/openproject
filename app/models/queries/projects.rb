@@ -68,6 +68,7 @@ module Queries::Projects
     order Orders::RequiredDiskSpaceOrder
     order Orders::TypeaheadOrder
     order Orders::UpdatedAtOrder
+    order Orders::WorkPackageStatisticOrder
 
     select Selects::CreatedAt
     select Selects::CustomField
@@ -79,5 +80,6 @@ module Queries::Projects
     select Selects::RequiredDiskSpace
     select Selects::Status
     select Selects::UpdatedAt
+    select Selects::WorkPackageStatistic
   end
 end

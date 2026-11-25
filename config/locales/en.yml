@@ -4631,6 +4631,7 @@ en:
   label_my_account_data: "My account data"
   label_my_activity: "My activity"
   label_my_avatar: "My avatar"
+  label_my_productivity: "My productivity"
   label_my_queries: "My custom queries"
   label_my_security: "Security"
   label_my_time: "My time"
@@ -4977,6 +4978,11 @@ en:
   label_work_package_tracking: "Work package tracking"
   label_work_package_types: "Work package types"
   label_work_package_view_all: "View all work packages"
+  label_work_packages_closed: "Closed work packages"
+  label_work_packages_completion: "Completion"
+  label_work_packages_open: "Open work packages"
+  label_work_packages_overdue: "Overdue work packages"
+  label_work_packages_total: "Total work packages"
   label_workflow: "Workflow"
   label_workflow_copy: "Copy workflow"
   label_workflow_plural: "Workflows"
@@ -5430,6 +5436,38 @@ en:
         all: "All entries"
         allocated: "Allocations only"
         logged: "Logged time only"
+
+  my_productivity:
+    label: "My productivity"
+    description: "Your assigned work packages at a glance: what is due, what you completed and how your weeks went."
+    summary:
+      open: "Open"
+      due_this_week: "Due this week"
+      overdue: "Overdue"
+      completed_this_week: "Completed this week"
+      completion_rate: "Completion rate"
+      on_time_rate: "Completed on time"
+    due:
+      title: "Due work packages"
+      blankslate: "Nothing is due this week."
+      overdue: "Overdue"
+    completed:
+      title:
+        one: "Completed in the last day"
+        other: "Completed in the last %{count} days"
+      blankslate: "No work packages completed recently."
+    weekly:
+      title:
+        one: "Weekly progress (last week)"
+        other: "Weekly progress (last %{count} weeks)"
+      bar_label: "Week of %{week}: %{count} completed"
+      footer: "%{total} completed in total, %{average} per week on average."
+    projects:
+      title: "Analytics by project"
+      blankslate: "No work packages are assigned to you."
+      open: "Open"
+      closed: "Closed"
+      overdue: "Overdue"
 
   my_account:
     access_tokens:

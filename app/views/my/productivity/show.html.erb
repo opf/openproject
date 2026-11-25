@@ -1,0 +1,41 @@
+<% html_title(t("my_productivity.label")) -%>
+
+<%= render(Primer::OpenProject::PageHeader.new) do |header|
+      header.with_title { t("my_productivity.label") }
+      header.with_description { t("my_productivity.description") }
+      header.with_breadcrumbs(nil)
+    end %>
+
+<%= render(My::Productivity::SummaryComponent.new(report: @report)) %>
+
+<%= render(Primer::Box.new(display: :flex, flex_wrap: :wrap, classes: "op-my-productivity--columns")) do %>
+  <%= render(
+        My::Productivity::WorkPackageListComponent.new(
+          title: t("my_productivity.due.title"),
+          blankslate: t("my_productivity.due.blankslate"),
+          work_packages: @report.due_work_packages,
+          today: @report.today,
+          date_attribute: :due_date,
+          test_selector: "my-productivity-due"
+        )
+      ) %>
+
+  <%= render(
+        My::Productivity::WorkPackageListComponent.new(
+          title: t(
+            "my_productivity.completed.title",
+            count: WorkPackages::ProductivityReport::RECENTLY_COMPLETED_DAYS
+          ),
+          blankslate: t("my_productivity.completed.blankslate"),
+          work_packages: @report.recently_completed,
+          today: @report.today,
+          date_attribute: :closed_at,
+          test_selector: "my-productivity-completed"
+        )
+      ) %>
+<% end %>
+
+<%= render(Primer::Box.new(display: :flex, flex_wrap: :wrap, classes: "op-my-productivity--columns")) do %>
+  <%= render(My::Productivity::WeeklyProgressComponent.new(weekly_progress: @report.weekly_progress)) %>
+  <%= render(My::Productivity::ProjectBreakdownComponent.new(rows: @report.project_breakdown)) %>
+<% end %>

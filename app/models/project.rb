@@ -33,6 +33,7 @@ class Project < ApplicationRecord
   include Projects::CustomFields
   include Projects::Hierarchy
   include Projects::Storage
+  include Projects::WorkPackageStatistics
   include Projects::EnabledTypes
   include Projects::Versions
   include Projects::CreationWizard

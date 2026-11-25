@@ -1,0 +1,38 @@
+<%= render(
+      Primer::Beta::BorderBox.new(
+        mb: 4, classes: "op-my-productivity--section",
+        test_selector: "my-productivity-weekly-progress"
+      )
+    ) do |box| %>
+  <% box.with_header do |header| %>
+    <% header.with_title(tag: :h3) { t("my_productivity.weekly.title", count: weekly_progress.size) } %>
+  <% end %>
+
+  <% box.with_body do %>
+    <% weekly_progress.each do |week| %>
+      <%= render(Primer::Box.new(display: :flex, align_items: :center, mb: 2)) do %>
+        <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small, classes: "op-my-productivity--week-label")) do %>
+          <%= week_label(week) %>
+        <% end %>
+        <%= render(
+              Primer::Beta::ProgressBar.new(
+                size: :large, flex: 1, mx: 2,
+                aria: { label: t(
+                  "my_productivity.weekly.bar_label",
+                  week: week_label(week), count: week.completed
+                ) }
+              )
+            ) do |bar| %>
+          <% bar.with_item(percentage: bar_percentage(week), bg: :success_emphasis) %>
+        <% end %>
+        <%= render(Primer::Beta::Text.new(font_weight: :bold)) { week.completed.to_s } %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <% box.with_footer do %>
+    <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) do %>
+      <%= t("my_productivity.weekly.footer", total: total_completed, average: weekly_average) %>
+    <% end %>
+  <% end %>
+<% end %>

@@ -115,6 +115,14 @@ Redmine::MenuManager.map :top_menu do |menu|
               User.current.allowed_in_any_project?(:log_own_time) || User.current.allowed_in_any_project?(:log_time)
             end,
             icon: :clock
+
+  menu.push :my_productivity,
+            { controller: "/my/productivity", action: "show" },
+            after: :my_page,
+            context: :my,
+            caption: :label_my_productivity,
+            if: ->(*) { User.current.logged? },
+            icon: :graph
 end
 
 Redmine::MenuManager.map :quick_add_menu do |menu|
@@ -242,6 +250,13 @@ Redmine::MenuManager.map :global_menu do |menu|
               User.current.allowed_in_any_project?(:log_own_time) || User.current.allowed_in_any_project?(:log_time)
             end,
             icon: :clock
+
+  menu.push :my_productivity,
+            { controller: "/my/productivity", action: "show" },
+            after: :my_page,
+            caption: :label_my_productivity,
+            if: ->(*) { User.current.logged? },
+            icon: :graph
 
   menu.push :portfolios,
             { controller: "/portfolios", action: "index" },

@@ -1,0 +1,43 @@
+<%= render(
+      Primer::Beta::BorderBox.new(
+        mb: 4, classes: "op-my-productivity--section",
+        test_selector: "my-productivity-project-breakdown"
+      )
+    ) do |box| %>
+  <% box.with_header do |header| %>
+    <% header.with_title(tag: :h3) { t("my_productivity.projects.title") } %>
+  <% end %>
+
+  <% if rows.empty? %>
+    <% box.with_body do %>
+      <%= render(Primer::Beta::Text.new(color: :muted)) { t("my_productivity.projects.blankslate") } %>
+    <% end %>
+  <% else %>
+    <% box.with_body(p: 0) do %>
+      <table class="op-my-productivity--table">
+        <thead>
+          <tr>
+            <th><%= t(:label_project) %></th>
+            <th><%= t("my_productivity.projects.open") %></th>
+            <th><%= t("my_productivity.projects.closed") %></th>
+            <th><%= t("my_productivity.projects.overdue") %></th>
+            <th><%= t(:label_work_packages_completion) %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% rows.each do |row| %>
+            <tr>
+              <td><%= helpers.link_to_project(row.project, {}, {}, false) %></td>
+              <td><%= row.open %></td>
+              <td><%= row.closed %></td>
+              <td>
+                <%= render(Primer::Beta::Text.new(color: row.overdue.positive? ? :danger : :default)) { row.overdue.to_s } %>
+              </td>
+              <td><%= row.completion %>%</td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+  <% end %>
+<% end %>

@@ -1534,6 +1534,8 @@ Rails.application.routes.draw do
       delete :revoke_ical_meeting_token
     end
 
+    get "/productivity" => "productivity#show", as: :productivity
+
     get "/time/(:mode-:view_mode)(/:date)" => "time_management#index",
         as: :time,
         constraints: {

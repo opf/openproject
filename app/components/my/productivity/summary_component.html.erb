@@ -1,0 +1,22 @@
+<%= render(
+      Primer::Box.new(
+        mb: 4, classes: "op-my-productivity--summary",
+        test_selector: "my-productivity-summary"
+      )
+    ) do %>
+  <% cards.each do |card| %>
+    <%= render(
+          Primer::Box.new(
+            border: true, border_radius: 2, p: 3,
+            classes: "op-my-productivity--card",
+            test_selector: "my-productivity-card-#{card[:key]}"
+          )
+        ) do %>
+      <%= render(Primer::Beta::Text.new(tag: :div, color: :muted, font_size: :small)) do %>
+        <%= render(Primer::Beta::Octicon.new(icon: card[:icon], mr: 1)) %>
+        <%= card[:label] %>
+      <% end %>
+      <%= render(Primer::Beta::Heading.new(tag: :h3, mt: 2, color: card[:color])) { card[:value].to_s } %>
+    <% end %>
+  <% end %>
+<% end %>
