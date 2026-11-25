@@ -32,7 +32,7 @@ Rake::Task["assets:clean"].clear
 
 namespace :assets do
   desc "Disabled: Propshaft's clean would delete the Angular build in public/assets/frontend"
-  task :clean do
+  task :clean do # rubocop:disable Rails/RakeEnvironment
     puts "assets:clean is disabled. Propshaft would delete the Angular chunks in public/assets/frontend."
   end
 
