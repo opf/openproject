@@ -122,10 +122,11 @@ module Import
     def create_sprint(jira_sprint, counts)
       payload = jira_sprint.payload
       project = owning_project(counts)
-      attributes = sprint_attributes(payload)
-      allow_multiple_active_sprints(project) if attributes[:status] == "active"
+      sprint = Sprint.new(project:, **sprint_attributes(payload), **origin_attributes(jira_sprint))
+      normalize_sprint_status(sprint, payload)
+      allow_multiple_active_sprints(project) if sprint.active?
 
-      sprint = Sprint.create!(project:, **attributes, **origin_attributes(jira_sprint))
+      sprint.save!
       create_goal(sprint, payload["goal"])
       sprint
     end
@@ -157,7 +158,6 @@ module Import
       finish_date = [finish_date, start_date].max if start_date && finish_date
       {
         name: payload["name"].presence || "Sprint #{payload['id']}",
-        status: sprint_status(payload, start_date, finish_date),
         start_date:,
         finish_date:,
         started_at: to_time(payload["activatedDate"]),
@@ -165,14 +165,15 @@ module Import
       }
     end
 
-    def sprint_status(payload, start_date, finish_date)
-      status = STATUSES.fetch(payload["state"].to_s.downcase, "in_planning")
-      return status unless status == "active" && (start_date.nil? || finish_date.nil?)
+    def normalize_sprint_status(sprint, payload)
+      sprint.started_at = nil if sprint.active? && !sprint.date_range_set?
+
+      state = payload["state"].to_s.downcase
+      return if STATUSES[state] == sprint.status
 
       with_log_context(jira_object_id_or_name: payload["id"]) do
-        Rails.logger.warn "Active sprint without start or end date is imported as in planning"
+        Rails.logger.warn "Sprint in Jira state #{state.inspect} is imported as #{sprint.status}"
       end
-      "in_planning"
     end
 
     def create_goal(sprint, goal)

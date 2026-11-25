@@ -96,12 +96,14 @@ RSpec.describe Import::JiraCreateSprintsJob do
 
     it "creates future and active sprints" do
       stage_issue(demo, 1, 3)
-      stage_sprint(1, state: "active", startDate: "2026-11-02T09:00:00.000Z", endDate: "2026-11-16T17:00:00.000Z")
+      stage_sprint(1, state: "active", startDate: "2026-11-02T09:00:00.000Z", endDate: "2026-11-16T17:00:00.000Z",
+                      activatedDate: "2026-11-02T12:34:56.789Z")
       stage_sprint(3, state: "future")
 
       perform
 
-      expect(created_sprint(1).status).to eq("active")
+      expect(created_sprint(1)).to have_attributes(status: "active",
+                                                   started_at: Time.zone.parse("2026-11-02T12:34:56.789Z"))
       expect(created_sprint(3)).to have_attributes(status: "in_planning", start_date: nil, finish_date: nil)
     end
 
@@ -158,7 +160,8 @@ RSpec.describe Import::JiraCreateSprintsJob do
 
     it "allows multiple active sprints in a project that owns several" do
       stage_issue(demo, 1, 7)
-      dates = { startDate: "2026-11-02T09:00:00.000Z", endDate: "2026-11-16T17:00:00.000Z" }
+      dates = { startDate: "2026-11-02T09:00:00.000Z", endDate: "2026-11-16T17:00:00.000Z",
+                activatedDate: "2026-11-02T12:34:56.789Z" }
       stage_sprint(1, state: "active", **dates)
       stage_sprint(7, state: "active", **dates)
 
@@ -170,7 +173,8 @@ RSpec.describe Import::JiraCreateSprintsJob do
 
     it "leaves the setting alone in a project with one active sprint" do
       stage_issue(demo, 1)
-      stage_sprint(1, state: "active", startDate: "2026-11-02T09:00:00.000Z", endDate: "2026-11-16T17:00:00.000Z")
+      stage_sprint(1, state: "active", startDate: "2026-11-02T09:00:00.000Z", endDate: "2026-11-16T17:00:00.000Z",
+                      activatedDate: "2026-11-02T12:34:56.789Z")
 
       perform
 
@@ -178,12 +182,51 @@ RSpec.describe Import::JiraCreateSprintsJob do
     end
 
     it "imports an active sprint without dates as in planning" do
+      allow(Rails.logger).to receive(:warn)
       stage_issue(demo, 1)
-      stage_sprint(1, state: "active", startDate: "2026-11-02T09:00:00.000Z")
+      stage_sprint(1, state: "active", startDate: "2026-11-02T09:00:00.000Z", activatedDate: "2026-11-02T12:34:56.789Z")
 
       perform
 
-      expect(created_sprint(1).status).to eq("in_planning")
+      expect(created_sprint(1)).to have_attributes(status: "in_planning", started_at: nil)
+      expect(Rails.logger).to have_received(:warn).with(a_string_including('"active" is imported as in_planning'))
+    end
+
+    it "imports an active sprint without activation time as in planning" do
+      allow(Rails.logger).to receive(:warn)
+      stage_issue(demo, 1)
+      stage_sprint(1, state: "active", startDate: "2026-11-02T09:00:00.000Z", endDate: "2026-11-16T17:00:00.000Z")
+
+      perform
+
+      expect(created_sprint(1)).to have_attributes(status: "in_planning", started_at: nil)
+      expect(Rails.logger).to have_received(:warn).with(a_string_including('"active" is imported as in_planning'))
+    end
+
+    it "imports a closed sprint without completion time as active" do
+      allow(Rails.logger).to receive(:warn)
+      stage_issue(demo, 1)
+      stage_sprint(1, state: "closed", startDate: "2026-11-02T09:00:00.000Z", endDate: "2026-11-16T17:00:00.000Z",
+                      activatedDate: "2026-11-02T12:34:56.789Z")
+
+      perform
+
+      expect(created_sprint(1).status).to eq("active")
+      expect(Rails.logger).to have_received(:warn).with(a_string_including('"closed" is imported as active'))
+    end
+
+    it "does not warn about sprints whose Jira state matches" do
+      allow(Rails.logger).to receive(:warn)
+      stage_issue(demo, 1, 2, 3)
+      common = { startDate: "2026-11-02T09:00:00.000Z", endDate: "2026-11-16T17:00:00.000Z" }
+      stage_sprint(1, **common, state: "future")
+      stage_sprint(2, **common, state: "active", activatedDate: "2026-11-02T12:34:56.789Z")
+      stage_sprint(3, **common, state: "closed", activatedDate: "2026-11-02T12:34:56.789Z",
+                                completeDate: "2026-11-16T12:34:56.789")
+
+      perform
+
+      expect(Rails.logger).not_to have_received(:warn).with(a_string_including("is imported as"))
     end
 
     it "keeps the planned dates of a Jira server outside UTC" do
