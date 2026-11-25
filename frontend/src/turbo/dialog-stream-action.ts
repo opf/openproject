@@ -72,6 +72,15 @@ export function registerDialogStreamAction() {
 
       // Remove the dialog on close
       dialog.addEventListener('close', () => {
+        // Primer reopens a dialog that lost its modal state by closing and calling
+        // showModal() again, and swallows the close event with a `once` listener it
+        // registers just before. Ours is older, so it survives the swallow and would
+        // tear down a dialog that is on screen again. The close event is queued, so
+        // the reopen has already happened by the time we run.
+        if (dialog.open) {
+          return;
+        }
+
         if (dialog.parentElement?.tagName === 'DIALOG-HELPER') {
           dialog.parentElement.remove();
         } else {
