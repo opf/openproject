@@ -276,7 +276,7 @@ gem "httpx", "~> 1.9.0"
 
 group :test do
   gem "launchy", "~> 3.1.0"
-  gem "rack-test", "~> 2.2.0"
+  gem "rack-test", "~> 2.3.0"
 
   # Test prof provides factories from code
   # and other niceties
@@ -413,7 +413,7 @@ gem "grape_logging", "~> 3.0.1"
 gem "roar", "~> 1.2.0"
 
 # CORS for API
-gem "rack-cors", "~> 2.0.2"
+gem "rack-cors", "~> 3.0.0"
 
 # Gmail API
 gem "google-apis-gmail_v1", require: false
