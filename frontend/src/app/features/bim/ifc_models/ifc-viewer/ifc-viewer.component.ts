@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { IFCViewerService } from 'core-app/features/bim/ifc_models/ifc-viewer/ifc-viewer.service';
 import { IfcModelsDataService } from 'core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -50,6 +50,8 @@ import invariant from 'tiny-invariant';
     '(keypress)': 'keepCameraKey($event)',
     '(keyup)': 'releaseCameraKey($event)',
     '(focusout)': 'releaseKeysOnCanvasExit($event.target)',
+    '(mousedown)': 'enableKeyBoard()',
+    '(window:mousedown)': 'disableKeyboard($event.target)',
   },
 })
 export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -214,7 +216,6 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  @HostListener('mousedown')
   enableKeyBoard():void {
     if (this.modelCount) {
       this.keyboardEnabled = true;
@@ -222,7 +223,6 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  @HostListener('window:mousedown', ['$event.target'])
   disableKeyboard(target:EventTarget|null):void {
     if (this.modelCount && target instanceof Element && !this.outerContainer.nativeElement.contains(target)) {
       this.keyboardEnabled = false;
