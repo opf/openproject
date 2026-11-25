@@ -39,7 +39,7 @@ module Exports::PDF::Components::Gantt
     SHAPE_AREA_HEIGHT = 20.to_f
     DEFAULT_HEADER_ROW_HEIGHT = 30.to_f
     LINE_STEP = 5.to_f
-    MAX_YEAR_RANGE = 15
+    MAX_YEAR_RANGE = 10
 
     def initialize(pdf, column_width)
       @pdf = pdf
