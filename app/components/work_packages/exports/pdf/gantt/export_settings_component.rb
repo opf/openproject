@@ -47,6 +47,7 @@ module WorkPackages
               {
                 name: "gantt_width",
                 label: I18n.t("export.dialog.pdf.column_width.label"),
+                caption: I18n.t("export.dialog.pdf.column_width.caption"),
                 options: gantt_column_widths
               },
               {

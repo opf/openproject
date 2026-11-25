@@ -3720,7 +3720,8 @@ en:
             label: "XLS"
       pdf:
         column_width:
-          label: "Table column width"
+          caption: "Width of each day, week, month or quarter in the chart."
+          label: "Date column width"
           options:
             medium: "Medium"
             narrow: "Narrow"
