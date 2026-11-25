@@ -3918,31 +3918,31 @@ en:
             line_0:
               description: "Customize types with shared or project-specific workflows and forms."
               title: "Type variants"
-              url: "https://www.openproject.org/docs/release-notes/18-0-0/"
+              url: "https://www.openproject.org/docs/release-notes/18-0-0/#work-package-types-and-variants-workflows-and-forms"
             line_1:
               description: "Track sprint progress (Community) and gain deeper insights with Created vs. Resolved and Epic progress charts (Professional plan)."
               title: "Agile reporting"
-              url: "https://www.openproject.org/docs/release-notes/18-0-0/"
+              url: "https://www.openproject.org/docs/release-notes/18-0-0/#agile-planning-and-reporting"
             line_2:
               description: "Proofread, rewrite, and structure text directly in OpenProject (Professional plan)."
               title: "AI Text Assistant"
-              url: "https://www.openproject.org/docs/release-notes/18-0-0/"
+              url: "https://www.openproject.org/docs/release-notes/18-0-0/#ai-text-assistant-and-mcp-server"
             line_3:
               description: "Organize and find related work packages more easily."
               title: "Work package labels"
-              url: "https://www.openproject.org/docs/release-notes/18-0-0/"
+              url: "https://www.openproject.org/docs/release-notes/18-0-0/#labels-for-work-packages"
             line_4:
               description: "Plan resources across projects and with placeholder users (Professional plan), manage work package allocations and personal day planning (Premium plan)."
               title: "Extended resource management"
-              url: "https://www.openproject.org/docs/release-notes/18-0-0/"
+              url: "https://www.openproject.org/docs/release-notes/18-0-0/#resource-management-and-personal-planning"
             line_5:
               description: "Benefit from improved keyboard navigation, screen reader support, and color contrast checking."
               title: "Enhanced accessibility"
-              url: "https://www.openproject.org/docs/release-notes/18-0-0/"
+              url: "https://www.openproject.org/docs/release-notes/18-0-0/#accessibility"
             line_6:
               description: "Connect external AI assistants to OpenProject."
               title: "MCP Server released to Community"
-              url: "https://www.openproject.org/docs/release-notes/18-0-0/"
+              url: "https://www.openproject.org/docs/release-notes/18-0-0/#ai-text-assistant-and-mcp-server"
           new_features_title: >
             The release contains various new features and improvements, such as:
         header: "Read about new features and product updates."
