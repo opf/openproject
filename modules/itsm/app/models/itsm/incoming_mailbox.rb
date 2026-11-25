@@ -37,9 +37,10 @@ module ITSM
 
     belongs_to :mail_server, class_name: "ITSM::MailServer", inverse_of: :incoming_mailboxes, optional: false
 
-    scope :fetchable, -> { where(active: true, project: Project.active.has_module(:helpdesk)) }
+    scope :active, -> { where(active: true) }
+    scope :fetchable, -> { active.where(project: Project.active.has_module(:helpdesk)) }
     scope :due_for_fetch, -> { fetchable.where(next_fetch_at: [nil, ..Time.current]) }
-    scope :receiving_for, ->(project) { where(project:, active: true).order(:id) }
+    scope :receiving_for, ->(project) { active.where(project:).order(:id) }
 
     normalizes :email, with: EmailAddress::NORMALIZE
     normalizes :aliases, with: EmailAddress::NORMALIZE_ALL

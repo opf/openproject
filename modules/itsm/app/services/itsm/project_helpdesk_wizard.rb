@@ -31,7 +31,7 @@ module ITSM
   class ProjectHelpdeskWizard < ::Wizard
     step :incoming_mail_configuration,
          section: :mailbox_configuration,
-         completed_if: ->(project) { project.helpdesk_incoming_mailboxes.any? }
+         completed_if: ->(project) { project.helpdesk_incoming_mailboxes.active.any? }
 
     step :outgoing_mail_configuration,
          section: :mailbox_configuration,

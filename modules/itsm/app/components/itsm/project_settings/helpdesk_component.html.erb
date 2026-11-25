@@ -40,7 +40,12 @@ See COPYRIGHT and LICENSE files for more details.
       end
 
       box.with_row(scheme: :default) do
-        render(ITSM::Registry.resolve("helpdesk.components.#{step_name}").new(project))
+        case step_name
+        when :incoming_mail_configuration
+          render(ITSM::ProjectSettings::IncomingMailConfigurationComponent.new(project))
+        when :outgoing_mail_configuration
+          render(ITSM::ProjectSettings::OutgoingMailConfigurationComponent.new(project))
+        end
       end
     end
   end
