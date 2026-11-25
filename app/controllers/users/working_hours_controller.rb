@@ -74,7 +74,7 @@ class Users::WorkingHoursController < ApplicationController
       update_via_turbo_stream(
         component: Users::WorkingHours::FormComponent.new(user: @user, working_hours: call.result,
                                                           show_valid_from: !current_context?),
-        status: :unprocessable_entity
+        status: :unprocessable_content
       )
     end
 
@@ -93,7 +93,7 @@ class Users::WorkingHoursController < ApplicationController
       update_via_turbo_stream(
         component: Users::WorkingHours::FormComponent.new(user: @user, working_hours: call.result,
                                                           show_valid_from: !current_context?),
-        status: :unprocessable_entity
+        status: :unprocessable_content
       )
     end
 

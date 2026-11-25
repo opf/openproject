@@ -320,7 +320,7 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
             params: { type_id: wp_type.id, param_key => { artefact_export_mode: "bogus" } },
             as: :turbo_stream
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(variant.reload.artefact_export_mode).to eq(Type::ArtefactExport::OFF)
       end
 
@@ -329,7 +329,7 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
             params: { type_id: wp_type.id, type: { artefact_export_mode: Type::ArtefactExport::FILE_LINK } },
             as: :turbo_stream
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(variant.reload.artefact_export_mode).to eq(Type::ArtefactExport::OFF)
       end
     end

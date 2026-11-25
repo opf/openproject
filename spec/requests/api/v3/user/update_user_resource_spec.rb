@@ -85,7 +85,7 @@ RSpec.describe API::V3::Users::UsersAPI do
       it "returns an erroneous response" do
         send_request
 
-        expect(last_response).to have_http_status(:unprocessable_entity)
+        expect(last_response).to have_http_status(:unprocessable_content)
 
         expect(last_response.body)
           .to be_json_eql("login".to_json)
@@ -103,7 +103,7 @@ RSpec.describe API::V3::Users::UsersAPI do
       it "responds with an error" do
         send_request
 
-        expect(last_response).to have_http_status(:unprocessable_entity)
+        expect(last_response).to have_http_status(:unprocessable_content)
 
         expect(last_response.body)
           .to be_json_eql("name".to_json)
@@ -152,7 +152,7 @@ RSpec.describe API::V3::Users::UsersAPI do
 
           it "responds with 422 and explains the custom field error" do
             send_request
-            expect(last_response).to have_http_status(:unprocessable_entity)
+            expect(last_response).to have_http_status(:unprocessable_content)
 
             response_body = parse_json(last_response.body)
 
@@ -287,7 +287,7 @@ RSpec.describe API::V3::Users::UsersAPI do
       it "returns an error and does not activate the user" do
         send_request
 
-        expect(last_response).to have_http_status(:unprocessable_entity)
+        expect(last_response).to have_http_status(:unprocessable_content)
         expect(user.reload).to be_locked
       end
     end
@@ -342,7 +342,7 @@ RSpec.describe API::V3::Users::UsersAPI do
 
       it "rejects the users password update" do
         send_request
-        expect(last_response).to have_http_status(:unprocessable_entity)
+        expect(last_response).to have_http_status(:unprocessable_content)
 
         expect(last_response.body)
           .to be_json_eql("password".to_json)
@@ -360,7 +360,7 @@ RSpec.describe API::V3::Users::UsersAPI do
 
       it "rejects the users email update" do
         send_request
-        expect(last_response).to have_http_status(:unprocessable_entity)
+        expect(last_response).to have_http_status(:unprocessable_content)
 
         expect(last_response.body)
           .to be_json_eql("email".to_json)
@@ -394,7 +394,7 @@ RSpec.describe API::V3::Users::UsersAPI do
       it "rejects the update and keeps the old password" do
         send_request
 
-        expect(last_response).to have_http_status(:unprocessable_entity)
+        expect(last_response).to have_http_status(:unprocessable_content)
         expect(current_user.reload.check_password?("adminADMIN!")).to be(true)
         expect(current_user.check_password?("my!new!password123")).to be(false)
       end
@@ -411,7 +411,7 @@ RSpec.describe API::V3::Users::UsersAPI do
       it "rejects the update and keeps the old password" do
         send_request
 
-        expect(last_response).to have_http_status(:unprocessable_entity)
+        expect(last_response).to have_http_status(:unprocessable_content)
         expect(current_user.reload.check_password?("adminADMIN!")).to be(true)
         expect(current_user.check_password?("my!new!password123")).to be(false)
       end
@@ -452,7 +452,7 @@ RSpec.describe API::V3::Users::UsersAPI do
 
           send_request
 
-          expect(last_response).to have_http_status(:unprocessable_entity)
+          expect(last_response).to have_http_status(:unprocessable_content)
           expect(last_response.body)
             .to be_json_eql("email".to_json)
                   .at_path("_embedded/details/attribute")

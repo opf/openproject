@@ -112,7 +112,7 @@ RSpec.describe "Enabling a work package type in all projects", :skip_csrf,
     it "still reloads the listing" do
       toggle("0")
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(variant.reload.projects).to contain_exactly(blocked)
       expect(response.body).to include(WorkPackageTypes::ReloadableConfigurationFrameComponent::RELOAD_EVENT_NAME)
     end

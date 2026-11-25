@@ -135,6 +135,6 @@ class Workflows::MatrixController < ApplicationController
       message: I18n.t(:notice_unsuccessful_update),
       scheme: :danger
     )
-    @turbo_status = :unprocessable_entity
+    @turbo_status = :unprocessable_content
   end
 end

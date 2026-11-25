@@ -64,7 +64,7 @@ class Users::NonWorkingTimesController < ApplicationController
     else
       update_via_turbo_stream(
         component: Users::NonWorkingTimes::FormComponent.new(user: @user, non_working_time: call.result),
-        status: :unprocessable_entity
+        status: :unprocessable_content
       )
     end
 
@@ -82,7 +82,7 @@ class Users::NonWorkingTimesController < ApplicationController
     else
       update_via_turbo_stream(
         component: Users::NonWorkingTimes::FormComponent.new(user: @user, non_working_time: call.result),
-        status: :unprocessable_entity
+        status: :unprocessable_content
       )
     end
 

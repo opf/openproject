@@ -254,7 +254,7 @@ module Backlogs
     def respond_with_start_finish_failure(message:)
       render_error_flash_message_via_turbo_stream(message:)
 
-      respond_with_turbo_streams(status: :unprocessable_entity) do |format|
+      respond_with_turbo_streams(status: :unprocessable_content) do |format|
         fallback_responses_for(format, alert: message)
       end
     end

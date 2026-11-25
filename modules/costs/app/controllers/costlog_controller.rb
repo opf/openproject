@@ -62,7 +62,7 @@ class CostlogController < ApplicationController
         flash[:notice] = t(:notice_cost_logged_successfully)
         redirect_back_or_default polymorphic_path(@cost_entry.entity)
       else
-        render action: :edit, status: :unprocessable_entity
+        render action: :edit, status: :unprocessable_content
       end
     end
   end

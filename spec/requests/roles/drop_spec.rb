@@ -72,7 +72,7 @@ RSpec.describe "Roles drop", :skip_csrf, type: :rails_request do
 
     drop(builtin, { list_type: "role", list_id: "", prev_id: role_a.id.to_s })
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(ordered_ids).to eq([role_a.id, role_b.id])
   end
 
@@ -81,7 +81,7 @@ RSpec.describe "Roles drop", :skip_csrf, type: :rails_request do
 
     drop(role_a, { list_type: "role", list_id: "", prev_id: builtin.id.to_s })
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(ordered_ids).to eq([role_a.id, role_b.id])
   end
 

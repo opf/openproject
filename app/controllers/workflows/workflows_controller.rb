@@ -102,7 +102,7 @@ module Workflows
 
     def render_missing_replacement_error
       render_error_flash_message_via_turbo_stream(message: t("workflows.delete.no_replacement"))
-      respond_with_turbo_streams(status: :unprocessable_entity)
+      respond_with_turbo_streams(status: :unprocessable_content)
     end
 
     def chosen_target
@@ -118,7 +118,7 @@ module Workflows
     def repaint_delete_dialog(service_call)
       dialog_via_turbo_stream(
         component: delete_dialog(validation_message: service_call.errors.full_messages.to_sentence),
-        status: :unprocessable_entity
+        status: :unprocessable_content
       )
       respond_with_turbo_streams
     end
@@ -135,7 +135,7 @@ module Workflows
     end
 
     def reject_missing_copy_source
-      respond_with_dialog start_dialog(error: t("workflows.start.copy.missing")), status: :unprocessable_entity
+      respond_with_dialog start_dialog(error: t("workflows.start.copy.missing")), status: :unprocessable_content
     end
 
     def chosen_copy_from_id
@@ -161,7 +161,7 @@ module Workflows
     def render_form_errors(workflow)
       update_via_turbo_stream(
         component: WorkPackageTypes::NamedReferences::NameFormComponent.new(record: workflow, model_class:),
-        status: :unprocessable_entity
+        status: :unprocessable_content
       )
       respond_with_turbo_streams
     end

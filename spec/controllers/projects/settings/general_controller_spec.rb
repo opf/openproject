@@ -75,7 +75,7 @@ RSpec.describe Projects::Settings::GeneralController do
         patch :update, params: { project_id: project.identifier, project: { name: "" } }
 
         expect(response).not_to be_successful
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :unprocessable_content
         expect(assigns(:project)).not_to be_valid
         expect(flash[:error]).to start_with I18n.t(:notice_unsuccessful_update_with_reason, reason: "")
         expect(response).to render_template "projects/settings/general/show"

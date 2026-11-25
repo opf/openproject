@@ -96,7 +96,7 @@ RSpec.describe Projects::Settings::BacklogEstimationUnitsController do
         let(:project_params) { { estimation_unit: "invalid_option" } }
 
         it "renders show with an error", :aggregate_failures do
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
           expect(response).to render_template("projects/settings/backlog_estimation_units/show")
           expect(flash[:error]).to eq I18n.t(:notice_unsuccessful_update_with_reason, reason: "invalid setting")
         end

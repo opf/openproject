@@ -65,7 +65,7 @@ class Projects::CreationWizardController < ApplicationController
   private
 
   def render_wizard_error_step
-    render :show, status: :unprocessable_entity
+    render :show, status: :unprocessable_content
   end
 
   def create_work_package_artefact # rubocop:disable Metrics/AbcSize

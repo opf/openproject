@@ -61,7 +61,7 @@ module LdapGroups
         flash[:notice] = I18n.t(:notice_successful_create)
         redirect_to ldap_groups_synchronized_groups_path
       else
-        render action: :new, status: :unprocessable_entity
+        render action: :new, status: :unprocessable_content
       end
     rescue ActionController::ParameterMissing
       render_400
@@ -72,7 +72,7 @@ module LdapGroups
         flash[:notice] = I18n.t(:notice_successful_update)
         redirect_to action: :show
       else
-        render action: :edit, status: :unprocessable_entity
+        render action: :edit, status: :unprocessable_content
       end
     rescue ActionController::ParameterMissing
       render_400

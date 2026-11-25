@@ -248,7 +248,7 @@ RSpec.describe Workflows::MatrixController do
       it "responds unprocessable with a danger flash" do
         submit_matrix
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
       end
     end

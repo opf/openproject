@@ -131,7 +131,7 @@ RSpec.describe "Moving form configuration groups and attributes", :skip_csrf, ty
       it "answers 422 for #{description} and moves nothing", :aggregate_failures do
         move_attribute(priority, params.call(self))
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(attribute_keys(details)).to eq(%w[assignee priority])
       end
     end
@@ -170,7 +170,7 @@ RSpec.describe "Moving form configuration groups and attributes", :skip_csrf, ty
       it "answers 422 when its attribute is the anchor", :aggregate_failures do
         move_attribute(assignee, list_type: "attribute", list_id: details.id.to_s, prev_id: stale.id.to_s)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(attribute_keys(details)).to eq(%w[assignee priority])
       end
     end

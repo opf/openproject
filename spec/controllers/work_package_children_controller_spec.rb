@@ -89,7 +89,7 @@ RSpec.describe WorkPackageChildrenController do
            as: :turbo_stream)
 
       # A non-success status is what keeps the Primer dialog from closing, see turbo-event-listeners.ts
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.body).to include("Subject can&#39;t be blank")
     end
   end

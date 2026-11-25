@@ -236,7 +236,7 @@ module ::ResourceManagement
           project: @project,
           base_errors: call.errors[:base]
         ),
-        status: :unprocessable_entity
+        status: :unprocessable_content
       )
       respond_with_turbo_streams
     end
@@ -255,7 +255,7 @@ module ::ResourceManagement
           method: :patch,
           include_default_view: false
         ),
-        status: :unprocessable_entity
+        status: :unprocessable_content
       )
       respond_with_turbo_streams
     end

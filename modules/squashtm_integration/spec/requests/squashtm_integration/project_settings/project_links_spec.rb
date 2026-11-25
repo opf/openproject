@@ -149,7 +149,7 @@ RSpec.describe "SquashTM project settings",
     it "requires a SquashTM project" do
       patch settings_path, params: { squashtm_project_link: { squashtm_project_id: "" } }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.body).to include("can&#39;t be blank")
       expect(SquashTMIntegration::ProjectLink).not_to exist
     end
@@ -157,7 +157,7 @@ RSpec.describe "SquashTM project settings",
     it "shows the error when the SquashTM project does not exist" do
       patch settings_path, params: { squashtm_project_link: { squashtm_project_id: "99" } }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.body).to include("The SquashTM project 99 does not exist or is not visible")
       expect(SquashTMIntegration::ProjectLink).not_to exist
     end

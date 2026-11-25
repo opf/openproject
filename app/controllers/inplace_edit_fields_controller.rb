@@ -89,12 +89,12 @@ class InplaceEditFieldsController < ApplicationController
     if !success && dialog_id
       replace_via_turbo_stream(
         component: dialog_field_component,
-        status: :unprocessable_entity
+        status: :unprocessable_content
       )
     else
       replace_via_turbo_stream(
         component: component(enforce_edit_mode: !success),
-        status: success ? :ok : :unprocessable_entity
+        status: success ? :ok : :unprocessable_content
       )
     end
   end

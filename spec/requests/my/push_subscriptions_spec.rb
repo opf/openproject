@@ -96,7 +96,7 @@ RSpec.describe "My::PushSubscriptionsController",
 
         subscribe(endpoint)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.parsed_body["errors"]).to be_present
         expect(existing.reload.user).not_to eq(user)
       end
@@ -106,7 +106,7 @@ RSpec.describe "My::PushSubscriptionsController",
 
         subscribe(endpoint)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.parsed_body["errors"])
           .to contain_exactly(I18n.t("activerecord.errors.models.push_subscription.attributes.base.too_many_push_subscriptions",
                                      count: PushSubscription::MAX_PER_USER))
@@ -156,7 +156,7 @@ RSpec.describe "My::PushSubscriptionsController",
       it "rejects an endpoint that is not served over HTTPS" do
         subscribe("http://fcm.googleapis.com/fcm/send/abc")
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.parsed_body["errors"]).to be_present
         expect(PushSubscription.count).to eq(0)
       end
@@ -170,7 +170,7 @@ RSpec.describe "My::PushSubscriptionsController",
         it "rejects an endpoint that is #{description} with a JSON error" do
           subscribe(value)
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
           expect(response.parsed_body["errors"]).to be_present
           expect(PushSubscription.count).to eq(0)
         end
@@ -206,7 +206,7 @@ RSpec.describe "My::PushSubscriptionsController",
       it "rejects a JSON request without the CSRF token" do
         subscribe(endpoint)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(PushSubscription.count).to eq(0)
       end
     end

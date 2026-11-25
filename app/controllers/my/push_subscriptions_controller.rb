@@ -42,7 +42,7 @@ module My
       if result.errors.of_kind?(:endpoint, :not_found)
         head :gone
       elsif result.failure?
-        render json: { errors: result.errors.full_messages }, status: :unprocessable_entity
+        render json: { errors: result.errors.full_messages }, status: :unprocessable_content
       elsif background_resume?
         head :no_content
       else

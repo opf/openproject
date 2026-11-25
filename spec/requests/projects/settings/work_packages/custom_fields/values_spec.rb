@@ -281,7 +281,7 @@ RSpec.describe "Project settings for the values of a work package custom field",
     it "does not enable a global value in the project" do
       post toggle_path.call(global_option), params: { value: "1" }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(custom_field.usable_values_in(project)).not_to include(global_option)
     end
 
@@ -428,14 +428,14 @@ RSpec.describe "Project settings for the values of a work package custom field",
     it "does not add a value to the project" do
       post values_path, params: { label: "Own" }, as: :turbo_stream
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(custom_field.custom_options.where(project:)).to be_empty
     end
 
     it "does not rename a value the project added before" do
       patch value_path.call(own_option), params: { label: "Renamed" }, as: :turbo_stream
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(own_option.reload.value).to eq("Own")
     end
 
@@ -449,7 +449,7 @@ RSpec.describe "Project settings for the values of a work package custom field",
     it "does not enable a global value in the project" do
       post toggle_path.call(global_option), params: { value: "1" }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(custom_field.usable_values_in(project)).not_to include(global_option)
     end
   end

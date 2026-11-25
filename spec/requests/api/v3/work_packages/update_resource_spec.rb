@@ -180,7 +180,7 @@ RSpec.describe "API v3 Work package resource",
 
           include_context "patch request"
 
-          it { expect(response).to have_http_status(:unprocessable_entity) }
+          it { expect(response).to have_http_status(:unprocessable_content) }
 
           it "has a readonly error" do
             expect(response.body)
@@ -637,7 +637,7 @@ RSpec.describe "API v3 Work package resource",
 
           include_context "patch request"
 
-          it { expect(response).to have_http_status(:unprocessable_entity) }
+          it { expect(response).to have_http_status(:unprocessable_content) }
 
           it "has a readonly error" do
             expect(response.body)
@@ -697,7 +697,7 @@ RSpec.describe "API v3 Work package resource",
 
           include_context "patch request"
 
-          it { expect(response).to have_http_status(:unprocessable_entity) }
+          it { expect(response).to have_http_status(:unprocessable_content) }
 
           it "rejects the update with a single-value error" do
             expect(response.body).to include("Target Versions can only hold a single value")
@@ -739,7 +739,7 @@ RSpec.describe "API v3 Work package resource",
 
           include_context "patch request"
 
-          it { expect(response).to have_http_status(:unprocessable_entity) }
+          it { expect(response).to have_http_status(:unprocessable_content) }
 
           it "has a readonly error" do
             expect(response.body)
@@ -829,7 +829,7 @@ RSpec.describe "API v3 Work package resource",
 
           include_context "patch request"
 
-          it { expect(response).to have_http_status(:unprocessable_entity) }
+          it { expect(response).to have_http_status(:unprocessable_content) }
 
           it "does not assign the label" do
             expect(work_package.reload.labels).to be_empty
@@ -875,7 +875,7 @@ RSpec.describe "API v3 Work package resource",
 
           include_context "patch request"
 
-          it { expect(response).to have_http_status(:unprocessable_entity) }
+          it { expect(response).to have_http_status(:unprocessable_content) }
 
           it "does not create the label" do
             expect(Label.where(name: "Needs triage")).not_to exist
@@ -900,7 +900,7 @@ RSpec.describe "API v3 Work package resource",
 
           include_context "patch request"
 
-          it { expect(response).to have_http_status(:unprocessable_entity) }
+          it { expect(response).to have_http_status(:unprocessable_content) }
 
           it "has a readonly error" do
             expect(response.body)
@@ -915,7 +915,7 @@ RSpec.describe "API v3 Work package resource",
           context "with a title for a label that does not exist yet" do
             let(:label_links) { [{ href: nil, title: "Needs triage" }] }
 
-            it { expect(response).to have_http_status(:unprocessable_entity) }
+            it { expect(response).to have_http_status(:unprocessable_content) }
 
             it "has a readonly error" do
               expect(response.body)
@@ -1004,7 +1004,7 @@ RSpec.describe "API v3 Work package resource",
 
           include_context "patch request"
 
-          it { expect(response).to have_http_status(:unprocessable_entity) }
+          it { expect(response).to have_http_status(:unprocessable_content) }
 
           it "rejects the update with a single-value error" do
             expect(response.body).to include("Categories can only hold a single value")
@@ -1043,7 +1043,7 @@ RSpec.describe "API v3 Work package resource",
 
           include_context "patch request"
 
-          it { expect(response).to have_http_status(:unprocessable_entity) }
+          it { expect(response).to have_http_status(:unprocessable_content) }
         end
       end
 

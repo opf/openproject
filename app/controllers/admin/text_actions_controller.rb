@@ -66,7 +66,7 @@ module Admin
       result.on_failure do
         @text_action = result.result
         stream_form_component do |format|
-          format.html { render :new, status: :unprocessable_entity }
+          format.html { render :new, status: :unprocessable_content }
         end
       end
 
@@ -83,7 +83,7 @@ module Admin
 
       result.on_failure do
         stream_form_component do |format|
-          format.html { render :edit, status: :unprocessable_entity }
+          format.html { render :edit, status: :unprocessable_content }
         end
       end
 
@@ -115,7 +115,7 @@ module Admin
       if @text_action.update(active: boolean_param(:value))
         render json: {}, status: :ok
       else
-        render json: {}, status: :unprocessable_entity
+        render json: {}, status: :unprocessable_content
       end
     end
 
@@ -136,7 +136,7 @@ module Admin
         respond_with_turbo_streams
       else
         render_error_flash_message_via_turbo_stream(message: I18n.t(:error_invalid_list_move_anchor))
-        respond_with_turbo_streams(status: :unprocessable_entity)
+        respond_with_turbo_streams(status: :unprocessable_content)
       end
     end
 

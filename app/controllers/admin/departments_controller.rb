@@ -159,7 +159,7 @@ module Admin
         flash[:notice] = I18n.t(:notice_successful_update)
         redirect_to edit_admin_department_path(@group), status: :see_other
       else
-        render action: :edit, status: :unprocessable_entity
+        render action: :edit, status: :unprocessable_content
       end
     end
 

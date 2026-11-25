@@ -87,7 +87,7 @@ RSpec.describe "API v3 Meeting Agenda Item move to next meeting", content_type: 
     let!(:current_meeting) { create(:meeting, project:, author:) }
 
     it "returns an unprocessable error" do
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(agenda_item.reload.meeting_id).to eq(current_meeting.id)
     end
   end
@@ -96,7 +96,7 @@ RSpec.describe "API v3 Meeting Agenda Item move to next meeting", content_type: 
     before { current_meeting.reload.update!(state: :closed) }
 
     it "returns an unprocessable error" do
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(agenda_item.reload.meeting_id).to eq(current_meeting.id)
     end
   end
@@ -123,7 +123,7 @@ RSpec.describe "API v3 Meeting Agenda Item move to next meeting", content_type: 
       let(:chosen_section) { create(:meeting_section, meeting: other_meeting) }
 
       it "returns an unprocessable error without moving the item" do
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(agenda_item.reload.meeting_id).to eq(current_meeting.id)
       end
     end
@@ -143,7 +143,7 @@ RSpec.describe "API v3 Meeting Agenda Item move to next meeting", content_type: 
       let(:chosen_section) { other_meeting.backlog }
 
       it "returns an unprocessable error without moving the item" do
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(agenda_item.reload.meeting_id).to eq(current_meeting.id)
       end
     end
@@ -156,7 +156,7 @@ RSpec.describe "API v3 Meeting Agenda Item move to next meeting", content_type: 
       let(:chosen_section) { create(:meeting_section, meeting: other_occurrence) }
 
       it "returns an unprocessable error without orphaning the item" do
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(agenda_item.reload.meeting_id).to eq(current_meeting.id)
       end
     end
