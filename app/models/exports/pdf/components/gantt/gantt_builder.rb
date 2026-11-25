@@ -733,12 +733,21 @@ module Exports::PDF::Components::Gantt
     # @param [Array<GanttDataColumn>] columns
     # @return [GanttDataRow]
     def build_row(entry, row_index, columns, with_text_column)
-      paint_columns = columns.filter { |column| column.entry_ids.include?(entry.id) }
       top = @header_row_height + (row_index * GANTT_ROW_HEIGHT)
-      shape = build_shape(top, paint_columns, entry.work_package) unless entry.group? || paint_columns.empty?
       text_lines = with_text_column ? build_row_text_lines(entry, top, columns) : []
-      GanttDataRow.new(row_index, entry.id, shape, text_lines, columns.first&.left || 0, top, GANTT_ROW_HEIGHT,
-                       entry.group?)
+      GanttDataRow.new(row_index, entry.id, build_row_shape(entry, top, columns), text_lines,
+                       columns.first&.left || 0, top, GANTT_ROW_HEIGHT, entry.group?)
+    end
+
+    # @param [GanttDataEntry] entry
+    # @param [Float] top
+    # @param [Array<GanttDataColumn>] columns
+    # @return [GanttDataShape, nil]
+    def build_row_shape(entry, top, columns)
+      return if entry.group?
+
+      paint_columns = columns.filter { |column| column.entry_ids.include?(entry.id) }
+      build_shape(top, paint_columns, entry.work_package) unless paint_columns.empty?
     end
 
     # Builds the text cells of a row, or the group title for a group row
