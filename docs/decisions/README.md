@@ -6,6 +6,15 @@ An ADR becomes part of the project’s architecture documentation and is authori
 
 ---
 
+## Decision log
+
+| ADR                                                      | Topic                | Outcome                                                                                                                                                                 | Status   |
+|----------------------------------------------------------|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
+| [ADR-0000](adr-0000-introduce-adrs.md)                   | Decision records     | Significant technical decisions are documented as ADRs in `docs/decisions/`, agreed on via pull request, and binding once merged.                                       | accepted |
+| [ADR-0001](adr-0001-ai-assisted-pull-request-reviews.md) | AI-assisted reviews  | AI review only by mutual agreement of author and reviewer, on top of human review. A human reviewer owns and triages every AI comment; across teams, confirm first.       | proposed |
+
+---
+
 ## Where ADRs live
 
 All ADRs are stored in the repository under:
