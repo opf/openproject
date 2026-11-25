@@ -5958,13 +5958,13 @@ ko:
       shared: 공유된 프로젝트 목록
     phase_status:
       description:
-        completed: Marking a phase as complete will complete all previous phases.
-        in_progress: Marking a phase as in progress will complete all previous phases and open all future phases.
-        open: Re-opening a phase will also open all future phases.
+        completed: This will also mark all previous phases as complete.
+        in_progress: This will complete all previous phases and mark future phases as not started.
+        open: This will mark all future phases as not started.
       title:
         completed: 완료됨
         in_progress: 진행 중
-        open: 열림
+        open: Not started
     settings:
       actions:
         label_disable_all: 모두 비활성화

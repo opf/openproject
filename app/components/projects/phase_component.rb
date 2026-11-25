@@ -54,14 +54,6 @@ module Projects
       end
     end
 
-    def display_start_gate?
-      phase.start_gate? && phase.start_date.present?
-    end
-
-    def display_finish_gate?
-      phase.finish_gate? && phase.finish_date.present?
-    end
-
     def hover_card_data_args(gate:)
       raise ArgumentError, "gate must be either :start or :finish" unless %i[start finish].include?(gate)
 

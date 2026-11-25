@@ -281,11 +281,22 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
                                  count: 1)
       end
 
+      it "shows the warning while project admins may not add values" do
+        expect(page).to have_css("[data-show-when-checked-target='effect'][data-show-when='unchecked']" \
+                                 "[data-target-name='allow_additional_project_values_block']",
+                                 visible: :visible)
+        expect(page).to have_field("custom_field_allow_additional_project_values_block") do |field|
+          field["data-show-when-checked-target"] == "cause" &&
+            field["data-target-name"] == "allow_additional_project_values_block"
+        end
+      end
+
       context "when project admins can add values" do
         let(:allow_additional_project_values) { true }
 
-        it "does not warn" do
-          expect(page).to have_no_css("[data-test-selector='remaining-project-values-warning']", visible: :all)
+        it "renders the warning hidden, to show it once adding values is disabled" do
+          expect(page).to have_no_css("[data-test-selector='remaining-project-values-warning']")
+          expect(page).to have_css("[data-test-selector='remaining-project-values-warning']", visible: :hidden)
         end
       end
     end

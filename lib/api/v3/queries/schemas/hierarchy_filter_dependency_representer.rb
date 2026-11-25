@@ -31,7 +31,22 @@ module API
       module Schemas
         class HierarchyFilterDependencyRepresenter < FilterDependencyRepresenter
           def type = "[]CustomField::Hierarchy::Item"
-          def href_callback = api_v3_paths.custom_field_items(filter.custom_field.id)
+
+          def href_callback
+            api_v3_paths.custom_field_items(filter.custom_field.id,
+                                            project: filter.project&.id,
+                                            include_subprojects: include_subprojects?)
+          end
+
+          def json_cache_key
+            super + [filter.project&.id, include_subprojects?]
+          end
+
+          private
+
+          def include_subprojects?
+            filter.project.present? && filter.context.include_subprojects?
+          end
         end
       end
     end

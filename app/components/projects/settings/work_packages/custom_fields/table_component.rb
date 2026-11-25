@@ -33,33 +33,40 @@ module Projects
     module WorkPackages
       module CustomFields
         class TableComponent < OpPrimer::BorderBoxTableComponent
-          include ::WorkPackageTypes::VariantRoutes
+          columns :custom_field, :field_format, :types
+          mobile_labels :field_format, :types
 
-          columns :custom_field, :variants
-          main_column :custom_field, :variants
-          mobile_labels :variants
-
-          def initialize(project:, variants_by_field:, **)
+          def initialize(project:, variants_by_field:, project_specific_value_counts:, **)
             super(rows: variants_by_field.keys, **)
 
             @project = project
             @variants_by_field = variants_by_field
+            @project_specific_value_counts = project_specific_value_counts
+            @values_permitted = User.current.allowed_in_project?(:manage_work_package_custom_field_values, project)
+            @types_permitted = User.current.allowed_in_project?(%i[manage_types manage_project_variants], project)
           end
 
           def headers
             [
               [:custom_field, { caption: t("projects.settings.custom_fields.column_name") }],
-              [:variants, { caption: t("projects.settings.custom_fields.column_variants") }]
+              [:field_format, { caption: t("projects.settings.custom_fields.column_format") }],
+              [:types, { caption: t("projects.settings.custom_fields.column_types") }]
             ]
           end
 
           def variants_for(field) = @variants_by_field.fetch(field)
 
-          def variant_path(variant)
-            variant_settings_path(variant.project_owned? ? project : nil, variant)
+          def project_specific_value_count(field) = @project_specific_value_counts.fetch(field, 0)
+
+          def values_linked?(field)
+            @values_permitted && field.project_specific_values_supported?
           end
 
-          def linked?(variant) = variant.configurable_by?(User.current)
+          def values_path(field) = project_settings_work_packages_custom_field_values_path(project, field)
+
+          def types_linked? = @types_permitted
+
+          def types_path = project_settings_work_packages_types_path(project)
 
           def mobile_title = t(:label_custom_field_plural)
 

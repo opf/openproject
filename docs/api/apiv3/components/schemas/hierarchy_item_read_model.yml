@@ -73,6 +73,14 @@ properties:
               The hierarchy item that is the parent of the current hierarchy item
 
               **Resource**: HierarchyItem
+      project:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The project that added this hierarchy item. The item is only available in that project.
+              Only present for project-specific items.
+
+              **Resource**: Project
       children:
         type: array
         items:

@@ -29,7 +29,8 @@
 
 require "spec_helper"
 
-RSpec.describe CustomFields::Hierarchy::Items::UpdateService, with_ee: %i[custom_field_hierarchies] do
+RSpec.describe CustomFields::Hierarchy::Items::UpdateService,
+               with_ee: %i[custom_field_hierarchies project_specific_list_values] do
   subject(:result) { described_class.new(user:, model: item).call(attributes) }
 
   let(:user) { create(:admin) }
@@ -94,6 +95,34 @@ RSpec.describe CustomFields::Hierarchy::Items::UpdateService, with_ee: %i[custom
         expect(result).to be_success
         expect(lando.reload.children.to_a).to eq([luke, jedi])
       end
+    end
+  end
+
+  describe "as a user allowed to manage custom field values in the project" do
+    let(:project) { create(:project) }
+    let(:user) { create(:user, member_with_permissions: { project => %i[manage_work_package_custom_field_values] }) }
+    let!(:jedi) { create(:hierarchy_item, parent: root, label: "jedi", project:) }
+    let(:item) { jedi }
+    let(:attributes) { { parent: lando } }
+
+    before { custom_field.update!(allow_additional_project_values: true) }
+
+    it "moves the item of the project" do
+      expect(result).to be_success
+      expect(jedi.reload.parent).to eq(lando)
+    end
+  end
+
+  describe "changing an item of a project when the custom field does not allow additional project values" do
+    let(:project) { create(:project) }
+    let!(:jedi) { create(:hierarchy_item, parent: root, label: "jedi", project:) }
+    let(:item) { jedi }
+    let(:attributes) { { label: "sith" } }
+
+    it "keeps the item unchanged" do
+      expect(result).to be_failure
+      expect(result.errors.symbols_for(:project_id)).to include(:additional_values_not_allowed)
+      expect(jedi.reload.label).to eq("jedi")
     end
   end
 

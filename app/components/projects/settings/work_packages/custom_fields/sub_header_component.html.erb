@@ -20,13 +20,35 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(Settings::ProjectWorkPackages::HeaderComponent.new(@project)) %>
+<%= render(
+      Primer::OpenProject::SubHeader.new(
+        test_selector: "project-custom-fields-sub-header",
+        data: filters_form_attributes
+      )
+    ) do |sub_header| %>
+  <%
+    sub_header.with_filter_input(
+      name: "name",
+      label: t("projects.settings.custom_fields.search_label"),
+      visually_hide_label: true,
+      value: name_filter_value,
+      placeholder: t("projects.settings.custom_fields.search_label"),
+      leading_visual: { icon: :search, size: :small },
+      show_clear_button: true,
+      clear_button_id:,
+      data: name_filter_attributes
+    )
+  %>
 
-<%= render(Projects::Settings::WorkPackages::CustomFields::OverviewComponent.new(project: @project)) %>
+  <% sub_header.with_quick_filter { format_filter } %>
+  <% sub_header.with_quick_filter { values_filter } %>
+
+  <% sub_header.with_filter_component { render(Filter::FilterButtonComponent.new(query:)) } %>
+  <% sub_header.with_bottom_pane_component(mt: 0) { render(Projects::Settings::WorkPackages::CustomFields::FiltersComponent.new(query:)) } %>
+<% end %>

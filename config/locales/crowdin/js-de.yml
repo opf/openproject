@@ -543,10 +543,10 @@ de:
     label_open_context_menu: Kontextmenü öffnen
     label_open_menu: Menü öffnen
     label_open_work_packages: offen
-    label_origin: Origin
+    label_origin: Ursprung
     label_origin_id: ID
     label_origin_jira_data_center: Jira Data Center
-    label_origin_source: Source
+    label_origin_source: Quelle
     label_password: Passwort
     label_per_page: 'Pro Seite:'
     label_please_wait: Bitte warten
@@ -580,9 +580,9 @@ de:
     label_show_in_menu: Ansicht im Seitenmenü anzeigen
     label_sort_by: Sortieren nach
     label_sort_higher: Nach oben verschieben
-    label_sort_highest: Move to top
+    label_sort_highest: Nach oben verschieben
     label_sort_lower: Nach unten verschieben
-    label_sort_lowest: Move to bottom
+    label_sort_lowest: Nach unten verschieben
     label_sorted_by: sortiert nach
     label_sorting: Sortierung
     label_spent_time: Aufgewendete Zeit
@@ -1156,7 +1156,7 @@ de:
         sort_criterion_ascending: "%{column} ascending"
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
-        sorted_manually: Sorted manually.
+        sorted_manually: Manuell sortiert.
       table_configuration:
         button: Konfigurieren Sie diese Arbeitspaket-Tabelle
         choose_display_mode: Arbeitspakete anzeigen als

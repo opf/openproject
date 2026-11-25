@@ -420,7 +420,7 @@ Rails.application.reloader.to_prepare do
                      {
                        "projects/settings/work_packages": %i[show],
                        "projects/settings/work_packages/types": %i[index new create destroy],
-                       "projects/settings/work_packages/custom_fields": %i[show]
+                       "projects/settings/work_packages/custom_fields": %i[index]
                      },
                      permissible_on: :project,
                      require: :member
@@ -431,7 +431,7 @@ Rails.application.reloader.to_prepare do
                      {
                        "projects/settings/work_packages": %i[show],
                        "projects/settings/work_packages/types": %i[index],
-                       "projects/settings/work_packages/custom_fields": %i[show],
+                       "projects/settings/work_packages/custom_fields": %i[index],
                        "projects/settings/work_packages/types/switches": %i[new create],
                        "projects/settings/work_packages/types/switches/impacts": %i[create],
                        "projects/settings/work_packages/types/switches/confirmations": %i[new],
@@ -457,7 +457,13 @@ Rails.application.reloader.to_prepare do
                      require: :member
 
       wpt.permission :manage_work_package_custom_field_values,
-                     {},
+                     {
+                       "projects/settings/work_packages": %i[show],
+                       "projects/settings/work_packages/custom_fields": %i[index],
+                       "projects/settings/work_packages/custom_fields/values": %i[index new create edit update destroy
+                                                                                  toggle make_global deletion_dialog
+                                                                                  enable_all disable_all]
+                     },
                      permissible_on: :project,
                      require: :member
 

@@ -33,7 +33,8 @@ RSpec.describe API::V3::Queries::Schemas::HierarchyFilterDependencyRepresenter d
   include API::V3::Utilities::PathHelper
 
   let(:project) { build_stubbed(:project) }
-  let(:query) { build_stubbed(:query, project:) }
+  let(:include_subprojects) { true }
+  let(:query) { build_stubbed(:query, project:, include_subprojects:) }
   let(:hierarchy_cf) { build_stubbed(:custom_field, field_format: "hierarchy", hierarchy_root:) }
   let(:hierarchy_root) { build_stubbed(:hierarchy_item) }
   let(:filter) do
@@ -53,12 +54,26 @@ RSpec.describe API::V3::Queries::Schemas::HierarchyFilterDependencyRepresenter d
       describe "values" do
         let(:path) { "values" }
         let(:type) { "[]CustomField::Hierarchy::Item" }
-        let(:href) { api_v3_paths.custom_field_items(hierarchy_cf.id) }
+        let(:href) { api_v3_paths.custom_field_items(hierarchy_cf.id, project: project.id, include_subprojects: true) }
 
         context "for operator 'Queries::Operators::Equals'" do
           let(:operator) { Queries::Operators::Equals }
 
           it_behaves_like "filter dependency with allowed link"
+
+          context "in a project query without subprojects" do
+            let(:include_subprojects) { false }
+            let(:href) { api_v3_paths.custom_field_items(hierarchy_cf.id, project: project.id) }
+
+            it_behaves_like "filter dependency with allowed link"
+          end
+
+          context "in a global query" do
+            let(:project) { nil }
+            let(:href) { api_v3_paths.custom_field_items(hierarchy_cf.id) }
+
+            it_behaves_like "filter dependency with allowed link"
+          end
         end
 
         context "for operator 'Queries::Operators::NotEquals'" do
@@ -99,6 +114,18 @@ RSpec.describe API::V3::Queries::Schemas::HierarchyFilterDependencyRepresenter d
 
       it "busts the cache on different form_embedded" do
         instance.send(:form_embedded=, true)
+        instance.to_json
+        expect(instance).to have_received(:to_hash)
+      end
+
+      it "busts the cache on a different project" do
+        query.project = build_stubbed(:project)
+        instance.to_json
+        expect(instance).to have_received(:to_hash)
+      end
+
+      it "busts the cache on a different inclusion of subprojects" do
+        query.include_subprojects = false
         instance.to_json
         expect(instance).to have_received(:to_hash)
       end

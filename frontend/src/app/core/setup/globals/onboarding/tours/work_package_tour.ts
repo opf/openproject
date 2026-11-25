@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { waitForElement } from 'core-app/core/setup/globals/onboarding/helpers';
+import { demoProjectUrl, waitForElement } from 'core-app/core/setup/globals/onboarding/helpers';
 import { OnboardingStep } from 'core-app/core/setup/globals/onboarding/onboarding_tour';
 
 export function wpOnboardingTourSteps():OnboardingStep[] {
@@ -50,7 +50,7 @@ export function wpOnboardingTourSteps():OnboardingStep[] {
       nextButton: { text: I18n.t('js.onboarding.buttons.next') },
       onNext() {
         const firstId = document.querySelectorAll('.inline-edit--display-field.id a ')[0].innerHTML;
-        window.location.href = `${window.location.origin}/projects/demo-project/work_packages/${firstId}/activity`;
+        window.location.href = `${demoProjectUrl()}/work_packages/${firstId}/activity`;
       },
     }
   ];

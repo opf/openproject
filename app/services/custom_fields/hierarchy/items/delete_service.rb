@@ -42,7 +42,9 @@ module CustomFields
 
         def after_perform(service_result)
           service_result.merge!(
-            RecalculateValuesService.new(user:, model: @custom_field).call(item_ids: @deleted_item_ids)
+            RecalculateValuesService
+              .new(user:, model: @custom_field, contract_class: EmptyContract)
+              .call(item_ids: @deleted_item_ids)
           )
           CustomValue.where(custom_field: @custom_field, value: @deleted_item_ids).delete_all
 

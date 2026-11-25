@@ -26,21 +26,21 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), "#{CustomField.model_name.human} #{h @custom_field.name}", @configured_project.name %>
+<% html_title t(:label_administration), "#{CustomField.model_name.human} #{h custom_field.name}", configured_project.name %>
 
 <%=
   render(
     Admin::CustomFields::EditFormHeaderComponent.new(
-      custom_field: @custom_field,
+      custom_field:,
       selected: :projects,
       section_label:,
       page_title: custom_field_page_title,
-      project: @configured_project
+      project: configured_project
     )
   )
 %>
 
-<% if !@custom_field.allow_additional_project_values? && @custom_field.project_value_counts.key?(@configured_project.id) %>
+<% if !custom_field.allow_additional_project_values? && custom_field.project_value_counts.key?(configured_project.id) %>
   <%= render(Primer::Alpha::Banner.new(scheme: :warning, icon: :alert, mb: 3)) do %>
     <%= t("custom_fields.admin.projects.additional_values_disabled_project_notice") %>
   <% end %>
@@ -50,12 +50,12 @@ See COPYRIGHT and LICENSE files for more details.
       concat(
         link_translate(
           "custom_fields.admin.projects.editing_values_notice_html",
-          i18n_args: { custom_field: @custom_field.name, project: @configured_project.name },
-          links: { project_url: project_path(@configured_project) },
+          i18n_args: { custom_field: custom_field.name, project: configured_project.name },
+          links: { project_url: project_path(configured_project) },
           external: false
         )
       )
-      if @custom_field.project_level_value_management? || @custom_field.allow_additional_project_values?
+      if custom_field.project_level_value_management? || custom_field.allow_additional_project_values?
         concat(" ")
         concat(t("custom_fields.admin.projects.editing_values_project_admins_notice"))
       end
@@ -63,6 +63,6 @@ See COPYRIGHT and LICENSE files for more details.
   %>
 <% end %>
 
-<%= render(Admin::CustomFields::Projects::ValuesSubHeaderComponent.new(custom_field: @custom_field, project: @configured_project)) %>
+<%= render(Admin::CustomFields::Projects::ValuesSubHeaderComponent.new(custom_field:)) %>
 
-<%= render(Admin::CustomFields::Projects::ValuesComponent.new(custom_field: @custom_field, project: @configured_project)) %>
+<%= render(Admin::CustomFields::Projects::ValuesComponent.new(custom_field:, project: configured_project)) %>

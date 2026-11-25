@@ -1,0 +1,64 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% html_title t(:label_project_settings), t(:label_work_package_plural), t(:label_custom_field_plural), custom_field.name %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title do
+      safe_join(
+        [
+          custom_field.name,
+          " ",
+          render(Primer::Beta::Text.new(color: :muted)) { "(#{label_for_custom_field_format(custom_field.field_format)})" }
+        ]
+      )
+    end
+    header.with_breadcrumbs(
+      [
+        { href: project_overview_path(configured_project.id), text: configured_project.name },
+        { href: project_settings_general_path(configured_project.id), text: t(:label_project_settings) },
+        { href: project_settings_work_packages_path(configured_project.id), text: t(:label_work_package_plural) },
+        { href: project_settings_work_packages_custom_fields_path(configured_project.id), text: t(:label_custom_field_plural) },
+        custom_field.name
+      ]
+    )
+  end
+%>
+
+<% if custom_field.values_toggleable_by?(current_user, configured_project) || custom_field.allow_additional_project_values? %>
+  <%=
+    render(Primer::Beta::Text.new(tag: :p)) do
+      t("projects.settings.custom_fields.values_description", custom_field: custom_field.name, project: configured_project.name)
+    end
+  %>
+<% end %>
+
+<%= render(Admin::CustomFields::Projects::ValuesSubHeaderComponent.new(custom_field:)) %>
+
+<%= render(Admin::CustomFields::Projects::ValuesComponent.new(custom_field:, project: configured_project)) %>
