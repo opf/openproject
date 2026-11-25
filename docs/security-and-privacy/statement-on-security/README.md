@@ -39,7 +39,7 @@ OpenProject uses GitHub to manage and publish [security advisory listings](https
 
 ### Email
 
-Next to GitHub advisories, you may also directly reach out to the security team via email using [security@openproject.com](mailto:security@openproject.com). 
+Next to GitHub advisories, you may also directly reach out to the security team via email using [security@openproject.com](mailto:security@openproject.com).
 
 ## Reporting a vulnerability
 
@@ -120,14 +120,14 @@ When we receive vulnerability reports from researchers or through internal ident
 6. If possible, a patch or fixed version is provided to the reporter for feedback and confirmation.
 7. For critical and high-severity issues, a **pre-release notification** is sent to the security mailing list at least 7 days before the planned release, including the release date and severity (but no vulnerability details).
     - This information will include the current releases an upgrade will be available for.
-    - For security fixes deemed critical, we will attempt to provide fixes for the newest versions of the last two major releases
-    - Generally, OpenProject only supports the latest major release. Please consult your enterprise contract or our [terms of services](https://www.openproject.org/legal/terms-of-service/) for details.
-9. A patch release is created, published, and distributed for all supported installations. The CVE, advisory, and full details are disclosed **simultaneously** with the release.
-10. The security mailing list is notified of the publication with upgrade guidance.
+    - For security fixes deemed critical, we will attempt to provide fixes for the newest versions of the last two minor releases
+    - Generally, OpenProject only supports the latest release. Please consult your enterprise contract or our [terms of services](https://www.openproject.org/legal/terms-of-service/) for details.
+8. A patch release is created, published, and distributed for all supported installations. The CVE, advisory, and full details are disclosed **simultaneously** with the release.
+9. The security mailing list is notified of the publication with upgrade guidance.
 
 ### How long does it take to fix a security issue?
 
-All vulnerabilities are treated with the highest priority. Critical and high impact vulnerabilities are aimed to be available as an upgradable fix within 21 days after confirmation of the vulnerability, so 14 days until the pre-announcement. This timeline represents our targets. Actual resolution times may vary depending on the complexity of the issue and the availability of our team. 
+All vulnerabilities are treated with the highest priority. Critical and high impact vulnerabilities are aimed to be available as an upgradable fix within 21 days after confirmation of the vulnerability, so 14 days until the pre-announcement. This timeline represents our targets. Actual resolution times may vary depending on the complexity of the issue and the availability of our team.
 
 ### When is a security issue considered fixed?
 
