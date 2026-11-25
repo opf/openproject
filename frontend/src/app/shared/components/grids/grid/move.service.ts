@@ -36,7 +36,7 @@ export class GridMoveService {
 
   public down(movedArea:GridWidgetArea|null, ignoreArea:GridWidgetArea) {
     const movedAreas:GridWidgetArea[] = [];
-    let remainingAreas:GridWidgetArea[] = this.layout.widgetAreas.slice(0);
+    let remainingAreas:GridWidgetArea[] = this.layout.widgetAreas().slice(0);
 
     if (ignoreArea) {
       remainingAreas = remainingAreas.filter((area) => area.guid !== ignoreArea.guid);
@@ -51,6 +51,7 @@ export class GridMoveService {
 
       movedArea = this.moveOneDown(movedAreas, remainingAreas);
     }
+    this.layout.publishGeometry();
   }
 
   private moveOneDown(anchorAreas:GridWidgetArea[], movableAreas:GridWidgetArea[]) {
@@ -65,8 +66,8 @@ export class GridMoveService {
       toMoveArea.startRow = anchorArea.endRow;
       toMoveArea.endRow = toMoveArea.startRow + areaHeight;
 
-      if (this.layout.numRows < toMoveArea.endRow - 1) {
-        this.layout.numRows = toMoveArea.endRow - 1;
+      if (this.layout.numRows() < toMoveArea.endRow - 1) {
+        this.layout.extendRows(toMoveArea.endRow - 1);
       }
 
       return toMoveArea;

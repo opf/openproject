@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, OnDestroy, inject } from '@angular/core';
+import { signal, Injectable, OnDestroy, inject } from '@angular/core';
 import { GridWidgetArea } from 'core-app/shared/components/grids/areas/grid-widget-area';
 import { GridArea } from 'core-app/shared/components/grids/areas/grid-area';
 import { GridAreaService } from 'core-app/shared/components/grids/grid/area.service';
@@ -38,11 +38,23 @@ export class GridDragAndDropService implements OnDestroy {
   readonly layout = inject(GridAreaService);
   readonly move = inject(GridMoveService);
 
-  public draggedArea:GridWidgetArea|null;
+  private readonly draggedAreaState = signal<GridWidgetArea|null>(null);
 
-  public placeholderArea:GridWidgetArea|null;
+  public get draggedArea() {
+    return this.draggedAreaState();
+  }
 
-  public draggedHeight:number|null;
+  private readonly placeholderAreaState = signal<GridWidgetArea|null>(null);
+
+  public get placeholderArea() {
+    return this.placeholderAreaState();
+  }
+
+  private readonly draggedHeightState = signal<number|null>(null);
+
+  public get draggedHeight() {
+    return this.draggedHeightState();
+  }
 
   private mousedOverAreaObserver:Subscription;
 
@@ -97,7 +109,7 @@ export class GridDragAndDropService implements OnDestroy {
   }
 
   public isDropOnlyArea(area:GridArea) {
-    return !this.currentlyDragging && area.endRow === this.layout.numRows + 2;
+    return !this.currentlyDragging && area.endRow === this.layout.numRows() + 2;
   }
 
   public isDragged(area:GridWidgetArea) {
@@ -109,20 +121,20 @@ export class GridDragAndDropService implements OnDestroy {
   }
 
   public get isDraggable() {
-    return this.layout.isEditable;
+    return this.layout.isEditable();
   }
 
   public start(area:GridWidgetArea) {
-    this.placeholderArea = new GridWidgetArea(area.widget);
+    this.placeholderAreaState.set(new GridWidgetArea(area.widget));
     // TODO find an angular way to do this that ideally does not require passing the element from the grid component
-    this.draggedHeight = document.getElementById(area.guid)!.offsetHeight - 2; // border width * 2
-    this.draggedArea = area;
+    this.draggedHeightState.set(document.getElementById(area.guid)!.offsetHeight - 2); // border width * 2
+    this.draggedAreaState.set(area);
   }
 
   public abort() {
     document.dispatchEvent(new Event('mouseup'));
-    this.draggedArea = null;
-    this.placeholderArea = null;
+    this.draggedAreaState.set(null);
+    this.placeholderAreaState.set(null);
     this.layout.resetAreas();
   }
 
@@ -136,11 +148,11 @@ export class GridDragAndDropService implements OnDestroy {
     if (!this.draggedArea.unchangedSize) {
       this.layout.writeAreaChangesToWidgets();
       this.layout.cleanupUnusedAreas();
-      this.layout.rebuildAndPersist();
+      void this.layout.rebuildAndPersist().catch(() => undefined);
     }
 
-    this.draggedArea = null;
-    this.placeholderArea = null;
+    this.draggedAreaState.set(null);
+    this.placeholderAreaState.set(null);
   }
 
   private copyPositionButRestrict(source:GridArea, sink:GridWidgetArea) {
@@ -148,17 +160,17 @@ export class GridDragAndDropService implements OnDestroy {
 
     // The first condition is aimed at the case when the user drags an element to the very last row
     // which is not reflected by the numRows.
-    if (source.startRow === this.layout.numRows + 1) {
-      sink.endRow = this.layout.numRows + 2;
-    } else if (source.startRow + sink.widget.height > this.layout.numRows + 1) {
-      sink.endRow = this.layout.numRows + 1;
+    if (source.startRow === this.layout.numRows() + 1) {
+      sink.endRow = this.layout.numRows() + 2;
+    } else if (source.startRow + sink.widget.height > this.layout.numRows() + 1) {
+      sink.endRow = this.layout.numRows() + 1;
     } else {
       sink.endRow = source.startRow + sink.widget.height;
     }
 
     sink.startColumn = source.startColumn;
-    if (source.startColumn + sink.widget.width > this.layout.numColumns + 1) {
-      sink.endColumn = this.layout.numColumns + 1;
+    if (source.startColumn + sink.widget.width > this.layout.numColumns() + 1) {
+      sink.endColumn = this.layout.numColumns() + 1;
     } else {
       sink.endColumn = source.startColumn + sink.widget.width;
     }

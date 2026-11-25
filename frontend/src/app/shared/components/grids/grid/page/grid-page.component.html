@@ -1,3 +1,3 @@
-@if (grid) {
-  <grid [grid]="grid" />
+@if (grid(); as resource) {
+  <grid [grid]="resource" />
 }

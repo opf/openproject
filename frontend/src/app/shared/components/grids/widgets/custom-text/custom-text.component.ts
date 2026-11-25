@@ -135,7 +135,7 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
   }
 
   public get isTextEditable() {
-    return this.layout.isEditable;
+    return this.layout.isEditable();
   }
 
   private setupVariables(initial = false) {
