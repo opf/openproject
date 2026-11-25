@@ -60,7 +60,10 @@ RSpec.describe Import::JiraFetchProjectIssuesJob do
   describe "#perform" do
     subject(:perform) { described_class.perform_now(jira_import.id, jira_project.id) }
 
-    before { allow(Import::JiraClient).to receive(:new).and_return(jira_client) }
+    before do
+      allow(Import::JiraClient).to receive(:new).and_return(jira_client)
+      allow(jira_client).to receive(:issue_remote_links).and_return([])
+    end
 
     context "with worklogs" do
       let(:issues) do
@@ -136,6 +139,22 @@ RSpec.describe Import::JiraFetchProjectIssuesJob do
         allow(jira_client).to receive(:issue_watchers).and_raise(error)
 
         expect { perform }.to raise_error(error).and not_change(Import::JiraIssue, :count)
+      end
+    end
+
+    context "with remote links" do
+      let(:remote_links) { [{ "id" => 10100, "object" => { "url" => "https://example.com", "title" => "Example" } }] }
+
+      before do
+        allow(jira_client).to receive(:issues)
+          .and_return({ "issues" => [issue("10001", worklogs: [])], "total" => 1 }, { "issues" => [], "total" => 1 })
+        allow(jira_client).to receive(:issue_remote_links).with("10001").and_return(remote_links)
+      end
+
+      it "stores the remote links of the issue" do
+        perform
+
+        expect(Import::JiraIssue.find_by!(jira_import:, origin_id: "10001").payload.fetch("remote_links")).to eq(remote_links)
       end
     end
 

@@ -94,6 +94,7 @@ module Import
           Rails.logger.debug "Fetched issue"
           fetch_missing_worklogs(payload)
           fetch_watchers(payload)
+          fetch_remote_links(payload)
         end
       end
       issues_upsert_data = issues.map do |payload|
@@ -128,15 +129,23 @@ module Import
     def fetch_watchers(payload)
       return unless has_watchers?(payload)
 
+      fetch_or_skip_if_not_found(payload, "watchers") { @jira_client.issue_watchers(it).fetch("watchers") }
+    end
+
+    def fetch_remote_links(payload)
+      fetch_or_skip_if_not_found(payload, "remote_links") { @jira_client.issue_remote_links(it) }
+    end
+
+    def fetch_or_skip_if_not_found(payload, key)
       issue_id = payload.fetch("id")
-      watchers = @jira_client.issue_watchers(issue_id).fetch("watchers")
-      Rails.logger.debug { "Fetched #{watchers.size} watchers" }
-      payload["watchers"] = watchers
+      fetched = yield(issue_id)
+      Rails.logger.debug { "Fetched #{fetched.size} #{key.humanize(capitalize: false)}" }
+      payload[key] = fetched
     rescue JiraClient::ApiError => e
       raise unless e.status == 404
 
-      Rails.logger.warn "Watchers for issue ID #{issue_id} not found (#{e.message}), skipping"
-      payload["watchers"] = []
+      Rails.logger.warn "#{key.humanize} for issue ID #{issue_id} not found (#{e.message}), skipping"
+      payload[key] = []
     end
   end
 end
