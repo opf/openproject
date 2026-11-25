@@ -81,9 +81,21 @@ docker exec -i $POSTGRES_CONTAINER su - postgres -c 'psql -d openproject -c "CRE
 echo -e "\nRestoring dump"
 cat $DUMP_FILE | sed 's/OWNER TO openproject/OWNER TO postgres/g' | docker exec -u 999 -i $POSTGRES_CONTAINER bash -c 'psql -d openproject'
 
-SCHEMA_VERSION=$(echo "psql -qtd openproject -c \"select MAX(version) from schema_migrations where version like '2020%';\"" | docker exec -u 999 -i $POSTGRES_CONTAINER bash -)
+query() {
+  docker exec -u 999 -i $POSTGRES_CONTAINER psql -qtAd openproject -c "$1"
+}
 
-if [ -z "$SCHEMA_VERSION" ]; then
+if [ -z "$(query "SELECT to_regclass('public.schema_migrations');")" ]; then
+  >&2 echo "The dump contains no schema_migrations table. Either it's no OpenProject dump or restoring it failed (see errors above)."
+  exit 1
+fi
+
+# Since OpenProject 16.6 the migrations up to an OpenProject version are squashed into one with the
+# version 10000<OpenProject version>, e.g. 1000016 for all migrations up to OpenProject 16.
+# Databases created since then don't have any of the former migrations anymore.
+NEWER_THAN_V10=$(query "SELECT count(*) FROM schema_migrations WHERE (length(version) = 14 AND version >= '20200000000000') OR (length(version) = 7 AND version >= '1000016');")
+
+if [ "$NEWER_THAN_V10" = "0" ]; then
   >&2 echo "Your OpenProject version is older than version 10. Please use script/migrate/migrate-from-pre-8.sh to migrate to a more recent state first."
   exit 1
 fi
@@ -91,6 +103,13 @@ fi
 echo -e "\nImported database"
 
 OP_VERSION=15
+SQUASHED_UP_TO=$(query "SELECT max(version) FROM schema_migrations WHERE length(version) = 7 AND version LIKE '10000%';")
+
+# Images older than the squashed version would try to create the database from scratch.
+if [ -n "$SQUASHED_UP_TO" ] && [ $((${SQUASHED_UP_TO#10000} + 1)) -gt $OP_VERSION ]; then
+  OP_VERSION=$((${SQUASHED_UP_TO#10000} + 1))
+  echo -e "Dump's migrations are squashed up to OpenProject ${SQUASHED_UP_TO#10000}. Starting with OpenProject $OP_VERSION.\n"
+fi
 
 set -o pipefail # we want exit codes to make it through tee too
 
@@ -116,7 +135,8 @@ while [ $? -eq 0 ]; do
   docker run --rm -e DATABASE_URL="postgresql://postgres:postgres@$DB_IP:5432/openproject" -i openproject/openproject:$OP_VERSION bundle exec rake db:migrate 2>&1 | tee $OUTPUT_BUFFER
 
   if [ $? -gt 0 ]; then
-    if cat $OUTPUT_BUFFER | grep 'PG::DuplicateTable: ERROR:  relation "work_packages" already exists' &>/dev/null; then
+    # e.g. an older version's squashed migration trying to create the tables from scratch
+    if cat $OUTPUT_BUFFER | grep -E 'PG::DuplicateTable: ERROR:  relation "[^"]+" already exists' &>/dev/null; then
       >&2 echo -e "\nWarning: Migration to OpenProject $OP_VERSION failed likely because the dump is already beyond that version. Trying next version."
     else
       >&2 echo -e "\nMigration to OpenProject $OP_VERSION failed (see error above)"
