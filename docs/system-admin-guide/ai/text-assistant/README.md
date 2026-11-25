@@ -14,7 +14,7 @@ The text assistant offers a variety of AI text actions right where you write tic
 
 ## Writing ticket templates
 
-The `structure` AI text action allows you to sort a block of text into the ticket's underlying template. These templates should follow a few formatting rules:
+The `structure` action allows you to sort a block of text into the work package's underlying template. These templates should follow a few formatting rules:
 * Template sections should best be created using the heading text type in CKEditor.
 * Guidance for a section should be italicized text right under the section heading. During the sortin process, guidance for filled out sections will be removed and those that do not have content yet will stay. These guidance lines are used by both users and the ai textactions
 
