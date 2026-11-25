@@ -68,6 +68,27 @@ ul.SegmentedControl,
   .ToggleSwitch-statusIcon
     display: none
 
+// Primer only styles `[disabled]`, but a switch that carries a tooltip explaining why it is
+// locked has to stay focusable and is therefore marked `aria-disabled` instead.
+// See https://primer.style/components/tooltip (tooltips are not allowed on disabled elements).
+.ToggleSwitch-track[aria-disabled="true"]
+  cursor: not-allowed
+  background-color: var(--controlTrack-bgColor-disabled)
+  border-color: transparent
+  transition-property: none
+
+  &[aria-pressed="true"]
+    color: var(--control-checked-fgColor-disabled)
+    background-color: var(--controlTrack-bgColor-disabled)
+    border-color: transparent
+
+  .ToggleSwitch-knob
+    border-color: var(--borderColor-default)
+
+  .ToggleSwitch-circleIcon,
+  .ToggleSwitch-lineIcon
+    color: var(--controlTrack-fgColor-disabled)
+
 .Overlay
   &--size-large-portrait
     --overlay-height: 800px !important

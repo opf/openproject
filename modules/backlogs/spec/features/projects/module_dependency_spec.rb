@@ -71,7 +71,13 @@ RSpec.describe "Backlogs project module dependencies", :js do
                module: I18n.t("project_module_backlogs"))
 
       modules_settings_page.expect_module_locked("work_package_tracking")
-      modules_settings_page.expect_lock_reason("work_package_tracking")
+      modules_settings_page.expect_lock_reason(
+        "work_package_tracking",
+        I18n.t("projects.settings.modules.required_by",
+               count: 2,
+               modules: [I18n.t("project_module_backlogs"),
+                         I18n.t("project_module_board_view")].to_sentence)
+      )
     end
   end
 
@@ -82,7 +88,23 @@ RSpec.describe "Backlogs project module dependencies", :js do
       modules_settings_page.visit!
 
       modules_settings_page.expect_module_locked("board_view")
-      modules_settings_page.expect_lock_reason("board_view")
+      modules_settings_page.expect_lock_reason(
+        "board_view",
+        I18n.t("projects.settings.modules.required_by",
+               count: 1,
+               modules: I18n.t("project_module_backlogs"))
+      )
+    end
+
+    it "refuses to act on a click on the locked Boards toggle" do
+      modules_settings_page.visit!
+
+      modules_settings_page.toggle_module("board_view")
+
+      modules_settings_page.expect_module_enabled("board_view")
+      modules_settings_page.expect_no_flash
+
+      expect(project.reload).to be_module_enabled("board_view")
     end
 
     it "releases the Boards toggle once Backlogs is disabled" do

@@ -54,29 +54,12 @@ module Projects
 
         def toggle_checked? = @project.module_enabled?(@name)
 
-        def toggle_enabled? = !toggle_disabled?
+        def locked_reason
+          return if @required_by.empty?
 
-        def toggle_disabled? = @required_by.any?
-
-        def toggle_data_attributes
-          {
-            test_selector: "toggle-project-module-#{@name}"
-          }.tap do |data|
-            if toggle_disabled?
-              data[:hover_card_trigger_target] = "trigger"
-              data[:hover_card_popover_template_id] = unique_hovercard_id
-            end
-          end
-        end
-
-        def required_by_text
           I18n.t("projects.settings.modules.required_by",
                  count: @required_by.size,
                  modules: @required_by.map { I18n.t("project_module_#{it}", default: it.humanize) }.to_sentence)
-        end
-
-        def unique_hovercard_id
-          "project-module-#{@name}-disabled-reason"
         end
 
         def enterprise_upsell?

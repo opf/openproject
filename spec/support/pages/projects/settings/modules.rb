@@ -57,15 +57,15 @@ module Pages
         end
 
         def expect_module_locked(name)
-          expect(page).to have_css("#{toggle_css(name)} button[disabled]")
+          expect(page).to have_css("#{toggle_css(name)} button[aria-disabled='true']")
         end
 
         def expect_module_unlocked(name)
-          expect(page).to have_css("#{toggle_css(name)} button:not([disabled])")
+          expect(page).to have_css("#{toggle_css(name)} button:not([aria-disabled='true'])")
         end
 
-        def expect_lock_reason(name)
-          expect(page).to have_css("#project-module-#{name}-disabled-reason", visible: :all)
+        def expect_lock_reason(name, text)
+          expect(page).to have_css("#{toggle_css(name)} + tool-tip", text:, visible: :all)
         end
 
         private
