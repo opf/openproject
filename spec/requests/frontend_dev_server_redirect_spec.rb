@@ -30,7 +30,7 @@
 require "spec_helper"
 
 RSpec.describe "Frontend dev server redirect", type: :rails_request do
-  let(:asset_path) { "/assets/frontend/assets/images/notification-center/empty-state-no-notification_light.svg" }
+  let(:asset_path) { "/assets/frontend/served-only-by-the-dev-server.js" }
 
   before do
     allow(FrontendAssetHelper).to receive_messages(assets_proxied?: proxied, cli_proxy: "http://localhost:4200")
