@@ -278,6 +278,14 @@ RSpec.describe Query::Results,
       it "includes the work package (since the user was able to see it)" do
         expect(subject).to include work_package
       end
+
+      context "when grouped" do
+        before { query.group_by = "status" }
+
+        it "counts the work package (since the user was able to see it)" do
+          expect(results.work_package_count_by_group).to include(work_package.status => 1)
+        end
+      end
     end
 
     context "when the work package is moved to a project the user has no permissions in " \
