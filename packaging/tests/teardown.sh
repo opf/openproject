@@ -78,7 +78,7 @@ retained=(
   public/assets/frontend/main.js
   public/assets/frontend/main.js.map
   public/assets/frontend/main.js.map.gz
-  public/assets/.sprockets-manifest.json
+  public/assets/.manifest.json
   modules/example/app/models/model.rb
   modules/example/files/seed.bcf
   lookbook/previews/example.rb

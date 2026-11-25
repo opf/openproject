@@ -1152,6 +1152,10 @@ GEM
       bigdecimal
       logger
       rb_sys (~> 0.9.130)
+    propshaft (1.3.2)
+      actionpack (>= 7.0.0)
+      activesupport (>= 7.0.0)
+      rack
     pry-byebug (3.12.0)
       byebug (~> 13.0)
       pry (>= 0.13, < 0.17)
@@ -1422,14 +1426,6 @@ GEM
       spring (>= 0.9.1)
     spring-commands-rubocop (0.4.0)
       spring (>= 1.0)
-    sprockets (3.7.5)
-      base64
-      concurrent-ruby (~> 1.0)
-      rack (> 1, < 3)
-    sprockets-rails (3.5.2)
-      actionpack (>= 6.1)
-      activesupport (>= 6.1)
-      sprockets (>= 3.0.0)
     ssrf_filter (1.6.0)
     stackprof (0.2.28)
     statesman (13.4.0)
@@ -1635,7 +1631,6 @@ DEPENDENCIES
   ice_cube (~> 0.17.0)
   inline_svg (~> 1.10.0)
   job-iteration
-  json (< 3)
   json_schemer (~> 2.5.0)
   json_spec (~> 1.1.4)
   ladle
@@ -1726,6 +1721,7 @@ DEPENDENCIES
   pg (~> 1.7.0)
   plaintext (~> 0.4.0)
   prawn (~> 2.4)
+  propshaft (~> 1.3.2)
   pry!
   pry-byebug (~> 3.12.0)
   pry-rails (~> 0.3.6)
@@ -1777,8 +1773,6 @@ DEPENDENCIES
   spring
   spring-commands-rspec
   spring-commands-rubocop
-  sprockets (~> 3.7.2)
-  sprockets-rails (~> 3.5.1)
   ssrf_filter (~> 1.6)
   stackprof
   statesman (~> 13.4.0)
@@ -2181,6 +2175,7 @@ CHECKSUMS
   prometheus-client-mmap (1.7.2-x86_64-darwin) sha256=c1cf6e8ffcc1f1946023695e4025a03d9df56b1b25a03ef39261508ed4add54a
   prometheus-client-mmap (1.7.2-x86_64-linux-gnu) sha256=4b487b412ab006140593412c5c55ca09349b6b0b84a4eb75b6d4119bf427b4bf
   prometheus-client-mmap (1.7.2-x86_64-linux-musl) sha256=9f17a5b1bbac3ac7c6e431ab32e6e0bb91b2f9dbac1fa18deac84a11a48d8269
+  propshaft (1.3.2) sha256=1d56a3e56a92c21bfc29caf07406b5386b00d4c47ddf357cf989a5a234b1389e
   pry (0.16.0)
   pry-byebug (3.12.0) sha256=594e094ae8a8390a7ad4c7b36ae36e13304ed02664c67417d108dc5f7213d1b7
   pry-rails (0.3.11) sha256=a69e28e24a34d75d1f60bcf241192a54253f8f7ef8a62cba1e75750a9653593d
@@ -2279,8 +2274,6 @@ CHECKSUMS
   spring (4.7.0) sha256=f81bf6d41f05518ed5d0128ce5c75fb6dd9c6153f158129c8b85c4461ca0b72c
   spring-commands-rspec (1.0.4) sha256=6202e54fa4767452e3641461a83347645af478bf45dddcca9737b43af0dd1a2c
   spring-commands-rubocop (0.4.0) sha256=3e677a2c8a27ae8a986f04bfb69e66d5d55b017541e8be93bf0dc48a7f5690c1
-  sprockets (3.7.5) sha256=72c20f256548f8a37fe7db41d96be86c3262fddaf4ebe9d69ec8317394fed383
-  sprockets-rails (3.5.2) sha256=a9e88e6ce9f8c912d349aa5401509165ec42326baf9e942a85de4b76dbc4119e
   ssrf_filter (1.6.0) sha256=78d15bc26d0385c931f46f12a9c1cbb90e6556bd96b95f25e5a5f786c8dcf999
   stackprof (0.2.28) sha256=4ec2ace02f386012b40ca20ef80c030ad711831f59511da12e83b34efb0f9a04
   statesman (13.4.0) sha256=6565be0d27e93b50c1cf967b3275c7e5fb174ab05cc7608c5f94f2a1feb9b89e

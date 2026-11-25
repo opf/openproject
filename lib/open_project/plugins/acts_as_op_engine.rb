@@ -140,13 +140,6 @@ module OpenProject::Plugins
         add_module_to_classes(:prepend, module_name, into, singleton: true)
       end
 
-      # Define assets provided by the plugin
-      def assets(assets)
-        self.class.initializer "#{engine_name}.precompile_assets" do |app|
-          app.config.assets.precompile += assets.to_a
-        end
-      end
-
       # Prepend view paths of this engine
       # Note: YOU WILL override views of the core with this functionality
       def override_core_views!
