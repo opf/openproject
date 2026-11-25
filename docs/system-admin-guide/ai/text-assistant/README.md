@@ -10,7 +10,7 @@ keywords: AI, text assistant, writing assistance
 
 [feature: text_assistant ]
 
-The text assistant offers a variety of AI text actions right where you write tickets or comments. Among other things, these allow you to sort an unstructured block of text into the right ticket template, make a message friendlier or summarize a text for you.
+The AI Text Assistant offers a variety of actions right where you write tickets or comments. Among other things, these allow you to sort an unstructured block of text into the right work package template, make a message friendlier or summarize a text for you.
 
 ## Writing ticket templates
 
