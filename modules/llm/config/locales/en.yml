@@ -89,7 +89,6 @@ en:
         semantic_index:
           attributes:
             base:
-              active: "The semantic index is active. Activate another semantic index first."
               locked_while_indexing: "cannot be changed while it is being indexed."
             model_id:
               not_offered: "is not an embedding model offered by the configured LLM server."
@@ -132,7 +131,6 @@ en:
         progress: "%{percentage}% done"
       menu:
         delete: "Delete"
-        locked_while_active: "Cannot be deleted while it is active."
         locked_while_indexing: "Cannot be deleted while indexing."
       start_indexing:
         button:

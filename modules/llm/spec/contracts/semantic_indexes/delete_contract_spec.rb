@@ -40,7 +40,7 @@ RSpec.describe SemanticIndexes::DeleteContract do
 
   it_behaves_like "contract is valid for active admins and invalid for regular users"
 
-  context "when the Semantic Index is being indexed" do
+  context "when the semantic index is being indexed" do
     let(:current_user) { build_stubbed(:admin) }
 
     before { semantic_index.update!(state: "indexing") }
@@ -48,12 +48,12 @@ RSpec.describe SemanticIndexes::DeleteContract do
     it_behaves_like "contract is invalid", base: :locked_while_indexing
   end
 
-  context "when the Semantic Index is active" do
+  context "when the semantic index is active" do
     let(:current_user) { build_stubbed(:admin) }
     let(:semantic_index) { create(:semantic_index, state: "ready") }
 
     before { connection.feature_bindings.create!(feature_key: "semantic_search", semantic_index:) }
 
-    it_behaves_like "contract is invalid", base: :active
+    it_behaves_like "contract is valid"
   end
 end

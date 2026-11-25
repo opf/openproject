@@ -32,16 +32,11 @@ module SemanticIndexes
     delete_permission :admin
 
     validate :not_indexing
-    validate :not_active
 
     private
 
     def not_indexing
       errors.add(:base, :locked_while_indexing) if model.indexing?
-    end
-
-    def not_active
-      errors.add(:base, :active) if model.active?
     end
   end
 end
