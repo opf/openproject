@@ -40,7 +40,7 @@ import { BcfViewService } from 'core-app/features/bim/ifc_models/pages/viewer/bc
           aria-hidden="true"
           [textContent]="bcfView.text[current]">
         </span>
-        <op-icon icon-classes="button--icon icon-small icon-pulldown" />
+        <svg triangle-down-icon size="small"></svg>
       </button>
     }
     `,

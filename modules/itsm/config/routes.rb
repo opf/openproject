@@ -38,4 +38,10 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  resources :projects, only: %i[] do
+    namespace :settings do
+      resource :helpdesk, controller: "/itsm/project_settings/helpdesk", only: %i[show]
+    end
+  end
 end

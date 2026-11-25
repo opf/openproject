@@ -45,6 +45,7 @@ it:
       end_time: Ora di fine
       start_time: Ora di inizio
       title: Esportazione XLS dei report sui costi
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: Esportazione del foglio presenze in PDF
       overview_per_user_day: 'Panoramica: ore per utente al giorno'
@@ -53,6 +54,11 @@ it:
       time: Ora
       timesheet: Foglio presenze
       title: Esportazione del tuo foglio presenze in formato PDF
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    one: "%{filter} requires a value."
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: A seconda delle tue autorizzazioni, questa pagina visualizzare meno informazioni.
   label_click_to_edit: Premi per modificare.
   label_closed: chiuso
@@ -113,5 +119,3 @@ it:
   text_costs_are_rounded_note: Valori visualizzati sono arrotondati. Tutti i calcoli sono basati sui valori non arrotondati.
   toggle_multiselect: attivare/disattivare la multiselect
   units: Unità di misura
-  validation_failure_date: non è una data valida
-  validation_failure_integer: non è un numero intero valido

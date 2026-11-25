@@ -72,11 +72,15 @@ module Pages
     end
 
     def within_list(name, &)
-      page.within(list_selector(name), &)
+      page.within(list(name), &)
     end
 
-    def list_selector(name)
-      "[data-test-selector='op-board-list'][data-query-name='#{name}']"
+    def list(name)
+      page.find(:element, **list_filters(name))
+    end
+
+    def list_filters(name)
+      { "data-test-selector": "op-board-list", "data-query-name": name }
     end
 
     def add_card(list_name, card_title)
@@ -98,7 +102,7 @@ module Pages
     end
 
     def remove_card(list_name, card_title, index)
-      source = page.all("#{list_selector(list_name)} [data-test-selector='op-wp-single-card']")[index]
+      source = list(list_name).all("[data-test-selector='op-wp-single-card']")[index]
       source.hover
       source.find(:button, accessible_name: I18n.t("js.card.remove_from_list")).click
 
@@ -174,12 +178,12 @@ module Pages
     end
 
     def move_card(index, from:, to:)
-      source = page.all("#{list_selector(from)} [data-test-selector='op-wp-single-card']")[index]
+      source = list(from).all("[data-test-selector='op-wp-single-card']")[index]
       drag_onto_list(source, to)
     end
 
     def move_card_by_name(text, from:, to:)
-      source = page.find("#{list_selector(from)} [data-test-selector='op-wp-single-card']", text:)
+      source = list(from).find("[data-test-selector='op-wp-single-card']", text:)
       drag_onto_list(source, to)
     end
 
@@ -187,7 +191,7 @@ module Pages
     # visibility of every method declared after it in this class.
     private def drag_onto_list(source, list_name)
       # rubocop:enable Style/AccessModifierDeclarations
-      target = page.find("#{list_selector(list_name)} [data-test-selector='op-wp-card-view']")
+      target = list(list_name).find("[data-test-selector='op-wp-card-view']")
       perform_native_drag(source:, target:)
       wait_for_lists_reload
 
@@ -264,7 +268,7 @@ module Pages
       accept_alert_dialog!
       expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
 
-      expect(page).to have_no_selector list_selector(name)
+      expect(page).to have_no_element(**list_filters(name))
     end
 
     def click_list_dropdown(list_name, action)

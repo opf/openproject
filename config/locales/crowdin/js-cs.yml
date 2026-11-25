@@ -109,6 +109,7 @@ cs:
         maintained_with_changes: Udržováno se změnami
         no_longer_meets_filter_criteria: Již nesplňuje kritéria filtru
         now_meets_filter_criteria: Nyní splňuje kritéria filtru
+        state_at: State at
       show_changes_since: Zobrazit změny od
       time: Čas
       time_description: 'Ve vašem místním čase: %{datetime}'
@@ -778,8 +779,10 @@ cs:
       create_new: Vytvořit nový
       group_by_relation_type: Seskupit podle typu vztahu
       group_by_wp_type: Seskupit podle typu pracovního balíčku
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Přisadit hierarchii
       hierarchy_outdent: Odsadit hierarchii
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Odstranit vztah
       remove_child: Odstranit potomka
       remove_parent: Odstranit nadřazený
@@ -1028,6 +1031,7 @@ cs:
         label_pagination: Kliknutím sem přeskočíte tabulku pracovních balíčků a přejděte na stránku
         pagination: Přejít na stránku tabulky
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Kombinované rozbalovací pole: Vyberte pomocí kláves se šipkami, potvrďte výběr se vstupem a smažte jej pomocí backspace'
       label_disable_multi_select: Zakázat multiselect
       label_enable_multi_select: Povolit multiselect

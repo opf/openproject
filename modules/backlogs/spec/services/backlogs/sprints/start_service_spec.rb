@@ -132,6 +132,18 @@ RSpec.describe Backlogs::Sprints::StartService do
     end
   end
 
+  context "when the sprint's finish date is in the past" do
+    let(:sprint) { create(:sprint, project:, start_date: 2.weeks.ago.to_date, finish_date: Date.yesterday) }
+
+    it "fails contract validation without activating the sprint", :aggregate_failures do
+      expect(result).not_to be_success
+      expect(result.errors.symbols_for(:status)).to include(:finish_date_in_past)
+      expect(result.message)
+        .to eq("Status cannot be started as long as the planned finish date is in the past.")
+      expect(sprint.reload).to be_in_planning
+    end
+  end
+
   context "when another active sprint exists in the project" do
     let!(:active_sprint) { create(:sprint, project:, status: "active") }
 

@@ -109,6 +109,7 @@ lt:
         maintained_with_changes: Palaikoma su pakeitimais
         no_longer_meets_filter_criteria: Nebeatitinka filtro kriterijaus
         now_meets_filter_criteria: Dabar atitinka filtro kriterijų
+        state_at: State at
       show_changes_since: Rodyti pakeitimus nuo
       time: Laikas
       time_description: 'Jūsų lokaliu laiku: %{datetime}'
@@ -774,8 +775,10 @@ lt:
       create_new: Sukurti naują
       group_by_relation_type: Grupuoti pagal ryšio tipą
       group_by_wp_type: Grupuoti pagal darbų paketo tipą
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Paslinkti hierarchiją
       hierarchy_outdent: Atslinkti hierarchiją
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Pašalinti ryšį
       remove_child: Pašalinti vaiką
       remove_parent: Pašalinti tėvą
@@ -1024,6 +1027,7 @@ lt:
         label_pagination: Paspauskite čia, kad praleistumėte darbų paketų lentelės peržiūrą ir patektumėte į atvaizdavimą puslapiais
         pagination: Pereiti į lentelės laužymą puslapiais
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Kombinuotas išplečiamojo sąrašo laukas: pasirinkite rodyklių mygtukais, patvirtinkite pasirinkimą su Enter mygtuku, ištrinkite su Backspace'
       label_disable_multi_select: Išjungti daugybinį pažymėjimą
       label_enable_multi_select: Įgalinti daugybinį pažymėjimą

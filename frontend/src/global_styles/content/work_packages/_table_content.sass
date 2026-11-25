@@ -120,8 +120,6 @@
   width: 60px
   // Center the th icon
   text-align: center !important
-  // Take care that the header can overlap the icon
-  z-index: 1
   padding: 0 !important
 
 // Hide the context menu button outside mobile
@@ -232,7 +230,6 @@ html:not(.-browser-mobile)
 
   th:hover &,
   th:focus-visible &,
-  tr:focus-visible > th &,
   .wp-table--column-menu-button:focus-visible &,
   [aria-expanded="true"] &
     visibility: visible

@@ -112,6 +112,37 @@ opce-ckeditor-augmented-textarea .op-ckeditor--attachments
         max-width: 100%
         flex-wrap: wrap
 
+  // In narrow toolbars the Assistant shows only its icon, leaving room for the formatting buttons.
+  @container (max-width: 40rem)
+    > .op-ai-actions .ck-splitbutton__action
+      padding: var(--ck-button-padding)
+
+      > .ck-button__icon
+        margin-inline: 0
+
+      > .ck-button__label
+        display: none
+
+// CKEditor caps dropdown panels at 75vw, but its list items keep a fixed minimum
+// width and their labels never wrap. On narrow screens, long translations would
+// overflow the panel instead of being truncated (AA-238).
+// Leaves room for the list padding and panel border; items stretch to the full width anyway.
+$ck-dropdown-list-item-max-width: calc(var(--ck-dropdown-max-width, 75vw) - 1rem)
+
+.ck.ck-dropdown__panel .ck-list__item
+  min-width: min(var(--ck-list-item-min-width), #{$ck-dropdown-list-item-max-width})
+
+  > .ck-button .ck-button__label
+    overflow: hidden
+    text-overflow: ellipsis
+
+  .ck-list-item-button__check-holder
+    flex-shrink: 0
+
+// More specific than CKEditor's 18em of the heading dropdown, as its stylesheet loads later.
+.ck.ck-dropdown.ck-heading-dropdown .ck-dropdown__panel .ck-list .ck-list__item
+  min-width: min(18em, #{$ck-dropdown-list-item-max-width})
+
 .ck.ck-toolbar > .op-ai-actions .ck-splitbutton__action > .ck-button__label
   max-width: 12em
   overflow: hidden

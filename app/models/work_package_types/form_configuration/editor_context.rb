@@ -76,6 +76,11 @@ module WorkPackageTypes
         toggle_required_variant_form_configuration_row_path(scope_project, variant, row_key)
       end
 
+      def exclusion_toggle_path(row_key, value:)
+        variant_excluded_element_toggle_path(scope_project, variant, TypeVariant::FORM_CONFIGURATION,
+                                             element: row_key, value:)
+      end
+
       def move_url_templates
         id_placeholder = "__id__"
         {

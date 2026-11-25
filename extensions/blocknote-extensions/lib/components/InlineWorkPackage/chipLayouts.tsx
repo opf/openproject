@@ -1,7 +1,7 @@
 import { css } from 'styled-components';
 import styled from 'styled-components';
 import { CHIP_STYLES } from '../WorkPackage/tokens';
-import { defaultWpVariables, nonSelectableStyles } from '../WorkPackage/atoms';
+import { defaultWpVariables, hideBlockNoteSelectionOverlay, nonSelectableStyles } from '../WorkPackage/atoms';
 
 const chipBaseStyles = css`
   display: inline;
@@ -45,6 +45,7 @@ export const InlineChip = styled.span.attrs({
   display: inline;
   cursor: pointer;
   ${nonSelectableStyles}
+  ${hideBlockNoteSelectionOverlay}
   border-radius: ${CHIP_STYLES.radius};
   position: relative;
   line-height: 1;

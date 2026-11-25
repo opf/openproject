@@ -89,14 +89,6 @@ RSpec.describe Storages::Storage do
     end
   end
 
-  describe "#supports_oauth_redirect?" do
-    let(:storage) { described_class.new }
-
-    it "returns true by default (to be overridden by subclasses)" do
-      expect(storage).to be_supports_oauth_redirect
-    end
-  end
-
   describe "#health_notifications_should_be_sent?" do
     let(:storage) { build(:storage, provider_fields: {}) }
 

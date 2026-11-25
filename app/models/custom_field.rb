@@ -452,7 +452,9 @@ class CustomField < ApplicationRecord
 
   def self.can_have_comment? = customized_class&.can_have_custom_comments?
 
-  delegate :can_have_comment?, to: :class
+  def self.admin_only_allowed? = customized_class&.admin_only_custom_fields_allowed?
+
+  delegate :can_have_comment?, :admin_only_allowed?, to: :class
 
   ##
   # Overrides cache key so that a custom field's representation

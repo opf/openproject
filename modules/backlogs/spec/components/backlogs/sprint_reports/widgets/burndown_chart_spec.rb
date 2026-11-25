@@ -235,13 +235,31 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
         expect(rendered_component).to have_element(:"opce-burndown-chart")
       end
     end
+  end
 
-    context "with a viewer for whom the start date has already begun" do
+  context "when the sprint was never started and is planned to finish today" do
+    let(:now) { monday.in_time_zone - 2.hours }
+    let(:sprint) { create(:sprint, project:, start_date: monday - 7.days, finish_date: monday - 1.day) }
+
+    before do
+      create(:work_package, project:, sprint:, status: open_status,
+                            journals: { (monday - 7.days).in_time_zone + 9.hours => { story_points: 3 } })
+    end
+
+    it "renders a blankslate instead of the chart" do
+      expect(rendered_component).to have_no_element(:"opce-burndown-chart")
+      expect(rendered_component).to have_css(
+        ".blankslate-description",
+        exact_text: "The burndown chart will appear here after the sprint starts."
+      )
+    end
+
+    context "with a viewer for whom the planned finish date has already passed" do
       current_user do
         create(:user, member_with_roles: { project => role }, preferences: { time_zone: "Asia/Tokyo" })
       end
 
-      it "renders the chart" do
+      it "renders the chart over the planned dates" do
         expect(rendered_component).to have_element(:"opce-burndown-chart")
       end
     end

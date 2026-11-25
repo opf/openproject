@@ -55,8 +55,40 @@ module WorkPackageTypes
         @attribute[:required_globally] ? :attention : :severe
       end
 
+      def render_actions_menu?
+        exclusion_toggle.render? || show_required_action? || show_edit_custom_field? || !readonly?
+      end
+
       def show_required_action?
         @context.toggles_required? && @attribute[:is_cf]
+      end
+
+      def show_edit_custom_field?
+        @attribute[:is_cf] && User.current.admin?
+      end
+
+      def edit_custom_field_test_selector
+        "type-form-configuration-edit-custom-field-#{@attribute[:key]}"
+      end
+
+      def edit_custom_field_path
+        edit_admin_settings_work_package_custom_field_path(@attribute[:key].delete_prefix("custom_field_"))
+      end
+
+      def enable_disable_label
+        excluded? ? t("button_enable") : t("button_disable")
+      end
+
+      def enable_disable_icon
+        excluded? ? :eye : :"eye-closed"
+      end
+
+      def enable_disable_test_selector
+        "type-form-configuration-toggle-exclusion-#{@attribute[:key]}"
+      end
+
+      def exclusion_toggle_path
+        @context.exclusion_toggle_path(@attribute[:key], value: excluded? ? "1" : "0")
       end
 
       def required_action_disabled?
@@ -81,24 +113,6 @@ module WorkPackageTypes
 
       def toggle_required_button_id
         "type-form-configuration-toggle-required-#{@attribute[:key]}"
-      end
-
-      def toggle_required_button_arguments
-        arguments = {
-          size: :small,
-          id: toggle_required_button_id,
-          test_selector: toggle_required_button_id
-        }
-
-        if required_action_disabled?
-          arguments.merge(inactive: true, aria: { disabled: true })
-        else
-          arguments.merge(
-            tag: :a,
-            href: row_toggle_required_path,
-            data: { turbo_method: :put, turbo_stream: true }
-          )
-        end
       end
 
       def row_toggle_required_path

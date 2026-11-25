@@ -188,7 +188,7 @@ export class WorkPackageBaseResource extends HalResource {
    * Returns the list of ancestors, if any
    */
   public getAncestors():this[] {
-    return this.ancestors || [];
+    return this.ancestors ?? [];
   }
 
   /**
@@ -211,11 +211,11 @@ export class WorkPackageBaseResource extends HalResource {
   public subjectWithId(truncateSubject = 40):string {
     const id = isNewResource(this) ? '' : ` (${this.formattedId})`;
 
-    return `${this.truncatedSubject(truncateSubject)}${id}`;
+    return `${this.truncatedSubject(truncateSubject - id.length)}${id}`;
   }
 
   public truncatedSubject(length = 40):string {
-    return length <= 0 ? this.subject : truncate(this.subject, { length: length });
+    return length <= 0 ? this.subject : truncate(this.subject, { length: length, omission: '…', separator: /\s+/ });
   }
 
   public get isLeaf():boolean {

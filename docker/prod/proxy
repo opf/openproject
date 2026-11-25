@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+set -o pipefail
 
-[ -f /etc/apache2/sites-enabled/openproject.conf ] || erb -r time $APP_PATH/docker/prod/proxy.conf.erb > /etc/apache2/sites-enabled/openproject.conf
-exec /usr/sbin/apache2ctl -DFOREGROUND
+[ -f /etc/caddy/Caddyfile ] || erb -r time $APP_PATH/docker/prod/Caddyfile.erb | caddy fmt - > /etc/caddy/Caddyfile
+exec /usr/bin/caddy run --config /etc/caddy/Caddyfile --adapter caddyfile

@@ -109,6 +109,7 @@ da:
         maintained_with_changes: Bevaret med ændringer
         no_longer_meets_filter_criteria: Opfylder ikke længere filterkriterierne
         now_meets_filter_criteria: Opfylder nu filterkriterierne
+        state_at: Tilstand pr.
       show_changes_since: Vis ændringer siden
       time: Tidspunkt
       time_description: 'I din lokale tid: %{datetime}'
@@ -772,8 +773,10 @@ da:
       create_new: Opret ny
       group_by_relation_type: Gruppér efter relationstype
       group_by_wp_type: Gruppér efter arbejdspakketype
+      hierarchy_change_timed_out: Hierarkiet kunne ikke ændres, fordi serveren ikke svarede. Prøv igen.
       hierarchy_indent: Ryk et niveau ind
       hierarchy_outdent: Ryk et niveau ud
+      hierarchy_refresh_failed: Tabellen kunne ikke opdateres. Det er ikke muligt at rykke ind eller ud, før den er indlæst igen.
       remove: Fjern relation
       remove_child: Fjern underordnet
       remove_parent: Fjern overordnet
@@ -1012,6 +1015,7 @@ da:
         label_pagination: Klik her for at springe tabellen med arbejdspakker over og gå til sidenavigationen
         pagination: Gå til tabellens sidenavigation
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Fold grupper sammen eller ud
       label_column_multiselect: 'Kombineret rullemenu: Vælg med piletasterne, bekræft valget med Enter, og slet med Backspace'
       label_disable_multi_select: Slå flervalg fra
       label_enable_multi_select: Slå flervalg til
