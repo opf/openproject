@@ -39,6 +39,7 @@ RSpec.describe OpenProject::Plugins::ActsAsOpEngine do
 
   it { is_expected.to respond_to(:name) }
   it { is_expected.to respond_to(:patches) }
+  it { is_expected.to respond_to(:assets) }
   it { is_expected.to respond_to(:additional_permitted_attributes) }
   it { is_expected.to respond_to(:register) }
 

@@ -140,6 +140,13 @@ module OpenProject::Plugins
         add_module_to_classes(:prepend, module_name, into, singleton: true)
       end
 
+      def assets(_assets)
+        OpenProject::Deprecation.warn(
+          "#{self.class}.assets is deprecated and has no effect. Propshaft serves everything in the engine's app/assets.",
+          caller_locations
+        )
+      end
+
       # Prepend view paths of this engine
       # Note: YOU WILL override views of the core with this functionality
       def override_core_views!
