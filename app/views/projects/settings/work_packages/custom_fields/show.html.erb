@@ -29,4 +29,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(Settings::ProjectWorkPackages::HeaderComponent.new(@project)) %>
 
-<%= render(Projects::Settings::WorkPackages::CustomFields::OverviewComponent.new(project: @project)) %>
+<%= render(Projects::Settings::WorkPackages::CustomFields::SubHeaderComponent.new(project: @project, query: @query)) %>
+
+<%= render(overview_component) %>

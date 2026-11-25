@@ -53,7 +53,7 @@ module CustomFields
             return service_result
           end
 
-          service_result.merge!(RebuildPositionCacheService.new(user:, model: item).call)
+          service_result.merge!(RebuildPositionCacheService.new(user:, model: item, contract_class: EmptyContract).call)
         end
 
         def after_perform(service_result)
@@ -61,7 +61,11 @@ module CustomFields
           custom_field = item.root.custom_field
 
           if @weight_changed
-            service_result.merge!(RecalculateValuesService.new(user:, model: custom_field).call(item_ids: [item.id]))
+            service_result.merge!(
+              RecalculateValuesService
+                .new(user:, model: custom_field, contract_class: EmptyContract)
+                .call(item_ids: [item.id])
+            )
           end
 
           if @parent_changed

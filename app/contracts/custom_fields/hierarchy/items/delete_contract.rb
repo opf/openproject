@@ -30,16 +30,24 @@
 module CustomFields
   module Hierarchy
     module Items
-      class DeleteContract < ::DeleteContract
-        delete_permission :admin
+      class DeleteContract < ::ModelContract
+        include AuthorizesProjectValueManagement
 
         validate :validate_not_root
+
+        protected
+
+        def validate_model?
+          false
+        end
 
         private
 
         def validate_not_root
           errors.add(:base, :root_item) if model.root?
         end
+
+        def custom_field = model.root.custom_field
       end
     end
   end

@@ -29,5 +29,34 @@
 #++
 
 class Projects::Settings::WorkPackages::CustomFieldsController < Projects::SettingsController
+  include OpTurbo::ComponentStream
+
   menu_item :settings_work_packages
+
+  def show
+    @query = custom_fields_query
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream do
+        update_via_turbo_stream(component: overview_component)
+        update_via_turbo_stream(component: Filter::FilterButtonComponent.new(query: @query))
+        respond_with_turbo_streams
+      end
+    end
+  end
+
+  private
+
+  def custom_fields_query
+    ParamsToQueryService
+      .new(WorkPackageCustomField, current_user, query_class: Queries::WorkPackageCustomFields::WorkPackageCustomFieldQuery)
+      .call(params)
+      .tap { |query| query.project = @project }
+  end
+
+  def overview_component
+    Projects::Settings::WorkPackages::CustomFields::OverviewComponent.new(project: @project, query: @query)
+  end
+  helper_method :overview_component
 end

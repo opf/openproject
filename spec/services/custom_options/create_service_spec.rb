@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe CustomOptions::CreateService do
+RSpec.describe CustomOptions::CreateService, with_ee: %i[project_specific_list_values] do
   shared_let(:admin) { create(:admin) }
   shared_let(:project) { create(:project) }
 
@@ -42,6 +42,17 @@ RSpec.describe CustomOptions::CreateService do
     expect(result).to be_success
     expect(result.result).to have_attributes(value: "Hamburg", project:, position: 3)
     expect(custom_field.custom_options.reload.map(&:value)).to eq(%w[Berlin Munich Hamburg])
+  end
+
+  context "as a user allowed to manage custom field values in the project" do
+    subject(:result) { described_class.new(user:).call(custom_field:, value: "Hamburg", project:) }
+
+    let(:user) { create(:user, member_with_permissions: { project => %i[manage_work_package_custom_field_values] }) }
+
+    it "creates the option of the project" do
+      expect(result).to be_success
+      expect(result.result).to have_attributes(value: "Hamburg", project:)
+    end
   end
 
   context "when the custom field does not allow additional project values" do
