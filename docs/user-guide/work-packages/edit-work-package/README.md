@@ -68,8 +68,6 @@ If the label does not exist, enter a new name in the **Labels** field and select
 > Creating new labels requires the "Edit work packages" permission.
 
 ![Creating a new label directly in a work package using the Labels field](openproject_user_guide_wp_labels_create.png)
-
-
 #### Remove a label
 
 To remove a label, open the **Labels** field and remove the label from the work package.
