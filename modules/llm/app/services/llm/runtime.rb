@@ -50,7 +50,7 @@ module Llm
       #
       # Note that RubyLLM enforces none of the feature's declared requirements:
       # Chat#with_schema performs no capability check, and a model absent from
-      # RubyLLM's registry is described by Model::Info.default, which claims
+      # RubyLLM's registry is described by Model.default, which claims
       # structured output, vision and function calling for everything. The
       # capability verdicts consulted in #call above are the only real gate.
       #
