@@ -16,6 +16,9 @@ workflows:
         - 'actions/checkout@v7.0.1'
         - 'github/codeql-action@v4.39.3'
         - 'ruby/setup-ruby@v1.342.0'
+    '.github/workflows/bundle-audit.yml':
+        - 'actions/checkout@v7.0.1'
+        - 'ruby/setup-ruby@v1.342.0'
     '.github/workflows/cla.yml':
         - 'contributor-assistant/github-action@v2.6.1'
     '.github/workflows/codeql-scan-core.yml':
@@ -80,6 +83,7 @@ workflows:
     '.github/workflows/pullpreview.yml':
         - 'actions/checkout@v7.0.1'
         - 'pullpreview/action@v6.2.1'
+    '.github/workflows/release-branches.yml': []
     '.github/workflows/rubocop-core.yml':
         - 'actions/checkout@v7.0.1'
         - 'reviewdog/action-rubocop@v2.23.0'
