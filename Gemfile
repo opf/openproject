@@ -201,9 +201,9 @@ gem "fog-aws"
 gem "ssrf_filter", "~> 1.6"
 gem "web-push", "~> 3.1"
 
-gem "aws-sdk-core", "~> 3.266"
+gem "aws-sdk-core", "~> 3.267"
 # File upload via fog + screenshots on travis
-gem "aws-sdk-s3", "~> 1.240"
+gem "aws-sdk-s3", "~> 1.241"
 
 gem "openproject-token", "~> 8.17.0"
 
