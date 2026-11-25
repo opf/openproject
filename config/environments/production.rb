@@ -172,7 +172,7 @@ Rails.application.configure do
         request.path.start_with?("#{base}/health_check", "#{base}/sys")
       end,
       response_app: ->(_env) do
-        [400, { "Content-Type" => "text/plain" }, ["Invalid host_name configuration"]]
+        [400, { "content-type" => "text/plain" }, ["Invalid host_name configuration"]]
       end
     }
   end
