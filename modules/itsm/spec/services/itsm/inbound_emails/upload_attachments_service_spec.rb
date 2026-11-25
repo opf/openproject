@@ -71,6 +71,38 @@ RSpec.describe ITSM::InboundEmails::UploadAttachmentsService do
     end
   end
 
+  context "with a file that cannot be saved for another reason" do
+    let(:create_service) { instance_double(Attachments::CreateService) }
+    let(:errors) { ActiveModel::Errors.new(Attachment.new).tap { it.add(:filename, :invalid) } }
+
+    before do
+      allow(Attachments::CreateService).to receive(:new).with(user:).and_return(create_service)
+      allow(create_service).to receive(:call).and_return(ServiceResult.failure(errors:))
+    end
+
+    it "skips it and notes that it could not be saved" do
+      expect(uploads.attachments).to be_empty
+      expect(uploads.with_note("")).to eq("Not attached: `report.txt` (could not be saved)")
+    end
+  end
+
+  context "when reading a file raises" do
+    let(:files) { { "report.txt" => "The report.", "photo.jpg" => "A photo." } }
+
+    before do
+      allow(ITSM::InboundEmail::Attachment).to receive(:new).and_wrap_original do |original, part|
+        original.call(part).tap do |file|
+          allow(file).to receive(:content).and_raise(Mail::UnknownEncodingType) if file.filename == "photo.jpg"
+        end
+      end
+    end
+
+    it "deletes the files saved before and raises" do
+      expect { uploads }.to raise_error(Mail::UnknownEncodingType)
+      expect(Attachment.count).to eq(0)
+    end
+  end
+
   context "when the user may add attachments to the work package" do
     let(:work_package) { create(:work_package, project:) }
     let(:permissions) { %i[view_work_packages add_work_package_attachments] }
@@ -102,6 +134,18 @@ RSpec.describe ITSM::InboundEmails::UploadAttachmentsService do
       uploads.remove_unclaimed
 
       expect(Attachment.all).to contain_exactly(claimed)
+    end
+
+    context "when deleting fails" do
+      before { allow(OpenProject.logger).to receive(:error) }
+
+      it "logs the error instead of raising it" do
+        uploads
+        allow(Attachment).to receive(:where).and_raise(Errno::EACCES)
+
+        expect { uploads.remove_unclaimed }.not_to raise_error
+        expect(OpenProject.logger).to have_received(:error).with(/Email attachments not removed/, exception: an_instance_of(Errno::EACCES))
+      end
     end
   end
 end

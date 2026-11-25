@@ -212,6 +212,20 @@ RSpec.describe ITSM::Mailboxes::ProcessEmailService do
       expect(imap).not_to have_received(:uid_store)
       expect(warned).to include("Work package not created (priority blank)")
     end
+
+    context "with an attachment" do
+      let(:raw) do
+        Mail.new(message_id: "<request-1@customer.example>", from: "jane@customer.example", to: "support@example.com",
+                 subject: "Printer broken", body: "The printer is broken.")
+          .tap { it.add_file(filename: "report.txt", content: "The report.") }
+          .to_s
+      end
+
+      it "keeps no attachment, as the email is tried again with its files" do
+        expect(result).to be_failure
+        expect(Attachment.count).to eq(0)
+      end
+    end
   end
 
   context "when the help desk user is not a member of the project" do

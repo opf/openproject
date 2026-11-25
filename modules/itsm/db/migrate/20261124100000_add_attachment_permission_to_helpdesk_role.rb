@@ -28,19 +28,20 @@
 #++
 
 class AddAttachmentPermissionToHelpdeskRole < ActiveRecord::Migration[8.1]
-  PERMISSION = :add_work_package_attachments
+  PERMISSION = "add_work_package_attachments"
 
   def up
-    helpdesk_roles.find_each do |role|
-      role.add_permission!(PERMISSION) unless role.has_permission?(PERMISSION)
-    end
+    role_ids = helpdesk_role_ids - RolePermission.where(permission: PERMISSION).pluck(:role_id)
+    return if role_ids.empty?
+
+    RolePermission.insert_all(role_ids.map { |role_id| { role_id:, permission: PERMISSION } })
   end
 
   def down
-    RolePermission.where(role: helpdesk_roles, permission: PERMISSION.to_s).delete_all
+    RolePermission.where(role_id: helpdesk_role_ids, permission: PERMISSION).delete_all
   end
 
   private
 
-  def helpdesk_roles = Role.where(type: "ITSM::HelpdeskRole")
+  def helpdesk_role_ids = Role.unscoped.where(type: "ITSM::HelpdeskRole").pluck(:id)
 end

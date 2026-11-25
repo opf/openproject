@@ -71,6 +71,7 @@ module ITSM
       end
 
       # Attached before the comment is journalized, so that the comment's activity entry lists them.
+      # https://community.openproject.org/wp/ITSM-51
       def attach_uploads
         ::Attachment.where(id: uploads.ids).update_all(container_id: work_package.id, container_type: WorkPackage.name)
       end

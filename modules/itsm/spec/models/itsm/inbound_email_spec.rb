@@ -453,6 +453,20 @@ RSpec.describe ITSM::InboundEmail do
       expect(attachments.first.inspect).not_to include("PDF")
     end
 
+    context "with line breaks in a file name" do
+      let(:filename) { "=?UTF-8?Q?report=0A=0A**urgent**=0D.pdf?=" }
+      let(:raw) do
+        "From: jane@customer.example\r\nMIME-Version: 1.0\r\nContent-Type: multipart/mixed; boundary=b\r\n\r\n" \
+          "--b\r\nContent-Type: text/plain\r\n\r\nHello\r\n" \
+          "--b\r\nContent-Type: application/pdf\r\nContent-Disposition: attachment; filename=\"#{filename}\"\r\n" \
+          "Content-Transfer-Encoding: base64\r\n\r\nJVBERg==\r\n--b--\r\n"
+      end
+
+      it "replaces them with spaces" do
+        expect(attachments.sole.filename).to eq("report  **urgent** .pdf")
+      end
+    end
+
     context "without attachments" do
       let(:raw) { "From: jane@customer.example\r\n\r\nHello" }
 

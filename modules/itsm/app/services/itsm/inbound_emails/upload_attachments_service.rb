@@ -35,7 +35,11 @@ module ITSM
 
         def with_note(text) = [text.presence, note].compact.join("\n\n")
 
-        def remove_unclaimed = ::Attachment.where(id: ids, container_id: nil).destroy_all
+        def remove_unclaimed
+          ::Attachment.where(id: ids, container_id: nil).destroy_all
+        rescue StandardError => e
+          OpenProject.logger.error("Email attachments not removed: #{ids.join(', ')}", exception: e)
+        end
 
         private
 
@@ -55,10 +59,8 @@ module ITSM
 
       def perform
         email, work_package = params.values_at(:email, :work_package)
-        uploaded, skipped = outcomes(email.attachments, work_package).partition { |_, outcome| outcome.is_a?(::Attachment) }
 
-        ServiceResult.success(result: Uploads.new(attachments: uploaded.map(&:last),
-                                                  skipped: skipped.map { |file, reason| skipped_text(file, reason) }))
+        ServiceResult.success(result: uploads_of(outcomes(email.attachments, work_package)))
       end
 
       private
@@ -68,7 +70,20 @@ module ITSM
       def outcomes(files, work_package)
         return files.map { [it, :not_allowed] } if work_package && !work_package.attachments_addable?(user)
 
-        User.execute_as(user) { files.map { [it, upload(it)] } }
+        User.execute_as(user) do
+          files.each_with_object([]) do |file, outcomes|
+            outcomes << [file, upload(file)]
+          rescue StandardError
+            uploads_of(outcomes).remove_unclaimed
+            raise
+          end
+        end
+      end
+
+      def uploads_of(outcomes)
+        uploaded, skipped = outcomes.partition { |_, outcome| outcome.is_a?(::Attachment) }
+
+        Uploads.new(attachments: uploaded.map(&:last), skipped: skipped.map { |file, reason| skipped_text(file, reason) })
       end
 
       def upload(file)

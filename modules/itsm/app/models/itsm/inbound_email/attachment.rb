@@ -34,7 +34,7 @@ module ITSM
         @part = part
       end
 
-      def filename = File.basename(Utf8Text.call(part.filename).to_s).presence || "attachment"
+      def filename = File.basename(Utf8Text.call(part.filename).to_s).gsub(/[[:cntrl:]]/, " ").strip.presence || "attachment"
 
       def content_type = part.mime_type
 
