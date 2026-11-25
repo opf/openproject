@@ -37,7 +37,6 @@ module RecurringMeetings
       @old_schedule_model = model.dup
       @previous_snapshot = ScheduleSnapshot.capture(model)
       @old_location = model.template.location
-      @old_title = model.title
       super
     end
 
@@ -231,8 +230,7 @@ module RecurringMeetings
     end
 
     def update_future_occurrence_titles(recurring_meeting)
-      new_title = @template_params[:title]
-      return if new_title == @old_title
+      return unless recurring_meeting.title_previously_changed?
 
       recurring_meeting
         .meetings
@@ -240,7 +238,7 @@ module RecurringMeetings
         .not_cancelled
         .where.not(recurrence_start_time: nil)
         .where(recurrence_start_time: Time.current..)
-        .update_all(title: new_title)
+        .update_all(title: recurring_meeting.title)
     end
 
     def send_updated_mail(recurring_meeting, historic_schedule: false)

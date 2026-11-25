@@ -570,6 +570,16 @@ RSpec.describe RecurringMeetings::UpdateService, "integration", type: :model do
 
       expect(past_occurrence.reload.title).not_to eq("Updated series title")
     end
+
+    context "when the params do not include a title" do
+      let(:params) { { location: "Room 42" } }
+
+      it "keeps the titles of future meeting occurrences" do
+        expect { service_result }
+          .not_to change { future_occurrences.map { it.reload.title } }
+        expect(service_result).to be_success
+      end
+    end
   end
 
   describe "rescheduling slot conflicts" do
