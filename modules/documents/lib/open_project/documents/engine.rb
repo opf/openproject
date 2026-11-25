@@ -28,17 +28,12 @@
 #++
 
 module OpenProject::Documents
+  EDIT_DOCUMENTS_OAUTH_SCOPE = "op:resource:documents:edit"
+
   class Engine < ::Rails::Engine
     engine_name :openproject_documents
 
     include OpenProject::Plugins::ActsAsOpEngine
-
-    initializer "openproject_documents.feature_decisions" do
-      OpenProject::FeatureDecisions.add :documents_collaboration_token_api,
-                                        description: "Enables the API endpoint for creating real-time collaboration " \
-                                                     "tokens for documents (used by the mobile app). " \
-                                                     "See SE-664 for details."
-    end
 
     register "openproject-documents",
              author_url: "http://www.openproject.org",
@@ -132,6 +127,11 @@ module OpenProject::Documents
 
     add_api_endpoint "API::V3::Root" do
       mount ::API::V3::Documents::DocumentsAPI
+    end
+
+    config.to_prepare do
+      OpenProject::Authentication.register_restricted_oauth_scope(OpenProject::Documents::EDIT_DOCUMENTS_OAUTH_SCOPE,
+                                                                  restricted_to: OpenProject::Authentication::Scope::API_V3)
     end
 
     # Add documents to allowed search params
