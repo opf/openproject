@@ -308,6 +308,7 @@ si:
         only_start: ඔබේ දේශීය කාලය තුළ %{from} සිට.
         two_values: "%{from} - %{to} ඔබේ දේශීය කාලය තුළ."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: උසස් සැකසුම්
       load_error_message: There was an error loading the form

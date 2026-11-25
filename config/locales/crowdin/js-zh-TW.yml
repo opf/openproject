@@ -308,6 +308,7 @@ zh-TW:
         only_start: 從您的當地時間 %{from} 開始。
         two_values: "%{from} - %{to}（以您的當地時間為基準）。"
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: 進階設定
       load_error_message: 加載表單時出錯

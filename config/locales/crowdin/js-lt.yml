@@ -308,6 +308,7 @@ lt:
         only_start: Nuo %{from} pagal Jūsų vietinį laiką.
         two_values: "%{from} - %{to} pagal Jūsų vietinį laiką."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Išplėstiniai nustatymai
       load_error_message: Įkeliant formą įvyko klaida

@@ -220,16 +220,20 @@ de:
     sprint_reports:
       header_infoline_component:
         planned_html: 'Geplant: %{range}'
-        started_at: 'Start time:'
-      missing_dates_blankslate_component:
-        description: Für die Anzeige des Berichts sind Start- und Endtermine notwendig.
-        heading: Fehlende Sprinttermine
+        started_at: 'Startzeit:'
       navigation_component:
         next: Weiter
         previous: Zurück
       page_header_component:
         breadcrumb: Bericht
         title: "%{sprint} Bericht"
+      report_unavailable_blankslate_component:
+        missing_dates:
+          description: Sprint start and finish dates are necessary for the report to show.
+          heading: Missing sprint dates
+        planned_dates_in_past:
+          description: The sprint was planned, but it was never executed. Change the planned start and finish dates to a future time in order to see the sprint report.
+          heading: Planned sprint dates are in the past
       widgets:
         burndown_chart:
           blankslate:
@@ -286,7 +290,7 @@ de:
         epic_progress:
           blankslate:
             no_epics:
-              description: The epic progress chart will appear here once the sprint contains work packages tied to an epic.
+              description: Das Epic-Fortschritts-Diagramm wird hier angezeigt, sobald der Sprint ein mit einer Epic verbundenes Arbeitspaket enthält.
               heading: Keine Epics zum Anzeigen
           card:
             progress:

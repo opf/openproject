@@ -308,6 +308,7 @@ vi:
         only_start: Từ %{from} theo giờ địa phương của bạn.
         two_values: "%{from} - %{to} theo giờ địa phương của bạn."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Cài đặt nâng cao
       load_error_message: Đã xảy ra lỗi khi tải biểu mẫu

@@ -308,6 +308,7 @@ cs:
         only_start: Od %{from} ve vašem místním čase.
         two_values: "%{from} - %{to} ve vašem místním čase."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Pokročilá nastavení
       load_error_message: Při načítání formuláře došlo k chybě

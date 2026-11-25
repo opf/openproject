@@ -308,6 +308,7 @@ ro:
         only_start: Începând cu %{from} ora locală.
         two_values: "%{from} - %{to} ora locală."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Setări avansate
       load_error_message: A apărut o eroare la încărcarea formularului

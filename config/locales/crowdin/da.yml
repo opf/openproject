@@ -1913,6 +1913,7 @@ da:
               label_import_data: Importeres nu
               label_progress: Importen er i gang …
               label_resolution_statuses_explanation: Ekstra statusser, der kombinerer status og løsning (fx "Done - Fixed")
+              label_sprint_explanation: Sprints that contain at least one issue
               label_users_import_explanation: Brugere, der er involveret i de valgte projekter (inklusive gruppemedlemskaber)
               title: Importér data
             fetch_data:
@@ -2599,6 +2600,7 @@ da:
     public: Offentlig
     reason: Årsag
     recipient: Modtager
+    reporter: Reporter
     required: Obligatorisk
     responsible: Ansvarlig
     role: Rolle
@@ -2942,7 +2944,8 @@ da:
         remember_items_and_projects: Husk at angive værdier for det brugerdefinerede felt og at sørge for, at det bruges i mindst ét projekt.
       projects:
         additional_values_disabled_notice: Projektadministratorer kan ikke længere tilføje værdier til dette brugerdefinerede felt. Eksisterende projektspecifikke værdier er stadig tilgængelige.
-        additional_values_disabled_project_notice: Projektadministratorer kan ikke længere tilføje værdier til dette brugerdefinerede felt. Eksisterende projektspecifikke værdier er dog stadig tilgængelige og kan slås til eller fra.
+        additional_values_disabled_project_notice: Project admins can no longer add values to this custom field. However, existing project-specific values stay available.
+        available_values: Available values
         configure: Konfigurer projektspecifikke værdier for %{project}
         delete_value_dialog:
           description: Handlingen fjerner værdien fra %{project}, og det kan ikke fortrydes. Alle tildelte værdier slettes permanent.
@@ -2973,16 +2976,19 @@ da:
         quick_filter:
           all: Alle projekter
           with_project_specific_values: Med projektspecifikke værdier
+        required_value_notice: Cannot be disabled because a child project-specific value is enabled
         types_column: Vises i typen
         value_actions: Handlinger for værdi
         value_dialog:
           edit_title: Rediger værdi
           name: Navn
-          name_caption: Kun tilgængelig i %{project}.
+          name_caption_html: Only available in <strong>%{project}</strong>.
           parent: Tilføj til overordnet
+          short_caption: Optionally pick a shorter name or code for this value.
           title: Tilføj projektspecifik værdi
           title_with_parent: Tilføj projektspecifik værdi til »%{parent}«
           top_level: Øverste niveau
+          weight_caption: Each value has a weight associated with it.
         values_empty_state:
           description: Tilføj værdier til dette brugerdefinerede felt for at vælge, hvilke af dem der er tilgængelige i dette projekt.
           title: Dette brugerdefinerede felt har endnu ingen værdier
@@ -3071,16 +3077,17 @@ da:
       project_admins:
         additional_values_caption: Tilføjede værdier er kun tilgængelige i det projekt, de er oprettet i. Du kan senere gøre dem tilgængelige for alle projekter.
         remaining_values_count:
-          one: 1 projektspecifik værdi
-          other: "%{count} projektspecifikke værdier"
+          one: "%{count} project-specific value"
+          other: "%{count} project-specific values"
         remaining_values_warning:
-          one: 1 projekt har allerede %{values}. De er stadig tilgængelige i projektet, men projektadministratorer kan ikke tilføje nye, medmindre »%{setting}« er markeret.
-          other: "%{count} projekter har allerede %{values}. De er stadig tilgængelige i projekterne, men projektadministratorer kan ikke tilføje nye, medmindre »%{setting}« er markeret."
+          one: "%{count} project already has %{values}. They remain available in that project but project admins can no longer add new ones unless ‘%{setting}’ is checked."
+          other: "%{count} projects already have %{values}. They remain available in those projects but project admins can no longer add new ones unless ‘%{setting}’ is checked."
         value_management_caption: Projektadministratorer kan slå bestemte værdier til eller fra for deres projekt. De kan se alle globale værdier.
       switch_warning:
         all: Alle værdier bliver tilgængelige i alle projekter.
         allow: Ingen værdier bliver tilgængelige for noget projekt, medmindre du aktiverer dem manuelt i hvert enkelt projekt.
         block: Alle værdier bliver tilgængelige i alle projekter, medmindre du deaktiverer dem manuelt i enkelte projekter.
+      value_with_project: "%{value} (%{project})"
     reorder_alphabetical: Sortér værdierne alfabetisk
     reorder_confirmation: 'Advarsel: Den nuværende rækkefølge af de tilgængelige værdier og alle værdier, der ikke er gemt, går tabt. Er du sikker på, at du vil fortsætte?'
     semantic_keys:
@@ -4263,6 +4270,10 @@ da:
   label_custom_field_default_type: Tom typebetegnelse
   label_custom_field_new: Nyt brugerdefineret felt
   label_custom_field_plural: Brugerdefinerede felter
+  label_custom_field_values_all: All custom fields
+  label_custom_field_values_customizable: Customizable in this project
+  label_custom_field_values_customized: Customized in this project
+  label_custom_field_values_uniform: Same values in all projects
   label_custom_pdf_export_settings: Brugerdefinerede indstillinger for PDF-eksport
   label_custom_style: Design
   label_custom_style_description: Vælg, hvordan OpenProject skal se ud for dig med temaer, vælg de standardfarver, der skal bruges i programmet, og hvordan eksporter skal se ud.
@@ -6169,9 +6180,18 @@ da:
         changes_text: 'Fra og med version 18.0 aktiveres og deaktiveres brugerdefinerede felter ikke længere pr. projekt. De indgår i formularer, som typer og varianter bruger. Listen nedenfor viser de brugerdefinerede felter på dette projekts arbejdspakker og de varianter, der indeholder dem.
 
           '
+        column_format: Format
         column_name: Brugerdefineret felt
-        column_variants: Varianter
+        column_types: Displayed in type
         no_results_title_text: Der er i øjeblikket ingen brugerdefinerede felter tilgængelige.
+        project_specific_values_count:
+          one: "%{count} project-specific value"
+          other: "%{count} project-specific values"
+        search_label: Search custom fields
+        values_description: 'Choose which values of %{custom_field} your team can use in %{project}. Global values are shared with other projects and managed by administrators. Project-specific values are only available in this project.
+
+          '
+        values_filter: Values
       forums:
         no_results_content_text: Opret et nyt forum
         no_results_title_text: Der er i øjeblikket ingen fora for projektet.
@@ -7546,6 +7566,7 @@ da:
         delete_group: Slet afsnit
         drag_to_activate: Træk felter herfra for at aktivere dem
         drag_to_reorder: Træk for at ændre rækkefølgen
+        edit_custom_field: Rediger brugerdefineret felt
         edit_query: Rediger forespørgsel
         empty_group_hint: Træk attributter hertil
         exclusions:

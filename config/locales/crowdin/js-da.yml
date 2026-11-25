@@ -308,6 +308,7 @@ da:
         only_start: Fra %{from} i din lokale tid.
         two_values: "%{from} - %{to} i din lokale tid."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Avancerede indstillinger
       load_error_message: Der opstod en fejl under indlæsning af formularen

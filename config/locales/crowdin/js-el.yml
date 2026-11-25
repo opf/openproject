@@ -308,6 +308,7 @@ el:
         only_start: Από %{from} στην τοπική σας ώρα.
         two_values: "%{from} - %{to} στην τοπική σας ώρα."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Προηγμένες ρυθμίσεις
       load_error_message: There was an error loading the form

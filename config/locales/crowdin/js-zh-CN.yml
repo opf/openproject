@@ -308,6 +308,7 @@ zh-CN:
         only_start: 从您的当地时间 %{from} 开始。
         two_values: "%{from} - %{to}（以您的当地时间为基准）。"
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: 高级设置
       load_error_message: 加载表单时出错

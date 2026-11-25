@@ -308,6 +308,7 @@ uk:
         only_start: From %{from} у місцевий час.
         two_values: "%{from} - %{to} у місцевий час."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Розширені налаштування
       load_error_message: Сталася помилка під час завантаження форми
