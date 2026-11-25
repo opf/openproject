@@ -8,6 +8,7 @@
     <button
       opActionMenuTrigger
       class="button -primary add-work-package"
+      [attr.accesskey]="listShortcuts() ? 2 : null"
       type="button"
       [disabled]="createPaneOpen"
       [attr.aria-disabled]="allowed === false || null"

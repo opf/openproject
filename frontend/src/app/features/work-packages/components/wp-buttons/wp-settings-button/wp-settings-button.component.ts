@@ -25,8 +25,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, computed, inject, input } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
 @Component({
   templateUrl: './wp-settings-button.component.html',
@@ -36,9 +39,20 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 export class WorkPackageSettingsButtonComponent {
   readonly I18n = inject(I18nService);
 
+  private readonly urlParams = inject(UrlParamsService);
+
   @Input() hideTableOptions = false;
 
   @Input() showCalendarSharingOption = false;
+
+  readonly listShortcuts = input(false);
+
+  private readonly detailsOpen = toSignal(
+    this.urlParams.changed$.pipe(map(() => this.urlParams.currentDetailsRouteParams() !== null)),
+    { initialValue: this.urlParams.currentDetailsRouteParams() !== null },
+  );
+
+  protected readonly accessKey = computed(() => (this.listShortcuts() && !this.detailsOpen() ? 7 : null));
 
   public text = {
     more_actions: this.I18n.t('js.button_more_actions'),
