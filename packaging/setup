@@ -20,6 +20,12 @@ mkdir -p vendor/bim
 pushd vendor/bim
 # These are referenced in /packaging/addons/openproject-edition/bin/preinstall
 wget --quiet --tries 3 https://github.com/KhronosGroup/COLLADA2GLTF/releases/download/v2.1.5/COLLADA2GLTF-v2.1.5-linux.zip
-wget --quiet --tries 3 https://s3.amazonaws.com/ifcopenshell-builds/IfcConvert-v0.7.11-fea8e3a-linux64.zip
-wget --quiet --tries 3 https://github.com/bimspot/xeokit-metadata/releases/download/1.0.1/xeokit-metadata-linux-x64.tar.gz
+wget --quiet --tries 3 https://s3.amazonaws.com/ifcopenshell-builds/IfcConvert-v0.8.5-a51b2c5-linux64.zip
+echo "4214d58e7cf0929fb04e9b79dca84fb9cc1fe73e56490258eb159c10137ab2c2  IfcConvert-v0.8.5-a51b2c5-linux64.zip" | sha256sum -c - || exit 1
+wget --quiet --tries 3 https://registry.npmjs.org/@openproject/web-ifc-xeokit-metadata/-/web-ifc-xeokit-metadata-0.0.1.tgz
+wget --quiet --tries 3 https://registry.npmjs.org/web-ifc/-/web-ifc-0.0.77.tgz
+sha256sum -c - <<SHA256 || exit 1
+daf3b3f3563313d9c1125aa5387dcd9b190ab109eefabf6303a8addbaed549a5  web-ifc-xeokit-metadata-0.0.1.tgz
+d9f88c96bde26a2b1e317458f8fa38ac46f18f1f688f2cb1a7f8e97890f2f341  web-ifc-0.0.77.tgz
+SHA256
 popd
