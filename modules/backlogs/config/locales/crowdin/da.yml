@@ -221,15 +221,19 @@ da:
       header_infoline_component:
         planned_html: 'Planlagt: %{range}'
         started_at: 'Starttidspunkt:'
-      missing_dates_blankslate_component:
-        description: Sprinten skal have en start- og slutdato, før rapporten kan vises.
-        heading: Sprintens datoer mangler
       navigation_component:
         next: Næste
         previous: Forrige
       page_header_component:
         breadcrumb: Rapport
         title: Rapport for %{sprint}
+      report_unavailable_blankslate_component:
+        missing_dates:
+          description: Sprint start and finish dates are necessary for the report to show.
+          heading: Missing sprint dates
+        planned_dates_in_past:
+          description: The sprint was planned, but it was never executed. Change the planned start and finish dates to a future time in order to see the sprint report.
+          heading: Planned sprint dates are in the past
       widgets:
         burndown_chart:
           blankslate:
