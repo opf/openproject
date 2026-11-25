@@ -37,11 +37,12 @@ module WorkPackageTypes
         "variant-#{variant.id}-action-menu"
       end
 
-      def initialize(variant:, back_url: nil)
+      def initialize(variant:, back_url: nil, list_params: {})
         super()
 
         @variant = variant
         @back_url = back_url
+        @list_params = list_params
       end
 
       def menu_id
@@ -50,7 +51,7 @@ module WorkPackageTypes
 
       private
 
-      attr_reader :variant, :back_url
+      attr_reader :variant, :back_url, :list_params
 
       def variant_actions(menu)
         configure_action(menu)
@@ -118,7 +119,7 @@ module WorkPackageTypes
         menu.with_item(
           label: t(:button_delete),
           scheme: :danger,
-          href: deletion_dialog_type_variant_path(type_id: variant.type_id, id: variant.id, back_url:),
+          href: deletion_dialog_type_variant_path(type_id: variant.type_id, id: variant.id, **list_params),
           content_arguments: { data: { controller: "async-dialog" } }
         ) do |item|
           item.with_leading_visual_icon(icon: :trash)

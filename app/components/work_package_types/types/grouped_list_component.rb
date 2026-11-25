@@ -116,7 +116,8 @@ module WorkPackageTypes
       def variant_menu_src(variant)
         menu_type_variant_path(
           type_id: variant.type_id, id: variant.id,
-          back_url: types_path(**context_args, expand: variant.type_id)
+          back_url: types_path(**context_args, expand: variant.type_id),
+          query:, created_by_migration:, **page_args
         )
       end
 

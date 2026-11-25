@@ -32,7 +32,9 @@ module WorkPackageTypes
     include OpTurbo::ComponentStream
     include WorkPackageTypes::AdminTypesList
 
-    LIST_VIEW_STATE_KEYS = %w[page per_page query created_by_migration].freeze
+    # The list's filter, page and which tab it is travel as their own params so the morph can
+    # repaint the same view. +list_context+ tells the shared delete action which list to render.
+    LIST_STATE_PARAMS = %i[query created_by_migration page per_page list_context].freeze
 
     current_menu_item do
       :types
@@ -52,7 +54,8 @@ module WorkPackageTypes
     end
 
     def menu
-      render Types::VariantActionsComponent.new(variant: named_variant, back_url: params[:back_url]),
+      render Types::VariantActionsComponent.new(variant: named_variant, back_url: params[:back_url],
+                                                list_params: carried_list_params),
              layout: false
     end
 
@@ -87,7 +90,6 @@ module WorkPackageTypes
 
       return repaint_deletion_form(variant, target, service_call) if target && !service_call.success?
 
-      restore_list_view_state
       replace_variant_list(variant, target, service_call)
     end
 
@@ -159,7 +161,11 @@ module WorkPackageTypes
     end
 
     def deletion_path(variant)
-      variant_path(variant_scope_project, variant, back_url: params[:back_url])
+      variant_path(variant_scope_project, variant, **carried_list_params)
+    end
+
+    def carried_list_params
+      params.permit(*LIST_STATE_PARAMS).to_h.symbolize_keys.compact_blank
     end
 
     def chosen_target(variant)
@@ -195,12 +201,8 @@ module WorkPackageTypes
 
     def variant_list_component(variant)
       if variant_scope_project
-        ::Projects::Settings::WorkPackages::Types::ListComponent.new(
-          project: variant_scope_project.reload,
-          created_by_migration: params[:created_by_migration] == MigrationFilterComponent::MIGRATED,
-          expanded_type_id: variant.type_id
-        )
-      elsif deletion_from_variants_tab?
+        project_variant_list_component(variant)
+      elsif params[:list_context] == VariantsListComponent::LIST_CONTEXT
         VariantsListComponent.new(type: @type.reload, query: params[:query],
                                   created_by_migration: params[:created_by_migration])
       else
@@ -208,20 +210,12 @@ module WorkPackageTypes
       end
     end
 
-    def deletion_from_variants_tab?
-      params[:back_url].to_s.start_with?(type_variants_path(type_id: @type.id))
-    end
-
-    # A deletion posts from a paginated/filtered list, but that state travels inside
-    # back_url. Restore so morphing keeps the same state
-    def restore_list_view_state
-      search = params[:back_url].to_s.split("?", 2).second
-      return if search.blank?
-
-      restored = Rack::Utils.parse_nested_query(search)
-                            .slice(*LIST_VIEW_STATE_KEYS)
-                            .select { |_, value| value.is_a?(String) }
-      params.merge!(restored)
+    def project_variant_list_component(variant)
+      ::Projects::Settings::WorkPackages::Types::ListComponent.new(
+        project: variant_scope_project.reload,
+        created_by_migration: params[:created_by_migration] == MigrationFilterComponent::MIGRATED,
+        expanded_type_id: variant.type_id
+      )
     end
 
     def repaint_deletion_form(variant, target, service_call)

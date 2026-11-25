@@ -35,6 +35,10 @@ module WorkPackageTypes
 
     FRAME_ID = "type-variants-list"
 
+    # Marks a deletion as triggered from this tab, so the morph repaints this list rather than the
+    # administration index that shares the same delete action.
+    LIST_CONTEXT = "variants_tab"
+
     def initialize(type:, query: nil, created_by_migration: nil)
       super()
 
@@ -92,7 +96,8 @@ module WorkPackageTypes
     # The menu's actions are reachable from the types index too, so each one has to be told to
     # come back here rather than to that list.
     def menu_src(variant)
-      menu_type_variant_path(type_id: variant.type_id, id: variant.id, back_url: variants_path)
+      menu_type_variant_path(type_id: variant.type_id, id: variant.id, back_url: variants_path,
+                             list_context: LIST_CONTEXT, query:, created_by_migration:)
     end
 
     def variants_path = type_variants_path(type_id: type.id, query:, created_by_migration:)
