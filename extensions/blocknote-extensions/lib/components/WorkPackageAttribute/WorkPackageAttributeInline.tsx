@@ -36,7 +36,7 @@ function ResolvedAttributeInline({ content, editor, contentRef, onDisplayChange 
     onActivate: () => selectAttributeNode(),
   });
 
-  const inSelection = useIsNodeInSelection(elementRef, editor);
+  const inSelection = useIsNodeInSelection(elementRef, editor, INLINE_WP_ATTRIBUTE_TYPE);
 
   function selectAttributeNode() {
     if (editor && elementRef.current) selectInlineChipAtDOM(editor, elementRef.current, INLINE_WP_ATTRIBUTE_TYPE);
