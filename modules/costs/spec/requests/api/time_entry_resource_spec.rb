@@ -586,7 +586,7 @@ RSpec.describe "API v3 time_entry resource" do
       end
 
       let(:params) do
-        super().merge({ ongoing: true })
+        super().merge({ ongoing: true, hours: nil })
       end
 
       it "returns 422 and remarks that another time entry is ongoing" do

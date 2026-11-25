@@ -56,6 +56,10 @@ class TimeEntry < ApplicationRecord
             if: -> { !ongoing? }
 
   validates :hours,
+            absence: true,
+            if: :ongoing?
+
+  validates :hours,
             numericality: {
               message: :invalid
             },

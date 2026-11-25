@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -25,4 +27,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class TimeEntries::UpdateService < BaseServices::Update; end
+class TimeEntries::UpdateService < BaseServices::Update
+  protected
+
+  def after_persist(call)
+    call.add_dependent!(TimeEntries::AdjustRemainingWorkService.new(user:, time_entry: call.result).call)
+    call
+  end
+end

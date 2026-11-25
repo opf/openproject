@@ -198,8 +198,20 @@ en:
         none_active: "No cost types are currently active in this project."
       time_and_costs: "Time and costs"
       time_entry_activities:
-        heading: "Time tracking"
+        heading: "Activities"
         hint: "Select which time tracking activities are displayed in your project when members log their time."
+      time_tracking:
+        heading: "Time tracking"
+        logged_time_reduces_remaining_work: "Logged time reduces remaining work"
+        logged_time_reduces_remaining_work_caption: >-
+          Logging time on a work package reduces its remaining work by the logged hours, down to 0h.
+          Editing or deleting the time entry adjusts remaining work accordingly.
+        remaining_work_read_only: "Remaining work cannot be edited manually"
+        remaining_work_read_only_caption: >-
+          Remaining work and % Complete can only be changed by logging time or by changing work.
+        status_based_mode_hint: >-
+          These settings are not available because progress is calculated based on status.
+          Remaining work is then derived from the status of a work package.
 
   costs:
     widgets:

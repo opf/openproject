@@ -4209,6 +4209,7 @@ en:
       forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: "Imported"
       label_deleted: "Label removed:"
+      logged_time_changed: "Remaining work updated by logged time"
       meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
       meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
@@ -8358,6 +8359,7 @@ en:
         migration_warning_text: "In work-based progress calculation mode, % Complete cannot be manually set and is tied to Work. The existing value has been kept but cannot be edited. Please input Work first."
         status_based_help_text: "% Complete is set by work package status."
         work_based_help_text: "Each field is automatically calculated from the two others when possible."
+      read_only_hint: "Updated by logging time."
     reminders:
       create_success_message_html: "Reminder set successfully. You will receive a notification for this work package %{reminder_time}."
       label_remind_at: "Date"

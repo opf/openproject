@@ -74,6 +74,7 @@ module Costs
 
         permission :manage_project_activities,
                    {
+                     "projects/settings/time_and_costs": %i[show],
                      "projects/settings/time_entry_activities": %i[show toggle],
                      "projects/settings/cost_types": %i[index toggle]
                    },
@@ -193,6 +194,18 @@ module Costs
       ::Settings::Definition.add "time_entries_past_month_grace_days", default: 0, format: :integer, allowed: (0..)
     end
 
+    initializer "costs.permissions" do
+      Rails.application.reloader.to_prepare do
+        OpenProject::AccessControl.permission(:edit_project)
+          .controller_actions
+          .push(
+            "projects/settings/time_and_costs/show",
+            "projects/settings/time_tracking/show",
+            "projects/settings/time_tracking/update"
+          )
+      end
+    end
+
     activity_provider :time_entries, class_name: "Activities::TimeEntryActivityProvider", default: false
 
     replace_principal_references "CostEntry" => %i[logged_by_id user_id]
@@ -202,10 +215,12 @@ module Costs
     include_module "PermittedParams::Costs", into: "PermittedParams"
     include_module "WorkPackages::Costs", into: "WorkPackage"
     include_module "WorkPackages::SpentTime", into: "WorkPackage"
+    include_module "WorkPackages::RemainingWorkReadOnly", into: "WorkPackages::BaseContract"
 
     prepend_module "Costs::ConfiguredCurrency", into: "ActiveSupport::NumberHelper::NumberToCurrencyConverter"
     prepend_module "Members::TableCurrentUser", into: "MembersController"
     prepend_module "Members::CurrentRateColumn", into: "Members::TableComponent"
+    prepend_module "Projects::DefaultRemainingWorkSettings", into: "Projects::SetAttributesService"
     prepend_module "Members::CurrentRateCell", into: "Members::RowComponent"
 
     add_tab_entry :user,

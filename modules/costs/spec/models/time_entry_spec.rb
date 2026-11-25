@@ -437,6 +437,26 @@ RSpec.describe TimeEntry do
 
     it { is_expected.to validate_inclusion_of(:entity_type).in_array(described_class::ALLOWED_ENTITY_TYPES).allow_blank }
 
+    describe "hours" do
+      it "requires hours when the timer is not running" do
+        time_entry.hours = nil
+        expect(time_entry).not_to be_valid
+        expect(time_entry.errors.symbols_for(:hours)).to include(:blank)
+      end
+
+      it "forbids hours while the timer is running" do
+        time_entry.ongoing = true
+        expect(time_entry).not_to be_valid
+        expect(time_entry.errors.symbols_for(:hours)).to include(:present)
+      end
+
+      it "allows a running timer without hours" do
+        time_entry.ongoing = true
+        time_entry.hours = nil
+        expect(time_entry).to be_valid
+      end
+    end
+
     describe "start_time" do
       it "allows blank values" do
         time_entry.start_time = nil
@@ -725,7 +745,7 @@ RSpec.describe TimeEntry do
 
       context "for a new ongoing entry" do
         let!(:new_model_instance) do
-          build(:time_entry, entity: work_package, spent_on: date, hours:, user:, ongoing: true)
+          build(:time_entry, entity: work_package, spent_on: date, user:, ongoing: true)
         end
 
         it "does not validate presence of the custom field" do
@@ -751,7 +771,7 @@ RSpec.describe TimeEntry do
 
       context "for a persisted ongoing entry" do
         let!(:new_model_instance) do
-          create(:time_entry, entity: work_package, spent_on: date, hours:, user:, ongoing: true)
+          create(:time_entry, entity: work_package, spent_on: date, user:, ongoing: true)
         end
 
         it "validates presence of the custom field" do
