@@ -25,11 +25,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { fireEvent, waitFor } from '@testing-library/dom';
+import type { MockInstance } from 'vitest';
+import { fireEvent, screen, waitFor } from '@testing-library/dom';
 import { TestBed } from '@angular/core/testing';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { buildTable, TableHarness, TableHarnessOptions } from 'core-app/features/work-packages/components/wp-fast-table/testing/table-harness';
 import { KeyboardShortcutService } from './keyboard-shortcut.service';
@@ -38,6 +38,25 @@ describe('KeyboardShortcutService', () => {
   let service:KeyboardShortcutService;
   const harnesses:TableHarness[] = [];
   const outsideButtons:HTMLButtonElement[] = [];
+
+  let fixture:HTMLElement;
+  let projectMeta:HTMLMetaElement|undefined;
+  let visit:MockInstance<typeof Turbo.visit>;
+
+  const inProject = (identifier:string) => {
+    projectMeta = document.createElement('meta');
+    projectMeta.name = 'current_project';
+    projectMeta.dataset.projectId = '1';
+    projectMeta.dataset.projectName = 'Demo';
+    projectMeta.dataset.projectIdentifier = identifier;
+    document.head.append(projectMeta);
+  };
+
+  const followed = (name:string) => {
+    const onClick = vi.fn((event:Event) => event.preventDefault());
+    screen.getByRole('link', { name }).addEventListener('click', onClick);
+    return onClick;
+  };
 
   const outsideButton = () => {
     const button = document.createElement('button');
@@ -61,18 +80,24 @@ describe('KeyboardShortcutService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: PathHelperService, useValue: {} },
         { provide: FocusHelperService, useValue: {} },
-        { provide: CurrentProjectService, useValue: {} },
+        { provide: ApiV3Service, useValue: {} },
         { provide: ConfigurationService, useValue: {} },
       ],
     });
     service = TestBed.inject(KeyboardShortcutService);
+    fixture = document.createElement('div');
+    document.body.append(fixture);
+    visit = vi.spyOn(Turbo, 'visit').mockImplementation(() => undefined);
   });
 
   afterEach(async () => {
     await Promise.all(harnesses.splice(0).map((table) => table.destroy()));
     outsideButtons.splice(0).forEach((button) => button.remove());
+    visit.mockRestore();
+    fixture.remove();
+    projectMeta?.remove();
+    projectMeta = undefined;
   });
 
   describe('focusNextItem', () => {
@@ -286,6 +311,105 @@ describe('KeyboardShortcutService', () => {
 
       expect(log).toHaveBeenCalledWith('No element with access key 7 (moreMenu)');
       log.mockRestore();
+    });
+  });
+
+  describe('menuLink', () => {
+    const sidebar = (html:string) => {
+      fixture.insertAdjacentHTML('beforeend', `<nav id="main-menu" aria-label="Sidebar">${html}</nav>`);
+    };
+
+    const modulesMenu = (html:string) => {
+      fixture.insertAdjacentHTML('beforeend', `<ul id="op-app-header--modules-menu-list">${html}</ul>`);
+    };
+
+    it('in a project, follows the sidebar link with the menu item class', () => {
+      inProject('demo');
+      sidebar('<a class="news-menu-item" href="/projects/demo/news">News</a>');
+      const news = followed('News');
+
+      service.menuLink('news')();
+
+      expect(news).toHaveBeenCalledOnce();
+      expect(visit).not.toHaveBeenCalled();
+    });
+
+    it('in a project, does nothing when the rendered sidebar lacks the link, even if the modules menu has it', () => {
+      inProject('demo');
+      sidebar('<a class="activity-menu-item" href="/projects/demo/activity">Activity</a>');
+      modulesMenu('<li><a href="/news">News</a></li>');
+      const globalNews = followed('News');
+
+      service.menuLink('news')();
+
+      expect(globalNews).not.toHaveBeenCalled();
+      expect(visit).not.toHaveBeenCalled();
+    });
+
+    it('in a project without a sidebar, goes to the project path', () => {
+      inProject('demo');
+      modulesMenu('<li><a href="/news">News</a></li>');
+      const globalNews = followed('News');
+
+      service.menuLink('news')();
+
+      expect(visit).toHaveBeenCalledOnce();
+      expect(visit.mock.calls[0][0]).toBe('/projects/demo/news');
+      expect(globalNews).not.toHaveBeenCalled();
+    });
+
+    it('in a project, goes to the wiki path when the sidebar has a wiki main item', () => {
+      inProject('demo');
+      sidebar('<a class="wiki-menu--main-item" href="/projects/demo/wiki/other">Other</a>');
+      const other = followed('Other');
+
+      service.menuLink('wiki')();
+
+      expect(visit).toHaveBeenCalledOnce();
+      expect(visit.mock.calls[0][0]).toBe('/projects/demo/wiki');
+      expect(other).not.toHaveBeenCalled();
+    });
+
+    it('in a project, does nothing for wiki when the sidebar has no wiki main item', () => {
+      inProject('demo');
+      sidebar('<a class="news-menu-item" href="/projects/demo/news">News</a>');
+      const news = followed('News');
+
+      service.menuLink('wiki')();
+
+      expect(visit).not.toHaveBeenCalled();
+      expect(news).not.toHaveBeenCalled();
+    });
+
+    it('outside a project, follows the modules menu link by href suffix', () => {
+      modulesMenu('<li><a href="/op/news">News</a></li><li><a href="/op/wiki_pages">Wikis</a></li>');
+      const news = followed('News');
+      const wikis = followed('Wikis');
+
+      service.menuLink('news')();
+
+      expect(news).toHaveBeenCalledOnce();
+      expect(wikis).not.toHaveBeenCalled();
+    });
+
+    it('outside a project, does nothing when the modules menu lacks the link', () => {
+      modulesMenu('<li><a href="/activity">Activity</a></li>');
+      const activity = followed('Activity');
+
+      service.menuLink('news')();
+
+      expect(activity).not.toHaveBeenCalled();
+      expect(visit).not.toHaveBeenCalled();
+    });
+
+    it('outside a project, does nothing for overview', () => {
+      modulesMenu('<li><a href="/projects">Projects</a></li>');
+      const projects = followed('Projects');
+
+      service.menuLink('overview')();
+
+      expect(projects).not.toHaveBeenCalled();
+      expect(visit).not.toHaveBeenCalled();
     });
   });
 });

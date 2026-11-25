@@ -43,6 +43,29 @@ const accessKeys = {
   details: 8,
 };
 
+type MenuTarget = 'overview'|'work-packages'|'activity'|'calendar-view'|'news'|'wiki';
+
+const projectPaths = {
+  overview: 'projectPath',
+  'work-packages': 'workPackagesPath',
+  activity: 'projectActivityPath',
+  'calendar-view': 'projectCalendarPath',
+  news: 'projectNewsPath',
+  wiki: 'projectWikiPath',
+} as const satisfies Record<MenuTarget, keyof PathHelperService>;
+
+const globalPathSuffixes:Record<MenuTarget, string|null> = {
+  overview: null,
+  'work-packages': '/work_packages',
+  activity: '/activity',
+  'calendar-view': '/calendars',
+  news: '/news',
+  wiki: '/wiki_pages',
+};
+
+const projectMenuSelector = '#main-menu';
+const modulesMenuSelector = '#op-app-header--modules-menu-list';
+
 // this could be extracted into a separate component if it grows
 const accessibleListSelector = 'table.keyboard-accessible-list';
 
@@ -58,13 +81,13 @@ export class KeyboardShortcutService {
   private readonly dispatcher = new HotkeyDispatcher({
     '?': () => this.showHelpModal(),
     'Shift+?': () => this.showHelpModal(),
-    'g m': this.globalAction('myPagePath'),
-    'g o': this.projectScoped('projectPath'),
-    'g w p': this.projectScoped('workPackagesPath'),
-    'g w i': this.projectScoped('projectWikiPath'),
-    'g a': this.projectScoped('projectActivityPath'),
-    'g c': this.projectScoped('projectCalendarPath'),
-    'g n': this.projectScoped('projectNewsPath'),
+    'g m': () => Turbo.visit(this.PathHelper.myPagePath()),
+    'g o': this.menuLink('overview'),
+    'g w p': this.menuLink('work-packages'),
+    'g w i': this.menuLink('wiki'),
+    'g a': this.menuLink('activity'),
+    'g c': this.menuLink('calendar-view'),
+    'g n': this.menuLink('news'),
     'n w p': this.projectScoped('projectWorkPackageNewPath'),
 
     'g e': this.accessKey('edit'),
@@ -109,10 +132,40 @@ export class KeyboardShortcutService {
     };
   }
 
-  public globalAction(action:keyof PathHelperService) {
+  /**
+   * Opens the page behind a menu item: the project's page inside a project, the global page outside of one.
+   * Does nothing when the menu that is rendered does not offer the page, for example for a disabled module.
+   */
+  public menuLink(target:MenuTarget):() => void {
     return ():void => {
-      window.location.href = (this.PathHelper[action] as () => string)();
+      const projectIdentifier = this.currentProject.identifier;
+      if (projectIdentifier) {
+        this.openProjectPage(target, projectIdentifier);
+      } else {
+        this.openGlobalPage(target);
+      }
     };
+  }
+
+  private openProjectPage(target:MenuTarget, projectIdentifier:string):void {
+    const projectPath = this.PathHelper[projectPaths[target]](projectIdentifier);
+    const menu = document.querySelector(projectMenuSelector);
+    if (!menu) {
+      Turbo.visit(projectPath);
+    } else if (target === 'wiki') {
+      if (menu.querySelector('a.wiki-menu--main-item')) {
+        Turbo.visit(projectPath);
+      }
+    } else {
+      menu.querySelector<HTMLAnchorElement>(`a.${target}-menu-item`)?.click();
+    }
+  }
+
+  private openGlobalPage(target:MenuTarget):void {
+    const suffix = globalPathSuffixes[target];
+    if (suffix) {
+      document.querySelector<HTMLAnchorElement>(`${modulesMenuSelector} a[href$="${suffix}"]`)?.click();
+    }
   }
 
   public projectScoped(action:keyof PathHelperService) {
