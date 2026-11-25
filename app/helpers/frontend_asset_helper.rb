@@ -95,15 +95,18 @@ module FrontendAssetHelper
   # compute_asset_path only catches an exact-prefix match, not one where relative_url_root
   # has a trailing slash).
   def raw_variable_asset_path(path)
-    # SPIKE: asset_path already includes relative_url_root.
-    variable_asset_path(path)
+    base_path = variable_asset_path(path)
+    return base_path if FrontendAssetHelper.assets_proxied?
+
+    File.join(Rails.application.config.relative_url_root.to_s, base_path)
   end
 
   private
 
   def lookup_frontend_asset(unhashed_file_name)
     # SPIKE: Propshaft resolves the digested name; no own manifest.
-    asset_path("frontend/#{unhashed_file_name}")
+    Rails.application.assets.resolver.resolve("frontend/#{unhashed_file_name}") ||
+      frontend_asset_path(unhashed_file_name)
   end
 
   def frontend_asset_path(file_name)
