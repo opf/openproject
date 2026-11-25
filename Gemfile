@@ -122,7 +122,7 @@ gem "multi_json", "~> 1.21.2"
 
 gem "good_job", "~> 4.19.3" # update should be done manually in sync with saas-openproject version.
 
-gem "rack-protection", "~> 3.2.0"
+gem "rack-protection", "~> 4.2.2"
 
 # Rack::Attack is a rack middleware to protect your web app from bad clients.
 # It allows whitelisting, blacklisting, throttling, and tracking based
