@@ -109,6 +109,7 @@ de:
         maintained_with_changes: Änderungen erhalten
         no_longer_meets_filter_criteria: Erfüllt Filterkriterien nicht mehr
         now_meets_filter_criteria: Erfüllt nun die Filterkriterien
+        state_at: State at
       show_changes_since: Änderungen anzeigen ab
       time: Zeit
       time_description: 'In Ihrer Ortszeit: %{datetime}'
@@ -538,10 +539,10 @@ de:
     label_open_context_menu: Kontextmenü öffnen
     label_open_menu: Menü öffnen
     label_open_work_packages: offen
-    label_origin: Origin
+    label_origin: Ursprung
     label_origin_id: ID
     label_origin_jira_data_center: Jira Data Center
-    label_origin_source: Source
+    label_origin_source: Quelle
     label_password: Passwort
     label_per_page: 'Pro Seite:'
     label_please_wait: Bitte warten
@@ -575,9 +576,9 @@ de:
     label_show_in_menu: Ansicht im Seitenmenü anzeigen
     label_sort_by: Sortieren nach
     label_sort_higher: Nach oben verschieben
-    label_sort_highest: Move to top
+    label_sort_highest: Nach oben verschieben
     label_sort_lower: Nach unten verschieben
-    label_sort_lowest: Move to bottom
+    label_sort_lowest: Nach unten verschieben
     label_sorted_by: sortiert nach
     label_sorting: Sortierung
     label_spent_time: Aufgewendete Zeit
@@ -774,8 +775,10 @@ de:
       create_new: Neu erstellen
       group_by_relation_type: Nach Relations-Typ gruppieren
       group_by_wp_type: Nach Arbeitspaket-Typ gruppieren
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: In Hierarchie einrücken
       hierarchy_outdent: Aus Hierarchie ausrücken
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Beziehung entfernen
       remove_child: Unteraufgabe entfernen
       remove_parent: Übergeordnetes Arbeitspaket entfernen
@@ -904,7 +907,7 @@ de:
       label_two_factor_authentication: Zwei-Faktor-Authentifizierung
     units:
       child_work_packages:
-        one: "%{count} child work package"
+        one: "%{count} untergeordnetes Arbeitspaket"
         other: "%{count} untergeordnete Arbeitspakete"
       day:
         one: "%{count} Tag"
@@ -916,7 +919,7 @@ de:
         zero: 0 h
       hour_string: "%{hours} h"
       word:
-        one: "%{count} word"
+        one: "%{count} Wort"
         other: "%{count} Wörter"
       workPackage:
         one: Arbeitspaket
@@ -1014,6 +1017,7 @@ de:
         label_pagination: Hier klicken, um über die Tabelle der Arbeitspakete hinweg zur Seitennavigation zu springen
         pagination: Zur Seitennavigation springen
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Kombiniertes Eingabefeld: Auswahl mit Pfeiltasten, Auslösen mit Enter, Löschen mit Backspace'
       label_disable_multi_select: Mehrfachauswahl deaktivieren
       label_enable_multi_select: Mehrfachauswahl aktivieren
@@ -1131,7 +1135,7 @@ de:
         sort_criterion_ascending: "%{column} ascending"
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
-        sorted_manually: Sorted manually.
+        sorted_manually: Manuell sortiert.
       table_configuration:
         button: Konfigurieren Sie diese Arbeitspaket-Tabelle
         choose_display_mode: Arbeitspakete anzeigen als

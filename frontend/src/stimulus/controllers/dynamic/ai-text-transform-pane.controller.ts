@@ -350,7 +350,7 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
   }
 
   private buttonsOf(formId:string):HTMLButtonElement[] {
-    return Array.from(this.element.querySelectorAll<HTMLButtonElement>(`button[form="${formId}"]`));
+    return Array.from(this.element.querySelectorAll<HTMLButtonElement>(`button[form="${CSS.escape(formId)}"]`));
   }
 
   private setButtonsDisabled(formId:string, disabled:boolean):void {

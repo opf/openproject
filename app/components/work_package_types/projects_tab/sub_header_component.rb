@@ -104,7 +104,7 @@ module WorkPackageTypes
       def enabled_everywhere?
         return @enabled_everywhere unless @enabled_everywhere.nil?
 
-        @enabled_everywhere = ProjectType.where(variant_id: variant.id).count == ::Project.count
+        @enabled_everywhere = variant.projects.active.count == ::Project.active.count
       end
     end
   end

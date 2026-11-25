@@ -961,7 +961,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       context "with caching where the first user is allowed and the second is not allowed to see the reference" do
         let(:permissions) { all_permissions - [:view_project_phases] }
         let(:admin) { build_stubbed(:admin) }
-        let(:cache_enabled) { true }
 
         before do
           described_class
@@ -2003,6 +2002,49 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
       expect(OpenProject::Cache)
         .to have_received(:fetch).with(representer.json_cache_key)
+    end
+
+    context "with an admin-only custom field" do
+      let(:admin) { build_stubbed(:admin) }
+      let(:public_custom_field) { build_stubbed(:string_wp_custom_field) }
+      let(:admin_only_custom_field) { build_stubbed(:string_wp_custom_field, admin_only: true) }
+      let(:available_custom_fields) { [public_custom_field, admin_only_custom_field] }
+      let(:custom_field_values) do
+        [
+          build_stubbed(:custom_value, custom_field: public_custom_field, value: "public value"),
+          build_stubbed(:custom_value, custom_field: admin_only_custom_field, value: "admin-only value")
+        ]
+      end
+      let(:admin_representer) { described_class.create(work_package, current_user: admin, embed_links:) }
+
+      context "when an admin's response is cached before a non-admin reads it" do
+        before do
+          admin_representer.to_json
+        end
+
+        it "does not disclose the admin-only custom field to the non-admin" do
+          expect(subject).not_to have_json_path(admin_only_custom_field.attribute_name(:camel_case))
+          expect(subject).not_to include("admin-only value")
+        end
+
+        it "renders the public custom field to the non-admin" do
+          expect(subject)
+            .to be_json_eql("public value".to_json)
+                  .at_path(public_custom_field.attribute_name(:camel_case))
+        end
+      end
+
+      context "when a non-admin's response is cached before an admin reads it" do
+        before do
+          representer.to_json
+        end
+
+        it "renders the admin-only custom field to the admin" do
+          expect(admin_representer.to_json)
+            .to be_json_eql("admin-only value".to_json)
+                  .at_path(admin_only_custom_field.attribute_name(:camel_case))
+        end
+      end
     end
 
     describe "#json_cache_key" do

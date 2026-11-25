@@ -329,7 +329,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
   }
 
   private setLabel() {
-    const label = document.querySelector<HTMLLabelElement>(`label[for=${this.textAreaId}]`);
+    const label = this.wrappedTextArea.labels?.[0];
     if (!label) {
       console.error(`Please provide a label for the textarea with id ${this.textAreaId}`);
       return;

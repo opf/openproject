@@ -45,6 +45,7 @@ el:
       end_time: Ώρα λήξης
       start_time: Ώρα έναρξης
       title: Your Cost Reports XLS export
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: Export PDF timesheet
       overview_per_user_day: 'Επισκόπηση: Ώρες ανά χρήστη ανά ημέρα'
@@ -53,6 +54,11 @@ el:
       time: Ώρα
       timesheet: Timesheet
       title: Your PDF timesheet export
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    one: "%{filter} requires a value."
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: Ανάλογα με τα δικαιώματα σας, αυτή σελίδα μπορεί να περιέχει περιορισμένες λεπτομέρειες.
   label_click_to_edit: Κάντε κλικ για επεξεργασία.
   label_closed: κλειστό
@@ -113,5 +119,3 @@ el:
   text_costs_are_rounded_note: Οι τιμές που εμφανίζονται είναι στρογγυλοποιημένες. Όλοι οι υπολογισμοί είναι με βάση τις μη-στρογγυλοποιημένες τιμές.
   toggle_multiselect: ενεργοποίηση/απενεργοποίηση πολλαπλή επιλογής
   units: Μονάδες
-  validation_failure_date: δεν είναι έγκυρη ημερομηνία
-  validation_failure_integer: δεν είναι έγκυρος ακέραιος αριθμός

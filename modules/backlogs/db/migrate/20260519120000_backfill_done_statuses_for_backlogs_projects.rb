@@ -29,15 +29,20 @@
 
 class BackfillDoneStatusesForBacklogsProjects < ActiveRecord::Migration[8.1]
   def up
-    mandatory_ids = select_values("SELECT id FROM statuses WHERE is_closed = true;")
-    return if mandatory_ids.empty?
-
-    Project
-      .joins(:enabled_modules)
-      .where(enabled_modules: { name: "backlogs" })
-      .find_each do |project|
-        project.done_status_ids = (project.done_status_ids | mandatory_ids)
-      end
+    execute <<~SQL.squish
+      INSERT INTO done_statuses_for_project (project_id, status_id)
+      SELECT DISTINCT projects.id, statuses.id
+      FROM projects
+      JOIN enabled_modules ON enabled_modules.project_id = projects.id AND enabled_modules.name = 'backlogs'
+      CROSS JOIN statuses
+      WHERE statuses.is_closed
+        AND NOT EXISTS (
+          SELECT 1
+          FROM done_statuses_for_project existing
+          WHERE existing.project_id = projects.id
+            AND existing.status_id = statuses.id
+        )
+    SQL
   end
 
   def down; end

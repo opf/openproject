@@ -1,4 +1,5 @@
 <div
+  #cardElement
   class="op-wp-single-card"
   data-test-selector="op-wp-single-card"
   data-tour-selector="op-wp-single-card"
@@ -14,6 +15,7 @@
   (keydown.space)="activateCard($event)"
   (dblclick)="emitPointerEvent(cardDblClicked, $event)"
   (contextmenu)="emitPointerEvent(cardContextMenu, $event)"
+  (focusout)="saveNewCardOnFocusOut()"
   >
 
   <div class="op-wp-single-card--highlighting"
@@ -44,6 +46,7 @@
           title=""
           opTooltip
           [label]="text.removeCard"
+          (mousedown)="$event.preventDefault()"
           (click)="onRemoved(workPackage)">
           <op-icon icon-classes="icon-context icon-close" />
         </button>
@@ -59,7 +62,8 @@
   </div>
 
   @if (isNewResource(workPackage)) {
-    <edit-form [resource]="workPackage"
+    <edit-form #newCardEditForm
+      [resource]="workPackage"
       [inEditMode]="isNewResource(workPackage)"
       >
       <div class="op-wp-single-card-content -new">

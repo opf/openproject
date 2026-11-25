@@ -58,6 +58,7 @@ fa:
       messages:
         cannot_start_while_receiving_shared_sprints: تا زمانی که پروژه اسپرینت‌های اشتراکی دریافت می‌کند، قابل شروع نیست.
         dates_required: برای شروع اسپرینت، تاریخ شروع و پایان الزامی است.
+        finish_date_in_past: cannot be started as long as the planned finish date is in the past.
         must_be_in_planning: برای شروع باید در وضعیت برنامه‌ریزی باشد.
         only_one_active_sprint_allowed: برای هر پروژه فقط یک اسپرینت فعال مجاز است.
       models:
@@ -206,6 +207,7 @@ fa:
       label_complete_sprint: تکمیل اسپرینت
       label_start_sprint: شروع اسپرینت
       start_sprint_disabled_reason_active_sprint: یک اسپرینت دیگر از قبل فعال است.
+      start_sprint_disabled_reason_finish_date_in_past: The planned finish date is in the past. Correct the sprint dates first.
       start_sprint_disabled_reason_missing_dates: برای شروع اسپرینت، تاریخ شروع و پایان الزامی است.
       start_sprint_disabled_reason_receiving_shared_sprints: تا زمانی که این پروژه اسپرینت‌های اشتراکی دریافت می‌کند، اسپرینت‌های خود پروژه قابل شروع نیستند.
       start_sprint_disabled_reason_shared_sprint: این اسپرینت متعلق به پروژه دیگری است که از چند اسپرینت فعال پشتیبانی نمی‌کند.
@@ -218,6 +220,7 @@ fa:
     sprint_reports:
       header_infoline_component:
         planned_html: 'Planned: %{range}'
+        started_at: 'Start time:'
       missing_dates_blankslate_component:
         description: Sprint start and finish dates are necessary for the report to show.
         heading: Missing sprint dates
@@ -283,11 +286,8 @@ fa:
         epic_progress:
           blankslate:
             no_epics:
-              description: The epic progress chart will appear here once the sprint has received a work package tied to an epic.
+              description: The epic progress chart will appear here once the sprint contains work packages tied to an epic.
               heading: No epics to display
-            no_work:
-              description: The epic progress chart will appear here once the sprint has received a work package tied to an epic.
-              heading: No work to display
           card:
             progress:
               story_points:
@@ -448,10 +448,6 @@ fa:
         unexpected_failure: بسته‌های کاری قابل جابه‌جایی نبودند. لطفاً دوباره تلاش کنید.
       move:
         moved_announcement: "%{label} به %{list}، موقعیت %{position} از %{total} منتقل شد"
-      move_to_bucket_dialog:
-        no_available_destinations: There are no available backlog buckets for these work packages.
-      move_to_sprint_dialog:
-        no_available_destinations: There are no available sprints for these work packages.
       move_collection:
         invalid_ids: فهرست بسته‌های کاری برای جابه‌جایی نامعتبر است.
         member_failed: "%{work_package}: %{reason}"
@@ -460,6 +456,10 @@ fa:
           other: "%{count} work packages moved to %{list}, positions %{first} through %{last} of %{total}"
         too_many_work_packages: در هر بار نمی‌توان بیش از %{max} بسته کاری را جابه‌جا کرد.
         work_packages_not_found: حداقل یک بسته کاری در این پروژه پیدا نشد.
+      move_to_bucket_dialog:
+        no_available_destinations: There are no available backlog buckets for these work packages.
+      move_to_sprint_dialog:
+        no_available_destinations: There are no available sprints for these work packages.
       update_service:
         invalid_target_type: 'list_type باید یکی از این مقادیر باشد: backlog_bucket همراه با list_id، sprint همراه با list_id، یا inbox بدون list_id.'
         missing_target: list_type یا list_id باید موجود باشد.

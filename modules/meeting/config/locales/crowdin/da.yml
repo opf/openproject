@@ -86,7 +86,7 @@ da:
         start_time: Starttidspunkt
     errors:
       messages:
-        invalid_time_format: 'er ikke et gyldigt klokkeslæt. Påkrævet format: TT:MM'
+        invalid_time_format: er ikke et gyldigt klokkeslæt. Formatet skal være TT:MM
       models:
         meeting_agenda_item:
           meeting_closed: Mødet er lukket. Dets dagsordenspunkter kan ikke længere flyttes.

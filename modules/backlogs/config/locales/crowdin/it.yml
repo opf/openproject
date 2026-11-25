@@ -58,6 +58,7 @@ it:
       messages:
         cannot_start_while_receiving_shared_sprints: non può essere avviato mentre il progetto riceve sprint condivisi.
         dates_required: Per avviare lo sprint sono necessarie le date di inizio e fine.
+        finish_date_in_past: cannot be started as long as the planned finish date is in the past.
         must_be_in_planning: deve essere in pianificazione per iniziare.
         only_one_active_sprint_allowed: è consentito un solo sprint attivo per progetto.
       models:
@@ -206,6 +207,7 @@ it:
       label_complete_sprint: Completa lo sprint
       label_start_sprint: Avvia sprint
       start_sprint_disabled_reason_active_sprint: Un altro sprint è già attivo.
+      start_sprint_disabled_reason_finish_date_in_past: The planned finish date is in the past. Correct the sprint dates first.
       start_sprint_disabled_reason_missing_dates: Per avviare lo sprint sono necessarie le date di inizio e fine.
       start_sprint_disabled_reason_receiving_shared_sprints: Non è possibile avviare gli sprint di questo progetto mentre riceve sprint condivisi.
       start_sprint_disabled_reason_shared_sprint: Questo sprint appartiene a un altro progetto che non supporta più sprint attivi.
@@ -218,6 +220,7 @@ it:
     sprint_reports:
       header_infoline_component:
         planned_html: 'Planned: %{range}'
+        started_at: 'Start time:'
       missing_dates_blankslate_component:
         description: Sprint start and finish dates are necessary for the report to show.
         heading: Missing sprint dates
@@ -283,11 +286,8 @@ it:
         epic_progress:
           blankslate:
             no_epics:
-              description: The epic progress chart will appear here once the sprint has received a work package tied to an epic.
+              description: The epic progress chart will appear here once the sprint contains work packages tied to an epic.
               heading: No epics to display
-            no_work:
-              description: The epic progress chart will appear here once the sprint has received a work package tied to an epic.
-              heading: No work to display
           card:
             progress:
               story_points:
@@ -448,10 +448,6 @@ it:
         unexpected_failure: Non è stato possibile spostare le macro-attività. Riprova.
       move:
         moved_announcement: "%{label} spostato in %{list}, posizione %{position} di %{total}"
-      move_to_bucket_dialog:
-        no_available_destinations: There are no available backlog buckets for these work packages.
-      move_to_sprint_dialog:
-        no_available_destinations: There are no available sprints for these work packages.
       move_collection:
         invalid_ids: L'elenco delle macro-attività da spostare non è valido.
         member_failed: "%{work_package}: %{reason}"
@@ -460,6 +456,10 @@ it:
           other: "%{count} macro-attività spostate in %{list}, nelle posizioni da %{first} a %{last} di %{total}"
         too_many_work_packages: Non è possibile spostare più di %{max} macro-attività alla volta.
         work_packages_not_found: Almeno una macro-attività non è stata trovata in questo progetto.
+      move_to_bucket_dialog:
+        no_available_destinations: There are no available backlog buckets for these work packages.
+      move_to_sprint_dialog:
+        no_available_destinations: There are no available sprints for these work packages.
       update_service:
         invalid_target_type: 'list_type deve essere uno dei seguenti valori: backlog_bucket con un list_id, sprint con un list_id oppure inbox senza list_id.'
         missing_target: È necessario che sia presente list_type o list_id.

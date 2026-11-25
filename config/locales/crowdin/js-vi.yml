@@ -109,6 +109,7 @@ vi:
         maintained_with_changes: Duy trì với những thay đổi
         no_longer_meets_filter_criteria: Không còn đáp ứng tiêu chí lọc
         now_meets_filter_criteria: Bây giờ đáp ứng tiêu chí lọc
+        state_at: State at
       show_changes_since: Hiển thị các thay đổi kể từ
       time: thời gian
       time_description: 'Theo giờ địa phương của bạn: %{datetime}'
@@ -771,8 +772,10 @@ vi:
       create_new: Tạo mới
       group_by_relation_type: Nhóm theo loại quan hệ
       group_by_wp_type: Nhóm theo loại gói công việc
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Thụt lề phân cấp
       hierarchy_outdent: Phân cấp vượt mức
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Xóa mối quan hệ
       remove_child: Xóa con
       remove_parent: Xóa cha mẹ
@@ -1006,6 +1009,7 @@ vi:
         label_pagination: Bấm vào đây để bỏ qua bảng gói công việc và chuyển sang phân trang
         pagination: Chuyển đến phân trang bảng
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Trường thả xuống kết hợp: Chọn bằng phím mũi tên, xác nhận lựa chọn bằng enter, xóa bằng phím lùi'
       label_disable_multi_select: Vô hiệu hóa nhiều lựa chọn
       label_enable_multi_select: Bật nhiều lựa chọn

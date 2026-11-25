@@ -49,6 +49,7 @@ lt:
       end_time: End time
       start_time: Pradžios laikas
       title: Jūsų kainos ataskaitų XLS eksportas
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: Export PDF timesheet
       overview_per_user_day: 'Overview: Hours per user per day'
@@ -57,6 +58,13 @@ lt:
       time: Laikas
       timesheet: Timesheet
       title: Your PDF timesheet export
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    one: "%{filter} requires a value."
+    few: "%{filter} requires %{count} values."
+    many: "%{filter} requires %{count} values."
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: Priklausomai nuo Jūsų teisių, šis puslapis gali turėti apribotos informacijos.
   label_click_to_edit: Spustelėkite, kad redaguoti.
   label_closed: uždaryta
@@ -117,5 +125,3 @@ lt:
   text_costs_are_rounded_note: Rodomos reikšmės yra suapvalintos. Visi apskaičiavimai remiasi nesuapvalintomis reikšmėmis.
   toggle_multiselect: įjungti/išjungti multipasirinkimą
   units: Vienetai
-  validation_failure_date: nėra tinkama data
-  validation_failure_integer: nėra tinkamas sveikas skaičius

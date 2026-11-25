@@ -43,6 +43,7 @@ id:
       end_time: Waktu selesai
       start_time: Waktu mulai
       title: Ekspor XLS Laporan Biaya Anda
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: Ekspor absensi PDF
       overview_per_user_day: 'Gambaran umum: Jam per pengguna per hari'
@@ -51,6 +52,10 @@ id:
       time: Waktu
       timesheet: Absensi
       title: Ekspor lembar waktu PDF Anda
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: Informasi yang tersedia pada laman ini disesuaikan dengan hak akses anda.
   label_click_to_edit: Klik untuk mengubah.
   label_closed: berakhir
@@ -111,5 +116,3 @@ id:
   text_costs_are_rounded_note: Tampilkan nilai pembulatan walaupun kalkulasi menggunakan nilai desimal.
   toggle_multiselect: aktif/non-aktif multiselect
   units: Unit
-  validation_failure_date: validasi tanggal gagal
-  validation_failure_integer: validasi bilangan bulat gagal

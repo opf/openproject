@@ -49,11 +49,12 @@ RSpec.describe "Created vs resolved chart widget", :js, with_ee: %i[sprint_repor
   context "when the sprint has a date range set" do
     shared_let(:sprint) do
       create(:sprint,
+             :active,
              project:,
              name: "Sprint 42",
              start_date: Date.yesterday,
-             finish_date: Date.tomorrow,
-             status: :active)
+             started_at: 1.day.ago,
+             finish_date: Date.tomorrow)
     end
     shared_let(:work_package) { create(:work_package, project:, sprint:) }
 

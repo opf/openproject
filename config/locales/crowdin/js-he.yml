@@ -109,6 +109,7 @@ he:
         maintained_with_changes: Maintained with changes
         no_longer_meets_filter_criteria: No longer meets filter criteria
         now_meets_filter_criteria: Now meets filter criteria
+        state_at: State at
       show_changes_since: Show changes since
       time: זמן
       time_description: 'In your local time: %{datetime}'
@@ -773,8 +774,10 @@ he:
       create_new: Create new
       group_by_relation_type: Group by relation type
       group_by_wp_type: Group by work package type
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Indent hierarchy
       hierarchy_outdent: Outdent hierarchy
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Remove relation
       remove_child: Remove child
       remove_parent: Remove parent
@@ -1018,6 +1021,7 @@ he:
         label_pagination: Click here to skip over the work packages table and go to pagination
         pagination: Jump to table pagination
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'השדה הנפתח משולב: בחר עם מקשי החצים, לאשר את הבחירה עם enter, למחוק עם backspace'
       label_disable_multi_select: בטל בחירה מרובה
       label_enable_multi_select: לאפשר בחירה מרובה

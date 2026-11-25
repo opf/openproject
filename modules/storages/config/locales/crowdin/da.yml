@@ -66,7 +66,7 @@ da:
             host:
               authorization_header_missing: er ikke sat helt op. Nextcloud-installationen modtager ikke headeren "Authorization", som er nødvendig for at godkende API-forespørgsler med et bearer-token. Tjek konfigurationen af din HTTP-server.
               cannot_be_connected_to: kunne ikke nås. Sørg for, at værten kan nås, og at appen OpenProject Integration er installeret.
-              minimal_nextcloud_version_not_met: opfylder ikke minimumskravet til versionen (Nextcloud %{minimal_version} eller nyere er påkrævet, men %{detected_version} blev fundet)
+              minimal_nextcloud_version_not_met: opfylder ikke minimumskravet til versionen (Nextcloud %{minimal_version} eller nyere kræves, men %{detected_version} blev fundet)
               not_nextcloud_server: er ikke en Nextcloud-server
               op_application_not_installed: ser ikke ud til at have appen "OpenProject integration" installeret. Installer den først, og prøv igen.
             password:
@@ -497,7 +497,7 @@ da:
         storage_ready: Du kan nu føje projekter til %{storage}
     oauth_grant_nudge_modal:
       cancel_button_label: Det gør jeg senere
-      heading: Login på %{provider_type} er påkrævet
+      heading: Login på %{provider_type} kræves
       login_button_accessible_name: Log ind på %{storage} med %{provider_type}
       login_button_label: Log ind på %{provider_type}
       project_settings:

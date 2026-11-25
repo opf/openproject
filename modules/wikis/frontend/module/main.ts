@@ -47,7 +47,7 @@ export function initializeWikiPlugin(injector:Injector) {
       component: WikisTabComponent,
       name: I18n.t('js.work_packages.tabs.wikis'),
       id: 'wikis',
-      displayable: (workPackage) => configService.wikisAvailable && configService.activeFeatureFlags.includes("wikiEnhancements"),
+      displayable: (workPackage) => configService.wikisAvailable,
     },
   );
 }

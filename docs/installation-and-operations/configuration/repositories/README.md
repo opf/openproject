@@ -17,6 +17,14 @@ Using the default configuration, OpenProject allows you to _link_ existing Subve
 
 After linking the repositories, you may browse the repository through OpenProject.
 
+### SSRF protection for remote repositories
+
+When a repository URL points to a remote host (e.g., `https://`, `svn://`, `svn+ssh://` or `git://`), OpenProject resolves the host and rejects the URL if it points to a private or reserved IP address. Local `file://` URLs and filesystem paths are not affected. To link a repository on an internal server, add its IP address or subnet to the allowlist as described in [SSRF protection](../ssrf-protection/).
+
+This check runs only when the repository URL is set, that is, when a repository is linked or its URL is changed. Repositories linked before this check was introduced are not re-validated until their URL is edited.
+
+The `svn` and `git` clients resolve the host themselves every time OpenProject accesses the repository. OpenProject therefore cannot guarantee that later requests reach the IP address that was checked, e.g., when the DNS record of the host changes after the repository was linked. If you do not need remote repositories, disable them for Subversion using `disabled_types: [:existing]` (see below).
+
 This functionality is extended with managed repositories, whose life spans are actively controlled by OpenProject. You can explicitly create local repositories for a project and configure repository access using permission the existing access-control functionality on a per-project level.
 
 ## Managed Repositories
