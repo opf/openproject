@@ -18,7 +18,7 @@ The `structure` action allows you to sort a block of text into the work package'
 * Template sections should best be created using the headings.
 * Guidance for a section should be italicized text right under the section heading. During the sorting process, guidance for filled out sections will be removed and those that do not have content yet will stay. These guidance lines are used by both users and the AI assistant
 
-## Writing prompts for ai text actions
+## Writing actions for AI Text Assistant
 
 When it comes to writing prompts, there is no easy answer. We have optimized our prompts on a set of work packages against a number of goals such as 
 * staying faithful to the original content
