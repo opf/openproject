@@ -929,7 +929,7 @@ RSpec.describe Journable::WithHistoricAttributes,
 
     let(:work_package) do
       create(:work_package,
-             subject: "The categorised work package",
+             subject: "The categorized work package",
              project:,
              category: category_a,
              journals: {
