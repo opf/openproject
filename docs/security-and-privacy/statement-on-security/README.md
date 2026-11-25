@@ -128,6 +128,7 @@ When we receive vulnerability reports from researchers or through internal ident
 10. The advisory with full details and full release notes are published and if needed, a CVE is requested
     - for **low** and **medium** vulnerabilities: with the release.
     - for **high** and **critical** vulnerabilities: 24 hours after the release.
+
 ### How long does it take to fix a security issue?
 
 We fix **critical** and **high** vulnerabilities as soon as possible, and at the latest **14 calendar days** after we confirm the vulnerability. The fix will be made available as a patch release of the latest stable version of OpenProject according to the process steps outlined earlier.
@@ -152,7 +153,9 @@ For critical and high-risk vulnerabilities with clear attack vectors, and immedi
 
 ### Public disclosure
 
-Because OpenProject is open source, any fix committed to our public repository is inherently visible. Therefore, fixes for **high** and **critical** vulnerabilities will be developed in a private fork and only merged to the public repository immediately before the build process for the release will be started. With this, there might be a time window where people monitoring the public repository could deduce from the fix how the vulnerability works, while we are building the release. This cannot be avoided while being open source.
+Because OpenProject is open source, every fix merged into our public repository is visible to anyone. Fixes for **high** and **critical** vulnerabilities are therefore developed in a private fork and merged into the public repository only right before the release is built. From then until the advisory is published, the fix is public and the vulnerability could be deduced from it. This window is inherent to open-source development, and we keep it as short as possible.
+
+The timing of the disclosure depends on the severity of the fixed vulnerabilities. Details of **low** and **medium** vulnerabilities are disclosed simultaneously with the patch release. Details of **high** and **critical** vulnerabilities are disclosed 24 hours after the patch release, giving administrators a head start to upgrade before the details become public.
 
 For releases with only **low** and/or **medium** fixes:
 - The GitHub security advisory and full vulnerability details are published **at the same time** as the patch release.
