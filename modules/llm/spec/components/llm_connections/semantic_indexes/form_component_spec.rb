@@ -57,6 +57,12 @@ RSpec.describe LlmConnections::SemanticIndexes::FormComponent, type: :component 
       expect(autocompleter[:"data-input-name"]).to include("semantic_index[model_id]")
       expect(autocompleter[:"data-items"]).to include("bge-m3")
     end
+
+    it "prefills the embedding batch size with its default" do
+      rendered_component
+
+      expect(page).to have_field(SemanticIndex.human_attribute_name(:batch_size), with: "100")
+    end
   end
 
   context "for a persisted semantic index" do
@@ -73,6 +79,13 @@ RSpec.describe LlmConnections::SemanticIndexes::FormComponent, type: :component 
       rendered_component
 
       expect(page).to have_field(SemanticIndex.human_attribute_name(:model_id), disabled: true, with: "bge-m3")
+    end
+
+    it "keeps the embedding batch size editable" do
+      rendered_component
+
+      expect(page).to have_field(SemanticIndex.human_attribute_name(:batch_size),
+                                 with: semantic_index.batch_size.to_s, disabled: false)
     end
   end
 
