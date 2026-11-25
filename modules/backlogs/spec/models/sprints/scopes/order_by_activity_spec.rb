@@ -39,22 +39,22 @@ RSpec.describe Sprints::Scopes::OrderByActivity do
                     finish_date: Date.new(2025, 9, 10))
   end
   shared_let(:in_planning_sprint_later) do
-    create(:sprint, project:,
-                    name: "Later planning sprint",
-                    start_date: Date.new(2025, 9, 11),
-                    finish_date: Date.new(2025, 9, 20))
+    create(:sprint, :in_planning, project:,
+                                  name: "Later planning sprint",
+                                  start_date: Date.new(2025, 9, 11),
+                                  finish_date: Date.new(2025, 9, 20))
   end
   shared_let(:in_planning_sprint_earlier) do
-    create(:sprint, project:,
-                    name: "Earlier planning sprint",
-                    start_date: Date.new(2025, 9, 1),
-                    finish_date: Date.new(2025, 9, 10))
+    create(:sprint, :in_planning, project:,
+                                  name: "Earlier planning sprint",
+                                  start_date: Date.new(2025, 9, 1),
+                                  finish_date: Date.new(2025, 9, 10))
   end
   shared_let(:in_planning_sprint_no_dates) do
-    create(:sprint, project:,
-                    name: "No dates planning sprint",
-                    start_date: nil,
-                    finish_date: nil)
+    create(:sprint, :in_planning, project:,
+                                  name: "No dates planning sprint",
+                                  start_date: nil,
+                                  finish_date: nil)
   end
   shared_let(:completed_sprint_b) do
     create(:sprint, :completed, project:,
@@ -93,12 +93,12 @@ RSpec.describe Sprints::Scopes::OrderByActivity do
   end
 
   it "orders completed sprints by their actual start over the planned start date" do
-    started_late = create(:sprint, project:, name: "Started late", status: :completed,
-                                   start_date: Date.new(2025, 10, 1), finish_date: Date.new(2025, 10, 31),
-                                   started_at: Time.zone.local(2025, 10, 20, 9))
-    started_between = create(:sprint, project:, name: "Started between", status: :completed,
-                                      start_date: Date.new(2025, 10, 10), finish_date: Date.new(2025, 10, 31),
-                                      started_at: Time.zone.local(2025, 10, 10, 9))
+    started_late = create(:sprint, :completed, project:, name: "Started late",
+                                               start_date: Date.new(2025, 10, 1), finish_date: Date.new(2025, 10, 31),
+                                               started_at: Time.zone.local(2025, 10, 20, 9))
+    started_between = create(:sprint, :completed, project:, name: "Started between",
+                                                  start_date: Date.new(2025, 10, 10), finish_date: Date.new(2025, 10, 31),
+                                                  started_at: Time.zone.local(2025, 10, 10, 9))
 
     expect(Sprint.order_by_activity.where(id: [started_late, started_between])).to eq([started_between, started_late])
   end
@@ -112,14 +112,14 @@ RSpec.describe Sprints::Scopes::OrderByActivity do
   end
 
   it "breaks ties by name with numbers naturally" do
-    sprint10 = create(:sprint, project:, status: :completed,
-                               name: "Sprint 10",
-                               start_date: Date.new(2025, 8, 1),
-                               finish_date: Date.new(2025, 8, 31))
-    sprint2 = create(:sprint, project:, status: :completed,
-                              name: "Sprint 2",
-                              start_date: Date.new(2025, 8, 1),
-                              finish_date: Date.new(2025, 8, 31))
+    sprint10 = create(:sprint, :completed, project:,
+                                           name: "Sprint 10",
+                                           start_date: Date.new(2025, 8, 1),
+                                           finish_date: Date.new(2025, 8, 31))
+    sprint2 = create(:sprint, :completed, project:,
+                                          name: "Sprint 2",
+                                          start_date: Date.new(2025, 8, 1),
+                                          finish_date: Date.new(2025, 8, 31))
 
     expect(Sprint.order_by_activity.completed.where(id: [sprint10, sprint2])).to eq([sprint2, sprint10])
   end

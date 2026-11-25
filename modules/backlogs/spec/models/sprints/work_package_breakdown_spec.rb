@@ -547,10 +547,10 @@ RSpec.describe Sprints::WorkPackageBreakdown do
 
   describe "a running sprint while the clock moves on" do
     let(:sprint) do
-      create(:sprint, project:, status: "active",
-                      start_date: Time.zone.today - 10.days,
-                      finish_date: Time.zone.today + 4.days,
-                      started_at: 10.days.ago)
+      create(:sprint, :active, project:,
+                               start_date: Time.zone.today - 10.days,
+                               finish_date: Time.zone.today + 4.days,
+                               started_at: 10.days.ago)
     end
 
     let!(:closed_work_package) do

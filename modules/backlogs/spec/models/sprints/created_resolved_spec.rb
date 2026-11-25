@@ -244,7 +244,7 @@ RSpec.describe Sprints::CreatedResolved do
   # work has been piling up over the last few of them.
   describe "the sprints the window spans" do
     def preceding_sprint(start_date, finish_date = start_date + 11.days)
-      create(:sprint, project:, start_date:, finish_date:, started_at: at_hour(start_date, 9))
+      create(:sprint, :completed, project:, start_date:, finish_date:, started_at: at_hour(start_date, 9))
     end
 
     it "opens with the earliest sprint preceding this one" do

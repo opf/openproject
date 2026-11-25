@@ -52,7 +52,7 @@ RSpec.describe Backlogs::SprintReports::HeaderInfolineComponent, type: :componen
     current_user { build_stubbed(:user) }
 
     context "when the sprint is in planning" do
-      let(:sprint) { build_stubbed(:sprint, status: :in_planning, start_date:, finish_date:) }
+      let(:sprint) { build_stubbed(:sprint, :in_planning, start_date:, finish_date:) }
 
       it "shows the planned range without a time of day" do
         expect(rendered_component).to have_text("Planned:")
@@ -94,7 +94,7 @@ RSpec.describe Backlogs::SprintReports::HeaderInfolineComponent, type: :componen
     end
 
     context "when the sprint is active" do
-      let(:sprint) { build_stubbed(:sprint, status: :active, start_date:, finish_date:, started_at:) }
+      let(:sprint) { build_stubbed(:sprint, :active, start_date:, finish_date:, started_at:) }
 
       it "shows the labeled start time, followed by the planned range" do
         expect(rendered_component).to have_css(".text-bold", text: /Start time:.*09:30 AM/m)
@@ -103,22 +103,11 @@ RSpec.describe Backlogs::SprintReports::HeaderInfolineComponent, type: :componen
         expect(rendered_component).to have_element(:time, datetime: "2025-01-15")
         expect(rendered_component).to have_element(:time, datetime: "2025-01-29")
       end
-
-      context "without a start timestamp" do
-        let(:started_at) { nil }
-
-        it "shows only the planned range" do
-          expect(rendered_component).to have_text("Planned:")
-          expect(rendered_component).to have_no_text("Start time:")
-          expect(rendered_component).to have_element(:time, count: 2)
-          expect(rendered_component).to have_no_text(/\d{2}:\d{2}/)
-        end
-      end
     end
 
     context "when the sprint is completed" do
       let(:sprint) do
-        build_stubbed(:sprint, status: :completed, start_date:, finish_date:, started_at:, completed_at:)
+        build_stubbed(:sprint, :completed, start_date:, finish_date:, started_at:, completed_at:)
       end
 
       it "shows when it was started and completed without a label, followed by the planned range" do

@@ -107,7 +107,7 @@ RSpec.describe Backlogs::Sprints::FinishService do
     end
 
     context "when specifying a target sprint to move the work packages to" do
-      let(:target_sprint) { create(:sprint, project:) }
+      let(:target_sprint) { create(:sprint, :in_planning, project:) }
 
       let(:call_params) { { unfinished_action: "move_to_sprint", move_to_sprint_id: target_sprint.id } }
 
@@ -130,7 +130,7 @@ RSpec.describe Backlogs::Sprints::FinishService do
 
     context "when specifying a target sprint not shared with the project" do
       let(:other_project) { create(:project, enabled_module_names: %w[backlogs work_package_tracking]) }
-      let(:target_sprint) { create(:sprint, project: other_project) }
+      let(:target_sprint) { create(:sprint, :in_planning, project: other_project) }
 
       let(:call_params) { { unfinished_action: "move_to_sprint", move_to_sprint_id: target_sprint.id } }
 
@@ -172,7 +172,7 @@ RSpec.describe Backlogs::Sprints::FinishService do
 
   context "when the unfinished work package was last changed by the finishing user within the aggregation time",
           with_settings: { journal_aggregation_time_minutes: 5 } do
-    let(:target_sprint) { create(:sprint, project:, status: "in_planning") }
+    let(:target_sprint) { create(:sprint, :in_planning, project:) }
     let!(:open_wp) do
       User.execute_as(user) { create(:work_package, project:, sprint:, status: to_do_status) }
     end
@@ -213,7 +213,7 @@ RSpec.describe Backlogs::Sprints::FinishService do
   end
 
   context "when the sprint has multiple unfinished work packages also in other projects and a target sprint is given" do
-    let(:target_sprint) { create(:sprint, project:) }
+    let(:target_sprint) { create(:sprint, :in_planning, project:) }
     # Permissions are not necessary for this. The change is carried out regardless.
     let(:other_project) { create(:project) }
     let!(:open_wp1) do
@@ -367,7 +367,7 @@ RSpec.describe Backlogs::Sprints::FinishService do
     end
 
     context "when moving to another sprint" do
-      let(:target_sprint) { create(:sprint, project:, status: "in_planning") }
+      let(:target_sprint) { create(:sprint, :in_planning, project:) }
       let!(:target_sprint_wp) do
         create(:work_package, project:, sprint: target_sprint, status: to_do_status)
       end

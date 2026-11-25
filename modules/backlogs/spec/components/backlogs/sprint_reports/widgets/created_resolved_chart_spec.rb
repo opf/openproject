@@ -120,8 +120,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::CreatedResolvedChart,
 
     context "with sprints preceding this one" do
       let!(:earlier_sprint) do
-        create(:sprint, project:, start_date: monday - 42.days, finish_date: monday - 32.days,
-                        started_at: (monday - 42.days).in_time_zone + 9.hours)
+        create(:sprint, :completed, project:, start_date: monday - 42.days, finish_date: monday - 32.days)
       end
 
       it "opens the window with the earliest of them and samples by day over the longer span" do

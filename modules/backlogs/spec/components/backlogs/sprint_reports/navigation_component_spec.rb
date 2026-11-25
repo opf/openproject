@@ -33,20 +33,20 @@ RSpec.describe Backlogs::SprintReports::NavigationComponent, type: :component do
 
   shared_let(:project) { create(:project) }
   shared_let(:active_sprint) do
-    create(:sprint, project:, name: "Active", status: :active,
-                    start_date: Date.yesterday, finish_date: Date.tomorrow)
+    create(:sprint, :active, project:, name: "Active",
+                             start_date: Date.yesterday, finish_date: Date.tomorrow)
   end
   shared_let(:planned_sprint) do
-    create(:sprint, project:, name: "Planned", status: :in_planning,
-                    start_date: 10.days.from_now, finish_date: 20.days.from_now)
+    create(:sprint, :in_planning, project:, name: "Planned",
+                                  start_date: 10.days.from_now, finish_date: 20.days.from_now)
   end
   shared_let(:recent_sprint) do
-    create(:sprint, project:, name: "Recent", status: :completed,
-                    start_date: 20.days.ago, finish_date: 10.days.ago)
+    create(:sprint, :completed, project:, name: "Recent",
+                                start_date: 20.days.ago, finish_date: 10.days.ago)
   end
   shared_let(:oldest_sprint) do
-    create(:sprint, project:, name: "Oldest", status: :completed,
-                    start_date: 40.days.ago, finish_date: 30.days.ago)
+    create(:sprint, :completed, project:, name: "Oldest",
+                                start_date: 40.days.ago, finish_date: 30.days.ago)
   end
 
   current_user { create(:user, member_with_permissions: { project => %i[view_sprints] }) }

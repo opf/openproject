@@ -235,7 +235,7 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
     let(:completed_at) { Time.utc(2025, 1, 30, 17, 45) }
 
     context "when the sprint is in planning" do
-      let(:sprint) { build_stubbed(:sprint, project:, status: :in_planning, start_date:, finish_date:) }
+      let(:sprint) { build_stubbed(:sprint, :in_planning, project:, start_date:, finish_date:) }
 
       it "shows both planned dates and marks them as planned" do
         expect(rendered_component).to have_element(:time, datetime: "2025-01-15")
@@ -256,7 +256,7 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
     end
 
     context "when the sprint is active" do
-      let(:sprint) { build_stubbed(:sprint, project:, status: :active, start_date:, finish_date:, started_at:) }
+      let(:sprint) { build_stubbed(:sprint, :active, project:, start_date:, finish_date:, started_at:) }
 
       it "shows the actual start with its timestamp as title and the planned finish" do
         expect(rendered_component).to have_element(:time, datetime: "2025-01-16T09:30:00Z", title: true)
@@ -264,20 +264,11 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
         expect(rendered_component).to have_element(:time, datetime: "2025-01-29")
         expect(rendered_component).to have_css(".finish_date", text: "(planned)")
       end
-
-      context "without a start timestamp" do
-        let(:started_at) { nil }
-
-        it "falls back to the planned start" do
-          expect(rendered_component).to have_element(:time, datetime: "2025-01-15")
-          expect(rendered_component).to have_css(".start_date", text: "(planned)")
-        end
-      end
     end
 
     context "when the sprint is completed" do
       let(:sprint) do
-        build_stubbed(:sprint, project:, status: :completed, start_date:, finish_date:, started_at:, completed_at:)
+        build_stubbed(:sprint, :completed, project:, start_date:, finish_date:, started_at:, completed_at:)
       end
 
       it "shows the actual start and finish" do

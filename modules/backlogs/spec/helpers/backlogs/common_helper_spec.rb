@@ -231,7 +231,7 @@ RSpec.describe Backlogs::CommonHelper do
     let(:project) { create(:project, enabled_module_names: %w[backlogs]) }
     let!(:sprint_a) { create(:sprint, project:) }
     let!(:sprint_b) { create(:sprint, project:) }
-    let!(:completed_sprint) { create(:sprint, project:, status: :completed) }
+    let!(:completed_sprint) { create(:sprint, :completed, project:) }
 
     context "with no sprint_ids filter" do
       it "returns all not completed sprints for the project" do

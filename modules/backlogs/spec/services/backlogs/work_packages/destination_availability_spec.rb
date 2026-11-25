@@ -47,7 +47,7 @@ RSpec.describe Backlogs::WorkPackages::DestinationAvailability, type: :model do
   let!(:earlier_sprint) do
     create(:sprint, project:, name: "Earlier", start_date: 1.week.from_now, finish_date: 2.weeks.from_now)
   end
-  let!(:completed_sprint) { create(:sprint, project:, status: :completed) }
+  let!(:completed_sprint) { create(:sprint, :completed, project:) }
   let!(:zulu_bucket) { create(:backlog_bucket, project:, name: "Zulu") }
   let!(:alpha_bucket) { create(:backlog_bucket, project:, name: "Alpha") }
   let!(:foreign_bucket) { create(:backlog_bucket, project: create(:project), name: "Foreign") }
