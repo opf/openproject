@@ -17,6 +17,10 @@ You can also create **variants** of a type to adapt its configuration to the nee
 
 To manage types and variants, navigate to *Administration → Work packages → Types*.
 
+Watch this tutorial on types and variants in OpenProject. 
+
+![Video tutorial on types and variants in OpenProject](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/Tutorial_Project-specific_workflows_and_forms_through_type_variants.mp4)
+
 ## When to create a type or a variant
 
 Create a **new type** when you need to represent a different kind of work, such as a Bug, Feature, or Risk. If you want to keep the same type but use a different configuration in certain projects, create a **variant** instead.
