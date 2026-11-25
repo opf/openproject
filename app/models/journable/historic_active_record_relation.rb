@@ -172,6 +172,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     relation.where_clause.instance_variable_get(:@predicates).each do |predicate|
       substitute_custom_values_join_in_predicate(predicate)
       substitute_work_package_versions_join_in_predicate(predicate)
+      substitute_work_package_categories_join_in_predicate(predicate)
     end
   end
 
@@ -222,6 +223,28 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
                     "#{version_journals}.journal_id = #{models}.journal_id"
     predicate.gsub! "\"#{work_package_versions}\"",
                     "\"#{version_journals}\""
+  end
+
+  # Only the single category_id is journaled, so the join table read by
+  # `Queries::WorkPackages::Filter::CategoryFilter` is swapped for a stand-in built from it:
+  #
+  #   before: SELECT 1 FROM "work_package_categories" WHERE (work_package_categories.work_package_id = ...
+  #   after:  SELECT 1 FROM (SELECT work_packages.id AS work_package_id, work_packages.category_id
+  #                          WHERE work_packages.category_id IS NOT NULL) "work_package_categories" WHERE ...
+  def substitute_work_package_categories_join_in_predicate(predicate)
+    return unless predicate.is_a? String
+
+    join_table_source = "FROM \"#{WorkPackageCategory.table_name}\""
+    journaled_category_source = "FROM (#{journaled_work_package_categories_sql}) \"#{WorkPackageCategory.table_name}\""
+
+    predicate.gsub!(join_table_source, journaled_category_source)
+  end
+
+  def journaled_work_package_categories_sql
+    <<~SQL.squish
+      SELECT #{model.table_name}.id AS work_package_id, #{model.table_name}.category_id
+      WHERE #{model.table_name}.category_id IS NOT NULL
+    SQL
   end
 
   # Add a timestamp condition: Select the work package journals that are the

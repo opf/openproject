@@ -164,4 +164,35 @@ RSpec.describe Query::Results, "Filtering, sorting and grouping by categories" d
       end
     end
   end
+
+  context "when filtering at a baseline timestamp" do
+    let(:filter) { ["category_id", "=", [alpha.id.to_s]] }
+
+    let!(:formerly_alpha_wp) do
+      create(:work_package, project:, category: beta,
+                            journals: { 2.days.ago => { category_id: alpha.id }, 1.hour.ago => {} })
+    end
+    let!(:newly_alpha_wp) do
+      create(:work_package, project:, category: alpha,
+                            journals: { 2.days.ago => { category_id: beta.id }, 1.hour.ago => {} })
+    end
+
+    before { query.timestamps = [Timestamp.parse(1.day.ago.iso8601)] }
+
+    context "with multiple categories disabled",
+            with_flag: { work_package_multiple_categories: false },
+            with_settings: { work_package_multiple_categories: false } do
+      it "matches the category the work packages had at that time" do
+        expect(results.work_packages).to contain_exactly(formerly_alpha_wp)
+      end
+    end
+
+    context "with multiple categories enabled",
+            with_flag: { work_package_multiple_categories: true },
+            with_settings: { work_package_multiple_categories: true } do
+      it "matches the category the work packages had at that time" do
+        expect(results.work_packages).to contain_exactly(formerly_alpha_wp)
+      end
+    end
+  end
 end
