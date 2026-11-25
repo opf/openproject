@@ -45,6 +45,7 @@ fr:
       end_time: Heure de fin
       start_time: Heure de début
       title: Exportation XLS de vos rapports de coûts
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: Exporter la feuille de temps PDF
       overview_per_user_day: 'Aperçu : heures par utilisateur et par jour'
@@ -53,6 +54,11 @@ fr:
       time: Temps
       timesheet: Feuille de temps
       title: Export de votre feuille de temps PDF
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    one: "%{filter} requires a value."
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: Selon vos autorisations cette page peut contenir des informations restreintes.
   label_click_to_edit: Cliquez pour modifier.
   label_closed: fermé
@@ -113,5 +119,3 @@ fr:
   text_costs_are_rounded_note: Les valeurs affichées sont arrondies. Tous les calculs sont basés sur les valeurs non arrondies.
   toggle_multiselect: activer/désactiver la sélection multiple
   units: Unités
-  validation_failure_date: n'est pas une date valide
-  validation_failure_integer: n'est pas un nombre entier valide

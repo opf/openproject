@@ -30,6 +30,7 @@ if (!i18n.isInitialized) {
       resources,
       lng: 'en',
       fallbackLng: 'en',
+      interpolation: { escapeValue: false },
     });
 }
 

@@ -13,7 +13,7 @@ export const en = {
         'wp': "пр",
         'link': "посилання",
         'create': "створити",
-        'attribute': 'attribute'
+        'attribute': "атрибут"
       },
       'attribute': {
         'title': 'Work package attribute',
@@ -80,7 +80,7 @@ export const en = {
     },
     'options': {
       'openInNewTab': "Відкрити у новій вкладці",
-      'open': "Відкрити",
+      'openWorkPackage': 'Open {{id}}',
       'changeSize': "Змінити розмір",
       'changeSizeAriaLabel': 'Change size: {{size}}',
       'menuAriaLabel': 'Options for work package {{id}}',
@@ -90,7 +90,8 @@ export const en = {
       'openAriaLabel': "Відкрити робочий пакет {{id}} у новій вкладці",
       'inlineSizeLabel': "Вбудований розмір",
       'blockSizeLabel': "Розмір блоку",
-      'chipAriaLabel': "Робочий пакет {{id}}"
+      'chipAriaLabel': "Робочий пакет {{id}}",
+      'idDash': 'dash'
     },
     'preview': {
       'showAriaLabel': "Показати деталі для робочого пакету {{id}}"
@@ -129,31 +130,37 @@ export const en = {
     },
     'workPackageAttribute': {
       'missing': '{{attribute}} unavailable',
-      'yes': 'Yes',
-      'no': 'No',
+      'yes': "Так",
+      'no': "Ні",
       'days_one': '{{count}} day',
       'days_other': '{{count}} days',
       'display': {
-        'label': 'Label',
-        'value': 'Value',
+        'label': "Мітка",
+        'value': "Значення",
         'both': 'Label + value'
+      },
+      'options': {
+        'menuAriaLabel': 'Options for {{attribute}} of work package {{id}}',
+        'removeAriaLabel': 'Remove work package attribute',
+        'selectedDescription': '{{attribute}} of work package {{id}}',
+        'selectedValueDescription': '{{attribute}} of work package {{id}}: {{value}}'
       },
       'dialog': {
         'title': 'Insert work package attribute',
-        'workPackage': 'Work package',
-        'attribute': 'Attribute',
+        'workPackage': "Робочий пакет",
+        'attribute': "Атрибут",
         'attributePlaceholder': 'Select an attribute…',
         'attributeDisabled': 'Select a work package first',
         'attributeLoading': 'Loading attributes…',
         'attributeUnavailable': 'Attributes unavailable',
         'loadFailed': 'The attributes of {{id}} could not be loaded.',
-        'retry': 'Try again',
+        'retry': "Спробуйте знову",
         'prefilled': 'Prefilled with your last selection',
         'notAvailable': '"{{attribute}}" is not available on {{id}}. Choose another attribute.',
-        'show': 'Show',
-        'preview': 'Preview',
+        'show': "Показати",
+        'preview': "Переглянути знову",
         'previewEmpty': 'Choose a work package and an attribute',
-        'insert': 'Insert'
+        'insert': "Вставити"
       }
     }
   }

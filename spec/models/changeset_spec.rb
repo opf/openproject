@@ -302,7 +302,7 @@ RSpec.describe Changeset do
 
     it "references the work package id" do
       # make sure work package 1 is not already closed
-      expect(work_package.status.is_closed?).to be false
+      expect(work_package.status.closed?).to be false
 
       changeset.scan_comment_for_work_package_ids
       work_package.reload
@@ -343,7 +343,7 @@ RSpec.describe Changeset do
 
       it "can reference it" do
         # make sure work package 1 is not already closed
-        expect(work_package.status.is_closed?).to be false
+        expect(work_package.status.closed?).to be false
 
         changeset.scan_comment_for_work_package_ids
         work_package.reload
@@ -371,7 +371,7 @@ RSpec.describe Changeset do
 
       it "can reference it" do
         # make sure work package 1 is not already closed
-        expect(work_package.status.is_closed?).to be false
+        expect(work_package.status.closed?).to be false
 
         changeset.scan_comment_for_work_package_ids
         work_package.reload

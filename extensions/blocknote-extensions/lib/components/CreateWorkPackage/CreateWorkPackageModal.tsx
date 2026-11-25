@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AlertIcon, SyncIcon, XIcon } from '@primer/octicons-react';
+import { AlertIcon, SyncIcon } from '@primer/octicons-react';
 import type { WorkPackage } from '../../openProjectTypes';
 import { useColors } from '../../services/colors';
 import { linkToNewWorkPackage } from '../../services/openProjectApi';
@@ -9,20 +9,9 @@ import { dependencyOf, writable } from './formSchema';
 import type { FormField } from './formSchema';
 import { controlIdOf, FormFieldControl, SUBJECT_KEY } from './FormFieldControl';
 import { useCreateWorkPackageForm } from './useCreateWorkPackageForm';
-import { useGrowthTransition } from './useGrowthTransition';
-import { FullPagePortal, keepFocusInside, usePageScrollLock } from '../Shared/modal';
+import { Modal, ModalBody } from '../Shared/modal';
 import { Button } from '../Shared/Button';
-import {
-  Body,
-  BodyContent,
-  Footer,
-  Header,
-  HeaderTitle,
-  IconButton,
-  Notice,
-  Overlay,
-  Panel,
-} from '../Shared/atoms';
+import { Footer, Notice } from '../Shared/atoms';
 import {
   Divider,
   FooterStatus,
@@ -52,11 +41,6 @@ export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, on
   const { t } = useTranslation();
   const panelRef = useRef<HTMLDivElement>(null);
   const focusGiven = useRef(false);
-  const bodyRef = useRef<HTMLDivElement>(null);
-  const bodyContentRef = useRef<HTMLDivElement>(null);
-  usePageScrollLock();
-  useEffect(() => { panelRef.current?.focus(); }, []);
-  useGrowthTransition({ panelRef, bodyRef, contentRef: bodyContentRef });
   useColors();
   const {
     primaryFields,
@@ -126,91 +110,74 @@ export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, on
   );
 
   return (
-    <FullPagePortal anchorEl={anchorEl}>
-      <Overlay
-        onMouseDown={() => { if (!isDirty) onCancel(); }}
+    <Modal
+      anchorEl={anchorEl}
+      panelRef={panelRef}
+      title={t('createWorkPackage.title')}
+      dismissible={!isDirty}
+      onCancel={onCancel}
+    >
+      <Form
+        // flatpickr steps its minute input by 5, so the browser would reject other minutes and block the submit.
+        noValidate
+        onSubmit={(event) => {
+          event.preventDefault();
+          if (!submitEnabled) return;
+
+          const blocking = attemptSubmit();
+          if (blocking) showField(blocking);
+        }}
       >
-        <Panel
-          ref={panelRef}
-          tabIndex={-1}
-          aria-label={t('createWorkPackage.title')}
-          onMouseDown={(event) => event.stopPropagation()}
-          onKeyDown={(event) => {
-            event.stopPropagation();
-            if (event.key === 'Escape' && !isDirty) onCancel();
-            if (event.key === 'Tab') keepFocusInside(panelRef.current, event);
-          }}
-        >
-          <Header>
-            <HeaderTitle>{t('createWorkPackage.title')}</HeaderTitle>
-            <IconButton type="button" aria-label={t('createWorkPackage.close')} onClick={onCancel}>
-              <XIcon size={16} />
-            </IconButton>
-          </Header>
+        <ModalBody>
+          {notAllowed && <Alert>{t('createWorkPackage.notAllowed')}</Alert>}
 
-          <Form
-            onSubmit={(event) => {
-              event.preventDefault();
-              if (!submitEnabled) return;
+          {loadError && <Alert>{t('createWorkPackage.loadFailed', { message: loadError })}</Alert>}
 
-              const blocking = attemptSubmit();
-              if (blocking) showField(blocking);
-            }}
+          {formError && <Alert data-testid="create-wp-error">{formError}</Alert>}
+
+          {primaryFields
+            .filter((field) => !initializing || !dependencyOf(field.key))
+            .map(renderField)}
+
+          {!initializing && extraFields.length > 0 && <Divider data-testid="create-wp-divider" />}
+
+          {!initializing && extraFields.map(renderField)}
+
+          {!initializing && unsupportedFields.length > 0 && (
+            <Notice>
+              <AlertIcon size={14} />
+              <span>
+                {t('createWorkPackage.unsupportedRequired')}{' '}
+                <NoticeLink
+                  href={linkToNewWorkPackage(projectIdFromHref(projectHref))}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {t('createWorkPackage.createInOpenProject')}
+                </NoticeLink>
+              </span>
+            </Notice>
+          )}
+        </ModalBody>
+
+        <Footer>
+          {loading && (
+            <FooterStatus data-testid="create-wp-loading">
+              <Spinner><SyncIcon size={14} /></Spinner>
+              {t('createWorkPackage.loading')}
+            </FooterStatus>
+          )}
+          <Button type="button" onClick={onCancel}>{t('createWorkPackage.cancel')}</Button>
+          <Button
+            type="submit"
+            $primary
+            data-testid="create-wp-submit"
+            disabled={!submitEnabled}
           >
-            <Body ref={bodyRef}>
-              <BodyContent ref={bodyContentRef}>
-                {notAllowed && <Alert>{t('createWorkPackage.notAllowed')}</Alert>}
-
-                {loadError && <Alert>{t('createWorkPackage.loadFailed', { message: loadError })}</Alert>}
-
-                {formError && <Alert data-testid="create-wp-error">{formError}</Alert>}
-
-                {primaryFields
-                  .filter((field) => !initializing || !dependencyOf(field.key))
-                  .map(renderField)}
-
-                {!initializing && extraFields.length > 0 && <Divider data-testid="create-wp-divider" />}
-
-                {!initializing && extraFields.map(renderField)}
-
-                {!initializing && unsupportedFields.length > 0 && (
-                  <Notice>
-                    <AlertIcon size={14} />
-                    <span>
-                      {t('createWorkPackage.unsupportedRequired')}{' '}
-                      <NoticeLink
-                        href={linkToNewWorkPackage(projectIdFromHref(projectHref))}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {t('createWorkPackage.createInOpenProject')}
-                      </NoticeLink>
-                    </span>
-                  </Notice>
-                )}
-              </BodyContent>
-            </Body>
-
-            <Footer>
-              {loading && (
-                <FooterStatus data-testid="create-wp-loading">
-                  <Spinner><SyncIcon size={14} /></Spinner>
-                  {t('createWorkPackage.loading')}
-                </FooterStatus>
-              )}
-              <Button type="button" onClick={onCancel}>{t('createWorkPackage.cancel')}</Button>
-              <Button
-                type="submit"
-                $primary
-                data-testid="create-wp-submit"
-                disabled={!submitEnabled}
-              >
-                {submitting ? t('createWorkPackage.creating') : t('createWorkPackage.create')}
-              </Button>
-            </Footer>
-          </Form>
-        </Panel>
-      </Overlay>
-    </FullPagePortal>
+            {submitting ? t('createWorkPackage.creating') : t('createWorkPackage.create')}
+          </Button>
+        </Footer>
+      </Form>
+    </Modal>
   );
 };

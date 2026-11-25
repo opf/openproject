@@ -94,6 +94,7 @@ class Journal < ApplicationRecord
                    label_names
                    meeting_id
                    source_meeting_id
+                   outcome_id
                    message_id
                    sender_address
                  ],
@@ -105,6 +106,11 @@ class Journal < ApplicationRecord
     meeting_agenda_item_moved
     meeting_agenda_item_discussed
     meeting_outcome_recorded
+  ].freeze
+
+  SQUASHTM_CAUSE_TYPES = %w[
+    squashtm_requirement_linked
+    squashtm_requirement_unlinked
   ].freeze
 
   VALID_CAUSE_TYPES = (%w[
@@ -126,7 +132,7 @@ class Journal < ApplicationRecord
     work_package_related_changed_times
     work_package_duplicate_closed
     working_days_changed
-  ] + MEETING_CAUSE_TYPES).freeze
+  ] + MEETING_CAUSE_TYPES + SQUASHTM_CAUSE_TYPES).freeze
 
   # Make sure each journaled model instance only has unique version ids
   validates :version, uniqueness: { scope: %i[journable_id journable_type] }

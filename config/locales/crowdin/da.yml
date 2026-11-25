@@ -146,7 +146,7 @@ da:
         has_comment: Tilføj et tekstfelt til en kommentar
         is_filter: Bruges som filter
         is_for_all: For alle projekter
-        is_required: Påkrævet
+        is_required: Obligatorisk
         max_length: Største længde
         max_value: Største værdi
         min_length: Mindste længde
@@ -391,10 +391,14 @@ da:
         authentication_method: Godkendelsesmetode
         jwt_sub: Subject-claim
       status:
+        category: Kategori
         default_done_ratio: "% færdigt"
         excluded_from_totals: Udelad fra beregning af totaler i hierarkiet
-        is_closed: Lukket arbejdspakke
         is_readonly: Arbejdspakke skrivebeskyttet
+      status/category:
+        closed: Lukket
+        in_progress: I gang
+        to_do: Ikke startet
       subproject_template_assignment:
         workspace_type: Type af arbejdsområde
       time_entry:
@@ -413,7 +417,7 @@ da:
       type:
         allow_project_variants: Tillad projektspecifikke varianter
         color: Farve
-        description: Description
+        description: Beskrivelse
         is_in_roadmap: Vises som standard i køreplanen
         is_milestone: Er milepæl
         project_types: Projekter
@@ -423,7 +427,7 @@ da:
       type_variant:
         attribute_groups: Formular
         default_work_package_description: Standardtekst til beskrivelsen
-        description: Description
+        description: Beskrivelse
         enabled_in_new_projects: Aktiv i nye projekter
         linked_aspects: Nedarvet konfiguration
         patterns: Mønstre
@@ -546,6 +550,11 @@ da:
         labels: Mærkater
         notify: Giv besked
         observed_in_versions: Observeret i versioner
+        origin: Kilde
+        origin_host: Kildens vært
+        origin_id: Id i kilden
+        origin_source: Kildesystem
+        origin_url: URL i kilden
         parent: Overordnet
         parent_issue: Overordnet
         parent_work_package: Overordnet
@@ -587,7 +596,7 @@ da:
         blank: må ikke være tomt.
         blank_nested: skal have egenskaben '%{property}' angivet.
         blocked_domain: er ikke tilladt. Brug en e-mailadresse fra et andet domæne.
-        cannot_delete_mapping: er påkrævet. Kan ikke slettes.
+        cannot_delete_mapping: er obligatorisk. Kan ikke slettes.
         cant_link_a_work_package_with_a_descendant: En arbejdspakke kan ikke knyttes til en af dens underopgaver.
         circular_dependency: Denne relation vil skabe en cirkulær afhængighed.
         configured_via_env: Objektets konfiguration styres af miljøvariabler og kan ikke ændres, mens programmet kører.
@@ -632,7 +641,7 @@ da:
         not_a_number: er ikke et tal.
         not_allowed: er ugyldig, fordi der mangler tilladelser.
         not_an_integer: er ikke et heltal.
-        not_an_iso_date: 'er ikke en gyldig dato. Påkrævet format: ÅÅÅÅ-MM-DD.'
+        not_an_iso_date: er ikke en gyldig dato. Formatet skal være ÅÅÅÅ-MM-DD.
         not_available: er ikke tilgængelig på grund af systemets konfiguration.
         not_before_start_date: må ikke ligge før startdatoen.
         not_current_user: er ikke den aktuelle bruger.
@@ -699,12 +708,14 @@ da:
         custom_field:
           at_least_one_custom_option: Der skal være mindst én valgmulighed.
           attributes:
+            admin_only:
+              cannot_be_true: understøttes ikke for denne type brugerdefineret felt.
             formula:
               blank: Formlen må ikke være tom.
               format: "%{message}"
               invalid: Formlen er ugyldig.
               invalid_tokens: Kun talværdier, operatorer, funktioner, nøgleord og projektattributter af typen heltal, decimaltal, beregnet værdi og vægtet liste er tilladt.
-              multi_value_list_not_aggregated: Multi-select attributes (%{custom_fields}) can only be used within aggregate functions.
+              multi_value_list_not_aggregated: Attributter med flere valg (%{custom_fields}) kan kun bruges i aggregeringsfunktioner.
               not_allowed_custom_fields_referenced: 'Attributten %{custom_fields} kan ikke bruges, fordi den fører til en cirkulær reference: Den ene attribut afhænger af den anden.'
             project_specific_value_restriction:
               not_supported: er kun tilgængelig for brugerdefinerede felter til arbejdspakker af formaterne liste, hierarki og vægtet liste.
@@ -761,7 +772,7 @@ da:
         ical_token_query_assignment:
           attributes:
             name:
-              blank: er påkrævet. Vælg et navn.
+              blank: er obligatorisk. Vælg et navn.
               not_unique: er allerede i brug. Vælg et andet navn.
         jira:
           invalid_protocol: Angiv en gyldig protokol (http eller https)
@@ -1018,11 +1029,11 @@ da:
               cannot_be_set_when_work_is_zero: kan ikke angives, når Arbejde er 0 t
               does_not_match_work_and_remaining_work: stemmer ikke med Arbejde og Resterende arbejde
               inclusion: skal være mellem 0 og 100.
-              must_be_set_when_remaining_work_is_set: er påkrævet, når Resterende arbejde er angivet.
-              must_be_set_when_work_and_remaining_work_are_set: er påkrævet, når Arbejde og Resterende arbejde er angivet.
+              must_be_set_when_remaining_work_is_set: er obligatorisk, når Resterende arbejde er angivet.
+              must_be_set_when_work_and_remaining_work_are_set: er obligatorisk, når Arbejde og Resterende arbejde er angivet.
             due_date:
               cannot_be_null: kan ikke være tom, når startdato og varighed er kendt.
-              not_start_date: er ikke på startdato, selvom dette er påkrævet for milepæle.
+              not_start_date: er ikke på startdato, selvom det kræves for milepæle.
             duration:
               cannot_be_null: kan ikke være tom, når startdato og slutdato er kendt.
               larger_than_dates: er længere end perioden mellem start- og slutdatoen.
@@ -1031,7 +1042,7 @@ da:
               smaller_than_dates: er kortere end perioden mellem start- og slutdatoen.
             estimated_hours:
               cant_be_inferior_to_remaining_work: kan ikke være mindre end Resterende arbejde.
-              must_be_set_when_remaining_work_and_percent_complete_are_set: er påkrævet, når Resterende arbejde og % færdigt er angivet.
+              must_be_set_when_remaining_work_and_percent_complete_are_set: er obligatorisk, når Resterende arbejde og % færdigt er angivet.
               not_a_number: er ikke en gyldig varighed.
             id:
               blank: Id må ikke være tomt.
@@ -1055,8 +1066,8 @@ da:
               cant_exceed_work: kan ikke være større end Arbejde.
               must_be_empty_when_work_is_empty_and_percent_complete_is_100p: skal være tomt, når Arbejde er tomt, og % færdigt er 100 %.
               must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: skal være 0 t, når Arbejde er angivet, og % færdigt er 100 %.
-              must_be_set_when_work_and_percent_complete_are_set: er påkrævet, når Arbejde og % færdigt er angivet.
-              must_be_set_when_work_is_set: er påkrævet, når Arbejde er angivet.
+              must_be_set_when_work_and_percent_complete_are_set: er obligatorisk, når Arbejde og % færdigt er angivet.
+              must_be_set_when_work_is_set: er obligatorisk, når Arbejde er angivet.
               not_a_number: er ikke en gyldig varighed.
             schedule_manually:
               cannot_be_automatically_scheduled: kan ikke slås fra (automatisk planlægning), fordi arbejdspakken ikke har nogen forgængere eller underordnede.
@@ -1415,7 +1426,6 @@ da:
           description: Din kommentar bliver synlig for alle, der har adgang til arbejdspakken. Er du sikker på, at du vil gøre det?
           heading: Vil du gøre kommentaren offentlig?
           title: Vil du gøre kommentaren offentlig?
-        internal_journal: Interne kommentarer er synlige for en begrænset gruppe medlemmer.
         label_activity_hide_meetings: Skjul opdateringer fra møder
         label_activity_show_all: Vis alt
         label_activity_show_only_changes: Vis kun ændringer
@@ -1474,7 +1484,7 @@ da:
       phase_and_both_gates: "%{phase_message}. %{start_gate_message} og %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}. %{gate_message}"
       removed_date: dato slettet %{date}
-      status_changed: phase changed from %{from} to %{to}
+      status_changed: fasen er ændret fra %{from} til %{to}
   admin:
     banners:
       environment_configured_readonly: Værdierne er konfigureret med miljøvariabler og kan ikke redigeres her.
@@ -1596,7 +1606,7 @@ da:
         contribution_callout: 'Hjælp os med at forbedre Jira-migreringen med din feedback og ved at donere private data. Du kan [blive en del af udviklingsfællesskabet](link) bag Jira-migreringen.
 
           '
-        description: Jira-migreringen er i beta. Vi understøtter i øjeblikket kun Jira Server/Data Center version 10.x og 11.x. Cloud-installationer understøttes ikke endnu.
+        description: Jira-migreringen er i beta. Vi understøtter Jira Server/Data Center version 8.x, 9.x, 10.x og 11.x. Cloud-installationer understøttes ikke endnu.
         title: Beta – prøv det!
       basic_auth_password_deleted: Adgangskoden til basic auth er slettet.
       blank:
@@ -1690,6 +1700,10 @@ da:
             title: Opret versioner for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Opret arbejdspakker for '%{jira_project_name}'
+          JiraCreateRelationsJob:
+            title: Opret relationer for '%{jira_project_name}'
+          JiraCreateSprintsJob:
+            title: Opret sprints
           JiraCreateUsersJob:
             title: Opret brugere
           JiraDownloadProjectWorkPackageAttachmentsJob:
@@ -1700,12 +1714,16 @@ da:
             title: Hent sagstyper
           JiraFetchPrioritiesJob:
             title: Hent prioriteter
+          JiraFetchProjectBoardsJob:
+            title: Hent tavler for projektet '%{jira_project_name}'
           JiraFetchProjectIssuesJob:
             title: Hent sager for projektet '%{jira_project_name}'
           JiraFetchProjectVersionsJob:
             title: Hent versioner for projektet '%{jira_project_name}'
           JiraFetchProjectsJob:
             title: Hent projekter
+          JiraFetchSprintsJob:
+            title: Hent sprints
           JiraFetchStatusesJob:
             title: Hent statusser
           JiraFetchUsersJob:
@@ -1813,6 +1831,7 @@ da:
               label_import_data: Importeres nu
               label_progress: Importen er i gang …
               label_resolution_statuses_explanation: Ekstra statusser, der kombinerer status og løsning (fx "Done - Fixed")
+              label_sprint_explanation: Sprints that contain at least one issue
               label_users_import_explanation: Brugere, der er involveret i de valgte projekter (inklusive gruppemedlemskaber)
               title: Importér data
             fetch_data:
@@ -1845,10 +1864,16 @@ da:
                 projects:
                   label: Projekter
                   subtitle: Valgt som omfang
+                sprints:
+                  label: Sprints
+                  subtitle: Med mål og tildelte arbejdspakker
                 title: Importerede data
                 users_and_groups:
                   label: Brugere og grupper
-                  subtitle: 'Involveret i importerede projekter '
+                  subtitle: Involveret i importerede projekter
+                versions:
+                  label: Versioner
+                  subtitle: Fra de importerede projekter
                 work_packages:
                   label: Arbejdspakker
                   subtitle: Med vedhæftede filer og registreret tid
@@ -1864,19 +1889,22 @@ da:
                 other: "%{count} projekter valgt som omfang"
               description: Vælg, hvilke af de data, der er hentet fra Jira-installationen, du vil importere.
               elements:
+                configuration_mapping: Konfiguration og tilknytning
                 custom_fields: Et udvalg af brugerdefinerede felter
-                issue_details: Sagernes beskrivelse, historik, kommentarer og vedhæftede filer
-                issue_ids: Id'er for sager
+                issue_details: Id'er, beskrivelse, historik, kommentarer og vedhæftede filer for sager
                 issues: Sager
                 logged_time: Registreret tid
                 permissions: Tilladelser
-                project_ids: Projekt-id'er
-                project_versions: Projektversioner
+                plugin_migration: Migrering af plugins
+                project_details: Id'er, beskrivelse og versioner for projekter
+                project_specific_custom_fields: Projektspecifikke brugerdefinerede felter
                 projects: Projekter
                 relations: Relationer mellem sager
                 schemes: Skemaer
-                sprints: Tilknytning til sprints
+                security_level: Sikkerhedsniveau
+                sprints: Sprints og tildelinger til sprints
                 users: Involverede brugere og grupper
+                workflow_migration: Migrering af arbejdsgange
                 workflows: Arbejdsgange på projektniveau
               label_coming_later: Kommer senere
               label_coming_soon: Kommer snart
@@ -1902,17 +1930,20 @@ da:
               rest_line_text: ''
               title: Hent Jira-konfiguration
             '10':
+              rest_line_text: Opretter relationer for %{projects_number} projekter mere
+              title: Opret relationer
+            '11':
               rest_line_text: Opretter tidsregistreringer for %{projects_number} projekter mere
               title: Opret tidsregistreringer
-            '11':
+            '12':
               rest_line_text: Henter vedhæftede filer for %{projects_number} projekter mere
               title: Hent vedhæftede filer
             '2':
-              rest_line_text: Henter sager og versioner for %{projects_number} projekter mere
-              title: Hent projekternes sager og versioner
+              rest_line_text: Henter sager, tavler og versioner for %{projects_number} projekter mere
+              title: Hent projekternes sager, tavler og versioner
             '3':
               rest_line_text: ''
-              title: Hent brugere og brugerdefinerede felter
+              title: Hent brugere, sprints og brugerdefinerede felter
             '4':
               rest_line_text: ''
               title: Opret brugere, grupper og medlemskaber
@@ -1923,8 +1954,8 @@ da:
               rest_line_text: Opretter %{projects_number} projekter mere
               title: Opret projekter
             '7':
-              rest_line_text: Opretter versioner for %{projects_number} projekter mere
-              title: Opret projektversioner
+              rest_line_text: Opretter versioner og sprints for %{projects_number} projekter mere
+              title: Opret projektversioner og sprints
             '8':
               rest_line_text: Opretter arbejdspakker for %{projects_number} projekter mere
               title: Opret arbejdspakker
@@ -2115,10 +2146,6 @@ da:
       user_custom_field_sections:
         destroy:
           error: Afsnittet kunne ikke slettes.
-        drop:
-          error: Afsnittets placering kunne ikke ændres.
-        move:
-          error: Afsnittets placering kunne ikke ændres.
       versions_and_categories:
         banner:
           button_more_information: Flere oplysninger
@@ -2140,7 +2167,7 @@ da:
         target_versions:
           action_required:
             button: Aktivér flere værdier
-            heading: Handling påkrævet
+            heading: Handling kræves
             manual_conversion_hint: Du kan vælge at køre ændringen manuelt og slå flere værdier til, før den automatiske migrering sker.
             not_writable_hint: Disse indstillinger er konfigureret med miljøvariabler. Hvis du vil køre ændringen til flere værdier manuelt før den automatiske migrering, skal du opdatere filen configuration.yml.
           heading: Målversioner
@@ -2234,6 +2261,8 @@ da:
       blankslate:
         description: Tilføj statusser for at begynde at konfigurere arbejdsgange for rollen
         linked_description: Typen genbruger arbejdsgangene fra sin tilknyttede kildetype, som ikke har nogen statusovergange konfigureret
+        readonly_description: Vælg andre roller for at se de konfigurerede overgange
+        readonly_title: Der er ikke konfigureret nogen statusovergange for de valgte roller
         title: Ingen statusovergange konfigureret
       leave_confirmation:
         description: Du er ved at forlade siden, men du har ændringer, der ikke er gemt. Vil du gemme dem, før du fortsætter?
@@ -2466,7 +2495,7 @@ da:
     public: Offentlig
     reason: Årsag
     recipient: Modtager
-    required: Påkrævet
+    required: Obligatorisk
     responsible: Ansvarlig
     role: Rolle
     roles: Roller
@@ -2675,10 +2704,10 @@ da:
     error_dialog:
       title: Fejl i beregnet værdi
     errors:
-      disabled_value: Attributten "%{custom_field_name}" er påkrævet af den beregnede værdi, men er deaktiveret for projektet.
+      disabled_value: Attributten "%{custom_field_name}" kræves af den beregnede værdi, men er deaktiveret for projektet.
       mathematical: Den matematiske formel giver en fejl. Gennemse projektets beregningsattribut, og prøv igen.
-      missing_value: Attributten "%{custom_field_name}" er påkrævet af den beregnede værdi, men er tom.
-      multi_value_list: The attribute "%{custom_field_name}" allows multiple values and can only be used within an aggregate function. Please review the formula for this Calculated value.
+      missing_value: Attributten "%{custom_field_name}" kræves af den beregnede værdi, men er tom.
+      multi_value_list: Attributten "%{custom_field_name}" tillader flere værdier og kan kun bruges i en aggregeringsfunktion. Gennemse formlen for den beregnede værdi.
       unknown: Der opstod en ukendt fejl. Gennemse formlen for den beregnede værdi.
   colors:
     contrast:
@@ -2756,7 +2785,7 @@ da:
       label: Tomt program
     template_heading: Vælg en programskabelon for at arbejde med de mest udbredte projektmodeller, eller opret et program fra bunden.
   create_project:
-    attributes_heading: Udfyld disse påkrævede oplysninger for at arbejde med dine projekter.
+    attributes_heading: Udfyld disse obligatoriske oplysninger for at arbejde med dine projekter.
     blank_description: Der er ikke angivet nogen beskrivelse.
     blank_template:
       description: Begynd fra bunden. Tilføj selv projektattributter, medlemmer og moduler.
@@ -2795,7 +2824,7 @@ da:
             description: Begynd med at tilføje elementer til hierarkiet. Hvert element kan have sine egne underelementer. Klik på et element for at åbne det og tilføje underelementer.
             title: Din liste over elementer er tom
         delete_dialog:
-          description: Handlingen fjerner elementet og alle dets underelementer, og det kan ikke fortrydes. Alle tildelte værdier slettes permanent. Hvis feltet er påkrævet, kan det gøre eksisterende arbejdspakker ugyldige at fjerne elementer.
+          description: Handlingen fjerner elementet og alle dets underelementer, og det kan ikke fortrydes. Alle tildelte værdier slettes permanent. Hvis feltet er obligatorisk, kan det gøre eksisterende arbejdspakker ugyldige at fjerne elementer.
           heading: Vil du slette elementet i det brugerdefinerede felt?
           title: Slet element i brugerdefineret felt
         placeholder:
@@ -2853,7 +2882,7 @@ da:
         warning: Afhængigt af den rolle, der vælges nedenfor, kan den bruger, der er tildelt denne projektattribut, få væsentligt flere tilladelser end før, herunder mulighed for at tilføje nye medlemmer og give sig selv en højere rolle.
     calculated_field_not_editable: Attributten kan ikke redigeres. Værdien beregnes automatisk.
     confirm_destroy_option: Sletning af en indstilling vil slette alle dens forekomster (f.eks. i arbejdspakker). Er du sikker på, at du vil slette den?
-    contained_in_type: Indeholdt i type
+    contained_in: Indeholdt i
     enabled_in_project: Aktiveret i projektet
     instructions:
       admin_only:
@@ -2862,7 +2891,7 @@ da:
       editable:
         all: Lad brugerne selv redigere feltet.
       formula:
-        project: Add numeric values or type / to search for an attribute, operator, function or other token. See the [formula syntax documentation](docs_url) for reference.
+        project: Tilføj talværdier, eller skriv / for at søge efter en attribut, operator, funktion eller et andet element. Se [dokumentationen om formelsyntaks](docs_url) for at få en oversigt.
       has_comment:
         project: Lader brugeren tilføje en kommentar til projektattributten, når værdien vælges i projektoversigten.
       is_filter:
@@ -2873,8 +2902,8 @@ da:
         all: Markér det brugerdefinerede felt som tilgængeligt i alle eksisterende og nye projekter.
         project: Markér attributten som tilgængelig i alle eksisterende og nye projekter.
       is_required:
-        all: Markér det brugerdefinerede felt som påkrævet. Så skal feltet udfyldes, når der oprettes nye ressourcer. Eksisterende ressourcer kræver ikke en værdi, når de opdateres.
-        project: Påkrævede attributter skal udfyldes af brugeren, når der oprettes et projekt, hvis feltet er aktivt ('For alle projekter' er valgt, eller der kopieres fra et projekt eller en skabelon, hvor feltet er aktivt). Eksisterende projekter kræver ikke en værdi, når de opdateres.
+        all: Markér det brugerdefinerede felt som obligatorisk. Så skal feltet udfyldes, når der oprettes nye ressourcer. Eksisterende ressourcer kræver ikke en værdi, når de opdateres.
+        project: Obligatoriske attributter skal udfyldes af brugeren, når der oprettes et projekt, hvis feltet er aktivt ('For alle projekter' er valgt, eller der kopieres fra et projekt eller en skabelon, hvor feltet er aktivt). Eksisterende projekter kræver ikke en værdi, når de opdateres.
       min_max:
         all: 0 betyder ingen begrænsning
         project: 0 betyder ingen begrænsning
@@ -3151,9 +3180,9 @@ da:
         invalid_grant: Den angivne godkendelse er ugyldig, udløbet eller tilbagekaldt, svarer ikke til den omdirigerings-URI, der blev brugt i godkendelsesforespørgslen, eller er udstedt til en anden klient.
         invalid_redirect_uri: Den ønskede omdirigerings-URI er forkert udformet eller svarer ikke til klientens omdirigerings-URI.
         invalid_request:
-          missing_param: 'Påkrævet parameter mangler: %{value}.'
-          request_not_authorized: Forespørgslen skal godkendes. En påkrævet parameter til godkendelse af forespørgslen mangler eller er ugyldig.
-          unknown: Forespørgslen mangler en påkrævet parameter, indeholder en parameterværdi, der ikke understøttes, eller er på anden måde forkert udformet.
+          missing_param: 'Obligatorisk parameter mangler: %{value}.'
+          request_not_authorized: Forespørgslen skal godkendes. En obligatorisk parameter til godkendelse af forespørgslen mangler eller er ugyldig.
+          unknown: Forespørgslen mangler en obligatorisk parameter, indeholder en parameterværdi, der ikke understøttes, eller er på anden måde forkert udformet.
         invalid_scope: Det ønskede omfang er ugyldigt, ukendt eller forkert udformet.
         invalid_token:
           expired: Adgangstokenet er udløbet
@@ -3184,7 +3213,6 @@ da:
       gantt_pdf_export: PDF-eksport af Gantt-diagrammer
       internal_comments: Interne kommentarer
       ldap_groups: Synkronisering af LDAP-brugere og -grupper
-      mcp_server: Model Context Protocol (MCP)
       meeting_templates: Genbrugelige skabeloner til møder
       nextcloud_sso: Single sign-on til Nextcloud-lager
       one_drive_sharepoint_file_storage: OneDrive/SharePoint-fillager
@@ -3203,6 +3231,7 @@ da:
       work_package_query_relation_columns: Relationskolonner i visninger af arbejdspakker
       work_package_sharing: Del arbejdspakker med eksterne brugere
       work_package_subject_generation: Automatisk dannede emner for arbejdspakker
+      xwiki_integration: XWiki-integration
     teaser:
       description_html: Du har adgang til alle funktioner i %{trial_plan}.
       title:
@@ -3278,8 +3307,6 @@ da:
       internal_comments_inline:
         description: " "
         title: Skriv interne kommentarer, som kun en lille gruppe kan se
-      mcp_server:
-        description: Få OpenProject med i dine AI-arbejdsgange med en sikker MCP-server.
       meeting_templates:
         description: Definer mødeskabeloner med en fast dagsordensstruktur, og spar tid ved at genbruge dem, når du opretter nye møder.
       nextcloud_sso:
@@ -3653,7 +3680,7 @@ da:
           caption: Brug en eksisterende formular til typen med et foruddefineret sæt attributgrupper.
           label: Brug en eksisterende formular
         new:
-          caption: Sæt attributgrupperne sammen i en ny formular til typen.
+          caption: Angiv manuelt et nyt sæt afsnit og felter, der skal vises for denne variant.
           label: Konfigurer en ny formular
   forums:
     index:
@@ -3958,7 +3985,7 @@ da:
   label_active_in_new_projects: Aktiv i nye projekter
   label_activity: Aktivitet
   label_add_another_file: Tilføj en anden fil
-  label_add_column: Tilføj kolonne
+  label_add_column: Tilføj kolonner
   label_add_columns: Tilføj valgte kolonner
   label_add_edit_translations: Tilføje og redigere oversættelser
   label_add_note: Tilføj en note
@@ -3973,7 +4000,7 @@ da:
   label_additional_workflow_transitions_for_author: Yderligere overgange tilladt når brugeren er forfatteren
   label_administration: Administration
   label_age: Alder
-  label_aggregate_function_plural: Aggregate functions
+  label_aggregate_function_plural: Aggregeringsfunktioner
   label_ago: dage siden
   label_all: alle
   label_all_open_wps: Alle åbne
@@ -4094,7 +4121,7 @@ da:
   label_custom_export_footer: Billede i sidefoden
   label_custom_export_logo: Logo
   label_custom_favicon: Brugerdefineret favicon
-  label_custom_field_add_no_type: Føj feltet til en arbejdspakketype
+  label_custom_field_add_no_form: Føj feltet til en formular
   label_custom_field_default_type: Tom typebetegnelse
   label_custom_field_new: Nyt brugerdefineret felt
   label_custom_field_plural: Brugerdefinerede felter
@@ -4188,7 +4215,7 @@ da:
   label_filter: Filtre
   label_filter_add: Tilføj filter
   label_filter_any_name_attribute: Navneattributter
-  label_filter_by: Filtrer efter
+  label_filter_by_column: Filtrer efter %{column}
   label_filter_plural: Filtre
   label_filters_toggle: Vis/skjul filtre
   label_float: Flyd
@@ -4239,6 +4266,7 @@ da:
   label_in: i
   label_in_less_than: på mindre end
   label_in_more_than: på mere end
+  label_in_progress_work_packages: i gang
   label_inactive: Inaktiv
   label_include_sub_projects: Medtag underprojekter
   label_includes: omfatter
@@ -4390,7 +4418,7 @@ da:
   label_on: på
   label_open: åben
   label_open_menu: Åbn menuen
-  label_open_work_packages: åbn
+  label_open_work_packages: åbne (ikke startet + i gang)
   label_open_work_packages_plural: åbne
   label_openproject_website: OpenProjects websted
   label_operator_all: er ikke tom
@@ -4511,8 +4539,8 @@ da:
   label_repository_remove: Fjern repository
   label_repository_root: Repositorie topniveau
   label_request_submission: Indsendelse af anmodning
-  label_required: påkrævet
-  label_required_disk_storage: Påkrævet disklagerplads
+  label_required: obligatorisk
+  label_required_disk_storage: Nødvendig disklagerplads
   label_requires: kræver
   label_reserved_identifiers: Reserverede projekt-id'er
   label_result_plural: Resultater
@@ -4526,7 +4554,7 @@ da:
   label_roadmap_overdue: "%{value} forsinket"
   label_role_and_permissions: Roller og tilladelser
   label_role_grantable: Rolle, der kan tildeles
-  label_role_missing_permissions: "%{role} (mangler påkrævede tilladelser)"
+  label_role_missing_permissions: "%{role} (mangler nødvendige tilladelser)"
   label_role_new: Ny rolle
   label_role_plural: Roller
   label_role_search: Tildel rolle til nye medlemmer
@@ -4597,6 +4625,7 @@ da:
   label_time_entry_plural: Anvendt tid
   label_timer_since: Startet %{time}
   label_title: Titel
+  label_to_do_work_packages: ikke startet
   label_today: i dag
   label_today_as_date: Vælg dags dato.
   label_today_as_due_date: Vælg dags dato som slutdato.
@@ -4710,6 +4739,13 @@ da:
     one: "%{count} fil"
     other: "%{count} filer"
     zero: ingen filer
+  label_x_forms:
+    one: "%{count} formular"
+    other: "%{count} formularer"
+  label_x_in_progress_work_packages_abbr:
+    one: 1 i gang
+    other: "%{count} i gang"
+    zero: 0 i gang
   label_x_items:
     one: "%{count} element"
     other: "%{count} elementer"
@@ -4725,6 +4761,10 @@ da:
     one: "%{count} projekt"
     other: "%{count} projekter"
     zero: ingen projekter
+  label_x_to_do_work_packages_abbr:
+    one: 1 ikke startet
+    other: "%{count} ikke startet"
+    zero: 0 ikke startet
   label_x_work_packages:
     one: "%{count} arbejdspakke"
     other: "%{count} arbejdspakker"
@@ -5275,7 +5315,7 @@ da:
   notice_account_invalid_credentials_sso_hint: Hvis din konto er sat op til single sign-on, skal du i stedet logge ind via din identitetsudbyder.
   notice_account_invalid_token: Ugyldig aktiveringstegn
   notice_account_lost_email_sent: Der er sendt en e-mail til dig med vejledning i at vælge et nyt kodeord.
-  notice_account_new_password_forced: En ny adgangskode er påkrævet.
+  notice_account_new_password_forced: Der kræves en ny adgangskode.
   notice_account_other_session_expired: Alle andre sessioner, der er knyttet til din konto, er gjort ugyldige.
   notice_account_password_expired: Din adgangskode er udløbet efter %{days} dage. Angiv venligst en ny.
   notice_account_password_updated: Det lykkedes at opdatere adgangskoden.
@@ -5531,7 +5571,7 @@ da:
       key?: mangler.
       max_size?: må højst være på %{num} tegn.
       not_found: blev ikke fundet.
-      respond_to?: implementerer ikke den påkrævede metode.
+      respond_to?: implementerer ikke den krævede metode.
       rules:
         custom_field:
           format_not_supported: formatet '%{field_format}' understøttes ikke.
@@ -5659,7 +5699,7 @@ da:
   permission_comment_news: Kommenter nyheder
   permission_commit_access: Læse- og skriveadgang til repository (commit)
   permission_copy_projects: Dupliker projekter
-  permission_copy_projects_explanation: 'I skabelonprojekter har tilladelsen en ekstra funktion: Den giver mulighed for at oprette nye projekter ud fra skabelonen.'
+  permission_copy_projects_explanation: Giver mulighed for at kopiere alle projektdata, herunder indhold og vedhæftede filer, som brugeren ikke kan se i kildeprojektet. Afhængigt af rollen i det nye projekt kan rollen i praksis give adgang til alle de kopierede data. Den giver også mulighed for at oprette projekter ud fra skabeloner.
   permission_copy_work_packages: Dupliker arbejdspakker
   permission_create_backup: Opret sikkerhedskopier
   permission_create_user: Opret brugere
@@ -5877,7 +5917,7 @@ da:
   project_module_activity: Aktivitet
   project_module_forums: Fora
   project_module_news: Nyheder
-  project_module_repository: Projektarkiv
+  project_module_repository: SVN/Git-projektarkiv (forældet)
   project_module_wiki: Wiki
   project_module_work_package_tracking: Arbejdspakker
   projects:
@@ -5923,13 +5963,13 @@ da:
       shared: Delte projektlister
     phase_status:
       description:
-        completed: Marking a phase as complete will complete all previous phases.
-        in_progress: Marking a phase as complete will complete all previous phases.
-        open: Re-opening a phase will also open all future phases.
+        completed: This will also mark all previous phases as complete.
+        in_progress: This will complete all previous phases and mark future phases as not started.
+        open: This will mark all future phases as not started.
       title:
-        completed: Completed
-        in_progress: In progress
-        open: Open
+        completed: Afsluttet
+        in_progress: I gang
+        open: Not started
     settings:
       actions:
         label_disable_all: Deaktiver alle
@@ -5950,7 +5990,7 @@ da:
 
         '
       creation_wizard:
-        enabled_because_required_html: Projektattributten kan ikke deaktiveres for denne anmodning om projektinitiering, fordi den er defineret som påkrævet. Installationens administrator kan ændre det i <a href=%{admin_settings_url} target="_blank">indstillingerne under administration</a>.
+        enabled_because_required_html: Projektattributten kan ikke deaktiveres for denne anmodning om projektinitiering, fordi den er defineret som obligatorisk. Installationens administrator kan ændre det i <a href=%{admin_settings_url} target="_blank">indstillingerne under administration</a>.
         errors:
           no_status_when_submitted: Anmodning om projektinitiering kunne ikke aktiveres, fordi arbejdspakketypen %{type} skal have mindst én tilknyttet status. Aktivér mindst én statusarbejdsgang for arbejdspakketypen.
           no_work_package_type: Anmodning om projektinitiering kunne ikke aktiveres, fordi den kræver mindst én aktiv arbejdspakketype, og projektet har ingen. Føj mindst én arbejdspakketype til projektet.
@@ -6260,7 +6300,7 @@ da:
       show_warning_details: For at bruge fillageret skal du huske at aktivere modulet og det pågældende lager i projektindstillingerne i hvert projekt, hvor det skal bruges.
       update_timeout: |-
         Behold de seneste, nødvendige disklagerpladsoplysninger for et repositorie i N minutter.
-        Da opgørelsen af påkrævet disklagerplads for et repositorie kan være bekosteligt, forøg denne værdi for at reducere følgevirkninger på ydeevnen.
+        Da opgørelsen af nødvendig disklagerplads for et repositorie kan være bekosteligt, forøg denne værdi for at reducere følgevirkninger på ydeevnen.
     subversion:
       existing_introduction: Hvis du har et eksisterende underversions-repositorie, kan du sammenkæde dette med OpenProject for at få adgang til det indefra applikationen.
       existing_title: Eksisterende Subversion-repository
@@ -6415,7 +6455,7 @@ da:
   setting_commit_ref_keywords: Fastslår forbindelser mellem nøgleord
   setting_consent_decline_mail: Kontaktadresse vedrørende samtykke
   setting_consent_info: Informationstekst om samtykke
-  setting_consent_required: Samtykke påkrævet
+  setting_consent_required: Samtykke kræves
   setting_consent_time: Tidspunkt for samtykke
   setting_cross_project_work_package_relations: Tillad relationer mellem arbejdspakker på tværs af projekter
   setting_csv_escape_formulas: Neutraliser formler i CSV-eksporter
@@ -6453,7 +6493,7 @@ da:
   setting_invitation_expiration_days_caption: Antal dage, hvorefter e-mailen med aktiverings-link udløber.
   setting_journal_aggregation_time_minutes: Sammenlægningsperiode
   setting_log_requesting_user: Log bruger-login, navn og mail-adresse ved hver forespørgsel
-  setting_login_required: Godkendelse påkrævet
+  setting_login_required: Godkendelse kræves
   setting_login_required_caption: Når feltet er markeret, skal alle forespørgsler til programmet være godkendt.
   setting_lost_password: Aktivér nulstilling af adgangskode
   setting_lost_password_caption: Når feltet er markeret, kan brugerne selv nulstille deres adgangskode.
@@ -6667,7 +6707,7 @@ da:
     passwords: Adgangskoder
     project_attributes:
       edit:
-        description: Ændringer af projektattributten slår igennem i alle projekter, hvor den er aktiveret. Påkrævede attributter kan ikke deaktiveres i de enkelte projekter.
+        description: Ændringer af projektattributten slår igennem i alle projekter, hvor den er aktiveret. Obligatoriske attributter kan ikke deaktiveres i de enkelte projekter.
       heading: Projektattributter
       heading_description: Projektattributterne vises på hvert projekts oversigtsside. Du kan tilføje nye attributter, samle dem i afsnit og ordne dem, som du vil. Attributterne kan aktiveres eller deaktiveres, men ikke ordnes på projektniveau.
       label_add_attribute: Tilføj en projektattribut
@@ -6679,7 +6719,7 @@ da:
       label_project_custom_field_actions: Handlinger for projektattribut
       label_section_actions: Handlinger for afsnit
       new:
-        description: Ændringer af projektattributten slår igennem i alle projekter, hvor den er aktiveret. Påkrævede attributter kan ikke deaktiveres i de enkelte projekter.
+        description: Ændringer af projektattributten slår igennem i alle projekter, hvor den er aktiveret. Obligatoriske attributter kan ikke deaktiveres i de enkelte projekter.
         heading: Ny attribut
       sections:
         display_representation:
@@ -6775,6 +6815,7 @@ da:
         label_built_in_attribute_actions: Handlinger for indbygget attribut
       custom_field_row_component:
         label_user_custom_field_actions: Handlinger for brugerattribut
+      label_move_to_section: Flyt til %{name}
       show_component:
         label_add_attribute: Tilføj en brugerattribut
         label_edit_section: Rediger titel
@@ -6887,6 +6928,11 @@ da:
   status_registered: registreret
   statuses:
     edit:
+      captions:
+        category:
+          closed: Arbejde, der er afsluttet.
+          in_progress: Arbejde, der er i gang.
+          to_do: Arbejde, der endnu ikke er startet.
       status_color_text: |
         Klik for at tildele eller ændre statussens farve.
         Den vises på statusknappen og kan bruges til at fremhæve arbejdspakker i tabellen.
@@ -6947,7 +6993,7 @@ da:
   text_custom_export_font_italic_instructions: 'Det er skrifttypefilen til kursiv tekst. Den skal være i TTF-format.
 
     '
-  text_custom_export_font_regular_instructions: 'Det er skrifttypefilen til normal tekst. Den skal være i TTF-format og er påkrævet.
+  text_custom_export_font_regular_instructions: 'Det er skrifttypefilen til normal tekst. Den skal være i TTF-format og er obligatorisk.
 
     '
   text_custom_export_footer_instructions: 'PDF-eksporter får et grafisk element til venstre i sidefoden. Billedet skal være en PNG- eller JPEG-fil på cirka 200 pixel i bredden.
@@ -6986,7 +7032,7 @@ da:
   text_form_configuration: 'Du kan tilpasse, hvilke felter der vises i formularer til arbejdspakker. Du kan frit gruppere felterne, så de passer til behovene på dit område.
 
     '
-  text_form_configuration_required_attribute: Attributten er markeret som påkrævet og vises derfor altid
+  text_form_configuration_required_attribute: Attributten er markeret som obligatorisk og vises derfor altid
   text_formatting:
     image_link: 'Billede: %{name}'
     markdown: Markdown
@@ -7135,8 +7181,8 @@ da:
           type: Det er de felter, som projektets medlemmer ser, når de opretter eller redigerer en arbejdspakke af denne type. Du kan deaktivere felter, som du vil skjule.
           variant: Det er de felter, som projektets medlemmer ser, når de opretter eller redigerer en arbejdspakke af denne variant. Du kan deaktivere felter, som du vil skjule.
         new:
-          type: Det er de felter, som projektets medlemmer ser, når de opretter eller redigerer en arbejdspakke af denne type. Du bestemmer selv rækkefølgen og grupperingen.
-          variant: Det er de felter, som projektets medlemmer ser, når de opretter eller redigerer en arbejdspakke af denne variant. Du bestemmer selv rækkefølgen og grupperingen.
+          type: Det er de felter, som et projektmedlem ser, når det opretter eller redigerer en arbejdspakke af denne type. Du kan slå felter fra, som du vil skjule.
+          variant: Det er de felter, som et projektmedlem ser, når det opretter eller redigerer en arbejdspakke af denne variant. Du kan slå felter fra, som du vil skjule.
       pdf: Vælg, hvilke PDF-skabeloner der er tilgængelige, når der dannes PDF'er af arbejdspakker, der bruger disse indstillinger. Hver skabelon bestemmer layoutet, og hvilke attributter der står i PDF'en. Den første skabelon på listen er standard.
       project_attributes: Vælg, hvilke projektattributter der vises i arbejdspakker. Projektmedlemmer med tilladelse kan se og redigere dem på arbejdspakkens fane Projektattributter.
       projects:
@@ -7162,7 +7208,7 @@ da:
         form:
           fields: Felter
           groups: Afsnit
-          required: Heraf påkrævet
+          required: Heraf obligatoriske
           same_as_base: Samme som den overordnede type
         scope:
           availability: Tilgængelig for
@@ -7256,7 +7302,7 @@ da:
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
         allow_project_variants_caption: Projektadministratorer med tilladelse til at administrere varianter kan udvide eller ændre denne type i et projekt.
-        description_caption: Add context or hints. Shown to administrators in the types and variants list.
+        description_caption: Tilføj kontekst eller tips. Vises for administratorer i listen over typer og varianter.
         inherited_from_type_html: Nedarvet fra typen <b>%{type}</b>.
         tab: Detaljer
         type_color_text: Den valgte farve adskiller typerne fra hinanden i Gantt-diagrammer og tabeller over arbejdspakker. Vælg derfor en kraftig farve.
@@ -7304,6 +7350,7 @@ da:
         delete_group: Slet afsnit
         drag_to_activate: Træk felter herfra for at aktivere dem
         drag_to_reorder: Træk for at ændre rækkefølgen
+        edit_custom_field: Rediger brugerdefineret felt
         edit_query: Rediger forespørgsel
         empty_group_hint: Træk attributter hertil
         exclusions:
@@ -7328,13 +7375,14 @@ da:
         remove_attribute: Fjern fra afsnit
         rename_group: Omdøb afsnit
         required:
-          already_required_globally: Det brugerdefinerede felt er påkrævet for alle typer.
-          for_variant: Påkrævet for denne type
-          globally: Påkrævet
+          already_required_globally: Det brugerdefinerede felt er obligatorisk for alle typer.
+          excluded: Slå det brugerdefinerede felt til, før du gør det obligatorisk for denne type.
+          for_variant: Obligatorisk for denne type
+          globally: Obligatorisk
           globally_hint: Det ændres på det brugerdefinerede felt
-          mark: Gør påkrævet for denne type
-          not_a_custom_field: Kun et brugerdefineret felt kan gøres påkrævet for en enkelt type.
-          unmark: Gør ikke påkrævet for denne type
+          mark: Gør obligatorisk for denne type
+          not_a_custom_field: Kun et brugerdefineret felt kan gøres obligatorisk for en enkelt type.
+          unmark: Gør ikke obligatorisk for denne type
         reset_description: 'Attributterne sættes tilbage til deres standardgruppe, og ALLE brugerdefinerede felter deaktiveres.
 
           '
@@ -7406,6 +7454,7 @@ da:
           success: Konfigurationen er kopieret.
         exclusions:
           not_inherited: Konfigurationen er ikke nedarvet, så der er intet at udelade. Rediger i stedet konfigurationen direkte.
+          required: Et obligatorisk brugerdefineret felt kan ikke slås fra.
           unknown_aspect: Ukendt konfigurationsafsnit "%{aspect}".
         inherited:
           configure_manually: Konfigurer manuelt
@@ -7468,6 +7517,10 @@ da:
         delete:
           description: Projekter, der bruger varianten, skiftes til den variant, som du vælger nedenfor, før varianten slettes.
           title: Slet %{name}
+          unused:
+            description: Varianten slettes permanent. Handlingen kan ikke fortrydes.
+            heading: Vil du slette varianten '%{name}'?
+            title: Slet variant
         filter: Filtrér efter tekst
         filter_no_results: Ingen varianter matcher filteret
         global_section:

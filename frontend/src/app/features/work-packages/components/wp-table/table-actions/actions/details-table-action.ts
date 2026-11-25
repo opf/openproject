@@ -25,7 +25,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { contextColumnIcon, invisibleIconButtonClasses, OpTableAction } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
+import {
+  contextColumnIcon,
+  invisibleIconButtonClasses,
+  OpTableAction,
+  rowActionTooltipDirection,
+} from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
 import { octiconElement } from 'core-app/shared/helpers/op-icon-builder';
 import { ICON_MAP } from 'core-app/shared/components/primer/dynamic-icon-map';
 
@@ -45,7 +50,7 @@ export class OpDetailsTableAction extends OpTableAction {
     this.injector.get(UrlParamsService));
 
   private text = {
-    button: this.I18n.t('js.button_open_details'),
+    button: this.I18n().t('js.button_open_details'),
   };
 
   public buildElement() {
@@ -55,6 +60,7 @@ export class OpDetailsTableAction extends OpTableAction {
       this.text.button,
       '',
       this.workPackage.displayId,
+      rowActionTooltipDirection,
     );
 
     detailsLink.classList.add(contextColumnIcon, 'hidden-for-mobile', ...invisibleIconButtonClasses);

@@ -38,7 +38,7 @@ describe('TimezoneService', () => {
   const DATE = '2013-02-08';
   let timezoneService:TimezoneService;
 
-  const compile = (timezone?:string, formats:{ date?:string, time?:string } = {}) => {
+  const compile = (timezone?:string, formats:{ date?:string, time?:string, duration?:string } = {}) => {
     const ConfigurationServiceStub = {
       isTimezoneSet: () => !!timezone,
       timezone: () => timezone,
@@ -46,6 +46,9 @@ describe('TimezoneService', () => {
       dateFormat: () => formats.date,
       timeFormatPresent: () => !!formats.time,
       timeFormat: () => formats.time,
+      durationFormat: () => formats.duration,
+      hoursPerDay: () => 8,
+      daysPerMonth: () => 20,
     };
 
     if (!timezone) {
@@ -160,6 +163,60 @@ describe('TimezoneService', () => {
       compile('Europe/Berlin');
 
       expect(timezoneService.uses24HourClock()).toBe(!/[aA]/.test(moment.localeData().longDateFormat('LT')));
+    });
+  });
+
+  describe('#formattedChronicDuration', () => {
+    it('formats the ISO duration in hours_only', () => {
+      compile(undefined, { duration: 'hours_only' });
+
+      expect(timezoneService.formattedChronicDuration('PT21H15M')).toBe('21.25h');
+    });
+
+    it('formats the ISO duration in days_and_hours', () => {
+      compile(undefined, { duration: 'days_and_hours' });
+
+      expect(timezoneService.formattedChronicDuration('PT21H15M')).toBe('2d 5.25h');
+    });
+  });
+
+  describe('#formattedChronicDurationFromHours', () => {
+    it('formats the hours in hours_only', () => {
+      compile(undefined, { duration: 'hours_only' });
+
+      expect(timezoneService.formattedChronicDurationFromHours(21.25)).toBe('21.25h');
+    });
+
+    it('formats the hours in days_and_hours', () => {
+      compile(undefined, { duration: 'days_and_hours' });
+
+      expect(timezoneService.formattedChronicDurationFromHours(21.25)).toBe('2d 5.25h');
+    });
+  });
+
+  describe('#formattedChronicDurationFromSeconds', () => {
+    it('formats the seconds in hours_only', () => {
+      compile(undefined, { duration: 'hours_only' });
+
+      expect(timezoneService.formattedChronicDurationFromSeconds(21.25 * 3600)).toBe('21.25h');
+    });
+
+    it('formats the seconds in days_and_hours', () => {
+      compile(undefined, { duration: 'days_and_hours' });
+
+      expect(timezoneService.formattedChronicDurationFromSeconds(21.25 * 3600)).toBe('2d 5.25h');
+    });
+
+    it('formats zero in hours_only', () => {
+      compile(undefined, { duration: 'hours_only' });
+
+      expect(timezoneService.formattedChronicDurationFromSeconds(0)).toBe('0h');
+    });
+
+    it('formats zero in days_and_hours', () => {
+      compile(undefined, { duration: 'days_and_hours' });
+
+      expect(timezoneService.formattedChronicDurationFromSeconds(0)).toBe('0h');
     });
   });
 });

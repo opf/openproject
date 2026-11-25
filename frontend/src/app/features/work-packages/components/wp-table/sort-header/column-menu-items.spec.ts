@@ -27,6 +27,7 @@
 
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { QUERY_SORT_BY_DESC, QuerySortByResource } from 'core-app/features/hal/resources/query-sort-by-resource';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
@@ -56,6 +57,7 @@ describe('ColumnMenuItems', () => {
   const build = (id:string) => builder.build(column(id), harness.table, header(id), host);
   const find = (items:OpContextMenuItem[], name:string) => items.find((item) => item.linkText === name)!;
   const click = (item:OpContextMenuItem) => item.onClick!(new MouseEvent('click'));
+  const criterion = (id:string, direction:string) => ({ column: { href: column(id).href }, direction: { href: direction } }) as QuerySortByResource;
 
   beforeEach(async () => {
     harness = buildTable({
@@ -99,7 +101,7 @@ describe('ColumnMenuItems', () => {
 
     expect(find(items, 'js.work_packages.query.sort_descending').hidden).toBe(true);
     expect(find(items, 'js.work_packages.query.sort_ascending').hidden).toBe(true);
-    expect(find(items, 'js.work_packages.query.group').hidden).toBe(true);
+    expect(find(items, 'js.work_packages.query.group_by_column').hidden).toBe(true);
   });
 
   it('hides move left on the first and move right on the last column', () => {
@@ -124,8 +126,8 @@ describe('ColumnMenuItems', () => {
     vi.spyOn(groupBy(), 'isGroupable').mockReturnValue(true);
     vi.spyOn(groupBy(), 'isCurrentlyGroupedBy').mockImplementation((candidate) => candidate.id === 'status');
 
-    const grouped = find(build('status'), 'js.work_packages.query.group');
-    const other = find(build('id'), 'js.work_packages.query.group');
+    const grouped = find(build('status'), 'js.work_packages.query.group_by_column');
+    const other = find(build('id'), 'js.work_packages.query.group_by_column');
 
     expect(grouped.checked).toBe(true);
     expect(grouped.hidden).toBe(false);
@@ -137,13 +139,13 @@ describe('ColumnMenuItems', () => {
     const disable = vi.spyOn(groupBy(), 'disable').mockImplementation(() => undefined);
     const setBy = vi.spyOn(groupBy(), 'setBy').mockImplementation(() => undefined);
 
-    expect(click(find(build('status'), 'js.work_packages.query.group'))).toBe(true);
+    expect(click(find(build('status'), 'js.work_packages.query.group_by_column'))).toBe(true);
 
     expect(disable).toHaveBeenCalledTimes(1);
     expect(setBy).not.toHaveBeenCalled();
   });
 
-  it('separates sorting, grouping, column moves and hiding with dividers', () => {
+  it('separates sorting, grouping and column actions with dividers', () => {
     vi.spyOn(sortBy(), 'isSortable').mockReturnValue(true);
     vi.spyOn(groupBy(), 'isGroupable').mockReturnValue(true);
 
@@ -153,14 +155,13 @@ describe('ColumnMenuItems', () => {
       'js.work_packages.query.sort_descending',
       'js.work_packages.query.sort_ascending',
       '|',
-      'js.work_packages.query.group',
+      'js.work_packages.query.group_by_column',
       'js.toolbar.settings.display_hierarchy',
       '|',
       'js.work_packages.query.move_column_left',
       'js.work_packages.query.move_column_right',
-      'js.work_packages.query.insert_columns',
-      '|',
-      'js.work_packages.query.hide_column',
+      'js.work_packages.query.add_columns',
+      'js.work_packages.query.remove_column',
     ]);
   });
 
@@ -176,6 +177,28 @@ describe('ColumnMenuItems', () => {
     expect(click(find(build('subject'), 'js.toolbar.settings.display_hierarchy'))).toBe(true);
 
     expect(hierarchies().isEnabled).toBe(true);
+  });
+
+  it('checks the sort item matching the primary sort criterion', () => {
+    vi.spyOn(sortBy(), 'isSortable').mockReturnValue(true);
+    vi.spyOn(sortBy(), 'current', 'get').mockReturnValue([criterion('status', QUERY_SORT_BY_DESC)]);
+
+    const sorted = build('status');
+    const other = build('subject');
+
+    expect(find(sorted, 'js.work_packages.query.sort_descending')).toMatchObject({ checked: true, radio: true });
+    expect(find(sorted, 'js.work_packages.query.sort_ascending')).toMatchObject({ checked: false, radio: true });
+    expect(find(other, 'js.work_packages.query.sort_descending').checked).toBe(false);
+  });
+
+  it('leaves the sorting untouched when the checked sort item is activated', () => {
+    vi.spyOn(sortBy(), 'isSortable').mockReturnValue(true);
+    vi.spyOn(sortBy(), 'current', 'get').mockReturnValue([criterion('status', QUERY_SORT_BY_DESC)]);
+    const add = vi.spyOn(sortBy(), 'addSortCriteria').mockImplementation(() => undefined);
+
+    expect(click(find(build('status'), 'js.work_packages.query.sort_descending'))).toBe(true);
+
+    expect(add).not.toHaveBeenCalled();
   });
 
   it('closes the menu before confirming a sort in manual mode', async () => {
@@ -202,7 +225,7 @@ describe('ColumnMenuItems', () => {
   it('closes the menu, follows the neighbor and returns focus when hiding a column', () => {
     const remove = vi.spyOn(columns(), 'removeColumn').mockImplementation(() => { calls.push('removeColumn'); });
 
-    expect(click(find(build('subject'), 'js.work_packages.query.hide_column'))).toBe(false);
+    expect(click(find(build('subject'), 'js.work_packages.query.remove_column'))).toBe(false);
 
     expect(calls).toEqual(['close', 'removeColumn', 'followColumn', 'returnFocus']);
     expect(remove).toHaveBeenCalledWith(column('subject'));
@@ -212,13 +235,13 @@ describe('ColumnMenuItems', () => {
   it('follows the next header when hiding the first column', () => {
     vi.spyOn(columns(), 'removeColumn').mockImplementation(() => undefined);
 
-    click(find(build('id'), 'js.work_packages.query.hide_column'));
+    click(find(build('id'), 'js.work_packages.query.remove_column'));
 
     expect(followColumn).toHaveBeenCalledWith(header('subject'));
   });
 
   it('closes the menu before opening the columns dialog', () => {
-    expect(click(find(build('subject'), 'js.work_packages.query.insert_columns'))).toBe(false);
+    expect(click(find(build('subject'), 'js.work_packages.query.add_columns'))).toBe(false);
 
     expect(calls).toEqual(['close', 'showModal']);
     expect(showModal).toHaveBeenCalledWith(expect.any(Function), expect.anything(), { initialTab: 'columns' });

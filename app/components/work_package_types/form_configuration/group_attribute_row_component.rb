@@ -55,48 +55,64 @@ module WorkPackageTypes
         @attribute[:required_globally] ? :attention : :severe
       end
 
+      def render_actions_menu?
+        exclusion_toggle.render? || show_required_action? || show_edit_custom_field? || !readonly?
+      end
+
       def show_required_action?
         @context.toggles_required? && @attribute[:is_cf]
       end
 
+      def show_edit_custom_field?
+        @attribute[:is_cf] && User.current.admin?
+      end
+
+      def edit_custom_field_test_selector
+        "type-form-configuration-edit-custom-field-#{@attribute[:key]}"
+      end
+
+      def edit_custom_field_path
+        edit_admin_settings_work_package_custom_field_path(@attribute[:key].delete_prefix("custom_field_"))
+      end
+
+      def enable_disable_label
+        excluded? ? t("button_enable") : t("button_disable")
+      end
+
+      def enable_disable_icon
+        excluded? ? :eye : :"eye-closed"
+      end
+
+      def enable_disable_test_selector
+        "type-form-configuration-toggle-exclusion-#{@attribute[:key]}"
+      end
+
+      def exclusion_toggle_path
+        @context.exclusion_toggle_path(@attribute[:key], value: excluded? ? "1" : "0")
+      end
+
       def required_action_disabled?
-        @attribute[:required_globally].present?
+        @attribute[:required_globally].present? || excluded?
       end
 
       def toggle_required_label
-        key = @attribute[:required_for_variant] ? "unmark" : "mark"
+        key = required? ? "unmark" : "mark"
 
         t("types.edit.form_configuration.required.#{key}")
       end
 
       def toggle_required_icon
-        @attribute[:required_for_variant] ? "circle-slash" : "check-circle"
+        required? ? "circle-slash" : "check-circle"
       end
 
       def toggle_required_hint
-        t("types.edit.form_configuration.required.globally_hint")
+        key = @attribute[:required_globally] ? "globally_hint" : "excluded"
+
+        t("types.edit.form_configuration.required.#{key}")
       end
 
       def toggle_required_button_id
         "type-form-configuration-toggle-required-#{@attribute[:key]}"
-      end
-
-      def toggle_required_button_arguments
-        arguments = {
-          size: :small,
-          id: toggle_required_button_id,
-          test_selector: toggle_required_button_id
-        }
-
-        if required_action_disabled?
-          arguments.merge(inactive: true, aria: { disabled: true })
-        else
-          arguments.merge(
-            tag: :a,
-            href: row_toggle_required_path,
-            data: { turbo_method: :put, turbo_stream: true }
-          )
-        end
       end
 
       def row_toggle_required_path
@@ -107,11 +123,24 @@ module WorkPackageTypes
         @exclusion_toggle ||= ExclusionToggleComponent.new(
           exclusions: @context.exclusions,
           element_key: @attribute[:key],
-          label: t("types.edit.form_configuration.exclusions.attribute_label", attribute: @attribute[:translation])
+          label: t("types.edit.form_configuration.exclusions.attribute_label", attribute: @attribute[:translation]),
+          enabled: !required_and_included?
         )
       end
 
       private
+
+      def required_and_included?
+        @attribute[:is_cf] && required? && !excluded?
+      end
+
+      def required?
+        @attribute[:required_globally] || @attribute[:required_for_variant]
+      end
+
+      def excluded?
+        @context.exclusions&.excluded?(@attribute[:key])
+      end
 
       def sortable?
         !readonly? && sortable_attribute?(@attribute)

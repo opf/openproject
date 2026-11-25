@@ -40,7 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
       <%# Open where a variant is in use: the row saying so is inside the group. %>
       <% list.with_header(
            count: variants_count(project_type),
-           collapsed: base_type_in_use?(project_type)
+           collapsed: collapsed?(project_type)
          ) do |header| %>
         <% header.with_title do %>
           <%= render(Primer::Beta::Text.new(tag: :span, pl: 1)) { helpers.icon_for_type(project_type.type) } %>
@@ -83,6 +83,9 @@ See COPYRIGHT and LICENSE files for more details.
             <% if in_use?(project_type, variant) %>
               <% row.with_state { in_use_marker(t("projects.settings.types.variant_in_use")) } %>
             <% end %>
+            <% if variant.created_by_migration? %>
+              <% row.with_status_label(scheme: :attention) { t("types.index.created_by_migration") } %>
+            <% end %>
           <% end %>
         <% end %>
       <% end %>
@@ -115,11 +118,7 @@ See COPYRIGHT and LICENSE files for more details.
 
   <% if active_project_types.empty? %>
     <%= render(OpPrimer::BorderBoxListComponent.new(container: "project-settings-types")) do |list| %>
-      <% list.with_empty_state(
-           title: t("projects.settings.types.empty_state.title"),
-           description: t("projects.settings.types.empty_state.description"),
-           icon: :rows
-         ) %>
+      <% list.with_empty_state(**empty_state_arguments) %>
     <% end %>
   <% end %>
 <% end %>

@@ -117,6 +117,47 @@ RSpec.describe "Admin custom fields dedicated pages",
     end
   end
 
+  shared_examples "a list items page keeping its tab on a failed save" do |factory:, route:|
+    let(:custom_field) { create(*factory, possible_values: %w[A B]) }
+    let(:option_a) { custom_field.custom_options.find_by!(value: "A") }
+    let(:option_b) { custom_field.custom_options.find_by!(value: "B") }
+
+    before { login_as admin }
+
+    it "re-renders the items tab as the selected tab" do
+      patch Rails.application.routes.url_helpers.public_send(:"#{route}_path", custom_field),
+            params: {
+              custom_field: {
+                custom_options_attributes: {
+                  "0" => { id: option_a.id, value: "A" },
+                  "1" => { id: option_b.id, value: "" }
+                }
+              }
+            }
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(Capybara.string(response.body)).to have_css("[aria-current='page']", text: I18n.t(:label_item_plural))
+    end
+  end
+
+  describe "work package list custom fields" do
+    it_behaves_like "a list items page keeping its tab on a failed save",
+                    factory: [:list_wp_custom_field],
+                    route: "admin_settings_work_package_custom_field"
+  end
+
+  describe "project list custom fields" do
+    it_behaves_like "a list items page keeping its tab on a failed save",
+                    factory: [:list_project_custom_field],
+                    route: "admin_settings_project_custom_field"
+  end
+
+  describe "user list custom fields" do
+    it_behaves_like "a list items page keeping its tab on a failed save",
+                    factory: %i[user_custom_field list],
+                    route: "admin_settings_user_custom_field"
+  end
+
   describe "work package custom fields" do
     it_behaves_like "a dedicated custom field admin page",
                     factory: :work_package_custom_field,

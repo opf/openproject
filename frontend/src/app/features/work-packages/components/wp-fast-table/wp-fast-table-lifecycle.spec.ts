@@ -106,6 +106,16 @@ describe('WorkPackageTable lifecycle', () => {
     vi.restoreAllMocks();
   });
 
+  it('runs no change once the table is destroyed', async () => {
+    const harness = await mount({ workPackages: [{ id: '1' }] });
+    const change = vi.fn();
+    harness.table.destroy();
+
+    harness.table.mutate('all', change);
+
+    expect(change).not.toHaveBeenCalled();
+  });
+
 
   it('keeps a second table ownership and focus intact when an editor table is destroyed', async () => {
     const options:TableHarnessOptions = {

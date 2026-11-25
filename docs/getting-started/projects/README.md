@@ -30,7 +30,7 @@ A project in OpenProject can be understood as a project as defined above. Also, 
 
 ## Open an existing project
 
-In order to open an existing project, click the **All projects** dropdown menu in the upper left corner of the header and select the project you want to open.
+In order to open an existing project, click the **All projects** dropdown menu in the upper left corner of the header navigation and select the project you want to open.
 
 You can also start typing in a project name to filter by the project's title or filter for favorite projects. 
 
@@ -56,7 +56,7 @@ There are several ways to create a new project in OpenProject. Keep in mind that
 
 1. Click the **+ (Plus)** button in the top right corner of the header navigation. 
 
-![+ Button in the top right corner of the OpenProject head navigation, opened, showing an option to add a new project](openproject_getting_started_project_plust_button_add_project.png)
+![+ Button in the top right corner of the OpenProject header navigation, opened, showing an option to add a new project](openproject_getting_started_project_plus_button_add_project.png)
 
 2. In addition, you can also create a new project on the [project lists](../../user-guide/projects/project-lists/) overview page. 
 
@@ -123,8 +123,8 @@ The project members of a newly created project depend on how the project was cre
 
 - **Copied from another project**: The project inherits the members and roles from the original project. See here [how to duplicate a project](../../user-guide/projects/project-settings/project-information/#duplicate-a-project).
 
-> [!TIP]
-> A user copying a project is also assigned a **New role for users that create projects** in the newly created project. Depending on your configuration, this role may grant more permissions than the user had in the original project. Keep this in mind when granting users permission to copy projects.
+> [!IMPORTANT]
+> Copying a project includes all selected data, including content and attachments the user cannot view in the original project. Users who are not instance administrators receive the configured **New role for users that create projects** in the new project. This role can grant access to all copied data. Administrators should review the [role assigned to project creators](../../system-admin-guide/projects/new-project/) when granting **Copy projects**.
 
 To continue configuring your project, see the documentation on [project settings](../../user-guide/projects/project-settings/project-information/).
 

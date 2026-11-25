@@ -25,20 +25,21 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, Directive, ElementRef, inject, Injector, Input, OnDestroy } from '@angular/core';
+import { AfterViewInit, Directive, inject, Input } from '@angular/core';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HookService } from 'core-app/features/plugins/hook-service';
-import {
-  OpContextMenuTrigger,
-} from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
+import { OpActionMenuItems } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu-items';
+import { withOcticon } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-menu-octicons';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import {
+  ContextMenuItemGroups,
   copyIdActionLabel,
   isCopyIdAction,
   PERMITTED_CONTEXT_MENU_ACTIONS,
+  sortContextMenuActions,
 } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-static-context-menu-actions';
 import { CopyToClipboardService } from 'core-app/shared/components/copy-to-clipboard/copy-to-clipboard.service';
 import {
@@ -56,9 +57,8 @@ import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[wpSingleContextMenu]',
-  standalone: false,
 })
-export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger implements AfterViewInit, OnDestroy {
+export class WorkPackageSingleContextMenuDirective extends OpActionMenuItems implements AfterViewInit {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('wpSingleContextMenu-workPackage') public workPackage:WorkPackageResource;
 
@@ -66,9 +66,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
 
   readonly HookService = inject(HookService);
   readonly urlParams = inject(UrlParamsService);
-  readonly injector = inject(Injector);
   readonly PathHelper = inject(PathHelperService);
-  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly turboRequests = inject(TurboRequestsService);
   readonly apiV3Service = inject(ApiV3Service);
   readonly authorisationService = inject(AuthorisationService);
@@ -78,30 +76,25 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
 
   private closeDialogHandler:EventListener = this.handleTimeEntryDialogClose.bind(this);
 
-  override readonly placement = 'bottom-end';
-
   ngAfterViewInit():void {
-    super.ngAfterViewInit();
     document.addEventListener('dialog:close', this.closeDialogHandler);
 
-    this.timeEntryService.activeTimer$.subscribe((timer) => {
+    this.timeEntryService.activeTimer$.pipe(this.untilDestroyed()).subscribe((timer) => {
       this.currentTimer = timer;
     });
   }
 
-  ngOnDestroy():void {
+  override ngOnDestroy():void {
     document.removeEventListener('dialog:close', this.closeDialogHandler);
+    super.ngOnDestroy();
   }
 
-  protected open(evt:Event) {
-    void this.workPackage.project.$load().then(() => {
+  protected buildItems():Promise<OpContextMenuItem[]> {
+    return this.workPackage.project.$load().then(() => {
       this.authorisationService.initModelAuth('work_package', this.workPackage.$links);
 
       const authorization = new WorkPackageAuthorization(this.workPackage, this.PathHelper);
-      const permittedActions = this.getPermittedActions(authorization);
-
-      this.buildItems(permittedActions);
-      this.opContextMenu.show(this, evt);
+      return this.menuItems(this.getPermittedActions(authorization));
     });
   }
 
@@ -199,42 +192,45 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
     return authorization.permittedActionsWithLinks(actions);
   }
 
-  protected buildItems(permittedActions:WorkPackageAction[]):OpContextMenuItem[] {
+  private menuItems(permittedActions:WorkPackageAction[]):OpContextMenuItem[] {
     const configureFormLink = this.workPackage.configureForm;
 
-    this.items = permittedActions.map((action:WorkPackageAction) => {
-      const { key } = action;
-      const href = isCopyIdAction(key) || action.turboRequest ? undefined : action.link;
+    const groups = new ContextMenuItemGroups();
 
-      return {
-        disabled: false,
-        hidden: action.hidden === true,
-        linkText: isCopyIdAction(key) ? copyIdActionLabel(this.workPackage) : I18n.t(`js.button_${key}`),
-        href,
-        icon: action.icon || `icon-${key}`,
-        onClick: (event:MouseEvent) => {
-          if (href && isClickedWithModifier(event)) {
-            return false;
-          }
+    sortContextMenuActions(permittedActions)
+      .filter((action) => action.hidden !== true)
+      .forEach((action:WorkPackageAction) => {
+        const { key } = action;
+        const href = isCopyIdAction(key) || action.turboRequest ? undefined : action.link;
 
-          this.triggerContextMenuAction(action, key);
-          return true;
-        },
-      };
-    });
+        groups.addAction(key, {
+          disabled: false,
+          linkText: isCopyIdAction(key) ? copyIdActionLabel() : I18n.t(`js.button_${key}`),
+          href,
+          icon: action.icon ?? `icon-${key}`,
+          onClick: (event:MouseEvent) => {
+            if (href && isClickedWithModifier(event)) {
+              return false;
+            }
+
+            this.triggerContextMenuAction(action, key);
+            return true;
+          },
+        });
+      });
 
     if (configureFormLink) {
-      this.items.push(
-        {
-          href: configureFormLink.href as string|undefined,
-          icon: 'icon-settings3',
-          linkText: I18n.t('js.button_configure-form'),
-          onClick: () => false,
-        },
-      );
+      groups.append('configure', {
+        href: configureFormLink.href as string|undefined,
+        icon: 'icon-settings3',
+        linkText: I18n.t('js.button_configure-form'),
+        onClick: () => false,
+      });
     }
 
-    return this.items;
+    groups.transform(withOcticon);
+
+    return groups.items;
   }
 
   private handleTimeEntryDialogClose(event:CustomEvent<DialogCloseDetail>):void {

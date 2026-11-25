@@ -30,7 +30,7 @@
 
 # A set of work package journals measured over a ChartWindow's ticks, as the ChartPoints a chart
 # draws. What is measured is the caller's: +counts+ for how many there were, +sums+ for what they
-# held.
+# held, +estimates+ for whichever of the two the project's estimation unit asks for.
 #
 # Every tick gets a point. A tick the query returned nothing for measured zero rather than
 # nothing at all, which is what keeps a series dense enough for the chart to step between its
@@ -51,6 +51,16 @@ module Sprints
 
     def sums(journals, column)
       points(timeline(journals).group(:tick).sum(column))
+    end
+
+    def estimates(journals, project)
+      if project.estimation_unit_story_points?
+        sums(journals, :story_points)
+      elsif project.estimation_unit_time?
+        sums(journals, :estimated_hours)
+      else
+        counts(journals)
+      end
     end
 
     private

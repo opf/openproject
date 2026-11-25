@@ -131,7 +131,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       render_component
 
       expect(page).to have_text(I18n.t(:"js.button_open_fullscreen"))
-      expect(page).to have_octicon(:"screen-full")
+      expect(page).to have_octicon(:"op-view-fullscreen")
       expect(page).to have_css(
         "a[data-turbo-frame='_top']",
         text: I18n.t(:"js.button_open_fullscreen")

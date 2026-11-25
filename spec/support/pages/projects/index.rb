@@ -441,8 +441,7 @@ module Pages
       end
 
       def expect_filter_option_in_action_menu(column_name)
-        expect(page).to have_css("[data-test-selector='#{column_name.downcase}-filter-by']",
-                                 text: I18n.t(:label_filter_by))
+        expect(page).to have_css("[data-test-selector='#{column_name.downcase}-filter-by']")
       end
 
       def expect_no_filter_option_in_action_menu(column_name)
@@ -450,7 +449,7 @@ module Pages
       end
 
       def filter_by_column_via_action_menu(column_name)
-        page.find("[data-test-selector='#{column_name.downcase}-filter-by']", text: I18n.t(:label_filter_by)).click
+        page.find("[data-test-selector='#{column_name.downcase}-filter-by']").click
       end
 
       def expect_sort_order_via_table_header(column_name, direction:)

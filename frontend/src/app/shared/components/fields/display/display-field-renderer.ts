@@ -173,6 +173,10 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
       span.classList.add(placeholderClassName);
     }
 
+    if (this.options.writable === false) {
+      return;
+    }
+
     const schema = this.schema(resource, change);
     if (this.isAttributeEditable(schema, name)) {
       span.classList.add(editableClassName);

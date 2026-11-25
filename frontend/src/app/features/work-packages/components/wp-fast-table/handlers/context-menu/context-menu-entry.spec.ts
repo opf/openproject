@@ -34,6 +34,7 @@ import { States } from 'core-app/core/states/states.service';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
+import { WorkPackageViewHierarchyIdentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service';
 import { WorkPackageContextMenuHelperService } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 import { QUERY_SORT_BY_DESC } from 'core-app/features/hal/resources/query-sort-by-resource';
 import { OpActionMenuService } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.service';
@@ -79,7 +80,8 @@ describe('Context menu entry', () => {
   it('renders known table actions as Octicons and preserves custom visuals', () => {
     vi.spyOn(harness.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions').mockReturnValue([
       { key: 'delete' },
-      { key: 'log_costs', icon: 'icon-projects' },
+      { key: 'log_costs', icon: 'icon-budget' },
+      { key: 'relation-precedes' },
       { key: 'custom', icon: 'icon-custom' },
     ]);
 
@@ -88,9 +90,37 @@ describe('Context menu entry', () => {
     expect(opened.mock.calls[0][0].locals.items).toEqual(expect.arrayContaining([
       expect.objectContaining({ octicon: 'op-view-split' }),
       expect.objectContaining({ octicon: 'trash' }),
-      expect.objectContaining({ icon: 'icon-projects', octicon: undefined }),
+      expect.objectContaining({ octicon: 'op-budget' }),
+      expect.objectContaining({ octicon: 'package-dependents' }),
       expect.objectContaining({ icon: 'icon-custom', octicon: undefined }),
     ]));
+  });
+
+  it('separates the action groups with dividers and marks deletion as dangerous', () => {
+    vi.spyOn(harness.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions').mockReturnValue([
+      { key: 'copy_link_to_clipboard', text: 'Copy link to clipboard' },
+      { key: 'log_time', text: 'Log time' },
+      { key: 'change_project', text: 'Move to another project' },
+      { key: 'generate_pdf', text: 'Generate PDF' },
+      { key: 'delete', text: 'Delete' },
+    ]);
+
+    fireEvent.contextMenu(harness.row('1'));
+
+    const items = opened.mock.calls[0][0].locals.items;
+
+    expect(items.slice(2).map((item) => (item.divider ? '---' : item.linkText))).toEqual([
+      'Copy link to clipboard',
+      '---',
+      'Log time',
+      '---',
+      'Move to another project',
+      '---',
+      'Generate PDF',
+      '---',
+      'Delete',
+    ]);
+    expect(items.filter((item) => item.scheme === 'danger').map((item) => item.linkText)).toEqual(['Delete']);
   });
 
   it('uses the duplicate Octicon for the bulk copy action', () => {
@@ -153,6 +183,16 @@ describe('Context menu entry', () => {
     expect(opened).toHaveBeenCalledTimes(1);
   });
 
+  it('opens the menu for the row without selecting it when selection is disabled', async () => {
+    await harness.destroy();
+    await mount({ configuration: { contextMenuEnabled: true, selectionEnabled: false } });
+
+    expect(fireEvent.contextMenu(harness.row('1'))).toBe(false);
+
+    expect(harness.selection.getSelectedWorkPackageIds()).toEqual([]);
+    expect(menuTargets).toEqual([['1']]);
+  });
+
   it('keeps a batch selection and opens the menu for the whole batch', () => {
     harness.click('1');
     harness.click('2', { shiftKey: true });
@@ -211,7 +251,7 @@ describe('Context menu entry', () => {
       if (!call) throw new Error('No menu was opened');
       return call[0].locals.items;
     };
-    const moveMenu = () => menuItems().find((item) => item.children && item.linkText === 'Move');
+    const moveMenu = () => menuItems().find((item) => item.children && item.linkText === 'Move to position');
     const moveItems = () => moveMenu()?.children ?? [];
     const hasMoveSubmenu = () => moveMenu() !== undefined;
 
@@ -221,7 +261,7 @@ describe('Context menu entry', () => {
       window.I18n.store({
         en: {
           js: {
-            button_move: 'Move',
+            button_move_to_position: 'Move to position',
             label_sort_highest: 'Move to top',
             label_sort_higher: 'Move up',
             label_sort_lower: 'Move down',
@@ -1173,5 +1213,93 @@ describe('Context menu focus return', () => {
 
       await waitFor(() => expect(harness.row('1')).toHaveFocus());
     });
+  });
+});
+
+describe('Context menu hierarchy actions', () => {
+  let harness:TableHarness;
+  let operation:{ resolve:() => void, reject:(reason:Error) => void };
+  let menu:WorkPackageTableContextMenu;
+  let container:HTMLElement;
+  let menuItem:HTMLButtonElement;
+  const indentation = { indent: vi.fn(), outdent: vi.fn() };
+  const rowPosition = { key: wpOccurrenceKey('1'), cell: null, desiredColumn: null };
+
+  beforeEach(async () => {
+    harness = buildTable({
+      workPackages: [{ id: '1' }, { id: '2' }],
+      productionMarkup: true,
+      configuration: { contextMenuEnabled: true },
+      providers: [{ provide: WorkPackageViewHierarchyIdentationService, useValue: indentation }],
+    });
+    await harness.render();
+    container = harness.table.scrollContainer;
+    harness.table.keyboardNavigation.focusPosition(rowPosition);
+    menu = new WorkPackageTableContextMenu(harness.injector, '1', harness.row('1'), {}, harness.table);
+    menuItem = document.body.appendChild(document.createElement('button'));
+    menuItem.focus();
+
+    // As in the app: the view makes the table inert for as long as the published operation runs,
+    // and the service hands its caller a promise that settles after that one.
+    const running = () => {
+      const published = new Promise<void>((resolve, reject) => {
+        operation = { resolve, reject };
+      });
+      const release = () => { container.inert = false; };
+      container.inert = true;
+      void published.then(release, release);
+      return published.then(() => undefined);
+    };
+    indentation.indent.mockImplementation(running);
+    indentation.outdent.mockImplementation(running);
+  });
+
+  afterEach(() => harness.destroy());
+
+  // Choosing an item runs its action and then closes the menu, which removes the focused item.
+  const choose = (key:string) => {
+    menu.triggerContextMenuAction({ key });
+    menu.onClose(true, 'action');
+    menuItem.remove();
+  };
+
+  it.each(['hierarchy-indent', 'hierarchy-outdent'])('returns focus to the row once %s has finished', async (key) => {
+    choose(key);
+    expect(harness.row('1')).not.toHaveFocus();
+
+    operation.resolve();
+
+    await waitFor(() => expect(harness.row('1')).toHaveFocus());
+  });
+
+  it('returns focus to the row when the change fails', async () => {
+    choose('hierarchy-indent');
+    expect(harness.row('1')).not.toHaveFocus();
+
+    operation.reject(new Error('conflict'));
+
+    await waitFor(() => expect(harness.row('1')).toHaveFocus());
+  });
+
+  it('leaves focus where the user moved it outside the table', async () => {
+    const elsewhere = document.body.appendChild(document.createElement('button'));
+    choose('hierarchy-indent');
+    elsewhere.focus();
+
+    operation.resolve();
+    await waitFor(() => expect(container.inert).toBe(false));
+
+    expect(elsewhere).toHaveFocus();
+    elsewhere.remove();
+  });
+
+  it('does nothing once the table is gone', async () => {
+    choose('hierarchy-indent');
+    await harness.destroy();
+
+    operation.resolve();
+    await waitFor(() => expect(container.inert).toBe(false));
+
+    expect(harness.row('1')).not.toHaveFocus();
   });
 });

@@ -64,6 +64,18 @@ RSpec.describe "Recurring meetings complete template",
     recurring_meeting.meetings.not_templated.count
   end
 
+  context "when the series template is missing" do
+    before do
+      recurring_meeting.template.destroy!
+    end
+
+    it "returns not found without changing the series" do
+      expect { subject }.not_to change { recurring_meeting.reload.attributes }
+
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
   context "when past occurrence is already created" do
     let!(:meeting) do
       create(:meeting,

@@ -41,7 +41,7 @@ RSpec.describe Llm::Runtime, with_flag: { llm_connection: true, semantic_search:
     let(:feature_key) { :spec_only_unavailable_feature }
 
     before do
-      OpenProject::Llm::Features.register(feature_key, kind: :chat, available: -> { false })
+      OpenProject::Llm::Features.register(feature_key, kind: :chat, enabled: -> { false })
       create(:llm_connection, :with_models, default_chat_model_identifier: "qwen3.6-27b")
     end
 
@@ -72,24 +72,6 @@ RSpec.describe Llm::Runtime, with_flag: { llm_connection: true, semantic_search:
       expect(resolution.model_id).to be_nil
     end
 
-    # The same name on another server need not be the same model, and an index
-    # written with the first one must not be queried with the second.
-    it "refuses a binding locked on another deployment, although the name is still offered" do
-      create(:llm_feature_binding, llm_connection: connection, feature_key: "description_assistant", model_id: "qwen3.6-27b")
-                .update!(locked_at: Time.current)
-      connection.update_columns(base_url: "https://elsewhere.example/v1")
-
-      expect(resolution.status).to eq(:model_missing)
-      expect(resolution.model_id).to eq("qwen3.6-27b")
-    end
-
-    it "resolves a locked binding while the connection still points at its deployment" do
-      create(:llm_feature_binding, llm_connection: connection, feature_key: "description_assistant", model_id: "qwen3.6-27b")
-                .update!(locked_at: Time.current)
-
-      expect(resolution.status).to eq(:ready)
-    end
-
     it "falls back to the connection default" do
       connection.update!(default_chat_model: connection.models.find_by(external_id: "qwen3.6-27b"))
 
@@ -113,10 +95,12 @@ RSpec.describe Llm::Runtime, with_flag: { llm_connection: true, semantic_search:
         expect(resolution.model_id).to eq("qwen3.6-27b")
       end
 
-      # semantic_search's vectors were written with the bound model; a different
+      # semantic_search's vectors were written with the index's model; a different
       # one at query time is silently wrong answers, not a preference.
       it "is ignored by a feature that is not overridable" do
-        create(:llm_feature_binding, llm_connection: connection, feature_key: "semantic_search", model_id: "bge-m3")
+        semantic_index = create(:semantic_index, state: "ready", model_id: "bge-m3", embedding_vector_dimensions: 3)
+        create(:llm_feature_binding, llm_connection: connection, feature_key: "semantic_search",
+                                     semantic_index:)
         create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3", capability: "embeddings",
                                         state: "supported", source: "admin")
 
@@ -144,7 +128,10 @@ RSpec.describe Llm::Runtime, with_flag: { llm_connection: true, semantic_search:
     let(:feature_key) { :semantic_search }
     let!(:connection) { create(:llm_connection, :with_models) }
 
-    before { create(:llm_feature_binding, llm_connection: connection, feature_key: "semantic_search", model_id: "qwen3.6-27b") }
+    before do
+      semantic_index = create(:semantic_index, state: "ready", model_id: "qwen3.6-27b", embedding_vector_dimensions: 3)
+      create(:llm_feature_binding, llm_connection: connection, feature_key: "semantic_search", semantic_index:)
+    end
 
     it "blocks on a definite unsupported verdict" do
       create(:llm_capability_verdict, llm_connection: connection, model_id: "qwen3.6-27b", capability: "embeddings",

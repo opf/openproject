@@ -89,18 +89,18 @@ de:
         invalid_time_format: 'ist keine gültige Zeit. Erforderliches Format: HH:MM'
       models:
         meeting_agenda_item:
-          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
-          meeting_is_template: Template agenda items cannot be moved to the next meeting.
-          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
+          meeting_closed: Die Besprechung ist geschlossen. Die Tagesordnungspunkte können nicht mehr verschoben werden.
+          meeting_is_template: Vorlagen für Tagesordnungspunkte können nicht auf die nächste Sitzung verschoben werden.
+          not_in_recurring_series: Dieser Tagesordnungspunkt gehört nicht zu einer Terminserie.
           section_not_belong_to_meeting: Die Sektion gehört nicht zur gleichen Besprechung.
           user_invalid: ist kein gültiger Teilnehmer.
-          vote_based_sorting_required: Voting requires vote-based agenda sorting.
+          vote_based_sorting_required: Abstimmen ist nur für Tagesordnungen möglich, die auch nach Stimmen sortiert werden.
         meeting_participant:
           user_invalid: ist kein gültiger Teilnehmer.
         recurring_meeting:
           must_cover_existing_meetings:
             format: "%{message}"
-            one: There is %{count} open meeting in the series that is not covered by the new schedule. Adjust the schedule to include all existing meetings.
+            one: Es gibt %{count} offene Besprechungen in der Terminserie, die nicht durch den neuen Zeitplan abgedeckt sind. Passen Sie den Zeitplan an, um alle bestehenden Meetings einzuschließen.
             other: Es gibt %{count} offene Besprechungen in der Terminserie, die nicht durch den neuen Zeitplan abgedeckt sind. Passen Sie den Zeitplan an, um alle bestehenden Meetings einzuschließen.
         recurring_meeting_interim_response:
           not_an_occurrence: ist keine gültige Uhrzeit für diese wiederkehrende Besprechung
@@ -160,7 +160,7 @@ de:
   journals:
     cause_descriptions:
       system_update:
-        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
+        meeting_journal_sync: Der Besprechungsverlauf wird automatisch mit dem aktuellen Stand der Besprechung synchronisiert. Tagesordnungspunkte und Ergebnisse sind ab sofort Teil des Verlaufs.
   label_add_work_package_to_meeting_dialog_button: Zur Besprechung hinzufügen
   label_add_work_package_to_meeting_dialog_title: Besprechung auswählen
   label_add_work_package_to_meeting_section_label: Abschnitt
@@ -178,7 +178,7 @@ de:
   label_agenda_item_duplicate: Duplizieren
   label_agenda_item_duplicate_in_next: In die nächste Besprechung duplizieren
   label_agenda_item_duplicate_in_next_title: In die nächste Besprechung duplizieren?
-  label_agenda_item_include_outcomes: Include outcomes
+  label_agenda_item_include_outcomes: Ergebnisse einbeziehen
   label_agenda_item_move: Verschieben
   label_agenda_item_move_down: Nach unten verschieben
   label_agenda_item_move_to_backlog: In Backlog verschieben
@@ -323,14 +323,14 @@ de:
   label_write_outcome: Ergebnis ergänzen
   meeting:
     agenda_sorting:
-      change: Change sorting mode
-      current_mode: Currently in %{mode} mode
-      invalid_reaction: Only upvotes and downvotes are allowed on agenda items.
+      change: Sortiermodus ändern
+      current_mode: Currently in %{mode} mode.
+      invalid_reaction: Zu Tagesordnungspunkten sind ausschließlich positive und negative Bewertungen zulässig.
       manual: Manuell
-      manual_description: You can manually arrange agenda items in any order you like by dragging and dropping them up or down.
-      manual_order_disabled: Agenda items are ordered by votes. Switch to manual sorting to reorder them.
-      remove_thumbs_down: Remove downvote
-      remove_thumbs_up: Remove upvote
+      manual_description: Sie können die Tagesordnungspunkte manuell in beliebiger Reihenfolge anordnen, indem Sie sie per Drag & Drop nach oben oder unten verschieben.
+      manual_order_disabled: Die Tagesordnungspunkte sind nach Stimmenanzahl sortiert. Wechseln Sie zur manuellen Sortierung, um die Reihenfolge zu ändern.
+      remove_thumbs_down: Downvote entfernen
+      remove_thumbs_up: Upvote entfernen
       sidebar_title: Sortierung der Tagesordnung
       sorted_by_votes: Tagesordnung sortiert nach Stimmen.
       thumbs_down: Downvote
@@ -592,7 +592,7 @@ de:
     name: OpenProject Besprechung
   project_module_meetings: Besprechungen
   recurring_meeting:
-    actual_first_occurrence_mismatch_html: 'Das erste Vorkommen dieses Serientermins wird sein: %{first_occurrence}'
+    actual_first_occurrence_mismatch_html: 'Das erste Vorkommen dieser Terminserie wird sein: %{first_occurrence}'
     caption:
       ends_on: Dies führt zu einer Reihe, die am %{date} endet
       occurrences:

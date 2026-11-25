@@ -1,50 +1,45 @@
-@if (canAdd || canReference) {
-  @if (mode === 'inactive') {
+@if (canAdd() || canReference()) {
+  @if (mode() === 'inactive') {
     <tr
       class="wp-inline-create-button-row hide-when-print"
       >
       <td
-        [attr.colspan]="colspan"
+        [attr.colspan]="colspan()"
         class="wp-inline-create-button-td"
         >
-        @if (canAdd) {
+        @if (canAdd()) {
           <button
-            type="button"
-            class="spot-link"
+            primerButton
+            scheme="link"
+            leadingIcon="plus"
             [class.wp-inline-create--split-link]="hasReferenceClass"
             [opAutofocus]="focus && focusTarget === 'create'"
             (click)="handleAddRowClick()"
-            [attr.aria-label]="text.create"
             aria-haspopup="true"
             data-test-selector="op-wp-inline-create"
-            >
-            <svg plus-icon size="small" />
-            <span [textContent]="text.create"></span>
-          </button>
+            >{{ text.create }}</button>
         }
-        @if (canReference) {
+        @if (canReference()) {
           <button
-            type="button"
-            class="spot-link wp-inline-create--split-link"
+            primerButton
+            scheme="link"
+            leadingIcon="link"
+            class="wp-inline-create--split-link"
             [opAutofocus]="focus && focusTarget === 'reference'"
             (click)="handleReferenceClick()"
-            [attr.aria-label]="text.reference"
             aria-haspopup="true"
             data-test-selector="op-wp-inline-create-reference"
-            >
-            <svg link-icon size="small"></svg>
-            <span [textContent]="text.reference"></span>
-          </button>
+            >{{ text.reference }}</button>
         }
       </td>
     </tr>
   }
-  @if (hasReferenceClass && mode === 'reference') {
+  @if (hasReferenceClass && mode() === 'reference') {
     <tr
       class="wp-inline-create-button-row hide-when-print"
       >
       <td
-        [attr.colspan]="colspan"
+        [attr.colspan]="colspan()"
         class="wp-inline-reference-row-td -no-highlighting"
         >
         <ng-container *ngComponentOutlet="referenceClass; injector: injector" />

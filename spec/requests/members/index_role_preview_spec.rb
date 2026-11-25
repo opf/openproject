@@ -62,7 +62,7 @@ RSpec.describe "GET /projects/:project_id/members", :aggregate_failures, type: :
     select = document.at_css("#member_role_ids")
 
     expect(select["data-roles--permissions-preview-target"]).to eq "select"
-    expect(select.ancestors(".form--field").first["data-controller"]).to eq "roles--permissions-preview"
+    expect(select.ancestors(".FormControl-horizontalGroup").first["data-controller"]).to eq "roles--permissions-preview"
   end
 
   context "when the user may only view members" do

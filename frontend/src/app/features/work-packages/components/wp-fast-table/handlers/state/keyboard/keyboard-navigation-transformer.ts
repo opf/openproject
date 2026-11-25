@@ -358,10 +358,6 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
   }
 
   private recover(requested:FocusPosition|null, retainStop = false, changedRows:HTMLElement[]|null = null):void {
-    if (this.table.destroyed) {
-      return;
-    }
-
     const owned = this.owned;
     if (!this.table.hasPendingRender) {
       this.owned = false;
@@ -584,17 +580,19 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
   }
 
   private handleSelectionChord(position:FocusPosition, intent:Extract<KeyIntent, { type:'selection' }>, event:KeyboardEvent):void {
+    const { selectionEnabled } = this.table.configuration;
+
     switch (intent.chord) {
       case 'toggle':
         if (this.selecting.occurrenceAt(position)) {
           event.preventDefault();
-          if (!event.repeat) {
+          if (selectionEnabled && !event.repeat) {
             this.selecting.toggle(position);
           }
         }
         return;
       case 'selectAll':
-        if (selectableOccurrences(this.table.renderedRows).length > 0) {
+        if (selectionEnabled && selectableOccurrences(this.table.renderedRows).length > 0) {
           event.preventDefault();
           if (!event.repeat) {
             this.selecting.selectAll(position);
@@ -603,7 +601,11 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
         return;
       case 'extend':
         event.preventDefault();
-        this.extendSelection(position, intent.command);
+        if (selectionEnabled) {
+          this.extendSelection(position, intent.command);
+        } else {
+          this.navigate(position, intent.command);
+        }
     }
   }
 
@@ -693,7 +695,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
   }
 
   private activateWorkPackageRow(workPackageId:string, element:HTMLTableRowElement|null):boolean {
-    if (!element || !this.view) {
+    if (!element || !this.view || !this.table.configuration.selectionEnabled) {
       return false;
     }
 

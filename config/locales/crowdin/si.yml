@@ -391,10 +391,14 @@ si:
         authentication_method: Authentication method
         jwt_sub: Subject claim
       status:
+        category: Category
         default_done_ratio: "% Complete"
         excluded_from_totals: Exclude from calculation of totals in hierarchy
-        is_closed: වැඩ පැකේජය වසා
         is_readonly: වැඩ පැකේජය කියවීමට-පමණි
+      status/category:
+        closed: Closed
+        in_progress: In progress
+        to_do: To-do
       subproject_template_assignment:
         workspace_type: Workspace type
       time_entry:
@@ -546,6 +550,11 @@ si:
         labels: Labels
         notify: Notify
         observed_in_versions: Observed in versions
+        origin: Origin
+        origin_host: Origin host
+        origin_id: Origin ID
+        origin_source: Origin source
+        origin_url: Origin URL
         parent: මාපිය
         parent_issue: මාපිය
         parent_work_package: මාපිය
@@ -699,6 +708,8 @@ si:
         custom_field:
           at_least_one_custom_option: අවම වශයෙන් එක් විකල්පයක් ලබා ගත යුතුය.
           attributes:
+            admin_only:
+              cannot_be_true: is not supported for this type of custom field.
             formula:
               blank: Formula can't be blank.
               format: "%{message}"
@@ -1415,7 +1426,6 @@ si:
           description: Your comment will be visible to anyone who can access this work package. Are you sure you want to do this?
           heading: Make this comment public?
           title: Make this comment public?
-        internal_journal: Internal comments are visible to a limited group of members.
         label_activity_hide_meetings: Hide meetings updates
         label_activity_show_all: Show everything
         label_activity_show_only_changes: Show changes only
@@ -1596,7 +1606,7 @@ si:
         contribution_callout: 'Please, help us improve the Jira Migrator with your feedback and private data donations. You can [join the development community](link) of the Jira Migrator.
 
           '
-        description: This Jira Migrator is currently in beta. We currently only support Jira Server/Data Center versions 10.x and 11.x. Cloud instances are not supported at this time.
+        description: The Jira Migrator is currently in beta. We support Jira Server/Data Center versions 8.x, 9.x, 10.x and 11.x. Cloud instances are not supported at this time.
         title: Beta - Try it out!
       basic_auth_password_deleted: Basic auth password was successfully deleted.
       blank:
@@ -1690,6 +1700,10 @@ si:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
+          JiraCreateRelationsJob:
+            title: Create relations for '%{jira_project_name}'
+          JiraCreateSprintsJob:
+            title: Create sprints
           JiraCreateUsersJob:
             title: Create users
           JiraDownloadProjectWorkPackageAttachmentsJob:
@@ -1700,12 +1714,16 @@ si:
             title: Fetch issue types
           JiraFetchPrioritiesJob:
             title: Fetch priorities
+          JiraFetchProjectBoardsJob:
+            title: Fetch boards for project '%{jira_project_name}'
           JiraFetchProjectIssuesJob:
             title: Fetch issues for project '%{jira_project_name}'
           JiraFetchProjectVersionsJob:
             title: Fetch versions for project '%{jira_project_name}'
           JiraFetchProjectsJob:
             title: Fetch projects
+          JiraFetchSprintsJob:
+            title: Fetch sprints
           JiraFetchStatusesJob:
             title: Fetch statuses
           JiraFetchUsersJob:
@@ -1813,6 +1831,7 @@ si:
               label_import_data: Currently importing
               label_progress: Import in progress...
               label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
+              label_sprint_explanation: Sprints that contain at least one issue
               label_users_import_explanation: Users that are involved in selected projects (group memberships included)
               title: Import data
             fetch_data:
@@ -1845,10 +1864,16 @@ si:
                 projects:
                   label: Projects
                   subtitle: Selected as scope
+                sprints:
+                  label: Sprints
+                  subtitle: With goals and work package assignments
                 title: Data imported
                 users_and_groups:
                   label: Users & groups
-                  subtitle: 'Involved in imported projects '
+                  subtitle: Involved in imported projects
+                versions:
+                  label: Versions
+                  subtitle: Of the imported projects
                 work_packages:
                   label: Work packages
                   subtitle: With attachments and logged time
@@ -1864,19 +1889,22 @@ si:
                 other: "%{count} projects selected as scope"
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               elements:
+                configuration_mapping: Configuration & Mapping options
                 custom_fields: A subset of custom fields
-                issue_details: Issue description, history, comments and attachments
-                issue_ids: Issue identifiers
+                issue_details: Issue identifiers, description, history, comments and attachments
                 issues: Issues
                 logged_time: Logged time
                 permissions: Permissions
-                project_ids: Project identifiers
-                project_versions: Project versions
+                plugin_migration: Plug-in migration
+                project_details: Project identifiers, description and versions
+                project_specific_custom_fields: Project-specific custom fields
                 projects: Projects
                 relations: Relations between issues
                 schemes: Schemas
-                sprints: Sprint assignments
+                security_level: Security Level
+                sprints: Sprints and sprint assignments
                 users: Involved users and groups
+                workflow_migration: Workflow migration
                 workflows: Project-level workflows
               label_coming_later: Coming later
               label_coming_soon: Coming soon
@@ -1902,17 +1930,20 @@ si:
               rest_line_text: ''
               title: Fetch Jira configuration
             '10':
+              rest_line_text: Creating relations for %{projects_number} more projects
+              title: Create relations
+            '11':
               rest_line_text: Creating time entries for %{projects_number} more projects
               title: Create time entries
-            '11':
+            '12':
               rest_line_text: Downloading attachments for %{projects_number} more projects
               title: Download attachments
             '2':
-              rest_line_text: Fetching issues and versions for %{projects_number} more projects
-              title: Fetch project issues and versions
+              rest_line_text: Fetching issues, boards and versions for %{projects_number} more projects
+              title: Fetch project issues, boards and versions
             '3':
               rest_line_text: ''
-              title: Fetch users and custom fields
+              title: Fetch users, sprints and custom fields
             '4':
               rest_line_text: ''
               title: Create users, groups and memberships
@@ -1923,8 +1954,8 @@ si:
               rest_line_text: Creating %{projects_number} more projects
               title: Create projects
             '7':
-              rest_line_text: Creating versions for %{projects_number} more projects
-              title: Create project versions
+              rest_line_text: Creating versions and sprints for %{projects_number} more projects
+              title: Create project versions and sprints
             '8':
               rest_line_text: Creating work packages for %{projects_number} more projects
               title: Create work packages
@@ -2115,10 +2146,6 @@ si:
       user_custom_field_sections:
         destroy:
           error: The section could not be deleted.
-        drop:
-          error: The section could not be reordered.
-        move:
-          error: The section could not be reordered.
       versions_and_categories:
         banner:
           button_more_information: More information
@@ -2234,6 +2261,8 @@ si:
       blankslate:
         description: Add statuses to start configuring workflows for this role
         linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
+        readonly_description: Select other roles to view configured transitions
+        readonly_title: No status transitions configured for the selected roles
         title: No status transitions configured
       leave_confirmation:
         description: You are about to leave this page but you have unsaved changes. Would you like to save them before continuing?
@@ -2853,7 +2882,7 @@ si:
         warning: Depending on the role selected below, the user assigned to this project attribute might gain significantly more permissions than they previously had, including the ability to add new members and elevate their role.
     calculated_field_not_editable: Non-editable attribute. This value is calculated automatically.
     confirm_destroy_option: 'විකල්පයක් මකා දැමීමෙන් එහි සියලු සිදුවීම් මකා දමනු ඇත (උදා: වැඩ පැකේජවල). ඔබට එය මකා දැමීමට අවශ්ය බව ඔබට විශ්වාසද?'
-    contained_in_type: වර්ගය අඩංගු
+    contained_in: Contained in
     enabled_in_project: ව්යාපෘතිය සක්රීය කිරීම
     instructions:
       admin_only:
@@ -3184,7 +3213,6 @@ si:
       gantt_pdf_export: Gantt PDF Export
       internal_comments: Internal Comments
       ldap_groups: LDAP users and group sync
-      mcp_server: Model Context Protocol (MCP)
       meeting_templates: Reusable meeting templates
       nextcloud_sso: Single Sign-On for Nextcloud Storage
       one_drive_sharepoint_file_storage: OneDrive/SharePoint File Storage
@@ -3203,6 +3231,7 @@ si:
       work_package_query_relation_columns: Work Package Query Relation Columns
       work_package_sharing: Share work packages with external users
       work_package_subject_generation: Work Package Subject Generation
+      xwiki_integration: XWiki Integration
     teaser:
       description_html: You have access to all %{trial_plan} features.
       title:
@@ -3278,8 +3307,6 @@ si:
       internal_comments_inline:
         description: " "
         title: Write internal comments only a small group can see
-      mcp_server:
-        description: Bring OpenProject into your AI workflows with a secure MCP server.
       meeting_templates:
         description: Define meeting templates with a set agenda structure and save time by reusing them when creating new meetings.
       nextcloud_sso:
@@ -3653,7 +3680,7 @@ si:
           caption: Use an existing form for this type with a pre-defined set of attribute groups.
           label: Use an existing form
         new:
-          caption: Arrange the attribute groups of a new form for this type.
+          caption: Manually define a new set of sections and fields to display for this variant.
           label: Configure a new form
   forums:
     index:
@@ -3958,7 +3985,7 @@ si:
   label_active_in_new_projects: නව ව්යාපෘතිවල ක්රියාකාරී වේ
   label_activity: ක්‍රියාකාරකම
   label_add_another_file: තවත් ගොනුවක් එකතු කරන්න
-  label_add_column: Add column
+  label_add_column: Add columns
   label_add_columns: තෝරාගත් තීරු එකතු කරන්න
   label_add_edit_translations: පරිවර්තන එකතු කරන්න සහ සංස්කරණය කරන්න
   label_add_note: සටහනක් එකතු කරන්න
@@ -4094,7 +4121,7 @@ si:
   label_custom_export_footer: Footer image
   label_custom_export_logo: Logo
   label_custom_favicon: අභිරුචි ප්රියතම
-  label_custom_field_add_no_type: වැඩ පැකේජ වර්ගයකට මෙම ක්ෂේත්රය එක් කරන්න
+  label_custom_field_add_no_form: Add this field to a form
   label_custom_field_default_type: හිස් වර්ගය
   label_custom_field_new: නව අභිරුචි ක්ෂේත්රයේ
   label_custom_field_plural: අභිරුචි ක්ෂේත්ර
@@ -4188,7 +4215,7 @@ si:
   label_filter: පෙරහන්
   label_filter_add: පෙරහන් එකතු කරන්න
   label_filter_any_name_attribute: Name attributes
-  label_filter_by: Filter by
+  label_filter_by_column: Filter by %{column}
   label_filter_plural: පෙරහන්
   label_filters_toggle: පෙරහන් පෙන්වන්න/සඟවන්න
   label_float: පාවෙන
@@ -4239,6 +4266,7 @@ si:
   label_in: තුළ
   label_in_less_than: වඩා අඩු
   label_in_more_than: වඩා වැඩි
+  label_in_progress_work_packages: in progress
   label_inactive: අක්රිය
   label_include_sub_projects: Include sub-projects
   label_includes: ඇතුළත් වේ
@@ -4390,7 +4418,7 @@ si:
   label_on: මත
   label_open: විවෘත
   label_open_menu: මෙනුව විවෘත කරන්න
-  label_open_work_packages: විවෘත
+  label_open_work_packages: open (to-do + in progress)
   label_open_work_packages_plural: විවෘත
   label_openproject_website: Openව්යාපෘති වෙබ් අඩවිය
   label_operator_all: is not empty
@@ -4597,6 +4625,7 @@ si:
   label_time_entry_plural: වැය කළ කාලය
   label_timer_since: Started at %{time}
   label_title: මාතෘකාව
+  label_to_do_work_packages: to-do
   label_today: අද
   label_today_as_date: Select today as date.
   label_today_as_due_date: Select today as finish date.
@@ -4710,6 +4739,13 @@ si:
     one: "%{count} file"
     other: "%{count} files"
     zero: no files
+  label_x_forms:
+    one: "%{count} form"
+    other: "%{count} forms"
+  label_x_in_progress_work_packages_abbr:
+    one: 1 in progress
+    other: "%{count} in progress"
+    zero: 0 in progress
   label_x_items:
     one: "%{count} item"
     other: "%{count} items"
@@ -4725,6 +4761,10 @@ si:
     one: "%{count} project"
     other: "%{count} ව්යාපෘති"
     zero: ව්යාපෘති නොමැත
+  label_x_to_do_work_packages_abbr:
+    one: 1 to-do
+    other: "%{count} to-do"
+    zero: 0 to-do
   label_x_work_packages:
     one: "%{count} work package"
     other: "%{count} work packages"
@@ -5662,7 +5702,7 @@ si:
   permission_comment_news: අදහස් ප්රවෘත්ති
   permission_commit_access: කියවීමට/ගබඩාවට ප්රවේශ වීම (කැප කිරීම)
   permission_copy_projects: Duplicate projects
-  permission_copy_projects_explanation: In template projects, this permission has a secondary function, it allows the creation of new projects derived from the template.
+  permission_copy_projects_explanation: Allows copying all project data, including content and attachments the user cannot view in the source project. The role can effectively grant access to all copied data depending on the role in the new project. It also allows creating projects from templates.
   permission_copy_work_packages: Duplicate work packages
   permission_create_backup: Create backups
   permission_create_user: Create users
@@ -5880,7 +5920,7 @@ si:
   project_module_activity: ක්‍රියාකාරකම
   project_module_forums: සංසද
   project_module_news: පුවත්
-  project_module_repository: ගබඩාව
+  project_module_repository: SVN/Git Repository (deprecated)
   project_module_wiki: විකි
   project_module_work_package_tracking: වැඩ පැකේජ
   projects:
@@ -5926,13 +5966,13 @@ si:
       shared: Shared project lists
     phase_status:
       description:
-        completed: Marking a phase as complete will complete all previous phases.
-        in_progress: Marking a phase as complete will complete all previous phases.
-        open: Re-opening a phase will also open all future phases.
+        completed: This will also mark all previous phases as complete.
+        in_progress: This will complete all previous phases and mark future phases as not started.
+        open: This will mark all future phases as not started.
       title:
         completed: Completed
         in_progress: In progress
-        open: Open
+        open: Not started
     settings:
       actions:
         label_disable_all: Disable all
@@ -6784,6 +6824,7 @@ si:
         label_built_in_attribute_actions: Built-in attribute actions
       custom_field_row_component:
         label_user_custom_field_actions: User attribute actions
+      label_move_to_section: Move to %{name}
       show_component:
         label_add_attribute: Add a user attribute
         label_edit_section: Edit title
@@ -6896,6 +6937,11 @@ si:
   status_registered: ලියාපදිංචි
   statuses:
     edit:
+      captions:
+        category:
+          closed: Work that has been completed.
+          in_progress: Work that is actively being worked on.
+          to_do: Work that has not yet started.
       status_color_text: |
         මෙම තත්වයේ වර්ණය පැවරීම හෝ වෙනස් කිරීම සඳහා ක්ලික් කරන්න.
         එය තත්ව බොත්තමෙහි පෙන්වා ඇති අතර වගුවේ වැඩ පැකේජ ඉස්මතු කිරීම සඳහා භාවිතා කළ හැකිය.
@@ -7146,8 +7192,8 @@ si:
           type: These are the fields project members see when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
           variant: These are the fields project members see when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
         new:
-          type: These are the fields project members see when creating or editing a work package of this type. Arrange and group them in any order you like.
-          variant: These are the fields project members see when creating or editing a work package of this variant. Arrange and group them in any order you like.
+          type: These are the fields that a project member sees when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
+          variant: These are the fields that a project member sees when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
       pdf: Choose which PDF templates are available when generating the PDF of work packages that use these settings. Each template defines the layout and which attributes appear in the PDF. The first template in the list is the default.
       project_attributes: Choose which project attributes appear in work packages. Project members with permission can view and edit them in the work package's Project attributes tab.
       projects:
@@ -7315,6 +7361,7 @@ si:
         delete_group: Delete section
         drag_to_activate: Drag fields from here to activate them
         drag_to_reorder: Drag to reorder
+        edit_custom_field: Edit custom field
         edit_query: Edit query
         empty_group_hint: Drag attributes here
         exclusions:
@@ -7340,6 +7387,7 @@ si:
         rename_group: Rename section
         required:
           already_required_globally: This custom field is required for all types.
+          excluded: Switch this custom field on before requiring it for this type.
           for_variant: Required for this type
           globally: Required
           globally_hint: Change this on the custom field
@@ -7386,7 +7434,7 @@ si:
         actions:
           confirm_remove: Remove the type %{type} from %{project}?
           remove_from_project: Remove from project
-          switch_variant: Change variant
+          switch_variant: Switch variant
         add_dialog:
           no_projects_selected: Please select at least one project.
           search_placeholder: Search projects
@@ -7417,6 +7465,7 @@ si:
           success: The configuration was copied.
         exclusions:
           not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
+          required: A required custom field cannot be switched off.
           unknown_aspect: Unknown configuration section "%{aspect}".
         inherited:
           configure_manually: Configure manually
@@ -7479,6 +7528,10 @@ si:
         delete:
           description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
           title: Delete %{name}
+          unused:
+            description: The variant will be deleted permanently. This action cannot be undone.
+            heading: Delete variant '%{name}'?
+            title: Delete variant
         filter: Filter by text
         filter_no_results: No variants match this filter
         global_section:

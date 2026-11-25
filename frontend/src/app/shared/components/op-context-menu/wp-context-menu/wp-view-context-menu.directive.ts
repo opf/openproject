@@ -35,13 +35,20 @@ import {
   WorkPackageViewSelectionService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
-import { OpContextMenuHandler } from 'core-app/shared/components/op-context-menu/op-context-menu-handler';
+import {
+  FOCUSABLE_SELECTOR,
+  OpContextMenuHandler,
+} from 'core-app/shared/components/op-context-menu/op-context-menu-handler';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import {
+  OpContextMenuCloseReason,
   OpContextMenuItem,
   OpContextMenuLocalsMap,
 } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import { focusAfterMenuClose } from 'core-app/shared/components/op-context-menu/action-menu/menu-focus';
+import { withOcticon } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-menu-octicons';
 import {
+  ContextMenuItemGroups,
   copyIdActionLabel,
   isCopyIdAction,
   PERMITTED_CONTEXT_MENU_ACTIONS,
@@ -83,7 +90,9 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
     this.allowSplitScreenActions,
   );
 
-  protected items = this.buildItems();
+  protected itemGroups = this.buildItemGroups();
+
+  protected items = this.itemGroups.items;
 
   private copyToClipboardService:CopyToClipboardService;
 
@@ -169,6 +178,23 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
     }
   }
 
+  public override onClose(focus = true, reason?:OpContextMenuCloseReason):void {
+    if (reason === undefined) {
+      super.onClose(focus);
+      return;
+    }
+
+    focusAfterMenuClose(this.afterFocusOn, reason);
+  }
+
+  protected override get afterFocusOn():HTMLElement {
+    return this.element.closest<HTMLElement>(FOCUSABLE_SELECTOR) ?? super.afterFocusOn;
+  }
+
+  protected menuItem(item:OpContextMenuItem):OpContextMenuItem {
+    return withOcticon(item);
+  }
+
   private deleteSelectedWorkPackages() {
     const selected = this.getSelectedWorkPackages();
     const ids = selected.map((wp) => wp.id).filter((id) => id !== null);
@@ -205,30 +231,33 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
     return this.wpTableSelection.getSelectedWorkPackages();
   }
 
-  protected buildItems():OpContextMenuItem[] {
+  protected buildItemGroups():ContextMenuItemGroups {
     const selected = this.getSelectedWorkPackages();
+    const groups = new ContextMenuItemGroups();
 
-    const items = this.permittedActions.map((action:WorkPackageAction) => ({
-      class: undefined as string | undefined,
-      disabled: false,
-      linkText: isCopyIdAction(action.key) ? copyIdActionLabel(this.workPackage) : action.text,
-      href: action.href,
-      icon: action.icon != null ? action.icon : `icon-${action.key}`,
-      onClick: (event:MouseEvent) => {
-        if (action.href && isClickedWithModifier(event)) {
-          return false;
-        }
+    this.permittedActions.forEach((action:WorkPackageAction) => {
+      groups.addAction(action.key, {
+        disabled: false,
+        linkText: isCopyIdAction(action.key) ? copyIdActionLabel() : action.text,
+        href: action.href,
+        icon: action.icon ?? `icon-${action.key}`,
+        onClick: (event:MouseEvent) => {
+          if (action.href && isClickedWithModifier(event)) {
+            return false;
+          }
 
-        this.triggerContextMenuAction(action);
-        return true;
-      },
-    }));
+          this.triggerContextMenuAction(action);
+          return true;
+        },
+      });
+    });
+
 
     if (selected.length === 1 && !isNewResource(this.workPackage)) {
       const projectIdentifier = this.currentProject.identifier;
       const link = this.pathHelper.genericWorkPackagePath(projectIdentifier, this.workPackage.displayId) + window.location.search;
 
-      items.unshift({
+      groups.prepend('open', {
         disabled: false,
         icon: 'icon-view-fullscreen',
         class: 'openFullScreenView',
@@ -248,7 +277,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
       if (selected.length === 1 && this.allowSplitScreenActions) {
         const splitViewHref = `${this.urlParams.basePathWithoutDetails()}/details/${this.workPackage.displayId}${window.location.search}`;
 
-        items.unshift({
+        groups.prepend('open', {
           disabled: false,
           icon: 'icon-view-split',
           class: 'detailsViewMenuItem',
@@ -266,6 +295,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
       }
     }
 
-    return items;
+    groups.transform((item) => this.menuItem(item));
+    return groups;
   }
 }

@@ -40,7 +40,7 @@
 # - +charted_from+ -- where the chart opens: the moment the opening sprint was started, or the
 #   opening of its planned start date while it has not been.
 # - +measured_until+ -- how far a measured series is sampled. The current time while the sprint
-#   is still open, the time it closed once it has, and nothing at all before it opens.
+#   is still open, the time it closed once it has, and nothing at all before it has begun.
 # - +charted_until+ -- where the sprint got to (for a completed sprint) or is planned to go to
 #   (for a running one). If the sprint is running longer than planned, there is no plan any more
 #   and the current time is used instead.
@@ -84,10 +84,10 @@ module Sprints
     end
 
     # How far a measured series is sampled: up to now, and never past where the window closes.
-    # Nothing at all before the window opens, which is not the same as before the sprint began --
-    # preceding sprints in the window have been measurable all along.
+    # Nothing at all before the opening sprint has begun, which is not the same as before the
+    # sprint reported on began -- preceding sprints in the window have been measurable all along.
     def measured_until
-      return nil if now < charted_from
+      return nil unless opening_timeframe.begun?
 
       [now, charted_until].min
     end

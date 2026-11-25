@@ -31,5 +31,6 @@ FactoryBot.define do
   factory :llm_feature_binding do
     llm_connection
     feature_key { "description_assistant" }
+    model_id { nil }
   end
 end

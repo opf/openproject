@@ -109,6 +109,7 @@ de:
         maintained_with_changes: Änderungen erhalten
         no_longer_meets_filter_criteria: Erfüllt Filterkriterien nicht mehr
         now_meets_filter_criteria: Erfüllt nun die Filterkriterien
+        state_at: State at
       show_changes_since: Änderungen anzeigen ab
       time: Zeit
       time_description: 'In Ihrer Ortszeit: %{datetime}'
@@ -131,10 +132,10 @@ de:
     button_confirm: Bestätigen
     button_continue: Fortfahren
     button_copy: Kopieren
-    button_copy_id: Copy ID ("%{id}")
-    button_copy_link_to_clipboard: Copy link
+    button_copy_link_to_clipboard: Copy link to clipboard
     button_copy_to_clipboard: In Zwischenablage kopieren
     button_copy_to_other_project: In anderes Projekt duplizieren
+    button_copy_work_package_id: Copy work package ID
     button_create: Anlegen
     button_custom-fields: Benutzerdefinierte Felder
     button_delete: Löschen
@@ -150,7 +151,7 @@ de:
     button_log_time: Zeit buchen
     button_more: Mehr
     button_more_actions: Weitere Aktionen
-    button_move: Move
+    button_move_to_position: Move to position
     button_open_details: Detailansicht öffnen
     button_open_fullscreen: Vollbildansicht öffnen
     button_quote: Zitieren
@@ -350,6 +351,8 @@ de:
       direct_hit_available: Arbeitspaket mit exakter ID gefunden. Drücken Sie Enter um es zu öffnen.
       items_available: "%{count} Verfügbare Artikel"
       recently_viewed: Vor Kurzem angesehen
+      search_by_meaning: Search by meaning
+      search_mode: Search mode
       search_placeholder_expanded: Suchen Sie Arbeitspakete nach Thema, Projekt, Typ, Status oder ID
       title:
         all_projects: alle Projekte
@@ -503,6 +506,7 @@ de:
     label_in: in
     label_in_less_than: in weniger als
     label_in_more_than: in mehr als
+    label_in_progress_work_packages: in progress
     label_incoming_emails: Eingehende E-Mails
     label_infinity: Unendlich
     label_information_plural: Information
@@ -535,6 +539,10 @@ de:
     label_open_context_menu: Kontextmenü öffnen
     label_open_menu: Menü öffnen
     label_open_work_packages: offen
+    label_origin: Ursprung
+    label_origin_id: ID
+    label_origin_jira_data_center: Jira Data Center
+    label_origin_source: Quelle
     label_password: Passwort
     label_per_page: 'Pro Seite:'
     label_please_wait: Bitte warten
@@ -568,9 +576,9 @@ de:
     label_show_in_menu: Ansicht im Seitenmenü anzeigen
     label_sort_by: Sortieren nach
     label_sort_higher: Nach oben verschieben
-    label_sort_highest: Move to top
+    label_sort_highest: Nach oben verschieben
     label_sort_lower: Nach unten verschieben
-    label_sort_lowest: Move to bottom
+    label_sort_lowest: Nach unten verschieben
     label_sorted_by: sortiert nach
     label_sorting: Sortierung
     label_spent_time: Aufgewendete Zeit
@@ -581,6 +589,7 @@ de:
     label_sum_for: Summe für
     label_this_week: diese Woche
     label_time_entry_plural: Aufgewendete Zeit
+    label_to_do_work_packages: to-do
     label_today: Heute
     label_total_amount: 'Gesamt: %{amount}'
     label_total_progress: "%{percent}% Gesamtfortschritt"
@@ -766,8 +775,10 @@ de:
       create_new: Neu erstellen
       group_by_relation_type: Nach Relations-Typ gruppieren
       group_by_wp_type: Nach Arbeitspaket-Typ gruppieren
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: In Hierarchie einrücken
       hierarchy_outdent: Aus Hierarchie ausrücken
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Beziehung entfernen
       remove_child: Unteraufgabe entfernen
       remove_parent: Übergeordnetes Arbeitspaket entfernen
@@ -896,7 +907,7 @@ de:
       label_two_factor_authentication: Zwei-Faktor-Authentifizierung
     units:
       child_work_packages:
-        one: "%{count} child work package"
+        one: "%{count} untergeordnetes Arbeitspaket"
         other: "%{count} untergeordnete Arbeitspakete"
       day:
         one: "%{count} Tag"
@@ -908,7 +919,7 @@ de:
         zero: 0 h
       hour_string: "%{hours} h"
       word:
-        one: "%{count} word"
+        one: "%{count} Wort"
         other: "%{count} Wörter"
       workPackage:
         one: Arbeitspaket
@@ -968,6 +979,7 @@ de:
         all_open: Alle offenen
         assigned_to_me: Mir zugewiesen
         created_by_me: Erstellt von mir
+        in_progress: In progress
         latest_activity: Letzte Änderungen
         manually_sorted: Neue manuell sortierte Ansicht
         overdue: Überfällig
@@ -975,6 +987,7 @@ de:
         shared_with_me: Mit mir geteilt
         shared_with_users: Geteilt mit Benutzern
         summary: Zusammenfassung
+        to_do: To-do
       description_enter_text: Text eingeben
       description_filter: Filter
       description_options_hide: Optionen ausblenden
@@ -1004,6 +1017,7 @@ de:
         label_pagination: Hier klicken, um über die Tabelle der Arbeitspakete hinweg zur Seitennavigation zu springen
         pagination: Zur Seitennavigation springen
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Kombiniertes Eingabefeld: Auswahl mit Pfeiltasten, Auslösen mit Enter, Löschen mit Backspace'
       label_disable_multi_select: Mehrfachauswahl deaktivieren
       label_enable_multi_select: Mehrfachauswahl aktivieren
@@ -1062,6 +1076,7 @@ de:
         other: Andere
         people: Personen
       query:
+        add_columns: Add columns
         click_to_edit_query_name: Klicken, um den Titel dieser Ansicht zu bearbeiten.
         column_names: Spalten
         confirm_edit_cancel: Sind Sie sicher, dass Sie die Umbenennung dieser Ansicht abbrechen wollen? Der Titel wird zum letzten gespeicherten Wert zurückgesetzt.
@@ -1071,17 +1086,16 @@ de:
           not_found: Diese Ansicht konnte nicht gefunden werden
           unretrievable_query: Konnte die Ansicht nicht verarbeiten
         filters: Filter
-        group: Gruppieren nach
         group_by: Gruppiere Ergebnisse nach
+        group_by_column: Group by %{column}
         group_by_disabled_by_hierarchy: Die Gruppierung ist deaktiviert, da der Hierarchie-Modus aktiv ist.
-        hide_column: Spalte ausblenden
         hierarchy_disabled_by_group_by: Der Hierarchie-Modus ist deaktiviert da die Ergebnisse nach %{column} gruppiert sind.
-        insert_columns: Spalten einfügen
         move_column_left: Spalte nach links verschieben
         move_column_right: Spalte nach rechts verschieben
         public_text: 'Veröffentlicht die Ansicht für andere Mitglieder des Projekts. Nutzer mit der ''Öffentliche Ansichten verwalten''-Berechtigung können diese Ansicht auch verändern oder entfernen. Beeinträchtigt nicht die Sichtbarkeit von Arbeitspaketen in der Ansicht. Abhängig der Berechtigungen, erhalten Mitglieder unterschiedliche Ergebnisse.
 
           '
+        remove_column: Remove column
         rename_query_placeholder: Name der Ansicht
         sort_ascending: Sortiere aufsteigend
         sort_descending: Sortiere absteigend
@@ -1121,7 +1135,7 @@ de:
         sort_criterion_ascending: "%{column} ascending"
         sort_criterion_descending: "%{column} descending"
         sorted_by: Sorted by %{criteria}.
-        sorted_manually: Sorted manually.
+        sorted_manually: Manuell sortiert.
       table_configuration:
         button: Konfigurieren Sie diese Arbeitspaket-Tabelle
         choose_display_mode: Arbeitspakete anzeigen als

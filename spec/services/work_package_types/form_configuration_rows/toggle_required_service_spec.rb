@@ -96,6 +96,29 @@ module WorkPackageTypes
         expect(variant.reload.required_attributes).to eq([])
       end
 
+      context "when the custom field is switched off" do
+        before do
+          exclude_configuration_elements(variant, aspect: TypeVariant::FORM_CONFIGURATION,
+                                                  elements: [custom_field.attribute_name])
+        end
+
+        it "rejects requiring it" do
+          result = toggle(custom_field.attribute_name)
+
+          expect(result).to be_failure
+          expect(result.errors.full_messages)
+            .to include("Switch this custom field on before requiring it for this type.")
+          expect(variant.reload[:required_attributes]).to eq([])
+        end
+
+        it "still lets it be made optional, should it already be required" do
+          variant.update_column(:required_attributes, [custom_field.attribute_name])
+
+          expect(toggle(custom_field.attribute_name)).to be_success
+          expect(variant.reload[:required_attributes]).to eq([])
+        end
+      end
+
       it "marks a field required for a variant that shares its type's form, and for it alone" do
         variant
         sharer = create(:type_variant, type:, form_configuration: variant.form_configuration)

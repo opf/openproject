@@ -28,7 +28,7 @@ Take a look at our release video showing the most important features introduced 
 
 ![AI assistant creating a work package in OpenProject with the MCP Server](openproject_ai_mcp_wp.gif)
 
-OpenProject 17.8 significantly extends the capabilities of the [MCP Server](../../system-admin-guide/integrations/mcp-server/). AI assistants can now **create and update work packages directly in OpenProject**, instead of being limited to searching and reading project information.
+OpenProject 17.8 significantly extends the capabilities of the [MCP Server](../../system-admin-guide/ai/mcp-server/). AI assistants can now **create and update work packages directly in OpenProject**, instead of being limited to searching and reading project information.
 
 The new `create_work_package` and `update_work_package` MCP tools follow the same permissions and business rules as the regular OpenProject UI and API. This includes required fields and `lock_version` checks for updates.
 
@@ -183,7 +183,7 @@ The authentication setting controlling who can create projects now includes a no
 
 The page for creating a new two-factor authentication device during an enforced 2FA login has also been updated to the modern Primer-based interface. For more information, see the [two-factor authentication (2FA) documentation](../../system-admin-guide/authentication/two-factor-authentication/).
 
-[Workflow configuration](../../system-admin-guide/manage-work-packages/work-package-types/workflows/) has moved directly into the work package type settings under **Administration → Work packages → Types → Workflows**, bringing type-specific configuration together in one place. The workflow interface has been updated as well: **Default transitions**, **User is author**, and **User is assignee** can now be selected from a dropdown alongside the role selection.
+[Workflow configuration](../../system-admin-guide/manage-work-packages/work-package-workflows/) has moved directly into the work package type settings under **Administration → Work packages → Types → Workflows**, bringing type-specific configuration together in one place. The workflow interface has been updated as well: **Default transitions**, **User is author**, and **User is assignee** can now be selected from a dropdown alongside the role selection.
 
 ## Important updates and breaking changes
 

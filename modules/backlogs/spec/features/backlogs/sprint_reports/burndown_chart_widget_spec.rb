@@ -48,12 +48,14 @@ RSpec.describe "Burndown chart widget", :js, with_flag: :sprint_reports do
   context "when the sprint has a date range set" do
     shared_let(:sprint) do
       create(:sprint,
+             :active,
              project:,
              name: "Sprint 42",
              start_date: Date.yesterday,
-             finish_date: Date.tomorrow,
-             status: :active)
+             started_at: 1.day.ago,
+             finish_date: Date.tomorrow)
     end
+    shared_let(:work_package) { create(:work_package, project:, sprint:, story_points: 3) }
 
     it "renders the burndown chart" do
       visit_sprint_report(sprint)
@@ -66,33 +68,17 @@ RSpec.describe "Burndown chart widget", :js, with_flag: :sprint_reports do
     end
   end
 
-  context "when the sprint has no date range set" do
-    shared_let(:sprint) do
-      create(:sprint,
-             project:,
-             name: "Sprint 42",
-             start_date: nil,
-             finish_date: nil)
-    end
-
-    it "renders a blankslate instead of the chart" do
-      visit_sprint_report(sprint)
-
-      expect(page).to have_no_element(:"opce-burndown-chart")
-      expect(page).to have_text("No burndown data available")
-    end
-  end
-
   context "when the project has no estimation unit set",
           with_flag: { sprint_reports: true, project_settings_estimation_unit: true } do
     let(:project) { create(:project, estimation_unit: "none") }
     let(:sprint) do
       create(:sprint,
+             :active,
              project:,
              name: "Sprint 42",
              start_date: Date.yesterday,
-             finish_date: Date.tomorrow,
-             status: :active)
+             started_at: 1.day.ago,
+             finish_date: Date.tomorrow)
     end
 
     it "does not render the burndown chart widget" do

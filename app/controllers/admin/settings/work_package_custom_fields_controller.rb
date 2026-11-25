@@ -46,6 +46,7 @@ module Admin
         super
 
         @project_counts = WorkPackageCustomField.project_counts
+        @form_counts = WorkPackageCustomField.form_counts
       end
 
       def projects

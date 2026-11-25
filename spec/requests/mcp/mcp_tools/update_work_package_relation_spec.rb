@@ -70,65 +70,56 @@ RSpec.describe McpTools::UpdateWorkPackageRelation do
     relation.save! # making sure creation already happens before expect blocks
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP text tool"
+  it_behaves_like "MCP text tool"
+
+  it "updates the work package relation in-place" do
+    expect { mcp_request }.not_to change(Relation, :count)
+
+    expect(Relation.first).to have_attributes(description: "The new description.")
+  end
+
+  it "responds with a properly formatted relation" do
+    mcp_request
+    expect(parsed_results.fetch("structuredContent").to_json).to match_json_schema.from_docs("relation_read_model")
+  end
+
+  context "when setting a valid type" do
+    let(:call_args) do
+      {
+        id: relation.id,
+        type: "blocks"
+      }
+    end
 
     it "updates the work package relation in-place" do
       expect { mcp_request }.not_to change(Relation, :count)
 
-      expect(Relation.first).to have_attributes(description: "The new description.")
-    end
-
-    it "responds with a properly formatted relation" do
-      mcp_request
-      expect(parsed_results.fetch("structuredContent").to_json).to match_json_schema.from_docs("relation_read_model")
-    end
-
-    context "when setting a valid type" do
-      let(:call_args) do
-        {
-          id: relation.id,
-          type: "blocks"
-        }
-      end
-
-      it "updates the work package relation in-place" do
-        expect { mcp_request }.not_to change(Relation, :count)
-
-        expect(Relation.first).to have_attributes(relation_type: "blocks")
-      end
-    end
-
-    context "when setting an invalid type" do
-      let(:call_args) do
-        {
-          id: relation.id,
-          type: "likes"
-        }
-      end
-
-      it_behaves_like "MCP tool execution error response"
-    end
-
-    context "when updating a non-existing relation" do
-      let(:call_args) do
-        {
-          id: relation.id + 100,
-          description: "The new description."
-        }
-      end
-
-      it "responds with an error" do
-        mcp_request
-        expect(result_item.fetch("error")).to eq("The given relation could not be found.")
-      end
+      expect(Relation.first).to have_attributes(relation_type: "blocks")
     end
   end
 
-  context "when the mcp_server enterprise feature is disabled" do
-    it "responds with a 404" do
+  context "when setting an invalid type" do
+    let(:call_args) do
+      {
+        id: relation.id,
+        type: "likes"
+      }
+    end
+
+    it_behaves_like "MCP tool execution error response"
+  end
+
+  context "when updating a non-existing relation" do
+    let(:call_args) do
+      {
+        id: relation.id + 100,
+        description: "The new description."
+      }
+    end
+
+    it "responds with an error" do
       mcp_request
-      expect(last_response).to have_http_status(404)
+      expect(result_item.fetch("error")).to eq("The given relation could not be found.")
     end
   end
 end

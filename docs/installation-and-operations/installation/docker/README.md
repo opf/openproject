@@ -56,14 +56,25 @@ The following artifacts are attached to each image and signed with [Sigstore cos
 | VEX (CycloneDX) | `https://cyclonedx.org/vex/v1.6` | Exploitability statement of known vulnerabilities that are not fixable in the underlying containers |
 | VEX (OpenVEX) | `https://openvex.dev/ns/v0.2.0` | The same attestation in the format that Docker Scout expects |
 
-### Verify the attestations
+### Verify the signature and attestations
 
-Install [cosign](https://docs.sigstore.dev/system_config/installation/), then verify each attestation. The attestations are signed by the OpenProject build workflow through GitHub OIDC, so you check the signing identity against that workflow:
+Install [cosign](https://docs.sigstore.dev/system_config/installation/). The images and attestations are signed by the OpenProject build workflows in the [opf/openproject-flavours](https://github.com/opf/openproject-flavours) repository through GitHub OIDC. Restrict the signing identity to these workflows, so that a signature from any other GitHub repository is rejected.
+
+Verify the image signature:
+
+```shell
+cosign verify \
+  --certificate-identity-regexp '^https://github\.com/opf/openproject-flavours/\.github/workflows/.+$' \
+  --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+  openproject/openproject:18
+```
+
+Verify each attestation:
 
 ```shell
 cosign verify-attestation \
   --type https://cyclonedx.org/bom/v1.6 \
-  --certificate-identity-regexp 'https://github.com/.*/.github/workflows/.*' \
+  --certificate-identity-regexp '^https://github\.com/opf/openproject-flavours/\.github/workflows/.+$' \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com \
   openproject/openproject:18
 ```
@@ -353,6 +364,9 @@ server {
 
 Let's assume you want OpenProject to run on your host with the _server name_ `example.com`
 under the _subdirectory_ `/openproject`.
+
+> [!WARNING]
+> Deploying OpenProject in a subdirectory has security limitations. See [Browser data after logout](../../../security-and-privacy/statement-on-security/#browser-data-after-logout) in our statement on security.
 
 If you want to run OpenProject in a subdirectory on your server, first you will
 need to configure OpenProject accordingly by adding the following options to the `docker run` call:

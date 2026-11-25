@@ -68,7 +68,7 @@ RSpec.describe "form configuration exclusions", :js do
     toggle_for("assignee").click
 
     expect_toggle("assignee", pressed: false)
-    expect(excluded_configuration_elements(link, aspect: aspect)).to eq(%w[assignee])
+    wait_for { excluded_configuration_elements(link, aspect: aspect) }.to eq(%w[assignee])
 
     # The row stays listed so the switch remains reachable: the page shows the source's
     # configuration annotated with this variant's choices, not the resulting form.
@@ -81,6 +81,23 @@ RSpec.describe "form configuration exclusions", :js do
     toggle_for("assignee").click
 
     expect_toggle("assignee", pressed: true)
-    expect(excluded_configuration_elements(link, aspect: aspect)).to be_empty
+    wait_for { excluded_configuration_elements(link, aspect: aspect) }.to be_empty
+  end
+
+  it "stops and resumes inheriting from the row's enable/disable menu item" do
+    expect(page).to have_text("Assignee")
+    expect_toggle("assignee", pressed: true)
+
+    page.find_test_selector("type-form-configuration-attribute-actions-assignee").click
+    page.find_test_selector("type-form-configuration-toggle-exclusion-assignee", text: I18n.t("button_disable")).click
+
+    expect_toggle("assignee", pressed: false)
+    wait_for { excluded_configuration_elements(link, aspect: aspect) }.to eq(%w[assignee])
+
+    page.find_test_selector("type-form-configuration-attribute-actions-assignee").click
+    page.find_test_selector("type-form-configuration-toggle-exclusion-assignee", text: I18n.t("button_enable")).click
+
+    expect_toggle("assignee", pressed: true)
+    wait_for { excluded_configuration_elements(link, aspect: aspect) }.to be_empty
   end
 end

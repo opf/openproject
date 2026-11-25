@@ -40,6 +40,20 @@ module Backlogs
 
         @sprint = sprint
       end
+
+      private
+
+      def displayed_dates
+        @displayed_dates ||= ::Sprints::DisplayedDates.new(sprint)
+      end
+
+      def actual_dates
+        if sprint.active?
+          format_date_tag(displayed_dates.actual_start, include_time: true)
+        else
+          format_date_range(displayed_dates.actual_range, include_time: true)
+        end
+      end
     end
   end
 end

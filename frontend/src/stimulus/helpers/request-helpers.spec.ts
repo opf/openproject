@@ -25,10 +25,16 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import type { FrameElement } from '@hotwired/turbo';
 import type { FetchRequest, FetchResponse } from '@rails/request.js';
 import { TurboHelpers } from 'core-turbo/helpers';
 
-import { performTurboStreamRequest, withLoadingIndicator, withProgressBar } from './request-helpers';
+import {
+  frameResponded,
+  performTurboStreamRequest,
+  withLoadingIndicator,
+  withProgressBar
+} from './request-helpers';
 
 describe('performTurboStreamRequest', () => {
   function requestFor(response:Partial<FetchResponse>):FetchRequest {
@@ -122,6 +128,14 @@ describe('withLoadingIndicator', () => {
     expect(element).not.toBeVisible();
   });
 
+  it('keeps the indicator visible when the caller no longer owns it', async () => {
+    const element = addIndicator();
+
+    await withLoadingIndicator(Promise.resolve(), () => false);
+
+    expect(element).toBeVisible();
+  });
+
   it('throws when the loading indicator is absent', () => {
     expect(() => withLoadingIndicator(Promise.resolve({} as FetchResponse))).toThrow();
   });
@@ -158,5 +172,31 @@ describe('withProgressBar', () => {
 
     await expect(wrapped).rejects.toBe(error);
     expect(TurboHelpers.hideProgressBar).toHaveBeenCalledOnce();
+  });
+});
+
+describe('frameResponded', () => {
+  let frame:FrameElement;
+
+  beforeEach(() => {
+    document.body.insertAdjacentHTML('beforeend', '<turbo-frame id="responding_frame" disabled><form></form></turbo-frame>');
+    frame = document.getElementById('responding_frame') as FrameElement;
+  });
+
+  afterEach(() => {
+    frame.remove();
+  });
+
+  it.each(['turbo:frame-load', 'turbo:frame-missing', 'turbo:fetch-request-error'])('settles on the frame\'s %s', async (eventName) => {
+    const responded = vi.fn();
+    void frameResponded(frame).then(responded);
+
+    frame.querySelector('form')!.dispatchEvent(new CustomEvent(eventName, { bubbles: true }));
+    await Promise.resolve();
+    expect(responded).not.toHaveBeenCalled();
+
+    frame.dispatchEvent(new CustomEvent(eventName, { bubbles: true }));
+
+    await vi.waitFor(() => expect(responded).toHaveBeenCalledOnce());
   });
 });

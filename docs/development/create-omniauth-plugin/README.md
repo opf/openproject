@@ -4,13 +4,9 @@ The OpenProject core integrates OmniAuth. This means that OmniAuth providers can
 
 This page describes how to create an OpenProject plugin to authenticate users via an Omniauth strategy.
 
-## Warning
+## Reference implementations
 
-This how-to is in a preliminary state and explains a low-level way to create an OmniAuth authentication plugin for OpenProject. We will provide a more high-level API and update this how-to soon.
-
-## OpenID Connect
-
-There is a bare minimum [plugin](https://github.com/machisuji/openproject-mock_auth) implementing a mock strategy for OpenProject using the provided OmniAuth infrastructure. You can refer to this plugin and compare to see how things can be done.
+The OpenID Connect (`modules/openid_connect`) and SAML (`modules/auth_saml`) modules shipped with OpenProject use the OmniAuth infrastructure described here. You can refer to them and compare to see how things can be done.
 
 ## Terminology
 
@@ -37,7 +33,7 @@ In the following section we will go through the basic steps required to create a
 
 ### Generate a plugin
 
-First off you can use the [plugin generator](https://github.com/opf/openproject-plugins) to create a basic plugin to base yours on.
+First off you can use the plugin generator to create a basic plugin to base yours on.
 How to do that is described [here](../create-openproject-plugin/). In short it’s the following command:
 
 ```shell
@@ -61,7 +57,7 @@ If you want to use settings for your plugin in order to configure your authentic
 register 'openproject-my_auth_plugin',
   :author_url => 'Hans Wurst',
   :requires_openproject => '>= 3.1.0',
-  :settings => { 'default' => { 'auth_server_address' => {'192.168.178.42'} } }
+  :settings => { 'default' => { 'auth_server_address' => '192.168.178.42' } }
 ```
 
 You can access your plugin’s settings like this:
@@ -72,8 +68,8 @@ server_addr = Setting.plugin_openproject_my_auth_plugin["auth_server_address"]
 
 ### Register the provider(s)
 
-For this you can use the [openproject-auth_plugins](https://github.com/opf/openproject-auth_plugins) plugin, which provides you with an easy way to integrate a new authentication plugin into OpenProject.
-As described in the plugin’s readme file you just add the following bit to the class body of Engine:
+For this you can use the `openproject-auth_plugins` module (`modules/auth_plugins`), which ships with OpenProject and provides you with an easy way to integrate a new authentication plugin into OpenProject.
+You just add the following bit to the class body of Engine:
 
 ```ruby
 register_auth_providers do
@@ -133,7 +129,7 @@ If you haven’t published it as a gem yet you can also use a local copy:
   gem 'openproject-my_auth_plugin', :path => 'plugins/openproject-my_auth_plugin'
 ```
 
-Also don’t forget to include the `openproject-auth_plugins` as a dependency in your plugin’s gem specification (`openproject-my_auth_plugin.gemspec`).
+Also don’t forget to include `openproject-auth_plugins` as a dependency in your plugin’s gem specification (`openproject-my_auth_plugin.gemspec`).
 
 ### Profit
 

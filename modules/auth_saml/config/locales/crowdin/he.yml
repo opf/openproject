@@ -205,10 +205,10 @@ he:
         configuration_metadata: This information has been pre-filled using the supplied metadata. In most cases, they do not require editing.
         display_name: Configure the display name of the SAML provider.
         encryption: Configure assertion signatures and encryption for SAML requests and responses.
-        encryption_form: You may optionally want to encrypt the assertion response, or have requests from OpenProject signed.
-        mapping: Manually adjust the mapping between the SAML response and user attributes in OpenProject.
+        encryption_form: אם תרצו, תוכלו להצפין את תגובת האישור, או לדאוג לכך שבקשות מ-OpenProject יהיו חתומות.
+        mapping: יש להתאים באופן ידני את המיפוי בין תגובת הSAML לתכונות המשתמש בOpenProject.
         metadata: Pre-fill configuration using a metadata URL or by pasting metadata XML
-        metadata_form: If your identity provider has a metadata endpoint or XML download, add it below to pre-fill the configuration.
+        metadata_form: אם לספק הזהות שלך יש נקודת קצה למטא-נתונים או אפשרות להורדת קובץ XML, הוסף אותה כאן כדי למלא מראש את ההגדרות.
         metadata_form_banner: 'Editing the metadata may override existing values in other sections. '
         requested_attributes: Define the set of attributes to be requested in the SAML request sent to your identity provider.
       seeded_from_env: This provider was seeded from the environment configuration. It cannot be edited.

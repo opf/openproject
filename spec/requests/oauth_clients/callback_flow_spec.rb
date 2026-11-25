@@ -81,17 +81,10 @@ RSpec.describe "OAuthClient callback endpoint" do
       set_cookie "oauth_state_asdf1234=#{state_cookie}"
     end
 
-    shared_examples "with errors and state param with cookie, not being admin" do
+    shared_examples "with errors and state param with cookie" do
       it "redirects to URI referenced in the state param and held in a cookie" do
         expect(response).to have_http_status(:found)
         expect(response.location).to eq redirect_uri
-      end
-    end
-
-    shared_examples "with errors, being an admin" do
-      it "redirects to admin settings for the storage" do
-        expect(response).to have_http_status(:found)
-        expect(URI(response.location).path).to eq edit_admin_settings_storage_path(oauth_client.integration)
       end
     end
 
@@ -146,15 +139,7 @@ RSpec.describe "OAuthClient callback endpoint" do
           subject
         end
 
-        context "with current_user being an admin" do
-          let(:current_user) { create(:admin) }
-
-          it_behaves_like "with errors, being an admin"
-        end
-
-        context "with current_user not being an admin" do
-          it_behaves_like "with errors and state param with cookie, not being admin"
-        end
+        it_behaves_like "with errors and state param with cookie"
       end
 
       context "with integration which does not support OAuth redirect" do
@@ -183,15 +168,7 @@ RSpec.describe "OAuthClient callback endpoint" do
         subject
       end
 
-      context "with current_user not being an admin" do
-        it_behaves_like "with errors and state param with cookie, not being admin"
-      end
-
-      context "with current_user being an admin" do
-        let(:current_user) { create(:admin) }
-
-        it_behaves_like "with errors, being an admin"
-      end
+      it_behaves_like "with errors and state param with cookie"
     end
 
     context "without state param" do

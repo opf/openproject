@@ -79,7 +79,7 @@ See COPYRIGHT and LICENSE files for more details.
               end
 
               row.with_column(ml: 2) do
-                render(Projects::StatusBadgeComponent.new(project: child))
+                render(Projects::StatusLabelComponent.new(project: child))
               end
             end
           end
@@ -93,7 +93,7 @@ See COPYRIGHT and LICENSE files for more details.
       else
         render(Primer::Beta::Blankslate.new(test_selector: "subitems-widget-empty")) do |component|
           component.with_visual_icon(icon: :workflow)
-          component.with_heading(tag: :h3).with_content(title)
+          component.with_heading(tag: :h4).with_content(title)
           component.with_description { t("grids.widgets.empty") }
 
           if can_manage_subprojects?
@@ -110,7 +110,7 @@ See COPYRIGHT and LICENSE files for more details.
       end
     else
       render(Primer::Beta::Blankslate.new(test_selector: "subitems-widget-no-permission")) do |component|
-        component.with_heading(tag: :h3).with_content(title)
+        component.with_heading(tag: :h4).with_content(title)
         component.with_description { t("grids.widgets.not_available") }
       end
     end

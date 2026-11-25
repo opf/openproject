@@ -33,6 +33,7 @@ module Backlogs
     module Widgets
       class CreatedResolvedChart < Grids::WidgetComponent
         include Backlogs::CommonHelper
+        include ChartBlankslate
 
         param :sprint
         param :project
@@ -54,14 +55,24 @@ module Backlogs
         end
 
         def render?
-          user_allowed?(:view_sprints) && EnterpriseToken.allows_to?(:sprint_report_pro_widgets)
+          sprint.date_range_set? &&
+            user_allowed?(:view_sprints) &&
+            EnterpriseToken.allows_to?(:sprint_report_pro_widgets)
         end
 
         private
 
-        def created_resolved
-          return nil unless sprint.date_range_set?
+        delegate :too_long_to_chart?, :anything_to_chart?, to: :created_resolved, private: true
 
+        def blankslate_reason
+          if too_long_to_chart?
+            :too_long
+          elsif !anything_to_chart?
+            :no_work
+          end
+        end
+
+        def created_resolved
           @created_resolved ||= ::Sprints::CreatedResolved.new(sprint:, project:)
         end
 

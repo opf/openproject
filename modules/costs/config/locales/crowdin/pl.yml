@@ -80,7 +80,7 @@ pl:
           attributes:
             base:
               cannot_edit_time_entry: You don't have permissions to edit this time entry.
-              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
+              cannot_log_for_this_work_package: Nie masz uprawnień do rejestrowania czasu pracy dla tego pakietu roboczego.
             entity:
               blank: Zarejestrowano, ponieważ nie może być pusty.
               format: "%{message}"
@@ -205,7 +205,7 @@ pl:
         none_active: Żadne typy kosztów nie są obecnie aktywne w tym projekcie.
       time_and_costs: Czas i koszty
       time_entry_activities:
-        heading: Time tracking
+        heading: Śledzenie czasu
         hint: Select which time tracking activities are displayed in your project when members log their time.
   costs:
     widgets:
@@ -269,7 +269,7 @@ pl:
   label_status_finished: Zakończone
   label_time: Czas
   label_time_entry_activity_form_description: Zmiany tej aktywności wprowadzania czasu zostaną odzwierciedlone we wszystkich projektach, w których jest ona włączona.
-  label_time_entry_custom_field_plural: Time entry custom fields
+  label_time_entry_custom_field_plural: Pola niestandardowe wpisów czasu
   label_time_entry_restrictions: Limity
   label_today_capitalized: Dzisiaj
   label_units: Koszt jednostki

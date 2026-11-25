@@ -1,9 +1,9 @@
 @if (configuration) {
   <div
     class="work-packages-embedded-view--container loading-indicator--location"
-     [ngClass]="{ '-hierarchy-disabled': !configuration.hierarchyToggleEnabled,
-                  '-compact-tables': configuration.compactTableStyle,
-                  '-external-height': externalHeight }"
+    [class.-hierarchy-disabled]="!configuration.hierarchyToggleEnabled"
+    [class.-compact-tables]="configuration.compactTableStyle"
+    [class.-external-height]="externalHeight"
     [attr.data-indicator-name]="uniqueEmbeddedTableName">
     @if (renderTable) {
       <!-- Filter container (if requested) -->

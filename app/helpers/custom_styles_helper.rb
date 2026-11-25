@@ -111,15 +111,6 @@ module CustomStylesHelper
       color_theme(OpenProject::CustomStyles::ColorThemes::DEFAULT_THEME_NAME).dig(:colors, "header-bg-color")
   end
 
-  def mobile_logo_present?
-    return false unless apply_custom_styles?
-
-    style = CustomStyle.current
-    CustomStyle::LOGO_FIELDS.fetch(:mobile).values.any? do |field|
-      style.public_send(field).present?
-    end
-  end
-
   def mobile_logo_modes
     modes = CustomStyle::LOGO_FIELDS.fetch(:mobile).keys
     return modes unless apply_custom_styles?

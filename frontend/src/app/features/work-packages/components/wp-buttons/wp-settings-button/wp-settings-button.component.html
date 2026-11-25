@@ -1,9 +1,14 @@
-<button id="work-packages-settings-button"
-        opTooltip
-        [label]="text.more_actions"
-        class="button last work-packages-settings-button toolbar-icon"
-        opSettingsContextMenu
-        [hideTableOptions]="hideTableOptions"
-        [showCalendarSharingOption]="showCalendarSharingOption">
-  <op-icon icon-classes="button--icon icon-show-more" />
-</button>
+<op-action-menu opSettingsContextMenu
+  align="end"
+  [label]="text.more_actions"
+  [hideTableOptions]="hideTableOptions"
+  [showCalendarSharingOption]="showCalendarSharingOption">
+  <button id="work-packages-settings-button"
+          opActionMenuTrigger
+          type="button"
+          opTooltip
+          [label]="text.more_actions"
+          class="button last work-packages-settings-button toolbar-icon">
+    <op-icon icon-classes="button--icon icon-show-more" />
+  </button>
+</op-action-menu>

@@ -62,7 +62,7 @@ RSpec.describe "Work package table keyboard navigation", :js do
 
     wp_table.press_keys(:enter)
     within(:menu, "Subject") do
-      expect(page).to have_selector(:menuitem, focused: true)
+      expect(page).to have_selector(:role, "menuitemradio", focused: true)
     end
     wp_table.press_keys(:escape)
     expect(page).to have_no_menu
@@ -75,7 +75,7 @@ RSpec.describe "Work package table keyboard navigation", :js do
     wp_table.expect_focus_on_column_header("Subject")
     wp_table.press_keys(:enter)
     within(:menu, "Subject") do
-      find(:menuitem, "Sort ascending").click
+      find(:role, "menuitemradio", text: "Sort ascending").click
     end
     expect(page).to have_selector(:columnheader, "Subject", aria: { sort: "ascending" })
     wp_table.expect_work_package_order(sibling, parent, child)
@@ -107,7 +107,7 @@ RSpec.describe "Work package table keyboard navigation", :js do
     wp_table.expect_focus_on_column_header("Subject")
 
     wp_table.press_keys(:enter)
-    expect(page).to have_selector(:menuitem, focused: true)
+    expect(page).to have_selector(:role, "menuitemradio", focused: true)
 
     wp_table.press_keys(:escape)
     expect(page).to have_no_menu
@@ -227,6 +227,18 @@ RSpec.describe "Work package table keyboard navigation", :js do
 
     wp_table.press_keys(%i[shift tab])
     wp_table.expect_focus_on_cell(sibling, :subject)
+  end
+
+  it "opens the More actions menu from the keyboard and returns focus to its button on Escape" do
+    send_keys_without_click(find(:button, accessible_name: "More actions"), :enter)
+
+    within(:menu, "More actions") do
+      expect(page).to have_selector(:menuitem, "Configure view", focused: true)
+    end
+
+    wp_table.press_keys(:escape)
+    expect(page).to have_no_menu
+    expect(page).to have_button(accessible_name: "More actions", focused: true)
   end
 
   context "as a flat table" do

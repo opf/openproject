@@ -62,8 +62,14 @@ module Wikis
           owner: user,
           integration: wiki_provider,
           uid: client_id,
-          secret: client_secret
+          secret: stored_secret(client_secret)
         }.compact
+      end
+
+      def stored_secret(client_secret)
+        return if client_secret.nil?
+
+        Doorkeeper::Application.secret_strategy.transform_secret(client_secret)
       end
 
       def redirect_uri

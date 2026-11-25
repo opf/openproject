@@ -40,7 +40,8 @@
 // Primer's DragHandle ships `cursor: move`; grab/grabbing signals dragging
 // better. Only the press is stylable — once the native drag is under way the
 // browser owns the cursor.
-.DragHandle[data-sortable-lists--item-target~="handle"]
+.DragHandle[data-sortable-lists--item-target~="handle"],
+.DragHandle.wp-table--drag-and-drop-handle
   cursor: grab
 
   &:active
@@ -138,6 +139,8 @@ $op-drag-stack-shade-blur: 4px !default
 $op-drag-stack-shade-color: rgba(37, 41, 46, 0.18) !default
 
 $op-drag-badge-overhang: 8px !default
+$op-drag-badge-cursor-offset-x: 6px !default
+$op-drag-badge-cursor-offset-y: 10px !default
 $op-drag-stack-overhang: $op-drag-stack-step * $op-drag-stack-max-layers + $op-drag-stack-shade-blur
 
 // renderDragPreview reserves the overhangs as container padding, and can only
@@ -164,12 +167,13 @@ $op-drag-stack-overhang: $op-drag-stack-step * $op-drag-stack-max-layers + $op-d
   @return $shadows
 
 // Multi-card batch count badge on a drag preview, on Primer's Counter
-// contract plus the positioning Counter does not own and the accent skin the
-// drop indicator uses.
+// contract plus the positioning Counter does not own. Uses the danger
+// emphasis skin so it matches macOS's native red drag count badge and stays
+// legible under translucent drag previews (e.g. Windows).
 //
 // Paint past the container's border box lands in Firefox's drag snapshot and
-// shifts its origin off the grab offset, so the badge sits in the padding
-// renderDragPreview writes. The right offset keeps it on the card's corner.
+// shifts its origin off the grab offset, so the badge stays clamped inside
+// the padded container.
 .op-sortable-lists-drag-preview-batch-badge
   position: absolute
   top: 0
@@ -178,13 +182,18 @@ $op-drag-stack-overhang: $op-drag-stack-step * $op-drag-stack-max-layers + $op-d
   height: 20px
   padding: 0 6px
   border-radius: 999px
-  background-color: var(--bgColor-accent-emphasis)
+  background-color: var(--bgColor-danger-emphasis)
   color: var(--fgColor-onEmphasis)
   font-size: 12px
   font-weight: 600
   line-height: 20px
   text-align: center
   box-shadow: var(--shadow-floating-medium)
+
+  &[data-cursor-anchored]
+    right: auto
+    left: calc(var(--op-drag-badge-x) + #{$op-drag-badge-cursor-offset-x})
+    top: calc(var(--op-drag-badge-y) + var(--op-drag-badge-overhang) + #{$op-drag-badge-cursor-offset-y})
 
   // The blur past the container's border box would shift Firefox's snapshot
   // origin like the overhang above.

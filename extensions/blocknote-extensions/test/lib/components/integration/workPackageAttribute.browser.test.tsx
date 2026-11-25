@@ -2,7 +2,9 @@ import { describe, it, expect, vi, afterEach } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { http } from 'msw';
 import '@blocknote/core/fonts/inter.css';
-import { renderEditor } from '../../../helpers/renderEditor';
+import { TextSelection } from 'prosemirror-state';
+import { renderEditor, renderEditorInShadowDom } from '../../../helpers/renderEditor';
+import type { AnyEditor } from '../../../../lib/editorTypes';
 import { worker } from '../../../mocks/browser';
 import { requestedWorkPackageIds, workPackageCollection } from '../../../mocks/handlers';
 import { loadUnavailableWorkPackages, requestsDuring } from '../../../helpers/requestHelpers';
@@ -219,25 +221,54 @@ describe('Values of work package attributes', () => {
 
 const SELECTION_RING = 'rgb(100, 160, 255) 0px 0px 0px 2px inset';
 
+function selectInFirstParagraph(editor:AnyEditor, from:number, to:number) {
+  editor.transact((tr) => {
+    let start = -1;
+    tr.doc.descendants((node, position) => {
+      if (start === -1 && node.type.name === 'paragraph') start = position + 1;
+      return start === -1;
+    });
+    tr.setSelection(TextSelection.create(tr.doc, start + from, start + to));
+  });
+}
+
 describe('Work package attributes in a text selection', () => {
-  it('outline an inline attribute while the selection covers it', async () => {
-    let editor:{ focus:() => void, setTextCursorPosition:(block:unknown, placement:'start') => void, document:unknown[] } | undefined;
-    renderEditor({
+  // Safari reports a selection inside a shadow root as a selection on its host,
+  // so the shadow DOM run guards against relying on the native selection.
+  it.each([
+    ['the light DOM', async (options:Parameters<typeof renderEditor>[0]) => { renderEditor(options); return document.body; }],
+    ['a shadow DOM', async (options:Parameters<typeof renderEditor>[0]) => (await renderEditorInShadowDom(options)).shadowRoot],
+  ])('outline inline chips while the selection covers them in %s', async (_, render) => {
+    let editor:AnyEditor | undefined;
+    const root = await render({
       onEditor: (instance) => { editor = instance; },
       initialContent: [{
         type: 'paragraph',
-        content: ['See ', { type: 'openProjectWorkPackageAttributeInline', props: { wpid: '321', displayId: 'PROJ-321', attribute: 'assignee', display: 'value' } }],
+        content: [
+          'See ',
+          { type: 'openProjectWorkPackageAttributeInline', props: { wpid: '321', displayId: 'PROJ-321', attribute: 'assignee', display: 'value' } },
+          ' and ',
+          { type: 'openProjectWorkPackageInline', props: { wpid: '123', displayId: 'PROJ-123', size: 'xxs' } },
+        ],
       }],
     });
-    await expect.element(page.getByText('Mira Hofmann')).toBeVisible();
+    const attribute = () => root.querySelector('.op-bn-wp-attribute')!;
+    const workPackage = () => root.querySelector('.op-bn-inline-wp-base')!;
+    const outlined = (element:Element) => getComputedStyle(element).boxShadow.includes(SELECTION_RING);
+    await vi.waitFor(() => expect(root.textContent).toContain('Mira Hofmann'));
     editor!.focus();
-    editor!.setTextCursorPosition(editor!.document[0], 'start');
 
-    await userEvent.keyboard('{Shift>}{End}{/Shift}');
-    await vi.waitFor(() => expect(getComputedStyle(chip()).boxShadow).toContain(SELECTION_RING));
+    selectInFirstParagraph(editor!, 1, 6);
+    await vi.waitFor(() => expect(outlined(attribute())).toBe(true));
+    expect(outlined(workPackage())).toBe(false);
 
-    editor!.setTextCursorPosition(editor!.document[0], 'start');
-    await vi.waitFor(() => expect(getComputedStyle(chip()).boxShadow).not.toContain(SELECTION_RING));
+    selectInFirstParagraph(editor!, 1, 11);
+    await vi.waitFor(() => expect(outlined(workPackage())).toBe(true));
+    expect(outlined(attribute())).toBe(true);
+
+    selectInFirstParagraph(editor!, 1, 3);
+    await vi.waitFor(() => expect(outlined(attribute())).toBe(false));
+    expect(outlined(workPackage())).toBe(false);
   });
 
   it('outline a long text while the selection covers it', async () => {
@@ -294,7 +325,7 @@ describe('Work package attributes in a read-only editor', () => {
     await userEvent.click(page.getByText('Kick-off'));
     await userEvent.click(page.getByText('In progress'));
 
-    expect(document.querySelector('[data-testid="attribute-display-menu"]')).toBeNull();
+    expect(document.querySelector('[data-testid="popover-content"]')).toBeNull();
   });
 });
 
@@ -313,7 +344,7 @@ describe('Long text work package attribute from external HTML', () => {
   });
 });
 
-describe('Display menu of a long text taller than the screen', () => {
+describe('Size menu of a long text taller than the screen', () => {
   it('shows all its options on its own background', async () => {
     const longText = '<p>' + 'A long line of text. '.repeat(400) + '</p>';
     worker.use(
@@ -331,7 +362,8 @@ describe('Display menu of a long text taller than the screen', () => {
     await expect.element(page.getByText('A long line', { exact: false }).first()).toBeVisible();
 
     await userEvent.click(document.querySelector('.op-bn-wp-attribute-block')!);
-    const menu = page.getByTestId('attribute-display-menu').element();
+    await userEvent.click(page.getByRole('menuitem', { name: /^Change size/ }));
+    const menu = page.getByTestId('size-menu').element();
     const menuBox = menu.getBoundingClientRect();
 
     for (const option of Array.from(menu.querySelectorAll('[role="menuitemradio"]'))) {
@@ -339,5 +371,77 @@ describe('Display menu of a long text taller than the screen', () => {
       expect(box.bottom).toBeLessThanOrEqual(menuBox.bottom);
     }
     expect(menu.scrollHeight).toBeLessThanOrEqual(menu.clientHeight);
+  });
+});
+
+describe('Options of a work package attribute', () => {
+  const inlineStatus = { type: 'openProjectWorkPackageAttributeInline', props: { wpid: '321', displayId: 'PROJ-321', attribute: 'status', display: 'value' } };
+  const longText = { type: 'openProjectWorkPackageAttributeBlock', props: { wpid: '321', displayId: 'PROJ-321', attribute: 'description', display: 'value' } };
+
+  it('look like the options of a work package', async () => {
+    renderAttribute('status', 'value');
+    await userEvent.click(page.getByRole('button', { name: 'In progress' }));
+
+    const menu = page.getByRole('menu', { name: 'Options for Status of work package PROJ-321' });
+    await expect.element(menu).toBeVisible();
+    await expect.element(menu.getByRole('menuitem', { name: 'Open work package PROJ-321 in new tab' })).toHaveTextContent('Open PROJ-321');
+    await expect.element(menu.getByRole('menuitem', { name: 'Change size: Value' })).toHaveTextContent('Value');
+    await expect.element(menu.getByRole('menuitem', { name: 'Remove work package attribute' })).toHaveTextContent('Remove');
+  });
+
+  it('open the work package in a new tab', async () => {
+    const openSpy = vi.spyOn(window, 'open').mockReturnValue(null);
+    renderAttribute('status', 'value');
+    await userEvent.click(page.getByRole('button', { name: 'In progress' }));
+
+    await userEvent.click(page.getByRole('menuitem', { name: 'Open work package PROJ-321 in new tab' }));
+
+    expect(openSpy).toHaveBeenCalledWith(expect.stringContaining('/wp/PROJ-321'), '_blank', 'noopener,noreferrer');
+    openSpy.mockRestore();
+  });
+
+  it('switch what an inline attribute shows', async () => {
+    let editor:any;
+    renderEditor({
+      onEditor: (instance) => { editor = instance; },
+      initialContent: [{ type: 'paragraph', content: ['See ', inlineStatus] }],
+    });
+    await userEvent.click(page.getByRole('button', { name: 'In progress' }));
+
+    await userEvent.click(page.getByRole('menuitem', { name: 'Change size: Value' }));
+    await userEvent.click(page.getByRole('menuitemradio', { name: 'Label + value' }));
+
+    await expect.element(page.getByRole('button', { name: 'Status: In progress' })).toBeVisible();
+    await expect.element(page.getByTestId('popover-content')).not.toBeInTheDocument();
+    expect(attributeProps(editor)[0]).toMatchObject({ display: 'both' });
+  });
+
+  it('remove an inline attribute', async () => {
+    let editor:any;
+    renderEditor({
+      onEditor: (instance) => { editor = instance; },
+      initialContent: [{ type: 'paragraph', content: ['See ', inlineStatus] }],
+    });
+    await userEvent.click(page.getByRole('button', { name: 'In progress' }));
+
+    await userEvent.click(page.getByRole('menuitem', { name: 'Remove work package attribute' }));
+
+    await vi.waitFor(() => expect(attributeProps(editor)).toEqual([]));
+    await expect.element(page.getByText('See')).toBeVisible();
+    await expect.element(page.getByTestId('popover-content')).not.toBeInTheDocument();
+  });
+
+  it('remove a long text', async () => {
+    let editor:{ document:{ type:string }[] } | undefined;
+    renderEditor({
+      onEditor: (instance) => { editor = instance; },
+      initialContent: [{ type: 'paragraph', content: 'Before' }, longText],
+    });
+    await expect.element(page.getByText('Kick-off')).toBeVisible();
+    await userEvent.click(page.getByText('Kick-off'));
+
+    await userEvent.click(page.getByRole('menuitem', { name: 'Remove work package attribute' }));
+
+    await vi.waitFor(() => expect(editor!.document.map((block) => block.type)).not.toContain('openProjectWorkPackageAttributeBlock'));
   });
 });

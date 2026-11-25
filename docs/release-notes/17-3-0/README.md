@@ -83,7 +83,7 @@ Meeting templates, [introduced as an Enterprise add-on in OpenProject 17.2](../.
 
 ![Meeting template in OpenProject 17.3 with the option to share – With only this project, with subprojects or with all projects](17-3-meeting-templates-share-highlighted.png)
 
-For more details, please refer to the [Meetings documentation](../../user-guide/meetings/one-time-meetings/).
+For more details, please refer to the [Meetings documentation](../../user-guide/meetings/meeting-features/meeting-templates/).
 
 ### Improved workflow configuration for administrators
 
@@ -95,7 +95,7 @@ When editing workflows, only relevant statuses are displayed, and role selection
 
 ![Example workflow for work package type task](17-3-workflows.png)
 
-[Read more about workflow management in our system admin guide](../../system-admin-guide/manage-work-packages/work-package-types/workflows).
+[Read more about workflow management in our system admin guide](../../system-admin-guide/manage-work-packages/work-package-workflows).
 
 ### Improved handling of project identifiers
 

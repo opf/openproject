@@ -83,12 +83,12 @@ en:
   label_resource_management: Resource management
   permission_allocate_user_resources: Allocate user resources
   permission_allocate_user_resources_explanation: >-
-    Allows users to create, update, and delete resource allocations within a resource planner. This includes assigning users
-    (or user filters) to a planner and adjusting the allocated time and date range.
-  permission_assign_users_to_generic_allocations: Assign users to generic allocations
+    Allows users to create, update, and delete resource allocations within a resource planner. This includes allocating users
+    or placeholder users to work packages and adjusting the allocated time and date range.
+  permission_assign_users_to_generic_allocations: Assign users to placeholder user allocations
   permission_assign_users_to_generic_allocations_explanation: >-
-    Allows users to use the Staffing view to assign real users to generic (filter-based) resource allocations that do not yet
-    have a user. It does not allow creating or editing allocations.
+    Allows users to use the Staffing view to assign users to resource allocations that were made for a placeholder user.
+    It does not allow creating or editing allocations.
   permission_manage_public_global_resource_planners: Manage public global resource planners
   permission_manage_public_global_resource_planners_explanation: >-
     Allows users to publish their own global resource planners and to manage global resource planners that other users have
@@ -159,9 +159,9 @@ en:
     assignment_dialog:
       available: "%{hours} available"
       confirm_overtime: Assign anyway
-      filter_criteria: Filter criteria
+      filter_criteria: Criteria
       no_candidates:
-        description: No project member matches this allocation's filter criteria.
+        description: No project member matches the criteria of this placeholder user.
         title: No matching members
       no_schedule: This user has no work schedule set up, so we cannot determine whether this allocation fits.
       overbooked_detail: >-
@@ -220,7 +220,7 @@ en:
     staffing:
       assign: Assign user
       blank:
-        description: All generic allocations in this project have a user assigned.
+        description: All placeholder user allocations in this project have a user assigned.
         title: Nothing to staff
       columns:
         dates: Dates
@@ -368,8 +368,8 @@ en:
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          one: "%{count} member of this project matches the allocation's filter criteria."
-          other: "%{count} members of this project match the allocation's filter criteria."
+          one: "%{count} member of this project matches the criteria of the placeholder user."
+          other: "%{count} members of this project match the criteria of the placeholder user."
       blank:
         add_work_package: Add work package
         configure_view: Configure view

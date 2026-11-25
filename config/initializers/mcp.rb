@@ -49,6 +49,7 @@ Rails.application.config.to_prepare do
                     McpTools::CreateWorkPackageRelation,
                     McpTools::CurrentUser,
                     McpTools::DeleteWorkPackageRelation,
+                    McpTools::GetWorkPackageForm,
                     McpTools::ListStatuses,
                     McpTools::ListTypes,
                     McpTools::ListWorkPackageComments,

@@ -71,6 +71,11 @@ RSpec.describe WorkPackageTypes::ProjectsTab::TableComponent, type: :component d
     expect(base_row).to have_no_css(".Label")
   end
 
+  it "offers no actions on archived projects" do
+    expect(archived_row).not_to have_test_selector("type-projects-row-menu")
+    expect(base_row).to have_test_selector("type-projects-row-menu")
+  end
+
   it "names the type without a caption for projects on the default variant" do
     expect(base_row).to have_text("Bug")
     expect(base_row).to have_no_css(".color-fg-muted", exact_text: I18n.t("types.index.variant_label"))
@@ -85,6 +90,11 @@ RSpec.describe WorkPackageTypes::ProjectsTab::TableComponent, type: :component d
     expect(owning_row).to have_text("Firmware")
     expect(owning_row)
       .to have_css(".color-fg-muted", exact_text: I18n.t("projects.settings.types.project_specific_variant"))
+  end
+
+  it "labels the switch action to match the switch dialog" do
+    expect(hardware_row).to have_link(I18n.t("types.edit.projects.actions.switch_variant"))
+    expect(hardware_row).to have_link("Switch variant")
   end
 
   context "without any project" do
