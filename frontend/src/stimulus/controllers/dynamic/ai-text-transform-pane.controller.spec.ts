@@ -749,6 +749,7 @@ describe('AiTextTransformPaneController inside a modal dialog', () => {
 
   const PANE_HTML = `
 <div id="ai-pane" data-controller="ai-text-transform-pane"
+     data-ai-text-transform-pane-close-form-value="ai-pane-close"
      data-action="keydown.esc->ai-text-transform-pane#close">
   <div data-ai-text-transform-pane-target="pane" role="dialog" aria-label="AI result" tabindex="-1"
        style="position: fixed; top: 40px; right: 16px; width: 340px; height: 260px;">
@@ -806,6 +807,42 @@ describe('AiTextTransformPaneController inside a modal dialog', () => {
 
     expect(event.defaultPrevented).toBe(true);
     expect(dialog().open).toBe(true);
+  });
+
+  it('replaces an older pane left in another dialog', async () => {
+    await mountPane();
+    ctx.appendHTML('<dialog id="nested"><input aria-label="Nested editor"></dialog>');
+    const nested = document.getElementById('nested') as HTMLDialogElement;
+    nested.showModal();
+    ctx.screen.getByRole('textbox', { name: 'Nested editor', hidden: true }).focus();
+
+    await mountPane();
+
+    expect(panes()).toHaveLength(1);
+    expect(nested).toContainElement(panes()[0]);
+  });
+
+  it('stays out of a dialog that is open but not modal', async () => {
+    dialog().close();
+    dialog().show();
+
+    await mountPane();
+
+    expect(panes()[0].parentElement).toBe(ctx.container);
+    expect(pane()).not.toHaveAttribute('popover');
+  });
+
+  it('closes through its close form when the dialog closes', async () => {
+    await mountPane();
+    ctx.appendHTML('<form id="ai-pane-close"></form>');
+    const form = document.getElementById('ai-pane-close') as HTMLFormElement;
+    const submit = vi.spyOn(form, 'requestSubmit').mockImplementation(() => undefined);
+
+    dialog().close();
+    await ctx.nextFrame();
+
+    expect(submit).toHaveBeenCalled();
+    expect(pane().matches(':popover-open')).toBe(false);
   });
 
   it('goes away when the dialog closes', async () => {

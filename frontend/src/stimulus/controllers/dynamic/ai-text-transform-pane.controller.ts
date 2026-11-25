@@ -281,7 +281,7 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
 
   close(event?:Event):void {
     event?.stopPropagation();
-    // An Escape keydown that is not canceled also closes the modal dialog the pane is in.
+    // AA-244: an Escape keydown that is not canceled also closes the modal dialog the pane is in.
     event?.preventDefault();
     const form = document.getElementById(this.closeFormValue);
     if (form instanceof HTMLFormElement) {
@@ -291,18 +291,21 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     }
   }
 
-  // Everything outside the topmost modal dialog is inert, so only the dialog the action was started in can host the pane.
+  // AA-244: everything outside the topmost modal dialog is inert, so only the dialog the action was started in can host the pane.
   private hostDialog():HTMLDialogElement|null {
-    const focused = document.activeElement?.closest<HTMLDialogElement>('dialog[open]');
-    const open = document.querySelectorAll<HTMLDialogElement>('dialog[open]');
-    return focused ?? open[open.length - 1] ?? null;
+    const focused = document.activeElement?.closest<HTMLDialogElement>('dialog:modal');
+    const modals = document.querySelectorAll<HTMLDialogElement>('dialog:modal');
+    return focused ?? modals[modals.length - 1] ?? null;
   }
 
-  // Turbo only replaces an older pane with the same id among the direct children of body.
+  // AA-244: Turbo only replaces an older pane with the same id among the direct children of body.
   private moveInto(dialog:HTMLDialogElement):void {
-    const stale = dialog.querySelector(`#${CSS.escape(this.element.id)}`);
-    if (this.element.id && stale) {
-      stale.remove();
+    if (this.element.id) {
+      document.querySelectorAll(`#${CSS.escape(this.element.id)}`).forEach((pane) => {
+        if (pane !== this.element) {
+          pane.remove();
+        }
+      });
     }
     this.moving = true;
     dialog.append(this.element);
@@ -315,7 +318,14 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     }
 
     this.dialogListeners = new AbortController();
-    dialog.addEventListener('close', () => this.element.remove(), { signal: this.dialogListeners.signal });
+    dialog.addEventListener('close', () => this.hostDialogClosed(), { signal: this.dialogListeners.signal });
+  }
+
+  private hostDialogClosed():void {
+    if (this.paneTarget.matches(':popover-open')) {
+      this.paneTarget.hidePopover();
+    }
+    this.close();
   }
 
   private get pinned():boolean {
