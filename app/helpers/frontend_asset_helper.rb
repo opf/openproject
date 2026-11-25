@@ -48,12 +48,31 @@ module FrontendAssetHelper
   # or referencing the running CLI proxy that hosts the assets in memory.
   def include_frontend_assets
     capture do
+      concat frontend_import_map_tag
+
       %w(polyfills.js main.js).each do |file|
         concat nonced_javascript_include_tag variable_asset_path(file), skip_pipeline: true, type: "module"
       end
 
       concat frontend_stylesheet_link_tag("styles.css")
     end
+  end
+
+  # SPIKE: The Angular chunk optimizer merges shared code into main.js, so lazy chunks
+  # import `./main.js`. Propshaft digests that file name after the build, so the import map
+  # points the plain name at the digested one. It has to precede the first module script.
+  def frontend_import_map_tag
+    return if FrontendAssetHelper.assets_proxied?
+
+    imports = {
+      asset_path(frontend_asset_path("main.js"), skip_pipeline: true) =>
+        asset_path(lookup_frontend_asset("main.js"), skip_pipeline: true)
+    }
+
+    content_tag(:script,
+                json_escape({ imports: }.to_json).html_safe, # rubocop:disable Rails/OutputSafety
+                type: "importmap",
+                nonce: content_security_policy_nonce)
   end
 
   def include_spot_assets
