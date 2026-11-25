@@ -37,11 +37,10 @@ module WorkPackageTypes
         "variant-#{variant.id}-action-menu"
       end
 
-      def initialize(variant:, back_url: nil, list_params: {})
+      def initialize(variant:, list_params: {})
         super()
 
         @variant = variant
-        @back_url = back_url
         @list_params = list_params
       end
 
@@ -51,7 +50,7 @@ module WorkPackageTypes
 
       private
 
-      attr_reader :variant, :back_url, :list_params
+      attr_reader :variant, :list_params
 
       def variant_actions(menu)
         configure_action(menu)
@@ -98,7 +97,7 @@ module WorkPackageTypes
       def make_default_action(menu)
         menu.with_item(
           label: t("types.index.make_default"),
-          href: make_default_type_variant_path(type_id: variant.type_id, id: variant.id, back_url:),
+          href: make_default_type_variant_path(type_id: variant.type_id, id: variant.id, **list_params),
           form_arguments: { method: :post }
         ) do |item|
           item.with_leading_visual_icon(icon: :"check-circle")
@@ -108,7 +107,7 @@ module WorkPackageTypes
       def remove_default_action(menu)
         menu.with_item(
           label: t("types.index.remove_default"),
-          href: remove_default_type_variant_path(type_id: variant.type_id, id: variant.id, back_url:),
+          href: remove_default_type_variant_path(type_id: variant.type_id, id: variant.id, **list_params),
           form_arguments: { method: :post }
         ) do |item|
           item.with_leading_visual_icon(icon: :"circle-slash")

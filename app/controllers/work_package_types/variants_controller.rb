@@ -54,8 +54,7 @@ module WorkPackageTypes
     end
 
     def menu
-      render Types::VariantActionsComponent.new(variant: named_variant, back_url: params[:back_url],
-                                                list_params: carried_list_params),
+      render Types::VariantActionsComponent.new(variant: named_variant, list_params: carried_list_params),
              layout: false
     end
 
@@ -133,13 +132,15 @@ module WorkPackageTypes
       variant = any_variant
       service_call = service.new(variant:, user: current_user).call
 
+      replace_via_turbo_stream(component: variant_list_component(variant), method: :morph)
+
       if service_call.success?
-        flash[:notice] = t(notice_key, name: variant.composite_name)
+        render_success_flash_message_via_turbo_stream(message: t(notice_key, name: variant.composite_name))
       else
-        flash[:error] = service_call.errors.full_messages
+        render_error_flash_message_via_turbo_stream(message: service_call.errors.full_messages.to_sentence)
       end
 
-      redirect_back_or_default(types_path, status: :see_other)
+      respond_with_turbo_streams(status: service_call)
     end
 
     # A project reaches only the variants it owns, so another project's is absent rather than

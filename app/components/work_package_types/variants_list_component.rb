@@ -96,7 +96,7 @@ module WorkPackageTypes
     # The menu's actions are reachable from the types index too, so each one has to be told to
     # come back here rather than to that list.
     def menu_src(variant)
-      menu_type_variant_path(type_id: variant.type_id, id: variant.id, back_url: variants_path,
+      menu_type_variant_path(type_id: variant.type_id, id: variant.id,
                              list_context: LIST_CONTEXT, query:, created_by_migration:)
     end
 
