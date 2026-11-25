@@ -46,6 +46,18 @@ module OpenProject::TextFormatting
       />)
       end
 
+      def render_task_list_item(item)
+        fragment = super
+        checkbox = fragment.at_css("input")
+        label = Nokogiri::XML::Node.new("label", fragment.document)
+        checkbox.add_previous_sibling(label)
+        while (node = label.next_sibling) && (node.text? || node.description&.inline?)
+          label.add_child(node)
+        end
+        checkbox["aria-label"] = I18n.t(:label_checklist_item) unless named_label?(label)
+        fragment
+      end
+
       # Copied and adapted from parent class.
       # The added css classes are adapted or removed.
       #
@@ -77,6 +89,12 @@ module OpenProject::TextFormatting
             outer.inner_html = render_task_list_item(item)
           end
         end
+      end
+
+      private
+
+      def named_label?(label)
+        label.text.present? || label.css("img[alt]").any? { |image| image["alt"].present? }
       end
     end
   end
