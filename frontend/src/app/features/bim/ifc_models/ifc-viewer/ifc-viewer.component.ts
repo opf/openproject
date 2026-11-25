@@ -45,6 +45,12 @@ import invariant from 'tiny-invariant';
   styleUrls: ['./ifc-viewer.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
+  host: {
+    '(keydown)': 'claimCameraKey($event)',
+    '(keypress)': 'keepCameraKey($event)',
+    '(keyup)': 'releaseCameraKey($event)',
+    '(focusout)': 'releaseKeysOnCanvasExit($event.target)',
+  },
 })
 export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
   ifcData = inject(IfcModelsDataService);
@@ -66,6 +72,8 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
   };
 
   keyboardEnabled = false;
+
+  private cameraKeys = new Set<string>();
 
   inspectorVisible$:BehaviorSubject<boolean> = this.ifcViewerService.inspectorVisible$;
 
@@ -121,7 +129,9 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
             enableMeasurements: false,
           },
           this.ifcData.projects,
-        ).catch((error:unknown) => {
+        ).then(() => {
+          this.ifcViewerService.setKeyboardEnabled(this.keyboardEnabled);
+        }).catch((error:unknown) => {
           // The viewer chunk is loaded on demand; surface a download/init failure.
           console.error('Failed to initialize the IFC viewer:', error);
         });
@@ -170,13 +180,38 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.ifcViewerService.inspectorVisible$.next(!this.inspectorVisible$.getValue());
   }
 
-  // Key events for navigating the viewer shall not propagate further up in the DOM, i.e.
-  // pressing the S-key shall not trigger the global search which listens on `document`.
-  @HostListener('keydown', ['$event'])
-  @HostListener('keyup', ['$event'])
-  @HostListener('keypress', ['$event'])
-  cancelAllKeyEvents($event:KeyboardEvent):void {
-    $event.stopPropagation();
+  // A key that moves the camera must not also trigger a page shortcut, e.g. S the global search.
+  // Its keypress and keyup are claimed by code, as keypress carries a character code xeokit's
+  // key map does not use.
+  claimCameraKey(event:KeyboardEvent):void {
+    if (this.keyboardEnabled
+      && event.target === this.modelCanvas.nativeElement
+      && this.ifcViewerService.handlesKey(event)) {
+      this.cameraKeys.add(event.code);
+    }
+    if (this.cameraKeys.has(event.code)) {
+      event.stopPropagation();
+    }
+  }
+
+  // A shortcut that moves focus off the canvas makes its keyup land elsewhere.
+  releaseKeysOnCanvasExit(target:EventTarget|null):void {
+    if (target === this.modelCanvas.nativeElement) {
+      this.cameraKeys.clear();
+      this.ifcViewerService.releaseHeldKeys();
+    }
+  }
+
+  keepCameraKey(event:KeyboardEvent):void {
+    if (this.cameraKeys.has(event.code)) {
+      event.stopPropagation();
+    }
+  }
+
+  releaseCameraKey(event:KeyboardEvent):void {
+    if (this.cameraKeys.delete(event.code)) {
+      event.stopPropagation();
+    }
   }
 
   @HostListener('mousedown')
