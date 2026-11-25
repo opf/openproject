@@ -130,7 +130,11 @@ When we receive vulnerability reports from researchers or through internal ident
     - for **high** and **critical** vulnerabilities: 24 hours after the release.
 ### How long does it take to fix a security issue?
 
-All vulnerabilities are treated with the highest priority. **Critical** and **high** impact vulnerabilities are aimed to be available as an upgradable fix within 14 days after *confirmation of the vulnerability*. This timeline represents our targets. Actual resolution times may vary depending on the complexity of the issue and the availability of our team.
+We fix **critical** and **high** vulnerabilities as soon as possible, and at the latest **14 calendar days** after we confirm the vulnerability. The fix will be made available as a patch release of the latest stable version of OpenProject according to the process steps outlined earlier.
+
+A vulnerability is confirmed when our security team has reproduced it on the latest stable version of OpenProject and has assessed its severity. We assess the severity with CVSS for a default installation of OpenProject. This severity can be different from the severity in the report. For example, the severity can be lower when an attack needs a non-default configuration, administrator privileges, or conditions outside of OpenProject. If we decide that the reported behavior is not a vulnerability (see [cases we might reject](#criteria-for-security-vulnerabilities)), no fix timeline applies. In all cases, we communicate openly with the reporter about our decision and the reasons for it.
+
+If a complete fix needs more than 14 days, for example because it needs larger changes, we tell the reporter before the 14 days end. In that case, we provide a mitigation or workaround within the 14 days, and give a new date for the complete fix.
 
 ### When is a security issue considered fixed?
 
