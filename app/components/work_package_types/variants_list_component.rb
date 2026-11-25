@@ -64,7 +64,7 @@ module WorkPackageTypes
       end
     end
 
-    def migration_filter? = created_by_migration == "t"
+    def migration_filter? = created_by_migration == WorkPackageTypes::MigrationFilterComponent::MIGRATED
 
     def any_variants? = named_variants.exists?
 

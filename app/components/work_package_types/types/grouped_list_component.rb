@@ -50,7 +50,7 @@ module WorkPackageTypes
 
       attr_reader :types, :expanded_type_id, :page_args, :query, :created_by_migration
 
-      def migration_filter? = created_by_migration == "t"
+      def migration_filter? = created_by_migration == WorkPackageTypes::MigrationFilterComponent::MIGRATED
 
       def filtered? = query.present? || migration_filter?
 

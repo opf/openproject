@@ -61,7 +61,9 @@ module WorkPackageTypes
       { page: page_param, per_page: per_page_param }
     end
 
-    def admin_types_migration_filter? = params[:created_by_migration].presence == "t"
+    def admin_types_migration_filter?
+      params[:created_by_migration].presence == WorkPackageTypes::MigrationFilterComponent::MIGRATED
+    end
 
     def admin_types_filtered? = params[:query].present? || admin_types_migration_filter?
 
