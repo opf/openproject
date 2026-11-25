@@ -63,7 +63,7 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
 
   public buttonClass = 'toolbar-icon';
 
-  public iconClass = 'icon-info2';
+  readonly icon = 'info';
 
   public activateLabel:string;
 

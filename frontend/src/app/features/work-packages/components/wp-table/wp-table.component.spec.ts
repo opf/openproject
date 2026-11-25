@@ -45,6 +45,7 @@ import { QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC, QuerySortByResource } from 'core
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { DynamicIconDirective } from 'core-app/shared/components/primer/dynamic-icon.directive';
 import { PrimerButtonComponent } from 'core-app/shared/components/primer/button.component';
 import { WorkPackageInlineCreateComponent } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.component';
 import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
@@ -424,7 +425,7 @@ function configureTableModule():void {
   vi.spyOn(OpenprojectWorkPackagesModule, 'bootstrapAttributeGroups').mockImplementation(() => undefined);
   TestBed.overrideModule(OpenprojectWorkPackagesModule, {
     set: {
-      imports: [CommonModule, NoResultsComponent, PrimerButtonComponent],
+      imports: [CommonModule, NoResultsComponent, PrimerButtonComponent, DynamicIconDirective],
       declarations: [WorkPackagesTableComponent, WorkPackageInlineCreateComponent, WorkPackageTableSumsRowController, SortHeaderDirective],
       exports: [WorkPackagesTableComponent],
       providers: [
@@ -866,12 +867,13 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     });
 
     it('describes manual sorting', async () => {
-      await mount({});
+      await mount({ dragAndDropEnabled: true });
 
       sortBy(['manualSorting', QUERY_SORT_BY_ASC]);
 
-      expect(sortStates()).toEqual([null, null]);
+      expect(sortStates()).toEqual([null, null, null]);
       expect(screen.getByRole('treegrid')).toHaveAccessibleDescription('Sorted manually.');
+      expect(headerRow().querySelector('svg.octicon-op-sort-by path')).toBeInTheDocument();
     });
   });
 
