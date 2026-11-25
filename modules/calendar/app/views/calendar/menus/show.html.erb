@@ -2,6 +2,8 @@
   <%= render OpenProject::Common::SubmenuComponent.new(
         sidebar_menu_items: @submenu_menu_items,
         searchable: true,
-        create_btn_options: @create_btn_options
+        create_btn_options: @create_btn_options,
+        query_select_controller: "query-select",
+        query_select_frame_id: "calendar_sidemenu"
       ) %>
 <% end %>
