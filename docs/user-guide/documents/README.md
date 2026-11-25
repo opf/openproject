@@ -62,7 +62,7 @@ To view a document, simply click on the name of a document in the index. You wil
 A document has:
 
 1. A title, a category, number of active editors and last saved date
-2. _More_ menu with with options to edit, copy link and delete a document
+2. _More_ menu with options to edit, copy link and delete a document
 3. The document text itself
 4. Attachments
 
@@ -76,7 +76,7 @@ To create a new document, you can either click on the _+ Document_ button or cli
 
 In the form that appears, select the document category, give it a title and an optional description. You can optionally also attach a file to the document.
 
-Please note that that these document categories are created by the administrator of your instance.
+Please note that these document categories are created by the administrator of your instance.
 
 The uploaded documents are visible to all project members who have the necessary permissions.
 
@@ -107,13 +107,36 @@ Take a look at this example for an illustration.
 
 ![An example of real-time document editing in OpenProject Documents module](openproject_user_guide_real_time_collaboration_example.gif)
 
+### Add and format tables
+
+To add a table, type **/** and select **Table** from the slash menu. A table with three columns and two rows is inserted.
+
+You can then adjust the table in several ways:
+
+- **Add rows or columns:** Hover over the table and click the **+** that appears to the right or below it.
+- **Use the row and column menus:** Hover over a row or column, or select a cell, and click the **six-dot icon**. The menu offers options such as adding or deleting rows and columns and changing colors.
+- **Set a header column:** Hover over the first column and select the header column option. The text in that column is then formatted in bold, so it stands out as a header.
+- **Use the formatting toolbar:** Select one or more cells to format their text. To merge cells, select them and click the merge icon. To split a merged cell again, select it and click the same icon.
+
+The available options depend on where you hover or click and on how many cells you select. Among others, you can set a header column and change the background and text color of cells.
+
+![Column menu of a table in a document in OpenProject Documents module, with options to delete or add columns and to change colors](openproject_user_guide_documents_table_formatting.gif)
+
+### Link to a section of a document
+
+Each heading in a document has its own anchor, so you can link directly to a specific section. This works for all heading levels.
+
+To copy a link to a section, hover over its heading. A link icon appears to the right of the heading. Click it to copy the link. The copied link contains both the document and the heading. When someone opens the link, the document opens and scrolls directly to that section.
+
+![Copying a link to a heading in a document in OpenProject Documents module](openproject_user_guide_documents_copy_link_to_heading.png)
+
 ### Link work packages to documents
 
 You can link existing work packages to a document in three ways:
 
 1. **Using the slash menu**
 
-Start editing a document, type **/** to open the slash menu, then select **Link to existing work package** from the list of available options.
+Start editing a document, type **/** to open the slash menu, then select **Link existing work package** from the list of available options.
 
 ![Link a document to an existing work package in OpenProject](openproject_user_guide_documents_module_add_work_package.png)
 
@@ -122,7 +145,7 @@ Enter the work package ID or subject and it will automatically be linked, as sho
 ![Document linked to an existing work package in OpenProject](openproject_user_guide_documents_module_add_linked_work_package.png)
 
 > [!NOTE]
-> The work package is displayed as a full-width card only when it is linked using a slash command on an empty line.
+> When you use the slash command on an empty line, the work package is displayed as a full-width card. You can also create a card with **####**, see below.
 
 2. **Using inline work package links**
 
@@ -135,10 +158,11 @@ The amount of work package information shown depends on the display format used:
 - **#** displays the work package identifier.
 - **##** displays the work package type, identifier, and subject.
 - **###** displays the work package status, type, identifier, and subject.
+- **####** inserts the work package as a block-style card instead of an inline link.
 
 ![Work package linked three times inline in OpenProject documents module, showing different amounts of information depending on how many hashtags are used](openproject_user_guide_documents_link_wp_inline_examples.png) 
 
-Inline work package links behave like regular links and can be placed naturally within a paragraph, without adding a line break. Alternatively, work packages can be displayed as separate block-style cards.
+Inline work package links behave like regular links and can be placed naturally within a paragraph, without adding a line break. If you type **####** in the middle of a line or sentence, the line is split and the card is placed on its own line. If you type more than four **#**, they are shown as regular text and no work package search is started.
 
 Click the work package title to open it in a new browser tab. To change the display style of the linked work package, click the work package ID on the left to open the context menu. You can choose one of the available display options: **Tiny**, **Compact**, **Regular**, or **Compact card**.
 
@@ -149,7 +173,7 @@ Click the work package title to open it in a new browser tab. To change the disp
 
 3. **Pasting a work package URL**
 
-Copy a work package URL ad paste directly into a document. You can use either the browser URL or **Copy link to clipboard**:
+Copy a work package URL and paste it directly into a document. You can use either the browser URL or **Copy link to clipboard**:
 
 - Open a work package, click the **More (three dots)** menu 
 - Select **Copy link to clipboard**, then paste the link into your document.
@@ -159,9 +183,26 @@ Copy a work package URL ad paste directly into a document. You can use either th
 > [!NOTE]
 > The way you paste the link determines how it is displayed. If you paste into an empty paragraph, the work package is linked as a card. If it is pasted into an existing paragraph, the work package is linked as a regular inline link (the same as using **###**).
 
+### Insert work package attributes
+
+You can show individual attributes of a work package directly in a document, for example its status, assignee, or the value of a custom field.
+
+1. Type **/** to open the slash menu and select **Work package attribute**. You find it at the end of the menu, in the **OpenProject** section.
+2. Search for the work package by its ID, identifier, or subject.
+3. Select the attribute or custom field you want to show. The list depends on the selected work package.
+4. Choose whether to show the **label**, the **value**, or **label and value**. The value is preselected. A preview shows how the attribute will look in the document.
+5. Confirm to insert the attribute into the document.
+
+![Dialog to insert a work package attribute into a document via a slash command in OpenProject Documents module](openproject_user_guide_documents_insert_wp_attribute.png)
+
+The attribute is inserted inline into your text. To change what it shows, open its context menu and switch between label, value, and label and value. The description and other long text fields are inserted as a separate block instead of inline.
+
+> [!TIP]
+> When you insert another work package attribute in the same document, the dialog is prefilled with your previous selection, as long as you have not left the document in between.
+
 ### Create a new work package from within a document
 
-To create new work packages from within a document, type **/** to open the slash menu, then select **Create a new work package** from the list of available options.
+To create new work packages from within a document, type **/** to open the slash menu, then select **Create new work package** from the list of available options.
 
 ![Create a new work package in documents](openproject_user_guide_documents_create_new_wp.png)
 
@@ -180,6 +221,9 @@ This can save time, as the highlighted text is automatically used as the work pa
 
 ![Work package form with the highlighted text pre-filled as the subject](openproject_user_guide_documents_create_new_wp_form_subject_prefilled.png)
 
+You can also create a work package while searching for one. When you link a work package via the slash menu or with **#**, and the search does not return the work package you are looking for, select **Create new work package** at the bottom of the search results. Your search text is used as the subject, and the other fields are prefilled with their default values or with the values of the last work package you created in the same document.
+
+![Create new work package option at the bottom of the work package search results in a document in OpenProject](openproject_user_guide_documents_create_wp_from_search.png)
 
 ## Delete a project document
 
