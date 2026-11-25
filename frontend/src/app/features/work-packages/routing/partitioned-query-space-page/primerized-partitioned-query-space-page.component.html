@@ -19,10 +19,10 @@
             @if (!definition.show || definition.show()) {
               <li class="toolbar-item"
                 [ngClass]="definition.containerClasses">
-                <ndc-dynamic [ndcDynamicComponent]="definition.component"
-                  [ndcDynamicInputs]="definition.inputs"
-                  [ndcDynamicInjector]="injector"
-                  [ndcDynamicOutputs]="definition.outputs" />
+                <ng-container [ngComponentOutlet]="definition.component"
+                  [ngComponentOutletInputs]="definition.inputs"
+                  [ngComponentOutletInjector]="injector"
+                  [opDynamicOutputs]="definition.outputs" />
               </li>
             }
           }
@@ -33,10 +33,10 @@
 
   <div class="work-packages-partitioned-query-space--filter-area">
     @if (filterContainerDefinition) {
-      <ndc-dynamic [ndcDynamicComponent]="filterContainerDefinition.component"
-        [ndcDynamicInputs]="filterContainerDefinition.inputs"
-        [ndcDynamicOutputs]="filterContainerDefinition.outputs"
-        [ndcDynamicInjector]="injector" />
+      <ng-container [ngComponentOutlet]="filterContainerDefinition.component"
+        [ngComponentOutletInputs]="filterContainerDefinition.inputs"
+        [opDynamicOutputs]="filterContainerDefinition.outputs"
+        [ngComponentOutletInjector]="injector" />
     }
   </div>
 

@@ -28,12 +28,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SelectEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-edit-field.component';
-import { DynamicModule } from 'ng-dynamic-component';
+import { DynamicOutputsDirective } from 'core-app/shared/components/dynamic-component/dynamic-outputs.directive';
 
 @NgModule({
   imports: [
     CommonModule,
-    DynamicModule,
+    DynamicOutputsDirective,
   ],
   declarations: [
     SelectEditFieldComponent,

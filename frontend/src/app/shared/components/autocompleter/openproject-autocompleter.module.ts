@@ -28,7 +28,6 @@
 import { NgModule } from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DynamicModule } from 'ng-dynamic-component';
 import { CommonModule } from '@angular/common';
 
 import { InviteUserButtonModule } from 'core-app/features/invite-user-modal/button/invite-user-button.module';
@@ -139,7 +138,6 @@ export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
     FormsModule,
     ReactiveFormsModule,
 
-    DynamicModule,
     OpenprojectPrincipalRenderingModule,
     InviteUserButtonModule,
     IconModule,

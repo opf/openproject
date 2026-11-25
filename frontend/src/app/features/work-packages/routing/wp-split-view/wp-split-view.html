@@ -34,8 +34,8 @@
               class="work-package-details-tab"
               data-notification-selector='notification-scroll-container'
               >
-              <ndc-dynamic [ndcDynamicComponent]="activeTabComponent"
-                [ndcDynamicInputs]="{ workPackage: workPackage }" />
+              <ng-container [ngComponentOutlet]="activeTabComponent ?? null"
+                [ngComponentOutletInputs]="{ workPackage: workPackage }" />
             </div>
           }
         </edit-form>

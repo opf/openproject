@@ -1,5 +1,5 @@
-<ndc-dynamic [ndcDynamicComponent]="autocompleterComponent()"
-  [ndcDynamicInputs]="{
+<ng-container [ngComponentOutlet]="autocompleterComponent()"
+  [ngComponentOutletInputs]="{
     availableValues: requests.output$ | async,
     appendTo: appendTo,
     model: selectedOption ? selectedOption : '',
@@ -11,5 +11,5 @@
     typeahead: typeahead,
     hideSelected: true
   }"
-  [ndcDynamicOutputs]="referenceOutputs"
+  [opDynamicOutputs]="referenceOutputs"
  />

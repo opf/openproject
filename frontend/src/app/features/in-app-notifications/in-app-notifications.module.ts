@@ -47,7 +47,6 @@ import {
 import { OpenprojectPrincipalRenderingModule } from 'core-app/shared/components/principal/principal-rendering.module';
 import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import { OpSharedModule } from 'core-app/shared/shared.module';
-import { DynamicModule } from 'ng-dynamic-component';
 import { InAppNotificationActorsLineComponent } from './entry/actors-line/in-app-notification-actors-line.component';
 import { InAppNotificationDateAlertComponent } from './entry/date-alert/in-app-notification-date-alert.component';
 import { InAppNotificationRelativeTimeComponent } from './entry/relative-time/in-app-notification-relative-time.component';
@@ -67,7 +66,6 @@ import { InAppNotificationStatusComponent } from './entry/status/in-app-notifica
   ],
   imports: [
     OpSharedModule,
-    DynamicModule,
     CommonModule,
     IconModule,
     OpenprojectPrincipalRenderingModule,
