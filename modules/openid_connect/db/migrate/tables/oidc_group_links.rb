@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -25,15 +25,20 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class AddAuthorToOutcome < ActiveRecord::Migration[8.0]
-  def change
-    add_reference :meeting_outcomes,
-                  :author,
-                  type: :bigint,
-                  foreign_key: { to_table: :users },
-                  null: true,
-                  index: true
+require Rails.root.join("db/migrate/tables/base").to_s
+
+class Tables::OidcGroupLinks < Tables::Base
+  def self.table(migration)
+    create_table migration do |t|
+      t.belongs_to :group, null: false, index: true, foreign_key: { to_table: :users, on_delete: :cascade }
+      t.belongs_to :auth_provider, null: false, index: false, foreign_key: { on_delete: :cascade }
+      t.string :oidc_group_name, null: false
+
+      t.index %i[auth_provider_id oidc_group_name], unique: true
+
+      t.timestamps null: false
+    end
   end
 end

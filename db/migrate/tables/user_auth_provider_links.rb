@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -25,28 +25,21 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-require Rails.root.join("db/migrate/migration_utils/squashed_migration").to_s
-require_relative "tables/cost_entries"
-require_relative "tables/cost_types"
-require_relative "tables/rates"
-require_relative "tables/time_entries"
-require_relative "tables/time_entry_activities_projects"
-require_relative "tables/time_entry_journals"
+require_relative "base"
 
-class AggregatedCostsMigrations < SquashedMigration
-  squashed_migrations *%w[
-    1009015_aggregated_costs_migrations
-    20241120103858_add_start_end_times_to_time_entries
-    20241125104347_add_timezone_identifier_to_time_entry
-    20250219103939_make_time_entry_comment_text_field
-  ].freeze
+class Tables::UserAuthProviderLinks < Tables::Base
+  def self.table(migration)
+    create_table migration do |t|
+      t.references :user, null: false, foreign_key: { on_delete: :cascade, on_update: :cascade }
+      t.references :auth_provider, null: false, foreign_key: { on_delete: :cascade, on_update: :cascade }
+      t.string :external_id, null: false
 
-  tables Tables::CostEntries,
-         Tables::CostTypes,
-         Tables::Rates,
-         Tables::TimeEntries,
-         Tables::TimeEntryActivitiesProjects,
-         Tables::TimeEntryJournals
+      t.timestamps null: false
+
+      t.index %i[user_id auth_provider_id], unique: true
+      t.index %i[auth_provider_id external_id], unique: true
+    end
+  end
 end
