@@ -189,11 +189,11 @@ To export a Gantt chart in a PDF format, click the **More** (three dots) icon in
 
 ![Export Gantt chart option in OptionProject](openproject-user-guide-gantt-charts-export.png)
 
-Then select the **PDF Gantt** option under PDF export type. Configure the parameters of the PDF export, such as zoom level for the dates, column width and paper size. Then click the green **Export** button.
+Then select the **PDF Gantt** option under PDF export type. Configure the parameters of the PDF export, such as the columns next to the chart, zoom level for the dates, date column width and paper size. Then click the green **Export** button.
 
 ![Gantt chart export options in OpenProject](openproject-user-guide-export-gantt-chart.png)
 
-Configure the parameters of the PDF export, such as zoom level for the dates, column width and paper size. Then click the green **Export** button.
+Configure the parameters of the PDF export, such as the columns next to the chart, zoom level for the dates, date column width and paper size. Then click the green **Export** button.
 
 You can then save the Gantt chart in PDF form to share with your project stakeholders or print it directly.
 
