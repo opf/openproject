@@ -633,6 +633,7 @@ GEM
       base64 (~> 0.2)
       concurrent-ruby (~> 1.1)
       websocket-driver (~> 0.7)
+    ffi (1.17.4)
     ffi (1.17.4-aarch64-linux-gnu)
     ffi (1.17.4-aarch64-linux-musl)
     ffi (1.17.4-arm-linux-gnu)
@@ -1033,7 +1034,7 @@ GEM
       opentelemetry-instrumentation-rack (~> 0.29)
     opentelemetry-instrumentation-httpx (0.8.0)
       opentelemetry-instrumentation-base (~> 0.25)
-    opentelemetry-instrumentation-net_http (0.29.2)
+    opentelemetry-instrumentation-net_http (0.30.0)
       opentelemetry-instrumentation-base (~> 0.25)
     opentelemetry-instrumentation-pg (0.37.1)
       opentelemetry-helpers-sql
@@ -1947,6 +1948,7 @@ CHECKSUMS
   faraday-net_http (3.5.0) sha256=2e7094c34e38754ee048cc3df47376f8657005d9375f8473bce1c3b526a22e36
   faraday-retry (2.4.0) sha256=7b79c48fb7e56526faf247b12d94a680071ff40c9fda7cf1ec1549439ad11ebe
   ferrum (0.19.2) sha256=76edbd1cd6045d781423687b641da4acfa4e3e6dc5443fb836cab0c4a282ec7e
+  ffi (1.17.4) sha256=bcd1642e06f0d16fc9e09ac6d49c3a7298b9789bcb58127302f934e437d60acf
   ffi (1.17.4-aarch64-linux-gnu) sha256=b208f06f91ffd8f5e1193da3cae3d2ccfc27fc36fba577baf698d26d91c080df
   ffi (1.17.4-aarch64-linux-musl) sha256=9286b7a615f2676245283aef0a0a3b475ae3aae2bb5448baace630bb77b91f39
   ffi (1.17.4-arm-linux-gnu) sha256=d6dbddf7cb77bf955411af5f187a65b8cd378cb003c15c05697f5feee1cb1564
@@ -2134,7 +2136,7 @@ CHECKSUMS
   opentelemetry-instrumentation-faraday (0.33.0) sha256=f4320bece35997b8ce2ba520eaf52499b89a0c048fce9ce0a10c1ae5d783f801
   opentelemetry-instrumentation-grape (0.7.2) sha256=ab5e4322cd5852f4cfa3075e8523b6b6eee36dfab07b5a658f52bb11894256f8
   opentelemetry-instrumentation-httpx (0.8.0) sha256=694b6e3eb6df04f1534d7713b5bd67ab5c2e2f2d5438f2c972542b1617378fec
-  opentelemetry-instrumentation-net_http (0.29.2) sha256=4256105f058404eb0bd43e4a987e48f9e48fcade06b40a388092c380b2e946eb
+  opentelemetry-instrumentation-net_http (0.30.0) sha256=b42ebe9ef8ea1ba03031e138f2fb1113e3467a09f39249abf67a90a63e33a0be
   opentelemetry-instrumentation-pg (0.37.1) sha256=20379fe92cbecfa70e4d216614f4c40db684cc145893953fe4c1dd97e969803a
   opentelemetry-instrumentation-rack (0.31.2) sha256=4a183066110455711a0c77754e3f46652f646221d7704d968a48d155b47f8309
   opentelemetry-instrumentation-rails (0.42.0) sha256=5ea3808373ca73ee9fa4ecf337471bad1c28e98ea64460b89ab225f5b6eaf8b3
