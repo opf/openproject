@@ -93,6 +93,15 @@ describe('Inline work package attribute', () => {
     await vi.waitFor(() => expect(chip().textContent).toBe('01.09.2026 22:30'));
   });
 
+  it('asks for the date settings of the user only for dates', async () => {
+    const asked = await requestsDuring('/api/v3/configuration', async () => {
+      renderAttribute('status', 'value');
+      await vi.waitFor(() => expect(chip().textContent).toBe('In progress'));
+    });
+
+    expect(asked).toEqual([]);
+  });
+
   it('shows the label of the attribute', async () => {
     renderAttribute('status', 'label');
 

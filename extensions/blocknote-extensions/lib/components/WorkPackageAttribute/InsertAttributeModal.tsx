@@ -76,7 +76,6 @@ export const InsertAttributeModal = ({ anchorEl, prefill, offersLongText, onInse
   const { t, i18n } = useTranslation();
   const panelRef = useRef<HTMLDivElement>(null);
   useColors();
-  const formatOptions = useAttributeFormatOptions();
 
   const [prefilled, setPrefilled] = useState(prefill);
   const [picked, setPicked] = useState<WorkPackage | null>(null);
@@ -111,6 +110,7 @@ export const InsertAttributeModal = ({ anchorEl, prefill, offersLongText, onInse
   );
   const found = schema && attribute ? findAttribute(schema, attribute) : undefined;
   const selected = found && isOffered(found, offersLongText) ? found : undefined;
+  const formatOptions = useAttributeFormatOptions(selected);
 
   useEffect(() => {
     if (!schema || !attribute || findAttribute(schema, attribute) || !workPackage) return;

@@ -23,7 +23,7 @@ async function readSettings(locale:string):Promise<UserDateTimeSettings> {
   };
 }
 
-const fallbackSettings = (locale:string):UserDateTimeSettings => ({
+export const languageDateTimeSettings = (locale:string):UserDateTimeSettings => ({
   timeZone: browserTimeZone(),
   locale,
   dateFormat: null,
@@ -42,24 +42,26 @@ export function loadDateTimeSettings():Promise<UserDateTimeSettings> {
     (error:unknown) => {
       console.error('[date time settings] Failed to load the configuration:', error);
       settings = undefined;
-      return fallbackSettings(locale);
+      return languageDateTimeSettings(locale);
     }
   );
   return settings;
 }
 
-export function useDateTimeSettings():UserDateTimeSettings | null {
+export function useDateTimeSettings(enabled = true):UserDateTimeSettings | null {
   const [known, setKnown] = useState<UserDateTimeSettings | null>(loadedSettings ?? null);
 
   useEffect(() => {
+    if (!enabled) return undefined;
+
     let active = true;
     void loadDateTimeSettings().then((read) => {
       if (active) setKnown(read);
     });
     return () => { active = false; };
-  }, []);
+  }, [enabled]);
 
-  return known;
+  return enabled ? known ?? loadedSettings ?? null : null;
 }
 
 export function clearDateTimeSettings():void {

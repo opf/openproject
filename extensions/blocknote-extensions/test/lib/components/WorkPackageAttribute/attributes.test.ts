@@ -7,6 +7,7 @@ import {
   listAttributes,
   principalsOf,
   sortByLabel,
+  usesDateTimeSettings,
   valueKindOf,
 } from '../../../../lib/components/WorkPackageAttribute/attributes';
 import type { FormatOptions } from '../../../../lib/components/WorkPackageAttribute/attributes';
@@ -213,6 +214,17 @@ describe('formatAttributeValue', () => {
   it('formats in the given locale', () => {
     const attribute = findAttribute(mockAttributeSchema, 'Budget share')!;
     expect(formatAttributeValue(workPackage, attribute, { ...options, locale: 'de' })).toBe('0,25');
+  });
+});
+
+describe('usesDateTimeSettings', () => {
+  const uses = (reference:string) => usesDateTimeSettings(findAttribute(mockAttributeSchema, reference)!);
+
+  it('holds for dates and date times only', () => {
+    expect(uses('startDate')).toBe(true);
+    expect(uses('createdAt')).toBe(true);
+    expect(uses('status')).toBe(false);
+    expect(uses('estimatedTime')).toBe(false);
   });
 });
 

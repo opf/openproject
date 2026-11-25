@@ -86,6 +86,9 @@ export function findAttribute(schema:WorkPackageSchema, reference:string):WorkPa
 
 export const EMPTY_VALUE = '–';
 
+export const usesDateTimeSettings = (attribute:WorkPackageAttribute):boolean =>
+  attribute.type === 'Date' || attribute.type === 'DateTime';
+
 export interface FormatOptions extends DateTimeSettings {
   yes:string;
   no:string;
