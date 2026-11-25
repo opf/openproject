@@ -41,15 +41,10 @@ import { canonicalizeWorkPackageIdInUrl } from 'core-app/core/setup/globals/cano
 import { hideElement } from 'core-app/shared/helpers/dom-helpers';
 import { isOpenProjectCustomElement } from './openproject-custom-element';
 
-interface TurboVisitState {
-  Turbo?:{ navigator?:{ currentVisit?:{ willRender?:boolean } } };
-}
-
 // Frame navigations promoted to page visits (split view row clicks, see
-// turbo-navigation-patch.ts) fire turbo:visit without rendering a new page.
-// currentVisit is Turbo-internal and missing from its typings. OP-20713
+// turbo-navigation-patch.ts) fire turbo:visit without rendering a new page. OP-20713
 function isRenderingVisit():boolean {
-  return (globalThis as TurboVisitState).Turbo?.navigator?.currentVisit?.willRender !== false;
+  return Turbo.navigator.currentVisit?.willRender !== false;
 }
 
 export function addTurboGlobalListeners(target:Document = document, signal?:AbortSignal) {

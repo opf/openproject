@@ -26,6 +26,7 @@
 //++
 
 import * as Turbo from '@hotwired/turbo';
+import type { VisitOptions } from '@hotwired/turbo';
 import { addTurboGlobalListeners } from './turbo-global-listeners';
 
 describe('addTurboGlobalListeners — OPCE custom element morph guard', () => {
@@ -140,38 +141,32 @@ describe('addTurboGlobalListeners — page visits', () => {
   });
 });
 
-// isRenderingVisit reads Turbo internals: the navigator's currentVisit and the
-// willRender option that turbo-navigation-patch.ts passes for promoted frame
-// visits. Real Turbo visits turn an upgrade that drops either into a red test.
-interface InternalNavigator {
-  startVisit:(location:string, restorationIdentifier:string, options:Record<string, unknown>) => void;
-  stop:() => void;
-}
-
+// Real Turbo visits turn an upgrade that drops the navigator's currentVisit
+// or the willRender option that turbo-navigation-patch.ts passes for promoted
+// frame visits into a red test.
 describe('addTurboGlobalListeners — page visits with the installed Turbo', () => {
-  const navigator = Turbo.navigator as unknown as InternalNavigator;
   let controller:AbortController;
   let pageVisits:number;
   const countPageVisit = () => { pageVisits += 1; };
-  const stopVisit = () => { navigator.stop(); };
+  const cancelVisit = () => { Turbo.navigator.currentVisit?.cancel(); };
 
   beforeEach(() => {
     pageVisits = 0;
     controller = new AbortController();
     addTurboGlobalListeners(document, controller.signal);
     document.addEventListener('op:page-visit', countPageVisit);
-    document.addEventListener('turbo:visit', stopVisit);
+    document.addEventListener('turbo:visit', cancelVisit);
   });
 
   afterEach(() => {
-    document.removeEventListener('turbo:visit', stopVisit);
+    document.removeEventListener('turbo:visit', cancelVisit);
     document.removeEventListener('op:page-visit', countPageVisit);
     controller.abort();
   });
 
-  const startVisit = (options:Record<string, unknown>) => {
+  const startVisit = (options:VisitOptions) => {
     const response = { statusCode: 200, redirected: false, responseHTML: '<html><body></body></html>' };
-    navigator.startVisit(window.location.href, 'tripwire', { response, updateHistory: false, ...options });
+    Turbo.session.visit(window.location.href, { response, updateHistory: false, ...options });
   };
 
   it('dispatches op:page-visit for a rendering visit', () => {
