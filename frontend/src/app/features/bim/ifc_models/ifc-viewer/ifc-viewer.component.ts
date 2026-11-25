@@ -50,7 +50,7 @@ import invariant from 'tiny-invariant';
     '(keypress)': 'keepCameraKey($event)',
     '(keyup)': 'releaseCameraKey($event)',
     '(focusout)': 'releaseKeysOnCanvasExit($event.target)',
-    '(mousedown)': 'enableKeyBoard()',
+    '(mousedown)': 'enableKeyboard()',
     '(window:mousedown)': 'disableKeyboard($event.target)',
   },
 })
@@ -216,7 +216,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  enableKeyBoard():void {
+  enableKeyboard():void {
     if (this.modelCount) {
       this.keyboardEnabled = true;
       this.ifcViewerService.setKeyboardEnabled(true);
@@ -235,7 +235,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
       return false;
     }
 
-    this.enableKeyBoard();
+    this.enableKeyboard();
 
     // Focus on the canvas
     this.modelCanvas.nativeElement.focus();

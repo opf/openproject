@@ -309,7 +309,7 @@ describe('IFCViewerComponent keyboard targeting', () => {
     component.outerContainer = new ElementRef(document.createElement('div'));
     component.modelCanvas = new ElementRef(document.createElement('canvas'));
     component.outerContainer.nativeElement.append(component.modelCanvas.nativeElement);
-    component.enableKeyBoard();
+    component.enableKeyboard();
     setKeyboardEnabled.mockClear();
   });
 
@@ -343,7 +343,7 @@ describe('IFCViewerComponent keyboard targeting', () => {
   it('does not enable or disable keyboard input without models', () => {
     component.modelCount = 0;
     component.keyboardEnabled = false;
-    component.enableKeyBoard();
+    component.enableKeyboard();
     component.disableKeyboard(document.createElement('button'));
     expect(setKeyboardEnabled).not.toHaveBeenCalled();
   });
