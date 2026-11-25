@@ -118,7 +118,7 @@ When we receive vulnerability reports from researchers or through internal ident
 4. The security engineer coordinates with the security and development teams to prepare and test a fix.
 5. A GitHub advisory draft is created or updated, if appropriate. Security researchers are invited to collaborate on the draft, if available.
 6. If possible, a patch or fixed version is provided to the reporter for feedback and confirmation.
-7. For critical and high-severity issues, a **pre-release notification** is sent to the security mailing list at least **3 business days** before the planned release, including the release date, time and severity of the fixed vulnerability (but no vulnerability details).
+7. For critical and high-severity issues, a **pre-release notification** is sent to the security mailing list without undue delay, at the latest 24 hours after the vulnerability has been confirmed and a release for the fix has been scheduled. It is sent at least **3 business days** before the planned release and includes the release date, time and severity of the vulnerability (but no vulnerability details).
     - This information will include the current releases an upgrade will be available for.
     - For security fixes deemed critical, we will attempt to provide fixes for the newest versions of the last two minor releases.
     - Generally, OpenProject only supports the **latest stable** release. Please consult your enterprise contract or our [terms of services](https://www.openproject.org/legal/terms-of-service/) for details.
