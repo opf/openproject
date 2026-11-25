@@ -46,6 +46,18 @@ module OpenProject::Llm
            caption: :"menus.admin.llm_connection",
            parent: :ai,
            first: true
+
+      project_module nil do
+        permission :use_llm_completions,
+                   {},
+                   permissible_on: :global,
+                   require: :loggedin,
+                   visible: -> { OpenProject::FeatureDecisions.llm_completions_api_active? }
+      end
+    end
+
+    add_api_endpoint "API::V3::Root" do
+      mount ::API::V3::LlmCompletions::LlmCompletionsAPI
     end
 
     class_inflection_override("ruby_llm_provider_headers" => "RubyLLMProviderHeaders",
@@ -81,6 +93,11 @@ module OpenProject::Llm
       OpenProject::FeatureDecisions.add :semantic_search,
                                         description: "Enables the semantic search AI feature, which indexes work packages " \
                                                      "as embeddings so they can be found by meaning rather than by keyword."
+
+      OpenProject::FeatureDecisions.add :llm_completions_api,
+                                        description: "Enables POST /api/v3/ai/completions, which answers one model turn " \
+                                                     "for API clients such as the AI Assistance browser extension, through " \
+                                                     "the configured LLM connection."
     end
 
     initializer "openproject_llm.configuration" do
@@ -117,6 +134,14 @@ module OpenProject::Llm
                                           },
                                           prerequisites: -> {
                                             OpenProject::Llm::Pgvector.available?
+                                          }
+
+      # Answers one model turn for API clients that run their own tool loop.
+      OpenProject::Llm::Features.register :api_completions,
+                                          kind: :chat,
+                                          requires: %i[function_calling],
+                                          enabled: -> {
+                                            OpenProject::FeatureDecisions.llm_completions_api_active?
                                           }
     end
 
