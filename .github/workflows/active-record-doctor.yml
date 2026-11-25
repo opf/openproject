@@ -1,0 +1,36 @@
+name: active-record-doctor
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - dev
+      - release/*
+    paths:
+      - '**/app/models/**/*.rb'
+      - '**/db/migrate/*.rb'
+
+  pull_request:
+    types: [opened, reopened, synchronize]
+    paths:
+      - '**/app/models/**/*.rb'
+      - '**/db/migrate/*.rb'
+
+permissions:
+  contents: read
+
+jobs:
+  active-record-doctor:
+    name: Active Record Doctor
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Run all Active Record Doctor checks
+        run: bundle exec rake active_record_doctor
