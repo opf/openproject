@@ -28,8 +28,14 @@
 require "open_project/assets"
 
 Rake::Task["assets:precompile"].enhance(%w[assets:prepare_op])
+Rake::Task["assets:clean"].clear
 
 namespace :assets do
+  desc "Disabled: Propshaft's clean would delete the Angular build in public/assets/frontend"
+  task :clean do
+    puts "assets:clean is disabled. Propshaft would delete the Angular chunks in public/assets/frontend."
+  end
+
   desc "Prepare locales and angular assets"
   task prepare_op: %i[export_locales angular]
 
