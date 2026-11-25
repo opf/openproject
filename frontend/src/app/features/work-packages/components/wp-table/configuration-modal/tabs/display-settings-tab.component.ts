@@ -31,17 +31,13 @@ import { TabComponent } from 'core-app/features/work-packages/components/wp-tabl
 import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { WorkPackageViewSumService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sum.service';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Injector, OnInit, inject } from '@angular/core';
 import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
 
 @Component({
   selector: 'op-wp-table-configuration-settings-tab',
   templateUrl: './display-settings-tab.component.html',
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WpTableConfigurationDisplaySettingsTabComponent implements TabComponent, OnInit {
   readonly injector = inject(Injector);
@@ -109,7 +105,7 @@ export class WpTableConfigurationDisplaySettingsTabComponent implements TabCompo
       .onReady()
       .then(() => {
         this.availableGroups = sortBy(this.wpTableGroupBy.available, 'name');
-        this.currentGroup = this.wpTableGroupBy.current || this.availableGroups[0];
+        this.currentGroup = this.wpTableGroupBy.current ?? this.availableGroups[0];
         this.cdRef.markForCheck();
       });
   }
