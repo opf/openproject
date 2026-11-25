@@ -63,6 +63,22 @@ pre-commit:
         else
           echo "warning: typos is not installed, skipping (https://github.com/crate-ci/typos#install)" >&2
         fi
+    betterleaks:
+      run: |
+        if command -v betterleaks > /dev/null 2>&1; then
+          betterleaks git --config .betterleaks.toml --staged --redact --no-banner
+        else
+          echo "warning: betterleaks is not installed, skipping (https://github.com/betterleaks/betterleaks/tree/v1.x#installation)" >&2
+        fi
+        # Database dumps may contain customer data. Keep the globs in sync with .gitignore.
+    no-db-dumps:
+      files: git diff --name-only --staged --diff-filter=ACR
+      glob: "*.{sql,sql.gz,dump,pgdump,backup,bak}"
+      exclude:
+        - "docs/installation-and-operations/operation/restoring/restoring-a-deleted-project/*.sql"
+      run: |
+        echo "error: database dumps must not be committed, unstage them with 'git restore --staged <file>': {files}" >&2
+        exit 1
 
 # Autofix counterpart of the pre-commit checks. Run explicitly:
 #

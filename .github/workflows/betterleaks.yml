@@ -1,0 +1,62 @@
+name: Betterleaks
+
+env:
+  BETTERLEAKS_VERSION: v1.10.1
+
+on:
+  pull_request:
+  push:
+    branches:
+      - dev
+      - 'release/*'
+
+jobs:
+  betterleaks:
+    if: github.repository_owner == 'opf'
+
+    runs-on: [ubuntu-latest]
+
+    permissions:
+      contents: read
+      security-events: write
+
+    steps:
+      - name: Checkout all history
+        uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Install betterleaks
+        run: |
+          go install github.com/betterleaks/betterleaks@${BETTERLEAKS_VERSION}
+          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+
+      - name: Scan PR history for tokens, passwords, and other secrets
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          betterleaks git . \
+            --config .betterleaks.toml \
+            --log-opts="$BASE_SHA..$HEAD_SHA" \
+            --report-path=betterleaks-report.json \
+            --redact
+
+      - name: Scan complete history for tokens, passwords, and other secrets
+        if: github.event_name == 'push'
+        run: |
+          betterleaks git . \
+            --config .betterleaks.toml \
+            --report-path=betterleaks-report.json \
+            --redact
+
+      - name: Upload scan report
+        if: always()
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: betterleaks-report
+          path: betterleaks-report.json
+          if-no-files-found: warn
+          retention-days: 30
