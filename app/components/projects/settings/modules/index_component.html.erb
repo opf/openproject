@@ -1,11 +1,7 @@
 <%=
   component_wrapper do
     render(
-      OpPrimer::BorderBoxListComponent.new(
-        container: "project-modules-administration",
-        position: :relative,
-        mb: 3
-      )
+      OpPrimer::BorderBoxListComponent.new(container: "project-modules-administration")
     ) do |list|
       list.with_header(title: I18n.t(:label_module_plural))
 
