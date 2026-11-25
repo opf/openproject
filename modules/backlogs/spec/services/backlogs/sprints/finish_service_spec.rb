@@ -34,7 +34,6 @@ RSpec.describe Backlogs::Sprints::FinishService do
 
   shared_let(:to_do_status) { create(:status, category: "to_do") }
   shared_let(:closed_status) { create(:status, category: "closed") }
-  let(:open_status) { to_do_status }
   shared_let(:project) do
     create(:project,
            enabled_module_names: %w[backlogs work_package_tracking],
@@ -332,13 +331,13 @@ RSpec.describe Backlogs::Sprints::FinishService do
       create(:work_package, project:, sprint:, status: closed_status)
     end
     let!(:open_wp1) do
-      create(:work_package, project:, sprint:, status: open_status)
+      create(:work_package, project:, sprint:, status: to_do_status)
     end
     let!(:open_wp2) do
-      create(:work_package, project:, sprint:, status: open_status)
+      create(:work_package, project:, sprint:, status: to_do_status)
     end
     let!(:backlog_wp) do
-      create(:work_package, project:, sprint: nil, status: open_status)
+      create(:work_package, project:, sprint: nil, status: to_do_status)
     end
 
     context "when moving to the bottom of the backlog" do
@@ -370,7 +369,7 @@ RSpec.describe Backlogs::Sprints::FinishService do
     context "when moving to another sprint" do
       let(:target_sprint) { create(:sprint, project:, status: "in_planning") }
       let!(:target_sprint_wp) do
-        create(:work_package, project:, sprint: target_sprint, status: open_status)
+        create(:work_package, project:, sprint: target_sprint, status: to_do_status)
       end
       let(:call_params) { { unfinished_action: "move_to_sprint", move_to_sprint_id: target_sprint.id } }
 
