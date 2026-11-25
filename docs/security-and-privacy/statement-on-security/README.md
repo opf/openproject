@@ -152,7 +152,7 @@ For critical and high-risk vulnerabilities with clear attack vectors, and immedi
 
 ### Public disclosure
 
-Because OpenProject is open source, any fix committed to our public repository is inherently visible. Therefore, fixes for **high** and **critical** vulnerabilities will be developed in a private fork and only merged to the public repository immediately before the building process for the release will be started. With this, there might be a time window where people monitoring the public repository could deduce from the fix how the vulnerability works, while we are building the release. This cannot be avoided while being open source.
+Because OpenProject is open source, any fix committed to our public repository is inherently visible. Therefore, fixes for **high** and **critical** vulnerabilities will be developed in a private fork and only merged to the public repository immediately before the build process for the release will be started. With this, there might be a time window where people monitoring the public repository could deduce from the fix how the vulnerability works, while we are building the release. This cannot be avoided while being open source.
 
 For releases with only **low** and/or **medium** fixes:
 - The GitHub security advisory and full vulnerability details are published **at the same time** as the patch release.
