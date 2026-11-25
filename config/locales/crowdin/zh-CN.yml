@@ -5943,13 +5943,13 @@ zh-CN:
       shared: 共享项目列表
     phase_status:
       description:
-        completed: Marking a phase as complete will complete all previous phases.
-        in_progress: Marking a phase as in progress will complete all previous phases and open all future phases.
-        open: Re-opening a phase will also open all future phases.
+        completed: This will also mark all previous phases as complete.
+        in_progress: This will complete all previous phases and mark future phases as not started.
+        open: This will mark all future phases as not started.
       title:
         completed: 已完成
         in_progress: 进行中
-        open: 打开
+        open: Not started
     settings:
       actions:
         label_disable_all: 全部禁用

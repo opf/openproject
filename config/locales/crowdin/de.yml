@@ -2711,7 +2711,7 @@ de:
   button_add_menu_entry: Menüpunkt hinzufügen
   button_add_non_working_time: Freie Zeit
   button_add_sub_item: Unterelement hinzufügen
-  button_add_sub_value: Add sub-value
+  button_add_sub_value: Unterwert hinzufügen
   button_add_watcher: Beobachter hinzufügen
   button_all_filters: Alle Filter
   button_annotate: Kommentieren
@@ -2858,7 +2858,7 @@ de:
     failure_message: Einwilligung fehlgeschlagen, kann nicht fortfahren.
     not_yet_consented: Der Benutzer hat seine Einwilligung zu Ihrem [konfigurierten Einwilligungstext](consent_settings) noch nicht gegeben. Er wird bei der nächsten Anmeldung daran erinnert werden.
     text_update_consent_time: Aktivieren Sie dieses Häkchen, um Benutzer erneut zur Einwilligung einer Datenschutz- oder Nutzungserklärung aufzufordern. Aktivieren Sie es immer dann, wenn Sie rechtliche Aspekte der Zustimmung verändert haben.
-    title: User consent
+    title: Nutzereinwilligungen
     update_consent_last_time: 'Letzte Änderung der Einwilligungsinformationen: %{update_time}'
     user_has_consented: Der Benutzer hat Ihrem [konfigurierten Einwilligungstext](consent_settings) zugestimmt.
   copy_project:
@@ -3545,7 +3545,7 @@ de:
   error_no_default_work_package_status: Es ist kein Status als Standard definiert. Bitte überprüfen Sie Ihre Konfiguration (unter "Administration -> Arbeitspaket-Status").
   error_no_type_in_project: Diesem Projekt ist kein Typ zugeordnet. Bitte überprüfen Sie die Projekteinstellungen.
   error_omniauth_invalid_auth: Die vom Identity Provider zurückgegebenen Authentifizierungsdaten sind ungültig. Bitte kontaktieren Sie Ihren Adminstrator für weitere Hilfe.
-  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
+  error_omniauth_provider_incomplete: Sie können sich derzeit nicht mit „ %{provider} “ anmelden, da diese Anmeldemethode noch nicht vollständig eingerichtet ist. Bitte wenden Sie sich an Ihren Administrator.
   error_omniauth_registration_timed_out: Die Registrierung über einen externen Authentifizierungsprovider ist fehlgeschlagen. Bitte versuchen Sie es erneut.
   error_password_change_failed: Beim Ändern des Passworts ist ein Fehler aufgetreten.
   error_pdf_date_range_too_long: Der ausgewählte Datumsbereich des Arbeitspakets überschreitet die zulässige Grenze für den PDF-Export. Bitte beschränken Sie den Bereich auf maximal %{years} Jahre.
@@ -6123,13 +6123,13 @@ de:
       shared: Geteilte Projektlisten
     phase_status:
       description:
-        completed: Marking a phase as complete will complete all previous phases.
-        in_progress: Marking a phase as in progress will complete all previous phases and open all future phases.
-        open: Re-opening a phase will also open all future phases.
+        completed: This will also mark all previous phases as complete.
+        in_progress: This will complete all previous phases and mark future phases as not started.
+        open: This will mark all future phases as not started.
       title:
         completed: Abgeschlossen
         in_progress: In Durchführung
-        open: Offen
+        open: Not started
     settings:
       actions:
         label_disable_all: Alles deaktivieren
@@ -7571,9 +7571,9 @@ de:
         query_group_label: Zugehörige Arbeitspaket-Tabelle
         query_summary:
           baseline:
-            between: Changes between %{from} and %{to}
-            since: Changes since %{time}
-          unavailable: Configuration unavailable
+            between: Änderungen zwischen %{from} und %{to}
+            since: Änderungen seit %{time}
+          unavailable: Konfiguration nicht verfügbar
         remove_attribute: Aus Abschnitt entfernen
         rename_group: Abschnitt umbenennen
         required:

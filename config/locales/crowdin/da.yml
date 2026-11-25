@@ -6119,13 +6119,13 @@ da:
       shared: Delte projektlister
     phase_status:
       description:
-        completed: Når en fase markeres som afsluttet, afsluttes alle tidligere faser.
-        in_progress: Når en fase markeres som i gang, afsluttes alle tidligere faser, og alle senere faser åbnes.
-        open: Når en fase genåbnes, åbnes alle senere faser også.
+        completed: This will also mark all previous phases as complete.
+        in_progress: This will complete all previous phases and mark future phases as not started.
+        open: This will mark all future phases as not started.
       title:
         completed: Afsluttet
         in_progress: I gang
-        open: Åben
+        open: Not started
     settings:
       actions:
         label_disable_all: Deaktiver alle
