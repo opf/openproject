@@ -3913,15 +3913,15 @@ en:
       community: "OpenProject community"
       new_features:
         # We need to include the version to invalidate outdated translations in other locales
-        "17_9":
+        "18_0":
           new_features_list:
-            line_0: "Create work packages directly in Documents."
-            line_1: "Search and filter work packages in Backlogs."
-            line_2: "Choose whether to keep descendants when deleting a work package."
-            line_3: "Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan)."
-            line_4: "Enter planned labor in hours, days, weeks, or months."
-            line_5: "See the import progress when using the Jira Migrator."
-            line_6: "Use Date alerts in the Community Edition."
+            line_0: "Adapt work package types and variants, workflows, and forms to the needs of different teams and projects."
+            line_1: "Track sprint progress with new agile reports (Community) and gain deeper insights with Created vs. Resolved and Epic progress charts (Professional plan)."
+            line_2: "Proofread, rewrite, and structure text directly in OpenProject with the AI Text Assistant (Professional plan)."
+            line_3: "Organize work packages more easily with labels."
+            line_4: "Plan resources across projects with global resource planners and placeholder users (Professional plan), and manage allocations in work packages and personal day planning (Premium plan)."
+            line_5: "Benefit from improved accessibility with enhanced keyboard navigation, screen reader support, and color contrast checking."
+            line_6: "Released to Community: Connect external AI assistants to OpenProject with the MCP Server."
           new_features_title: >
             The release contains various new features and improvements, such as:
         "18_0":
