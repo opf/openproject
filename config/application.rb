@@ -118,7 +118,7 @@ module OpenProject
                                     if: lambda { |_env, _code, headers, _body|
                                       # Firefox fails to properly decode gzip attachments
                                       # We thus avoid deflating if sending gzip already.
-                                      content_type = headers["Content-Type"]
+                                      content_type = headers["content-type"]
                                       content_type != "application/x-gzip"
                                     }
 
