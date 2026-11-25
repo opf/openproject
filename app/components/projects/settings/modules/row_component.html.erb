@@ -1,0 +1,29 @@
+<%=
+  flex_layout(align_items: :center, justify_content: :space_between) do |row|
+    row.with_column(mr: 2, classes: "min-width-0") do
+      flex_layout(align_items: :center) do |label|
+        label.with_column(mr: 1) do
+          render(Primer::Beta::Text.new) { module_label }
+        end
+
+        if enterprise_upsell?
+          label.with_column do
+            render(Primer::Beta::Octicon.new(icon: :"op-enterprise-addons", classes: "upsell-colored"))
+          end
+        end
+      end
+    end
+
+    # py: 1 quick fix: prevents the row from bouncing as the toggle switch currently changes height while toggling
+    row.with_column(py: 1, mr: 2) do
+      render(
+        OpPrimer::LockableToggleSwitchComponent.new(
+          src: toggle_path,
+          checked: toggle_checked?,
+          locked_reason:,
+          data: { test_selector: "toggle-project-module-#{@name}" }
+        )
+      )
+    end
+  end
+%>

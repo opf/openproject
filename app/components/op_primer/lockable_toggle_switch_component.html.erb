@@ -1,0 +1,4 @@
+<%= render(Primer::Alpha::ToggleSwitch.new(**toggle_arguments)) %>
+<% if locked? %>
+  <%= render(Primer::Alpha::Tooltip.new(**tooltip_arguments)) %>
+<% end %>

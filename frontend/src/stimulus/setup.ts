@@ -76,6 +76,7 @@ import { OpenProjectStimulusApplication } from 'core-stimulus/openproject-stimul
 import { Application } from '@hotwired/stimulus';
 import { BeforeunloadController } from './controllers/beforeunload.controller';
 import ExternalLinksController from './controllers/external-links.controller';
+import LockableToggleSwitchController from 'core-stimulus/controllers/lockable-toggle-switch.controller';
 import DisableWhenClickedController from 'core-stimulus/controllers/disable-when-clicked.controller';
 import HighlightTargetElementController from 'core-stimulus/controllers/highlight-target-element.controller';
 import SelectAutosizeController from 'core-stimulus/controllers/select-autosize.controller';
@@ -94,6 +95,7 @@ declare global {
 OpenProjectStimulusApplication.preregister('application', OpApplicationController);
 OpenProjectStimulusApplication.preregister('async-dialog', AsyncDialogController);
 OpenProjectStimulusApplication.preregister('mode-switch-radio', ModeSwitchRadioController);
+OpenProjectStimulusApplication.preregister('lockable-toggle-switch', LockableToggleSwitchController);
 OpenProjectStimulusApplication.preregister('disable-when-checked', OpDisableWhenCheckedController);
 OpenProjectStimulusApplication.preregister('disable-when-clicked', DisableWhenClickedController);
 OpenProjectStimulusApplication.preregister('disable-when-value-selected', OpDisableWhenValueSelectedController);

@@ -251,6 +251,78 @@ RSpec.describe OpenProject::AccessControl do
     end
   end
 
+  describe ".modules_with_dependencies_appended" do
+    include_context "with blank access control state"
+
+    before do
+      described_class.map do |map|
+        map.project_module :standalone_module
+        map.project_module :base_module
+        map.project_module :middle_module, dependencies: :base_module
+        map.project_module :top_module, dependencies: :middle_module
+        map.project_module :looping_module, dependencies: :other_looping_module
+        map.project_module :other_looping_module, dependencies: :looping_module
+      end
+    end
+
+    it "returns a module without dependencies unchanged" do
+      expect(described_class.modules_with_dependencies_appended(%w[standalone_module]))
+        .to eq(%w[standalone_module])
+    end
+
+    it "appends dependencies transitively" do
+      expect(described_class.modules_with_dependencies_appended(%w[top_module]))
+        .to eq(%w[top_module middle_module base_module])
+    end
+
+    it "does not duplicate a dependency that is already given" do
+      expect(described_class.modules_with_dependencies_appended(%w[top_module base_module]))
+        .to eq(%w[top_module base_module middle_module])
+    end
+
+    it "terminates on cyclic dependencies" do
+      expect(described_class.modules_with_dependencies_appended(%w[looping_module]))
+        .to contain_exactly("looping_module", "other_looping_module")
+    end
+
+    it "returns strings for symbol input and ignores blanks" do
+      expect(described_class.modules_with_dependencies_appended([:top_module, "", nil]))
+        .to eq(%w[top_module middle_module base_module])
+    end
+
+    it "returns an empty array when given nothing" do
+      expect(described_class.modules_with_dependencies_appended(nil)).to eq([])
+    end
+  end
+
+  describe ".modules_required_by" do
+    include_context "with blank access control state"
+
+    before do
+      described_class.map do |map|
+        map.project_module :standalone_module
+        map.project_module :base_module
+        map.project_module :middle_module, dependencies: :base_module
+        map.project_module :top_module, dependencies: :middle_module
+        map.project_module :other_top_module, dependencies: :base_module
+      end
+    end
+
+    it "maps a dependency onto the modules requiring it, transitively" do
+      expect(described_class.modules_required_by(%w[top_module]))
+        .to eq("middle_module" => %w[top_module], "base_module" => %w[top_module])
+    end
+
+    it "collects every module requiring the same dependency" do
+      expect(described_class.modules_required_by(%w[top_module other_top_module])["base_module"])
+        .to contain_exactly("top_module", "other_top_module")
+    end
+
+    it "omits modules nothing depends on" do
+      expect(described_class.modules_required_by(%w[standalone_module])).to be_empty
+    end
+  end
+
   describe ".work_package_permissions" do
     include_context "with blank access control state"
 

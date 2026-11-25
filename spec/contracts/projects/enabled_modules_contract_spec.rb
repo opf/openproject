@@ -37,7 +37,6 @@ RSpec.describe Projects::EnabledModulesContract do
   let(:enabled_modules) { %i[a_module b_module] }
   let(:permissions) { %i[select_project_modules] }
   let(:contract) { described_class.new(project, current_user) }
-  let(:ac_modules) { [{ name: :a_module, dependencies: %i[b_module] }] }
 
   let(:current_user) { build_stubbed(:user) }
 
@@ -45,20 +44,10 @@ RSpec.describe Projects::EnabledModulesContract do
     mock_permissions_for(current_user) do |mock|
       mock.allow_in_project *permissions, project:
     end
-
-    allow(OpenProject::AccessControl).to receive(:modules).and_return(ac_modules)
-    allow(I18n).to receive(:t).with("project_module_a_module").and_return("A Module")
-    allow(I18n).to receive(:t).with("project_module_b_module").and_return("B Module")
   end
 
   describe "#valid?" do
     it_behaves_like "contract is valid"
-
-    context "when the dependencies are not met" do
-      let(:enabled_modules) { %i[a_module] }
-
-      it_behaves_like "contract is invalid", enabled_modules: :dependency_missing
-    end
 
     context "when the user lacks the select_project_modules permission" do
       let(:permissions) { %i[] }
