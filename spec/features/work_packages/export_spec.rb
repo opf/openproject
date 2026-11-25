@@ -509,19 +509,23 @@ RSpec.describe "work package export", :js do
                                 query: WorkPackage.human_attribute_name(:status),
                                 results_selector: "#columns-select-export-pdf-gantt_autocompleter"
 
-            expect_selected_columns(captions.call(%i[id subject start_date due_date status]))
+            select_autocomplete find(".op-draggable-autocomplete--input"),
+                                query: WorkPackage.human_attribute_name(:priority),
+                                results_selector: "#columns-select-export-pdf-gantt_autocompleter"
+
+            expect_selected_columns(captions.call(%i[id subject start_date due_date status priority]))
             expect(page).to have_css(".op-draggable-autocomplete--input.ng-select-disabled")
 
             first(".op-draggable-autocomplete--remove-item").click
           end
 
           check I18n.t("export.dialog.save_export_settings.label")
-          expected_params[:columns] = %w[subject start_date due_date status]
+          expected_params[:columns] = %w[subject start_date due_date status priority]
           export_and_reopen_dialog!
           choose export_variant
 
           within("[data-pdf-export-type='gantt']") do
-            expect_selected_columns(captions.call(%i[subject start_date due_date status]))
+            expect_selected_columns(captions.call(%i[subject start_date due_date status priority]))
           end
         end
       end
