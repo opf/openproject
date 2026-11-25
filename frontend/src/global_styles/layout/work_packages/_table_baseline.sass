@@ -54,11 +54,11 @@
     @include spot-caption
     text-decoration: line-through
     filter: grayscale(1)
-    padding: 2px 2px 0 2px
+    padding: 1px 2px 0 2px
 
   &--cell
     background-color: var(--bgColor-neutral-muted)
-    padding: 0 2px 2px 2px
+    padding: 0 2px
 
   &--container
     display: flex
@@ -66,6 +66,7 @@
     padding-right: 6px
     // Ensure items are not taking full width
     align-items: flex-start
+    line-height: 20px
 
     &.startDate
       padding-left: $work-package--start-date-display-field-padding-left

@@ -510,6 +510,15 @@ export class TimelineCellRenderer {
     }
   }
 
+  /**
+   * Position the baseline marker. For a generic bar, this spans the full start/due range
+   * like {@link setElementPositionAndSize}; the milestone renderer overrides this to place
+   * a single, fixed-size marker instead.
+   */
+  protected positionBaselineElement(element:HTMLElement, renderInfo:RenderInfo, start:Moment, due:Moment) {
+    this.setElementPositionAndSize(element, renderInfo, start, due);
+  }
+
   cursorOrDatesAreNonWorking(evOrDates:MouseEvent|Moment[], renderInfo:RenderInfo, direction?:MouseDirection|null):boolean {
     if (renderInfo.workPackage.ignoreNonWorkingDays) {
       return false;
@@ -616,6 +625,9 @@ export class TimelineCellRenderer {
     let { start, due } = dates;
     const baselineBar = document.createElement('div');
     baselineBar.classList.add('baseline-bar');
+    if (this.type === 'milestone') {
+      baselineBar.classList.add('milestone');
+    }
 
     // Only a start date, fade the bar out to the right, same as the current bar.
     if (Number.isNaN(due.valueOf()) && !Number.isNaN(start.valueOf())) {
@@ -629,7 +641,7 @@ export class TimelineCellRenderer {
       baselineBar.setAttribute('style', 'background-image: linear-gradient(90deg, #F1F1F1 0%, rgba(255,255,255,0) 80%) !important');
     }
 
-    this.setElementPositionAndSize(baselineBar, renderInfo, start, due);
+    this.positionBaselineElement(baselineBar, renderInfo, start, due);
 
     row.insertBefore(baselineBar, element);
 

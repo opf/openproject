@@ -70,7 +70,19 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
 
     const rawDate = Object.prototype.hasOwnProperty.call(baseline, 'date') ? baseline.date : renderInfo.change.projectedResource.date;
     const date = moment(rawDate);
+    if (Number.isNaN(date.valueOf())) {
+      return null;
+    }
+
     return { start: date, due: date };
+  }
+
+  protected positionBaselineElement(element:HTMLElement, renderInfo:RenderInfo, start:Moment, _due:Moment) {
+    const { viewParams } = renderInfo;
+    const size = 6;
+    const offsetStart = start.diff(viewParams.dateDisplayStart, 'days');
+    const left = calculatePositionValueForDayCountingPx(viewParams, offsetStart) + (viewParams.pixelPerDay / 2) - (size / 2);
+    element.style.left = `${left}px`;
   }
 
   public canMoveDates(wp:WorkPackageResource) {

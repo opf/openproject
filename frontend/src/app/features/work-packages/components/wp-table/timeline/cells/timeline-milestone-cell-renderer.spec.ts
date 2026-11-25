@@ -89,8 +89,10 @@ describe('TimelineMilestoneCellRenderer', () => {
 
     const baselineBar = mount.side.querySelector<HTMLElement>('.baseline-bar')!;
     expect(baselineBar).not.toBeNull();
-    expect(baselineBar.style.left).toBe(`${19 * 30}px`);
-    expect(baselineBar.style.width).toBe('30px');
+    expect(baselineBar).toHaveClass('milestone');
+    // Centered within the day column, like the real diamond: day offset + half a day - half the marker's size.
+    expect(baselineBar.style.left).toBe(`${(19 * 30) + 15 - 3}px`);
+    expect(baselineBar.style.width).toBe('');
 
     const connector = mount.side.querySelector<HTMLElement>('.baseline-connector')!;
     expect(connector).not.toBeNull();
@@ -106,7 +108,21 @@ describe('TimelineMilestoneCellRenderer', () => {
 
     renderer.update(element, null, renderInfo);
 
-    expect(mount.side.querySelector('.baseline-bar')).not.toBeNull();
+    const baselineBar = mount.side.querySelector<HTMLElement>('.baseline-bar');
+    expect(baselineBar).not.toBeNull();
+    expect(baselineBar).toHaveClass('milestone');
+    expect(mount.side.querySelector('.baseline-connector')).toBeNull();
+  });
+
+  it('does not draw a baseline marker when the milestone had no date at the baseline timestamp', () => {
+    activateBaseline();
+    const renderInfo = info({ date: null });
+    const element = renderer.render(renderInfo);
+    mount.side.appendChild(element);
+
+    renderer.update(element, null, renderInfo);
+
+    expect(mount.side.querySelector('.baseline-bar')).toBeNull();
     expect(mount.side.querySelector('.baseline-connector')).toBeNull();
   });
 });
