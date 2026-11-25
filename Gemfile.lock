@@ -425,6 +425,9 @@ GEM
       racc
     browser (6.2.0)
     builder (3.3.0)
+    bundler-audit (0.9.3)
+      bundler (>= 1.2.0)
+      thor (~> 1.0)
     byebug (13.0.0)
       reline (>= 0.6.0)
     capybara (3.40.0)
@@ -1575,6 +1578,7 @@ DEPENDENCIES
   brakeman (~> 8.1.0)
   browser (~> 6.2.0)
   budgets!
+  bundler-audit (~> 0.9.3)
   byebug
   capybara (~> 3.40.0)
   capybara-screenshot (~> 1.0.17)
@@ -1855,6 +1859,7 @@ CHECKSUMS
   budgets (1.0.0)
   builder (3.3.0) sha256=497918d2f9dca528fdca4b88d84e4ef4387256d984b8154e9d5d3fe5a9c8835f
   bundler (4.0.24) sha256=16ca64e20816a0cf151a948fb141d788602996d2b4d73577b74388fe84fa98bc
+  bundler-audit (0.9.3) sha256=81c8766c71e47d0d28a0f98c7eed028539f21a6ea3cd8f685eb6f42333c9b4e9
   byebug (13.0.0) sha256=d2263efe751941ca520fa29744b71972d39cbc41839496706f5d9b22e92ae05d
   capybara (3.40.0) sha256=42dba720578ea1ca65fd7a41d163dd368502c191804558f6e0f71b391054aeef
   capybara-screenshot (1.0.27) sha256=afa1896cc23df77be1774e8d3b3ce3953bf060aeaa04ff87607b5daf689174f2

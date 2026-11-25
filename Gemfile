@@ -397,6 +397,10 @@ group :development, :test, :brakeman do
   gem "brakeman", "~> 8.1.0"
 end
 
+group :development, :test, :bundle_audit do
+  gem "bundler-audit", "~> 0.9.3", require: false
+end
+
 group :development, :test, :i18n_tasks do
   # i18n-tasks helps find and manage missing and unused translations.
   gem "i18n-tasks", "~> 1.1.0", require: false
