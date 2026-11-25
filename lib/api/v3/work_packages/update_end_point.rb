@@ -31,7 +31,12 @@ module API
   module V3
     module WorkPackages
       class UpdateEndPoint < API::V3::Utilities::Endpoints::Update
-        def present_success(current_user, call)
+        def present_success(request, call)
+          if minimal_response_requested?(request)
+            request.status :no_content
+            return
+          end
+
           call.result.reload
 
           super
