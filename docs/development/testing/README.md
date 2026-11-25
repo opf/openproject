@@ -53,7 +53,7 @@ Unit testing concerns testing of isolating individual components of the applicat
   - **Arrange**: Set up the object and scenarios for your test.
   - **Act**: Invoke the method or process you want to test.
   - **Assert**: Check that the method or process behaved as expected.
-- Keep examples of unit specs simples and descriptive
+- Keep examples of unit specs simple and descriptive
 - Write tests during or before development, not as an afterthought
 - Test the entire range of potential inputs, including _negative_ tests and validation of potentially malicious user input.
 
@@ -163,6 +163,7 @@ For writing and executing manual sanity and regression testing, especially focus
 - https://www.browserstack.com/guide/sanity-testing
 - https://www.browserstack.com/guide/regression-testing
 - https://medium.com/@Jia_Le_Yeoh/difference-between-regression-sanity-and-smoke-testing-ed2129bf049
+- [https://keploy.io/blog/community/regression-testing-an-introductory-guide](https://keploy.io/blog/community/regression-testing-an-introductory-guide)
 
 #### Acceptance tests
 
