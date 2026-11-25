@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
-    header.with_title { I18n.t(:label_module_plural) }
+    header.with_title { I18n.t("projects.settings.modules.heading") }
     header.with_description { I18n.t("projects.settings.modules.description") }
     header.with_breadcrumbs(
       [{ href: project_overview_path(@project.id), text: @project.name },

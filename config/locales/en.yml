@@ -6363,6 +6363,7 @@ en:
         step:
           use_in_project: "Use %{step} in this project"
       modules:
+        heading: "Active modules"
         dependencies_enabled:
           one: "%{dependencies} was enabled as well because %{module} requires it."
           other: "%{dependencies} were enabled as well because %{module} requires it."
