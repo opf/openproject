@@ -46,12 +46,12 @@ module MeetingOutcomes
       meeting = outcome.meeting_agenda_item.meeting
 
       journalize_agenda_item(outcome.meeting_agenda_item,
-                             Journal::CausedByMeetingAgendaItemDiscussed.new(meeting))
+                             Journal::CausedByMeetingAgendaItemDiscussed.new(meeting, outcome))
 
       return unless outcome.work_package_kind?
 
       journalize_work_package(outcome.work_package,
-                              Journal::CausedByMeetingOutcomeRecorded.new(meeting))
+                              Journal::CausedByMeetingOutcomeRecorded.new(meeting, outcome))
     end
   end
 end
