@@ -38,6 +38,8 @@
 # off one of them answers in the same calendar the reader is reading.
 module Sprints
   class Timeframe
+    delegate :date_range_set?, to: :sprint
+
     def initialize(sprint, zone: Time.zone)
       @sprint = sprint
       @zone = zone
@@ -56,11 +58,29 @@ module Sprints
 
     # The point in time at which the sprint has started or will start. A sprint yet to begin has
     # only its schedule to go on, so this is not always a moment anything happened at.
+    # While its planned timeframe is underway without it being started, it can at the earliest start now.
+    # Once that timeframe has passed, the planned start stands in for the history it never had.
     def effective_start
       return zoned(sprint.started_at) if sprint.started_at?
+      return now if (planned_start..planned_finish).cover?(now)
 
       planned_start
     end
+
+    # Whether there is anything to measure yet: once the sprint was started, or once its planned
+    # timeframe has passed without that ever happening.
+    def begun?
+      sprint.started_at? || planned_finish < now
+    end
+
+    # A sprint whose planned timeframe passed without it ever being started was never executed.
+    # There is no history to report on it, and none will be recorded for those dates.
+    def never_executed?
+      !sprint.started_at? && planned_finish < now
+    end
+
+    # Whether the sprint's reports have an interval to cover at all.
+    def reportable? = date_range_set? && !never_executed?
 
     # The point in time up until which the sprint is expected to finish.
     # The expectations change depending on what is currently known.

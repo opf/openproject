@@ -28,7 +28,7 @@
 import { waitFor } from '@testing-library/dom';
 import { vi, type Mock } from 'vitest';
 
-import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import { setupStimulusTest, type StimulusTestContext, stubPendingPluginContext, stubPluginContext } from 'core-stimulus/test-helpers';
 import type CustomFieldRoleAssignmentControllerType from './custom-field-role-assignment.controller';
 
 describe('Custom field role assignment controller', () => {
@@ -36,7 +36,6 @@ describe('Custom field role assignment controller', () => {
   let CustomFieldRoleAssignmentController:typeof CustomFieldRoleAssignmentControllerType;
   let request:Mock;
   let previewCustomFieldRoleAssignmentDialog:Mock;
-  let originalOpenProject:typeof window.OpenProject;
 
   beforeAll(async () => {
     ({ default: CustomFieldRoleAssignmentController } = await import('./custom-field-role-assignment.controller'));
@@ -45,15 +44,12 @@ describe('Custom field role assignment controller', () => {
   beforeEach(async () => {
     request = vi.fn().mockResolvedValue({ html: '', headers: new Headers() });
     previewCustomFieldRoleAssignmentDialog = vi.fn().mockReturnValue('/custom_fields/7/preview_role_assignment');
-    originalOpenProject = window.OpenProject;
-    window.OpenProject = {
-      getPluginContext: () => Promise.resolve({
-        services: {
-          turboRequests: { request },
-          pathHelperService: { previewCustomFieldRoleAssignmentDialog },
-        },
-      }),
-    } as unknown as typeof window.OpenProject;
+    stubPluginContext({
+      services: {
+        turboRequests: { request },
+        pathHelperService: { previewCustomFieldRoleAssignmentDialog },
+      },
+    });
 
     ctx = await setupStimulusTest({
       controllers: { 'admin--custom-field-role-assignment': CustomFieldRoleAssignmentController },
@@ -62,7 +58,6 @@ describe('Custom field role assignment controller', () => {
 
   afterEach(() => {
     ctx.dispose();
-    window.OpenProject = originalOpenProject;
     vi.restoreAllMocks();
   });
 
@@ -97,10 +92,7 @@ describe('Custom field role assignment controller', () => {
   });
 
   it('does not request when disconnected before the context resolves', async () => {
-    let resolveContext!:(context:unknown) => void;
-    window.OpenProject = {
-      getPluginContext: () => new Promise((resolve) => { resolveContext = resolve; }),
-    } as unknown as typeof window.OpenProject;
+    const resolveContext = stubPendingPluginContext();
 
     const controller = await renderAssignment();
     const root = ctx.container.querySelector('[data-controller="admin--custom-field-role-assignment"]')!;

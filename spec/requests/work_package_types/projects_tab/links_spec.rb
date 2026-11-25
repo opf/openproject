@@ -107,6 +107,16 @@ RSpec.describe "Adding and removing a work package type's projects", :skip_csrf,
         expect(response.body).to include("Archive")
       end
     end
+
+    context "with an archived project" do
+      before { create(:project, name: "Shelved", active: false) }
+
+      it "leaves it out" do
+        subject
+
+        expect(response.body).not_to include("Shelved")
+      end
+    end
   end
 
   describe "POST link" do
@@ -225,6 +235,15 @@ RSpec.describe "Adding and removing a work package type's projects", :skip_csrf,
         subject
 
         expect(annex.reload.type_variant(bug)).to eq(hardware)
+      end
+
+      it "skips archived sub-projects" do
+        archived = create(:project, name: "Cellar", parent: shed, active: false)
+
+        subject
+
+        expect(response).to have_http_status(:ok)
+        expect(archived.reload.enabled_types).not_to include(bug)
       end
 
       context "when a sub-project already applies the variant" do

@@ -31,6 +31,7 @@ module CustomFields
   module Hierarchy
     module Items
       class UpdateContract < BaseContract
+        validate :validate_additional_values_allowed
       end
     end
   end

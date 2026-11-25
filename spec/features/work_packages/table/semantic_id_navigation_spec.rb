@@ -61,11 +61,14 @@ RSpec.describe "Work package table semantic ID navigation",
     )
   end
 
-  it "selects the row of a split view opened by its semantic ID URL" do
+  it "selects the row and keeps the html title of a split view opened by its semantic ID URL" do
     visit details_project_work_packages_path(project, work_package.reload.identifier)
 
     wp_table.expect_work_package_listed(work_package)
     expect(page).to have_css("#{wp_table.row_selector(work_package)}.-checked")
+
+    wait_for_network_idle
+    Components::HtmlTitle.new(project).expect_first_segment work_package.to_fs(:caption)
   end
 
   context "with a hierarchy query that matches only the child" do

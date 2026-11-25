@@ -71,6 +71,8 @@ module Import
               end
             end
           end
+        rescue Import::JiraOpenProjectReference::LegNotFoundError => e
+          Rails.logger.warn "Skipping the activation of a user that no longer exists: #{e.message}"
         end
     end
   end

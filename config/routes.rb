@@ -405,8 +405,13 @@ Rails.application.routes.draw do
 
   resources :form_configurations,
             path: "forms",
-            only: %i[edit update destroy],
+            only: %i[create edit update destroy],
             controller: "form_configurations/form_configurations" do
+    collection do
+      get :configure_dialog
+      post :configure
+    end
+
     member do
       get :edit_dialog
       get :reset_dialog
@@ -613,7 +618,21 @@ Rails.application.routes.draw do
             end
           end
           resource :categories, only: %i[show update]
-          resource :custom_fields, only: %i[show]
+          resources :custom_fields, only: %i[index] do
+            resources :values,
+                      controller: "custom_fields/values",
+                      only: %i[index new create edit update destroy] do
+              member do
+                post :toggle
+                post :make_global
+                get :deletion_dialog
+              end
+              collection do
+                post :enable_all
+                post :disable_all
+              end
+            end
+          end
         end
         resource :work_packages_import, only: %i[show create], controller: "work_packages_import" do
           member do

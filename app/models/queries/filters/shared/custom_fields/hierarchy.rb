@@ -61,7 +61,16 @@ module Queries
           def allowed_values
             return super unless custom_field.project_specific_values_supported?
 
-            visible_items.map { |item| [item.ancestry_path(include_shorts_and_weights: true), item.id] }
+            items = custom_field.hierarchy_root.self_and_descendants_preordered
+                                .where(id: visible_items.select(:id))
+                                .preload(:project)
+                                .to_a
+            name_projects = values_of_several_projects?(items)
+
+            items.map do |item|
+              path = item.ancestry_path(include_shorts_and_weights: true)
+              [name_projects ? label_with_project(path, item) : path, item.id]
+            end
           end
 
           def value_objects

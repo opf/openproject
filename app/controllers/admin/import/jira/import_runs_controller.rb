@@ -49,7 +49,7 @@ module Admin::Import::Jira
       import_error: %i[import revert],
       imported: %i[finalize revert],
       revert_error: %i[revert],
-      finalizing_error: %i[finalize]
+      finalizing_error: %i[finalize revert]
     }.freeze
 
     VALID_STEPS = STEPS_BY_STATE.values.flatten.uniq.freeze

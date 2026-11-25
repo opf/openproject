@@ -34,7 +34,7 @@ module API
         class ItemBranchAPI < ::API::OpenProjectAPI
           resource :branch do
             get do
-              items = @custom_field_item.self_and_ancestors.reverse.map do |item|
+              items = @custom_field_item.self_and_ancestors.preload(:project).reverse.map do |item|
                 HierarchicalItemAggregate.new(item:, depth: item.depth - 1, visible_ids: @visible_value_ids)
               end
 

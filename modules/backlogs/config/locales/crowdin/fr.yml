@@ -58,6 +58,7 @@ fr:
       messages:
         cannot_start_while_receiving_shared_sprints: ne peut pas démarrer tant que le projet reçoit des sprints partagés.
         dates_required: Les dates de début et de fin sont requises pour démarrer le sprint.
+        finish_date_in_past: cannot be started as long as the planned finish date is in the past.
         must_be_in_planning: doit être en phase de planification pour démarrer.
         only_one_active_sprint_allowed: un seul sprint actif est autorisé par projet.
       models:
@@ -206,6 +207,7 @@ fr:
       label_complete_sprint: Terminer le sprint
       label_start_sprint: Démarrer le sprint
       start_sprint_disabled_reason_active_sprint: Un autre sprint est déjà en cours.
+      start_sprint_disabled_reason_finish_date_in_past: The planned finish date is in the past. Correct the sprint dates first.
       start_sprint_disabled_reason_missing_dates: Les dates de début et de fin sont nécessaires pour lancer le sprint.
       start_sprint_disabled_reason_receiving_shared_sprints: Les sprints propres à ce projet ne peuvent pas démarrer tant qu'il reçoit des sprints partagés.
       start_sprint_disabled_reason_shared_sprint: Ce sprint provient d'un autre projet qui ne prend pas en charge plusieurs sprints actifs.
@@ -218,15 +220,20 @@ fr:
     sprint_reports:
       header_infoline_component:
         planned_html: 'Planned: %{range}'
-      missing_dates_blankslate_component:
-        description: Sprint start and finish dates are necessary for the report to show.
-        heading: Missing sprint dates
+        started_at: 'Start time:'
       navigation_component:
         next: Suivante
         previous: Précédent
       page_header_component:
         breadcrumb: Rapport
         title: Rapport de %{sprint}
+      report_unavailable_blankslate_component:
+        missing_dates:
+          description: Sprint start and finish dates are necessary for the report to show.
+          heading: Missing sprint dates
+        planned_dates_in_past:
+          description: The sprint was planned, but it was never executed. Change the planned start and finish dates to a future time in order to see the sprint report.
+          heading: Planned sprint dates are in the past
       widgets:
         burndown_chart:
           blankslate:
@@ -283,11 +290,8 @@ fr:
         epic_progress:
           blankslate:
             no_epics:
-              description: The epic progress chart will appear here once the sprint has received a work package tied to an epic.
+              description: The epic progress chart will appear here once the sprint contains work packages tied to an epic.
               heading: No epics to display
-            no_work:
-              description: The epic progress chart will appear here once the sprint has received a work package tied to an epic.
-              heading: No work to display
           card:
             progress:
               story_points:
@@ -323,6 +327,9 @@ fr:
               one: Bar chart of committed and completed estimated time of the last sprint.
               other: Bar chart of committed and completed estimated time of the last %{count} sprints.
           summary_average: 'Vélocité moyenne : %{average}.'
+          summary_story_points:
+            one: "%{value} story point"
+            other: "%{value} story points"
           title: Graphique de vélocité
           velocity: "%{sprint} :"
           y_axis_title:
@@ -448,10 +455,6 @@ fr:
         unexpected_failure: Les lots de travaux n'ont pas pu être déplacés. Réessayez.
       move:
         moved_announcement: "%{label} a été déplacé vers %{list}, à la position %{position} sur %{total}"
-      move_to_bucket_dialog:
-        no_available_destinations: There are no available backlog buckets for these work packages.
-      move_to_sprint_dialog:
-        no_available_destinations: There are no available sprints for these work packages.
       move_collection:
         invalid_ids: La liste des lots de travaux à déplacer n'est pas valide.
         member_failed: "%{work_package} : %{reason}"
@@ -460,6 +463,10 @@ fr:
           other: "%{count} lots de travaux déplacés vers %{list}, aux positions %{first} à %{last} sur %{total}"
         too_many_work_packages: Il est impossible de déplacer plus de %{max} lots de travaux à la fois.
         work_packages_not_found: Au moins un lot de travaux est introuvable dans ce projet.
+      move_to_bucket_dialog:
+        no_available_destinations: There are no available backlog buckets for these work packages.
+      move_to_sprint_dialog:
+        no_available_destinations: There are no available sprints for these work packages.
       update_service:
         invalid_target_type: 'list_type doit être l''une des valeurs suivantes : backlog_bucket avec un list_id, sprint avec un list_id ou inbox sans list_id.'
         missing_target: list_type ou list_id doit être présent.

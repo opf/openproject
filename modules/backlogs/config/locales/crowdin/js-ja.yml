@@ -54,22 +54,32 @@ ja:
         selected:
           other: "%{count} work packages selected."
     burndown_chart:
-      chart_day: 'Day %{day}: %{values}'
       chart_label: Burndown chart
-      chart_summary: 'Burndown chart data: %{days}.'
-      chart_value: "%{label}: %{value}"
     burnup_chart:
-      chart_day: 'Day %{day}: %{values}'
       chart_label: Burnup chart
-      chart_summary: 'Burnup chart data: %{days}.'
-      chart_value: "%{label}: %{value}"
     created_resolved_chart:
+      chart_label: Created vs. resolved chart
       work_packages: Work packages
     sprint_charts:
+      column_with_unit: "%{label} (%{unit})"
+      description_summary: "%{label} data: %{from} – %{to}. %{values}."
+      description_value: "%{label}: %{value}"
       non_working_day: Non-working day
+      unit:
+        story_points: story points
+      value_with_unit:
+        story_points:
+          other: "%{value} story points"
       y_axis_title:
         story_points: Story points
         time: Estimated time
+    sprint_work_package_graph:
+      chart_label: Work packages by status chart
+      count_column: Work packages
+      status_column: Status
+    velocity_chart:
+      chart_label: Velocity chart
+      sprint_column: Sprint
     work_packages:
       properties:
         storyPoints: ストーリーポイント

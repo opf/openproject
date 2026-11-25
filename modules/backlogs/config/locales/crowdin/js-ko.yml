@@ -54,22 +54,32 @@ ko:
         selected:
           other: "%{count}개 작업 패키지가 선택되었습니다."
     burndown_chart:
-      chart_day: 'Day %{day}: %{values}'
       chart_label: 번다운 차트
-      chart_summary: 'Burndown chart data: %{days}.'
-      chart_value: "%{label}: %{value}"
     burnup_chart:
-      chart_day: 'Day %{day}: %{values}'
       chart_label: Burnup chart
-      chart_summary: 'Burnup chart data: %{days}.'
-      chart_value: "%{label}: %{value}"
     created_resolved_chart:
+      chart_label: Created vs. resolved chart
       work_packages: 작업 패키지
     sprint_charts:
+      column_with_unit: "%{label} (%{unit})"
+      description_summary: "%{label} data: %{from} – %{to}. %{values}."
+      description_value: "%{label}: %{value}"
       non_working_day: 휴무일
+      unit:
+        story_points: story points
+      value_with_unit:
+        story_points:
+          other: "%{value} story points"
       y_axis_title:
         story_points: 스토리 포인트
         time: 예상 시간
+    sprint_work_package_graph:
+      chart_label: Work packages by status chart
+      count_column: Work packages
+      status_column: Status
+    velocity_chart:
+      chart_label: Velocity chart
+      sprint_column: Sprint
     work_packages:
       properties:
         storyPoints: 스토리 포인트

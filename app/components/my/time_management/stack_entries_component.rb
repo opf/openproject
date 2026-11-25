@@ -37,7 +37,8 @@ module My
       options time_entries: [],
               allocations: nil,
               mode: :week,
-              date: Date.current
+              date: Date.current,
+              height: "100%"
 
       private
 
@@ -54,7 +55,8 @@ module My
           "my--time-management-stack-start-of-week-value" => OpenProject::Internationalization::Date.first_day_of_week_index,
           "my--time-management-stack-working-days-value" => working_days,
           "my--time-management-stack-working-hours-value" => working_hours.to_json,
-          "my--time-management-stack-time-zone-value" => User.current.time_zone.name
+          "my--time-management-stack-time-zone-value" => User.current.time_zone.name,
+          "my--time-management-stack-height-value" => height
         }
       end
 

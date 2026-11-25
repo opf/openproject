@@ -204,8 +204,8 @@ describe('OpActionMenuComponent', () => {
     const checkmark = (item:HTMLElement) => item.querySelector<SVGElement>('.ActionListItem-singleSelectCheckmark')!;
 
     expect(checkmark(checked)).toHaveClass('octicon-check');
-    expect(getComputedStyle(checkmark(checked)).visibility).toBe('visible');
-    expect(getComputedStyle(checkmark(unchecked)).visibility).toBe('hidden');
+    expect(checkmark(checked)).toBeVisible();
+    expect(checkmark(unchecked)).not.toBeVisible();
     expect(checked.querySelector('.FormControl-checkbox')).toBeNull();
     expect(checked).toHaveAttribute('aria-checked', 'true');
     expect(unchecked).toHaveAttribute('aria-checked', 'false');

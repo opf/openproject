@@ -128,6 +128,10 @@ RSpec.describe API::V3::CustomFields::Hierarchy::HierarchyItemRepresenter, "rend
         let(:title) { r2d2.label }
       end
 
+      it_behaves_like "has no link" do
+        let(:link) { "project" }
+      end
+
       it_behaves_like "has a link collection" do
         let(:link) { "children" }
         let(:hrefs) { [] }
@@ -216,6 +220,19 @@ RSpec.describe API::V3::CustomFields::Hierarchy::HierarchyItemRepresenter, "rend
       it_behaves_like "property", :depth do
         let(:value) { item.depth }
       end
+    end
+  end
+
+  context "if item was added by a project" do
+    let(:project) { create(:project) }
+    let(:item) do
+      build_aggregate(item: create(:hierarchy_item, parent: luke, label: "Project droid", project:), depth: 1)
+    end
+
+    it_behaves_like "has a titled link" do
+      let(:link) { "project" }
+      let(:href) { api_v3_paths.project(project.id) }
+      let(:title) { project.name }
     end
   end
 

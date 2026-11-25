@@ -56,10 +56,10 @@ RSpec.describe OpenProject::JournalFormatter::ProjectPhaseStatus do
       end
     end
 
-    context "when the status changes from open to in progress" do
+    context "when the status changes from not started to in progress" do
       let(:values) { %w[open in_progress] }
-      let(:text_result) { "Planning phase changed from Open to In progress" }
-      let(:html_result) { "<strong>Planning</strong> phase changed from Open to In progress" }
+      let(:text_result) { "Planning phase changed from Not started to In progress" }
+      let(:html_result) { "<strong>Planning</strong> phase changed from Not started to In progress" }
 
       include_examples "test result"
     end
@@ -72,10 +72,10 @@ RSpec.describe OpenProject::JournalFormatter::ProjectPhaseStatus do
       include_examples "test result"
     end
 
-    context "when the status changes from completed back to open" do
+    context "when the status changes from completed back to not started" do
       let(:values) { %w[completed open] }
-      let(:text_result) { "Planning phase changed from Completed to Open" }
-      let(:html_result) { "<strong>Planning</strong> phase changed from Completed to Open" }
+      let(:text_result) { "Planning phase changed from Completed to Not started" }
+      let(:html_result) { "<strong>Planning</strong> phase changed from Completed to Not started" }
 
       include_examples "test result"
     end
@@ -98,8 +98,8 @@ RSpec.describe OpenProject::JournalFormatter::ProjectPhaseStatus do
 
     context "when the status is not a known one" do
       let(:values) { %w[open legacy] }
-      let(:text_result) { "Planning phase changed from Open to legacy" }
-      let(:html_result) { "<strong>Planning</strong> phase changed from Open to legacy" }
+      let(:text_result) { "Planning phase changed from Not started to legacy" }
+      let(:html_result) { "<strong>Planning</strong> phase changed from Not started to legacy" }
 
       include_examples "test result"
     end

@@ -40,6 +40,24 @@ get:
       schema:
         type: integer
         minimum: 0
+    - name: project
+      description: |-
+        The identifier of a project. Only the items available in that project are returned. Without it, the items
+        available in any project the user can view work packages in are returned.
+      in: query
+      example: 3
+      required: false
+      schema:
+        type: integer
+    - name: include_subprojects
+      description: |-
+        Together with `project`, also returns the items available in the subprojects of that project the user can
+        view work packages in.
+      in: query
+      example: true
+      required: false
+      schema:
+        type: boolean
   responses:
     '200':
       description: OK

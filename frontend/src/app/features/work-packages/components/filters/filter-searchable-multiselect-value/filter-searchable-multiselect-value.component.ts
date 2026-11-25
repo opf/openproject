@@ -34,6 +34,7 @@ import {
   map,
   shareReplay,
   switchMap,
+  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 import { take } from 'rxjs/internal/operators/take';
@@ -55,6 +56,7 @@ import { CollectionResource } from 'core-app/features/hal/resources/collection-r
 import { compareByHref } from 'core-app/shared/helpers/angular/tracking-functions';
 import { MAGIC_FILTER_AUTOCOMPLETE_PAGE_SIZE } from 'core-app/core/apiv3/helpers/get-paginated-results';
 import { isRecord } from 'core-app/shared/helpers/type-guards';
+import { nameValuesByProject } from '../name-values-by-project';
 
 @Component({
   selector: 'op-filter-searchable-multiselect-value',
@@ -188,7 +190,8 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
     return (this.apiV3Service.collectionFromString(this.allowedValuesLink) as
       ApiV3ResourceCollection<HalResource, ApiV3Resource>)
       .filtered(filters, params)
-      .get();
+      .get()
+      .pipe(tap((collection) => nameValuesByProject(collection.elements, this.I18n)));
   }
 
   private createFilters(matching:string):ApiV3FilterBuilder {

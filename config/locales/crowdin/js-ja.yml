@@ -177,6 +177,10 @@ ja:
       remove_from_list: リストからカードを削除
     chart:
       axis_criteria: 座標条件
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: グラフを表示するデータを読み込みできませんでした。 必要な権限が不足している可能性があります。
       modal_title: ワークパッケージグラフの設定
@@ -304,6 +308,7 @@ ja:
         only_start: ローカル時間で %{from} から
         two_values: 'ローカル時間で %{from} - %{to} '
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: 詳細設定
       load_error_message: フォームの読み込み中にエラーが発生しました
@@ -900,6 +905,20 @@ ja:
       unselected_title: ワーク パッケージ
     two_factor_authentication:
       label_two_factor_authentication: 2要素認証
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         other: "%{count} work package children"

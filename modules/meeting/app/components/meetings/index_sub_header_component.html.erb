@@ -1,13 +1,11 @@
 <%= component_wrapper do %>
   <%=
     render(
-      Primer::OpenProject::SubHeader.new(
-        data: {
-          controller: "filter--filters-form",
-          "filter--filters-form-output-format-value": "json",
-          "filter--filters-form-turbo-stream-request-value": true,
-          "filter--filters-form-display-filters-value": filters_expanded?
-        }
+      OpPrimer::QuickFilter::SubHeader.new(
+        query: @query,
+        output_format: "json",
+        turbo_stream_request: true,
+        display_filters: filters_expanded?
       )
     ) do |subheader|
       subheader.with_quick_filter do

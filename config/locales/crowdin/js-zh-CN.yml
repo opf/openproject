@@ -177,6 +177,10 @@ zh-CN:
       remove_from_list: 从列表中移除卡
     chart:
       axis_criteria: 轴条件
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: 无法加载用于显示图表的数据。可能缺少必要的权限。
       modal_title: 工作包图配置
@@ -304,6 +308,7 @@ zh-CN:
         only_start: 从您的当地时间 %{from} 开始。
         two_values: "%{from} - %{to}（以您的当地时间为基准）。"
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: 高级设置
       load_error_message: 加载表单时出错
@@ -900,6 +905,20 @@ zh-CN:
       unselected_title: 工作包
     two_factor_authentication:
       label_two_factor_authentication: 双因子认证
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         other: "%{count} 子工作包"

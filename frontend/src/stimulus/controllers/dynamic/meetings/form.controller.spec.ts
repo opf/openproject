@@ -28,14 +28,13 @@
 import { waitFor } from '@testing-library/dom';
 import { vi, type Mock } from 'vitest';
 
-import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import { setupStimulusTest, type StimulusTestContext, stubPendingPluginContext, stubPluginContext } from 'core-stimulus/test-helpers';
 import type FormControllerType from './form.controller';
 
 describe('Meetings form controller', () => {
   let ctx:StimulusTestContext;
   let FormController:typeof FormControllerType;
   let request:Mock;
-  let originalOpenProject:typeof window.OpenProject;
 
   beforeAll(async () => {
     ({ default: FormController } = await import('./form.controller'));
@@ -43,15 +42,12 @@ describe('Meetings form controller', () => {
 
   beforeEach(async () => {
     request = vi.fn().mockResolvedValue({ html: '', headers: new Headers() });
-    originalOpenProject = window.OpenProject;
-    window.OpenProject = {
-      getPluginContext: () => Promise.resolve({
-        services: {
-          turboRequests: { request },
-          pathHelperService: { staticBase: '/op' },
-        },
-      }),
-    } as unknown as typeof window.OpenProject;
+    stubPluginContext({
+      services: {
+        turboRequests: { request },
+        pathHelperService: { staticBase: '/op' },
+      },
+    });
 
     ctx = await setupStimulusTest({
       controllers: { 'meetings--form': FormController },
@@ -60,7 +56,6 @@ describe('Meetings form controller', () => {
 
   afterEach(() => {
     ctx.dispose();
-    window.OpenProject = originalOpenProject;
     vi.restoreAllMocks();
   });
 
@@ -97,10 +92,7 @@ describe('Meetings form controller', () => {
   });
 
   it('does not request when disconnected before the context resolves', async () => {
-    let resolveContext!:(context:unknown) => void;
-    window.OpenProject = {
-      getPluginContext: () => new Promise((resolve) => { resolveContext = resolve; }),
-    } as unknown as typeof window.OpenProject;
+    const resolveContext = stubPendingPluginContext();
 
     const controller = await renderForm();
     const form = ctx.container.querySelector('form')!;

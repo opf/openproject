@@ -28,14 +28,13 @@
 import { waitFor } from '@testing-library/dom';
 import { vi, type Mock } from 'vitest';
 
-import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import { setupStimulusTest, type StimulusTestContext, stubPendingPluginContext, stubPluginContext } from 'core-stimulus/test-helpers';
 import type MainMenuControllerType from './main.controller';
 
 describe('Main menu controller', () => {
   let ctx:StimulusTestContext;
   let MainMenuController:typeof MainMenuControllerType;
   let next:Mock;
-  let originalOpenProject:typeof window.OpenProject;
 
   const pluginContext = () => ({
     injector: { get: () => ({ navigationEvents$: { next } }) },
@@ -47,10 +46,7 @@ describe('Main menu controller', () => {
 
   beforeEach(async () => {
     next = vi.fn();
-    originalOpenProject = window.OpenProject;
-    window.OpenProject = {
-      getPluginContext: () => Promise.resolve(pluginContext()),
-    } as unknown as typeof window.OpenProject;
+    stubPluginContext(pluginContext());
 
     ctx = await setupStimulusTest({
       controllers: { 'menus--main': MainMenuController },
@@ -59,7 +55,6 @@ describe('Main menu controller', () => {
 
   afterEach(() => {
     ctx.dispose();
-    window.OpenProject = originalOpenProject;
     vi.restoreAllMocks();
   });
 
@@ -92,10 +87,7 @@ describe('Main menu controller', () => {
   });
 
   it('publishes nothing when disconnected before the context resolves', async () => {
-    let resolveContext!:(context:unknown) => void;
-    window.OpenProject = {
-      getPluginContext: () => new Promise((resolve) => { resolveContext = resolve; }),
-    } as unknown as typeof window.OpenProject;
+    const resolveContext = stubPendingPluginContext();
 
     await renderMenu();
     const root = ctx.container.querySelector('[data-controller="menus--main"]')!;

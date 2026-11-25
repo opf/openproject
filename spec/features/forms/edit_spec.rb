@@ -84,7 +84,7 @@ RSpec.describe "Editing a form on its page", :js, with_ee: %i[edit_attribute_gro
     group_key = form.find_group("Details")["data-group-key"]
     expect(page).to have_no_test_selector("type-form-configuration-add-button")
     expect(page).to have_no_test_selector("type-form-configuration-group-actions-#{group_key}")
-    expect(page).to have_no_test_selector("type-form-configuration-attribute-actions-assignee")
+    expect(page).to have_test_selector("type-form-configuration-attribute-actions-assignee")
   end
 
   it "edits a form no type uses" do

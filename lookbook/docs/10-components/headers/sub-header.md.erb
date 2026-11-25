@@ -145,9 +145,14 @@ The sort and group actions are always displayed after the search but before the 
 
 The `with_quick_filter` slot only offers a generic slot for a quick filter taking care of placement, responsiveness and mobile behavior. The logic is part of the actual [QuickFilter components](../quick_filters).
 
+
+Use `OpPrimer::QuickFilter::SubHeader` here, not `Primer::OpenProject::SubHeader` directly — see
+[Quick filters: SubHeader](../quick_filters#subheader) for a short overview. The rest of this section is the
+detailed reference.
+
 ```html
   <%%=
-    render(Primer::OpenProject::SubHeader.new) do |component|
+    render(OpPrimer::QuickFilter::SubHeader.new(query: @query)) do |component|
       component.with_quick_filter do
         render(Foo::BarFilterComponent.new(query: @query, project: @project))
       end
@@ -161,6 +166,43 @@ The `with_quick_filter` slot only offers a generic slot for a quick filter takin
       end
     end %>
 ```
+
+**Why it exists.** The `filter--filters-form` Stimulus controller rebuilds the page's `filters` URL param on
+every request it handles — a quick filter being clicked, text typed into a `filter_input`. It only knows
+about a filter if it's a DOM target (like the `filter_input`) or listed in its `current-filters-value` data
+attribute. A quick filter is neither, by default. So without `current-filters-value`, the first interaction
+after page load drops every quick filter except the one you just touched.
+
+**What it does.** `OpPrimer::QuickFilter::SubHeader` wraps `Primer::OpenProject::SubHeader` and always sets
+`data-controller="filter--filters-form"`. Its other keyword arguments each set one more data attribute on
+that controller:
+
+| Keyword argument | Data attribute |
+|---|---|
+| `query:` | `current-filters-value`, via `OpPrimer::QuickFilter.serialize(query.filters)` |
+| `clear_button_id:` | `clear-button-id-value` |
+| `output_format:` | `output-format-value` |
+| `turbo_frame_request:` | `turbo-frame-request-value` |
+| `turbo_stream_request:` | `turbo-stream-request-value` |
+| `url_path_name:` | `url-path-name-value` |
+| `display_filters:` | `display-filters-value` |
+| `reset_params:` | `reset-params-value` |
+
+If you add a `with_quick_filter` without `query:`, it raises an `ArgumentError` at render time instead of
+letting the bug ship.
+
+**Without the wrapper.** `Primer::OpenProject::SubHeader` still works directly — you're then responsible for
+setting `current-filters-value` (and any other attribute from the table above that you need) yourself:
+
+```ruby
+Primer::OpenProject::SubHeader.new(
+  data: {
+    controller: "filter--filters-form",
+    "filter--filters-form-current-filters-value": OpPrimer::QuickFilter.serialize(@query.filters).to_json
+  }
+)
+```
+
 
 ### All filters button
 

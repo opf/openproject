@@ -19,7 +19,7 @@ fi
 apt-get install -y  \
 	memcached \
 	postfix \
-	apache2 \
+	libcap2-bin \
 	supervisor \
 	git subversion \
 	wget
@@ -35,8 +35,9 @@ for version in $PGVERSION_CHOICES ; do
 	rm -rf /var/lib/postgresql/{$version}
 done
 
-a2enmod proxy proxy_http
-rm -f /etc/apache2/sites-enabled/000-default.conf
+setcap cap_net_bind_service=+ep /usr/bin/caddy
+mkdir -p /etc/caddy /var/www/html
+chown "${APP_USER}:${APP_USER}" /etc/caddy
 
 rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 truncate -s 0 /var/log/*log

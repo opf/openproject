@@ -33,23 +33,19 @@ module Admin
       class DeleteValueDialogComponent < ApplicationComponent
         include OpTurbo::Streamable
 
-        def initialize(custom_field:, project:, value:)
+        def initialize(project:, value:)
           super()
 
-          @custom_field = custom_field
           @project = project
           @value = value
         end
 
         private
 
-        attr_reader :custom_field, :project, :value
+        attr_reader :project, :value
 
         def form_arguments
-          {
-            action: admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, value.id),
-            method: :delete
-          }
+          { action: helpers.value_path(value.id), method: :delete }
         end
       end
     end

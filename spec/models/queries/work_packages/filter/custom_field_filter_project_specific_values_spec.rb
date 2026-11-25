@@ -200,9 +200,43 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter, "with project-s
     let!(:subproject_option) { create(:custom_option, custom_field:, value: "Sub", project: subproject) }
     let!(:foreign_option) { create(:custom_option, custom_field:, value: "Foreign", project: other_project) }
 
-    it "allows the global options and the options of the project and its visible subprojects" do
+    it "allows the global options and the options of the project and its visible subprojects, named by project" do
       expect(filter.allowed_values)
-        .to contain_exactly(["A", option_a.id.to_s], ["Own", own_option.id.to_s], ["Sub", subproject_option.id.to_s])
+        .to contain_exactly(["A", option_a.id.to_s],
+                            ["Own (#{project.name})", own_option.id.to_s],
+                            ["Sub (#{subproject.name})", subproject_option.id.to_s])
+    end
+
+    context "in a project query without subprojects" do
+      let(:include_subprojects) { false }
+
+      it "does not name the project of the options" do
+        expect(filter.allowed_values).to contain_exactly(["A", option_a.id.to_s], ["Own", own_option.id.to_s])
+      end
+    end
+  end
+
+  context "for a hierarchy custom field with items added by projects", with_ee: [:custom_field_hierarchies] do
+    let(:custom_field) { create(:hierarchy_wp_custom_field, types: [type]) }
+    let!(:acme) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Acme") }
+    let!(:zeta) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Zeta") }
+    let!(:own_item) { create(:hierarchy_item, parent: acme, label: "Own", project:) }
+    let!(:subproject_item) { create(:hierarchy_item, parent: acme, label: "Sub", project: subproject) }
+
+    it "names the project of the items added by projects, in tree order" do
+      expect(filter.allowed_values)
+        .to eq([["Acme", acme.id],
+                ["Acme / Own (#{project.name})", own_item.id],
+                ["Acme / Sub (#{subproject.name})", subproject_item.id],
+                ["Zeta", zeta.id]])
+    end
+
+    context "in a project query without subprojects" do
+      let(:include_subprojects) { false }
+
+      it "does not name the project of the items" do
+        expect(filter.allowed_values).to eq([["Acme", acme.id], ["Acme / Own", own_item.id], ["Zeta", zeta.id]])
+      end
     end
   end
 

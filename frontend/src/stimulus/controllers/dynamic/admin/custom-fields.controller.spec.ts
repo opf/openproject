@@ -28,7 +28,7 @@
 import { waitFor } from '@testing-library/dom';
 import { vi } from 'vitest';
 
-import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import { setupStimulusTest, type StimulusTestContext, stubPendingPluginContext, stubPluginContext } from 'core-stimulus/test-helpers';
 import type CustomFieldsControllerType from './custom-fields.controller';
 
 class FakeAutoscroll {
@@ -42,7 +42,6 @@ class FakeAutoscroll {
 describe('Admin custom fields controller', () => {
   let ctx:StimulusTestContext;
   let CustomFieldsController:typeof CustomFieldsControllerType;
-  let originalOpenProject:typeof window.OpenProject;
 
   const pluginContext = () => ({ classes: { DomAutoscrollService: FakeAutoscroll } });
 
@@ -52,10 +51,7 @@ describe('Admin custom fields controller', () => {
 
   beforeEach(async () => {
     FakeAutoscroll.constructedWith = [];
-    originalOpenProject = window.OpenProject;
-    window.OpenProject = {
-      getPluginContext: () => Promise.resolve(pluginContext()),
-    } as unknown as typeof window.OpenProject;
+    stubPluginContext(pluginContext());
 
     ctx = await setupStimulusTest({
       controllers: { 'admin--custom-fields': CustomFieldsController },
@@ -64,7 +60,6 @@ describe('Admin custom fields controller', () => {
 
   afterEach(() => {
     ctx.dispose();
-    window.OpenProject = originalOpenProject;
     vi.restoreAllMocks();
   });
 
@@ -136,10 +131,7 @@ describe('Admin custom fields controller', () => {
   });
 
   it('does not set up autoscroll when disconnected before the context resolves', async () => {
-    let resolveContext!:(context:unknown) => void;
-    window.OpenProject = {
-      getPluginContext: () => new Promise((resolve) => { resolveContext = resolve; }),
-    } as unknown as typeof window.OpenProject;
+    const resolveContext = stubPendingPluginContext();
 
     await renderOptions();
     const root = ctx.container.querySelector('[data-controller="admin--custom-fields"]')!;

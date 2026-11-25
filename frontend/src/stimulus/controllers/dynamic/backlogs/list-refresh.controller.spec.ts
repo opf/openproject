@@ -30,7 +30,7 @@ import { Idiomorph } from 'idiomorph';
 import { Subject } from 'rxjs';
 import { vi, type Mock } from 'vitest';
 
-import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import { setupStimulusTest, type StimulusTestContext, stubPendingPluginContext, stubPluginContext } from 'core-stimulus/test-helpers';
 import type ListRefreshControllerType from './list-refresh.controller';
 
 interface HalEvent {
@@ -42,7 +42,6 @@ describe('Backlogs list-refresh controller', () => {
   let ListRefreshController:typeof ListRefreshControllerType;
   let events$:Subject<HalEvent[]>;
   let aggregated$:Mock;
-  let originalOpenProject:typeof window.OpenProject;
 
   beforeAll(async () => {
     ({ default: ListRefreshController } = await import('./list-refresh.controller'));
@@ -52,10 +51,7 @@ describe('Backlogs list-refresh controller', () => {
     events$ = new Subject<HalEvent[]>();
     aggregated$ = vi.fn().mockReturnValue(events$.asObservable());
 
-    originalOpenProject = window.OpenProject;
-    window.OpenProject = {
-      getPluginContext: () => Promise.resolve({ services: { halEvents: { aggregated$ } } }),
-    } as unknown as typeof window.OpenProject;
+    stubPluginContext({ services: { halEvents: { aggregated$ } } });
 
     ctx = await setupStimulusTest({
       controllers: {
@@ -66,7 +62,6 @@ describe('Backlogs list-refresh controller', () => {
 
   afterEach(() => {
     ctx.dispose();
-    window.OpenProject = originalOpenProject;
     vi.restoreAllMocks();
   });
 
@@ -149,12 +144,7 @@ describe('Backlogs list-refresh controller', () => {
   });
 
   it('does not subscribe when disconnected before plugin context resolves', async () => {
-    let resolveContext!:(context:unknown) => void;
-    const contextPromise = new Promise((resolve) => { resolveContext = resolve; });
-
-    window.OpenProject = {
-      getPluginContext: () => contextPromise,
-    } as unknown as typeof window.OpenProject;
+    const resolveContext = stubPendingPluginContext();
 
     await ctx.mount('<turbo-frame id="backlogs-list" data-controller="backlogs--list-refresh"></turbo-frame>');
     const frame = ctx.container.querySelector<HTMLElement>('[data-controller="backlogs--list-refresh"]')!;

@@ -90,11 +90,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::VelocityChart, type: :component
 
   it "passes an accessible summary of the chart" do
     expect(chart_data["summary"])
-      .to eq "Bar chart of committed and completed story points of the last 2 sprints. Average velocity: 14.3 SP."
-  end
-
-  it "passes the title of the sprint column for the accessible data table" do
-    expect(chart_data["sprintColumnTitle"]).to eq "Sprint"
+      .to eq "Bar chart of committed and completed story points of the last 2 sprints. Average velocity: 14.3 story points."
   end
 
   it "summarizes the velocity of the viewed sprint" do

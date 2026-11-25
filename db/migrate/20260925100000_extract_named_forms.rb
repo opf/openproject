@@ -553,6 +553,7 @@ class ExtractNamedForms < ActiveRecord::Migration[8.1]
           unconvertible!("group #{tuple.inspect} is not a [key, members] tuple")
         end
         key, members, display_name = tuple
+        key, display_name = unwrap_nested_key(key, display_name) if key.is_a?(Array)
         unless key.nil? || key.is_a?(String) || key.is_a?(Symbol)
           unconvertible!("group key #{key.inspect} is neither a string nor a symbol")
         end
@@ -566,6 +567,14 @@ class ExtractNamedForms < ActiveRecord::Migration[8.1]
 
         [key, members, display_name]
       end
+    end
+
+    def unwrap_nested_key(key, display_name)
+      return [key, display_name] unless key.size.between?(1, 2)
+
+      log("unwrapped nested group key #{key.inspect}")
+      nested_key, nested_display_name = key
+      [nested_key, display_name.presence || nested_display_name]
     end
 
     def drop_missing_query_groups(tuples)

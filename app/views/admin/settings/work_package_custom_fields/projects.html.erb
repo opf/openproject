@@ -44,14 +44,11 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= turbo_frame_tag(frame_id, target: "_top") do %>
   <%= render(
-        Primer::OpenProject::SubHeader.new(
-          data: {
-            controller: "filter--filters-form",
-            "filter--filters-form-output-format-value": "json",
-            "filter--filters-form-turbo-frame-request-value": frame_id,
-            "filter--filters-form-clear-button-id-value": clear_button_id,
-            "filter--filters-form-current-filters-value": OpPrimer::QuickFilter.serialize(@query.filters).to_json
-          }
+        OpPrimer::QuickFilter::SubHeader.new(
+          query: @query,
+          clear_button_id:,
+          output_format: "json",
+          turbo_frame_request: frame_id
         )
       ) do |subheader| %>
     <% subheader.with_filter_input(

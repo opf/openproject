@@ -6,9 +6,9 @@ description: Manage meetings with agenda and meeting minutes in OpenProject.
 keywords: meetings, dynamic meetings, agenda, minutes, recurring meeting
 ---
 
-# Recurring meetings management
+# Recurring meetings
 
-With OpenProject 15.3, meetings were enhanced by introducing a clear distinction between **one-time meetings** and **recurring meetings**. This page covers the features and functionalities of recurring meetings. For information on one-time meetings, please refer to [this page](../one-time-meetings/). For features that apply to all meetings, see [Meeting features](../../meeting-features/).
+This page covers the features and functionalities of recurring meetings. For information on one-time meetings, please refer to [this page](../one-time-meetings/). For features that apply to all meetings, see [Meeting features](../../meeting-features/).
 
 Recurring meetings are helpful to schedule and organize meetings that happen regularly and which have the same structure. They consist of individual occurrences that repeat with a defined frequency and interval, and are all based on a meeting template consisting of predefined sections, agenda items and participants.
 

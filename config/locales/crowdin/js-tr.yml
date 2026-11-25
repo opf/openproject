@@ -177,6 +177,10 @@ tr:
       remove_from_list: Kartı listeden çıkar
     chart:
       axis_criteria: Eksen kriterleri
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Grafiği görüntülemek için veri yüklenemedi. Gerekli izinler eksik olabilir.
       modal_title: İş paketi grafik konfigürasyonu
@@ -304,6 +308,7 @@ tr:
         only_start: Yerel zamanınıza göre %{from} dan itibaren.
         two_values: "%{from} - %{to} yerel saatinizle."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Gelişmiş ayarlar
       load_error_message: Form yüklenirken bir hata oluştu
@@ -903,6 +908,23 @@ tr:
       unselected_title: İş paketi
     two_factor_authentication:
       label_two_factor_authentication: İki aşamalı kimlik doğrulama
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Project actions
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            one: Could not extend the range. %{count} project selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            one: "%{count} project selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         one: "%{count} child work package"

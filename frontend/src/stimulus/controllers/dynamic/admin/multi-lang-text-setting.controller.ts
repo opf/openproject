@@ -86,7 +86,7 @@ export default class MultiLangTextSetting extends Controller<HTMLElement> {
     const newLang = select.value;
     const textArea = this.textAreaTarget;
     const textAreaId = ensureId(textArea);
-    const ckEditor = this.element.querySelector<HTMLElement>(`opce-ckeditor-augmented-textarea[data-text-area-id='"${textAreaId}"'`);
+    const ckEditor = this.element.querySelector<HTMLElement>(`opce-ckeditor-augmented-textarea[data-text-area-id="${CSS.escape(JSON.stringify(textAreaId))}"]`);
     invariant(ckEditor, `Expected ckEditor for augmented textarea "${textAreaId}"`);
     const editor = retrieveCkEditorInstance(ckEditor);
     invariant(editor, `Expected ckEditorInstance for augmented textarea "${textAreaId}"`);

@@ -14,7 +14,12 @@ permissions:
   contents: read
 
 jobs:
+  release-branches:
+    if: github.repository == 'opf/openproject'
+    uses: $/.github/workflows/release-branches.yml
+
   prepare:
+    needs: release-branches
     if: github.repository == 'opf/openproject'
     name: Prepare
     runs-on: ubuntu-latest
@@ -26,20 +31,9 @@ jobs:
       - name: Determine git ref to test seeding in
         id: use_input_or_find_latest_release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           INPUT_REF: ${{ inputs.ref }}
-        run: |
-          if [ -n "$INPUT_REF" ]; then
-            echo "ref=$INPUT_REF" >> "$GITHUB_OUTPUT"
-          else
-            BRANCH=$(gh api repos/opf/openproject/branches --paginate --jq '.[].name' | grep '^release/' | sort --version-sort | tail -1)
-            if [ -z "$BRANCH" ]; then
-              echo "Error: no release branch found"
-              exit 1
-            fi
-            echo "Found latest release branch: $BRANCH"
-            echo "ref=$BRANCH" >> "$GITHUB_OUTPUT"
-          fi
+          LATEST_RELEASE_BRANCH: ${{ needs.release-branches.outputs.latest }}
+        run: echo "ref=${INPUT_REF:-$LATEST_RELEASE_BRANCH}" >> "$GITHUB_OUTPUT"
 
       - name: Checkout
         uses: actions/checkout@v7.0.1

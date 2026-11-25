@@ -37,7 +37,7 @@ module Admin
         Row = Data.define(:id, :label, :depth, :caption, :enabled, :project_specific?, :required?,
                           :parent_project_specific?)
 
-        MAX_INDENTATION = 12
+        INDENTATION_PER_LEVEL = 16
 
         def initialize(custom_field:, project:)
           super()
@@ -51,7 +51,11 @@ module Admin
         attr_reader :custom_field, :project
 
         def rows
-          @rows ||= custom_field.list? ? option_rows : item_rows
+          @rows ||= values_toggleable? ? all_rows : all_rows.select(&:enabled)
+        end
+
+        def all_rows
+          custom_field.list? ? option_rows : item_rows
         end
 
         def option_rows
@@ -86,7 +90,7 @@ module Admin
         end
 
         def item_caption(item)
-          NumberFormatHelper.number_with_limit(item.weight) if custom_field.field_format_weighted_item_list?
+          ::CustomFields::Hierarchy::HierarchicalItemFormatter.new(label: false).format(item:).presence
         end
 
         def enabled?(value)
@@ -97,8 +101,18 @@ module Admin
           EnterpriseToken.allows_to?(:project_specific_list_values)
         end
 
-        def restricted?
-          custom_field.project_specific_value_restriction.present?
+        def values_toggleable?
+          return @values_toggleable if defined?(@values_toggleable)
+
+          @values_toggleable = custom_field.values_toggleable_by?(User.current, project)
+        end
+
+        def required_notice?(row)
+          values_toggleable? && row.required?
+        end
+
+        def make_global?(row)
+          own_value_changeable?(row) && User.current.active_admin?
         end
 
         def value_menu?(row)
@@ -114,7 +128,7 @@ module Admin
         end
 
         def indentation(row)
-          [row.depth * 3, MAX_INDENTATION].min
+          "padding-left: #{row.depth * INDENTATION_PER_LEVEL}px"
         end
 
         # Toggling a hierarchy item can change other items as well, so the list is reloaded afterwards.
@@ -124,41 +138,9 @@ module Admin
             data: {
               controller: "reload-frame-on-event",
               reload_frame_on_event_event_name_value: "toggleSwitchSuccess",
-              reload_frame_on_event_url_value: values_path
+              reload_frame_on_event_url_value: helpers.values_path
             }
           }
-        end
-
-        def values_path
-          admin_settings_work_package_custom_field_project_specific_values_path(custom_field, project)
-        end
-
-        def toggle_path(row)
-          toggle_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, row.id)
-        end
-
-        def new_sub_value_path(row)
-          new_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, parent_id: row.id)
-        end
-
-        def edit_path(row)
-          edit_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, row.id)
-        end
-
-        def make_global_path(row)
-          make_global_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, row.id)
-        end
-
-        def deletion_dialog_path(row)
-          deletion_dialog_admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, row.id)
-        end
-
-        def enable_all_path
-          enable_all_admin_settings_work_package_custom_field_project_specific_values_path(custom_field, project)
-        end
-
-        def disable_all_path
-          disable_all_admin_settings_work_package_custom_field_project_specific_values_path(custom_field, project)
         end
       end
     end

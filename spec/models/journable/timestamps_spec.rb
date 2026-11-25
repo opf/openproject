@@ -603,6 +603,15 @@ RSpec.describe Journable::Timestamps do
           end
         end
 
+        describe "for the semantic identifier", with_settings: { work_packages_identifier: "semantic" } do
+          before { work_package.update_columns(identifier: "PROJ-7", sequence_number: 7) }
+
+          it "exposes the current semantic identifier", :aggregate_failures do
+            expect(subject.display_id).to eq "PROJ-7"
+            expect(subject.to_param).to eq "PROJ-7"
+          end
+        end
+
         context "with a custom field present" do
           let!(:custom_field) do
             create(:string_wp_custom_field,
