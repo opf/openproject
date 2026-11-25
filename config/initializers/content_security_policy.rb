@@ -129,7 +129,8 @@ Rails.application.config.after_initialize do
       policy.img_src(*img_src.compact.uniq)
       policy.manifest_src("'self'")
       policy.worker_src("'self'")
-      policy.script_src(*script_src)
+      import_map_src = -> { FrontendAssetHelper.assets_proxied? ? "'self'" : FrontendAssetHelper.import_map_csp_source }
+      policy.script_src(*script_src, import_map_src)
       policy.script_src_attr("'none'")
       policy.style_src(*assets_src, "'unsafe-inline'")
       policy.object_src(OpenProject::Configuration[:security_badge_url])

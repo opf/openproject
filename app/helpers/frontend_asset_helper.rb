@@ -43,6 +43,22 @@ module FrontendAssetHelper
     CLI_PROXY
   end
 
+  # SPIKE: The import map is the same on every page, so the CSP allows it by hash as well as
+  # by nonce. Pages replayed with a stale nonce (component preview specs) then still get it.
+  def self.import_map_json
+    prefix = [
+      OpenProject::Configuration.rails_asset_host.presence&.then { it.include?("//") ? it : "//#{it}" },
+      Rails.application.config.relative_url_root.to_s.chomp("/")
+    ].join
+    digested = Rails.application.assets.resolver.resolve("frontend/main.js") || "/assets/frontend/main.js"
+
+    ERB::Util.json_escape({ imports: { "#{prefix}/assets/frontend/main.js" => "#{prefix}#{digested}" } }.to_json)
+  end
+
+  def self.import_map_csp_source
+    "'sha256-#{Digest::SHA256.base64digest(import_map_json)}'"
+  end
+
   ##
   # Include angular CLI frontend assets by either referencing a prod build,
   # or referencing the running CLI proxy that hosts the assets in memory.
@@ -64,13 +80,8 @@ module FrontendAssetHelper
   def frontend_import_map_tag
     return if FrontendAssetHelper.assets_proxied?
 
-    imports = {
-      asset_path(frontend_asset_path("main.js"), skip_pipeline: true) =>
-        asset_path(lookup_frontend_asset("main.js"), skip_pipeline: true)
-    }
-
     content_tag(:script,
-                json_escape({ imports: }.to_json).html_safe, # rubocop:disable Rails/OutputSafety
+                FrontendAssetHelper.import_map_json.html_safe, # rubocop:disable Rails/OutputSafety
                 type: "importmap",
                 nonce: content_security_policy_nonce)
   end
