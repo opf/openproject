@@ -42,6 +42,7 @@ module Backlogs
           name: :name,
           required: true,
           autofocus: !disabled,
+          "data-controller": "caret-at-end",
           disabled:,
           w: :full
         )

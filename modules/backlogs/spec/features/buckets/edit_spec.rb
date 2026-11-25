@@ -55,13 +55,13 @@ RSpec.describe "Backlog bucket renaming", :js do
 
     within_dialog "Edit backlog bucket" do
       expect(page).to have_field "Name", with: "Draft bucket"
-      fill_in "Name", with: "Polished bucket"
+      find_field("Name", focused: true).send_keys(" revised")
       click_on "Save"
     end
 
     expect_and_dismiss_flash type: :success, exact_message: "Successful update."
-    backlogs_page.expect_bucket_names_in_order("Polished bucket")
-    expect(bucket.reload.name).to eq "Polished bucket"
+    backlogs_page.expect_bucket_names_in_order("Draft bucket revised")
+    expect(bucket.reload.name).to eq "Draft bucket revised"
   end
 
   it "validates that the name is present when saving" do
