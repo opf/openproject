@@ -148,7 +148,7 @@ Automations in OpenProject let you configure buttons that apply predefined chang
 **More information on automations in OpenProject**
 
 - [Watch a short video showing how automations work](../system-admin-guide/manage-work-packages/work-package-automations/).
-- [Read this guide on how to create automations](../system-admin-guide/manage-work-packages/work-package-automations/#create-automations).
+- [Read this guide on how to create automations](../system-admin-guide/manage-work-packages/work-package-automations/#create-an-automation).
 - [Read this blog article on how to create an intelligent workflow with custom action - explained with an example](https://www.openproject.org/blog/customize-workflows/).
 
 ### Custom field
