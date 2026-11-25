@@ -81,6 +81,7 @@ module Import
           jira_entity_id: jira_project.id,
           jira_entity_class: jira_project.class.to_s
         ).op_leg
+        @type_variants = Import::JiraTypeVariants::FindOrCreateService.new(user: @system_user, jira_import: @jira_import)
 
         setup_resolution_date_cf(jira_project)
         @sprint_field = Import::JiraIssueSprintField.from_staged_fields(@jira_import)
@@ -102,11 +103,13 @@ module Import
         Journal::NotificationConfiguration.with(false) do
           Journal::EventConfiguration.with(false) do
             ActiveRecord::Base.transaction do
-              type = create_type(jira_issue, @project)
+              type = create_type(jira_issue)
+              type_variant = type_variant(type)
+              enable_type(@project, type_variant)
               status = create_status(jira_issue)
               update_workflows(type)
-              new_custom_fields = new_custom_fields_in_type(jira_issue, type, @custom_field_registry)
-              update_custom_fields_in_type(type, new_custom_fields) if new_custom_fields.any?
+              new_custom_fields = new_custom_fields_in_type(jira_issue, type_variant, @custom_field_registry)
+              update_custom_fields_in_type(type_variant, new_custom_fields) if new_custom_fields.any?
               priority = create_priority(jira_issue) || IssuePriority.default || IssuePriority.active.first
 
               raise "Create a priority. OpenProject work package requires a priority!" if priority.blank?
@@ -133,25 +136,24 @@ module Import
 
     private
 
-    def new_custom_fields_in_type(jira_issue, type, custom_field_registry)
+    def new_custom_fields_in_type(jira_issue, type_variant, custom_field_registry)
       custom_fields = custom_fields_for_issue(custom_field_registry, jira_issue)
       custom_fields << @resolution_date_cf if @resolution_date_cf
 
-      existing_cf_ids = type.default_variant.custom_field_ids
+      existing_cf_ids = type_variant.custom_field_ids
       custom_fields.reject { |cf| existing_cf_ids.include?(cf.id) }
     end
 
-    def update_custom_fields_in_type(type, new_custom_fields)
-      variant = type.default_variant
+    def update_custom_fields_in_type(type_variant, new_custom_fields)
       new_cf_keys = new_custom_fields.map(&:attribute_name)
-      groups = variant.attribute_groups.map { |g| [g.key, g.is_a?(Type::QueryGroup) ? [g.query_attribute_name] : g.attributes] }
+      groups = type_variant.attribute_groups.map { |g| [g.key, g.is_a?(Type::QueryGroup) ? [g.query_attribute_name] : g.attributes] }
 
       remove_custom_fields_from_other_groups(groups, new_cf_keys)
       add_or_update_jira_import_group(groups, new_cf_keys)
 
-      variant.attribute_groups = groups
-      variant.save!
-      variant.reload
+      type_variant.attribute_groups = groups
+      type_variant.save!
+      type_variant.reload
     end
 
     def remove_custom_fields_from_other_groups(groups, cf_keys)
@@ -171,12 +173,11 @@ module Import
       end
     end
 
-    def create_type(jira_issue, project)
+    def create_type(jira_issue)
       issue_type = jira_issue.payload["fields"]["issuetype"]
       name = issue_type["name"]
       type, uses_existing = find_or_create_resource(Type, name, jira_object_type: "issueType") { create_new_type(name) }
 
-      enable_type(project, type)
       jira_issue_type = Import::JiraIssueType.find_by!(origin_id: issue_type["id"], jira_import_id: @jira_import.id)
       create_reference!(op_leg: type, jira_leg: jira_issue_type, jira_import: @jira_import, uses_existing:)
       type
@@ -191,14 +192,21 @@ module Import
       service_call.result
     end
 
-    def enable_type(project, type)
+    def enable_type(project, type_variant)
       service_call = Projects::Types::AddService
                        .new(user: @system_user, model: project)
-                       .call(variant: type.default_variant)
+                       .call(variant: type_variant)
       if service_call.failure?
         Rails.logger.error service_call.message
         raise service_call.message
       end
+    end
+
+    def type_variant(type)
+      service_call = @type_variants.call(type:, project: @project)
+      raise service_call.message if service_call.failure?
+
+      service_call.result
     end
 
     # rubocop:disable-next Metrics/AbcSize
