@@ -10,7 +10,7 @@ keywords: repository, repositories, repository provider, GitLab, source code int
 
 OpenProject integrates with source code repositories to connect software development activities with work packages. Linked issues, merge requests, branches, and commits are displayed in the **Code** tab of a work package.
 
-Starting with OpenProject 18.0, repository providers are managed centrally under *Administration → Repositories*. Currently, GitLab is the supported repository provider.
+Starting with OpenProject 18.0, repository providers are managed centrally under *Administration → Repositories*. Currently, GitLab is the only supported repository provider.
 
 ## Manage repository providers
 
