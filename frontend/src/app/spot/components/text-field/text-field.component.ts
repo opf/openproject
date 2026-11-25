@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output, ViewChild, forwardRef, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output, ViewChild, forwardRef, inject } from '@angular/core';
 import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
@@ -41,10 +41,6 @@ import {
     multi: true,
   }],
   standalone: false,
-  // TODO: This component has been partially migrated to be zoneless-compatible.
-  // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
-  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class SpotTextFieldComponent implements ControlValueAccessor {
   private cdRef = inject(ChangeDetectorRef);
@@ -131,6 +127,11 @@ export class SpotTextFieldComponent implements ControlValueAccessor {
 
   writeValue(value:string) {
     this.value = value || '';
+    this.cdRef.markForCheck();
+  }
+
+  setDisabledState(disabled:boolean):void {
+    this.disabled = disabled;
     this.cdRef.markForCheck();
   }
 
