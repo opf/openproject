@@ -4,31 +4,32 @@
     [ngClass]="{'op-wp-status-button_small' : small}"
     data-test-selector="op-wp-status-button"
     >
-    <button
-      class="op-wp-status-button--button button"
-      [ngClass]="statusHighlightClass"
-      type="button"
-      [attr.aria-disabled]="!allowed || null"
-      title=""
-      opTooltip
-      [label]="text.status + ' ' + status.name"
-      [description]="disabledReason ?? undefined"
-      [tooltipWhenTruncated]="disabledReason ? undefined : statusText"
+    <op-action-menu
       wpStatusDropdown
       [wpStatusDropdown-workPackage]="workPackage"
+      [label]="text.status"
       >
-      @if (isReadonly) {
-        <span
-          class="op-wp-status-button--text button--text"
-          >
-          <op-icon icon-classes="button--icon icon-locked" />
+      <button
+        primerButton
+        opActionMenuTrigger
+        [size]="small ? 'small' : 'medium'"
+        [leadingIcon]="isReadonly ? 'lock' : undefined"
+        trailingAction="triangle-down"
+        [iconSize]="small ? 'xsmall' : 'small'"
+        class="op-wp-status-button--button"
+        [ngClass]="statusHighlightClass"
+        [attr.aria-disabled]="!allowed || null"
+        title=""
+        opTooltip
+        [label]="text.status + ' ' + status.name"
+        [description]="disabledReason ?? undefined"
+        [tooltipWhenTruncated]="disabledReason ? undefined : statusText"
+        >
+        <span #statusText class="op-wp-status-button--text">
+          <span class="sr-only">{{ text.status }} </span>
+          <span [textContent]="status.name"></span>
         </span>
-      }
-      <span #statusText class="op-wp-status-button--text button--text">
-        <span class="sr-only">{{ text.status }} </span>
-        <span [textContent]="status.name"></span>
-      </span>
-      <svg triangle-down-icon [size]="small ? 'xsmall' : 'small'" class="op-wp-status-button--caret"></svg>
-    </button>
+      </button>
+    </op-action-menu>
   </div>
 }

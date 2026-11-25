@@ -101,7 +101,7 @@ RSpec.describe Import::JiraImportStateMachine do
         "import_error" => %w[importing reverting],
         "imported" => %w[finalizing reverting],
         "finalizing" => %w[finalizing_error finalizing_done],
-        "finalizing_error" => %w[finalizing],
+        "finalizing_error" => %w[finalizing reverting],
         "reverting" => %w[reverted revert_error],
         "revert_error" => %w[reverting]
       }.each do |from_state, to_states|
@@ -381,7 +381,7 @@ RSpec.describe Import::JiraImportStateMachine do
     end
 
     context "when in non-deletable states" do
-      %w[imported import_error revert_error].each do |non_deletable_state|
+      %w[imported import_error revert_error finalizing_error].each do |non_deletable_state|
         it "returns false when in #{non_deletable_state} state" do
           transition_to_state(non_deletable_state)
 
@@ -392,7 +392,7 @@ RSpec.describe Import::JiraImportStateMachine do
 
     context "when in deletable states" do
       %w[initial instance_meta_done instance_meta_error configuring projects_meta_done
-         projects_meta_error reverted finalizing_done finalizing_error].each do |deletable_state|
+         projects_meta_error reverted finalizing_done].each do |deletable_state|
         it "returns true when in #{deletable_state} state" do
           transition_to_state(deletable_state)
 

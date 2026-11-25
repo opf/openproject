@@ -76,9 +76,7 @@ class Backlogs::Sprints::FinishService < BaseServices::BaseContracted
 
   def move_to_sprint(target_sprint)
     open_work_packages.order(position: :desc).map do |wp|
-      ::WorkPackages::UpdateService
-        .new(user:, model: wp, contract_class: ::Backlogs::WorkPackages::MoveBetweenSprintsContract)
-        .call(sprint: target_sprint, position: 1)
+      move(wp, contract_class: ::Backlogs::WorkPackages::MoveBetweenSprintsContract, sprint: target_sprint, position: 1)
     end
   end
 
@@ -93,9 +91,16 @@ class Backlogs::Sprints::FinishService < BaseServices::BaseContracted
       # Moving the previous work package out of the sprint shifted this one's
       # position via update_all, leaving the loaded record stale.
       wp.reload
-      ::WorkPackages::UpdateService
-        .new(user:, model: wp, contract_class: ::Backlogs::WorkPackages::MoveToBacklogContract)
-        .call(**call_args)
+      move(wp, contract_class: ::Backlogs::WorkPackages::MoveToBacklogContract, **call_args)
     end
+  end
+
+  # The sprint reports read which work packages were in the sprint from the journals valid at its
+  # start and completion. Merged into a journal written before then, a move would rewrite that
+  # history and the work package would vanish from the sprint altogether.
+  def move(work_package, contract_class:, **)
+    ::WorkPackages::UpdateService
+      .new(user:, model: work_package, contract_class:)
+      .call(**, journal_skip_aggregation: true)
   end
 end

@@ -106,7 +106,7 @@ gem "svg-graph", "~> 2.2.0"
 gem "date_validator", "~> 0.12.0"
 gem "email_validator", "~> 2.2.3"
 gem "json_schemer", "~> 2.5.0"
-gem "msgpack", "~> 1.8.4"
+gem "msgpack", "~> 1.8.7"
 gem "ruby-duration", "~> 3.2.0"
 
 gem "mail", "2.9.1"
@@ -238,8 +238,8 @@ gem "opentelemetry-sdk", "~> 1.13", require: false
 
 gem "openproject-octicons", "~>19.38.0"
 gem "openproject-octicons_helper", "~>19.38.0"
-gem "openproject-primer_view_components", "~> 0.96.0"
-gem "view_component", "~> 4.16.0"
+gem "openproject-primer_view_components", "~> 0.97.0"
+gem "view_component", "~> 4.25.0"
 
 # Lookbook
 gem "lookbook", "2.3.15"

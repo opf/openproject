@@ -278,7 +278,7 @@ export class OpBasicSingleDatetimePickerComponent implements ControlValueAccesso
 
   private appendToBodyOrDialog():HTMLElement|undefined {
     if (this.inDialog) {
-      return document.querySelector<HTMLElement>(`#${this.inDialog}`)!;
+      return document.getElementById(this.inDialog)!;
     }
 
     return undefined;

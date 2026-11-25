@@ -39,6 +39,19 @@ RSpec.describe Meetings::DeleteService do
   subject { described_class.new(model: meeting, user: current_user).call }
 
   describe "#call" do
+    context "when the meeting is a series template" do
+      let(:meeting) { series.template }
+
+      it "rejects deletion and preserves the template" do
+        meeting
+
+        expect { expect(subject).not_to be_success }.not_to change(Meeting, :count)
+
+        expect(subject.errors.symbols_for(:base)).to include(:error_unauthorized)
+        expect(series.reload.template).to eq(meeting)
+      end
+    end
+
     context "when the meeting is an occurrence of a series" do
       let(:meeting) do
         create(:recurring_meeting_occurrence, recurring_meeting: series, project:, start_time: 1.day.from_now)

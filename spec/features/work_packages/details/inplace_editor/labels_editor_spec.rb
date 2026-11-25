@@ -143,6 +143,24 @@ RSpec.describe "labels inplace editor", :js do
         field.expect_read_only
       end
     end
+
+    context "when the work package is shared with the user with edit rights" do
+      let(:user) do
+        create(:user).tap do |user|
+          create(:work_package_member,
+                 principal: user,
+                 entity: work_package,
+                 roles: [create(:edit_work_package_role)])
+        end
+      end
+
+      it "offers to create a new label" do
+        field.activate!
+
+        dropdown = field.autocomplete("Unknown", select: false)
+        expect(dropdown).to have_selector(:list_box_option, text: create_option_text("Unknown"))
+      end
+    end
   end
 
   context "in the split view" do
@@ -191,6 +209,25 @@ RSpec.describe "labels inplace editor", :js do
         field.expect_selected_values(label.name)
 
         dropdown = field.autocomplete(other_label.name.upcase, select: false)
+        expect(dropdown).to have_selector(:list_box_option, text: other_label.name)
+
+        dropdown = field.autocomplete("Unknown", select: false)
+        expect(dropdown).to have_no_selector(:list_box_option, text: create_option_text("Unknown"))
+      end
+    end
+
+    context "with edit_work_packages only in another project" do
+      let(:other_project) { create(:project) }
+      let(:user) do
+        create(:user,
+               member_with_permissions: {
+                 project => %i[view_work_packages add_work_packages],
+                 other_project => %i[view_work_packages edit_work_packages]
+               })
+      end
+
+      it "offers no option to create a label" do
+        dropdown = field.autocomplete(other_label.name, select: false)
         expect(dropdown).to have_selector(:list_box_option, text: other_label.name)
 
         dropdown = field.autocomplete("Unknown", select: false)

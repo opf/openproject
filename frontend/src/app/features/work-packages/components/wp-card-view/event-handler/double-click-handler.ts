@@ -30,7 +30,7 @@ import { CardEventHandler } from 'core-app/features/work-packages/components/wp-
 import { WorkPackageCardViewComponent } from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
-import { isInsideDisabledControl } from 'core-common/interactive-element-helper';
+import { isInsideDisabledControl, isInsideMenuControl } from 'core-common/interactive-element-helper';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 
 export class CardDblClickHandler implements CardEventHandler {
@@ -60,7 +60,7 @@ export class CardDblClickHandler implements CardEventHandler {
       return true;
     }
 
-    if (isInsideDisabledControl(target)) {
+    if (isInsideDisabledControl(target) || isInsideMenuControl(target)) {
       return true;
     }
 

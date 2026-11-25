@@ -340,6 +340,27 @@ RSpec.describe OpPrimer::BorderBoxListComponent, type: :component do
       expect(rendered).to have_button(accessible_name: "Edit list")
     end
 
+    it "renders an action menu in the actions area, apart from the header menu" do
+      rendered = render_inline(
+        described_class.new(container: "hdr-action-menu")
+      ) do |list|
+        list.with_header(title: "Actions") do |header|
+          header.with_action_menu(select_variant: :single) do |menu|
+            menu.with_show_button { "Side panel" }
+            menu.with_item(label: "Side panel", active: true)
+            menu.with_item(label: "Main area")
+          end
+          header.with_menu(button_aria_label: "List actions") do |menu|
+            menu.with_item(label: "Edit")
+          end
+        end
+        list.with_item { "row" }
+      end
+
+      expect(rendered).to have_css(".op-border-box-list-header--actions action-menu button", text: "Side panel")
+      expect(rendered).to have_css(".op-border-box-list-header--menu action-menu")
+    end
+
     it "renders a menu in the header" do
       rendered = render_inline(
         described_class.new(container: "hdr-menu")

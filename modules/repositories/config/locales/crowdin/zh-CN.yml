@@ -107,7 +107,7 @@ zh-CN:
       note_issue_referenced_comment: "**在问题中引用**：[%{gitlab_user}](%{gitlab_user_url}) 在 [%{repository}](%{repository_url}) 上的问题 %{issue_number} [%{issue_title}](%{issue_url}) 中引用了此工作包：%{issue_note}\n"
       note_mr_commented_comment: "**在合并请求中添加评论**：[%{gitlab_user}](%{gitlab_user_url}) 在 [%{repository}](%{repository_url}) 上的合并请求 %{mr_number} [%{mr_title}](%{mr_url}) 中对此工作包添加了评论：%{mr_note}\n"
       note_mr_referenced_comment: "**在合并请求中引用**：[%{gitlab_user}](%{gitlab_user_url}) 在 [%{repository}](%{repository_url}) 上的合并请求 %{mr_number} [%{mr_title}](%{mr_url}) 中引用了此工作包： %{mr_note}\n"
-      note_snippet_referenced_comment: "**Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note} %{commit_note} %{commit_note}\n"
+      note_snippet_referenced_comment: "**Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note}\n"
       push_single_commit_comment_with_ref: "**在 %{reference} 中推送:** [%{gitlab_user}](%{gitlab_user_url}) 推送 [%{commit_number}](%{commit_url}) 到 [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}\n"
     issue_component:
       states:

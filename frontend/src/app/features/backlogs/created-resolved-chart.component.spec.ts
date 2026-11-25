@@ -40,7 +40,15 @@ describe('CreatedResolvedComponent', () => {
 
   const i18nStub = {
     locale: 'en',
-    t: (key:string) => key,
+    t(key:string, options:Record<string, string|number> = {}) {
+      const translations:Record<string, string> = {
+        'js.created_resolved_chart.chart_label': 'Created vs. resolved chart',
+        'js.created_resolved_chart.chart_summary': `Created vs. resolved chart data: ${options.from} – ${options.to}. ${options.values}.`,
+        'js.created_resolved_chart.chart_value': `${options.label}: ${options.value}`,
+      };
+
+      return translations[key] ?? key;
+    },
   };
 
   // The real TimezoneService, stubbed only at its configuration, so that these examples exercise
@@ -113,6 +121,23 @@ describe('CreatedResolvedComponent', () => {
     renderWith(bothSeries());
 
     expect(element.querySelector('canvas')).not.toBeNull();
+  });
+
+  it('names the chart and summarizes the range and latest values', () => {
+    renderWith([
+      {
+        id: 'created',
+        label: 'Created',
+        data: [point('2026-10-12T09:00:00.000Z', 2), point('2026-10-20T09:00:00.000Z', 5)],
+      },
+      { id: 'resolved', label: 'Resolved', data: [point('2026-10-12T09:00:00.000Z', 1)] },
+    ]);
+
+    const canvas = element.querySelector('canvas')!;
+
+    expect(canvas).toHaveRole('img');
+    expect(canvas).toHaveAccessibleName('Created vs. resolved chart');
+    expect(canvas).toHaveAccessibleDescription('Created vs. resolved chart data: 10/12/2026 – 10/23/2026. Created: 5, Resolved: 1.');
   });
 
   it('shows no results when every series is empty', () => {

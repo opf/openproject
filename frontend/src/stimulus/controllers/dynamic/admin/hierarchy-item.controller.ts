@@ -82,7 +82,7 @@ export default class HierarchyItemController extends Controller {
 
     if (event.dataTransfer) {
       const origin = event.dataTransfer.getData('application/dragkey');
-      const originElement = document.querySelector<HTMLElement>(`[data-hierarchy-item-id='${origin}']`);
+      const originElement = document.querySelector<HTMLElement>(`[data-hierarchy-item-id="${CSS.escape(origin)}"]`);
       if (!originElement) { return; }
 
       originElement.style.opacity = '1';

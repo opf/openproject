@@ -66,9 +66,21 @@ module OpenProject
         last ? "#{first}#{last.upcase}" : first
       end
 
+      # Must match colors.service.ts#valueHash bit-for-bit: JS integers wrap at 32 bits
+      # (Ruby's don't), and JS reads strings as UTF-16 units, splitting emoji into two
+      # (Ruby reads one Unicode character instead).
       def hue_for(value)
-        hash = value.each_char.reduce(0) { |acc, char| char.ord + ((acc << 5) - acc) }
+        hash = utf16_code_units(value).reduce(0) { |acc, unit| unit + (to_int32(to_int32(acc) * 32) - acc) }
         hash % 360
+      end
+
+      def utf16_code_units(value)
+        value.encode(Encoding::UTF_16LE).bytes.each_slice(2).map { |lo, hi| lo + (hi << 8) }
+      end
+
+      def to_int32(value)
+        value &= 0xFFFFFFFF
+        value >= 0x80000000 ? value - 0x100000000 : value
       end
 
       def build_svg(color, initials)

@@ -44,8 +44,13 @@ module WorkPackageTypes
       private
 
       def context
-        @context ||= WorkPackageTypes::FormConfiguration::EditorContext
-                       .for_variant(model, scope_project: helpers.variant_scope_project)
+        @context ||=
+          if form_mode == :new
+            WorkPackageTypes::FormConfiguration::EditorContext.new(form_configuration: model.form_configuration)
+          else
+            WorkPackageTypes::FormConfiguration::EditorContext
+              .for_variant(model, scope_project: helpers.variant_scope_project)
+          end
       end
 
       def reload_url

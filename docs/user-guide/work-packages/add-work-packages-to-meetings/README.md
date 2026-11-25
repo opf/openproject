@@ -8,7 +8,7 @@ keywords: meetings, dynamic meetings, meeting agenda, one-time meeting, meeting 
 
 # Add work packages to meetings
 
-Meetings and work packages can be linked to one another in OpenProject. This can be done either from the detailed view of a work package or when editing [a one-time or a recurring meeting](../../meetings/one-time-meetings/#add-a-work-package-to-the-agenda).
+Meetings and work packages can be linked to one another in OpenProject. This can be done either from the detailed view of a work package or when editing [a one-time or a recurring meeting](../../meetings/meeting-features/meeting-agenda/#link-a-work-package-to-a-meeting).
 
 You can link work packages to meetings in two ways:
 
@@ -29,11 +29,11 @@ You can also add any relevant notes (like discussion points, open questions or d
 
 ![Add a work package to a new meeting](openproject_user_guide_meeting_dialogue.png)
 
-The newly-created work package agenda item can be [re-ordered and edited](../../meetings/one-time-meetings/#edit-a-meeting).
+The newly-created work package agenda item can be [re-ordered and edited](../../meetings/meeting-features/meeting-agenda/#edit-a-meeting-agenda).
 
 ## Add a work package as a meeting outcome
 
-In addition to adding work packages to the agenda before a meeting, you can also [add work packages as **meeting outcomes**](../../meetings/one-time-meetings/#meeting-outcomes). This is useful to create follow-up tasks during a meeting and keep them connected to the meeting and agenda item.
+In addition to adding work packages to the agenda before a meeting, you can also [add work packages as **meeting outcomes**](../../meetings/meeting-features/meeting-outcomes/). This is useful to create follow-up tasks during a meeting and keep them connected to the meeting and agenda item.
 
 To add a work package as an outcome, the meeting status has to first be set to **In progress**. You can then click **+ Outcome** at the end of an agenda item and select either:
 

@@ -109,6 +109,7 @@ uk:
         maintained_with_changes: Збережено зі змінами
         no_longer_meets_filter_criteria: Більше не відповідає критеріям фільтра
         now_meets_filter_criteria: Тепер відповідає критеріям фільтра
+        state_at: State at
       show_changes_since: Показувати зміни з
       time: Час
       time_description: 'За вашим місцевим часом: %{datetime}'
@@ -774,8 +775,10 @@ uk:
       create_new: Створити новий
       group_by_relation_type: Група за типом відношення
       group_by_wp_type: Група за типом робочого пакета
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Змістити ієрархію праворуч
       hierarchy_outdent: Змістити ієрархію ліворуч
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Видалити зв'язок
       remove_child: Видалити дочірній елемент
       remove_parent: Видалити джерела
@@ -1024,6 +1027,7 @@ uk:
         label_pagination: Клацніть тут, щоб пропустити пакунки робіт і перейти до розбивки на сторінки
         pagination: Перейти до розбиття таблиці на сторінки
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Поле комбінованого випадаючого списку: виділіть за допомогою клавіш зі стрілками, підтвердьте вибір з Enter, видаліть з Backspace'
       label_disable_multi_select: Не дозволяти мультивибір
       label_enable_multi_select: Дозволити мультивибір

@@ -11,7 +11,7 @@ Actions to take in Jira, in OpenProject and in your migration planning before yo
 
 ## Jira/instance-side prerequisites
 
-- [ ] Confirm your Jira instance is Data Center 10.x / 11.x. Server is officially not supported, but depending on your configuration is still likely to work. Cloud is not supported at all at the moment — plan a different route if you're on Cloud.
+- [ ] Confirm your Jira instance is Server/Data Center version 8.x, 9.x, 10.x or 11.x. Cloud is not supported at the moment — plan a different route if you're on Cloud.
 - [ ] If your organization logs into OpenProject via LDAP, check whether Jira usernames match your LDAP login names. If they do, flag this to your team now — those users' real LDAP passwords will stop working right after migration until an admin fixes each affected account (see [Post-Migration checklist](../post-migration-checklist/)). Not relevant if you only use local/password accounts.
 - [ ] Sync your external user directories (LDAP/AD) in Jira before migrating (Administration → User Management → User Directories → Sync). The migrator reads user data (email, display name) directly from Jira at the time of migration — if the sync is stale, that stale data gets carried over.
 - [ ] Run Jira's built-in **Database Integrity Checker** (Administration → System → Integrity Checker) and/or the **Integrity Check for Jira** Marketplace app before migrating. These catch broken/orphaned data (e.g. required fields with no value, dangling references) that could otherwise cause unexpected errors partway through the import.
@@ -27,14 +27,13 @@ Review this against how your teams actually use Jira. If anything here would be 
 
 **Not migrated at all, for any issue:**
 
-- [ ] Reporter (Jira's Reporter and Creator become the same thing in OpenProject: only Creator/Author survives)
-- [ ] Sub-tasks and parent/child hierarchy (planned: [JIM-75](https://community.openproject.org/projects/JIM/work_packages/JIM-75))
-- [ ] Issue links (blocks, relates to, duplicates, etc.) (planned: [JIM-76](https://community.openproject.org/projects/JIM/work_packages/JIM-76))
-- [ ] Web links (workaround planned: [JIM-206](https://community.openproject.org/projects/JIM/work_packages/JIM-206)).
+- [ ] Reporter (Planned: [JIM-270](https://community.openproject.org/projects/JIM/work_packages/JIM-270))
+- [ ] Web links (Planned: [JIM-206](https://community.openproject.org/projects/JIM/work_packages/JIM-206))
 - [ ] Votes (workaround planned: [JIM-207](https://community.openproject.org/projects/JIM/work_packages/JIM-207), open feature request: [OP-3251](https://community.openproject.org/projects/OP/work_packages/OP-3251))
-- [ ] Environment
-- [ ] Security Level
-- [ ] Components (planned: [JIM-107](https://community.openproject.org/projects/JIM/work_packages/JIM-107))
+- [ ] Environment (Planned: [JIM-257](https://community.openproject.org/projects/JIM/work_packages/JIM-257))
+- [ ] Security Level (Planned: [JIM-219](https://community.openproject.org/projects/JIM/work_packages/JIM-219)) - **Note: The Security Level is currently ignored. Thus, issues with a Security Level set will be imported as regular work packages at this point.**
+- [ ] Components (Planned: [JIM-107](https://community.openproject.org/projects/JIM/work_packages/JIM-107))
+- [ ] Visibility settings of comments
 - [ ] Archived issues (skipped entirely, don't appear in OpenProject in any form)
 
 **Not migrated, specific to custom fields:**

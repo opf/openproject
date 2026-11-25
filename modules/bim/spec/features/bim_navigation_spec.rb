@@ -126,8 +126,7 @@ RSpec.describe "BIM navigation spec", :js, with_config: { edition: "bim" } do
         details_view.expect_tab "Overview"
 
         # Delete via the context menu
-        page.find_test_selector("wp-details-toolbar--show-more-button").click
-        find(".menu-item", text: "Delete").click
+        details_view.select_from_context_menu("Delete")
 
         destroy_modal.expect_listed(work_package)
         destroy_modal.confirm_deletion

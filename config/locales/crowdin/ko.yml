@@ -708,6 +708,8 @@ ko:
         custom_field:
           at_least_one_custom_option: 하나 이상의 옵션을 사용할 수 있어야 합니다.
           attributes:
+            admin_only:
+              cannot_be_true: is not supported for this type of custom field.
             formula:
               blank: 수식은 비워둘 수 없습니다.
               format: "%{message}"
@@ -1316,7 +1318,6 @@ ko:
           description: 이 작업 패키지에 액세스할 수 있는 모든 사용자에게 코멘트가 표시됩니다. 계속하시겠습니까?
           heading: 이 코멘트를 공개로 지정하시겠습니까?
           title: 이 코멘트를 공개로 지정하시겠습니까?
-        internal_journal: 내부 코멘트는 제한된 멤버 그룹에게만 표시됩니다.
         label_activity_hide_meetings: 미팅 업데이트 숨기기
         label_activity_show_all: 모두 표시
         label_activity_show_only_changes: 변경 사항만 표시
@@ -1495,7 +1496,7 @@ ko:
         contribution_callout: '피드백 및 개인 데이터 기부를 통해 Jira Migator를 개선할 수 있도록 도와주세요. Jira Migator의 [개발 커뮤니티에 참여](link)할 수 있습니다.
 
           '
-        description: 이 Jira Migrator는 현재 베타 버전입니다. Jira Server/Data Center 버전 10.x 및 11.x만 현재 지원되며, Cloud 인스턴스는 현재 지원되지 않습니다.
+        description: The Jira Migrator is currently in beta. We support Jira Server/Data Center versions 8.x, 9.x, 10.x and 11.x. Cloud instances are not supported at this time.
         title: 베타 - 사용해 보세요!
       basic_auth_password_deleted: Basic auth password was successfully deleted.
       blank:
@@ -1712,6 +1713,7 @@ ko:
               label_import_data: 현재 가져오는 중
               label_progress: 가져오기 진행 중...
               label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
+              label_sprint_explanation: Sprints that contain at least one issue
               label_users_import_explanation: 선택한 프로젝트에 참여하는 사용자(그룹 멤버십 포함됨)
               title: 데이터 가져오기
             fetch_data:
@@ -1768,17 +1770,22 @@ ko:
                 other: 범위로 선택된 %{count}개 프로젝트
               description: 호스트 Jira 인스턴스에서 가져온 사용 가능한 데이터에서 가져올 데이터를 선택합니다.
               elements:
+                configuration_mapping: Configuration & Mapping options
                 custom_fields: 사용자 지정 필드의 하위 집합
                 issue_details: Issue identifiers, description, history, comments and attachments
                 issues: 이슈
                 logged_time: Logged time
                 permissions: 권한
+                plugin_migration: Plug-in migration
                 project_details: Project identifiers, description and versions
+                project_specific_custom_fields: Project-specific custom fields
                 projects: 프로젝트
                 relations: 이슈 간의 관계
                 schemes: 스키마
+                security_level: Security Level
                 sprints: Sprints and sprint assignments
                 users: 참여 사용자 및 그룹
+                workflow_migration: Workflow migration
                 workflows: 프로젝트 수준 워크플로
               label_coming_later: 추후 제공 예정
               label_coming_soon: 곧 제공 예정
@@ -3534,7 +3541,7 @@ ko:
           caption: Use an existing form for this type with a pre-defined set of attribute groups.
           label: Use an existing form
         new:
-          caption: Arrange the attribute groups of a new form for this type.
+          caption: Manually define a new set of sections and fields to display for this variant.
           label: Configure a new form
   forums:
     index:
@@ -4586,12 +4593,12 @@ ko:
     one: "%{count} file"
     other: 파일 %{count}개
     zero: 파일 없음
+  label_x_forms:
+    other: "%{count} forms"
   label_x_in_progress_work_packages_abbr:
     one: 1 in progress
     other: "%{count} in progress"
     zero: 0 in progress
-  label_x_forms:
-    other: "%{count} forms"
   label_x_items:
     one: "%{count} item"
     other: "%{count}개 항목"
@@ -5797,13 +5804,13 @@ ko:
       shared: 공유된 프로젝트 목록
     phase_status:
       description:
-        completed: Marking a phase as complete will complete all previous phases.
-        in_progress: Marking a phase as complete will complete all previous phases.
-        open: Re-opening a phase will also open all future phases.
+        completed: This will also mark all previous phases as complete.
+        in_progress: This will complete all previous phases and mark future phases as not started.
+        open: This will mark all future phases as not started.
       title:
         completed: 완료됨
         in_progress: 진행 중
-        open: 열림
+        open: Not started
     settings:
       actions:
         label_disable_all: 모두 비활성화
@@ -7003,8 +7010,8 @@ ko:
           type: These are the fields project members see when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
           variant: These are the fields project members see when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
         new:
-          type: These are the fields project members see when creating or editing a work package of this type. Arrange and group them in any order you like.
-          variant: These are the fields project members see when creating or editing a work package of this variant. Arrange and group them in any order you like.
+          type: These are the fields that a project member sees when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
+          variant: These are the fields that a project member sees when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
       pdf: Choose which PDF templates are available when generating the PDF of work packages that use these settings. Each template defines the layout and which attributes appear in the PDF. The first template in the list is the default.
       project_attributes: Choose which project attributes appear in work packages. Project members with permission can view and edit them in the work package's Project attributes tab.
       projects:
@@ -7171,6 +7178,7 @@ ko:
         delete_group: 섹션 삭제
         drag_to_activate: 여기에서 필드를 드래그하여 활성화
         drag_to_reorder: 드래그하여 재정렬
+        edit_custom_field: Edit custom field
         edit_query: 쿼리 편집
         empty_group_hint: 속성을 여기로 드래그하세요
         exclusions:

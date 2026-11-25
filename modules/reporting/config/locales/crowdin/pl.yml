@@ -49,6 +49,7 @@ pl:
       end_time: Czas zakończenia
       start_time: Czas rozpoczęcia
       title: Twój eksport raportów kosztów w formacie XLS
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: Wyeksportuj kartę czasu pracy w formacie PDF
       overview_per_user_day: 'Przegląd: liczba godzin na użytkownika dziennie'
@@ -57,6 +58,13 @@ pl:
       time: Czas
       timesheet: Karta czasu pracy
       title: Eksport Twojej karty czasu pracy w formacie PDF
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    one: "%{filter} requires a value."
+    few: "%{filter} requires %{count} values."
+    many: "%{filter} requires %{count} values."
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: W zależności od uprawnień ta strona może zawierać ograniczone informacje.
   label_click_to_edit: Kliknij aby edytować.
   label_closed: Zamknięte
@@ -117,5 +125,3 @@ pl:
   text_costs_are_rounded_note: Wyświetlane wartości są zaokrąglane. Wszystkie obliczenia opierają się na wartościach niezaokrąglonych.
   toggle_multiselect: włączyć/wyłączyć multiselect
   units: Jednostki
-  validation_failure_date: nie jest poprawną datą
-  validation_failure_integer: nie jest prawidłową liczbą całkowitą
