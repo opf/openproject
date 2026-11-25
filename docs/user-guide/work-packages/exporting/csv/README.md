@@ -31,7 +31,7 @@ You can choose which columns will be displayed in the table (excluding long text
 
 ## Escaped formulas
 
-Values that start with a character a spreadsheet application could interpret as a formula, such as `=` or `+`, are escaped by default. This protects you from formula injection when the file is opened. Administrators can change this behaviour in the [export settings](../../../../system-admin-guide/system-settings/exports/#escape-control-characters-in-csv-exports) in the system administration.
+Values that start with a character a spreadsheet application could interpret as a formula, such as `=` or `+`, are escaped by default. This protects you from formula injection when the file is opened. Administrators can change this behavior in the [export settings](../../../../system-admin-guide/system-settings/exports/#escape-control-characters-in-csv-exports) in the system administration.
 
 ## Export limit
 

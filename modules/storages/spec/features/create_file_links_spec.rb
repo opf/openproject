@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,6 +31,8 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe "Managing file links in work package", :js, :webmock do
+  include_context "with axe on Cuprite"
+
   let(:permissions) { %i(view_work_packages edit_work_packages view_file_links manage_file_links) }
   let(:project) { create(:project) }
   let(:current_user) { create(:user, member_with_permissions: { project => permissions }) }
@@ -126,10 +127,11 @@ RSpec.describe "Managing file links in work package", :js, :webmock do
   end
 
   it "must enable the user to remove a file link" do
-    within_test_selector("op-tab-content--tab-section", text: "MY STORAGE") do
+    within_test_selector("op-tab-content--tab-section", text: "MY STORAGE", wait: 25) do
       within(:list_item, text: "jingle.ogg") do
         page.find("span", text: "jingle.ogg").hover
-        page.click_on("Remove file link")
+        expect(page).to be_axe_clean.within(".op-file-list--item-floating-actions")
+        page.click_on(accessible_name: "Remove file link")
       end
     end
 

@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 #
 require "spec_helper"
 
@@ -50,18 +50,18 @@ RSpec.describe Primer::OpenProject::Forms::AdvancedCheckBoxGroup, type: :forms d
                 value: "one",
                 label: "One",
                 caption: "Pick me",
-                icon: "icon_logo.svg"
+                trailing_image: "icon_logo.svg"
               )
               group.check_box(
                 value: "two",
                 label: "Two",
                 caption: "Don't pick me",
-                icon: "icon_logo.svg"
+                trailing_image: "icon_logo.svg"
               )
               group.check_box(
                 value: "three",
                 label: "Three",
-                icon: nil
+                trailing_image: nil
               )
             end
           end
@@ -86,6 +86,20 @@ RSpec.describe Primer::OpenProject::Forms::AdvancedCheckBoxGroup, type: :forms d
 
     it "renders icons" do
       expect(rendered_form).to have_element :svg, count: 2, aria: { hidden: true }
+    end
+
+    it "puts a leading icon before the label" do
+      render_in_view_context do
+        primer_form_with(url: "/foo") do |f|
+          render_inline_form(f) do |check_form|
+            check_form.advanced_check_box_group(name: :foobar, label: "Foobar") do |group|
+              group.check_box(value: "one", label: "One", leading_icon: :"git-branch")
+            end
+          end
+        end
+      end
+
+      expect(page).to have_css ".FormControl-advanced-checkbox-label-text .octicon-git-branch"
     end
 
     it "renders captions", :aggregate_failures do

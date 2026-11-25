@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -70,6 +69,8 @@ end
 # moving a freshly created large file into the cache (see FogFileUploader#move_to_cache) is a
 # fast rename instead of a full copy across filesystems.
 CarrierWave.tmp_path = File.join(Dir.tmpdir, "carrierwave")
+
+Rails.application.executor.to_complete { FogFileUploader.discard_downloads }
 
 unless OpenProject::Configuration.fog_credentials.empty?
   CarrierWave::Configuration.configure_fog!

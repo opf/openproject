@@ -22,8 +22,17 @@
 ---
 cs:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
     models:
       cost_query:
+        one: Cost report
+        few: Cost reports
+        many: Cost reports
+        other: Cost reports
+      cost_report:
         one: Cost report
         few: Cost reports
         many: Cost reports
@@ -40,6 +49,7 @@ cs:
       end_time: Čas ukončení
       start_time: Čas zahájení
       title: Váš export XLS zprávy o nákladech
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: Exportovat výkaz PDF
       overview_per_user_day: 'Přehled: Hodiny na uživatele za den'
@@ -48,6 +58,13 @@ cs:
       time: Čas
       timesheet: Pracovní výkaz
       title: Export vašeho výkazu do formátu PDF
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    one: "%{filter} requires a value."
+    few: "%{filter} requires %{count} values."
+    many: "%{filter} requires %{count} values."
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: Tato stránka může obsahovat omezené informace v závislosti na vašich oprávněních.
   label_click_to_edit: Kliekněte pro editaci.
   label_closed: uzavřeno
@@ -101,7 +118,6 @@ cs:
   plugin_openproject_reporting:
     description: Tento modul umožňuje vytvářet vlastní přehledy nákladů s filtrováním a seskupením vytvořených OpenProject plugin čas & náklady .
     name: Reportování OpenProject
-  project_module_reporting_module: Výkazy nákladů
   reporting:
     group_by:
       selected_columns: Vybrané sloupce
@@ -109,5 +125,3 @@ cs:
   text_costs_are_rounded_note: "Zobrazené hodnoty jsou zaokrouhleny. Všechny výpočty jsou založeny na \nnezaokrouhlených  hodnotách."
   toggle_multiselect: aktivovat/deaktivovat multiselect
   units: Jednotky
-  validation_failure_date: není platné datum
-  validation_failure_integer: není platné číslo

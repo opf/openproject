@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -162,7 +161,7 @@ RSpec.shared_examples_for "nextcloud storage contract", :storage_server_helpers,
         let(:capabilities_response_body) { nil } # use default
         let(:capabilities_response_code) { nil } # use default
         let(:capabilities_response_headers) { nil } # use default
-        let(:capabilities_response_major_version) { NextcloudCompatibleHostValidator::MINIMAL_NEXTCLOUD_VERSION }
+        let(:capabilities_response_major_version) { minimal_nextcloud_version }
         let(:check_config_response_body) { nil } # use default
         let(:check_config_response_code) { nil } # use default
         let(:check_config_response_headers) { nil } # use default
@@ -252,7 +251,7 @@ RSpec.shared_examples_for "nextcloud storage contract", :storage_server_helpers,
         end
 
         context "when Nextcloud version is below the required minimal version" do
-          let(:capabilities_response_major_version) { NextcloudCompatibleHostValidator::MINIMAL_NEXTCLOUD_VERSION - 1 }
+          let(:capabilities_response_major_version) { minimal_nextcloud_version - 1 }
 
           include_examples "contract is invalid", host: :minimal_nextcloud_version_not_met
 
@@ -260,7 +259,7 @@ RSpec.shared_examples_for "nextcloud storage contract", :storage_server_helpers,
             contract.validate
 
             expect(contract.errors.full_messages_for(:host).first)
-              .to include(NextcloudCompatibleHostValidator::MINIMAL_NEXTCLOUD_VERSION.to_s,
+              .to include(minimal_nextcloud_version.to_s,
                           capabilities_response_major_version.to_s)
           end
         end

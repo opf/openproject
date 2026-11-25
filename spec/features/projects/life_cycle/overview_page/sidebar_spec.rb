@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -83,22 +82,6 @@ RSpec.describe "Show project life cycles on project overview page", :js do
         fields = page.all(".op-project-life-cycle-container > div:first-child")
         expect(fields.map(&:text)).to eq(expected_stages)
       end
-    end
-
-    it "shows a hover card when you hover over a gate" do
-      overview_page.visit_page
-
-      overview_page.within_life_cycle_sidebar do
-        page.find_test_selector("phase-#{life_cycle_planning.id}-start-gate").hover
-      end
-
-      expect(page).to have_test_selector("phase-gate-hover-card-name", text: life_cycle_planning.start_gate_name)
-
-      overview_page.within_life_cycle_sidebar do
-        page.find_test_selector("phase-#{life_cycle_planning.id}-finish-gate").hover
-      end
-
-      expect(page).to have_test_selector("phase-gate-hover-card-name", text: life_cycle_planning.finish_gate_name)
     end
 
     it "does not show phases not enabled for this project in a sidebar" do

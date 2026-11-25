@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# --copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 
@@ -63,6 +62,21 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
   let(:allowed_projects) { [] }
 
   current_user { build_stubbed(:user) }
+
+  describe "#allowed_project_node?" do
+    let(:project) { build_stubbed(:project) }
+    let(:allowed_projects) { [project] }
+    let(:allowed_urls) { ["/allowed"] }
+    let(:parent) do
+      Redmine::MenuManager::MenuItem.new(:parent, "/forbidden", allow_deeplink: true).tap do |node|
+        node << Redmine::MenuManager::MenuItem.new(:child, "/allowed", {})
+      end
+    end
+
+    it "allows a deeplink parent when one of its children is allowed" do
+      expect(allowed_project_node?(parent, project, current_user)).to be(true)
+    end
+  end
 
   describe "#render_menu" do
     let(:project) { build_stubbed(:project) }

@@ -22,29 +22,34 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require Rails.root.join("db/migrate/migration_utils/utils")
+
 class AddCaseInsensitiveUniquenessForProjectIdentifiers < ActiveRecord::Migration[8.0]
+  include Migration::Utils
+
   disable_ddl_transaction!
 
   def up
-    deduplicate_case_colliding_identifiers
-    remove_index :projects, :identifier, unique: true, algorithm: :concurrently, if_exists: true
-    add_index :projects, "LOWER(identifier)",
-              unique: true,
-              name: "index_projects_on_lower_identifier",
-              algorithm: :concurrently,
-              if_not_exists: true
+    ensuring_single_schema(:projects) do
+      deduplicate_case_colliding_identifiers
+      remove_index :projects, :identifier, unique: true, algorithm: :concurrently, if_exists: true
+      add_index :projects, "LOWER(identifier)",
+                unique: true,
+                name: "index_projects_on_lower_identifier",
+                algorithm: :concurrently,
+                if_not_exists: true
+    end
   end
 
   # Note: does not undo identifier renames from deduplication. Suffixed identifiers
   # (e.g. "FOO_2") remain valid and unique under the restored case-sensitive index.
   def down
-    remove_index :projects, name: "index_projects_on_lower_identifier", algorithm: :concurrently, if_exists: true
+    remove_index_on :projects, "index_projects_on_lower_identifier", algorithm: :concurrently
     add_index :projects, :identifier, unique: true, algorithm: :concurrently
   end
 

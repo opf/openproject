@@ -68,7 +68,7 @@ uk:
       label_add_new: Додати новий вебхук
       label_edit: Редагувати вебхук
       label_x_events:
-        one: 1 подія
+        one: "%{count} event"
         other: "%{count} події(-й)"
         zero: Немає подій
       no_results_table: Немає доданих вебхуків.

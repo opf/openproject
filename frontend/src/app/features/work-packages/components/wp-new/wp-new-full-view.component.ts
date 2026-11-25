@@ -20,16 +20,17 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { WorkPackageCreateComponent } from 'core-app/features/work-packages/components/wp-new/wp-create.component';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { BreadcrumbItem } from 'core-app/shared/components/breadcrumbs/op-breadcrumbs.component';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-new-full-view',
   host: { class: 'work-packages-page--ui-view' },
   templateUrl: './wp-new-full-view.html',
@@ -37,14 +38,12 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   standalone: false,
 })
 export class WorkPackageNewFullViewComponent extends WorkPackageCreateComponent {
-  public successState = (this.$state?.current?.data?.successState as string) || '';
-
-  breadcrumbItems() {
-    const items = [];
+  breadcrumbItems():BreadcrumbItem[] {
+    const items:BreadcrumbItem[] = [];
     if (this.currentProjectService?.identifier) {
       items.push({
         href: this.pathHelper.projectPath(this.currentProjectService.identifier),
-        text: this.currentProjectService.name,
+        text: this.currentProjectService.name ?? '',
       });
     }
     items.push({

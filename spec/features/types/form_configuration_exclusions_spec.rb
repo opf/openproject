@@ -22,16 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
 
-RSpec.describe "form configuration exclusions", :js,
-               with_flag: { type_variants: true } do
+RSpec.describe "form configuration exclusions", :js do
   shared_let(:admin) { create(:admin) }
 
   let(:aspect) { TypeVariant::FORM_CONFIGURATION }
@@ -57,9 +55,10 @@ RSpec.describe "form configuration exclusions", :js,
   end
 
   before do
-    link_configuration(variant, source: owner, aspect:)
+    owner
+    link_configuration(variant, aspect:)
     login_as admin
-    visit edit_type_form_configuration_path(type_id: type.id, variant_id: variant.id)
+    visit edit_type_variant_form_configuration_path(type_id: type.id, variant_id: variant.id)
   end
 
   it "stops and resumes inheriting an attribute" do
@@ -69,7 +68,7 @@ RSpec.describe "form configuration exclusions", :js,
     toggle_for("assignee").click
 
     expect_toggle("assignee", pressed: false)
-    expect(excluded_configuration_elements(link, aspect: aspect)).to eq(%w[assignee])
+    wait_for { excluded_configuration_elements(link, aspect: aspect) }.to eq(%w[assignee])
 
     # The row stays listed so the switch remains reachable: the page shows the source's
     # configuration annotated with this variant's choices, not the resulting form.
@@ -82,6 +81,23 @@ RSpec.describe "form configuration exclusions", :js,
     toggle_for("assignee").click
 
     expect_toggle("assignee", pressed: true)
-    expect(excluded_configuration_elements(link, aspect: aspect)).to be_empty
+    wait_for { excluded_configuration_elements(link, aspect: aspect) }.to be_empty
+  end
+
+  it "stops and resumes inheriting from the row's enable/disable menu item" do
+    expect(page).to have_text("Assignee")
+    expect_toggle("assignee", pressed: true)
+
+    page.find_test_selector("type-form-configuration-attribute-actions-assignee").click
+    page.find_test_selector("type-form-configuration-toggle-exclusion-assignee", text: I18n.t("button_disable")).click
+
+    expect_toggle("assignee", pressed: false)
+    wait_for { excluded_configuration_elements(link, aspect: aspect) }.to eq(%w[assignee])
+
+    page.find_test_selector("type-form-configuration-attribute-actions-assignee").click
+    page.find_test_selector("type-form-configuration-toggle-exclusion-assignee", text: I18n.t("button_enable")).click
+
+    expect_toggle("assignee", pressed: true)
+    wait_for { excluded_configuration_elements(link, aspect: aspect) }.to be_empty
   end
 end

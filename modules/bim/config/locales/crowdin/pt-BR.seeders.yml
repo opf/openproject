@@ -61,7 +61,7 @@ pt-BR:
         item_2:
           name: Gerentes BIM
         item_3:
-          name: Modelos BIM
+          name: BIM Modelers
         item_4:
           name: Coordenadores BIM Líderes
         item_5:
@@ -511,18 +511,18 @@ pt-BR:
               description: Este tipo é hierarquicamente um primário dos tipos &quot;Clash&quot; e &quot;Solicitação&quot;, portanto, representa uma nota geral.
               children:
                 item_0:
-                  subject: Modelagem de modelo inicial BIM
+                  subject: Modeling initial BIM model
                   description: |-
-                    # Objetivo
+                    # Goal
 
-                    * Modelagem do modelo BIM inicial
-                    * Criação de um modelo BIM para toda a equipe do projeto
+                    *   Modeling the initial BIM model
+                    *   Creating a BIM model for the whole project team
 
-                    # Descrição
+                    # Description
 
-                    * De acordo com os dados coletados do cliente, o modelo inicial será modelado
-                    * O modelo deve ser modelado de acordo com as Matrizes LOD e deve conter as informações necessárias
-                    * ...
+                    *   According to the gathered data from the customer, the initial model will be modeled
+                    *   The model shall be modeled according to the LOD Matrices and contain the information needed
+                    *   ...
                 item_1:
                   subject: Verificações iniciais e internas de modelo e revisão
                   description: |-
@@ -538,23 +538,23 @@ pt-BR:
                   subject: Envio de modelo inicial BIM
                   description: Este tipo é hierarquicamente um primário dos tipos &quot;Clash&quot; e &quot;Solicitação&quot;, portanto, representa uma nota geral.
             item_4:
-              subject: Modelagem, primeiro ciclo
+              subject: Modeling, first cycle
               description: Este tipo é hierarquicamente um primário dos tipos &quot;Clash&quot; e &quot;Solicitação&quot;, portanto, representa uma nota geral.
               children:
                 item_0:
                   subject: Fazer referência a modelos BIM externos
                   description: |-
-                    # Objetivo
+                    # Goal
 
-                    * Ter uma base para desenvolver o modelo interno/ oferecer respostas
-                    * Usar o modelo externo para desenvolver o modelo interno
+                    *   Having a foundation for developing the internal model/ offering answers
+                    *   Using the external model to develop the internal model
 
-                    # Descrição
+                    # Description
 
-                    * O modelo externo será referenciado na plataforma BIM, sendo assim utilizado para modelagem do modelo interno
-                    * ...
+                    *   The external model will be referenced in the BIM platform, thus used for modeling the internal model
+                    *   ...
                 item_1:
-                  subject: Modelagem do modelo BIM
+                  subject: Modeling the BIM model
                   description: |-
                     # Objetivo
 
@@ -602,19 +602,19 @@ pt-BR:
                   subject: Finalização de coordenação, primeiro ciclo
                   description: Este tipo é hierarquicamente um primário dos tipos &quot;Clash&quot; e &quot;Solicitação&quot;, portanto, representa uma nota geral.
             item_6:
-              subject: Modelagem e coordenação, segundo ciclo
+              subject: Modeling & coordinating, second cycle
               description: "## Objetivo\r\n\r\n*   ...\r\n\r\n## Descrição\r\n\r\n* \\  ..."
             item_7:
-              subject: Modelagem e coordenação, ... ciclo
+              subject: Modeling & coordinating, ... cycle
               description: Este tipo é hierarquicamente um primário dos tipos &quot;Clash&quot; e &quot;Solicitação&quot;, portanto, representa uma nota geral.
             item_8:
-              subject: Modelagem e coordenação, (n-th minus 1) ciclo
+              subject: Modeling & coordinating, (n-th minus 1) cycle
               description: "## Objetivo\r\n\r\n*   ...\r\n\r\n## Descrição\r\n\r\n* \\  ..."
             item_9:
-              subject: Modelagem e coordenação, n-th ciclo
+              subject: Modeling & coordinating n-th cycle
               description: Este tipo é hierarquicamente um primário dos tipos &quot;Clash&quot; e &quot;Solicitação&quot;, portanto, representa uma nota geral.
             item_10:
-              subject: Finalização de modelagem e coordenação, n-th ciclo
+              subject: Finishing modeling & coordinating, n-th cycle
               description: Este tipo é hierarquicamente um primário dos tipos &quot;Clash&quot; e &quot;Solicitação&quot;, portanto, representa uma nota geral.
             item_11:
               subject: Usar modelo para fase de construção

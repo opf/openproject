@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -82,6 +81,23 @@ RSpec.describe WorkPackages::CreateContract do
 
       it_behaves_like "contract is invalid", base: :error_unauthorized
     end
+
+    context "with a pending label name for a user who may edit work packages only in another project" do
+      let(:user) do
+        create(:user, member_with_permissions: { persisted_project => %i[add_work_packages],
+                                                 persisted_other_project => %i[edit_work_packages] })
+      end
+
+      before do
+        work_package.label_name_replacements = ["Brand new"]
+      end
+
+      it "is invalid with error_unauthorized on labels" do
+        contract.validate
+
+        expect(contract.errors.symbols_for(:labels)).to include(:error_unauthorized)
+      end
+    end
   end
 
   describe "writing read-only attributes" do
@@ -123,6 +139,22 @@ RSpec.describe WorkPackages::CreateContract do
       it_behaves_like "can write", :created_at, 1.day.ago
       it_behaves_like "can not write", :updated_at, 1.day.ago
       it_behaves_like "can write", :author_id, -> { user.id + 1 }
+    end
+
+    context "with a pending label name for a user who may not create labels" do
+      before do
+        work_package.label_name_replacements = ["Brand new"]
+      end
+
+      after do
+        work_package.label_name_replacements = nil
+      end
+
+      it "is invalid with error_unauthorized on labels" do
+        contract.validate
+
+        expect(contract.errors.symbols_for(:labels)).to include(:error_unauthorized)
+      end
     end
 
     context "when disabled for admin", with_settings: { apiv3_write_readonly_attributes: false } do

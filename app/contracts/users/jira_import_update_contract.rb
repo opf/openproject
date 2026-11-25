@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,9 +34,13 @@ module Users
     private
 
     def user_limit_not_exceeded
-      if OpenProject::Enterprise.user_limit_reached?
+      if activating_user? && OpenProject::Enterprise.user_limit_reached?
         errors.add :base, :user_limit_reached
       end
+    end
+
+    def activating_user?
+      model.status_changed? && model.active?
     end
   end
 end

@@ -20,11 +20,12 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
+
+import { HttpErrorResponse } from '@angular/common/http';
 
 export type MessageSeverity = 'fatal'|'error'|'warning'|'log'|'info'|'debug';
 export type ErrorTags = Record<string, string>;
@@ -37,17 +38,35 @@ export abstract class ErrorReporterBase {
     this.contextHooks.push(...hook);
   }
 
-  protected hookPromises():Promise<ErrorTags[]> {
-    const promises = this
-      .contextHooks
-      .map((cb) => Promise.resolve(cb()));
+  // A failing hook must not keep the error from being reported, nor become an
+  // unhandled rejection that is reported in turn.
+  protected async contextTags():Promise<ErrorTags> {
+    const results = await Promise.allSettled(this.contextHooks.map((hook) => Promise.resolve().then(hook)));
 
-    return Promise.all(promises);
+    return results.reduce<ErrorTags>(
+      (tags, result) => (result.status === 'fulfilled' ? { ...tags, ...result.value } : tags),
+      {},
+    );
   }
 
   /** Capture a message */
   abstract captureMessage(msg:string, level?:MessageSeverity):void;
 
-  /** Capture an exception(!) only */
-  abstract captureException(err:Error):void;
+  abstract captureException(err:unknown):void;
+}
+
+export function toError(value:unknown):Error {
+  if (value instanceof Error) {
+    return value;
+  }
+
+  if (value instanceof HttpErrorResponse) {
+    return new Error(value.message, { cause: value });
+  }
+
+  if (typeof value === 'string') {
+    return new Error(value);
+  }
+
+  return new Error(`Non-error value captured: ${String(value)}`, { cause: value });
 }

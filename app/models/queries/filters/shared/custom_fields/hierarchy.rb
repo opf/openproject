@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -59,10 +58,22 @@ module Queries
             }
           end
 
+          def allowed_values
+            return super if custom_field.project_specific_value_restriction.nil?
+
+            visible_items.map { |item| [item.ancestry_path(include_shorts_and_weights: true), item.id] }
+          end
+
           def value_objects
-            CustomField::Hierarchy::Item
+            visible_items
               .where(id: @values)
               .map { |item| CustomField::Hierarchy::HierarchyItemAdapter.new(item:) }
+          end
+
+          private
+
+          def visible_items
+            custom_field.visible_values_for(::User.current, within: projects_of_query)
           end
         end
       end

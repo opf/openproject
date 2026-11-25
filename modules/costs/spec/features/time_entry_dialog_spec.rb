@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -52,8 +51,7 @@ RSpec.describe "time entry dialog", :js do
     before do
       visit work_package_path(work_package_a)
 
-      find("#action-show-more-dropdown-menu .button").click
-      find(".menu-item", text: "Log time").click
+      Pages::FullWorkPackage.new(work_package_a, project).select_from_context_menu("Log time")
     end
 
     it "does not show the user autocompleter" do
@@ -112,8 +110,7 @@ RSpec.describe "time entry dialog", :js do
     before do
       visit work_package_path(work_package_a)
 
-      find("#action-show-more-dropdown-menu .button").click
-      find(".menu-item", text: "Log time").click
+      Pages::FullWorkPackage.new(work_package_a, project).select_from_context_menu("Log time")
     end
 
     it "shows the user autocompleter and prefills it with the current user" do
@@ -134,8 +131,7 @@ RSpec.describe "time entry dialog", :js do
     before do
       visit work_package_path(work_package_a)
 
-      find("#action-show-more-dropdown-menu .button").click
-      find(".menu-item", text: "Log time").click
+      Pages::FullWorkPackage.new(work_package_a, project).select_from_context_menu("Log time")
     end
 
     it "normalizes the hour input", with_settings: { hours_per_day: 8, days_per_month: 20 } do
@@ -238,8 +234,7 @@ RSpec.describe "time entry dialog", :js do
     before do
       visit work_package_path(work_package_a)
 
-      find("#action-show-more-dropdown-menu .button").click
-      find(".menu-item", text: "Log time").click
+      Pages::FullWorkPackage.new(work_package_a, project).select_from_context_menu("Log time")
       time_logging_modal.is_visible(true)
       time_logging_modal.update_field("hours_display", "2")
     end
@@ -274,8 +269,7 @@ RSpec.describe "time entry dialog", :js do
     before do
       visit work_package_path(work_package_a)
 
-      find("#action-show-more-dropdown-menu .button").click
-      find(".menu-item", text: "Log time").click
+      Pages::FullWorkPackage.new(work_package_a, project).select_from_context_menu("Log time")
       time_logging_modal.is_visible(true)
     end
 
@@ -352,7 +346,7 @@ RSpec.describe "time entry dialog", :js do
         # make sure that the work package is shown in the table
         expect(page).to have_css("#result-table td[raw-data='#{work_package_a.id}']", text: work_package_a.subject)
 
-        find("opce-time-entry-trigger-actions .icon-edit").click
+        within("#result-table") { click_on accessible_name: "Edit" }
 
         time_logging_modal.is_visible(true)
         time_logging_modal.update_field("entity_id", work_package_c.subject)
@@ -378,7 +372,7 @@ RSpec.describe "time entry dialog", :js do
       # make sure that the work package is shown in the table
       expect(page).to have_css("#result-table td[raw-data='#{work_package_a.id}']", text: work_package_a.subject)
 
-      find("opce-time-entry-trigger-actions .icon-edit").click
+      within("#result-table") { click_on accessible_name: "Edit" }
 
       expect do
         time_logging_modal.is_visible(true)
@@ -411,7 +405,7 @@ RSpec.describe "time entry dialog", :js do
 
         # make sure that the work package is shown in the table
         expect(page).to have_css("#result-table td[raw-data='#{work_package_a.id}']", text: work_package_a.subject)
-        find("opce-time-entry-trigger-actions .icon-edit").click
+        within("#result-table") { click_on accessible_name: "Edit" }
 
         time_logging_modal.is_visible(true)
 

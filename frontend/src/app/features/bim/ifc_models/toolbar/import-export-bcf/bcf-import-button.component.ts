@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,13 +32,16 @@ import { BcfPathHelperService } from 'core-app/features/bim/bcf/helper/bcf-path-
 
 @Component({
   template: `
-    <a [title]="text.import_hover"
+    <button type="button"
+      opTooltip
+      [description]="text.import_hover"
       (click)="handleClick()"
       class="button import-bcf-button">
       <op-icon icon-classes="button--icon icon-import" />
       <span class="button--text"> {{text.import}} </span>
-    </a>
+    </button>
   `,
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'bcf-import-button',
   standalone: false,
   // TODO: This component has been partially migrated to be zoneless-compatible.

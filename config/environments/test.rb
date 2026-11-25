@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -117,7 +116,7 @@ Rails.application.configure do
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
 
-  config.cache_store = :file_store, Rails.root.join("tmp", "cache", "paralleltests#{ENV.fetch('TEST_ENV_NUMBER', nil)}")
+  config.cache_store = :memory_store
 
   # Use in-memory store for testing
   Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new

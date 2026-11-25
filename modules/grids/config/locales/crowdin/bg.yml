@@ -31,7 +31,7 @@ bg:
         title: Members
         view_all_members: Покажи всички членове
         x_more:
-          one: and one more member.
+          one: and %{count} more member.
           other: and %{count} more members.
       news:
         no_results: Нищо ново за отчитане.

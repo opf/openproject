@@ -22,33 +22,32 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-RSpec.shared_examples_for "labelled" do
+RSpec.shared_examples_for "labeled" do
   it "has a label with title" do
     expect(subject).to have_css "label.form--label[title]"
   end
 end
 
-RSpec.shared_examples_for "not labelled" do
+RSpec.shared_examples_for "not labeled" do
   it "does not have a label with title" do
     expect(subject).to have_no_css "label.form--label[title]"
   end
 end
 
-RSpec.shared_examples_for "labelled by default" do
+RSpec.shared_examples_for "labeled by default" do
   context "by default" do
-    it_behaves_like "labelled"
+    it_behaves_like "labeled"
   end
 
   context "with no_label option" do
     let(:options) { { no_label: true, label: false } }
 
-    it_behaves_like "not labelled"
+    it_behaves_like "not labeled"
   end
 end
 

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -49,6 +48,7 @@ module TimeEntries
     validate :validate_project_is_set
     validate :validate_entity
     validate :validate_user
+    validate :validate_user_can_access_entity
 
     validates :spent_on,
               date: { before_or_equal_to: Proc.new { Date.new(9999, 12, 31) },
@@ -106,6 +106,20 @@ module TimeEntries
       if user_invisible?
         errors.add :user_id, :invalid
       end
+    end
+
+    def validate_user_can_access_entity
+      return unless model.user && model.entity
+      # The acting user's access is already covered by validate_entity
+      return if model.user == user
+      return unless user_or_entity_changed?
+      return if model.entity.visible?(model.user)
+
+      errors.add :user_id, :no_access_to_entity
+    end
+
+    def user_or_entity_changed?
+      model.user_id_changed? || model.entity_id_changed? || model.entity_type_changed?
     end
 
     def validate_hours_are_in_range

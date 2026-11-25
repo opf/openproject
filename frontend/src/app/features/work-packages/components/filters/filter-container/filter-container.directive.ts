@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -63,6 +62,12 @@ export class WorkPackageFilterContainerComponent extends UntilDestroyedMixin imp
   public filters = this.wpTableFilters.current;
 
   public loaded = false;
+
+  public text = {
+    search_mode_label: I18n.t('js.global_search.search_mode'),
+    search_mode_text: I18n.t('js.work_packages.label_filter_by_text'),
+    search_mode_semantic: I18n.t('js.global_search.search_by_meaning'),
+  };
 
   constructor() {
     super();

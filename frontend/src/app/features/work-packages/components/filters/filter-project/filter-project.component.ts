@@ -20,22 +20,17 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { ChangeDetectionStrategy, Component, Input, OnInit, Output, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
-import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
-import {
-  IProjectAutocompleteItem,
-} from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocomplete-item';
+import { QueryFilterInstanceResource, queryFilterValueId } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { firstValueFrom } from 'rxjs';
@@ -70,12 +65,12 @@ export class FilterProjectComponent extends UntilDestroyedMixin implements OnIni
     }
   }
 
-  async onChange(val:HalResource[]|IProjectAutocompleteItem[]):Promise<void> {
-    if (val === this.filter.values || val === undefined) {
+  async onChange(val:unknown):Promise<void> {
+    if (val === this.filter.values || val === undefined || !Array.isArray(val)) {
       return;
     }
 
-    if (!val || (val?.length === 0)) {
+    if (val.length === 0) {
       this.filter.values.length = 0;
       this.filterChanged.emit(this.filter);
       return;
@@ -86,7 +81,7 @@ export class FilterProjectComponent extends UntilDestroyedMixin implements OnIni
     const projects = await firstValueFrom(
       this.apiV3Service.projects.list({
         filters: [
-          ['id', '=', val.map((p:HalResource|IProjectAutocompleteItem) => String(p.id) || '')],
+          ['id', '=', val.flatMap(value => queryFilterValueId(value) ?? []).map(String)],
         ],
       }),
     );

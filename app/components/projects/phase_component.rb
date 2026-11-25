@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
+
 module Projects
   class PhaseComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
@@ -52,14 +52,6 @@ module Projects
       else
         helpers.t("js.label_no_due_date")
       end
-    end
-
-    def display_start_gate?
-      phase.start_gate? && phase.start_date.present?
-    end
-
-    def display_finish_gate?
-      phase.finish_gate? && phase.finish_date.present?
     end
 
     def hover_card_data_args(gate:)

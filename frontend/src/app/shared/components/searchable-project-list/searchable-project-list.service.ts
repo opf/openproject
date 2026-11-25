@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -43,8 +42,7 @@ import { ID } from '@datorama/akita';
 import { IProjectData } from './project-data';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-
-const UNDISCLOSED_ANCESTOR = 'urn:openproject-org:api:v3:undisclosed';
+import { URN_UNDISCLOSED } from 'core-app/core/apiv3/api-v3-urns';
 
 @Injectable()
 export class SearchableProjectListService {
@@ -246,7 +244,8 @@ export class SearchableProjectListService {
     const findPreviousID = (idOfCurrent:ID, projects:IProjectData[], parent?:IProjectData):ID|null => {
       for (let i = 0; i < projects.length; i++) {
         if (projects[i].id === idOfCurrent) {
-          const previous = findLastChild(projects[i - 1]) || projects[i - 1] || parent;
+          const previousSibling = i > 0 ? projects[i - 1] : undefined;
+          const previous = previousSibling ? findLastChild(previousSibling) : parent;
           if (!previous) {
             return null;
           }
@@ -380,7 +379,7 @@ export class SearchableProjectListService {
     projects.forEach((p) => p._links.ancestors.forEach((a) => ancestors.add(a.href)));
 
     // FIXME: Once we target ECMA Script 2025, we can and should use ancestors.values().filter(...)
-    return [...ancestors.values()].filter((s) => s !== UNDISCLOSED_ANCESTOR).map((s) => s.split('/').pop()!);
+    return [...ancestors.values()].filter((s) => s !== URN_UNDISCLOSED).map((s) => s.split('/').pop()!);
   }
 
   private extractParents(projects:IProject[], childIds:string[]):string[] {
@@ -393,6 +392,6 @@ export class SearchableProjectListService {
     }
 
     // FIXME: Once we target ECMA Script 2025, we can and should use parents.values().filter(...)
-    return [...parents.values()].filter((s) => s !== UNDISCLOSED_ANCESTOR).map((s) => s.split('/').pop()!);
+    return [...parents.values()].filter((s) => s !== URN_UNDISCLOSED).map((s) => s.split('/').pop()!);
   }
 }

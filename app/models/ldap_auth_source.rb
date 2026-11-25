@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -71,7 +70,7 @@ class LdapAuthSource < ApplicationRecord
   def self.authenticate(login, password)
     where(onthefly_register: true).find_each do |source|
       begin
-        Rails.logger.debug { "Authenticating '#{login}' against '#{source.name}'" }
+        Rails.logger.debug { "Authenticating #{login.inspect} against '#{source.name}'" }
         user = source.authenticate(login, password)
       rescue StandardError => e
         Rails.logger.error "Error during authentication: #{e.message}"
@@ -84,10 +83,10 @@ class LdapAuthSource < ApplicationRecord
 
   ##
   # Find a user by login in any of the available sources.
-  # If it's an onthefly_register ldap connection, this might implictly create the user.
+  # If it's an onthefly_register ldap connection, this might implicitly create the user.
   def self.find_user(login)
     find_each do |source|
-      Rails.logger.debug { "Looking up '#{login}' in '#{source.name}'" }
+      Rails.logger.debug { "Looking up #{login.inspect} in '#{source.name}'" }
       user = source.find_user login
       return user if user
     rescue StandardError => e
@@ -100,7 +99,7 @@ class LdapAuthSource < ApplicationRecord
   def self.get_user_attributes(login)
     where(onthefly_register: true).find_each do |source|
       begin
-        Rails.logger.debug { "Looking up '#{login}' in '#{source.name}'" }
+        Rails.logger.debug { "Looking up #{login.inspect} in '#{source.name}'" }
         attrs = source.get_user_attributes login
       rescue StandardError => e
         Rails.logger.error "Error during authentication: #{e.message}"
@@ -130,7 +129,7 @@ class LdapAuthSource < ApplicationRecord
     attrs = get_user_attributes(login)
 
     if attrs && attrs[:dn] && authenticate_dn(attrs[:dn], password)
-      Rails.logger.debug { "Authentication successful for '#{login}'" }
+      Rails.logger.debug { "Authentication successful for #{login.inspect}" }
       synchronize_user(login, attrs)
     end
   rescue Net::LDAP::Error => e
@@ -143,7 +142,7 @@ class LdapAuthSource < ApplicationRecord
     attrs = get_user_attributes(login)
 
     if attrs && attrs[:dn]
-      Rails.logger.debug { "Lookup successful for '#{login}'" }
+      Rails.logger.debug { "Lookup successful for #{login.inspect}" }
       synchronize_user(login, attrs)
     end
   rescue Net::LDAP::Error => e
@@ -165,7 +164,7 @@ class LdapAuthSource < ApplicationRecord
                     filter:,
                     attributes: search_attributes) do |entry|
       attrs = get_user_attributes_from_ldap_entry(entry)
-      Rails.logger.debug { "DN found for #{login}: #{attrs[:dn]}" }
+      Rails.logger.debug { "DN found for #{login.inspect}: #{attrs[:dn]}" }
     end
 
     attrs

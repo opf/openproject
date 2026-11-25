@@ -3,16 +3,37 @@ fa:
   are_you_sure_delete_avatar: 'آیا مطمئن هستید که می‌خواهید آواتار خود را حذف کنید؟ '
   avatar_deleted: چهرک با کامیابی زدوده شد.
   avatars:
-    label_avatar: آواتار
+    background_color_hint: برای انتخاب خودکار رنگ، این قسمت را خالی بگذارید.
+    delete_image: حذف تصویر
+    edit_avatar: ویرایش آواتار
+    image_hint: یک فایل JPG، PNG یا GIF انتخاب کنید. تصویر شما پس از انتخاب «ذخیره» ثبت می‌شود.
+    image_required: یک تصویر انتخاب کنید یا گزینه دیگری برای آواتار برگزینید.
+    label_avatar_text: متن آواتار
+    label_background_color: رنگ پس‌زمینه
     label_gravatar: چهرکنماد (شناسایی چهرک جهانی)
     label_local_avatar: جهرک سفارشی
+    label_option: گزینه آواتار
+    manage_gravatar: مدیریت تصویر خود در Gravatar
+    message_avatar_updated: آواتار با موفقیت تغییر کرد.
+    preview: پیش‌نمایش
+    randomize_color: انتخاب رنگ تصادفی
     settings:
       enable_gravatars: چهرکنماد (شناسایی چهرک جهانی) کاربر را کارآ کنید
       enable_local_avatars: کاراندازی سفارشی سازی چهرکنماد (شناسایی چهرک جهانی)
       gravatar_default: تصویر گراواتار پیش‌فرض
-    text_avatar_gravatar_html: اگر در %{gravatar_url} یک Gravatar ثبت کرده باشید، OpenProject از آن استفاده می‌کند؛ در غیر این صورت، در صورت وجود از تصویر یا آیکون پیش‌فرض استفاده می‌شود.
-    text_avatar_local: همچنین می‌توانید با کلیک روی تصویر، یک آواتار سفارشی بارگذاری کنید که جایگزین Gravatar می‌شود. تصویر 128 در 128 پیکسل توصیه می‌شود.
-    text_avatar_local_only: می‌توانید با کلیک روی تصویر، آواتار سفارشی خود را بارگذاری کنید. ما تصویری به ابعاد ۱۲۸ در ۱۲۸ پیکسل را توصیه می‌کنیم.
+    text_avatar_text: حداکثر دو نویسه وارد کنید. برای استفاده از حروف اول نامتان، این قسمت را خالی بگذارید.
+    text_invalid_error: فقط از نویسه‌های قابل نمایش استفاده کنید.
+    text_length_error: حداکثر دو نویسه وارد کنید.
+    types:
+      gravatar:
+        description: تصویر ثبت‌شده برای نشانی ایمیل شما در Gravatar
+        label: Gravatar
+      image:
+        description: تصویر دلخواهی که می‌توانید در این سامانه بارگذاری کنید
+        label: تصویر
+      initials:
+        description: از حروف اول نام خود استفاده کنید یا آن‌ها را با حداکثر دو نویسه جایگزین کنید.
+        label: حروف اول نام
   empty_file_error: لطفاً یک عکس معتبر بارگذاری کنید (jpg، png، gif)
   error_image_size: عکس بیش از اندازه بزرگ است.
   error_image_upload: خطا در ذخیره عکس

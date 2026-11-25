@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,12 +33,13 @@ module Meetings
       include ApplicationHelper
       include OpTurbo::Streamable
 
-      def initialize(meeting:, sorted_agenda_item_ids:, current_item:, started_at:)
+      def initialize(meeting:, sorted_agenda_item_ids:, current_item:, current_slide:, started_at:)
         super()
 
         @meeting = meeting
         @project = meeting.project
         @current_item = current_item
+        @current_slide = current_item.slides.clamp(current_slide)
         @started_at = started_at.iso8601
         @agenda_item_ids = sorted_agenda_item_ids
         @current_index = sorted_agenda_item_ids.index(current_item.id)
@@ -57,16 +57,44 @@ module Meetings
         @total_items ||= @agenda_item_ids.size
       end
 
+      def total_slides
+        current_item.slides.count
+      end
+
       def has_previous?
-        @current_index > 0
+        has_previous_item? || previous_slide?
       end
 
       def has_next?
+        has_next_item? || next_slide?
+      end
+
+      def previous_slide?
+        @current_slide > 1
+      end
+
+      def next_slide?
+        @current_slide < total_slides
+      end
+
+      def has_previous_item?
+        @current_index > 0
+      end
+
+      def has_next_item?
         @current_index < total_items - 1
       end
 
+      def navigation_path(action_type)
+        project_meeting_presentation_path(@project, @meeting,
+                                          current_id: @current_item.id,
+                                          slide: @current_slide,
+                                          action_type:,
+                                          started_at: @started_at)
+      end
+
       def next_item
-        return nil unless has_next?
+        return nil if next_slide? || !has_next_item?
 
         if defined?(@next_item)
           @next_item
@@ -77,7 +105,7 @@ module Meetings
       end
 
       def previous_item
-        return nil unless has_previous?
+        return nil if previous_slide? || !has_previous_item?
 
         if defined?(@previous_item)
           @previous_item
@@ -85,6 +113,32 @@ module Meetings
           previous_id = @agenda_item_ids[@current_index - 1]
           @previous_item = @meeting.agenda_items.find_by(id: previous_id)
         end
+      end
+
+      def next_presenter
+        return if next_item.nil? || next_item.presenter == current_item.presenter
+
+        next_item.presenter
+      end
+
+      def previous_presenter
+        return if previous_item.nil? || previous_item.presenter == current_item.presenter
+
+        previous_item.presenter
+      end
+
+      def next_label_text
+        next_slide? ? slide_label(@current_slide + 1) : next_item&.display_title
+      end
+
+      def previous_label_text
+        previous_slide? ? slide_label(@current_slide - 1) : previous_item&.display_title
+      end
+
+      def section_prefix(item)
+        return if item.nil? || item.meeting_section == current_section
+
+        item.meeting_section.title.presence || t("meeting_section.untitled_title")
       end
 
       def progress_text
@@ -95,10 +149,26 @@ module Meetings
         end
       end
 
+      def slide_progress_text
+        return if total_slides <= 1
+
+        slide_text(@current_slide)
+      end
+
+      def slide_text(number)
+        t("meeting.presentation_mode.slide_progress", current: number, total: total_slides)
+      end
+
       def running_time
         render(OpPrimer::RelativeTimeComponent.new(datetime: helpers.in_user_zone(@started_at),
                                                    format: :elapsed,
                                                    prefix: nil))
+      end
+
+      private
+
+      def slide_label(number)
+        "#{current_item.display_title}: #{slide_text(number)}"
       end
     end
   end

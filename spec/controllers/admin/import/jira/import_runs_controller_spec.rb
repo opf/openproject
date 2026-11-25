@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,12 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
-#
+#++
 
 require "spec_helper"
 
@@ -304,6 +302,16 @@ RSpec.describe Admin::Import::Jira::ImportRunsController do
 
     context "when step is revert from import_error" do
       before { transition_to_state(jira_import, "import_error") }
+
+      it "transitions to reverting and triggers the job" do
+        post :continue, params: { jira_id: jira.id, id: jira_import.id, step: "revert" }, format: :turbo_stream
+        expect(jira_import.current_state).to eq("reverting")
+        expect(Import::JiraRevertImportJob).to have_received(:perform_later).with(jira_import.id)
+      end
+    end
+
+    context "when step is revert from finalizing_error" do
+      before { transition_to_state(jira_import, "finalizing_error") }
 
       it "transitions to reverting and triggers the job" do
         post :continue, params: { jira_id: jira.id, id: jira_import.id, step: "revert" }, format: :turbo_stream

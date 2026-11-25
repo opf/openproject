@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,6 +33,7 @@ module OpPrimer
 
     # taken from Primer::Beta::Spinner which sadly does not expose the paths for use in other components
     # https://github.com/opf/primer_view_components/blob/main/app/components/primer/beta/spinner.html.erb
+    # OG: html_safe for static Primer spinner path markup (no user input).
     PATHS = <<~SVG.html_safe
       <circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-opacity="0.25" stroke-width="2" vector-effect="non-scaling-stroke"></circle>
       <path d="M15 8a7.002 7.002 0 00-7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"></path>

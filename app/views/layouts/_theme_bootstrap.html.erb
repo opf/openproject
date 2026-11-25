@@ -1,0 +1,45 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<% if User.current.pref.sync_with_os_theme? %>
+  <%# Keeps the pre-bundle first paint identical to what the theme switcher stamps once it loads. %>
+  <%= nonced_javascript_tag do %>
+    (() => {
+      const body = document.body;
+      const data = body.dataset;
+      const light = matchMedia('(prefers-color-scheme: light)').matches;
+      const mode = light ? 'light' : 'dark';
+      const other = light ? 'dark' : 'light';
+      const forced = (light ? data.autoThemeSwitcherForceLightContrastValue : data.autoThemeSwitcherForceDarkContrastValue) === 'true';
+      const highContrast = matchMedia('(prefers-contrast: more)').matches || forced;
+
+      body.setAttribute('data-color-mode', mode);
+      body.setAttribute(`data-${mode}-theme`, highContrast ? `${mode}_high_contrast` : mode);
+      body.removeAttribute(`data-${other}-theme`);
+    })();
+  <% end %>
+<% end %>

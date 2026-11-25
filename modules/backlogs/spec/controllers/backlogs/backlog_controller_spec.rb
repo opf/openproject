@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -60,6 +59,23 @@ RSpec.describe Backlogs::BacklogController do
       expect(controller.controller_path).to eq("backlogs/backlog")
       expect(controller.action_name).to eq("show")
       expect(controller.current_menu_item).to eq(:backlog)
+    end
+
+    context "with legacy array style filter params" do
+      let(:params) do
+        { bucket_ids: [backlog_bucket.id, "inbox"], sprint_ids: [sprint.id], filters: "status_id = \"1\"" }
+      end
+
+      it "redirects to the JSON encoded filter format" do
+        subject
+
+        expect(response).to redirect_to(
+          project_backlogs_backlog_path(project.id,
+                                        filters: "status_id = \"1\"",
+                                        bucket_ids: [backlog_bucket.id.to_s, "inbox"].to_json,
+                                        sprint_ids: [sprint.id.to_s].to_json)
+        )
+      end
     end
 
     context "for turbo frame request with frame id backlogs_container" do
@@ -129,7 +145,7 @@ RSpec.describe Backlogs::BacklogController do
           shared_let(:other_sprint) { create(:sprint, project:) }
           shared_let(:other_sprint_work_package) { create(:work_package, project:, status:, sprint: other_sprint) }
 
-          let(:params) { { sprint_ids: [sprint.id] } }
+          let(:params) { { sprint_ids: [sprint.id.to_s].to_json } }
 
           it "only loads the selected sprint's work packages", :aggregate_failures do
             subject
@@ -143,7 +159,7 @@ RSpec.describe Backlogs::BacklogController do
           shared_let(:other_bucket) { create(:backlog_bucket, project:) }
           shared_let(:other_bucket_work_package) { create(:work_package, project:, status:, backlog_bucket: other_bucket) }
 
-          let(:params) { { bucket_ids: [backlog_bucket.id.to_s, "inbox"] } }
+          let(:params) { { bucket_ids: [backlog_bucket.id.to_s, "inbox"].to_json } }
 
           it "returns the union of the selected bucket's and the inbox's work packages", :aggregate_failures do
             subject

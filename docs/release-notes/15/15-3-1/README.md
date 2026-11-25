@@ -25,7 +25,7 @@ At the end, you will find a complete list of all changes and bug fixes.
 - Bugfix: In add relation dialog, selecting a WP that user doesn&#39;t have permission to edit raises an error \[[#60858](https://community.openproject.org/wp/60858)\]
 - Bugfix: Danger and Feedback Dialogs have broken ARIA describedby attribute value \[[#61347](https://community.openproject.org/wp/61347)\]
 - Bugfix: Big space below the comment box on mobile  \[[#61543](https://community.openproject.org/wp/61543)\]
-- Bugfix: Danger Dialog scroll behaviour still incorrect when used with forms \[[#61546](https://community.openproject.org/wp/61546)\]
+- Bugfix: Danger Dialog scroll behavior still incorrect when used with forms \[[#61546](https://community.openproject.org/wp/61546)\]
 - Bugfix: Meeting sets system user as invited \[[#61570](https://community.openproject.org/wp/61570)\]
 - Bugfix: Time entry cannot be saved when comment is &gt;255 characters long \[[#61602](https://community.openproject.org/wp/61602)\]
 - Bugfix: XSS via time entry comment \[[#61605](https://community.openproject.org/wp/61605)\]

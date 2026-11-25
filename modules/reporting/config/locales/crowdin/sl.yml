@@ -22,8 +22,17 @@
 ---
 sl:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
     models:
       cost_query:
+        one: Cost report
+        two: Cost reports
+        few: Cost reports
+        other: Cost reports
+      cost_report:
         one: Cost report
         two: Cost reports
         few: Cost reports
@@ -40,6 +49,7 @@ sl:
       end_time: End time
       start_time: Start time
       title: Your Cost Reports XLS export
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: Export PDF timesheet
       overview_per_user_day: 'Overview: Hours per user per day'
@@ -48,6 +58,13 @@ sl:
       time: Čas
       timesheet: Timesheet
       title: Your PDF timesheet export
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    one: "%{filter} requires a value."
+    two: "%{filter} requires %{count} values."
+    few: "%{filter} requires %{count} values."
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: Glede na vaše dovoljenje, ta stran lahko vsebuje tajne informacije.
   label_click_to_edit: Klikni za urejanje.
   label_closed: zaprto
@@ -101,7 +118,6 @@ sl:
   plugin_openproject_reporting:
     description: This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin.
     name: OpenProject Reporting
-  project_module_reporting_module: Poročilo o stroških
   reporting:
     group_by:
       selected_columns: Izbrani stolpci
@@ -109,5 +125,3 @@ sl:
   text_costs_are_rounded_note: Prikazane vrednosti so zaokrožene. Vsi izračuni temeljijo na nezaokroženih vrednostih.
   toggle_multiselect: omogoči/onemogoči večizbor
   units: Enote
-  validation_failure_date: ni veljaven datum
-  validation_failure_integer: ni veljavno število

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -50,7 +49,7 @@ RSpec.describe "version create", :js do
       click_on "Create"
 
       expect(page).to have_current_path(project_settings_versions_path(project))
-      expect(page).to have_content new_version_name
+      expect(page).to have_text new_version_name
     end
 
     it "and redirect back to where you started" do
@@ -62,7 +61,7 @@ RSpec.describe "version create", :js do
 
       expect(page).to have_text("Successful creation")
       expect(page).to have_current_path(project_roadmap_path(project))
-      expect(page).to have_content new_version_name
+      expect(page).to have_text new_version_name
     end
 
     context "with a custom field" do
@@ -75,7 +74,7 @@ RSpec.describe "version create", :js do
       it "I can create a version with a custom field value including validation" do
         visit project_settings_versions_path(project)
 
-        click_on "Version"
+        page.find_test_selector("versions-create-button").click
 
         expect(page).to have_text("New version")
 
@@ -93,7 +92,7 @@ RSpec.describe "version create", :js do
         click_on "Create"
 
         expect(page).to have_text("Successful creation")
-        expect(page).to have_content("Version 1.0")
+        expect(page).to have_text("Version 1.0")
 
         # Verify the custom field value was saved
         created_version = Version.find_by(name: "Version 1.0")

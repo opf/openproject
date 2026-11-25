@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,32 +33,36 @@ RSpec.describe WorkPackage::Exports::Formatters::XLS::Hours do
   let(:formatter_instance) { described_class.new(:estimated_hours) }
 
   describe ".apply?" do
-    it "returns true for estimated_hours and csv format" do
-      expect(described_class.apply?(:estimated_hours, :csv)).to be true
+    it "returns true for estimated_hours and xls format" do
+      expect(described_class.apply?(:estimated_hours, :xls)).to be true
     end
 
-    it "returns true for derived_estimated_hours and csv format" do
-      expect(described_class.apply?(:derived_estimated_hours, :csv)).to be true
+    it "returns true for derived_estimated_hours and xls format" do
+      expect(described_class.apply?(:derived_estimated_hours, :xls)).to be true
     end
 
-    it "returns true for remaining_hours and csv format" do
-      expect(described_class.apply?(:remaining_hours, :csv)).to be true
+    it "returns true for remaining_hours and xls format" do
+      expect(described_class.apply?(:remaining_hours, :xls)).to be true
     end
 
-    it "returns true for derived_remaining_hours and csv format" do
-      expect(described_class.apply?(:derived_remaining_hours, :csv)).to be true
+    it "returns true for derived_remaining_hours and xls format" do
+      expect(described_class.apply?(:derived_remaining_hours, :xls)).to be true
     end
 
-    it "returns true for spent_hours and csv format" do
-      expect(described_class.apply?(:spent_hours, :csv)).to be true
+    it "returns true for spent_hours and xls format" do
+      expect(described_class.apply?(:spent_hours, :xls)).to be true
     end
 
     it "returns false for estimated_hours and pdf format" do
       expect(described_class.apply?(:estimated_hours, :pdf)).to be false
     end
 
+    it "returns false for estimated_hours and csv format" do
+      expect(described_class.apply?(:estimated_hours, :csv)).to be false
+    end
+
     it "returns false for other attributes" do
-      expect(described_class.apply?(:other_attribute, :csv)).to be false
+      expect(described_class.apply?(:other_attribute, :xls)).to be false
     end
   end
 

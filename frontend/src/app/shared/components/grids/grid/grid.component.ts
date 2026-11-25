@@ -20,13 +20,12 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, HostListener, Input, OnDestroy, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, HostListener, Input, OnDestroy, OnInit, Type, inject } from '@angular/core';
 import { GridResource } from 'core-app/features/hal/resources/grid-resource';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GridWidgetsService } from 'core-app/shared/components/grids/widgets/widgets.service';
@@ -46,7 +45,7 @@ import { WidgetChangeset } from 'core-app/shared/components/grids/widgets/widget
 export interface WidgetRegistration {
   identifier:string;
   title:string;
-  component:new (...args:any[]) => AbstractWidgetComponent;
+  component:Type<AbstractWidgetComponent>;
   properties?:Record<string, unknown>;
 }
 
@@ -61,6 +60,7 @@ export const GRID_PROVIDERS = [
 
 @Component({
   templateUrl: './grid.component.html',
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'grid',
   standalone: false,
   // TODO: This component has been partially migrated to be zoneless-compatible.
@@ -79,7 +79,7 @@ export class GridComponent implements OnDestroy, OnInit {
   readonly browserDetector = inject(BrowserDetector);
   readonly cdRef = inject(ChangeDetectorRef);
 
-  public uiWidgets:ComponentRef<any>[] = [];
+  public uiWidgets:ComponentRef<unknown>[] = [];
 
   public GRID_AREA_HEIGHT = 'auto';
 
@@ -97,11 +97,22 @@ export class GridComponent implements OnDestroy, OnInit {
     this.uiWidgets.forEach((widget) => widget.destroy());
   }
 
+  // Cancellation happens on keyup; the keydown half would otherwise clear
+  // an embedded table's selection first.
+  @HostListener('body:keydown', ['$event'])
+  consumeEscapeWhileInteracting(event:KeyboardEvent) {
+    if (event.key === 'Escape' && (this.drag.currentlyDragging || this.resize.currentlyResizing)) {
+      event.preventDefault();
+    }
+  }
+
   @HostListener('window:keyup', ['$event'])
   handleKeyboardEvent(event:KeyboardEvent) {
     if (event.key !== 'Escape') {
+      return;
+    }
 
-    } else if (this.drag.currentlyDragging) {
+    if (this.drag.currentlyDragging) {
       this.drag.abort();
     } else if (this.resize.currentlyResizing) {
       this.resize.abort();

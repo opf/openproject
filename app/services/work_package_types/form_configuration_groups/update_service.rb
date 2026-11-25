@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,17 +32,19 @@ module WorkPackageTypes
     class UpdateService < ::BaseServices::BaseCallable
       include ::WorkPackageTypes::FormConfiguration::Concern
 
-      def initialize(user:, variant:, group_key:)
-        super(user:, variant:)
+      def initialize(user:, form_configuration:, group_key:)
+        super(user:, form_configuration:)
         @group_key = group_key
       end
 
-      def perform
+      private
+
+      def perform_locked
         group = find_group(@group_key)
         return failure_with_message(I18n.t("types.edit.form_configuration.not_found")) unless group
 
         groups = active_groups
-        update_result = perform_update(group, groups)
+        update_result = perform_update(group)
         return update_result if update_result.is_a?(ServiceResult) && update_result.failure?
 
         persist_groups(groups).tap do |call|
@@ -51,22 +52,10 @@ module WorkPackageTypes
         end
       end
 
-      private
-
-      def perform_update(group, groups)
-        return move_group(groups, move_to: params[:move_to], position: params[:position]) if move_requested?
+      def perform_update(group)
         return update_query(group, params[:query_props]) if params[:query_props].present?
 
         rename_group!(group, params[:name])
-      end
-
-      def move_group(groups, move_to:, position:)
-        current_index = groups.index { |group| group.key.to_s == @group_key.to_s }
-        return if current_index.nil?
-
-        new_index = group_move_index(groups:, current_index:, move_to:, position:)
-
-        groups.insert(new_index, groups.delete_at(current_index)) if new_index != current_index
       end
 
       def rename_group!(group, name)
@@ -90,10 +79,6 @@ module WorkPackageTypes
         I18n.t(TypeVariant.default_groups[group.key], default: group.key.to_s)
       end
 
-      def move_requested?
-        params[:move_to].present? || params[:position].present?
-      end
-
       def update_query(group, query_props)
         query_call = build_query(query_props, name: group.query&.name || "Embedded table: #{@group_key}")
         return query_call if query_call.failure?
@@ -102,26 +87,9 @@ module WorkPackageTypes
         nil
       end
 
-      def group_move_index(groups:, current_index:, move_to:, position:)
-        return (position.to_i - 1).clamp(0, groups.length - 1) if position.present?
-
-        case move_to&.to_sym
-        when :highest
-          0
-        when :higher
-          [current_index - 1, 0].max
-        when :lower
-          [current_index + 1, groups.length - 1].min
-        when :lowest
-          groups.length - 1
-        else
-          current_index
-        end
-      end
-
       def blank_name_error
         failure_with_message(
-          I18n.t("activerecord.errors.models.type_variant.attributes.attribute_groups.group_without_name")
+          I18n.t("activerecord.errors.models.form_configuration.attributes.attribute_groups.group_without_name")
         )
       end
     end

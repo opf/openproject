@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,27 +38,38 @@ module Components
       include Toasts::Expectations
 
       def open_for(work_package, check_if_open: true, card_view: nil)
-        # Close
-        find("body").send_keys :escape
+        close_if_open
         sleep 0.5 unless using_cuprite?
 
-        retry_block do
-          if card_view
-            page.find(".op-wp-single-card-#{work_package.id}").right_click
-          else
-            page.find(".wp-row-#{work_package.id}-table").right_click
-          end
-
-          if check_if_open && !page.find(:menu, work_package_context_menu_label)
-            raise "Menu not open"
-          end
+        if card_view
+          page.find(".op-wp-single-card-#{work_package.id}", wait: 20).right_click
+        else
+          page.find(".wp-row-#{work_package.id}-table", wait: 20).right_click
         end
-      rescue StandardError
+
         expect_open if check_if_open
       end
 
       def expect_open
         expect(page).to have_selector(:menu, work_package_context_menu_label)
+      end
+
+      # Escape would also clear the selection when no menu owns it.
+      def close_if_open
+        return unless page.has_selector?(:menu, work_package_context_menu_label, wait: 0)
+
+        press_escape
+        expect_closed
+      end
+
+      # Cuprite's send_keys clicks the receiving element first, and a click at
+      # the body center lands on whichever menu item happens to lie there.
+      def press_escape
+        if using_cuprite?
+          page.driver.browser.keyboard.type(:escape)
+        else
+          page.driver.browser.action.send_keys(:escape).perform
+        end
       end
 
       def expect_closed
@@ -69,6 +79,26 @@ module Components
       def choose(target)
         within_menu do
           find(:menuitem, text: target, exact_text: true).click
+        end
+      end
+
+      def open_submenu(label)
+        within_menu do
+          find(:menuitem, label, exact: true, aria: { haspopup: "menu" }).click
+        end
+        expect(page).to have_menu(label)
+      end
+
+      def choose_in_submenu(submenu, target)
+        open_submenu(submenu)
+        within(:menu, submenu) do
+          find(:menuitem, target, exact: true).click
+        end
+      end
+
+      def expect_no_submenu(label)
+        within_menu do
+          expect(page).to have_no_menuitem(label, exact: true, aria: { haspopup: "menu" })
         end
       end
 

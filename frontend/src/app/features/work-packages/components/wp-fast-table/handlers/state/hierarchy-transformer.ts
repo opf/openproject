@@ -20,16 +20,16 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Injector } from '@angular/core';
 import { scrollTableRowIntoView } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers';
 import {
-  distinctUntilChanged, filter, map, takeUntil,
+  distinctUntilChanged, filter, map,
 } from 'rxjs/operators';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
@@ -43,7 +43,7 @@ import { indicatorCollapsedClass } from 'core-app/features/work-packages/compone
 import { tableRowClassName } from 'core-app/features/work-packages/components/wp-fast-table/builders/rows/single-row-builder';
 import { WorkPackageViewHierarchies } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-hierarchies';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
-import { getNodeIndex } from 'core-app/shared/helpers/dom-helpers';
+import type { OccurrenceKey } from 'core-app/features/work-packages/components/wp-fast-table/rendered-occurrence-ledger';
 
 export class HierarchyTransformer {
   @LazyInject() public wpTableHierarchies:WorkPackageViewHierarchiesService;
@@ -51,11 +51,11 @@ export class HierarchyTransformer {
   @LazyInject() public querySpace:IsolatedQuerySpace;
 
   constructor(public readonly injector:Injector,
-    table:WorkPackageTable) {
+    private readonly table:WorkPackageTable) {
     this.wpTableHierarchies
       .updates$()
       .pipe(
-        takeUntil(this.querySpace.stopAllSubscriptions),
+        takeUntilDestroyed(table.destroyRef),
         map((state) => state.isVisible),
         distinctUntilChanged(),
       )
@@ -71,7 +71,7 @@ export class HierarchyTransformer {
     this.wpTableHierarchies
       .updates$()
       .pipe(
-        takeUntil(this.querySpace.stopAllSubscriptions),
+        takeUntilDestroyed(table.destroyRef),
         filter(() => this.querySpace.tableRendered.hasValue()),
       )
       .subscribe((state:WorkPackageViewHierarchies) => {
@@ -87,10 +87,10 @@ export class HierarchyTransformer {
    * Update all currently visible rows to match the selection state.
    */
   private renderHierarchyState(state:WorkPackageViewHierarchies) {
-    const rendered = this.querySpace.tableRendered.value!;
+    const root = this.table.tableAndTimelineContainer;
 
     // Show all hierarchies
-    document.querySelectorAll('[class^="__hierarchy-group-"]').forEach((el) => {
+    root.querySelectorAll('[class^="__hierarchy-group-"]').forEach((el) => {
       Array.from(el.classList)
         .filter((className) => /__collapsed-group-\d+/g.test(className))
         .forEach((className) => el.classList.remove(className));
@@ -98,15 +98,15 @@ export class HierarchyTransformer {
 
     // Mark which rows were hidden by some other hierarchy group
     // (e.g., by a collapsed parent)
-    const collapsed:Record<number, boolean> = {};
+    const hidden = new Map<OccurrenceKey, boolean>();
 
     // Hide all collapsed hierarchies
     Object.entries(state.collapsed).forEach(([wpId, isCollapsed]) => {
       // Toggle the root style
-      document.querySelector(`.${hierarchyRootClass(wpId)} .wp-table--hierarchy-indicator`)?.classList.toggle(indicatorCollapsedClass, isCollapsed);
+      root.querySelector(`.${hierarchyRootClass(wpId)} .wp-table--hierarchy-indicator`)?.classList.toggle(indicatorCollapsedClass, isCollapsed);
 
       // Get parent row and mark/unmark it as collapsed
-      const hierarchyRoot = document.querySelector(`.wp-timeline-cell.__hierarchy-root-${wpId}`);
+      const hierarchyRoot = root.querySelector(`.wp-timeline-cell.__hierarchy-root-${wpId}`);
 
       if (hierarchyRoot) {
         if (isCollapsed) {
@@ -117,32 +117,27 @@ export class HierarchyTransformer {
       }
 
       // Get all affected children rows
-      const affected = Array.from(document.querySelectorAll(`.${hierarchyGroupClass(wpId)}`));
+      const affected = Array.from(root.querySelectorAll<HTMLElement>(`.${hierarchyGroupClass(wpId)}`));
 
       // Hide/Show the descendants.
       affected.forEach((el) => el.classList.toggle(collapsedGroupClass(wpId), isCollapsed));
 
-      // Update the hidden section of the rendered state
       affected
         .filter((el) => el.matches(`.${tableRowClassName}`))
         .forEach((el) => {
-        // Get the index of this row
-        const index = getNodeIndex(el);
-
-        // Update the hidden state
-        if (!collapsed[index]) {
-          rendered[index].hidden = isCollapsed;
-          collapsed[index] = isCollapsed;
-        }
-      });
+          const key = el.dataset.occurrenceKey;
+          if (key && !hidden.get(key)) {
+            hidden.set(key, isCollapsed);
+          }
+        });
     });
 
     // Keep focused on the last element, if any.
     // Based on https://stackoverflow.com/a/3782959
     if (state.last) {
-      scrollTableRowIntoView(state.last);
+      scrollTableRowIntoView(state.last, root);
     }
 
-    this.querySpace.tableRendered.putValue(rendered, 'Updated hidden state of rows after hierarchy change.');
+    this.table.setHidden(hidden);
   }
 }

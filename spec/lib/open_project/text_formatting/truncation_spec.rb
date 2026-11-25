@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "spec_helper"
 
 RSpec.describe OpenProject::TextFormatting::Truncation do
@@ -40,6 +40,17 @@ RSpec.describe OpenProject::TextFormatting::Truncation do
         expect(subject.truncate_single_line("")).to be_html_safe
         expect(subject.truncate_single_line("ABC" * 99)).to be_html_safe
       end
+    end
+
+    it "collapses newlines to spaces" do
+      expect(subject.truncate_single_line("foo\n\nbar", length: 100)).to eq("foo bar")
+    end
+
+    it "does not double-escape HTML entities" do
+      result = subject.truncate_single_line("foo & bar\nbaz", length: 100)
+
+      expect(result).to be_html_safe
+      expect(result).to eq("foo &amp; bar baz")
     end
   end
 end

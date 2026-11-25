@@ -20,27 +20,34 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
   template: `
-    <button class="button"
-            id="wp-fold-toggle-button"
-            wpGroupToggleDropdown>
-      <op-icon icon-classes="button--icon icon-outline" />
-      <span class="button--text"></span>
-      <op-icon icon-classes="button--icon icon-small icon-pulldown" />
-    </button>
+    <op-action-menu wpGroupToggleDropdown [label]="label">
+      <button class="button"
+              id="wp-fold-toggle-button"
+              type="button"
+              opActionMenuTrigger
+              opTooltip
+              [label]="label">
+        <op-icon icon-classes="button--icon icon-outline" />
+        <span class="button--text"></span>
+        <svg triangle-down-icon size="small"></svg>
+      </button>
+    </op-action-menu>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-fold-toggle-view-button',
   standalone: false,
 })
 export class WorkPackageFoldToggleButtonComponent {
+  readonly label = inject(I18nService).t('js.work_packages.label_collapse_expand_groups');
 }

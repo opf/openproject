@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -49,8 +48,13 @@ module Roles
         controller: "filter--filters-form",
         "filter--filters-form-output-format-value": "json",
         "filter--filters-form-turbo-frame-request-value": Roles::IndexComponent::FRAME_ID,
-        "filter--filters-form-clear-button-id-value": clear_button_id
+        "filter--filters-form-clear-button-id-value": clear_button_id,
+        "filter--filters-form-current-filters-value": serialized_filters
       }
+    end
+
+    def serialized_filters
+      OpPrimer::QuickFilter.serialize(query.filters).to_json
     end
 
     # turbo_permanent carries the live input across the frame render this component is part

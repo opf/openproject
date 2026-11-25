@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -128,7 +127,7 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, O
 
   private applyInputAttrs():void {
     const el = this.input?.nativeElement
-      ?? this.elementRef.nativeElement.querySelector<HTMLInputElement>(`input[id="${this.id}"]`);
+      ?? this.elementRef.nativeElement.querySelector<HTMLInputElement>(`input[id="${CSS.escape(this.id)}"]`);
     if (el) {
       Object.entries(this._inputAttrs).forEach(([key, val]) => el.setAttribute(key, val));
     }
@@ -236,7 +235,7 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, O
 
   private appendToBodyOrDialog():HTMLElement|undefined {
     if (this.inDialog) {
-      return document.querySelector<HTMLElement>(`#${this.inDialog}`)!;
+      return document.getElementById(this.inDialog)!;
     }
 
     return undefined;

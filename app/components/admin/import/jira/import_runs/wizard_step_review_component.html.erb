@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -79,6 +78,10 @@ See COPYRIGHT and LICENSE files for more details.
           box.with_row(mt: 3) do
             render(Admin::Import::Jira::ImportRuns::ErrorBannerComponent.new(model, "finalize"))
           end
+          box.with_row(mt: 3, display: :flex, align_items: :center) do
+            concat(revert_button)
+            concat(close_button)
+          end
         end
       else
         box.with_row do
@@ -126,30 +129,8 @@ See COPYRIGHT and LICENSE files for more details.
                 )
               ) { I18n.t(:"admin.jira.run.wizard.sections.import_result.button_done") }
             )
-            concat(
-              render(
-                Primer::Beta::Button.new(
-                  scheme: :default,
-                  tag: :a,
-                  size: :medium,
-                  color: :danger,
-                  mr: 2,
-                  href: revert_modal_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id),
-                  data: { controller: "async-dialog" }
-                )
-              ) { I18n.t(:"admin.jira.run.wizard.sections.import_result.button_revert") }
-            )
-            concat(
-              render(
-                Primer::Beta::Button.new(
-                  tag: :a,
-                  size: :medium,
-                  href: admin_import_jira_path(model.jira)
-                )
-              ) do
-                I18n.t(:button_close)
-              end
-            )
+            concat(revert_button)
+            concat(close_button)
           end
         end
       end

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -58,23 +57,22 @@ export class BcfApiService {
       .split('/');
 
     // Try to find a target collection or resource
-    let current:any = this;
+    let current = this as object;
 
-    for (let i = 0; i < parts.length; i++) {
-      const pathOrId:string = parts[i];
+    for (const pathOrId of parts) {
       if (pathOrId in current) {
         // Current has a member named like this URL part
         // descend into it
-        current = current[pathOrId];
+        current = (current as Record<string, object>)[pathOrId];
       } else if (current instanceof BcfResourceCollectionPath) {
         // Otherwise, assume we're looking for an ID
-        current = current.id(pathOrId);
+        current = current.id(pathOrId) as object;
       } else {
         // Otherwise, return the current
         break;
       }
     }
 
-    return current === this ? undefined : current;
+    return current === this ? undefined : current as T;
   }
 }

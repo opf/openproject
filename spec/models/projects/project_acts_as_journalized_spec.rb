@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -354,7 +353,9 @@ RSpec.describe Project, "acts_as_journalized" do
           expect(project.last_journal.details).to eq(
             {
               "project_phase_#{phase1.id}_active" => [nil, true],
-              "project_phase_#{phase2.id}_active" => [nil, false]
+              "project_phase_#{phase1.id}_status" => [nil, "open"],
+              "project_phase_#{phase2.id}_active" => [nil, false],
+              "project_phase_#{phase2.id}_status" => [nil, "open"]
             }
           )
         end
@@ -474,6 +475,36 @@ RSpec.describe Project, "acts_as_journalized" do
       end
     end
 
+    describe "changing status" do
+      let!(:phase1) { create(:project_phase, project:, status: "open") }
+      let!(:phase2) { create(:project_phase, project:, status: "open") }
+      let!(:phase3) { create(:project_phase, project:, status: "open") }
+
+      before do
+        project.save!
+      end
+
+      it "contains the change of the phases that changed" do
+        phase1.update!(status: "completed")
+        phase2.update!(status: "in_progress")
+
+        expect { project.save! }.to change { project.journals.count }.by(1)
+
+        expect(project.last_journal.details).to eq(
+          {
+            "project_phase_#{phase1.id}_status" => %w[open completed],
+            "project_phase_#{phase2.id}_status" => %w[open in_progress]
+          }
+        )
+      end
+
+      it "does not create a journal when the status did not change" do
+        phase1.update!(status: "open")
+
+        expect { project.save! }.not_to change { project.journals.count }
+      end
+    end
+
     describe "combined" do
       let(:phase1) do
         build(:project_phase, project:, active: true, start_date: Date.new(2025, 1, 28), finish_date: Date.new(2025, 1, 29))
@@ -489,8 +520,10 @@ RSpec.describe Project, "acts_as_journalized" do
           {
             "project_phase_#{phase1.id}_active" => [nil, true],
             "project_phase_#{phase1.id}_date_range" => [nil, Date.new(2025, 1, 28)..Date.new(2025, 1, 29)],
+            "project_phase_#{phase1.id}_status" => [nil, "open"],
             "project_phase_#{phase2.id}_active" => [nil, false],
-            "project_phase_#{phase2.id}_date_range" => [nil, Date.new(2025, 1, 30)..Date.new(2025, 1, 31)]
+            "project_phase_#{phase2.id}_date_range" => [nil, Date.new(2025, 1, 30)..Date.new(2025, 1, 31)],
+            "project_phase_#{phase2.id}_status" => [nil, "open"]
           }
         )
       end

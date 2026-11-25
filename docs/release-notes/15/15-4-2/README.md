@@ -22,7 +22,7 @@ At the end, you will find a complete list of all changes and bug fixes.
 <!-- Warning: Anything within the below lines will be automatically removed by the release script -->
 <!-- BEGIN AUTOMATED SECTION -->
 
-- Bugfix: Inconsistent behaviour for switching to automatic mode in WP create form \[[#61960](https://community.openproject.org/wp/61960)\]
+- Bugfix: Inconsistent behavior for switching to automatic mode in WP create form \[[#61960](https://community.openproject.org/wp/61960)\]
 - Bugfix: WP can&#39;t be transformed to a Milestone if it is automatically scheduled \[[#62190](https://community.openproject.org/wp/62190)\]
 - Bugfix: Many WP fields are visually misaligned when populated with data \[[#62249](https://community.openproject.org/wp/62249)\]
 - Bugfix: PDF Export Report: no attributes are exported if the default columns of a query is used \[[#62316](https://community.openproject.org/wp/62316)\]

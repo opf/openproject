@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -631,25 +630,38 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
     end
   end
 
-  describe "#validate_formula" do
+  describe "#multi_value_lists_outside_aggregate_functions" do
+    let(:single) { create(:weighted_item_list_project_custom_field, multi_value: false) }
+    let(:multi) { create(:weighted_item_list_project_custom_field, multi_value: true) }
+
+    subject(:misused_lists_for) do
+      ->(formula) {
+        build_stubbed(:calculated_value_project_custom_field, formula:).multi_value_lists_outside_aggregate_functions
+      }
+    end
+
+    it { expect(misused_lists_for.("SUM(#{multi})")).to be_empty }
+    it { expect(misused_lists_for.("MUL(#{multi}, 2, #{single})")).to be_empty }
+    it { expect(misused_lists_for.("#{multi} * 2")).to contain_exactly(multi) }
+    it { expect(misused_lists_for.(multi.to_s)).to contain_exactly(multi) }
+    it { expect(misused_lists_for.("ROUND(#{multi})")).to contain_exactly(multi) }
+  end
+
+  describe "validations" do
     shared_examples_for "valid formula" do
       it "is valid", :aggregate_failures do
-        subject.formula = formula
-        subject.validate_formula
-
         expect(subject).to be_valid
       end
     end
 
     shared_examples_for "invalid formula" do |error_symbol_or_message|
       it "is invalid", :aggregate_failures do
-        subject.formula = formula
-        subject.validate_formula
-
         expect(subject).not_to be_valid
         expect(subject.errors).to be_of_kind(:formula, error_symbol_or_message)
       end
     end
+
+    subject { build_stubbed(:calculated_value_project_custom_field, formula:) }
 
     let(:formula) { "" }
 
@@ -712,6 +724,8 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
       "MIN(1, 2, 3, 4)",
       "MAX(1, 2, 3, 4)",
       "SUM(1, 2, 3, 4)",
+      "MUL(1, 2, 3, 4)",
+      "COUNT(1, 2, 3, 4)",
       "AVG(1, 2, 3, 4)",
       "ROUND(1.5)",
       "ROUNDUP(1.5)",
@@ -819,7 +833,7 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
       current_user { user }
 
       it_behaves_like "invalid formula",
-                      "The attribute int, float cannot be used because it leads to a circular reference; " \
+                      "The attribute float, int cannot be used because it leads to a circular reference; " \
                       "one attribute depends on the other."
     end
 
@@ -841,6 +855,54 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
       end
 
       it_behaves_like "valid formula"
+    end
+
+    context "when the formula references weighted item lists" do
+      let(:list) { create(:weighted_item_list_project_custom_field, is_for_all: true) }
+      let(:multi_value_list) do
+        create(:weighted_item_list_project_custom_field, name: "MULTI_LIST", multi_value: true, is_for_all: true)
+      end
+
+      current_user { create(:admin) }
+
+      context "with a multi-select weighted item list used within an aggregate function" do
+        let(:formula) { "SUM(#{multi_value_list})" }
+
+        it_behaves_like "valid formula"
+      end
+
+      context "with a weighted item list used within an aggregate function" do
+        let(:formula) { "SUM(#{list}, 2)" }
+
+        it_behaves_like "valid formula"
+      end
+
+      context "with a multi-select weighted item list used outside an aggregate function" do
+        let(:formula) { "#{multi_value_list} + 2" }
+
+        it_behaves_like "invalid formula", :multi_value_list_not_aggregated,
+                        "Multi-select attribute (MULTI_LIST) can only be used within aggregate functions."
+      end
+
+      context "with a multi-select weighted item list used in an non-aggregate function" do
+        let(:formula) { "ROUND(#{multi_value_list}) + 2" }
+
+        it_behaves_like "invalid formula", :multi_value_list_not_aggregated,
+                        "Multi-select attribute (MULTI_LIST) can only be used within aggregate functions."
+      end
+
+      context "with a multi-select weighted item list alone" do
+        let(:formula) { multi_value_list.to_s }
+
+        it_behaves_like "invalid formula", :multi_value_list_not_aggregated,
+                        "Multi-select attribute (MULTI_LIST) can only be used within aggregate functions."
+      end
+
+      context "with a weighted item list used outside an aggregate function" do
+        let(:formula) { "#{list} + 2" }
+
+        it_behaves_like "valid formula"
+      end
     end
   end
 end

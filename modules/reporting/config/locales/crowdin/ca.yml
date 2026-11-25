@@ -22,8 +22,15 @@
 ---
 ca:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
     models:
       cost_query:
+        one: Cost report
+        other: Cost reports
+      cost_report:
         one: Cost report
         other: Cost reports
   button_save_report_as: Desa l'informe com...
@@ -38,6 +45,7 @@ ca:
       end_time: End time
       start_time: Hora d'inici
       title: La teva exportació de l'informe de costos XLS
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: Export PDF timesheet
       overview_per_user_day: 'Overview: Hours per user per day'
@@ -46,6 +54,11 @@ ca:
       time: Hora
       timesheet: Timesheet
       title: Your PDF timesheet export
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    one: "%{filter} requires a value."
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: Depenent dels teus permisos aquesta pàgina podria contenir informació restringida.
   label_click_to_edit: Feu clic per editar.
   label_closed: tancat
@@ -99,7 +112,6 @@ ca:
   plugin_openproject_reporting:
     description: This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin.
     name: OpenProject Reporting
-  project_module_reporting_module: Informes de costs
   reporting:
     group_by:
       selected_columns: Columnes seleccionades
@@ -107,5 +119,3 @@ ca:
   text_costs_are_rounded_note: Els valors mostrats estan arrodonits. Tots els càlculs estan basats en els valors no arrodonits.
   toggle_multiselect: activar/desactivar selecció múltiple
   units: Unitats
-  validation_failure_date: no és una data vàlida
-  validation_failure_integer: no és un enter vàlid

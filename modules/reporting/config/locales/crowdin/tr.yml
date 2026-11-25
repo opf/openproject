@@ -22,8 +22,15 @@
 ---
 tr:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
     models:
       cost_query:
+        one: Cost report
+        other: Cost reports
+      cost_report:
         one: Cost report
         other: Cost reports
   button_save_report_as: Raporu farklı kaydet...
@@ -38,6 +45,7 @@ tr:
       end_time: Bitiş zamanı
       start_time: Başlangıç tarihi
       title: Maliyet Raporlarınızın XLS çıktısı
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: PDF zaman çizelgesini dışa aktar
       overview_per_user_day: 'Genel bakış: Kullanıcı başına günlük saat'
@@ -46,6 +54,11 @@ tr:
       time: Zaman
       timesheet: Zaman Çizelgesi
       title: PDF zaman çizelgenizin dışa aktarımı
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    one: "%{filter} requires a value."
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: İzinlerinize bağlı olarak bu sayfa kısıtlı bilgileri içerebilir.
   label_click_to_edit: Düzenlemek için tıkla.
   label_closed: kapalı
@@ -101,7 +114,6 @@ tr:
   plugin_openproject_reporting:
     description: Bu eklenti, OpenProject Zaman ve maliyetler eklentisi tarafından oluşturulan filtreleme ve gruplama ile özel maliyet raporları oluşturmaya izin verir.
     name: OpenProject Raporlama
-  project_module_reporting_module: Maliyet raporları
   reporting:
     group_by:
       selected_columns: Seçilen sütunlar
@@ -109,5 +121,3 @@ tr:
   text_costs_are_rounded_note: Gösterilen değerler yuvarlanmıştır. Bütün hesaplamalar yuvarlanmamış değerlere göre yapılır.
   toggle_multiselect: çoklu seçimi etkinleştir/devre dışı bırak
   units: Birimler
-  validation_failure_date: geçerli bir tarih değil
-  validation_failure_integer: geçerli bir tamsayı değil

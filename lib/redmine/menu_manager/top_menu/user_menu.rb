@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -85,7 +84,7 @@ module Redmine::MenuManager::TopMenu::UserMenu
 
     if User.current.logged?
       if avatar.present?
-        dialog.with_show_button(px: 0, **options) do |button|
+        dialog.with_show_button(px: 0, aria: { label: I18n.t("label_user_menu") }, **options) do |button|
           button.with_tooltip(text: I18n.t("label_user_menu"))
           avatar
         end
@@ -133,8 +132,31 @@ module Redmine::MenuManager::TopMenu::UserMenu
         ) do |list|
           list.with_divider
 
+          add_whats_new_user_menu_item list
           add_lateral_user_menu_items list, link_items
         end
+      end
+    end
+  end
+
+  def add_whats_new_user_menu_item(list)
+    release = WhatsNew::Release.current
+    return unless release.visible_to?(User.current)
+
+    list.with_item(
+      href: dialog_header_whats_new_path,
+      label: I18n.t("header.whats_new.title", version: release.version),
+      classes: "hidden-for-desktop",
+      test_selector: "op-menu--whats-new",
+      content_arguments: { data: { controller: "async-dialog" } }
+    ) do |menu_item|
+      menu_item.with_leading_visual_icon(icon: :gift)
+      unless release.seen?(User.current)
+        menu_item.with_trailing_visual_icon(
+          icon: :"dot-fill",
+          classes: "op-whats-new-menu--item-badge",
+          data: { whats_new_badge: true, test_selector: "op-menu--whats-new-badge" }
+        )
       end
     end
   end

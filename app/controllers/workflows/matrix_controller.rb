@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,6 +32,7 @@
 class Workflows::MatrixController < ApplicationController
   include WorkPackageTypes::AddressesVariant
   include ::WorkPackageTypes::ConfiguredInScope
+  include ::WorkPackageTypes::VariantRoutes
   include OpTurbo::ComponentStream
 
   layout false
@@ -41,8 +41,8 @@ class Workflows::MatrixController < ApplicationController
 
   def show
     unless turbo_frame_request?
-      redirect_to edit_type_workflow_path(**variant.path_args,
-                                          role_ids: params[:role_ids], tab: matrix_context.tab)
+      redirect_to edit_variant_workflow_path(variant_scope_project, variant,
+                                             role_ids: params[:role_ids], tab: matrix_context.tab)
     end
   end
 
@@ -71,7 +71,11 @@ class Workflows::MatrixController < ApplicationController
 
   private
 
+  def standalone? = variant_scope_project.nil? && params[:workflow_id].present?
+
   def variant
+    return if standalone?
+
     @variant ||= addressed_variant
   end
 
@@ -79,13 +83,28 @@ class Workflows::MatrixController < ApplicationController
     @matrix_context ||= build_matrix_context
   end
 
+  def workflow
+    @workflow ||= standalone? ? Workflow.find(params.expect(:workflow_id)) : variant.workflow
+  end
+
+  def matrix_page_path(**)
+    if standalone?
+      edit_workflow_path(workflow, **)
+    else
+      edit_variant_workflow_path(variant_scope_project, variant, **)
+    end
+  end
+
   def build_matrix_context
     Workflows::MatrixContext.new(
+      workflow:,
       variant:,
+      scope_project: variant_scope_project,
       tab: params[:tab],
       role_ids: params[:role_ids],
       status_ids: params[:status_ids],
-      displayed_status_ids: params[:displayed_status_ids]
+      displayed_status_ids: params[:displayed_status_ids],
+      wizard: params[:wizard].present?
     )
   end
 

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -51,4 +50,13 @@ module Queries::Filters
   class InvalidError < StandardError; end
 
   class MissingError < StandardError; end
+
+  ##
+  # Raised by filters that have too many candidates to enumerate. Those advertise their
+  # candidates through an autocompleter.
+  class TooManyCandidatesError < StandardError
+    def initialize(message = "There would be too many candidates")
+      super
+    end
+  end
 end

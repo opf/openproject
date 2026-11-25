@@ -40,7 +40,7 @@ ar:
         view_all_members: عرض جميع الأعضاء
         x_more:
           zero: and %{count} more members.
-          one: and one more member.
+          one: and %{count} more member.
           two: and %{count} more members.
           few: and %{count} more members.
           many: and %{count} more members.

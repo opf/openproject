@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -156,7 +155,7 @@ RSpec.describe "User timeline feeds", type: :rails_request, with_ee: %i[resource
       expect(event["resourceId"]).to eq(assignee.id)
       expect(event).to include("start" => "2026-06-01", "end" => "2026-06-06")
       expect(event.dig("extendedProps", "html")).to include("Develop route optimization")
-      # Carries its work package's status colour on the bar's top edge.
+      # Carries its work package's status color on the bar's top edge.
       expect(event.dig("extendedProps", "html")).to include("op-rm-timeline-bar_status")
     end
 
@@ -177,21 +176,33 @@ RSpec.describe "User timeline feeds", type: :rails_request, with_ee: %i[resource
       expect(block_events).to all(satisfy { |e| e.dig("extendedProps", "editUrl").nil? })
     end
 
-    it "paints a red background over the days a user is over-allocated" do
-      # A second full week on the same Mon-Fri days exceeds the assignee's schedule.
+    it "paints a red background over the days a user works beyond their working hours" do
       create(:resource_allocation, entity: wp, principal: assignee, requested_by: user,
                                    start_date: Date.new(2026, 6, 1), end_date: Date.new(2026, 6, 5),
                                    allocated_time: 5 * 8 * 60)
       get_events
 
-      overbooked_bg = block_events.select do |e|
-        e["display"] == "background" && (e["classNames"] || []).include?("op-rm-timeline-overbooked")
-      end
-      expect(overbooked_bg).not_to be_empty
-      expect(overbooked_bg.pluck("resourceId")).to all(eq(assignee.id))
+      overbooked = block_events.select { |e| e["classNames"]&.include?("op-rm-timeline-overbooked") }
+      expect(overbooked).to contain_exactly(
+        include("resourceId" => assignee.id, "display" => "background", "start" => "2026-06-01", "end" => "2026-06-06")
+      )
     end
 
-    it "flags the overbooked allocation bar and explains it in a tooltip" do
+    it "leaves a weekend between overbooked days unpainted" do
+      create(:resource_allocation, entity: wp, principal: assignee, requested_by: user,
+                                   start_date: Date.new(2026, 6, 1), end_date: Date.new(2026, 6, 12),
+                                   allocated_time: 50 * 60)
+      get_events
+
+      overbooked = block_events.select { |e| e["classNames"]&.include?("op-rm-timeline-overbooked") }
+      expect(overbooked).to contain_exactly(
+        include("start" => "2026-06-01", "end" => "2026-06-06"),
+        include("start" => "2026-06-08", "end" => "2026-06-13")
+      )
+    end
+
+    it "flags every allocation with time on an overbooked day and names those days",
+       with_settings: { date_format: "%Y-%m-%d" } do
       create(:resource_allocation, entity: wp, principal: assignee, requested_by: user,
                                    start_date: Date.new(2026, 6, 1), end_date: Date.new(2026, 6, 5),
                                    allocated_time: 5 * 8 * 60)
@@ -199,10 +210,32 @@ RSpec.describe "User timeline feeds", type: :rails_request, with_ee: %i[resource
 
       bar = block_events.find { |e| e["id"] == allocation.id }
       expect(bar.dig("extendedProps", "overbooked")).to be(true)
-      html = bar.dig("extendedProps", "html")
-      # The tooltip names the period and contrasts scheduled vs available capacity.
-      expect(html).to include("scheduled", "available")
-      expect(html).to include("tool-tip")
+      expect(bar.dig("extendedProps", "html"))
+        .to include(I18n.t("resource_management.user_timeline.overbooked_tooltip.dates", dates: "2026-06-01 - 2026-06-05"))
+    end
+
+    it "does not flag an allocation without time on an overbooked day" do
+      later = create(:resource_allocation, entity: wp, principal: assignee, requested_by: user,
+                                           start_date: Date.new(2026, 6, 15), end_date: Date.new(2026, 6, 19),
+                                           allocated_time: 5 * 8 * 60)
+      create(:resource_allocation, entity: wp, principal: assignee, requested_by: user,
+                                   start_date: Date.new(2026, 6, 1), end_date: Date.new(2026, 6, 5),
+                                   allocated_time: 5 * 8 * 60)
+      get_events
+
+      expect(block_events.find { |e| e["id"] == later.id }.dig("extendedProps", "overbooked")).to be(false)
+    end
+
+    it "flags an allocation whose period contains no working day" do
+      weekend = create(:resource_allocation, entity: wp, principal: assignee, requested_by: user,
+                                             start_date: Date.new(2026, 6, 6), end_date: Date.new(2026, 6, 7),
+                                             allocated_time: 60)
+      get_events
+
+      bar = block_events.find { |e| e["id"] == weekend.id }
+      expect(bar.dig("extendedProps", "overbooked")).to be(true)
+      expect(bar.dig("extendedProps", "html"))
+        .to include(I18n.t("resource_management.user_timeline.overbooked_tooltip.unplannable"))
     end
   end
 
@@ -243,7 +276,7 @@ RSpec.describe "User timeline feeds", type: :rails_request, with_ee: %i[resource
         .select { |e| e["resourceId"] == user.id }
     end
 
-    it "emits a blue normal event for a user's time off, labelled with the working days lost" do
+    it "emits a blue normal event for a user's time off, labeled with the working days lost" do
       create(:user_non_working_time, user: assignee,
                                      start_date: Date.new(2026, 6, 29), end_date: Date.new(2026, 7, 3))
 

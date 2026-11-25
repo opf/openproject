@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,12 +32,14 @@ module WorkPackageTypes
     class DeleteService < ::BaseServices::BaseCallable
       include ::WorkPackageTypes::FormConfiguration::Concern
 
-      def initialize(user:, variant:, group_key:)
-        super(user:, variant:)
+      def initialize(user:, form_configuration:, group_key:)
+        super(user:, form_configuration:)
         @group_key = group_key
       end
 
-      def perform
+      private
+
+      def perform_locked
         group = find_group(@group_key)
         return failure_with_message(I18n.t("types.edit.form_configuration.not_found")) unless group
 

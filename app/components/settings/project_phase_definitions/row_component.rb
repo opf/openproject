@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,26 +32,38 @@ module Settings
     class RowComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
       include Projects::PhaseDefinitionHelper
+      include SortableLists::MoveMenu
 
       alias_method :definition, :model
 
-      options :first?,
-              :last?
-
       private
 
-      def move_action(menu:, move_to:, label:, icon:)
+      def edit_phase_definition(menu)
         menu.with_item(
-          label:,
-          href: move_admin_settings_project_phase_definition_path(definition, move_to:),
+          label: t(:label_edit),
+          href: edit_admin_settings_project_phase_definition_path(definition)
+        ) do |item|
+          item.with_leading_visual_icon(icon: :pencil)
+        end
+      end
+
+      def move_phase_definition(menu)
+        with_move_submenu(menu, data: { projects__settings__border_box_filter_target: "hideWhenFiltering" })
+      end
+
+      def destroy_phase_definition(menu)
+        menu.with_item(
+          label: t(:text_destroy),
+          scheme: :danger,
+          href: admin_settings_project_phase_definition_path(definition),
           form_arguments: {
-            method: :patch
-          },
-          data: {
-            "projects--settings--border-box-filter-target": "hideWhenFiltering"
+            method: :delete,
+            data: {
+              turbo_confirm: t("text_are_you_sure_with_project_life_cycle_step")
+            }
           }
         ) do |item|
-          item.with_leading_visual_icon(icon:)
+          item.with_leading_visual_icon(icon: :trash)
         end
       end
     end

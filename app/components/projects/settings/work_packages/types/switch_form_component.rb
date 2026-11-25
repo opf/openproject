@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -51,6 +50,13 @@ module Projects
           private
 
           attr_reader :project, :source, :url, :selected, :validation_message
+
+          # A refused switch repaints with the refused target, which may belong to another family.
+          def impact
+            return if selected == source || selected.type_id != source.type_id
+
+            ::Projects::Types::Switch::Impact.new(project:, source:, target: selected)
+          end
 
           def available_targets
             TypeVariant.switch_targets(user: User.current, project:, source:).in_display_order

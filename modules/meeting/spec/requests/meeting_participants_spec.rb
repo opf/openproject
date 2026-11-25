@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "spec_helper"
 
 RSpec.describe "MeetingParticipants requests",
@@ -244,6 +244,12 @@ RSpec.describe "MeetingParticipants requests",
       expect(participant1.reload.attended).to be true
       expect(participant2.reload.attended).to be true
     end
+
+    it "journals the meeting with all participants attending" do
+      post mark_all_attended_project_meeting_participants_path(project, meeting), as: :turbo_stream
+
+      expect(meeting.journals.last.participant_journals.pluck(:attended)).to all(be true)
+    end
   end
 
   describe "POST /meetings/:meeting_id/participants/:id/toggle_attendance" do
@@ -255,6 +261,13 @@ RSpec.describe "MeetingParticipants requests",
       end.to change { participant.reload.attended }.from(false).to(true)
 
       expect(response).to have_http_status(:ok)
+    end
+
+    it "journals the meeting with the toggled attendance" do
+      post toggle_attendance_project_meeting_participant_path(project, meeting, participant), as: :turbo_stream
+
+      expect(meeting.journals.last.participant_journals.find_by(user_id: user_with_meeting_permissions.id))
+        .to have_attributes(attended: true)
     end
   end
 

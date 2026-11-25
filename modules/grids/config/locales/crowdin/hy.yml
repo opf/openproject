@@ -31,8 +31,8 @@ hy:
         title: Անդամներ
         view_all_members: Դիտել բոլոր անդամներին
         x_more:
-          one: և ևս մեկ անդամ։
-          other: և ևս %{count} անդամ։
+          one: and %{count} more member.
+          other: and %{count} more members.
       news:
         no_results: Նոր նորություններ չկան։
       not_available: Այս վիջեթը հասանելի չէ։

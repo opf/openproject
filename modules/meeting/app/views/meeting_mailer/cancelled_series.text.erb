@@ -20,17 +20,21 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= I18n.t("meeting.email.cancelled.summary_series",
-           title: @series.title,
-           actor: @actor) %>
+<%= I18n.t(
+      "meeting.email.cancelled.summary_series",
+      title: @series.title,
+      actor: @actor
+    ) %>
 
 <%= @series.project.name %>: <%= @series.title %>
 <%= @series.author %>
 <%= t :label_recurring_meeting_schedule %>: <%= @series.full_schedule_in_words %> (<%= formatted_time_zone_offset %>)
+<% if @cancellation_reason.present? %>
+<%= t("meeting.email.cancelled.reason") %>: <%= @cancellation_reason %>
+<% end %>

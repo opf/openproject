@@ -20,23 +20,22 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { InputState } from '@openproject/reactivestates';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ICKEditorContext } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 
 export class ProjectResource extends HalResource {
   public get identifier():string {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     return this.$source.identifier as string;
   }
 
   public get state() {
-    return this.states.projects.get(this.id!) as any;
+    return this.states.projects.get(this.id!) as unknown as InputState<this>;
   }
 
   public getEditorContext(fieldName:string):ICKEditorContext {

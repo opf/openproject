@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -78,56 +77,47 @@ RSpec.describe McpTools::CreateWorkPackage do
     tool_config.save!
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP text tool"
+  it_behaves_like "MCP text tool"
 
-    it "creates a new work package" do
-      expect { mcp_request }.to change(WorkPackage, :count).from(0).to(1)
+  it "creates a new work package" do
+    expect { mcp_request }.to change(WorkPackage, :count).from(0).to(1)
 
-      wp = WorkPackage.first
-      expect(wp.subject).to eq("My subject")
-      expect(wp.status).to eq(status)
-      expect(wp.type).to eq(type)
-      expect(wp.project).to eq(project)
-    end
-
-    it "responds with a properly formatted work package" do
-      mcp_request
-
-      expect(result_item.to_json).to match_json_schema.from_docs("work_package_model")
-    end
-
-    context "when setting an unexpected type" do
-      let(:wrong_type) { create(:type) }
-
-      let(:call_args) do
-        {
-          data: {
-            subject: "My subject",
-            _links: {
-              status: { href: "/api/v3/statuses/#{status.id}" },
-              type: { href: "/api/v3/types/#{wrong_type.id}" },
-              project: { href: "/api/v3/projects/#{project.id}" }
-            }
-          }
-        }
-      end
-
-      it "responds with an error" do
-        mcp_request
-        expect(result_item.fetch("error")).to eq("Type is not set to one of the allowed values.")
-      end
-
-      it "does not create a work package" do
-        expect { mcp_request }.not_to change(WorkPackage, :count)
-      end
-    end
+    wp = WorkPackage.first
+    expect(wp.subject).to eq("My subject")
+    expect(wp.status).to eq(status)
+    expect(wp.type).to eq(type)
+    expect(wp.project).to eq(project)
   end
 
-  context "when the mcp_server enterprise feature is disabled" do
-    it "responds with a 404" do
+  it "responds with a properly formatted work package" do
+    mcp_request
+
+    expect(result_item.to_json).to match_json_schema.from_docs("work_package_model")
+  end
+
+  context "when setting an unexpected type" do
+    let(:wrong_type) { create(:type) }
+
+    let(:call_args) do
+      {
+        data: {
+          subject: "My subject",
+          _links: {
+            status: { href: "/api/v3/statuses/#{status.id}" },
+            type: { href: "/api/v3/types/#{wrong_type.id}" },
+            project: { href: "/api/v3/projects/#{project.id}" }
+          }
+        }
+      }
+    end
+
+    it "responds with an error" do
       mcp_request
-      expect(last_response).to have_http_status(404)
+      expect(result_item.fetch("error")).to eq("Type is not set to one of the allowed values.")
+    end
+
+    it "does not create a work package" do
+      expect { mcp_request }.not_to change(WorkPackage, :count)
     end
   end
 end

@@ -1,4 +1,5 @@
 <div
+  #cardElement
   class="op-wp-single-card"
   data-test-selector="op-wp-single-card"
   data-tour-selector="op-wp-single-card"
@@ -9,11 +10,12 @@
   [attr.data-qa-selected]="selected || undefined"
   [ngClass]="cardClasses()"
   [title]="cardTitle()"
-  (click)="cardClicked.emit({ workPackageId: workPackage.id, event: $event })"
-  (keydown.enter)="cardClicked.emit({ workPackageId: workPackage.id, event: $event })"
-  (keydown.space)="cardClicked.emit({ workPackageId: workPackage.id, event: $event })"
-  (dblclick)="cardDblClicked.emit({ workPackageId: workPackage.id, event: $event })"
-  (contextmenu)="cardContextMenu.emit({ workPackageId: workPackage.id, event: $event })"
+  (click)="activateCard($event)"
+  (keydown.enter)="activateCard($event)"
+  (keydown.space)="activateCard($event)"
+  (dblclick)="emitPointerEvent(cardDblClicked, $event)"
+  (contextmenu)="emitPointerEvent(cardContextMenu, $event)"
+  (focusout)="saveNewCardOnFocusOut()"
   >
 
   <div class="op-wp-single-card--highlighting"
@@ -28,7 +30,9 @@
           type="button"
           class="spot-link op-wp-single-card--details-button op-wp-single-card--card-action"
           data-test-selector="op-wp-single-card--details-button"
-          [title]="text.detailsView"
+          title=""
+          opTooltip
+          [label]="text.detailsView"
           (click)="emitStateLinkClicked($event, workPackage, true)">
           <op-icon icon-classes="icon3 icon-info2" />
         </button>
@@ -39,7 +43,10 @@
           class="spot-link op-wp-single-card--inline-cancel-button op-wp-single-card--card-action"
           data-test-selector="op-wp-single-card--inline-cancel-button"
           [class.-show]="isNewResource(workPackage)"
-          [title]="text.removeCard"
+          title=""
+          opTooltip
+          [label]="text.removeCard"
+          (mousedown)="$event.preventDefault()"
           (click)="onRemoved(workPackage)">
           <op-icon icon-classes="icon-context icon-close" />
         </button>
@@ -55,7 +62,8 @@
   </div>
 
   @if (isNewResource(workPackage)) {
-    <edit-form [resource]="workPackage"
+    <edit-form #newCardEditForm
+      [resource]="workPackage"
       [inEditMode]="isNewResource(workPackage)"
       >
       <div class="op-wp-single-card-content -new">

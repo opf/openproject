@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -50,13 +49,13 @@ RSpec.describe Projects::SetAttributesService, "backlogs done_status_ids merging
   let(:instance) { described_class.new(user:, model: project, contract_class:) }
 
   context "when done_status_ids is submitted" do
-    let!(:closed_status) { create(:status, is_closed: true) }
-    let!(:open_status) { create(:status, is_closed: false) }
+    let!(:closed_status) { create(:status, category: "closed") }
+    let!(:to_do_status) { create(:status, category: "to_do") }
 
     it "merges mandatory closed statuses alongside the submitted ones" do
-      instance.call(done_status_ids: [open_status.id])
+      instance.call(done_status_ids: [to_do_status.id])
 
-      expect(project.done_status_ids).to include(open_status.id)
+      expect(project.done_status_ids).to include(to_do_status.id)
       expect(project.done_status_ids).to include(closed_status.id)
     end
 
@@ -67,16 +66,16 @@ RSpec.describe Projects::SetAttributesService, "backlogs done_status_ids merging
     end
 
     it "keeps submitted non-closed statuses even when there are no globally closed statuses" do
-      Status.where(is_closed: true).delete_all
+      Status.where(category: "closed").delete_all
 
-      instance.call(done_status_ids: [open_status.id])
+      instance.call(done_status_ids: [to_do_status.id])
 
-      expect(project.done_status_ids).to contain_exactly(open_status.id)
+      expect(project.done_status_ids).to contain_exactly(to_do_status.id)
     end
   end
 
   context "when done_status_ids is not submitted" do
-    let!(:closed_status) { create(:status, is_closed: true) }
+    let!(:closed_status) { create(:status, category: "closed") }
     let(:considered_closed_statuses) { [closed_status] }
 
     it "does not modify the existing done_status_ids" do

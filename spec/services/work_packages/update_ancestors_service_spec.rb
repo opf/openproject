@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -1386,7 +1385,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService,
     end
   end
 
-  describe "auto-generated journal note when a child triggers an ancestor recompute",
+  describe "journal cause when a child triggers an ancestor recompute",
            with_settings: { work_package_done_ratio: "status" } do
     shared_let_work_packages(<<~TABLE)
       hierarchy | status | work | ∑ work | remaining work | ∑ remaining work | % complete | ∑ % complete
@@ -1394,36 +1393,16 @@ RSpec.describe WorkPackages::UpdateAncestorsService,
         child   | Open   |   5h |        |             5h |                  |         0% |
     TABLE
 
-    # The journal note always stores the primary-key reference (`#42`).
-    # Render-time resolution in the formatter pipeline turns it into
-    # `#PROJ-7` in semantic mode and `#42` in classic mode, so the stored
-    # text survives project-identifier renames.
-    context "in classic mode",
-            with_settings: { work_package_done_ratio: "status", work_packages_identifier: "classic" } do
-      it "writes the child's hash-prefixed primary key into the parent's journal note" do
+    it "stores a locale-independent cause referencing the child instead of a translated note" do
+      I18n.with_locale(:de) do
         set_attributes_on(child, status: closed_status)
         call_update_ancestors_service(child)
-
-        note = parent.reload.journals.last.notes
-        expect(note).to include("##{child.id}")
-      end
-    end
-
-    context "in semantic mode",
-            with_settings: { work_package_done_ratio: "status", work_packages_identifier: "semantic" } do
-      before do
-        child.allocate_and_register_semantic_id
       end
 
-      it "writes the child's hash-prefixed primary key, not its semantic identifier" do
-        set_attributes_on(child, status: closed_status)
-        call_update_ancestors_service(child)
-
-        wp = child.reload
-        note = parent.reload.journals.last.notes
-        expect(note).to include("##{wp.id}")
-        expect(note).not_to include(wp.identifier)
-      end
+      journal = parent.reload.journals.last
+      expect(journal.notes).to be_blank
+      expect(journal.cause).to eq("type" => "work_package_children_changed_values",
+                                  "work_package_id" => child.id)
     end
   end
 end

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -30,8 +29,10 @@ import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 export type BreadcrumbItem =
-  | { href:string; text:string }
+  | { href:string; text:string|null }
   | string;
+
+type BreadcrumbLink = Exclude<BreadcrumbItem, string>;
 
 @Component({
   templateUrl: './op-breadcrumbs.component.html',
@@ -50,18 +51,15 @@ export class OpBreadcrumbsComponent {
     breadcrumb: this.I18n.t('js.breadcrumb'),
   };
 
-  isLink(item:BreadcrumbItem):item is { href:string; text:string } {
-    return typeof item !== 'string' && 'href' in item && 'text' in item;
+  isLink(item:BreadcrumbItem):item is BreadcrumbLink {
+    return typeof item !== 'string';
   }
 
-  getText(item:BreadcrumbItem):string {
+  getText(item:BreadcrumbItem):string|null {
     if (this.isLink(item)) {
       return item.text;
     }
-    if (typeof item === 'string') {
-      return item;
-    }
-    return '';
+    return item;
   }
 
   getHref(item:BreadcrumbItem):string | null {

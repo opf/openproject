@@ -22,19 +22,18 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module XWikiStubs
   def search_endpoint(linkable, provider:, number: 25)
-    "#{provider.url}rest/openproject/links/workPackages/#{linkable.id}?number=#{number}&withInstance=test_uuid"
+    "#{provider.url}rest/openproject/links/workPackages/#{linkable.id}?number=#{number}&instance=test_uuid"
   end
 
   def mentions_endpoint(linkable, provider:)
-    "#{provider.url}rest/openproject/mentions?workPackage=#{linkable.id}&withInstance=test_uuid"
+    "#{provider.url}rest/openproject/mentions?workPackage=#{linkable.id}&instance=test_uuid"
   end
 
   def stub_canonical_page_info(identifier, uid:, title:, href:, provider:, token: "user-bearer-token")

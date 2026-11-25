@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -299,6 +298,26 @@ RSpec.describe "Meeting index",
       expect(table).to have_no_text "meeting on next monday"
       expect(table).to have_no_text "meeting on next friday"
     end
+
+    context "with more than 15 past meetings" do
+      before do
+        20.times do |i|
+          create(:meeting,
+                 :author_participates,
+                 title: "old meeting #{i}",
+                 start_time: DateTime.parse("2025-01-2#{i % 8}T05:00:00Z"),
+                 project:,
+                 author: user)
+        end
+      end
+
+      it "shows 15 past meetings by default with a show-more footer for the rest" do
+        expect(subject).to have_http_status(:ok)
+
+        expect(page).to have_css("#meetings-table-footer-component")
+        expect(page).to have_text "There are 6 more meetings."
+      end
+    end
   end
 
   context "when the time filter is not present" do
@@ -353,7 +372,7 @@ RSpec.describe "Meeting index",
         expect(subject).to have_http_status(:ok)
 
         expect(page).to have_css("#meetings-table-footer-component")
-        expect(page).to have_text "There is one more meeting"
+        expect(page).to have_text "There is 1 more meeting"
         expect(page).to have_text "meeting on next monday"
         expect(page).to have_no_text "meeting on next friday"
       end

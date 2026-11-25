@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -59,7 +58,7 @@ class Meeting::AddToSection < ApplicationForm
     super()
 
     @wrapper_id = wrapper_id
-    @occurrence = meeting == occurrence ? nil : occurrence
+    @other_meeting = meeting == occurrence ? nil : occurrence
     @selected_section = item&.meeting_section
     @move_to_section = move_to_section
   end
@@ -75,12 +74,13 @@ class Meeting::AddToSection < ApplicationForm
   def items # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     items = []
 
-    items.concat(meeting.sections) if meeting.present? && @occurrence.nil?
-    items.concat(@occurrence.sections) if @occurrence.present?
+    items.concat(meeting.sections) if meeting.present? && @other_meeting.nil?
+    items.concat(@other_meeting.sections) if @other_meeting.present?
     items.push(MeetingSection.new) if items.empty?
-    items.push(meeting.backlog) if meeting.present? && !meeting.template? && meeting.backlog.present?
+    items.push(meeting.backlog) if @other_meeting.nil? && meeting.present? && !meeting.template? && meeting.backlog.present?
 
-    items.reject! { |i| i == @selected_section } if @selected_section.present?
+    # hide the current section when moving to another section of the same meeting
+    items.reject! { |i| i == @selected_section } if @move_to_section && @selected_section.present?
 
     items
   end
@@ -96,16 +96,17 @@ class Meeting::AddToSection < ApplicationForm
 
     if meeting.recurring?
       without_backlog = items.reject(&:backlog?)
-      item = without_backlog.last
-    else
-      item = meeting.backlog
-    end
 
-    item
+      find_matching_section(without_backlog) || without_backlog.last
+    else
+      meeting.backlog
+    end
   end
 
-  def any_non_backlog_sections?
-    meeting.sections.none? || (meeting.sections.many? && meeting.sections.first.title.blank?)
+  def find_matching_section(sections)
+    return if @move_to_section || @selected_section.nil? || @selected_section.backlog? || @selected_section.untitled?
+
+    sections.find { |section| section.title == @selected_section.title }
   end
 
   def placeholder_text

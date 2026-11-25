@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,14 +38,12 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
                   due_date: Time.zone.today.to_datetime,
                   created_at: DateTime.now,
                   updated_at: DateTime.now,
-                  budget:,
                   type: build_stubbed(:type)) do |wp|
       allow(wp)
         .to receive(:available_custom_fields)
         .and_return(available_custom_fields)
     end
   end
-  let(:budget) { build_stubbed(:budget) }
   let(:representer) do
     described_class
       .create(work_package, current_user: user)
@@ -387,35 +384,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
           it_behaves_like "linked property" do
             let(:property) { :parent }
             let(:link) { nil }
-          end
-        end
-      end
-
-      describe "budgets" do
-        context "without a cost object assigned" do
-          let(:budget) { nil }
-
-          it_behaves_like "linked property" do
-            let(:property) { :budget }
-            let(:link) { nil }
-          end
-        end
-
-        context "with a cost object assigned" do
-          it_behaves_like "linked property" do
-            let(:property) { :budget }
-            let(:link) { api_v3_paths.budget(budget.id) }
-          end
-        end
-
-        context "without necessary permissions" do
-          before do
-            mock_permissions_for(user, &:forbid_everything)
-          end
-
-          it "has no href" do
-            expect(subject)
-              .not_to have_json_path("_links/budget")
           end
         end
       end

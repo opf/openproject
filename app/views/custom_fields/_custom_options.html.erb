@@ -1,4 +1,4 @@
-<%# -- copyright
+<%#-- copyright
 OpenProject is an open source project management software.
 Copyright (C) the OpenProject GmbH
 
@@ -20,12 +20,11 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
-++# %>
+++#%>
 <% content_controller "admin--custom-fields",
                       "admin--custom-fields-multi-select-value": @custom_field.multi_value? %>
 
@@ -79,7 +78,7 @@ See COPYRIGHT and LICENSE files for more details.
       <tbody
         data-test-selector="dragula-container"
         data-admin--custom-fields-target="dragContainer">
-      <% custom_field.custom_options.each_with_index do |custom_option, i| %>
+      <% custom_field.custom_options.each do |custom_option| %>
         <%= f.fields_for :custom_options, custom_option do |co_f| %>
           <tr
             class="dragula-element custom-option-row"
@@ -132,7 +131,7 @@ See COPYRIGHT and LICENSE files for more details.
             </td>
             <td>
               <%= link_to "",
-                          delete_option_of_custom_field_path(id: custom_field.id || 0, option_id: custom_option.id || 0),
+                          delete_option_path(custom_field, custom_option),
                           data: {
                             turbo_method: :delete,
                             action: "admin--custom-fields#removeOption",

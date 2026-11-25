@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,54 +30,41 @@
 require "spec_helper"
 require "services/base_services/behaves_like_update_service"
 
-RSpec.describe Projects::UpdateService, type: :model do
+RSpec.describe Projects::UpdateService do
   it_behaves_like "BaseServices update service" do
-    let!(:model_instance) do
-      build_stubbed(:project, :with_status)
+    let!(:model_instance) { build_stubbed(:project, :with_status) }
+
+    before do
+      allow(OpenProject::Notifications).to receive(:send)
+      allow(WorkPackage).to receive(:update_versions_from_hierarchy_change)
     end
 
     it "sends an update notification" do
-      expect(OpenProject::Notifications)
-        .to(receive(:send))
-        .with(OpenProject::Events::PROJECT_UPDATED, project: model_instance)
-
       subject
+      expect(OpenProject::Notifications).to have_received(:send)
+        .with(OpenProject::Events::PROJECT_UPDATED, project: model_instance)
     end
 
     context "if the identifier is altered" do
       let(:call_attributes) { { identifier: "Some identifier" } }
 
-      before do
-        allow(model_instance)
-          .to(receive(:changes))
-          .and_return("identifier" => %w(lorem ipsum))
-      end
+      before { allow(model_instance).to(receive(:changes)).and_return("identifier" => %w(lorem ipsum)) }
 
       it "sends the notification" do
-        expect(OpenProject::Notifications)
-          .to(receive(:send))
-          .with(OpenProject::Events::PROJECT_UPDATED, project: model_instance)
-        expect(OpenProject::Notifications)
-          .to(receive(:send))
-          .with(OpenProject::Events::PROJECT_RENAMED, project: model_instance)
-
         subject
+        expect(OpenProject::Notifications).to have_received(:send)
+          .with(OpenProject::Events::PROJECT_UPDATED, project: model_instance)
+        expect(OpenProject::Notifications).to have_received(:send)
+          .with(OpenProject::Events::PROJECT_RENAMED, project: model_instance)
       end
     end
 
     context "if the parent is altered" do
-      before do
-        allow(model_instance)
-          .to(receive(:changes))
-          .and_return("parent_id" => [nil, 5])
-      end
+      before { allow(model_instance).to(receive(:changes)).and_return("parent_id" => [nil, 5]) }
 
       it "updates the versions associated with the work packages" do
-        expect(WorkPackage)
-          .to(receive(:update_versions_from_hierarchy_change))
-          .with(model_instance)
-
         subject
+        expect(WorkPackage).to have_received(:update_versions_from_hierarchy_change).with(model_instance)
       end
     end
 
@@ -240,6 +226,31 @@ RSpec.describe Projects::UpdateService, type: :model do
             cf_calculated1.id => "21",
             cf_calculated2.id => "-6",
             cf_calculated3.id => "-6"
+          )
+        end
+      end
+
+      context "when deselecting an item of a multi-value field referenced in calculated values",
+              with_ee: %i[weighted_item_lists calculated_values] do
+        let(:cf_list) { create(:weighted_item_list_project_custom_field, multi_value: true, projects: [project]) }
+        let(:cf_calculated) do
+          create(:calculated_value_project_custom_field, :skip_validations, projects: [project], formula: "SUM(#{cf_list})")
+        end
+        let(:item1) { create(:hierarchy_item, parent: cf_list.hierarchy_root, weight: 1.5) }
+        let(:item2) { create(:hierarchy_item, parent: cf_list.hierarchy_root, weight: 1) }
+        let(:removed_item) { create(:hierarchy_item, parent: cf_list.hierarchy_root, weight: 2) }
+        let(:call_attributes) { { custom_field_values: { cf_list.id => [item1.id.to_s, item2.id.to_s] } } }
+
+        before do
+          [item1, item2, removed_item].each { create(:custom_value, customized: project, custom_field: cf_list, value: it.id) }
+          create(:custom_value, customized: project, custom_field: cf_calculated, value: 4.5)
+        end
+
+        it "recalculates the dependent value" do
+          expect { subject }.to change(project, :custom_value_attributes).from(
+            { cf_list.id => [item1.id.to_s, item2.id.to_s, removed_item.id.to_s], cf_calculated.id => "4.5" }
+          ).to(
+            { cf_list.id => [item1.id.to_s, item2.id.to_s], cf_calculated.id => "2.5" }
           )
         end
       end

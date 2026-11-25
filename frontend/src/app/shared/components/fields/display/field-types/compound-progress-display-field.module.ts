@@ -20,12 +20,12 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { withTooltip } from 'core-app/shared/helpers/tooltip-helper';
 import { upperFirst } from 'lodash-es';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
@@ -53,7 +53,6 @@ export class CompoundProgressDisplayField extends DisplayField {
 
   public render(element:HTMLElement, displayText:string):void {
     element.classList.add('split-time-field');
-    element.setAttribute('title', displayText);
 
     this.renderActual(element, displayText);
 
@@ -79,12 +78,11 @@ export class CompoundProgressDisplayField extends DisplayField {
     const link = document.createElement('a');
 
     link.textContent = `Σ ${displayText}`;
-    link.title = `${displayText} ${this.derivedText}`;
     link.classList.add('-derived-value', uiStateLinkClass);
 
     this.hierarchyQueryLinkHelper.addHref(link, this.resource);
 
-    element.appendChild(link);
+    element.appendChild(withTooltip(link, this.derivedText, 'description'));
   }
 
   public renderSeparator(element:HTMLElement):void {
@@ -95,6 +93,10 @@ export class CompoundProgressDisplayField extends DisplayField {
     span.ariaHidden = 'true';
 
     element.appendChild(span);
+  }
+
+  public override get title():string|null {
+    return null;
   }
 
   public isEmpty():boolean {

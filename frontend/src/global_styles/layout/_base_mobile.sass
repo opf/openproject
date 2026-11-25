@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -77,6 +76,12 @@
     background-color: var(--body-background)
     padding-top: var(--main-menu-toggler-top-spacing)
     margin-top: calc(var(--main-menu-toggler-top-spacing) * -1)
+
+  .PageHeader-parentLink
+    min-width: 0
+    overflow: hidden
+    white-space: nowrap
+    text-overflow: ellipsis
 
   // Hide the header, when the content-bodyRight is shown, because it has it's own header.
   // Otherwise, the sticky header would lay on top of the split screen

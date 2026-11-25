@@ -61,6 +61,8 @@ da:
   attributes:
     budget: Budget
   budgets:
+    labor_budget_items:
+      no_rate_at_fixed_date: Ingen timesats pr. %{date}
     widgets:
       budget_by_cost_type:
         blankslate:
@@ -106,7 +108,7 @@ da:
   events:
     budget: Budget redigeret
   help_click_to_edit: Klik her for at redigere.
-  help_currency_format: Format for viste valutaværdier. %n erstattes med valutaværdien, %u erstattes med valutaenheden.
+  help_currency_format: Format for viste valutabeløb. %n erstattes af beløbet, %u af valutaenheden.
   help_override_rate: Angiv en værdi for at tilsidesætte standardsatsen.
   label_budget_available: Tilgængeligt budget
   label_budget_details: Detaljer om budgettet

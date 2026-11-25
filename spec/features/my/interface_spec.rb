@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,7 +30,7 @@
 require "spec_helper"
 
 RSpec.describe "My account Interface settings",
-               :js, :selenium do
+               :js do
   let(:user) { create(:user) }
 
   before do
@@ -107,7 +106,7 @@ RSpec.describe "My account Interface settings",
     end
 
     context "with OS in dark mode", driver: :chrome_dark_mode do
-      it "syncs with OS colour mode" do
+      it "syncs with OS color mode" do
         set_automatic_mode_with_reload
         expect(page).to have_theme("dark")
       end

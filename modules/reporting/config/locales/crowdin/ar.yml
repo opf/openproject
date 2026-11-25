@@ -22,8 +22,19 @@
 ---
 ar:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
     models:
       cost_query:
+        zero: Cost reports
+        one: Cost report
+        two: Cost reports
+        few: Cost reports
+        many: Cost reports
+        other: Cost reports
+      cost_report:
         zero: Cost reports
         one: Cost report
         two: Cost reports
@@ -42,6 +53,7 @@ ar:
       end_time: End time
       start_time: Start time
       title: Your Cost Reports XLS export
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: Export PDF timesheet
       overview_per_user_day: 'Overview: Hours per user per day'
@@ -50,6 +62,15 @@ ar:
       time: الوقت
       timesheet: Timesheet
       title: Your PDF timesheet export
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    zero: "%{filter} requires %{count} values."
+    one: "%{filter} requires a value."
+    two: "%{filter} requires %{count} values."
+    few: "%{filter} requires %{count} values."
+    many: "%{filter} requires %{count} values."
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: اعتمادًا على الأذونات الخاصة بك، قد تحتوي هذه الصفحة على معلومات مقيّدة.
   label_click_to_edit: اضغط للتعديل.
   label_closed: مغلق
@@ -103,7 +124,6 @@ ar:
   plugin_openproject_reporting:
     description: This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin.
     name: OpenProject Reporting
-  project_module_reporting_module: تقارير التكلفة
   reporting:
     group_by:
       selected_columns: الاعمدة المحددة
@@ -111,5 +131,3 @@ ar:
   text_costs_are_rounded_note: القيم المعروضة مدوّرة. تستند كل الحسابات على قيم غير مدوّرة.
   toggle_multiselect: تفعيل/تعطيل الاختيار المتعدد
   units: الوحدات
-  validation_failure_date: ليس تاريخًا صالحًا
-  validation_failure_integer: ليس عددًا صحيحًا صالحًا

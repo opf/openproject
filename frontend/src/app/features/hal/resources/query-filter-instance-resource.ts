@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -31,16 +30,70 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { QueryOperatorResource } from 'core-app/features/hal/resources/query-operator-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { QueryFilterInstanceSchemaResource } from 'core-app/features/hal/resources/query-filter-instance-schema-resource';
 import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
+
+export type QueryFilterReference =
+  | { id:string|number; href?:string|null; name?:string }
+  | { id?:string|number|null; href:string; name?:string };
+
+export type QueryFilterValue = HalResource|string|number|QueryFilterReference;
+
+function isFilterId(value:unknown):value is string|number {
+  return typeof value === 'string' || (typeof value === 'number' && Number.isFinite(value));
+}
+
+function isQueryFilterReference(value:object):value is QueryFilterReference {
+  const id = 'id' in value ? value.id : undefined;
+  const href = 'href' in value ? value.href : undefined;
+  const name = 'name' in value ? value.name : undefined;
+
+  return (id == null || isFilterId(id))
+    && (href == null || typeof href === 'string')
+    && (name === undefined || typeof name === 'string')
+    && (isFilterId(id) || (typeof href === 'string' && href.length > 0));
+}
+
+export function isQueryFilterValue(value:unknown):value is QueryFilterValue {
+  if (isFilterId(value) || value instanceof HalResource) {
+    return true;
+  }
+
+  return typeof value === 'object' && value !== null && !Array.isArray(value) && isQueryFilterReference(value);
+}
+
+export function queryFilterValueId(value:unknown):string|number|null {
+  if (typeof value === 'string' || typeof value === 'number') {
+    return value;
+  }
+
+  if (value instanceof HalResource) {
+    return value.id ?? (value.href ? idFromLink(value.href) : null);
+  }
+
+  if (typeof value !== 'object' || value === null) {
+    return null;
+  }
+
+  if ('id' in value && (typeof value.id === 'string' || typeof value.id === 'number')) {
+    return value.id;
+  }
+
+  if ('href' in value && typeof value.href === 'string' && value.href.length > 0) {
+    return idFromLink(value.href);
+  }
+
+  return null;
+}
 
 export class QueryFilterInstanceResource extends HalResource {
   public filter:QueryFilterResource;
 
   public operator:QueryOperatorResource;
 
-  public values:HalResource[]|string[];
+  public values:QueryFilterValue[];
 
   private memoizedCurrentSchemas:Record<string, QueryFilterInstanceSchemaResource> = {};
 
@@ -48,12 +101,12 @@ export class QueryFilterInstanceResource extends HalResource {
 
   @LazyInject(PathHelperService) pathHelper:PathHelperService;
 
-  public $initialize(source:any) {
+  public $initialize(source:unknown) {
     super.$initialize(source);
 
     this.$links.schema = {
       href: `${this.pathHelper.api.v3.apiV3Base}/queries/filter_instance_schemas/${idFromLink(this.filter.href)}`,
-    };
+    } as unknown as CallableHalLink;
   }
 
   public get id():string {
@@ -80,9 +133,9 @@ export class QueryFilterInstanceResource extends HalResource {
 
     if (this.memoizedCurrentSchemas[key] === undefined) {
       try {
-        this.memoizedCurrentSchemas[key] = this.schemaCache.of(this).resultingSchema(this.operator);
+        this.memoizedCurrentSchemas[key] = (this.schemaCache.of(this) as unknown as QueryFilterInstanceSchemaResource).resultingSchema(this.operator);
       } catch (e) {
-        console.error(`Failed to access filter schema${e}`);
+        console.error(`Failed to access filter schema${String(e)}`);
       }
     }
 
@@ -99,7 +152,7 @@ export class QueryFilterInstanceResource extends HalResource {
 
   public isTemplated() {
     let flag = false;
-    (this.values as any[]).find((value:any) => {
+    (this.values as { href:string, toString():string }[]).find((value) => {
       const href:string = value?.href || value.toString() || '';
       flag = href.includes('{id}');
     });

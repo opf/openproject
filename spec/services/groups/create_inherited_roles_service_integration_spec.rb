@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,7 +33,7 @@ RSpec.describe Groups::CreateInheritedRolesService, "integration" do
   # The setup for these specs are a bit weird. First, the group is set up with its users already
   # attached. Then, the memberships of the group are added afterwards.
   # That way, the inherited roles are not yet created which they would otherwise by the group factory.
-  # This mimicks have a group with users already set up which can happen in two cases:
+  # This mimics having a group with users already set up which can happen in two cases:
   # * The Groups::AddUsersService service has run before because an additional user has been added to the group.
   #   The AddUsersService then calls the CreateInheritedRolesService
   # * The group receives an additional membership (in a project)

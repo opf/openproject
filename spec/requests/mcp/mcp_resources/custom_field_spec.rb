@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -61,39 +60,30 @@ RSpec.describe McpResources::CustomField do
     resource_config.save!
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP text resource response"
+  it_behaves_like "MCP text resource response"
 
-    it "responds with a properly formatted custom field" do
-      mcp_request
-      text_content = parsed_results.fetch("contents").first
-      custom_field = text_content.fetch("text")
-      expect(custom_field).to match_json_schema.from_docs("custom_field_model")
-    end
-
-    context "when the resource is disabled via configuration" do
-      let(:resource_config) { create(:mcp_configuration, identifier: described_class.qualified_name, enabled: false) }
-
-      it_behaves_like "MCP empty resource response"
-    end
-
-    context "when requesting a non-existing custom field" do
-      let(:resource_uri) { "http://test.host/api/v3/custom_fields/#{custom_field.id + 1}" }
-
-      it_behaves_like "MCP empty resource response"
-    end
-
-    context "when requesting a custom field not visible to the user" do
-      let(:user) { create(:user) }
-
-      it_behaves_like "MCP empty resource response"
-    end
+  it "responds with a properly formatted custom field" do
+    mcp_request
+    text_content = parsed_results.fetch("contents").first
+    custom_field = text_content.fetch("text")
+    expect(custom_field).to match_json_schema.from_docs("custom_field_model")
   end
 
-  context "when the mcp_server enterprise feature is disabled" do
-    it "responds in a 404" do
-      mcp_request
-      expect(last_response).to have_http_status(404)
-    end
+  context "when the resource is disabled via configuration" do
+    let(:resource_config) { create(:mcp_configuration, identifier: described_class.qualified_name, enabled: false) }
+
+    it_behaves_like "MCP empty resource response"
+  end
+
+  context "when requesting a non-existing custom field" do
+    let(:resource_uri) { "http://test.host/api/v3/custom_fields/#{custom_field.id + 1}" }
+
+    it_behaves_like "MCP empty resource response"
+  end
+
+  context "when requesting a custom field not visible to the user" do
+    let(:user) { create(:user) }
+
+    it_behaves_like "MCP empty resource response"
   end
 end

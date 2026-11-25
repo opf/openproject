@@ -64,7 +64,7 @@ es:
       label_add_new: Agregar nuevo webhook
       label_edit: Editar webhook
       label_x_events:
-        one: 1 evento
+        one: "%{count} event"
         other: "%{count} eventos"
         zero: No hay eventos
       no_results_table: Aún no se han definido webhooks.

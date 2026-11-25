@@ -3,6 +3,7 @@ ARG DEBIAN_BASE="trixie"
 # Add SBOM scan context for intermediate steps
 ARG BUILDKIT_SBOM_SCAN_CONTEXT=true
 ARG BUILDKIT_SBOM_SCAN_STAGE=true
+FROM caddy:2.11.9 AS caddy
 FROM ruby:${RUBY_VERSION}-slim-trixie AS runtime-base
 LABEL maintainer="operations@openproject.com"
 
@@ -87,7 +88,7 @@ RUN bash vendor/bundle-install.sh && rm vendor/bundle-install.sh
 
 COPY . .
 
-# Copy lock file again as the updated version was overriden by COPY just now.
+# Copy lock file again as the updated version was overridden by COPY just now.
 # `COPY . .` also restores the CI vendor/bundle cache over the installed bundle, so
 # the superseded gem versions bundle-install.sh pruned are back and need pruning again.
 RUN cp Gemfile.lock.bak Gemfile.lock && rm Gemfile.lock.bak && \
@@ -152,6 +153,7 @@ COPY --from=openproject/hocuspocus:17.9.8 --chown=$APP_USER:$APP_USER /app /opt/
 # Keep node/npm in all-in-one for bundled hocuspocus even when BIM support is disabled.
 COPY --from=build-base /usr/local/bin/node /usr/local/bin/node
 COPY --from=build-base /usr/local/lib/node_modules /usr/local/lib/node_modules
+COPY --from=caddy /usr/bin/caddy /usr/bin/caddy
 
 RUN ./docker/prod/setup/postinstall-onprem.sh && \
   ln -sf ../lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm && \
@@ -159,7 +161,7 @@ RUN ./docker/prod/setup/postinstall-onprem.sh && \
   ln -sf ../lib/node_modules/corepack/dist/corepack.js /usr/local/bin/corepack && \
   ln -s /app/docker/prod/setup/.irbrc /root/
 
-# Expose ports for apache and postgres
+# Expose ports for caddy
 EXPOSE 80
 
 # Expose the postgres data directory and OpenProject data directory as volumes

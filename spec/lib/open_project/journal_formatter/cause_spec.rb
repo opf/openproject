@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,65 +30,14 @@
 require "spec_helper"
 
 RSpec.describe OpenProject::JournalFormatter::Cause do
-  include ApplicationHelper
+  include_context "with journal cause formatter"
   include WorkPackagesHelper
-  include ActionView::Helpers::UrlHelper
-  include Rails.application.routes.url_helpers
 
   shared_let(:work_package) { create(:work_package) }
-  let(:instance) { described_class.new(build(:work_package_journal)) }
   let(:work_package_html_link) do
     link_to_work_package(work_package, link_subject: true)
   end
   let(:work_package_raw_link) { "##{work_package.id}" }
-
-  # we need to tell the url_helper that there is not controller to get url_options so that we can call link_to
-  let(:controller) { nil }
-
-  def render(cause, html:)
-    if Journal::VALID_CAUSE_TYPES.exclude?(cause["type"])
-      raise "#{cause['type'].inspect} is not a valid cause type from Journal::VALID_CAUSE_TYPES. " \
-            "Please use one of #{Journal::VALID_CAUSE_TYPES}"
-    end
-
-    instance.render("cause", [nil, cause], html:)
-  end
-
-  RSpec::Matchers.define :render_html_variant do |expected|
-    match do |cause|
-      @cause = cause
-      @actual = render(cause, html: true)
-      values_match? expected, @actual
-    end
-
-    description do
-      "render HTML variant with #{surface_descriptions_in(expected).inspect}"
-    end
-
-    failure_message do |actual|
-      "expected #{@cause} to render HTML variant as expected\n  " \
-        "expected: #{surface_descriptions_in(expected).inspect}\n  " \
-        "actual:   #{actual.inspect}"
-    end
-  end
-
-  RSpec::Matchers.define :render_raw_variant do |expected|
-    match do |cause|
-      @cause = cause
-      @actual = render(cause, html: false)
-      values_match? expected, @actual
-    end
-
-    description do
-      "render raw text variant with #{surface_descriptions_in(expected).inspect}"
-    end
-
-    failure_message do |actual|
-      "expected #{@cause} to render raw text variant as expected\n  " \
-        "expected: #{surface_descriptions_in(expected).inspect}\n  " \
-        "actual:   #{actual.inspect}"
-    end
-  end
 
   shared_examples "XSS-proof rendering of status name" do
     before do
@@ -281,6 +229,75 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     end
   end
 
+  context "when the change was caused by retracting a comment" do
+    subject(:cause) do
+      {
+        "type" => "comment_retracted"
+      }
+    end
+
+    it do
+      expect(cause).to render_html_variant(
+        "<strong>#{I18n.t('journals.caused_changes.comment_retracted')}</strong>"
+      )
+    end
+
+    it do
+      expect(cause).to render_raw_variant(I18n.t("journals.caused_changes.comment_retracted"))
+    end
+  end
+
+  context "when the change was caused by changing values within a child" do
+    subject(:cause) do
+      {
+        "type" => "work_package_children_changed_values",
+        "work_package_id" => work_package.id
+      }
+    end
+
+    context "when the user is able to access the related work package" do
+      before do
+        allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.where(id: work_package.id))
+      end
+
+      it do
+        link = work_package_html_link
+        expect(cause).to render_html_variant(
+          "<strong>#{I18n.t('journals.caused_changes.work_package_children_changed_values')}</strong> " \
+          "#{I18n.t('journals.cause_descriptions.work_package_children_changed_values', link:)}"
+        )
+      end
+
+      it do
+        link = work_package_raw_link
+        expect(cause).to render_raw_variant(
+          "#{I18n.t('journals.caused_changes.work_package_children_changed_values')} " \
+          "#{I18n.t('journals.cause_descriptions.work_package_children_changed_values', link:)}"
+        )
+      end
+    end
+
+    context "when the user is not able to access the related work package" do
+      before do
+        allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.none)
+      end
+
+      it do
+        expect(cause).to render_html_variant(
+          "<strong>#{I18n.t('journals.caused_changes.work_package_children_changed_values')}</strong> " \
+          "#{I18n.t('journals.cause_descriptions.unaccessable_work_package_changed')}"
+        )
+      end
+
+      it do
+        expect(cause).to render_raw_variant(
+          "#{I18n.t('journals.caused_changes.work_package_children_changed_values')} " \
+          "#{I18n.t('journals.cause_descriptions.unaccessable_work_package_changed')}"
+        )
+      end
+    end
+  end
+
   context "when the change was caused by the deletion of the parent" do
     subject(:cause) do
       {
@@ -325,8 +342,8 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       changes = [
         I18n.t("journals.cause_descriptions.working_days_changed.days.non_working", day: WeekDay.find_by!(day: 2).name),
         I18n.t("journals.cause_descriptions.working_days_changed.days.working", day: WeekDay.find_by!(day: 6).name),
-        I18n.t("journals.cause_descriptions.working_days_changed.dates.working", date: I18n.l(Date.new(2023, 1, 1))),
-        I18n.t("journals.cause_descriptions.working_days_changed.dates.non_working", date: I18n.l(Date.new(2023, 12, 24)))
+        I18n.t("journals.cause_descriptions.working_days_changed.dates.working", date: format_date(Date.new(2023, 1, 1))),
+        I18n.t("journals.cause_descriptions.working_days_changed.dates.non_working", date: format_date(Date.new(2023, 12, 24)))
       ].join(", ")
       expect(cause).to render_html_variant(
         "<strong>#{I18n.t('journals.caused_changes.dates_changed')}</strong> " \
@@ -338,13 +355,22 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       changes = [
         I18n.t("journals.cause_descriptions.working_days_changed.days.non_working", day: WeekDay.find_by!(day: 2).name),
         I18n.t("journals.cause_descriptions.working_days_changed.days.working", day: WeekDay.find_by!(day: 6).name),
-        I18n.t("journals.cause_descriptions.working_days_changed.dates.working", date: I18n.l(Date.new(2023, 1, 1))),
-        I18n.t("journals.cause_descriptions.working_days_changed.dates.non_working", date: I18n.l(Date.new(2023, 12, 24)))
+        I18n.t("journals.cause_descriptions.working_days_changed.dates.working", date: format_date(Date.new(2023, 1, 1))),
+        I18n.t("journals.cause_descriptions.working_days_changed.dates.non_working", date: format_date(Date.new(2023, 12, 24)))
       ].join(", ")
       expect(cause).to render_raw_variant(
         "#{I18n.t('journals.caused_changes.dates_changed')} " \
         "#{I18n.t('journals.cause_descriptions.working_days_changed.changed', changes:)}"
       )
+    end
+
+    context "with a date format preference" do
+      current_user { build_stubbed(:user, preferences: { date_format: "%d.%m.%Y" }) }
+
+      it "formats the dates according to the preference" do
+        expect(render(cause, html: false))
+          .to include("01.01.2023", "24.12.2023")
+      end
     end
   end
 
@@ -637,6 +663,50 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     end
   end
 
+  context "when the change was caused by the deletion of a label" do
+    subject(:cause) { Journal::CausedByLabelDeletion.new(label_ids: [42], label_names: ["Foo"]).to_hash }
+
+    it do
+      expect(cause).to render_html_variant(
+        "<strong>Label removed:</strong> 'Foo' was deleted"
+      )
+    end
+
+    it do
+      expect(cause).to render_raw_variant("Label removed: 'Foo' was deleted")
+    end
+
+    context "when several labels were deleted" do
+      subject(:cause) do
+        Journal::CausedByLabelDeletion.new(
+          label_ids: [1, 2, 3], label_names: %w[Frontend Backend Middleware]
+        ).to_hash
+      end
+
+      it "lists every label name and pluralizes the verb" do
+        expect(cause).to render_html_variant(
+          "<strong>Label removed:</strong> 'Frontend', 'Backend', 'Middleware' were deleted"
+        )
+      end
+    end
+
+    context "when the label name contains HTML (XSS prevention)" do
+      subject(:cause) do
+        Journal::CausedByLabelDeletion.new(label_ids: [42], label_names: ["<script>alert('x')</script>"]).to_hash
+      end
+
+      it "escapes the label name in HTML output" do
+        expect(cause).to render_html_variant(
+          a_string_including("&lt;script&gt;alert(&#39;x&#39;)&lt;/script&gt;")
+        )
+      end
+
+      it "does not escape the label name in raw text output" do
+        expect(cause).to render_raw_variant(a_string_including("<script>alert('x')</script>"))
+      end
+    end
+  end
+
   context "when the change was caused by an import" do
     subject(:cause) do
       {
@@ -862,6 +932,25 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       end
     end
 
+    context "when the work package came from a CSV import" do
+      subject(:cause) do
+        { "type" => "import", "csv" => true }
+      end
+
+      it "renders the CSV import message in HTML" do
+        expect(cause).to render_html_variant(
+          "<strong>#{I18n.t('journals.caused_changes.import')}</strong> " \
+          "#{I18n.t('journals.cause_descriptions.import.csv')}"
+        )
+      end
+
+      it "renders the CSV import message in plain text" do
+        expect(cause).to render_raw_variant(
+          "#{I18n.t('journals.caused_changes.import')} #{I18n.t('journals.cause_descriptions.import.csv')}"
+        )
+      end
+    end
+
     context "when import_history is empty" do
       subject(:cause) do
         {
@@ -996,308 +1085,74 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     end
   end
 
-  context "when the change was caused by adding the work package to a meeting" do
-    shared_let(:meeting) { create(:meeting, title: "Weekly sync") }
-    subject(:cause) do
-      {
-        "type" => "meeting_agenda_item_added",
-        "meeting_id" => meeting.id
-      }
+  context "when the work package was created from a forum message" do
+    shared_let(:forum) { create(:forum) }
+    shared_let(:topic) { create(:message, forum:, subject: "Release planning") }
+    shared_let(:reply) { create(:message, forum:, parent: topic) }
+
+    subject(:cause) { { "type" => "forum_message", "message_id" => reply.id } }
+
+    let(:reply_path) do
+      "/projects/#{forum.project.identifier}/forums/#{forum.id}/topics/#{topic.id}?r=#{reply.id}#message-#{reply.id}"
     end
 
-    context "when the user can access the meeting" do
-      before do
-        allow(Meeting).to receive(:find_by).with(id: meeting.id).and_return(meeting)
-        allow(meeting).to receive(:visible?).with(User.current).and_return(true)
-      end
+    context "when the user can see the message" do
+      current_user { create(:user, member_with_permissions: { forum.project => %i[view_messages] }) }
 
       it do
-        link = link_to("#{meeting.title} – #{format_time(meeting.start_time)}", meeting_path(meeting))
         expect(cause).to render_html_variant(
-          I18n.t("journals.caused_changes.meeting_agenda_item_added_html", meeting_title_information: link)
+          "<strong>Created from forum message</strong> #{link_to('Release planning', reply_path)}"
         )
       end
 
-      it do
-        label = "#{meeting.title} – #{format_time(meeting.start_time)}"
-        expect(cause).to render_raw_variant(
-          ActionController::Base.helpers.strip_tags(
-            I18n.t("journals.caused_changes.meeting_agenda_item_added_html", meeting_title_information: label)
-          )
-        )
-      end
+      it { expect(cause).to render_raw_variant("Created from forum message Release planning") }
 
-      it "escapes a malicious meeting title when rendering HTML" do
-        allow(meeting).to receive(:title).and_return("<script>alert('xss')</script>")
+      it "escapes a malicious topic subject when rendering HTML", :aggregate_failures do
+        topic.update_column(:subject, "<script>alert('xss')</script>")
+
         expect(cause).to render_html_variant(a_string_including("&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt;"))
-        expect(cause).not_to render_html_variant(a_string_including("<script>alert('xss')</script>"))
+        expect(cause).not_to render_html_variant(a_string_including("<script>"))
       end
     end
 
-    context "when the user cannot access the meeting" do
-      before do
-        allow(Meeting).to receive(:find_by).with(id: meeting.id).and_return(meeting)
-        allow(meeting).to receive(:visible?).with(User.current).and_return(false)
-      end
+    context "when the user cannot see the message" do
+      current_user { create(:user) }
 
-      it "renders nothing at all, leaking neither the meeting nor the action" do
-        expect(cause).to render_html_variant("")
-        expect(cause).to render_raw_variant("")
+      it "says where the work package came from without naming the topic", :aggregate_failures do
+        expect(cause).to render_html_variant("<strong>Created from forum message</strong> ")
+        expect(cause).to render_raw_variant("Created from forum message")
       end
     end
 
-    context "when the meeting has been deleted" do
-      before do
-        allow(Meeting).to receive(:find_by).with(id: meeting.id).and_return(nil)
-      end
+    context "when the message has been deleted" do
+      subject(:cause) { { "type" => "forum_message", "message_id" => 0 } }
 
-      it "keeps the entry with a generic label" do
-        expect(cause).to render_html_variant(
-          I18n.t("journals.caused_changes.meeting_agenda_item_added_html",
-                 meeting_title_information: I18n.t("journals.cause_descriptions.meeting_deleted"))
-        )
+      it "marks it deleted", :aggregate_failures do
+        expect(cause).to render_html_variant("<strong>Created from forum message</strong> (deleted)")
+        expect(cause).to render_raw_variant("Created from forum message (deleted)")
       end
     end
+  end
 
-    context "when the meeting has been cancelled" do
-      before do
-        allow(Meeting).to receive(:find_by).with(id: meeting.id).and_return(meeting)
-        allow(meeting).to receive(:visible?).with(User.current).and_return(true)
-        allow(meeting).to receive(:cancelled?).and_return(true)
-      end
+  context "when the change came in by email" do
+    subject(:cause) { { "type" => "email", "sender_address" => "jane@customer.example" } }
 
-      it "renders the meeting label as plain text with '(cancelled)'" do
-        label = "#{meeting.title} – #{format_time(meeting.start_time)}"
-        cancelled = I18n.t("journals.cause_descriptions.meeting_cancelled")
-        expect(cause).to render_html_variant(
-          I18n.t("journals.caused_changes.meeting_agenda_item_added_html",
-                 meeting_title_information: "#{label} #{cancelled}")
-        )
-      end
+    it { expect(cause).to render_html_variant("<strong>Via email</strong> from jane@customer.example") }
+    it { expect(cause).to render_raw_variant("Via email from jane@customer.example") }
 
-      it "renders the meeting label with '(cancelled)' when rendering raw text" do
-        label = "#{meeting.title} – #{format_time(meeting.start_time)}"
-        cancelled = I18n.t("journals.cause_descriptions.meeting_cancelled")
-        expect(cause).to render_raw_variant(
-          ActionController::Base.helpers.strip_tags(
-            I18n.t("journals.caused_changes.meeting_agenda_item_added_html",
-                   meeting_title_information: "#{label} #{cancelled}")
-          )
-        )
-      end
+    context "with an apostrophe in the sender address" do
+      subject(:cause) { { "type" => "email", "sender_address" => "o'brien@customer.example" } }
 
-      it "escapes a malicious meeting title when rendering HTML" do
-        allow(meeting).to receive(:title).and_return("<script>alert('xss')</script>")
+      it { expect(cause).to render_html_variant("<strong>Via email</strong> from o&#39;brien@customer.example") }
+      it { expect(cause).to render_raw_variant("Via email from o'brien@customer.example") }
+    end
+
+    context "with markup in the sender address" do
+      subject(:cause) { { "type" => "email", "sender_address" => "<script>alert('xss')</script>@customer.example" } }
+
+      it "escapes it when rendering HTML", :aggregate_failures do
         expect(cause).to render_html_variant(a_string_including("&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt;"))
-        expect(cause).not_to render_html_variant(a_string_including("<script>alert('xss')</script>"))
-      end
-    end
-  end
-
-  context "when the change was caused by removing the work package from a meeting" do
-    shared_let(:meeting) { create(:meeting, title: "Weekly sync") }
-    subject(:cause) do
-      {
-        "type" => "meeting_agenda_item_removed",
-        "meeting_id" => meeting.id
-      }
-    end
-
-    before do
-      allow(Meeting).to receive(:find_by).with(id: meeting.id).and_return(meeting)
-      allow(meeting).to receive(:visible?).with(User.current).and_return(true)
-    end
-
-    it do
-      link = link_to("#{meeting.title} – #{format_time(meeting.start_time)}", meeting_path(meeting))
-      expect(cause).to render_html_variant(
-        I18n.t("journals.caused_changes.meeting_agenda_item_removed_html", meeting_title_information: link)
-      )
-    end
-  end
-
-  context "when the change was caused by moving the work package to another meeting" do
-    shared_let(:meeting) { create(:meeting, title: "Weekly sync") }
-    subject(:cause) do
-      {
-        "type" => "meeting_agenda_item_moved",
-        "meeting_id" => meeting.id
-      }
-    end
-
-    before do
-      allow(Meeting).to receive(:find_by).with(id: meeting.id).and_return(meeting)
-      allow(meeting).to receive(:visible?).with(User.current).and_return(true)
-    end
-
-    it do
-      link = link_to("#{meeting.title} – #{format_time(meeting.start_time)}", meeting_path(meeting))
-      expect(cause).to render_html_variant(
-        I18n.t("journals.caused_changes.meeting_agenda_item_moved_html", meeting_title_information: link)
-      )
-    end
-  end
-
-  context "when the change was caused by discussing the work package in a meeting" do
-    shared_let(:meeting) { create(:meeting, title: "Weekly sync") }
-    subject(:cause) do
-      {
-        "type" => "meeting_agenda_item_discussed",
-        "meeting_id" => meeting.id
-      }
-    end
-
-    before do
-      allow(Meeting).to receive(:find_by).with(id: meeting.id).and_return(meeting)
-      allow(meeting).to receive(:visible?).with(User.current).and_return(true)
-    end
-
-    it do
-      link = link_to("#{meeting.title} – #{format_time(meeting.start_time)}", meeting_path(meeting))
-      expect(cause).to render_html_variant(
-        I18n.t("journals.caused_changes.meeting_agenda_item_discussed_html", meeting_title_information: link)
-      )
-    end
-  end
-
-  context "when the change was caused by adding a work package outcome in a meeting" do
-    shared_let(:meeting) { create(:meeting, title: "Weekly sync") }
-    subject(:cause) do
-      {
-        "type" => "meeting_outcome_recorded",
-        "meeting_id" => meeting.id
-      }
-    end
-
-    before do
-      allow(Meeting).to receive(:find_by).with(id: meeting.id).and_return(meeting)
-      allow(meeting).to receive(:visible?).with(User.current).and_return(true)
-    end
-
-    it do
-      link = link_to("#{meeting.title} – #{format_time(meeting.start_time)}", meeting_path(meeting))
-      expect(cause).to render_html_variant(
-        I18n.t("journals.caused_changes.meeting_outcome_recorded_html", meeting_title_information: link)
-      )
-    end
-  end
-
-  context "when the change references a recurring meeting series template" do
-    shared_let(:recurring_meeting) { create(:recurring_meeting, title: "Weekly series") }
-    let(:template) { recurring_meeting.reload.template }
-    let(:series_link) { link_to(template.title, meeting_path(template)) }
-
-    before do
-      allow(Meeting).to receive(:find_by).and_call_original
-      allow(Meeting).to receive(:find_by).with(id: template.id).and_return(template)
-      allow(template).to receive(:visible?).with(User.current).and_return(true)
-    end
-
-    context "when added to the template" do
-      subject(:cause) { { "type" => "meeting_agenda_item_added", "meeting_id" => template.id } }
-
-      it do
-        expect(cause).to render_html_variant(
-          I18n.t("journals.caused_changes.meeting_agenda_item_added_template_html",
-                 meeting_title_information: I18n.t("journals.cause_descriptions.meeting_series_template_html", link: series_link))
-        )
-      end
-    end
-
-    context "when removed from the template" do
-      subject(:cause) { { "type" => "meeting_agenda_item_removed", "meeting_id" => template.id } }
-
-      it do
-        expect(cause).to render_html_variant(
-          I18n.t("journals.caused_changes.meeting_agenda_item_removed_template_html",
-                 meeting_title_information: I18n.t("journals.cause_descriptions.meeting_series_template_html", link: series_link))
-        )
-      end
-    end
-
-    context "when moved to the series backlog" do
-      shared_let(:occurrence) { create(:recurring_meeting_occurrence, recurring_meeting:) }
-      let!(:backlog_item) do
-        create(:wp_meeting_agenda_item, meeting: template, meeting_section: template.backlog, work_package:)
-      end
-      let(:instance) { described_class.new(build(:work_package_journal, journable: work_package)) }
-
-      subject(:cause) do
-        { "type" => "meeting_agenda_item_moved", "meeting_id" => template.id, "source_meeting_id" => occurrence.id }
-      end
-
-      it "links to the source occurrence's page, not the template" do
-        link = link_to(template.title, meeting_path(occurrence, anchor: "meeting-agenda-item-#{backlog_item.id}"))
-        expect(cause).to render_html_variant(
-          I18n.t("journals.caused_changes.meeting_agenda_item_moved_template_html",
-                 meeting_title_information: I18n.t("journals.cause_descriptions.meeting_series_backlog_html", link:))
-        )
-      end
-    end
-  end
-
-  context "when the change references a onetime meeting template" do
-    shared_let(:template) { create(:onetime_template, title: "Sprint review template") }
-    subject(:cause) { { "type" => "meeting_agenda_item_added", "meeting_id" => template.id } }
-
-    before do
-      allow(Meeting).to receive(:find_by).with(id: template.id).and_return(template)
-      allow(template).to receive(:visible?).with(User.current).and_return(true)
-    end
-
-    it do
-      link = link_to(template.title, meeting_path(template))
-      expect(cause).to render_html_variant(
-        I18n.t("journals.caused_changes.meeting_agenda_item_added_template_html",
-               meeting_title_information: I18n.t("journals.cause_descriptions.meeting_template_html", link:))
-      )
-    end
-  end
-
-  describe "deep-linking the meeting label to an agenda item" do
-    shared_let(:meeting) { create(:meeting, title: "Weekly sync") }
-    let(:instance) { described_class.new(build(:work_package_journal, journable: work_package)) }
-    let(:label) { "#{meeting.title} – #{format_time(meeting.start_time)}" }
-
-    before do
-      allow(Meeting).to receive(:find_by).with(id: meeting.id).and_return(meeting)
-      allow(meeting).to receive(:visible?).with(User.current).and_return(true)
-    end
-
-    context "for add/move/discuss" do
-      shared_let(:agenda_item) { create(:wp_meeting_agenda_item, meeting:, work_package:) }
-
-      it "anchors to the work package's own agenda item" do
-        cause = { "type" => "meeting_agenda_item_added", "meeting_id" => meeting.id }
-        link = link_to(label, meeting_path(meeting, anchor: "meeting-agenda-item-#{agenda_item.id}"))
-        expect(cause).to render_html_variant(
-          I18n.t("journals.caused_changes.meeting_agenda_item_added_html", meeting_title_information: link)
-        )
-      end
-    end
-
-    context "for a removal" do
-      it "links to the meeting only, without an anchor" do
-        cause = { "type" => "meeting_agenda_item_removed", "meeting_id" => meeting.id }
-        link = link_to(label, meeting_path(meeting))
-        expect(cause).to render_html_variant(
-          I18n.t("journals.caused_changes.meeting_agenda_item_removed_html", meeting_title_information: link)
-        )
-      end
-    end
-
-    context "for an outcome work package" do
-      shared_let(:parent_item) { create(:wp_meeting_agenda_item, meeting:) }
-      shared_let(:outcome) do
-        create(:meeting_outcome, meeting_agenda_item: parent_item, work_package:, kind: :work_package)
-      end
-
-      it "anchors to the outcome's parent agenda item" do
-        cause = { "type" => "meeting_outcome_recorded", "meeting_id" => meeting.id }
-        link = link_to(label, meeting_path(meeting, anchor: "meeting-agenda-item-#{parent_item.id}"))
-        expect(cause).to render_html_variant(
-          I18n.t("journals.caused_changes.meeting_outcome_recorded_html", meeting_title_information: link)
-        )
+        expect(cause).not_to render_html_variant(a_string_including("<script>"))
       end
     end
   end

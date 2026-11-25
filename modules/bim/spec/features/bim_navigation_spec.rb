@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -20,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -51,6 +52,7 @@ RSpec.describe "BIM navigation spec", :js, with_config: { edition: "bim" } do
   let(:full_view) { Pages::FullWorkPackage.new(work_package) }
   let(:model_tree) { Components::XeokitModelTree.new }
   let(:destroy_modal) { Components::WorkPackages::DestroyModal.new }
+  let(:model_page) { Pages::IfcModels::ShowDefault.new project }
 
   before do
     login_as user
@@ -61,23 +63,19 @@ RSpec.describe "BIM navigation spec", :js, with_config: { edition: "bim" } do
     before do
       model_page.visit!
       model_page.finished_loading
+      model_page.model_viewer_visible true
+      model_page.model_viewer_shows_a_toolbar true
+      model_page.page_shows_a_toolbar true
+      model_tree.sidebar_shows_viewer_menu true
+      page.find_test_selector("op-wp-card-view")
+      card_view.expect_work_package_listed work_package
     end
 
-    context "deep link on the page" do
-      before do
-        model_page.visit!
-        model_page.finished_loading
-
-        # Should be at split view
-        model_page.model_viewer_visible true
-        model_page.model_viewer_shows_a_toolbar true
-        model_page.page_shows_a_toolbar true
-        model_tree.sidebar_shows_viewer_menu true
+    context "when using a deep link on the page" do
+      it "can switch between the different view modes" do
         expect(page).to have_test_selector("op-wp-card-view")
         card_view.expect_work_package_listed work_package
-      end
 
-      it "can switch between the different view modes" do
         # Opening details view with info icon
         card_view.click_info_icon(work_package)
 
@@ -93,7 +91,7 @@ RSpec.describe "BIM navigation spec", :js, with_config: { edition: "bim" } do
 
         details_view.ensure_page_loaded
         details_view.expect_subject
-        details_view.go_back
+        details_view.close
 
         details_view.expect_closed
         card_view.expect_work_package_listed(work_package)
@@ -128,8 +126,7 @@ RSpec.describe "BIM navigation spec", :js, with_config: { edition: "bim" } do
         details_view.expect_tab "Overview"
 
         # Delete via the context menu
-        page.find_test_selector("wp-details-toolbar--show-more-button").click
-        find(".menu-item", text: "Delete").click
+        details_view.select_from_context_menu("Delete")
 
         destroy_modal.expect_listed(work_package)
         destroy_modal.confirm_deletion
@@ -147,7 +144,15 @@ RSpec.describe "BIM navigation spec", :js, with_config: { edition: "bim" } do
         details_view.ensure_page_loaded
         details_view.expect_subject
         details_view.switch_to_tab tab: "Relations"
+        details_view.expect_tab "Relations"
 
+        # The "full screen" link's href is rendered server-side from the active tab,
+        # but it lags behind the tab nav's own selected-state update (data-aria-current,
+        # checked by expect_tab above) - wait for the href itself to catch up, or
+        # clicking too early still hits the pre-switch (activity) href.
+        expect(page).to have_css(
+          "[data-test-selector='wp-details-tab-component--full-screen'][href*='relations']"
+        )
         details_view.switch_to_fullscreen
         full_view.expect_tab "Relations"
 
@@ -157,15 +162,37 @@ RSpec.describe "BIM navigation spec", :js, with_config: { edition: "bim" } do
     end
   end
 
-  context "on default page" do
-    let(:model_page) { Pages::IfcModels::ShowDefault.new project }
+  it_behaves_like "can switch from split to viewer to list-only"
 
-    it_behaves_like "can switch from split to viewer to list-only"
-  end
+  context "when switching to another project (#BIM-83)" do
+    let(:project_b) { create(:project, name: "Project B", enabled_module_names: %i[bim work_package_tracking]) }
+    let(:user) do
+      create(:user, member_with_roles: { project => role, project_b => role })
+    end
+    let!(:model_b) do
+      create(:ifc_model_minimal_converted, title: "Model B", project: project_b, uploader: user, is_default: true)
+    end
+    let(:model_page_b) { Pages::IfcModels::ShowDefault.new project_b }
+    let(:project_menu) { Components::Projects::TopMenu.new }
 
-  context "on show page" do
-    let(:model_page) { Pages::IfcModels::Show.new project, model.id }
+    def expect_model_checked(title)
+      within(".xeokit-form-check", text: title) do
+        expect(page).to have_css("input[type=checkbox]:checked", visible: :all, wait: 10) # rubocop:disable Capybara/RSpec/SpecificMatcher
+      end
+    end
 
-    it_behaves_like "can switch from split to viewer to list-only"
+    it "shows the newly selected project's model instead of the previous one" do
+      model_page.visit_and_wait_until_finished_loading!
+      expect_model_checked(model.title)
+
+      project_menu.toggle!
+      project_menu.search_and_select(project_b.name)
+
+      within("#main-menu") { click_link "BCF" }
+      model_page_b.finished_loading
+
+      expect_model_checked("Model B")
+      expect(page).to have_no_css(".xeokit-form-check", text: model.title)
+    end
   end
 end

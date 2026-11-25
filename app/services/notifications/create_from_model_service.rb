@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -161,7 +160,7 @@ class Notifications::CreateFromModelService
   end
 
   def settings_of_mentioned
-    project_applicable_settings(mentioned_ids,
+    project_applicable_settings(strategy.mentionable_users(mentioned_ids, journal),
                                 project,
                                 NotificationSetting::MENTIONED)
   end
@@ -250,23 +249,23 @@ class Notifications::CreateFromModelService
       .where(user: user_scope.where(id: User.allowed(strategy.permission(journal, reason), project)))
   end
 
-  # Returns the text of the model (currently suited to work package description and subject) eligible
-  # to be looked at for mentions of users and groups:
+  # Returns the text of the model (work package description and subject, message subject and content)
+  # eligible to be looked at for mentions of users and groups:
   # * only lines added
   # * excluding quoted lines
   def text_for_mentions
     potential_text = +""
     potential_text << journal.notes if journal.try(:notes)
 
-    %i[description subject].each do |field|
-      details = journal.details[field]
-
-      if details.present?
-        potential_text << "\n#{Redmine::Helpers::Diff.new(*details.reverse).additions.join(' ')}"
-      end
+    %i[description subject content].each do |field|
+      potential_text << "\n#{added_text(field)}" if journal.details[field].present?
     end
 
     potential_text.gsub(QUOTED_LINES_PATTERN, "")
+  end
+
+  def added_text(field)
+    Redmine::Helpers::Diff.new(*journal.details[field].reverse).additions.join(" ")
   end
 
   def mentioned_ids

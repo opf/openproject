@@ -1,0 +1,11 @@
+---
+pt-BR:
+  js:
+    button_allocate_resource: Alocar recurso
+    resource_management:
+      create_placeholder_user: Criar usuário substituto com critérios de filtro
+      hidden_user: Usuário oculto
+      my_time_management:
+        finish_by: Finish by %{date}
+        finish_today: Finish today
+      show_allocations: Show resource allocations

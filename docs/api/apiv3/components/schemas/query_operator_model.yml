@@ -2,8 +2,8 @@
 ---
 type: object
 required:
-- id
-- name
+  - id
+  - name
 properties:
   id:
     type: string
@@ -12,11 +12,11 @@ properties:
   name:
     type: string
     description: Query operator name
-example:
-  _type: QueryOperator
-  id: "!"
-  name: is not
-  _links:
-    self:
-      href: "/api/v3/queries/operators/!"
-      title: is not
+examples:
+  - _type: QueryOperator
+    id: "!"
+    name: is not
+    _links:
+      self:
+        href: "/api/v3/queries/operators/!"
+        title: is not

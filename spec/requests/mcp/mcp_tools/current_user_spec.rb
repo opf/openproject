@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -61,24 +60,15 @@ RSpec.describe McpTools::CurrentUser do
     tool_config.save!
   end
 
-  context "when the mcp_server enterprise feature is enabled", with_ee: %i[mcp_server] do
-    it_behaves_like "MCP embedded resource tool"
+  it_behaves_like "MCP embedded resource tool"
 
-    it "responds with a properly formatted user" do
-      mcp_request
-      expect(parsed_results.fetch("structuredContent").to_json).to match_json_schema.from_docs("user_model")
-    end
-
-    it "responds with the current user" do
-      mcp_request
-      expect(parsed_results.dig("structuredContent", "id")).to eq(user.id)
-    end
+  it "responds with a properly formatted user" do
+    mcp_request
+    expect(parsed_results.fetch("structuredContent").to_json).to match_json_schema.from_docs("user_model")
   end
 
-  context "when the mcp_server enterprise feature is disabled" do
-    it "responds in a 404" do
-      mcp_request
-      expect(last_response).to have_http_status(404)
-    end
+  it "responds with the current user" do
+    mcp_request
+    expect(parsed_results.dig("structuredContent", "id")).to eq(user.id)
   end
 end

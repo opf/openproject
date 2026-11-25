@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -48,6 +47,32 @@ module Migration
       remove_index_on(table_name, index_name)
     end
 
+    def ensuring_single_schema(table_name)
+      schemas = schemas_containing(table_name)
+      return yield if schemas.size <= 1
+
+      raise <<~MESSAGE
+
+        The "#{table_name}" table exists in more than one schema on the database search path: #{schemas.join(', ')}.
+        OpenProject uses "#{schemas.first}"; any other schema is a stale copy.
+
+        This is the same situation as restoring a cloud backup on premises. Back up the database, then drop the stale
+        schema as described here before continuing the upgrade:
+        #{OpenProject::Static::Links.url_for(:restore_cloud_backup_documentation, localize_url: false)}
+
+      MESSAGE
+    end
+
+    def schemas_containing(table_name)
+      connection.select_values(<<~SQL.squish)
+        SELECT schemaname
+        FROM pg_tables
+        WHERE tablename = #{connection.quote(table_name.to_s)}
+          AND schemaname = ANY (current_schemas(false))
+        ORDER BY array_position(current_schemas(false), schemaname)
+      SQL
+    end
+
     # Searches a live index name in this order
     # 1. canonical name,
     # 2. pgloader's idx_<oid>_ prefix,
@@ -60,14 +85,22 @@ module Migration
       actual&.name
     end
 
-    def remove_index_on(table_name, index_name, columns = nil)
+    def remove_index_on(table_name, index_name, columns = nil, **)
       actual_name = resolved_index_name(table_name, index_name, columns)
-      remove_index table_name, name: actual_name if actual_name
+      return say_index_missing(table_name, index_name) unless actual_name
+
+      remove_index table_name, name: actual_name, **
     end
 
     def rename_index_on(table_name, index_name, new_name, columns = nil)
       actual_name = resolved_index_name(table_name, index_name, columns)
-      rename_index table_name, actual_name, new_name if actual_name
+      return say_index_missing(table_name, index_name) unless actual_name
+
+      rename_index table_name, actual_name, new_name
+    end
+
+    def say_index_missing(table_name, index_name)
+      say "No index matching #{index_name} found on #{table_name}, skipping"
     end
 
     ##
