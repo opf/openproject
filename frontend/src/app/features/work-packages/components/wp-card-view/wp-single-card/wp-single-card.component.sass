@@ -125,6 +125,13 @@
       margin-right: 5px
       max-width: 6.5rem
       display: flex
+
+      &:empty
+        display: none
+    // Without a status button or baseline icon, the ID takes over the empty
+    // status column so that the first line is not indented by its gap.
+    &:has(> &-status-baseline:empty) &-id
+      grid-column-start: status
     &-status
       overflow: hidden
     &-baseline
