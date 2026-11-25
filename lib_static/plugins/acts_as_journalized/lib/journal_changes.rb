@@ -100,7 +100,9 @@ module JournalChanges
       relation = journal.customizable_journals
       if journable.is_a?(::Project)
         relation = relation.with(cf_mappings: journable.project_custom_field_project_mappings)
-                           .joins("INNER JOIN cf_mappings USING (custom_field_id)")
+                           .joins("LEFT OUTER JOIN cf_mappings USING (custom_field_id)")
+                           .where("cf_mappings.custom_field_id IS NOT NULL OR NOT EXISTS " \
+                                  "(SELECT 1 FROM custom_fields WHERE custom_fields.id = customizable_journals.custom_field_id)")
       end
       relation
     }
