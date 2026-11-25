@@ -124,11 +124,10 @@ When we receive vulnerability reports from researchers or through internal ident
     - Generally, OpenProject only supports the **latest stable** release. Please consult your enterprise contract or our [terms of services](https://www.openproject.org/legal/terms-of-service/) for details.
 8. A patch release is created, published, and distributed for all supported installations.
     - When the release contains fixes for **high** or **critical** vulnerabilities, the release notes will mention this, but will not contain any details about the vulnerabilities yet.
-9. The advisory with full details and full release notes are published and if needed, a CVE is requested
+9. The security mailing list is notified of the release with upgrade guidance when the releases are available.
+10. The advisory with full details and full release notes are published and if needed, a CVE is requested
     - for **low** and **medium** vulnerabilities: with the release.
     - for **high** and **critical** vulnerabilities: 24 hours after the release.
-10. The security mailing list is notified of the release with upgrade guidance when the releases are available.
-
 ### How long does it take to fix a security issue?
 
 All vulnerabilities are treated with the highest priority. **Critical** and **high** impact vulnerabilities are aimed to be available as an upgradable fix within 14 days after *confirmation of the vulnerability*. This timeline represents our targets. Actual resolution times may vary depending on the complexity of the issue and the availability of our team.
