@@ -76,7 +76,7 @@ System administrators can delete labels that are no longer needed.
 6. Check **I understand that this action is not reversible**.
 7. Click **Delete** to confirm.
 
-![Delete label confirmation dialog showing the number of affected work packages, the irreversible action checkbox, and the Delete and Cancel buttons](openproject_system_admin_labels_delete.png)
+![Delete label confirmation dialog showing the number of affected work packages, the irreversible action checkbox, and the Delete and Close buttons](openproject_system_admin_labels_delete.png)
 
 The label is permanently deleted and removed from all work packages where it was assigned.
 
