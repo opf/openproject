@@ -88,7 +88,7 @@ gem "commonmarker", "~> 2.10.0"
 
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
-gem "html-pipeline", "~> 2.14.0"
+gem "html-pipeline", "~> 3.2.4"
 # Requires escape-utils for faster escaping
 gem "escape_utils", "~> 1.3"
 # Syntax highlighting used in html-pipeline with rouge

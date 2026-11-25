@@ -46,8 +46,7 @@ module OpenProject::TextFormatting::Formats::Markdown
       OpenProject::TextFormatting::Filters::RelativeLinkFilter,
       OpenProject::TextFormatting::Filters::LinkAttributeFilter,
       OpenProject::TextFormatting::Filters::ExternalLinkCaptureFilter,
-      OpenProject::TextFormatting::Filters::FigureWrappedFilter,
-      OpenProject::TextFormatting::Filters::BemCssFilter
+      OpenProject::TextFormatting::Filters::FigureWrappedFilter
     ].freeze
 
     # `text/plain` mailer bodies share the matcher and mention stages so
@@ -65,15 +64,19 @@ module OpenProject::TextFormatting::Formats::Markdown
     ].freeze
 
     def to_html(text)
-      result = pipeline.call(text, context)
-      output = result[:output].to_s
+      output = render(text).to_s
+      return output if context[:plain_text]
 
-      # OG: html_safe after SanitizationFilter is a valid use-case.
-      context[:plain_text] ? output : output.html_safe # rubocop:disable Rails/OutputSafety
+      filter = OpenProject::TextFormatting::Filters::BemCssFilter.new
+      HTMLPipeline.new(sanitization_config: nil, node_filters: [filter])
+                  .call(output, context:).fetch(:output).html_safe # rubocop:disable Rails/OutputSafety
     end
 
     def to_document(text)
-      pipeline.to_document text, context
+      document = super
+      return document if context[:plain_text]
+
+      OpenProject::TextFormatting::Filters::BemCssFilter.new.decorate_document(document)
     end
 
     def filters

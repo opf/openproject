@@ -29,7 +29,7 @@
 
 module OpenProject::TextFormatting
   module Filters
-    class PatternMatcherFilter < HTML::Pipeline::Filter
+    class PatternMatcherFilter < DomFilter
       class << self
         def append_matcher(matcher)
           matchers << matcher

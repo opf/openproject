@@ -29,7 +29,7 @@
 
 module OpenProject::TextFormatting
   module Filters
-    class MentionFilter < HTML::Pipeline::Filter
+    class MentionFilter < DomFilter
       include ERB::Util
       include ActionView::Helpers::UrlHelper
       include OpenProject::ObjectLinking

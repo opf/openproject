@@ -29,15 +29,15 @@
 
 module OpenProject::TextFormatting
   module Filters
-    class TableOfContentsFilter < HTML::Pipeline::TableOfContentsFilter
+    class TableOfContentsFilter < DomFilter
       include ActionView::Context
       include ActionView::Helpers::TagHelper
 
       attr_reader :headings, :ids
 
-      def initialize(doc, context = nil, result = nil)
+      def initialize(input, context = nil, result = nil)
         super
-        @headings ||= doc.css("h1, h2, h3, h4, h5, h6")
+        @headings = doc.css("h1, h2, h3, h4, h5, h6")
         @ids = Set.new
       end
 
@@ -63,8 +63,8 @@ module OpenProject::TextFormatting
       # Build a unique id used for anchoring
       def get_unique_id(text)
         # Build id from text
-        id = ascii_downcase(text)
-        id.gsub!(PUNCTUATION_REGEXP, "") # remove punctuation
+        id = text.downcase(:ascii)
+        id.gsub!(/[^\p{Word}\- ]/u, "") # remove punctuation
         id.tr!(" ", "-") # replace spaces with dash
 
         while ids.add?(id).nil?

@@ -29,7 +29,7 @@
 
 module OpenProject::TextFormatting
   module Filters
-    class RelativeLinkFilter < HTML::Pipeline::Filter
+    class RelativeLinkFilter < DomFilter
       def call
         # We only care for absolute rendering
         unless context[:only_path] == false

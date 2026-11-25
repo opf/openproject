@@ -29,7 +29,7 @@
 
 module OpenProject::TextFormatting
   module Filters
-    class ExternalLinkCaptureFilter < HTML::Pipeline::Filter
+    class ExternalLinkCaptureFilter < DomFilter
       include OpenProject::StaticRouting::UrlHelpers
 
       def call

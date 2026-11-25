@@ -53,7 +53,7 @@
 
 module OpenProject::TextFormatting
   module Filters
-    class TaskListFilter < HTML::Pipeline::Filter
+    class TaskListFilter < DomFilter
       MARKER = /\A(?:\s*[-+*]|\d+\.)?\s*(\[[xX[:space:]]\])(?=\s)/
 
       Item = Data.define(:checkbox_text, :source) do

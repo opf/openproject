@@ -29,7 +29,7 @@
 
 module OpenProject::TextFormatting
   module Filters
-    class LinkAttributeFilter < HTML::Pipeline::Filter
+    class LinkAttributeFilter < DomFilter
       def call
         links.each do |node|
           next if node["target"] || node["href"]&.start_with?("#")

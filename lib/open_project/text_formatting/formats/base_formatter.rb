@@ -29,22 +29,22 @@
 
 module OpenProject::TextFormatting::Formats
   class BaseFormatter
-    attr_reader :context,
-                :pipeline
+    attr_reader :context
 
     def initialize(context)
       @context = context
-      @pipeline = HTML::Pipeline.new(filters, context)
     end
 
-    def to_html(text)
-      raise SubclassResponsibilityError
+    def to_document(text)
+      OpenProject::TextFormatting::Filters::DomFilter.parse(render(text))
     end
 
     protected
 
-    def filters
-      []
+    def render(text)
+      filter_context = context.dup.freeze
+      result = {}
+      filters.reduce(text) { |input, filter| filter.call(input, filter_context, result) }
     end
   end
 end

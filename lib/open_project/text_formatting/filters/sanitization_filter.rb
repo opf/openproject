@@ -27,17 +27,79 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# The base sanitization policy is adapted from html-pipeline 2.14.3.
+# Copyright (c) 2012 GitHub Inc. and Jerry Cheung
+#
+# MIT License
+#
+# Permission is hereby granted, free of charge, to any person obtaining
+# a copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so, subject to
+# the following conditions:
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+# LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+# OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+# WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 module OpenProject::TextFormatting
   module Filters
-    class SanitizationFilter < HTML::Pipeline::SanitizationFilter
+    class SanitizationFilter < DomFilter
       # Prefix for all id and name attributes so they cannot clobber document/window
       # (e.g. id="constructor" becomes id="op-frag-constructor"). Anchors still work
       # because we rewrite fragment links to use the same prefix. Used by
       # TableOfContentsFilter when it assigns heading ids.
       FRAGMENT_ID_PREFIX = "op-frag-"
 
+      WEB_PROTOCOLS = ["http", "https", :relative].freeze
+      CONTAINERS = { "li" => %w[ul ol] }.merge(%w[tr td th thead tbody tfoot].index_with { ["table"] }).freeze
+      BASE_ALLOWLIST = {
+        elements: %w[
+          h1 h2 h3 h4 h5 h6 h7 h8 br b i strong em a pre code img tt
+          div ins del sup sub p ol ul table thead tbody tfoot blockquote
+          dl dt dd kbd q samp var hr ruby rt rp li tr td th s strike summary
+          details caption figure figcaption abbr bdo cite dfn mark small span time wbr
+        ],
+        remove_contents: %w[script],
+        attributes: {
+          "a" => %w[href], "img" => %w[src longdesc], "div" => %w[itemscope itemtype],
+          "blockquote" => %w[cite], "del" => %w[cite], "ins" => %w[cite], "q" => %w[cite],
+          all: %w[
+            abbr accept accept-charset accesskey action align alt aria-describedby aria-hidden aria-label aria-labelledby
+            axis border cellpadding cellspacing char charoff charset checked clear cols colspan color compact coords datetime
+            dir disabled enctype for frame headers height hreflang hspace ismap label lang maxlength media method multiple
+            name nohref noshade nowrap open progress prompt readonly rel rev role rows rowspan rules scope selected shape
+            size span start summary tabindex target title type usemap valign value vspace width itemprop
+          ]
+        },
+        protocols: {
+          "a" => { "href" => [] },
+          "blockquote" => { "cite" => WEB_PROTOCOLS }, "del" => { "cite" => WEB_PROTOCOLS },
+          "ins" => { "cite" => WEB_PROTOCOLS }, "q" => { "cite" => WEB_PROTOCOLS },
+          "img" => { "src" => WEB_PROTOCOLS, "longdesc" => WEB_PROTOCOLS }
+        },
+        transformers: [lambda { |env|
+          node = env[:node]
+          parents = CONTAINERS[env[:node_name]]
+          node.replace(node.children) if parents && node.ancestors.none? { |ancestor| parents.include?(ancestor.name) }
+        }]
+      }.freeze
+
+      def call
+        Sanitize.clean_node!(doc, allowlist)
+      end
+
       def allowlist # rubocop:disable Metrics/AbcSize
-        base = super
+        base = context[:allowlist] || context[:whitelist] || BASE_ALLOWLIST
         # Ensure id is allowed (for anchors); we make it safe by prefixing in the transformer.
         base_attrs = base[:attributes].deep_dup
         all_attrs = Array(base_attrs[:all])
@@ -52,7 +114,10 @@ module OpenProject::TextFormatting
 
           attributes: base_attrs.deep_merge(
             # Explicit allowlist of data-* attributes used by registered macros.
-            "macro" => %w[class data-type data-classes data-page data-include-parent data-macro-name data-query-props data-pull-request-id data-pull-request-state],
+            "macro" => %w[
+              class data-type data-classes data-page data-include-parent data-macro-name
+              data-query-props data-pull-request-id data-pull-request-state
+            ],
             # mentions
             "mention" => %w[data-type data-text data-id class],
             # add styles to tables

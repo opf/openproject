@@ -29,7 +29,7 @@
 
 module OpenProject::TextFormatting
   module Filters
-    class UntrustedSourceFilter < HTML::Pipeline::Filter
+    class UntrustedSourceFilter < DomFilter
       def self.image_link_text(alt, source)
         I18n.t("text_formatting.image_link", name: alt.presence || source)
       end

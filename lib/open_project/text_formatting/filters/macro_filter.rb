@@ -29,7 +29,7 @@
 
 module OpenProject::TextFormatting
   module Filters
-    class MacroFilter < HTML::Pipeline::Filter
+    class MacroFilter < DomFilter
       cattr_accessor :registered
 
       def self.register(*macros)
