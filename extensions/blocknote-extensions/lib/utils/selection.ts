@@ -1,4 +1,4 @@
-import { NodeSelection, TextSelection } from 'prosemirror-state';
+import { NodeSelection } from 'prosemirror-state';
 import type { Node as ProsemirrorNode } from 'prosemirror-model';
 import type { AnyEditor } from '../editorTypes';
 import { WORK_PACKAGE_NODE_TYPES } from './nodeTypes';
@@ -94,10 +94,12 @@ export function selectedWorkPackageDom(editor:AnyEditor):Node | null {
   return editor.prosemirrorView?.nodeDOM(selection.from) ?? null;
 }
 
-/** A gap cursor sits between two blocks, yet BlockNote reports the block after it as the one holding the cursor. */
+// BlockNote reports the block after a gap cursor as the one holding the cursor, see
+// https://github.com/TypeCellOS/BlockNote/issues/3421. Matched by its JSON id, as taking
+// the class from prosemirror-gapcursor would add another peer dependency.
 export function isGapCursor(editor:AnyEditor):boolean {
-  const { selection } = editor.prosemirrorState;
-  return selection.empty && !(selection instanceof TextSelection);
+  const { type } = editor.prosemirrorState.selection.toJSON() as { type:string };
+  return type === 'gapcursor';
 }
 
 export function isWorkPackageNodeSelected(editor:AnyEditor, element:Element | null):boolean {

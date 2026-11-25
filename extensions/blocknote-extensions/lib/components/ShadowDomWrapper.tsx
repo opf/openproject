@@ -1,5 +1,6 @@
 import type { PropsWithChildren } from 'react';
 import { createGlobalStyle, StyleSheetManager } from 'styled-components';
+import gapCursorStyles from 'prosemirror-gapcursor/style/gapcursor.css?inline';
 
 interface ShadowDomWrapperProps {
   target:ShadowRoot | HTMLElement;
@@ -10,7 +11,9 @@ const ProseMirrorBaseStyles = createGlobalStyle`
     overflow-wrap: break-word;
   }
 
-  /* Tiptap injects these into the document head, which a shadow root does not see. */
+  /* Tiptap injects these into the document head, which a shadow root does not see. Copied
+     rather than imported: prosemirror-view's stylesheet also brings a selected-node outline
+     that Tiptap leaves out. */
   .ProseMirror-hideselection *::selection {
     background: transparent;
   }
@@ -19,31 +22,11 @@ const ProseMirrorBaseStyles = createGlobalStyle`
     caret-color: transparent;
   }
 
-  .ProseMirror-gapcursor {
-    display: none;
-    pointer-events: none;
-    position: absolute;
-    margin: 0;
-  }
+  ${gapCursorStyles}
 
+  /* Upstream hard-codes black, which disappears in the dark theme. */
   .ProseMirror-gapcursor:after {
-    content: "";
-    display: block;
-    position: absolute;
-    top: -2px;
-    width: 20px;
-    border-top: 1px solid black;
-    animation: ProseMirror-cursor-blink 1.1s steps(2, start) infinite;
-  }
-
-  @keyframes ProseMirror-cursor-blink {
-    to {
-      visibility: hidden;
-    }
-  }
-
-  .ProseMirror-focused .ProseMirror-gapcursor {
-    display: block;
+    border-top-color: currentColor;
   }
 `;
 

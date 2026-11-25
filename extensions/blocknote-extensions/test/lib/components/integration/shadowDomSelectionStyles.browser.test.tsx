@@ -41,4 +41,14 @@ describe('selection styles inside a shadow root', () => {
     const gapCursorLine = getComputedStyle(shadowRoot.querySelector('.ProseMirror-gapcursor')!, '::after');
     expect(gapCursorLine.borderTopStyle).toBe('solid');
   });
+
+  it('draws the gap cursor in the text color, so it stays visible in a dark theme', async () => {
+    const shadowRoot = await renderCardsBetweenParagraphs();
+
+    await userEvent.keyboard('{ArrowDown}{ArrowDown}');
+    await expect.poll(() => shadowRoot.querySelector('.ProseMirror-gapcursor')).not.toBeNull();
+
+    const gapCursor = shadowRoot.querySelector('.ProseMirror-gapcursor')!;
+    expect(getComputedStyle(gapCursor, '::after').borderTopColor).toBe(getComputedStyle(gapCursor).color);
+  });
 });
