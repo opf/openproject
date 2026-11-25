@@ -49,6 +49,9 @@ module OpPrimer
 
     LINES_DEFAULT = 3
 
+    TAG_OPTIONS = %i[div span].freeze
+    TAG_DEFAULT = :div
+
     attr_reader :truncate, :expansion
 
     # The dialog revealed when `expansion: :dialog`. The component owns the
@@ -68,16 +71,26 @@ module OpPrimer
     #   automatically) and the controller only manages the expander's visibility.
     # @param dialog_id [String] `id` for the dialog in `:dialog` mode; defaults to
     #   a generated value. The expander button is wired to this id automatically.
+    #   Required when `render_dialog` is `false`.
+    # @param render_dialog [Boolean] whether the component renders the dialog
+    #   itself. Pass `false` to render a dialog with `dialog_id` elsewhere, e.g.
+    #   when the component sits inside a heading, which cannot contain a dialog.
+    # @raise [ArgumentError] if `render_dialog` is `false` in `:dialog` mode
+    #   without a `dialog_id`.
     # @param expander_arguments [Hash] system arguments forwarded to the
     #   `Primer::Alpha::HiddenTextExpander`.
+    # @param tag [Symbol] wrapping element, also used for the multi-line
+    #   truncating element. Use `:span` inside phrasing content such as a heading.
     # @param system_arguments [Hash] forwarded to the wrapping
     #   `Primer::BaseComponent`.
     # rubocop:disable-next Metrics/AbcSize
     def initialize(
+      tag: TAG_DEFAULT,
       truncate: TRUNCATE_DEFAULT,
       lines: LINES_DEFAULT,
       expansion: EXPANSION_DEFAULT,
-      dialog_id: "expandable-text-dialog-#{SecureRandom.hex(4)}",
+      dialog_id: nil,
+      render_dialog: true,
       expander_arguments: {},
       **system_arguments
     )
@@ -89,10 +102,15 @@ module OpPrimer
       @expansion = ActiveSupport::StringInquirer.new(
         fetch_or_fallback(EXPANSION_OPTIONS, expansion, EXPANSION_DEFAULT).to_s
       )
-      @dialog_id = dialog_id
+      if @expansion.dialog? && !render_dialog && dialog_id.blank?
+        raise ArgumentError, "dialog_id is required when render_dialog is false"
+      end
 
-      @system_arguments = deny_tag_argument(**system_arguments)
-      @system_arguments[:tag] = :div
+      @dialog_id = dialog_id.presence || "expandable-text-dialog-#{SecureRandom.hex(4)}"
+      @render_dialog = render_dialog
+
+      @system_arguments = system_arguments
+      @system_arguments[:tag] = fetch_or_fallback(TAG_OPTIONS, tag, TAG_DEFAULT)
       @system_arguments[:display] = :flex
       @system_arguments[:align_items] = @truncate.multi_line? ? :flex_end : :baseline
       @system_arguments[:data] = merge_data(
@@ -111,7 +129,7 @@ module OpPrimer
       truncate_arguments = { flex: 1, data: { expandable_text_target: "truncate" } }
       @truncate_component =
         if @truncate.multi_line?
-          OpPrimer::VerticalTruncateComponent.new(lines:, **truncate_arguments)
+          OpPrimer::VerticalTruncateComponent.new(lines:, tag: @system_arguments[:tag], **truncate_arguments)
         else
           Primer::Beta::Truncate.new(**truncate_arguments)
         end
