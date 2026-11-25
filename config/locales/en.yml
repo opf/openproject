@@ -3915,36 +3915,33 @@ en:
         # We need to include the version to invalidate outdated translations in other locales
         "18_0":
           new_features_list:
-            line_0: "Adapt work package types and variants, workflows, and forms to the needs of different teams and projects."
-            line_1: "Track sprint progress with new agile reports (Community) and gain deeper insights with Created vs. Resolved and Epic progress charts (Professional plan)."
-            line_2: "Proofread, rewrite, and structure text directly in OpenProject with the AI Text Assistant (Professional plan)."
-            line_3: "Organize work packages more easily with labels."
-            line_4: "Plan resources across projects with global resource planners and placeholder users (Professional plan), and manage allocations in work packages and personal day planning (Premium plan)."
-            line_5: "Benefit from improved accessibility with enhanced keyboard navigation, screen reader support, and color contrast checking."
-            line_6: "Released to Community: Connect external AI assistants to OpenProject with the MCP Server."
-          new_features_title: >
-            The release contains various new features and improvements, such as:
-        "18_0":
-          new_features_list:
             line_0:
-              description: "Use with shared and project-specific workflows and forms"
+              description: "Adapt work package types to project needs and use shared and project-specific workflows and forms"
               title: "Type variants"
               url: "https://www.openproject.org/docs/release-notes/18-0-0/"
             line_1:
-              description: "Sprint reports, including many new charts"
-              title: "Agile Reporting"
+              description: "Track sprint progress (Community) and gain deeper insights with Created vs. Resolved and Epic progress charts (Professional plan)"
+              title: "Agile reporting"
               url: "https://www.openproject.org/docs/release-notes/18-0-0/"
             line_2:
-              description: "Summarize text, change formats, base it on templates"
-              title: "AI Text Actions"
+              description: "Proofread, rewrite, and structure text directly in OpenProject (Professional plan)"
+              title: "AI Text Assistant"
               url: "https://www.openproject.org/docs/release-notes/18-0-0/"
             line_3:
-              description: "Create and reuse tags"
-              title: "Labels"
+              description: "Organize, categorize, and find related work packages more easily"
+              title: "Work package labels"
               url: "https://www.openproject.org/docs/release-notes/18-0-0/"
             line_4:
-              description: "Configure or delegate custom fields per project"
-              title: "Project-specific values"
+              description: "Plan resources across projects and with placeholder users (Professional plan), manage work package allocations and personal day planning (Premium plan)"
+              title: "Extended resource management"
+              url: "https://www.openproject.org/docs/release-notes/18-0-0/"
+            line_5:
+              description: "Benefit from improved keyboard navigation, screen reader support, and color contrast checking"
+              title: "Enhanced accessibility"
+              url: "https://www.openproject.org/docs/release-notes/18-0-0/"
+            line_6:
+              description: "Connect external AI assistants to OpenProject, now also in the free Community Edition"
+              title: "MCP Server released to Community"
               url: "https://www.openproject.org/docs/release-notes/18-0-0/"
           new_features_title: >
             The release contains various new features and improvements, such as:
