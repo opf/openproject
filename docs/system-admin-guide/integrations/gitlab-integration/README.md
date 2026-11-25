@@ -21,15 +21,11 @@ Besides merge requests, the tab also lists the GitLab [issues](#link-issues), [b
 
 Additionally, in your OpenProject work package, the GitLab integration supports you in creating a branch specific to the work package and consequently the matching merge request.
 
-![Git snippets for GitLab integration in OpenProject](openproject-system-guide-gitlab-integration-git-snippets.png)
-
 Merge request activities will also show up in the Activity tab when the merge request is
 
 - first referenced (usually when opened)
 - merged
 - closed
-
-![GitLab comments on work package activity tab](openproject-system-guide-gitlab-integration-activity-tab.png)
 
 ## Configuration
 
@@ -75,8 +71,6 @@ Finally you will need to activate the **Repositories** module for each project u
 
 Seeing the **Code** tab requires the **Show repository content** permission, so this permission needs to be granted to all roles in a project allowed to see the tab. This can be added in the [**Roles and Permissions**](../../users-permissions/roles-permissions/) settings.
 
-![Grant permission to show repository content to user roles in OpenProject](openproject-system-guide-gitlab-integration-gitlab-content-role-permission.png)
-
 ### GitLab
 
 In GitLab you have to set up a webhook in each project or group to be integrated with OpenProject. For that navigate to **Settings** -> **Webhooks** and click on **Add new webhook**.
@@ -93,7 +87,7 @@ For the events that should be triggered by the webhook, please select the follow
 
 - Push events (all branches)
 - Comments
-- Issues events
+- Work item events
 - Merge request events
 - Pipeline events
 
@@ -129,7 +123,7 @@ Before upgrading, please do the following:
 
 As merge requests are based on branches, a new branch needs to be created first. For that, open the **Code** tab in your OpenProject work package detailed view. Click on **Git snippets** to open the **Git quick snippets** dialog. First, copy the branch name by clicking the copy icon next to it.
 
-![Copy the branch name for GitLab in OpenProject](openproject-system-guide-gitlab-integration-branch-name.png)
+![Git snippets for GitLab integration in OpenProject](openproject-system-guide-gitlab-integration-git-snippets.png)
 
 Then, open your Git desktop client. There, you can create your branch by entering the branch name you copied from your OpenProject work package. That way, all the branches will follow a common pattern and as the OpenProject ID is included in the branch name, it will be easy to see the connection between a MR and a work package when taking a look at a list of MRs on GitLab.
 
@@ -211,8 +205,6 @@ If no issues are linked yet, the **Code** tab displays the following message.
 ![Gitlab no link issues](openproject-system-guide-gitlab-integration-no-issues.png)
 
 You can either create a new issue in GitLab, or edit an already existing one. Enter the code **OP#388** into the issue title or description to create the link between the GitLab issue and the OpenProject work package. In this case 388 is the work package ID.
-
-![Link a GitLab issue to OpenProject work package](openproject-system-guide-gitlab-integration-gitlab-issue.png)
 
 Once you save your changes or create a GitLab issue, it will become visible under the **Code** tab in OpenProject.
 
