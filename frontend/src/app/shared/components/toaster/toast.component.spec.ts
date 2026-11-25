@@ -66,7 +66,11 @@ describe('ToastComponent branch data', () => {
     expect(view.getAllByRole('listitem').map((li) => li.textContent)).toEqual(['first', 'second']);
     expect(component.data).toBe(toast.data);
 
-    fireEvent.click(view.getByRole('button', { name: 'js.close_popup_title' }));
+    const close = view.getByRole('button', { name: 'js.button_close' });
+    const { width, height } = close.getBoundingClientRect();
+    expect(width).toBeGreaterThanOrEqual(24);
+    expect(height).toBeGreaterThanOrEqual(24);
+    fireEvent.click(close);
 
     expect(remove).toHaveBeenCalledWith(toast);
   });

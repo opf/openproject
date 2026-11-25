@@ -57,7 +57,7 @@ export class ToastComponent implements OnInit {
   @Input() public toast:IToast;
 
   public text = {
-    close_popup: this.I18n.t('js.close_popup_title'),
+    close: this.I18n.t('js.button_close'),
   };
 
   public type:ToastType;
