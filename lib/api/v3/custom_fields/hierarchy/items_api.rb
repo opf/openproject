@@ -44,7 +44,14 @@ module API
 
             def flat_tree(item, depth, visible_ids)
               limit_depth = depth + 1 if depth
-              HierarchicalItemAggregate.from_tree(item.hash_tree(limit_depth:), visible_ids:)
+              tree = item.hash_tree(limit_depth:)
+              ActiveRecord::Associations::Preloader.new(records: tree_items(tree), associations: :project).call
+
+              HierarchicalItemAggregate.from_tree(tree, visible_ids:)
+            end
+
+            def tree_items(tree)
+              tree.flat_map { |item, children| [item, *tree_items(children)] }
             end
 
             def get_hierarchy_root(query)
@@ -62,6 +69,7 @@ module API
             params do
               optional :parent, type: Integer
               optional :depth, type: Integer, values: ->(depth) { depth >= 0 }
+              optional :include_subprojects, type: Grape::API::Boolean
             end
 
             after_validation do
@@ -83,7 +91,8 @@ module API
               end
 
               self_link = api_v3_paths.custom_field_items(@custom_field.id, params[:parent], params[:depth],
-                                                          project: params[:project])
+                                                          project: params[:project],
+                                                          include_subprojects: params[:include_subprojects])
               HierarchyItemCollectionRepresenter.new(item_list(query), self_link:, current_user:)
             end
           end

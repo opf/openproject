@@ -96,6 +96,37 @@ RSpec.describe "API v3 project-specific custom field values", :webmock, content_
         end
       end
 
+      context "with a project and its subprojects" do
+        let(:subproject) { create(:project, parent: project, types: [type]) }
+        let(:path) { api_v3_paths.custom_field_items(custom_field.id, project: project.id, include_subprojects: true) }
+
+        current_user do
+          create(:user, member_with_permissions: { project => %i[view_work_packages],
+                                                   subproject => %i[view_work_packages] })
+        end
+
+        before do
+          create(:project_specific_value_restriction, project: subproject, hierarchy_item: acme)
+          create(:project_specific_value_restriction, project: subproject, hierarchy_item: traffic_lights)
+          create(:project_specific_value_restriction, project: subproject, hierarchy_item: green)
+        end
+
+        it "returns the items usable in the project and its subprojects" do
+          expect(last_response).to have_http_status(:ok)
+          expect(elements.pluck("id")).to eq([root.id, acme.id, traffic_lights.id, green.id])
+          expect(body.dig("_links", "self", "href")).to include("include_subprojects=true")
+        end
+
+        context "without including the subprojects" do
+          let(:path) { api_v3_paths.custom_field_items(custom_field.id, project: project.id) }
+
+          it "returns the items usable in the project only" do
+            expect(last_response).to have_http_status(:ok)
+            expect(elements.pluck("id")).to eq([root.id, acme.id, traffic_lights.id])
+          end
+        end
+      end
+
       context "with a project the user cannot view work packages in" do
         let(:path) { api_v3_paths.custom_field_items(custom_field.id, project: other_project.id) }
 
@@ -106,6 +137,34 @@ RSpec.describe "API v3 project-specific custom field values", :webmock, content_
         let(:path) { api_v3_paths.custom_field_items(custom_field.id, oscorp.id) }
 
         it_behaves_like "not found"
+      end
+    end
+
+    describe "POST /api/v3/queries/form with a project" do
+      subject(:last_response) do
+        post api_v3_paths.create_query_form,
+             { name: "Query", _links: { project: { href: api_v3_paths.project(project.id) } } }.to_json
+      end
+
+      current_user do
+        create(:user, member_with_permissions: { project => %i[view_work_packages save_queries] })
+      end
+
+      let(:filter_schema) do
+        body.dig("_embedded", "schema", "_embedded", "filtersSchemas", "_embedded", "elements")
+            .find { it.dig("_links", "self", "href").end_with?("customField#{custom_field.id}") }
+      end
+      let(:allowed_values_hrefs) do
+        filter_schema["_dependencies"]
+          .flat_map { it["dependencies"].values }
+          .filter_map { it.dig("values", "_links", "allowedValues", "href") }
+          .uniq
+      end
+
+      it "loads the values of the hierarchy filter from the project" do
+        expect(last_response).to have_http_status(:ok)
+        expect(allowed_values_hrefs)
+          .to eq([api_v3_paths.custom_field_items(custom_field.id, project: project.id, include_subprojects: true)])
       end
     end
 
@@ -190,6 +249,31 @@ RSpec.describe "API v3 project-specific custom field values", :webmock, content_
           expect(last_response).to have_http_status(:ok)
           expect(elements.pluck("id")).to eq([root.id, acme.id, own_item.id])
         end
+
+        context "without a project" do
+          let(:path) { api_v3_paths.custom_field_items(custom_field.id) }
+
+          it "only links the items to the projects the user sees work packages in" do
+            expect(last_response).to have_http_status(:ok)
+            expect(elements.filter_map { it.dig("_links", "project") })
+              .to eq([{ "href" => api_v3_paths.project(project.id), "title" => project.name }])
+            expect(last_response.body).not_to include(other_project.name)
+          end
+        end
+
+        context "for an admin without a project" do
+          let(:path) { api_v3_paths.custom_field_items(custom_field.id) }
+
+          current_user { create(:admin) }
+
+          it "loads the projects of the items at once" do
+            recorder = ActiveRecord::QueryRecorder.new { last_response }
+
+            expect(elements.filter_map { it.dig("_links", "project", "title") })
+              .to contain_exactly(project.name, other_project.name)
+            expect(recorder.log.grep(/FROM "projects" WHERE "projects"\."id"/)).to be_one
+          end
+        end
       end
     end
 
@@ -203,6 +287,11 @@ RSpec.describe "API v3 project-specific custom field values", :webmock, content_
           let(:path) { api_v3_paths.custom_option(own_option.id) }
 
           it_behaves_like "successful response"
+
+          it "links the option to its project" do
+            expect(body.dig("_links", "project"))
+              .to eq({ "href" => api_v3_paths.project(project.id), "title" => project.name })
+          end
         end
 
         context "for an option of another project" do

@@ -23,9 +23,26 @@ properties:
 
               **Resource**: CustomOption
             readOnly: true
+      project:
+        allOf:
+          - $ref: "./link.yml"
+          - description: |-
+              The project that added this custom option. The option is only available in that project.
+              Only present for project-specific options.
+
+              **Resource**: Project
+            readOnly: true
 examples:
   - _links:
       self:
         href: "/api/v3/custom_options/1"
     _type: CustomOption
     value: Foo
+  - _links:
+      self:
+        href: "/api/v3/custom_options/2"
+      project:
+        href: "/api/v3/projects/3"
+        title: Scrum project
+    _type: CustomOption
+    value: Bar

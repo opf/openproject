@@ -3155,6 +3155,7 @@ en:
         all: "All values will be available in all projects."
         allow: "No values will be available to any project unless you manually activate them in each project individually."
         block: "All values will be available in all projects unless you manually deactivate them in individual projects."
+      value_with_project: "%{value} (%{project})"
     reorder_alphabetical: "Reorder values alphabetically"
     reorder_confirmation: "Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?"
     semantic_keys:

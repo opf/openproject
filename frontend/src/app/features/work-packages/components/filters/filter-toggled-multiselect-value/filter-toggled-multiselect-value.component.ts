@@ -37,6 +37,7 @@ import { QueryFilterInstanceResource, QueryFilterValue, isQueryFilterValue } fro
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { compareByHref } from 'core-app/shared/helpers/angular/tracking-functions';
 import { isRecord } from 'core-app/shared/helpers/type-guards';
+import { nameValuesByProject } from '../name-values-by-project';
 
 @Component({
   selector: 'op-filter-toggled-multiselect-value',
@@ -78,6 +79,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
 
   ngOnInit():void {
     const values = (this.filter.currentSchema!.values!.allowedValues as HalResource[]);
+    nameValuesByProject(values, this.I18n);
     this.availableOptions = this.halSorting.sort(values);
   }
 
