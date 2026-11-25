@@ -1,0 +1,11 @@
+# Gitleaks configuration, picked up automatically by the `gitleaks` pre-commit
+# command in lefthook.yml. See https://github.com/gitleaks/gitleaks#configuration
+#
+# Add allowlist entries here for confirmed false positives (e.g. fake tokens in
+# spec fixtures) rather than disabling the scan. Prefer narrow `paths` or
+# `regexes` over broad ones, and never allowlist a real credential.
+
+title = "OpenProject gitleaks config"
+
+[extend]
+useDefault = true
