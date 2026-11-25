@@ -38,6 +38,10 @@ module Repositories
 
     private
 
+    def unique_id
+      @unique_id ||= self.class.generate_id
+    end
+
     def merge_request_status
       case merge_request.state.to_sym
       when :opened
@@ -62,9 +66,15 @@ module Repositories
     def pipeline_status
       return nil unless latest_pipeline
 
-      status = latest_pipeline.status.to_sym
+      job_status(latest_pipeline.status)
+    end
 
-      case status
+    def pipeline_status_label
+      t(".pipeline_statuses.#{pipeline_status.value}")
+    end
+
+    def job_status(status_name)
+      case status_name.to_sym
       when :success
         PipelineStatuses::SUCCESS
       when :failed
@@ -92,12 +102,12 @@ module Repositories
       when :manual
         PipelineStatuses::MANUAL
       else
-        raise ArgumentError, "Unsupported pipeline state #{status}"
+        raise ArgumentError, "Unsupported pipeline state #{status_name}"
       end
     end
 
-    def pipeline_status_label
-      t(".pipeline_statuses.#{pipeline_status.value}")
+    def job_icon_classes(status)
+      "__hl_foreground __hl_repositories_#{status.type}_status_#{status.value}"
     end
   end
 end
