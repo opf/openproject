@@ -28,24 +28,46 @@
 #++
 
 FactoryBot.define do
+  time_from_date = ->(date) { [date.midday, Time.zone.now].min if date }
+
   factory :sprint do
     sequence(:name) { |n| "Sprint #{n}" }
     project
     start_date { Time.zone.today }
-    finish_date { Time.zone.today + 14.days }
+    finish_date { Time.zone.today + 2.weeks }
+
+    transient do
+      expected_status { nil }
+    end
+
+    callback(:after_build, :after_stub) do |sprint, context|
+      next unless (expected = context.expected_status)
+      next if expected == sprint.status
+
+      fail "Trait #{expected.inspect} contradicts status #{sprint.status} from dates"
+    end
 
     trait :in_planning do
+      expected_status { "in_planning" }
+
       started_at { nil }
       completed_at { nil }
     end
 
     trait :active do
-      started_at { Time.zone.now }
+      expected_status { "active" }
+
+      started_at { time_from_date.call(start_date) }
+      completed_at { nil }
     end
 
     trait :completed do
-      started_at { 1.week.ago }
-      completed_at { Time.zone.now }
+      expected_status { "completed" }
+
+      start_date { Time.zone.today - 2.weeks }
+      finish_date { Time.zone.today }
+      started_at { time_from_date.call(start_date) }
+      completed_at { time_from_date.call(finish_date) }
     end
   end
 end
