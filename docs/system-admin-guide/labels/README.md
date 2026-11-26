@@ -45,8 +45,6 @@ The newly created label becomes available to all users across all projects.
 > [!NOTE]
 > Users with permission to edit work packages can also create labels directly within a work package. These labels are available globally across all projects and appear in the administration overview.
 
-Labels created by administrators remain available even when they are not assigned to any work package. Labels created directly in work packages are automatically removed when they are no longer used.
-
 ## Rename a label
 
 To rename an existing label:
@@ -60,9 +58,6 @@ To rename an existing label:
 ![Renaming an existing label using the row actions menu on the Labels administration page](openproject_system_admin_labels_rename.png)
 
 The label is renamed globally, including in all work packages where it is currently used.
-
-> [!NOTE]
-> Label names must be unique, regardless of capitalization. For example, `Development` and `development` cannot exist as separate labels.
 
 ## Delete a label
 
