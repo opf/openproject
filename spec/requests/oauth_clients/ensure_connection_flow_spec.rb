@@ -82,7 +82,7 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
                 "%2Foauth_clients%2F#{oauth_client.client_id}%2F" \
                 "callback&response_type=code&state=#{nonce}"
               )
-              expect(last_response.cookies["oauth_state_#{nonce}"])
+              expect(last_response.cookies["oauth_state_#{nonce}"].value)
                 .to eq(["%7B%22href%22%3A%22http%3A%2F%2F#{CGI.escape(Setting.host_name)}" \
                         "%2F%22%2C%22integrationId%22%3A%22#{storage.id}%22%7D"])
             end
@@ -103,7 +103,7 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
                   "%2Foauth_clients%2F#{oauth_client.client_id}%2F" \
                   "callback&response_type=code&state=#{nonce}"
                 )
-                expect(last_response.cookies["oauth_state_#{nonce}"])
+                expect(last_response.cookies["oauth_state_#{nonce}"].value)
                   .to eq(["%7B%22href%22%3A%22http%3A%2F%2F#{CGI.escape(Setting.host_name)}" \
                           "%2F123%22%2C%22integrationId%22%3A%22#{storage.id}%22%7D"])
               end
@@ -123,7 +123,7 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
                   "%2Foauth_clients%2F#{oauth_client.client_id}%2F" \
                   "callback&response_type=code&state=#{nonce}"
                 )
-                expect(last_response.cookies["oauth_state_#{nonce}"])
+                expect(last_response.cookies["oauth_state_#{nonce}"].value)
                   .to eq(["%7B%22href%22%3A%22http%3A%2F%2F#{CGI.escape(Setting.host_name)}" \
                           "%2F%22%2C%22integrationId%22%3A%22#{storage.id}%22%7D"])
               end

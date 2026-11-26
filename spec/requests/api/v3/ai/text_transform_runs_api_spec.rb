@@ -144,7 +144,7 @@ RSpec.describe API::V3::AI::TextTransformRunsAPI,
       before { post_run(body.merge(content: "")) }
 
       it "answers 422 with the model error" do
-        expect(last_response).to have_http_status(:unprocessable_entity)
+        expect(last_response).to have_http_status(:unprocessable_content)
         expect(last_response.body).to be_json_eql("Input can't be blank.".to_json).at_path("message")
         expect(AI::TextTransformRun.count).to eq(0)
       end

@@ -30,7 +30,6 @@
 module Backlogs
   class SprintsComponent < ApplicationComponent
     include Primer::AttributesHelper
-    include OpTurbo::Streamable
     include CommonHelper
 
     attr_reader :sprints, :work_packages_by_sprint_id, :active_sprints, :project, :current_user
@@ -47,10 +46,6 @@ module Backlogs
       @active_sprints = active_sprints
       @project = project
       @current_user = current_user
-    end
-
-    def wrapper_uniq_by
-      project
     end
 
     private

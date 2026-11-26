@@ -308,6 +308,7 @@ sk:
         only_start: Od %{from} v miestnom čase.
         two_values: "%{from} - %{to} vo vašom miestnom čase."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Rozšírené nastavenia
       load_error_message: There was an error loading the form

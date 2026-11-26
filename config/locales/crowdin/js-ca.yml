@@ -308,6 +308,7 @@ ca:
         only_start: Des de %{from} en el teu temps local.
         two_values: "%{from} - %{to} en el teu temps local."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Configuració avançada
       load_error_message: S'ha produït un error en carregar el formulari

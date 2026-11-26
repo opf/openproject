@@ -2153,6 +2153,7 @@ uk:
               label_import_data: Зараз імпортується
               label_progress: Виконується імпорт…
               label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
+              label_sprint_explanation: Sprints that contain at least one issue
               label_users_import_explanation: Користувачі, залучені до вибраних проєктів (зокрема, члени груп)
               title: Імпортуйте дані
             fetch_data:
@@ -2853,6 +2854,7 @@ uk:
     public: Публічні
     reason: Причина
     recipient: Одержувач
+    reporter: Reporter
     required: Обов'язкове поле
     responsible: Відповідальний
     role: роль
@@ -3194,7 +3196,8 @@ uk:
         remember_items_and_projects: Remember to set values for this custom field, and to make sure it is used in at least one project.
       projects:
         additional_values_disabled_notice: Project admins can no longer add values to this custom field. Existing project-specific values stay available.
-        additional_values_disabled_project_notice: Project admins can no longer add values to this custom field. However, existing project-specific values are still available and can be enabled or disabled.
+        additional_values_disabled_project_notice: Project admins can no longer add values to this custom field. However, existing project-specific values stay available.
+        available_values: Available values
         configure: Configure project-specific values for %{project}
         delete_value_dialog:
           description: This action will irreversibly remove the value from %{project}. Any assigned values will be permanently deleted.
@@ -3225,16 +3228,19 @@ uk:
         quick_filter:
           all: Усі проєкти
           with_project_specific_values: With project-specific values
+        required_value_notice: Cannot be disabled because a child project-specific value is enabled
         types_column: Displayed in type
         value_actions: Value actions
         value_dialog:
           edit_title: Edit value
           name: Name
-          name_caption: Only available in %{project}.
+          name_caption_html: Only available in <strong>%{project}</strong>.
           parent: Add to parent
+          short_caption: Optionally pick a shorter name or code for this value.
           title: Add project-specific value
           title_with_parent: Add project-specific value to “%{parent}”
           top_level: Top level
+          weight_caption: Each value has a weight associated with it.
         values_empty_state:
           description: Add values to this custom field to choose which of them are available in this project.
           title: This custom field has no values yet
@@ -3323,12 +3329,12 @@ uk:
       project_admins:
         additional_values_caption: Added values are only available in the project they were created in. You can make them available to all projects later.
         remaining_values_count:
-          one: 1 project-specific value
+          one: "%{count} project-specific value"
           few: "%{count} project-specific values"
           many: "%{count} project-specific values"
           other: "%{count} project-specific values"
         remaining_values_warning:
-          one: 1 project already has %{values}. They remain available in that project but project admins can no longer add new ones unless ‘%{setting}’ is checked.
+          one: "%{count} project already has %{values}. They remain available in that project but project admins can no longer add new ones unless ‘%{setting}’ is checked."
           few: "%{count} projects already have %{values}. They remain available in those projects but project admins can no longer add new ones unless ‘%{setting}’ is checked."
           many: "%{count} projects already have %{values}. They remain available in those projects but project admins can no longer add new ones unless ‘%{setting}’ is checked."
           other: "%{count} projects already have %{values}. They remain available in those projects but project admins can no longer add new ones unless ‘%{setting}’ is checked."
@@ -3337,6 +3343,7 @@ uk:
         all: All values will be available in all projects.
         allow: No values will be available to any project unless you manually activate them in each project individually.
         block: All values will be available in all projects unless you manually deactivate them in individual projects.
+      value_with_project: "%{value} (%{project})"
     reorder_alphabetical: Перевпорядкувати значення за алфавітом
     reorder_confirmation: 'Попередження: поточний порядок доступних значень, а також усі незбережені значення буде втрачено. Справді продовжити?'
     semantic_keys:
@@ -4587,6 +4594,10 @@ uk:
   label_custom_field_default_type: Порожній тип
   label_custom_field_new: Нове спеціальне поле
   label_custom_field_plural: Індивідуальні поля
+  label_custom_field_values_all: All custom fields
+  label_custom_field_values_customizable: Customizable in this project
+  label_custom_field_values_customized: Customized in this project
+  label_custom_field_values_uniform: Same values in all projects
   label_custom_pdf_export_settings: Налаштування експорту PDF
   label_custom_style: Дизайн
   label_custom_style_description: Виберіть, як OpenProject виглядає для вас із темами, виберіть ваші кольори за замовчуванням для використання в застосунку та як виглядатимуть експорти.
@@ -6523,9 +6534,20 @@ uk:
         changes_text: 'Starting with version 18.0, custom fields are no longer enabled or disabled for each project. They are part of forms, which types and variants use. The list below shows the custom fields on the work packages of this project, and the variants that include them.
 
           '
+        column_format: Format
         column_name: Користувацьке поле
-        column_variants: Варіанти
+        column_types: Displayed in type
         no_results_title_text: Наразі немає спеціальних полів.
+        project_specific_values_count:
+          one: "%{count} project-specific value"
+          few: "%{count} project-specific values"
+          many: "%{count} project-specific values"
+          other: "%{count} project-specific values"
+        search_label: Search custom fields
+        values_description: 'Choose which values of %{custom_field} your team can use in %{project}. Global values are shared with other projects and managed by administrators. Project-specific values are only available in this project.
+
+          '
+        values_filter: Values
       forums:
         no_results_content_text: Створити новий форум
         no_results_title_text: Наразі не існує форумів для проекту.
@@ -7943,6 +7965,7 @@ uk:
         delete_group: Видалити розділ
         drag_to_activate: Перетягніть поля звідси, щоб активувати їх
         drag_to_reorder: Перетягніть, щоб змінити порядок
+        edit_custom_field: Edit custom field
         edit_query: Редагувати запит
         empty_group_hint: Перетягніть атрибути сюди
         exclusions:

@@ -27,16 +27,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Backlogs
-  module SprintReports
-    class MissingDatesBlankslateComponent < ApplicationComponent
-      def call
-        render(Primer::Beta::Blankslate.new(border: true, spacious: true)) do |blankslate|
-          blankslate.with_visual_icon(icon: :calendar)
-          blankslate.with_heading(tag: :h3).with_content(t(".heading"))
-          blankslate.with_description_content(t(".description"))
-        end
-      end
+require "spec_helper"
+
+RSpec.describe "Frontend dev server redirect", type: :rails_request do
+  let(:asset_path) { "/assets/frontend/served-only-by-the-dev-server.js" }
+
+  before do
+    allow(FrontendAssetHelper).to receive_messages(assets_proxied?: proxied, cli_proxy: "http://localhost:4200")
+  end
+
+  context "when frontend assets are proxied to the dev server" do
+    let(:proxied) { true }
+
+    it "redirects frontend assets to the dev server without the query string" do
+      get "#{asset_path}?v=1"
+
+      expect(response).to have_http_status(:temporary_redirect)
+      expect(response.location).to eq("http://localhost:4200#{asset_path}")
+    end
+  end
+
+  context "when frontend assets are not proxied" do
+    let(:proxied) { false }
+
+    it "leaves the request to the asset server" do
+      get asset_path
+
+      expect(response).to have_http_status(:not_found)
     end
   end
 end

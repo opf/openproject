@@ -159,7 +159,7 @@ RSpec.describe "Admin project-specific values of a work package custom field", :
         it "does not change a value" do
           post toggle_path.call(option), params: { value: "1" }
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
           expect(enabled_values).to be_empty
         end
       end
@@ -218,7 +218,7 @@ RSpec.describe "Admin project-specific values of a work package custom field", :
         it "shows the errors in the dialog" do
           post values_path, params: { label: "" }, as: :turbo_stream
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
           expect(custom_field.custom_options.where(project: using_project)).to be_empty
         end
       end
@@ -294,7 +294,7 @@ RSpec.describe "Admin project-specific values of a work package custom field", :
         it "shows the errors in the dialog" do
           patch update_path.call(own_option), params: { label: "A" }, as: :turbo_stream
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
           expect(own_option.reload.value).to eq("Own")
         end
 
@@ -322,7 +322,7 @@ RSpec.describe "Admin project-specific values of a work package custom field", :
         it "shows the errors in the dialog" do
           patch update_path.call(own_item), params: { label: "" }, as: :turbo_stream
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
           expect(own_item.reload.label).to eq("Own")
         end
       end

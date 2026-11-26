@@ -102,12 +102,12 @@ module Projects
               validation_message: message
             )
           )
-          respond_to_with_turbo_streams(status: :unprocessable_entity)
+          respond_to_with_turbo_streams(status: :unprocessable_content)
         end
 
         def refuse_switch(message)
           render_error_flash_message_via_turbo_stream(message:)
-          respond_to_with_turbo_streams(status: :unprocessable_entity)
+          respond_to_with_turbo_streams(status: :unprocessable_content)
         end
 
         def flash_switch_result(result, target) # rubocop:disable Metrics/AbcSize

@@ -71,7 +71,7 @@ module Admin
       result.on_failure do
         update_via_turbo_stream(
           component: Admin::Labels::FormComponent.new(label: result.result),
-          status: :unprocessable_entity
+          status: :unprocessable_content
         )
         respond_with_turbo_streams
       end
@@ -87,7 +87,7 @@ module Admin
       result.on_failure do
         update_via_turbo_stream(
           component: Admin::Labels::FormComponent.new(label: result.result),
-          status: :unprocessable_entity
+          status: :unprocessable_content
         )
         respond_with_turbo_streams
       end

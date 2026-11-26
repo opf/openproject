@@ -193,7 +193,7 @@ RSpec.describe API::V3::Activities::ActivitiesByWorkPackageAPI, with_ee: [:inter
           include_context "to create internal comment", internal: true
 
           it "fails with HTTP Unprocessable Entity" do
-            expect(last_response).to have_http_status :unprocessable_entity
+            expect(last_response).to have_http_status :unprocessable_content
           end
 
           it "notes the error" do
@@ -209,7 +209,7 @@ RSpec.describe API::V3::Activities::ActivitiesByWorkPackageAPI, with_ee: [:inter
           include_context "to create internal comment", internal: true, enabled_internal_comments: false
 
           it "fails with HTTP Unprocessable Entity" do
-            expect(last_response).to have_http_status :unprocessable_entity
+            expect(last_response).to have_http_status :unprocessable_content
           end
 
           it "notes the error" do

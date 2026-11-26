@@ -91,7 +91,7 @@ RSpec.describe "Project custom fields drop", :skip_csrf, type: :rails_request do
 
     it "422s without mutation for a prev_id from another section" do
       drop(cf3, { list_type: "custom_field", list_id: section_a.id.to_s, prev_id: cf4.id.to_s })
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(section_a.reload.attribute_order).to eq([cf1.column_name, cf2.column_name, cf3.column_name])
       expect(section_b.reload.attribute_order).to eq([cf4.column_name])
       expect(cf3.reload.custom_field_section_id).to eq(section_a.id)

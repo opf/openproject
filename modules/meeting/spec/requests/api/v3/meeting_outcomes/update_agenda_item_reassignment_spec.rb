@@ -45,7 +45,7 @@ RSpec.describe "API v3 Meeting Outcome update agenda item reassignment", content
   subject(:response) { patch path, body }
 
   it "does not reassign the outcome without permission in the source project" do
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(outcome.reload).to have_attributes(
       meeting_agenda_item_id: source_item.id,
       notes: "Original notes"
@@ -61,7 +61,7 @@ RSpec.describe "API v3 Meeting Outcome update agenda item reassignment", content
     end
 
     it "does not reassign the outcome" do
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(outcome.reload).to have_attributes(
         meeting_agenda_item_id: source_item.id,
         notes: "Original notes"

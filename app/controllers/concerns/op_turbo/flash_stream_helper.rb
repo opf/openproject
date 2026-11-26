@@ -39,7 +39,7 @@ module OpTurbo
       end
     end
 
-    def respond_with_flash_error(message:, status: :unprocessable_entity, &format_block)
+    def respond_with_flash_error(message:, status: :unprocessable_content, &format_block)
       respond_to do |format|
         format.turbo_stream do
           render_error_flash_message_via_turbo_stream(message:)

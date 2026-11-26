@@ -308,6 +308,7 @@ id:
         only_start: Dari %{from} menurut waktu lokal Anda.
         two_values: "%{from} - %{to} menurut waktu lokal Anda."
       value_spacer: Hapus nilai
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Advanced settings
       load_error_message: There was an error loading the form

@@ -308,6 +308,7 @@ sl:
         only_start: Od %{from} v vašem lokalnem času.
         two_values: "%{from} - %{to} v vašem lokalnem času."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Napredne nastavitve
       load_error_message: Pri nalaganju obrazca je prišlo do napake

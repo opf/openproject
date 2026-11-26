@@ -308,6 +308,7 @@ sv:
         only_start: Från %{from} i din lokala tid.
         two_values: "%{from}–%{to} i din lokala tid."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Avancerade inställningar
       load_error_message: Det uppstod ett fel vid inläsningen av formuläret

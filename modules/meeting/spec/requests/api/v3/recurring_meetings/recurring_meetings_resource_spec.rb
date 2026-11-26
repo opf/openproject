@@ -209,7 +209,7 @@ RSpec.describe "API v3 Recurring Meeting resource", content_type: :json do
       end
 
       it "rejects the project as read-only and keeps the series and its template in place" do
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body)
           .to be_json_eql("urn:openproject-org:api:v3:errors:PropertyIsReadOnly".to_json)
           .at_path("errorIdentifier")
@@ -241,7 +241,7 @@ RSpec.describe "API v3 Recurring Meeting resource", content_type: :json do
       it "rejects the change with a readonly error and does not change the author" do
         expect(recurring_meeting.author).to eq(current_user)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body)
           .to be_json_eql("urn:openproject-org:api:v3:errors:PropertyIsReadOnly".to_json)
           .at_path("errorIdentifier")
@@ -386,7 +386,7 @@ RSpec.describe "API v3 Recurring Meeting resource", content_type: :json do
       it "is rejected and does not re-send invitations" do
         perform_enqueued_jobs { post path, { notify: true }.to_json }
 
-        expect(last_response).to have_http_status(:unprocessable_entity)
+        expect(last_response).to have_http_status(:unprocessable_content)
         expect(ActionMailer::Base.deliveries).to be_empty
       end
     end

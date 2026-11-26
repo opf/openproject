@@ -158,7 +158,7 @@ class WikiController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_create)
       redirect_to_show
     else
-      render action: :new, status: :unprocessable_entity, layout: "no_menu"
+      render action: :new, status: :unprocessable_content, layout: "no_menu"
     end
   end
 
@@ -184,12 +184,12 @@ class WikiController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to_show
     else
-      render action: :edit, status: :unprocessable_entity
+      render action: :edit, status: :unprocessable_content
     end
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception
     flash.now[:error] = I18n.t(:notice_locking_conflict)
-    render action: :edit, status: :unprocessable_entity
+    render action: :edit, status: :unprocessable_content
   end
 
   # rename a page

@@ -122,7 +122,7 @@ RSpec.describe "API v3 Relation resource", content_type: :json do
       end
 
       it "responds with error" do
-        expect(last_response).to have_http_status :unprocessable_entity
+        expect(last_response).to have_http_status :unprocessable_content
       end
 
       it "states the reason for the error" do
@@ -268,7 +268,7 @@ RSpec.describe "API v3 Relation resource", content_type: :json do
       end
 
       it "returns 422" do
-        expect(last_response).to have_http_status :unprocessable_entity
+        expect(last_response).to have_http_status :unprocessable_content
       end
 
       it "indicates an error with the type attribute" do
@@ -292,7 +292,7 @@ RSpec.describe "API v3 Relation resource", content_type: :json do
       end
 
       it "returns 422" do
-        expect(last_response).to have_http_status :unprocessable_entity
+        expect(last_response).to have_http_status :unprocessable_content
       end
 
       it "indicates an error with the `from` attribute" do
@@ -338,7 +338,7 @@ RSpec.describe "API v3 Relation resource", content_type: :json do
       let(:permissions) { [:view_work_packages] }
 
       it "returns 422" do
-        expect(last_response).to have_http_status :unprocessable_entity
+        expect(last_response).to have_http_status :unprocessable_content
       end
     end
 
@@ -350,7 +350,7 @@ RSpec.describe "API v3 Relation resource", content_type: :json do
       let!(:to) { create(:work_package) }
 
       it "returns 422" do
-        expect(last_response).to have_http_status :unprocessable_entity
+        expect(last_response).to have_http_status :unprocessable_content
       end
 
       it "indicates an error with the `to` attribute" do
@@ -401,7 +401,7 @@ RSpec.describe "API v3 Relation resource", content_type: :json do
       let(:permissions) { %i[view_work_packages] }
 
       it "returns 422" do
-        expect(last_response).to have_http_status :unprocessable_entity
+        expect(last_response).to have_http_status :unprocessable_content
       end
 
       it "leaves the relation" do

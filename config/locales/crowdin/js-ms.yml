@@ -308,6 +308,7 @@ ms:
         only_start: Dari %{from} dalam masa tempatan anda.
         two_values: "%{from} - %{to} dalam masa tempatan anda."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Tetapan lanjutan
       load_error_message: Terdapat ralat semasa memuatkan borang

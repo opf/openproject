@@ -48,7 +48,7 @@ class Projects::IdentifierController < ApplicationController
       redirect_to project_settings_general_path(@project)
     else
       respond_with_dialog Projects::Settings::ChangeIdentifierDialogComponent.new(project: service_call.result),
-                          status: :unprocessable_entity
+                          status: :unprocessable_content
     end
   end
 end

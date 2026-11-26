@@ -27,13 +27,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+module Backlogs
+  module SprintReports
+    class ReportUnavailableBlankslateComponent < ApplicationComponent
+      def initialize(timeframe:)
+        super
 
-RSpec.describe "RubyLLM" do
-  it "boots on the current acts_as API rather than the deprecated one" do
-    included = ActiveRecord::Base.included_modules.map(&:name)
+        @timeframe = timeframe
+      end
 
-    expect(included).to include("RubyLLM::ActiveRecord::ActsAs")
-    expect(included).not_to include("RubyLLM::ActiveRecord::ActsAsLegacy")
+      def render? = reason.present?
+
+      def call
+        render(Primer::Box.new(mb: 3)) do
+          render(Primer::Beta::Blankslate.new(border: true, spacious: true)) do |blankslate|
+            blankslate.with_visual_icon(icon: :calendar)
+            blankslate.with_heading(tag: :h3).with_content(t(".#{reason}.heading"))
+            blankslate.with_description_content(t(".#{reason}.description"))
+          end
+        end
+      end
+
+      private
+
+      attr_reader :timeframe
+
+      def reason
+        return :missing_dates unless timeframe.date_range_set?
+
+        :planned_dates_in_past if timeframe.never_executed?
+      end
+    end
   end
 end

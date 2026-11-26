@@ -308,6 +308,7 @@ ja:
         only_start: ローカル時間で %{from} から
         two_values: 'ローカル時間で %{from} - %{to} '
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: 詳細設定
       load_error_message: フォームの読み込み中にエラーが発生しました

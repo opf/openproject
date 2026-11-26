@@ -46,10 +46,8 @@
 # listing alike, and merging our values last makes an override actually override.
 #
 # The module is prepended onto each registered provider class rather than onto
-# RubyLLM::Provider, because all thirteen providers define #headers themselves
-# without calling super -- a patch on the base class would never be reached.
-# Azure inherits OpenAI, so it receives the module twice; the inner copy is
-# simply never consulted.
+# RubyLLM::Provider, because every provider defines #headers itself without
+# calling super -- a patch on the base class would never be reached.
 module OpenProject
   module Llm
     module Patches

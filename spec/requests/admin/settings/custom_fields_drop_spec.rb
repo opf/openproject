@@ -68,7 +68,7 @@ RSpec.describe "Custom fields drop", :skip_csrf, type: :rails_request do
       it "422s without mutation for an anchor of another custom field type" do
         drop(field_a, { list_type: "custom_field", list_id: "", prev_id: create(:"#{other_type}_custom_field").id.to_s })
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(ordered_ids).to eq([field_a.id, field_b.id])
       end
 

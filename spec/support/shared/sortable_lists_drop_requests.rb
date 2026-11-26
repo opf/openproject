@@ -69,7 +69,7 @@ RSpec.shared_examples "a sortable list drop endpoint" do |list_id_scoped:|
 
       send_drop(params)
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect_unmoved
     end
   end

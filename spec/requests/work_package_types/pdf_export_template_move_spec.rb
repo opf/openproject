@@ -73,7 +73,7 @@ RSpec.describe "PDF export template move", :skip_csrf, type: :rails_request do
   it "renders the invalid-anchor error message on failure" do
     move("attributes", { list_type:, list_id: "", prev_id: "bogus" })
     expect(response.body).to include(I18n.t(:error_invalid_list_move_anchor))
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
   end
 
   it "does not move an unknown template id" do

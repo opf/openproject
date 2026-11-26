@@ -27,32 +27,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Lets a failed streaming request keep the HTTP status the server answered with.
-#
-# RubyLLM derives the status of a failed stream from the error body alone: the
-# OpenAI provider reads +error.type+ and reports anything other than
-# +server_error+, +rate_limit_exceeded+ or +insufficient_quota+ as a 400. OpenAI
-# itself answers a rate limit with +type: "requests"+, and self-hosted servers
-# use types of their own, so a 429 arrives as a bad request and a 401 likewise.
-#
-# Only statuses that RubyLLM::ErrorMiddleware maps to an error class of their
-# own are taken from the response. Any other, 413 and 422 among them, keeps the
-# body's 400, because the middleware recognises a context length message only
-# on 400 and 429. An error event inside a stream that started with 200 keeps
-# the body's status too.
 module OpenProject
-  module Llm
-    module Patches
-      module RubyLLMStreamErrorStatus
-        CLASSIFIED_STATUSES = [401, 402, 403, 429, 500, 502, 503, 504, 529].freeze
+  class FrontendDevServerRedirect
+    PATH_PREFIX = "/assets/frontend/"
 
-        private
+    def initialize(app)
+      @app = app
+    end
 
-        def build_stream_error_response(parsed_data, env, status)
-          http_status = env&.status
+    def call(env)
+      path = env["PATH_INFO"]
 
-          super(parsed_data, env, CLASSIFIED_STATUSES.include?(http_status) ? http_status : status)
-        end
+      if path.start_with?(PATH_PREFIX) && FrontendAssetHelper.assets_proxied?
+        [307, { "location" => "#{FrontendAssetHelper.cli_proxy}#{path}" }, []]
+      else
+        @app.call(env)
       end
     end
   end

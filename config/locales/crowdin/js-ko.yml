@@ -308,6 +308,7 @@ ko:
         only_start: 현지 시간으로 %{from} 에서
         two_values: 현지 시간으로 %{from} - %{to}
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: 고급 설정
       load_error_message: 양식을 불러오는 중 오류가 발생했습니다

@@ -94,7 +94,7 @@ RSpec.shared_examples "an anchor-only enumeration move endpoint" do
 
       move(first_record, instance_exec(&params_builder))
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(ordered_names).to eq(original_order)
       expect(response.body).to include(I18n.t(:error_invalid_list_move_anchor))
     end
@@ -114,7 +114,7 @@ RSpec.shared_examples "an anchor-only enumeration move endpoint" do
           params: instance_exec(&params_builder).to_json,
           headers: { "CONTENT_TYPE" => "application/json", "ACCEPT" => "text/vnd.turbo-stream.html" }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(ordered_names).to eq(original_order)
       expect(response.body).to include(I18n.t(:error_invalid_list_move_anchor))
     end
@@ -127,7 +127,7 @@ RSpec.shared_examples "an enumeration move endpoint refusing sibling-class ancho
 
     put move_path(first_record), params: { list_type:, list_id: "", prev_id: sibling_record.id.to_s }, as: :turbo_stream
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(ordered_names).to eq(original_order)
   end
 end

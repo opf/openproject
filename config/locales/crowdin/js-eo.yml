@@ -308,6 +308,7 @@ eo:
         only_start: Ekde %{from} en via loka tempo.
         two_values: "%{from} - %{to} en via loka tempo."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Altnivelaj agordoj
       load_error_message: There was an error loading the form

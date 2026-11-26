@@ -42,7 +42,7 @@ RSpec.describe Projects::Settings::WorkPackages::TypesController do
     it "reports a missing type rather than raising" do
       post :create, params: { project_id: project.identifier }, format: :turbo_stream
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.body).to include("The selected type could not be found.")
     end
 
@@ -62,7 +62,7 @@ RSpec.describe Projects::Settings::WorkPackages::TypesController do
     it "reports a missing type rather than raising" do
       delete :destroy, params: { project_id: project.identifier, id: 0 }, format: :turbo_stream
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.body).to include("The selected type could not be found.")
     end
   end

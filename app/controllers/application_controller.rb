@@ -376,7 +376,7 @@ class ApplicationController < ActionController::Base
 
   # Renders API response on validation failure
   def render_validation_errors(object)
-    options = { status: :unprocessable_entity, layout: false }
+    options = { status: :unprocessable_content, layout: false }
     errors = case params[:format]
              when "xml"
                { xml: object.errors }

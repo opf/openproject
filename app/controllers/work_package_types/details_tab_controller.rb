@@ -46,7 +46,7 @@ module WorkPackageTypes
       if result.success?
         redirect_to edit_variant_details_path(nil, @variant), notice: I18n.t(:notice_successful_update)
       else
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 
@@ -63,7 +63,7 @@ module WorkPackageTypes
         redirect_to edit_variant_details_path(variant_scope_project, @variant),
                     notice: I18n.t(:notice_successful_update)
       else
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 

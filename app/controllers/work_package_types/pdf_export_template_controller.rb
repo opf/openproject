@@ -79,7 +79,7 @@ module WorkPackageTypes
         render_error_flash_message_via_turbo_stream(
           message: I18n.t("types.edit.export_configuration.artefact_export.invalid_mode")
         )
-        return respond_with_turbo_streams(status: :unprocessable_entity)
+        return respond_with_turbo_streams(status: :unprocessable_content)
       end
 
       @variant.artefact_export_mode = mode
@@ -126,7 +126,7 @@ module WorkPackageTypes
         render_error_flash_message_via_turbo_stream(message: I18n.t(:error_invalid_list_move_anchor))
       end
 
-      respond_with_turbo_streams(status: moved ? :ok : :unprocessable_entity)
+      respond_with_turbo_streams(status: moved ? :ok : :unprocessable_content)
     end
 
     protected

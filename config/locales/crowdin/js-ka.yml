@@ -308,6 +308,7 @@ ka:
         only_start: From %{from} in your local time.
         two_values: "%{from} - %{to} in your local time."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Advanced settings
       load_error_message: There was an error loading the form

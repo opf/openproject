@@ -134,7 +134,7 @@ RSpec.describe "API V3 Authentication" do
 
     it "uses the request host for the resource metadata" do
       expect(last_response).to have_http_status :unauthorized
-      expect(last_response.header["WWW-Authenticate"]).to eq(
+      expect(last_response.headers["WWW-Authenticate"]).to eq(
         'Bearer realm="OpenProject API", ' \
         'resource_metadata="http://central.example.com/.well-known/oauth-protected-resource", scope="api_v3"'
       )
@@ -171,7 +171,7 @@ RSpec.describe "API V3 Authentication" do
 
       it "returns unauthorized" do
         expect(last_response).to have_http_status :unauthorized
-        expect(last_response.header["WWW-Authenticate"]).to eq(expected_www_auth_header)
+        expect(last_response.headers["WWW-Authenticate"]).to eq(expected_www_auth_header)
         expect(JSON.parse(last_response.body)).to eq(error_response_body)
       end
     end
@@ -185,7 +185,7 @@ RSpec.describe "API V3 Authentication" do
 
       it "returns unauthorized" do
         expect(last_response).to have_http_status :unauthorized
-        expect(last_response.header["WWW-Authenticate"]).to eq(expected_www_auth_header)
+        expect(last_response.headers["WWW-Authenticate"]).to eq(expected_www_auth_header)
         expect(JSON.parse(last_response.body)).to eq(error_response_body)
       end
     end
@@ -199,7 +199,7 @@ RSpec.describe "API V3 Authentication" do
 
       it "returns unauthorized" do
         expect(last_response).to have_http_status :unauthorized
-        expect(last_response.header["WWW-Authenticate"]).to eq(expected_www_auth_header)
+        expect(last_response.headers["WWW-Authenticate"]).to eq(expected_www_auth_header)
         expect(JSON.parse(last_response.body)).to eq(error_response_body)
       end
     end
@@ -219,7 +219,7 @@ RSpec.describe "API V3 Authentication" do
 
       it "returns unauthorized" do
         expect(last_response).to have_http_status :unauthorized
-        expect(last_response.header["WWW-Authenticate"]).to eq(expected_www_auth_header)
+        expect(last_response.headers["WWW-Authenticate"]).to eq(expected_www_auth_header)
         expect(JSON.parse(last_response.body)).to eq(error_response_body)
       end
     end
@@ -233,7 +233,7 @@ RSpec.describe "API V3 Authentication" do
 
       it "returns forbidden" do
         expect(last_response).to have_http_status :forbidden
-        expect(last_response.header["WWW-Authenticate"]).to eq(expected_www_auth_header)
+        expect(last_response.headers["WWW-Authenticate"]).to eq(expected_www_auth_header)
         expect(JSON.parse(last_response.body)).to eq(error_response_body)
       end
     end
@@ -253,7 +253,7 @@ RSpec.describe "API V3 Authentication" do
 
       it "returns unauthorized" do
         expect(last_response).to have_http_status :unauthorized
-        expect(last_response.header["WWW-Authenticate"]).to eq(expected_www_auth_header)
+        expect(last_response.headers["WWW-Authenticate"]).to eq(expected_www_auth_header)
         expect(JSON.parse(last_response.body)).to eq(error_response_body)
       end
 
@@ -262,7 +262,7 @@ RSpec.describe "API V3 Authentication" do
 
         it "returns unauthorized" do
           expect(last_response).to have_http_status :unauthorized
-          expect(last_response.header["WWW-Authenticate"]).to eq(expected_www_auth_header)
+          expect(last_response.headers["WWW-Authenticate"]).to eq(expected_www_auth_header)
           expect(JSON.parse(last_response.body)).to eq(error_response_body)
         end
       end
@@ -278,7 +278,7 @@ RSpec.describe "API V3 Authentication" do
 
       it "returns unauthorized" do
         expect(last_response).to have_http_status :unauthorized
-        expect(last_response.header["WWW-Authenticate"]).to eq(expected_www_auth_header)
+        expect(last_response.headers["WWW-Authenticate"]).to eq(expected_www_auth_header)
         expect(JSON.parse(last_response.body)).to eq(error_response_body)
       end
     end
@@ -297,7 +297,7 @@ RSpec.describe "API V3 Authentication" do
 
       it "returns unauthorized" do
         expect(last_response).to have_http_status :unauthorized
-        expect(last_response.header["WWW-Authenticate"]).to eq(expected_www_auth_header)
+        expect(last_response.headers["WWW-Authenticate"]).to eq(expected_www_auth_header)
         expect(JSON.parse(last_response.body)).to eq(error_response_body)
       end
 
@@ -317,7 +317,7 @@ RSpec.describe "API V3 Authentication" do
 
           it "returns unauthorized" do
             expect(last_response).to have_http_status :unauthorized
-            expect(last_response.header["WWW-Authenticate"]).to eq(expected_www_auth_header)
+            expect(last_response.headers["WWW-Authenticate"]).to eq(expected_www_auth_header)
             expect(JSON.parse(last_response.body)).to eq(error_response_body)
           end
         end
@@ -352,7 +352,7 @@ RSpec.describe "API V3 Authentication" do
 
       it "returns unauthorized" do
         expect(last_response).to have_http_status :unauthorized
-        expect(last_response.header["WWW-Authenticate"]).to eq(expected_www_auth_header)
+        expect(last_response.headers["WWW-Authenticate"]).to eq(expected_www_auth_header)
         expect(JSON.parse(last_response.body)).to eq(error_response_body)
       end
     end
@@ -372,7 +372,7 @@ RSpec.describe "API V3 Authentication" do
 
       it "returns unauthorized" do
         expect(last_response).to have_http_status :unauthorized
-        expect(last_response.header["WWW-Authenticate"]).to eq(expected_www_auth_header)
+        expect(last_response.headers["WWW-Authenticate"]).to eq(expected_www_auth_header)
         expect(JSON.parse(last_response.body)).to eq(error_response_body)
       end
     end
@@ -387,7 +387,7 @@ RSpec.describe "API V3 Authentication" do
 
       it "returns unauthorized" do
         expect(last_response).to have_http_status :unauthorized
-        expect(last_response.header["WWW-Authenticate"]).to eq(expected_www_auth_header)
+        expect(last_response.headers["WWW-Authenticate"]).to eq(expected_www_auth_header)
         expect(JSON.parse(last_response.body)).to eq(error_response_body)
       end
     end
@@ -432,7 +432,7 @@ RSpec.describe "API V3 Authentication" do
           end
 
           it "returns the WWW-Authenticate header" do
-            expect(last_response.header["WWW-Authenticate"]).to include 'Bearer realm="OpenProject API"'
+            expect(last_response.headers["WWW-Authenticate"]).to include 'Bearer realm="OpenProject API"'
           end
         end
 
@@ -457,7 +457,7 @@ RSpec.describe "API V3 Authentication" do
           end
 
           it "returns the WWW-Authenticate header" do
-            expect(last_response.header["WWW-Authenticate"])
+            expect(last_response.headers["WWW-Authenticate"])
               .to include 'Basic realm="OpenProject API"'
           end
         end
@@ -482,7 +482,7 @@ RSpec.describe "API V3 Authentication" do
           end
 
           it "returns the WWW-Authenticate header" do
-            expect(last_response.header["WWW-Authenticate"])
+            expect(last_response.headers["WWW-Authenticate"])
               .to include 'Bearer realm="OpenProject API"'
           end
         end
@@ -680,7 +680,7 @@ RSpec.describe "API V3 Authentication" do
       get resource
 
       expect(last_response).to have_http_status :ok
-      expect(last_response.header["WWW-Authenticate"]).to be_blank
+      expect(last_response.headers["WWW-Authenticate"]).to be_blank
     end
 
     context "when token is issued by provider not configured in OP" do
@@ -690,7 +690,7 @@ RSpec.describe "API V3 Authentication" do
       it "fails with HTTP 401 Unauthorized" do
         get resource
         expect(last_response).to have_http_status :unauthorized
-        expect(last_response.header["WWW-Authenticate"]).to eq(expected_www_auth_header)
+        expect(last_response.headers["WWW-Authenticate"]).to eq(expected_www_auth_header)
         expect(JSON.parse(last_response.body)).to eq(error_response_body)
       end
     end
@@ -702,7 +702,7 @@ RSpec.describe "API V3 Authentication" do
       it "fails with HTTP 401 Unauthorized" do
         get resource
         expect(last_response).to have_http_status :unauthorized
-        expect(last_response.header["WWW-Authenticate"]).to eq(expected_www_auth_header)
+        expect(last_response.headers["WWW-Authenticate"]).to eq(expected_www_auth_header)
         expect(JSON.parse(last_response.body)).to eq(error_response_body)
       end
     end
@@ -715,7 +715,7 @@ RSpec.describe "API V3 Authentication" do
         get resource
 
         expect(last_response).to have_http_status :unauthorized
-        expect(last_response.header["WWW-Authenticate"]).to eq(expected_www_auth_header)
+        expect(last_response.headers["WWW-Authenticate"]).to eq(expected_www_auth_header)
         expect(JSON.parse(last_response.body)).to eq(error_response_body)
       end
     end
@@ -729,7 +729,7 @@ RSpec.describe "API V3 Authentication" do
         get resource
 
         expect(last_response).to have_http_status :forbidden
-        expect(last_response.header["WWW-Authenticate"]).to eq(expected_www_auth_header)
+        expect(last_response.headers["WWW-Authenticate"]).to eq(expected_www_auth_header)
         expect(JSON.parse(last_response.body)).to eq(error_response_body)
       end
     end
@@ -742,7 +742,7 @@ RSpec.describe "API V3 Authentication" do
         get resource
 
         expect(last_response).to have_http_status :unauthorized
-        expect(last_response.header["WWW-Authenticate"]).to eq(expected_www_auth_header)
+        expect(last_response.headers["WWW-Authenticate"]).to eq(expected_www_auth_header)
         expect(JSON.parse(last_response.body)).to eq(error_response_body)
       end
 
@@ -764,7 +764,7 @@ RSpec.describe "API V3 Authentication" do
       it "fails with HTTP 401 Unauthorized" do
         get resource
         expect(last_response).to have_http_status :unauthorized
-        expect(last_response.header["WWW-Authenticate"]).to eq(expected_www_auth_header)
+        expect(last_response.headers["WWW-Authenticate"]).to eq(expected_www_auth_header)
         expect(JSON.parse(last_response.body)).to eq(error_response_body)
       end
     end
@@ -776,7 +776,7 @@ RSpec.describe "API V3 Authentication" do
       it "fails with HTTP 401 Unauthorized" do
         get resource
         expect(last_response).to have_http_status :unauthorized
-        expect(last_response.header["WWW-Authenticate"]).to eq(expected_www_auth_header)
+        expect(last_response.headers["WWW-Authenticate"]).to eq(expected_www_auth_header)
         expect(JSON.parse(last_response.body)).to eq(error_response_body)
       end
     end
@@ -788,7 +788,7 @@ RSpec.describe "API V3 Authentication" do
       it "fails with HTTP 401 Unauthorized" do
         get resource
         expect(last_response).to have_http_status :unauthorized
-        expect(last_response.header["WWW-Authenticate"]).to eq(expected_www_auth_header)
+        expect(last_response.headers["WWW-Authenticate"]).to eq(expected_www_auth_header)
         expect(JSON.parse(last_response.body)).to eq(error_response_body)
       end
     end

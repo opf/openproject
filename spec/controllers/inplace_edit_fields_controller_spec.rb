@@ -115,7 +115,7 @@ RSpec.describe InplaceEditFieldsController do
           }
         }, format: :turbo_stream
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.media_type).to eq("text/vnd.turbo-stream.html")
       end
     end

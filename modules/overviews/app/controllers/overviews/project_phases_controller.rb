@@ -49,9 +49,9 @@ module ::Overviews
         component: Overviews::ProjectPhases::EditComponent.new(service_call.result),
         method: "morph"
       )
-      # TODO: :unprocessable_entity is not nice, change the dialog logic to accept :ok
+      # TODO: :unprocessable_content is not nice, change the dialog logic to accept :ok
       # without dismissing the dialog, alternatively use turbo frames instead of streams.
-      respond_to_with_turbo_streams(status: :unprocessable_entity)
+      respond_to_with_turbo_streams(status: :unprocessable_content)
     end
 
     def update

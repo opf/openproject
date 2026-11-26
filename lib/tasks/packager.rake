@@ -42,8 +42,7 @@ namespace :packager do
   #
   # Allow scripts to run with environment loaded once,
   # avoids to load the environment multiple times.
-  # Removes older assets
-  task postinstall: [:environment, "assets:clean", "setup:scm"] do
+  task postinstall: [:environment, "setup:scm"] do
     # We need to precompile assets when either
     # 1. packager requested it
     # 2. user requested frontend compilation with RECOMPILE_ANGULAR_ASSETS

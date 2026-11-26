@@ -166,7 +166,7 @@ RSpec.describe TwoFactorAuthentication::AuthenticationController, with_settings:
       cookie = Array(response.headers["Set-Cookie"]).find { |header| header.start_with?("op2fa_remember_token=") }
 
       expect(cookie).to be_present
-      expect(cookie).to include("SameSite=Lax", "secure", "HttpOnly")
+      expect(cookie).to include("samesite=lax", "secure", "httponly")
     end
   end
 

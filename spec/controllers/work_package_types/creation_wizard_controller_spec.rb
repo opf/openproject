@@ -70,7 +70,7 @@ RSpec.describe WorkPackageTypes::CreationWizardController do
             post :create, params: { type: { name: "" } }
           end.not_to change(Type, :count)
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
         end
       end
     end
@@ -149,7 +149,7 @@ RSpec.describe WorkPackageTypes::CreationWizardController do
         it "refuses a matrix submitted without roles" do
           patch :update, params: { type_id: type.id, step: :workflows, tab: "always" }
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
         end
       end
 

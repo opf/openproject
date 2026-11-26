@@ -1013,7 +1013,7 @@ RSpec.describe UsersController do
 
         it "renders the edit template with errors", :aggregate_failures do
           expect(response)
-            .to have_http_status(:unprocessable_entity)
+            .to have_http_status(:unprocessable_content)
           expect(response)
             .to have_rendered("edit")
           expect(assigns(:user).errors.first)

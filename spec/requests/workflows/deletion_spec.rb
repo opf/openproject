@@ -68,7 +68,7 @@ RSpec.describe "Workflows deletion", :skip_csrf, type: :rails_request do
 
       get deletion_dialog_workflow_path(workflow), as: :turbo_stream
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.body).to include(I18n.t("workflows.delete.no_replacement"))
       expect(response.body).not_to include(I18n.t("workflows.delete.replace_label"))
     end
@@ -102,7 +102,7 @@ RSpec.describe "Workflows deletion", :skip_csrf, type: :rails_request do
       it "refuses without a replacement, keeping the workflow" do
         delete workflow_path(workflow), as: :turbo_stream
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(Workflow.exists?(workflow.id)).to be(true)
         expect(variant.reload.workflow).to eq(workflow)
       end

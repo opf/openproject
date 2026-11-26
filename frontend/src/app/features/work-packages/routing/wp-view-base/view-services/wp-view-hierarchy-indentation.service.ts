@@ -38,7 +38,6 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { firstValueFrom, Subscription } from 'rxjs';
 
 export const REQUEST_TIMEOUT_MS = 30_000;
-export const RENDER_TIMEOUT_MS = 10_000;
 
 /**
  * `outOfDate`: the server may hold a parent change that the table does not show,
@@ -242,8 +241,8 @@ export class WorkPackageViewHierarchyIdentationService {
   }
 
   /**
-   * Reloads the table and waits for it to render. When that does not happen in time,
-   * warns and keeps hierarchy changes off until it does.
+   * Reloads the table and waits for it to render, however long that takes. When the
+   * reload fails, warns and keeps hierarchy changes off until the table has reloaded.
    *
    * @returns whether the table shows the reloaded results
    */
@@ -251,11 +250,7 @@ export class WorkPackageViewHierarchyIdentationService {
     this.state.set('outOfDate');
 
     const rendering = this.reloadTable();
-    const render = this.deadline(RENDER_TIMEOUT_MS);
-    const shown = await Promise
-      .race([rendering.then(() => true), render.exceeded.then(() => false)])
-      .catch(() => false);
-    render.cancel();
+    const shown = await rendering.then(() => true, () => false);
     if (this.destroyed) return false;
 
     if (shown) {

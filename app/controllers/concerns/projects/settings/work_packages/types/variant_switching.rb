@@ -51,7 +51,7 @@ module Projects
             return if @type && @project.project_types.exists?(type_id: @type.id)
 
             render_error_flash_message_via_turbo_stream(message: t("projects.settings.types.type_not_found"))
-            respond_to_with_turbo_streams(status: :unprocessable_entity)
+            respond_to_with_turbo_streams(status: :unprocessable_content)
           end
 
           def switch_selection

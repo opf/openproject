@@ -44,7 +44,7 @@ module CustomFields
           redirect_to edit_path(custom_field, id: custom_field.id)
         else
           @custom_field = call.result || new_custom_field
-          render action: :new, status: :unprocessable_entity
+          render action: :new, status: :unprocessable_content
         end
       end
 
@@ -68,7 +68,7 @@ module CustomFields
           redirect_to(update_path(tab))
         else
           flash.now[:error] = I18n.t(:notice_unsuccessful_update_with_reason, reason: call.message)
-          render tab == :list_items ? :list_items : :edit, status: :unprocessable_entity
+          render tab == :list_items ? :list_items : :edit, status: :unprocessable_content
         end
       end
 

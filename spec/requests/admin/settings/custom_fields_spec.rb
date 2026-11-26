@@ -81,7 +81,7 @@ RSpec.describe "Admin custom fields dedicated pages",
           post index_path, params: { type: model.name, custom_field: { name: "", field_format: "string" } }
         end.not_to change(model, :count)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(Capybara.string(response.body)).to have_text("Name can't be blank.")
       end
 
@@ -135,7 +135,7 @@ RSpec.describe "Admin custom fields dedicated pages",
               }
             }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(Capybara.string(response.body)).to have_css("[aria-current='page']", text: I18n.t(:label_value_plural))
     end
   end

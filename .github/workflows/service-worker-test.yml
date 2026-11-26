@@ -1,0 +1,56 @@
+name: "Service worker / Tests"
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    paths:
+      - 'packages/service-worker/**'
+      - 'app/views/pwa/_service_worker_bundle.js'
+      - '.github/workflows/service-worker-test.yml'
+      - 'COPYRIGHT_short'
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: ./packages/service-worker
+
+jobs:
+  units:
+    name: Typecheck, lint, test and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v7.1.0
+        with:
+          node-version: '24.22.1'
+          package-manager-cache: false
+          cache: npm
+          cache-dependency-path: packages/service-worker/package-lock.json
+
+      - name: Install Dependencies
+        id: npm-ci
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        if: ${{ !cancelled() && steps.npm-ci.outcome == 'success' }}
+        run: npm run lint
+
+      - name: Test
+        if: ${{ !cancelled() && steps.npm-ci.outcome == 'success' }}
+        run: CI=1 npm test
+
+      - name: Build and verify committed service worker bundle is up to date
+        if: ${{ !cancelled() && steps.npm-ci.outcome == 'success' }}
+        run: |
+          npm run build
+          git add --intent-to-add ../../app/views/pwa/_service_worker_bundle.js
+          git diff --exit-code -- ../../app/views/pwa/_service_worker_bundle.js

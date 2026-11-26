@@ -160,7 +160,7 @@ RSpec.describe "PATCH /api/v3/queries/:id",
 
     context "without EE", with_ee: false do
       it "yields a 422 error given a timestamp older than 1 day" do
-        expect(last_response).to have_http_status :unprocessable_entity
+        expect(last_response).to have_http_status :unprocessable_content
         expect(json["message"]).to eq "Timestamps contain forbidden values: #{timestamps.first}"
       end
 
@@ -189,7 +189,7 @@ RSpec.describe "PATCH /api/v3/queries/:id",
 
       post!
 
-      expect(last_response).to have_http_status :unprocessable_entity
+      expect(last_response).to have_http_status :unprocessable_content
       expect(json["message"]).to eq "Project not found."
     end
 
@@ -198,7 +198,7 @@ RSpec.describe "PATCH /api/v3/queries/:id",
 
       post!
 
-      expect(last_response).to have_http_status :unprocessable_entity
+      expect(last_response).to have_http_status :unprocessable_content
       expect(json["message"]).to eq "Status Operator is not set to one of the allowed values."
     end
 
@@ -207,7 +207,7 @@ RSpec.describe "PATCH /api/v3/queries/:id",
 
       post!
 
-      expect(last_response).to have_http_status :unprocessable_entity
+      expect(last_response).to have_http_status :unprocessable_content
       expect(json["message"]).to eq "Statuz filter does not exist."
     end
   end

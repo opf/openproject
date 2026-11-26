@@ -44,6 +44,6 @@ RSpec.describe "Session cookie", type: :rails_request do
 
     expect(response).to have_http_status(:redirect)
     expect(cookie).to be_present
-    expect(cookie).to include("SameSite=Lax", "HttpOnly")
+    expect(cookie).to include("samesite=lax", "httponly")
   end
 end

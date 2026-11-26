@@ -33,7 +33,6 @@ require "rails/all"
 require "active_support"
 require "active_support/dependencies"
 require "core_extensions"
-require "sprockets/railtie"
 require "view_component"
 require "primer/view_components"
 require "primer/view_components/engine"
@@ -119,7 +118,7 @@ module OpenProject
                                     if: lambda { |_env, _code, headers, _body|
                                       # Firefox fails to properly decode gzip attachments
                                       # We thus avoid deflating if sending gzip already.
-                                      content_type = headers["Content-Type"]
+                                      content_type = headers["content-type"]
                                       content_type != "application/x-gzip"
                                     }
 

@@ -106,7 +106,7 @@ module Admin::Settings
         respond_with_turbo_streams
       else
         render_error_flash_message_via_turbo_stream(message: I18n.t(:error_invalid_list_move_anchor))
-        respond_with_turbo_streams(status: :unprocessable_entity)
+        respond_with_turbo_streams(status: :unprocessable_content)
       end
     end
 
