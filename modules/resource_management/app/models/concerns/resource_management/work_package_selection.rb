@@ -121,7 +121,7 @@ module ResourceManagement
     def work_packages
       return WorkPackage.none if effective_query.nil?
 
-      effective_query.results.work_packages.where(project: Project.has_module(:resource_management))
+      effective_query.results.work_packages.where(project: planned_projects)
     end
 
     # A manually-picked view pins its hand-chosen ids; an automatic view forwards
@@ -158,6 +158,16 @@ module ResourceManagement
     end
 
     private
+
+    # Manually picked queries are not limited to the query's project by
+    # `Query`, so a project planner applies that scope itself.
+    def planned_projects
+      projects = Project.has_module(:resource_management)
+      return projects if project.nil?
+
+      planner_scope = effective_query.include_subprojects? ? project.self_and_descendants : Project.where(id: project)
+      projects.where(id: planner_scope.select(:id))
+    end
 
     # Checked per view rather than read off the frozen constant, so the project
     # filter cannot be smuggled into a project planner's view.
