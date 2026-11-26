@@ -15,7 +15,7 @@ Before starting, [back up your installation](../../operation/backing-up/), inclu
 
 ### AIO
 
-Set `PGVERSION=17` when starting an AIO container with PostgreSQL 17 data. OpenProject 18 bundles PostgreSQL 17 and 18. For PostgreSQL 13 or 15, keep your previous OpenProject image until you migrate using dump/restore.
+Set `PGVERSION=17` when starting an AIO container with PostgreSQL 17 data. OpenProject 18 bundles PostgreSQL 17 and 18. For PostgreSQL 13 or 15, keep your previous OpenProject image until you migrate, as described in [AIO clusters on PostgreSQL 13 or 15](#aio-clusters-on-postgresql-13-or-15).
 
 AIO now exits with an error if its configured PostgreSQL version differs from the existing data. It no longer selects the older version automatically. External databases are unaffected.
 
@@ -99,6 +99,13 @@ These instructions apply to `opf/openproject-docker-compose`. Run the dump with 
    ```
 
 For named volumes, use a new named volume instead of the example host directory. Do not reuse the old volume. Development Compose follows the same procedure for `db`; also recreate or migrate its separate `db-test` database and rebuild the backend image for PostgreSQL 18 client tools.
+
+## AIO clusters on PostgreSQL 13 or 15
+
+OpenProject 18 AIO images only include PostgreSQL 17 and 18, so they cannot start, dump or `pg_upgrade` a PostgreSQL 13 or 15 cluster. OpenProject 16.3 to 17 AIO images include PostgreSQL 13, 15 and 17. Use one of these images, with the `PGVERSION` matching your cluster, for either of the following:
+
+- **Upgrade to PostgreSQL 17 with OpenProject 17 first.** Follow the [Docker All-in-One section of the PostgreSQL 17 migration guide](../migration-to-postgresql17/#docker-all-in-one). Afterwards, start OpenProject 18 with `PGVERSION=17`, or continue with the PostgreSQL 18 upgrade below.
+- **Dump and restore directly into a new PostgreSQL 18 cluster.** Follow the AIO dump/restore steps below, running the dump with your previous image and `PGVERSION` set to your cluster's version (for example `PGVERSION=15`). The [backup](../../operation/backing-up/) and [restore](../../operation/restoring/) guides describe the same process in more detail.
 
 ## AIO upgrade using dump/restore
 
