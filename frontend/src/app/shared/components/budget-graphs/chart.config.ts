@@ -25,8 +25,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { BarElement, ChartOptions, TooltipModel } from 'chart.js';
+import { BarElement, ChartOptions, TooltipLabelStyle, TooltipModel } from 'chart.js';
 import { html, render } from 'lit-html';
+import { ref } from 'lit-html/directives/ref.js';
 import type { TemplateResult } from 'lit-html';
 import type AnchoredPositionElement from '@openproject/primer-view-components/app/components/primer/anchored_position';
 import { popoverMessage } from 'core-app/shared/components/anchored-popover/popover-message';
@@ -148,11 +149,37 @@ function barBox(context:TooltipContext<'bar'>):DOMRect {
   );
 }
 
-function renderColorDot(color:string) {
-  return html`<span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: ${color}; vertical-align: baseline; margin-right: 4px"></span>`;
+function renderColorDot(color:TooltipLabelStyle['backgroundColor']) {
+  if (typeof color === 'string') {
+    return html`<span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: ${color}; vertical-align: baseline; margin-right: 4px"></span>`;
+  }
+
+  return html`<canvas
+    ${ref((element) => {
+      if (element instanceof HTMLCanvasElement) drawColorDot(element, color);
+    })}
+    width="10"
+    height="10"
+    style="width: 10px; height: 10px; vertical-align: baseline; margin-right: 4px"
+  ></canvas>`;
 }
 
-function renderTooltipItem(color:string, label:string, formattedValue:string, dateStr?:string):TemplateResult {
+function drawColorDot(canvas:HTMLCanvasElement, color:CanvasGradient|CanvasPattern):void {
+  const context = canvas.getContext('2d');
+  if (!context) return;
+
+  context.fillStyle = color;
+  context.beginPath();
+  context.arc(5, 5, 5, 0, Math.PI * 2);
+  context.fill();
+}
+
+function renderTooltipItem(
+  color:TooltipLabelStyle['backgroundColor'],
+  label:string,
+  formattedValue:string,
+  dateStr?:string,
+):TemplateResult {
   const header = dateStr
     ? html`<div><strong style="margin-right: 8px">${dateStr}</strong>${renderColorDot(color)}<strong>${label}</strong></div>`
     : html`<div>${renderColorDot(color)}<strong>${label}</strong></div>`;
@@ -171,7 +198,7 @@ export function createBarTooltipRenderer(host:HTMLElement, formatCurrency:Format
       const dateStr = timestamp != null
         ? new Date(timestamp).toLocaleDateString(undefined, { month: 'short', year: 'numeric' })
         : undefined;
-      const color = context.tooltip.labelColors[i]?.backgroundColor as string;
+      const color = context.tooltip.labelColors[i]?.backgroundColor ?? 'transparent';
       return renderTooltipItem(color, dp.dataset.label ?? '', formatCurrency(dp.parsed.y ?? 0), dateStr);
     });
     tooltip.update(context, items, barBox(context));
@@ -183,7 +210,7 @@ export function createPieTooltipRenderer(host:HTMLElement, formatCurrency:Format
   const tooltip = new ChartTooltip(host);
   const renderer = (context:TooltipContext<'pie'>) => {
     const items = context.tooltip.dataPoints.map((dp, i) => {
-      const color = context.tooltip.labelColors[i]?.backgroundColor as string;
+      const color = context.tooltip.labelColors[i]?.backgroundColor ?? 'transparent';
       return renderTooltipItem(color, dp.label ?? '', formatCurrency(dp.parsed));
     });
     tooltip.update(context, items);

@@ -93,6 +93,26 @@ describe('chart tooltip renderer', () => {
     expect(message().style.getPropertyValue('--op-anchored-popover-caret-offset')).not.toBe('');
   });
 
+  it('renders the fill pattern in the tooltip marker', () => {
+    const tile = document.createElement('canvas');
+    tile.width = 1;
+    tile.height = 1;
+    const tileContext = tile.getContext('2d')!;
+    tileContext.fillStyle = '#ff0000';
+    tileContext.fillRect(0, 0, 1, 1);
+    const pattern = canvas.getContext('2d')!.createPattern(tile, 'repeat')!;
+    const patternedContext = context(1);
+    patternedContext.tooltip.labelColors = [{
+      backgroundColor: pattern,
+      borderColor: '#654321',
+    }];
+
+    createRenderer((v) => `${v}`)(patternedContext);
+
+    const marker = host.querySelector<HTMLCanvasElement>('li canvas')!;
+    expect([...marker.getContext('2d')!.getImageData(5, 5, 1, 1).data]).toEqual([255, 0, 0, 255]);
+  });
+
   // Chart.js drives the tooltip from its own animation frame, so the frame
   // anchored-position schedules on reopen only runs after the next paint.
   it('reopens beside the new point before anchored-position gets its frame', async () => {
