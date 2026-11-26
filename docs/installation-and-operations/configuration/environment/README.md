@@ -194,7 +194,7 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_CROSS__PROJECT__WORK__PACKAGE__RELATIONS` | `true` | Allow cross-project work package relations |
 | `OPENPROJECT_CSP__IMG__SRC` | `["*", "data:", "blob:"]` | Allowed sources for the CSP img-src directive. |
 | `OPENPROJECT_CSV__ESCAPE__FORMULAS` | `true` | Escapes cells with single quote in CSV exports that begin with a spreadsheet formula character (e.g., =,@) |
-| `OPENPROJECT_DATABASE__CIPHER__KEY` | `nil` | Encryption key for repository credentials |
+| `OPENPROJECT_DATABASE__CIPHER__KEY` | `nil` | Legacy encryption key, only read to migrate SCM and LDAP credentials from older versions |
 | `OPENPROJECT_DATABASE__ENCRYPTION__KEY` | `nil` | Secret for data that OpenProject encrypts in the database. Defaults to SECRET_KEY_BASE. The encryption key is derived from this value |
 | `OPENPROJECT_DATABASE__ENCRYPTION__PREVIOUS__KEY` | `nil` | Old value of SECRET_KEY_BASE or of the database encryption key, used to decrypt data while you rotate that key |
 | `OPENPROJECT_DATE__FORMAT` | `nil` | Date |

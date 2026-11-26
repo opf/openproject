@@ -361,7 +361,9 @@ When this flag is true, the seeder runs only if no custom design (`CustomStyle`)
 - [`attachments_storage_path`](#attachments-storage-path)
 - `autologin_cookie_name` (default: 'autologin'),
 - `autologin_cookie_path` (default: '/')
-- `database_cipher_key`     (default: nil)
+- [`database_encryption_key`](#encryption-of-scm-and-ldap-passwords) (default: nil)
+- [`database_encryption_previous_key`](#encryption-of-scm-and-ldap-passwords) (default: nil)
+- [`database_cipher_key`](#encryption-of-scm-and-ldap-passwords) (default: nil, legacy)
 - `scm_git_command` (default: 'git')
 - `scm_subversion_command` (default: 'svn')
 - [`scm_local_checkout_path`](#local-checkout-path) (default: 'repositories')
@@ -515,6 +517,31 @@ OPENPROJECT_OVERRIDE__BCRYPT__COST__FACTOR="16"
 ### Database configuration and SSL
 
 Please see [this separate guide](./database/) on how to set a custom database connection string and optionally, require SSL/TTLS verification.
+
+### Encryption of SCM and LDAP passwords
+
+OpenProject 18.0 and above always encrypts the passwords of SCM repositories and LDAP connections in the database (AES-256-GCM). By default, the encryption key is derived from `SECRET_KEY_BASE`.
+
+> [!WARNING]
+> Keep `SECRET_KEY_BASE` safe and unchanged. If it is lost, or changed without the rotation steps below, OpenProject cannot decrypt these passwords, and you must enter them again in the administration. This also applies when you move an installation to another server, or between OpenProject cloud and on-premises, with a different `SECRET_KEY_BASE`.
+
+To use a key that does not depend on `SECRET_KEY_BASE`, set `OPENPROJECT_DATABASE__ENCRYPTION__KEY`. Generate a secure random value, for example with `openssl rand -hex 32`. Do not use a passphrase. All web and worker processes must use the same value. When you set this key on an existing installation, OpenProject can still decrypt the passwords that use `SECRET_KEY_BASE`. Run the re-encryption task (step 3 below) to move them to the new key.
+
+To change `SECRET_KEY_BASE` or `OPENPROJECT_DATABASE__ENCRYPTION__KEY`:
+
+1. Set the old value as `OPENPROJECT_DATABASE__ENCRYPTION__PREVIOUS__KEY`.
+2. Set the new value and restart OpenProject.
+3. Re-encrypt the passwords: `sudo openproject run bundle exec rake db:encrypt` on packaged installations, or `bundle exec rake db:encrypt` in other installations.
+4. Remove `OPENPROJECT_DATABASE__ENCRYPTION__PREVIOUS__KEY` and restart OpenProject again.
+
+#### Upgrading from older versions
+
+Older versions of OpenProject used `OPENPROJECT_DATABASE__CIPHER__KEY` and a different cipher. When you upgrade, keep this setting at its current value until the database migration has run. The migration re-encrypts all existing passwords to match the new standard. Passwords that were stored without encryption are encrypted too. After the migration, you can remove the setting. This setting will be dropped in a future version.
+
+The upgrade has these changes:
+
+- The `db:decrypt` rake task is removed. You cannot decrypt the passwords in the database anymore.
+- You cannot downgrade to an older version after the migration has run, because older versions cannot read the new format. To downgrade, restore the database backup that you made before the upgrade.
 
 ### Password login
 

@@ -40,7 +40,7 @@ You will need this plain SQL dump and the `attachments-<timestamp>.tar.gz` archi
 
 ## Step 2: Retrieve and reuse `SECRET_KEY_BASE`
 
-OpenProject uses `SECRET_KEY_BASE` as the key derivation input for Rails secrets (session cookies, reminder and invitation tokens, and similar signed values). If possible, you want to retain this information, as otherwise users will be logged out and have some of their tokens reset.
+OpenProject uses `SECRET_KEY_BASE` as the key derivation input for Rails secrets (session cookies, reminder and invitation tokens, and similar signed values) and, by default, for the encryption of SCM and LDAP passwords. Keep this value. Otherwise users are logged out, some of their tokens are reset, and you must enter the SCM and LDAP passwords again. See [Encryption of SCM and LDAP passwords](../../configuration/#encryption-of-scm-and-ldap-passwords).
 
 On a packaged installation, retrieve the existing value:
 
