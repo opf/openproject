@@ -225,10 +225,12 @@ RSpec.describe CustomField::ProjectSpecificValues do
     end
   end
 
-  describe "#usable_value_counts_in" do
+  describe "#usable_global_value_counts_in" do
     shared_let(:unconfigured_project) { create(:project) }
 
-    subject(:counts) { custom_field.usable_value_counts_in(Project.where(id: [project, other_project, unconfigured_project])) }
+    subject(:counts) do
+      custom_field.usable_global_value_counts_in(Project.where(id: [project, other_project, unconfigured_project]))
+    end
 
     context "for a list custom field with an allowlist" do
       let(:custom_field) { create(:list_wp_custom_field, :project_specific_allowlist, possible_values: %w[A B C]) }
@@ -239,8 +241,26 @@ RSpec.describe CustomField::ProjectSpecificValues do
         create(:project_specific_value_restriction, project: other_project, custom_option: custom_field.custom_options.third)
       end
 
-      it "counts the options usable in each project" do
+      it "counts the global options usable in each project" do
         expect(counts).to eq(project.id => 2, other_project.id => 1, unconfigured_project.id => 0)
+      end
+
+      context "with values added by a project" do
+        before { create(:custom_option, custom_field:, value: "Own", project:) }
+
+        it "does not count them" do
+          expect(counts).to eq(project.id => 2, other_project.id => 1, unconfigured_project.id => 0)
+        end
+      end
+    end
+
+    context "for a list custom field without restrictions" do
+      let(:custom_field) { create(:list_wp_custom_field, possible_values: %w[A B C]) }
+
+      before { create(:custom_option, custom_field:, value: "Own", project:) }
+
+      it "counts all global options in each project" do
+        expect(counts).to eq(project.id => 3, other_project.id => 3, unconfigured_project.id => 3)
       end
     end
 
@@ -257,6 +277,37 @@ RSpec.describe CustomField::ProjectSpecificValues do
 
       it "only counts the items whose ancestors are usable as well" do
         expect(counts).to eq(project.id => 2, other_project.id => 0, unconfigured_project.id => 0)
+      end
+    end
+  end
+
+  describe "#project_value_counts" do
+    subject(:counts) { custom_field.project_value_counts }
+
+    context "for a list custom field" do
+      let(:custom_field) { create(:list_wp_custom_field, possible_values: %w[A]) }
+
+      before do
+        create(:custom_option, custom_field:, value: "Own", project:)
+        create(:custom_option, custom_field:, value: "Other", project:)
+        create(:custom_option, custom_field:, value: "Foreign", project: other_project)
+      end
+
+      it "counts the values each project added" do
+        expect(counts).to eq(project.id => 2, other_project.id => 1)
+      end
+    end
+
+    context "for a hierarchy custom field", with_ee: [:custom_field_hierarchies] do
+      let(:custom_field) { create(:hierarchy_wp_custom_field) }
+
+      before do
+        global_item = create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Global")
+        create(:hierarchy_item, parent: global_item, label: "Own", project:)
+      end
+
+      it "counts the items each project added" do
+        expect(counts).to eq(project.id => 1)
       end
     end
   end
@@ -359,6 +410,54 @@ RSpec.describe CustomField::ProjectSpecificValues do
 
     context "for a weighted item list custom field", with_ee: [:weighted_item_lists] do
       it_behaves_like "including the hierarchical items of the project", :weighted_item_list_wp_custom_field
+    end
+  end
+
+  describe "#values_toggleable_by?" do
+    let(:traits) { [:project_specific_allowlist] }
+    let(:project_level_value_management) { true }
+    let(:custom_field) { build_stubbed(:list_wp_custom_field, *traits, project_level_value_management:) }
+    let(:user) { build_stubbed(:user) }
+    let(:permission) { :manage_work_package_custom_field_values }
+
+    subject { custom_field.values_toggleable_by?(user, project) }
+
+    before do
+      mock_permissions_for(user) do |mock|
+        mock.allow_in_project permission, project:
+      end
+    end
+
+    it { is_expected.to be(true) }
+
+    context "when project admins may not manage the values" do
+      let(:project_level_value_management) { false }
+
+      it { is_expected.to be(false) }
+
+      context "for an admin" do
+        let(:user) { build_stubbed(:admin) }
+
+        it { is_expected.to be(true) }
+      end
+    end
+
+    context "without the permission to manage the values" do
+      let(:permission) { :view_work_packages }
+
+      it { is_expected.to be(false) }
+    end
+
+    context "without project-specific restrictions enabled" do
+      let(:traits) { [] }
+
+      it { is_expected.to be(false) }
+
+      context "for an admin" do
+        let(:user) { build_stubbed(:admin) }
+
+        it { is_expected.to be(false) }
+      end
     end
   end
 

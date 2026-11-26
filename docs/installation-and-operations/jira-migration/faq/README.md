@@ -62,21 +62,27 @@ For every requirement, distinguish between a legal or operational necessity, a v
 
 ## Is the Jira Migrator ready for a production migration?
 
-In OpenProject 17.6, the Jira Migrator is a beta feature intended for test setups. It already provides a practical way to analyze real Jira data, validate mappings and estimate the remaining migration work. A production cutover should follow only after a tested migration plan, backups, acceptance criteria and a rollback approach have been established.
+The Jira Migrator is a beta feature intended for test setups. It already provides a practical way to analyze real Jira data, validate mappings and estimate the remaining migration work. A production cutover should follow only after a tested migration plan, backups, acceptance criteria and a rollback approach have been established.
 
 Each import run enters a review mode and can be approved or reverted. After approval, the import can no longer be reverted. See the [Jira migration guide](../) for the current process and limitations.
 
 ## Which Jira versions can currently be imported?
 
-OpenProject 17.6 supports Jira Data Center 10.x and 11.x. Jira Server and Jira Cloud are not supported yet. If Jira Cloud is part of the scope, treat migration as a separate workstream and verify the latest status on the [Jira Migrator stream](https://community.openproject.org/projects/JIM) and the [OpenProject roadmap](https://www.openproject.org/roadmap/). Jira Server might be supported in the near future. It is tracked by [this ticket](https://community.openproject.org/projects/JIM/work_packages/JIM-160/activity).
+OpenProject supports Jira Server/Data Center versions 8.x, 9.x, 10.x and 11.x. Jira 8 requires basic auth instead of a personal access token. For other versions, the Jira Migrator shows a warning, and you can still continue at your own risk. Jira Cloud is not supported yet. If Jira Cloud is part of the scope, treat migration as a separate workstream and verify the latest status on the [Jira Migrator stream](https://community.openproject.org/projects/JIM) and the [OpenProject roadmap](https://www.openproject.org/roadmap/).
 
-## Which data can OpenProject 17.6 import automatically?
+## Which data can the Jira Migrator import automatically?
 
 The documented scope already includes the central foundation for a realistic migration test:
 
 - Projects and project identifiers
 - Issues and selected standard attributes, including subject, description, attachments, due date, estimated hours and remaining hours
 - [Project-based issue identifiers](../../../system-admin-guide/manage-work-packages/work-package-identifiers/)
+- Parent-child relationships (sub-tasks)
+- Issue links (blocks, relates to, duplicates, etc.)
+- Inline images in descriptions and comments
+- Sprints and sprint assignments
+- Watchers
+- Logged work (worklogs) as time entries
 - Supported custom fields
 - Users with names, email addresses and project memberships
 - Statuses and types
@@ -85,13 +91,10 @@ Review the [Jira migration guide](../) and [custom fields migration guide](../cu
 
 ## Which Jira data is not yet migrated automatically?
 
-The Jira Migrator is being expanded iteratively. OpenProject 17.6 does not yet migrate every Jira configuration object or all ecosystem data. Important areas requiring particular attention include relations between issues, sprint assignments, versions, components, project-level workflows, permissions, schemes, boards, filters, dashboards, time logs, and data owned by marketplace apps.
+The Jira Migrator is being expanded iteratively. OpenProject does not yet migrate every Jira configuration object or all ecosystem data. Important areas requiring particular attention include components, project-level workflows, permissions, schemas, boards, filters, dashboards, and data owned by marketplace apps.
 
 Several of these areas are represented by roadmap items, including:
 
-- [Relations between work items](https://community.openproject.org/projects/JIM/work_packages/JIM-43/activity)
-- [Sprint assignments](https://community.openproject.org/projects/JIM/work_packages/JIM-44/activity)
-- [Affected and fix versions](https://community.openproject.org/projects/JIM/work_packages/JIM-154/activity)
 - [Jira components](https://community.openproject.org/projects/JIM/work_packages/JIM-107/activity)
 - [Preserving references after a separate Confluence-to-XWiki migration](https://community.openproject.org/projects/JIM/work_packages/JIM-129/activity). This does not include migrating Confluence content.
 
@@ -143,13 +146,13 @@ See also our blog post on [Jira migration strategies](https://www.openproject.or
 
 ## Can OpenProject replace Jira Software for Scrum, Kanban and SAFe?
 
-Yes. OpenProject 17.6 provides [agile boards](../../../user-guide/agile-boards/) as well as [backlogs and sprints](../../../user-guide/backlogs-scrum/) with sprint planning and sprint boards. A particular strength is the combination of agile work with [work-package hierarchies and relations](../../../user-guide/work-packages/work-package-relations-hierarchies/), [Gantt charts](../../../user-guide/gantt-chart/) and [portfolio structures](../../../user-guide/portfolios/). This makes it possible to connect agile delivery with classic planning and governance in one system.
+Yes. OpenProject provides [agile boards](../../../user-guide/agile-boards/) as well as [backlogs and sprints](../../../user-guide/backlogs-scrum/) with sprint planning and sprint boards. A particular strength is the combination of agile work with [work-package hierarchies and relations](../../../user-guide/work-packages/work-package-relations-hierarchies/), [Gantt charts](../../../user-guide/gantt-chart/) and [portfolio structures](../../../user-guide/portfolios/). This makes it possible to connect agile delivery with classic planning and governance in one system.
 
 The roadmap includes further Jira-oriented capabilities such as work-in-progress limits, sprint reports, burndown and velocity charts, multiple active sprints, board swimlanes and cumulative-flow diagrams. Organizations using Advanced Roadmaps, extensive board automation or SAFe can use the documented [SAFe use case](../../../use-cases/safe-framework/) as a starting point and should model their real planning events, metrics, dependencies and cross-team views in a pilot.
 
 ## Can OpenProject replace Jira Service Management?
 
-OpenProject already provides a solid foundation for modeling requests, incidents, changes and other service records through [work packages](../../../user-guide/work-packages/), [workflows](../../../system-admin-guide/manage-work-packages/work-package-workflows), custom fields and [notifications](../../../user-guide/notifications/). OpenProject 17.6 does not yet cover the complete Jira Service Management feature set. Closing these gaps is part of the OpenProject product roadmap, and we will continue to expand our service management capabilities in future releases.
+OpenProject already provides a solid foundation for modeling requests, incidents, changes and other service records through [work packages](../../../user-guide/work-packages/), [workflows](../../../system-admin-guide/manage-work-packages/work-package-workflows), custom fields and [notifications](../../../user-guide/notifications/). OpenProject does not yet cover the complete Jira Service Management feature set. Closing these gaps is part of the OpenProject product roadmap, and we will continue to expand our service management capabilities in future releases.
 
 The roadmap includes incoming-email improvements, a [service portal](https://community.openproject.org/projects/SISMI/work_packages/71021/activity), [asset management](https://community.openproject.org/projects/SISMI/work_packages/67364/activity) and [service level agreements](https://community.openproject.org/projects/SISMI/work_packages/74193/activity). Evaluate customer portals, queues, SLAs, assets, knowledge articles, email processing, approvals and reporting separately. Planned features are not a substitute for a tested go-live requirement.
 
@@ -157,7 +160,7 @@ The roadmap includes incoming-email improvements, a [service portal](https://com
 
 Test management processes can already be modeled with work-package types, workflows, relations and views, as shown in the [OpenProject test management use case](../../../use-cases/test-management/). A dedicated [test management roadmap](https://www.openproject.org/roadmap/#xray-alternative) covers test cases, executions, results, traceability and reporting. Work on the [Squash TM integration](https://community.openproject.org/projects/SSOI/work_packages/SSOI-1/activity) has already started.
 
-There is no generic migration of Xray or Zephyr data in OpenProject 17.6. Inventory test cases, steps, executions, plans, evidence, automation results and requirement links. Decide whether they should be modeled in OpenProject directly, moved to a specialized test management system, or retained in an archive.
+There is no generic migration of Xray or Zephyr data. Inventory test cases, steps, executions, plans, evidence, automation results and requirement links. Decide whether they should be modeled in OpenProject directly, moved to a specialized test management system, or retained in an archive.
 
 ## How does OpenProject support portfolio and program management?
 

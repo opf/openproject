@@ -43,14 +43,8 @@ module WorkPackageTypes
         @wizard = wizard
       end
 
-      def filters_form_attributes
-        {
-          controller: "filter--filters-form",
-          "filter--filters-form-turbo-stream-request-value": true,
-          "filter--filters-form-clear-button-id-value": clear_button_id,
-          "filter--filters-form-current-filters-value": serialized_filters,
-          "filter--filters-form-url-path-name-value": (variant_creation_wizard_projects_path(variant) if wizard?)
-        }.compact
+      def url_path_name
+        variant_creation_wizard_projects_path(variant) if wizard?
       end
 
       def name_filter_attributes
@@ -63,10 +57,6 @@ module WorkPackageTypes
       end
 
       def name_filter_key = ::Queries::Projects::Filters::NameAndIdentifierFilter.key.to_s
-
-      def serialized_filters
-        OpPrimer::QuickFilter.serialize(query.filters).to_json
-      end
 
       def name_filter_value = query.find_active_filter(name_filter_key.to_sym)&.values&.first
 
@@ -85,12 +75,10 @@ module WorkPackageTypes
 
       def wizard? = @wizard
 
-      def wizard_params = wizard? ? { wizard: true } : {}
-
-      def add_path = new_link_variant_projects_path(variant, **wizard_params)
+      def add_path = new_variant_projects_link_path(variant)
 
       def toggle_all_path
-        enable_all_variant_projects_path(variant, value: enabled_everywhere? ? "0" : "1", **wizard_params)
+        enable_all_variant_projects_path(variant, value: enabled_everywhere? ? "0" : "1")
       end
 
       def toggle_all_label
@@ -104,7 +92,7 @@ module WorkPackageTypes
       def enabled_everywhere?
         return @enabled_everywhere unless @enabled_everywhere.nil?
 
-        @enabled_everywhere = ProjectType.where(variant_id: variant.id).count == ::Project.count
+        @enabled_everywhere = variant.projects.active.count == ::Project.active.count
       end
     end
   end

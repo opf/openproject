@@ -99,7 +99,7 @@ class ForumsController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_create)
       redirect_to project_forums_path(@project)
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -108,7 +108,7 @@ class ForumsController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to project_forums_path(@project)
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 
@@ -123,7 +123,7 @@ class ForumsController < ApplicationController
       render_error_flash_message_via_turbo_stream(message: I18n.t(error_key))
     end
 
-    respond_with_turbo_streams(status: moved ? :ok : :unprocessable_entity)
+    respond_with_turbo_streams(status: moved ? :ok : :unprocessable_content)
   end
 
   def destroy

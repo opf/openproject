@@ -81,7 +81,7 @@ module CustomFields
 
       private
 
-      def ancestors(item) = persistence_service.get_ancestors(item:).value!.filter_map(&:label)
+      def ancestors(item) = item.ancestors.reverse.filter_map(&:label)
 
       def format_suffix(item)
         return "" if item.short.nil? && item.weight.nil?
@@ -95,10 +95,6 @@ module CustomFields
         str = item.short.presence || number_with_limit(item.weight, opts)
 
         @suffix_parentheses ? "(#{str})" : str
-      end
-
-      def persistence_service
-        @persistence_service ||= HierarchicalItemService.new
       end
     end
   end

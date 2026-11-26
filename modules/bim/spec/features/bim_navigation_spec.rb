@@ -126,8 +126,7 @@ RSpec.describe "BIM navigation spec", :js, with_config: { edition: "bim" } do
         details_view.expect_tab "Overview"
 
         # Delete via the context menu
-        page.find_test_selector("wp-details-toolbar--show-more-button").click
-        find(".menu-item", text: "Delete").click
+        details_view.select_from_context_menu("Delete")
 
         destroy_modal.expect_listed(work_package)
         destroy_modal.confirm_deletion
@@ -164,4 +163,36 @@ RSpec.describe "BIM navigation spec", :js, with_config: { edition: "bim" } do
   end
 
   it_behaves_like "can switch from split to viewer to list-only"
+
+  context "when switching to another project (#BIM-83)" do
+    let(:project_b) { create(:project, name: "Project B", enabled_module_names: %i[bim work_package_tracking]) }
+    let(:user) do
+      create(:user, member_with_roles: { project => role, project_b => role })
+    end
+    let!(:model_b) do
+      create(:ifc_model_minimal_converted, title: "Model B", project: project_b, uploader: user, is_default: true)
+    end
+    let(:model_page_b) { Pages::IfcModels::ShowDefault.new project_b }
+    let(:project_menu) { Components::Projects::TopMenu.new }
+
+    def expect_model_checked(title)
+      within(".xeokit-form-check", text: title) do
+        expect(page).to have_css("input[type=checkbox]:checked", visible: :all, wait: 10) # rubocop:disable Capybara/RSpec/SpecificMatcher
+      end
+    end
+
+    it "shows the newly selected project's model instead of the previous one" do
+      model_page.visit_and_wait_until_finished_loading!
+      expect_model_checked(model.title)
+
+      project_menu.toggle!
+      project_menu.search_and_select(project_b.name)
+
+      within("#main-menu") { click_link "BCF" }
+      model_page_b.finished_loading
+
+      expect_model_checked("Model B")
+      expect(page).to have_no_css(".xeokit-form-check", text: model.title)
+    end
+  end
 end

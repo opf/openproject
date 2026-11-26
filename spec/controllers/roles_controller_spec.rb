@@ -86,7 +86,7 @@ RSpec.describe RolesController do
       it "renders the new form with validation errors without creating a role" do
         expect { post :create, params: }.not_to change(Role, :count)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response).to render_template("roles/new")
         expect(assigns(:role)).to be_a(ProjectRole)
         expect(assigns(:role)).to be_new_record
@@ -120,7 +120,7 @@ RSpec.describe RolesController do
 
         put(:update, params:)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response).to render_template("roles/edit")
         expect(assigns(:role)).to eq role
         expect(assigns(:role).name).to eq ""
@@ -169,7 +169,7 @@ RSpec.describe RolesController do
 
         put(:bulk_update, params:)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response).to render_template("roles/report")
         expect(assigns(:roles)).to contain_exactly(cleared_role, updated_role, omitted_role, global_role)
         failed_calls = assigns(:calls).reject(&:success?)

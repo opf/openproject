@@ -81,7 +81,7 @@ RSpec.describe "Work package type excluded elements",
     it "is unprocessable" do
       toggle(value: "0")
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 
@@ -114,7 +114,7 @@ RSpec.describe "Work package type excluded elements",
 
       toggle(value: "0", element: custom_field.attribute_name, headers: turbo_stream)
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.media_type).to eq("application/json")
     end
 

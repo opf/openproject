@@ -109,6 +109,7 @@ el:
         maintained_with_changes: Maintained with changes
         no_longer_meets_filter_criteria: No longer meets filter criteria
         now_meets_filter_criteria: Now meets filter criteria
+        state_at: State at
       show_changes_since: Show changes since
       time: Ώρα
       time_description: 'In your local time: %{datetime}'
@@ -176,6 +177,10 @@ el:
       remove_from_list: Αφαίρεση κάρτας από τη λίστα
     chart:
       axis_criteria: Κριτήρια άξονα
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Τα δεδομένα για εμφάνιση στο διάγραμμα δεν μπόρεσαν να φορτωθούν. Μπορεί να λείπουν τα απαραίτητα δικαιώματα.
       modal_title: Διαμόρφωση του διαγράμματος πακέτων εργασίας
@@ -303,6 +308,7 @@ el:
         only_start: Από %{from} στην τοπική σας ώρα.
         two_values: "%{from} - %{to} στην τοπική σας ώρα."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Προηγμένες ρυθμίσεις
       load_error_message: There was an error loading the form
@@ -772,8 +778,10 @@ el:
       create_new: Δημιουργία νέου
       group_by_relation_type: Ομαδοποίηση κατά τύπο συσχέτισης
       group_by_wp_type: Ομαδοποίηση κατά τύπο πακέτου εργασίας
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Ιεραρχία εσοχής
       hierarchy_outdent: Ιεραρχία προεξοχής
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Αφαίρεση συσχέτισης
       remove_child: Αφαίρεση παιδιού
       remove_parent: Αφαίρεση γονέα
@@ -900,6 +908,23 @@ el:
       unselected_title: Εργασία
     two_factor_authentication:
       label_two_factor_authentication: Ταυτοποίηση δύο παραγόντων
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Project actions
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            one: Could not extend the range. %{count} project selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            one: "%{count} project selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         one: "%{count} child work package"
@@ -1012,6 +1037,7 @@ el:
         label_pagination: Πατήστε εδώ για να προσπεράσετε τον πίνακα πακέτων εργασίας και να πάτε στην σελιδοποίηση
         pagination: Μεταπήδηση στον πίνακα σελιδοποίησης
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Συνδυασμένο αναπτυσσόμενο πεδίο: Επιλέξτε με τα πλήκτρα βέλους, επιβεβαιώστε πατώντας το πλήκτρο enter, διαγράψτε πατώντας το πλήκτρο backspace'
       label_disable_multi_select: Απενεργοποίηση πολλαπλής επιλογής
       label_enable_multi_select: Ενεργοποίηση πολλαπλής επιλογής

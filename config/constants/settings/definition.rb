@@ -178,7 +178,7 @@ module Settings
       autologin: {
         format: :integer,
         default: 0,
-        allowed: [1, 7, 14, 30, 60, 90, 365]
+        allowed: [0, 1, 7, 14, 30, 60, 90, 365]
       },
       autologin_cookie_name: {
         description: "Cookie name for autologin cookie",
@@ -651,7 +651,7 @@ module Settings
       },
       web_push_enabled: {
         format: :boolean,
-        default: true
+        default: false
       },
       web_push_vapid_private_key: {
         description: "The VAPID private key used to sign browser notification pushes, given as the " \
@@ -1495,6 +1495,11 @@ module Settings
         format: :integer,
         writable: false,
         default: 5_000
+      },
+      work_package_multiple_categories: {
+        description: "Enable multiple category assignments on work packages.",
+        format: :boolean,
+        default: false
       },
       work_package_multiple_versions: {
         description: "Enable multiple version assignments on work packages.",

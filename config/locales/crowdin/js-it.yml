@@ -109,6 +109,7 @@ it:
         maintained_with_changes: Mantenuto con le modifiche
         no_longer_meets_filter_criteria: Non soddisfa più i criteri del filtro
         now_meets_filter_criteria: Ora soddisfa i criteri del filtro
+        state_at: State at
       show_changes_since: Mostra le modifiche da
       time: Ora
       time_description: 'Nella tua ora locale: %{datetime}'
@@ -176,6 +177,10 @@ it:
       remove_from_list: Rimuovi la carta dall'elenco
     chart:
       axis_criteria: Criteri dell'asse
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: I dati per visualizzare il grafico non possono essere caricati. Potrebbero mancare i permessi necessari.
       modal_title: Configurazione grafico macro-attività
@@ -303,6 +308,7 @@ it:
         only_start: Dalle %{from} sul tuo fuso orario.
         two_values: "%{from} - %{to} sul tuo fuso orario."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Impostazioni avanzate
       load_error_message: Si è verificato un errore caricando il modulo
@@ -772,8 +778,10 @@ it:
       create_new: Crea nuovo
       group_by_relation_type: Raggruppa per tipo di relazione
       group_by_wp_type: Raggruppa per tipo di macro-attività
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Indenta gerarchia
       hierarchy_outdent: Rimuovi indentazione gerarchia
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Rimuovi la relazione
       remove_child: Rimuovi figlio
       remove_parent: Rimuovi genitore
@@ -900,6 +908,23 @@ it:
       unselected_title: Macro-attività
     two_factor_authentication:
       label_two_factor_authentication: Autenticazione a due fattori
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Project actions
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            one: Could not extend the range. %{count} project selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            one: "%{count} project selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         one: "%{count} child work package"
@@ -1012,6 +1037,7 @@ it:
         label_pagination: Clicca qui per saltare la tabella macro-attività e passare alla impaginazione
         pagination: Salta alla impaginazione tabella
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Campo a discesa combinata: selezionare con i tasti freccia, confermare la selezione con invio, eliminare con backspace'
       label_disable_multi_select: Disabilita multiseleziona
       label_enable_multi_select: Abilita multiseleziona

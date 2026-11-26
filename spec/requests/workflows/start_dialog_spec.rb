@@ -146,7 +146,7 @@ RSpec.describe "Choosing where a new workflow starts", :skip_csrf, type: :rails_
 
       expect { start(start: "copy") }.not_to change(Workflow, :count)
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(streamed).to have_text(I18n.t("workflows.start.copy.missing"))
       expect(type.default_variant.reload.workflow).to eq(original)
     end

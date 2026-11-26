@@ -5,7 +5,7 @@
       method: :post,
       url: submit_path,
       namespace: "form_#{wrapper_uniq_by}",
-      data: { action: "submit->meetings--submit#interceptOutcomeFormSubmission" },
+      data: { action: "submit->meetings--submit#interceptOutcomeFormSubmission", poll_for_changes_pause: true },
       class: "meeting-agenda-item-outcome-form"
     ) do |f|
       flex_layout(tag: :div) do |flex|

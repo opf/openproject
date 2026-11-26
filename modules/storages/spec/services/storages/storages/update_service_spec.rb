@@ -51,7 +51,7 @@ RSpec.describe Storages::Storages::UpdateService, type: :model do
     end
 
     let!(:model_instance) do
-      build_stubbed(factory,
+      create(factory,
                     creator: user,
                     name: "My updated storage",
                     host: "https://updated.example.org")

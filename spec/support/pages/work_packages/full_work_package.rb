@@ -76,8 +76,8 @@ module Pages
     def click_reminder_button_with_context_menu(menu_item: "At a particular date/time")
       click_reminder_button
 
-      within "#reminder-dropdown-menu" do
-        click_link_or_button menu_item
+      within(:menu, "Set a reminder") do
+        find(:menuitem, menu_item, exact: true).click
       end
     end
 
@@ -107,11 +107,7 @@ module Pages
     end
 
     def path(tab = "activity")
-      if project
-        project_work_package_path(project, work_package.id, tab)
-      else
-        project_work_package_path(work_package.project.identifier, work_package.id, tab)
-      end
+      project_work_package_path(project || work_package.project, work_package, tab)
     end
 
     def create_page(args)

@@ -27,20 +27,13 @@
 
 require "open_project/assets"
 
-# The ng build task must run before assets:environment task.
-# Otherwise Sprockets cannot find the files that the frontend build produces.
-Rake::Task["assets:precompile"]
-  .clear_prerequisites
-  .enhance(%w[assets:compile_environment assets:prepare_op])
+Rake::Task["assets:precompile"].enhance(%w[assets:prepare_op])
+Rake::Task["assets:clean"].clear
 
 namespace :assets do
-  # In this task, set prerequisites for the assets:precompile task
-  task compile_environment: :prepare_op do
-    # Turn the yarn:install task into a noop.
-    Rake::Task["yarn:install"]
-      .clear
-
-    Rake::Task["assets:environment"].invoke
+  desc "Disabled: Propshaft's clean would delete the Angular build in public/assets/frontend"
+  task :clean do # rubocop:disable Rails/RakeEnvironment
+    puts "assets:clean is disabled. Propshaft would delete the Angular chunks in public/assets/frontend."
   end
 
   desc "Prepare locales and angular assets"
@@ -74,6 +67,9 @@ namespace :assets do
     end
 
     Rake::Task["assets:rebuild_manifest"].invoke
+
+    puts "Compressing angular frontend assets"
+    sh("node", Rails.root.join("frontend/compress-assets.mjs").to_s, OpenProject::Assets.frontend_asset_path.to_s)
   end
 
   desc "Write angular assets manifest"

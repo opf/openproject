@@ -1,6 +1,6 @@
 import type { TFunction } from 'i18next';
 import type { WorkPackage } from '../../openProjectTypes';
-import { formatWorkPackageId } from '../../utils/id';
+import { formatWorkPackageId, spokenWorkPackageId } from '../../utils/id';
 import type { WpSize } from './types';
 
 export type UnavailableKind = 'unauthorized' | 'error';
@@ -17,8 +17,12 @@ export function workPackageLabel(t:TFunction, displayId:string):string {
   return t('options.chipAriaLabel', { id: formatWorkPackageId(displayId) });
 }
 
+function spokenWorkPackageLabel(t:TFunction, displayId:string):string {
+  return t('options.chipAriaLabel', { id: spokenWorkPackageId(t, displayId) });
+}
+
 export function describeUnavailableWorkPackage(t:TFunction, displayId:string, kind:UnavailableKind):string {
-  return `${workPackageLabel(t, displayId)}, ${t(`unavailableWorkPackage.${kind}.short_message`)}`;
+  return `${spokenWorkPackageLabel(t, displayId)}, ${t(`unavailableWorkPackage.${kind}.short_message`)}`;
 }
 
 // A compact chip hides its status; a tiny one shows everything in its hover preview.
@@ -32,7 +36,7 @@ export function describeLinkedWorkPackage(
   if (workPackage) {
     const showsStatus = size !== 'xs';
     return [
-      workPackageLabel(t, workPackage.displayId),
+      spokenWorkPackageLabel(t, workPackage.displayId),
       workPackage._links?.type?.title,
       showsStatus && workPackage._links?.status?.title,
       workPackage.subject,

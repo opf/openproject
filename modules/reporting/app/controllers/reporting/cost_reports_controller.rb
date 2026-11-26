@@ -46,6 +46,7 @@ module Reporting
     before_action :find_report, only: %i[show update rename destroy]
     before_action :build_report, only: %i[index create]
     before_action :narrow_values_only, only: %i[index]
+    before_action :validate_report_query, only: %i[index show create update]
     before_action :set_cost_types, except: %i[available_values]
 
     # The rendering widgets reach for these through method_missing on the
@@ -167,6 +168,10 @@ module Reporting
       @report = ::CostReports::ParamsToReport.new(params, project: @project, user: current_user).call
     end
 
+    def validate_report_query
+      render_400 unless @report.query.valid?
+    end
+
     def render_or_export_report
       respond_to do |format|
         format.html { render_report }
@@ -186,6 +191,8 @@ module Reporting
     end
 
     def export(format)
+      return refuse_export if @report.filter_errors.any?
+
       job_id = ::CostReports::ScheduleExportService
                  .new(user: current_user)
                  .call(format:,
@@ -195,11 +202,26 @@ module Reporting
                        cost_types: @cost_types)
                  .result
 
-      if request.headers["Accept"]&.include?("application/json")
+      if json_requested?
         render json: { job_id: }
       else
         redirect_to job_status_path(job_id)
       end
+    end
+
+    def refuse_export
+      message = I18n.t("export.invalid_filters", errors: @report.filter_errors.join(" "))
+
+      if json_requested?
+        render json: { message: }, status: :unprocessable_content
+      else
+        flash[:error] = message
+        redirect_back_or_to reports_path
+      end
+    end
+
+    def json_requested?
+      request.headers["Accept"]&.include?("application/json")
     end
 
     def redirect_to_report

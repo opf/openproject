@@ -71,7 +71,8 @@ module OpenProject::Wikis
         getter: ->(*) { ::Wikis::Provider.enabled.exists? }
       )
 
-      OpenProject::TextFormatting::Filters::PatternMatcherFilter.append_matcher ::Wikis::TextFormatting::WikiLinkMatcher
+      OpenProject::TextFormatting::Filters::PatternMatcherFilter.append_matcher ::Wikis::TextFormatting::HtmlWikiLinkMatcher
+      Exports::PDF::Common::Macro.register_macro ::Wikis::TextFormatting::PdfWikiLinkMatcher
 
       # Registering queries and filters
       ::Queries::Register.register(::Queries::Wikis::PageLinks::PageLinkQuery) do

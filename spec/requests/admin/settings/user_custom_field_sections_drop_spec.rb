@@ -94,7 +94,7 @@ RSpec.describe "User custom field sections drop", :skip_csrf, type: :rails_reque
   it "422s without mutation for an anchor outside the user section scope" do
     drop(section_a, prev_id: create(:project_custom_field_section).id.to_s)
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(UserCustomFieldSection.order(:position).ids).to eq([section_a.id, section_b.id])
   end
 

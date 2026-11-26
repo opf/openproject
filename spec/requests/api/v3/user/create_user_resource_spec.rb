@@ -117,7 +117,7 @@ RSpec.describe API::V3::Users::UsersAPI do
         it "returns an error on that attribute" do
           send_request
 
-          expect(last_response).to have_http_status(:unprocessable_entity)
+          expect(last_response).to have_http_status(:unprocessable_content)
 
           expect(last_response.body)
             .to be_json_eql("authSource".to_json)
@@ -277,7 +277,7 @@ RSpec.describe API::V3::Users::UsersAPI do
 
         it "responds with 422 and explains the custom field error" do
           send_request
-          expect(last_response).to have_http_status(:unprocessable_entity)
+          expect(last_response).to have_http_status(:unprocessable_content)
 
           response_body = parse_json(last_response.body)
 
@@ -304,7 +304,7 @@ RSpec.describe API::V3::Users::UsersAPI do
 
         it "responds with 422 and explains the custom field error" do
           send_request
-          expect(last_response).to have_http_status(:unprocessable_entity)
+          expect(last_response).to have_http_status(:unprocessable_content)
 
           response_body = parse_json(last_response.body)
 

@@ -52,7 +52,7 @@ RSpec.shared_examples "property is not writable" do |attribute_name|
 
     attr = JSON.parse(last_response.body).dig "_embedded", "details", "attribute"
 
-    expect(last_response).to have_http_status :unprocessable_entity
+    expect(last_response).to have_http_status :unprocessable_content
     expect(attr).to eq attribute_name
   end
 end
@@ -66,7 +66,7 @@ RSpec.shared_examples "create user request flow" do
     it "returns an erroneous response" do
       send_request
 
-      expect(last_response).to have_http_status(:unprocessable_entity)
+      expect(last_response).to have_http_status(:unprocessable_content)
 
       expect(errors.count).to eq(5)
       expect(errors.collect { |el| el["_embedded"]["details"]["attribute"] })
@@ -142,7 +142,7 @@ RSpec.shared_examples "create user request flow" do
     it "returns an erroneous response" do
       send_request
 
-      expect(last_response).to have_http_status(:unprocessable_entity)
+      expect(last_response).to have_http_status(:unprocessable_content)
 
       expect(errors).not_to be_empty
       expect(last_response.body)

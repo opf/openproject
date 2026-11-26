@@ -173,11 +173,16 @@ RSpec.describe OpenProject::Bim::BcfXml::IssueWriter do
       expect(subject.at("/Markup/Comment[1]/Comment").content).to eql("Some BCF comment.")
     end
 
-    it "creates BCF comments for comments that were created within OP." do
-      work_package.journal_notes = "Some note created in OP."
+    it "creates additional BCF comments for all non-internal comments that were created within OP." do
+      work_package.add_journal(notes: "Some note created in OP.")
+      work_package.save!
+      work_package.add_journal(notes: "I won't get exported.", internal: true)
       work_package.save!
 
       expect(subject.at("/Markup/Comment[2]/Comment").content).to eql("Some note created in OP.")
+      subject.xpath("/Markup/Comment/Comment").each do |comment|
+        expect(comment.content).not_to include("I won't get exported.")
+      end
       expect(Bim::Bcf::Comment.count).to be(2)
     end
 

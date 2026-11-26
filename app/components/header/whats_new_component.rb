@@ -70,6 +70,10 @@ module Header
         .detect { |name| helpers.has_rails_asset?(name) }
     end
 
+    def unread?(item)
+      unread_keys.include?(item.key)
+    end
+
     private
 
     def unread_keys

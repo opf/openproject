@@ -109,6 +109,7 @@ zh-TW:
         maintained_with_changes: 被維護修改過
         no_longer_meets_filter_criteria: 不符合過濾條件
         now_meets_filter_criteria: 符合過濾條件
+        state_at: State at
       show_changes_since: 差異起始
       time: 時間
       time_description: 當地時間： %{datetime}
@@ -176,6 +177,10 @@ zh-TW:
       remove_from_list: 從清單列表中移除
     chart:
       axis_criteria: 軸條件
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: 無法加載用於顯示圖表的數據。可能缺少必要的權限。
       modal_title: 工作套件圖表設定
@@ -303,6 +308,7 @@ zh-TW:
         only_start: 從您的當地時間 %{from} 開始。
         two_values: "%{from} - %{to}（以您的當地時間為基準）。"
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: 進階設定
       load_error_message: 加載表單時出錯
@@ -771,8 +777,10 @@ zh-TW:
       create_new: 新增
       group_by_relation_type: 按關聯類型分類
       group_by_wp_type: 依工作套件類型進行群組分類
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: 縮排
       hierarchy_outdent: 凸排
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: 刪除關係
       remove_child: 移除子項目
       remove_parent: 移除上一層
@@ -897,6 +905,20 @@ zh-TW:
       unselected_title: 工作套件
     two_factor_authentication:
       label_two_factor_authentication: 雙因素驗證
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         other: "%{count} work package children"
@@ -1006,6 +1028,7 @@ zh-TW:
         label_pagination: 點擊此處跳過工作套件表格，直接前往分頁區
         pagination: 跳轉至表格分頁
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: '複合下拉欄位: 使用方向鍵選擇，用 enter 鍵確認，用backspace鍵刪除'
       label_disable_multi_select: 停用多選
       label_enable_multi_select: 啟用多選

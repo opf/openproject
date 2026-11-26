@@ -86,7 +86,7 @@ da:
         start_time: Starttidspunkt
     errors:
       messages:
-        invalid_time_format: 'er ikke et gyldigt klokkeslæt. Påkrævet format: TT:MM'
+        invalid_time_format: er ikke et gyldigt klokkeslæt. Formatet skal være TT:MM
       models:
         meeting_agenda_item:
           meeting_closed: Mødet er lukket. Dets dagsordenspunkter kan ikke længere flyttes.
@@ -324,7 +324,7 @@ da:
   meeting:
     agenda_sorting:
       change: Skift sortering
-      current_mode: 'Sortering lige nu: %{mode}'
+      current_mode: 'Sortering lige nu: %{mode}.'
       invalid_reaction: Kun stemmer op og ned er tilladt på dagsordenspunkter.
       manual: Manuel
       manual_description: Du kan selv placere dagsordenspunkterne i den rækkefølge, du vil, ved at trække dem op eller ned.

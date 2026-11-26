@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { fireEvent } from '@testing-library/dom';
 import { vi } from 'vitest';
 import {
   NativeDragSimulation,
@@ -361,6 +362,58 @@ describe('createSortableRoot', () => {
     await simulation.drop(rows[2], towardsEdgeOf(rows[2], 'bottom'));
 
     expect(intents).toEqual([]);
+  });
+
+  describe('text fields inside an item', () => {
+    function textFieldIn(row:HTMLElement):HTMLInputElement {
+      const input = document.createElement('input');
+      input.type = 'text';
+      row.appendChild(input);
+      return input;
+    }
+
+    it('suspends dragging of the item while its text field has focus', () => {
+      const { rows } = setup();
+      const input = textFieldIn(rows[0]);
+
+      fireEvent.focusIn(input);
+
+      expect(rows[0]).toHaveAttribute('draggable', 'false');
+      expect(rows[1]).toHaveAttribute('draggable', 'true');
+
+      fireEvent.focusOut(input, { relatedTarget: null });
+
+      expect(rows[0]).toHaveAttribute('draggable', 'true');
+    });
+
+    it('registers an item whose text field is already focused as suspended', () => {
+      const { root, rows } = buildList(['a']);
+      const input = textFieldIn(rows[0]);
+      input.focus();
+      expect(input).toHaveFocus();
+
+      const sortableRoot = createSortableRoot({ element: root, onDrop: () => undefined });
+      cleanupFns.push(() => sortableRoot.destroy());
+      sortableRoot.registerList({ element: root, listId: 'l1' });
+      sortableRoot.registerItem({ element: rows[0], itemId: 'a', listId: 'l1' });
+
+      expect(rows[0]).toHaveAttribute('draggable', 'false');
+    });
+
+    it('does not restore the draggable attribute after unregister', () => {
+      const { root, rows } = buildList(['a']);
+      const input = textFieldIn(rows[0]);
+      const sortableRoot = createSortableRoot({ element: root, onDrop: () => undefined });
+      cleanupFns.push(() => sortableRoot.destroy());
+      sortableRoot.registerList({ element: root, listId: 'l1' });
+      const unregister = sortableRoot.registerItem({ element: rows[0], itemId: 'a', listId: 'l1' });
+
+      fireEvent.focusIn(input);
+      unregister();
+      fireEvent.pointerDown(input);
+
+      expect(rows[0]).not.toHaveAttribute('draggable');
+    });
   });
 
   describe('teardown', () => {

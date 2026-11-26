@@ -44,12 +44,12 @@ gem "responders", "~> 3.2"
 
 gem "ffi", "~> 1.17"
 
-gem "connection_pool", "~> 3.0.2"
+gem "connection_pool", "~> 3.0.3"
 
 gem "rdoc", ">= 2.4.2"
 
 gem "doorkeeper", "~> 5.9.9"
-gem "omniauth", "~> 2.1"
+gem "omniauth", "~> 2.2"
 gem "omniauth-rails_csrf_protection", "~> 2.0"
 gem "request_store", "~> 1.7.0"
 
@@ -69,7 +69,7 @@ gem "awesome_nested_set", "~> 3.9.0"
 gem "closure_tree", "~> 9.8.0"
 gem "rubytree", "~> 2.2.2"
 
-gem "addressable", "~> 2.9.1"
+gem "addressable", "~> 2.9.2"
 
 # Remove whitespace from model input
 gem "auto_strip_attributes", "~> 3.0"
@@ -122,7 +122,7 @@ gem "multi_json", "~> 1.21.2"
 
 gem "good_job", "~> 4.19.3" # update should be done manually in sync with saas-openproject version.
 
-gem "rack-protection", "~> 3.2.0"
+gem "rack-protection", "~> 4.2.2"
 
 # Rack::Attack is a rack middleware to protect your web app from bad clients.
 # It allows whitelisting, blacklisting, throttling, and tracking based
@@ -154,7 +154,7 @@ gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.3"
 
-gem "mcp", "~> 1.8.2"
+gem "mcp", "~> 1.9.0"
 
 gem "meta-tags", "~> 2.24.0"
 
@@ -176,18 +176,14 @@ gem "ice_cube", "~> 0.17.0"
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.6+
-  gem "dalli", "~> 5.2.2"
+  gem "dalli", "~> 5.3.2"
   gem "redis", "~> 6.0.0"
 end
 
 gem "i18n-js", "~> 4.2.4"
 gem "rails-i18n", "~> 8.1.0"
 
-# Binding json to a version below 3 as sprockets does not
-# limit the json version but fails with 3+.
-gem "json", "< 3"
-gem "sprockets", "~> 3.7.2" # lock sprockets below 4.0
-gem "sprockets-rails", "~> 3.5.1"
+gem "propshaft", "~> 1.3.2"
 
 gem "puma", "~> 8.0"
 gem "puma-plugin-statsd", "~> 2.7"
@@ -201,9 +197,9 @@ gem "fog-aws"
 gem "ssrf_filter", "~> 1.6"
 gem "web-push", "~> 3.1"
 
-gem "aws-sdk-core", "~> 3.261"
+gem "aws-sdk-core", "~> 3.267"
 # File upload via fog + screenshots on travis
-gem "aws-sdk-s3", "~> 1.233"
+gem "aws-sdk-s3", "~> 1.241"
 
 gem "openproject-token", "~> 8.17.0"
 
@@ -234,13 +230,34 @@ gem "yabeda-rails"
 
 # opentelemetry
 gem "opentelemetry-exporter-otlp", "~> 0.37.0", require: false
-gem "opentelemetry-instrumentation-all", "~> 0.99.0", require: false
-gem "opentelemetry-sdk", "~> 1.13", require: false
+gem "opentelemetry-sdk", require: false
+# opentelemetry instrumentations, see config/initializers/opentelemetry.rb
+# Available Ruby instrumentations can be found here:
+# https://github.com/open-telemetry/opentelemetry-ruby-contrib/tree/main/instrumentation
+gem "opentelemetry-instrumentation-action_mailer", require: false
+gem "opentelemetry-instrumentation-action_pack", require: false
+gem "opentelemetry-instrumentation-action_view", require: false
+gem "opentelemetry-instrumentation-active_job", require: false
+gem "opentelemetry-instrumentation-active_record", require: false
+gem "opentelemetry-instrumentation-active_storage", require: false
+gem "opentelemetry-instrumentation-active_support", require: false
+gem "opentelemetry-instrumentation-aws_sdk", require: false
+gem "opentelemetry-instrumentation-dalli", require: false
+gem "opentelemetry-instrumentation-excon", require: false
+gem "opentelemetry-instrumentation-faraday", require: false
+gem "opentelemetry-instrumentation-grape", require: false
+gem "opentelemetry-instrumentation-httpx", require: false
+gem "opentelemetry-instrumentation-net_http", require: false
+gem "opentelemetry-instrumentation-pg", require: false
+gem "opentelemetry-instrumentation-rack", require: false
+gem "opentelemetry-instrumentation-rails", require: false
+gem "opentelemetry-instrumentation-rake", require: false
+gem "opentelemetry-instrumentation-redis", require: false
 
 gem "openproject-octicons", "~>19.38.0"
 gem "openproject-octicons_helper", "~>19.38.0"
-gem "openproject-primer_view_components", "~> 0.96.0"
-gem "view_component", "~> 4.16.0"
+gem "openproject-primer_view_components", "~> 0.97.0"
+gem "view_component", "~> 4.25.0"
 
 # Lookbook
 gem "lookbook", "2.3.15"
@@ -259,12 +276,11 @@ gem "httpx", "~> 1.9.0"
 
 group :test do
   gem "launchy", "~> 3.1.0"
-  gem "rack-test", "~> 2.2.0"
+  gem "rack-test", "~> 2.3.0"
 
   # Test prof provides factories from code
   # and other niceties
   gem "test-prof", "~> 1.6.4"
-  gem "turbo_tests", github: "opf/turbo_tests", ref: "with-patches"
 
   gem "rack_session_access"
   gem "rspec", "~> 3.13.2"
@@ -315,7 +331,7 @@ group :test do
   gem "json_spec", "~> 1.1.4"
   gem "shoulda-matchers", "~> 8.0", require: nil
 
-  gem "parallel_tests", "~> 4.0"
+  gem "parallel_tests", "~> 5.9"
 end
 
 group :ldap do
@@ -380,6 +396,10 @@ group :development, :test, :brakeman do
   gem "brakeman", "~> 8.1.0"
 end
 
+group :development, :test, :bundle_audit do
+  gem "bundler-audit", "~> 0.9.3", require: false
+end
+
 group :development, :test, :i18n_tasks do
   # i18n-tasks helps find and manage missing and unused translations.
   gem "i18n-tasks", "~> 1.1.0", require: false
@@ -396,7 +416,7 @@ gem "grape_logging", "~> 3.0.1"
 gem "roar", "~> 1.2.0"
 
 # CORS for API
-gem "rack-cors", "~> 2.0.2"
+gem "rack-cors", "~> 3.0.0"
 
 # Gmail API
 gem "google-apis-gmail_v1", require: false

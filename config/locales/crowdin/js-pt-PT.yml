@@ -109,6 +109,7 @@ pt-PT:
         maintained_with_changes: Mantido com alterações
         no_longer_meets_filter_criteria: Já não atende aos critérios de filtro
         now_meets_filter_criteria: Agora atende aos critérios de filtro
+        state_at: State at
       show_changes_since: Mostrar alterações desde
       time: Hora
       time_description: 'No seu horário local: %{datetime}'
@@ -176,6 +177,10 @@ pt-PT:
       remove_from_list: Eliminar cartão da lista
     chart:
       axis_criteria: Critérios de eixo
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Não foi possível carregar os dados necessários para apresentar o gráfico. É possível que não existam as autorizações necessárias.
       modal_title: Configuração do gráfico do pacote de trabalho
@@ -303,6 +308,7 @@ pt-PT:
         only_start: A partir das %{from} na sua hora local.
         two_values: "%{from} - %{to} na sua hora local."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Definições avançadas
       load_error_message: Ocorreu um erro ao carregar o formulário
@@ -772,8 +778,10 @@ pt-PT:
       create_new: Criar novo
       group_by_relation_type: Agrupar por tipo de relação
       group_by_wp_type: Agrupar por tipo de pacote de trabalho
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Hierarquia interna
       hierarchy_outdent: Hierarquia externa
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Remover relação
       remove_child: Remover filho
       remove_parent: Remover pai
@@ -900,6 +908,23 @@ pt-PT:
       unselected_title: Pacote de trabalho
     two_factor_authentication:
       label_two_factor_authentication: Autenticação de dois fatores
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Project actions
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            one: Could not extend the range. %{count} project selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            one: "%{count} project selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         one: "%{count} child work package"
@@ -1012,6 +1037,7 @@ pt-PT:
         label_pagination: Clique aqui para saltar a tabela de pacotes de trabalho e ir para paginação
         pagination: Saltar para paginação da tabela
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Campo de lista pendente combinado: selecione com as teclas de seta, confirme a seleção com Enter e elimine com Backspace.'
       label_disable_multi_select: Desativar seleção múltipla
       label_enable_multi_select: Ativar seleção múltipla

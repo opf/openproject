@@ -57,21 +57,21 @@ RSpec.describe "Start and finish sprints", :js do
   let!(:first_sprint) do
     create(:sprint,
            project:,
-           start_date: Date.new(2025, 9, 5),
-           finish_date: Date.new(2025, 9, 15))
+           start_date: Time.zone.today,
+           finish_date: 10.days.from_now.to_date)
   end
   let!(:second_sprint) do
     create(:sprint,
            project:,
-           start_date: Date.new(2025, 9, 16),
-           finish_date: Date.new(2025, 9, 26))
+           start_date: 11.days.from_now.to_date,
+           finish_date: 21.days.from_now.to_date)
   end
   let!(:closed_sprint) do
     create(:sprint,
            project:,
            status: "completed",
-           start_date: Date.new(2025, 8, 25),
-           finish_date: Date.new(2025, 9, 4))
+           start_date: 21.days.ago.to_date,
+           finish_date: 11.days.ago.to_date)
   end
 
   before do
@@ -123,13 +123,26 @@ RSpec.describe "Start and finish sprints", :js do
     end
   end
 
+  context "when the sprint's planned finish date is in the past" do
+    let!(:first_sprint) do
+      create(:sprint,
+             project:,
+             start_date: 21.days.ago.to_date,
+             finish_date: 1.day.ago.to_date)
+    end
+
+    it "offers no way to start the sprint" do
+      planning_page.expect_disabled_start_sprint_button(first_sprint)
+    end
+  end
+
   context "when the sprint is active" do
     let!(:first_sprint) do
       create(:sprint,
              project:,
              status: "active",
-             start_date: Date.new(2025, 9, 5),
-             finish_date: Date.new(2025, 9, 15))
+             start_date: Time.zone.today,
+             finish_date: 10.days.from_now.to_date)
     end
     let!(:task_board) { create(:board_grid_with_query, project:, linked: first_sprint) }
 
@@ -184,8 +197,8 @@ RSpec.describe "Start and finish sprints", :js do
       let!(:sprint_from_other_project) do
         create(:sprint,
                project: create(:project),
-               start_date: Date.new(2025, 9, 5),
-               finish_date: Date.new(2025, 9, 15)) do |sprint|
+               start_date: Time.zone.today,
+               finish_date: 10.days.from_now.to_date) do |sprint|
           create(:work_package,
                  subject: "Work package in other sprint",
                  sprint:,

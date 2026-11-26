@@ -48,11 +48,16 @@ RSpec.describe "form configuration required attributes", :js do
     end
   end
 
-  def required_action(attribute)
+  def open_row_menu(attribute)
+    page.find_test_selector("type-form-configuration-attribute-actions-#{attribute}").click
+  end
+
+  def required_item(attribute)
     page.find_test_selector("type-form-configuration-toggle-required-#{attribute}")
   end
 
   def click_required_action(attribute, label)
+    open_row_menu(attribute)
     page.find_test_selector("type-form-configuration-toggle-required-#{attribute}", text: label).click
   end
 
@@ -92,7 +97,8 @@ RSpec.describe "form configuration required attributes", :js do
 
       expect(page).to have_text("Impact")
       expect(page).to have_no_css(required_badge(custom_field.attribute_name))
-      expect(required_action(custom_field.attribute_name)).to have_text(mark)
+      open_row_menu(custom_field.attribute_name)
+      expect(required_item(custom_field.attribute_name)).to have_text(mark)
     end
 
     it "makes the field optional again" do
@@ -107,32 +113,15 @@ RSpec.describe "form configuration required attributes", :js do
 
     it "offers nothing for a built-in attribute" do
       expect(page).to have_text("Priority")
+
+      open_row_menu("priority")
       expect(page).to have_no_test_selector("type-form-configuration-toggle-required-priority")
     end
 
-    it "disables the action while the field is switched off, keeping focus on the switch" do
-      switch_selector = "toggle-form-config-exclusion-#{custom_field.attribute_name}"
-      disabled_action = "#{test_selector("type-form-configuration-toggle-required-#{custom_field.attribute_name}")}" \
-                        "[aria-disabled='true']"
-      focused_test_selector = "document.activeElement.closest('[data-test-selector]')?.dataset.testSelector"
+    it "offers the required action from the row's actions menu" do
+      open_row_menu(custom_field.attribute_name)
 
-      page.find_test_selector(switch_selector).click_button
-
-      expect(page).to have_css(disabled_action, text: mark)
-      expect(page.evaluate_script(focused_test_selector)).to eq(switch_selector)
-
-      page.find_test_selector(switch_selector).click_button
-
-      expect(page).to have_no_css(disabled_action)
-      expect(required_action(custom_field.attribute_name)).to have_text(mark)
-      expect(page.evaluate_script(focused_test_selector)).to eq(switch_selector)
-    end
-
-    it "places the action left of the exclusion toggle" do
-      action = required_action(custom_field.attribute_name)
-      toggle = page.find_test_selector("toggle-form-config-exclusion-#{custom_field.attribute_name}")
-
-      expect(action.rect["right"]).to be <= toggle.rect["left"]
+      expect(required_item(custom_field.attribute_name)).to have_text(mark)
     end
   end
 
@@ -145,17 +134,14 @@ RSpec.describe "form configuration required attributes", :js do
     it "says so and disables the action, naming where the setting lives" do
       expect_badge(custom_field.attribute_name, text: globally_label, scheme: "attention")
 
-      action = required_action(custom_field.attribute_name)
+      open_row_menu(custom_field.attribute_name)
+      action = required_item(custom_field.attribute_name)
 
       expect(action).to have_text(unmark)
-      expect(action.tag_name).to eq("button")
-      expect(action[:"aria-disabled"]).to eq("true")
+      expect(action).to have_text(I18n.t("types.edit.form_configuration.required.globally_hint"))
+      expect(action[:class]).to include("ActionListItem--disabled")
+      expect(action.find("[aria-disabled]")[:"aria-disabled"]).to eq("true")
 
-      action.hover
-      expect(page).to have_css("tool-tip[for='#{action[:id]}']",
-                               text: I18n.t("types.edit.form_configuration.required.globally_hint"))
-
-      action.click
       expect(variant.reload.required_attributes).to eq([])
     end
   end

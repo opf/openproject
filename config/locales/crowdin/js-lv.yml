@@ -109,6 +109,7 @@ lv:
         maintained_with_changes: Maintained with changes
         no_longer_meets_filter_criteria: No longer meets filter criteria
         now_meets_filter_criteria: Now meets filter criteria
+        state_at: State at
       show_changes_since: Show changes since
       time: Laiks
       time_description: 'In your local time: %{datetime}'
@@ -176,6 +177,10 @@ lv:
       remove_from_list: Remove card from list
     chart:
       axis_criteria: Axis criteria
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: The data to display the graph could not be loaded. The necessary permissions may be lacking.
       modal_title: Work package graph configuration
@@ -303,6 +308,7 @@ lv:
         only_start: From %{from} in your local time.
         two_values: "%{from} - %{to} in your local time."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Papildu iestatījumi
       load_error_message: There was an error loading the form
@@ -773,8 +779,10 @@ lv:
       create_new: Create new
       group_by_relation_type: Group by relation type
       group_by_wp_type: Group by work package type
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Indent hierarchy
       hierarchy_outdent: Outdent hierarchy
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Noņemt saistību
       remove_child: Remove child
       remove_parent: Remove parent
@@ -903,6 +911,26 @@ lv:
       unselected_title: Darba pieteikums
     two_factor_authentication:
       label_two_factor_authentication: Two-factor authentication
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            zero: Actions for %{count} selected projects
+            one: Project actions
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            zero: Could not extend the range. %{count} projects selected.
+            one: Could not extend the range. %{count} project selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            zero: "%{count} projects selected."
+            one: "%{count} project selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         zero: "%{count} work package children"
@@ -1018,6 +1046,7 @@ lv:
         label_pagination: Click here to skip over the work packages table and go to pagination
         pagination: Jump to table pagination
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Combined dropdown field: Select with arrow keys, confirm selection with enter, delete with backspace'
       label_disable_multi_select: Disable multiselect
       label_enable_multi_select: Aktivizēt vairākas izvēlnes

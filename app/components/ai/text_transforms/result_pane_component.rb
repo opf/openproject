@@ -35,8 +35,6 @@ module AI
       include ResultPaneHelpers
 
       RESIZE_HANDLES = {
-        "left" => :"op-resizer-vertical-lines",
-        "right" => :"op-resizer-vertical-lines",
         "bottom-left" => :"op-resizer-bottom-right",
         "bottom-right" => :"op-resizer-bottom-right"
       }.freeze
@@ -54,6 +52,7 @@ module AI
         {
           test_selector: "ai-text-transform-result",
           controller: STIMULUS_CONTROLLER,
+          keep_open_on_submit: true,
           ai_text_transform_pane_close_form_value: CLOSE_FORM_ID,
           ai_text_transform_pane_editor_gone_value: label(:editor_gone),
           ai_text_transform_pane_selection_gone_value: label(:selection_gone),

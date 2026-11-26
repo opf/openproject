@@ -11,6 +11,6 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,lib}/**/*"]
 
-  s.add_dependency "ruby_llm", "~> 1.16"
+  s.add_dependency "ruby_llm", "~> 2.2"
   s.metadata["rubygems_mfa_required"] = "true"
 end

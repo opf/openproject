@@ -71,9 +71,21 @@ module Queries::Copy
     end
 
     def mapped_values(ar_name, values)
-      mapper = mappers[ar_name.to_sym]
+      mapper = mappers[ar_name.to_sym] || custom_field_mapper(ar_name)
 
       mapper&.call(values) || values
+    end
+
+    def custom_field_mapper(ar_name)
+      custom_field_id = CustomField.id_from_column_name(ar_name)
+      return if custom_field_id.nil?
+
+      ->(values) do
+        lookup = state.custom_field_value_id_lookup&.dig(custom_field_id)
+        next if lookup.nil?
+
+        values.map { |value| lookup.fetch(value.to_s, value) }
+      end
     end
 
     def build_filter_mappers

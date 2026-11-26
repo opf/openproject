@@ -96,7 +96,7 @@ RSpec.describe "My::PushSubscriptionsController",
 
         subscribe(endpoint)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.parsed_body["errors"]).to be_present
         expect(existing.reload.user).not_to eq(user)
       end
@@ -106,7 +106,7 @@ RSpec.describe "My::PushSubscriptionsController",
 
         subscribe(endpoint)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.parsed_body["errors"])
           .to contain_exactly(I18n.t("activerecord.errors.models.push_subscription.attributes.base.too_many_push_subscriptions",
                                      count: PushSubscription::MAX_PER_USER))
@@ -156,7 +156,7 @@ RSpec.describe "My::PushSubscriptionsController",
       it "rejects an endpoint that is not served over HTTPS" do
         subscribe("http://fcm.googleapis.com/fcm/send/abc")
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.parsed_body["errors"]).to be_present
         expect(PushSubscription.count).to eq(0)
       end
@@ -170,7 +170,7 @@ RSpec.describe "My::PushSubscriptionsController",
         it "rejects an endpoint that is #{description} with a JSON error" do
           subscribe(value)
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
           expect(response.parsed_body["errors"]).to be_present
           expect(PushSubscription.count).to eq(0)
         end
@@ -206,7 +206,7 @@ RSpec.describe "My::PushSubscriptionsController",
       it "rejects a JSON request without the CSRF token" do
         subscribe(endpoint)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(PushSubscription.count).to eq(0)
       end
     end
@@ -301,15 +301,15 @@ RSpec.describe "My::PushSubscriptionsController",
         get "/my/page"
 
         expect(response).to have_http_status(:ok)
-        assert_select "body[data-pwa-push-resume-url-value='/my/push_subscriptions']"
-        expect(response.body).to match(/data-pwa-push-resume-session-value="\h{16}"/)
+        assert_select "body[data-pwa--push-resume-url-value='/my/push_subscriptions']"
+        expect(response.body).to match(/data-pwa--push-resume-session-value="\h{16}"/)
       end
 
       context "with the setting off", with_settings: { web_push_enabled: false } do
         it "does not mount it" do
           get "/my/page"
 
-          assert_select "body[data-pwa-push-resume-url-value]", count: 0
+          assert_select "body[data-pwa--push-resume-url-value]", count: 0
         end
       end
     end
@@ -318,7 +318,7 @@ RSpec.describe "My::PushSubscriptionsController",
       host! Setting.host_name
       get "/login"
 
-      assert_select "body[data-pwa-push-resume-url-value]", count: 0
+      assert_select "body[data-pwa--push-resume-url-value]", count: 0
     end
   end
 end

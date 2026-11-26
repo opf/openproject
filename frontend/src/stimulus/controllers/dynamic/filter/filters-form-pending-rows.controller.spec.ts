@@ -119,7 +119,7 @@ describe('Filters form pending rows', () => {
 
   function addStatusFilter(controller:FiltersFormControllerType) {
     addFilterSelect().value = 'status_id';
-    controller.addFilterByName('status_id');
+    void controller.addFilterByName('status_id');
   }
 
   function selectStatus(id:string) {
@@ -163,7 +163,7 @@ describe('Filters form pending rows', () => {
   it("keeps a pending row's operator and draft through a re-render that does not know it", async () => {
     const controller = await mount();
     addFilterSelect().value = 'subject';
-    controller.addFilterByName('subject');
+    void controller.addFilterByName('subject');
     subjectOperator().value = '!~';
     subjectValue().value = 'draft';
 
@@ -227,7 +227,7 @@ describe('Filters form pending rows', () => {
   it('takes the add-filter option without the caller selecting it first', async () => {
     const controller = await mount();
 
-    controller.addFilterByName('status_id');
+    void controller.addFilterByName('status_id');
 
     expect(statusOption()).toBeDisabled();
     expect(addFilterSelect()).toHaveValue('');
@@ -260,7 +260,7 @@ describe('Filters form pending rows', () => {
   it('drops a typed but unsent value when a cached page is restored', async () => {
     const controller = await mount();
     addFilterSelect().value = 'subject';
-    controller.addFilterByName('subject');
+    void controller.addFilterByName('subject');
     subjectValue().value = 'unsent draft';
 
     const restored = await restoreCachedPage();
@@ -269,7 +269,7 @@ describe('Filters form pending rows', () => {
     expect(subjectValue()).toHaveValue('');
 
     addFilterSelect().value = 'subject';
-    restored.addFilterByName('subject');
+    void restored.addFilterByName('subject');
 
     expect(subjectOperator()).toBeVisible();
     expect(visit).not.toHaveBeenCalled();
@@ -308,7 +308,7 @@ describe('Filters form pending rows', () => {
     async function addDatesInterval(rangeValue:string) {
       const controller = await mount(dateRow(rangeValue));
       addFilterSelect().value = 'dates_interval';
-      controller.addFilterByName('dates_interval');
+      void controller.addFilterByName('dates_interval');
       return controller;
     }
 
@@ -397,7 +397,7 @@ describe('Filters form pending rows', () => {
 
     function addCreatedOn(controller:FiltersFormControllerType) {
       addFilterSelect().value = FILTER_NAME;
-      controller.addFilterByName(FILTER_NAME);
+      void controller.addFilterByName(FILTER_NAME);
     }
 
     function switchOperatorTo(controller:FiltersFormControllerType, operator:string) {

@@ -71,7 +71,7 @@ RSpec.describe "API v3 Meeting Section update meeting reassignment", content_typ
   subject(:response) { patch path, body }
 
   it "does not reassign the section to another meeting" do
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(section.reload).to have_attributes(meeting_id: source_meeting.id, title: "Source Section")
     expect(agenda_item.reload.meeting_section_id).to eq(section.id)
   end

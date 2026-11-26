@@ -182,9 +182,10 @@ RSpec.describe "Work package type required attributes",
     it "refuses, refreshing the row to show why", :aggregate_failures do
       toggle(global_variant)
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.body).to have_css('turbo-stream[action="flash"]')
-      expect(streamed).to have_css("#{test_selector(require_action)}[aria-disabled='true']")
+      expect(streamed).to have_css("#{test_selector(require_action)}.ActionListItem--disabled")
+      expect(streamed).to have_css("#{test_selector(require_action)} [aria-disabled='true']")
       expect(required_on(global_variant)).to be_empty
     end
   end
@@ -196,7 +197,7 @@ RSpec.describe "Work package type required attributes",
       it "is unprocessable rather than a silent success", :aggregate_failures do
         toggle(global_variant, row_key: "custom_field_#{custom_field.id + 1000}")
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(required_on(global_variant)).to be_empty
       end
     end

@@ -109,6 +109,7 @@ ms:
         maintained_with_changes: Dikekalkan dengan perubahan
         no_longer_meets_filter_criteria: Tidak lagi memenuhi kriteria penyaring
         now_meets_filter_criteria: Kini memenuhi kriteria penyaring
+        state_at: State at
       show_changes_since: Paparkan perubahan sejak
       time: Masa
       time_description: 'Dalam masa tempatan anda: %{datetime}'
@@ -176,6 +177,10 @@ ms:
       remove_from_list: Keluarkan kad dari senarai
     chart:
       axis_criteria: Kriteria paksi
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Data untuk paparkan graf tidak dapat dimuatkan. Kebenaran yang diperlukan mungkin kurang.
       modal_title: Konfigurasi graf pakej kerja
@@ -303,6 +308,7 @@ ms:
         only_start: Dari %{from} dalam masa tempatan anda.
         two_values: "%{from} - %{to} dalam masa tempatan anda."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Tetapan lanjutan
       load_error_message: Terdapat ralat semasa memuatkan borang
@@ -771,8 +777,10 @@ ms:
       create_new: Cipta baru
       group_by_relation_type: Kumpulkan mengikut jenis perhubungan
       group_by_wp_type: Kumpulkan mengikut jenis pakej
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Hierarki inden
       hierarchy_outdent: Hierarki outdent
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Padam perhubungan
       remove_child: Padam anak
       remove_parent: Keluarkan induk
@@ -897,6 +905,20 @@ ms:
       unselected_title: Pakej kerja
     two_factor_authentication:
       label_two_factor_authentication: Pengesahan dua faktor
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         other: "%{count} work package children"
@@ -1006,6 +1028,7 @@ ms:
         label_pagination: Klik di sini untuk langkau jadual pakej kerja dan pergi ke penomboran
         pagination: Pergi ke jadual penomboran
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Ruang drop-down digabungkan: Pilih dengan kekunci anak panah, sahkan pemilihan dengan enter, padam dengan backspace'
       label_disable_multi_select: Nyahaktifkan multiselect
       label_enable_multi_select: Aktifkan multiselect

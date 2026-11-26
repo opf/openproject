@@ -129,6 +129,7 @@ en:
         maintained_with_changes: "Maintained with changes"
         no_longer_meets_filter_criteria: "No longer meets filter criteria"
         now_meets_filter_criteria: "Now meets filter criteria"
+        state_at: "State at"
       show_changes_since: "Show changes since"
       time: "Time"
       time_description: "In your local time: %{datetime}"
@@ -198,6 +199,10 @@ en:
       remove_from_list: "Remove card from list"
     chart:
       axis_criteria: "Axis criteria"
+      description:
+        caption: "%{label}: data"
+        date: "Date"
+        week: "Week of"
       errors:
         could_not_load: "The data to display the graph could not be loaded. The necessary permissions may be lacking."
       modal_title: "Work package graph configuration"
@@ -335,6 +340,7 @@ en:
         only_start: "From %{from} in your local time."
         two_values: "%{from} - %{to} in your local time."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: "Advanced settings"
       load_error_message: "There was an error loading the form"
@@ -819,8 +825,10 @@ en:
       create_new: "Create new"
       group_by_relation_type: "Group by relation type"
       group_by_wp_type: "Group by work package type"
+      hierarchy_change_timed_out: "The hierarchy could not be changed because the server did not respond. Please try again."
       hierarchy_indent: "Indent hierarchy"
       hierarchy_outdent: "Outdent hierarchy"
+      hierarchy_refresh_failed: "The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded."
       remove: "Remove relation"
       remove_child: "Remove child"
       remove_parent: "Remove parent"
@@ -964,6 +972,24 @@ en:
     two_factor_authentication:
       label_two_factor_authentication: "Two-factor authentication"
 
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: "Project actions"
+            other: "Actions for %{count} selected projects"
+        selection:
+          cleared: "Selection cleared."
+          not_selectable: "Selection unchanged. This project cannot be selected."
+          range_blocked: "Selection unchanged. That range contains a project that cannot be selected."
+          range_restarted:
+            one: "Could not extend the range. %{count} project selected."
+            other: "Could not extend the range. %{count} projects selected."
+          range_unavailable: "Selection unchanged. Expand this list to select that range."
+          selected:
+            one: "%{count} project selected."
+            other: "%{count} projects selected."
+
     units:
       child_work_packages:
         one: "%{count} child work package"
@@ -1026,6 +1052,7 @@ en:
         edit: "Bulk edit"
         move: "Bulk change of project"
       button_clear: "Clear"
+      button_edit_subject: "Edit subject"
       comment_added: "The comment was successfully added."
       comment_send_failed: "An error has occurred. Could not submit the comment."
       comment_updated: "The comment was successfully updated."
@@ -1078,6 +1105,7 @@ en:
         label_pagination: "Click here to skip over the work packages table and go to pagination"
         pagination: "Jump to table pagination"
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: "Collapse or expand groups"
       label_column_multiselect: "Combined dropdown field: Select with arrow keys, confirm selection with enter, delete with backspace"
       label_disable_multi_select: "Disable multiselect"
       label_enable_multi_select: "Enable multiselect"

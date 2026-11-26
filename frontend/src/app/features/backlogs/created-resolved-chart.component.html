@@ -2,11 +2,12 @@
   <div class="position-relative mx-auto op-sprint-chart--canvas">
     <canvas
       baseChart
+      [opChartDescription]="description()"
       [data]="lineChartData()"
       [options]="lineChartOptions()"
       [type]="'line'"
     ></canvas>
   </div>
 } @else {
-  <op-no-results icon="graph" />
+  <op-no-results [headingLevel]="4" icon="graph" />
 }

@@ -87,6 +87,7 @@ RSpec.describe "Work package transitive status workflows", :js do
 
     wp_page.visit!
     wp_page.ensure_page_loaded
+    wp_page.wait_for_activity_tab
   end
 
   ##

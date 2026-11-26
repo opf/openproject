@@ -109,6 +109,7 @@ ro:
         maintained_with_changes: Maintained with changes
         no_longer_meets_filter_criteria: No longer meets filter criteria
         now_meets_filter_criteria: Now meets filter criteria
+        state_at: State at
       show_changes_since: Arată modificările
       time: Timp
       time_description: 'În timpul tău local: %{datetime}'
@@ -176,6 +177,10 @@ ro:
       remove_from_list: Alege intervalul din listă
     chart:
       axis_criteria: Primul criteriu de sortare
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Datele pentru afișarea graficului nu au putut fi încărcate. Este posibil să nu aveți permisiunile necesare.
       modal_title: pachet de lucru
@@ -303,6 +308,7 @@ ro:
         only_start: Începând cu %{from} ora locală.
         two_values: "%{from} - %{to} ora locală."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Setări avansate
       load_error_message: A apărut o eroare la încărcarea formularului
@@ -773,8 +779,10 @@ ro:
       create_new: Creează nou
       group_by_relation_type: Grupează dupa tipul legăturii
       group_by_wp_type: Grupează după tipul packetului de lucru
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Indentare ierarhie
       hierarchy_outdent: Elimină ierarhia
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Eliminare relație
       remove_child: Elimină copil
       remove_parent: Elimină părinte
@@ -903,6 +911,26 @@ ro:
       unselected_title: Pachet de lucru
     two_factor_authentication:
       label_two_factor_authentication: Autentificare doi factori
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Project actions
+            few: Actions for %{count} selected projects
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            one: Could not extend the range. %{count} project selected.
+            few: Could not extend the range. %{count} projects selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            one: "%{count} project selected."
+            few: "%{count} projects selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         one: "%{count} child work package"
@@ -1018,6 +1046,7 @@ ro:
         label_pagination: Click aici pentru a sări peste tabelul cu pachete de lucru și a ajunge la paginare
         pagination: Salt la paginarea tabelului
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Câmp desfășurat combinat: selectează cu săgețile, confirmă alegerea cu enter, şterge cu backspace'
       label_disable_multi_select: Dezactivează selecția multiplă
       label_enable_multi_select: Activare selecție multiplă

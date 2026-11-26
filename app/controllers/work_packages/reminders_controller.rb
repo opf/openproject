@@ -81,7 +81,7 @@ class WorkPackages::RemindersController < ApplicationController
       respond_with_success_flash_message(message: I18n.t("work_package.reminders.success_deletion_message"))
     else
       render_error_flash_message_via_turbo_stream(message: service_result.errors.full_messages)
-      respond_with_turbo_streams(status: :unprocessable_entity)
+      respond_with_turbo_streams(status: :unprocessable_content)
     end
   end
 
@@ -103,7 +103,7 @@ class WorkPackages::RemindersController < ApplicationController
       )
     )
 
-    respond_with_turbo_streams(status: :unprocessable_entity)
+    respond_with_turbo_streams(status: :unprocessable_content)
   end
 
   def reminder_chosen_time(reminder)

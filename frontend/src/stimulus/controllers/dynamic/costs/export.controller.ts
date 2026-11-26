@@ -67,6 +67,10 @@ export default class ExportController extends Controller<HTMLLinkElement> {
       headers: { Accept: 'application/json' },
       credentials: 'same-origin',
     });
+    if (response.status === 422) {
+      const { message } = await response.json() as { message:string };
+      throw new Error(message);
+    }
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }

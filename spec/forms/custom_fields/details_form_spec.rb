@@ -263,5 +263,42 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
         expect(page).to have_field("custom_field_allow_additional_project_values_allow", disabled: true)
       end
     end
+
+    context "with values projects have added", with_ee: %i[project_specific_list_values] do
+      let(:model) do
+        create(:list_wp_custom_field, :project_specific_blocklist, possible_values: %w[A], allow_additional_project_values:)
+          .tap do |custom_field|
+            project = create(:project)
+            custom_field.custom_options.create!(value: "Own", project:)
+            custom_field.custom_options.create!(value: "Other", project:)
+            custom_field.custom_options.create!(value: "Foreign", project: create(:project))
+          end
+      end
+
+      it "warns that the values remain while project admins can no longer add values" do
+        expect(page).to have_css("[data-test-selector='remaining-project-values-warning']",
+                                 text: "2 projects already have 3 project-specific values.",
+                                 count: 1)
+      end
+
+      it "shows the warning while project admins may not add values" do
+        expect(page).to have_css("[data-show-when-checked-target='effect'][data-show-when='unchecked']" \
+                                 "[data-target-name='allow_additional_project_values_block']",
+                                 visible: :visible)
+        expect(page).to have_field("custom_field_allow_additional_project_values_block") do |field|
+          field["data-show-when-checked-target"] == "cause" &&
+            field["data-target-name"] == "allow_additional_project_values_block"
+        end
+      end
+
+      context "when project admins can add values" do
+        let(:allow_additional_project_values) { true }
+
+        it "renders the warning hidden, to show it once adding values is disabled" do
+          expect(page).to have_no_css("[data-test-selector='remaining-project-values-warning']")
+          expect(page).to have_css("[data-test-selector='remaining-project-values-warning']", visible: :hidden)
+        end
+      end
+    end
   end
 end

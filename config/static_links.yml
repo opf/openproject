@@ -54,8 +54,6 @@ enterprise_features:
     href: https://www.openproject.org/docs/system-admin-guide/custom-fields/#hierarchy-custom-field-enterprise-add-on
   custom_field_multiselect:
     href: https://www.openproject.org/docs/system-admin-guide/custom-fields/#create-a-multi-select-custom-field
-  custom_field_projects:
-    href: https://www.openproject.org/docs/system-admin-guide/custom-fields/#add-a-custom-field-to-one-or-multiple-projects
   customize_life_cycle:
     href: https://www.openproject.org/docs/system-admin-guide/projects/project-life-cycle/
   default:
@@ -277,6 +275,9 @@ webinar_videos:
 website:
   href: https://www.openproject.org
   label: label_openproject_website
+jira_migration_docs:
+  connection_check:
+    href: https://www.openproject.org/docs/installation-and-operations/jira-migration/#connection-check
 jira_migrator_project:
   href: https://community.openproject.org/projects/jira-migration/dashboard
 backup_guide:

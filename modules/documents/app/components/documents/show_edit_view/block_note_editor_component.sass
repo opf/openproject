@@ -54,8 +54,10 @@
   &:not(.document-page-layout_desktop-device) .document-page-layout--right-content
     padding-inline: var(--base-size-16, 1rem) 0
 
+  // Room for the last line to scroll above BlockNote's mobile formatting toolbar (COMMS-657).
   &:not(.document-page-layout_desktop-device) .document-page-layout--right-content:has(op-block-note)
     padding-inline: 0
+    padding-bottom: var(--base-size-64, 4rem)
 
   // Notices sit beside the editor, not in it — add the gutter so they line up with the body.
   &--editor-notice

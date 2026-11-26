@@ -29,7 +29,7 @@ import { waitFor } from '@testing-library/dom';
 import { vi } from 'vitest';
 
 import GenericDragAndDropController from './generic-drag-and-drop.controller';
-import { createControllerInstance, setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import { createControllerInstance, setupStimulusTest, type StimulusTestContext, stubPendingPluginContext, stubPluginContext } from 'core-stimulus/test-helpers';
 
 describe('GenericDragAndDropController', () => {
   let controller:GenericDragAndDropController;
@@ -157,17 +157,13 @@ describe('GenericDragAndDropController', () => {
     }
 
     let ctx:StimulusTestContext;
-    let originalOpenProject:typeof window.OpenProject;
 
     const pluginContext = () => ({ classes: { DomAutoscrollService: FakeAutoscroll } });
 
     beforeEach(async () => {
       FakeAutoscroll.constructedWith = [];
       FakeAutoscroll.instances = [];
-      originalOpenProject = window.OpenProject;
-      window.OpenProject = {
-        getPluginContext: () => Promise.resolve(pluginContext()),
-      } as unknown as typeof window.OpenProject;
+      stubPluginContext(pluginContext());
 
       ctx = await setupStimulusTest({
         controllers: { 'generic-drag-and-drop': GenericDragAndDropController },
@@ -176,7 +172,6 @@ describe('GenericDragAndDropController', () => {
 
     afterEach(() => {
       ctx.dispose();
-      window.OpenProject = originalOpenProject;
       vi.restoreAllMocks();
     });
 
@@ -224,10 +219,7 @@ describe('GenericDragAndDropController', () => {
     });
 
     it('does not set up autoscroll when disconnected before the context resolves', async () => {
-      let resolveContext!:(context:unknown) => void;
-      window.OpenProject = {
-        getPluginContext: () => new Promise((resolve) => { resolveContext = resolve; }),
-      } as unknown as typeof window.OpenProject;
+      const resolveContext = stubPendingPluginContext();
 
       await renderLists();
       const root = ctx.container.querySelector('[data-controller="generic-drag-and-drop"]')!;

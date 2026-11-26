@@ -28,7 +28,6 @@
 #++
 
 class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
-  MINIMAL_NEXTCLOUD_VERSION = 30
   AUTHORIZATION_HEADER = "Bearer TESTBEARERTOKEN"
 
   HTTPX_TIMEOUT_SETTINGS = { timeout: { connect_timeout: 5, read_timeout: 3 } }.freeze
@@ -86,7 +85,7 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
   def error_options(error_type, response)
     return {} unless error_type == :minimal_nextcloud_version_not_met
 
-    { minimal_version: MINIMAL_NEXTCLOUD_VERSION, detected_version: read_version(response) }
+    { minimal_version: minimal_nextcloud_version, detected_version: read_version(response) }
   end
 
   def check_capabilities_response(response)
@@ -144,10 +143,20 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
 
     version = read_version(response)
     return false if version.nil?
-    return false if version < MINIMAL_NEXTCLOUD_VERSION
+    return false if version < minimal_nextcloud_version
 
     true
   end
+
+  def minimal_nextcloud_version
+    nextcloud_dependencies.dig("dependencies", "nextcloud_server", "min_version")
+  end
+
+  def nextcloud_dependencies
+    @nextcloud_dependencies ||= YAML.load_file(path_to_config).deep_stringify_keys
+  end
+
+  def path_to_config = Rails.root.join("modules/storages/config/nextcloud_dependencies.yml")
 
   def read_version(response)
     response.json.dig("ocs", "data", "version", "major")

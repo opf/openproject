@@ -43,13 +43,11 @@ describe('AiTextTransformPaneController', () => {
   <div data-ai-text-transform-pane-target="pane" role="dialog" aria-label="AI result" tabindex="-1"
        style="position: fixed; top: 40px; right: 16px; width: 340px; height: 260px; max-width: calc(100vw - 32px);">
     <div data-testid="header" ${action('pointerdown', 'beginDrag')}>
+      <span><svg data-testid="grip-icon" width="16" height="16"></svg></span>
       <a href="#">Link</a>
       <button type="button" aria-label="Close" ${action('click', 'close')}>×</button>
     </div>
-    <div>
-      <span data-testid="grip" ${action('pointerdown', 'beginDrag')}></span>
-    </div>
-    <span data-testid="resize-left" data-edge="left" ${action('pointerdown', 'beginResize')}></span>
+    <span data-testid="resize-bottom-left" data-edge="bottom-left" ${action('pointerdown', 'beginResize')}></span>
     <span data-testid="resize-bottom-right" data-edge="bottom-right" ${action('pointerdown', 'beginResize')}></span>
   </div>
 </div>`;
@@ -100,9 +98,9 @@ describe('AiTextTransformPaneController', () => {
       expect(pane().style.bottom).toBe('auto');
     });
 
-    it('moves the pane by the footer grip', () => {
+    it('moves the pane by the grip icon in the header', () => {
       const before = rect();
-      dragBy(byTestId('grip'), -10, 10);
+      dragBy(byTestId('grip-icon'), -10, 10);
 
       expect(rect().left).toBe(before.left - 10);
       expect(rect().top).toBe(before.top + 10);
@@ -130,6 +128,16 @@ describe('AiTextTransformPaneController', () => {
       dragBy(byTestId('header'), 5000, 5000);
       expect(rect().right).toBe(window.innerWidth - 8);
       expect(rect().bottom).toBe(window.innerHeight - 8);
+    });
+
+    it('keeps the pane below the top bar', () => {
+      ctx.container.insertAdjacentHTML(
+        'afterbegin',
+        '<header class="op-app-header" style="position: fixed; top: 0; left: 0; width: 100%; height: 55px;"></header>',
+      );
+      dragBy(byTestId('header'), 0, -5000);
+
+      expect(rect().top).toBe(63);
     });
 
     it('stops following the pointer after pointerup', () => {
@@ -178,9 +186,9 @@ describe('AiTextTransformPaneController', () => {
       expect(rect().bottom).toBe(window.innerHeight - 8);
     });
 
-    it('moves only the left edge with the left handle', () => {
+    it('moves the left edge with the bottom-left handle', () => {
       const before = rect();
-      dragBy(byTestId('resize-left'), -30, 0);
+      dragBy(byTestId('resize-bottom-left'), -30, 0);
 
       expect(rect().left).toBe(before.left - 30);
       expect(rect().width).toBe(before.width + 30);
@@ -188,9 +196,40 @@ describe('AiTextTransformPaneController', () => {
       expect(rect().height).toBe(before.height);
     });
 
-    it('keeps the right edge when the left handle grows past the stylesheet max-width', () => {
+    it('resizes width and height together with the bottom-left handle', () => {
       const before = rect();
-      dragBy(byTestId('resize-left'), -5000, 0);
+      dragBy(byTestId('resize-bottom-left'), -30, 40);
+
+      expect(rect().left).toBe(before.left - 30);
+      expect(rect().right).toBe(before.right);
+      expect(rect().top).toBe(before.top);
+      expect(rect().height).toBe(before.height + 40);
+    });
+
+    it('keeps the height content-driven when a corner is dragged sideways with a little wobble', () => {
+      pane().style.height = '';
+      const before = rect();
+      dragBy(byTestId('resize-bottom-left'), -45, 14);
+
+      expect(rect().width).toBe(before.width + 45);
+      expect(pane().style.height).toBe('');
+    });
+
+    it('keeps resizing the height for the rest of a drag once it went vertical', () => {
+      const handle = byTestId('resize-bottom-right');
+      const start = handle.getBoundingClientRect();
+      const before = rect();
+      fireEvent.pointerDown(handle, { clientX: start.left, clientY: start.top, button: 0 });
+      fireEvent.pointerMove(window, { clientX: start.left, clientY: start.top + 40 });
+      fireEvent.pointerMove(window, { clientX: start.left, clientY: start.top + 5 });
+      fireEvent.pointerUp(window, { clientX: start.left, clientY: start.top + 5 });
+
+      expect(rect().height).toBe(before.height + 5);
+    });
+
+    it('keeps the right edge when the bottom-left handle grows past the stylesheet max-width', () => {
+      const before = rect();
+      dragBy(byTestId('resize-bottom-left'), -5000, 0);
 
       expect(rect().left).toBe(8);
       expect(rect().right).toBe(before.right);
@@ -229,7 +268,7 @@ describe('AiTextTransformPaneController', () => {
     });
 
     it('keeps a resized pane inside the viewport when the window shrinks', () => {
-      dragBy(byTestId('resize-bottom-right'), 10, 10);
+      dragBy(byTestId('resize-bottom-right'), 10, 20);
       pane().style.width = `${window.innerWidth * 2}px`;
       pane().style.height = `${window.innerHeight * 2}px`;
 
@@ -702,5 +741,126 @@ describe('AiTextTransformPaneController', () => {
 
       expect(button('Cancel')).toHaveFocus();
     });
+  });
+});
+
+describe('AiTextTransformPaneController inside a modal dialog', () => {
+  let ctx:StimulusTestContext;
+
+  const PANE_HTML = `
+<div id="ai-pane" data-controller="ai-text-transform-pane"
+     data-ai-text-transform-pane-close-form-value="ai-pane-close"
+     data-action="keydown.esc->ai-text-transform-pane#close">
+  <div data-ai-text-transform-pane-target="pane" role="dialog" aria-label="AI result" tabindex="-1"
+       style="position: fixed; top: 40px; right: 16px; width: 340px; height: 260px;">
+    <button type="button">Replace</button>
+  </div>
+</div>`;
+
+  const dialog = () => ctx.container.querySelector('dialog')!;
+  const panes = () => document.querySelectorAll<HTMLElement>('#ai-pane');
+  const pane = () => document.querySelector<HTMLElement>('[data-ai-text-transform-pane-target="pane"]')!;
+
+  async function mountPane():Promise<void> {
+    ctx.appendHTML(PANE_HTML);
+    await ctx.nextFrame();
+    await ctx.nextFrame();
+  }
+
+  beforeEach(async () => {
+    ctx = await setupStimulusTest({ controllers: { 'ai-text-transform-pane': AiTextTransformPaneController } });
+    ctx.appendHTML('<dialog><input aria-label="Editor"></dialog>');
+    dialog().showModal();
+    ctx.screen.getByRole('textbox', { name: 'Editor', hidden: true }).focus();
+  });
+
+  afterEach(() => {
+    ctx.dispose();
+  });
+
+  it('moves into the open dialog and shows above it, interactive and focused', async () => {
+    await mountPane();
+
+    expect(dialog()).toContainElement(panes()[0]);
+    expect(pane()).toHaveAttribute('popover', 'manual');
+    expect(pane().matches(':popover-open')).toBe(true);
+    expect(pane()).toHaveFocus();
+
+    const { left, top, width, height } = pane().getBoundingClientRect();
+    expect(pane()).toContainElement(document.elementFromPoint(left + width / 2, top + height / 2) as HTMLElement);
+  });
+
+  it('replaces an older pane already in the dialog', async () => {
+    await mountPane();
+    await mountPane();
+
+    expect(panes()).toHaveLength(1);
+    expect(dialog()).toContainElement(panes()[0]);
+  });
+
+  it('cancels the Escape keydown so the dialog stays open', async () => {
+    await mountPane();
+    pane().focus();
+
+    const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true });
+    pane().dispatchEvent(event);
+
+    expect(event.defaultPrevented).toBe(true);
+    expect(dialog().open).toBe(true);
+  });
+
+  it('replaces an older pane left in another dialog', async () => {
+    await mountPane();
+    ctx.appendHTML('<dialog id="nested"><input aria-label="Nested editor"></dialog>');
+    const nested = document.getElementById('nested') as HTMLDialogElement;
+    nested.showModal();
+    ctx.screen.getByRole('textbox', { name: 'Nested editor', hidden: true }).focus();
+
+    await mountPane();
+
+    expect(panes()).toHaveLength(1);
+    expect(nested).toContainElement(panes()[0]);
+  });
+
+  it('stays out of a dialog that is open but not modal', async () => {
+    dialog().close();
+    dialog().show();
+
+    await mountPane();
+
+    expect(panes()[0].parentElement).toBe(ctx.container);
+    expect(pane()).not.toHaveAttribute('popover');
+  });
+
+  it('closes through its close form when the dialog closes', async () => {
+    await mountPane();
+    ctx.appendHTML('<form id="ai-pane-close"></form>');
+    const form = document.getElementById('ai-pane-close') as HTMLFormElement;
+    const submit = vi.spyOn(form, 'requestSubmit').mockImplementation(() => undefined);
+
+    dialog().close();
+    await ctx.nextFrame();
+
+    expect(submit).toHaveBeenCalled();
+    expect(pane().matches(':popover-open')).toBe(false);
+  });
+
+  it('goes away when the dialog closes', async () => {
+    await mountPane();
+
+    dialog().close();
+    await ctx.nextFrame();
+
+    expect(panes()).toHaveLength(0);
+  });
+
+  it('stays in place without a popover when no dialog is open', async () => {
+    dialog().close();
+    dialog().remove();
+
+    await mountPane();
+
+    expect(panes()[0].parentElement).toBe(ctx.container);
+    expect(pane()).not.toHaveAttribute('popover');
   });
 });

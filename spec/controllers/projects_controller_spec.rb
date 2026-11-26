@@ -252,7 +252,7 @@ RSpec.describe ProjectsController do
             it "renders step 2 with errors", :aggregate_failures do
               expect(controller.params[:step].to_i).to eq 2
               expect(response).to render_template "new"
-              expect(response).to have_http_status :unprocessable_entity
+              expect(response).to have_http_status :unprocessable_content
             end
 
             it "shows an error on the name", :aggregate_failures do
@@ -276,7 +276,7 @@ RSpec.describe ProjectsController do
             it "renders step 2 with errors", :aggregate_failures do
               expect(controller.params[:step].to_i).to eq 2
               expect(response).to render_template "new"
-              expect(response).to have_http_status :unprocessable_entity
+              expect(response).to have_http_status :unprocessable_content
             end
 
             it "shows an error on the parent", :aggregate_failures do
@@ -298,7 +298,7 @@ RSpec.describe ProjectsController do
             it "advances to step 3 without errors", :aggregate_failures do
               expect(controller.params[:step].to_i).to eq 3
               expect(response).to render_template "new"
-              expect(response).to have_http_status :unprocessable_entity
+              expect(response).to have_http_status :unprocessable_content
             end
 
             it "does not show custom field errors", :aggregate_failures do
@@ -336,7 +336,7 @@ RSpec.describe ProjectsController do
             it "renders step 2 with errors", :aggregate_failures do
               expect(controller.params[:step].to_i).to eq 2
               expect(response).to render_template "new"
-              expect(response).to have_http_status :unprocessable_entity
+              expect(response).to have_http_status :unprocessable_content
             end
 
             it "shows an error on the name", :aggregate_failures do
@@ -427,7 +427,7 @@ RSpec.describe ProjectsController do
 
             it "renders new template with errors", :aggregate_failures do
               expect(response).not_to be_successful
-              expect(response).to have_http_status :unprocessable_entity
+              expect(response).to have_http_status :unprocessable_content
               expect(assigns(:new_project)).to be_a_new(Project)
               expect(assigns(:new_project)).not_to be_valid
               expect(assigns(:template)).not_to be_nil
@@ -597,7 +597,7 @@ RSpec.describe ProjectsController do
 
       it "renders copy_form template with errors", :aggregate_failures do
         expect(response).not_to be_successful
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :unprocessable_content
         expect(assigns(:target_project)).to be_a_new(Project)
         expect(assigns(:target_project)).not_to be_valid
         expect(assigns(:project)).to eq project

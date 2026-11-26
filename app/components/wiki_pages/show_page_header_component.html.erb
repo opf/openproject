@@ -40,6 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
           mobile_icon: :pencil,
           mobile_label: t(:button_edit),
           size: :medium,
+          accesskey: helpers.accesskey(:edit),
           href: url_for(controller: "wiki", action: "edit", id: @page),
           aria: { label: I18n.t(:button_edit) },
           data: { "test-selector": "wiki-edit-action-button" },

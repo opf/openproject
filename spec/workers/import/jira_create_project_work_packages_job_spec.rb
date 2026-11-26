@@ -36,9 +36,11 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
   include_context "with a jira demo issue"
 
   let(:resolution_date_cf) { create(:wp_custom_field, name: "Resolution Date (2)", field_format: "datetime") }
+  let(:environment_cf) { create(:wp_custom_field, name: "Environment", field_format: "text") }
 
-  def stage_5_resolution_date_cf
-    jira_import.update!(system_field_custom_fields: { "resolutiondate" => resolution_date_cf.id })
+  def stage_5_system_field_cfs
+    jira_import.update!(system_field_custom_fields: { "resolutiondate" => resolution_date_cf.id,
+                                                      "environment" => environment_cf.id })
   end
 
   describe "#perform" do
@@ -46,7 +48,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
       before do
         create_project_role
         create_project
-        stage_5_resolution_date_cf
+        stage_5_system_field_cfs
       end
 
       it "updates the project work package sequence counter to the highest imported sequence number" do
@@ -66,6 +68,8 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
         expect(work_package.status.name).to eq("In Progress")
         expect(work_package.status).not_to be_closed
         expect(work_package.priority.name).to eq("Highest")
+        expect(work_package.author).to eq(op_user)
+        expect(work_package.reporter).to eq(op_user)
         expect(work_package.assigned_to).to eq(op_user)
         expect(work_package.identifier).to eq("DPPP-6")
         expect(work_package.sequence_number).to eq(6)
@@ -525,8 +529,10 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
             .to receive(:in_state?).with(:import_aborting).and_return(true)
         end
 
-        it "stops iterating and reports the abortion" do
+        it "reports the abortion and still updates the project work package sequence counter" do
           expect { create_work_packages }.to raise_error(Import::ProgressableJob::AbortionError)
+
+          expect(Project.find_by!(identifier: jira_project_key).wp_sequence_counter).to eq(6)
         end
       end
 
@@ -537,12 +543,14 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
           allow(Rails.logger).to receive(:warn)
         end
 
-        it "uses DeletedUser as a fallback for author and assignee" do
+        it "uses DeletedUser as a fallback for author, assignee and reporter" do
           create_work_packages
+          deleted_user = DeletedUser.first
 
           work_package = WorkPackage.find("DPPP-6")
-          expect(work_package.author).to eq(DeletedUser.first)
-          expect(work_package.assigned_to).to eq(DeletedUser.first)
+          expect(work_package.author).to eq(deleted_user)
+          expect(work_package.reporter).to eq(deleted_user)
+          expect(work_package.assigned_to).to eq(deleted_user)
         end
 
         it "logs a warning about the missing user" do
@@ -551,6 +559,43 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
           expect(Rails.logger).to have_received(:warn).with(
             /Import::JiraUser with jira_user_key JIRAUSER10000 not found! Using DeletedUser instead\./
           ).at_least(:once)
+        end
+
+        it "adds no project member for the deleted user" do
+          create_work_packages
+
+          expect(Project.find_by!(identifier: jira_project_key).users).to be_empty
+        end
+      end
+
+      context "when jira provides no author for a comment" do
+        let(:jira_issue_payload) do
+          super().tap { |payload| payload["fields"]["comment"]["comments"].first.delete("author") }
+        end
+
+        it "attributes the comment to the system user" do
+          create_work_packages
+
+          journal = WorkPackage.find("DPPP-6").journals.find_by(notes: "Demo comment 1\n\n")
+          expect(journal.user).to eq(User.system)
+        end
+
+        it "adds no project member for the comment" do
+          create_work_packages
+
+          expect(Project.find_by!(identifier: jira_project_key).users).to contain_exactly(op_user)
+        end
+      end
+
+      context "when jira provides no author for an attachment" do
+        let(:jira_issue_payload) do
+          super().tap { |payload| payload["fields"]["attachment"].sole.delete("author") }
+        end
+
+        it "attributes the attachment to the system user" do
+          create_work_packages
+
+          expect(WorkPackage.find("DPPP-6").attachments.sole.author).to eq(User.system)
         end
       end
 
@@ -977,6 +1022,136 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
               work_package = WorkPackage.find("DPPP-6")
               expect(work_package.type.default_variant.custom_field_ids).not_to include(resolution_date_cf.id)
             end
+          end
+        end
+      end
+
+      context "with the environment field" do
+        context "when an issue's environment is set" do
+          let(:jira_issue_payload) do
+            super().tap do |payload|
+              payload["fields"]["environment"] = "*Browser:* Firefox 140\n\nh2. Server\n\nStaging"
+            end
+          end
+
+          it "stores the converted environment in a text custom field" do
+            create_work_packages
+            work_package = WorkPackage.find("DPPP-6")
+            expect(work_package.send(environment_cf.attribute_getter))
+              .to eq("**Browser:** Firefox 140\n\n\n## Server\n\n\nStaging")
+          end
+
+          context "when only some issues have an environment" do
+            let!(:jira_issue2) do
+              payload = jira_issue_payload.deep_dup
+              payload["id"] = "10406"
+              payload["key"] = "DPPP-7"
+              payload["fields"]["environment"] = nil
+              create(:jira_issue, jira_import:, origin_id: "10406", jira_project:, payload:)
+            end
+
+            it "adds the Environment field to all work packages' type" do
+              create_work_packages
+
+              wp_with_environment = WorkPackage.find("DPPP-6")
+              wp_without_environment = WorkPackage.find("DPPP-7")
+
+              expect(wp_without_environment.type.default_variant.custom_field_ids).to include(environment_cf.id)
+              expect(wp_without_environment.send(environment_cf.attribute_getter)).to be_blank
+              expect(wp_with_environment.send(environment_cf.attribute_getter)).to be_present
+            end
+          end
+
+          context "when the custom field from stage 5 is missing" do
+            before { jira_import.update!(system_field_custom_fields: {}) }
+
+            it "ignores the environment field" do
+              create_work_packages
+              work_package = WorkPackage.find("DPPP-6")
+              expect(work_package.type.default_variant.custom_field_ids).not_to include(environment_cf.id)
+            end
+          end
+
+          context "when the import is configured to exclude resolution fields" do
+            let(:jira) { create(:jira, exclude_resolution_fields: true) }
+
+            it "still imports the environment" do
+              create_work_packages
+              work_package = WorkPackage.find("DPPP-6")
+              expect(work_package.type.default_variant.custom_field_ids).to include(environment_cf.id)
+              expect(work_package.send(environment_cf.attribute_getter)).to be_present
+            end
+          end
+        end
+
+        context "when an issue's environment is blank" do
+          let(:jira_issue_payload) do
+            super().tap { |payload| payload["fields"]["environment"] = " \t\r\n " }
+          end
+
+          it "does not add an environment field" do
+            create_work_packages
+            work_package = WorkPackage.find("DPPP-6")
+            expect(work_package.type.default_variant.custom_field_ids).not_to include(environment_cf.id)
+          end
+        end
+
+        it "does not add an environment field when no issue has the field set" do
+          create_work_packages
+          work_package = WorkPackage.find("DPPP-6")
+          expect(work_package.type.default_variant.custom_field_ids).not_to include(environment_cf.id)
+        end
+      end
+
+      context "with several system fields set on the same issue" do
+        let(:jira_issue_payload) do
+          super().tap do |payload|
+            payload["fields"]["resolutiondate"] = "2026-09-12T12:18:05.851+0000"
+            payload["fields"]["environment"] = "*Browser:* Firefox 140"
+          end
+        end
+
+        it "stores every system field on the work package" do
+          create_work_packages
+          work_package = WorkPackage.find("DPPP-6")
+
+          expect(work_package.type.default_variant.custom_field_ids)
+            .to include(resolution_date_cf.id, environment_cf.id)
+          expect(work_package.send(resolution_date_cf.attribute_getter)).to eq(Time.utc(2026, 9, 12, 12, 18, 5))
+          expect(work_package.send(environment_cf.attribute_getter)).to eq("**Browser:** Firefox 140")
+        end
+      end
+
+      context "with reporter" do
+        context "with a reporter set" do
+          let(:op_reporter) { create(:user, status: :locked) }
+          let(:jira_reporter) { create(:jira_user, jira_import:, origin_id: "JIRAUSER_REPORTER", payload: jira_user_payload) }
+          let(:jira_issue_payload) { super().deep_merge("fields" => { "reporter" => { "key" => jira_reporter.origin_id } }) }
+
+          before do
+            create(:jira_open_project_reference,
+                   jira_import:,
+                   jira_entity_class: "Import::JiraUser",
+                   jira_entity_id: jira_reporter.id.to_s,
+                   op_entity_class: "User",
+                   op_entity_id: op_reporter.id.to_s)
+          end
+
+          it "sets the reporter on the work package" do
+            create_work_packages
+            work_package = WorkPackage.find("DPPP-6")
+            expect(work_package.author).to eq(op_user)
+            expect(work_package.reporter).to eq(op_reporter)
+          end
+        end
+
+        context "with no reporter set" do
+          let(:jira_issue_payload) { super().deep_merge("fields" => { "reporter" => nil }) }
+
+          it "leaves the reporter empty" do
+            create_work_packages
+            work_package = WorkPackage.find("DPPP-6")
+            expect(work_package.reporter).to be_nil
           end
         end
       end

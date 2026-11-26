@@ -44,7 +44,7 @@ class Projects::Settings::BacklogsController < Projects::SettingsController
       redirect_back_or_to_backlogs_settings
     else
       flash.now[:error] = I18n.t(:notice_unsuccessful_update_with_reason, reason: call.message)
-      render action: :show, status: :unprocessable_entity
+      render action: :show, status: :unprocessable_content
     end
   end
 

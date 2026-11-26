@@ -109,6 +109,7 @@ da:
         maintained_with_changes: Bevaret med ændringer
         no_longer_meets_filter_criteria: Opfylder ikke længere filterkriterierne
         now_meets_filter_criteria: Opfylder nu filterkriterierne
+        state_at: Tilstand pr.
       show_changes_since: Vis ændringer siden
       time: Tidspunkt
       time_description: 'I din lokale tid: %{datetime}'
@@ -176,6 +177,10 @@ da:
       remove_from_list: Fjern kort fra listen
     chart:
       axis_criteria: Aksekriterier
+      description:
+        caption: "%{label}: data"
+        date: Dato
+        week: Uge fra
       errors:
         could_not_load: Dataene til grafen kunne ikke indlæses. Der mangler måske de nødvendige tilladelser.
       modal_title: Konfiguration af arbejdspakkegraf
@@ -303,6 +308,7 @@ da:
         only_start: Fra %{from} i din lokale tid.
         two_values: "%{from} - %{to} i din lokale tid."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Avancerede indstillinger
       load_error_message: Der opstod en fejl under indlæsning af formularen
@@ -772,8 +778,10 @@ da:
       create_new: Opret ny
       group_by_relation_type: Gruppér efter relationstype
       group_by_wp_type: Gruppér efter arbejdspakketype
+      hierarchy_change_timed_out: Hierarkiet kunne ikke ændres, fordi serveren ikke svarede. Prøv igen.
       hierarchy_indent: Ryk et niveau ind
       hierarchy_outdent: Ryk et niveau ud
+      hierarchy_refresh_failed: Tabellen kunne ikke opdateres. Det er ikke muligt at rykke ind eller ud, før den er indlæst igen.
       remove: Fjern relation
       remove_child: Fjern underordnet
       remove_parent: Fjern overordnet
@@ -900,6 +908,23 @@ da:
       unselected_title: Arbejdspakke
     two_factor_authentication:
       label_two_factor_authentication: To-faktor-godkendelse
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Handlinger for projektet
+            other: Handlinger for %{count} valgte projekter
+        selection:
+          cleared: Markeringen er ryddet.
+          not_selectable: Markeringen er uændret. Projektet kan ikke vælges.
+          range_blocked: Markeringen er uændret. Området indeholder et projekt, der ikke kan vælges.
+          range_restarted:
+            one: Området kunne ikke udvides. %{count} projekt valgt.
+            other: Området kunne ikke udvides. %{count} projekter valgt.
+          range_unavailable: Markeringen er uændret. Fold listen ud for at vælge området.
+          selected:
+            one: "%{count} projekt valgt."
+            other: "%{count} projekter valgt."
     units:
       child_work_packages:
         one: "%{count} underordnet arbejdspakke"
@@ -1012,6 +1037,7 @@ da:
         label_pagination: Klik her for at springe tabellen med arbejdspakker over og gå til sidenavigationen
         pagination: Gå til tabellens sidenavigation
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Fold grupper sammen eller ud
       label_column_multiselect: 'Kombineret rullemenu: Vælg med piletasterne, bekræft valget med Enter, og slet med Backspace'
       label_disable_multi_select: Slå flervalg fra
       label_enable_multi_select: Slå flervalg til

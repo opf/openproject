@@ -59,11 +59,6 @@ module OpenProject
              enterprise_feature: "sso_auth_providers"
       end
 
-      assets %w(
-        auth_saml/**
-        auth_provider-saml.png
-      )
-
       register_auth_providers(persist: false) do
         strategy :saml do
           OpenProject::AuthSaml.configuration.values.map do |h|

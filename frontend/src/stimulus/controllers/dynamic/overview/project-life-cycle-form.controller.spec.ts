@@ -28,7 +28,7 @@
 import { waitFor } from '@testing-library/dom';
 import { vi, type Mock } from 'vitest';
 
-import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import { setupStimulusTest, type StimulusTestContext, stubPendingPluginContext, stubPluginContext } from 'core-stimulus/test-helpers';
 import type ProjectLifeCycleFormControllerType from './project-life-cycle-form.controller';
 
 describe('Project life cycle form controller', () => {
@@ -36,7 +36,6 @@ describe('Project life cycle form controller', () => {
   let ProjectLifeCycleFormController:typeof ProjectLifeCycleFormControllerType;
   let utcDateToISODateString:Mock;
   let timezone:{ utcDateToISODateString:Mock };
-  let originalOpenProject:typeof window.OpenProject;
 
   beforeAll(async () => {
     ({ default: ProjectLifeCycleFormController } = await import('./project-life-cycle-form.controller'));
@@ -45,10 +44,7 @@ describe('Project life cycle form controller', () => {
   beforeEach(async () => {
     utcDateToISODateString = vi.fn((date:Date) => date.toISOString().slice(0, 10));
     timezone = { utcDateToISODateString };
-    originalOpenProject = window.OpenProject;
-    window.OpenProject = {
-      getPluginContext: () => Promise.resolve({ services: { timezone } }),
-    } as unknown as typeof window.OpenProject;
+    stubPluginContext({ services: { timezone } });
 
     ctx = await setupStimulusTest({
       controllers: { 'overview--project-life-cycle-form': ProjectLifeCycleFormController },
@@ -57,7 +53,6 @@ describe('Project life cycle form controller', () => {
 
   afterEach(() => {
     ctx.dispose();
-    window.OpenProject = originalOpenProject;
     vi.restoreAllMocks();
   });
 
@@ -95,10 +90,7 @@ describe('Project life cycle form controller', () => {
   });
 
   it('ignores flatpickr events when disconnected before the context resolves', async () => {
-    let resolveContext!:(context:unknown) => void;
-    window.OpenProject = {
-      getPluginContext: () => new Promise((resolve) => { resolveContext = resolve; }),
-    } as unknown as typeof window.OpenProject;
+    const resolveContext = stubPendingPluginContext();
 
     await renderForm();
     const form = ctx.container.querySelector('form')!;

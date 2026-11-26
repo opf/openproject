@@ -109,6 +109,7 @@ tr:
         maintained_with_changes: Değişikliklerle sürdürüldü
         no_longer_meets_filter_criteria: Artık filtre kriterlerini karşılamıyor
         now_meets_filter_criteria: Artık filtre kriterlerini karşılıyor
+        state_at: State at
       show_changes_since: Şu zamandan sonraki değişiklikleri göster
       time: Zaman
       time_description: 'Yerel saatinizle: %{datetime}'
@@ -176,6 +177,10 @@ tr:
       remove_from_list: Kartı listeden çıkar
     chart:
       axis_criteria: Eksen kriterleri
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Grafiği görüntülemek için veri yüklenemedi. Gerekli izinler eksik olabilir.
       modal_title: İş paketi grafik konfigürasyonu
@@ -303,6 +308,7 @@ tr:
         only_start: Yerel zamanınıza göre %{from} dan itibaren.
         two_values: "%{from} - %{to} yerel saatinizle."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Gelişmiş ayarlar
       load_error_message: Form yüklenirken bir hata oluştu
@@ -772,8 +778,10 @@ tr:
       create_new: Yeni oluştur
       group_by_relation_type: İlişki türüne göre gruplandırma
       group_by_wp_type: İş paketi türüne göre grupla
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Girinti hiyerarşisi
       hierarchy_outdent: Dış diş hiyerarşisi
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: İlişkiyi kaldır
       remove_child: Alt bileşeni kaldır
       remove_parent: Üstündekini kaldır
@@ -900,6 +908,23 @@ tr:
       unselected_title: İş paketi
     two_factor_authentication:
       label_two_factor_authentication: İki aşamalı kimlik doğrulama
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Project actions
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            one: Could not extend the range. %{count} project selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            one: "%{count} project selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         one: "%{count} child work package"
@@ -1012,6 +1037,7 @@ tr:
         label_pagination: İş paketleri tablosuna geçiş yapmak ve numaralandırma sayfasına gitmek için buraya tıklayın
         pagination: Tablo numaralandırmaya yönlendir
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Birleştirilmiş aşağı açılan alan: ok tuşlarıyla seçin, seçimi enter ile onaylayın, backspace ile silme'
       label_disable_multi_select: Çoklu seçimi devre dışı bırak
       label_enable_multi_select: Çoklu seçimi etkinleştir

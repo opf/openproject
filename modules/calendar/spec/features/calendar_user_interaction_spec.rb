@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -50,6 +52,33 @@ RSpec.describe "Calendar drag&dop and resizing",
     login_as current_user
     calendar.visit!
     calendar.expect_event work_package
+  end
+
+  describe "work package context menu" do
+    let(:context_menu) { Components::WorkPackages::ContextMenu.new }
+
+    it "opens on right-click and returns focus to the event on Escape" do
+      calendar.event(work_package).find(".fc-event-title").right_click
+
+      context_menu.expect_open
+      expect(page).to have_selector(:menuitem, "Open details view", focused: true)
+
+      context_menu.press_escape
+      context_menu.expect_closed
+      expect(page).to have_css(".fc-event", text: work_package.subject, focused: true)
+    end
+
+    it "opens on a right-click with a modifier key held" do
+      calendar.event(work_package).find(".fc-event-title").right_click(:control)
+
+      context_menu.expect_open
+    end
+
+    it "opens the work package with Enter on a focused event" do
+      calendar.event(work_package).send_keys(:enter)
+
+      Pages::SplitWorkPackage.new(work_package, project).expect_open
+    end
   end
 
   context "with full permissions" do

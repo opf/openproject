@@ -59,22 +59,14 @@ RSpec.describe McpTools::SearchCustomFieldItems do
 
   let!(:custom_field) do
     create(:wp_custom_field, :hierarchy).tap do |cf|
-      service = CustomFields::Hierarchy::HierarchicalItemService.new
-      root = cf.hierarchy_root
-      hierarchy_items.each do |label|
-        service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract, parent: root, label:)
-      end
+      hierarchy_items.each { |label| create(:hierarchy_item, parent: cf.hierarchy_root, label:) }
     end
   end
   let(:hierarchy_items) { ["the green item", "the red item", "the yellow item"] }
 
   let!(:other_custom_field) do
     create(:wp_custom_field, :hierarchy).tap do |cf|
-      service = CustomFields::Hierarchy::HierarchicalItemService.new
-      root = cf.hierarchy_root
-      unrelated_items.each do |label|
-        service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract, parent: root, label:)
-      end
+      unrelated_items.each { |label| create(:hierarchy_item, parent: cf.hierarchy_root, label:) }
     end
   end
   let(:unrelated_items) { %w[unrelated_1 unrelated_2] }

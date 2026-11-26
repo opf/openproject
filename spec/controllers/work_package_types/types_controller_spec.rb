@@ -117,7 +117,7 @@ RSpec.describe WorkPackageTypes::TypesController do
           put :move, params:, format: :turbo_stream
         end
 
-        it { expect(response).to have_http_status(:unprocessable_entity) }
+        it { expect(response).to have_http_status(:unprocessable_content) }
 
         it "has an unsuccessful move flash" do
           expect(response.body).to include(I18n.t(:error_type_could_not_be_saved))

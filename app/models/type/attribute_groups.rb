@@ -48,7 +48,8 @@ module Type::AttributeGroups
         priority: :details,
         labels: :details,
         # `:excluded` is not a "real" group. It's meant to exclude built in fields from the form
-        observed_in_versions: :excluded
+        observed_in_versions: :excluded,
+        reporter: :excluded
       }
     end
 

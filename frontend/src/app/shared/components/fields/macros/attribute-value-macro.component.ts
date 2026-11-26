@@ -108,7 +108,7 @@ export class AttributeValueMacroComponent implements OnInit {
   private isNestedMacro(model:SupportedAttributeModels, id:string, attributeName:string):boolean {
     const element = this.elementRef.nativeElement;
     const parent = element.parentElement;
-    return !!parent?.closest(`.${ATTRIBUTE_MACRO_CLASS}[data-model="${model}"][data-id="${id}"][data-attribute="${attributeName}"]`);
+    return !!parent?.closest(`.${ATTRIBUTE_MACRO_CLASS}[data-model="${CSS.escape(model)}"][data-id="${CSS.escape(id)}"][data-attribute="${CSS.escape(attributeName)}"]`);
   }
 
   private async loadAndRender(model:SupportedAttributeModels, id:string, attributeName:string):Promise<void> {

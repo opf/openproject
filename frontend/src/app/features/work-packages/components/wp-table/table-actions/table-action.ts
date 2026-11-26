@@ -29,6 +29,7 @@ import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { lazyInject } from 'core-app/shared/helpers/angular/lazy-inject';
+import { TooltipDirection } from 'core-app/shared/components/primer/tool-tip-element';
 
 export type OpTableActionFactory = (i:Injector, wp:WorkPackageResource) => OpTableAction;
 export const contextMenuTdClassName = 'wp-table--context-menu-td';
@@ -38,6 +39,8 @@ export const contextColumnIcon = 'wp-table-context-menu-icon';
 export const destructiveControlAttribute = 'data-wp-table-destructive';
 /** The classes `Primer::Beta::IconButton` renders for `scheme: :invisible, size: :small`. */
 export const invisibleIconButtonClasses = ['Button', 'Button--iconOnly', 'Button--invisible', 'Button--small'] as const;
+
+export const rowActionTooltipDirection = 'se' satisfies TooltipDirection;
 
 export abstract class OpTableAction {
   readonly I18n = lazyInject(I18nService, { injector: () => this.injector });

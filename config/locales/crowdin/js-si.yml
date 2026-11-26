@@ -109,6 +109,7 @@ si:
         maintained_with_changes: Maintained with changes
         no_longer_meets_filter_criteria: No longer meets filter criteria
         now_meets_filter_criteria: Now meets filter criteria
+        state_at: State at
       show_changes_since: Show changes since
       time: Time
       time_description: 'In your local time: %{datetime}'
@@ -176,6 +177,10 @@ si:
       remove_from_list: ලැයිස්තුවෙන් කාඩ් ඉවත් කරන්න
     chart:
       axis_criteria: අක්ෂ නිර්ණායක
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: ප්රස්ථාරය ප්රදර්ශනය කිරීම සඳහා දත්ත පටවා ගත නොහැකි විය. අවශ්ය අවසරයන් නොමැති විය හැකිය.
       modal_title: වැඩ පැකේජය ප්රස්ථාර වින්යාසය
@@ -303,6 +308,7 @@ si:
         only_start: ඔබේ දේශීය කාලය තුළ %{from} සිට.
         two_values: "%{from} - %{to} ඔබේ දේශීය කාලය තුළ."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: උසස් සැකසුම්
       load_error_message: There was an error loading the form
@@ -772,8 +778,10 @@ si:
       create_new: නව නිර්මාණය
       group_by_relation_type: සම්බන්ධයක් වර්ගය අනුව සමූහය
       group_by_wp_type: වැඩ පැකේජ වර්ගය අනුව සමූහය
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: ඉන්ඩන්ට් ධූරාවලිය
       hierarchy_outdent: Outdent ධූරාවලිය
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: සම්බන්ධතාවය ඉවත් කරන්න
       remove_child: දරුවා ඉවත් කරන්න
       remove_parent: දෙමව්පියන් ඉවත් කරන්න
@@ -900,6 +908,23 @@ si:
       unselected_title: වැඩ පැකේජය
     two_factor_authentication:
       label_two_factor_authentication: Two-factor authentication
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Project actions
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            one: Could not extend the range. %{count} project selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            one: "%{count} project selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         one: "%{count} child work package"
@@ -1012,6 +1037,7 @@ si:
         label_pagination: වැඩ පැකේජ වගුව හරහා මඟ හැරීමට සහ පේනිෂන් වෙත යන්න මෙහි ක්ලික් කරන්න
         pagination: මේසය පේනීම වෙත පනින්න
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'ඒකාබද්ධ බිංදු ක්ෂේත්රය: ඊතල යතුරු සමඟ තෝරන්න, ඇතුල් කිරීම සමඟ තේරීම තහවුරු කරන්න, පසුබිම් අවකාශය සමඟ මකා දමන්න'
       label_disable_multi_select: බහුකාර්ය අක්රීය කරන්න
       label_enable_multi_select: බහුතේරීම් සක්රීය කරන්න

@@ -351,6 +351,10 @@ class Report::Operator
     end
   end
 
+  def validate(*values)
+    super.tap { |errors| validate_value_count(values.flatten.compact_blank, errors) }
+  end
+
   def inspect
     "#<#{self.class.name}:#{name.inspect}>"
   end
@@ -383,6 +387,10 @@ class Report::Operator
 
   def rename_to(new_name)
     @name = new_name
+  end
+
+  def validate_value_count(values, errors)
+    errors[:missing_values] << arity if arity.positive? && values.any? && values.size < arity
   end
 
   # Done with class method definition, let's initialize the operators

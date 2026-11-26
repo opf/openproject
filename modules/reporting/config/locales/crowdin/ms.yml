@@ -43,6 +43,7 @@ ms:
       end_time: End time
       start_time: Masa mula
       title: Eksport Laporan Kos XLS anda
+    invalid_filters: 'The export could not be generated: %{errors}'
     timesheet:
       button: Eksport lembaran masa PDF
       overview_per_user_day: 'Overview: Hours per user per day'
@@ -51,6 +52,10 @@ ms:
       time: Masa
       timesheet: Lembaran masa
       title: Eksport helaian masa PDF anda
+  filter_error_invalid_date: "%{filter}: %{value} is not a valid date."
+  filter_error_invalid_integer: "%{filter}: %{value} is not a valid integer."
+  filter_error_missing_values:
+    other: "%{filter} requires %{count} values."
   information_restricted_depending_on_permission: Halaman ini mengandungi informasi terhad bergantung atas kebenaran anda.
   label_click_to_edit: Klik untuk edit.
   label_closed: ditutup
@@ -111,5 +116,3 @@ ms:
   text_costs_are_rounded_note: Nilai yang dipaparkan adalah dibundarkan. Semua pengiraan adalah berdasarkan nilai yang tidak dibundarkan.
   toggle_multiselect: aktifkan/nyahaktifkan multiselect
   units: Unit
-  validation_failure_date: bukan tarikh yang sah
-  validation_failure_integer: bukan integer yang sah

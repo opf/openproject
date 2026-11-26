@@ -50,23 +50,30 @@ module Import
       Import::JiraIssue.where(jira_import:, jira_project_id:)
     end
 
-    def create_member(project, user)
+    def create_members(project, users)
       raise "#{self.class} must set @system_user and @project_role to create members" unless @system_user && @project_role
 
-      service_call = Members::CreateService
-                       .new(user: @system_user, contract_class: EmptyContract)
-                       .call(
-                         project:,
-                         roles: [@project_role],
-                         user_id: user.id,
-                         principal: user
-                       )
-      return if service_call.success?
+      Array(users).uniq.each do |user|
+        # Jira omits the author on entities left by anonymous, application or purged accounts,
+        # and DeletedUser stands in for a Jira account that was not imported.
+        next if user.nil? || user.is_a?(DeletedUser)
 
-      if service_call.errors.find { |error| error.type == :taken }.blank?
-        Rails.logger.error service_call.message
-        raise service_call.message
+        service_call = Members::CreateService
+                         .new(user: @system_user, contract_class: EmptyContract)
+                         .call(
+                           project:,
+                           roles: [@project_role],
+                           user_id: user.id,
+                           principal: user
+                         )
+        handle_member_creation_failure(service_call) if service_call.failure?
       end
+    end
+
+    def handle_member_creation_failure(service_call)
+      return if service_call.errors.any? { |error| error.type == :taken }
+
+      raise service_call.message
     end
 
     def find_user(jira_user_key)
@@ -78,21 +85,17 @@ module Import
     def find_imported_user(jira_user_key)
       return if jira_user_key.blank?
 
-      with_user_log_tags(jira_user_key) do
+      with_log_context(jira_object_type: "user", jira_object_id_or_name: jira_user_key) do
         jira_user = Import::JiraUser.find_by(origin_id: jira_user_key, jira_import: @jira_import)
         @jira_import.find_op_leg!(jira_user) if jira_user
       end
     end
 
     def deleted_user(jira_user_key)
-      with_user_log_tags(jira_user_key) do
+      with_log_context(jira_object_type: "user", jira_object_id_or_name: jira_user_key) do
         Rails.logger.warn "Import::JiraUser with jira_user_key #{jira_user_key} not found! Using DeletedUser instead."
         DeletedUser.first
       end
-    end
-
-    def with_user_log_tags(jira_user_key, &)
-      Rails.logger.tagged("jira_object_type:user", "jira_object_id_or_name:#{jira_user_key}", &)
     end
   end
 end

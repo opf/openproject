@@ -39,7 +39,26 @@ jobs:
         with:
           persist-credentials: false
       - name: 'Dependency Review'
-        uses: actions/dependency-review-action@v5.0.0
+        uses: actions/dependency-review-action@v5.0.1
         # Commonly enabled options, see https://github.com/actions/dependency-review-action#configuration-options for all available options.
         with:
           comment-summary-in-pr: on-failure
+
+  bundle-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    env:
+      BUNDLE_ONLY: bundle_audit
+    steps:
+      - name: 'Checkout repository'
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - name: 'Setup Ruby'
+        uses: ruby/setup-ruby@v1.342.0
+        with:
+          bundler-cache: true
+      - name: 'Bundle Audit'
+        run: bundle exec bundle-audit check --update

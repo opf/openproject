@@ -33,6 +33,8 @@ import { getMetaContent } from 'core-app/core/setup/globals/global-helpers';
 const EDGE_MARGIN = 8;
 const MIN_WIDTH = 320;
 const MIN_HEIGHT = 240;
+const VERTICAL_RESIZE_THRESHOLD = 6;
+const VERTICAL_RESIZE_RATIO = 1 / 3;
 const GEOMETRY_PROPERTIES = ['left', 'top', 'right', 'bottom', 'width', 'height', 'maxWidth', 'maxHeight'] as const;
 const POLL_MIN = 400;
 const POLL_MAX = 1000;
@@ -64,6 +66,7 @@ interface ResizeStart {
   width:number;
   height:number;
   edge:string;
+  vertical:boolean;
 }
 
 // A new run replaces the whole pane element, so the place the user moved it to outlives the controller.
@@ -105,8 +108,20 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
   private closing = false;
   private abandoned = false;
   private focusToRestore:{ form:string }|null = null;
+  private dialogListeners:AbortController|null = null;
+  private moving = false;
 
   connect():void {
+    const dialog = this.hostDialog();
+    if (dialog && !dialog.contains(this.element)) {
+      this.moveInto(dialog);
+      return;
+    }
+    this.moving = false;
+    if (dialog) {
+      this.liftAbove(dialog);
+    }
+
     if (rememberedGeometry) {
       Object.assign(this.paneTarget.style, rememberedGeometry);
       this.keepInViewport();
@@ -115,10 +130,14 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
   }
 
   disconnect():void {
+    this.dialogListeners?.abort();
+    this.dialogListeners = null;
     this.endPointerAction();
     this.stopPolling();
     this.clearApplyTimer();
-    rememberedGeometry = this.pinned ? this.geometry() : null;
+    if (!this.moving) {
+      rememberedGeometry = this.pinned ? this.geometry() : null;
+    }
     if (!this.element.isConnected) {
       this.abandon();
     }
@@ -246,6 +265,7 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
       width: rect.width,
       height: rect.height,
       edge: (event.currentTarget as HTMLElement).dataset.edge ?? 'bottom-right',
+      vertical: false,
     };
     this.pin(rect.left, rect.top);
     this.listen((move) => this.resize(move));
@@ -261,12 +281,51 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
 
   close(event?:Event):void {
     event?.stopPropagation();
+    // AA-244: an Escape keydown that is not canceled also closes the modal dialog the pane is in.
+    event?.preventDefault();
     const form = document.getElementById(this.closeFormValue);
     if (form instanceof HTMLFormElement) {
       form.requestSubmit();
     } else {
       this.element.remove();
     }
+  }
+
+  // AA-244: everything outside the topmost modal dialog is inert, so only the dialog the action was started in can host the pane.
+  private hostDialog():HTMLDialogElement|null {
+    const focused = document.activeElement?.closest<HTMLDialogElement>('dialog:modal');
+    const modals = document.querySelectorAll<HTMLDialogElement>('dialog:modal');
+    return focused ?? modals[modals.length - 1] ?? null;
+  }
+
+  // AA-244: Turbo only replaces an older pane with the same id among the direct children of body.
+  private moveInto(dialog:HTMLDialogElement):void {
+    if (this.element.id) {
+      document.querySelectorAll(`#${CSS.escape(this.element.id)}`).forEach((pane) => {
+        if (pane !== this.element) {
+          pane.remove();
+        }
+      });
+    }
+    this.moving = true;
+    dialog.append(this.element);
+  }
+
+  private liftAbove(dialog:HTMLDialogElement):void {
+    if (typeof this.paneTarget.showPopover === 'function') {
+      this.paneTarget.popover = 'manual';
+      this.paneTarget.showPopover();
+    }
+
+    this.dialogListeners = new AbortController();
+    dialog.addEventListener('close', () => this.hostDialogClosed(), { signal: this.dialogListeners.signal });
+  }
+
+  private hostDialogClosed():void {
+    if (this.paneTarget.matches(':popover-open')) {
+      this.paneTarget.hidePopover();
+    }
+    this.close();
   }
 
   private get pinned():boolean {
@@ -346,7 +405,7 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
   }
 
   private buttonsOf(formId:string):HTMLButtonElement[] {
-    return Array.from(this.element.querySelectorAll<HTMLButtonElement>(`button[form="${formId}"]`));
+    return Array.from(this.element.querySelectorAll<HTMLButtonElement>(`button[form="${CSS.escape(formId)}"]`));
   }
 
   private setButtonsDisabled(formId:string, disabled:boolean):void {
@@ -385,29 +444,40 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     }
 
     const { x, y, left, top, width, height, edge } = this.resizeStart;
+    const dx = event.clientX - x;
+    const dy = event.clientY - y;
     const { style } = this.paneTarget;
     style.maxWidth = `calc(100vw - ${2 * EDGE_MARGIN}px)`;
 
     if (edge.endsWith('left')) {
-      const newWidth = clamp(width - (event.clientX - x), MIN_WIDTH, left + width - EDGE_MARGIN);
+      const newWidth = clamp(width - dx, MIN_WIDTH, left + width - EDGE_MARGIN);
       this.pin(left + width - newWidth, top);
       style.width = `${newWidth}px`;
     } else {
-      style.width = `${clamp(width + (event.clientX - x), MIN_WIDTH, window.innerWidth - left - EDGE_MARGIN)}px`;
+      style.width = `${clamp(width + dx, MIN_WIDTH, window.innerWidth - left - EDGE_MARGIN)}px`;
     }
 
-    if (edge.startsWith('bottom')) {
-      style.height = `${clamp(height + (event.clientY - y), MIN_HEIGHT, window.innerHeight - top - EDGE_MARGIN)}px`;
-      style.maxHeight = `calc(100vh - ${2 * EDGE_MARGIN}px)`;
+    this.resizeStart.vertical ||= Math.abs(dy) > VERTICAL_RESIZE_THRESHOLD
+      && Math.abs(dy) > Math.abs(dx) * VERTICAL_RESIZE_RATIO;
+
+    if (this.resizeStart.vertical) {
+      style.height = `${clamp(height + dy, MIN_HEIGHT, window.innerHeight - top - EDGE_MARGIN)}px`;
+      style.maxHeight = `calc(100vh - ${this.minTop + EDGE_MARGIN}px)`;
     }
+  }
+
+  private get minTop():number {
+    const header = document.querySelector('.op-app-header');
+    return Math.max(0, header?.getBoundingClientRect().bottom ?? 0) + EDGE_MARGIN;
   }
 
   private pinInViewport(left:number, top:number):void {
     const { width, height } = this.paneTarget.getBoundingClientRect();
+    const { minTop } = this;
     const maxLeft = Math.max(EDGE_MARGIN, window.innerWidth - width - EDGE_MARGIN);
-    const maxTop = Math.max(EDGE_MARGIN, window.innerHeight - height - EDGE_MARGIN);
+    const maxTop = Math.max(minTop, window.innerHeight - height - EDGE_MARGIN);
 
-    this.pin(clamp(left, EDGE_MARGIN, maxLeft), clamp(top, EDGE_MARGIN, maxTop));
+    this.pin(clamp(left, EDGE_MARGIN, maxLeft), clamp(top, minTop, maxTop));
   }
 
   private pin(left:number, top:number):void {

@@ -109,6 +109,7 @@ fa:
         maintained_with_changes: حفظ‌شده با تغییرات
         no_longer_meets_filter_criteria: دیگر معیارهای فیلتر را برآورده نمی‌کند
         now_meets_filter_criteria: اکنون معیارهای فیلتر را برآورده می‌کند
+        state_at: State at
       show_changes_since: نمایش تغییرات از
       time: زمان
       time_description: 'در زمان محلی شما: %{datetime}'
@@ -176,6 +177,10 @@ fa:
       remove_from_list: حذف کارت از فهرست
     chart:
       axis_criteria: معیار محور
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: داده‌های لازم برای نمایش نمودار بارگذاری نشدند. ممکن است مجوزهای لازم وجود نداشته باشند.
       modal_title: پیکربندی نمودار بسته کاری
@@ -303,6 +308,7 @@ fa:
         only_start: از %{from} به وقت محلی شما.
         two_values: "%{from} - %{to} به وقت محلی شما."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: تنظیمات پیشرفته
       load_error_message: هنگام بارگذاری فرم خطایی رخ داد
@@ -772,8 +778,10 @@ fa:
       create_new: ایجاد جدید
       group_by_relation_type: گروه‌بندی بر اساس نوع رابطه
       group_by_wp_type: گروه‌بندی بر اساس نوع بسته کاری
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: افزایش تورفتگی سلسله‌مراتب
       hierarchy_outdent: کاهش تورفتگی سلسله‌مراتب
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: حذف رابطه
       remove_child: حذف فرزند
       remove_parent: حذف والد
@@ -900,6 +908,23 @@ fa:
       unselected_title: کاربسته
     two_factor_authentication:
       label_two_factor_authentication: احراز هویت دومرحله‌ای
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Project actions
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            one: Could not extend the range. %{count} project selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            one: "%{count} project selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         one: "%{count} بسته کاری فرزند"
@@ -1012,6 +1037,7 @@ fa:
         label_pagination: برای عبور از جدول بسته‌های کاری و رفتن به صفحه‌بندی اینجا کلیک کنید
         pagination: رفتن به صفحه‌بندی جدول
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'فیلد کشویی ترکیبی: با کلیدهای جهت‌نما انتخاب کنید، با Enter تأیید و با Backspace حذف کنید'
       label_disable_multi_select: غیرفعال‌کردن انتخاب چندگانه
       label_enable_multi_select: فعال‌کردن انتخاب چندگانه

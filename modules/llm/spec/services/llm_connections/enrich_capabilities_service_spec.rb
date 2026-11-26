@@ -42,7 +42,7 @@ RSpec.describe LlmConnections::EnrichCapabilitiesService do
   end
 
   def catalogued(id, output: ["text"], capabilities: [], **)
-    RubyLLM::Model::Info.new(id:, modalities: { output: }, capabilities:, **)
+    RubyLLM::Model.new(id:, modalities: { output: }, capabilities:, **)
   end
 
   def verdict(model_id, capability)

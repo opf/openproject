@@ -151,7 +151,7 @@ module Admin
       result.on_failure do
         update_via_turbo_stream(
           component: LlmConnections::SemanticIndexes::FormComponent.new(result.result, connection: @connection),
-          status: :unprocessable_entity
+          status: :unprocessable_content
         )
         respond_with_turbo_streams
       end

@@ -163,10 +163,6 @@ en:
         Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}):
 
         %{snippet_note}
-
-        %{commit_note}
-
-        %{commit_note}
       push_single_commit_comment_with_ref: >
         **Pushed in %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url})
         to [%{repository}](%{repository_url}) at %{commit_timestamp}:

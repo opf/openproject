@@ -29,7 +29,7 @@ import { waitFor } from '@testing-library/dom';
 import { type ActionEvent } from '@hotwired/stimulus';
 import { vi, type Mock } from 'vitest';
 
-import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import { setupStimulusTest, type StimulusTestContext, stubPendingPluginContext, stubPluginContext } from 'core-stimulus/test-helpers';
 import type MyTimeManagementControllerType from './time-management.controller';
 
 describe('My time management controller', () => {
@@ -37,7 +37,6 @@ describe('My time management controller', () => {
   let MyTimeManagementController:typeof MyTimeManagementControllerType;
   let request:Mock;
   let myTimeRefresh:Mock;
-  let originalOpenProject:typeof window.OpenProject;
 
   beforeAll(async () => {
     ({ default: MyTimeManagementController } = await import('./time-management.controller'));
@@ -46,18 +45,15 @@ describe('My time management controller', () => {
   beforeEach(async () => {
     request = vi.fn().mockResolvedValue({ html: '', headers: new Headers() });
     myTimeRefresh = vi.fn().mockReturnValue('/my/time/refresh?date=2026-06-01');
-    originalOpenProject = window.OpenProject;
-    window.OpenProject = {
-      getPluginContext: () => Promise.resolve({
-        services: {
-          turboRequests: { request },
-          pathHelperService: {
-            timeEntryDialog: () => '/time_entries/dialog',
-            myTimeRefresh,
-          },
+    stubPluginContext({
+      services: {
+        turboRequests: { request },
+        pathHelperService: {
+          timeEntryDialog: () => '/time_entries/dialog',
+          myTimeRefresh,
         },
-      }),
-    } as unknown as typeof window.OpenProject;
+      },
+    });
 
     ctx = await setupStimulusTest({
       controllers: { 'my--time-management': MyTimeManagementController },
@@ -66,7 +62,6 @@ describe('My time management controller', () => {
 
   afterEach(() => {
     ctx.dispose();
-    window.OpenProject = originalOpenProject;
     vi.restoreAllMocks();
   });
 
@@ -168,10 +163,7 @@ describe('My time management controller', () => {
   });
 
   it('ignores dialog close events arriving before the context resolves', async () => {
-    let resolveContext!:(context:unknown) => void;
-    window.OpenProject = {
-      getPluginContext: () => new Promise((resolve) => { resolveContext = resolve; }),
-    } as unknown as typeof window.OpenProject;
+    const resolveContext = stubPendingPluginContext();
 
     await renderListView();
     const root = ctx.container.querySelector('[data-controller="my--time-management"]')!;

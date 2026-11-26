@@ -58,7 +58,7 @@ module Admin
           flash[:notice] = I18n.t(:notice_successful_update)
           redirect_to(action: :index)
         else
-          render action: :new, status: :unprocessable_entity
+          render action: :new, status: :unprocessable_content
         end
       end
 
@@ -67,7 +67,7 @@ module Admin
           flash[:notice] = I18n.t(:notice_successful_update)
           redirect_to(action: :index)
         else
-          render action: :edit, status: :unprocessable_entity
+          render action: :edit, status: :unprocessable_content
         end
       end
 
@@ -94,7 +94,7 @@ module Admin
           )
         end
 
-        respond_with_turbo_streams(status: moved ? :ok : :unprocessable_entity)
+        respond_with_turbo_streams(status: moved ? :ok : :unprocessable_content)
       end
 
       def reassign

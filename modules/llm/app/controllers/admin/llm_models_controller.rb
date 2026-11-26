@@ -140,7 +140,7 @@ module Admin
         flash[:notice] = t(".success", model: result.result.external_id)
         redirect_to llm_models_path, status: :see_other
       else
-        render failure, status: :unprocessable_entity
+        render failure, status: :unprocessable_content
       end
     end
 

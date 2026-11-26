@@ -40,11 +40,12 @@ import {
   Chart, ChartData, ChartDataset, ChartOptions, LegendItem, PointStyle, TooltipItem,
 } from 'chart.js';
 import 'chartjs-adapter-luxon';
-import moment from 'moment-timezone';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { NonWorkingInterval } from 'core-app/shared/components/charts/plugin.non-working-days';
+import { ChartDescription, ChartDescriptionRow } from 'core-app/shared/components/charts/description/chart-description';
+import { calendarDate, calendarDaysSpanned, weekStartDate } from 'core-common/local-datetime';
 import {
   ChartStep, YTicks, formattedTick, timeChartOptions,
 } from 'core-app/shared/components/charts/options.time-chart';
@@ -79,12 +80,6 @@ export interface SeriesChartData<Key extends string> {
   range:ChartedRange;
   series:ChartSeries<Key>[];
   nonWorkingIntervals?:NonWorkingInterval[];
-}
-
-export interface DayDescriptionKeys {
-  summary:string;
-  day:string;
-  value:string;
 }
 
 export interface SeriesColor {
@@ -124,6 +119,15 @@ const Y_AXIS_HEADROOM = 1.1;
 // hence usePointStyle on the labels.
 const SWATCH_WIDTH = 24;
 
+const MAX_DAILY_SPAN_IN_DAYS = 31;
+
+type Period = 'day'|'week';
+
+const PERIOD_COLUMN_KEYS = {
+  day: 'js.chart.description.date',
+  week: 'js.chart.description.week',
+} satisfies Record<Period, string>;
+
 // True of every line, and overridable by any of them: the points are never drawn, but they stay
 // wide enough to be found by a cursor that is not exactly on one. Chart.js reads a missing `fill`
 // off the background color, so a line that is not meant to fill has to say so.
@@ -150,6 +154,11 @@ export abstract class SeriesChartComponent<Key extends string> {
   protected get yAxisTitle():string {
     return this.i18n.t(`js.sprint_charts.y_axis_title.${this.parsedInput().unit ?? 'story_points'}`);
   }
+
+  protected abstract readonly chartLabel:string;
+
+  // Series whose label already names the unit, which the description would otherwise repeat.
+  protected readonly seriesNamingUnit:ReadonlySet<string> = new Set();
 
   protected abstract readonly interaction:ChartOptions<'line'>['interaction'];
 
@@ -240,27 +249,36 @@ export abstract class SeriesChartComponent<Key extends string> {
     };
   });
 
-  // Spoken a day at a time, however finely the series are sampled. Each one is reported by the
-  // value it closed at, so an hourly series says what the day ended on rather than reading out
-  // two dozen numbers, and a series sampled daily already has only that one.
-  protected describedByDay(keys:DayDescriptionKeys):string {
-    const closing = this.closingValuesPerDay();
-    const days = [...new Set(closing.flatMap(({ byDay }) => [...byDay.keys()]))].sort();
+  protected readonly description = computed<ChartDescription>(() => {
+    const label = this.chartLabel;
+    const described = this.series()
+      .filter((series) => series.data.length > 0)
+      .sort((a, b) => this.seriesRank(a.id) - this.seriesRank(b.id));
+    const { from, to } = this.parsedInput().range;
+    const period = this.periodOf();
+    const latest = described.map((series) => this.i18n.t('js.sprint_charts.description_value', {
+      label: series.label,
+      value: this.describedValue(series, series.data[series.data.length - 1].y),
+    }));
 
-    const described = days.map((day, index) => {
-      const values = closing.flatMap(({ label, byDay }) => {
-        const value = byDay.get(day);
-
-        return value === undefined
-          ? []
-          : this.i18n.t(keys.value, { label, value: this.formatValue(value) });
-      });
-
-      return this.i18n.t(keys.day, { day: index + 1, values: values.join(', ') });
-    });
-
-    return this.i18n.t(keys.summary, { days: described.join('; ') });
-  }
+    return {
+      label,
+      summary: this.i18n.t('js.sprint_charts.description_summary', {
+        label,
+        from: this.formattedDay(from),
+        to: this.formattedDay(to),
+        values: latest.join(', '),
+      }),
+      table: {
+        caption: this.i18n.t('js.chart.description.caption', { label }),
+        columns: [
+          this.i18n.t(PERIOD_COLUMN_KEYS[period]),
+          ...described.map((series) => this.columnHeader(series)),
+        ],
+        rows: this.periodRows(described, period),
+      },
+    };
+  });
 
   protected tooltipTitle(items:TooltipItem<'line'>[]):string {
     const dated = items.at(0);
@@ -270,6 +288,28 @@ export abstract class SeriesChartComponent<Key extends string> {
 
   protected tooltipLabel(item:TooltipItem<'line'>):string {
     return `${item.dataset.label ?? ''}: ${this.formatValue(item.parsed.y ?? 0)}`;
+  }
+
+  private namesUnitFor(series:ChartSeries<Key|NonWorkingKey>):boolean {
+    return this.parsedInput().unit === 'story_points' && !this.seriesNamingUnit.has(series.id);
+  }
+
+  private columnHeader(series:ChartSeries<Key|NonWorkingKey>):string {
+    if (!this.namesUnitFor(series)) {
+      return series.label;
+    }
+
+    const unit = this.i18n.t('js.sprint_charts.unit.story_points');
+
+    return this.i18n.t('js.sprint_charts.column_with_unit', { label: series.label, unit });
+  }
+
+  private describedValue(series:ChartSeries<Key|NonWorkingKey>, value:number):string {
+    if (!this.namesUnitFor(series)) {
+      return this.formatValue(value);
+    }
+
+    return this.i18n.t('js.sprint_charts.value_with_unit.story_points', { count: value, value: this.formatValue(value) });
   }
 
   private formatValue(value:number):string {
@@ -296,18 +336,52 @@ export abstract class SeriesChartComponent<Key extends string> {
     return datasetIndex === undefined ? undefined : this.series()[datasetIndex]?.id;
   }
 
-  private closingValuesPerDay():{ label:string, byDay:Map<string, number> }[] {
+  private periodOf():Period {
     const zone = this.timezoneService.userTimezone();
+    const { from, to } = this.parsedInput().range;
+    const firstDay = calendarDate(from, zone);
+    const lastDay = calendarDate(to, zone);
+    const spanned = firstDay === null || lastDay === null ? null : calendarDaysSpanned(firstDay, lastDay);
 
-    return this.series()
-      .filter((series) => series.data.length > 0)
-      .map((series) => {
-        const byDay = new Map<string, number>();
+    return spanned !== null && spanned > MAX_DAILY_SPAN_IN_DAYS ? 'week' : 'day';
+  }
 
-        series.data.forEach((point) => byDay.set(moment.tz(point.x, zone).format('YYYY-MM-DD'), point.y));
+  private formattedDay(instant:string):string {
+    const day = calendarDate(instant, this.timezoneService.userTimezone());
 
-        return { label: series.label, byDay };
+    return day === null ? this.timezoneService.formattedDatetimeAsDate(instant) : this.timezoneService.formattedDate(day);
+  }
+
+  // Each series is reported by the value it closed the period at, so an hourly series says what
+  // the day (or week) ended on rather than reading out every sample.
+  private periodRows(described:ChartSeries<Key|NonWorkingKey>[], period:Period):ChartDescriptionRow[] {
+    const zone = this.timezoneService.userTimezone();
+    const firstDayOfWeek = period === 'week' ? this.configurationService.startOfWeek() : undefined;
+    const periodKey = (instant:string):string|null => {
+      const day = calendarDate(instant, zone);
+
+      return day === null || firstDayOfWeek === undefined ? day : weekStartDate(day, firstDayOfWeek);
+    };
+    const closing = described.map((series) => {
+      const byPeriod = new Map<string, number>();
+      series.data.forEach((point) => {
+        const key = periodKey(point.x);
+
+        if (key !== null) {
+          byPeriod.set(key, point.y);
+        }
       });
+      return byPeriod;
+    });
+    const periods = [...new Set(closing.flatMap((byPeriod) => [...byPeriod.keys()]))].sort();
+
+    return periods.map((key) => ({
+      header: this.timezoneService.formattedDate(key),
+      cells: closing.map((byPeriod) => {
+        const value = byPeriod.get(key);
+        return value === undefined ? '' : this.formatValue(value);
+      }),
+    }));
   }
 
   // Everything the style holds but the swatch, which belongs to the legend, is already a dataset

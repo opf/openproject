@@ -383,8 +383,17 @@ module CustomFields
         hidden: !selected,
         data: { "admin--project-specific-values-target": "section", value: }
       ) do |builder|
-        ProjectAdminSettingsForm.new(builder, mode:, disabled: !selected || !project_specific_values_enterprise?)
+        ProjectAdminSettingsForm.new(builder,
+                                     mode:,
+                                     disabled: !selected || !project_specific_values_enterprise?,
+                                     remaining_value_counts:)
       end
+    end
+
+    def remaining_value_counts
+      return {} if model.new_record?
+
+      @remaining_value_counts ||= model.project_value_counts
     end
 
     def mode_switch_banner(details_form, mode:, value:)
@@ -420,7 +429,7 @@ module CustomFields
     end
 
     def show_admin_only_field?
-      model.class.customized_class&.admin_only_custom_fields_allowed?
+      model.admin_only_allowed?
     end
 
     def show_user_self_editable_field?

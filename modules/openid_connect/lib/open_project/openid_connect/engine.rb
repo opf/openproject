@@ -49,12 +49,6 @@ module OpenProject::OpenIDConnect
            enterprise_feature: "sso_auth_providers"
     end
 
-    assets %w(
-      openid_connect/auth_provider-azure.png
-      openid_connect/auth_provider-google.png
-      openid_connect/auth_provider-custom.png
-    )
-
     include_module "Sessions::OidcSessionLink", into: "Sessions::UserSession"
     include_module "Groups::OidcGroupLinks", into: "Group"
     include_module "Users::OidcUserTokens", into: "User"

@@ -154,6 +154,20 @@ RSpec.describe "Roles index", :js do
       expect_roles_listed("Alpha global")
     end
 
+    it "keeps the role type filter when searching by name afterwards" do
+      create(:global_role, name: "Alpha global")
+
+      visit roles_path
+
+      select_role_type(:global)
+
+      expect_roles_listed("Global admin", "Alpha global")
+
+      search_roles("Alpha")
+
+      expect_roles_listed("Alpha global")
+    end
+
     # A move is relative to the neighboring rows, and a filtered list hides them.
     it "takes away reordering while a filter is active" do
       visit roles_path

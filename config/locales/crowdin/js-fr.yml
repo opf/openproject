@@ -109,6 +109,7 @@ fr:
         maintained_with_changes: Maintenu avec les modifications
         no_longer_meets_filter_criteria: Ne répond plus aux critères de filtrage
         now_meets_filter_criteria: Répond désormais aux critères de filtrage
+        state_at: State at
       show_changes_since: Afficher les modifications depuis
       time: Heure 
       time_description: 'Dans votre fuseau horaire : %{datetime}'
@@ -176,6 +177,10 @@ fr:
       remove_from_list: Supprimer la carte de la liste
     chart:
       axis_criteria: Critères de l'axe
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Les données pour afficher le graphique n'ont pas pu être chargées. Les permissions nécessaires peuvent être manquantes.
       modal_title: Configuration du graphique des lots de travaux
@@ -303,6 +308,7 @@ fr:
         only_start: À partir de %{from} dans votre heure locale.
         two_values: "%{from} - %{to} dans votre heure locale."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Paramètres avancés
       load_error_message: Une erreur s'est produite lors du chargement du formulaire
@@ -772,8 +778,10 @@ fr:
       create_new: Créer
       group_by_relation_type: Grouper par type de relation
       group_by_wp_type: Grouper par type de lot de travaux
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Indenter la hiérarchie
       hierarchy_outdent: Désindenter dans la hiérarchie
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Retirer la relation
       remove_child: Retirer l'enfant
       remove_parent: Retirer le parent
@@ -900,6 +908,23 @@ fr:
       unselected_title: Lot de travaux
     two_factor_authentication:
       label_two_factor_authentication: Authentification à deux facteurs
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Project actions
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            one: Could not extend the range. %{count} project selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            one: "%{count} project selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         one: "%{count} child work package"
@@ -1012,6 +1037,7 @@ fr:
         label_pagination: Cliquez ici pour passer directement à la pagination après le tableau des lots de travaux
         pagination: Passer à la pagination du tableau
       key_value: "%{key} : %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Champ de liste déroulante combinée : sélectionnez avec les touches fléchées, confirmez la sélection avec la touche Entrée et supprimez avec la touche Retour arrière'
       label_disable_multi_select: Désactiver la sélection multiple
       label_enable_multi_select: Activer la sélection multiple

@@ -32,7 +32,11 @@ require "spec_helper"
 RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progressive_web_app: true } do
   include CspHelper
 
-  let(:controller_selector) { 'body[data-controller~="pwa-service-worker"]' }
+  def worker_config
+    JSON.parse(response.body[/self\.OP_SW = (.+);$/, 1])
+  end
+
+  let(:controller_selector) { 'body[data-controller~="pwa--service-worker"]' }
 
   it "does not route a format suffix" do
     expect { get "/service-worker.js" }.to raise_error(ActionController::RoutingError)
@@ -60,24 +64,38 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
       expect(response.headers["Set-Cookie"]).to be_blank
     end
 
-    it "takes control of its clients" do
-      expect(response.body).to include("skipWaiting", "clients.claim")
+    it "inlines the worker bundle after its configuration" do
+      expect(response.body.lstrip).to start_with('"use strict";')
+
+      push_handler = response.body.index('addEventListener("push"')
+
+      expect(push_handler).to be > response.body.index("self.OP_SW =")
+      expect(response.body).to include('addEventListener("notificationclick"')
+      expect(response.body).not_to include("importScripts")
+      expect(response.body).not_to include("const CACHE_PREFIX")
     end
 
-    it "serves the push and notification click handlers fetching the notification summary" do
-      expect(response.body).to include('addEventListener("push"', 'addEventListener("notificationclick"',
-                                       '"/api/v3/notifications/summary"')
-    end
+    it "hands the bundle its configuration" do
+      config = worker_config
 
-    it "precaches the offline page under the configured cache name" do
-      expect(response.body).to include(ApplicationController.helpers.pwa_cache_name, '"/offline"')
+      expect(config.dig("urls", "offline")).to eq("/offline")
+      expect(config.dig("urls", "push")).to eq("/api/v3/notifications/summary")
+      expect(config.dig("urls", "signOut")).to eq("/logout")
+      expect(config.dig("urls", "home")).to eq("/")
+      expect(config["cache"]).to include("name" => ApplicationController.helpers.pwa_cache_name,
+                                         "prefix" => ApplicationController.helpers.pwa_cache_prefix,
+                                         "state" => "#{ApplicationController.helpers.pwa_cache_prefix}push-state")
+      expect(config.dig("push", "icon")).to match(%r{/assets/pwa/icon-192.*\.png\z})
+      expect(config.dig("push", "fallbackTitle")).to eq("New activity in OpenProject")
+      expect(config.dig("push", "allReadTitle")).to eq("No unread notifications")
     end
 
     context "when served under a path prefix", with_config: { rails_relative_url_root: "/openproject" } do
-      it "points at the prefixed offline page and notification summary" do
+      it "prefixes the configured paths" do
         get "/service-worker", env: { "SCRIPT_NAME" => "/openproject" }
 
-        expect(response.body).to include('"/openproject/offline"', '"/openproject/api/v3/notifications/summary"')
+        expect(worker_config["urls"]).to include("offline" => "/openproject/offline",
+                                                 "push" => "/openproject/api/v3/notifications/summary")
       end
     end
   end
@@ -112,8 +130,8 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
       it "registers the prefixed worker and scope" do
         get "/my/page", env: { "SCRIPT_NAME" => "/openproject" }
 
-        expect(page).to have_css('body[data-pwa-service-worker-url-value="/openproject/service-worker"]', visible: :all)
-        expect(page).to have_css('body[data-pwa-service-worker-scope-value="/openproject/"]', visible: :all)
+        expect(page).to have_css('body[data-pwa--service-worker-url-value="/openproject/service-worker"]', visible: :all)
+        expect(page).to have_css('body[data-pwa--service-worker-scope-value="/openproject/"]', visible: :all)
       end
     end
   end
@@ -125,15 +143,15 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
   end
 
   context "with the feature flag off", with_flag: { progressive_web_app: false } do
-    it "serves a worker that removes the offline caches and unregisters itself" do
+    it "serves a worker that removes the offline caches and unregisters itself, without the bundle" do
       get "/service-worker"
 
       expect(response).to have_http_status(:ok)
       expect(response.media_type).to eq("text/javascript")
       expect(response.body).to include("openproject-offline-", "unregister")
-      expect(response.body).not_to include('addEventListener("fetch"')
-      expect(response.body).not_to include('addEventListener("push"', 'addEventListener("notificationclick"',
-                                           "/api/v3/notifications/summary", "New activity in OpenProject")
+      expect(response.body).to include(%(const CACHE_PREFIX = "#{ApplicationController.helpers.pwa_cache_prefix}";))
+      expect(response.body.scan("const CACHE_PREFIX").size).to eq(1)
+      expect(response.body).not_to include("OP_SW", 'addEventListener("push"')
     end
 
     it "registers no worker" do

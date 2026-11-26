@@ -82,6 +82,10 @@ checking that makes the isolated test worth writing. Reach for this only when th
 behavior is worth testing apart from its markup — a controller tested solely this way can pass while
 being unusable from HTML.
 
+**Stub the Angular services.** For controllers using the `useAngularServices` mixin,
+`stubPluginContext` and `stubPendingPluginContext` in `test-helpers.ts` stand in for the plugin
+context. Call them from `beforeEach` or inside a test, never from `beforeAll`.
+
 ## Angular components
 
 Angular's own [testing guide](https://angular.dev/guide/testing) applies. Note that specs run

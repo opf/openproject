@@ -39,7 +39,7 @@ module WorkPackageTypes
       end
 
       def call
-        render(ReloadableConfigurationFrameComponent.new(reload_url: @reload_url, reload_from_location: true)) do
+        render(ReloadableConfigurationFrameComponent.new(reload_url: @reload_url, reload_from_location: true, target: "_top")) do
           safe_join([
                       render(AspectDescriptionComponent.new(variant: model, aspect: :projects)),
                       render(helpers.sub_header_component),

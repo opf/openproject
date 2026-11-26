@@ -8,10 +8,9 @@ import { useOptionsHost } from '../../utils/optionsHost';
 import { useSuppressFormattingToolbar } from '../../hooks/useSuppressFormattingToolbar';
 import { usePressOutside } from '../../hooks/usePressOutside';
 import { useSelectionAnnouncement } from '../../hooks/useSelectionAnnouncement';
-import { formatWorkPackageId } from '../../utils/id';
 import { normalizeDisplay, type AttributeDisplay } from './display';
 import type { ResolvedAttribute } from './useWorkPackageAttribute';
-import { attributeIdentity } from './WorkPackageAttributeView';
+import { describeAttribute } from './description';
 import type { AttributeProps } from './types';
 
 interface AttributeOptionsSettings {
@@ -40,12 +39,7 @@ export function useAttributeOptions({ editor, content, resolved, onDisplayChange
     optionsHostRef(element);
   }, [optionsHostRef]);
 
-  const { workPackageId, attributeName } = attributeIdentity(resolved, content.displayId, content.attribute);
-  useSelectionAnnouncement(
-    elementRef,
-    editor,
-    t('workPackageAttribute.options.selectedDescription', { attribute: attributeName, id: formatWorkPackageId(workPackageId) }),
-  );
+  useSelectionAnnouncement(elementRef, editor, describeAttribute(t, resolved, content));
 
   const active = normalizeDisplay(content.display);
 

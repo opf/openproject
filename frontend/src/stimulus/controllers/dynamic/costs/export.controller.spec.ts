@@ -28,14 +28,13 @@
 import { waitFor } from '@testing-library/dom';
 import { vi, type Mock } from 'vitest';
 
-import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import { setupStimulusTest, type StimulusTestContext, stubPendingPluginContext, stubPluginContext } from 'core-stimulus/test-helpers';
 import type ExportControllerType from './export.controller';
 
 describe('Costs export controller', () => {
   let ctx:StimulusTestContext;
   let ExportController:typeof ExportControllerType;
   let addError:Mock;
-  let originalOpenProject:typeof window.OpenProject;
 
   beforeAll(async () => {
     ({ default: ExportController } = await import('./export.controller'));
@@ -43,10 +42,7 @@ describe('Costs export controller', () => {
 
   beforeEach(async () => {
     addError = vi.fn();
-    originalOpenProject = window.OpenProject;
-    window.OpenProject = {
-      getPluginContext: () => Promise.resolve({ services: { notifications: { addError } } }),
-    } as unknown as typeof window.OpenProject;
+    stubPluginContext({ services: { notifications: { addError } } });
 
     ctx = await setupStimulusTest({
       controllers: { 'costs--export': ExportController },
@@ -55,7 +51,6 @@ describe('Costs export controller', () => {
 
   afterEach(() => {
     ctx.dispose();
-    window.OpenProject = originalOpenProject;
     vi.restoreAllMocks();
   });
 
@@ -87,11 +82,21 @@ describe('Costs export controller', () => {
     });
   });
 
+  it('reports the server message when the export is refused', async () => {
+    vi.spyOn(window, 'fetch').mockResolvedValue(
+      new Response(JSON.stringify({ message: 'Date (Spent) requires 2 values.' }), { status: 422 }),
+    );
+    const controller = await renderLink();
+
+    controller.download(new CustomEvent('click'));
+
+    await waitFor(() => {
+      expect(addError).toHaveBeenCalledWith(new Error('Date (Spent) requires 2 values.'));
+    });
+  });
+
   it('does not notify when disconnected before the plugin context resolves', async () => {
-    let resolveContext!:(context:unknown) => void;
-    window.OpenProject = {
-      getPluginContext: () => new Promise((resolve) => { resolveContext = resolve; }),
-    } as unknown as typeof window.OpenProject;
+    const resolveContext = stubPendingPluginContext();
 
     vi.spyOn(window, 'fetch').mockRejectedValue(new Error('network down'));
     const controller = await renderLink();

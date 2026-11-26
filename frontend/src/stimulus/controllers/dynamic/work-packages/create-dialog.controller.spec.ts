@@ -28,14 +28,13 @@
 import { waitFor } from '@testing-library/dom';
 import { vi, type Mock } from 'vitest';
 
-import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+import { setupStimulusTest, type StimulusTestContext, stubPendingPluginContext, stubPluginContext } from 'core-stimulus/test-helpers';
 import type CreateDialogControllerType from './create-dialog.controller';
 
 describe('Work package create dialog controller', () => {
   let ctx:StimulusTestContext;
   let CreateDialogController:typeof CreateDialogControllerType;
   let submitForm:Mock;
-  let originalOpenProject:typeof window.OpenProject;
 
   beforeAll(async () => {
     ({ default: CreateDialogController } = await import('./create-dialog.controller'));
@@ -43,10 +42,7 @@ describe('Work package create dialog controller', () => {
 
   beforeEach(async () => {
     submitForm = vi.fn().mockResolvedValue({ html: '', headers: new Headers() });
-    originalOpenProject = window.OpenProject;
-    window.OpenProject = {
-      getPluginContext: () => Promise.resolve({ services: { turboRequests: { submitForm } } }),
-    } as unknown as typeof window.OpenProject;
+    stubPluginContext({ services: { turboRequests: { submitForm } } });
 
     ctx = await setupStimulusTest({
       controllers: { 'work-packages--create-dialog': CreateDialogController },
@@ -55,7 +51,6 @@ describe('Work package create dialog controller', () => {
 
   afterEach(() => {
     ctx.dispose();
-    window.OpenProject = originalOpenProject;
     vi.restoreAllMocks();
   });
 
@@ -87,10 +82,7 @@ describe('Work package create dialog controller', () => {
   });
 
   it('does not submit when disconnected before the context resolves', async () => {
-    let resolveContext!:(context:unknown) => void;
-    window.OpenProject = {
-      getPluginContext: () => new Promise((resolve) => { resolveContext = resolve; }),
-    } as unknown as typeof window.OpenProject;
+    const resolveContext = stubPendingPluginContext();
 
     const controller = await renderForm();
     const form = ctx.container.querySelector('form')!;

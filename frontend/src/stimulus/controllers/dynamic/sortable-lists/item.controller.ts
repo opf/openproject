@@ -39,6 +39,8 @@ import { preventUnhandled } from '@atlaskit/pragmatic-drag-and-drop/prevent-unha
 import { type Input } from '@atlaskit/pragmatic-drag-and-drop/types';
 import { Controller, type ActionEvent } from '@hotwired/stimulus';
 import type { ActionMenuElement } from '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element';
+import { suspendDraggableWhileEditing } from 'core-common/drag-and-drop/suspend-draggable-while-editing';
+import { platformBadgesMultiUrlDrags } from 'core-common/platform';
 import { closestDragBlockingElement } from 'core-stimulus/helpers/interactive-element-helper';
 import {
   clearDragSource,
@@ -53,6 +55,7 @@ import {
   type SortableListsRoot,
 } from './drag-and-drop';
 import {
+  dragDisabledByRoot,
   isMoveDirection,
   isOrderableItem,
   itemMobility,
@@ -118,6 +121,9 @@ export default class ItemController extends Controller<HTMLElement> implements R
   private dropIndicatorElement?:HTMLElement;
   private root?:SortableListsRoot;
   private moveRefreshScheduled = false;
+  // URLs this drag handed the platform; Pragmatic builds the external payload
+  // before the preview.
+  private externalUrlCount = 0;
 
   private readonly onMenuToggle = (event:Event):void => {
     // An optimistic in-list drag leaves the server-rendered direction
@@ -220,8 +226,9 @@ export default class ItemController extends Controller<HTMLElement> implements R
   private register():void {
     this.cleanupFn = combine(
       // A non-movable item registers no draggable but stays a drop target:
-      // its movable neighbors still anchor on it.
-      isOrderableItem(this.element) ? this.registerDraggable() : () => undefined,
+      // its movable neighbors still anchor on it. Nor does any item of a root
+      // that only selects.
+      isOrderableItem(this.element) && !dragDisabledByRoot(this.element) ? this.registerDraggable() : () => undefined,
       this.registerDropTarget(),
     );
   }
@@ -246,7 +253,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
   }
 
   private registerDraggable():CleanupFn {
-    return draggable({
+    const draggableCleanup = draggable({
       element: this.element,
       ...(this.hasHandleTarget ? { dragHandle: this.handleTarget } : {}),
       // Native drag data for consumers outside this window (other browser
@@ -279,6 +286,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
         preventUnhandled.start();
       },
       onDrop: () => {
+        this.externalUrlCount = 0;
         preventUnhandled.stop();
         this.clearDropIndicator();
         // The root's monitor ends the session and clears every mark under
@@ -297,6 +305,15 @@ export default class ItemController extends Controller<HTMLElement> implements R
         if (!this.hasPreviewTarget) {
           return;
         }
+
+        const showBatchBadge = batchSize === 1 || !this.platformBadgesBatch(batchSize);
+        const sourceRect = this.previewTarget.getBoundingClientRect();
+        const badgeAnchor = batchSize > 1 && showBatchBadge
+          ? {
+            x: Math.max(0, Math.min(location.current.input.clientX - sourceRect.left, sourceRect.width)),
+            y: Math.max(0, Math.min(location.current.input.clientY - sourceRect.top, sourceRect.height)),
+          }
+          : undefined;
 
         setCustomNativeDragPreview({
           nativeSetDragImage,
@@ -322,10 +339,14 @@ export default class ItemController extends Controller<HTMLElement> implements R
             sourceElement: this.element,
             container,
             batchSize,
+            showBatchBadge,
+            badgeAnchor,
           }),
         });
       },
     });
+
+    return combine(suspendDraggableWhileEditing(this.element), draggableCleanup);
   }
 
   private registerDropTarget():CleanupFn {
@@ -405,6 +426,14 @@ export default class ItemController extends Controller<HTMLElement> implements R
       && input.clientY <= lastRow.getBoundingClientRect().bottom;
   }
 
+  // Our count would repeat the platform's only when every batch member
+  // became one of its dragged URLs.
+  private platformBadgesBatch(batchSize:number):boolean {
+    return platformBadgesMultiUrlDrags()
+      && this.externalUrlCount > 1
+      && this.externalUrlCount === batchSize;
+  }
+
   // Every member of the prospective batch, so an external drop receives the
   // whole block; text/html joins in as one link per labeled member.
   private externalDragData():Record<string, string> {
@@ -413,6 +442,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
       .map((member) => ({ url: resolveItemExternalUrl(member), label: resolveItemLabel(member) }))
       .filter((entry):entry is { url:string; label:string|null } => entry.url !== null);
     const urls = entries.map((entry) => entry.url);
+    this.externalUrlCount = urls.length;
     const data:Record<string, string> = {
       'text/uri-list': formatURLsForExternal(urls),
       'text/plain': urls.join('\n'),

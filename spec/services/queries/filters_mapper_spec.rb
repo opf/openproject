@@ -155,6 +155,35 @@ RSpec.describe Queries::Copy::FiltersMapper do
     end
   end
 
+  describe "with a filter hash array holding custom field filters" do
+    let(:filters) do
+      [
+        { "customField12" => { "operator" => "=", "values" => %w[1 2] } },
+        { "customField13" => { "operator" => "=", "values" => ["2"] } }
+      ]
+    end
+
+    subject { instance.map_filters(filters) }
+
+    context "when the copied values of the custom field are known" do
+      before do
+        state.custom_field_value_id_lookup = { 12 => { "2" => "3" } }
+      end
+
+      it "maps the copied values and keeps the others" do
+        expect(subject[0]["customField12"]["values"]).to eq(%w[1 3])
+        expect(subject[1]["customField13"]["values"]).to eq(["2"])
+      end
+    end
+
+    context "when no values were copied" do
+      it "does not map the filters" do
+        expect(subject[0]["customField12"]["values"]).to eq(%w[1 2])
+        expect(subject[1]["customField13"]["values"]).to eq(["2"])
+      end
+    end
+  end
+
   describe "with a symbolized filter hash array" do
     let(:filters) do
       [

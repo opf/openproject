@@ -136,6 +136,92 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter, "parsing" d
     end
   end
 
+  describe "category" do
+    let(:category) { build_stubbed(:category) }
+    let(:other_category) { build_stubbed(:category) }
+
+    let(:hash) do
+      {
+        _links: {
+          "category" => {
+            "href" => api_v3_paths.category(category.id)
+          }
+        }
+      }
+    end
+
+    context "when multiple categories is inactive",
+            with_flag: { work_package_multiple_categories: false },
+            with_settings: { work_package_multiple_categories: false } do
+      it "writes the deprecated property through to category_ids" do
+        expect(subject.category_ids).to eq([category.id.to_s])
+      end
+
+      context "when the category is removed" do
+        let(:hash) { { _links: { "category" => { "href" => nil } } } }
+
+        it "writes an empty list" do
+          expect(subject.category_ids).to eq([])
+        end
+      end
+    end
+
+    context "when multiple categories is active",
+            with_flag: { work_package_multiple_categories: true },
+            with_settings: { work_package_multiple_categories: true } do
+      it "does not write, as the deprecated property no longer exists" do
+        expect(subject.category_ids).to be_nil
+      end
+
+      context "when categories is provided alongside it" do
+        let(:hash) do
+          {
+            _links: {
+              "category" => {
+                "href" => api_v3_paths.category(category.id)
+              },
+              "categories" => [
+                { "href" => api_v3_paths.category(other_category.id) }
+              ]
+            }
+          }
+        end
+
+        it "only honors categories" do
+          expect(subject.category_ids).to eq([other_category.id.to_s])
+        end
+      end
+    end
+  end
+
+  describe "categories" do
+    let(:category) { build_stubbed(:category) }
+    let(:other_category) { build_stubbed(:category) }
+
+    let(:hash) do
+      {
+        _links: {
+          "categories" => [
+            { "href" => api_v3_paths.category(category.id) },
+            { "href" => api_v3_paths.category(other_category.id) }
+          ]
+        }
+      }
+    end
+
+    it "parses into category_ids" do
+      expect(subject.category_ids).to eq([category.id.to_s, other_category.id.to_s])
+    end
+
+    context "with an empty list" do
+      let(:hash) { { _links: { "categories" => [] } } }
+
+      it "parses into an empty list" do
+        expect(subject.category_ids).to eq([])
+      end
+    end
+  end
+
   describe "observedInVersions" do
     let(:version) { build_stubbed(:version) }
     let(:other_version) { build_stubbed(:version) }
@@ -174,6 +260,24 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter, "parsing" d
       it "writes the ids to label_ids and the pending names to label_names" do
         expect(subject.label_ids).to eq([label.id.to_s, other_label.id.to_s])
         expect(subject.label_names).to eq(["Needs triage"])
+      end
+    end
+
+    context "with a pending name only" do
+      let(:labels_links) { [{ "href" => nil, "title" => "Needs triage" }] }
+
+      it "sets the name and no ids" do
+        expect(subject.label_ids).to eq([])
+        expect(subject.label_names).to eq(["Needs triage"])
+      end
+    end
+
+    context "with an existing label followed by an entry without an href key" do
+      let(:labels_links) { [{ "href" => api_v3_paths.label(label.id) }, { "title" => "Y" }] }
+
+      it "does not reuse the previous id for the pending entry" do
+        expect(subject.label_ids).to eq([label.id.to_s])
+        expect(subject.label_names).to eq(["Y"])
       end
     end
 

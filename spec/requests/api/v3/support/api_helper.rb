@@ -57,5 +57,5 @@ RSpec.shared_examples_for "invalid activity request" do
     allow(User).to receive(:current).and_return(admin)
   end
 
-  it { expect(last_response).to have_http_status(:unprocessable_entity) }
+  it { expect(last_response).to have_http_status(:unprocessable_content) }
 end

@@ -30,7 +30,6 @@
 module Backlogs
   class BacklogComponent < ApplicationComponent
     include Primer::AttributesHelper
-    include OpTurbo::Streamable
     include CommonHelper
 
     attr_reader :work_packages_by_backlog_id, :buckets, :project, :current_user
@@ -45,10 +44,6 @@ module Backlogs
       @buckets = buckets
       @project = project
       @current_user = current_user
-    end
-
-    def wrapper_uniq_by
-      project
     end
 
     private

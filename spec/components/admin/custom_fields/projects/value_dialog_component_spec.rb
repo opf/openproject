@@ -1,0 +1,169 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+require "rails_helper"
+
+RSpec.describe Admin::CustomFields::Projects::ValueDialogComponent, type: :component do
+  include Rails.application.routes.url_helpers
+
+  shared_let(:project) { create(:project, name: "Scrum project") }
+
+  let(:value) { nil }
+  let(:parent) { nil }
+  let(:parent_options) { rendered.css("select[name='parent_id'] option").map { it.text.strip } }
+  let(:field_names) { rendered.css("input:not([type='hidden']), select").pluck("name") }
+  let(:vc_test_controller_class) { Admin::Settings::WorkPackageCustomFields::ProjectSpecificValuesController }
+
+  subject(:rendered) { render_inline(described_class.new(custom_field:, project:, value:, parent:)) }
+
+  before do
+    allow(vc_test_controller).to receive_messages(custom_field:, configured_project: project)
+  end
+
+  context "for a list custom field" do
+    let(:custom_field) { create(:list_wp_custom_field, allow_additional_project_values: true) }
+
+    it "asks for the name of the value in the project" do
+      expect(rendered).to have_text(I18n.t("custom_fields.admin.projects.value_dialog.title"))
+      expect(rendered).to have_field(I18n.t("custom_fields.admin.projects.value_dialog.name"))
+      expect(rendered).to have_text("Only available in Scrum project.")
+      expect(rendered).to have_css("strong", text: "Scrum project")
+      expect(rendered.css("form").attr("action").value)
+        .to eq(admin_settings_work_package_custom_field_project_specific_values_path(custom_field, project))
+      expect(rendered).to have_button(I18n.t(:button_add))
+    end
+
+    it "does not ask for a parent, short name or weight" do
+      expect(rendered).to have_no_field(I18n.t("custom_fields.admin.projects.value_dialog.parent"))
+      expect(rendered).to have_no_field(I18n.t("custom_fields.admin.items.placeholder.short"))
+      expect(rendered).to have_no_field(I18n.t("custom_fields.admin.items.placeholder.weight"))
+    end
+
+    context "when editing a value of the project" do
+      let(:value) { custom_field.custom_options.create!(value: "Own", project:) }
+
+      it "updates the value" do
+        expect(rendered).to have_text(I18n.t("custom_fields.admin.projects.value_dialog.edit_title"))
+        expect(rendered).to have_field(I18n.t("custom_fields.admin.projects.value_dialog.name"), with: "Own")
+        expect(rendered.css("form").attr("action").value)
+          .to eq(admin_settings_work_package_custom_field_project_specific_value_path(custom_field, project, value.id))
+        expect(rendered.css("input[name='_method']").attr("value").value).to eq("patch")
+        expect(rendered).to have_button(I18n.t(:button_save))
+      end
+    end
+  end
+
+  context "for a hierarchy custom field", with_ee: %i[custom_field_hierarchies] do
+    let(:custom_field) { create(:hierarchy_wp_custom_field, allow_additional_project_values: true) }
+    let!(:global_item) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Global") }
+    let!(:own_item) { create(:hierarchy_item, parent: global_item, label: "Own", project:) }
+    let!(:foreign_item) { create(:hierarchy_item, parent: global_item, label: "Foreign", project: create(:project)) }
+
+    it "offers the top level and the indented values of the project as parents" do
+      expect(parent_options)
+        .to eq([I18n.t("custom_fields.admin.projects.value_dialog.top_level"), "Global", "  Own"])
+    end
+
+    it "asks for a short name before the parent" do
+      expect(field_names).to eq(%w[label short parent_id])
+      expect(rendered).to have_text(I18n.t("custom_fields.admin.projects.value_dialog.short_caption"))
+    end
+
+    context "when adding a sub-value" do
+      let(:parent) { global_item }
+
+      it "preselects the parent" do
+        expect(rendered).to have_text(
+          I18n.t("custom_fields.admin.projects.value_dialog.title_with_parent", parent: "Global")
+        )
+        expect(rendered).to have_select(I18n.t("custom_fields.admin.projects.value_dialog.parent"),
+                                        selected: "Global")
+      end
+    end
+
+    context "when editing a value of the project" do
+      let(:value) { own_item }
+
+      before do
+        own_item.update!(short: "OW")
+      end
+
+      it "shows the name and short name without the parent" do
+        expect(field_names).to eq(%w[label short])
+        expect(rendered).to have_field(I18n.t("custom_fields.admin.projects.value_dialog.name"), with: "Own")
+        expect(rendered).to have_field(I18n.t("custom_fields.admin.items.placeholder.short"), with: "OW")
+      end
+    end
+  end
+
+  context "for a hierarchy custom field with an allowlist",
+          with_ee: %i[custom_field_hierarchies project_specific_list_values] do
+    let(:project_level_value_management) { false }
+    let(:custom_field) do
+      create(:hierarchy_wp_custom_field, :project_specific_allowlist,
+             allow_additional_project_values: true, project_level_value_management:)
+    end
+    let!(:enabled_item) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Enabled") }
+    let!(:enabled_child) { create(:hierarchy_item, parent: enabled_item, label: "Enabled child") }
+    let!(:disabled_item) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "Disabled") }
+    let(:indented_child) { "#{CustomFields::ProjectSpecificValues::ValueForm::INDENTATION}Enabled child" }
+
+    current_user { create(:user, member_with_permissions: { project => %i[manage_work_package_custom_field_values] }) }
+
+    before do
+      create(:project_specific_value_restriction, project:, hierarchy_item: enabled_item, restriction: "allow")
+      create(:project_specific_value_restriction, project:, hierarchy_item: enabled_child, restriction: "allow")
+    end
+
+    it "only offers the values enabled in the project as parents" do
+      expect(parent_options)
+        .to eq([I18n.t("custom_fields.admin.projects.value_dialog.top_level"), "Enabled", indented_child])
+    end
+
+    context "when project admins may manage the values" do
+      let(:project_level_value_management) { true }
+
+      it "offers all values as parents" do
+        expect(parent_options)
+          .to eq([I18n.t("custom_fields.admin.projects.value_dialog.top_level"), "Enabled", indented_child, "Disabled"])
+      end
+    end
+  end
+
+  context "for a weighted list custom field", with_ee: %i[weighted_item_lists] do
+    let(:custom_field) { create(:weighted_item_list_wp_custom_field, allow_additional_project_values: true) }
+
+    it "asks for a weight before the parent" do
+      expect(field_names).to eq(%w[label weight parent_id])
+      expect(rendered).to have_field(I18n.t("custom_fields.admin.items.placeholder.weight"), type: "number")
+      expect(rendered).to have_text(I18n.t("custom_fields.admin.projects.value_dialog.weight_caption"))
+    end
+  end
+end
