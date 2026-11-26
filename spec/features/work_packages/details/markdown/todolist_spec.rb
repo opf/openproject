@@ -82,20 +82,14 @@ RSpec.describe "Todolists in CKEditor", :js, :selenium do
       wp_page.expect_and_dismiss_toaster message: "Successful update."
 
       within(field.display_element) do
-        expect(page).to have_css(".op-uc-list--task-checkbox", count: 5)
-        expect(page).to have_css(".op-uc-list--task-checkbox[checked]", count: 2)
-
-        expect(page).to have_css(".op-uc-list--item", text: "Todo item 1")
-        expect(page).to have_css(".op-uc-list--item", text: "Todo item 2")
-        expect(page).to have_css(".op-uc-list--item", text: "Todo item 3")
-
-        expect(page).to have_css(".op-uc-list .op-uc-list .op-uc-list--item", text: "Nested item 1")
-        expect(page).to have_css(".op-uc-list .op-uc-list .op-uc-list--item", text: "Nested item 2")
-
-        first_item = page.find(".op-uc-list--item", text: "Todo item 1")
-        expect(first_item).to have_css(".op-uc-list--task-checkbox[checked]")
-        first_nested_item = page.find(".op-uc-list .op-uc-list .op-uc-list--item", text: "Nested item 1")
-        expect(first_nested_item).to have_css(".op-uc-list--task-checkbox[checked]")
+        expect(page).to have_field(type: "checkbox", disabled: true, count: 5)
+        expect(page).to have_css("label", count: 5)
+        expect(page).to have_checked_field("Todo item 1", exact: true, disabled: true)
+        expect(page).to have_unchecked_field("Todo item 2", exact: true, disabled: true)
+        expect(page).to have_unchecked_field("Todo item 3", exact: true, disabled: true)
+        expect(page).to have_checked_field("Nested item 1", exact: true, disabled: true)
+        expect(page).to have_unchecked_field("Nested item 2", exact: true, disabled: true)
+        expect(page).to have_css("input[type=checkbox][checked]", count: 2)
       end
 
       # Expect still the same when editing again
@@ -118,16 +112,14 @@ RSpec.describe "Todolists in CKEditor", :js, :selenium do
       wp_page.expect_and_dismiss_toaster message: "Successful update."
 
       within(field.display_element) do
-        expect(page).to have_css(".op-uc-list--task-checkbox", count: 5)
-        expect(page).to have_css(".op-uc-list--task-checkbox[checked]", count: 3)
-
-        first_item = page.find(".op-uc-list--item", text: "Todo item 1")
-        expect(first_item).to have_css(".op-uc-list--task-checkbox[checked]")
-        first_nested_item = page.find(".op-uc-list .op-uc-list .op-uc-list--item", text: "Nested item 1")
-        expect(first_nested_item).to have_css(".op-uc-list--task-checkbox[checked]")
-
-        last_item = page.find(".op-uc-list .op-uc-list--item", text: "Todo item 3")
-        expect(last_item).to have_css(".op-uc-list--task-checkbox[checked]")
+        expect(page).to have_field(type: "checkbox", disabled: true, count: 5)
+        expect(page).to have_css("label", count: 5)
+        expect(page).to have_css("input[type=checkbox][checked]", count: 3)
+        expect(page).to have_checked_field("Todo item 1", exact: true, disabled: true)
+        expect(page).to have_checked_field("Nested item 1", exact: true, disabled: true)
+        expect(page).to have_checked_field("Todo item 3", exact: true, disabled: true)
+        expect(page).to have_unchecked_field("Todo item 2", exact: true, disabled: true)
+        expect(page).to have_unchecked_field("Nested item 2", exact: true, disabled: true)
       end
     end
   end
