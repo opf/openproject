@@ -51,7 +51,8 @@ class WorkPackages::InfoLineComponent < ApplicationComponent
     @system_arguments = system_arguments
     @system_arguments[:classes] = class_names(
       @system_arguments[:classes],
-      "op-wp-info-line"
+      "op-wp-info-line",
+      "op-wp-info-line_nowrap" => !@wrap
     )
     @system_arguments[:flex_wrap] = @wrap ? :wrap : :nowrap
     @system_arguments[:align_items] ||= :center
