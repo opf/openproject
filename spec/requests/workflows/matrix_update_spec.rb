@@ -56,7 +56,7 @@ RSpec.describe "Saving the workflow matrix", :skip_csrf, type: :rails_request do
   it "refuses to save the type tab's read-only matrix" do
     patch type_workflow_matrix_path(type), params: matrix_params, headers: turbo_stream
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(saved_transitions).to contain_exactly([status_a.id, status_b.id])
   end
 
@@ -73,7 +73,7 @@ RSpec.describe "Saving the workflow matrix", :skip_csrf, type: :rails_request do
 
       patch type_workflow_matrix_path(type, wizard: true), params: matrix_params, headers: turbo_stream
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(saved_transitions).to contain_exactly([status_a.id, status_b.id])
     end
   end

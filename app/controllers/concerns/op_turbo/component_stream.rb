@@ -42,7 +42,7 @@ module OpTurbo
     #
     def respond_to_with_turbo_streams(status: turbo_status, &format_block)
       resolved_status = if status.respond_to?(:success?)
-                          status.success? ? :ok : :unprocessable_entity
+                          status.success? ? :ok : :unprocessable_content
                         else
                           status
                         end

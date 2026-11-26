@@ -86,7 +86,7 @@ RSpec.describe Projects::Settings::BacklogsController do
       end
 
       it "renders show with an error", :aggregate_failures do
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response).to render_template("projects/settings/backlogs/show")
         expect(flash[:error]).to eq I18n.t(:notice_unsuccessful_update_with_reason, reason: "invalid setting")
       end

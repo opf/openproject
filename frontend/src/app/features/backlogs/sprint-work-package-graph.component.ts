@@ -25,21 +25,24 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, Signal, computed, input } from '@angular/core';
+import {
+  Component, Signal, computed, inject, input,
+} from '@angular/core';
 import { ChartData, ChartOptions, Plugin } from 'chart.js';
 import { color } from 'chart.js/helpers';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import PrimerColorsPlugin from 'core-app/shared/components/work-package-graphs/plugin.primer-colors';
-import { generateId, getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
+import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { ChartDescriptionDirective } from 'core-app/shared/components/charts/description/chart-description.directive';
+import { ChartDescription } from 'core-app/shared/components/charts/description/chart-description';
 
 interface SprintWorkPackageGraphData {
   labels:string[];
   data:number[];
   colors:(string|null)[];
   summary:string;
-  statusColumnTitle:string;
-  countColumnTitle:string;
 }
 
 // A bar is filled the way `hl_background_muted_styles` fills a status badge -- its own color,
@@ -88,20 +91,38 @@ function barChartOptions():ChartOptions<'bar'> {
 @Component({
   selector: 'op-sprint-work-package-graph',
   templateUrl: './sprint-work-package-graph.component.html',
-  imports: [BaseChartDirective],
+  imports: [BaseChartDirective, ChartDescriptionDirective],
   providers: [provideCharts(withDefaultRegisterables(PrimerColorsPlugin))],
 })
 export class SprintWorkPackageGraphComponent {
+  private readonly i18n = inject(I18nService);
+
   readonly chartData = input.required<string>();
 
   readonly plugins:Plugin<'bar'>[] = [ChartDataLabels];
 
-  readonly summaryId = generateId('op-sprint-work-package-graph-summary');
-  readonly tableId = generateId('op-sprint-work-package-graph-table');
-
   readonly parsedData:Signal<SprintWorkPackageGraphData> = computed(
     () => JSON.parse(this.chartData()) as SprintWorkPackageGraphData,
   );
+
+  protected readonly description = computed<ChartDescription>(() => {
+    const { labels, data, summary } = this.parsedData();
+    const label = this.i18n.t('js.sprint_work_package_graph.chart_label');
+    const count = new Intl.NumberFormat(this.i18n.locale);
+
+    return {
+      label,
+      summary,
+      table: {
+        caption: this.i18n.t('js.chart.description.caption', { label }),
+        columns: [
+          this.i18n.t('js.sprint_work_package_graph.status_column'),
+          this.i18n.t('js.sprint_work_package_graph.count_column'),
+        ],
+        rows: labels.map((status, index) => ({ header: status, cells: [count.format(data[index])] })),
+      },
+    };
+  });
 
   // One bar per status, carrying the color that status carries everywhere else in the product.
   readonly barChartData:Signal<ChartData<'bar'>> = computed<ChartData<'bar'>>(() => {

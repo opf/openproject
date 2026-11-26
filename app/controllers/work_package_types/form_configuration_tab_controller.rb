@@ -47,7 +47,7 @@ module WorkPackageTypes
       update_form_configuration_via_turbo_stream
       render_form_configuration_error(call) unless call.success?
 
-      respond_with_turbo_streams(status: call.success? ? :ok : :unprocessable_entity)
+      respond_with_turbo_streams(status: call.success? ? :ok : :unprocessable_content)
     end
 
     def change_dialog
@@ -139,7 +139,7 @@ module WorkPackageTypes
 
     def reject_missing_copy_source(url)
       respond_with_dialog start_dialog_component(url:, error: t("form_configurations.start.copy.missing")),
-                          status: :unprocessable_entity
+                          status: :unprocessable_content
     end
 
     def start_dialog_component(url:, error: nil)
@@ -175,7 +175,7 @@ module WorkPackageTypes
                                                           copy_from_id: params.dig(:form_configuration, :copy_from_id).presence,
                                                           ask_copy_source: false,
                                                           url: variant_form_configuration_path(@variant, **dialog_params)),
-        status: :unprocessable_entity
+        status: :unprocessable_content
       )
       respond_with_turbo_streams
     end

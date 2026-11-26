@@ -37,13 +37,13 @@ See COPYRIGHT and LICENSE files for more details.
         <% end %>
         <% body.with_row do %>
           <%= render(
-                Projects::Settings::WorkPackages::Types::SwitchForm.new(
+                Projects::Types::Switch::TargetForm.new(
                   form, targets:, selected:, validation_message:
                 )
               ) %>
         <% end %>
         <% body.with_row(mt: 3) do %>
-          <%= render(Projects::Settings::WorkPackages::Types::SwitchImpactComponent.new(impact:)) %>
+          <%= render(Projects::Types::Switch::ImpactComponent.new(impact:)) %>
         <% end %>
       <% end %>
     <% end %>

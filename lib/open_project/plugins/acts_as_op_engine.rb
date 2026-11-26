@@ -140,11 +140,11 @@ module OpenProject::Plugins
         add_module_to_classes(:prepend, module_name, into, singleton: true)
       end
 
-      # Define assets provided by the plugin
-      def assets(assets)
-        self.class.initializer "#{engine_name}.precompile_assets" do |app|
-          app.config.assets.precompile += assets.to_a
-        end
+      def assets(_assets)
+        ActiveSupport::Deprecation.new.warn(
+          "#{self.class}.assets is deprecated and has no effect. Propshaft serves everything in the engine's app/assets.",
+          caller_locations
+        )
       end
 
       # Prepend view paths of this engine

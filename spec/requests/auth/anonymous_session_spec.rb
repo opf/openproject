@@ -47,7 +47,7 @@ RSpec.describe "Anonymous session", type: :rails_request, with_settings: { login
   it "is not stored for the login page, which keeps its CSRF token in a cookie" do
     expect { get signin_path }.not_to change(anonymous_sessions, :count)
     expect(response).to have_http_status(:ok)
-    expect(csrf_cookie_header).to include("path=/", "HttpOnly", "SameSite=Lax")
+    expect(csrf_cookie_header).to include("path=/", "httponly", "samesite=lax")
     expect(csrf_cookie_header).not_to include("secure")
   end
 

@@ -50,7 +50,7 @@ module Admin
             respond_with_turbo_streams
           else
             render_error_flash_message_via_turbo_stream(message: join_flash_messages(result.errors))
-            respond_with_turbo_streams(status: :unprocessable_entity)
+            respond_with_turbo_streams(status: :unprocessable_content)
           end
         end
 
@@ -62,7 +62,7 @@ module Admin
 
         def render_invalid_drop_request
           render_error_flash_message_via_turbo_stream(message: I18n.t(:error_invalid_list_move_anchor))
-          respond_with_turbo_streams(status: :unprocessable_entity)
+          respond_with_turbo_streams(status: :unprocessable_content)
         end
 
         def drop_success_streams(call)

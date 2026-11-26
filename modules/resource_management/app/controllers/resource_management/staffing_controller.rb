@@ -76,7 +76,7 @@ module ::ResourceManagement
       if call.success?
         render_assign_success
       else
-        render_candidate_step(error: call.errors.full_messages.to_sentence, status: :unprocessable_entity)
+        render_candidate_step(error: call.errors.full_messages.to_sentence, status: :unprocessable_content)
       end
     end
 

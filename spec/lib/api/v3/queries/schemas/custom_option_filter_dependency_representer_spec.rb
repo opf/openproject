@@ -34,15 +34,7 @@ RSpec.describe API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresente
 
   let(:project) { build_stubbed(:project) }
   let(:query) { build_stubbed(:query, project:) }
-  let(:custom_field) do
-    cf = build_stubbed(:list_wp_custom_field)
-
-    allow(cf)
-      .to receive(:custom_options)
-      .and_return([build_stubbed(:custom_option),
-                   build_stubbed(:custom_option)])
-    cf
-  end
+  let(:custom_field) { create(:list_wp_custom_field, possible_values: %w[A B]) }
   let(:filter) do
     Queries::WorkPackages::Filter::CustomFieldFilter.from_custom_field! custom_field:,
                                                                         context: query
@@ -125,6 +117,47 @@ RSpec.describe API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresente
           .to eq([api_v3_paths.custom_option(option_a.id)])
         expect(JSON.parse(other_json).dig("values", "_links", "allowedValues").pluck("href"))
           .to eq([api_v3_paths.custom_option(option_b.id)])
+      end
+
+      it "only names the projects of the options visible to the user" do
+        custom_field.custom_options.create!(value: "Own", project:)
+        custom_field.custom_options.create!(value: "Foreign", project: other_project)
+
+        json = User.execute_as(member) do
+          API::V3::Queries::Schemas::FilterDependencyRepresenterFactory.create(filter, operator, form_embedded: true).to_json
+        end
+
+        expect(JSON.parse(json).dig("values", "_embedded", "allowedValues").filter_map { it.dig("_links", "project", "title") })
+          .to eq([project.name])
+        expect(json).not_to include(other_project.name)
+      end
+
+      it "loads the options and their projects once for the cache key and the rendering" do
+        custom_field.custom_options.create!(value: "Own", project:)
+
+        recorder = ActiveRecord::QueryRecorder.new do
+          User.execute_as(member) do
+            API::V3::Queries::Schemas::FilterDependencyRepresenterFactory.create(filter, operator, form_embedded: true).to_json
+          end
+        end
+
+        expect(recorder.log.grep(/SELECT "custom_options"\.\* FROM "custom_options"/)).to be_one
+        expect(recorder.log.grep(/SELECT "projects"\.\* FROM "projects" WHERE "projects"\."id"/)).to be_one
+      end
+
+      it "names the current project of project-specific options, even when the schema is cached" do
+        custom_field.custom_options.create!(value: "Own", project:)
+        User.execute_as(member) do
+          API::V3::Queries::Schemas::FilterDependencyRepresenterFactory.create(filter, operator, form_embedded: true).to_json
+        end
+
+        project.update!(name: "Renamed project")
+        json = User.execute_as(member) do
+          API::V3::Queries::Schemas::FilterDependencyRepresenterFactory.create(filter, operator, form_embedded: true).to_json
+        end
+
+        expect(JSON.parse(json).dig("values", "_embedded", "allowedValues").filter_map { it.dig("_links", "project", "title") })
+          .to eq(["Renamed project"])
       end
     end
 

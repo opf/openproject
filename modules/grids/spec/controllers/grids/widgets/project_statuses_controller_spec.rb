@@ -84,7 +84,7 @@ RSpec.describe Grids::Widgets::ProjectStatusesController do
 
         it "renders turbo stream flash action", :aggregate_failures do
           expect(response).not_to be_successful
-          expect(response).to have_http_status :unprocessable_entity
+          expect(response).to have_http_status :unprocessable_content
           expect(assigns(:project)).to eq project
           expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         end

@@ -273,7 +273,8 @@ RSpec.describe EnterpriseEdition::BannerComponent, type: :component do
 
         expect(component[:class]).to include("op-enterprise-banner_large")
 
-        expect(component).to have_css('video[src$="/enterprise/share-work-package.mp4"]')
+        video_path = ActionController::Base.helpers.video_path("enterprise/share-work-package.mp4")
+        expect(component).to have_css("video[src='#{video_path}']")
       end
     end
 
@@ -289,7 +290,8 @@ RSpec.describe EnterpriseEdition::BannerComponent, type: :component do
 
         expect(component[:class]).to include("op-enterprise-banner_large")
 
-        expect(component).to have_css('img[src$="/enterprise/homescreen.png"]')
+        image_path = ActionController::Base.helpers.image_path("enterprise/homescreen.png")
+        expect(component).to have_css("img[src='#{image_path}']")
       end
     end
 
@@ -303,10 +305,12 @@ RSpec.describe EnterpriseEdition::BannerComponent, type: :component do
 
         component = find_test_selector(component_test_selector)
 
+        light_image_path = ActionController::Base.helpers.image_path("enterprise/homescreen.png")
+        dark_image_path = ActionController::Base.helpers.image_path("enterprise/hierarchies.png")
         expect(component)
-          .to have_css('img.op-enterprise-banner--media_light[src$="/enterprise/homescreen.png"]')
+          .to have_css("img.op-enterprise-banner--media_light[src='#{light_image_path}']")
         expect(component)
-          .to have_css('img.op-enterprise-banner--media_dark[src$="/enterprise/hierarchies.png"]')
+          .to have_css("img.op-enterprise-banner--media_dark[src='#{dark_image_path}']")
       end
     end
 

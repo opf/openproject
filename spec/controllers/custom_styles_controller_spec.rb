@@ -85,7 +85,7 @@ RSpec.describe CustomStylesController do
         let(:valid) { false }
 
         it "renders with error" do
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
           expect(response).to render_template "custom_styles/show"
         end
       end
@@ -137,7 +137,7 @@ RSpec.describe CustomStylesController do
           let(:valid) { false }
 
           it "renders with error" do
-            expect(response).to have_http_status(:unprocessable_entity)
+            expect(response).to have_http_status(:unprocessable_content)
             expect(response).to render_template "custom_styles/show"
           end
         end
@@ -163,7 +163,7 @@ RSpec.describe CustomStylesController do
           let(:valid) { false }
 
           it "renders with error" do
-            expect(response).to have_http_status(:unprocessable_entity)
+            expect(response).to have_http_status(:unprocessable_content)
             expect(response).to render_template "custom_styles/show"
           end
         end
@@ -759,14 +759,14 @@ RSpec.describe CustomStylesController do
           controller.singleton_class.include(CustomStylesControllerHelper)
           allow(controller).to receive(:font_file_size).and_return(40.megabytes)
           post :update, params: { custom_style: { export_font_regular: font_file } }
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
           expect(custom_style.reload.export_font_regular).not_to be_present
           expect(flash[:error]).to include("is too large")
         end
 
         it "does not accept a non-font" do
           post :update, params: { custom_style: { export_font_regular: font_file } }
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
           expect(custom_style.reload.export_font_regular).not_to be_present
           expect(flash[:error]).to include "not a valid TTF font file."
         end

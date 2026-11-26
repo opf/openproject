@@ -42,7 +42,7 @@ class Projects::Settings::BacklogSharingsController < Projects::SettingsControll
       redirect_to project_settings_backlog_sharing_path(@project)
     else
       flash.now[:error] = I18n.t(:notice_unsuccessful_update_with_reason, reason: call.message)
-      render action: :show, status: :unprocessable_entity
+      render action: :show, status: :unprocessable_content
     end
   end
 

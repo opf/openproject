@@ -151,7 +151,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
     describe "wrong password" do
       it "redirects back to login" do
         post :login, params: { username: "admin", password: "bad" }
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :unprocessable_content
         expect(response).to render_template "login"
         expect(flash[:error]).to include "Invalid user or password"
       end
@@ -211,7 +211,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
         it "hints at single sign-on even though the password is correct" do
           post :login, params: { username: sso_user.login, password: "adminADMIN!" }
 
-          expect(response).to have_http_status :unprocessable_entity
+          expect(response).to have_http_status :unprocessable_content
           expect(flash[:error]).to include "Invalid user or password"
           expect(flash[:error]).to include I18n.t(:notice_account_invalid_credentials_sso_hint)
         end
@@ -596,7 +596,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
       end
 
       it "rejects the attempt like invalid credentials" do
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :unprocessable_content
       end
     end
 
@@ -653,7 +653,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
       end
 
       it "rejects the attempt like invalid credentials" do
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :unprocessable_content
         expect(flash[:error]).to eq I18n.t(:notice_account_invalid_credentials_or_blocked)
       end
 
@@ -678,7 +678,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
       end
 
       it "rejects the attempt like invalid credentials" do
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :unprocessable_content
         expect(flash[:error]).to eq I18n.t(:notice_account_invalid_credentials_or_blocked)
       end
     end
@@ -697,7 +697,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
       end
 
       it "rejects the attempt like invalid credentials" do
-        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_http_status :unprocessable_content
         expect(flash[:error]).to eq I18n.t(:notice_account_invalid_credentials_or_blocked)
       end
     end
@@ -749,7 +749,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
         end
 
         it "blocks the attempt even with correct password" do
-          expect(response).to have_http_status :unprocessable_entity
+          expect(response).to have_http_status :unprocessable_content
         end
 
         it "does not change the password" do

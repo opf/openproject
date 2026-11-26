@@ -31,17 +31,35 @@ module Import
   class JiraClient
     class Error < StandardError
       def retryable? = false
+
+      def reason = :unexpected_error
+
+      def context = nil
     end
 
-    class ConnectionError < Error; end
+    class ConnectionError < Error
+      def reason = :unreachable
+    end
 
     class UnreachableError < ConnectionError
       def retryable? = true
     end
 
-    class SsrfError < ConnectionError; end
+    class SslError < UnreachableError
+      def reason = :ssl_error
+    end
 
-    class ParseError < Error; end
+    class ConnectionTimeoutError < UnreachableError
+      def reason = :timeout
+    end
+
+    class SsrfError < ConnectionError
+      def reason = :ssrf_blocked
+    end
+
+    class ParseError < Error
+      def reason = :invalid_response
+    end
 
     class ApiError < Error
       attr_reader :status, :response_body, :response_headers
@@ -82,14 +100,29 @@ module Import
       def retryable?
         status == 401 || status == 429 || status >= 500
       end
+
+      def reason
+        case status
+        when 401, 403 then :credentials_rejected
+        when 404 then :not_found
+        else :api_error
+        end
+      end
+
+      def context = { status: status.to_s }
     end
 
     # Raised when this Jira version does not provide the requested REST path at all, so we
     # can fall back to another route instead of failing the import.
     class UnsupportedEndpointError < Error; end
 
-    CONNECTION_ERRORS = [SsrfFilter::Error, SocketError, Errno::ECONNREFUSED, Errno::EHOSTUNREACH,
-                         OpenSSL::SSL::SSLError, Timeout::Error].freeze
+    UNREACHABLE_ERRORS = [SsrfFilter::UnresolvedHostname, SocketError, Errno::ECONNREFUSED, Errno::ECONNRESET,
+                          Errno::ECONNABORTED, Errno::EPIPE, Errno::EHOSTUNREACH, Errno::EHOSTDOWN, Errno::ENETUNREACH,
+                          EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError].freeze
+
+    TIMEOUT_ERRORS = [Timeout::Error, Errno::ETIMEDOUT].freeze
+
+    CONNECTION_ERRORS = [SsrfFilter::Error, OpenSSL::SSL::SSLError, *TIMEOUT_ERRORS, *UNREACHABLE_ERRORS].freeze
 
     HTTP_OPTIONS = {
       open_timeout: 30,
@@ -494,10 +527,10 @@ module Import
       when SsrfFilter::PrivateIPAddress
         SsrfError.new(I18n.t("admin.jira.client.ssrf_blocked"))
       when OpenSSL::SSL::SSLError
-        UnreachableError.new(I18n.t("admin.jira.client.ssl_error", message: error.message))
-      when Timeout::Error
-        UnreachableError.new(I18n.t("admin.jira.client.connection_timeout", message: error.message))
-      when SsrfFilter::UnresolvedHostname, SocketError, Errno::ECONNREFUSED, Errno::EHOSTUNREACH
+        SslError.new(I18n.t("admin.jira.client.ssl_error", message: error.message))
+      when *TIMEOUT_ERRORS
+        ConnectionTimeoutError.new(I18n.t("admin.jira.client.connection_timeout", message: error.message))
+      when *UNREACHABLE_ERRORS
         UnreachableError.new(I18n.t("admin.jira.client.connection_error", message: error.message))
       else
         ConnectionError.new(I18n.t("admin.jira.client.connection_error", message: error.message))

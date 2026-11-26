@@ -70,10 +70,17 @@ module API
         end
       end
 
+      def parse_new_record_titles_from_fragment(fragment)
+        fragment.filter_map do |link|
+          title = link["title"]
+          title if link["href"].blank? && title.is_a?(String) && title.present?
+        end
+      end
+
       def validate_links!(links)
         raise ::API::Errors::BadRequest.new(I18n.t("api_v3.errors.bad_request.links_not_an_object")) unless links.is_a?(Hash)
 
-        invalid, = links.find { |_, link| !(link.is_a?(Hash) || link.is_a?(Array)) }
+        invalid, = links.find { |_, link| !(link.is_a?(Hash) || (link.is_a?(Array) && link.all?(Hash))) }
         return if invalid.nil?
 
         raise ::API::Errors::BadRequest.new(I18n.t("api_v3.errors.bad_request.invalid_link", key: invalid))

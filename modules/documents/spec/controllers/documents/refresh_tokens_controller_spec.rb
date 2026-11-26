@@ -114,7 +114,7 @@ RSpec.describe Documents::RefreshTokensController, with_settings: { real_time_te
           post :create, params: { project_id: project.id, document_id: document.id }
         end.not_to change(Doorkeeper::AccessToken, :count)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.parsed_body["error"]).to eq(I18n.t("documents.collaboration_token.errors.not_collaborative"))
       end
     end
@@ -132,7 +132,7 @@ RSpec.describe Documents::RefreshTokensController, with_settings: { real_time_te
       it "returns unprocessable entity" do
         post :create, params: { project_id: project.id, document_id: document.id }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         json = response.parsed_body
         expect(json).to have_key("error")
       end

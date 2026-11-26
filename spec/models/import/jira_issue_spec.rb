@@ -57,5 +57,27 @@ RSpec.describe Import::JiraIssue do
 
       expect(issues).to be_empty
     end
+
+    context "with a free text field" do
+      subject(:issues) { described_class.with_field_set("environment") }
+
+      it "returns issues with a value for the field" do
+        issue = create_issue("environment" => "*Browser:* Firefox 140")
+
+        expect(issues).to contain_exactly(issue)
+      end
+
+      it "excludes issues with an empty value" do
+        create_issue("environment" => "")
+
+        expect(issues).to be_empty
+      end
+
+      it "excludes issues with a whitespace-only value" do
+        create_issue("environment" => " \t\r\n ")
+
+        expect(issues).to be_empty
+      end
+    end
   end
 end

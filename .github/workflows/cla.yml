@@ -78,7 +78,6 @@ jobs:
             myabc,
             oliverguenther,
             openprojectci,
-            openprojectnova,
             psatyal,
             samachon,
             schm,
@@ -100,7 +99,8 @@ jobs:
             tinexw,
             Giplat,
             jwitt2310,
-            bitmotivator
+            bitmotivator,
+            aylin-pacaci
           # the followings are the optional inputs - If the optional inputs are not given, then default values will be taken
           remote-organization-name: opf
           remote-repository-name: legal

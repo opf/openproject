@@ -38,9 +38,9 @@ module OpenProject
     class MetricsApp
       def call(env)
         if metrics_endpoint?(env)
-          [200, { "Content-Type" => content_type }, [metrics]]
+          [200, { "content-type" => content_type }, [metrics]]
         else
-          [404, { "Content-Type" => content_type }, ["Not found. We only support /metrics."]]
+          [404, { "content-type" => content_type }, ["Not found. We only support /metrics."]]
         end
       end
 

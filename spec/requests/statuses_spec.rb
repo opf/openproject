@@ -46,7 +46,7 @@ RSpec.describe "Statuses", :skip_csrf, type: :rails_request do
       it "displays an error" do
         post statuses_path, params: { status: { name: "New status", default_done_ratio: "" } }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response).to render_template("new")
         expect(response.body).to include("% Complete must be between 0 and 100.")
       end
@@ -137,7 +137,7 @@ RSpec.describe "Statuses", :skip_csrf, type: :rails_request do
       it "refuses #{description} without changing order" do
         put move_status_path(third), params: request_params, as: :turbo_stream
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body).to include(I18n.t(:error_invalid_list_move_anchor))
         expect(Status.order(:position).pluck(:name)).to eq(%w[First Second Third])
       end
@@ -146,14 +146,14 @@ RSpec.describe "Statuses", :skip_csrf, type: :rails_request do
     it "refuses a self-anchor without changing order" do
       put move_status_path(third), params: drop_params.merge(prev_id: third.id), as: :turbo_stream
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(Status.order(:position).pluck(:name)).to eq(%w[First Second Third])
     end
 
     it "refuses invalid menu directions with the menu error message" do
       put move_status_path(third), params: { move_to: "sideways" }, as: :turbo_stream
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.body).to include(I18n.t("statuses.index.could_not_be_moved"))
       expect(Status.order(:position).pluck(:name)).to eq(%w[First Second Third])
     end
@@ -214,14 +214,14 @@ RSpec.describe "Statuses", :skip_csrf, type: :rails_request do
 
         put move_status_path(c, page: 3, per_page: 2), params: drop_params, as: :turbo_stream
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(Status.order(:position).pluck(:name)).to eq(%w[A B C D])
       end
 
       it "refuses a page-start anchor that has become the moved status" do
         put move_status_path(b, page: 2, per_page: 2), params: drop_params, as: :turbo_stream
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(Status.order(:position).pluck(:name)).to eq(%w[A B C D E])
       end
 

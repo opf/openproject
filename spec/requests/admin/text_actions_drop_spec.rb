@@ -58,46 +58,15 @@ RSpec.describe "Text actions drop", :skip_csrf,
     expect(ordered_ids).to eq([action_b.id, action_a.id])
   end
 
-  it "422s without mutation for an unknown anchor" do
-    drop(action_a, { list_type: "text_action", list_id: "", prev_id: "999999" })
-    expect(response).to have_http_status(:unprocessable_entity)
-    expect(ordered_ids).to eq([action_a.id, action_b.id])
-  end
+  it_behaves_like "a sortable list drop endpoint", list_id_scoped: false do
+    let(:dragged_id) { action_a.id }
+    let(:valid_drop_params) do
+      { list_type: "text_action", list_id: "", prev_id: action_b.id.to_s }
+    end
 
-  it "422s when prev_id is omitted entirely" do
-    drop(action_a, { list_type: "text_action", list_id: "" })
-    expect(response).to have_http_status(:unprocessable_entity)
-    expect(ordered_ids).to eq([action_a.id, action_b.id])
-  end
+    def send_drop(params) = drop(action_a, params)
 
-  it "422s for a wrong list_type" do
-    drop(action_a, { list_type: "section", list_id: "", prev_id: "" })
-    expect(response).to have_http_status(:unprocessable_entity)
-    expect(ordered_ids).to eq([action_a.id, action_b.id])
-  end
-
-  it "422s for a nonblank list_id" do
-    drop(action_a, { list_type: "text_action", list_id: action_b.id.to_s, prev_id: "" })
-    expect(response).to have_http_status(:unprocessable_entity)
-    expect(ordered_ids).to eq([action_a.id, action_b.id])
-  end
-
-  it "422s without mutation for a collection-valued prev_id" do
-    drop(action_a, { list_type: "text_action", list_id: "", prev_id: [action_b.id.to_s] })
-    expect(response).to have_http_status(:unprocessable_entity)
-    expect(ordered_ids).to eq([action_a.id, action_b.id])
-  end
-
-  it "422s without mutation for an empty collection prev_id" do
-    drop(action_a, { list_type: "text_action", list_id: "", prev_id: [""] })
-    expect(response).to have_http_status(:unprocessable_entity)
-    expect(ordered_ids).to eq([action_a.id, action_b.id])
-  end
-
-  it "422s for a collection-valued list_id" do
-    drop(action_a, { list_type: "text_action", list_id: [""], prev_id: "" })
-    expect(response).to have_http_status(:unprocessable_entity)
-    expect(ordered_ids).to eq([action_a.id, action_b.id])
+    def expect_unmoved = expect(ordered_ids).to eq([action_a.id, action_b.id])
   end
 
   it "morphs the list on success" do

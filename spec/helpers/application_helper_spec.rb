@@ -319,9 +319,9 @@ RSpec.describe ApplicationHelper do
     context "with the progressive web app flag on", with_flag: { progressive_web_app: true } do
       it "wires the registration controller to the worker url and the instance scope" do
         expect(helper.pwa_service_worker_attributes).to eq(
-          controller: "pwa-service-worker",
-          pwa_service_worker_url_value: "/service-worker",
-          pwa_service_worker_scope_value: "/"
+          controller: "pwa--service-worker",
+          "pwa--service-worker-url-value": "/service-worker",
+          "pwa--service-worker-scope-value": "/"
         )
       end
     end

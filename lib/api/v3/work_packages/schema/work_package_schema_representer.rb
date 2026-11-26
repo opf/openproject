@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -42,7 +44,8 @@ module API
                              dependencies: -> {
                                all_permissions_granted_to_user_under_project +
                                  [Setting.work_package_done_ratio,
-                                  Setting::WorkPackageMultipleVersions.active?]
+                                  Setting::WorkPackageMultipleVersions.active?,
+                                  Setting::WorkPackageMultipleCategories.active?]
                              }
 
           custom_field_injector type: :schema_representer
@@ -231,6 +234,12 @@ module API
                  location: :link,
                  writable: false
 
+          schema :reporter,
+                 type: "User",
+                 location: :link,
+                 required: false,
+                 writable: false
+
           schema_with_allowed_link :project,
                                    type: "Project",
                                    required: true,
@@ -304,6 +313,8 @@ module API
                                          },
                                          has_default: true
 
+          # Deprecated in favor of `categories`
+          # Removed from the API if multiple categories is enabled on the instance
           schema_with_allowed_collection :category,
                                          value_representer: Categories::CategoryRepresenter,
                                          link_factory: ->(category) {
@@ -312,7 +323,28 @@ module API
                                              title: category.name
                                            }
                                          },
-                                         required: false
+                                         required: false,
+                                         deprecated: true,
+                                         writable: ->(*) { represented.writable?(:categories) },
+                                         show_if: ->(*) { !Setting::WorkPackageMultipleCategories.active? },
+                                         description: -> { I18n.t("api_v3.attributes.category.deprecated") }
+
+          schema_with_allowed_collection :categories,
+                                         type: "[]Category",
+                                         name_source: -> {
+                                           attribute = Setting::WorkPackageMultipleCategories.active? ? :categories : :category
+                                           WorkPackage.human_attribute_name(attribute)
+                                         },
+                                         value_representer: Categories::CategoryRepresenter,
+                                         link_factory: ->(category) {
+                                           {
+                                             href: api_v3_paths.category(category.id),
+                                             title: category.name
+                                           }
+                                         },
+                                         writable: ->(*) { represented.writable?(:categories) },
+                                         required: false,
+                                         options: -> { { multiple: Setting::WorkPackageMultipleCategories.active? } }
 
           # Deprecated in favor of `targetVersions`
           # Removed from the API if multiple_versions is enabled on the instance

@@ -95,7 +95,7 @@ RSpec.describe "LDAP department synchronized trees", :aggregate_failures, :skip_
 
       expect { post ldap_departments_synchronized_trees_path, params: }
         .not_to change(LdapDepartments::SynchronizedTree, :count)
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 

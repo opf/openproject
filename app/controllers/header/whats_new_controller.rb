@@ -52,7 +52,7 @@ class Header::WhatsNewController < ApplicationController
 
   def read
     key = params.expect(:key)
-    return head :unprocessable_entity unless release.item?(key)
+    return head :unprocessable_content unless release.item?(key)
 
     mark_read(key)
 

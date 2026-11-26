@@ -52,6 +52,7 @@ import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter
 import { announce } from '@primer/live-region-element';
 import { NgOption } from '@ng-select/ng-select';
 import { accessKeys } from 'core-app/shared/directives/a11y/access-keys';
+import { matchesRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 
 interface SearchOptionItem {
   projectScope:string;
@@ -385,7 +386,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   private searchResultsToOptions(results:WorkPackageResource[], query:string) {
     const searchOptions = this.detailedSearchOptions();
     // If we have a direct hit, we choose it to be the selected element.
-    this.selectedItem = results.find((wp) => wp.id?.toString() === query) ?? searchOptions[0];
+    this.selectedItem = results.find((wp) => matchesRoutingId(wp, query.toUpperCase())) ?? searchOptions[0];
 
     if (this.selectedItem instanceof WorkPackageResource) {
       void announce(this.I18n.t('js.global_search.direct_hit_available'), { politeness: 'polite' });

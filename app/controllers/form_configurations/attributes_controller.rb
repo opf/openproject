@@ -79,7 +79,7 @@ module FormConfigurations
     def render_invalid_move(call)
       message = call&.message.presence || I18n.t(:error_invalid_list_move_anchor)
       render_error_flash_message_via_turbo_stream(message:)
-      respond_with_turbo_streams(status: :unprocessable_entity)
+      respond_with_turbo_streams(status: :unprocessable_content)
     end
 
     def load_form_configuration

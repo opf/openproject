@@ -171,7 +171,7 @@ module OpenIDConnect
           render turbo_stream: resolve_turbo_streams
         end
         format.html do
-          render action: action_to_render, status: :unprocessable_entity
+          render action: action_to_render, status: :unprocessable_content
         end
       end
     end

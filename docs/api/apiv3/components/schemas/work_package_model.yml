@@ -386,6 +386,13 @@ allOf:
                   The person that created the work package
 
                   **Resource**: User
+          reporter:
+            allOf:
+              - $ref: "./link.yml"
+              - description: |-
+                  The person that reported the work package
+
+                  **Resource**: User
           assignee:
             allOf:
               - $ref: "./link.yml"
@@ -416,12 +423,35 @@ allOf:
 
                   **Permission** view cost objects
           category:
+            deprecated: true
             allOf:
               - $ref: "./link.yml"
               - description: |-
-                  The category of the work package
+                  The category of the work package. If the work package has more than one category,
+                  this is the first one in case-insensitive alphabetical order.
 
                   **Resource**: Category
+
+                  # Conditions
+
+                  **Deprecated**: this single-valued field is being replaced by `categories`.
+                  Read and write `categories` instead. While multiple categories is not enabled,
+                  `category` must not be written together with `categories` in the same request.
+                  Removed when multiple categories is enabled.
+          categories:
+            type: array
+            items:
+              $ref: "./link.yml"
+            description: |-
+              List of categories associated to the work package
+
+              **Resource**: Collection of Category
+
+              # Conditions
+
+              - Transitioning from single to multiple category support
+              - (Temporary) Only allows a single value while multiple categories is not enabled
+              - (Temporary) Must not be written together with `category` in the same request
           children:
             type: array
             items:

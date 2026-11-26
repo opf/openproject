@@ -77,7 +77,7 @@ class MeetingTemplatesController < ApplicationController
       redirect_to project_meeting_path(@template.project, @template, state: :edit), status: :see_other
     elsif @project
       flash[:error] = call.errors.full_messages.join(", ")
-      redirect_to action: :index, status: :unprocessable_entity
+      redirect_to action: :index, status: :unprocessable_content
     else
       update_via_turbo_stream(
         component: Meetings::Index::FormComponent.new(

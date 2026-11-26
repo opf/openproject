@@ -173,7 +173,7 @@ RSpec.describe "API v3 Meeting Outcomes sub-resource", content_type: :json do
 
       it "returns 422 rather than raising" do
         expect { response }.not_to raise_error
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it "does not create the outcome" do
@@ -232,7 +232,7 @@ RSpec.describe "API v3 Meeting Outcomes sub-resource", content_type: :json do
 
       it "does not create the outcome", :aggregate_failures do
         expect { response }.not_to change(agenda_item.outcomes, :count)
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end

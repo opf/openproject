@@ -25,12 +25,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ChartOptions } from 'chart.js';
 import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
 import { SeriesChartComponent, SeriesStyle } from 'core-app/shared/components/charts/component.series-chart';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
-import { generateId, getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
+import { ChartDescriptionDirective } from 'core-app/shared/components/charts/description/chart-description.directive';
+import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 
 type SeriesKey = 'created'|'resolved';
 
@@ -75,31 +76,12 @@ function paleGreen():string {
 @Component({
   selector: 'op-created-resolved-chart',
   templateUrl: './created-resolved-chart.component.html',
-  imports: [BaseChartDirective, NoResultsComponent],
+  imports: [BaseChartDirective, ChartDescriptionDirective, NoResultsComponent],
   providers: [provideCharts(withDefaultRegisterables())],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreatedResolvedComponent extends SeriesChartComponent<SeriesKey> {
-  readonly chartDescriptionId = generateId('created-resolved-chart-description');
-
-  readonly chartLabel = this.i18n.t('js.created_resolved_chart.chart_label');
-
-  readonly chartDescription = computed(() => {
-    const { from, to } = this.parsedInput().range;
-    const count = new Intl.NumberFormat(this.i18n.locale);
-    const latest = this.series()
-      .filter((series) => series.data.length > 0)
-      .map((series) => this.i18n.t('js.created_resolved_chart.chart_value', {
-        label: series.label,
-        value: count.format(series.data[series.data.length - 1].y),
-      }));
-
-    return this.i18n.t('js.created_resolved_chart.chart_summary', {
-      from: this.timezoneService.formattedDatetimeAsDate(from),
-      to: this.timezoneService.formattedDatetimeAsDate(to),
-      values: latest.join(', '),
-    });
-  });
+  protected readonly chartLabel = this.i18n.t('js.created_resolved_chart.chart_label');
 
   protected readonly seriesStyle = SERIES_STYLE;
 

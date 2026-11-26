@@ -75,7 +75,7 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
     end
   end
 
-  shared_examples "rejects the whole request" do |status: :unprocessable_entity|
+  shared_examples "rejects the whole request" do |status: :unprocessable_content|
     it "rejects without moving anything" do
       expect { subject }
         .not_to change { WorkPackage.order(:id).pluck(:id, :sprint_id, :backlog_bucket_id, :position) }
@@ -267,7 +267,7 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
       move_collection(ids: [sprint_wp2.id], list_type: "sprint", list_id: sprint.id,
                       prev_id: bucket_wp1.id, optimistic: true)
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.body).to include(
         ERB::Util.html_escape(I18n.t("backlogs.work_packages.batch_update_service.stale_predecessor"))
       )
@@ -281,7 +281,7 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
       move_collection(ids: [sprint_wp2.id], list_type: "sprint", list_id: sprint.id,
                       prev_id: sprint_wp3.id, optimistic: true)
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.body).to include(
         ERB::Util.html_escape(I18n.t("backlogs.work_packages.batch_update_service.unavailable_target"))
       )
@@ -296,7 +296,7 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
       move_collection(ids: [sprint_wp2.id, sprint_wp3.id], list_type: "backlog_bucket", list_id: bucket.id,
                       prev_id: "", optimistic: true)
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.body).to include(ERB::Util.html_escape(sprint_wp3.reload.to_fs(:caption)))
     end
 
@@ -310,7 +310,7 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
 
       move_collection(ids: frozen_ids, list_type: "sprint", list_id: sprint.id)
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.body).to include(
         ERB::Util.html_escape(I18n.t("backlogs.work_packages.batch_update_service.unavailable_target"))
       )
@@ -335,7 +335,7 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
 
     def member_route_flash(work_package, **params)
       move_member(work_package, **params)
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       flash_message
     end
 
@@ -347,7 +347,7 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
 
         move_collection(ids: [sprint_wp1.id], list_type: "inbox")
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(flash_message).to eq(expected)
         expect(expected).not_to include(sprint_wp1.to_fs(:caption))
         expect(sprint_wp1.reload.sprint).to eq(sprint)
@@ -362,7 +362,7 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
 
         move_collection(ids: [sprint_wp1.id], list_type: "inbox")
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(flash_message).to eq(expected)
         expect(sprint_wp1.reload.sprint).to eq(sprint)
       end

@@ -179,8 +179,18 @@ module Projects::Copy
         if user_cf_ids.include?(id) && !target.users.detect { |u| u.id.to_s == value }
           [id, nil]
         else
-          [id, value]
+          [id, copied_custom_field_value(id, value)]
         end
+      end
+    end
+
+    def copied_custom_field_value(custom_field_id, value)
+      lookup = state.custom_field_value_id_lookup&.dig(custom_field_id) || {}
+
+      if value.is_a?(Array)
+        value.map { lookup.fetch(it, it) }
+      else
+        lookup.fetch(value, value)
       end
     end
 

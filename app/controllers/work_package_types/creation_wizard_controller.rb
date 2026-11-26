@@ -108,7 +108,7 @@ module WorkPackageTypes
         redirect_to_step Wizard::Steps.next_after(Wizard::Steps::FIRST_EDITABLE, @variant)
       else
         @current_step = Wizard::Steps::FIRST_EDITABLE
-        render :show, status: :unprocessable_entity
+        render :show, status: :unprocessable_content
       end
     end
 
@@ -155,7 +155,7 @@ module WorkPackageTypes
         redirect_to_step Wizard::Steps.next_after(Wizard::Steps::FIRST_EDITABLE, @variant)
       else
         @current_step = Wizard::Steps::FIRST_EDITABLE
-        render :show, status: :unprocessable_entity
+        render :show, status: :unprocessable_content
       end
     end
 
@@ -169,7 +169,7 @@ module WorkPackageTypes
       if service_call.success?
         advance
       else
-        render :show, status: :unprocessable_entity
+        render :show, status: :unprocessable_content
       end
     end
 
@@ -181,7 +181,7 @@ module WorkPackageTypes
       if service_call.success?
         advance
       else
-        render :show, status: :unprocessable_entity
+        render :show, status: :unprocessable_content
       end
     end
 
@@ -199,7 +199,7 @@ module WorkPackageTypes
       if service_call.success?
         advance
       else
-        render :show, status: :unprocessable_entity
+        render :show, status: :unprocessable_content
       end
     end
 
@@ -219,7 +219,7 @@ module WorkPackageTypes
       workflow = @variant.workflow
       return name_reference(workflow, ::Workflows::UpdateService) if params[:workflow].present?
       return advance unless workflow&.used_by_one_variant?
-      return render :show, status: :unprocessable_entity unless update_matrix.success?
+      return render :show, status: :unprocessable_content unless update_matrix.success?
 
       ask_for_name(workflow)
     end
@@ -232,7 +232,7 @@ module WorkPackageTypes
       service_call = service_class.new(user: current_user, model: record).call(**naming_params(record))
       return advance if service_call.success?
 
-      respond_with_dialog naming_dialog(service_call.result), status: :unprocessable_entity
+      respond_with_dialog naming_dialog(service_call.result), status: :unprocessable_content
     end
 
     def naming_dialog(record)
@@ -299,7 +299,7 @@ module WorkPackageTypes
 
     def adding_variant? = @variant.is_a?(TypeVariant) && !@variant.is_default_variant?
 
-    def listing_in_wizard? = true
+    def wizard? = true
 
     def find_type
       @type = ::Type.find(params.expect(:type_id))

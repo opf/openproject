@@ -155,6 +155,14 @@ RSpec.describe "Cost reports", :aggregate_failures, type: :rails_request do
       )
     end
 
+    it "rejects an invalid operator after redirecting to the current URL" do
+      get "/cost_reports", params: { "operators[WorkPackageId]": "%3D_child_work_packages",
+                                     "values[WorkPackageId]": "42" }
+      follow_redirect!
+
+      expect(response).to have_http_status(:bad_request)
+    end
+
     it "translates a custom field filter to its attribute" do
       get "/cost_reports", params: { "operators[CustomField7]": "=", "values[CustomField7]": "a", set_filter: 1 }
 
@@ -198,6 +206,66 @@ RSpec.describe "Cost reports", :aggregate_failures, type: :rails_request do
   end
 
   describe "filters on the url" do
+    ["%3D_child_work_packages", "unknown", "~"].each do |operator|
+      it "rejects the invalid work package operator #{operator.inspect}" do
+        get global_reporting_cost_reports_path,
+            params: { filters: "work_package_id #{operator} \"42\"" }
+
+        expect(response).to have_http_status(:bad_request)
+      end
+    end
+
+    it "accepts the operator that includes work package descendants" do
+      get global_reporting_cost_reports_path,
+          params: { filters: 'work_package_id =_child_work_packages "42"' }
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "rejects an invalid operator in API filter syntax" do
+      get global_reporting_cost_reports_path,
+          params: { filters: [{ work_package_id: { operator: "%3D_child_work_packages", values: ["42"] } }].to_json }
+
+      expect(response).to have_http_status(:bad_request)
+    end
+
+    it "rejects an invalid operator when displaying a saved report" do
+      report = create(:cost_report, principal: user)
+
+      get reporting_cost_report_path(report), params: { filters: 'work_package_id %3D_child_work_packages "42"' }
+
+      expect(response).to have_http_status(:bad_request)
+    end
+
+    it "does not save a report with an invalid operator", :skip_csrf do
+      expect do
+        post save_as_reporting_cost_reports_path,
+             params: { query_name: "Invalid", filters: 'work_package_id %3D_child_work_packages "42"' }
+      end.not_to change(CostReport, :count)
+
+      expect(response).to have_http_status(:bad_request)
+    end
+
+    it "does not update a report with an invalid operator", :skip_csrf do
+      report = create(:cost_report, principal: user)
+      original_filters = report.query.filters
+
+      post reporting_cost_report_path(report), params: { filters: 'work_package_id %3D_child_work_packages "42"' }
+
+      expect(response).to have_http_status(:bad_request)
+      expect(report.reload.query.filters).to eq(original_filters)
+    end
+
+    it "does not schedule an export with an invalid operator" do
+      allow(CostReports::ScheduleExportService).to receive(:new).and_call_original
+
+      get global_reporting_cost_reports_path(format: :xls),
+          params: { filters: 'work_package_id %3D_child_work_packages "42"' }
+
+      expect(response).to have_http_status(:bad_request)
+      expect(CostReports::ScheduleExportService).not_to have_received(:new)
+    end
+
     it "applies them to the report" do
       get global_reporting_cost_reports_path,
           params: { filters: 'spent_on >d "2020-01-01" & user_id = "me"', rows: "project_id", columns: "week" }
@@ -432,7 +500,7 @@ RSpec.describe "Cost reports", :aggregate_failures, type: :rails_request do
               headers: { "Accept" => "application/json" }
         end.not_to have_enqueued_job(CostReports::XLS::ExportJob)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body)
           .to eq({ message: "The export could not be generated: Date (Spent) requires 2 values." }.to_json)
       end

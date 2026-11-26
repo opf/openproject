@@ -214,7 +214,7 @@ module WorkPackageTypes
 
     def reject_missing_copy_source(url)
       respond_with_dialog start_dialog_component(url:, error: t("workflows.start.copy.missing")),
-                          status: :unprocessable_entity
+                          status: :unprocessable_content
     end
 
     def start_dialog_component(url:, error: nil)
@@ -256,7 +256,7 @@ module WorkPackageTypes
                                                           copy_from_id: params.dig(:workflow, :copy_from_id).presence,
                                                           ask_copy_source: false,
                                                           url: variant_workflow_path(@variant, **dialog_params)),
-        status: :unprocessable_entity
+        status: :unprocessable_content
       )
       respond_with_turbo_streams
     end

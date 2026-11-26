@@ -1,0 +1,59 @@
+rules:
+  - id: params-to-dynamic-dispatch
+    mode: taint
+    languages: [ruby]
+    severity: WARNING
+    message: >-
+      Request input reaches dynamic method dispatch. A client can call other public methods.
+      Map the input to an allowlist of method names before the call.
+    metadata:
+      cwe: "CWE-470: Use of Externally-Controlled Input to Select Classes or Code ('Unsafe Reflection')"
+      category: security
+    pattern-sources:
+      - pattern: params
+      - pattern: request.params
+      - pattern: request.query_parameters
+      - pattern: request.request_parameters
+      - pattern: declared(...)
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: $RECEIVER.send($NAME, ...)
+              - pattern: $RECEIVER.public_send($NAME, ...)
+              - pattern: $RECEIVER.__send__($NAME, ...)
+              - pattern: $RECEIVER.try($NAME, ...)
+              - pattern: $RECEIVER.try!($NAME, ...)
+              - pattern: $RECEIVER.method($NAME)
+              - pattern: $RECEIVER.public_method($NAME)
+              - pattern: $RECEIVER.instance_variable_get($NAME)
+              - pattern: $RECEIVER.instance_variable_set($NAME, ...)
+              - pattern: send($NAME, ...)
+              - pattern: public_send($NAME, ...)
+              - pattern: try($NAME, ...)
+          - focus-metavariable: $NAME
+
+  - id: params-to-constant-lookup
+    mode: taint
+    languages: [ruby]
+    severity: WARNING
+    message: >-
+      Request input selects a class or constant. A client can load and use other classes.
+      Map the input to an allowlist of classes before the lookup.
+    metadata:
+      cwe: "CWE-470: Use of Externally-Controlled Input to Select Classes or Code ('Unsafe Reflection')"
+      category: security
+    pattern-sources:
+      - pattern: params
+      - pattern: request.params
+      - pattern: request.query_parameters
+      - pattern: request.request_parameters
+      - pattern: declared(...)
+    pattern-sinks:
+      - patterns:
+          - pattern-either:
+              - pattern: $NAME.constantize
+              - pattern: $NAME.safe_constantize
+              - pattern: $RECEIVER.const_get($NAME, ...)
+              - pattern: ActiveSupport::Inflector.constantize($NAME)
+              - pattern: ActiveSupport::Inflector.safe_constantize($NAME)
+          - focus-metavariable: $NAME
