@@ -36,7 +36,7 @@ declare global {
 }
 
 if (!globalThis.OP_SW) {
-  throw new Error('Service worker configuration is missing: OP_SW was not set before the bundle was imported.');
+  throw new Error('Service worker configuration is missing: OP_SW was not set before the bundle ran.');
 }
 
 export const Config:Readonly<ServiceWorkerConfig> = Object.freeze(globalThis.OP_SW);
