@@ -198,6 +198,10 @@ module OpenProject::Llm
         "Llm::PruneHealthReportsJob": {
           cron: "25 3 * * *", # runs at 3:25 nightly
           class: ::Llm::PruneHealthReportsJob.name
+        },
+        "Llm::IndexWorkPackagesJob": {
+          cron: "*/5 * * * *", # syncs the active semantic index, runs every five minutes
+          class: ::Llm::IndexWorkPackagesJob.name
         }
       }
     end
