@@ -40,11 +40,22 @@ module CustomField::Sectionable
     validates :custom_field_section_id, presence: true
 
     after_create_commit :add_to_section_order
+    # Keeps attribute_order in sync however the section changes (e.g. the edit form).
+    # CustomFieldSections::MoveKeyService also reorders, which makes this partly redundant there.
+    # It must not be after_update_commit: it has to run inside the service's transaction,
+    # before insert_after_key places the key at the dropped position.
+    after_update :move_to_section_order, if: :saved_change_to_custom_field_section_id?
     after_destroy_commit :remove_from_section_order
   end
 
   def add_to_section_order
     custom_field_section.add_to_order(column_name)
+  end
+
+  def move_to_section_order
+    previous_section_id, = saved_change_to_custom_field_section_id
+    CustomFieldSection.find_by(id: previous_section_id)&.remove_from_order(column_name)
+    add_to_section_order
   end
 
   def remove_from_section_order
