@@ -120,7 +120,7 @@ RSpec.describe "API v3 Custom Options resource", :aggregate_failures do
       shared_let(:custom_option) { create(:custom_option, custom_field:) }
 
       context "when being allowed" do
-        let(:permissions) { [:view_project] }
+        let(:permissions) { %i[view_project view_project_attributes] }
 
         it "is successful" do
           expect(subject.status)
