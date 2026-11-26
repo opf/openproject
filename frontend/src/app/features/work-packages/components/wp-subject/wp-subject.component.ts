@@ -32,6 +32,8 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { accessKeys } from 'core-app/shared/directives/a11y/access-keys';
+import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
+import { EditableAttributeFieldComponent } from 'core-app/shared/components/fields/edit/field/editable-attribute-field.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -48,6 +50,8 @@ export class WorkPackageSubjectComponent extends UntilDestroyedMixin {
 
   private readonly I18n = inject(I18nService);
 
+  private readonly editForm = inject(EditFormComponent, { optional: true });
+
   protected readonly accessKeys = accessKeys;
 
   @Input() workPackage:WorkPackageResource;
@@ -57,4 +61,12 @@ export class WorkPackageSubjectComponent extends UntilDestroyedMixin {
   };
 
   public readonly uniqueElementIdentifier = `work-packages--subject-type-row-${randomString(16)}`;
+
+  protected editSubject(field:EditableAttributeFieldComponent):void {
+    if (field.active) {
+      this.editForm?.activeFields[field.fieldName]?.focus();
+    } else {
+      field.handleUserActivate(null);
+    }
+  }
 }
