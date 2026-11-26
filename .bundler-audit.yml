@@ -1,7 +1,4 @@
 ---
-ignore:
-  # rack-protection: fixed only in 4.2.2, which requires Rack 3. Affects the
-  # CookieTossing, JsonCsrf, RemoteToken and RemoteReferrer middlewares,
-  # none of which are used.
-  - GHSA-pf75-2v58-7mxg
-  - GHSA-vvhm-j6m8-64cw
+ignore: []
+  # This will list the GHSA ids of vulnerabilities we are aware of and that
+  # we cannot update right now, but have assessed that they cannot be exploited via OpenProject
