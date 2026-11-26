@@ -51,6 +51,8 @@ module AI
       end
 
       def new_tag?(attributes)
+        return found_unless(false) unless attributes
+
         type = attributes["data-type"]
         return false unless PRINCIPAL_TYPES.include?(type)
 
@@ -84,8 +86,11 @@ module AI
         end
       end
 
+      # A tag the parser refuses, such as one with hundreds of attributes, cannot be checked and counts as new.
       def attributes(tag)
         Nokogiri::HTML5.fragment(tag).element_children.first || {}
+      rescue ArgumentError
+        nil
       end
 
       def found_unless(known)

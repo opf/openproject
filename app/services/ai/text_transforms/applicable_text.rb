@@ -68,9 +68,9 @@ module AI
         @call ||= begin
           result = rewritten_until_stable
           rendered = render(result)
-          active_markup_in?(rendered) ? plain_text(rendered) : result
+          active_markup_in?(rendered) ? plain_fallback(result, rendered) : result
         rescue TooDeep
-          escape(@mentions.convert(@text))
+          escaped(@text)
         end
       end
 
@@ -97,7 +97,24 @@ module AI
 
           text = rewritten
         end
-        plain_text(render(text))
+        plain_fallback(text, render(text))
+      end
+
+      # Plain text keeps code as code, which can still join into markup around it, so it is used only if
+      # nothing changes when it is checked as well. Otherwise the text is shown as it is, without code.
+      def plain_fallback(text, rendered)
+        plain = plain_text(rendered)
+        settled?(plain) ? plain : escaped(text)
+      rescue TooDeep
+        escaped(text)
+      end
+
+      def settled?(text)
+        rewrite_pass(text) == text && !active_markup_in?(render(text))
+      end
+
+      def escaped(text)
+        escape(@mentions.convert(text))
       end
 
       def rewrite_pass(text)
@@ -233,7 +250,8 @@ module AI
       def unescaped_bang_before?(offset)
         return false unless offset > covered_until && @text.getbyte(offset - 1) == 0x21
 
-        backslashes = @text.b[0...(offset - 1)][/\\*\z/].size
+        backslashes = 0
+        backslashes += 1 while backslashes < offset - 1 && @text.getbyte(offset - 2 - backslashes) == 0x5C
         backslashes.even?
       end
 
@@ -255,10 +273,12 @@ module AI
         nodes
       end
 
-      def render(markdown)
-        Nokogiri::HTML5.fragment(Commonmarker.to_html(markdown, options: RENDER_OPTIONS))
+      def render(markdown) = parse_html(Commonmarker.to_html(markdown, options: RENDER_OPTIONS))
+
+      def parse_html(markup)
+        Nokogiri::HTML5.fragment(markup)
       rescue ArgumentError => e
-        raise unless e.message.include?("depth limit")
+        raise unless e.message.include?("limit exceeded")
 
         raise TooDeep
       end
@@ -410,7 +430,7 @@ module AI
       end
 
       def attributes(tag)
-        Nokogiri::HTML5.fragment(tag).element_children.first || {}
+        parse_html(tag).element_children.first || {}
       end
 
       def byte_range(node)

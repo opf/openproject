@@ -251,6 +251,40 @@ RSpec.describe AI::TextTransforms::ApplicableText do
       expect(html.css("code").map(&:text).join).to eq("a#{payload}")
     end
 
+    describe "when the plain text would still hold active markup" do
+      def active_markup_in?(text)
+        html = rendered(text)
+        html.css("img, macro, mention").any? || AI::TextTransforms::NewMentions.new("").hidden_in?(html)
+      end
+
+      it "keeps an empty text run between two code elements from merging their spans" do
+        text = %(<div><code>a</code>&lt;mention data-type="user" data-id="5"&gt;) +
+               %(<code>b&#96; ![x](https://evil.test/p.png) &lt;macro class="toc"&gt;&lt;/macro&gt;</code></div>)
+
+        expect(active_markup_in?(applicable(text))).to be(false)
+      end
+
+      it "keeps removing a mention tag from joining the lines of a code block into a closing fence" do
+        text = %(<pre>a\n&#96;&#96;&lt;mention data-type="user" data-id="5"&gt;&#96;\n![x](https://evil.test/p.png)\n\n) +
+               %(&lt;macro class="toc"&gt;&lt;/macro&gt;\n</pre>)
+
+        expect(active_markup_in?(applicable(text))).to be(false)
+      end
+
+      it "keeps a code span from being split into table cells" do
+        text = "<image src=x>\n\n<div>h\n:-:\n<code>![x](https://evil.test/p.png) | z</code></div>"
+
+        expect(active_markup_in?(applicable(text))).to be(false)
+      end
+
+      it "keeps an empty code element from hiding a new mention in the text around it" do
+        result = applicable("<image src=x>\n\nuser<code></code>#4")
+
+        expect(active_markup_in?(result)).to be(false)
+        expect(result).not_to match(/user\\?#4/)
+      end
+    end
+
     it "converts new mentions in code and across code as well" do
       expect(applicable(%(<image src=x> `user#2` <b>data-id="5"</b> `x` data-type="user">)))
         .to eq(%(`user 2` data-id="5" `x`\\>))
@@ -368,6 +402,23 @@ RSpec.describe AI::TextTransforms::ApplicableText do
 
     expect { applicable(text) }.not_to raise_error
     expect(rendered(applicable(text)).css("blockquote, macro")).to be_empty
+  end
+
+  it "escapes output with more attributes on an element than the HTML parser allows" do
+    attributes = (1..500).map { "a#{it}" }.join(" ")
+
+    [%(x <span #{attributes}>y</span> <macro class="toc"></macro>),
+     %(<img src=u #{attributes}> <macro class="toc"></macro>),
+     %(<mention data-type="user" data-id="5" #{attributes}>x</mention> <macro class="toc"></macro>)].each do |text|
+      expect { applicable(text) }.not_to raise_error
+      expect(rendered(applicable(text)).css("img, macro, mention, [a1]")).to be_empty
+    end
+  end
+
+  it "handles many images after an exclamation mark in linear time" do
+    text = "!![c](u) " * 12_000
+
+    expect { Timeout.timeout(5) { applicable(text) } }.not_to raise_error
   end
 
   it "keeps decoded alt text as text when the link is parsed again" do
