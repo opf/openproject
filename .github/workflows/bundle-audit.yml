@@ -93,7 +93,7 @@ jobs:
 
           for level in patch minor major; do
             echo "::group::bundle lock --update --${level} ${gems[*]}"
-            bundle lock --update "${gems[@]}" --conservative "--${level}" --strict
+            bundle lock --update "${gems[@]}" --conservative "--${level}" --strict --cooldown 0
             echo "::endgroup::"
 
             audit reports/bundle-audit-after.json "after ${level} update"
@@ -166,7 +166,7 @@ jobs:
             ' reports/bundle-audit-after.json)
             if [ -n "$open" ]; then
               echo
-              echo '## Still open (blocked by the Gemfile constraints or the release cooldown)'
+              echo '## Still open (blocked by the Gemfile constraints)'
               echo
               echo "$open"
             fi
