@@ -97,6 +97,9 @@ To edit a document title, click on the _More (three dots)_ menu and select _Edit
 
 To edit the document itself simply click anywhere in the document and you can directly start editing. Simply start entering text or use **/** to add headings, blocks, media elements, emojis and link to work packages. 
 
+> [!TIP]
+> You can also open this menu by clicking the **+** icon to the left of a line, which is especially useful on mobile devices. To find a command quickly, keep typing after the **/** to filter the list. For example, **/att** shows **Work package attribute**, **/create** shows **Create new work package**, and **/link** shows **Link existing work package**. Type **/wp** to show only work package commands, or **/op** to show all commands provided by OpenProject.
+
 ![Edit a document in OpenProject Documents module](openproject_user_guide_documents_module_add_heading.png)
 
 ### Collaborative editing
@@ -197,6 +200,8 @@ You can show individual attributes of a work package directly in a document, for
 
 The attribute is inserted inline into your text. To change what it shows, open its context menu and switch between label, value, and label and value. The description and other long text fields are inserted as a separate block instead of inline.
 
+You can also insert an attribute by pasting its macro, for example `workPackageValue:1234:status` or `workPackageLabel:1234:status`, using a real work package ID and attribute name. For custom fields, use the field name in quotes, for example `workPackageValue:1234:"Name of the custom field"`. This is useful for copying attributes between documents and work package descriptions. See the [list of available attributes](../wysiwyg/#available-attributes-for-work-packages) for all supported attribute names.
+
 > [!TIP]
 > When you insert another work package attribute in the same document, the dialog is prefilled with your previous selection, as long as you have not left the document in between.
 
@@ -221,7 +226,7 @@ This can save time, as the highlighted text is automatically used as the work pa
 
 ![Work package form with the highlighted text pre-filled as the subject](openproject_user_guide_documents_create_new_wp_form_subject_prefilled.png)
 
-You can also create a work package while searching for one. When you link a work package via the slash menu or with **#**, and the search does not return the work package you are looking for, select **Create new work package** at the bottom of the search results. Your search text is used as the subject, and the other fields are prefilled with their default values or with the values of the last work package you created in the same document.
+You can also create a work package while searching for one. When you try to link a work package via the slash menu or with **#**, and the search does not return the work package you are looking for, select **Create new work package** at the bottom of the search results. Your search text is used as the subject, and the other fields are prefilled with their default values or with the values of the last work package you created in the same document.
 
 ![Create new work package option at the bottom of the work package search results in a document in OpenProject](openproject_user_guide_documents_create_wp_from_search.png)
 
