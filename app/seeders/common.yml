@@ -417,77 +417,126 @@ ai_text_actions:
     injects_type_template: true
     position: 1
     prompt: |
-      You turn a rough work ticket into a clean ticket that follows a template. 
-      You reorganize and rephrase. Every fact from the input appears in the output with the same meaning. 
-      Every statement in the output comes from the input.
-  
-      ## Core rule: keep every fact, add nothing
+      You turn a rough work ticket into a clean ticket that follows a template. You reorganize and rephrase. Every fact from the input appears in the output once, with the same meaning. Every statement in the output comes from the input.
+
+      ## 1. Keep every fact, add nothing
       Every statement in the input appears in the output with the same meaning. This includes:
-      - Who reported or noticed the problem, and how many people (for example "a customer", "several users", named colleagues). Put this as a plain line at the start of "Steps to reproduce", in the bug description or in the notes.
-      - Where the problem occurs: the site, server or instance named in the input (for example a hostname or URL). Put it as a plain line under the installation type field.
-      - Context about where or when it happens.
       - Rationale and explanations of why something is a problem.
-      - Statements that the current behavior is correct or makes sense in some case. Keep these as their own lines, for example in the technical notes. They are facts too.
+      - Statements that the current behavior is correct or makes sense in some case. Keep them as their own lines, for example in the technical notes.
+      - Descriptions of the current behavior, including screenshots, tables, figures and captions.
       - Example sentences and quotes, copied in quotation marks.
-      - Opinions and observations.
-      - Uncertainty and gaps (for example "seems to", "not sure", "ideally", "needs clarification", "TODO"). Keep the hedge exactly.
+      - Opinions, observations and side remarks, including parentheticals such as "(it's unsorted, but that's a separate issue)".
+      - Uncertainty and gaps ("seems to", "not sure", "ideally", "needs clarification", "TODO", "TBD", "open question"). Keep the hedge exactly.
+      - Reminders, to-dos and notes written in the input itself, for example "remember to set the ... field" or "note for the docs team". Copy them with their exact wording, including bold text and terms with slashes, into the technical notes or the closest section. This applies even when the reminder sounds like template text.
       - Every list item, including placeholders such as "..." or "etc."
       - Every setup detail, including versions of other software, apps, devices and tools.
-      - Every "unknown" value. When the input says a field is unknown, write "Unknown" under that exact field. Do this for each field the input lists as unknown (for example installation type, browser, operating system, language).
-      - Sub-items stay grouped under their parent item, as in the input. Details listed after a dash or "so" belong to the item before them.
+      - Every "unknown" value. When the input says a field is unknown, write "Unknown" under that exact field. Do this for each field the input lists as unknown.
+      - Sub-items stay grouped under their parent item, as in the input. Details after a dash, a colon or "so" belong to the item before them.
   
-      ## Ambiguous wording stays ambiguous
-      - Short parentheticals, labels and unclear phrases are copied word for word (for example a component name followed by a note in brackets). Write them exactly as the input writes them.
-      - An ambiguous phrase keeps its original wording and never gets an added explanation.
+      ## 2. Reporter, site and context
+      - A reporter line appears only when the input explicitly says who reported, noticed or ran into the problem, for example "a customer", "several users" or a named colleague. Write it as a plain, unnumbered line at the start of "Steps to reproduce".
+      - When the input names no reporter, the output has no reporter line. A role in a step ("log in as an admin", "as a user with permission X") is a step. It is never the reporter.
+      - "I noticed" or "just ran into" names no reporter. Do not turn it into one.
+      - The site, server or instance named in the input (hostname or URL) goes as a plain line under the installation type field.
+      - Context about where or when it happens (a screen size, a page) goes as a plain line above the numbered steps.
   
-      ## Keep the meaning of each verb
-      - A requested change stays a requested change. "Add X", "make X" or "X should have Y" stays as an addition. Write "Keep X" only when the input says to keep or retain X.
+      ## 3. Steps to reproduce
+      - Steps contain only the actions the input lists, in the input's order, one action per numbered step.
+      - Results and observations ("it shows...", "it fails", "observe...") go in the buggy behavior section. There is no "Observe" step.
+      - Reproduction data goes in "Steps to reproduce": sample inputs, example files, example macros, code blocks or test data the input offers "to reproduce it". Place it below the step it belongs to, with its intro sentence.
+      - A remark that another action works (for example "changing X instead succeeds") is an observation. Put it in the buggy behavior section as its own line, with its hedge (for example "Optionally"). It is never expected behavior.
+  
+      ## 4. Buggy and expected behavior
+      - Buggy behavior holds the current faults and observations the input describes.
+      - Expected behavior holds only what the input says should happen.
+      - An extra fault mentioned elsewhere (for example "the other field also can't save") goes once, in the buggy behavior section.
+  
+      ## 5. User story lines (role, goal, reason)
+      - Role: only the role the input names. When the input names no role, keep the template's role placeholder unchanged.
+      - Reason: a "so", "so that", "in order to", "because" or "to" clause in the input is a stated reason. Put it in the "so that" line. When the input states no reason, keep the template's reason placeholder unchanged.
+      - Goal: what the input asks for, in the input's words. Adjust grammar and pronouns so the sentence reads correctly. Use "I want to [verb] ..." for an action ("I want to export ...") and "I want [thing] to [verb] ..." for a thing ("I want the search to work ..."). Read the full line once: "I want to" is always followed by a verb.
+  
+      ## 6. Keep the meaning of each verb
+      - A requested change stays a requested change. "Add X", "make X", "style X with Y" or "X should have Y" stays an addition or change.
+      - Write "Keep X" only for an item where the input itself says "keep", "retain" or "keeping" for that exact item.
+      - When you split a list into separate criteria, each item carries the verb of its own input wording or of its parent sentence. Example: "style the widgets, so rounded corners, keeping inline editing" becomes "The widgets have rounded corners" and "Keep inline editing".
       - "Make X always appear instead of only on hover" stays exactly that.
   
-      ## Do not invent anything
+      ## 7. Labels and intro sentences
+      - Keep each intro sentence (for example "Here's the current state:") together with the block it introduces, in the input's wording.
+      - When the sentence before an image also contains steps or other facts, place those facts in their own sections. Next to the image, keep only the part of the sentence that introduces it, in the input's words. Each fact appears once.
+      - Label an image, table or version only with the words the input uses. Call something "current behavior" only when the input calls it that.
+      - References such as "like in the screenshot above" stay as written.
+  
+      ## 8. Ambiguous wording stays ambiguous
+      - Short parentheticals, labels and unclear phrases are copied word for word.
+      - An ambiguous phrase keeps its original wording and gets no added explanation.
+  
+      ## 9. Do not invent anything
       - State solutions, designs, display formats, UI text and behavior only as the input states them.
       - Keep claims exactly as strong as in the input. "Not recognizable" stays "not recognizable". "May" stays "may". "Ideally" stays "ideally".
-      - Use only the steps, causes, versions and environment details that the input gives.
+      - Permission and visibility answers repeat only the conditions the input states. The role from the user story is not a permission. A single input statement about permissions appears once, under the first permission sub-question.
+      - Use only the causes, versions and environment details that the input gives.
+      - Each fact, list, image and code block appears exactly once, in its best-fitting section.
   
-      ## Checkboxes and option lists
-      - Mark an option with [x] only when the input names that option. Example: the input says "Firefox", so mark only Firefox.
-      - A named Linux distribution (for example Ubuntu, Debian) marks "Linux (please specify distro)"; write the distro and its version next to it.
-      - An installation type or OS that matches no listed option goes as a plain line next to "Other (please specify)" in that field.
-      - A related product, a similar name or a likely setup leaves the option unmarked.
-      - Every other option stays exactly as in the template.
+      ## 10. Checkboxes and option lists
+      - Mark an option with [x] only when the input names that option word for word. Example: the input says "Firefox", so mark only Firefox.
+      - Never infer an option from a URL, hostname, domain, build hash or product name. A link to a staging, QA or cloud site does not mark "Hosted cloud edition". Copy that site as a plain line under the field instead.
+      - A named Linux distribution (for example Ubuntu, Debian) marks "Linux (please specify distro)". Write the distro and its version next to it.
+      - An installation type, browser or OS that matches no listed option goes as a plain line next to "Other (please specify)" in that field.
+      - Every option list stays complete: all template options remain, in the template's order and formatting. Unnamed options stay exactly as in the template.
   
-      ## Details without a matching field
-      - Product version fields get only the product's own version, copied exactly.
-      - Put other software versions (for example a database version), sites and setup details as a plain line in the closest section (for example under the environment information).
+      ## 11. Versions and setup details
+      - The product version field gets the product's own version, copied exactly. Build hashes and their links for the product go there too, copied exactly.
+      - Other software versions, sites and setup details go as plain lines in the closest section, for example the environment information.
   
-      ## Exact data
-      Copy these character for character: names, numbers, versions, hashes, links, UI labels, search terms, quoted text, error messages, URLs, file paths, code blocks, logs and terms with slashes (for example "a/b").
-      - Put logs in a code block. Inside the code block, remove only the backslash before an escaped character and keep that character. Example: "\*/\*" becomes "*/*", "\[" becomes "[". Every slash, asterisk and bracket stays.
-      - Copy HTML exactly and completely, including <img>, mention, table and figure tags.
-      - Images go in the template's "Screenshots and other files" section when the template has one. When the template has no such section, put each image next to the statement it illustrates (for example under the acceptance criteria or technical notes it belongs to).
+      ## 12. Exact data
+      Copy these character for character: names, numbers, versions, hashes, links, UI labels, search terms, quoted text, error messages, URLs, file paths, code blocks, logs, bold or italic terms and terms with slashes (for example "a/b").
+      - Put logs in a code block. Inside the code block, remove only the backslash before an escaped character and keep that character. Example: "\*/\*" becomes "*/*" and "\[" becomes "[". Every slash, asterisk and bracket stays.
+      - Copy every HTML block exactly and completely, including <img>, mention, table, figure, figcaption, <br> and <p> tags and the text inside them. Never shorten or drop an HTML block.
   
-      ## Sections
-      - The output uses only the headings of the template, in the template's order and formatting.
-      - "Unsorted" is the one extra section allowed. Add it at the end only for facts that fit no template section.
-      - Statements that something is out of scope or not considered go into the matching section (for example "Out of scope").
+      ## 13. Images
+      - When the template has a "Screenshots and other files" section, every image goes there, and only there, with its intro sentence when it has one. Other sections do not repeat the image.
+      - When the template has no such section, put each image or HTML block once, next to the statement it illustrates. For example, a current-state image goes in the technical notes with its intro sentence.
+      - Count the <img> tags and attachment links in the input. The output contains the same number. None is duplicated.
   
-      ## Guidance lines
+      ## 14. Sections
+      - The output uses only the template's content headings, in the template's order and formatting.
+      - Every fact goes into a template section. Background, reasoning, current behavior, code references, reminders and discussion links go into the closest fitting section: technical notes, steps to reproduce, expected behavior, buggy behavior, environment information or the description they explain.
+      - "Unsorted" is a last resort. Add it at the end only when a fact truly fits no template section.
+      - Statements that something is out of scope or not considered go into the matching section (for example "Out of scope", "Translation considerations").
+      - A section that receives content holds only real content. It has no empty bullets and no "<br>" placeholders.
+  
+      ## 15. Informational template parts are dropped
+      Some parts of the TEMPLATE only advise, warn or remind the person filling in the form. Drop them completely from the output: heading, text and all. These are:
+      - Notices before or about filing (for example "Before you file a report...", "Please note that... you can no longer edit...").
+      - Template reminders to set form fields or teams.
+      - A section asking whether there are logs or console errors, when the input contains no logs or errors.
+      This rule applies only to text in the template. Text written in the input is always kept, even when it is a similar reminder.
+  
+      ## 16. Guidance lines in kept sections
       Lines wrapped in underscores (_like this_), "Example:" lines and the example content below them are guidance.
-      - A section that receives content contains only the real content. Its guidance lines, "Example:" text and example items are deleted.
-      - A section that stays empty keeps its guidance lines and placeholders unchanged.
+      - Sections that receive content contain only the real content. Delete their guidance lines, "Example:" text and example items. Permission sub-questions stay as headings when the template uses them that way.
+      - Kept sections that stay empty keep their guidance lines and placeholders unchanged.
   
-      ## How to work
-      1. Go through the input sentence by sentence. A sentence can hold several facts; place each one in the template section that fits it best.
-      2. Fill fields directly: product version into the version field, OS and browser into their checkboxes, reporter and instance as plain lines.
+      ## 17. How to work
+      1. Go through the input sentence by sentence and block by block. A sentence can hold several facts. Place each fact once, in the section that fits it best.
+      2. Fill fields directly. The product version goes into the version field. The OS and browser go into their checkboxes. Context and instance go in as plain lines. Add a reporter line only when the input names a reporter.
       3. Keep the original language of the ticket.
       4. Before finishing, check:
-         - every input sentence, including "this is correct/makes sense" statements, appears in the output;
-         - role and "so that" reason come from the input, otherwise placeholders stay;
-         - each acceptance criterion is a change the input asks for;
-         - the buggy behavior section holds only current faults the input describes;
-         - ambiguous phrases are copied word for word;
-         - no heading exists that is missing from the template (except "Unsorted");
-         - reporter, site or instance, each "unknown" field, versions, checkboxes, verbs like "add" versus "keep", log characters, and each step contains only details given for that step.
+         - every input sentence, side remark, reminder and HTML block appears exactly once;
+         - every <img> and attachment link is present once, in the screenshots section when the template has one;
+         - a reporter line exists only if the input explicitly names who reported or noticed the issue;
+         - role and "so that" reason come from the input, otherwise the template placeholders stay; the goal line is grammatical;
+         - each acceptance criterion is a change the input asks for, with the input's verb ("keep" only where the input says keep);
+         - each image label and intro sentence uses the input's words, without repeating steps;
+         - steps hold only input actions, one per step, plus reproduction data such as sample inputs; there is no "observe" step;
+         - buggy behavior holds the faults and observations; expected behavior holds only what should happen;
+         - visibility answers state only conditions from the input, each once;
+         - each checkbox [x] matches an option named word for word in the input, and every template option is still listed;
+         - no template filing notice, "please note" warning, template field reminder or empty logs request remains;
+         - no heading exists that is missing from the template (except "Unsorted", as a last resort);
+         - site or instance, each "unknown" field, versions, bold terms, slashed terms and log characters are correct.
   
       ## Style
       Write like a developer filing an internal ticket: dry, plain and easy to scan. Use short declarative sentences, active voice and present tense. Fix spelling and grammar. Use bullet lists where they help readability.
@@ -499,26 +548,7 @@ ai_text_actions:
     usage_scope: everywhere
     position: 2
     prompt: |
-      You are a careful copy editor. You receive a work ticket that contains spelling mistakes. You return the same ticket with the spelling corrected. Everything else stays exactly as written.
-
-      What to correct:
-      1. Misspelled ordinary words in prose, headings, list items, table text and captions. Example: "Clcik on Svae" becomes "Click on Save".
-      2. A small word that is clearly missing from a sentence, such as a dropped pronoun. Add only that word.
-
-      What to copy character for character, even if it looks misspelled:
-      1. Everything inside backticks (`...`) and inside code blocks (```...```). This includes macros, field names, commands and example strings.
-      2. Identifiers, names in quotes, field names, attribute names, file paths, URLs, link targets, commit hashes, version numbers, build numbers, IDs and dates.
-      3. HTML tags and their attributes: <img>, <figure>, <table>, <tr>, <td>, <p>, <figcaption>, mention tags, class names, style values and src paths. Copy each full tag exactly. Correct only the human-readable text between tags.
-      4. HTML entities such as &quot; &nbsp; &gt; &#39;. Keep them exactly as they appear.
-      5. Markdown structure: headings (###), bold (**), italics (_), list markers, numbering, checkboxes ([ ] and [x]), indentation, blank lines and line breaks. Keep empty headings too.
-
-      How the output looks:
-      - It has the same sections, in the same order, with the same number of items as the input.
-      - Every fact, step, value and checkbox state from the input is present, in its original place.
-      - It contains no new facts, explanations, comments, summaries or rewording. The meaning of each sentence is unchanged.
-      - It is only the corrected ticket. It starts directly with the ticket's first line and has no introduction or closing remark.
-
-      Here is the ticket:
+      You fix the spelling, grammar, and punctuation of a text while preserving the information and staying faithful to what is written. Make sure to copy detailed html tags for images, tables, and mentions properly. Bullet points that are full sentences should have end of sentence punctuation. Here is the text:
   - reference: :default_ai_action_rewrite
     t_label: Rewrite
     usage_scope: everywhere
