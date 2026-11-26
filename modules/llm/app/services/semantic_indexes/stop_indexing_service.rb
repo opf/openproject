@@ -45,23 +45,28 @@ module SemanticIndexes
     def perform
       return failure(I18n.t(:notice_not_authorized)) unless authorized?
 
-      batch = model.indexing_batch
-      model.stop_indexing!
-      discard_jobs(batch)
+      model.with_lock do
+        return failure(I18n.t("admin.semantic_indexes.stop_indexing.not_indexing")) unless model.indexing?
+
+        discard_run_jobs
+      end
 
       ServiceResult.success(result: model)
-    rescue SemanticIndex::InvalidTransitionError
-      failure(I18n.t("admin.semantic_indexes.stop_indexing.not_indexing"))
     end
 
     private
 
     def authorized? = user.admin? && user.active?
 
-    def discard_jobs(batch)
-      return unless batch
+    def discard_run_jobs
+      discard_jobs(model.index_jobs)
+      discard_jobs(model.indexing_batch&.jobs)
+    end
 
-      batch.jobs.each do |job|
+    def discard_jobs(jobs)
+      return unless jobs
+
+      jobs.each do |job|
         job.discard_job(DISCARD_MESSAGE) if job.status.in?(DISCARDABLE_STATUSES)
       rescue GoodJob::AdvisoryLockable::RecordAlreadyAdvisoryLockedError,
              GoodJob::Job::ActionForStateMismatchError

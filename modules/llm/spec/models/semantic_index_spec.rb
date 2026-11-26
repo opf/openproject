@@ -37,7 +37,7 @@ RSpec.describe SemanticIndex do
 
   it "starts out as not indexed" do
     expect(semantic_index.save).to be(true)
-    expect(semantic_index.reload).to be_not_indexed
+    expect(semantic_index.reload.status).to eq("not_indexed")
   end
 
   it "requires a title" do
@@ -64,77 +64,48 @@ RSpec.describe SemanticIndex do
       .to include(a_hash_including(error: :less_than_or_equal_to, value: WorkPackageEmbedding::DIMENSIONS + 1))
   end
 
-  describe "#start_indexing!" do
-    %w[not_indexed failed ready].each do |state|
-      it "starts indexing from #{state} and clears the previous error" do
-        semantic_index = create(:semantic_index, state:, error_message: "Some Error")
-
-        semantic_index.start_indexing!
-
-        expect(semantic_index.reload).to have_attributes(state: "indexing", error_message: nil)
-      end
+  describe "#status" do
+    it "is derived from the claimed batch, the embeddings and the error message" do
+      expect(create(:semantic_index).status).to eq("not_indexed")
+      expect(create(:semantic_index, :ready).status).to eq("ready")
+      expect(create(:semantic_index, :indexing).status).to eq("indexing")
+      expect(create(:semantic_index, :indexing, :ready).status).to eq("indexing")
+      expect(create(:semantic_index, error_message: "Some Error").status).to eq("failed")
     end
 
-    it "refuses to start while indexing" do
-      semantic_index = create(:semantic_index, state: "indexing")
-
-      expect { semantic_index.start_indexing! }.to raise_error(SemanticIndex::InvalidTransitionError)
-      expect(semantic_index.reload).to be_indexing
-    end
-  end
-
-  describe "finishing indexing" do
-    let(:semantic_index) { create(:semantic_index, state: "indexing") }
-
-    it "becomes ready" do
-      semantic_index.finish_indexing!
-
-      expect(semantic_index.reload).to be_ready
+    it "stays ready with an error message while the index is searchable" do
+      expect(create(:semantic_index, :ready, error_message: "Some Error").status).to eq("ready")
     end
 
-    it "fails with an error message" do
-      semantic_index.fail_indexing!("Some Error")
+    it "is no longer indexing once the claimed batch finished" do
+      semantic_index = create(:semantic_index, :ready, :indexing)
+      GoodJob::Job.where(batch_id: semantic_index.indexing_batch_id).update_all(finished_at: Time.current)
 
-      expect(semantic_index.reload).to have_attributes(state: "failed", error_message: "Some Error")
-    end
-
-    it "refuses unless indexing" do
-      semantic_index.update!(state: "not_indexed")
-
-      expect { semantic_index.finish_indexing! }.to raise_error(SemanticIndex::InvalidTransitionError)
-      expect { semantic_index.fail_indexing!("Some Error") }.to raise_error(SemanticIndex::InvalidTransitionError)
-    end
-  end
-
-  describe "#stop_indexing!" do
-    let(:semantic_index) { create(:semantic_index, state: "indexing", error_message: "Some Error") }
-
-    it "returns to not indexed and clears the error" do
-      semantic_index.stop_indexing!
-
-      expect(semantic_index.reload).to have_attributes(state: "not_indexed", error_message: nil)
-    end
-
-    it "refuses unless indexing" do
-      semantic_index.update!(state: "ready")
-
-      expect { semantic_index.stop_indexing! }.to raise_error(SemanticIndex::InvalidTransitionError)
-      expect(semantic_index.reload).to be_ready
+      expect(semantic_index.status).to eq("ready")
     end
   end
 
   describe "#searchable?" do
-    it "is true in every state except not_indexed" do
-      %w[indexing ready failed].each do |state|
-        expect(create(:semantic_index, state:)).to be_searchable, "expected #{state} to be searchable"
-      end
+    it "is true once a work package is embedded, also while re-indexing" do
+      expect(create(:semantic_index, :ready)).to be_searchable
+      expect(create(:semantic_index, :ready, :indexing)).to be_searchable
+    end
 
-      expect(create(:semantic_index, state: "not_indexed")).not_to be_searchable
+    it "is false without embedded work packages" do
+      expect(create(:semantic_index)).not_to be_searchable
+      expect(create(:semantic_index, :indexing)).not_to be_searchable
+    end
+
+    it "is false when no work package could be embedded" do
+      semantic_index = create(:semantic_index)
+      create(:work_package_embedding, semantic_index:, embedding: nil, failed_at: Time.current)
+
+      expect(semantic_index).not_to be_searchable
     end
   end
 
   describe "#active?" do
-    let(:semantic_index) { create(:semantic_index, state: "ready") }
+    let(:semantic_index) { create(:semantic_index, :ready) }
 
     it "is active once the semantic search binding references it" do
       expect { connection.feature_bindings.create!(feature_key: "semantic_search", semantic_index:) }

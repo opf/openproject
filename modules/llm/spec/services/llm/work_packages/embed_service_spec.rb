@@ -42,7 +42,7 @@ RSpec.describe Llm::WorkPackages::EmbedService,
   let(:session_double) { instance_double(Llm::Session) }
   let(:embedding_double) { instance_double(RubyLLM::Embedding, vectors: [[1.0, 2.0, 3.0]]) }
 
-  subject(:service) { described_class.new(semantic_index, [work_package]) }
+  subject(:service) { described_class.new(semantic_index, [work_package.id]) }
 
   def expected_vector(*values)
     padding = Array.new(WorkPackageEmbedding::DIMENSIONS - values.size, "0")
@@ -80,12 +80,20 @@ RSpec.describe Llm::WorkPackages::EmbedService,
     expect(record.embedding).to eq(expected_vector(1, 2, 3))
   end
 
+  it "remembers the update and the text it embedded" do
+    service.call
+
+    record = WorkPackageEmbedding.find_by!(semantic_index:, work_package:)
+    expect(record.work_package_updated_at).to eq(work_package.updated_at)
+    expect(record.text_digest).to eq(Digest::MD5.hexdigest("Fix bug\n#{work_package.description}"))
+  end
+
   it "replaces an earlier embedding of the same work package" do
     service.call
     allow(session_double).to receive(:embed)
       .and_return(instance_double(RubyLLM::Embedding, vectors: [[4.0, 5.0, 6.0]]))
 
-    described_class.new(semantic_index, [work_package]).call
+    described_class.new(semantic_index, [work_package.id]).call
 
     record = WorkPackageEmbedding.find_by!(semantic_index:, work_package:)
     expect(record.embedding).to eq(expected_vector(4, 5, 6))
@@ -113,9 +121,74 @@ RSpec.describe Llm::WorkPackages::EmbedService,
       embeddings
     end
 
-    expect { described_class.new(semantic_index, [work_package, to_be_deleted_work_package]).call }.not_to raise_error
+    expect { described_class.new(semantic_index, [work_package.id, to_be_deleted_work_package.id]).call }.not_to raise_error
 
     expect(WorkPackageEmbedding.exists?(work_package_id: to_be_deleted_work_package.id)).to be(false)
     expect(WorkPackageEmbedding.exists?(work_package_id: work_package.id)).to be(true)
+  end
+
+  context "when the server refuses the text" do
+    let(:refusal) { Llm::Errors::ContextLengthError.new("too large", status: 400) }
+
+    before { allow(session_double).to receive(:embed).and_raise(refusal) }
+
+    it "remembers the failed text without an embedding" do
+      service.call
+
+      record = WorkPackageEmbedding.find_by!(semantic_index:, work_package:)
+      expect(record.embedding).to be_nil
+      expect(record.failed_at).to be_present
+      expect(record.work_package_updated_at).to eq(work_package.updated_at)
+      expect(record.text_digest).to eq(Digest::MD5.hexdigest("Fix bug\n#{work_package.description}"))
+    end
+
+    it "clears an earlier embedding of the previous text" do
+      create(:work_package_embedding, semantic_index:, work_package:, embedding: [1.0, 2.0, 3.0])
+
+      service.call
+
+      record = WorkPackageEmbedding.find_by!(semantic_index:, work_package:)
+      expect(record.embedding).to be_nil
+      expect(record.failed_at).to be_present
+    end
+
+    it "is cleared by a later embedding" do
+      service.call
+      allow(session_double).to receive(:embed).and_return(embedding_double)
+
+      described_class.new(semantic_index, [work_package.id]).call
+
+      expect(WorkPackageEmbedding.find_by!(semantic_index:, work_package:).failed_at).to be_nil
+    end
+
+    [400, 413, 422].each do |status|
+      context "with a #{status}" do
+        let(:refusal) { Llm::Errors::InvalidInputError.new("invalid input", status:) }
+
+        it "remembers the failed text" do
+          service.call
+
+          expect(WorkPackageEmbedding.find_by!(semantic_index:, work_package:).failed_at).to be_present
+        end
+      end
+    end
+
+    it "raises for several work packages, as any of them may be the cause" do
+      other_work_package = create(:work_package)
+
+      expect { described_class.new(semantic_index, [work_package.id, other_work_package.id]).call }
+        .to raise_error(Llm::Errors::ContextLengthError)
+      expect(WorkPackageEmbedding.count).to eq(0)
+    end
+  end
+
+  [Llm::Errors::ApiError.new("down", status: 503), Llm::Errors::ApiError.new("missing", status: 404),
+   Llm::Errors::AuthenticationError.new("rejected")].each do |error|
+    it "raises a #{error.class.name.demodulize} #{error.try(:status)} without remembering the text" do
+      allow(session_double).to receive(:embed).and_raise(error)
+
+      expect { service.call }.to raise_error(error)
+      expect(WorkPackageEmbedding.count).to eq(0)
+    end
   end
 end

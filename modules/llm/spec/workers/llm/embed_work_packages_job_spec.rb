@@ -37,16 +37,13 @@ RSpec.describe Llm::EmbedWorkPackagesJob, with_flag: { semantic_search: true } d
 
   before { allow(Llm::WorkPackages::EmbedService).to receive(:new).and_call_original }
 
-  it "calls EmbedService with the resolved work packages" do
+  it "calls EmbedService with the work package ids" do
     service_double = instance_double(Llm::WorkPackages::EmbedService, call: nil)
     allow(Llm::WorkPackages::EmbedService).to receive(:new).and_return(service_double)
 
     described_class.perform_now(semantic_index.id, [work_package.id])
 
-    expect(Llm::WorkPackages::EmbedService).to have_received(:new) do |index, wps|
-      expect(index).to eq(semantic_index)
-      expect(wps.map(&:id)).to contain_exactly(work_package.id)
-    end
+    expect(Llm::WorkPackages::EmbedService).to have_received(:new).with(semantic_index, [work_package.id])
     expect(service_double).to have_received(:call)
   end
 
@@ -110,6 +107,14 @@ RSpec.describe Llm::EmbedWorkPackagesJob, with_flag: { semantic_search: true } d
       end
     end
 
+    shared_examples "records the failure on the semantic index" do
+      it "records the error" do
+        expect { perform }.to raise_error(error.class)
+        expect(semantic_index.reload.error_message)
+          .to eq(I18n.t("admin.semantic_indexes.indexing.run_failed", error: error.message))
+      end
+    end
+
     [400, 413, 422].each do |status|
       context "when the server refuses the input with a #{status}" do
         let(:error) { Llm::Errors::InvalidInputError.new("invalid input", status:) }
@@ -148,16 +153,28 @@ RSpec.describe Llm::EmbedWorkPackagesJob, with_flag: { semantic_search: true } d
       end
     end
 
+    context "when the server refuses the input" do
+      let(:error) { Llm::Errors::InvalidInputError.new("invalid input", status: 400) }
+
+      it "records no error" do
+        perform
+
+        expect(semantic_index.reload.error_message).to be_nil
+      end
+    end
+
     context "when the server rejects the API key" do
       let(:error) { Llm::Errors::AuthenticationError.new("rejected") }
 
       it_behaves_like "fails the job"
+      it_behaves_like "records the failure on the semantic index"
     end
 
     context "when no connection is available" do
       let(:error) { Llm::Errors::NotReady.new(:no_connection) }
 
       it_behaves_like "fails the job"
+      it_behaves_like "records the failure on the semantic index"
     end
 
     context "when an unrelated error is raised" do
@@ -170,6 +187,16 @@ RSpec.describe Llm::EmbedWorkPackagesJob, with_flag: { semantic_search: true } d
       let(:error) { GoodJob::ActiveJobExtensions::Concurrency::ConcurrencyExceededError.new }
 
       it_behaves_like "retries the job"
+
+      it "retries at a steady pace instead of backing off" do
+        freeze_time
+
+        job = described_class.new(semantic_index.id, work_package_ids)
+        job.executions = 20
+
+        expect { job.perform_now }
+          .to have_enqueued_job(described_class).at(a_value_between(30.seconds.from_now, 35.seconds.from_now))
+      end
     end
 
     context "when a transient error persists" do
@@ -183,6 +210,8 @@ RSpec.describe Llm::EmbedWorkPackagesJob, with_flag: { semantic_search: true } d
         expect { job.perform_now }
           .to raise_error(described_class::TransientError) { |raised| expect(raised.cause).to eq(error) }
         expect(service).to have_received(:call).exactly(10).times
+        expect(semantic_index.reload.error_message)
+          .to eq(I18n.t("admin.semantic_indexes.indexing.run_failed", error: error.message))
       end
     end
   end

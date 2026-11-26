@@ -33,34 +33,42 @@ require_module_spec_helper
 RSpec.describe SemanticIndexes::StopIndexingService, with_good_job_batches: [Llm::IndexWorkPackagesJob] do
   include_context "with an embedding model offered"
 
-  let(:semantic_index) { create(:semantic_index, state: "indexing") }
+  let(:semantic_index) { create(:semantic_index, :indexing) }
   let(:user) { build_stubbed(:admin) }
 
   subject(:result) { described_class.new(user:, model: semantic_index).call }
 
-  context "with queued jobs in the indexing batch" do
-    let(:batch) { Llm::IndexWorkPackagesJob.enqueue_for(semantic_index) }
+  context "with a queued index job" do
+    let(:semantic_index) { create(:semantic_index) }
 
-    before { semantic_index.update!(indexing_batch_id: batch.id) }
+    before { Llm::IndexWorkPackagesJob.perform_later(semantic_index.id) }
 
-    def batch_jobs = GoodJob::Job.where(batch_id: batch.id)
+    it "stops indexing and discards the job" do
+      expect(result).to be_success
+      expect(semantic_index.reload.status).to eq("not_indexed")
+      expect(semantic_index.index_jobs.map(&:status)).to eq([:discarded])
+    end
+  end
+
+  context "with queued jobs in the claimed batch" do
+    def batch_jobs = GoodJob::Job.where(batch_id: semantic_index.indexing_batch_id)
 
     it "stops indexing and discards the queued jobs" do
       expect(batch_jobs).not_to be_empty
 
       expect(result).to be_success
-      expect(semantic_index.reload).to be_not_indexed
+      expect(semantic_index.reload.status).to eq("not_indexed")
       expect(batch_jobs.reload.map(&:status)).to all(eq(:discarded))
     end
   end
 
   context "when the Semantic Index is not indexing" do
-    let(:semantic_index) { create(:semantic_index, state: "ready") }
+    let(:semantic_index) { create(:semantic_index, :ready) }
 
     it "fails without changing the state" do
       expect(result).to be_failure
       expect(result.message).to eq(I18n.t("admin.semantic_indexes.stop_indexing.not_indexing"))
-      expect(semantic_index.reload).to be_ready
+      expect(semantic_index.reload.status).to eq("ready")
     end
   end
 
@@ -69,7 +77,7 @@ RSpec.describe SemanticIndexes::StopIndexingService, with_good_job_batches: [Llm
 
     it "fails without changing the state" do
       expect(result).to be_failure
-      expect(semantic_index.reload).to be_indexing
+      expect(semantic_index.reload.status).to eq("indexing")
     end
   end
 end

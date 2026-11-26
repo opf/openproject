@@ -42,7 +42,14 @@ module Llm
       job.enqueue_per_work_package
     end
 
-    retry_on TransientError, wait: :polynomially_longer, attempts: 10
+    retry_on TransientError, wait: :polynomially_longer, attempts: 10 do |job, error|
+      job.record_run_failure(error)
+      raise error
+    end
+
+    # Replaces the polynomial backoff of GoodJob, which grows to hours once a few hundred jobs wait for a slot.
+    retry_on GoodJob::ActiveJobExtensions::Concurrency::ConcurrencyExceededError,
+             attempts: Float::INFINITY, wait: 30.seconds
 
     def perform(semantic_index_id, work_package_ids)
       return unless OpenProject::Llm::Features[:semantic_search].available?
@@ -50,12 +57,17 @@ module Llm
       semantic_index = SemanticIndex.find_by(id: semantic_index_id)
       return if semantic_index.blank?
 
-      work_packages = WorkPackage.where(id: work_package_ids)
-      Llm::WorkPackages::EmbedService.new(semantic_index, work_packages).call
+      Llm::WorkPackages::EmbedService.new(semantic_index, work_package_ids).call
     rescue Llm::Errors::Error => e
       raise TransientError, e.message if Llm::Errors.transient?(e)
 
+      record_run_failure(e) unless e.is_a?(Llm::Errors::InvalidInputError)
       raise
+    end
+
+    def record_run_failure(error)
+      SemanticIndex.where(id: arguments.first)
+                   .update_all(error_message: I18n.t("admin.semantic_indexes.indexing.run_failed", error: error.message))
     end
 
     def enqueue_per_work_package

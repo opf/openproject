@@ -63,4 +63,10 @@ RSpec.describe WorkPackageEmbedding do
 
     expect(described_class.count).to eq(2)
   end
+
+  it "stores a missing embedding as NULL" do
+    embedding = create(:work_package_embedding, embedding: nil)
+
+    expect(embedding.reload.embedding).to be_nil
+  end
 end

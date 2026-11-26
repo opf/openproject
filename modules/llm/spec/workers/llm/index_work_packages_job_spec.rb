@@ -34,66 +34,235 @@ RSpec.describe Llm::IndexWorkPackagesJob,
                with_flag: { llm_connection: true, semantic_search: true },
                with_good_job_batches: [Llm::IndexWorkPackagesJob, Llm::EmbedWorkPackagesJob],
                with_settings: { llm_features_enabled: true } do
-  let(:semantic_index) { create(:semantic_index, state: "indexing") }
+  include_context "with an embedding model offered"
 
-  describe ".enqueue_for" do
-    it "enqueues the job inside a batch that finishes the Semantic Index" do
-      batch = described_class.enqueue_for(semantic_index)
+  let(:semantic_index) { create(:semantic_index, :ready) }
 
-      expect(batch.properties).to include(semantic_index_id: semantic_index.id)
-      expect(batch.on_finish).to eq(Llm::FinishSemanticIndexingJob.name)
-      expect(GoodJob::Job.where(batch_id: batch.id).pluck(:job_class)).to eq([described_class.name])
+  let(:job) { described_class.new }
+
+  def embed_job_arguments
+    GoodJob::Job.where(batch_id: semantic_index.reload.indexing_batch_id, job_class: Llm::EmbedWorkPackagesJob.name)
+                .map { it.serialized_params["arguments"].second }
+  end
+
+  def embedded_ids = embed_job_arguments.flatten
+
+  def embed(work_package, **)
+    create(:work_package_embedding, semantic_index:, work_package:, **)
+  end
+
+  it "claims a batch with the embed jobs of work packages without an embedding" do
+    work_packages = create_list(:work_package, 2)
+
+    job.perform(semantic_index.id)
+
+    expect(semantic_index.reload.indexing_batch.properties).to include(semantic_index_id: semantic_index.id)
+    expect(embedded_ids).to match_array(work_packages.map(&:id))
+  end
+
+  it "embeds the work packages in jobs of the batch size" do
+    stub_const("#{described_class}::BATCH_SIZE", 2)
+    create_list(:work_package, 3)
+
+    job.perform(semantic_index.id)
+
+    expect(embed_job_arguments.map(&:size)).to contain_exactly(2, 1)
+  end
+
+  it "claims no batch when every embedding is up to date" do
+    embed(create(:work_package))
+
+    expect { job.perform(semantic_index.id) }.not_to change(GoodJob::BatchRecord, :count)
+    expect(semantic_index.reload.indexing_batch_id).to be_nil
+  end
+
+  it "claims no batch when only other attributes than the text changed" do
+    work_package = create(:work_package)
+    embed(work_package)
+    work_package.update!(estimated_hours: 3, updated_at: 1.minute.from_now)
+
+    expect { job.perform(semantic_index.id) }.not_to change(GoodJob::BatchRecord, :count)
+  end
+
+  it "ignores the embeddings of other Semantic Indexes" do
+    work_package = create(:work_package)
+    create(:work_package_embedding, semantic_index: create(:semantic_index), work_package:)
+
+    job.perform(semantic_index.id)
+
+    expect(embedded_ids).to eq([work_package.id])
+  end
+
+  context "without a connection" do
+    before do
+      allow(LlmConnection).to receive(:available?).and_return(false)
+      create(:work_package)
+    end
+
+    it "records the error and claims no batch" do
+      expect { job.perform(semantic_index.id) }.not_to change(GoodJob::BatchRecord, :count)
+      expect(semantic_index.reload.error_message).to eq(I18n.t("admin.semantic_indexes.indexing.not_ready.no_connection"))
     end
   end
 
-  describe "#perform" do
-    include_context "with an embedding model offered"
+  it "records the error when the connection no longer offers the model" do
+    semantic_index.update!(model_id: "no-longer-offered")
+    create(:work_package)
 
-    let!(:work_packages) { create_list(:work_package, 2) }
-    let(:batch) { GoodJob::Batch.new }
-    let(:job) { described_class.new }
+    expect { job.perform(semantic_index.id) }.not_to change(GoodJob::BatchRecord, :count)
+    expect(semantic_index.reload.error_message)
+      .to eq(I18n.t("admin.semantic_indexes.indexing.not_ready.model_missing", model: "no-longer-offered"))
+  end
 
-    before { allow(job).to receive(:batch).and_return(batch) }
+  it "clears a previous error once the prerequisites are met" do
+    semantic_index.update!(error_message: "boom")
 
-    def embed_jobs
-      GoodJob::Job.where(batch_id: batch.id, job_class: Llm::EmbedWorkPackagesJob.name)
+    job.perform(semantic_index.id)
+
+    expect(semantic_index.reload.error_message).to be_nil
+  end
+
+  it "does nothing for an unknown semantic index" do
+    create(:work_package)
+
+    expect { job.perform(-1) }.not_to change(GoodJob::BatchRecord, :count)
+  end
+
+  it "is enqueued only once per Semantic Index at a time" do
+    2.times { described_class.perform_later(semantic_index.id) }
+    described_class.perform_later(create(:semantic_index).id)
+
+    expect(GoodJob::Job.where(job_class: described_class.name).count).to eq(2)
+  end
+
+  it "skips the run while the claimed batch is still running" do
+    indexing_index = create(:semantic_index, :indexing)
+    create(:work_package)
+
+    expect { job.perform(indexing_index.id) }.not_to change { indexing_index.reload.indexing_batch_id }
+  end
+
+  it "does nothing with the feature flag off", with_flag: { semantic_search: false } do
+    create(:work_package)
+
+    expect { job.perform(semantic_index.id) }.not_to change(GoodJob::BatchRecord, :count)
+  end
+
+  context "when run by cron without a Semantic Index" do
+    let!(:active_index) do
+      create(:semantic_index).tap do |index|
+        create(:llm_feature_binding, llm_connection: connection, feature_key: "semantic_search", semantic_index: index)
+      end
     end
 
-    it "adds an embedding job for the work packages of the Semantic Index to its batch" do
-      job.perform(semantic_index.id)
+    it "syncs the active Semantic Index" do
+      work_package = create(:work_package)
 
-      expect(embed_jobs.map { it.serialized_params["arguments"] })
-        .to contain_exactly([semantic_index.id, match_array(work_packages.map(&:id))])
+      job.perform
+
+      expect(GoodJob::Job.where(batch_id: active_index.reload.indexing_batch_id)
+                         .flat_map { it.serialized_params["arguments"].second }).to eq([work_package.id])
     end
 
-    it "fails the Semantic Index and enqueues nothing without a connection" do
-      connection.destroy!
+    it "does nothing without an active Semantic Index" do
+      active_index.llm_feature_bindings.destroy_all
+      create(:work_package)
 
-      job.perform(semantic_index.id)
-
-      expect(embed_jobs).to be_empty
-      expect(semantic_index.reload)
-        .to have_attributes(state: "failed",
-                            error_message: I18n.t("admin.semantic_indexes.indexing.not_ready.no_connection"))
+      expect { job.perform }.not_to change(GoodJob::BatchRecord, :count)
     end
 
-    it "fails the Semantic Index when the connection no longer offers its model" do
-      semantic_index.update!(model_id: "no-longer-offered")
+    it "shares the concurrency key of a run started for the active Semantic Index" do
+      described_class.perform_later(active_index.id)
+      described_class.perform_later
 
-      job.perform(semantic_index.id)
-
-      expect(embed_jobs).to be_empty
-      expect(semantic_index.reload)
-        .to have_attributes(state: "failed",
-                            error_message: I18n.t("admin.semantic_indexes.indexing.not_ready.model_missing",
-                                                  model: "no-longer-offered"))
+      expect(GoodJob::Job.where(job_class: described_class.name).count).to eq(1)
     end
 
-    it "does nothing with the feature flag off", with_flag: { semantic_search: false } do
-      job.perform(semantic_index.id)
+    context "with a work package that cannot be embedded" do
+      let!(:failing) { create(:work_package, subject: "Rejected") }
+      let!(:healthy) { create(:work_package, subject: "Accepted") }
+      let(:session) { instance_double(Llm::Session) }
+      let(:rejecting) { true }
+      let(:rejection) { Llm::Errors.translate(RubyLLM::BadRequestError.new(instance_double(Faraday::Env, status: 400), "invalid input")) }
 
-      expect(embed_jobs).to be_empty
-      expect(semantic_index.reload).to be_indexing
+      before do
+        allow(Llm::Session).to receive(:for).and_return(session)
+        allow(session).to receive(:embed) do |texts, **|
+          raise rejection if rejecting && texts.any? { it.include?("Rejected") }
+
+          instance_double(RubyLLM::Embedding, vectors: texts.map { [0.1, 0.2, 0.3] })
+        end
+      end
+
+      def tick
+        described_class.perform_now
+        GoodJob.perform_inline
+        active_index.reload
+      end
+
+      def embedded_work_package_ids
+        WorkPackageEmbedding.where(semantic_index: active_index).where.not(embedding: nil).pluck(:work_package_id)
+      end
+
+      shared_examples "records it until its text changes" do
+        it "embeds the others and does not try it again until its text changes" do
+          tick
+
+          expect(embedded_work_package_ids).to eq([healthy.id])
+          expect(active_index.status).to eq("ready")
+          expect(Llm::IndexingProgress.new(active_index).failed_count).to eq(1)
+          expect { tick }.not_to change(active_index, :indexing_batch_id)
+
+          failing.update!(description: "Shorter", updated_at: 1.minute.from_now)
+          allow(self).to receive(:rejecting).and_return(false)
+          tick
+
+          expect(embedded_work_package_ids).to contain_exactly(healthy.id, failing.id)
+          expect(Llm::IndexingProgress.new(active_index).failed_count).to eq(0)
+        end
+      end
+
+      it_behaves_like "records it until its text changes"
+
+      context "when its text is too large" do
+        let(:rejection) do
+          Llm::Errors.translate(RubyLLM::ContextLengthExceededError.new(instance_double(Faraday::Env, status: 400),
+                                                                        "maximum context length exceeded"))
+        end
+
+        it_behaves_like "records it until its text changes"
+      end
+    end
+
+    context "when the server rejects the API key" do
+      let!(:work_packages) { create_list(:work_package, 2) }
+      let(:session) { instance_double(Llm::Session) }
+
+      before do
+        allow(Llm::Session).to receive(:for).and_return(session)
+        allow(session).to receive(:embed).and_raise(Llm::Errors::AuthenticationError.new("rejected"))
+      end
+
+      it "fails the run and retries its work packages in the next one" do
+        described_class.perform_now
+        expect { GoodJob.perform_inline }.to raise_error(Llm::Errors::AuthenticationError)
+        active_index.reload
+
+        expect(active_index.error_message)
+          .to eq(I18n.t("admin.semantic_indexes.indexing.run_failed", error: "rejected"))
+        expect(Llm::IndexingProgress.new(active_index).failed_count).to eq(0)
+
+        allow(session).to receive(:embed) do |texts, **|
+          instance_double(RubyLLM::Embedding, vectors: texts.map { [0.1, 0.2, 0.3] })
+        end
+        described_class.perform_now
+        GoodJob.perform_inline
+        active_index.reload
+
+        expect(WorkPackageEmbedding.where(semantic_index: active_index).pluck(:work_package_id))
+          .to match_array(work_packages.map(&:id))
+        expect(active_index.error_message).to be_nil
+      end
     end
   end
 end

@@ -96,16 +96,6 @@ class SemanticIndex < ApplicationRecord
 
   def index_jobs = GoodJob::Job.where(concurrency_key: Llm::IndexWorkPackagesJob.concurrency_key(id))
 
-  def failed_work_package_count
-    return 0 if indexing_batch.nil? || indexing?
-
-    Llm::IndexingProgress.new(indexing_batch).failed_work_package_count
-  end
-
-  def fail_indexing!(error_message)
-    transition_from_indexing!(state: :failed, error_message:)
-  end
-
   private
 
   def index_job_pending? = index_jobs.exists?(finished_at: nil)

@@ -30,9 +30,9 @@
 module Llm
   module WorkPackages
     class EmbedService
-      def initialize(semantic_index, work_packages)
+      def initialize(semantic_index, work_package_ids)
         @semantic_index = semantic_index
-        @work_packages = Array(work_packages)
+        @work_package_ids = work_package_ids
       end
 
       def call
@@ -40,16 +40,28 @@ module Llm
 
         raise Llm::Errors::NotReady, :no_connection unless LlmConnection.available?
 
-        vectors = session.embed(texts,
-                                model: semantic_index.model_id,
-                                dimensions: semantic_index.embedding_vector_dimensions).vectors
+        store(embed)
+      rescue Llm::Errors::InvalidInputError
+        # Only a request for a single work package proves its text is refused.
+        raise unless work_packages.one?
 
-        store(vectors)
+        record_failure
       end
 
       private
 
-      attr_reader :semantic_index, :work_packages
+      attr_reader :semantic_index
+
+      # clear embedding, set failed_at
+      # update work_package_updated_at so we only try again when the work package is updated
+      def record_failure
+        upsert(work_packages.map { |work_package| row(work_package, embedding: nil, failed_at: Time.current) })
+      end
+
+      # digest must be computed when retrieving work packages to avoid drift
+      def work_packages
+        @work_packages ||= EmbeddableText.with_digest(WorkPackage.where(id: @work_package_ids)).to_a
+      end
 
       def connection
         @connection ||= LlmConnection.active_connection
@@ -57,20 +69,30 @@ module Llm
 
       def session = Llm::Session.for(connection)
 
+      def embed
+        session.embed(texts, model: semantic_index.model_id, dimensions: semantic_index.embedding_vector_dimensions).vectors
+      end
+
       def texts
         work_packages.map { |wp| EmbeddableText.for(wp, context_window: semantic_index.context_token_length) }
       end
 
       def store(vectors)
         rows = work_packages.zip(vectors).map do |work_package, vector|
-          {
-            semantic_index_id: semantic_index.id,
-            work_package_id: work_package.id,
-            embedding: WorkPackageEmbedding.vector_literal(vector)
-          }
+          row(work_package, embedding: WorkPackageEmbedding.vector_literal(vector), failed_at: nil)
         end
 
         upsert(rows)
+      end
+
+      def row(work_package, **attributes)
+        {
+          semantic_index_id: semantic_index.id,
+          work_package_id: work_package.id,
+          work_package_updated_at: work_package.updated_at,
+          text_digest: work_package.text_digest,
+          **attributes
+        }
       end
 
       def upsert(rows)

@@ -122,14 +122,12 @@ en:
         model_caption: "Only models known to create embeddings are offered."
         option_unqualified: "%{model} (no longer eligible)"
       indexing:
-        failed_work_packages:
-          one: "Indexing of 1 work package failed."
-          other: "Indexing of %{count} work packages failed."
         not_ready:
           model_missing: "The model %{model} is no longer offered by the connection."
           no_connection: "No active LLM connection is configured."
           pgvector_missing: "The pgvector extension is not installed. Install it and run the migrations again to start indexing."
         progress: "%{percentage}% done"
+        run_failed: "Indexing failed: %{error}"
       menu:
         delete: "Delete"
         locked_while_active: "Cannot be deleted while it is active."

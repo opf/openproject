@@ -85,4 +85,17 @@ RSpec.describe Llm::WorkPackages::EmbeddableText do
       end
     end
   end
+
+  describe ".with_digest" do
+    it "loads the digest of subject and description" do
+      work_package = create(:work_package, subject: "Fix bug", description: "Line one\nLine two ü")
+      no_description = create(:work_package, subject: "No description", description: nil)
+
+      digests = described_class.with_digest(WorkPackage.where(id: [work_package.id, no_description.id]))
+                               .to_h { [it.id, it.text_digest] }
+
+      expect(digests).to eq(work_package.id => Digest::MD5.hexdigest("Fix bug\nLine one\nLine two ü"),
+                            no_description.id => Digest::MD5.hexdigest("No description\n"))
+    end
+  end
 end

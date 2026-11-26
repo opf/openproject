@@ -29,42 +29,51 @@
 
 module Llm
   class IndexWorkPackagesJob < ApplicationJob
-    include GoodJob::ActiveJobExtensions::Batches
+    include GoodJob::ActiveJobExtensions::Concurrency
 
     queue_with_priority :low
 
-    def self.enqueue_for(semantic_index)
-      GoodJob::Batch.enqueue(on_finish: Llm::FinishSemanticIndexingJob, semantic_index_id: semantic_index.id) do
-        perform_later(semantic_index.id)
-      end
-    end
+    BATCH_SIZE = 100
 
-    def perform(semantic_index_id)
+    good_job_control_concurrency_with(
+      total_limit: 1,
+      key: -> { self.class.concurrency_key(arguments.first || SemanticIndex.active_id) }
+    )
+
+    def self.concurrency_key(semantic_index_id) = "llm-index-work-packages-#{semantic_index_id}"
+
+    # without an id it syncs the active semantic index, as run by cron
+    def perform(semantic_index_id = nil)
       return unless OpenProject::Llm::Features[:semantic_search].available?
 
-      semantic_index = SemanticIndex.find_by(id: semantic_index_id)
-      return unless semantic_index&.indexing?
+      semantic_index = find_semantic_index(semantic_index_id)
+      return if semantic_index.blank? || semantic_index.indexing_batch_running?
+      return if update_prerequisite_error(semantic_index)
 
-      return fail_indexing(semantic_index, :no_connection) unless LlmConnection.available?
+      candidates = Llm::WorkPackages::IndexCandidates.new(semantic_index)
+      candidates.skip_unchanged_text!
+      return if candidates.none?
 
-      return fail_indexing(semantic_index, :model_missing) unless offers_embedding_model?(semantic_index.model_id)
-
-      batch.add do
-        WorkPackage.find_in_batches(batch_size: 100) do |work_packages|
-          Llm::EmbedWorkPackagesJob.perform_later(semantic_index_id, work_packages.map(&:id))
-        end
-      end
+      enqueue_embed_jobs(semantic_index, candidates.work_packages)
     end
 
     private
 
-    def offers_embedding_model?(model_id)
-      LlmConnection.active_connection.embedding_model_ids.include?(model_id)
+    def find_semantic_index(id) = id ? SemanticIndex.find_by(id:) : SemanticIndex.active
+
+    def update_prerequisite_error(semantic_index)
+      error_message = semantic_index.prerequisite_error
+      semantic_index.update!(error_message:) if semantic_index.error_message != error_message
+      error_message
     end
 
-    def fail_indexing(semantic_index, status)
-      message = I18n.t(status, scope: "admin.semantic_indexes.indexing.not_ready", model: semantic_index.model_id)
-      semantic_index.fail_indexing!(message)
+    def enqueue_embed_jobs(semantic_index, work_packages)
+      batch = GoodJob::Batch.new(semantic_index_id: semantic_index.id).tap(&:save)
+      semantic_index.update!(indexing_batch_id: batch.id)
+
+      work_packages.select(:id).find_in_batches(batch_size: BATCH_SIZE) do |batch_of_work_packages|
+        batch.add { Llm::EmbedWorkPackagesJob.perform_later(semantic_index.id, batch_of_work_packages.map(&:id)) }
+      end
     end
   end
 end

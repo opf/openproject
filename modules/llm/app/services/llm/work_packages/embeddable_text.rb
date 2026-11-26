@@ -34,6 +34,14 @@ module Llm
 
       DEFAULT_CONTEXT_WINDOW = 8000
 
+      # The newline (chr(10)) keeps subject "ab" with description "c" apart from subject
+      # "a" with description "bc".
+      DIGEST_SQL = "md5(coalesce(work_packages.subject, '') || chr(10) || coalesce(work_packages.description, ''))"
+
+      def self.with_digest(work_packages)
+        work_packages.select("work_packages.*", "#{DIGEST_SQL} AS text_digest")
+      end
+
       def self.for(work_package, context_window: DEFAULT_CONTEXT_WINDOW)
         context_window = context_window.to_i
         max_chars = context_window.positive? ? context_window : DEFAULT_CONTEXT_WINDOW

@@ -27,24 +27,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Llm
-  class FinishSemanticIndexingJob < ApplicationJob
-    queue_with_priority :low
-
-    def perform(batch, _context)
-      semantic_index = SemanticIndex.find_by(id: batch.properties[:semantic_index_id])
-      return unless semantic_index&.indexing?
-
-      progress = Llm::IndexingProgress.new(batch)
-      if progress.failed_work_package_count.positive?
-        semantic_index.fail_indexing!(
-          I18n.t("admin.semantic_indexes.indexing.failed_work_packages", count: progress.failed_work_package_count)
-        )
-      else
-        semantic_index.finish_indexing!
-      end
-    rescue SemanticIndex::InvalidTransitionError
-      nil
+class AddSyncStateToWorkPackageEmbeddings < ActiveRecord::Migration[8.1]
+  def up
+    change_table :work_package_embeddings, bulk: true do |t|
+      t.datetime :work_package_updated_at
+      t.string :text_digest, limit: 32
+      t.datetime :failed_at
     end
+
+    execute "UPDATE work_package_embeddings SET work_package_updated_at = updated_at"
+
+    change_column_null :work_package_embeddings, :work_package_updated_at, false
+    change_column_null :work_package_embeddings, :embedding, true
+  end
+
+  def down
+    execute "DELETE FROM work_package_embeddings WHERE embedding IS NULL"
+
+    change_column_null :work_package_embeddings, :embedding, false
+    remove_columns :work_package_embeddings, :work_package_updated_at, :text_digest, :failed_at
   end
 end

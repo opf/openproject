@@ -45,7 +45,7 @@ class WorkPackageEmbedding < ApplicationRecord
   end
 
   def embedding=(vector)
-    super(self.class.vector_literal(vector))
+    super(vector.nil? ? nil : self.class.vector_literal(vector))
   end
 
   def self.work_package_ids_within_search_distance_sql(vector_literal, semantic_index_id:)

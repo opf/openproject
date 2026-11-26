@@ -40,27 +40,27 @@ module SemanticIndexes
     protected
 
     def perform
-      return failure(I18n.t(:notice_not_authorized)) unless authorized?
+      refusal = refusal_message
+      return failure(refusal) if refusal
 
-      return pgvector_missing unless OpenProject::Llm::Pgvector.available?
-
-      model.start_indexing!
-      model.update!(indexing_batch_id: indexing_batch.id)
-
+      WorkPackageEmbedding.where(semantic_index: model).where.not(failed_at: nil).delete_all
+      Llm::IndexWorkPackagesJob.perform_later(model.id)
       ServiceResult.success(result: model)
-    rescue SemanticIndex::InvalidTransitionError
-      failure(I18n.t("admin.semantic_indexes.start_indexing.not_indexable"))
     end
 
     private
 
+    def refusal_message
+      return I18n.t(:notice_not_authorized) unless authorized?
+      return I18n.t("admin.semantic_indexes.indexing.not_ready.pgvector_missing") unless pgvector_available?
+      return I18n.t("admin.semantic_indexes.start_indexing.not_indexable") unless model.indexable?
+
+      model.prerequisite_error
+    end
+
     def authorized? = user.admin? && user.active?
 
-    def indexing_batch = Llm::IndexWorkPackagesJob.enqueue_for(model)
-
-    def pgvector_missing
-      failure(I18n.t("admin.semantic_indexes.indexing.not_ready.pgvector_missing"))
-    end
+    def pgvector_available? = OpenProject::Llm::Pgvector.available?
 
     def failure(message) = ServiceResult.failure(result: model, message:)
   end

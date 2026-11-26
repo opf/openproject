@@ -32,5 +32,7 @@ FactoryBot.define do
     work_package
     semantic_index
     embedding { [0.1, 0.2, 0.3] }
+    work_package_updated_at { work_package.updated_at }
+    text_digest { Llm::WorkPackages::EmbeddableText.with_digest(WorkPackage.where(id: work_package.id)).first&.text_digest }
   end
 end
