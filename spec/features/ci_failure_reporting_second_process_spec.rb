@@ -29,16 +29,15 @@
 
 require "spec_helper"
 
-RSpec.describe OpenProject, "CI failure reporting" do
-  it "passes" do
-    expect(1 + 1).to eq(2)
+RSpec.describe "CI failure reporting in a second process", :js do
+  shared_let(:admin) { create(:admin) }
+
+  before do
+    login_as admin
+    visit my_page_path
   end
 
-  it "fails an expectation" do
-    expect(1 + 1).to eq(3)
-  end
-
-  it "raises an error" do
-    raise "Intentional error to check CI failure reporting"
+  it "fails to click a missing button" do
+    click_on "Intentionally missing button to check CI failure reporting", wait: 1
   end
 end
