@@ -174,7 +174,7 @@ PATH
   remote: modules/llm
   specs:
     openproject-llm (1.0.0)
-      ruby_llm (~> 1.16)
+      ruby_llm (~> 2.2)
 
 PATH
   remote: modules/meeting
@@ -604,7 +604,6 @@ GEM
     escape_utils (1.3.0)
     et-orbi (1.4.2)
       tzinfo
-    event_stream_parser (1.0.0)
     eventmachine (1.2.7)
     eventmachine_httpserver (0.2.1)
     excon (1.8.0)
@@ -889,7 +888,6 @@ GEM
     mini_magick (5.4.0)
       logger
     mini_mime (1.1.5)
-    mini_portile2 (2.8.9)
     minitest (6.1.0)
       drb (~> 2.0)
       prism (>= 1.5, < 3)
@@ -914,9 +912,6 @@ GEM
     net-smtp (0.5.2)
       net-protocol
     nio4r (2.7.5)
-    nokogiri (1.19.7)
-      mini_portile2 (~> 2.8.2)
-      racc (~> 1.4)
     nokogiri (1.19.7-aarch64-linux-gnu)
       racc (~> 1.4)
     nokogiri (1.19.7-aarch64-linux-musl)
@@ -1372,17 +1367,17 @@ GEM
     ruby-vips (2.3.0)
       ffi (~> 1.12)
       logger
-    ruby_llm (1.16.0)
+    ruby_llm (2.2.2)
       base64
-      event_stream_parser (~> 1)
-      faraday (>= 1.10.0)
+      faraday (>= 1.10.0, != 2.0.0)
       faraday-multipart (>= 1)
       faraday-net_http (>= 1)
       faraday-retry (>= 1)
-      marcel (~> 1)
-      ruby_llm-schema (~> 0)
+      json (< 4)
+      logger
+      marcel (>= 1.0, < 3)
+      schematist (~> 1.1)
       zeitwerk (~> 2)
-    ruby_llm-schema (0.4.0)
     rubytree (2.2.3)
       json (>= 2.21.2, < 4)
     rubyzip (3.4.1)
@@ -1394,6 +1389,7 @@ GEM
     sawyer (0.9.3)
       addressable (>= 2.3.5)
       faraday (>= 0.17.3, < 3)
+    schematist (1.1.0)
     scimitar (2.15.0)
       rails (>= 7.0)
     securerandom (0.4.1)
@@ -1935,7 +1931,6 @@ CHECKSUMS
   erubi (1.13.1) sha256=a082103b0885dbc5ecf1172fede897f9ebdb745a4b97a5e8dc63953db1ee4ad9
   escape_utils (1.3.0) sha256=dffb7010922880ace6ceed642156c64e2a64620f27e0849f43bc4f68fd3c2c09
   et-orbi (1.4.2) sha256=bb555dae668419cb24caa2a293a170e58be6d4df1e017c51f5030bdc133cd20c
-  event_stream_parser (1.0.0) sha256=a2683bab70126286f8184dc88f7968ffc4028f813161fb073ec90d171f7de3c8
   eventmachine (1.2.7) sha256=994016e42aa041477ba9cff45cbe50de2047f25dd418eba003e84f0d16560972
   eventmachine_httpserver (0.2.1) sha256=5db5e8a23754204d43592e5fcc2160457c57c870babe6307c4e61fc95019b809
   excon (1.8.0) sha256=56d414519bff28bf95dd800ad4690a2fc0b8a49caf00367b70ecdbac71f91c93
@@ -2046,7 +2041,6 @@ CHECKSUMS
   mime-types-data (3.2026.1020) sha256=6b3bcc776c1e3591267727700467e02fb9c12b503fcce4e0e964516d7c1e0d06
   mini_magick (5.4.0) sha256=f120af581d9ed4ec52c57f35a67a605d112bb1d8f582d1415b147fda42d11d78
   mini_mime (1.1.5) sha256=8681b7e2e4215f2a159f9400b5816d85e9d8c6c6b491e96a12797e798f8bccef
-  mini_portile2 (2.8.9) sha256=0cd7c7f824e010c072e33f68bc02d85a00aeb6fce05bb4819c03dfd3c140c289
   minitest (6.1.0) sha256=ff373595aa8888631e8a5463986a76b3845346ae6d7fa46e139c1633d418076e
   msgpack (1.8.7) sha256=dfefec761b5f9047e6e8d95d2c7f8af4b3725d984a01942adc533aa819a2df33
   multi_json (1.21.2) sha256=245531eaf54bdba57aba515ff08b4503505c5e09911daa89c5a561e2f85bea8e
@@ -2061,7 +2055,6 @@ CHECKSUMS
   net-protocol (0.4.0) sha256=f9f90c8c6f64794a45160bf422177a336db12809de3beeeaa26b88fcd2e8c853
   net-smtp (0.5.2) sha256=35103cc04d6b2d94632f9928ede07483c24b70b9c0db1f231fea43909b678f3c
   nio4r (2.7.5) sha256=6c90168e48fb5f8e768419c93abb94ba2b892a1d0602cb06eef16d8b7df1dca1
-  nokogiri (1.19.7) sha256=abe94507c54cb18f872777b16bdca4aad32b1abdc4c52fe843f1c80fbdf992b8
   nokogiri (1.19.7-aarch64-linux-gnu) sha256=8f5e15d299602456406e1f03a9f3456cceb33a0722811e818d2ee2214eb4c84a
   nokogiri (1.19.7-aarch64-linux-musl) sha256=efe0c3602e6e54521bc21c681930ce5568e2d11203de17400710b2b3ca2e4cb4
   nokogiri (1.19.7-arm-linux-gnu) sha256=7fd1907125691aa89e838cc91161761c758b4e17bb32f0dd9b5515a82cc759af
@@ -2259,13 +2252,13 @@ CHECKSUMS
   ruby-progressbar (1.13.0) sha256=80fc9c47a9b640d6834e0dc7b3c94c9df37f08cb072b7761e4a71e22cff29b33
   ruby-saml (1.18.1) sha256=1b0e7a44aef150b4197955f5e015d593672e242cfdc5d06aa7554ec2350b9107
   ruby-vips (2.3.0) sha256=e685ec02c13969912debbd98019e50492e12989282da5f37d05f5471442f5374
-  ruby_llm (1.16.0) sha256=26bd5310cf2ce55f74a60f8aae0b0d0327b586ff4532c84828103c3b2b905a18
-  ruby_llm-schema (0.4.0) sha256=e930f5a5316f9301bff3fb7fe572e44727d05bb8e50621001bbb49a47d63b8da
+  ruby_llm (2.2.2) sha256=e08da09150bc11e15b294a7628b8295e0813d7f611ca97f74dcb1286ba7cdc79
   rubytree (2.2.3) sha256=e007c42d04374b31e21ccee85d756cce0ced708131251a8d0f6c84dc9e1cbdf7
   rubyzip (3.4.1) sha256=0a79e745b5c25872ebd148457df5665da8530ed8626c993b01457128f173ca02
   safety_net_attestation (0.5.0) sha256=c8cd01dd550dbe8553862918af6355a04672db11d218ec96104ce3955293f2aa
   sanitize (7.0.2) sha256=84c14aca3f69ee42da4ccd8aef5ee0f70c94bd600a652260b37fbfe833a77b97
   sawyer (0.9.3) sha256=0d0f19298408047037638639fe62f4794483fb04320269169bd41af2bdcf5e41
+  schematist (1.1.0) sha256=905d8f0286830926e77e0d631bee325ee741c4b99640bc99735593b40ba73e7b
   scimitar (2.15.0) sha256=700901afab9303b705a8f37644cd733ee3c3819b168d24a14a48dec060b16d63
   securerandom (0.4.1) sha256=cc5193d414a4341b6e225f0cb4446aceca8e50d5e1888743fac16987638ea0b1
   selenium-devtools (0.155.0) sha256=c8d9844ff6fc759ce0afbb473a6f95240b7650285f1760080441f84427c6b950

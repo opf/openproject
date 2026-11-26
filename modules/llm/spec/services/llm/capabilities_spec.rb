@@ -35,8 +35,8 @@ RSpec.describe Llm::Capabilities do
 
     context "with a model the registry catalogues" do
       before do
-        info = RubyLLM::Model::Info.new(id: "gpt-4o", name: "GPT-4o", context_window: 128_000,
-                                        modalities: { output: ["text"] }, capabilities: %w[vision])
+        info = RubyLLM::Model.new(id: "gpt-4o", name: "GPT-4o", context_window: 128_000,
+                                  modalities: { output: ["text"] }, capabilities: %w[vision])
         allow(RubyLLM.models).to receive(:find).with("gpt-4o").and_return(info)
       end
 
@@ -79,7 +79,7 @@ RSpec.describe Llm::Capabilities do
     subject(:states) { described_class.states_from(info) }
 
     context "with an embedding entry" do
-      let(:info) { RubyLLM::Model::Info.new(id: "embedder", modalities: { output: ["embeddings"] }) }
+      let(:info) { RubyLLM::Model.new(id: "embedder", modalities: { output: ["embeddings"] }) }
 
       it "reports embeddings only" do
         expect(states).to eq(embeddings: :supported)
@@ -88,7 +88,7 @@ RSpec.describe Llm::Capabilities do
 
     context "with a chat entry listing its capabilities" do
       let(:info) do
-        RubyLLM::Model::Info.new(id: "chatter", modalities: { output: ["text"] }, capabilities: %w[function_calling vision])
+        RubyLLM::Model.new(id: "chatter", modalities: { output: ["text"] }, capabilities: %w[function_calling vision])
       end
 
       it "reports the listed ones as supported and the rest as unsupported" do
@@ -101,7 +101,7 @@ RSpec.describe Llm::Capabilities do
     end
 
     context "with a chat entry listing no capability at all" do
-      let(:info) { RubyLLM::Model::Info.new(id: "chatter", modalities: { output: ["text"] }) }
+      let(:info) { RubyLLM::Model.new(id: "chatter", modalities: { output: ["text"] }) }
 
       it "leaves the chat capabilities unknown rather than denying them" do
         expect(states).to eq(embeddings: :unsupported,
@@ -113,7 +113,7 @@ RSpec.describe Llm::Capabilities do
     end
 
     context "with an entry publishing neither modalities nor capabilities" do
-      let(:info) { RubyLLM::Model::Info.new(id: "silent") }
+      let(:info) { RubyLLM::Model.new(id: "silent") }
 
       it "leaves embeddings unknown as well" do
         expect(states).to eq(embeddings: :unknown,
