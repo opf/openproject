@@ -31,16 +31,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { HotkeyDispatcher } from 'core-common/hotkeys/hotkey-dispatcher';
-
-const accessKeys = {
-  newWorkPackage: 2,
-  edit: 3,
-  quickSearch: 4,
-  projectSearch: 5,
-  help: 6,
-  moreMenu: 7,
-  details: 8,
-};
+import { accessKeys } from 'core-app/shared/directives/a11y/access-keys';
 
 type AccessKeyName = keyof typeof accessKeys;
 

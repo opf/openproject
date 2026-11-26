@@ -21,7 +21,7 @@
           type="button"
           class="sr-only"
           tabindex="-1"
-          accesskey="3"
+          [attr.accesskey]="accessKeys.edit"
           (click)="subjectField.handleUserActivate(null)"
           >
           {{ text.edit }}

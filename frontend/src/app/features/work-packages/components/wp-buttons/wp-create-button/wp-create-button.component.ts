@@ -33,6 +33,7 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { take } from 'rxjs/operators';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
+import { accessKeys } from 'core-app/shared/directives/a11y/access-keys';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -53,6 +54,8 @@ export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implem
   @Input() fullView = false;
 
   readonly listShortcuts = input(false);
+
+  protected readonly accessKeys = accessKeys;
 
   allowed:boolean;
 

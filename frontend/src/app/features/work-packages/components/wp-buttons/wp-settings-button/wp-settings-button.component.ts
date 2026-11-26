@@ -30,6 +30,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
+import { accessKeys } from 'core-app/shared/directives/a11y/access-keys';
 
 @Component({
   templateUrl: './wp-settings-button.component.html',
@@ -52,7 +53,7 @@ export class WorkPackageSettingsButtonComponent {
     { initialValue: this.urlParams.currentDetailsRouteParams() !== null },
   );
 
-  protected readonly accessKey = computed(() => (this.listShortcuts() && !this.detailsOpen() ? 7 : null));
+  protected readonly accessKey = computed(() => (this.listShortcuts() && !this.detailsOpen() ? accessKeys.moreMenu : null));
 
   public text = {
     more_actions: this.I18n.t('js.button_more_actions'),
