@@ -212,7 +212,7 @@ Run `sudo openproject reconfigure`, select the existing-database option, and ent
 
 The database server must have pgvector installed before OpenProject can create the extension during application migrations.
 
-For a local packaged database, install the package matching the running server major, for example `postgresql-17-pgvector` on Debian/Ubuntu or `pgvector_17` on Enterprise Linux. In AIO, matching packages are bundled. For Compose, deliberately switch to the matching pgvector image while preserving the major and data layout. For externally managed databases, ask the provider to make pgvector available.
+For a local packaged database, install the package matching the running server's major version, for example `postgresql-17-pgvector` on Debian/Ubuntu or `pgvector_17` on Enterprise Linux. In AIO, matching packages are bundled. For Compose, deliberately switch to the matching pgvector image while preserving the major version and data layout. For externally managed databases, ask the provider to make pgvector available.
 
 After installing pgvector, run OpenProject's application migrations. If the application database user cannot create extensions, ask a database administrator to create it in the **application database**, then rerun the migrations:
 
