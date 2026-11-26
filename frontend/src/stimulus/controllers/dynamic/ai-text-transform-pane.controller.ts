@@ -105,6 +105,8 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
   private followsOutput = true;
   private knownScroll = { top: 0, height: 0, viewport: 0 };
 
+  private viewportHeight = 0;
+
   private run = { state: '', seq: '0', requestId: '', pollUrl: '' };
   private pollTimer:ReturnType<typeof setTimeout>|null = null;
   private pollInFlight = false;
@@ -138,7 +140,9 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
   scrollTargetConnected(element:HTMLElement):void {
     this.unwatchScroll();
     const listeners = new AbortController();
-    const resizes = new ResizeObserver((entries) => this.scrollAreaResized(entries.some((entry) => entry.target === element)));
+    const resizes = new ResizeObserver((entries) => this.scrollAreaResized(
+      entries.some((entry) => entry.target === element) && this.viewportShrank(element),
+    ));
     const mutations = new MutationObserver((records) => {
       this.observeContentResizes(resizes, element, records);
       this.outputChanged();
@@ -148,6 +152,7 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     Array.from(element.children).forEach((child) => resizes.observe(child));
     element.addEventListener('scroll', () => this.scrolled(), { passive: true, signal: listeners.signal });
     this.scrollWatch = { element, mutations, resizes, listeners };
+    this.viewportHeight = element.clientHeight;
     this.followsOutput = this.scrolledToEnd;
     this.rememberScrollPosition();
     this.showMoreBelow();
@@ -363,8 +368,15 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     element.scrollIntoView({ block: 'nearest' });
   }
 
-  private scrollAreaResized(viewportChanged:boolean):void {
-    if (viewportChanged || this.run.state === 'generating') {
+  // Scroll events arrive before resize observations, so only this keeps the height the last observation saw.
+  private viewportShrank(element:HTMLElement):boolean {
+    const shrank = element.clientHeight < this.viewportHeight;
+    this.viewportHeight = element.clientHeight;
+    return shrank;
+  }
+
+  private scrollAreaResized(viewportShrank:boolean):void {
+    if (viewportShrank || this.run.state === 'generating') {
       this.outputChanged();
     } else {
       this.scrolled();
@@ -476,6 +488,7 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     if (this.hasErrorTarget) {
       this.errorMessageTarget.textContent = message;
       this.errorTarget.hidden = false;
+      this.keepInViewport();
     }
   }
 

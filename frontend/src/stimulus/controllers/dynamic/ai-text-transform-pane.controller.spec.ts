@@ -512,6 +512,16 @@ describe('AiTextTransformPaneController', () => {
       expect(scrollArea()).toHaveClass('op-ai-result-pane--more-below');
     });
 
+    it('keeps a finished result where it is when content growth also grows the scroll area', async () => {
+      await mountScrollArea(details(false, 25), runState('done'));
+      ctx.container.querySelector('details')!.open = true;
+      scrollArea().style.height = '150px';
+      await ctx.nextFrame();
+
+      expect(scrollArea().scrollTop).toBe(0);
+      expect(isInScrollView(ctx.container.querySelector('summary')!)).toBe(true);
+    });
+
     it('keeps following a finished result when the scroll area itself is resized at its end', async () => {
       await mountScrollArea(lines(20), runState('done'));
       await scrollTo(scrollArea().scrollHeight);

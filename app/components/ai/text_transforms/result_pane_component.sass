@@ -8,6 +8,10 @@
   min-height: min(240px, calc(100vh - var(--header-height) - var(--base-size-8) - var(--base-size-24)))
   max-height: calc(100vh - var(--header-height) - var(--base-size-8) - var(--base-size-24))
 
+  // The banner and the buttons below the result need room, so that the result does not shrink to nothing.
+  &:has(.op-ai-result-pane--error:not([hidden]))
+    min-height: min(360px, calc(100vh - var(--header-height) - var(--base-size-8) - var(--base-size-24)))
+
   &--handle
     cursor: grab
     user-select: none
@@ -26,7 +30,7 @@
     pointer-events: none
     background: linear-gradient(to top, color-mix(in srgb, var(--borderColor-emphasis) 40%, transparent), transparent)
 
-  // Forced colors drop box shadows; the border keeps one width so the cue never resizes the scroll area.
+  // The gradient may not show in forced colors, so a border marks more content below. It keeps one width, so that the cue never resizes the scroll area.
   @media (forced-colors: active)
     .Box-body
       border-bottom: var(--base-size-4) solid Canvas

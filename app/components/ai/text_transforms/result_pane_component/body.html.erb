@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= component_wrapper do %>
   <%=
-    flex_layout(direction: :column) do |body|
+    flex_layout(direction: :column, p: 3) do |body|
       if banner_scheme
         body.with_row(mb: 3) do
           render(Primer::Alpha::Banner.new(scheme: banner_scheme, description: banner_description)) { banner_title }

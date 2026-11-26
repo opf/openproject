@@ -109,6 +109,13 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent, type: :component do
     expect(subject).to have_no_css(".Box-body [data-ai-text-transform-pane-target='error']", visible: :all)
   end
 
+  it "announces the error banner as an alert" do
+    expect(subject).to have_css(
+      "[data-test-selector='ai-text-transform-pane-error'][role='alert'].op-ai-result-pane--error",
+      visible: :hidden
+    )
+  end
+
   context "when the request was rejected" do
     let(:pane) do
       AI::TextTransforms::ResultPaneState.rejected(message: "Too long", label: "Fix grammar", scope: "document",
