@@ -34,7 +34,9 @@ module ::Calendar
     def show
       call = ::Calendar::ICalResponseService.new.call(
         ical_token_string: params[:ical_token],
-        query_id: params[:id]
+        query_id: params[:id],
+        export: params[:export],
+        dates: params[:dates]
       )
 
       if call.present? && call.success?

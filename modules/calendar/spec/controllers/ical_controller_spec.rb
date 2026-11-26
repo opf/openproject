@@ -131,6 +131,26 @@ RSpec.describe Calendar::ICalController do
       it_behaves_like "success"
     end
 
+    context "with valid params and permissions when requesting tasks" do
+      before do
+        get :show, params: {
+          project_id: project.id,
+          id: query.id,
+          ical_token: valid_ical_token_value,
+          export: "vtodo",
+          dates: "due"
+        }
+      end
+
+      it_behaves_like "success"
+
+      it "returns VTODO components instead of VEVENT components" do
+        expect(response.body).to include("BEGIN:VTODO")
+        expect(response.body).not_to include("BEGIN:VEVENT")
+        expect(response.body).to include("DUE;VALUE=DATE")
+      end
+    end
+
     context "with valid params and permissions with a query having a parent filter (bug #49726)" do
       before do
         User.execute_as(user) do

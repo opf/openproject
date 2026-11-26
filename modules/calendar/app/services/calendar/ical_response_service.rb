@@ -81,12 +81,20 @@ module Calendar
     end
 
     def create_ical_string(work_packages, calendar_name)
-      call = ::Calendar::CreateICalService.new.call(
-        work_packages:, calendar_name:
+      call = ical_service.new.call(
+        work_packages:, calendar_name:, dates: params[:dates]
       )
       ical_string = call.result if call.success?
 
       ical_string
+    end
+
+    def ical_service
+      if params[:export].to_s == "vtodo"
+        ::Calendar::CreateVtodoService
+      else
+        ::Calendar::CreateICalService
+      end
     end
   end
 end
