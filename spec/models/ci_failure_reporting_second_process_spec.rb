@@ -29,23 +29,10 @@
 
 require "spec_helper"
 
-RSpec.describe "CI failure reporting (feature)", :js do
-  shared_let(:admin) { create(:admin) }
+RSpec.describe "CI failure reporting in a second process" do
+  it "fails with a multi-line diff" do
+    text = "first line\nsecond line"
 
-  before do
-    login_as admin
-    visit home_path
-  end
-
-  it "passes" do
-    expect(page).to have_css("#content")
-  end
-
-  it "fails an expectation in the browser" do
-    expect(page).to have_text("Intentionally missing text to check CI failure reporting", wait: 1)
-  end
-
-  it "raises an error after visiting a page" do
-    raise "Intentional error to check CI failure reporting"
+    expect(text).to eq("first line\nchanged line")
   end
 end
