@@ -40,9 +40,10 @@ module Filter
     # The inputs are capped at a readable width by default. Set this where they should
     # instead stretch to the full width of whatever contains the component.
     options full_width: false
+    options lazy_rows: false
 
     def filter_form(form)
-      Filters::FilterFormComponent.new(builder: form, query:, allowed_filters:, excluded_filters:)
+      Filters::FilterFormComponent.new(builder: form, query:, allowed_filters: form_filters, excluded_filters:, lazy_rows_path:)
     end
 
     def allowed_filters
@@ -76,6 +77,20 @@ module Filter
 
     def lazy_turbo_frame_src
       public_send(lazy_loaded_path, **params.permit(:filters, :columns, :sortBy, :id, :query_id, :project_id))
+    end
+
+    private
+
+    def requested_row = (params[:filter_row] if lazy_rows)
+
+    def form_filters
+      return allowed_filters unless requested_row
+
+      allowed_filters.select { |filter| filter.name.to_s == requested_row }
+    end
+
+    def lazy_rows_path
+      helpers.request.fullpath if lazy_rows && !requested_row
     end
   end
 end

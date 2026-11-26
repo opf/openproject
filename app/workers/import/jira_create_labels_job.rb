@@ -32,8 +32,6 @@ module Import
     include Import::JiraOpenProjectReferenceCreation
     include Import::JiraJobUtils
 
-    DISTINCT_LABEL_NAMES = Arel.sql("DISTINCT jsonb_array_elements_text(payload -> 'fields' -> 'labels')")
-
     def text
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
     end
@@ -57,9 +55,22 @@ module Import
       Import::JiraIssue
         .where(jira_import_id: @jira_import.id)
         .where("jsonb_typeof(payload -> 'fields' -> 'labels') = 'array'")
-        .pluck(DISTINCT_LABEL_NAMES)
+        .joins("CROSS JOIN LATERAL jsonb_array_elements_text(payload -> 'fields' -> 'labels') AS jira_label(name)")
+        .group("jira_label.name")
+        .order(Arel.sql("COUNT(*) DESC, jira_label.name"))
+        .pluck("jira_label.name")
         .filter_map { it.to_s.squish.presence }
-        .uniq(&:downcase)
+        .uniq
+        .group_by(&:downcase)
+        .map { |_, variants| merge_case_variants(variants) }
+    end
+
+    def merge_case_variants(variants)
+      kept, *merged = variants
+      if merged.any?
+        Rails.logger.warn "Merging jira labels differing only in case into \"#{kept}\": #{merged.join(', ')}"
+      end
+      kept
     end
 
     def create_label(name)
@@ -84,6 +95,10 @@ module Import
     def reference_existing_label(name)
       Rails.logger.debug "Found existing label"
       label = Label.named(name).first!
+      if label.name != name
+        Rails.logger.warn "Merging jira label \"#{name}\" into existing OpenProject label \"#{label.name}\" " \
+                          "differing only in case"
+      end
       create_reference!(op_leg: label, jira_leg: nil, jira_import: @jira_import, uses_existing: true)
     end
   end

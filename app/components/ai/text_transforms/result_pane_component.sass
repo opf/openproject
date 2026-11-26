@@ -8,6 +8,16 @@
   min-height: min(240px, calc(100vh - var(--header-height) - var(--base-size-8) - var(--base-size-24)))
   max-height: calc(100vh - var(--header-height) - var(--base-size-8) - var(--base-size-24))
 
+  &[popover]
+    left: auto
+    bottom: auto
+    margin: 0
+    padding: 0
+    border: 0
+    overflow: visible
+    background: transparent
+    color: inherit
+
   &--handle
     cursor: grab
     user-select: none

@@ -35,6 +35,7 @@ import {
   HalResourceEditingService,
 } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { Observable, of } from 'rxjs';
+import { accessKeys } from 'core-app/shared/directives/a11y/access-keys';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -52,6 +53,8 @@ export class WorkPackageSplitViewToolbarComponent implements OnInit {
   @Input() workPackage:WorkPackageResource;
 
   @Input() displayNotificationsButton:boolean;
+
+  protected readonly accessKeys = accessKeys;
 
   public displayShareButton$:Observable<boolean> = of(false);
   public displayReminderButton$:Observable<boolean> = of(false);

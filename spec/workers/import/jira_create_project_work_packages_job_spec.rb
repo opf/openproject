@@ -317,6 +317,24 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
           expect { create_work_packages }.to not_change(Status, :count)
           expect(OpenProject::Mutex).not_to have_received(:with_advisory_lock).with(Status, any_args)
         end
+
+        context "when another job creates the status while this one waits for the lock" do
+          before do
+            allow(OpenProject::Mutex).to receive(:with_advisory_lock)
+              .and_wrap_original do |original, klass, *args, **options, &block|
+              if klass == Status
+                # As if the status was created by another job: create it without changing this job's query cache
+                ActiveRecord::Base.uncached(dirties: false) { create(:status, name: "In Progress") }
+              end
+              original.call(klass, *args, **options, &block)
+            end
+          end
+
+          it "uses the status the other job created" do
+            expect { ActiveRecord::Base.cache { create_work_packages } }.to change(Status, :count).by(1)
+            expect(WorkPackage.last.status.name).to eq("In Progress")
+          end
+        end
       end
 
       context "when finding or creating a type" do

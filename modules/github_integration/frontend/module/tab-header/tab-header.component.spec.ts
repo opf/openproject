@@ -45,8 +45,6 @@ describe('TabHeaderComponent', () => {
     }
   };
   let oPContextMenuService:{ show:ReturnType<typeof vi.fn> };
-  // @ts-ignore
-  window.Mousetrap = () => () => { };
 
   beforeEach(async () => {
     const oPContextMenuServiceSpy = {

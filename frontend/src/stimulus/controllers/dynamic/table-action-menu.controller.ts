@@ -55,7 +55,7 @@ export default class TableActionMenuController extends Controller {
     if (this.filterController && filterName) {
       this.filterController.showDisplayFilters();
       await this.filterController.filterFormLoaded.then(() => {
-        this.filterController!.addFilterByName(filterName);
+        void this.filterController!.addFilterByName(filterName);
       });
     }
   }

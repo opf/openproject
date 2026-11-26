@@ -33,7 +33,8 @@
                 type="button"
                 tabindex="-1"
                 class="wp-table--column-menu-button"
-                [attr.lang]="locale()">
+                [attr.lang]="locale()"
+                [attr.aria-label]="headerColumn().name">
                 @if (showHierarchyGlyph()) {
                   <svg octicon size="small" icon="op-hierarchy" aria-hidden="true" class="wp-table--column-menu-glyph"></svg>
                 }
