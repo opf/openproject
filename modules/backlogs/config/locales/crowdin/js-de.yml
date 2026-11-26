@@ -57,18 +57,18 @@ de:
           one: "%{count} Arbeitspaket ausgewählt."
           other: "%{count} Arbeitspakete ausgewählt."
     burndown_chart:
-      chart_day: 'Day %{day}: %{values}'
+      chart_day: 'Tag %{day}: %{values}'
       chart_label: Burndown-Diagramm
-      chart_summary: 'Burndown chart data: %{days}.'
+      chart_summary: 'Daten zum Burndown-Diagramm: %{days}.'
       chart_value: "%{label}: %{value}"
     burnup_chart:
-      chart_day: 'Day %{day}: %{values}'
+      chart_day: 'Tag %{day}: %{values}'
       chart_label: Burnup-Diagramm
-      chart_summary: 'Burnup chart data: %{days}.'
+      chart_summary: 'Daten zum Burnup-Diagramm: %{days}.'
       chart_value: "%{label}: %{value}"
     created_resolved_chart:
       chart_label: "„Neu vs. abgeschlossen“-Diagramm"
-      chart_summary: 'Created vs. resolved chart data: %{from} – %{to}. %{values}.'
+      chart_summary: 'Erstellte vs. Abgeschlossen Diagrammdaten: %{from} – %{to}. %{values}.'
       chart_value: "%{label}: %{value}"
       work_packages: Arbeitspakete
     sprint_charts:

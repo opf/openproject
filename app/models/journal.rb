@@ -94,6 +94,7 @@ class Journal < ApplicationRecord
                    label_names
                    meeting_id
                    source_meeting_id
+                   outcome_id
                    message_id
                    sender_address
                  ],

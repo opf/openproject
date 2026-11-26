@@ -24,12 +24,6 @@ export function getSelectionForNode(node:Node):Selection | null {
   return hasShadowGetSelection(root) ? root.getSelection() : window.getSelection();
 }
 
-export function isNodeInSelection(node:Node):boolean {
-  const selection = getSelectionForNode(node);
-  if (!selection || selection.rangeCount === 0) return false;
-  return selection.getRangeAt(0).intersectsNode(node);
-}
-
 // A function, not a module-level const, so a stubbed user agent still takes effect.
 function isSafari():boolean {
   return typeof navigator !== 'undefined' &&

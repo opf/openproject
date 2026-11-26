@@ -41,6 +41,7 @@ module Backlogs
           label: attribute_name(:name),
           name: :name,
           required: true,
+          autocomplete: "off",
           autofocus: !disabled,
           disabled:,
           w: :full

@@ -54,9 +54,8 @@ export interface IFCModelData {
   permissions:IFCPermissionMap;
 }
 
-@Injectable()
-export class IfcModelsDataService {
-  private data:IFCModelData = {
+function emptyIfcModelData():IFCModelData {
+  return {
     models: [],
     shown_models: [],
     projects: [],
@@ -66,30 +65,50 @@ export class IfcModelsDataService {
       manage_bcf: false,
     },
   };
+}
+
+@Injectable()
+export class IfcModelsDataService {
+  private data:IFCModelData = emptyIfcModelData();
+  private rawData:string|undefined;
 
   readonly paths = inject(PathHelperService);
   readonly currentProjectService = inject(CurrentProjectService);
 
   constructor() {
+    this.detect();
+  }
+
+  /**
+   * Detect the current project's IFC models from its meta tag.
+   */
+  public detect() {
     const models = getMetaElement('openproject_ifc_models')?.dataset.models;
-    if (models) {
-      this.data = JSON.parse(models) as IFCModelData;
+    if (models === this.rawData) {
+      return;
     }
+
+    this.rawData = models;
+    this.data = models ? JSON.parse(models) as IFCModelData : emptyIfcModelData();
   }
 
   public get models():IfcModelDefinition[] {
+    this.detect();
     return this.data.models;
   }
 
   public get projects():IfcProjectDefinition[] {
+    this.detect();
     return this.data.projects;
   }
 
   public get xktAttachmentIds():Record<number, number> {
+    this.detect();
     return this.data.xkt_attachment_ids;
   }
 
   public get shownModels():number[] {
+    this.detect();
     return this.data.shown_models;
   }
 
@@ -108,6 +127,7 @@ export class IfcModelsDataService {
   }
 
   public allowed(permission:keyof IFCPermissionMap):boolean {
+    this.detect();
     return !!this.data.permissions[permission];
   }
 }
