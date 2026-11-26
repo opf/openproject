@@ -73,7 +73,11 @@ module OpenProject::TextFormatting
       end
 
       def has_ancestor?(node, tags)
-        node.ancestors.any? { |ancestor| tags.include?(ancestor.name.downcase) }
+        while (node = node.parent)
+          return true if tags.include?(node.name.downcase)
+        end
+
+        false
       end
     end
   end
