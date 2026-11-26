@@ -5,7 +5,7 @@ de:
       itsm/email_message:
         direction: Richtung
         from_address: Von
-        journal: Journal
+        journal: Änderung
         message_id: Message ID
         status: Status
         subject: Titel
@@ -23,8 +23,8 @@ de:
         project: Projekt
         username: Benutzername
       itsm/mail_server:
-        encryption: Encryption
-        host: Server name
+        encryption: Verschlüsselung
+        host: Server-Name
         incoming_mailboxes: Incoming mailboxes
         name: Name
         outgoing_mailboxes: Outgoing mailboxes
@@ -77,7 +77,7 @@ de:
         other: Incoming mailboxes
       itsm/mail_server:
         one: Mail server
-        other: Mail servers
+        other: Mail-Server
       itsm/outgoing_mailbox:
         one: Outgoing mailbox
         other: Outgoing mailboxes
@@ -115,8 +115,8 @@ de:
         received: Wir haben Ihre Anfrage "%{subject}" erhalten und unter der Kennzeichnung "%{id}" erfasst.
         reply: Um Ihrer Anfrage weitere Informationen hinzuzufügen, antworten Sie auf diese E-Mail.
   label_email_without_subject: "(no subject)"
-  label_helpdesk: Help desk
+  label_helpdesk: Helpdesk
   label_helpdesk_role: Helpdesk
   label_helpdesk_user: Helpdesk
   permission_manage_helpdesk: Manage help desk
-  project_module_helpdesk: Help desk
+  project_module_helpdesk: Helpdesk

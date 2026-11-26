@@ -2944,8 +2944,8 @@ de:
         remember_items_and_projects: Bitte denken Sie daran, Elemente für dieses benutzerdefinierte Feld festzulegen und sicherzustellen, dass es in mindestens einem Projekt verwendet wird.
       projects:
         additional_values_disabled_notice: Projektadministratoren können diesem benutzerdefinierten Feld keine Elemente mehr hinzufügen. Bereits vorhandene projektspezifische Elemente bleiben weiterhin verfügbar.
-        additional_values_disabled_project_notice: Project admins can no longer add values to this custom field. However, existing project-specific values stay available.
-        available_values: Available values
+        additional_values_disabled_project_notice: Projektadministratoren können diesem benutzerdefinierten Feld keine Elemente mehr hinzufügen. Bereits vorhandene projektspezifische Elemente bleiben weiterhin verfügbar.
+        available_values: Verfügbare Werte
         configure: Konfigurieren Sie projektspezifische Werte für %{project}
         delete_value_dialog:
           description: Durch diese Aktion wird das Element unter %{project} unwiderruflich entfernt. Alle zugewiesenen Elemente werden dauerhaft gelöscht.
@@ -2976,19 +2976,19 @@ de:
         quick_filter:
           all: Alle Projekte
           with_project_specific_values: Projektspezifische Werte
-        required_value_notice: Cannot be disabled because a child project-specific value is enabled
+        required_value_notice: Kann nicht deaktiviert werden, da ein projektspezifischer Wert auf Unterebene aktiviert ist
         types_column: Verwendet in Typen
         value_actions: Aktionen
         value_dialog:
           edit_title: Wert bearbeiten
           name: Name
-          name_caption_html: Only available in <strong>%{project}</strong>.
+          name_caption_html: Nur verfügbar in <strong>%{project}</strong>.
           parent: Zum übergeordneten Element hinzufügen
-          short_caption: Optionally pick a shorter name or code for this value.
+          short_caption: Wählen Sie optional einen kürzeren Namen oder Code für diesen Wert aus.
           title: Projektspezifischen Wert hinzufügen
           title_with_parent: Projektspezifisches Element zu "%{parent}" hinzufügen
           top_level: Oberste Ebene
-          weight_caption: Each value has a weight associated with it.
+          weight_caption: Jedem Wert ist eine Gewichtung zugeordnet.
         values_empty_state:
           description: Fügen Sie diesem benutzerdefinierten Feld Werte hinzu, um auszuwählen, welche davon in diesem Projekt verfügbar sein sollen.
           title: Dieses benutzerdefinierte Feld enthält noch keine Werte
@@ -3077,11 +3077,11 @@ de:
       project_admins:
         additional_values_caption: Hinzugefügte Elemente sind nur in dem Projekt vorhanden, in dem sie erstellt wurden. Sie können sie später allen Projekten zur Verfügung stellen.
         remaining_values_count:
-          one: "%{count} project-specific value"
-          other: "%{count} project-specific values"
+          one: "%{count} projektspezifischer Wert"
+          other: "%{count} projektspezifische Werte"
         remaining_values_warning:
-          one: "%{count} project already has %{values}. They remain available in that project but project admins can no longer add new ones unless ‘%{setting}’ is checked."
-          other: "%{count} projects already have %{values}. They remain available in those projects but project admins can no longer add new ones unless ‘%{setting}’ is checked."
+          one: "%{count} Projekt hat bereits %{values}. Sie bleiben in diesem Projekt verfügbar, aber Projektadministratoren können keine neuen hinzufügen, es sei denn, dass ‘%{setting}’ überprüft wird."
+          other: "%{count} Projekte haben bereits %{values}. Sie bleiben in diesen Projekten verfügbar, aber Projektadministratoren können keine neuen hinzufügen, es sei denn, dass ‘%{setting}’ überprüft wird."
         value_management_caption: Projektadministratoren können bestimmte Elemente für ihr Projekt aktivieren oder deaktivieren. Alle globalen Elemente sind für sie sichtbar.
       switch_warning:
         all: Alle Werte stehen in allen Projekten zur Verfügung.
@@ -4268,10 +4268,10 @@ de:
   label_custom_field_default_type: Leerer Typ
   label_custom_field_new: Neues benutzerdefiniertes Feld
   label_custom_field_plural: Benutzerdefinierte Felder
-  label_custom_field_values_all: All custom fields
-  label_custom_field_values_customizable: Customizable in this project
-  label_custom_field_values_customized: Customized in this project
-  label_custom_field_values_uniform: Same values in all projects
+  label_custom_field_values_all: Alle benutzerdefinierten Felder
+  label_custom_field_values_customizable: In diesem Projekt anpassbar
+  label_custom_field_values_customized: In diesem Projekt angepasst
+  label_custom_field_values_uniform: Gleiche Werte in allen Projekten
   label_custom_pdf_export_settings: Benutzerdefinierte PDF-Export-Einstellungen
   label_custom_style: Design
   label_custom_style_description: Wählen Sie über Design und Farben aus, wie die OpenProject Benutzeroberfläche und Exporte aussehen sollen.
@@ -6186,16 +6186,16 @@ de:
           '
         column_format: Format
         column_name: Benutzerdefiniertes Feld
-        column_types: Displayed in type
+        column_types: Angezeigt im Typ
         no_results_title_text: Derzeit stehen keine benutzerdefinierten Felder zur Verfügung.
         project_specific_values_count:
-          one: "%{count} project-specific value"
-          other: "%{count} project-specific values"
-        search_label: Search custom fields
-        values_description: 'Choose which values of %{custom_field} your team can use in %{project}. Global values are shared with other projects and managed by administrators. Project-specific values are only available in this project.
+          one: "%{count} projektspezifischer Wert"
+          other: "%{count} projektspezifische Werte"
+        search_label: Benutzerdefinierte Felder suchen
+        values_description: 'Legen Sie fest, welche Werte von „ %{custom_field} “ Ihr Team in „ %{project}“ verwenden darf. Globale Werte werden mit anderen Projekten geteilt und von Administratoren verwaltet. Projektspezifische Werte sind nur in diesem Projekt verfügbar.
 
           '
-        values_filter: Values
+        values_filter: Werte
       forums:
         no_results_content_text: Neues Forum erstellen
         no_results_title_text: Derzeit gibt es keine Foren für dieses Projekt.

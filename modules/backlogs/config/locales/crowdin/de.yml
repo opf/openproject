@@ -229,11 +229,11 @@ de:
         title: "%{sprint} Bericht"
       report_unavailable_blankslate_component:
         missing_dates:
-          description: Sprint start and finish dates are necessary for the report to show.
-          heading: Missing sprint dates
+          description: Für die Anzeige des Berichts sind Start- und Endtermine notwendig.
+          heading: Fehlende Sprinttermine
         planned_dates_in_past:
-          description: The sprint was planned, but it was never executed. Change the planned start and finish dates to a future time in order to see the sprint report.
-          heading: Planned sprint dates are in the past
+          description: Der Sprint war geplant, wurde jedoch nie durchgeführt. Ändern Sie die geplanten Start- und Endtermine auf einen späteren Zeitpunkt, um den Sprintbericht einsehen zu können.
+          heading: Die geplanten Sprinttermine liegen in der Vergangenheit
       widgets:
         burndown_chart:
           blankslate:
