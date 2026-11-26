@@ -42,6 +42,17 @@ require "primer/view_components/engine"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups(:opf_plugins))
 
+# html-pipeline 3.2.4 and Selma 0.5.4 require unbundled debugging gems
+# whenever DEBUG is set, even to "0".
+# https://community.openproject.org/wp/OP-17204
+begin
+  debug_env = ENV.delete("DEBUG")
+  require "selma"
+  require "html_pipeline"
+ensure
+  ENV["DEBUG"] = debug_env unless debug_env.nil?
+end
+
 require_relative "../lib_static/open_project/configuration"
 
 module OpenProject
