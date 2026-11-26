@@ -30,9 +30,7 @@
 require "spec_helper"
 
 RSpec.describe OpenProject::TextFormatting::Filters::ExternalLinkCaptureFilter do
-  let(:filter) { described_class.new(html, context) }
   let(:context) { {} }
-  let(:html) { "" }
 
   describe "#call" do
     context "when capture_external_links is disabled" do
@@ -42,10 +40,9 @@ RSpec.describe OpenProject::TextFormatting::Filters::ExternalLinkCaptureFilter d
 
       it "does not modify external links" do
         html = '<a href="https://example.com">External</a>'
-        filter = described_class.new(html, context)
-        result = filter.call
+        output = described_class.call(html, context:)
 
-        expect(result.to_html).to include('href="https://example.com"')
+        expect(output).to include('href="https://example.com"')
       end
     end
 
@@ -58,93 +55,89 @@ RSpec.describe OpenProject::TextFormatting::Filters::ExternalLinkCaptureFilter d
             } do
       it "redirects external HTTP links" do
         html = '<a href="https://example.com">External</a>'
-        filter = described_class.new(html, context)
-        result = filter.call
+        output = described_class.call(html, context:)
 
-        expect(result.to_html).to include('href="http://localhost:3000/external_redirect?url=')
-        expect(result.to_html).to include(CGI.escape("https://example.com"))
+        expect(output).to include('href="http://localhost:3000/external_redirect?url=')
+        expect(output).to include(CGI.escape("https://example.com"))
       end
 
       it "redirects external HTTPS links" do
         html = '<a href="https://example.org">External</a>'
-        filter = described_class.new(html, context)
-        result = filter.call
+        output = described_class.call(html, context:)
 
-        expect(result.to_html).to include('href="http://localhost:3000/external_redirect?url=')
-        expect(result.to_html).to include(CGI.escape("https://example.org"))
+        expect(output).to include('href="http://localhost:3000/external_redirect?url=')
+        expect(output).to include(CGI.escape("https://example.org"))
+      end
+
+      it "redirects to the decoded URL of an escaped link" do
+        html = '<a href="https://example.com/?a=1&amp;b=&quot;2&quot;&lt;">External</a>'
+        output = described_class.call(html, context:)
+
+        expect(output).to include(CGI.escape('https://example.com/?a=1&b="2"<'))
       end
 
       it "does not redirect relative links" do
         html = '<a href="/work_packages">Internal</a>'
-        filter = described_class.new(html, context)
-        result = filter.call
+        output = described_class.call(html, context:)
 
-        expect(result.to_html).to include('href="/work_packages"')
+        expect(output).to include('href="/work_packages"')
       end
 
       it "does not redirect anchor links" do
         html = '<a href="#section">Anchor</a>'
-        filter = described_class.new(html, context)
-        result = filter.call
+        output = described_class.call(html, context:)
 
-        expect(result.to_html).to include('href="#section"')
+        expect(output).to include('href="#section"')
       end
 
       it "does not redirect mailto links" do
         html = '<a href="mailto:test@example.com">Email</a>'
-        filter = described_class.new(html, context)
-        result = filter.call
+        output = described_class.call(html, context:)
 
-        expect(result.to_html).to include('href="mailto:test@example.com"')
+        expect(output).to include('href="mailto:test@example.com"')
       end
 
       it "does not redirect tel links" do
         html = '<a href="tel:+1234567890">Phone</a>'
-        filter = described_class.new(html, context)
-        result = filter.call
+        output = described_class.call(html, context:)
 
-        expect(result.to_html).to include('href="tel:+1234567890"')
+        expect(output).to include('href="tel:+1234567890"')
       end
 
       it "does not redirect ical links" do
         html = '<a href="webcal://example.com/calendar.ics">Calendar</a>'
-        filter = described_class.new(html, context)
-        result = filter.call
+        output = described_class.call(html, context:)
 
-        expect(result.to_html).to include('href="webcal://example.com/calendar.ics"')
+        expect(output).to include('href="webcal://example.com/calendar.ics"')
       end
 
       it "does not redirect custom protocol links" do
         html = '<a href="vscode://file/path/to/file">VS Code</a>'
-        filter = described_class.new(html, context)
-        result = filter.call
+        output = described_class.call(html, context:)
 
-        expect(result.to_html).to include('href="vscode://file/path/to/file"')
+        expect(output).to include('href="vscode://file/path/to/file"')
       end
 
       it "does not redirect file protocol links" do
         html = '<a href="file:///path/to/file">File</a>'
-        filter = described_class.new(html, context)
-        result = filter.call
+        output = described_class.call(html, context:)
 
-        expect(result.to_html).to include('href="file:///path/to/file"')
+        expect(output).to include('href="file:///path/to/file"')
       end
 
       it "does not redirect internal links" do
         html = '<a href="http://localhost:3000/work_packages">Internal</a>'
-        filter = described_class.new(html, context)
-        result = filter.call
+        output = described_class.call(html, context:)
 
-        expect(result.to_html).to include('href="http://localhost:3000/work_packages"')
+        expect(output).to include('href="http://localhost:3000/work_packages"')
       end
 
       context "with additional host names", with_settings: { additional_host_names: ["example.local"] } do
         it "does not redirect links from additional host names" do
           html = '<a href="http://example.local/work_packages">Internal</a>'
-          filter = described_class.new(html, context)
-          result = filter.call
+          output = described_class.call(html, context:)
 
-          expect(result.to_html).to include('href="http://example.local/work_packages"')
+          expect(output).to include('href="http://example.local/work_packages"')
         end
       end
 
@@ -152,11 +145,18 @@ RSpec.describe OpenProject::TextFormatting::Filters::ExternalLinkCaptureFilter d
         html = <<~HTML
           <p>Visit <a href="https://example.com">Example</a> or <a href="https://test.org">Test</a></p>
         HTML
-        filter = described_class.new(html, context)
-        result = filter.call
+        output = described_class.call(html, context:)
 
-        expect(result.to_html).to include(CGI.escape("https://example.com"))
-        expect(result.to_html).to include(CGI.escape("https://test.org"))
+        expect(output).to include(CGI.escape("https://example.com"))
+        expect(output).to include(CGI.escape("https://test.org"))
+      end
+
+      it "redirects external links in document output" do
+        document = Nokogiri::HTML4::DocumentFragment.parse('<a href="https://example.com">External</a>')
+        link = described_class.new(context:).decorate_document(document).at_css("a")
+
+        expect(link["href"]).to start_with("http://localhost:3000/external_redirect?url=")
+        expect(link["target"]).to eq("_blank")
       end
     end
   end
