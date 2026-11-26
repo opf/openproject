@@ -24,7 +24,7 @@ pre-commit:
       glob: "*.json"
       exclude:
         - "extensions/**"
-      run: npx eslint --no-warn-ignored {staged_files}
+      run: npx eslint --config eslint.config.mjs --no-warn-ignored {staged_files}
     rubocop:
       files: git diff --name-only --staged
       glob: "*.rb"
@@ -87,7 +87,7 @@ fix:
       glob: "*.json"
       exclude:
         - "extensions/**"
-      run: npx eslint --no-warn-ignored --fix {files}
+      run: npx eslint --config eslint.config.mjs --no-warn-ignored --fix {files}
     rubocop:
       files: git diff --name-only --staged
       glob: "*.rb"
