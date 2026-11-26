@@ -59,51 +59,13 @@ RSpec.describe DevelopmentData::ProjectsSeeder do
       end
     end
 
-    context "with a project having identifier 'dev-empty'" do
-      before { create(:project, identifier: "dev-empty") }
+    described_class::IDENTIFIERS.each_key do |key|
+      context "with a project having identifier '#{key}'" do
+        before { create(:project, identifier: described_class.identifier(key)) }
 
-      it "returns false" do
-        expect(project_seeder).not_to be_applicable
-      end
-    end
-
-    context "with a project having identifier 'dev-work-package-sharing'" do
-      before { create(:project, identifier: "dev-work-package-sharing") }
-
-      it "returns false" do
-        expect(project_seeder).not_to be_applicable
-      end
-    end
-
-    context "with a project having identifier 'dev-large'" do
-      before { create(:project, identifier: "dev-large") }
-
-      it "returns false" do
-        expect(project_seeder).not_to be_applicable
-      end
-    end
-
-    context "with a project having identifier 'dev-large-child'" do
-      before { create(:project, identifier: "dev-large-child") }
-
-      it "returns false" do
-        expect(project_seeder).not_to be_applicable
-      end
-    end
-
-    context "with a project having identifier 'dev-custom-fields'" do
-      before { create(:project, identifier: "dev-custom-fields") }
-
-      it "returns false" do
-        expect(project_seeder).not_to be_applicable
-      end
-    end
-
-    context "with a project having identifier 'dev-forums'" do
-      before { create(:project, identifier: "dev-forums") }
-
-      it "returns false" do
-        expect(project_seeder).not_to be_applicable
+        it "returns false" do
+          expect(project_seeder).not_to be_applicable
+        end
       end
     end
 
