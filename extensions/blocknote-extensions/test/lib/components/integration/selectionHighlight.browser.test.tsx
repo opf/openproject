@@ -42,6 +42,20 @@ describe('Block WP – blue border on focus (BNE-95)', () => {
     await userEvent.click(page.getByTestId('block-wp-wrapper'));
     await expect.poll(blockIsSelected).toBe(true);
   });
+
+  it('does not mark the card below the gap cursor between two cards as selected', async () => {
+    const card = { type: 'openProjectWorkPackageBlock', props: { wpid: 123 } };
+    renderEditor({ initialContent: [{ type: 'paragraph', content: 'above' }, card, card] });
+    await expect.poll(() => document.querySelectorAll('[data-testid="block-card"]').length).toBe(2);
+
+    await userEvent.click(page.getByText('above'));
+    await userEvent.keyboard('{End}{ArrowDown}{ArrowDown}');
+    await expect.poll(() => document.querySelector('.ProseMirror-gapcursor')).not.toBeNull();
+
+    const selectedFlags = [...document.querySelectorAll('[data-testid="block-wp-wrapper"]')]
+      .map((wrapper) => wrapper.hasAttribute('data-selected'));
+    expect(selectedFlags).toEqual([false, false]);
+  });
 });
 
 const inlineWorkPackage = { type: 'openProjectWorkPackageInline', props: { wpid: '123', size: 's', displayId: '123' } };
