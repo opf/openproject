@@ -89,6 +89,18 @@ describe('hasUnsavedChanges', () => {
     expect(hasUnsavedChanges(root)).toBe(true);
   });
 
+  it('detects a changed hidden input with an initial value', () => {
+    const root = render('<div data-root><input type="hidden" data-initial-value="7" value="9"></div>');
+
+    expect(hasUnsavedChanges(root)).toBe(true);
+  });
+
+  it('ignores hidden inputs without an initial value', () => {
+    const root = render('<div data-root><input type="hidden" value="token"></div>');
+
+    expect(hasUnsavedChanges(root)).toBe(false);
+  });
+
   it('reports pageWasEdited', () => {
     window.OpenProject.pageState = 'edited';
     const root = render('<div data-root><input type="text" data-initial-value="A" value="A"></div>');

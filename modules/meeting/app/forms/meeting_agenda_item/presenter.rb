@@ -45,6 +45,7 @@ class MeetingAgendaItem::Presenter < ApplicationForm
         focusDirectly: false,
         multiple: false,
         placeholder: I18n.t("activerecord.attributes.meeting_agenda_item.presenter"),
+        hiddenFieldAction: "change->meeting-agenda-item-form#recordInitialPresenter",
         disabled: @disabled
       }
     )

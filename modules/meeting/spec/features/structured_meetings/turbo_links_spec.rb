@@ -34,6 +34,7 @@ require_relative "../../support/pages/meetings/show"
 RSpec.describe "Meetings links caught by turbo",
                :js do
   include Rails.application.routes.url_helpers
+  include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   shared_let(:project) { create(:project, enabled_module_names: %w[meetings]) }
   shared_let(:user) do
@@ -45,6 +46,12 @@ RSpec.describe "Meetings links caught by turbo",
 
       u.save!
     end
+  end
+  shared_let(:presenter_candidate) do
+    create(:user,
+           firstname: "Paula",
+           lastname: "Presenter",
+           member_with_permissions: { project => %i[view_meetings] })
   end
   shared_let(:meeting1) { create(:meeting, title: "First meeting", project:) }
   shared_let(:meeting2) { create(:meeting, title: "Other meeting", project:) }
@@ -109,5 +116,19 @@ RSpec.describe "Meetings links caught by turbo",
     end
     expect(page).to have_current_path project_meeting_path(project, meeting1)
     show_page.expect_item_edit_title(other_item, "Changed title")
+  end
+
+  it "warns before following a Turbo link with only an unsaved presenter change" do
+    show_page.edit_agenda_item(other_item, save: false) do
+      select_autocomplete(find("opce-user-autocompleter"),
+                          query: "Paula",
+                          select_text: "Paula Presenter",
+                          results_selector: "body")
+    end
+
+    dismiss_confirm(unsaved_changes_message) do
+      within("#main-menu") { click_on "Meetings", match: :first }
+    end
+    expect(page).to have_current_path project_meeting_path(project, meeting1)
   end
 end
