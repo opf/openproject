@@ -41,7 +41,9 @@ module WorkPackageTypes
       Types::GroupedListComponent.new(
         types: admin_types_scope,
         page_args: admin_types_page_args,
-        expanded_type_id:
+        expanded_type_id:,
+        query: params[:query],
+        created_by_migration: params[:created_by_migration]
       )
     end
 
