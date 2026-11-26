@@ -72,6 +72,7 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
       expect(push_handler).to be > response.body.index("self.OP_SW =")
       expect(response.body).to include('addEventListener("notificationclick"')
       expect(response.body).not_to include("importScripts")
+      expect(response.body).not_to include("const CACHE_PREFIX")
     end
 
     it "hands the bundle its configuration" do
