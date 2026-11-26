@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { FrameElement } from '@hotwired/turbo';
 import { waitFor } from '@testing-library/dom';
 import { Idiomorph } from 'idiomorph';
 import { Subject } from 'rxjs';
@@ -90,6 +91,22 @@ describe('Backlogs list-refresh controller', () => {
     events$.next([{ eventType: 'updated' }]);
 
     expect(reload).toHaveBeenCalledTimes(1);
+  });
+
+  it('reloads a frame restored from the Turbo cache', async () => {
+    const reload = vi.spyOn(FrameElement.prototype, 'reload').mockResolvedValue(undefined);
+
+    await ctx.mount('<turbo-frame id="backlogs-list" complete data-controller="backlogs--list-refresh"></turbo-frame>');
+
+    expect(reload).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not reload a frame that has not loaded yet', async () => {
+    const reload = vi.spyOn(FrameElement.prototype, 'reload').mockResolvedValue(undefined);
+
+    await ctx.mount('<turbo-frame id="backlogs-list" data-controller="backlogs--list-refresh"></turbo-frame>');
+
+    expect(reload).not.toHaveBeenCalled();
   });
 
   it('ignores aggregated events without an updated entry', async () => {

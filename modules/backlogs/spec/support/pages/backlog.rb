@@ -62,9 +62,8 @@ module Pages
     end
 
     def go_back_to_backlogs
-      page.go_back
+      wait_for_turbo_frame(frame: "backlogs_container") { page.go_back }
       expect(page).to have_css("#sprint_backlogs_container")
-      wait_for_backlogs_network_idle
     end
 
     def go_forward_to_all_sprints
