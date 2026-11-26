@@ -96,18 +96,14 @@ if metrics_enabled
   def start_metrics_server!
     require "open_project/metrics/metrics_app"
 
-    Thread.new do
-      require "webrick"
+    port = OpenProject::Configuration.metrics["port"]
+    server = Puma::Server.new(OpenProject::Metrics::MetricsApp.new, nil,
+                              min_threads: 0, max_threads: 1, log_writer: Puma::LogWriter.null)
+    server.add_tcp_listener "0.0.0.0", port
 
-      port = OpenProject::Configuration.metrics["port"]
-      # we silence the logs because lots of 'GET /metrics HTTP/1.1' logs are not particularly useful
-      server = WEBrick::HTTPServer.new Port: port, BindAddress: "0.0.0.0", AccessLog: []
+    Rails.logger.info "Starting metrics server on port #{port} under /metrics"
 
-      Rails.logger.info "Starting metrics server on port #{port} under /metrics"
-
-      server.mount "/", Rack::Handler::WEBrick, OpenProject::Metrics::MetricsApp.new
-      server.start
-    end
+    server.run
   end
 
   if OpenProject::Configuration.web["workers"] > 0

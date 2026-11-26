@@ -27,28 +27,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Be sure to restart your server when you modify this file.
+require "spec_helper"
 
-Rails.application.configure do
-  # Version of your assets, change this if you want to expire all your assets.
-  # config.assets.version = "1.0"
+RSpec.describe "Frontend dev server redirect", type: :rails_request do
+  let(:asset_path) { "/assets/frontend/served-only-by-the-dev-server.js" }
 
-  # Add additional assets to the asset load path.
-  # config.assets.paths << Emoji.images_path
-  config.assets.paths << File.join(Gem
-                                     .loaded_specs["openproject-primer_view_components"]
-                                     .full_gem_path, "app", "assets", "images")
+  before do
+    allow(FrontendAssetHelper).to receive_messages(assets_proxied?: proxied, cli_proxy: "http://localhost:4200")
+  end
 
-  # Precompile additional assets.
-  # application.js, application.css, and all non-JS/CSS in the app/assets
-  # folder are already added.
-  config.assets.precompile += %w(
-    favicon.ico
-    locales/*.js
-  )
+  context "when frontend assets are proxied to the dev server" do
+    let(:proxied) { true }
 
-  # Special place to load assets of Primer
-  config.assets.precompile += %w(
-    loading_indicator.svg
-  )
+    it "redirects frontend assets to the dev server without the query string" do
+      get "#{asset_path}?v=1"
+
+      expect(response).to have_http_status(:temporary_redirect)
+      expect(response.location).to eq("http://localhost:4200#{asset_path}")
+    end
+  end
+
+  context "when frontend assets are not proxied" do
+    let(:proxied) { false }
+
+    it "leaves the request to the asset server" do
+      get asset_path
+
+      expect(response).to have_http_status(:not_found)
+    end
+  end
 end

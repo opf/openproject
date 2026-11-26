@@ -101,7 +101,8 @@ module OpenProject
       include ActionView::Helpers::JavaScriptHelper
       include ActionView::Helpers::NumberHelper
       include ActionView::Helpers::UrlHelper
-      include Sprockets::Rails::Helper
+      include ActionView::Helpers::AssetTagHelper
+      include Propshaft::Helper
       include ActionView::Helpers::TextHelper
       include Rails.application.routes.url_helpers
       include ApplicationHelper

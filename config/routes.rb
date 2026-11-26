@@ -89,15 +89,6 @@ Rails.application.routes.draw do
     get "openproject-metadata", to: "openproject_metadata#show"
   end
 
-  # In case assets are actually delivered by a node server (e.g. in test env)
-  # forward requests to the proxy
-  if FrontendAssetHelper.assets_proxied?
-    match "/assets/frontend/*appendix",
-          to: redirect("#{FrontendAssetHelper.cli_proxy}/assets/frontend/%{appendix}", status: 307),
-          format: false,
-          via: :all
-  end
-
   # Shared route concerns
   # TODO: Add description how to configure controller to support shares
   concern :shareable do

@@ -122,7 +122,7 @@ gem "multi_json", "~> 1.21.2"
 
 gem "good_job", "~> 4.19.3" # update should be done manually in sync with saas-openproject version.
 
-gem "rack-protection", "~> 3.2.0"
+gem "rack-protection", "~> 4.2.2"
 
 # Rack::Attack is a rack middleware to protect your web app from bad clients.
 # It allows whitelisting, blacklisting, throttling, and tracking based
@@ -183,11 +183,7 @@ end
 gem "i18n-js", "~> 4.2.4"
 gem "rails-i18n", "~> 8.1.0"
 
-# Binding json to a version below 3 as sprockets does not
-# limit the json version but fails with 3+.
-gem "json", "< 3"
-gem "sprockets", "~> 3.7.2" # lock sprockets below 4.0
-gem "sprockets-rails", "~> 3.5.1"
+gem "propshaft", "~> 1.3.2"
 
 gem "puma", "~> 8.0"
 gem "puma-plugin-statsd", "~> 2.7"
@@ -280,7 +276,7 @@ gem "httpx", "~> 1.9.0"
 
 group :test do
   gem "launchy", "~> 3.1.0"
-  gem "rack-test", "~> 2.2.0"
+  gem "rack-test", "~> 2.3.0"
 
   # Test prof provides factories from code
   # and other niceties
@@ -417,7 +413,7 @@ gem "grape_logging", "~> 3.0.1"
 gem "roar", "~> 1.2.0"
 
 # CORS for API
-gem "rack-cors", "~> 2.0.2"
+gem "rack-cors", "~> 3.0.0"
 
 # Gmail API
 gem "google-apis-gmail_v1", require: false
