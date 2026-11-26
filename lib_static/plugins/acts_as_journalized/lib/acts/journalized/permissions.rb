@@ -51,19 +51,30 @@ module Acts::Journalized
     # Default implementation of journal editing permission
     # Is overridden if defined in the journalized model directly
     def journal_editable_by?(journal, user)
-      return true if user.admin?
+      return true if admin_for_journals?(user)
 
       editable = if respond_to? :editable_by?
                    editable_by?(user)
                  else
-                   permission_project_context = @project || (project if respond_to?(:project))
-                   user.allowed_based_on_permission_context?(journable_edit_permission, project: permission_project_context)
+                   user.allowed_based_on_permission_context?(journable_edit_permission, project: journal_project_context)
                  end
 
       editable && journal.user_id == user.id
     end
 
     private
+
+    def admin_for_journals?(user)
+      if journal_project_context
+        user.admin_in_project?(journal_project_context)
+      else
+        user.admin?
+      end
+    end
+
+    def journal_project_context
+      @project || (project if respond_to?(:project))
+    end
 
     def journable_edit_permission
       if respond_to? :journal_permission

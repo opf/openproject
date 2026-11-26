@@ -38,6 +38,8 @@ module Sessions
           .for_user(user)
           .where.not(session_id: session.id.private_id)
           .delete_all
+
+        ::AdminElevationSessions::EndAllService.new(user:).call(except_session_id: session.id.private_id)
       end
     end
   end

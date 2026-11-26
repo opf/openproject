@@ -36,7 +36,7 @@ RSpec.describe "Authentication with an API key",
   let(:token) { create(:api_token, user:) }
   let(:api_key) { token.plain_value }
 
-  shared_examples "an API key authentication path" do
+  shared_examples "an API key authentication path" do |required_scope:, missing_scope_status: :unauthorized|
     it "authenticates with a valid API key" do
       send_request
 
@@ -45,6 +45,22 @@ RSpec.describe "Authentication with an API key",
 
     it "rejects an expired API key" do
       token.update_column(:expires_on, 1.day.ago)
+
+      send_request
+
+      expect(last_response).to have_http_status(:unauthorized)
+    end
+
+    it "rejects an API key without the #{required_scope} scope" do
+      token.update!(scopes: Token::API::SCOPES - [required_scope, "admin_elevation"])
+
+      send_request
+
+      expect(last_response).to have_http_status(missing_scope_status)
+    end
+
+    it "rejects an API key of a locked user" do
+      user.locked!
 
       send_request
 
@@ -69,7 +85,7 @@ RSpec.describe "Authentication with an API key",
         get "/api/v3/users/me"
       end
 
-      it_behaves_like "an API key authentication path"
+      it_behaves_like "an API key authentication path", required_scope: "api_v3", missing_scope_status: :forbidden
     end
 
     context "with the API key via Basic auth" do
@@ -78,7 +94,7 @@ RSpec.describe "Authentication with an API key",
         get "/api/v3/users/me"
       end
 
-      it_behaves_like "an API key authentication path"
+      it_behaves_like "an API key authentication path", required_scope: "api_v3"
     end
   end
 
@@ -96,7 +112,7 @@ RSpec.describe "Authentication with an API key",
         post "/mcp", mcp_request_body
       end
 
-      it_behaves_like "an API key authentication path"
+      it_behaves_like "an API key authentication path", required_scope: "mcp"
     end
 
     context "with the API key via Basic auth" do
@@ -106,7 +122,7 @@ RSpec.describe "Authentication with an API key",
         post "/mcp", mcp_request_body
       end
 
-      it_behaves_like "an API key authentication path"
+      it_behaves_like "an API key authentication path", required_scope: "mcp"
     end
   end
 
@@ -123,7 +139,7 @@ RSpec.describe "Authentication with an API key",
         get "/work_packages/#{work_package.id}.md"
       end
 
-      it_behaves_like "an API key authentication path"
+      it_behaves_like "an API key authentication path", required_scope: "api_v3"
     end
 
     context "with the key and Accept: text/markdown" do
@@ -133,7 +149,7 @@ RSpec.describe "Authentication with an API key",
         get "/work_packages/#{work_package.id}"
       end
 
-      it_behaves_like "an API key authentication path"
+      it_behaves_like "an API key authentication path", required_scope: "api_v3"
     end
 
     it "answers 401 with WWW-Authenticate without credentials" do
@@ -290,7 +306,7 @@ RSpec.describe "Authentication with an API key",
     it "expires the session when the key resolves to a user that is not accepted", :skip_csrf do
       post "/login", username: user.login, password: "adminADMIN!"
       follow_redirect! while last_response.redirect?
-      allow(User).to receive(:find_by_api_key).and_return(create(:locked_user))
+      allow(Users::Authentication).to receive(:find_user_by_api_key).and_return(create(:locked_user))
 
       travel 3.hours
       header "X-OpenProject-API-Key", api_key
@@ -321,7 +337,7 @@ RSpec.describe "Authentication with an API key",
         post "/webhooks/#{hook_name}?key=#{api_key}", "{}"
       end
 
-      it_behaves_like "an API key authentication path"
+      it_behaves_like "an API key authentication path", required_scope: "webhooks"
     end
 
     context "with the API key in the X-OpenProject-API-Key header" do
@@ -331,7 +347,7 @@ RSpec.describe "Authentication with an API key",
         post "/webhooks/#{hook_name}", "{}"
       end
 
-      it_behaves_like "an API key authentication path"
+      it_behaves_like "an API key authentication path", required_scope: "webhooks"
     end
   end
 end
