@@ -184,8 +184,8 @@ print_failed_examples() {
 	local failures_log="tmp/parallel_failures.log"
 
 	if [ -s "$failures_log" ]; then
-		echo "Failed examples of all processes:"
-		grep '^rspec ' "$failures_log"
+		echo "Failures of all processes:"
+		grep -v '^Randomized with seed' "$failures_log" | cat -s
 	fi
 }
 

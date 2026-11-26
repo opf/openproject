@@ -260,7 +260,7 @@ RAILS_ENV=test bundle exec parallel_rspec -n 4 {,modules/*/}spec/features/**/*_s
 
 CI additionally passes `--runtime-log` to balance the spec files across processes by their recorded run time.
 
-The rerun commands of the failed examples of all processes are collected in `tmp/parallel_failures.log`, and their failure details in `tmp/parallel_summary.log`.
+The failures of all processes, with their details and rerun commands, are collected in `tmp/parallel_failures.log`.
 
 ### Running specific tests
 

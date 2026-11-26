@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "CI failure reporting (unit)" do
+RSpec.describe OpenProject, "CI failure reporting" do
   it "passes" do
     expect(1 + 1).to eq(2)
   end

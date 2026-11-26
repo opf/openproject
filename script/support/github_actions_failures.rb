@@ -66,6 +66,9 @@ module GithubActionsFailures
     SPEC_FAILURES_PATTERN = %r{^\S+ rspec (\S+) #.+$}
     SPEC_LOADING_ERRORS_PATTERN = %r{^\S+ An error occurred while loading (\S+)\.\r?$}
     SCREENSHOT_PATTERN = /\{"message":"Screenshot captured for failed feature test"[^\n]+$/
+    # Printed by `print_failed_examples` in docker/ci/entrypoint.sh, followed by
+    # the failures of all processes, which are also in each process's output.
+    FAILURES_REPORT_HEADER = "Failures of all processes:"
     # Looks like this in the job log:
     # rubocop:disable Layout/LineLength
     # bin/rspec --seed 52674 -O .rspec_parallel spec/features/api_docs/index_spec.rb spec/features/custom_fields/reorder_options_spec.rb spec/features/projects/projects_portfolio_spec.rb spec/features/projects/template_spec.rb spec/features/versions/edit_spec.rb
@@ -132,8 +135,9 @@ module GithubActionsFailures
     end
 
     def find_failures_explanation(log)
+      failures_report = log.split(FAILURES_REPORT_HEADER, 2).last
       explanations = []
-      log.split("\n").each do |line|
+      failures_report.split("\n").each do |line|
         if line.end_with?("Failures:") .. line.end_with?("Failed examples:")
           explanations << line
         end
