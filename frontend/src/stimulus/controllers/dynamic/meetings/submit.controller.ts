@@ -113,7 +113,7 @@ export default class extends ApplicationController {
   }
 
   private handleClick(url:string, method:string):void {
-    if (hasUnsavedChanges()) {
+    if (hasUnsavedChanges(this.element)) {
       if (window.confirm(I18n.t('js.text_are_you_sure_to_cancel'))) {
         window.OpenProject.pageState = 'pristine';
         void this.sendRequest(url, method);
@@ -124,7 +124,7 @@ export default class extends ApplicationController {
   }
 
   private beforeUnloadHandler(event:BeforeUnloadEvent):void {
-    if (hasUnsavedChanges()) {
+    if (hasUnsavedChanges(this.element)) {
       event.preventDefault();
     }
   }
