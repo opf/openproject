@@ -150,6 +150,7 @@ export default class FiltersFormController extends Controller {
   private abortController?:AbortController;
   private sentFilters:string|null = null;
   private streamAbortController:AbortController|null = null;
+  private rowRequests = new Map<string, AbortController>();
 
   initialize() {
     // Initialize runs anytime an element with a controller connected to the DOM for the first time
@@ -164,6 +165,7 @@ export default class FiltersFormController extends Controller {
     clearButton?.addEventListener('click', (event) => this.clearInputWithButton(event), { signal });
     this.element.addEventListener('turbo:before-morph-element', this.keepPendingRows, { signal });
     this.element.addEventListener('turbo:before-morph-attribute', this.keepPendingOptionsTaken, { signal });
+    document.addEventListener('turbo:before-cache', this.cancelRowRequests, { signal });
 
     // A restored page brings its markup back but not this controller's model, so a marker
     // already in the DOM here belongs to whoever was cached.
@@ -173,6 +175,8 @@ export default class FiltersFormController extends Controller {
   disconnect() {
     this.abortController?.abort();
     this.streamAbortController?.abort();
+    this.rowRequests.forEach((request) => request.abort());
+    this.rowRequests.clear();
   }
 
   addFilterSelectTargetConnected() {
@@ -373,12 +377,10 @@ export default class FiltersFormController extends Controller {
     this.addFilterSelectTarget.selectedIndex = 0;
 
     const selectedFilter = this.findTargetByName(filterName, this.filterTargets) ?? await this.loadFilterRow(filterName);
-    if (selectedFilter) {
-      selectedFilter.removeAttribute('hidden');
-      selectedFilter.setAttribute(PENDING_ATTRIBUTE, '');
-    } else {
-      this.setFilterOptionTaken(filterName, false);
-    }
+    if (!selectedFilter) return;
+
+    selectedFilter.removeAttribute('hidden');
+    selectedFilter.setAttribute(PENDING_ATTRIBUTE, '');
 
     this.focusFilterValueIfPossible(selectedFilter);
 
@@ -386,29 +388,57 @@ export default class FiltersFormController extends Controller {
   }
 
   private async loadFilterRow(filterName:string):Promise<HTMLElement|undefined> {
+    const request = new AbortController();
+    this.rowRequests.set(filterName, request);
+
+    try {
+      const row = await this.fetchFilterRow(filterName, request.signal);
+      if (request.signal.aborted) return undefined;
+
+      const loadedMeanwhile = this.findTargetByName(filterName, this.filterTargets);
+      if (loadedMeanwhile) return loadedMeanwhile;
+
+      const addFilterControl = this.addFilterSelectTarget.closest('.FormControl-spacingWrapper');
+      if (row && addFilterControl) {
+        addFilterControl.before(row);
+        return row;
+      }
+    } catch (error:unknown) {
+      if (request.signal.aborted) return undefined;
+
+      console.error('Error:', error);
+    } finally {
+      if (this.rowRequests.get(filterName) === request) this.rowRequests.delete(filterName);
+    }
+
+    this.setFilterOptionTaken(filterName, false);
+    return undefined;
+  }
+
+  private async fetchFilterRow(filterName:string, signal:AbortSignal):Promise<HTMLElement|null> {
     const rowsUrl = this.addFilterSelectTarget.dataset.rowsUrl;
-    if (!rowsUrl) return undefined;
+    if (!rowsUrl) return null;
 
     const url = new URL(rowsUrl, window.location.href);
     url.searchParams.set('filter_row', filterName);
 
-    const response = await fetch(url, { headers: { Accept: 'text/html' } });
-    if (!response.ok) return undefined;
+    const response = await fetch(url, { signal, headers: { Accept: 'text/html' } });
+    if (!response.ok) return null;
 
     const template = document.createElement('template');
     template.innerHTML = await response.text();
-    const row = template.content.querySelector<HTMLElement>(
+    return template.content.querySelector<HTMLElement>(
       `[data-filter--filters-form-target="filter"][data-filter-name="${CSS.escape(filterName)}"]`,
     );
-    const loadedMeanwhile = this.findTargetByName(filterName, this.filterTargets);
-    if (loadedMeanwhile) return loadedMeanwhile;
-
-    const addFilterControl = this.addFilterSelectTarget.closest('.FormControl-spacingWrapper');
-    if (!row || !addFilterControl) return undefined;
-
-    addFilterControl.before(row);
-    return row;
   }
+
+  private readonly cancelRowRequests = () => {
+    this.rowRequests.forEach((request, filterName) => {
+      request.abort();
+      this.setFilterOptionTaken(filterName, false);
+    });
+    this.rowRequests.clear();
+  };
 
   focusFilterValueIfPossible(element:undefined|HTMLElement) {
     const filterName = element?.getAttribute('data-filter-name');
