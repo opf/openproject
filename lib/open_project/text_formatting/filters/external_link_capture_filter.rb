@@ -42,7 +42,7 @@ module OpenProject::TextFormatting
 
       private
 
-      def process(node, _tag_name)
+      def process(node)
         url = node["href"]
         return if internal_link?(url)
 

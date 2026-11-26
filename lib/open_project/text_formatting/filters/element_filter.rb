@@ -33,8 +33,10 @@ module OpenProject::TextFormatting
       # Selma exposes attribute values as raw source text and escapes only `"`
       # on write. Decode and re-escape so filters see the same values as on
       # a Nokogiri node.
-      class SelmaAttributes
+      class DecodedElement
         ESCAPES = { "&" => "&amp;", "<" => "&lt;", ">" => "&gt;", '"' => "&quot;" }.freeze
+
+        delegate :tag_name, to: :@element
 
         def initialize(element)
           @element = element
@@ -51,10 +53,9 @@ module OpenProject::TextFormatting
       end
 
       class << self
-        attr_reader :elements, :element_selector
+        attr_reader :element_selector
 
         def match_elements(css)
-          @elements = css.freeze
           @element_selector = Selma::Selector.new(match_element: css)
         end
       end
@@ -64,12 +65,7 @@ module OpenProject::TextFormatting
       end
 
       def handle_element(element)
-        process(SelmaAttributes.new(element), element.tag_name) if applicable?
-      end
-
-      def decorate_document(document)
-        document.css(self.class.elements).each { |element| process(element, element.name) } if applicable?
-        document
+        process(DecodedElement.new(element)) if applicable?
       end
 
       def applicable?

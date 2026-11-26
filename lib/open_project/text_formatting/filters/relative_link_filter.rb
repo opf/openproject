@@ -38,7 +38,7 @@ module OpenProject::TextFormatting
 
       private
 
-      def process(node, _tag_name)
+      def process(node)
         node["href"] = rewriter.replace(node["href"])
       end
 

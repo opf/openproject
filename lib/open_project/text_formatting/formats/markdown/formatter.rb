@@ -61,7 +61,7 @@ module OpenProject::TextFormatting::Formats::Markdown
     ].freeze
 
     # Element filters run last, in order, as one Selma pass over the
-    # generated HTML, or over the Nokogiri tree for document callers.
+    # generated HTML.
     ELEMENT_FILTERS = [
       OpenProject::TextFormatting::Filters::RelativeLinkFilter,
       OpenProject::TextFormatting::Filters::LinkAttributeFilter,
@@ -75,13 +75,6 @@ module OpenProject::TextFormatting::Formats::Markdown
 
       HTMLPipeline.new(sanitization_config: nil, node_filters: element_filters)
                   .call(output, context:).fetch(:output).html_safe # rubocop:disable Rails/OutputSafety
-    end
-
-    def to_document(text)
-      document = super
-      return document if context[:plain_text]
-
-      element_filters.reduce(document) { |decorated, filter| filter.decorate_document(decorated) }
     end
 
     def filters

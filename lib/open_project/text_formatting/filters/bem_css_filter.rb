@@ -67,7 +67,8 @@ module OpenProject::TextFormatting
 
       private
 
-      def process(element, tag_name)
+      def process(element)
+        tag_name = element.tag_name
         add_css_class(element, BEM_CLASSES.fetch(tag_name)) unless not_to_be_modified?(element, tag_name)
       end
 

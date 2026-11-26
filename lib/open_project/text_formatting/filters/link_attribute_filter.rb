@@ -34,7 +34,7 @@ module OpenProject::TextFormatting
 
       private
 
-      def process(node, _tag_name)
+      def process(node)
         return if node["target"] || node["href"]&.start_with?("#")
 
         node["target"] = context.fetch(:target, "_top")

@@ -31,11 +31,13 @@ require "spec_helper"
 require_relative "expected_markdown"
 
 RSpec.describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
-  it "preserves sibling text in document output while decorating its elements" do
-    document = described_class.new(autolink: { enabled: false }).to_document("<div><p>one</p>\n<p>two</p></div>")
-    expect(document.at_css("div").children.map(&:name)).to eq(%w[p text p])
-    expect(document.at_css("div").text).to eq("one\ntwo")
-    expect(document.css("p.op-uc-p").map(&:text)).to eq(%w[one two])
+  it "preserves sibling text while decorating its elements" do
+    document = Nokogiri::HTML.fragment(to_html("<div><p>one</p>\n<p>two</p></div>", autolink: { enabled: false }))
+    paragraphs = document.css("div > p.op-uc-p")
+
+    expect(paragraphs.map(&:text)).to eq(%w[one two])
+    expect(paragraphs.first.next_sibling).to be_text
+    expect(paragraphs.first.next_sibling.text).to eq("\n")
   end
 
   it "drops carriage returns before parsing Markdown" do
@@ -73,7 +75,7 @@ RSpec.describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
   end
 
   it "leaves a bare task marker followed by a newline as text" do
-    document = described_class.new({}).to_document("<ul><li>[x]\n</li></ul>")
+    document = Nokogiri::HTML.fragment(to_html("<ul><li>[x]\n</li></ul>"))
     expect(document.at_css("ul.op-uc-list_task-list li").text).to eq("[x]\n")
     expect(document.css("input")).to be_empty
   end

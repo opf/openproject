@@ -35,10 +35,6 @@ module OpenProject::TextFormatting::Formats
       @context = context
     end
 
-    def to_document(text)
-      OpenProject::TextFormatting::Filters::DomFilter.parse(render(text))
-    end
-
     protected
 
     def render(text)

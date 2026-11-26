@@ -160,14 +160,6 @@ RSpec.describe OpenProject::TextFormatting::Filters::ExternalLinkCaptureFilter d
         expect(link["href"]).to eq("http://localhost:3000/work_packages")
         expect(link["target"]).to eq("_top")
       end
-
-      it "redirects external links in document output" do
-        document = Nokogiri::HTML4::DocumentFragment.parse('<a href="https://example.com">External</a>')
-        link = described_class.new(context:).decorate_document(document).at_css("a")
-
-        expect(link["href"]).to start_with("http://localhost:3000/external_redirect?url=")
-        expect(link["target"]).to eq("_blank")
-      end
     end
   end
 end
