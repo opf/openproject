@@ -29,7 +29,7 @@
 
 module OpenProject::TextFormatting
   module Filters
-    class BemCssFilter < HTMLPipeline::NodeFilter
+    class BemCssFilter < ElementFilter
       BEM_CLASSES = {
         h1: "op-uc-h1",
         h2: "op-uc-h2",
@@ -63,25 +63,11 @@ module OpenProject::TextFormatting
         ul: "op-uc-toc--list"
       }.with_indifferent_access.freeze
 
-      ELEMENTS = BEM_CLASSES.keys.join(", ").freeze
-      SELECTOR = Selma::Selector.new(match_element: ELEMENTS)
-
-      def selector
-        SELECTOR
-      end
-
-      def handle_element(element)
-        decorate(element, element.tag_name)
-      end
-
-      def decorate_document(document)
-        document.css(ELEMENTS).each { |element| decorate(element, element.name) }
-        document
-      end
+      match_elements BEM_CLASSES.keys.join(", ")
 
       private
 
-      def decorate(element, tag_name)
+      def process(element, tag_name)
         add_css_class(element, BEM_CLASSES.fetch(tag_name)) unless not_to_be_modified?(element, tag_name)
       end
 

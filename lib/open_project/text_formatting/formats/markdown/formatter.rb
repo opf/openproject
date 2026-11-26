@@ -63,12 +63,17 @@ module OpenProject::TextFormatting::Formats::Markdown
       OpenProject::TextFormatting::Filters::PlainTextOutputFilter
     ].freeze
 
+    # Element filters run last, in order, as one Selma pass over the
+    # generated HTML, or over the Nokogiri tree for document callers.
+    ELEMENT_FILTERS = [
+      OpenProject::TextFormatting::Filters::BemCssFilter
+    ].freeze
+
     def to_html(text)
       output = render(text).to_s
       return output if context[:plain_text]
 
-      filter = OpenProject::TextFormatting::Filters::BemCssFilter.new
-      HTMLPipeline.new(sanitization_config: nil, node_filters: [filter])
+      HTMLPipeline.new(sanitization_config: nil, node_filters: element_filters)
                   .call(output, context:).fetch(:output).html_safe # rubocop:disable Rails/OutputSafety
     end
 
@@ -76,7 +81,7 @@ module OpenProject::TextFormatting::Formats::Markdown
       document = super
       return document if context[:plain_text]
 
-      OpenProject::TextFormatting::Filters::BemCssFilter.new.decorate_document(document)
+      element_filters.reduce(document) { |decorated, filter| filter.decorate_document(decorated) }
     end
 
     def filters
@@ -85,6 +90,13 @@ module OpenProject::TextFormatting::Formats::Markdown
 
     def self.format
       :markdown
+    end
+
+    private
+
+    def element_filters
+      filter_context = context.dup.freeze
+      ELEMENT_FILTERS.map { |filter| filter.new(context: filter_context) }
     end
   end
 end
