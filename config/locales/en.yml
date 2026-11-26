@@ -1761,6 +1761,7 @@ en:
           basic: "Jira configuration uses a basic auth user without administrator permissions. Migration needs a Jira administrator to run successfully. Please edit configuration with an administrator's credentials and try again."
           bearer: "Jira configuration uses a user Personal Access Token. Migration needs an admin Personal Access Token to run successfully. Please edit configuration with an admin token and try again."
         project_identifier_taken: "You are trying to import a project with an already used identifier: %{taken_identifier}. Please update the project identifier in Jira then click on Retry."
+        project_variants_not_allowed: "The type \"%{type}\" does not allow project-specific variants. Allow them in the type's settings, then retry the import."
         remove_error: "A Jira import run cannot be removed while it is running"
         side_panel:
           open_history: "Open the run history"

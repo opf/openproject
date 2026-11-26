@@ -39,6 +39,8 @@ module Import
       end
 
       def call(type:, project:)
+        return not_allowed_failure(type) unless type.allow_project_variants?
+
         result = nil
 
         # A block joined to the caller's transaction would swallow the Rollback without undoing anything.
@@ -53,6 +55,10 @@ module Import
       private
 
       attr_reader :user, :jira_import
+
+      def not_allowed_failure(type)
+        ServiceResult.failure(message: I18n.t("admin.jira.run.project_variants_not_allowed", type: type.name))
+      end
 
       def create_variant(type:, project:)
         base_variant = type.default_variant

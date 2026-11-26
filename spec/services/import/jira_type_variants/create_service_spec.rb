@@ -86,6 +86,20 @@ RSpec.describe Import::JiraTypeVariants::CreateService, with_settings: { work_pa
     )
   end
 
+  context "when the type does not allow project variants" do
+    let(:type) { create(:type, name: "Task", allow_project_variants: false) }
+
+    it "aborts with an error" do
+      expect(call).to be_failure
+
+      expect(form_service).not_to have_received(:call)
+      expect(workflow_service).not_to have_received(:call)
+      expect(variant_service).not_to have_received(:call)
+
+      expect(call.message).to include('The type "Task" does not allow project-specific variants')
+    end
+  end
+
   context "when creating the form fails" do
     let(:form_result) { ServiceResult.failure }
 
