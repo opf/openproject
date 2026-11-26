@@ -226,7 +226,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
         expect(rendered_component).to have_css(".blankslate", text: "No work to display")
         expect(rendered_component).to have_css(
           ".blankslate-description",
-          exact_text: "The burndown chart will appear here after the sprint start date."
+          exact_text: "The burndown chart will appear here after the sprint starts."
         )
       end
 
@@ -247,7 +247,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
       it "names the start date and the missing story points" do
         expect(rendered_component).to have_css(
           ".blankslate-description",
-          exact_text: "The burndown chart will appear here after the sprint start date, " \
+          exact_text: "The burndown chart will appear here after the sprint starts, " \
                       "once the sprint contains open work packages with estimated story points."
         )
       end
@@ -257,7 +257,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
       it "names the start date and the estimated open work package it will need" do
         expect(rendered_component).to have_css(
           ".blankslate-description",
-          exact_text: "The burndown chart will appear here after the sprint start date, " \
+          exact_text: "The burndown chart will appear here after the sprint starts, " \
                       "once the sprint contains open work packages with estimated story points."
         )
       end
@@ -272,7 +272,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
       it "names the start date and the missing work time estimate" do
         expect(rendered_component).to have_css(
           ".blankslate-description",
-          exact_text: "The burndown chart will appear here after the sprint start date, " \
+          exact_text: "The burndown chart will appear here after the sprint starts, " \
                       "once the sprint contains open work packages with work time estimates."
         )
       end
@@ -292,7 +292,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
       expect(rendered_component).to have_no_element(:"opce-burndown-chart")
       expect(rendered_component).to have_css(
         ".blankslate-description",
-        exact_text: "The burndown chart will appear here after the sprint start date."
+        exact_text: "The burndown chart will appear here after the sprint starts."
       )
     end
 
