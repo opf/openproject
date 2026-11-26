@@ -56,8 +56,10 @@
                 </th>
               }
               @for (column of view.columns; track column.href) {
+                <!-- With the column menu enabled, sortHeader renders its own named button;
+                     an aria-label here as well would have screen readers announce the name twice. -->
                 <th
-                  [attr.aria-label]="column.name"
+                  [attr.aria-label]="configuration.columnMenuEnabled ? null : column.name"
                   [class.-max]="column.id === 'subject'"
                   [class.-min-200]="column.id === 'estimatedTime' || column.id === 'remainingTime'"
                   class="wp-table--table-header wp-table--navigable-cell"
