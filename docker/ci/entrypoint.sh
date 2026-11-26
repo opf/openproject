@@ -165,6 +165,7 @@ run_parallel_specs() {
 	local seed="${CI_SEED:-$RANDOM}"
 	local status=0
 
+	echo "Running specs in $JOBS processes. The output of each process is printed once it has finished, so there may be no output for several minutes."
 	execute "time bundle exec parallel_rspec -n $JOBS --serialize-stdout --combine-stderr --verbose-command --runtime-log $runtime_log -o '--seed $seed' $spec_globs" || status=$?
 
 	# Passing --format via -o would replace all formatters of .rspec_parallel,
