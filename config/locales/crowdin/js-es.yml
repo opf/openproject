@@ -175,6 +175,10 @@ es:
       remove_from_list: Eliminar tarjeta de la lista
     chart:
       axis_criteria: Criterios del eje
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: No se pueden cargar los datos necesarios para mostrar el gráfico. Puede que falten los permisos necesarios.
       modal_title: Configuración del gráfico del paquete de trabajo
@@ -302,6 +306,7 @@ es:
         only_start: Desde las %{from} de su hora local.
         two_values: "%{from} - %{to} de su hora local."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Ajustes avanzados
       load_error_message: Se produjo un error al cargar el formulario
@@ -901,6 +906,23 @@ es:
       unselected_title: Paquete de trabajo
     two_factor_authentication:
       label_two_factor_authentication: Autenticación de dos factores
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Project actions
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            one: Could not extend the range. %{count} project selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            one: "%{count} project selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         one: "%{count} child work package"

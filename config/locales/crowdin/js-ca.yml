@@ -166,7 +166,7 @@ ca:
     button_start_timer: Start timer
     button_stop_timer: Stop timer
     button_uncheck_all: Desmarca-ho tot
-    button_update: Actualitzar
+    button_update: Actualitza
     button_view_markdown: View Markdown
     caption_rate_history: Història d'índex
     card:
@@ -177,6 +177,10 @@ ca:
       remove_from_list: Suprimeix la targeta de la llista
     chart:
       axis_criteria: Criteri d'eix
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: Les dades mostrades al gràfic no es poden carregar. Pot ser que faltin els permisos necessaris.
       modal_title: Configuració gràfica de paquet de treball
@@ -304,6 +308,7 @@ ca:
         only_start: Des de %{from} en el teu temps local.
         two_values: "%{from} - %{to} en el teu temps local."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Configuració avançada
       load_error_message: S'ha produït un error en carregar el formulari
@@ -903,6 +908,23 @@ ca:
       unselected_title: Paquet de treball
     two_factor_authentication:
       label_two_factor_authentication: Autentificació en dos passos
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Project actions
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            one: Could not extend the range. %{count} project selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            one: "%{count} project selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         one: "%{count} child work package"

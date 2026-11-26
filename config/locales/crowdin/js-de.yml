@@ -177,6 +177,10 @@ de:
       remove_from_list: Karte aus Liste entfernen
     chart:
       axis_criteria: Achsen-Kriterien
+      description:
+        caption: "%{label}: Daten"
+        date: Datum
+        week: Woche von
       errors:
         could_not_load: Die Daten, die das Diagramm ausmachen, konnten nicht geladen werden. Die erforderlichen Berechtigungen fehlen möglicherweise.
       modal_title: Konfiguration des Arbeitspaket-Graphen
@@ -205,7 +209,7 @@ de:
     description_available_columns: Verfügbare Spalten
     description_current_position: 'Sie sind hier: '
     description_select_work_package: 'Arbeitspaket #%{id} auswählen'
-    description_subwork_package: 'Unteraufgabe von Arbeitspaket #%{id}'
+    description_subwork_package: 'Kind von Arbeitspaket #%{id}'
     editor:
       ai_actions:
         caption: Assistent
@@ -304,6 +308,7 @@ de:
         only_start: Von %{from} in Ihrer lokalen Zeit.
         two_values: "%{from} - %{to} in Ihrer lokalen Zeit."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: Erweiterte Einstellungen
       load_error_message: Beim Laden des Formulars ist ein Fehler aufgetreten
@@ -603,7 +608,7 @@ de:
     label_uploaded_by: Hochgeladen von
     label_user_plural: Benutzer
     label_validation_error: 'Das Arbeitspaket konnte aufgrund folgender Fehler nicht gespeichert werden:'
-    label_value_derived_from_children: "(aggregierter Wert von Unteraufgaben)"
+    label_value_derived_from_children: "(aggregierter Wert von Kindelementen)"
     label_version_plural: Versionen
     label_view_has_changed: Diese Ansicht hat ungespeicherte Änderungen. Klicken, um sie zu speichern.
     label_visibility_settings: Sichtbarkeits-Einstellungen
@@ -905,6 +910,23 @@ de:
       unselected_title: Arbeitspaket
     two_factor_authentication:
       label_two_factor_authentication: Zwei-Faktor-Authentifizierung
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Projekt-Aktionen
+            other: Aktionen für %{count} ausgewählte Projekte
+        selection:
+          cleared: Auswahl aufgehoben.
+          not_selectable: Auswahl unverändert. Das Projekt kann nicht ausgewählt werden.
+          range_blocked: Auswahl unverändert. Dieser Bereich enthält ein Projekt, das nicht ausgewählt werden kann.
+          range_restarted:
+            one: Die Auswahl konnte nicht erweitert werden. %{count} Projekt ausgewählt.
+            other: Die Auswahl konnte nicht erweitert werden. %{count} Projekte ausgewählt.
+          range_unavailable: Auswahl unverändert. Erweitern Sie diese Liste, um diesen Bereich auszuwählen.
+          selected:
+            one: "%{count} Projekt ausgewählt."
+            other: "%{count} Projekte ausgewählt."
     units:
       child_work_packages:
         one: "%{count} untergeordnetes Arbeitspaket"
@@ -973,7 +995,7 @@ de:
         button: Erstellen
         header: 'Neu: %{type}'
         header_no_type: Neues Arbeitspaket (Typ noch nicht gesetzt)
-        header_with_parent: 'Neu: %{type} (Unteraufgabe von %{parent_type} #%{id})'
+        header_with_parent: 'Neu: %{type} (Kind von %{parent_type} #%{id})'
         title: Neues Arbeitspaket
       default_queries:
         all_open: Alle offenen

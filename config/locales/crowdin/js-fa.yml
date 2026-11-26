@@ -177,6 +177,10 @@ fa:
       remove_from_list: حذف کارت از فهرست
     chart:
       axis_criteria: معیار محور
+      description:
+        caption: "%{label}: data"
+        date: Date
+        week: Week of
       errors:
         could_not_load: داده‌های لازم برای نمایش نمودار بارگذاری نشدند. ممکن است مجوزهای لازم وجود نداشته باشند.
       modal_title: پیکربندی نمودار بسته کاری
@@ -304,6 +308,7 @@ fa:
         only_start: از %{from} به وقت محلی شما.
         two_values: "%{from} - %{to} به وقت محلی شما."
       value_spacer: "-"
+      value_with_project: "%{value} (%{project})"
     forms:
       advanced_settings: تنظیمات پیشرفته
       load_error_message: هنگام بارگذاری فرم خطایی رخ داد
@@ -903,6 +908,23 @@ fa:
       unselected_title: کاربسته
     two_factor_authentication:
       label_two_factor_authentication: احراز هویت دومرحله‌ای
+    types:
+      projects:
+        action_menu:
+          menu_label:
+            one: Project actions
+            other: Actions for %{count} selected projects
+        selection:
+          cleared: Selection cleared.
+          not_selectable: Selection unchanged. This project cannot be selected.
+          range_blocked: Selection unchanged. That range contains a project that cannot be selected.
+          range_restarted:
+            one: Could not extend the range. %{count} project selected.
+            other: Could not extend the range. %{count} projects selected.
+          range_unavailable: Selection unchanged. Expand this list to select that range.
+          selected:
+            one: "%{count} project selected."
+            other: "%{count} projects selected."
     units:
       child_work_packages:
         one: "%{count} بسته کاری فرزند"
