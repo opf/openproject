@@ -29,7 +29,7 @@
 
 module Wikis
   class BrowsePagesService
-    include Dry::Monads[:result]
+    include Dry::Monads::Result(SimpleError)
 
     def initialize(provider:, user:)
       @provider = provider

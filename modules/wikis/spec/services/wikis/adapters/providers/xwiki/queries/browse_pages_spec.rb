@@ -44,6 +44,29 @@ module Wikis
 
             subject(:query) { described_class.new(model: xwiki_provider) }
 
+            context "when XWiki returns a server error", vcr: "xwiki/browse_pages_existing_identifier" do
+              let(:xwiki_url) do
+                "https://xwiki.local/rest/wikis/xwiki//spaces/Cheesy+Info/spaces/Brie/pages/WebHome/children?hierarchy=nestedpages"
+              end
+
+              let(:parent_identifier) { "31778" }
+
+              before { stub_request(:get, xwiki_url).and_return(status: 500) }
+
+              it "returns a failure" do
+                result = query.call(auth_strategy:, input_data:)
+
+                expect(result).to be_failure
+
+                failure = result.failure
+                expect(failure.code).to eq(:request_failed)
+              end
+
+              it "raises no exceptions" do
+                expect { query.call(auth_strategy:, input_data:) }.not_to raise_error
+              end
+            end
+
             context "when parent identifier is nil", vcr: "xwiki/browse_pages_nil_identifier" do
               let(:parent_identifier) { nil }
 

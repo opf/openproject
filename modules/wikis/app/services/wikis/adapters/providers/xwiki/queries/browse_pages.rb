@@ -58,7 +58,7 @@ module Wikis
             end
 
             def get_children_pages(http, parent_identifier)
-              get_parent_canonical_id(http, parent_identifier).fmap { |parent_id| get_children(parent_id, http) }
+              get_parent_canonical_id(http, parent_identifier).bind { |parent_id| get_children(parent_id, http) }
             end
 
             def get_parent_canonical_id(http, identifier)
@@ -75,7 +75,7 @@ module Wikis
                                      query: { hierarchy: "nestedpages" })
 
               handle_response(http.get(request_url)) do |children|
-                fetch_json(children, "pageSummaries")
+                Success(fetch_json(children, "pageSummaries"))
               end
             end
 
