@@ -95,7 +95,7 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
   def expect_range(param_a, param_b)
     (param_a..param_b).each do |n|
       expect(page).to have_text("Subject #{char_for(n)} WP")
-      expect(page).to have_css("a[href*='#{work_package_path(work_packages[n - 1].id)}']")
+      expect(page).to have_css("a[href*='#{work_package_path(work_packages[n - 1])}']")
     end
   end
 
@@ -150,7 +150,7 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
       search_target = work_packages.last
 
       # Typing a work package id shall find that work package
-      global_search.search(search_target.id.to_s, submit: false)
+      global_search.search(search_target.display_id.to_s, submit: false)
 
       # And it shall be marked as the direct hit.
       global_search.expect_work_package_marked(search_target)

@@ -55,7 +55,7 @@ RSpec.describe "Wysiwyg work package quicklink macros", :js do
 
     # Expect output widget
     within("#content") do
-      expect(page).to have_link("##{work_package.id}")
+      expect(page).to have_link(work_package.formatted_id)
       expect(page).to have_no_css("opce-macro-wp-quickinfo")
     end
 
@@ -75,10 +75,10 @@ RSpec.describe "Wysiwyg work package quicklink macros", :js do
 
     # Expect output widget
     within("#content") do
-      expected_macro_text = "#{work_package.type.name.upcase} ##{work_package.id}: My subject"
+      expected_macro_text = "#{work_package.type.name.upcase} #{work_package.formatted_id}: My subject"
       expect(page).to have_css("opce-macro-wp-quickinfo", text: expected_macro_text)
       expect(page).to have_css("span", text: work_package.type.name.upcase)
-      expect(page).to have_css("opce-macro-wp-quickinfo > a", text: "##{work_package.id}")
+      expect(page).to have_css("opce-macro-wp-quickinfo > a", text: work_package.formatted_id)
       expect(page).to have_css("span", text: "My subject")
     end
 
@@ -88,7 +88,7 @@ RSpec.describe "Wysiwyg work package quicklink macros", :js do
     editor.in_editor do |container,|
       expect(container).to have_css(".op-macro-wp-quickinfo-widget")
       expect(container).to have_css("opce-macro-wp-quickinfo[data-id='#{work_package.id}'][data-detailed='false']")
-      expect(container).to have_css("opce-macro-wp-quickinfo > a", text: "##{work_package.id}")
+      expect(container).to have_css("opce-macro-wp-quickinfo > a", text: work_package.formatted_id)
     end
   end
 
@@ -101,11 +101,11 @@ RSpec.describe "Wysiwyg work package quicklink macros", :js do
     # Expect output widget
     within("#content") do
       expected_macro_text = "#{work_package.status.name}#{work_package.type.name.upcase} " \
-                            "##{work_package.id}: My subject (01/01/2020 - 02/01/2020)"
+                            "#{work_package.formatted_id}: My subject (01/01/2020 - 02/01/2020)"
       expect(page).to have_css("opce-macro-wp-quickinfo", text: expected_macro_text)
       expect(page).to have_css("span", text: work_package.status.name)
       expect(page).to have_css("span", text: work_package.type.name.upcase)
-      expect(page).to have_css("opce-macro-wp-quickinfo > a", text: "##{work_package.id}")
+      expect(page).to have_css("opce-macro-wp-quickinfo > a", text: work_package.formatted_id)
       expect(page).to have_css("span", text: "My subject")
       # Dates are being rendered in two nested spans
       expect(page).to have_css("span", text: "01/01/2020", count: 2)
@@ -118,7 +118,7 @@ RSpec.describe "Wysiwyg work package quicklink macros", :js do
     editor.in_editor do |container,|
       expect(container).to have_css(".op-macro-wp-quickinfo-widget")
       expect(container).to have_css("opce-macro-wp-quickinfo[data-id='#{work_package.id}'][data-detailed='true']")
-      expect(container).to have_css("opce-macro-wp-quickinfo > a", text: "##{work_package.id}")
+      expect(container).to have_css("opce-macro-wp-quickinfo > a", text: work_package.formatted_id)
     end
   end
 

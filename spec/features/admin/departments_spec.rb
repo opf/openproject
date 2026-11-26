@@ -134,8 +134,8 @@ RSpec.describe "Departments admin",
 
   describe "adding a project membership" do
     shared_let(:department) { create(:department, lastname: "Engineering") }
-    shared_let(:target_project) { create(:project, name: "Alpha Initiative", identifier: "zulu-target") }
-    shared_let(:other_project) { create(:project, name: "Beta Initiative", identifier: "yankee-other") }
+    shared_let(:target_project) { create(:project, name: "Alpha Initiative") }
+    shared_let(:other_project) { create(:project, name: "Beta Initiative") }
 
     it_behaves_like "a project picker searchable by identifier" do
       let(:control_project) { other_project }

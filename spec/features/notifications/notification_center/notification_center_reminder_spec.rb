@@ -87,7 +87,7 @@ RSpec.describe "Notification center reminder, mention and date alert",
   context "with a reminder, mention and date alert" do
     it "shows the reminder alert within aggregation with date alert + reminder note" do
       center.within_item(notification_reminder) do
-        expect(page).to have_text("##{work_package.id}\n- #{project.name} -\nDate alert, Mentioned, Reminder")
+        expect(page).to have_text("#{work_package.formatted_id}\n- #{project.name} -\nDate alert, Mentioned, Reminder")
         expect(page).to have_text("Overdue for 1 day.\nNote: “This is an important reminder”")
       end
     end
@@ -96,7 +96,7 @@ RSpec.describe "Notification center reminder, mention and date alert",
   context "with a reminder and mention, no date alert" do
     it "shows the reminder alert within aggregation with mention" do
       center.within_item(notification_reminder2) do
-        expect(page).to have_text("##{work_package2.id}\n- #{project.name} -\nMentioned, Reminder")
+        expect(page).to have_text("#{work_package2.formatted_id}\n- #{project.name} -\nMentioned, Reminder")
         expect(page).to have_text("a few seconds ago.\nNote: “This is an important reminder”")
       end
     end

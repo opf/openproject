@@ -93,7 +93,7 @@ RSpec.describe "Work package sharing invited users",
     click_button "Create"
 
     expect(page).to have_text "Welcome, your account has been activated. You are logged in now."
-    expect(page).to have_current_path project_work_package_path(project, work_package.id, "activity")
+    expect(page).to have_current_path project_work_package_path(project, work_package, "activity")
 
     expect(page).to have_text work_package.subject
     expect(user.reload).to be_active
@@ -105,7 +105,7 @@ RSpec.describe "Work package sharing invited users",
     expect(page).to have_text "Sign in"
     login_with "foobar@example.com", password, visit_signin_path: false
 
-    expect(page).to have_current_path project_work_package_path(project, work_package.id, "activity")
+    expect(page).to have_current_path project_work_package_path(project, work_package, "activity")
     expect(page).to have_text work_package.subject
   end
 end

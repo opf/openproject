@@ -41,26 +41,24 @@ RSpec.describe "Projects autocomplete page", :js do
     create(:program, name: "Test Program", members: { user => role })
   end
   shared_let(:project) do
-    create(:project, name: "Plain project", identifier: "plain-project", members: { user => role })
+    create(:project, name: "Plain project", members: { user => role })
   end
   shared_let(:project2) do
     create(:project,
            name: "<strong>foobar</strong>",
-           identifier: "foobar",
            members: { user => role })
   end
   shared_let(:project3) do
     create(:project,
            name: "Plain other project",
            parent: project2,
-           identifier: "plain-project-2",
            members: { user => role })
   end
   shared_let(:project4) do
     create(:project,
            name: "Project with different name and identifier",
+           identifier: Project.suggest_identifier("Plain"),
            parent: project2,
-           identifier: "plain-project-4",
            members: { user => role })
   end
   shared_let(:other_projects) do
@@ -72,9 +70,7 @@ RSpec.describe "Projects autocomplete page", :js do
     ]
 
     names.map do |name|
-      identifier = name.gsub(/[ -]+/, "-").downcase
-
-      create(:project, name:, identifier:, members: { user => role })
+      create(:project, name:, members: { user => role })
     end
   end
   shared_let(:non_member_project) { create(:project) }
@@ -133,7 +129,7 @@ RSpec.describe "Projects autocomplete page", :js do
     end
 
     it "expects search to match the identifier as well as the name" do
-      top_menu.search "plain"
+      top_menu.search project4.identifier
       top_menu.expect_result "Plain project"
       top_menu.expect_result "Plain other project"
       top_menu.expect_result "Project with different name and identifier"

@@ -80,7 +80,7 @@ RSpec.describe "Linked projects phases and work packages when changing the proje
       click_on "Move and follow"
       page.document.synchronize(30) do
         moved = work_package.reload.project == target_project
-        raise Capybara::ElementNotFound unless moved && page.current_path.include?("/work_packages/#{work_package.id}")
+        raise Capybara::ElementNotFound unless moved && page.current_path.include?("/work_packages/#{work_package.display_id}")
       end
 
       work_package_page.expect_attributes(project_phase: phase_definition_active_in_both_projects.name)
@@ -107,7 +107,7 @@ RSpec.describe "Linked projects phases and work packages when changing the proje
       click_on "Move and follow"
       page.document.synchronize(30) do
         moved = work_package.reload.project == target_project
-        raise Capybara::ElementNotFound unless moved && page.current_path.include?("/work_packages/#{work_package.id}")
+        raise Capybara::ElementNotFound unless moved && page.current_path.include?("/work_packages/#{work_package.display_id}")
       end
 
       work_package_page.expect_attributes(project_phase: nil)

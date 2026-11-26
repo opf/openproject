@@ -40,7 +40,7 @@ RSpec.describe "Projects", "editing settings", :js do
   end
 
   shared_let(:project) do
-    create(:project, name: "Foo project", identifier: "foo-project")
+    create(:project, name: "Foo project")
   end
 
   describe "identifier edit" do
@@ -266,8 +266,8 @@ RSpec.describe "Projects", "editing settings", :js do
 
     context "with a user allowed to add subprojects to other projects" do
       # Only projects the user may add subprojects to are offered as a parent.
-      let(:candidate_project) { create(:project, name: "Alpha Initiative", identifier: "zulu-candidate") }
-      let(:other_candidate_project) { create(:project, name: "Beta Initiative", identifier: "yankee-candidate") }
+      let(:candidate_project) { create(:project, name: "Alpha Initiative") }
+      let(:other_candidate_project) { create(:project, name: "Beta Initiative") }
 
       current_user do
         create(:user,

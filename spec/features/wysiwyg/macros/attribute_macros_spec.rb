@@ -82,7 +82,6 @@ RSpec.describe "Wysiwyg attribute macros", :js do
   shared_let(:project) do
     create(:project,
            :with_internal_wiki,
-           identifier: "some-project",
            types: [type_milestone, type_task],
            enabled_module_names: %w[work_package_tracking],
            parent: parent_project)
@@ -133,7 +132,7 @@ RSpec.describe "Wysiwyg attribute macros", :js do
         expect(page).to have_css("td", text: "Subject")
         expect(page).to have_css("td", text: "Foo Bar")
         expect(page).to have_css("td", text: "Identifier")
-        expect(page).to have_css("td", text: "some-project")
+        expect(page).to have_css("td", text: project.identifier)
         expect(page).to have_css("td", text: "Parent project")
 
         expect(page).to have_css("td", text: "invalid subject Cannot expand macro: Requested resource could not be found")

@@ -323,11 +323,11 @@ RSpec.describe "Duplicate work packages through Rails view", :js do
                          "work_packages.bulk.selected_because_descendants", total: 3, selected: 2
                        ))
           expect_flash(type: :error,
-                       message: "#{work_package.id}: Type #{I18n.t('activerecord.errors.messages.inclusion')}")
+                       message: "#{work_package.display_id}: Type #{I18n.t('activerecord.errors.messages.inclusion')}")
           expect_flash(type: :error,
-                       message: "#{work_package2.id}: Type #{I18n.t('activerecord.errors.messages.inclusion')}")
+                       message: "#{work_package2.display_id}: Type #{I18n.t('activerecord.errors.messages.inclusion')}")
           expect_flash(type: :error, message:
-            "#{child.id} (descendant of selected): Type #{I18n.t('activerecord.errors.messages.inclusion')}")
+            "#{child.display_id} (descendant of selected): Type #{I18n.t('activerecord.errors.messages.inclusion')}")
         end
 
         context "when the limit to move in the frontend is 0",
@@ -347,13 +347,14 @@ RSpec.describe "Duplicate work packages through Rails view", :js do
               .to have_text I18n.t("work_packages.bulk.selected_because_descendants", total: 3, selected: 2)
 
             expect(page)
-              .to have_text "#{work_package.id}: Type #{I18n.t('activerecord.errors.messages.inclusion')}"
+              .to have_text "#{work_package.display_id}: Type #{I18n.t('activerecord.errors.messages.inclusion')}"
 
             expect(page)
-              .to have_text "#{work_package2.id}: Type #{I18n.t('activerecord.errors.messages.inclusion')}"
+              .to have_text "#{work_package2.display_id}: Type #{I18n.t('activerecord.errors.messages.inclusion')}"
 
             expect(page)
-              .to have_text "#{child.id} (descendant of selected): Type #{I18n.t('activerecord.errors.messages.inclusion')}"
+              .to have_text "#{child.display_id} (descendant of selected): " \
+                            "Type #{I18n.t('activerecord.errors.messages.inclusion')}"
           end
         end
       end
