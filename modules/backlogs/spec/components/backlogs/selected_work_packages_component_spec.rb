@@ -57,8 +57,8 @@ RSpec.describe Backlogs::SelectedWorkPackagesComponent, type: :component do
   it "links each work package to its full view" do
     render_component
 
-    expect(page).to have_link(feature.formatted_id, href: "/work_packages/#{feature.id}")
-    expect(page).to have_link(epic.formatted_id, href: "/work_packages/#{epic.id}")
+    expect(page).to have_link(feature.formatted_id, href: "/work_packages/#{feature.to_param}")
+    expect(page).to have_link(epic.formatted_id, href: "/work_packages/#{epic.to_param}")
   end
 
   it "renders the selection as a semantic list", :aggregate_failures do

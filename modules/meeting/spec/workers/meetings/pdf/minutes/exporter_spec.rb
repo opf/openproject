@@ -216,7 +216,7 @@ RSpec.describe Meetings::PDF::Minutes::Exporter do
           "A second outcome",
 
           "2. Second section", "  ", "10 mins",
-          "2.1. Task", "##{work_package.id}", "Important task", " (Workin' on it)",
+          "2.1. Task", work_package.formatted_id, "Important task", " (Workin' on it)",
           "bar",
           "✓   Outcome",
           "A single outcome",
@@ -248,7 +248,7 @@ RSpec.describe Meetings::PDF::Minutes::Exporter do
           "foo",
 
           "2. Second section", "  ", "10 mins",
-          "2.1. Task", "##{work_package.id}", "Important task", " (Workin' on it)",
+          "2.1. Task", work_package.formatted_id, "Important task", " (Workin' on it)",
           "bar",
 
           *expected_footer
@@ -280,7 +280,7 @@ RSpec.describe Meetings::PDF::Minutes::Exporter do
       end
 
       before do
-        work_package.update_columns(identifier: "MEET-1", sequence_number: 1)
+        work_package.update_columns(identifier: "MEET-999", sequence_number: 999)
       end
 
       it "renders the semantic identifier for the agenda item and the mention in its notes" do
@@ -292,8 +292,8 @@ RSpec.describe Meetings::PDF::Minutes::Exporter do
           "foo",
 
           "2. Second section", "  ", "10 mins",
-          "2.1. Task", "MEET-1", "Important task", " (Workin' on it)",
-          "MEET-1",
+          "2.1. Task", "MEET-999", "Important task", " (Workin' on it)",
+          "MEET-999",
 
           *expected_footer
         ].join(" ")
@@ -389,7 +389,7 @@ RSpec.describe Meetings::PDF::Minutes::Exporter do
           "1.1. Agenda Item",
           "Agenda item notes",
           "✓   Outcome",
-          "Task", "##{outcome_work_package.id}", "Outcome WP", " (In Progress)",
+          "Task", outcome_work_package.formatted_id, "Outcome WP", " (In Progress)",
           *expected_header_footer
         ].join(" ")
 
@@ -399,7 +399,7 @@ RSpec.describe Meetings::PDF::Minutes::Exporter do
       context "with semantic work package identifiers",
               with_settings: { work_packages_identifier: "semantic" } do
         before do
-          outcome_work_package.update_columns(identifier: "MEET-1", sequence_number: 1)
+          outcome_work_package.update_columns(identifier: "MEET-999", sequence_number: 999)
         end
 
         it "renders the work package outcome with the semantic identifier" do
@@ -411,7 +411,7 @@ RSpec.describe Meetings::PDF::Minutes::Exporter do
             "1.1. Agenda Item",
             "Agenda item notes",
             "✓   Outcome",
-            "Task", "MEET-1", "Outcome WP", " (In Progress)",
+            "Task", "MEET-999", "Outcome WP", " (In Progress)",
             *expected_header_footer
           ].join(" ")
 

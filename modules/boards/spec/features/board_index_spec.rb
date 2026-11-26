@@ -29,8 +29,7 @@ require "spec_helper"
 require_relative "support/board_index_page"
 
 RSpec.describe "Work Package Project Boards Index Page" do
-  # The identifier is important to test https://community.openproject.com/wp/29754
-  shared_let(:project) { create(:project, identifier: "boards", enabled_module_names: %i[work_package_tracking board_view]) }
+  shared_let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
 
   shared_let(:management_role) do
     create(:project_role,

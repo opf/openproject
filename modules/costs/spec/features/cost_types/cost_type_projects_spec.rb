@@ -69,8 +69,8 @@ RSpec.describe "Cost type projects activation", :js do
   end
 
   it_behaves_like "a fill-in project autocompleter searchable by identifier" do
-    let(:target_project) { create(:project, name: "Searched Cost Project", identifier: "searched-cost-project") }
-    let(:control_project) { create(:project, name: "Unrelated Cost Project", identifier: "unrelated-cost-project") }
+    let(:target_project) { create(:project, name: "Searched Cost Project") }
+    let(:control_project) { create(:project, name: "Unrelated Cost Project") }
 
     before do
       click_on "Add projects"
