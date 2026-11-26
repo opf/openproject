@@ -28,18 +28,7 @@
 #++
 
 class SemanticIndex < ApplicationRecord
-  class InvalidTransitionError < StandardError; end
-
-  INDEXABLE_STATES = %w[not_indexed failed ready].freeze
-
   has_many :llm_feature_bindings, dependent: :restrict_with_error
-
-  enum :state, {
-    not_indexed: "not_indexed",
-    indexing: "indexing",
-    ready: "ready",
-    failed: "failed"
-  }
 
   validates :title, presence: true
   validates :model_id, presence: true, length: { maximum: LlmModel::MAX_EXTERNAL_ID_LENGTH }
@@ -66,30 +55,51 @@ class SemanticIndex < ApplicationRecord
 
   def active? = persisted? && self.class.active_id == id
 
+  def status
+    return "indexing" if indexing?
+    return "ready" if searchable?
+    return "failed" if error_message.present?
+
+    "not_indexed"
+  end
+
   def indexing_batch
     return if indexing_batch_id.nil?
 
     GoodJob::BatchRecord.find_by(id: indexing_batch_id)
   end
 
-  def indexable? = INDEXABLE_STATES.include?(state)
+  def indexing? = index_job_pending? || indexing_batch_running?
 
-  def searchable? = !not_indexed?
-
-  def start_indexing!
-    with_lock do
-      raise InvalidTransitionError, "cannot start indexing from #{state}" unless indexable?
-
-      update!(state: :indexing, error_message: nil)
-    end
+  def indexing_batch_running?
+    indexing_batch_id.present? && GoodJob::Job.exists?(batch_id: indexing_batch_id, finished_at: nil)
   end
 
-  def stop_indexing!
-    transition_from_indexing!(state: :not_indexed, error_message: nil)
+  def indexable? = !indexing?
+
+  def prerequisite_error
+    reason =
+      if !LlmConnection.available?
+        :no_connection
+      elsif LlmConnection.active_connection.embedding_model_ids.exclude?(model_id)
+        :model_missing
+      end
+    return if reason.nil?
+
+    I18n.t(reason, scope: "admin.semantic_indexes.indexing.not_ready", model: model_id)
   end
 
-  def finish_indexing!
-    transition_from_indexing!(state: :ready)
+  def searchable?
+    OpenProject::Llm::Pgvector.available? &&
+      WorkPackageEmbedding.where(semantic_index_id: id).where.not(embedding: nil).exists?
+  end
+
+  def index_jobs = GoodJob::Job.where(concurrency_key: Llm::IndexWorkPackagesJob.concurrency_key(id))
+
+  def failed_work_package_count
+    return 0 if indexing_batch.nil? || indexing?
+
+    Llm::IndexingProgress.new(indexing_batch).failed_work_package_count
   end
 
   def fail_indexing!(error_message)
@@ -98,11 +108,5 @@ class SemanticIndex < ApplicationRecord
 
   private
 
-  def transition_from_indexing!(**attributes)
-    with_lock do
-      raise InvalidTransitionError, "cannot finish indexing from #{state}" unless indexing?
-
-      update!(**attributes)
-    end
-  end
+  def index_job_pending? = index_jobs.exists?(finished_at: nil)
 end

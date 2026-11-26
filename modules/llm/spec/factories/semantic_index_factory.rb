@@ -34,5 +34,22 @@ FactoryBot.define do
     model_id { "bge-m3" }
     embedding_vector_dimensions { 1024 }
     context_token_length { 8192 }
+
+    trait :ready do
+      after(:create) do |semantic_index|
+        create(:work_package_embedding, semantic_index:)
+      end
+    end
+
+    trait :indexing do
+      after(:create) do |semantic_index|
+        batch = GoodJob::Batch.new(semantic_index_id: semantic_index.id).tap(&:save)
+        GoodJob::Job.create!(id: SecureRandom.uuid, active_job_id: SecureRandom.uuid, batch_id: batch.id,
+                             job_class: Llm::EmbedWorkPackagesJob.name, queue_name: "default",
+                             serialized_params: { "arguments" => [semantic_index.id, []] },
+                             scheduled_at: 1.hour.from_now)
+        semantic_index.update!(indexing_batch_id: batch.id)
+      end
+    end
   end
 end

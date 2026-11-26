@@ -47,7 +47,7 @@ RSpec.describe "API v3 work packages semantic search", content_type: :json,
   # Far away from the query vector: never within the semantic search distance.
   let(:unrelated_wp) { create(:work_package, project:, subject: "Quarterly roadmap planning") }
 
-  let(:semantic_index) { create(:semantic_index, state: "ready") }
+  let(:semantic_index) { create(:semantic_index) }
 
   before do
     create(:llm_feature_binding,

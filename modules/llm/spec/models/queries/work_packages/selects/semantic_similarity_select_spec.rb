@@ -36,7 +36,7 @@ RSpec.describe Queries::WorkPackages::Selects::SemanticSimilaritySelect do
   shared_let(:second) { create(:work_package) }
   shared_let(:third) { create(:work_package) }
 
-  shared_let(:semantic_index) { create(:semantic_index, state: "ready") }
+  shared_let(:semantic_index) { create(:semantic_index) }
 
   shared_let(:active_semantic_index) do
     create(:llm_feature_binding, llm_connection: create(:llm_connection), feature_key: "semantic_search",

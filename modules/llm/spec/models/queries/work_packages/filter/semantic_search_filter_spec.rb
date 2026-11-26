@@ -39,7 +39,7 @@ RSpec.describe Queries::WorkPackages::Filter::SemanticSearchFilter do
   shared_let(:similar_closed) { create(:work_package, status: closed_status) }
   shared_let(:unrelated) { create(:work_package, status: open_status) }
 
-  shared_let(:semantic_index) { create(:semantic_index, state: "ready") }
+  shared_let(:semantic_index) { create(:semantic_index) }
 
   shared_let(:active_semantic_index) do
     create(:llm_feature_binding, llm_connection: create(:llm_connection), feature_key: "semantic_search",

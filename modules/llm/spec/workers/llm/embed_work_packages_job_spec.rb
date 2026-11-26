@@ -33,7 +33,7 @@ require_module_spec_helper
 RSpec.describe Llm::EmbedWorkPackagesJob, with_flag: { semantic_search: true } do
   let(:work_package) { create(:work_package) }
   let(:other_work_package) { create(:work_package) }
-  let(:semantic_index) { create(:semantic_index, state: "indexing") }
+  let(:semantic_index) { create(:semantic_index, :indexing) }
 
   before { allow(Llm::WorkPackages::EmbedService).to receive(:new).and_call_original }
 

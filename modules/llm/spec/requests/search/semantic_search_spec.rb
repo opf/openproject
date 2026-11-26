@@ -37,7 +37,7 @@ RSpec.describe "Search page with semantic search", :skip_csrf,
   let(:admin) { create(:admin) }
   let(:project) { create(:project) }
 
-  let(:semantic_index) { create(:semantic_index, state: "ready") }
+  let(:semantic_index) { create(:semantic_index, :ready) }
 
   before do
     create(:llm_feature_binding,

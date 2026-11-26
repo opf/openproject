@@ -251,7 +251,7 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
     end
 
     describe "the active Semantic Index" do
-      let(:semantic_index) { create(:semantic_index, state: "ready") }
+      let(:semantic_index) { create(:semantic_index, :ready) }
 
       before do
         connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",

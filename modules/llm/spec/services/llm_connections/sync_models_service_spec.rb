@@ -102,7 +102,7 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
 
     it "keeps the binding that points at the active Semantic Index" do
       semantic_index = SemanticIndex.new(title: "Index", model_id: "bge-m3", embedding_vector_dimensions: 1024,
-                                         context_token_length: 8192, state: :ready)
+                                         context_token_length: 8192)
       semantic_index.save!(validate: false)
       binding = connection.feature_bindings.create!(feature_key: "semantic_search", model_id: "qwen3.6-27b",
                                                     semantic_index:)

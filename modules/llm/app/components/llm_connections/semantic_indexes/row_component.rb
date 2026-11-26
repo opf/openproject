@@ -68,8 +68,8 @@ module LlmConnections
       def status
         safe_join(
           [
-            render(Primer::Beta::Label.new(scheme: STATE_LABEL_SCHEMES.fetch(semantic_index.state))) do
-              I18n.t("admin.semantic_indexes.states.#{semantic_index.state}")
+            render(Primer::Beta::Label.new(scheme: STATE_LABEL_SCHEMES.fetch(semantic_index.status))) do
+              I18n.t("admin.semantic_indexes.states.#{semantic_index.status}")
             end,
             indexing_progress,
             error_message
@@ -152,8 +152,8 @@ module LlmConnections
               test_selector: "llm-semantic-index--start-indexing-#{semantic_index.id}"
             )
           ) do |button|
-            button.with_leading_visual_icon(icon: semantic_index.not_indexed? ? :play : :sync)
-            I18n.t(semantic_index.state, scope: "admin.semantic_indexes.start_indexing.button")
+            button.with_leading_visual_icon(icon: semantic_index.status == "not_indexed" ? :play : :sync)
+            I18n.t(semantic_index.status, scope: "admin.semantic_indexes.start_indexing.button")
           end
         end
       end
@@ -179,7 +179,7 @@ module LlmConnections
       end
 
       def error_message
-        return unless semantic_index.failed? && semantic_index.error_message.present?
+        return unless semantic_index.status == "failed" && semantic_index.error_message.present?
 
         render(Primer::Beta::Text.new(tag: :div, color: :danger, font_size: :small, mt: 1)) do
           semantic_index.error_message

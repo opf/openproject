@@ -43,7 +43,7 @@ RSpec.describe "Semantic search in the global search", :js,
   # Matches the query textually, but its embedding is far away.
   let(:text_match_wp) { create(:work_package, project:, subject: "Login problems handbook") }
 
-  let(:semantic_index) { create(:semantic_index, state: "ready") }
+  let(:semantic_index) { create(:semantic_index) }
 
   before do
     create(:llm_feature_binding,

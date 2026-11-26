@@ -40,7 +40,7 @@ en:
         llm_feature_bindings: "Feature configuration"
         # ActiveRecord::Base.human_attribute_name strips the _id suffix.
         model: "Model"
-        state: "Status"
+        status: "Status"
         title: "Display name"
     errors:
       messages:

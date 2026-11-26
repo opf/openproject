@@ -33,7 +33,7 @@ require_module_spec_helper
 RSpec.describe SemanticIndexes::ActivateService do
   include_context "with an embedding model offered"
 
-  let(:semantic_index) { create(:semantic_index, state: "ready") }
+  let(:semantic_index) { create(:semantic_index, :ready) }
   let(:user) { build_stubbed(:admin) }
 
   subject(:result) { described_class.new(user:, model: semantic_index).call }
@@ -46,7 +46,7 @@ RSpec.describe SemanticIndexes::ActivateService do
   end
 
   it "replaces the previously active Semantic Index" do
-    previous = create(:semantic_index, state: "ready")
+    previous = create(:semantic_index, :ready)
     connection.feature_bindings.create!(feature_key: "semantic_search", semantic_index: previous)
 
     expect(result).to be_success
@@ -54,8 +54,8 @@ RSpec.describe SemanticIndexes::ActivateService do
     expect(previous).not_to be_active
   end
 
-  context "when the Semantic Index is not ready" do
-    let(:semantic_index) { create(:semantic_index, state: "failed") }
+  context "when the Semantic Index has a recorded error" do
+    let(:semantic_index) { create(:semantic_index, error_message: "Some Error") }
 
     it "activates it anyway" do
       expect(result).to be_success
