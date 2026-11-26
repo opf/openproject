@@ -100,8 +100,6 @@ jobs:
           {
             echo "## Failed specs"
             echo
-            echo "| Rerun | Spec | Error |"
-            echo "| --- | --- | --- |"
             cat tmp/parallel_failures_summary.md
           } >> "$GITHUB_STEP_SUMMARY"
         fi

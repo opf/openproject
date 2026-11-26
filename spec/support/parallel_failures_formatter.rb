@@ -33,6 +33,8 @@ class ParallelFailuresFormatter
   ANNOTATIONS_PATH = "tmp/parallel_failures_annotations.log"
   SUMMARY_PATH = "tmp/parallel_failures_summary.md"
   MESSAGE_LIMIT = 1000
+  ANNOTATION_MESSAGE_LIMIT = 300
+  ANNOTATION_MESSAGE_LINES = 5
 
   def initialize(output)
     # RSpec opens --out files for writing, so concurrent processes would
@@ -45,15 +47,15 @@ class ParallelFailuresFormatter
 
   def dump_failures(notification)
     @failures = notification.fully_formatted_failed_examples
+    @failure_notifications = notification.failure_notifications
   end
 
   def dump_summary(notification)
-    failed_examples = notification.failed_examples
-    return if failed_examples.empty?
+    return if notification.failed_examples.empty?
 
     write_locked(@report, "#{@failures}#{notification.colorized_rerun_commands}\n\n")
-    write_locked(@annotations, failed_examples.map { github_annotation(it) }.join)
-    write_locked(@summary, failed_examples.map { summary_row(it) }.join)
+    write_locked(@annotations, @failure_notifications.map { github_annotation(it) }.join)
+    write_locked(@summary, @failure_notifications.map { summary_section(it) }.join)
   end
 
   private
@@ -73,26 +75,48 @@ class ParallelFailuresFormatter
     end
   end
 
-  def github_annotation(example)
+  def github_annotation(failure)
+    example = failure.example
     file = example.metadata[:file_path].delete_prefix("./")
-    line = example.metadata[:line_number]
     title = escape_annotation_property(example.full_description)
-    message = escape_annotation_data(failure_message(example))
+    message = escape_annotation_data(annotation_message(failure))
 
-    "::error file=#{escape_annotation_property(file)},line=#{line},title=#{title}::#{message}\n"
+    "::error file=#{escape_annotation_property(file)},line=#{failure_line(failure)},title=#{title}::#{message}\n"
   end
 
-  def summary_row(example)
-    rerun = "`rspec #{example.location_rerun_argument}`"
-    description = escape_markdown_cell(example.full_description)
-    error = escape_markdown_cell(failure_message(example))
+  def failure_line(failure)
+    example = failure.example
+    spec_file_prefix = "#{File.expand_path(example.metadata[:file_path])}:"
+    frame = failure.exception.backtrace.to_a.find { it.start_with?(spec_file_prefix) }
 
-    "| #{rerun} | #{description} | #{error} |\n"
+    frame ? frame.delete_prefix(spec_file_prefix).to_i : example.metadata[:line_number]
   end
 
-  def failure_message(example)
-    exception = example.execution_result.exception
-    "#{exception.class}: #{exception.message.strip}"[0, MESSAGE_LIMIT]
+  def annotation_message(failure)
+    exception = failure.exception
+    lines = exception.message.lines.map(&:rstrip).reject(&:empty?).first(ANNOTATION_MESSAGE_LINES)
+    message = "#{exception.class}:\n#{lines.join("\n")}"
+
+    message.length > ANNOTATION_MESSAGE_LIMIT ? "#{message[0, ANNOTATION_MESSAGE_LIMIT]}…" : message
+  end
+
+  def summary_section(failure)
+    <<~MARKDOWN
+      ### #{failure.example.full_description}
+
+      ```
+      rspec #{failure.example.location_rerun_argument}
+
+      #{failure_message(failure)}
+
+      #{failure.formatted_backtrace.join("\n")}
+      ```
+
+    MARKDOWN
+  end
+
+  def failure_message(failure)
+    failure.message_lines.join("\n").strip[0, MESSAGE_LIMIT]
   end
 
   def escape_annotation_data(text)
@@ -101,9 +125,5 @@ class ParallelFailuresFormatter
 
   def escape_annotation_property(text)
     escape_annotation_data(text).gsub(":", "%3A").gsub(",", "%2C")
-  end
-
-  def escape_markdown_cell(text)
-    text.gsub("\\") { "\\\\" }.gsub("|") { "\\|" }.gsub(/\s*\n\s*/, " ")
   end
 end
