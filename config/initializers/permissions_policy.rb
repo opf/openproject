@@ -37,6 +37,7 @@ Rails.application.config.action_dispatch.default_headers["Permissions-Policy"] =
   gyroscope=()
   magnetometer=()
   microphone=()
+  payment=*
   serial=()
   usb=()
 ).join(", ")

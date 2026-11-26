@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe "Permissions-Policy header", type: :rails_request do
-  it "disables unused browser features on the login page" do
+  it "disables unused browser features and allows payments on the login page" do
     get signin_path
 
     expect(response).to have_http_status(:ok)
@@ -43,6 +43,7 @@ RSpec.describe "Permissions-Policy header", type: :rails_request do
       "gyroscope=()",
       "magnetometer=()",
       "microphone=()",
+      "payment=*",
       "serial=()",
       "usb=()"
     )
