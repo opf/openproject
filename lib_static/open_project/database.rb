@@ -79,6 +79,28 @@ module OpenProject
     end
 
     ##
+    # Raises ActiveRecord::PendingMigrationError if any migrations are pending.
+    #
+    # Unlike ActiveRecord::Migration.check_all_pending! this never writes to the
+    # database: Rails' variant instantiates a Migrator, which creates the
+    # schema_migrations and ar_internal_metadata tables if they are missing.
+    #
+    # Against an empty database that races with the initial `db:schema:load` in
+    # docker/prod/migrate|seeder (as used in AIO, compose, and helm)
+    # which then either gets skipped or fails with
+    # `relation "ar_internal_metadata" already exists`.
+    #
+    # Subsequent `rake db:migrate` calls would then fail with `relation "announcements" already exists`.
+    # Using this prevents that.
+    def self.check_all_pending_migrations!
+      migration_context = ActiveRecord::Base.connection_pool.migration_context
+      applied_versions = migration_context.get_all_versions.to_set
+      pending = migration_context.migrations.reject { |migration| applied_versions.include?(migration.version) }
+
+      raise ActiveRecord::PendingMigrationError.new(pending_migrations: pending) if pending.any?
+    end
+
+    ##
     # Determine whether the current version is deprecated
     def self.version_deprecated?
       !version_matches?(160000)

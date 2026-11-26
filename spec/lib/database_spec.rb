@@ -58,4 +58,40 @@ RSpec.describe OpenProject::Database do
     expect(OpenProject::Database.version).to eq("8.3.11")
     expect(OpenProject::Database.version(true)).to eq(raw_version)
   end
+
+  describe ".check_all_pending_migrations!" do
+    let(:migration_context) { ActiveRecord::Base.connection_pool.migration_context }
+
+    before do
+      allow(ActiveRecord::Base.connection_pool).to receive(:migration_context).and_return(migration_context)
+    end
+
+    it "does not raise when all migrations are applied" do
+      expect { described_class.check_all_pending_migrations! }.not_to raise_error
+    end
+
+    it "raises listing the pending migrations" do
+      pending_migration = migration_context.migrations.last
+      allow(migration_context)
+        .to receive(:get_all_versions)
+        .and_return(migration_context.migrations.map(&:version) - [pending_migration.version])
+
+      expect { described_class.check_all_pending_migrations! }
+        .to raise_error(ActiveRecord::PendingMigrationError, /#{Regexp.escape(pending_migration.basename)}/)
+    end
+
+    context "when the database schema has not been loaded yet" do
+      before do
+        allow(migration_context.schema_migration).to receive(:table_exists?).and_return(false)
+      end
+
+      it "raises without creating the schema_migrations or ar_internal_metadata tables", :aggregate_failures do
+        expect(migration_context.schema_migration).not_to receive(:create_table)
+        expect(migration_context.internal_metadata).not_to receive(:create_table)
+
+        expect { described_class.check_all_pending_migrations! }
+          .to raise_error(ActiveRecord::PendingMigrationError)
+      end
+    end
+  end
 end

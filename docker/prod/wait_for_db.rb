@@ -37,7 +37,7 @@ Timeout::timeout(timeout) do
     sleep 4
 
     begin
-      ActiveRecord::Migration.check_all_pending!
+      OpenProject::Database.check_all_pending_migrations!
 
       puts "[#{DateTime.now}] db ready"
       exit 0
