@@ -5,7 +5,7 @@ $meeting-agenda-item--presenter-width--mobile: 150px
 
 .op-meeting-agenda-item
   display: grid
-  grid-template-columns: 20px minmax(0, auto) minmax(0, 1fr) fit-content($meeting-agenda-item--presenter-width) fit-content(40px)
+  grid-template-columns: 20px minmax(0, 1fr) auto fit-content($meeting-agenda-item--presenter-width) fit-content(40px)
   grid-template-areas: "drag-handle content duration presenter actions" ". title title title title" ". notes notes notes notes" ". outcomes outcomes outcomes outcomes"
 
   &--drag-handle,

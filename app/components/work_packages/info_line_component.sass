@@ -4,13 +4,16 @@
     @include text-shortener
     min-inline-size: 25px
 
-  &--status
-    display: inline-flex
-    align-items: center
-    flex-shrink: 0
-    max-inline-size: 66%
+  &_nowrap
+    .op-wp-info-line--type,
+    .op-wp-info-line--status
+      flex: 1 1 0
+      max-inline-size: max-content
 
+  &--status
     .Label
+      display: flex
+      align-items: center
       line-height: 14px
 
   &--id
