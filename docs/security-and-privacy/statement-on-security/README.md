@@ -48,7 +48,7 @@ We take all facets of security seriously at OpenProject. If you want to report a
 If you can, please send us a PGP-encrypted email using the following key:
 
 - Key ID: [0x7D669C6D47533958](https://keys.openpgp.org/vks/v1/by-fingerprint/BDCFE01EDE84EA199AE172CE7D669C6D47533958),
-- Fingerprint BDCF E01E DE84 EA19 9AE1 72CE 7D66 9C6D 4753 3958
+- Fingerprint `BDCF E01E DE84 EA19 9AE1 72CE 7D66 9C6D 4753 3958`
 - You may also find the key [attached in our OpenProject repository.](security-at-openproject.com.asc)
 
 You can also [report a vulnerability directly in GitHub](https://github.com/opf/openproject/security/advisories/new), if you prefer. When in doubt, please _also_ send an informal email to [security@openproject.com](mailto:security@openproject.com) with the link to the advisory. The advisories allows us to communicate and collaborate privately with you, and it will remain private until we publish the vulnerability.
@@ -80,7 +80,7 @@ Please adhere to the following rules when reporting or researching security issu
 
 We appreciate your time in every security report you communicate to us. There are a number of cases that can be viewed as security vulnerabilities, but for which we might either reject or not follow up with a full CVE publication. We still welcome you to reach out and discuss potential mitigations or attack vectors with us. Examples for these cases could be
 
-- Outdated versions of OpenProject. Please ensure you have confirmed the vulnerability against the latest stable version of OpenProject. If you have found new issues as part of the unreleased `dev` branch, of course please also contact us for that.
+- Outdated versions of OpenProject. Please ensure you have confirmed the vulnerability against the **latest stable** version of OpenProject. If you have found new issues as part of the unreleased `dev` branch, of course please also contact us for that.
 - Tab nabbing
 - Content/text injections that do not result in an XSS attack due to other mitigations
 - Denial of service attacks through memory exhaustion, content size, or similar measures
@@ -113,37 +113,60 @@ As a general guideline:
 When we receive vulnerability reports from researchers or through internal identification, the following process takes place:
 
 1. A security vulnerability is reported internally, through GitHub advisories, an active bug bounty program, or through [security@openproject.com](mailto:security@openproject.com).
-2. A security engineer receives and validates the report. An internal tracking ticket is created with a checklist template on how to process the report.
+2. A security engineer receives and validates the report. An internal tracking ticket is created.
 3. The reporter receives a timely response with an acknowledgement of the report, further questions if present, and an estimated timeline and complexity of a potential fix.
-4. The security engineer coordinates with the security and development team to prepare and test a fix.
-5. A GitHub advisory draft is created and a CVE is requested, if appropriate. Security researchers are invited to collaborate on the draft, if available.
+4. The security engineer coordinates with the security and development teams to prepare and test a fix.
+5. A GitHub advisory draft is created or updated, if appropriate. Security researchers are invited to collaborate on the draft, if available.
 6. If possible, a patch or fixed version is provided to the reporter for feedback and confirmation.
-7. For critical and high-severity issues, a **pre-release notification** is sent to the security mailing list at least 7 days before the planned release, including the release date and severity (but no vulnerability details).
+7. For critical and high-severity issues, a **pre-release notification** is sent to the security mailing list without undue delay, at the latest 24 hours after the vulnerability has been confirmed and a release for the fix has been scheduled. It is sent at least **3 business days** before the planned release and includes the release date, time and severity of the vulnerability (but no vulnerability details).
     - This information will include the current releases an upgrade will be available for.
-    - For security fixes deemed critical, we will attempt to provide fixes for the newest versions of the last two minor releases
-    - Generally, OpenProject only supports the latest release. Please consult your enterprise contract or our [terms of services](https://www.openproject.org/legal/terms-of-service/) for details.
-8. A patch release is created, published, and distributed for all supported installations. The CVE, advisory, and full details are disclosed **simultaneously** with the release.
-9. The security mailing list is notified of the publication with upgrade guidance.
+    - For security fixes deemed critical, we will attempt to provide fixes for the newest versions of the last two minor releases.
+    - Generally, OpenProject only supports the **latest stable** release. Please consult your enterprise contract or our [terms of services](https://www.openproject.org/legal/terms-of-service/) for details.
+8. A patch release is created, published, and distributed for all supported installations.
+    - When the release contains fixes for **high** or **critical** vulnerabilities, the release notes will mention this, but will not contain any details about the vulnerabilities yet.
+9. The security mailing list is notified of the release with upgrade guidance when the releases are available.
+10. The advisory with full details and full release notes are published and if needed, a CVE is requested
+    - for **low** and **medium** vulnerabilities: with the release.
+    - for **high** and **critical** vulnerabilities: 24 hours after the release.
 
 ### How long does it take to fix a security issue?
 
-All vulnerabilities are treated with the highest priority. Critical and high impact vulnerabilities are aimed to be available as an upgradable fix within 21 days after confirmation of the vulnerability, so 14 days until the pre-announcement. This timeline represents our targets. Actual resolution times may vary depending on the complexity of the issue and the availability of our team.
+We fix **critical** and **high** vulnerabilities as soon as possible, and at the latest **14 calendar days** after we confirm the vulnerability. The fix will be made available as a patch release of the latest stable version of OpenProject according to the process steps outlined earlier.
+
+A vulnerability is confirmed when our security team has reproduced it on the latest stable version of OpenProject and has assessed its severity. We assess the severity with CVSS for a default installation of OpenProject. This severity can be different from the severity in the report. For example, the severity can be lower when an attack needs a non-default configuration, administrator privileges, or conditions outside of OpenProject. If we decide that the reported behavior is not a vulnerability (see [cases we might reject](#criteria-for-security-vulnerabilities)), no fix timeline applies. In all cases, we communicate openly with the reporter about our decision and the reasons for it.
+
+If a complete fix needs more than 14 days, for example because it needs larger changes, we tell the reporter before the 14 days end. In that case, we provide a mitigation or workaround within the 14 days, and give a new date for the complete fix.
 
 ### When is a security issue considered fixed?
 
-A security issue is considered fixed only once the fix has been released for all supported versions affected by the issue.
+A security issue is considered fixed when a release with a fix for the vulnerability has been released and the advisory and/or CVE have been published.
+
+### Security vulnerabilities in external dependencies
+
+Like every modern software product, OpenProject depends on libraries and when security vulnerabilities are discovered in those libraries, we learn about them once they are publicly disclosed. When a dependency publishes a **high** or **critical** vulnerability we attempt to release a version of OpenProject with a fixed version of that library within **7 business days**, if the vulnerability can actively be exploited in OpenProject.
+
+For our main dependencies, we are actively monitoring their security mailing lists or release channels. We have [Dependabot](https://docs.github.com/en/code-security/tutorials/secure-your-dependencies/dependabot-quickstart) enabled on our repositories so security updates in our dependencies are actively being pushed into the repository.
 
 ### Pre-release notification
 
-For critical and high-risk vulnerabilities with clear attack vectors, and immediate action to be taken by administrators, subscribers of our [security mailing list](#security-announcements-mailing-list) will receive a pre-release notification **7 days before** the security release. This notification will include the planned release date and the severity of the issue, but will not include vulnerability details or patches. This gives administrators time to schedule maintenance windows and prepare for an upgrade.
+For critical and high-risk vulnerabilities with clear attack vectors, and immediate action to be taken by administrators, subscribers of our [security mailing list](#security-announcements-mailing-list) will receive a pre-release notification at least **3 business days before** the security release. This notification will include the planned release date, time and the severity of the issue, but will not include vulnerability details or patches. This gives administrators time to schedule maintenance windows and prepare for an upgrade.
 
 ### Public disclosure
 
-Because OpenProject is open source, any fix committed to our public repository is inherently visible. Adding additional wait time between official releases and communication about vulnerabilities would allow exploitation of the vulnerabilities by simply reading the published code. For this reason, we follow a **simultaneous disclosure** approach:
+Because OpenProject is open source, every fix merged into our public repository is visible to anyone. Fixes for **high** and **critical** vulnerabilities are therefore developed in a private fork and merged into the public repository only right before the release is built. From then until the advisory is published, the fix is public and the vulnerability could be deduced from it. This window is inherent to open-source development, and we keep it as short as possible.
 
-- The CVE, GitHub security advisory, and full vulnerability details are published **at the same time** as the patch release.
+The timing of the disclosure depends on the severity of the fixed vulnerabilities. Details of **low** and **medium** vulnerabilities are disclosed simultaneously with the patch release. Details of **high** and **critical** vulnerabilities are disclosed 24 hours after the patch release, giving administrators a head start to upgrade before the details become public.
+
+For releases with only **low** and/or **medium** fixes:
+- The GitHub security advisory and full vulnerability details are published **at the same time** as the patch release.
+- If a CVE is requested, this happens when the security advisory is published.
 - The security mailing list is notified immediately upon publication.
 - Fixed security issues will appear in the corresponding release notes.
+
+For releases with **high** and **critical** fixes:
+- The GitHub security advisory and full vulnerability details are published **24 hours after** the patch release and a CVE will be requested.
+- The security mailing list is notified when the release is published. We do not notify the list again after the details have been published. Interested parties are encouraged to check the [release notes](../../release-notes/) or [GitHub Security Advisories](https://github.com/opf/openproject/security/advisories).
+- Initially, the release notes will only mention that vulnerabilities have been fixed. Full release notes will be amended when the security advisory is published.
 
 ## Bug bounty program
 
