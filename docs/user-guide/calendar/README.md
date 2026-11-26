@@ -18,6 +18,7 @@ You must first enable the Calendar module in your [project settings](../projects
 | [Create a new calendar](#create-a-new-calendar)     | How to create a new calendar and manage visibility settings. |
 | [Use the calendar](#use-the-calendar)               | How to view, modify, create and filter work packages in the calendar. |
 | [Subscribe to a calendar](#subscribe-to-a-calendar) | How to subscribe to and access a calendar from an external client. |
+| [Subscribe to work packages as tasks](#subscribe-to-work-packages-as-tasks-vtodo) | How to subscribe to a calendar as VTODO tasks. |
 
 ## Create a new calendar
 
@@ -117,6 +118,24 @@ To subscribe to a calendar:
 4. Paste this URL in your desired calendar client to subscribe.
 
 ![Subscribe to calendar modal](openproject_user_guide_calendar_subscribe.png)
+
+### Subscribe to work packages as tasks (VTODO)
+
+By default, a calendar subscription exports work packages as events (`VEVENT`). Clients that support tasks can instead subscribe to the same calendar as tasks by appending `export=vtodo` to the subscription URL:
+
+```
+https://your-openproject.example.com/projects/42/calendars/7/ical?ical_token=...&export=vtodo
+```
+
+Each work package is then exported as a `VTODO` with its actual start date, due date, status, and priority. Closed work packages are marked as completed and rejected work packages as cancelled, so a client can hide them.
+
+To make each work package appear only once on its due date instead of spanning its whole start-to-due range, add `dates=due`:
+
+```
+https://your-openproject.example.com/projects/42/calendars/7/ical?ical_token=...&export=vtodo&dates=due
+```
+
+In Thunderbird, subscribe to the URL as a network calendar and enable **View → Show tasks in calendar**. The work packages then appear in the **Tasks** space and on their due dates in the calendar.
 
 > [!IMPORTANT]
 > Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password. 
