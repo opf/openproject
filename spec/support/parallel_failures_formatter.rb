@@ -104,6 +104,6 @@ class ParallelFailuresFormatter
   end
 
   def escape_markdown_cell(text)
-    text.gsub("|", "\\|").gsub(/\s*\n\s*/, " ")
+    text.gsub("\\") { "\\\\" }.gsub("|") { "\\|" }.gsub(/\s*\n\s*/, " ")
   end
 end
