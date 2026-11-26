@@ -37,7 +37,8 @@ module ITSM
 
       menu_item :helpdesk
 
-      before_action :require_feature
+      guard_feature_flag :helpdesk
+
       before_action :require_admin
 
       def show
@@ -71,10 +72,6 @@ module ITSM
           component: ITSM::Admin::HelpdeskSettingsComponent.new(enabled: Setting.helpdesk_enabled?, wizard:)
         )
         respond_with_turbo_streams
-      end
-
-      def require_feature
-        render_404 unless OpenProject::FeatureDecisions.helpdesk_active?
       end
 
       def edit_server_configuration

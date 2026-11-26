@@ -3,8 +3,6 @@
 set -e
 set -o pipefail
 
-APACHE_PIDFILE=/run/apache2/apache2.pid
-
 # Use jemalloc at runtime
 if [ "$USE_JEMALLOC" = "true" ]; then
 	export LD_PRELOAD=libjemalloc.so.2
@@ -52,19 +50,13 @@ if [ "$(id -u)" = '0' ]; then
 	mkdir -p "$APP_DATA_PATH"/{files,git,svn}
 	# The $APP_DATA_PATH may be hosted on a NAS that creates snapshots (or a btrfs filesystem). In such a case, the .snapshot folder cannot be touched.
 	find "$APP_DATA_PATH" -path '*/.snapshot*' -prune -o -exec chown "$APP_USER:$APP_USER" {} +
-	if [ -d /etc/apache2/sites-enabled ]; then
-		chown -R "$APP_USER:$APP_USER" /etc/apache2/sites-enabled
+	if [ -d /etc/caddy ]; then
 		echo "OpenProject currently expects to be reached on the following domain: ${SERVER_NAME:=localhost}, which does not seem to be how your installation is configured." > /var/www/html/index.html
 		echo "If you are an administrator, please ensure you have correctly set the SERVER_NAME variable when launching your container." >> /var/www/html/index.html
 	fi
 
 	# Clean up any dangling PID file
 	rm -f "$APP_PATH"/tmp/pids/*
-
-	# Clean up a dangling PID file of apache
-	if [ -e "$APACHE_PIDFILE" ]; then
-	  rm -f $APACHE_PIDFILE || true
-	fi
 
 	# Use ATTACHMENTS_STORAGE_PATH value when OPENPROJECT_ATTACHMENTS__STORAGE__PATH is not set
 	export OPENPROJECT_ATTACHMENTS__STORAGE__PATH=${OPENPROJECT_ATTACHMENTS__STORAGE__PATH:-$ATTACHMENTS_STORAGE_PATH}

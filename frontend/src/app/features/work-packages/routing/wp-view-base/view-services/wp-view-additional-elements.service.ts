@@ -75,6 +75,9 @@ export class WorkPackageViewAdditionalElementsService {
       const timestamps = query.timestamps;
 
       this.loadAdditional(wpResults.flat(), timestamps[0] === DEFAULT_TIMESTAMP ? undefined : timestamps);
+    }, (e:unknown) => {
+      this.querySpace.additionalRequiredWorkPackages.putValue(null, 'Failure loading required data');
+      this.notificationService.handleRawError(e);
     });
   }
 

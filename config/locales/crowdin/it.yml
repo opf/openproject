@@ -1833,6 +1833,7 @@ it:
               label_import_data: Importazione in corso
               label_progress: Importazione in corso...
               label_resolution_statuses_explanation: Additional statuses combining status and resolution (e.g. "Done - Fixed")
+              label_sprint_explanation: Sprints that contain at least one issue
               label_users_import_explanation: Utenti coinvolti in progetti selezionati (membri del gruppo inclusi)
               title: Importa dati
             fetch_data:
@@ -5964,13 +5965,13 @@ it:
       shared: Elenchi di progetti condivisi
     phase_status:
       description:
-        completed: Marking a phase as complete will complete all previous phases.
-        in_progress: Marking a phase as complete will complete all previous phases.
-        open: Re-opening a phase will also open all future phases.
+        completed: This will also mark all previous phases as complete.
+        in_progress: This will complete all previous phases and mark future phases as not started.
+        open: This will mark all future phases as not started.
       title:
         completed: Completate
         in_progress: In corso
-        open: Aperta
+        open: Not started
     settings:
       actions:
         label_disable_all: Disabilita tutto
@@ -7352,6 +7353,7 @@ it:
         delete_group: Elimina sezione
         drag_to_activate: Trascina i campi da qui per attivarli
         drag_to_reorder: Trascina per riordinare
+        edit_custom_field: Edit custom field
         edit_query: Modifica query
         empty_group_hint: Trascina qui gli attributi
         exclusions:

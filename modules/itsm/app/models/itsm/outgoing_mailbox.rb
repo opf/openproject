@@ -38,5 +38,24 @@ module ITSM
     normalizes :sender_email, with: EmailAddress::NORMALIZE
 
     validates :sender_email, presence: true
+
+    def self.first_of(project) = includes(:mail_server).order(:id).find_by(project:)
+
+    def sender_domain = sender_email.split("@").last
+
+    def smtp_settings(addresses)
+      encryption = mail_server.tls? ? { tls: true } : { enable_starttls: :always }
+
+      {
+        addresses:,
+        tls_hostname: mail_server.host,
+        port: mail_server.port,
+        user_name: username,
+        password:,
+        authentication: :plain,
+        open_timeout: MailServer::TIMEOUT,
+        read_timeout: MailServer::TIMEOUT
+      }.merge(encryption)
+    end
   end
 end

@@ -48,4 +48,15 @@ RSpec.describe ITSM do
       end.not_to change(Principal, :count)
     end
   end
+
+  describe ".helpdesk_addresses" do
+    before do
+      create(:itsm_incoming_mailbox, email: "support@example.com", aliases: ["help@example.com"])
+      create(:itsm_outgoing_mailbox, sender_email: "desk@example.com")
+    end
+
+    it "returns the addresses of every incoming and outgoing mailbox" do
+      expect(described_class.helpdesk_addresses).to contain_exactly("support@example.com", "help@example.com", "desk@example.com")
+    end
+  end
 end

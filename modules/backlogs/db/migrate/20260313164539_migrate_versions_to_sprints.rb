@@ -39,6 +39,10 @@ class MigrateVersionsToSprints < ActiveRecord::Migration[8.0]
     self.table_name = "work_packages"
   end
 
+  class MigrationSprint < ApplicationRecord
+    self.table_name = "sprints"
+  end
+
   class MigrationVersion < ApplicationRecord
     self.table_name = "versions"
 
@@ -82,7 +86,7 @@ class MigrateVersionsToSprints < ActiveRecord::Migration[8.0]
   end
 
   def create_sprint(version)
-    Sprint.create!(
+    MigrationSprint.create!(
       name: version.name,
       project_id: version.project_id,
       status: version.status == "open" ? "in_planning" : "completed",
@@ -92,6 +96,6 @@ class MigrateVersionsToSprints < ActiveRecord::Migration[8.0]
   end
 
   def migrate_work_packages_to_sprint(sprint, wp_ids)
-    WorkPackage.where(id: wp_ids).update_all(sprint_id: sprint.id)
+    MigrationWorkPackage.where(id: wp_ids).update_all(sprint_id: sprint.id)
   end
 end

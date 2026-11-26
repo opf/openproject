@@ -37,15 +37,17 @@ module ITSM
 
     belongs_to :mail_server, class_name: "ITSM::MailServer", inverse_of: :incoming_mailboxes, optional: false
 
-    scope :due_for_fetch, -> do
-      where(active: true, next_fetch_at: [nil, ..Time.current], project: Project.active.has_module(:helpdesk))
-    end
+    scope :fetchable, -> { where(active: true, project: Project.active.has_module(:helpdesk)) }
+    scope :due_for_fetch, -> { fetchable.where(next_fetch_at: [nil, ..Time.current]) }
+    scope :receiving_for, ->(project) { where(project:, active: true).order(:id) }
 
     normalizes :email, with: EmailAddress::NORMALIZE
     normalizes :aliases, with: EmailAddress::NORMALIZE_ALL
 
     validates :username, uniqueness: { scope: :mail_server_id, case_sensitive: false }
     validates :email, presence: true, uniqueness: true
+
+    def addresses = [email, *aliases]
 
     def fetch_succeeded!
       update_columns(last_fetched_at: Time.current, next_fetch_at: nil, consecutive_failures: 0, last_error: nil)

@@ -299,7 +299,7 @@ export default class WorkflowCheckboxStateController extends Controller<HTMLElem
         // EditComponent was replaced by a turbo-stream). Look for a live
         // element with the same href before falling back to the original.
         const liveTarget = document.querySelector<HTMLElement>(
-          `[href="${originalTarget.getAttribute('href')}"][${CONFIRMATION_TRIGGER_ATTR}]`
+          `[href="${CSS.escape(originalTarget.getAttribute('href') ?? '')}"][${CONFIRMATION_TRIGGER_ATTR}]`
         ) ?? originalTarget;
         liveTarget.dataset.confirmed = 'true';
         liveTarget.click();

@@ -79,6 +79,29 @@ describe('registerDialogStreamAction', () => {
     expect(closeEvents[0].detail).toEqual({ dialog: dialogElement, submitted: false });
   });
 
+  it('keeps a dialog that was reopened after losing its modal state', async () => {
+    const dialogElement = dialog('<p>Initial content</p>');
+    const closeObserver = vi.fn();
+    dialogElement.addEventListener('close', closeObserver);
+
+    // How Primer's DialogHelperElement restores a dialog that was moved in the DOM
+    // and is therefore [open]:not(:modal). Its swallowing listener is registered
+    // after ours, so ours still receives the event.
+    dialogElement.addEventListener('close', (event) => event.stopImmediatePropagation(), { once: true });
+    dialogElement.close();
+    dialogElement.showModal();
+
+    await waitFor(() => expect(closeObserver).toHaveBeenCalled());
+    expect(dialogElement).toBeInTheDocument();
+    expect(dialogElement.open).toBe(true);
+    expect(closeEvents).toHaveLength(0);
+
+    dialogElement.close();
+
+    await waitFor(() => expect(closeEvents).toHaveLength(1));
+    expect(dialogElement).not.toBeInTheDocument();
+  });
+
   it('reports a submitted close with additional data without dispatching a duplicate event', async () => {
     const dialogElement = dialog('<p>Initial content</p>');
 

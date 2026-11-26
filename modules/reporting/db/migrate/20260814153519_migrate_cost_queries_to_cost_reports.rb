@@ -44,8 +44,27 @@ class MigrateCostQueriesToCostReports < ActiveRecord::Migration[8.1]
 
   # Local models, so that the migration does not depend on the real ones, whose
   # serialization and validations are free to change.
-  class CostQuery < ApplicationRecord
+  class MigrationCostQuery < ApplicationRecord
     self.table_name = "cost_queries"
+
+    belongs_to :project, class_name: "MigrationProject", optional: true
+    belongs_to :user, class_name: "MigrationUser", optional: true
+
+    def orphaned?
+      missing_project = project_id && project.nil?
+      missing_user = user.nil?
+
+      missing_project || missing_user
+    end
+  end
+
+  class MigrationProject < ApplicationRecord
+    self.table_name = "projects"
+  end
+
+  class MigrationUser < ApplicationRecord
+    self.table_name = "users"
+    self.inheritance_column = nil
   end
 
   # The type column is written directly rather than through single table
@@ -61,7 +80,12 @@ class MigrateCostQueriesToCostReports < ActiveRecord::Migration[8.1]
   end
 
   def up
-    CostQuery.order(:id).find_each do |cost_query|
+    MigrationCostQuery.includes(:project, :user).order(:id).find_each do |cost_query|
+      if cost_query.orphaned?
+        say "Skipping cost query #{cost_query.id} (#{cost_query.name}): its project or user no longer exists"
+        next
+      end
+
       definition = deserialize(cost_query.serialized)
 
       if definition.nil?

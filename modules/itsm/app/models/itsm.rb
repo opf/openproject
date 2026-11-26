@@ -32,7 +32,11 @@ module ITSM
     "itsm_"
   end
 
+  def self.helpdesk_available? = OpenProject::FeatureDecisions.helpdesk_active? && Setting.helpdesk_enabled?
+
   def self.helpdesk_user = ServiceAccountAssociation.find_by(service: helpdesk_role)&.service_account
 
   def self.helpdesk_role = HelpdeskRole.first
+
+  def self.helpdesk_addresses = IncomingMailbox.pluck(:email, :aliases).flatten + OutgoingMailbox.pluck(:sender_email)
 end

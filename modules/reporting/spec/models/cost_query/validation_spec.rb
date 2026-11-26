@@ -38,7 +38,7 @@ RSpec.describe "CostQuery::Validation" do
 
   it "is valid with no validations whatsoever" do
     obj = CostQuery::SomeBase.new
-    expect(obj.validate("foo")).to be_truthy
+    expect(obj.validate("foo")).to be_empty
     expect(obj.validations.size).to eq(0)
   end
 
@@ -48,41 +48,39 @@ RSpec.describe "CostQuery::Validation" do
     expect(obj.validations.size).to eq(2)
   end
 
-  it "has errors set when we try to validate something invalid" do
+  it "returns the errors when we try to validate something invalid" do
     obj = CostQuery::SomeBase.new
     obj.register_validation(:integers)
-    expect(obj.validate("this ain't a number, right?")).to be_falsey
-    expect(obj.errors[:int].size).to eq(1)
+    expect(obj.validate("this ain't a number, right?")).to eq(int: ["this ain't a number, right?"])
   end
 
-  it "has no errors set when we try to validate something valid" do
+  it "returns no errors when we try to validate something valid" do
     obj = CostQuery::SomeBase.new
     obj.register_validation(:integers)
-    expect(obj.validate(1, 2, 3, 4)).to be_truthy
-    expect(obj.errors[:int].size).to eq(0)
+    expect(obj.validate(1, 2, 3, 4)).to be_empty
   end
 
   it "validates integers correctly" do
     obj = CostQuery::SomeBase.new
     obj.register_validation(:integers)
-    expect(obj.validate(1, 2, 3, 4)).to be_truthy
-    expect(obj.errors[:int].size).to eq(0)
-    expect(obj.validate("I ain't gonna work on Maggies Farm no more")).to be_falsey
-    expect(obj.errors[:int].size).to eq(1)
-    expect(obj.validate("You've got the touch!", "You've got the power!")).to be_falsey
-    expect(obj.errors[:int].size).to eq(2)
-    expect(obj.validate(1, "This is a good burger")).to be_falsey
-    expect(obj.errors[:int].size).to eq(1)
+    expect(obj.validate(1, 2, 3, 4)).to be_empty
+    expect(obj.validate("You've got the touch!", "You've got the power!"))
+      .to eq(int: ["You've got the touch!", "You've got the power!"])
+    expect(obj.validate(1, "This is a good burger")).to eq(int: ["This is a good burger"])
   end
 
   it "validates dates correctly" do
     obj = CostQuery::SomeBase.new
     obj.register_validation(:dates)
-    expect(obj.validate("2010-04-15")).to be_truthy
-    expect(obj.errors[:date].size).to eq(0)
-    expect(obj.validate("2010-15-15")).to be_falsey
-    expect(obj.errors[:date].size).to eq(1)
-    expect(obj.validate("2010-04-31")).to be_falsey
-    expect(obj.errors[:date].size).to eq(1)
+    expect(obj.validate("2010-04-15")).to be_empty
+    expect(obj.validate("2010-15-15")).to eq(date: ["2010-15-15"])
+    expect(obj.validate("2010-04-31")).to eq(date: ["2010-04-31"])
+  end
+
+  it "keeps no errors from a previous validation" do
+    obj = CostQuery::SomeBase.new
+    obj.register_validation(:dates)
+    obj.validate("2010-15-15")
+    expect(obj.validate("2010-04-15")).to be_empty
   end
 end

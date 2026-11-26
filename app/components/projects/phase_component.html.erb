@@ -1,13 +1,5 @@
 <%=
   flex_layout(align_items: :center, classes: "gap-2") do |type_container|
-    if display_start_gate?
-      type_container.with_column(
-        classes: icon_color_class,
-        data: hover_card_data_args(gate: :start)
-      ) do
-        render Primer::Beta::Octicon.new(icon: gate_icon)
-      end
-    end
     type_container.with_column do
       render(Primer::Beta::Text.new) { start_date }
     end
@@ -16,14 +8,6 @@
     end
     type_container.with_column do
       render(Primer::Beta::Text.new) { finish_date }
-    end
-    if display_finish_gate?
-      type_container.with_column(
-        classes: icon_color_class,
-        data: hover_card_data_args(gate: :finish)
-      ) do
-        render Primer::Beta::Octicon.new(icon: gate_icon)
-      end
     end
   end
 %>

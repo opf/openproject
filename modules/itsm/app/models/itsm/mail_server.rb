@@ -29,6 +29,9 @@
 
 module ITSM
   class MailServer < ApplicationRecord
+    MIN_TLS_VERSION = OpenSSL::SSL::TLS1_2_VERSION
+    TIMEOUT = 10
+
     has_many :incoming_mailboxes, class_name: "ITSM::IncomingMailbox", inverse_of: :mail_server,
                                   dependent: :restrict_with_error
     has_many :outgoing_mailboxes, class_name: "ITSM::OutgoingMailbox", inverse_of: :mail_server,

@@ -30,10 +30,12 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   EventEmitter, inject,
   Input,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
 import {
   uiStateLinkClass,
@@ -77,6 +79,8 @@ import { matchesRoutingId } from 'core-app/features/work-packages/helpers/work-p
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { isInsideDisabledControl, isInsideMenuControl } from 'core-common/interactive-element-helper';
+import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
+import { whenOutside } from 'core-app/shared/directives/focus/contain-helpers';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -116,6 +120,12 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   @Input() public isClosed = false;
 
   @Input() public showAsGhost = false;
+
+  @ViewChild('newCardEditForm') newCardEditForm?:EditFormComponent;
+
+  @ViewChild('newCardEditForm', { read: ElementRef }) newCardEditFormElement?:ElementRef<HTMLElement>;
+
+  @ViewChild('cardElement', { static: true }) cardElement?:ElementRef<HTMLElement>;
 
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onRemove = new EventEmitter<WorkPackageResource>();
@@ -282,6 +292,25 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   public onRemoved(wp:WorkPackageResource):void {
     this.onRemove.emit(wp);
+  }
+
+  public saveNewCardOnFocusOut():void {
+    const element = this.newCardEditFormElement?.nativeElement;
+    const cardElement = this.cardElement?.nativeElement;
+    if (!element || !cardElement) {
+      return;
+    }
+
+    whenOutside(cardElement, () => {
+      if (!element.isConnected) {
+        return;
+      }
+
+      const form = this.newCardEditForm;
+      if (form && form.editMode && !form.change.inFlight && form.change.value<string|null>('subject')?.trim()) {
+        void form.submit();
+      }
+    });
   }
 
   public cardCoverImageShown(wp:WorkPackageResource):boolean {

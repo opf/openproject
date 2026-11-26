@@ -962,7 +962,7 @@ GEM
       actionview
       openproject-octicons (= 19.38.0)
       railties
-    openproject-primer_view_components (0.96.0)
+    openproject-primer_view_components (0.97.0)
       actionview (>= 7.2.0)
       activesupport (>= 7.2.0)
       openproject-octicons (>= 19.36.0)
@@ -1579,10 +1579,10 @@ GEM
       public_suffix
     vcr (6.4.0)
     vernier (1.11.0)
-    view_component (4.16.0)
+    view_component (4.25.0)
       actionview (>= 7.1.0)
       activesupport (>= 7.1.0)
-      concurrent-ruby (~> 1)
+      prism (>= 1.0)
     warden (1.2.9)
       rack (>= 2.0.9)
     warden-basic_auth (0.2.1)
@@ -1773,7 +1773,7 @@ DEPENDENCIES
   openproject-octicons (~> 19.38.0)
   openproject-octicons_helper (~> 19.38.0)
   openproject-openid_connect!
-  openproject-primer_view_components (~> 0.96.0)
+  openproject-primer_view_components (~> 0.97.0)
   openproject-recaptcha!
   openproject-reporting!
   openproject-repositories!
@@ -1870,7 +1870,7 @@ DEPENDENCIES
   validate_url
   vcr
   vernier
-  view_component (~> 4.16.0)
+  view_component (~> 4.25.0)
   warden (~> 1.2)
   warden-basic_auth (~> 0.2.1)
   webmock (~> 3.32)
@@ -2168,7 +2168,7 @@ CHECKSUMS
   openproject-octicons (19.38.0) sha256=820cf9fe2309bf2960868267ecc8d7c4788ac4f4ad34f0cffa0777513626e5c0
   openproject-octicons_helper (19.38.0) sha256=591ea11e9f2281b42f8a404e7e9f5ef4025b583f1b69555a8016296ad3b7d7c6
   openproject-openid_connect (1.0.0)
-  openproject-primer_view_components (0.96.0) sha256=6aed686963abab1c9e9ca6cd1a7a1120b109fb4a4f4586bf8630367fc7faae33
+  openproject-primer_view_components (0.97.0) sha256=4c2a201c9f0a34d4449df488b70cb838c736ec695bdd6fb31b687d238ab975f5
   openproject-recaptcha (1.0.0)
   openproject-reporting (1.0.0)
   openproject-repositories (1.0.0)
@@ -2412,7 +2412,7 @@ CHECKSUMS
   validate_url (1.0.15) sha256=72fe164c0713d63a9970bd6700bea948babbfbdcec392f2342b6704042f57451
   vcr (6.4.0) sha256=077ac92cc16efc5904eb90492a18153b5e6ca5398046d8a249a7c96a9ea24ae6
   vernier (1.11.0) sha256=ffc3859da1d53df96a109c6609892dab9f1d96ffbdd77cf13fa4d74032331216
-  view_component (4.16.0) sha256=e070850e01f05cabde569c9158350c44d25ebbc90b4e60de4413e2131daeee07
+  view_component (4.25.0) sha256=c6acf5d257dded3c9afc3b3c4d10c92e06ec1ba42d382028d1f30e3efc41b1f5
   warden (1.2.9) sha256=46684f885d35a69dbb883deabf85a222c8e427a957804719e143005df7a1efd0
   warden-basic_auth (0.2.1) sha256=bfc752e0109c0182c3e69e930284c5e1e81e7b4a354aeb2b5914ead1391f3c6e
   webauthn (3.4.3) sha256=9be6f5f838f3405b0226e560aa40b67cc8c15ec9154509b997caa7ec9a05e1fc

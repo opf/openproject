@@ -109,7 +109,7 @@ es:
       note_issue_referenced_comment: "**Referenciado en incidencia:** [%{gitlab_user}](%{gitlab_user_url}) hizo referencia a este WP en la Incidencia %{issue_number} [%{issue_title}](%{issue_url}) en [%{repository}](%{repository_url}): %{issue_note}\n"
       note_mr_commented_comment: "**Comentado en MR:** [%{gitlab_user}](%{gitlab_user_url}) comentó este WP en la solicitud de fusión %{mr_number} [%{mr_title}](%{mr_url}) sobre [%{repository}](%{repository_url}): %{mr_note}\n"
       note_mr_referenced_comment: "**Referenciado en MR:** [%{gitlab_user}](%{gitlab_user_url}) hizo referencia a este WP en la solicitud de fusión %{mr_number} [%{mr_title}](%{mr_url}) en [%{repository}](%{repository_url}): %{mr_note}\n"
-      note_snippet_referenced_comment: "**Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note} %{commit_note} %{commit_note}\n"
+      note_snippet_referenced_comment: "**Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note}\n"
       push_single_commit_comment_with_ref: "**Enviado en %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) envió [%{commit_number}](%{commit_url}) a [%{repository}](%{repository_url}) a las %{commit_timestamp}: %{commit_note}\n"
     issue_component:
       states:
