@@ -3920,7 +3920,7 @@ en:
               title: "Type variants"
               url: "https://www.openproject.org/docs/release-notes/18-0-0/#work-package-types-and-variants-workflows-and-forms"
             line_1:
-              description: "Track sprint progress (Community) and gain deeper insights with Created vs. Resolved and Epic progress charts (Professional plan)."
+              description: "Track sprint progress (Community edition) and gain deeper insights with Created vs. Resolved and Epic progress charts (Professional plan)."
               title: "Agile reporting"
               url: "https://www.openproject.org/docs/release-notes/18-0-0/#agile-planning-and-reporting"
             line_2:
@@ -3932,7 +3932,7 @@ en:
               title: "Work package labels"
               url: "https://www.openproject.org/docs/release-notes/18-0-0/#labels-for-work-packages"
             line_4:
-              description: "Plan resources across projects and with placeholder users (Professional plan), manage work package allocations and personal day planning (Premium plan)."
+              description: "Plan resources across projects and with placeholder users and manage work package allocations and personal day planning (Premium plan)."
               title: "Extended resource management"
               url: "https://www.openproject.org/docs/release-notes/18-0-0/#resource-management-and-personal-planning"
             line_5:
