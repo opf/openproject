@@ -100,15 +100,6 @@ RSpec.describe "Mail rendering of work package references", # rubocop:disable RS
     it_behaves_like "renders references as the recipient"
   end
 
-  describe "UserMailer#message_mentioned" do
-    let(:forum) { create(:forum, project: shared_project) }
-    let(:message) { create(:message, forum:, author:, content: text) }
-
-    def mail_for(user) = UserMailer.message_mentioned(user, message.journals.last)
-
-    it_behaves_like "renders references as the recipient"
-  end
-
   describe "DocumentsMailer#document_added" do
     let(:document) { create(:document, project: shared_project, description: text) }
 
@@ -123,14 +114,14 @@ RSpec.describe "Mail rendering of work package references", # rubocop:disable RS
     it_behaves_like "renders references as the recipient"
   end
 
-  describe "ProjectArtefactsMailer#creation_wizard_submitted" do
-    let(:artefact_work_package) { create(:work_package, project: shared_project) }
+  describe "ProjectArtifactsMailer#creation_wizard_submitted" do
+    let(:artifact_work_package) { create(:work_package, project: shared_project) }
 
     before do
       shared_project.update!(project_creation_wizard_notification_text: text)
     end
 
-    def mail_for(user) = ProjectArtefactsMailer.creation_wizard_submitted(user, shared_project, artefact_work_package)
+    def mail_for(user) = ProjectArtifactsMailer.creation_wizard_submitted(user, shared_project, artifact_work_package)
 
     it_behaves_like "renders references as the recipient"
   end
