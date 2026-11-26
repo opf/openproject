@@ -38,12 +38,12 @@ module Backlogs
         private
 
         def blankslate_reason
-          return :too_long if too_long_to_chart?
-
-          if estimated_work?
-            :not_started unless sprint_begun?
+          if too_long_to_chart?
+            :too_long
           elsif sprint_begun?
-            :"no_#{estimate_column}"
+            :"no_#{estimate_column}" unless anything_to_chart?
+          elsif estimated_work?
+            :not_started
           else
             :"not_started_without_#{estimate_column}"
           end
@@ -52,8 +52,6 @@ module Backlogs
         # Before the sprint begins nothing has been measured, so what the sprint holds now has to
         # answer in the series' place.
         def estimated_work?
-          return anything_to_chart? if sprint_begun?
-
           chartable_work_packages.where(WorkPackage.arel_table[estimate_column].gt(0)).exists?
         end
 
