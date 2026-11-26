@@ -55,7 +55,11 @@ RSpec.describe "Meetings links caught by turbo",
     NOTES
   end
   let!(:agenda_item) { create(:meeting_agenda_item, meeting: meeting1, notes:) }
+  let!(:other_item) { create(:meeting_agenda_item, meeting: meeting1, title: "Plain item") }
   let(:show_page) { Pages::Meetings::Show.new(meeting1) }
+  let(:unsaved_changes_message) do
+    "You have unsaved changes on this page. Are you sure you want to discard them?"
+  end
 
   before do
     login_as user
@@ -66,5 +70,44 @@ RSpec.describe "Meetings links caught by turbo",
     click_link_or_button "Meeting link"
     expect(page).to have_current_path project_meeting_path(project, meeting2)
     expect(page).to have_css("#content", text: "Other meeting", visible: :visible)
+  end
+
+  it "warns before following a Turbo link with an unsaved agenda item title" do
+    show_page.edit_agenda_item(other_item, save: false) do
+      fill_in "Title", with: "Changed title"
+    end
+
+    dismiss_confirm(unsaved_changes_message) do
+      within("#main-menu") { click_on "Meetings", match: :first }
+    end
+    expect(page).to have_current_path project_meeting_path(project, meeting1)
+    show_page.expect_item_edit_title(other_item, "Changed title")
+
+    accept_confirm(unsaved_changes_message) do
+      within("#main-menu") { click_on "Meetings", match: :first }
+    end
+    expect(page).to have_current_path project_meetings_path(project), ignore_query: true
+  end
+
+  it "follows a Turbo link without warning when the opened form is unchanged" do
+    show_page.edit_agenda_item(other_item, save: false) do
+      expect(page).to have_field "Title", with: "Plain item"
+    end
+
+    within("#main-menu") { click_on "Meetings", match: :first }
+    expect(page).to have_current_path project_meetings_path(project), ignore_query: true
+  end
+
+  it "warns before the g m shortcut leaves with an unsaved agenda item title" do
+    show_page.edit_agenda_item(other_item, save: false) do
+      fill_in "Title", with: "Changed title"
+    end
+    find_test_selector("op-meeting-agenda-title", text: agenda_item.title).click
+
+    dismiss_confirm(unsaved_changes_message) do
+      page.send_keys("g", "m")
+    end
+    expect(page).to have_current_path project_meeting_path(project, meeting1)
+    show_page.expect_item_edit_title(other_item, "Changed title")
   end
 end
