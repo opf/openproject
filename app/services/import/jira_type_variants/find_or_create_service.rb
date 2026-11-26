@@ -34,18 +34,19 @@ module Import
       def initialize(user:, jira_import:)
         @user = user
         @jira_import = jira_import
+        @create_service = CreateService.new(user:, jira_import:)
       end
 
       def call(type:, project:)
-        return unless project
+        project_variant = TypeVariant.owned_by(project).find_by(type:)
+        return ServiceResult.success(result: project_variant) if project_variant
 
-        variant = type.default_variant
-        ServiceResult.success(result: variant)
+        create_service.call(type:, project:)
       end
 
       private
 
-      attr_reader :user, :jira_import
+      attr_reader :user, :jira_import, :create_service
     end
   end
 end
