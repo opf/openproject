@@ -41,6 +41,15 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
     jira_import.update!(system_field_custom_fields: { "resolutiondate" => resolution_date_cf.id })
   end
 
+  # Pretend another job did this right before this one takes the lock: the write leaves our query cache alone.
+  def as_another_job_before_locking(locked_class, &)
+    allow(OpenProject::Mutex).to receive(:with_advisory_lock)
+      .and_wrap_original do |original, resource_class, *args, **options, &block|
+      ActiveRecord::Base.uncached(dirties: false, &) if resource_class == locked_class
+      original.call(resource_class, *args, **options, &block)
+    end
+  end
+
   describe "#perform" do
     context "when importing a full project with issues and comments" do
       before do
@@ -299,6 +308,15 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
           expect(references.pluck(:op_entity_class, :uses_existing))
             .to contain_exactly(["Type", false], ["Status", false], ["IssuePriority", false])
         end
+
+        it "writes the type's workflow only for the first issue" do
+          allow(OpenProject::Mutex).to receive(:with_advisory_lock_transaction).and_call_original
+
+          create_work_packages
+
+          expect(OpenProject::Mutex).to have_received(:with_advisory_lock_transaction)
+            .with(an_instance_of(Workflow)).once
+        end
       end
 
       context "when finding or creating a status" do
@@ -319,21 +337,29 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
         end
 
         context "when another job creates the status while this one waits for the lock" do
-          before do
-            allow(OpenProject::Mutex).to receive(:with_advisory_lock)
-              .and_wrap_original do |original, klass, *args, **options, &block|
-              if klass == Status
-                # As if the status was created by another job: create it without changing this job's query cache
-                ActiveRecord::Base.uncached(dirties: false) { create(:status, name: "In Progress") }
-              end
-              original.call(klass, *args, **options, &block)
-            end
-          end
+          before { as_another_job_before_locking(Status) { create(:status, name: "In Progress") } }
 
           it "uses the status the other job created" do
             expect { ActiveRecord::Base.cache { create_work_packages } }.to change(Status, :count).by(1)
             expect(WorkPackage.last.status.name).to eq("In Progress")
           end
+        end
+      end
+
+      context "when another job adds the status to the type's workflow first" do
+        before { as_another_job_before_locking(Workflow) { add_status("In Progress", type: "Bug") } }
+
+        def add_status(name, type:)
+          workflow = Type.find_by!(name: type).default_variant.workflow
+          status = Status.find_by!(name:)
+          create(:status_transition, workflow:, role: Role.find_by!(name: "JiraMember"), old_status: status, new_status: status)
+        end
+
+        it "keeps the issue's status without rewriting the workflow" do
+          ActiveRecord::Base.cache { create_work_packages }
+
+          expect(WorkPackage.last.status.name).to eq("In Progress")
+          expect(Type.find_by!(name: "Bug").default_variant.workflow.status_transitions.count).to eq(1)
         end
       end
 

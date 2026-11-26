@@ -78,7 +78,7 @@ RSpec.describe Import::JiraCreateLabelsJob do
 
     context "when the reference cannot be written" do
       before do
-        allow(Import::JiraOpenProjectReference).to receive(:upsert_all).and_raise("reference write failed")
+        allow(Import::JiraOpenProjectReference).to receive(:insert_all).and_raise("reference write failed")
       end
 
       it "rolls the label back, so a retry cannot mistake it for a pre-existing one" do
