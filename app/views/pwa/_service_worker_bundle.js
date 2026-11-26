@@ -172,7 +172,8 @@
         }
       }
       if (show.length === 0) {
-        show.push(openTags.includes(groups[0].tag) ? { kind: "refresh", group: groups[0] } : { kind: "nothingNew" });
+        const newest = groups[0];
+        show.push(newest && openTags.includes(newest.tag) ? { kind: "refresh", group: newest } : { kind: "nothingNew" });
       }
       const nextRemembered = more ? _NotificationRules.pruneUnlisted({ state: { ...state, ...nextState }, groups }) : nextState;
       return { show, state: nextRemembered };

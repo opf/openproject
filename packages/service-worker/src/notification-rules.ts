@@ -158,7 +158,8 @@ export class NotificationRules {
     // Safari drops every subscription of the site after three pushes that did not call
     // showNotification, so the newest group is refreshed even when it is already on screen.
     if (show.length === 0) {
-      show.push(openTags.includes(groups[0].tag) ? { kind: 'refresh', group: groups[0] } : { kind: 'nothingNew' });
+      const newest:GroupWithFingerprint|undefined = groups[0];
+      show.push(newest && openTags.includes(newest.tag) ? { kind: 'refresh', group: newest } : { kind: 'nothingNew' });
     }
 
     const nextRemembered = more ? NotificationRules.pruneUnlisted({ state: { ...state, ...nextState }, groups }) : nextState;

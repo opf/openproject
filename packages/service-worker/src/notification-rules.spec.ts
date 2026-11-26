@@ -200,6 +200,14 @@ describe('NotificationRules', () => {
 
       expect(result.show).toEqual([{ kind: 'more', more: more() }]);
     });
+
+    it('has nothing new when there are no groups and the open "more" notification is unchanged', () => {
+      const state = { [Tags.more]: { fingerprint: 'more-fingerprint' } };
+
+      const result = decide({ more: more(), openTags: [Tags.more], state });
+
+      expect(kinds(result)).toEqual(['nothingNew']);
+    });
   });
 
   describe('staleTags', () => {
