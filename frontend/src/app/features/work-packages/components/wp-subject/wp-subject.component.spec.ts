@@ -117,7 +117,7 @@ describe('WorkPackageSubjectComponent', () => {
     const subject = 'Add some angular tests for wp-subject';
     render({ subject });
 
-    fireEvent.click(screen.getByRole('button', { name: `subject ${subject}`}));
+    fireEvent.click(screen.getByRole('button', { name: subject }));
     await screen.findByRole('textbox');
 
     expect(screen.getByRole('heading', { level: 2, name: subject })).toBeInTheDocument();

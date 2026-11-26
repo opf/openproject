@@ -158,6 +158,7 @@ RSpec.describe "Work packages general admin settings", :js do
     wp_table_page = Pages::WorkPackagesTable.new
     wp_table_page.visit!
     wp_table_page.expect_work_package_listed(work_package)
-    expect(page.all("th.wp-table--table-header").pluck("aria-label")).to eq %w[ID Subject Priority Author Project]
+    expect(page.all("th.wp-table--table-header button.wp-table--column-menu-button").pluck("aria-label"))
+      .to eq %w[ID Subject Priority Author Project]
   end
 end

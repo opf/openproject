@@ -822,6 +822,15 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expect(within(headerRow()).getAllByRole('columnheader').at(-1)).toHaveAccessibleName('Configure view');
     });
 
+    it('does not duplicate a column menu button name with a wrapping aria-label', async () => {
+      await mount({ columnMenuEnabled: true });
+
+      ['id', 'subject'].forEach((name) => {
+        const header = within(headerRow()).getByRole('columnheader', { name });
+        expect(header).not.toHaveAttribute('aria-label');
+      });
+    });
+
     it('draws the focus ring on the sticky header row above its unpositioned cells', async () => {
       await mount({});
       const positions = () => within(headerRow()).getAllByRole('columnheader').map((header) => getComputedStyle(header).position);
