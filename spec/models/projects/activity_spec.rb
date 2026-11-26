@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe Projects::Activity, "core" do
+RSpec.describe Projects::Activity, "core", with_config: { scm: { git: { allowed_local_paths: ["/"] } } } do
   shared_let(:project) do
     create(:project, :with_internal_wiki, :updated_a_long_time_ago)
   end

@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe Projects::Storage do
+RSpec.describe Projects::Storage, with_config: { scm: { git: { allowed_local_paths: ["/"] } } } do
   let(:project1) do
     create(:project, :with_internal_wiki).reload # Reload required for wiki association to be available
   end

@@ -29,7 +29,10 @@
 
 require "spec_helper"
 
-RSpec.describe "Work package revision component", :js, :with_cuprite do
+RSpec.describe "Work package revision component",
+               :js,
+               :with_cuprite,
+               with_config: { scm: { subversion: { allowed_local_paths: ["/"] } } } do
   let(:project) { create(:project) }
   let(:user) { create(:admin) }
   let(:work_package) { create(:work_package, project:) }

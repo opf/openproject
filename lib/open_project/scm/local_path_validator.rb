@@ -39,6 +39,16 @@ module OpenProject
         forbidden_roots.any? { |root| path_within_root?(path, root) }
       end
 
+      def outside_allowed_roots?(value, allowed_roots)
+        path = local_path(value)
+        return false if path.blank?
+
+        resolved = resolve_symlinks(path)
+        allowed_roots.compact_blank.none? do |root|
+          path_within_root?(resolved, resolve_symlinks(File.expand_path(root)))
+        end
+      end
+
       def local_path(value)
         return if value.blank?
 
@@ -93,7 +103,15 @@ module OpenProject
       end
 
       def path_within_root?(path, root)
-        path == root || path.start_with?("#{root}/")
+        path == root || path.start_with?(File.join(root, ""))
+      end
+
+      def resolve_symlinks(path)
+        pathname = Pathname(path)
+        existing = pathname.ascend.find(&:exist?)
+        (existing.realpath + pathname.relative_path_from(existing)).to_s
+      rescue SystemCallError
+        path
       end
     end
   end

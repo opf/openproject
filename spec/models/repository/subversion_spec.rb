@@ -29,10 +29,10 @@
 
 require "spec_helper"
 
-RSpec.describe Repository::Subversion do
+RSpec.describe Repository::Subversion, with_config: { scm: { subversion: { allowed_local_paths: ["/"] } } } do
   let(:instance) { build(:repository_subversion) }
   let(:adapter)  { instance.scm }
-  let(:config)   { {} }
+  let(:config)   { { allowed_local_paths: ["/"] } }
   let(:enabled_scm) { %w[subversion] }
 
   before do
@@ -150,7 +150,7 @@ RSpec.describe Repository::Subversion do
     let(:checkout_root) { "/tmp/svn-checkouts" }
     let(:managed_git_root) { "/tmp/managed-git" }
     let(:managed_svn_root) { "/tmp/managed-svn" }
-    let(:config) { { manages: managed_svn_root } }
+    let(:config) { { manages: managed_svn_root, allowed_local_paths: ["/"] } }
     let(:resolved_ip) { "93.184.215.14" }
 
     before do
@@ -186,6 +186,16 @@ RSpec.describe Repository::Subversion do
 
       it "is valid" do
         expect(instance).to be_valid
+      end
+    end
+
+    context "with a file URL outside the allowed local paths" do
+      let(:config) { { allowed_local_paths: ["/srv/svn"] } }
+      let(:instance) { build(:repository_subversion, url: "file:///srv/other/public") }
+
+      it "is invalid" do
+        expect(instance).not_to be_valid
+        expect(instance.errors.details[:url]).to include(error: :not_in_allowed_local_paths)
       end
     end
 

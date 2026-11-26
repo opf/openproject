@@ -29,7 +29,9 @@
 
 require "spec_helper"
 
-RSpec.describe API::V3::Activities::ActivityEagerLoadingWrapper, with_settings: { journal_aggregation_time_minutes: 0 } do
+RSpec.describe API::V3::Activities::ActivityEagerLoadingWrapper,
+               with_config: { scm: { git: { allowed_local_paths: ["/"] } } },
+               with_settings: { journal_aggregation_time_minutes: 0 } do
   shared_let(:user) { create(:user) }
   shared_let(:project) { create(:project) }
   shared_let(:work_package) { create(:work_package, project:, author: user) }
