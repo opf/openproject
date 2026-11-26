@@ -47,13 +47,18 @@ export interface IAiTextAction {
   injectsTypeTemplate:boolean;
 }
 
+interface ILinked {
+  href?:string|null;
+}
+
 interface IEditorContextResource {
   id:string|null;
   _type?:string;
-  $links?:{
-    type?:{ href?:string };
-    project?:{ href?:string };
-  };
+  // A changeset's projected resource carries the values chosen in the form, its $links stay the pristine ones.
+  // https://community.openproject.org/wp/AA-245
+  type?:unknown;
+  project?:unknown;
+  $links?:Record<string, unknown>;
 }
 
 export type IAiActionsEditor = Pick<ICKEditorInstance, 'getData'|'data'|'model'|'config'|'state'|'on'|'off'>;
@@ -138,6 +143,16 @@ export class AiActionsService {
     } catch {
       return [];
     }
+  }
+
+  contextKey(resource:IEditorContextResource|undefined, field:string|undefined):string|null {
+    return this.listPath(resource, field);
+  }
+
+  contextSnapshot(resource:IEditorContextResource):IEditorContextResource {
+    const { id, _type, type, project, $links } = resource;
+
+    return { id, _type, type, project, $links };
   }
 
   defaultAction(actions:IAiTextAction[]):IAiTextAction|undefined {
@@ -349,13 +364,16 @@ export class AiActionsService {
       return { workPackageId: resource.id! };
     }
 
-    const projectId = this.linkedId(resource.$links?.project?.href);
-    const typeId = this.linkedId(resource.$links?.type?.href);
+    const projectId = this.linkedId(resource, 'project');
+    const typeId = this.linkedId(resource, 'type');
 
     return projectId && typeId ? { projectId, typeId } : null;
   }
 
-  private linkedId(href:string|undefined):string|null {
+  private linkedId(resource:IEditorContextResource, name:'project'|'type'):string|null {
+    const value = resource[name] as ILinked|null|undefined;
+    const href = value === undefined ? (resource.$links?.[name] as ILinked|undefined)?.href : value?.href;
+
     return href ? idFromLink(href) : null;
   }
 }
