@@ -29,6 +29,16 @@
 
 set -euo pipefail
 
+run_preinstall() {
+  local log
+  log="$(mktemp)"
+  /source/bin/preinstall 2>&1 | tee "$log"
+  if grep -qE '^(WARNING|ERROR):' "$log"; then
+    echo 'FAIL: preinstall reported a warning or error' >&2
+    exit 1
+  fi
+}
+
 export PGDATA=/var/lib/postgresql/addon17 PGBIN=/usr/lib/postgresql/17/bin
 export DATABASE_URL=postgres://openproject:openproject@127.0.0.1/openproject
 install -d -o postgres -g postgres "$PGDATA"
@@ -61,7 +71,7 @@ wiz_check_package() {
   dpkg-query -W "$1" >/dev/null
 }
 WIZARD
-/source/bin/preinstall
+run_preinstall
 test "$(psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -tAc "SELECT count(*) FROM pg_available_extensions WHERE name = 'vector' AND installed_version IS NULL")" = 1
 test "$(psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -tAc "SELECT current_setting('server_version_num')::int / 10000")" = 17
 echo 'PASS: packaged reconfiguration retains PostgreSQL 17 and leaves vector available but inactive'
@@ -71,6 +81,7 @@ export PGDATA=/var/lib/postgresql/addon18 PGBIN=/usr/lib/postgresql/18/bin
 install -d -o postgres -g postgres "$PGDATA"
 runuser -u postgres -- "$PGBIN/initdb" -D "$PGDATA" --auth=trust
 runuser -u postgres -- "$PGBIN/pg_ctl" -D "$PGDATA" -l /tmp/addon18.log -w start
+apt-get update -qq
 export APP_NAME=pg18-fresh APP_SAFE_NAME=packagedfresh
 cat > "$INSTALLER_DIR/wizard" <<'WIZARD'
 wiz_get() {
@@ -92,7 +103,9 @@ wiz_fact() {
 wiz_check_package() { dpkg-query -W "$1" >/dev/null; }
 wiz_set() { :; }
 WIZARD
-/source/bin/preinstall
+run_preinstall
 test "$(PGPASSWORD=packagedfresh psql -h 127.0.0.1 -p 5432 -U packagedfresh -d packagedfresh -v ON_ERROR_STOP=1 -tAc "SELECT count(*) FROM pg_available_extensions WHERE name = 'vector' AND installed_version IS NULL")" = 1
-echo 'PASS: packaged provisioning leaves vector available for application migrations'
+dpkg-query -W -f='${Status}\n' postgresql-18-pgvector | grep -q 'install ok installed'
+test "$(PGPASSWORD=packagedfresh psql -h 127.0.0.1 -p 5432 -U packagedfresh -d packagedfresh -v ON_ERROR_STOP=1 -tAc "SELECT current_setting('server_version_num')::int / 10000")" = 18
+echo 'PASS: provisioning an addon-managed PostgreSQL 18 server installs pgvector and leaves vector inactive'
 runuser -u postgres -- "$PGBIN/pg_ctl" -D "$PGDATA" -m fast -w stop

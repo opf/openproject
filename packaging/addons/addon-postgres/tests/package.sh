@@ -28,6 +28,17 @@
 #++
 
 set -euo pipefail
+
+run_preinstall() {
+  local log
+  log="$(mktemp)"
+  /source/bin/preinstall 2>&1 | tee "$log"
+  if grep -qE '^(WARNING|ERROR):' "$log"; then
+    echo 'FAIL: preinstall reported a warning or error' >&2
+    exit 1
+  fi
+}
+
 export APP_NAME=pg18-package-test APP_SAFE_NAME=openproject INSTALLER_DIR=/tmp/installer
 mkdir -p "$INSTALLER_DIR"
 cat > "$INSTALLER_DIR/wizard" <<'WIZARD'
@@ -49,6 +60,8 @@ wiz_fact() {
 wiz_check_package() { dpkg-query -W "$1" >/dev/null 2>&1; }
 wiz_set() { :; }
 WIZARD
-/source/bin/preinstall
+run_preinstall
 test "$(PGPASSWORD=openproject psql -h 127.0.0.1 -p 45432 -U openproject -d openproject -v ON_ERROR_STOP=1 -tAc "SELECT count(*) FROM pg_available_extensions WHERE name = 'vector' AND installed_version IS NULL")" = 1
+dpkg-query -W -f='${Status}\n' postgresql-18-pgvector | grep -q 'install ok installed'
+test "$(PGPASSWORD=openproject psql -h 127.0.0.1 -p 45432 -U openproject -d openproject -v ON_ERROR_STOP=1 -tAc "SELECT current_setting('server_version_num')::int / 10000")" = 18
 echo 'PASS: clean Debian 12 packaged installation'

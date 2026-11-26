@@ -25,6 +25,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FROM pgvector/pgvector:pg18-bookworm
-RUN apt-get update -qq && apt-get install -y --no-install-recommends postgresql-17 postgresql-17-pgvector && rm -rf /var/lib/apt/lists/*
+FROM debian:bookworm
+RUN printf '#!/bin/sh\nexit 101\n' > /usr/sbin/policy-rc.d && chmod +x /usr/sbin/policy-rc.d \
+  && apt-get update -qq && apt-get install -y --no-install-recommends wget gnupg ca-certificates procps postgresql-common \
+  && echo 'create_main_cluster = false' >> /etc/postgresql-common/createcluster.conf \
+  && /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y \
+  && apt-get install -y --no-install-recommends postgresql-17 postgresql-17-pgvector postgresql-18
 ENTRYPOINT ["bash"]
