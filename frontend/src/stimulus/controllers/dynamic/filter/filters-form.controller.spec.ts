@@ -88,7 +88,7 @@ describe('Filters form controller - filter count badge', () => {
   it('leaves the count unchanged when a filter is added with no value yet', async () => {
     const { controller, counters } = await mountForm(ASSIGNEE_FILTER_ROW);
 
-    controller.addFilterByName('assignee');
+    void controller.addFilterByName('assignee');
     await ctx.nextFrame();
 
     counters.forEach((counter) => {
@@ -100,7 +100,7 @@ describe('Filters form controller - filter count badge', () => {
   it('increments the count once a value is entered', async () => {
     const { controller, counters } = await mountForm(ASSIGNEE_FILTER_ROW);
 
-    controller.addFilterByName('assignee');
+    void controller.addFilterByName('assignee');
     await ctx.nextFrame();
     enterSimpleValue('john');
 
@@ -117,7 +117,7 @@ describe('Filters form controller - filter count badge', () => {
   it('decrements the count when an active filter is removed', async () => {
     const { controller, counters } = await mountForm(ASSIGNEE_FILTER_ROW);
 
-    controller.addFilterByName('assignee');
+    void controller.addFilterByName('assignee');
     enterSimpleValue('john');
 
     // The counter update is debounced together with the network request, so
@@ -145,7 +145,7 @@ describe('Filters form controller - filter count badge', () => {
     const operatorSelect = ctx.container.querySelector<HTMLSelectElement>('[data-filter--filters-form-target="operator"]')!;
     operatorSelect.value = '!*';
 
-    controller.addFilterByName('assignee');
+    void controller.addFilterByName('assignee');
     await ctx.nextFrame();
 
     counters.forEach((counter) => {
