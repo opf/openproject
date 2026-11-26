@@ -14,9 +14,9 @@ import {
   parseDateTime,
   uses24HourClock,
   wallClockDateToISO,
-} from './dateTime';
-import { isNonWorkingDay, loadNonWorkingDays, useDatePickerSettings } from './datePickerSettings';
-import type { DatePickerSettings } from './datePickerSettings';
+} from '../../utils/dateTime';
+import { useDateTimeSettings, type UserDateTimeSettings } from '../../services/dateTimeSettings';
+import { isNonWorkingDay, loadNonWorkingDays } from './nonWorkingDays';
 
 const OPENPROJECT_MOBILE_WIDTH = 544;
 
@@ -48,7 +48,7 @@ const dateValue:CalendarValue = {
   parse: localDateOf,
 };
 
-function dateTimeValue(settings:DatePickerSettings):CalendarValue {
+function dateTimeValue(settings:UserDateTimeSettings):CalendarValue {
   const valueOf = (date:Date) => wallClockDateToISO(date, settings.timeZone) ?? '';
   const dateOf = (value:string) => isoToWallClockDate(value, settings.timeZone);
 
@@ -77,7 +77,7 @@ const controlPropsOf = ({ id, placeholder, invalid, describedBy }:DatePickerProp
 
 const CalendarPicker = (props:DatePickerProps) => {
   const { id, withTime, value, onChange } = props;
-  const settings = useDatePickerSettings();
+  const settings = useDateTimeSettings();
   const calendarValue = useMemo(
     () => settings && (withTime ? dateTimeValue(settings) : dateValue),
     [settings, withTime]
