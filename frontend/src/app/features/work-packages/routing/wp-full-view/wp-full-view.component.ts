@@ -37,6 +37,7 @@ import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-
 import { WorkPackageSingleViewBase } from 'core-app/features/work-packages/routing/wp-view-base/work-package-single-view.base';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { Observable, of } from 'rxjs';
+import { accessKeys } from 'core-app/shared/directives/a11y/access-keys';
 
 @Component({
   templateUrl: './wp-full-view.html',
@@ -57,6 +58,8 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
 
   // Watcher properties
   public isWatched:boolean;
+
+  protected readonly accessKeys = accessKeys;
 
   public displayReminderButton$:Observable<boolean> = of(false);
 
