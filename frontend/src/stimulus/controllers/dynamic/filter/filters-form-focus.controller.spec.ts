@@ -103,7 +103,7 @@ describe('Filters form focus', () => {
     const addFilter = ctx.container.querySelector<HTMLSelectElement>('#add-filter')!;
     addFilter.value = 'test';
 
-    controller.addFilterByName('test');
+    void controller.addFilterByName('test');
     await vi.advanceTimersByTimeAsync(300);
 
     expect(row.hidden).toBe(false);

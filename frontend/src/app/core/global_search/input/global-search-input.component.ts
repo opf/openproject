@@ -51,6 +51,7 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { announce } from '@primer/live-region-element';
 import { NgOption } from '@ng-select/ng-select';
+import { accessKeys } from 'core-app/shared/directives/a11y/access-keys';
 import { matchesRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 
 interface SearchOptionItem {
@@ -95,6 +96,8 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   readonly cdRef = inject(ChangeDetectorRef);
   readonly halNotification = inject(HalResourceNotificationService);
   readonly recentItemsService = inject(RecentItemsService);
+
+  protected readonly accessKeys = accessKeys;
 
   @Input() public placeholder:string;
 

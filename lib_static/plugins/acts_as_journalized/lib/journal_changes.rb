@@ -82,12 +82,10 @@ module JournalChanges
   def get_custom_comments_changes
     return unless journable.respond_to?(:custom_comments)
 
-    association = ->(journal) { filter_admin_only_custom_fields(journal.custom_comment_journals) }
-
     ::Acts::Journalized::Differ::Association.new(
       predecessor,
       self,
-      association:,
+      association: :custom_comment_journals,
       id_attribute: :custom_field_id
     ).single_attribute_changes(
       :text,
@@ -104,7 +102,7 @@ module JournalChanges
         relation = relation.with(cf_mappings: journable.project_custom_field_project_mappings)
                            .joins("INNER JOIN cf_mappings USING (custom_field_id)")
       end
-      filter_admin_only_custom_fields(relation)
+      relation
     }
 
     ::Acts::Journalized::Differ::Association.new(
@@ -251,12 +249,5 @@ module JournalChanges
     return if names.empty?
 
     [nil, names.join(", ")]
-  end
-
-  def filter_admin_only_custom_fields(relation)
-    return relation if User.current.admin?
-    return relation unless journable.admin_only_custom_fields_allowed?
-
-    relation.joins(:custom_field).where(custom_fields: { admin_only: false })
   end
 end

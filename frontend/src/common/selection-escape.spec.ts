@@ -25,7 +25,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import Mousetrap from 'mousetrap';
 import { createEvent, fireEvent } from '@testing-library/dom';
 import { clearSelectionOnEscape } from './selection-escape';
 
@@ -155,13 +154,14 @@ describe('clearSelectionOnEscape', () => {
     });
   });
 
-  it('skips an Escape a Mousetrap binding registered earlier has prevented', () => {
+  it('skips an Escape an earlier listener has prevented', () => {
     const row = mount('<div tabindex="0">Row</div>');
     const reset = vi.fn();
-    Mousetrap.bind('esc', (event) => {
+    const earlier = (event:KeyboardEvent) => {
       event.preventDefault();
       reset();
-    });
+    };
+    document.addEventListener('keydown', earlier, { capture: true });
     try {
       const event = createEvent.keyDown(row, { key: 'Escape', keyCode: 27, which: 27 }) as KeyboardEvent;
       const { clear } = dispatch(row, event);
@@ -169,7 +169,7 @@ describe('clearSelectionOnEscape', () => {
       expect(clear).not.toHaveBeenCalled();
       expect(event.defaultPrevented).toBe(true);
     } finally {
-      Mousetrap.unbind('esc');
+      document.removeEventListener('keydown', earlier, { capture: true });
     }
   });
 });
