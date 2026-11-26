@@ -34,7 +34,8 @@ import { UrlParamsHelperService } from 'core-app/features/work-packages/componen
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
 import { WorkPackageViewHierarchyIdentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service';
 import { WorkPackageViewDisplayRepresentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
-import { WorkPackageContextMenuHelperService } from './wp-context-menu-helper.service';
+import { PERMITTED_CONTEXT_MENU_ACTIONS } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-static-context-menu-actions';
+import { WorkPackageAction, WorkPackageContextMenuHelperService } from './wp-context-menu-helper.service';
 
 describe('WorkPackageContextMenuHelperService', () => {
   const pathHelper = {
@@ -51,18 +52,29 @@ describe('WorkPackageContextMenuHelperService', () => {
     atom: { href: '/work_packages/14.atom' },
   } as unknown as WorkPackageResource;
 
+  const hooks = { call: ():WorkPackageAction[] => [] };
+  const timeline = { isVisible: false };
+  const representation = { isList: false };
+  const indentation = { canOutdent: () => false, canIndent: () => false };
+
   let service:WorkPackageContextMenuHelperService;
 
   beforeEach(() => {
+    hooks.call = () => [];
+    timeline.isVisible = false;
+    representation.isList = false;
+    indentation.canOutdent = () => false;
+    indentation.canIndent = () => false;
+
     TestBed.configureTestingModule({
       providers: [
         WorkPackageContextMenuHelperService,
         { provide: PathHelperService, useValue: pathHelper },
-        { provide: HookService, useValue: {} },
+        { provide: HookService, useValue: hooks },
         { provide: UrlParamsHelperService, useValue: {} },
-        { provide: WorkPackageViewDisplayRepresentationService, useValue: {} },
-        { provide: WorkPackageViewTimelineService, useValue: {} },
-        { provide: WorkPackageViewHierarchyIdentationService, useValue: {} },
+        { provide: WorkPackageViewDisplayRepresentationService, useValue: representation },
+        { provide: WorkPackageViewTimelineService, useValue: timeline },
+        { provide: WorkPackageViewHierarchyIdentationService, useValue: indentation },
       ],
     });
     service = TestBed.inject(WorkPackageContextMenuHelperService);
@@ -74,5 +86,44 @@ describe('WorkPackageContextMenuHelperService', () => {
 
   it('resolves other actions to the HAL link href', () => {
     expect(service.linkForAction(workPackage, { key: 'export-atom', link: 'atom' })).toBe('/work_packages/14.atom');
+  });
+
+  it('orders Gantt actions as move group before relations', () => {
+    const link = { href: '/wp/14' };
+    const ganttWorkPackage = {
+      ...workPackage,
+      move: link,
+      copy: link,
+      delete: link,
+      markdown: link,
+      addChild: link,
+      addRelation: link,
+      relations: link,
+    } as unknown as WorkPackageResource;
+    timeline.isVisible = true;
+    representation.isList = true;
+    indentation.canOutdent = () => true;
+    indentation.canIndent = () => true;
+    hooks.call = () => [{ key: 'some_plugin_action', link: 'id', text: 'Plugin action' }];
+
+    const keys = service
+      .getPermittedActionLinks(ganttWorkPackage, PERMITTED_CONTEXT_MENU_ACTIONS, true)
+      .map(({ key }) => key);
+
+    expect(keys).toEqual([
+      'copy_link_to_clipboard',
+      'copy_alphanumeric_id_to_clipboard',
+      'change_project',
+      'duplicate',
+      'relation-new-child',
+      'relation-precedes',
+      'relation-follows',
+      'hierarchy-outdent',
+      'hierarchy-indent',
+      'relations',
+      'some_plugin_action',
+      'view_markdown',
+      'delete',
+    ]);
   });
 });

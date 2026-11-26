@@ -93,18 +93,20 @@ export const PERMITTED_CONTEXT_MENU_ACTIONS:WorkPackageAction[] = [
 const GROUPED_ACTION_KEYS = {
   open: ['copy_link_to_clipboard', 'copy_alphanumeric_id_to_clipboard'],
   log: ['log_time', 'start_timer', 'stop_timer', 'log_costs', 'allocate_resource'],
-  organize: [
+  move: [
     'edit',
     'move',
-    'copy',
     'change_project',
+    'copy',
     'duplicate',
     'copy_to_other_project',
+  ],
+  relate: [
     'relation-new-child',
-    'hierarchy-outdent',
-    'hierarchy-indent',
     'relation-precedes',
     'relation-follows',
+    'hierarchy-outdent',
+    'hierarchy-indent',
     'relations',
   ],
   export: ['generate_pdf', 'view_markdown', 'export-atom'],
@@ -121,7 +123,7 @@ function menuPosition(key:string):{ group:ContextMenuGroup, index:number } {
     const index = (GROUPED_ACTION_KEYS[group] as readonly string[]).indexOf(key);
     if (index !== -1) return { group, index };
   }
-  return { group: 'organize', index: Number.MAX_SAFE_INTEGER };
+  return { group: 'relate', index: Number.MAX_SAFE_INTEGER };
 }
 
 function comparePositions(a:ReturnType<typeof menuPosition>, b:ReturnType<typeof menuPosition>):number {
@@ -141,7 +143,8 @@ export class ContextMenuItemGroups {
   private readonly groups:Record<ContextMenuGroup, OpContextMenuItem[]> = {
     open: [],
     log: [],
-    organize: [],
+    move: [],
+    relate: [],
     export: [],
     configure: [],
     destroy: [],

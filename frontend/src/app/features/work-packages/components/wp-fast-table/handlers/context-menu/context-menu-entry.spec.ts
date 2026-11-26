@@ -123,6 +123,39 @@ describe('Context menu entry', () => {
     expect(items.filter((item) => item.scheme === 'danger').map((item) => item.linkText)).toEqual(['Delete']);
   });
 
+  it('groups moving and duplicating apart from relations', () => {
+    vi.spyOn(harness.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions').mockReturnValue([
+      { key: 'change_project', text: 'Move to another project' },
+      { key: 'duplicate', text: 'Duplicate' },
+      { key: 'copy_to_other_project', text: 'Duplicate in another project' },
+      { key: 'relation-new-child', text: 'Create new child' },
+      { key: 'relation-precedes', text: 'Add predecessor' },
+      { key: 'relation-follows', text: 'Add successor' },
+      { key: 'hierarchy-outdent', text: 'Outdent hierarchy' },
+      { key: 'hierarchy-indent', text: 'Indent hierarchy' },
+      { key: 'relations', text: 'Show relations' },
+      { key: 'some_plugin_action', text: 'Plugin action' },
+    ]);
+
+    fireEvent.contextMenu(harness.row('1'));
+
+    const items = opened.mock.calls[0][0].locals.items;
+
+    expect(items.slice(3).map((item) => (item.divider ? '---' : item.linkText))).toEqual([
+      'Move to another project',
+      'Duplicate',
+      'Duplicate in another project',
+      '---',
+      'Create new child',
+      'Add predecessor',
+      'Add successor',
+      'Outdent hierarchy',
+      'Indent hierarchy',
+      'Show relations',
+      'Plugin action',
+    ]);
+  });
+
   it('uses the duplicate Octicon for the bulk copy action', () => {
     vi.spyOn(harness.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions')
       .mockReturnValue([{ key: 'copy', text: 'Bulk duplicate' }]);
@@ -279,6 +312,21 @@ describe('Context menu entry', () => {
       expect(hasMoveSubmenu()).toBe(true);
       expect(moveItems().map((item) => item.linkText)).toEqual(['Move to top', 'Move up', 'Move down', 'Move to bottom']);
       expect(moveItems().map((item) => item.disabled)).toEqual([false, false, false, false]);
+    });
+
+    it('puts Move to position first in the move group', () => {
+      vi.spyOn(harness.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions').mockReturnValue([
+        { key: 'change_project', text: 'Move to another project' },
+        { key: 'relation-new-child', text: 'Create new child' },
+        { key: 'hierarchy-indent', text: 'Indent hierarchy' },
+      ]);
+
+      openFromKeyboard('2');
+
+      const labels = menuItems().map((item) => (item.divider ? '---' : item.linkText));
+      expect(labels.slice(labels.indexOf('---') + 1)).toEqual([
+        'Move to position', 'Move to another project', '---', 'Create new child', 'Indent hierarchy',
+      ]);
     });
 
     it('disables the edge actions on the first row', () => {
