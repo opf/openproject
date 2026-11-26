@@ -3,6 +3,8 @@
 # Docs: https://gh.io/actions-lockfile
 version: 'v0.0.3'
 workflows:
+    '.github/workflows/addon-postgres-test.yml':
+        - 'actions/checkout@v7.0.1'
     '.github/workflows/ai-involvement-check.yml':
         - 'actions/checkout@v7.0.1'
         - 'marocchino/sticky-pull-request-comment@v3.0.5'

@@ -6,6 +6,10 @@ sidebar_navigation:
 
 # OpenProject on Docker all-in-one container
 
+> [!IMPORTANT]
+> New installations default to PostgreSQL 18 with pgvector available. Existing databases are not upgraded automatically. Read the [PostgreSQL 18 migration guide](../../misc/migration-to-postgresql18/) before updating an existing installation; it includes instructions for retaining the current PostgreSQL version.
+
+
 [Docker](https://www.docker.com) is a way to distribute self-contained applications easily. We provide a Docker image for the Community edition that you can easily install and upgrade on your servers. However, unlike manual or package-based installations, your machine needs to have the Docker Engine
 installed first, which usually requires a recent operating system. Please see the [Docker Engine installation page](https://docs.docker.com/install/) if you don't have Docker installed.
 
