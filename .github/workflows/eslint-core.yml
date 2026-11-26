@@ -55,4 +55,4 @@ jobs:
         with:
           reporter: github-pr-annotations
           fail_level: any
-          eslint_flags: "'**/*.json' --ignore-pattern 'extensions/**'"
+          eslint_flags: "--config eslint.config.mjs '**/*.json' --ignore-pattern 'extensions/**'"

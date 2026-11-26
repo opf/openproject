@@ -26,6 +26,10 @@ Production builds are triggered either through the `rake assets:precompile` rake
 the frontend along with the rest of the assets, or by running `npm run build` manually. That script
 builds with `--configuration production`, which enables ahead-of-time compilation.
 
+## Service worker
+
+The service worker source lives in `packages/service-worker` and is not part of the Angular build. After changing it, run `npm ci` and `npm run build` in that folder and commit the regenerated `app/views/pwa/_service_worker_bundle.js`; CI fails when the committed file differs from a fresh build. Use `npm run build:watch` to rebuild on every change, and `npm test`, `npm run typecheck` and `npm run lint` to check your work. A dependency update that changes the build output, for example an esbuild bump, needs the same rebuild and commit.
+
 ## Tests
 
 Tests run with `npm run test`, which uses the Angular CLI's `ng test` to build the specs and
