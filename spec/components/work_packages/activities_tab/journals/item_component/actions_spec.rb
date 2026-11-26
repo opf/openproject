@@ -50,7 +50,7 @@ RSpec.describe WorkPackages::ActivitiesTab::Journals::ItemComponent::Actions, ty
   it "copies the sharable activity URL through the clipboard-copy element" do
     expect(page.find("clipboard-copy")["value"])
       .to end_with("/projects/#{work_package.project.identifier}" \
-                   "/work_packages/#{work_package.id}/activity#comment-#{journal.id}")
+                   "/work_packages/#{work_package.to_param}/activity#comment-#{journal.id}")
   end
 
   context "without comment permissions" do

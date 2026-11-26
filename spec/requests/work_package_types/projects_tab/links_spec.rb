@@ -97,9 +97,8 @@ RSpec.describe "Adding and removing a work package type's projects", :skip_csrf,
     end
 
     context "with a query naming a project's identifier" do
-      let(:query) { "libris" }
-
-      before { create(:project, name: "Archive", identifier: "libris-nova") }
+      let!(:archive) { create(:project, name: "Archive") }
+      let(:query) { archive.identifier }
 
       it "matches the project" do
         subject

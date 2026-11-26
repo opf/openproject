@@ -37,7 +37,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
   let(:work_package_html_link) do
     link_to_work_package(work_package, link_subject: true)
   end
-  let(:work_package_raw_link) { "##{work_package.id}" }
+  let(:work_package_raw_link) { work_package.formatted_id }
 
   shared_examples "XSS-proof rendering of status name" do
     before do

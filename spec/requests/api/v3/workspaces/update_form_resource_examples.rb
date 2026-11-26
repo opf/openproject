@@ -155,9 +155,10 @@ RSpec.shared_examples_for "APIv3 workspace update form" do
   end
 
   context "with valid parameters" do
+    let(:new_workspace_identifier) { attributes_for(:project)[:identifier] }
     let(:params) do
       {
-        identifier: "new_workspace_identifier",
+        identifier: new_workspace_identifier,
         name: "Project name",
         text_custom_field.attribute_name(:camel_case) => {
           raw: "new CF text"
@@ -182,7 +183,7 @@ RSpec.shared_examples_for "APIv3 workspace update form" do
       body = subject.body
 
       expect(body)
-        .to be_json_eql("new_workspace_identifier".to_json)
+        .to be_json_eql(new_workspace_identifier.to_json)
         .at_path("_embedded/payload/identifier")
 
       expect(body)

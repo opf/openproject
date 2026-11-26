@@ -32,7 +32,8 @@ require "spec_helper"
 RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProjectJob, SendCopyProjectStatusEmailJob] do
   shared_let(:admin) { create(:admin) }
   shared_let(:user_de) { create(:admin, language: :de) }
-  let(:params) { { name: "Copy", identifier: "copy" } }
+  let(:copy_identifier) { attributes_for(:project)[:identifier] }
+  let(:params) { { name: "Copy", identifier: copy_identifier } }
   let(:mail_double) { double("Mail::Message", deliver: true) } # rubocop:disable RSpec/VerifiedDoubles
 
   before { allow(mail_double).to receive(:deliver_later) }
@@ -63,7 +64,7 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
       }
     end
 
-    let(:params) { { name: "Copy", identifier: "copy" } }
+    let(:params) { { name: "Copy", identifier: copy_identifier } }
 
     it "copies the project and invalid work packages without reporting any errors", :aggregate_failures do
       copy_job = nil
@@ -84,7 +85,7 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
       # expect to create a status
       expect(copy_job.job_status).to be_present
       expect(copy_job.job_status[:status]).to eq "success"
-      expect(copy_job.job_status[:payload]["redirect"]).to include "/projects/copy"
+      expect(copy_job.job_status[:payload]["redirect"]).to include "/projects/#{copy_identifier}"
 
       expected_link = { "href" => "/api/v3/projects/#{copied_project.id}", "title" => copied_project.name }
       expect(copy_job.job_status[:payload]["_links"]["project"]).to eq(expected_link)
@@ -134,7 +135,7 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
       }
     end
 
-    let(:params) { { name: "Copy", identifier: "copy" } }
+    let(:params) { { name: "Copy", identifier: copy_identifier } }
 
     before do
       type.default_variant.custom_field_ids |= [custom_field.id]
@@ -156,7 +157,7 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
       # expect to create a status
       expect(copy_job.job_status).to be_present
       expect(copy_job.job_status[:status]).to eq "success"
-      expect(copy_job.job_status[:payload]["redirect"]).to include "/projects/copy"
+      expect(copy_job.job_status[:payload]["redirect"]).to include "/projects/#{copy_identifier}"
 
       expected_link = { "href" => "/api/v3/projects/#{copied_project.id}", "title" => copied_project.name }
       expect(copy_job.job_status[:payload]["_links"]["project"]).to eq(expected_link)
@@ -303,7 +304,7 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
         end
       end
 
-      subject(:copied_project) { Project.find_by(identifier: "copy") }
+      subject(:copied_project) { Project.find_by(identifier: copy_identifier) }
 
       describe "user without add_subprojects permission in parent" do
         include_context "on copy project" do
@@ -328,7 +329,7 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
       end
 
       describe "user without add_subprojects permission in parent and when explicitly setting that parent" do
-        let(:params) { { name: "Copy", identifier: "copy", parent_id: project.id } }
+        let(:params) { { name: "Copy", identifier: copy_identifier, parent_id: project.id } }
 
         include_context "on copy project" do
           let(:project_to_copy) { subproject }
@@ -457,7 +458,7 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
     let(:source_project) { create(:project) }
     let(:job_args) do
       {
-        target_project_params: { name: "Copy", identifier: "copy" },
+        target_project_params: { name: "Copy", identifier: copy_identifier },
         associations_to_copy: [],
         skip_custom_field_validation: true
       }

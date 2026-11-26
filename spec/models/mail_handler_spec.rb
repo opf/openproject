@@ -37,7 +37,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
   shared_let(:priority_low) { create(:priority_low, name: "Low", is_default: true) }
   shared_let(:default_status) { create(:default_status) }
 
-  shared_let(:project) { create(:valid_project, identifier: "onlinestore", name: "OnlineStore", public: false) }
+  shared_let(:project) { create(:valid_project, name: "OnlineStore", public: false) }
 
   before do
     allow(UserMailer)
@@ -692,7 +692,9 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
             ProjectRole.non_member.update_attribute :permissions, [:add_work_packages]
             project.update_attribute :public, true
             expect do
-              work_package = submit_email("ticket_by_unknown_user.eml", issue: { project: "onlinestore" }, unknown_user: "create")
+              work_package = submit_email("ticket_by_unknown_user.eml",
+                                          issue: { project: project.identifier },
+                                          unknown_user: "create")
               work_package_created(work_package)
               expect(work_package.author).to be_active
               expect(work_package.author.mail).to eq("john.doe@somenet.foo")
@@ -718,7 +720,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
 
         context "with unknown_user: 'create' and an utf8 encoded fullname" do
           include_context "with a new work package with the sender fullname in utf-8"
-          let(:submit_options) { { issue: { project: "onlinestore" }, unknown_user: "create" } }
+          let(:submit_options) { { issue: { project: project.identifier }, unknown_user: "create" } }
 
           it_behaves_like "work package created"
 
@@ -929,7 +931,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
         let(:type) { project.enabled_types.first }
         let!(:status) { create(:status, name: "Resolved", workflow_for_type: type) }
 
-        # This email contains: 'Project: onlinestore' and 'Status: Resolved'
+        # This email contains: 'Project: <project identifier>' and 'Status: Resolved'
         include_context "for wp_on_given_project"
 
         it_behaves_like "work package created"
@@ -959,7 +961,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
         let!(:status) { create(:status, name: "Resolved", workflow_for_type: type) }
         let!(:version) { create(:version, name: "alpha", project:) }
 
-        # This email contains: 'Project: onlinestore' and 'Status: resolved'
+        # This email contains: 'Project: <project identifier>' and 'Status: resolved'
         include_context "for wp_on_given_project_case_insensitive"
 
         it_behaves_like "work package created"
@@ -1047,7 +1049,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
 
       context "for a wp overriding attributes in japanese" do
         include_context "with a new work package with attributes in japanese"
-        let(:submit_options) { { issue: { project: "onlinestore" }, allow_override: "type" } }
+        let(:submit_options) { { issue: { project: project.identifier }, allow_override: "type" } }
 
         it_behaves_like "work package created"
 
@@ -1059,7 +1061,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
 
       context "for a wp with attachment" do
         include_context "with a new work package with attachment"
-        let(:submit_options) { { issue: { project: "onlinestore" } } }
+        let(:submit_options) { { issue: { project: project.identifier } } }
 
         it_behaves_like "work package created"
 
@@ -1080,7 +1082,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
 
       context "for a wp with attachment in apple format" do
         include_context "with a new work package with attachment in apple format"
-        let(:submit_options) { { issue: { project: "onlinestore" } } }
+        let(:submit_options) { { issue: { project: project.identifier } } }
 
         it_behaves_like "work package created"
 
@@ -1101,7 +1103,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
 
       context "for a wp with a custom field value" do
         include_context "with a new work package with a custom field"
-        let(:submit_options) { { issue: { project: "onlinestore" } } }
+        let(:submit_options) { { issue: { project: project.identifier } } }
 
         it_behaves_like "work package created"
 
@@ -1116,7 +1118,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
 
       context "for a wp with invalid attributes" do
         include_context "with a new work package with invalid attributes"
-        let(:submit_options) { { issue: { project: "onlinestore" }, allow_override: "type,category,priority" } }
+        let(:submit_options) { { issue: { project: project.identifier }, allow_override: "type,category,priority" } }
 
         it_behaves_like "work package created"
 
@@ -1164,7 +1166,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
 
       context "for a wp with iso 8859 1 subject" do
         include_context "with a new work package with iso 8859 1 subject"
-        let(:submit_options) { { issue: { project: "onlinestore" } } }
+        let(:submit_options) { { issue: { project: project.identifier } } }
 
         it_behaves_like "work package created"
 
@@ -1176,7 +1178,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
 
       context "for a wp with long subject" do
         include_context "with a new work package with long subject"
-        let(:submit_options) { { issue: { project: "onlinestore" } } }
+        let(:submit_options) { { issue: { project: project.identifier } } }
 
         it_behaves_like "work package created"
 
@@ -1195,7 +1197,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
 
       context "for a wp with html only description" do
         include_context "with a new work package with html only description"
-        let(:submit_options) { { issue: { project: "onlinestore" } } }
+        let(:submit_options) { { issue: { project: project.identifier } } }
 
         it_behaves_like "work package created"
 
@@ -1271,7 +1273,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
 
       context "when the multiple-versions feature is enabled",
               with_settings: { work_package_multiple_versions: true } do
-        subject { submit_email("wp_with_multiple_target_versions.eml", issue: { project: "onlinestore" }) }
+        subject { submit_email("wp_with_multiple_target_versions.eml", issue: { project: project.identifier }) }
 
         it "assigns every named target version" do
           expect(subject.target_versions)
@@ -1287,7 +1289,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
       context "when the multiple-versions feature is disabled",
               with_settings: { work_package_multiple_versions: false } do
         context "with a single named version" do
-          subject { submit_email("wp_with_target_version.eml", issue: { project: "onlinestore" }) }
+          subject { submit_email("wp_with_target_version.eml", issue: { project: project.identifier }) }
 
           it "assigns the target version" do
             expect(subject.target_versions)
@@ -1296,7 +1298,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
         end
 
         context "with several named versions" do
-          subject { submit_email("wp_with_multiple_target_versions.eml", issue: { project: "onlinestore" }) }
+          subject { submit_email("wp_with_multiple_target_versions.eml", issue: { project: project.identifier }) }
 
           it "is refused by the single-value rule rather than silently dropped" do
             expect(subject)
@@ -1309,7 +1311,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
 
       context "when both version and target versions keywords are present",
               with_settings: { work_package_multiple_versions: true } do
-        subject { submit_email("wp_with_version_and_target_versions.eml", issue: { project: "onlinestore" }) }
+        subject { submit_email("wp_with_version_and_target_versions.eml", issue: { project: project.identifier }) }
 
         it "lets the target versions keyword win" do
           expect(subject.target_versions)
@@ -1337,7 +1339,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
         end
 
         it "replaces the whole target version set with the named version" do
-          submit_email("wp_reply_setting_version.eml", issue: { project: "onlinestore" })
+          submit_email("wp_reply_setting_version.eml", issue: { project: project.identifier })
 
           expect(work_package.reload.target_versions)
             .to contain_exactly(alpha)
@@ -1359,7 +1361,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
           allow(WorkPackage).to receive(:find_by).with(id: 123).and_return(work_package)
 
           # Mail with two attachments, one of which is skipped by signature.asc filename match
-          submit_email "update_ticket_with_attachment_and_sig.eml", issue: { project: "onlinestore" }
+          submit_email "update_ticket_with_attachment_and_sig.eml", issue: { project: project.identifier }
 
           work_package.reload
 
@@ -1381,7 +1383,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
           allow(WorkPackage).to receive(:find_by).with(id: 123).and_return(work_package)
 
           # Mail with two attachments, one of which is skipped by signature.asc filename match
-          submit_email "update_ticket_with_attachment_and_sig.eml", issue: { project: "onlinestore" }
+          submit_email "update_ticket_with_attachment_and_sig.eml", issue: { project: project.identifier }
 
           expect(work_package.attachments.length).to eq 2
         end
@@ -1658,7 +1660,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
         project.update_attribute :public, true
 
         work_package = submit_email "ticket_with_category.eml",
-                                    issue: { project: "onlinestore" },
+                                    issue: { project: project.identifier },
                                     allow_override: ["category"],
                                     unknown_user: "create"
         work_package_created(work_package)
@@ -1671,6 +1673,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
 
   def read_email(filename)
     File.read(File.join("#{File.dirname(__FILE__)}/../fixtures/mail_handler", filename))
+        .gsub("onlinestore", project.identifier)
   end
 
   def submit_email(filename, options = {})
