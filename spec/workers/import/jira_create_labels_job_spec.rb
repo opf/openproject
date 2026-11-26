@@ -100,6 +100,41 @@ RSpec.describe Import::JiraCreateLabelsJob do
       end
     end
 
+    context "when case variants of a label are used with different frequency" do
+      let(:jira_issue_payload) do
+        super().tap { |payload| payload["fields"]["labels"] = [rare_variant] }
+      end
+
+      before do
+        %w[10406 10407].each do |origin_id|
+          payload = jira_issue_payload.deep_dup.tap { |p| p["fields"]["labels"] = [frequent_variant] }
+          create(:jira_issue, jira_import:, origin_id:, jira_project:, payload:)
+        end
+      end
+
+      context "with the capitalized variant used more often" do
+        let(:rare_variant) { "backend" }
+        let(:frequent_variant) { "Backend" }
+
+        it "keeps the more frequent spelling" do
+          create_labels
+
+          expect(Label.pluck(:name)).to eq(["Backend"])
+        end
+      end
+
+      context "with the lowercase variant used more often" do
+        let(:rare_variant) { "Backend" }
+        let(:frequent_variant) { "backend" }
+
+        it "keeps the more frequent spelling" do
+          create_labels
+
+          expect(Label.pluck(:name)).to eq(["backend"])
+        end
+      end
+    end
+
     context "when a label with the same name already exists in a different case" do
       let!(:existing_label) { create(:label, name: "Backend") }
 

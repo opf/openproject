@@ -32,8 +32,6 @@ module Import
     include Import::JiraOpenProjectReferenceCreation
     include Import::JiraJobUtils
 
-    DISTINCT_LABEL_NAMES = Arel.sql("DISTINCT jsonb_array_elements_text(payload -> 'fields' -> 'labels')")
-
     def text
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
     end
@@ -57,7 +55,10 @@ module Import
       Import::JiraIssue
         .where(jira_import_id: @jira_import.id)
         .where("jsonb_typeof(payload -> 'fields' -> 'labels') = 'array'")
-        .pluck(DISTINCT_LABEL_NAMES)
+        .joins("CROSS JOIN LATERAL jsonb_array_elements_text(payload -> 'fields' -> 'labels') AS jira_label(name)")
+        .group("jira_label.name")
+        .order(Arel.sql("COUNT(*) DESC, jira_label.name"))
+        .pluck("jira_label.name")
         .filter_map { it.to_s.squish.presence }
         .uniq
         .group_by(&:downcase)
