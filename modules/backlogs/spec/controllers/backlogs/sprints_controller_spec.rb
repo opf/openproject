@@ -479,6 +479,26 @@ RSpec.describe Backlogs::SprintsController do
         end
       end
 
+      context "when sprint start fails because of dependent services" do
+        let(:invalid_query) { Query.new.tap { it.errors.add(:name, :blank) } }
+        let(:service_result) do
+          ServiceResult.failure.tap do |result|
+            2.times do
+              result.add_dependent!(ServiceResult.failure(result: invalid_query, errors: invalid_query.errors))
+            end
+          end
+        end
+
+        it "redirects back with the dependent errors as the reason", :aggregate_failures do
+          post :start, params: request_params
+
+          expect(response).to redirect_to(project_backlogs_backlog_path(project))
+          expect(flash[:alert]).to eq(
+            I18n.t(:notice_unsuccessful_start_with_reason, reason: invalid_query.errors.full_messages.join(" "))
+          )
+        end
+      end
+
       context "when another sprint is already active" do
         let!(:active_sprint) { create(:sprint, project:, status: "active") }
         let(:service_result) do
@@ -612,6 +632,25 @@ RSpec.describe Backlogs::SprintsController do
           expect(response).to redirect_to(project_backlogs_backlog_path(project))
           expect(flash[:alert]).to eq(I18n.t(:notice_unsuccessful_finish))
           expect(service).to have_received(:call)
+        end
+      end
+
+      context "when finishing fails because of dependent services" do
+        let(:invalid_work_package) { WorkPackage.new.tap { it.errors.add(:sprint, :invalid) } }
+        let(:service_result) do
+          ServiceResult.failure.tap do |result|
+            result.add_dependent!(ServiceResult.success)
+            result.add_dependent!(ServiceResult.failure(result: invalid_work_package, errors: invalid_work_package.errors))
+          end
+        end
+
+        it "redirects back with the dependent errors as the reason", :aggregate_failures do
+          post :finish, params: request_params
+
+          expect(response).to redirect_to(project_backlogs_backlog_path(project))
+          expect(flash[:alert]).to eq(
+            I18n.t(:notice_unsuccessful_finish_with_reason, reason: invalid_work_package.errors.full_messages.join(" "))
+          )
         end
       end
 
