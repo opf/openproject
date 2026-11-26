@@ -40,11 +40,18 @@ RSpec.describe Admin::Labels::DeleteDialogComponent, type: :component do
 
   let(:label) { create(:label, name: "Machine Learning") }
 
+  before do
+    3.times { create(:labeling, label:, labelable: create(:work_package)) }
+  end
+
   it "renders the confirmation heading and the description with the label name in bold" do
     rendered_component
 
     expect(page).to have_css("h2", text: "Delete this label?")
-    expect(page).to have_text("This will remove the label Machine Learning from all work packages in all projects.")
+    expect(page).to have_text(
+      "This will remove the label Machine Learning from 3 work packages that currently use it. " \
+      "Are you sure you want to delete it?"
+    )
     expect(page).to have_css("strong", text: "Machine Learning")
   end
 
