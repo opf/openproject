@@ -102,7 +102,26 @@ module Import
 
       return if current_wp.nil?
 
+      lock_linked_issue_pairs(jira_issue, issue_links)
       issue_links.each { |link| process_link(link, current_wp) }
+    end
+
+    # The jobs of both projects may import a cross-project link at the same time. Sorted to avoid deadlocks.
+    def lock_linked_issue_pairs(jira_issue, issue_links)
+      issue_links
+        .filter_map { |link| linked_issue_id(link) }
+        .map { |linked_issue_id| [jira_issue.origin_id, linked_issue_id].sort }
+        .uniq
+        .sort
+        .each { |issue_pair| lock_issue_pair(issue_pair) }
+    end
+
+    def linked_issue_id(link)
+      link.dig("outwardIssue", "id") || link.dig("inwardIssue", "id")
+    end
+
+    def lock_issue_pair(issue_pair)
+      Relation.with_advisory_lock!("jira_issue_link_#{issue_pair.join('_')}", transaction: true, blocking: true)
     end
 
     def process_link(link, current_wp)
