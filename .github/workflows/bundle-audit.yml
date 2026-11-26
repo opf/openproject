@@ -77,12 +77,13 @@ jobs:
             echo "::endgroup::"
           }
 
+          vulnerable_gems() {
+            jq -r '[.results[] | select(.type == "unpatched_gem") | .gem.name] | unique | .[]' "$1"
+          }
+
           audit reports/bundle-audit-before.json "before fix"
 
-          mapfile -t gems < <(
-            jq -r '[.results[] | select(.type == "unpatched_gem") | .gem.name] | unique | .[]' \
-              reports/bundle-audit-before.json
-          )
+          mapfile -t gems < <(vulnerable_gems reports/bundle-audit-before.json)
 
           if [ "${#gems[@]}" -eq 0 ]; then
             echo "has_changes=false" >> "$GITHUB_OUTPUT"
@@ -90,11 +91,18 @@ jobs:
             exit 0
           fi
 
-          echo "::group::bundle lock --update ${gems[*]}"
-          bundle lock --update "${gems[@]}" --conservative --cooldown 0
-          echo "::endgroup::"
+          for level in patch minor major; do
+            echo "::group::bundle lock --update --${level} ${gems[*]}"
+            bundle lock --update "${gems[@]}" --conservative "--${level}" --strict --cooldown 0
+            echo "::endgroup::"
 
-          audit reports/bundle-audit-after.json "after fix"
+            audit reports/bundle-audit-after.json "after ${level} update"
+
+            mapfile -t gems < <(vulnerable_gems reports/bundle-audit-after.json)
+            if [ "${#gems[@]}" -eq 0 ]; then
+              break
+            fi
+          done
 
           if git diff --quiet -- Gemfile.lock; then
             echo "has_changes=false" >> "$GITHUB_OUTPUT"
@@ -184,6 +192,7 @@ jobs:
             --base "$BASE_BRANCH" \
             --head "$temp_branch" \
             --title "Run bundle audit fix on $BASE_BRANCH" \
-            --body-file "$pr_body_file"
+            --body-file "$pr_body_file" \
+            --reviewer opf/security
 
           echo "Created a PR with bundle audit fixes (${temp_branch}) against ${BASE_BRANCH}"
