@@ -184,6 +184,35 @@ RSpec.describe "Dragging work packages in and between sprints",
     end
   end
 
+  # Regression AGILE-454: a link inside the lists navigated the backlogs frame
+  # instead of the page, leaving its `src` pointing at the linked page. After
+  # going back, the frame reload on the next move opened that page again.
+  context "when leaving the backlogs page through a link and going back",
+          with_flag: :sprint_reports do
+    def drag_and_expect_to_stay_on_backlogs
+      backlogs_page.drag_work_package(bucket_wp1, into: sprint2)
+
+      backlogs_page.expect_sprint_items_in_order(sprint2, items: [bucket_wp1])
+      expect(page).to have_current_path(backlogs_page.path)
+    end
+
+    it "stays on the backlogs page when the sprint report was opened" do
+      backlogs_page.click_in_sprint_menu(sprint2, "Sprint report")
+      expect(page).to have_heading("#{sprint2.name} report", level: 2)
+
+      backlogs_page.go_back_to_backlogs
+      drag_and_expect_to_stay_on_backlogs
+    end
+
+    it "stays on the backlogs page when a work package was opened from its ID link" do
+      backlogs_page.work_package_card(sprint1_wp1).find(".op-wp-info-line--id a").click
+      Pages::FullWorkPackage.new(sprint1_wp1).ensure_loaded
+
+      backlogs_page.go_back_to_backlogs
+      drag_and_expect_to_stay_on_backlogs
+    end
+  end
+
   context "when lacking the permission to manage sprint items" do
     current_user do
       create(:user,
