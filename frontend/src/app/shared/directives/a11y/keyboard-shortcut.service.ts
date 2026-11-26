@@ -30,7 +30,7 @@ import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helpe
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import Mousetrap from 'mousetrap';
+import { HotkeyDispatcher } from 'core-common/hotkeys/hotkey-dispatcher';
 
 const accessKeys = {
   preview: 1,
@@ -55,9 +55,9 @@ export class KeyboardShortcutService {
   private readonly currentProject = inject(CurrentProjectService);
   private readonly configurationService = inject(ConfigurationService);
 
-  // maybe move it to a .constant
-  private shortcuts:Record<string, () => void> = {
+  private readonly dispatcher = new HotkeyDispatcher({
     '?': () => this.showHelpModal(),
+    'Shift+?': () => this.showHelpModal(),
     'g m': this.globalAction('myPagePath'),
     'g o': this.projectScoped('projectPath'),
     'g w p': this.projectScoped('workPackagesPath'),
@@ -75,7 +75,7 @@ export class KeyboardShortcutService {
     's': this.accessKey('quickSearch'),
     'k': () => this.focusPrevItem(),
     'j': () => this.focusNextItem(),
-  };
+  }, { repeat: ['j', 'k'] });
 
   /**
    * Register the keyboard shortcuts.
@@ -83,7 +83,7 @@ export class KeyboardShortcutService {
   public register():void {
     void this.configurationService.initialize().then(() => {
       if (!this.configurationService.disableKeyboardShortcuts()) {
-        Object.entries(this.shortcuts).forEach(([key, action]) => Mousetrap.bind(key, action));
+        this.dispatcher.start();
       }
     });
   }
@@ -100,9 +100,7 @@ export class KeyboardShortcutService {
       }
 
       if (elem instanceof HTMLInputElement || elem.getAttribute('id') === 'global-search-input') {
-        // timeout with delay so that the key is not
-        // triggered on the input
-        setTimeout(() => this.FocusHelper.focus(elem), 200);
+        this.FocusHelper.focus(elem);
       } else if (elem instanceof HTMLAnchorElement) {
         this.clickLink(elem);
       } else {
