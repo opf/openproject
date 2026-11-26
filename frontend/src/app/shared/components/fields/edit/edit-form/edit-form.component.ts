@@ -42,6 +42,7 @@ import { EditingPortalService } from 'core-app/shared/components/fields/edit/edi
 import { ResourceChangesetCommit } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { GlobalEditFormChangesTrackerService } from 'core-app/shared/components/fields/edit/services/global-edit-form-changes-tracker/global-edit-form-changes-tracker.service';
 import { firstValueFrom } from 'rxjs';
+import { runCleanup } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -97,18 +98,21 @@ export class EditFormComponent<T extends HalResource = HalResource> extends Edit
   }
 
   public async activateField(form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<EditFieldHandler> {
-    return this.waitForField(fieldName).then((ctrl) => {
-      ctrl.setActive(true);
-      const container = ctrl.editContainer.nativeElement;
-      return this.editingPortalService.create(
-        container,
+    const ctrl = await this.waitForField(fieldName);
+    ctrl.setActive(true);
+    try {
+      return await this.editingPortalService.create(
+        ctrl.editContainer.nativeElement,
         this.injector,
         form,
         schema,
         fieldName,
         errors,
       );
-    });
+    } catch (error:unknown) {
+      runCleanup(() => ctrl.deactivate());
+      throw error;
+    }
   }
 
   public async reset(fieldName:string, focus = false) {
