@@ -74,22 +74,85 @@ RSpec.describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
     expect(pre.text).to eq("x = 1\n")
   end
 
-  it "leaves a bare task marker followed by a newline as text" do
-    document = Nokogiri::HTML.fragment(to_html("<ul><li>[x]\n</li></ul>"))
-    expect(document.at_css("ul.op-uc-list_task-list li").text).to eq("[x]\n")
-    expect(document.css("input")).to be_empty
+  it "labels Markdown task checkboxes with their text" do
+    page = Capybara.string(to_html("- [ ] open\n- [x] done"))
+
+    expect(page).to have_unchecked_field("open", exact: true, disabled: true)
+    expect(page).to have_checked_field("done", exact: true, disabled: true)
   end
 
-  it "renders a checked editor task inside its table cell" do
+  it "keeps bullets on plain items of a mixed list" do
+    page = Capybara.string(to_html("- [ ] task\n- plain"))
+
+    expect(page).to have_css("li.op-uc-list--item_task", count: 1)
+    expect(page).to have_css("li:not(.op-uc-list--item_task)", text: "plain")
+  end
+
+  it "renders the OP-20319 table in editor order" do
+    page = Capybara.string(to_html(<<~HTML))
+      <figure class="table op-uc-figure_align-center op-uc-figure"><table class="op-uc-table"><thead class="op-uc-table--head"><tr class="op-uc-table--row"><th class="op-uc-table--cell op-uc-table--cell_head" scope="col"><p class="op-uc-p">Table</p></th></tr></thead><tbody><tr class="op-uc-table--row"><td class="op-uc-table--cell"><ul class="todo-list op-uc-list_task-list op-uc-list"><li class="op-uc-list--item" data-list-item-id="ebc1f3f26c2465d0a24ce1f3df0a954bc"><label class="todo-list__label"><input type="checkbox" disabled="disabled"><span class="todo-list__label__description op-uc-p">1 Flat todo list</span></label></li><li class="op-uc-list--item" data-list-item-id="ee60c18fbcf3eeb93ccfe15c7fe0ca556"><label class="todo-list__label"><input type="checkbox" disabled="disabled"><span class="todo-list__label__description op-uc-p">2</span></label></li><li class="op-uc-list--item" data-list-item-id="e20b727c5bc58ac5f02a15938898b1ecc"><label class="todo-list__label"><input type="checkbox" disabled="disabled"><span class="todo-list__label__description op-uc-p">3</span></label></li><li class="op-uc-list--item" data-list-item-id="ed4302452d28ca5a5f1b5282ec7e09ecf"><label class="todo-list__label"><input type="checkbox" disabled="disabled"><span class="todo-list__label__description op-uc-p">4</span></label></li></ul></td></tr><tr class="op-uc-table--row"><td class="op-uc-table--cell"><ul class="todo-list op-uc-list_task-list op-uc-list"><li class="op-uc-list--item" data-list-item-id="e85680bb83510d21bcde20ed4ccd27b5d"><label class="todo-list__label"><input type="checkbox" disabled="disabled"><span class="todo-list__label__description op-uc-p">1 Nested todo list</span></label><ul class="todo-list op-uc-list_task-list op-uc-list"><li class="op-uc-list--item" data-list-item-id="effca5d56fb5bda7f7e5086954541c210"><label class="todo-list__label"><input type="checkbox" disabled="disabled"><span class="todo-list__label__description op-uc-p">1.1 Test</span></label></li><li class="op-uc-list--item" data-list-item-id="e5504c00dcf8ee58006dcd0246f9fb8b7"><label class="todo-list__label"><input type="checkbox" disabled="disabled"><span class="todo-list__label__description op-uc-p">1.2 Test</span></label></li></ul></li><li class="op-uc-list--item" data-list-item-id="eac31a4860d80b9ab6371a77b487144a2"><label class="todo-list__label"><input type="checkbox" disabled="disabled"><span class="todo-list__label__description op-uc-p">2</span></label></li><li class="op-uc-list--item" data-list-item-id="e8df29811f9136289017eb5cc5f6e79e3"><label class="todo-list__label"><input type="checkbox" disabled="disabled"><span class="todo-list__label__description op-uc-p">3</span></label></li></ul></td></tr></tbody></table></figure>
+    HTML
+    item = page.find("tbody tr:nth-of-type(2) td > ul > li:first-child")
+
+    expect(item).to have_unchecked_field("1 Nested todo list", exact: true, disabled: true)
+    expect(item.native.element_children.map(&:name)).to eq(%w[label ul])
+    expect(item).to have_unchecked_field("1.1 Test", exact: true, disabled: true)
+    expect(item).to have_unchecked_field("1.2 Test", exact: true, disabled: true)
+  end
+
+  it "renders the checked editor task inside its table cell" do
     html = <<~HTML
       <table><tr><td><ul><li><label class="todo-list__label">
         <input type="checkbox" checked="checked"><span>Send invoice</span>
       </label></li></ul></td></tr></table>
     HTML
-    item = Nokogiri::HTML.fragment(to_html(html)).at_css("td ul.op-uc-list_task-list > li")
 
-    expect(item.css("input[type=checkbox][checked][disabled]").size).to eq(1)
-    expect(item.text.strip).to eq("Send invoice")
+    expect(Capybara.string(to_html(html))).to have_checked_field("Send invoice", exact: true, disabled: true)
+  end
+
+  it "leaves a bare task marker as text" do
+    page = Capybara.string(to_html("- [x]\n"))
+
+    expect(page).to have_css("li", exact_text: "[x]")
+    expect(page).to have_no_field
+  end
+
+  describe "with a mention in a task item" do
+    shared_let(:user) { create(:user) }
+
+    current_user { create(:admin) }
+
+    it "keeps mentions and links in the label" do
+      attributes = %(class="mention" data-id="#{user.id}" data-type="user" data-text="@#{user.name}")
+      mention = "<mention #{attributes}>@#{user.name}</mention>"
+      page = Capybara.string(to_html("- [ ] ping [docs](/docs) #{mention}"))
+      label = page.find("label")
+
+      expect(page).to have_unchecked_field("ping docs #{user.name}", exact: true, disabled: true)
+      expect(label).to have_link("docs", href: "/docs")
+      expect(label).to have_link(user.name, class: "user-mention")
+    end
+  end
+
+  it "labels a three-level nested editor list" do
+    html = <<~HTML.squish
+      <table><tr><td><ul class="todo-list op-uc-list_task-list">
+        <li><label class="todo-list__label"><input type="checkbox" disabled="disabled"><span class="todo-list__label__description">Level one</span></label>
+          <ul class="todo-list op-uc-list_task-list">
+            <li><label class="todo-list__label"><input type="checkbox" disabled="disabled" checked="checked"><span class="todo-list__label__description">Level two</span></label>
+              <ul class="todo-list op-uc-list_task-list">
+                <li><label class="todo-list__label"><input type="checkbox" disabled="disabled"><span class="todo-list__label__description">Level three</span></label></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul></td></tr></table>
+    HTML
+    page = Capybara.string(to_html(html))
+
+    expect(page).to have_unchecked_field("Level one", exact: true, disabled: true)
+    expect(page).to have_checked_field("Level two", exact: true, disabled: true)
+    expect(page).to have_unchecked_field("Level three", exact: true, disabled: true)
   end
 
   it "links duplicate headings to distinct destinations in document order" do

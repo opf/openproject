@@ -36,7 +36,7 @@ module OpenProject::TextFormatting
       class DecodedElement
         ESCAPES = { "&" => "&amp;", "<" => "&lt;", ">" => "&gt;", '"' => "&quot;" }.freeze
 
-        delegate :tag_name, to: :@element
+        delegate :tag_name, :tag_name=, :prepend, :remove_attribute, to: :@element
 
         def initialize(element)
           @element = element

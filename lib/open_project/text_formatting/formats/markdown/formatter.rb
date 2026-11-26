@@ -33,7 +33,6 @@ module OpenProject::TextFormatting::Formats::Markdown
       OpenProject::TextFormatting::Filters::SettingMacrosFilter,
       OpenProject::TextFormatting::Filters::MarkdownFilter,
       OpenProject::TextFormatting::Filters::SanitizationFilter,
-      OpenProject::TextFormatting::Filters::TaskListFilter,
       OpenProject::TextFormatting::Filters::TableOfContentsFilter,
       OpenProject::TextFormatting::Filters::MacroFilter,
       OpenProject::TextFormatting::Filters::MentionFilter,
@@ -66,6 +65,7 @@ module OpenProject::TextFormatting::Formats::Markdown
       OpenProject::TextFormatting::Filters::RelativeLinkFilter,
       OpenProject::TextFormatting::Filters::LinkAttributeFilter,
       OpenProject::TextFormatting::Filters::ExternalLinkCaptureFilter,
+      OpenProject::TextFormatting::Filters::TaskItemFilter,
       OpenProject::TextFormatting::Filters::BemCssFilter
     ].freeze
 
