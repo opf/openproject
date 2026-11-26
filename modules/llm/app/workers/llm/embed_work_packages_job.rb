@@ -34,13 +34,16 @@ module Llm
 
     queue_with_priority :low
 
-    discard_on StandardError do |job, _error|
-      job.enqueue_per_work_package
-    end
-
     good_job_control_concurrency_with(perform_limit: 5)
 
     class TransientError < StandardError; end
+    class InvalidInputError < StandardError; end
+
+    INVALID_INPUT_STATUSES = [400, 413, 422].freeze
+
+    discard_on InvalidInputError do |job, _error|
+      job.enqueue_per_work_package
+    end
 
     retry_on TransientError, wait: :polynomially_longer, attempts: 10
 
@@ -53,9 +56,10 @@ module Llm
       work_packages = WorkPackage.where(id: work_package_ids)
       Llm::WorkPackages::EmbedService.new(semantic_index, work_packages).call
     rescue Llm::Errors::Error => e
-      raise unless Llm::Errors.transient?(e)
+      raise InvalidInputError, e.message if invalid_input?(e)
+      raise TransientError, e.message if Llm::Errors.transient?(e)
 
-      raise TransientError, e.message
+      raise
     end
 
     def enqueue_per_work_package
@@ -70,6 +74,12 @@ module Llm
     end
 
     private
+
+    # RubyLLM reports an exceeded context window with a 400 or a 429.
+    def invalid_input?(error)
+      error.is_a?(Llm::Errors::ContextLengthError) ||
+        (error.is_a?(Llm::Errors::ApiError) && error.status.in?(INVALID_INPUT_STATUSES))
+    end
 
     def enqueue_individually(semantic_index_id, work_package_ids)
       work_package_ids.each { |work_package_id| self.class.perform_later(semantic_index_id, [work_package_id]) }
