@@ -3,7 +3,7 @@ sidebar_navigation:
   title: MCP Server
   priority: 800
 description: Integrate AI agents with your OpenProject instance through MCP.
-keywords: ai, llm, mcp, artifical intelligence, text asisstant
+keywords: ai, llm, mcp, artificial intelligence, text assistant
 ---
 # MCP Server
 
