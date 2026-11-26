@@ -107,7 +107,7 @@ class ParallelFailuresFormatter
       ```
       #{failure_message(failure)}
 
-      #{failure.formatted_backtrace.join("\n")}
+      #{relevant_backtrace(failure).join("\n")}
       ```
 
       ```
@@ -115,6 +115,19 @@ class ParallelFailuresFormatter
       ```
 
     MARKDOWN
+  end
+
+  # Same filtering as `clean_failures_explanation` in script/github_pr_errors
+  def relevant_backtrace(failure)
+    failure.formatted_backtrace.reject do |line|
+      next false if line.include?("_spec.rb")
+
+      line.include?("spec/support/rspec_retry") ||
+        line.include?("gems/retriable") ||
+        line.include?("gems/rspec-retry-") ||
+        line.include?("gems/webmock-") ||
+        line.include?("<top (required)>")
+    end
   end
 
   def failure_message(failure)
