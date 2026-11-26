@@ -274,14 +274,14 @@ describe('PushHandler badge', () => {
     });
 
     it.each([
-      ['rejects', () => Promise.reject(new Error('offline'))],
-      ['never settles', () => new Promise<never>(() => undefined)],
-    ])('still clears everything when the logout navigation %s', async (_case, navigate) => {
+      ['rejects', () => Promise.reject(new Error('offline')), 0],
+      ['never settles', () => new Promise<never>(() => undefined), SIGN_OUT_TIMEOUT_MS],
+    ])('still clears everything when the logout navigation %s', async (_case, navigate, advanceMs) => {
       const signedOut = handler.signOut(navigate());
       const late = notification('openproject-1-wp-9');
       shown.push(late);
 
-      await vi.advanceTimersByTimeAsync(SIGN_OUT_TIMEOUT_MS);
+      await vi.advanceTimersByTimeAsync(advanceMs);
       await signedOut;
 
       expect(late.close).toHaveBeenCalled();
