@@ -54,7 +54,11 @@ export function refreshOpenProjectCustomElement(element:HTMLElement, newElement:
 
     element.dataset[key] = value;
     if (Object.hasOwn(inputs, key)) {
-      (element as unknown as Record<string, unknown>)[key] = JSON.parse(value!);
+      try {
+        (element as unknown as Record<string, unknown>)[key] = JSON.parse(value!);
+      } catch (error) {
+        console.error(`Couldn't parse the ${key} input of ${element.localName}:`, value, error);
+      }
     }
   });
 }

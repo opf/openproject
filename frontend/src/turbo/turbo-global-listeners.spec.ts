@@ -25,6 +25,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { onTestFinished, vi } from 'vitest';
+
 import { addTurboGlobalListeners } from './turbo-global-listeners';
 
 describe('addTurboGlobalListeners — OPCE custom element morph guard', () => {
@@ -54,12 +56,18 @@ describe('addTurboGlobalListeners — OPCE custom element morph guard', () => {
     return template.content.firstElementChild as HTMLElement;
   }
 
-  it('prevents morphing of opce-principal and assigns its changed data attributes to its inputs', () => {
+  function defineOpcePrincipal() {
+    if (customElements.get('opce-principal')) return;
+
     customElements.define('opce-principal', class extends HTMLElement {
       value:unknown;
       get principal() { return this.value; }
       set principal(value:unknown) { this.value = value; }
     });
+  }
+
+  it('prevents morphing of opce-principal and assigns its changed data attributes to its inputs', () => {
+    defineOpcePrincipal();
     document.body.innerHTML = '<opce-principal data-principal=\'{"id":1}\' data-hide-name="true"></opce-principal>';
     const element = document.querySelector<HTMLElement & { principal:unknown }>('opce-principal')!;
 
@@ -70,6 +78,21 @@ describe('addTurboGlobalListeners — OPCE custom element morph guard', () => {
     expect(element.dataset.hideName).toBeUndefined();
     expect(element.dataset.testSelector).toBe('op-avatar');
     expect(Object.hasOwn(element, 'testSelector')).toBe(false);
+  });
+
+  it('logs an input that is not valid JSON and keeps syncing the other data attributes', () => {
+    defineOpcePrincipal();
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
+    onTestFinished(() => consoleError.mockRestore());
+    document.body.innerHTML = '<opce-principal data-principal=\'{"id":1}\'></opce-principal>';
+    const element = document.querySelector<HTMLElement & { principal:unknown }>('opce-principal')!;
+    element.principal = { id: 1 };
+
+    beforeMorph(element, parse('<opce-principal data-principal="{invalid" data-test-selector="op-avatar"></opce-principal>'));
+
+    expect(element.principal).toEqual({ id: 1 });
+    expect(element.dataset.testSelector).toBe('op-avatar');
+    expect(consoleError).toHaveBeenCalledWith("Couldn't parse the principal input of opce-principal:", '{invalid', expect.any(SyntaxError));
   });
 
   it('prevents morphing of other OPCE-* custom elements without touching their data attributes', () => {
