@@ -448,7 +448,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
 
   private getAttributesGroupId(group:{ name:string }):string {
     const overflowingIdentifier = this.element
-      .querySelector<HTMLElement>(`[data-group-name='${group.name}']`)
+      .querySelector<HTMLElement>(`[data-group-name="${CSS.escape(group.name)}"]`)
       ?.dataset[overflowingContainerAttribute];
 
     if (overflowingIdentifier) {

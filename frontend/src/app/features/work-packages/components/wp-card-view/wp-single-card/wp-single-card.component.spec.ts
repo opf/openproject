@@ -26,9 +26,27 @@
 //++
 
 import { TestBed } from '@angular/core/testing';
-import { fireEvent } from '@testing-library/dom';
+import '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element.js';
+import '@openproject/primer-view-components/app/components/primer/alpha/tool_tip.js';
+import { fireEvent, screen, waitFor, within } from '@testing-library/dom';
+import { page, userEvent } from 'vitest/browser';
+import { of } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef } from '@angular/core';
+import {
+  ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, Input,
+} from '@angular/core';
+import { By } from '@angular/platform-browser';
+import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
+import { settlePopover } from 'core-common/testing/timing';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
+import { PrimerButtonComponent } from 'core-app/shared/components/primer/button.component';
+import { OpActionMenuComponent } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu.component';
+import { OpActionMenuTriggerDirective } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu-trigger.directive';
+import { WorkPackageStatusDropdownDirective } from 'core-app/shared/components/op-context-menu/handlers/wp-status-dropdown-menu.directive';
+import { WorkPackageStatusButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-status-button/wp-status-button.component';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -100,13 +118,135 @@ describe('WorkPackageSingleCardComponent', () => {
 
     expect(activated).toEqual([]);
   });
+
+  describe('new card losing focus', () => {
+    beforeEach(() => {
+      vi.useFakeTimers({ toFake: ['setTimeout'] });
+      document.body.innerHTML = `
+        <div class="op-wp-single-card">
+          <button type="button">Remove card</button>
+          <div class="new-card-form"><input aria-label="Subject"></div>
+        </div>
+        <button type="button">Elsewhere</button>
+      `;
+      card.cardElement = new ElementRef(document.querySelector<HTMLElement>('.op-wp-single-card')!);
+      card.newCardEditFormElement = new ElementRef(document.querySelector<HTMLElement>('.new-card-form')!);
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    const editNewCard = (subject:string|null) => {
+      const submit = vi.fn().mockResolvedValue(undefined);
+      card.newCardEditForm = {
+        editMode: true,
+        change: { inFlight: false, value: () => subject },
+        submit,
+      } as unknown as EditFormComponent;
+      return submit;
+    };
+
+    const loseFocus = () => {
+      card.saveNewCardOnFocusOut();
+      vi.runAllTimers();
+    };
+
+    it('saves the card when it has a subject', () => {
+      const submit = editNewCard('New card');
+
+      loseFocus();
+
+      expect(submit).toHaveBeenCalledOnce();
+    });
+
+    it.each(['  ', null])('keeps a card with subject %j open', (subject) => {
+      const submit = editNewCard(subject);
+
+      loseFocus();
+
+      expect(submit).not.toHaveBeenCalled();
+    });
+
+    it('discards a card that is removed while it has focus', () => {
+      const submit = editNewCard('Discarded card');
+
+      card.saveNewCardOnFocusOut();
+      card.cardElement!.nativeElement.remove();
+      vi.runAllTimers();
+
+      expect(submit).not.toHaveBeenCalled();
+    });
+
+    const moveFocusTo = (target:HTMLElement) => {
+      target.focus();
+      card.saveNewCardOnFocusOut();
+      vi.runAllTimers();
+    };
+
+    const removeButton = () => screen.getByRole('button', { name: 'Remove card' });
+
+    it('discards a card removed with the keyboard from its remove button', () => {
+      const submit = editNewCard('Discarded card');
+      screen.getByRole('textbox', { name: 'Subject' }).focus();
+
+      moveFocusTo(removeButton());
+      card.saveNewCardOnFocusOut();
+      card.cardElement!.nativeElement.remove();
+      vi.runAllTimers();
+
+      expect(submit).not.toHaveBeenCalled();
+    });
+
+    it('saves the card once focus leaves its remove button for another control', () => {
+      const submit = editNewCard('New card');
+      screen.getByRole('textbox', { name: 'Subject' }).focus();
+
+      moveFocusTo(removeButton());
+      moveFocusTo(screen.getByRole('button', { name: 'Elsewhere' }));
+
+      expect(submit).toHaveBeenCalledOnce();
+    });
+  });
 });
+
+@Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: 'edit-form',
+  template: '<ng-content />',
+  standalone: false,
+})
+class EditFormDoubleComponent {
+  @Input() resource:unknown;
+  @Input() inEditMode:boolean;
+  @Input() autofocusAllowed:unknown;
+  editMode = true;
+  change = { inFlight: false, value: () => 'New card' };
+  submit = vi.fn().mockResolvedValue(undefined);
+}
+
+@Component({
+  selector: 'op-editable-attribute-field',
+  template: '<input [attr.aria-label]="fieldName" />',
+  standalone: false,
+})
+class EditableAttributeFieldDoubleComponent {
+  @Input() resource:unknown;
+  @Input() fieldName:string;
+  @Input() wrapperClasses:string;
+}
 
 describe('single card interactions', () => {
   beforeEach(async () => {
     vi.spyOn(OpenprojectWorkPackagesModule, 'bootstrapAttributeGroups').mockImplementation(() => undefined);
     TestBed.overrideModule(OpenprojectWorkPackagesModule, {
-      set: { imports: [CommonModule], declarations: [WorkPackageSingleCardComponent], exports: [WorkPackageSingleCardComponent], providers: [], schemas: [] },
+      set: {
+        imports: [CommonModule, OpTooltipDirective],
+        declarations: [WorkPackageSingleCardComponent, EditFormDoubleComponent, EditableAttributeFieldDoubleComponent],
+        exports: [WorkPackageSingleCardComponent],
+        providers: [],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      },
     });
     await TestBed.configureTestingModule({
       imports: [OpenprojectWorkPackagesModule],
@@ -116,7 +256,7 @@ describe('single card interactions', () => {
 
   afterEach(() => vi.restoreAllMocks());
 
-  function card(id:string|null) {
+  function card(id:string|null, isNew = false) {
     const fixture = TestBed.createComponent(WorkPackageSingleCardComponent);
     const component = fixture.componentInstance;
     const wp = buildWorkPackage({
@@ -131,7 +271,7 @@ describe('single card interactions', () => {
     Object.defineProperty(wp, 'id', { value: id });
     fixture.componentRef.setInput('workPackage', wp);
     fixture.componentRef.setInput('showStatusButton', false);
-    vi.spyOn(component, 'isNewResource').mockReturnValue(false);
+    vi.spyOn(component, 'isNewResource').mockReturnValue(isNew);
     vi.spyOn(component, 'baselineIcon').mockReturnValue(null);
     vi.spyOn(component, 'fullWorkPackageLink').mockReturnValue('/work_packages/42');
     fixture.detectChanges();
@@ -226,5 +366,188 @@ describe('single card interactions', () => {
     fixture.detectChanges();
 
     expect(element.querySelector('.op-wp-single-card--highlighting')).toHaveClass(classes, { exact: true });
+  });
+
+  describe('a new card losing focus', () => {
+    beforeEach(async () => {
+      const { innerWidth, innerHeight } = window;
+      onTestFinished(() => page.viewport(innerWidth, innerHeight));
+      await page.viewport(1280, 800);
+      vi.useFakeTimers({ toFake: ['setTimeout'] });
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it('saves the card once focus leaves it, not when focus moves to its remove button', () => {
+      const { fixture, element } = card(null, true);
+      const form = fixture.debugElement.query(By.directive(EditFormDoubleComponent)).componentInstance as EditFormDoubleComponent;
+      document.body.append(fixture.nativeElement as HTMLElement);
+      const elsewhere = document.body.appendChild(document.createElement('button'));
+      onTestFinished(() => elsewhere.remove());
+      const removeButton = within(element as HTMLElement).getByRole('button', { name: 'js.card.remove_from_list' });
+
+      within(element as HTMLElement).getByRole('textbox', { name: 'subject' }).focus();
+      removeButton.focus();
+      vi.runAllTimers();
+
+      expect(removeButton).toHaveFocus();
+      expect(form.submit).not.toHaveBeenCalled();
+
+      elsewhere.focus();
+      vi.runAllTimers();
+
+      expect(form.submit).toHaveBeenCalledOnce();
+    });
+  });
+});
+
+describe('status menu inside a single card', () => {
+  let card:WorkPackageSingleCardComponent;
+  let cardClicked:string[];
+  let projectedResource:{ status?:unknown };
+
+  beforeEach(async () => {
+    projectedResource = {};
+    const statusSchema = { isReadonly: false, isEditable: true, isAttributeEditable: () => true };
+    const workPackage = buildWorkPackage({
+      id: '42',
+      subject: 'Card',
+      attributes: {
+        status: { id: '1', name: 'Open', $load: () => Promise.resolve() },
+        type: { id: '2', name: 'Task' },
+        priority: { id: '3', name: 'Normal' },
+      },
+    });
+    const change = {
+      getForm: () => Promise.resolve({
+        schema: { status: { allowedValues: [{ id: '1', name: 'Open' }, { id: '2', name: 'Closed' }] } },
+      }),
+      schema: { status: { writable: true } },
+      projectedResource,
+    };
+
+    vi.spyOn(OpenprojectWorkPackagesModule, 'bootstrapAttributeGroups').mockImplementation(() => undefined);
+    TestBed.overrideModule(OpenprojectWorkPackagesModule, {
+      set: {
+        imports: [
+          CommonModule,
+          OpTooltipDirective,
+          PrimerButtonComponent,
+          OpActionMenuComponent,
+          OpActionMenuTriggerDirective,
+          WorkPackageStatusDropdownDirective,
+        ],
+        declarations: [WorkPackageSingleCardComponent, WorkPackageStatusButtonComponent],
+        exports: [WorkPackageSingleCardComponent],
+        providers: [],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      },
+    });
+    await TestBed.configureTestingModule({
+      imports: [OpenprojectWorkPackagesModule],
+      providers: [
+        ...harnessProviders(new FakeDragAndDropService(), { workPackages: [] }),
+        WorkPackageCardViewService,
+        { provide: ToastService, useValue: {} },
+        { provide: WorkPackageNotificationService, useValue: { showSave: vi.fn(), showError: vi.fn() } },
+        {
+          provide: HalResourceEditingService,
+          useValue: {
+            changeFor: () => change,
+            save: () => Promise.resolve(),
+            temporaryEditResource: () => ({ values$: () => of(workPackage) }),
+            typedState: () => ({ hasValue: () => false }),
+          },
+        },
+      ],
+    }).compileComponents();
+
+    const schemaCache = TestBed.inject(SchemaCacheService);
+    vi.spyOn(schemaCache, 'of').mockReturnValue(statusSchema as never);
+    const fixture = TestBed.createComponent(WorkPackageSingleCardComponent);
+    card = fixture.componentInstance;
+    cardClicked = [];
+    card.cardClicked.subscribe(({ workPackageId }) => cardClicked.push(workPackageId));
+    fixture.componentRef.setInput('workPackage', workPackage);
+    vi.spyOn(card, 'isNewResource').mockReturnValue(false);
+    vi.spyOn(card, 'baselineIcon').mockReturnValue(null);
+    vi.spyOn(card, 'fullWorkPackageLink').mockReturnValue('/work_packages/42');
+    document.body.append(fixture.nativeElement as HTMLElement);
+    fixture.detectChanges();
+    await fixture.whenStable();
+  });
+
+  afterEach(() => vi.restoreAllMocks());
+
+  const openMenu = async () => {
+    await userEvent.click(screen.getByRole('button', { name: 'js.work_packages.properties.status Open' }));
+    const menu = await screen.findByRole('menu', { name: 'js.work_packages.properties.status' });
+    await settlePopover();
+    return menu;
+  };
+
+  it('does not activate the card when the status button is clicked', async () => {
+    await userEvent.click(screen.getByRole('button', { name: 'js.work_packages.properties.status Open' }));
+
+    expect(cardClicked).toEqual([]);
+  });
+
+  it('does not activate the card when a status is chosen with the pointer', async () => {
+    const menu = await openMenu();
+    cardClicked.length = 0;
+
+    await userEvent.click(within(menu).getByRole('menuitem', { name: 'Closed' }));
+
+    expect(projectedResource.status).toEqual({ id: '2', name: 'Closed' });
+    expect(cardClicked).toEqual([]);
+  });
+
+  it('does not activate the card when a status is chosen with Enter', async () => {
+    const menu = await openMenu();
+    cardClicked.length = 0;
+    const item = within(menu).getByRole('menuitem', { name: 'Closed' });
+    item.focus();
+
+    await userEvent.keyboard('{Enter}');
+
+    await waitFor(() => expect(projectedResource.status).toEqual({ id: '2', name: 'Closed' }));
+    expect(cardClicked).toEqual([]);
+  });
+
+  describe('right-click and double-click', () => {
+    let pointerEvents:string[];
+    const statusButton = () => screen.getByRole('button', { name: 'js.work_packages.properties.status Open' });
+
+    beforeEach(() => {
+      pointerEvents = [];
+      card.cardContextMenu.subscribe(() => pointerEvents.push('contextmenu'));
+      card.cardDblClicked.subscribe(() => pointerEvents.push('dblclick'));
+    });
+
+    it('reports them on the card itself', () => {
+      fireEvent.contextMenu(screen.getByText('Card'));
+      fireEvent.dblClick(screen.getByText('Card'));
+
+      expect(pointerEvents).toEqual(['contextmenu', 'dblclick']);
+    });
+
+    it('does not report them on the status button', () => {
+      fireEvent.contextMenu(statusButton());
+      fireEvent.dblClick(statusButton());
+
+      expect(pointerEvents).toEqual([]);
+    });
+
+    it('does not report them on an item of the open status menu', async () => {
+      const menu = await openMenu();
+      const item = within(menu).getByRole('menuitem', { name: 'Closed' });
+
+      fireEvent.contextMenu(item);
+      fireEvent.dblClick(item);
+
+      expect(pointerEvents).toEqual([]);
+    });
   });
 });

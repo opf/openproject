@@ -77,6 +77,8 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
 
   private submittedPosition:FocusPosition|null = null;
 
+  private stopped = false;
+
   // Use cell builder to reset edit fields
   private cellBuilder = new CellBuilder(this.injector, this.table.configuration);
 
@@ -106,8 +108,13 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
     this.resourceSubscription.unsubscribe();
   }
 
+  public stop():void {
+    this.stopped = true;
+    this.destroy();
+  }
+
   protected override get activationCancelled():boolean {
-    return this.table.destroyed;
+    return this.stopped || this.table.destroyed;
   }
 
   public override allowsFieldAutofocus(fieldName:string):boolean {
@@ -178,7 +185,7 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
         field.overlayMarker = (overlay) => {
           this.table.editing.markOverlay(overlay);
         };
-        if (this.table.destroyed) {
+        if (this.activationCancelled) {
           field.deactivate(false);
           throw new EditActivationCancelled();
         }
@@ -292,7 +299,7 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
   // We may want to look into MutationObserver if we need this in several places.
   private waitForContainer(fieldName:string):Promise<HTMLElement> {
     return new Promise<HTMLElement>((resolve, reject) => {
-      if (this.table.destroyed) {
+      if (this.activationCancelled) {
         reject(new EditActivationCancelled());
         return;
       }
@@ -307,7 +314,7 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
         else resolve(cell!);
       };
       const check = () => {
-        if (this.table.destroyed) {
+        if (this.activationCancelled) {
           finish(new EditActivationCancelled());
           return;
         }

@@ -19,6 +19,7 @@
 /config/initializers/filter_parameter_logging.rb @opf/security
 /config/brakeman.ignore @opf/security
 /SECURITY.md @opf/security
+/docs/security-and-privacy/ @opf/security
 /lib_static/open_project/authentication.rb @opf/security
 /lib_static/open_project/authentication/ @opf/security
 /app/services/authentication/ @opf/security

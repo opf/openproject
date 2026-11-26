@@ -85,8 +85,14 @@
       white-space: nowrap
 
 .op-workflow-role-select-button
-  min-width: 0
   max-width: 250px
+
+.op-workflow-reference-button
+  max-width: 400px
+
+.op-workflow-role-select-button,
+.op-workflow-reference-button
+  min-width: 60px
 
   .Button-content
     min-width: 0
@@ -97,3 +103,9 @@
     overflow: hidden
     text-overflow: ellipsis
     white-space: nowrap
+
+// The SubHeader aligns its filter and action panes on their baselines; with
+// differing button stacks per pane that leaves the action buttons a few pixels
+// off. Center the toolbar instead so the panes line up regardless.
+#workflow-table .SubHeader
+  align-items: center

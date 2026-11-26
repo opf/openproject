@@ -113,6 +113,16 @@ RSpec.describe Import::JiraCreateProjectTimeEntriesJob,
       end
     end
 
+    context "when jira provides no author for the worklog" do
+      let(:worklog) { super().except("author") }
+
+      it "logs the time as the deleted user" do
+        create_time_entries
+
+        expect(work_package.time_entries.sole).to have_attributes(user: DeletedUser.first, logged_by: DeletedUser.first)
+      end
+    end
+
     context "when the comment exceeds what a time entry can hold" do
       let(:worklog) { super().merge("comment" => "a" * (TimeEntry::COMMENTS_MAX_LENGTH + 1)) }
 

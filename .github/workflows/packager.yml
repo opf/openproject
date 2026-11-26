@@ -11,7 +11,29 @@ on:
     - cron: '0 3 * * *' # Daily at 03:00
 
 jobs:
+  cleanup:
+    if: github.repository == 'opf/openproject'
+    name: Validate packaging cleanup
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+          persist-credentials: false
+      - uses: actions/setup-node@v7.1.0
+        if: hashFiles('packaging/tests/teardown.sh') != ''
+        with:
+          node-version: '24.22.1'
+          package-manager-cache: false
+      - name: Validate cleanup when the selected revision includes the test
+        if: hashFiles('packaging/tests/teardown.sh') != ''
+        run: bash packaging/tests/teardown.sh
+
   build:
+    needs: cleanup
     if: github.repository == 'opf/openproject'
     name: ${{ matrix.target }}
     runs-on: ubuntu-latest
@@ -37,7 +59,7 @@ jobs:
           - el:9
           - sles:15
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -53,7 +75,7 @@ jobs:
             echo "channel=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
           fi
       - name: Package
-        uses: pkgr/action/package@72711239e8f309a29f078b90bd269af6c7db3f70 # v1
+        uses: pkgr/action/package@v1
         id: package
         with:
           target: ${{ matrix.target }}
@@ -64,7 +86,7 @@ jobs:
           env: |
             DATABASE_URL=postgres://app:p4ssw0rd@127.0.0.1:5432/app
       - name: Publish
-        uses: pkgr/action/publish@72711239e8f309a29f078b90bd269af6c7db3f70 # v1
+        uses: pkgr/action/publish@v1
         with:
           target: ${{ matrix.target }}
           token: ${{ secrets.PACKAGER_PUBLISH_TOKEN }}

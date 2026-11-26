@@ -109,6 +109,7 @@ tr:
         maintained_with_changes: Değişikliklerle sürdürüldü
         no_longer_meets_filter_criteria: Artık filtre kriterlerini karşılamıyor
         now_meets_filter_criteria: Artık filtre kriterlerini karşılıyor
+        state_at: State at
       show_changes_since: Şu zamandan sonraki değişiklikleri göster
       time: Zaman
       time_description: 'Yerel saatinizle: %{datetime}'
@@ -772,8 +773,10 @@ tr:
       create_new: Yeni oluştur
       group_by_relation_type: İlişki türüne göre gruplandırma
       group_by_wp_type: İş paketi türüne göre grupla
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Girinti hiyerarşisi
       hierarchy_outdent: Dış diş hiyerarşisi
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: İlişkiyi kaldır
       remove_child: Alt bileşeni kaldır
       remove_parent: Üstündekini kaldır
@@ -1012,6 +1015,7 @@ tr:
         label_pagination: İş paketleri tablosuna geçiş yapmak ve numaralandırma sayfasına gitmek için buraya tıklayın
         pagination: Tablo numaralandırmaya yönlendir
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Birleştirilmiş aşağı açılan alan: ok tuşlarıyla seçin, seçimi enter ile onaylayın, backspace ile silme'
       label_disable_multi_select: Çoklu seçimi devre dışı bırak
       label_enable_multi_select: Çoklu seçimi etkinleştir

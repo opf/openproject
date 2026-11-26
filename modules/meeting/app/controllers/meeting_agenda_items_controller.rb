@@ -69,7 +69,7 @@ class MeetingAgendaItemsController < ApplicationController
       )
     else
       if params[:meeting_section_id].present?
-        meeting_section = MeetingSection.find_by(id: params[:meeting_section_id])
+        meeting_section = find_meeting_section
         if meeting_section.backlog?
           collapsed = false
         end
@@ -365,7 +365,8 @@ class MeetingAgendaItemsController < ApplicationController
 
   def cancel_new_in_section
     if params[:meeting_section_id].present?
-      meeting_section = MeetingSection.find_by(id: params[:meeting_section_id])
+      meeting_section = find_meeting_section
+
       if meeting_section.agenda_items.empty?
         if meeting_section.backlog?
           collapsed = false
@@ -473,6 +474,14 @@ class MeetingAgendaItemsController < ApplicationController
 
   def set_meeting
     @meeting = @project.meetings.visible.find(params[:meeting_id])
+  end
+
+  def find_meeting_section
+    if params[:meeting_section_id] == @meeting.backlog&.id.to_s
+      @meeting.backlog
+    else
+      @meeting.sections.find(params.expect(:meeting_section_id))
+    end
   end
 
   # In case we updated the meeting as part of the service flow

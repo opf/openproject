@@ -77,9 +77,7 @@ RSpec.describe "Deleting time entries", :js do
     wp_page.visit!
 
     SeleniumHubWaiter.wait
-    find_by_id("action-show-more-dropdown-menu").click
-
-    click_link(I18n.t("js.button_delete"))
+    wp_page.select_from_context_menu("Delete")
 
     destroy_modal.expect_listed(work_package)
     destroy_modal.confirm_deletion

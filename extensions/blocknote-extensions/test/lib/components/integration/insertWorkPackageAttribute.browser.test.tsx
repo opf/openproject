@@ -10,6 +10,7 @@ import { worker } from '../../../mocks/browser';
 import { requestedWorkPackageIds } from '../../../mocks/handlers';
 import { mockAttributeWorkPackage, mockMilestoneWorkPackage } from '../../../mocks/workPackageAttributes';
 import { loadServerErrorWorkPackages } from '../../../helpers/requestHelpers';
+import { recordFrames, untilStill } from '../../../helpers/animationHelpers';
 
 interface InlineNode { type:string, props?:Record<string, unknown> }
 
@@ -146,6 +147,65 @@ describe('Insert work package attribute', () => {
 
     const type = page.getByRole('option').getByText('Feature').element();
     expect(type.getBoundingClientRect().width).toBeGreaterThan(type.getBoundingClientRect().height);
+  });
+
+  it('shows the whole subject of a result on hover', async () => {
+    const subject = 'Test'.repeat(40);
+    answerSearchWith([{ ...mockAttributeWorkPackage, subject }]);
+    await openWorkPackageAttributeDialog();
+    await userEvent.type(page.getByPlaceholder(SEARCH_PLACEHOLDER), 'Test');
+
+    await expect.element(page.getByRole('option').getByText(subject)).toHaveAttribute('title', subject);
+  });
+
+  it('shows the whole reference of the chosen work package on hover', async () => {
+    const subject = 'Test'.repeat(40);
+    answerSearchWith([{ ...mockAttributeWorkPackage, subject }]);
+    await openWorkPackageAttributeDialog();
+    await expect.element(workPackageField()).not.toHaveAttribute('title');
+
+    await pickWorkPackage('Test', subject);
+    await expect.element(workPackageField()).toHaveAttribute('title', `PROJ-321 · Feature · ${subject}`);
+
+    await userEvent.keyboard('{Backspace}');
+    await expect.element(workPackageField()).not.toHaveAttribute('title');
+  });
+
+  describe('with a long type', () => {
+    const type = 'Very'.repeat(30);
+    const subject = 'Test'.repeat(40);
+    const widthOf = (element:Element) => element.getBoundingClientRect().width;
+
+    beforeEach(() => {
+      answerSearchWith([{
+        ...mockAttributeWorkPackage,
+        subject,
+        _links: { ...mockAttributeWorkPackage._links, type: { ...mockAttributeWorkPackage._links.type, title: type } },
+      }]);
+    });
+
+    it('keeps a result within the list, leaving room for its subject', async () => {
+      await openWorkPackageAttributeDialog();
+      await userEvent.type(page.getByPlaceholder(SEARCH_PLACEHOLDER), 'Test');
+      const typeLabel = page.getByRole('option').getByText(type);
+      await expect.element(typeLabel).toHaveAttribute('title', type);
+
+      const list = page.getByTestId('op-bn-wp-attribute-work-package-list-popover').element();
+      expect(list.scrollWidth).toBeLessThanOrEqual(list.clientWidth);
+      expect(widthOf(typeLabel.element())).toBeGreaterThan(typeLabel.element().getBoundingClientRect().height);
+      expect(widthOf(page.getByRole('option').getByText(subject).element())).toBeGreaterThan(widthOf(typeLabel.element()));
+    });
+
+    it('keeps the chosen work package within the field, leaving room for its subject', async () => {
+      await openWorkPackageAttributeDialog();
+      await pickWorkPackage('Test', subject);
+
+      const layer = selectedWorkPackage().element();
+      expect(layer.scrollWidth).toBeLessThanOrEqual(layer.clientWidth);
+      expect(widthOf(selectedWorkPackage().getByText(subject).element()))
+        .toBeGreaterThan(widthOf(selectedWorkPackage().getByText(type).element()));
+      await expect.element(workPackageField()).toHaveAttribute('title', `PROJ-321 · ${type} · ${subject}`);
+    });
   });
 
   it('keeps a long subject within the dialog', async () => {
@@ -334,6 +394,27 @@ describe('Insert work package attribute', () => {
     await expect.element(selectedWorkPackage()).toHaveTextContent('PROJ-321FeatureRedesign onboarding flow');
   });
 
+  it('offers the attributes in alphabetical order, to be picked and not typed', async () => {
+    await openWorkPackageAttributeDialog();
+    await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+
+    const attributeField = page.getByRole('combobox', { name: 'Attribute' });
+    await expect.element(attributeField).toHaveAttribute('readonly');
+    expect(getComputedStyle(attributeField.element()).cursor).toBe('pointer');
+
+    await userEvent.click(attributeField);
+    await expect.element(page.getByRole('option', { name: 'Status' })).toBeVisible();
+
+    const labels = page.getByRole('option').elements().map((option) => option.textContent);
+    const byLetter = labels.slice(0, -1);
+    expect(byLetter).toEqual([...byLetter].sort(new Intl.Collator('en', { sensitivity: 'base' }).compare));
+    expect(labels.slice(0, 2)).toEqual(['Accountable', 'Approved']);
+    expect(labels.at(-1)).toBe('% Complete');
+
+    await userEvent.keyboard('s');
+    await expect.element(attributeField).toHaveAttribute('aria-activedescendant', `op-bn-wp-attribute-select-list-option-${labels.indexOf('Start date')}`);
+  });
+
   it('prefills the next invocation with the previous choice, which can be cleared', async () => {
     await openWorkPackageAttributeDialog();
     await pickWorkPackage('Redesign', 'Redesign onboarding flow');
@@ -520,6 +601,25 @@ describe('Insert work package attribute', () => {
       await expect.element(preview().getByText('notes')).toHaveProperty('tagName', 'STRONG');
     });
 
+    it('grows the dialog to its preview rather than jumping onto it', async () => {
+      await openWorkPackageAttributeDialog();
+      await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+      await pickAttribute('Subject');
+      const panel = dialog().element();
+      await untilStill(panel);
+      const before = panel.getBoundingClientRect().height;
+
+      const recorded = recordFrames(() => panel.getBoundingClientRect().height);
+      await pickAttribute('Description');
+      await expect.element(preview().getByText('notes')).toBeVisible();
+      await untilStill(panel);
+      recorded.stop();
+
+      const after = panel.getBoundingClientRect().height;
+      expect(after).toBeGreaterThan(before);
+      expect(recorded.frames.filter((height) => height > before && height < after).length).toBeGreaterThan(0);
+    });
+
     it('takes the place of an empty line', async () => {
       await openWorkPackageAttributeDialog();
       await pickWorkPackage('Redesign', 'Redesign onboarding flow');
@@ -544,6 +644,22 @@ describe('Insert work package attribute', () => {
       await expect.element(dialog()).not.toBeInTheDocument();
       expect(editor.document[0].content).toEqual([{ type: 'text', text: 'Before ', styles: {} }]);
       expect(blocks()[1].type).toBe('openProjectWorkPackageAttributeBlock');
+    });
+
+    it('splits the line it is inserted in the middle of', async () => {
+      await openEditorAndType('Before after');
+      await expect.element(page.getByText('Before after')).toBeVisible();
+      await userEvent.keyboard('{ArrowLeft>5/}');
+      await userEvent.keyboard('/attribute');
+      await userEvent.click(page.getByText('Work package attribute').first());
+      await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+      await pickAttribute('Description');
+      await userEvent.click(insertButton());
+
+      await expect.element(dialog()).not.toBeInTheDocument();
+      expect(blocks().map(({ type }) => type)).toEqual(['paragraph', 'openProjectWorkPackageAttributeBlock', 'paragraph']);
+      expect(editor.document[0].content).toEqual([{ type: 'text', text: 'Before ', styles: {} }]);
+      expect(editor.document[2].content).toEqual([{ type: 'text', text: 'after', styles: {} }]);
     });
 
     function selectionMarks() {

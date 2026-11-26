@@ -90,7 +90,8 @@ export const en = {
       'openAriaLabel': 'Open work package {{id}} in new tab',
       'inlineSizeLabel': 'Inline size',
       'blockSizeLabel': 'Block size',
-      'chipAriaLabel': 'Work package {{id}}'
+      'chipAriaLabel': 'Work package {{id}}',
+      'idDash': 'dash'
     },
     'preview': {
       'showAriaLabel': 'Show details of work package {{id}}'
@@ -141,7 +142,8 @@ export const en = {
       'options': {
         'menuAriaLabel': 'Options for {{attribute}} of work package {{id}}',
         'removeAriaLabel': 'Remove work package attribute',
-        'selectedDescription': '{{attribute}} of work package {{id}}'
+        'selectedDescription': '{{attribute}} of work package {{id}}',
+        'selectedValueDescription': '{{attribute}} of work package {{id}}: {{value}}'
       },
       'dialog': {
         'title': 'Insert work package attribute',

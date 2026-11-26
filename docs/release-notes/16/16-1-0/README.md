@@ -51,7 +51,7 @@ The export is available via the More (⋯) menu for both one-time meetings and i
 
 The PDF is generated in A4 format and includes a clearly structured layout. 
 
-[Learn more about exporting meetings in PDF format in our documentation](../../../user-guide/meetings/one-time-meetings/#export-a-meeting).
+[Learn more about exporting meetings in PDF format in our documentation](../../../user-guide/meetings/meeting-features/meeting-follow-up/#export-a-meeting).
 
 ![Overlay of Export PDF options for OpenProject meetings](openproject-16-1-export-meeting-to-pdf.png)
 

@@ -1355,6 +1355,12 @@ module Pages
       end
     end
 
+    def expect_disabled_start_sprint_button(sprint)
+      within_sprint(sprint) do
+        expect(page).to have_selector(:link_or_button, "Start", aria: { disabled: true })
+      end
+    end
+
     def click_complete_sprint_button(sprint)
       within_sprint(sprint) do
         click_on("Complete")

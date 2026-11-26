@@ -184,7 +184,8 @@ RSpec.describe "Work package type required attributes",
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.body).to have_css('turbo-stream[action="flash"]')
-      expect(streamed).to have_css("#{test_selector(require_action)}[aria-disabled='true']")
+      expect(streamed).to have_css("#{test_selector(require_action)}.ActionListItem--disabled")
+      expect(streamed).to have_css("#{test_selector(require_action)} [aria-disabled='true']")
       expect(required_on(global_variant)).to be_empty
     end
   end

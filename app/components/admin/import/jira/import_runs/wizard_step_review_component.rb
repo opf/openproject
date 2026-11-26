@@ -57,6 +57,26 @@ module Admin::Import::Jira::ImportRuns
 
     private
 
+    def revert_button
+      render(
+        Primer::Beta::Button.new(
+          scheme: :default,
+          tag: :a,
+          size: :medium,
+          color: :danger,
+          mr: 2,
+          href: revert_modal_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id),
+          data: { controller: "async-dialog" }
+        )
+      ) { I18n.t(:"admin.jira.run.wizard.sections.import_result.button_revert") }
+    end
+
+    def close_button
+      render(Primer::Beta::Button.new(tag: :a, size: :medium, href: admin_import_jira_path(model.jira))) do
+        I18n.t(:button_close)
+      end
+    end
+
     def imported_count(*op_entity_classes)
       op_entity_classes.sum { |op_entity_class| imported_counts.fetch(op_entity_class, 0) }
     end

@@ -81,6 +81,21 @@ describe('Work package search popover placement', () => {
     expect(gapToAnchor).toBeLessThan(NEAR_ANCHOR);
   });
 
+  it('keeps the create entry next to the input and below the no results message when flipped', async () => {
+    worker.use(http.get('http://localhost:3000/api/v3/work_packages', () => HttpResponse.json({
+      _embedded: { elements: [] },
+    })));
+    await renderPopoverAnchoredAt(window.innerHeight - GAP_FROM_EDGE, vi.fn());
+
+    await userEvent.type(page.getByPlaceholder(SEARCH_PLACEHOLDER), 'Nothing matches');
+    await expect.element(page.getByText('Create new work package')).toBeVisible();
+
+    const createRect = page.getByTestId('create-wp-option').element().getBoundingClientRect();
+    const messageRect = page.getByRole('status').element().getBoundingClientRect();
+    expect(messageRect.bottom).toBeLessThanOrEqual(createRect.top);
+    expect(createRect.bottom).toBeLessThanOrEqual(searchInput().getBoundingClientRect().top);
+  });
+
   it('opens the block search popover above a block at the bottom of the page', async () => {
     renderEditor();
     await expect.element(page.getByRole('textbox')).toBeVisible();

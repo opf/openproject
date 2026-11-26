@@ -32,6 +32,8 @@ module Backlogs
     menu_item :backlogs
 
     def show
+      @timeframe = ::Sprints::Timeframe.new(@sprint, zone: current_user.time_zone)
+
       respond_to do |format|
         format.html { render "backlogs/burndown_chart/show", layout: true }
       end

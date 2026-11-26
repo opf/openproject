@@ -1,4 +1,4 @@
-import { BlockNoteEditor, BlockNoteSchema } from '@blocknote/core';
+import { BlockNoteEditor, BlockNoteSchema, type BlockNoteEditorOptions } from '@blocknote/core';
 import { TextSelection } from 'prosemirror-state';
 import {
   openProjectWorkPackageBlockSpec,
@@ -22,8 +22,10 @@ export interface InlineNode {
   props?:Record<string, unknown>;
 }
 
-export function createHeadlessEditorWithBlocks(blocks:unknown[]) {
-  return BlockNoteEditor.create({ schema, initialContent: blocks as never });
+type Extensions = BlockNoteEditorOptions<never, never, never>['extensions'];
+
+export function createHeadlessEditorWithBlocks(blocks:unknown[], extensions?:Extensions) {
+  return BlockNoteEditor.create({ schema, initialContent: blocks as never, extensions });
 }
 
 export function createHeadlessEditor(content:unknown[] | string) {

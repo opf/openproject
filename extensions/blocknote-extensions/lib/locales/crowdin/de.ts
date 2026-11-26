@@ -13,11 +13,11 @@ export const en = {
         'wp': "ap",
         'link': "verlinken",
         'create': "erstellen",
-        'attribute': 'attribute'
+        'attribute': "Attribut"
       },
       'attribute': {
-        'title': 'Work package attribute',
-        'subtext': 'Insert a live attribute or custom field'
+        'title': "Arbeitspaket-Attribut einfügen",
+        'subtext': "Ein Attribut oder benutzerdefiniertes Feld eines Arbeitspakets einfügen"
       }
     },
     'formattingToolbar': {
@@ -82,18 +82,19 @@ export const en = {
       'openInNewTab': "In neuer Registerkarte öffnen",
       'openWorkPackage': 'Open {{id}}',
       'changeSize': "Größe ändern",
-      'changeSizeAriaLabel': 'Change size: {{size}}',
-      'menuAriaLabel': 'Options for work package {{id}}',
-      'selectedAnnouncement': '{{description}}. Press Enter to open its options.',
+      'changeSizeAriaLabel': "Größe ändern: {{size}}",
+      'menuAriaLabel': "Optionen für Arbeitspaket {{id}}",
+      'selectedAnnouncement': "{{description}}. Drücken Sie Enter um die Menüoptionen zu öffnen.",
       'remove': "Entfernen",
       'removeAriaLabel': "Arbeitspaket entfernen",
       'openAriaLabel': "Öffnen Sie das Arbeitspaket {{id}} in einer neuen Registerkarte",
       'inlineSizeLabel': "Inline Größe",
       'blockSizeLabel': "Blockgröße",
-      'chipAriaLabel': "Arbeitspaket {{id}}"
+      'chipAriaLabel': "Arbeitspaket {{id}}",
+      'idDash': 'dash'
     },
     'preview': {
-      'showAriaLabel': 'Show details of work package {{id}}'
+      'showAriaLabel': "Details zum Arbeitspaket {{id}} anzeigen"
     },
     'sizes': {
       'xxs': {
@@ -128,37 +129,38 @@ export const en = {
       'ariaLabel': "Lädt"
     },
     'workPackageAttribute': {
-      'missing': '{{attribute}} unavailable',
-      'yes': 'Yes',
-      'no': 'No',
-      'days_one': '{{count}} day',
-      'days_other': '{{count}} days',
+      'missing': "{{attribute}} nicht verfügbar",
+      'yes': "Ja",
+      'no': "Nein",
+      'days_one': "{{count}} Tag",
+      'days_other': "{{count}} Tagen",
       'display': {
-        'label': 'Label',
-        'value': 'Value',
-        'both': 'Label + value'
+        'label': "Bezeichnung",
+        'value': "Wert",
+        'both': "Bezeichnung + Wert"
       },
       'options': {
         'menuAriaLabel': 'Options for {{attribute}} of work package {{id}}',
         'removeAriaLabel': 'Remove work package attribute',
-        'selectedDescription': '{{attribute}} of work package {{id}}'
+        'selectedDescription': '{{attribute}} of work package {{id}}',
+        'selectedValueDescription': '{{attribute}} of work package {{id}}: {{value}}'
       },
       'dialog': {
-        'title': 'Insert work package attribute',
-        'workPackage': 'Work package',
-        'attribute': 'Attribute',
-        'attributePlaceholder': 'Select an attribute…',
-        'attributeDisabled': 'Select a work package first',
-        'attributeLoading': 'Loading attributes…',
-        'attributeUnavailable': 'Attributes unavailable',
-        'loadFailed': 'The attributes of {{id}} could not be loaded.',
-        'retry': 'Try again',
-        'prefilled': 'Prefilled with your last selection',
-        'notAvailable': '"{{attribute}}" is not available on {{id}}. Choose another attribute.',
-        'show': 'Show',
-        'preview': 'Preview',
-        'previewEmpty': 'Choose a work package and an attribute',
-        'insert': 'Insert'
+        'title': "Arbeitspaket-Attribut einfügen",
+        'workPackage': "Arbeitspaket",
+        'attribute': "Attribut",
+        'attributePlaceholder': "Wählen Sie ein Attribut…",
+        'attributeDisabled': "Wählen Sie zuerst ein Arbeitspaket",
+        'attributeLoading': "Attribute werden geladen…",
+        'attributeUnavailable': "Attribute nicht verfügbar",
+        'loadFailed': "Die Attribute von {{id}} konnten nicht geladen werden.",
+        'retry': "Bitte versuchen Sie es erneut",
+        'prefilled': "Mit Ihrer letzten Auswahl vorausgefüllt",
+        'notAvailable': "{{attribute}} ist nicht verfügbar für {{id}}. Bitte wählen Sie ein anderes Attribut.",
+        'show': "Ausgabe",
+        'preview': "Vorschau",
+        'previewEmpty': "Arbeitspaket und Attribut auswählen",
+        'insert': "Einfügen"
       }
     }
   }

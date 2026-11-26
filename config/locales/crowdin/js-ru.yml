@@ -109,6 +109,7 @@ ru:
         maintained_with_changes: Поддерживается с изменениями
         no_longer_meets_filter_criteria: Больше не соответствует критериям фильтра
         now_meets_filter_criteria: Теперь соответствует критериям фильтра
+        state_at: State at
       show_changes_since: Показать изменения с
       time: Время
       time_description: 'В ваше местное время: %{datetime}'
@@ -776,8 +777,10 @@ ru:
       create_new: Создать новый
       group_by_relation_type: Группировать по типу связи
       group_by_wp_type: Группировать по типу пакета работ
+      hierarchy_change_timed_out: The hierarchy could not be changed because the server did not respond. Please try again.
       hierarchy_indent: Иерархия отступов
       hierarchy_outdent: Иерархия с выступом
+      hierarchy_refresh_failed: The table could not be refreshed. Indenting and outdenting are unavailable until it has reloaded.
       remove: Удалить связь
       remove_child: Удалить дочерний элемент
       remove_parent: Удалить родителя
@@ -1026,6 +1029,7 @@ ru:
         label_pagination: Кликните здесь чтобы пропустить таблицу рабочих пакетов и перейти к вёрстке
         pagination: Перейти вёрстке таблицы
       key_value: "%{key}: %{value}"
+      label_collapse_expand_groups: Collapse or expand groups
       label_column_multiselect: 'Комбинированное ниспадающие поле: выбор  клавишами со стрелками, подтверждение выбора нажатием клавиши enter, удаление  клавишей backspace'
       label_disable_multi_select: Отключить множественный выбор
       label_enable_multi_select: Включить мультивыбор

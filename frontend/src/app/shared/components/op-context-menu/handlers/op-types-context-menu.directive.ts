@@ -26,9 +26,9 @@
 //++
 
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
-import { Directive, Input, AfterViewInit, inject } from '@angular/core';
+import { Directive, Input, inject } from '@angular/core';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
-import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
+import { OpActionMenuItems } from 'core-app/shared/components/op-context-menu/action-menu/op-action-menu-items';
 import { WorkPackageCreateService } from 'core-app/features/work-packages/components/wp-new/wp-create.service';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { TypeResource } from 'core-app/features/hal/resources/type-resource';
@@ -40,9 +40,8 @@ import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
 @Directive({
   selector: '[opTypesCreateDropdown]',
-  standalone: false,
 })
-export class OpTypesContextMenuDirective extends OpContextMenuTrigger implements AfterViewInit {
+export class OpTypesContextMenuDirective extends OpActionMenuItems {
   readonly wpCreate = inject(WorkPackageCreateService);
   readonly pathHelper = inject(PathHelperService);
   readonly currentProject = inject(CurrentProjectService);
@@ -51,58 +50,21 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger implements
 
   @Input() public projectIdentifier:string|null|undefined;
 
-  // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('dropdownActive') active:boolean;
-
   /** Whether this dropdown is mounted on the full work package view rather than a list toolbar. */
   @Input() fullView = false;
 
-  public isOpen = false;
-
-  ngAfterViewInit():void {
-    super.ngAfterViewInit();
-
-    if (!this.active) {
-      return;
-    }
-  }
-
-  protected open(evt:Event) {
-    this.isOpen = !this.isOpen;
-    if (this.isOpen) {
-      void this
-        .wpCreate
-        .getEmptyForm(this.projectIdentifier)
-        .then((form) => {
-          this.buildItems(form.schema.type!.allowedValues as TypeResource[]);
-          this.opContextMenu.show(this, evt);
-        });
-    } else {
-      this.opContextMenu.close();
-    }
-  }
-
-  onClose(focus = false) {
-    this.isOpen = false;
-    super.onClose(focus);
-  }
-
-  public get locals():{ showAnchorRight?:boolean, contextMenuId?:string, items:OpContextMenuItem[] } {
-    return {
-      items: this.items,
-      contextMenuId: 'types-context-menu',
-    };
-  }
-
-  private buildItems(types:TypeResource[]) {
-    this.items = types.map((type:TypeResource) => ({
-      disabled: false,
-      linkText: type.name,
-      href: this.buildHref(type),
-      ariaLabel: type.name,
-      class: Highlighting.typeClass(type.id!),
-      onClick: (event:MouseEvent) => this.handleClick(event, type),
-    }));
+  protected buildItems():Promise<OpContextMenuItem[]> {
+    return this
+      .wpCreate
+      .getEmptyForm(this.projectIdentifier)
+      .then((form) => (form.schema.type!.allowedValues as TypeResource[]).map((type) => ({
+        disabled: false,
+        linkText: type.name,
+        href: this.buildHref(type),
+        ariaLabel: type.name,
+        labelClass: Highlighting.typeClass(type.id!),
+        onClick: (event:MouseEvent) => this.handleClick(event, type),
+      })));
   }
 
   /**
@@ -130,7 +92,6 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger implements
       return true;
     }
 
-    this.isOpen = false;
     if (isClickedWithModifier(event)) {
       return false;
     }

@@ -48,14 +48,6 @@ module Overviews
         phase.date_range_not_set?
       end
 
-      def icon
-        :"op-phase"
-      end
-
-      def icon_color_class
-        helpers.hl_foreground_class("project_phase_definition", phase.definition)
-      end
-
       def text
         phase.name
       end
