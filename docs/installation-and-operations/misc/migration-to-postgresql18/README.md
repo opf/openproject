@@ -171,7 +171,7 @@ docker run --rm \
   openproject/openproject:18 root ./docker/prod/postgres-db-upgrade
 ```
 
-The helper runs the new `pg_upgrade` in copy mode, matches the source checksum setting when initializing the destination, and analyzes the new cluster. Both clusters must be stopped. Required extension libraries must exist for both server versions. It refuses destinations with another PostgreSQL major. Review the PostgreSQL upgrade output, including any required extension updates, before cutover.
+The helper runs the new `pg_upgrade` in copy mode, matches the source checksum setting when initializing the destination, and analyzes the new cluster. Both clusters must be stopped. Required extension libraries must exist for both server versions. It refuses destinations with another PostgreSQL major version. Review the PostgreSQL upgrade output, including any required extension updates, before cutover.
 
 Keep source and destination in separate directories. Do not pre-create `vector` in a `pg_upgrade` destination: the upgrade copies its definition. For nonstandard locales, authentication, tablespaces, or PostgreSQL configuration, follow the [PostgreSQL upgrade documentation](https://www.postgresql.org/docs/18/pgupgrade.html).
 

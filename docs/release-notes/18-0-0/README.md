@@ -514,7 +514,7 @@ Compose users must upgrade their database or retain both their current image and
 
 Follow the [PostgreSQL 18 migration guide](../../installation-and-operations/misc/migration-to-postgresql18/) before updating. It includes backup, restore, pgvector activation, and stay-on-current-version instructions.
 
-Helm users should pin their current PostgreSQL image repository and complete tag, including a PostgreSQL 17 tag if that is their running major. Do not replace the Bitnami image with an upstream pgvector image in the existing chart.
+Helm users should pin their current PostgreSQL image repository and complete tag, including a PostgreSQL 17 tag if that is their running major version. Do not replace the Bitnami image with an upstream pgvector image in the existing chart.
 OpenProject 18.0 introduces changes to existing configuration options, administration terminology, and certain technical interfaces. While many improvements are available immediately after upgrading, some changes may require administrators to review their configurations or update existing integrations. We recommend reviewing the following information before upgrading, particularly if your organization uses project-specific work package configurations, the Jira Migrator, or integrations with the OpenProject API.
 
 ### Migration of project-specific work package configurations to type variants
