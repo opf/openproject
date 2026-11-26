@@ -42,6 +42,10 @@ const accessKeys = {
   details: 8,
 };
 
+type AccessKeyName = keyof typeof accessKeys;
+
+type AccessKeyShortcut = Exclude<AccessKeyName, 'newWorkPackage'>;
+
 type MenuTarget = 'overview'|'work-packages'|'activity'|'calendar-view'|'news'|'wiki';
 
 const projectPaths = {
@@ -110,7 +114,7 @@ export class KeyboardShortcutService {
     });
   }
 
-  public accessKey(keyName:keyof typeof accessKeys):() => void {
+  public accessKey(keyName:AccessKeyShortcut):() => void {
     return () => {
       const elem = this.accessKeyOwner(keyName);
       if (elem) {
@@ -149,7 +153,7 @@ export class KeyboardShortcutService {
     };
   }
 
-  private accessKeyOwner(keyName:keyof typeof accessKeys):HTMLElement|undefined {
+  private accessKeyOwner(keyName:AccessKeyName):HTMLElement|undefined {
     const candidates = Array.from(document.querySelectorAll<HTMLElement>(`[accesskey="${accessKeys[keyName]}"]`));
     return candidates.find((candidate) => candidate.checkVisibility()) ?? candidates[0];
   }
