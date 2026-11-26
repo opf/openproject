@@ -160,8 +160,9 @@ setup_tests() {
 }
 
 run_parallel_specs() {
-	local runtime_log="$1"
+	local suite="$1"
 	local spec_globs="$2"
+	local runtime_log="spec/support/runtime-logs/turbo_runtime_${suite}.log"
 	local seed="${CI_SEED:-$RANDOM}"
 	local status=0
 
@@ -175,25 +176,42 @@ run_parallel_specs() {
 	fi
 
 	if [ "$status" -ne 0 ]; then
-		print_failed_examples
+		print_failed_examples "$suite" "$seed"
 	fi
 
 	return "$status"
 }
 
 print_failed_examples() {
+	local suite="$1"
+	local seed="$2"
 	local failures_log="tmp/parallel_failures.log"
+	local failed_count
+	local failed_locations
 
 	if [ -s "$failures_log" ]; then
 		echo "Failures of all processes:"
 		cat "$failures_log"
+
+		failed_count=$(grep -c '^rspec ' "$failures_log")
+		failed_locations=$(grep '^rspec ' "$failures_log" | cut -d ' ' -f 2 | paste -sd ' ' -)
+		{
+			echo "The **$suite** specs failed with $failed_count failed examples in $JOBS processes, run with seed \`$seed\`."
+			echo
+			echo "Rerun all failed examples with the same seed:"
+			echo
+			echo '```'
+			echo "bundle exec rspec --seed $seed $failed_locations"
+			echo '```'
+			echo
+		} > tmp/parallel_failures_intro.md
 	fi
 }
 
 run_units() {
 	shopt -s extglob globstar nullglob
 	reset_dbs
-	run_parallel_specs spec/support/runtime-logs/turbo_runtime_units.log '{,modules/*/}spec/{!(features)/**/,}*_spec.rb'
+	run_parallel_specs units '{,modules/*/}spec/{!(features)/**/,}*_spec.rb'
 	cleanup
 }
 
@@ -202,7 +220,7 @@ run_features() {
 	run_background start_hocuspocus
 	reset_dbs
 
-	if ! run_parallel_specs spec/support/runtime-logs/turbo_runtime_features.log '{,modules/*/}spec/features/**/*_spec.rb'; then
+	if ! run_parallel_specs features '{,modules/*/}spec/features/**/*_spec.rb'; then
 		retry_failed_features
 	fi
 	report_slowest_feature_files
@@ -246,7 +264,7 @@ retry_failed_features() {
 run_all() {
 	shopt -s globstar nullglob
 	reset_dbs
-	run_parallel_specs spec/support/runtime-logs/turbo_runtime_all.log '{,modules/*/}spec/**/*_spec.rb'
+	run_parallel_specs all '{,modules/*/}spec/**/*_spec.rb'
 	cleanup
 }
 

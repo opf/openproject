@@ -111,7 +111,7 @@ class ParallelFailuresFormatter
       ```
 
       ```
-      rspec #{failure.example.location_rerun_argument}
+      rspec --seed #{RSpec.configuration.seed} #{failure.example.location_rerun_argument}
       ```
 
     MARKDOWN
