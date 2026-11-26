@@ -21,6 +21,8 @@ Besides merge requests, the tab also lists the GitLab [issues](#link-issues), [b
 
 Additionally, in your OpenProject work package, the GitLab integration supports you in creating a branch specific to the work package and consequently the matching merge request.
 
+![Git snippets for GitLab integration in OpenProject](openproject-system-guide-gitlab-integration-git-snippets.png)
+
 Merge request activities will also show up in the Activity tab when the merge request is
 
 - first referenced (usually when opened)
