@@ -49,7 +49,6 @@ module Import
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title", jira_project_name:)
     end
 
-    # rubocop:disable-next Metrics/AbcSize
     def progress
       jira_import = Import::JiraImport.find(arguments[0])
       cursor = jira_import.get_job_cursor(self)
@@ -170,8 +169,12 @@ module Import
     def build_description(jira_link_type, from_wp, to_wp)
       return nil if JIRA_TO_OP_RELATIONS_MAPPING.key?(jira_link_type["name"])
 
-      # Format: "TO-ID is tested by FROM-ID" (using the inward label from Jira)
-      "#{to_wp.formatted_id} #{jira_link_type['inward']} #{from_wp.formatted_id}"
+      outward = "#{from_wp.formatted_id} #{jira_link_type['outward']} #{to_wp.formatted_id}"
+      return outward if jira_link_type["outward"] == jira_link_type["inward"]
+
+      # OpenProject shows the same description on both work packages, so both Jira link labels are kept.
+      inward = "#{to_wp.formatted_id} #{jira_link_type['inward']} #{from_wp.formatted_id}"
+      "#{outward} / #{inward}"
     end
 
     def create_relation(from_wp, to_wp, relation_type:, description:)
