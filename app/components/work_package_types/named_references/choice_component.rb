@@ -95,7 +95,7 @@ module WorkPackageTypes
 
       def record_id = variant[model_class.variant_reflection.foreign_key]
 
-      def started_id = helpers.params[DiscardStartedService.param_key(model_class)].presence&.to_i
+      def started_id = DiscardStartedService.id_in(helpers.params, model_class)
 
       def candidates
         @candidates ||= begin
@@ -112,7 +112,7 @@ module WorkPackageTypes
       def dialog_params
         {
           back_url:,
-          DiscardStartedService.param_key(model_class) => started_id
+          **DiscardStartedService.params_for(model_class, started_id)
         }.compact
       end
     end

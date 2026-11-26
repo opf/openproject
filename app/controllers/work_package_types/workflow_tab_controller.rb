@@ -184,10 +184,7 @@ module WorkPackageTypes
     def return_to(workflow)
       return edit_workflow_path(workflow) if back_url.nil?
 
-      uri = URI.parse(back_url)
-      uri.query = Rack::Utils.parse_nested_query(uri.query.to_s)
-                             .merge(NamedReferences::DiscardStartedService.param_key(::Workflow).to_s => workflow.id).to_query
-      uri.to_s
+      NamedReferences::DiscardStartedService.carry_in(back_url, workflow)
     end
 
     # Discarded before starting so that the next one takes over its name.
@@ -210,7 +207,7 @@ module WorkPackageTypes
       flash[:notice] = t(:notice_successful_update) if back_url.nil?
     end
 
-    def started_id = params[NamedReferences::DiscardStartedService.param_key(::Workflow)].presence&.to_i
+    def started_id = NamedReferences::DiscardStartedService.id_in(params, ::Workflow)
 
     def back_url
       @back_url ||= RedirectPolicy.new(params[:back_url], hostname: request.host, default: nil).redirect_url
@@ -238,7 +235,7 @@ module WorkPackageTypes
     def dialog_params
       {
         back_url:,
-        NamedReferences::DiscardStartedService.param_key(::Workflow) => started_id
+        **NamedReferences::DiscardStartedService.params_for(::Workflow, started_id)
       }.compact
     end
 

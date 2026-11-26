@@ -123,13 +123,10 @@ module WorkPackageTypes
     def return_to(form)
       return edit_form_configuration_path(form) if back_url.nil?
 
-      uri = URI.parse(back_url)
-      uri.query = Rack::Utils.parse_nested_query(uri.query.to_s)
-                             .merge(NamedReferences::DiscardStartedService.param_key(model_class).to_s => form.id).to_query
-      uri.to_s
+      NamedReferences::DiscardStartedService.carry_in(back_url, form)
     end
 
-    def started_id = params[NamedReferences::DiscardStartedService.param_key(model_class)].presence&.to_i
+    def started_id = NamedReferences::DiscardStartedService.id_in(params, model_class)
 
     def back_url
       @back_url ||= RedirectPolicy.new(params[:back_url], hostname: request.host, default: nil).redirect_url
@@ -163,7 +160,7 @@ module WorkPackageTypes
     def dialog_params
       {
         back_url:,
-        NamedReferences::DiscardStartedService.param_key(model_class) => started_id
+        **NamedReferences::DiscardStartedService.params_for(model_class, started_id)
       }.compact
     end
 

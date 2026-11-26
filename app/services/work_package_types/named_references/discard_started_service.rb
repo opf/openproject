@@ -33,6 +33,17 @@ module WorkPackageTypes
     # that it can tell that record apart from the ones the variant reuses, and discard it once abandoned.
     class DiscardStartedService
       def self.param_key(model_class) = :"started_#{model_class.variant_reflection.foreign_key}"
+      private_class_method :param_key
+
+      def self.params_for(model_class, id) = { param_key(model_class) => id }.compact
+
+      def self.id_in(params, model_class) = Integer(params[param_key(model_class)].to_s, 10, exception: false)
+
+      def self.carry_in(url, record)
+        uri = URI.parse(url)
+        uri.query = Rack::Utils.parse_nested_query(uri.query.to_s).merge(param_key(record.class).to_s => record.id).to_query
+        uri.to_s
+      end
 
       def initialize(model_class:)
         @model_class = model_class

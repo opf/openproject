@@ -301,8 +301,8 @@ module WorkPackageTypes
     end
 
     def set_started_ids
-      @started_form_configuration_id = params[:started_form_configuration_id].presence&.to_i
-      @started_workflow_id = params[:started_workflow_id].presence&.to_i
+      @started_form_configuration_id = NamedReferences::DiscardStartedService.id_in(params, ::FormConfiguration)
+      @started_workflow_id = NamedReferences::DiscardStartedService.id_in(params, ::Workflow)
     end
 
     # @variant is the type itself while a type is being created until there is a variant to be used

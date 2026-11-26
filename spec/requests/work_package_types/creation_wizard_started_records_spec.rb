@@ -258,6 +258,20 @@ RSpec.describe "Forms and workflows started in the creation wizard", :skip_csrf,
     end
   end
 
+  describe "a malformed started id" do
+    it "is ignored by the wizard" do
+      get type_creation_wizard_path(type_id: type.id, step: :workflows, started_workflow_id: ["1"])
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "is ignored by the dialogs" do
+      get start_dialog_type_workflow_path(type_id: type.id, started_workflow_id: { "a" => "1" }), headers: turbo
+
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
   describe "carrying the started workflow" do
     before { get type_creation_wizard_path(type_id: type.id, step: :workflows, started_workflow_id: 42) }
 

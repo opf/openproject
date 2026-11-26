@@ -30,10 +30,52 @@
 require "spec_helper"
 
 RSpec.describe WorkPackageTypes::NamedReferences::DiscardStartedService do
-  describe ".param_key" do
+  describe ".params_for" do
     it "names the wizard parameter after the variant's reference" do
-      expect(described_class.param_key(Workflow)).to eq(:started_workflow_id)
-      expect(described_class.param_key(FormConfiguration)).to eq(:started_form_configuration_id)
+      expect(described_class.params_for(Workflow, 7)).to eq(started_workflow_id: 7)
+      expect(described_class.params_for(FormConfiguration, 3)).to eq(started_form_configuration_id: 3)
+    end
+
+    it "carries nothing without a started one" do
+      expect(described_class.params_for(Workflow, nil)).to eq({})
+    end
+  end
+
+  describe ".id_in" do
+    def params(**) = ActionController::Parameters.new(**)
+
+    it "reads the id started for the reference" do
+      expect(described_class.id_in(params(started_workflow_id: "7"), Workflow)).to eq(7)
+      expect(described_class.id_in(params(started_workflow_id: "7"), FormConfiguration)).to be_nil
+    end
+
+    it "finds none in a blank or malformed value" do
+      ["", "abc", "7abc", ["7"], { "a" => "7" }].each do |value|
+        expect(described_class.id_in(params(started_workflow_id: value), Workflow)).to be_nil
+      end
+    end
+  end
+
+  describe ".carry_in" do
+    let(:workflow) { build_stubbed(:named_workflow) }
+
+    def query_of(url) = Rack::Utils.parse_nested_query(URI.parse(url).query)
+
+    it "adds the started id to an address" do
+      url = described_class.carry_in("/types/1/creation_wizard", workflow)
+
+      expect(url).to start_with("/types/1/creation_wizard?")
+      expect(query_of(url)).to eq("started_workflow_id" => workflow.id.to_s)
+    end
+
+    it "replaces the one started before, and keeps the rest" do
+      url = described_class.carry_in(
+        "/types/1/creation_wizard?step=workflows&started_workflow_id=1&started_form_configuration_id=2", workflow
+      )
+
+      expect(query_of(url)).to eq("step" => "workflows",
+                                  "started_workflow_id" => workflow.id.to_s,
+                                  "started_form_configuration_id" => "2")
     end
   end
 
