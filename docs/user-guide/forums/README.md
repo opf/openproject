@@ -120,7 +120,7 @@ From the same menu, **Copy link to clipboard** copies a link that opens the topi
 
 ### Mention a member
 
-To draw someone's attention to a topic, mention them: in the editor of a new topic or a reply, type **@** followed by the beginning of their name and select them from the suggestions. The suggestions list the members of the project and, in a public forum, the people taking part in the topic.
+To draw someone's attention to a topic, mention them: in the editor of a new topic or a reply, type **@** followed by the beginning of their name and select them from the suggestions. The suggestions list the members of the project and, in a public project, also the people taking part in the topic.
 
 ![Mention a member in a forum reply in OpenProject](openproject_user_guide_forums_mention_member.png)
 
@@ -136,7 +136,7 @@ Click the **More** (three dots) icon of the reply and select **Accept as solutio
 
 ![Accept a forum reply as solution in OpenProject](openproject_user_guide_forums_accept_as_solution.png)
 
-The reply is marked with a green check mark, and a green banner under the opening post links to all the accepted solutions of the topic. The check mark also leads the header of the topic and follows its subject in the forum, so that solved topics stand out.
+The reply is marked with a green check mark, and a green banner under the opening post links to all the accepted solutions of the topic. In the forum, the check mark appears in front of the topic's subject, after the pin and lock icons, so that solved topics stand out.
 
 ![A forum topic with an accepted solution in OpenProject](openproject_user_guide_forums_accepted_solution.png)
 
