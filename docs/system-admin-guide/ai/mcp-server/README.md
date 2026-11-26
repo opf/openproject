@@ -3,7 +3,7 @@ sidebar_navigation:
   title: MCP Server
   priority: 800
 description: Integrate AI agents with your OpenProject instance through MCP.
-keywords: ai llm mcp
+keywords: ai, llm, mcp, artifical intelligence, text asisstant
 ---
 # MCP Server
 
@@ -65,14 +65,13 @@ Here you can enable or disable the entire MCP server and change the MCP server t
 
 The available response format options are:
 
-- **Full**: The most compatible option. Tool responses will include both regular and  structured content, allowing MCP clients to choose which format they  want to read. This may increase the number of tokens that the language  model has to process, potentially increasing cost and decreasing  performance. 
-- **Structured content only**: Choose this if you are certain that MCP clients connecting to this instance  support structured content. Tool responses will only include structured  content and leave out its text representation. 
-- **Content only**: Choose this if MCP clients connecting to this instance do not support  structured content. Tool responses will only contain plain text content  and leave out the structured version. 
+- **Full**: The most compatible option. Tool responses will include both regular and structured content, allowing MCP clients to choose which format they want to read. This may increase the number of tokens that the language model has to process, potentially increasing cost and decreasing performance. 
+- **Structured content only**: Choose this if you are certain that MCP clients connecting to this instance support structured content. Tool responses will only include structured content and leave out its text representation. 
+- **Content only**: Choose this if MCP clients connecting to this instance do not support structured content. Tool responses will only contain plain text content and leave out the structured version. 
 
 ![Model context protocol (MCP) settings under OpenProject administration](openproject_system_guide_new_mcp.png)
 
 Individual tools and resources can also be enabled or disabled. Their titles and descriptions can be customized. This can be useful if you want to introduce alternative terminology for certain entities or limit the functionality available through MCP.
-want to introduce alternative terminology for certain entities or limit the functionality available through MCP.
 
 For example, if work packages are called "work items" in your day-to-day language, you can rename **Search work packages** to **Search work
 items**. This helps users understand what the tool does and gives the language model an additional cue that "work items" is an alias for work
@@ -82,8 +81,6 @@ The lists below show the tools and resources provided by OpenProject by default.
 been customized by an administrator.
 
 ![MCP tools section settings in OpenProject administration](openproject_system_guide_new_mcp_tools.png)
-
-
 
 ## Tools
 
@@ -137,7 +134,11 @@ MCP resources allow connected clients to access OpenProject data. Each resource 
 | `version` | Work Package Version | Access work package versions of this OpenProject instance. |
 | `work_package` | Work Package | Access work packages of this OpenProject instance. |
 
-### Working with work packages
+## Working with MCP
+
+Actions performed through MCP use the permissions of the authenticated OpenProject user. MCP clients can only see and change what this user is allowed to see and change in OpenProject.
+
+### Work packages
 
 #### Work package IDs
 
@@ -169,7 +170,7 @@ Before creating or updating a work package, an MCP client can call `get_work_pac
 
 The response includes:
 
--   The fields shown in the form configuration of the type, and which of them are required
+-   The fields shown in the [form](../../manage-work-packages/work-package-forms/) of the type, and which of them are required
 -   The allowed values, for example the statuses the authenticated user can select
 -   The default values of a new work package, such as the description template of the type, or the current values of an existing work package
 
@@ -184,5 +185,3 @@ The relevant tools are:
 -   `create_time_entry`
 -   `update_time_entry`
 -   `delete_time_entry`
-
-Actions performed through MCP use the permissions of the authenticated OpenProject user.
