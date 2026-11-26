@@ -90,6 +90,25 @@ jobs:
         CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
         CAPYBARA_AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
       run: bin/ci run-features
+    - name: Report failed specs
+      if: failure()
+      run: |
+        if [ -s tmp/parallel_failures_annotations.log ]; then
+          cat tmp/parallel_failures_annotations.log
+        fi
+        if [ -s tmp/parallel_failures_summary.md ]; then
+          {
+            echo "## Failed specs"
+            echo
+            cat tmp/parallel_failures_intro.md
+            cat tmp/parallel_failures_summary.md
+          } >> "$GITHUB_STEP_SUMMARY"
+        fi
+        if [ -s log/hocuspocus.log ]; then
+          echo "::group::Hocuspocus log"
+          cat log/hocuspocus.log
+          echo "::endgroup::"
+        fi
     - name: Report flaky specs
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

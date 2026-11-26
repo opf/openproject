@@ -281,7 +281,6 @@ group :test do
   # Test prof provides factories from code
   # and other niceties
   gem "test-prof", "~> 1.6.4"
-  gem "turbo_tests", github: "opf/turbo_tests", ref: "with-patches"
 
   gem "rack_session_access"
   gem "rspec", "~> 3.13.2"
@@ -332,7 +331,7 @@ group :test do
   gem "json_spec", "~> 1.1.4"
   gem "shoulda-matchers", "~> 8.0", require: nil
 
-  gem "parallel_tests", "~> 4.0"
+  gem "parallel_tests", "~> 5.9"
 end
 
 group :ldap do

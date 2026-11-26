@@ -79,19 +79,12 @@ class Capybara::ScreenshotAdditions
       output.puts("\n#{info.to_json}")
     end
   end
-
-  def self.report_screenshots?(formatter)
-    formatter.singleton_class.include?(Capybara::Screenshot::RSpec::TextReporter)
-  end
 end
 
-# Add a custom formatter to output screenshot information if there are no
-# formatters patched by capybara-screenshot. This can happen with turbo_tests
-# which uses custom formatters not supported by capybara-screenshot.
+# script/github_pr_errors finds screenshots of failed CI feature tests by the
+# JSON lines this formatter prints.
 RSpec.configure do |config|
   config.before(:suite) do
-    if config.formatters.none? { |formatter| Capybara::ScreenshotAdditions.report_screenshots?(formatter) }
-      config.add_formatter(Capybara::ScreenshotAdditions::Formatter)
-    end
+    config.add_formatter(Capybara::ScreenshotAdditions::Formatter)
   end
 end

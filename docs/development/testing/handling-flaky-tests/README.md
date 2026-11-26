@@ -135,7 +135,7 @@ As the spec files are split between the parallel processes based on their record
 
 As the order of tests is different for each run, it's important to run the failing test with the same seed.
 
-This information can be found in the log output. It is also given by `script/github_pr_errors --display-rerun-info` which reads this output and extracts the relevant information.
+This information can be found in the log output: each process's output starts with its `bin/rspec --seed …` command, including all of its spec files. It is also given by `script/github_pr_errors --display-rerun-info` which reads this output and extracts the relevant information. The _Failed specs_ section of the job summary shows the seed too, but not the other spec files of the process.
 
 If it fails when run with its group, but not when run alone, then the test failure is order-dependent.
 
