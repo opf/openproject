@@ -78,6 +78,14 @@ RSpec.describe Journals::CreateService::Association do
       expect(associations.map(&:class)).to include(Journals::CreateService::Labelable)
     end
 
+    it "includes ExternalLinkable for a journable that responds to external_links" do
+      journable = instance_double(WorkPackage, customizable?: false, respond_to?: false)
+      allow(journable).to receive(:respond_to?).with(:external_links).and_return(true)
+
+      associations = described_class.for(journable)
+      expect(associations.map(&:class)).to include(Journals::CreateService::ExternalLinkable)
+    end
+
     it "excludes associations whose #associated? returns false" do
       journable = instance_double(WorkPackage, customizable?: false, respond_to?: false)
       allow(journable).to receive(:respond_to?).and_return(false)

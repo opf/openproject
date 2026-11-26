@@ -68,6 +68,7 @@ class WorkPackage < ApplicationRecord
 
   has_many :time_entries, dependent: :delete_all, inverse_of: :entity, as: :entity
   has_many :file_links, dependent: :delete_all, class_name: "Storages::FileLink", as: :container
+  has_many :external_links, dependent: :delete_all, inverse_of: :work_package
   has_many :storages, through: :project
 
   has_and_belongs_to_many :changesets, -> { # rubocop:disable Rails/HasAndBelongsToMany

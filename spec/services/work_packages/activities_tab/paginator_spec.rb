@@ -270,8 +270,8 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
 
         # The wrapper runs against the page slice, so query count does not scale
         # with history size. Ceiling leaves headroom for an extra eager-load
-        # without becoming brittle; actual count today is ~21.
-        expect(recorder.count).to be < 25,
+        # without becoming brittle; actual count today is ~25.
+        expect(recorder.count).to be < 30,
                                   "expected query count bounded regardless of history; got #{recorder.count}:\n" \
                                   "#{recorder.log.join("\n")}"
       end
@@ -866,6 +866,36 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
           changes = snapshot.reload.get_changes
           expect(changes).to eq({})
 
+          expect(records.map(&:id)).not_to include(snapshot.id)
+        end
+      end
+
+      context "with external link changes" do
+        let(:external_link) { create(:external_link, work_package:) }
+
+        def change_external_links
+          yield
+          work_package.save_journals
+          work_package.journals.order(:version).last
+        end
+
+        it "includes journals where an external link was added, changed and removed" do
+          added = change_external_links { external_link }
+          changed = change_external_links { external_link.update!(title: "Roadmap") }
+          removed = change_external_links { external_link.destroy! }
+
+          _pagy, records = paginator.call
+          expect(records.map(&:id)).to include(added.id, changed.id, removed.id)
+        end
+
+        it "excludes journal with only an external link snapshot" do
+          change_external_links { external_link }
+          work_package.reload.add_journal(notes: "Unrelated change")
+          work_package.save!
+          snapshot = work_package.journals.order(:version).last
+
+          _pagy, records = paginator.call
+          expect(snapshot.reload.external_link_journals.count).to eq(1)
           expect(records.map(&:id)).not_to include(snapshot.id)
         end
       end

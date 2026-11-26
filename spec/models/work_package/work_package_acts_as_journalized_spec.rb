@@ -990,6 +990,84 @@ RSpec.describe WorkPackage do
       end
     end
 
+    context "on external link changes", with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:journable) do
+        create(:work_package)
+      end
+
+      def change_external_links
+        yield
+        journable.save_journals
+      end
+
+      def journaled_external_links
+        Journal::ExternalLinkJournal.where(journal: journable.last_journal)
+      end
+
+      context "when adding an external link" do
+        let!(:link_of_another_work_package) { create(:external_link) }
+        let(:external_link) do
+          build(:external_link,
+                work_package: journable,
+                title: "Release plan",
+                description: "Plan for the next release",
+                application_type: "com.atlassian.confluence")
+        end
+
+        it "creates a new journal with a snapshot of the link" do
+          expect { change_external_links { external_link.save! } }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journaled_external_links.sole)
+            .to have_attributes(external_link_id: external_link.id,
+                                url: external_link.url,
+                                title: "Release plan",
+                                description: "Plan for the next release",
+                                application_type: "com.atlassian.confluence")
+          expect(journable.last_journal.details)
+            .to eq("external_links_#{external_link.id}_url" => [nil, external_link.url])
+        end
+      end
+
+      context "with an external link" do
+        let!(:external_link) { create(:external_link, work_package: journable, title: "Release plan") }
+
+        before do
+          journable.save_journals
+        end
+
+        context "when changing its title" do
+          it "creates a new journal with a snapshot of the changed link" do
+            expect { change_external_links { external_link.update!(title: "Roadmap") } }
+              .to change { journable.journals.count }.by(1)
+
+            expect(journaled_external_links.sole).to have_attributes(external_link_id: external_link.id, title: "Roadmap")
+            expect(journable.last_journal.details)
+              .to eq("external_links_#{external_link.id}_title" => ["Release plan", "Roadmap"])
+          end
+        end
+
+        context "when removing it" do
+          it "creates a new journal without a snapshot of the link" do
+            expect { change_external_links { external_link.destroy! } }
+              .to change { journable.journals.count }.by(1)
+
+            expect(journaled_external_links).to be_empty
+            expect(journable.last_journal.details)
+              .to eq("external_links_#{external_link.id}_url" => [external_link.url, nil])
+          end
+        end
+
+        context "when saving it without changes" do
+          it "creates no journal and does not touch the journable" do
+            expect { change_external_links { external_link.save! } }
+              .to not_change { journable.journals.count }
+              .and(not_change { journable.reload.updated_at })
+          end
+        end
+      end
+    end
+
     context "on only journal notes adding outside of aggregation time" do
       shared_let(:journable) do
         create(:work_package,
