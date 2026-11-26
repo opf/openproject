@@ -141,7 +141,7 @@ module OpenProject::Plugins
       end
 
       def assets(_assets)
-        OpenProject::Deprecation.warn(
+        ActiveSupport::Deprecation.new.warn(
           "#{self.class}.assets is deprecated and has no effect. Propshaft serves everything in the engine's app/assets.",
           caller_locations
         )
