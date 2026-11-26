@@ -156,6 +156,25 @@ describe('Context menu entry', () => {
     ]);
   });
 
+  it('puts bulk edit in its own group outside manual sorting', () => {
+    vi.spyOn(harness.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions').mockReturnValue([
+      { key: 'edit', text: 'Bulk edit' },
+      { key: 'move', text: 'Bulk change of project' },
+      { key: 'copy', text: 'Bulk duplicate' },
+      { key: 'delete', text: 'Bulk delete' },
+    ]);
+    harness.click('1');
+    harness.click('2', { shiftKey: true });
+
+    fireEvent.contextMenu(harness.row('2'));
+
+    const items = opened.mock.calls[0][0].locals.items;
+
+    expect(items.map((item) => (item.divider ? '---' : item.linkText))).toEqual([
+      'Bulk edit', '---', 'Bulk change of project', 'Bulk duplicate', '---', 'Bulk delete',
+    ]);
+  });
+
   it('uses the duplicate Octicon for the bulk copy action', () => {
     vi.spyOn(harness.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions')
       .mockReturnValue([{ key: 'copy', text: 'Bulk duplicate' }]);
@@ -348,6 +367,23 @@ describe('Context menu entry', () => {
         ['Move up', false],
         ['Move down', true],
         ['Move to bottom', true],
+      ]);
+    });
+
+    it('orders the bulk menu as edit, then moves, then delete', () => {
+      vi.spyOn(harness.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions').mockReturnValue([
+        { key: 'edit', text: 'Bulk edit' },
+        { key: 'move', text: 'Bulk change of project' },
+        { key: 'copy', text: 'Bulk duplicate' },
+        { key: 'delete', text: 'Bulk delete' },
+      ]);
+      harness.click('1');
+      harness.click('2', { shiftKey: true });
+
+      openFromKeyboard('2');
+
+      expect(menuItems().map((item) => (item.divider ? '---' : item.linkText))).toEqual([
+        'Bulk edit', '---', 'Move to position', 'Bulk change of project', 'Bulk duplicate', '---', 'Bulk delete',
       ]);
     });
 
