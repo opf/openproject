@@ -42,9 +42,12 @@ RSpec.describe Import::JiraCreateLabelsJob do
     end
 
     it "creates a label per distinct jira label of the import" do
+      allow(Rails.logger).to receive(:warn)
+
       expect { create_labels }.to change(Label, :count).by(2)
 
       expect(Label.pluck(:name)).to contain_exactly("backend", "urgent")
+      expect(Rails.logger).not_to have_received(:warn).with(/Merging jira label/)
     end
 
     it "authors the labels as the system user" do
@@ -96,7 +99,12 @@ RSpec.describe Import::JiraCreateLabelsJob do
       end
 
       it "creates it once, ignoring case" do
+        allow(Rails.logger).to receive(:warn)
+
         expect { create_labels }.to change(Label, :count).by(2)
+
+        expect(Rails.logger).to have_received(:warn)
+          .with('Merging jira labels differing only in case into "backend": Backend')
       end
     end
 
@@ -139,9 +147,13 @@ RSpec.describe Import::JiraCreateLabelsJob do
       let!(:existing_label) { create(:label, name: "Backend") }
 
       it "reuses it instead of creating a second one" do
+        allow(Rails.logger).to receive(:warn)
+
         expect { create_labels }.to change(Label, :count).by(1)
 
         expect(Label.named("backend").first).to eq(existing_label)
+        expect(Rails.logger).to have_received(:warn)
+          .with(/Merging jira label "backend" into existing OpenProject label "Backend"/)
       end
 
       it "references it as pre-existing, so the revert leaves it alone" do
