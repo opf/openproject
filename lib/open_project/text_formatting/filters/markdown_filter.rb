@@ -62,7 +62,7 @@ module OpenProject::TextFormatting
       ##
       # Extensions to the default CommonMarker operation
       def commonmark_extensions
-        enabled = %i[table strikethrough]
+        enabled = %i[table strikethrough tasklist]
 
         %i[strikethrough tagfilter table autolink tasklist shortcodes]
           .index_with(false)

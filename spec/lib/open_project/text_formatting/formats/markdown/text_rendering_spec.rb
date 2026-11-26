@@ -44,6 +44,14 @@ RSpec.describe "Markdown plain-text rendering" do # rubocop:disable RSpec/Descri
     end
   end
 
+  describe "a task list" do
+    let(:input) { "- [x] done\n- [ ] open" }
+
+    it "renders text markers for each item" do
+      expect(formatted).to include("[x] done", "[ ] open")
+    end
+  end
+
   describe "with an inline work-package reference" do
     shared_let(:project) { create(:project, identifier: "demo") }
     shared_let(:work_package) { create(:work_package, project:, subject: "task") }

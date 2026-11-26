@@ -98,18 +98,9 @@ RSpec.describe OpenProject::TextFormatting,
       let(:expected) do
         <<~EXPECTED
           <ul class="op-uc-list_task-list op-uc-list">
-            <li class="op-uc-list--item">
-                <input type="checkbox" class="op-uc-list--task-checkbox" disabled>
-                First ToDo
-            </li>
-            <li class="op-uc-list--item">
-                <input type="checkbox" class="op-uc-list--task-checkbox" disabled>
-                Second ToDo
-            </li>
-            <li class="op-uc-list--item">
-                <input type="checkbox" class="op-uc-list--task-checkbox" disabled>
-                Third ToDo
-            </li>
+            <li class="op-uc-list--item_task op-uc-list--item"><label><input type="checkbox" class="op-uc-list--task-checkbox" disabled> First ToDo</label></li>
+            <li class="op-uc-list--item_task op-uc-list--item"><label><input type="checkbox" class="op-uc-list--task-checkbox" disabled> Second ToDo</label></li>
+            <li class="op-uc-list--item_task op-uc-list--item"><label><input type="checkbox" class="op-uc-list--task-checkbox" disabled> Third ToDo</label></li>
           </ul>
         EXPECTED
       end
@@ -206,56 +197,52 @@ RSpec.describe OpenProject::TextFormatting,
                     <tr class="op-uc-table--row">
                       <td class="op-uc-table--cell">
                         <ul class="op-uc-list_task-list op-uc-list">
-                          <li class="op-uc-list--item">
-                            <input type="checkbox" class="op-uc-list--task-checkbox" disabled>
-                            <code class='op-uc-code'>
-                              <span>asdf</span>
-                            </code>
+                          <li class="op-uc-list--item_task op-uc-list--item">
+                            <label><input type="checkbox" class="op-uc-list--task-checkbox" disabled>
+                              <code class="op-uc-code">asdf</code>
+                            </label>
                           </li>
                         </ul>
                       </td>
                       <td class="op-uc-table--cell">
                         <ul class="op-uc-list_task-list op-uc-list">
-                          <li class="op-uc-list--item">
-                            <input type="checkbox" class="op-uc-list--task-checkbox" disabled>
-                            <a class="op-uc-link" target="_top" href="https://example.com/" rel="noopener noreferrer nofollow">
-                              <span>asdfasd</span>
-                              <span> asdf</span>
-                            </a>
+                          <li class="op-uc-list--item_task op-uc-list--item">
+                            <label><input type="checkbox" class="op-uc-list--task-checkbox" disabled>
+                              <a class="op-uc-link" target="_top" href="https://example.com/" rel="noopener noreferrer nofollow">
+                                asdfasd
+                                <span> asdf</span>
+                              </a>
+                            </label>
                           </li>
                         </ul>
                       </td>
                       <td class="op-uc-table--cell">
-                        <ul class="op-uc-list_task-list op-uc-list" >
-                          <li class="op-uc-list--item">
-                            <input type="checkbox" class="op-uc-list--task-checkbox" disabled>
-                            <span>asdfasdf</span>
+                        <ul class="op-uc-list_task-list op-uc-list">
+                          <li class="op-uc-list--item_task op-uc-list--item">
+                            <label><input type="checkbox" class="op-uc-list--task-checkbox" disabled> asdfasdf</label>
                           </li>
                         </ul>
                       </td>
                     </tr>
                     <tr class="op-uc-table--row">
                       <td class="op-uc-table--cell">
-                        <ul class="op-uc-list_task-list op-uc-list">
-                          <li class="op-uc-list--item">
-                            <input type="checkbox" class="op-uc-list--task-checkbox" disabled>
-                          </li>
+                        <ul class="op-uc-list">
+                          <li class="op-uc-list--item">[ ]</li>
                         </ul>
                       </td>
                       <td class="op-uc-table--cell">
                         <ul class="op-uc-list_task-list op-uc-list">
-                          <li class="op-uc-list--item">
-                            <input type="checkbox" class="op-uc-list--task-checkbox" disabled>
-                            <strong></strong>
-                            <span><strong>asdf</strong></span>
+                          <li class="op-uc-list--item_task op-uc-list--item">
+                            <label><input type="checkbox" class="op-uc-list--task-checkbox" disabled>
+                              <strong></strong>
+                              <span><strong>asdf</strong></span>
+                            </label>
                           </li>
                         </ul>
                       </td>
                       <td class="op-uc-table--cell">
-                        <ul class="op-uc-list_task-list op-uc-list">
-                          <li class="op-uc-list--item">
-                            <input type="checkbox" class="op-uc-list--task-checkbox" disabled>
-                          </li>
+                        <ul class="op-uc-list">
+                          <li class="op-uc-list--item">[ ]</li>
                         </ul>
                       </td>
                     </tr>
@@ -314,12 +301,12 @@ RSpec.describe OpenProject::TextFormatting,
                     <tr class="op-uc-table--row">
                       <td class="op-uc-table--cell">
                         <ul class="op-uc-list_task-list op-uc-list">
-                          <li class="op-uc-list--item">
-                            <input type="checkbox" class="op-uc-list--task-checkbox" disabled>
-                            <span>asdfasdfasdf </span>
-                            <a class="op-uc-link" href="https://example.com/" target="_top" rel="noopener noreferrer nofollow">
-                              <span>foobar</span>
-                            </a>
+                          <li class="op-uc-list--item_task op-uc-list--item">
+                            <label><input type="checkbox" class="op-uc-list--task-checkbox" disabled> asdfasdfasdf
+                              <a class="op-uc-link" href="https://example.com/" target="_top" rel="noopener noreferrer nofollow">
+                                <span>foobar</span>
+                              </a>
+                            </label>
                           </li>
                         </ul>
                       </td>
