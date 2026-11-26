@@ -477,6 +477,22 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
                                              list_custom_field.possible_values[3].value])
       end
     end
+
+    it "filters again after the filter was removed and added back" do
+      load_and_open_filters admin
+      value = list_custom_field.possible_values[2].value
+
+      projects_page.set_filter(list_custom_field.column_name, list_custom_field.name, "is (OR)", [value])
+      projects_page.expect_projects_not_listed(development_project)
+      projects_page.expect_projects_listed(project)
+
+      projects_page.remove_filter(list_custom_field.column_name)
+      projects_page.expect_projects_listed(project, development_project)
+
+      projects_page.set_filter(list_custom_field.column_name, list_custom_field.name, "is (OR)", [value])
+      projects_page.expect_projects_not_listed(development_project)
+      projects_page.expect_projects_listed(project)
+    end
   end
 
   describe "version cf filter" do

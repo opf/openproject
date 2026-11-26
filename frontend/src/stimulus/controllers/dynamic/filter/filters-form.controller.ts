@@ -365,21 +365,49 @@ export default class FiltersFormController extends Controller {
 
   addFilter(event:Event) {
     const filterName = (event.target as HTMLSelectElement).value;
-    this.addFilterByName(filterName);
+    void this.addFilterByName(filterName);
   }
 
-  addFilterByName(filterName:string) {
-    const selectedFilter = this.findTargetByName(filterName, this.filterTargets);
+  async addFilterByName(filterName:string) {
+    this.setFilterOptionTaken(filterName, true);
+    this.addFilterSelectTarget.selectedIndex = 0;
+
+    const selectedFilter = this.findTargetByName(filterName, this.filterTargets) ?? await this.loadFilterRow(filterName);
     if (selectedFilter) {
       selectedFilter.removeAttribute('hidden');
       selectedFilter.setAttribute(PENDING_ATTRIBUTE, '');
+    } else {
+      this.setFilterOptionTaken(filterName, false);
     }
-    this.setFilterOptionTaken(filterName, true);
-    this.addFilterSelectTarget.selectedIndex = 0;
 
     this.focusFilterValueIfPossible(selectedFilter);
 
     this.sendFormLive();
+  }
+
+  private async loadFilterRow(filterName:string):Promise<HTMLElement|undefined> {
+    const rowsUrl = this.addFilterSelectTarget.dataset.rowsUrl;
+    if (!rowsUrl) return undefined;
+
+    const url = new URL(rowsUrl, window.location.href);
+    url.searchParams.set('filter_row', filterName);
+
+    const response = await fetch(url, { headers: { Accept: 'text/html' } });
+    if (!response.ok) return undefined;
+
+    const template = document.createElement('template');
+    template.innerHTML = await response.text();
+    const row = template.content.querySelector<HTMLElement>(
+      `[data-filter--filters-form-target="filter"][data-filter-name="${CSS.escape(filterName)}"]`,
+    );
+    const loadedMeanwhile = this.findTargetByName(filterName, this.filterTargets);
+    if (loadedMeanwhile) return loadedMeanwhile;
+
+    const addFilterControl = this.addFilterSelectTarget.closest('.FormControl-spacingWrapper');
+    if (!row || !addFilterControl) return undefined;
+
+    addFilterControl.before(row);
+    return row;
   }
 
   focusFilterValueIfPossible(element:undefined|HTMLElement) {
