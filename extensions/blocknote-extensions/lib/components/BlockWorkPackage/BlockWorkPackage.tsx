@@ -20,6 +20,7 @@ import { hideSafariPhantomSelection, selectBlockNode } from '../../utils/selecti
 import { pendingBlockRegistry } from './pendingBlockRegistry';
 import { useSuppressFormattingToolbar } from '../../hooks/useSuppressFormattingToolbar';
 import { usePressOutside } from '../../hooks/usePressOutside';
+import { useCloseOptionsOnDeselect } from '../../hooks/useCloseOptionsOnDeselect';
 import { blockDragProps } from '../../utils/blockDrag';
 import { useTapActivation } from '../../utils/tapActivation';
 import { useOptionsHost } from '../../utils/optionsHost';
@@ -76,6 +77,7 @@ export const BlockWorkPackageComponent = ({
   const selectedBlocks = useSelectedBlocks(editor);
   const isBlockSelected = selectedBlocks.some((b) => b.id === block.id);
   const options = useOptionsMenu();
+  useCloseOptionsOnDeselect(isBlockSelected, options);
 
   useEffect(() => {
     if (!isBlockSelected) return;

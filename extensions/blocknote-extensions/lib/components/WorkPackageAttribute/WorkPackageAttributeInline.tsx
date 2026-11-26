@@ -5,6 +5,7 @@ import { BLOCK_WP_ATTRIBUTE_TYPE, INLINE_WP_ATTRIBUTE_TYPE } from '../../utils/n
 import { findInlineChipAtDOM, removeInlineChipAt, selectInlineChipAtDOM } from '../../utils/inlineChipActions';
 import { useColors } from '../../services/colors';
 import { useIsNodeInSelection } from '../../hooks/useIsNodeInSelection';
+import { useCloseOptionsOnDeselect } from '../../hooks/useCloseOptionsOnDeselect';
 import type { AttributeDisplay } from './display';
 import { useWorkPackageAttribute } from './useWorkPackageAttribute';
 import { pendingAttributes } from './pending';
@@ -37,6 +38,7 @@ function ResolvedAttributeInline({ content, editor, contentRef, onDisplayChange 
   });
 
   const inSelection = useIsNodeInSelection(elementRef, editor, INLINE_WP_ATTRIBUTE_TYPE);
+  useCloseOptionsOnDeselect(inSelection, options);
 
   function selectAttributeNode() {
     if (editor && elementRef.current) selectInlineChipAtDOM(editor, elementRef.current, INLINE_WP_ATTRIBUTE_TYPE);

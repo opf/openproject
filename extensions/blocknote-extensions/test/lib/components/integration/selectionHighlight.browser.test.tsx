@@ -1,5 +1,6 @@
 import { describe, it, expect, afterEach, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
+import type { Locator } from 'vitest/browser';
 import { NodeSelection, TextSelection } from 'prosemirror-state';
 import { renderEditor } from '../../../helpers/renderEditor';
 import {
@@ -258,5 +259,81 @@ describe('Work package selection - no phantom text selection (BNE-125)', () => {
     await expect.poll(blockIsSelected).toBe(true);
     await afterCollapseFrame();
     expect(nativeSelectionIsCollapsed()).toBe(false);
+  });
+});
+
+const selectionRing = (ringElement:string) => getComputedStyle(document.querySelector(ringElement)!).boxShadow;
+
+interface ClickedElement {
+  initialContent:unknown[];
+  ringElement:string;
+  clickTarget:() => Locator;
+  arrowKey:string;
+}
+
+async function arrowAwayFromClickedElement({ initialContent, ringElement, clickTarget, arrowKey }:ClickedElement) {
+  const editor = await renderAndWaitFor([...initialContent, { type: 'paragraph', content: 'last line' }], ringElement);
+  await expect.element(clickTarget()).toBeVisible();
+  editor.focus();
+  editor.setTextCursorPosition(editor.document[editor.document.length - 1], 'end');
+  await afterCollapseFrame();
+  const unselectedRing = selectionRing(ringElement);
+
+  await userEvent.click(clickTarget());
+  await expect.element(page.getByRole('menu')).toBeVisible();
+  expect(selectionRing(ringElement)).not.toBe(unselectedRing);
+
+  await userEvent.keyboard(`{${arrowKey}}`);
+
+  await expect.element(page.getByRole('menu')).not.toBeInTheDocument();
+  return { unselectedRing, ringAfterArrowKey: selectionRing(ringElement) };
+}
+
+describe('Work package elements - the arrow keys move the selection ring away (BNE-202)', () => {
+  it('removes it from a clicked inline work package', async () => {
+    const { unselectedRing, ringAfterArrowKey } = await arrowAwayFromClickedElement({
+      initialContent: [{ type: 'paragraph', content: ['before ', inlineWorkPackage, ' after'] }],
+      ringElement: '.op-bn-inline-wp-base',
+      clickTarget: () => page.getByText('#123'),
+      arrowKey: 'ArrowRight',
+    });
+
+    expect(ringAfterArrowKey).toBe(unselectedRing);
+  });
+
+  it('removes it from a clicked inline work package attribute', async () => {
+    const { unselectedRing, ringAfterArrowKey } = await arrowAwayFromClickedElement({
+      initialContent: [{ type: 'paragraph', content: ['before ', inlineAttribute, ' after'] }],
+      ringElement: '.op-bn-wp-attribute',
+      clickTarget: () => page.getByRole('button', { name: /Status|In progress/ }),
+      arrowKey: 'ArrowRight',
+    });
+
+    expect(ringAfterArrowKey).toBe(unselectedRing);
+  });
+
+  it('removes it from a clicked work package attribute block', async () => {
+    const { unselectedRing, ringAfterArrowKey } = await arrowAwayFromClickedElement({
+      initialContent: [{
+        type: 'openProjectWorkPackageAttributeBlock',
+        props: { wpid: '321', displayId: 'PROJ-321', attribute: 'description', display: 'value' },
+      }],
+      ringElement: '.op-bn-wp-attribute-block',
+      clickTarget: () => page.getByTitle(/PROJ-321/),
+      arrowKey: 'ArrowDown',
+    });
+
+    expect(ringAfterArrowKey).toBe(unselectedRing);
+  });
+
+  it('removes it from a clicked block work package', async () => {
+    const { unselectedRing, ringAfterArrowKey } = await arrowAwayFromClickedElement({
+      initialContent: [{ type: 'openProjectWorkPackageBlock', props: { wpid: 123, size: 'm', displayId: '123' } }],
+      ringElement: '[data-testid="block-wp-wrapper"]',
+      clickTarget: () => page.getByTestId('op-bn-work-package--type'),
+      arrowKey: 'ArrowDown',
+    });
+
+    expect(ringAfterArrowKey).toBe(unselectedRing);
   });
 });
