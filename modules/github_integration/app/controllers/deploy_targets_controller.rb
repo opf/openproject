@@ -53,7 +53,7 @@ class DeployTargetsController < ApplicationController
 
       redirect_to deploy_targets_path
     else
-      render "new", status: :unprocessable_entity
+      render "new", status: :unprocessable_content
     end
   end
 

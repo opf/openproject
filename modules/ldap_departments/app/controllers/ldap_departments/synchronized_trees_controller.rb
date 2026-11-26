@@ -64,7 +64,7 @@ module LdapDepartments
         flash[:notice] = I18n.t("ldap_departments.synchronized_trees.synchronization_started")
         redirect_to action: :show, tree_id: @tree.id
       else
-        render action: :new, status: :unprocessable_entity
+        render action: :new, status: :unprocessable_content
       end
     rescue ActionController::ParameterMissing
       render_400
@@ -75,7 +75,7 @@ module LdapDepartments
         flash[:notice] = I18n.t(:notice_successful_update)
         redirect_to action: :show
       else
-        render action: :edit, status: :unprocessable_entity
+        render action: :edit, status: :unprocessable_content
       end
     rescue ActionController::ParameterMissing
       render_400

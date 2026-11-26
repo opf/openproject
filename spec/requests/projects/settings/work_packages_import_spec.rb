@@ -510,7 +510,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
     it "asks for a file when none was chosen" do
       post show_path, params: { dry_run: "1" }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(field_error).to eq("Choose a CSV file to upload.")
     end
 
@@ -524,7 +524,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
     it "asks for a file when the field holds something that is not one" do
       post show_path, params: { file: "/etc/hostname" }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(field_error).to eq("Choose a CSV file to upload.")
       expect(WorkPackages::Import::CSV::CsvImportJob).not_to have_been_enqueued
     end
@@ -534,7 +534,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
     it "asks for a file when the field holds something that is not one beside an attachment" do
       post show_path, params: { attachment_id: "0", file: "/etc/hostname", dry_run: "1" }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(field_error).to eq("Choose a CSV file to upload.")
       expect(WorkPackages::Import::CSV::CsvImportJob).not_to have_been_enqueued
     end
@@ -575,7 +575,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
 
       upload(Rack::Test::UploadedFile.new(csv_fixture, "text/csv"))
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(field_error).to eq("disk on fire")
     end
 
@@ -606,7 +606,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
     it "keeps the summary rather than reading as though the check went wrong" do
       post show_path, params: { attachment_id: 0, dry_run: "0", job: job_id }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.body).to include("142 lines checked, no problems found")
     end
 

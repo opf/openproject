@@ -100,7 +100,7 @@ RSpec.describe WorkPackageTypes::ProjectsTabController do
           post :enable_all_projects, params: { type_id: type.id, value: "0" }, format: :turbo_stream
         end
 
-        it { expect(response).to have_http_status(:unprocessable_entity) }
+        it { expect(response).to have_http_status(:unprocessable_content) }
 
         it "drops the type from the projects it can and leaves the blocked one alone" do
           expect(type.reload.projects).to contain_exactly(project)

@@ -58,14 +58,14 @@ RSpec.describe "Topic form", :skip_csrf, type: :rails_request do
       post project_forum_topics_path(project, forum),
            params: { message: { subject: "With a file", content: "Body" }, attachments: { "0" => { id: someone_elses_file.id } } }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(html).to have_test_selector("message-form-errors", text: "Attachments does not exist")
     end
 
     it "re-renders the form with the field error for blank content", :aggregate_failures do
       post project_forum_topics_path(project, forum), params: { message: { subject: "Kept subject", content: "" } }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(html).to have_field("Subject", with: "Kept subject")
       expect(html).to have_text("Content can't be blank")
       expect(html).to have_no_test_selector("message-form-errors")
@@ -145,7 +145,7 @@ RSpec.describe "Topic form", :skip_csrf, type: :rails_request do
     it "re-renders the thread with the field error for a blank reply", :aggregate_failures do
       post reply_to_project_forum_topic_path(project, forum, topic), params: { reply: { content: "" } }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(topic.children).to be_empty
       expect(html).to have_test_selector("forum-post-#{topic.id}")
       expect(html).to have_css("#reply", text: "Content can't be blank")
@@ -158,7 +158,7 @@ RSpec.describe "Topic form", :skip_csrf, type: :rails_request do
       post reply_to_project_forum_topic_path(project, forum, topic),
            params: { reply: { content: "Agreed" }, attachments: { "0" => { id: someone_elses_file.id } } }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(html).to have_css("#reply #{test_selector('message-form-errors')}", text: "Attachments does not exist")
     end
 

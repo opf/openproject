@@ -48,7 +48,7 @@ class Projects::Settings::ProjectCustomFieldsController < Projects::SettingsCont
     if call.success?
       render json: {}, status: :ok
     else
-      render json: {}, status: :unprocessable_entity
+      render json: {}, status: :unprocessable_content
     end
   end
 

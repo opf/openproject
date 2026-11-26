@@ -69,7 +69,7 @@ RSpec.describe "Confirming a project's variant switch",
     it "refuses inside the dialog, without asking to confirm" do
       subject
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.body).to include("The project already uses this type or variant.")
       expect(response.body).not_to include("Switch type variant?")
     end
@@ -81,7 +81,7 @@ RSpec.describe "Confirming a project's variant switch",
     it "refuses it" do
       subject
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.body).not_to include("Switch type variant?")
     end
   end

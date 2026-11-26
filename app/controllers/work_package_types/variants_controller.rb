@@ -215,7 +215,7 @@ module WorkPackageTypes
         component: Types::ConvertToGlobalRenameFormComponent.new(
           variant: service_call.result, url: convert_path(service_call.result)
         ),
-        status: :unprocessable_entity
+        status: :unprocessable_content
       )
     end
 

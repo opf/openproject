@@ -430,7 +430,7 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
 
       post apply_ai_text_transform_pane_path(run.uuid), params: pane_params, headers: stream
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
 
     it "does not apply another user's run" do
@@ -456,7 +456,7 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
 
       delete ai_text_transform_pane_path(run.uuid), params: pane_params, headers: stream
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(run.reload.cancel_requested).to be(false)
     end
   end

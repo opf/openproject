@@ -213,7 +213,7 @@ module Reporting
       message = I18n.t("export.invalid_filters", errors: @report.filter_errors.join(" "))
 
       if json_requested?
-        render json: { message: }, status: :unprocessable_entity
+        render json: { message: }, status: :unprocessable_content
       else
         flash[:error] = message
         redirect_back_or_to reports_path

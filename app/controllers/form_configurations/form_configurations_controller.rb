@@ -137,7 +137,7 @@ module FormConfigurations
     end
 
     def reject_missing_copy_source
-      respond_with_dialog start_dialog(error: t("form_configurations.start.copy.missing")), status: :unprocessable_entity
+      respond_with_dialog start_dialog(error: t("form_configurations.start.copy.missing")), status: :unprocessable_content
     end
 
     def chosen_copy_from_id
@@ -181,7 +181,7 @@ module FormConfigurations
     def render_form_errors(form_configuration)
       update_via_turbo_stream(
         component: WorkPackageTypes::NamedReferences::NameFormComponent.new(record: form_configuration, model_class:),
-        status: :unprocessable_entity
+        status: :unprocessable_content
       )
       respond_with_turbo_streams
     end

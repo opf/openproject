@@ -86,7 +86,7 @@ RSpec.describe "API v3 Meeting sorting mode", content_type: :json do
         post api_v3_paths.meetings, body.merge(agendaSortingMode: "votes").to_json
       end.not_to change(Meeting, :count)
 
-      expect(last_response).to have_http_status(:unprocessable_entity)
+      expect(last_response).to have_http_status(:unprocessable_content)
     end
   end
 
@@ -107,7 +107,7 @@ RSpec.describe "API v3 Meeting sorting mode", content_type: :json do
       it "rejects #{mode.inspect} without changing the mode" do
         patch api_v3_paths.meeting(meeting.id), { agendaSortingMode: mode, lockVersion: meeting.lock_version }.to_json
 
-        expect(last_response).to have_http_status(:unprocessable_entity)
+        expect(last_response).to have_http_status(:unprocessable_content)
         expect(meeting.reload).to be_agenda_sorting_vote_based
       end
     end

@@ -90,7 +90,7 @@ module CustomFields
                      value: custom_field.restrictable_values.find(params.expect(:id)),
                      enabled: params[:value] == "1")
 
-      render json: {}, status: call.success? ? :ok : :unprocessable_entity
+      render json: {}, status: call.success? ? :ok : :unprocessable_content
     end
 
     def enable_all
@@ -218,7 +218,7 @@ module CustomFields
         component: ::Admin::CustomFields::Projects::ValueFormComponent.new(
           custom_field:, project: configured_project, value:, values: value_params, errors:
         ),
-        status: :unprocessable_entity
+        status: :unprocessable_content
       )
       respond_with_turbo_streams
     end

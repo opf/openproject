@@ -65,9 +65,9 @@ module ::ResourceManagement
     def render_create_failure(placeholder_user)
       replace_via_turbo_stream(
         component: ResourceManagement::PlaceholderUsers::FormComponent.new(placeholder_user:),
-        status: :unprocessable_entity
+        status: :unprocessable_content
       )
-      respond_with_turbo_streams(status: :unprocessable_entity)
+      respond_with_turbo_streams(status: :unprocessable_content)
     end
 
     def create_attributes

@@ -106,7 +106,7 @@ RSpec.describe WorkPackageTypes::DetailsTabController do
           another_type
         end
 
-        it { expect(response).to have_http_status(:unprocessable_entity) }
+        it { expect(response).to have_http_status(:unprocessable_content) }
         it { expect(response).to render_template "edit" }
       end
 
@@ -121,7 +121,7 @@ RSpec.describe WorkPackageTypes::DetailsTabController do
         it "does not save and re-renders the form", :aggregate_failures do
           put(:update, params:)
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
           expect(type.reload.description).to be_blank
         end
       end

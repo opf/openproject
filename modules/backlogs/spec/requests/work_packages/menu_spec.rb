@@ -389,19 +389,19 @@ RSpec.describe "Backlogs card menu", type: :rails_request do
     it "rejects an invoker outside ids" do
       get_menu(ids: [other.id], invoker_id: invoker.id)
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
 
     it "rejects duplicate ids" do
       get_menu(ids: [invoker.id, invoker.id])
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
 
     it "rejects a blank id" do
       get_menu(ids: [invoker.id, ""])
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 end

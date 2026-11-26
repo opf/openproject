@@ -55,7 +55,7 @@ module FormConfigurations
         render_form_configuration_error(call)
       end
 
-      respond_with_turbo_streams(status: call.success? ? :ok : :unprocessable_entity)
+      respond_with_turbo_streams(status: call.success? ? :ok : :unprocessable_content)
     end
 
     def load_form_configuration

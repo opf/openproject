@@ -133,7 +133,7 @@ RSpec.describe FormConfigurations::FormConfigurationsController do
     it "keeps asking when copy is chosen without a source" do
       post :configure, params: { start: "copy" }, format: :turbo_stream
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 
@@ -161,7 +161,7 @@ RSpec.describe FormConfigurations::FormConfigurationsController do
       expect { post :create, params: { form_configuration: { name: "Taken" } }, format: :turbo_stream }
         .not_to change(FormConfiguration, :count)
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
 
     context "with an account that is not an administrator" do

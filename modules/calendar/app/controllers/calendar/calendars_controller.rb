@@ -94,7 +94,7 @@ module ::Calendar
         flash[:notice] = I18n.t(:notice_successful_create)
         redirect_to project_calendar_path(@project || @view.query.project, @view.query)
       else
-        render action: :new, status: :unprocessable_entity
+        render action: :new, status: :unprocessable_content
       end
     end
 

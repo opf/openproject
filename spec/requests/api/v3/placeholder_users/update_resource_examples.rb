@@ -34,7 +34,7 @@ RSpec.shared_examples "updates the placeholder" do
     end
 
     it "returns an error" do
-      expect(last_response).to have_http_status(:unprocessable_entity)
+      expect(last_response).to have_http_status(:unprocessable_content)
       expect(last_response.body)
         .to be_json_eql("urn:openproject-org:api:v3:errors:PropertyConstraintViolation".to_json)
               .at_path("errorIdentifier")

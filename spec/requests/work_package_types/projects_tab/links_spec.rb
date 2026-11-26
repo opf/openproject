@@ -318,7 +318,7 @@ RSpec.describe "Adding and removing a work package type's projects", :skip_csrf,
       it "reports the refusal" do
         subject
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body).to include("Blocked")
       end
     end
@@ -358,7 +358,7 @@ RSpec.describe "Adding and removing a work package type's projects", :skip_csrf,
       it "keeps the type in the blocked project and names it" do
         subject
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(uses_type?(foundry)).to be(true)
         expect(response.body).to include("Foundry")
       end

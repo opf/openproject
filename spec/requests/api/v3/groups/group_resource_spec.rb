@@ -209,7 +209,7 @@ RSpec.describe "API v3 Group resource", content_type: :json do
         end
 
         it "responds with 422 and explains the error" do
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
 
           expect(response.body)
             .to be_json_eql("Name can't be blank.".to_json)
@@ -229,7 +229,7 @@ RSpec.describe "API v3 Group resource", content_type: :json do
             let(:body) { { name: "The new group with CF" }.to_json }
 
             it "responds with 422 and explains the custom field error" do
-              expect(response).to have_http_status(:unprocessable_entity)
+              expect(response).to have_http_status(:unprocessable_content)
 
               expect(response.body)
                 .to be_json_eql("Department can't be blank.".to_json)
@@ -246,7 +246,7 @@ RSpec.describe "API v3 Group resource", content_type: :json do
             end
 
             it "responds with 422 and explains the custom field error" do
-              expect(response).to have_http_status(:unprocessable_entity)
+              expect(response).to have_http_status(:unprocessable_content)
 
               expect(response.body)
                 .to be_json_eql("Department can't be blank.".to_json)
@@ -466,7 +466,7 @@ RSpec.describe "API v3 Group resource", content_type: :json do
           end
 
           it "responds with 422 and explains the custom field error" do
-            expect(response).to have_http_status(:unprocessable_entity)
+            expect(response).to have_http_status(:unprocessable_content)
 
             expect(response.body)
               .to be_json_eql("Department can't be blank.".to_json)
@@ -510,7 +510,7 @@ RSpec.describe "API v3 Group resource", content_type: :json do
           end
 
           it "responds with 422 and explains the custom field error" do
-            expect(response).to have_http_status(:unprocessable_entity)
+            expect(response).to have_http_status(:unprocessable_content)
 
             expect(response.body)
               .to be_json_eql("Department can't be blank.".to_json)
@@ -601,7 +601,7 @@ RSpec.describe "API v3 Group resource", content_type: :json do
       end
 
       it "responds with 422" do
-        expect(last_response).to have_http_status(:unprocessable_entity)
+        expect(last_response).to have_http_status(:unprocessable_content)
       end
 
       it "includes the error message with user and department ids" do
@@ -640,7 +640,7 @@ RSpec.describe "API v3 Group resource", content_type: :json do
       end
 
       it "responds with 422" do
-        expect(last_response).to have_http_status(:unprocessable_entity)
+        expect(last_response).to have_http_status(:unprocessable_content)
       end
 
       it "returns multiple errors" do
@@ -679,7 +679,7 @@ RSpec.describe "API v3 Group resource", content_type: :json do
       end
 
       it "responds with 422 but ignores the change" do
-        expect(last_response).to have_http_status(:unprocessable_entity)
+        expect(last_response).to have_http_status(:unprocessable_content)
       end
     end
 

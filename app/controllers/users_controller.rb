@@ -126,7 +126,7 @@ class UsersController < ApplicationController
       redirect_to helpers.allowed_management_user_profile_path(@user)
     else
       @contract = Users::CreateContract.new(@user, current_user)
-      render action: :new, status: :unprocessable_entity
+      render action: :new, status: :unprocessable_content
     end
   end
 
@@ -203,7 +203,7 @@ class UsersController < ApplicationController
       respond_to do |format|
         format.html do
           @contract = Users::UpdateContract.new(@user, current_user)
-          render action: :edit, status: :unprocessable_entity
+          render action: :edit, status: :unprocessable_content
         end
       end
     end

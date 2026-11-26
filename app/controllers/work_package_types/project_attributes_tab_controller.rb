@@ -51,7 +51,7 @@ module WorkPackageTypes
       if call.success?
         render json: {}, status: :ok
       else
-        render json: {}, status: :unprocessable_entity
+        render json: {}, status: :unprocessable_content
       end
     end
 
@@ -117,7 +117,7 @@ module WorkPackageTypes
         render_error_flash_message_via_turbo_stream(message: error_message)
       end
 
-      respond_with_turbo_streams(status: call.success? ? :ok : :unprocessable_entity)
+      respond_with_turbo_streams(status: call.success? ? :ok : :unprocessable_content)
     end
 
     def project_custom_field_type_mapping_params

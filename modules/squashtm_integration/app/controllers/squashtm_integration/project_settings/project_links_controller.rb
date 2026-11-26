@@ -52,7 +52,7 @@ module SquashTMIntegration
         else
           @project_link = result.result
           load_squashtm_projects
-          render :show, status: :unprocessable_entity
+          render :show, status: :unprocessable_content
         end
       end
 

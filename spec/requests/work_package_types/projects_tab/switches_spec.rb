@@ -113,7 +113,7 @@ RSpec.describe "Switching the variant of a work package type's projects", :skip_
       it "refuses inside the dialog, without asking to confirm" do
         subject
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body).to include("The project already uses this type or variant.")
         expect(response.body).not_to include("Switch type variant?")
       end
@@ -126,7 +126,7 @@ RSpec.describe "Switching the variant of a work package type's projects", :skip_
       it "refuses inside the dialog" do
         subject
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body).to include("The selected projects already use this type or variant.")
       end
     end
@@ -168,7 +168,7 @@ RSpec.describe "Switching the variant of a work package type's projects", :skip_
       it "is refused" do
         subject
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body).to include("The project already uses this type or variant.")
       end
     end
@@ -190,7 +190,7 @@ RSpec.describe "Switching the variant of a work package type's projects", :skip_
       it "is refused" do
         subject
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(foundry.reload.type_variant(bug)).to eq(hardware)
       end
     end
@@ -213,7 +213,7 @@ RSpec.describe "Switching the variant of a work package type's projects", :skip_
         it "is refused" do
           subject
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
           expect(response.body).to include("The selected projects already use this type or variant.")
         end
       end
@@ -236,7 +236,7 @@ RSpec.describe "Switching the variant of a work package type's projects", :skip_
         it "is refused" do
           subject
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
           expect(bookshop.reload.type_variant(bug)).to eq(bug.default_variant)
           expect(foundry.reload.type_variant(bug)).to eq(hardware)
         end
@@ -248,7 +248,7 @@ RSpec.describe "Switching the variant of a work package type's projects", :skip_
         it "is refused" do
           subject
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
           expect(bookshop.reload.type_variant(bug)).to eq(bug.default_variant)
         end
       end

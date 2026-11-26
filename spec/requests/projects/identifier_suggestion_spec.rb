@@ -59,7 +59,7 @@ RSpec.describe "GET /projects/identifier_suggestion", type: :rails_request do
 
     it "returns 422 when name is blank" do
       get "/projects/identifier_suggestion", params: { name: "" }, as: :json
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
 
     context "when not logged in" do
@@ -104,7 +104,7 @@ RSpec.describe "GET /projects/identifier_suggestion", type: :rails_request do
 
     it "returns 422 when name is blank" do
       get "/projects/identifier_suggestion", params: { name: "" }, as: :json
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 end

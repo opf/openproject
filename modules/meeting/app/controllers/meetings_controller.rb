@@ -156,7 +156,7 @@ class MeetingsController < ApplicationController
       respond_to do |format|
         format.html do
           render action: :new,
-                 status: :unprocessable_entity,
+                 status: :unprocessable_content,
                  project_id: @project,
                  locals: { copy_from: @copy_from }
         end
@@ -199,7 +199,7 @@ class MeetingsController < ApplicationController
     @meeting = call.result
     respond_to do |format|
       format.html do
-        render action: :new, status: :unprocessable_entity, project_id: @project, locals: { copy_from: }
+        render action: :new, status: :unprocessable_content, project_id: @project, locals: { copy_from: }
       end
 
       format.turbo_stream do
@@ -229,7 +229,7 @@ class MeetingsController < ApplicationController
       redirect_to action: "show", id: @meeting
     else
       @meeting = call.result
-      render action: :edit, status: :unprocessable_entity
+      render action: :edit, status: :unprocessable_content
     end
   end
 
@@ -462,7 +462,7 @@ class MeetingsController < ApplicationController
       respond_with_turbo_streams
     else
       @meeting = call.result
-      render action: :edit, status: :unprocessable_entity
+      render action: :edit, status: :unprocessable_content
     end
   end
 

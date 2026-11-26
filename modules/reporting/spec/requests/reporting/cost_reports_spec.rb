@@ -500,7 +500,7 @@ RSpec.describe "Cost reports", :aggregate_failures, type: :rails_request do
               headers: { "Accept" => "application/json" }
         end.not_to have_enqueued_job(CostReports::XLS::ExportJob)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body)
           .to eq({ message: "The export could not be generated: Date (Spent) requires 2 values." }.to_json)
       end

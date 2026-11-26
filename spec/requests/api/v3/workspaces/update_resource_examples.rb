@@ -129,7 +129,7 @@ RSpec.shared_examples_for "APIv3 workspace update" do
         end
 
         it "responds with 422 and explains the custom field error" do
-          expect(last_response).to have_http_status(:unprocessable_entity)
+          expect(last_response).to have_http_status(:unprocessable_content)
 
           expect(last_response.body)
             .to be_json_eql("Department can't be blank.".to_json)
@@ -387,7 +387,7 @@ RSpec.shared_examples_for "APIv3 workspace update" do
         end
 
         it "responds with 422" do
-          expect(last_response).to have_http_status(:unprocessable_entity)
+          expect(last_response).to have_http_status(:unprocessable_content)
         end
 
         it "does not change the workspace" do
@@ -487,7 +487,7 @@ RSpec.shared_examples_for "APIv3 workspace update" do
     end
 
     it "responds with 422" do
-      expect(last_response).to have_http_status(:unprocessable_entity)
+      expect(last_response).to have_http_status(:unprocessable_content)
     end
 
     it "does not change the workspace" do
@@ -520,7 +520,7 @@ RSpec.shared_examples_for "APIv3 workspace update" do
     end
 
     it "responds with 422" do
-      expect(last_response).to have_http_status(:unprocessable_entity)
+      expect(last_response).to have_http_status(:unprocessable_content)
     end
 
     it "does not change the project status" do
