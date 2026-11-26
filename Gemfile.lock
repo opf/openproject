@@ -523,8 +523,6 @@ GEM
     date_validator (0.12.0)
       activemodel (>= 3)
       activesupport (>= 3)
-    deckar01-task_list (2.3.4)
-      html-pipeline (~> 2.0)
     declarative (0.0.20)
     diff-lcs (1.6.2)
     disposable (0.6.3)
@@ -1600,7 +1598,6 @@ DEPENDENCIES
   dalli (~> 5.3.2)
   danger (~> 9.6.1)
   date_validator (~> 0.12.0)
-  deckar01-task_list (~> 2.3.1)
   dentaku (~> 4.1.0)!
   disposable (~> 0.6.2)
   doorkeeper (~> 5.9.9)
@@ -1906,7 +1903,6 @@ CHECKSUMS
   danger (9.6.1) sha256=ca1b870fd8e9f27add22c5649e976efcfb3c76a57f5c7739bb3f1a72ce0506b7
   date (3.6.0) sha256=18ac945c4e24ebd93534f8eab8c2fd8c5604b3e977105b3798d62a1e8d27b580
   date_validator (0.12.0) sha256=68c9834da240347b9c17441c553a183572508617ebfbe8c020020f3192ce3058
-  deckar01-task_list (2.3.4) sha256=66abdc7e009ea759732bb53867e1ea42de550e2aa03ac30a015cbf42a04c1667
   declarative (0.0.20) sha256=8021dd6cb17ab2b61233c56903d3f5a259c5cf43c80ff332d447d395b17d9ff9
   dentaku (4.1.0)
   diff-lcs (1.6.2) sha256=9ae0d2cba7d4df3075fe8cd8602a8604993efc0dfa934cff568969efb1909962
