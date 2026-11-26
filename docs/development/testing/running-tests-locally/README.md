@@ -2,7 +2,7 @@
 sidebar_navigation:
   title: Running tests locally
 description: How to run the OpenProject frontend, unit and system tests on your machine
-keywords: testing, rspec, vitest, parallel tests, turbo_tests
+keywords: testing, rspec, vitest, parallel tests, parallel_rspec
 ---
 
 # Running tests locally
@@ -218,7 +218,7 @@ Run performance comparisons without coverage instrumentation.
 
 ## Parallel testing
 
-Running tests in parallel makes use of all available cores of the machine. CI runs the RSpec suite with [turbo_tests](https://github.com/opf/turbo_tests), which builds on the [parallel_tests](https://github.com/grosser/parallel_tests) gem. See `run_units` and `run_features` in `docker/ci/entrypoint.sh` for the exact commands.
+Running tests in parallel makes use of all available cores of the machine. CI runs the RSpec suite with `parallel_rspec` from the [parallel_tests](https://github.com/grosser/parallel_tests) gem. See `run_units` and `run_features` in `docker/ci/entrypoint.sh` for the exact commands.
 
 ### Prepare
 
@@ -236,7 +236,7 @@ By default, the number of processes is the CPU count. This might be a bit much t
 export PARALLEL_TEST_PROCESSORS=4
 ```
 
-`turbo_tests` numbers its processes starting at 1, while the `parallel:` tasks leave the first database without a number by default. Make them number the databases the same way, as CI does:
+By default, parallel_tests leaves the first database without a number. CI numbers the databases starting at 1 instead:
 
 ```shell
 export PARALLEL_TEST_FIRST_IS_1=true
@@ -252,20 +252,22 @@ Run the unit specs and the feature specs the way CI does, with the same number o
 
 ```shell
 # Unit specs
-RAILS_ENV=test bundle exec turbo_tests -n 4 {,modules/*/}spec/{!(features)/**/,}*_spec.rb
+RAILS_ENV=test bundle exec parallel_rspec -n 4 {,modules/*/}spec/{!(features)/**/,}*_spec.rb
 
 # Feature specs
-RAILS_ENV=test bundle exec turbo_tests -n 4 {,modules/*/}spec/features/**/*_spec.rb
+RAILS_ENV=test bundle exec parallel_rspec -n 4 {,modules/*/}spec/features/**/*_spec.rb
 ```
 
 CI additionally passes `--runtime-log` to balance the spec files across processes by their recorded run time.
+
+The rerun commands of the failed examples of all processes are collected in `tmp/parallel_failures.log`, and their failure details in `tmp/parallel_summary.log`.
 
 ### Running specific tests
 
 If you want to run specific tests (e.g., only those from the team planner module), pass their paths:
 
 ```shell
-RAILS_ENV=test bundle exec turbo_tests -n 4 modules/team_planner/spec
+RAILS_ENV=test bundle exec parallel_rspec -n 4 modules/team_planner/spec
 ```
 
 ## Automatically run tests when files are modified

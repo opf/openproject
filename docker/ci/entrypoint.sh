@@ -159,10 +159,40 @@ setup_tests() {
 	wait_for_background
 }
 
+run_parallel_specs() {
+	local runtime_log="$1"
+	local spec_globs="$2"
+	local seed="${CI_SEED:-$RANDOM}"
+	local status=0
+
+	execute "time bundle exec parallel_rspec -n $JOBS --serialize-stdout --combine-stderr --verbose-command --runtime-log $runtime_log -o '--seed $seed' $spec_globs" || status=$?
+
+	# Passing --format via -o would replace all formatters of .rspec_parallel,
+	# so its runtime log is copied instead.
+	if [ -s tmp/parallel_runtime.log ]; then
+		cp tmp/parallel_runtime.log "$runtime_log"
+	fi
+
+	if [ "$status" -ne 0 ]; then
+		print_failed_examples
+	fi
+
+	return "$status"
+}
+
+print_failed_examples() {
+	local failures_log="tmp/parallel_failures.log"
+
+	if [ -s "$failures_log" ]; then
+		echo "Failed examples of all processes:"
+		grep '^rspec ' "$failures_log"
+	fi
+}
+
 run_units() {
 	shopt -s extglob globstar nullglob
 	reset_dbs
-	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/runtime-logs/turbo_runtime_units.log {,modules/*/}spec/{!(features)/**/,}*_spec.rb"
+	run_parallel_specs spec/support/runtime-logs/turbo_runtime_units.log '{,modules/*/}spec/{!(features)/**/,}*_spec.rb'
 	cleanup
 }
 
@@ -171,7 +201,7 @@ run_features() {
 	run_background start_hocuspocus
 	reset_dbs
 
-	if ! execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/runtime-logs/turbo_runtime_features.log {,modules/*/}spec/features/**/*_spec.rb"; then
+	if ! run_parallel_specs spec/support/runtime-logs/turbo_runtime_features.log '{,modules/*/}spec/features/**/*_spec.rb'; then
 		retry_failed_features
 	fi
 	report_slowest_feature_files
@@ -215,11 +245,11 @@ retry_failed_features() {
 run_all() {
 	shopt -s globstar nullglob
 	reset_dbs
-	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/runtime-logs/turbo_runtime_all.log {,modules/*/}spec/**/*_spec.rb"
+	run_parallel_specs spec/support/runtime-logs/turbo_runtime_all.log '{,modules/*/}spec/**/*_spec.rb'
 	cleanup
 }
 
-export -f cleanup execute execute_quiet run_psql create_db_cluster reset_dbs setup_tests setup_hocuspocus start_hocuspocus backend_stuff frontend_stuff run_units run_features report_slowest_feature_files retry_failed_features run_all
+export -f cleanup execute execute_quiet run_psql create_db_cluster reset_dbs setup_tests setup_hocuspocus start_hocuspocus backend_stuff frontend_stuff run_parallel_specs print_failed_examples run_units run_features report_slowest_feature_files retry_failed_features run_all
 
 if [ "$1" == "setup-tests" ]; then
 	shift
