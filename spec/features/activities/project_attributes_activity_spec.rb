@@ -180,15 +180,15 @@ RSpec.describe "Project attributes activity", :js, with_settings: { journal_aggr
         expect(page).to have_no_text(comment_cf.name)
         expect(page).to have_no_text(admin_only_cf.name)
         expect(page).to have_no_text(admin_only_comment_cf.name)
-        expect(page).to have_text(I18n.t(:text_journal_permission_denied), count: 8)
-        expect(page).to have_text(I18n.t(:"journals.changes_retracted"), count: 1)
+        expect(page).to have_text(I18n.t(:text_journal_permission_denied), count: 9)
+        expect(page).to have_no_text(I18n.t(:"journals.changes_retracted"))
       end
     end
 
     context "when the user has view_project_attributes but is not an admin" do
       current_user { user_with_cf_permission }
 
-      it "shows the regular custom field and comment, but withholds the admin_only ones " \
+      it "shows the regular custom field and comment, but denies permission for the admin_only ones " \
          "and the deleted one" do
         activity_page.visit!
         activity_page.show_details
@@ -197,8 +197,8 @@ RSpec.describe "Project attributes activity", :js, with_settings: { journal_aggr
         expect(page).to have_text(comment_cf.name)
         expect(page).to have_no_text(admin_only_cf.name)
         expect(page).to have_no_text(admin_only_comment_cf.name)
-        expect(page).to have_text(I18n.t(:text_journal_permission_denied), count: 4)
-        expect(page).to have_text(I18n.t(:"journals.changes_retracted"), count: 1)
+        expect(page).to have_text(I18n.t(:text_journal_permission_denied), count: 5)
+        expect(page).to have_no_text(I18n.t(:"journals.changes_retracted"))
       end
     end
 

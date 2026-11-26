@@ -210,6 +210,7 @@ RSpec.describe Project, "acts_as_journalized" do
 
     context "when custom field gets deleted" do
       let(:custom_field) { create(:string_project_custom_field) }
+      let(:expected_change) { [custom_value.value, modified_custom_value.value] }
 
       before do
         User.execute_as user do
@@ -220,21 +221,7 @@ RSpec.describe Project, "acts_as_journalized" do
         custom_field.destroy
       end
 
-      context "for an admin" do
-        current_user { create(:admin) }
-
-        let(:expected_change) { [custom_value.value, modified_custom_value.value] }
-
-        include_examples "contains the expected change"
-      end
-
-      context "for a non-admin" do
-        current_user { user }
-
-        it "contains no change for the deleted custom field" do
-          expect(project.last_journal.details).not_to have_key(custom_field_key)
-        end
-      end
+      include_examples "contains the expected change"
     end
 
     context "if custom field is marked for all" do

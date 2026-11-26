@@ -140,6 +140,15 @@ RSpec.describe Journal::ProjectJournal do
           expect(subject).to include(custom_field.name)
           expect(subject).not_to include(I18n.t(:text_journal_permission_denied))
         end
+
+        context "with a non-existing custom field (or deleted)" do
+          shared_let(:key) { "custom_fields_#{custom_field.id + 1}" }
+
+          it "renders details" do
+            expect(subject).to include(I18n.t(:label_deleted_custom_field))
+            expect(subject).not_to include(I18n.t(:text_journal_permission_denied))
+          end
+        end
       end
     end
   end
