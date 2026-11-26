@@ -54,8 +54,6 @@ enterprise_features:
     href: https://www.openproject.org/docs/system-admin-guide/custom-fields/#hierarchy-custom-field-enterprise-add-on
   custom_field_multiselect:
     href: https://www.openproject.org/docs/system-admin-guide/custom-fields/#create-a-multi-select-custom-field
-  custom_field_projects:
-    href: https://www.openproject.org/docs/system-admin-guide/custom-fields/#add-a-custom-field-to-one-or-multiple-projects
   customize_life_cycle:
     href: https://www.openproject.org/docs/system-admin-guide/projects/project-life-cycle/
   default:
@@ -141,6 +139,8 @@ postgres_13_upgrade:
   href: https://www.openproject.org/docs/installation-and-operations/misc/migration-to-postgresql13/
 postgres_17_upgrade:
   href: https://www.openproject.org/docs/installation-and-operations/misc/migration-to-postgresql17/
+postgres_18_upgrade:
+  href: https://www.openproject.org/docs/installation-and-operations/misc/migration-to-postgresql18/
 postgres_migration:
   href: https://www.openproject.org/docs/installation-and-operations/misc/packaged-postgresql-migration/
   label: :homescreen.links.postgres_migration

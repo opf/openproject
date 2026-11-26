@@ -238,18 +238,13 @@ module Import
     def find_or_create_resource(klass, name, jira_object_type:)
       Rails.logger.tagged("jira_object_type:#{jira_object_type}", "jira_object_id_or_name:#{name}") do
         resource = find_resource(klass, name)
-        if resource
-          Rails.logger.debug { "Found existing #{klass.name}" }
-          return [resource, true]
-        end
+        return [resource, true] if resource
 
-        lock_key = "jira_import_create_#{klass.name.underscore}_#{name.parameterize(separator: '_')}"
-        OpenProject::Mutex.with_advisory_lock(klass, lock_key, transaction: true) do
-          resource = find_resource(klass, name)
-          if resource
-            Rails.logger.debug { "Found existing #{klass.name}" }
-            next [resource, true]
-          end
+        OpenProject::Mutex.with_advisory_lock(klass, resource_lock_key(klass, name), transaction: true) do
+          # Skip the query cache because another job may have created the record while this one waited for the lock
+          # and the cache would still say it doesn't exist.
+          resource = klass.uncached { find_resource(klass, name) }
+          return [resource, true] if resource
 
           Rails.logger.debug { "Creating #{klass.name}" }
           [yield, false]
@@ -258,7 +253,13 @@ module Import
     end
 
     def find_resource(klass, name)
-      klass.find_by("LOWER(name) = LOWER(?)", name)
+      resource = klass.find_by("LOWER(name) = LOWER(?)", name)
+      Rails.logger.debug { "Found existing #{klass.name}" } if resource
+      resource
+    end
+
+    def resource_lock_key(klass, name)
+      "jira_import_create_#{klass.name.underscore}_#{name.parameterize(separator: '_')}"
     end
 
     def setup_resolution_date_cf(jira_project)

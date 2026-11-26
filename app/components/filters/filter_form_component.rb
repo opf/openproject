@@ -102,11 +102,13 @@ class Filters::FilterFormComponent < ApplicationComponent
                  output_format: nil,
                  dialog_id: nil,
                  full_width: false,
+                 lazy_rows_path: nil,
                  **wrapper_arguments)
     super()
     @builder = builder
     @query = query
     @allowed_filters = advertised_filters(allowed_filters, excluded_filters)
+    @lazy_rows_path = lazy_rows_path
     @wrap_with_controller = wrap_with_controller
     @hidden_input_name = hidden_input_name
     @output_format = fetch_or_fallback(OUTPUT_FORMATS, output_format.to_sym) if output_format
@@ -169,13 +171,16 @@ class Filters::FilterFormComponent < ApplicationComponent
     forms << Filters::Inputs::AddFilterForm.new(
       @builder,
       allowed_filters:,
-      active_filter_names: query.filters.map(&:name)
+      active_filter_names: query.filters.map(&:name),
+      rows_path: @lazy_rows_path
     )
   end
 
   def map_filter
-    allowed_filters.map do |allowed_filter|
+    allowed_filters.filter_map do |allowed_filter|
       active_filter = query.find_active_filter(allowed_filter.name)
+      next if @lazy_rows_path && active_filter.nil?
+
       filter = active_filter || allowed_filter
 
       yield filter, active_filter.present?, additional_filter_attributes(filter)

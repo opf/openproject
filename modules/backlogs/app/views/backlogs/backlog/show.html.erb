@@ -61,6 +61,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% content_for :content_body do %>
   <%= turbo_frame_tag :backlogs_container,
                       refresh: :morph,
+                      target: "_top",
                       src: backlogs_container_src(@project),
                       class: "op-backlogs-page",
                       data: {

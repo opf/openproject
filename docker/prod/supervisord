@@ -17,7 +17,20 @@ fi
 PG_STARTUP_WAIT_TIME=${PG_STARTUP_WAIT_TIME:=10}
 SUPERVISORD_LOG_LEVEL=${SUPERVISORD_LOG_LEVEL:=info}
 
-dbhost=$(ruby -ruri -e 'puts URI(ENV.fetch("DATABASE_URL")).host')
+dbhost=$(ruby -ruri -e 'puts URI(ENV.fetch("DATABASE_URL", "")).host')
+if { [ -z "$DATABASE_URL" ] || [ "$dbhost" = "127.0.0.1" ]; } && [ -f "$PGDATA/PG_VERSION" ]; then
+	EXISTING_PGVERSION="$(cat "$PGDATA/PG_VERSION")"
+	if [ "$PGVERSION" != "$EXISTING_PGVERSION" ]; then
+		echo "ERROR: Configured PostgreSQL $PGVERSION cannot use PostgreSQL $EXISTING_PGVERSION data in $PGDATA."
+		if [ -x "/usr/lib/postgresql/$EXISTING_PGVERSION/bin/postgres" ]; then
+			echo "To keep this cluster, start the container with \`-e PGVERSION=$EXISTING_PGVERSION\`."
+		else
+			echo "This image does not include PostgreSQL $EXISTING_PGVERSION, so this cluster cannot be started as is."
+		fi
+		echo "Migration guide to postgres 18: https://www.openproject.org/docs/installation-and-operations/misc/migration-to-postgresql18/"
+		exit 2
+	fi
+fi
 PLUGIN_GEMFILE_TMP=$(mktemp)
 PLUGIN_GEMFILE=$APP_PATH/Gemfile.local
 

@@ -157,6 +157,17 @@ RSpec.describe ProjectCustomField do
       expect(section.reload.attribute_order).to eq([cf1.column_name])
       expect(other_section.reload.attribute_order).to eq([cf2.column_name])
     end
+
+    it "moves itself to the end of the new section's attribute_order when the section changes" do
+      other_section = create(:project_custom_field_section)
+      cf = create(:project_custom_field, project_custom_field_section: section)
+      other_cf = create(:project_custom_field, project_custom_field_section: other_section)
+
+      cf.update!(custom_field_section_id: other_section.id)
+
+      expect(section.reload.attribute_order).to be_empty
+      expect(other_section.reload.attribute_order).to eq([other_cf.column_name, cf.column_name])
+    end
   end
 
   describe ".visible" do

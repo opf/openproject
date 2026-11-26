@@ -121,6 +121,16 @@ RSpec.describe Journal::ProjectJournal do
             expect(subject).to include(I18n.t(:text_journal_permission_denied))
           end
         end
+
+        context "with an admin only custom field" do
+          shared_let(:custom_field) { create(:string_project_custom_field, :admin_only) }
+          shared_let(:key) { "custom_fields_#{custom_field.id}" }
+
+          it "renders permission denied" do
+            expect(subject).not_to include(custom_field.name)
+            expect(subject).to include(I18n.t(:text_journal_permission_denied))
+          end
+        end
       end
 
       context "for an admin" do

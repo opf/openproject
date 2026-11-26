@@ -73,10 +73,9 @@ export interface InsertAttributeModalProps {
 }
 
 export const InsertAttributeModal = ({ anchorEl, prefill, offersLongText, onInsert, onCancel }:InsertAttributeModalProps) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const panelRef = useRef<HTMLDivElement>(null);
   useColors();
-  const formatOptions = useAttributeFormatOptions();
 
   const [prefilled, setPrefilled] = useState(prefill);
   const [picked, setPicked] = useState<WorkPackage | null>(null);
@@ -105,12 +104,13 @@ export const InsertAttributeModal = ({ anchorEl, prefill, offersLongText, onInse
 
   const attributes = useMemo(
     () => (schema
-      ? sortByLabel(listAttributes(schema).filter((option) => isOffered(option, offersLongText)), formatOptions.locale)
+      ? sortByLabel(listAttributes(schema).filter((option) => isOffered(option, offersLongText)), i18n.language)
       : []),
-    [schema, offersLongText, formatOptions.locale],
+    [schema, offersLongText, i18n.language],
   );
   const found = schema && attribute ? findAttribute(schema, attribute) : undefined;
   const selected = found && isOffered(found, offersLongText) ? found : undefined;
+  const formatOptions = useAttributeFormatOptions(selected);
 
   useEffect(() => {
     if (!schema || !attribute || findAttribute(schema, attribute) || !workPackage) return;
@@ -259,7 +259,7 @@ export const InsertAttributeModal = ({ anchorEl, prefill, offersLongText, onInse
 
         <PreviewLabel>{t('workPackageAttribute.dialog.preview')}</PreviewLabel>
         <PreviewBox data-testid="insert-attribute-preview">
-          {workPackage && selected
+          {workPackage && selected && formatOptions
             ? (
               <AttributePreview
                 resolved={{

@@ -15,45 +15,14 @@ cleanup() {
 
 trap cleanup INT TERM EXIT
 
+# Remove the legacy .NET-based xeokit-metadata installed by OpenProject < 18.0.
+# The dotnet-runtime-6.0 system package is left in place, as other software may depend on it.
+rm -f "$APP_HOME/bin/xeokit-metadata"
+rm -rf "$APP_HOME/vendor/xeokit-metadata"
+${CLI} config:unset DOTNET_ROOT
+
 if [ "$edition" = "bim" ]; then
 	${CLI} config:set OPENPROJECT_EDITION="$edition"
-
-	case "$OSFAMILY" in
-		"debian")
-			case "$OSVERSION" in
-				"22.04")
-					# Ubuntu 22.04 comes with its own package sources for dotnet6 (see https://learn.microsoft.com/en-us/dotnet/core/install/linux-package-mixup?pivots=os-linux-redhat#whats-going-on)
-					# Therefore we should use those and not the ones from packages.microsoft.com, as otherwise the assumption for
-					# setting the DOTNET_ROOT later fails, leading to bugs like https://community.openproject.org/wp/50172.
-					;;
-				"20.04" | "18.04")
-					wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-					wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/ubuntu/${OSVERSION}/prod.list
-					apt-get update -qq
-					;;
-				"12" | "11")
-					wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-					wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/debian/${OSVERSION}/prod.list
-					apt-get update -qq
-					;;
-				esac
-				apt-get install -y dotnet-runtime-6.0
-			;;
-		"redhat")
-			case "$(wiz_fact "osversion")" in
-				9*)
-					dnf install -y dotnet-runtime-6.0
-					;;
-				8*)
-					dnf install -y dotnet-runtime-6.0
-					;;
-			esac
-			;;
-	esac
-
-  if [ "$OSFAMILY" = "debian" ] && [ "$OSVERSION" = "22.04" ]; then
-    ${CLI} config:set DOTNET_ROOT=$(dirname $(realpath $(which dotnet)))
-  fi
 
 	cd $tmpdir
 
@@ -65,22 +34,22 @@ if [ "$edition" = "bim" ]; then
 	fi
 
 	if ! ${CLI} run which IfcConvert &>/dev/null ||
-	   ! echo "2d48d5df36371fc5920a71f0d74b29449b0b166a  $(${CLI} run which IfcConvert)" | sha1sum -c - ; then
+	   ! echo "aadeb16abb97602761afba1b732899e82628017c5ab79ea3c7fa654fef7d63e9  $(${CLI} run which IfcConvert)" | sha256sum -c - ; then
 		echo "Installing IfcConvert..."
-		cp "$APP_HOME/vendor/bim/IfcConvert-v0.7.11-fea8e3a-linux64.zip" .
-		unzip -qq IfcConvert-v0.7.11-fea8e3a-linux64.zip
-		mv IfcConvert "$APP_HOME/bin/IfcConvert"
+		cp "$APP_HOME/vendor/bim/IfcConvert-v0.8.5-a51b2c5-linux64.zip" .
+		unzip -qq IfcConvert-v0.8.5-a51b2c5-linux64.zip
+		mv -f IfcConvert "$APP_HOME/bin/IfcConvert"
 	fi
 
-	if ! ${CLI} run which xeokit-metadata &>/dev/null ||
-	   ! echo "f960fb98106280223a664d176daaeb7ca7904e6f  $(${CLI} run which xeokit-metadata)" | sha1sum -c - ; then
-		echo "Installing xeokit-metadata..."
-		cp "$APP_HOME/vendor/bim/xeokit-metadata-linux-x64.tar.gz" .
-		tar -zxf xeokit-metadata-linux-x64.tar.gz
-		chmod +x xeokit-metadata-linux-x64/xeokit-metadata
-		cp -r xeokit-metadata-linux-x64/ "$APP_HOME/vendor/xeokit-metadata"
-		ln -fs "$APP_HOME/vendor/xeokit-metadata/xeokit-metadata" "$APP_HOME/bin/xeokit-metadata"
+	metadata_prefix="$APP_HOME/vendor/web-ifc-xeokit-metadata"
+	if ! grep -qs '"version": "0.0.1"' "$metadata_prefix/lib/node_modules/@openproject/web-ifc-xeokit-metadata/package.json"; then
+		echo "Installing web-ifc-xeokit-metadata..."
+		rm -rf "$metadata_prefix"
+		${CLI} run npm install --global --prefix "$metadata_prefix" --offline --no-audit --no-fund --ignore-scripts \
+			"$APP_HOME/vendor/bim/web-ifc-0.0.77.tgz" \
+			"$APP_HOME/vendor/bim/web-ifc-xeokit-metadata-0.0.1.tgz"
 	fi
+	ln -fs "$metadata_prefix/bin/web-ifc-xeokit-metadata" "$APP_HOME/bin/web-ifc-xeokit-metadata"
 
 	rm -rf "$tmpdir"
 else

@@ -25,9 +25,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
 import { TestBed } from '@angular/core/testing';
+import type { Mock } from 'vitest';
 import { By } from '@angular/platform-browser';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
@@ -40,6 +41,8 @@ import { EditingPortalService } from '../editing-portal/editing-portal-service';
 import { GlobalEditFormChangesTrackerService } from '../services/global-edit-form-changes-tracker/global-edit-form-changes-tracker.service';
 import { ResourceChangesetCommit } from '../services/hal-resource-editing.service';
 import { EditFormComponent } from './edit-form.component';
+import { EditableAttributeFieldComponent } from '../field/editable-attribute-field.component';
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 
 @Component({
   template: '<edit-form [resource]="resource" (onSaved)="saved = $event.savedResource" />',
@@ -50,8 +53,11 @@ class WorkPackageFormHostComponent {
   saved:WorkPackageResource|undefined;
 }
 
-describe('EditFormComponent resource output', () => {
+describe('EditFormComponent', () => {
+  let editingPortal:{ create:Mock };
+
   beforeEach(async () => {
+    editingPortal = { create: vi.fn() };
     TestBed.overrideModule(OpenprojectFieldsModule, {
       set: { declarations: [EditFormComponent], exports: [EditFormComponent], imports: [], providers: [], schemas: [] },
     });
@@ -59,7 +65,7 @@ describe('EditFormComponent resource output', () => {
       imports: [WorkPackageFormHostComponent],
       providers: [
         provideHttpClient(), provideHttpClientTesting(),
-        { provide: EditingPortalService, useValue: {} },
+        { provide: EditingPortalService, useValue: editingPortal },
         { provide: GlobalEditFormChangesTrackerService, useValue: { addToActiveForms: vi.fn(), removeFromActiveForms: vi.fn() } },
         { provide: SchemaCacheService, useValue: {} },
         { provide: I18nService, useValue: {} },
@@ -84,5 +90,25 @@ describe('EditFormComponent resource output', () => {
 
     expect(output).toHaveBeenCalledWith({ savedResource: saved, isInitial: true });
     expect(fixture.componentInstance.saved).toBe(saved);
+  });
+
+  it('returns a field to its display when its editor fails to render', async () => {
+    const fixture = TestBed.createComponent(WorkPackageFormHostComponent);
+    fixture.detectChanges();
+    const form = fixture.debugElement.query(By.directive(EditFormComponent)).injector.get(EditFormComponent);
+    const field:Pick<EditableAttributeFieldComponent, 'fieldName'|'editContainer'|'setActive'|'deactivate'> = {
+      fieldName: 'subject',
+      editContainer: new ElementRef(document.createElement('div')),
+      setActive: vi.fn(),
+      deactivate: vi.fn(),
+    };
+    form.register(field as EditableAttributeFieldComponent);
+    const failure = new Error('render failed');
+    editingPortal.create.mockRejectedValue(failure);
+
+    await expect(form.activateField(form, {} as IFieldSchema, 'subject', [])).rejects.toBe(failure);
+
+    expect(field.setActive).toHaveBeenCalledWith(true);
+    expect(field.deactivate).toHaveBeenCalledOnce();
   });
 });

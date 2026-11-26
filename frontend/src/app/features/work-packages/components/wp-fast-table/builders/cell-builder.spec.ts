@@ -48,11 +48,11 @@ describe('CellBuilder display fields', () => {
     beforeEach(() => renderTable({ editing: {} }));
 
     it('labels the field with its edit action', () => {
-      expect(row().getByLabelText('subject Report record: Edit')).toBeInTheDocument();
+      expect(row().getByLabelText('Report record: Edit')).toBeInTheDocument();
     });
 
     it('shows the text cursor', () => {
-      expect(getComputedStyle(row().getByLabelText('subject Report record: Edit')).cursor).toBe('text');
+      expect(getComputedStyle(row().getByLabelText('Report record: Edit')).cursor).toBe('text');
     });
   });
 
@@ -60,11 +60,11 @@ describe('CellBuilder display fields', () => {
     beforeEach(() => renderTable());
 
     it('labels the field without an edit action', () => {
-      expect(row().getByLabelText('subject Report record')).toBeInTheDocument();
+      expect(row().getByLabelText('Report record', { selector: '[data-field-name="subject"]' })).toBeInTheDocument();
     });
 
     it('shows the not-allowed cursor', () => {
-      expect(getComputedStyle(row().getByLabelText('subject Report record')).cursor).toBe('not-allowed');
+      expect(getComputedStyle(row().getByLabelText('Report record', { selector: '[data-field-name="subject"]' })).cursor).toBe('not-allowed');
     });
   });
 
@@ -72,12 +72,12 @@ describe('CellBuilder display fields', () => {
     beforeEach(() => renderTable({ editing: {}, configuration: { inlineEditEnabled: false } }));
 
     it('labels the field without an edit action', () => {
-      expect(row().getByLabelText('subject Report record')).toBeInTheDocument();
+      expect(row().getByLabelText('Report record', { selector: '[data-field-name="subject"]' })).toBeInTheDocument();
       expect(row().queryByLabelText(/: Edit$/)).not.toBeInTheDocument();
     });
 
     it('shows neither an edit nor a not-allowed cursor', () => {
-      const { cursor } = getComputedStyle(row().getByLabelText('subject Report record'));
+      const { cursor } = getComputedStyle(row().getByLabelText('Report record', { selector: '[data-field-name="subject"]' }));
 
       expect(cursor).not.toBe('text');
       expect(cursor).not.toBe('not-allowed');

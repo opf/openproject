@@ -32,7 +32,6 @@
 // Active issue
 // https://github.com/Microsoft/TypeScript/issues/10178
 
-/// <reference path="../../node_modules/@types/mousetrap/index.d.ts" />
 /// <reference path="../../node_modules/@types/moment-timezone/index.d.ts" />
 /// <reference path="../../node_modules/@types/urijs/index.d.ts" />
 /// <reference path="../../node_modules/@types/resize-observer-browser/index.d.ts" />

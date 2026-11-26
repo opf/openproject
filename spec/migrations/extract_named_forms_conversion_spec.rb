@@ -188,6 +188,23 @@ RSpec.describe ExtractNamedForms, "converting groups to rows", type: :model, wit
     expect(tuples(owner)).to eq([["First", %w[date]], ["Second", %w[assignee]]])
   end
 
+  it "unwraps group keys stored together with their display name and logs it" do
+    raw_groups_of(owner, <<~YAML)
+      ---
+      - - - 'A: Foo bar'
+          -
+        - - assignee
+      - - - :details
+          - Extras
+        - - date
+    YAML
+
+    expect { described_class.new.up }.to output(/unwrapped nested group key/).to_stdout
+
+    expect(tuples(owner)).to eq([["A: Foo bar", %w[assignee]], [:details, %w[date]]])
+    expect(form_of(owner).form_groups.find_by(default_key: "details").label).to eq("Extras")
+  end
+
   it "stops on unparseable data, naming the form and its owning variant" do
     raw_groups_of(owner, "--- [unterminated")
 

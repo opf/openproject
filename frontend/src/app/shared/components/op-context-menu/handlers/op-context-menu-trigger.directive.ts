@@ -29,12 +29,14 @@ import { AfterViewInit, Directive, ElementRef, inject } from '@angular/core';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { OpContextMenuHandler } from 'core-app/shared/components/op-context-menu/op-context-menu-handler';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
-import Mousetrap from 'mousetrap';
 import { computePosition, ComputePositionReturn, flip, shift } from '@floating-ui/dom';
 
 @Directive({
   selector: '[opContextMenuTrigger]',
   standalone: false,
+  host: {
+    '(keydown.shift.alt.f10)': 'openFromKeyboard($event)',
+  },
 })
 export class OpContextMenuTrigger extends OpContextMenuHandler implements AfterViewInit {
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -61,13 +63,10 @@ export class OpContextMenuTrigger extends OpContextMenuHandler implements AfterV
 
       if (!this.isAriaDisabled) this.toggle(evt);
     });
+  }
 
-    // Open with keyboard combination as well
-    Mousetrap(this.element).bind('shift+alt+f10', (evt) => {
-      if (!this.isAriaDisabled) {
-        this.open(evt);
-      }
-    });
+  protected openFromKeyboard(evt:Event):void {
+    if (!this.isAriaDisabled) this.open(evt);
   }
 
   protected toggle(evt:MouseEvent):void {

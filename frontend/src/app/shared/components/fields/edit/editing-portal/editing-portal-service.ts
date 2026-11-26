@@ -116,8 +116,13 @@ export class EditingPortalService {
     const ready = ref.instance.onEditFieldReady.pipe(take(1), takeUntil(fieldHandler.onDestroy));
     return lastValueFrom(ready, { defaultValue: undefined }).then(() => {
       if (released || destroyRef?.destroyed) throw new EditActivationCancelled();
-      ref.changeDetectorRef.detectChanges(); // ensure error classes applied in zoneless mode
-      fieldHandler.syncErrorState();
+      try {
+        ref.changeDetectorRef.detectChanges(); // ensure error classes applied in zoneless mode
+        fieldHandler.syncErrorState();
+      } catch (error:unknown) {
+        runCleanup(() => fieldHandler.deactivate(false));
+        throw error;
+      }
       return fieldHandler;
     });
   }

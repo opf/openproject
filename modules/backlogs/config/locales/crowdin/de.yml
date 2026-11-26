@@ -58,7 +58,7 @@ de:
       messages:
         cannot_start_while_receiving_shared_sprints: kann nicht gestartet werden, wenn das Projekt Sprints von einem anderen Projekt erhält.
         dates_required: Start- und Enddatum sind erforderlich, um den Sprint zu starten.
-        finish_date_in_past: cannot be started as long as the planned finish date is in the past.
+        finish_date_in_past: kann nicht begonnen werden, solange das geplante Enddatum in der Vergangenheit liegt.
         must_be_in_planning: muss in Planung sein, um zu beginnen.
         only_one_active_sprint_allowed: pro Projekt ist nur ein aktiver Sprint erlaubt.
       models:
@@ -142,8 +142,8 @@ de:
       title: Backlog Bucket löschen?
     created_resolved_chart:
       series:
-        created: Created
-        resolved: Resolved
+        created: Erstellt
+        resolved: Abgeschlossen
     estimation_unit: Stücke
     excluded_work_package_types_caption: 'Wählen Sie, welche Arbeitspaket-Typen Sie aus dem Backlog ausblenden möchten. Elemente der ausgewählten Typen erscheinen nicht automatisch im Backlog und sind so auf die Arbeit konzentriert, die für Ihr Team wichtig ist. Typen wie Epics oder Milestones, die auf einer höheren Ebene verwaltet werden, können beispielsweise ausgeblendet werden, damit sich das Backlog auf umsetzbare Aufgaben konzentriert.
 
@@ -207,7 +207,7 @@ de:
       label_complete_sprint: Sprint abschließen
       label_start_sprint: Sprint starten
       start_sprint_disabled_reason_active_sprint: Ein anderer Sprint ist bereits aktiv.
-      start_sprint_disabled_reason_finish_date_in_past: The planned finish date is in the past. Correct the sprint dates first.
+      start_sprint_disabled_reason_finish_date_in_past: Der geplante Fertigstellungstermin liegt in der Vergangenheit. Bitte korrigieren Sie zunächst die Sprinttermine.
       start_sprint_disabled_reason_missing_dates: Start- und Enddatum sind erforderlich, um den Sprint zu starten.
       start_sprint_disabled_reason_receiving_shared_sprints: Die eigenen Sprints dieses Projekts können nicht gestartet werden, solange es geteilte Sprints erhält.
       start_sprint_disabled_reason_shared_sprint: Dieser Sprint stammt aus einem anderen Projekt, das mehrere aktive Sprints nicht zulässt.
@@ -220,16 +220,20 @@ de:
     sprint_reports:
       header_infoline_component:
         planned_html: 'Geplant: %{range}'
-        started_at: 'Start time:'
-      missing_dates_blankslate_component:
-        description: Für die Anzeige des Berichts sind Start- und Endtermine notwendig.
-        heading: Fehlende Sprinttermine
+        started_at: 'Startzeit:'
       navigation_component:
         next: Weiter
         previous: Zurück
       page_header_component:
         breadcrumb: Bericht
         title: "%{sprint} Bericht"
+      report_unavailable_blankslate_component:
+        missing_dates:
+          description: Für die Anzeige des Berichts sind Start- und Endtermine notwendig.
+          heading: Fehlende Sprinttermine
+        planned_dates_in_past:
+          description: Der Sprint war geplant, wurde jedoch nie durchgeführt. Ändern Sie die geplanten Start- und Endtermine auf einen späteren Zeitpunkt, um den Sprintbericht einsehen zu können.
+          heading: Die geplanten Sprinttermine liegen in der Vergangenheit
       widgets:
         burndown_chart:
           blankslate:
@@ -282,11 +286,11 @@ de:
             too_long:
               description: Die Sprintdauer überschreitet die einjährige Begrenzung des Zeitraums im "Erstellt vs. Abgeschlossen"-Diagramm.
               heading: Nichts anzuzeigen
-          title: Created vs resolved work packages
+          title: Erstellte vs. abgeschlossene Arbeitspakete
         epic_progress:
           blankslate:
             no_epics:
-              description: The epic progress chart will appear here once the sprint contains work packages tied to an epic.
+              description: Das Epic-Fortschritts-Diagramm wird hier angezeigt, sobald der Sprint ein mit einer Epic verbundenes Arbeitspaket enthält.
               heading: Keine Epics zum Anzeigen
           card:
             progress:
@@ -306,7 +310,7 @@ de:
                 one: "%{epic}: %{resolved} von %{count} Arbeitspaket abgeschlossen"
                 other: "%{epic}: %{resolved} von %{count} Arbeitspakete abgeschlossen"
             work_package_completed: "(%{percentage})"
-          title: Epic progress
+          title: Epic-Fortrschritt
         velocity_chart:
           average:
             one: 'Durchschnitt des vorherigen Sprints:'
@@ -342,7 +346,7 @@ de:
             changed_after_start:
               change_html: "+%{added} %{divider} -%{removed}"
               heading: Scope-Änderungen
-              story_points_change_html: "+%{added} %{divider} -%{removed} story points"
+              story_points_change_html: "+%{added} %{divider} -%{removed} Story-Points"
             completed:
               heading: Abgeschlossen
             initially_planned:
@@ -352,10 +356,10 @@ de:
           breakdown_block:
             blocks:
               show_all: Alle anzeigen
-              show_all_label: 'View all: %{heading}'
+              show_all_label: 'Alle anzeigen: %{heading}'
           closed_work_packages: Abgeschlossene Arbeitspakete
-          completed_estimated_time: Completed estimated time
-          completed_story_points: Completed story points
+          completed_estimated_time: Erledigter Aufwand (gemäß Schätzung)
+          completed_story_points: Abgeschlossene Story-Points
           progress_summary:
             story_points:
               one: "%{percentage} (%{resolved} von %{count} Story-Point)"
