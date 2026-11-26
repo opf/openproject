@@ -71,6 +71,10 @@ class AttributeHelpText < ApplicationRecord
   validates :help_text, presence: true
   validates :attribute_name, uniqueness: { scope: :type }
 
+  def attachments_visible?(user = User.current)
+    user.logged? && AttributeHelpText.visible(user).exists?(id)
+  end
+
   def attribute_field_name
     @attribute_field_name ||= self.class.available_attributes[attribute_name]
   end
