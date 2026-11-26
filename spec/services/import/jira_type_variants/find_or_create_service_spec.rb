@@ -30,10 +30,10 @@
 require "spec_helper"
 
 RSpec.describe Import::JiraTypeVariants::FindOrCreateService do
-  let(:user) { build_stubbed(:admin) }
-  let(:jira_import) { create(:jira_import, author: user) }
-  let(:type) { create(:type, name: "Task") }
-  let(:project) { create(:project) }
+  shared_let(:user) { build_stubbed(:admin) }
+  shared_let(:jira_import) { create(:jira_import, author: user) }
+  shared_let(:type) { create(:type, name: "Task") }
+  shared_let(:project) { create(:project) }
 
   let(:created_variant) { build_stubbed(:type_variant) }
   let(:create_result) { ServiceResult.success(result: created_variant) }

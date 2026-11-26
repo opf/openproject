@@ -30,12 +30,12 @@
 require "spec_helper"
 
 RSpec.describe Import::JiraTypeVariants::CreateService, with_settings: { work_packages_identifier: "semantic" } do
-  let(:user) { create(:admin) }
-  let(:jira_import) { create(:jira_import, author: user) }
+  shared_let(:user) { create(:admin) }
+  shared_let(:jira_import) { create(:jira_import, author: user) }
+
+  let(:project) { create(:project, name: "Project XYZ", identifier: "XYZ") }
   let(:type) { create(:type, name: "Task") }
   let(:base_variant) { type.default_variant }
-  let(:project) { create(:project, name: "Project XYZ", identifier: "XYZ") }
-  let(:service) { described_class.new(user:, jira_import:) }
 
   let(:form) { build_stubbed(:form_configuration) }
   let(:workflow) { build_stubbed(:named_workflow) }
@@ -50,6 +50,7 @@ RSpec.describe Import::JiraTypeVariants::CreateService, with_settings: { work_pa
   let(:variant_service) { instance_double(WorkPackageTypes::CreateVariantService, call: variant_result) }
 
   let(:references) { Import::JiraOpenProjectReference.where(jira_import:) }
+  let(:service) { described_class.new(user:, jira_import:) }
 
   subject(:call) { service.call(type:, project:) }
 
