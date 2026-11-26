@@ -37,7 +37,9 @@ module API
       }.freeze
 
       included do
-        def to_json(*)
+        def to_json(options = {})
+          options = options.merge(to_json_option_extras)
+
           return super if no_caching?
 
           cached_json_rep = OpenProject::Cache.fetch(json_cache_key) do
@@ -68,7 +70,7 @@ module API
         # so cache_if/uncacheable stripping is applied. Without it, ActiveSupport's
         # Object#as_json falls back to #to_hash and leaks guarded fields.
         def as_json(*)
-          ::JSON.parse(to_json)
+          ::JSON.parse(to_json(*))
         end
 
         def json_cache_key
@@ -196,6 +198,7 @@ module API
           cacheable << json_key_custom_fields
           cacheable << json_key_parts_of_represented
           cacheable << json_key_dependencies
+          cacheable << expanded_exclusions.sort
 
           OpenProject::Cache::CacheKey.expand(OpenProject::Cache::CacheKey.key(cacheable.flatten.compact))
         end
@@ -225,6 +228,19 @@ module API
         def no_caching?
           self.class.cached_representer_configuration[:disabled]
         end
+
+        # FIXME: move elsewhere (no relation to caching)
+        def expanded_exclusions
+          self.class.expand_exclusions(@excludes&.keys)&.map(&:to_sym) | []
+        end
+
+        def to_json_option_extras
+          if expanded_exclusions.present?
+            { exclude: expanded_exclusions }
+          else
+            {}
+          end
+        end
       end
 
       class_methods do
@@ -244,6 +260,22 @@ module API
         def links(name, options = {}, &)
           rel_hash = name.is_a?(Hash) ? name : { rel: name }
           super(rel_hash.merge(options), &)
+        end
+
+        # FIXME: move elsewhere (no relation to caching)
+        def expand_exclusions(exclusions)
+          return if exclusions.blank?
+
+          exclusions.flat_map do |name|
+            case name.to_s
+            when "@formattable"
+              representable_attrs.each_with_object([]) do |definition, result|
+                result << definition.name if definition[:formattable]
+              end
+            else
+              name.to_sym
+            end
+          end
         end
       end
     end
